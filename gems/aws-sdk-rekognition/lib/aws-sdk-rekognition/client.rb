@@ -7,33 +7,34 @@
 #
 # WARNING ABOUT GENERATED CODE
 
-require 'seahorse/client/plugins/content_length.rb'
-require 'aws-sdk-core/plugins/credentials_configuration.rb'
-require 'aws-sdk-core/plugins/logging.rb'
-require 'aws-sdk-core/plugins/param_converter.rb'
-require 'aws-sdk-core/plugins/param_validator.rb'
-require 'aws-sdk-core/plugins/user_agent.rb'
-require 'aws-sdk-core/plugins/helpful_socket_errors.rb'
-require 'aws-sdk-core/plugins/retry_errors.rb'
-require 'aws-sdk-core/plugins/global_configuration.rb'
-require 'aws-sdk-core/plugins/regional_endpoint.rb'
-require 'aws-sdk-core/plugins/endpoint_discovery.rb'
-require 'aws-sdk-core/plugins/endpoint_pattern.rb'
-require 'aws-sdk-core/plugins/response_paging.rb'
-require 'aws-sdk-core/plugins/stub_responses.rb'
-require 'aws-sdk-core/plugins/idempotency_token.rb'
-require 'aws-sdk-core/plugins/jsonvalue_converter.rb'
-require 'aws-sdk-core/plugins/client_metrics_plugin.rb'
-require 'aws-sdk-core/plugins/client_metrics_send_plugin.rb'
-require 'aws-sdk-core/plugins/transfer_encoding.rb'
-require 'aws-sdk-core/plugins/http_checksum.rb'
-require 'aws-sdk-core/plugins/checksum_algorithm.rb'
-require 'aws-sdk-core/plugins/defaults_mode.rb'
-require 'aws-sdk-core/plugins/recursion_detection.rb'
-require 'aws-sdk-core/plugins/sign.rb'
-require 'aws-sdk-core/plugins/protocols/json_rpc.rb'
-
-Aws::Plugins::GlobalConfiguration.add_identifier(:rekognition)
+require 'seahorse/client/plugins/content_length'
+require 'aws-sdk-core/plugins/credentials_configuration'
+require 'aws-sdk-core/plugins/logging'
+require 'aws-sdk-core/plugins/param_converter'
+require 'aws-sdk-core/plugins/param_validator'
+require 'aws-sdk-core/plugins/user_agent'
+require 'aws-sdk-core/plugins/helpful_socket_errors'
+require 'aws-sdk-core/plugins/retry_errors'
+require 'aws-sdk-core/plugins/global_configuration'
+require 'aws-sdk-core/plugins/regional_endpoint'
+require 'aws-sdk-core/plugins/endpoint_discovery'
+require 'aws-sdk-core/plugins/endpoint_pattern'
+require 'aws-sdk-core/plugins/response_paging'
+require 'aws-sdk-core/plugins/stub_responses'
+require 'aws-sdk-core/plugins/idempotency_token'
+require 'aws-sdk-core/plugins/invocation_id'
+require 'aws-sdk-core/plugins/jsonvalue_converter'
+require 'aws-sdk-core/plugins/client_metrics_plugin'
+require 'aws-sdk-core/plugins/client_metrics_send_plugin'
+require 'aws-sdk-core/plugins/transfer_encoding'
+require 'aws-sdk-core/plugins/http_checksum'
+require 'aws-sdk-core/plugins/checksum_algorithm'
+require 'aws-sdk-core/plugins/request_compression'
+require 'aws-sdk-core/plugins/defaults_mode'
+require 'aws-sdk-core/plugins/recursion_detection'
+require 'aws-sdk-core/plugins/telemetry'
+require 'aws-sdk-core/plugins/sign'
+require 'aws-sdk-core/plugins/protocols/json_rpc'
 
 module Aws::Rekognition
   # An API client for Rekognition.  To construct a client, you need to configure a `:region` and `:credentials`.
@@ -71,20 +72,28 @@ module Aws::Rekognition
     add_plugin(Aws::Plugins::ResponsePaging)
     add_plugin(Aws::Plugins::StubResponses)
     add_plugin(Aws::Plugins::IdempotencyToken)
+    add_plugin(Aws::Plugins::InvocationId)
     add_plugin(Aws::Plugins::JsonvalueConverter)
     add_plugin(Aws::Plugins::ClientMetricsPlugin)
     add_plugin(Aws::Plugins::ClientMetricsSendPlugin)
     add_plugin(Aws::Plugins::TransferEncoding)
     add_plugin(Aws::Plugins::HttpChecksum)
     add_plugin(Aws::Plugins::ChecksumAlgorithm)
+    add_plugin(Aws::Plugins::RequestCompression)
     add_plugin(Aws::Plugins::DefaultsMode)
     add_plugin(Aws::Plugins::RecursionDetection)
+    add_plugin(Aws::Plugins::Telemetry)
     add_plugin(Aws::Plugins::Sign)
     add_plugin(Aws::Plugins::Protocols::JsonRpc)
     add_plugin(Aws::Rekognition::Plugins::Endpoints)
 
     # @overload initialize(options)
     #   @param [Hash] options
+    #
+    #   @option options [Array<Seahorse::Client::Plugin>] :plugins ([]])
+    #     A list of plugins to apply to the client. Each plugin is either a
+    #     class name or an instance of a plugin class.
+    #
     #   @option options [required, Aws::CredentialProvider] :credentials
     #     Your AWS credentials. This can be an instance of any one of the
     #     following classes:
@@ -119,13 +128,15 @@ module Aws::Rekognition
     #     locations will be searched for credentials:
     #
     #     * `Aws.config[:credentials]`
-    #     * The `:access_key_id`, `:secret_access_key`, and `:session_token` options.
-    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']
+    #     * The `:access_key_id`, `:secret_access_key`, `:session_token`, and
+    #       `:account_id` options.
+    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'],
+    #       ENV['AWS_SESSION_TOKEN'], and ENV['AWS_ACCOUNT_ID']
     #     * `~/.aws/credentials`
     #     * `~/.aws/config`
     #     * EC2/ECS IMDS instance profile - When used by default, the timeouts
     #       are very aggressive. Construct and pass an instance of
-    #       `Aws::InstanceProfileCredentails` or `Aws::ECSCredentials` to
+    #       `Aws::InstanceProfileCredentials` or `Aws::ECSCredentials` to
     #       enable retries and extended timeouts. Instance profile credential
     #       fetching can be disabled by setting ENV['AWS_EC2_METADATA_DISABLED']
     #       to true.
@@ -143,6 +154,8 @@ module Aws::Rekognition
     #     * `~/.aws/config`
     #
     #   @option options [String] :access_key_id
+    #
+    #   @option options [String] :account_id
     #
     #   @option options [Boolean] :active_endpoint_cache (false)
     #     When set to `true`, a thread polling for endpoints will be running in
@@ -190,10 +203,20 @@ module Aws::Rekognition
     #     Set to true to disable SDK automatically adding host prefix
     #     to default service endpoint when available.
     #
-    #   @option options [String] :endpoint
-    #     The client endpoint is normally constructed from the `:region`
-    #     option. You should only configure an `:endpoint` when connecting
-    #     to test or custom endpoints. This should be a valid HTTP(S) URI.
+    #   @option options [Boolean] :disable_request_compression (false)
+    #     When set to 'true' the request body will not be compressed
+    #     for supported operations.
+    #
+    #   @option options [String, URI::HTTPS, URI::HTTP] :endpoint
+    #     Normally you should not configure the `:endpoint` option
+    #     directly. This is normally constructed from the `:region`
+    #     option. Configuring `:endpoint` is normally reserved for
+    #     connecting to test or custom endpoints. The endpoint should
+    #     be a URI formatted like:
+    #
+    #         'http://example.com'
+    #         'https://example.com'
+    #         'http://example.com:123'
     #
     #   @option options [Integer] :endpoint_cache_max_entries (1000)
     #     Used for the maximum size limit of the LRU cache storing endpoints data
@@ -209,6 +232,10 @@ module Aws::Rekognition
     #
     #   @option options [Boolean] :endpoint_discovery (false)
     #     When set to `true`, endpoint discovery will be enabled for operations when available.
+    #
+    #   @option options [Boolean] :ignore_configured_endpoint_urls
+    #     Setting to true disables use of endpoint URLs provided via environment
+    #     variables and the shared configuration file.
     #
     #   @option options [Aws::Log::Formatter] :log_formatter (Aws::Log::Formatter.default)
     #     The log formatter.
@@ -229,6 +256,34 @@ module Aws::Rekognition
     #   @option options [String] :profile ("default")
     #     Used when loading credentials from the shared credentials file
     #     at HOME/.aws/credentials.  When not specified, 'default' is used.
+    #
+    #   @option options [String] :request_checksum_calculation ("when_supported")
+    #     Determines when a checksum will be calculated for request payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, a checksum will be
+    #       calculated for all request payloads of operations modeled with the
+    #       `httpChecksum` trait where `requestChecksumRequired` is `true` and/or a
+    #       `requestAlgorithmMember` is modeled.
+    #     * `when_required` - When set, a checksum will only be calculated for
+    #       request payloads of operations modeled with the  `httpChecksum` trait where
+    #       `requestChecksumRequired` is `true` or where a `requestAlgorithmMember`
+    #       is modeled and supplied.
+    #
+    #   @option options [Integer] :request_min_compression_size_bytes (10240)
+    #     The minimum size in bytes that triggers compression for request
+    #     bodies. The value must be non-negative integer value between 0
+    #     and 10485780 bytes inclusive.
+    #
+    #   @option options [String] :response_checksum_validation ("when_supported")
+    #     Determines when checksum validation will be performed on response payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, checksum validation is performed on all
+    #       response payloads of operations modeled with the `httpChecksum` trait where
+    #       `responseAlgorithms` is modeled, except when no modeled checksum algorithms
+    #       are supported.
+    #     * `when_required` - When set, checksum validation is not performed on
+    #       response payloads of operations unless the checksum algorithm is supported and
+    #       the `requestValidationModeMember` member is set to `ENABLED`.
     #
     #   @option options [Proc] :retry_backoff
     #     A proc or lambda used for backoff. Defaults to 2**retries * retry_base_delay.
@@ -274,20 +329,31 @@ module Aws::Rekognition
     #       throttling.  This is a provisional mode that may change behavior
     #       in the future.
     #
+    #   @option options [String] :sdk_ua_app_id
+    #     A unique and opaque application ID that is appended to the
+    #     User-Agent header as app/sdk_ua_app_id. It should have a
+    #     maximum length of 50. This variable is sourced from environment
+    #     variable AWS_SDK_UA_APP_ID or the shared config profile attribute sdk_ua_app_id.
     #
     #   @option options [String] :secret_access_key
     #
     #   @option options [String] :session_token
     #
+    #   @option options [Array] :sigv4a_signing_region_set
+    #     A list of regions that should be signed with SigV4a signing. When
+    #     not passed, a default `:sigv4a_signing_region_set` is searched for
+    #     in the following locations:
+    #
+    #     * `Aws.config[:sigv4a_signing_region_set]`
+    #     * `ENV['AWS_SIGV4A_SIGNING_REGION_SET']`
+    #     * `~/.aws/config`
+    #
     #   @option options [Boolean] :simple_json (false)
     #     Disables request parameter conversion, validation, and formatting.
-    #     Also disable response data type conversions. This option is useful
-    #     when you want to ensure the highest level of performance by
-    #     avoiding overhead of walking request parameters and response data
-    #     structures.
-    #
-    #     When `:simple_json` is enabled, the request parameters hash must
-    #     be formatted exactly as the DynamoDB API expects.
+    #     Also disables response data type conversions. The request parameters
+    #     hash must be formatted exactly as the API expects.This option is useful
+    #     when you want to ensure the highest level of performance by avoiding
+    #     overhead of walking request parameters and response data structures.
     #
     #   @option options [Boolean] :stub_responses (false)
     #     Causes the client to return stubbed responses. By default
@@ -297,6 +363,16 @@ module Aws::Rekognition
     #
     #     ** Please note ** When response stubbing is enabled, no HTTP
     #     requests are made, and retries are disabled.
+    #
+    #   @option options [Aws::Telemetry::TelemetryProviderBase] :telemetry_provider (Aws::Telemetry::NoOpTelemetryProvider)
+    #     Allows you to provide a telemetry provider, which is used to
+    #     emit telemetry data. By default, uses `NoOpTelemetryProvider` which
+    #     will not record or emit any telemetry data. The SDK supports the
+    #     following telemetry providers:
+    #
+    #     * OpenTelemetry (OTel) - To use the OTel provider, install and require the
+    #     `opentelemetry-sdk` gem and then, pass in an instance of a
+    #     `Aws::Telemetry::OTelProvider` for telemetry provider.
     #
     #   @option options [Aws::TokenProvider] :token_provider
     #     A Bearer Token Provider. This can be an instance of any one of the
@@ -325,58 +401,214 @@ module Aws::Rekognition
     #     sending the request.
     #
     #   @option options [Aws::Rekognition::EndpointProvider] :endpoint_provider
-    #     The endpoint provider used to resolve endpoints. Any object that responds to `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to `Aws::Rekognition::EndpointParameters`
+    #     The endpoint provider used to resolve endpoints. Any object that responds to
+    #     `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+    #     `Aws::Rekognition::EndpointParameters`.
     #
-    #   @option options [URI::HTTP,String] :http_proxy A proxy to send
-    #     requests through.  Formatted like 'http://proxy.com:123'.
+    #   @option options [Float] :http_continue_timeout (1)
+    #     The number of seconds to wait for a 100-continue response before sending the
+    #     request body.  This option has no effect unless the request has "Expect"
+    #     header set to "100-continue".  Defaults to `nil` which  disables this
+    #     behaviour.  This value can safely be set per request on the session.
     #
-    #   @option options [Float] :http_open_timeout (15) The number of
-    #     seconds to wait when opening a HTTP session before raising a
-    #     `Timeout::Error`.
+    #   @option options [Float] :http_idle_timeout (5)
+    #     The number of seconds a connection is allowed to sit idle before it
+    #     is considered stale.  Stale connections are closed and removed from the
+    #     pool before making a request.
     #
-    #   @option options [Float] :http_read_timeout (60) The default
-    #     number of seconds to wait for response data.  This value can
-    #     safely be set per-request on the session.
+    #   @option options [Float] :http_open_timeout (15)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :http_idle_timeout (5) The number of
-    #     seconds a connection is allowed to sit idle before it is
-    #     considered stale.  Stale connections are closed and removed
-    #     from the pool before making a request.
+    #   @option options [URI::HTTP,String] :http_proxy
+    #     A proxy to send requests through.  Formatted like 'http://proxy.com:123'.
     #
-    #   @option options [Float] :http_continue_timeout (1) The number of
-    #     seconds to wait for a 100-continue response before sending the
-    #     request body.  This option has no effect unless the request has
-    #     "Expect" header set to "100-continue".  Defaults to `nil` which
-    #     disables this behaviour.  This value can safely be set per
-    #     request on the session.
+    #   @option options [Float] :http_read_timeout (60)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :ssl_timeout (nil) Sets the SSL timeout
-    #     in seconds.
+    #   @option options [Boolean] :http_wire_trace (false)
+    #     When `true`,  HTTP debug output will be sent to the `:logger`.
     #
-    #   @option options [Boolean] :http_wire_trace (false) When `true`,
-    #     HTTP debug output will be sent to the `:logger`.
+    #   @option options [Proc] :on_chunk_received
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the response body is received. It provides three arguments: the chunk,
+    #     the number of bytes received, and the total number of
+    #     bytes in the response (or nil if the server did not send a `content-length`).
     #
-    #   @option options [Boolean] :ssl_verify_peer (true) When `true`,
-    #     SSL peer certificates are verified when establishing a
-    #     connection.
+    #   @option options [Proc] :on_chunk_sent
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the request body is sent. It provides three arguments: the chunk,
+    #     the number of bytes read from the body, and the total number of
+    #     bytes in the body.
     #
-    #   @option options [String] :ssl_ca_bundle Full path to the SSL
-    #     certificate authority bundle file that should be used when
-    #     verifying peer certificates.  If you do not pass
-    #     `:ssl_ca_bundle` or `:ssl_ca_directory` the the system default
-    #     will be used if available.
+    #   @option options [Boolean] :raise_response_errors (true)
+    #     When `true`, response errors are raised.
     #
-    #   @option options [String] :ssl_ca_directory Full path of the
-    #     directory that contains the unbundled SSL certificate
+    #   @option options [String] :ssl_ca_bundle
+    #     Full path to the SSL certificate authority bundle file that should be used when
+    #     verifying peer certificates.  If you do not pass `:ssl_ca_bundle` or
+    #     `:ssl_ca_directory` the the system default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_directory
+    #     Full path of the directory that contains the unbundled SSL certificate
     #     authority files for verifying peer certificates.  If you do
-    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the
-    #     system default will be used if available.
+    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the system
+    #     default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_store
+    #     Sets the X509::Store to verify peer certificate.
+    #
+    #   @option options [OpenSSL::X509::Certificate] :ssl_cert
+    #     Sets a client certificate when creating http connections.
+    #
+    #   @option options [OpenSSL::PKey] :ssl_key
+    #     Sets a client key when creating http connections.
+    #
+    #   @option options [Float] :ssl_timeout
+    #     Sets the SSL timeout in seconds
+    #
+    #   @option options [Boolean] :ssl_verify_peer (true)
+    #     When `true`, SSL peer certificates are verified when establishing a connection.
     #
     def initialize(*args)
       super
     end
 
     # @!group API Operations
+
+    # Associates one or more faces with an existing UserID. Takes an array
+    # of `FaceIds`. Each `FaceId` that are present in the `FaceIds` list is
+    # associated with the provided UserID. The maximum number of total
+    # `FaceIds` per UserID is 100.
+    #
+    # The `UserMatchThreshold` parameter specifies the minimum user match
+    # confidence required for the face to be associated with a UserID that
+    # has at least one `FaceID` already associated. This ensures that the
+    # `FaceIds` are associated with the right UserID. The value ranges from
+    # 0-100 and default value is 75.
+    #
+    # If successful, an array of `AssociatedFace` objects containing the
+    # associated `FaceIds` is returned. If a given face is already
+    # associated with the given `UserID`, it will be ignored and will not be
+    # returned in the response. If a given face is already associated to a
+    # different `UserID`, isn't found in the collection, doesn’t meet the
+    # `UserMatchThreshold`, or there are already 100 faces associated with
+    # the `UserID`, it will be returned as part of an array of
+    # `UnsuccessfulFaceAssociations.`
+    #
+    # The `UserStatus` reflects the status of an operation which updates a
+    # UserID representation with a list of given faces. The `UserStatus` can
+    # be:
+    #
+    # * ACTIVE - All associations or disassociations of FaceID(s) for a
+    #   UserID are complete.
+    #
+    # * CREATED - A UserID has been created, but has no FaceID(s) associated
+    #   with it.
+    #
+    # * UPDATING - A UserID is being updated and there are current
+    #   associations or disassociations of FaceID(s) taking place.
+    #
+    # @option params [required, String] :collection_id
+    #   The ID of an existing collection containing the UserID.
+    #
+    # @option params [required, String] :user_id
+    #   The ID for the existing UserID.
+    #
+    # @option params [required, Array<String>] :face_ids
+    #   An array of FaceIDs to associate with the UserID.
+    #
+    # @option params [Float] :user_match_threshold
+    #   An optional value specifying the minimum confidence in the UserID
+    #   match to return. The default value is 75.
+    #
+    # @option params [String] :client_request_token
+    #   Idempotent token used to identify the request to `AssociateFaces`. If
+    #   you use the same token with multiple `AssociateFaces` requests, the
+    #   same response is returned. Use ClientRequestToken to prevent the same
+    #   request from being processed more than once.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @return [Types::AssociateFacesResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::AssociateFacesResponse#associated_faces #associated_faces} => Array&lt;Types::AssociatedFace&gt;
+    #   * {Types::AssociateFacesResponse#unsuccessful_face_associations #unsuccessful_face_associations} => Array&lt;Types::UnsuccessfulFaceAssociation&gt;
+    #   * {Types::AssociateFacesResponse#user_status #user_status} => String
+    #
+    #
+    # @example Example: AssociateFaces
+    #
+    #   # This operation associates one or more faces with an existing UserID.
+    #
+    #   resp = client.associate_faces({
+    #     client_request_token: "550e8400-e29b-41d4-a716-446655440002", 
+    #     collection_id: "MyCollection", 
+    #     face_ids: [
+    #       "f5817d37-94f6-4335-bfee-6cf79a3d806e", 
+    #       "851cb847-dccc-4fea-9309-9f4805967855", 
+    #       "35ebbb41-7f67-4263-908d-dd0ecba05ab9", 
+    #     ], 
+    #     user_id: "DemoUser", 
+    #     user_match_threshold: 70, 
+    #   })
+    #
+    #   resp.to_h outputs the following:
+    #   {
+    #     associated_faces: [
+    #       {
+    #         face_id: "35ebbb41-7f67-4263-908d-dd0ecba05ab9", 
+    #       }, 
+    #     ], 
+    #     unsuccessful_face_associations: [
+    #       {
+    #         confidence: 0.9375374913215637, 
+    #         face_id: "f5817d37-94f6-4335-bfee-6cf79a3d806e", 
+    #         reasons: [
+    #           "LOW_MATCH_CONFIDENCE", 
+    #         ], 
+    #       }, 
+    #       {
+    #         face_id: "851cb847-dccc-4fea-9309-9f4805967855", 
+    #         reasons: [
+    #           "ASSOCIATED_TO_A_DIFFERENT_USER", 
+    #         ], 
+    #         user_id: "demoUser2", 
+    #       }, 
+    #     ], 
+    #     user_status: "UPDATING", 
+    #   }
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.associate_faces({
+    #     collection_id: "CollectionId", # required
+    #     user_id: "UserId", # required
+    #     face_ids: ["FaceId"], # required
+    #     user_match_threshold: 1.0,
+    #     client_request_token: "ClientRequestToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.associated_faces #=> Array
+    #   resp.associated_faces[0].face_id #=> String
+    #   resp.unsuccessful_face_associations #=> Array
+    #   resp.unsuccessful_face_associations[0].face_id #=> String
+    #   resp.unsuccessful_face_associations[0].user_id #=> String
+    #   resp.unsuccessful_face_associations[0].confidence #=> Float
+    #   resp.unsuccessful_face_associations[0].reasons #=> Array
+    #   resp.unsuccessful_face_associations[0].reasons[0] #=> String, one of "FACE_NOT_FOUND", "ASSOCIATED_TO_A_DIFFERENT_USER", "LOW_MATCH_CONFIDENCE"
+    #   resp.user_status #=> String, one of "ACTIVE", "UPDATING", "CREATING", "CREATED"
+    #
+    # @overload associate_faces(params = {})
+    # @param [Hash] params ({})
+    def associate_faces(params = {}, options = {})
+      req = build_request(:associate_faces, params)
+      req.send_request(options)
+    end
 
     # Compares a face in the *source* input image with each of the 100
     # largest faces detected in the *target* input image.
@@ -623,6 +855,10 @@ module Aws::Rekognition
       req.send_request(options)
     end
 
+    # <note markdown="1"> This operation applies only to Amazon Rekognition Custom Labels.
+    #
+    #  </note>
+    #
     # Copies a version of an Amazon Rekognition Custom Labels model from a
     # source project to a destination project. The source and destination
     # projects can be in different AWS accounts but must be in the same AWS
@@ -641,7 +877,9 @@ module Aws::Rekognition
     # If you are copying a model version to a project in the same AWS
     # account, you don't need to create a project policy.
     #
-    # <note markdown="1"> To copy a model, the destination project, source project, and source
+    # <note markdown="1"> Copying project versions is supported only for Custom Labels models.
+    #
+    #  To copy a model, the destination project, source project, and source
     # model version must already exist.
     #
     #  </note>
@@ -650,6 +888,9 @@ module Aws::Rekognition
     # status, call DescribeProjectVersions and check the value of `Status`
     # in the ProjectVersionDescription object. The copy operation has
     # finished when the value of `Status` is `COPYING_COMPLETED`.
+    #
+    # This operation requires permissions to perform the
+    # `rekognition:CopyProjectVersion` action.
     #
     # @option params [required, String] :source_project_arn
     #   The ARN of the source project in the trusting AWS account.
@@ -701,8 +942,7 @@ module Aws::Rekognition
     #
     # @example Example: CopyProjectVersion
     #
-    #   # This operation copies a version of an Amazon Rekognition Custom Labels model from a source project to a destination
-    #   # project.
+    #   # Copies a version of an Amazon Rekognition Custom Labels model from a source project to a destination project.
     #
     #   resp = client.copy_project_version({
     #     destination_project_arn: "arn:aws:rekognition:us-east-1:555555555555:project/DestinationProject/1656705098765", 
@@ -822,13 +1062,17 @@ module Aws::Rekognition
       req.send_request(options)
     end
 
+    # <note markdown="1"> This operation applies only to Amazon Rekognition Custom Labels.
+    #
+    #  </note>
+    #
     # Creates a new Amazon Rekognition Custom Labels dataset. You can create
     # a dataset by using an Amazon Sagemaker format manifest file or by
     # copying an existing Amazon Rekognition Custom Labels dataset.
     #
-    # To create a training dataset for a project, specify `train` for the
+    # To create a training dataset for a project, specify `TRAIN` for the
     # value of `DatasetType`. To create the test dataset for a project,
-    # specify `test` for the value of `DatasetType`.
+    # specify `TEST` for the value of `DatasetType`.
     #
     # The response from `CreateDataset` is the Amazon Resource Name (ARN)
     # for the dataset. Creating a dataset takes a while to complete. Use
@@ -858,16 +1102,43 @@ module Aws::Rekognition
     #   can use the console or call UpdateDatasetEntries.
     #
     # @option params [required, String] :dataset_type
-    #   The type of the dataset. Specify `train` to create a training dataset.
-    #   Specify `test` to create a test dataset.
+    #   The type of the dataset. Specify `TRAIN` to create a training dataset.
+    #   Specify `TEST` to create a test dataset.
     #
     # @option params [required, String] :project_arn
     #   The ARN of the Amazon Rekognition Custom Labels project to which you
     #   want to asssign the dataset.
     #
+    # @option params [Hash<String,String>] :tags
+    #   A set of tags (key-value pairs) that you want to attach to the
+    #   dataset.
+    #
     # @return [Types::CreateDatasetResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreateDatasetResponse#dataset_arn #dataset_arn} => String
+    #
+    #
+    # @example Example: To create an Amazon Rekognition Custom Labels dataset
+    #
+    #   # Creates an Amazon Rekognition Custom Labels dataset with a manifest file stored in an Amazon S3 bucket.
+    #
+    #   resp = client.create_dataset({
+    #     dataset_source: {
+    #       ground_truth_manifest: {
+    #         s3_object: {
+    #           bucket: "my-bucket", 
+    #           name: "datasets/flowers_training/manifests/output/output.manifest", 
+    #         }, 
+    #       }, 
+    #     }, 
+    #     dataset_type: "TRAIN", 
+    #     project_arn: "arn:aws:rekognition:us-east-1:111122223333:project/my-project/1690474772815", 
+    #   })
+    #
+    #   resp.to_h outputs the following:
+    #   {
+    #     dataset_arn: "arn:aws:rekognition:us-east-1:111122223333:project/my-project/dataset/train/1690476084535", 
+    #   }
     #
     # @example Request syntax with placeholder values
     #
@@ -884,6 +1155,9 @@ module Aws::Rekognition
     #     },
     #     dataset_type: "TRAIN", # required, accepts TRAIN, TEST
     #     project_arn: "ProjectArn", # required
+    #     tags: {
+    #       "TagKey" => "TagValue",
+    #     },
     #   })
     #
     # @example Response structure
@@ -897,24 +1171,117 @@ module Aws::Rekognition
       req.send_request(options)
     end
 
-    # Creates a new Amazon Rekognition Custom Labels project. A project is a
-    # group of resources (datasets, model versions) that you use to create
-    # and manage Amazon Rekognition Custom Labels models.
+    # This API operation initiates a Face Liveness session. It returns a
+    # `SessionId`, which you can use to start streaming Face Liveness video
+    # and get the results for a Face Liveness session.
     #
-    # This operation requires permissions to perform the
-    # `rekognition:CreateProject` action.
+    # You can use the `OutputConfig` option in the Settings parameter to
+    # provide an Amazon S3 bucket location. The Amazon S3 bucket stores
+    # reference images and audit images. If no Amazon S3 bucket is defined,
+    # raw bytes are sent instead.
+    #
+    # You can use `AuditImagesLimit` to limit the number of audit images
+    # returned when `GetFaceLivenessSessionResults` is called. This number
+    # is between 0 and 4. By default, it is set to 0. The limit is best
+    # effort and based on the duration of the selfie-video.
+    #
+    # @option params [String] :kms_key_id
+    #   The identifier for your AWS Key Management Service key (AWS KMS key).
+    #   Used to encrypt audit images and reference images.
+    #
+    # @option params [Types::CreateFaceLivenessSessionRequestSettings] :settings
+    #   A session settings object. It contains settings for the operation to
+    #   be performed. For Face Liveness, it accepts `OutputConfig` and
+    #   `AuditImagesLimit`.
+    #
+    # @option params [String] :client_request_token
+    #   Idempotent token is used to recognize the Face Liveness request. If
+    #   the same token is used with multiple `CreateFaceLivenessSession`
+    #   requests, the same session is returned. This token is employed to
+    #   avoid unintentionally creating the same session multiple times.
+    #
+    # @return [Types::CreateFaceLivenessSessionResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateFaceLivenessSessionResponse#session_id #session_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_face_liveness_session({
+    #     kms_key_id: "KmsKeyId",
+    #     settings: {
+    #       output_config: {
+    #         s3_bucket: "S3Bucket", # required
+    #         s3_key_prefix: "LivenessS3KeyPrefix",
+    #       },
+    #       audit_images_limit: 1,
+    #     },
+    #     client_request_token: "ClientRequestToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.session_id #=> String
+    #
+    # @overload create_face_liveness_session(params = {})
+    # @param [Hash] params ({})
+    def create_face_liveness_session(params = {}, options = {})
+      req = build_request(:create_face_liveness_session, params)
+      req.send_request(options)
+    end
+
+    # Creates a new Amazon Rekognition project. A project is a group of
+    # resources (datasets, model versions) that you use to create and manage
+    # a Amazon Rekognition Custom Labels Model or custom adapter. You can
+    # specify a feature to create the project with, if no feature is
+    # specified then Custom Labels is used by default. For adapters, you can
+    # also choose whether or not to have the project auto update by using
+    # the AutoUpdate argument. This operation requires permissions to
+    # perform the `rekognition:CreateProject` action.
     #
     # @option params [required, String] :project_name
     #   The name of the project to create.
+    #
+    # @option params [String] :feature
+    #   Specifies feature that is being customized. If no value is provided
+    #   CUSTOM\_LABELS is used as a default.
+    #
+    # @option params [String] :auto_update
+    #   Specifies whether automatic retraining should be attempted for the
+    #   versions of the project. Automatic retraining is done as a best
+    #   effort. Required argument for Content Moderation. Applicable only to
+    #   adapters.
+    #
+    # @option params [Hash<String,String>] :tags
+    #   A set of tags (key-value pairs) that you want to attach to the
+    #   project.
     #
     # @return [Types::CreateProjectResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreateProjectResponse#project_arn #project_arn} => String
     #
+    #
+    # @example Example: To create an Amazon Rekognition Custom Labels project
+    #
+    #   # Creates an Amazon Rekognition Custom Labels project.
+    #
+    #   resp = client.create_project({
+    #     project_name: "my-project", 
+    #   })
+    #
+    #   resp.to_h outputs the following:
+    #   {
+    #     project_arn: "arn:aws:rekognition:us-east-1:111122223333:project/my-project/1690405809285", 
+    #   }
+    #
     # @example Request syntax with placeholder values
     #
     #   resp = client.create_project({
     #     project_name: "ProjectName", # required
+    #     feature: "CONTENT_MODERATION", # accepts CONTENT_MODERATION, CUSTOM_LABELS
+    #     auto_update: "ENABLED", # accepts ENABLED, DISABLED
+    #     tags: {
+    #       "TagKey" => "TagValue",
+    #     },
     #   })
     #
     # @example Response structure
@@ -928,16 +1295,28 @@ module Aws::Rekognition
       req.send_request(options)
     end
 
-    # Creates a new version of a model and begins training. Models are
-    # managed as part of an Amazon Rekognition Custom Labels project. The
-    # response from `CreateProjectVersion` is an Amazon Resource Name (ARN)
-    # for the version of the model.
+    # Creates a new version of Amazon Rekognition project (like a Custom
+    # Labels model or a custom adapter) and begins training. Models and
+    # adapters are managed as part of a Rekognition project. The response
+    # from `CreateProjectVersion` is an Amazon Resource Name (ARN) for the
+    # project version.
     #
-    # Training uses the training and test datasets associated with the
-    # project. For more information, see Creating training and test dataset
-    # in the *Amazon Rekognition Custom Labels Developer Guide*.
+    # The FeatureConfig operation argument allows you to configure specific
+    # model or adapter settings. You can provide a description to the
+    # project version by using the VersionDescription argment. Training can
+    # take a while to complete. You can get the current status by calling
+    # DescribeProjectVersions. Training completed successfully if the value
+    # of the `Status` field is `TRAINING_COMPLETED`. Once training has
+    # successfully completed, call DescribeProjectVersions to get the
+    # training results and evaluate the model.
     #
-    # <note markdown="1"> You can train a model in a project that doesn't have associated
+    # This operation requires permissions to perform the
+    # `rekognition:CreateProjectVersion` action.
+    #
+    # <note markdown="1"> *The following applies only to projects with Amazon Rekognition Custom
+    # Labels as the chosen feature:*
+    #
+    #  You can train a model in a project that doesn't have associated
     # datasets by specifying manifest files in the `TrainingData` and
     # `TestingData` fields.
     #
@@ -952,57 +1331,42 @@ module Aws::Rekognition
     #
     #  </note>
     #
-    # Training takes a while to complete. You can get the current status by
-    # calling DescribeProjectVersions. Training completed successfully if
-    # the value of the `Status` field is `TRAINING_COMPLETED`.
-    #
-    # If training fails, see Debugging a failed model training in the
-    # *Amazon Rekognition Custom Labels* developer guide.
-    #
-    # Once training has successfully completed, call DescribeProjectVersions
-    # to get the training results and evaluate the model. For more
-    # information, see Improving a trained Amazon Rekognition Custom Labels
-    # model in the *Amazon Rekognition Custom Labels* developers guide.
-    #
-    # After evaluating the model, you start the model by calling
-    # StartProjectVersion.
-    #
-    # This operation requires permissions to perform the
-    # `rekognition:CreateProjectVersion` action.
-    #
     # @option params [required, String] :project_arn
-    #   The ARN of the Amazon Rekognition Custom Labels project that manages
-    #   the model that you want to train.
+    #   The ARN of the Amazon Rekognition project that will manage the project
+    #   version you want to train.
     #
     # @option params [required, String] :version_name
-    #   A name for the version of the model. This value must be unique.
+    #   A name for the version of the project version. This value must be
+    #   unique.
     #
     # @option params [required, Types::OutputConfig] :output_config
-    #   The Amazon S3 bucket location to store the results of training. The S3
-    #   bucket can be in any AWS account as long as the caller has
-    #   `s3:PutObject` permissions on the S3 bucket.
+    #   The Amazon S3 bucket location to store the results of training. The
+    #   bucket can be any S3 bucket in your AWS account. You need
+    #   `s3:PutObject` permission on the bucket.
     #
     # @option params [Types::TrainingData] :training_data
     #   Specifies an external manifest that the services uses to train the
-    #   model. If you specify `TrainingData` you must also specify
+    #   project version. If you specify `TrainingData` you must also specify
     #   `TestingData`. The project must not have any associated datasets.
     #
     # @option params [Types::TestingData] :testing_data
     #   Specifies an external manifest that the service uses to test the
-    #   model. If you specify `TestingData` you must also specify
+    #   project version. If you specify `TestingData` you must also specify
     #   `TrainingData`. The project must not have any associated datasets.
     #
     # @option params [Hash<String,String>] :tags
-    #   A set of tags (key-value pairs) that you want to attach to the model.
+    #   A set of tags (key-value pairs) that you want to attach to the project
+    #   version.
     #
     # @option params [String] :kms_key_id
     #   The identifier for your AWS Key Management Service key (AWS KMS key).
     #   You can supply the Amazon Resource Name (ARN) of your KMS key, the ID
     #   of your KMS key, an alias for your KMS key, or an alias ARN. The key
-    #   is used to encrypt training and test images copied into the service
-    #   for model training. Your source images are unaffected. The key is also
-    #   used to encrypt training results and manifest files written to the
-    #   output Amazon S3 bucket (`OutputConfig`).
+    #   is used to encrypt training images, test images, and manifest files
+    #   copied into the service for the project version. Your source images
+    #   are unaffected. The key is also used to encrypt training results and
+    #   manifest files written to the output Amazon S3 bucket
+    #   (`OutputConfig`).
     #
     #   If you choose to use your own KMS key, you need the following
     #   permissions on the KMS key.
@@ -1018,9 +1382,36 @@ module Aws::Rekognition
     #   If you don't specify a value for `KmsKeyId`, images copied into the
     #   service are encrypted using a key that AWS owns and manages.
     #
+    # @option params [String] :version_description
+    #   A description applied to the project version being created.
+    #
+    # @option params [Types::CustomizationFeatureConfig] :feature_config
+    #   Feature-specific configuration of the training job. If the job
+    #   configuration does not match the feature type associated with the
+    #   project, an InvalidParameterException is returned.
+    #
     # @return [Types::CreateProjectVersionResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreateProjectVersionResponse#project_version_arn #project_version_arn} => String
+    #
+    #
+    # @example Example: To train an Amazon Rekognition Custom Labels model
+    #
+    #   # Trains a version of an Amazon Rekognition Custom Labels model.
+    #
+    #   resp = client.create_project_version({
+    #     output_config: {
+    #       s3_bucket: "output_bucket", 
+    #       s3_key_prefix: "output_folder", 
+    #     }, 
+    #     project_arn: "arn:aws:rekognition:us-east-1:111122223333:project/my-project/1690474772815", 
+    #     version_name: "1", 
+    #   })
+    #
+    #   resp.to_h outputs the following:
+    #   {
+    #     project_version_arn: "arn:aws:rekognition:us-east-1:111122223333:project/my-project/version/1/1690556751958", 
+    #   }
     #
     # @example Request syntax with placeholder values
     #
@@ -1062,6 +1453,12 @@ module Aws::Rekognition
     #       "TagKey" => "TagValue",
     #     },
     #     kms_key_id: "KmsKeyId",
+    #     version_description: "VersionDescription",
+    #     feature_config: {
+    #       content_moderation: {
+    #         confidence_threshold: 1.0,
+    #       },
+    #     },
     #   })
     #
     # @example Response structure
@@ -1085,22 +1482,24 @@ module Aws::Rekognition
     #
     # * If you are creating a stream processor for detecting faces, you
     #   provide as input a Kinesis video stream (`Input`) and a Kinesis data
-    #   stream (`Output`) stream. You also specify the face recognition
-    #   criteria in `Settings`. For example, the collection containing faces
-    #   that you want to recognize. After you have finished analyzing a
-    #   streaming video, use StopStreamProcessor to stop processing.
+    #   stream (`Output`) stream for receiving the output. You must use the
+    #   `FaceSearch` option in `Settings`, specifying the collection that
+    #   contains the faces you want to recognize. After you have finished
+    #   analyzing a streaming video, use StopStreamProcessor to stop
+    #   processing.
     #
     # * If you are creating a stream processor to detect labels, you provide
     #   as input a Kinesis video stream (`Input`), Amazon S3 bucket
     #   information (`Output`), and an Amazon SNS topic ARN
     #   (`NotificationChannel`). You can also provide a KMS key ID to
     #   encrypt the data sent to your Amazon S3 bucket. You specify what you
-    #   want to detect in `ConnectedHomeSettings`, such as people, packages
-    #   and people, or pets, people, and packages. You can also specify
-    #   where in the frame you want Amazon Rekognition to monitor with
-    #   `RegionsOfInterest`. When you run the StartStreamProcessor operation
-    #   on a label detection stream processor, you input start and stop
-    #   information to determine the length of the processing time.
+    #   want to detect by using the `ConnectedHome` option in settings, and
+    #   selecting one of the following: `PERSON`, `PET`, `PACKAGE`, `ALL`
+    #   You can also specify where in the frame you want Amazon Rekognition
+    #   to monitor with `RegionsOfInterest`. When you run the
+    #   StartStreamProcessor operation on a label detection stream
+    #   processor, you input start and stop information to determine the
+    #   length of the processing time.
     #
     # Use `Name` to assign an identifier for the stream processor. You use
     # `Name` to manage the stream processor. For example, you can start
@@ -1260,6 +1659,62 @@ module Aws::Rekognition
       req.send_request(options)
     end
 
+    # Creates a new User within a collection specified by `CollectionId`.
+    # Takes `UserId` as a parameter, which is a user provided ID which
+    # should be unique within the collection. The provided `UserId` will
+    # alias the system generated UUID to make the `UserId` more user
+    # friendly.
+    #
+    # Uses a `ClientToken`, an idempotency token that ensures a call to
+    # `CreateUser` completes only once. If the value is not supplied, the
+    # AWS SDK generates an idempotency token for the requests. This prevents
+    # retries after a network error results from making multiple
+    # `CreateUser` calls.
+    #
+    # @option params [required, String] :collection_id
+    #   The ID of an existing collection to which the new UserID needs to be
+    #   created.
+    #
+    # @option params [required, String] :user_id
+    #   ID for the UserID to be created. This ID needs to be unique within the
+    #   collection.
+    #
+    # @option params [String] :client_request_token
+    #   Idempotent token used to identify the request to `CreateUser`. If you
+    #   use the same token with multiple `CreateUser` requests, the same
+    #   response is returned. Use ClientRequestToken to prevent the same
+    #   request from being processed more than once.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    #
+    # @example Example: CreateUser
+    #
+    #   # Creates a new User within a collection specified by CollectionId.
+    #
+    #   resp = client.create_user({
+    #     collection_id: "MyCollection", 
+    #     user_id: "DemoUser", 
+    #   })
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_user({
+    #     collection_id: "CollectionId", # required
+    #     user_id: "UserId", # required
+    #     client_request_token: "ClientRequestToken",
+    #   })
+    #
+    # @overload create_user(params = {})
+    # @param [Hash] params ({})
+    def create_user(params = {}, options = {})
+      req = build_request(:create_user, params)
+      req.send_request(options)
+    end
+
     # Deletes the specified collection. Note that this operation removes all
     # faces in the collection. For an example, see [Deleting a
     # collection][1].
@@ -1309,6 +1764,10 @@ module Aws::Rekognition
       req.send_request(options)
     end
 
+    # <note markdown="1"> This operation applies only to Amazon Rekognition Custom Labels.
+    #
+    #  </note>
+    #
     # Deletes an existing Amazon Rekognition Custom Labels dataset. Deleting
     # a dataset might take while. Use DescribeDataset to check the current
     # status. The dataset is still deleting if the value of `Status` is
@@ -1327,6 +1786,19 @@ module Aws::Rekognition
     #   to delete.
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    #
+    # @example Example: To delete an Amazon Rekognition Custom Labels dataset
+    #
+    #   # Deletes an Amazon Rekognition Custom Labels dataset.
+    #
+    #   resp = client.delete_dataset({
+    #     dataset_arn: "arn:aws:rekognition:us-east-1:111122223333:project/my-project/dataset/test/1690556733321", 
+    #   })
+    #
+    #   resp.to_h outputs the following:
+    #   {
+    #   }
     #
     # @example Request syntax with placeholder values
     #
@@ -1356,6 +1828,7 @@ module Aws::Rekognition
     # @return [Types::DeleteFacesResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::DeleteFacesResponse#deleted_faces #deleted_faces} => Array&lt;String&gt;
+    #   * {Types::DeleteFacesResponse#unsuccessful_face_deletions #unsuccessful_face_deletions} => Array&lt;Types::UnsuccessfulFaceDeletion&gt;
     #
     #
     # @example Example: To delete a face
@@ -1387,6 +1860,11 @@ module Aws::Rekognition
     #
     #   resp.deleted_faces #=> Array
     #   resp.deleted_faces[0] #=> String
+    #   resp.unsuccessful_face_deletions #=> Array
+    #   resp.unsuccessful_face_deletions[0].face_id #=> String
+    #   resp.unsuccessful_face_deletions[0].user_id #=> String
+    #   resp.unsuccessful_face_deletions[0].reasons #=> Array
+    #   resp.unsuccessful_face_deletions[0].reasons[0] #=> String, one of "ASSOCIATED_TO_AN_EXISTING_USER", "FACE_NOT_FOUND"
     #
     # @overload delete_faces(params = {})
     # @param [Hash] params ({})
@@ -1395,9 +1873,9 @@ module Aws::Rekognition
       req.send_request(options)
     end
 
-    # Deletes an Amazon Rekognition Custom Labels project. To delete a
-    # project you must first delete all models associated with the project.
-    # To delete a model, see DeleteProjectVersion.
+    # Deletes a Amazon Rekognition project. To delete a project you must
+    # first delete all models or adapters associated with the project. To
+    # delete a model or adapter, see DeleteProjectVersion.
     #
     # `DeleteProject` is an asynchronous operation. To check if the project
     # is deleted, call DescribeProjects. The project is deleted when the
@@ -1414,6 +1892,20 @@ module Aws::Rekognition
     # @return [Types::DeleteProjectResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::DeleteProjectResponse#status #status} => String
+    #
+    #
+    # @example Example: To delete an Amazon Rekognition Custom Labels project
+    #
+    #   # Deletes an Amazon Rekognition Custom Labels projects.
+    #
+    #   resp = client.delete_project({
+    #     project_arn: "arn:aws:rekognition:us-east-1:111122223333:project/my-project/1690405809285", 
+    #   })
+    #
+    #   resp.to_h outputs the following:
+    #   {
+    #     status: "DELETING", 
+    #   }
     #
     # @example Request syntax with placeholder values
     #
@@ -1432,11 +1924,18 @@ module Aws::Rekognition
       req.send_request(options)
     end
 
+    # <note markdown="1"> This operation applies only to Amazon Rekognition Custom Labels.
+    #
+    #  </note>
+    #
     # Deletes an existing project policy.
     #
     # To get a list of project policies attached to a project, call
     # ListProjectPolicies. To attach a project policy to a project, call
     # PutProjectPolicy.
+    #
+    # This operation requires permissions to perform the
+    # `rekognition:DeleteProjectPolicy` action.
     #
     # @option params [required, String] :project_arn
     #   The Amazon Resource Name (ARN) of the project that the project policy
@@ -1480,23 +1979,39 @@ module Aws::Rekognition
       req.send_request(options)
     end
 
-    # Deletes an Amazon Rekognition Custom Labels model.
+    # Deletes a Rekognition project model or project version, like a Amazon
+    # Rekognition Custom Labels model or a custom adapter.
     #
-    # You can't delete a model if it is running or if it is training. To
-    # check the status of a model, use the `Status` field returned from
-    # DescribeProjectVersions. To stop a running model call
-    # StopProjectVersion. If the model is training, wait until it finishes.
+    # You can't delete a project version if it is running or if it is
+    # training. To check the status of a project version, use the Status
+    # field returned from DescribeProjectVersions. To stop a project version
+    # call StopProjectVersion. If the project version is training, wait
+    # until it finishes.
     #
     # This operation requires permissions to perform the
     # `rekognition:DeleteProjectVersion` action.
     #
     # @option params [required, String] :project_version_arn
-    #   The Amazon Resource Name (ARN) of the model version that you want to
+    #   The Amazon Resource Name (ARN) of the project version that you want to
     #   delete.
     #
     # @return [Types::DeleteProjectVersionResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::DeleteProjectVersionResponse#status #status} => String
+    #
+    #
+    # @example Example: To delete an Amazon Rekognition Custom Labels model
+    #
+    #   # Deletes a version of an Amazon Rekognition Custom Labels model.
+    #
+    #   resp = client.delete_project_version({
+    #     project_version_arn: "arn:aws:rekognition:us-east-1:111122223333:project/my-project/version/1/1690556751958", 
+    #   })
+    #
+    #   resp.to_h outputs the following:
+    #   {
+    #     status: "DELETING", 
+    #   }
     #
     # @example Request syntax with placeholder values
     #
@@ -1506,7 +2021,7 @@ module Aws::Rekognition
     #
     # @example Response structure
     #
-    #   resp.status #=> String, one of "TRAINING_IN_PROGRESS", "TRAINING_COMPLETED", "TRAINING_FAILED", "STARTING", "RUNNING", "FAILED", "STOPPING", "STOPPED", "DELETING", "COPYING_IN_PROGRESS", "COPYING_COMPLETED", "COPYING_FAILED"
+    #   resp.status #=> String, one of "TRAINING_IN_PROGRESS", "TRAINING_COMPLETED", "TRAINING_FAILED", "STARTING", "RUNNING", "FAILED", "STOPPING", "STOPPED", "DELETING", "COPYING_IN_PROGRESS", "COPYING_COMPLETED", "COPYING_FAILED", "DEPRECATED", "EXPIRED"
     #
     # @overload delete_project_version(params = {})
     # @param [Hash] params ({})
@@ -1539,6 +2054,57 @@ module Aws::Rekognition
       req.send_request(options)
     end
 
+    # Deletes the specified UserID within the collection. Faces that are
+    # associated with the UserID are disassociated from the UserID before
+    # deleting the specified UserID. If the specified `Collection` or
+    # `UserID` is already deleted or not found, a
+    # `ResourceNotFoundException` will be thrown. If the action is
+    # successful with a 200 response, an empty HTTP body is returned.
+    #
+    # @option params [required, String] :collection_id
+    #   The ID of an existing collection from which the UserID needs to be
+    #   deleted.
+    #
+    # @option params [required, String] :user_id
+    #   ID for the UserID to be deleted.
+    #
+    # @option params [String] :client_request_token
+    #   Idempotent token used to identify the request to `DeleteUser`. If you
+    #   use the same token with multiple `DeleteUser `requests, the same
+    #   response is returned. Use ClientRequestToken to prevent the same
+    #   request from being processed more than once.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    #
+    # @example Example: DeleteUser
+    #
+    #   # Deletes the specified UserID within the collection.
+    #
+    #   resp = client.delete_user({
+    #     client_request_token: "550e8400-e29b-41d4-a716-446655440001", 
+    #     collection_id: "MyCollection", 
+    #     user_id: "DemoUser", 
+    #   })
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_user({
+    #     collection_id: "CollectionId", # required
+    #     user_id: "UserId", # required
+    #     client_request_token: "ClientRequestToken",
+    #   })
+    #
+    # @overload delete_user(params = {})
+    # @param [Hash] params ({})
+    def delete_user(params = {}, options = {})
+      req = build_request(:delete_user, params)
+      req.send_request(options)
+    end
+
     # Describes the specified collection. You can use `DescribeCollection`
     # to get information, such as the number of faces indexed into a
     # collection and the version of the model used by the collection for
@@ -1556,6 +2122,7 @@ module Aws::Rekognition
     #   * {Types::DescribeCollectionResponse#face_model_version #face_model_version} => String
     #   * {Types::DescribeCollectionResponse#collection_arn #collection_arn} => String
     #   * {Types::DescribeCollectionResponse#creation_timestamp #creation_timestamp} => Time
+    #   * {Types::DescribeCollectionResponse#user_count #user_count} => Integer
     #
     # @example Request syntax with placeholder values
     #
@@ -1569,6 +2136,7 @@ module Aws::Rekognition
     #   resp.face_model_version #=> String
     #   resp.collection_arn #=> String
     #   resp.creation_timestamp #=> Time
+    #   resp.user_count #=> Integer
     #
     # @overload describe_collection(params = {})
     # @param [Hash] params ({})
@@ -1577,6 +2145,10 @@ module Aws::Rekognition
       req.send_request(options)
     end
 
+    # <note markdown="1"> This operation applies only to Amazon Rekognition Custom Labels.
+    #
+    #  </note>
+    #
     # Describes an Amazon Rekognition Custom Labels dataset. You can get
     # information such as the current status of a dataset and statistics
     # about the images and labels in a dataset.
@@ -1591,6 +2163,32 @@ module Aws::Rekognition
     # @return [Types::DescribeDatasetResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::DescribeDatasetResponse#dataset_description #dataset_description} => Types::DatasetDescription
+    #
+    #
+    # @example Example: To describe an Amazon Rekognition Custom Labels dataset
+    #
+    #   # Describes an Amazon Rekognition Custom Labels dataset.
+    #
+    #   resp = client.describe_dataset({
+    #     dataset_arn: "arn:aws:rekognition:us-east-1:111122223333:project/my-project/dataset/train/1690476084535", 
+    #   })
+    #
+    #   resp.to_h outputs the following:
+    #   {
+    #     dataset_description: {
+    #       creation_timestamp: Time.parse("2023-07-27T09:41:24.738000-07:00"), 
+    #       dataset_stats: {
+    #         error_entries: 0, 
+    #         labeled_entries: 15, 
+    #         total_entries: 15, 
+    #         total_labels: 9, 
+    #       }, 
+    #       last_updated_timestamp: Time.parse("2023-07-28T09:46:45.406000-07:00"), 
+    #       status: "UPDATE_FAILED", 
+    #       status_message: "The manifest file contains images from multiple S3 buckets.", 
+    #       status_message_code: "CLIENT_ERROR", 
+    #     }, 
+    #   }
     #
     # @example Request syntax with placeholder values
     #
@@ -1617,32 +2215,32 @@ module Aws::Rekognition
       req.send_request(options)
     end
 
-    # Lists and describes the versions of a model in an Amazon Rekognition
-    # Custom Labels project. You can specify up to 10 model versions in
+    # Lists and describes the versions of an Amazon Rekognition project. You
+    # can specify up to 10 model or adapter versions in
     # `ProjectVersionArns`. If you don't specify a value, descriptions for
-    # all model versions in the project are returned.
+    # all model/adapter versions in the project are returned.
     #
     # This operation requires permissions to perform the
     # `rekognition:DescribeProjectVersions` action.
     #
     # @option params [required, String] :project_arn
-    #   The Amazon Resource Name (ARN) of the project that contains the models
-    #   you want to describe.
+    #   The Amazon Resource Name (ARN) of the project that contains the
+    #   model/adapter you want to describe.
     #
     # @option params [Array<String>] :version_names
-    #   A list of model version names that you want to describe. You can add
-    #   up to 10 model version names to the list. If you don't specify a
-    #   value, all model descriptions are returned. A version name is part of
-    #   a model (ProjectVersion) ARN. For example,
-    #   `my-model.2020-01-21T09.10.15` is the version name in the following
-    #   ARN.
+    #   A list of model or project version names that you want to describe.
+    #   You can add up to 10 model or project version names to the list. If
+    #   you don't specify a value, all project version descriptions are
+    #   returned. A version name is part of a project version ARN. For
+    #   example, `my-model.2020-01-21T09.10.15` is the version name in the
+    #   following ARN.
     #   `arn:aws:rekognition:us-east-1:123456789012:project/getting-started/version/my-model.2020-01-21T09.10.15/1234567890123`.
     #
     # @option params [String] :next_token
     #   If the previous response was incomplete (because there is more results
-    #   to retrieve), Amazon Rekognition Custom Labels returns a pagination
-    #   token in the response. You can use this pagination token to retrieve
-    #   the next set of results.
+    #   to retrieve), Amazon Rekognition returns a pagination token in the
+    #   response. You can use this pagination token to retrieve the next set
+    #   of results.
     #
     # @option params [Integer] :max_results
     #   The maximum number of results to return per paginated call. The
@@ -1656,6 +2254,110 @@ module Aws::Rekognition
     #   * {Types::DescribeProjectVersionsResponse#next_token #next_token} => String
     #
     # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    #
+    # @example Example: To describe an Amazon Rekognition Custom Labels model
+    #
+    #   # Describes a version of an Amazon Rekognition Custom Labels model.
+    #
+    #   resp = client.describe_project_versions({
+    #     project_arn: "arn:aws:rekognition:us-east-1:111122223333:project/my-project/1690474772815", 
+    #     version_names: [
+    #       "1", 
+    #     ], 
+    #   })
+    #
+    #   resp.to_h outputs the following:
+    #   {
+    #     next_token: "", 
+    #     project_version_descriptions: [
+    #       {
+    #         billable_training_time_in_seconds: 1899, 
+    #         creation_timestamp: Time.parse("2023-07-28T08:05:51.958000-07:00"), 
+    #         evaluation_result: {
+    #           f1_score: 1, 
+    #           summary: {
+    #             s3_object: {
+    #               bucket: "custom-labels-console-us-east-1-111111111", 
+    #               name: "my-model-output/EvaluationResultSummary-my-project-1.json", 
+    #             }, 
+    #           }, 
+    #         }, 
+    #         manifest_summary: {
+    #           s3_object: {
+    #             bucket: "custom-labels-console-us-east-1-111111111", 
+    #             name: "my-model-output/ManifestSummary-my-project-1.json", 
+    #           }, 
+    #         }, 
+    #         output_config: {
+    #           s3_bucket: "custom-labels-console-us-east-1-111111111", 
+    #           s3_key_prefix: "my-model-output", 
+    #         }, 
+    #         project_version_arn: "arn:aws:rekognition:us-east-1:111122223333:project/my-project/version/1/1690556751958", 
+    #         status: "TRAINING_COMPLETED", 
+    #         status_message: "The model is ready to run.", 
+    #         testing_data_result: {
+    #           input: {
+    #             auto_create: false, 
+    #           }, 
+    #           output: {
+    #             assets: [
+    #               {
+    #                 ground_truth_manifest: {
+    #                   s3_object: {
+    #                     bucket: "custom-labels-console-us-east-1-111111111", 
+    #                     name: "my-model-output/TestingGroundTruth-my-project-1.json", 
+    #                   }, 
+    #                 }, 
+    #               }, 
+    #             ], 
+    #             auto_create: false, 
+    #           }, 
+    #           validation: {
+    #             assets: [
+    #               {
+    #                 ground_truth_manifest: {
+    #                   s3_object: {
+    #                     bucket: "custom-labels-console-us-east-1-111111111", 
+    #                     name: "my-model-output/TestingManifestWithValidation-my-project-1.json", 
+    #                   }, 
+    #                 }, 
+    #               }, 
+    #             ], 
+    #           }, 
+    #         }, 
+    #         training_data_result: {
+    #           input: {
+    #           }, 
+    #           output: {
+    #             assets: [
+    #               {
+    #                 ground_truth_manifest: {
+    #                   s3_object: {
+    #                     bucket: "custom-labels-console-us-east-1-111111111", 
+    #                     name: "my-model-output/TrainingGroundTruth-my-project-1.json", 
+    #                   }, 
+    #                 }, 
+    #               }, 
+    #             ], 
+    #           }, 
+    #           validation: {
+    #             assets: [
+    #               {
+    #                 ground_truth_manifest: {
+    #                   s3_object: {
+    #                     bucket: "custom-labels-console-us-east-1-111111111", 
+    #                     name: "my-model-output/TrainingManifestWithValidation-my-project-1.json", 
+    #                   }, 
+    #                 }, 
+    #               }, 
+    #             ], 
+    #           }, 
+    #         }, 
+    #         training_end_timestamp: Time.parse("2023-07-28T08:33:10.827000-07:00"), 
+    #       }, 
+    #     ], 
+    #   }
     #
     # @example Request syntax with placeholder values
     #
@@ -1672,7 +2374,7 @@ module Aws::Rekognition
     #   resp.project_version_descriptions[0].project_version_arn #=> String
     #   resp.project_version_descriptions[0].creation_timestamp #=> Time
     #   resp.project_version_descriptions[0].min_inference_units #=> Integer
-    #   resp.project_version_descriptions[0].status #=> String, one of "TRAINING_IN_PROGRESS", "TRAINING_COMPLETED", "TRAINING_FAILED", "STARTING", "RUNNING", "FAILED", "STOPPING", "STOPPED", "DELETING", "COPYING_IN_PROGRESS", "COPYING_COMPLETED", "COPYING_FAILED"
+    #   resp.project_version_descriptions[0].status #=> String, one of "TRAINING_IN_PROGRESS", "TRAINING_COMPLETED", "TRAINING_FAILED", "STARTING", "RUNNING", "FAILED", "STOPPING", "STOPPED", "DELETING", "COPYING_IN_PROGRESS", "COPYING_COMPLETED", "COPYING_FAILED", "DEPRECATED", "EXPIRED"
     #   resp.project_version_descriptions[0].status_message #=> String
     #   resp.project_version_descriptions[0].billable_training_time_in_seconds #=> Integer
     #   resp.project_version_descriptions[0].training_end_timestamp #=> Time
@@ -1714,6 +2416,10 @@ module Aws::Rekognition
     #   resp.project_version_descriptions[0].kms_key_id #=> String
     #   resp.project_version_descriptions[0].max_inference_units #=> Integer
     #   resp.project_version_descriptions[0].source_project_version_arn #=> String
+    #   resp.project_version_descriptions[0].version_description #=> String
+    #   resp.project_version_descriptions[0].feature #=> String, one of "CONTENT_MODERATION", "CUSTOM_LABELS"
+    #   resp.project_version_descriptions[0].base_model_version #=> String
+    #   resp.project_version_descriptions[0].feature_config.content_moderation.confidence_threshold #=> Float
     #   resp.next_token #=> String
     #
     #
@@ -1729,16 +2435,15 @@ module Aws::Rekognition
       req.send_request(options)
     end
 
-    # Gets information about your Amazon Rekognition Custom Labels projects.
+    # Gets information about your Rekognition projects.
     #
     # This operation requires permissions to perform the
     # `rekognition:DescribeProjects` action.
     #
     # @option params [String] :next_token
     #   If the previous response was incomplete (because there is more results
-    #   to retrieve), Amazon Rekognition Custom Labels returns a pagination
-    #   token in the response. You can use this pagination token to retrieve
-    #   the next set of results.
+    #   to retrieve), Rekognition returns a pagination token in the response.
+    #   You can use this pagination token to retrieve the next set of results.
     #
     # @option params [Integer] :max_results
     #   The maximum number of results to return per paginated call. The
@@ -1747,9 +2452,13 @@ module Aws::Rekognition
     #   100.
     #
     # @option params [Array<String>] :project_names
-    #   A list of the projects that you want Amazon Rekognition Custom Labels
-    #   to describe. If you don't specify a value, the response includes
-    #   descriptions for all the projects in your AWS account.
+    #   A list of the projects that you want Rekognition to describe. If you
+    #   don't specify a value, the response includes descriptions for all the
+    #   projects in your AWS account.
+    #
+    # @option params [Array<String>] :features
+    #   Specifies the type of customization to filter projects by. If no value
+    #   is specified, CUSTOM\_LABELS is used as a default.
     #
     # @return [Types::DescribeProjectsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1758,12 +2467,53 @@ module Aws::Rekognition
     #
     # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
     #
+    #
+    # @example Example: To describe an Amazon Rekognition Custom Labels project.
+    #
+    #   # Describes an Amazon Rekognition Custom Labels projects.
+    #
+    #   resp = client.describe_projects({
+    #     project_names: [
+    #       "my-project", 
+    #     ], 
+    #   })
+    #
+    #   resp.to_h outputs the following:
+    #   {
+    #     project_descriptions: [
+    #       {
+    #         creation_timestamp: Time.parse("2022-06-13T15:16:00.634000-07:00"), 
+    #         datasets: [
+    #           {
+    #             creation_timestamp: Time.parse("2022-06-13T15:17:34.620000-07:00"), 
+    #             dataset_arn: "arn:aws:rekognition:us-east-1:111122223333:project/my-project/dataset/test/1655158654491", 
+    #             dataset_type: "TEST", 
+    #             status: "CREATE_COMPLETE", 
+    #             status_message: "The dataset was successfully created from the manifest file.", 
+    #             status_message_code: "SUCCESS", 
+    #           }, 
+    #           {
+    #             creation_timestamp: Time.parse("2022-06-13T15:17:50.118000-07:00"), 
+    #             dataset_arn: "arn:aws:rekognition:us-east-1:111122223333:project/my-project/dataset/train/1655158669954", 
+    #             dataset_type: "TRAIN", 
+    #             status: "CREATE_COMPLETE", 
+    #             status_message: "The dataset was successfully created from the manifest file.", 
+    #             status_message_code: "SUCCESS", 
+    #           }, 
+    #         ], 
+    #         project_arn: "arn:aws:rekognition:us-east-1:111122223333:project/my-project/1655158560634", 
+    #         status: "CREATED", 
+    #       }, 
+    #     ], 
+    #   }
+    #
     # @example Request syntax with placeholder values
     #
     #   resp = client.describe_projects({
     #     next_token: "ExtendedPaginationToken",
     #     max_results: 1,
     #     project_names: ["ProjectName"],
+    #     features: ["CONTENT_MODERATION"], # accepts CONTENT_MODERATION, CUSTOM_LABELS
     #   })
     #
     # @example Response structure
@@ -1779,6 +2529,8 @@ module Aws::Rekognition
     #   resp.project_descriptions[0].datasets[0].status #=> String, one of "CREATE_IN_PROGRESS", "CREATE_COMPLETE", "CREATE_FAILED", "UPDATE_IN_PROGRESS", "UPDATE_COMPLETE", "UPDATE_FAILED", "DELETE_IN_PROGRESS"
     #   resp.project_descriptions[0].datasets[0].status_message #=> String
     #   resp.project_descriptions[0].datasets[0].status_message_code #=> String, one of "SUCCESS", "SERVICE_ERROR", "CLIENT_ERROR"
+    #   resp.project_descriptions[0].feature #=> String, one of "CONTENT_MODERATION", "CUSTOM_LABELS"
+    #   resp.project_descriptions[0].auto_update #=> String, one of "ENABLED", "DISABLED"
     #   resp.next_token #=> String
     #
     # @overload describe_projects(params = {})
@@ -1856,6 +2608,10 @@ module Aws::Rekognition
       req.send_request(options)
     end
 
+    # <note markdown="1"> This operation applies only to Amazon Rekognition Custom Labels.
+    #
+    #  </note>
+    #
     # Detects custom labels in a supplied image by using an Amazon
     # Rekognition Custom Labels model.
     #
@@ -1872,7 +2628,8 @@ module Aws::Rekognition
     # `CustomLabel` object provides the label name (`Name`), the level of
     # confidence that the image contains the object (`Confidence`), and
     # object location information, if it exists, for the label on the image
-    # (`Geometry`).
+    # (`Geometry`). Note that for the `DetectCustomLabelsLabels` operation,
+    # `Polygons` are not returned in the `Geometry` section of the response.
     #
     # To filter labels that are returned, specify a value for
     # `MinConfidence`. `DetectCustomLabelsLabels` only returns labels with a
@@ -1902,7 +2659,10 @@ module Aws::Rekognition
     # Rekognition Custom Labels Developer Guide.
     #
     # @option params [required, String] :project_version_arn
-    #   The ARN of the model version that you want to use.
+    #   The ARN of the model version that you want to use. Only models
+    #   associated with Custom Labels projects accepted by the operation. If a
+    #   provided ARN refers to a model version associated with a project for a
+    #   different feature type, then an InvalidParameterException is returned.
     #
     # @option params [required, Types::Image] :image
     #   Provides the input image either as bytes or an S3 object.
@@ -1952,6 +2712,37 @@ module Aws::Rekognition
     #
     #   * {Types::DetectCustomLabelsResponse#custom_labels #custom_labels} => Array&lt;Types::CustomLabel&gt;
     #
+    #
+    # @example Example: To detect custom labels in an image with an Amazon Rekognition Custom Labels model
+    #
+    #   # Detects custom labels in an image with an Amazon Rekognition Custom Labels model
+    #
+    #   resp = client.detect_custom_labels({
+    #     image: {
+    #       s3_object: {
+    #         bucket: "custom-labels-console-us-east-1-1111111111", 
+    #         name: "assets/flowers_1_test_dataset/camellia4.jpg", 
+    #       }, 
+    #     }, 
+    #     max_results: 100, 
+    #     min_confidence: 50, 
+    #     project_version_arn: "arn:aws:rekognition:us-east-1:111122223333:project/my-project/version/my-project.2023-07-31T11.49.37/1690829378219", 
+    #   })
+    #
+    #   resp.to_h outputs the following:
+    #   {
+    #     custom_labels: [
+    #       {
+    #         confidence: 67.56399536132812, 
+    #         name: "with_leaves", 
+    #       }, 
+    #       {
+    #         confidence: 50.65699768066406, 
+    #         name: "without_leaves", 
+    #       }, 
+    #     ], 
+    #   }
+    #
     # @example Request syntax with placeholder values
     #
     #   resp = client.detect_custom_labels({
@@ -1994,8 +2785,8 @@ module Aws::Rekognition
     # face detected, the operation returns face details. These details
     # include a bounding box of the face, a confidence value (that the
     # bounding box contains a face), and a fixed set of attributes such as
-    # facial landmarks (for example, coordinates of eye and mouth), presence
-    # of beard, sunglasses, and so on.
+    # facial landmarks (for example, coordinates of eye and mouth), pose,
+    # presence of facial occlusion, and so on.
     #
     # The face-detection algorithm is most effective on frontal faces. For
     # non-frontal or obscured faces, the algorithm might not detect the
@@ -2025,17 +2816,21 @@ module Aws::Rekognition
     #   guide.
     #
     # @option params [Array<String>] :attributes
-    #   An array of facial attributes you want to be returned. This can be the
-    #   default list of attributes or all attributes. If you don't specify a
-    #   value for `Attributes` or if you specify `["DEFAULT"]`, the API
-    #   returns the following subset of facial attributes: `BoundingBox`,
-    #   `Confidence`, `Pose`, `Quality`, and `Landmarks`. If you provide
-    #   `["ALL"]`, all facial attributes are returned, but the operation takes
-    #   longer to complete.
+    #   An array of facial attributes you want to be returned. A `DEFAULT`
+    #   subset of facial attributes - `BoundingBox`, `Confidence`, `Pose`,
+    #   `Quality`, and `Landmarks` - will always be returned. You can request
+    #   for specific facial attributes (in addition to the default list) - by
+    #   using \[`"DEFAULT", "FACE_OCCLUDED"`\] or just \[`"FACE_OCCLUDED"`\].
+    #   You can request for all facial attributes by using \[`"ALL"]`.
+    #   Requesting more attributes may increase response time.
     #
     #   If you provide both, `["ALL", "DEFAULT"]`, the service uses a logical
-    #   AND operator to determine which attributes to return (in this case,
-    #   all attributes).
+    #   "AND" operator to determine which attributes to return (in this
+    #   case, all attributes).
+    #
+    #   Note that while the FaceOccluded and EyeDirection attributes are
+    #   supported when using `DetectFaces`, they aren't supported when
+    #   analyzing videos with `StartFaceDetection` and `GetFaceDetection`.
     #
     # @return [Types::DetectFacesResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -2119,7 +2914,7 @@ module Aws::Rekognition
     #         version: "S3ObjectVersion",
     #       },
     #     },
-    #     attributes: ["DEFAULT"], # accepts DEFAULT, ALL
+    #     attributes: ["DEFAULT"], # accepts DEFAULT, ALL, AGE_RANGE, BEARD, EMOTIONS, EYE_DIRECTION, EYEGLASSES, EYES_OPEN, GENDER, MOUTH_OPEN, MUSTACHE, FACE_OCCLUDED, SMILE, SUNGLASSES
     #   })
     #
     # @example Response structure
@@ -2160,6 +2955,11 @@ module Aws::Rekognition
     #   resp.face_details[0].quality.brightness #=> Float
     #   resp.face_details[0].quality.sharpness #=> Float
     #   resp.face_details[0].confidence #=> Float
+    #   resp.face_details[0].face_occluded.value #=> Boolean
+    #   resp.face_details[0].face_occluded.confidence #=> Float
+    #   resp.face_details[0].eye_direction.yaw #=> Float
+    #   resp.face_details[0].eye_direction.pitch #=> Float
+    #   resp.face_details[0].eye_direction.confidence #=> Float
     #   resp.orientation_correction #=> String, one of "ROTATE_0", "ROTATE_90", "ROTATE_180", "ROTATE_270"
     #
     # @overload detect_faces(params = {})
@@ -2198,15 +2998,16 @@ module Aws::Rekognition
     # and exclusive filters. For more information on filtering see
     # [Detecting Labels in an Image][1].
     #
-    # You can specify `MinConfidence` to control the confidence threshold
-    # for the labels returned. The default is 55%. You can also add the
-    # `MaxLabels` parameter to limit the number of labels returned. The
-    # default and upper limit is 1000 labels.
+    # When getting labels, you can specify `MinConfidence` to control the
+    # confidence threshold for the labels returned. The default is 55%. You
+    # can also add the `MaxLabels` parameter to limit the number of labels
+    # returned. The default and upper limit is 1000 labels. These arguments
+    # are only valid when supplying GENERAL\_LABELS as a feature type.
     #
     # **Response Elements**
     #
     # For each object, scene, and concept the API returns one or more
-    # labels. The API returns the following types of information regarding
+    # labels. The API returns the following types of information about
     # labels:
     #
     # * Name - The name of the detected label.
@@ -2257,21 +3058,21 @@ module Aws::Rekognition
     # and a rock. The response includes all three labels, one for each
     # object, as well as the confidence in the label:
     #
-    # `\{Name: lighthouse, Confidence: 98.4629\}`
+    # `{Name: lighthouse, Confidence: 98.4629}`
     #
-    # `\{Name: rock,Confidence: 79.2097\}`
+    # `{Name: rock,Confidence: 79.2097}`
     #
-    # ` \{Name: sea,Confidence: 75.061\}`
+    # ` {Name: sea,Confidence: 75.061}`
     #
     # The list of labels can include multiple labels for the same object.
     # For example, if the input image shows a flower (for example, a tulip),
     # the operation might return the following three labels.
     #
-    # `\{Name: flower,Confidence: 99.0562\}`
+    # `{Name: flower,Confidence: 99.0562}`
     #
-    # `\{Name: plant,Confidence: 99.0562\}`
+    # `{Name: plant,Confidence: 99.0562}`
     #
-    # `\{Name: tulip,Confidence: 99.0562\}`
+    # `{Name: tulip,Confidence: 99.0562}`
     #
     # In this example, the detection algorithm more precisely identifies the
     # flower as a tulip.
@@ -2281,8 +3082,7 @@ module Aws::Rekognition
     #
     #  </note>
     #
-    # This is a stateless API operation. That is, the operation does not
-    # persist any data.
+    # This is a stateless API operation that doesn't return any data.
     #
     # This operation requires permissions to perform the
     # `rekognition:DetectLabels` action.
@@ -2305,7 +3105,8 @@ module Aws::Rekognition
     # @option params [Integer] :max_labels
     #   Maximum number of labels you want the service to return in the
     #   response. The service returns the specified number of highest
-    #   confidence labels.
+    #   confidence labels. Only valid when GENERAL\_LABELS is specified as a
+    #   feature type in the Feature input parameter.
     #
     # @option params [Float] :min_confidence
     #   Specifies the minimum confidence level for the labels to return.
@@ -2313,7 +3114,9 @@ module Aws::Rekognition
     #   than this specified value.
     #
     #   If `MinConfidence` is not specified, the operation returns labels with
-    #   a confidence values greater than or equal to 55 percent.
+    #   a confidence values greater than or equal to 55 percent. Only valid
+    #   when GENERAL\_LABELS is specified as a feature type in the Feature
+    #   input parameter.
     #
     # @option params [Array<String>] :features
     #   A list of the types of analysis to perform. Specifying GENERAL\_LABELS
@@ -2326,8 +3129,12 @@ module Aws::Rekognition
     #   image properties. Specified filters can be inclusive, exclusive, or a
     #   combination of both. Filters can be used for individual labels or
     #   label categories. The exact label names or label categories must be
-    #   supplied. For a full list of labels and label categories, see LINK
-    #   HERE.
+    #   supplied. For a full list of labels and label categories, see
+    #   [Detecting labels][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/rekognition/latest/dg/labels.html
     #
     # @return [Types::DetectLabelsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -2477,6 +3284,9 @@ module Aws::Rekognition
     # to call Amazon Rekognition operations, passing image bytes is not
     # supported. The image must be either a PNG or JPEG formatted file.
     #
+    # You can specify an adapter to use when retrieving label predictions by
+    # providing a `ProjectVersionArn` to the `ProjectVersion` argument.
+    #
     # @option params [required, Types::Image] :image
     #   The input image as base64-encoded bytes or an S3 object. If you use
     #   the AWS CLI to call Amazon Rekognition operations, passing
@@ -2499,11 +3309,18 @@ module Aws::Rekognition
     #   Sets up the configuration for human evaluation, including the
     #   FlowDefinition the image will be sent to.
     #
+    # @option params [String] :project_version
+    #   Identifier for the custom adapter. Expects the ProjectVersionArn as a
+    #   value. Use the CreateProject or CreateProjectVersion APIs to create a
+    #   custom adapter.
+    #
     # @return [Types::DetectModerationLabelsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::DetectModerationLabelsResponse#moderation_labels #moderation_labels} => Array&lt;Types::ModerationLabel&gt;
     #   * {Types::DetectModerationLabelsResponse#moderation_model_version #moderation_model_version} => String
     #   * {Types::DetectModerationLabelsResponse#human_loop_activation_output #human_loop_activation_output} => Types::HumanLoopActivationOutput
+    #   * {Types::DetectModerationLabelsResponse#project_version #project_version} => String
+    #   * {Types::DetectModerationLabelsResponse#content_types #content_types} => Array&lt;Types::ContentType&gt;
     #
     # @example Request syntax with placeholder values
     #
@@ -2524,6 +3341,7 @@ module Aws::Rekognition
     #         content_classifiers: ["FreeOfPersonallyIdentifiableInformation"], # accepts FreeOfPersonallyIdentifiableInformation, FreeOfAdultContent
     #       },
     #     },
+    #     project_version: "ProjectVersionId",
     #   })
     #
     # @example Response structure
@@ -2532,11 +3350,16 @@ module Aws::Rekognition
     #   resp.moderation_labels[0].confidence #=> Float
     #   resp.moderation_labels[0].name #=> String
     #   resp.moderation_labels[0].parent_name #=> String
+    #   resp.moderation_labels[0].taxonomy_level #=> Integer
     #   resp.moderation_model_version #=> String
     #   resp.human_loop_activation_output.human_loop_arn #=> String
     #   resp.human_loop_activation_output.human_loop_activation_reasons #=> Array
     #   resp.human_loop_activation_output.human_loop_activation_reasons[0] #=> String
     #   resp.human_loop_activation_output.human_loop_activation_conditions_evaluation_results #=> String
+    #   resp.project_version #=> String
+    #   resp.content_types #=> Array
+    #   resp.content_types[0].confidence #=> Float
+    #   resp.content_types[0].name #=> String
     #
     # @overload detect_moderation_labels(params = {})
     # @param [Hash] params ({})
@@ -2770,6 +3593,106 @@ module Aws::Rekognition
       req.send_request(options)
     end
 
+    # Removes the association between a `Face` supplied in an array of
+    # `FaceIds` and the User. If the User is not present already, then a
+    # `ResourceNotFound` exception is thrown. If successful, an array of
+    # faces that are disassociated from the User is returned. If a given
+    # face is already disassociated from the given UserID, it will be
+    # ignored and not be returned in the response. If a given face is
+    # already associated with a different User or not found in the
+    # collection it will be returned as part of
+    # `UnsuccessfulDisassociations`. You can remove 1 - 100 face IDs from a
+    # user at one time.
+    #
+    # @option params [required, String] :collection_id
+    #   The ID of an existing collection containing the UserID.
+    #
+    # @option params [required, String] :user_id
+    #   ID for the existing UserID.
+    #
+    # @option params [String] :client_request_token
+    #   Idempotent token used to identify the request to `DisassociateFaces`.
+    #   If you use the same token with multiple `DisassociateFaces` requests,
+    #   the same response is returned. Use ClientRequestToken to prevent the
+    #   same request from being processed more than once.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @option params [required, Array<String>] :face_ids
+    #   An array of face IDs to disassociate from the UserID.
+    #
+    # @return [Types::DisassociateFacesResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DisassociateFacesResponse#disassociated_faces #disassociated_faces} => Array&lt;Types::DisassociatedFace&gt;
+    #   * {Types::DisassociateFacesResponse#unsuccessful_face_disassociations #unsuccessful_face_disassociations} => Array&lt;Types::UnsuccessfulFaceDisassociation&gt;
+    #   * {Types::DisassociateFacesResponse#user_status #user_status} => String
+    #
+    #
+    # @example Example: DisassociateFaces
+    #
+    #   # Removes the association between a Face supplied in an array of FaceIds and the User.
+    #
+    #   resp = client.disassociate_faces({
+    #     client_request_token: "550e8400-e29b-41d4-a716-446655440003", 
+    #     collection_id: "MyCollection", 
+    #     face_ids: [
+    #       "f5817d37-94f6-4335-bfee-6cf79a3d806e", 
+    #       "c92265d4-5f9c-43af-a58e-12be0ce02bc3", 
+    #     ], 
+    #     user_id: "DemoUser", 
+    #   })
+    #
+    #   resp.to_h outputs the following:
+    #   {
+    #     disassociated_faces: [
+    #       {
+    #         face_id: "c92265d4-5f9c-43af-a58e-12be0ce02bc3", 
+    #       }, 
+    #     ], 
+    #     unsuccessful_face_disassociations: [
+    #       {
+    #         face_id: "f5817d37-94f6-4335-bfee-6cf79a3d806e", 
+    #         reasons: [
+    #           "ASSOCIATED_TO_A_DIFFERENT_USER", 
+    #         ], 
+    #         user_id: "demoUser1", 
+    #       }, 
+    #     ], 
+    #     user_status: "UPDATING", 
+    #   }
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.disassociate_faces({
+    #     collection_id: "CollectionId", # required
+    #     user_id: "UserId", # required
+    #     client_request_token: "ClientRequestToken",
+    #     face_ids: ["FaceId"], # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.disassociated_faces #=> Array
+    #   resp.disassociated_faces[0].face_id #=> String
+    #   resp.unsuccessful_face_disassociations #=> Array
+    #   resp.unsuccessful_face_disassociations[0].face_id #=> String
+    #   resp.unsuccessful_face_disassociations[0].user_id #=> String
+    #   resp.unsuccessful_face_disassociations[0].reasons #=> Array
+    #   resp.unsuccessful_face_disassociations[0].reasons[0] #=> String, one of "FACE_NOT_FOUND", "ASSOCIATED_TO_A_DIFFERENT_USER"
+    #   resp.user_status #=> String, one of "ACTIVE", "UPDATING", "CREATING", "CREATED"
+    #
+    # @overload disassociate_faces(params = {})
+    # @param [Hash] params ({})
+    def disassociate_faces(params = {}, options = {})
+      req = build_request(:disassociate_faces, params)
+      req.send_request(options)
+    end
+
+    # <note markdown="1"> This operation applies only to Amazon Rekognition Custom Labels.
+    #
+    #  </note>
+    #
     # Distributes the entries (images) in a training dataset across the
     # training dataset and the test dataset for a project.
     # `DistributeDatasetEntries` moves 20% of the training dataset images to
@@ -2796,6 +3719,26 @@ module Aws::Rekognition
     #   must be empty.
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    #
+    # @example Example: To distribute an Amazon Rekognition Custom Labels dataset
+    #
+    #   # Distributes an Amazon Rekognition Custom Labels training dataset to a test dataset.
+    #
+    #   resp = client.distribute_dataset_entries({
+    #     datasets: [
+    #       {
+    #         arn: "arn:aws:rekognition:us-east-1:111122223333:project/my-proj-2/dataset/train/1690564858106", 
+    #       }, 
+    #       {
+    #         arn: "arn:aws:rekognition:us-east-1:111122223333:project/my-proj-2/dataset/test/1690564858106", 
+    #       }, 
+    #     ], 
+    #   })
+    #
+    #   resp.to_h outputs the following:
+    #   {
+    #   }
     #
     # @example Request syntax with placeholder values
     #
@@ -2939,6 +3882,9 @@ module Aws::Rekognition
     #   * {Types::GetCelebrityRecognitionResponse#video_metadata #video_metadata} => Types::VideoMetadata
     #   * {Types::GetCelebrityRecognitionResponse#next_token #next_token} => String
     #   * {Types::GetCelebrityRecognitionResponse#celebrities #celebrities} => Array&lt;Types::CelebrityRecognition&gt;
+    #   * {Types::GetCelebrityRecognitionResponse#job_id #job_id} => String
+    #   * {Types::GetCelebrityRecognitionResponse#video #video} => Types::Video
+    #   * {Types::GetCelebrityRecognitionResponse#job_tag #job_tag} => String
     #
     # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
     #
@@ -3009,7 +3955,17 @@ module Aws::Rekognition
     #   resp.celebrities[0].celebrity.face.quality.brightness #=> Float
     #   resp.celebrities[0].celebrity.face.quality.sharpness #=> Float
     #   resp.celebrities[0].celebrity.face.confidence #=> Float
+    #   resp.celebrities[0].celebrity.face.face_occluded.value #=> Boolean
+    #   resp.celebrities[0].celebrity.face.face_occluded.confidence #=> Float
+    #   resp.celebrities[0].celebrity.face.eye_direction.yaw #=> Float
+    #   resp.celebrities[0].celebrity.face.eye_direction.pitch #=> Float
+    #   resp.celebrities[0].celebrity.face.eye_direction.confidence #=> Float
     #   resp.celebrities[0].celebrity.known_gender.type #=> String, one of "Male", "Female", "Nonbinary", "Unlisted"
+    #   resp.job_id #=> String
+    #   resp.video.s3_object.bucket #=> String
+    #   resp.video.s3_object.name #=> String
+    #   resp.video.s3_object.version #=> String
+    #   resp.job_tag #=> String
     #
     # @overload get_celebrity_recognition(params = {})
     # @param [Hash] params ({})
@@ -3086,6 +4042,11 @@ module Aws::Rekognition
     #   Within each label group, the array element are sorted by detection
     #   confidence. The default sort is by `TIMESTAMP`.
     #
+    # @option params [String] :aggregate_by
+    #   Defines how to aggregate results of the StartContentModeration
+    #   request. Default aggregation option is TIMESTAMPS. SEGMENTS mode
+    #   aggregates moderation labels over time.
+    #
     # @return [Types::GetContentModerationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::GetContentModerationResponse#job_status #job_status} => String
@@ -3094,6 +4055,10 @@ module Aws::Rekognition
     #   * {Types::GetContentModerationResponse#moderation_labels #moderation_labels} => Array&lt;Types::ContentModerationDetection&gt;
     #   * {Types::GetContentModerationResponse#next_token #next_token} => String
     #   * {Types::GetContentModerationResponse#moderation_model_version #moderation_model_version} => String
+    #   * {Types::GetContentModerationResponse#job_id #job_id} => String
+    #   * {Types::GetContentModerationResponse#video #video} => Types::Video
+    #   * {Types::GetContentModerationResponse#job_tag #job_tag} => String
+    #   * {Types::GetContentModerationResponse#get_request_metadata #get_request_metadata} => Types::GetContentModerationRequestMetadata
     #
     # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
     #
@@ -3104,6 +4069,7 @@ module Aws::Rekognition
     #     max_results: 1,
     #     next_token: "PaginationToken",
     #     sort_by: "NAME", # accepts NAME, TIMESTAMP
+    #     aggregate_by: "TIMESTAMPS", # accepts TIMESTAMPS, SEGMENTS
     #   })
     #
     # @example Response structure
@@ -3122,8 +4088,22 @@ module Aws::Rekognition
     #   resp.moderation_labels[0].moderation_label.confidence #=> Float
     #   resp.moderation_labels[0].moderation_label.name #=> String
     #   resp.moderation_labels[0].moderation_label.parent_name #=> String
+    #   resp.moderation_labels[0].moderation_label.taxonomy_level #=> Integer
+    #   resp.moderation_labels[0].start_timestamp_millis #=> Integer
+    #   resp.moderation_labels[0].end_timestamp_millis #=> Integer
+    #   resp.moderation_labels[0].duration_millis #=> Integer
+    #   resp.moderation_labels[0].content_types #=> Array
+    #   resp.moderation_labels[0].content_types[0].confidence #=> Float
+    #   resp.moderation_labels[0].content_types[0].name #=> String
     #   resp.next_token #=> String
     #   resp.moderation_model_version #=> String
+    #   resp.job_id #=> String
+    #   resp.video.s3_object.bucket #=> String
+    #   resp.video.s3_object.name #=> String
+    #   resp.video.s3_object.version #=> String
+    #   resp.job_tag #=> String
+    #   resp.get_request_metadata.sort_by #=> String, one of "NAME", "TIMESTAMP"
+    #   resp.get_request_metadata.aggregate_by #=> String, one of "TIMESTAMPS", "SEGMENTS"
     #
     # @overload get_content_moderation(params = {})
     # @param [Hash] params ({})
@@ -3156,6 +4136,9 @@ module Aws::Rekognition
     # `GetFaceDetection` and populate the `NextToken` request parameter with
     # the token value returned from the previous call to `GetFaceDetection`.
     #
+    # Note that for the `GetFaceDetection` operation, the returned values
+    # for `FaceOccluded` and `EyeDirection` will always be "null".
+    #
     # @option params [required, String] :job_id
     #   Unique identifier for the face detection job. The `JobId` is returned
     #   from `StartFaceDetection`.
@@ -3179,6 +4162,9 @@ module Aws::Rekognition
     #   * {Types::GetFaceDetectionResponse#video_metadata #video_metadata} => Types::VideoMetadata
     #   * {Types::GetFaceDetectionResponse#next_token #next_token} => String
     #   * {Types::GetFaceDetectionResponse#faces #faces} => Array&lt;Types::FaceDetection&gt;
+    #   * {Types::GetFaceDetectionResponse#job_id #job_id} => String
+    #   * {Types::GetFaceDetectionResponse#video #video} => Types::Video
+    #   * {Types::GetFaceDetectionResponse#job_tag #job_tag} => String
     #
     # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
     #
@@ -3239,11 +4225,82 @@ module Aws::Rekognition
     #   resp.faces[0].face.quality.brightness #=> Float
     #   resp.faces[0].face.quality.sharpness #=> Float
     #   resp.faces[0].face.confidence #=> Float
+    #   resp.faces[0].face.face_occluded.value #=> Boolean
+    #   resp.faces[0].face.face_occluded.confidence #=> Float
+    #   resp.faces[0].face.eye_direction.yaw #=> Float
+    #   resp.faces[0].face.eye_direction.pitch #=> Float
+    #   resp.faces[0].face.eye_direction.confidence #=> Float
+    #   resp.job_id #=> String
+    #   resp.video.s3_object.bucket #=> String
+    #   resp.video.s3_object.name #=> String
+    #   resp.video.s3_object.version #=> String
+    #   resp.job_tag #=> String
     #
     # @overload get_face_detection(params = {})
     # @param [Hash] params ({})
     def get_face_detection(params = {}, options = {})
       req = build_request(:get_face_detection, params)
+      req.send_request(options)
+    end
+
+    # Retrieves the results of a specific Face Liveness session. It requires
+    # the `sessionId` as input, which was created using
+    # `CreateFaceLivenessSession`. Returns the corresponding Face Liveness
+    # confidence score, a reference image that includes a face bounding box,
+    # and audit images that also contain face bounding boxes. The Face
+    # Liveness confidence score ranges from 0 to 100.
+    #
+    # The number of audit images returned by `GetFaceLivenessSessionResults`
+    # is defined by the `AuditImagesLimit` paramater when calling
+    # `CreateFaceLivenessSession`. Reference images are always returned when
+    # possible.
+    #
+    # @option params [required, String] :session_id
+    #   A unique 128-bit UUID. This is used to uniquely identify the session
+    #   and also acts as an idempotency token for all operations associated
+    #   with the session.
+    #
+    # @return [Types::GetFaceLivenessSessionResultsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetFaceLivenessSessionResultsResponse#session_id #session_id} => String
+    #   * {Types::GetFaceLivenessSessionResultsResponse#status #status} => String
+    #   * {Types::GetFaceLivenessSessionResultsResponse#confidence #confidence} => Float
+    #   * {Types::GetFaceLivenessSessionResultsResponse#reference_image #reference_image} => Types::AuditImage
+    #   * {Types::GetFaceLivenessSessionResultsResponse#audit_images #audit_images} => Array&lt;Types::AuditImage&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_face_liveness_session_results({
+    #     session_id: "LivenessSessionId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.session_id #=> String
+    #   resp.status #=> String, one of "CREATED", "IN_PROGRESS", "SUCCEEDED", "FAILED", "EXPIRED"
+    #   resp.confidence #=> Float
+    #   resp.reference_image.bytes #=> String
+    #   resp.reference_image.s3_object.bucket #=> String
+    #   resp.reference_image.s3_object.name #=> String
+    #   resp.reference_image.s3_object.version #=> String
+    #   resp.reference_image.bounding_box.width #=> Float
+    #   resp.reference_image.bounding_box.height #=> Float
+    #   resp.reference_image.bounding_box.left #=> Float
+    #   resp.reference_image.bounding_box.top #=> Float
+    #   resp.audit_images #=> Array
+    #   resp.audit_images[0].bytes #=> String
+    #   resp.audit_images[0].s3_object.bucket #=> String
+    #   resp.audit_images[0].s3_object.name #=> String
+    #   resp.audit_images[0].s3_object.version #=> String
+    #   resp.audit_images[0].bounding_box.width #=> Float
+    #   resp.audit_images[0].bounding_box.height #=> Float
+    #   resp.audit_images[0].bounding_box.left #=> Float
+    #   resp.audit_images[0].bounding_box.top #=> Float
+    #
+    # @overload get_face_liveness_session_results(params = {})
+    # @param [Hash] params ({})
+    def get_face_liveness_session_results(params = {}, options = {})
+      req = build_request(:get_face_liveness_session_results, params)
       req.send_request(options)
     end
 
@@ -3311,6 +4368,9 @@ module Aws::Rekognition
     #   * {Types::GetFaceSearchResponse#next_token #next_token} => String
     #   * {Types::GetFaceSearchResponse#video_metadata #video_metadata} => Types::VideoMetadata
     #   * {Types::GetFaceSearchResponse#persons #persons} => Array&lt;Types::PersonMatch&gt;
+    #   * {Types::GetFaceSearchResponse#job_id #job_id} => String
+    #   * {Types::GetFaceSearchResponse#video #video} => Types::Video
+    #   * {Types::GetFaceSearchResponse#job_tag #job_tag} => String
     #
     # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
     #
@@ -3377,6 +4437,11 @@ module Aws::Rekognition
     #   resp.persons[0].person.face.quality.brightness #=> Float
     #   resp.persons[0].person.face.quality.sharpness #=> Float
     #   resp.persons[0].person.face.confidence #=> Float
+    #   resp.persons[0].person.face.face_occluded.value #=> Boolean
+    #   resp.persons[0].person.face.face_occluded.confidence #=> Float
+    #   resp.persons[0].person.face.eye_direction.yaw #=> Float
+    #   resp.persons[0].person.face.eye_direction.pitch #=> Float
+    #   resp.persons[0].person.face.eye_direction.confidence #=> Float
     #   resp.persons[0].face_matches #=> Array
     #   resp.persons[0].face_matches[0].similarity #=> Float
     #   resp.persons[0].face_matches[0].face.face_id #=> String
@@ -3388,6 +4453,12 @@ module Aws::Rekognition
     #   resp.persons[0].face_matches[0].face.external_image_id #=> String
     #   resp.persons[0].face_matches[0].face.confidence #=> Float
     #   resp.persons[0].face_matches[0].face.index_faces_model_version #=> String
+    #   resp.persons[0].face_matches[0].face.user_id #=> String
+    #   resp.job_id #=> String
+    #   resp.video.s3_object.bucket #=> String
+    #   resp.video.s3_object.name #=> String
+    #   resp.video.s3_object.version #=> String
+    #   resp.job_tag #=> String
     #
     # @overload get_face_search(params = {})
     # @param [Hash] params ({})
@@ -3473,6 +4544,10 @@ module Aws::Rekognition
     # with the token value returned from the previous call to
     # `GetLabelDetection`.
     #
+    # If you are retrieving results while using the Amazon Simple
+    # Notification Service, note that you will receive an "ERROR"
+    # notification if the job encounters an issue.
+    #
     # @option params [required, String] :job_id
     #   Job identifier for the label detection operation for which you want
     #   results returned. You get the job identifer from an initial call to
@@ -3509,6 +4584,10 @@ module Aws::Rekognition
     #   * {Types::GetLabelDetectionResponse#next_token #next_token} => String
     #   * {Types::GetLabelDetectionResponse#labels #labels} => Array&lt;Types::LabelDetection&gt;
     #   * {Types::GetLabelDetectionResponse#label_model_version #label_model_version} => String
+    #   * {Types::GetLabelDetectionResponse#job_id #job_id} => String
+    #   * {Types::GetLabelDetectionResponse#video #video} => Types::Video
+    #   * {Types::GetLabelDetectionResponse#job_tag #job_tag} => String
+    #   * {Types::GetLabelDetectionResponse#get_request_metadata #get_request_metadata} => Types::GetLabelDetectionRequestMetadata
     #
     # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
     #
@@ -3562,11 +4641,124 @@ module Aws::Rekognition
     #   resp.labels[0].end_timestamp_millis #=> Integer
     #   resp.labels[0].duration_millis #=> Integer
     #   resp.label_model_version #=> String
+    #   resp.job_id #=> String
+    #   resp.video.s3_object.bucket #=> String
+    #   resp.video.s3_object.name #=> String
+    #   resp.video.s3_object.version #=> String
+    #   resp.job_tag #=> String
+    #   resp.get_request_metadata.sort_by #=> String, one of "NAME", "TIMESTAMP"
+    #   resp.get_request_metadata.aggregate_by #=> String, one of "TIMESTAMPS", "SEGMENTS"
     #
     # @overload get_label_detection(params = {})
     # @param [Hash] params ({})
     def get_label_detection(params = {}, options = {})
       req = build_request(:get_label_detection, params)
+      req.send_request(options)
+    end
+
+    # Retrieves the results for a given media analysis job. Takes a `JobId`
+    # returned by StartMediaAnalysisJob.
+    #
+    # @option params [required, String] :job_id
+    #   Unique identifier for the media analysis job for which you want to
+    #   retrieve results.
+    #
+    # @return [Types::GetMediaAnalysisJobResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetMediaAnalysisJobResponse#job_id #job_id} => String
+    #   * {Types::GetMediaAnalysisJobResponse#job_name #job_name} => String
+    #   * {Types::GetMediaAnalysisJobResponse#operations_config #operations_config} => Types::MediaAnalysisOperationsConfig
+    #   * {Types::GetMediaAnalysisJobResponse#status #status} => String
+    #   * {Types::GetMediaAnalysisJobResponse#failure_details #failure_details} => Types::MediaAnalysisJobFailureDetails
+    #   * {Types::GetMediaAnalysisJobResponse#creation_timestamp #creation_timestamp} => Time
+    #   * {Types::GetMediaAnalysisJobResponse#completion_timestamp #completion_timestamp} => Time
+    #   * {Types::GetMediaAnalysisJobResponse#input #input} => Types::MediaAnalysisInput
+    #   * {Types::GetMediaAnalysisJobResponse#output_config #output_config} => Types::MediaAnalysisOutputConfig
+    #   * {Types::GetMediaAnalysisJobResponse#kms_key_id #kms_key_id} => String
+    #   * {Types::GetMediaAnalysisJobResponse#results #results} => Types::MediaAnalysisResults
+    #   * {Types::GetMediaAnalysisJobResponse#manifest_summary #manifest_summary} => Types::MediaAnalysisManifestSummary
+    #
+    #
+    # @example Example: GetMediaAnalysisJob
+    #
+    #   # Retrieves the results for a given media analysis job.
+    #
+    #   resp = client.get_media_analysis_job({
+    #     job_id: "861a0645d98ef88efb75477628c011c04942d9d5f58faf2703c393c8cf8c1537", 
+    #   })
+    #
+    #   resp.to_h outputs the following:
+    #   {
+    #     completion_timestamp: Time.parse("2023-07-28T08:05:51.958000-07:00"), 
+    #     creation_timestamp: Time.parse("2023-07-28T08:05:51.958000-06:00"), 
+    #     input: {
+    #       s3_object: {
+    #         bucket: "input-bucket", 
+    #         name: "input-manifest.json", 
+    #       }, 
+    #     }, 
+    #     job_id: "861a0645d98ef88efb75477628c011c04942d9d5f58faf2703c393c8cf8c1537", 
+    #     job_name: "job-name", 
+    #     manifest_summary: {
+    #       s3_object: {
+    #         bucket: "output-bucket", 
+    #         name: "output-location/861a0645d98ef88efb75477628c011c04942d9d5f58faf2703c393c8cf8c1537-manifest-summary.json", 
+    #       }, 
+    #     }, 
+    #     operations_config: {
+    #       detect_moderation_labels: {
+    #         min_confidence: 50, 
+    #         project_version: "arn:aws:rekognition:us-east-1:111122223333:project/my-project/version/1/1690556751958", 
+    #       }, 
+    #     }, 
+    #     output_config: {
+    #       s3_bucket: "output-bucket", 
+    #       s3_key_prefix: "output-location", 
+    #     }, 
+    #     results: {
+    #       s3_object: {
+    #         bucket: "output-bucket", 
+    #         name: "output-location/861a0645d98ef88efb75477628c011c04942d9d5f58faf2703c393c8cf8c1537-results.jsonl", 
+    #       }, 
+    #     }, 
+    #     status: "SUCCEEDED", 
+    #   }
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_media_analysis_job({
+    #     job_id: "MediaAnalysisJobId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.job_id #=> String
+    #   resp.job_name #=> String
+    #   resp.operations_config.detect_moderation_labels.min_confidence #=> Float
+    #   resp.operations_config.detect_moderation_labels.project_version #=> String
+    #   resp.status #=> String, one of "CREATED", "QUEUED", "IN_PROGRESS", "SUCCEEDED", "FAILED"
+    #   resp.failure_details.code #=> String, one of "INTERNAL_ERROR", "INVALID_S3_OBJECT", "INVALID_MANIFEST", "INVALID_OUTPUT_CONFIG", "INVALID_KMS_KEY", "ACCESS_DENIED", "RESOURCE_NOT_FOUND", "RESOURCE_NOT_READY", "THROTTLED"
+    #   resp.failure_details.message #=> String
+    #   resp.creation_timestamp #=> Time
+    #   resp.completion_timestamp #=> Time
+    #   resp.input.s3_object.bucket #=> String
+    #   resp.input.s3_object.name #=> String
+    #   resp.input.s3_object.version #=> String
+    #   resp.output_config.s3_bucket #=> String
+    #   resp.output_config.s3_key_prefix #=> String
+    #   resp.kms_key_id #=> String
+    #   resp.results.s3_object.bucket #=> String
+    #   resp.results.s3_object.name #=> String
+    #   resp.results.s3_object.version #=> String
+    #   resp.results.model_versions.moderation #=> String
+    #   resp.manifest_summary.s3_object.bucket #=> String
+    #   resp.manifest_summary.s3_object.name #=> String
+    #   resp.manifest_summary.s3_object.version #=> String
+    #
+    # @overload get_media_analysis_job(params = {})
+    # @param [Hash] params ({})
+    def get_media_analysis_job(params = {}, options = {})
+      req = build_request(:get_media_analysis_job, params)
       req.send_request(options)
     end
 
@@ -3639,6 +4831,9 @@ module Aws::Rekognition
     #   * {Types::GetPersonTrackingResponse#video_metadata #video_metadata} => Types::VideoMetadata
     #   * {Types::GetPersonTrackingResponse#next_token #next_token} => String
     #   * {Types::GetPersonTrackingResponse#persons #persons} => Array&lt;Types::PersonDetection&gt;
+    #   * {Types::GetPersonTrackingResponse#job_id #job_id} => String
+    #   * {Types::GetPersonTrackingResponse#video #video} => Types::Video
+    #   * {Types::GetPersonTrackingResponse#job_tag #job_tag} => String
     #
     # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
     #
@@ -3705,6 +4900,16 @@ module Aws::Rekognition
     #   resp.persons[0].person.face.quality.brightness #=> Float
     #   resp.persons[0].person.face.quality.sharpness #=> Float
     #   resp.persons[0].person.face.confidence #=> Float
+    #   resp.persons[0].person.face.face_occluded.value #=> Boolean
+    #   resp.persons[0].person.face.face_occluded.confidence #=> Float
+    #   resp.persons[0].person.face.eye_direction.yaw #=> Float
+    #   resp.persons[0].person.face.eye_direction.pitch #=> Float
+    #   resp.persons[0].person.face.eye_direction.confidence #=> Float
+    #   resp.job_id #=> String
+    #   resp.video.s3_object.bucket #=> String
+    #   resp.video.s3_object.name #=> String
+    #   resp.video.s3_object.version #=> String
+    #   resp.job_tag #=> String
     #
     # @overload get_person_tracking(params = {})
     # @param [Hash] params ({})
@@ -3772,6 +4977,9 @@ module Aws::Rekognition
     #   * {Types::GetSegmentDetectionResponse#next_token #next_token} => String
     #   * {Types::GetSegmentDetectionResponse#segments #segments} => Array&lt;Types::SegmentDetection&gt;
     #   * {Types::GetSegmentDetectionResponse#selected_segment_types #selected_segment_types} => Array&lt;Types::SegmentTypeInfo&gt;
+    #   * {Types::GetSegmentDetectionResponse#job_id #job_id} => String
+    #   * {Types::GetSegmentDetectionResponse#video #video} => Types::Video
+    #   * {Types::GetSegmentDetectionResponse#job_tag #job_tag} => String
     #
     # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
     #
@@ -3819,6 +5027,11 @@ module Aws::Rekognition
     #   resp.selected_segment_types #=> Array
     #   resp.selected_segment_types[0].type #=> String, one of "TECHNICAL_CUE", "SHOT"
     #   resp.selected_segment_types[0].model_version #=> String
+    #   resp.job_id #=> String
+    #   resp.video.s3_object.bucket #=> String
+    #   resp.video.s3_object.name #=> String
+    #   resp.video.s3_object.version #=> String
+    #   resp.job_tag #=> String
     #
     # @overload get_segment_detection(params = {})
     # @param [Hash] params ({})
@@ -3842,7 +5055,7 @@ module Aws::Rekognition
     # `StartLabelDetection`.
     #
     # `GetTextDetection` returns an array of detected text
-    # (`TextDetections`) sorted by the time the text was detected, up to 50
+    # (`TextDetections`) sorted by the time the text was detected, up to 100
     # words per frame of video.
     #
     # Each element of the array includes the detected text, the precentage
@@ -3881,6 +5094,9 @@ module Aws::Rekognition
     #   * {Types::GetTextDetectionResponse#text_detections #text_detections} => Array&lt;Types::TextDetectionResult&gt;
     #   * {Types::GetTextDetectionResponse#next_token #next_token} => String
     #   * {Types::GetTextDetectionResponse#text_model_version #text_model_version} => String
+    #   * {Types::GetTextDetectionResponse#job_id #job_id} => String
+    #   * {Types::GetTextDetectionResponse#video #video} => Types::Video
+    #   * {Types::GetTextDetectionResponse#job_tag #job_tag} => String
     #
     # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
     #
@@ -3919,6 +5135,11 @@ module Aws::Rekognition
     #   resp.text_detections[0].text_detection.geometry.polygon[0].y #=> Float
     #   resp.next_token #=> String
     #   resp.text_model_version #=> String
+    #   resp.job_id #=> String
+    #   resp.video.s3_object.bucket #=> String
+    #   resp.video.s3_object.name #=> String
+    #   resp.video.s3_object.version #=> String
+    #   resp.job_tag #=> String
     #
     # @overload get_text_detection(params = {})
     # @param [Hash] params ({})
@@ -4015,13 +5236,15 @@ module Aws::Rekognition
     #
     # * An image ID, `ImageId`, assigned by the service for the input image.
     #
-    # If you request all facial attributes (by using the
-    # `detectionAttributes` parameter), Amazon Rekognition returns detailed
-    # facial attributes, such as facial landmarks (for example, location of
-    # eye and mouth) and other facial attributes. If you provide the same
-    # image, specify the same collection, and use the same external ID in
-    # the `IndexFaces` operation, Amazon Rekognition doesn't save duplicate
-    # face metadata.
+    # If you request `ALL` or specific facial attributes (e.g.,
+    # `FACE_OCCLUDED`) by using the detectionAttributes parameter, Amazon
+    # Rekognition returns detailed facial attributes, such as facial
+    # landmarks (for example, location of eye and mouth), facial occlusion,
+    # and other facial attributes.
+    #
+    # If you provide the same image, specify the same collection, and use
+    # the same external ID in the `IndexFaces` operation, Amazon Rekognition
+    # doesn't save duplicate face metadata.
     #
     #
     #
@@ -4051,13 +5274,13 @@ module Aws::Rekognition
     #   The ID you want to assign to all the faces detected in the image.
     #
     # @option params [Array<String>] :detection_attributes
-    #   An array of facial attributes that you want to be returned. This can
-    #   be the default list of attributes or all attributes. If you don't
-    #   specify a value for `Attributes` or if you specify `["DEFAULT"]`, the
-    #   API returns the following subset of facial attributes: `BoundingBox`,
-    #   `Confidence`, `Pose`, `Quality`, and `Landmarks`. If you provide
-    #   `["ALL"]`, all facial attributes are returned, but the operation takes
-    #   longer to complete.
+    #   An array of facial attributes you want to be returned. A `DEFAULT`
+    #   subset of facial attributes - `BoundingBox`, `Confidence`, `Pose`,
+    #   `Quality`, and `Landmarks` - will always be returned. You can request
+    #   for specific facial attributes (in addition to the default list) - by
+    #   using `["DEFAULT", "FACE_OCCLUDED"]` or just `["FACE_OCCLUDED"]`. You
+    #   can request for all facial attributes by using `["ALL"]`. Requesting
+    #   more attributes may increase response time.
     #
     #   If you provide both, `["ALL", "DEFAULT"]`, the service uses a logical
     #   AND operator to determine which attributes to return (in this case,
@@ -4258,7 +5481,7 @@ module Aws::Rekognition
     #       },
     #     },
     #     external_image_id: "ExternalImageId",
-    #     detection_attributes: ["DEFAULT"], # accepts DEFAULT, ALL
+    #     detection_attributes: ["DEFAULT"], # accepts DEFAULT, ALL, AGE_RANGE, BEARD, EMOTIONS, EYE_DIRECTION, EYEGLASSES, EYES_OPEN, GENDER, MOUTH_OPEN, MUSTACHE, FACE_OCCLUDED, SMILE, SUNGLASSES
     #     max_faces: 1,
     #     quality_filter: "NONE", # accepts NONE, AUTO, LOW, MEDIUM, HIGH
     #   })
@@ -4275,6 +5498,7 @@ module Aws::Rekognition
     #   resp.face_records[0].face.external_image_id #=> String
     #   resp.face_records[0].face.confidence #=> Float
     #   resp.face_records[0].face.index_faces_model_version #=> String
+    #   resp.face_records[0].face.user_id #=> String
     #   resp.face_records[0].face_detail.bounding_box.width #=> Float
     #   resp.face_records[0].face_detail.bounding_box.height #=> Float
     #   resp.face_records[0].face_detail.bounding_box.left #=> Float
@@ -4310,6 +5534,11 @@ module Aws::Rekognition
     #   resp.face_records[0].face_detail.quality.brightness #=> Float
     #   resp.face_records[0].face_detail.quality.sharpness #=> Float
     #   resp.face_records[0].face_detail.confidence #=> Float
+    #   resp.face_records[0].face_detail.face_occluded.value #=> Boolean
+    #   resp.face_records[0].face_detail.face_occluded.confidence #=> Float
+    #   resp.face_records[0].face_detail.eye_direction.yaw #=> Float
+    #   resp.face_records[0].face_detail.eye_direction.pitch #=> Float
+    #   resp.face_records[0].face_detail.eye_direction.confidence #=> Float
     #   resp.orientation_correction #=> String, one of "ROTATE_0", "ROTATE_90", "ROTATE_180", "ROTATE_270"
     #   resp.face_model_version #=> String
     #   resp.unindexed_faces #=> Array
@@ -4350,6 +5579,11 @@ module Aws::Rekognition
     #   resp.unindexed_faces[0].face_detail.quality.brightness #=> Float
     #   resp.unindexed_faces[0].face_detail.quality.sharpness #=> Float
     #   resp.unindexed_faces[0].face_detail.confidence #=> Float
+    #   resp.unindexed_faces[0].face_detail.face_occluded.value #=> Boolean
+    #   resp.unindexed_faces[0].face_detail.face_occluded.confidence #=> Float
+    #   resp.unindexed_faces[0].face_detail.eye_direction.yaw #=> Float
+    #   resp.unindexed_faces[0].face_detail.eye_direction.pitch #=> Float
+    #   resp.unindexed_faces[0].face_detail.eye_direction.confidence #=> Float
     #
     # @overload index_faces(params = {})
     # @param [Hash] params ({})
@@ -4419,6 +5653,10 @@ module Aws::Rekognition
       req.send_request(options)
     end
 
+    # <note markdown="1"> This operation applies only to Amazon Rekognition Custom Labels.
+    #
+    #  </note>
+    #
     # Lists the entries (images) within a dataset. An entry is a JSON Line
     # that contains the information for a single image, including the image
     # location, assigned labels, and object location bounding boxes. For
@@ -4486,6 +5724,31 @@ module Aws::Rekognition
     #
     # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
     #
+    #
+    # @example Example: To list the entries in an Amazon Rekognition Custom Labels dataset
+    #
+    #   # Lists the JSON line entries in an Amazon Rekognition Custom Labels dataset.
+    #
+    #   resp = client.list_dataset_entries({
+    #     contains_labels: [
+    #       "camellia", 
+    #     ], 
+    #     dataset_arn: "arn:aws:rekognition:us-east-1:111122223333:project/my-proj-2/dataset/train/1690564858106", 
+    #     has_errors: true, 
+    #     labeled: true, 
+    #     max_results: 100, 
+    #     next_token: "", 
+    #     source_ref_contains: "camellia4.jpg", 
+    #   })
+    #
+    #   resp.to_h outputs the following:
+    #   {
+    #     dataset_entries: [
+    #       "{\"source-ref\":\"s3://custom-labels-console-us-east-1-1111111111/assets/flowers_1_train_dataset/camellia4.jpg\",\"camellia\":1,\"camellia-metadata\":{\"confidence\":1,\"job-name\":\"labeling-job/camellia\",\"class-name\":\"camellia\",\"human-annotated\":\"yes\",\"creation-date\":\"2021-07-11T03:32:13.456Z\",\"type\":\"groundtruth/image-classification\"},\"with_leaves\":1,\"with_leaves-metadata\":{\"confidence\":1,\"job-name\":\"labeling-job/with_leaves\",\"class-name\":\"with_leaves\",\"human-annotated\":\"yes\",\"creation-date\":\"2021-07-11T03:32:13.456Z\",\"type\":\"groundtruth/image-classification\"},\"cl-metadata\":{\"is_labeled\":true}}", 
+    #     ], 
+    #     next_token: "", 
+    #   }
+    #
     # @example Request syntax with placeholder values
     #
     #   resp = client.list_dataset_entries({
@@ -4511,6 +5774,10 @@ module Aws::Rekognition
       req.send_request(options)
     end
 
+    # <note markdown="1"> This operation applies only to Amazon Rekognition Custom Labels.
+    #
+    #  </note>
+    #
     # Lists the labels in a dataset. Amazon Rekognition Custom Labels uses
     # labels to describe images. For more information, see [Labeling
     # images][1].
@@ -4544,6 +5811,41 @@ module Aws::Rekognition
     #   * {Types::ListDatasetLabelsResponse#next_token #next_token} => String
     #
     # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    #
+    # @example Example: To list the entries in an Amazon Rekognition Custom Labels dataset
+    #
+    #   # Lists the JSON line entries in an Amazon Rekognition Custom Labels dataset.
+    #
+    #   resp = client.list_dataset_labels({
+    #     dataset_arn: "arn:aws:rekognition:us-east-1:111122223333:project/my-proj-2/dataset/train/1690564858106", 
+    #     max_results: 100, 
+    #     next_token: "", 
+    #   })
+    #
+    #   resp.to_h outputs the following:
+    #   {
+    #     dataset_label_descriptions: [
+    #       {
+    #         label_name: "camellia", 
+    #         label_stats: {
+    #           entry_count: 1, 
+    #         }, 
+    #       }, 
+    #       {
+    #         label_name: "with_leaves", 
+    #         label_stats: {
+    #           entry_count: 2, 
+    #         }, 
+    #       }, 
+    #       {
+    #         label_name: "mediterranean_spurge", 
+    #         label_stats: {
+    #           entry_count: 1, 
+    #         }, 
+    #       }, 
+    #     ], 
+    #   }
     #
     # @example Request syntax with placeholder values
     #
@@ -4589,6 +5891,14 @@ module Aws::Rekognition
     # @option params [Integer] :max_results
     #   Maximum number of faces to return.
     #
+    # @option params [String] :user_id
+    #   An array of user IDs to filter results with when listing faces in a
+    #   collection.
+    #
+    # @option params [Array<String>] :face_ids
+    #   An array of face IDs to filter results with when listing faces in a
+    #   collection.
+    #
     # @return [Types::ListFacesResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::ListFacesResponse#faces #faces} => Array&lt;Types::Face&gt;
@@ -4609,127 +5919,44 @@ module Aws::Rekognition
     #
     #   resp.to_h outputs the following:
     #   {
+    #     face_model_version: "6.0", 
     #     faces: [
     #       {
     #         bounding_box: {
-    #           height: 0.18000000715255737, 
-    #           left: 0.5555559992790222, 
-    #           top: 0.336667001247406, 
-    #           width: 0.23999999463558197, 
+    #           height: 0.056759100407361984, 
+    #           left: 0.3453829884529114, 
+    #           top: 0.36568498611450195, 
+    #           width: 0.03177810087800026, 
     #         }, 
-    #         confidence: 100, 
-    #         face_id: "1c62e8b5-69a7-5b7d-b3cd-db4338a8a7e7", 
-    #         image_id: "147fdf82-7a71-52cf-819b-e786c7b9746e", 
+    #         confidence: 99.76940155029297, 
+    #         face_id: "c92265d4-5f9c-43af-a58e-12be0ce02bc3", 
+    #         image_id: "56a0ca74-1c83-39dd-b363-051a64168a65", 
+    #         index_faces_model_version: "6.0", 
+    #         user_id: "demoUser2", 
     #       }, 
     #       {
     #         bounding_box: {
-    #           height: 0.16555599868297577, 
-    #           left: 0.30963000655174255, 
-    #           top: 0.7066670060157776, 
-    #           width: 0.22074100375175476, 
+    #           height: 0.06347999721765518, 
+    #           left: 0.5160620212554932, 
+    #           top: 0.6080359816551208, 
+    #           width: 0.03254450112581253, 
     #         }, 
-    #         confidence: 100, 
-    #         face_id: "29a75abe-397b-5101-ba4f-706783b2246c", 
-    #         image_id: "147fdf82-7a71-52cf-819b-e786c7b9746e", 
+    #         confidence: 99.94369506835938, 
+    #         face_id: "851cb847-dccc-4fea-9309-9f4805967855", 
+    #         image_id: "a8aed589-ceec-35f7-9c04-82e0b546b024", 
+    #         index_faces_model_version: "6.0", 
     #       }, 
     #       {
     #         bounding_box: {
-    #           height: 0.3234420120716095, 
-    #           left: 0.3233329951763153, 
-    #           top: 0.5, 
-    #           width: 0.24222199618816376, 
+    #           height: 0.05266290158033371, 
+    #           left: 0.6513839960098267, 
+    #           top: 0.4218429923057556, 
+    #           width: 0.03094629943370819, 
     #         }, 
-    #         confidence: 99.99829864501953, 
-    #         face_id: "38271d79-7bc2-5efb-b752-398a8d575b85", 
-    #         image_id: "d5631190-d039-54e4-b267-abd22c8647c5", 
-    #       }, 
-    #       {
-    #         bounding_box: {
-    #           height: 0.03555560111999512, 
-    #           left: 0.37388700246810913, 
-    #           top: 0.2477779984474182, 
-    #           width: 0.04747769981622696, 
-    #         }, 
-    #         confidence: 99.99210357666016, 
-    #         face_id: "3b01bef0-c883-5654-ba42-d5ad28b720b3", 
-    #         image_id: "812d9f04-86f9-54fc-9275-8d0dcbcb6784", 
-    #       }, 
-    #       {
-    #         bounding_box: {
-    #           height: 0.05333330109715462, 
-    #           left: 0.2937690019607544, 
-    #           top: 0.35666701197624207, 
-    #           width: 0.07121659815311432, 
-    #         }, 
-    #         confidence: 99.99919891357422, 
-    #         face_id: "4839a608-49d0-566c-8301-509d71b534d1", 
-    #         image_id: "812d9f04-86f9-54fc-9275-8d0dcbcb6784", 
-    #       }, 
-    #       {
-    #         bounding_box: {
-    #           height: 0.3249259889125824, 
-    #           left: 0.5155559778213501, 
-    #           top: 0.1513350009918213, 
-    #           width: 0.24333299696445465, 
-    #         }, 
-    #         confidence: 99.99949645996094, 
-    #         face_id: "70008e50-75e4-55d0-8e80-363fb73b3a14", 
-    #         image_id: "d5631190-d039-54e4-b267-abd22c8647c5", 
-    #       }, 
-    #       {
-    #         bounding_box: {
-    #           height: 0.03777780011296272, 
-    #           left: 0.7002969980239868, 
-    #           top: 0.18777799606323242, 
-    #           width: 0.05044509842991829, 
-    #         }, 
-    #         confidence: 99.92639923095703, 
-    #         face_id: "7f5f88ed-d684-5a88-b0df-01e4a521552b", 
-    #         image_id: "812d9f04-86f9-54fc-9275-8d0dcbcb6784", 
-    #       }, 
-    #       {
-    #         bounding_box: {
-    #           height: 0.05555560067296028, 
-    #           left: 0.13946600258350372, 
-    #           top: 0.46333301067352295, 
-    #           width: 0.07270029932260513, 
-    #         }, 
-    #         confidence: 99.99469757080078, 
-    #         face_id: "895b4e2c-81de-5902-a4bd-d1792bda00b2", 
-    #         image_id: "812d9f04-86f9-54fc-9275-8d0dcbcb6784", 
-    #       }, 
-    #       {
-    #         bounding_box: {
-    #           height: 0.3259260058403015, 
-    #           left: 0.5144439935684204, 
-    #           top: 0.15111100673675537, 
-    #           width: 0.24444399774074554, 
-    #         }, 
-    #         confidence: 99.99949645996094, 
-    #         face_id: "8be04dba-4e58-520d-850e-9eae4af70eb2", 
-    #         image_id: "465f4e93-763e-51d0-b030-b9667a2d94b1", 
-    #       }, 
-    #       {
-    #         bounding_box: {
-    #           height: 0.18888899683952332, 
-    #           left: 0.3783380091190338, 
-    #           top: 0.2355560064315796, 
-    #           width: 0.25222599506378174, 
-    #         }, 
-    #         confidence: 99.9999008178711, 
-    #         face_id: "908544ad-edc3-59df-8faf-6a87cc256cf5", 
-    #         image_id: "3c731605-d772-541a-a5e7-0375dbc68a07", 
-    #       }, 
-    #       {
-    #         bounding_box: {
-    #           height: 0.33481499552726746, 
-    #           left: 0.31888899207115173, 
-    #           top: 0.49333301186561584, 
-    #           width: 0.25, 
-    #         }, 
-    #         confidence: 99.99909973144531, 
-    #         face_id: "ff43d742-0c13-5d16-a3e8-03d3f58e980b", 
-    #         image_id: "465f4e93-763e-51d0-b030-b9667a2d94b1", 
+    #         confidence: 99.82969665527344, 
+    #         face_id: "c0eb3b65-24a0-41e1-b23a-1908b1aaeac1", 
+    #         image_id: "56a0ca74-1c83-39dd-b363-051a64168a65", 
+    #         index_faces_model_version: "6.0", 
     #       }, 
     #     ], 
     #   }
@@ -4740,6 +5967,8 @@ module Aws::Rekognition
     #     collection_id: "CollectionId", # required
     #     next_token: "PaginationToken",
     #     max_results: 1,
+    #     user_id: "UserId",
+    #     face_ids: ["FaceId"],
     #   })
     #
     # @example Response structure
@@ -4754,6 +5983,7 @@ module Aws::Rekognition
     #   resp.faces[0].external_image_id #=> String
     #   resp.faces[0].confidence #=> Float
     #   resp.faces[0].index_faces_model_version #=> String
+    #   resp.faces[0].user_id #=> String
     #   resp.next_token #=> String
     #   resp.face_model_version #=> String
     #
@@ -4764,10 +5994,127 @@ module Aws::Rekognition
       req.send_request(options)
     end
 
+    # Returns a list of media analysis jobs. Results are sorted by
+    # `CreationTimestamp` in descending order.
+    #
+    # @option params [String] :next_token
+    #   Pagination token, if the previous response was incomplete.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return per paginated call. The
+    #   largest value user can specify is 100. If user specifies a value
+    #   greater than 100, an `InvalidParameterException` error occurs. The
+    #   default value is 100.
+    #
+    # @return [Types::ListMediaAnalysisJobsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListMediaAnalysisJobsResponse#next_token #next_token} => String
+    #   * {Types::ListMediaAnalysisJobsResponse#media_analysis_jobs #media_analysis_jobs} => Array&lt;Types::MediaAnalysisJobDescription&gt;
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    #
+    # @example Example: ListMediaAnalysisJobs
+    #
+    #   # Returns a list of media analysis jobs.
+    #
+    #   resp = client.list_media_analysis_jobs({
+    #     max_results: 10, 
+    #   })
+    #
+    #   resp.to_h outputs the following:
+    #   {
+    #     media_analysis_jobs: [
+    #       {
+    #         completion_timestamp: Time.parse("2023-07-28T08:05:51.958000-07:00"), 
+    #         creation_timestamp: Time.parse("2023-07-28T08:05:51.958000-06:00"), 
+    #         input: {
+    #           s3_object: {
+    #             bucket: "input-bucket", 
+    #             name: "input-manifest.json", 
+    #           }, 
+    #         }, 
+    #         job_id: "861a0645d98ef88efb75477628c011c04942d9d5f58faf2703c393c8cf8c1537", 
+    #         job_name: "job-name", 
+    #         manifest_summary: {
+    #           s3_object: {
+    #             bucket: "output-bucket", 
+    #             name: "output-location/861a0645d98ef88efb75477628c011c04942d9d5f58faf2703c393c8cf8c1537-manifest-summary.json", 
+    #           }, 
+    #         }, 
+    #         operations_config: {
+    #           detect_moderation_labels: {
+    #             min_confidence: 50, 
+    #             project_version: "arn:aws:rekognition:us-east-1:111122223333:project/my-project/version/1/1690556751958", 
+    #           }, 
+    #         }, 
+    #         output_config: {
+    #           s3_bucket: "output-bucket", 
+    #           s3_key_prefix: "output-location", 
+    #         }, 
+    #         results: {
+    #           s3_object: {
+    #             bucket: "output-bucket", 
+    #             name: "output-location/861a0645d98ef88efb75477628c011c04942d9d5f58faf2703c393c8cf8c1537-results.jsonl", 
+    #           }, 
+    #         }, 
+    #         status: "SUCCEEDED", 
+    #       }, 
+    #     ], 
+    #   }
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_media_analysis_jobs({
+    #     next_token: "ExtendedPaginationToken",
+    #     max_results: 1,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.next_token #=> String
+    #   resp.media_analysis_jobs #=> Array
+    #   resp.media_analysis_jobs[0].job_id #=> String
+    #   resp.media_analysis_jobs[0].job_name #=> String
+    #   resp.media_analysis_jobs[0].operations_config.detect_moderation_labels.min_confidence #=> Float
+    #   resp.media_analysis_jobs[0].operations_config.detect_moderation_labels.project_version #=> String
+    #   resp.media_analysis_jobs[0].status #=> String, one of "CREATED", "QUEUED", "IN_PROGRESS", "SUCCEEDED", "FAILED"
+    #   resp.media_analysis_jobs[0].failure_details.code #=> String, one of "INTERNAL_ERROR", "INVALID_S3_OBJECT", "INVALID_MANIFEST", "INVALID_OUTPUT_CONFIG", "INVALID_KMS_KEY", "ACCESS_DENIED", "RESOURCE_NOT_FOUND", "RESOURCE_NOT_READY", "THROTTLED"
+    #   resp.media_analysis_jobs[0].failure_details.message #=> String
+    #   resp.media_analysis_jobs[0].creation_timestamp #=> Time
+    #   resp.media_analysis_jobs[0].completion_timestamp #=> Time
+    #   resp.media_analysis_jobs[0].input.s3_object.bucket #=> String
+    #   resp.media_analysis_jobs[0].input.s3_object.name #=> String
+    #   resp.media_analysis_jobs[0].input.s3_object.version #=> String
+    #   resp.media_analysis_jobs[0].output_config.s3_bucket #=> String
+    #   resp.media_analysis_jobs[0].output_config.s3_key_prefix #=> String
+    #   resp.media_analysis_jobs[0].kms_key_id #=> String
+    #   resp.media_analysis_jobs[0].results.s3_object.bucket #=> String
+    #   resp.media_analysis_jobs[0].results.s3_object.name #=> String
+    #   resp.media_analysis_jobs[0].results.s3_object.version #=> String
+    #   resp.media_analysis_jobs[0].results.model_versions.moderation #=> String
+    #   resp.media_analysis_jobs[0].manifest_summary.s3_object.bucket #=> String
+    #   resp.media_analysis_jobs[0].manifest_summary.s3_object.name #=> String
+    #   resp.media_analysis_jobs[0].manifest_summary.s3_object.version #=> String
+    #
+    # @overload list_media_analysis_jobs(params = {})
+    # @param [Hash] params ({})
+    def list_media_analysis_jobs(params = {}, options = {})
+      req = build_request(:list_media_analysis_jobs, params)
+      req.send_request(options)
+    end
+
+    # <note markdown="1"> This operation applies only to Amazon Rekognition Custom Labels.
+    #
+    #  </note>
+    #
     # Gets a list of the project policies attached to a project.
     #
     # To attach a project policy to a project, call PutProjectPolicy. To
     # remove a project policy from a project, call DeleteProjectPolicy.
+    #
+    # This operation requires permissions to perform the
+    # `rekognition:ListProjectPolicies` action.
     #
     # @option params [required, String] :project_arn
     #   The ARN of the project for which you want to list the project
@@ -4916,11 +6263,85 @@ module Aws::Rekognition
       req.send_request(options)
     end
 
+    # Returns metadata of the User such as `UserID` in the specified
+    # collection. Anonymous User (to reserve faces without any identity) is
+    # not returned as part of this request. The results are sorted by system
+    # generated primary key ID. If the response is truncated, `NextToken` is
+    # returned in the response that can be used in the subsequent request to
+    # retrieve the next set of identities.
+    #
+    # @option params [required, String] :collection_id
+    #   The ID of an existing collection.
+    #
+    # @option params [Integer] :max_results
+    #   Maximum number of UsersID to return.
+    #
+    # @option params [String] :next_token
+    #   Pagingation token to receive the next set of UsersID.
+    #
+    # @return [Types::ListUsersResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListUsersResponse#users #users} => Array&lt;Types::User&gt;
+    #   * {Types::ListUsersResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    #
+    # @example Example: ListUsers
+    #
+    #   # Returns metadata of the User such as UserID in the specified collection.
+    #
+    #   resp = client.list_users({
+    #     collection_id: "MyCollection", 
+    #   })
+    #
+    #   resp.to_h outputs the following:
+    #   {
+    #     next_token: "MGYZLAHX1T5a....", 
+    #     users: [
+    #       {
+    #         user_id: "demoUser4", 
+    #         user_status: "CREATED", 
+    #       }, 
+    #       {
+    #         user_id: "demoUser2", 
+    #         user_status: "CREATED", 
+    #       }, 
+    #     ], 
+    #   }
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_users({
+    #     collection_id: "CollectionId", # required
+    #     max_results: 1,
+    #     next_token: "PaginationToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.users #=> Array
+    #   resp.users[0].user_id #=> String
+    #   resp.users[0].user_status #=> String, one of "ACTIVE", "UPDATING", "CREATING", "CREATED"
+    #   resp.next_token #=> String
+    #
+    # @overload list_users(params = {})
+    # @param [Hash] params ({})
+    def list_users(params = {}, options = {})
+      req = build_request(:list_users, params)
+      req.send_request(options)
+    end
+
+    # <note markdown="1"> This operation applies only to Amazon Rekognition Custom Labels.
+    #
+    #  </note>
+    #
     # Attaches a project policy to a Amazon Rekognition Custom Labels
     # project in a trusting AWS account. A project policy specifies that a
     # trusted AWS account can copy a model version from a trusting AWS
     # account to a project in the trusted AWS account. To copy a model
-    # version you use the CopyProjectVersion operation.
+    # version you use the CopyProjectVersion operation. Only applies to
+    # Custom Labels projects.
     #
     # For more information about the format of a project policy document,
     # see Attaching a project policy (SDK) in the *Amazon Rekognition Custom
@@ -4936,6 +6357,9 @@ module Aws::Rekognition
     # ListProjectPolicies.
     #
     # You copy a model version by calling CopyProjectVersion.
+    #
+    # This operation requires permissions to perform the
+    # `rekognition:PutProjectPolicy` action.
     #
     # @option params [required, String] :project_arn
     #   The Amazon Resource Name (ARN) of the project that the project policy
@@ -5252,6 +6676,7 @@ module Aws::Rekognition
     #   resp.face_matches[0].face.external_image_id #=> String
     #   resp.face_matches[0].face.confidence #=> Float
     #   resp.face_matches[0].face.index_faces_model_version #=> String
+    #   resp.face_matches[0].face.user_id #=> String
     #   resp.face_model_version #=> String
     #
     # @overload search_faces(params = {})
@@ -5435,12 +6860,352 @@ module Aws::Rekognition
     #   resp.face_matches[0].face.external_image_id #=> String
     #   resp.face_matches[0].face.confidence #=> Float
     #   resp.face_matches[0].face.index_faces_model_version #=> String
+    #   resp.face_matches[0].face.user_id #=> String
     #   resp.face_model_version #=> String
     #
     # @overload search_faces_by_image(params = {})
     # @param [Hash] params ({})
     def search_faces_by_image(params = {}, options = {})
       req = build_request(:search_faces_by_image, params)
+      req.send_request(options)
+    end
+
+    # Searches for UserIDs within a collection based on a `FaceId` or
+    # `UserId`. This API can be used to find the closest UserID (with a
+    # highest similarity) to associate a face. The request must be provided
+    # with either `FaceId` or `UserId`. The operation returns an array of
+    # UserID that match the `FaceId` or `UserId`, ordered by similarity
+    # score with the highest similarity first.
+    #
+    # @option params [required, String] :collection_id
+    #   The ID of an existing collection containing the UserID, used with a
+    #   UserId or FaceId. If a FaceId is provided, UserId isn’t required to be
+    #   present in the Collection.
+    #
+    # @option params [String] :user_id
+    #   ID for the existing User.
+    #
+    # @option params [String] :face_id
+    #   ID for the existing face.
+    #
+    # @option params [Float] :user_match_threshold
+    #   Optional value that specifies the minimum confidence in the matched
+    #   UserID to return. Default value of 80.
+    #
+    # @option params [Integer] :max_users
+    #   Maximum number of identities to return.
+    #
+    # @return [Types::SearchUsersResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::SearchUsersResponse#user_matches #user_matches} => Array&lt;Types::UserMatch&gt;
+    #   * {Types::SearchUsersResponse#face_model_version #face_model_version} => String
+    #   * {Types::SearchUsersResponse#searched_face #searched_face} => Types::SearchedFace
+    #   * {Types::SearchUsersResponse#searched_user #searched_user} => Types::SearchedUser
+    #
+    #
+    # @example Example: SearchUsers
+    #
+    #   # Searches for UserIDs within a collection based on a FaceId or UserId.
+    #
+    #   resp = client.search_users({
+    #     collection_id: "MyCollection", 
+    #     max_users: 2, 
+    #     user_id: "DemoUser", 
+    #     user_match_threshold: 70, 
+    #   })
+    #
+    #   resp.to_h outputs the following:
+    #   {
+    #     face_model_version: "6", 
+    #     searched_user: {
+    #       user_id: "DemoUser", 
+    #     }, 
+    #     user_matches: [
+    #       {
+    #         similarity: 99.88186645507812, 
+    #         user: {
+    #           user_id: "demoUser1", 
+    #           user_status: "ACTIVE", 
+    #         }, 
+    #       }, 
+    #     ], 
+    #   }
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.search_users({
+    #     collection_id: "CollectionId", # required
+    #     user_id: "UserId",
+    #     face_id: "FaceId",
+    #     user_match_threshold: 1.0,
+    #     max_users: 1,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.user_matches #=> Array
+    #   resp.user_matches[0].similarity #=> Float
+    #   resp.user_matches[0].user.user_id #=> String
+    #   resp.user_matches[0].user.user_status #=> String, one of "ACTIVE", "UPDATING", "CREATING", "CREATED"
+    #   resp.face_model_version #=> String
+    #   resp.searched_face.face_id #=> String
+    #   resp.searched_user.user_id #=> String
+    #
+    # @overload search_users(params = {})
+    # @param [Hash] params ({})
+    def search_users(params = {}, options = {})
+      req = build_request(:search_users, params)
+      req.send_request(options)
+    end
+
+    # Searches for UserIDs using a supplied image. It first detects the
+    # largest face in the image, and then searches a specified collection
+    # for matching UserIDs.
+    #
+    # The operation returns an array of UserIDs that match the face in the
+    # supplied image, ordered by similarity score with the highest
+    # similarity first. It also returns a bounding box for the face found in
+    # the input image.
+    #
+    # Information about faces detected in the supplied image, but not used
+    # for the search, is returned in an array of `UnsearchedFace` objects.
+    # If no valid face is detected in the image, the response will contain
+    # an empty `UserMatches` list and no `SearchedFace` object.
+    #
+    # @option params [required, String] :collection_id
+    #   The ID of an existing collection containing the UserID.
+    #
+    # @option params [required, Types::Image] :image
+    #   Provides the input image either as bytes or an S3 object.
+    #
+    #   You pass image bytes to an Amazon Rekognition API operation by using
+    #   the `Bytes` property. For example, you would use the `Bytes` property
+    #   to pass an image loaded from a local file system. Image bytes passed
+    #   by using the `Bytes` property must be base64-encoded. Your code may
+    #   not need to encode image bytes if you are using an AWS SDK to call
+    #   Amazon Rekognition API operations.
+    #
+    #   For more information, see Analyzing an Image Loaded from a Local File
+    #   System in the Amazon Rekognition Developer Guide.
+    #
+    #   You pass images stored in an S3 bucket to an Amazon Rekognition API
+    #   operation by using the `S3Object` property. Images stored in an S3
+    #   bucket do not need to be base64-encoded.
+    #
+    #   The region for the S3 bucket containing the S3 object must match the
+    #   region you use for Amazon Rekognition operations.
+    #
+    #   If you use the AWS CLI to call Amazon Rekognition operations, passing
+    #   image bytes using the Bytes property is not supported. You must first
+    #   upload the image to an Amazon S3 bucket and then call the operation
+    #   using the S3Object property.
+    #
+    #   For Amazon Rekognition to process an S3 object, the user must have
+    #   permission to access the S3 object. For more information, see How
+    #   Amazon Rekognition works with IAM in the Amazon Rekognition Developer
+    #   Guide.
+    #
+    # @option params [Float] :user_match_threshold
+    #   Specifies the minimum confidence in the UserID match to return.
+    #   Default value is 80.
+    #
+    # @option params [Integer] :max_users
+    #   Maximum number of UserIDs to return.
+    #
+    # @option params [String] :quality_filter
+    #   A filter that specifies a quality bar for how much filtering is done
+    #   to identify faces. Filtered faces aren't searched for in the
+    #   collection. The default value is NONE.
+    #
+    # @return [Types::SearchUsersByImageResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::SearchUsersByImageResponse#user_matches #user_matches} => Array&lt;Types::UserMatch&gt;
+    #   * {Types::SearchUsersByImageResponse#face_model_version #face_model_version} => String
+    #   * {Types::SearchUsersByImageResponse#searched_face #searched_face} => Types::SearchedFaceDetails
+    #   * {Types::SearchUsersByImageResponse#unsearched_faces #unsearched_faces} => Array&lt;Types::UnsearchedFace&gt;
+    #
+    #
+    # @example Example: SearchUsersByImage
+    #
+    #   # Searches for UserIDs using a supplied image.
+    #
+    #   resp = client.search_users_by_image({
+    #     collection_id: "MyCollection", 
+    #     image: {
+    #       s3_object: {
+    #         bucket: "bucket", 
+    #         name: "input.jpg", 
+    #       }, 
+    #     }, 
+    #     max_users: 2, 
+    #     quality_filter: "MEDIUM", 
+    #     user_match_threshold: 70, 
+    #   })
+    #
+    #   resp.to_h outputs the following:
+    #   {
+    #     face_model_version: "6", 
+    #     searched_face: {
+    #       face_detail: {
+    #         bounding_box: {
+    #           height: 0.07510016113519669, 
+    #           left: 0.3598678708076477, 
+    #           top: 0.5391526818275452, 
+    #           width: 0.03692837432026863, 
+    #         }, 
+    #       }, 
+    #     }, 
+    #     unsearched_faces: [
+    #       {
+    #         face_details: {
+    #           bounding_box: {
+    #             height: 0.0682177022099495, 
+    #             left: 0.6102562546730042, 
+    #             top: 0.5593535900115967, 
+    #             width: 0.031677018851041794, 
+    #           }, 
+    #         }, 
+    #         reasons: [
+    #           "FACE_NOT_LARGEST", 
+    #         ], 
+    #       }, 
+    #       {
+    #         face_details: {
+    #           bounding_box: {
+    #             height: 0.06347997486591339, 
+    #             left: 0.516062319278717, 
+    #             top: 0.6080358028411865, 
+    #             width: 0.03254449740052223, 
+    #           }, 
+    #         }, 
+    #         reasons: [
+    #           "FACE_NOT_LARGEST", 
+    #         ], 
+    #       }, 
+    #     ], 
+    #     user_matches: [
+    #       {
+    #         similarity: 99.88186645507812, 
+    #         user: {
+    #           user_id: "demoUser1", 
+    #           user_status: "ACTIVE", 
+    #         }, 
+    #       }, 
+    #     ], 
+    #   }
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.search_users_by_image({
+    #     collection_id: "CollectionId", # required
+    #     image: { # required
+    #       bytes: "data",
+    #       s3_object: {
+    #         bucket: "S3Bucket",
+    #         name: "S3ObjectName",
+    #         version: "S3ObjectVersion",
+    #       },
+    #     },
+    #     user_match_threshold: 1.0,
+    #     max_users: 1,
+    #     quality_filter: "NONE", # accepts NONE, AUTO, LOW, MEDIUM, HIGH
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.user_matches #=> Array
+    #   resp.user_matches[0].similarity #=> Float
+    #   resp.user_matches[0].user.user_id #=> String
+    #   resp.user_matches[0].user.user_status #=> String, one of "ACTIVE", "UPDATING", "CREATING", "CREATED"
+    #   resp.face_model_version #=> String
+    #   resp.searched_face.face_detail.bounding_box.width #=> Float
+    #   resp.searched_face.face_detail.bounding_box.height #=> Float
+    #   resp.searched_face.face_detail.bounding_box.left #=> Float
+    #   resp.searched_face.face_detail.bounding_box.top #=> Float
+    #   resp.searched_face.face_detail.age_range.low #=> Integer
+    #   resp.searched_face.face_detail.age_range.high #=> Integer
+    #   resp.searched_face.face_detail.smile.value #=> Boolean
+    #   resp.searched_face.face_detail.smile.confidence #=> Float
+    #   resp.searched_face.face_detail.eyeglasses.value #=> Boolean
+    #   resp.searched_face.face_detail.eyeglasses.confidence #=> Float
+    #   resp.searched_face.face_detail.sunglasses.value #=> Boolean
+    #   resp.searched_face.face_detail.sunglasses.confidence #=> Float
+    #   resp.searched_face.face_detail.gender.value #=> String, one of "Male", "Female"
+    #   resp.searched_face.face_detail.gender.confidence #=> Float
+    #   resp.searched_face.face_detail.beard.value #=> Boolean
+    #   resp.searched_face.face_detail.beard.confidence #=> Float
+    #   resp.searched_face.face_detail.mustache.value #=> Boolean
+    #   resp.searched_face.face_detail.mustache.confidence #=> Float
+    #   resp.searched_face.face_detail.eyes_open.value #=> Boolean
+    #   resp.searched_face.face_detail.eyes_open.confidence #=> Float
+    #   resp.searched_face.face_detail.mouth_open.value #=> Boolean
+    #   resp.searched_face.face_detail.mouth_open.confidence #=> Float
+    #   resp.searched_face.face_detail.emotions #=> Array
+    #   resp.searched_face.face_detail.emotions[0].type #=> String, one of "HAPPY", "SAD", "ANGRY", "CONFUSED", "DISGUSTED", "SURPRISED", "CALM", "UNKNOWN", "FEAR"
+    #   resp.searched_face.face_detail.emotions[0].confidence #=> Float
+    #   resp.searched_face.face_detail.landmarks #=> Array
+    #   resp.searched_face.face_detail.landmarks[0].type #=> String, one of "eyeLeft", "eyeRight", "nose", "mouthLeft", "mouthRight", "leftEyeBrowLeft", "leftEyeBrowRight", "leftEyeBrowUp", "rightEyeBrowLeft", "rightEyeBrowRight", "rightEyeBrowUp", "leftEyeLeft", "leftEyeRight", "leftEyeUp", "leftEyeDown", "rightEyeLeft", "rightEyeRight", "rightEyeUp", "rightEyeDown", "noseLeft", "noseRight", "mouthUp", "mouthDown", "leftPupil", "rightPupil", "upperJawlineLeft", "midJawlineLeft", "chinBottom", "midJawlineRight", "upperJawlineRight"
+    #   resp.searched_face.face_detail.landmarks[0].x #=> Float
+    #   resp.searched_face.face_detail.landmarks[0].y #=> Float
+    #   resp.searched_face.face_detail.pose.roll #=> Float
+    #   resp.searched_face.face_detail.pose.yaw #=> Float
+    #   resp.searched_face.face_detail.pose.pitch #=> Float
+    #   resp.searched_face.face_detail.quality.brightness #=> Float
+    #   resp.searched_face.face_detail.quality.sharpness #=> Float
+    #   resp.searched_face.face_detail.confidence #=> Float
+    #   resp.searched_face.face_detail.face_occluded.value #=> Boolean
+    #   resp.searched_face.face_detail.face_occluded.confidence #=> Float
+    #   resp.searched_face.face_detail.eye_direction.yaw #=> Float
+    #   resp.searched_face.face_detail.eye_direction.pitch #=> Float
+    #   resp.searched_face.face_detail.eye_direction.confidence #=> Float
+    #   resp.unsearched_faces #=> Array
+    #   resp.unsearched_faces[0].face_details.bounding_box.width #=> Float
+    #   resp.unsearched_faces[0].face_details.bounding_box.height #=> Float
+    #   resp.unsearched_faces[0].face_details.bounding_box.left #=> Float
+    #   resp.unsearched_faces[0].face_details.bounding_box.top #=> Float
+    #   resp.unsearched_faces[0].face_details.age_range.low #=> Integer
+    #   resp.unsearched_faces[0].face_details.age_range.high #=> Integer
+    #   resp.unsearched_faces[0].face_details.smile.value #=> Boolean
+    #   resp.unsearched_faces[0].face_details.smile.confidence #=> Float
+    #   resp.unsearched_faces[0].face_details.eyeglasses.value #=> Boolean
+    #   resp.unsearched_faces[0].face_details.eyeglasses.confidence #=> Float
+    #   resp.unsearched_faces[0].face_details.sunglasses.value #=> Boolean
+    #   resp.unsearched_faces[0].face_details.sunglasses.confidence #=> Float
+    #   resp.unsearched_faces[0].face_details.gender.value #=> String, one of "Male", "Female"
+    #   resp.unsearched_faces[0].face_details.gender.confidence #=> Float
+    #   resp.unsearched_faces[0].face_details.beard.value #=> Boolean
+    #   resp.unsearched_faces[0].face_details.beard.confidence #=> Float
+    #   resp.unsearched_faces[0].face_details.mustache.value #=> Boolean
+    #   resp.unsearched_faces[0].face_details.mustache.confidence #=> Float
+    #   resp.unsearched_faces[0].face_details.eyes_open.value #=> Boolean
+    #   resp.unsearched_faces[0].face_details.eyes_open.confidence #=> Float
+    #   resp.unsearched_faces[0].face_details.mouth_open.value #=> Boolean
+    #   resp.unsearched_faces[0].face_details.mouth_open.confidence #=> Float
+    #   resp.unsearched_faces[0].face_details.emotions #=> Array
+    #   resp.unsearched_faces[0].face_details.emotions[0].type #=> String, one of "HAPPY", "SAD", "ANGRY", "CONFUSED", "DISGUSTED", "SURPRISED", "CALM", "UNKNOWN", "FEAR"
+    #   resp.unsearched_faces[0].face_details.emotions[0].confidence #=> Float
+    #   resp.unsearched_faces[0].face_details.landmarks #=> Array
+    #   resp.unsearched_faces[0].face_details.landmarks[0].type #=> String, one of "eyeLeft", "eyeRight", "nose", "mouthLeft", "mouthRight", "leftEyeBrowLeft", "leftEyeBrowRight", "leftEyeBrowUp", "rightEyeBrowLeft", "rightEyeBrowRight", "rightEyeBrowUp", "leftEyeLeft", "leftEyeRight", "leftEyeUp", "leftEyeDown", "rightEyeLeft", "rightEyeRight", "rightEyeUp", "rightEyeDown", "noseLeft", "noseRight", "mouthUp", "mouthDown", "leftPupil", "rightPupil", "upperJawlineLeft", "midJawlineLeft", "chinBottom", "midJawlineRight", "upperJawlineRight"
+    #   resp.unsearched_faces[0].face_details.landmarks[0].x #=> Float
+    #   resp.unsearched_faces[0].face_details.landmarks[0].y #=> Float
+    #   resp.unsearched_faces[0].face_details.pose.roll #=> Float
+    #   resp.unsearched_faces[0].face_details.pose.yaw #=> Float
+    #   resp.unsearched_faces[0].face_details.pose.pitch #=> Float
+    #   resp.unsearched_faces[0].face_details.quality.brightness #=> Float
+    #   resp.unsearched_faces[0].face_details.quality.sharpness #=> Float
+    #   resp.unsearched_faces[0].face_details.confidence #=> Float
+    #   resp.unsearched_faces[0].face_details.face_occluded.value #=> Boolean
+    #   resp.unsearched_faces[0].face_details.face_occluded.confidence #=> Float
+    #   resp.unsearched_faces[0].face_details.eye_direction.yaw #=> Float
+    #   resp.unsearched_faces[0].face_details.eye_direction.pitch #=> Float
+    #   resp.unsearched_faces[0].face_details.eye_direction.confidence #=> Float
+    #   resp.unsearched_faces[0].reasons #=> Array
+    #   resp.unsearched_faces[0].reasons[0] #=> String, one of "FACE_NOT_LARGEST", "EXCEEDS_MAX_FACES", "EXTREME_POSE", "LOW_BRIGHTNESS", "LOW_SHARPNESS", "LOW_CONFIDENCE", "SMALL_BOUNDING_BOX", "LOW_FACE_QUALITY"
+    #
+    # @overload search_users_by_image(params = {})
+    # @param [Hash] params ({})
+    def search_users_by_image(params = {}, options = {})
+      req = build_request(:search_users_by_image, params)
       req.send_request(options)
     end
 
@@ -5898,6 +7663,108 @@ module Aws::Rekognition
       req.send_request(options)
     end
 
+    # Initiates a new media analysis job. Accepts a manifest file in an
+    # Amazon S3 bucket. The output is a manifest file and a summary of the
+    # manifest stored in the Amazon S3 bucket.
+    #
+    # @option params [String] :client_request_token
+    #   Idempotency token used to prevent the accidental creation of duplicate
+    #   versions. If you use the same token with multiple
+    #   `StartMediaAnalysisJobRequest` requests, the same response is
+    #   returned. Use `ClientRequestToken` to prevent the same request from
+    #   being processed more than once.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @option params [String] :job_name
+    #   The name of the job. Does not have to be unique.
+    #
+    # @option params [required, Types::MediaAnalysisOperationsConfig] :operations_config
+    #   Configuration options for the media analysis job to be created.
+    #
+    # @option params [required, Types::MediaAnalysisInput] :input
+    #   Input data to be analyzed by the job.
+    #
+    # @option params [required, Types::MediaAnalysisOutputConfig] :output_config
+    #   The Amazon S3 bucket location to store the results.
+    #
+    # @option params [String] :kms_key_id
+    #   The identifier of customer managed AWS KMS key (name or ARN). The key
+    #   is used to encrypt images copied into the service. The key is also
+    #   used to encrypt results and manifest files written to the output
+    #   Amazon S3 bucket.
+    #
+    # @return [Types::StartMediaAnalysisJobResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::StartMediaAnalysisJobResponse#job_id #job_id} => String
+    #
+    #
+    # @example Example: StartMediaAnalysisJob
+    #
+    #   # Initiates a new media analysis job.
+    #
+    #   resp = client.start_media_analysis_job({
+    #     input: {
+    #       s3_object: {
+    #         bucket: "input-bucket", 
+    #         name: "input-manifest.json", 
+    #       }, 
+    #     }, 
+    #     job_name: "job-name", 
+    #     operations_config: {
+    #       detect_moderation_labels: {
+    #         min_confidence: 50, 
+    #         project_version: "arn:aws:rekognition:us-east-1:111122223333:project/my-project/version/1/1690556751958", 
+    #       }, 
+    #     }, 
+    #     output_config: {
+    #       s3_bucket: "output-bucket", 
+    #       s3_key_prefix: "output-location", 
+    #     }, 
+    #   })
+    #
+    #   resp.to_h outputs the following:
+    #   {
+    #     job_id: "861a0645d98ef88efb75477628c011c04942d9d5f58faf2703c393c8cf8c1537", 
+    #   }
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.start_media_analysis_job({
+    #     client_request_token: "ClientRequestToken",
+    #     job_name: "MediaAnalysisJobName",
+    #     operations_config: { # required
+    #       detect_moderation_labels: {
+    #         min_confidence: 1.0,
+    #         project_version: "ProjectVersionId",
+    #       },
+    #     },
+    #     input: { # required
+    #       s3_object: { # required
+    #         bucket: "S3Bucket",
+    #         name: "S3ObjectName",
+    #         version: "S3ObjectVersion",
+    #       },
+    #     },
+    #     output_config: { # required
+    #       s3_bucket: "S3Bucket", # required
+    #       s3_key_prefix: "MediaAnalysisS3KeyPrefix",
+    #     },
+    #     kms_key_id: "KmsKeyId",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.job_id #=> String
+    #
+    # @overload start_media_analysis_job(params = {})
+    # @param [Hash] params ({})
+    def start_media_analysis_job(params = {}, options = {})
+      req = build_request(:start_media_analysis_job, params)
+      req.send_request(options)
+    end
+
     # Starts the asynchronous tracking of a person's path in a stored
     # video.
     #
@@ -5969,6 +7836,10 @@ module Aws::Rekognition
       req.send_request(options)
     end
 
+    # <note markdown="1"> This operation applies only to Amazon Rekognition Custom Labels.
+    #
+    #  </note>
+    #
     # Starts the running of the version of a model. Starting a model takes a
     # while to complete. To check the current state of the model, use
     # DescribeProjectVersions.
@@ -5981,9 +7852,6 @@ module Aws::Rekognition
     #
     #  </note>
     #
-    # For more information, see *Running a trained Amazon Rekognition Custom
-    # Labels model* in the Amazon Rekognition Custom Labels Guide.
-    #
     # This operation requires permissions to perform the
     # `rekognition:StartProjectVersion` action.
     #
@@ -5994,11 +7862,6 @@ module Aws::Rekognition
     # @option params [required, Integer] :min_inference_units
     #   The minimum number of inference units to use. A single inference unit
     #   represents 1 hour of processing.
-    #
-    #   For information about the number of transactions per second (TPS) that
-    #   an inference unit can support, see *Running a trained Amazon
-    #   Rekognition Custom Labels model* in the Amazon Rekognition Custom
-    #   Labels Guide.
     #
     #   Use a higher number to increase the TPS throughput of your model. You
     #   are charged for the number of inference units that you use.
@@ -6012,6 +7875,22 @@ module Aws::Rekognition
     #
     #   * {Types::StartProjectVersionResponse#status #status} => String
     #
+    #
+    # @example Example: To start an Amazon Rekognition Custom Labels model
+    #
+    #   # Starts a version of an Amazon Rekognition Custom Labels model.
+    #
+    #   resp = client.start_project_version({
+    #     max_inference_units: 1, 
+    #     min_inference_units: 1, 
+    #     project_version_arn: "arn:aws:rekognition:us-east-1:111122223333:project/my-project/version/1/1690556751958", 
+    #   })
+    #
+    #   resp.to_h outputs the following:
+    #   {
+    #     status: "STARTING", 
+    #   }
+    #
     # @example Request syntax with placeholder values
     #
     #   resp = client.start_project_version({
@@ -6022,7 +7901,7 @@ module Aws::Rekognition
     #
     # @example Response structure
     #
-    #   resp.status #=> String, one of "TRAINING_IN_PROGRESS", "TRAINING_COMPLETED", "TRAINING_FAILED", "STARTING", "RUNNING", "FAILED", "STOPPING", "STOPPED", "DELETING", "COPYING_IN_PROGRESS", "COPYING_COMPLETED", "COPYING_FAILED"
+    #   resp.status #=> String, one of "TRAINING_IN_PROGRESS", "TRAINING_COMPLETED", "TRAINING_FAILED", "STARTING", "RUNNING", "FAILED", "STOPPING", "STOPPED", "DELETING", "COPYING_IN_PROGRESS", "COPYING_COMPLETED", "COPYING_FAILED", "DEPRECATED", "EXPIRED"
     #
     # @overload start_project_version(params = {})
     # @param [Hash] params ({})
@@ -6305,12 +8184,20 @@ module Aws::Rekognition
       req.send_request(options)
     end
 
+    # <note markdown="1"> This operation applies only to Amazon Rekognition Custom Labels.
+    #
+    #  </note>
+    #
     # Stops a running model. The operation might take a while to complete.
-    # To check the current status, call DescribeProjectVersions.
+    # To check the current status, call DescribeProjectVersions. Only
+    # applies to Custom Labels projects.
+    #
+    # This operation requires permissions to perform the
+    # `rekognition:StopProjectVersion` action.
     #
     # @option params [required, String] :project_version_arn
     #   The Amazon Resource Name (ARN) of the model version that you want to
-    #   delete.
+    #   stop.
     #
     #   This operation requires permissions to perform the
     #   `rekognition:StopProjectVersion` action.
@@ -6318,6 +8205,20 @@ module Aws::Rekognition
     # @return [Types::StopProjectVersionResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::StopProjectVersionResponse#status #status} => String
+    #
+    #
+    # @example Example: To stop an Amazon Rekognition Custom Labels model.
+    #
+    #   # Stops a version of an Amazon Rekognition Custom Labels model.
+    #
+    #   resp = client.stop_project_version({
+    #     project_version_arn: "arn:aws:rekognition:us-east-1:111122223333:project/my-project/version/1/1690556751958", 
+    #   })
+    #
+    #   resp.to_h outputs the following:
+    #   {
+    #     status: "STOPPING", 
+    #   }
     #
     # @example Request syntax with placeholder values
     #
@@ -6327,7 +8228,7 @@ module Aws::Rekognition
     #
     # @example Response structure
     #
-    #   resp.status #=> String, one of "TRAINING_IN_PROGRESS", "TRAINING_COMPLETED", "TRAINING_FAILED", "STARTING", "RUNNING", "FAILED", "STOPPING", "STOPPED", "DELETING", "COPYING_IN_PROGRESS", "COPYING_COMPLETED", "COPYING_FAILED"
+    #   resp.status #=> String, one of "TRAINING_IN_PROGRESS", "TRAINING_COMPLETED", "TRAINING_FAILED", "STARTING", "RUNNING", "FAILED", "STOPPING", "STOPPED", "DELETING", "COPYING_IN_PROGRESS", "COPYING_COMPLETED", "COPYING_FAILED", "DEPRECATED", "EXPIRED"
     #
     # @overload stop_project_version(params = {})
     # @param [Hash] params ({})
@@ -6422,6 +8323,10 @@ module Aws::Rekognition
       req.send_request(options)
     end
 
+    # <note markdown="1"> This operation applies only to Amazon Rekognition Custom Labels.
+    #
+    #  </note>
+    #
     # Adds or updates one or more entries (images) in a dataset. An entry is
     # a JSON Line which contains the information for a single image,
     # including the image location, assigned labels, and object location
@@ -6460,6 +8365,22 @@ module Aws::Rekognition
     #   The changes that you want to make to the dataset.
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    #
+    # @example Example: To-add dataset entries to an Amazon Rekognition Custom Labels dataset
+    #
+    #   # Adds dataset entries to an Amazon Rekognition Custom Labels dataset.
+    #
+    #   resp = client.update_dataset_entries({
+    #     changes: {
+    #       ground_truth: "{\"source-ref\":\"s3://custom-labels-console-us-east-1-111111111/assets/flowers_1_test_dataset/mediterranean_spurge4.jpg\",\"mediterranean_spurge\":1,\"mediterranean_spurge-metadata\":{\"confidence\":1,\"job-name\":\"labeling-job/mediterranean_spurge\",\"class-name\":\"mediterranean_spurge\",\"human-annotated\":\"yes\",\"creation-date\":\"2021-07-11T03:33:42.025Z\",\"type\":\"groundtruth/image-classification\"},\"with_leaves\":1,\"with_leaves-metadata\":{\"confidence\":1,\"job-name\":\"labeling-job/with_leaves\",\"class-name\":\"with_leaves\",\"human-annotated\":\"yes\",\"creation-date\":\"2021-07-11T03:33:42.025Z\",\"type\":\"groundtruth/image-classification\"}}", 
+    #     }, 
+    #     dataset_arn: "arn:aws:rekognition:us-east-1:111122223333:project/my-proj-2/dataset/train/1690564858106", 
+    #   })
+    #
+    #   resp.to_h outputs the following:
+    #   {
+    #   }
     #
     # @example Request syntax with placeholder values
     #
@@ -6549,14 +8470,19 @@ module Aws::Rekognition
     # @api private
     def build_request(operation_name, params = {})
       handlers = @handlers.for(operation_name)
+      tracer = config.telemetry_provider.tracer_provider.tracer(
+        Aws::Telemetry.module_to_tracer_name('Aws::Rekognition')
+      )
       context = Seahorse::Client::RequestContext.new(
         operation_name: operation_name,
         operation: config.api.operation(operation_name),
         client: self,
         params: params,
-        config: config)
+        config: config,
+        tracer: tracer
+      )
       context[:gem_name] = 'aws-sdk-rekognition'
-      context[:gem_version] = '1.74.0'
+      context[:gem_version] = '1.113.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

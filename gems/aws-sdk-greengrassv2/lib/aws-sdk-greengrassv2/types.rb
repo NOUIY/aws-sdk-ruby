@@ -709,12 +709,31 @@ module Aws::GreengrassV2
     #   in ISO 8601 format.
     #   @return [Time]
     #
+    # @!attribute [rw] platform
+    #   The operating system platform that the core device runs.
+    #   @return [String]
+    #
+    # @!attribute [rw] architecture
+    #   The computer architecture of the core device.
+    #   @return [String]
+    #
+    # @!attribute [rw] runtime
+    #   The runtime for the core device. The runtime can be:
+    #
+    #   * `aws_nucleus_classic`
+    #
+    #   * `aws_nucleus_lite`
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/greengrassv2-2020-11-30/CoreDevice AWS API Documentation
     #
     class CoreDevice < Struct.new(
       :core_device_thing_name,
       :status,
-      :last_status_update_timestamp)
+      :last_status_update_timestamp,
+      :platform,
+      :architecture,
+      :runtime)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1342,6 +1361,28 @@ module Aws::GreengrassV2
     #
     # @!attribute [rw] core_device_execution_status
     #   The status of the deployment job on the Greengrass core device.
+    #
+    #   * `IN_PROGRESS` – The deployment job is running.
+    #
+    #   * `QUEUED` – The deployment job is in the job queue and waiting to
+    #     run.
+    #
+    #   * `FAILED` – The deployment failed. For more information, see the
+    #     `statusDetails` field.
+    #
+    #   * `COMPLETED` – The deployment to an IoT thing was completed
+    #     successfully.
+    #
+    #   * `TIMED_OUT` – The deployment didn't complete in the allotted
+    #     time.
+    #
+    #   * `CANCELED` – The deployment was canceled by the user.
+    #
+    #   * `REJECTED` – The deployment was rejected. For more information,
+    #     see the `statusDetails` field.
+    #
+    #   * `SUCCEEDED` – The deployment to an IoT thing group was completed
+    #     successfully.
     #   @return [String]
     #
     # @!attribute [rw] reason
@@ -1485,11 +1526,30 @@ module Aws::GreengrassV2
     #   [1]: https://docs.aws.amazon.com/greengrass/v2/APIReference/API_GetComponent.html
     #   @return [String]
     #
+    # @!attribute [rw] s3_endpoint_type
+    #   Specifies the endpoint to use when getting Amazon S3 pre-signed
+    #   URLs.
+    #
+    #   All Amazon Web Services Regions except US East (N. Virginia) use
+    #   `REGIONAL` in all cases. In the US East (N. Virginia) Region the
+    #   default is `GLOBAL`, but you can change it to `REGIONAL` with this
+    #   parameter.
+    #   @return [String]
+    #
+    # @!attribute [rw] iot_endpoint_type
+    #   Determines if the Amazon S3 URL returned is a FIPS pre-signed URL
+    #   endpoint. Specify `fips` if you want the returned Amazon S3
+    #   pre-signed URL to point to an Amazon S3 FIPS endpoint. If you don't
+    #   specify a value, the default is `standard`.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/greengrassv2-2020-11-30/GetComponentVersionArtifactRequest AWS API Documentation
     #
     class GetComponentVersionArtifactRequest < Struct.new(
       :arn,
-      :artifact_name)
+      :artifact_name,
+      :s3_endpoint_type,
+      :iot_endpoint_type)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1571,6 +1631,14 @@ module Aws::GreengrassV2
     #   The computer architecture of the core device.
     #   @return [String]
     #
+    # @!attribute [rw] runtime
+    #   The runtime for the core device. The runtime can be:
+    #
+    #   * `aws_nucleus_classic`
+    #
+    #   * `aws_nucleus_lite`
+    #   @return [String]
+    #
     # @!attribute [rw] status
     #   The status of the core device. The core device status can be:
     #
@@ -1603,6 +1671,7 @@ module Aws::GreengrassV2
       :core_version,
       :platform,
       :architecture,
+      :runtime,
       :status,
       :last_status_update_timestamp,
       :tags)
@@ -1785,7 +1854,7 @@ module Aws::GreengrassV2
     #
     # @!attribute [rw] last_reported_timestamp
     #   The last time the Greengrass core device sent a message containing a
-    #   certain component to the Amazon Web Services Cloud.
+    #   component's state to the Amazon Web Services Cloud.
     #
     #   A component does not need to see a state change for this field to
     #   update.
@@ -1794,8 +1863,13 @@ module Aws::GreengrassV2
     # @!attribute [rw] last_installation_source
     #   The most recent deployment source that brought the component to the
     #   Greengrass core device. For a thing group deployment or thing
-    #   deployment, the source will be the The ID of the deployment. and for
-    #   local deployments it will be `LOCAL`.
+    #   deployment, the source will be the ID of the last deployment that
+    #   contained the component. For local deployments it will be `LOCAL`.
+    #
+    #   <note markdown="1"> Any deployment will attempt to reinstall currently broken components
+    #   on the device, which will update the last installation source.
+    #
+    #    </note>
     #   @return [String]
     #
     # @!attribute [rw] lifecycle_status_codes
@@ -2458,13 +2532,22 @@ module Aws::GreengrassV2
     #   The token to be used for the next set of paginated results.
     #   @return [String]
     #
+    # @!attribute [rw] runtime
+    #   The runtime to be used by the core device. The runtime can be:
+    #
+    #   * `aws_nucleus_classic`
+    #
+    #   * `aws_nucleus_lite`
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/greengrassv2-2020-11-30/ListCoreDevicesRequest AWS API Documentation
     #
     class ListCoreDevicesRequest < Struct.new(
       :thing_group_arn,
       :status,
       :max_results,
-      :next_token)
+      :next_token,
+      :runtime)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2517,6 +2600,8 @@ module Aws::GreengrassV2
     #
     # @!attribute [rw] max_results
     #   The maximum number of results to be returned per paginated request.
+    #
+    #   Default: `50`
     #   @return [Integer]
     #
     # @!attribute [rw] next_token
@@ -3076,3 +3161,4 @@ module Aws::GreengrassV2
 
   end
 end
+

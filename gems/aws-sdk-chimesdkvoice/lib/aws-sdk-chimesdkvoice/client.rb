@@ -7,33 +7,34 @@
 #
 # WARNING ABOUT GENERATED CODE
 
-require 'seahorse/client/plugins/content_length.rb'
-require 'aws-sdk-core/plugins/credentials_configuration.rb'
-require 'aws-sdk-core/plugins/logging.rb'
-require 'aws-sdk-core/plugins/param_converter.rb'
-require 'aws-sdk-core/plugins/param_validator.rb'
-require 'aws-sdk-core/plugins/user_agent.rb'
-require 'aws-sdk-core/plugins/helpful_socket_errors.rb'
-require 'aws-sdk-core/plugins/retry_errors.rb'
-require 'aws-sdk-core/plugins/global_configuration.rb'
-require 'aws-sdk-core/plugins/regional_endpoint.rb'
-require 'aws-sdk-core/plugins/endpoint_discovery.rb'
-require 'aws-sdk-core/plugins/endpoint_pattern.rb'
-require 'aws-sdk-core/plugins/response_paging.rb'
-require 'aws-sdk-core/plugins/stub_responses.rb'
-require 'aws-sdk-core/plugins/idempotency_token.rb'
-require 'aws-sdk-core/plugins/jsonvalue_converter.rb'
-require 'aws-sdk-core/plugins/client_metrics_plugin.rb'
-require 'aws-sdk-core/plugins/client_metrics_send_plugin.rb'
-require 'aws-sdk-core/plugins/transfer_encoding.rb'
-require 'aws-sdk-core/plugins/http_checksum.rb'
-require 'aws-sdk-core/plugins/checksum_algorithm.rb'
-require 'aws-sdk-core/plugins/defaults_mode.rb'
-require 'aws-sdk-core/plugins/recursion_detection.rb'
-require 'aws-sdk-core/plugins/sign.rb'
-require 'aws-sdk-core/plugins/protocols/rest_json.rb'
-
-Aws::Plugins::GlobalConfiguration.add_identifier(:chimesdkvoice)
+require 'seahorse/client/plugins/content_length'
+require 'aws-sdk-core/plugins/credentials_configuration'
+require 'aws-sdk-core/plugins/logging'
+require 'aws-sdk-core/plugins/param_converter'
+require 'aws-sdk-core/plugins/param_validator'
+require 'aws-sdk-core/plugins/user_agent'
+require 'aws-sdk-core/plugins/helpful_socket_errors'
+require 'aws-sdk-core/plugins/retry_errors'
+require 'aws-sdk-core/plugins/global_configuration'
+require 'aws-sdk-core/plugins/regional_endpoint'
+require 'aws-sdk-core/plugins/endpoint_discovery'
+require 'aws-sdk-core/plugins/endpoint_pattern'
+require 'aws-sdk-core/plugins/response_paging'
+require 'aws-sdk-core/plugins/stub_responses'
+require 'aws-sdk-core/plugins/idempotency_token'
+require 'aws-sdk-core/plugins/invocation_id'
+require 'aws-sdk-core/plugins/jsonvalue_converter'
+require 'aws-sdk-core/plugins/client_metrics_plugin'
+require 'aws-sdk-core/plugins/client_metrics_send_plugin'
+require 'aws-sdk-core/plugins/transfer_encoding'
+require 'aws-sdk-core/plugins/http_checksum'
+require 'aws-sdk-core/plugins/checksum_algorithm'
+require 'aws-sdk-core/plugins/request_compression'
+require 'aws-sdk-core/plugins/defaults_mode'
+require 'aws-sdk-core/plugins/recursion_detection'
+require 'aws-sdk-core/plugins/telemetry'
+require 'aws-sdk-core/plugins/sign'
+require 'aws-sdk-core/plugins/protocols/rest_json'
 
 module Aws::ChimeSDKVoice
   # An API client for ChimeSDKVoice.  To construct a client, you need to configure a `:region` and `:credentials`.
@@ -71,20 +72,28 @@ module Aws::ChimeSDKVoice
     add_plugin(Aws::Plugins::ResponsePaging)
     add_plugin(Aws::Plugins::StubResponses)
     add_plugin(Aws::Plugins::IdempotencyToken)
+    add_plugin(Aws::Plugins::InvocationId)
     add_plugin(Aws::Plugins::JsonvalueConverter)
     add_plugin(Aws::Plugins::ClientMetricsPlugin)
     add_plugin(Aws::Plugins::ClientMetricsSendPlugin)
     add_plugin(Aws::Plugins::TransferEncoding)
     add_plugin(Aws::Plugins::HttpChecksum)
     add_plugin(Aws::Plugins::ChecksumAlgorithm)
+    add_plugin(Aws::Plugins::RequestCompression)
     add_plugin(Aws::Plugins::DefaultsMode)
     add_plugin(Aws::Plugins::RecursionDetection)
+    add_plugin(Aws::Plugins::Telemetry)
     add_plugin(Aws::Plugins::Sign)
     add_plugin(Aws::Plugins::Protocols::RestJson)
     add_plugin(Aws::ChimeSDKVoice::Plugins::Endpoints)
 
     # @overload initialize(options)
     #   @param [Hash] options
+    #
+    #   @option options [Array<Seahorse::Client::Plugin>] :plugins ([]])
+    #     A list of plugins to apply to the client. Each plugin is either a
+    #     class name or an instance of a plugin class.
+    #
     #   @option options [required, Aws::CredentialProvider] :credentials
     #     Your AWS credentials. This can be an instance of any one of the
     #     following classes:
@@ -119,13 +128,15 @@ module Aws::ChimeSDKVoice
     #     locations will be searched for credentials:
     #
     #     * `Aws.config[:credentials]`
-    #     * The `:access_key_id`, `:secret_access_key`, and `:session_token` options.
-    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']
+    #     * The `:access_key_id`, `:secret_access_key`, `:session_token`, and
+    #       `:account_id` options.
+    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'],
+    #       ENV['AWS_SESSION_TOKEN'], and ENV['AWS_ACCOUNT_ID']
     #     * `~/.aws/credentials`
     #     * `~/.aws/config`
     #     * EC2/ECS IMDS instance profile - When used by default, the timeouts
     #       are very aggressive. Construct and pass an instance of
-    #       `Aws::InstanceProfileCredentails` or `Aws::ECSCredentials` to
+    #       `Aws::InstanceProfileCredentials` or `Aws::ECSCredentials` to
     #       enable retries and extended timeouts. Instance profile credential
     #       fetching can be disabled by setting ENV['AWS_EC2_METADATA_DISABLED']
     #       to true.
@@ -143,6 +154,8 @@ module Aws::ChimeSDKVoice
     #     * `~/.aws/config`
     #
     #   @option options [String] :access_key_id
+    #
+    #   @option options [String] :account_id
     #
     #   @option options [Boolean] :active_endpoint_cache (false)
     #     When set to `true`, a thread polling for endpoints will be running in
@@ -190,10 +203,20 @@ module Aws::ChimeSDKVoice
     #     Set to true to disable SDK automatically adding host prefix
     #     to default service endpoint when available.
     #
-    #   @option options [String] :endpoint
-    #     The client endpoint is normally constructed from the `:region`
-    #     option. You should only configure an `:endpoint` when connecting
-    #     to test or custom endpoints. This should be a valid HTTP(S) URI.
+    #   @option options [Boolean] :disable_request_compression (false)
+    #     When set to 'true' the request body will not be compressed
+    #     for supported operations.
+    #
+    #   @option options [String, URI::HTTPS, URI::HTTP] :endpoint
+    #     Normally you should not configure the `:endpoint` option
+    #     directly. This is normally constructed from the `:region`
+    #     option. Configuring `:endpoint` is normally reserved for
+    #     connecting to test or custom endpoints. The endpoint should
+    #     be a URI formatted like:
+    #
+    #         'http://example.com'
+    #         'https://example.com'
+    #         'http://example.com:123'
     #
     #   @option options [Integer] :endpoint_cache_max_entries (1000)
     #     Used for the maximum size limit of the LRU cache storing endpoints data
@@ -209,6 +232,10 @@ module Aws::ChimeSDKVoice
     #
     #   @option options [Boolean] :endpoint_discovery (false)
     #     When set to `true`, endpoint discovery will be enabled for operations when available.
+    #
+    #   @option options [Boolean] :ignore_configured_endpoint_urls
+    #     Setting to true disables use of endpoint URLs provided via environment
+    #     variables and the shared configuration file.
     #
     #   @option options [Aws::Log::Formatter] :log_formatter (Aws::Log::Formatter.default)
     #     The log formatter.
@@ -229,6 +256,34 @@ module Aws::ChimeSDKVoice
     #   @option options [String] :profile ("default")
     #     Used when loading credentials from the shared credentials file
     #     at HOME/.aws/credentials.  When not specified, 'default' is used.
+    #
+    #   @option options [String] :request_checksum_calculation ("when_supported")
+    #     Determines when a checksum will be calculated for request payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, a checksum will be
+    #       calculated for all request payloads of operations modeled with the
+    #       `httpChecksum` trait where `requestChecksumRequired` is `true` and/or a
+    #       `requestAlgorithmMember` is modeled.
+    #     * `when_required` - When set, a checksum will only be calculated for
+    #       request payloads of operations modeled with the  `httpChecksum` trait where
+    #       `requestChecksumRequired` is `true` or where a `requestAlgorithmMember`
+    #       is modeled and supplied.
+    #
+    #   @option options [Integer] :request_min_compression_size_bytes (10240)
+    #     The minimum size in bytes that triggers compression for request
+    #     bodies. The value must be non-negative integer value between 0
+    #     and 10485780 bytes inclusive.
+    #
+    #   @option options [String] :response_checksum_validation ("when_supported")
+    #     Determines when checksum validation will be performed on response payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, checksum validation is performed on all
+    #       response payloads of operations modeled with the `httpChecksum` trait where
+    #       `responseAlgorithms` is modeled, except when no modeled checksum algorithms
+    #       are supported.
+    #     * `when_required` - When set, checksum validation is not performed on
+    #       response payloads of operations unless the checksum algorithm is supported and
+    #       the `requestValidationModeMember` member is set to `ENABLED`.
     #
     #   @option options [Proc] :retry_backoff
     #     A proc or lambda used for backoff. Defaults to 2**retries * retry_base_delay.
@@ -274,10 +329,24 @@ module Aws::ChimeSDKVoice
     #       throttling.  This is a provisional mode that may change behavior
     #       in the future.
     #
+    #   @option options [String] :sdk_ua_app_id
+    #     A unique and opaque application ID that is appended to the
+    #     User-Agent header as app/sdk_ua_app_id. It should have a
+    #     maximum length of 50. This variable is sourced from environment
+    #     variable AWS_SDK_UA_APP_ID or the shared config profile attribute sdk_ua_app_id.
     #
     #   @option options [String] :secret_access_key
     #
     #   @option options [String] :session_token
+    #
+    #   @option options [Array] :sigv4a_signing_region_set
+    #     A list of regions that should be signed with SigV4a signing. When
+    #     not passed, a default `:sigv4a_signing_region_set` is searched for
+    #     in the following locations:
+    #
+    #     * `Aws.config[:sigv4a_signing_region_set]`
+    #     * `ENV['AWS_SIGV4A_SIGNING_REGION_SET']`
+    #     * `~/.aws/config`
     #
     #   @option options [Boolean] :stub_responses (false)
     #     Causes the client to return stubbed responses. By default
@@ -287,6 +356,16 @@ module Aws::ChimeSDKVoice
     #
     #     ** Please note ** When response stubbing is enabled, no HTTP
     #     requests are made, and retries are disabled.
+    #
+    #   @option options [Aws::Telemetry::TelemetryProviderBase] :telemetry_provider (Aws::Telemetry::NoOpTelemetryProvider)
+    #     Allows you to provide a telemetry provider, which is used to
+    #     emit telemetry data. By default, uses `NoOpTelemetryProvider` which
+    #     will not record or emit any telemetry data. The SDK supports the
+    #     following telemetry providers:
+    #
+    #     * OpenTelemetry (OTel) - To use the OTel provider, install and require the
+    #     `opentelemetry-sdk` gem and then, pass in an instance of a
+    #     `Aws::Telemetry::OTelProvider` for telemetry provider.
     #
     #   @option options [Aws::TokenProvider] :token_provider
     #     A Bearer Token Provider. This can be an instance of any one of the
@@ -315,52 +394,75 @@ module Aws::ChimeSDKVoice
     #     sending the request.
     #
     #   @option options [Aws::ChimeSDKVoice::EndpointProvider] :endpoint_provider
-    #     The endpoint provider used to resolve endpoints. Any object that responds to `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to `Aws::ChimeSDKVoice::EndpointParameters`
+    #     The endpoint provider used to resolve endpoints. Any object that responds to
+    #     `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+    #     `Aws::ChimeSDKVoice::EndpointParameters`.
     #
-    #   @option options [URI::HTTP,String] :http_proxy A proxy to send
-    #     requests through.  Formatted like 'http://proxy.com:123'.
+    #   @option options [Float] :http_continue_timeout (1)
+    #     The number of seconds to wait for a 100-continue response before sending the
+    #     request body.  This option has no effect unless the request has "Expect"
+    #     header set to "100-continue".  Defaults to `nil` which  disables this
+    #     behaviour.  This value can safely be set per request on the session.
     #
-    #   @option options [Float] :http_open_timeout (15) The number of
-    #     seconds to wait when opening a HTTP session before raising a
-    #     `Timeout::Error`.
+    #   @option options [Float] :http_idle_timeout (5)
+    #     The number of seconds a connection is allowed to sit idle before it
+    #     is considered stale.  Stale connections are closed and removed from the
+    #     pool before making a request.
     #
-    #   @option options [Float] :http_read_timeout (60) The default
-    #     number of seconds to wait for response data.  This value can
-    #     safely be set per-request on the session.
+    #   @option options [Float] :http_open_timeout (15)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :http_idle_timeout (5) The number of
-    #     seconds a connection is allowed to sit idle before it is
-    #     considered stale.  Stale connections are closed and removed
-    #     from the pool before making a request.
+    #   @option options [URI::HTTP,String] :http_proxy
+    #     A proxy to send requests through.  Formatted like 'http://proxy.com:123'.
     #
-    #   @option options [Float] :http_continue_timeout (1) The number of
-    #     seconds to wait for a 100-continue response before sending the
-    #     request body.  This option has no effect unless the request has
-    #     "Expect" header set to "100-continue".  Defaults to `nil` which
-    #     disables this behaviour.  This value can safely be set per
-    #     request on the session.
+    #   @option options [Float] :http_read_timeout (60)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :ssl_timeout (nil) Sets the SSL timeout
-    #     in seconds.
+    #   @option options [Boolean] :http_wire_trace (false)
+    #     When `true`,  HTTP debug output will be sent to the `:logger`.
     #
-    #   @option options [Boolean] :http_wire_trace (false) When `true`,
-    #     HTTP debug output will be sent to the `:logger`.
+    #   @option options [Proc] :on_chunk_received
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the response body is received. It provides three arguments: the chunk,
+    #     the number of bytes received, and the total number of
+    #     bytes in the response (or nil if the server did not send a `content-length`).
     #
-    #   @option options [Boolean] :ssl_verify_peer (true) When `true`,
-    #     SSL peer certificates are verified when establishing a
-    #     connection.
+    #   @option options [Proc] :on_chunk_sent
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the request body is sent. It provides three arguments: the chunk,
+    #     the number of bytes read from the body, and the total number of
+    #     bytes in the body.
     #
-    #   @option options [String] :ssl_ca_bundle Full path to the SSL
-    #     certificate authority bundle file that should be used when
-    #     verifying peer certificates.  If you do not pass
-    #     `:ssl_ca_bundle` or `:ssl_ca_directory` the the system default
-    #     will be used if available.
+    #   @option options [Boolean] :raise_response_errors (true)
+    #     When `true`, response errors are raised.
     #
-    #   @option options [String] :ssl_ca_directory Full path of the
-    #     directory that contains the unbundled SSL certificate
+    #   @option options [String] :ssl_ca_bundle
+    #     Full path to the SSL certificate authority bundle file that should be used when
+    #     verifying peer certificates.  If you do not pass `:ssl_ca_bundle` or
+    #     `:ssl_ca_directory` the the system default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_directory
+    #     Full path of the directory that contains the unbundled SSL certificate
     #     authority files for verifying peer certificates.  If you do
-    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the
-    #     system default will be used if available.
+    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the system
+    #     default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_store
+    #     Sets the X509::Store to verify peer certificate.
+    #
+    #   @option options [OpenSSL::X509::Certificate] :ssl_cert
+    #     Sets a client certificate when creating http connections.
+    #
+    #   @option options [OpenSSL::PKey] :ssl_key
+    #     Sets a client key when creating http connections.
+    #
+    #   @option options [Float] :ssl_timeout
+    #     Sets the SSL timeout in seconds
+    #
+    #   @option options [Boolean] :ssl_verify_peer (true)
+    #     When `true`, SSL peer certificates are verified when establishing a connection.
     #
     def initialize(*args)
       super
@@ -368,11 +470,20 @@ module Aws::ChimeSDKVoice
 
     # @!group API Operations
 
+    # Associates phone numbers with the specified Amazon Chime SDK Voice
+    # Connector.
+    #
     # @option params [required, String] :voice_connector_id
+    #   The Voice Connector ID.
     #
     # @option params [required, Array<String>] :e164_phone_numbers
+    #   List of phone numbers, in E.164 format.
     #
     # @option params [Boolean] :force_associate
+    #   If true, associates the provided phone numbers with the provided
+    #   Amazon Chime SDK Voice Connector and removes any previously existing
+    #   associations. If false, does not associate any phone numbers that have
+    #   previously existing associations.
     #
     # @return [Types::AssociatePhoneNumbersWithVoiceConnectorResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -402,11 +513,20 @@ module Aws::ChimeSDKVoice
       req.send_request(options)
     end
 
+    # Associates phone numbers with the specified Amazon Chime SDK Voice
+    # Connector group.
+    #
     # @option params [required, String] :voice_connector_group_id
+    #   The Amazon Chime SDK Voice Connector group ID.
     #
     # @option params [required, Array<String>] :e164_phone_numbers
+    #   List of phone numbers, in E.164 format.
     #
     # @option params [Boolean] :force_associate
+    #   If true, associates the provided phone numbers with the provided
+    #   Amazon Chime SDK Voice Connector Group and removes any previously
+    #   existing associations. If false, does not associate any phone numbers
+    #   that have previously existing associations.
     #
     # @return [Types::AssociatePhoneNumbersWithVoiceConnectorGroupResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -436,7 +556,15 @@ module Aws::ChimeSDKVoice
       req.send_request(options)
     end
 
+    # Moves phone numbers into the **Deletion queue**. Phone numbers must be
+    # disassociated from any users or Amazon Chime SDK Voice Connectors
+    # before they can be deleted.
+    #
+    # Phone numbers remain in the **Deletion queue** for 7 days before they
+    # are deleted permanently.
+    #
     # @option params [required, Array<String>] :phone_number_ids
+    #   List of phone number IDs.
     #
     # @return [Types::BatchDeletePhoneNumberResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -464,7 +592,17 @@ module Aws::ChimeSDKVoice
       req.send_request(options)
     end
 
+    # Updates phone number product types, calling names, or phone number
+    # names. You can update one attribute at a time for each
+    # `UpdatePhoneNumberRequestItem`. For example, you can update the
+    # product type, the calling name, or phone name.
+    #
+    # <note markdown="1"> You cannot have a duplicate `phoneNumberId` in a request.
+    #
+    #  </note>
+    #
     # @option params [required, Array<Types::UpdatePhoneNumberRequestItem>] :update_phone_number_request_items
+    #   Lists the phone numbers in the update request.
     #
     # @return [Types::BatchUpdatePhoneNumberResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -478,6 +616,7 @@ module Aws::ChimeSDKVoice
     #         phone_number_id: "SensitiveNonEmptyString", # required
     #         product_type: "VoiceConnector", # accepts VoiceConnector, SipMediaApplicationDialIn
     #         calling_name: "CallingName",
+    #         name: "PhoneNumberName",
     #       },
     #     ],
     #   })
@@ -498,9 +637,18 @@ module Aws::ChimeSDKVoice
       req.send_request(options)
     end
 
+    # Creates an order for phone numbers to be provisioned. For numbers
+    # outside the U.S., you must use the Amazon Chime SDK SIP media
+    # application dial-in product type.
+    #
     # @option params [required, String] :product_type
+    #   The phone number product type.
     #
     # @option params [required, Array<String>] :e164_phone_numbers
+    #   List of phone numbers, in E.164 format.
+    #
+    # @option params [String] :name
+    #   Specifies the name assigned to one or more phone numbers.
     #
     # @return [Types::CreatePhoneNumberOrderResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -511,6 +659,7 @@ module Aws::ChimeSDKVoice
     #   resp = client.create_phone_number_order({
     #     product_type: "VoiceConnector", # required, accepts VoiceConnector, SipMediaApplicationDialIn
     #     e164_phone_numbers: ["E164PhoneNumber"], # required
+    #     name: "PhoneNumberName",
     #   })
     #
     # @example Response structure
@@ -534,21 +683,34 @@ module Aws::ChimeSDKVoice
       req.send_request(options)
     end
 
+    # Creates a proxy session for the specified Amazon Chime SDK Voice
+    # Connector for the specified participant phone numbers.
+    #
     # @option params [required, String] :voice_connector_id
+    #   The Voice Connector ID.
     #
     # @option params [required, Array<String>] :participant_phone_numbers
+    #   The participant phone numbers.
     #
     # @option params [String] :name
+    #   The name of the proxy session.
     #
     # @option params [Integer] :expiry_minutes
+    #   The number of minutes allowed for the proxy session.
     #
     # @option params [required, Array<String>] :capabilities
+    #   The proxy session's capabilities.
     #
     # @option params [String] :number_selection_behavior
+    #   The preference for proxy phone number reuse, or stickiness, between
+    #   the same participants across sessions.
     #
     # @option params [String] :geo_match_level
+    #   The preference for matching the country or area code of the proxy
+    #   phone number with that of the first participant.
     #
     # @option params [Types::GeoMatchParams] :geo_match_params
+    #   The country and area code for the proxy phone number.
     #
     # @return [Types::CreateProxySessionResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -599,11 +761,26 @@ module Aws::ChimeSDKVoice
       req.send_request(options)
     end
 
+    # Creates a SIP media application. For more information about SIP media
+    # applications, see [Managing SIP media applications and rules][1] in
+    # the *Amazon Chime SDK Administrator Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/ag/manage-sip-applications.html
+    #
     # @option params [required, String] :aws_region
+    #   The AWS Region assigned to the SIP media application.
     #
     # @option params [required, String] :name
+    #   The SIP media application's name.
     #
     # @option params [required, Array<Types::SipMediaApplicationEndpoint>] :endpoints
+    #   List of endpoints (Lambda ARNs) specified for the SIP media
+    #   application.
+    #
+    # @option params [Array<Types::Tag>] :tags
+    #   The tags assigned to the SIP media application.
     #
     # @return [Types::CreateSipMediaApplicationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -619,6 +796,12 @@ module Aws::ChimeSDKVoice
     #         lambda_arn: "FunctionArn",
     #       },
     #     ],
+    #     tags: [
+    #       {
+    #         key: "TagKey", # required
+    #         value: "TagValue", # required
+    #       },
+    #     ],
     #   })
     #
     # @example Response structure
@@ -630,6 +813,7 @@ module Aws::ChimeSDKVoice
     #   resp.sip_media_application.endpoints[0].lambda_arn #=> String
     #   resp.sip_media_application.created_timestamp #=> Time
     #   resp.sip_media_application.updated_timestamp #=> Time
+    #   resp.sip_media_application.sip_media_application_arn #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-voice-2022-08-03/CreateSipMediaApplication AWS API Documentation
     #
@@ -640,15 +824,27 @@ module Aws::ChimeSDKVoice
       req.send_request(options)
     end
 
+    # Creates an outbound call to a phone number from the phone number
+    # specified in the request, and it invokes the endpoint of the specified
+    # `sipMediaApplicationId`.
+    #
     # @option params [required, String] :from_phone_number
+    #   The phone number that a user calls from. This is a phone number in
+    #   your Amazon Chime SDK phone number inventory.
     #
     # @option params [required, String] :to_phone_number
+    #   The phone number that the service should call.
     #
     # @option params [required, String] :sip_media_application_id
+    #   The ID of the SIP media application.
     #
     # @option params [Hash<String,String>] :sip_headers
+    #   The SIP headers added to an outbound call leg.
     #
     # @option params [Hash<String,String>] :arguments_map
+    #   Context passed to a CreateSipMediaApplication API call. For example,
+    #   you could pass key-value pairs such as: `"FirstName": "John",
+    #   "LastName": "Doe"`
     #
     # @return [Types::CreateSipMediaApplicationCallResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -681,15 +877,38 @@ module Aws::ChimeSDKVoice
       req.send_request(options)
     end
 
+    # Creates a SIP rule, which can be used to run a SIP media application
+    # as a target for a specific trigger type. For more information about
+    # SIP rules, see [Managing SIP media applications and rules][1] in the
+    # *Amazon Chime SDK Administrator Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/ag/manage-sip-applications.html
+    #
     # @option params [required, String] :name
+    #   The name of the SIP rule.
     #
     # @option params [required, String] :trigger_type
+    #   The type of trigger assigned to the SIP rule in `TriggerValue`,
+    #   currently `RequestUriHostname` or `ToPhoneNumber`.
     #
     # @option params [required, String] :trigger_value
+    #   If `TriggerType` is `RequestUriHostname`, the value can be the
+    #   outbound host name of a Voice Connector. If `TriggerType` is
+    #   `ToPhoneNumber`, the value can be a customer-owned phone number in the
+    #   E164 format. The `SipMediaApplication` specified in the `SipRule` is
+    #   triggered if the request URI in an incoming SIP request matches the
+    #   `RequestUriHostname`, or if the `To` header in the incoming SIP
+    #   request matches the `ToPhoneNumber` value.
     #
     # @option params [Boolean] :disabled
+    #   Disables or enables a SIP rule. You must disable SIP rules before you
+    #   can delete them.
     #
     # @option params [Array<Types::SipRuleTargetApplication>] :target_applications
+    #   List of SIP media applications, with priority and AWS Region. Only one
+    #   SIP application per AWS Region can be used.
     #
     # @return [Types::CreateSipRuleResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -734,11 +953,55 @@ module Aws::ChimeSDKVoice
       req.send_request(options)
     end
 
+    # Creates an Amazon Chime SDK Voice Connector. For more information
+    # about Voice Connectors, see [Managing Amazon Chime SDK Voice Connector
+    # groups][1] in the *Amazon Chime SDK Administrator Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/ag/voice-connector-groups.html
+    #
     # @option params [required, String] :name
+    #   The name of the Voice Connector.
     #
     # @option params [String] :aws_region
+    #   The AWS Region in which the Amazon Chime SDK Voice Connector is
+    #   created. Default value: `us-east-1` .
     #
     # @option params [required, Boolean] :require_encryption
+    #   Enables or disables encryption for the Voice Connector.
+    #
+    # @option params [Array<Types::Tag>] :tags
+    #   The tags assigned to the Voice Connector.
+    #
+    # @option params [String] :integration_type
+    #   The connectors for use with Amazon Connect.
+    #
+    #   The following options are available:
+    #
+    #   * `CONNECT_CALL_TRANSFER_CONNECTOR` - Enables enterprises to integrate
+    #     Amazon Connect with other voice systems to directly transfer voice
+    #     calls and metadata without using the public telephone network. They
+    #     can use Amazon Connect telephony and Interactive Voice Response
+    #     (IVR) with their existing voice systems to modernize the IVR
+    #     experience of their existing contact center and their enterprise and
+    #     branch voice systems. Additionally, enterprises migrating their
+    #     contact center to Amazon Connect can start with Connect telephony
+    #     and IVR for immediate modernization ahead of agent migration.
+    #
+    #   * `CONNECT_ANALYTICS_CONNECTOR` - Enables enterprises to integrate
+    #     Amazon Connect with other voice systems for real-time and post-call
+    #     analytics. They can use Amazon Connect Contact Lens with their
+    #     existing voice systems to provides call recordings, conversational
+    #     analytics (including contact transcript, sensitive data redaction,
+    #     content categorization, theme detection, sentiment analysis,
+    #     real-time alerts, and post-contact summary), and agent performance
+    #     evaluations (including evaluation forms, automated evaluation,
+    #     supervisor review) with a rich user experience to display, search
+    #     and filter customer interactions, and programmatic access to data
+    #     streams and the data lake. Additionally, enterprises migrating their
+    #     contact center to Amazon Connect can start with Contact Lens
+    #     analytics and performance insights ahead of agent migration.
     #
     # @return [Types::CreateVoiceConnectorResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -750,6 +1013,13 @@ module Aws::ChimeSDKVoice
     #     name: "VoiceConnectorName", # required
     #     aws_region: "us-east-1", # accepts us-east-1, us-west-2, ca-central-1, eu-central-1, eu-west-1, eu-west-2, ap-northeast-2, ap-northeast-1, ap-southeast-1, ap-southeast-2
     #     require_encryption: false, # required
+    #     tags: [
+    #       {
+    #         key: "TagKey", # required
+    #         value: "TagValue", # required
+    #       },
+    #     ],
+    #     integration_type: "CONNECT_CALL_TRANSFER_CONNECTOR", # accepts CONNECT_CALL_TRANSFER_CONNECTOR, CONNECT_ANALYTICS_CONNECTOR
     #   })
     #
     # @example Response structure
@@ -762,6 +1032,7 @@ module Aws::ChimeSDKVoice
     #   resp.voice_connector.created_timestamp #=> Time
     #   resp.voice_connector.updated_timestamp #=> Time
     #   resp.voice_connector.voice_connector_arn #=> String
+    #   resp.voice_connector.integration_type #=> String, one of "CONNECT_CALL_TRANSFER_CONNECTOR", "CONNECT_ANALYTICS_CONNECTOR"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-voice-2022-08-03/CreateVoiceConnector AWS API Documentation
     #
@@ -772,9 +1043,20 @@ module Aws::ChimeSDKVoice
       req.send_request(options)
     end
 
+    # Creates an Amazon Chime SDK Voice Connector group under the
+    # administrator's AWS account. You can associate Amazon Chime SDK Voice
+    # Connectors with the Voice Connector group by including
+    # `VoiceConnectorItems` in the request.
+    #
+    # You can include Voice Connectors from different AWS Regions in your
+    # group. This creates a fault tolerant mechanism for fallback in case of
+    # availability events.
+    #
     # @option params [required, String] :name
+    #   The name of the Voice Connector group.
     #
     # @option params [Array<Types::VoiceConnectorItem>] :voice_connector_items
+    #   Lists the Voice Connectors that inbound calls are routed to.
     #
     # @return [Types::CreateVoiceConnectorGroupResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -812,7 +1094,136 @@ module Aws::ChimeSDKVoice
       req.send_request(options)
     end
 
+    # Creates a voice profile, which consists of an enrolled user and their
+    # latest voice print.
+    #
+    # Before creating any voice profiles, you must provide all notices and
+    # obtain all consents from the speaker as required under applicable
+    # privacy and biometrics laws, and as required under the [AWS service
+    # terms][1] for the Amazon Chime SDK.
+    #
+    # For more information about voice profiles and voice analytics, see
+    # [Using Amazon Chime SDK Voice Analytics][2] in the *Amazon Chime SDK
+    # Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://aws.amazon.com/service-terms/
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/pstn-voice-analytics.html
+    #
+    # @option params [required, String] :speaker_search_task_id
+    #   The ID of the speaker search task.
+    #
+    # @return [Types::CreateVoiceProfileResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateVoiceProfileResponse#voice_profile #voice_profile} => Types::VoiceProfile
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_voice_profile({
+    #     speaker_search_task_id: "NonEmptyString256", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.voice_profile.voice_profile_id #=> String
+    #   resp.voice_profile.voice_profile_arn #=> String
+    #   resp.voice_profile.voice_profile_domain_id #=> String
+    #   resp.voice_profile.created_timestamp #=> Time
+    #   resp.voice_profile.updated_timestamp #=> Time
+    #   resp.voice_profile.expiration_timestamp #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-voice-2022-08-03/CreateVoiceProfile AWS API Documentation
+    #
+    # @overload create_voice_profile(params = {})
+    # @param [Hash] params ({})
+    def create_voice_profile(params = {}, options = {})
+      req = build_request(:create_voice_profile, params)
+      req.send_request(options)
+    end
+
+    # Creates a voice profile domain, a collection of voice profiles, their
+    # voice prints, and encrypted enrollment audio.
+    #
+    # Before creating any voice profiles, you must provide all notices and
+    # obtain all consents from the speaker as required under applicable
+    # privacy and biometrics laws, and as required under the [AWS service
+    # terms][1] for the Amazon Chime SDK.
+    #
+    # For more information about voice profile domains, see [Using Amazon
+    # Chime SDK Voice Analytics][2] in the *Amazon Chime SDK Developer
+    # Guide*.
+    #
+    #
+    #
+    # [1]: https://aws.amazon.com/service-terms/
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/dg/pstn-voice-analytics.html
+    #
+    # @option params [required, String] :name
+    #   The name of the voice profile domain.
+    #
+    # @option params [String] :description
+    #   A description of the voice profile domain.
+    #
+    # @option params [required, Types::ServerSideEncryptionConfiguration] :server_side_encryption_configuration
+    #   The server-side encryption configuration for the request.
+    #
+    # @option params [String] :client_request_token
+    #   The unique identifier for the client request. Use a different token
+    #   for different domain creation requests.
+    #
+    # @option params [Array<Types::Tag>] :tags
+    #   The tags assigned to the domain.
+    #
+    # @return [Types::CreateVoiceProfileDomainResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateVoiceProfileDomainResponse#voice_profile_domain #voice_profile_domain} => Types::VoiceProfileDomain
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_voice_profile_domain({
+    #     name: "VoiceProfileDomainName", # required
+    #     description: "VoiceProfileDomainDescription",
+    #     server_side_encryption_configuration: { # required
+    #       kms_key_arn: "Arn", # required
+    #     },
+    #     client_request_token: "ClientRequestId",
+    #     tags: [
+    #       {
+    #         key: "TagKey", # required
+    #         value: "TagValue", # required
+    #       },
+    #     ],
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.voice_profile_domain.voice_profile_domain_id #=> String
+    #   resp.voice_profile_domain.voice_profile_domain_arn #=> String
+    #   resp.voice_profile_domain.name #=> String
+    #   resp.voice_profile_domain.description #=> String
+    #   resp.voice_profile_domain.server_side_encryption_configuration.kms_key_arn #=> String
+    #   resp.voice_profile_domain.created_timestamp #=> Time
+    #   resp.voice_profile_domain.updated_timestamp #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-voice-2022-08-03/CreateVoiceProfileDomain AWS API Documentation
+    #
+    # @overload create_voice_profile_domain(params = {})
+    # @param [Hash] params ({})
+    def create_voice_profile_domain(params = {}, options = {})
+      req = build_request(:create_voice_profile_domain, params)
+      req.send_request(options)
+    end
+
+    # Moves the specified phone number into the **Deletion queue**. A phone
+    # number must be disassociated from any users or Amazon Chime SDK Voice
+    # Connectors before it can be deleted.
+    #
+    # Deleted phone numbers remain in the **Deletion queue** queue for 7
+    # days before they are deleted permanently.
+    #
     # @option params [required, String] :phone_number_id
+    #   The phone number ID.
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
@@ -831,9 +1242,14 @@ module Aws::ChimeSDKVoice
       req.send_request(options)
     end
 
+    # Deletes the specified proxy session from the specified Amazon Chime
+    # SDK Voice Connector.
+    #
     # @option params [required, String] :voice_connector_id
+    #   The Voice Connector ID.
     #
     # @option params [required, String] :proxy_session_id
+    #   The proxy session ID.
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
@@ -853,7 +1269,10 @@ module Aws::ChimeSDKVoice
       req.send_request(options)
     end
 
+    # Deletes a SIP media application.
+    #
     # @option params [required, String] :sip_media_application_id
+    #   The SIP media application ID.
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
@@ -872,7 +1291,10 @@ module Aws::ChimeSDKVoice
       req.send_request(options)
     end
 
+    # Deletes a SIP rule.
+    #
     # @option params [required, String] :sip_rule_id
+    #   The SIP rule ID.
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
@@ -891,7 +1313,12 @@ module Aws::ChimeSDKVoice
       req.send_request(options)
     end
 
+    # Deletes an Amazon Chime SDK Voice Connector. Any phone numbers
+    # associated with the Amazon Chime SDK Voice Connector must be
+    # disassociated from it before it can be deleted.
+    #
     # @option params [required, String] :voice_connector_id
+    #   The Voice Connector ID.
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
@@ -910,7 +1337,11 @@ module Aws::ChimeSDKVoice
       req.send_request(options)
     end
 
+    # Deletes the emergency calling details from the specified Amazon Chime
+    # SDK Voice Connector.
+    #
     # @option params [required, String] :voice_connector_id
+    #   The Voice Connector ID.
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
@@ -929,7 +1360,35 @@ module Aws::ChimeSDKVoice
       req.send_request(options)
     end
 
+    # Deletes the external systems configuration for a Voice Connector.
+    #
+    # @option params [required, String] :voice_connector_id
+    #   The ID of the Voice Connector for which to delete the external system
+    #   configuration.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_voice_connector_external_systems_configuration({
+    #     voice_connector_id: "NonEmptyString", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-voice-2022-08-03/DeleteVoiceConnectorExternalSystemsConfiguration AWS API Documentation
+    #
+    # @overload delete_voice_connector_external_systems_configuration(params = {})
+    # @param [Hash] params ({})
+    def delete_voice_connector_external_systems_configuration(params = {}, options = {})
+      req = build_request(:delete_voice_connector_external_systems_configuration, params)
+      req.send_request(options)
+    end
+
+    # Deletes an Amazon Chime SDK Voice Connector group. Any
+    # `VoiceConnectorItems` and phone numbers associated with the group must
+    # be removed before it can be deleted.
+    #
     # @option params [required, String] :voice_connector_group_id
+    #   The Voice Connector Group ID.
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
@@ -948,7 +1407,16 @@ module Aws::ChimeSDKVoice
       req.send_request(options)
     end
 
+    # Deletes the origination settings for the specified Amazon Chime SDK
+    # Voice Connector.
+    #
+    # <note markdown="1"> If emergency calling is configured for the Voice Connector, it must be
+    # deleted prior to deleting the origination settings.
+    #
+    #  </note>
+    #
     # @option params [required, String] :voice_connector_id
+    #   The Voice Connector ID.
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
@@ -967,7 +1435,11 @@ module Aws::ChimeSDKVoice
       req.send_request(options)
     end
 
+    # Deletes the proxy configuration from the specified Amazon Chime SDK
+    # Voice Connector.
+    #
     # @option params [required, String] :voice_connector_id
+    #   The Voice Connector ID.
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
@@ -986,7 +1458,10 @@ module Aws::ChimeSDKVoice
       req.send_request(options)
     end
 
+    # Deletes a Voice Connector's streaming configuration.
+    #
     # @option params [required, String] :voice_connector_id
+    #   The Voice Connector ID.
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
@@ -1005,7 +1480,16 @@ module Aws::ChimeSDKVoice
       req.send_request(options)
     end
 
+    # Deletes the termination settings for the specified Amazon Chime SDK
+    # Voice Connector.
+    #
+    # <note markdown="1"> If emergency calling is configured for the Voice Connector, it must be
+    # deleted prior to deleting the termination settings.
+    #
+    #  </note>
+    #
     # @option params [required, String] :voice_connector_id
+    #   The Voice Connector ID.
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
@@ -1024,9 +1508,15 @@ module Aws::ChimeSDKVoice
       req.send_request(options)
     end
 
+    # Deletes the specified SIP credentials used by your equipment to
+    # authenticate during call termination.
+    #
     # @option params [required, String] :voice_connector_id
+    #   The Voice Connector ID.
     #
     # @option params [required, Array<String>] :usernames
+    #   The RFC2617 compliant username associated with the SIP credentials, in
+    #   US-ASCII format.
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
@@ -1046,9 +1536,60 @@ module Aws::ChimeSDKVoice
       req.send_request(options)
     end
 
+    # Deletes a voice profile, including its voice print and enrollment
+    # data. WARNING: This action is not reversible.
+    #
+    # @option params [required, String] :voice_profile_id
+    #   The voice profile ID.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_voice_profile({
+    #     voice_profile_id: "NonEmptyString256", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-voice-2022-08-03/DeleteVoiceProfile AWS API Documentation
+    #
+    # @overload delete_voice_profile(params = {})
+    # @param [Hash] params ({})
+    def delete_voice_profile(params = {}, options = {})
+      req = build_request(:delete_voice_profile, params)
+      req.send_request(options)
+    end
+
+    # Deletes all voice profiles in the domain. WARNING: This action is not
+    # reversible.
+    #
+    # @option params [required, String] :voice_profile_domain_id
+    #   The voice profile domain ID.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_voice_profile_domain({
+    #     voice_profile_domain_id: "NonEmptyString256", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-voice-2022-08-03/DeleteVoiceProfileDomain AWS API Documentation
+    #
+    # @overload delete_voice_profile_domain(params = {})
+    # @param [Hash] params ({})
+    def delete_voice_profile_domain(params = {}, options = {})
+      req = build_request(:delete_voice_profile_domain, params)
+      req.send_request(options)
+    end
+
+    # Disassociates the specified phone numbers from the specified Amazon
+    # Chime SDK Voice Connector.
+    #
     # @option params [required, String] :voice_connector_id
+    #   The Voice Connector ID.
     #
     # @option params [required, Array<String>] :e164_phone_numbers
+    #   List of phone numbers, in E.164 format.
     #
     # @return [Types::DisassociatePhoneNumbersFromVoiceConnectorResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1077,9 +1618,14 @@ module Aws::ChimeSDKVoice
       req.send_request(options)
     end
 
+    # Disassociates the specified phone numbers from the specified Amazon
+    # Chime SDK Voice Connector group.
+    #
     # @option params [required, String] :voice_connector_group_id
+    #   The Voice Connector group ID.
     #
     # @option params [required, Array<String>] :e164_phone_numbers
+    #   The list of phone numbers, in E.164 format.
     #
     # @return [Types::DisassociatePhoneNumbersFromVoiceConnectorGroupResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1108,6 +1654,9 @@ module Aws::ChimeSDKVoice
       req.send_request(options)
     end
 
+    # Retrieves the global settings for the Amazon Chime SDK Voice
+    # Connectors in an AWS account.
+    #
     # @return [Types::GetGlobalSettingsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::GetGlobalSettingsResponse#voice_connector #voice_connector} => Types::VoiceConnectorSettings
@@ -1125,7 +1674,11 @@ module Aws::ChimeSDKVoice
       req.send_request(options)
     end
 
+    # Retrieves details for the specified phone number ID, such as
+    # associations, capabilities, and product type.
+    #
     # @option params [required, String] :phone_number_id
+    #   The phone number ID.
     #
     # @return [Types::GetPhoneNumberResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1161,6 +1714,7 @@ module Aws::ChimeSDKVoice
     #   resp.phone_number.updated_timestamp #=> Time
     #   resp.phone_number.deletion_timestamp #=> Time
     #   resp.phone_number.order_id #=> String
+    #   resp.phone_number.name #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-voice-2022-08-03/GetPhoneNumber AWS API Documentation
     #
@@ -1171,7 +1725,12 @@ module Aws::ChimeSDKVoice
       req.send_request(options)
     end
 
+    # Retrieves details for the specified phone number order, such as the
+    # order creation timestamp, phone numbers in E.164 format, product type,
+    # and order status.
+    #
     # @option params [required, String] :phone_number_order_id
+    #   The ID of the phone number order .
     #
     # @return [Types::GetPhoneNumberOrderResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1204,6 +1763,9 @@ module Aws::ChimeSDKVoice
       req.send_request(options)
     end
 
+    # Retrieves the phone number settings for the administrator's AWS
+    # account, such as the default outbound calling name.
+    #
     # @return [Types::GetPhoneNumberSettingsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::GetPhoneNumberSettingsResponse#calling_name #calling_name} => String
@@ -1223,9 +1785,14 @@ module Aws::ChimeSDKVoice
       req.send_request(options)
     end
 
+    # Retrieves the specified proxy session details for the specified Amazon
+    # Chime SDK Voice Connector.
+    #
     # @option params [required, String] :voice_connector_id
+    #   The Voice Connector ID.
     #
     # @option params [required, String] :proxy_session_id
+    #   The proxy session ID.
     #
     # @return [Types::GetProxySessionResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1267,7 +1834,11 @@ module Aws::ChimeSDKVoice
       req.send_request(options)
     end
 
+    # Retrieves the information for a SIP media application, including name,
+    # AWS Region, and endpoints.
+    #
     # @option params [required, String] :sip_media_application_id
+    #   The SIP media application ID .
     #
     # @return [Types::GetSipMediaApplicationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1288,6 +1859,7 @@ module Aws::ChimeSDKVoice
     #   resp.sip_media_application.endpoints[0].lambda_arn #=> String
     #   resp.sip_media_application.created_timestamp #=> Time
     #   resp.sip_media_application.updated_timestamp #=> Time
+    #   resp.sip_media_application.sip_media_application_arn #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-voice-2022-08-03/GetSipMediaApplication AWS API Documentation
     #
@@ -1298,7 +1870,18 @@ module Aws::ChimeSDKVoice
       req.send_request(options)
     end
 
+    # Gets the Alexa Skill configuration for the SIP media application.
+    #
+    # Due to changes made by the Amazon Alexa service, this API is no longer
+    # available for use. For more information, refer to the [Alexa Smart
+    # Properties][1] page.
+    #
+    #
+    #
+    # [1]: https://developer.amazon.com/en-US/alexa/alexasmartproperties
+    #
     # @option params [required, String] :sip_media_application_id
+    #   The SIP media application ID.
     #
     # @return [Types::GetSipMediaApplicationAlexaSkillConfigurationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1325,7 +1908,11 @@ module Aws::ChimeSDKVoice
       req.send_request(options)
     end
 
+    # Retrieves the logging configuration for the specified SIP media
+    # application.
+    #
     # @option params [required, String] :sip_media_application_id
+    #   The SIP media application ID.
     #
     # @return [Types::GetSipMediaApplicationLoggingConfigurationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1350,7 +1937,11 @@ module Aws::ChimeSDKVoice
       req.send_request(options)
     end
 
+    # Retrieves the details of a SIP rule, such as the rule ID, name,
+    # triggers, and target endpoints.
+    #
     # @option params [required, String] :sip_rule_id
+    #   The SIP rule ID.
     #
     # @return [Types::GetSipRuleResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1385,7 +1976,55 @@ module Aws::ChimeSDKVoice
       req.send_request(options)
     end
 
+    # Retrieves the details of the specified speaker search task.
+    #
     # @option params [required, String] :voice_connector_id
+    #   The Voice Connector ID.
+    #
+    # @option params [required, String] :speaker_search_task_id
+    #   The ID of the speaker search task.
+    #
+    # @return [Types::GetSpeakerSearchTaskResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetSpeakerSearchTaskResponse#speaker_search_task #speaker_search_task} => Types::SpeakerSearchTask
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_speaker_search_task({
+    #     voice_connector_id: "NonEmptyString128", # required
+    #     speaker_search_task_id: "NonEmptyString256", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.speaker_search_task.speaker_search_task_id #=> String
+    #   resp.speaker_search_task.speaker_search_task_status #=> String
+    #   resp.speaker_search_task.call_details.voice_connector_id #=> String
+    #   resp.speaker_search_task.call_details.transaction_id #=> String
+    #   resp.speaker_search_task.call_details.is_caller #=> Boolean
+    #   resp.speaker_search_task.speaker_search_details.results #=> Array
+    #   resp.speaker_search_task.speaker_search_details.results[0].confidence_score #=> Float
+    #   resp.speaker_search_task.speaker_search_details.results[0].voice_profile_id #=> String
+    #   resp.speaker_search_task.speaker_search_details.voiceprint_generation_status #=> String
+    #   resp.speaker_search_task.created_timestamp #=> Time
+    #   resp.speaker_search_task.updated_timestamp #=> Time
+    #   resp.speaker_search_task.started_timestamp #=> Time
+    #   resp.speaker_search_task.status_message #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-voice-2022-08-03/GetSpeakerSearchTask AWS API Documentation
+    #
+    # @overload get_speaker_search_task(params = {})
+    # @param [Hash] params ({})
+    def get_speaker_search_task(params = {}, options = {})
+      req = build_request(:get_speaker_search_task, params)
+      req.send_request(options)
+    end
+
+    # Retrieves details for the specified Amazon Chime SDK Voice Connector,
+    # such as timestamps,name, outbound host, and encryption requirements.
+    #
+    # @option params [required, String] :voice_connector_id
+    #   The Voice Connector ID.
     #
     # @return [Types::GetVoiceConnectorResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1407,6 +2046,7 @@ module Aws::ChimeSDKVoice
     #   resp.voice_connector.created_timestamp #=> Time
     #   resp.voice_connector.updated_timestamp #=> Time
     #   resp.voice_connector.voice_connector_arn #=> String
+    #   resp.voice_connector.integration_type #=> String, one of "CONNECT_CALL_TRANSFER_CONNECTOR", "CONNECT_ANALYTICS_CONNECTOR"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-voice-2022-08-03/GetVoiceConnector AWS API Documentation
     #
@@ -1417,7 +2057,11 @@ module Aws::ChimeSDKVoice
       req.send_request(options)
     end
 
+    # Retrieves the emergency calling configuration details for the
+    # specified Voice Connector.
+    #
     # @option params [required, String] :voice_connector_id
+    #   The Voice Connector ID.
     #
     # @return [Types::GetVoiceConnectorEmergencyCallingConfigurationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1445,7 +2089,44 @@ module Aws::ChimeSDKVoice
       req.send_request(options)
     end
 
+    # Gets information about an external systems configuration for a Voice
+    # Connector.
+    #
+    # @option params [required, String] :voice_connector_id
+    #   The ID of the Voice Connector for which to return information about
+    #   the external system configuration.
+    #
+    # @return [Types::GetVoiceConnectorExternalSystemsConfigurationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetVoiceConnectorExternalSystemsConfigurationResponse#external_systems_configuration #external_systems_configuration} => Types::ExternalSystemsConfiguration
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_voice_connector_external_systems_configuration({
+    #     voice_connector_id: "NonEmptyString", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.external_systems_configuration.session_border_controller_types #=> Array
+    #   resp.external_systems_configuration.session_border_controller_types[0] #=> String, one of "RIBBON_SBC", "ORACLE_ACME_PACKET_SBC", "AVAYA_SBCE", "CISCO_UNIFIED_BORDER_ELEMENT", "AUDIOCODES_MEDIANT_SBC"
+    #   resp.external_systems_configuration.contact_center_system_types #=> Array
+    #   resp.external_systems_configuration.contact_center_system_types[0] #=> String, one of "GENESYS_ENGAGE_ON_PREMISES", "AVAYA_AURA_CALL_CENTER_ELITE", "AVAYA_AURA_CONTACT_CENTER", "CISCO_UNIFIED_CONTACT_CENTER_ENTERPRISE"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-voice-2022-08-03/GetVoiceConnectorExternalSystemsConfiguration AWS API Documentation
+    #
+    # @overload get_voice_connector_external_systems_configuration(params = {})
+    # @param [Hash] params ({})
+    def get_voice_connector_external_systems_configuration(params = {}, options = {})
+      req = build_request(:get_voice_connector_external_systems_configuration, params)
+      req.send_request(options)
+    end
+
+    # Retrieves details for the specified Amazon Chime SDK Voice Connector
+    # group, such as timestamps,name, and associated `VoiceConnectorItems`.
+    #
     # @option params [required, String] :voice_connector_group_id
+    #   The Voice Connector group ID.
     #
     # @return [Types::GetVoiceConnectorGroupResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1477,7 +2158,12 @@ module Aws::ChimeSDKVoice
       req.send_request(options)
     end
 
+    # Retrieves the logging configuration settings for the specified Voice
+    # Connector. Shows whether SIP message logs are enabled for sending to
+    # Amazon CloudWatch Logs.
+    #
     # @option params [required, String] :voice_connector_id
+    #   The Voice Connector ID.
     #
     # @return [Types::GetVoiceConnectorLoggingConfigurationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1492,6 +2178,7 @@ module Aws::ChimeSDKVoice
     # @example Response structure
     #
     #   resp.logging_configuration.enable_sip_logs #=> Boolean
+    #   resp.logging_configuration.enable_media_metric_logs #=> Boolean
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-voice-2022-08-03/GetVoiceConnectorLoggingConfiguration AWS API Documentation
     #
@@ -1502,7 +2189,10 @@ module Aws::ChimeSDKVoice
       req.send_request(options)
     end
 
+    # Retrieves the origination settings for the specified Voice Connector.
+    #
     # @option params [required, String] :voice_connector_id
+    #   The Voice Connector ID.
     #
     # @return [Types::GetVoiceConnectorOriginationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1533,7 +2223,11 @@ module Aws::ChimeSDKVoice
       req.send_request(options)
     end
 
+    # Retrieves the proxy configuration details for the specified Amazon
+    # Chime SDK Voice Connector.
+    #
     # @option params [required, String] :voice_connector_id
+    #   The Voice Connector ID.
     #
     # @return [Types::GetVoiceConnectorProxyResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1562,7 +2256,13 @@ module Aws::ChimeSDKVoice
       req.send_request(options)
     end
 
+    # Retrieves the streaming configuration details for the specified Amazon
+    # Chime SDK Voice Connector. Shows whether media streaming is enabled
+    # for sending to Amazon Kinesis. It also shows the retention period, in
+    # hours, for the Amazon Kinesis data.
+    #
     # @option params [required, String] :voice_connector_id
+    #   The Voice Connector ID.
     #
     # @return [Types::GetVoiceConnectorStreamingConfigurationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1580,6 +2280,8 @@ module Aws::ChimeSDKVoice
     #   resp.streaming_configuration.disabled #=> Boolean
     #   resp.streaming_configuration.streaming_notification_targets #=> Array
     #   resp.streaming_configuration.streaming_notification_targets[0].notification_target #=> String, one of "EventBridge", "SNS", "SQS"
+    #   resp.streaming_configuration.media_insights_configuration.disabled #=> Boolean
+    #   resp.streaming_configuration.media_insights_configuration.configuration_arn #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-voice-2022-08-03/GetVoiceConnectorStreamingConfiguration AWS API Documentation
     #
@@ -1590,7 +2292,11 @@ module Aws::ChimeSDKVoice
       req.send_request(options)
     end
 
+    # Retrieves the termination setting details for the specified Voice
+    # Connector.
+    #
     # @option params [required, String] :voice_connector_id
+    #   The Voice Connector ID.
     #
     # @return [Types::GetVoiceConnectorTerminationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1621,7 +2327,12 @@ module Aws::ChimeSDKVoice
       req.send_request(options)
     end
 
+    # Retrieves information about the last time a `SIP OPTIONS` ping was
+    # received from your SIP infrastructure for the specified Amazon Chime
+    # SDK Voice Connector.
+    #
     # @option params [required, String] :voice_connector_id
+    #   The Voice Connector ID.
     #
     # @return [Types::GetVoiceConnectorTerminationHealthResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1647,6 +2358,121 @@ module Aws::ChimeSDKVoice
       req.send_request(options)
     end
 
+    # Retrieves the details of the specified voice profile.
+    #
+    # @option params [required, String] :voice_profile_id
+    #   The voice profile ID.
+    #
+    # @return [Types::GetVoiceProfileResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetVoiceProfileResponse#voice_profile #voice_profile} => Types::VoiceProfile
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_voice_profile({
+    #     voice_profile_id: "NonEmptyString256", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.voice_profile.voice_profile_id #=> String
+    #   resp.voice_profile.voice_profile_arn #=> String
+    #   resp.voice_profile.voice_profile_domain_id #=> String
+    #   resp.voice_profile.created_timestamp #=> Time
+    #   resp.voice_profile.updated_timestamp #=> Time
+    #   resp.voice_profile.expiration_timestamp #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-voice-2022-08-03/GetVoiceProfile AWS API Documentation
+    #
+    # @overload get_voice_profile(params = {})
+    # @param [Hash] params ({})
+    def get_voice_profile(params = {}, options = {})
+      req = build_request(:get_voice_profile, params)
+      req.send_request(options)
+    end
+
+    # Retrieves the details of the specified voice profile domain.
+    #
+    # @option params [required, String] :voice_profile_domain_id
+    #   The voice profile domain ID.
+    #
+    # @return [Types::GetVoiceProfileDomainResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetVoiceProfileDomainResponse#voice_profile_domain #voice_profile_domain} => Types::VoiceProfileDomain
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_voice_profile_domain({
+    #     voice_profile_domain_id: "NonEmptyString256", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.voice_profile_domain.voice_profile_domain_id #=> String
+    #   resp.voice_profile_domain.voice_profile_domain_arn #=> String
+    #   resp.voice_profile_domain.name #=> String
+    #   resp.voice_profile_domain.description #=> String
+    #   resp.voice_profile_domain.server_side_encryption_configuration.kms_key_arn #=> String
+    #   resp.voice_profile_domain.created_timestamp #=> Time
+    #   resp.voice_profile_domain.updated_timestamp #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-voice-2022-08-03/GetVoiceProfileDomain AWS API Documentation
+    #
+    # @overload get_voice_profile_domain(params = {})
+    # @param [Hash] params ({})
+    def get_voice_profile_domain(params = {}, options = {})
+      req = build_request(:get_voice_profile_domain, params)
+      req.send_request(options)
+    end
+
+    # Retrieves the details of a voice tone analysis task.
+    #
+    # @option params [required, String] :voice_connector_id
+    #   The Voice Connector ID.
+    #
+    # @option params [required, String] :voice_tone_analysis_task_id
+    #   The ID of the voice tone analysis task.
+    #
+    # @option params [required, Boolean] :is_caller
+    #   Specifies whether the voice being analyzed is the caller (originator)
+    #   or the callee (responder).
+    #
+    # @return [Types::GetVoiceToneAnalysisTaskResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetVoiceToneAnalysisTaskResponse#voice_tone_analysis_task #voice_tone_analysis_task} => Types::VoiceToneAnalysisTask
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_voice_tone_analysis_task({
+    #     voice_connector_id: "NonEmptyString128", # required
+    #     voice_tone_analysis_task_id: "NonEmptyString256", # required
+    #     is_caller: false, # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.voice_tone_analysis_task.voice_tone_analysis_task_id #=> String
+    #   resp.voice_tone_analysis_task.voice_tone_analysis_task_status #=> String
+    #   resp.voice_tone_analysis_task.call_details.voice_connector_id #=> String
+    #   resp.voice_tone_analysis_task.call_details.transaction_id #=> String
+    #   resp.voice_tone_analysis_task.call_details.is_caller #=> Boolean
+    #   resp.voice_tone_analysis_task.created_timestamp #=> Time
+    #   resp.voice_tone_analysis_task.updated_timestamp #=> Time
+    #   resp.voice_tone_analysis_task.started_timestamp #=> Time
+    #   resp.voice_tone_analysis_task.status_message #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-voice-2022-08-03/GetVoiceToneAnalysisTask AWS API Documentation
+    #
+    # @overload get_voice_tone_analysis_task(params = {})
+    # @param [Hash] params ({})
+    def get_voice_tone_analysis_task(params = {}, options = {})
+      req = build_request(:get_voice_tone_analysis_task, params)
+      req.send_request(options)
+    end
+
+    # Lists the available AWS Regions in which you can create an Amazon
+    # Chime SDK Voice Connector.
+    #
     # @return [Types::ListAvailableVoiceConnectorRegionsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::ListAvailableVoiceConnectorRegionsResponse#voice_connector_regions #voice_connector_regions} => Array&lt;String&gt;
@@ -1665,9 +2491,14 @@ module Aws::ChimeSDKVoice
       req.send_request(options)
     end
 
+    # Lists the phone numbers for an administrator's Amazon Chime SDK
+    # account.
+    #
     # @option params [String] :next_token
+    #   The token used to retrieve the next page of results.
     #
     # @option params [Integer] :max_results
+    #   The maximum number of results to return in a single call.
     #
     # @return [Types::ListPhoneNumberOrdersResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1706,17 +2537,27 @@ module Aws::ChimeSDKVoice
       req.send_request(options)
     end
 
+    # Lists the phone numbers for the specified Amazon Chime SDK account,
+    # Amazon Chime SDK user, Amazon Chime SDK Voice Connector, or Amazon
+    # Chime SDK Voice Connector group.
+    #
     # @option params [String] :status
+    #   The status of your organization's phone numbers.
     #
     # @option params [String] :product_type
+    #   The phone number product types.
     #
     # @option params [String] :filter_name
+    #   The filter to limit the number of results.
     #
     # @option params [String] :filter_value
+    #   The filter value.
     #
     # @option params [Integer] :max_results
+    #   The maximum number of results to return in a single call.
     #
     # @option params [String] :next_token
+    #   The token used to return the next page of results.
     #
     # @return [Types::ListPhoneNumbersResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1761,6 +2602,7 @@ module Aws::ChimeSDKVoice
     #   resp.phone_numbers[0].updated_timestamp #=> Time
     #   resp.phone_numbers[0].deletion_timestamp #=> Time
     #   resp.phone_numbers[0].order_id #=> String
+    #   resp.phone_numbers[0].name #=> String
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-voice-2022-08-03/ListPhoneNumbers AWS API Documentation
@@ -1772,13 +2614,20 @@ module Aws::ChimeSDKVoice
       req.send_request(options)
     end
 
+    # Lists the proxy sessions for the specified Amazon Chime SDK Voice
+    # Connector.
+    #
     # @option params [required, String] :voice_connector_id
+    #   The Voice Connector ID.
     #
     # @option params [String] :status
+    #   The proxy session status.
     #
     # @option params [String] :next_token
+    #   The token used to retrieve the next page of results.
     #
     # @option params [Integer] :max_results
+    #   The maximum number of results to return in a single call.
     #
     # @return [Types::ListProxySessionsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1827,9 +2676,15 @@ module Aws::ChimeSDKVoice
       req.send_request(options)
     end
 
+    # Lists the SIP media applications under the administrator's AWS
+    # account.
+    #
     # @option params [Integer] :max_results
+    #   The maximum number of results to return in a single call. Defaults to
+    #   100.
     #
     # @option params [String] :next_token
+    #   The token used to return the next page of results.
     #
     # @return [Types::ListSipMediaApplicationsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1855,6 +2710,7 @@ module Aws::ChimeSDKVoice
     #   resp.sip_media_applications[0].endpoints[0].lambda_arn #=> String
     #   resp.sip_media_applications[0].created_timestamp #=> Time
     #   resp.sip_media_applications[0].updated_timestamp #=> Time
+    #   resp.sip_media_applications[0].sip_media_application_arn #=> String
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-voice-2022-08-03/ListSipMediaApplications AWS API Documentation
@@ -1866,11 +2722,17 @@ module Aws::ChimeSDKVoice
       req.send_request(options)
     end
 
+    # Lists the SIP rules under the administrator's AWS account.
+    #
     # @option params [String] :sip_media_application_id
+    #   The SIP media application ID.
     #
     # @option params [Integer] :max_results
+    #   The maximum number of results to return in a single call. Defaults to
+    #   100.
     #
     # @option params [String] :next_token
+    #   The token used to return the next page of results.
     #
     # @return [Types::ListSipRulesResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1912,7 +2774,10 @@ module Aws::ChimeSDKVoice
       req.send_request(options)
     end
 
+    # Lists the countries that you can order phone numbers from.
+    #
     # @option params [required, String] :product_type
+    #   The phone number product type.
     #
     # @return [Types::ListSupportedPhoneNumberCountriesResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1940,9 +2805,44 @@ module Aws::ChimeSDKVoice
       req.send_request(options)
     end
 
+    # Returns a list of the tags in a given resource.
+    #
+    # @option params [required, String] :resource_arn
+    #   The resource ARN.
+    #
+    # @return [Types::ListTagsForResourceResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListTagsForResourceResponse#tags #tags} => Array&lt;Types::Tag&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_tags_for_resource({
+    #     resource_arn: "Arn", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.tags #=> Array
+    #   resp.tags[0].key #=> String
+    #   resp.tags[0].value #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-voice-2022-08-03/ListTagsForResource AWS API Documentation
+    #
+    # @overload list_tags_for_resource(params = {})
+    # @param [Hash] params ({})
+    def list_tags_for_resource(params = {}, options = {})
+      req = build_request(:list_tags_for_resource, params)
+      req.send_request(options)
+    end
+
+    # Lists the Amazon Chime SDK Voice Connector groups in the
+    # administrator's AWS account.
+    #
     # @option params [String] :next_token
+    #   The token used to return the next page of results.
     #
     # @option params [Integer] :max_results
+    #   The maximum number of results to return in a single call.
     #
     # @return [Types::ListVoiceConnectorGroupsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1980,7 +2880,11 @@ module Aws::ChimeSDKVoice
       req.send_request(options)
     end
 
+    # Lists the SIP credentials for the specified Amazon Chime SDK Voice
+    # Connector.
+    #
     # @option params [required, String] :voice_connector_id
+    #   The Voice Connector ID.
     #
     # @return [Types::ListVoiceConnectorTerminationCredentialsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -2006,9 +2910,14 @@ module Aws::ChimeSDKVoice
       req.send_request(options)
     end
 
+    # Lists the Amazon Chime SDK Voice Connectors in the administrators AWS
+    # account.
+    #
     # @option params [String] :next_token
+    #   The token used to return the next page of results.
     #
     # @option params [Integer] :max_results
+    #   The maximum number of results to return in a single call.
     #
     # @return [Types::ListVoiceConnectorsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -2035,6 +2944,7 @@ module Aws::ChimeSDKVoice
     #   resp.voice_connectors[0].created_timestamp #=> Time
     #   resp.voice_connectors[0].updated_timestamp #=> Time
     #   resp.voice_connectors[0].voice_connector_arn #=> String
+    #   resp.voice_connectors[0].integration_type #=> String, one of "CONNECT_CALL_TRANSFER_CONNECTOR", "CONNECT_ANALYTICS_CONNECTOR"
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-voice-2022-08-03/ListVoiceConnectors AWS API Documentation
@@ -2046,9 +2956,110 @@ module Aws::ChimeSDKVoice
       req.send_request(options)
     end
 
+    # Lists the specified voice profile domains in the administrator's AWS
+    # account.
+    #
+    # @option params [String] :next_token
+    #   The token used to return the next page of results.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return in a single call.
+    #
+    # @return [Types::ListVoiceProfileDomainsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListVoiceProfileDomainsResponse#voice_profile_domains #voice_profile_domains} => Array&lt;Types::VoiceProfileDomainSummary&gt;
+    #   * {Types::ListVoiceProfileDomainsResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_voice_profile_domains({
+    #     next_token: "String",
+    #     max_results: 1,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.voice_profile_domains #=> Array
+    #   resp.voice_profile_domains[0].voice_profile_domain_id #=> String
+    #   resp.voice_profile_domains[0].voice_profile_domain_arn #=> String
+    #   resp.voice_profile_domains[0].name #=> String
+    #   resp.voice_profile_domains[0].description #=> String
+    #   resp.voice_profile_domains[0].created_timestamp #=> Time
+    #   resp.voice_profile_domains[0].updated_timestamp #=> Time
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-voice-2022-08-03/ListVoiceProfileDomains AWS API Documentation
+    #
+    # @overload list_voice_profile_domains(params = {})
+    # @param [Hash] params ({})
+    def list_voice_profile_domains(params = {}, options = {})
+      req = build_request(:list_voice_profile_domains, params)
+      req.send_request(options)
+    end
+
+    # Lists the voice profiles in a voice profile domain.
+    #
+    # @option params [required, String] :voice_profile_domain_id
+    #   The ID of the voice profile domain.
+    #
+    # @option params [String] :next_token
+    #   The token used to retrieve the next page of results.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results in the request.
+    #
+    # @return [Types::ListVoiceProfilesResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListVoiceProfilesResponse#voice_profiles #voice_profiles} => Array&lt;Types::VoiceProfileSummary&gt;
+    #   * {Types::ListVoiceProfilesResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_voice_profiles({
+    #     voice_profile_domain_id: "NonEmptyString256", # required
+    #     next_token: "String",
+    #     max_results: 1,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.voice_profiles #=> Array
+    #   resp.voice_profiles[0].voice_profile_id #=> String
+    #   resp.voice_profiles[0].voice_profile_arn #=> String
+    #   resp.voice_profiles[0].voice_profile_domain_id #=> String
+    #   resp.voice_profiles[0].created_timestamp #=> Time
+    #   resp.voice_profiles[0].updated_timestamp #=> Time
+    #   resp.voice_profiles[0].expiration_timestamp #=> Time
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-voice-2022-08-03/ListVoiceProfiles AWS API Documentation
+    #
+    # @overload list_voice_profiles(params = {})
+    # @param [Hash] params ({})
+    def list_voice_profiles(params = {}, options = {})
+      req = build_request(:list_voice_profiles, params)
+      req.send_request(options)
+    end
+
+    # Updates the Alexa Skill configuration for the SIP media application.
+    #
+    # Due to changes made by the Amazon Alexa service, this API is no longer
+    # available for use. For more information, refer to the [Alexa Smart
+    # Properties][1] page.
+    #
+    #
+    #
+    # [1]: https://developer.amazon.com/en-US/alexa/alexasmartproperties
+    #
     # @option params [required, String] :sip_media_application_id
+    #   The SIP media application ID.
     #
     # @option params [Types::SipMediaApplicationAlexaSkillConfiguration] :sip_media_application_alexa_skill_configuration
+    #   The Alexa Skill configuration.
     #
     # @return [Types::PutSipMediaApplicationAlexaSkillConfigurationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -2079,9 +3090,14 @@ module Aws::ChimeSDKVoice
       req.send_request(options)
     end
 
+    # Updates the logging configuration for the specified SIP media
+    # application.
+    #
     # @option params [required, String] :sip_media_application_id
+    #   The SIP media application ID.
     #
     # @option params [Types::SipMediaApplicationLoggingConfiguration] :sip_media_application_logging_configuration
+    #   The logging configuration for the specified SIP media application.
     #
     # @return [Types::PutSipMediaApplicationLoggingConfigurationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -2109,9 +3125,13 @@ module Aws::ChimeSDKVoice
       req.send_request(options)
     end
 
+    # Updates a Voice Connector's emergency calling configuration.
+    #
     # @option params [required, String] :voice_connector_id
+    #   The Voice Connector ID.
     #
     # @option params [required, Types::EmergencyCallingConfiguration] :emergency_calling_configuration
+    #   The configuration being updated.
     #
     # @return [Types::PutVoiceConnectorEmergencyCallingConfigurationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -2148,9 +3168,53 @@ module Aws::ChimeSDKVoice
       req.send_request(options)
     end
 
+    # Adds an external systems configuration to a Voice Connector.
+    #
     # @option params [required, String] :voice_connector_id
+    #   The ID of the Voice Connector for which to add the external system
+    #   configuration.
+    #
+    # @option params [Array<String>] :session_border_controller_types
+    #   The session border controllers to use.
+    #
+    # @option params [Array<String>] :contact_center_system_types
+    #   The contact center system to use.
+    #
+    # @return [Types::PutVoiceConnectorExternalSystemsConfigurationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::PutVoiceConnectorExternalSystemsConfigurationResponse#external_systems_configuration #external_systems_configuration} => Types::ExternalSystemsConfiguration
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.put_voice_connector_external_systems_configuration({
+    #     voice_connector_id: "NonEmptyString128", # required
+    #     session_border_controller_types: ["RIBBON_SBC"], # accepts RIBBON_SBC, ORACLE_ACME_PACKET_SBC, AVAYA_SBCE, CISCO_UNIFIED_BORDER_ELEMENT, AUDIOCODES_MEDIANT_SBC
+    #     contact_center_system_types: ["GENESYS_ENGAGE_ON_PREMISES"], # accepts GENESYS_ENGAGE_ON_PREMISES, AVAYA_AURA_CALL_CENTER_ELITE, AVAYA_AURA_CONTACT_CENTER, CISCO_UNIFIED_CONTACT_CENTER_ENTERPRISE
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.external_systems_configuration.session_border_controller_types #=> Array
+    #   resp.external_systems_configuration.session_border_controller_types[0] #=> String, one of "RIBBON_SBC", "ORACLE_ACME_PACKET_SBC", "AVAYA_SBCE", "CISCO_UNIFIED_BORDER_ELEMENT", "AUDIOCODES_MEDIANT_SBC"
+    #   resp.external_systems_configuration.contact_center_system_types #=> Array
+    #   resp.external_systems_configuration.contact_center_system_types[0] #=> String, one of "GENESYS_ENGAGE_ON_PREMISES", "AVAYA_AURA_CALL_CENTER_ELITE", "AVAYA_AURA_CONTACT_CENTER", "CISCO_UNIFIED_CONTACT_CENTER_ENTERPRISE"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-voice-2022-08-03/PutVoiceConnectorExternalSystemsConfiguration AWS API Documentation
+    #
+    # @overload put_voice_connector_external_systems_configuration(params = {})
+    # @param [Hash] params ({})
+    def put_voice_connector_external_systems_configuration(params = {}, options = {})
+      req = build_request(:put_voice_connector_external_systems_configuration, params)
+      req.send_request(options)
+    end
+
+    # Updates a Voice Connector's logging configuration.
+    #
+    # @option params [required, String] :voice_connector_id
+    #   The Voice Connector ID.
     #
     # @option params [required, Types::LoggingConfiguration] :logging_configuration
+    #   The logging configuration being updated.
     #
     # @return [Types::PutVoiceConnectorLoggingConfigurationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -2162,12 +3226,14 @@ module Aws::ChimeSDKVoice
     #     voice_connector_id: "NonEmptyString", # required
     #     logging_configuration: { # required
     #       enable_sip_logs: false,
+    #       enable_media_metric_logs: false,
     #     },
     #   })
     #
     # @example Response structure
     #
     #   resp.logging_configuration.enable_sip_logs #=> Boolean
+    #   resp.logging_configuration.enable_media_metric_logs #=> Boolean
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-voice-2022-08-03/PutVoiceConnectorLoggingConfiguration AWS API Documentation
     #
@@ -2178,9 +3244,13 @@ module Aws::ChimeSDKVoice
       req.send_request(options)
     end
 
+    # Updates a Voice Connector's origination settings.
+    #
     # @option params [required, String] :voice_connector_id
+    #   The Voice Connector ID.
     #
     # @option params [required, Types::Origination] :origination
+    #   The origination settings being updated.
     #
     # @return [Types::PutVoiceConnectorOriginationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -2223,15 +3293,24 @@ module Aws::ChimeSDKVoice
       req.send_request(options)
     end
 
+    # Puts the specified proxy configuration to the specified Amazon Chime
+    # SDK Voice Connector.
+    #
     # @option params [required, String] :voice_connector_id
+    #   The Voice Connector ID.
     #
     # @option params [required, Integer] :default_session_expiry_minutes
+    #   The default number of minutes allowed for proxy session.
     #
     # @option params [required, Array<String>] :phone_number_pool_countries
+    #   The countries for proxy phone numbers to be selected from.
     #
     # @option params [String] :fall_back_phone_number
+    #   The phone number to route calls to after a proxy session expires.
     #
     # @option params [Boolean] :disabled
+    #   When true, stops proxy sessions from being created on the specified
+    #   Amazon Chime SDK Voice Connector.
     #
     # @return [Types::PutVoiceConnectorProxyResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -2264,9 +3343,13 @@ module Aws::ChimeSDKVoice
       req.send_request(options)
     end
 
+    # Updates a Voice Connector's streaming configuration settings.
+    #
     # @option params [required, String] :voice_connector_id
+    #   The Voice Connector ID.
     #
     # @option params [required, Types::StreamingConfiguration] :streaming_configuration
+    #   The streaming settings being updated.
     #
     # @return [Types::PutVoiceConnectorStreamingConfigurationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -2284,6 +3367,10 @@ module Aws::ChimeSDKVoice
     #           notification_target: "EventBridge", # accepts EventBridge, SNS, SQS
     #         },
     #       ],
+    #       media_insights_configuration: {
+    #         disabled: false,
+    #         configuration_arn: "Arn",
+    #       },
     #     },
     #   })
     #
@@ -2293,6 +3380,8 @@ module Aws::ChimeSDKVoice
     #   resp.streaming_configuration.disabled #=> Boolean
     #   resp.streaming_configuration.streaming_notification_targets #=> Array
     #   resp.streaming_configuration.streaming_notification_targets[0].notification_target #=> String, one of "EventBridge", "SNS", "SQS"
+    #   resp.streaming_configuration.media_insights_configuration.disabled #=> Boolean
+    #   resp.streaming_configuration.media_insights_configuration.configuration_arn #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-voice-2022-08-03/PutVoiceConnectorStreamingConfiguration AWS API Documentation
     #
@@ -2303,9 +3392,13 @@ module Aws::ChimeSDKVoice
       req.send_request(options)
     end
 
+    # Updates a Voice Connector's termination settings.
+    #
     # @option params [required, String] :voice_connector_id
+    #   The Voice Connector ID.
     #
     # @option params [required, Types::Termination] :termination
+    #   The termination settings to be updated.
     #
     # @return [Types::PutVoiceConnectorTerminationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -2343,9 +3436,13 @@ module Aws::ChimeSDKVoice
       req.send_request(options)
     end
 
+    # Updates a Voice Connector's termination credentials.
+    #
     # @option params [required, String] :voice_connector_id
+    #   The Voice Connector ID.
     #
     # @option params [Array<Types::Credential>] :credentials
+    #   The termination credentials being updated.
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
@@ -2370,7 +3467,10 @@ module Aws::ChimeSDKVoice
       req.send_request(options)
     end
 
+    # Restores a deleted phone number.
+    #
     # @option params [required, String] :phone_number_id
+    #   The ID of the phone number being restored.
     #
     # @return [Types::RestorePhoneNumberResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -2406,6 +3506,7 @@ module Aws::ChimeSDKVoice
     #   resp.phone_number.updated_timestamp #=> Time
     #   resp.phone_number.deletion_timestamp #=> Time
     #   resp.phone_number.order_id #=> String
+    #   resp.phone_number.name #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-voice-2022-08-03/RestorePhoneNumber AWS API Documentation
     #
@@ -2416,21 +3517,37 @@ module Aws::ChimeSDKVoice
       req.send_request(options)
     end
 
+    # Searches the provisioned phone numbers in an organization.
+    #
     # @option params [String] :area_code
+    #   Confines a search to just the phone numbers associated with the
+    #   specified area code.
     #
     # @option params [String] :city
+    #   Confines a search to just the phone numbers associated with the
+    #   specified city.
     #
     # @option params [String] :country
+    #   Confines a search to just the phone numbers associated with the
+    #   specified country.
     #
     # @option params [String] :state
+    #   Confines a search to just the phone numbers associated with the
+    #   specified state.
     #
     # @option params [String] :toll_free_prefix
+    #   Confines a search to just the phone numbers associated with the
+    #   specified toll-free prefix.
     #
     # @option params [String] :phone_number_type
+    #   Confines a search to just the phone numbers associated with the
+    #   specified phone number type, either **local** or **toll-free**.
     #
     # @option params [Integer] :max_results
+    #   The maximum number of results to return.
     #
     # @option params [String] :next_token
+    #   The token used to return the next page of results.
     #
     # @return [Types::SearchAvailablePhoneNumbersResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -2467,7 +3584,247 @@ module Aws::ChimeSDKVoice
       req.send_request(options)
     end
 
+    # Starts a speaker search task.
+    #
+    # Before starting any speaker search tasks, you must provide all notices
+    # and obtain all consents from the speaker as required under applicable
+    # privacy and biometrics laws, and as required under the [AWS service
+    # terms][1] for the Amazon Chime SDK.
+    #
+    #
+    #
+    # [1]: https://aws.amazon.com/service-terms/
+    #
+    # @option params [required, String] :voice_connector_id
+    #   The Voice Connector ID.
+    #
+    # @option params [required, String] :transaction_id
+    #   The transaction ID of the call being analyzed.
+    #
+    # @option params [required, String] :voice_profile_domain_id
+    #   The ID of the voice profile domain that will store the voice profile.
+    #
+    # @option params [String] :client_request_token
+    #   The unique identifier for the client request. Use a different token
+    #   for different speaker search tasks.
+    #
+    # @option params [String] :call_leg
+    #   Specifies which call leg to stream for speaker search.
+    #
+    # @return [Types::StartSpeakerSearchTaskResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::StartSpeakerSearchTaskResponse#speaker_search_task #speaker_search_task} => Types::SpeakerSearchTask
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.start_speaker_search_task({
+    #     voice_connector_id: "NonEmptyString128", # required
+    #     transaction_id: "NonEmptyString256", # required
+    #     voice_profile_domain_id: "NonEmptyString256", # required
+    #     client_request_token: "ClientRequestId",
+    #     call_leg: "Caller", # accepts Caller, Callee
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.speaker_search_task.speaker_search_task_id #=> String
+    #   resp.speaker_search_task.speaker_search_task_status #=> String
+    #   resp.speaker_search_task.call_details.voice_connector_id #=> String
+    #   resp.speaker_search_task.call_details.transaction_id #=> String
+    #   resp.speaker_search_task.call_details.is_caller #=> Boolean
+    #   resp.speaker_search_task.speaker_search_details.results #=> Array
+    #   resp.speaker_search_task.speaker_search_details.results[0].confidence_score #=> Float
+    #   resp.speaker_search_task.speaker_search_details.results[0].voice_profile_id #=> String
+    #   resp.speaker_search_task.speaker_search_details.voiceprint_generation_status #=> String
+    #   resp.speaker_search_task.created_timestamp #=> Time
+    #   resp.speaker_search_task.updated_timestamp #=> Time
+    #   resp.speaker_search_task.started_timestamp #=> Time
+    #   resp.speaker_search_task.status_message #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-voice-2022-08-03/StartSpeakerSearchTask AWS API Documentation
+    #
+    # @overload start_speaker_search_task(params = {})
+    # @param [Hash] params ({})
+    def start_speaker_search_task(params = {}, options = {})
+      req = build_request(:start_speaker_search_task, params)
+      req.send_request(options)
+    end
+
+    # Starts a voice tone analysis task. For more information about voice
+    # tone analysis, see [Using Amazon Chime SDK voice analytics][1] in the
+    # *Amazon Chime SDK Developer Guide*.
+    #
+    # Before starting any voice tone analysis tasks, you must provide all
+    # notices and obtain all consents from the speaker as required under
+    # applicable privacy and biometrics laws, and as required under the [AWS
+    # service terms][2] for the Amazon Chime SDK.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/dg/pstn-voice-analytics.html
+    # [2]: https://aws.amazon.com/service-terms/
+    #
+    # @option params [required, String] :voice_connector_id
+    #   The Voice Connector ID.
+    #
+    # @option params [required, String] :transaction_id
+    #   The transaction ID.
+    #
+    # @option params [required, String] :language_code
+    #   The language code.
+    #
+    # @option params [String] :client_request_token
+    #   The unique identifier for the client request. Use a different token
+    #   for different voice tone analysis tasks.
+    #
+    # @return [Types::StartVoiceToneAnalysisTaskResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::StartVoiceToneAnalysisTaskResponse#voice_tone_analysis_task #voice_tone_analysis_task} => Types::VoiceToneAnalysisTask
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.start_voice_tone_analysis_task({
+    #     voice_connector_id: "NonEmptyString128", # required
+    #     transaction_id: "NonEmptyString256", # required
+    #     language_code: "en-US", # required, accepts en-US
+    #     client_request_token: "ClientRequestId",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.voice_tone_analysis_task.voice_tone_analysis_task_id #=> String
+    #   resp.voice_tone_analysis_task.voice_tone_analysis_task_status #=> String
+    #   resp.voice_tone_analysis_task.call_details.voice_connector_id #=> String
+    #   resp.voice_tone_analysis_task.call_details.transaction_id #=> String
+    #   resp.voice_tone_analysis_task.call_details.is_caller #=> Boolean
+    #   resp.voice_tone_analysis_task.created_timestamp #=> Time
+    #   resp.voice_tone_analysis_task.updated_timestamp #=> Time
+    #   resp.voice_tone_analysis_task.started_timestamp #=> Time
+    #   resp.voice_tone_analysis_task.status_message #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-voice-2022-08-03/StartVoiceToneAnalysisTask AWS API Documentation
+    #
+    # @overload start_voice_tone_analysis_task(params = {})
+    # @param [Hash] params ({})
+    def start_voice_tone_analysis_task(params = {}, options = {})
+      req = build_request(:start_voice_tone_analysis_task, params)
+      req.send_request(options)
+    end
+
+    # Stops a speaker search task.
+    #
+    # @option params [required, String] :voice_connector_id
+    #   The Voice Connector ID.
+    #
+    # @option params [required, String] :speaker_search_task_id
+    #   The speaker search task ID.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.stop_speaker_search_task({
+    #     voice_connector_id: "NonEmptyString128", # required
+    #     speaker_search_task_id: "NonEmptyString256", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-voice-2022-08-03/StopSpeakerSearchTask AWS API Documentation
+    #
+    # @overload stop_speaker_search_task(params = {})
+    # @param [Hash] params ({})
+    def stop_speaker_search_task(params = {}, options = {})
+      req = build_request(:stop_speaker_search_task, params)
+      req.send_request(options)
+    end
+
+    # Stops a voice tone analysis task.
+    #
+    # @option params [required, String] :voice_connector_id
+    #   The Voice Connector ID.
+    #
+    # @option params [required, String] :voice_tone_analysis_task_id
+    #   The ID of the voice tone analysis task.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.stop_voice_tone_analysis_task({
+    #     voice_connector_id: "NonEmptyString128", # required
+    #     voice_tone_analysis_task_id: "NonEmptyString256", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-voice-2022-08-03/StopVoiceToneAnalysisTask AWS API Documentation
+    #
+    # @overload stop_voice_tone_analysis_task(params = {})
+    # @param [Hash] params ({})
+    def stop_voice_tone_analysis_task(params = {}, options = {})
+      req = build_request(:stop_voice_tone_analysis_task, params)
+      req.send_request(options)
+    end
+
+    # Adds a tag to the specified resource.
+    #
+    # @option params [required, String] :resource_arn
+    #   The ARN of the resource being tagged.
+    #
+    # @option params [required, Array<Types::Tag>] :tags
+    #   A list of the tags being added to the resource.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.tag_resource({
+    #     resource_arn: "Arn", # required
+    #     tags: [ # required
+    #       {
+    #         key: "TagKey", # required
+    #         value: "TagValue", # required
+    #       },
+    #     ],
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-voice-2022-08-03/TagResource AWS API Documentation
+    #
+    # @overload tag_resource(params = {})
+    # @param [Hash] params ({})
+    def tag_resource(params = {}, options = {})
+      req = build_request(:tag_resource, params)
+      req.send_request(options)
+    end
+
+    # Removes tags from a resource.
+    #
+    # @option params [required, String] :resource_arn
+    #   The ARN of the resource having its tags removed.
+    #
+    # @option params [required, Array<String>] :tag_keys
+    #   The keys of the tags being removed from the resource.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.untag_resource({
+    #     resource_arn: "Arn", # required
+    #     tag_keys: ["TagKey"], # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-voice-2022-08-03/UntagResource AWS API Documentation
+    #
+    # @overload untag_resource(params = {})
+    # @param [Hash] params ({})
+    def untag_resource(params = {}, options = {})
+      req = build_request(:untag_resource, params)
+      req.send_request(options)
+    end
+
+    # Updates global settings for the Amazon Chime SDK Voice Connectors in
+    # an AWS account.
+    #
     # @option params [Types::VoiceConnectorSettings] :voice_connector
+    #   The Voice Connector settings.
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
@@ -2488,11 +3845,29 @@ module Aws::ChimeSDKVoice
       req.send_request(options)
     end
 
+    # Updates phone number details, such as product type, calling name, or
+    # phone number name for the specified phone number ID. You can update
+    # one phone number detail at a time. For example, you can update either
+    # the product type, calling name, or phone number name in one action.
+    #
+    # For numbers outside the U.S., you must use the Amazon Chime SDK SIP
+    # Media Application Dial-In product type.
+    #
+    # Updates to outbound calling names can take 72 hours to complete.
+    # Pending updates to outbound calling names must be complete before you
+    # can request another update.
+    #
     # @option params [required, String] :phone_number_id
+    #   The phone number ID.
     #
     # @option params [String] :product_type
+    #   The product type.
     #
     # @option params [String] :calling_name
+    #   The outbound calling name associated with the phone number.
+    #
+    # @option params [String] :name
+    #   Specifies the updated name assigned to one or more phone numbers.
     #
     # @return [Types::UpdatePhoneNumberResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -2504,6 +3879,7 @@ module Aws::ChimeSDKVoice
     #     phone_number_id: "SensitiveNonEmptyString", # required
     #     product_type: "VoiceConnector", # accepts VoiceConnector, SipMediaApplicationDialIn
     #     calling_name: "CallingName",
+    #     name: "PhoneNumberName",
     #   })
     #
     # @example Response structure
@@ -2530,6 +3906,7 @@ module Aws::ChimeSDKVoice
     #   resp.phone_number.updated_timestamp #=> Time
     #   resp.phone_number.deletion_timestamp #=> Time
     #   resp.phone_number.order_id #=> String
+    #   resp.phone_number.name #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-voice-2022-08-03/UpdatePhoneNumber AWS API Documentation
     #
@@ -2540,7 +3917,13 @@ module Aws::ChimeSDKVoice
       req.send_request(options)
     end
 
+    # Updates the phone number settings for the administrator's AWS
+    # account, such as the default outbound calling name. You can update the
+    # default outbound calling name once every seven days. Outbound calling
+    # names can take up to 72 hours to update.
+    #
     # @option params [required, String] :calling_name
+    #   The default outbound calling name for the account.
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
@@ -2559,13 +3942,20 @@ module Aws::ChimeSDKVoice
       req.send_request(options)
     end
 
+    # Updates the specified proxy session details, such as voice or SMS
+    # capabilities.
+    #
     # @option params [required, String] :voice_connector_id
+    #   The Voice Connector ID.
     #
     # @option params [required, String] :proxy_session_id
+    #   The proxy session ID.
     #
     # @option params [required, Array<String>] :capabilities
+    #   The proxy session capabilities.
     #
     # @option params [Integer] :expiry_minutes
+    #   The number of minutes allowed for the proxy session.
     #
     # @return [Types::UpdateProxySessionResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -2609,11 +3999,16 @@ module Aws::ChimeSDKVoice
       req.send_request(options)
     end
 
+    # Updates the details of the specified SIP media application.
+    #
     # @option params [required, String] :sip_media_application_id
+    #   The SIP media application ID.
     #
     # @option params [String] :name
+    #   The new name for the specified SIP media application.
     #
     # @option params [Array<Types::SipMediaApplicationEndpoint>] :endpoints
+    #   The new set of endpoints for the specified SIP media application.
     #
     # @return [Types::UpdateSipMediaApplicationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -2640,6 +4035,7 @@ module Aws::ChimeSDKVoice
     #   resp.sip_media_application.endpoints[0].lambda_arn #=> String
     #   resp.sip_media_application.created_timestamp #=> Time
     #   resp.sip_media_application.updated_timestamp #=> Time
+    #   resp.sip_media_application.sip_media_application_arn #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-voice-2022-08-03/UpdateSipMediaApplication AWS API Documentation
     #
@@ -2650,11 +4046,19 @@ module Aws::ChimeSDKVoice
       req.send_request(options)
     end
 
+    # Invokes the AWS Lambda function associated with the SIP media
+    # application and transaction ID in an update request. The Lambda
+    # function can then return a new set of actions.
+    #
     # @option params [required, String] :sip_media_application_id
+    #   The ID of the SIP media application handling the call.
     #
     # @option params [required, String] :transaction_id
+    #   The ID of the call transaction.
     #
     # @option params [required, Hash<String,String>] :arguments
+    #   Arguments made available to the Lambda function as part of the
+    #   `CALL_UPDATE_REQUESTED` event. Can contain 0-20 key-value pairs.
     #
     # @return [Types::UpdateSipMediaApplicationCallResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -2683,13 +4087,19 @@ module Aws::ChimeSDKVoice
       req.send_request(options)
     end
 
+    # Updates the details of the specified SIP rule.
+    #
     # @option params [required, String] :sip_rule_id
+    #   The SIP rule ID.
     #
     # @option params [required, String] :name
+    #   The new name for the specified SIP rule.
     #
     # @option params [Boolean] :disabled
+    #   The new value that indicates whether the rule is disabled.
     #
     # @option params [Array<Types::SipRuleTargetApplication>] :target_applications
+    #   The new list of target applications.
     #
     # @return [Types::UpdateSipRuleResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -2733,11 +4143,17 @@ module Aws::ChimeSDKVoice
       req.send_request(options)
     end
 
+    # Updates the details for the specified Amazon Chime SDK Voice
+    # Connector.
+    #
     # @option params [required, String] :voice_connector_id
+    #   The Voice Connector ID.
     #
     # @option params [required, String] :name
+    #   The name of the Voice Connector.
     #
     # @option params [required, Boolean] :require_encryption
+    #   When enabled, requires encryption for the Voice Connector.
     #
     # @return [Types::UpdateVoiceConnectorResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -2761,6 +4177,7 @@ module Aws::ChimeSDKVoice
     #   resp.voice_connector.created_timestamp #=> Time
     #   resp.voice_connector.updated_timestamp #=> Time
     #   resp.voice_connector.voice_connector_arn #=> String
+    #   resp.voice_connector.integration_type #=> String, one of "CONNECT_CALL_TRANSFER_CONNECTOR", "CONNECT_ANALYTICS_CONNECTOR"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-voice-2022-08-03/UpdateVoiceConnector AWS API Documentation
     #
@@ -2771,11 +4188,17 @@ module Aws::ChimeSDKVoice
       req.send_request(options)
     end
 
+    # Updates the settings for the specified Amazon Chime SDK Voice
+    # Connector group.
+    #
     # @option params [required, String] :voice_connector_group_id
+    #   The Voice Connector ID.
     #
     # @option params [required, String] :name
+    #   The name of the Voice Connector group.
     #
     # @option params [required, Array<Types::VoiceConnectorItem>] :voice_connector_items
+    #   The `VoiceConnectorItems` to associate with the Voice Connector group.
     #
     # @return [Types::UpdateVoiceConnectorGroupResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -2814,19 +4237,131 @@ module Aws::ChimeSDKVoice
       req.send_request(options)
     end
 
+    # Updates the specified voice profile’s voice print and refreshes its
+    # expiration timestamp.
+    #
+    # As a condition of using this feature, you acknowledge that the
+    # collection, use, storage, and retention of your caller’s biometric
+    # identifiers and biometric information (“biometric data”) in the form
+    # of a digital voiceprint requires the caller’s informed consent via a
+    # written release. Such consent is required under various state laws,
+    # including biometrics laws in Illinois, Texas, Washington and other
+    # state privacy laws.
+    #
+    #  You must provide a written release to each caller through a process
+    # that clearly reflects each caller’s informed consent before using
+    # Amazon Chime SDK Voice Insights service, as required under the terms
+    # of your agreement with AWS governing your use of the service.
+    #
+    # @option params [required, String] :voice_profile_id
+    #   The profile ID.
+    #
+    # @option params [required, String] :speaker_search_task_id
+    #   The ID of the speaker search task.
+    #
+    # @return [Types::UpdateVoiceProfileResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateVoiceProfileResponse#voice_profile #voice_profile} => Types::VoiceProfile
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_voice_profile({
+    #     voice_profile_id: "NonEmptyString256", # required
+    #     speaker_search_task_id: "NonEmptyString256", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.voice_profile.voice_profile_id #=> String
+    #   resp.voice_profile.voice_profile_arn #=> String
+    #   resp.voice_profile.voice_profile_domain_id #=> String
+    #   resp.voice_profile.created_timestamp #=> Time
+    #   resp.voice_profile.updated_timestamp #=> Time
+    #   resp.voice_profile.expiration_timestamp #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-voice-2022-08-03/UpdateVoiceProfile AWS API Documentation
+    #
+    # @overload update_voice_profile(params = {})
+    # @param [Hash] params ({})
+    def update_voice_profile(params = {}, options = {})
+      req = build_request(:update_voice_profile, params)
+      req.send_request(options)
+    end
+
+    # Updates the settings for the specified voice profile domain.
+    #
+    # @option params [required, String] :voice_profile_domain_id
+    #   The domain ID.
+    #
+    # @option params [String] :name
+    #   The name of the voice profile domain.
+    #
+    # @option params [String] :description
+    #   The description of the voice profile domain.
+    #
+    # @return [Types::UpdateVoiceProfileDomainResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateVoiceProfileDomainResponse#voice_profile_domain #voice_profile_domain} => Types::VoiceProfileDomain
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_voice_profile_domain({
+    #     voice_profile_domain_id: "NonEmptyString256", # required
+    #     name: "VoiceProfileDomainName",
+    #     description: "VoiceProfileDomainDescription",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.voice_profile_domain.voice_profile_domain_id #=> String
+    #   resp.voice_profile_domain.voice_profile_domain_arn #=> String
+    #   resp.voice_profile_domain.name #=> String
+    #   resp.voice_profile_domain.description #=> String
+    #   resp.voice_profile_domain.server_side_encryption_configuration.kms_key_arn #=> String
+    #   resp.voice_profile_domain.created_timestamp #=> Time
+    #   resp.voice_profile_domain.updated_timestamp #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-voice-2022-08-03/UpdateVoiceProfileDomain AWS API Documentation
+    #
+    # @overload update_voice_profile_domain(params = {})
+    # @param [Hash] params ({})
+    def update_voice_profile_domain(params = {}, options = {})
+      req = build_request(:update_voice_profile_domain, params)
+      req.send_request(options)
+    end
+
+    # Validates an address to be used for 911 calls made with Amazon Chime
+    # SDK Voice Connectors. You can use validated addresses in a Presence
+    # Information Data Format Location Object file that you include in SIP
+    # requests. That helps ensure that addresses are routed to the
+    # appropriate Public Safety Answering Point.
+    #
     # @option params [required, String] :aws_account_id
+    #   The AWS account ID.
     #
     # @option params [required, String] :street_number
+    #   The address street number, such as `200` or `2121`.
     #
     # @option params [required, String] :street_info
+    #   The address street information, such as `8th Avenue`.
     #
     # @option params [required, String] :city
+    #   The address city, such as `Portland`.
     #
     # @option params [required, String] :state
+    #   The address state, such as `ME`.
     #
     # @option params [required, String] :country
+    #   The country in the address being validated as two-letter country code
+    #   in ISO 3166-1 alpha-2 format, such as `US`. For more information, see
+    #   [ISO 3166-1 alpha-2][1] in Wikipedia.
+    #
+    #
+    #
+    #   [1]: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
     #
     # @option params [required, String] :postal_code
+    #   The dress postal code, such `04352`.
     #
     # @return [Types::ValidateE911AddressResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -2885,14 +4420,19 @@ module Aws::ChimeSDKVoice
     # @api private
     def build_request(operation_name, params = {})
       handlers = @handlers.for(operation_name)
+      tracer = config.telemetry_provider.tracer_provider.tracer(
+        Aws::Telemetry.module_to_tracer_name('Aws::ChimeSDKVoice')
+      )
       context = Seahorse::Client::RequestContext.new(
         operation_name: operation_name,
         operation: config.api.operation(operation_name),
         client: self,
         params: params,
-        config: config)
+        config: config,
+        tracer: tracer
+      )
       context[:gem_name] = 'aws-sdk-chimesdkvoice'
-      context[:gem_version] = '1.1.0'
+      context[:gem_version] = '1.37.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

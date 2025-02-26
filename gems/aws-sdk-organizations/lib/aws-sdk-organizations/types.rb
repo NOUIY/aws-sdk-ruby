@@ -59,7 +59,7 @@ module Aws::Organizations
     # You don't have permissions to perform the requested operation. The
     # user or role that is making the request must have at least one IAM
     # permissions policy attached that grants the required permissions. For
-    # more information, see [Access Management][1] in the *IAM User Guide.*
+    # more information, see [Access Management][1] in the *IAM User Guide*.
     #
     #
     #
@@ -228,8 +228,8 @@ module Aws::Organizations
 
     # You can't invite an existing account to your organization until you
     # verify that you own the email address associated with the management
-    # account. For more information, see [Email Address Verification][1] in
-    # the *Organizations User Guide.*
+    # account. For more information, see [Email address verification][1] in
+    # the *Organizations User Guide*.
     #
     #
     #
@@ -452,10 +452,14 @@ module Aws::Organizations
     #   enough information to exist as a standalone account. This account
     #   requires you to first complete phone verification. Follow the steps
     #   at [Removing a member account from your organization][1] in the
-    #   *Organizations User Guide.*
+    #   *Organizations User Guide*.
     #
     # * ACCOUNT\_CREATION\_RATE\_LIMIT\_EXCEEDED: You attempted to exceed
     #   the number of accounts that you can create in one day.
+    #
+    # * ACCOUNT\_CREATION\_NOT\_COMPLETE: Your account setup isn't complete
+    #   or your account isn't fully active. You must complete the account
+    #   setup before you create an organization.
     #
     # * ACCOUNT\_NUMBER\_LIMIT\_EXCEEDED: You attempted to exceed the limit
     #   on the number of accounts in an organization. If you need more
@@ -475,6 +479,17 @@ module Aws::Organizations
     #   creating the organization, wait one hour and try again. After an
     #   hour, if the command continues to fail with this error, contact
     #   [Amazon Web Services Support][2].
+    #
+    # * ALL\_FEATURES\_MIGRATION\_ORGANIZATION\_SIZE\_LIMIT\_EXCEEDED: Your
+    #   organization has more than 5000 accounts, and you can only use the
+    #   standard migration process for organizations with less than 5000
+    #   accounts. Use the assisted migration process to enable all features
+    #   mode, or create a support case for assistance if you are unable to
+    #   use assisted migration.
+    #
+    # * CANNOT\_REGISTER\_SUSPENDED\_ACCOUNT\_AS\_DELEGATED\_ADMINISTRATOR:
+    #   You cannot register a suspended account as a delegated
+    #   administrator.
     #
     # * CANNOT\_REGISTER\_MASTER\_AS\_DELEGATED\_ADMINISTRATOR: You
     #   attempted to register the management account of the organization as
@@ -526,15 +541,13 @@ module Aws::Organizations
     # * MASTER\_ACCOUNT\_ADDRESS\_DOES\_NOT\_MATCH\_MARKETPLACE: To create
     #   an account in this organization, you first must migrate the
     #   organization's management account to the marketplace that
-    #   corresponds to the management account's address. For example,
-    #   accounts with India addresses must be associated with the AISPL
-    #   marketplace. All accounts in an organization must be associated with
-    #   the same marketplace.
+    #   corresponds to the management account's address. All accounts in an
+    #   organization must be associated with the same marketplace.
     #
     # * MASTER\_ACCOUNT\_MISSING\_BUSINESS\_LICENSE: Applies only to the
-    #   Amazon Web Services /&gt; Regions in China. To create an
-    #   organization, the master must have a valid business license. For
-    #   more information, contact customer support.
+    #   Amazon Web Services Regions in China. To create an organization, the
+    #   master must have a valid business license. For more information,
+    #   contact customer support.
     #
     # * MASTER\_ACCOUNT\_MISSING\_CONTACT\_INFO: To complete this operation,
     #   you must first provide a valid contact address and phone number for
@@ -543,14 +556,13 @@ module Aws::Organizations
     # * MASTER\_ACCOUNT\_NOT\_GOVCLOUD\_ENABLED: To complete this operation,
     #   the management account must have an associated account in the Amazon
     #   Web Services GovCloud (US-West) Region. For more information, see
-    #   [Organizations][4] in the *Amazon Web Services GovCloud User Guide.*
+    #   [Organizations][4] in the *Amazon Web Services GovCloud User Guide*.
     #
     # * MASTER\_ACCOUNT\_PAYMENT\_INSTRUMENT\_REQUIRED: To create an
     #   organization with this management account, you first must associate
     #   a valid payment instrument, such as a credit card, with the account.
-    #   Follow the steps at [To leave an organization when all required
-    #   account information has not yet been provided][5] in the
-    #   *Organizations User Guide.*
+    #   For more information, see [Considerations before removing an account
+    #   from an organization][5] in the *Organizations User Guide*.
     #
     # * MAX\_DELEGATED\_ADMINISTRATORS\_FOR\_SERVICE\_LIMIT\_EXCEEDED: You
     #   attempted to register more delegated administrators than allowed for
@@ -565,10 +577,9 @@ module Aws::Organizations
     #
     # * MEMBER\_ACCOUNT\_PAYMENT\_INSTRUMENT\_REQUIRED: To complete this
     #   operation with this member account, you first must associate a valid
-    #   payment instrument, such as a credit card, with the account. Follow
-    #   the steps at [To leave an organization when all required account
-    #   information has not yet been provided][5] in the *Organizations User
-    #   Guide.*
+    #   payment instrument, such as a credit card, with the account. For
+    #   more information, see [Considerations before removing an account
+    #   from an organization][5] in the *Organizations User Guide*.
     #
     # * MIN\_POLICY\_TYPE\_ATTACHMENT\_LIMIT\_EXCEEDED: You attempted to
     #   detach a policy from an entity that would cause the entity to have
@@ -601,17 +612,17 @@ module Aws::Organizations
     #   for this account.
     #
     # * WAIT\_PERIOD\_ACTIVE: After you create an Amazon Web Services
-    #   account, there is a waiting period before you can remove it from the
-    #   organization. If you get an error that indicates that a wait period
-    #   is required, try again in a few days.
+    #   account, you must wait until at least seven days after the account
+    #   was created. Invited accounts aren't subject to this waiting
+    #   period.
     #
     #
     #
     # [1]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#orgs_manage_accounts_remove-from-master
-    # [2]: https://docs.aws.amazon.com/support/home#/
+    # [2]: https://console.aws.amazon.com/support/home#/
     # [3]: https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/manage-general.html
     # [4]: https://docs.aws.amazon.com/govcloud-us/latest/UserGuide/govcloud-organizations.html
-    # [5]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info
+    # [5]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_account-before-remove.html
     #
     # @!attribute [rw] message
     #   @return [String]
@@ -679,11 +690,11 @@ module Aws::Organizations
     #   For more information about how to use this role to access the member
     #   account, see the following links:
     #
-    #   * [Accessing and Administering the Member Accounts in Your
-    #     Organization][1] in the *Organizations User Guide*
+    #   * [Creating the OrganizationAccountAccessRole in an invited member
+    #     account][1] in the *Organizations User Guide*
     #
-    #   * Steps 2 and 3 in [Tutorial: Delegate Access Across Amazon Web
-    #     Services accounts Using IAM Roles][2] in the *IAM User Guide*
+    #   * Steps 2 and 3 in [IAM Tutorial: Delegate access across Amazon Web
+    #     Services accounts using IAM roles][2] in the *IAM User Guide*
     #
     #   The [regex pattern][3] that is used to validate this parameter. The
     #   pattern can include uppercase letters, lowercase letters, digits
@@ -700,8 +711,8 @@ module Aws::Organizations
     #   If set to `ALLOW`, the new account enables IAM users to access
     #   account billing information *if* they have the required permissions.
     #   If set to `DENY`, only the root user of the new account can access
-    #   account billing information. For more information, see [Activating
-    #   Access to the Billing and Cost Management Console][1] in the *Amazon
+    #   account billing information. For more information, see [About IAM
+    #   access to the Billing and Cost Management console][1] in the *Amazon
     #   Web Services Billing and Cost Management User Guide*.
     #
     #   If you don't specify this parameter, the value defaults to `ALLOW`,
@@ -720,7 +731,7 @@ module Aws::Organizations
     #   it to `null`. For more information about tagging, see [Tagging
     #   Organizations resources][1] in the Organizations User Guide.
     #
-    #   <note markdown="1"> If any one of the tags is invalid or if you exceed the maximum
+    #   <note markdown="1"> If any one of the tags is not valid or if you exceed the maximum
     #   allowed number of tags for an account, then the entire request fails
     #   and the account is not created.
     #
@@ -751,12 +762,12 @@ module Aws::Organizations
     #   parameter to DescribeCreateAccountStatus to get status about the
     #   progress of the request at later times. You can also check the
     #   CloudTrail log for the `CreateAccountResult` event. For more
-    #   information, see [Monitoring the Activity in Your Organization][1]
-    #   in the *Organizations User Guide*.
+    #   information, see [Logging and monitoring in Organizations][1] in the
+    #   *Organizations User Guide*.
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_monitoring.html
+    #   [1]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_security_incident-response.html
     #   @return [Types::CreateAccountStatus]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/CreateAccountResponse AWS API Documentation
@@ -972,10 +983,13 @@ module Aws::Organizations
     #   `OrganizationAccountAccessRole`.
     #
     #   For more information about how to use this role to access the member
-    #   account, see [Accessing and Administering the Member Accounts in
-    #   Your Organization][1] in the *Organizations User Guide* and steps 2
-    #   and 3 in [Tutorial: Delegate Access Across Amazon Web Services
-    #   accounts Using IAM Roles][2] in the *IAM User Guide.*
+    #   account, see the following links:
+    #
+    #   * [Creating the OrganizationAccountAccessRole in an invited member
+    #     account][1] in the *Organizations User Guide*
+    #
+    #   * Steps 2 and 3 in [IAM Tutorial: Delegate access across Amazon Web
+    #     Services accounts using IAM roles][2] in the *IAM User Guide*
     #
     #   The [regex pattern][3] that is used to validate this parameter. The
     #   pattern can include uppercase letters, lowercase letters, digits
@@ -993,9 +1007,9 @@ module Aws::Organizations
     #   enables IAM users to access account billing information *if* they
     #   have the required permissions. If set to `DENY`, only the root user
     #   of the new account can access account billing information. For more
-    #   information, see [Activating Access to the Billing and Cost
-    #   Management Console][1] in the *Amazon Web Services Billing and Cost
-    #   Management User Guide.*
+    #   information, see [About IAM access to the Billing and Cost
+    #   Management console][1] in the *Amazon Web Services Billing and Cost
+    #   Management User Guide*.
     #
     #   If you don't specify this parameter, the value defaults to `ALLOW`,
     #   and IAM users and roles with the required permissions can access
@@ -1018,7 +1032,7 @@ module Aws::Organizations
     #   it to `null`. For more information about tagging, see [Tagging
     #   Organizations resources][1] in the Organizations User Guide.
     #
-    #   <note markdown="1"> If any one of the tags is invalid or if you exceed the maximum
+    #   <note markdown="1"> If any one of the tags is not valid or if you exceed the maximum
     #   allowed number of tags for an account, then the entire request fails
     #   and the account is not created.
     #
@@ -1059,19 +1073,19 @@ module Aws::Organizations
     #   Specifies the feature set supported by the new organization. Each
     #   feature set supports different levels of functionality.
     #
-    #   * `CONSOLIDATED_BILLING`\: All member accounts have their bills
+    #   * `CONSOLIDATED_BILLING`: All member accounts have their bills
     #     consolidated to and paid by the management account. For more
     #     information, see [Consolidated billing][1] in the *Organizations
-    #     User Guide.*
+    #     User Guide*.
     #
     #     The consolidated billing feature subset isn't available for
     #     organizations in the Amazon Web Services GovCloud (US) Region.
     #
-    #   * `ALL`\: In addition to all the features supported by the
+    #   * `ALL`: In addition to all the features supported by the
     #     consolidated billing feature set, the management account can also
     #     apply any policy type to any member account in the organization.
     #     For more information, see [All features][2] in the *Organizations
-    #     User Guide.*
+    #     User Guide*.
     #
     #
     #
@@ -1132,7 +1146,7 @@ module Aws::Organizations
     #   `null`. For more information about tagging, see [Tagging
     #   Organizations resources][1] in the Organizations User Guide.
     #
-    #   <note markdown="1"> If any one of the tags is invalid or if you exceed the allowed
+    #   <note markdown="1"> If any one of the tags is not valid or if you exceed the allowed
     #   number of tags for an OU, then the entire request fails and the OU
     #   is not created.
     #
@@ -1169,6 +1183,14 @@ module Aws::Organizations
     #   The policy text content to add to the new policy. The text that you
     #   supply must adhere to the rules of the policy type you specify in
     #   the `Type` parameter.
+    #
+    #   The maximum size of a policy document depends on the policy's type.
+    #   For more information, see [Maximum and minimum values][1] in the
+    #   *Organizations User Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html#min-max-values
     #   @return [String]
     #
     # @!attribute [rw] description
@@ -1190,20 +1212,29 @@ module Aws::Organizations
     #   The type of policy to create. You can specify one of the following
     #   values:
     #
-    #   * [AISERVICES\_OPT\_OUT\_POLICY][1]
+    #   * [SERVICE\_CONTROL\_POLICY][1]
     #
-    #   * [BACKUP\_POLICY][2]
+    #   * [RESOURCE\_CONTROL\_POLICY][2]
     #
-    #   * [SERVICE\_CONTROL\_POLICY][3]
+    #   * [DECLARATIVE\_POLICY\_EC2][3]
     #
-    #   * [TAG\_POLICY][4]
+    #   * [BACKUP\_POLICY][4]
+    #
+    #   * [TAG\_POLICY][5]
+    #
+    #   * [CHATBOT\_POLICY][6]
+    #
+    #   * [AISERVICES\_OPT\_OUT\_POLICY][7]
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html
-    #   [2]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html
-    #   [3]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scp.html
-    #   [4]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html
+    #   [1]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scp.html
+    #   [2]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_rcps.html
+    #   [3]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative.html
+    #   [4]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html
+    #   [5]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html
+    #   [6]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_chatbot.html
+    #   [7]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html
     #   @return [String]
     #
     # @!attribute [rw] tags
@@ -1213,7 +1244,7 @@ module Aws::Organizations
     #   it to `null`. For more information about tagging, see [Tagging
     #   Organizations resources][1] in the Organizations User Guide.
     #
-    #   <note markdown="1"> If any one of the tags is invalid or if you exceed the allowed
+    #   <note markdown="1"> If any one of the tags is not valid or if you exceed the allowed
     #   number of tags for a policy, then the entire request fails and the
     #   policy is not created.
     #
@@ -1504,17 +1535,23 @@ module Aws::Organizations
     #   The type of policy that you want information about. You can specify
     #   one of the following values:
     #
-    #   * [AISERVICES\_OPT\_OUT\_POLICY][1]
+    #   * [DECLARATIVE\_POLICY\_EC2][1]
     #
     #   * [BACKUP\_POLICY][2]
     #
     #   * [TAG\_POLICY][3]
     #
+    #   * [CHATBOT\_POLICY][4]
+    #
+    #   * [AISERVICES\_OPT\_OUT\_POLICY][5]
     #
     #
-    #   [1]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html
+    #
+    #   [1]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative.html
     #   [2]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html
     #   [3]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html
+    #   [4]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_chatbot.html
+    #   [5]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html
     #   @return [String]
     #
     # @!attribute [rw] target_id
@@ -1583,7 +1620,8 @@ module Aws::Organizations
     #
     #   The `AvailablePolicyTypes` part of the response is deprecated, and
     #   you shouldn't use it in your apps. It doesn't include any policy
-    #   type supported by Organizations other than SCPs. To determine which
+    #   type supported by Organizations other than SCPs. In the China
+    #   (Ningxia) Region, no policy type is included. To determine which
     #   policy types are enabled in your organization, use the ` ListRoots `
     #   operation.
     #   @return [Types::Organization]
@@ -1770,20 +1808,29 @@ module Aws::Organizations
     #   The policy type that you want to disable in this root. You can
     #   specify one of the following values:
     #
-    #   * [AISERVICES\_OPT\_OUT\_POLICY][1]
+    #   * [SERVICE\_CONTROL\_POLICY][1]
     #
-    #   * [BACKUP\_POLICY][2]
+    #   * [RESOURCE\_CONTROL\_POLICY][2]
     #
-    #   * [SERVICE\_CONTROL\_POLICY][3]
+    #   * [DECLARATIVE\_POLICY\_EC2][3]
     #
-    #   * [TAG\_POLICY][4]
+    #   * [BACKUP\_POLICY][4]
+    #
+    #   * [TAG\_POLICY][5]
+    #
+    #   * [CHATBOT\_POLICY][6]
+    #
+    #   * [AISERVICES\_OPT\_OUT\_POLICY][7]
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html
-    #   [2]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html
-    #   [3]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scp.html
-    #   [4]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html
+    #   [1]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scp.html
+    #   [2]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_rcps.html
+    #   [3]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative.html
+    #   [4]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html
+    #   [5]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html
+    #   [6]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_chatbot.html
+    #   [7]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/DisablePolicyTypeRequest AWS API Documentation
@@ -1976,20 +2023,29 @@ module Aws::Organizations
     #   The policy type that you want to enable. You can specify one of the
     #   following values:
     #
-    #   * [AISERVICES\_OPT\_OUT\_POLICY][1]
+    #   * [SERVICE\_CONTROL\_POLICY][1]
     #
-    #   * [BACKUP\_POLICY][2]
+    #   * [RESOURCE\_CONTROL\_POLICY][2]
     #
-    #   * [SERVICE\_CONTROL\_POLICY][3]
+    #   * [DECLARATIVE\_POLICY\_EC2][3]
     #
-    #   * [TAG\_POLICY][4]
+    #   * [BACKUP\_POLICY][4]
+    #
+    #   * [TAG\_POLICY][5]
+    #
+    #   * [CHATBOT\_POLICY][6]
+    #
+    #   * [AISERVICES\_OPT\_OUT\_POLICY][7]
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html
-    #   [2]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html
-    #   [3]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scp.html
-    #   [4]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html
+    #   [1]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scp.html
+    #   [2]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_rcps.html
+    #   [3]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative.html
+    #   [4]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html
+    #   [5]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html
+    #   [6]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_chatbot.html
+    #   [7]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/EnablePolicyTypeRequest AWS API Documentation
@@ -2102,26 +2158,26 @@ module Aws::Organizations
     #   of the handshake through the process from its creation to its
     #   acceptance. The meaning of each of the valid values is as follows:
     #
-    #   * **REQUESTED**\: This handshake was sent to multiple recipients
+    #   * **REQUESTED**: This handshake was sent to multiple recipients
     #     (applicable to only some handshake types) and not all recipients
     #     have responded yet. The request stays in this state until all
     #     recipients respond.
     #
-    #   * **OPEN**\: This handshake was sent to multiple recipients
+    #   * **OPEN**: This handshake was sent to multiple recipients
     #     (applicable to only some policy types) and all recipients have
     #     responded, allowing the originator to complete the handshake
     #     action.
     #
-    #   * **CANCELED**\: This handshake is no longer active because it was
+    #   * **CANCELED**: This handshake is no longer active because it was
     #     canceled by the originating account.
     #
-    #   * **ACCEPTED**\: This handshake is complete because it has been
+    #   * **ACCEPTED**: This handshake is complete because it has been
     #     accepted by the recipient.
     #
-    #   * **DECLINED**\: This handshake is no longer active because it was
+    #   * **DECLINED**: This handshake is no longer active because it was
     #     declined by the recipient account.
     #
-    #   * **EXPIRED**\: This handshake is no longer active because the
+    #   * **EXPIRED**: This handshake is no longer active because the
     #     originator did not receive a response of any kind from the
     #     recipient before the expiration time (15 days).
     #   @return [String]
@@ -2141,18 +2197,18 @@ module Aws::Organizations
     #   recipient accepts the handshake. The following handshake types are
     #   supported:
     #
-    #   * **INVITE**\: This type of handshake represents a request to join
-    #     an organization. It is always sent from the management account to
+    #   * **INVITE**: This type of handshake represents a request to join an
+    #     organization. It is always sent from the management account to
     #     only non-member accounts.
     #
-    #   * **ENABLE\_ALL\_FEATURES**\: This type of handshake represents a
+    #   * **ENABLE\_ALL\_FEATURES**: This type of handshake represents a
     #     request to enable all features in an organization. It is always
     #     sent from the management account to only *invited* member
     #     accounts. Created accounts do not receive this because those
     #     accounts were created by the organization's management account
     #     and approval is inferred.
     #
-    #   * **APPROVE\_ALL\_FEATURES**\: This type of handshake is sent from
+    #   * **APPROVE\_ALL\_FEATURES**: This type of handshake is sent from
     #     the Organizations service when all member accounts have approved
     #     the `ENABLE_ALL_FEATURES` invitation. It is sent only to the
     #     management account and signals the master that it can finalize the
@@ -2243,7 +2299,7 @@ module Aws::Organizations
     #
     #
     #
-    # [1]: https://docs.aws.amazon.com/support/home#/
+    # [1]: https://console.aws.amazon.com/support/home#/
     #
     # @!attribute [rw] message
     #   @return [String]
@@ -2436,6 +2492,9 @@ module Aws::Organizations
     # * INVALID\_PATTERN\_TARGET\_ID: You specified a policy target ID that
     #   doesn't match the required pattern.
     #
+    # * INVALID\_PRINCIPAL: You specified an invalid principal element in
+    #   the policy.
+    #
     # * INVALID\_ROLE\_NAME: You provided a role name that isn't valid. A
     #   role name can't begin with the reserved prefix `AWSServiceRoleFor`.
     #
@@ -2467,6 +2526,9 @@ module Aws::Organizations
     # * MOVING\_ACCOUNT\_BETWEEN\_DIFFERENT\_ROOTS: You can move an account
     #   only between entities in the same root.
     #
+    # * NON\_DETACHABLE\_POLICY: You can't detach this Amazon Web Services
+    #   Managed Policy.
+    #
     # * TARGET\_NOT\_SUPPORTED: You can't perform the specified operation
     #   on that target entity.
     #
@@ -2493,7 +2555,7 @@ module Aws::Organizations
     #   to invite to join your organization. This is a JSON object that
     #   contains the following elements:
     #
-    #   `\{ "Type": "ACCOUNT", "Id": "< account id number >" \}`
+    #   `{ "Type": "ACCOUNT", "Id": "< account id number >" }`
     #
     #   If you use the CLI, you can submit this as a single string, similar
     #   to the following example:
@@ -2530,7 +2592,7 @@ module Aws::Organizations
     #   changes between the invitation and the acceptance, then that tags
     #   could potentially be non-compliant.
     #
-    #   <note markdown="1"> If any one of the tags is invalid or if you exceed the allowed
+    #   <note markdown="1"> If any one of the tags is not valid or if you exceed the allowed
     #   number of tags for an account, then the entire request fails and
     #   invitations are not sent.
     #
@@ -3281,20 +3343,29 @@ module Aws::Organizations
     #   The type of policy that you want to include in the returned list.
     #   You must specify one of the following values:
     #
-    #   * [AISERVICES\_OPT\_OUT\_POLICY][1]
+    #   * [SERVICE\_CONTROL\_POLICY][1]
     #
-    #   * [BACKUP\_POLICY][2]
+    #   * [RESOURCE\_CONTROL\_POLICY][2]
     #
-    #   * [SERVICE\_CONTROL\_POLICY][3]
+    #   * [DECLARATIVE\_POLICY\_EC2][3]
     #
-    #   * [TAG\_POLICY][4]
+    #   * [BACKUP\_POLICY][4]
+    #
+    #   * [TAG\_POLICY][5]
+    #
+    #   * [CHATBOT\_POLICY][6]
+    #
+    #   * [AISERVICES\_OPT\_OUT\_POLICY][7]
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html
-    #   [2]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html
-    #   [3]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scp.html
-    #   [4]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html
+    #   [1]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scp.html
+    #   [2]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_rcps.html
+    #   [3]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative.html
+    #   [4]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html
+    #   [5]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html
+    #   [6]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_chatbot.html
+    #   [7]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html
     #   @return [String]
     #
     # @!attribute [rw] next_token
@@ -3354,20 +3425,29 @@ module Aws::Organizations
     #   Specifies the type of policy that you want to include in the
     #   response. You must specify one of the following values:
     #
-    #   * [AISERVICES\_OPT\_OUT\_POLICY][1]
+    #   * [SERVICE\_CONTROL\_POLICY][1]
     #
-    #   * [BACKUP\_POLICY][2]
+    #   * [RESOURCE\_CONTROL\_POLICY][2]
     #
-    #   * [SERVICE\_CONTROL\_POLICY][3]
+    #   * [DECLARATIVE\_POLICY\_EC2][3]
     #
-    #   * [TAG\_POLICY][4]
+    #   * [BACKUP\_POLICY][4]
+    #
+    #   * [TAG\_POLICY][5]
+    #
+    #   * [CHATBOT\_POLICY][6]
+    #
+    #   * [AISERVICES\_OPT\_OUT\_POLICY][7]
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html
-    #   [2]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html
-    #   [3]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scp.html
-    #   [4]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html
+    #   [1]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scp.html
+    #   [2]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_rcps.html
+    #   [3]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_declarative.html
+    #   [4]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_backup.html
+    #   [5]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_tag-policies.html
+    #   [6]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_chatbot.html
+    #   [7]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html
     #   @return [String]
     #
     # @!attribute [rw] next_token
@@ -3598,12 +3678,12 @@ module Aws::Organizations
 
     # The provided policy document doesn't meet the requirements of the
     # specified policy type. For example, the syntax might be incorrect. For
-    # details about service control policy syntax, see [Service Control
-    # Policy Syntax][1] in the *Organizations User Guide.*
+    # details about service control policy syntax, see [SCP syntax][1] in
+    # the *Organizations User Guide*.
     #
     #
     #
-    # [1]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_scp-syntax.html
+    # [1]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps_syntax.html
     #
     # @!attribute [rw] message
     #   @return [String]
@@ -3728,8 +3808,8 @@ module Aws::Organizations
     #   organization. If set to "ALL", then all features are enabled and
     #   policies can be applied to accounts in the organization. If set to
     #   "CONSOLIDATED\_BILLING", then only consolidated billing
-    #   functionality is available. For more information, see [Enabling All
-    #   Features in Your Organization][1] in the *Organizations User Guide*.
+    #   functionality is available. For more information, see [Enabling all
+    #   features in your organization][1] in the *Organizations User Guide*.
     #
     #
     #
@@ -3790,8 +3870,7 @@ module Aws::Organizations
     end
 
     # The organization isn't empty. To delete an organization, you must
-    # first remove all accounts except the management account, delete all
-    # OUs, and delete all policies.
+    # first remove all accounts except the management account.
     #
     # @!attribute [rw] message
     #   @return [String]
@@ -3810,7 +3889,8 @@ module Aws::Organizations
     # accounts contained in that OU and in any child OUs.
     #
     # @!attribute [rw] id
-    #   The unique identifier (ID) associated with this OU.
+    #   The unique identifier (ID) associated with this OU. The ID is unique
+    #   to the organization only.
     #
     #   The [regex pattern][1] for an organizational unit ID string requires
     #   "ou-" followed by from 4 to 32 lowercase letters or digits (the ID
@@ -4153,8 +4233,8 @@ module Aws::Organizations
     # You can't use the specified policy type with the feature set
     # currently enabled for this organization. For example, you can enable
     # SCPs only after you enable all features in the organization. For more
-    # information, see [Managing Organizations Policies][1]in the
-    # *Organizations User Guide.*
+    # information, see [Managing Organizations policies][1]in the
+    # *Organizations User Guide*.
     #
     #
     #
@@ -4174,8 +4254,8 @@ module Aws::Organizations
     # The specified policy type isn't currently enabled in this root. You
     # can't attach policies of the specified type to entities in a root
     # until you enable that type in the root. For more information, see
-    # [Enabling All Features in Your Organization][1] in the *Organizations
-    # User Guide.*
+    # [Enabling all features in your organization][1] in the *Organizations
+    # User Guide*.
     #
     #
     #
@@ -4218,27 +4298,27 @@ module Aws::Organizations
     # @!attribute [rw] content
     #   If provided, the new content for the resource policy. The text must
     #   be correctly formatted JSON that complies with the syntax for the
-    #   resource policy's type. For more information, see [Service Control
-    #   Policy Syntax][1] in the *Organizations User Guide.*
+    #   resource policy's type. For more information, see [SCP syntax][1]
+    #   in the *Organizations User Guide*.
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_scp-syntax.html
+    #   [1]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps_syntax.html
     #   @return [String]
     #
     # @!attribute [rw] tags
-    #   Updates the list of tags that you want to attach to the
-    #   newly-created resource policy. For each tag in the list, you must
-    #   specify both a tag key and a value. You can set the value to an
-    #   empty string, but you can't set it to `null`. For more information
-    #   about tagging, see [Tagging Organizations resources][1] in the
-    #   Organizations User Guide.
+    #   A list of tags that you want to attach to the newly created resource
+    #   policy. For each tag in the list, you must specify both a tag key
+    #   and a value. You can set the value to an empty string, but you
+    #   can't set it to `null`. For more information about tagging, see
+    #   [Tagging Organizations resources][1] in the Organizations User
+    #   Guide.
     #
     #   <note markdown="1"> Calls with tags apply to the initial creation of the resource
     #   policy, otherwise an exception is thrown. If any one of the tags is
-    #   invalid or if you exceed the allowed number of tags for the resource
-    #   policy, then the entire request fails and the resource policy is not
-    #   created.
+    #   not valid or if you exceed the allowed number of tags for the
+    #   resource policy, then the entire request fails and the resource
+    #   policy is not created.
     #
     #    </note>
     #
@@ -4367,7 +4447,8 @@ module Aws::Organizations
     # account in the organization.
     #
     # @!attribute [rw] id
-    #   The unique identifier (ID) for the root.
+    #   The unique identifier (ID) for the root. The ID is unique to the
+    #   organization only.
     #
     #   The [regex pattern][1] for a root ID string requires "r-" followed
     #   by from 4 to 32 lowercase letters or digits.
@@ -4520,7 +4601,7 @@ module Aws::Organizations
     #   value. The value can be an empty string, but you can't set it to
     #   `null`.
     #
-    #   <note markdown="1"> If any one of the tags is invalid or if you exceed the maximum
+    #   <note markdown="1"> If any one of the tags is not valid or if you exceed the maximum
     #   allowed number of tags for a resource, then the entire request
     #   fails.
     #
@@ -4555,7 +4636,7 @@ module Aws::Organizations
     # later.
     #
     # For information about quotas that affect Organizations, see [Quotas
-    # for Organizations][1]in the *Organizations User Guide.*
+    # for Organizations][1] in the *Organizations User Guide*.
     #
     #
     #
@@ -4698,12 +4779,17 @@ module Aws::Organizations
     # @!attribute [rw] content
     #   If provided, the new content for the policy. The text must be
     #   correctly formatted JSON that complies with the syntax for the
-    #   policy's type. For more information, see [Service Control Policy
-    #   Syntax][1] in the *Organizations User Guide.*
+    #   policy's type. For more information, see [SCP syntax][1] in the
+    #   *Organizations User Guide*.
+    #
+    #   The maximum size of a policy document depends on the policy's type.
+    #   For more information, see [Maximum and minimum values][2] in the
+    #   *Organizations User Guide*.
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_scp-syntax.html
+    #   [1]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps_syntax.html
+    #   [2]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html#min-max-values
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/organizations-2016-11-28/UpdatePolicyRequest AWS API Documentation
@@ -4732,3 +4818,4 @@ module Aws::Organizations
 
   end
 end
+

@@ -7,33 +7,34 @@
 #
 # WARNING ABOUT GENERATED CODE
 
-require 'seahorse/client/plugins/content_length.rb'
-require 'aws-sdk-core/plugins/credentials_configuration.rb'
-require 'aws-sdk-core/plugins/logging.rb'
-require 'aws-sdk-core/plugins/param_converter.rb'
-require 'aws-sdk-core/plugins/param_validator.rb'
-require 'aws-sdk-core/plugins/user_agent.rb'
-require 'aws-sdk-core/plugins/helpful_socket_errors.rb'
-require 'aws-sdk-core/plugins/retry_errors.rb'
-require 'aws-sdk-core/plugins/global_configuration.rb'
-require 'aws-sdk-core/plugins/regional_endpoint.rb'
-require 'aws-sdk-core/plugins/endpoint_discovery.rb'
-require 'aws-sdk-core/plugins/endpoint_pattern.rb'
-require 'aws-sdk-core/plugins/response_paging.rb'
-require 'aws-sdk-core/plugins/stub_responses.rb'
-require 'aws-sdk-core/plugins/idempotency_token.rb'
-require 'aws-sdk-core/plugins/jsonvalue_converter.rb'
-require 'aws-sdk-core/plugins/client_metrics_plugin.rb'
-require 'aws-sdk-core/plugins/client_metrics_send_plugin.rb'
-require 'aws-sdk-core/plugins/transfer_encoding.rb'
-require 'aws-sdk-core/plugins/http_checksum.rb'
-require 'aws-sdk-core/plugins/checksum_algorithm.rb'
-require 'aws-sdk-core/plugins/defaults_mode.rb'
-require 'aws-sdk-core/plugins/recursion_detection.rb'
-require 'aws-sdk-core/plugins/sign.rb'
-require 'aws-sdk-core/plugins/protocols/json_rpc.rb'
-
-Aws::Plugins::GlobalConfiguration.add_identifier(:memorydb)
+require 'seahorse/client/plugins/content_length'
+require 'aws-sdk-core/plugins/credentials_configuration'
+require 'aws-sdk-core/plugins/logging'
+require 'aws-sdk-core/plugins/param_converter'
+require 'aws-sdk-core/plugins/param_validator'
+require 'aws-sdk-core/plugins/user_agent'
+require 'aws-sdk-core/plugins/helpful_socket_errors'
+require 'aws-sdk-core/plugins/retry_errors'
+require 'aws-sdk-core/plugins/global_configuration'
+require 'aws-sdk-core/plugins/regional_endpoint'
+require 'aws-sdk-core/plugins/endpoint_discovery'
+require 'aws-sdk-core/plugins/endpoint_pattern'
+require 'aws-sdk-core/plugins/response_paging'
+require 'aws-sdk-core/plugins/stub_responses'
+require 'aws-sdk-core/plugins/idempotency_token'
+require 'aws-sdk-core/plugins/invocation_id'
+require 'aws-sdk-core/plugins/jsonvalue_converter'
+require 'aws-sdk-core/plugins/client_metrics_plugin'
+require 'aws-sdk-core/plugins/client_metrics_send_plugin'
+require 'aws-sdk-core/plugins/transfer_encoding'
+require 'aws-sdk-core/plugins/http_checksum'
+require 'aws-sdk-core/plugins/checksum_algorithm'
+require 'aws-sdk-core/plugins/request_compression'
+require 'aws-sdk-core/plugins/defaults_mode'
+require 'aws-sdk-core/plugins/recursion_detection'
+require 'aws-sdk-core/plugins/telemetry'
+require 'aws-sdk-core/plugins/sign'
+require 'aws-sdk-core/plugins/protocols/json_rpc'
 
 module Aws::MemoryDB
   # An API client for MemoryDB.  To construct a client, you need to configure a `:region` and `:credentials`.
@@ -71,20 +72,28 @@ module Aws::MemoryDB
     add_plugin(Aws::Plugins::ResponsePaging)
     add_plugin(Aws::Plugins::StubResponses)
     add_plugin(Aws::Plugins::IdempotencyToken)
+    add_plugin(Aws::Plugins::InvocationId)
     add_plugin(Aws::Plugins::JsonvalueConverter)
     add_plugin(Aws::Plugins::ClientMetricsPlugin)
     add_plugin(Aws::Plugins::ClientMetricsSendPlugin)
     add_plugin(Aws::Plugins::TransferEncoding)
     add_plugin(Aws::Plugins::HttpChecksum)
     add_plugin(Aws::Plugins::ChecksumAlgorithm)
+    add_plugin(Aws::Plugins::RequestCompression)
     add_plugin(Aws::Plugins::DefaultsMode)
     add_plugin(Aws::Plugins::RecursionDetection)
+    add_plugin(Aws::Plugins::Telemetry)
     add_plugin(Aws::Plugins::Sign)
     add_plugin(Aws::Plugins::Protocols::JsonRpc)
     add_plugin(Aws::MemoryDB::Plugins::Endpoints)
 
     # @overload initialize(options)
     #   @param [Hash] options
+    #
+    #   @option options [Array<Seahorse::Client::Plugin>] :plugins ([]])
+    #     A list of plugins to apply to the client. Each plugin is either a
+    #     class name or an instance of a plugin class.
+    #
     #   @option options [required, Aws::CredentialProvider] :credentials
     #     Your AWS credentials. This can be an instance of any one of the
     #     following classes:
@@ -119,13 +128,15 @@ module Aws::MemoryDB
     #     locations will be searched for credentials:
     #
     #     * `Aws.config[:credentials]`
-    #     * The `:access_key_id`, `:secret_access_key`, and `:session_token` options.
-    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']
+    #     * The `:access_key_id`, `:secret_access_key`, `:session_token`, and
+    #       `:account_id` options.
+    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'],
+    #       ENV['AWS_SESSION_TOKEN'], and ENV['AWS_ACCOUNT_ID']
     #     * `~/.aws/credentials`
     #     * `~/.aws/config`
     #     * EC2/ECS IMDS instance profile - When used by default, the timeouts
     #       are very aggressive. Construct and pass an instance of
-    #       `Aws::InstanceProfileCredentails` or `Aws::ECSCredentials` to
+    #       `Aws::InstanceProfileCredentials` or `Aws::ECSCredentials` to
     #       enable retries and extended timeouts. Instance profile credential
     #       fetching can be disabled by setting ENV['AWS_EC2_METADATA_DISABLED']
     #       to true.
@@ -143,6 +154,8 @@ module Aws::MemoryDB
     #     * `~/.aws/config`
     #
     #   @option options [String] :access_key_id
+    #
+    #   @option options [String] :account_id
     #
     #   @option options [Boolean] :active_endpoint_cache (false)
     #     When set to `true`, a thread polling for endpoints will be running in
@@ -190,10 +203,20 @@ module Aws::MemoryDB
     #     Set to true to disable SDK automatically adding host prefix
     #     to default service endpoint when available.
     #
-    #   @option options [String] :endpoint
-    #     The client endpoint is normally constructed from the `:region`
-    #     option. You should only configure an `:endpoint` when connecting
-    #     to test or custom endpoints. This should be a valid HTTP(S) URI.
+    #   @option options [Boolean] :disable_request_compression (false)
+    #     When set to 'true' the request body will not be compressed
+    #     for supported operations.
+    #
+    #   @option options [String, URI::HTTPS, URI::HTTP] :endpoint
+    #     Normally you should not configure the `:endpoint` option
+    #     directly. This is normally constructed from the `:region`
+    #     option. Configuring `:endpoint` is normally reserved for
+    #     connecting to test or custom endpoints. The endpoint should
+    #     be a URI formatted like:
+    #
+    #         'http://example.com'
+    #         'https://example.com'
+    #         'http://example.com:123'
     #
     #   @option options [Integer] :endpoint_cache_max_entries (1000)
     #     Used for the maximum size limit of the LRU cache storing endpoints data
@@ -209,6 +232,10 @@ module Aws::MemoryDB
     #
     #   @option options [Boolean] :endpoint_discovery (false)
     #     When set to `true`, endpoint discovery will be enabled for operations when available.
+    #
+    #   @option options [Boolean] :ignore_configured_endpoint_urls
+    #     Setting to true disables use of endpoint URLs provided via environment
+    #     variables and the shared configuration file.
     #
     #   @option options [Aws::Log::Formatter] :log_formatter (Aws::Log::Formatter.default)
     #     The log formatter.
@@ -229,6 +256,34 @@ module Aws::MemoryDB
     #   @option options [String] :profile ("default")
     #     Used when loading credentials from the shared credentials file
     #     at HOME/.aws/credentials.  When not specified, 'default' is used.
+    #
+    #   @option options [String] :request_checksum_calculation ("when_supported")
+    #     Determines when a checksum will be calculated for request payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, a checksum will be
+    #       calculated for all request payloads of operations modeled with the
+    #       `httpChecksum` trait where `requestChecksumRequired` is `true` and/or a
+    #       `requestAlgorithmMember` is modeled.
+    #     * `when_required` - When set, a checksum will only be calculated for
+    #       request payloads of operations modeled with the  `httpChecksum` trait where
+    #       `requestChecksumRequired` is `true` or where a `requestAlgorithmMember`
+    #       is modeled and supplied.
+    #
+    #   @option options [Integer] :request_min_compression_size_bytes (10240)
+    #     The minimum size in bytes that triggers compression for request
+    #     bodies. The value must be non-negative integer value between 0
+    #     and 10485780 bytes inclusive.
+    #
+    #   @option options [String] :response_checksum_validation ("when_supported")
+    #     Determines when checksum validation will be performed on response payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, checksum validation is performed on all
+    #       response payloads of operations modeled with the `httpChecksum` trait where
+    #       `responseAlgorithms` is modeled, except when no modeled checksum algorithms
+    #       are supported.
+    #     * `when_required` - When set, checksum validation is not performed on
+    #       response payloads of operations unless the checksum algorithm is supported and
+    #       the `requestValidationModeMember` member is set to `ENABLED`.
     #
     #   @option options [Proc] :retry_backoff
     #     A proc or lambda used for backoff. Defaults to 2**retries * retry_base_delay.
@@ -274,20 +329,31 @@ module Aws::MemoryDB
     #       throttling.  This is a provisional mode that may change behavior
     #       in the future.
     #
+    #   @option options [String] :sdk_ua_app_id
+    #     A unique and opaque application ID that is appended to the
+    #     User-Agent header as app/sdk_ua_app_id. It should have a
+    #     maximum length of 50. This variable is sourced from environment
+    #     variable AWS_SDK_UA_APP_ID or the shared config profile attribute sdk_ua_app_id.
     #
     #   @option options [String] :secret_access_key
     #
     #   @option options [String] :session_token
     #
+    #   @option options [Array] :sigv4a_signing_region_set
+    #     A list of regions that should be signed with SigV4a signing. When
+    #     not passed, a default `:sigv4a_signing_region_set` is searched for
+    #     in the following locations:
+    #
+    #     * `Aws.config[:sigv4a_signing_region_set]`
+    #     * `ENV['AWS_SIGV4A_SIGNING_REGION_SET']`
+    #     * `~/.aws/config`
+    #
     #   @option options [Boolean] :simple_json (false)
     #     Disables request parameter conversion, validation, and formatting.
-    #     Also disable response data type conversions. This option is useful
-    #     when you want to ensure the highest level of performance by
-    #     avoiding overhead of walking request parameters and response data
-    #     structures.
-    #
-    #     When `:simple_json` is enabled, the request parameters hash must
-    #     be formatted exactly as the DynamoDB API expects.
+    #     Also disables response data type conversions. The request parameters
+    #     hash must be formatted exactly as the API expects.This option is useful
+    #     when you want to ensure the highest level of performance by avoiding
+    #     overhead of walking request parameters and response data structures.
     #
     #   @option options [Boolean] :stub_responses (false)
     #     Causes the client to return stubbed responses. By default
@@ -297,6 +363,16 @@ module Aws::MemoryDB
     #
     #     ** Please note ** When response stubbing is enabled, no HTTP
     #     requests are made, and retries are disabled.
+    #
+    #   @option options [Aws::Telemetry::TelemetryProviderBase] :telemetry_provider (Aws::Telemetry::NoOpTelemetryProvider)
+    #     Allows you to provide a telemetry provider, which is used to
+    #     emit telemetry data. By default, uses `NoOpTelemetryProvider` which
+    #     will not record or emit any telemetry data. The SDK supports the
+    #     following telemetry providers:
+    #
+    #     * OpenTelemetry (OTel) - To use the OTel provider, install and require the
+    #     `opentelemetry-sdk` gem and then, pass in an instance of a
+    #     `Aws::Telemetry::OTelProvider` for telemetry provider.
     #
     #   @option options [Aws::TokenProvider] :token_provider
     #     A Bearer Token Provider. This can be an instance of any one of the
@@ -325,52 +401,75 @@ module Aws::MemoryDB
     #     sending the request.
     #
     #   @option options [Aws::MemoryDB::EndpointProvider] :endpoint_provider
-    #     The endpoint provider used to resolve endpoints. Any object that responds to `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to `Aws::MemoryDB::EndpointParameters`
+    #     The endpoint provider used to resolve endpoints. Any object that responds to
+    #     `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+    #     `Aws::MemoryDB::EndpointParameters`.
     #
-    #   @option options [URI::HTTP,String] :http_proxy A proxy to send
-    #     requests through.  Formatted like 'http://proxy.com:123'.
+    #   @option options [Float] :http_continue_timeout (1)
+    #     The number of seconds to wait for a 100-continue response before sending the
+    #     request body.  This option has no effect unless the request has "Expect"
+    #     header set to "100-continue".  Defaults to `nil` which  disables this
+    #     behaviour.  This value can safely be set per request on the session.
     #
-    #   @option options [Float] :http_open_timeout (15) The number of
-    #     seconds to wait when opening a HTTP session before raising a
-    #     `Timeout::Error`.
+    #   @option options [Float] :http_idle_timeout (5)
+    #     The number of seconds a connection is allowed to sit idle before it
+    #     is considered stale.  Stale connections are closed and removed from the
+    #     pool before making a request.
     #
-    #   @option options [Float] :http_read_timeout (60) The default
-    #     number of seconds to wait for response data.  This value can
-    #     safely be set per-request on the session.
+    #   @option options [Float] :http_open_timeout (15)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :http_idle_timeout (5) The number of
-    #     seconds a connection is allowed to sit idle before it is
-    #     considered stale.  Stale connections are closed and removed
-    #     from the pool before making a request.
+    #   @option options [URI::HTTP,String] :http_proxy
+    #     A proxy to send requests through.  Formatted like 'http://proxy.com:123'.
     #
-    #   @option options [Float] :http_continue_timeout (1) The number of
-    #     seconds to wait for a 100-continue response before sending the
-    #     request body.  This option has no effect unless the request has
-    #     "Expect" header set to "100-continue".  Defaults to `nil` which
-    #     disables this behaviour.  This value can safely be set per
-    #     request on the session.
+    #   @option options [Float] :http_read_timeout (60)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :ssl_timeout (nil) Sets the SSL timeout
-    #     in seconds.
+    #   @option options [Boolean] :http_wire_trace (false)
+    #     When `true`,  HTTP debug output will be sent to the `:logger`.
     #
-    #   @option options [Boolean] :http_wire_trace (false) When `true`,
-    #     HTTP debug output will be sent to the `:logger`.
+    #   @option options [Proc] :on_chunk_received
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the response body is received. It provides three arguments: the chunk,
+    #     the number of bytes received, and the total number of
+    #     bytes in the response (or nil if the server did not send a `content-length`).
     #
-    #   @option options [Boolean] :ssl_verify_peer (true) When `true`,
-    #     SSL peer certificates are verified when establishing a
-    #     connection.
+    #   @option options [Proc] :on_chunk_sent
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the request body is sent. It provides three arguments: the chunk,
+    #     the number of bytes read from the body, and the total number of
+    #     bytes in the body.
     #
-    #   @option options [String] :ssl_ca_bundle Full path to the SSL
-    #     certificate authority bundle file that should be used when
-    #     verifying peer certificates.  If you do not pass
-    #     `:ssl_ca_bundle` or `:ssl_ca_directory` the the system default
-    #     will be used if available.
+    #   @option options [Boolean] :raise_response_errors (true)
+    #     When `true`, response errors are raised.
     #
-    #   @option options [String] :ssl_ca_directory Full path of the
-    #     directory that contains the unbundled SSL certificate
+    #   @option options [String] :ssl_ca_bundle
+    #     Full path to the SSL certificate authority bundle file that should be used when
+    #     verifying peer certificates.  If you do not pass `:ssl_ca_bundle` or
+    #     `:ssl_ca_directory` the the system default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_directory
+    #     Full path of the directory that contains the unbundled SSL certificate
     #     authority files for verifying peer certificates.  If you do
-    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the
-    #     system default will be used if available.
+    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the system
+    #     default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_store
+    #     Sets the X509::Store to verify peer certificate.
+    #
+    #   @option options [OpenSSL::X509::Certificate] :ssl_cert
+    #     Sets a client certificate when creating http connections.
+    #
+    #   @option options [OpenSSL::PKey] :ssl_key
+    #     Sets a client key when creating http connections.
+    #
+    #   @option options [Float] :ssl_timeout
+    #     Sets the SSL timeout in seconds
+    #
+    #   @option options [Boolean] :ssl_verify_peer (true)
+    #     When `true`, SSL peer certificates are verified when establishing a connection.
     #
     def initialize(*args)
       super
@@ -417,6 +516,7 @@ module Aws::MemoryDB
     #   resp.processed_clusters[0].pending_updates.service_updates #=> Array
     #   resp.processed_clusters[0].pending_updates.service_updates[0].service_update_name #=> String
     #   resp.processed_clusters[0].pending_updates.service_updates[0].status #=> String, one of "available", "in-progress", "complete", "scheduled"
+    #   resp.processed_clusters[0].multi_region_cluster_name #=> String
     #   resp.processed_clusters[0].number_of_shards #=> Integer
     #   resp.processed_clusters[0].shards #=> Array
     #   resp.processed_clusters[0].shards[0].name #=> String
@@ -434,6 +534,7 @@ module Aws::MemoryDB
     #   resp.processed_clusters[0].cluster_endpoint.address #=> String
     #   resp.processed_clusters[0].cluster_endpoint.port #=> Integer
     #   resp.processed_clusters[0].node_type #=> String
+    #   resp.processed_clusters[0].engine #=> String
     #   resp.processed_clusters[0].engine_version #=> String
     #   resp.processed_clusters[0].engine_patch_version #=> String
     #   resp.processed_clusters[0].parameter_group_name #=> String
@@ -525,6 +626,7 @@ module Aws::MemoryDB
     #   resp.snapshot.cluster_configuration.name #=> String
     #   resp.snapshot.cluster_configuration.description #=> String
     #   resp.snapshot.cluster_configuration.node_type #=> String
+    #   resp.snapshot.cluster_configuration.engine #=> String
     #   resp.snapshot.cluster_configuration.engine_version #=> String
     #   resp.snapshot.cluster_configuration.maintenance_window #=> String
     #   resp.snapshot.cluster_configuration.topic_arn #=> String
@@ -541,6 +643,8 @@ module Aws::MemoryDB
     #   resp.snapshot.cluster_configuration.shards[0].configuration.replica_count #=> Integer
     #   resp.snapshot.cluster_configuration.shards[0].size #=> String
     #   resp.snapshot.cluster_configuration.shards[0].snapshot_creation_time #=> Time
+    #   resp.snapshot.cluster_configuration.multi_region_parameter_group_name #=> String
+    #   resp.snapshot.cluster_configuration.multi_region_cluster_name #=> String
     #   resp.snapshot.data_tiering #=> String, one of "true", "false"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/memorydb-2021-01-01/CopySnapshot AWS API Documentation
@@ -620,6 +724,9 @@ module Aws::MemoryDB
     #
     # @option params [required, String] :node_type
     #   The compute and memory capacity of the nodes in the cluster.
+    #
+    # @option params [String] :multi_region_cluster_name
+    #   The name of the multi-Region cluster to be created.
     #
     # @option params [String] :parameter_group_name
     #   The name of the parameter group associated with the cluster.
@@ -712,8 +819,11 @@ module Aws::MemoryDB
     # @option params [required, String] :acl_name
     #   The name of the Access Control List to associate with the cluster.
     #
+    # @option params [String] :engine
+    #   The name of the engine to be used for the cluster.
+    #
     # @option params [String] :engine_version
-    #   The version number of the Redis engine to be used for the cluster.
+    #   The version number of the Redis OSS engine to be used for the cluster.
     #
     # @option params [Boolean] :auto_minor_version_upgrade
     #   When set to true, the cluster will automatically receive minor engine
@@ -737,6 +847,7 @@ module Aws::MemoryDB
     #   resp = client.create_cluster({
     #     cluster_name: "String", # required
     #     node_type: "String", # required
+    #     multi_region_cluster_name: "String",
     #     parameter_group_name: "String",
     #     description: "String",
     #     num_shards: 1,
@@ -759,6 +870,7 @@ module Aws::MemoryDB
     #     ],
     #     snapshot_window: "String",
     #     acl_name: "ACLName", # required
+    #     engine: "String",
     #     engine_version: "String",
     #     auto_minor_version_upgrade: false,
     #     data_tiering: false,
@@ -774,6 +886,7 @@ module Aws::MemoryDB
     #   resp.cluster.pending_updates.service_updates #=> Array
     #   resp.cluster.pending_updates.service_updates[0].service_update_name #=> String
     #   resp.cluster.pending_updates.service_updates[0].status #=> String, one of "available", "in-progress", "complete", "scheduled"
+    #   resp.cluster.multi_region_cluster_name #=> String
     #   resp.cluster.number_of_shards #=> Integer
     #   resp.cluster.shards #=> Array
     #   resp.cluster.shards[0].name #=> String
@@ -791,6 +904,7 @@ module Aws::MemoryDB
     #   resp.cluster.cluster_endpoint.address #=> String
     #   resp.cluster.cluster_endpoint.port #=> Integer
     #   resp.cluster.node_type #=> String
+    #   resp.cluster.engine #=> String
     #   resp.cluster.engine_version #=> String
     #   resp.cluster.engine_patch_version #=> String
     #   resp.cluster.parameter_group_name #=> String
@@ -817,6 +931,86 @@ module Aws::MemoryDB
     # @param [Hash] params ({})
     def create_cluster(params = {}, options = {})
       req = build_request(:create_cluster, params)
+      req.send_request(options)
+    end
+
+    # Creates a new multi-Region cluster.
+    #
+    # @option params [required, String] :multi_region_cluster_name_suffix
+    #   A suffix to be added to the multi-Region cluster name.
+    #
+    # @option params [String] :description
+    #   A description for the multi-Region cluster.
+    #
+    # @option params [String] :engine
+    #   The name of the engine to be used for the multi-Region cluster.
+    #
+    # @option params [String] :engine_version
+    #   The version of the engine to be used for the multi-Region cluster.
+    #
+    # @option params [required, String] :node_type
+    #   The node type to be used for the multi-Region cluster.
+    #
+    # @option params [String] :multi_region_parameter_group_name
+    #   The name of the multi-Region parameter group to be associated with the
+    #   cluster.
+    #
+    # @option params [Integer] :num_shards
+    #   The number of shards for the multi-Region cluster.
+    #
+    # @option params [Boolean] :tls_enabled
+    #   Whether to enable TLS encryption for the multi-Region cluster.
+    #
+    # @option params [Array<Types::Tag>] :tags
+    #   A list of tags to be applied to the multi-Region cluster.
+    #
+    # @return [Types::CreateMultiRegionClusterResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateMultiRegionClusterResponse#multi_region_cluster #multi_region_cluster} => Types::MultiRegionCluster
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_multi_region_cluster({
+    #     multi_region_cluster_name_suffix: "String", # required
+    #     description: "String",
+    #     engine: "String",
+    #     engine_version: "String",
+    #     node_type: "String", # required
+    #     multi_region_parameter_group_name: "String",
+    #     num_shards: 1,
+    #     tls_enabled: false,
+    #     tags: [
+    #       {
+    #         key: "String",
+    #         value: "String",
+    #       },
+    #     ],
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.multi_region_cluster.multi_region_cluster_name #=> String
+    #   resp.multi_region_cluster.description #=> String
+    #   resp.multi_region_cluster.status #=> String
+    #   resp.multi_region_cluster.node_type #=> String
+    #   resp.multi_region_cluster.engine #=> String
+    #   resp.multi_region_cluster.engine_version #=> String
+    #   resp.multi_region_cluster.number_of_shards #=> Integer
+    #   resp.multi_region_cluster.clusters #=> Array
+    #   resp.multi_region_cluster.clusters[0].cluster_name #=> String
+    #   resp.multi_region_cluster.clusters[0].region #=> String
+    #   resp.multi_region_cluster.clusters[0].status #=> String
+    #   resp.multi_region_cluster.clusters[0].arn #=> String
+    #   resp.multi_region_cluster.multi_region_parameter_group_name #=> String
+    #   resp.multi_region_cluster.tls_enabled #=> Boolean
+    #   resp.multi_region_cluster.arn #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/memorydb-2021-01-01/CreateMultiRegionCluster AWS API Documentation
+    #
+    # @overload create_multi_region_cluster(params = {})
+    # @param [Hash] params ({})
+    def create_multi_region_cluster(params = {}, options = {})
+      req = build_request(:create_multi_region_cluster, params)
       req.send_request(options)
     end
 
@@ -922,6 +1116,7 @@ module Aws::MemoryDB
     #   resp.snapshot.cluster_configuration.name #=> String
     #   resp.snapshot.cluster_configuration.description #=> String
     #   resp.snapshot.cluster_configuration.node_type #=> String
+    #   resp.snapshot.cluster_configuration.engine #=> String
     #   resp.snapshot.cluster_configuration.engine_version #=> String
     #   resp.snapshot.cluster_configuration.maintenance_window #=> String
     #   resp.snapshot.cluster_configuration.topic_arn #=> String
@@ -938,6 +1133,8 @@ module Aws::MemoryDB
     #   resp.snapshot.cluster_configuration.shards[0].configuration.replica_count #=> Integer
     #   resp.snapshot.cluster_configuration.shards[0].size #=> String
     #   resp.snapshot.cluster_configuration.shards[0].snapshot_creation_time #=> Time
+    #   resp.snapshot.cluster_configuration.multi_region_parameter_group_name #=> String
+    #   resp.snapshot.cluster_configuration.multi_region_cluster_name #=> String
     #   resp.snapshot.data_tiering #=> String, one of "true", "false"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/memorydb-2021-01-01/CreateSnapshot AWS API Documentation
@@ -1044,7 +1241,7 @@ module Aws::MemoryDB
     #   resp = client.create_user({
     #     user_name: "UserName", # required
     #     authentication_mode: { # required
-    #       type: "password", # accepts password
+    #       type: "password", # accepts password, iam
     #       passwords: ["String"],
     #     },
     #     access_string: "AccessString", # required
@@ -1064,7 +1261,7 @@ module Aws::MemoryDB
     #   resp.user.acl_names #=> Array
     #   resp.user.acl_names[0] #=> String
     #   resp.user.minimum_engine_version #=> String
-    #   resp.user.authentication.type #=> String, one of "password", "no-password"
+    #   resp.user.authentication.type #=> String, one of "password", "no-password", "iam"
     #   resp.user.authentication.password_count #=> Integer
     #   resp.user.arn #=> String
     #
@@ -1086,7 +1283,7 @@ module Aws::MemoryDB
     # [1]: https://docs.aws.amazon.com/MemoryDB/latest/devguide/clusters.acls.html
     #
     # @option params [required, String] :acl_name
-    #   The name of the Access Control List to delete
+    #   The name of the Access Control List to delete.
     #
     # @return [Types::DeleteACLResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1123,10 +1320,19 @@ module Aws::MemoryDB
     end
 
     # Deletes a cluster. It also deletes all associated nodes and node
-    # endpoints
+    # endpoints.
+    #
+    # <note markdown="1"> `CreateSnapshot` permission is required to create a final snapshot.
+    # Without this permission, the API call will fail with an `Access
+    # Denied` exception.
+    #
+    #  </note>
     #
     # @option params [required, String] :cluster_name
     #   The name of the cluster to be deleted
+    #
+    # @option params [String] :multi_region_cluster_name
+    #   The name of the multi-Region cluster to be deleted.
     #
     # @option params [String] :final_snapshot_name
     #   The user-supplied name of a final cluster snapshot. This is the unique
@@ -1141,6 +1347,7 @@ module Aws::MemoryDB
     #
     #   resp = client.delete_cluster({
     #     cluster_name: "String", # required
+    #     multi_region_cluster_name: "String",
     #     final_snapshot_name: "String",
     #   })
     #
@@ -1154,6 +1361,7 @@ module Aws::MemoryDB
     #   resp.cluster.pending_updates.service_updates #=> Array
     #   resp.cluster.pending_updates.service_updates[0].service_update_name #=> String
     #   resp.cluster.pending_updates.service_updates[0].status #=> String, one of "available", "in-progress", "complete", "scheduled"
+    #   resp.cluster.multi_region_cluster_name #=> String
     #   resp.cluster.number_of_shards #=> Integer
     #   resp.cluster.shards #=> Array
     #   resp.cluster.shards[0].name #=> String
@@ -1171,6 +1379,7 @@ module Aws::MemoryDB
     #   resp.cluster.cluster_endpoint.address #=> String
     #   resp.cluster.cluster_endpoint.port #=> Integer
     #   resp.cluster.node_type #=> String
+    #   resp.cluster.engine #=> String
     #   resp.cluster.engine_version #=> String
     #   resp.cluster.engine_patch_version #=> String
     #   resp.cluster.parameter_group_name #=> String
@@ -1197,6 +1406,48 @@ module Aws::MemoryDB
     # @param [Hash] params ({})
     def delete_cluster(params = {}, options = {})
       req = build_request(:delete_cluster, params)
+      req.send_request(options)
+    end
+
+    # Deletes an existing multi-Region cluster.
+    #
+    # @option params [required, String] :multi_region_cluster_name
+    #   The name of the multi-Region cluster to be deleted.
+    #
+    # @return [Types::DeleteMultiRegionClusterResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DeleteMultiRegionClusterResponse#multi_region_cluster #multi_region_cluster} => Types::MultiRegionCluster
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_multi_region_cluster({
+    #     multi_region_cluster_name: "String", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.multi_region_cluster.multi_region_cluster_name #=> String
+    #   resp.multi_region_cluster.description #=> String
+    #   resp.multi_region_cluster.status #=> String
+    #   resp.multi_region_cluster.node_type #=> String
+    #   resp.multi_region_cluster.engine #=> String
+    #   resp.multi_region_cluster.engine_version #=> String
+    #   resp.multi_region_cluster.number_of_shards #=> Integer
+    #   resp.multi_region_cluster.clusters #=> Array
+    #   resp.multi_region_cluster.clusters[0].cluster_name #=> String
+    #   resp.multi_region_cluster.clusters[0].region #=> String
+    #   resp.multi_region_cluster.clusters[0].status #=> String
+    #   resp.multi_region_cluster.clusters[0].arn #=> String
+    #   resp.multi_region_cluster.multi_region_parameter_group_name #=> String
+    #   resp.multi_region_cluster.tls_enabled #=> Boolean
+    #   resp.multi_region_cluster.arn #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/memorydb-2021-01-01/DeleteMultiRegionCluster AWS API Documentation
+    #
+    # @overload delete_multi_region_cluster(params = {})
+    # @param [Hash] params ({})
+    def delete_multi_region_cluster(params = {}, options = {})
+      req = build_request(:delete_multi_region_cluster, params)
       req.send_request(options)
     end
 
@@ -1238,7 +1489,7 @@ module Aws::MemoryDB
     # snapshot; you cannot cancel or revert this operation.
     #
     # @option params [required, String] :snapshot_name
-    #   The name of the snapshot to delete
+    #   The name of the snapshot to delete.
     #
     # @return [Types::DeleteSnapshotResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1260,6 +1511,7 @@ module Aws::MemoryDB
     #   resp.snapshot.cluster_configuration.name #=> String
     #   resp.snapshot.cluster_configuration.description #=> String
     #   resp.snapshot.cluster_configuration.node_type #=> String
+    #   resp.snapshot.cluster_configuration.engine #=> String
     #   resp.snapshot.cluster_configuration.engine_version #=> String
     #   resp.snapshot.cluster_configuration.maintenance_window #=> String
     #   resp.snapshot.cluster_configuration.topic_arn #=> String
@@ -1276,6 +1528,8 @@ module Aws::MemoryDB
     #   resp.snapshot.cluster_configuration.shards[0].configuration.replica_count #=> Integer
     #   resp.snapshot.cluster_configuration.shards[0].size #=> String
     #   resp.snapshot.cluster_configuration.shards[0].snapshot_creation_time #=> Time
+    #   resp.snapshot.cluster_configuration.multi_region_parameter_group_name #=> String
+    #   resp.snapshot.cluster_configuration.multi_region_cluster_name #=> String
     #   resp.snapshot.data_tiering #=> String, one of "true", "false"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/memorydb-2021-01-01/DeleteSnapshot AWS API Documentation
@@ -1291,7 +1545,7 @@ module Aws::MemoryDB
     # one that is associated with any clusters.
     #
     # @option params [required, String] :subnet_group_name
-    #   The name of the subnet group to delete
+    #   The name of the subnet group to delete.
     #
     # @return [Types::DeleteSubnetGroupResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1346,7 +1600,7 @@ module Aws::MemoryDB
     #   resp.user.acl_names #=> Array
     #   resp.user.acl_names[0] #=> String
     #   resp.user.minimum_engine_version #=> String
-    #   resp.user.authentication.type #=> String, one of "password", "no-password"
+    #   resp.user.authentication.type #=> String, one of "password", "no-password", "iam"
     #   resp.user.authentication.password_count #=> Integer
     #   resp.user.arn #=> String
     #
@@ -1359,10 +1613,10 @@ module Aws::MemoryDB
       req.send_request(options)
     end
 
-    # Returns a list of ACLs
+    # Returns a list of ACLs.
     #
     # @option params [String] :acl_name
-    #   The name of the ACL
+    #   The name of the ACL.
     #
     # @option params [Integer] :max_results
     #   The maximum number of records to include in the response. If more
@@ -1422,7 +1676,7 @@ module Aws::MemoryDB
     # is supplied.
     #
     # @option params [String] :cluster_name
-    #   The name of the cluster
+    #   The name of the cluster.
     #
     # @option params [Integer] :max_results
     #   The maximum number of records to include in the response. If more
@@ -1468,6 +1722,7 @@ module Aws::MemoryDB
     #   resp.clusters[0].pending_updates.service_updates #=> Array
     #   resp.clusters[0].pending_updates.service_updates[0].service_update_name #=> String
     #   resp.clusters[0].pending_updates.service_updates[0].status #=> String, one of "available", "in-progress", "complete", "scheduled"
+    #   resp.clusters[0].multi_region_cluster_name #=> String
     #   resp.clusters[0].number_of_shards #=> Integer
     #   resp.clusters[0].shards #=> Array
     #   resp.clusters[0].shards[0].name #=> String
@@ -1485,6 +1740,7 @@ module Aws::MemoryDB
     #   resp.clusters[0].cluster_endpoint.address #=> String
     #   resp.clusters[0].cluster_endpoint.port #=> Integer
     #   resp.clusters[0].node_type #=> String
+    #   resp.clusters[0].engine #=> String
     #   resp.clusters[0].engine_version #=> String
     #   resp.clusters[0].engine_patch_version #=> String
     #   resp.clusters[0].parameter_group_name #=> String
@@ -1514,10 +1770,13 @@ module Aws::MemoryDB
       req.send_request(options)
     end
 
-    # Returns a list of the available Redis engine versions.
+    # Returns a list of the available Redis OSS engine versions.
+    #
+    # @option params [String] :engine
+    #   The name of the engine for which to list available versions.
     #
     # @option params [String] :engine_version
-    #   The Redis engine version
+    #   The Redis OSS engine version
     #
     # @option params [String] :parameter_group_family
     #   The name of a specific parameter group family to return details for.
@@ -1548,6 +1807,7 @@ module Aws::MemoryDB
     # @example Request syntax with placeholder values
     #
     #   resp = client.describe_engine_versions({
+    #     engine: "String",
     #     engine_version: "String",
     #     parameter_group_family: "String",
     #     max_results: 1,
@@ -1559,6 +1819,7 @@ module Aws::MemoryDB
     #
     #   resp.next_token #=> String
     #   resp.engine_versions #=> Array
+    #   resp.engine_versions[0].engine #=> String
     #   resp.engine_versions[0].engine_version #=> String
     #   resp.engine_versions[0].engine_patch_version #=> String
     #   resp.engine_versions[0].parameter_group_family #=> String
@@ -1644,6 +1905,65 @@ module Aws::MemoryDB
     # @param [Hash] params ({})
     def describe_events(params = {}, options = {})
       req = build_request(:describe_events, params)
+      req.send_request(options)
+    end
+
+    # Returns details about one or more multi-Region clusters.
+    #
+    # @option params [String] :multi_region_cluster_name
+    #   The name of a specific multi-Region cluster to describe.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return.
+    #
+    # @option params [String] :next_token
+    #   A token to specify where to start paginating.
+    #
+    # @option params [Boolean] :show_cluster_details
+    #   Details about the multi-Region cluster.
+    #
+    # @return [Types::DescribeMultiRegionClustersResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeMultiRegionClustersResponse#next_token #next_token} => String
+    #   * {Types::DescribeMultiRegionClustersResponse#multi_region_clusters #multi_region_clusters} => Array&lt;Types::MultiRegionCluster&gt;
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_multi_region_clusters({
+    #     multi_region_cluster_name: "String",
+    #     max_results: 1,
+    #     next_token: "String",
+    #     show_cluster_details: false,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.next_token #=> String
+    #   resp.multi_region_clusters #=> Array
+    #   resp.multi_region_clusters[0].multi_region_cluster_name #=> String
+    #   resp.multi_region_clusters[0].description #=> String
+    #   resp.multi_region_clusters[0].status #=> String
+    #   resp.multi_region_clusters[0].node_type #=> String
+    #   resp.multi_region_clusters[0].engine #=> String
+    #   resp.multi_region_clusters[0].engine_version #=> String
+    #   resp.multi_region_clusters[0].number_of_shards #=> Integer
+    #   resp.multi_region_clusters[0].clusters #=> Array
+    #   resp.multi_region_clusters[0].clusters[0].cluster_name #=> String
+    #   resp.multi_region_clusters[0].clusters[0].region #=> String
+    #   resp.multi_region_clusters[0].clusters[0].status #=> String
+    #   resp.multi_region_clusters[0].clusters[0].arn #=> String
+    #   resp.multi_region_clusters[0].multi_region_parameter_group_name #=> String
+    #   resp.multi_region_clusters[0].tls_enabled #=> Boolean
+    #   resp.multi_region_clusters[0].arn #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/memorydb-2021-01-01/DescribeMultiRegionClusters AWS API Documentation
+    #
+    # @overload describe_multi_region_clusters(params = {})
+    # @param [Hash] params ({})
+    def describe_multi_region_clusters(params = {}, options = {})
+      req = build_request(:describe_multi_region_clusters, params)
       req.send_request(options)
     end
 
@@ -1914,16 +2234,16 @@ module Aws::MemoryDB
       req.send_request(options)
     end
 
-    # Returns details of the service updates
+    # Returns details of the service updates.
     #
     # @option params [String] :service_update_name
     #   The unique ID of the service update to describe.
     #
     # @option params [Array<String>] :cluster_names
-    #   The list of cluster names to identify service updates to apply
+    #   The list of cluster names to identify service updates to apply.
     #
     # @option params [Array<String>] :status
-    #   The status(es) of the service updates to filter on
+    #   The status(es) of the service updates to filter on.
     #
     # @option params [Integer] :max_results
     #   The maximum number of records to include in the response. If more
@@ -1964,6 +2284,7 @@ module Aws::MemoryDB
     #   resp.service_updates[0].description #=> String
     #   resp.service_updates[0].status #=> String, one of "available", "in-progress", "complete", "scheduled"
     #   resp.service_updates[0].type #=> String, one of "security-update"
+    #   resp.service_updates[0].engine #=> String
     #   resp.service_updates[0].nodes_updated #=> String
     #   resp.service_updates[0].auto_update_start_date #=> Time
     #
@@ -2041,6 +2362,7 @@ module Aws::MemoryDB
     #   resp.snapshots[0].cluster_configuration.name #=> String
     #   resp.snapshots[0].cluster_configuration.description #=> String
     #   resp.snapshots[0].cluster_configuration.node_type #=> String
+    #   resp.snapshots[0].cluster_configuration.engine #=> String
     #   resp.snapshots[0].cluster_configuration.engine_version #=> String
     #   resp.snapshots[0].cluster_configuration.maintenance_window #=> String
     #   resp.snapshots[0].cluster_configuration.topic_arn #=> String
@@ -2057,6 +2379,8 @@ module Aws::MemoryDB
     #   resp.snapshots[0].cluster_configuration.shards[0].configuration.replica_count #=> Integer
     #   resp.snapshots[0].cluster_configuration.shards[0].size #=> String
     #   resp.snapshots[0].cluster_configuration.shards[0].snapshot_creation_time #=> Time
+    #   resp.snapshots[0].cluster_configuration.multi_region_parameter_group_name #=> String
+    #   resp.snapshots[0].cluster_configuration.multi_region_cluster_name #=> String
     #   resp.snapshots[0].data_tiering #=> String, one of "true", "false"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/memorydb-2021-01-01/DescribeSnapshots AWS API Documentation
@@ -2125,7 +2449,7 @@ module Aws::MemoryDB
     # Returns a list of users.
     #
     # @option params [String] :user_name
-    #   The name of the user
+    #   The name of the user.
     #
     # @option params [Array<Types::Filter>] :filters
     #   Filter to determine the list of users to return.
@@ -2172,7 +2496,7 @@ module Aws::MemoryDB
     #   resp.users[0].acl_names #=> Array
     #   resp.users[0].acl_names[0] #=> String
     #   resp.users[0].minimum_engine_version #=> String
-    #   resp.users[0].authentication.type #=> String, one of "password", "no-password"
+    #   resp.users[0].authentication.type #=> String, one of "password", "no-password", "iam"
     #   resp.users[0].authentication.password_count #=> Integer
     #   resp.users[0].arn #=> String
     #   resp.next_token #=> String
@@ -2194,10 +2518,10 @@ module Aws::MemoryDB
     # events, Amazon may block this API.
     #
     # @option params [required, String] :cluster_name
-    #   The cluster being failed over
+    #   The cluster being failed over.
     #
     # @option params [required, String] :shard_name
-    #   The name of the shard
+    #   The name of the shard.
     #
     # @return [Types::FailoverShardResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -2220,6 +2544,7 @@ module Aws::MemoryDB
     #   resp.cluster.pending_updates.service_updates #=> Array
     #   resp.cluster.pending_updates.service_updates[0].service_update_name #=> String
     #   resp.cluster.pending_updates.service_updates[0].status #=> String, one of "available", "in-progress", "complete", "scheduled"
+    #   resp.cluster.multi_region_cluster_name #=> String
     #   resp.cluster.number_of_shards #=> Integer
     #   resp.cluster.shards #=> Array
     #   resp.cluster.shards[0].name #=> String
@@ -2237,6 +2562,7 @@ module Aws::MemoryDB
     #   resp.cluster.cluster_endpoint.address #=> String
     #   resp.cluster.cluster_endpoint.port #=> Integer
     #   resp.cluster.node_type #=> String
+    #   resp.cluster.engine #=> String
     #   resp.cluster.engine_version #=> String
     #   resp.cluster.engine_patch_version #=> String
     #   resp.cluster.parameter_group_name #=> String
@@ -2263,6 +2589,38 @@ module Aws::MemoryDB
     # @param [Hash] params ({})
     def failover_shard(params = {}, options = {})
       req = build_request(:failover_shard, params)
+      req.send_request(options)
+    end
+
+    # Lists the allowed updates for a multi-Region cluster.
+    #
+    # @option params [required, String] :multi_region_cluster_name
+    #   The name of the multi-Region cluster.
+    #
+    # @return [Types::ListAllowedMultiRegionClusterUpdatesResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListAllowedMultiRegionClusterUpdatesResponse#scale_up_node_types #scale_up_node_types} => Array&lt;String&gt;
+    #   * {Types::ListAllowedMultiRegionClusterUpdatesResponse#scale_down_node_types #scale_down_node_types} => Array&lt;String&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_allowed_multi_region_cluster_updates({
+    #     multi_region_cluster_name: "String", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.scale_up_node_types #=> Array
+    #   resp.scale_up_node_types[0] #=> String
+    #   resp.scale_down_node_types #=> Array
+    #   resp.scale_down_node_types[0] #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/memorydb-2021-01-01/ListAllowedMultiRegionClusterUpdates AWS API Documentation
+    #
+    # @overload list_allowed_multi_region_cluster_updates(params = {})
+    # @param [Hash] params ({})
+    def list_allowed_multi_region_cluster_updates(params = {}, options = {})
+      req = build_request(:list_allowed_multi_region_cluster_updates, params)
       req.send_request(options)
     end
 
@@ -2306,7 +2664,7 @@ module Aws::MemoryDB
     # Lists all tags currently on a named resource. A tag is a key-value
     # pair where the key and value are case-sensitive. You can use tags to
     # categorize and track your MemoryDB resources. For more information,
-    # see [Tagging your MemoryDB resources][1]
+    # see [Tagging your MemoryDB resources][1].
     #
     #
     #
@@ -2314,7 +2672,7 @@ module Aws::MemoryDB
     #
     # @option params [required, String] :resource_arn
     #   The Amazon Resource Name (ARN) of the resource for which you want the
-    #   list of tags
+    #   list of tags.
     #
     # @return [Types::ListTagsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -2468,7 +2826,7 @@ module Aws::MemoryDB
     #
     # @option params [required, String] :resource_arn
     #   The Amazon Resource Name (ARN) of the resource to which the tags are
-    #   to be added
+    #   to be added.
     #
     # @option params [required, Array<Types::Tag>] :tags
     #   A list of tags to be added to this resource. A tag is a key-value
@@ -2506,14 +2864,14 @@ module Aws::MemoryDB
       req.send_request(options)
     end
 
-    # Use this operation to remove tags on a resource
+    # Use this operation to remove tags on a resource.
     #
     # @option params [required, String] :resource_arn
     #   The Amazon Resource Name (ARN) of the resource to which the tags are
-    #   to be removed
+    #   to be removed.
     #
     # @option params [required, Array<String>] :tag_keys
-    #   The list of keys of the tags that are to be removed
+    #   The list of keys of the tags that are to be removed.
     #
     # @return [Types::UntagResourceResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -2544,13 +2902,13 @@ module Aws::MemoryDB
     # Changes the list of users that belong to the Access Control List.
     #
     # @option params [required, String] :acl_name
-    #   The name of the Access Control List
+    #   The name of the Access Control List.
     #
     # @option params [Array<String>] :user_names_to_add
-    #   The list of users to add to the Access Control List
+    #   The list of users to add to the Access Control List.
     #
     # @option params [Array<String>] :user_names_to_remove
-    #   The list of users to remove from the Access Control List
+    #   The list of users to remove from the Access Control List.
     #
     # @return [Types::UpdateACLResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -2593,13 +2951,13 @@ module Aws::MemoryDB
     # settings and the new values.
     #
     # @option params [required, String] :cluster_name
-    #   The name of the cluster to update
+    #   The name of the cluster to update.
     #
     # @option params [String] :description
-    #   The description of the cluster to update
+    #   The description of the cluster to update.
     #
     # @option params [Array<String>] :security_group_ids
-    #   The SecurityGroupIds to update
+    #   The SecurityGroupIds to update.
     #
     # @option params [String] :maintenance_window
     #   Specifies the weekly time range during which maintenance on the
@@ -2626,14 +2984,14 @@ module Aws::MemoryDB
     #   Example: `sun:23:00-mon:01:30`
     #
     # @option params [String] :sns_topic_arn
-    #   The SNS topic ARN to update
+    #   The SNS topic ARN to update.
     #
     # @option params [String] :sns_topic_status
     #   The status of the Amazon SNS notification topic. Notifications are
     #   sent only if the status is active.
     #
     # @option params [String] :parameter_group_name
-    #   The name of the parameter group to update
+    #   The name of the parameter group to update.
     #
     # @option params [String] :snapshot_window
     #   The daily time range (in UTC) during which MemoryDB begins taking a
@@ -2648,6 +3006,9 @@ module Aws::MemoryDB
     # @option params [String] :node_type
     #   A valid node type that you want to scale this cluster up or down to.
     #
+    # @option params [String] :engine
+    #   The name of the engine to be used for the cluster.
+    #
     # @option params [String] :engine_version
     #   The upgraded version of the engine to be run on the nodes. You can
     #   upgrade to a newer engine version, but you cannot downgrade to an
@@ -2656,13 +3017,13 @@ module Aws::MemoryDB
     #   earlier engine version.
     #
     # @option params [Types::ReplicaConfigurationRequest] :replica_configuration
-    #   The number of replicas that will reside in each shard
+    #   The number of replicas that will reside in each shard.
     #
     # @option params [Types::ShardConfigurationRequest] :shard_configuration
-    #   The number of shards in the cluster
+    #   The number of shards in the cluster.
     #
     # @option params [String] :acl_name
-    #   The Access Control List that is associated with the cluster
+    #   The Access Control List that is associated with the cluster.
     #
     # @return [Types::UpdateClusterResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -2681,6 +3042,7 @@ module Aws::MemoryDB
     #     snapshot_window: "String",
     #     snapshot_retention_limit: 1,
     #     node_type: "String",
+    #     engine: "String",
     #     engine_version: "String",
     #     replica_configuration: {
     #       replica_count: 1,
@@ -2701,6 +3063,7 @@ module Aws::MemoryDB
     #   resp.cluster.pending_updates.service_updates #=> Array
     #   resp.cluster.pending_updates.service_updates[0].service_update_name #=> String
     #   resp.cluster.pending_updates.service_updates[0].status #=> String, one of "available", "in-progress", "complete", "scheduled"
+    #   resp.cluster.multi_region_cluster_name #=> String
     #   resp.cluster.number_of_shards #=> Integer
     #   resp.cluster.shards #=> Array
     #   resp.cluster.shards[0].name #=> String
@@ -2718,6 +3081,7 @@ module Aws::MemoryDB
     #   resp.cluster.cluster_endpoint.address #=> String
     #   resp.cluster.cluster_endpoint.port #=> Integer
     #   resp.cluster.node_type #=> String
+    #   resp.cluster.engine #=> String
     #   resp.cluster.engine_version #=> String
     #   resp.cluster.engine_patch_version #=> String
     #   resp.cluster.parameter_group_name #=> String
@@ -2744,6 +3108,75 @@ module Aws::MemoryDB
     # @param [Hash] params ({})
     def update_cluster(params = {}, options = {})
       req = build_request(:update_cluster, params)
+      req.send_request(options)
+    end
+
+    # Updates the configuration of an existing multi-Region cluster.
+    #
+    # @option params [required, String] :multi_region_cluster_name
+    #   The name of the multi-Region cluster to be updated.
+    #
+    # @option params [String] :node_type
+    #   The new node type to be used for the multi-Region cluster.
+    #
+    # @option params [String] :description
+    #   A new description for the multi-Region cluster.
+    #
+    # @option params [String] :engine_version
+    #   The new engine version to be used for the multi-Region cluster.
+    #
+    # @option params [Types::ShardConfigurationRequest] :shard_configuration
+    #   A request to configure the sharding properties of a cluster
+    #
+    # @option params [String] :multi_region_parameter_group_name
+    #   The new multi-Region parameter group to be associated with the
+    #   cluster.
+    #
+    # @option params [String] :update_strategy
+    #   Whether to force the update even if it may cause data loss.
+    #
+    # @return [Types::UpdateMultiRegionClusterResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateMultiRegionClusterResponse#multi_region_cluster #multi_region_cluster} => Types::MultiRegionCluster
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_multi_region_cluster({
+    #     multi_region_cluster_name: "String", # required
+    #     node_type: "String",
+    #     description: "String",
+    #     engine_version: "String",
+    #     shard_configuration: {
+    #       shard_count: 1,
+    #     },
+    #     multi_region_parameter_group_name: "String",
+    #     update_strategy: "coordinated", # accepts coordinated, uncoordinated
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.multi_region_cluster.multi_region_cluster_name #=> String
+    #   resp.multi_region_cluster.description #=> String
+    #   resp.multi_region_cluster.status #=> String
+    #   resp.multi_region_cluster.node_type #=> String
+    #   resp.multi_region_cluster.engine #=> String
+    #   resp.multi_region_cluster.engine_version #=> String
+    #   resp.multi_region_cluster.number_of_shards #=> Integer
+    #   resp.multi_region_cluster.clusters #=> Array
+    #   resp.multi_region_cluster.clusters[0].cluster_name #=> String
+    #   resp.multi_region_cluster.clusters[0].region #=> String
+    #   resp.multi_region_cluster.clusters[0].status #=> String
+    #   resp.multi_region_cluster.clusters[0].arn #=> String
+    #   resp.multi_region_cluster.multi_region_parameter_group_name #=> String
+    #   resp.multi_region_cluster.tls_enabled #=> Boolean
+    #   resp.multi_region_cluster.arn #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/memorydb-2021-01-01/UpdateMultiRegionCluster AWS API Documentation
+    #
+    # @overload update_multi_region_cluster(params = {})
+    # @param [Hash] params ({})
+    def update_multi_region_cluster(params = {}, options = {})
+      req = build_request(:update_multi_region_cluster, params)
       req.send_request(options)
     end
 
@@ -2860,7 +3293,7 @@ module Aws::MemoryDB
     #   resp = client.update_user({
     #     user_name: "UserName", # required
     #     authentication_mode: {
-    #       type: "password", # accepts password
+    #       type: "password", # accepts password, iam
     #       passwords: ["String"],
     #     },
     #     access_string: "AccessString",
@@ -2874,7 +3307,7 @@ module Aws::MemoryDB
     #   resp.user.acl_names #=> Array
     #   resp.user.acl_names[0] #=> String
     #   resp.user.minimum_engine_version #=> String
-    #   resp.user.authentication.type #=> String, one of "password", "no-password"
+    #   resp.user.authentication.type #=> String, one of "password", "no-password", "iam"
     #   resp.user.authentication.password_count #=> Integer
     #   resp.user.arn #=> String
     #
@@ -2893,14 +3326,19 @@ module Aws::MemoryDB
     # @api private
     def build_request(operation_name, params = {})
       handlers = @handlers.for(operation_name)
+      tracer = config.telemetry_provider.tracer_provider.tracer(
+        Aws::Telemetry.module_to_tracer_name('Aws::MemoryDB')
+      )
       context = Seahorse::Client::RequestContext.new(
         operation_name: operation_name,
         operation: config.api.operation(operation_name),
         client: self,
         params: params,
-        config: config)
+        config: config,
+        tracer: tracer
+      )
       context[:gem_name] = 'aws-sdk-memorydb'
-      context[:gem_version] = '1.12.0'
+      context[:gem_version] = '1.43.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

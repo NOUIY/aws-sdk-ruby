@@ -4,10 +4,12 @@
     "apiVersion":"2015-01-01",
     "endpointPrefix":"es",
     "protocol":"rest-json",
+    "protocols":["rest-json"],
     "serviceFullName":"Amazon Elasticsearch Service",
     "serviceId":"Elasticsearch Service",
     "signatureVersion":"v4",
-    "uid":"es-2015-01-01"
+    "uid":"es-2015-01-01",
+    "auth":["aws.auth#sigv4"]
   },
   "operations":{
     "AcceptInboundCrossClusterSearchConnection":{
@@ -70,6 +72,22 @@
         {"shape":"ValidationException"},
         {"shape":"InternalException"},
         {"shape":"BaseException"}
+      ]
+    },
+    "CancelDomainConfigChange":{
+      "name":"CancelDomainConfigChange",
+      "http":{
+        "method":"POST",
+        "requestUri":"/2015-01-01/es/domain/{DomainName}/config/cancel"
+      },
+      "input":{"shape":"CancelDomainConfigChangeRequest"},
+      "output":{"shape":"CancelDomainConfigChangeResponse"},
+      "errors":[
+        {"shape":"BaseException"},
+        {"shape":"InternalException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ValidationException"},
+        {"shape":"DisabledOperationException"}
       ]
     },
     "CancelElasticsearchServiceSoftwareUpdate":{
@@ -1058,6 +1076,26 @@
       "exception":true
     },
     "Boolean":{"type":"boolean"},
+    "CancelDomainConfigChangeRequest":{
+      "type":"structure",
+      "required":["DomainName"],
+      "members":{
+        "DomainName":{
+          "shape":"DomainName",
+          "location":"uri",
+          "locationName":"DomainName"
+        },
+        "DryRun":{"shape":"DryRun"}
+      }
+    },
+    "CancelDomainConfigChangeResponse":{
+      "type":"structure",
+      "members":{
+        "DryRun":{"shape":"DryRun"},
+        "CancelledChangeIds":{"shape":"GUIDList"},
+        "CancelledChangeProperties":{"shape":"CancelledChangePropertyList"}
+      }
+    },
     "CancelElasticsearchServiceSoftwareUpdateRequest":{
       "type":"structure",
       "required":["DomainName"],
@@ -1071,11 +1109,27 @@
         "ServiceSoftwareOptions":{"shape":"ServiceSoftwareOptions"}
       }
     },
+    "CancelledChangeProperty":{
+      "type":"structure",
+      "members":{
+        "PropertyName":{"shape":"String"},
+        "CancelledValue":{"shape":"String"},
+        "ActiveValue":{"shape":"String"}
+      }
+    },
+    "CancelledChangePropertyList":{
+      "type":"list",
+      "member":{"shape":"CancelledChangeProperty"}
+    },
     "ChangeProgressDetails":{
       "type":"structure",
       "members":{
         "ChangeId":{"shape":"GUID"},
-        "Message":{"shape":"Message"}
+        "Message":{"shape":"Message"},
+        "ConfigChangeStatus":{"shape":"ConfigChangeStatus"},
+        "StartTime":{"shape":"UpdateTimestamp"},
+        "LastUpdatedTime":{"shape":"UpdateTimestamp"},
+        "InitiatedBy":{"shape":"InitiatedBy"}
       }
     },
     "ChangeProgressStage":{
@@ -1110,7 +1164,10 @@
         "PendingProperties":{"shape":"StringList"},
         "CompletedProperties":{"shape":"StringList"},
         "TotalNumberOfStages":{"shape":"TotalNumberOfStages"},
-        "ChangeProgressStages":{"shape":"ChangeProgressStageList"}
+        "ChangeProgressStages":{"shape":"ChangeProgressStageList"},
+        "ConfigChangeStatus":{"shape":"ConfigChangeStatus"},
+        "LastUpdatedTime":{"shape":"UpdateTimestamp"},
+        "InitiatedBy":{"shape":"InitiatedBy"}
       }
     },
     "ClientToken":{
@@ -1160,6 +1217,19 @@
         "SourceVersion":{"shape":"ElasticsearchVersionString"},
         "TargetVersions":{"shape":"ElasticsearchVersionList"}
       }
+    },
+    "ConfigChangeStatus":{
+      "type":"string",
+      "enum":[
+        "Pending",
+        "Initializing",
+        "Validating",
+        "ValidationFailed",
+        "ApplyingChanges",
+        "Completed",
+        "PendingUserInput",
+        "Cancelled"
+      ]
     },
     "ConflictException":{
       "type":"structure",
@@ -1544,7 +1614,8 @@
     },
     "DescribePackagesFilterValues":{
       "type":"list",
-      "member":{"shape":"DescribePackagesFilterValue"}
+      "member":{"shape":"DescribePackagesFilterValue"},
+      "min":1
     },
     "DescribePackagesRequest":{
       "type":"structure",
@@ -1763,6 +1834,18 @@
         "DISSOCIATION_FAILED"
       ]
     },
+    "DomainProcessingStatusType":{
+      "type":"string",
+      "enum":[
+        "Creating",
+        "Active",
+        "Modifying",
+        "UpgradingEngineVersion",
+        "UpdatingServiceSoftware",
+        "Isolated",
+        "Deleting"
+      ]
+    },
     "Double":{"type":"double"},
     "DryRun":{"type":"boolean"},
     "DryRunResults":{
@@ -1919,7 +2002,8 @@
         "DomainEndpointOptions":{"shape":"DomainEndpointOptionsStatus"},
         "AdvancedSecurityOptions":{"shape":"AdvancedSecurityOptionsStatus"},
         "AutoTuneOptions":{"shape":"AutoTuneOptionsStatus"},
-        "ChangeProgressDetails":{"shape":"ChangeProgressDetails"}
+        "ChangeProgressDetails":{"shape":"ChangeProgressDetails"},
+        "ModifyingProperties":{"shape":"ModifyingPropertiesList"}
       }
     },
     "ElasticsearchDomainStatus":{
@@ -1955,7 +2039,9 @@
         "DomainEndpointOptions":{"shape":"DomainEndpointOptions"},
         "AdvancedSecurityOptions":{"shape":"AdvancedSecurityOptions"},
         "AutoTuneOptions":{"shape":"AutoTuneOptionsOutput"},
-        "ChangeProgressDetails":{"shape":"ChangeProgressDetails"}
+        "ChangeProgressDetails":{"shape":"ChangeProgressDetails"},
+        "DomainProcessingStatus":{"shape":"DomainProcessingStatusType"},
+        "ModifyingProperties":{"shape":"ModifyingPropertiesList"}
       }
     },
     "ElasticsearchDomainStatusList":{
@@ -1983,7 +2069,7 @@
     },
     "ElasticsearchVersionString":{
       "type":"string",
-      "pattern":"^[0-9]{1}\\.[0-9]{1,2}$|^OpenSearch_[0-9]{1,2}\\.[0-9]{1,2}$"
+      "pattern":"^[0-9]{1}\\.[0-9]{1,2}$|^OpenSearch_[0-9]{1,2}\\.[0-9]{1,2}$|^OS_[0-9]{1,2}\\.[0-9]{1,2}$"
     },
     "EncryptionAtRestOptions":{
       "type":"structure",
@@ -2042,6 +2128,10 @@
     "GUID":{
       "type":"string",
       "pattern":"\\p{XDigit}{8}-\\p{XDigit}{4}-\\p{XDigit}{4}-\\p{XDigit}{4}-\\p{XDigit}{12}"
+    },
+    "GUIDList":{
+      "type":"list",
+      "member":{"shape":"GUID"}
     },
     "GetCompatibleElasticsearchVersionsRequest":{
       "type":"structure",
@@ -2171,6 +2261,13 @@
     "InboundCrossClusterSearchConnections":{
       "type":"list",
       "member":{"shape":"InboundCrossClusterSearchConnection"}
+    },
+    "InitiatedBy":{
+      "type":"string",
+      "enum":[
+        "CUSTOMER",
+        "SERVICE"
+      ]
     },
     "InstanceCount":{
       "type":"integer",
@@ -2516,6 +2613,19 @@
       "min":0
     },
     "MinimumInstanceCount":{"type":"integer"},
+    "ModifyingProperties":{
+      "type":"structure",
+      "members":{
+        "Name":{"shape":"String"},
+        "ActiveValue":{"shape":"String"},
+        "PendingValue":{"shape":"String"},
+        "ValueType":{"shape":"PropertyValueType"}
+      }
+    },
+    "ModifyingPropertiesList":{
+      "type":"list",
+      "member":{"shape":"ModifyingProperties"}
+    },
     "NextToken":{"type":"string"},
     "NodeToNodeEncryptionOptions":{
       "type":"structure",
@@ -2686,6 +2796,13 @@
       "enum":[
         "AWS_ACCOUNT",
         "AWS_SERVICE"
+      ]
+    },
+    "PropertyValueType":{
+      "type":"string",
+      "enum":[
+        "PLAIN_TEXT",
+        "STRINGIFIED_JSON"
       ]
     },
     "PurchaseReservedElasticsearchInstanceOfferingRequest":{
@@ -3000,7 +3117,8 @@
       "type":"string",
       "enum":[
         "Policy-Min-TLS-1-0-2019-07",
-        "Policy-Min-TLS-1-2-2019-07"
+        "Policy-Min-TLS-1-2-2019-07",
+        "Policy-Min-TLS-1-2-PFS-2023-10"
       ]
     },
     "Tag":{

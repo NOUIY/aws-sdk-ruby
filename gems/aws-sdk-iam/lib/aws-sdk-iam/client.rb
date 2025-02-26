@@ -7,33 +7,34 @@
 #
 # WARNING ABOUT GENERATED CODE
 
-require 'seahorse/client/plugins/content_length.rb'
-require 'aws-sdk-core/plugins/credentials_configuration.rb'
-require 'aws-sdk-core/plugins/logging.rb'
-require 'aws-sdk-core/plugins/param_converter.rb'
-require 'aws-sdk-core/plugins/param_validator.rb'
-require 'aws-sdk-core/plugins/user_agent.rb'
-require 'aws-sdk-core/plugins/helpful_socket_errors.rb'
-require 'aws-sdk-core/plugins/retry_errors.rb'
-require 'aws-sdk-core/plugins/global_configuration.rb'
-require 'aws-sdk-core/plugins/regional_endpoint.rb'
-require 'aws-sdk-core/plugins/endpoint_discovery.rb'
-require 'aws-sdk-core/plugins/endpoint_pattern.rb'
-require 'aws-sdk-core/plugins/response_paging.rb'
-require 'aws-sdk-core/plugins/stub_responses.rb'
-require 'aws-sdk-core/plugins/idempotency_token.rb'
-require 'aws-sdk-core/plugins/jsonvalue_converter.rb'
-require 'aws-sdk-core/plugins/client_metrics_plugin.rb'
-require 'aws-sdk-core/plugins/client_metrics_send_plugin.rb'
-require 'aws-sdk-core/plugins/transfer_encoding.rb'
-require 'aws-sdk-core/plugins/http_checksum.rb'
-require 'aws-sdk-core/plugins/checksum_algorithm.rb'
-require 'aws-sdk-core/plugins/defaults_mode.rb'
-require 'aws-sdk-core/plugins/recursion_detection.rb'
-require 'aws-sdk-core/plugins/sign.rb'
-require 'aws-sdk-core/plugins/protocols/query.rb'
-
-Aws::Plugins::GlobalConfiguration.add_identifier(:iam)
+require 'seahorse/client/plugins/content_length'
+require 'aws-sdk-core/plugins/credentials_configuration'
+require 'aws-sdk-core/plugins/logging'
+require 'aws-sdk-core/plugins/param_converter'
+require 'aws-sdk-core/plugins/param_validator'
+require 'aws-sdk-core/plugins/user_agent'
+require 'aws-sdk-core/plugins/helpful_socket_errors'
+require 'aws-sdk-core/plugins/retry_errors'
+require 'aws-sdk-core/plugins/global_configuration'
+require 'aws-sdk-core/plugins/regional_endpoint'
+require 'aws-sdk-core/plugins/endpoint_discovery'
+require 'aws-sdk-core/plugins/endpoint_pattern'
+require 'aws-sdk-core/plugins/response_paging'
+require 'aws-sdk-core/plugins/stub_responses'
+require 'aws-sdk-core/plugins/idempotency_token'
+require 'aws-sdk-core/plugins/invocation_id'
+require 'aws-sdk-core/plugins/jsonvalue_converter'
+require 'aws-sdk-core/plugins/client_metrics_plugin'
+require 'aws-sdk-core/plugins/client_metrics_send_plugin'
+require 'aws-sdk-core/plugins/transfer_encoding'
+require 'aws-sdk-core/plugins/http_checksum'
+require 'aws-sdk-core/plugins/checksum_algorithm'
+require 'aws-sdk-core/plugins/request_compression'
+require 'aws-sdk-core/plugins/defaults_mode'
+require 'aws-sdk-core/plugins/recursion_detection'
+require 'aws-sdk-core/plugins/telemetry'
+require 'aws-sdk-core/plugins/sign'
+require 'aws-sdk-core/plugins/protocols/query'
 
 module Aws::IAM
   # An API client for IAM.  To construct a client, you need to configure a `:region` and `:credentials`.
@@ -71,20 +72,28 @@ module Aws::IAM
     add_plugin(Aws::Plugins::ResponsePaging)
     add_plugin(Aws::Plugins::StubResponses)
     add_plugin(Aws::Plugins::IdempotencyToken)
+    add_plugin(Aws::Plugins::InvocationId)
     add_plugin(Aws::Plugins::JsonvalueConverter)
     add_plugin(Aws::Plugins::ClientMetricsPlugin)
     add_plugin(Aws::Plugins::ClientMetricsSendPlugin)
     add_plugin(Aws::Plugins::TransferEncoding)
     add_plugin(Aws::Plugins::HttpChecksum)
     add_plugin(Aws::Plugins::ChecksumAlgorithm)
+    add_plugin(Aws::Plugins::RequestCompression)
     add_plugin(Aws::Plugins::DefaultsMode)
     add_plugin(Aws::Plugins::RecursionDetection)
+    add_plugin(Aws::Plugins::Telemetry)
     add_plugin(Aws::Plugins::Sign)
     add_plugin(Aws::Plugins::Protocols::Query)
     add_plugin(Aws::IAM::Plugins::Endpoints)
 
     # @overload initialize(options)
     #   @param [Hash] options
+    #
+    #   @option options [Array<Seahorse::Client::Plugin>] :plugins ([]])
+    #     A list of plugins to apply to the client. Each plugin is either a
+    #     class name or an instance of a plugin class.
+    #
     #   @option options [required, Aws::CredentialProvider] :credentials
     #     Your AWS credentials. This can be an instance of any one of the
     #     following classes:
@@ -119,13 +128,15 @@ module Aws::IAM
     #     locations will be searched for credentials:
     #
     #     * `Aws.config[:credentials]`
-    #     * The `:access_key_id`, `:secret_access_key`, and `:session_token` options.
-    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']
+    #     * The `:access_key_id`, `:secret_access_key`, `:session_token`, and
+    #       `:account_id` options.
+    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'],
+    #       ENV['AWS_SESSION_TOKEN'], and ENV['AWS_ACCOUNT_ID']
     #     * `~/.aws/credentials`
     #     * `~/.aws/config`
     #     * EC2/ECS IMDS instance profile - When used by default, the timeouts
     #       are very aggressive. Construct and pass an instance of
-    #       `Aws::InstanceProfileCredentails` or `Aws::ECSCredentials` to
+    #       `Aws::InstanceProfileCredentials` or `Aws::ECSCredentials` to
     #       enable retries and extended timeouts. Instance profile credential
     #       fetching can be disabled by setting ENV['AWS_EC2_METADATA_DISABLED']
     #       to true.
@@ -143,6 +154,8 @@ module Aws::IAM
     #     * `~/.aws/config`
     #
     #   @option options [String] :access_key_id
+    #
+    #   @option options [String] :account_id
     #
     #   @option options [Boolean] :active_endpoint_cache (false)
     #     When set to `true`, a thread polling for endpoints will be running in
@@ -190,10 +203,20 @@ module Aws::IAM
     #     Set to true to disable SDK automatically adding host prefix
     #     to default service endpoint when available.
     #
-    #   @option options [String] :endpoint
-    #     The client endpoint is normally constructed from the `:region`
-    #     option. You should only configure an `:endpoint` when connecting
-    #     to test or custom endpoints. This should be a valid HTTP(S) URI.
+    #   @option options [Boolean] :disable_request_compression (false)
+    #     When set to 'true' the request body will not be compressed
+    #     for supported operations.
+    #
+    #   @option options [String, URI::HTTPS, URI::HTTP] :endpoint
+    #     Normally you should not configure the `:endpoint` option
+    #     directly. This is normally constructed from the `:region`
+    #     option. Configuring `:endpoint` is normally reserved for
+    #     connecting to test or custom endpoints. The endpoint should
+    #     be a URI formatted like:
+    #
+    #         'http://example.com'
+    #         'https://example.com'
+    #         'http://example.com:123'
     #
     #   @option options [Integer] :endpoint_cache_max_entries (1000)
     #     Used for the maximum size limit of the LRU cache storing endpoints data
@@ -209,6 +232,10 @@ module Aws::IAM
     #
     #   @option options [Boolean] :endpoint_discovery (false)
     #     When set to `true`, endpoint discovery will be enabled for operations when available.
+    #
+    #   @option options [Boolean] :ignore_configured_endpoint_urls
+    #     Setting to true disables use of endpoint URLs provided via environment
+    #     variables and the shared configuration file.
     #
     #   @option options [Aws::Log::Formatter] :log_formatter (Aws::Log::Formatter.default)
     #     The log formatter.
@@ -229,6 +256,34 @@ module Aws::IAM
     #   @option options [String] :profile ("default")
     #     Used when loading credentials from the shared credentials file
     #     at HOME/.aws/credentials.  When not specified, 'default' is used.
+    #
+    #   @option options [String] :request_checksum_calculation ("when_supported")
+    #     Determines when a checksum will be calculated for request payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, a checksum will be
+    #       calculated for all request payloads of operations modeled with the
+    #       `httpChecksum` trait where `requestChecksumRequired` is `true` and/or a
+    #       `requestAlgorithmMember` is modeled.
+    #     * `when_required` - When set, a checksum will only be calculated for
+    #       request payloads of operations modeled with the  `httpChecksum` trait where
+    #       `requestChecksumRequired` is `true` or where a `requestAlgorithmMember`
+    #       is modeled and supplied.
+    #
+    #   @option options [Integer] :request_min_compression_size_bytes (10240)
+    #     The minimum size in bytes that triggers compression for request
+    #     bodies. The value must be non-negative integer value between 0
+    #     and 10485780 bytes inclusive.
+    #
+    #   @option options [String] :response_checksum_validation ("when_supported")
+    #     Determines when checksum validation will be performed on response payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, checksum validation is performed on all
+    #       response payloads of operations modeled with the `httpChecksum` trait where
+    #       `responseAlgorithms` is modeled, except when no modeled checksum algorithms
+    #       are supported.
+    #     * `when_required` - When set, checksum validation is not performed on
+    #       response payloads of operations unless the checksum algorithm is supported and
+    #       the `requestValidationModeMember` member is set to `ENABLED`.
     #
     #   @option options [Proc] :retry_backoff
     #     A proc or lambda used for backoff. Defaults to 2**retries * retry_base_delay.
@@ -274,10 +329,24 @@ module Aws::IAM
     #       throttling.  This is a provisional mode that may change behavior
     #       in the future.
     #
+    #   @option options [String] :sdk_ua_app_id
+    #     A unique and opaque application ID that is appended to the
+    #     User-Agent header as app/sdk_ua_app_id. It should have a
+    #     maximum length of 50. This variable is sourced from environment
+    #     variable AWS_SDK_UA_APP_ID or the shared config profile attribute sdk_ua_app_id.
     #
     #   @option options [String] :secret_access_key
     #
     #   @option options [String] :session_token
+    #
+    #   @option options [Array] :sigv4a_signing_region_set
+    #     A list of regions that should be signed with SigV4a signing. When
+    #     not passed, a default `:sigv4a_signing_region_set` is searched for
+    #     in the following locations:
+    #
+    #     * `Aws.config[:sigv4a_signing_region_set]`
+    #     * `ENV['AWS_SIGV4A_SIGNING_REGION_SET']`
+    #     * `~/.aws/config`
     #
     #   @option options [Boolean] :stub_responses (false)
     #     Causes the client to return stubbed responses. By default
@@ -287,6 +356,16 @@ module Aws::IAM
     #
     #     ** Please note ** When response stubbing is enabled, no HTTP
     #     requests are made, and retries are disabled.
+    #
+    #   @option options [Aws::Telemetry::TelemetryProviderBase] :telemetry_provider (Aws::Telemetry::NoOpTelemetryProvider)
+    #     Allows you to provide a telemetry provider, which is used to
+    #     emit telemetry data. By default, uses `NoOpTelemetryProvider` which
+    #     will not record or emit any telemetry data. The SDK supports the
+    #     following telemetry providers:
+    #
+    #     * OpenTelemetry (OTel) - To use the OTel provider, install and require the
+    #     `opentelemetry-sdk` gem and then, pass in an instance of a
+    #     `Aws::Telemetry::OTelProvider` for telemetry provider.
     #
     #   @option options [Aws::TokenProvider] :token_provider
     #     A Bearer Token Provider. This can be an instance of any one of the
@@ -315,52 +394,75 @@ module Aws::IAM
     #     sending the request.
     #
     #   @option options [Aws::IAM::EndpointProvider] :endpoint_provider
-    #     The endpoint provider used to resolve endpoints. Any object that responds to `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to `Aws::IAM::EndpointParameters`
+    #     The endpoint provider used to resolve endpoints. Any object that responds to
+    #     `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+    #     `Aws::IAM::EndpointParameters`.
     #
-    #   @option options [URI::HTTP,String] :http_proxy A proxy to send
-    #     requests through.  Formatted like 'http://proxy.com:123'.
+    #   @option options [Float] :http_continue_timeout (1)
+    #     The number of seconds to wait for a 100-continue response before sending the
+    #     request body.  This option has no effect unless the request has "Expect"
+    #     header set to "100-continue".  Defaults to `nil` which  disables this
+    #     behaviour.  This value can safely be set per request on the session.
     #
-    #   @option options [Float] :http_open_timeout (15) The number of
-    #     seconds to wait when opening a HTTP session before raising a
-    #     `Timeout::Error`.
+    #   @option options [Float] :http_idle_timeout (5)
+    #     The number of seconds a connection is allowed to sit idle before it
+    #     is considered stale.  Stale connections are closed and removed from the
+    #     pool before making a request.
     #
-    #   @option options [Float] :http_read_timeout (60) The default
-    #     number of seconds to wait for response data.  This value can
-    #     safely be set per-request on the session.
+    #   @option options [Float] :http_open_timeout (15)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :http_idle_timeout (5) The number of
-    #     seconds a connection is allowed to sit idle before it is
-    #     considered stale.  Stale connections are closed and removed
-    #     from the pool before making a request.
+    #   @option options [URI::HTTP,String] :http_proxy
+    #     A proxy to send requests through.  Formatted like 'http://proxy.com:123'.
     #
-    #   @option options [Float] :http_continue_timeout (1) The number of
-    #     seconds to wait for a 100-continue response before sending the
-    #     request body.  This option has no effect unless the request has
-    #     "Expect" header set to "100-continue".  Defaults to `nil` which
-    #     disables this behaviour.  This value can safely be set per
-    #     request on the session.
+    #   @option options [Float] :http_read_timeout (60)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :ssl_timeout (nil) Sets the SSL timeout
-    #     in seconds.
+    #   @option options [Boolean] :http_wire_trace (false)
+    #     When `true`,  HTTP debug output will be sent to the `:logger`.
     #
-    #   @option options [Boolean] :http_wire_trace (false) When `true`,
-    #     HTTP debug output will be sent to the `:logger`.
+    #   @option options [Proc] :on_chunk_received
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the response body is received. It provides three arguments: the chunk,
+    #     the number of bytes received, and the total number of
+    #     bytes in the response (or nil if the server did not send a `content-length`).
     #
-    #   @option options [Boolean] :ssl_verify_peer (true) When `true`,
-    #     SSL peer certificates are verified when establishing a
-    #     connection.
+    #   @option options [Proc] :on_chunk_sent
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the request body is sent. It provides three arguments: the chunk,
+    #     the number of bytes read from the body, and the total number of
+    #     bytes in the body.
     #
-    #   @option options [String] :ssl_ca_bundle Full path to the SSL
-    #     certificate authority bundle file that should be used when
-    #     verifying peer certificates.  If you do not pass
-    #     `:ssl_ca_bundle` or `:ssl_ca_directory` the the system default
-    #     will be used if available.
+    #   @option options [Boolean] :raise_response_errors (true)
+    #     When `true`, response errors are raised.
     #
-    #   @option options [String] :ssl_ca_directory Full path of the
-    #     directory that contains the unbundled SSL certificate
+    #   @option options [String] :ssl_ca_bundle
+    #     Full path to the SSL certificate authority bundle file that should be used when
+    #     verifying peer certificates.  If you do not pass `:ssl_ca_bundle` or
+    #     `:ssl_ca_directory` the the system default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_directory
+    #     Full path of the directory that contains the unbundled SSL certificate
     #     authority files for verifying peer certificates.  If you do
-    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the
-    #     system default will be used if available.
+    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the system
+    #     default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_store
+    #     Sets the X509::Store to verify peer certificate.
+    #
+    #   @option options [OpenSSL::X509::Certificate] :ssl_cert
+    #     Sets a client certificate when creating http connections.
+    #
+    #   @option options [OpenSSL::PKey] :ssl_key
+    #     Sets a client key when creating http connections.
+    #
+    #   @option options [Float] :ssl_timeout
+    #     Sets the SSL timeout in seconds
+    #
+    #   @option options [Boolean] :ssl_verify_peer (true)
+    #     When `true`, SSL peer certificates are verified when establishing a connection.
     #
     def initialize(*args)
       super
@@ -427,17 +529,27 @@ module Aws::IAM
     #
     #  </note>
     #
-    # For more information about roles, see [Working with roles][4]. For
-    # more information about instance profiles, see [About instance
-    # profiles][5].
+    # When using the [iam:AssociatedResourceArn][4] condition in a policy to
+    # restrict the [PassRole][5] IAM action, special considerations apply if
+    # the policy is intended to define access for the
+    # `AddRoleToInstanceProfile` action. In this case, you cannot specify a
+    # Region or instance ID in the EC2 instance ARN. The ARN value must be
+    # `arn:aws:ec2:*:CallerAccountId:instance/*`. Using any other ARN value
+    # may lead to unexpected evaluation results.
+    #
+    # For more information about roles, see [IAM roles][6] in the *IAM User
+    # Guide*. For more information about instance profiles, see [Using
+    # instance profiles][7] in the *IAM User Guide*.
     #
     #
     #
     # [1]: https://en.wikipedia.org/wiki/Eventual_consistency
     # [2]: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DisassociateIamInstanceProfile.html
     # [3]: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_AssociateIamInstanceProfile.html
-    # [4]: https://docs.aws.amazon.com/IAM/latest/UserGuide/WorkingWithRoles.html
-    # [5]: https://docs.aws.amazon.com/IAM/latest/UserGuide/AboutInstanceProfiles.html
+    # [4]: https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_iam-condition-keys.html#available-keys-for-iam
+    # [5]: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_passrole.html
+    # [6]: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html
+    # [7]: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2_instance-profiles.html
     #
     # @option params [required, String] :instance_profile_name
     #   The name of the instance profile to update.
@@ -548,18 +660,19 @@ module Aws::IAM
     # Attaches the specified managed policy to the specified IAM group.
     #
     # You use this operation to attach a managed policy to a group. To embed
-    # an inline policy in a group, use PutGroupPolicy.
+    # an inline policy in a group, use [ `PutGroupPolicy` ][1].
     #
     # As a best practice, you can validate your IAM policies. To learn more,
-    # see [Validating IAM policies][1] in the *IAM User Guide*.
+    # see [Validating IAM policies][2] in the *IAM User Guide*.
     #
     # For more information about policies, see [Managed policies and inline
-    # policies][2] in the *IAM User Guide*.
+    # policies][3] in the *IAM User Guide*.
     #
     #
     #
-    # [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_policy-validator.html
-    # [2]: https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html
+    # [1]: https://docs.aws.amazon.com/IAM/latest/APIReference/API_PutGroupPolicy.html
+    # [2]: https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_policy-validator.html
+    # [3]: https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html
     #
     # @option params [required, String] :group_name
     #   The name (friendly name, not ARN) of the group to attach the policy
@@ -617,24 +730,27 @@ module Aws::IAM
     # of the role's permission (access) policy.
     #
     # <note markdown="1"> You cannot use a managed policy as the role's trust policy. The
-    # role's trust policy is created at the same time as the role, using
-    # CreateRole. You can update a role's trust policy using
-    # UpdateAssumeRolePolicy.
+    # role's trust policy is created at the same time as the role, using [
+    # `CreateRole` ][1]. You can update a role's trust policy using [
+    # `UpdateAssumerolePolicy` ][2].
     #
     #  </note>
     #
     # Use this operation to attach a *managed* policy to a role. To embed an
-    # inline policy in a role, use PutRolePolicy. For more information about
-    # policies, see [Managed policies and inline policies][1] in the *IAM
-    # User Guide*.
+    # inline policy in a role, use [ `PutRolePolicy` ][3]. For more
+    # information about policies, see [Managed policies and inline
+    # policies][4] in the *IAM User Guide*.
     #
     # As a best practice, you can validate your IAM policies. To learn more,
-    # see [Validating IAM policies][2] in the *IAM User Guide*.
+    # see [Validating IAM policies][5] in the *IAM User Guide*.
     #
     #
     #
-    # [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html
-    # [2]: https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_policy-validator.html
+    # [1]: https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateRole.html
+    # [2]: https://docs.aws.amazon.com/IAM/latest/APIReference/API_UpdateAssumeRolePolicy.html
+    # [3]: https://docs.aws.amazon.com/IAM/latest/APIReference/API_PutRolePolicy.html
+    # [4]: https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html
+    # [5]: https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_policy-validator.html
     #
     # @option params [required, String] :role_name
     #   The name (friendly name, not ARN) of the role to attach the policy to.
@@ -689,18 +805,19 @@ module Aws::IAM
     # Attaches the specified managed policy to the specified user.
     #
     # You use this operation to attach a *managed* policy to a user. To
-    # embed an inline policy in a user, use PutUserPolicy.
+    # embed an inline policy in a user, use [ `PutUserPolicy` ][1].
     #
     # As a best practice, you can validate your IAM policies. To learn more,
-    # see [Validating IAM policies][1] in the *IAM User Guide*.
+    # see [Validating IAM policies][2] in the *IAM User Guide*.
     #
     # For more information about policies, see [Managed policies and inline
-    # policies][2] in the *IAM User Guide*.
+    # policies][3] in the *IAM User Guide*.
     #
     #
     #
-    # [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_policy-validator.html
-    # [2]: https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html
+    # [1]: https://docs.aws.amazon.com/IAM/latest/APIReference/API_PutUserPolicy.html
+    # [2]: https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_policy-validator.html
+    # [3]: https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html
     #
     # @option params [required, String] :user_name
     #   The name (friendly name, not ARN) of the IAM user to attach the policy
@@ -901,12 +1018,13 @@ module Aws::IAM
     end
 
     # Creates an alias for your Amazon Web Services account. For information
-    # about using an Amazon Web Services account alias, see [Using an alias
-    # for your Amazon Web Services account ID][1] in the *IAM User Guide*.
+    # about using an Amazon Web Services account alias, see [Creating,
+    # deleting, and listing an Amazon Web Services account alias][1] in the
+    # *Amazon Web Services Sign-In User Guide*.
     #
     #
     #
-    # [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/AccountAlias.html
+    # [1]: https://docs.aws.amazon.com/signin/latest/userguide/CreateAccountAlias.html
     #
     # @option params [required, String] :account_alias
     #   The account alias to create.
@@ -1184,23 +1302,32 @@ module Aws::IAM
     #
     # [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_ManagingLogins.html
     #
-    # @option params [required, String] :user_name
+    # @option params [String] :user_name
     #   The name of the IAM user to create a password for. The user must
     #   already exist.
     #
-    #   This parameter allows (through its [regex pattern][1]) a string of
+    #   This parameter is optional. If no user name is included, it defaults
+    #   to the principal making the request. When you make this request with
+    #   root user credentials, you must use an [AssumeRoot][1] session to omit
+    #   the user name.
+    #
+    #   This parameter allows (through its [regex pattern][2]) a string of
     #   characters consisting of upper and lowercase alphanumeric characters
     #   with no spaces. You can also include any of the following characters:
     #   \_+=,.@-
     #
     #
     #
-    #   [1]: http://wikipedia.org/wiki/regex
+    #   [1]: https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRoot.html
+    #   [2]: http://wikipedia.org/wiki/regex
     #
-    # @option params [required, String] :password
+    # @option params [String] :password
     #   The new password for the user.
     #
-    #   The [regex pattern][1] that is used to validate this parameter is a
+    #   This parameter must be omitted when you make the request with an
+    #   [AssumeRoot][1] session. It is required in all other cases.
+    #
+    #   The [regex pattern][2] that is used to validate this parameter is a
     #   string of characters. That string can include almost any printable
     #   ASCII character from the space (`\u0020`) through the end of the ASCII
     #   character range (`\u00FF`). You can also include the tab (`\u0009`),
@@ -1212,7 +1339,8 @@ module Aws::IAM
     #
     #
     #
-    #   [1]: http://wikipedia.org/wiki/regex
+    #   [1]: https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRoot.html
+    #   [2]: http://wikipedia.org/wiki/regex
     #
     # @option params [Boolean] :password_reset_required
     #   Specifies whether the user is required to set a new password on next
@@ -1246,8 +1374,8 @@ module Aws::IAM
     # @example Request syntax with placeholder values
     #
     #   resp = client.create_login_profile({
-    #     user_name: "userNameType", # required
-    #     password: "passwordType", # required
+    #     user_name: "userNameType",
+    #     password: "passwordType",
     #     password_reset_required: false,
     #   })
     #
@@ -1289,19 +1417,20 @@ module Aws::IAM
     #   application or applications allowed to authenticate using the OIDC
     #   provider
     #
+    # * A list of tags that are attached to the specified IAM OIDC provider
+    #
     # * A list of thumbprints of one or more server certificates that the
     #   IdP uses
     #
     # You get all of this information from the OIDC IdP you want to use to
     # access Amazon Web Services.
     #
-    # <note markdown="1"> Amazon Web Services secures communication with some OIDC identity
-    # providers (IdPs) through our library of trusted certificate
-    # authorities (CAs) instead of using a certificate thumbprint to verify
-    # your IdP server certificate. These OIDC IdPs include Google, Auth0,
-    # and those that use an Amazon S3 bucket to host a JSON Web Key Set
-    # (JWKS) endpoint. In these cases, your legacy thumbprint remains in
-    # your configuration, but is no longer used for validation.
+    # <note markdown="1"> Amazon Web Services secures communication with OIDC identity providers
+    # (IdPs) using our library of trusted root certificate authorities (CAs)
+    # to verify the JSON Web Key Set (JWKS) endpoint's TLS certificate. If
+    # your OIDC IdP relies on a certificate that is not signed by one of
+    # these trusted CAs, only then we secure communication using the
+    # thumbprints set in the IdP's configuration.
     #
     #  </note>
     #
@@ -1344,27 +1473,30 @@ module Aws::IAM
     #   `CreateOpenIDConnectProviderRequest` operation accepts client IDs up
     #   to 255 characters long.
     #
-    # @option params [required, Array<String>] :thumbprint_list
+    # @option params [Array<String>] :thumbprint_list
     #   A list of server certificate thumbprints for the OpenID Connect (OIDC)
     #   identity provider's server certificates. Typically this list includes
     #   only one entry. However, IAM lets you have up to five thumbprints for
     #   an OIDC provider. This lets you maintain multiple thumbprints if the
     #   identity provider is rotating certificates.
     #
+    #   This parameter is optional. If it is not included, IAM will retrieve
+    #   and use the top intermediate certificate authority (CA) thumbprint of
+    #   the OpenID Connect identity provider server certificate.
+    #
     #   The server certificate thumbprint is the hex-encoded SHA-1 hash value
     #   of the X.509 certificate used by the domain where the OpenID Connect
     #   provider makes its keys available. It is always a 40-character string.
     #
-    #   You must provide at least one thumbprint when creating an IAM OIDC
-    #   provider. For example, assume that the OIDC provider is
-    #   `server.example.com` and the provider stores its keys at
+    #   For example, assume that the OIDC provider is `server.example.com` and
+    #   the provider stores its keys at
     #   https://keys.server.example.com/openid-connect. In that case, the
     #   thumbprint string would be the hex-encoded SHA-1 hash value of the
     #   certificate used by `https://keys.server.example.com.`
     #
     #   For more information about obtaining the OIDC provider thumbprint, see
     #   [Obtaining the thumbprint for an OpenID Connect provider][1] in the
-    #   *IAM User Guide*.
+    #   *IAM user Guide*.
     #
     #
     #
@@ -1417,7 +1549,7 @@ module Aws::IAM
     #   resp = client.create_open_id_connect_provider({
     #     url: "OpenIDConnectProviderUrlType", # required
     #     client_id_list: ["clientIDType"],
-    #     thumbprint_list: ["thumbprintType"], # required
+    #     thumbprint_list: ["thumbprintType"],
     #     tags: [
     #       {
     #         key: "tagKeyType", # required
@@ -1701,14 +1833,16 @@ module Aws::IAM
       req.send_request(options)
     end
 
-    # Creates a new role for your Amazon Web Services account. For more
-    # information about roles, see [IAM roles][1]. For information about
-    # quotas for role names and the number of roles you can create, see [IAM
-    # and STS quotas][2] in the *IAM User Guide*.
+    # Creates a new role for your Amazon Web Services account.
+    #
+    # For more information about roles, see [IAM roles][1] in the *IAM User
+    # Guide*. For information about quotas for role names and the number of
+    # roles you can create, see [IAM and STS quotas][2] in the *IAM User
+    # Guide*.
     #
     #
     #
-    # [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/WorkingWithRoles.html
+    # [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html
     # [2]: https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html
     #
     # @option params [String] :path
@@ -1736,6 +1870,15 @@ module Aws::IAM
     #   IAM user, group, role, and policy names must be unique within the
     #   account. Names are not distinguished by case. For example, you cannot
     #   create resources named both "MyResource" and "myresource".
+    #
+    #   This parameter allows (through its [regex pattern][1]) a string of
+    #   characters consisting of upper and lowercase alphanumeric characters
+    #   with no spaces. You can also include any of the following characters:
+    #   \_+=,.@-
+    #
+    #
+    #
+    #   [1]: http://wikipedia.org/wiki/regex
     #
     # @option params [required, String] :assume_role_policy_document
     #   The trust relationship policy document that grants an entity
@@ -1969,6 +2112,14 @@ module Aws::IAM
     #
     #   [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_tags.html
     #
+    # @option params [String] :assertion_encryption_mode
+    #   Specifies the encryption setting for the SAML provider.
+    #
+    # @option params [String] :add_private_key
+    #   The private key generated from your external identity provider. The
+    #   private key must be a .pem file that uses AES-GCM or AES-CBC
+    #   encryption algorithm to decrypt SAML assertions.
+    #
     # @return [Types::CreateSAMLProviderResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreateSAMLProviderResponse#saml_provider_arn #saml_provider_arn} => String
@@ -1985,6 +2136,8 @@ module Aws::IAM
     #         value: "tagValueType", # required
     #       },
     #     ],
+    #     assertion_encryption_mode: "Required", # accepts Required, Allowed
+    #     add_private_key: "privateKeyType",
     #   })
     #
     # @example Response structure
@@ -2333,8 +2486,8 @@ module Aws::IAM
     #   [2]: http://wikipedia.org/wiki/regex
     #
     # @option params [required, String] :virtual_mfa_device_name
-    #   The name of the virtual MFA device. Use with path to uniquely identify
-    #   a virtual MFA device.
+    #   The name of the virtual MFA device, which must be unique. Use with
+    #   path to uniquely identify a virtual MFA device.
     #
     #   This parameter allows (through its [regex pattern][1]) a string of
     #   characters consisting of upper and lowercase alphanumeric characters
@@ -2419,17 +2572,23 @@ module Aws::IAM
     #
     # [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_VirtualMFA.html
     #
-    # @option params [required, String] :user_name
+    # @option params [String] :user_name
     #   The name of the user whose MFA device you want to deactivate.
     #
-    #   This parameter allows (through its [regex pattern][1]) a string of
+    #   This parameter is optional. If no user name is included, it defaults
+    #   to the principal making the request. When you make this request with
+    #   root user credentials, you must use an [AssumeRoot][1] session to omit
+    #   the user name.
+    #
+    #   This parameter allows (through its [regex pattern][2]) a string of
     #   characters consisting of upper and lowercase alphanumeric characters
     #   with no spaces. You can also include any of the following characters:
     #   \_+=,.@-
     #
     #
     #
-    #   [1]: http://wikipedia.org/wiki/regex
+    #   [1]: https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRoot.html
+    #   [2]: http://wikipedia.org/wiki/regex
     #
     # @option params [required, String] :serial_number
     #   The serial number that uniquely identifies the MFA device. For virtual
@@ -2449,7 +2608,7 @@ module Aws::IAM
     # @example Request syntax with placeholder values
     #
     #   resp = client.deactivate_mfa_device({
-    #     user_name: "existingUserNameType", # required
+    #     user_name: "existingUserNameType",
     #     serial_number: "serialNumberType", # required
     #   })
     #
@@ -2525,12 +2684,12 @@ module Aws::IAM
 
     # Deletes the specified Amazon Web Services account alias. For
     # information about using an Amazon Web Services account alias, see
-    # [Using an alias for your Amazon Web Services account ID][1] in the
-    # *IAM User Guide*.
+    # [Creating, deleting, and listing an Amazon Web Services account
+    # alias][1] in the *Amazon Web Services Sign-In User Guide*.
     #
     #
     #
-    # [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/AccountAlias.html
+    # [1]: https://docs.aws.amazon.com/signin/latest/userguide/CreateAccountAlias.html
     #
     # @option params [required, String] :account_alias
     #   The name of the account alias to delete.
@@ -2697,12 +2856,12 @@ module Aws::IAM
     # instance profile that is associated with a running instance will break
     # any applications running on the instance.
     #
-    # For more information about instance profiles, see [About instance
-    # profiles][1].
+    # For more information about instance profiles, see [Using instance
+    # profiles][1] in the *IAM User Guide*.
     #
     #
     #
-    # [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/AboutInstanceProfiles.html
+    # [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2_instance-profiles.html
     #
     # @option params [required, String] :instance_profile_name
     #   The name of the instance profile to delete.
@@ -2761,17 +2920,23 @@ module Aws::IAM
     #
     # [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_passwords_admin-change-user.html
     #
-    # @option params [required, String] :user_name
+    # @option params [String] :user_name
     #   The name of the user whose password you want to delete.
     #
-    #   This parameter allows (through its [regex pattern][1]) a string of
+    #   This parameter is optional. If no user name is included, it defaults
+    #   to the principal making the request. When you make this request with
+    #   root user credentials, you must use an [AssumeRoot][1] session to omit
+    #   the user name.
+    #
+    #   This parameter allows (through its [regex pattern][2]) a string of
     #   characters consisting of upper and lowercase alphanumeric characters
     #   with no spaces. You can also include any of the following characters:
     #   \_+=,.@-
     #
     #
     #
-    #   [1]: http://wikipedia.org/wiki/regex
+    #   [1]: https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRoot.html
+    #   [2]: http://wikipedia.org/wiki/regex
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
@@ -2787,7 +2952,7 @@ module Aws::IAM
     # @example Request syntax with placeholder values
     #
     #   resp = client.delete_login_profile({
-    #     user_name: "userNameType", # required
+    #     user_name: "userNameType",
     #   })
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DeleteLoginProfile AWS API Documentation
@@ -3009,6 +3174,8 @@ module Aws::IAM
     end
 
     # Deletes the permissions boundary for the specified IAM role.
+    #
+    # You cannot set the boundary for a service-linked role.
     #
     # Deleting the permissions boundary for a role might increase its
     # permissions. For example, it might allow anyone who assumes the role
@@ -3758,6 +3925,91 @@ module Aws::IAM
       req.send_request(options)
     end
 
+    # Disables the management of privileged root user credentials across
+    # member accounts in your organization. When you disable this feature,
+    # the management account and the delegated administrator for IAM can no
+    # longer manage root user credentials for member accounts in your
+    # organization.
+    #
+    # @return [Types::DisableOrganizationsRootCredentialsManagementResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DisableOrganizationsRootCredentialsManagementResponse#organization_id #organization_id} => String
+    #   * {Types::DisableOrganizationsRootCredentialsManagementResponse#enabled_features #enabled_features} => Array&lt;String&gt;
+    #
+    #
+    # @example Example: To disable the RootCredentialsManagement feature in your organization
+    #
+    #   # The following command disables the management of privileged root user credentials across member accounts in your
+    #   # organization.
+    #
+    #   resp = client.disable_organizations_root_credentials_management({
+    #   })
+    #
+    #   resp.to_h outputs the following:
+    #   {
+    #     enabled_features: [
+    #       "RootSessions", 
+    #     ], 
+    #     organization_id: "o-aa111bb222", 
+    #   }
+    #
+    # @example Response structure
+    #
+    #   resp.organization_id #=> String
+    #   resp.enabled_features #=> Array
+    #   resp.enabled_features[0] #=> String, one of "RootCredentialsManagement", "RootSessions"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DisableOrganizationsRootCredentialsManagement AWS API Documentation
+    #
+    # @overload disable_organizations_root_credentials_management(params = {})
+    # @param [Hash] params ({})
+    def disable_organizations_root_credentials_management(params = {}, options = {})
+      req = build_request(:disable_organizations_root_credentials_management, params)
+      req.send_request(options)
+    end
+
+    # Disables root user sessions for privileged tasks across member
+    # accounts in your organization. When you disable this feature, the
+    # management account and the delegated administrator for IAM can no
+    # longer perform privileged tasks on member accounts in your
+    # organization.
+    #
+    # @return [Types::DisableOrganizationsRootSessionsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DisableOrganizationsRootSessionsResponse#organization_id #organization_id} => String
+    #   * {Types::DisableOrganizationsRootSessionsResponse#enabled_features #enabled_features} => Array&lt;String&gt;
+    #
+    #
+    # @example Example: To disable the RootSessions feature in your organization
+    #
+    #   # The following command disables root user sessions for privileged tasks across member accounts in your organization.
+    #
+    #   resp = client.disable_organizations_root_sessions({
+    #   })
+    #
+    #   resp.to_h outputs the following:
+    #   {
+    #     enabled_features: [
+    #       "RootCredentialsManagement", 
+    #     ], 
+    #     organization_id: "o-aa111bb222", 
+    #   }
+    #
+    # @example Response structure
+    #
+    #   resp.organization_id #=> String
+    #   resp.enabled_features #=> Array
+    #   resp.enabled_features[0] #=> String, one of "RootCredentialsManagement", "RootSessions"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/DisableOrganizationsRootSessions AWS API Documentation
+    #
+    # @overload disable_organizations_root_sessions(params = {})
+    # @param [Hash] params ({})
+    def disable_organizations_root_sessions(params = {}, options = {})
+      req = build_request(:disable_organizations_root_sessions, params)
+      req.send_request(options)
+    end
+
     # Enables the specified MFA device and associates it with the specified
     # IAM user. When enabled, the MFA device is required for every
     # subsequent login by the IAM user associated with the device.
@@ -3836,6 +4088,124 @@ module Aws::IAM
     # @param [Hash] params ({})
     def enable_mfa_device(params = {}, options = {})
       req = build_request(:enable_mfa_device, params)
+      req.send_request(options)
+    end
+
+    # Enables the management of privileged root user credentials across
+    # member accounts in your organization. When you enable root credentials
+    # management for [centralized root access][1], the management account
+    # and the delegated administrator for IAM can manage root user
+    # credentials for member accounts in your organization.
+    #
+    # Before you enable centralized root access, you must have an account
+    # configured with the following settings:
+    #
+    # * You must manage your Amazon Web Services accounts in
+    #   [Organizations][2].
+    #
+    # * Enable trusted access for Identity and Access Management in
+    #   Organizations. For details, see [IAM and Organizations][3] in the
+    #   *Organizations User Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_root-user.html#id_root-user-access-management
+    # [2]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_introduction.html
+    # [3]: https://docs.aws.amazon.com/organizations/latest/userguide/services-that-can-integrate-iam.html
+    #
+    # @return [Types::EnableOrganizationsRootCredentialsManagementResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::EnableOrganizationsRootCredentialsManagementResponse#organization_id #organization_id} => String
+    #   * {Types::EnableOrganizationsRootCredentialsManagementResponse#enabled_features #enabled_features} => Array&lt;String&gt;
+    #
+    #
+    # @example Example: To enable the RootCredentialsManagement feature in your organization
+    #
+    #   # The following command enables the management of privileged root user credentials across member accounts in your
+    #   # organization.
+    #
+    #   resp = client.enable_organizations_root_credentials_management({
+    #   })
+    #
+    #   resp.to_h outputs the following:
+    #   {
+    #     enabled_features: [
+    #       "RootCredentialsManagement", 
+    #     ], 
+    #     organization_id: "o-aa111bb222", 
+    #   }
+    #
+    # @example Response structure
+    #
+    #   resp.organization_id #=> String
+    #   resp.enabled_features #=> Array
+    #   resp.enabled_features[0] #=> String, one of "RootCredentialsManagement", "RootSessions"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/EnableOrganizationsRootCredentialsManagement AWS API Documentation
+    #
+    # @overload enable_organizations_root_credentials_management(params = {})
+    # @param [Hash] params ({})
+    def enable_organizations_root_credentials_management(params = {}, options = {})
+      req = build_request(:enable_organizations_root_credentials_management, params)
+      req.send_request(options)
+    end
+
+    # Allows the management account or delegated administrator to perform
+    # privileged tasks on member accounts in your organization. For more
+    # information, see [Centrally manage root access for member accounts][1]
+    # in the *Identity and Access Management User Guide*.
+    #
+    # Before you enable this feature, you must have an account configured
+    # with the following settings:
+    #
+    # * You must manage your Amazon Web Services accounts in
+    #   [Organizations][2].
+    #
+    # * Enable trusted access for Identity and Access Management in
+    #   Organizations. For details, see [IAM and Organizations][3] in the
+    #   *Organizations User Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_root-user.html#id_root-user-access-management
+    # [2]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_introduction.html
+    # [3]: https://docs.aws.amazon.com/organizations/latest/userguide/services-that-can-integrate-ra.html
+    #
+    # @return [Types::EnableOrganizationsRootSessionsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::EnableOrganizationsRootSessionsResponse#organization_id #organization_id} => String
+    #   * {Types::EnableOrganizationsRootSessionsResponse#enabled_features #enabled_features} => Array&lt;String&gt;
+    #
+    #
+    # @example Example: To enable the RootSessions feature in your organization
+    #
+    #   # The following command allows the management account or delegated administrator to perform privileged tasks on member
+    #   # accounts in your organization.
+    #
+    #   resp = client.enable_organizations_root_sessions({
+    #   })
+    #
+    #   resp.to_h outputs the following:
+    #   {
+    #     enabled_features: [
+    #       "RootCredentialsManagement", 
+    #       "RootSessions", 
+    #     ], 
+    #     organization_id: "o-aa111bb222", 
+    #   }
+    #
+    # @example Response structure
+    #
+    #   resp.organization_id #=> String
+    #   resp.enabled_features #=> Array
+    #   resp.enabled_features[0] #=> String, one of "RootCredentialsManagement", "RootSessions"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/EnableOrganizationsRootSessions AWS API Documentation
+    #
+    # @overload enable_organizations_root_sessions(params = {})
+    # @param [Hash] params ({})
+    def enable_organizations_root_sessions(params = {}, options = {})
+      req = build_request(:enable_organizations_root_sessions, params)
       req.send_request(options)
     end
 
@@ -4057,6 +4427,9 @@ module Aws::IAM
     # four hours. IAM reports activity for at least the last 400 days, or
     # less if your Region began supporting this feature within the last
     # year. For more information, see [Regions where data is tracked][1].
+    # For more information about services and actions for which action last
+    # accessed information is displayed, see [IAM action last accessed
+    # information services and actions][2].
     #
     # The service last accessed data includes all attempts to access an
     # Amazon Web Services API, not just the successful ones. This includes
@@ -4067,7 +4440,7 @@ module Aws::IAM
     # because the request might have been denied. Refer to your CloudTrail
     # logs as the authoritative source for information about all API calls
     # and whether they were successful or denied access. For more
-    # information, see [Logging IAM events with CloudTrail][2] in the *IAM
+    # information, see [Logging IAM events with CloudTrail][3] in the *IAM
     # User Guide*.
     #
     # The `GenerateServiceLastAccessedDetails` operation returns a `JobId`.
@@ -4102,21 +4475,22 @@ module Aws::IAM
     # policy types include resource-based policies, access control lists,
     # Organizations policies, IAM permissions boundaries, and STS assume
     # role policies. It only applies permissions policy logic. For more
-    # about the evaluation of policy types, see [Evaluating policies][3] in
+    # about the evaluation of policy types, see [Evaluating policies][4] in
     # the *IAM User Guide*.
     #
     #  </note>
     #
     # For more information about service and action last accessed data, see
-    # [Reducing permissions using service last accessed data][4] in the *IAM
+    # [Reducing permissions using service last accessed data][5] in the *IAM
     # User Guide*.
     #
     #
     #
     # [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html#access-advisor_tracking-period
-    # [2]: https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-integration.html
-    # [3]: https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html#policy-eval-basics
-    # [4]: https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html
+    # [2]: https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor-action-last-accessed.html
+    # [3]: https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-integration.html
+    # [4]: https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html#policy-eval-basics
+    # [5]: https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor.html
     #
     # @option params [required, String] :arn
     #   The ARN of the IAM resource (user, group, role, or managed policy)
@@ -4844,12 +5218,12 @@ module Aws::IAM
 
     # Retrieves information about the specified instance profile, including
     # the instance profile's path, GUID, ARN, and role. For more
-    # information about instance profiles, see [About instance profiles][1]
+    # information about instance profiles, see [Using instance profiles][1]
     # in the *IAM User Guide*.
     #
     #
     #
-    # [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/AboutInstanceProfiles.html
+    # [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2_instance-profiles.html
     #
     # @option params [required, String] :instance_profile_name
     #   The name of the instance profile to get information about.
@@ -4960,17 +5334,23 @@ module Aws::IAM
     # you create a password for the user to access the Amazon Web Services
     # Management Console.
     #
-    # @option params [required, String] :user_name
+    # @option params [String] :user_name
     #   The name of the user whose login profile you want to retrieve.
     #
-    #   This parameter allows (through its [regex pattern][1]) a string of
+    #   This parameter is optional. If no user name is included, it defaults
+    #   to the principal making the request. When you make this request with
+    #   root user credentials, you must use an [AssumeRoot][1] session to omit
+    #   the user name.
+    #
+    #   This parameter allows (through its [regex pattern][2]) a string of
     #   characters consisting of upper and lowercase alphanumeric characters
     #   with no spaces. You can also include any of the following characters:
     #   \_+=,.@-
     #
     #
     #
-    #   [1]: http://wikipedia.org/wiki/regex
+    #   [1]: https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRoot.html
+    #   [2]: http://wikipedia.org/wiki/regex
     #
     # @return [Types::GetLoginProfileResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -4996,7 +5376,7 @@ module Aws::IAM
     # @example Request syntax with placeholder values
     #
     #   resp = client.get_login_profile({
-    #     user_name: "userNameType", # required
+    #     user_name: "userNameType",
     #   })
     #
     # @example Response structure
@@ -5011,6 +5391,50 @@ module Aws::IAM
     # @param [Hash] params ({})
     def get_login_profile(params = {}, options = {})
       req = build_request(:get_login_profile, params)
+      req.send_request(options)
+    end
+
+    # Retrieves information about an MFA device for a specified user.
+    #
+    # @option params [required, String] :serial_number
+    #   Serial number that uniquely identifies the MFA device. For this API,
+    #   we only accept FIDO security key [ARNs][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html
+    #
+    # @option params [String] :user_name
+    #   The friendly name identifying the user.
+    #
+    # @return [Types::GetMFADeviceResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetMFADeviceResponse#user_name #user_name} => String
+    #   * {Types::GetMFADeviceResponse#serial_number #serial_number} => String
+    #   * {Types::GetMFADeviceResponse#enable_date #enable_date} => Time
+    #   * {Types::GetMFADeviceResponse#certifications #certifications} => Hash&lt;String,String&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_mfa_device({
+    #     serial_number: "serialNumberType", # required
+    #     user_name: "userNameType",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.user_name #=> String
+    #   resp.serial_number #=> String
+    #   resp.enable_date #=> Time
+    #   resp.certifications #=> Hash
+    #   resp.certifications["CertificationKeyType"] #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetMFADevice AWS API Documentation
+    #
+    # @overload get_mfa_device(params = {})
+    # @param [Hash] params ({})
+    def get_mfa_device(params = {}, options = {})
+      req = build_request(:get_mfa_device, params)
       req.send_request(options)
     end
 
@@ -5079,7 +5503,7 @@ module Aws::IAM
     # operation. For more information, see [Refining permissions using
     # service last accessed data][1] in the *IAM User Guide*.
     #
-    # For each service that principals in an account (root users, IAM users,
+    # For each service that principals in an account (root user, IAM users,
     # or IAM roles) could access using SCPs, the operation returns details
     # about the most recent access attempt. If there was no attempt, the
     # service is listed without details about the most recent attempt to
@@ -5363,8 +5787,8 @@ module Aws::IAM
 
     # Retrieves information about the specified role, including the role's
     # path, GUID, ARN, and the role's trust policy that grants permission
-    # to assume the role. For more information about roles, see [Working
-    # with roles][1].
+    # to assume the role. For more information about roles, see [IAM
+    # roles][1] in the *IAM User Guide*.
     #
     # <note markdown="1"> Policies returned by this operation are URL-encoded compliant with
     # [RFC 3986][2]. You can use a URL decoding method to convert the policy
@@ -5376,7 +5800,7 @@ module Aws::IAM
     #
     #
     #
-    # [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/WorkingWithRoles.html
+    # [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html
     # [2]: https://tools.ietf.org/html/rfc3986
     #
     # @option params [required, String] :role_name
@@ -5478,14 +5902,14 @@ module Aws::IAM
     # For more information about policies, see [Managed policies and inline
     # policies][2] in the *IAM User Guide*.
     #
-    # For more information about roles, see [Using roles to delegate
-    # permissions and federate identities][3].
+    # For more information about roles, see [IAM roles][3] in the *IAM User
+    # Guide*.
     #
     #
     #
     # [1]: https://tools.ietf.org/html/rfc3986
     # [2]: https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html
-    # [3]: https://docs.aws.amazon.com/IAM/latest/UserGuide/roles-toplevel.html
+    # [3]: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html
     #
     # @option params [required, String] :role_name
     #   The name of the role associated with the policy.
@@ -5563,10 +5987,13 @@ module Aws::IAM
     #
     # @return [Types::GetSAMLProviderResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
+    #   * {Types::GetSAMLProviderResponse#saml_provider_uuid #saml_provider_uuid} => String
     #   * {Types::GetSAMLProviderResponse#saml_metadata_document #saml_metadata_document} => String
     #   * {Types::GetSAMLProviderResponse#create_date #create_date} => Time
     #   * {Types::GetSAMLProviderResponse#valid_until #valid_until} => Time
     #   * {Types::GetSAMLProviderResponse#tags #tags} => Array&lt;Types::Tag&gt;
+    #   * {Types::GetSAMLProviderResponse#assertion_encryption_mode #assertion_encryption_mode} => String
+    #   * {Types::GetSAMLProviderResponse#private_key_list #private_key_list} => Array&lt;Types::SAMLPrivateKey&gt;
     #
     # @example Request syntax with placeholder values
     #
@@ -5576,12 +6003,17 @@ module Aws::IAM
     #
     # @example Response structure
     #
+    #   resp.saml_provider_uuid #=> String
     #   resp.saml_metadata_document #=> String
     #   resp.create_date #=> Time
     #   resp.valid_until #=> Time
     #   resp.tags #=> Array
     #   resp.tags[0].key #=> String
     #   resp.tags[0].value #=> String
+    #   resp.assertion_encryption_mode #=> String, one of "Required", "Allowed"
+    #   resp.private_key_list #=> Array
+    #   resp.private_key_list[0].key_id #=> String
+    #   resp.private_key_list[0].timestamp #=> Time
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/GetSAMLProvider AWS API Documentation
     #
@@ -6238,10 +6670,12 @@ module Aws::IAM
     # implicitly based on the Amazon Web Services access key ID used to sign
     # the request. If a temporary access key is used, then `UserName` is
     # required. If a long-term key is assigned to the user, then `UserName`
-    # is not required. This operation works for access keys under the Amazon
-    # Web Services account. Consequently, you can use this operation to
-    # manage Amazon Web Services account root user credentials even if the
-    # Amazon Web Services account has no associated users.
+    # is not required.
+    #
+    # This operation works for access keys under the Amazon Web Services
+    # account. If the Amazon Web Services account has no associated users,
+    # the root user returns it's own access key IDs by running this
+    # command.
     #
     # <note markdown="1"> To ensure the security of your Amazon Web Services account, the secret
     # access key is accessible only during key and user creation.
@@ -6341,12 +6775,13 @@ module Aws::IAM
 
     # Lists the account alias associated with the Amazon Web Services
     # account (Note: you can have only one). For information about using an
-    # Amazon Web Services account alias, see [Using an alias for your Amazon
-    # Web Services account ID][1] in the *IAM User Guide*.
+    # Amazon Web Services account alias, see [Creating, deleting, and
+    # listing an Amazon Web Services account alias][1] in the *IAM User
+    # Guide*.
     #
     #
     #
-    # [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/AccountAlias.html
+    # [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/console_account-alias.html#CreateAccountAlias
     #
     # @option params [String] :marker
     #   Use this parameter only when paginating results and only after you
@@ -7171,6 +7606,8 @@ module Aws::IAM
     #   * {Types::ListInstanceProfileTagsResponse#is_truncated #is_truncated} => Boolean
     #   * {Types::ListInstanceProfileTagsResponse#marker #marker} => String
     #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
     # @example Request syntax with placeholder values
     #
     #   resp = client.list_instance_profile_tags({
@@ -7198,7 +7635,8 @@ module Aws::IAM
 
     # Lists the instance profiles that have the specified path prefix. If
     # there are none, the operation returns an empty list. For more
-    # information about instance profiles, see [About instance profiles][1].
+    # information about instance profiles, see [Using instance profiles][1]
+    # in the *IAM User Guide*.
     #
     # <note markdown="1"> IAM resource-listing operations return a subset of the available
     # attributes for the resource. For example, this operation does not
@@ -7213,7 +7651,7 @@ module Aws::IAM
     #
     #
     #
-    # [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/AboutInstanceProfiles.html
+    # [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2_instance-profiles.html
     #
     # @option params [String] :path_prefix
     #   The path prefix for filtering the results. For example, the prefix
@@ -7307,15 +7745,15 @@ module Aws::IAM
 
     # Lists the instance profiles that have the specified associated IAM
     # role. If there are none, the operation returns an empty list. For more
-    # information about instance profiles, go to [About instance
-    # profiles][1].
+    # information about instance profiles, go to [Using instance
+    # profiles][1] in the *IAM User Guide*.
     #
     # You can paginate the results using the `MaxItems` and `Marker`
     # parameters.
     #
     #
     #
-    # [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/AboutInstanceProfiles.html
+    # [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2_instance-profiles.html
     #
     # @option params [required, String] :role_name
     #   The name of the role to list instance profiles for.
@@ -7446,6 +7884,8 @@ module Aws::IAM
     #   * {Types::ListMFADeviceTagsResponse#tags #tags} => Array&lt;Types::Tag&gt;
     #   * {Types::ListMFADeviceTagsResponse#is_truncated #is_truncated} => Boolean
     #   * {Types::ListMFADeviceTagsResponse#marker #marker} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
     #
     # @example Request syntax with placeholder values
     #
@@ -7593,6 +8033,8 @@ module Aws::IAM
     #   * {Types::ListOpenIDConnectProviderTagsResponse#is_truncated #is_truncated} => Boolean
     #   * {Types::ListOpenIDConnectProviderTagsResponse#marker #marker} => String
     #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
     # @example Request syntax with placeholder values
     #
     #   resp = client.list_open_id_connect_provider_tags({
@@ -7644,6 +8086,50 @@ module Aws::IAM
     # @param [Hash] params ({})
     def list_open_id_connect_providers(params = {}, options = {})
       req = build_request(:list_open_id_connect_providers, params)
+      req.send_request(options)
+    end
+
+    # Lists the centralized root access features enabled for your
+    # organization. For more information, see [Centrally manage root access
+    # for member accounts][1].
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_root-user.html#id_root-user-access-management
+    #
+    # @return [Types::ListOrganizationsFeaturesResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListOrganizationsFeaturesResponse#organization_id #organization_id} => String
+    #   * {Types::ListOrganizationsFeaturesResponse#enabled_features #enabled_features} => Array&lt;String&gt;
+    #
+    #
+    # @example Example: To list the centralized root access features enabled for your organization
+    #
+    #   # he following command lists the centralized root access features enabled for your organization.
+    #
+    #   resp = client.list_organizations_features({
+    #   })
+    #
+    #   resp.to_h outputs the following:
+    #   {
+    #     enabled_features: [
+    #       "RootCredentialsManagement", 
+    #     ], 
+    #     organization_id: "o-aa111bb222", 
+    #   }
+    #
+    # @example Response structure
+    #
+    #   resp.organization_id #=> String
+    #   resp.enabled_features #=> Array
+    #   resp.enabled_features[0] #=> String, one of "RootCredentialsManagement", "RootSessions"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/iam-2010-05-08/ListOrganizationsFeatures AWS API Documentation
+    #
+    # @overload list_organizations_features(params = {})
+    # @param [Hash] params ({})
+    def list_organizations_features(params = {}, options = {})
+      req = build_request(:list_organizations_features, params)
       req.send_request(options)
     end
 
@@ -7979,6 +8465,8 @@ module Aws::IAM
     #   * {Types::ListPolicyTagsResponse#is_truncated #is_truncated} => Boolean
     #   * {Types::ListPolicyTagsResponse#marker #marker} => String
     #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
     # @example Request syntax with placeholder values
     #
     #   resp = client.list_policy_tags({
@@ -8198,6 +8686,8 @@ module Aws::IAM
     #   * {Types::ListRoleTagsResponse#is_truncated #is_truncated} => Boolean
     #   * {Types::ListRoleTagsResponse#marker #marker} => String
     #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
     #
     # @example Example: To list the tags attached to an IAM role
     #
@@ -8249,12 +8739,20 @@ module Aws::IAM
 
     # Lists the IAM roles that have the specified path prefix. If there are
     # none, the operation returns an empty list. For more information about
-    # roles, see [Working with roles][1].
+    # roles, see [IAM roles][1] in the *IAM User Guide*.
     #
     # <note markdown="1"> IAM resource-listing operations return a subset of the available
-    # attributes for the resource. For example, this operation does not
-    # return tags, even though they are an attribute of the returned object.
-    # To view all of the information for a role, see GetRole.
+    # attributes for the resource. This operation does not return the
+    # following attributes, even though they are an attribute of the
+    # returned object:
+    #
+    #  * PermissionsBoundary
+    #
+    # * RoleLastUsed
+    #
+    # * Tags
+    #
+    #  To view all of the information for a role, see GetRole.
     #
     #  </note>
     #
@@ -8263,7 +8761,7 @@ module Aws::IAM
     #
     #
     #
-    # [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/WorkingWithRoles.html
+    # [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html
     #
     # @option params [String] :path_prefix
     #   The path prefix for filtering the results. For example, the prefix
@@ -8393,6 +8891,8 @@ module Aws::IAM
     #   * {Types::ListSAMLProviderTagsResponse#tags #tags} => Array&lt;Types::Tag&gt;
     #   * {Types::ListSAMLProviderTagsResponse#is_truncated #is_truncated} => Boolean
     #   * {Types::ListSAMLProviderTagsResponse#marker #marker} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
     #
     # @example Request syntax with placeholder values
     #
@@ -8587,6 +9087,8 @@ module Aws::IAM
     #   * {Types::ListServerCertificateTagsResponse#tags #tags} => Array&lt;Types::Tag&gt;
     #   * {Types::ListServerCertificateTagsResponse#is_truncated #is_truncated} => Boolean
     #   * {Types::ListServerCertificateTagsResponse#marker #marker} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
     #
     # @example Request syntax with placeholder values
     #
@@ -9049,9 +9551,15 @@ module Aws::IAM
     # list.
     #
     # <note markdown="1"> IAM resource-listing operations return a subset of the available
-    # attributes for the resource. For example, this operation does not
-    # return tags, even though they are an attribute of the returned object.
-    # To view all of the information for a user, see GetUser.
+    # attributes for the resource. This operation does not return the
+    # following attributes, even though they are an attribute of the
+    # returned object:
+    #
+    #  * PermissionsBoundary
+    #
+    # * Tags
+    #
+    #  To view all of the information for a user, see GetUser.
     #
     #  </note>
     #
@@ -9275,26 +9783,29 @@ module Aws::IAM
     # specified IAM group.
     #
     # A user can also have managed policies attached to it. To attach a
-    # managed policy to a group, use AttachGroupPolicy. To create a new
-    # managed policy, use CreatePolicy. For information about policies, see
-    # [Managed policies and inline policies][1] in the *IAM User Guide*.
+    # managed policy to a group, use [ `AttachGroupPolicy` ][1]. To create a
+    # new managed policy, use [ `CreatePolicy` ][2]. For information about
+    # policies, see [Managed policies and inline policies][3] in the *IAM
+    # User Guide*.
     #
     # For information about the maximum number of inline policies that you
-    # can embed in a group, see [IAM and STS quotas][2] in the *IAM User
+    # can embed in a group, see [IAM and STS quotas][4] in the *IAM User
     # Guide*.
     #
     # <note markdown="1"> Because policy documents can be large, you should use POST rather than
     # GET when calling `PutGroupPolicy`. For general information about using
-    # the Query API with IAM, see [Making query requests][3] in the *IAM
+    # the Query API with IAM, see [Making query requests][5] in the *IAM
     # User Guide*.
     #
     #  </note>
     #
     #
     #
-    # [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html
-    # [2]: https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html
-    # [3]: https://docs.aws.amazon.com/IAM/latest/UserGuide/IAM_UsingQueryAPI.html
+    # [1]: https://docs.aws.amazon.com/IAM/latest/APIReference/API_AttachGroupPolicy.html
+    # [2]: https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreatePolicy.html
+    # [3]: https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html
+    # [4]: https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html
+    # [5]: https://docs.aws.amazon.com/IAM/latest/UserGuide/IAM_UsingQueryAPI.html
     #
     # @option params [required, String] :group_name
     #   The name of the group to associate the policy with.
@@ -9326,7 +9837,7 @@ module Aws::IAM
     #   You must provide policies in JSON format in IAM. However, for
     #   CloudFormation templates formatted in YAML, you can provide the policy
     #   in JSON or YAML format. CloudFormation always converts a YAML policy
-    #   to JSON format before submitting it to = IAM.
+    #   to JSON format before submitting it to IAM.
     #
     #   The [regex pattern][1] used to validate this parameter is a string of
     #   characters consisting of the following:
@@ -9438,33 +9949,38 @@ module Aws::IAM
     #
     # When you embed an inline policy in a role, the inline policy is used
     # as part of the role's access (permissions) policy. The role's trust
-    # policy is created at the same time as the role, using CreateRole. You
-    # can update a role's trust policy using UpdateAssumeRolePolicy. For
-    # more information about IAM roles, see [Using roles to delegate
-    # permissions and federate identities][1].
+    # policy is created at the same time as the role, using [ `CreateRole`
+    # ][1]. You can update a role's trust policy using [
+    # `UpdateAssumeRolePolicy` ][2]. For more information about roles, see
+    # [IAM roles][3] in the *IAM User Guide*.
     #
     # A role can also have a managed policy attached to it. To attach a
-    # managed policy to a role, use AttachRolePolicy. To create a new
-    # managed policy, use CreatePolicy. For information about policies, see
-    # [Managed policies and inline policies][2] in the *IAM User Guide*.
+    # managed policy to a role, use [ `AttachRolePolicy` ][4]. To create a
+    # new managed policy, use [ `CreatePolicy` ][5]. For information about
+    # policies, see [Managed policies and inline policies][6] in the *IAM
+    # User Guide*.
     #
     # For information about the maximum number of inline policies that you
-    # can embed with a role, see [IAM and STS quotas][3] in the *IAM User
+    # can embed with a role, see [IAM and STS quotas][7] in the *IAM User
     # Guide*.
     #
     # <note markdown="1"> Because policy documents can be large, you should use POST rather than
     # GET when calling `PutRolePolicy`. For general information about using
-    # the Query API with IAM, see [Making query requests][4] in the *IAM
+    # the Query API with IAM, see [Making query requests][8] in the *IAM
     # User Guide*.
     #
     #  </note>
     #
     #
     #
-    # [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/roles-toplevel.html
-    # [2]: https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html
-    # [3]: https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html
-    # [4]: https://docs.aws.amazon.com/IAM/latest/UserGuide/IAM_UsingQueryAPI.html
+    # [1]: https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreateRole.html
+    # [2]: https://docs.aws.amazon.com/IAM/latest/APIReference/API_UpdateAssumeRolePolicy.html
+    # [3]: https://docs.aws.amazon.com/IAM/latest/UserGuide/roles-toplevel.html
+    # [4]: https://docs.aws.amazon.com/IAM/latest/APIReference/API_AttachRolePolicy.html
+    # [5]: https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreatePolicy.html
+    # [6]: https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html
+    # [7]: https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html
+    # [8]: https://docs.aws.amazon.com/IAM/latest/UserGuide/IAM_UsingQueryAPI.html
     #
     # @option params [required, String] :role_name
     #   The name of the role to associate the policy with.
@@ -9605,26 +10121,29 @@ module Aws::IAM
     # specified IAM user.
     #
     # An IAM user can also have a managed policy attached to it. To attach a
-    # managed policy to a user, use AttachUserPolicy. To create a new
-    # managed policy, use CreatePolicy. For information about policies, see
-    # [Managed policies and inline policies][1] in the *IAM User Guide*.
+    # managed policy to a user, use [ `AttachUserPolicy` ][1]. To create a
+    # new managed policy, use [ `CreatePolicy` ][2]. For information about
+    # policies, see [Managed policies and inline policies][3] in the *IAM
+    # User Guide*.
     #
     # For information about the maximum number of inline policies that you
-    # can embed in a user, see [IAM and STS quotas][2] in the *IAM User
+    # can embed in a user, see [IAM and STS quotas][4] in the *IAM User
     # Guide*.
     #
     # <note markdown="1"> Because policy documents can be large, you should use POST rather than
     # GET when calling `PutUserPolicy`. For general information about using
-    # the Query API with IAM, see [Making query requests][3] in the *IAM
+    # the Query API with IAM, see [Making query requests][5] in the *IAM
     # User Guide*.
     #
     #  </note>
     #
     #
     #
-    # [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html
-    # [2]: https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html
-    # [3]: https://docs.aws.amazon.com/IAM/latest/UserGuide/IAM_UsingQueryAPI.html
+    # [1]: https://docs.aws.amazon.com/IAM/latest/APIReference/API_AttachUserPolicy.html
+    # [2]: https://docs.aws.amazon.com/IAM/latest/APIReference/API_CreatePolicy.html
+    # [3]: https://docs.aws.amazon.com/IAM/latest/UserGuide/policies-managed-vs-inline.html
+    # [4]: https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_iam-quotas.html
+    # [5]: https://docs.aws.amazon.com/IAM/latest/UserGuide/IAM_UsingQueryAPI.html
     #
     # @option params [required, String] :user_name
     #   The name of the user to associate the policy with.
@@ -9746,7 +10265,7 @@ module Aws::IAM
       req.send_request(options)
     end
 
-    # Removes the specified IAM role from the specified EC2 instance
+    # Removes the specified IAM role from the specified Amazon EC2 instance
     # profile.
     #
     # Make sure that you do not have any Amazon EC2 instances running with
@@ -9754,14 +10273,14 @@ module Aws::IAM
     # role from an instance profile that is associated with a running
     # instance might break any applications running on the instance.
     #
-    # For more information about IAM roles, see [Working with roles][1]. For
-    # more information about instance profiles, see [About instance
-    # profiles][2].
+    # For more information about roles, see [IAM roles][1] in the *IAM User
+    # Guide*. For more information about instance profiles, see [Using
+    # instance profiles][2] in the *IAM User Guide*.
     #
     #
     #
-    # [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/WorkingWithRoles.html
-    # [2]: https://docs.aws.amazon.com/IAM/latest/UserGuide/AboutInstanceProfiles.html
+    # [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html
+    # [2]: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2_instance-profiles.html
     #
     # @option params [required, String] :instance_profile_name
     #   The name of the instance profile to update.
@@ -10333,13 +10852,13 @@ module Aws::IAM
     #   following list shows each of the supported scenario values and the
     #   resources that you must define to run the simulation.
     #
-    #   Each of the EC2 scenarios requires that you specify instance, image,
-    #   and security group resources. If your scenario includes an EBS volume,
-    #   then you must specify that volume as a resource. If the EC2 scenario
-    #   includes VPC, then you must supply the network interface resource. If
-    #   it includes an IP subnet, then you must specify the subnet resource.
-    #   For more information on the EC2 scenario options, see [Supported
-    #   platforms][1] in the *Amazon EC2 User Guide*.
+    #   Each of the Amazon EC2 scenarios requires that you specify instance,
+    #   image, and security group resources. If your scenario includes an EBS
+    #   volume, then you must specify that volume as a resource. If the Amazon
+    #   EC2 scenario includes VPC, then you must supply the network interface
+    #   resource. If it includes an IP subnet, then you must specify the
+    #   subnet resource. For more information on the Amazon EC2 scenario
+    #   options, see [Supported platforms][1] in the *Amazon EC2 User Guide*.
     #
     #   * **EC2-VPC-InstanceStore**
     #
@@ -10698,13 +11217,13 @@ module Aws::IAM
     #   following list shows each of the supported scenario values and the
     #   resources that you must define to run the simulation.
     #
-    #   Each of the EC2 scenarios requires that you specify instance, image,
-    #   and security group resources. If your scenario includes an EBS volume,
-    #   then you must specify that volume as a resource. If the EC2 scenario
-    #   includes VPC, then you must supply the network interface resource. If
-    #   it includes an IP subnet, then you must specify the subnet resource.
-    #   For more information on the EC2 scenario options, see [Supported
-    #   platforms][1] in the *Amazon EC2 User Guide*.
+    #   Each of the Amazon EC2 scenarios requires that you specify instance,
+    #   image, and security group resources. If your scenario includes an EBS
+    #   volume, then you must specify that volume as a resource. If the Amazon
+    #   EC2 scenario includes VPC, then you must supply the network interface
+    #   resource. If it includes an IP subnet, then you must specify the
+    #   subnet resource. For more information on the Amazon EC2 scenario
+    #   options, see [Supported platforms][1] in the *Amazon EC2 User Guide*.
     #
     #   * **EC2-VPC-InstanceStore**
     #
@@ -10986,7 +11505,7 @@ module Aws::IAM
     #   *MyImportantProject*. Or search for all resources with the key name
     #   *Cost Center* and the value *41200*.
     #
-    # * **Access control** - Include tags in IAM user-based and
+    # * **Access control** - Include tags in IAM identity-based and
     #   resource-based policies. You can use tags to restrict access to only
     #   an OIDC provider that has a specified tag attached. For examples of
     #   policies that show how to use tags to control access, see [Control
@@ -11405,7 +11924,7 @@ module Aws::IAM
     #   *MyImportantProject*. Or search for all resources with the key name
     #   *Cost Center* and the value *41200*.
     #
-    # * **Access control** - Include tags in IAM user-based and
+    # * **Access control** - Include tags in IAM identity-based and
     #   resource-based policies. You can use tags to restrict access to only
     #   an IAM requesting user that has a specified tag attached. You can
     #   also restrict access to only those resources that have a certain tag
@@ -11983,7 +12502,7 @@ module Aws::IAM
     #   Specifies whether IAM user passwords must contain at least one of the
     #   following non-alphanumeric characters:
     #
-    #   ! @ # $ % ^ &amp; * ( ) \_ + - = \[ \] \\\{ \\} \| '
+    #   ! @ # $ % ^ &amp; * ( ) \_ + - = \[ \] \{ } \| '
     #
     #   If you do not specify a value for this parameter, then the operation
     #   uses the default value of `false`. The result is that passwords do not
@@ -12354,13 +12873,12 @@ module Aws::IAM
     # role that specifies the OIDC provider as a principal fails until the
     # certificate thumbprint is updated.
     #
-    # <note markdown="1"> Amazon Web Services secures communication with some OIDC identity
-    # providers (IdPs) through our library of trusted certificate
-    # authorities (CAs) instead of using a certificate thumbprint to verify
-    # your IdP server certificate. These OIDC IdPs include Google, Auth0,
-    # and those that use an Amazon S3 bucket to host a JSON Web Key Set
-    # (JWKS) endpoint. In these cases, your legacy thumbprint remains in
-    # your configuration, but is no longer used for validation.
+    # <note markdown="1"> Amazon Web Services secures communication with OIDC identity providers
+    # (IdPs) using our library of trusted root certificate authorities (CAs)
+    # to verify the JSON Web Key Set (JWKS) endpoint's TLS certificate. If
+    # your OIDC IdP relies on a certificate that is not signed by one of
+    # these trusted CAs, only then we secure communication using the
+    # thumbprints set in the IdP's configuration.
     #
     #  </note>
     #
@@ -12431,6 +12949,11 @@ module Aws::IAM
     #   API operations or the `assume-role*` CLI operations but does not apply
     #   when you use those operations to create a console URL. For more
     #   information, see [Using IAM roles][1] in the *IAM User Guide*.
+    #
+    #   <note markdown="1"> IAM role credentials provided by Amazon EC2 instances assigned to the
+    #   role are not subject to the specified maximum session duration.
+    #
+    #    </note>
     #
     #
     #
@@ -12505,24 +13028,17 @@ module Aws::IAM
       req.send_request(options)
     end
 
-    # Updates the metadata document for an existing SAML provider resource
-    # object.
+    # Updates the metadata document, SAML encryption settings, and private
+    # keys for an existing SAML provider. To rotate private keys, add your
+    # new private key and then remove the old key in a separate request.
     #
-    # <note markdown="1"> This operation requires [Signature Version 4][1].
-    #
-    #  </note>
-    #
-    #
-    #
-    # [1]: https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html
-    #
-    # @option params [required, String] :saml_metadata_document
+    # @option params [String] :saml_metadata_document
     #   An XML document generated by an identity provider (IdP) that supports
     #   SAML 2.0. The document includes the issuer's name, expiration
     #   information, and keys that can be used to validate the SAML
     #   authentication response (assertions) that are received from the IdP.
     #   You must generate the metadata document using the identity management
-    #   software that is used as your organization's IdP.
+    #   software that is used as your IdP.
     #
     # @option params [required, String] :saml_provider_arn
     #   The Amazon Resource Name (ARN) of the SAML provider to update.
@@ -12534,6 +13050,17 @@ module Aws::IAM
     #
     #   [1]: https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html
     #
+    # @option params [String] :assertion_encryption_mode
+    #   Specifies the encryption setting for the SAML provider.
+    #
+    # @option params [String] :add_private_key
+    #   Specifies the new private key from your external identity provider.
+    #   The private key must be a .pem file that uses AES-GCM or AES-CBC
+    #   encryption algorithm to decrypt SAML assertions.
+    #
+    # @option params [String] :remove_private_key
+    #   The Key ID of the private key to remove.
+    #
     # @return [Types::UpdateSAMLProviderResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::UpdateSAMLProviderResponse#saml_provider_arn #saml_provider_arn} => String
@@ -12541,8 +13068,11 @@ module Aws::IAM
     # @example Request syntax with placeholder values
     #
     #   resp = client.update_saml_provider({
-    #     saml_metadata_document: "SAMLMetadataDocumentType", # required
+    #     saml_metadata_document: "SAMLMetadataDocumentType",
     #     saml_provider_arn: "arnType", # required
+    #     assertion_encryption_mode: "Required", # accepts Required, Allowed
+    #     add_private_key: "privateKeyType",
+    #     remove_private_key: "privateKeyIdType",
     #   })
     #
     # @example Response structure
@@ -13328,14 +13858,19 @@ module Aws::IAM
     # @api private
     def build_request(operation_name, params = {})
       handlers = @handlers.for(operation_name)
+      tracer = config.telemetry_provider.tracer_provider.tracer(
+        Aws::Telemetry.module_to_tracer_name('Aws::IAM')
+      )
       context = Seahorse::Client::RequestContext.new(
         operation_name: operation_name,
         operation: config.api.operation(operation_name),
         client: self,
         params: params,
-        config: config)
+        config: config,
+        tracer: tracer
+      )
       context[:gem_name] = 'aws-sdk-iam'
-      context[:gem_version] = '1.75.0'
+      context[:gem_version] = '1.118.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

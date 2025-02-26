@@ -7,6 +7,7 @@
 #
 # WARNING ABOUT GENERATED CODE
 
+
 module Aws::QLDB
   # @api private
   module ClientApi
@@ -372,9 +373,11 @@ module Aws::QLDB
 
       api.metadata = {
         "apiVersion" => "2019-01-02",
+        "auth" => ["aws.auth#sigv4"],
         "endpointPrefix" => "qldb",
         "jsonVersion" => "1.0",
         "protocol" => "rest-json",
+        "protocols" => ["rest-json"],
         "serviceAbbreviation" => "QLDB",
         "serviceFullName" => "Amazon QLDB",
         "serviceId" => "QLDB",

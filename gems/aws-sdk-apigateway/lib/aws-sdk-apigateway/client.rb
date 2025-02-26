@@ -7,34 +7,35 @@
 #
 # WARNING ABOUT GENERATED CODE
 
-require 'seahorse/client/plugins/content_length.rb'
-require 'aws-sdk-core/plugins/credentials_configuration.rb'
-require 'aws-sdk-core/plugins/logging.rb'
-require 'aws-sdk-core/plugins/param_converter.rb'
-require 'aws-sdk-core/plugins/param_validator.rb'
-require 'aws-sdk-core/plugins/user_agent.rb'
-require 'aws-sdk-core/plugins/helpful_socket_errors.rb'
-require 'aws-sdk-core/plugins/retry_errors.rb'
-require 'aws-sdk-core/plugins/global_configuration.rb'
-require 'aws-sdk-core/plugins/regional_endpoint.rb'
-require 'aws-sdk-core/plugins/endpoint_discovery.rb'
-require 'aws-sdk-core/plugins/endpoint_pattern.rb'
-require 'aws-sdk-core/plugins/response_paging.rb'
-require 'aws-sdk-core/plugins/stub_responses.rb'
-require 'aws-sdk-core/plugins/idempotency_token.rb'
-require 'aws-sdk-core/plugins/jsonvalue_converter.rb'
-require 'aws-sdk-core/plugins/client_metrics_plugin.rb'
-require 'aws-sdk-core/plugins/client_metrics_send_plugin.rb'
-require 'aws-sdk-core/plugins/transfer_encoding.rb'
-require 'aws-sdk-core/plugins/http_checksum.rb'
-require 'aws-sdk-core/plugins/checksum_algorithm.rb'
-require 'aws-sdk-core/plugins/defaults_mode.rb'
-require 'aws-sdk-core/plugins/recursion_detection.rb'
-require 'aws-sdk-core/plugins/sign.rb'
-require 'aws-sdk-core/plugins/protocols/rest_json.rb'
-require 'aws-sdk-apigateway/plugins/apply_content_type_header.rb'
-
-Aws::Plugins::GlobalConfiguration.add_identifier(:apigateway)
+require 'seahorse/client/plugins/content_length'
+require 'aws-sdk-core/plugins/credentials_configuration'
+require 'aws-sdk-core/plugins/logging'
+require 'aws-sdk-core/plugins/param_converter'
+require 'aws-sdk-core/plugins/param_validator'
+require 'aws-sdk-core/plugins/user_agent'
+require 'aws-sdk-core/plugins/helpful_socket_errors'
+require 'aws-sdk-core/plugins/retry_errors'
+require 'aws-sdk-core/plugins/global_configuration'
+require 'aws-sdk-core/plugins/regional_endpoint'
+require 'aws-sdk-core/plugins/endpoint_discovery'
+require 'aws-sdk-core/plugins/endpoint_pattern'
+require 'aws-sdk-core/plugins/response_paging'
+require 'aws-sdk-core/plugins/stub_responses'
+require 'aws-sdk-core/plugins/idempotency_token'
+require 'aws-sdk-core/plugins/invocation_id'
+require 'aws-sdk-core/plugins/jsonvalue_converter'
+require 'aws-sdk-core/plugins/client_metrics_plugin'
+require 'aws-sdk-core/plugins/client_metrics_send_plugin'
+require 'aws-sdk-core/plugins/transfer_encoding'
+require 'aws-sdk-core/plugins/http_checksum'
+require 'aws-sdk-core/plugins/checksum_algorithm'
+require 'aws-sdk-core/plugins/request_compression'
+require 'aws-sdk-core/plugins/defaults_mode'
+require 'aws-sdk-core/plugins/recursion_detection'
+require 'aws-sdk-core/plugins/telemetry'
+require 'aws-sdk-core/plugins/sign'
+require 'aws-sdk-core/plugins/protocols/rest_json'
+require 'aws-sdk-apigateway/plugins/apply_content_type_header'
 
 module Aws::APIGateway
   # An API client for APIGateway.  To construct a client, you need to configure a `:region` and `:credentials`.
@@ -72,14 +73,17 @@ module Aws::APIGateway
     add_plugin(Aws::Plugins::ResponsePaging)
     add_plugin(Aws::Plugins::StubResponses)
     add_plugin(Aws::Plugins::IdempotencyToken)
+    add_plugin(Aws::Plugins::InvocationId)
     add_plugin(Aws::Plugins::JsonvalueConverter)
     add_plugin(Aws::Plugins::ClientMetricsPlugin)
     add_plugin(Aws::Plugins::ClientMetricsSendPlugin)
     add_plugin(Aws::Plugins::TransferEncoding)
     add_plugin(Aws::Plugins::HttpChecksum)
     add_plugin(Aws::Plugins::ChecksumAlgorithm)
+    add_plugin(Aws::Plugins::RequestCompression)
     add_plugin(Aws::Plugins::DefaultsMode)
     add_plugin(Aws::Plugins::RecursionDetection)
+    add_plugin(Aws::Plugins::Telemetry)
     add_plugin(Aws::Plugins::Sign)
     add_plugin(Aws::Plugins::Protocols::RestJson)
     add_plugin(Aws::APIGateway::Plugins::ApplyContentTypeHeader)
@@ -87,6 +91,11 @@ module Aws::APIGateway
 
     # @overload initialize(options)
     #   @param [Hash] options
+    #
+    #   @option options [Array<Seahorse::Client::Plugin>] :plugins ([]])
+    #     A list of plugins to apply to the client. Each plugin is either a
+    #     class name or an instance of a plugin class.
+    #
     #   @option options [required, Aws::CredentialProvider] :credentials
     #     Your AWS credentials. This can be an instance of any one of the
     #     following classes:
@@ -121,13 +130,15 @@ module Aws::APIGateway
     #     locations will be searched for credentials:
     #
     #     * `Aws.config[:credentials]`
-    #     * The `:access_key_id`, `:secret_access_key`, and `:session_token` options.
-    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']
+    #     * The `:access_key_id`, `:secret_access_key`, `:session_token`, and
+    #       `:account_id` options.
+    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'],
+    #       ENV['AWS_SESSION_TOKEN'], and ENV['AWS_ACCOUNT_ID']
     #     * `~/.aws/credentials`
     #     * `~/.aws/config`
     #     * EC2/ECS IMDS instance profile - When used by default, the timeouts
     #       are very aggressive. Construct and pass an instance of
-    #       `Aws::InstanceProfileCredentails` or `Aws::ECSCredentials` to
+    #       `Aws::InstanceProfileCredentials` or `Aws::ECSCredentials` to
     #       enable retries and extended timeouts. Instance profile credential
     #       fetching can be disabled by setting ENV['AWS_EC2_METADATA_DISABLED']
     #       to true.
@@ -145,6 +156,8 @@ module Aws::APIGateway
     #     * `~/.aws/config`
     #
     #   @option options [String] :access_key_id
+    #
+    #   @option options [String] :account_id
     #
     #   @option options [Boolean] :active_endpoint_cache (false)
     #     When set to `true`, a thread polling for endpoints will be running in
@@ -192,10 +205,20 @@ module Aws::APIGateway
     #     Set to true to disable SDK automatically adding host prefix
     #     to default service endpoint when available.
     #
-    #   @option options [String] :endpoint
-    #     The client endpoint is normally constructed from the `:region`
-    #     option. You should only configure an `:endpoint` when connecting
-    #     to test or custom endpoints. This should be a valid HTTP(S) URI.
+    #   @option options [Boolean] :disable_request_compression (false)
+    #     When set to 'true' the request body will not be compressed
+    #     for supported operations.
+    #
+    #   @option options [String, URI::HTTPS, URI::HTTP] :endpoint
+    #     Normally you should not configure the `:endpoint` option
+    #     directly. This is normally constructed from the `:region`
+    #     option. Configuring `:endpoint` is normally reserved for
+    #     connecting to test or custom endpoints. The endpoint should
+    #     be a URI formatted like:
+    #
+    #         'http://example.com'
+    #         'https://example.com'
+    #         'http://example.com:123'
     #
     #   @option options [Integer] :endpoint_cache_max_entries (1000)
     #     Used for the maximum size limit of the LRU cache storing endpoints data
@@ -211,6 +234,10 @@ module Aws::APIGateway
     #
     #   @option options [Boolean] :endpoint_discovery (false)
     #     When set to `true`, endpoint discovery will be enabled for operations when available.
+    #
+    #   @option options [Boolean] :ignore_configured_endpoint_urls
+    #     Setting to true disables use of endpoint URLs provided via environment
+    #     variables and the shared configuration file.
     #
     #   @option options [Aws::Log::Formatter] :log_formatter (Aws::Log::Formatter.default)
     #     The log formatter.
@@ -231,6 +258,34 @@ module Aws::APIGateway
     #   @option options [String] :profile ("default")
     #     Used when loading credentials from the shared credentials file
     #     at HOME/.aws/credentials.  When not specified, 'default' is used.
+    #
+    #   @option options [String] :request_checksum_calculation ("when_supported")
+    #     Determines when a checksum will be calculated for request payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, a checksum will be
+    #       calculated for all request payloads of operations modeled with the
+    #       `httpChecksum` trait where `requestChecksumRequired` is `true` and/or a
+    #       `requestAlgorithmMember` is modeled.
+    #     * `when_required` - When set, a checksum will only be calculated for
+    #       request payloads of operations modeled with the  `httpChecksum` trait where
+    #       `requestChecksumRequired` is `true` or where a `requestAlgorithmMember`
+    #       is modeled and supplied.
+    #
+    #   @option options [Integer] :request_min_compression_size_bytes (10240)
+    #     The minimum size in bytes that triggers compression for request
+    #     bodies. The value must be non-negative integer value between 0
+    #     and 10485780 bytes inclusive.
+    #
+    #   @option options [String] :response_checksum_validation ("when_supported")
+    #     Determines when checksum validation will be performed on response payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, checksum validation is performed on all
+    #       response payloads of operations modeled with the `httpChecksum` trait where
+    #       `responseAlgorithms` is modeled, except when no modeled checksum algorithms
+    #       are supported.
+    #     * `when_required` - When set, checksum validation is not performed on
+    #       response payloads of operations unless the checksum algorithm is supported and
+    #       the `requestValidationModeMember` member is set to `ENABLED`.
     #
     #   @option options [Proc] :retry_backoff
     #     A proc or lambda used for backoff. Defaults to 2**retries * retry_base_delay.
@@ -276,10 +331,24 @@ module Aws::APIGateway
     #       throttling.  This is a provisional mode that may change behavior
     #       in the future.
     #
+    #   @option options [String] :sdk_ua_app_id
+    #     A unique and opaque application ID that is appended to the
+    #     User-Agent header as app/sdk_ua_app_id. It should have a
+    #     maximum length of 50. This variable is sourced from environment
+    #     variable AWS_SDK_UA_APP_ID or the shared config profile attribute sdk_ua_app_id.
     #
     #   @option options [String] :secret_access_key
     #
     #   @option options [String] :session_token
+    #
+    #   @option options [Array] :sigv4a_signing_region_set
+    #     A list of regions that should be signed with SigV4a signing. When
+    #     not passed, a default `:sigv4a_signing_region_set` is searched for
+    #     in the following locations:
+    #
+    #     * `Aws.config[:sigv4a_signing_region_set]`
+    #     * `ENV['AWS_SIGV4A_SIGNING_REGION_SET']`
+    #     * `~/.aws/config`
     #
     #   @option options [Boolean] :stub_responses (false)
     #     Causes the client to return stubbed responses. By default
@@ -289,6 +358,16 @@ module Aws::APIGateway
     #
     #     ** Please note ** When response stubbing is enabled, no HTTP
     #     requests are made, and retries are disabled.
+    #
+    #   @option options [Aws::Telemetry::TelemetryProviderBase] :telemetry_provider (Aws::Telemetry::NoOpTelemetryProvider)
+    #     Allows you to provide a telemetry provider, which is used to
+    #     emit telemetry data. By default, uses `NoOpTelemetryProvider` which
+    #     will not record or emit any telemetry data. The SDK supports the
+    #     following telemetry providers:
+    #
+    #     * OpenTelemetry (OTel) - To use the OTel provider, install and require the
+    #     `opentelemetry-sdk` gem and then, pass in an instance of a
+    #     `Aws::Telemetry::OTelProvider` for telemetry provider.
     #
     #   @option options [Aws::TokenProvider] :token_provider
     #     A Bearer Token Provider. This can be an instance of any one of the
@@ -317,52 +396,75 @@ module Aws::APIGateway
     #     sending the request.
     #
     #   @option options [Aws::APIGateway::EndpointProvider] :endpoint_provider
-    #     The endpoint provider used to resolve endpoints. Any object that responds to `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to `Aws::APIGateway::EndpointParameters`
+    #     The endpoint provider used to resolve endpoints. Any object that responds to
+    #     `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+    #     `Aws::APIGateway::EndpointParameters`.
     #
-    #   @option options [URI::HTTP,String] :http_proxy A proxy to send
-    #     requests through.  Formatted like 'http://proxy.com:123'.
+    #   @option options [Float] :http_continue_timeout (1)
+    #     The number of seconds to wait for a 100-continue response before sending the
+    #     request body.  This option has no effect unless the request has "Expect"
+    #     header set to "100-continue".  Defaults to `nil` which  disables this
+    #     behaviour.  This value can safely be set per request on the session.
     #
-    #   @option options [Float] :http_open_timeout (15) The number of
-    #     seconds to wait when opening a HTTP session before raising a
-    #     `Timeout::Error`.
+    #   @option options [Float] :http_idle_timeout (5)
+    #     The number of seconds a connection is allowed to sit idle before it
+    #     is considered stale.  Stale connections are closed and removed from the
+    #     pool before making a request.
     #
-    #   @option options [Float] :http_read_timeout (60) The default
-    #     number of seconds to wait for response data.  This value can
-    #     safely be set per-request on the session.
+    #   @option options [Float] :http_open_timeout (15)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :http_idle_timeout (5) The number of
-    #     seconds a connection is allowed to sit idle before it is
-    #     considered stale.  Stale connections are closed and removed
-    #     from the pool before making a request.
+    #   @option options [URI::HTTP,String] :http_proxy
+    #     A proxy to send requests through.  Formatted like 'http://proxy.com:123'.
     #
-    #   @option options [Float] :http_continue_timeout (1) The number of
-    #     seconds to wait for a 100-continue response before sending the
-    #     request body.  This option has no effect unless the request has
-    #     "Expect" header set to "100-continue".  Defaults to `nil` which
-    #     disables this behaviour.  This value can safely be set per
-    #     request on the session.
+    #   @option options [Float] :http_read_timeout (60)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :ssl_timeout (nil) Sets the SSL timeout
-    #     in seconds.
+    #   @option options [Boolean] :http_wire_trace (false)
+    #     When `true`,  HTTP debug output will be sent to the `:logger`.
     #
-    #   @option options [Boolean] :http_wire_trace (false) When `true`,
-    #     HTTP debug output will be sent to the `:logger`.
+    #   @option options [Proc] :on_chunk_received
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the response body is received. It provides three arguments: the chunk,
+    #     the number of bytes received, and the total number of
+    #     bytes in the response (or nil if the server did not send a `content-length`).
     #
-    #   @option options [Boolean] :ssl_verify_peer (true) When `true`,
-    #     SSL peer certificates are verified when establishing a
-    #     connection.
+    #   @option options [Proc] :on_chunk_sent
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the request body is sent. It provides three arguments: the chunk,
+    #     the number of bytes read from the body, and the total number of
+    #     bytes in the body.
     #
-    #   @option options [String] :ssl_ca_bundle Full path to the SSL
-    #     certificate authority bundle file that should be used when
-    #     verifying peer certificates.  If you do not pass
-    #     `:ssl_ca_bundle` or `:ssl_ca_directory` the the system default
-    #     will be used if available.
+    #   @option options [Boolean] :raise_response_errors (true)
+    #     When `true`, response errors are raised.
     #
-    #   @option options [String] :ssl_ca_directory Full path of the
-    #     directory that contains the unbundled SSL certificate
+    #   @option options [String] :ssl_ca_bundle
+    #     Full path to the SSL certificate authority bundle file that should be used when
+    #     verifying peer certificates.  If you do not pass `:ssl_ca_bundle` or
+    #     `:ssl_ca_directory` the the system default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_directory
+    #     Full path of the directory that contains the unbundled SSL certificate
     #     authority files for verifying peer certificates.  If you do
-    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the
-    #     system default will be used if available.
+    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the system
+    #     default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_store
+    #     Sets the X509::Store to verify peer certificate.
+    #
+    #   @option options [OpenSSL::X509::Certificate] :ssl_cert
+    #     Sets a client certificate when creating http connections.
+    #
+    #   @option options [OpenSSL::PKey] :ssl_key
+    #     Sets a client key when creating http connections.
+    #
+    #   @option options [Float] :ssl_timeout
+    #     Sets the SSL timeout in seconds
+    #
+    #   @option options [Boolean] :ssl_verify_peer (true)
+    #     When `true`, SSL peer certificates are verified when establishing a connection.
     #
     def initialize(*args)
       super
@@ -394,8 +496,8 @@ module Aws::APIGateway
     #   key.
     #
     # @option params [String] :customer_id
-    #   An AWS Marketplace customer identifier , when integrating with the AWS
-    #   SaaS Marketplace.
+    #   An Amazon Web Services Marketplace customer identifier, when
+    #   integrating with the Amazon Web Services SaaS Marketplace.
     #
     # @option params [Hash<String,String>] :tags
     #   The key-value map of strings. The valid character set is
@@ -474,7 +576,7 @@ module Aws::APIGateway
     # @option params [Array<String>] :provider_arns
     #   A list of the Amazon Cognito user pool ARNs for the
     #   `COGNITO_USER_POOLS` authorizer. Each element is of this format:
-    #   `arn:aws:cognito-idp:\{region\}:\{account_id\}:userpool/\{user_pool_id\}`.
+    #   `arn:aws:cognito-idp:{region}:{account_id}:userpool/{user_pool_id}`.
     #   For a `TOKEN` or `REQUEST` authorizer, this is not defined.
     #
     # @option params [String] :auth_type
@@ -485,10 +587,10 @@ module Aws::APIGateway
     #   Specifies the authorizer's Uniform Resource Identifier (URI). For
     #   `TOKEN` or `REQUEST` authorizers, this must be a well-formed Lambda
     #   function URI, for example,
-    #   `arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-2:\{account_id\}:function:\{lambda_function_name\}/invocations`.
+    #   `arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-2:{account_id}:function:{lambda_function_name}/invocations`.
     #   In general, the URI has this form
-    #   `arn:aws:apigateway:\{region\}:lambda:path/\{service_api\}`, where
-    #   `\{region\}` is the same as the region hosting the Lambda function,
+    #   `arn:aws:apigateway:{region}:lambda:path/{service_api}`, where
+    #   `{region}` is the same as the region hosting the Lambda function,
     #   `path` indicates that the remaining substring in the URI should be
     #   treated as the path to the resource, including the initial `/`. For
     #   Lambda functions, this is usually of the form
@@ -592,6 +694,10 @@ module Aws::APIGateway
     # @option params [required, String] :domain_name
     #   The domain name of the BasePathMapping resource to create.
     #
+    # @option params [String] :domain_name_id
+    #   The identifier for the domain name resource. Required for private
+    #   custom domain names.
+    #
     # @option params [String] :base_path
     #   The base path name that callers of the API must provide as part of the
     #   URL after the domain name. This value must be unique for all of the
@@ -616,6 +722,7 @@ module Aws::APIGateway
     #
     #   resp = client.create_base_path_mapping({
     #     domain_name: "String", # required
+    #     domain_name_id: "String",
     #     base_path: "String",
     #     rest_api_id: "String", # required
     #     stage: "String",
@@ -820,12 +927,12 @@ module Aws::APIGateway
     #
     # @option params [String] :certificate_name
     #   The user-friendly name of the certificate that will be used by
-    #   edge-optimized endpoint for this domain name.
+    #   edge-optimized endpoint or private endpoint for this domain name.
     #
     # @option params [String] :certificate_body
     #   \[Deprecated\] The body of the server certificate that will be used by
-    #   edge-optimized endpoint for this domain name provided by your
-    #   certificate authority.
+    #   edge-optimized endpoint or private endpoint for this domain name
+    #   provided by your certificate authority.
     #
     # @option params [String] :certificate_private_key
     #   \[Deprecated\] Your edge-optimized endpoint's domain name
@@ -841,18 +948,18 @@ module Aws::APIGateway
     #   include any intermediaries that are not in the chain of trust path.
     #
     # @option params [String] :certificate_arn
-    #   The reference to an AWS-managed certificate that will be used by
-    #   edge-optimized endpoint for this domain name. AWS Certificate Manager
-    #   is the only supported source.
+    #   The reference to an Amazon Web Services-managed certificate that will
+    #   be used by edge-optimized endpoint or private endpoint for this domain
+    #   name. Certificate Manager is the only supported source.
     #
     # @option params [String] :regional_certificate_name
     #   The user-friendly name of the certificate that will be used by
     #   regional endpoint for this domain name.
     #
     # @option params [String] :regional_certificate_arn
-    #   The reference to an AWS-managed certificate that will be used by
-    #   regional endpoint for this domain name. AWS Certificate Manager is the
-    #   only supported source.
+    #   The reference to an Amazon Web Services-managed certificate that will
+    #   be used by regional endpoint for this domain name. Certificate Manager
+    #   is the only supported source.
     #
     # @option params [Types::EndpointConfiguration] :endpoint_configuration
     #   The endpoint configuration of this DomainName showing the endpoint
@@ -879,9 +986,16 @@ module Aws::APIGateway
     #   using an ACM imported or private CA certificate ARN as the
     #   regionalCertificateArn.
     #
+    # @option params [String] :policy
+    #   A stringified JSON policy document that applies to the `execute-api`
+    #   service for this DomainName regardless of the caller and Method
+    #   configuration. Supported only for private custom domain names.
+    #
     # @return [Types::DomainName] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::DomainName#domain_name #domain_name} => String
+    #   * {Types::DomainName#domain_name_id #domain_name_id} => String
+    #   * {Types::DomainName#domain_name_arn #domain_name_arn} => String
     #   * {Types::DomainName#certificate_name #certificate_name} => String
     #   * {Types::DomainName#certificate_arn #certificate_arn} => String
     #   * {Types::DomainName#certificate_upload_date #certificate_upload_date} => Time
@@ -898,6 +1012,8 @@ module Aws::APIGateway
     #   * {Types::DomainName#tags #tags} => Hash&lt;String,String&gt;
     #   * {Types::DomainName#mutual_tls_authentication #mutual_tls_authentication} => Types::MutualTlsAuthentication
     #   * {Types::DomainName#ownership_verification_certificate_arn #ownership_verification_certificate_arn} => String
+    #   * {Types::DomainName#management_policy #management_policy} => String
+    #   * {Types::DomainName#policy #policy} => String
     #
     # @example Request syntax with placeholder values
     #
@@ -923,11 +1039,14 @@ module Aws::APIGateway
     #       truststore_version: "String",
     #     },
     #     ownership_verification_certificate_arn: "String",
+    #     policy: "String",
     #   })
     #
     # @example Response structure
     #
     #   resp.domain_name #=> String
+    #   resp.domain_name_id #=> String
+    #   resp.domain_name_arn #=> String
     #   resp.certificate_name #=> String
     #   resp.certificate_arn #=> String
     #   resp.certificate_upload_date #=> Time
@@ -951,11 +1070,66 @@ module Aws::APIGateway
     #   resp.mutual_tls_authentication.truststore_warnings #=> Array
     #   resp.mutual_tls_authentication.truststore_warnings[0] #=> String
     #   resp.ownership_verification_certificate_arn #=> String
+    #   resp.management_policy #=> String
+    #   resp.policy #=> String
     #
     # @overload create_domain_name(params = {})
     # @param [Hash] params ({})
     def create_domain_name(params = {}, options = {})
       req = build_request(:create_domain_name, params)
+      req.send_request(options)
+    end
+
+    # Creates a domain name access association resource between an access
+    # association source and a private custom domain name.
+    #
+    # @option params [required, String] :domain_name_arn
+    #   The ARN of the domain name.
+    #
+    # @option params [required, String] :access_association_source_type
+    #   The type of the domain name access association source.
+    #
+    # @option params [required, String] :access_association_source
+    #   The identifier of the domain name access association source. For a
+    #   VPCE, the value is the VPC endpoint ID.
+    #
+    # @option params [Hash<String,String>] :tags
+    #   The key-value map of strings. The valid character set is
+    #   \[a-zA-Z+-=.\_:/\]. The tag key can be up to 128 characters and must
+    #   not start with `aws:`. The tag value can be up to 256 characters.
+    #
+    # @return [Types::DomainNameAccessAssociation] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DomainNameAccessAssociation#domain_name_access_association_arn #domain_name_access_association_arn} => String
+    #   * {Types::DomainNameAccessAssociation#domain_name_arn #domain_name_arn} => String
+    #   * {Types::DomainNameAccessAssociation#access_association_source_type #access_association_source_type} => String
+    #   * {Types::DomainNameAccessAssociation#access_association_source #access_association_source} => String
+    #   * {Types::DomainNameAccessAssociation#tags #tags} => Hash&lt;String,String&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_domain_name_access_association({
+    #     domain_name_arn: "String", # required
+    #     access_association_source_type: "VPCE", # required, accepts VPCE
+    #     access_association_source: "String", # required
+    #     tags: {
+    #       "String" => "String",
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.domain_name_access_association_arn #=> String
+    #   resp.domain_name_arn #=> String
+    #   resp.access_association_source_type #=> String, one of "VPCE"
+    #   resp.access_association_source #=> String
+    #   resp.tags #=> Hash
+    #   resp.tags["String"] #=> String
+    #
+    # @overload create_domain_name_access_association(params = {})
+    # @param [Hash] params ({})
+    def create_domain_name_access_association(params = {}, options = {})
+      req = build_request(:create_domain_name_access_association, params)
       req.send_request(options)
     end
 
@@ -972,7 +1146,7 @@ module Aws::APIGateway
     #
     # @option params [String] :schema
     #   The schema for the model. For `application/json` models, this should
-    #   be JSON schema draft 4 model.
+    #   be JSON schema draft 4 model. The maximum size of the model is 400 KB.
     #
     # @option params [required, String] :content_type
     #   The content-type for the model.
@@ -1170,7 +1344,7 @@ module Aws::APIGateway
     #
     # @option params [String] :api_key_source
     #   The source of the API key for metering requests according to a usage
-    #   plan. Valid values are: &gt;`HEADER` to read the API key from the
+    #   plan. Valid values are: `HEADER` to read the API key from the
     #   `X-API-Key` header of a request. `AUTHORIZER` to read the API key from
     #   the `UsageIdentifierKey` from a custom authorizer.
     #
@@ -1190,7 +1364,7 @@ module Aws::APIGateway
     # @option params [Boolean] :disable_execute_api_endpoint
     #   Specifies whether clients can invoke your API by using the default
     #   `execute-api` endpoint. By default, clients can invoke your API with
-    #   the default `https://\{api_id\}.execute-api.\{region\}.amazonaws.com`
+    #   the default `https://{api_id}.execute-api.{region}.amazonaws.com`
     #   endpoint. To require that clients use a custom domain name to invoke
     #   your API, disable the default endpoint
     #
@@ -1209,6 +1383,7 @@ module Aws::APIGateway
     #   * {Types::RestApi#policy #policy} => String
     #   * {Types::RestApi#tags #tags} => Hash&lt;String,String&gt;
     #   * {Types::RestApi#disable_execute_api_endpoint #disable_execute_api_endpoint} => Boolean
+    #   * {Types::RestApi#root_resource_id #root_resource_id} => String
     #
     # @example Request syntax with placeholder values
     #
@@ -1252,6 +1427,7 @@ module Aws::APIGateway
     #   resp.tags #=> Hash
     #   resp.tags["String"] #=> String
     #   resp.disable_execute_api_endpoint #=> Boolean
+    #   resp.root_resource_id #=> String
     #
     # @overload create_rest_api(params = {})
     # @param [Hash] params ({})
@@ -1546,8 +1722,8 @@ module Aws::APIGateway
     #
     # @option params [required, Array<String>] :target_arns
     #   The ARN of the network load balancer of the VPC targeted by the VPC
-    #   link. The network load balancer must be owned by the same AWS account
-    #   of the API owner.
+    #   link. The network load balancer must be owned by the same Amazon Web
+    #   Services account of the API owner.
     #
     # @option params [Hash<String,String>] :tags
     #   The key-value map of strings. The valid character set is
@@ -1643,6 +1819,10 @@ module Aws::APIGateway
     # @option params [required, String] :domain_name
     #   The domain name of the BasePathMapping resource to delete.
     #
+    # @option params [String] :domain_name_id
+    #   The identifier for the domain name resource. Supported only for
+    #   private custom domain names.
+    #
     # @option params [required, String] :base_path
     #   The base path name of the BasePathMapping resource to delete.
     #
@@ -1654,6 +1834,7 @@ module Aws::APIGateway
     #
     #   resp = client.delete_base_path_mapping({
     #     domain_name: "String", # required
+    #     domain_name_id: "String",
     #     base_path: "String", # required
     #   })
     #
@@ -1762,18 +1943,48 @@ module Aws::APIGateway
     # @option params [required, String] :domain_name
     #   The name of the DomainName resource to be deleted.
     #
+    # @option params [String] :domain_name_id
+    #   The identifier for the domain name resource. Supported only for
+    #   private custom domain names.
+    #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
     # @example Request syntax with placeholder values
     #
     #   resp = client.delete_domain_name({
     #     domain_name: "String", # required
+    #     domain_name_id: "String",
     #   })
     #
     # @overload delete_domain_name(params = {})
     # @param [Hash] params ({})
     def delete_domain_name(params = {}, options = {})
       req = build_request(:delete_domain_name, params)
+      req.send_request(options)
+    end
+
+    # Deletes the DomainNameAccessAssociation resource.
+    #
+    # Only the AWS account that created the DomainNameAccessAssociation
+    # resource can delete it. To stop an access association source in
+    # another AWS account from accessing your private custom domain name,
+    # use the RejectDomainNameAccessAssociation operation.
+    #
+    # @option params [required, String] :domain_name_access_association_arn
+    #   The ARN of the domain name access association resource.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_domain_name_access_association({
+    #     domain_name_access_association_arn: "String", # required
+    #   })
+    #
+    # @overload delete_domain_name_access_association(params = {})
+    # @param [Hash] params ({})
+    def delete_domain_name_access_association(params = {}, options = {})
+      req = build_request(:delete_domain_name_access_association, params)
       req.send_request(options)
     end
 
@@ -2289,8 +2500,8 @@ module Aws::APIGateway
     #   The name of queried API keys.
     #
     # @option params [String] :customer_id
-    #   The identifier of a customer in AWS Marketplace or an external system,
-    #   such as a developer portal.
+    #   The identifier of a customer in Amazon Web Services Marketplace or an
+    #   external system, such as a developer portal.
     #
     # @option params [Boolean] :include_values
     #   A boolean flag to specify whether (`true`) or not (`false`) the result
@@ -2442,6 +2653,10 @@ module Aws::APIGateway
     # @option params [required, String] :domain_name
     #   The domain name of the BasePathMapping resource to be described.
     #
+    # @option params [String] :domain_name_id
+    #   The identifier for the domain name resource. Supported only for
+    #   private custom domain names.
+    #
     # @option params [required, String] :base_path
     #   The base path name that callers of the API must provide as part of the
     #   URL after the domain name. This value must be unique for all of the
@@ -2458,6 +2673,7 @@ module Aws::APIGateway
     #
     #   resp = client.get_base_path_mapping({
     #     domain_name: "String", # required
+    #     domain_name_id: "String",
     #     base_path: "String", # required
     #   })
     #
@@ -2479,6 +2695,10 @@ module Aws::APIGateway
     # @option params [required, String] :domain_name
     #   The domain name of a BasePathMapping resource.
     #
+    # @option params [String] :domain_name_id
+    #   The identifier for the domain name resource. Supported only for
+    #   private custom domain names.
+    #
     # @option params [String] :position
     #   The current pagination position in the paged result set.
     #
@@ -2497,6 +2717,7 @@ module Aws::APIGateway
     #
     #   resp = client.get_base_path_mappings({
     #     domain_name: "String", # required
+    #     domain_name_id: "String",
     #     position: "String",
     #     limit: 1,
     #   })
@@ -2608,13 +2829,13 @@ module Aws::APIGateway
     #   returned Deployment resource in the response. In a REST API call, this
     #   `embed` parameter value is a list of comma-separated strings, as in
     #   `GET
-    #   /restapis/\{restapi_id\}/deployments/\{deployment_id\}?embed=var1,var2`.
+    #   /restapis/{restapi_id}/deployments/{deployment_id}?embed=var1,var2`.
     #   The SDK and other platform-dependent libraries might use a different
     #   format for the list. Currently, this request supports only retrieval
     #   of the embedded API summary this way. Hence, the parameter value must
     #   be a single-valued list containing only the `"apisummary"` string. For
     #   example, `GET
-    #   /restapis/\{restapi_id\}/deployments/\{deployment_id\}?embed=apisummary`.
+    #   /restapis/{restapi_id}/deployments/{deployment_id}?embed=apisummary`.
     #
     # @return [Types::Deployment] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -2875,9 +3096,15 @@ module Aws::APIGateway
     # @option params [required, String] :domain_name
     #   The name of the DomainName resource.
     #
+    # @option params [String] :domain_name_id
+    #   The identifier for the domain name resource. Required for private
+    #   custom domain names.
+    #
     # @return [Types::DomainName] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::DomainName#domain_name #domain_name} => String
+    #   * {Types::DomainName#domain_name_id #domain_name_id} => String
+    #   * {Types::DomainName#domain_name_arn #domain_name_arn} => String
     #   * {Types::DomainName#certificate_name #certificate_name} => String
     #   * {Types::DomainName#certificate_arn #certificate_arn} => String
     #   * {Types::DomainName#certificate_upload_date #certificate_upload_date} => Time
@@ -2894,16 +3121,21 @@ module Aws::APIGateway
     #   * {Types::DomainName#tags #tags} => Hash&lt;String,String&gt;
     #   * {Types::DomainName#mutual_tls_authentication #mutual_tls_authentication} => Types::MutualTlsAuthentication
     #   * {Types::DomainName#ownership_verification_certificate_arn #ownership_verification_certificate_arn} => String
+    #   * {Types::DomainName#management_policy #management_policy} => String
+    #   * {Types::DomainName#policy #policy} => String
     #
     # @example Request syntax with placeholder values
     #
     #   resp = client.get_domain_name({
     #     domain_name: "String", # required
+    #     domain_name_id: "String",
     #   })
     #
     # @example Response structure
     #
     #   resp.domain_name #=> String
+    #   resp.domain_name_id #=> String
+    #   resp.domain_name_arn #=> String
     #   resp.certificate_name #=> String
     #   resp.certificate_arn #=> String
     #   resp.certificate_upload_date #=> Time
@@ -2927,11 +3159,59 @@ module Aws::APIGateway
     #   resp.mutual_tls_authentication.truststore_warnings #=> Array
     #   resp.mutual_tls_authentication.truststore_warnings[0] #=> String
     #   resp.ownership_verification_certificate_arn #=> String
+    #   resp.management_policy #=> String
+    #   resp.policy #=> String
     #
     # @overload get_domain_name(params = {})
     # @param [Hash] params ({})
     def get_domain_name(params = {}, options = {})
       req = build_request(:get_domain_name, params)
+      req.send_request(options)
+    end
+
+    # Represents a collection on DomainNameAccessAssociations resources.
+    #
+    # @option params [String] :position
+    #   The current pagination position in the paged result set.
+    #
+    # @option params [Integer] :limit
+    #   The maximum number of returned results per page. The default value is
+    #   25 and the maximum value is 500.
+    #
+    # @option params [String] :resource_owner
+    #   The owner of the domain name access association. Use `SELF` to only
+    #   list the domain name access associations owned by your own account.
+    #   Use `OTHER_ACCOUNTS` to list the domain name access associations with
+    #   your private custom domain names that are owned by other AWS accounts.
+    #
+    # @return [Types::DomainNameAccessAssociations] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DomainNameAccessAssociations#position #position} => String
+    #   * {Types::DomainNameAccessAssociations#items #items} => Array&lt;Types::DomainNameAccessAssociation&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_domain_name_access_associations({
+    #     position: "String",
+    #     limit: 1,
+    #     resource_owner: "SELF", # accepts SELF, OTHER_ACCOUNTS
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.position #=> String
+    #   resp.items #=> Array
+    #   resp.items[0].domain_name_access_association_arn #=> String
+    #   resp.items[0].domain_name_arn #=> String
+    #   resp.items[0].access_association_source_type #=> String, one of "VPCE"
+    #   resp.items[0].access_association_source #=> String
+    #   resp.items[0].tags #=> Hash
+    #   resp.items[0].tags["String"] #=> String
+    #
+    # @overload get_domain_name_access_associations(params = {})
+    # @param [Hash] params ({})
+    def get_domain_name_access_associations(params = {}, options = {})
+      req = build_request(:get_domain_name_access_associations, params)
       req.send_request(options)
     end
 
@@ -2943,6 +3223,9 @@ module Aws::APIGateway
     # @option params [Integer] :limit
     #   The maximum number of returned results per page. The default value is
     #   25 and the maximum value is 500.
+    #
+    # @option params [String] :resource_owner
+    #   The owner of the domain name access association.
     #
     # @return [Types::DomainNames] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -2956,6 +3239,7 @@ module Aws::APIGateway
     #   resp = client.get_domain_names({
     #     position: "String",
     #     limit: 1,
+    #     resource_owner: "SELF", # accepts SELF, OTHER_ACCOUNTS
     #   })
     #
     # @example Response structure
@@ -2963,6 +3247,8 @@ module Aws::APIGateway
     #   resp.position #=> String
     #   resp.items #=> Array
     #   resp.items[0].domain_name #=> String
+    #   resp.items[0].domain_name_id #=> String
+    #   resp.items[0].domain_name_arn #=> String
     #   resp.items[0].certificate_name #=> String
     #   resp.items[0].certificate_arn #=> String
     #   resp.items[0].certificate_upload_date #=> Time
@@ -2986,6 +3272,8 @@ module Aws::APIGateway
     #   resp.items[0].mutual_tls_authentication.truststore_warnings #=> Array
     #   resp.items[0].mutual_tls_authentication.truststore_warnings[0] #=> String
     #   resp.items[0].ownership_verification_certificate_arn #=> String
+    #   resp.items[0].management_policy #=> String
+    #   resp.items[0].policy #=> String
     #
     # @overload get_domain_names(params = {})
     # @param [Hash] params ({})
@@ -3605,7 +3893,7 @@ module Aws::APIGateway
     #   request supports only retrieval of the embedded Method resources this
     #   way. The query parameter value must be a single-valued list and
     #   contain the `"methods"` string. For example, `GET
-    #   /restapis/\{restapi_id\}/resources/\{resource_id\}?embed=methods`.
+    #   /restapis/{restapi_id}/resources/{resource_id}?embed=methods`.
     #
     # @return [Types::Resource] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -3700,7 +3988,7 @@ module Aws::APIGateway
     #   request supports only retrieval of the embedded Method resources this
     #   way. The query parameter value must be a single-valued list and
     #   contain the `"methods"` string. For example, `GET
-    #   /restapis/\{restapi_id\}/resources?embed=methods`.
+    #   /restapis/{restapi_id}/resources?embed=methods`.
     #
     # @return [Types::Resources] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -3798,6 +4086,7 @@ module Aws::APIGateway
     #   * {Types::RestApi#policy #policy} => String
     #   * {Types::RestApi#tags #tags} => Hash&lt;String,String&gt;
     #   * {Types::RestApi#disable_execute_api_endpoint #disable_execute_api_endpoint} => Boolean
+    #   * {Types::RestApi#root_resource_id #root_resource_id} => String
     #
     # @example Request syntax with placeholder values
     #
@@ -3826,6 +4115,7 @@ module Aws::APIGateway
     #   resp.tags #=> Hash
     #   resp.tags["String"] #=> String
     #   resp.disable_execute_api_endpoint #=> Boolean
+    #   resp.root_resource_id #=> String
     #
     # @overload get_rest_api(params = {})
     # @param [Hash] params ({})
@@ -3880,6 +4170,7 @@ module Aws::APIGateway
     #   resp.items[0].tags #=> Hash
     #   resp.items[0].tags["String"] #=> String
     #   resp.items[0].disable_execute_api_endpoint #=> Boolean
+    #   resp.items[0].root_resource_id #=> String
     #
     # @overload get_rest_apis(params = {})
     # @param [Hash] params ({})
@@ -4587,9 +4878,9 @@ module Aws::APIGateway
     #   The string identifier of the associated RestApi.
     #
     # @option params [String] :mode
-    #   A query parameter to indicate whether to overwrite (`OVERWRITE`) any
-    #   existing DocumentationParts definition or to merge (`MERGE`) the new
-    #   definition into the existing one. The default value is `MERGE`.
+    #   A query parameter to indicate whether to overwrite (`overwrite`) any
+    #   existing DocumentationParts definition or to merge (`merge`) the new
+    #   definition into the existing one. The default value is `merge`.
     #
     # @option params [Boolean] :fail_on_warnings
     #   A query parameter to specify whether to rollback the documentation
@@ -4653,12 +4944,6 @@ module Aws::APIGateway
     #   To handle imported `basepath`, set `parameters` as `basepath=ignore`,
     #   `basepath=prepend` or `basepath=split`.
     #
-    #   For example, the AWS CLI command to exclude documentation from the
-    #   imported API is:
-    #
-    #   The AWS CLI command to set the regional endpoint on the imported API
-    #   is:
-    #
     # @option params [required, String, StringIO, File] :body
     #   The POST request body containing external API definitions. Currently,
     #   only OpenAPI definition JSON/YAML files are supported. The maximum
@@ -4679,6 +4964,7 @@ module Aws::APIGateway
     #   * {Types::RestApi#policy #policy} => String
     #   * {Types::RestApi#tags #tags} => Hash&lt;String,String&gt;
     #   * {Types::RestApi#disable_execute_api_endpoint #disable_execute_api_endpoint} => Boolean
+    #   * {Types::RestApi#root_resource_id #root_resource_id} => String
     #
     # @example Request syntax with placeholder values
     #
@@ -4711,6 +4997,7 @@ module Aws::APIGateway
     #   resp.tags #=> Hash
     #   resp.tags["String"] #=> String
     #   resp.disable_execute_api_endpoint #=> Boolean
+    #   resp.root_resource_id #=> String
     #
     # @overload import_rest_api(params = {})
     # @param [Hash] params ({})
@@ -4803,23 +5090,22 @@ module Aws::APIGateway
     #   is not `VPC_LINK`, or private integration, where `connectionType` is
     #   `VPC_LINK`. For a private HTTP integration, the URI is not used for
     #   routing. For `AWS` or `AWS_PROXY` integrations, the URI is of the form
-    #   `arn:aws:apigateway:\{region\}:\{subdomain.service|service\}:path|action/\{service_api`\\}.
-    #   Here, \\\{Region\\} is the API Gateway region (e.g., us-east-1);
-    #   \\\{service\\} is the name of the integrated Amazon Web Services
-    #   service (e.g., s3); and \\\{subdomain\\} is a designated subdomain
-    #   supported by certain Amazon Web Services service for fast host-name
-    #   lookup. action can be used for an Amazon Web Services service
-    #   action-based API, using an
-    #   Action=\\\{name\\}&amp;\\\{p1\\}=\\\{v1\\}&amp;p2=\\\{v2\\}... query
-    #   string. The ensuing \\\{service\_api\\} refers to a supported action
-    #   \\\{name\\} plus any required input parameters. Alternatively, path
-    #   can be used for an Amazon Web Services service path-based API. The
-    #   ensuing service\_api refers to the path to an Amazon Web Services
-    #   service resource, including the region of the integrated Amazon Web
-    #   Services service, if applicable. For example, for integration with the
-    #   S3 API of `GetObject`, the `uri` can be either
-    #   `arn:aws:apigateway:us-west-2:s3:action/GetObject&Bucket=\{bucket\}&Key=\{key\}`
-    #   or `arn:aws:apigateway:us-west-2:s3:path/\{bucket\}/\{key\}`.
+    #   `arn:aws:apigateway:{region}:{subdomain.service|service}:path|action/{service_api`}.
+    #   Here, \{Region} is the API Gateway region (e.g., us-east-1);
+    #   \{service} is the name of the integrated Amazon Web Services service
+    #   (e.g., s3); and \{subdomain} is a designated subdomain supported by
+    #   certain Amazon Web Services service for fast host-name lookup. action
+    #   can be used for an Amazon Web Services service action-based API, using
+    #   an Action=\{name}&amp;\{p1}=\{v1}&amp;p2=\{v2}... query string. The
+    #   ensuing \{service\_api} refers to a supported action \{name} plus any
+    #   required input parameters. Alternatively, path can be used for an
+    #   Amazon Web Services service path-based API. The ensuing service\_api
+    #   refers to the path to an Amazon Web Services service resource,
+    #   including the region of the integrated Amazon Web Services service, if
+    #   applicable. For example, for integration with the S3 API of
+    #   `GetObject`, the `uri` can be either
+    #   `arn:aws:apigateway:us-west-2:s3:action/GetObject&Bucket={bucket}&Key={key}`
+    #   or `arn:aws:apigateway:us-west-2:s3:path/{bucket}/{key}`.
     #
     # @option params [String] :connection_type
     #   The type of the network connection to the integration endpoint. The
@@ -4840,10 +5126,9 @@ module Aws::APIGateway
     #   parameter name and the associated value is a method request parameter
     #   value or static value that must be enclosed within single quotes and
     #   pre-encoded as required by the back end. The method request parameter
-    #   value must match the pattern of
-    #   `method.request.\{location\}.\{name\}`, where `location` is
-    #   `querystring`, `path`, or `header` and `name` must be a valid and
-    #   unique method request parameter name.
+    #   value must match the pattern of `method.request.{location}.{name}`,
+    #   where `location` is `querystring`, `path`, or `header` and `name` must
+    #   be a valid and unique method request parameter name.
     #
     # @option params [Hash<String,String>] :request_templates
     #   Represents a map of Velocity templates that are applied on the request
@@ -4991,11 +5276,11 @@ module Aws::APIGateway
     #   parameter name and the mapped value is an integration response header
     #   value, a static value enclosed within a pair of single quotes, or a
     #   JSON expression from the integration response body. The mapping key
-    #   must match the pattern of `method.response.header.\{name\}`, where
+    #   must match the pattern of `method.response.header.{name}`, where
     #   `name` is a valid and unique header name. The mapped non-static value
-    #   must match the pattern of `integration.response.header.\{name\}` or
-    #   `integration.response.body.\{JSON-expression\}`, where `name` must be
-    #   a valid and unique response header name and `JSON-expression` a valid
+    #   must match the pattern of `integration.response.header.{name}` or
+    #   `integration.response.body.{JSON-expression}`, where `name` must be a
+    #   valid and unique response header name and `JSON-expression` a valid
     #   JSON expression without the `$` prefix.
     #
     # @option params [Hash<String,String>] :response_templates
@@ -5086,13 +5371,12 @@ module Aws::APIGateway
     #   A key-value map defining required or optional method request
     #   parameters that can be accepted by API Gateway. A key defines a method
     #   request parameter name matching the pattern of
-    #   `method.request.\{location\}.\{name\}`, where `location` is
-    #   `querystring`, `path`, or `header` and `name` is a valid and unique
-    #   parameter name. The value associated with the key is a Boolean flag
-    #   indicating whether the parameter is required (`true`) or optional
-    #   (`false`). The method request parameter names defined here are
-    #   available in Integration to be mapped to integration request
-    #   parameters or body-mapping templates.
+    #   `method.request.{location}.{name}`, where `location` is `querystring`,
+    #   `path`, or `header` and `name` is a valid and unique parameter name.
+    #   The value associated with the key is a Boolean flag indicating whether
+    #   the parameter is required (`true`) or optional (`false`). The method
+    #   request parameter names defined here are available in Integration to
+    #   be mapped to integration request parameters or body-mapping templates.
     #
     # @option params [Hash<String,String>] :request_models
     #   Specifies the Model resources used for the request's content type.
@@ -5221,15 +5505,15 @@ module Aws::APIGateway
     #   response header name and the associated value is a Boolean flag
     #   indicating whether the method response parameter is required or not.
     #   The method response header names must match the pattern of
-    #   `method.response.header.\{name\}`, where `name` is a valid and unique
+    #   `method.response.header.{name}`, where `name` is a valid and unique
     #   header name. The response parameter names defined here are available
     #   in the integration response to be mapped from an integration response
-    #   header expressed in `integration.response.header.\{name\}`, a static
+    #   header expressed in `integration.response.header.{name}`, a static
     #   value enclosed within a pair of single quotes (e.g.,
     #   `'application/json'`), or a JSON expression from the back-end response
-    #   payload in the form of
-    #   `integration.response.body.\{JSON-expression\}`, where
-    #   `JSON-expression` is a valid JSON expression without the `$` prefix.)
+    #   payload in the form of `integration.response.body.{JSON-expression}`,
+    #   where `JSON-expression` is a valid JSON expression without the `$`
+    #   prefix.)
     #
     # @option params [Hash<String,String>] :response_models
     #   Specifies the Model resources used for the response's content type.
@@ -5317,6 +5601,7 @@ module Aws::APIGateway
     #   * {Types::RestApi#policy #policy} => String
     #   * {Types::RestApi#tags #tags} => Hash&lt;String,String&gt;
     #   * {Types::RestApi#disable_execute_api_endpoint #disable_execute_api_endpoint} => Boolean
+    #   * {Types::RestApi#root_resource_id #root_resource_id} => String
     #
     # @example Request syntax with placeholder values
     #
@@ -5351,11 +5636,42 @@ module Aws::APIGateway
     #   resp.tags #=> Hash
     #   resp.tags["String"] #=> String
     #   resp.disable_execute_api_endpoint #=> Boolean
+    #   resp.root_resource_id #=> String
     #
     # @overload put_rest_api(params = {})
     # @param [Hash] params ({})
     def put_rest_api(params = {}, options = {})
       req = build_request(:put_rest_api, params)
+      req.send_request(options)
+    end
+
+    # Rejects a domain name access association with a private custom domain
+    # name.
+    #
+    # To reject a domain name access association with an access association
+    # source in another AWS account, use this operation. To remove a domain
+    # name access association with an access association source in your own
+    # account, use the DeleteDomainNameAccessAssociation operation.
+    #
+    # @option params [required, String] :domain_name_access_association_arn
+    #   The ARN of the domain name access association resource.
+    #
+    # @option params [required, String] :domain_name_arn
+    #   The ARN of the domain name.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.reject_domain_name_access_association({
+    #     domain_name_access_association_arn: "String", # required
+    #     domain_name_arn: "String", # required
+    #   })
+    #
+    # @overload reject_domain_name_access_association(params = {})
+    # @param [Hash] params ({})
+    def reject_domain_name_access_association(params = {}, options = {})
+      req = build_request(:reject_domain_name_access_association, params)
       req.send_request(options)
     end
 
@@ -5758,6 +6074,10 @@ module Aws::APIGateway
     # @option params [required, String] :domain_name
     #   The domain name of the BasePathMapping resource to change.
     #
+    # @option params [String] :domain_name_id
+    #   The identifier for the domain name resource. Supported only for
+    #   private custom domain names.
+    #
     # @option params [required, String] :base_path
     #   The base path of the BasePathMapping resource to change.
     #
@@ -5781,6 +6101,7 @@ module Aws::APIGateway
     #
     #   resp = client.update_base_path_mapping({
     #     domain_name: "String", # required
+    #     domain_name_id: "String",
     #     base_path: "String", # required
     #     patch_operations: [
     #       {
@@ -5971,7 +6292,7 @@ module Aws::APIGateway
     # Updates a documentation version.
     #
     # @option params [required, String] :rest_api_id
-    #   The string identifier of the associated RestApi..
+    #   The string identifier of the associated RestApi.
     #
     # @option params [required, String] :documentation_version
     #   The version identifier of the to-be-updated documentation version.
@@ -6023,6 +6344,10 @@ module Aws::APIGateway
     # @option params [required, String] :domain_name
     #   The name of the DomainName resource to be changed.
     #
+    # @option params [String] :domain_name_id
+    #   The identifier for the domain name resource. Supported only for
+    #   private custom domain names.
+    #
     # @option params [Array<Types::PatchOperation>] :patch_operations
     #   For more information about supported patch operations, see [Patch
     #   Operations][1].
@@ -6034,6 +6359,8 @@ module Aws::APIGateway
     # @return [Types::DomainName] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::DomainName#domain_name #domain_name} => String
+    #   * {Types::DomainName#domain_name_id #domain_name_id} => String
+    #   * {Types::DomainName#domain_name_arn #domain_name_arn} => String
     #   * {Types::DomainName#certificate_name #certificate_name} => String
     #   * {Types::DomainName#certificate_arn #certificate_arn} => String
     #   * {Types::DomainName#certificate_upload_date #certificate_upload_date} => Time
@@ -6050,11 +6377,14 @@ module Aws::APIGateway
     #   * {Types::DomainName#tags #tags} => Hash&lt;String,String&gt;
     #   * {Types::DomainName#mutual_tls_authentication #mutual_tls_authentication} => Types::MutualTlsAuthentication
     #   * {Types::DomainName#ownership_verification_certificate_arn #ownership_verification_certificate_arn} => String
+    #   * {Types::DomainName#management_policy #management_policy} => String
+    #   * {Types::DomainName#policy #policy} => String
     #
     # @example Request syntax with placeholder values
     #
     #   resp = client.update_domain_name({
     #     domain_name: "String", # required
+    #     domain_name_id: "String",
     #     patch_operations: [
     #       {
     #         op: "add", # accepts add, remove, replace, move, copy, test
@@ -6068,6 +6398,8 @@ module Aws::APIGateway
     # @example Response structure
     #
     #   resp.domain_name #=> String
+    #   resp.domain_name_id #=> String
+    #   resp.domain_name_arn #=> String
     #   resp.certificate_name #=> String
     #   resp.certificate_arn #=> String
     #   resp.certificate_upload_date #=> Time
@@ -6091,6 +6423,8 @@ module Aws::APIGateway
     #   resp.mutual_tls_authentication.truststore_warnings #=> Array
     #   resp.mutual_tls_authentication.truststore_warnings[0] #=> String
     #   resp.ownership_verification_certificate_arn #=> String
+    #   resp.management_policy #=> String
+    #   resp.policy #=> String
     #
     # @overload update_domain_name(params = {})
     # @param [Hash] params ({})
@@ -6471,7 +6805,8 @@ module Aws::APIGateway
       req.send_request(options)
     end
 
-    # Changes information about a model.
+    # Changes information about a model. The maximum size of the model is
+    # 400 KB.
     #
     # @option params [required, String] :rest_api_id
     #   The string identifier of the associated RestApi.
@@ -6702,6 +7037,7 @@ module Aws::APIGateway
     #   * {Types::RestApi#policy #policy} => String
     #   * {Types::RestApi#tags #tags} => Hash&lt;String,String&gt;
     #   * {Types::RestApi#disable_execute_api_endpoint #disable_execute_api_endpoint} => Boolean
+    #   * {Types::RestApi#root_resource_id #root_resource_id} => String
     #
     # @example Request syntax with placeholder values
     #
@@ -6738,6 +7074,7 @@ module Aws::APIGateway
     #   resp.tags #=> Hash
     #   resp.tags["String"] #=> String
     #   resp.disable_execute_api_endpoint #=> Boolean
+    #   resp.root_resource_id #=> String
     #
     # @overload update_rest_api(params = {})
     # @param [Hash] params ({})
@@ -7028,14 +7365,19 @@ module Aws::APIGateway
     # @api private
     def build_request(operation_name, params = {})
       handlers = @handlers.for(operation_name)
+      tracer = config.telemetry_provider.tracer_provider.tracer(
+        Aws::Telemetry.module_to_tracer_name('Aws::APIGateway')
+      )
       context = Seahorse::Client::RequestContext.new(
         operation_name: operation_name,
         operation: config.api.operation(operation_name),
         client: self,
         params: params,
-        config: config)
+        config: config,
+        tracer: tracer
+      )
       context[:gem_name] = 'aws-sdk-apigateway'
-      context[:gem_version] = '1.81.0'
+      context[:gem_version] = '1.113.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

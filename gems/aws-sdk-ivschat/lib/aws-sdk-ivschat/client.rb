@@ -7,33 +7,34 @@
 #
 # WARNING ABOUT GENERATED CODE
 
-require 'seahorse/client/plugins/content_length.rb'
-require 'aws-sdk-core/plugins/credentials_configuration.rb'
-require 'aws-sdk-core/plugins/logging.rb'
-require 'aws-sdk-core/plugins/param_converter.rb'
-require 'aws-sdk-core/plugins/param_validator.rb'
-require 'aws-sdk-core/plugins/user_agent.rb'
-require 'aws-sdk-core/plugins/helpful_socket_errors.rb'
-require 'aws-sdk-core/plugins/retry_errors.rb'
-require 'aws-sdk-core/plugins/global_configuration.rb'
-require 'aws-sdk-core/plugins/regional_endpoint.rb'
-require 'aws-sdk-core/plugins/endpoint_discovery.rb'
-require 'aws-sdk-core/plugins/endpoint_pattern.rb'
-require 'aws-sdk-core/plugins/response_paging.rb'
-require 'aws-sdk-core/plugins/stub_responses.rb'
-require 'aws-sdk-core/plugins/idempotency_token.rb'
-require 'aws-sdk-core/plugins/jsonvalue_converter.rb'
-require 'aws-sdk-core/plugins/client_metrics_plugin.rb'
-require 'aws-sdk-core/plugins/client_metrics_send_plugin.rb'
-require 'aws-sdk-core/plugins/transfer_encoding.rb'
-require 'aws-sdk-core/plugins/http_checksum.rb'
-require 'aws-sdk-core/plugins/checksum_algorithm.rb'
-require 'aws-sdk-core/plugins/defaults_mode.rb'
-require 'aws-sdk-core/plugins/recursion_detection.rb'
-require 'aws-sdk-core/plugins/sign.rb'
-require 'aws-sdk-core/plugins/protocols/rest_json.rb'
-
-Aws::Plugins::GlobalConfiguration.add_identifier(:ivschat)
+require 'seahorse/client/plugins/content_length'
+require 'aws-sdk-core/plugins/credentials_configuration'
+require 'aws-sdk-core/plugins/logging'
+require 'aws-sdk-core/plugins/param_converter'
+require 'aws-sdk-core/plugins/param_validator'
+require 'aws-sdk-core/plugins/user_agent'
+require 'aws-sdk-core/plugins/helpful_socket_errors'
+require 'aws-sdk-core/plugins/retry_errors'
+require 'aws-sdk-core/plugins/global_configuration'
+require 'aws-sdk-core/plugins/regional_endpoint'
+require 'aws-sdk-core/plugins/endpoint_discovery'
+require 'aws-sdk-core/plugins/endpoint_pattern'
+require 'aws-sdk-core/plugins/response_paging'
+require 'aws-sdk-core/plugins/stub_responses'
+require 'aws-sdk-core/plugins/idempotency_token'
+require 'aws-sdk-core/plugins/invocation_id'
+require 'aws-sdk-core/plugins/jsonvalue_converter'
+require 'aws-sdk-core/plugins/client_metrics_plugin'
+require 'aws-sdk-core/plugins/client_metrics_send_plugin'
+require 'aws-sdk-core/plugins/transfer_encoding'
+require 'aws-sdk-core/plugins/http_checksum'
+require 'aws-sdk-core/plugins/checksum_algorithm'
+require 'aws-sdk-core/plugins/request_compression'
+require 'aws-sdk-core/plugins/defaults_mode'
+require 'aws-sdk-core/plugins/recursion_detection'
+require 'aws-sdk-core/plugins/telemetry'
+require 'aws-sdk-core/plugins/sign'
+require 'aws-sdk-core/plugins/protocols/rest_json'
 
 module Aws::Ivschat
   # An API client for Ivschat.  To construct a client, you need to configure a `:region` and `:credentials`.
@@ -71,20 +72,28 @@ module Aws::Ivschat
     add_plugin(Aws::Plugins::ResponsePaging)
     add_plugin(Aws::Plugins::StubResponses)
     add_plugin(Aws::Plugins::IdempotencyToken)
+    add_plugin(Aws::Plugins::InvocationId)
     add_plugin(Aws::Plugins::JsonvalueConverter)
     add_plugin(Aws::Plugins::ClientMetricsPlugin)
     add_plugin(Aws::Plugins::ClientMetricsSendPlugin)
     add_plugin(Aws::Plugins::TransferEncoding)
     add_plugin(Aws::Plugins::HttpChecksum)
     add_plugin(Aws::Plugins::ChecksumAlgorithm)
+    add_plugin(Aws::Plugins::RequestCompression)
     add_plugin(Aws::Plugins::DefaultsMode)
     add_plugin(Aws::Plugins::RecursionDetection)
+    add_plugin(Aws::Plugins::Telemetry)
     add_plugin(Aws::Plugins::Sign)
     add_plugin(Aws::Plugins::Protocols::RestJson)
     add_plugin(Aws::Ivschat::Plugins::Endpoints)
 
     # @overload initialize(options)
     #   @param [Hash] options
+    #
+    #   @option options [Array<Seahorse::Client::Plugin>] :plugins ([]])
+    #     A list of plugins to apply to the client. Each plugin is either a
+    #     class name or an instance of a plugin class.
+    #
     #   @option options [required, Aws::CredentialProvider] :credentials
     #     Your AWS credentials. This can be an instance of any one of the
     #     following classes:
@@ -119,13 +128,15 @@ module Aws::Ivschat
     #     locations will be searched for credentials:
     #
     #     * `Aws.config[:credentials]`
-    #     * The `:access_key_id`, `:secret_access_key`, and `:session_token` options.
-    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']
+    #     * The `:access_key_id`, `:secret_access_key`, `:session_token`, and
+    #       `:account_id` options.
+    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'],
+    #       ENV['AWS_SESSION_TOKEN'], and ENV['AWS_ACCOUNT_ID']
     #     * `~/.aws/credentials`
     #     * `~/.aws/config`
     #     * EC2/ECS IMDS instance profile - When used by default, the timeouts
     #       are very aggressive. Construct and pass an instance of
-    #       `Aws::InstanceProfileCredentails` or `Aws::ECSCredentials` to
+    #       `Aws::InstanceProfileCredentials` or `Aws::ECSCredentials` to
     #       enable retries and extended timeouts. Instance profile credential
     #       fetching can be disabled by setting ENV['AWS_EC2_METADATA_DISABLED']
     #       to true.
@@ -143,6 +154,8 @@ module Aws::Ivschat
     #     * `~/.aws/config`
     #
     #   @option options [String] :access_key_id
+    #
+    #   @option options [String] :account_id
     #
     #   @option options [Boolean] :active_endpoint_cache (false)
     #     When set to `true`, a thread polling for endpoints will be running in
@@ -190,10 +203,20 @@ module Aws::Ivschat
     #     Set to true to disable SDK automatically adding host prefix
     #     to default service endpoint when available.
     #
-    #   @option options [String] :endpoint
-    #     The client endpoint is normally constructed from the `:region`
-    #     option. You should only configure an `:endpoint` when connecting
-    #     to test or custom endpoints. This should be a valid HTTP(S) URI.
+    #   @option options [Boolean] :disable_request_compression (false)
+    #     When set to 'true' the request body will not be compressed
+    #     for supported operations.
+    #
+    #   @option options [String, URI::HTTPS, URI::HTTP] :endpoint
+    #     Normally you should not configure the `:endpoint` option
+    #     directly. This is normally constructed from the `:region`
+    #     option. Configuring `:endpoint` is normally reserved for
+    #     connecting to test or custom endpoints. The endpoint should
+    #     be a URI formatted like:
+    #
+    #         'http://example.com'
+    #         'https://example.com'
+    #         'http://example.com:123'
     #
     #   @option options [Integer] :endpoint_cache_max_entries (1000)
     #     Used for the maximum size limit of the LRU cache storing endpoints data
@@ -209,6 +232,10 @@ module Aws::Ivschat
     #
     #   @option options [Boolean] :endpoint_discovery (false)
     #     When set to `true`, endpoint discovery will be enabled for operations when available.
+    #
+    #   @option options [Boolean] :ignore_configured_endpoint_urls
+    #     Setting to true disables use of endpoint URLs provided via environment
+    #     variables and the shared configuration file.
     #
     #   @option options [Aws::Log::Formatter] :log_formatter (Aws::Log::Formatter.default)
     #     The log formatter.
@@ -229,6 +256,34 @@ module Aws::Ivschat
     #   @option options [String] :profile ("default")
     #     Used when loading credentials from the shared credentials file
     #     at HOME/.aws/credentials.  When not specified, 'default' is used.
+    #
+    #   @option options [String] :request_checksum_calculation ("when_supported")
+    #     Determines when a checksum will be calculated for request payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, a checksum will be
+    #       calculated for all request payloads of operations modeled with the
+    #       `httpChecksum` trait where `requestChecksumRequired` is `true` and/or a
+    #       `requestAlgorithmMember` is modeled.
+    #     * `when_required` - When set, a checksum will only be calculated for
+    #       request payloads of operations modeled with the  `httpChecksum` trait where
+    #       `requestChecksumRequired` is `true` or where a `requestAlgorithmMember`
+    #       is modeled and supplied.
+    #
+    #   @option options [Integer] :request_min_compression_size_bytes (10240)
+    #     The minimum size in bytes that triggers compression for request
+    #     bodies. The value must be non-negative integer value between 0
+    #     and 10485780 bytes inclusive.
+    #
+    #   @option options [String] :response_checksum_validation ("when_supported")
+    #     Determines when checksum validation will be performed on response payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, checksum validation is performed on all
+    #       response payloads of operations modeled with the `httpChecksum` trait where
+    #       `responseAlgorithms` is modeled, except when no modeled checksum algorithms
+    #       are supported.
+    #     * `when_required` - When set, checksum validation is not performed on
+    #       response payloads of operations unless the checksum algorithm is supported and
+    #       the `requestValidationModeMember` member is set to `ENABLED`.
     #
     #   @option options [Proc] :retry_backoff
     #     A proc or lambda used for backoff. Defaults to 2**retries * retry_base_delay.
@@ -274,10 +329,24 @@ module Aws::Ivschat
     #       throttling.  This is a provisional mode that may change behavior
     #       in the future.
     #
+    #   @option options [String] :sdk_ua_app_id
+    #     A unique and opaque application ID that is appended to the
+    #     User-Agent header as app/sdk_ua_app_id. It should have a
+    #     maximum length of 50. This variable is sourced from environment
+    #     variable AWS_SDK_UA_APP_ID or the shared config profile attribute sdk_ua_app_id.
     #
     #   @option options [String] :secret_access_key
     #
     #   @option options [String] :session_token
+    #
+    #   @option options [Array] :sigv4a_signing_region_set
+    #     A list of regions that should be signed with SigV4a signing. When
+    #     not passed, a default `:sigv4a_signing_region_set` is searched for
+    #     in the following locations:
+    #
+    #     * `Aws.config[:sigv4a_signing_region_set]`
+    #     * `ENV['AWS_SIGV4A_SIGNING_REGION_SET']`
+    #     * `~/.aws/config`
     #
     #   @option options [Boolean] :stub_responses (false)
     #     Causes the client to return stubbed responses. By default
@@ -287,6 +356,16 @@ module Aws::Ivschat
     #
     #     ** Please note ** When response stubbing is enabled, no HTTP
     #     requests are made, and retries are disabled.
+    #
+    #   @option options [Aws::Telemetry::TelemetryProviderBase] :telemetry_provider (Aws::Telemetry::NoOpTelemetryProvider)
+    #     Allows you to provide a telemetry provider, which is used to
+    #     emit telemetry data. By default, uses `NoOpTelemetryProvider` which
+    #     will not record or emit any telemetry data. The SDK supports the
+    #     following telemetry providers:
+    #
+    #     * OpenTelemetry (OTel) - To use the OTel provider, install and require the
+    #     `opentelemetry-sdk` gem and then, pass in an instance of a
+    #     `Aws::Telemetry::OTelProvider` for telemetry provider.
     #
     #   @option options [Aws::TokenProvider] :token_provider
     #     A Bearer Token Provider. This can be an instance of any one of the
@@ -315,52 +394,75 @@ module Aws::Ivschat
     #     sending the request.
     #
     #   @option options [Aws::Ivschat::EndpointProvider] :endpoint_provider
-    #     The endpoint provider used to resolve endpoints. Any object that responds to `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to `Aws::Ivschat::EndpointParameters`
+    #     The endpoint provider used to resolve endpoints. Any object that responds to
+    #     `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+    #     `Aws::Ivschat::EndpointParameters`.
     #
-    #   @option options [URI::HTTP,String] :http_proxy A proxy to send
-    #     requests through.  Formatted like 'http://proxy.com:123'.
+    #   @option options [Float] :http_continue_timeout (1)
+    #     The number of seconds to wait for a 100-continue response before sending the
+    #     request body.  This option has no effect unless the request has "Expect"
+    #     header set to "100-continue".  Defaults to `nil` which  disables this
+    #     behaviour.  This value can safely be set per request on the session.
     #
-    #   @option options [Float] :http_open_timeout (15) The number of
-    #     seconds to wait when opening a HTTP session before raising a
-    #     `Timeout::Error`.
+    #   @option options [Float] :http_idle_timeout (5)
+    #     The number of seconds a connection is allowed to sit idle before it
+    #     is considered stale.  Stale connections are closed and removed from the
+    #     pool before making a request.
     #
-    #   @option options [Float] :http_read_timeout (60) The default
-    #     number of seconds to wait for response data.  This value can
-    #     safely be set per-request on the session.
+    #   @option options [Float] :http_open_timeout (15)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :http_idle_timeout (5) The number of
-    #     seconds a connection is allowed to sit idle before it is
-    #     considered stale.  Stale connections are closed and removed
-    #     from the pool before making a request.
+    #   @option options [URI::HTTP,String] :http_proxy
+    #     A proxy to send requests through.  Formatted like 'http://proxy.com:123'.
     #
-    #   @option options [Float] :http_continue_timeout (1) The number of
-    #     seconds to wait for a 100-continue response before sending the
-    #     request body.  This option has no effect unless the request has
-    #     "Expect" header set to "100-continue".  Defaults to `nil` which
-    #     disables this behaviour.  This value can safely be set per
-    #     request on the session.
+    #   @option options [Float] :http_read_timeout (60)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :ssl_timeout (nil) Sets the SSL timeout
-    #     in seconds.
+    #   @option options [Boolean] :http_wire_trace (false)
+    #     When `true`,  HTTP debug output will be sent to the `:logger`.
     #
-    #   @option options [Boolean] :http_wire_trace (false) When `true`,
-    #     HTTP debug output will be sent to the `:logger`.
+    #   @option options [Proc] :on_chunk_received
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the response body is received. It provides three arguments: the chunk,
+    #     the number of bytes received, and the total number of
+    #     bytes in the response (or nil if the server did not send a `content-length`).
     #
-    #   @option options [Boolean] :ssl_verify_peer (true) When `true`,
-    #     SSL peer certificates are verified when establishing a
-    #     connection.
+    #   @option options [Proc] :on_chunk_sent
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the request body is sent. It provides three arguments: the chunk,
+    #     the number of bytes read from the body, and the total number of
+    #     bytes in the body.
     #
-    #   @option options [String] :ssl_ca_bundle Full path to the SSL
-    #     certificate authority bundle file that should be used when
-    #     verifying peer certificates.  If you do not pass
-    #     `:ssl_ca_bundle` or `:ssl_ca_directory` the the system default
-    #     will be used if available.
+    #   @option options [Boolean] :raise_response_errors (true)
+    #     When `true`, response errors are raised.
     #
-    #   @option options [String] :ssl_ca_directory Full path of the
-    #     directory that contains the unbundled SSL certificate
+    #   @option options [String] :ssl_ca_bundle
+    #     Full path to the SSL certificate authority bundle file that should be used when
+    #     verifying peer certificates.  If you do not pass `:ssl_ca_bundle` or
+    #     `:ssl_ca_directory` the the system default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_directory
+    #     Full path of the directory that contains the unbundled SSL certificate
     #     authority files for verifying peer certificates.  If you do
-    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the
-    #     system default will be used if available.
+    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the system
+    #     default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_store
+    #     Sets the X509::Store to verify peer certificate.
+    #
+    #   @option options [OpenSSL::X509::Certificate] :ssl_cert
+    #     Sets a client certificate when creating http connections.
+    #
+    #   @option options [OpenSSL::PKey] :ssl_key
+    #     Sets a client key when creating http connections.
+    #
+    #   @option options [Float] :ssl_timeout
+    #     Sets the SSL timeout in seconds
+    #
+    #   @option options [Boolean] :ssl_verify_peer (true)
+    #     When `true`, SSL peer certificates are verified when establishing a connection.
     #
     def initialize(*args)
       super
@@ -386,51 +488,51 @@ module Aws::Ivschat
     # Encryption keys are owned by Amazon IVS Chat and never used directly
     # by your application.
     #
-    # @option params [Hash<String,String>] :attributes
-    #   Application-provided attributes to encode into the token and attach to
-    #   a chat session. Map keys and values can contain UTF-8 encoded text.
-    #   The maximum length of this field is 1 KB total.
+    # @option params [required, String] :room_identifier
+    #   Identifier of the room that the client is trying to access. Currently
+    #   this must be an ARN.
+    #
+    # @option params [required, String] :user_id
+    #   Application-provided ID that uniquely identifies the user associated
+    #   with this token. This can be any UTF-8 encoded text.
     #
     # @option params [Array<String>] :capabilities
     #   Set of capabilities that the user is allowed to perform in the room.
     #   Default: None (the capability to view messages is implicitly included
     #   in all requests).
     #
-    # @option params [required, String] :room_identifier
-    #   Identifier of the room that the client is trying to access. Currently
-    #   this must be an ARN.
-    #
     # @option params [Integer] :session_duration_in_minutes
     #   Session duration (in minutes), after which the session expires.
     #   Default: 60 (1 hour).
     #
-    # @option params [required, String] :user_id
-    #   Application-provided ID that uniquely identifies the user associated
-    #   with this token. This can be any UTF-8 encoded text.
+    # @option params [Hash<String,String>] :attributes
+    #   Application-provided attributes to encode into the token and attach to
+    #   a chat session. Map keys and values can contain UTF-8 encoded text.
+    #   The maximum length of this field is 1 KB total.
     #
     # @return [Types::CreateChatTokenResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
-    #   * {Types::CreateChatTokenResponse#session_expiration_time #session_expiration_time} => Time
     #   * {Types::CreateChatTokenResponse#token #token} => String
     #   * {Types::CreateChatTokenResponse#token_expiration_time #token_expiration_time} => Time
+    #   * {Types::CreateChatTokenResponse#session_expiration_time #session_expiration_time} => Time
     #
     # @example Request syntax with placeholder values
     #
     #   resp = client.create_chat_token({
+    #     room_identifier: "RoomIdentifier", # required
+    #     user_id: "UserID", # required
+    #     capabilities: ["SEND_MESSAGE"], # accepts SEND_MESSAGE, DISCONNECT_USER, DELETE_MESSAGE
+    #     session_duration_in_minutes: 1,
     #     attributes: {
     #       "String" => "String",
     #     },
-    #     capabilities: ["SEND_MESSAGE"], # accepts SEND_MESSAGE, DISCONNECT_USER, DELETE_MESSAGE
-    #     room_identifier: "RoomIdentifier", # required
-    #     session_duration_in_minutes: 1,
-    #     user_id: "UserID", # required
     #   })
     #
     # @example Response structure
     #
-    #   resp.session_expiration_time #=> Time
     #   resp.token #=> String
     #   resp.token_expiration_time #=> Time
+    #   resp.session_expiration_time #=> Time
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivschat-2020-07-14/CreateChatToken AWS API Documentation
     #
@@ -444,52 +546,53 @@ module Aws::Ivschat
     # Creates a logging configuration that allows clients to store and
     # record sent messages.
     #
+    # @option params [String] :name
+    #   Logging-configuration name. The value does not need to be unique.
+    #
     # @option params [required, Types::DestinationConfiguration] :destination_configuration
     #   A complex type that contains a destination configuration for where
     #   chat content will be logged. There can be only one type of destination
     #   (`cloudWatchLogs`, `firehose`, or `s3`) in a
     #   `destinationConfiguration`.
     #
-    # @option params [String] :name
-    #   Logging-configuration name. The value does not need to be unique.
-    #
     # @option params [Hash<String,String>] :tags
     #   Tags to attach to the resource. Array of maps, each of the form
-    #   `string:string (key:value)`. See [Tagging AWS Resources][1] for
-    #   details, including restrictions that apply to tags and "Tag naming
-    #   limits and requirements"; Amazon IVS Chat has no constraints on tags
-    #   beyond what is documented there.
+    #   `string:string (key:value)`. See [Best practices and strategies][1] in
+    #   *Tagging Amazon Web Services Resources and Tag Editor* for details,
+    #   including restrictions that apply to tags and "Tag naming limits and
+    #   requirements"; Amazon IVS Chat has no constraints on tags beyond what
+    #   is documented there.
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html
+    #   [1]: https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html
     #
     # @return [Types::CreateLoggingConfigurationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreateLoggingConfigurationResponse#arn #arn} => String
-    #   * {Types::CreateLoggingConfigurationResponse#create_time #create_time} => Time
-    #   * {Types::CreateLoggingConfigurationResponse#destination_configuration #destination_configuration} => Types::DestinationConfiguration
     #   * {Types::CreateLoggingConfigurationResponse#id #id} => String
+    #   * {Types::CreateLoggingConfigurationResponse#create_time #create_time} => Time
+    #   * {Types::CreateLoggingConfigurationResponse#update_time #update_time} => Time
     #   * {Types::CreateLoggingConfigurationResponse#name #name} => String
+    #   * {Types::CreateLoggingConfigurationResponse#destination_configuration #destination_configuration} => Types::DestinationConfiguration
     #   * {Types::CreateLoggingConfigurationResponse#state #state} => String
     #   * {Types::CreateLoggingConfigurationResponse#tags #tags} => Hash&lt;String,String&gt;
-    #   * {Types::CreateLoggingConfigurationResponse#update_time #update_time} => Time
     #
     # @example Request syntax with placeholder values
     #
     #   resp = client.create_logging_configuration({
+    #     name: "LoggingConfigurationName",
     #     destination_configuration: { # required
+    #       s3: {
+    #         bucket_name: "BucketName", # required
+    #       },
     #       cloud_watch_logs: {
     #         log_group_name: "LogGroupName", # required
     #       },
     #       firehose: {
     #         delivery_stream_name: "DeliveryStreamName", # required
     #       },
-    #       s3: {
-    #         bucket_name: "BucketName", # required
-    #       },
     #     },
-    #     name: "LoggingConfigurationName",
     #     tags: {
     #       "TagKey" => "TagValue",
     #     },
@@ -498,16 +601,16 @@ module Aws::Ivschat
     # @example Response structure
     #
     #   resp.arn #=> String
+    #   resp.id #=> String
     #   resp.create_time #=> Time
+    #   resp.update_time #=> Time
+    #   resp.name #=> String
+    #   resp.destination_configuration.s3.bucket_name #=> String
     #   resp.destination_configuration.cloud_watch_logs.log_group_name #=> String
     #   resp.destination_configuration.firehose.delivery_stream_name #=> String
-    #   resp.destination_configuration.s3.bucket_name #=> String
-    #   resp.id #=> String
-    #   resp.name #=> String
     #   resp.state #=> String, one of "ACTIVE"
     #   resp.tags #=> Hash
     #   resp.tags["TagKey"] #=> String
-    #   resp.update_time #=> Time
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivschat-2020-07-14/CreateLoggingConfiguration AWS API Documentation
     #
@@ -520,79 +623,80 @@ module Aws::Ivschat
 
     # Creates a room that allows clients to connect and pass messages.
     #
-    # @option params [Array<String>] :logging_configuration_identifiers
-    #   Array of logging-configuration identifiers attached to the room.
+    # @option params [String] :name
+    #   Room name. The value does not need to be unique.
+    #
+    # @option params [Integer] :maximum_message_rate_per_second
+    #   Maximum number of messages per second that can be sent to the room (by
+    #   all clients). Default: 10.
     #
     # @option params [Integer] :maximum_message_length
     #   Maximum number of characters in a single message. Messages are
     #   expected to be UTF-8 encoded and this limit applies specifically to
     #   rune/code-point count, not number of bytes. Default: 500.
     #
-    # @option params [Integer] :maximum_message_rate_per_second
-    #   Maximum number of messages per second that can be sent to the room (by
-    #   all clients). Default: 10.
-    #
     # @option params [Types::MessageReviewHandler] :message_review_handler
     #   Configuration information for optional review of messages.
     #
-    # @option params [String] :name
-    #   Room name. The value does not need to be unique.
-    #
     # @option params [Hash<String,String>] :tags
     #   Tags to attach to the resource. Array of maps, each of the form
-    #   `string:string (key:value)`. See [Tagging AWS Resources][1] for
-    #   details, including restrictions that apply to tags and "Tag naming
-    #   limits and requirements"; Amazon IVS Chat has no constraints beyond
-    #   what is documented there.
+    #   `string:string (key:value)`. See [Best practices and strategies][1] in
+    #   *Tagging Amazon Web Services Resources and Tag Editor* for details,
+    #   including restrictions that apply to tags and "Tag naming limits and
+    #   requirements"; Amazon IVS Chat has no constraints beyond what is
+    #   documented there.
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html
+    #   [1]: https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html
+    #
+    # @option params [Array<String>] :logging_configuration_identifiers
+    #   Array of logging-configuration identifiers attached to the room.
     #
     # @return [Types::CreateRoomResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreateRoomResponse#arn #arn} => String
-    #   * {Types::CreateRoomResponse#create_time #create_time} => Time
     #   * {Types::CreateRoomResponse#id #id} => String
-    #   * {Types::CreateRoomResponse#logging_configuration_identifiers #logging_configuration_identifiers} => Array&lt;String&gt;
-    #   * {Types::CreateRoomResponse#maximum_message_length #maximum_message_length} => Integer
-    #   * {Types::CreateRoomResponse#maximum_message_rate_per_second #maximum_message_rate_per_second} => Integer
-    #   * {Types::CreateRoomResponse#message_review_handler #message_review_handler} => Types::MessageReviewHandler
     #   * {Types::CreateRoomResponse#name #name} => String
-    #   * {Types::CreateRoomResponse#tags #tags} => Hash&lt;String,String&gt;
+    #   * {Types::CreateRoomResponse#create_time #create_time} => Time
     #   * {Types::CreateRoomResponse#update_time #update_time} => Time
+    #   * {Types::CreateRoomResponse#maximum_message_rate_per_second #maximum_message_rate_per_second} => Integer
+    #   * {Types::CreateRoomResponse#maximum_message_length #maximum_message_length} => Integer
+    #   * {Types::CreateRoomResponse#message_review_handler #message_review_handler} => Types::MessageReviewHandler
+    #   * {Types::CreateRoomResponse#tags #tags} => Hash&lt;String,String&gt;
+    #   * {Types::CreateRoomResponse#logging_configuration_identifiers #logging_configuration_identifiers} => Array&lt;String&gt;
     #
     # @example Request syntax with placeholder values
     #
     #   resp = client.create_room({
-    #     logging_configuration_identifiers: ["LoggingConfigurationIdentifier"],
-    #     maximum_message_length: 1,
-    #     maximum_message_rate_per_second: 1,
-    #     message_review_handler: {
-    #       fallback_result: "ALLOW", # accepts ALLOW, DENY
-    #       uri: "LambdaArn",
-    #     },
     #     name: "RoomName",
+    #     maximum_message_rate_per_second: 1,
+    #     maximum_message_length: 1,
+    #     message_review_handler: {
+    #       uri: "LambdaArn",
+    #       fallback_result: "ALLOW", # accepts ALLOW, DENY
+    #     },
     #     tags: {
     #       "TagKey" => "TagValue",
     #     },
+    #     logging_configuration_identifiers: ["LoggingConfigurationIdentifier"],
     #   })
     #
     # @example Response structure
     #
     #   resp.arn #=> String
-    #   resp.create_time #=> Time
     #   resp.id #=> String
-    #   resp.logging_configuration_identifiers #=> Array
-    #   resp.logging_configuration_identifiers[0] #=> String
-    #   resp.maximum_message_length #=> Integer
-    #   resp.maximum_message_rate_per_second #=> Integer
-    #   resp.message_review_handler.fallback_result #=> String, one of "ALLOW", "DENY"
-    #   resp.message_review_handler.uri #=> String
     #   resp.name #=> String
+    #   resp.create_time #=> Time
+    #   resp.update_time #=> Time
+    #   resp.maximum_message_rate_per_second #=> Integer
+    #   resp.maximum_message_length #=> Integer
+    #   resp.message_review_handler.uri #=> String
+    #   resp.message_review_handler.fallback_result #=> String, one of "ALLOW", "DENY"
     #   resp.tags #=> Hash
     #   resp.tags["TagKey"] #=> String
-    #   resp.update_time #=> Time
+    #   resp.logging_configuration_identifiers #=> Array
+    #   resp.logging_configuration_identifiers[0] #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivschat-2020-07-14/CreateRoom AWS API Documentation
     #
@@ -635,6 +739,10 @@ module Aws::Ivschat
     #
     # [1]: https://docs.aws.amazon.com/ivs/latest/chatmsgapireference/actions-deletemessage-publish.html
     #
+    # @option params [required, String] :room_identifier
+    #   Identifier of the room where the message should be deleted. Currently
+    #   this must be an ARN.
+    #
     # @option params [required, String] :id
     #   ID of the message to be deleted. This is the `Id` field in the
     #   received message (see [ Message (Subscribe)][1] in the Chat Messaging
@@ -647,10 +755,6 @@ module Aws::Ivschat
     # @option params [String] :reason
     #   Reason for deleting the message.
     #
-    # @option params [required, String] :room_identifier
-    #   Identifier of the room where the message should be deleted. Currently
-    #   this must be an ARN.
-    #
     # @return [Types::DeleteMessageResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::DeleteMessageResponse#id #id} => String
@@ -658,9 +762,9 @@ module Aws::Ivschat
     # @example Request syntax with placeholder values
     #
     #   resp = client.delete_message({
+    #     room_identifier: "RoomIdentifier", # required
     #     id: "MessageID", # required
     #     reason: "Reason",
-    #     room_identifier: "RoomIdentifier", # required
     #   })
     #
     # @example Response structure
@@ -706,9 +810,6 @@ module Aws::Ivschat
     #
     # [1]: https://docs.aws.amazon.com/ivs/latest/chatmsgapireference/actions-disconnectuser-publish.html
     #
-    # @option params [String] :reason
-    #   Reason for disconnecting the user.
-    #
     # @option params [required, String] :room_identifier
     #   Identifier of the room from which the user's clients should be
     #   disconnected. Currently this must be an ARN.
@@ -716,14 +817,17 @@ module Aws::Ivschat
     # @option params [required, String] :user_id
     #   ID of the user (connection) to disconnect from the room.
     #
+    # @option params [String] :reason
+    #   Reason for disconnecting the user.
+    #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
     # @example Request syntax with placeholder values
     #
     #   resp = client.disconnect_user({
-    #     reason: "Reason",
     #     room_identifier: "RoomIdentifier", # required
     #     user_id: "UserID", # required
+    #     reason: "Reason",
     #   })
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivschat-2020-07-14/DisconnectUser AWS API Documentation
@@ -743,13 +847,13 @@ module Aws::Ivschat
     # @return [Types::GetLoggingConfigurationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::GetLoggingConfigurationResponse#arn #arn} => String
-    #   * {Types::GetLoggingConfigurationResponse#create_time #create_time} => Time
-    #   * {Types::GetLoggingConfigurationResponse#destination_configuration #destination_configuration} => Types::DestinationConfiguration
     #   * {Types::GetLoggingConfigurationResponse#id #id} => String
+    #   * {Types::GetLoggingConfigurationResponse#create_time #create_time} => Time
+    #   * {Types::GetLoggingConfigurationResponse#update_time #update_time} => Time
     #   * {Types::GetLoggingConfigurationResponse#name #name} => String
+    #   * {Types::GetLoggingConfigurationResponse#destination_configuration #destination_configuration} => Types::DestinationConfiguration
     #   * {Types::GetLoggingConfigurationResponse#state #state} => String
     #   * {Types::GetLoggingConfigurationResponse#tags #tags} => Hash&lt;String,String&gt;
-    #   * {Types::GetLoggingConfigurationResponse#update_time #update_time} => Time
     #
     # @example Request syntax with placeholder values
     #
@@ -760,16 +864,16 @@ module Aws::Ivschat
     # @example Response structure
     #
     #   resp.arn #=> String
+    #   resp.id #=> String
     #   resp.create_time #=> Time
+    #   resp.update_time #=> Time
+    #   resp.name #=> String
+    #   resp.destination_configuration.s3.bucket_name #=> String
     #   resp.destination_configuration.cloud_watch_logs.log_group_name #=> String
     #   resp.destination_configuration.firehose.delivery_stream_name #=> String
-    #   resp.destination_configuration.s3.bucket_name #=> String
-    #   resp.id #=> String
-    #   resp.name #=> String
     #   resp.state #=> String, one of "CREATING", "CREATE_FAILED", "DELETING", "DELETE_FAILED", "UPDATING", "UPDATE_FAILED", "ACTIVE"
     #   resp.tags #=> Hash
     #   resp.tags["TagKey"] #=> String
-    #   resp.update_time #=> Time
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivschat-2020-07-14/GetLoggingConfiguration AWS API Documentation
     #
@@ -789,15 +893,15 @@ module Aws::Ivschat
     # @return [Types::GetRoomResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::GetRoomResponse#arn #arn} => String
-    #   * {Types::GetRoomResponse#create_time #create_time} => Time
     #   * {Types::GetRoomResponse#id #id} => String
-    #   * {Types::GetRoomResponse#logging_configuration_identifiers #logging_configuration_identifiers} => Array&lt;String&gt;
-    #   * {Types::GetRoomResponse#maximum_message_length #maximum_message_length} => Integer
-    #   * {Types::GetRoomResponse#maximum_message_rate_per_second #maximum_message_rate_per_second} => Integer
-    #   * {Types::GetRoomResponse#message_review_handler #message_review_handler} => Types::MessageReviewHandler
     #   * {Types::GetRoomResponse#name #name} => String
-    #   * {Types::GetRoomResponse#tags #tags} => Hash&lt;String,String&gt;
+    #   * {Types::GetRoomResponse#create_time #create_time} => Time
     #   * {Types::GetRoomResponse#update_time #update_time} => Time
+    #   * {Types::GetRoomResponse#maximum_message_rate_per_second #maximum_message_rate_per_second} => Integer
+    #   * {Types::GetRoomResponse#maximum_message_length #maximum_message_length} => Integer
+    #   * {Types::GetRoomResponse#message_review_handler #message_review_handler} => Types::MessageReviewHandler
+    #   * {Types::GetRoomResponse#tags #tags} => Hash&lt;String,String&gt;
+    #   * {Types::GetRoomResponse#logging_configuration_identifiers #logging_configuration_identifiers} => Array&lt;String&gt;
     #
     # @example Request syntax with placeholder values
     #
@@ -808,18 +912,18 @@ module Aws::Ivschat
     # @example Response structure
     #
     #   resp.arn #=> String
-    #   resp.create_time #=> Time
     #   resp.id #=> String
-    #   resp.logging_configuration_identifiers #=> Array
-    #   resp.logging_configuration_identifiers[0] #=> String
-    #   resp.maximum_message_length #=> Integer
-    #   resp.maximum_message_rate_per_second #=> Integer
-    #   resp.message_review_handler.fallback_result #=> String, one of "ALLOW", "DENY"
-    #   resp.message_review_handler.uri #=> String
     #   resp.name #=> String
+    #   resp.create_time #=> Time
+    #   resp.update_time #=> Time
+    #   resp.maximum_message_rate_per_second #=> Integer
+    #   resp.maximum_message_length #=> Integer
+    #   resp.message_review_handler.uri #=> String
+    #   resp.message_review_handler.fallback_result #=> String, one of "ALLOW", "DENY"
     #   resp.tags #=> Hash
     #   resp.tags["TagKey"] #=> String
-    #   resp.update_time #=> Time
+    #   resp.logging_configuration_identifiers #=> Array
+    #   resp.logging_configuration_identifiers[0] #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivschat-2020-07-14/GetRoom AWS API Documentation
     #
@@ -833,12 +937,12 @@ module Aws::Ivschat
     # Gets summary information about all your logging configurations in the
     # AWS region where the API request is processed.
     #
-    # @option params [Integer] :max_results
-    #   Maximum number of logging configurations to return. Default: 50.
-    #
     # @option params [String] :next_token
     #   The first logging configurations to retrieve. This is used for
     #   pagination; see the `nextToken` response field.
+    #
+    # @option params [Integer] :max_results
+    #   Maximum number of logging configurations to return. Default: 50.
     #
     # @return [Types::ListLoggingConfigurationsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -850,24 +954,24 @@ module Aws::Ivschat
     # @example Request syntax with placeholder values
     #
     #   resp = client.list_logging_configurations({
-    #     max_results: 1,
     #     next_token: "PaginationToken",
+    #     max_results: 1,
     #   })
     #
     # @example Response structure
     #
     #   resp.logging_configurations #=> Array
     #   resp.logging_configurations[0].arn #=> String
+    #   resp.logging_configurations[0].id #=> String
     #   resp.logging_configurations[0].create_time #=> Time
+    #   resp.logging_configurations[0].update_time #=> Time
+    #   resp.logging_configurations[0].name #=> String
+    #   resp.logging_configurations[0].destination_configuration.s3.bucket_name #=> String
     #   resp.logging_configurations[0].destination_configuration.cloud_watch_logs.log_group_name #=> String
     #   resp.logging_configurations[0].destination_configuration.firehose.delivery_stream_name #=> String
-    #   resp.logging_configurations[0].destination_configuration.s3.bucket_name #=> String
-    #   resp.logging_configurations[0].id #=> String
-    #   resp.logging_configurations[0].name #=> String
     #   resp.logging_configurations[0].state #=> String, one of "CREATING", "CREATE_FAILED", "DELETING", "DELETE_FAILED", "UPDATING", "UPDATE_FAILED", "ACTIVE"
     #   resp.logging_configurations[0].tags #=> Hash
     #   resp.logging_configurations[0].tags["TagKey"] #=> String
-    #   resp.logging_configurations[0].update_time #=> Time
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivschat-2020-07-14/ListLoggingConfigurations AWS API Documentation
@@ -883,15 +987,6 @@ module Aws::Ivschat
     # the API request is processed. Results are sorted in descending order
     # of `updateTime`.
     #
-    # @option params [String] :logging_configuration_identifier
-    #   Logging-configuration identifier.
-    #
-    # @option params [Integer] :max_results
-    #   Maximum number of rooms to return. Default: 50.
-    #
-    # @option params [String] :message_review_handler_uri
-    #   Filters the list to match the specified message review handler URI.
-    #
     # @option params [String] :name
     #   Filters the list to match the specified room name.
     #
@@ -899,38 +994,47 @@ module Aws::Ivschat
     #   The first room to retrieve. This is used for pagination; see the
     #   `nextToken` response field.
     #
+    # @option params [Integer] :max_results
+    #   Maximum number of rooms to return. Default: 50.
+    #
+    # @option params [String] :message_review_handler_uri
+    #   Filters the list to match the specified message review handler URI.
+    #
+    # @option params [String] :logging_configuration_identifier
+    #   Logging-configuration identifier.
+    #
     # @return [Types::ListRoomsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
-    #   * {Types::ListRoomsResponse#next_token #next_token} => String
     #   * {Types::ListRoomsResponse#rooms #rooms} => Array&lt;Types::RoomSummary&gt;
+    #   * {Types::ListRoomsResponse#next_token #next_token} => String
     #
     # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
     #
     # @example Request syntax with placeholder values
     #
     #   resp = client.list_rooms({
-    #     logging_configuration_identifier: "LoggingConfigurationIdentifier",
-    #     max_results: 1,
-    #     message_review_handler_uri: "LambdaArn",
     #     name: "RoomName",
     #     next_token: "PaginationToken",
+    #     max_results: 1,
+    #     message_review_handler_uri: "LambdaArn",
+    #     logging_configuration_identifier: "LoggingConfigurationIdentifier",
     #   })
     #
     # @example Response structure
     #
-    #   resp.next_token #=> String
     #   resp.rooms #=> Array
     #   resp.rooms[0].arn #=> String
-    #   resp.rooms[0].create_time #=> Time
     #   resp.rooms[0].id #=> String
-    #   resp.rooms[0].logging_configuration_identifiers #=> Array
-    #   resp.rooms[0].logging_configuration_identifiers[0] #=> String
-    #   resp.rooms[0].message_review_handler.fallback_result #=> String, one of "ALLOW", "DENY"
-    #   resp.rooms[0].message_review_handler.uri #=> String
     #   resp.rooms[0].name #=> String
+    #   resp.rooms[0].message_review_handler.uri #=> String
+    #   resp.rooms[0].message_review_handler.fallback_result #=> String, one of "ALLOW", "DENY"
+    #   resp.rooms[0].create_time #=> Time
+    #   resp.rooms[0].update_time #=> Time
     #   resp.rooms[0].tags #=> Hash
     #   resp.rooms[0].tags["TagKey"] #=> String
-    #   resp.rooms[0].update_time #=> Time
+    #   resp.rooms[0].logging_configuration_identifiers #=> Array
+    #   resp.rooms[0].logging_configuration_identifiers[0] #=> String
+    #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivschat-2020-07-14/ListRooms AWS API Documentation
     #
@@ -974,16 +1078,16 @@ module Aws::Ivschat
     # logic to send events to clients of a room; e.g., to notify clients to
     # change the way the chat UI is rendered.
     #
-    # @option params [Hash<String,String>] :attributes
-    #   Application-defined metadata to attach to the event sent to clients.
-    #   The maximum length of the metadata is 1 KB total.
+    # @option params [required, String] :room_identifier
+    #   Identifier of the room to which the event will be sent. Currently this
+    #   must be an ARN.
     #
     # @option params [required, String] :event_name
     #   Application-defined name of the event to send to clients.
     #
-    # @option params [required, String] :room_identifier
-    #   Identifier of the room to which the event will be sent. Currently this
-    #   must be an ARN.
+    # @option params [Hash<String,String>] :attributes
+    #   Application-defined metadata to attach to the event sent to clients.
+    #   The maximum length of the metadata is 1 KB total.
     #
     # @return [Types::SendEventResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -992,11 +1096,11 @@ module Aws::Ivschat
     # @example Request syntax with placeholder values
     #
     #   resp = client.send_event({
+    #     room_identifier: "RoomIdentifier", # required
+    #     event_name: "EventName", # required
     #     attributes: {
     #       "String" => "String",
     #     },
-    #     event_name: "EventName", # required
-    #     room_identifier: "RoomIdentifier", # required
     #   })
     #
     # @example Response structure
@@ -1019,14 +1123,15 @@ module Aws::Ivschat
     #
     # @option params [required, Hash<String,String>] :tags
     #   Array of tags to be added or updated. Array of maps, each of the form
-    #   `string:string (key:value)`. See [Tagging AWS Resources][1] for
-    #   details, including restrictions that apply to tags and "Tag naming
-    #   limits and requirements"; Amazon IVS Chat has no constraints beyond
-    #   what is documented there.
+    #   `string:string (key:value)`. See [Best practices and strategies][1] in
+    #   *Tagging Amazon Web Services Resources and Tag Editor* for details,
+    #   including restrictions that apply to tags and "Tag naming limits and
+    #   requirements"; Amazon IVS Chat has no constraints beyond what is
+    #   documented there.
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html
+    #   [1]: https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
@@ -1055,14 +1160,15 @@ module Aws::Ivschat
     #
     # @option params [required, Array<String>] :tag_keys
     #   Array of tags to be removed. Array of maps, each of the form
-    #   `string:string (key:value)`. See [Tagging AWS Resources][1] for
-    #   details, including restrictions that apply to tags and "Tag naming
-    #   limits and requirements"; Amazon IVS Chat has no constraints beyond
-    #   what is documented there.
+    #   `string:string (key:value)`. See [Best practices and strategies][1] in
+    #   *Tagging Amazon Web Services Resources and Tag Editor* for details,
+    #   including restrictions that apply to tags and "Tag naming limits and
+    #   requirements"; Amazon IVS Chat has no constraints beyond what is
+    #   documented there.
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html
+    #   [1]: https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
@@ -1084,60 +1190,60 @@ module Aws::Ivschat
 
     # Updates a specified logging configuration.
     #
-    # @option params [Types::DestinationConfiguration] :destination_configuration
-    #   A complex type that contains a destination configuration for where
-    #   chat content will be logged. There can be only one type of destination
-    #   (`cloudWatchLogs`, `firehose`, or `s3`) in a
-    #   `destinationConfiguration`.
-    #
     # @option params [required, String] :identifier
     #   Identifier of the logging configuration to be updated.
     #
     # @option params [String] :name
     #   Logging-configuration name. The value does not need to be unique.
     #
+    # @option params [Types::DestinationConfiguration] :destination_configuration
+    #   A complex type that contains a destination configuration for where
+    #   chat content will be logged. There can be only one type of destination
+    #   (`cloudWatchLogs`, `firehose`, or `s3`) in a
+    #   `destinationConfiguration`.
+    #
     # @return [Types::UpdateLoggingConfigurationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::UpdateLoggingConfigurationResponse#arn #arn} => String
-    #   * {Types::UpdateLoggingConfigurationResponse#create_time #create_time} => Time
-    #   * {Types::UpdateLoggingConfigurationResponse#destination_configuration #destination_configuration} => Types::DestinationConfiguration
     #   * {Types::UpdateLoggingConfigurationResponse#id #id} => String
+    #   * {Types::UpdateLoggingConfigurationResponse#create_time #create_time} => Time
+    #   * {Types::UpdateLoggingConfigurationResponse#update_time #update_time} => Time
     #   * {Types::UpdateLoggingConfigurationResponse#name #name} => String
+    #   * {Types::UpdateLoggingConfigurationResponse#destination_configuration #destination_configuration} => Types::DestinationConfiguration
     #   * {Types::UpdateLoggingConfigurationResponse#state #state} => String
     #   * {Types::UpdateLoggingConfigurationResponse#tags #tags} => Hash&lt;String,String&gt;
-    #   * {Types::UpdateLoggingConfigurationResponse#update_time #update_time} => Time
     #
     # @example Request syntax with placeholder values
     #
     #   resp = client.update_logging_configuration({
+    #     identifier: "LoggingConfigurationIdentifier", # required
+    #     name: "LoggingConfigurationName",
     #     destination_configuration: {
+    #       s3: {
+    #         bucket_name: "BucketName", # required
+    #       },
     #       cloud_watch_logs: {
     #         log_group_name: "LogGroupName", # required
     #       },
     #       firehose: {
     #         delivery_stream_name: "DeliveryStreamName", # required
     #       },
-    #       s3: {
-    #         bucket_name: "BucketName", # required
-    #       },
     #     },
-    #     identifier: "LoggingConfigurationIdentifier", # required
-    #     name: "LoggingConfigurationName",
     #   })
     #
     # @example Response structure
     #
     #   resp.arn #=> String
+    #   resp.id #=> String
     #   resp.create_time #=> Time
+    #   resp.update_time #=> Time
+    #   resp.name #=> String
+    #   resp.destination_configuration.s3.bucket_name #=> String
     #   resp.destination_configuration.cloud_watch_logs.log_group_name #=> String
     #   resp.destination_configuration.firehose.delivery_stream_name #=> String
-    #   resp.destination_configuration.s3.bucket_name #=> String
-    #   resp.id #=> String
-    #   resp.name #=> String
     #   resp.state #=> String, one of "ACTIVE"
     #   resp.tags #=> Hash
     #   resp.tags["TagKey"] #=> String
-    #   resp.update_time #=> Time
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivschat-2020-07-14/UpdateLoggingConfiguration AWS API Documentation
     #
@@ -1153,68 +1259,68 @@ module Aws::Ivschat
     # @option params [required, String] :identifier
     #   Identifier of the room to be updated. Currently this must be an ARN.
     #
-    # @option params [Array<String>] :logging_configuration_identifiers
-    #   Array of logging-configuration identifiers attached to the room.
+    # @option params [String] :name
+    #   Room name. The value does not need to be unique.
+    #
+    # @option params [Integer] :maximum_message_rate_per_second
+    #   Maximum number of messages per second that can be sent to the room (by
+    #   all clients). Default: 10.
     #
     # @option params [Integer] :maximum_message_length
     #   The maximum number of characters in a single message. Messages are
     #   expected to be UTF-8 encoded and this limit applies specifically to
     #   rune/code-point count, not number of bytes. Default: 500.
     #
-    # @option params [Integer] :maximum_message_rate_per_second
-    #   Maximum number of messages per second that can be sent to the room (by
-    #   all clients). Default: 10.
-    #
     # @option params [Types::MessageReviewHandler] :message_review_handler
     #   Configuration information for optional review of messages. Specify an
     #   empty `uri` string to disassociate a message review handler from the
     #   specified room.
     #
-    # @option params [String] :name
-    #   Room name. The value does not need to be unique.
+    # @option params [Array<String>] :logging_configuration_identifiers
+    #   Array of logging-configuration identifiers attached to the room.
     #
     # @return [Types::UpdateRoomResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::UpdateRoomResponse#arn #arn} => String
-    #   * {Types::UpdateRoomResponse#create_time #create_time} => Time
     #   * {Types::UpdateRoomResponse#id #id} => String
-    #   * {Types::UpdateRoomResponse#logging_configuration_identifiers #logging_configuration_identifiers} => Array&lt;String&gt;
-    #   * {Types::UpdateRoomResponse#maximum_message_length #maximum_message_length} => Integer
-    #   * {Types::UpdateRoomResponse#maximum_message_rate_per_second #maximum_message_rate_per_second} => Integer
-    #   * {Types::UpdateRoomResponse#message_review_handler #message_review_handler} => Types::MessageReviewHandler
     #   * {Types::UpdateRoomResponse#name #name} => String
-    #   * {Types::UpdateRoomResponse#tags #tags} => Hash&lt;String,String&gt;
+    #   * {Types::UpdateRoomResponse#create_time #create_time} => Time
     #   * {Types::UpdateRoomResponse#update_time #update_time} => Time
+    #   * {Types::UpdateRoomResponse#maximum_message_rate_per_second #maximum_message_rate_per_second} => Integer
+    #   * {Types::UpdateRoomResponse#maximum_message_length #maximum_message_length} => Integer
+    #   * {Types::UpdateRoomResponse#message_review_handler #message_review_handler} => Types::MessageReviewHandler
+    #   * {Types::UpdateRoomResponse#tags #tags} => Hash&lt;String,String&gt;
+    #   * {Types::UpdateRoomResponse#logging_configuration_identifiers #logging_configuration_identifiers} => Array&lt;String&gt;
     #
     # @example Request syntax with placeholder values
     #
     #   resp = client.update_room({
     #     identifier: "RoomIdentifier", # required
-    #     logging_configuration_identifiers: ["LoggingConfigurationIdentifier"],
-    #     maximum_message_length: 1,
-    #     maximum_message_rate_per_second: 1,
-    #     message_review_handler: {
-    #       fallback_result: "ALLOW", # accepts ALLOW, DENY
-    #       uri: "LambdaArn",
-    #     },
     #     name: "RoomName",
+    #     maximum_message_rate_per_second: 1,
+    #     maximum_message_length: 1,
+    #     message_review_handler: {
+    #       uri: "LambdaArn",
+    #       fallback_result: "ALLOW", # accepts ALLOW, DENY
+    #     },
+    #     logging_configuration_identifiers: ["LoggingConfigurationIdentifier"],
     #   })
     #
     # @example Response structure
     #
     #   resp.arn #=> String
-    #   resp.create_time #=> Time
     #   resp.id #=> String
-    #   resp.logging_configuration_identifiers #=> Array
-    #   resp.logging_configuration_identifiers[0] #=> String
-    #   resp.maximum_message_length #=> Integer
-    #   resp.maximum_message_rate_per_second #=> Integer
-    #   resp.message_review_handler.fallback_result #=> String, one of "ALLOW", "DENY"
-    #   resp.message_review_handler.uri #=> String
     #   resp.name #=> String
+    #   resp.create_time #=> Time
+    #   resp.update_time #=> Time
+    #   resp.maximum_message_rate_per_second #=> Integer
+    #   resp.maximum_message_length #=> Integer
+    #   resp.message_review_handler.uri #=> String
+    #   resp.message_review_handler.fallback_result #=> String, one of "ALLOW", "DENY"
     #   resp.tags #=> Hash
     #   resp.tags["TagKey"] #=> String
-    #   resp.update_time #=> Time
+    #   resp.logging_configuration_identifiers #=> Array
+    #   resp.logging_configuration_identifiers[0] #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivschat-2020-07-14/UpdateRoom AWS API Documentation
     #
@@ -1231,14 +1337,19 @@ module Aws::Ivschat
     # @api private
     def build_request(operation_name, params = {})
       handlers = @handlers.for(operation_name)
+      tracer = config.telemetry_provider.tracer_provider.tracer(
+        Aws::Telemetry.module_to_tracer_name('Aws::Ivschat')
+      )
       context = Seahorse::Client::RequestContext.new(
         operation_name: operation_name,
         operation: config.api.operation(operation_name),
         client: self,
         params: params,
-        config: config)
+        config: config,
+        tracer: tracer
+      )
       context[:gem_name] = 'aws-sdk-ivschat'
-      context[:gem_version] = '1.8.0'
+      context[:gem_version] = '1.40.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

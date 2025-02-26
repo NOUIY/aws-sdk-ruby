@@ -7,33 +7,34 @@
 #
 # WARNING ABOUT GENERATED CODE
 
-require 'seahorse/client/plugins/content_length.rb'
-require 'aws-sdk-core/plugins/credentials_configuration.rb'
-require 'aws-sdk-core/plugins/logging.rb'
-require 'aws-sdk-core/plugins/param_converter.rb'
-require 'aws-sdk-core/plugins/param_validator.rb'
-require 'aws-sdk-core/plugins/user_agent.rb'
-require 'aws-sdk-core/plugins/helpful_socket_errors.rb'
-require 'aws-sdk-core/plugins/retry_errors.rb'
-require 'aws-sdk-core/plugins/global_configuration.rb'
-require 'aws-sdk-core/plugins/regional_endpoint.rb'
-require 'aws-sdk-core/plugins/endpoint_discovery.rb'
-require 'aws-sdk-core/plugins/endpoint_pattern.rb'
-require 'aws-sdk-core/plugins/response_paging.rb'
-require 'aws-sdk-core/plugins/stub_responses.rb'
-require 'aws-sdk-core/plugins/idempotency_token.rb'
-require 'aws-sdk-core/plugins/jsonvalue_converter.rb'
-require 'aws-sdk-core/plugins/client_metrics_plugin.rb'
-require 'aws-sdk-core/plugins/client_metrics_send_plugin.rb'
-require 'aws-sdk-core/plugins/transfer_encoding.rb'
-require 'aws-sdk-core/plugins/http_checksum.rb'
-require 'aws-sdk-core/plugins/checksum_algorithm.rb'
-require 'aws-sdk-core/plugins/defaults_mode.rb'
-require 'aws-sdk-core/plugins/recursion_detection.rb'
-require 'aws-sdk-core/plugins/sign.rb'
-require 'aws-sdk-core/plugins/protocols/rest_json.rb'
-
-Aws::Plugins::GlobalConfiguration.add_identifier(:quicksight)
+require 'seahorse/client/plugins/content_length'
+require 'aws-sdk-core/plugins/credentials_configuration'
+require 'aws-sdk-core/plugins/logging'
+require 'aws-sdk-core/plugins/param_converter'
+require 'aws-sdk-core/plugins/param_validator'
+require 'aws-sdk-core/plugins/user_agent'
+require 'aws-sdk-core/plugins/helpful_socket_errors'
+require 'aws-sdk-core/plugins/retry_errors'
+require 'aws-sdk-core/plugins/global_configuration'
+require 'aws-sdk-core/plugins/regional_endpoint'
+require 'aws-sdk-core/plugins/endpoint_discovery'
+require 'aws-sdk-core/plugins/endpoint_pattern'
+require 'aws-sdk-core/plugins/response_paging'
+require 'aws-sdk-core/plugins/stub_responses'
+require 'aws-sdk-core/plugins/idempotency_token'
+require 'aws-sdk-core/plugins/invocation_id'
+require 'aws-sdk-core/plugins/jsonvalue_converter'
+require 'aws-sdk-core/plugins/client_metrics_plugin'
+require 'aws-sdk-core/plugins/client_metrics_send_plugin'
+require 'aws-sdk-core/plugins/transfer_encoding'
+require 'aws-sdk-core/plugins/http_checksum'
+require 'aws-sdk-core/plugins/checksum_algorithm'
+require 'aws-sdk-core/plugins/request_compression'
+require 'aws-sdk-core/plugins/defaults_mode'
+require 'aws-sdk-core/plugins/recursion_detection'
+require 'aws-sdk-core/plugins/telemetry'
+require 'aws-sdk-core/plugins/sign'
+require 'aws-sdk-core/plugins/protocols/rest_json'
 
 module Aws::QuickSight
   # An API client for QuickSight.  To construct a client, you need to configure a `:region` and `:credentials`.
@@ -71,20 +72,28 @@ module Aws::QuickSight
     add_plugin(Aws::Plugins::ResponsePaging)
     add_plugin(Aws::Plugins::StubResponses)
     add_plugin(Aws::Plugins::IdempotencyToken)
+    add_plugin(Aws::Plugins::InvocationId)
     add_plugin(Aws::Plugins::JsonvalueConverter)
     add_plugin(Aws::Plugins::ClientMetricsPlugin)
     add_plugin(Aws::Plugins::ClientMetricsSendPlugin)
     add_plugin(Aws::Plugins::TransferEncoding)
     add_plugin(Aws::Plugins::HttpChecksum)
     add_plugin(Aws::Plugins::ChecksumAlgorithm)
+    add_plugin(Aws::Plugins::RequestCompression)
     add_plugin(Aws::Plugins::DefaultsMode)
     add_plugin(Aws::Plugins::RecursionDetection)
+    add_plugin(Aws::Plugins::Telemetry)
     add_plugin(Aws::Plugins::Sign)
     add_plugin(Aws::Plugins::Protocols::RestJson)
     add_plugin(Aws::QuickSight::Plugins::Endpoints)
 
     # @overload initialize(options)
     #   @param [Hash] options
+    #
+    #   @option options [Array<Seahorse::Client::Plugin>] :plugins ([]])
+    #     A list of plugins to apply to the client. Each plugin is either a
+    #     class name or an instance of a plugin class.
+    #
     #   @option options [required, Aws::CredentialProvider] :credentials
     #     Your AWS credentials. This can be an instance of any one of the
     #     following classes:
@@ -119,13 +128,15 @@ module Aws::QuickSight
     #     locations will be searched for credentials:
     #
     #     * `Aws.config[:credentials]`
-    #     * The `:access_key_id`, `:secret_access_key`, and `:session_token` options.
-    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']
+    #     * The `:access_key_id`, `:secret_access_key`, `:session_token`, and
+    #       `:account_id` options.
+    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'],
+    #       ENV['AWS_SESSION_TOKEN'], and ENV['AWS_ACCOUNT_ID']
     #     * `~/.aws/credentials`
     #     * `~/.aws/config`
     #     * EC2/ECS IMDS instance profile - When used by default, the timeouts
     #       are very aggressive. Construct and pass an instance of
-    #       `Aws::InstanceProfileCredentails` or `Aws::ECSCredentials` to
+    #       `Aws::InstanceProfileCredentials` or `Aws::ECSCredentials` to
     #       enable retries and extended timeouts. Instance profile credential
     #       fetching can be disabled by setting ENV['AWS_EC2_METADATA_DISABLED']
     #       to true.
@@ -143,6 +154,8 @@ module Aws::QuickSight
     #     * `~/.aws/config`
     #
     #   @option options [String] :access_key_id
+    #
+    #   @option options [String] :account_id
     #
     #   @option options [Boolean] :active_endpoint_cache (false)
     #     When set to `true`, a thread polling for endpoints will be running in
@@ -190,10 +203,20 @@ module Aws::QuickSight
     #     Set to true to disable SDK automatically adding host prefix
     #     to default service endpoint when available.
     #
-    #   @option options [String] :endpoint
-    #     The client endpoint is normally constructed from the `:region`
-    #     option. You should only configure an `:endpoint` when connecting
-    #     to test or custom endpoints. This should be a valid HTTP(S) URI.
+    #   @option options [Boolean] :disable_request_compression (false)
+    #     When set to 'true' the request body will not be compressed
+    #     for supported operations.
+    #
+    #   @option options [String, URI::HTTPS, URI::HTTP] :endpoint
+    #     Normally you should not configure the `:endpoint` option
+    #     directly. This is normally constructed from the `:region`
+    #     option. Configuring `:endpoint` is normally reserved for
+    #     connecting to test or custom endpoints. The endpoint should
+    #     be a URI formatted like:
+    #
+    #         'http://example.com'
+    #         'https://example.com'
+    #         'http://example.com:123'
     #
     #   @option options [Integer] :endpoint_cache_max_entries (1000)
     #     Used for the maximum size limit of the LRU cache storing endpoints data
@@ -209,6 +232,10 @@ module Aws::QuickSight
     #
     #   @option options [Boolean] :endpoint_discovery (false)
     #     When set to `true`, endpoint discovery will be enabled for operations when available.
+    #
+    #   @option options [Boolean] :ignore_configured_endpoint_urls
+    #     Setting to true disables use of endpoint URLs provided via environment
+    #     variables and the shared configuration file.
     #
     #   @option options [Aws::Log::Formatter] :log_formatter (Aws::Log::Formatter.default)
     #     The log formatter.
@@ -229,6 +256,34 @@ module Aws::QuickSight
     #   @option options [String] :profile ("default")
     #     Used when loading credentials from the shared credentials file
     #     at HOME/.aws/credentials.  When not specified, 'default' is used.
+    #
+    #   @option options [String] :request_checksum_calculation ("when_supported")
+    #     Determines when a checksum will be calculated for request payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, a checksum will be
+    #       calculated for all request payloads of operations modeled with the
+    #       `httpChecksum` trait where `requestChecksumRequired` is `true` and/or a
+    #       `requestAlgorithmMember` is modeled.
+    #     * `when_required` - When set, a checksum will only be calculated for
+    #       request payloads of operations modeled with the  `httpChecksum` trait where
+    #       `requestChecksumRequired` is `true` or where a `requestAlgorithmMember`
+    #       is modeled and supplied.
+    #
+    #   @option options [Integer] :request_min_compression_size_bytes (10240)
+    #     The minimum size in bytes that triggers compression for request
+    #     bodies. The value must be non-negative integer value between 0
+    #     and 10485780 bytes inclusive.
+    #
+    #   @option options [String] :response_checksum_validation ("when_supported")
+    #     Determines when checksum validation will be performed on response payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, checksum validation is performed on all
+    #       response payloads of operations modeled with the `httpChecksum` trait where
+    #       `responseAlgorithms` is modeled, except when no modeled checksum algorithms
+    #       are supported.
+    #     * `when_required` - When set, checksum validation is not performed on
+    #       response payloads of operations unless the checksum algorithm is supported and
+    #       the `requestValidationModeMember` member is set to `ENABLED`.
     #
     #   @option options [Proc] :retry_backoff
     #     A proc or lambda used for backoff. Defaults to 2**retries * retry_base_delay.
@@ -274,10 +329,24 @@ module Aws::QuickSight
     #       throttling.  This is a provisional mode that may change behavior
     #       in the future.
     #
+    #   @option options [String] :sdk_ua_app_id
+    #     A unique and opaque application ID that is appended to the
+    #     User-Agent header as app/sdk_ua_app_id. It should have a
+    #     maximum length of 50. This variable is sourced from environment
+    #     variable AWS_SDK_UA_APP_ID or the shared config profile attribute sdk_ua_app_id.
     #
     #   @option options [String] :secret_access_key
     #
     #   @option options [String] :session_token
+    #
+    #   @option options [Array] :sigv4a_signing_region_set
+    #     A list of regions that should be signed with SigV4a signing. When
+    #     not passed, a default `:sigv4a_signing_region_set` is searched for
+    #     in the following locations:
+    #
+    #     * `Aws.config[:sigv4a_signing_region_set]`
+    #     * `ENV['AWS_SIGV4A_SIGNING_REGION_SET']`
+    #     * `~/.aws/config`
     #
     #   @option options [Boolean] :stub_responses (false)
     #     Causes the client to return stubbed responses. By default
@@ -287,6 +356,16 @@ module Aws::QuickSight
     #
     #     ** Please note ** When response stubbing is enabled, no HTTP
     #     requests are made, and retries are disabled.
+    #
+    #   @option options [Aws::Telemetry::TelemetryProviderBase] :telemetry_provider (Aws::Telemetry::NoOpTelemetryProvider)
+    #     Allows you to provide a telemetry provider, which is used to
+    #     emit telemetry data. By default, uses `NoOpTelemetryProvider` which
+    #     will not record or emit any telemetry data. The SDK supports the
+    #     following telemetry providers:
+    #
+    #     * OpenTelemetry (OTel) - To use the OTel provider, install and require the
+    #     `opentelemetry-sdk` gem and then, pass in an instance of a
+    #     `Aws::Telemetry::OTelProvider` for telemetry provider.
     #
     #   @option options [Aws::TokenProvider] :token_provider
     #     A Bearer Token Provider. This can be an instance of any one of the
@@ -315,58 +394,945 @@ module Aws::QuickSight
     #     sending the request.
     #
     #   @option options [Aws::QuickSight::EndpointProvider] :endpoint_provider
-    #     The endpoint provider used to resolve endpoints. Any object that responds to `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to `Aws::QuickSight::EndpointParameters`
+    #     The endpoint provider used to resolve endpoints. Any object that responds to
+    #     `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+    #     `Aws::QuickSight::EndpointParameters`.
     #
-    #   @option options [URI::HTTP,String] :http_proxy A proxy to send
-    #     requests through.  Formatted like 'http://proxy.com:123'.
+    #   @option options [Float] :http_continue_timeout (1)
+    #     The number of seconds to wait for a 100-continue response before sending the
+    #     request body.  This option has no effect unless the request has "Expect"
+    #     header set to "100-continue".  Defaults to `nil` which  disables this
+    #     behaviour.  This value can safely be set per request on the session.
     #
-    #   @option options [Float] :http_open_timeout (15) The number of
-    #     seconds to wait when opening a HTTP session before raising a
-    #     `Timeout::Error`.
+    #   @option options [Float] :http_idle_timeout (5)
+    #     The number of seconds a connection is allowed to sit idle before it
+    #     is considered stale.  Stale connections are closed and removed from the
+    #     pool before making a request.
     #
-    #   @option options [Float] :http_read_timeout (60) The default
-    #     number of seconds to wait for response data.  This value can
-    #     safely be set per-request on the session.
+    #   @option options [Float] :http_open_timeout (15)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :http_idle_timeout (5) The number of
-    #     seconds a connection is allowed to sit idle before it is
-    #     considered stale.  Stale connections are closed and removed
-    #     from the pool before making a request.
+    #   @option options [URI::HTTP,String] :http_proxy
+    #     A proxy to send requests through.  Formatted like 'http://proxy.com:123'.
     #
-    #   @option options [Float] :http_continue_timeout (1) The number of
-    #     seconds to wait for a 100-continue response before sending the
-    #     request body.  This option has no effect unless the request has
-    #     "Expect" header set to "100-continue".  Defaults to `nil` which
-    #     disables this behaviour.  This value can safely be set per
-    #     request on the session.
+    #   @option options [Float] :http_read_timeout (60)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :ssl_timeout (nil) Sets the SSL timeout
-    #     in seconds.
+    #   @option options [Boolean] :http_wire_trace (false)
+    #     When `true`,  HTTP debug output will be sent to the `:logger`.
     #
-    #   @option options [Boolean] :http_wire_trace (false) When `true`,
-    #     HTTP debug output will be sent to the `:logger`.
+    #   @option options [Proc] :on_chunk_received
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the response body is received. It provides three arguments: the chunk,
+    #     the number of bytes received, and the total number of
+    #     bytes in the response (or nil if the server did not send a `content-length`).
     #
-    #   @option options [Boolean] :ssl_verify_peer (true) When `true`,
-    #     SSL peer certificates are verified when establishing a
-    #     connection.
+    #   @option options [Proc] :on_chunk_sent
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the request body is sent. It provides three arguments: the chunk,
+    #     the number of bytes read from the body, and the total number of
+    #     bytes in the body.
     #
-    #   @option options [String] :ssl_ca_bundle Full path to the SSL
-    #     certificate authority bundle file that should be used when
-    #     verifying peer certificates.  If you do not pass
-    #     `:ssl_ca_bundle` or `:ssl_ca_directory` the the system default
-    #     will be used if available.
+    #   @option options [Boolean] :raise_response_errors (true)
+    #     When `true`, response errors are raised.
     #
-    #   @option options [String] :ssl_ca_directory Full path of the
-    #     directory that contains the unbundled SSL certificate
+    #   @option options [String] :ssl_ca_bundle
+    #     Full path to the SSL certificate authority bundle file that should be used when
+    #     verifying peer certificates.  If you do not pass `:ssl_ca_bundle` or
+    #     `:ssl_ca_directory` the the system default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_directory
+    #     Full path of the directory that contains the unbundled SSL certificate
     #     authority files for verifying peer certificates.  If you do
-    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the
-    #     system default will be used if available.
+    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the system
+    #     default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_store
+    #     Sets the X509::Store to verify peer certificate.
+    #
+    #   @option options [OpenSSL::X509::Certificate] :ssl_cert
+    #     Sets a client certificate when creating http connections.
+    #
+    #   @option options [OpenSSL::PKey] :ssl_key
+    #     Sets a client key when creating http connections.
+    #
+    #   @option options [Float] :ssl_timeout
+    #     Sets the SSL timeout in seconds
+    #
+    #   @option options [Boolean] :ssl_verify_peer (true)
+    #     When `true`, SSL peer certificates are verified when establishing a connection.
     #
     def initialize(*args)
       super
     end
 
     # @!group API Operations
+
+    # Creates new reviewed answers for a Q Topic.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that you want to create a
+    #   reviewed answer in.
+    #
+    # @option params [required, String] :topic_id
+    #   The ID for the topic reviewed answer that you want to create. This ID
+    #   is unique per Amazon Web Services Region for each Amazon Web Services
+    #   account.
+    #
+    # @option params [required, Array<Types::CreateTopicReviewedAnswer>] :answers
+    #   The definition of the Answers to be created.
+    #
+    # @return [Types::BatchCreateTopicReviewedAnswerResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::BatchCreateTopicReviewedAnswerResponse#topic_id #topic_id} => String
+    #   * {Types::BatchCreateTopicReviewedAnswerResponse#topic_arn #topic_arn} => String
+    #   * {Types::BatchCreateTopicReviewedAnswerResponse#succeeded_answers #succeeded_answers} => Array&lt;Types::SucceededTopicReviewedAnswer&gt;
+    #   * {Types::BatchCreateTopicReviewedAnswerResponse#invalid_answers #invalid_answers} => Array&lt;Types::InvalidTopicReviewedAnswer&gt;
+    #   * {Types::BatchCreateTopicReviewedAnswerResponse#status #status} => Integer
+    #   * {Types::BatchCreateTopicReviewedAnswerResponse#request_id #request_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.batch_create_topic_reviewed_answer({
+    #     aws_account_id: "AwsAccountId", # required
+    #     topic_id: "TopicId", # required
+    #     answers: [ # required
+    #       {
+    #         answer_id: "AnswerId", # required
+    #         dataset_arn: "Arn", # required
+    #         question: "LimitedString", # required
+    #         mir: {
+    #           metrics: [
+    #             {
+    #               metric_id: {
+    #                 identity: "LimitedString", # required
+    #               },
+    #               function: {
+    #                 aggregation: "SUM", # accepts SUM, MIN, MAX, COUNT, AVERAGE, DISTINCT_COUNT, STDEV, STDEVP, VAR, VARP, PERCENTILE, MEDIAN, PTD_SUM, PTD_MIN, PTD_MAX, PTD_COUNT, PTD_DISTINCT_COUNT, PTD_AVERAGE, COLUMN, CUSTOM
+    #                 aggregation_function_parameters: {
+    #                   "AggFunctionParamKey" => "AggFunctionParamValue",
+    #                 },
+    #                 period: "SECOND", # accepts SECOND, MINUTE, HOUR, DAY, WEEK, MONTH, QUARTER, YEAR
+    #                 period_field: "LimitedString",
+    #               },
+    #               operands: [
+    #                 {
+    #                   identity: "LimitedString", # required
+    #                 },
+    #               ],
+    #               comparison_method: {
+    #                 type: "DIFF", # accepts DIFF, PERC_DIFF, DIFF_AS_PERC, POP_CURRENT_DIFF_AS_PERC, POP_CURRENT_DIFF, POP_OVERTIME_DIFF_AS_PERC, POP_OVERTIME_DIFF, PERCENT_OF_TOTAL, RUNNING_SUM, MOVING_AVERAGE
+    #                 period: "SECOND", # accepts SECOND, MINUTE, HOUR, DAY, WEEK, MONTH, QUARTER, YEAR
+    #                 window_size: 1,
+    #               },
+    #               expression: "Expression",
+    #               calculated_field_references: [
+    #                 {
+    #                   identity: "LimitedString", # required
+    #                 },
+    #               ],
+    #               display_format: "AUTO", # accepts AUTO, PERCENT, CURRENCY, NUMBER, DATE, STRING
+    #               display_format_options: {
+    #                 use_blank_cell_format: false,
+    #                 blank_cell_format: "LimitedString",
+    #                 date_format: "LimitedString",
+    #                 decimal_separator: "COMMA", # accepts COMMA, DOT
+    #                 grouping_separator: "LimitedString",
+    #                 use_grouping: false,
+    #                 fraction_digits: 1,
+    #                 prefix: "LimitedString",
+    #                 suffix: "LimitedString",
+    #                 unit_scaler: "NONE", # accepts NONE, AUTO, THOUSANDS, MILLIONS, BILLIONS, TRILLIONS, LAKHS, CRORES
+    #                 negative_format: {
+    #                   prefix: "LimitedString",
+    #                   suffix: "LimitedString",
+    #                 },
+    #                 currency_symbol: "LimitedString",
+    #               },
+    #               named_entity: {
+    #                 named_entity_name: "LimitedString",
+    #               },
+    #             },
+    #           ],
+    #           group_by_list: [
+    #             {
+    #               field_name: {
+    #                 identity: "LimitedString", # required
+    #               },
+    #               time_granularity: "SECOND", # accepts SECOND, MINUTE, HOUR, DAY, WEEK, MONTH, QUARTER, YEAR
+    #               sort: {
+    #                 operand: {
+    #                   identity: "LimitedString", # required
+    #                 },
+    #                 sort_direction: "ASCENDING", # accepts ASCENDING, DESCENDING
+    #               },
+    #               display_format: "AUTO", # accepts AUTO, PERCENT, CURRENCY, NUMBER, DATE, STRING
+    #               display_format_options: {
+    #                 use_blank_cell_format: false,
+    #                 blank_cell_format: "LimitedString",
+    #                 date_format: "LimitedString",
+    #                 decimal_separator: "COMMA", # accepts COMMA, DOT
+    #                 grouping_separator: "LimitedString",
+    #                 use_grouping: false,
+    #                 fraction_digits: 1,
+    #                 prefix: "LimitedString",
+    #                 suffix: "LimitedString",
+    #                 unit_scaler: "NONE", # accepts NONE, AUTO, THOUSANDS, MILLIONS, BILLIONS, TRILLIONS, LAKHS, CRORES
+    #                 negative_format: {
+    #                   prefix: "LimitedString",
+    #                   suffix: "LimitedString",
+    #                 },
+    #                 currency_symbol: "LimitedString",
+    #               },
+    #               named_entity: {
+    #                 named_entity_name: "LimitedString",
+    #               },
+    #             },
+    #           ],
+    #           filters: [
+    #             [
+    #               {
+    #                 filter_type: "CATEGORY_FILTER", # accepts CATEGORY_FILTER, NUMERIC_EQUALITY_FILTER, NUMERIC_RANGE_FILTER, DATE_RANGE_FILTER, RELATIVE_DATE_FILTER, TOP_BOTTOM_FILTER, EQUALS, RANK_LIMIT_FILTER, ACCEPT_ALL_FILTER
+    #                 filter_class: "ENFORCED_VALUE_FILTER", # accepts ENFORCED_VALUE_FILTER, CONDITIONAL_VALUE_FILTER, NAMED_VALUE_FILTER
+    #                 operand_field: {
+    #                   identity: "LimitedString", # required
+    #                 },
+    #                 function: "CONTAINS", # accepts CONTAINS, EXACT, STARTS_WITH, ENDS_WITH, CONTAINS_STRING, PREVIOUS, THIS, LAST, NEXT, NOW
+    #                 constant: {
+    #                   constant_type: "SINGULAR", # accepts SINGULAR, RANGE, COLLECTIVE
+    #                   value: "ConstantValueString",
+    #                   minimum: "ConstantValueString",
+    #                   maximum: "ConstantValueString",
+    #                   value_list: [
+    #                     {
+    #                       constant_type: "SINGULAR", # accepts SINGULAR, RANGE, COLLECTIVE
+    #                       value: "ConstantValueString",
+    #                     },
+    #                   ],
+    #                 },
+    #                 inverse: false,
+    #                 null_filter: "ALL_VALUES", # accepts ALL_VALUES, NON_NULLS_ONLY, NULLS_ONLY
+    #                 aggregation: "SUM", # accepts SUM, MIN, MAX, COUNT, AVERAGE, DISTINCT_COUNT, STDEV, STDEVP, VAR, VARP, PERCENTILE, MEDIAN, PTD_SUM, PTD_MIN, PTD_MAX, PTD_COUNT, PTD_DISTINCT_COUNT, PTD_AVERAGE, COLUMN, CUSTOM
+    #                 aggregation_function_parameters: {
+    #                   "AggFunctionParamKey" => "AggFunctionParamValue",
+    #                 },
+    #                 aggregation_partition_by: [
+    #                   {
+    #                     field_name: "LimitedString",
+    #                     time_granularity: "YEAR", # accepts YEAR, QUARTER, MONTH, WEEK, DAY, HOUR, MINUTE, SECOND, MILLISECOND
+    #                   },
+    #                 ],
+    #                 range: {
+    #                   constant_type: "SINGULAR", # accepts SINGULAR, RANGE, COLLECTIVE
+    #                   value: "ConstantValueString",
+    #                   minimum: "ConstantValueString",
+    #                   maximum: "ConstantValueString",
+    #                   value_list: [
+    #                     {
+    #                       constant_type: "SINGULAR", # accepts SINGULAR, RANGE, COLLECTIVE
+    #                       value: "ConstantValueString",
+    #                     },
+    #                   ],
+    #                 },
+    #                 inclusive: false,
+    #                 time_granularity: "YEAR", # accepts YEAR, QUARTER, MONTH, WEEK, DAY, HOUR, MINUTE, SECOND, MILLISECOND
+    #                 last_next_offset: {
+    #                   constant_type: "SINGULAR", # accepts SINGULAR, RANGE, COLLECTIVE
+    #                   value: "ConstantValueString",
+    #                   minimum: "ConstantValueString",
+    #                   maximum: "ConstantValueString",
+    #                   value_list: [
+    #                     {
+    #                       constant_type: "SINGULAR", # accepts SINGULAR, RANGE, COLLECTIVE
+    #                       value: "ConstantValueString",
+    #                     },
+    #                   ],
+    #                 },
+    #                 agg_metrics: [
+    #                   {
+    #                     metric_operand: {
+    #                       identity: "LimitedString", # required
+    #                     },
+    #                     function: "SUM", # accepts SUM, MIN, MAX, COUNT, AVERAGE, DISTINCT_COUNT, STDEV, STDEVP, VAR, VARP, PERCENTILE, MEDIAN, PTD_SUM, PTD_MIN, PTD_MAX, PTD_COUNT, PTD_DISTINCT_COUNT, PTD_AVERAGE, COLUMN, CUSTOM
+    #                     sort_direction: "ASCENDING", # accepts ASCENDING, DESCENDING
+    #                   },
+    #                 ],
+    #                 top_bottom_limit: {
+    #                   constant_type: "SINGULAR", # accepts SINGULAR, RANGE, COLLECTIVE
+    #                   value: "ConstantValueString",
+    #                   minimum: "ConstantValueString",
+    #                   maximum: "ConstantValueString",
+    #                   value_list: [
+    #                     {
+    #                       constant_type: "SINGULAR", # accepts SINGULAR, RANGE, COLLECTIVE
+    #                       value: "ConstantValueString",
+    #                     },
+    #                   ],
+    #                 },
+    #                 sort_direction: "ASCENDING", # accepts ASCENDING, DESCENDING
+    #                 anchor: {
+    #                   anchor_type: "TODAY", # accepts TODAY
+    #                   time_granularity: "YEAR", # accepts YEAR, QUARTER, MONTH, WEEK, DAY, HOUR, MINUTE, SECOND, MILLISECOND
+    #                   offset: 1,
+    #                 },
+    #               },
+    #             ],
+    #           ],
+    #           sort: {
+    #             operand: {
+    #               identity: "LimitedString", # required
+    #             },
+    #             sort_direction: "ASCENDING", # accepts ASCENDING, DESCENDING
+    #           },
+    #           contribution_analysis: {
+    #             factors: [
+    #               {
+    #                 field_name: "LimitedString",
+    #               },
+    #             ],
+    #             time_ranges: {
+    #               start_range: {
+    #                 filter_type: "CATEGORY_FILTER", # accepts CATEGORY_FILTER, NUMERIC_EQUALITY_FILTER, NUMERIC_RANGE_FILTER, DATE_RANGE_FILTER, RELATIVE_DATE_FILTER, TOP_BOTTOM_FILTER, EQUALS, RANK_LIMIT_FILTER, ACCEPT_ALL_FILTER
+    #                 filter_class: "ENFORCED_VALUE_FILTER", # accepts ENFORCED_VALUE_FILTER, CONDITIONAL_VALUE_FILTER, NAMED_VALUE_FILTER
+    #                 operand_field: {
+    #                   identity: "LimitedString", # required
+    #                 },
+    #                 function: "CONTAINS", # accepts CONTAINS, EXACT, STARTS_WITH, ENDS_WITH, CONTAINS_STRING, PREVIOUS, THIS, LAST, NEXT, NOW
+    #                 constant: {
+    #                   constant_type: "SINGULAR", # accepts SINGULAR, RANGE, COLLECTIVE
+    #                   value: "ConstantValueString",
+    #                   minimum: "ConstantValueString",
+    #                   maximum: "ConstantValueString",
+    #                   value_list: [
+    #                     {
+    #                       constant_type: "SINGULAR", # accepts SINGULAR, RANGE, COLLECTIVE
+    #                       value: "ConstantValueString",
+    #                     },
+    #                   ],
+    #                 },
+    #                 inverse: false,
+    #                 null_filter: "ALL_VALUES", # accepts ALL_VALUES, NON_NULLS_ONLY, NULLS_ONLY
+    #                 aggregation: "SUM", # accepts SUM, MIN, MAX, COUNT, AVERAGE, DISTINCT_COUNT, STDEV, STDEVP, VAR, VARP, PERCENTILE, MEDIAN, PTD_SUM, PTD_MIN, PTD_MAX, PTD_COUNT, PTD_DISTINCT_COUNT, PTD_AVERAGE, COLUMN, CUSTOM
+    #                 aggregation_function_parameters: {
+    #                   "AggFunctionParamKey" => "AggFunctionParamValue",
+    #                 },
+    #                 aggregation_partition_by: [
+    #                   {
+    #                     field_name: "LimitedString",
+    #                     time_granularity: "YEAR", # accepts YEAR, QUARTER, MONTH, WEEK, DAY, HOUR, MINUTE, SECOND, MILLISECOND
+    #                   },
+    #                 ],
+    #                 range: {
+    #                   constant_type: "SINGULAR", # accepts SINGULAR, RANGE, COLLECTIVE
+    #                   value: "ConstantValueString",
+    #                   minimum: "ConstantValueString",
+    #                   maximum: "ConstantValueString",
+    #                   value_list: [
+    #                     {
+    #                       constant_type: "SINGULAR", # accepts SINGULAR, RANGE, COLLECTIVE
+    #                       value: "ConstantValueString",
+    #                     },
+    #                   ],
+    #                 },
+    #                 inclusive: false,
+    #                 time_granularity: "YEAR", # accepts YEAR, QUARTER, MONTH, WEEK, DAY, HOUR, MINUTE, SECOND, MILLISECOND
+    #                 last_next_offset: {
+    #                   constant_type: "SINGULAR", # accepts SINGULAR, RANGE, COLLECTIVE
+    #                   value: "ConstantValueString",
+    #                   minimum: "ConstantValueString",
+    #                   maximum: "ConstantValueString",
+    #                   value_list: [
+    #                     {
+    #                       constant_type: "SINGULAR", # accepts SINGULAR, RANGE, COLLECTIVE
+    #                       value: "ConstantValueString",
+    #                     },
+    #                   ],
+    #                 },
+    #                 agg_metrics: [
+    #                   {
+    #                     metric_operand: {
+    #                       identity: "LimitedString", # required
+    #                     },
+    #                     function: "SUM", # accepts SUM, MIN, MAX, COUNT, AVERAGE, DISTINCT_COUNT, STDEV, STDEVP, VAR, VARP, PERCENTILE, MEDIAN, PTD_SUM, PTD_MIN, PTD_MAX, PTD_COUNT, PTD_DISTINCT_COUNT, PTD_AVERAGE, COLUMN, CUSTOM
+    #                     sort_direction: "ASCENDING", # accepts ASCENDING, DESCENDING
+    #                   },
+    #                 ],
+    #                 top_bottom_limit: {
+    #                   constant_type: "SINGULAR", # accepts SINGULAR, RANGE, COLLECTIVE
+    #                   value: "ConstantValueString",
+    #                   minimum: "ConstantValueString",
+    #                   maximum: "ConstantValueString",
+    #                   value_list: [
+    #                     {
+    #                       constant_type: "SINGULAR", # accepts SINGULAR, RANGE, COLLECTIVE
+    #                       value: "ConstantValueString",
+    #                     },
+    #                   ],
+    #                 },
+    #                 sort_direction: "ASCENDING", # accepts ASCENDING, DESCENDING
+    #                 anchor: {
+    #                   anchor_type: "TODAY", # accepts TODAY
+    #                   time_granularity: "YEAR", # accepts YEAR, QUARTER, MONTH, WEEK, DAY, HOUR, MINUTE, SECOND, MILLISECOND
+    #                   offset: 1,
+    #                 },
+    #               },
+    #               end_range: {
+    #                 filter_type: "CATEGORY_FILTER", # accepts CATEGORY_FILTER, NUMERIC_EQUALITY_FILTER, NUMERIC_RANGE_FILTER, DATE_RANGE_FILTER, RELATIVE_DATE_FILTER, TOP_BOTTOM_FILTER, EQUALS, RANK_LIMIT_FILTER, ACCEPT_ALL_FILTER
+    #                 filter_class: "ENFORCED_VALUE_FILTER", # accepts ENFORCED_VALUE_FILTER, CONDITIONAL_VALUE_FILTER, NAMED_VALUE_FILTER
+    #                 operand_field: {
+    #                   identity: "LimitedString", # required
+    #                 },
+    #                 function: "CONTAINS", # accepts CONTAINS, EXACT, STARTS_WITH, ENDS_WITH, CONTAINS_STRING, PREVIOUS, THIS, LAST, NEXT, NOW
+    #                 constant: {
+    #                   constant_type: "SINGULAR", # accepts SINGULAR, RANGE, COLLECTIVE
+    #                   value: "ConstantValueString",
+    #                   minimum: "ConstantValueString",
+    #                   maximum: "ConstantValueString",
+    #                   value_list: [
+    #                     {
+    #                       constant_type: "SINGULAR", # accepts SINGULAR, RANGE, COLLECTIVE
+    #                       value: "ConstantValueString",
+    #                     },
+    #                   ],
+    #                 },
+    #                 inverse: false,
+    #                 null_filter: "ALL_VALUES", # accepts ALL_VALUES, NON_NULLS_ONLY, NULLS_ONLY
+    #                 aggregation: "SUM", # accepts SUM, MIN, MAX, COUNT, AVERAGE, DISTINCT_COUNT, STDEV, STDEVP, VAR, VARP, PERCENTILE, MEDIAN, PTD_SUM, PTD_MIN, PTD_MAX, PTD_COUNT, PTD_DISTINCT_COUNT, PTD_AVERAGE, COLUMN, CUSTOM
+    #                 aggregation_function_parameters: {
+    #                   "AggFunctionParamKey" => "AggFunctionParamValue",
+    #                 },
+    #                 aggregation_partition_by: [
+    #                   {
+    #                     field_name: "LimitedString",
+    #                     time_granularity: "YEAR", # accepts YEAR, QUARTER, MONTH, WEEK, DAY, HOUR, MINUTE, SECOND, MILLISECOND
+    #                   },
+    #                 ],
+    #                 range: {
+    #                   constant_type: "SINGULAR", # accepts SINGULAR, RANGE, COLLECTIVE
+    #                   value: "ConstantValueString",
+    #                   minimum: "ConstantValueString",
+    #                   maximum: "ConstantValueString",
+    #                   value_list: [
+    #                     {
+    #                       constant_type: "SINGULAR", # accepts SINGULAR, RANGE, COLLECTIVE
+    #                       value: "ConstantValueString",
+    #                     },
+    #                   ],
+    #                 },
+    #                 inclusive: false,
+    #                 time_granularity: "YEAR", # accepts YEAR, QUARTER, MONTH, WEEK, DAY, HOUR, MINUTE, SECOND, MILLISECOND
+    #                 last_next_offset: {
+    #                   constant_type: "SINGULAR", # accepts SINGULAR, RANGE, COLLECTIVE
+    #                   value: "ConstantValueString",
+    #                   minimum: "ConstantValueString",
+    #                   maximum: "ConstantValueString",
+    #                   value_list: [
+    #                     {
+    #                       constant_type: "SINGULAR", # accepts SINGULAR, RANGE, COLLECTIVE
+    #                       value: "ConstantValueString",
+    #                     },
+    #                   ],
+    #                 },
+    #                 agg_metrics: [
+    #                   {
+    #                     metric_operand: {
+    #                       identity: "LimitedString", # required
+    #                     },
+    #                     function: "SUM", # accepts SUM, MIN, MAX, COUNT, AVERAGE, DISTINCT_COUNT, STDEV, STDEVP, VAR, VARP, PERCENTILE, MEDIAN, PTD_SUM, PTD_MIN, PTD_MAX, PTD_COUNT, PTD_DISTINCT_COUNT, PTD_AVERAGE, COLUMN, CUSTOM
+    #                     sort_direction: "ASCENDING", # accepts ASCENDING, DESCENDING
+    #                   },
+    #                 ],
+    #                 top_bottom_limit: {
+    #                   constant_type: "SINGULAR", # accepts SINGULAR, RANGE, COLLECTIVE
+    #                   value: "ConstantValueString",
+    #                   minimum: "ConstantValueString",
+    #                   maximum: "ConstantValueString",
+    #                   value_list: [
+    #                     {
+    #                       constant_type: "SINGULAR", # accepts SINGULAR, RANGE, COLLECTIVE
+    #                       value: "ConstantValueString",
+    #                     },
+    #                   ],
+    #                 },
+    #                 sort_direction: "ASCENDING", # accepts ASCENDING, DESCENDING
+    #                 anchor: {
+    #                   anchor_type: "TODAY", # accepts TODAY
+    #                   time_granularity: "YEAR", # accepts YEAR, QUARTER, MONTH, WEEK, DAY, HOUR, MINUTE, SECOND, MILLISECOND
+    #                   offset: 1,
+    #                 },
+    #               },
+    #             },
+    #             direction: "INCREASE", # accepts INCREASE, DECREASE, NEUTRAL
+    #             sort_type: "ABSOLUTE_DIFFERENCE", # accepts ABSOLUTE_DIFFERENCE, CONTRIBUTION_PERCENTAGE, DEVIATION_FROM_EXPECTED, PERCENTAGE_DIFFERENCE
+    #           },
+    #           visual: {
+    #             type: "LimitedString",
+    #           },
+    #         },
+    #         primary_visual: {
+    #           visual_id: "LimitedString",
+    #           role: "PRIMARY", # accepts PRIMARY, COMPLIMENTARY, MULTI_INTENT, FALLBACK, FRAGMENT
+    #           ir: {
+    #             metrics: [
+    #               {
+    #                 metric_id: {
+    #                   identity: "LimitedString", # required
+    #                 },
+    #                 function: {
+    #                   aggregation: "SUM", # accepts SUM, MIN, MAX, COUNT, AVERAGE, DISTINCT_COUNT, STDEV, STDEVP, VAR, VARP, PERCENTILE, MEDIAN, PTD_SUM, PTD_MIN, PTD_MAX, PTD_COUNT, PTD_DISTINCT_COUNT, PTD_AVERAGE, COLUMN, CUSTOM
+    #                   aggregation_function_parameters: {
+    #                     "AggFunctionParamKey" => "AggFunctionParamValue",
+    #                   },
+    #                   period: "SECOND", # accepts SECOND, MINUTE, HOUR, DAY, WEEK, MONTH, QUARTER, YEAR
+    #                   period_field: "LimitedString",
+    #                 },
+    #                 operands: [
+    #                   {
+    #                     identity: "LimitedString", # required
+    #                   },
+    #                 ],
+    #                 comparison_method: {
+    #                   type: "DIFF", # accepts DIFF, PERC_DIFF, DIFF_AS_PERC, POP_CURRENT_DIFF_AS_PERC, POP_CURRENT_DIFF, POP_OVERTIME_DIFF_AS_PERC, POP_OVERTIME_DIFF, PERCENT_OF_TOTAL, RUNNING_SUM, MOVING_AVERAGE
+    #                   period: "SECOND", # accepts SECOND, MINUTE, HOUR, DAY, WEEK, MONTH, QUARTER, YEAR
+    #                   window_size: 1,
+    #                 },
+    #                 expression: "Expression",
+    #                 calculated_field_references: [
+    #                   {
+    #                     identity: "LimitedString", # required
+    #                   },
+    #                 ],
+    #                 display_format: "AUTO", # accepts AUTO, PERCENT, CURRENCY, NUMBER, DATE, STRING
+    #                 display_format_options: {
+    #                   use_blank_cell_format: false,
+    #                   blank_cell_format: "LimitedString",
+    #                   date_format: "LimitedString",
+    #                   decimal_separator: "COMMA", # accepts COMMA, DOT
+    #                   grouping_separator: "LimitedString",
+    #                   use_grouping: false,
+    #                   fraction_digits: 1,
+    #                   prefix: "LimitedString",
+    #                   suffix: "LimitedString",
+    #                   unit_scaler: "NONE", # accepts NONE, AUTO, THOUSANDS, MILLIONS, BILLIONS, TRILLIONS, LAKHS, CRORES
+    #                   negative_format: {
+    #                     prefix: "LimitedString",
+    #                     suffix: "LimitedString",
+    #                   },
+    #                   currency_symbol: "LimitedString",
+    #                 },
+    #                 named_entity: {
+    #                   named_entity_name: "LimitedString",
+    #                 },
+    #               },
+    #             ],
+    #             group_by_list: [
+    #               {
+    #                 field_name: {
+    #                   identity: "LimitedString", # required
+    #                 },
+    #                 time_granularity: "SECOND", # accepts SECOND, MINUTE, HOUR, DAY, WEEK, MONTH, QUARTER, YEAR
+    #                 sort: {
+    #                   operand: {
+    #                     identity: "LimitedString", # required
+    #                   },
+    #                   sort_direction: "ASCENDING", # accepts ASCENDING, DESCENDING
+    #                 },
+    #                 display_format: "AUTO", # accepts AUTO, PERCENT, CURRENCY, NUMBER, DATE, STRING
+    #                 display_format_options: {
+    #                   use_blank_cell_format: false,
+    #                   blank_cell_format: "LimitedString",
+    #                   date_format: "LimitedString",
+    #                   decimal_separator: "COMMA", # accepts COMMA, DOT
+    #                   grouping_separator: "LimitedString",
+    #                   use_grouping: false,
+    #                   fraction_digits: 1,
+    #                   prefix: "LimitedString",
+    #                   suffix: "LimitedString",
+    #                   unit_scaler: "NONE", # accepts NONE, AUTO, THOUSANDS, MILLIONS, BILLIONS, TRILLIONS, LAKHS, CRORES
+    #                   negative_format: {
+    #                     prefix: "LimitedString",
+    #                     suffix: "LimitedString",
+    #                   },
+    #                   currency_symbol: "LimitedString",
+    #                 },
+    #                 named_entity: {
+    #                   named_entity_name: "LimitedString",
+    #                 },
+    #               },
+    #             ],
+    #             filters: [
+    #               [
+    #                 {
+    #                   filter_type: "CATEGORY_FILTER", # accepts CATEGORY_FILTER, NUMERIC_EQUALITY_FILTER, NUMERIC_RANGE_FILTER, DATE_RANGE_FILTER, RELATIVE_DATE_FILTER, TOP_BOTTOM_FILTER, EQUALS, RANK_LIMIT_FILTER, ACCEPT_ALL_FILTER
+    #                   filter_class: "ENFORCED_VALUE_FILTER", # accepts ENFORCED_VALUE_FILTER, CONDITIONAL_VALUE_FILTER, NAMED_VALUE_FILTER
+    #                   operand_field: {
+    #                     identity: "LimitedString", # required
+    #                   },
+    #                   function: "CONTAINS", # accepts CONTAINS, EXACT, STARTS_WITH, ENDS_WITH, CONTAINS_STRING, PREVIOUS, THIS, LAST, NEXT, NOW
+    #                   constant: {
+    #                     constant_type: "SINGULAR", # accepts SINGULAR, RANGE, COLLECTIVE
+    #                     value: "ConstantValueString",
+    #                     minimum: "ConstantValueString",
+    #                     maximum: "ConstantValueString",
+    #                     value_list: [
+    #                       {
+    #                         constant_type: "SINGULAR", # accepts SINGULAR, RANGE, COLLECTIVE
+    #                         value: "ConstantValueString",
+    #                       },
+    #                     ],
+    #                   },
+    #                   inverse: false,
+    #                   null_filter: "ALL_VALUES", # accepts ALL_VALUES, NON_NULLS_ONLY, NULLS_ONLY
+    #                   aggregation: "SUM", # accepts SUM, MIN, MAX, COUNT, AVERAGE, DISTINCT_COUNT, STDEV, STDEVP, VAR, VARP, PERCENTILE, MEDIAN, PTD_SUM, PTD_MIN, PTD_MAX, PTD_COUNT, PTD_DISTINCT_COUNT, PTD_AVERAGE, COLUMN, CUSTOM
+    #                   aggregation_function_parameters: {
+    #                     "AggFunctionParamKey" => "AggFunctionParamValue",
+    #                   },
+    #                   aggregation_partition_by: [
+    #                     {
+    #                       field_name: "LimitedString",
+    #                       time_granularity: "YEAR", # accepts YEAR, QUARTER, MONTH, WEEK, DAY, HOUR, MINUTE, SECOND, MILLISECOND
+    #                     },
+    #                   ],
+    #                   range: {
+    #                     constant_type: "SINGULAR", # accepts SINGULAR, RANGE, COLLECTIVE
+    #                     value: "ConstantValueString",
+    #                     minimum: "ConstantValueString",
+    #                     maximum: "ConstantValueString",
+    #                     value_list: [
+    #                       {
+    #                         constant_type: "SINGULAR", # accepts SINGULAR, RANGE, COLLECTIVE
+    #                         value: "ConstantValueString",
+    #                       },
+    #                     ],
+    #                   },
+    #                   inclusive: false,
+    #                   time_granularity: "YEAR", # accepts YEAR, QUARTER, MONTH, WEEK, DAY, HOUR, MINUTE, SECOND, MILLISECOND
+    #                   last_next_offset: {
+    #                     constant_type: "SINGULAR", # accepts SINGULAR, RANGE, COLLECTIVE
+    #                     value: "ConstantValueString",
+    #                     minimum: "ConstantValueString",
+    #                     maximum: "ConstantValueString",
+    #                     value_list: [
+    #                       {
+    #                         constant_type: "SINGULAR", # accepts SINGULAR, RANGE, COLLECTIVE
+    #                         value: "ConstantValueString",
+    #                       },
+    #                     ],
+    #                   },
+    #                   agg_metrics: [
+    #                     {
+    #                       metric_operand: {
+    #                         identity: "LimitedString", # required
+    #                       },
+    #                       function: "SUM", # accepts SUM, MIN, MAX, COUNT, AVERAGE, DISTINCT_COUNT, STDEV, STDEVP, VAR, VARP, PERCENTILE, MEDIAN, PTD_SUM, PTD_MIN, PTD_MAX, PTD_COUNT, PTD_DISTINCT_COUNT, PTD_AVERAGE, COLUMN, CUSTOM
+    #                       sort_direction: "ASCENDING", # accepts ASCENDING, DESCENDING
+    #                     },
+    #                   ],
+    #                   top_bottom_limit: {
+    #                     constant_type: "SINGULAR", # accepts SINGULAR, RANGE, COLLECTIVE
+    #                     value: "ConstantValueString",
+    #                     minimum: "ConstantValueString",
+    #                     maximum: "ConstantValueString",
+    #                     value_list: [
+    #                       {
+    #                         constant_type: "SINGULAR", # accepts SINGULAR, RANGE, COLLECTIVE
+    #                         value: "ConstantValueString",
+    #                       },
+    #                     ],
+    #                   },
+    #                   sort_direction: "ASCENDING", # accepts ASCENDING, DESCENDING
+    #                   anchor: {
+    #                     anchor_type: "TODAY", # accepts TODAY
+    #                     time_granularity: "YEAR", # accepts YEAR, QUARTER, MONTH, WEEK, DAY, HOUR, MINUTE, SECOND, MILLISECOND
+    #                     offset: 1,
+    #                   },
+    #                 },
+    #               ],
+    #             ],
+    #             sort: {
+    #               operand: {
+    #                 identity: "LimitedString", # required
+    #               },
+    #               sort_direction: "ASCENDING", # accepts ASCENDING, DESCENDING
+    #             },
+    #             contribution_analysis: {
+    #               factors: [
+    #                 {
+    #                   field_name: "LimitedString",
+    #                 },
+    #               ],
+    #               time_ranges: {
+    #                 start_range: {
+    #                   filter_type: "CATEGORY_FILTER", # accepts CATEGORY_FILTER, NUMERIC_EQUALITY_FILTER, NUMERIC_RANGE_FILTER, DATE_RANGE_FILTER, RELATIVE_DATE_FILTER, TOP_BOTTOM_FILTER, EQUALS, RANK_LIMIT_FILTER, ACCEPT_ALL_FILTER
+    #                   filter_class: "ENFORCED_VALUE_FILTER", # accepts ENFORCED_VALUE_FILTER, CONDITIONAL_VALUE_FILTER, NAMED_VALUE_FILTER
+    #                   operand_field: {
+    #                     identity: "LimitedString", # required
+    #                   },
+    #                   function: "CONTAINS", # accepts CONTAINS, EXACT, STARTS_WITH, ENDS_WITH, CONTAINS_STRING, PREVIOUS, THIS, LAST, NEXT, NOW
+    #                   constant: {
+    #                     constant_type: "SINGULAR", # accepts SINGULAR, RANGE, COLLECTIVE
+    #                     value: "ConstantValueString",
+    #                     minimum: "ConstantValueString",
+    #                     maximum: "ConstantValueString",
+    #                     value_list: [
+    #                       {
+    #                         constant_type: "SINGULAR", # accepts SINGULAR, RANGE, COLLECTIVE
+    #                         value: "ConstantValueString",
+    #                       },
+    #                     ],
+    #                   },
+    #                   inverse: false,
+    #                   null_filter: "ALL_VALUES", # accepts ALL_VALUES, NON_NULLS_ONLY, NULLS_ONLY
+    #                   aggregation: "SUM", # accepts SUM, MIN, MAX, COUNT, AVERAGE, DISTINCT_COUNT, STDEV, STDEVP, VAR, VARP, PERCENTILE, MEDIAN, PTD_SUM, PTD_MIN, PTD_MAX, PTD_COUNT, PTD_DISTINCT_COUNT, PTD_AVERAGE, COLUMN, CUSTOM
+    #                   aggregation_function_parameters: {
+    #                     "AggFunctionParamKey" => "AggFunctionParamValue",
+    #                   },
+    #                   aggregation_partition_by: [
+    #                     {
+    #                       field_name: "LimitedString",
+    #                       time_granularity: "YEAR", # accepts YEAR, QUARTER, MONTH, WEEK, DAY, HOUR, MINUTE, SECOND, MILLISECOND
+    #                     },
+    #                   ],
+    #                   range: {
+    #                     constant_type: "SINGULAR", # accepts SINGULAR, RANGE, COLLECTIVE
+    #                     value: "ConstantValueString",
+    #                     minimum: "ConstantValueString",
+    #                     maximum: "ConstantValueString",
+    #                     value_list: [
+    #                       {
+    #                         constant_type: "SINGULAR", # accepts SINGULAR, RANGE, COLLECTIVE
+    #                         value: "ConstantValueString",
+    #                       },
+    #                     ],
+    #                   },
+    #                   inclusive: false,
+    #                   time_granularity: "YEAR", # accepts YEAR, QUARTER, MONTH, WEEK, DAY, HOUR, MINUTE, SECOND, MILLISECOND
+    #                   last_next_offset: {
+    #                     constant_type: "SINGULAR", # accepts SINGULAR, RANGE, COLLECTIVE
+    #                     value: "ConstantValueString",
+    #                     minimum: "ConstantValueString",
+    #                     maximum: "ConstantValueString",
+    #                     value_list: [
+    #                       {
+    #                         constant_type: "SINGULAR", # accepts SINGULAR, RANGE, COLLECTIVE
+    #                         value: "ConstantValueString",
+    #                       },
+    #                     ],
+    #                   },
+    #                   agg_metrics: [
+    #                     {
+    #                       metric_operand: {
+    #                         identity: "LimitedString", # required
+    #                       },
+    #                       function: "SUM", # accepts SUM, MIN, MAX, COUNT, AVERAGE, DISTINCT_COUNT, STDEV, STDEVP, VAR, VARP, PERCENTILE, MEDIAN, PTD_SUM, PTD_MIN, PTD_MAX, PTD_COUNT, PTD_DISTINCT_COUNT, PTD_AVERAGE, COLUMN, CUSTOM
+    #                       sort_direction: "ASCENDING", # accepts ASCENDING, DESCENDING
+    #                     },
+    #                   ],
+    #                   top_bottom_limit: {
+    #                     constant_type: "SINGULAR", # accepts SINGULAR, RANGE, COLLECTIVE
+    #                     value: "ConstantValueString",
+    #                     minimum: "ConstantValueString",
+    #                     maximum: "ConstantValueString",
+    #                     value_list: [
+    #                       {
+    #                         constant_type: "SINGULAR", # accepts SINGULAR, RANGE, COLLECTIVE
+    #                         value: "ConstantValueString",
+    #                       },
+    #                     ],
+    #                   },
+    #                   sort_direction: "ASCENDING", # accepts ASCENDING, DESCENDING
+    #                   anchor: {
+    #                     anchor_type: "TODAY", # accepts TODAY
+    #                     time_granularity: "YEAR", # accepts YEAR, QUARTER, MONTH, WEEK, DAY, HOUR, MINUTE, SECOND, MILLISECOND
+    #                     offset: 1,
+    #                   },
+    #                 },
+    #                 end_range: {
+    #                   filter_type: "CATEGORY_FILTER", # accepts CATEGORY_FILTER, NUMERIC_EQUALITY_FILTER, NUMERIC_RANGE_FILTER, DATE_RANGE_FILTER, RELATIVE_DATE_FILTER, TOP_BOTTOM_FILTER, EQUALS, RANK_LIMIT_FILTER, ACCEPT_ALL_FILTER
+    #                   filter_class: "ENFORCED_VALUE_FILTER", # accepts ENFORCED_VALUE_FILTER, CONDITIONAL_VALUE_FILTER, NAMED_VALUE_FILTER
+    #                   operand_field: {
+    #                     identity: "LimitedString", # required
+    #                   },
+    #                   function: "CONTAINS", # accepts CONTAINS, EXACT, STARTS_WITH, ENDS_WITH, CONTAINS_STRING, PREVIOUS, THIS, LAST, NEXT, NOW
+    #                   constant: {
+    #                     constant_type: "SINGULAR", # accepts SINGULAR, RANGE, COLLECTIVE
+    #                     value: "ConstantValueString",
+    #                     minimum: "ConstantValueString",
+    #                     maximum: "ConstantValueString",
+    #                     value_list: [
+    #                       {
+    #                         constant_type: "SINGULAR", # accepts SINGULAR, RANGE, COLLECTIVE
+    #                         value: "ConstantValueString",
+    #                       },
+    #                     ],
+    #                   },
+    #                   inverse: false,
+    #                   null_filter: "ALL_VALUES", # accepts ALL_VALUES, NON_NULLS_ONLY, NULLS_ONLY
+    #                   aggregation: "SUM", # accepts SUM, MIN, MAX, COUNT, AVERAGE, DISTINCT_COUNT, STDEV, STDEVP, VAR, VARP, PERCENTILE, MEDIAN, PTD_SUM, PTD_MIN, PTD_MAX, PTD_COUNT, PTD_DISTINCT_COUNT, PTD_AVERAGE, COLUMN, CUSTOM
+    #                   aggregation_function_parameters: {
+    #                     "AggFunctionParamKey" => "AggFunctionParamValue",
+    #                   },
+    #                   aggregation_partition_by: [
+    #                     {
+    #                       field_name: "LimitedString",
+    #                       time_granularity: "YEAR", # accepts YEAR, QUARTER, MONTH, WEEK, DAY, HOUR, MINUTE, SECOND, MILLISECOND
+    #                     },
+    #                   ],
+    #                   range: {
+    #                     constant_type: "SINGULAR", # accepts SINGULAR, RANGE, COLLECTIVE
+    #                     value: "ConstantValueString",
+    #                     minimum: "ConstantValueString",
+    #                     maximum: "ConstantValueString",
+    #                     value_list: [
+    #                       {
+    #                         constant_type: "SINGULAR", # accepts SINGULAR, RANGE, COLLECTIVE
+    #                         value: "ConstantValueString",
+    #                       },
+    #                     ],
+    #                   },
+    #                   inclusive: false,
+    #                   time_granularity: "YEAR", # accepts YEAR, QUARTER, MONTH, WEEK, DAY, HOUR, MINUTE, SECOND, MILLISECOND
+    #                   last_next_offset: {
+    #                     constant_type: "SINGULAR", # accepts SINGULAR, RANGE, COLLECTIVE
+    #                     value: "ConstantValueString",
+    #                     minimum: "ConstantValueString",
+    #                     maximum: "ConstantValueString",
+    #                     value_list: [
+    #                       {
+    #                         constant_type: "SINGULAR", # accepts SINGULAR, RANGE, COLLECTIVE
+    #                         value: "ConstantValueString",
+    #                       },
+    #                     ],
+    #                   },
+    #                   agg_metrics: [
+    #                     {
+    #                       metric_operand: {
+    #                         identity: "LimitedString", # required
+    #                       },
+    #                       function: "SUM", # accepts SUM, MIN, MAX, COUNT, AVERAGE, DISTINCT_COUNT, STDEV, STDEVP, VAR, VARP, PERCENTILE, MEDIAN, PTD_SUM, PTD_MIN, PTD_MAX, PTD_COUNT, PTD_DISTINCT_COUNT, PTD_AVERAGE, COLUMN, CUSTOM
+    #                       sort_direction: "ASCENDING", # accepts ASCENDING, DESCENDING
+    #                     },
+    #                   ],
+    #                   top_bottom_limit: {
+    #                     constant_type: "SINGULAR", # accepts SINGULAR, RANGE, COLLECTIVE
+    #                     value: "ConstantValueString",
+    #                     minimum: "ConstantValueString",
+    #                     maximum: "ConstantValueString",
+    #                     value_list: [
+    #                       {
+    #                         constant_type: "SINGULAR", # accepts SINGULAR, RANGE, COLLECTIVE
+    #                         value: "ConstantValueString",
+    #                       },
+    #                     ],
+    #                   },
+    #                   sort_direction: "ASCENDING", # accepts ASCENDING, DESCENDING
+    #                   anchor: {
+    #                     anchor_type: "TODAY", # accepts TODAY
+    #                     time_granularity: "YEAR", # accepts YEAR, QUARTER, MONTH, WEEK, DAY, HOUR, MINUTE, SECOND, MILLISECOND
+    #                     offset: 1,
+    #                   },
+    #                 },
+    #               },
+    #               direction: "INCREASE", # accepts INCREASE, DECREASE, NEUTRAL
+    #               sort_type: "ABSOLUTE_DIFFERENCE", # accepts ABSOLUTE_DIFFERENCE, CONTRIBUTION_PERCENTAGE, DEVIATION_FROM_EXPECTED, PERCENTAGE_DIFFERENCE
+    #             },
+    #             visual: {
+    #               type: "LimitedString",
+    #             },
+    #           },
+    #           supporting_visuals: [
+    #             {
+    #               # recursive TopicVisual
+    #             },
+    #           ],
+    #         },
+    #         template: {
+    #           template_type: "LimitedString",
+    #           slots: [
+    #             {
+    #               slot_id: "LimitedString",
+    #               visual_id: "LimitedString",
+    #             },
+    #           ],
+    #         },
+    #       },
+    #     ],
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.topic_id #=> String
+    #   resp.topic_arn #=> String
+    #   resp.succeeded_answers #=> Array
+    #   resp.succeeded_answers[0].answer_id #=> String
+    #   resp.invalid_answers #=> Array
+    #   resp.invalid_answers[0].answer_id #=> String
+    #   resp.invalid_answers[0].error #=> String, one of "INTERNAL_ERROR", "MISSING_ANSWER", "DATASET_DOES_NOT_EXIST", "INVALID_DATASET_ARN", "DUPLICATED_ANSWER", "INVALID_DATA", "MISSING_REQUIRED_FIELDS"
+    #   resp.status #=> Integer
+    #   resp.request_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/BatchCreateTopicReviewedAnswer AWS API Documentation
+    #
+    # @overload batch_create_topic_reviewed_answer(params = {})
+    # @param [Hash] params ({})
+    def batch_create_topic_reviewed_answer(params = {}, options = {})
+      req = build_request(:batch_create_topic_reviewed_answer, params)
+      req.send_request(options)
+    end
+
+    # Deletes reviewed answers for Q Topic.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that you want to delete a
+    #   reviewed answers in.
+    #
+    # @option params [required, String] :topic_id
+    #   The ID for the topic reviewed answer that you want to delete. This ID
+    #   is unique per Amazon Web Services Region for each Amazon Web Services
+    #   account.
+    #
+    # @option params [Array<String>] :answer_ids
+    #   The Answer IDs of the Answers to be deleted.
+    #
+    # @return [Types::BatchDeleteTopicReviewedAnswerResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::BatchDeleteTopicReviewedAnswerResponse#topic_id #topic_id} => String
+    #   * {Types::BatchDeleteTopicReviewedAnswerResponse#topic_arn #topic_arn} => String
+    #   * {Types::BatchDeleteTopicReviewedAnswerResponse#succeeded_answers #succeeded_answers} => Array&lt;Types::SucceededTopicReviewedAnswer&gt;
+    #   * {Types::BatchDeleteTopicReviewedAnswerResponse#invalid_answers #invalid_answers} => Array&lt;Types::InvalidTopicReviewedAnswer&gt;
+    #   * {Types::BatchDeleteTopicReviewedAnswerResponse#request_id #request_id} => String
+    #   * {Types::BatchDeleteTopicReviewedAnswerResponse#status #status} => Integer
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.batch_delete_topic_reviewed_answer({
+    #     aws_account_id: "AwsAccountId", # required
+    #     topic_id: "TopicId", # required
+    #     answer_ids: ["AnswerId"],
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.topic_id #=> String
+    #   resp.topic_arn #=> String
+    #   resp.succeeded_answers #=> Array
+    #   resp.succeeded_answers[0].answer_id #=> String
+    #   resp.invalid_answers #=> Array
+    #   resp.invalid_answers[0].answer_id #=> String
+    #   resp.invalid_answers[0].error #=> String, one of "INTERNAL_ERROR", "MISSING_ANSWER", "DATASET_DOES_NOT_EXIST", "INVALID_DATASET_ARN", "DUPLICATED_ANSWER", "INVALID_DATA", "MISSING_REQUIRED_FIELDS"
+    #   resp.request_id #=> String
+    #   resp.status #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/BatchDeleteTopicReviewedAnswer AWS API Documentation
+    #
+    # @overload batch_delete_topic_reviewed_answer(params = {})
+    # @param [Hash] params ({})
+    def batch_delete_topic_reviewed_answer(params = {}, options = {})
+      req = build_request(:batch_delete_topic_reviewed_answer, params)
+      req.send_request(options)
+    end
 
     # Cancels an ongoing ingestion of data into SPICE.
     #
@@ -453,11 +1419,11 @@ module Aws::QuickSight
     #
     #   For example, you can add a default theme by setting
     #   `AccountCustomization` to the midnight theme: `"AccountCustomization":
-    #   \{ "DefaultTheme": "arn:aws:quicksight::aws:theme/MIDNIGHT" \}`. Or,
-    #   you can add a custom theme by specifying `"AccountCustomization": \{
+    #   { "DefaultTheme": "arn:aws:quicksight::aws:theme/MIDNIGHT" }`. Or, you
+    #   can add a custom theme by specifying `"AccountCustomization": {
     #   "DefaultTheme":
     #   "arn:aws:quicksight:us-west-2:111122223333:theme/bdb844d0-0fe9-4d9d-b520-0fe602d93639"
-    #   \}`.
+    #   }`.
     #
     # @option params [Array<Types::Tag>] :tags
     #   A list of the tags that you want to attach to this resource.
@@ -511,9 +1477,7 @@ module Aws::QuickSight
     # QuickSight Q.
     #
     # The Amazon Web Services Region for the account is derived from what is
-    # configured in the CLI or SDK. This operation isn't supported in the
-    # US East (Ohio) Region, South America (Sao Paulo) Region, or Asia
-    # Pacific (Singapore) Region.
+    # configured in the CLI or SDK.
     #
     # Before you use this operation, make sure that you can connect to an
     # existing Amazon Web Services account. If you don't have an Amazon Web
@@ -547,7 +1511,7 @@ module Aws::QuickSight
     # [3]: https://docs.aws.amazon.com/quicksight/latest/user/security_iam_service-with-iam.html#security-create-iam-role
     # [4]: https://docs.aws.amazon.com/quicksight/latest/user/scoping-policies-defaults.html
     #
-    # @option params [required, String] :edition
+    # @option params [String] :edition
     #   The edition of Amazon QuickSight that you want your account to have.
     #   Currently, you can choose from `ENTERPRISE` or `ENTERPRISE_AND_Q`.
     #
@@ -564,11 +1528,13 @@ module Aws::QuickSight
     #
     # @option params [required, String] :authentication_method
     #   The method that you want to use to authenticate your Amazon QuickSight
-    #   account. Currently, the valid values for this parameter are
-    #   `IAM_AND_QUICKSIGHT`, `IAM_ONLY`, and `ACTIVE_DIRECTORY`.
+    #   account.
     #
     #   If you choose `ACTIVE_DIRECTORY`, provide an `ActiveDirectoryName` and
     #   an `AdminGroup` associated with your Active Directory.
+    #
+    #   If you choose `IAM_IDENTITY_CENTER`, provide an `AdminGroup`
+    #   associated with your IAM Identity Center account.
     #
     # @option params [required, String] :aws_account_id
     #   The Amazon Web Services account ID of the account that you're using
@@ -601,36 +1567,104 @@ module Aws::QuickSight
     #   QuickSight account.
     #
     # @option params [Array<String>] :admin_group
-    #   The admin group associated with your Active Directory. This field is
-    #   required if `ACTIVE_DIRECTORY` is the selected authentication method
-    #   of the new Amazon QuickSight account. For more information about using
-    #   Active Directory in Amazon QuickSight, see [Using Active Directory
-    #   with Amazon QuickSight Enterprise Edition][1] in the Amazon QuickSight
-    #   User Guide.
+    #   The admin group associated with your Active Directory or IAM Identity
+    #   Center account. Either this field or the `AdminProGroup` field is
+    #   required if `ACTIVE_DIRECTORY` or `IAM_IDENTITY_CENTER` is the
+    #   selected authentication method of the new Amazon QuickSight account.
     #
-    #
-    #
-    #   [1]: https://docs.aws.amazon.com/quicksight/latest/user/aws-directory-service.html
-    #
-    # @option params [Array<String>] :author_group
-    #   The author group associated with your Active Directory. For more
+    #   For more information about using IAM Identity Center in Amazon
+    #   QuickSight, see [Using IAM Identity Center with Amazon QuickSight
+    #   Enterprise Edition][1] in the Amazon QuickSight User Guide. For more
     #   information about using Active Directory in Amazon QuickSight, see
-    #   [Using Active Directory with Amazon QuickSight Enterprise Edition][1]
+    #   [Using Active Directory with Amazon QuickSight Enterprise Edition][2]
     #   in the Amazon QuickSight User Guide.
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/quicksight/latest/user/aws-directory-service.html
+    #   [1]: https://docs.aws.amazon.com/quicksight/latest/user/sec-identity-management-identity-center.html
+    #   [2]: https://docs.aws.amazon.com/quicksight/latest/user/aws-directory-service.html
+    #
+    # @option params [Array<String>] :author_group
+    #   The author group associated with your Active Directory or IAM Identity
+    #   Center account.
+    #
+    #   For more information about using IAM Identity Center in Amazon
+    #   QuickSight, see [Using IAM Identity Center with Amazon QuickSight
+    #   Enterprise Edition][1] in the Amazon QuickSight User Guide. For more
+    #   information about using Active Directory in Amazon QuickSight, see
+    #   [Using Active Directory with Amazon QuickSight Enterprise Edition][2]
+    #   in the Amazon QuickSight User Guide.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/quicksight/latest/user/sec-identity-management-identity-center.html
+    #   [2]: https://docs.aws.amazon.com/quicksight/latest/user/aws-directory-service.html
     #
     # @option params [Array<String>] :reader_group
-    #   The reader group associated with your Active Direcrtory. For more
+    #   The reader group associated with your Active Directory or IAM Identity
+    #   Center account.
+    #
+    #   For more information about using IAM Identity Center in Amazon
+    #   QuickSight, see [Using IAM Identity Center with Amazon QuickSight
+    #   Enterprise Edition][1] in the Amazon QuickSight User Guide. For more
     #   information about using Active Directory in Amazon QuickSight, see
-    #   [Using Active Directory with Amazon QuickSight Enterprise Edition][1]
-    #   in the *Amazon QuickSight User Guide*.
+    #   [Using Active Directory with Amazon QuickSight Enterprise Edition][2]
+    #   in the Amazon QuickSight User Guide.
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/quicksight/latest/user/aws-directory-service.html
+    #   [1]: https://docs.aws.amazon.com/quicksight/latest/user/sec-identity-management-identity-center.html
+    #   [2]: https://docs.aws.amazon.com/quicksight/latest/user/aws-directory-service.html
+    #
+    # @option params [Array<String>] :admin_pro_group
+    #   The admin pro group associated with your Active Directory or IAM
+    #   Identity Center account. Either this field or the `AdminGroup` field
+    #   is required if `ACTIVE_DIRECTORY` or `IAM_IDENTITY_CENTER` is the
+    #   selected authentication method of the new Amazon QuickSight account.
+    #
+    #   For more information about using IAM Identity Center in Amazon
+    #   QuickSight, see [Using IAM Identity Center with Amazon QuickSight
+    #   Enterprise Edition][1] in the Amazon QuickSight User Guide. For more
+    #   information about using Active Directory in Amazon QuickSight, see
+    #   [Using Active Directory with Amazon QuickSight Enterprise Edition][2]
+    #   in the Amazon QuickSight User Guide.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/quicksight/latest/user/sec-identity-management-identity-center.html
+    #   [2]: https://docs.aws.amazon.com/quicksight/latest/user/aws-directory-service.html
+    #
+    # @option params [Array<String>] :author_pro_group
+    #   The author pro group associated with your Active Directory or IAM
+    #   Identity Center account.
+    #
+    #   For more information about using IAM Identity Center in Amazon
+    #   QuickSight, see [Using IAM Identity Center with Amazon QuickSight
+    #   Enterprise Edition][1] in the Amazon QuickSight User Guide. For more
+    #   information about using Active Directory in Amazon QuickSight, see
+    #   [Using Active Directory with Amazon QuickSight Enterprise Edition][2]
+    #   in the Amazon QuickSight User Guide.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/quicksight/latest/user/sec-identity-management-identity-center.html
+    #   [2]: https://docs.aws.amazon.com/quicksight/latest/user/aws-directory-service.html
+    #
+    # @option params [Array<String>] :reader_pro_group
+    #   The reader pro group associated with your Active Directory or IAM
+    #   Identity Center account.
+    #
+    #   For more information about using IAM Identity Center in Amazon
+    #   QuickSight, see [Using IAM Identity Center with Amazon QuickSight
+    #   Enterprise Edition][1] in the Amazon QuickSight User Guide. For more
+    #   information about using Active Directory in Amazon QuickSight, see
+    #   [Using Active Directory with Amazon QuickSight Enterprise Edition][2]
+    #   in the Amazon QuickSight User Guide.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/quicksight/latest/user/sec-identity-management-identity-center.html
+    #   [2]: https://docs.aws.amazon.com/quicksight/latest/user/aws-directory-service.html
     #
     # @option params [String] :first_name
     #   The first name of the author of the Amazon QuickSight account to use
@@ -656,6 +1690,9 @@ module Aws::QuickSight
     #   `ENTERPPRISE_AND_Q` is the selected edition of the new Amazon
     #   QuickSight account.
     #
+    # @option params [String] :iam_identity_center_instance_arn
+    #   The Amazon Resource Name (ARN) for the IAM Identity Center instance.
+    #
     # @return [Types::CreateAccountSubscriptionResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreateAccountSubscriptionResponse#signup_response #signup_response} => Types::SignupResponse
@@ -665,10 +1702,10 @@ module Aws::QuickSight
     # @example Request syntax with placeholder values
     #
     #   resp = client.create_account_subscription({
-    #     edition: "STANDARD", # required, accepts STANDARD, ENTERPRISE, ENTERPRISE_AND_Q
-    #     authentication_method: "IAM_AND_QUICKSIGHT", # required, accepts IAM_AND_QUICKSIGHT, IAM_ONLY, ACTIVE_DIRECTORY
+    #     edition: "STANDARD", # accepts STANDARD, ENTERPRISE, ENTERPRISE_AND_Q
+    #     authentication_method: "IAM_AND_QUICKSIGHT", # required, accepts IAM_AND_QUICKSIGHT, IAM_ONLY, ACTIVE_DIRECTORY, IAM_IDENTITY_CENTER
     #     aws_account_id: "AwsAccountId", # required
-    #     account_name: "String", # required
+    #     account_name: "AccountName", # required
     #     notification_email: "String", # required
     #     active_directory_name: "String",
     #     realm: "String",
@@ -676,10 +1713,14 @@ module Aws::QuickSight
     #     admin_group: ["String"],
     #     author_group: ["String"],
     #     reader_group: ["String"],
+    #     admin_pro_group: ["String"],
+    #     author_pro_group: ["String"],
+    #     reader_pro_group: ["String"],
     #     first_name: "String",
     #     last_name: "String",
     #     email_address: "String",
     #     contact_number: "String",
+    #     iam_identity_center_instance_arn: "String",
     #   })
     #
     # @example Response structure
@@ -755,6 +1796,15 @@ module Aws::QuickSight
     #   Either a `SourceEntity` or a `Definition` must be provided in order
     #   for the request to be valid.
     #
+    # @option params [Types::ValidationStrategy] :validation_strategy
+    #   The option to relax the validation needed to create an analysis with
+    #   definition objects. This skips the validation step for specific
+    #   errors.
+    #
+    # @option params [Array<String>] :folder_arns
+    #   When you create the analysis, Amazon QuickSight adds the analysis to
+    #   these folders.
+    #
     # @return [Types::CreateAnalysisResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreateAnalysisResponse#arn #arn} => String
@@ -777,6 +1827,254 @@ module Aws::QuickSight
     # @param [Hash] params ({})
     def create_analysis(params = {}, options = {})
       req = build_request(:create_analysis, params)
+      req.send_request(options)
+    end
+
+    # Creates an Amazon QuickSight brand.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that owns the brand.
+    #
+    # @option params [required, String] :brand_id
+    #   The ID of the Amazon QuickSight brand.
+    #
+    # @option params [Types::BrandDefinition] :brand_definition
+    #   The definition of the brand.
+    #
+    # @option params [Array<Types::Tag>] :tags
+    #   A map of the key-value pairs that are assigned to the brand.
+    #
+    # @return [Types::CreateBrandResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateBrandResponse#request_id #request_id} => String
+    #   * {Types::CreateBrandResponse#brand_detail #brand_detail} => Types::BrandDetail
+    #   * {Types::CreateBrandResponse#brand_definition #brand_definition} => Types::BrandDefinition
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_brand({
+    #     aws_account_id: "AwsAccountId", # required
+    #     brand_id: "ShortRestrictiveResourceId", # required
+    #     brand_definition: {
+    #       brand_name: "Name", # required
+    #       description: "Description",
+    #       application_theme: {
+    #         brand_color_palette: {
+    #           primary: {
+    #             foreground: "HexColor",
+    #             background: "HexColor",
+    #           },
+    #           secondary: {
+    #             foreground: "HexColor",
+    #             background: "HexColor",
+    #           },
+    #           accent: {
+    #             foreground: "HexColor",
+    #             background: "HexColor",
+    #           },
+    #           measure: {
+    #             foreground: "HexColor",
+    #             background: "HexColor",
+    #           },
+    #           dimension: {
+    #             foreground: "HexColor",
+    #             background: "HexColor",
+    #           },
+    #           success: {
+    #             foreground: "HexColor",
+    #             background: "HexColor",
+    #           },
+    #           info: {
+    #             foreground: "HexColor",
+    #             background: "HexColor",
+    #           },
+    #           warning: {
+    #             foreground: "HexColor",
+    #             background: "HexColor",
+    #           },
+    #           danger: {
+    #             foreground: "HexColor",
+    #             background: "HexColor",
+    #           },
+    #         },
+    #         brand_element_style: {
+    #           navbar_style: {
+    #             global_navbar: {
+    #               foreground: "HexColor",
+    #               background: "HexColor",
+    #             },
+    #             contextual_navbar: {
+    #               foreground: "HexColor",
+    #               background: "HexColor",
+    #             },
+    #           },
+    #         },
+    #       },
+    #       logo_configuration: {
+    #         alt_text: "String", # required
+    #         logo_set: { # required
+    #           primary: { # required
+    #             original: { # required
+    #               source: {
+    #                 public_url: "String",
+    #                 s3_uri: "String",
+    #               },
+    #             },
+    #           },
+    #           favicon: {
+    #             original: { # required
+    #               source: {
+    #                 public_url: "String",
+    #                 s3_uri: "String",
+    #               },
+    #             },
+    #           },
+    #         },
+    #       },
+    #     },
+    #     tags: [
+    #       {
+    #         key: "TagKey", # required
+    #         value: "TagValue", # required
+    #       },
+    #     ],
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.request_id #=> String
+    #   resp.brand_detail.brand_id #=> String
+    #   resp.brand_detail.arn #=> String
+    #   resp.brand_detail.brand_status #=> String, one of "CREATE_IN_PROGRESS", "CREATE_SUCCEEDED", "CREATE_FAILED", "DELETE_IN_PROGRESS", "DELETE_FAILED"
+    #   resp.brand_detail.created_time #=> Time
+    #   resp.brand_detail.last_updated_time #=> Time
+    #   resp.brand_detail.version_id #=> String
+    #   resp.brand_detail.version_status #=> String, one of "CREATE_IN_PROGRESS", "CREATE_SUCCEEDED", "CREATE_FAILED"
+    #   resp.brand_detail.errors #=> Array
+    #   resp.brand_detail.errors[0] #=> String
+    #   resp.brand_detail.logo.alt_text #=> String
+    #   resp.brand_detail.logo.logo_set.primary.original.source.public_url #=> String
+    #   resp.brand_detail.logo.logo_set.primary.original.source.s3_uri #=> String
+    #   resp.brand_detail.logo.logo_set.primary.original.generated_image_url #=> String
+    #   resp.brand_detail.logo.logo_set.primary.height_64.source.public_url #=> String
+    #   resp.brand_detail.logo.logo_set.primary.height_64.source.s3_uri #=> String
+    #   resp.brand_detail.logo.logo_set.primary.height_64.generated_image_url #=> String
+    #   resp.brand_detail.logo.logo_set.primary.height_32.source.public_url #=> String
+    #   resp.brand_detail.logo.logo_set.primary.height_32.source.s3_uri #=> String
+    #   resp.brand_detail.logo.logo_set.primary.height_32.generated_image_url #=> String
+    #   resp.brand_detail.logo.logo_set.favicon.original.source.public_url #=> String
+    #   resp.brand_detail.logo.logo_set.favicon.original.source.s3_uri #=> String
+    #   resp.brand_detail.logo.logo_set.favicon.original.generated_image_url #=> String
+    #   resp.brand_detail.logo.logo_set.favicon.height_64.source.public_url #=> String
+    #   resp.brand_detail.logo.logo_set.favicon.height_64.source.s3_uri #=> String
+    #   resp.brand_detail.logo.logo_set.favicon.height_64.generated_image_url #=> String
+    #   resp.brand_detail.logo.logo_set.favicon.height_32.source.public_url #=> String
+    #   resp.brand_detail.logo.logo_set.favicon.height_32.source.s3_uri #=> String
+    #   resp.brand_detail.logo.logo_set.favicon.height_32.generated_image_url #=> String
+    #   resp.brand_definition.brand_name #=> String
+    #   resp.brand_definition.description #=> String
+    #   resp.brand_definition.application_theme.brand_color_palette.primary.foreground #=> String
+    #   resp.brand_definition.application_theme.brand_color_palette.primary.background #=> String
+    #   resp.brand_definition.application_theme.brand_color_palette.secondary.foreground #=> String
+    #   resp.brand_definition.application_theme.brand_color_palette.secondary.background #=> String
+    #   resp.brand_definition.application_theme.brand_color_palette.accent.foreground #=> String
+    #   resp.brand_definition.application_theme.brand_color_palette.accent.background #=> String
+    #   resp.brand_definition.application_theme.brand_color_palette.measure.foreground #=> String
+    #   resp.brand_definition.application_theme.brand_color_palette.measure.background #=> String
+    #   resp.brand_definition.application_theme.brand_color_palette.dimension.foreground #=> String
+    #   resp.brand_definition.application_theme.brand_color_palette.dimension.background #=> String
+    #   resp.brand_definition.application_theme.brand_color_palette.success.foreground #=> String
+    #   resp.brand_definition.application_theme.brand_color_palette.success.background #=> String
+    #   resp.brand_definition.application_theme.brand_color_palette.info.foreground #=> String
+    #   resp.brand_definition.application_theme.brand_color_palette.info.background #=> String
+    #   resp.brand_definition.application_theme.brand_color_palette.warning.foreground #=> String
+    #   resp.brand_definition.application_theme.brand_color_palette.warning.background #=> String
+    #   resp.brand_definition.application_theme.brand_color_palette.danger.foreground #=> String
+    #   resp.brand_definition.application_theme.brand_color_palette.danger.background #=> String
+    #   resp.brand_definition.application_theme.brand_element_style.navbar_style.global_navbar.foreground #=> String
+    #   resp.brand_definition.application_theme.brand_element_style.navbar_style.global_navbar.background #=> String
+    #   resp.brand_definition.application_theme.brand_element_style.navbar_style.contextual_navbar.foreground #=> String
+    #   resp.brand_definition.application_theme.brand_element_style.navbar_style.contextual_navbar.background #=> String
+    #   resp.brand_definition.logo_configuration.alt_text #=> String
+    #   resp.brand_definition.logo_configuration.logo_set.primary.original.source.public_url #=> String
+    #   resp.brand_definition.logo_configuration.logo_set.primary.original.source.s3_uri #=> String
+    #   resp.brand_definition.logo_configuration.logo_set.favicon.original.source.public_url #=> String
+    #   resp.brand_definition.logo_configuration.logo_set.favicon.original.source.s3_uri #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/CreateBrand AWS API Documentation
+    #
+    # @overload create_brand(params = {})
+    # @param [Hash] params ({})
+    def create_brand(params = {}, options = {})
+      req = build_request(:create_brand, params)
+      req.send_request(options)
+    end
+
+    # Creates a custom permissions profile.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that you want to create the
+    #   custom permissions profile in.
+    #
+    # @option params [required, String] :custom_permissions_name
+    #   The name of the custom permissions profile that you want to create.
+    #
+    # @option params [Types::Capabilities] :capabilities
+    #   A set of actions to include in the custom permissions profile.
+    #
+    # @option params [Array<Types::Tag>] :tags
+    #   The tags to associate with the custom permissions profile.
+    #
+    # @return [Types::CreateCustomPermissionsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateCustomPermissionsResponse#status #status} => Integer
+    #   * {Types::CreateCustomPermissionsResponse#arn #arn} => String
+    #   * {Types::CreateCustomPermissionsResponse#request_id #request_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_custom_permissions({
+    #     aws_account_id: "AwsAccountId", # required
+    #     custom_permissions_name: "CustomPermissionsName", # required
+    #     capabilities: {
+    #       export_to_csv: "DENY", # accepts DENY
+    #       export_to_excel: "DENY", # accepts DENY
+    #       create_and_update_themes: "DENY", # accepts DENY
+    #       add_or_run_anomaly_detection_for_analyses: "DENY", # accepts DENY
+    #       share_analyses: "DENY", # accepts DENY
+    #       create_and_update_datasets: "DENY", # accepts DENY
+    #       share_datasets: "DENY", # accepts DENY
+    #       subscribe_dashboard_email_reports: "DENY", # accepts DENY
+    #       create_and_update_dashboard_email_reports: "DENY", # accepts DENY
+    #       share_dashboards: "DENY", # accepts DENY
+    #       create_and_update_threshold_alerts: "DENY", # accepts DENY
+    #       rename_shared_folders: "DENY", # accepts DENY
+    #       create_shared_folders: "DENY", # accepts DENY
+    #       create_and_update_data_sources: "DENY", # accepts DENY
+    #       share_data_sources: "DENY", # accepts DENY
+    #       view_account_spice_capacity: "DENY", # accepts DENY
+    #       create_spice_dataset: "DENY", # accepts DENY
+    #     },
+    #     tags: [
+    #       {
+    #         key: "TagKey", # required
+    #         value: "TagValue", # required
+    #       },
+    #     ],
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.status #=> Integer
+    #   resp.arn #=> String
+    #   resp.request_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/CreateCustomPermissions AWS API Documentation
+    #
+    # @overload create_custom_permissions(params = {})
+    # @param [Hash] params ({})
+    def create_custom_permissions(params = {}, options = {})
+      req = build_request(:create_custom_permissions, params)
       req.send_request(options)
     end
 
@@ -871,6 +2169,23 @@ module Aws::QuickSight
     #   Either a `SourceEntity` or a `Definition` must be provided in order
     #   for the request to be valid.
     #
+    # @option params [Types::ValidationStrategy] :validation_strategy
+    #   The option to relax the validation needed to create a dashboard with
+    #   definition objects. This option skips the validation step for specific
+    #   errors.
+    #
+    # @option params [Array<String>] :folder_arns
+    #   When you create the dashboard, Amazon QuickSight adds the dashboard to
+    #   these folders.
+    #
+    # @option params [Types::LinkSharingConfiguration] :link_sharing_configuration
+    #   A structure that contains the permissions of a shareable link to the
+    #   dashboard.
+    #
+    # @option params [Array<String>] :link_entities
+    #   A list of analysis Amazon Resource Names (ARNs) to be linked to the
+    #   dashboard.
+    #
     # @return [Types::CreateDashboardResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreateDashboardResponse#arn #arn} => String
@@ -953,6 +2268,17 @@ module Aws::QuickSight
     #   The usage configuration to apply to child datasets that reference this
     #   dataset as a source.
     #
+    # @option params [Array<Types::DatasetParameter>] :dataset_parameters
+    #   The parameter declarations of the dataset.
+    #
+    # @option params [Array<String>] :folder_arns
+    #   When you create the dataset, Amazon QuickSight adds the dataset to
+    #   these folders.
+    #
+    # @option params [Types::PerformanceConfiguration] :performance_configuration
+    #   The configuration for the performance optimization of the dataset that
+    #   contains a `UniqueKey` configuration.
+    #
     # @return [Types::CreateDataSetResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreateDataSetResponse#arn #arn} => String
@@ -979,6 +2305,7 @@ module Aws::QuickSight
     #             {
     #               name: "ColumnName", # required
     #               type: "STRING", # required, accepts STRING, INTEGER, DECIMAL, DATETIME, BIT, BOOLEAN, JSON
+    #               sub_type: "FLOAT", # accepts FLOAT, FIXED
     #             },
     #           ],
     #         },
@@ -990,6 +2317,7 @@ module Aws::QuickSight
     #             {
     #               name: "ColumnName", # required
     #               type: "STRING", # required, accepts STRING, INTEGER, DECIMAL, DATETIME, BIT, BOOLEAN, JSON
+    #               sub_type: "FLOAT", # accepts FLOAT, FIXED
     #             },
     #           ],
     #         },
@@ -1006,6 +2334,7 @@ module Aws::QuickSight
     #             {
     #               name: "ColumnName", # required
     #               type: "STRING", # required, accepts STRING, INTEGER, DECIMAL, DATETIME, BIT, BOOLEAN, JSON
+    #               sub_type: "FLOAT", # accepts FLOAT, FIXED
     #             },
     #           ],
     #         },
@@ -1027,7 +2356,7 @@ module Aws::QuickSight
     #                 {
     #                   column_name: "ColumnName", # required
     #                   column_id: "ColumnId", # required
-    #                   expression: "Expression", # required
+    #                   expression: "DataSetCalculatedFieldExpression", # required
     #                 },
     #               ],
     #             },
@@ -1038,6 +2367,7 @@ module Aws::QuickSight
     #             cast_column_type_operation: {
     #               column_name: "ColumnName", # required
     #               new_column_type: "STRING", # required, accepts STRING, INTEGER, DECIMAL, DATETIME
+    #               sub_type: "FLOAT", # accepts FLOAT, FIXED
     #               format: "TypeCastFormat",
     #             },
     #             tag_column_operation: {
@@ -1054,6 +2384,16 @@ module Aws::QuickSight
     #             untag_column_operation: {
     #               column_name: "ColumnName", # required
     #               tag_names: ["COLUMN_GEOGRAPHIC_ROLE"], # required, accepts COLUMN_GEOGRAPHIC_ROLE, COLUMN_DESCRIPTION
+    #             },
+    #             override_dataset_parameter_operation: {
+    #               parameter_name: "DatasetParameterName", # required
+    #               new_parameter_name: "DatasetParameterName",
+    #               new_default_values: {
+    #                 string_static_values: ["StringDatasetParameterDefaultValue"],
+    #                 decimal_static_values: [1.0],
+    #                 date_time_static_values: [Time.now],
+    #                 integer_static_values: [1],
+    #               },
     #             },
     #           },
     #         ],
@@ -1114,6 +2454,9 @@ module Aws::QuickSight
     #           match_all_value: "SessionTagValue",
     #         },
     #       ],
+    #       tag_rule_configurations: [
+    #         ["SessionTagKey"],
+    #       ],
     #     },
     #     column_level_permission_rules: [
     #       {
@@ -1130,6 +2473,51 @@ module Aws::QuickSight
     #     data_set_usage_configuration: {
     #       disable_use_as_direct_query_source: false,
     #       disable_use_as_imported_source: false,
+    #     },
+    #     dataset_parameters: [
+    #       {
+    #         string_dataset_parameter: {
+    #           id: "DatasetParameterId", # required
+    #           name: "DatasetParameterName", # required
+    #           value_type: "MULTI_VALUED", # required, accepts MULTI_VALUED, SINGLE_VALUED
+    #           default_values: {
+    #             static_values: ["StringDatasetParameterDefaultValue"],
+    #           },
+    #         },
+    #         decimal_dataset_parameter: {
+    #           id: "DatasetParameterId", # required
+    #           name: "DatasetParameterName", # required
+    #           value_type: "MULTI_VALUED", # required, accepts MULTI_VALUED, SINGLE_VALUED
+    #           default_values: {
+    #             static_values: [1.0],
+    #           },
+    #         },
+    #         integer_dataset_parameter: {
+    #           id: "DatasetParameterId", # required
+    #           name: "DatasetParameterName", # required
+    #           value_type: "MULTI_VALUED", # required, accepts MULTI_VALUED, SINGLE_VALUED
+    #           default_values: {
+    #             static_values: [1],
+    #           },
+    #         },
+    #         date_time_dataset_parameter: {
+    #           id: "DatasetParameterId", # required
+    #           name: "DatasetParameterName", # required
+    #           value_type: "MULTI_VALUED", # required, accepts MULTI_VALUED, SINGLE_VALUED
+    #           time_granularity: "YEAR", # accepts YEAR, QUARTER, MONTH, WEEK, DAY, HOUR, MINUTE, SECOND, MILLISECOND
+    #           default_values: {
+    #             static_values: [Time.now],
+    #           },
+    #         },
+    #       },
+    #     ],
+    #     folder_arns: ["Arn"],
+    #     performance_configuration: {
+    #       unique_keys: [
+    #         {
+    #           column_names: ["ColumnName"], # required
+    #         },
+    #       ],
     #     },
     #   })
     #
@@ -1193,6 +2581,10 @@ module Aws::QuickSight
     #   Contains a map of the key-value pairs for the resource tag or tags
     #   assigned to the data source.
     #
+    # @option params [Array<String>] :folder_arns
+    #   When you create the data source, Amazon QuickSight adds the data
+    #   source to these folders.
+    #
     # @return [Types::CreateDataSourceResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreateDataSourceResponse#arn #arn} => String
@@ -1207,7 +2599,7 @@ module Aws::QuickSight
     #     aws_account_id: "AwsAccountId", # required
     #     data_source_id: "ResourceId", # required
     #     name: "ResourceName", # required
-    #     type: "ADOBE_ANALYTICS", # required, accepts ADOBE_ANALYTICS, AMAZON_ELASTICSEARCH, ATHENA, AURORA, AURORA_POSTGRESQL, AWS_IOT_ANALYTICS, GITHUB, JIRA, MARIADB, MYSQL, ORACLE, POSTGRESQL, PRESTO, REDSHIFT, S3, SALESFORCE, SERVICENOW, SNOWFLAKE, SPARK, SQLSERVER, TERADATA, TWITTER, TIMESTREAM, AMAZON_OPENSEARCH, EXASOL, DATABRICKS
+    #     type: "ADOBE_ANALYTICS", # required, accepts ADOBE_ANALYTICS, AMAZON_ELASTICSEARCH, ATHENA, AURORA, AURORA_POSTGRESQL, AWS_IOT_ANALYTICS, GITHUB, JIRA, MARIADB, MYSQL, ORACLE, POSTGRESQL, PRESTO, REDSHIFT, S3, SALESFORCE, SERVICENOW, SNOWFLAKE, SPARK, SQLSERVER, TERADATA, TWITTER, TIMESTREAM, AMAZON_OPENSEARCH, EXASOL, DATABRICKS, STARBURST, TRINO, BIGQUERY
     #     data_source_parameters: {
     #       amazon_elasticsearch_parameters: {
     #         domain: "Domain", # required
@@ -1266,12 +2658,22 @@ module Aws::QuickSight
     #         port: 1,
     #         database: "Database", # required
     #         cluster_id: "ClusterId",
+    #         iam_parameters: {
+    #           role_arn: "RoleArn", # required
+    #           database_user: "DatabaseUser",
+    #           database_groups: ["DatabaseGroup"],
+    #           auto_create_database_user: false,
+    #         },
+    #         identity_center_configuration: {
+    #           enable_identity_propagation: false,
+    #         },
     #       },
     #       s3_parameters: {
     #         manifest_file_location: { # required
     #           bucket: "S3Bucket", # required
     #           key: "S3Key", # required
     #         },
+    #         role_arn: "RoleArn",
     #       },
     #       service_now_parameters: {
     #         site_base_url: "SiteBaseUrl", # required
@@ -1280,6 +2682,16 @@ module Aws::QuickSight
     #         host: "Host", # required
     #         database: "Database", # required
     #         warehouse: "Warehouse", # required
+    #         authentication_type: "PASSWORD", # accepts PASSWORD, TOKEN, X509
+    #         database_access_control_role: "DatabaseAccessControlRole",
+    #         o_auth_parameters: {
+    #           token_provider_url: "TokenProviderUrl", # required
+    #           o_auth_scope: "OAuthScope",
+    #           identity_provider_vpc_connection_properties: {
+    #             vpc_connection_arn: "Arn", # required
+    #           },
+    #           identity_provider_resource_uri: "IdentityProviderResourceUri",
+    #         },
     #       },
     #       spark_parameters: {
     #         host: "Host", # required
@@ -1311,10 +2723,35 @@ module Aws::QuickSight
     #         port: 1, # required
     #         sql_endpoint_path: "SqlEndpointPath", # required
     #       },
+    #       starburst_parameters: {
+    #         host: "Host", # required
+    #         port: 1, # required
+    #         catalog: "Catalog", # required
+    #         product_type: "GALAXY", # accepts GALAXY, ENTERPRISE
+    #         database_access_control_role: "DatabaseAccessControlRole",
+    #         authentication_type: "PASSWORD", # accepts PASSWORD, TOKEN, X509
+    #         o_auth_parameters: {
+    #           token_provider_url: "TokenProviderUrl", # required
+    #           o_auth_scope: "OAuthScope",
+    #           identity_provider_vpc_connection_properties: {
+    #             vpc_connection_arn: "Arn", # required
+    #           },
+    #           identity_provider_resource_uri: "IdentityProviderResourceUri",
+    #         },
+    #       },
+    #       trino_parameters: {
+    #         host: "Host", # required
+    #         port: 1, # required
+    #         catalog: "Catalog", # required
+    #       },
+    #       big_query_parameters: {
+    #         project_id: "ProjectId", # required
+    #         data_set_region: "DataSetRegion",
+    #       },
     #     },
     #     credentials: {
     #       credential_pair: {
-    #         username: "Username", # required
+    #         username: "DbUsername", # required
     #         password: "Password", # required
     #         alternate_data_source_parameters: [
     #           {
@@ -1375,12 +2812,22 @@ module Aws::QuickSight
     #               port: 1,
     #               database: "Database", # required
     #               cluster_id: "ClusterId",
+    #               iam_parameters: {
+    #                 role_arn: "RoleArn", # required
+    #                 database_user: "DatabaseUser",
+    #                 database_groups: ["DatabaseGroup"],
+    #                 auto_create_database_user: false,
+    #               },
+    #               identity_center_configuration: {
+    #                 enable_identity_propagation: false,
+    #               },
     #             },
     #             s3_parameters: {
     #               manifest_file_location: { # required
     #                 bucket: "S3Bucket", # required
     #                 key: "S3Key", # required
     #               },
+    #               role_arn: "RoleArn",
     #             },
     #             service_now_parameters: {
     #               site_base_url: "SiteBaseUrl", # required
@@ -1389,6 +2836,16 @@ module Aws::QuickSight
     #               host: "Host", # required
     #               database: "Database", # required
     #               warehouse: "Warehouse", # required
+    #               authentication_type: "PASSWORD", # accepts PASSWORD, TOKEN, X509
+    #               database_access_control_role: "DatabaseAccessControlRole",
+    #               o_auth_parameters: {
+    #                 token_provider_url: "TokenProviderUrl", # required
+    #                 o_auth_scope: "OAuthScope",
+    #                 identity_provider_vpc_connection_properties: {
+    #                   vpc_connection_arn: "Arn", # required
+    #                 },
+    #                 identity_provider_resource_uri: "IdentityProviderResourceUri",
+    #               },
     #             },
     #             spark_parameters: {
     #               host: "Host", # required
@@ -1420,6 +2877,31 @@ module Aws::QuickSight
     #               port: 1, # required
     #               sql_endpoint_path: "SqlEndpointPath", # required
     #             },
+    #             starburst_parameters: {
+    #               host: "Host", # required
+    #               port: 1, # required
+    #               catalog: "Catalog", # required
+    #               product_type: "GALAXY", # accepts GALAXY, ENTERPRISE
+    #               database_access_control_role: "DatabaseAccessControlRole",
+    #               authentication_type: "PASSWORD", # accepts PASSWORD, TOKEN, X509
+    #               o_auth_parameters: {
+    #                 token_provider_url: "TokenProviderUrl", # required
+    #                 o_auth_scope: "OAuthScope",
+    #                 identity_provider_vpc_connection_properties: {
+    #                   vpc_connection_arn: "Arn", # required
+    #                 },
+    #                 identity_provider_resource_uri: "IdentityProviderResourceUri",
+    #               },
+    #             },
+    #             trino_parameters: {
+    #               host: "Host", # required
+    #               port: 1, # required
+    #               catalog: "Catalog", # required
+    #             },
+    #             big_query_parameters: {
+    #               project_id: "ProjectId", # required
+    #               data_set_region: "DataSetRegion",
+    #             },
     #           },
     #         ],
     #       },
@@ -1444,6 +2926,7 @@ module Aws::QuickSight
     #         value: "TagValue", # required
     #       },
     #     ],
+    #     folder_arns: ["Arn"],
     #   })
     #
     # @example Response structure
@@ -1493,6 +2976,10 @@ module Aws::QuickSight
     # @option params [Array<Types::Tag>] :tags
     #   Tags for the folder.
     #
+    # @option params [String] :sharing_model
+    #   An optional parameter that determines the sharing scope of the folder.
+    #   The default value for this parameter is `ACCOUNT`.
+    #
     # @return [Types::CreateFolderResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreateFolderResponse#status #status} => Integer
@@ -1506,7 +2993,7 @@ module Aws::QuickSight
     #     aws_account_id: "AwsAccountId", # required
     #     folder_id: "RestrictiveResourceId", # required
     #     name: "FolderName",
-    #     folder_type: "SHARED", # accepts SHARED
+    #     folder_type: "SHARED", # accepts SHARED, RESTRICTED
     #     parent_folder_arn: "Arn",
     #     permissions: [
     #       {
@@ -1520,6 +3007,7 @@ module Aws::QuickSight
     #         value: "TagValue", # required
     #       },
     #     ],
+    #     sharing_model: "ACCOUNT", # accepts ACCOUNT, NAMESPACE
     #   })
     #
     # @example Response structure
@@ -1548,11 +3036,10 @@ module Aws::QuickSight
     #   The ID of the folder.
     #
     # @option params [required, String] :member_id
-    #   The ID of the asset (the dashboard, analysis, or dataset).
+    #   The ID of the asset that you want to add to the folder.
     #
     # @option params [required, String] :member_type
-    #   The type of the member, including `DASHBOARD`, `ANALYSIS`, and
-    #   `DATASET`.
+    #   The member type of the asset that you want to add to a folder.
     #
     # @return [Types::CreateFolderMembershipResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1566,14 +3053,14 @@ module Aws::QuickSight
     #     aws_account_id: "AwsAccountId", # required
     #     folder_id: "RestrictiveResourceId", # required
     #     member_id: "RestrictiveResourceId", # required
-    #     member_type: "DASHBOARD", # required, accepts DASHBOARD, ANALYSIS, DATASET
+    #     member_type: "DASHBOARD", # required, accepts DASHBOARD, ANALYSIS, DATASET, DATASOURCE, TOPIC
     #   })
     #
     # @example Response structure
     #
     #   resp.status #=> Integer
     #   resp.folder_member.member_id #=> String
-    #   resp.folder_member.member_type #=> String, one of "DASHBOARD", "ANALYSIS", "DATASET"
+    #   resp.folder_member.member_type #=> String, one of "DASHBOARD", "ANALYSIS", "DATASET", "DATASOURCE", "TOPIC"
     #   resp.request_id #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/CreateFolderMembership AWS API Documentation
@@ -1587,8 +3074,8 @@ module Aws::QuickSight
 
     # Use the `CreateGroup` operation to create a group in Amazon
     # QuickSight. You can create up to 10,000 groups in a namespace. If you
-    # want to create more than 10,000 groups in a namespace, contact AWS
-    # Support.
+    # want to create more than 10,000 groups in a namespace, contact Amazon
+    # Web Services Support.
     #
     # The permissions resource is
     # `arn:aws:quicksight:<your-region>:<relevant-aws-account-id>:group/default/<group-name>
@@ -1701,8 +3188,8 @@ module Aws::QuickSight
     #   IAM policy to Amazon QuickSight users or groups.
     #
     # @option params [required, String] :assignment_name
-    #   The name of the assignment, also called a rule. It must be unique
-    #   within an Amazon Web Services account.
+    #   The name of the assignment, also called a rule. The name must be
+    #   unique within the Amazon Web Services account.
     #
     # @option params [required, String] :assignment_status
     #   The status of the assignment. Possible values are as follows:
@@ -1904,6 +3391,109 @@ module Aws::QuickSight
       req.send_request(options)
     end
 
+    # Creates a refresh schedule for a dataset. You can create up to 5
+    # different schedules for a single dataset.
+    #
+    # @option params [required, String] :data_set_id
+    #   The ID of the dataset.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The Amazon Web Services account ID.
+    #
+    # @option params [required, Types::RefreshSchedule] :schedule
+    #   The refresh schedule.
+    #
+    # @return [Types::CreateRefreshScheduleResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateRefreshScheduleResponse#status #status} => Integer
+    #   * {Types::CreateRefreshScheduleResponse#request_id #request_id} => String
+    #   * {Types::CreateRefreshScheduleResponse#schedule_id #schedule_id} => String
+    #   * {Types::CreateRefreshScheduleResponse#arn #arn} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_refresh_schedule({
+    #     data_set_id: "ResourceId", # required
+    #     aws_account_id: "AwsAccountId", # required
+    #     schedule: { # required
+    #       schedule_id: "String", # required
+    #       schedule_frequency: { # required
+    #         interval: "MINUTE15", # required, accepts MINUTE15, MINUTE30, HOURLY, DAILY, WEEKLY, MONTHLY
+    #         refresh_on_day: {
+    #           day_of_week: "SUNDAY", # accepts SUNDAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY
+    #           day_of_month: "DayOfMonth",
+    #         },
+    #         timezone: "String",
+    #         time_of_the_day: "String",
+    #       },
+    #       start_after_date_time: Time.now,
+    #       refresh_type: "INCREMENTAL_REFRESH", # required, accepts INCREMENTAL_REFRESH, FULL_REFRESH
+    #       arn: "Arn",
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.status #=> Integer
+    #   resp.request_id #=> String
+    #   resp.schedule_id #=> String
+    #   resp.arn #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/CreateRefreshSchedule AWS API Documentation
+    #
+    # @overload create_refresh_schedule(params = {})
+    # @param [Hash] params ({})
+    def create_refresh_schedule(params = {}, options = {})
+      req = build_request(:create_refresh_schedule, params)
+      req.send_request(options)
+    end
+
+    # Use `CreateRoleMembership` to add an existing Amazon QuickSight group
+    # to an existing role.
+    #
+    # @option params [required, String] :member_name
+    #   The name of the group that you want to add to the role.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID for the Amazon Web Services account that you want to create a
+    #   group in. The Amazon Web Services account ID that you provide must be
+    #   the same Amazon Web Services account that contains your Amazon
+    #   QuickSight account.
+    #
+    # @option params [required, String] :namespace
+    #   The namespace that the role belongs to.
+    #
+    # @option params [required, String] :role
+    #   The role that you want to add a group to.
+    #
+    # @return [Types::CreateRoleMembershipResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateRoleMembershipResponse#request_id #request_id} => String
+    #   * {Types::CreateRoleMembershipResponse#status #status} => Integer
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_role_membership({
+    #     member_name: "GroupName", # required
+    #     aws_account_id: "AwsAccountId", # required
+    #     namespace: "Namespace", # required
+    #     role: "ADMIN", # required, accepts ADMIN, AUTHOR, READER, ADMIN_PRO, AUTHOR_PRO, READER_PRO
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.request_id #=> String
+    #   resp.status #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/CreateRoleMembership AWS API Documentation
+    #
+    # @overload create_role_membership(params = {})
+    # @param [Hash] params ({})
+    def create_role_membership(params = {}, options = {})
+      req = build_request(:create_role_membership, params)
+      req.send_request(options)
+    end
+
     # Creates a template either from a `TemplateDefinition` or from an
     # existing Amazon QuickSight analysis or template. You can use the
     # resulting template to create additional dashboards, templates, or
@@ -1970,6 +3560,11 @@ module Aws::QuickSight
     #
     #   Either a `SourceEntity` or a `Definition` must be provided in order
     #   for the request to be valid.
+    #
+    # @option params [Types::ValidationStrategy] :validation_strategy
+    #   TThe option to relax the validation needed to create a template with
+    #   definition objects. This skips the validation step for specific
+    #   errors.
     #
     # @return [Types::CreateTemplateResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -2235,6 +3830,425 @@ module Aws::QuickSight
       req.send_request(options)
     end
 
+    # Creates a new Q topic.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that you want to create a
+    #   topic in.
+    #
+    # @option params [required, String] :topic_id
+    #   The ID for the topic that you want to create. This ID is unique per
+    #   Amazon Web Services Region for each Amazon Web Services account.
+    #
+    # @option params [required, Types::TopicDetails] :topic
+    #   The definition of a topic to create.
+    #
+    # @option params [Array<Types::Tag>] :tags
+    #   Contains a map of the key-value pairs for the resource tag or tags
+    #   that are assigned to the dataset.
+    #
+    # @option params [Array<String>] :folder_arns
+    #   The Folder ARN of the folder that you want the topic to reside in.
+    #
+    # @return [Types::CreateTopicResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateTopicResponse#arn #arn} => String
+    #   * {Types::CreateTopicResponse#topic_id #topic_id} => String
+    #   * {Types::CreateTopicResponse#refresh_arn #refresh_arn} => String
+    #   * {Types::CreateTopicResponse#request_id #request_id} => String
+    #   * {Types::CreateTopicResponse#status #status} => Integer
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_topic({
+    #     aws_account_id: "AwsAccountId", # required
+    #     topic_id: "TopicId", # required
+    #     topic: { # required
+    #       name: "ResourceName",
+    #       description: "LimitedString",
+    #       user_experience_version: "LEGACY", # accepts LEGACY, NEW_READER_EXPERIENCE
+    #       data_sets: [
+    #         {
+    #           dataset_arn: "Arn", # required
+    #           dataset_name: "LimitedString",
+    #           dataset_description: "LimitedString",
+    #           data_aggregation: {
+    #             dataset_row_date_granularity: "SECOND", # accepts SECOND, MINUTE, HOUR, DAY, WEEK, MONTH, QUARTER, YEAR
+    #             default_date_column_name: "LimitedString",
+    #           },
+    #           filters: [
+    #             {
+    #               filter_description: "LimitedString",
+    #               filter_class: "ENFORCED_VALUE_FILTER", # accepts ENFORCED_VALUE_FILTER, CONDITIONAL_VALUE_FILTER, NAMED_VALUE_FILTER
+    #               filter_name: "LimitedString", # required
+    #               filter_synonyms: ["LimitedString"],
+    #               operand_field_name: "LimitedString", # required
+    #               filter_type: "CATEGORY_FILTER", # accepts CATEGORY_FILTER, NUMERIC_EQUALITY_FILTER, NUMERIC_RANGE_FILTER, DATE_RANGE_FILTER, RELATIVE_DATE_FILTER
+    #               category_filter: {
+    #                 category_filter_function: "EXACT", # accepts EXACT, CONTAINS
+    #                 category_filter_type: "CUSTOM_FILTER", # accepts CUSTOM_FILTER, CUSTOM_FILTER_LIST, FILTER_LIST
+    #                 constant: {
+    #                   constant_type: "SINGULAR", # accepts SINGULAR, RANGE, COLLECTIVE
+    #                   singular_constant: "LimitedString",
+    #                   collective_constant: {
+    #                     value_list: ["String"],
+    #                   },
+    #                 },
+    #                 inverse: false,
+    #               },
+    #               numeric_equality_filter: {
+    #                 constant: {
+    #                   constant_type: "SINGULAR", # accepts SINGULAR, RANGE, COLLECTIVE
+    #                   singular_constant: "LimitedString",
+    #                 },
+    #                 aggregation: "NO_AGGREGATION", # accepts NO_AGGREGATION, SUM, AVERAGE, COUNT, DISTINCT_COUNT, MAX, MEDIAN, MIN, STDEV, STDEVP, VAR, VARP
+    #               },
+    #               numeric_range_filter: {
+    #                 inclusive: false,
+    #                 constant: {
+    #                   constant_type: "SINGULAR", # accepts SINGULAR, RANGE, COLLECTIVE
+    #                   range_constant: {
+    #                     minimum: "LimitedString",
+    #                     maximum: "LimitedString",
+    #                   },
+    #                 },
+    #                 aggregation: "NO_AGGREGATION", # accepts NO_AGGREGATION, SUM, AVERAGE, COUNT, DISTINCT_COUNT, MAX, MEDIAN, MIN, STDEV, STDEVP, VAR, VARP
+    #               },
+    #               date_range_filter: {
+    #                 inclusive: false,
+    #                 constant: {
+    #                   constant_type: "SINGULAR", # accepts SINGULAR, RANGE, COLLECTIVE
+    #                   range_constant: {
+    #                     minimum: "LimitedString",
+    #                     maximum: "LimitedString",
+    #                   },
+    #                 },
+    #               },
+    #               relative_date_filter: {
+    #                 time_granularity: "SECOND", # accepts SECOND, MINUTE, HOUR, DAY, WEEK, MONTH, QUARTER, YEAR
+    #                 relative_date_filter_function: "PREVIOUS", # accepts PREVIOUS, THIS, LAST, NEXT, NOW
+    #                 constant: {
+    #                   constant_type: "SINGULAR", # accepts SINGULAR, RANGE, COLLECTIVE
+    #                   singular_constant: "LimitedString",
+    #                 },
+    #               },
+    #             },
+    #           ],
+    #           columns: [
+    #             {
+    #               column_name: "LimitedString", # required
+    #               column_friendly_name: "LimitedString",
+    #               column_description: "LimitedString",
+    #               column_synonyms: ["LimitedString"],
+    #               column_data_role: "DIMENSION", # accepts DIMENSION, MEASURE
+    #               aggregation: "SUM", # accepts SUM, MAX, MIN, COUNT, DISTINCT_COUNT, AVERAGE, MEDIAN, STDEV, STDEVP, VAR, VARP
+    #               is_included_in_topic: false,
+    #               disable_indexing: false,
+    #               comparative_order: {
+    #                 use_ordering: "GREATER_IS_BETTER", # accepts GREATER_IS_BETTER, LESSER_IS_BETTER, SPECIFIED
+    #                 specifed_order: ["String"],
+    #                 treat_undefined_specified_values: "LEAST", # accepts LEAST, MOST
+    #               },
+    #               semantic_type: {
+    #                 type_name: "LimitedString",
+    #                 sub_type_name: "LimitedString",
+    #                 type_parameters: {
+    #                   "LimitedString" => "LimitedString",
+    #                 },
+    #                 truthy_cell_value: "SensitiveString",
+    #                 truthy_cell_value_synonyms: ["SensitiveString"],
+    #                 falsey_cell_value: "SensitiveString",
+    #                 falsey_cell_value_synonyms: ["SensitiveString"],
+    #               },
+    #               time_granularity: "SECOND", # accepts SECOND, MINUTE, HOUR, DAY, WEEK, MONTH, QUARTER, YEAR
+    #               allowed_aggregations: ["COUNT"], # accepts COUNT, DISTINCT_COUNT, MIN, MAX, MEDIAN, SUM, AVERAGE, STDEV, STDEVP, VAR, VARP, PERCENTILE
+    #               not_allowed_aggregations: ["COUNT"], # accepts COUNT, DISTINCT_COUNT, MIN, MAX, MEDIAN, SUM, AVERAGE, STDEV, STDEVP, VAR, VARP, PERCENTILE
+    #               default_formatting: {
+    #                 display_format: "AUTO", # accepts AUTO, PERCENT, CURRENCY, NUMBER, DATE, STRING
+    #                 display_format_options: {
+    #                   use_blank_cell_format: false,
+    #                   blank_cell_format: "LimitedString",
+    #                   date_format: "LimitedString",
+    #                   decimal_separator: "COMMA", # accepts COMMA, DOT
+    #                   grouping_separator: "LimitedString",
+    #                   use_grouping: false,
+    #                   fraction_digits: 1,
+    #                   prefix: "LimitedString",
+    #                   suffix: "LimitedString",
+    #                   unit_scaler: "NONE", # accepts NONE, AUTO, THOUSANDS, MILLIONS, BILLIONS, TRILLIONS, LAKHS, CRORES
+    #                   negative_format: {
+    #                     prefix: "LimitedString",
+    #                     suffix: "LimitedString",
+    #                   },
+    #                   currency_symbol: "LimitedString",
+    #                 },
+    #               },
+    #               never_aggregate_in_filter: false,
+    #               cell_value_synonyms: [
+    #                 {
+    #                   cell_value: "LimitedString",
+    #                   synonyms: ["String"],
+    #                 },
+    #               ],
+    #               non_additive: false,
+    #             },
+    #           ],
+    #           calculated_fields: [
+    #             {
+    #               calculated_field_name: "LimitedString", # required
+    #               calculated_field_description: "LimitedString",
+    #               expression: "Expression", # required
+    #               calculated_field_synonyms: ["LimitedString"],
+    #               is_included_in_topic: false,
+    #               disable_indexing: false,
+    #               column_data_role: "DIMENSION", # accepts DIMENSION, MEASURE
+    #               time_granularity: "SECOND", # accepts SECOND, MINUTE, HOUR, DAY, WEEK, MONTH, QUARTER, YEAR
+    #               default_formatting: {
+    #                 display_format: "AUTO", # accepts AUTO, PERCENT, CURRENCY, NUMBER, DATE, STRING
+    #                 display_format_options: {
+    #                   use_blank_cell_format: false,
+    #                   blank_cell_format: "LimitedString",
+    #                   date_format: "LimitedString",
+    #                   decimal_separator: "COMMA", # accepts COMMA, DOT
+    #                   grouping_separator: "LimitedString",
+    #                   use_grouping: false,
+    #                   fraction_digits: 1,
+    #                   prefix: "LimitedString",
+    #                   suffix: "LimitedString",
+    #                   unit_scaler: "NONE", # accepts NONE, AUTO, THOUSANDS, MILLIONS, BILLIONS, TRILLIONS, LAKHS, CRORES
+    #                   negative_format: {
+    #                     prefix: "LimitedString",
+    #                     suffix: "LimitedString",
+    #                   },
+    #                   currency_symbol: "LimitedString",
+    #                 },
+    #               },
+    #               aggregation: "SUM", # accepts SUM, MAX, MIN, COUNT, DISTINCT_COUNT, AVERAGE, MEDIAN, STDEV, STDEVP, VAR, VARP
+    #               comparative_order: {
+    #                 use_ordering: "GREATER_IS_BETTER", # accepts GREATER_IS_BETTER, LESSER_IS_BETTER, SPECIFIED
+    #                 specifed_order: ["String"],
+    #                 treat_undefined_specified_values: "LEAST", # accepts LEAST, MOST
+    #               },
+    #               semantic_type: {
+    #                 type_name: "LimitedString",
+    #                 sub_type_name: "LimitedString",
+    #                 type_parameters: {
+    #                   "LimitedString" => "LimitedString",
+    #                 },
+    #                 truthy_cell_value: "SensitiveString",
+    #                 truthy_cell_value_synonyms: ["SensitiveString"],
+    #                 falsey_cell_value: "SensitiveString",
+    #                 falsey_cell_value_synonyms: ["SensitiveString"],
+    #               },
+    #               allowed_aggregations: ["COUNT"], # accepts COUNT, DISTINCT_COUNT, MIN, MAX, MEDIAN, SUM, AVERAGE, STDEV, STDEVP, VAR, VARP, PERCENTILE
+    #               not_allowed_aggregations: ["COUNT"], # accepts COUNT, DISTINCT_COUNT, MIN, MAX, MEDIAN, SUM, AVERAGE, STDEV, STDEVP, VAR, VARP, PERCENTILE
+    #               never_aggregate_in_filter: false,
+    #               cell_value_synonyms: [
+    #                 {
+    #                   cell_value: "LimitedString",
+    #                   synonyms: ["String"],
+    #                 },
+    #               ],
+    #               non_additive: false,
+    #             },
+    #           ],
+    #           named_entities: [
+    #             {
+    #               entity_name: "LimitedString", # required
+    #               entity_description: "LimitedString",
+    #               entity_synonyms: ["LimitedString"],
+    #               semantic_entity_type: {
+    #                 type_name: "LimitedString",
+    #                 sub_type_name: "LimitedString",
+    #                 type_parameters: {
+    #                   "LimitedString" => "LimitedString",
+    #                 },
+    #               },
+    #               definition: [
+    #                 {
+    #                   field_name: "LimitedString",
+    #                   property_name: "LimitedString",
+    #                   property_role: "PRIMARY", # accepts PRIMARY, ID
+    #                   property_usage: "INHERIT", # accepts INHERIT, DIMENSION, MEASURE
+    #                   metric: {
+    #                     aggregation: "SUM", # accepts SUM, MIN, MAX, COUNT, AVERAGE, DISTINCT_COUNT, STDEV, STDEVP, VAR, VARP, PERCENTILE, MEDIAN, CUSTOM
+    #                     aggregation_function_parameters: {
+    #                       "LimitedString" => "LimitedString",
+    #                     },
+    #                   },
+    #                 },
+    #               ],
+    #             },
+    #           ],
+    #         },
+    #       ],
+    #       config_options: {
+    #         q_business_insights_enabled: false,
+    #       },
+    #     },
+    #     tags: [
+    #       {
+    #         key: "TagKey", # required
+    #         value: "TagValue", # required
+    #       },
+    #     ],
+    #     folder_arns: ["Arn"],
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.arn #=> String
+    #   resp.topic_id #=> String
+    #   resp.refresh_arn #=> String
+    #   resp.request_id #=> String
+    #   resp.status #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/CreateTopic AWS API Documentation
+    #
+    # @overload create_topic(params = {})
+    # @param [Hash] params ({})
+    def create_topic(params = {}, options = {})
+      req = build_request(:create_topic, params)
+      req.send_request(options)
+    end
+
+    # Creates a topic refresh schedule.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that contains the topic
+    #   you're creating a refresh schedule for.
+    #
+    # @option params [required, String] :topic_id
+    #   The ID of the topic that you want to modify. This ID is unique per
+    #   Amazon Web Services Region for each Amazon Web Services account.
+    #
+    # @option params [required, String] :dataset_arn
+    #   The Amazon Resource Name (ARN) of the dataset.
+    #
+    # @option params [String] :dataset_name
+    #   The name of the dataset.
+    #
+    # @option params [required, Types::TopicRefreshSchedule] :refresh_schedule
+    #   The definition of a refresh schedule.
+    #
+    # @return [Types::CreateTopicRefreshScheduleResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateTopicRefreshScheduleResponse#topic_id #topic_id} => String
+    #   * {Types::CreateTopicRefreshScheduleResponse#topic_arn #topic_arn} => String
+    #   * {Types::CreateTopicRefreshScheduleResponse#dataset_arn #dataset_arn} => String
+    #   * {Types::CreateTopicRefreshScheduleResponse#status #status} => Integer
+    #   * {Types::CreateTopicRefreshScheduleResponse#request_id #request_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_topic_refresh_schedule({
+    #     aws_account_id: "AwsAccountId", # required
+    #     topic_id: "TopicId", # required
+    #     dataset_arn: "Arn", # required
+    #     dataset_name: "String",
+    #     refresh_schedule: { # required
+    #       is_enabled: false, # required
+    #       based_on_spice_schedule: false, # required
+    #       starting_at: Time.now,
+    #       timezone: "LimitedString",
+    #       repeat_at: "LimitedString",
+    #       topic_schedule_type: "HOURLY", # accepts HOURLY, DAILY, WEEKLY, MONTHLY
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.topic_id #=> String
+    #   resp.topic_arn #=> String
+    #   resp.dataset_arn #=> String
+    #   resp.status #=> Integer
+    #   resp.request_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/CreateTopicRefreshSchedule AWS API Documentation
+    #
+    # @overload create_topic_refresh_schedule(params = {})
+    # @param [Hash] params ({})
+    def create_topic_refresh_schedule(params = {}, options = {})
+      req = build_request(:create_topic_refresh_schedule, params)
+      req.send_request(options)
+    end
+
+    # Creates a new VPC connection.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The Amazon Web Services account ID of the account where you want to
+    #   create a new VPC connection.
+    #
+    # @option params [required, String] :vpc_connection_id
+    #   The ID of the VPC connection that you're creating. This ID is a
+    #   unique identifier for each Amazon Web Services Region in an Amazon Web
+    #   Services account.
+    #
+    # @option params [required, String] :name
+    #   The display name for the VPC connection.
+    #
+    # @option params [required, Array<String>] :subnet_ids
+    #   A list of subnet IDs for the VPC connection.
+    #
+    # @option params [required, Array<String>] :security_group_ids
+    #   A list of security group IDs for the VPC connection.
+    #
+    # @option params [Array<String>] :dns_resolvers
+    #   A list of IP addresses of DNS resolver endpoints for the VPC
+    #   connection.
+    #
+    # @option params [required, String] :role_arn
+    #   The IAM role to associate with the VPC connection.
+    #
+    # @option params [Array<Types::Tag>] :tags
+    #   A map of the key-value pairs for the resource tag or tags assigned to
+    #   the VPC connection.
+    #
+    # @return [Types::CreateVPCConnectionResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateVPCConnectionResponse#arn #arn} => String
+    #   * {Types::CreateVPCConnectionResponse#vpc_connection_id #vpc_connection_id} => String
+    #   * {Types::CreateVPCConnectionResponse#creation_status #creation_status} => String
+    #   * {Types::CreateVPCConnectionResponse#availability_status #availability_status} => String
+    #   * {Types::CreateVPCConnectionResponse#request_id #request_id} => String
+    #   * {Types::CreateVPCConnectionResponse#status #status} => Integer
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_vpc_connection({
+    #     aws_account_id: "AwsAccountId", # required
+    #     vpc_connection_id: "VPCConnectionResourceIdRestricted", # required
+    #     name: "ResourceName", # required
+    #     subnet_ids: ["SubnetId"], # required
+    #     security_group_ids: ["SecurityGroupId"], # required
+    #     dns_resolvers: ["IPv4Address"],
+    #     role_arn: "RoleArn", # required
+    #     tags: [
+    #       {
+    #         key: "TagKey", # required
+    #         value: "TagValue", # required
+    #       },
+    #     ],
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.arn #=> String
+    #   resp.vpc_connection_id #=> String
+    #   resp.creation_status #=> String, one of "CREATION_IN_PROGRESS", "CREATION_SUCCESSFUL", "CREATION_FAILED", "UPDATE_IN_PROGRESS", "UPDATE_SUCCESSFUL", "UPDATE_FAILED", "DELETION_IN_PROGRESS", "DELETION_FAILED", "DELETED"
+    #   resp.availability_status #=> String, one of "AVAILABLE", "UNAVAILABLE", "PARTIALLY_AVAILABLE"
+    #   resp.request_id #=> String
+    #   resp.status #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/CreateVPCConnection AWS API Documentation
+    #
+    # @overload create_vpc_connection(params = {})
+    # @param [Hash] params ({})
+    def create_vpc_connection(params = {}, options = {})
+      req = build_request(:create_vpc_connection, params)
+      req.send_request(options)
+    end
+
     # Deletes all Amazon QuickSight customizations in this Amazon Web
     # Services Region for the specified Amazon Web Services account and
     # Amazon QuickSight namespace.
@@ -2382,6 +4396,104 @@ module Aws::QuickSight
       req.send_request(options)
     end
 
+    # Deletes an Amazon QuickSight brand.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that owns the brand.
+    #
+    # @option params [required, String] :brand_id
+    #   The ID of the Amazon QuickSight brand.
+    #
+    # @return [Types::DeleteBrandResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DeleteBrandResponse#request_id #request_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_brand({
+    #     aws_account_id: "AwsAccountId", # required
+    #     brand_id: "ShortRestrictiveResourceId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.request_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DeleteBrand AWS API Documentation
+    #
+    # @overload delete_brand(params = {})
+    # @param [Hash] params ({})
+    def delete_brand(params = {}, options = {})
+      req = build_request(:delete_brand, params)
+      req.send_request(options)
+    end
+
+    # Deletes a brand assignment.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that owns the brand
+    #   assignment.
+    #
+    # @return [Types::DeleteBrandAssignmentResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DeleteBrandAssignmentResponse#request_id #request_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_brand_assignment({
+    #     aws_account_id: "AwsAccountId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.request_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DeleteBrandAssignment AWS API Documentation
+    #
+    # @overload delete_brand_assignment(params = {})
+    # @param [Hash] params ({})
+    def delete_brand_assignment(params = {}, options = {})
+      req = build_request(:delete_brand_assignment, params)
+      req.send_request(options)
+    end
+
+    # Deletes a custom permissions profile.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that contains the custom
+    #   permissions profile that you want to delete.
+    #
+    # @option params [required, String] :custom_permissions_name
+    #   The name of the custom permissions profile that you want to delete.
+    #
+    # @return [Types::DeleteCustomPermissionsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DeleteCustomPermissionsResponse#status #status} => Integer
+    #   * {Types::DeleteCustomPermissionsResponse#arn #arn} => String
+    #   * {Types::DeleteCustomPermissionsResponse#request_id #request_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_custom_permissions({
+    #     aws_account_id: "AwsAccountId", # required
+    #     custom_permissions_name: "CustomPermissionsName", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.status #=> Integer
+    #   resp.arn #=> String
+    #   resp.request_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DeleteCustomPermissions AWS API Documentation
+    #
+    # @overload delete_custom_permissions(params = {})
+    # @param [Hash] params ({})
+    def delete_custom_permissions(params = {}, options = {})
+      req = build_request(:delete_custom_permissions, params)
+      req.send_request(options)
+    end
+
     # Deletes a dashboard.
     #
     # @option params [required, String] :aws_account_id
@@ -2465,6 +4577,40 @@ module Aws::QuickSight
       req.send_request(options)
     end
 
+    # Deletes the dataset refresh properties of the dataset.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The Amazon Web Services account ID.
+    #
+    # @option params [required, String] :data_set_id
+    #   The ID of the dataset.
+    #
+    # @return [Types::DeleteDataSetRefreshPropertiesResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DeleteDataSetRefreshPropertiesResponse#request_id #request_id} => String
+    #   * {Types::DeleteDataSetRefreshPropertiesResponse#status #status} => Integer
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_data_set_refresh_properties({
+    #     aws_account_id: "AwsAccountId", # required
+    #     data_set_id: "ResourceId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.request_id #=> String
+    #   resp.status #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DeleteDataSetRefreshProperties AWS API Documentation
+    #
+    # @overload delete_data_set_refresh_properties(params = {})
+    # @param [Hash] params ({})
+    def delete_data_set_refresh_properties(params = {}, options = {})
+      req = build_request(:delete_data_set_refresh_properties, params)
+      req.send_request(options)
+    end
+
     # Deletes the data source permanently. This operation breaks all the
     # datasets that reference the deleted data source.
     #
@@ -2502,6 +4648,46 @@ module Aws::QuickSight
     # @param [Hash] params ({})
     def delete_data_source(params = {}, options = {})
       req = build_request(:delete_data_source, params)
+      req.send_request(options)
+    end
+
+    # Deletes a linked Amazon Q Business application from an Amazon
+    # QuickSight account
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon QuickSight account that you want to disconnect
+    #   from a Amazon Q Business application.
+    #
+    # @option params [String] :namespace
+    #   The Amazon QuickSight namespace that you want to delete a linked
+    #   Amazon Q Business application from. If this field is left blank, the
+    #   Amazon Q Business application is deleted from the default namespace.
+    #   Currently, the default namespace is the only valid value for this
+    #   parameter.
+    #
+    # @return [Types::DeleteDefaultQBusinessApplicationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DeleteDefaultQBusinessApplicationResponse#request_id #request_id} => String
+    #   * {Types::DeleteDefaultQBusinessApplicationResponse#status #status} => Integer
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_default_q_business_application({
+    #     aws_account_id: "AwsAccountId", # required
+    #     namespace: "Namespace",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.request_id #=> String
+    #   resp.status #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DeleteDefaultQBusinessApplication AWS API Documentation
+    #
+    # @overload delete_default_q_business_application(params = {})
+    # @param [Hash] params ({})
+    def delete_default_q_business_application(params = {}, options = {})
+      req = build_request(:delete_default_q_business_application, params)
       req.send_request(options)
     end
 
@@ -2553,12 +4739,10 @@ module Aws::QuickSight
     #   The Folder ID.
     #
     # @option params [required, String] :member_id
-    #   The ID of the asset (the dashboard, analysis, or dataset) that you
-    #   want to delete.
+    #   The ID of the asset that you want to delete.
     #
     # @option params [required, String] :member_type
-    #   The type of the member, including `DASHBOARD`, `ANALYSIS`, and
-    #   `DATASET`
+    #   The member type of the asset that you want to delete from a folder.
     #
     # @return [Types::DeleteFolderMembershipResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -2571,7 +4755,7 @@ module Aws::QuickSight
     #     aws_account_id: "AwsAccountId", # required
     #     folder_id: "RestrictiveResourceId", # required
     #     member_id: "RestrictiveResourceId", # required
-    #     member_type: "DASHBOARD", # required, accepts DASHBOARD, ANALYSIS, DATASET
+    #     member_type: "DASHBOARD", # required, accepts DASHBOARD, ANALYSIS, DATASET, DATASOURCE, TOPIC
     #   })
     #
     # @example Response structure
@@ -2715,6 +4899,47 @@ module Aws::QuickSight
       req.send_request(options)
     end
 
+    # Deletes all access scopes and authorized targets that are associated
+    # with a service from the Amazon QuickSight IAM Identity Center
+    # application.
+    #
+    # This operation is only supported for Amazon QuickSight accounts that
+    # use IAM Identity Center.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that you want to delete an
+    #   identity propagation configuration from.
+    #
+    # @option params [required, String] :service
+    #   The name of the Amazon Web Services service that you want to delete
+    #   the associated access scopes and authorized targets from.
+    #
+    # @return [Types::DeleteIdentityPropagationConfigResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DeleteIdentityPropagationConfigResponse#request_id #request_id} => String
+    #   * {Types::DeleteIdentityPropagationConfigResponse#status #status} => Integer
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_identity_propagation_config({
+    #     aws_account_id: "AwsAccountId", # required
+    #     service: "REDSHIFT", # required, accepts REDSHIFT, QBUSINESS
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.request_id #=> String
+    #   resp.status #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DeleteIdentityPropagationConfig AWS API Documentation
+    #
+    # @overload delete_identity_propagation_config(params = {})
+    # @param [Hash] params ({})
+    def delete_identity_propagation_config(params = {}, options = {})
+      req = build_request(:delete_identity_propagation_config, params)
+      req.send_request(options)
+    end
+
     # Deletes a namespace and the users and groups that are associated with
     # the namespace. This is an asynchronous process. Assets including
     # dashboards, analyses, datasets and data sources are not deleted. To
@@ -2751,6 +4976,133 @@ module Aws::QuickSight
     # @param [Hash] params ({})
     def delete_namespace(params = {}, options = {})
       req = build_request(:delete_namespace, params)
+      req.send_request(options)
+    end
+
+    # Deletes a refresh schedule from a dataset.
+    #
+    # @option params [required, String] :data_set_id
+    #   The ID of the dataset.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The Amazon Web Services account ID.
+    #
+    # @option params [required, String] :schedule_id
+    #   The ID of the refresh schedule.
+    #
+    # @return [Types::DeleteRefreshScheduleResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DeleteRefreshScheduleResponse#status #status} => Integer
+    #   * {Types::DeleteRefreshScheduleResponse#request_id #request_id} => String
+    #   * {Types::DeleteRefreshScheduleResponse#schedule_id #schedule_id} => String
+    #   * {Types::DeleteRefreshScheduleResponse#arn #arn} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_refresh_schedule({
+    #     data_set_id: "ResourceId", # required
+    #     aws_account_id: "AwsAccountId", # required
+    #     schedule_id: "String", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.status #=> Integer
+    #   resp.request_id #=> String
+    #   resp.schedule_id #=> String
+    #   resp.arn #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DeleteRefreshSchedule AWS API Documentation
+    #
+    # @overload delete_refresh_schedule(params = {})
+    # @param [Hash] params ({})
+    def delete_refresh_schedule(params = {}, options = {})
+      req = build_request(:delete_refresh_schedule, params)
+      req.send_request(options)
+    end
+
+    # Removes custom permissions from the role.
+    #
+    # @option params [required, String] :role
+    #   The role that you want to remove permissions from.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID for the Amazon Web Services account that the group is in.
+    #   Currently, you use the ID for the Amazon Web Services account that
+    #   contains your Amazon QuickSight account.
+    #
+    # @option params [required, String] :namespace
+    #   The namespace that includes the role.
+    #
+    # @return [Types::DeleteRoleCustomPermissionResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DeleteRoleCustomPermissionResponse#request_id #request_id} => String
+    #   * {Types::DeleteRoleCustomPermissionResponse#status #status} => Integer
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_role_custom_permission({
+    #     role: "ADMIN", # required, accepts ADMIN, AUTHOR, READER, ADMIN_PRO, AUTHOR_PRO, READER_PRO
+    #     aws_account_id: "AwsAccountId", # required
+    #     namespace: "Namespace", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.request_id #=> String
+    #   resp.status #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DeleteRoleCustomPermission AWS API Documentation
+    #
+    # @overload delete_role_custom_permission(params = {})
+    # @param [Hash] params ({})
+    def delete_role_custom_permission(params = {}, options = {})
+      req = build_request(:delete_role_custom_permission, params)
+      req.send_request(options)
+    end
+
+    # Removes a group from a role.
+    #
+    # @option params [required, String] :member_name
+    #   The name of the group.
+    #
+    # @option params [required, String] :role
+    #   The role that you want to remove permissions from.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID for the Amazon Web Services account that you want to create a
+    #   group in. The Amazon Web Services account ID that you provide must be
+    #   the same Amazon Web Services account that contains your Amazon
+    #   QuickSight account.
+    #
+    # @option params [required, String] :namespace
+    #   The namespace that contains the role.
+    #
+    # @return [Types::DeleteRoleMembershipResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DeleteRoleMembershipResponse#request_id #request_id} => String
+    #   * {Types::DeleteRoleMembershipResponse#status #status} => Integer
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_role_membership({
+    #     member_name: "GroupName", # required
+    #     role: "ADMIN", # required, accepts ADMIN, AUTHOR, READER, ADMIN_PRO, AUTHOR_PRO, READER_PRO
+    #     aws_account_id: "AwsAccountId", # required
+    #     namespace: "Namespace", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.request_id #=> String
+    #   resp.status #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DeleteRoleMembership AWS API Documentation
+    #
+    # @overload delete_role_membership(params = {})
+    # @param [Hash] params ({})
+    def delete_role_membership(params = {}, options = {})
+      req = build_request(:delete_role_membership, params)
       req.send_request(options)
     end
 
@@ -2942,10 +5294,94 @@ module Aws::QuickSight
       req.send_request(options)
     end
 
+    # Deletes a topic.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that contains the topic that
+    #   you want to delete.
+    #
+    # @option params [required, String] :topic_id
+    #   The ID of the topic that you want to delete. This ID is unique per
+    #   Amazon Web Services Region for each Amazon Web Services account.
+    #
+    # @return [Types::DeleteTopicResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DeleteTopicResponse#arn #arn} => String
+    #   * {Types::DeleteTopicResponse#topic_id #topic_id} => String
+    #   * {Types::DeleteTopicResponse#request_id #request_id} => String
+    #   * {Types::DeleteTopicResponse#status #status} => Integer
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_topic({
+    #     aws_account_id: "AwsAccountId", # required
+    #     topic_id: "TopicId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.arn #=> String
+    #   resp.topic_id #=> String
+    #   resp.request_id #=> String
+    #   resp.status #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DeleteTopic AWS API Documentation
+    #
+    # @overload delete_topic(params = {})
+    # @param [Hash] params ({})
+    def delete_topic(params = {}, options = {})
+      req = build_request(:delete_topic, params)
+      req.send_request(options)
+    end
+
+    # Deletes a topic refresh schedule.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The Amazon Web Services account ID.
+    #
+    # @option params [required, String] :topic_id
+    #   The ID of the topic that you want to modify. This ID is unique per
+    #   Amazon Web Services Region for each Amazon Web Services account.
+    #
+    # @option params [required, String] :dataset_id
+    #   The ID of the dataset.
+    #
+    # @return [Types::DeleteTopicRefreshScheduleResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DeleteTopicRefreshScheduleResponse#topic_id #topic_id} => String
+    #   * {Types::DeleteTopicRefreshScheduleResponse#topic_arn #topic_arn} => String
+    #   * {Types::DeleteTopicRefreshScheduleResponse#dataset_arn #dataset_arn} => String
+    #   * {Types::DeleteTopicRefreshScheduleResponse#status #status} => Integer
+    #   * {Types::DeleteTopicRefreshScheduleResponse#request_id #request_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_topic_refresh_schedule({
+    #     aws_account_id: "AwsAccountId", # required
+    #     topic_id: "TopicId", # required
+    #     dataset_id: "String", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.topic_id #=> String
+    #   resp.topic_arn #=> String
+    #   resp.dataset_arn #=> String
+    #   resp.status #=> Integer
+    #   resp.request_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DeleteTopicRefreshSchedule AWS API Documentation
+    #
+    # @overload delete_topic_refresh_schedule(params = {})
+    # @param [Hash] params ({})
+    def delete_topic_refresh_schedule(params = {}, options = {})
+      req = build_request(:delete_topic_refresh_schedule, params)
+      req.send_request(options)
+    end
+
     # Deletes the Amazon QuickSight user that is associated with the
-    # identity of the Identity and Access Management (IAM) user or role
-    # that's making the call. The IAM user isn't deleted as a result of
-    # this call.
+    # identity of the IAM user or role that's making the call. The IAM user
+    # isn't deleted as a result of this call.
     #
     # @option params [required, String] :user_name
     #   The name of the user that you want to delete.
@@ -3025,6 +5461,91 @@ module Aws::QuickSight
       req.send_request(options)
     end
 
+    # Deletes a custom permissions profile from a user.
+    #
+    # @option params [required, String] :user_name
+    #   The username of the user that you want to remove custom permissions
+    #   from.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that contains the custom
+    #   permission configuration that you want to delete.
+    #
+    # @option params [required, String] :namespace
+    #   The namespace that the user belongs to.
+    #
+    # @return [Types::DeleteUserCustomPermissionResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DeleteUserCustomPermissionResponse#request_id #request_id} => String
+    #   * {Types::DeleteUserCustomPermissionResponse#status #status} => Integer
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_user_custom_permission({
+    #     user_name: "UserName", # required
+    #     aws_account_id: "AwsAccountId", # required
+    #     namespace: "Namespace", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.request_id #=> String
+    #   resp.status #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DeleteUserCustomPermission AWS API Documentation
+    #
+    # @overload delete_user_custom_permission(params = {})
+    # @param [Hash] params ({})
+    def delete_user_custom_permission(params = {}, options = {})
+      req = build_request(:delete_user_custom_permission, params)
+      req.send_request(options)
+    end
+
+    # Deletes a VPC connection.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The Amazon Web Services account ID of the account where you want to
+    #   delete a VPC connection.
+    #
+    # @option params [required, String] :vpc_connection_id
+    #   The ID of the VPC connection that you're creating. This ID is a
+    #   unique identifier for each Amazon Web Services Region in an Amazon Web
+    #   Services account.
+    #
+    # @return [Types::DeleteVPCConnectionResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DeleteVPCConnectionResponse#arn #arn} => String
+    #   * {Types::DeleteVPCConnectionResponse#vpc_connection_id #vpc_connection_id} => String
+    #   * {Types::DeleteVPCConnectionResponse#deletion_status #deletion_status} => String
+    #   * {Types::DeleteVPCConnectionResponse#availability_status #availability_status} => String
+    #   * {Types::DeleteVPCConnectionResponse#request_id #request_id} => String
+    #   * {Types::DeleteVPCConnectionResponse#status #status} => Integer
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_vpc_connection({
+    #     aws_account_id: "AwsAccountId", # required
+    #     vpc_connection_id: "VPCConnectionResourceIdUnrestricted", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.arn #=> String
+    #   resp.vpc_connection_id #=> String
+    #   resp.deletion_status #=> String, one of "CREATION_IN_PROGRESS", "CREATION_SUCCESSFUL", "CREATION_FAILED", "UPDATE_IN_PROGRESS", "UPDATE_SUCCESSFUL", "UPDATE_FAILED", "DELETION_IN_PROGRESS", "DELETION_FAILED", "DELETED"
+    #   resp.availability_status #=> String, one of "AVAILABLE", "UNAVAILABLE", "PARTIALLY_AVAILABLE"
+    #   resp.request_id #=> String
+    #   resp.status #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DeleteVPCConnection AWS API Documentation
+    #
+    # @overload delete_vpc_connection(params = {})
+    # @param [Hash] params ({})
+    def delete_vpc_connection(params = {}, options = {})
+      req = build_request(:delete_vpc_connection, params)
+      req.send_request(options)
+    end
+
     # Describes the customizations associated with the provided Amazon Web
     # Services account and Amazon Amazon QuickSight namespace in an Amazon
     # Web Services Region. The Amazon QuickSight console evaluates which
@@ -3061,7 +5582,6 @@ module Aws::QuickSight
     #   * Run `aws configure` to change your default Amazon Web Services
     #     Region. Use Enter to key the same settings for your keys. For more
     #     information, see [Configuring the CLI][3].
-    #
     # * `Namespace` - A QuickSight namespace is a partition that contains
     #   users and assets (data sources, datasets, dashboards, and so on). To
     #   access assets that are in a specific namespace, users and groups
@@ -3205,6 +5725,7 @@ module Aws::QuickSight
     #   resp.account_info.notification_email #=> String
     #   resp.account_info.authentication_type #=> String
     #   resp.account_info.account_subscription_status #=> String
+    #   resp.account_info.iam_identity_center_instance_arn #=> String
     #   resp.status #=> Integer
     #   resp.request_id #=> String
     #
@@ -3260,6 +5781,39 @@ module Aws::QuickSight
     #   resp.analysis.sheets #=> Array
     #   resp.analysis.sheets[0].sheet_id #=> String
     #   resp.analysis.sheets[0].name #=> String
+    #   resp.analysis.sheets[0].images #=> Array
+    #   resp.analysis.sheets[0].images[0].sheet_image_id #=> String
+    #   resp.analysis.sheets[0].images[0].source.sheet_image_static_file_source.static_file_id #=> String
+    #   resp.analysis.sheets[0].images[0].scaling.scaling_type #=> String, one of "SCALE_TO_WIDTH", "SCALE_TO_HEIGHT", "SCALE_TO_CONTAINER", "SCALE_NONE"
+    #   resp.analysis.sheets[0].images[0].tooltip.tooltip_text.plain_text #=> String
+    #   resp.analysis.sheets[0].images[0].tooltip.visibility #=> String, one of "HIDDEN", "VISIBLE"
+    #   resp.analysis.sheets[0].images[0].image_content_alt_text #=> String
+    #   resp.analysis.sheets[0].images[0].interactions.image_menu_option.availability_status #=> String, one of "ENABLED", "DISABLED"
+    #   resp.analysis.sheets[0].images[0].actions #=> Array
+    #   resp.analysis.sheets[0].images[0].actions[0].custom_action_id #=> String
+    #   resp.analysis.sheets[0].images[0].actions[0].name #=> String
+    #   resp.analysis.sheets[0].images[0].actions[0].status #=> String, one of "ENABLED", "DISABLED"
+    #   resp.analysis.sheets[0].images[0].actions[0].trigger #=> String, one of "CLICK", "MENU"
+    #   resp.analysis.sheets[0].images[0].actions[0].action_operations #=> Array
+    #   resp.analysis.sheets[0].images[0].actions[0].action_operations[0].navigation_operation.local_navigation_configuration.target_sheet_id #=> String
+    #   resp.analysis.sheets[0].images[0].actions[0].action_operations[0].url_operation.url_template #=> String
+    #   resp.analysis.sheets[0].images[0].actions[0].action_operations[0].url_operation.url_target #=> String, one of "NEW_TAB", "NEW_WINDOW", "SAME_TAB"
+    #   resp.analysis.sheets[0].images[0].actions[0].action_operations[0].set_parameters_operation.parameter_value_configurations #=> Array
+    #   resp.analysis.sheets[0].images[0].actions[0].action_operations[0].set_parameters_operation.parameter_value_configurations[0].destination_parameter_name #=> String
+    #   resp.analysis.sheets[0].images[0].actions[0].action_operations[0].set_parameters_operation.parameter_value_configurations[0].value.custom_values_configuration.include_null_value #=> Boolean
+    #   resp.analysis.sheets[0].images[0].actions[0].action_operations[0].set_parameters_operation.parameter_value_configurations[0].value.custom_values_configuration.custom_values.string_values #=> Array
+    #   resp.analysis.sheets[0].images[0].actions[0].action_operations[0].set_parameters_operation.parameter_value_configurations[0].value.custom_values_configuration.custom_values.string_values[0] #=> String
+    #   resp.analysis.sheets[0].images[0].actions[0].action_operations[0].set_parameters_operation.parameter_value_configurations[0].value.custom_values_configuration.custom_values.integer_values #=> Array
+    #   resp.analysis.sheets[0].images[0].actions[0].action_operations[0].set_parameters_operation.parameter_value_configurations[0].value.custom_values_configuration.custom_values.integer_values[0] #=> Integer
+    #   resp.analysis.sheets[0].images[0].actions[0].action_operations[0].set_parameters_operation.parameter_value_configurations[0].value.custom_values_configuration.custom_values.decimal_values #=> Array
+    #   resp.analysis.sheets[0].images[0].actions[0].action_operations[0].set_parameters_operation.parameter_value_configurations[0].value.custom_values_configuration.custom_values.decimal_values[0] #=> Float
+    #   resp.analysis.sheets[0].images[0].actions[0].action_operations[0].set_parameters_operation.parameter_value_configurations[0].value.custom_values_configuration.custom_values.date_time_values #=> Array
+    #   resp.analysis.sheets[0].images[0].actions[0].action_operations[0].set_parameters_operation.parameter_value_configurations[0].value.custom_values_configuration.custom_values.date_time_values[0] #=> Time
+    #   resp.analysis.sheets[0].images[0].actions[0].action_operations[0].set_parameters_operation.parameter_value_configurations[0].value.select_all_value_options #=> String, one of "ALL_VALUES"
+    #   resp.analysis.sheets[0].images[0].actions[0].action_operations[0].set_parameters_operation.parameter_value_configurations[0].value.source_parameter_name #=> String
+    #   resp.analysis.sheets[0].images[0].actions[0].action_operations[0].set_parameters_operation.parameter_value_configurations[0].value.source_field #=> String
+    #   resp.analysis.sheets[0].images[0].actions[0].action_operations[0].set_parameters_operation.parameter_value_configurations[0].value.source_column.data_set_identifier #=> String
+    #   resp.analysis.sheets[0].images[0].actions[0].action_operations[0].set_parameters_operation.parameter_value_configurations[0].value.source_column.column_name #=> String
     #   resp.status #=> Integer
     #   resp.request_id #=> String
     #
@@ -3367,6 +5921,678 @@ module Aws::QuickSight
       req.send_request(options)
     end
 
+    # Describes an existing export job.
+    #
+    # Poll job descriptions after a job starts to know the status of the
+    # job. When a job succeeds, a URL is provided to download the exported
+    # assets' data from. Download URLs are valid for five minutes after
+    # they are generated. You can call the `DescribeAssetBundleExportJob`
+    # API for a new download URL as needed.
+    #
+    # Job descriptions are available for 14 days after the job starts.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account the export job is executed
+    #   in.
+    #
+    # @option params [required, String] :asset_bundle_export_job_id
+    #   The ID of the job that you want described. The job ID is set when you
+    #   start a new job with a `StartAssetBundleExportJob` API call.
+    #
+    # @return [Types::DescribeAssetBundleExportJobResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeAssetBundleExportJobResponse#job_status #job_status} => String
+    #   * {Types::DescribeAssetBundleExportJobResponse#download_url #download_url} => String
+    #   * {Types::DescribeAssetBundleExportJobResponse#errors #errors} => Array&lt;Types::AssetBundleExportJobError&gt;
+    #   * {Types::DescribeAssetBundleExportJobResponse#arn #arn} => String
+    #   * {Types::DescribeAssetBundleExportJobResponse#created_time #created_time} => Time
+    #   * {Types::DescribeAssetBundleExportJobResponse#asset_bundle_export_job_id #asset_bundle_export_job_id} => String
+    #   * {Types::DescribeAssetBundleExportJobResponse#aws_account_id #aws_account_id} => String
+    #   * {Types::DescribeAssetBundleExportJobResponse#resource_arns #resource_arns} => Array&lt;String&gt;
+    #   * {Types::DescribeAssetBundleExportJobResponse#include_all_dependencies #include_all_dependencies} => Boolean
+    #   * {Types::DescribeAssetBundleExportJobResponse#export_format #export_format} => String
+    #   * {Types::DescribeAssetBundleExportJobResponse#cloud_formation_override_property_configuration #cloud_formation_override_property_configuration} => Types::AssetBundleCloudFormationOverridePropertyConfiguration
+    #   * {Types::DescribeAssetBundleExportJobResponse#request_id #request_id} => String
+    #   * {Types::DescribeAssetBundleExportJobResponse#status #status} => Integer
+    #   * {Types::DescribeAssetBundleExportJobResponse#include_permissions #include_permissions} => Boolean
+    #   * {Types::DescribeAssetBundleExportJobResponse#include_tags #include_tags} => Boolean
+    #   * {Types::DescribeAssetBundleExportJobResponse#validation_strategy #validation_strategy} => Types::AssetBundleExportJobValidationStrategy
+    #   * {Types::DescribeAssetBundleExportJobResponse#warnings #warnings} => Array&lt;Types::AssetBundleExportJobWarning&gt;
+    #   * {Types::DescribeAssetBundleExportJobResponse#include_folder_memberships #include_folder_memberships} => Boolean
+    #   * {Types::DescribeAssetBundleExportJobResponse#include_folder_members #include_folder_members} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_asset_bundle_export_job({
+    #     aws_account_id: "AwsAccountId", # required
+    #     asset_bundle_export_job_id: "ShortRestrictiveResourceId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.job_status #=> String, one of "QUEUED_FOR_IMMEDIATE_EXECUTION", "IN_PROGRESS", "SUCCESSFUL", "FAILED"
+    #   resp.download_url #=> String
+    #   resp.errors #=> Array
+    #   resp.errors[0].arn #=> String
+    #   resp.errors[0].type #=> String
+    #   resp.errors[0].message #=> String
+    #   resp.arn #=> String
+    #   resp.created_time #=> Time
+    #   resp.asset_bundle_export_job_id #=> String
+    #   resp.aws_account_id #=> String
+    #   resp.resource_arns #=> Array
+    #   resp.resource_arns[0] #=> String
+    #   resp.include_all_dependencies #=> Boolean
+    #   resp.export_format #=> String, one of "CLOUDFORMATION_JSON", "QUICKSIGHT_JSON"
+    #   resp.cloud_formation_override_property_configuration.resource_id_override_configuration.prefix_for_all_resources #=> Boolean
+    #   resp.cloud_formation_override_property_configuration.vpc_connections #=> Array
+    #   resp.cloud_formation_override_property_configuration.vpc_connections[0].arn #=> String
+    #   resp.cloud_formation_override_property_configuration.vpc_connections[0].properties #=> Array
+    #   resp.cloud_formation_override_property_configuration.vpc_connections[0].properties[0] #=> String, one of "Name", "DnsResolvers", "RoleArn"
+    #   resp.cloud_formation_override_property_configuration.refresh_schedules #=> Array
+    #   resp.cloud_formation_override_property_configuration.refresh_schedules[0].arn #=> String
+    #   resp.cloud_formation_override_property_configuration.refresh_schedules[0].properties #=> Array
+    #   resp.cloud_formation_override_property_configuration.refresh_schedules[0].properties[0] #=> String, one of "StartAfterDateTime"
+    #   resp.cloud_formation_override_property_configuration.data_sources #=> Array
+    #   resp.cloud_formation_override_property_configuration.data_sources[0].arn #=> String
+    #   resp.cloud_formation_override_property_configuration.data_sources[0].properties #=> Array
+    #   resp.cloud_formation_override_property_configuration.data_sources[0].properties[0] #=> String, one of "Name", "DisableSsl", "SecretArn", "Username", "Password", "Domain", "WorkGroup", "Host", "Port", "Database", "DataSetName", "Catalog", "InstanceId", "ClusterId", "ManifestFileLocation", "Warehouse", "RoleArn", "ProductType"
+    #   resp.cloud_formation_override_property_configuration.data_sets #=> Array
+    #   resp.cloud_formation_override_property_configuration.data_sets[0].arn #=> String
+    #   resp.cloud_formation_override_property_configuration.data_sets[0].properties #=> Array
+    #   resp.cloud_formation_override_property_configuration.data_sets[0].properties[0] #=> String, one of "Name"
+    #   resp.cloud_formation_override_property_configuration.themes #=> Array
+    #   resp.cloud_formation_override_property_configuration.themes[0].arn #=> String
+    #   resp.cloud_formation_override_property_configuration.themes[0].properties #=> Array
+    #   resp.cloud_formation_override_property_configuration.themes[0].properties[0] #=> String, one of "Name"
+    #   resp.cloud_formation_override_property_configuration.analyses #=> Array
+    #   resp.cloud_formation_override_property_configuration.analyses[0].arn #=> String
+    #   resp.cloud_formation_override_property_configuration.analyses[0].properties #=> Array
+    #   resp.cloud_formation_override_property_configuration.analyses[0].properties[0] #=> String, one of "Name"
+    #   resp.cloud_formation_override_property_configuration.dashboards #=> Array
+    #   resp.cloud_formation_override_property_configuration.dashboards[0].arn #=> String
+    #   resp.cloud_formation_override_property_configuration.dashboards[0].properties #=> Array
+    #   resp.cloud_formation_override_property_configuration.dashboards[0].properties[0] #=> String, one of "Name"
+    #   resp.cloud_formation_override_property_configuration.folders #=> Array
+    #   resp.cloud_formation_override_property_configuration.folders[0].arn #=> String
+    #   resp.cloud_formation_override_property_configuration.folders[0].properties #=> Array
+    #   resp.cloud_formation_override_property_configuration.folders[0].properties[0] #=> String, one of "Name", "ParentFolderArn"
+    #   resp.request_id #=> String
+    #   resp.status #=> Integer
+    #   resp.include_permissions #=> Boolean
+    #   resp.include_tags #=> Boolean
+    #   resp.validation_strategy.strict_mode_for_all_resources #=> Boolean
+    #   resp.warnings #=> Array
+    #   resp.warnings[0].arn #=> String
+    #   resp.warnings[0].message #=> String
+    #   resp.include_folder_memberships #=> Boolean
+    #   resp.include_folder_members #=> String, one of "RECURSE", "ONE_LEVEL", "NONE"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DescribeAssetBundleExportJob AWS API Documentation
+    #
+    # @overload describe_asset_bundle_export_job(params = {})
+    # @param [Hash] params ({})
+    def describe_asset_bundle_export_job(params = {}, options = {})
+      req = build_request(:describe_asset_bundle_export_job, params)
+      req.send_request(options)
+    end
+
+    # Describes an existing import job.
+    #
+    # Poll job descriptions after starting a job to know when it has
+    # succeeded or failed. Job descriptions are available for 14 days after
+    # job starts.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account the import job was executed
+    #   in.
+    #
+    # @option params [required, String] :asset_bundle_import_job_id
+    #   The ID of the job. The job ID is set when you start a new job with a
+    #   `StartAssetBundleImportJob` API call.
+    #
+    # @return [Types::DescribeAssetBundleImportJobResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeAssetBundleImportJobResponse#job_status #job_status} => String
+    #   * {Types::DescribeAssetBundleImportJobResponse#errors #errors} => Array&lt;Types::AssetBundleImportJobError&gt;
+    #   * {Types::DescribeAssetBundleImportJobResponse#rollback_errors #rollback_errors} => Array&lt;Types::AssetBundleImportJobError&gt;
+    #   * {Types::DescribeAssetBundleImportJobResponse#arn #arn} => String
+    #   * {Types::DescribeAssetBundleImportJobResponse#created_time #created_time} => Time
+    #   * {Types::DescribeAssetBundleImportJobResponse#asset_bundle_import_job_id #asset_bundle_import_job_id} => String
+    #   * {Types::DescribeAssetBundleImportJobResponse#aws_account_id #aws_account_id} => String
+    #   * {Types::DescribeAssetBundleImportJobResponse#asset_bundle_import_source #asset_bundle_import_source} => Types::AssetBundleImportSourceDescription
+    #   * {Types::DescribeAssetBundleImportJobResponse#override_parameters #override_parameters} => Types::AssetBundleImportJobOverrideParameters
+    #   * {Types::DescribeAssetBundleImportJobResponse#failure_action #failure_action} => String
+    #   * {Types::DescribeAssetBundleImportJobResponse#request_id #request_id} => String
+    #   * {Types::DescribeAssetBundleImportJobResponse#status #status} => Integer
+    #   * {Types::DescribeAssetBundleImportJobResponse#override_permissions #override_permissions} => Types::AssetBundleImportJobOverridePermissions
+    #   * {Types::DescribeAssetBundleImportJobResponse#override_tags #override_tags} => Types::AssetBundleImportJobOverrideTags
+    #   * {Types::DescribeAssetBundleImportJobResponse#override_validation_strategy #override_validation_strategy} => Types::AssetBundleImportJobOverrideValidationStrategy
+    #   * {Types::DescribeAssetBundleImportJobResponse#warnings #warnings} => Array&lt;Types::AssetBundleImportJobWarning&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_asset_bundle_import_job({
+    #     aws_account_id: "AwsAccountId", # required
+    #     asset_bundle_import_job_id: "ShortRestrictiveResourceId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.job_status #=> String, one of "QUEUED_FOR_IMMEDIATE_EXECUTION", "IN_PROGRESS", "SUCCESSFUL", "FAILED", "FAILED_ROLLBACK_IN_PROGRESS", "FAILED_ROLLBACK_COMPLETED", "FAILED_ROLLBACK_ERROR"
+    #   resp.errors #=> Array
+    #   resp.errors[0].arn #=> String
+    #   resp.errors[0].type #=> String
+    #   resp.errors[0].message #=> String
+    #   resp.rollback_errors #=> Array
+    #   resp.rollback_errors[0].arn #=> String
+    #   resp.rollback_errors[0].type #=> String
+    #   resp.rollback_errors[0].message #=> String
+    #   resp.arn #=> String
+    #   resp.created_time #=> Time
+    #   resp.asset_bundle_import_job_id #=> String
+    #   resp.aws_account_id #=> String
+    #   resp.asset_bundle_import_source.body #=> String
+    #   resp.asset_bundle_import_source.s3_uri #=> String
+    #   resp.override_parameters.resource_id_override_configuration.prefix_for_all_resources #=> String
+    #   resp.override_parameters.vpc_connections #=> Array
+    #   resp.override_parameters.vpc_connections[0].vpc_connection_id #=> String
+    #   resp.override_parameters.vpc_connections[0].name #=> String
+    #   resp.override_parameters.vpc_connections[0].subnet_ids #=> Array
+    #   resp.override_parameters.vpc_connections[0].subnet_ids[0] #=> String
+    #   resp.override_parameters.vpc_connections[0].security_group_ids #=> Array
+    #   resp.override_parameters.vpc_connections[0].security_group_ids[0] #=> String
+    #   resp.override_parameters.vpc_connections[0].dns_resolvers #=> Array
+    #   resp.override_parameters.vpc_connections[0].dns_resolvers[0] #=> String
+    #   resp.override_parameters.vpc_connections[0].role_arn #=> String
+    #   resp.override_parameters.refresh_schedules #=> Array
+    #   resp.override_parameters.refresh_schedules[0].data_set_id #=> String
+    #   resp.override_parameters.refresh_schedules[0].schedule_id #=> String
+    #   resp.override_parameters.refresh_schedules[0].start_after_date_time #=> Time
+    #   resp.override_parameters.data_sources #=> Array
+    #   resp.override_parameters.data_sources[0].data_source_id #=> String
+    #   resp.override_parameters.data_sources[0].name #=> String
+    #   resp.override_parameters.data_sources[0].data_source_parameters.amazon_elasticsearch_parameters.domain #=> String
+    #   resp.override_parameters.data_sources[0].data_source_parameters.athena_parameters.work_group #=> String
+    #   resp.override_parameters.data_sources[0].data_source_parameters.athena_parameters.role_arn #=> String
+    #   resp.override_parameters.data_sources[0].data_source_parameters.aurora_parameters.host #=> String
+    #   resp.override_parameters.data_sources[0].data_source_parameters.aurora_parameters.port #=> Integer
+    #   resp.override_parameters.data_sources[0].data_source_parameters.aurora_parameters.database #=> String
+    #   resp.override_parameters.data_sources[0].data_source_parameters.aurora_postgre_sql_parameters.host #=> String
+    #   resp.override_parameters.data_sources[0].data_source_parameters.aurora_postgre_sql_parameters.port #=> Integer
+    #   resp.override_parameters.data_sources[0].data_source_parameters.aurora_postgre_sql_parameters.database #=> String
+    #   resp.override_parameters.data_sources[0].data_source_parameters.aws_iot_analytics_parameters.data_set_name #=> String
+    #   resp.override_parameters.data_sources[0].data_source_parameters.jira_parameters.site_base_url #=> String
+    #   resp.override_parameters.data_sources[0].data_source_parameters.maria_db_parameters.host #=> String
+    #   resp.override_parameters.data_sources[0].data_source_parameters.maria_db_parameters.port #=> Integer
+    #   resp.override_parameters.data_sources[0].data_source_parameters.maria_db_parameters.database #=> String
+    #   resp.override_parameters.data_sources[0].data_source_parameters.my_sql_parameters.host #=> String
+    #   resp.override_parameters.data_sources[0].data_source_parameters.my_sql_parameters.port #=> Integer
+    #   resp.override_parameters.data_sources[0].data_source_parameters.my_sql_parameters.database #=> String
+    #   resp.override_parameters.data_sources[0].data_source_parameters.oracle_parameters.host #=> String
+    #   resp.override_parameters.data_sources[0].data_source_parameters.oracle_parameters.port #=> Integer
+    #   resp.override_parameters.data_sources[0].data_source_parameters.oracle_parameters.database #=> String
+    #   resp.override_parameters.data_sources[0].data_source_parameters.postgre_sql_parameters.host #=> String
+    #   resp.override_parameters.data_sources[0].data_source_parameters.postgre_sql_parameters.port #=> Integer
+    #   resp.override_parameters.data_sources[0].data_source_parameters.postgre_sql_parameters.database #=> String
+    #   resp.override_parameters.data_sources[0].data_source_parameters.presto_parameters.host #=> String
+    #   resp.override_parameters.data_sources[0].data_source_parameters.presto_parameters.port #=> Integer
+    #   resp.override_parameters.data_sources[0].data_source_parameters.presto_parameters.catalog #=> String
+    #   resp.override_parameters.data_sources[0].data_source_parameters.rds_parameters.instance_id #=> String
+    #   resp.override_parameters.data_sources[0].data_source_parameters.rds_parameters.database #=> String
+    #   resp.override_parameters.data_sources[0].data_source_parameters.redshift_parameters.host #=> String
+    #   resp.override_parameters.data_sources[0].data_source_parameters.redshift_parameters.port #=> Integer
+    #   resp.override_parameters.data_sources[0].data_source_parameters.redshift_parameters.database #=> String
+    #   resp.override_parameters.data_sources[0].data_source_parameters.redshift_parameters.cluster_id #=> String
+    #   resp.override_parameters.data_sources[0].data_source_parameters.redshift_parameters.iam_parameters.role_arn #=> String
+    #   resp.override_parameters.data_sources[0].data_source_parameters.redshift_parameters.iam_parameters.database_user #=> String
+    #   resp.override_parameters.data_sources[0].data_source_parameters.redshift_parameters.iam_parameters.database_groups #=> Array
+    #   resp.override_parameters.data_sources[0].data_source_parameters.redshift_parameters.iam_parameters.database_groups[0] #=> String
+    #   resp.override_parameters.data_sources[0].data_source_parameters.redshift_parameters.iam_parameters.auto_create_database_user #=> Boolean
+    #   resp.override_parameters.data_sources[0].data_source_parameters.redshift_parameters.identity_center_configuration.enable_identity_propagation #=> Boolean
+    #   resp.override_parameters.data_sources[0].data_source_parameters.s3_parameters.manifest_file_location.bucket #=> String
+    #   resp.override_parameters.data_sources[0].data_source_parameters.s3_parameters.manifest_file_location.key #=> String
+    #   resp.override_parameters.data_sources[0].data_source_parameters.s3_parameters.role_arn #=> String
+    #   resp.override_parameters.data_sources[0].data_source_parameters.service_now_parameters.site_base_url #=> String
+    #   resp.override_parameters.data_sources[0].data_source_parameters.snowflake_parameters.host #=> String
+    #   resp.override_parameters.data_sources[0].data_source_parameters.snowflake_parameters.database #=> String
+    #   resp.override_parameters.data_sources[0].data_source_parameters.snowflake_parameters.warehouse #=> String
+    #   resp.override_parameters.data_sources[0].data_source_parameters.snowflake_parameters.authentication_type #=> String, one of "PASSWORD", "TOKEN", "X509"
+    #   resp.override_parameters.data_sources[0].data_source_parameters.snowflake_parameters.database_access_control_role #=> String
+    #   resp.override_parameters.data_sources[0].data_source_parameters.snowflake_parameters.o_auth_parameters.token_provider_url #=> String
+    #   resp.override_parameters.data_sources[0].data_source_parameters.snowflake_parameters.o_auth_parameters.o_auth_scope #=> String
+    #   resp.override_parameters.data_sources[0].data_source_parameters.snowflake_parameters.o_auth_parameters.identity_provider_vpc_connection_properties.vpc_connection_arn #=> String
+    #   resp.override_parameters.data_sources[0].data_source_parameters.snowflake_parameters.o_auth_parameters.identity_provider_resource_uri #=> String
+    #   resp.override_parameters.data_sources[0].data_source_parameters.spark_parameters.host #=> String
+    #   resp.override_parameters.data_sources[0].data_source_parameters.spark_parameters.port #=> Integer
+    #   resp.override_parameters.data_sources[0].data_source_parameters.sql_server_parameters.host #=> String
+    #   resp.override_parameters.data_sources[0].data_source_parameters.sql_server_parameters.port #=> Integer
+    #   resp.override_parameters.data_sources[0].data_source_parameters.sql_server_parameters.database #=> String
+    #   resp.override_parameters.data_sources[0].data_source_parameters.teradata_parameters.host #=> String
+    #   resp.override_parameters.data_sources[0].data_source_parameters.teradata_parameters.port #=> Integer
+    #   resp.override_parameters.data_sources[0].data_source_parameters.teradata_parameters.database #=> String
+    #   resp.override_parameters.data_sources[0].data_source_parameters.twitter_parameters.query #=> String
+    #   resp.override_parameters.data_sources[0].data_source_parameters.twitter_parameters.max_rows #=> Integer
+    #   resp.override_parameters.data_sources[0].data_source_parameters.amazon_open_search_parameters.domain #=> String
+    #   resp.override_parameters.data_sources[0].data_source_parameters.exasol_parameters.host #=> String
+    #   resp.override_parameters.data_sources[0].data_source_parameters.exasol_parameters.port #=> Integer
+    #   resp.override_parameters.data_sources[0].data_source_parameters.databricks_parameters.host #=> String
+    #   resp.override_parameters.data_sources[0].data_source_parameters.databricks_parameters.port #=> Integer
+    #   resp.override_parameters.data_sources[0].data_source_parameters.databricks_parameters.sql_endpoint_path #=> String
+    #   resp.override_parameters.data_sources[0].data_source_parameters.starburst_parameters.host #=> String
+    #   resp.override_parameters.data_sources[0].data_source_parameters.starburst_parameters.port #=> Integer
+    #   resp.override_parameters.data_sources[0].data_source_parameters.starburst_parameters.catalog #=> String
+    #   resp.override_parameters.data_sources[0].data_source_parameters.starburst_parameters.product_type #=> String, one of "GALAXY", "ENTERPRISE"
+    #   resp.override_parameters.data_sources[0].data_source_parameters.starburst_parameters.database_access_control_role #=> String
+    #   resp.override_parameters.data_sources[0].data_source_parameters.starburst_parameters.authentication_type #=> String, one of "PASSWORD", "TOKEN", "X509"
+    #   resp.override_parameters.data_sources[0].data_source_parameters.starburst_parameters.o_auth_parameters.token_provider_url #=> String
+    #   resp.override_parameters.data_sources[0].data_source_parameters.starburst_parameters.o_auth_parameters.o_auth_scope #=> String
+    #   resp.override_parameters.data_sources[0].data_source_parameters.starburst_parameters.o_auth_parameters.identity_provider_vpc_connection_properties.vpc_connection_arn #=> String
+    #   resp.override_parameters.data_sources[0].data_source_parameters.starburst_parameters.o_auth_parameters.identity_provider_resource_uri #=> String
+    #   resp.override_parameters.data_sources[0].data_source_parameters.trino_parameters.host #=> String
+    #   resp.override_parameters.data_sources[0].data_source_parameters.trino_parameters.port #=> Integer
+    #   resp.override_parameters.data_sources[0].data_source_parameters.trino_parameters.catalog #=> String
+    #   resp.override_parameters.data_sources[0].data_source_parameters.big_query_parameters.project_id #=> String
+    #   resp.override_parameters.data_sources[0].data_source_parameters.big_query_parameters.data_set_region #=> String
+    #   resp.override_parameters.data_sources[0].vpc_connection_properties.vpc_connection_arn #=> String
+    #   resp.override_parameters.data_sources[0].ssl_properties.disable_ssl #=> Boolean
+    #   resp.override_parameters.data_sources[0].credentials.credential_pair.username #=> String
+    #   resp.override_parameters.data_sources[0].credentials.credential_pair.password #=> String
+    #   resp.override_parameters.data_sources[0].credentials.secret_arn #=> String
+    #   resp.override_parameters.data_sets #=> Array
+    #   resp.override_parameters.data_sets[0].data_set_id #=> String
+    #   resp.override_parameters.data_sets[0].name #=> String
+    #   resp.override_parameters.themes #=> Array
+    #   resp.override_parameters.themes[0].theme_id #=> String
+    #   resp.override_parameters.themes[0].name #=> String
+    #   resp.override_parameters.analyses #=> Array
+    #   resp.override_parameters.analyses[0].analysis_id #=> String
+    #   resp.override_parameters.analyses[0].name #=> String
+    #   resp.override_parameters.dashboards #=> Array
+    #   resp.override_parameters.dashboards[0].dashboard_id #=> String
+    #   resp.override_parameters.dashboards[0].name #=> String
+    #   resp.override_parameters.folders #=> Array
+    #   resp.override_parameters.folders[0].folder_id #=> String
+    #   resp.override_parameters.folders[0].name #=> String
+    #   resp.override_parameters.folders[0].parent_folder_arn #=> String
+    #   resp.failure_action #=> String, one of "DO_NOTHING", "ROLLBACK"
+    #   resp.request_id #=> String
+    #   resp.status #=> Integer
+    #   resp.override_permissions.data_sources #=> Array
+    #   resp.override_permissions.data_sources[0].data_source_ids #=> Array
+    #   resp.override_permissions.data_sources[0].data_source_ids[0] #=> String
+    #   resp.override_permissions.data_sources[0].permissions.principals #=> Array
+    #   resp.override_permissions.data_sources[0].permissions.principals[0] #=> String
+    #   resp.override_permissions.data_sources[0].permissions.actions #=> Array
+    #   resp.override_permissions.data_sources[0].permissions.actions[0] #=> String
+    #   resp.override_permissions.data_sets #=> Array
+    #   resp.override_permissions.data_sets[0].data_set_ids #=> Array
+    #   resp.override_permissions.data_sets[0].data_set_ids[0] #=> String
+    #   resp.override_permissions.data_sets[0].permissions.principals #=> Array
+    #   resp.override_permissions.data_sets[0].permissions.principals[0] #=> String
+    #   resp.override_permissions.data_sets[0].permissions.actions #=> Array
+    #   resp.override_permissions.data_sets[0].permissions.actions[0] #=> String
+    #   resp.override_permissions.themes #=> Array
+    #   resp.override_permissions.themes[0].theme_ids #=> Array
+    #   resp.override_permissions.themes[0].theme_ids[0] #=> String
+    #   resp.override_permissions.themes[0].permissions.principals #=> Array
+    #   resp.override_permissions.themes[0].permissions.principals[0] #=> String
+    #   resp.override_permissions.themes[0].permissions.actions #=> Array
+    #   resp.override_permissions.themes[0].permissions.actions[0] #=> String
+    #   resp.override_permissions.analyses #=> Array
+    #   resp.override_permissions.analyses[0].analysis_ids #=> Array
+    #   resp.override_permissions.analyses[0].analysis_ids[0] #=> String
+    #   resp.override_permissions.analyses[0].permissions.principals #=> Array
+    #   resp.override_permissions.analyses[0].permissions.principals[0] #=> String
+    #   resp.override_permissions.analyses[0].permissions.actions #=> Array
+    #   resp.override_permissions.analyses[0].permissions.actions[0] #=> String
+    #   resp.override_permissions.dashboards #=> Array
+    #   resp.override_permissions.dashboards[0].dashboard_ids #=> Array
+    #   resp.override_permissions.dashboards[0].dashboard_ids[0] #=> String
+    #   resp.override_permissions.dashboards[0].permissions.principals #=> Array
+    #   resp.override_permissions.dashboards[0].permissions.principals[0] #=> String
+    #   resp.override_permissions.dashboards[0].permissions.actions #=> Array
+    #   resp.override_permissions.dashboards[0].permissions.actions[0] #=> String
+    #   resp.override_permissions.dashboards[0].link_sharing_configuration.permissions.principals #=> Array
+    #   resp.override_permissions.dashboards[0].link_sharing_configuration.permissions.principals[0] #=> String
+    #   resp.override_permissions.dashboards[0].link_sharing_configuration.permissions.actions #=> Array
+    #   resp.override_permissions.dashboards[0].link_sharing_configuration.permissions.actions[0] #=> String
+    #   resp.override_permissions.folders #=> Array
+    #   resp.override_permissions.folders[0].folder_ids #=> Array
+    #   resp.override_permissions.folders[0].folder_ids[0] #=> String
+    #   resp.override_permissions.folders[0].permissions.principals #=> Array
+    #   resp.override_permissions.folders[0].permissions.principals[0] #=> String
+    #   resp.override_permissions.folders[0].permissions.actions #=> Array
+    #   resp.override_permissions.folders[0].permissions.actions[0] #=> String
+    #   resp.override_tags.vpc_connections #=> Array
+    #   resp.override_tags.vpc_connections[0].vpc_connection_ids #=> Array
+    #   resp.override_tags.vpc_connections[0].vpc_connection_ids[0] #=> String
+    #   resp.override_tags.vpc_connections[0].tags #=> Array
+    #   resp.override_tags.vpc_connections[0].tags[0].key #=> String
+    #   resp.override_tags.vpc_connections[0].tags[0].value #=> String
+    #   resp.override_tags.data_sources #=> Array
+    #   resp.override_tags.data_sources[0].data_source_ids #=> Array
+    #   resp.override_tags.data_sources[0].data_source_ids[0] #=> String
+    #   resp.override_tags.data_sources[0].tags #=> Array
+    #   resp.override_tags.data_sources[0].tags[0].key #=> String
+    #   resp.override_tags.data_sources[0].tags[0].value #=> String
+    #   resp.override_tags.data_sets #=> Array
+    #   resp.override_tags.data_sets[0].data_set_ids #=> Array
+    #   resp.override_tags.data_sets[0].data_set_ids[0] #=> String
+    #   resp.override_tags.data_sets[0].tags #=> Array
+    #   resp.override_tags.data_sets[0].tags[0].key #=> String
+    #   resp.override_tags.data_sets[0].tags[0].value #=> String
+    #   resp.override_tags.themes #=> Array
+    #   resp.override_tags.themes[0].theme_ids #=> Array
+    #   resp.override_tags.themes[0].theme_ids[0] #=> String
+    #   resp.override_tags.themes[0].tags #=> Array
+    #   resp.override_tags.themes[0].tags[0].key #=> String
+    #   resp.override_tags.themes[0].tags[0].value #=> String
+    #   resp.override_tags.analyses #=> Array
+    #   resp.override_tags.analyses[0].analysis_ids #=> Array
+    #   resp.override_tags.analyses[0].analysis_ids[0] #=> String
+    #   resp.override_tags.analyses[0].tags #=> Array
+    #   resp.override_tags.analyses[0].tags[0].key #=> String
+    #   resp.override_tags.analyses[0].tags[0].value #=> String
+    #   resp.override_tags.dashboards #=> Array
+    #   resp.override_tags.dashboards[0].dashboard_ids #=> Array
+    #   resp.override_tags.dashboards[0].dashboard_ids[0] #=> String
+    #   resp.override_tags.dashboards[0].tags #=> Array
+    #   resp.override_tags.dashboards[0].tags[0].key #=> String
+    #   resp.override_tags.dashboards[0].tags[0].value #=> String
+    #   resp.override_tags.folders #=> Array
+    #   resp.override_tags.folders[0].folder_ids #=> Array
+    #   resp.override_tags.folders[0].folder_ids[0] #=> String
+    #   resp.override_tags.folders[0].tags #=> Array
+    #   resp.override_tags.folders[0].tags[0].key #=> String
+    #   resp.override_tags.folders[0].tags[0].value #=> String
+    #   resp.override_validation_strategy.strict_mode_for_all_resources #=> Boolean
+    #   resp.warnings #=> Array
+    #   resp.warnings[0].arn #=> String
+    #   resp.warnings[0].message #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DescribeAssetBundleImportJob AWS API Documentation
+    #
+    # @overload describe_asset_bundle_import_job(params = {})
+    # @param [Hash] params ({})
+    def describe_asset_bundle_import_job(params = {}, options = {})
+      req = build_request(:describe_asset_bundle_import_job, params)
+      req.send_request(options)
+    end
+
+    # Describes a brand.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that owns the brand.
+    #
+    # @option params [required, String] :brand_id
+    #   The ID of the Amazon QuickSight brand.
+    #
+    # @option params [String] :version_id
+    #   The ID of the specific version. The default value is the latest
+    #   version.
+    #
+    # @return [Types::DescribeBrandResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeBrandResponse#request_id #request_id} => String
+    #   * {Types::DescribeBrandResponse#brand_detail #brand_detail} => Types::BrandDetail
+    #   * {Types::DescribeBrandResponse#brand_definition #brand_definition} => Types::BrandDefinition
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_brand({
+    #     aws_account_id: "AwsAccountId", # required
+    #     brand_id: "ShortRestrictiveResourceId", # required
+    #     version_id: "ShortRestrictiveResourceId",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.request_id #=> String
+    #   resp.brand_detail.brand_id #=> String
+    #   resp.brand_detail.arn #=> String
+    #   resp.brand_detail.brand_status #=> String, one of "CREATE_IN_PROGRESS", "CREATE_SUCCEEDED", "CREATE_FAILED", "DELETE_IN_PROGRESS", "DELETE_FAILED"
+    #   resp.brand_detail.created_time #=> Time
+    #   resp.brand_detail.last_updated_time #=> Time
+    #   resp.brand_detail.version_id #=> String
+    #   resp.brand_detail.version_status #=> String, one of "CREATE_IN_PROGRESS", "CREATE_SUCCEEDED", "CREATE_FAILED"
+    #   resp.brand_detail.errors #=> Array
+    #   resp.brand_detail.errors[0] #=> String
+    #   resp.brand_detail.logo.alt_text #=> String
+    #   resp.brand_detail.logo.logo_set.primary.original.source.public_url #=> String
+    #   resp.brand_detail.logo.logo_set.primary.original.source.s3_uri #=> String
+    #   resp.brand_detail.logo.logo_set.primary.original.generated_image_url #=> String
+    #   resp.brand_detail.logo.logo_set.primary.height_64.source.public_url #=> String
+    #   resp.brand_detail.logo.logo_set.primary.height_64.source.s3_uri #=> String
+    #   resp.brand_detail.logo.logo_set.primary.height_64.generated_image_url #=> String
+    #   resp.brand_detail.logo.logo_set.primary.height_32.source.public_url #=> String
+    #   resp.brand_detail.logo.logo_set.primary.height_32.source.s3_uri #=> String
+    #   resp.brand_detail.logo.logo_set.primary.height_32.generated_image_url #=> String
+    #   resp.brand_detail.logo.logo_set.favicon.original.source.public_url #=> String
+    #   resp.brand_detail.logo.logo_set.favicon.original.source.s3_uri #=> String
+    #   resp.brand_detail.logo.logo_set.favicon.original.generated_image_url #=> String
+    #   resp.brand_detail.logo.logo_set.favicon.height_64.source.public_url #=> String
+    #   resp.brand_detail.logo.logo_set.favicon.height_64.source.s3_uri #=> String
+    #   resp.brand_detail.logo.logo_set.favicon.height_64.generated_image_url #=> String
+    #   resp.brand_detail.logo.logo_set.favicon.height_32.source.public_url #=> String
+    #   resp.brand_detail.logo.logo_set.favicon.height_32.source.s3_uri #=> String
+    #   resp.brand_detail.logo.logo_set.favicon.height_32.generated_image_url #=> String
+    #   resp.brand_definition.brand_name #=> String
+    #   resp.brand_definition.description #=> String
+    #   resp.brand_definition.application_theme.brand_color_palette.primary.foreground #=> String
+    #   resp.brand_definition.application_theme.brand_color_palette.primary.background #=> String
+    #   resp.brand_definition.application_theme.brand_color_palette.secondary.foreground #=> String
+    #   resp.brand_definition.application_theme.brand_color_palette.secondary.background #=> String
+    #   resp.brand_definition.application_theme.brand_color_palette.accent.foreground #=> String
+    #   resp.brand_definition.application_theme.brand_color_palette.accent.background #=> String
+    #   resp.brand_definition.application_theme.brand_color_palette.measure.foreground #=> String
+    #   resp.brand_definition.application_theme.brand_color_palette.measure.background #=> String
+    #   resp.brand_definition.application_theme.brand_color_palette.dimension.foreground #=> String
+    #   resp.brand_definition.application_theme.brand_color_palette.dimension.background #=> String
+    #   resp.brand_definition.application_theme.brand_color_palette.success.foreground #=> String
+    #   resp.brand_definition.application_theme.brand_color_palette.success.background #=> String
+    #   resp.brand_definition.application_theme.brand_color_palette.info.foreground #=> String
+    #   resp.brand_definition.application_theme.brand_color_palette.info.background #=> String
+    #   resp.brand_definition.application_theme.brand_color_palette.warning.foreground #=> String
+    #   resp.brand_definition.application_theme.brand_color_palette.warning.background #=> String
+    #   resp.brand_definition.application_theme.brand_color_palette.danger.foreground #=> String
+    #   resp.brand_definition.application_theme.brand_color_palette.danger.background #=> String
+    #   resp.brand_definition.application_theme.brand_element_style.navbar_style.global_navbar.foreground #=> String
+    #   resp.brand_definition.application_theme.brand_element_style.navbar_style.global_navbar.background #=> String
+    #   resp.brand_definition.application_theme.brand_element_style.navbar_style.contextual_navbar.foreground #=> String
+    #   resp.brand_definition.application_theme.brand_element_style.navbar_style.contextual_navbar.background #=> String
+    #   resp.brand_definition.logo_configuration.alt_text #=> String
+    #   resp.brand_definition.logo_configuration.logo_set.primary.original.source.public_url #=> String
+    #   resp.brand_definition.logo_configuration.logo_set.primary.original.source.s3_uri #=> String
+    #   resp.brand_definition.logo_configuration.logo_set.favicon.original.source.public_url #=> String
+    #   resp.brand_definition.logo_configuration.logo_set.favicon.original.source.s3_uri #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DescribeBrand AWS API Documentation
+    #
+    # @overload describe_brand(params = {})
+    # @param [Hash] params ({})
+    def describe_brand(params = {}, options = {})
+      req = build_request(:describe_brand, params)
+      req.send_request(options)
+    end
+
+    # Describes a brand assignment.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that owns the brand
+    #   assignment.
+    #
+    # @return [Types::DescribeBrandAssignmentResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeBrandAssignmentResponse#request_id #request_id} => String
+    #   * {Types::DescribeBrandAssignmentResponse#brand_arn #brand_arn} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_brand_assignment({
+    #     aws_account_id: "AwsAccountId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.request_id #=> String
+    #   resp.brand_arn #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DescribeBrandAssignment AWS API Documentation
+    #
+    # @overload describe_brand_assignment(params = {})
+    # @param [Hash] params ({})
+    def describe_brand_assignment(params = {}, options = {})
+      req = build_request(:describe_brand_assignment, params)
+      req.send_request(options)
+    end
+
+    # Describes the published version of the brand.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that owns the brand.
+    #
+    # @option params [required, String] :brand_id
+    #   The ID of the Amazon QuickSight brand.
+    #
+    # @return [Types::DescribeBrandPublishedVersionResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeBrandPublishedVersionResponse#request_id #request_id} => String
+    #   * {Types::DescribeBrandPublishedVersionResponse#brand_detail #brand_detail} => Types::BrandDetail
+    #   * {Types::DescribeBrandPublishedVersionResponse#brand_definition #brand_definition} => Types::BrandDefinition
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_brand_published_version({
+    #     aws_account_id: "AwsAccountId", # required
+    #     brand_id: "ShortRestrictiveResourceId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.request_id #=> String
+    #   resp.brand_detail.brand_id #=> String
+    #   resp.brand_detail.arn #=> String
+    #   resp.brand_detail.brand_status #=> String, one of "CREATE_IN_PROGRESS", "CREATE_SUCCEEDED", "CREATE_FAILED", "DELETE_IN_PROGRESS", "DELETE_FAILED"
+    #   resp.brand_detail.created_time #=> Time
+    #   resp.brand_detail.last_updated_time #=> Time
+    #   resp.brand_detail.version_id #=> String
+    #   resp.brand_detail.version_status #=> String, one of "CREATE_IN_PROGRESS", "CREATE_SUCCEEDED", "CREATE_FAILED"
+    #   resp.brand_detail.errors #=> Array
+    #   resp.brand_detail.errors[0] #=> String
+    #   resp.brand_detail.logo.alt_text #=> String
+    #   resp.brand_detail.logo.logo_set.primary.original.source.public_url #=> String
+    #   resp.brand_detail.logo.logo_set.primary.original.source.s3_uri #=> String
+    #   resp.brand_detail.logo.logo_set.primary.original.generated_image_url #=> String
+    #   resp.brand_detail.logo.logo_set.primary.height_64.source.public_url #=> String
+    #   resp.brand_detail.logo.logo_set.primary.height_64.source.s3_uri #=> String
+    #   resp.brand_detail.logo.logo_set.primary.height_64.generated_image_url #=> String
+    #   resp.brand_detail.logo.logo_set.primary.height_32.source.public_url #=> String
+    #   resp.brand_detail.logo.logo_set.primary.height_32.source.s3_uri #=> String
+    #   resp.brand_detail.logo.logo_set.primary.height_32.generated_image_url #=> String
+    #   resp.brand_detail.logo.logo_set.favicon.original.source.public_url #=> String
+    #   resp.brand_detail.logo.logo_set.favicon.original.source.s3_uri #=> String
+    #   resp.brand_detail.logo.logo_set.favicon.original.generated_image_url #=> String
+    #   resp.brand_detail.logo.logo_set.favicon.height_64.source.public_url #=> String
+    #   resp.brand_detail.logo.logo_set.favicon.height_64.source.s3_uri #=> String
+    #   resp.brand_detail.logo.logo_set.favicon.height_64.generated_image_url #=> String
+    #   resp.brand_detail.logo.logo_set.favicon.height_32.source.public_url #=> String
+    #   resp.brand_detail.logo.logo_set.favicon.height_32.source.s3_uri #=> String
+    #   resp.brand_detail.logo.logo_set.favicon.height_32.generated_image_url #=> String
+    #   resp.brand_definition.brand_name #=> String
+    #   resp.brand_definition.description #=> String
+    #   resp.brand_definition.application_theme.brand_color_palette.primary.foreground #=> String
+    #   resp.brand_definition.application_theme.brand_color_palette.primary.background #=> String
+    #   resp.brand_definition.application_theme.brand_color_palette.secondary.foreground #=> String
+    #   resp.brand_definition.application_theme.brand_color_palette.secondary.background #=> String
+    #   resp.brand_definition.application_theme.brand_color_palette.accent.foreground #=> String
+    #   resp.brand_definition.application_theme.brand_color_palette.accent.background #=> String
+    #   resp.brand_definition.application_theme.brand_color_palette.measure.foreground #=> String
+    #   resp.brand_definition.application_theme.brand_color_palette.measure.background #=> String
+    #   resp.brand_definition.application_theme.brand_color_palette.dimension.foreground #=> String
+    #   resp.brand_definition.application_theme.brand_color_palette.dimension.background #=> String
+    #   resp.brand_definition.application_theme.brand_color_palette.success.foreground #=> String
+    #   resp.brand_definition.application_theme.brand_color_palette.success.background #=> String
+    #   resp.brand_definition.application_theme.brand_color_palette.info.foreground #=> String
+    #   resp.brand_definition.application_theme.brand_color_palette.info.background #=> String
+    #   resp.brand_definition.application_theme.brand_color_palette.warning.foreground #=> String
+    #   resp.brand_definition.application_theme.brand_color_palette.warning.background #=> String
+    #   resp.brand_definition.application_theme.brand_color_palette.danger.foreground #=> String
+    #   resp.brand_definition.application_theme.brand_color_palette.danger.background #=> String
+    #   resp.brand_definition.application_theme.brand_element_style.navbar_style.global_navbar.foreground #=> String
+    #   resp.brand_definition.application_theme.brand_element_style.navbar_style.global_navbar.background #=> String
+    #   resp.brand_definition.application_theme.brand_element_style.navbar_style.contextual_navbar.foreground #=> String
+    #   resp.brand_definition.application_theme.brand_element_style.navbar_style.contextual_navbar.background #=> String
+    #   resp.brand_definition.logo_configuration.alt_text #=> String
+    #   resp.brand_definition.logo_configuration.logo_set.primary.original.source.public_url #=> String
+    #   resp.brand_definition.logo_configuration.logo_set.primary.original.source.s3_uri #=> String
+    #   resp.brand_definition.logo_configuration.logo_set.favicon.original.source.public_url #=> String
+    #   resp.brand_definition.logo_configuration.logo_set.favicon.original.source.s3_uri #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DescribeBrandPublishedVersion AWS API Documentation
+    #
+    # @overload describe_brand_published_version(params = {})
+    # @param [Hash] params ({})
+    def describe_brand_published_version(params = {}, options = {})
+      req = build_request(:describe_brand_published_version, params)
+      req.send_request(options)
+    end
+
+    # Describes a custom permissions profile.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that contains the custom
+    #   permissions profile that you want described.
+    #
+    # @option params [required, String] :custom_permissions_name
+    #   The name of the custom permissions profile to describe.
+    #
+    # @return [Types::DescribeCustomPermissionsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeCustomPermissionsResponse#status #status} => Integer
+    #   * {Types::DescribeCustomPermissionsResponse#custom_permissions #custom_permissions} => Types::CustomPermissions
+    #   * {Types::DescribeCustomPermissionsResponse#request_id #request_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_custom_permissions({
+    #     aws_account_id: "AwsAccountId", # required
+    #     custom_permissions_name: "CustomPermissionsName", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.status #=> Integer
+    #   resp.custom_permissions.arn #=> String
+    #   resp.custom_permissions.custom_permissions_name #=> String
+    #   resp.custom_permissions.capabilities.export_to_csv #=> String, one of "DENY"
+    #   resp.custom_permissions.capabilities.export_to_excel #=> String, one of "DENY"
+    #   resp.custom_permissions.capabilities.create_and_update_themes #=> String, one of "DENY"
+    #   resp.custom_permissions.capabilities.add_or_run_anomaly_detection_for_analyses #=> String, one of "DENY"
+    #   resp.custom_permissions.capabilities.share_analyses #=> String, one of "DENY"
+    #   resp.custom_permissions.capabilities.create_and_update_datasets #=> String, one of "DENY"
+    #   resp.custom_permissions.capabilities.share_datasets #=> String, one of "DENY"
+    #   resp.custom_permissions.capabilities.subscribe_dashboard_email_reports #=> String, one of "DENY"
+    #   resp.custom_permissions.capabilities.create_and_update_dashboard_email_reports #=> String, one of "DENY"
+    #   resp.custom_permissions.capabilities.share_dashboards #=> String, one of "DENY"
+    #   resp.custom_permissions.capabilities.create_and_update_threshold_alerts #=> String, one of "DENY"
+    #   resp.custom_permissions.capabilities.rename_shared_folders #=> String, one of "DENY"
+    #   resp.custom_permissions.capabilities.create_shared_folders #=> String, one of "DENY"
+    #   resp.custom_permissions.capabilities.create_and_update_data_sources #=> String, one of "DENY"
+    #   resp.custom_permissions.capabilities.share_data_sources #=> String, one of "DENY"
+    #   resp.custom_permissions.capabilities.view_account_spice_capacity #=> String, one of "DENY"
+    #   resp.custom_permissions.capabilities.create_spice_dataset #=> String, one of "DENY"
+    #   resp.request_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DescribeCustomPermissions AWS API Documentation
+    #
+    # @overload describe_custom_permissions(params = {})
+    # @param [Hash] params ({})
+    def describe_custom_permissions(params = {}, options = {})
+      req = build_request(:describe_custom_permissions, params)
+      req.send_request(options)
+    end
+
     # Provides a summary for a dashboard.
     #
     # @option params [required, String] :aws_account_id
@@ -3420,9 +6646,44 @@ module Aws::QuickSight
     #   resp.dashboard.version.sheets #=> Array
     #   resp.dashboard.version.sheets[0].sheet_id #=> String
     #   resp.dashboard.version.sheets[0].name #=> String
+    #   resp.dashboard.version.sheets[0].images #=> Array
+    #   resp.dashboard.version.sheets[0].images[0].sheet_image_id #=> String
+    #   resp.dashboard.version.sheets[0].images[0].source.sheet_image_static_file_source.static_file_id #=> String
+    #   resp.dashboard.version.sheets[0].images[0].scaling.scaling_type #=> String, one of "SCALE_TO_WIDTH", "SCALE_TO_HEIGHT", "SCALE_TO_CONTAINER", "SCALE_NONE"
+    #   resp.dashboard.version.sheets[0].images[0].tooltip.tooltip_text.plain_text #=> String
+    #   resp.dashboard.version.sheets[0].images[0].tooltip.visibility #=> String, one of "HIDDEN", "VISIBLE"
+    #   resp.dashboard.version.sheets[0].images[0].image_content_alt_text #=> String
+    #   resp.dashboard.version.sheets[0].images[0].interactions.image_menu_option.availability_status #=> String, one of "ENABLED", "DISABLED"
+    #   resp.dashboard.version.sheets[0].images[0].actions #=> Array
+    #   resp.dashboard.version.sheets[0].images[0].actions[0].custom_action_id #=> String
+    #   resp.dashboard.version.sheets[0].images[0].actions[0].name #=> String
+    #   resp.dashboard.version.sheets[0].images[0].actions[0].status #=> String, one of "ENABLED", "DISABLED"
+    #   resp.dashboard.version.sheets[0].images[0].actions[0].trigger #=> String, one of "CLICK", "MENU"
+    #   resp.dashboard.version.sheets[0].images[0].actions[0].action_operations #=> Array
+    #   resp.dashboard.version.sheets[0].images[0].actions[0].action_operations[0].navigation_operation.local_navigation_configuration.target_sheet_id #=> String
+    #   resp.dashboard.version.sheets[0].images[0].actions[0].action_operations[0].url_operation.url_template #=> String
+    #   resp.dashboard.version.sheets[0].images[0].actions[0].action_operations[0].url_operation.url_target #=> String, one of "NEW_TAB", "NEW_WINDOW", "SAME_TAB"
+    #   resp.dashboard.version.sheets[0].images[0].actions[0].action_operations[0].set_parameters_operation.parameter_value_configurations #=> Array
+    #   resp.dashboard.version.sheets[0].images[0].actions[0].action_operations[0].set_parameters_operation.parameter_value_configurations[0].destination_parameter_name #=> String
+    #   resp.dashboard.version.sheets[0].images[0].actions[0].action_operations[0].set_parameters_operation.parameter_value_configurations[0].value.custom_values_configuration.include_null_value #=> Boolean
+    #   resp.dashboard.version.sheets[0].images[0].actions[0].action_operations[0].set_parameters_operation.parameter_value_configurations[0].value.custom_values_configuration.custom_values.string_values #=> Array
+    #   resp.dashboard.version.sheets[0].images[0].actions[0].action_operations[0].set_parameters_operation.parameter_value_configurations[0].value.custom_values_configuration.custom_values.string_values[0] #=> String
+    #   resp.dashboard.version.sheets[0].images[0].actions[0].action_operations[0].set_parameters_operation.parameter_value_configurations[0].value.custom_values_configuration.custom_values.integer_values #=> Array
+    #   resp.dashboard.version.sheets[0].images[0].actions[0].action_operations[0].set_parameters_operation.parameter_value_configurations[0].value.custom_values_configuration.custom_values.integer_values[0] #=> Integer
+    #   resp.dashboard.version.sheets[0].images[0].actions[0].action_operations[0].set_parameters_operation.parameter_value_configurations[0].value.custom_values_configuration.custom_values.decimal_values #=> Array
+    #   resp.dashboard.version.sheets[0].images[0].actions[0].action_operations[0].set_parameters_operation.parameter_value_configurations[0].value.custom_values_configuration.custom_values.decimal_values[0] #=> Float
+    #   resp.dashboard.version.sheets[0].images[0].actions[0].action_operations[0].set_parameters_operation.parameter_value_configurations[0].value.custom_values_configuration.custom_values.date_time_values #=> Array
+    #   resp.dashboard.version.sheets[0].images[0].actions[0].action_operations[0].set_parameters_operation.parameter_value_configurations[0].value.custom_values_configuration.custom_values.date_time_values[0] #=> Time
+    #   resp.dashboard.version.sheets[0].images[0].actions[0].action_operations[0].set_parameters_operation.parameter_value_configurations[0].value.select_all_value_options #=> String, one of "ALL_VALUES"
+    #   resp.dashboard.version.sheets[0].images[0].actions[0].action_operations[0].set_parameters_operation.parameter_value_configurations[0].value.source_parameter_name #=> String
+    #   resp.dashboard.version.sheets[0].images[0].actions[0].action_operations[0].set_parameters_operation.parameter_value_configurations[0].value.source_field #=> String
+    #   resp.dashboard.version.sheets[0].images[0].actions[0].action_operations[0].set_parameters_operation.parameter_value_configurations[0].value.source_column.data_set_identifier #=> String
+    #   resp.dashboard.version.sheets[0].images[0].actions[0].action_operations[0].set_parameters_operation.parameter_value_configurations[0].value.source_column.column_name #=> String
     #   resp.dashboard.created_time #=> Time
     #   resp.dashboard.last_published_time #=> Time
     #   resp.dashboard.last_updated_time #=> Time
+    #   resp.dashboard.link_entities #=> Array
+    #   resp.dashboard.link_entities[0] #=> String
     #   resp.status #=> Integer
     #   resp.request_id #=> String
     #
@@ -3541,6 +6802,206 @@ module Aws::QuickSight
       req.send_request(options)
     end
 
+    # Describes an existing snapshot job.
+    #
+    # Poll job descriptions after a job starts to know the status of the
+    # job. For information on available status codes, see `JobStatus`.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that the dashboard snapshot
+    #   job is executed in.
+    #
+    # @option params [required, String] :dashboard_id
+    #   The ID of the dashboard that you have started a snapshot job for.
+    #
+    # @option params [required, String] :snapshot_job_id
+    #   The ID of the job to be described. The job ID is set when you start a
+    #   new job with a `StartDashboardSnapshotJob` API call.
+    #
+    # @return [Types::DescribeDashboardSnapshotJobResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeDashboardSnapshotJobResponse#aws_account_id #aws_account_id} => String
+    #   * {Types::DescribeDashboardSnapshotJobResponse#dashboard_id #dashboard_id} => String
+    #   * {Types::DescribeDashboardSnapshotJobResponse#snapshot_job_id #snapshot_job_id} => String
+    #   * {Types::DescribeDashboardSnapshotJobResponse#user_configuration #user_configuration} => Types::SnapshotUserConfigurationRedacted
+    #   * {Types::DescribeDashboardSnapshotJobResponse#snapshot_configuration #snapshot_configuration} => Types::SnapshotConfiguration
+    #   * {Types::DescribeDashboardSnapshotJobResponse#arn #arn} => String
+    #   * {Types::DescribeDashboardSnapshotJobResponse#job_status #job_status} => String
+    #   * {Types::DescribeDashboardSnapshotJobResponse#created_time #created_time} => Time
+    #   * {Types::DescribeDashboardSnapshotJobResponse#last_updated_time #last_updated_time} => Time
+    #   * {Types::DescribeDashboardSnapshotJobResponse#request_id #request_id} => String
+    #   * {Types::DescribeDashboardSnapshotJobResponse#status #status} => Integer
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_dashboard_snapshot_job({
+    #     aws_account_id: "AwsAccountId", # required
+    #     dashboard_id: "ShortRestrictiveResourceId", # required
+    #     snapshot_job_id: "ShortRestrictiveResourceId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.aws_account_id #=> String
+    #   resp.dashboard_id #=> String
+    #   resp.snapshot_job_id #=> String
+    #   resp.user_configuration.anonymous_users #=> Array
+    #   resp.user_configuration.anonymous_users[0].row_level_permission_tag_keys #=> Array
+    #   resp.user_configuration.anonymous_users[0].row_level_permission_tag_keys[0] #=> String
+    #   resp.snapshot_configuration.file_groups #=> Array
+    #   resp.snapshot_configuration.file_groups[0].files #=> Array
+    #   resp.snapshot_configuration.file_groups[0].files[0].sheet_selections #=> Array
+    #   resp.snapshot_configuration.file_groups[0].files[0].sheet_selections[0].sheet_id #=> String
+    #   resp.snapshot_configuration.file_groups[0].files[0].sheet_selections[0].selection_scope #=> String, one of "ALL_VISUALS", "SELECTED_VISUALS"
+    #   resp.snapshot_configuration.file_groups[0].files[0].sheet_selections[0].visual_ids #=> Array
+    #   resp.snapshot_configuration.file_groups[0].files[0].sheet_selections[0].visual_ids[0] #=> String
+    #   resp.snapshot_configuration.file_groups[0].files[0].format_type #=> String, one of "CSV", "PDF", "EXCEL"
+    #   resp.snapshot_configuration.destination_configuration.s3_destinations #=> Array
+    #   resp.snapshot_configuration.destination_configuration.s3_destinations[0].bucket_configuration.bucket_name #=> String
+    #   resp.snapshot_configuration.destination_configuration.s3_destinations[0].bucket_configuration.bucket_prefix #=> String
+    #   resp.snapshot_configuration.destination_configuration.s3_destinations[0].bucket_configuration.bucket_region #=> String
+    #   resp.snapshot_configuration.parameters.string_parameters #=> Array
+    #   resp.snapshot_configuration.parameters.string_parameters[0].name #=> String
+    #   resp.snapshot_configuration.parameters.string_parameters[0].values #=> Array
+    #   resp.snapshot_configuration.parameters.string_parameters[0].values[0] #=> String
+    #   resp.snapshot_configuration.parameters.integer_parameters #=> Array
+    #   resp.snapshot_configuration.parameters.integer_parameters[0].name #=> String
+    #   resp.snapshot_configuration.parameters.integer_parameters[0].values #=> Array
+    #   resp.snapshot_configuration.parameters.integer_parameters[0].values[0] #=> Integer
+    #   resp.snapshot_configuration.parameters.decimal_parameters #=> Array
+    #   resp.snapshot_configuration.parameters.decimal_parameters[0].name #=> String
+    #   resp.snapshot_configuration.parameters.decimal_parameters[0].values #=> Array
+    #   resp.snapshot_configuration.parameters.decimal_parameters[0].values[0] #=> Float
+    #   resp.snapshot_configuration.parameters.date_time_parameters #=> Array
+    #   resp.snapshot_configuration.parameters.date_time_parameters[0].name #=> String
+    #   resp.snapshot_configuration.parameters.date_time_parameters[0].values #=> Array
+    #   resp.snapshot_configuration.parameters.date_time_parameters[0].values[0] #=> Time
+    #   resp.arn #=> String
+    #   resp.job_status #=> String, one of "QUEUED", "RUNNING", "COMPLETED", "FAILED"
+    #   resp.created_time #=> Time
+    #   resp.last_updated_time #=> Time
+    #   resp.request_id #=> String
+    #   resp.status #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DescribeDashboardSnapshotJob AWS API Documentation
+    #
+    # @overload describe_dashboard_snapshot_job(params = {})
+    # @param [Hash] params ({})
+    def describe_dashboard_snapshot_job(params = {}, options = {})
+      req = build_request(:describe_dashboard_snapshot_job, params)
+      req.send_request(options)
+    end
+
+    # Describes the result of an existing snapshot job that has finished
+    # running.
+    #
+    # A finished snapshot job will return a `COMPLETED` or `FAILED` status
+    # when you poll the job with a `DescribeDashboardSnapshotJob` API call.
+    #
+    # If the job has not finished running, this operation returns a message
+    # that says `Dashboard Snapshot Job with id <SnapshotjobId> has not
+    # reached a terminal state.`.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that the dashboard snapshot
+    #   job is executed in.
+    #
+    # @option params [required, String] :dashboard_id
+    #   The ID of the dashboard that you have started a snapshot job for.
+    #
+    # @option params [required, String] :snapshot_job_id
+    #   The ID of the job to be described. The job ID is set when you start a
+    #   new job with a `StartDashboardSnapshotJob` API call.
+    #
+    # @return [Types::DescribeDashboardSnapshotJobResultResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeDashboardSnapshotJobResultResponse#arn #arn} => String
+    #   * {Types::DescribeDashboardSnapshotJobResultResponse#job_status #job_status} => String
+    #   * {Types::DescribeDashboardSnapshotJobResultResponse#created_time #created_time} => Time
+    #   * {Types::DescribeDashboardSnapshotJobResultResponse#last_updated_time #last_updated_time} => Time
+    #   * {Types::DescribeDashboardSnapshotJobResultResponse#result #result} => Types::SnapshotJobResult
+    #   * {Types::DescribeDashboardSnapshotJobResultResponse#error_info #error_info} => Types::SnapshotJobErrorInfo
+    #   * {Types::DescribeDashboardSnapshotJobResultResponse#request_id #request_id} => String
+    #   * {Types::DescribeDashboardSnapshotJobResultResponse#status #status} => Integer
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_dashboard_snapshot_job_result({
+    #     aws_account_id: "AwsAccountId", # required
+    #     dashboard_id: "ShortRestrictiveResourceId", # required
+    #     snapshot_job_id: "ShortRestrictiveResourceId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.arn #=> String
+    #   resp.job_status #=> String, one of "QUEUED", "RUNNING", "COMPLETED", "FAILED"
+    #   resp.created_time #=> Time
+    #   resp.last_updated_time #=> Time
+    #   resp.result.anonymous_users #=> Array
+    #   resp.result.anonymous_users[0].file_groups #=> Array
+    #   resp.result.anonymous_users[0].file_groups[0].files #=> Array
+    #   resp.result.anonymous_users[0].file_groups[0].files[0].sheet_selections #=> Array
+    #   resp.result.anonymous_users[0].file_groups[0].files[0].sheet_selections[0].sheet_id #=> String
+    #   resp.result.anonymous_users[0].file_groups[0].files[0].sheet_selections[0].selection_scope #=> String, one of "ALL_VISUALS", "SELECTED_VISUALS"
+    #   resp.result.anonymous_users[0].file_groups[0].files[0].sheet_selections[0].visual_ids #=> Array
+    #   resp.result.anonymous_users[0].file_groups[0].files[0].sheet_selections[0].visual_ids[0] #=> String
+    #   resp.result.anonymous_users[0].file_groups[0].files[0].format_type #=> String, one of "CSV", "PDF", "EXCEL"
+    #   resp.result.anonymous_users[0].file_groups[0].s3_results #=> Array
+    #   resp.result.anonymous_users[0].file_groups[0].s3_results[0].s3_destination_configuration.bucket_configuration.bucket_name #=> String
+    #   resp.result.anonymous_users[0].file_groups[0].s3_results[0].s3_destination_configuration.bucket_configuration.bucket_prefix #=> String
+    #   resp.result.anonymous_users[0].file_groups[0].s3_results[0].s3_destination_configuration.bucket_configuration.bucket_region #=> String
+    #   resp.result.anonymous_users[0].file_groups[0].s3_results[0].s3_uri #=> String
+    #   resp.result.anonymous_users[0].file_groups[0].s3_results[0].error_info #=> Array
+    #   resp.result.anonymous_users[0].file_groups[0].s3_results[0].error_info[0].error_message #=> String
+    #   resp.result.anonymous_users[0].file_groups[0].s3_results[0].error_info[0].error_type #=> String
+    #   resp.error_info.error_message #=> String
+    #   resp.error_info.error_type #=> String
+    #   resp.request_id #=> String
+    #   resp.status #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DescribeDashboardSnapshotJobResult AWS API Documentation
+    #
+    # @overload describe_dashboard_snapshot_job_result(params = {})
+    # @param [Hash] params ({})
+    def describe_dashboard_snapshot_job_result(params = {}, options = {})
+      req = build_request(:describe_dashboard_snapshot_job_result, params)
+      req.send_request(options)
+    end
+
+    # Describes an existing dashboard QA configuration.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that contains the dashboard
+    #   QA configuration that you want described.
+    #
+    # @return [Types::DescribeDashboardsQAConfigurationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeDashboardsQAConfigurationResponse#dashboards_qa_status #dashboards_qa_status} => String
+    #   * {Types::DescribeDashboardsQAConfigurationResponse#request_id #request_id} => String
+    #   * {Types::DescribeDashboardsQAConfigurationResponse#status #status} => Integer
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_dashboards_qa_configuration({
+    #     aws_account_id: "AwsAccountId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.dashboards_qa_status #=> String, one of "ENABLED", "DISABLED"
+    #   resp.request_id #=> String
+    #   resp.status #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DescribeDashboardsQAConfiguration AWS API Documentation
+    #
+    # @overload describe_dashboards_qa_configuration(params = {})
+    # @param [Hash] params ({})
+    def describe_dashboards_qa_configuration(params = {}, options = {})
+      req = build_request(:describe_dashboards_qa_configuration, params)
+      req.send_request(options)
+    end
+
     # Describes a dataset. This operation doesn't support datasets that
     # include uploaded files as a source.
     #
@@ -3579,12 +7040,14 @@ module Aws::QuickSight
     #   resp.data_set.physical_table_map["PhysicalTableId"].relational_table.input_columns #=> Array
     #   resp.data_set.physical_table_map["PhysicalTableId"].relational_table.input_columns[0].name #=> String
     #   resp.data_set.physical_table_map["PhysicalTableId"].relational_table.input_columns[0].type #=> String, one of "STRING", "INTEGER", "DECIMAL", "DATETIME", "BIT", "BOOLEAN", "JSON"
+    #   resp.data_set.physical_table_map["PhysicalTableId"].relational_table.input_columns[0].sub_type #=> String, one of "FLOAT", "FIXED"
     #   resp.data_set.physical_table_map["PhysicalTableId"].custom_sql.data_source_arn #=> String
     #   resp.data_set.physical_table_map["PhysicalTableId"].custom_sql.name #=> String
     #   resp.data_set.physical_table_map["PhysicalTableId"].custom_sql.sql_query #=> String
     #   resp.data_set.physical_table_map["PhysicalTableId"].custom_sql.columns #=> Array
     #   resp.data_set.physical_table_map["PhysicalTableId"].custom_sql.columns[0].name #=> String
     #   resp.data_set.physical_table_map["PhysicalTableId"].custom_sql.columns[0].type #=> String, one of "STRING", "INTEGER", "DECIMAL", "DATETIME", "BIT", "BOOLEAN", "JSON"
+    #   resp.data_set.physical_table_map["PhysicalTableId"].custom_sql.columns[0].sub_type #=> String, one of "FLOAT", "FIXED"
     #   resp.data_set.physical_table_map["PhysicalTableId"].s3_source.data_source_arn #=> String
     #   resp.data_set.physical_table_map["PhysicalTableId"].s3_source.upload_settings.format #=> String, one of "CSV", "TSV", "CLF", "ELF", "XLSX", "JSON"
     #   resp.data_set.physical_table_map["PhysicalTableId"].s3_source.upload_settings.start_from_row #=> Integer
@@ -3594,6 +7057,7 @@ module Aws::QuickSight
     #   resp.data_set.physical_table_map["PhysicalTableId"].s3_source.input_columns #=> Array
     #   resp.data_set.physical_table_map["PhysicalTableId"].s3_source.input_columns[0].name #=> String
     #   resp.data_set.physical_table_map["PhysicalTableId"].s3_source.input_columns[0].type #=> String, one of "STRING", "INTEGER", "DECIMAL", "DATETIME", "BIT", "BOOLEAN", "JSON"
+    #   resp.data_set.physical_table_map["PhysicalTableId"].s3_source.input_columns[0].sub_type #=> String, one of "FLOAT", "FIXED"
     #   resp.data_set.logical_table_map #=> Hash
     #   resp.data_set.logical_table_map["LogicalTableId"].alias #=> String
     #   resp.data_set.logical_table_map["LogicalTableId"].data_transforms #=> Array
@@ -3608,6 +7072,7 @@ module Aws::QuickSight
     #   resp.data_set.logical_table_map["LogicalTableId"].data_transforms[0].rename_column_operation.new_column_name #=> String
     #   resp.data_set.logical_table_map["LogicalTableId"].data_transforms[0].cast_column_type_operation.column_name #=> String
     #   resp.data_set.logical_table_map["LogicalTableId"].data_transforms[0].cast_column_type_operation.new_column_type #=> String, one of "STRING", "INTEGER", "DECIMAL", "DATETIME"
+    #   resp.data_set.logical_table_map["LogicalTableId"].data_transforms[0].cast_column_type_operation.sub_type #=> String, one of "FLOAT", "FIXED"
     #   resp.data_set.logical_table_map["LogicalTableId"].data_transforms[0].cast_column_type_operation.format #=> String
     #   resp.data_set.logical_table_map["LogicalTableId"].data_transforms[0].tag_column_operation.column_name #=> String
     #   resp.data_set.logical_table_map["LogicalTableId"].data_transforms[0].tag_column_operation.tags #=> Array
@@ -3616,6 +7081,16 @@ module Aws::QuickSight
     #   resp.data_set.logical_table_map["LogicalTableId"].data_transforms[0].untag_column_operation.column_name #=> String
     #   resp.data_set.logical_table_map["LogicalTableId"].data_transforms[0].untag_column_operation.tag_names #=> Array
     #   resp.data_set.logical_table_map["LogicalTableId"].data_transforms[0].untag_column_operation.tag_names[0] #=> String, one of "COLUMN_GEOGRAPHIC_ROLE", "COLUMN_DESCRIPTION"
+    #   resp.data_set.logical_table_map["LogicalTableId"].data_transforms[0].override_dataset_parameter_operation.parameter_name #=> String
+    #   resp.data_set.logical_table_map["LogicalTableId"].data_transforms[0].override_dataset_parameter_operation.new_parameter_name #=> String
+    #   resp.data_set.logical_table_map["LogicalTableId"].data_transforms[0].override_dataset_parameter_operation.new_default_values.string_static_values #=> Array
+    #   resp.data_set.logical_table_map["LogicalTableId"].data_transforms[0].override_dataset_parameter_operation.new_default_values.string_static_values[0] #=> String
+    #   resp.data_set.logical_table_map["LogicalTableId"].data_transforms[0].override_dataset_parameter_operation.new_default_values.decimal_static_values #=> Array
+    #   resp.data_set.logical_table_map["LogicalTableId"].data_transforms[0].override_dataset_parameter_operation.new_default_values.decimal_static_values[0] #=> Float
+    #   resp.data_set.logical_table_map["LogicalTableId"].data_transforms[0].override_dataset_parameter_operation.new_default_values.date_time_static_values #=> Array
+    #   resp.data_set.logical_table_map["LogicalTableId"].data_transforms[0].override_dataset_parameter_operation.new_default_values.date_time_static_values[0] #=> Time
+    #   resp.data_set.logical_table_map["LogicalTableId"].data_transforms[0].override_dataset_parameter_operation.new_default_values.integer_static_values #=> Array
+    #   resp.data_set.logical_table_map["LogicalTableId"].data_transforms[0].override_dataset_parameter_operation.new_default_values.integer_static_values[0] #=> Integer
     #   resp.data_set.logical_table_map["LogicalTableId"].source.join_instruction.left_operand #=> String
     #   resp.data_set.logical_table_map["LogicalTableId"].source.join_instruction.right_operand #=> String
     #   resp.data_set.logical_table_map["LogicalTableId"].source.join_instruction.left_join_key_properties.unique_key #=> Boolean
@@ -3628,6 +7103,7 @@ module Aws::QuickSight
     #   resp.data_set.output_columns[0].name #=> String
     #   resp.data_set.output_columns[0].description #=> String
     #   resp.data_set.output_columns[0].type #=> String, one of "STRING", "INTEGER", "DECIMAL", "DATETIME"
+    #   resp.data_set.output_columns[0].sub_type #=> String, one of "FLOAT", "FIXED"
     #   resp.data_set.import_mode #=> String, one of "SPICE", "DIRECT_QUERY"
     #   resp.data_set.consumed_spice_capacity_in_bytes #=> Integer
     #   resp.data_set.column_groups #=> Array
@@ -3650,6 +7126,9 @@ module Aws::QuickSight
     #   resp.data_set.row_level_permission_tag_configuration.tag_rules[0].column_name #=> String
     #   resp.data_set.row_level_permission_tag_configuration.tag_rules[0].tag_multi_value_delimiter #=> String
     #   resp.data_set.row_level_permission_tag_configuration.tag_rules[0].match_all_value #=> String
+    #   resp.data_set.row_level_permission_tag_configuration.tag_rule_configurations #=> Array
+    #   resp.data_set.row_level_permission_tag_configuration.tag_rule_configurations[0] #=> Array
+    #   resp.data_set.row_level_permission_tag_configuration.tag_rule_configurations[0][0] #=> String
     #   resp.data_set.column_level_permission_rules #=> Array
     #   resp.data_set.column_level_permission_rules[0].principals #=> Array
     #   resp.data_set.column_level_permission_rules[0].principals[0] #=> String
@@ -3657,6 +7136,31 @@ module Aws::QuickSight
     #   resp.data_set.column_level_permission_rules[0].column_names[0] #=> String
     #   resp.data_set.data_set_usage_configuration.disable_use_as_direct_query_source #=> Boolean
     #   resp.data_set.data_set_usage_configuration.disable_use_as_imported_source #=> Boolean
+    #   resp.data_set.dataset_parameters #=> Array
+    #   resp.data_set.dataset_parameters[0].string_dataset_parameter.id #=> String
+    #   resp.data_set.dataset_parameters[0].string_dataset_parameter.name #=> String
+    #   resp.data_set.dataset_parameters[0].string_dataset_parameter.value_type #=> String, one of "MULTI_VALUED", "SINGLE_VALUED"
+    #   resp.data_set.dataset_parameters[0].string_dataset_parameter.default_values.static_values #=> Array
+    #   resp.data_set.dataset_parameters[0].string_dataset_parameter.default_values.static_values[0] #=> String
+    #   resp.data_set.dataset_parameters[0].decimal_dataset_parameter.id #=> String
+    #   resp.data_set.dataset_parameters[0].decimal_dataset_parameter.name #=> String
+    #   resp.data_set.dataset_parameters[0].decimal_dataset_parameter.value_type #=> String, one of "MULTI_VALUED", "SINGLE_VALUED"
+    #   resp.data_set.dataset_parameters[0].decimal_dataset_parameter.default_values.static_values #=> Array
+    #   resp.data_set.dataset_parameters[0].decimal_dataset_parameter.default_values.static_values[0] #=> Float
+    #   resp.data_set.dataset_parameters[0].integer_dataset_parameter.id #=> String
+    #   resp.data_set.dataset_parameters[0].integer_dataset_parameter.name #=> String
+    #   resp.data_set.dataset_parameters[0].integer_dataset_parameter.value_type #=> String, one of "MULTI_VALUED", "SINGLE_VALUED"
+    #   resp.data_set.dataset_parameters[0].integer_dataset_parameter.default_values.static_values #=> Array
+    #   resp.data_set.dataset_parameters[0].integer_dataset_parameter.default_values.static_values[0] #=> Integer
+    #   resp.data_set.dataset_parameters[0].date_time_dataset_parameter.id #=> String
+    #   resp.data_set.dataset_parameters[0].date_time_dataset_parameter.name #=> String
+    #   resp.data_set.dataset_parameters[0].date_time_dataset_parameter.value_type #=> String, one of "MULTI_VALUED", "SINGLE_VALUED"
+    #   resp.data_set.dataset_parameters[0].date_time_dataset_parameter.time_granularity #=> String, one of "YEAR", "QUARTER", "MONTH", "WEEK", "DAY", "HOUR", "MINUTE", "SECOND", "MILLISECOND"
+    #   resp.data_set.dataset_parameters[0].date_time_dataset_parameter.default_values.static_values #=> Array
+    #   resp.data_set.dataset_parameters[0].date_time_dataset_parameter.default_values.static_values[0] #=> Time
+    #   resp.data_set.performance_configuration.unique_keys #=> Array
+    #   resp.data_set.performance_configuration.unique_keys[0].column_names #=> Array
+    #   resp.data_set.performance_configuration.unique_keys[0].column_names[0] #=> String
     #   resp.request_id #=> String
     #   resp.status #=> Integer
     #
@@ -3716,6 +7220,44 @@ module Aws::QuickSight
       req.send_request(options)
     end
 
+    # Describes the refresh properties of a dataset.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The Amazon Web Services account ID.
+    #
+    # @option params [required, String] :data_set_id
+    #   The ID of the dataset.
+    #
+    # @return [Types::DescribeDataSetRefreshPropertiesResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeDataSetRefreshPropertiesResponse#request_id #request_id} => String
+    #   * {Types::DescribeDataSetRefreshPropertiesResponse#status #status} => Integer
+    #   * {Types::DescribeDataSetRefreshPropertiesResponse#data_set_refresh_properties #data_set_refresh_properties} => Types::DataSetRefreshProperties
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_data_set_refresh_properties({
+    #     aws_account_id: "AwsAccountId", # required
+    #     data_set_id: "ResourceId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.request_id #=> String
+    #   resp.status #=> Integer
+    #   resp.data_set_refresh_properties.refresh_configuration.incremental_refresh.lookback_window.column_name #=> String
+    #   resp.data_set_refresh_properties.refresh_configuration.incremental_refresh.lookback_window.size #=> Integer
+    #   resp.data_set_refresh_properties.refresh_configuration.incremental_refresh.lookback_window.size_unit #=> String, one of "HOUR", "DAY", "WEEK"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DescribeDataSetRefreshProperties AWS API Documentation
+    #
+    # @overload describe_data_set_refresh_properties(params = {})
+    # @param [Hash] params ({})
+    def describe_data_set_refresh_properties(params = {}, options = {})
+      req = build_request(:describe_data_set_refresh_properties, params)
+      req.send_request(options)
+    end
+
     # Describes a data source.
     #
     # @option params [required, String] :aws_account_id
@@ -3743,7 +7285,7 @@ module Aws::QuickSight
     #   resp.data_source.arn #=> String
     #   resp.data_source.data_source_id #=> String
     #   resp.data_source.name #=> String
-    #   resp.data_source.type #=> String, one of "ADOBE_ANALYTICS", "AMAZON_ELASTICSEARCH", "ATHENA", "AURORA", "AURORA_POSTGRESQL", "AWS_IOT_ANALYTICS", "GITHUB", "JIRA", "MARIADB", "MYSQL", "ORACLE", "POSTGRESQL", "PRESTO", "REDSHIFT", "S3", "SALESFORCE", "SERVICENOW", "SNOWFLAKE", "SPARK", "SQLSERVER", "TERADATA", "TWITTER", "TIMESTREAM", "AMAZON_OPENSEARCH", "EXASOL", "DATABRICKS"
+    #   resp.data_source.type #=> String, one of "ADOBE_ANALYTICS", "AMAZON_ELASTICSEARCH", "ATHENA", "AURORA", "AURORA_POSTGRESQL", "AWS_IOT_ANALYTICS", "GITHUB", "JIRA", "MARIADB", "MYSQL", "ORACLE", "POSTGRESQL", "PRESTO", "REDSHIFT", "S3", "SALESFORCE", "SERVICENOW", "SNOWFLAKE", "SPARK", "SQLSERVER", "TERADATA", "TWITTER", "TIMESTREAM", "AMAZON_OPENSEARCH", "EXASOL", "DATABRICKS", "STARBURST", "TRINO", "BIGQUERY"
     #   resp.data_source.status #=> String, one of "CREATION_IN_PROGRESS", "CREATION_SUCCESSFUL", "CREATION_FAILED", "UPDATE_IN_PROGRESS", "UPDATE_SUCCESSFUL", "UPDATE_FAILED", "DELETED"
     #   resp.data_source.created_time #=> Time
     #   resp.data_source.last_updated_time #=> Time
@@ -3779,12 +7321,25 @@ module Aws::QuickSight
     #   resp.data_source.data_source_parameters.redshift_parameters.port #=> Integer
     #   resp.data_source.data_source_parameters.redshift_parameters.database #=> String
     #   resp.data_source.data_source_parameters.redshift_parameters.cluster_id #=> String
+    #   resp.data_source.data_source_parameters.redshift_parameters.iam_parameters.role_arn #=> String
+    #   resp.data_source.data_source_parameters.redshift_parameters.iam_parameters.database_user #=> String
+    #   resp.data_source.data_source_parameters.redshift_parameters.iam_parameters.database_groups #=> Array
+    #   resp.data_source.data_source_parameters.redshift_parameters.iam_parameters.database_groups[0] #=> String
+    #   resp.data_source.data_source_parameters.redshift_parameters.iam_parameters.auto_create_database_user #=> Boolean
+    #   resp.data_source.data_source_parameters.redshift_parameters.identity_center_configuration.enable_identity_propagation #=> Boolean
     #   resp.data_source.data_source_parameters.s3_parameters.manifest_file_location.bucket #=> String
     #   resp.data_source.data_source_parameters.s3_parameters.manifest_file_location.key #=> String
+    #   resp.data_source.data_source_parameters.s3_parameters.role_arn #=> String
     #   resp.data_source.data_source_parameters.service_now_parameters.site_base_url #=> String
     #   resp.data_source.data_source_parameters.snowflake_parameters.host #=> String
     #   resp.data_source.data_source_parameters.snowflake_parameters.database #=> String
     #   resp.data_source.data_source_parameters.snowflake_parameters.warehouse #=> String
+    #   resp.data_source.data_source_parameters.snowflake_parameters.authentication_type #=> String, one of "PASSWORD", "TOKEN", "X509"
+    #   resp.data_source.data_source_parameters.snowflake_parameters.database_access_control_role #=> String
+    #   resp.data_source.data_source_parameters.snowflake_parameters.o_auth_parameters.token_provider_url #=> String
+    #   resp.data_source.data_source_parameters.snowflake_parameters.o_auth_parameters.o_auth_scope #=> String
+    #   resp.data_source.data_source_parameters.snowflake_parameters.o_auth_parameters.identity_provider_vpc_connection_properties.vpc_connection_arn #=> String
+    #   resp.data_source.data_source_parameters.snowflake_parameters.o_auth_parameters.identity_provider_resource_uri #=> String
     #   resp.data_source.data_source_parameters.spark_parameters.host #=> String
     #   resp.data_source.data_source_parameters.spark_parameters.port #=> Integer
     #   resp.data_source.data_source_parameters.sql_server_parameters.host #=> String
@@ -3801,6 +7356,21 @@ module Aws::QuickSight
     #   resp.data_source.data_source_parameters.databricks_parameters.host #=> String
     #   resp.data_source.data_source_parameters.databricks_parameters.port #=> Integer
     #   resp.data_source.data_source_parameters.databricks_parameters.sql_endpoint_path #=> String
+    #   resp.data_source.data_source_parameters.starburst_parameters.host #=> String
+    #   resp.data_source.data_source_parameters.starburst_parameters.port #=> Integer
+    #   resp.data_source.data_source_parameters.starburst_parameters.catalog #=> String
+    #   resp.data_source.data_source_parameters.starburst_parameters.product_type #=> String, one of "GALAXY", "ENTERPRISE"
+    #   resp.data_source.data_source_parameters.starburst_parameters.database_access_control_role #=> String
+    #   resp.data_source.data_source_parameters.starburst_parameters.authentication_type #=> String, one of "PASSWORD", "TOKEN", "X509"
+    #   resp.data_source.data_source_parameters.starburst_parameters.o_auth_parameters.token_provider_url #=> String
+    #   resp.data_source.data_source_parameters.starburst_parameters.o_auth_parameters.o_auth_scope #=> String
+    #   resp.data_source.data_source_parameters.starburst_parameters.o_auth_parameters.identity_provider_vpc_connection_properties.vpc_connection_arn #=> String
+    #   resp.data_source.data_source_parameters.starburst_parameters.o_auth_parameters.identity_provider_resource_uri #=> String
+    #   resp.data_source.data_source_parameters.trino_parameters.host #=> String
+    #   resp.data_source.data_source_parameters.trino_parameters.port #=> Integer
+    #   resp.data_source.data_source_parameters.trino_parameters.catalog #=> String
+    #   resp.data_source.data_source_parameters.big_query_parameters.project_id #=> String
+    #   resp.data_source.data_source_parameters.big_query_parameters.data_set_region #=> String
     #   resp.data_source.alternate_data_source_parameters #=> Array
     #   resp.data_source.alternate_data_source_parameters[0].amazon_elasticsearch_parameters.domain #=> String
     #   resp.data_source.alternate_data_source_parameters[0].athena_parameters.work_group #=> String
@@ -3834,12 +7404,25 @@ module Aws::QuickSight
     #   resp.data_source.alternate_data_source_parameters[0].redshift_parameters.port #=> Integer
     #   resp.data_source.alternate_data_source_parameters[0].redshift_parameters.database #=> String
     #   resp.data_source.alternate_data_source_parameters[0].redshift_parameters.cluster_id #=> String
+    #   resp.data_source.alternate_data_source_parameters[0].redshift_parameters.iam_parameters.role_arn #=> String
+    #   resp.data_source.alternate_data_source_parameters[0].redshift_parameters.iam_parameters.database_user #=> String
+    #   resp.data_source.alternate_data_source_parameters[0].redshift_parameters.iam_parameters.database_groups #=> Array
+    #   resp.data_source.alternate_data_source_parameters[0].redshift_parameters.iam_parameters.database_groups[0] #=> String
+    #   resp.data_source.alternate_data_source_parameters[0].redshift_parameters.iam_parameters.auto_create_database_user #=> Boolean
+    #   resp.data_source.alternate_data_source_parameters[0].redshift_parameters.identity_center_configuration.enable_identity_propagation #=> Boolean
     #   resp.data_source.alternate_data_source_parameters[0].s3_parameters.manifest_file_location.bucket #=> String
     #   resp.data_source.alternate_data_source_parameters[0].s3_parameters.manifest_file_location.key #=> String
+    #   resp.data_source.alternate_data_source_parameters[0].s3_parameters.role_arn #=> String
     #   resp.data_source.alternate_data_source_parameters[0].service_now_parameters.site_base_url #=> String
     #   resp.data_source.alternate_data_source_parameters[0].snowflake_parameters.host #=> String
     #   resp.data_source.alternate_data_source_parameters[0].snowflake_parameters.database #=> String
     #   resp.data_source.alternate_data_source_parameters[0].snowflake_parameters.warehouse #=> String
+    #   resp.data_source.alternate_data_source_parameters[0].snowflake_parameters.authentication_type #=> String, one of "PASSWORD", "TOKEN", "X509"
+    #   resp.data_source.alternate_data_source_parameters[0].snowflake_parameters.database_access_control_role #=> String
+    #   resp.data_source.alternate_data_source_parameters[0].snowflake_parameters.o_auth_parameters.token_provider_url #=> String
+    #   resp.data_source.alternate_data_source_parameters[0].snowflake_parameters.o_auth_parameters.o_auth_scope #=> String
+    #   resp.data_source.alternate_data_source_parameters[0].snowflake_parameters.o_auth_parameters.identity_provider_vpc_connection_properties.vpc_connection_arn #=> String
+    #   resp.data_source.alternate_data_source_parameters[0].snowflake_parameters.o_auth_parameters.identity_provider_resource_uri #=> String
     #   resp.data_source.alternate_data_source_parameters[0].spark_parameters.host #=> String
     #   resp.data_source.alternate_data_source_parameters[0].spark_parameters.port #=> Integer
     #   resp.data_source.alternate_data_source_parameters[0].sql_server_parameters.host #=> String
@@ -3856,6 +7439,21 @@ module Aws::QuickSight
     #   resp.data_source.alternate_data_source_parameters[0].databricks_parameters.host #=> String
     #   resp.data_source.alternate_data_source_parameters[0].databricks_parameters.port #=> Integer
     #   resp.data_source.alternate_data_source_parameters[0].databricks_parameters.sql_endpoint_path #=> String
+    #   resp.data_source.alternate_data_source_parameters[0].starburst_parameters.host #=> String
+    #   resp.data_source.alternate_data_source_parameters[0].starburst_parameters.port #=> Integer
+    #   resp.data_source.alternate_data_source_parameters[0].starburst_parameters.catalog #=> String
+    #   resp.data_source.alternate_data_source_parameters[0].starburst_parameters.product_type #=> String, one of "GALAXY", "ENTERPRISE"
+    #   resp.data_source.alternate_data_source_parameters[0].starburst_parameters.database_access_control_role #=> String
+    #   resp.data_source.alternate_data_source_parameters[0].starburst_parameters.authentication_type #=> String, one of "PASSWORD", "TOKEN", "X509"
+    #   resp.data_source.alternate_data_source_parameters[0].starburst_parameters.o_auth_parameters.token_provider_url #=> String
+    #   resp.data_source.alternate_data_source_parameters[0].starburst_parameters.o_auth_parameters.o_auth_scope #=> String
+    #   resp.data_source.alternate_data_source_parameters[0].starburst_parameters.o_auth_parameters.identity_provider_vpc_connection_properties.vpc_connection_arn #=> String
+    #   resp.data_source.alternate_data_source_parameters[0].starburst_parameters.o_auth_parameters.identity_provider_resource_uri #=> String
+    #   resp.data_source.alternate_data_source_parameters[0].trino_parameters.host #=> String
+    #   resp.data_source.alternate_data_source_parameters[0].trino_parameters.port #=> Integer
+    #   resp.data_source.alternate_data_source_parameters[0].trino_parameters.catalog #=> String
+    #   resp.data_source.alternate_data_source_parameters[0].big_query_parameters.project_id #=> String
+    #   resp.data_source.alternate_data_source_parameters[0].big_query_parameters.data_set_region #=> String
     #   resp.data_source.vpc_connection_properties.vpc_connection_arn #=> String
     #   resp.data_source.ssl_properties.disable_ssl #=> Boolean
     #   resp.data_source.error_info.type #=> String, one of "ACCESS_DENIED", "COPY_SOURCE_NOT_FOUND", "TIMEOUT", "ENGINE_VERSION_NOT_SUPPORTED", "UNKNOWN_HOST", "GENERIC_SQL_FAILURE", "CONFLICT", "UNKNOWN"
@@ -3917,6 +7515,47 @@ module Aws::QuickSight
       req.send_request(options)
     end
 
+    # Describes a Amazon Q Business application that is linked to an Amazon
+    # QuickSight account.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon QuickSight account that is linked to the Amazon Q
+    #   Business application that you want described.
+    #
+    # @option params [String] :namespace
+    #   The Amazon QuickSight namespace that contains the linked Amazon Q
+    #   Business application. If this field is left blank, the default
+    #   namespace is used. Currently, the default namespace is the only valid
+    #   value for this parameter.
+    #
+    # @return [Types::DescribeDefaultQBusinessApplicationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeDefaultQBusinessApplicationResponse#request_id #request_id} => String
+    #   * {Types::DescribeDefaultQBusinessApplicationResponse#status #status} => Integer
+    #   * {Types::DescribeDefaultQBusinessApplicationResponse#application_id #application_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_default_q_business_application({
+    #     aws_account_id: "AwsAccountId", # required
+    #     namespace: "Namespace",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.request_id #=> String
+    #   resp.status #=> Integer
+    #   resp.application_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DescribeDefaultQBusinessApplication AWS API Documentation
+    #
+    # @overload describe_default_q_business_application(params = {})
+    # @param [Hash] params ({})
+    def describe_default_q_business_application(params = {}, options = {})
+      req = build_request(:describe_default_q_business_application, params)
+      req.send_request(options)
+    end
+
     # Describes a folder.
     #
     # @option params [required, String] :aws_account_id
@@ -3944,11 +7583,12 @@ module Aws::QuickSight
     #   resp.folder.folder_id #=> String
     #   resp.folder.arn #=> String
     #   resp.folder.name #=> String
-    #   resp.folder.folder_type #=> String, one of "SHARED"
+    #   resp.folder.folder_type #=> String, one of "SHARED", "RESTRICTED"
     #   resp.folder.folder_path #=> Array
     #   resp.folder.folder_path[0] #=> String
     #   resp.folder.created_time #=> Time
     #   resp.folder.last_updated_time #=> Time
+    #   resp.folder.sharing_model #=> String, one of "ACCOUNT", "NAMESPACE"
     #   resp.request_id #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DescribeFolder AWS API Documentation
@@ -3968,6 +7608,15 @@ module Aws::QuickSight
     # @option params [required, String] :folder_id
     #   The ID of the folder.
     #
+    # @option params [String] :namespace
+    #   The namespace of the folder whose permissions you want described.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to be returned per request.
+    #
+    # @option params [String] :next_token
+    #   A pagination token for the next set of results.
+    #
     # @return [Types::DescribeFolderPermissionsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::DescribeFolderPermissionsResponse#status #status} => Integer
@@ -3975,12 +7624,18 @@ module Aws::QuickSight
     #   * {Types::DescribeFolderPermissionsResponse#arn #arn} => String
     #   * {Types::DescribeFolderPermissionsResponse#permissions #permissions} => Array&lt;Types::ResourcePermission&gt;
     #   * {Types::DescribeFolderPermissionsResponse#request_id #request_id} => String
+    #   * {Types::DescribeFolderPermissionsResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
     #
     # @example Request syntax with placeholder values
     #
     #   resp = client.describe_folder_permissions({
     #     aws_account_id: "AwsAccountId", # required
     #     folder_id: "RestrictiveResourceId", # required
+    #     namespace: "Namespace",
+    #     max_results: 1,
+    #     next_token: "String",
     #   })
     #
     # @example Response structure
@@ -3993,6 +7648,7 @@ module Aws::QuickSight
     #   resp.permissions[0].actions #=> Array
     #   resp.permissions[0].actions[0] #=> String
     #   resp.request_id #=> String
+    #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DescribeFolderPermissions AWS API Documentation
     #
@@ -4013,6 +7669,15 @@ module Aws::QuickSight
     # @option params [required, String] :folder_id
     #   The ID of the folder.
     #
+    # @option params [String] :namespace
+    #   The namespace of the folder whose permissions you want described.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to be returned per request.
+    #
+    # @option params [String] :next_token
+    #   A pagination token for the next set of results.
+    #
     # @return [Types::DescribeFolderResolvedPermissionsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::DescribeFolderResolvedPermissionsResponse#status #status} => Integer
@@ -4020,12 +7685,18 @@ module Aws::QuickSight
     #   * {Types::DescribeFolderResolvedPermissionsResponse#arn #arn} => String
     #   * {Types::DescribeFolderResolvedPermissionsResponse#permissions #permissions} => Array&lt;Types::ResourcePermission&gt;
     #   * {Types::DescribeFolderResolvedPermissionsResponse#request_id #request_id} => String
+    #   * {Types::DescribeFolderResolvedPermissionsResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
     #
     # @example Request syntax with placeholder values
     #
     #   resp = client.describe_folder_resolved_permissions({
     #     aws_account_id: "AwsAccountId", # required
     #     folder_id: "RestrictiveResourceId", # required
+    #     namespace: "Namespace",
+    #     max_results: 1,
+    #     next_token: "String",
     #   })
     #
     # @example Response structure
@@ -4038,6 +7709,7 @@ module Aws::QuickSight
     #   resp.permissions[0].actions #=> Array
     #   resp.permissions[0].actions[0] #=> String
     #   resp.request_id #=> String
+    #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DescribeFolderResolvedPermissions AWS API Documentation
     #
@@ -4222,7 +7894,7 @@ module Aws::QuickSight
     #   resp.ingestion.arn #=> String
     #   resp.ingestion.ingestion_id #=> String
     #   resp.ingestion.ingestion_status #=> String, one of "INITIALIZED", "QUEUED", "RUNNING", "FAILED", "COMPLETED", "CANCELLED"
-    #   resp.ingestion.error_info.type #=> String, one of "FAILURE_TO_ASSUME_ROLE", "INGESTION_SUPERSEDED", "INGESTION_CANCELED", "DATA_SET_DELETED", "DATA_SET_NOT_SPICE", "S3_UPLOADED_FILE_DELETED", "S3_MANIFEST_ERROR", "DATA_TOLERANCE_EXCEPTION", "SPICE_TABLE_NOT_FOUND", "DATA_SET_SIZE_LIMIT_EXCEEDED", "ROW_SIZE_LIMIT_EXCEEDED", "ACCOUNT_CAPACITY_LIMIT_EXCEEDED", "CUSTOMER_ERROR", "DATA_SOURCE_NOT_FOUND", "IAM_ROLE_NOT_AVAILABLE", "CONNECTION_FAILURE", "SQL_TABLE_NOT_FOUND", "PERMISSION_DENIED", "SSL_CERTIFICATE_VALIDATION_FAILURE", "OAUTH_TOKEN_FAILURE", "SOURCE_API_LIMIT_EXCEEDED_FAILURE", "PASSWORD_AUTHENTICATION_FAILURE", "SQL_SCHEMA_MISMATCH_ERROR", "INVALID_DATE_FORMAT", "INVALID_DATAPREP_SYNTAX", "SOURCE_RESOURCE_LIMIT_EXCEEDED", "SQL_INVALID_PARAMETER_VALUE", "QUERY_TIMEOUT", "SQL_NUMERIC_OVERFLOW", "UNRESOLVABLE_HOST", "UNROUTABLE_HOST", "SQL_EXCEPTION", "S3_FILE_INACCESSIBLE", "IOT_FILE_NOT_FOUND", "IOT_DATA_SET_FILE_EMPTY", "INVALID_DATA_SOURCE_CONFIG", "DATA_SOURCE_AUTH_FAILED", "DATA_SOURCE_CONNECTION_FAILED", "FAILURE_TO_PROCESS_JSON_FILE", "INTERNAL_SERVICE_ERROR", "REFRESH_SUPPRESSED_BY_EDIT", "PERMISSION_NOT_FOUND", "ELASTICSEARCH_CURSOR_NOT_ENABLED", "CURSOR_NOT_ENABLED"
+    #   resp.ingestion.error_info.type #=> String, one of "FAILURE_TO_ASSUME_ROLE", "INGESTION_SUPERSEDED", "INGESTION_CANCELED", "DATA_SET_DELETED", "DATA_SET_NOT_SPICE", "S3_UPLOADED_FILE_DELETED", "S3_MANIFEST_ERROR", "DATA_TOLERANCE_EXCEPTION", "SPICE_TABLE_NOT_FOUND", "DATA_SET_SIZE_LIMIT_EXCEEDED", "ROW_SIZE_LIMIT_EXCEEDED", "ACCOUNT_CAPACITY_LIMIT_EXCEEDED", "CUSTOMER_ERROR", "DATA_SOURCE_NOT_FOUND", "IAM_ROLE_NOT_AVAILABLE", "CONNECTION_FAILURE", "SQL_TABLE_NOT_FOUND", "PERMISSION_DENIED", "SSL_CERTIFICATE_VALIDATION_FAILURE", "OAUTH_TOKEN_FAILURE", "SOURCE_API_LIMIT_EXCEEDED_FAILURE", "PASSWORD_AUTHENTICATION_FAILURE", "SQL_SCHEMA_MISMATCH_ERROR", "INVALID_DATE_FORMAT", "INVALID_DATAPREP_SYNTAX", "SOURCE_RESOURCE_LIMIT_EXCEEDED", "SQL_INVALID_PARAMETER_VALUE", "QUERY_TIMEOUT", "SQL_NUMERIC_OVERFLOW", "UNRESOLVABLE_HOST", "UNROUTABLE_HOST", "SQL_EXCEPTION", "S3_FILE_INACCESSIBLE", "IOT_FILE_NOT_FOUND", "IOT_DATA_SET_FILE_EMPTY", "INVALID_DATA_SOURCE_CONFIG", "DATA_SOURCE_AUTH_FAILED", "DATA_SOURCE_CONNECTION_FAILED", "FAILURE_TO_PROCESS_JSON_FILE", "INTERNAL_SERVICE_ERROR", "REFRESH_SUPPRESSED_BY_EDIT", "PERMISSION_NOT_FOUND", "ELASTICSEARCH_CURSOR_NOT_ENABLED", "CURSOR_NOT_ENABLED", "DUPLICATE_COLUMN_NAMES_FOUND"
     #   resp.ingestion.error_info.message #=> String
     #   resp.ingestion.row_info.rows_ingested #=> Integer
     #   resp.ingestion.row_info.rows_dropped #=> Integer
@@ -4255,6 +7927,8 @@ module Aws::QuickSight
     #
     #   * {Types::DescribeIpRestrictionResponse#aws_account_id #aws_account_id} => String
     #   * {Types::DescribeIpRestrictionResponse#ip_restriction_rule_map #ip_restriction_rule_map} => Hash&lt;String,String&gt;
+    #   * {Types::DescribeIpRestrictionResponse#vpc_id_restriction_rule_map #vpc_id_restriction_rule_map} => Hash&lt;String,String&gt;
+    #   * {Types::DescribeIpRestrictionResponse#vpc_endpoint_id_restriction_rule_map #vpc_endpoint_id_restriction_rule_map} => Hash&lt;String,String&gt;
     #   * {Types::DescribeIpRestrictionResponse#enabled #enabled} => Boolean
     #   * {Types::DescribeIpRestrictionResponse#request_id #request_id} => String
     #   * {Types::DescribeIpRestrictionResponse#status #status} => Integer
@@ -4270,6 +7944,10 @@ module Aws::QuickSight
     #   resp.aws_account_id #=> String
     #   resp.ip_restriction_rule_map #=> Hash
     #   resp.ip_restriction_rule_map["CIDR"] #=> String
+    #   resp.vpc_id_restriction_rule_map #=> Hash
+    #   resp.vpc_id_restriction_rule_map["VpcId"] #=> String
+    #   resp.vpc_endpoint_id_restriction_rule_map #=> Hash
+    #   resp.vpc_endpoint_id_restriction_rule_map["VpcEndpointId"] #=> String
     #   resp.enabled #=> Boolean
     #   resp.request_id #=> String
     #   resp.status #=> Integer
@@ -4280,6 +7958,48 @@ module Aws::QuickSight
     # @param [Hash] params ({})
     def describe_ip_restriction(params = {}, options = {})
       req = build_request(:describe_ip_restriction, params)
+      req.send_request(options)
+    end
+
+    # Describes all customer managed key registrations in a Amazon
+    # QuickSight account.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that contains the customer
+    #   managed key registration that you want to describe.
+    #
+    # @option params [Boolean] :default_key_only
+    #   Determines whether the request returns the default key only.
+    #
+    # @return [Types::DescribeKeyRegistrationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeKeyRegistrationResponse#aws_account_id #aws_account_id} => String
+    #   * {Types::DescribeKeyRegistrationResponse#key_registration #key_registration} => Array&lt;Types::RegisteredCustomerManagedKey&gt;
+    #   * {Types::DescribeKeyRegistrationResponse#request_id #request_id} => String
+    #   * {Types::DescribeKeyRegistrationResponse#status #status} => Integer
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_key_registration({
+    #     aws_account_id: "AwsAccountId", # required
+    #     default_key_only: false,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.aws_account_id #=> String
+    #   resp.key_registration #=> Array
+    #   resp.key_registration[0].key_arn #=> String
+    #   resp.key_registration[0].default_key #=> Boolean
+    #   resp.request_id #=> String
+    #   resp.status #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DescribeKeyRegistration AWS API Documentation
+    #
+    # @overload describe_key_registration(params = {})
+    # @param [Hash] params ({})
+    def describe_key_registration(params = {}, options = {})
+      req = build_request(:describe_key_registration, params)
       req.send_request(options)
     end
 
@@ -4314,6 +8034,8 @@ module Aws::QuickSight
     #   resp.namespace.identity_store #=> String, one of "QUICKSIGHT"
     #   resp.namespace.namespace_error.type #=> String, one of "PERMISSION_DENIED", "INTERNAL_SERVICE_ERROR"
     #   resp.namespace.namespace_error.message #=> String
+    #   resp.namespace.iam_identity_center_application_arn #=> String
+    #   resp.namespace.iam_identity_center_instance_arn #=> String
     #   resp.request_id #=> String
     #   resp.status #=> Integer
     #
@@ -4323,6 +8045,165 @@ module Aws::QuickSight
     # @param [Hash] params ({})
     def describe_namespace(params = {}, options = {})
       req = build_request(:describe_namespace, params)
+      req.send_request(options)
+    end
+
+    # Describes a personalization configuration.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that contains the
+    #   personalization configuration that the user wants described.
+    #
+    # @return [Types::DescribeQPersonalizationConfigurationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeQPersonalizationConfigurationResponse#personalization_mode #personalization_mode} => String
+    #   * {Types::DescribeQPersonalizationConfigurationResponse#request_id #request_id} => String
+    #   * {Types::DescribeQPersonalizationConfigurationResponse#status #status} => Integer
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_q_personalization_configuration({
+    #     aws_account_id: "AwsAccountId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.personalization_mode #=> String, one of "ENABLED", "DISABLED"
+    #   resp.request_id #=> String
+    #   resp.status #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DescribeQPersonalizationConfiguration AWS API Documentation
+    #
+    # @overload describe_q_personalization_configuration(params = {})
+    # @param [Hash] params ({})
+    def describe_q_personalization_configuration(params = {}, options = {})
+      req = build_request(:describe_q_personalization_configuration, params)
+      req.send_request(options)
+    end
+
+    # Describes the state of a Amazon QuickSight Q Search configuration.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that contains the Amazon
+    #   QuickSight Q Search configuration that the user wants described.
+    #
+    # @return [Types::DescribeQuickSightQSearchConfigurationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeQuickSightQSearchConfigurationResponse#q_search_status #q_search_status} => String
+    #   * {Types::DescribeQuickSightQSearchConfigurationResponse#request_id #request_id} => String
+    #   * {Types::DescribeQuickSightQSearchConfigurationResponse#status #status} => Integer
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_quick_sight_q_search_configuration({
+    #     aws_account_id: "AwsAccountId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.q_search_status #=> String, one of "ENABLED", "DISABLED"
+    #   resp.request_id #=> String
+    #   resp.status #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DescribeQuickSightQSearchConfiguration AWS API Documentation
+    #
+    # @overload describe_quick_sight_q_search_configuration(params = {})
+    # @param [Hash] params ({})
+    def describe_quick_sight_q_search_configuration(params = {}, options = {})
+      req = build_request(:describe_quick_sight_q_search_configuration, params)
+      req.send_request(options)
+    end
+
+    # Provides a summary of a refresh schedule.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The Amazon Web Services account ID.
+    #
+    # @option params [required, String] :data_set_id
+    #   The ID of the dataset.
+    #
+    # @option params [required, String] :schedule_id
+    #   The ID of the refresh schedule.
+    #
+    # @return [Types::DescribeRefreshScheduleResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeRefreshScheduleResponse#refresh_schedule #refresh_schedule} => Types::RefreshSchedule
+    #   * {Types::DescribeRefreshScheduleResponse#status #status} => Integer
+    #   * {Types::DescribeRefreshScheduleResponse#request_id #request_id} => String
+    #   * {Types::DescribeRefreshScheduleResponse#arn #arn} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_refresh_schedule({
+    #     aws_account_id: "AwsAccountId", # required
+    #     data_set_id: "ResourceId", # required
+    #     schedule_id: "String", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.refresh_schedule.schedule_id #=> String
+    #   resp.refresh_schedule.schedule_frequency.interval #=> String, one of "MINUTE15", "MINUTE30", "HOURLY", "DAILY", "WEEKLY", "MONTHLY"
+    #   resp.refresh_schedule.schedule_frequency.refresh_on_day.day_of_week #=> String, one of "SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"
+    #   resp.refresh_schedule.schedule_frequency.refresh_on_day.day_of_month #=> String
+    #   resp.refresh_schedule.schedule_frequency.timezone #=> String
+    #   resp.refresh_schedule.schedule_frequency.time_of_the_day #=> String
+    #   resp.refresh_schedule.start_after_date_time #=> Time
+    #   resp.refresh_schedule.refresh_type #=> String, one of "INCREMENTAL_REFRESH", "FULL_REFRESH"
+    #   resp.refresh_schedule.arn #=> String
+    #   resp.status #=> Integer
+    #   resp.request_id #=> String
+    #   resp.arn #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DescribeRefreshSchedule AWS API Documentation
+    #
+    # @overload describe_refresh_schedule(params = {})
+    # @param [Hash] params ({})
+    def describe_refresh_schedule(params = {}, options = {})
+      req = build_request(:describe_refresh_schedule, params)
+      req.send_request(options)
+    end
+
+    # Describes all custom permissions that are mapped to a role.
+    #
+    # @option params [required, String] :role
+    #   The name of the role whose permissions you want described.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID for the Amazon Web Services account that you want to create a
+    #   group in. The Amazon Web Services account ID that you provide must be
+    #   the same Amazon Web Services account that contains your Amazon
+    #   QuickSight account.
+    #
+    # @option params [required, String] :namespace
+    #   The namespace that contains the role.
+    #
+    # @return [Types::DescribeRoleCustomPermissionResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeRoleCustomPermissionResponse#custom_permissions_name #custom_permissions_name} => String
+    #   * {Types::DescribeRoleCustomPermissionResponse#request_id #request_id} => String
+    #   * {Types::DescribeRoleCustomPermissionResponse#status #status} => Integer
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_role_custom_permission({
+    #     role: "ADMIN", # required, accepts ADMIN, AUTHOR, READER, ADMIN_PRO, AUTHOR_PRO, READER_PRO
+    #     aws_account_id: "AwsAccountId", # required
+    #     namespace: "Namespace", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.custom_permissions_name #=> String
+    #   resp.request_id #=> String
+    #   resp.status #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DescribeRoleCustomPermission AWS API Documentation
+    #
+    # @overload describe_role_custom_permission(params = {})
+    # @param [Hash] params ({})
+    def describe_role_custom_permission(params = {}, options = {})
+      req = build_request(:describe_role_custom_permission, params)
       req.send_request(options)
     end
 
@@ -4390,6 +8271,39 @@ module Aws::QuickSight
     #   resp.template.version.sheets #=> Array
     #   resp.template.version.sheets[0].sheet_id #=> String
     #   resp.template.version.sheets[0].name #=> String
+    #   resp.template.version.sheets[0].images #=> Array
+    #   resp.template.version.sheets[0].images[0].sheet_image_id #=> String
+    #   resp.template.version.sheets[0].images[0].source.sheet_image_static_file_source.static_file_id #=> String
+    #   resp.template.version.sheets[0].images[0].scaling.scaling_type #=> String, one of "SCALE_TO_WIDTH", "SCALE_TO_HEIGHT", "SCALE_TO_CONTAINER", "SCALE_NONE"
+    #   resp.template.version.sheets[0].images[0].tooltip.tooltip_text.plain_text #=> String
+    #   resp.template.version.sheets[0].images[0].tooltip.visibility #=> String, one of "HIDDEN", "VISIBLE"
+    #   resp.template.version.sheets[0].images[0].image_content_alt_text #=> String
+    #   resp.template.version.sheets[0].images[0].interactions.image_menu_option.availability_status #=> String, one of "ENABLED", "DISABLED"
+    #   resp.template.version.sheets[0].images[0].actions #=> Array
+    #   resp.template.version.sheets[0].images[0].actions[0].custom_action_id #=> String
+    #   resp.template.version.sheets[0].images[0].actions[0].name #=> String
+    #   resp.template.version.sheets[0].images[0].actions[0].status #=> String, one of "ENABLED", "DISABLED"
+    #   resp.template.version.sheets[0].images[0].actions[0].trigger #=> String, one of "CLICK", "MENU"
+    #   resp.template.version.sheets[0].images[0].actions[0].action_operations #=> Array
+    #   resp.template.version.sheets[0].images[0].actions[0].action_operations[0].navigation_operation.local_navigation_configuration.target_sheet_id #=> String
+    #   resp.template.version.sheets[0].images[0].actions[0].action_operations[0].url_operation.url_template #=> String
+    #   resp.template.version.sheets[0].images[0].actions[0].action_operations[0].url_operation.url_target #=> String, one of "NEW_TAB", "NEW_WINDOW", "SAME_TAB"
+    #   resp.template.version.sheets[0].images[0].actions[0].action_operations[0].set_parameters_operation.parameter_value_configurations #=> Array
+    #   resp.template.version.sheets[0].images[0].actions[0].action_operations[0].set_parameters_operation.parameter_value_configurations[0].destination_parameter_name #=> String
+    #   resp.template.version.sheets[0].images[0].actions[0].action_operations[0].set_parameters_operation.parameter_value_configurations[0].value.custom_values_configuration.include_null_value #=> Boolean
+    #   resp.template.version.sheets[0].images[0].actions[0].action_operations[0].set_parameters_operation.parameter_value_configurations[0].value.custom_values_configuration.custom_values.string_values #=> Array
+    #   resp.template.version.sheets[0].images[0].actions[0].action_operations[0].set_parameters_operation.parameter_value_configurations[0].value.custom_values_configuration.custom_values.string_values[0] #=> String
+    #   resp.template.version.sheets[0].images[0].actions[0].action_operations[0].set_parameters_operation.parameter_value_configurations[0].value.custom_values_configuration.custom_values.integer_values #=> Array
+    #   resp.template.version.sheets[0].images[0].actions[0].action_operations[0].set_parameters_operation.parameter_value_configurations[0].value.custom_values_configuration.custom_values.integer_values[0] #=> Integer
+    #   resp.template.version.sheets[0].images[0].actions[0].action_operations[0].set_parameters_operation.parameter_value_configurations[0].value.custom_values_configuration.custom_values.decimal_values #=> Array
+    #   resp.template.version.sheets[0].images[0].actions[0].action_operations[0].set_parameters_operation.parameter_value_configurations[0].value.custom_values_configuration.custom_values.decimal_values[0] #=> Float
+    #   resp.template.version.sheets[0].images[0].actions[0].action_operations[0].set_parameters_operation.parameter_value_configurations[0].value.custom_values_configuration.custom_values.date_time_values #=> Array
+    #   resp.template.version.sheets[0].images[0].actions[0].action_operations[0].set_parameters_operation.parameter_value_configurations[0].value.custom_values_configuration.custom_values.date_time_values[0] #=> Time
+    #   resp.template.version.sheets[0].images[0].actions[0].action_operations[0].set_parameters_operation.parameter_value_configurations[0].value.select_all_value_options #=> String, one of "ALL_VALUES"
+    #   resp.template.version.sheets[0].images[0].actions[0].action_operations[0].set_parameters_operation.parameter_value_configurations[0].value.source_parameter_name #=> String
+    #   resp.template.version.sheets[0].images[0].actions[0].action_operations[0].set_parameters_operation.parameter_value_configurations[0].value.source_field #=> String
+    #   resp.template.version.sheets[0].images[0].actions[0].action_operations[0].set_parameters_operation.parameter_value_configurations[0].value.source_column.data_set_identifier #=> String
+    #   resp.template.version.sheets[0].images[0].actions[0].action_operations[0].set_parameters_operation.parameter_value_configurations[0].value.source_column.column_name #=> String
     #   resp.template.template_id #=> String
     #   resp.template.last_updated_time #=> Time
     #   resp.template.created_time #=> Time
@@ -4734,6 +8648,345 @@ module Aws::QuickSight
       req.send_request(options)
     end
 
+    # Describes a topic.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The Amazon Web Services account ID.
+    #
+    # @option params [required, String] :topic_id
+    #   The ID of the topic that you want to describe. This ID is unique per
+    #   Amazon Web Services Region for each Amazon Web Services account.
+    #
+    # @return [Types::DescribeTopicResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeTopicResponse#arn #arn} => String
+    #   * {Types::DescribeTopicResponse#topic_id #topic_id} => String
+    #   * {Types::DescribeTopicResponse#topic #topic} => Types::TopicDetails
+    #   * {Types::DescribeTopicResponse#request_id #request_id} => String
+    #   * {Types::DescribeTopicResponse#status #status} => Integer
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_topic({
+    #     aws_account_id: "AwsAccountId", # required
+    #     topic_id: "TopicId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.arn #=> String
+    #   resp.topic_id #=> String
+    #   resp.topic.name #=> String
+    #   resp.topic.description #=> String
+    #   resp.topic.user_experience_version #=> String, one of "LEGACY", "NEW_READER_EXPERIENCE"
+    #   resp.topic.data_sets #=> Array
+    #   resp.topic.data_sets[0].dataset_arn #=> String
+    #   resp.topic.data_sets[0].dataset_name #=> String
+    #   resp.topic.data_sets[0].dataset_description #=> String
+    #   resp.topic.data_sets[0].data_aggregation.dataset_row_date_granularity #=> String, one of "SECOND", "MINUTE", "HOUR", "DAY", "WEEK", "MONTH", "QUARTER", "YEAR"
+    #   resp.topic.data_sets[0].data_aggregation.default_date_column_name #=> String
+    #   resp.topic.data_sets[0].filters #=> Array
+    #   resp.topic.data_sets[0].filters[0].filter_description #=> String
+    #   resp.topic.data_sets[0].filters[0].filter_class #=> String, one of "ENFORCED_VALUE_FILTER", "CONDITIONAL_VALUE_FILTER", "NAMED_VALUE_FILTER"
+    #   resp.topic.data_sets[0].filters[0].filter_name #=> String
+    #   resp.topic.data_sets[0].filters[0].filter_synonyms #=> Array
+    #   resp.topic.data_sets[0].filters[0].filter_synonyms[0] #=> String
+    #   resp.topic.data_sets[0].filters[0].operand_field_name #=> String
+    #   resp.topic.data_sets[0].filters[0].filter_type #=> String, one of "CATEGORY_FILTER", "NUMERIC_EQUALITY_FILTER", "NUMERIC_RANGE_FILTER", "DATE_RANGE_FILTER", "RELATIVE_DATE_FILTER"
+    #   resp.topic.data_sets[0].filters[0].category_filter.category_filter_function #=> String, one of "EXACT", "CONTAINS"
+    #   resp.topic.data_sets[0].filters[0].category_filter.category_filter_type #=> String, one of "CUSTOM_FILTER", "CUSTOM_FILTER_LIST", "FILTER_LIST"
+    #   resp.topic.data_sets[0].filters[0].category_filter.constant.constant_type #=> String, one of "SINGULAR", "RANGE", "COLLECTIVE"
+    #   resp.topic.data_sets[0].filters[0].category_filter.constant.singular_constant #=> String
+    #   resp.topic.data_sets[0].filters[0].category_filter.constant.collective_constant.value_list #=> Array
+    #   resp.topic.data_sets[0].filters[0].category_filter.constant.collective_constant.value_list[0] #=> String
+    #   resp.topic.data_sets[0].filters[0].category_filter.inverse #=> Boolean
+    #   resp.topic.data_sets[0].filters[0].numeric_equality_filter.constant.constant_type #=> String, one of "SINGULAR", "RANGE", "COLLECTIVE"
+    #   resp.topic.data_sets[0].filters[0].numeric_equality_filter.constant.singular_constant #=> String
+    #   resp.topic.data_sets[0].filters[0].numeric_equality_filter.aggregation #=> String, one of "NO_AGGREGATION", "SUM", "AVERAGE", "COUNT", "DISTINCT_COUNT", "MAX", "MEDIAN", "MIN", "STDEV", "STDEVP", "VAR", "VARP"
+    #   resp.topic.data_sets[0].filters[0].numeric_range_filter.inclusive #=> Boolean
+    #   resp.topic.data_sets[0].filters[0].numeric_range_filter.constant.constant_type #=> String, one of "SINGULAR", "RANGE", "COLLECTIVE"
+    #   resp.topic.data_sets[0].filters[0].numeric_range_filter.constant.range_constant.minimum #=> String
+    #   resp.topic.data_sets[0].filters[0].numeric_range_filter.constant.range_constant.maximum #=> String
+    #   resp.topic.data_sets[0].filters[0].numeric_range_filter.aggregation #=> String, one of "NO_AGGREGATION", "SUM", "AVERAGE", "COUNT", "DISTINCT_COUNT", "MAX", "MEDIAN", "MIN", "STDEV", "STDEVP", "VAR", "VARP"
+    #   resp.topic.data_sets[0].filters[0].date_range_filter.inclusive #=> Boolean
+    #   resp.topic.data_sets[0].filters[0].date_range_filter.constant.constant_type #=> String, one of "SINGULAR", "RANGE", "COLLECTIVE"
+    #   resp.topic.data_sets[0].filters[0].date_range_filter.constant.range_constant.minimum #=> String
+    #   resp.topic.data_sets[0].filters[0].date_range_filter.constant.range_constant.maximum #=> String
+    #   resp.topic.data_sets[0].filters[0].relative_date_filter.time_granularity #=> String, one of "SECOND", "MINUTE", "HOUR", "DAY", "WEEK", "MONTH", "QUARTER", "YEAR"
+    #   resp.topic.data_sets[0].filters[0].relative_date_filter.relative_date_filter_function #=> String, one of "PREVIOUS", "THIS", "LAST", "NEXT", "NOW"
+    #   resp.topic.data_sets[0].filters[0].relative_date_filter.constant.constant_type #=> String, one of "SINGULAR", "RANGE", "COLLECTIVE"
+    #   resp.topic.data_sets[0].filters[0].relative_date_filter.constant.singular_constant #=> String
+    #   resp.topic.data_sets[0].columns #=> Array
+    #   resp.topic.data_sets[0].columns[0].column_name #=> String
+    #   resp.topic.data_sets[0].columns[0].column_friendly_name #=> String
+    #   resp.topic.data_sets[0].columns[0].column_description #=> String
+    #   resp.topic.data_sets[0].columns[0].column_synonyms #=> Array
+    #   resp.topic.data_sets[0].columns[0].column_synonyms[0] #=> String
+    #   resp.topic.data_sets[0].columns[0].column_data_role #=> String, one of "DIMENSION", "MEASURE"
+    #   resp.topic.data_sets[0].columns[0].aggregation #=> String, one of "SUM", "MAX", "MIN", "COUNT", "DISTINCT_COUNT", "AVERAGE", "MEDIAN", "STDEV", "STDEVP", "VAR", "VARP"
+    #   resp.topic.data_sets[0].columns[0].is_included_in_topic #=> Boolean
+    #   resp.topic.data_sets[0].columns[0].disable_indexing #=> Boolean
+    #   resp.topic.data_sets[0].columns[0].comparative_order.use_ordering #=> String, one of "GREATER_IS_BETTER", "LESSER_IS_BETTER", "SPECIFIED"
+    #   resp.topic.data_sets[0].columns[0].comparative_order.specifed_order #=> Array
+    #   resp.topic.data_sets[0].columns[0].comparative_order.specifed_order[0] #=> String
+    #   resp.topic.data_sets[0].columns[0].comparative_order.treat_undefined_specified_values #=> String, one of "LEAST", "MOST"
+    #   resp.topic.data_sets[0].columns[0].semantic_type.type_name #=> String
+    #   resp.topic.data_sets[0].columns[0].semantic_type.sub_type_name #=> String
+    #   resp.topic.data_sets[0].columns[0].semantic_type.type_parameters #=> Hash
+    #   resp.topic.data_sets[0].columns[0].semantic_type.type_parameters["LimitedString"] #=> String
+    #   resp.topic.data_sets[0].columns[0].semantic_type.truthy_cell_value #=> String
+    #   resp.topic.data_sets[0].columns[0].semantic_type.truthy_cell_value_synonyms #=> Array
+    #   resp.topic.data_sets[0].columns[0].semantic_type.truthy_cell_value_synonyms[0] #=> String
+    #   resp.topic.data_sets[0].columns[0].semantic_type.falsey_cell_value #=> String
+    #   resp.topic.data_sets[0].columns[0].semantic_type.falsey_cell_value_synonyms #=> Array
+    #   resp.topic.data_sets[0].columns[0].semantic_type.falsey_cell_value_synonyms[0] #=> String
+    #   resp.topic.data_sets[0].columns[0].time_granularity #=> String, one of "SECOND", "MINUTE", "HOUR", "DAY", "WEEK", "MONTH", "QUARTER", "YEAR"
+    #   resp.topic.data_sets[0].columns[0].allowed_aggregations #=> Array
+    #   resp.topic.data_sets[0].columns[0].allowed_aggregations[0] #=> String, one of "COUNT", "DISTINCT_COUNT", "MIN", "MAX", "MEDIAN", "SUM", "AVERAGE", "STDEV", "STDEVP", "VAR", "VARP", "PERCENTILE"
+    #   resp.topic.data_sets[0].columns[0].not_allowed_aggregations #=> Array
+    #   resp.topic.data_sets[0].columns[0].not_allowed_aggregations[0] #=> String, one of "COUNT", "DISTINCT_COUNT", "MIN", "MAX", "MEDIAN", "SUM", "AVERAGE", "STDEV", "STDEVP", "VAR", "VARP", "PERCENTILE"
+    #   resp.topic.data_sets[0].columns[0].default_formatting.display_format #=> String, one of "AUTO", "PERCENT", "CURRENCY", "NUMBER", "DATE", "STRING"
+    #   resp.topic.data_sets[0].columns[0].default_formatting.display_format_options.use_blank_cell_format #=> Boolean
+    #   resp.topic.data_sets[0].columns[0].default_formatting.display_format_options.blank_cell_format #=> String
+    #   resp.topic.data_sets[0].columns[0].default_formatting.display_format_options.date_format #=> String
+    #   resp.topic.data_sets[0].columns[0].default_formatting.display_format_options.decimal_separator #=> String, one of "COMMA", "DOT"
+    #   resp.topic.data_sets[0].columns[0].default_formatting.display_format_options.grouping_separator #=> String
+    #   resp.topic.data_sets[0].columns[0].default_formatting.display_format_options.use_grouping #=> Boolean
+    #   resp.topic.data_sets[0].columns[0].default_formatting.display_format_options.fraction_digits #=> Integer
+    #   resp.topic.data_sets[0].columns[0].default_formatting.display_format_options.prefix #=> String
+    #   resp.topic.data_sets[0].columns[0].default_formatting.display_format_options.suffix #=> String
+    #   resp.topic.data_sets[0].columns[0].default_formatting.display_format_options.unit_scaler #=> String, one of "NONE", "AUTO", "THOUSANDS", "MILLIONS", "BILLIONS", "TRILLIONS", "LAKHS", "CRORES"
+    #   resp.topic.data_sets[0].columns[0].default_formatting.display_format_options.negative_format.prefix #=> String
+    #   resp.topic.data_sets[0].columns[0].default_formatting.display_format_options.negative_format.suffix #=> String
+    #   resp.topic.data_sets[0].columns[0].default_formatting.display_format_options.currency_symbol #=> String
+    #   resp.topic.data_sets[0].columns[0].never_aggregate_in_filter #=> Boolean
+    #   resp.topic.data_sets[0].columns[0].cell_value_synonyms #=> Array
+    #   resp.topic.data_sets[0].columns[0].cell_value_synonyms[0].cell_value #=> String
+    #   resp.topic.data_sets[0].columns[0].cell_value_synonyms[0].synonyms #=> Array
+    #   resp.topic.data_sets[0].columns[0].cell_value_synonyms[0].synonyms[0] #=> String
+    #   resp.topic.data_sets[0].columns[0].non_additive #=> Boolean
+    #   resp.topic.data_sets[0].calculated_fields #=> Array
+    #   resp.topic.data_sets[0].calculated_fields[0].calculated_field_name #=> String
+    #   resp.topic.data_sets[0].calculated_fields[0].calculated_field_description #=> String
+    #   resp.topic.data_sets[0].calculated_fields[0].expression #=> String
+    #   resp.topic.data_sets[0].calculated_fields[0].calculated_field_synonyms #=> Array
+    #   resp.topic.data_sets[0].calculated_fields[0].calculated_field_synonyms[0] #=> String
+    #   resp.topic.data_sets[0].calculated_fields[0].is_included_in_topic #=> Boolean
+    #   resp.topic.data_sets[0].calculated_fields[0].disable_indexing #=> Boolean
+    #   resp.topic.data_sets[0].calculated_fields[0].column_data_role #=> String, one of "DIMENSION", "MEASURE"
+    #   resp.topic.data_sets[0].calculated_fields[0].time_granularity #=> String, one of "SECOND", "MINUTE", "HOUR", "DAY", "WEEK", "MONTH", "QUARTER", "YEAR"
+    #   resp.topic.data_sets[0].calculated_fields[0].default_formatting.display_format #=> String, one of "AUTO", "PERCENT", "CURRENCY", "NUMBER", "DATE", "STRING"
+    #   resp.topic.data_sets[0].calculated_fields[0].default_formatting.display_format_options.use_blank_cell_format #=> Boolean
+    #   resp.topic.data_sets[0].calculated_fields[0].default_formatting.display_format_options.blank_cell_format #=> String
+    #   resp.topic.data_sets[0].calculated_fields[0].default_formatting.display_format_options.date_format #=> String
+    #   resp.topic.data_sets[0].calculated_fields[0].default_formatting.display_format_options.decimal_separator #=> String, one of "COMMA", "DOT"
+    #   resp.topic.data_sets[0].calculated_fields[0].default_formatting.display_format_options.grouping_separator #=> String
+    #   resp.topic.data_sets[0].calculated_fields[0].default_formatting.display_format_options.use_grouping #=> Boolean
+    #   resp.topic.data_sets[0].calculated_fields[0].default_formatting.display_format_options.fraction_digits #=> Integer
+    #   resp.topic.data_sets[0].calculated_fields[0].default_formatting.display_format_options.prefix #=> String
+    #   resp.topic.data_sets[0].calculated_fields[0].default_formatting.display_format_options.suffix #=> String
+    #   resp.topic.data_sets[0].calculated_fields[0].default_formatting.display_format_options.unit_scaler #=> String, one of "NONE", "AUTO", "THOUSANDS", "MILLIONS", "BILLIONS", "TRILLIONS", "LAKHS", "CRORES"
+    #   resp.topic.data_sets[0].calculated_fields[0].default_formatting.display_format_options.negative_format.prefix #=> String
+    #   resp.topic.data_sets[0].calculated_fields[0].default_formatting.display_format_options.negative_format.suffix #=> String
+    #   resp.topic.data_sets[0].calculated_fields[0].default_formatting.display_format_options.currency_symbol #=> String
+    #   resp.topic.data_sets[0].calculated_fields[0].aggregation #=> String, one of "SUM", "MAX", "MIN", "COUNT", "DISTINCT_COUNT", "AVERAGE", "MEDIAN", "STDEV", "STDEVP", "VAR", "VARP"
+    #   resp.topic.data_sets[0].calculated_fields[0].comparative_order.use_ordering #=> String, one of "GREATER_IS_BETTER", "LESSER_IS_BETTER", "SPECIFIED"
+    #   resp.topic.data_sets[0].calculated_fields[0].comparative_order.specifed_order #=> Array
+    #   resp.topic.data_sets[0].calculated_fields[0].comparative_order.specifed_order[0] #=> String
+    #   resp.topic.data_sets[0].calculated_fields[0].comparative_order.treat_undefined_specified_values #=> String, one of "LEAST", "MOST"
+    #   resp.topic.data_sets[0].calculated_fields[0].semantic_type.type_name #=> String
+    #   resp.topic.data_sets[0].calculated_fields[0].semantic_type.sub_type_name #=> String
+    #   resp.topic.data_sets[0].calculated_fields[0].semantic_type.type_parameters #=> Hash
+    #   resp.topic.data_sets[0].calculated_fields[0].semantic_type.type_parameters["LimitedString"] #=> String
+    #   resp.topic.data_sets[0].calculated_fields[0].semantic_type.truthy_cell_value #=> String
+    #   resp.topic.data_sets[0].calculated_fields[0].semantic_type.truthy_cell_value_synonyms #=> Array
+    #   resp.topic.data_sets[0].calculated_fields[0].semantic_type.truthy_cell_value_synonyms[0] #=> String
+    #   resp.topic.data_sets[0].calculated_fields[0].semantic_type.falsey_cell_value #=> String
+    #   resp.topic.data_sets[0].calculated_fields[0].semantic_type.falsey_cell_value_synonyms #=> Array
+    #   resp.topic.data_sets[0].calculated_fields[0].semantic_type.falsey_cell_value_synonyms[0] #=> String
+    #   resp.topic.data_sets[0].calculated_fields[0].allowed_aggregations #=> Array
+    #   resp.topic.data_sets[0].calculated_fields[0].allowed_aggregations[0] #=> String, one of "COUNT", "DISTINCT_COUNT", "MIN", "MAX", "MEDIAN", "SUM", "AVERAGE", "STDEV", "STDEVP", "VAR", "VARP", "PERCENTILE"
+    #   resp.topic.data_sets[0].calculated_fields[0].not_allowed_aggregations #=> Array
+    #   resp.topic.data_sets[0].calculated_fields[0].not_allowed_aggregations[0] #=> String, one of "COUNT", "DISTINCT_COUNT", "MIN", "MAX", "MEDIAN", "SUM", "AVERAGE", "STDEV", "STDEVP", "VAR", "VARP", "PERCENTILE"
+    #   resp.topic.data_sets[0].calculated_fields[0].never_aggregate_in_filter #=> Boolean
+    #   resp.topic.data_sets[0].calculated_fields[0].cell_value_synonyms #=> Array
+    #   resp.topic.data_sets[0].calculated_fields[0].cell_value_synonyms[0].cell_value #=> String
+    #   resp.topic.data_sets[0].calculated_fields[0].cell_value_synonyms[0].synonyms #=> Array
+    #   resp.topic.data_sets[0].calculated_fields[0].cell_value_synonyms[0].synonyms[0] #=> String
+    #   resp.topic.data_sets[0].calculated_fields[0].non_additive #=> Boolean
+    #   resp.topic.data_sets[0].named_entities #=> Array
+    #   resp.topic.data_sets[0].named_entities[0].entity_name #=> String
+    #   resp.topic.data_sets[0].named_entities[0].entity_description #=> String
+    #   resp.topic.data_sets[0].named_entities[0].entity_synonyms #=> Array
+    #   resp.topic.data_sets[0].named_entities[0].entity_synonyms[0] #=> String
+    #   resp.topic.data_sets[0].named_entities[0].semantic_entity_type.type_name #=> String
+    #   resp.topic.data_sets[0].named_entities[0].semantic_entity_type.sub_type_name #=> String
+    #   resp.topic.data_sets[0].named_entities[0].semantic_entity_type.type_parameters #=> Hash
+    #   resp.topic.data_sets[0].named_entities[0].semantic_entity_type.type_parameters["LimitedString"] #=> String
+    #   resp.topic.data_sets[0].named_entities[0].definition #=> Array
+    #   resp.topic.data_sets[0].named_entities[0].definition[0].field_name #=> String
+    #   resp.topic.data_sets[0].named_entities[0].definition[0].property_name #=> String
+    #   resp.topic.data_sets[0].named_entities[0].definition[0].property_role #=> String, one of "PRIMARY", "ID"
+    #   resp.topic.data_sets[0].named_entities[0].definition[0].property_usage #=> String, one of "INHERIT", "DIMENSION", "MEASURE"
+    #   resp.topic.data_sets[0].named_entities[0].definition[0].metric.aggregation #=> String, one of "SUM", "MIN", "MAX", "COUNT", "AVERAGE", "DISTINCT_COUNT", "STDEV", "STDEVP", "VAR", "VARP", "PERCENTILE", "MEDIAN", "CUSTOM"
+    #   resp.topic.data_sets[0].named_entities[0].definition[0].metric.aggregation_function_parameters #=> Hash
+    #   resp.topic.data_sets[0].named_entities[0].definition[0].metric.aggregation_function_parameters["LimitedString"] #=> String
+    #   resp.topic.config_options.q_business_insights_enabled #=> Boolean
+    #   resp.request_id #=> String
+    #   resp.status #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DescribeTopic AWS API Documentation
+    #
+    # @overload describe_topic(params = {})
+    # @param [Hash] params ({})
+    def describe_topic(params = {}, options = {})
+      req = build_request(:describe_topic, params)
+      req.send_request(options)
+    end
+
+    # Describes the permissions of a topic.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that contains the topic that
+    #   you want described.
+    #
+    # @option params [required, String] :topic_id
+    #   The ID of the topic that you want to describe. This ID is unique per
+    #   Amazon Web Services Region for each Amazon Web Services account.
+    #
+    # @return [Types::DescribeTopicPermissionsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeTopicPermissionsResponse#topic_id #topic_id} => String
+    #   * {Types::DescribeTopicPermissionsResponse#topic_arn #topic_arn} => String
+    #   * {Types::DescribeTopicPermissionsResponse#permissions #permissions} => Array&lt;Types::ResourcePermission&gt;
+    #   * {Types::DescribeTopicPermissionsResponse#status #status} => Integer
+    #   * {Types::DescribeTopicPermissionsResponse#request_id #request_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_topic_permissions({
+    #     aws_account_id: "AwsAccountId", # required
+    #     topic_id: "TopicId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.topic_id #=> String
+    #   resp.topic_arn #=> String
+    #   resp.permissions #=> Array
+    #   resp.permissions[0].principal #=> String
+    #   resp.permissions[0].actions #=> Array
+    #   resp.permissions[0].actions[0] #=> String
+    #   resp.status #=> Integer
+    #   resp.request_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DescribeTopicPermissions AWS API Documentation
+    #
+    # @overload describe_topic_permissions(params = {})
+    # @param [Hash] params ({})
+    def describe_topic_permissions(params = {}, options = {})
+      req = build_request(:describe_topic_permissions, params)
+      req.send_request(options)
+    end
+
+    # Describes the status of a topic refresh.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that contains the topic
+    #   whose refresh you want to describe.
+    #
+    # @option params [required, String] :topic_id
+    #   The ID of the topic that you want to describe. This ID is unique per
+    #   Amazon Web Services Region for each Amazon Web Services account.
+    #
+    # @option params [required, String] :refresh_id
+    #   The ID of the refresh, which is performed when the topic is created or
+    #   updated.
+    #
+    # @return [Types::DescribeTopicRefreshResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeTopicRefreshResponse#refresh_details #refresh_details} => Types::TopicRefreshDetails
+    #   * {Types::DescribeTopicRefreshResponse#request_id #request_id} => String
+    #   * {Types::DescribeTopicRefreshResponse#status #status} => Integer
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_topic_refresh({
+    #     aws_account_id: "AwsAccountId", # required
+    #     topic_id: "TopicId", # required
+    #     refresh_id: "ResourceId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.refresh_details.refresh_arn #=> String
+    #   resp.refresh_details.refresh_id #=> String
+    #   resp.refresh_details.refresh_status #=> String, one of "INITIALIZED", "RUNNING", "FAILED", "COMPLETED", "CANCELLED"
+    #   resp.request_id #=> String
+    #   resp.status #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DescribeTopicRefresh AWS API Documentation
+    #
+    # @overload describe_topic_refresh(params = {})
+    # @param [Hash] params ({})
+    def describe_topic_refresh(params = {}, options = {})
+      req = build_request(:describe_topic_refresh, params)
+      req.send_request(options)
+    end
+
+    # Deletes a topic refresh schedule.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The Amazon Web Services account ID.
+    #
+    # @option params [required, String] :topic_id
+    #   The ID of the topic that contains the refresh schedule that you want
+    #   to describe. This ID is unique per Amazon Web Services Region for each
+    #   Amazon Web Services account.
+    #
+    # @option params [required, String] :dataset_id
+    #   The ID of the dataset.
+    #
+    # @return [Types::DescribeTopicRefreshScheduleResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeTopicRefreshScheduleResponse#topic_id #topic_id} => String
+    #   * {Types::DescribeTopicRefreshScheduleResponse#topic_arn #topic_arn} => String
+    #   * {Types::DescribeTopicRefreshScheduleResponse#dataset_arn #dataset_arn} => String
+    #   * {Types::DescribeTopicRefreshScheduleResponse#refresh_schedule #refresh_schedule} => Types::TopicRefreshSchedule
+    #   * {Types::DescribeTopicRefreshScheduleResponse#status #status} => Integer
+    #   * {Types::DescribeTopicRefreshScheduleResponse#request_id #request_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_topic_refresh_schedule({
+    #     aws_account_id: "AwsAccountId", # required
+    #     topic_id: "TopicId", # required
+    #     dataset_id: "String", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.topic_id #=> String
+    #   resp.topic_arn #=> String
+    #   resp.dataset_arn #=> String
+    #   resp.refresh_schedule.is_enabled #=> Boolean
+    #   resp.refresh_schedule.based_on_spice_schedule #=> Boolean
+    #   resp.refresh_schedule.starting_at #=> Time
+    #   resp.refresh_schedule.timezone #=> String
+    #   resp.refresh_schedule.repeat_at #=> String
+    #   resp.refresh_schedule.topic_schedule_type #=> String, one of "HOURLY", "DAILY", "WEEKLY", "MONTHLY"
+    #   resp.status #=> Integer
+    #   resp.request_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DescribeTopicRefreshSchedule AWS API Documentation
+    #
+    # @overload describe_topic_refresh_schedule(params = {})
+    # @param [Hash] params ({})
+    def describe_topic_refresh_schedule(params = {}, options = {})
+      req = build_request(:describe_topic_refresh_schedule, params)
+      req.send_request(options)
+    end
+
     # Returns information about a user, given the user name.
     #
     # @option params [required, String] :user_name
@@ -4766,8 +9019,8 @@ module Aws::QuickSight
     #   resp.user.arn #=> String
     #   resp.user.user_name #=> String
     #   resp.user.email #=> String
-    #   resp.user.role #=> String, one of "ADMIN", "AUTHOR", "READER", "RESTRICTED_AUTHOR", "RESTRICTED_READER"
-    #   resp.user.identity_type #=> String, one of "IAM", "QUICKSIGHT"
+    #   resp.user.role #=> String, one of "ADMIN", "AUTHOR", "READER", "RESTRICTED_AUTHOR", "RESTRICTED_READER", "ADMIN_PRO", "AUTHOR_PRO", "READER_PRO"
+    #   resp.user.identity_type #=> String, one of "IAM", "QUICKSIGHT", "IAM_IDENTITY_CENTER"
     #   resp.user.active #=> Boolean
     #   resp.user.principal_id #=> String
     #   resp.user.custom_permissions_name #=> String
@@ -4783,6 +9036,63 @@ module Aws::QuickSight
     # @param [Hash] params ({})
     def describe_user(params = {}, options = {})
       req = build_request(:describe_user, params)
+      req.send_request(options)
+    end
+
+    # Describes a VPC connection.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The Amazon Web Services account ID of the account that contains the
+    #   VPC connection that you want described.
+    #
+    # @option params [required, String] :vpc_connection_id
+    #   The ID of the VPC connection that you're creating. This ID is a
+    #   unique identifier for each Amazon Web Services Region in an Amazon Web
+    #   Services account.
+    #
+    # @return [Types::DescribeVPCConnectionResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeVPCConnectionResponse#vpc_connection #vpc_connection} => Types::VPCConnection
+    #   * {Types::DescribeVPCConnectionResponse#request_id #request_id} => String
+    #   * {Types::DescribeVPCConnectionResponse#status #status} => Integer
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_vpc_connection({
+    #     aws_account_id: "AwsAccountId", # required
+    #     vpc_connection_id: "VPCConnectionResourceIdUnrestricted", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.vpc_connection.vpc_connection_id #=> String
+    #   resp.vpc_connection.arn #=> String
+    #   resp.vpc_connection.name #=> String
+    #   resp.vpc_connection.vpc_id #=> String
+    #   resp.vpc_connection.security_group_ids #=> Array
+    #   resp.vpc_connection.security_group_ids[0] #=> String
+    #   resp.vpc_connection.dns_resolvers #=> Array
+    #   resp.vpc_connection.dns_resolvers[0] #=> String
+    #   resp.vpc_connection.status #=> String, one of "CREATION_IN_PROGRESS", "CREATION_SUCCESSFUL", "CREATION_FAILED", "UPDATE_IN_PROGRESS", "UPDATE_SUCCESSFUL", "UPDATE_FAILED", "DELETION_IN_PROGRESS", "DELETION_FAILED", "DELETED"
+    #   resp.vpc_connection.availability_status #=> String, one of "AVAILABLE", "UNAVAILABLE", "PARTIALLY_AVAILABLE"
+    #   resp.vpc_connection.network_interfaces #=> Array
+    #   resp.vpc_connection.network_interfaces[0].subnet_id #=> String
+    #   resp.vpc_connection.network_interfaces[0].availability_zone #=> String
+    #   resp.vpc_connection.network_interfaces[0].error_message #=> String
+    #   resp.vpc_connection.network_interfaces[0].status #=> String, one of "CREATING", "AVAILABLE", "CREATION_FAILED", "UPDATING", "UPDATE_FAILED", "DELETING", "DELETED", "DELETION_FAILED", "DELETION_SCHEDULED", "ATTACHMENT_FAILED_ROLLBACK_FAILED"
+    #   resp.vpc_connection.network_interfaces[0].network_interface_id #=> String
+    #   resp.vpc_connection.role_arn #=> String
+    #   resp.vpc_connection.created_time #=> Time
+    #   resp.vpc_connection.last_updated_time #=> Time
+    #   resp.request_id #=> String
+    #   resp.status #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/DescribeVPCConnection AWS API Documentation
+    #
+    # @overload describe_vpc_connection(params = {})
+    # @param [Hash] params ({})
+    def describe_vpc_connection(params = {}, options = {})
+      req = build_request(:describe_vpc_connection, params)
       req.send_request(options)
     end
 
@@ -4848,10 +9158,16 @@ module Aws::QuickSight
     # @option params [required, Array<String>] :authorized_resource_arns
     #   The Amazon Resource Names (ARNs) for the Amazon QuickSight resources
     #   that the user is authorized to access during the lifetime of the
-    #   session. If you choose `Dashboard` embedding experience, pass the list
-    #   of dashboard ARNs in the account that you want the user to be able to
-    #   view. Currently, you can pass up to 25 dashboard ARNs in each API
-    #   call.
+    #   session.
+    #
+    #   If you choose `Dashboard` embedding experience, pass the list of
+    #   dashboard ARNs in the account that you want the user to be able to
+    #   view.
+    #
+    #   If you want to make changes to the theme of your embedded content,
+    #   pass a list of theme ARNs that the anonymous users need access to.
+    #
+    #   Currently, you can pass up to 25 theme ARNs in each API call.
     #
     # @option params [required, Types::AnonymousUserEmbeddingExperienceConfiguration] :experience_configuration
     #   The configuration of the experience that you are embedding.
@@ -4891,6 +9207,13 @@ module Aws::QuickSight
     #     experience_configuration: { # required
     #       dashboard: {
     #         initial_dashboard_id: "ShortRestrictiveResourceId", # required
+    #         enabled_features: ["SHARED_VIEW"], # accepts SHARED_VIEW
+    #         disabled_features: ["SHARED_VIEW"], # accepts SHARED_VIEW
+    #         feature_configurations: {
+    #           shared_view: {
+    #             enabled: false, # required
+    #           },
+    #         },
     #       },
     #       dashboard_visual: {
     #         initial_dashboard_visual_id: { # required
@@ -4900,6 +9223,9 @@ module Aws::QuickSight
     #         },
     #       },
     #       q_search_bar: {
+    #         initial_topic_id: "RestrictiveResourceId", # required
+    #       },
+    #       generative_qn_a: {
     #         initial_topic_id: "RestrictiveResourceId", # required
     #       },
     #     },
@@ -4968,9 +9294,10 @@ module Aws::QuickSight
     #   The Amazon Resource Name for the registered user.
     #
     # @option params [required, Types::RegisteredUserEmbeddingExperienceConfiguration] :experience_configuration
-    #   The experience you are embedding. For registered users, you can embed
-    #   Amazon QuickSight dashboards, Amazon QuickSight visuals, the Amazon
-    #   QuickSight Q search bar, or the entire Amazon QuickSight console.
+    #   The experience that you want to embed. For registered users, you can
+    #   embed Amazon QuickSight dashboards, Amazon QuickSight visuals, the
+    #   Amazon QuickSight Q search bar, the Amazon QuickSight Generative
+    #   Q&amp;A experience, or the entire Amazon QuickSight console.
     #
     # @option params [Array<String>] :allowed_domains
     #   The domains that you want to add to the allow list for access to the
@@ -4999,9 +9326,28 @@ module Aws::QuickSight
     #     experience_configuration: { # required
     #       dashboard: {
     #         initial_dashboard_id: "ShortRestrictiveResourceId", # required
+    #         feature_configurations: {
+    #           state_persistence: {
+    #             enabled: false, # required
+    #           },
+    #           shared_view: {
+    #             enabled: false, # required
+    #           },
+    #           bookmarks: {
+    #             enabled: false, # required
+    #           },
+    #         },
     #       },
     #       quick_sight_console: {
     #         initial_path: "EntryPath",
+    #         feature_configurations: {
+    #           state_persistence: {
+    #             enabled: false, # required
+    #           },
+    #           shared_view: {
+    #             enabled: false, # required
+    #           },
+    #         },
     #       },
     #       q_search_bar: {
     #         initial_topic_id: "RestrictiveResourceId",
@@ -5012,6 +9358,9 @@ module Aws::QuickSight
     #           sheet_id: "ShortRestrictiveResourceId", # required
     #           visual_id: "ShortRestrictiveResourceId", # required
     #         },
+    #       },
+    #       generative_qn_a: {
+    #         initial_topic_id: "RestrictiveResourceId",
     #       },
     #     },
     #     allowed_domains: ["String"],
@@ -5029,6 +9378,116 @@ module Aws::QuickSight
     # @param [Hash] params ({})
     def generate_embed_url_for_registered_user(params = {}, options = {})
       req = build_request(:generate_embed_url_for_registered_user, params)
+      req.send_request(options)
+    end
+
+    # Generates an embed URL that you can use to embed an Amazon QuickSight
+    # experience in your website. This action can be used for any type of
+    # user that is registered in an Amazon QuickSight account that uses IAM
+    # Identity Center for authentication. This API requires
+    # [identity-enhanced IAM Role sessions][1] for the authenticated user
+    # that the API call is being made for.
+    #
+    # This API uses [trusted identity propagation][2] to ensure that an end
+    # user is authenticated and receives the embed URL that is specific to
+    # that user. The IAM Identity Center application that the user has
+    # logged into needs to have [trusted Identity Propagation enabled for
+    # Amazon QuickSight][3] with the scope value set to `quicksight:read`.
+    # Before you use this action, make sure that you have configured the
+    # relevant Amazon QuickSight resource and permissions.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/singlesignon/latest/userguide/trustedidentitypropagation-overview.html#types-identity-enhanced-iam-role-sessions
+    # [2]: https://docs.aws.amazon.com/singlesignon/latest/userguide/trustedidentitypropagation.html
+    # [3]: https://docs.aws.amazon.com/singlesignon/latest/userguide/trustedidentitypropagation-using-customermanagedapps-specify-trusted-apps.html
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services registered user.
+    #
+    # @option params [Integer] :session_lifetime_in_minutes
+    #   The validity of the session in minutes.
+    #
+    # @option params [required, Types::RegisteredUserEmbeddingExperienceConfiguration] :experience_configuration
+    #   The type of experience you want to embed. For registered users, you
+    #   can embed Amazon QuickSight dashboards or the Amazon QuickSight
+    #   console.
+    #
+    #   <note markdown="1"> Exactly one of the experience configurations is required. You can
+    #   choose `Dashboard` or `QuickSightConsole`. You cannot choose more than
+    #   one experience configuration.
+    #
+    #    </note>
+    #
+    # @option params [Array<String>] :allowed_domains
+    #   A list of domains to be allowed to generate the embed URL.
+    #
+    # @return [Types::GenerateEmbedUrlForRegisteredUserWithIdentityResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GenerateEmbedUrlForRegisteredUserWithIdentityResponse#embed_url #embed_url} => String
+    #   * {Types::GenerateEmbedUrlForRegisteredUserWithIdentityResponse#status #status} => Integer
+    #   * {Types::GenerateEmbedUrlForRegisteredUserWithIdentityResponse#request_id #request_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.generate_embed_url_for_registered_user_with_identity({
+    #     aws_account_id: "AwsAccountId", # required
+    #     session_lifetime_in_minutes: 1,
+    #     experience_configuration: { # required
+    #       dashboard: {
+    #         initial_dashboard_id: "ShortRestrictiveResourceId", # required
+    #         feature_configurations: {
+    #           state_persistence: {
+    #             enabled: false, # required
+    #           },
+    #           shared_view: {
+    #             enabled: false, # required
+    #           },
+    #           bookmarks: {
+    #             enabled: false, # required
+    #           },
+    #         },
+    #       },
+    #       quick_sight_console: {
+    #         initial_path: "EntryPath",
+    #         feature_configurations: {
+    #           state_persistence: {
+    #             enabled: false, # required
+    #           },
+    #           shared_view: {
+    #             enabled: false, # required
+    #           },
+    #         },
+    #       },
+    #       q_search_bar: {
+    #         initial_topic_id: "RestrictiveResourceId",
+    #       },
+    #       dashboard_visual: {
+    #         initial_dashboard_visual_id: { # required
+    #           dashboard_id: "ShortRestrictiveResourceId", # required
+    #           sheet_id: "ShortRestrictiveResourceId", # required
+    #           visual_id: "ShortRestrictiveResourceId", # required
+    #         },
+    #       },
+    #       generative_qn_a: {
+    #         initial_topic_id: "RestrictiveResourceId",
+    #       },
+    #     },
+    #     allowed_domains: ["String"],
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.embed_url #=> String
+    #   resp.status #=> Integer
+    #   resp.request_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/GenerateEmbedUrlForRegisteredUserWithIdentity AWS API Documentation
+    #
+    # @overload generate_embed_url_for_registered_user_with_identity(params = {})
+    # @param [Hash] params ({})
+    def generate_embed_url_for_registered_user_with_identity(params = {}, options = {})
+      req = build_request(:generate_embed_url_for_registered_user_with_identity, params)
       req.send_request(options)
     end
 
@@ -5176,7 +9635,7 @@ module Aws::QuickSight
     # permissions profile to the user with the ` UpdateUser ` API operation.
     # Use ` RegisterUser ` API operation to add a new user with a custom
     # permission profile attached. For more information, see the following
-    # sections in the *Amazon QuickSight User Guide*\:
+    # sections in the *Amazon QuickSight User Guide*:
     #
     # * [Embedding Analytics][1]
     #
@@ -5223,9 +9682,9 @@ module Aws::QuickSight
     #
     #   2.  Invited nonfederated users
     #
-    #   3.  Identity and Access Management (IAM) users and IAM role-based
-    #       sessions authenticated through Federated Single Sign-On using
-    #       SAML, OpenID Connect, or IAM federation
+    #   3.  IAM users and IAM role-based sessions authenticated through
+    #       Federated Single Sign-On using SAML, OpenID Connect, or IAM
+    #       federation
     #
     #   Omit this parameter for users in the third group, IAM users and IAM
     #   role-based sessions.
@@ -5308,6 +9767,233 @@ module Aws::QuickSight
     # @param [Hash] params ({})
     def list_analyses(params = {}, options = {})
       req = build_request(:list_analyses, params)
+      req.send_request(options)
+    end
+
+    # Lists all asset bundle export jobs that have been taken place in the
+    # last 14 days. Jobs created more than 14 days ago are deleted forever
+    # and are not returned. If you are using the same job ID for multiple
+    # jobs, `ListAssetBundleExportJobs` only returns the most recent job
+    # that uses the repeated job ID.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that the export jobs were
+    #   executed in.
+    #
+    # @option params [String] :next_token
+    #   The token for the next set of results, or null if there are no more
+    #   results.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to be returned per request.
+    #
+    # @return [Types::ListAssetBundleExportJobsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListAssetBundleExportJobsResponse#asset_bundle_export_job_summary_list #asset_bundle_export_job_summary_list} => Array&lt;Types::AssetBundleExportJobSummary&gt;
+    #   * {Types::ListAssetBundleExportJobsResponse#next_token #next_token} => String
+    #   * {Types::ListAssetBundleExportJobsResponse#request_id #request_id} => String
+    #   * {Types::ListAssetBundleExportJobsResponse#status #status} => Integer
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_asset_bundle_export_jobs({
+    #     aws_account_id: "AwsAccountId", # required
+    #     next_token: "String",
+    #     max_results: 1,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.asset_bundle_export_job_summary_list #=> Array
+    #   resp.asset_bundle_export_job_summary_list[0].job_status #=> String, one of "QUEUED_FOR_IMMEDIATE_EXECUTION", "IN_PROGRESS", "SUCCESSFUL", "FAILED"
+    #   resp.asset_bundle_export_job_summary_list[0].arn #=> String
+    #   resp.asset_bundle_export_job_summary_list[0].created_time #=> Time
+    #   resp.asset_bundle_export_job_summary_list[0].asset_bundle_export_job_id #=> String
+    #   resp.asset_bundle_export_job_summary_list[0].include_all_dependencies #=> Boolean
+    #   resp.asset_bundle_export_job_summary_list[0].export_format #=> String, one of "CLOUDFORMATION_JSON", "QUICKSIGHT_JSON"
+    #   resp.asset_bundle_export_job_summary_list[0].include_permissions #=> Boolean
+    #   resp.asset_bundle_export_job_summary_list[0].include_tags #=> Boolean
+    #   resp.next_token #=> String
+    #   resp.request_id #=> String
+    #   resp.status #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/ListAssetBundleExportJobs AWS API Documentation
+    #
+    # @overload list_asset_bundle_export_jobs(params = {})
+    # @param [Hash] params ({})
+    def list_asset_bundle_export_jobs(params = {}, options = {})
+      req = build_request(:list_asset_bundle_export_jobs, params)
+      req.send_request(options)
+    end
+
+    # Lists all asset bundle import jobs that have taken place in the last
+    # 14 days. Jobs created more than 14 days ago are deleted forever and
+    # are not returned. If you are using the same job ID for multiple jobs,
+    # `ListAssetBundleImportJobs` only returns the most recent job that uses
+    # the repeated job ID.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that the import jobs were
+    #   executed in.
+    #
+    # @option params [String] :next_token
+    #   The token for the next set of results, or null if there are no more
+    #   results.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to be returned per request.
+    #
+    # @return [Types::ListAssetBundleImportJobsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListAssetBundleImportJobsResponse#asset_bundle_import_job_summary_list #asset_bundle_import_job_summary_list} => Array&lt;Types::AssetBundleImportJobSummary&gt;
+    #   * {Types::ListAssetBundleImportJobsResponse#next_token #next_token} => String
+    #   * {Types::ListAssetBundleImportJobsResponse#request_id #request_id} => String
+    #   * {Types::ListAssetBundleImportJobsResponse#status #status} => Integer
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_asset_bundle_import_jobs({
+    #     aws_account_id: "AwsAccountId", # required
+    #     next_token: "String",
+    #     max_results: 1,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.asset_bundle_import_job_summary_list #=> Array
+    #   resp.asset_bundle_import_job_summary_list[0].job_status #=> String, one of "QUEUED_FOR_IMMEDIATE_EXECUTION", "IN_PROGRESS", "SUCCESSFUL", "FAILED", "FAILED_ROLLBACK_IN_PROGRESS", "FAILED_ROLLBACK_COMPLETED", "FAILED_ROLLBACK_ERROR"
+    #   resp.asset_bundle_import_job_summary_list[0].arn #=> String
+    #   resp.asset_bundle_import_job_summary_list[0].created_time #=> Time
+    #   resp.asset_bundle_import_job_summary_list[0].asset_bundle_import_job_id #=> String
+    #   resp.asset_bundle_import_job_summary_list[0].failure_action #=> String, one of "DO_NOTHING", "ROLLBACK"
+    #   resp.next_token #=> String
+    #   resp.request_id #=> String
+    #   resp.status #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/ListAssetBundleImportJobs AWS API Documentation
+    #
+    # @overload list_asset_bundle_import_jobs(params = {})
+    # @param [Hash] params ({})
+    def list_asset_bundle_import_jobs(params = {}, options = {})
+      req = build_request(:list_asset_bundle_import_jobs, params)
+      req.send_request(options)
+    end
+
+    # Lists all brands in an Amazon QuickSight account.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that owns the brands that
+    #   you want to list.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to be returned in a single request.
+    #
+    # @option params [String] :next_token
+    #   The token for the next set of results, or null if there are no more
+    #   results.
+    #
+    # @return [Types::ListBrandsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListBrandsResponse#next_token #next_token} => String
+    #   * {Types::ListBrandsResponse#brands #brands} => Array&lt;Types::BrandSummary&gt;
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_brands({
+    #     aws_account_id: "AwsAccountId", # required
+    #     max_results: 1,
+    #     next_token: "String",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.next_token #=> String
+    #   resp.brands #=> Array
+    #   resp.brands[0].arn #=> String
+    #   resp.brands[0].brand_id #=> String
+    #   resp.brands[0].brand_name #=> String
+    #   resp.brands[0].description #=> String
+    #   resp.brands[0].brand_status #=> String, one of "CREATE_IN_PROGRESS", "CREATE_SUCCEEDED", "CREATE_FAILED", "DELETE_IN_PROGRESS", "DELETE_FAILED"
+    #   resp.brands[0].created_time #=> Time
+    #   resp.brands[0].last_updated_time #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/ListBrands AWS API Documentation
+    #
+    # @overload list_brands(params = {})
+    # @param [Hash] params ({})
+    def list_brands(params = {}, options = {})
+      req = build_request(:list_brands, params)
+      req.send_request(options)
+    end
+
+    # Returns a list of all the custom permissions profiles.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that contains the custom
+    #   permissions profiles that you want to list.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return.
+    #
+    # @option params [String] :next_token
+    #   The token for the next set of results, or null if there are no more
+    #   results.
+    #
+    # @return [Types::ListCustomPermissionsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListCustomPermissionsResponse#status #status} => Integer
+    #   * {Types::ListCustomPermissionsResponse#custom_permissions_list #custom_permissions_list} => Array&lt;Types::CustomPermissions&gt;
+    #   * {Types::ListCustomPermissionsResponse#next_token #next_token} => String
+    #   * {Types::ListCustomPermissionsResponse#request_id #request_id} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_custom_permissions({
+    #     aws_account_id: "AwsAccountId", # required
+    #     max_results: 1,
+    #     next_token: "String",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.status #=> Integer
+    #   resp.custom_permissions_list #=> Array
+    #   resp.custom_permissions_list[0].arn #=> String
+    #   resp.custom_permissions_list[0].custom_permissions_name #=> String
+    #   resp.custom_permissions_list[0].capabilities.export_to_csv #=> String, one of "DENY"
+    #   resp.custom_permissions_list[0].capabilities.export_to_excel #=> String, one of "DENY"
+    #   resp.custom_permissions_list[0].capabilities.create_and_update_themes #=> String, one of "DENY"
+    #   resp.custom_permissions_list[0].capabilities.add_or_run_anomaly_detection_for_analyses #=> String, one of "DENY"
+    #   resp.custom_permissions_list[0].capabilities.share_analyses #=> String, one of "DENY"
+    #   resp.custom_permissions_list[0].capabilities.create_and_update_datasets #=> String, one of "DENY"
+    #   resp.custom_permissions_list[0].capabilities.share_datasets #=> String, one of "DENY"
+    #   resp.custom_permissions_list[0].capabilities.subscribe_dashboard_email_reports #=> String, one of "DENY"
+    #   resp.custom_permissions_list[0].capabilities.create_and_update_dashboard_email_reports #=> String, one of "DENY"
+    #   resp.custom_permissions_list[0].capabilities.share_dashboards #=> String, one of "DENY"
+    #   resp.custom_permissions_list[0].capabilities.create_and_update_threshold_alerts #=> String, one of "DENY"
+    #   resp.custom_permissions_list[0].capabilities.rename_shared_folders #=> String, one of "DENY"
+    #   resp.custom_permissions_list[0].capabilities.create_shared_folders #=> String, one of "DENY"
+    #   resp.custom_permissions_list[0].capabilities.create_and_update_data_sources #=> String, one of "DENY"
+    #   resp.custom_permissions_list[0].capabilities.share_data_sources #=> String, one of "DENY"
+    #   resp.custom_permissions_list[0].capabilities.view_account_spice_capacity #=> String, one of "DENY"
+    #   resp.custom_permissions_list[0].capabilities.create_spice_dataset #=> String, one of "DENY"
+    #   resp.next_token #=> String
+    #   resp.request_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/ListCustomPermissions AWS API Documentation
+    #
+    # @overload list_custom_permissions(params = {})
+    # @param [Hash] params ({})
+    def list_custom_permissions(params = {}, options = {})
+      req = build_request(:list_custom_permissions, params)
       req.send_request(options)
     end
 
@@ -5519,7 +10205,7 @@ module Aws::QuickSight
     #   resp.data_sources[0].arn #=> String
     #   resp.data_sources[0].data_source_id #=> String
     #   resp.data_sources[0].name #=> String
-    #   resp.data_sources[0].type #=> String, one of "ADOBE_ANALYTICS", "AMAZON_ELASTICSEARCH", "ATHENA", "AURORA", "AURORA_POSTGRESQL", "AWS_IOT_ANALYTICS", "GITHUB", "JIRA", "MARIADB", "MYSQL", "ORACLE", "POSTGRESQL", "PRESTO", "REDSHIFT", "S3", "SALESFORCE", "SERVICENOW", "SNOWFLAKE", "SPARK", "SQLSERVER", "TERADATA", "TWITTER", "TIMESTREAM", "AMAZON_OPENSEARCH", "EXASOL", "DATABRICKS"
+    #   resp.data_sources[0].type #=> String, one of "ADOBE_ANALYTICS", "AMAZON_ELASTICSEARCH", "ATHENA", "AURORA", "AURORA_POSTGRESQL", "AWS_IOT_ANALYTICS", "GITHUB", "JIRA", "MARIADB", "MYSQL", "ORACLE", "POSTGRESQL", "PRESTO", "REDSHIFT", "S3", "SALESFORCE", "SERVICENOW", "SNOWFLAKE", "SPARK", "SQLSERVER", "TERADATA", "TWITTER", "TIMESTREAM", "AMAZON_OPENSEARCH", "EXASOL", "DATABRICKS", "STARBURST", "TRINO", "BIGQUERY"
     #   resp.data_sources[0].status #=> String, one of "CREATION_IN_PROGRESS", "CREATION_SUCCESSFUL", "CREATION_FAILED", "UPDATE_IN_PROGRESS", "UPDATE_SUCCESSFUL", "UPDATE_FAILED", "DELETED"
     #   resp.data_sources[0].created_time #=> Time
     #   resp.data_sources[0].last_updated_time #=> Time
@@ -5555,12 +10241,25 @@ module Aws::QuickSight
     #   resp.data_sources[0].data_source_parameters.redshift_parameters.port #=> Integer
     #   resp.data_sources[0].data_source_parameters.redshift_parameters.database #=> String
     #   resp.data_sources[0].data_source_parameters.redshift_parameters.cluster_id #=> String
+    #   resp.data_sources[0].data_source_parameters.redshift_parameters.iam_parameters.role_arn #=> String
+    #   resp.data_sources[0].data_source_parameters.redshift_parameters.iam_parameters.database_user #=> String
+    #   resp.data_sources[0].data_source_parameters.redshift_parameters.iam_parameters.database_groups #=> Array
+    #   resp.data_sources[0].data_source_parameters.redshift_parameters.iam_parameters.database_groups[0] #=> String
+    #   resp.data_sources[0].data_source_parameters.redshift_parameters.iam_parameters.auto_create_database_user #=> Boolean
+    #   resp.data_sources[0].data_source_parameters.redshift_parameters.identity_center_configuration.enable_identity_propagation #=> Boolean
     #   resp.data_sources[0].data_source_parameters.s3_parameters.manifest_file_location.bucket #=> String
     #   resp.data_sources[0].data_source_parameters.s3_parameters.manifest_file_location.key #=> String
+    #   resp.data_sources[0].data_source_parameters.s3_parameters.role_arn #=> String
     #   resp.data_sources[0].data_source_parameters.service_now_parameters.site_base_url #=> String
     #   resp.data_sources[0].data_source_parameters.snowflake_parameters.host #=> String
     #   resp.data_sources[0].data_source_parameters.snowflake_parameters.database #=> String
     #   resp.data_sources[0].data_source_parameters.snowflake_parameters.warehouse #=> String
+    #   resp.data_sources[0].data_source_parameters.snowflake_parameters.authentication_type #=> String, one of "PASSWORD", "TOKEN", "X509"
+    #   resp.data_sources[0].data_source_parameters.snowflake_parameters.database_access_control_role #=> String
+    #   resp.data_sources[0].data_source_parameters.snowflake_parameters.o_auth_parameters.token_provider_url #=> String
+    #   resp.data_sources[0].data_source_parameters.snowflake_parameters.o_auth_parameters.o_auth_scope #=> String
+    #   resp.data_sources[0].data_source_parameters.snowflake_parameters.o_auth_parameters.identity_provider_vpc_connection_properties.vpc_connection_arn #=> String
+    #   resp.data_sources[0].data_source_parameters.snowflake_parameters.o_auth_parameters.identity_provider_resource_uri #=> String
     #   resp.data_sources[0].data_source_parameters.spark_parameters.host #=> String
     #   resp.data_sources[0].data_source_parameters.spark_parameters.port #=> Integer
     #   resp.data_sources[0].data_source_parameters.sql_server_parameters.host #=> String
@@ -5577,6 +10276,21 @@ module Aws::QuickSight
     #   resp.data_sources[0].data_source_parameters.databricks_parameters.host #=> String
     #   resp.data_sources[0].data_source_parameters.databricks_parameters.port #=> Integer
     #   resp.data_sources[0].data_source_parameters.databricks_parameters.sql_endpoint_path #=> String
+    #   resp.data_sources[0].data_source_parameters.starburst_parameters.host #=> String
+    #   resp.data_sources[0].data_source_parameters.starburst_parameters.port #=> Integer
+    #   resp.data_sources[0].data_source_parameters.starburst_parameters.catalog #=> String
+    #   resp.data_sources[0].data_source_parameters.starburst_parameters.product_type #=> String, one of "GALAXY", "ENTERPRISE"
+    #   resp.data_sources[0].data_source_parameters.starburst_parameters.database_access_control_role #=> String
+    #   resp.data_sources[0].data_source_parameters.starburst_parameters.authentication_type #=> String, one of "PASSWORD", "TOKEN", "X509"
+    #   resp.data_sources[0].data_source_parameters.starburst_parameters.o_auth_parameters.token_provider_url #=> String
+    #   resp.data_sources[0].data_source_parameters.starburst_parameters.o_auth_parameters.o_auth_scope #=> String
+    #   resp.data_sources[0].data_source_parameters.starburst_parameters.o_auth_parameters.identity_provider_vpc_connection_properties.vpc_connection_arn #=> String
+    #   resp.data_sources[0].data_source_parameters.starburst_parameters.o_auth_parameters.identity_provider_resource_uri #=> String
+    #   resp.data_sources[0].data_source_parameters.trino_parameters.host #=> String
+    #   resp.data_sources[0].data_source_parameters.trino_parameters.port #=> Integer
+    #   resp.data_sources[0].data_source_parameters.trino_parameters.catalog #=> String
+    #   resp.data_sources[0].data_source_parameters.big_query_parameters.project_id #=> String
+    #   resp.data_sources[0].data_source_parameters.big_query_parameters.data_set_region #=> String
     #   resp.data_sources[0].alternate_data_source_parameters #=> Array
     #   resp.data_sources[0].alternate_data_source_parameters[0].amazon_elasticsearch_parameters.domain #=> String
     #   resp.data_sources[0].alternate_data_source_parameters[0].athena_parameters.work_group #=> String
@@ -5610,12 +10324,25 @@ module Aws::QuickSight
     #   resp.data_sources[0].alternate_data_source_parameters[0].redshift_parameters.port #=> Integer
     #   resp.data_sources[0].alternate_data_source_parameters[0].redshift_parameters.database #=> String
     #   resp.data_sources[0].alternate_data_source_parameters[0].redshift_parameters.cluster_id #=> String
+    #   resp.data_sources[0].alternate_data_source_parameters[0].redshift_parameters.iam_parameters.role_arn #=> String
+    #   resp.data_sources[0].alternate_data_source_parameters[0].redshift_parameters.iam_parameters.database_user #=> String
+    #   resp.data_sources[0].alternate_data_source_parameters[0].redshift_parameters.iam_parameters.database_groups #=> Array
+    #   resp.data_sources[0].alternate_data_source_parameters[0].redshift_parameters.iam_parameters.database_groups[0] #=> String
+    #   resp.data_sources[0].alternate_data_source_parameters[0].redshift_parameters.iam_parameters.auto_create_database_user #=> Boolean
+    #   resp.data_sources[0].alternate_data_source_parameters[0].redshift_parameters.identity_center_configuration.enable_identity_propagation #=> Boolean
     #   resp.data_sources[0].alternate_data_source_parameters[0].s3_parameters.manifest_file_location.bucket #=> String
     #   resp.data_sources[0].alternate_data_source_parameters[0].s3_parameters.manifest_file_location.key #=> String
+    #   resp.data_sources[0].alternate_data_source_parameters[0].s3_parameters.role_arn #=> String
     #   resp.data_sources[0].alternate_data_source_parameters[0].service_now_parameters.site_base_url #=> String
     #   resp.data_sources[0].alternate_data_source_parameters[0].snowflake_parameters.host #=> String
     #   resp.data_sources[0].alternate_data_source_parameters[0].snowflake_parameters.database #=> String
     #   resp.data_sources[0].alternate_data_source_parameters[0].snowflake_parameters.warehouse #=> String
+    #   resp.data_sources[0].alternate_data_source_parameters[0].snowflake_parameters.authentication_type #=> String, one of "PASSWORD", "TOKEN", "X509"
+    #   resp.data_sources[0].alternate_data_source_parameters[0].snowflake_parameters.database_access_control_role #=> String
+    #   resp.data_sources[0].alternate_data_source_parameters[0].snowflake_parameters.o_auth_parameters.token_provider_url #=> String
+    #   resp.data_sources[0].alternate_data_source_parameters[0].snowflake_parameters.o_auth_parameters.o_auth_scope #=> String
+    #   resp.data_sources[0].alternate_data_source_parameters[0].snowflake_parameters.o_auth_parameters.identity_provider_vpc_connection_properties.vpc_connection_arn #=> String
+    #   resp.data_sources[0].alternate_data_source_parameters[0].snowflake_parameters.o_auth_parameters.identity_provider_resource_uri #=> String
     #   resp.data_sources[0].alternate_data_source_parameters[0].spark_parameters.host #=> String
     #   resp.data_sources[0].alternate_data_source_parameters[0].spark_parameters.port #=> Integer
     #   resp.data_sources[0].alternate_data_source_parameters[0].sql_server_parameters.host #=> String
@@ -5632,6 +10359,21 @@ module Aws::QuickSight
     #   resp.data_sources[0].alternate_data_source_parameters[0].databricks_parameters.host #=> String
     #   resp.data_sources[0].alternate_data_source_parameters[0].databricks_parameters.port #=> Integer
     #   resp.data_sources[0].alternate_data_source_parameters[0].databricks_parameters.sql_endpoint_path #=> String
+    #   resp.data_sources[0].alternate_data_source_parameters[0].starburst_parameters.host #=> String
+    #   resp.data_sources[0].alternate_data_source_parameters[0].starburst_parameters.port #=> Integer
+    #   resp.data_sources[0].alternate_data_source_parameters[0].starburst_parameters.catalog #=> String
+    #   resp.data_sources[0].alternate_data_source_parameters[0].starburst_parameters.product_type #=> String, one of "GALAXY", "ENTERPRISE"
+    #   resp.data_sources[0].alternate_data_source_parameters[0].starburst_parameters.database_access_control_role #=> String
+    #   resp.data_sources[0].alternate_data_source_parameters[0].starburst_parameters.authentication_type #=> String, one of "PASSWORD", "TOKEN", "X509"
+    #   resp.data_sources[0].alternate_data_source_parameters[0].starburst_parameters.o_auth_parameters.token_provider_url #=> String
+    #   resp.data_sources[0].alternate_data_source_parameters[0].starburst_parameters.o_auth_parameters.o_auth_scope #=> String
+    #   resp.data_sources[0].alternate_data_source_parameters[0].starburst_parameters.o_auth_parameters.identity_provider_vpc_connection_properties.vpc_connection_arn #=> String
+    #   resp.data_sources[0].alternate_data_source_parameters[0].starburst_parameters.o_auth_parameters.identity_provider_resource_uri #=> String
+    #   resp.data_sources[0].alternate_data_source_parameters[0].trino_parameters.host #=> String
+    #   resp.data_sources[0].alternate_data_source_parameters[0].trino_parameters.port #=> Integer
+    #   resp.data_sources[0].alternate_data_source_parameters[0].trino_parameters.catalog #=> String
+    #   resp.data_sources[0].alternate_data_source_parameters[0].big_query_parameters.project_id #=> String
+    #   resp.data_sources[0].alternate_data_source_parameters[0].big_query_parameters.data_set_region #=> String
     #   resp.data_sources[0].vpc_connection_properties.vpc_connection_arn #=> String
     #   resp.data_sources[0].ssl_properties.disable_ssl #=> Boolean
     #   resp.data_sources[0].error_info.type #=> String, one of "ACCESS_DENIED", "COPY_SOURCE_NOT_FOUND", "TIMEOUT", "ENGINE_VERSION_NOT_SUPPORTED", "UNKNOWN_HOST", "GENERIC_SQL_FAILURE", "CONFLICT", "UNKNOWN"
@@ -5671,6 +10413,8 @@ module Aws::QuickSight
     #   * {Types::ListFolderMembersResponse#folder_member_list #folder_member_list} => Array&lt;Types::MemberIdArnPair&gt;
     #   * {Types::ListFolderMembersResponse#next_token #next_token} => String
     #   * {Types::ListFolderMembersResponse#request_id #request_id} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
     #
     # @example Request syntax with placeholder values
     #
@@ -5718,6 +10462,8 @@ module Aws::QuickSight
     #   * {Types::ListFoldersResponse#next_token #next_token} => String
     #   * {Types::ListFoldersResponse#request_id #request_id} => String
     #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
     # @example Request syntax with placeholder values
     #
     #   resp = client.list_folders({
@@ -5733,9 +10479,10 @@ module Aws::QuickSight
     #   resp.folder_summary_list[0].arn #=> String
     #   resp.folder_summary_list[0].folder_id #=> String
     #   resp.folder_summary_list[0].name #=> String
-    #   resp.folder_summary_list[0].folder_type #=> String, one of "SHARED"
+    #   resp.folder_summary_list[0].folder_type #=> String, one of "SHARED", "RESTRICTED"
     #   resp.folder_summary_list[0].created_time #=> Time
     #   resp.folder_summary_list[0].last_updated_time #=> Time
+    #   resp.folder_summary_list[0].sharing_model #=> String, one of "ACCOUNT", "NAMESPACE"
     #   resp.next_token #=> String
     #   resp.request_id #=> String
     #
@@ -5745,6 +10492,57 @@ module Aws::QuickSight
     # @param [Hash] params ({})
     def list_folders(params = {}, options = {})
       req = build_request(:list_folders, params)
+      req.send_request(options)
+    end
+
+    # List all folders that a resource is a member of.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID for the Amazon Web Services account that contains the resource.
+    #
+    # @option params [required, String] :resource_arn
+    #   The Amazon Resource Name (ARN) the resource whose folders you need to
+    #   list.
+    #
+    # @option params [String] :next_token
+    #   The token for the next set of results, or null if there are no more
+    #   results.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to be returned per request.
+    #
+    # @return [Types::ListFoldersForResourceResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListFoldersForResourceResponse#status #status} => Integer
+    #   * {Types::ListFoldersForResourceResponse#folders #folders} => Array&lt;String&gt;
+    #   * {Types::ListFoldersForResourceResponse#next_token #next_token} => String
+    #   * {Types::ListFoldersForResourceResponse#request_id #request_id} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_folders_for_resource({
+    #     aws_account_id: "AwsAccountId", # required
+    #     resource_arn: "Arn", # required
+    #     next_token: "String",
+    #     max_results: 1,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.status #=> Integer
+    #   resp.folders #=> Array
+    #   resp.folders[0] #=> String
+    #   resp.next_token #=> String
+    #   resp.request_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/ListFoldersForResource AWS API Documentation
+    #
+    # @overload list_folders_for_resource(params = {})
+    # @param [Hash] params ({})
+    def list_folders_for_resource(params = {}, options = {})
+      req = build_request(:list_folders_for_resource, params)
       req.send_request(options)
     end
 
@@ -5773,6 +10571,8 @@ module Aws::QuickSight
     #   * {Types::ListGroupMembershipsResponse#next_token #next_token} => String
     #   * {Types::ListGroupMembershipsResponse#request_id #request_id} => String
     #   * {Types::ListGroupMembershipsResponse#status #status} => Integer
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
     #
     # @example Request syntax with placeholder values
     #
@@ -5825,6 +10625,8 @@ module Aws::QuickSight
     #   * {Types::ListGroupsResponse#request_id #request_id} => String
     #   * {Types::ListGroupsResponse#status #status} => Integer
     #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
     # @example Request syntax with placeholder values
     #
     #   resp = client.list_groups({
@@ -5854,7 +10656,8 @@ module Aws::QuickSight
       req.send_request(options)
     end
 
-    # Lists IAM policy assignments in the current Amazon QuickSight account.
+    # Lists the IAM policy assignments in the current Amazon QuickSight
+    # account.
     #
     # @option params [required, String] :aws_account_id
     #   The ID of the Amazon Web Services account that contains these IAM
@@ -5879,6 +10682,8 @@ module Aws::QuickSight
     #   * {Types::ListIAMPolicyAssignmentsResponse#next_token #next_token} => String
     #   * {Types::ListIAMPolicyAssignmentsResponse#request_id #request_id} => String
     #   * {Types::ListIAMPolicyAssignmentsResponse#status #status} => Integer
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
     #
     # @example Request syntax with placeholder values
     #
@@ -5908,9 +10713,9 @@ module Aws::QuickSight
       req.send_request(options)
     end
 
-    # Lists all the IAM policy assignments, including the Amazon Resource
-    # Names (ARNs) for the IAM policies assigned to the specified user and
-    # group or groups that the user belongs to.
+    # Lists all of the IAM policy assignments, including the Amazon Resource
+    # Names (ARNs), for the IAM policies assigned to the specified user and
+    # group, or groups that the user belongs to.
     #
     # @option params [required, String] :aws_account_id
     #   The ID of the Amazon Web Services account that contains the
@@ -5935,6 +10740,8 @@ module Aws::QuickSight
     #   * {Types::ListIAMPolicyAssignmentsForUserResponse#request_id #request_id} => String
     #   * {Types::ListIAMPolicyAssignmentsForUserResponse#next_token #next_token} => String
     #   * {Types::ListIAMPolicyAssignmentsForUserResponse#status #status} => Integer
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
     #
     # @example Request syntax with placeholder values
     #
@@ -5961,6 +10768,57 @@ module Aws::QuickSight
     # @param [Hash] params ({})
     def list_iam_policy_assignments_for_user(params = {}, options = {})
       req = build_request(:list_iam_policy_assignments_for_user, params)
+      req.send_request(options)
+    end
+
+    # Lists all services and authorized targets that the Amazon QuickSight
+    # IAM Identity Center application can access.
+    #
+    # This operation is only supported for Amazon QuickSight accounts that
+    # use IAM Identity Center.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that contain the identity
+    #   propagation configurations of.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to be returned.
+    #
+    # @option params [String] :next_token
+    #   The token for the next set of results, or null if there are no more
+    #   results.
+    #
+    # @return [Types::ListIdentityPropagationConfigsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListIdentityPropagationConfigsResponse#services #services} => Array&lt;Types::AuthorizedTargetsByService&gt;
+    #   * {Types::ListIdentityPropagationConfigsResponse#next_token #next_token} => String
+    #   * {Types::ListIdentityPropagationConfigsResponse#status #status} => Integer
+    #   * {Types::ListIdentityPropagationConfigsResponse#request_id #request_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_identity_propagation_configs({
+    #     aws_account_id: "AwsAccountId", # required
+    #     max_results: 1,
+    #     next_token: "String",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.services #=> Array
+    #   resp.services[0].service #=> String, one of "REDSHIFT", "QBUSINESS"
+    #   resp.services[0].authorized_targets #=> Array
+    #   resp.services[0].authorized_targets[0] #=> String
+    #   resp.next_token #=> String
+    #   resp.status #=> Integer
+    #   resp.request_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/ListIdentityPropagationConfigs AWS API Documentation
+    #
+    # @overload list_identity_propagation_configs(params = {})
+    # @param [Hash] params ({})
+    def list_identity_propagation_configs(params = {}, options = {})
+      req = build_request(:list_identity_propagation_configs, params)
       req.send_request(options)
     end
 
@@ -6003,7 +10861,7 @@ module Aws::QuickSight
     #   resp.ingestions[0].arn #=> String
     #   resp.ingestions[0].ingestion_id #=> String
     #   resp.ingestions[0].ingestion_status #=> String, one of "INITIALIZED", "QUEUED", "RUNNING", "FAILED", "COMPLETED", "CANCELLED"
-    #   resp.ingestions[0].error_info.type #=> String, one of "FAILURE_TO_ASSUME_ROLE", "INGESTION_SUPERSEDED", "INGESTION_CANCELED", "DATA_SET_DELETED", "DATA_SET_NOT_SPICE", "S3_UPLOADED_FILE_DELETED", "S3_MANIFEST_ERROR", "DATA_TOLERANCE_EXCEPTION", "SPICE_TABLE_NOT_FOUND", "DATA_SET_SIZE_LIMIT_EXCEEDED", "ROW_SIZE_LIMIT_EXCEEDED", "ACCOUNT_CAPACITY_LIMIT_EXCEEDED", "CUSTOMER_ERROR", "DATA_SOURCE_NOT_FOUND", "IAM_ROLE_NOT_AVAILABLE", "CONNECTION_FAILURE", "SQL_TABLE_NOT_FOUND", "PERMISSION_DENIED", "SSL_CERTIFICATE_VALIDATION_FAILURE", "OAUTH_TOKEN_FAILURE", "SOURCE_API_LIMIT_EXCEEDED_FAILURE", "PASSWORD_AUTHENTICATION_FAILURE", "SQL_SCHEMA_MISMATCH_ERROR", "INVALID_DATE_FORMAT", "INVALID_DATAPREP_SYNTAX", "SOURCE_RESOURCE_LIMIT_EXCEEDED", "SQL_INVALID_PARAMETER_VALUE", "QUERY_TIMEOUT", "SQL_NUMERIC_OVERFLOW", "UNRESOLVABLE_HOST", "UNROUTABLE_HOST", "SQL_EXCEPTION", "S3_FILE_INACCESSIBLE", "IOT_FILE_NOT_FOUND", "IOT_DATA_SET_FILE_EMPTY", "INVALID_DATA_SOURCE_CONFIG", "DATA_SOURCE_AUTH_FAILED", "DATA_SOURCE_CONNECTION_FAILED", "FAILURE_TO_PROCESS_JSON_FILE", "INTERNAL_SERVICE_ERROR", "REFRESH_SUPPRESSED_BY_EDIT", "PERMISSION_NOT_FOUND", "ELASTICSEARCH_CURSOR_NOT_ENABLED", "CURSOR_NOT_ENABLED"
+    #   resp.ingestions[0].error_info.type #=> String, one of "FAILURE_TO_ASSUME_ROLE", "INGESTION_SUPERSEDED", "INGESTION_CANCELED", "DATA_SET_DELETED", "DATA_SET_NOT_SPICE", "S3_UPLOADED_FILE_DELETED", "S3_MANIFEST_ERROR", "DATA_TOLERANCE_EXCEPTION", "SPICE_TABLE_NOT_FOUND", "DATA_SET_SIZE_LIMIT_EXCEEDED", "ROW_SIZE_LIMIT_EXCEEDED", "ACCOUNT_CAPACITY_LIMIT_EXCEEDED", "CUSTOMER_ERROR", "DATA_SOURCE_NOT_FOUND", "IAM_ROLE_NOT_AVAILABLE", "CONNECTION_FAILURE", "SQL_TABLE_NOT_FOUND", "PERMISSION_DENIED", "SSL_CERTIFICATE_VALIDATION_FAILURE", "OAUTH_TOKEN_FAILURE", "SOURCE_API_LIMIT_EXCEEDED_FAILURE", "PASSWORD_AUTHENTICATION_FAILURE", "SQL_SCHEMA_MISMATCH_ERROR", "INVALID_DATE_FORMAT", "INVALID_DATAPREP_SYNTAX", "SOURCE_RESOURCE_LIMIT_EXCEEDED", "SQL_INVALID_PARAMETER_VALUE", "QUERY_TIMEOUT", "SQL_NUMERIC_OVERFLOW", "UNRESOLVABLE_HOST", "UNROUTABLE_HOST", "SQL_EXCEPTION", "S3_FILE_INACCESSIBLE", "IOT_FILE_NOT_FOUND", "IOT_DATA_SET_FILE_EMPTY", "INVALID_DATA_SOURCE_CONFIG", "DATA_SOURCE_AUTH_FAILED", "DATA_SOURCE_CONNECTION_FAILED", "FAILURE_TO_PROCESS_JSON_FILE", "INTERNAL_SERVICE_ERROR", "REFRESH_SUPPRESSED_BY_EDIT", "PERMISSION_NOT_FOUND", "ELASTICSEARCH_CURSOR_NOT_ENABLED", "CURSOR_NOT_ENABLED", "DUPLICATE_COLUMN_NAMES_FOUND"
     #   resp.ingestions[0].error_info.message #=> String
     #   resp.ingestions[0].row_info.rows_ingested #=> Integer
     #   resp.ingestions[0].row_info.rows_dropped #=> Integer
@@ -6075,6 +10933,8 @@ module Aws::QuickSight
     #   resp.namespaces[0].identity_store #=> String, one of "QUICKSIGHT"
     #   resp.namespaces[0].namespace_error.type #=> String, one of "PERMISSION_DENIED", "INTERNAL_SERVICE_ERROR"
     #   resp.namespaces[0].namespace_error.message #=> String
+    #   resp.namespaces[0].iam_identity_center_application_arn #=> String
+    #   resp.namespaces[0].iam_identity_center_instance_arn #=> String
     #   resp.next_token #=> String
     #   resp.request_id #=> String
     #   resp.status #=> Integer
@@ -6085,6 +10945,108 @@ module Aws::QuickSight
     # @param [Hash] params ({})
     def list_namespaces(params = {}, options = {})
       req = build_request(:list_namespaces, params)
+      req.send_request(options)
+    end
+
+    # Lists the refresh schedules of a dataset. Each dataset can have up to
+    # 5 schedules.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The Amazon Web Services account ID.
+    #
+    # @option params [required, String] :data_set_id
+    #   The ID of the dataset.
+    #
+    # @return [Types::ListRefreshSchedulesResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListRefreshSchedulesResponse#refresh_schedules #refresh_schedules} => Array&lt;Types::RefreshSchedule&gt;
+    #   * {Types::ListRefreshSchedulesResponse#status #status} => Integer
+    #   * {Types::ListRefreshSchedulesResponse#request_id #request_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_refresh_schedules({
+    #     aws_account_id: "AwsAccountId", # required
+    #     data_set_id: "ResourceId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.refresh_schedules #=> Array
+    #   resp.refresh_schedules[0].schedule_id #=> String
+    #   resp.refresh_schedules[0].schedule_frequency.interval #=> String, one of "MINUTE15", "MINUTE30", "HOURLY", "DAILY", "WEEKLY", "MONTHLY"
+    #   resp.refresh_schedules[0].schedule_frequency.refresh_on_day.day_of_week #=> String, one of "SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"
+    #   resp.refresh_schedules[0].schedule_frequency.refresh_on_day.day_of_month #=> String
+    #   resp.refresh_schedules[0].schedule_frequency.timezone #=> String
+    #   resp.refresh_schedules[0].schedule_frequency.time_of_the_day #=> String
+    #   resp.refresh_schedules[0].start_after_date_time #=> Time
+    #   resp.refresh_schedules[0].refresh_type #=> String, one of "INCREMENTAL_REFRESH", "FULL_REFRESH"
+    #   resp.refresh_schedules[0].arn #=> String
+    #   resp.status #=> Integer
+    #   resp.request_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/ListRefreshSchedules AWS API Documentation
+    #
+    # @overload list_refresh_schedules(params = {})
+    # @param [Hash] params ({})
+    def list_refresh_schedules(params = {}, options = {})
+      req = build_request(:list_refresh_schedules, params)
+      req.send_request(options)
+    end
+
+    # Lists all groups that are associated with a role.
+    #
+    # @option params [required, String] :role
+    #   The name of the role.
+    #
+    # @option params [String] :next_token
+    #   A pagination token that can be used in a subsequent request.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID for the Amazon Web Services account that you want to create a
+    #   group in. The Amazon Web Services account ID that you provide must be
+    #   the same Amazon Web Services account that contains your Amazon
+    #   QuickSight account.
+    #
+    # @option params [required, String] :namespace
+    #   The namespace that includes the role.
+    #
+    # @return [Types::ListRoleMembershipsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListRoleMembershipsResponse#members_list #members_list} => Array&lt;String&gt;
+    #   * {Types::ListRoleMembershipsResponse#next_token #next_token} => String
+    #   * {Types::ListRoleMembershipsResponse#request_id #request_id} => String
+    #   * {Types::ListRoleMembershipsResponse#status #status} => Integer
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_role_memberships({
+    #     role: "ADMIN", # required, accepts ADMIN, AUTHOR, READER, ADMIN_PRO, AUTHOR_PRO, READER_PRO
+    #     next_token: "String",
+    #     max_results: 1,
+    #     aws_account_id: "AwsAccountId", # required
+    #     namespace: "Namespace", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.members_list #=> Array
+    #   resp.members_list[0] #=> String
+    #   resp.next_token #=> String
+    #   resp.request_id #=> String
+    #   resp.status #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/ListRoleMemberships AWS API Documentation
+    #
+    # @overload list_role_memberships(params = {})
+    # @param [Hash] params ({})
+    def list_role_memberships(params = {}, options = {})
+      req = build_request(:list_role_memberships, params)
       req.send_request(options)
     end
 
@@ -6456,6 +11418,580 @@ module Aws::QuickSight
       req.send_request(options)
     end
 
+    # Lists all of the refresh schedules for a topic.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that contains the topic
+    #   whose refresh schedule you want described.
+    #
+    # @option params [required, String] :topic_id
+    #   The ID for the topic that you want to describe. This ID is unique per
+    #   Amazon Web Services Region for each Amazon Web Services account.
+    #
+    # @return [Types::ListTopicRefreshSchedulesResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListTopicRefreshSchedulesResponse#topic_id #topic_id} => String
+    #   * {Types::ListTopicRefreshSchedulesResponse#topic_arn #topic_arn} => String
+    #   * {Types::ListTopicRefreshSchedulesResponse#refresh_schedules #refresh_schedules} => Array&lt;Types::TopicRefreshScheduleSummary&gt;
+    #   * {Types::ListTopicRefreshSchedulesResponse#status #status} => Integer
+    #   * {Types::ListTopicRefreshSchedulesResponse#request_id #request_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_topic_refresh_schedules({
+    #     aws_account_id: "AwsAccountId", # required
+    #     topic_id: "TopicId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.topic_id #=> String
+    #   resp.topic_arn #=> String
+    #   resp.refresh_schedules #=> Array
+    #   resp.refresh_schedules[0].dataset_id #=> String
+    #   resp.refresh_schedules[0].dataset_arn #=> String
+    #   resp.refresh_schedules[0].dataset_name #=> String
+    #   resp.refresh_schedules[0].refresh_schedule.is_enabled #=> Boolean
+    #   resp.refresh_schedules[0].refresh_schedule.based_on_spice_schedule #=> Boolean
+    #   resp.refresh_schedules[0].refresh_schedule.starting_at #=> Time
+    #   resp.refresh_schedules[0].refresh_schedule.timezone #=> String
+    #   resp.refresh_schedules[0].refresh_schedule.repeat_at #=> String
+    #   resp.refresh_schedules[0].refresh_schedule.topic_schedule_type #=> String, one of "HOURLY", "DAILY", "WEEKLY", "MONTHLY"
+    #   resp.status #=> Integer
+    #   resp.request_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/ListTopicRefreshSchedules AWS API Documentation
+    #
+    # @overload list_topic_refresh_schedules(params = {})
+    # @param [Hash] params ({})
+    def list_topic_refresh_schedules(params = {}, options = {})
+      req = build_request(:list_topic_refresh_schedules, params)
+      req.send_request(options)
+    end
+
+    # Lists all reviewed answers for a Q Topic.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that containd the reviewed
+    #   answers that you want listed.
+    #
+    # @option params [required, String] :topic_id
+    #   The ID for the topic that contains the reviewed answer that you want
+    #   to list. This ID is unique per Amazon Web Services Region for each
+    #   Amazon Web Services account.
+    #
+    # @return [Types::ListTopicReviewedAnswersResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListTopicReviewedAnswersResponse#topic_id #topic_id} => String
+    #   * {Types::ListTopicReviewedAnswersResponse#topic_arn #topic_arn} => String
+    #   * {Types::ListTopicReviewedAnswersResponse#answers #answers} => Array&lt;Types::TopicReviewedAnswer&gt;
+    #   * {Types::ListTopicReviewedAnswersResponse#status #status} => Integer
+    #   * {Types::ListTopicReviewedAnswersResponse#request_id #request_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_topic_reviewed_answers({
+    #     aws_account_id: "AwsAccountId", # required
+    #     topic_id: "TopicId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.topic_id #=> String
+    #   resp.topic_arn #=> String
+    #   resp.answers #=> Array
+    #   resp.answers[0].arn #=> String
+    #   resp.answers[0].answer_id #=> String
+    #   resp.answers[0].dataset_arn #=> String
+    #   resp.answers[0].question #=> String
+    #   resp.answers[0].mir.metrics #=> Array
+    #   resp.answers[0].mir.metrics[0].metric_id.identity #=> String
+    #   resp.answers[0].mir.metrics[0].function.aggregation #=> String, one of "SUM", "MIN", "MAX", "COUNT", "AVERAGE", "DISTINCT_COUNT", "STDEV", "STDEVP", "VAR", "VARP", "PERCENTILE", "MEDIAN", "PTD_SUM", "PTD_MIN", "PTD_MAX", "PTD_COUNT", "PTD_DISTINCT_COUNT", "PTD_AVERAGE", "COLUMN", "CUSTOM"
+    #   resp.answers[0].mir.metrics[0].function.aggregation_function_parameters #=> Hash
+    #   resp.answers[0].mir.metrics[0].function.aggregation_function_parameters["AggFunctionParamKey"] #=> String
+    #   resp.answers[0].mir.metrics[0].function.period #=> String, one of "SECOND", "MINUTE", "HOUR", "DAY", "WEEK", "MONTH", "QUARTER", "YEAR"
+    #   resp.answers[0].mir.metrics[0].function.period_field #=> String
+    #   resp.answers[0].mir.metrics[0].operands #=> Array
+    #   resp.answers[0].mir.metrics[0].operands[0].identity #=> String
+    #   resp.answers[0].mir.metrics[0].comparison_method.type #=> String, one of "DIFF", "PERC_DIFF", "DIFF_AS_PERC", "POP_CURRENT_DIFF_AS_PERC", "POP_CURRENT_DIFF", "POP_OVERTIME_DIFF_AS_PERC", "POP_OVERTIME_DIFF", "PERCENT_OF_TOTAL", "RUNNING_SUM", "MOVING_AVERAGE"
+    #   resp.answers[0].mir.metrics[0].comparison_method.period #=> String, one of "SECOND", "MINUTE", "HOUR", "DAY", "WEEK", "MONTH", "QUARTER", "YEAR"
+    #   resp.answers[0].mir.metrics[0].comparison_method.window_size #=> Integer
+    #   resp.answers[0].mir.metrics[0].expression #=> String
+    #   resp.answers[0].mir.metrics[0].calculated_field_references #=> Array
+    #   resp.answers[0].mir.metrics[0].calculated_field_references[0].identity #=> String
+    #   resp.answers[0].mir.metrics[0].display_format #=> String, one of "AUTO", "PERCENT", "CURRENCY", "NUMBER", "DATE", "STRING"
+    #   resp.answers[0].mir.metrics[0].display_format_options.use_blank_cell_format #=> Boolean
+    #   resp.answers[0].mir.metrics[0].display_format_options.blank_cell_format #=> String
+    #   resp.answers[0].mir.metrics[0].display_format_options.date_format #=> String
+    #   resp.answers[0].mir.metrics[0].display_format_options.decimal_separator #=> String, one of "COMMA", "DOT"
+    #   resp.answers[0].mir.metrics[0].display_format_options.grouping_separator #=> String
+    #   resp.answers[0].mir.metrics[0].display_format_options.use_grouping #=> Boolean
+    #   resp.answers[0].mir.metrics[0].display_format_options.fraction_digits #=> Integer
+    #   resp.answers[0].mir.metrics[0].display_format_options.prefix #=> String
+    #   resp.answers[0].mir.metrics[0].display_format_options.suffix #=> String
+    #   resp.answers[0].mir.metrics[0].display_format_options.unit_scaler #=> String, one of "NONE", "AUTO", "THOUSANDS", "MILLIONS", "BILLIONS", "TRILLIONS", "LAKHS", "CRORES"
+    #   resp.answers[0].mir.metrics[0].display_format_options.negative_format.prefix #=> String
+    #   resp.answers[0].mir.metrics[0].display_format_options.negative_format.suffix #=> String
+    #   resp.answers[0].mir.metrics[0].display_format_options.currency_symbol #=> String
+    #   resp.answers[0].mir.metrics[0].named_entity.named_entity_name #=> String
+    #   resp.answers[0].mir.group_by_list #=> Array
+    #   resp.answers[0].mir.group_by_list[0].field_name.identity #=> String
+    #   resp.answers[0].mir.group_by_list[0].time_granularity #=> String, one of "SECOND", "MINUTE", "HOUR", "DAY", "WEEK", "MONTH", "QUARTER", "YEAR"
+    #   resp.answers[0].mir.group_by_list[0].sort.operand.identity #=> String
+    #   resp.answers[0].mir.group_by_list[0].sort.sort_direction #=> String, one of "ASCENDING", "DESCENDING"
+    #   resp.answers[0].mir.group_by_list[0].display_format #=> String, one of "AUTO", "PERCENT", "CURRENCY", "NUMBER", "DATE", "STRING"
+    #   resp.answers[0].mir.group_by_list[0].display_format_options.use_blank_cell_format #=> Boolean
+    #   resp.answers[0].mir.group_by_list[0].display_format_options.blank_cell_format #=> String
+    #   resp.answers[0].mir.group_by_list[0].display_format_options.date_format #=> String
+    #   resp.answers[0].mir.group_by_list[0].display_format_options.decimal_separator #=> String, one of "COMMA", "DOT"
+    #   resp.answers[0].mir.group_by_list[0].display_format_options.grouping_separator #=> String
+    #   resp.answers[0].mir.group_by_list[0].display_format_options.use_grouping #=> Boolean
+    #   resp.answers[0].mir.group_by_list[0].display_format_options.fraction_digits #=> Integer
+    #   resp.answers[0].mir.group_by_list[0].display_format_options.prefix #=> String
+    #   resp.answers[0].mir.group_by_list[0].display_format_options.suffix #=> String
+    #   resp.answers[0].mir.group_by_list[0].display_format_options.unit_scaler #=> String, one of "NONE", "AUTO", "THOUSANDS", "MILLIONS", "BILLIONS", "TRILLIONS", "LAKHS", "CRORES"
+    #   resp.answers[0].mir.group_by_list[0].display_format_options.negative_format.prefix #=> String
+    #   resp.answers[0].mir.group_by_list[0].display_format_options.negative_format.suffix #=> String
+    #   resp.answers[0].mir.group_by_list[0].display_format_options.currency_symbol #=> String
+    #   resp.answers[0].mir.group_by_list[0].named_entity.named_entity_name #=> String
+    #   resp.answers[0].mir.filters #=> Array
+    #   resp.answers[0].mir.filters[0] #=> Array
+    #   resp.answers[0].mir.filters[0][0].filter_type #=> String, one of "CATEGORY_FILTER", "NUMERIC_EQUALITY_FILTER", "NUMERIC_RANGE_FILTER", "DATE_RANGE_FILTER", "RELATIVE_DATE_FILTER", "TOP_BOTTOM_FILTER", "EQUALS", "RANK_LIMIT_FILTER", "ACCEPT_ALL_FILTER"
+    #   resp.answers[0].mir.filters[0][0].filter_class #=> String, one of "ENFORCED_VALUE_FILTER", "CONDITIONAL_VALUE_FILTER", "NAMED_VALUE_FILTER"
+    #   resp.answers[0].mir.filters[0][0].operand_field.identity #=> String
+    #   resp.answers[0].mir.filters[0][0].function #=> String, one of "CONTAINS", "EXACT", "STARTS_WITH", "ENDS_WITH", "CONTAINS_STRING", "PREVIOUS", "THIS", "LAST", "NEXT", "NOW"
+    #   resp.answers[0].mir.filters[0][0].constant.constant_type #=> String, one of "SINGULAR", "RANGE", "COLLECTIVE"
+    #   resp.answers[0].mir.filters[0][0].constant.value #=> String
+    #   resp.answers[0].mir.filters[0][0].constant.minimum #=> String
+    #   resp.answers[0].mir.filters[0][0].constant.maximum #=> String
+    #   resp.answers[0].mir.filters[0][0].constant.value_list #=> Array
+    #   resp.answers[0].mir.filters[0][0].constant.value_list[0].constant_type #=> String, one of "SINGULAR", "RANGE", "COLLECTIVE"
+    #   resp.answers[0].mir.filters[0][0].constant.value_list[0].value #=> String
+    #   resp.answers[0].mir.filters[0][0].inverse #=> Boolean
+    #   resp.answers[0].mir.filters[0][0].null_filter #=> String, one of "ALL_VALUES", "NON_NULLS_ONLY", "NULLS_ONLY"
+    #   resp.answers[0].mir.filters[0][0].aggregation #=> String, one of "SUM", "MIN", "MAX", "COUNT", "AVERAGE", "DISTINCT_COUNT", "STDEV", "STDEVP", "VAR", "VARP", "PERCENTILE", "MEDIAN", "PTD_SUM", "PTD_MIN", "PTD_MAX", "PTD_COUNT", "PTD_DISTINCT_COUNT", "PTD_AVERAGE", "COLUMN", "CUSTOM"
+    #   resp.answers[0].mir.filters[0][0].aggregation_function_parameters #=> Hash
+    #   resp.answers[0].mir.filters[0][0].aggregation_function_parameters["AggFunctionParamKey"] #=> String
+    #   resp.answers[0].mir.filters[0][0].aggregation_partition_by #=> Array
+    #   resp.answers[0].mir.filters[0][0].aggregation_partition_by[0].field_name #=> String
+    #   resp.answers[0].mir.filters[0][0].aggregation_partition_by[0].time_granularity #=> String, one of "YEAR", "QUARTER", "MONTH", "WEEK", "DAY", "HOUR", "MINUTE", "SECOND", "MILLISECOND"
+    #   resp.answers[0].mir.filters[0][0].range.constant_type #=> String, one of "SINGULAR", "RANGE", "COLLECTIVE"
+    #   resp.answers[0].mir.filters[0][0].range.value #=> String
+    #   resp.answers[0].mir.filters[0][0].range.minimum #=> String
+    #   resp.answers[0].mir.filters[0][0].range.maximum #=> String
+    #   resp.answers[0].mir.filters[0][0].range.value_list #=> Array
+    #   resp.answers[0].mir.filters[0][0].range.value_list[0].constant_type #=> String, one of "SINGULAR", "RANGE", "COLLECTIVE"
+    #   resp.answers[0].mir.filters[0][0].range.value_list[0].value #=> String
+    #   resp.answers[0].mir.filters[0][0].inclusive #=> Boolean
+    #   resp.answers[0].mir.filters[0][0].time_granularity #=> String, one of "YEAR", "QUARTER", "MONTH", "WEEK", "DAY", "HOUR", "MINUTE", "SECOND", "MILLISECOND"
+    #   resp.answers[0].mir.filters[0][0].last_next_offset.constant_type #=> String, one of "SINGULAR", "RANGE", "COLLECTIVE"
+    #   resp.answers[0].mir.filters[0][0].last_next_offset.value #=> String
+    #   resp.answers[0].mir.filters[0][0].last_next_offset.minimum #=> String
+    #   resp.answers[0].mir.filters[0][0].last_next_offset.maximum #=> String
+    #   resp.answers[0].mir.filters[0][0].last_next_offset.value_list #=> Array
+    #   resp.answers[0].mir.filters[0][0].last_next_offset.value_list[0].constant_type #=> String, one of "SINGULAR", "RANGE", "COLLECTIVE"
+    #   resp.answers[0].mir.filters[0][0].last_next_offset.value_list[0].value #=> String
+    #   resp.answers[0].mir.filters[0][0].agg_metrics #=> Array
+    #   resp.answers[0].mir.filters[0][0].agg_metrics[0].metric_operand.identity #=> String
+    #   resp.answers[0].mir.filters[0][0].agg_metrics[0].function #=> String, one of "SUM", "MIN", "MAX", "COUNT", "AVERAGE", "DISTINCT_COUNT", "STDEV", "STDEVP", "VAR", "VARP", "PERCENTILE", "MEDIAN", "PTD_SUM", "PTD_MIN", "PTD_MAX", "PTD_COUNT", "PTD_DISTINCT_COUNT", "PTD_AVERAGE", "COLUMN", "CUSTOM"
+    #   resp.answers[0].mir.filters[0][0].agg_metrics[0].sort_direction #=> String, one of "ASCENDING", "DESCENDING"
+    #   resp.answers[0].mir.filters[0][0].top_bottom_limit.constant_type #=> String, one of "SINGULAR", "RANGE", "COLLECTIVE"
+    #   resp.answers[0].mir.filters[0][0].top_bottom_limit.value #=> String
+    #   resp.answers[0].mir.filters[0][0].top_bottom_limit.minimum #=> String
+    #   resp.answers[0].mir.filters[0][0].top_bottom_limit.maximum #=> String
+    #   resp.answers[0].mir.filters[0][0].top_bottom_limit.value_list #=> Array
+    #   resp.answers[0].mir.filters[0][0].top_bottom_limit.value_list[0].constant_type #=> String, one of "SINGULAR", "RANGE", "COLLECTIVE"
+    #   resp.answers[0].mir.filters[0][0].top_bottom_limit.value_list[0].value #=> String
+    #   resp.answers[0].mir.filters[0][0].sort_direction #=> String, one of "ASCENDING", "DESCENDING"
+    #   resp.answers[0].mir.filters[0][0].anchor.anchor_type #=> String, one of "TODAY"
+    #   resp.answers[0].mir.filters[0][0].anchor.time_granularity #=> String, one of "YEAR", "QUARTER", "MONTH", "WEEK", "DAY", "HOUR", "MINUTE", "SECOND", "MILLISECOND"
+    #   resp.answers[0].mir.filters[0][0].anchor.offset #=> Integer
+    #   resp.answers[0].mir.sort.operand.identity #=> String
+    #   resp.answers[0].mir.sort.sort_direction #=> String, one of "ASCENDING", "DESCENDING"
+    #   resp.answers[0].mir.contribution_analysis.factors #=> Array
+    #   resp.answers[0].mir.contribution_analysis.factors[0].field_name #=> String
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.start_range.filter_type #=> String, one of "CATEGORY_FILTER", "NUMERIC_EQUALITY_FILTER", "NUMERIC_RANGE_FILTER", "DATE_RANGE_FILTER", "RELATIVE_DATE_FILTER", "TOP_BOTTOM_FILTER", "EQUALS", "RANK_LIMIT_FILTER", "ACCEPT_ALL_FILTER"
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.start_range.filter_class #=> String, one of "ENFORCED_VALUE_FILTER", "CONDITIONAL_VALUE_FILTER", "NAMED_VALUE_FILTER"
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.start_range.operand_field.identity #=> String
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.start_range.function #=> String, one of "CONTAINS", "EXACT", "STARTS_WITH", "ENDS_WITH", "CONTAINS_STRING", "PREVIOUS", "THIS", "LAST", "NEXT", "NOW"
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.start_range.constant.constant_type #=> String, one of "SINGULAR", "RANGE", "COLLECTIVE"
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.start_range.constant.value #=> String
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.start_range.constant.minimum #=> String
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.start_range.constant.maximum #=> String
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.start_range.constant.value_list #=> Array
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.start_range.constant.value_list[0].constant_type #=> String, one of "SINGULAR", "RANGE", "COLLECTIVE"
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.start_range.constant.value_list[0].value #=> String
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.start_range.inverse #=> Boolean
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.start_range.null_filter #=> String, one of "ALL_VALUES", "NON_NULLS_ONLY", "NULLS_ONLY"
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.start_range.aggregation #=> String, one of "SUM", "MIN", "MAX", "COUNT", "AVERAGE", "DISTINCT_COUNT", "STDEV", "STDEVP", "VAR", "VARP", "PERCENTILE", "MEDIAN", "PTD_SUM", "PTD_MIN", "PTD_MAX", "PTD_COUNT", "PTD_DISTINCT_COUNT", "PTD_AVERAGE", "COLUMN", "CUSTOM"
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.start_range.aggregation_function_parameters #=> Hash
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.start_range.aggregation_function_parameters["AggFunctionParamKey"] #=> String
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.start_range.aggregation_partition_by #=> Array
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.start_range.aggregation_partition_by[0].field_name #=> String
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.start_range.aggregation_partition_by[0].time_granularity #=> String, one of "YEAR", "QUARTER", "MONTH", "WEEK", "DAY", "HOUR", "MINUTE", "SECOND", "MILLISECOND"
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.start_range.range.constant_type #=> String, one of "SINGULAR", "RANGE", "COLLECTIVE"
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.start_range.range.value #=> String
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.start_range.range.minimum #=> String
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.start_range.range.maximum #=> String
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.start_range.range.value_list #=> Array
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.start_range.range.value_list[0].constant_type #=> String, one of "SINGULAR", "RANGE", "COLLECTIVE"
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.start_range.range.value_list[0].value #=> String
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.start_range.inclusive #=> Boolean
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.start_range.time_granularity #=> String, one of "YEAR", "QUARTER", "MONTH", "WEEK", "DAY", "HOUR", "MINUTE", "SECOND", "MILLISECOND"
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.start_range.last_next_offset.constant_type #=> String, one of "SINGULAR", "RANGE", "COLLECTIVE"
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.start_range.last_next_offset.value #=> String
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.start_range.last_next_offset.minimum #=> String
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.start_range.last_next_offset.maximum #=> String
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.start_range.last_next_offset.value_list #=> Array
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.start_range.last_next_offset.value_list[0].constant_type #=> String, one of "SINGULAR", "RANGE", "COLLECTIVE"
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.start_range.last_next_offset.value_list[0].value #=> String
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.start_range.agg_metrics #=> Array
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.start_range.agg_metrics[0].metric_operand.identity #=> String
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.start_range.agg_metrics[0].function #=> String, one of "SUM", "MIN", "MAX", "COUNT", "AVERAGE", "DISTINCT_COUNT", "STDEV", "STDEVP", "VAR", "VARP", "PERCENTILE", "MEDIAN", "PTD_SUM", "PTD_MIN", "PTD_MAX", "PTD_COUNT", "PTD_DISTINCT_COUNT", "PTD_AVERAGE", "COLUMN", "CUSTOM"
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.start_range.agg_metrics[0].sort_direction #=> String, one of "ASCENDING", "DESCENDING"
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.start_range.top_bottom_limit.constant_type #=> String, one of "SINGULAR", "RANGE", "COLLECTIVE"
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.start_range.top_bottom_limit.value #=> String
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.start_range.top_bottom_limit.minimum #=> String
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.start_range.top_bottom_limit.maximum #=> String
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.start_range.top_bottom_limit.value_list #=> Array
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.start_range.top_bottom_limit.value_list[0].constant_type #=> String, one of "SINGULAR", "RANGE", "COLLECTIVE"
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.start_range.top_bottom_limit.value_list[0].value #=> String
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.start_range.sort_direction #=> String, one of "ASCENDING", "DESCENDING"
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.start_range.anchor.anchor_type #=> String, one of "TODAY"
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.start_range.anchor.time_granularity #=> String, one of "YEAR", "QUARTER", "MONTH", "WEEK", "DAY", "HOUR", "MINUTE", "SECOND", "MILLISECOND"
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.start_range.anchor.offset #=> Integer
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.end_range.filter_type #=> String, one of "CATEGORY_FILTER", "NUMERIC_EQUALITY_FILTER", "NUMERIC_RANGE_FILTER", "DATE_RANGE_FILTER", "RELATIVE_DATE_FILTER", "TOP_BOTTOM_FILTER", "EQUALS", "RANK_LIMIT_FILTER", "ACCEPT_ALL_FILTER"
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.end_range.filter_class #=> String, one of "ENFORCED_VALUE_FILTER", "CONDITIONAL_VALUE_FILTER", "NAMED_VALUE_FILTER"
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.end_range.operand_field.identity #=> String
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.end_range.function #=> String, one of "CONTAINS", "EXACT", "STARTS_WITH", "ENDS_WITH", "CONTAINS_STRING", "PREVIOUS", "THIS", "LAST", "NEXT", "NOW"
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.end_range.constant.constant_type #=> String, one of "SINGULAR", "RANGE", "COLLECTIVE"
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.end_range.constant.value #=> String
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.end_range.constant.minimum #=> String
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.end_range.constant.maximum #=> String
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.end_range.constant.value_list #=> Array
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.end_range.constant.value_list[0].constant_type #=> String, one of "SINGULAR", "RANGE", "COLLECTIVE"
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.end_range.constant.value_list[0].value #=> String
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.end_range.inverse #=> Boolean
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.end_range.null_filter #=> String, one of "ALL_VALUES", "NON_NULLS_ONLY", "NULLS_ONLY"
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.end_range.aggregation #=> String, one of "SUM", "MIN", "MAX", "COUNT", "AVERAGE", "DISTINCT_COUNT", "STDEV", "STDEVP", "VAR", "VARP", "PERCENTILE", "MEDIAN", "PTD_SUM", "PTD_MIN", "PTD_MAX", "PTD_COUNT", "PTD_DISTINCT_COUNT", "PTD_AVERAGE", "COLUMN", "CUSTOM"
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.end_range.aggregation_function_parameters #=> Hash
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.end_range.aggregation_function_parameters["AggFunctionParamKey"] #=> String
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.end_range.aggregation_partition_by #=> Array
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.end_range.aggregation_partition_by[0].field_name #=> String
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.end_range.aggregation_partition_by[0].time_granularity #=> String, one of "YEAR", "QUARTER", "MONTH", "WEEK", "DAY", "HOUR", "MINUTE", "SECOND", "MILLISECOND"
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.end_range.range.constant_type #=> String, one of "SINGULAR", "RANGE", "COLLECTIVE"
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.end_range.range.value #=> String
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.end_range.range.minimum #=> String
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.end_range.range.maximum #=> String
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.end_range.range.value_list #=> Array
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.end_range.range.value_list[0].constant_type #=> String, one of "SINGULAR", "RANGE", "COLLECTIVE"
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.end_range.range.value_list[0].value #=> String
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.end_range.inclusive #=> Boolean
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.end_range.time_granularity #=> String, one of "YEAR", "QUARTER", "MONTH", "WEEK", "DAY", "HOUR", "MINUTE", "SECOND", "MILLISECOND"
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.end_range.last_next_offset.constant_type #=> String, one of "SINGULAR", "RANGE", "COLLECTIVE"
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.end_range.last_next_offset.value #=> String
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.end_range.last_next_offset.minimum #=> String
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.end_range.last_next_offset.maximum #=> String
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.end_range.last_next_offset.value_list #=> Array
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.end_range.last_next_offset.value_list[0].constant_type #=> String, one of "SINGULAR", "RANGE", "COLLECTIVE"
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.end_range.last_next_offset.value_list[0].value #=> String
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.end_range.agg_metrics #=> Array
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.end_range.agg_metrics[0].metric_operand.identity #=> String
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.end_range.agg_metrics[0].function #=> String, one of "SUM", "MIN", "MAX", "COUNT", "AVERAGE", "DISTINCT_COUNT", "STDEV", "STDEVP", "VAR", "VARP", "PERCENTILE", "MEDIAN", "PTD_SUM", "PTD_MIN", "PTD_MAX", "PTD_COUNT", "PTD_DISTINCT_COUNT", "PTD_AVERAGE", "COLUMN", "CUSTOM"
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.end_range.agg_metrics[0].sort_direction #=> String, one of "ASCENDING", "DESCENDING"
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.end_range.top_bottom_limit.constant_type #=> String, one of "SINGULAR", "RANGE", "COLLECTIVE"
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.end_range.top_bottom_limit.value #=> String
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.end_range.top_bottom_limit.minimum #=> String
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.end_range.top_bottom_limit.maximum #=> String
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.end_range.top_bottom_limit.value_list #=> Array
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.end_range.top_bottom_limit.value_list[0].constant_type #=> String, one of "SINGULAR", "RANGE", "COLLECTIVE"
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.end_range.top_bottom_limit.value_list[0].value #=> String
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.end_range.sort_direction #=> String, one of "ASCENDING", "DESCENDING"
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.end_range.anchor.anchor_type #=> String, one of "TODAY"
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.end_range.anchor.time_granularity #=> String, one of "YEAR", "QUARTER", "MONTH", "WEEK", "DAY", "HOUR", "MINUTE", "SECOND", "MILLISECOND"
+    #   resp.answers[0].mir.contribution_analysis.time_ranges.end_range.anchor.offset #=> Integer
+    #   resp.answers[0].mir.contribution_analysis.direction #=> String, one of "INCREASE", "DECREASE", "NEUTRAL"
+    #   resp.answers[0].mir.contribution_analysis.sort_type #=> String, one of "ABSOLUTE_DIFFERENCE", "CONTRIBUTION_PERCENTAGE", "DEVIATION_FROM_EXPECTED", "PERCENTAGE_DIFFERENCE"
+    #   resp.answers[0].mir.visual.type #=> String
+    #   resp.answers[0].primary_visual.visual_id #=> String
+    #   resp.answers[0].primary_visual.role #=> String, one of "PRIMARY", "COMPLIMENTARY", "MULTI_INTENT", "FALLBACK", "FRAGMENT"
+    #   resp.answers[0].primary_visual.ir.metrics #=> Array
+    #   resp.answers[0].primary_visual.ir.metrics[0].metric_id.identity #=> String
+    #   resp.answers[0].primary_visual.ir.metrics[0].function.aggregation #=> String, one of "SUM", "MIN", "MAX", "COUNT", "AVERAGE", "DISTINCT_COUNT", "STDEV", "STDEVP", "VAR", "VARP", "PERCENTILE", "MEDIAN", "PTD_SUM", "PTD_MIN", "PTD_MAX", "PTD_COUNT", "PTD_DISTINCT_COUNT", "PTD_AVERAGE", "COLUMN", "CUSTOM"
+    #   resp.answers[0].primary_visual.ir.metrics[0].function.aggregation_function_parameters #=> Hash
+    #   resp.answers[0].primary_visual.ir.metrics[0].function.aggregation_function_parameters["AggFunctionParamKey"] #=> String
+    #   resp.answers[0].primary_visual.ir.metrics[0].function.period #=> String, one of "SECOND", "MINUTE", "HOUR", "DAY", "WEEK", "MONTH", "QUARTER", "YEAR"
+    #   resp.answers[0].primary_visual.ir.metrics[0].function.period_field #=> String
+    #   resp.answers[0].primary_visual.ir.metrics[0].operands #=> Array
+    #   resp.answers[0].primary_visual.ir.metrics[0].operands[0].identity #=> String
+    #   resp.answers[0].primary_visual.ir.metrics[0].comparison_method.type #=> String, one of "DIFF", "PERC_DIFF", "DIFF_AS_PERC", "POP_CURRENT_DIFF_AS_PERC", "POP_CURRENT_DIFF", "POP_OVERTIME_DIFF_AS_PERC", "POP_OVERTIME_DIFF", "PERCENT_OF_TOTAL", "RUNNING_SUM", "MOVING_AVERAGE"
+    #   resp.answers[0].primary_visual.ir.metrics[0].comparison_method.period #=> String, one of "SECOND", "MINUTE", "HOUR", "DAY", "WEEK", "MONTH", "QUARTER", "YEAR"
+    #   resp.answers[0].primary_visual.ir.metrics[0].comparison_method.window_size #=> Integer
+    #   resp.answers[0].primary_visual.ir.metrics[0].expression #=> String
+    #   resp.answers[0].primary_visual.ir.metrics[0].calculated_field_references #=> Array
+    #   resp.answers[0].primary_visual.ir.metrics[0].calculated_field_references[0].identity #=> String
+    #   resp.answers[0].primary_visual.ir.metrics[0].display_format #=> String, one of "AUTO", "PERCENT", "CURRENCY", "NUMBER", "DATE", "STRING"
+    #   resp.answers[0].primary_visual.ir.metrics[0].display_format_options.use_blank_cell_format #=> Boolean
+    #   resp.answers[0].primary_visual.ir.metrics[0].display_format_options.blank_cell_format #=> String
+    #   resp.answers[0].primary_visual.ir.metrics[0].display_format_options.date_format #=> String
+    #   resp.answers[0].primary_visual.ir.metrics[0].display_format_options.decimal_separator #=> String, one of "COMMA", "DOT"
+    #   resp.answers[0].primary_visual.ir.metrics[0].display_format_options.grouping_separator #=> String
+    #   resp.answers[0].primary_visual.ir.metrics[0].display_format_options.use_grouping #=> Boolean
+    #   resp.answers[0].primary_visual.ir.metrics[0].display_format_options.fraction_digits #=> Integer
+    #   resp.answers[0].primary_visual.ir.metrics[0].display_format_options.prefix #=> String
+    #   resp.answers[0].primary_visual.ir.metrics[0].display_format_options.suffix #=> String
+    #   resp.answers[0].primary_visual.ir.metrics[0].display_format_options.unit_scaler #=> String, one of "NONE", "AUTO", "THOUSANDS", "MILLIONS", "BILLIONS", "TRILLIONS", "LAKHS", "CRORES"
+    #   resp.answers[0].primary_visual.ir.metrics[0].display_format_options.negative_format.prefix #=> String
+    #   resp.answers[0].primary_visual.ir.metrics[0].display_format_options.negative_format.suffix #=> String
+    #   resp.answers[0].primary_visual.ir.metrics[0].display_format_options.currency_symbol #=> String
+    #   resp.answers[0].primary_visual.ir.metrics[0].named_entity.named_entity_name #=> String
+    #   resp.answers[0].primary_visual.ir.group_by_list #=> Array
+    #   resp.answers[0].primary_visual.ir.group_by_list[0].field_name.identity #=> String
+    #   resp.answers[0].primary_visual.ir.group_by_list[0].time_granularity #=> String, one of "SECOND", "MINUTE", "HOUR", "DAY", "WEEK", "MONTH", "QUARTER", "YEAR"
+    #   resp.answers[0].primary_visual.ir.group_by_list[0].sort.operand.identity #=> String
+    #   resp.answers[0].primary_visual.ir.group_by_list[0].sort.sort_direction #=> String, one of "ASCENDING", "DESCENDING"
+    #   resp.answers[0].primary_visual.ir.group_by_list[0].display_format #=> String, one of "AUTO", "PERCENT", "CURRENCY", "NUMBER", "DATE", "STRING"
+    #   resp.answers[0].primary_visual.ir.group_by_list[0].display_format_options.use_blank_cell_format #=> Boolean
+    #   resp.answers[0].primary_visual.ir.group_by_list[0].display_format_options.blank_cell_format #=> String
+    #   resp.answers[0].primary_visual.ir.group_by_list[0].display_format_options.date_format #=> String
+    #   resp.answers[0].primary_visual.ir.group_by_list[0].display_format_options.decimal_separator #=> String, one of "COMMA", "DOT"
+    #   resp.answers[0].primary_visual.ir.group_by_list[0].display_format_options.grouping_separator #=> String
+    #   resp.answers[0].primary_visual.ir.group_by_list[0].display_format_options.use_grouping #=> Boolean
+    #   resp.answers[0].primary_visual.ir.group_by_list[0].display_format_options.fraction_digits #=> Integer
+    #   resp.answers[0].primary_visual.ir.group_by_list[0].display_format_options.prefix #=> String
+    #   resp.answers[0].primary_visual.ir.group_by_list[0].display_format_options.suffix #=> String
+    #   resp.answers[0].primary_visual.ir.group_by_list[0].display_format_options.unit_scaler #=> String, one of "NONE", "AUTO", "THOUSANDS", "MILLIONS", "BILLIONS", "TRILLIONS", "LAKHS", "CRORES"
+    #   resp.answers[0].primary_visual.ir.group_by_list[0].display_format_options.negative_format.prefix #=> String
+    #   resp.answers[0].primary_visual.ir.group_by_list[0].display_format_options.negative_format.suffix #=> String
+    #   resp.answers[0].primary_visual.ir.group_by_list[0].display_format_options.currency_symbol #=> String
+    #   resp.answers[0].primary_visual.ir.group_by_list[0].named_entity.named_entity_name #=> String
+    #   resp.answers[0].primary_visual.ir.filters #=> Array
+    #   resp.answers[0].primary_visual.ir.filters[0] #=> Array
+    #   resp.answers[0].primary_visual.ir.filters[0][0].filter_type #=> String, one of "CATEGORY_FILTER", "NUMERIC_EQUALITY_FILTER", "NUMERIC_RANGE_FILTER", "DATE_RANGE_FILTER", "RELATIVE_DATE_FILTER", "TOP_BOTTOM_FILTER", "EQUALS", "RANK_LIMIT_FILTER", "ACCEPT_ALL_FILTER"
+    #   resp.answers[0].primary_visual.ir.filters[0][0].filter_class #=> String, one of "ENFORCED_VALUE_FILTER", "CONDITIONAL_VALUE_FILTER", "NAMED_VALUE_FILTER"
+    #   resp.answers[0].primary_visual.ir.filters[0][0].operand_field.identity #=> String
+    #   resp.answers[0].primary_visual.ir.filters[0][0].function #=> String, one of "CONTAINS", "EXACT", "STARTS_WITH", "ENDS_WITH", "CONTAINS_STRING", "PREVIOUS", "THIS", "LAST", "NEXT", "NOW"
+    #   resp.answers[0].primary_visual.ir.filters[0][0].constant.constant_type #=> String, one of "SINGULAR", "RANGE", "COLLECTIVE"
+    #   resp.answers[0].primary_visual.ir.filters[0][0].constant.value #=> String
+    #   resp.answers[0].primary_visual.ir.filters[0][0].constant.minimum #=> String
+    #   resp.answers[0].primary_visual.ir.filters[0][0].constant.maximum #=> String
+    #   resp.answers[0].primary_visual.ir.filters[0][0].constant.value_list #=> Array
+    #   resp.answers[0].primary_visual.ir.filters[0][0].constant.value_list[0].constant_type #=> String, one of "SINGULAR", "RANGE", "COLLECTIVE"
+    #   resp.answers[0].primary_visual.ir.filters[0][0].constant.value_list[0].value #=> String
+    #   resp.answers[0].primary_visual.ir.filters[0][0].inverse #=> Boolean
+    #   resp.answers[0].primary_visual.ir.filters[0][0].null_filter #=> String, one of "ALL_VALUES", "NON_NULLS_ONLY", "NULLS_ONLY"
+    #   resp.answers[0].primary_visual.ir.filters[0][0].aggregation #=> String, one of "SUM", "MIN", "MAX", "COUNT", "AVERAGE", "DISTINCT_COUNT", "STDEV", "STDEVP", "VAR", "VARP", "PERCENTILE", "MEDIAN", "PTD_SUM", "PTD_MIN", "PTD_MAX", "PTD_COUNT", "PTD_DISTINCT_COUNT", "PTD_AVERAGE", "COLUMN", "CUSTOM"
+    #   resp.answers[0].primary_visual.ir.filters[0][0].aggregation_function_parameters #=> Hash
+    #   resp.answers[0].primary_visual.ir.filters[0][0].aggregation_function_parameters["AggFunctionParamKey"] #=> String
+    #   resp.answers[0].primary_visual.ir.filters[0][0].aggregation_partition_by #=> Array
+    #   resp.answers[0].primary_visual.ir.filters[0][0].aggregation_partition_by[0].field_name #=> String
+    #   resp.answers[0].primary_visual.ir.filters[0][0].aggregation_partition_by[0].time_granularity #=> String, one of "YEAR", "QUARTER", "MONTH", "WEEK", "DAY", "HOUR", "MINUTE", "SECOND", "MILLISECOND"
+    #   resp.answers[0].primary_visual.ir.filters[0][0].range.constant_type #=> String, one of "SINGULAR", "RANGE", "COLLECTIVE"
+    #   resp.answers[0].primary_visual.ir.filters[0][0].range.value #=> String
+    #   resp.answers[0].primary_visual.ir.filters[0][0].range.minimum #=> String
+    #   resp.answers[0].primary_visual.ir.filters[0][0].range.maximum #=> String
+    #   resp.answers[0].primary_visual.ir.filters[0][0].range.value_list #=> Array
+    #   resp.answers[0].primary_visual.ir.filters[0][0].range.value_list[0].constant_type #=> String, one of "SINGULAR", "RANGE", "COLLECTIVE"
+    #   resp.answers[0].primary_visual.ir.filters[0][0].range.value_list[0].value #=> String
+    #   resp.answers[0].primary_visual.ir.filters[0][0].inclusive #=> Boolean
+    #   resp.answers[0].primary_visual.ir.filters[0][0].time_granularity #=> String, one of "YEAR", "QUARTER", "MONTH", "WEEK", "DAY", "HOUR", "MINUTE", "SECOND", "MILLISECOND"
+    #   resp.answers[0].primary_visual.ir.filters[0][0].last_next_offset.constant_type #=> String, one of "SINGULAR", "RANGE", "COLLECTIVE"
+    #   resp.answers[0].primary_visual.ir.filters[0][0].last_next_offset.value #=> String
+    #   resp.answers[0].primary_visual.ir.filters[0][0].last_next_offset.minimum #=> String
+    #   resp.answers[0].primary_visual.ir.filters[0][0].last_next_offset.maximum #=> String
+    #   resp.answers[0].primary_visual.ir.filters[0][0].last_next_offset.value_list #=> Array
+    #   resp.answers[0].primary_visual.ir.filters[0][0].last_next_offset.value_list[0].constant_type #=> String, one of "SINGULAR", "RANGE", "COLLECTIVE"
+    #   resp.answers[0].primary_visual.ir.filters[0][0].last_next_offset.value_list[0].value #=> String
+    #   resp.answers[0].primary_visual.ir.filters[0][0].agg_metrics #=> Array
+    #   resp.answers[0].primary_visual.ir.filters[0][0].agg_metrics[0].metric_operand.identity #=> String
+    #   resp.answers[0].primary_visual.ir.filters[0][0].agg_metrics[0].function #=> String, one of "SUM", "MIN", "MAX", "COUNT", "AVERAGE", "DISTINCT_COUNT", "STDEV", "STDEVP", "VAR", "VARP", "PERCENTILE", "MEDIAN", "PTD_SUM", "PTD_MIN", "PTD_MAX", "PTD_COUNT", "PTD_DISTINCT_COUNT", "PTD_AVERAGE", "COLUMN", "CUSTOM"
+    #   resp.answers[0].primary_visual.ir.filters[0][0].agg_metrics[0].sort_direction #=> String, one of "ASCENDING", "DESCENDING"
+    #   resp.answers[0].primary_visual.ir.filters[0][0].top_bottom_limit.constant_type #=> String, one of "SINGULAR", "RANGE", "COLLECTIVE"
+    #   resp.answers[0].primary_visual.ir.filters[0][0].top_bottom_limit.value #=> String
+    #   resp.answers[0].primary_visual.ir.filters[0][0].top_bottom_limit.minimum #=> String
+    #   resp.answers[0].primary_visual.ir.filters[0][0].top_bottom_limit.maximum #=> String
+    #   resp.answers[0].primary_visual.ir.filters[0][0].top_bottom_limit.value_list #=> Array
+    #   resp.answers[0].primary_visual.ir.filters[0][0].top_bottom_limit.value_list[0].constant_type #=> String, one of "SINGULAR", "RANGE", "COLLECTIVE"
+    #   resp.answers[0].primary_visual.ir.filters[0][0].top_bottom_limit.value_list[0].value #=> String
+    #   resp.answers[0].primary_visual.ir.filters[0][0].sort_direction #=> String, one of "ASCENDING", "DESCENDING"
+    #   resp.answers[0].primary_visual.ir.filters[0][0].anchor.anchor_type #=> String, one of "TODAY"
+    #   resp.answers[0].primary_visual.ir.filters[0][0].anchor.time_granularity #=> String, one of "YEAR", "QUARTER", "MONTH", "WEEK", "DAY", "HOUR", "MINUTE", "SECOND", "MILLISECOND"
+    #   resp.answers[0].primary_visual.ir.filters[0][0].anchor.offset #=> Integer
+    #   resp.answers[0].primary_visual.ir.sort.operand.identity #=> String
+    #   resp.answers[0].primary_visual.ir.sort.sort_direction #=> String, one of "ASCENDING", "DESCENDING"
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.factors #=> Array
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.factors[0].field_name #=> String
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.start_range.filter_type #=> String, one of "CATEGORY_FILTER", "NUMERIC_EQUALITY_FILTER", "NUMERIC_RANGE_FILTER", "DATE_RANGE_FILTER", "RELATIVE_DATE_FILTER", "TOP_BOTTOM_FILTER", "EQUALS", "RANK_LIMIT_FILTER", "ACCEPT_ALL_FILTER"
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.start_range.filter_class #=> String, one of "ENFORCED_VALUE_FILTER", "CONDITIONAL_VALUE_FILTER", "NAMED_VALUE_FILTER"
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.start_range.operand_field.identity #=> String
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.start_range.function #=> String, one of "CONTAINS", "EXACT", "STARTS_WITH", "ENDS_WITH", "CONTAINS_STRING", "PREVIOUS", "THIS", "LAST", "NEXT", "NOW"
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.start_range.constant.constant_type #=> String, one of "SINGULAR", "RANGE", "COLLECTIVE"
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.start_range.constant.value #=> String
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.start_range.constant.minimum #=> String
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.start_range.constant.maximum #=> String
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.start_range.constant.value_list #=> Array
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.start_range.constant.value_list[0].constant_type #=> String, one of "SINGULAR", "RANGE", "COLLECTIVE"
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.start_range.constant.value_list[0].value #=> String
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.start_range.inverse #=> Boolean
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.start_range.null_filter #=> String, one of "ALL_VALUES", "NON_NULLS_ONLY", "NULLS_ONLY"
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.start_range.aggregation #=> String, one of "SUM", "MIN", "MAX", "COUNT", "AVERAGE", "DISTINCT_COUNT", "STDEV", "STDEVP", "VAR", "VARP", "PERCENTILE", "MEDIAN", "PTD_SUM", "PTD_MIN", "PTD_MAX", "PTD_COUNT", "PTD_DISTINCT_COUNT", "PTD_AVERAGE", "COLUMN", "CUSTOM"
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.start_range.aggregation_function_parameters #=> Hash
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.start_range.aggregation_function_parameters["AggFunctionParamKey"] #=> String
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.start_range.aggregation_partition_by #=> Array
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.start_range.aggregation_partition_by[0].field_name #=> String
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.start_range.aggregation_partition_by[0].time_granularity #=> String, one of "YEAR", "QUARTER", "MONTH", "WEEK", "DAY", "HOUR", "MINUTE", "SECOND", "MILLISECOND"
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.start_range.range.constant_type #=> String, one of "SINGULAR", "RANGE", "COLLECTIVE"
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.start_range.range.value #=> String
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.start_range.range.minimum #=> String
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.start_range.range.maximum #=> String
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.start_range.range.value_list #=> Array
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.start_range.range.value_list[0].constant_type #=> String, one of "SINGULAR", "RANGE", "COLLECTIVE"
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.start_range.range.value_list[0].value #=> String
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.start_range.inclusive #=> Boolean
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.start_range.time_granularity #=> String, one of "YEAR", "QUARTER", "MONTH", "WEEK", "DAY", "HOUR", "MINUTE", "SECOND", "MILLISECOND"
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.start_range.last_next_offset.constant_type #=> String, one of "SINGULAR", "RANGE", "COLLECTIVE"
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.start_range.last_next_offset.value #=> String
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.start_range.last_next_offset.minimum #=> String
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.start_range.last_next_offset.maximum #=> String
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.start_range.last_next_offset.value_list #=> Array
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.start_range.last_next_offset.value_list[0].constant_type #=> String, one of "SINGULAR", "RANGE", "COLLECTIVE"
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.start_range.last_next_offset.value_list[0].value #=> String
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.start_range.agg_metrics #=> Array
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.start_range.agg_metrics[0].metric_operand.identity #=> String
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.start_range.agg_metrics[0].function #=> String, one of "SUM", "MIN", "MAX", "COUNT", "AVERAGE", "DISTINCT_COUNT", "STDEV", "STDEVP", "VAR", "VARP", "PERCENTILE", "MEDIAN", "PTD_SUM", "PTD_MIN", "PTD_MAX", "PTD_COUNT", "PTD_DISTINCT_COUNT", "PTD_AVERAGE", "COLUMN", "CUSTOM"
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.start_range.agg_metrics[0].sort_direction #=> String, one of "ASCENDING", "DESCENDING"
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.start_range.top_bottom_limit.constant_type #=> String, one of "SINGULAR", "RANGE", "COLLECTIVE"
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.start_range.top_bottom_limit.value #=> String
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.start_range.top_bottom_limit.minimum #=> String
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.start_range.top_bottom_limit.maximum #=> String
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.start_range.top_bottom_limit.value_list #=> Array
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.start_range.top_bottom_limit.value_list[0].constant_type #=> String, one of "SINGULAR", "RANGE", "COLLECTIVE"
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.start_range.top_bottom_limit.value_list[0].value #=> String
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.start_range.sort_direction #=> String, one of "ASCENDING", "DESCENDING"
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.start_range.anchor.anchor_type #=> String, one of "TODAY"
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.start_range.anchor.time_granularity #=> String, one of "YEAR", "QUARTER", "MONTH", "WEEK", "DAY", "HOUR", "MINUTE", "SECOND", "MILLISECOND"
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.start_range.anchor.offset #=> Integer
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.end_range.filter_type #=> String, one of "CATEGORY_FILTER", "NUMERIC_EQUALITY_FILTER", "NUMERIC_RANGE_FILTER", "DATE_RANGE_FILTER", "RELATIVE_DATE_FILTER", "TOP_BOTTOM_FILTER", "EQUALS", "RANK_LIMIT_FILTER", "ACCEPT_ALL_FILTER"
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.end_range.filter_class #=> String, one of "ENFORCED_VALUE_FILTER", "CONDITIONAL_VALUE_FILTER", "NAMED_VALUE_FILTER"
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.end_range.operand_field.identity #=> String
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.end_range.function #=> String, one of "CONTAINS", "EXACT", "STARTS_WITH", "ENDS_WITH", "CONTAINS_STRING", "PREVIOUS", "THIS", "LAST", "NEXT", "NOW"
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.end_range.constant.constant_type #=> String, one of "SINGULAR", "RANGE", "COLLECTIVE"
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.end_range.constant.value #=> String
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.end_range.constant.minimum #=> String
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.end_range.constant.maximum #=> String
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.end_range.constant.value_list #=> Array
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.end_range.constant.value_list[0].constant_type #=> String, one of "SINGULAR", "RANGE", "COLLECTIVE"
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.end_range.constant.value_list[0].value #=> String
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.end_range.inverse #=> Boolean
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.end_range.null_filter #=> String, one of "ALL_VALUES", "NON_NULLS_ONLY", "NULLS_ONLY"
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.end_range.aggregation #=> String, one of "SUM", "MIN", "MAX", "COUNT", "AVERAGE", "DISTINCT_COUNT", "STDEV", "STDEVP", "VAR", "VARP", "PERCENTILE", "MEDIAN", "PTD_SUM", "PTD_MIN", "PTD_MAX", "PTD_COUNT", "PTD_DISTINCT_COUNT", "PTD_AVERAGE", "COLUMN", "CUSTOM"
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.end_range.aggregation_function_parameters #=> Hash
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.end_range.aggregation_function_parameters["AggFunctionParamKey"] #=> String
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.end_range.aggregation_partition_by #=> Array
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.end_range.aggregation_partition_by[0].field_name #=> String
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.end_range.aggregation_partition_by[0].time_granularity #=> String, one of "YEAR", "QUARTER", "MONTH", "WEEK", "DAY", "HOUR", "MINUTE", "SECOND", "MILLISECOND"
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.end_range.range.constant_type #=> String, one of "SINGULAR", "RANGE", "COLLECTIVE"
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.end_range.range.value #=> String
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.end_range.range.minimum #=> String
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.end_range.range.maximum #=> String
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.end_range.range.value_list #=> Array
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.end_range.range.value_list[0].constant_type #=> String, one of "SINGULAR", "RANGE", "COLLECTIVE"
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.end_range.range.value_list[0].value #=> String
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.end_range.inclusive #=> Boolean
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.end_range.time_granularity #=> String, one of "YEAR", "QUARTER", "MONTH", "WEEK", "DAY", "HOUR", "MINUTE", "SECOND", "MILLISECOND"
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.end_range.last_next_offset.constant_type #=> String, one of "SINGULAR", "RANGE", "COLLECTIVE"
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.end_range.last_next_offset.value #=> String
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.end_range.last_next_offset.minimum #=> String
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.end_range.last_next_offset.maximum #=> String
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.end_range.last_next_offset.value_list #=> Array
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.end_range.last_next_offset.value_list[0].constant_type #=> String, one of "SINGULAR", "RANGE", "COLLECTIVE"
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.end_range.last_next_offset.value_list[0].value #=> String
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.end_range.agg_metrics #=> Array
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.end_range.agg_metrics[0].metric_operand.identity #=> String
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.end_range.agg_metrics[0].function #=> String, one of "SUM", "MIN", "MAX", "COUNT", "AVERAGE", "DISTINCT_COUNT", "STDEV", "STDEVP", "VAR", "VARP", "PERCENTILE", "MEDIAN", "PTD_SUM", "PTD_MIN", "PTD_MAX", "PTD_COUNT", "PTD_DISTINCT_COUNT", "PTD_AVERAGE", "COLUMN", "CUSTOM"
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.end_range.agg_metrics[0].sort_direction #=> String, one of "ASCENDING", "DESCENDING"
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.end_range.top_bottom_limit.constant_type #=> String, one of "SINGULAR", "RANGE", "COLLECTIVE"
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.end_range.top_bottom_limit.value #=> String
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.end_range.top_bottom_limit.minimum #=> String
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.end_range.top_bottom_limit.maximum #=> String
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.end_range.top_bottom_limit.value_list #=> Array
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.end_range.top_bottom_limit.value_list[0].constant_type #=> String, one of "SINGULAR", "RANGE", "COLLECTIVE"
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.end_range.top_bottom_limit.value_list[0].value #=> String
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.end_range.sort_direction #=> String, one of "ASCENDING", "DESCENDING"
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.end_range.anchor.anchor_type #=> String, one of "TODAY"
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.end_range.anchor.time_granularity #=> String, one of "YEAR", "QUARTER", "MONTH", "WEEK", "DAY", "HOUR", "MINUTE", "SECOND", "MILLISECOND"
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.time_ranges.end_range.anchor.offset #=> Integer
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.direction #=> String, one of "INCREASE", "DECREASE", "NEUTRAL"
+    #   resp.answers[0].primary_visual.ir.contribution_analysis.sort_type #=> String, one of "ABSOLUTE_DIFFERENCE", "CONTRIBUTION_PERCENTAGE", "DEVIATION_FROM_EXPECTED", "PERCENTAGE_DIFFERENCE"
+    #   resp.answers[0].primary_visual.ir.visual.type #=> String
+    #   resp.answers[0].primary_visual.supporting_visuals #=> Array
+    #   resp.answers[0].primary_visual.supporting_visuals[0] #=> Types::TopicVisual
+    #   resp.answers[0].template.template_type #=> String
+    #   resp.answers[0].template.slots #=> Array
+    #   resp.answers[0].template.slots[0].slot_id #=> String
+    #   resp.answers[0].template.slots[0].visual_id #=> String
+    #   resp.status #=> Integer
+    #   resp.request_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/ListTopicReviewedAnswers AWS API Documentation
+    #
+    # @overload list_topic_reviewed_answers(params = {})
+    # @param [Hash] params ({})
+    def list_topic_reviewed_answers(params = {}, options = {})
+      req = build_request(:list_topic_reviewed_answers, params)
+      req.send_request(options)
+    end
+
+    # Lists all of the topics within an account.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that contains the topics
+    #   that you want to list.
+    #
+    # @option params [String] :next_token
+    #   The token for the next set of results, or null if there are no more
+    #   results.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to be returned per request.
+    #
+    # @return [Types::ListTopicsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListTopicsResponse#topics_summaries #topics_summaries} => Array&lt;Types::TopicSummary&gt;
+    #   * {Types::ListTopicsResponse#next_token #next_token} => String
+    #   * {Types::ListTopicsResponse#request_id #request_id} => String
+    #   * {Types::ListTopicsResponse#status #status} => Integer
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_topics({
+    #     aws_account_id: "AwsAccountId", # required
+    #     next_token: "String",
+    #     max_results: 1,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.topics_summaries #=> Array
+    #   resp.topics_summaries[0].arn #=> String
+    #   resp.topics_summaries[0].topic_id #=> String
+    #   resp.topics_summaries[0].name #=> String
+    #   resp.topics_summaries[0].user_experience_version #=> String, one of "LEGACY", "NEW_READER_EXPERIENCE"
+    #   resp.next_token #=> String
+    #   resp.request_id #=> String
+    #   resp.status #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/ListTopics AWS API Documentation
+    #
+    # @overload list_topics(params = {})
+    # @param [Hash] params ({})
+    def list_topics(params = {}, options = {})
+      req = build_request(:list_topics, params)
+      req.send_request(options)
+    end
+
     # Lists the Amazon QuickSight groups that an Amazon QuickSight user is a
     # member of.
     #
@@ -6483,6 +12019,8 @@ module Aws::QuickSight
     #   * {Types::ListUserGroupsResponse#next_token #next_token} => String
     #   * {Types::ListUserGroupsResponse#request_id #request_id} => String
     #   * {Types::ListUserGroupsResponse#status #status} => Integer
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
     #
     # @example Request syntax with placeholder values
     #
@@ -6538,6 +12076,8 @@ module Aws::QuickSight
     #   * {Types::ListUsersResponse#request_id #request_id} => String
     #   * {Types::ListUsersResponse#status #status} => Integer
     #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
     # @example Request syntax with placeholder values
     #
     #   resp = client.list_users({
@@ -6553,8 +12093,8 @@ module Aws::QuickSight
     #   resp.user_list[0].arn #=> String
     #   resp.user_list[0].user_name #=> String
     #   resp.user_list[0].email #=> String
-    #   resp.user_list[0].role #=> String, one of "ADMIN", "AUTHOR", "READER", "RESTRICTED_AUTHOR", "RESTRICTED_READER"
-    #   resp.user_list[0].identity_type #=> String, one of "IAM", "QUICKSIGHT"
+    #   resp.user_list[0].role #=> String, one of "ADMIN", "AUTHOR", "READER", "RESTRICTED_AUTHOR", "RESTRICTED_READER", "ADMIN_PRO", "AUTHOR_PRO", "READER_PRO"
+    #   resp.user_list[0].identity_type #=> String, one of "IAM", "QUICKSIGHT", "IAM_IDENTITY_CENTER"
     #   resp.user_list[0].active #=> Boolean
     #   resp.user_list[0].principal_id #=> String
     #   resp.user_list[0].custom_permissions_name #=> String
@@ -6571,6 +12111,205 @@ module Aws::QuickSight
     # @param [Hash] params ({})
     def list_users(params = {}, options = {})
       req = build_request(:list_users, params)
+      req.send_request(options)
+    end
+
+    # Lists all of the VPC connections in the current set Amazon Web
+    # Services Region of an Amazon Web Services account.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The Amazon Web Services account ID of the account that contains the
+    #   VPC connections that you want to list.
+    #
+    # @option params [String] :next_token
+    #   The token for the next set of results, or null if there are no more
+    #   results.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to be returned per request.
+    #
+    # @return [Types::ListVPCConnectionsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListVPCConnectionsResponse#vpc_connection_summaries #vpc_connection_summaries} => Array&lt;Types::VPCConnectionSummary&gt;
+    #   * {Types::ListVPCConnectionsResponse#next_token #next_token} => String
+    #   * {Types::ListVPCConnectionsResponse#request_id #request_id} => String
+    #   * {Types::ListVPCConnectionsResponse#status #status} => Integer
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_vpc_connections({
+    #     aws_account_id: "AwsAccountId", # required
+    #     next_token: "String",
+    #     max_results: 1,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.vpc_connection_summaries #=> Array
+    #   resp.vpc_connection_summaries[0].vpc_connection_id #=> String
+    #   resp.vpc_connection_summaries[0].arn #=> String
+    #   resp.vpc_connection_summaries[0].name #=> String
+    #   resp.vpc_connection_summaries[0].vpc_id #=> String
+    #   resp.vpc_connection_summaries[0].security_group_ids #=> Array
+    #   resp.vpc_connection_summaries[0].security_group_ids[0] #=> String
+    #   resp.vpc_connection_summaries[0].dns_resolvers #=> Array
+    #   resp.vpc_connection_summaries[0].dns_resolvers[0] #=> String
+    #   resp.vpc_connection_summaries[0].status #=> String, one of "CREATION_IN_PROGRESS", "CREATION_SUCCESSFUL", "CREATION_FAILED", "UPDATE_IN_PROGRESS", "UPDATE_SUCCESSFUL", "UPDATE_FAILED", "DELETION_IN_PROGRESS", "DELETION_FAILED", "DELETED"
+    #   resp.vpc_connection_summaries[0].availability_status #=> String, one of "AVAILABLE", "UNAVAILABLE", "PARTIALLY_AVAILABLE"
+    #   resp.vpc_connection_summaries[0].network_interfaces #=> Array
+    #   resp.vpc_connection_summaries[0].network_interfaces[0].subnet_id #=> String
+    #   resp.vpc_connection_summaries[0].network_interfaces[0].availability_zone #=> String
+    #   resp.vpc_connection_summaries[0].network_interfaces[0].error_message #=> String
+    #   resp.vpc_connection_summaries[0].network_interfaces[0].status #=> String, one of "CREATING", "AVAILABLE", "CREATION_FAILED", "UPDATING", "UPDATE_FAILED", "DELETING", "DELETED", "DELETION_FAILED", "DELETION_SCHEDULED", "ATTACHMENT_FAILED_ROLLBACK_FAILED"
+    #   resp.vpc_connection_summaries[0].network_interfaces[0].network_interface_id #=> String
+    #   resp.vpc_connection_summaries[0].role_arn #=> String
+    #   resp.vpc_connection_summaries[0].created_time #=> Time
+    #   resp.vpc_connection_summaries[0].last_updated_time #=> Time
+    #   resp.next_token #=> String
+    #   resp.request_id #=> String
+    #   resp.status #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/ListVPCConnections AWS API Documentation
+    #
+    # @overload list_vpc_connections(params = {})
+    # @param [Hash] params ({})
+    def list_vpc_connections(params = {}, options = {})
+      req = build_request(:list_vpc_connections, params)
+      req.send_request(options)
+    end
+
+    # Predicts existing visuals or generates new visuals to answer a given
+    # query.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that the user wants to
+    #   execute Predict QA results in.
+    #
+    # @option params [required, String] :query_text
+    #   The query text to be used to predict QA results.
+    #
+    # @option params [String] :include_quick_sight_q_index
+    #   Indicates whether Q indicies are included or excluded.
+    #
+    # @option params [String] :include_generated_answer
+    #   Indicates whether generated answers are included or excluded.
+    #
+    # @option params [Integer] :max_topics_to_consider
+    #   The number of maximum topics to be considered to predict QA results.
+    #
+    # @return [Types::PredictQAResultsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::PredictQAResultsResponse#primary_result #primary_result} => Types::QAResult
+    #   * {Types::PredictQAResultsResponse#additional_results #additional_results} => Array&lt;Types::QAResult&gt;
+    #   * {Types::PredictQAResultsResponse#request_id #request_id} => String
+    #   * {Types::PredictQAResultsResponse#status #status} => Integer
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.predict_qa_results({
+    #     aws_account_id: "AwsAccountId", # required
+    #     query_text: "QAQueryText", # required
+    #     include_quick_sight_q_index: "INCLUDE", # accepts INCLUDE, EXCLUDE
+    #     include_generated_answer: "INCLUDE", # accepts INCLUDE, EXCLUDE
+    #     max_topics_to_consider: 1,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.primary_result.result_type #=> String, one of "DASHBOARD_VISUAL", "GENERATED_ANSWER", "NO_ANSWER"
+    #   resp.primary_result.dashboard_visual.dashboard_id #=> String
+    #   resp.primary_result.dashboard_visual.dashboard_name #=> String
+    #   resp.primary_result.dashboard_visual.sheet_id #=> String
+    #   resp.primary_result.dashboard_visual.sheet_name #=> String
+    #   resp.primary_result.dashboard_visual.visual_id #=> String
+    #   resp.primary_result.dashboard_visual.visual_title #=> String
+    #   resp.primary_result.dashboard_visual.visual_subtitle #=> String
+    #   resp.primary_result.dashboard_visual.dashboard_url #=> String
+    #   resp.primary_result.generated_answer.question_text #=> String
+    #   resp.primary_result.generated_answer.answer_status #=> String, one of "ANSWER_GENERATED", "ANSWER_RETRIEVED", "ANSWER_DOWNGRADE"
+    #   resp.primary_result.generated_answer.topic_id #=> String
+    #   resp.primary_result.generated_answer.topic_name #=> String
+    #   resp.primary_result.generated_answer.restatement #=> String
+    #   resp.primary_result.generated_answer.question_id #=> String
+    #   resp.primary_result.generated_answer.answer_id #=> String
+    #   resp.primary_result.generated_answer.question_url #=> String
+    #   resp.additional_results #=> Array
+    #   resp.additional_results[0].result_type #=> String, one of "DASHBOARD_VISUAL", "GENERATED_ANSWER", "NO_ANSWER"
+    #   resp.additional_results[0].dashboard_visual.dashboard_id #=> String
+    #   resp.additional_results[0].dashboard_visual.dashboard_name #=> String
+    #   resp.additional_results[0].dashboard_visual.sheet_id #=> String
+    #   resp.additional_results[0].dashboard_visual.sheet_name #=> String
+    #   resp.additional_results[0].dashboard_visual.visual_id #=> String
+    #   resp.additional_results[0].dashboard_visual.visual_title #=> String
+    #   resp.additional_results[0].dashboard_visual.visual_subtitle #=> String
+    #   resp.additional_results[0].dashboard_visual.dashboard_url #=> String
+    #   resp.additional_results[0].generated_answer.question_text #=> String
+    #   resp.additional_results[0].generated_answer.answer_status #=> String, one of "ANSWER_GENERATED", "ANSWER_RETRIEVED", "ANSWER_DOWNGRADE"
+    #   resp.additional_results[0].generated_answer.topic_id #=> String
+    #   resp.additional_results[0].generated_answer.topic_name #=> String
+    #   resp.additional_results[0].generated_answer.restatement #=> String
+    #   resp.additional_results[0].generated_answer.question_id #=> String
+    #   resp.additional_results[0].generated_answer.answer_id #=> String
+    #   resp.additional_results[0].generated_answer.question_url #=> String
+    #   resp.request_id #=> String
+    #   resp.status #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/PredictQAResults AWS API Documentation
+    #
+    # @overload predict_qa_results(params = {})
+    # @param [Hash] params ({})
+    def predict_qa_results(params = {}, options = {})
+      req = build_request(:predict_qa_results, params)
+      req.send_request(options)
+    end
+
+    # Creates or updates the dataset refresh properties for the dataset.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The Amazon Web Services account ID.
+    #
+    # @option params [required, String] :data_set_id
+    #   The ID of the dataset.
+    #
+    # @option params [required, Types::DataSetRefreshProperties] :data_set_refresh_properties
+    #   The dataset refresh properties.
+    #
+    # @return [Types::PutDataSetRefreshPropertiesResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::PutDataSetRefreshPropertiesResponse#request_id #request_id} => String
+    #   * {Types::PutDataSetRefreshPropertiesResponse#status #status} => Integer
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.put_data_set_refresh_properties({
+    #     aws_account_id: "AwsAccountId", # required
+    #     data_set_id: "ResourceId", # required
+    #     data_set_refresh_properties: { # required
+    #       refresh_configuration: { # required
+    #         incremental_refresh: { # required
+    #           lookback_window: { # required
+    #             column_name: "String", # required
+    #             size: 1, # required
+    #             size_unit: "HOUR", # required, accepts HOUR, DAY, WEEK
+    #           },
+    #         },
+    #       },
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.request_id #=> String
+    #   resp.status #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/PutDataSetRefreshProperties AWS API Documentation
+    #
+    # @overload put_data_set_refresh_properties(params = {})
+    # @param [Hash] params ({})
+    def put_data_set_refresh_properties(params = {}, options = {})
+      req = build_request(:put_data_set_refresh_properties, params)
       req.send_request(options)
     end
 
@@ -6591,13 +12330,8 @@ module Aws::QuickSight
     # [1]: https://docs.aws.amazon.com/quicksight/latest/user/managing-users.html#inviting-users
     #
     # @option params [required, String] :identity_type
-    #   Amazon QuickSight supports several ways of managing the identity of
-    #   users. This parameter accepts two values:
-    #
-    #   * `IAM`\: A user whose identity maps to an existing IAM user or role.
-    #
-    #   * `QUICKSIGHT`\: A user whose identity is owned and managed internally
-    #     by Amazon QuickSight.
+    #   The identity type that your Amazon QuickSight account uses to manage
+    #   the identity of users.
     #
     # @option params [required, String] :email
     #   The email address of the user that you want to register.
@@ -6606,17 +12340,31 @@ module Aws::QuickSight
     #   The Amazon QuickSight role for the user. The user role can be one of
     #   the following:
     #
-    #   * `READER`\: A user who has read-only access to dashboards.
+    #   * `READER`: A user who has read-only access to dashboards.
     #
-    #   * `AUTHOR`\: A user who can create data sources, datasets, analyses,
+    #   * `AUTHOR`: A user who can create data sources, datasets, analyses,
     #     and dashboards.
     #
-    #   * `ADMIN`\: A user who is an author, who can also manage Amazon
+    #   * `ADMIN`: A user who is an author, who can also manage Amazon
     #     QuickSight settings.
     #
-    #   * `RESTRICTED_READER`\: This role isn't currently available for use.
+    #   * `READER_PRO`: Reader Pro adds Generative BI capabilities to the
+    #     Reader role. Reader Pros have access to Amazon Q in Amazon
+    #     QuickSight, can build stories with Amazon Q, and can generate
+    #     executive summaries from dashboards.
     #
-    #   * `RESTRICTED_AUTHOR`\: This role isn't currently available for use.
+    #   * `AUTHOR_PRO`: Author Pro adds Generative BI capabilities to the
+    #     Author role. Author Pros can author dashboards with natural language
+    #     with Amazon Q, build stories with Amazon Q, create Topics for
+    #     Q&amp;A, and generate executive summaries from dashboards.
+    #
+    #   * `ADMIN_PRO`: Admin Pros are Author Pros who can also manage Amazon
+    #     QuickSight administrative settings. Admin Pro users are billed at
+    #     Author Pro pricing.
+    #
+    #   * `RESTRICTED_READER`: This role isn't currently available for use.
+    #
+    #   * `RESTRICTED_AUTHOR`: This role isn't currently available for use.
     #
     # @option params [String] :iam_arn
     #   The ARN of the IAM user or role that you are registering with Amazon
@@ -6673,7 +12421,8 @@ module Aws::QuickSight
     #   Amazon QuickSight custom permissions are applied through IAM policies.
     #   Therefore, they override the permissions typically granted by
     #   assigning Amazon QuickSight users to one of the default security
-    #   cohorts in Amazon QuickSight (admin, author, reader).
+    #   cohorts in Amazon QuickSight (admin, author, reader, admin pro, author
+    #   pro, reader pro).
     #
     #   This feature is available only to Amazon QuickSight Enterprise edition
     #   subscriptions.
@@ -6684,12 +12433,12 @@ module Aws::QuickSight
     #   Identity and Access Management(IAM) role. The type of supported
     #   external login provider can be one of the following.
     #
-    #   * `COGNITO`\: Amazon Cognito. The provider URL is
+    #   * `COGNITO`: Amazon Cognito. The provider URL is
     #     cognito-identity.amazonaws.com. When choosing the `COGNITO` provider
     #     type, don’t use the "CustomFederationProviderUrl" parameter which
     #     is only needed when the external provider is custom.
     #
-    #   * `CUSTOM_OIDC`\: Custom OpenID Connect (OIDC) provider. When choosing
+    #   * `CUSTOM_OIDC`: Custom OpenID Connect (OIDC) provider. When choosing
     #     `CUSTOM_OIDC` type, use the `CustomFederationProviderUrl` parameter
     #     to provide the custom OIDC provider URL.
     #
@@ -6703,6 +12452,9 @@ module Aws::QuickSight
     # @option params [String] :external_login_id
     #   The identity ID for a user in the external login provider.
     #
+    # @option params [Array<Types::Tag>] :tags
+    #   The tags to associate with the user.
+    #
     # @return [Types::RegisterUserResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::RegisterUserResponse#user #user} => Types::User
@@ -6713,9 +12465,9 @@ module Aws::QuickSight
     # @example Request syntax with placeholder values
     #
     #   resp = client.register_user({
-    #     identity_type: "IAM", # required, accepts IAM, QUICKSIGHT
+    #     identity_type: "IAM", # required, accepts IAM, QUICKSIGHT, IAM_IDENTITY_CENTER
     #     email: "String", # required
-    #     user_role: "ADMIN", # required, accepts ADMIN, AUTHOR, READER, RESTRICTED_AUTHOR, RESTRICTED_READER
+    #     user_role: "ADMIN", # required, accepts ADMIN, AUTHOR, READER, RESTRICTED_AUTHOR, RESTRICTED_READER, ADMIN_PRO, AUTHOR_PRO, READER_PRO
     #     iam_arn: "String",
     #     session_name: "RoleSessionName",
     #     aws_account_id: "AwsAccountId", # required
@@ -6725,6 +12477,12 @@ module Aws::QuickSight
     #     external_login_federation_provider_type: "String",
     #     custom_federation_provider_url: "String",
     #     external_login_id: "String",
+    #     tags: [
+    #       {
+    #         key: "TagKey", # required
+    #         value: "TagValue", # required
+    #       },
+    #     ],
     #   })
     #
     # @example Response structure
@@ -6732,8 +12490,8 @@ module Aws::QuickSight
     #   resp.user.arn #=> String
     #   resp.user.user_name #=> String
     #   resp.user.email #=> String
-    #   resp.user.role #=> String, one of "ADMIN", "AUTHOR", "READER", "RESTRICTED_AUTHOR", "RESTRICTED_READER"
-    #   resp.user.identity_type #=> String, one of "IAM", "QUICKSIGHT"
+    #   resp.user.role #=> String, one of "ADMIN", "AUTHOR", "READER", "RESTRICTED_AUTHOR", "RESTRICTED_READER", "ADMIN_PRO", "AUTHOR_PRO", "READER_PRO"
+    #   resp.user.identity_type #=> String, one of "IAM", "QUICKSIGHT", "IAM_IDENTITY_CENTER"
     #   resp.user.active #=> Boolean
     #   resp.user.principal_id #=> String
     #   resp.user.custom_permissions_name #=> String
@@ -6761,18 +12519,28 @@ module Aws::QuickSight
     # @option params [required, String] :analysis_id
     #   The ID of the analysis that you're restoring.
     #
+    # @option params [Boolean] :restore_to_folders
+    #   A boolean value that determines if the analysis will be restored to
+    #   folders that it previously resided in. A `True` value restores
+    #   analysis back to all folders that it previously resided in. A `False`
+    #   value restores the analysis but does not restore the analysis back to
+    #   all previously resided folders. Restoring a restricted analysis
+    #   requires this parameter to be set to `True`.
+    #
     # @return [Types::RestoreAnalysisResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::RestoreAnalysisResponse#status #status} => Integer
     #   * {Types::RestoreAnalysisResponse#arn #arn} => String
     #   * {Types::RestoreAnalysisResponse#analysis_id #analysis_id} => String
     #   * {Types::RestoreAnalysisResponse#request_id #request_id} => String
+    #   * {Types::RestoreAnalysisResponse#restoration_failed_folder_arns #restoration_failed_folder_arns} => Array&lt;String&gt;
     #
     # @example Request syntax with placeholder values
     #
     #   resp = client.restore_analysis({
     #     aws_account_id: "AwsAccountId", # required
     #     analysis_id: "ShortRestrictiveResourceId", # required
+    #     restore_to_folders: false,
     #   })
     #
     # @example Response structure
@@ -6781,6 +12549,8 @@ module Aws::QuickSight
     #   resp.arn #=> String
     #   resp.analysis_id #=> String
     #   resp.request_id #=> String
+    #   resp.restoration_failed_folder_arns #=> Array
+    #   resp.restoration_failed_folder_arns[0] #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/RestoreAnalysis AWS API Documentation
     #
@@ -6871,9 +12641,9 @@ module Aws::QuickSight
     #
     # @option params [required, Array<Types::DashboardSearchFilter>] :filters
     #   The filters to apply to the search. Currently, you can search only by
-    #   user name, for example, `"Filters": [ \{ "Name": "QUICKSIGHT_USER",
+    #   user name, for example, `"Filters": [ { "Name": "QUICKSIGHT_USER",
     #   "Operator": "StringEquals", "Value":
-    #   "arn:aws:quicksight:us-east-1:1:user/default/UserName1" \} ]`
+    #   "arn:aws:quicksight:us-east-1:1:user/default/UserName1" } ]`
     #
     # @option params [String] :next_token
     #   The token for the next set of results, or null if there are no more
@@ -7042,7 +12812,7 @@ module Aws::QuickSight
     #   resp.data_source_summaries[0].arn #=> String
     #   resp.data_source_summaries[0].data_source_id #=> String
     #   resp.data_source_summaries[0].name #=> String
-    #   resp.data_source_summaries[0].type #=> String, one of "ADOBE_ANALYTICS", "AMAZON_ELASTICSEARCH", "ATHENA", "AURORA", "AURORA_POSTGRESQL", "AWS_IOT_ANALYTICS", "GITHUB", "JIRA", "MARIADB", "MYSQL", "ORACLE", "POSTGRESQL", "PRESTO", "REDSHIFT", "S3", "SALESFORCE", "SERVICENOW", "SNOWFLAKE", "SPARK", "SQLSERVER", "TERADATA", "TWITTER", "TIMESTREAM", "AMAZON_OPENSEARCH", "EXASOL", "DATABRICKS"
+    #   resp.data_source_summaries[0].type #=> String, one of "ADOBE_ANALYTICS", "AMAZON_ELASTICSEARCH", "ATHENA", "AURORA", "AURORA_POSTGRESQL", "AWS_IOT_ANALYTICS", "GITHUB", "JIRA", "MARIADB", "MYSQL", "ORACLE", "POSTGRESQL", "PRESTO", "REDSHIFT", "S3", "SALESFORCE", "SERVICENOW", "SNOWFLAKE", "SPARK", "SQLSERVER", "TERADATA", "TWITTER", "TIMESTREAM", "AMAZON_OPENSEARCH", "EXASOL", "DATABRICKS", "STARBURST", "TRINO", "BIGQUERY"
     #   resp.data_source_summaries[0].created_time #=> Time
     #   resp.data_source_summaries[0].last_updated_time #=> Time
     #   resp.next_token #=> String
@@ -7065,9 +12835,9 @@ module Aws::QuickSight
     #
     # @option params [required, Array<Types::FolderSearchFilter>] :filters
     #   The filters to apply to the search. Currently, you can search only by
-    #   the parent folder ARN. For example, `"Filters": [ \{ "Name":
+    #   the parent folder ARN. For example, `"Filters": [ { "Name":
     #   "PARENT_FOLDER_ARN", "Operator": "StringEquals", "Value":
-    #   "arn:aws:quicksight:us-east-1:1:folder/folderId" \} ]`.
+    #   "arn:aws:quicksight:us-east-1:1:folder/folderId" } ]`.
     #
     # @option params [String] :next_token
     #   The token for the next set of results, or null if there are no more
@@ -7082,6 +12852,8 @@ module Aws::QuickSight
     #   * {Types::SearchFoldersResponse#folder_summary_list #folder_summary_list} => Array&lt;Types::FolderSummary&gt;
     #   * {Types::SearchFoldersResponse#next_token #next_token} => String
     #   * {Types::SearchFoldersResponse#request_id #request_id} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
     #
     # @example Request syntax with placeholder values
     #
@@ -7105,9 +12877,10 @@ module Aws::QuickSight
     #   resp.folder_summary_list[0].arn #=> String
     #   resp.folder_summary_list[0].folder_id #=> String
     #   resp.folder_summary_list[0].name #=> String
-    #   resp.folder_summary_list[0].folder_type #=> String, one of "SHARED"
+    #   resp.folder_summary_list[0].folder_type #=> String, one of "SHARED", "RESTRICTED"
     #   resp.folder_summary_list[0].created_time #=> Time
     #   resp.folder_summary_list[0].last_updated_time #=> Time
+    #   resp.folder_summary_list[0].sharing_model #=> String, one of "ACCOUNT", "NAMESPACE"
     #   resp.next_token #=> String
     #   resp.request_id #=> String
     #
@@ -7148,6 +12921,8 @@ module Aws::QuickSight
     #   * {Types::SearchGroupsResponse#request_id #request_id} => String
     #   * {Types::SearchGroupsResponse#status #status} => Integer
     #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
     # @example Request syntax with placeholder values
     #
     #   resp = client.search_groups({
@@ -7184,6 +12959,967 @@ module Aws::QuickSight
       req.send_request(options)
     end
 
+    # Searches for any Q topic that exists in an Amazon QuickSight account.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that contains the topic that
+    #   you want to find.
+    #
+    # @option params [required, Array<Types::TopicSearchFilter>] :filters
+    #   The filters that you want to use to search for the topic.
+    #
+    # @option params [String] :next_token
+    #   The token for the next set of results, or null if there are no more
+    #   results.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to be returned per request.
+    #
+    # @return [Types::SearchTopicsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::SearchTopicsResponse#topic_summary_list #topic_summary_list} => Array&lt;Types::TopicSummary&gt;
+    #   * {Types::SearchTopicsResponse#next_token #next_token} => String
+    #   * {Types::SearchTopicsResponse#status #status} => Integer
+    #   * {Types::SearchTopicsResponse#request_id #request_id} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.search_topics({
+    #     aws_account_id: "AwsAccountId", # required
+    #     filters: [ # required
+    #       {
+    #         operator: "StringEquals", # required, accepts StringEquals, StringLike
+    #         name: "QUICKSIGHT_USER", # required, accepts QUICKSIGHT_USER, QUICKSIGHT_VIEWER_OR_OWNER, DIRECT_QUICKSIGHT_VIEWER_OR_OWNER, QUICKSIGHT_OWNER, DIRECT_QUICKSIGHT_OWNER, DIRECT_QUICKSIGHT_SOLE_OWNER, TOPIC_NAME
+    #         value: "String", # required
+    #       },
+    #     ],
+    #     next_token: "String",
+    #     max_results: 1,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.topic_summary_list #=> Array
+    #   resp.topic_summary_list[0].arn #=> String
+    #   resp.topic_summary_list[0].topic_id #=> String
+    #   resp.topic_summary_list[0].name #=> String
+    #   resp.topic_summary_list[0].user_experience_version #=> String, one of "LEGACY", "NEW_READER_EXPERIENCE"
+    #   resp.next_token #=> String
+    #   resp.status #=> Integer
+    #   resp.request_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/SearchTopics AWS API Documentation
+    #
+    # @overload search_topics(params = {})
+    # @param [Hash] params ({})
+    def search_topics(params = {}, options = {})
+      req = build_request(:search_topics, params)
+      req.send_request(options)
+    end
+
+    # Starts an Asset Bundle export job.
+    #
+    # An Asset Bundle export job exports specified Amazon QuickSight assets.
+    # You can also choose to export any asset dependencies in the same job.
+    # Export jobs run asynchronously and can be polled with a
+    # `DescribeAssetBundleExportJob` API call. When a job is successfully
+    # completed, a download URL that contains the exported assets is
+    # returned. The URL is valid for 5 minutes and can be refreshed with a
+    # `DescribeAssetBundleExportJob` API call. Each Amazon QuickSight
+    # account can run up to 5 export jobs concurrently.
+    #
+    # The API caller must have the necessary permissions in their IAM role
+    # to access each resource before the resources can be exported.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account to export assets from.
+    #
+    # @option params [required, String] :asset_bundle_export_job_id
+    #   The ID of the job. This ID is unique while the job is running. After
+    #   the job is completed, you can reuse this ID for another job.
+    #
+    # @option params [required, Array<String>] :resource_arns
+    #   An array of resource ARNs to export. The following resources are
+    #   supported.
+    #
+    #   * `Analysis`
+    #
+    #   * `Dashboard`
+    #
+    #   * `DataSet`
+    #
+    #   * `DataSource`
+    #
+    #   * `RefreshSchedule`
+    #
+    #   * `Theme`
+    #
+    #   * `VPCConnection`
+    #
+    #   The API caller must have the necessary permissions in their IAM role
+    #   to access each resource before the resources can be exported.
+    #
+    # @option params [Boolean] :include_all_dependencies
+    #   A Boolean that determines whether all dependencies of each resource
+    #   ARN are recursively exported with the job. For example, say you
+    #   provided a Dashboard ARN to the `ResourceArns` parameter. If you set
+    #   `IncludeAllDependencies` to `TRUE`, any theme, dataset, and data
+    #   source resource that is a dependency of the dashboard is also
+    #   exported.
+    #
+    # @option params [required, String] :export_format
+    #   The export data format.
+    #
+    # @option params [Types::AssetBundleCloudFormationOverridePropertyConfiguration] :cloud_formation_override_property_configuration
+    #   An optional collection of structures that generate CloudFormation
+    #   parameters to override the existing resource property values when the
+    #   resource is exported to a new CloudFormation template.
+    #
+    #   Use this field if the `ExportFormat` field of a
+    #   `StartAssetBundleExportJobRequest` API call is set to
+    #   `CLOUDFORMATION_JSON`.
+    #
+    # @option params [Boolean] :include_permissions
+    #   A Boolean that determines whether all permissions for each resource
+    #   ARN are exported with the job. If you set `IncludePermissions` to
+    #   `TRUE`, any permissions associated with each resource are exported.
+    #
+    # @option params [Boolean] :include_tags
+    #   A Boolean that determines whether all tags for each resource ARN are
+    #   exported with the job. If you set `IncludeTags` to `TRUE`, any tags
+    #   associated with each resource are exported.
+    #
+    # @option params [Types::AssetBundleExportJobValidationStrategy] :validation_strategy
+    #   An optional parameter that determines which validation strategy to use
+    #   for the export job. If `StrictModeForAllResources` is set to `TRUE`,
+    #   strict validation for every error is enforced. If it is set to
+    #   `FALSE`, validation is skipped for specific UI errors that are shown
+    #   as warnings. The default value for `StrictModeForAllResources` is
+    #   `FALSE`.
+    #
+    # @option params [Boolean] :include_folder_memberships
+    #   A Boolean that determines if the exported asset carries over
+    #   information about the folders that the asset is a member of.
+    #
+    # @option params [String] :include_folder_members
+    #   A setting that indicates whether you want to include folder assets.
+    #   You can also use this setting to recusrsively include all subfolders
+    #   of an exported folder.
+    #
+    # @return [Types::StartAssetBundleExportJobResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::StartAssetBundleExportJobResponse#arn #arn} => String
+    #   * {Types::StartAssetBundleExportJobResponse#asset_bundle_export_job_id #asset_bundle_export_job_id} => String
+    #   * {Types::StartAssetBundleExportJobResponse#request_id #request_id} => String
+    #   * {Types::StartAssetBundleExportJobResponse#status #status} => Integer
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.start_asset_bundle_export_job({
+    #     aws_account_id: "AwsAccountId", # required
+    #     asset_bundle_export_job_id: "ShortRestrictiveResourceId", # required
+    #     resource_arns: ["Arn"], # required
+    #     include_all_dependencies: false,
+    #     export_format: "CLOUDFORMATION_JSON", # required, accepts CLOUDFORMATION_JSON, QUICKSIGHT_JSON
+    #     cloud_formation_override_property_configuration: {
+    #       resource_id_override_configuration: {
+    #         prefix_for_all_resources: false,
+    #       },
+    #       vpc_connections: [
+    #         {
+    #           arn: "Arn", # required
+    #           properties: ["Name"], # required, accepts Name, DnsResolvers, RoleArn
+    #         },
+    #       ],
+    #       refresh_schedules: [
+    #         {
+    #           arn: "Arn", # required
+    #           properties: ["StartAfterDateTime"], # required, accepts StartAfterDateTime
+    #         },
+    #       ],
+    #       data_sources: [
+    #         {
+    #           arn: "Arn", # required
+    #           properties: ["Name"], # required, accepts Name, DisableSsl, SecretArn, Username, Password, Domain, WorkGroup, Host, Port, Database, DataSetName, Catalog, InstanceId, ClusterId, ManifestFileLocation, Warehouse, RoleArn, ProductType
+    #         },
+    #       ],
+    #       data_sets: [
+    #         {
+    #           arn: "Arn", # required
+    #           properties: ["Name"], # required, accepts Name
+    #         },
+    #       ],
+    #       themes: [
+    #         {
+    #           arn: "Arn", # required
+    #           properties: ["Name"], # required, accepts Name
+    #         },
+    #       ],
+    #       analyses: [
+    #         {
+    #           arn: "Arn", # required
+    #           properties: ["Name"], # required, accepts Name
+    #         },
+    #       ],
+    #       dashboards: [
+    #         {
+    #           arn: "Arn", # required
+    #           properties: ["Name"], # required, accepts Name
+    #         },
+    #       ],
+    #       folders: [
+    #         {
+    #           arn: "Arn", # required
+    #           properties: ["Name"], # required, accepts Name, ParentFolderArn
+    #         },
+    #       ],
+    #     },
+    #     include_permissions: false,
+    #     include_tags: false,
+    #     validation_strategy: {
+    #       strict_mode_for_all_resources: false,
+    #     },
+    #     include_folder_memberships: false,
+    #     include_folder_members: "RECURSE", # accepts RECURSE, ONE_LEVEL, NONE
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.arn #=> String
+    #   resp.asset_bundle_export_job_id #=> String
+    #   resp.request_id #=> String
+    #   resp.status #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/StartAssetBundleExportJob AWS API Documentation
+    #
+    # @overload start_asset_bundle_export_job(params = {})
+    # @param [Hash] params ({})
+    def start_asset_bundle_export_job(params = {}, options = {})
+      req = build_request(:start_asset_bundle_export_job, params)
+      req.send_request(options)
+    end
+
+    # Starts an Asset Bundle import job.
+    #
+    # An Asset Bundle import job imports specified Amazon QuickSight assets
+    # into an Amazon QuickSight account. You can also choose to import a
+    # naming prefix and specified configuration overrides. The assets that
+    # are contained in the bundle file that you provide are used to create
+    # or update a new or existing asset in your Amazon QuickSight account.
+    # Each Amazon QuickSight account can run up to 5 import jobs
+    # concurrently.
+    #
+    # The API caller must have the necessary `"create"`, `"describe"`, and
+    # `"update"` permissions in their IAM role to access each resource type
+    # that is contained in the bundle file before the resources can be
+    # imported.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account to import assets into.
+    #
+    # @option params [required, String] :asset_bundle_import_job_id
+    #   The ID of the job. This ID is unique while the job is running. After
+    #   the job is completed, you can reuse this ID for another job.
+    #
+    # @option params [required, Types::AssetBundleImportSource] :asset_bundle_import_source
+    #   The source of the asset bundle zip file that contains the data that
+    #   you want to import. The file must be in `QUICKSIGHT_JSON` format.
+    #
+    # @option params [Types::AssetBundleImportJobOverrideParameters] :override_parameters
+    #   Optional overrides that are applied to the resource configuration
+    #   before import.
+    #
+    # @option params [String] :failure_action
+    #   The failure action for the import job.
+    #
+    #   If you choose `ROLLBACK`, failed import jobs will attempt to undo any
+    #   asset changes caused by the failed job.
+    #
+    #   If you choose `DO_NOTHING`, failed import jobs will not attempt to
+    #   roll back any asset changes caused by the failed job, possibly keeping
+    #   the Amazon QuickSight account in an inconsistent state.
+    #
+    # @option params [Types::AssetBundleImportJobOverridePermissions] :override_permissions
+    #   Optional permission overrides that are applied to the resource
+    #   configuration before import.
+    #
+    # @option params [Types::AssetBundleImportJobOverrideTags] :override_tags
+    #   Optional tag overrides that are applied to the resource configuration
+    #   before import.
+    #
+    # @option params [Types::AssetBundleImportJobOverrideValidationStrategy] :override_validation_strategy
+    #   An optional validation strategy override for all analyses and
+    #   dashboards that is applied to the resource configuration before
+    #   import.
+    #
+    # @return [Types::StartAssetBundleImportJobResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::StartAssetBundleImportJobResponse#arn #arn} => String
+    #   * {Types::StartAssetBundleImportJobResponse#asset_bundle_import_job_id #asset_bundle_import_job_id} => String
+    #   * {Types::StartAssetBundleImportJobResponse#request_id #request_id} => String
+    #   * {Types::StartAssetBundleImportJobResponse#status #status} => Integer
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.start_asset_bundle_import_job({
+    #     aws_account_id: "AwsAccountId", # required
+    #     asset_bundle_import_job_id: "ShortRestrictiveResourceId", # required
+    #     asset_bundle_import_source: { # required
+    #       body: "data",
+    #       s3_uri: "S3Uri",
+    #     },
+    #     override_parameters: {
+    #       resource_id_override_configuration: {
+    #         prefix_for_all_resources: "String",
+    #       },
+    #       vpc_connections: [
+    #         {
+    #           vpc_connection_id: "VPCConnectionResourceIdUnrestricted", # required
+    #           name: "ResourceName",
+    #           subnet_ids: ["SubnetId"],
+    #           security_group_ids: ["SecurityGroupId"],
+    #           dns_resolvers: ["IPv4Address"],
+    #           role_arn: "RoleArn",
+    #         },
+    #       ],
+    #       refresh_schedules: [
+    #         {
+    #           data_set_id: "ResourceId", # required
+    #           schedule_id: "String", # required
+    #           start_after_date_time: Time.now,
+    #         },
+    #       ],
+    #       data_sources: [
+    #         {
+    #           data_source_id: "ResourceId", # required
+    #           name: "ResourceName",
+    #           data_source_parameters: {
+    #             amazon_elasticsearch_parameters: {
+    #               domain: "Domain", # required
+    #             },
+    #             athena_parameters: {
+    #               work_group: "WorkGroup",
+    #               role_arn: "RoleArn",
+    #             },
+    #             aurora_parameters: {
+    #               host: "Host", # required
+    #               port: 1, # required
+    #               database: "Database", # required
+    #             },
+    #             aurora_postgre_sql_parameters: {
+    #               host: "Host", # required
+    #               port: 1, # required
+    #               database: "Database", # required
+    #             },
+    #             aws_iot_analytics_parameters: {
+    #               data_set_name: "DataSetName", # required
+    #             },
+    #             jira_parameters: {
+    #               site_base_url: "SiteBaseUrl", # required
+    #             },
+    #             maria_db_parameters: {
+    #               host: "Host", # required
+    #               port: 1, # required
+    #               database: "Database", # required
+    #             },
+    #             my_sql_parameters: {
+    #               host: "Host", # required
+    #               port: 1, # required
+    #               database: "Database", # required
+    #             },
+    #             oracle_parameters: {
+    #               host: "Host", # required
+    #               port: 1, # required
+    #               database: "Database", # required
+    #             },
+    #             postgre_sql_parameters: {
+    #               host: "Host", # required
+    #               port: 1, # required
+    #               database: "Database", # required
+    #             },
+    #             presto_parameters: {
+    #               host: "Host", # required
+    #               port: 1, # required
+    #               catalog: "Catalog", # required
+    #             },
+    #             rds_parameters: {
+    #               instance_id: "InstanceId", # required
+    #               database: "Database", # required
+    #             },
+    #             redshift_parameters: {
+    #               host: "Host",
+    #               port: 1,
+    #               database: "Database", # required
+    #               cluster_id: "ClusterId",
+    #               iam_parameters: {
+    #                 role_arn: "RoleArn", # required
+    #                 database_user: "DatabaseUser",
+    #                 database_groups: ["DatabaseGroup"],
+    #                 auto_create_database_user: false,
+    #               },
+    #               identity_center_configuration: {
+    #                 enable_identity_propagation: false,
+    #               },
+    #             },
+    #             s3_parameters: {
+    #               manifest_file_location: { # required
+    #                 bucket: "S3Bucket", # required
+    #                 key: "S3Key", # required
+    #               },
+    #               role_arn: "RoleArn",
+    #             },
+    #             service_now_parameters: {
+    #               site_base_url: "SiteBaseUrl", # required
+    #             },
+    #             snowflake_parameters: {
+    #               host: "Host", # required
+    #               database: "Database", # required
+    #               warehouse: "Warehouse", # required
+    #               authentication_type: "PASSWORD", # accepts PASSWORD, TOKEN, X509
+    #               database_access_control_role: "DatabaseAccessControlRole",
+    #               o_auth_parameters: {
+    #                 token_provider_url: "TokenProviderUrl", # required
+    #                 o_auth_scope: "OAuthScope",
+    #                 identity_provider_vpc_connection_properties: {
+    #                   vpc_connection_arn: "Arn", # required
+    #                 },
+    #                 identity_provider_resource_uri: "IdentityProviderResourceUri",
+    #               },
+    #             },
+    #             spark_parameters: {
+    #               host: "Host", # required
+    #               port: 1, # required
+    #             },
+    #             sql_server_parameters: {
+    #               host: "Host", # required
+    #               port: 1, # required
+    #               database: "Database", # required
+    #             },
+    #             teradata_parameters: {
+    #               host: "Host", # required
+    #               port: 1, # required
+    #               database: "Database", # required
+    #             },
+    #             twitter_parameters: {
+    #               query: "Query", # required
+    #               max_rows: 1, # required
+    #             },
+    #             amazon_open_search_parameters: {
+    #               domain: "Domain", # required
+    #             },
+    #             exasol_parameters: {
+    #               host: "Host", # required
+    #               port: 1, # required
+    #             },
+    #             databricks_parameters: {
+    #               host: "Host", # required
+    #               port: 1, # required
+    #               sql_endpoint_path: "SqlEndpointPath", # required
+    #             },
+    #             starburst_parameters: {
+    #               host: "Host", # required
+    #               port: 1, # required
+    #               catalog: "Catalog", # required
+    #               product_type: "GALAXY", # accepts GALAXY, ENTERPRISE
+    #               database_access_control_role: "DatabaseAccessControlRole",
+    #               authentication_type: "PASSWORD", # accepts PASSWORD, TOKEN, X509
+    #               o_auth_parameters: {
+    #                 token_provider_url: "TokenProviderUrl", # required
+    #                 o_auth_scope: "OAuthScope",
+    #                 identity_provider_vpc_connection_properties: {
+    #                   vpc_connection_arn: "Arn", # required
+    #                 },
+    #                 identity_provider_resource_uri: "IdentityProviderResourceUri",
+    #               },
+    #             },
+    #             trino_parameters: {
+    #               host: "Host", # required
+    #               port: 1, # required
+    #               catalog: "Catalog", # required
+    #             },
+    #             big_query_parameters: {
+    #               project_id: "ProjectId", # required
+    #               data_set_region: "DataSetRegion",
+    #             },
+    #           },
+    #           vpc_connection_properties: {
+    #             vpc_connection_arn: "Arn", # required
+    #           },
+    #           ssl_properties: {
+    #             disable_ssl: false,
+    #           },
+    #           credentials: {
+    #             credential_pair: {
+    #               username: "DbUsername", # required
+    #               password: "Password", # required
+    #             },
+    #             secret_arn: "SecretArn",
+    #           },
+    #         },
+    #       ],
+    #       data_sets: [
+    #         {
+    #           data_set_id: "ResourceId", # required
+    #           name: "ResourceName",
+    #         },
+    #       ],
+    #       themes: [
+    #         {
+    #           theme_id: "ResourceId", # required
+    #           name: "ResourceName",
+    #         },
+    #       ],
+    #       analyses: [
+    #         {
+    #           analysis_id: "ResourceId", # required
+    #           name: "ResourceName",
+    #         },
+    #       ],
+    #       dashboards: [
+    #         {
+    #           dashboard_id: "ResourceId", # required
+    #           name: "ResourceName",
+    #         },
+    #       ],
+    #       folders: [
+    #         {
+    #           folder_id: "ResourceId", # required
+    #           name: "ResourceName",
+    #           parent_folder_arn: "Arn",
+    #         },
+    #       ],
+    #     },
+    #     failure_action: "DO_NOTHING", # accepts DO_NOTHING, ROLLBACK
+    #     override_permissions: {
+    #       data_sources: [
+    #         {
+    #           data_source_ids: ["AssetBundleRestrictiveResourceId"], # required
+    #           permissions: { # required
+    #             principals: ["Principal"], # required
+    #             actions: ["String"], # required
+    #           },
+    #         },
+    #       ],
+    #       data_sets: [
+    #         {
+    #           data_set_ids: ["AssetBundleRestrictiveResourceId"], # required
+    #           permissions: { # required
+    #             principals: ["Principal"], # required
+    #             actions: ["String"], # required
+    #           },
+    #         },
+    #       ],
+    #       themes: [
+    #         {
+    #           theme_ids: ["AssetBundleRestrictiveResourceId"], # required
+    #           permissions: { # required
+    #             principals: ["Principal"], # required
+    #             actions: ["String"], # required
+    #           },
+    #         },
+    #       ],
+    #       analyses: [
+    #         {
+    #           analysis_ids: ["AssetBundleRestrictiveResourceId"], # required
+    #           permissions: { # required
+    #             principals: ["Principal"], # required
+    #             actions: ["String"], # required
+    #           },
+    #         },
+    #       ],
+    #       dashboards: [
+    #         {
+    #           dashboard_ids: ["AssetBundleRestrictiveResourceId"], # required
+    #           permissions: {
+    #             principals: ["Principal"], # required
+    #             actions: ["String"], # required
+    #           },
+    #           link_sharing_configuration: {
+    #             permissions: {
+    #               principals: ["Principal"], # required
+    #               actions: ["String"], # required
+    #             },
+    #           },
+    #         },
+    #       ],
+    #       folders: [
+    #         {
+    #           folder_ids: ["AssetBundleRestrictiveResourceId"], # required
+    #           permissions: {
+    #             principals: ["Principal"], # required
+    #             actions: ["String"], # required
+    #           },
+    #         },
+    #       ],
+    #     },
+    #     override_tags: {
+    #       vpc_connections: [
+    #         {
+    #           vpc_connection_ids: ["AssetBundleRestrictiveResourceId"], # required
+    #           tags: [ # required
+    #             {
+    #               key: "TagKey", # required
+    #               value: "TagValue", # required
+    #             },
+    #           ],
+    #         },
+    #       ],
+    #       data_sources: [
+    #         {
+    #           data_source_ids: ["AssetBundleRestrictiveResourceId"], # required
+    #           tags: [ # required
+    #             {
+    #               key: "TagKey", # required
+    #               value: "TagValue", # required
+    #             },
+    #           ],
+    #         },
+    #       ],
+    #       data_sets: [
+    #         {
+    #           data_set_ids: ["AssetBundleRestrictiveResourceId"], # required
+    #           tags: [ # required
+    #             {
+    #               key: "TagKey", # required
+    #               value: "TagValue", # required
+    #             },
+    #           ],
+    #         },
+    #       ],
+    #       themes: [
+    #         {
+    #           theme_ids: ["AssetBundleRestrictiveResourceId"], # required
+    #           tags: [ # required
+    #             {
+    #               key: "TagKey", # required
+    #               value: "TagValue", # required
+    #             },
+    #           ],
+    #         },
+    #       ],
+    #       analyses: [
+    #         {
+    #           analysis_ids: ["AssetBundleRestrictiveResourceId"], # required
+    #           tags: [ # required
+    #             {
+    #               key: "TagKey", # required
+    #               value: "TagValue", # required
+    #             },
+    #           ],
+    #         },
+    #       ],
+    #       dashboards: [
+    #         {
+    #           dashboard_ids: ["AssetBundleRestrictiveResourceId"], # required
+    #           tags: [ # required
+    #             {
+    #               key: "TagKey", # required
+    #               value: "TagValue", # required
+    #             },
+    #           ],
+    #         },
+    #       ],
+    #       folders: [
+    #         {
+    #           folder_ids: ["AssetBundleRestrictiveResourceId"], # required
+    #           tags: [ # required
+    #             {
+    #               key: "TagKey", # required
+    #               value: "TagValue", # required
+    #             },
+    #           ],
+    #         },
+    #       ],
+    #     },
+    #     override_validation_strategy: {
+    #       strict_mode_for_all_resources: false,
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.arn #=> String
+    #   resp.asset_bundle_import_job_id #=> String
+    #   resp.request_id #=> String
+    #   resp.status #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/StartAssetBundleImportJob AWS API Documentation
+    #
+    # @overload start_asset_bundle_import_job(params = {})
+    # @param [Hash] params ({})
+    def start_asset_bundle_import_job(params = {}, options = {})
+      req = build_request(:start_asset_bundle_import_job, params)
+      req.send_request(options)
+    end
+
+    # Starts an asynchronous job that generates a snapshot of a dashboard's
+    # output. You can request one or several of the following format
+    # configurations in each API call.
+    #
+    # * 1 Paginated PDF
+    #
+    # * 1 Excel workbook that includes up to 5 table or pivot table visuals
+    #
+    # * 5 CSVs from table or pivot table visuals
+    #
+    # The status of a submitted job can be polled with the
+    # `DescribeDashboardSnapshotJob` API. When you call the
+    # `DescribeDashboardSnapshotJob` API, check the `JobStatus` field in the
+    # response. Once the job reaches a `COMPLETED` or `FAILED` status, use
+    # the `DescribeDashboardSnapshotJobResult` API to obtain the URLs for
+    # the generated files. If the job fails, the
+    # `DescribeDashboardSnapshotJobResult` API returns detailed information
+    # about the error that occurred.
+    #
+    # **StartDashboardSnapshotJob API throttling**
+    #
+    # Amazon QuickSight utilizes API throttling to create a more consistent
+    # user experience within a time span for customers when they call the
+    # `StartDashboardSnapshotJob`. By default, 12 jobs can run
+    # simlutaneously in one Amazon Web Services account and users can submit
+    # up 10 API requests per second before an account is throttled. If an
+    # overwhelming number of API requests are made by the same user in a
+    # short period of time, Amazon QuickSight throttles the API calls to
+    # maintin an optimal experience and reliability for all Amazon
+    # QuickSight users.
+    #
+    # **Common throttling scenarios**
+    #
+    # The following list provides information about the most commin
+    # throttling scenarios that can occur.
+    #
+    # * **A large number of `SnapshotExport` API jobs are running
+    #   simultaneously on an Amazon Web Services account.** When a new
+    #   `StartDashboardSnapshotJob` is created and there are already 12 jobs
+    #   with the `RUNNING` status, the new job request fails and returns a
+    #   `LimitExceededException` error. Wait for a current job to comlpete
+    #   before you resubmit the new job.
+    #
+    # * **A large number of API requests are submitted on an Amazon Web
+    #   Services account.** When a user makes more than 10 API calls to the
+    #   Amazon QuickSight API in one second, a `ThrottlingException` is
+    #   returned.
+    #
+    # If your use case requires a higher throttling limit, contact your
+    # account admin or [Amazon Web ServicesSupport][1] to explore options to
+    # tailor a more optimal expereince for your account.
+    #
+    # **Best practices to handle throttling**
+    #
+    # If your use case projects high levels of API traffic, try to reduce
+    # the degree of frequency and parallelism of API calls as much as you
+    # can to avoid throttling. You can also perform a timing test to
+    # calculate an estimate for the total processing time of your projected
+    # load that stays within the throttling limits of the Amazon QuickSight
+    # APIs. For example, if your projected traffic is 100 snapshot jobs
+    # before 12:00 PM per day, start 12 jobs in parallel and measure the
+    # amount of time it takes to proccess all 12 jobs. Once you obtain the
+    # result, multiply the duration by 9, for example `(12 minutes * 9 = 108
+    # minutes)`. Use the new result to determine the latest time at which
+    # the jobs need to be started to meet your target deadline.
+    #
+    # The time that it takes to process a job can be impacted by the
+    # following factors:
+    #
+    # * The dataset type (Direct Query or SPICE).
+    #
+    # * The size of the dataset.
+    #
+    # * The complexity of the calculated fields that are used in the
+    #   dashboard.
+    #
+    # * The number of visuals that are on a sheet.
+    #
+    # * The types of visuals that are on the sheet.
+    #
+    # * The number of formats and snapshots that are requested in the job
+    #   configuration.
+    #
+    # * The size of the generated snapshots.
+    #
+    #
+    #
+    # [1]: http://aws.amazon.com/contact-us/
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that the dashboard snapshot
+    #   job is executed in.
+    #
+    # @option params [required, String] :dashboard_id
+    #   The ID of the dashboard that you want to start a snapshot job for.
+    #
+    # @option params [required, String] :snapshot_job_id
+    #   An ID for the dashboard snapshot job. This ID is unique to the
+    #   dashboard while the job is running. This ID can be used to poll the
+    #   status of a job with a `DescribeDashboardSnapshotJob` while the job
+    #   runs. You can reuse this ID for another job 24 hours after the current
+    #   job is completed.
+    #
+    # @option params [required, Types::SnapshotUserConfiguration] :user_configuration
+    #   A structure that contains information about the anonymous users that
+    #   the generated snapshot is for. This API will not return information
+    #   about registered Amazon QuickSight.
+    #
+    # @option params [required, Types::SnapshotConfiguration] :snapshot_configuration
+    #   A structure that describes the configuration of the dashboard
+    #   snapshot.
+    #
+    # @return [Types::StartDashboardSnapshotJobResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::StartDashboardSnapshotJobResponse#arn #arn} => String
+    #   * {Types::StartDashboardSnapshotJobResponse#snapshot_job_id #snapshot_job_id} => String
+    #   * {Types::StartDashboardSnapshotJobResponse#request_id #request_id} => String
+    #   * {Types::StartDashboardSnapshotJobResponse#status #status} => Integer
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.start_dashboard_snapshot_job({
+    #     aws_account_id: "AwsAccountId", # required
+    #     dashboard_id: "ShortRestrictiveResourceId", # required
+    #     snapshot_job_id: "ShortRestrictiveResourceId", # required
+    #     user_configuration: { # required
+    #       anonymous_users: [
+    #         {
+    #           row_level_permission_tags: [
+    #             {
+    #               key: "SessionTagKey", # required
+    #               value: "SessionTagValue", # required
+    #             },
+    #           ],
+    #         },
+    #       ],
+    #     },
+    #     snapshot_configuration: { # required
+    #       file_groups: [ # required
+    #         {
+    #           files: [
+    #             {
+    #               sheet_selections: [ # required
+    #                 {
+    #                   sheet_id: "ShortRestrictiveResourceId", # required
+    #                   selection_scope: "ALL_VISUALS", # required, accepts ALL_VISUALS, SELECTED_VISUALS
+    #                   visual_ids: ["ShortRestrictiveResourceId"],
+    #                 },
+    #               ],
+    #               format_type: "CSV", # required, accepts CSV, PDF, EXCEL
+    #             },
+    #           ],
+    #         },
+    #       ],
+    #       destination_configuration: {
+    #         s3_destinations: [
+    #           {
+    #             bucket_configuration: { # required
+    #               bucket_name: "NonEmptyString", # required
+    #               bucket_prefix: "NonEmptyString", # required
+    #               bucket_region: "NonEmptyString", # required
+    #             },
+    #           },
+    #         ],
+    #       },
+    #       parameters: {
+    #         string_parameters: [
+    #           {
+    #             name: "NonEmptyString", # required
+    #             values: ["SensitiveString"], # required
+    #           },
+    #         ],
+    #         integer_parameters: [
+    #           {
+    #             name: "NonEmptyString", # required
+    #             values: [1], # required
+    #           },
+    #         ],
+    #         decimal_parameters: [
+    #           {
+    #             name: "NonEmptyString", # required
+    #             values: [1.0], # required
+    #           },
+    #         ],
+    #         date_time_parameters: [
+    #           {
+    #             name: "NonEmptyString", # required
+    #             values: [Time.now], # required
+    #           },
+    #         ],
+    #       },
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.arn #=> String
+    #   resp.snapshot_job_id #=> String
+    #   resp.request_id #=> String
+    #   resp.status #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/StartDashboardSnapshotJob AWS API Documentation
+    #
+    # @overload start_dashboard_snapshot_job(params = {})
+    # @param [Hash] params ({})
+    def start_dashboard_snapshot_job(params = {}, options = {})
+      req = build_request(:start_dashboard_snapshot_job, params)
+      req.send_request(options)
+    end
+
+    # Starts an asynchronous job that runs an existing dashboard schedule
+    # and sends the dashboard snapshot through email.
+    #
+    # Only one job can run simultaneously in a given schedule. Repeated
+    # requests are skipped with a `202` HTTP status code.
+    #
+    # For more information, see [Scheduling and sending Amazon QuickSight
+    # reports by email][1] and [Configuring email report settings for a
+    # Amazon QuickSight dashboard][2] in the *Amazon QuickSight User Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/quicksight/latest/user/sending-reports.html
+    # [2]: https://docs.aws.amazon.com/quicksight/latest/user/email-reports-from-dashboard.html
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that the dashboard snapshot
+    #   job is executed in.
+    #
+    # @option params [required, String] :dashboard_id
+    #   The ID of the dashboard that you want to start a snapshot job schedule
+    #   for.
+    #
+    # @option params [required, String] :schedule_id
+    #   The ID of the schedule that you want to start a snapshot job schedule
+    #   for. The schedule ID can be found in the Amazon QuickSight console in
+    #   the **Schedules** pane of the dashboard that the schedule is
+    #   configured for.
+    #
+    # @return [Types::StartDashboardSnapshotJobScheduleResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::StartDashboardSnapshotJobScheduleResponse#request_id #request_id} => String
+    #   * {Types::StartDashboardSnapshotJobScheduleResponse#status #status} => Integer
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.start_dashboard_snapshot_job_schedule({
+    #     aws_account_id: "AwsAccountId", # required
+    #     dashboard_id: "ShortRestrictiveResourceId", # required
+    #     schedule_id: "ShortRestrictiveResourceId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.request_id #=> String
+    #   resp.status #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/StartDashboardSnapshotJobSchedule AWS API Documentation
+    #
+    # @overload start_dashboard_snapshot_job_schedule(params = {})
+    # @param [Hash] params ({})
+    def start_dashboard_snapshot_job_schedule(params = {}, options = {})
+      req = build_request(:start_dashboard_snapshot_job_schedule, params)
+      req.send_request(options)
+    end
+
     # Assigns one or more tags (key-value pairs) to the specified Amazon
     # QuickSight resource.
     #
@@ -7197,16 +13933,16 @@ module Aws::QuickSight
     # that you specify replaces the previous value for that tag.
     #
     # You can associate as many as 50 tags with a resource. Amazon
-    # QuickSight supports tagging on data set, data source, dashboard, and
-    # template.
+    # QuickSight supports tagging on data set, data source, dashboard,
+    # template, topic, and user.
     #
     # Tagging for Amazon QuickSight works in a similar way to tagging for
     # other Amazon Web Services services, except for the following:
     #
-    # * You can't use tags to track costs for Amazon QuickSight. This
-    #   isn't possible because you can't tag the resources that Amazon
-    #   QuickSight costs are based on, for example Amazon QuickSight storage
-    #   capacity (SPICE), number of users, type of users, and usage metrics.
+    # * Tags are used to track costs for users in Amazon QuickSight. You
+    #   can't tag other resources that Amazon QuickSight costs are based
+    #   on, such as storage capacoty (SPICE), session usage, alert
+    #   consumption, or reporting units.
     #
     # * Amazon QuickSight doesn't currently support the tag editor for
     #   Resource Groups.
@@ -7355,9 +14091,9 @@ module Aws::QuickSight
     #
     # @option params [required, String] :default_namespace
     #   The default namespace for this Amazon Web Services account. Currently,
-    #   the default is `default`. Identity and Access Management (IAM) users
-    #   that register for the first time with Amazon QuickSight provide an
-    #   email address that becomes associated with the default namespace.
+    #   the default is `default`. IAM users that register for the first time
+    #   with Amazon QuickSight provide an email address that becomes
+    #   associated with the default namespace.
     #
     # @option params [String] :notification_email
     #   The email address that you want Amazon QuickSight to send
@@ -7433,6 +14169,11 @@ module Aws::QuickSight
     #
     #   A definition is the data model of all features in a Dashboard,
     #   Template, or Analysis.
+    #
+    # @option params [Types::ValidationStrategy] :validation_strategy
+    #   The option to relax the validation needed to update an analysis with
+    #   definition objects. This skips the validation step for specific
+    #   errors.
     #
     # @return [Types::UpdateAnalysisResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -7525,6 +14266,346 @@ module Aws::QuickSight
       req.send_request(options)
     end
 
+    # Updates an Amazon QuickSight application with a token exchange grant.
+    # This operation only supports Amazon QuickSight applications that are
+    # registered with IAM Identity Center.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account to be updated with a token
+    #   exchange grant.
+    #
+    # @option params [required, String] :namespace
+    #   The namespace of the Amazon QuickSight application.
+    #
+    # @return [Types::UpdateApplicationWithTokenExchangeGrantResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateApplicationWithTokenExchangeGrantResponse#status #status} => Integer
+    #   * {Types::UpdateApplicationWithTokenExchangeGrantResponse#request_id #request_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_application_with_token_exchange_grant({
+    #     aws_account_id: "AwsAccountId", # required
+    #     namespace: "Namespace", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.status #=> Integer
+    #   resp.request_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/UpdateApplicationWithTokenExchangeGrant AWS API Documentation
+    #
+    # @overload update_application_with_token_exchange_grant(params = {})
+    # @param [Hash] params ({})
+    def update_application_with_token_exchange_grant(params = {}, options = {})
+      req = build_request(:update_application_with_token_exchange_grant, params)
+      req.send_request(options)
+    end
+
+    # Updates a brand.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that owns the brand.
+    #
+    # @option params [required, String] :brand_id
+    #   The ID of the Amazon QuickSight brand.
+    #
+    # @option params [Types::BrandDefinition] :brand_definition
+    #   The definition of the brand.
+    #
+    # @return [Types::UpdateBrandResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateBrandResponse#request_id #request_id} => String
+    #   * {Types::UpdateBrandResponse#brand_detail #brand_detail} => Types::BrandDetail
+    #   * {Types::UpdateBrandResponse#brand_definition #brand_definition} => Types::BrandDefinition
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_brand({
+    #     aws_account_id: "AwsAccountId", # required
+    #     brand_id: "ShortRestrictiveResourceId", # required
+    #     brand_definition: {
+    #       brand_name: "Name", # required
+    #       description: "Description",
+    #       application_theme: {
+    #         brand_color_palette: {
+    #           primary: {
+    #             foreground: "HexColor",
+    #             background: "HexColor",
+    #           },
+    #           secondary: {
+    #             foreground: "HexColor",
+    #             background: "HexColor",
+    #           },
+    #           accent: {
+    #             foreground: "HexColor",
+    #             background: "HexColor",
+    #           },
+    #           measure: {
+    #             foreground: "HexColor",
+    #             background: "HexColor",
+    #           },
+    #           dimension: {
+    #             foreground: "HexColor",
+    #             background: "HexColor",
+    #           },
+    #           success: {
+    #             foreground: "HexColor",
+    #             background: "HexColor",
+    #           },
+    #           info: {
+    #             foreground: "HexColor",
+    #             background: "HexColor",
+    #           },
+    #           warning: {
+    #             foreground: "HexColor",
+    #             background: "HexColor",
+    #           },
+    #           danger: {
+    #             foreground: "HexColor",
+    #             background: "HexColor",
+    #           },
+    #         },
+    #         brand_element_style: {
+    #           navbar_style: {
+    #             global_navbar: {
+    #               foreground: "HexColor",
+    #               background: "HexColor",
+    #             },
+    #             contextual_navbar: {
+    #               foreground: "HexColor",
+    #               background: "HexColor",
+    #             },
+    #           },
+    #         },
+    #       },
+    #       logo_configuration: {
+    #         alt_text: "String", # required
+    #         logo_set: { # required
+    #           primary: { # required
+    #             original: { # required
+    #               source: {
+    #                 public_url: "String",
+    #                 s3_uri: "String",
+    #               },
+    #             },
+    #           },
+    #           favicon: {
+    #             original: { # required
+    #               source: {
+    #                 public_url: "String",
+    #                 s3_uri: "String",
+    #               },
+    #             },
+    #           },
+    #         },
+    #       },
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.request_id #=> String
+    #   resp.brand_detail.brand_id #=> String
+    #   resp.brand_detail.arn #=> String
+    #   resp.brand_detail.brand_status #=> String, one of "CREATE_IN_PROGRESS", "CREATE_SUCCEEDED", "CREATE_FAILED", "DELETE_IN_PROGRESS", "DELETE_FAILED"
+    #   resp.brand_detail.created_time #=> Time
+    #   resp.brand_detail.last_updated_time #=> Time
+    #   resp.brand_detail.version_id #=> String
+    #   resp.brand_detail.version_status #=> String, one of "CREATE_IN_PROGRESS", "CREATE_SUCCEEDED", "CREATE_FAILED"
+    #   resp.brand_detail.errors #=> Array
+    #   resp.brand_detail.errors[0] #=> String
+    #   resp.brand_detail.logo.alt_text #=> String
+    #   resp.brand_detail.logo.logo_set.primary.original.source.public_url #=> String
+    #   resp.brand_detail.logo.logo_set.primary.original.source.s3_uri #=> String
+    #   resp.brand_detail.logo.logo_set.primary.original.generated_image_url #=> String
+    #   resp.brand_detail.logo.logo_set.primary.height_64.source.public_url #=> String
+    #   resp.brand_detail.logo.logo_set.primary.height_64.source.s3_uri #=> String
+    #   resp.brand_detail.logo.logo_set.primary.height_64.generated_image_url #=> String
+    #   resp.brand_detail.logo.logo_set.primary.height_32.source.public_url #=> String
+    #   resp.brand_detail.logo.logo_set.primary.height_32.source.s3_uri #=> String
+    #   resp.brand_detail.logo.logo_set.primary.height_32.generated_image_url #=> String
+    #   resp.brand_detail.logo.logo_set.favicon.original.source.public_url #=> String
+    #   resp.brand_detail.logo.logo_set.favicon.original.source.s3_uri #=> String
+    #   resp.brand_detail.logo.logo_set.favicon.original.generated_image_url #=> String
+    #   resp.brand_detail.logo.logo_set.favicon.height_64.source.public_url #=> String
+    #   resp.brand_detail.logo.logo_set.favicon.height_64.source.s3_uri #=> String
+    #   resp.brand_detail.logo.logo_set.favicon.height_64.generated_image_url #=> String
+    #   resp.brand_detail.logo.logo_set.favicon.height_32.source.public_url #=> String
+    #   resp.brand_detail.logo.logo_set.favicon.height_32.source.s3_uri #=> String
+    #   resp.brand_detail.logo.logo_set.favicon.height_32.generated_image_url #=> String
+    #   resp.brand_definition.brand_name #=> String
+    #   resp.brand_definition.description #=> String
+    #   resp.brand_definition.application_theme.brand_color_palette.primary.foreground #=> String
+    #   resp.brand_definition.application_theme.brand_color_palette.primary.background #=> String
+    #   resp.brand_definition.application_theme.brand_color_palette.secondary.foreground #=> String
+    #   resp.brand_definition.application_theme.brand_color_palette.secondary.background #=> String
+    #   resp.brand_definition.application_theme.brand_color_palette.accent.foreground #=> String
+    #   resp.brand_definition.application_theme.brand_color_palette.accent.background #=> String
+    #   resp.brand_definition.application_theme.brand_color_palette.measure.foreground #=> String
+    #   resp.brand_definition.application_theme.brand_color_palette.measure.background #=> String
+    #   resp.brand_definition.application_theme.brand_color_palette.dimension.foreground #=> String
+    #   resp.brand_definition.application_theme.brand_color_palette.dimension.background #=> String
+    #   resp.brand_definition.application_theme.brand_color_palette.success.foreground #=> String
+    #   resp.brand_definition.application_theme.brand_color_palette.success.background #=> String
+    #   resp.brand_definition.application_theme.brand_color_palette.info.foreground #=> String
+    #   resp.brand_definition.application_theme.brand_color_palette.info.background #=> String
+    #   resp.brand_definition.application_theme.brand_color_palette.warning.foreground #=> String
+    #   resp.brand_definition.application_theme.brand_color_palette.warning.background #=> String
+    #   resp.brand_definition.application_theme.brand_color_palette.danger.foreground #=> String
+    #   resp.brand_definition.application_theme.brand_color_palette.danger.background #=> String
+    #   resp.brand_definition.application_theme.brand_element_style.navbar_style.global_navbar.foreground #=> String
+    #   resp.brand_definition.application_theme.brand_element_style.navbar_style.global_navbar.background #=> String
+    #   resp.brand_definition.application_theme.brand_element_style.navbar_style.contextual_navbar.foreground #=> String
+    #   resp.brand_definition.application_theme.brand_element_style.navbar_style.contextual_navbar.background #=> String
+    #   resp.brand_definition.logo_configuration.alt_text #=> String
+    #   resp.brand_definition.logo_configuration.logo_set.primary.original.source.public_url #=> String
+    #   resp.brand_definition.logo_configuration.logo_set.primary.original.source.s3_uri #=> String
+    #   resp.brand_definition.logo_configuration.logo_set.favicon.original.source.public_url #=> String
+    #   resp.brand_definition.logo_configuration.logo_set.favicon.original.source.s3_uri #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/UpdateBrand AWS API Documentation
+    #
+    # @overload update_brand(params = {})
+    # @param [Hash] params ({})
+    def update_brand(params = {}, options = {})
+      req = build_request(:update_brand, params)
+      req.send_request(options)
+    end
+
+    # Updates a brand assignment.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that owns the brand
+    #   assignment.
+    #
+    # @option params [required, String] :brand_arn
+    #   The Amazon Resource Name (ARN) of the brand.
+    #
+    # @return [Types::UpdateBrandAssignmentResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateBrandAssignmentResponse#request_id #request_id} => String
+    #   * {Types::UpdateBrandAssignmentResponse#brand_arn #brand_arn} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_brand_assignment({
+    #     aws_account_id: "AwsAccountId", # required
+    #     brand_arn: "Arn", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.request_id #=> String
+    #   resp.brand_arn #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/UpdateBrandAssignment AWS API Documentation
+    #
+    # @overload update_brand_assignment(params = {})
+    # @param [Hash] params ({})
+    def update_brand_assignment(params = {}, options = {})
+      req = build_request(:update_brand_assignment, params)
+      req.send_request(options)
+    end
+
+    # Updates the published version of a brand.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that owns the brand.
+    #
+    # @option params [required, String] :brand_id
+    #   The ID of the Amazon QuickSight brand.
+    #
+    # @option params [required, String] :version_id
+    #   The ID of the published version.
+    #
+    # @return [Types::UpdateBrandPublishedVersionResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateBrandPublishedVersionResponse#request_id #request_id} => String
+    #   * {Types::UpdateBrandPublishedVersionResponse#version_id #version_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_brand_published_version({
+    #     aws_account_id: "AwsAccountId", # required
+    #     brand_id: "ShortRestrictiveResourceId", # required
+    #     version_id: "ShortRestrictiveResourceId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.request_id #=> String
+    #   resp.version_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/UpdateBrandPublishedVersion AWS API Documentation
+    #
+    # @overload update_brand_published_version(params = {})
+    # @param [Hash] params ({})
+    def update_brand_published_version(params = {}, options = {})
+      req = build_request(:update_brand_published_version, params)
+      req.send_request(options)
+    end
+
+    # Updates a custom permissions profile.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that contains the custom
+    #   permissions profile that you want to update.
+    #
+    # @option params [required, String] :custom_permissions_name
+    #   The name of the custom permissions profile that you want to update.
+    #
+    # @option params [Types::Capabilities] :capabilities
+    #   A set of actions to include in the custom permissions profile.
+    #
+    # @return [Types::UpdateCustomPermissionsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateCustomPermissionsResponse#status #status} => Integer
+    #   * {Types::UpdateCustomPermissionsResponse#arn #arn} => String
+    #   * {Types::UpdateCustomPermissionsResponse#request_id #request_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_custom_permissions({
+    #     aws_account_id: "AwsAccountId", # required
+    #     custom_permissions_name: "CustomPermissionsName", # required
+    #     capabilities: {
+    #       export_to_csv: "DENY", # accepts DENY
+    #       export_to_excel: "DENY", # accepts DENY
+    #       create_and_update_themes: "DENY", # accepts DENY
+    #       add_or_run_anomaly_detection_for_analyses: "DENY", # accepts DENY
+    #       share_analyses: "DENY", # accepts DENY
+    #       create_and_update_datasets: "DENY", # accepts DENY
+    #       share_datasets: "DENY", # accepts DENY
+    #       subscribe_dashboard_email_reports: "DENY", # accepts DENY
+    #       create_and_update_dashboard_email_reports: "DENY", # accepts DENY
+    #       share_dashboards: "DENY", # accepts DENY
+    #       create_and_update_threshold_alerts: "DENY", # accepts DENY
+    #       rename_shared_folders: "DENY", # accepts DENY
+    #       create_shared_folders: "DENY", # accepts DENY
+    #       create_and_update_data_sources: "DENY", # accepts DENY
+    #       share_data_sources: "DENY", # accepts DENY
+    #       view_account_spice_capacity: "DENY", # accepts DENY
+    #       create_spice_dataset: "DENY", # accepts DENY
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.status #=> Integer
+    #   resp.arn #=> String
+    #   resp.request_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/UpdateCustomPermissions AWS API Documentation
+    #
+    # @overload update_custom_permissions(params = {})
+    # @param [Hash] params ({})
+    def update_custom_permissions(params = {}, options = {})
+      req = build_request(:update_custom_permissions, params)
+      req.send_request(options)
+    end
+
     # Updates a dashboard in an Amazon Web Services account.
     #
     # <note markdown="1"> Updating a Dashboard creates a new dashboard version but does not
@@ -7598,6 +14679,11 @@ module Aws::QuickSight
     #   A definition is the data model of all features in a Dashboard,
     #   Template, or Analysis.
     #
+    # @option params [Types::ValidationStrategy] :validation_strategy
+    #   The option to relax the validation needed to update a dashboard with
+    #   definition objects. This skips the validation step for specific
+    #   errors.
+    #
     # @return [Types::UpdateDashboardResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::UpdateDashboardResponse#arn #arn} => String
@@ -7622,6 +14708,51 @@ module Aws::QuickSight
     # @param [Hash] params ({})
     def update_dashboard(params = {}, options = {})
       req = build_request(:update_dashboard, params)
+      req.send_request(options)
+    end
+
+    # Updates the linked analyses on a dashboard.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that contains the dashboard
+    #   whose links you want to update.
+    #
+    # @option params [required, String] :dashboard_id
+    #   The ID for the dashboard.
+    #
+    # @option params [required, Array<String>] :link_entities
+    #   list of analysis Amazon Resource Names (ARNs) to be linked to the
+    #   dashboard.
+    #
+    # @return [Types::UpdateDashboardLinksResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateDashboardLinksResponse#request_id #request_id} => String
+    #   * {Types::UpdateDashboardLinksResponse#status #status} => Integer
+    #   * {Types::UpdateDashboardLinksResponse#dashboard_arn #dashboard_arn} => String
+    #   * {Types::UpdateDashboardLinksResponse#link_entities #link_entities} => Array&lt;String&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_dashboard_links({
+    #     aws_account_id: "AwsAccountId", # required
+    #     dashboard_id: "ShortRestrictiveResourceId", # required
+    #     link_entities: ["LinkEntityArn"], # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.request_id #=> String
+    #   resp.status #=> Integer
+    #   resp.dashboard_arn #=> String
+    #   resp.link_entities #=> Array
+    #   resp.link_entities[0] #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/UpdateDashboardLinks AWS API Documentation
+    #
+    # @overload update_dashboard_links(params = {})
+    # @param [Hash] params ({})
+    def update_dashboard_links(params = {}, options = {})
+      req = build_request(:update_dashboard_links, params)
       req.send_request(options)
     end
 
@@ -7753,6 +14884,43 @@ module Aws::QuickSight
       req.send_request(options)
     end
 
+    # Updates a Dashboard QA configuration.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that contains the dashboard
+    #   QA configuration that you want to update.
+    #
+    # @option params [required, String] :dashboards_qa_status
+    #   The status of dashboards QA configuration that you want to update.
+    #
+    # @return [Types::UpdateDashboardsQAConfigurationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateDashboardsQAConfigurationResponse#dashboards_qa_status #dashboards_qa_status} => String
+    #   * {Types::UpdateDashboardsQAConfigurationResponse#request_id #request_id} => String
+    #   * {Types::UpdateDashboardsQAConfigurationResponse#status #status} => Integer
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_dashboards_qa_configuration({
+    #     aws_account_id: "AwsAccountId", # required
+    #     dashboards_qa_status: "ENABLED", # required, accepts ENABLED, DISABLED
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.dashboards_qa_status #=> String, one of "ENABLED", "DISABLED"
+    #   resp.request_id #=> String
+    #   resp.status #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/UpdateDashboardsQAConfiguration AWS API Documentation
+    #
+    # @overload update_dashboards_qa_configuration(params = {})
+    # @param [Hash] params ({})
+    def update_dashboards_qa_configuration(params = {}, options = {})
+      req = build_request(:update_dashboards_qa_configuration, params)
+      req.send_request(options)
+    end
+
     # Updates a dataset. This operation doesn't support datasets that
     # include uploaded files as a source. Partial updates are not supported
     # by this operation.
@@ -7801,6 +14969,13 @@ module Aws::QuickSight
     #   The usage configuration to apply to child datasets that reference this
     #   dataset as a source.
     #
+    # @option params [Array<Types::DatasetParameter>] :dataset_parameters
+    #   The parameter declarations of the dataset.
+    #
+    # @option params [Types::PerformanceConfiguration] :performance_configuration
+    #   The configuration for the performance optimization of the dataset that
+    #   contains a `UniqueKey` configuration.
+    #
     # @return [Types::UpdateDataSetResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::UpdateDataSetResponse#arn #arn} => String
@@ -7827,6 +15002,7 @@ module Aws::QuickSight
     #             {
     #               name: "ColumnName", # required
     #               type: "STRING", # required, accepts STRING, INTEGER, DECIMAL, DATETIME, BIT, BOOLEAN, JSON
+    #               sub_type: "FLOAT", # accepts FLOAT, FIXED
     #             },
     #           ],
     #         },
@@ -7838,6 +15014,7 @@ module Aws::QuickSight
     #             {
     #               name: "ColumnName", # required
     #               type: "STRING", # required, accepts STRING, INTEGER, DECIMAL, DATETIME, BIT, BOOLEAN, JSON
+    #               sub_type: "FLOAT", # accepts FLOAT, FIXED
     #             },
     #           ],
     #         },
@@ -7854,6 +15031,7 @@ module Aws::QuickSight
     #             {
     #               name: "ColumnName", # required
     #               type: "STRING", # required, accepts STRING, INTEGER, DECIMAL, DATETIME, BIT, BOOLEAN, JSON
+    #               sub_type: "FLOAT", # accepts FLOAT, FIXED
     #             },
     #           ],
     #         },
@@ -7875,7 +15053,7 @@ module Aws::QuickSight
     #                 {
     #                   column_name: "ColumnName", # required
     #                   column_id: "ColumnId", # required
-    #                   expression: "Expression", # required
+    #                   expression: "DataSetCalculatedFieldExpression", # required
     #                 },
     #               ],
     #             },
@@ -7886,6 +15064,7 @@ module Aws::QuickSight
     #             cast_column_type_operation: {
     #               column_name: "ColumnName", # required
     #               new_column_type: "STRING", # required, accepts STRING, INTEGER, DECIMAL, DATETIME
+    #               sub_type: "FLOAT", # accepts FLOAT, FIXED
     #               format: "TypeCastFormat",
     #             },
     #             tag_column_operation: {
@@ -7902,6 +15081,16 @@ module Aws::QuickSight
     #             untag_column_operation: {
     #               column_name: "ColumnName", # required
     #               tag_names: ["COLUMN_GEOGRAPHIC_ROLE"], # required, accepts COLUMN_GEOGRAPHIC_ROLE, COLUMN_DESCRIPTION
+    #             },
+    #             override_dataset_parameter_operation: {
+    #               parameter_name: "DatasetParameterName", # required
+    #               new_parameter_name: "DatasetParameterName",
+    #               new_default_values: {
+    #                 string_static_values: ["StringDatasetParameterDefaultValue"],
+    #                 decimal_static_values: [1.0],
+    #                 date_time_static_values: [Time.now],
+    #                 integer_static_values: [1],
+    #               },
     #             },
     #           },
     #         ],
@@ -7956,6 +15145,9 @@ module Aws::QuickSight
     #           match_all_value: "SessionTagValue",
     #         },
     #       ],
+    #       tag_rule_configurations: [
+    #         ["SessionTagKey"],
+    #       ],
     #     },
     #     column_level_permission_rules: [
     #       {
@@ -7966,6 +15158,50 @@ module Aws::QuickSight
     #     data_set_usage_configuration: {
     #       disable_use_as_direct_query_source: false,
     #       disable_use_as_imported_source: false,
+    #     },
+    #     dataset_parameters: [
+    #       {
+    #         string_dataset_parameter: {
+    #           id: "DatasetParameterId", # required
+    #           name: "DatasetParameterName", # required
+    #           value_type: "MULTI_VALUED", # required, accepts MULTI_VALUED, SINGLE_VALUED
+    #           default_values: {
+    #             static_values: ["StringDatasetParameterDefaultValue"],
+    #           },
+    #         },
+    #         decimal_dataset_parameter: {
+    #           id: "DatasetParameterId", # required
+    #           name: "DatasetParameterName", # required
+    #           value_type: "MULTI_VALUED", # required, accepts MULTI_VALUED, SINGLE_VALUED
+    #           default_values: {
+    #             static_values: [1.0],
+    #           },
+    #         },
+    #         integer_dataset_parameter: {
+    #           id: "DatasetParameterId", # required
+    #           name: "DatasetParameterName", # required
+    #           value_type: "MULTI_VALUED", # required, accepts MULTI_VALUED, SINGLE_VALUED
+    #           default_values: {
+    #             static_values: [1],
+    #           },
+    #         },
+    #         date_time_dataset_parameter: {
+    #           id: "DatasetParameterId", # required
+    #           name: "DatasetParameterName", # required
+    #           value_type: "MULTI_VALUED", # required, accepts MULTI_VALUED, SINGLE_VALUED
+    #           time_granularity: "YEAR", # accepts YEAR, QUARTER, MONTH, WEEK, DAY, HOUR, MINUTE, SECOND, MILLISECOND
+    #           default_values: {
+    #             static_values: [Time.now],
+    #           },
+    #         },
+    #       },
+    #     ],
+    #     performance_configuration: {
+    #       unique_keys: [
+    #         {
+    #           column_names: ["ColumnName"], # required
+    #         },
+    #       ],
     #     },
     #   })
     #
@@ -8149,12 +15385,22 @@ module Aws::QuickSight
     #         port: 1,
     #         database: "Database", # required
     #         cluster_id: "ClusterId",
+    #         iam_parameters: {
+    #           role_arn: "RoleArn", # required
+    #           database_user: "DatabaseUser",
+    #           database_groups: ["DatabaseGroup"],
+    #           auto_create_database_user: false,
+    #         },
+    #         identity_center_configuration: {
+    #           enable_identity_propagation: false,
+    #         },
     #       },
     #       s3_parameters: {
     #         manifest_file_location: { # required
     #           bucket: "S3Bucket", # required
     #           key: "S3Key", # required
     #         },
+    #         role_arn: "RoleArn",
     #       },
     #       service_now_parameters: {
     #         site_base_url: "SiteBaseUrl", # required
@@ -8163,6 +15409,16 @@ module Aws::QuickSight
     #         host: "Host", # required
     #         database: "Database", # required
     #         warehouse: "Warehouse", # required
+    #         authentication_type: "PASSWORD", # accepts PASSWORD, TOKEN, X509
+    #         database_access_control_role: "DatabaseAccessControlRole",
+    #         o_auth_parameters: {
+    #           token_provider_url: "TokenProviderUrl", # required
+    #           o_auth_scope: "OAuthScope",
+    #           identity_provider_vpc_connection_properties: {
+    #             vpc_connection_arn: "Arn", # required
+    #           },
+    #           identity_provider_resource_uri: "IdentityProviderResourceUri",
+    #         },
     #       },
     #       spark_parameters: {
     #         host: "Host", # required
@@ -8194,10 +15450,35 @@ module Aws::QuickSight
     #         port: 1, # required
     #         sql_endpoint_path: "SqlEndpointPath", # required
     #       },
+    #       starburst_parameters: {
+    #         host: "Host", # required
+    #         port: 1, # required
+    #         catalog: "Catalog", # required
+    #         product_type: "GALAXY", # accepts GALAXY, ENTERPRISE
+    #         database_access_control_role: "DatabaseAccessControlRole",
+    #         authentication_type: "PASSWORD", # accepts PASSWORD, TOKEN, X509
+    #         o_auth_parameters: {
+    #           token_provider_url: "TokenProviderUrl", # required
+    #           o_auth_scope: "OAuthScope",
+    #           identity_provider_vpc_connection_properties: {
+    #             vpc_connection_arn: "Arn", # required
+    #           },
+    #           identity_provider_resource_uri: "IdentityProviderResourceUri",
+    #         },
+    #       },
+    #       trino_parameters: {
+    #         host: "Host", # required
+    #         port: 1, # required
+    #         catalog: "Catalog", # required
+    #       },
+    #       big_query_parameters: {
+    #         project_id: "ProjectId", # required
+    #         data_set_region: "DataSetRegion",
+    #       },
     #     },
     #     credentials: {
     #       credential_pair: {
-    #         username: "Username", # required
+    #         username: "DbUsername", # required
     #         password: "Password", # required
     #         alternate_data_source_parameters: [
     #           {
@@ -8258,12 +15539,22 @@ module Aws::QuickSight
     #               port: 1,
     #               database: "Database", # required
     #               cluster_id: "ClusterId",
+    #               iam_parameters: {
+    #                 role_arn: "RoleArn", # required
+    #                 database_user: "DatabaseUser",
+    #                 database_groups: ["DatabaseGroup"],
+    #                 auto_create_database_user: false,
+    #               },
+    #               identity_center_configuration: {
+    #                 enable_identity_propagation: false,
+    #               },
     #             },
     #             s3_parameters: {
     #               manifest_file_location: { # required
     #                 bucket: "S3Bucket", # required
     #                 key: "S3Key", # required
     #               },
+    #               role_arn: "RoleArn",
     #             },
     #             service_now_parameters: {
     #               site_base_url: "SiteBaseUrl", # required
@@ -8272,6 +15563,16 @@ module Aws::QuickSight
     #               host: "Host", # required
     #               database: "Database", # required
     #               warehouse: "Warehouse", # required
+    #               authentication_type: "PASSWORD", # accepts PASSWORD, TOKEN, X509
+    #               database_access_control_role: "DatabaseAccessControlRole",
+    #               o_auth_parameters: {
+    #                 token_provider_url: "TokenProviderUrl", # required
+    #                 o_auth_scope: "OAuthScope",
+    #                 identity_provider_vpc_connection_properties: {
+    #                   vpc_connection_arn: "Arn", # required
+    #                 },
+    #                 identity_provider_resource_uri: "IdentityProviderResourceUri",
+    #               },
     #             },
     #             spark_parameters: {
     #               host: "Host", # required
@@ -8302,6 +15603,31 @@ module Aws::QuickSight
     #               host: "Host", # required
     #               port: 1, # required
     #               sql_endpoint_path: "SqlEndpointPath", # required
+    #             },
+    #             starburst_parameters: {
+    #               host: "Host", # required
+    #               port: 1, # required
+    #               catalog: "Catalog", # required
+    #               product_type: "GALAXY", # accepts GALAXY, ENTERPRISE
+    #               database_access_control_role: "DatabaseAccessControlRole",
+    #               authentication_type: "PASSWORD", # accepts PASSWORD, TOKEN, X509
+    #               o_auth_parameters: {
+    #                 token_provider_url: "TokenProviderUrl", # required
+    #                 o_auth_scope: "OAuthScope",
+    #                 identity_provider_vpc_connection_properties: {
+    #                   vpc_connection_arn: "Arn", # required
+    #                 },
+    #                 identity_provider_resource_uri: "IdentityProviderResourceUri",
+    #               },
+    #             },
+    #             trino_parameters: {
+    #               host: "Host", # required
+    #               port: 1, # required
+    #               catalog: "Catalog", # required
+    #             },
+    #             big_query_parameters: {
+    #               project_id: "ProjectId", # required
+    #               data_set_region: "DataSetRegion",
     #             },
     #           },
     #         ],
@@ -8393,6 +15719,49 @@ module Aws::QuickSight
       req.send_request(options)
     end
 
+    # Updates a Amazon Q Business application that is linked to a Amazon
+    # QuickSight account.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon QuickSight account that is connected to the
+    #   Amazon Q Business application that you want to update.
+    #
+    # @option params [String] :namespace
+    #   The Amazon QuickSight namespace that contains the linked Amazon Q
+    #   Business application. If this field is left blank, the default
+    #   namespace is used. Currently, the default namespace is the only valid
+    #   value for this parameter.
+    #
+    # @option params [required, String] :application_id
+    #   The ID of the Amazon Q Business application that you want to update.
+    #
+    # @return [Types::UpdateDefaultQBusinessApplicationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateDefaultQBusinessApplicationResponse#request_id #request_id} => String
+    #   * {Types::UpdateDefaultQBusinessApplicationResponse#status #status} => Integer
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_default_q_business_application({
+    #     aws_account_id: "AwsAccountId", # required
+    #     namespace: "Namespace",
+    #     application_id: "LimitedString", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.request_id #=> String
+    #   resp.status #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/UpdateDefaultQBusinessApplication AWS API Documentation
+    #
+    # @overload update_default_q_business_application(params = {})
+    # @param [Hash] params ({})
+    def update_default_q_business_application(params = {}, options = {})
+      req = build_request(:update_default_q_business_application, params)
+      req.send_request(options)
+    end
+
     # Updates the name of a folder.
     #
     # @option params [required, String] :aws_account_id
@@ -8446,10 +15815,12 @@ module Aws::QuickSight
     #   The ID of the folder.
     #
     # @option params [Array<Types::ResourcePermission>] :grant_permissions
-    #   The permissions that you want to grant on a resource.
+    #   The permissions that you want to grant on a resource. Namespace ARNs
+    #   are not supported `Principal` values for folder permissions.
     #
     # @option params [Array<Types::ResourcePermission>] :revoke_permissions
-    #   The permissions that you want to revoke from a resource.
+    #   The permissions that you want to revoke from a resource. Namespace
+    #   ARNs are not supported `Principal` values for folder permissions.
     #
     # @return [Types::UpdateFolderPermissionsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -8556,8 +15927,8 @@ module Aws::QuickSight
     #   assignment.
     #
     # @option params [required, String] :assignment_name
-    #   The name of the assignment, also called a rule. This name must be
-    #   unique within an Amazon Web Services account.
+    #   The name of the assignment, also called a rule. The name must be
+    #   unique within the Amazon Web Services account.
     #
     # @option params [required, String] :namespace
     #   The namespace of the assignment.
@@ -8626,8 +15997,55 @@ module Aws::QuickSight
       req.send_request(options)
     end
 
-    # Updates the content and status of IP rules. To use this operation, you
-    # need to provide the entire map of rules. You can use the
+    # Adds or updates services and authorized targets to configure what the
+    # Amazon QuickSight IAM Identity Center application can access.
+    #
+    # This operation is only supported for Amazon QuickSight accounts using
+    # IAM Identity Center
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that contains the identity
+    #   propagation configuration that you want to update.
+    #
+    # @option params [required, String] :service
+    #   The name of the Amazon Web Services service that contains the
+    #   authorized targets that you want to add or update.
+    #
+    # @option params [Array<String>] :authorized_targets
+    #   Specifies a list of application ARNs that represent the authorized
+    #   targets for a service.
+    #
+    # @return [Types::UpdateIdentityPropagationConfigResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateIdentityPropagationConfigResponse#request_id #request_id} => String
+    #   * {Types::UpdateIdentityPropagationConfigResponse#status #status} => Integer
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_identity_propagation_config({
+    #     aws_account_id: "AwsAccountId", # required
+    #     service: "REDSHIFT", # required, accepts REDSHIFT, QBUSINESS
+    #     authorized_targets: ["String"],
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.request_id #=> String
+    #   resp.status #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/UpdateIdentityPropagationConfig AWS API Documentation
+    #
+    # @overload update_identity_propagation_config(params = {})
+    # @param [Hash] params ({})
+    def update_identity_propagation_config(params = {}, options = {})
+      req = build_request(:update_identity_propagation_config, params)
+      req.send_request(options)
+    end
+
+    # Updates the content and status of IP rules. Traffic from a source is
+    # allowed when the source satisfies either the `IpRestrictionRule`,
+    # `VpcIdRestrictionRule`, or `VpcEndpointIdRestrictionRule`. To use this
+    # operation, you must provide the entire map of rules. You can use the
     # `DescribeIpRestriction` operation to get the current rule map.
     #
     # @option params [required, String] :aws_account_id
@@ -8635,6 +16053,15 @@ module Aws::QuickSight
     #
     # @option params [Hash<String,String>] :ip_restriction_rule_map
     #   A map that describes the updated IP rules with CIDR ranges and
+    #   descriptions.
+    #
+    # @option params [Hash<String,String>] :vpc_id_restriction_rule_map
+    #   A map of VPC IDs and their corresponding rules. When you configure
+    #   this parameter, traffic from all VPC endpoints that are present in the
+    #   specified VPC is allowed.
+    #
+    # @option params [Hash<String,String>] :vpc_endpoint_id_restriction_rule_map
+    #   A map of allowed VPC endpoint IDs and their corresponding rule
     #   descriptions.
     #
     # @option params [Boolean] :enabled
@@ -8653,6 +16080,12 @@ module Aws::QuickSight
     #     ip_restriction_rule_map: {
     #       "CIDR" => "IpRestrictionRuleDescription",
     #     },
+    #     vpc_id_restriction_rule_map: {
+    #       "VpcId" => "VpcIdRestrictionRuleDescription",
+    #     },
+    #     vpc_endpoint_id_restriction_rule_map: {
+    #       "VpcEndpointId" => "VpcEndpointIdRestrictionRuleDescription",
+    #     },
     #     enabled: false,
     #   })
     #
@@ -8668,6 +16101,55 @@ module Aws::QuickSight
     # @param [Hash] params ({})
     def update_ip_restriction(params = {}, options = {})
       req = build_request(:update_ip_restriction, params)
+      req.send_request(options)
+    end
+
+    # Updates a customer managed key in a Amazon QuickSight account.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that contains the customer
+    #   managed key registration that you want to update.
+    #
+    # @option params [required, Array<Types::RegisteredCustomerManagedKey>] :key_registration
+    #   A list of `RegisteredCustomerManagedKey` objects to be updated to the
+    #   Amazon QuickSight account.
+    #
+    # @return [Types::UpdateKeyRegistrationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateKeyRegistrationResponse#failed_key_registration #failed_key_registration} => Array&lt;Types::FailedKeyRegistrationEntry&gt;
+    #   * {Types::UpdateKeyRegistrationResponse#successful_key_registration #successful_key_registration} => Array&lt;Types::SuccessfulKeyRegistrationEntry&gt;
+    #   * {Types::UpdateKeyRegistrationResponse#request_id #request_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_key_registration({
+    #     aws_account_id: "AwsAccountId", # required
+    #     key_registration: [ # required
+    #       {
+    #         key_arn: "String",
+    #         default_key: false,
+    #       },
+    #     ],
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.failed_key_registration #=> Array
+    #   resp.failed_key_registration[0].key_arn #=> String
+    #   resp.failed_key_registration[0].message #=> String
+    #   resp.failed_key_registration[0].status_code #=> Integer
+    #   resp.failed_key_registration[0].sender_fault #=> Boolean
+    #   resp.successful_key_registration #=> Array
+    #   resp.successful_key_registration[0].key_arn #=> String
+    #   resp.successful_key_registration[0].status_code #=> Integer
+    #   resp.request_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/UpdateKeyRegistration AWS API Documentation
+    #
+    # @overload update_key_registration(params = {})
+    # @param [Hash] params ({})
+    def update_key_registration(params = {}, options = {})
+      req = build_request(:update_key_registration, params)
       req.send_request(options)
     end
 
@@ -8721,6 +16203,228 @@ module Aws::QuickSight
       req.send_request(options)
     end
 
+    # Updates a personalization configuration.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account account that contains the
+    #   personalization configuration that the user wants to update.
+    #
+    # @option params [required, String] :personalization_mode
+    #   An option to allow Amazon QuickSight to customize data stories with
+    #   user specific metadata, specifically location and job information, in
+    #   your IAM Identity Center instance.
+    #
+    # @return [Types::UpdateQPersonalizationConfigurationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateQPersonalizationConfigurationResponse#personalization_mode #personalization_mode} => String
+    #   * {Types::UpdateQPersonalizationConfigurationResponse#request_id #request_id} => String
+    #   * {Types::UpdateQPersonalizationConfigurationResponse#status #status} => Integer
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_q_personalization_configuration({
+    #     aws_account_id: "AwsAccountId", # required
+    #     personalization_mode: "ENABLED", # required, accepts ENABLED, DISABLED
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.personalization_mode #=> String, one of "ENABLED", "DISABLED"
+    #   resp.request_id #=> String
+    #   resp.status #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/UpdateQPersonalizationConfiguration AWS API Documentation
+    #
+    # @overload update_q_personalization_configuration(params = {})
+    # @param [Hash] params ({})
+    def update_q_personalization_configuration(params = {}, options = {})
+      req = build_request(:update_q_personalization_configuration, params)
+      req.send_request(options)
+    end
+
+    # Updates the state of a Amazon QuickSight Q Search configuration.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that contains the Amazon
+    #   QuickSight Q Search configuration that you want to update.
+    #
+    # @option params [required, String] :q_search_status
+    #   The status of the Amazon QuickSight Q Search configuration that the
+    #   user wants to update.
+    #
+    # @return [Types::UpdateQuickSightQSearchConfigurationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateQuickSightQSearchConfigurationResponse#q_search_status #q_search_status} => String
+    #   * {Types::UpdateQuickSightQSearchConfigurationResponse#request_id #request_id} => String
+    #   * {Types::UpdateQuickSightQSearchConfigurationResponse#status #status} => Integer
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_quick_sight_q_search_configuration({
+    #     aws_account_id: "AwsAccountId", # required
+    #     q_search_status: "ENABLED", # required, accepts ENABLED, DISABLED
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.q_search_status #=> String, one of "ENABLED", "DISABLED"
+    #   resp.request_id #=> String
+    #   resp.status #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/UpdateQuickSightQSearchConfiguration AWS API Documentation
+    #
+    # @overload update_quick_sight_q_search_configuration(params = {})
+    # @param [Hash] params ({})
+    def update_quick_sight_q_search_configuration(params = {}, options = {})
+      req = build_request(:update_quick_sight_q_search_configuration, params)
+      req.send_request(options)
+    end
+
+    # Updates a refresh schedule for a dataset.
+    #
+    # @option params [required, String] :data_set_id
+    #   The ID of the dataset.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The Amazon Web Services account ID.
+    #
+    # @option params [required, Types::RefreshSchedule] :schedule
+    #   The refresh schedule.
+    #
+    # @return [Types::UpdateRefreshScheduleResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateRefreshScheduleResponse#status #status} => Integer
+    #   * {Types::UpdateRefreshScheduleResponse#request_id #request_id} => String
+    #   * {Types::UpdateRefreshScheduleResponse#schedule_id #schedule_id} => String
+    #   * {Types::UpdateRefreshScheduleResponse#arn #arn} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_refresh_schedule({
+    #     data_set_id: "ResourceId", # required
+    #     aws_account_id: "AwsAccountId", # required
+    #     schedule: { # required
+    #       schedule_id: "String", # required
+    #       schedule_frequency: { # required
+    #         interval: "MINUTE15", # required, accepts MINUTE15, MINUTE30, HOURLY, DAILY, WEEKLY, MONTHLY
+    #         refresh_on_day: {
+    #           day_of_week: "SUNDAY", # accepts SUNDAY, MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY
+    #           day_of_month: "DayOfMonth",
+    #         },
+    #         timezone: "String",
+    #         time_of_the_day: "String",
+    #       },
+    #       start_after_date_time: Time.now,
+    #       refresh_type: "INCREMENTAL_REFRESH", # required, accepts INCREMENTAL_REFRESH, FULL_REFRESH
+    #       arn: "Arn",
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.status #=> Integer
+    #   resp.request_id #=> String
+    #   resp.schedule_id #=> String
+    #   resp.arn #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/UpdateRefreshSchedule AWS API Documentation
+    #
+    # @overload update_refresh_schedule(params = {})
+    # @param [Hash] params ({})
+    def update_refresh_schedule(params = {}, options = {})
+      req = build_request(:update_refresh_schedule, params)
+      req.send_request(options)
+    end
+
+    # Updates the custom permissions that are associated with a role.
+    #
+    # @option params [required, String] :custom_permissions_name
+    #   The name of the custom permission that you want to update the role
+    #   with.
+    #
+    # @option params [required, String] :role
+    #   The name of role tht you want to update.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID for the Amazon Web Services account that you want to create a
+    #   group in. The Amazon Web Services account ID that you provide must be
+    #   the same Amazon Web Services account that contains your Amazon
+    #   QuickSight account.
+    #
+    # @option params [required, String] :namespace
+    #   The namespace that contains the role that you want to update.
+    #
+    # @return [Types::UpdateRoleCustomPermissionResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateRoleCustomPermissionResponse#request_id #request_id} => String
+    #   * {Types::UpdateRoleCustomPermissionResponse#status #status} => Integer
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_role_custom_permission({
+    #     custom_permissions_name: "RoleName", # required
+    #     role: "ADMIN", # required, accepts ADMIN, AUTHOR, READER, ADMIN_PRO, AUTHOR_PRO, READER_PRO
+    #     aws_account_id: "AwsAccountId", # required
+    #     namespace: "Namespace", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.request_id #=> String
+    #   resp.status #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/UpdateRoleCustomPermission AWS API Documentation
+    #
+    # @overload update_role_custom_permission(params = {})
+    # @param [Hash] params ({})
+    def update_role_custom_permission(params = {}, options = {})
+      req = build_request(:update_role_custom_permission, params)
+      req.send_request(options)
+    end
+
+    # Updates the SPICE capacity configuration for a Amazon QuickSight
+    # account.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that contains the SPICE
+    #   configuration that you want to update.
+    #
+    # @option params [required, String] :purchase_mode
+    #   Determines how SPICE capacity can be purchased. The following options
+    #   are available.
+    #
+    #   * `MANUAL`: SPICE capacity can only be purchased manually.
+    #
+    #   * `AUTO_PURCHASE`: Extra SPICE capacity is automatically purchased on
+    #     your behalf as needed. SPICE capacity can also be purchased manually
+    #     with this option.
+    #
+    # @return [Types::UpdateSPICECapacityConfigurationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateSPICECapacityConfigurationResponse#request_id #request_id} => String
+    #   * {Types::UpdateSPICECapacityConfigurationResponse#status #status} => Integer
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_spice_capacity_configuration({
+    #     aws_account_id: "AwsAccountId", # required
+    #     purchase_mode: "MANUAL", # required, accepts MANUAL, AUTO_PURCHASE
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.request_id #=> String
+    #   resp.status #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/UpdateSPICECapacityConfiguration AWS API Documentation
+    #
+    # @overload update_spice_capacity_configuration(params = {})
+    # @param [Hash] params ({})
+    def update_spice_capacity_configuration(params = {}, options = {})
+      req = build_request(:update_spice_capacity_configuration, params)
+      req.send_request(options)
+    end
+
     # Updates a template from an existing Amazon QuickSight analysis or
     # another template.
     #
@@ -8760,6 +16464,11 @@ module Aws::QuickSight
     #
     #   A definition is the data model of all features in a Dashboard,
     #   Template, or Analysis.
+    #
+    # @option params [Types::ValidationStrategy] :validation_strategy
+    #   The option to relax the validation needed to update a template with
+    #   definition objects. This skips the validation step for specific
+    #   errors.
     #
     # @return [Types::UpdateTemplateResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -9074,7 +16783,6 @@ module Aws::QuickSight
     #   * `"quicksight:ListThemeAliases"`
     #
     #   * `"quicksight:ListThemeVersions"`
-    #
     # * Owner
     #
     #   * `"quicksight:DescribeTheme"`
@@ -9098,7 +16806,6 @@ module Aws::QuickSight
     #   * `"quicksight:UpdateThemePermissions"`
     #
     #   * `"quicksight:DescribeThemePermissions"`
-    #
     # * To specify no permissions, omit the permissions list.
     #
     # @option params [required, String] :aws_account_id
@@ -9160,6 +16867,394 @@ module Aws::QuickSight
       req.send_request(options)
     end
 
+    # Updates a topic.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that contains the topic that
+    #   you want to update.
+    #
+    # @option params [required, String] :topic_id
+    #   The ID of the topic that you want to modify. This ID is unique per
+    #   Amazon Web Services Region for each Amazon Web Services account.
+    #
+    # @option params [required, Types::TopicDetails] :topic
+    #   The definition of the topic that you want to update.
+    #
+    # @return [Types::UpdateTopicResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateTopicResponse#topic_id #topic_id} => String
+    #   * {Types::UpdateTopicResponse#arn #arn} => String
+    #   * {Types::UpdateTopicResponse#refresh_arn #refresh_arn} => String
+    #   * {Types::UpdateTopicResponse#request_id #request_id} => String
+    #   * {Types::UpdateTopicResponse#status #status} => Integer
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_topic({
+    #     aws_account_id: "AwsAccountId", # required
+    #     topic_id: "TopicId", # required
+    #     topic: { # required
+    #       name: "ResourceName",
+    #       description: "LimitedString",
+    #       user_experience_version: "LEGACY", # accepts LEGACY, NEW_READER_EXPERIENCE
+    #       data_sets: [
+    #         {
+    #           dataset_arn: "Arn", # required
+    #           dataset_name: "LimitedString",
+    #           dataset_description: "LimitedString",
+    #           data_aggregation: {
+    #             dataset_row_date_granularity: "SECOND", # accepts SECOND, MINUTE, HOUR, DAY, WEEK, MONTH, QUARTER, YEAR
+    #             default_date_column_name: "LimitedString",
+    #           },
+    #           filters: [
+    #             {
+    #               filter_description: "LimitedString",
+    #               filter_class: "ENFORCED_VALUE_FILTER", # accepts ENFORCED_VALUE_FILTER, CONDITIONAL_VALUE_FILTER, NAMED_VALUE_FILTER
+    #               filter_name: "LimitedString", # required
+    #               filter_synonyms: ["LimitedString"],
+    #               operand_field_name: "LimitedString", # required
+    #               filter_type: "CATEGORY_FILTER", # accepts CATEGORY_FILTER, NUMERIC_EQUALITY_FILTER, NUMERIC_RANGE_FILTER, DATE_RANGE_FILTER, RELATIVE_DATE_FILTER
+    #               category_filter: {
+    #                 category_filter_function: "EXACT", # accepts EXACT, CONTAINS
+    #                 category_filter_type: "CUSTOM_FILTER", # accepts CUSTOM_FILTER, CUSTOM_FILTER_LIST, FILTER_LIST
+    #                 constant: {
+    #                   constant_type: "SINGULAR", # accepts SINGULAR, RANGE, COLLECTIVE
+    #                   singular_constant: "LimitedString",
+    #                   collective_constant: {
+    #                     value_list: ["String"],
+    #                   },
+    #                 },
+    #                 inverse: false,
+    #               },
+    #               numeric_equality_filter: {
+    #                 constant: {
+    #                   constant_type: "SINGULAR", # accepts SINGULAR, RANGE, COLLECTIVE
+    #                   singular_constant: "LimitedString",
+    #                 },
+    #                 aggregation: "NO_AGGREGATION", # accepts NO_AGGREGATION, SUM, AVERAGE, COUNT, DISTINCT_COUNT, MAX, MEDIAN, MIN, STDEV, STDEVP, VAR, VARP
+    #               },
+    #               numeric_range_filter: {
+    #                 inclusive: false,
+    #                 constant: {
+    #                   constant_type: "SINGULAR", # accepts SINGULAR, RANGE, COLLECTIVE
+    #                   range_constant: {
+    #                     minimum: "LimitedString",
+    #                     maximum: "LimitedString",
+    #                   },
+    #                 },
+    #                 aggregation: "NO_AGGREGATION", # accepts NO_AGGREGATION, SUM, AVERAGE, COUNT, DISTINCT_COUNT, MAX, MEDIAN, MIN, STDEV, STDEVP, VAR, VARP
+    #               },
+    #               date_range_filter: {
+    #                 inclusive: false,
+    #                 constant: {
+    #                   constant_type: "SINGULAR", # accepts SINGULAR, RANGE, COLLECTIVE
+    #                   range_constant: {
+    #                     minimum: "LimitedString",
+    #                     maximum: "LimitedString",
+    #                   },
+    #                 },
+    #               },
+    #               relative_date_filter: {
+    #                 time_granularity: "SECOND", # accepts SECOND, MINUTE, HOUR, DAY, WEEK, MONTH, QUARTER, YEAR
+    #                 relative_date_filter_function: "PREVIOUS", # accepts PREVIOUS, THIS, LAST, NEXT, NOW
+    #                 constant: {
+    #                   constant_type: "SINGULAR", # accepts SINGULAR, RANGE, COLLECTIVE
+    #                   singular_constant: "LimitedString",
+    #                 },
+    #               },
+    #             },
+    #           ],
+    #           columns: [
+    #             {
+    #               column_name: "LimitedString", # required
+    #               column_friendly_name: "LimitedString",
+    #               column_description: "LimitedString",
+    #               column_synonyms: ["LimitedString"],
+    #               column_data_role: "DIMENSION", # accepts DIMENSION, MEASURE
+    #               aggregation: "SUM", # accepts SUM, MAX, MIN, COUNT, DISTINCT_COUNT, AVERAGE, MEDIAN, STDEV, STDEVP, VAR, VARP
+    #               is_included_in_topic: false,
+    #               disable_indexing: false,
+    #               comparative_order: {
+    #                 use_ordering: "GREATER_IS_BETTER", # accepts GREATER_IS_BETTER, LESSER_IS_BETTER, SPECIFIED
+    #                 specifed_order: ["String"],
+    #                 treat_undefined_specified_values: "LEAST", # accepts LEAST, MOST
+    #               },
+    #               semantic_type: {
+    #                 type_name: "LimitedString",
+    #                 sub_type_name: "LimitedString",
+    #                 type_parameters: {
+    #                   "LimitedString" => "LimitedString",
+    #                 },
+    #                 truthy_cell_value: "SensitiveString",
+    #                 truthy_cell_value_synonyms: ["SensitiveString"],
+    #                 falsey_cell_value: "SensitiveString",
+    #                 falsey_cell_value_synonyms: ["SensitiveString"],
+    #               },
+    #               time_granularity: "SECOND", # accepts SECOND, MINUTE, HOUR, DAY, WEEK, MONTH, QUARTER, YEAR
+    #               allowed_aggregations: ["COUNT"], # accepts COUNT, DISTINCT_COUNT, MIN, MAX, MEDIAN, SUM, AVERAGE, STDEV, STDEVP, VAR, VARP, PERCENTILE
+    #               not_allowed_aggregations: ["COUNT"], # accepts COUNT, DISTINCT_COUNT, MIN, MAX, MEDIAN, SUM, AVERAGE, STDEV, STDEVP, VAR, VARP, PERCENTILE
+    #               default_formatting: {
+    #                 display_format: "AUTO", # accepts AUTO, PERCENT, CURRENCY, NUMBER, DATE, STRING
+    #                 display_format_options: {
+    #                   use_blank_cell_format: false,
+    #                   blank_cell_format: "LimitedString",
+    #                   date_format: "LimitedString",
+    #                   decimal_separator: "COMMA", # accepts COMMA, DOT
+    #                   grouping_separator: "LimitedString",
+    #                   use_grouping: false,
+    #                   fraction_digits: 1,
+    #                   prefix: "LimitedString",
+    #                   suffix: "LimitedString",
+    #                   unit_scaler: "NONE", # accepts NONE, AUTO, THOUSANDS, MILLIONS, BILLIONS, TRILLIONS, LAKHS, CRORES
+    #                   negative_format: {
+    #                     prefix: "LimitedString",
+    #                     suffix: "LimitedString",
+    #                   },
+    #                   currency_symbol: "LimitedString",
+    #                 },
+    #               },
+    #               never_aggregate_in_filter: false,
+    #               cell_value_synonyms: [
+    #                 {
+    #                   cell_value: "LimitedString",
+    #                   synonyms: ["String"],
+    #                 },
+    #               ],
+    #               non_additive: false,
+    #             },
+    #           ],
+    #           calculated_fields: [
+    #             {
+    #               calculated_field_name: "LimitedString", # required
+    #               calculated_field_description: "LimitedString",
+    #               expression: "Expression", # required
+    #               calculated_field_synonyms: ["LimitedString"],
+    #               is_included_in_topic: false,
+    #               disable_indexing: false,
+    #               column_data_role: "DIMENSION", # accepts DIMENSION, MEASURE
+    #               time_granularity: "SECOND", # accepts SECOND, MINUTE, HOUR, DAY, WEEK, MONTH, QUARTER, YEAR
+    #               default_formatting: {
+    #                 display_format: "AUTO", # accepts AUTO, PERCENT, CURRENCY, NUMBER, DATE, STRING
+    #                 display_format_options: {
+    #                   use_blank_cell_format: false,
+    #                   blank_cell_format: "LimitedString",
+    #                   date_format: "LimitedString",
+    #                   decimal_separator: "COMMA", # accepts COMMA, DOT
+    #                   grouping_separator: "LimitedString",
+    #                   use_grouping: false,
+    #                   fraction_digits: 1,
+    #                   prefix: "LimitedString",
+    #                   suffix: "LimitedString",
+    #                   unit_scaler: "NONE", # accepts NONE, AUTO, THOUSANDS, MILLIONS, BILLIONS, TRILLIONS, LAKHS, CRORES
+    #                   negative_format: {
+    #                     prefix: "LimitedString",
+    #                     suffix: "LimitedString",
+    #                   },
+    #                   currency_symbol: "LimitedString",
+    #                 },
+    #               },
+    #               aggregation: "SUM", # accepts SUM, MAX, MIN, COUNT, DISTINCT_COUNT, AVERAGE, MEDIAN, STDEV, STDEVP, VAR, VARP
+    #               comparative_order: {
+    #                 use_ordering: "GREATER_IS_BETTER", # accepts GREATER_IS_BETTER, LESSER_IS_BETTER, SPECIFIED
+    #                 specifed_order: ["String"],
+    #                 treat_undefined_specified_values: "LEAST", # accepts LEAST, MOST
+    #               },
+    #               semantic_type: {
+    #                 type_name: "LimitedString",
+    #                 sub_type_name: "LimitedString",
+    #                 type_parameters: {
+    #                   "LimitedString" => "LimitedString",
+    #                 },
+    #                 truthy_cell_value: "SensitiveString",
+    #                 truthy_cell_value_synonyms: ["SensitiveString"],
+    #                 falsey_cell_value: "SensitiveString",
+    #                 falsey_cell_value_synonyms: ["SensitiveString"],
+    #               },
+    #               allowed_aggregations: ["COUNT"], # accepts COUNT, DISTINCT_COUNT, MIN, MAX, MEDIAN, SUM, AVERAGE, STDEV, STDEVP, VAR, VARP, PERCENTILE
+    #               not_allowed_aggregations: ["COUNT"], # accepts COUNT, DISTINCT_COUNT, MIN, MAX, MEDIAN, SUM, AVERAGE, STDEV, STDEVP, VAR, VARP, PERCENTILE
+    #               never_aggregate_in_filter: false,
+    #               cell_value_synonyms: [
+    #                 {
+    #                   cell_value: "LimitedString",
+    #                   synonyms: ["String"],
+    #                 },
+    #               ],
+    #               non_additive: false,
+    #             },
+    #           ],
+    #           named_entities: [
+    #             {
+    #               entity_name: "LimitedString", # required
+    #               entity_description: "LimitedString",
+    #               entity_synonyms: ["LimitedString"],
+    #               semantic_entity_type: {
+    #                 type_name: "LimitedString",
+    #                 sub_type_name: "LimitedString",
+    #                 type_parameters: {
+    #                   "LimitedString" => "LimitedString",
+    #                 },
+    #               },
+    #               definition: [
+    #                 {
+    #                   field_name: "LimitedString",
+    #                   property_name: "LimitedString",
+    #                   property_role: "PRIMARY", # accepts PRIMARY, ID
+    #                   property_usage: "INHERIT", # accepts INHERIT, DIMENSION, MEASURE
+    #                   metric: {
+    #                     aggregation: "SUM", # accepts SUM, MIN, MAX, COUNT, AVERAGE, DISTINCT_COUNT, STDEV, STDEVP, VAR, VARP, PERCENTILE, MEDIAN, CUSTOM
+    #                     aggregation_function_parameters: {
+    #                       "LimitedString" => "LimitedString",
+    #                     },
+    #                   },
+    #                 },
+    #               ],
+    #             },
+    #           ],
+    #         },
+    #       ],
+    #       config_options: {
+    #         q_business_insights_enabled: false,
+    #       },
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.topic_id #=> String
+    #   resp.arn #=> String
+    #   resp.refresh_arn #=> String
+    #   resp.request_id #=> String
+    #   resp.status #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/UpdateTopic AWS API Documentation
+    #
+    # @overload update_topic(params = {})
+    # @param [Hash] params ({})
+    def update_topic(params = {}, options = {})
+      req = build_request(:update_topic, params)
+      req.send_request(options)
+    end
+
+    # Updates the permissions of a topic.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that contains the topic that
+    #   you want to update the permissions for.
+    #
+    # @option params [required, String] :topic_id
+    #   The ID of the topic that you want to modify. This ID is unique per
+    #   Amazon Web Services Region for each Amazon Web Services account.
+    #
+    # @option params [Array<Types::ResourcePermission>] :grant_permissions
+    #   The resource permissions that you want to grant to the topic.
+    #
+    # @option params [Array<Types::ResourcePermission>] :revoke_permissions
+    #   The resource permissions that you want to revoke from the topic.
+    #
+    # @return [Types::UpdateTopicPermissionsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateTopicPermissionsResponse#topic_id #topic_id} => String
+    #   * {Types::UpdateTopicPermissionsResponse#topic_arn #topic_arn} => String
+    #   * {Types::UpdateTopicPermissionsResponse#permissions #permissions} => Array&lt;Types::ResourcePermission&gt;
+    #   * {Types::UpdateTopicPermissionsResponse#status #status} => Integer
+    #   * {Types::UpdateTopicPermissionsResponse#request_id #request_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_topic_permissions({
+    #     aws_account_id: "AwsAccountId", # required
+    #     topic_id: "TopicId", # required
+    #     grant_permissions: [
+    #       {
+    #         principal: "Principal", # required
+    #         actions: ["String"], # required
+    #       },
+    #     ],
+    #     revoke_permissions: [
+    #       {
+    #         principal: "Principal", # required
+    #         actions: ["String"], # required
+    #       },
+    #     ],
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.topic_id #=> String
+    #   resp.topic_arn #=> String
+    #   resp.permissions #=> Array
+    #   resp.permissions[0].principal #=> String
+    #   resp.permissions[0].actions #=> Array
+    #   resp.permissions[0].actions[0] #=> String
+    #   resp.status #=> Integer
+    #   resp.request_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/UpdateTopicPermissions AWS API Documentation
+    #
+    # @overload update_topic_permissions(params = {})
+    # @param [Hash] params ({})
+    def update_topic_permissions(params = {}, options = {})
+      req = build_request(:update_topic_permissions, params)
+      req.send_request(options)
+    end
+
+    # Updates a topic refresh schedule.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that contains the topic
+    #   whose refresh schedule you want to update.
+    #
+    # @option params [required, String] :topic_id
+    #   The ID of the topic that you want to modify. This ID is unique per
+    #   Amazon Web Services Region for each Amazon Web Services account.
+    #
+    # @option params [required, String] :dataset_id
+    #   The ID of the dataset.
+    #
+    # @option params [required, Types::TopicRefreshSchedule] :refresh_schedule
+    #   The definition of a refresh schedule.
+    #
+    # @return [Types::UpdateTopicRefreshScheduleResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateTopicRefreshScheduleResponse#topic_id #topic_id} => String
+    #   * {Types::UpdateTopicRefreshScheduleResponse#topic_arn #topic_arn} => String
+    #   * {Types::UpdateTopicRefreshScheduleResponse#dataset_arn #dataset_arn} => String
+    #   * {Types::UpdateTopicRefreshScheduleResponse#status #status} => Integer
+    #   * {Types::UpdateTopicRefreshScheduleResponse#request_id #request_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_topic_refresh_schedule({
+    #     aws_account_id: "AwsAccountId", # required
+    #     topic_id: "TopicId", # required
+    #     dataset_id: "String", # required
+    #     refresh_schedule: { # required
+    #       is_enabled: false, # required
+    #       based_on_spice_schedule: false, # required
+    #       starting_at: Time.now,
+    #       timezone: "LimitedString",
+    #       repeat_at: "LimitedString",
+    #       topic_schedule_type: "HOURLY", # accepts HOURLY, DAILY, WEEKLY, MONTHLY
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.topic_id #=> String
+    #   resp.topic_arn #=> String
+    #   resp.dataset_arn #=> String
+    #   resp.status #=> Integer
+    #   resp.request_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/UpdateTopicRefreshSchedule AWS API Documentation
+    #
+    # @overload update_topic_refresh_schedule(params = {})
+    # @param [Hash] params ({})
+    def update_topic_refresh_schedule(params = {}, options = {})
+      req = build_request(:update_topic_refresh_schedule, params)
+      req.send_request(options)
+    end
+
     # Updates an Amazon QuickSight user.
     #
     # @option params [required, String] :user_name
@@ -9180,13 +17275,27 @@ module Aws::QuickSight
     #   The Amazon QuickSight role of the user. The role can be one of the
     #   following default security cohorts:
     #
-    #   * `READER`\: A user who has read-only access to dashboards.
+    #   * `READER`: A user who has read-only access to dashboards.
     #
-    #   * `AUTHOR`\: A user who can create data sources, datasets, analyses,
+    #   * `AUTHOR`: A user who can create data sources, datasets, analyses,
     #     and dashboards.
     #
-    #   * `ADMIN`\: A user who is an author, who can also manage Amazon
+    #   * `ADMIN`: A user who is an author, who can also manage Amazon
     #     QuickSight settings.
+    #
+    #   * `READER_PRO`: Reader Pro adds Generative BI capabilities to the
+    #     Reader role. Reader Pros have access to Amazon Q in Amazon
+    #     QuickSight, can build stories with Amazon Q, and can generate
+    #     executive summaries from dashboards.
+    #
+    #   * `AUTHOR_PRO`: Author Pro adds Generative BI capabilities to the
+    #     Author role. Author Pros can author dashboards with natural language
+    #     with Amazon Q, build stories with Amazon Q, create Topics for
+    #     Q&amp;A, and generate executive summaries from dashboards.
+    #
+    #   * `ADMIN_PRO`: Admin Pros are Author Pros who can also manage Amazon
+    #     QuickSight administrative settings. Admin Pro users are billed at
+    #     Author Pro pricing.
     #
     #   The name of the Amazon QuickSight role is invisible to the user except
     #   for the console screens dealing with permissions.
@@ -9232,16 +17341,16 @@ module Aws::QuickSight
     #   Identity and Access Management(IAM) role. The type of supported
     #   external login provider can be one of the following.
     #
-    #   * `COGNITO`\: Amazon Cognito. The provider URL is
+    #   * `COGNITO`: Amazon Cognito. The provider URL is
     #     cognito-identity.amazonaws.com. When choosing the `COGNITO` provider
     #     type, don’t use the "CustomFederationProviderUrl" parameter which
     #     is only needed when the external provider is custom.
     #
-    #   * `CUSTOM_OIDC`\: Custom OpenID Connect (OIDC) provider. When choosing
+    #   * `CUSTOM_OIDC`: Custom OpenID Connect (OIDC) provider. When choosing
     #     `CUSTOM_OIDC` type, use the `CustomFederationProviderUrl` parameter
     #     to provide the custom OIDC provider URL.
     #
-    #   * `NONE`\: This clears all the previously saved external login
+    #   * `NONE`: This clears all the previously saved external login
     #     information for a user. Use the ` DescribeUser ` API operation to
     #     check the external login information.
     #
@@ -9268,7 +17377,7 @@ module Aws::QuickSight
     #     aws_account_id: "AwsAccountId", # required
     #     namespace: "Namespace", # required
     #     email: "String", # required
-    #     role: "ADMIN", # required, accepts ADMIN, AUTHOR, READER, RESTRICTED_AUTHOR, RESTRICTED_READER
+    #     role: "ADMIN", # required, accepts ADMIN, AUTHOR, READER, RESTRICTED_AUTHOR, RESTRICTED_READER, ADMIN_PRO, AUTHOR_PRO, READER_PRO
     #     custom_permissions_name: "RoleName",
     #     unapply_custom_permissions: false,
     #     external_login_federation_provider_type: "String",
@@ -9281,8 +17390,8 @@ module Aws::QuickSight
     #   resp.user.arn #=> String
     #   resp.user.user_name #=> String
     #   resp.user.email #=> String
-    #   resp.user.role #=> String, one of "ADMIN", "AUTHOR", "READER", "RESTRICTED_AUTHOR", "RESTRICTED_READER"
-    #   resp.user.identity_type #=> String, one of "IAM", "QUICKSIGHT"
+    #   resp.user.role #=> String, one of "ADMIN", "AUTHOR", "READER", "RESTRICTED_AUTHOR", "RESTRICTED_READER", "ADMIN_PRO", "AUTHOR_PRO", "READER_PRO"
+    #   resp.user.identity_type #=> String, one of "IAM", "QUICKSIGHT", "IAM_IDENTITY_CENTER"
     #   resp.user.active #=> Boolean
     #   resp.user.principal_id #=> String
     #   resp.user.custom_permissions_name #=> String
@@ -9301,20 +17410,135 @@ module Aws::QuickSight
       req.send_request(options)
     end
 
+    # Updates a custom permissions profile for a user.
+    #
+    # @option params [required, String] :user_name
+    #   The username of the user that you want to update custom permissions
+    #   for.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The ID of the Amazon Web Services account that contains the custom
+    #   permission configuration that you want to update.
+    #
+    # @option params [required, String] :namespace
+    #   The namespace that the user belongs to.
+    #
+    # @option params [required, String] :custom_permissions_name
+    #   The name of the custom permissions that you want to update.
+    #
+    # @return [Types::UpdateUserCustomPermissionResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateUserCustomPermissionResponse#request_id #request_id} => String
+    #   * {Types::UpdateUserCustomPermissionResponse#status #status} => Integer
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_user_custom_permission({
+    #     user_name: "UserName", # required
+    #     aws_account_id: "AwsAccountId", # required
+    #     namespace: "Namespace", # required
+    #     custom_permissions_name: "CustomPermissionsName", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.request_id #=> String
+    #   resp.status #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/UpdateUserCustomPermission AWS API Documentation
+    #
+    # @overload update_user_custom_permission(params = {})
+    # @param [Hash] params ({})
+    def update_user_custom_permission(params = {}, options = {})
+      req = build_request(:update_user_custom_permission, params)
+      req.send_request(options)
+    end
+
+    # Updates a VPC connection.
+    #
+    # @option params [required, String] :aws_account_id
+    #   The Amazon Web Services account ID of the account that contains the
+    #   VPC connection that you want to update.
+    #
+    # @option params [required, String] :vpc_connection_id
+    #   The ID of the VPC connection that you're updating. This ID is a
+    #   unique identifier for each Amazon Web Services Region in an Amazon Web
+    #   Services account.
+    #
+    # @option params [required, String] :name
+    #   The display name for the VPC connection.
+    #
+    # @option params [required, Array<String>] :subnet_ids
+    #   A list of subnet IDs for the VPC connection.
+    #
+    # @option params [required, Array<String>] :security_group_ids
+    #   A list of security group IDs for the VPC connection.
+    #
+    # @option params [Array<String>] :dns_resolvers
+    #   A list of IP addresses of DNS resolver endpoints for the VPC
+    #   connection.
+    #
+    # @option params [required, String] :role_arn
+    #   An IAM role associated with the VPC connection.
+    #
+    # @return [Types::UpdateVPCConnectionResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateVPCConnectionResponse#arn #arn} => String
+    #   * {Types::UpdateVPCConnectionResponse#vpc_connection_id #vpc_connection_id} => String
+    #   * {Types::UpdateVPCConnectionResponse#update_status #update_status} => String
+    #   * {Types::UpdateVPCConnectionResponse#availability_status #availability_status} => String
+    #   * {Types::UpdateVPCConnectionResponse#request_id #request_id} => String
+    #   * {Types::UpdateVPCConnectionResponse#status #status} => Integer
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_vpc_connection({
+    #     aws_account_id: "AwsAccountId", # required
+    #     vpc_connection_id: "VPCConnectionResourceIdUnrestricted", # required
+    #     name: "ResourceName", # required
+    #     subnet_ids: ["SubnetId"], # required
+    #     security_group_ids: ["SecurityGroupId"], # required
+    #     dns_resolvers: ["IPv4Address"],
+    #     role_arn: "RoleArn", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.arn #=> String
+    #   resp.vpc_connection_id #=> String
+    #   resp.update_status #=> String, one of "CREATION_IN_PROGRESS", "CREATION_SUCCESSFUL", "CREATION_FAILED", "UPDATE_IN_PROGRESS", "UPDATE_SUCCESSFUL", "UPDATE_FAILED", "DELETION_IN_PROGRESS", "DELETION_FAILED", "DELETED"
+    #   resp.availability_status #=> String, one of "AVAILABLE", "UNAVAILABLE", "PARTIALLY_AVAILABLE"
+    #   resp.request_id #=> String
+    #   resp.status #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/quicksight-2018-04-01/UpdateVPCConnection AWS API Documentation
+    #
+    # @overload update_vpc_connection(params = {})
+    # @param [Hash] params ({})
+    def update_vpc_connection(params = {}, options = {})
+      req = build_request(:update_vpc_connection, params)
+      req.send_request(options)
+    end
+
     # @!endgroup
 
     # @param params ({})
     # @api private
     def build_request(operation_name, params = {})
       handlers = @handlers.for(operation_name)
+      tracer = config.telemetry_provider.tracer_provider.tracer(
+        Aws::Telemetry.module_to_tracer_name('Aws::QuickSight')
+      )
       context = Seahorse::Client::RequestContext.new(
         operation_name: operation_name,
         operation: config.api.operation(operation_name),
         client: self,
         params: params,
-        config: config)
+        config: config,
+        tracer: tracer
+      )
       context[:gem_name] = 'aws-sdk-quicksight'
-      context[:gem_version] = '1.75.0'
+      context[:gem_version] = '1.144.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

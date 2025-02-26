@@ -487,6 +487,65 @@ module Aws::IoT
       include Aws::Structure
     end
 
+    # @!attribute [rw] package_name
+    #   The name of the new software package.
+    #   @return [String]
+    #
+    # @!attribute [rw] version_name
+    #   The name of the new package version.
+    #   @return [String]
+    #
+    # @!attribute [rw] sbom
+    #   A specific software bill of matrerials associated with a software
+    #   package version.
+    #   @return [Types::Sbom]
+    #
+    # @!attribute [rw] client_token
+    #   A unique case-sensitive identifier that you can provide to ensure
+    #   the idempotency of the request. Don't reuse this client token if a
+    #   new idempotent request is required.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    class AssociateSbomWithPackageVersionRequest < Struct.new(
+      :package_name,
+      :version_name,
+      :sbom,
+      :client_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] package_name
+    #   The name of the new software package.
+    #   @return [String]
+    #
+    # @!attribute [rw] version_name
+    #   The name of the new package version.
+    #   @return [String]
+    #
+    # @!attribute [rw] sbom
+    #   A specific software bill of matrerials associated with a software
+    #   package version.
+    #   @return [Types::Sbom]
+    #
+    # @!attribute [rw] sbom_validation_status
+    #   The status of the initial validation for the software bill of
+    #   materials against the Software Package Data Exchange (SPDX) and
+    #   CycloneDX industry standard formats.
+    #   @return [String]
+    #
+    class AssociateSbomWithPackageVersionResponse < Struct.new(
+      :package_name,
+      :version_name,
+      :sbom,
+      :sbom_validation_status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] targets
     #   A list of thing group ARNs that define the targets of the job.
     #   @return [Array<String>]
@@ -509,9 +568,15 @@ module Aws::IoT
     #
     #   `$aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/`
     #
-    #   <note markdown="1"> The `namespaceId` feature is in public preview.
+    #   <note markdown="1"> The `namespaceId` feature is only supported by IoT Greengrass at
+    #   this time. For more information, see [Setting up IoT Greengrass core
+    #   devices.][1]
     #
     #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/greengrass/v2/developerguide/setting-up.html
     #   @return [String]
     #
     class AssociateTargetsWithJobRequest < Struct.new(
@@ -610,9 +675,27 @@ module Aws::IoT
     #   CreateCertificate operation) or an Amazon Cognito ID.
     #   @return [String]
     #
+    # @!attribute [rw] thing_principal_type
+    #   The type of the relation you want to specify when you attach a
+    #   principal to a thing.
+    #
+    #   * `EXCLUSIVE_THING` - Attaches the specified principal to the
+    #     specified thing, exclusively. The thing will be the only thing
+    #     that’s attached to the principal.
+    #
+    #   ^
+    #   ^
+    #
+    #   * `NON_EXCLUSIVE_THING` - Attaches the specified principal to the
+    #     specified thing. Multiple things can be attached to the principal.
+    #
+    #   ^
+    #   @return [String]
+    #
     class AttachThingPrincipalRequest < Struct.new(
       :thing_name,
-      :principal)
+      :principal,
+      :thing_principal_type)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -627,7 +710,7 @@ module Aws::IoT
     #   A JSON string containing up to three key-value pair in JSON format.
     #   For example:
     #
-    #   `\{"attributes":\{"string1":"string2"\}\}`
+    #   `{"attributes":{"string1":"string2"}}`
     #   @return [Hash<String,String>]
     #
     # @!attribute [rw] merge
@@ -657,8 +740,14 @@ module Aws::IoT
     #   True if this audit check is enabled for this account.
     #   @return [Boolean]
     #
+    # @!attribute [rw] configuration
+    #   A structure containing the configName and corresponding configValue
+    #   for configuring audit checks.
+    #   @return [Hash<String,String>]
+    #
     class AuditCheckConfiguration < Struct.new(
-      :enabled)
+      :enabled,
+      :configuration)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1288,10 +1377,21 @@ module Aws::IoT
     # @!attribute [rw] criteria
     #   The criteria that determine if a device is behaving normally in
     #   regard to the `metric`.
+    #
+    #   <note markdown="1"> In the IoT console, you can choose to be sent an alert through
+    #   Amazon SNS when IoT Device Defender detects that a device is
+    #   behaving anomalously.
+    #
+    #    </note>
     #   @return [Types::BehaviorCriteria]
     #
     # @!attribute [rw] suppress_alerts
     #   Suppresses alerts.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] export_metric
+    #   Value indicates exporting metrics related to the behavior when it is
+    #   true.
     #   @return [Boolean]
     #
     class Behavior < Struct.new(
@@ -1299,7 +1399,8 @@ module Aws::IoT
       :metric,
       :metric_dimension,
       :criteria,
-      :suppress_alerts)
+      :suppress_alerts,
+      :export_metric)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1311,13 +1412,13 @@ module Aws::IoT
     #   criteria (containing a `value` or `statisticalThreshold`). Valid
     #   operators include:
     #
-    #   * `string-list`\: `in-set` and `not-in-set`
+    #   * `string-list`: `in-set` and `not-in-set`
     #
-    #   * `number-list`\: `in-set` and `not-in-set`
+    #   * `number-list`: `in-set` and `not-in-set`
     #
-    #   * `ip-address-list`\: `in-cidr-set` and `not-in-cidr-set`
+    #   * `ip-address-list`: `in-cidr-set` and `not-in-cidr-set`
     #
-    #   * `number`\: `less-than`, `less-than-equals`, `greater-than`, and
+    #   * `number`: `less-than`, `less-than-equals`, `greater-than`, and
     #     `greater-than-equals`
     #   @return [String]
     #
@@ -1742,7 +1843,7 @@ module Aws::IoT
     # @!attribute [rw] certificate_mode
     #   The mode of the certificate.
     #
-    #   `DEFAULT`\: A certificate in `DEFAULT` mode is either generated by
+    #   `DEFAULT`: A certificate in `DEFAULT` mode is either generated by
     #   Amazon Web Services IoT Core or registered with an issuer
     #   certificate authority (CA) in `DEFAULT` mode. Devices with
     #   certificates in `DEFAULT` mode aren't required to send the Server
@@ -1751,7 +1852,7 @@ module Aws::IoT
     #   and VPC endpoints, we recommend that you use the SNI extension when
     #   connecting to Amazon Web Services IoT Core.
     #
-    #   `SNI_ONLY`\: A certificate in `SNI_ONLY` mode is registered without
+    #   `SNI_ONLY`: A certificate in `SNI_ONLY` mode is registered without
     #   an issuer CA. Devices with certificates in `SNI_ONLY` mode must send
     #   the SNI extension when connecting to Amazon Web Services IoT Core.
     #   @return [String]
@@ -1844,7 +1945,7 @@ module Aws::IoT
     # @!attribute [rw] certificate_mode
     #   The mode of the certificate.
     #
-    #   `DEFAULT`\: A certificate in `DEFAULT` mode is either generated by
+    #   `DEFAULT`: A certificate in `DEFAULT` mode is either generated by
     #   Amazon Web Services IoT Core or registered with an issuer
     #   certificate authority (CA) in `DEFAULT` mode. Devices with
     #   certificates in `DEFAULT` mode aren't required to send the Server
@@ -1853,7 +1954,7 @@ module Aws::IoT
     #   and VPC endpoints, we recommend that you use the SNI extension when
     #   connecting to Amazon Web Services IoT Core.
     #
-    #   `SNI_ONLY`\: A certificate in `SNI_ONLY` mode is registered without
+    #   `SNI_ONLY`: A certificate in `SNI_ONLY` mode is registered without
     #   an issuer CA. Devices with certificates in `SNI_ONLY` mode must send
     #   the SNI extension when connecting to Amazon Web Services IoT Core.
     #
@@ -1880,6 +1981,23 @@ module Aws::IoT
       :generation_id,
       :validity,
       :certificate_mode)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The certificate provider summary.
+    #
+    # @!attribute [rw] certificate_provider_name
+    #   The name of the certificate provider.
+    #   @return [String]
+    #
+    # @!attribute [rw] certificate_provider_arn
+    #   The ARN of the certificate provider.
+    #   @return [String]
+    #
+    class CertificateProviderSummary < Struct.new(
+      :certificate_provider_name,
+      :certificate_provider_arn)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1930,6 +2048,20 @@ module Aws::IoT
     class ClearDefaultAuthorizerRequest < Aws::EmptyStructure; end
 
     class ClearDefaultAuthorizerResponse < Aws::EmptyStructure; end
+
+    # An object that speciﬁes the client certificate conﬁguration for a
+    # domain.
+    #
+    # @!attribute [rw] client_certificate_callback_arn
+    #   The ARN of the Lambda function that IoT invokes after mutual TLS
+    #   authentication during the connection.
+    #   @return [String]
+    #
+    class ClientCertificateConfig < Struct.new(
+      :client_certificate_callback_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
 
     # Describes an action that updates a CloudWatch alarm.
     #
@@ -2081,6 +2213,237 @@ module Aws::IoT
       include Aws::Structure
     end
 
+    # The result value of the command execution. The device can use the
+    # result field to share additional details about the execution such as a
+    # return value of a remote function call.
+    #
+    # <note markdown="1"> This field is not applicable if you use the `AWS-IoT-FleetWise`
+    # namespace.
+    #
+    #  </note>
+    #
+    # @!attribute [rw] s
+    #   An attribute of type String. For example:
+    #
+    #   `"S": "Hello"`
+    #   @return [String]
+    #
+    # @!attribute [rw] b
+    #   An attribute of type Boolean. For example:
+    #
+    #   `"BOOL": true`
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] bin
+    #   An attribute of type Binary.
+    #   @return [String]
+    #
+    class CommandExecutionResult < Struct.new(
+      :s,
+      :b,
+      :bin)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Summary information about a particular command execution.
+    #
+    # @!attribute [rw] command_arn
+    #   The Amazon Resource Name (ARN) of the command execution.
+    #   @return [String]
+    #
+    # @!attribute [rw] execution_id
+    #   The unique identifier of the command execution.
+    #   @return [String]
+    #
+    # @!attribute [rw] target_arn
+    #   The Amazon Resource Name (ARN) of the target device for which the
+    #   command is being executed.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status of the command executions.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The date and time at which the command execution was created for the
+    #   target device.
+    #   @return [Time]
+    #
+    # @!attribute [rw] started_at
+    #   The date and time at which the command started executing on the
+    #   target device.
+    #   @return [Time]
+    #
+    # @!attribute [rw] completed_at
+    #   The date and time at which the command completed executing on the
+    #   target device.
+    #   @return [Time]
+    #
+    class CommandExecutionSummary < Struct.new(
+      :command_arn,
+      :execution_id,
+      :target_arn,
+      :status,
+      :created_at,
+      :started_at,
+      :completed_at)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A map of key-value pairs that describe the command.
+    #
+    # @!attribute [rw] name
+    #   The name of a specific parameter used in a command and command
+    #   execution.
+    #   @return [String]
+    #
+    # @!attribute [rw] value
+    #   The value used to describe the command. When you assign a value to a
+    #   parameter, it will override any default value that you had already
+    #   specified.
+    #   @return [Types::CommandParameterValue]
+    #
+    # @!attribute [rw] default_value
+    #   The default value used to describe the command. This is the value
+    #   assumed by the parameter if no other value is assigned to it.
+    #   @return [Types::CommandParameterValue]
+    #
+    # @!attribute [rw] description
+    #   The description of the command parameter.
+    #   @return [String]
+    #
+    class CommandParameter < Struct.new(
+      :name,
+      :value,
+      :default_value,
+      :description)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The range of possible values that's used to describe a specific
+    # command parameter.
+    #
+    # <note markdown="1"> The `commandParameterValue` can only have one of the below fields
+    # listed.
+    #
+    #  </note>
+    #
+    # @!attribute [rw] s
+    #   An attribute of type String. For example:
+    #
+    #   `"S": "Hello"`
+    #   @return [String]
+    #
+    # @!attribute [rw] b
+    #   An attribute of type Boolean. For example:
+    #
+    #   `"BOOL": true`
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] i
+    #   An attribute of type Integer (Thirty-Two Bits).
+    #   @return [Integer]
+    #
+    # @!attribute [rw] l
+    #   An attribute of type Long.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] d
+    #   An attribute of type Double (Sixty-Four Bits).
+    #   @return [Float]
+    #
+    # @!attribute [rw] bin
+    #   An attribute of type Binary. For example:
+    #
+    #   `"B": "dGhpcyB0ZXh0IGlzIGJhc2U2NC1lbmNvZGVk"`
+    #   @return [String]
+    #
+    # @!attribute [rw] ul
+    #   An attribute of type unsigned long.
+    #   @return [String]
+    #
+    class CommandParameterValue < Struct.new(
+      :s,
+      :b,
+      :i,
+      :l,
+      :d,
+      :bin,
+      :ul)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The command payload object that contains the instructions for the
+    # device to process.
+    #
+    # @!attribute [rw] content
+    #   The static payload file for the command.
+    #   @return [String]
+    #
+    # @!attribute [rw] content_type
+    #   The content type that specifies the format type of the payload file.
+    #   This field must use a type/subtype format, such as
+    #   `application/json`. For information about various content types, see
+    #   [Common MIME types][1].
+    #
+    #
+    #
+    #   [1]: https://developer.mozilla.org/en-US/docs/Web/HTTP/MIME_types/Common_types
+    #   @return [String]
+    #
+    class CommandPayload < Struct.new(
+      :content,
+      :content_type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Summary information about a particular command resource.
+    #
+    # @!attribute [rw] command_arn
+    #   The Amazon Resource Name (ARN) of the command.
+    #   @return [String]
+    #
+    # @!attribute [rw] command_id
+    #   The unique identifier of the command.
+    #   @return [String]
+    #
+    # @!attribute [rw] display_name
+    #   The display name of the command.
+    #   @return [String]
+    #
+    # @!attribute [rw] deprecated
+    #   Indicates whether the command has been deprecated.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] created_at
+    #   The timestamp, when the command was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] last_updated_at
+    #   The timestamp, when the command was last updated.
+    #   @return [Time]
+    #
+    # @!attribute [rw] pending_deletion
+    #   Indicates whether the command is pending deletion.
+    #   @return [Boolean]
+    #
+    class CommandSummary < Struct.new(
+      :command_arn,
+      :command_id,
+      :display_name,
+      :deprecated,
+      :created_at,
+      :last_updated_at,
+      :pending_deletion)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Configuration.
     #
     # @!attribute [rw] enabled
@@ -2106,13 +2469,18 @@ module Aws::IoT
 
     class ConfirmTopicRuleDestinationResponse < Aws::EmptyStructure; end
 
-    # A resource with the same name already exists.
+    # The request conflicts with the current state of the resource.
     #
     # @!attribute [rw] message
     #   @return [String]
     #
+    # @!attribute [rw] resource_id
+    #   A resource with the same name already exists.
+    #   @return [String]
+    #
     class ConflictException < Struct.new(
-      :message)
+      :message,
+      :resource_id)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2339,6 +2707,140 @@ module Aws::IoT
       include Aws::Structure
     end
 
+    # @!attribute [rw] certificate_provider_name
+    #   The name of the certificate provider.
+    #   @return [String]
+    #
+    # @!attribute [rw] lambda_function_arn
+    #   The ARN of the Lambda function that defines the authentication
+    #   logic.
+    #   @return [String]
+    #
+    # @!attribute [rw] account_default_for_operations
+    #   A list of the operations that the certificate provider will use to
+    #   generate certificates. Valid value: `CreateCertificateFromCsr`.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] client_token
+    #   A string that you can optionally pass in the
+    #   `CreateCertificateProvider` request to make sure the request is
+    #   idempotent.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @!attribute [rw] tags
+    #   Metadata which can be used to manage the certificate provider.
+    #   @return [Array<Types::Tag>]
+    #
+    class CreateCertificateProviderRequest < Struct.new(
+      :certificate_provider_name,
+      :lambda_function_arn,
+      :account_default_for_operations,
+      :client_token,
+      :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] certificate_provider_name
+    #   The name of the certificate provider.
+    #   @return [String]
+    #
+    # @!attribute [rw] certificate_provider_arn
+    #   The ARN of the certificate provider.
+    #   @return [String]
+    #
+    class CreateCertificateProviderResponse < Struct.new(
+      :certificate_provider_name,
+      :certificate_provider_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] command_id
+    #   A unique identifier for the command. We recommend using UUID.
+    #   Alpha-numeric characters, hyphens, and underscores are valid for use
+    #   here.
+    #   @return [String]
+    #
+    # @!attribute [rw] namespace
+    #   The namespace of the command. The MQTT reserved topics and
+    #   validations will be used for command executions according to the
+    #   namespace setting.
+    #   @return [String]
+    #
+    # @!attribute [rw] display_name
+    #   The user-friendly name in the console for the command. This name
+    #   doesn't have to be unique. You can update the user-friendly name
+    #   after you define it.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   A short text decription of the command.
+    #   @return [String]
+    #
+    # @!attribute [rw] payload
+    #   The payload object for the command. You must specify this
+    #   information when using the `AWS-IoT` namespace.
+    #
+    #   You can upload a static payload file from your local storage that
+    #   contains the instructions for the device to process. The payload
+    #   file can use any format. To make sure that the device correctly
+    #   interprets the payload, we recommend you to specify the payload
+    #   content type.
+    #   @return [Types::CommandPayload]
+    #
+    # @!attribute [rw] mandatory_parameters
+    #   A list of parameters that are required by the
+    #   `StartCommandExecution` API. These parameters need to be specified
+    #   only when using the `AWS-IoT-FleetWise` namespace. You can either
+    #   specify them here or when running the command using the
+    #   `StartCommandExecution` API.
+    #   @return [Array<Types::CommandParameter>]
+    #
+    # @!attribute [rw] role_arn
+    #   The IAM role that you must provide when using the
+    #   `AWS-IoT-FleetWise` namespace. The role grants IoT Device Management
+    #   the permission to access IoT FleetWise resources for generating the
+    #   payload for the command. This field is not required when you use the
+    #   `AWS-IoT` namespace.
+    #   @return [String]
+    #
+    # @!attribute [rw] tags
+    #   Name-value pairs that are used as metadata to manage a command.
+    #   @return [Array<Types::Tag>]
+    #
+    class CreateCommandRequest < Struct.new(
+      :command_id,
+      :namespace,
+      :display_name,
+      :description,
+      :payload,
+      :mandatory_parameters,
+      :role_arn,
+      :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] command_id
+    #   The unique identifier for the command.
+    #   @return [String]
+    #
+    # @!attribute [rw] command_arn
+    #   The Amazon Resource Number (ARN) of the command. For example,
+    #   `arn:aws:iot:<region>:<accountid>:command/<commandId>`
+    #   @return [String]
+    #
+    class CreateCommandResponse < Struct.new(
+      :command_id,
+      :command_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] metric_name
     #   The name of the custom metric. This will be used in the metric
     #   report submitted from the device/thing. The name can't begin with
@@ -2508,6 +3010,91 @@ module Aws::IoT
     #    </note>
     #   @return [Array<Types::Tag>]
     #
+    # @!attribute [rw] tls_config
+    #   An object that specifies the TLS configuration for a domain.
+    #   @return [Types::TlsConfig]
+    #
+    # @!attribute [rw] server_certificate_config
+    #   The server certificate configuration.
+    #   @return [Types::ServerCertificateConfig]
+    #
+    # @!attribute [rw] authentication_type
+    #   An enumerated string that speciﬁes the authentication type.
+    #
+    #   * `CUSTOM_AUTH_X509` - Use custom authentication and authorization
+    #     with additional details from the X.509 client certificate.
+    #
+    #   ^
+    #   ^
+    #
+    #   * `CUSTOM_AUTH` - Use custom authentication and authorization. For
+    #     more information, see [Custom authentication and
+    #     authorization][1].
+    #
+    #   ^
+    #   ^
+    #
+    #   * `AWS_X509` - Use X.509 client certificates without custom
+    #     authentication and authorization. For more information, see [X.509
+    #     client certificates][2].
+    #
+    #   ^
+    #   ^
+    #
+    #   * `AWS_SIGV4` - Use Amazon Web Services Signature Version 4. For
+    #     more information, see [IAM users, groups, and roles][1].
+    #
+    #   ^
+    #   ^
+    #
+    #   * `DEFAULT` - Use a combination of port and Application Layer
+    #     Protocol Negotiation (ALPN) to specify authentication type. For
+    #     more information, see [Device communication protocols][3].
+    #
+    #   ^
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/iot/latest/developerguide/custom-authentication.html
+    #   [2]: https://docs.aws.amazon.com/iot/latest/developerguide/x509-client-certs.html
+    #   [3]: https://docs.aws.amazon.com/iot/latest/developerguide/protocols.html
+    #   @return [String]
+    #
+    # @!attribute [rw] application_protocol
+    #   An enumerated string that speciﬁes the application-layer protocol.
+    #
+    #   * `SECURE_MQTT` - MQTT over TLS.
+    #
+    #   ^
+    #   ^
+    #
+    #   * `MQTT_WSS` - MQTT over WebSocket.
+    #
+    #   ^
+    #   ^
+    #
+    #   * `HTTPS` - HTTP over TLS.
+    #
+    #   ^
+    #   ^
+    #
+    #   * `DEFAULT` - Use a combination of port and Application Layer
+    #     Protocol Negotiation (ALPN) to specify application\_layer
+    #     protocol. For more information, see [Device communication
+    #     protocols][1].
+    #
+    #   ^
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/iot/latest/developerguide/protocols.html
+    #   @return [String]
+    #
+    # @!attribute [rw] client_certificate_config
+    #   An object that speciﬁes the client certificate conﬁguration for a
+    #   domain.
+    #   @return [Types::ClientCertificateConfig]
+    #
     class CreateDomainConfigurationRequest < Struct.new(
       :domain_configuration_name,
       :domain_name,
@@ -2515,7 +3102,12 @@ module Aws::IoT
       :validation_certificate_arn,
       :authorizer_config,
       :service_type,
-      :tags)
+      :tags,
+      :tls_config,
+      :server_certificate_config,
+      :authentication_type,
+      :application_protocol,
+      :client_certificate_config)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2659,7 +3251,7 @@ module Aws::IoT
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/https:/docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_MetricDatum.html
+    #   [1]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_MetricDatum.html
     #   @return [String]
     #
     # @!attribute [rw] tags
@@ -2697,9 +3289,9 @@ module Aws::IoT
     end
 
     # @!attribute [rw] job_id
-    #   A job identifier which must be unique for your Amazon Web Services
-    #   account. We recommend using a UUID. Alpha-numeric characters, "-"
-    #   and "\_" are valid for use here.
+    #   A job identifier which must be unique for your account. We recommend
+    #   using a UUID. Alpha-numeric characters, "-" and "\_" are valid
+    #   for use here.
     #   @return [String]
     #
     # @!attribute [rw] targets
@@ -2707,20 +3299,18 @@ module Aws::IoT
     #   @return [Array<String>]
     #
     # @!attribute [rw] document_source
-    #   An S3 link to the job document. Required if you don't specify a
-    #   value for `document`.
+    #   An S3 link, or S3 object URL, to the job document. The link is an
+    #   Amazon S3 object URL and is required if you don't specify a value
+    #   for `document`.
     #
-    #   <note markdown="1"> If the job document resides in an S3 bucket, you must use a
-    #   placeholder link when specifying the document.
+    #   For example, `--document-source
+    #   https://s3.region-code.amazonaws.com/example-firmware/device-firmware.1.0`
     #
-    #    The placeholder link is of the following form:
+    #   For more information, see [Methods for accessing a bucket][1].
     #
-    #    `$\{aws:iot:s3-presigned-url:https://s3.amazonaws.com/bucket/key\}`
     #
-    #    where *bucket* is your bucket name and *key* is the object in the
-    #   bucket to which you are linking.
     #
-    #    </note>
+    #   [1]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-bucket-intro.html
     #   @return [String]
     #
     # @!attribute [rw] document
@@ -2781,9 +3371,15 @@ module Aws::IoT
     #
     #   `$aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/`
     #
-    #   <note markdown="1"> The `namespaceId` feature is in public preview.
+    #   <note markdown="1"> The `namespaceId` feature is only supported by IoT Greengrass at
+    #   this time. For more information, see [Setting up IoT Greengrass core
+    #   devices.][1]
     #
     #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/greengrass/v2/developerguide/setting-up.html
     #   @return [String]
     #
     # @!attribute [rw] job_template_arn
@@ -2811,6 +3407,21 @@ module Aws::IoT
     #   job execution.
     #   @return [Types::SchedulingConfig]
     #
+    # @!attribute [rw] destination_package_versions
+    #   The package version Amazon Resource Names (ARNs) that are installed
+    #   on the device when the job successfully completes. The package
+    #   version must be in either the Published or Deprecated state when the
+    #   job deploys. For more information, see [Package version
+    #   lifecycle][1].
+    #
+    #   **Note:**The following Length Constraints relates to a single ARN.
+    #   Up to 25 package version ARNs are allowed.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/iot/latest/developerguide/preparing-to-use-software-package-catalog.html#package-version-lifecycle
+    #   @return [Array<String>]
+    #
     class CreateJobRequest < Struct.new(
       :job_id,
       :targets,
@@ -2827,7 +3438,8 @@ module Aws::IoT
       :job_template_arn,
       :job_executions_retry_config,
       :document_parameters,
-      :scheduling_config)
+      :scheduling_config,
+      :destination_package_versions)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2862,20 +3474,18 @@ module Aws::IoT
     #   @return [String]
     #
     # @!attribute [rw] document_source
-    #   An S3 link to the job document to use in the template. Required if
-    #   you don't specify a value for `document`.
+    #   An S3 link, or S3 object URL, to the job document. The link is an
+    #   Amazon S3 object URL and is required if you don't specify a value
+    #   for `document`.
     #
-    #   <note markdown="1"> If the job document resides in an S3 bucket, you must use a
-    #   placeholder link when specifying the document.
+    #   For example, `--document-source
+    #   https://s3.region-code.amazonaws.com/example-firmware/device-firmware.1.0`
     #
-    #    The placeholder link is of the following form:
+    #   For more information, see [Methods for accessing a bucket][1].
     #
-    #    `$\{aws:iot:s3-presigned-url:https://s3.amazonaws.com/bucket/key\}`
     #
-    #    where *bucket* is your bucket name and *key* is the object in the
-    #   bucket to which you are linking.
     #
-    #    </note>
+    #   [1]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-bucket-intro.html
     #   @return [String]
     #
     # @!attribute [rw] document
@@ -2915,6 +3525,27 @@ module Aws::IoT
     #   Allows you to create the criteria to retry a job.
     #   @return [Types::JobExecutionsRetryConfig]
     #
+    # @!attribute [rw] maintenance_windows
+    #   Allows you to configure an optional maintenance window for the
+    #   rollout of a job document to all devices in the target group for a
+    #   job.
+    #   @return [Array<Types::MaintenanceWindow>]
+    #
+    # @!attribute [rw] destination_package_versions
+    #   The package version Amazon Resource Names (ARNs) that are installed
+    #   on the device when the job successfully completes. The package
+    #   version must be in either the Published or Deprecated state when the
+    #   job deploys. For more information, see [Package version
+    #   lifecycle][1].
+    #
+    #   **Note:**The following Length Constraints relates to a single ARN.
+    #   Up to 25 package version ARNs are allowed.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/iot/latest/developerguide/preparing-to-use-software-package-catalog.html#package-version-lifecycle
+    #   @return [Array<String>]
+    #
     class CreateJobTemplateRequest < Struct.new(
       :job_template_id,
       :job_arn,
@@ -2926,7 +3557,9 @@ module Aws::IoT
       :abort_config,
       :timeout_config,
       :tags,
-      :job_executions_retry_config)
+      :job_executions_retry_config,
+      :maintenance_windows,
+      :destination_package_versions)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3094,8 +3727,8 @@ module Aws::IoT
     #   @return [String]
     #
     # @!attribute [rw] additional_parameters
-    #   A list of additional OTA update parameters which are name-value
-    #   pairs.
+    #   A list of additional OTA update parameters, which are name-value
+    #   pairs. They won't be sent to devices as a part of the Job document.
     #   @return [Hash<String,String>]
     #
     # @!attribute [rw] tags
@@ -3147,6 +3780,163 @@ module Aws::IoT
       :aws_iot_job_arn,
       :ota_update_status)
       SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] package_name
+    #   The name of the new software package.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   A summary of the package being created. This can be used to outline
+    #   the package's contents or purpose.
+    #   @return [String]
+    #
+    # @!attribute [rw] tags
+    #   Metadata that can be used to manage the package.
+    #   @return [Hash<String,String>]
+    #
+    # @!attribute [rw] client_token
+    #   A unique case-sensitive identifier that you can provide to ensure
+    #   the idempotency of the request. Don't reuse this client token if a
+    #   new idempotent request is required.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    class CreatePackageRequest < Struct.new(
+      :package_name,
+      :description,
+      :tags,
+      :client_token)
+      SENSITIVE = [:description]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] package_name
+    #   The name of the software package.
+    #   @return [String]
+    #
+    # @!attribute [rw] package_arn
+    #   The Amazon Resource Name (ARN) for the package.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The package description.
+    #   @return [String]
+    #
+    class CreatePackageResponse < Struct.new(
+      :package_name,
+      :package_arn,
+      :description)
+      SENSITIVE = [:description]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] package_name
+    #   The name of the associated software package.
+    #   @return [String]
+    #
+    # @!attribute [rw] version_name
+    #   The name of the new package version.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   A summary of the package version being created. This can be used to
+    #   outline the package's contents or purpose.
+    #   @return [String]
+    #
+    # @!attribute [rw] attributes
+    #   Metadata that can be used to define a package version’s
+    #   configuration. For example, the S3 file location, configuration
+    #   options that are being sent to the device or fleet.
+    #
+    #   The combined size of all the attributes on a package version is
+    #   limited to 3KB.
+    #   @return [Hash<String,String>]
+    #
+    # @!attribute [rw] artifact
+    #   The various build components created during the build process such
+    #   as libraries and configuration files that make up a software package
+    #   version.
+    #   @return [Types::PackageVersionArtifact]
+    #
+    # @!attribute [rw] recipe
+    #   The inline job document associated with a software package version
+    #   used for a quick job deployment.
+    #   @return [String]
+    #
+    # @!attribute [rw] tags
+    #   Metadata that can be used to manage the package version.
+    #   @return [Hash<String,String>]
+    #
+    # @!attribute [rw] client_token
+    #   A unique case-sensitive identifier that you can provide to ensure
+    #   the idempotency of the request. Don't reuse this client token if a
+    #   new idempotent request is required.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    class CreatePackageVersionRequest < Struct.new(
+      :package_name,
+      :version_name,
+      :description,
+      :attributes,
+      :artifact,
+      :recipe,
+      :tags,
+      :client_token)
+      SENSITIVE = [:description, :attributes, :recipe]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] package_version_arn
+    #   The Amazon Resource Name (ARN) for the package.
+    #   @return [String]
+    #
+    # @!attribute [rw] package_name
+    #   The name of the associated software package.
+    #   @return [String]
+    #
+    # @!attribute [rw] version_name
+    #   The name of the new package version.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The package version description.
+    #   @return [String]
+    #
+    # @!attribute [rw] attributes
+    #   Metadata that were added to the package version that can be used to
+    #   define a package version’s configuration.
+    #   @return [Hash<String,String>]
+    #
+    # @!attribute [rw] status
+    #   The status of the package version. For more information, see
+    #   [Package version lifecycle][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/iot/latest/developerguide/preparing-to-use-software-package-catalog.html#package-version-lifecycle
+    #   @return [String]
+    #
+    # @!attribute [rw] error_reason
+    #   Error reason for a package version failure during creation or
+    #   update.
+    #   @return [String]
+    #
+    class CreatePackageVersionResponse < Struct.new(
+      :package_version_arn,
+      :package_name,
+      :version_name,
+      :description,
+      :attributes,
+      :status,
+      :error_reason)
+      SENSITIVE = [:description, :attributes]
       include Aws::Structure
     end
 
@@ -3592,6 +4382,10 @@ module Aws::IoT
     #   Metadata that can be used to manage the security profile.
     #   @return [Array<Types::Tag>]
     #
+    # @!attribute [rw] metrics_export_config
+    #   Specifies the MQTT topic and role ARN required for metric export.
+    #   @return [Types::MetricsExportConfig]
+    #
     class CreateSecurityProfileRequest < Struct.new(
       :security_profile_name,
       :security_profile_description,
@@ -3599,7 +4393,8 @@ module Aws::IoT
       :alert_targets,
       :additional_metrics_to_retain,
       :additional_metrics_to_retain_v2,
-      :tags)
+      :tags,
+      :metrics_export_config)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3738,7 +4533,7 @@ module Aws::IoT
     #   The attribute payload, which consists of up to three name/value
     #   pairs in a JSON document. For example:
     #
-    #   `\{"attributes":\{"string1":"string2"\}\}`
+    #   `{"attributes":{"string1":"string2"}}`
     #   @return [Types::AttributePayload]
     #
     # @!attribute [rw] billing_group_name
@@ -3994,6 +4789,18 @@ module Aws::IoT
     #
     class DeleteCACertificateResponse < Aws::EmptyStructure; end
 
+    # @!attribute [rw] certificate_provider_name
+    #   The name of the certificate provider.
+    #   @return [String]
+    #
+    class DeleteCertificateProviderRequest < Struct.new(
+      :certificate_provider_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    class DeleteCertificateProviderResponse < Aws::EmptyStructure; end
+
     # The input for the DeleteCertificate operation.
     #
     # @!attribute [rw] certificate_id
@@ -4009,6 +4816,59 @@ module Aws::IoT
     class DeleteCertificateRequest < Struct.new(
       :certificate_id,
       :force_delete)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] execution_id
+    #   The unique identifier of the command execution that you want to
+    #   delete from your account.
+    #   @return [String]
+    #
+    # @!attribute [rw] target_arn
+    #   The Amazon Resource Number (ARN) of the target device for which you
+    #   want to delete command executions.
+    #   @return [String]
+    #
+    class DeleteCommandExecutionRequest < Struct.new(
+      :execution_id,
+      :target_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    class DeleteCommandExecutionResponse < Aws::EmptyStructure; end
+
+    # @!attribute [rw] command_id
+    #   The unique identifier of the command to be deleted.
+    #   @return [String]
+    #
+    class DeleteCommandRequest < Struct.new(
+      :command_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] status_code
+    #   The status code for the command deletion request. The status code is
+    #   in the 200 range for a successful request.
+    #
+    #   * If the command hasn't been deprecated, or has been deprecated for
+    #     a duration that is shorter than the maximum time out duration of
+    #     12 hours, when calling the `DeleteCommand` request, the deletion
+    #     will be scheduled and a 202 status code will be returned. While
+    #     the command is being deleted, it will be in a `pendingDeletion`
+    #     state. Once the time out duration has been reached, the command
+    #     will be permanently removed from your account.
+    #
+    #   * If the command has been deprecated for a duration that is longer
+    #     than the maximum time out duration of 12 hours, when calling the
+    #     `DeleteCommand` request, the command will be deleted immediately
+    #     and a 204 status code will be returned.
+    #   @return [Integer]
+    #
+    class DeleteCommandResponse < Struct.new(
+      :status_code)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4135,9 +4995,15 @@ module Aws::IoT
     #
     #   `$aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/`
     #
-    #   <note markdown="1"> The `namespaceId` feature is in public preview.
+    #   <note markdown="1"> The `namespaceId` feature is only supported by IoT Greengrass at
+    #   this time. For more information, see [Setting up IoT Greengrass core
+    #   devices.][1]
     #
     #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/greengrass/v2/developerguide/setting-up.html
     #   @return [String]
     #
     class DeleteJobExecutionRequest < Struct.new(
@@ -4183,9 +5049,15 @@ module Aws::IoT
     #
     #   `$aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/`
     #
-    #   <note markdown="1"> The `namespaceId` feature is in public preview.
+    #   <note markdown="1"> The `namespaceId` feature is only supported by IoT Greengrass at
+    #   this time. For more information, see [Setting up IoT Greengrass core
+    #   devices.][1]
     #
     #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/greengrass/v2/developerguide/setting-up.html
     #   @return [String]
     #
     class DeleteJobRequest < Struct.new(
@@ -4244,6 +5116,55 @@ module Aws::IoT
     end
 
     class DeleteOTAUpdateResponse < Aws::EmptyStructure; end
+
+    # @!attribute [rw] package_name
+    #   The name of the target software package.
+    #   @return [String]
+    #
+    # @!attribute [rw] client_token
+    #   A unique case-sensitive identifier that you can provide to ensure
+    #   the idempotency of the request. Don't reuse this client token if a
+    #   new idempotent request is required.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    class DeletePackageRequest < Struct.new(
+      :package_name,
+      :client_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    class DeletePackageResponse < Aws::EmptyStructure; end
+
+    # @!attribute [rw] package_name
+    #   The name of the associated software package.
+    #   @return [String]
+    #
+    # @!attribute [rw] version_name
+    #   The name of the target package version.
+    #   @return [String]
+    #
+    # @!attribute [rw] client_token
+    #   A unique case-sensitive identifier that you can provide to ensure
+    #   the idempotency of the request. Don't reuse this client token if a
+    #   new idempotent request is required.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    class DeletePackageVersionRequest < Struct.new(
+      :package_name,
+      :version_name,
+      :client_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    class DeletePackageVersionResponse < Aws::EmptyStructure; end
 
     # The input for the DeletePolicy operation.
     #
@@ -4808,6 +5729,55 @@ module Aws::IoT
       include Aws::Structure
     end
 
+    # @!attribute [rw] certificate_provider_name
+    #   The name of the certificate provider.
+    #   @return [String]
+    #
+    class DescribeCertificateProviderRequest < Struct.new(
+      :certificate_provider_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] certificate_provider_name
+    #   The name of the certificate provider.
+    #   @return [String]
+    #
+    # @!attribute [rw] certificate_provider_arn
+    #   The ARN of the certificate provider.
+    #   @return [String]
+    #
+    # @!attribute [rw] lambda_function_arn
+    #   The Lambda function ARN that's associated with the certificate
+    #   provider.
+    #   @return [String]
+    #
+    # @!attribute [rw] account_default_for_operations
+    #   A list of the operations that the certificate provider will use to
+    #   generate certificates. Valid value: `CreateCertificateFromCsr`.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] creation_date
+    #   The date-time string that indicates when the certificate provider
+    #   was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] last_modified_date
+    #   The date-time string that indicates when the certificate provider
+    #   was last updated.
+    #   @return [Time]
+    #
+    class DescribeCertificateProviderResponse < Struct.new(
+      :certificate_provider_name,
+      :certificate_provider_arn,
+      :lambda_function_arn,
+      :account_default_for_operations,
+      :creation_date,
+      :last_modified_date)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The input for the DescribeCertificate operation.
     #
     # @!attribute [rw] certificate_id
@@ -5015,6 +5985,91 @@ module Aws::IoT
     #   changed.
     #   @return [Time]
     #
+    # @!attribute [rw] tls_config
+    #   An object that specifies the TLS configuration for a domain.
+    #   @return [Types::TlsConfig]
+    #
+    # @!attribute [rw] server_certificate_config
+    #   The server certificate configuration.
+    #   @return [Types::ServerCertificateConfig]
+    #
+    # @!attribute [rw] authentication_type
+    #   An enumerated string that speciﬁes the authentication type.
+    #
+    #   * `CUSTOM_AUTH_X509` - Use custom authentication and authorization
+    #     with additional details from the X.509 client certificate.
+    #
+    #   ^
+    #   ^
+    #
+    #   * `CUSTOM_AUTH` - Use custom authentication and authorization. For
+    #     more information, see [Custom authentication and
+    #     authorization][1].
+    #
+    #   ^
+    #   ^
+    #
+    #   * `AWS_X509` - Use X.509 client certificates without custom
+    #     authentication and authorization. For more information, see [X.509
+    #     client certificates][2].
+    #
+    #   ^
+    #   ^
+    #
+    #   * `AWS_SIGV4` - Use Amazon Web Services Signature Version 4. For
+    #     more information, see [IAM users, groups, and roles][1].
+    #
+    #   ^
+    #   ^
+    #
+    #   * `DEFAULT` - Use a combination of port and Application Layer
+    #     Protocol Negotiation (ALPN) to specify authentication type. For
+    #     more information, see [Device communication protocols][3].
+    #
+    #   ^
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/iot/latest/developerguide/custom-authentication.html
+    #   [2]: https://docs.aws.amazon.com/iot/latest/developerguide/x509-client-certs.html
+    #   [3]: https://docs.aws.amazon.com/iot/latest/developerguide/protocols.html
+    #   @return [String]
+    #
+    # @!attribute [rw] application_protocol
+    #   An enumerated string that speciﬁes the application-layer protocol.
+    #
+    #   * `SECURE_MQTT` - MQTT over TLS.
+    #
+    #   ^
+    #   ^
+    #
+    #   * `MQTT_WSS` - MQTT over WebSocket.
+    #
+    #   ^
+    #   ^
+    #
+    #   * `HTTPS` - HTTP over TLS.
+    #
+    #   ^
+    #   ^
+    #
+    #   * `DEFAULT` - Use a combination of port and Application Layer
+    #     Protocol Negotiation (ALPN) to specify application\_layer
+    #     protocol. For more information, see [Device communication
+    #     protocols][1].
+    #
+    #   ^
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/iot/latest/developerguide/protocols.html
+    #   @return [String]
+    #
+    # @!attribute [rw] client_certificate_config
+    #   An object that speciﬁes the client certificate conﬁguration for a
+    #   domain.
+    #   @return [Types::ClientCertificateConfig]
+    #
     class DescribeDomainConfigurationResponse < Struct.new(
       :domain_configuration_name,
       :domain_configuration_arn,
@@ -5024,7 +6079,12 @@ module Aws::IoT
       :domain_configuration_status,
       :service_type,
       :domain_type,
-      :last_status_change_date)
+      :last_status_change_date,
+      :tls_config,
+      :server_certificate_config,
+      :authentication_type,
+      :application_protocol,
+      :client_certificate_config)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5056,7 +6116,8 @@ module Aws::IoT
     #
     #   We strongly recommend that customers use the newer `iot:Data-ATS`
     #   endpoint type to avoid issues related to the widespread distrust of
-    #   Symantec certificate authorities.
+    #   Symantec certificate authorities. ATS Signed Certificates are more
+    #   secure and are trusted by most popular browsers.
     #   @return [String]
     #
     class DescribeEndpointRequest < Struct.new(
@@ -5159,7 +6220,7 @@ module Aws::IoT
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/https:/docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_MetricDatum.html
+    #   [1]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_MetricDatum.html
     #   @return [String]
     #
     # @!attribute [rw] version
@@ -5273,8 +6334,14 @@ module Aws::IoT
     #   The unique identifier you assigned to this job when it was created.
     #   @return [String]
     #
+    # @!attribute [rw] before_substitution
+    #   Provides a view of the job document before and after the
+    #   substitution parameters have been resolved with their exact values.
+    #   @return [Boolean]
+    #
     class DescribeJobRequest < Struct.new(
-      :job_id)
+      :job_id,
+      :before_substitution)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5354,6 +6421,27 @@ module Aws::IoT
     #   each failure type for a job.
     #   @return [Types::JobExecutionsRetryConfig]
     #
+    # @!attribute [rw] maintenance_windows
+    #   Allows you to configure an optional maintenance window for the
+    #   rollout of a job document to all devices in the target group for a
+    #   job.
+    #   @return [Array<Types::MaintenanceWindow>]
+    #
+    # @!attribute [rw] destination_package_versions
+    #   The package version Amazon Resource Names (ARNs) that are installed
+    #   on the device when the job successfully completes. The package
+    #   version must be in either the Published or Deprecated state when the
+    #   job deploys. For more information, see [Package version
+    #   lifecycle][1].
+    #
+    #   **Note:**The following Length Constraints relates to a single ARN.
+    #   Up to 25 package version ARNs are allowed.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/iot/latest/developerguide/preparing-to-use-software-package-catalog.html#package-version-lifecycle
+    #   @return [Array<String>]
+    #
     class DescribeJobTemplateResponse < Struct.new(
       :job_template_arn,
       :job_template_id,
@@ -5365,7 +6453,9 @@ module Aws::IoT
       :job_executions_rollout_config,
       :abort_config,
       :timeout_config,
-      :job_executions_retry_config)
+      :job_executions_retry_config,
+      :maintenance_windows,
+      :destination_package_versions)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5747,6 +6837,10 @@ module Aws::IoT
     #   The time the security profile was last modified.
     #   @return [Time]
     #
+    # @!attribute [rw] metrics_export_config
+    #   Specifies the MQTT topic and role ARN required for metric export.
+    #   @return [Types::MetricsExportConfig]
+    #
     class DescribeSecurityProfileResponse < Struct.new(
       :security_profile_name,
       :security_profile_arn,
@@ -5757,7 +6851,8 @@ module Aws::IoT
       :additional_metrics_to_retain_v2,
       :version,
       :creation_date,
-      :last_modified_date)
+      :last_modified_date,
+      :metrics_export_config)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -6024,8 +7119,8 @@ module Aws::IoT
     #
     # @!attribute [rw] thing_type_properties
     #   The ThingTypeProperties contains information about the thing type
-    #   including description, and a list of searchable thing attribute
-    #   names.
+    #   including description, a list of searchable thing attribute names,
+    #   and MQTT5 configuration.
     #   @return [Types::ThingTypeProperties]
     #
     # @!attribute [rw] thing_type_metadata
@@ -6082,10 +7177,10 @@ module Aws::IoT
     #   The principal.
     #
     #   Valid principals are CertificateArn
-    #   (arn:aws:iot:*region*\:*accountId*\:cert/*certificateId*),
+    #   (arn:aws:iot:*region*:*accountId*:cert/*certificateId*),
     #   thingGroupArn
-    #   (arn:aws:iot:*region*\:*accountId*\:thinggroup/*groupName*) and
-    #   CognitoId (*region*\:*id*).
+    #   (arn:aws:iot:*region*:*accountId*:thinggroup/*groupName*) and
+    #   CognitoId (*region*:*id*).
     #   @return [String]
     #
     class DetachPrincipalPolicyRequest < Struct.new(
@@ -6303,6 +7398,33 @@ module Aws::IoT
       include Aws::Structure
     end
 
+    # @!attribute [rw] package_name
+    #   The name of the new software package.
+    #   @return [String]
+    #
+    # @!attribute [rw] version_name
+    #   The name of the new package version.
+    #   @return [String]
+    #
+    # @!attribute [rw] client_token
+    #   A unique case-sensitive identifier that you can provide to ensure
+    #   the idempotency of the request. Don't reuse this client token if a
+    #   new idempotent request is required.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    class DisassociateSbomFromPackageVersionRequest < Struct.new(
+      :package_name,
+      :version_name,
+      :client_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    class DisassociateSbomFromPackageVersionResponse < Aws::EmptyStructure; end
+
     # A map of key-value pairs containing the patterns that need to be
     # replaced in a managed template job document schema. You can use the
     # description of each key as a guidance to specify the inputs during
@@ -6389,17 +7511,17 @@ module Aws::IoT
     #
     # The `hashKeyValue` and `rangeKeyvalue` fields use a substitution
     # template syntax. These templates provide data at runtime. The syntax
-    # is as follows: $\\\{*sql-expression*\\}.
+    # is as follows: $\{*sql-expression*}.
     #
     # You can specify any valid expression in a WHERE or SELECT clause,
     # including JSON properties, comparisons, calculations, and functions.
     # For example, the following field uses the third level of the topic:
     #
-    # `"hashKeyValue": "$\{topic(3)\}"`
+    # `"hashKeyValue": "${topic(3)}"`
     #
     # The following field uses the timestamp:
     #
-    # `"rangeKeyValue": "$\{timestamp()\}"`
+    # `"rangeKeyValue": "${timestamp()}"`
     #
     # @!attribute [rw] table_name
     #   The name of the DynamoDB table.
@@ -6411,7 +7533,7 @@ module Aws::IoT
     #
     # @!attribute [rw] operation
     #   The type of operation to be performed. This follows the substitution
-    #   template, so it can be `$\{operation\}`, but the substitution must
+    #   template, so it can be `${operation}`, but the substitution must
     #   result in one of the following: `INSERT`, `UPDATE`, or `DELETE`.
     #   @return [String]
     #
@@ -6471,8 +7593,8 @@ module Aws::IoT
     #   Specifies the DynamoDB table to which the message data will be
     #   written. For example:
     #
-    #   `\{ "dynamoDBv2": \{ "roleArn": "aws:iam:12341251:my-role"
-    #   "putItem": \{ "tableName": "my-table" \} \} \}`
+    #   `{ "dynamoDBv2": { "roleArn": "aws:iam:12341251:my-role" "putItem":
+    #   { "tableName": "my-table" } } }`
     #
     #   Each attribute in the message payload will be written to a separate
     #   column in the DynamoDB database.
@@ -6729,6 +7851,28 @@ module Aws::IoT
       include Aws::Structure
     end
 
+    # A geolocation target that you select to index. Each geolocation target
+    # contains a `name` and `order` key-value pair that specifies the
+    # geolocation target fields.
+    #
+    # @!attribute [rw] name
+    #   The `name` of the geolocation target field. If the target field is
+    #   part of a named shadow, you must select the named shadow using the
+    #   `namedShadow` filter.
+    #   @return [String]
+    #
+    # @!attribute [rw] order
+    #   The `order` of the geolocation target field. This field is optional.
+    #   The default value is `LatLon`.
+    #   @return [String]
+    #
+    class GeoLocationTarget < Struct.new(
+      :name,
+      :order)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] security_profile_name
     #   The name of the security profile.
     #   @return [String]
@@ -6806,10 +7950,10 @@ module Aws::IoT
     #   The main part of the response with a list of buckets. Each bucket
     #   contains a `keyValue` and a `count`.
     #
-    #   `keyValue`\: The aggregation field value counted for the particular
+    #   `keyValue`: The aggregation field value counted for the particular
     #   bucket.
     #
-    #   `count`\: The number of documents that have that value.
+    #   `count`: The number of documents that have that value.
     #   @return [Array<Types::Bucket>]
     #
     class GetBucketsAggregationResponse < Struct.new(
@@ -6854,12 +7998,209 @@ module Aws::IoT
       include Aws::Structure
     end
 
+    # @!attribute [rw] execution_id
+    #   The unique identifier for the command execution. This information is
+    #   returned as a response of the `StartCommandExecution` API request.
+    #   @return [String]
+    #
+    # @!attribute [rw] target_arn
+    #   The Amazon Resource Number (ARN) of the device on which the command
+    #   execution is being performed.
+    #   @return [String]
+    #
+    # @!attribute [rw] include_result
+    #   Can be used to specify whether to include the result of the command
+    #   execution in the `GetCommandExecution` API response. Your device can
+    #   use this field to provide additional information about the command
+    #   execution. You only need to specify this field when using the
+    #   `AWS-IoT` namespace.
+    #   @return [Boolean]
+    #
+    class GetCommandExecutionRequest < Struct.new(
+      :execution_id,
+      :target_arn,
+      :include_result)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] execution_id
+    #   The unique identifier of the command execution.
+    #   @return [String]
+    #
+    # @!attribute [rw] command_arn
+    #   The Amazon Resource Number (ARN) of the command. For example,
+    #   ``arn:aws:iot:&lt;region&gt;:&lt;accountid&gt;:command/&lt;commandId&gt;
+    #   @return [String]
+    #
+    # @!attribute [rw] target_arn
+    #   The Amazon Resource Number (ARN) of the device on which the command
+    #   execution is being performed.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status of the command execution. After your devices receive the
+    #   command and start performing the operations specified in the
+    #   command, it can use the `UpdateCommandExecution` MQTT API to update
+    #   the status information.
+    #   @return [String]
+    #
+    # @!attribute [rw] status_reason
+    #   Your devices can use this parameter to provide additional context
+    #   about the status of a command execution using a reason code and
+    #   description.
+    #   @return [Types::StatusReason]
+    #
+    # @!attribute [rw] result
+    #   The result value for the current state of the command execution. The
+    #   status provides information about the progress of the command
+    #   execution. The device can use the result field to share additional
+    #   details about the execution such as a return value of a remote
+    #   function call.
+    #
+    #   <note markdown="1"> If you use the `AWS-IoT-FleetWise` namespace, then this field is not
+    #   applicable in the API response.
+    #
+    #    </note>
+    #   @return [Hash<String,Types::CommandExecutionResult>]
+    #
+    # @!attribute [rw] parameters
+    #   The list of parameters that the `StartCommandExecution` API used
+    #   when performing the command on the device.
+    #   @return [Hash<String,Types::CommandParameterValue>]
+    #
+    # @!attribute [rw] execution_timeout_seconds
+    #   Specifies the amount of time in seconds that the device can take to
+    #   finish a command execution. A timer starts when the command
+    #   execution is created. If the command execution status is not set to
+    #   another terminal state before the timer expires, it will
+    #   automatically update to `TIMED_OUT`.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] created_at
+    #   The timestamp, when the command execution was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] last_updated_at
+    #   The timestamp, when the command execution was last updated.
+    #   @return [Time]
+    #
+    # @!attribute [rw] started_at
+    #   The timestamp, when the command execution was started.
+    #   @return [Time]
+    #
+    # @!attribute [rw] completed_at
+    #   The timestamp, when the command execution was completed.
+    #   @return [Time]
+    #
+    # @!attribute [rw] time_to_live
+    #   The time to live (TTL) parameter that indicates the duration for
+    #   which executions will be retained in your account. The default value
+    #   is six months.
+    #   @return [Time]
+    #
+    class GetCommandExecutionResponse < Struct.new(
+      :execution_id,
+      :command_arn,
+      :target_arn,
+      :status,
+      :status_reason,
+      :result,
+      :parameters,
+      :execution_timeout_seconds,
+      :created_at,
+      :last_updated_at,
+      :started_at,
+      :completed_at,
+      :time_to_live)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] command_id
+    #   The unique identifier of the command for which you want to retrieve
+    #   information.
+    #   @return [String]
+    #
+    class GetCommandRequest < Struct.new(
+      :command_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] command_id
+    #   The unique identifier of the command.
+    #   @return [String]
+    #
+    # @!attribute [rw] command_arn
+    #   The Amazon Resource Number (ARN) of the command. For example,
+    #   `arn:aws:iot:<region>:<accountid>:command/<commandId>`
+    #   @return [String]
+    #
+    # @!attribute [rw] namespace
+    #   The namespace of the command.
+    #   @return [String]
+    #
+    # @!attribute [rw] display_name
+    #   The user-friendly name in the console for the command.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   A short text description of the command.
+    #   @return [String]
+    #
+    # @!attribute [rw] mandatory_parameters
+    #   A list of parameters for the command created.
+    #   @return [Array<Types::CommandParameter>]
+    #
+    # @!attribute [rw] payload
+    #   The payload object that you provided for the command.
+    #   @return [Types::CommandPayload]
+    #
+    # @!attribute [rw] role_arn
+    #   The IAM role that you provided when creating the command with
+    #   `AWS-IoT-FleetWise` as the namespace.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The timestamp, when the command was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] last_updated_at
+    #   The timestamp, when the command was last updated.
+    #   @return [Time]
+    #
+    # @!attribute [rw] deprecated
+    #   Indicates whether the command has been deprecated.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] pending_deletion
+    #   Indicates whether the command is being deleted.
+    #   @return [Boolean]
+    #
+    class GetCommandResponse < Struct.new(
+      :command_id,
+      :command_arn,
+      :namespace,
+      :display_name,
+      :description,
+      :mandatory_parameters,
+      :payload,
+      :role_arn,
+      :created_at,
+      :last_updated_at,
+      :deprecated,
+      :pending_deletion)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] principal
     #   The principal. Valid principals are CertificateArn
-    #   (arn:aws:iot:*region*\:*accountId*\:cert/*certificateId*),
+    #   (arn:aws:iot:*region*:*accountId*:cert/*certificateId*),
     #   thingGroupArn
-    #   (arn:aws:iot:*region*\:*accountId*\:thinggroup/*groupName*) and
-    #   CognitoId (*region*\:*id*).
+    #   (arn:aws:iot:*region*:*accountId*:thinggroup/*groupName*) and
+    #   CognitoId (*region*:*id*).
     #   @return [String]
     #
     # @!attribute [rw] cognito_identity_pool_id
@@ -6911,8 +8252,14 @@ module Aws::IoT
     #   The unique identifier you assigned to this job when it was created.
     #   @return [String]
     #
+    # @!attribute [rw] before_substitution
+    #   Provides a view of the job document before and after the
+    #   substitution parameters have been resolved with their exact values.
+    #   @return [Boolean]
+    #
     class GetJobDocumentRequest < Struct.new(
-      :job_id)
+      :job_id,
+      :before_substitution)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -6967,6 +8314,159 @@ module Aws::IoT
     class GetOTAUpdateResponse < Struct.new(
       :ota_update_info)
       SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @api private
+    #
+    class GetPackageConfigurationRequest < Aws::EmptyStructure; end
+
+    # @!attribute [rw] version_update_by_jobs_config
+    #   The version that is associated to a specific job.
+    #   @return [Types::VersionUpdateByJobsConfig]
+    #
+    class GetPackageConfigurationResponse < Struct.new(
+      :version_update_by_jobs_config)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] package_name
+    #   The name of the target software package.
+    #   @return [String]
+    #
+    class GetPackageRequest < Struct.new(
+      :package_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] package_name
+    #   The name of the software package.
+    #   @return [String]
+    #
+    # @!attribute [rw] package_arn
+    #   The ARN for the package.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The package description.
+    #   @return [String]
+    #
+    # @!attribute [rw] default_version_name
+    #   The name of the default package version.
+    #   @return [String]
+    #
+    # @!attribute [rw] creation_date
+    #   The date the package was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] last_modified_date
+    #   The date when the package was last updated.
+    #   @return [Time]
+    #
+    class GetPackageResponse < Struct.new(
+      :package_name,
+      :package_arn,
+      :description,
+      :default_version_name,
+      :creation_date,
+      :last_modified_date)
+      SENSITIVE = [:description]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] package_name
+    #   The name of the associated package.
+    #   @return [String]
+    #
+    # @!attribute [rw] version_name
+    #   The name of the target package version.
+    #   @return [String]
+    #
+    class GetPackageVersionRequest < Struct.new(
+      :package_name,
+      :version_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] package_version_arn
+    #   The ARN for the package version.
+    #   @return [String]
+    #
+    # @!attribute [rw] package_name
+    #   The name of the software package.
+    #   @return [String]
+    #
+    # @!attribute [rw] version_name
+    #   The name of the package version.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The package version description.
+    #   @return [String]
+    #
+    # @!attribute [rw] attributes
+    #   Metadata that were added to the package version that can be used to
+    #   define a package version’s configuration.
+    #   @return [Hash<String,String>]
+    #
+    # @!attribute [rw] artifact
+    #   The various components that make up a software package version.
+    #   @return [Types::PackageVersionArtifact]
+    #
+    # @!attribute [rw] status
+    #   The status associated to the package version. For more information,
+    #   see [Package version lifecycle][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/iot/latest/developerguide/preparing-to-use-software-package-catalog.html#package-version-lifecycle
+    #   @return [String]
+    #
+    # @!attribute [rw] error_reason
+    #   Error reason for a package version failure during creation or
+    #   update.
+    #   @return [String]
+    #
+    # @!attribute [rw] creation_date
+    #   The date when the package version was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] last_modified_date
+    #   The date when the package version was last updated.
+    #   @return [Time]
+    #
+    # @!attribute [rw] sbom
+    #   The software bill of materials for a software package version.
+    #   @return [Types::Sbom]
+    #
+    # @!attribute [rw] sbom_validation_status
+    #   The status of the validation for a new software bill of materials
+    #   added to a software package version.
+    #   @return [String]
+    #
+    # @!attribute [rw] recipe
+    #   The inline job document associated with a software package version
+    #   used for a quick job deployment.
+    #   @return [String]
+    #
+    class GetPackageVersionResponse < Struct.new(
+      :package_version_arn,
+      :package_name,
+      :version_name,
+      :description,
+      :attributes,
+      :artifact,
+      :status,
+      :error_reason,
+      :creation_date,
+      :last_modified_date,
+      :sbom,
+      :sbom_validation_status,
+      :recipe)
+      SENSITIVE = [:description, :attributes, :recipe]
       include Aws::Structure
     end
 
@@ -7181,6 +8681,41 @@ module Aws::IoT
     class GetStatisticsResponse < Struct.new(
       :statistics)
       SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] thing_name
+    #   The name of your IoT thing.
+    #   @return [String]
+    #
+    class GetThingConnectivityDataRequest < Struct.new(
+      :thing_name)
+      SENSITIVE = [:thing_name]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] thing_name
+    #   The name of your IoT thing.
+    #   @return [String]
+    #
+    # @!attribute [rw] connected
+    #   A Boolean that indicates the connectivity status.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] timestamp
+    #   The timestamp of when the event occurred.
+    #   @return [Time]
+    #
+    # @!attribute [rw] disconnect_reason
+    #   The reason why the client is disconnecting.
+    #   @return [String]
+    #
+    class GetThingConnectivityDataResponse < Struct.new(
+      :thing_name,
+      :connected,
+      :timestamp,
+      :disconnect_reason)
+      SENSITIVE = [:thing_name]
       include Aws::Structure
     end
 
@@ -7427,11 +8962,27 @@ module Aws::IoT
       include Aws::Structure
     end
 
-    # Provides additional filters for specific data sources. Named shadow is
-    # the only data source that currently supports and requires a filter. To
-    # add named shadows to your fleet indexing configuration, set
-    # `namedShadowIndexingMode` to be `ON` and specify your shadow names in
-    # `filter`.
+    # Provides additional selections for named shadows and geolocation data.
+    #
+    # To add named shadows to your fleet indexing configuration, set
+    # `namedShadowIndexingMode` to be ON and specify your shadow names in
+    # `namedShadowNames` filter.
+    #
+    # To add geolocation data to your fleet indexing configuration:
+    #
+    # * If you store geolocation data in a class/unnamed shadow, set
+    #   `thingIndexingMode` to be `REGISTRY_AND_SHADOW` and specify your
+    #   geolocation data in `geoLocations` filter.
+    #
+    # * If you store geolocation data in a named shadow, set
+    #   `namedShadowIndexingMode` to be `ON`, add the shadow name in
+    #   `namedShadowNames` filter, and specify your geolocation data in
+    #   `geoLocations` filter. For more information, see [Managing fleet
+    #   indexing][1].
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/iot/latest/developerguide/managing-fleet-index.html
     #
     # @!attribute [rw] named_shadow_names
     #   The shadow names that you select to index. The default maximum
@@ -7444,8 +8995,21 @@ module Aws::IoT
     #   [1]: https://docs.aws.amazon.com/general/latest/gr/iot_device_management.html#fleet-indexing-limits
     #   @return [Array<String>]
     #
+    # @!attribute [rw] geo_locations
+    #   The list of geolocation targets that you select to index. The
+    #   default maximum number of geolocation targets for indexing is `1`.
+    #   To increase the limit, see [Amazon Web Services IoT Device
+    #   Management Quotas][1] in the *Amazon Web Services General
+    #   Reference*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/general/latest/gr/iot_device_management.html#fleet-indexing-limits
+    #   @return [Array<Types::GeoLocationTarget>]
+    #
     class IndexingFilter < Struct.new(
-      :named_shadow_names)
+      :named_shadow_names,
+      :geo_locations)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -7778,9 +9342,15 @@ module Aws::IoT
     #
     #   `$aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/`
     #
-    #   <note markdown="1"> The `namespaceId` feature is in public preview.
+    #   <note markdown="1"> The `namespaceId` feature is only supported by IoT Greengrass at
+    #   this time. For more information, see [Setting up IoT Greengrass core
+    #   devices.][1]
     #
     #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/greengrass/v2/developerguide/setting-up.html
     #   @return [String]
     #
     # @!attribute [rw] job_template_arn
@@ -7816,6 +9386,28 @@ module Aws::IoT
     #   job execution.
     #   @return [Types::SchedulingConfig]
     #
+    # @!attribute [rw] scheduled_job_rollouts
+    #   Displays the next seven maintenance window occurrences and their
+    #   start times.
+    #   @return [Array<Types::ScheduledJobRollout>]
+    #
+    # @!attribute [rw] destination_package_versions
+    #   The package version Amazon Resource Names (ARNs) that are installed
+    #   on the device when the job successfully completes. The package
+    #   version must be in either the Published or Deprecated state when the
+    #   job deploys. For more information, see [Package version
+    #   lifecycle][1].The package version must be in either the Published or
+    #   Deprecated state when the job deploys. For more information, see
+    #   [Package version lifecycle][1].
+    #
+    #   **Note:**The following Length Constraints relates to a single ARN.
+    #   Up to 25 package version ARNs are allowed.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/iot/latest/developerguide/preparing-to-use-software-package-catalog.html#package-version-lifecycle
+    #   @return [Array<String>]
+    #
     class Job < Struct.new(
       :job_arn,
       :job_id,
@@ -7839,7 +9431,9 @@ module Aws::IoT
       :job_executions_retry_config,
       :document_parameters,
       :is_concurrent,
-      :scheduling_config)
+      :scheduling_config,
+      :scheduled_job_rollouts,
+      :destination_package_versions)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -8219,12 +9813,44 @@ module Aws::IoT
     #   Properties of the Apache Kafka producer client.
     #   @return [Hash<String,String>]
     #
+    # @!attribute [rw] headers
+    #   The list of Kafka headers that you specify.
+    #   @return [Array<Types::KafkaActionHeader>]
+    #
     class KafkaAction < Struct.new(
       :destination_arn,
       :topic,
       :key,
       :partition,
-      :client_properties)
+      :client_properties,
+      :headers)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Specifies a Kafka header using key-value pairs when you create a
+    # Rule’s Kafka Action. You can use these headers to route data from IoT
+    # clients to downstream Kafka clusters without modifying your message
+    # payload.
+    #
+    # For more information about Rule's Kafka action, see [Apache
+    # Kafka][1].
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/iot/latest/developerguide/apache-kafka-rule-action.html
+    #
+    # @!attribute [rw] key
+    #   The key of the Kafka header.
+    #   @return [String]
+    #
+    # @!attribute [rw] value
+    #   The value of the Kafka header.
+    #   @return [String]
+    #
+    class KafkaActionHeader < Struct.new(
+      :key,
+      :value)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -8353,10 +9979,10 @@ module Aws::IoT
     # @!attribute [rw] target
     #   The group or principal for which the policies will be listed. Valid
     #   principals are CertificateArn
-    #   (arn:aws:iot:*region*\:*accountId*\:cert/*certificateId*),
+    #   (arn:aws:iot:*region*:*accountId*:cert/*certificateId*),
     #   thingGroupArn
-    #   (arn:aws:iot:*region*\:*accountId*\:thinggroup/*groupName*) and
-    #   CognitoId (*region*\:*id*).
+    #   (arn:aws:iot:*region*:*accountId*:thinggroup/*groupName*) and
+    #   CognitoId (*region*:*id*).
     #   @return [String]
     #
     # @!attribute [rw] recursive
@@ -8814,6 +10440,40 @@ module Aws::IoT
       include Aws::Structure
     end
 
+    # @!attribute [rw] next_token
+    #   The token for the next set of results, or `null` if there are no
+    #   more results.
+    #   @return [String]
+    #
+    # @!attribute [rw] ascending_order
+    #   Returns the list of certificate providers in ascending alphabetical
+    #   order.
+    #   @return [Boolean]
+    #
+    class ListCertificateProvidersRequest < Struct.new(
+      :next_token,
+      :ascending_order)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] certificate_providers
+    #   The list of certificate providers in your Amazon Web Services
+    #   account.
+    #   @return [Array<Types::CertificateProviderSummary>]
+    #
+    # @!attribute [rw] next_token
+    #   The token for the next set of results, or `null` if there are no
+    #   more results.
+    #   @return [String]
+    #
+    class ListCertificateProvidersResponse < Struct.new(
+      :certificate_providers,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The input to the ListCertificatesByCA operation.
     #
     # @!attribute [rw] ca_certificate_id
@@ -8899,6 +10559,146 @@ module Aws::IoT
     class ListCertificatesResponse < Struct.new(
       :certificates,
       :next_marker)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return in this operation.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   To retrieve the next set of results, the `nextToken` value from a
+    #   previous response; otherwise `null` to receive the first set of
+    #   results.
+    #   @return [String]
+    #
+    # @!attribute [rw] namespace
+    #   The namespace of the command.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   List all command executions for the device that have a particular
+    #   status. For example, you can filter the list to display only command
+    #   executions that have failed or timed out.
+    #   @return [String]
+    #
+    # @!attribute [rw] sort_order
+    #   Specify whether to list the command executions that were created in
+    #   the ascending or descending order. By default, the API returns all
+    #   commands in the descending order based on the start time or
+    #   completion time of the executions, that are determined by the
+    #   `startTimeFilter` and `completeTimeFilter` parameters.
+    #   @return [String]
+    #
+    # @!attribute [rw] started_time_filter
+    #   List all command executions that started any time before or after
+    #   the date and time that you specify. The date and time uses the
+    #   format `yyyy-MM-dd'T'HH:mm`.
+    #   @return [Types::TimeFilter]
+    #
+    # @!attribute [rw] completed_time_filter
+    #   List all command executions that completed any time before or after
+    #   the date and time that you specify. The date and time uses the
+    #   format `yyyy-MM-dd'T'HH:mm`.
+    #   @return [Types::TimeFilter]
+    #
+    # @!attribute [rw] target_arn
+    #   The Amazon Resource Number (ARN) of the target device. You can use
+    #   this information to list all command executions for a particular
+    #   device.
+    #   @return [String]
+    #
+    # @!attribute [rw] command_arn
+    #   The Amazon Resource Number (ARN) of the command. You can use this
+    #   information to list all command executions for a particular command.
+    #   @return [String]
+    #
+    class ListCommandExecutionsRequest < Struct.new(
+      :max_results,
+      :next_token,
+      :namespace,
+      :status,
+      :sort_order,
+      :started_time_filter,
+      :completed_time_filter,
+      :target_arn,
+      :command_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] command_executions
+    #   The list of command executions.
+    #   @return [Array<Types::CommandExecutionSummary>]
+    #
+    # @!attribute [rw] next_token
+    #   The token to use to get the next set of results, or `null` if there
+    #   are no additional results.
+    #   @return [String]
+    #
+    class ListCommandExecutionsResponse < Struct.new(
+      :command_executions,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return in this operation. By
+    #   default, the API returns up to a maximum of 25 results. You can
+    #   override this default value to return up to a maximum of 100 results
+    #   for this operation.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   To retrieve the next set of results, the `nextToken` value from a
+    #   previous response; otherwise `null` to receive the first set of
+    #   results.
+    #   @return [String]
+    #
+    # @!attribute [rw] namespace
+    #   The namespace of the command. By default, the API returns all
+    #   commands that have been created for both `AWS-IoT` and
+    #   `AWS-IoT-FleetWise` namespaces. You can override this default value
+    #   if you want to return all commands that have been created only for a
+    #   specific namespace.
+    #   @return [String]
+    #
+    # @!attribute [rw] command_parameter_name
+    #   A filter that can be used to display the list of commands that have
+    #   a specific command parameter name.
+    #   @return [String]
+    #
+    # @!attribute [rw] sort_order
+    #   Specify whether to list the commands that you have created in the
+    #   ascending or descending order. By default, the API returns all
+    #   commands in the descending order based on the time that they were
+    #   created.
+    #   @return [String]
+    #
+    class ListCommandsRequest < Struct.new(
+      :max_results,
+      :next_token,
+      :namespace,
+      :command_parameter_name,
+      :sort_order)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] commands
+    #   The list of commands.
+    #   @return [Array<Types::CommandSummary>]
+    #
+    # @!attribute [rw] next_token
+    #   The token to use to get the next set of results, or `null` if there
+    #   are no additional results.
+    #   @return [String]
+    #
+    class ListCommandsResponse < Struct.new(
+      :commands,
+      :next_token)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -9233,9 +11033,15 @@ module Aws::IoT
     #
     #   `$aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/`
     #
-    #   <note markdown="1"> The `namespaceId` feature is in public preview.
+    #   <note markdown="1"> The `namespaceId` feature is only supported by IoT Greengrass at
+    #   this time. For more information, see [Setting up IoT Greengrass core
+    #   devices.][1]
     #
     #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/greengrass/v2/developerguide/setting-up.html
     #   @return [String]
     #
     # @!attribute [rw] max_results
@@ -9356,9 +11162,15 @@ module Aws::IoT
     #
     #   `$aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/`
     #
-    #   <note markdown="1"> The `namespaceId` feature is in public preview.
+    #   <note markdown="1"> The `namespaceId` feature is only supported by IoT Greengrass at
+    #   this time. For more information, see [Setting up IoT Greengrass core
+    #   devices.][1]
     #
     #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/greengrass/v2/developerguide/setting-up.html
     #   @return [String]
     #
     class ListJobsRequest < Struct.new(
@@ -9602,6 +11414,81 @@ module Aws::IoT
       include Aws::Structure
     end
 
+    # @!attribute [rw] package_name
+    #   The name of the target software package.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status of the package version. For more information, see
+    #   [Package version lifecycle][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/iot/latest/developerguide/preparing-to-use-software-package-catalog.html#package-version-lifecycle
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return at one time.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   The token for the next set of results.
+    #   @return [String]
+    #
+    class ListPackageVersionsRequest < Struct.new(
+      :package_name,
+      :status,
+      :max_results,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] package_version_summaries
+    #   Lists the package versions associated to the package.
+    #   @return [Array<Types::PackageVersionSummary>]
+    #
+    # @!attribute [rw] next_token
+    #   The token for the next set of results.
+    #   @return [String]
+    #
+    class ListPackageVersionsResponse < Struct.new(
+      :package_version_summaries,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] max_results
+    #   The maximum number of results returned at one time.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   The token for the next set of results.
+    #   @return [String]
+    #
+    class ListPackagesRequest < Struct.new(
+      :max_results,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] package_summaries
+    #   The software package summary.
+    #   @return [Array<Types::PackageSummary>]
+    #
+    # @!attribute [rw] next_token
+    #   The token for the next set of results.
+    #   @return [String]
+    #
+    class ListPackagesResponse < Struct.new(
+      :package_summaries,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The input for the ListPolicies operation.
     #
     # @!attribute [rw] marker
@@ -9717,10 +11604,10 @@ module Aws::IoT
     #
     # @!attribute [rw] principal
     #   The principal. Valid principals are CertificateArn
-    #   (arn:aws:iot:*region*\:*accountId*\:cert/*certificateId*),
+    #   (arn:aws:iot:*region*:*accountId*:cert/*certificateId*),
     #   thingGroupArn
-    #   (arn:aws:iot:*region*\:*accountId*\:thinggroup/*groupName*) and
-    #   CognitoId (*region*\:*id*).
+    #   (arn:aws:iot:*region*:*accountId*:thinggroup/*groupName*) and
+    #   CognitoId (*region*:*id*).
     #   @return [String]
     #
     # @!attribute [rw] marker
@@ -9800,6 +11687,66 @@ module Aws::IoT
     #
     class ListPrincipalThingsResponse < Struct.new(
       :things,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] next_token
+    #   To retrieve the next set of results, the `nextToken` value from a
+    #   previous response; otherwise **null** to receive the first set of
+    #   results.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return in this operation.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] principal
+    #   The principal. A principal can be an X.509 certificate or an Amazon
+    #   Cognito ID.
+    #   @return [String]
+    #
+    # @!attribute [rw] thing_principal_type
+    #   The type of the relation you want to filter in the response. If no
+    #   value is provided in this field, the response will list all things,
+    #   including both the `EXCLUSIVE_THING` and `NON_EXCLUSIVE_THING`
+    #   attachment types.
+    #
+    #   * `EXCLUSIVE_THING` - Attaches the specified principal to the
+    #     specified thing, exclusively. The thing will be the only thing
+    #     that’s attached to the principal.
+    #
+    #   ^
+    #   ^
+    #
+    #   * `NON_EXCLUSIVE_THING` - Attaches the specified principal to the
+    #     specified thing. Multiple things can be attached to the principal.
+    #
+    #   ^
+    #   @return [String]
+    #
+    class ListPrincipalThingsV2Request < Struct.new(
+      :next_token,
+      :max_results,
+      :principal,
+      :thing_principal_type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] principal_thing_objects
+    #   A list of `thingPrincipalObject` that represents the principal and
+    #   the type of relation it has with the thing.
+    #   @return [Array<Types::PrincipalThingObject>]
+    #
+    # @!attribute [rw] next_token
+    #   The token to use to get the next set of results, or **null** if
+    #   there are no additional results.
+    #   @return [String]
+    #
+    class ListPrincipalThingsV2Response < Struct.new(
+      :principal_thing_objects,
       :next_token)
       SENSITIVE = []
       include Aws::Structure
@@ -9938,6 +11885,54 @@ module Aws::IoT
     class ListRoleAliasesResponse < Struct.new(
       :role_aliases,
       :next_marker)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] package_name
+    #   The name of the new software package.
+    #   @return [String]
+    #
+    # @!attribute [rw] version_name
+    #   The name of the new package version.
+    #   @return [String]
+    #
+    # @!attribute [rw] validation_result
+    #   The end result of the
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return at one time.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   A token that can be used to retrieve the next set of results, or
+    #   null if there are no additional results.
+    #   @return [String]
+    #
+    class ListSbomValidationResultsRequest < Struct.new(
+      :package_name,
+      :version_name,
+      :validation_result,
+      :max_results,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] validation_result_summaries
+    #   A summary of the validation results for each software bill of
+    #   materials attached to a software package version.
+    #   @return [Array<Types::SbomValidationResultSummary>]
+    #
+    # @!attribute [rw] next_token
+    #   A token that can be used to retrieve the next set of results, or
+    #   null if there are no additional results.
+    #   @return [String]
+    #
+    class ListSbomValidationResultsResponse < Struct.new(
+      :validation_result_summaries,
+      :next_token)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -10322,6 +12317,65 @@ module Aws::IoT
     #
     class ListThingPrincipalsResponse < Struct.new(
       :principals,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] next_token
+    #   To retrieve the next set of results, the `nextToken` value from a
+    #   previous response; otherwise **null** to receive the first set of
+    #   results.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return in this operation.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] thing_name
+    #   The name of the thing.
+    #   @return [String]
+    #
+    # @!attribute [rw] thing_principal_type
+    #   The type of the relation you want to filter in the response. If no
+    #   value is provided in this field, the response will list all
+    #   principals, including both the `EXCLUSIVE_THING` and
+    #   `NON_EXCLUSIVE_THING` attachment types.
+    #
+    #   * `EXCLUSIVE_THING` - Attaches the specified principal to the
+    #     specified thing, exclusively. The thing will be the only thing
+    #     that’s attached to the principal.
+    #
+    #   ^
+    #   ^
+    #
+    #   * `NON_EXCLUSIVE_THING` - Attaches the specified principal to the
+    #     specified thing. Multiple things can be attached to the principal.
+    #
+    #   ^
+    #   @return [String]
+    #
+    class ListThingPrincipalsV2Request < Struct.new(
+      :next_token,
+      :max_results,
+      :thing_name,
+      :thing_principal_type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] thing_principal_objects
+    #   A list of `thingPrincipalObject` that represents the principal and
+    #   the type of relation it has with the thing.
+    #   @return [Array<Types::ThingPrincipalObject>]
+    #
+    # @!attribute [rw] next_token
+    #   The token to use to get the next set of results, or **null** if
+    #   there are no additional results.
+    #   @return [String]
+    #
+    class ListThingPrincipalsV2Response < Struct.new(
+      :thing_principal_objects,
       :next_token)
       SENSITIVE = []
       include Aws::Structure
@@ -10917,6 +12971,26 @@ module Aws::IoT
       include Aws::Structure
     end
 
+    # An optional configuration within the `SchedulingConfig` to setup a
+    # recurring maintenance window with a predetermined start time and
+    # duration for the rollout of a job document to all devices in a target
+    # group for a job.
+    #
+    # @!attribute [rw] start_time
+    #   Displays the start time of the next maintenance window.
+    #   @return [String]
+    #
+    # @!attribute [rw] duration_in_minutes
+    #   Displays the duration of the next maintenance window.
+    #   @return [Integer]
+    #
+    class MaintenanceWindow < Struct.new(
+      :start_time,
+      :duration_in_minutes)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The policy documentation is not valid.
     #
     # @!attribute [rw] message
@@ -11012,9 +13086,15 @@ module Aws::IoT
     #   The dimension of a metric. This can't be used with custom metrics.
     #   @return [Types::MetricDimension]
     #
+    # @!attribute [rw] export_metric
+    #   The value indicates exporting metrics related to the `MetricToRetain
+    #   ` when it's true.
+    #   @return [Boolean]
+    #
     class MetricToRetain < Struct.new(
       :metric,
-      :metric_dimension)
+      :metric_dimension,
+      :export_metric)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -11055,6 +13135,26 @@ module Aws::IoT
       :number,
       :numbers,
       :strings)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Set configurations for metrics export.
+    #
+    # @!attribute [rw] mqtt_topic
+    #   The MQTT topic that Device Defender Detect should publish messages
+    #   to for metrics export.
+    #   @return [String]
+    #
+    # @!attribute [rw] role_arn
+    #   This role ARN has permission to publish MQTT messages, after which
+    #   Device Defender Detect can assume the role and publish messages on
+    #   your behalf.
+    #   @return [String]
+    #
+    class MetricsExportConfig < Struct.new(
+      :mqtt_topic,
+      :role_arn)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -11154,6 +13254,20 @@ module Aws::IoT
       :replace_default_policy_version_params,
       :enable_io_t_logging_params,
       :publish_finding_to_sns_params)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The configuration to add user-defined properties to enrich MQTT 5
+    # messages.
+    #
+    # @!attribute [rw] propagating_attributes
+    #   An object that represents the propagating thing attributes and the
+    #   connection attributes.
+    #   @return [Array<Types::PropagatingAttribute>]
+    #
+    class Mqtt5Configuration < Struct.new(
+      :propagating_attributes)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -11348,7 +13462,8 @@ module Aws::IoT
     #   @return [Types::CodeSigning]
     #
     # @!attribute [rw] attributes
-    #   A list of name/attribute pairs.
+    #   A list of name-attribute pairs. They won't be sent to devices as a
+    #   part of the Job document.
     #   @return [Hash<String,String>]
     #
     class OTAUpdateFile < Struct.new(
@@ -11550,6 +13665,83 @@ module Aws::IoT
       include Aws::Structure
     end
 
+    # A summary of information about a software package.
+    #
+    # @!attribute [rw] package_name
+    #   The name for the target software package.
+    #   @return [String]
+    #
+    # @!attribute [rw] default_version_name
+    #   The name of the default package version.
+    #   @return [String]
+    #
+    # @!attribute [rw] creation_date
+    #   The date that the package was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] last_modified_date
+    #   The date that the package was last updated.
+    #   @return [Time]
+    #
+    class PackageSummary < Struct.new(
+      :package_name,
+      :default_version_name,
+      :creation_date,
+      :last_modified_date)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A specific package version artifact associated with a software package
+    # version.
+    #
+    # @!attribute [rw] s3_location
+    #   The S3 location.
+    #   @return [Types::S3Location]
+    #
+    class PackageVersionArtifact < Struct.new(
+      :s3_location)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A summary of information about a package version.
+    #
+    # @!attribute [rw] package_name
+    #   The name of the associated software package.
+    #   @return [String]
+    #
+    # @!attribute [rw] version_name
+    #   The name of the target package version.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status of the package version. For more information, see
+    #   [Package version lifecycle][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/iot/latest/developerguide/preparing-to-use-software-package-catalog.html#package-version-lifecycle
+    #   @return [String]
+    #
+    # @!attribute [rw] creation_date
+    #   The date that the package version was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] last_modified_date
+    #   The date that the package version was last updated.
+    #   @return [Time]
+    #
+    class PackageVersionSummary < Struct.new(
+      :package_name,
+      :version_name,
+      :status,
+      :creation_date,
+      :last_modified_date)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Describes the percentile and percentile value.
     #
     # @!attribute [rw] percent
@@ -11627,9 +13819,9 @@ module Aws::IoT
     # Configuration for pre-signed S3 URLs.
     #
     # @!attribute [rw] role_arn
-    #   The ARN of an IAM role that grants grants permission to download
-    #   files from the S3 bucket where the job data/updates are stored. The
-    #   role must also grant permission for IoT to download the files.
+    #   The ARN of an IAM role that grants permission to download files from
+    #   the S3 bucket where the job data/updates are stored. The role must
+    #   also grant permission for IoT to download the files.
     #
     #   For information about addressing the confused deputy problem, see
     #   [cross-service confused deputy prevention][1] in the *Amazon Web
@@ -11649,6 +13841,62 @@ module Aws::IoT
     class PresignedUrlConfig < Struct.new(
       :role_arn,
       :expires_in_sec)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # An object that represents the thing and the type of relation it has
+    # with the principal.
+    #
+    # @!attribute [rw] thing_name
+    #   The name of the thing.
+    #   @return [String]
+    #
+    # @!attribute [rw] thing_principal_type
+    #   The type of the relation you want to specify when you attach a
+    #   principal to a thing. The value defaults to `NON_EXCLUSIVE_THING`.
+    #
+    #   * `EXCLUSIVE_THING` - Attaches the specified principal to the
+    #     specified thing, exclusively. The thing will be the only thing
+    #     that’s attached to the principal.
+    #
+    #   ^
+    #   ^
+    #
+    #   * `NON_EXCLUSIVE_THING` - Attaches the specified principal to the
+    #     specified thing. Multiple things can be attached to the principal.
+    #
+    #   ^
+    #   @return [String]
+    #
+    class PrincipalThingObject < Struct.new(
+      :thing_name,
+      :thing_principal_type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # An object that represents the connection attribute, thing attribute,
+    # and the user property key.
+    #
+    # @!attribute [rw] user_property_key
+    #   The key of the user property key-value pair.
+    #   @return [String]
+    #
+    # @!attribute [rw] thing_attribute
+    #   The user-defined thing attribute that is propagating for MQTT 5
+    #   message enrichment.
+    #   @return [String]
+    #
+    # @!attribute [rw] connection_attribute
+    #   The attribute associated with the connection between a device and
+    #   Amazon Web Services IoT Core.
+    #   @return [String]
+    #
+    class PropagatingAttribute < Struct.new(
+      :user_property_key,
+      :thing_attribute,
+      :connection_attribute)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -12520,6 +14768,49 @@ module Aws::IoT
       include Aws::Structure
     end
 
+    # A specific software bill of matrerials associated with a software
+    # package version.
+    #
+    # @!attribute [rw] s3_location
+    #   The S3 location.
+    #   @return [Types::S3Location]
+    #
+    class Sbom < Struct.new(
+      :s3_location)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A summary of the validation results for a specific software bill of
+    # materials (SBOM) attached to a software package version.
+    #
+    # @!attribute [rw] file_name
+    #   The name of the SBOM file.
+    #   @return [String]
+    #
+    # @!attribute [rw] validation_result
+    #   The end result of the SBOM validation.
+    #   @return [String]
+    #
+    # @!attribute [rw] error_code
+    #   The `errorCode` representing the validation failure error if the
+    #   SBOM validation failed.
+    #   @return [String]
+    #
+    # @!attribute [rw] error_message
+    #   The `errorMessage` representing the validation failure error if the
+    #   SBOM validation failed.
+    #   @return [String]
+    #
+    class SbomValidationResultSummary < Struct.new(
+      :file_name,
+      :validation_result,
+      :error_code,
+      :error_message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Information about the scheduled audit.
     #
     # @!attribute [rw] scheduled_audit_name
@@ -12556,6 +14847,20 @@ module Aws::IoT
       include Aws::Structure
     end
 
+    # Displays the next seven maintenance window occurrences and their start
+    # times.
+    #
+    # @!attribute [rw] start_time
+    #   Displays the start times of the next seven maintenance window
+    #   occurrences.
+    #   @return [String]
+    #
+    class ScheduledJobRollout < Struct.new(
+      :start_time)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Specifies the date and time that a job will begin the rollout of the
     # job document to all devices in the target group. Additionally, you can
     # specify the end behavior for each job execution when it reaches the
@@ -12565,7 +14870,15 @@ module Aws::IoT
     #   The time a job will begin rollout of the job document to all devices
     #   in the target group for a job. The `startTime` can be scheduled up
     #   to a year in advance and must be scheduled a minimum of thirty
-    #   minutes from the current time.
+    #   minutes from the current time. The date and time format for the
+    #   `startTime` is YYYY-MM-DD for the date and HH:MM for the time.
+    #
+    #   For more information on the syntax for `startTime` when using an API
+    #   command or the Command Line Interface, see [Timestamp][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters-types.html#parameter-type-timestamp
     #   @return [String]
     #
     # @!attribute [rw] end_time
@@ -12574,7 +14887,16 @@ module Aws::IoT
     #   later than two years from the current time and be scheduled a
     #   minimum of thirty minutes from the current time. The minimum
     #   duration between `startTime` and `endTime` is thirty minutes. The
-    #   maximum duration between `startTime` and `endTime` is two years.
+    #   maximum duration between `startTime` and `endTime` is two years. The
+    #   date and time format for the `endTime` is YYYY-MM-DD for the date
+    #   and HH:MM for the time.
+    #
+    #   For more information on the syntax for `endTime` when using an API
+    #   command or the Command Line Interface, see [Timestamp][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters-types.html#parameter-type-timestamp
     #   @return [String]
     #
     # @!attribute [rw] end_behavior
@@ -12583,10 +14905,18 @@ module Aws::IoT
     #   creating the job, then `endBehavior` does not apply.
     #   @return [String]
     #
+    # @!attribute [rw] maintenance_windows
+    #   An optional configuration within the `SchedulingConfig` to setup a
+    #   recurring maintenance window with a predetermined start time and
+    #   duration for the rollout of a job document to all devices in a
+    #   target group for a job.
+    #   @return [Array<Types::MaintenanceWindow>]
+    #
     class SchedulingConfig < Struct.new(
       :start_time,
       :end_time,
-      :end_behavior)
+      :end_behavior,
+      :maintenance_windows)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -12610,7 +14940,15 @@ module Aws::IoT
     #   @return [String]
     #
     # @!attribute [rw] max_results
-    #   The maximum number of results to return at one time.
+    #   The maximum number of results to return per page at one time. This
+    #   maximum number cannot exceed 100. The response might contain fewer
+    #   results but will never contain more. You can use [ `nextToken` ][1]
+    #   to retrieve the next set of results until `nextToken` returns
+    #   `NULL`.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/iot/latest/apireference/API_SearchIndex.html#iot-SearchIndex-request-nextToken
     #   @return [Integer]
     #
     # @!attribute [rw] query_version
@@ -12697,6 +15035,57 @@ module Aws::IoT
       include Aws::Structure
     end
 
+    # The server certificate configuration.
+    #
+    # @!attribute [rw] enable_ocsp_check
+    #   A Boolean value that indicates whether Online Certificate Status
+    #   Protocol (OCSP) server certificate check is enabled or not.
+    #
+    #   For more information, see [ Server certificate configuration for
+    #   OCSP stapling][1] from Amazon Web Services IoT Core Developer Guide.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/iot/latest/developerguide/iot-custom-endpoints-cert-config.html
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] ocsp_lambda_arn
+    #   The Amazon Resource Name (ARN) for a Lambda function that acts as a
+    #   Request for Comments (RFC) 6960-compliant Online Certificate Status
+    #   Protocol (OCSP) responder, supporting basic OCSP responses. The
+    #   Lambda function accepts a base64-encoding of the OCSP request in the
+    #   Distinguished Encoding Rules (DER) format. The Lambda function's
+    #   response is also a base64-encoded OCSP response in the DER format.
+    #   The response size must not exceed 4 kilobytes (KiB). The Lambda
+    #   function must be in the same Amazon Web Services account and region
+    #   as the domain configuration. For more information, see [Configuring
+    #   server certificate OCSP for private endpoints in Amazon Web Services
+    #   IoT Core][1] from the Amazon Web Services IoT Core developer guide.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/iot/latest/developerguide/iot-custom-endpoints-cert-config.html#iot-custom-endpoints-cert-config-ocsp-private-endpoint.html
+    #   @return [String]
+    #
+    # @!attribute [rw] ocsp_authorized_responder_arn
+    #   The Amazon Resource Name (ARN) for an X.509 certificate stored in
+    #   Amazon Web Services Certificate Manager (ACM). If provided, Amazon
+    #   Web Services IoT Core will use this certificate to validate the
+    #   signature of the received OCSP response. The OCSP responder must
+    #   sign responses using either this authorized responder certificate or
+    #   the issuing certificate, depending on whether the ARN is provided or
+    #   not. The certificate must be in the same Amazon Web Services account
+    #   and region as the domain configuration.
+    #   @return [String]
+    #
+    class ServerCertificateConfig < Struct.new(
+      :enable_ocsp_check,
+      :ocsp_lambda_arn,
+      :ocsp_authorized_responder_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # An object that contains information about a server certificate.
     #
     # @!attribute [rw] server_certificate_arn
@@ -12715,6 +15104,17 @@ module Aws::IoT
       :server_certificate_arn,
       :server_certificate_status,
       :server_certificate_status_detail)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Service quota has been exceeded.
+    #
+    # @!attribute [rw] message
+    #   @return [String]
+    #
+    class ServiceQuotaExceededException < Struct.new(
+      :message)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -13199,6 +15599,26 @@ module Aws::IoT
       include Aws::Structure
     end
 
+    # Provide additional context about the status of a command execution
+    # using a reason code and description.
+    #
+    # @!attribute [rw] reason_code
+    #   A code that provides additional context for the command execution
+    #   status.
+    #   @return [String]
+    #
+    # @!attribute [rw] reason_description
+    #   A literal string for devices to optionally provide additional
+    #   information about the reason code for a command execution status.
+    #   @return [String]
+    #
+    class StatusReason < Struct.new(
+      :reason_code,
+      :reason_description)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Starts execution of a Step Functions state machine.
     #
     # @!attribute [rw] execution_name_prefix
@@ -13489,10 +15909,10 @@ module Aws::IoT
 
     # @!attribute [rw] principal
     #   The principal. Valid principals are CertificateArn
-    #   (arn:aws:iot:*region*\:*accountId*\:cert/*certificateId*),
+    #   (arn:aws:iot:*region*:*accountId*:cert/*certificateId*),
     #   thingGroupArn
-    #   (arn:aws:iot:*region*\:*accountId*\:thinggroup/*groupName*) and
-    #   CognitoId (*region*\:*id*).
+    #   (arn:aws:iot:*region*:*accountId*:thinggroup/*groupName*) and
+    #   CognitoId (*region*:*id*).
     #   @return [String]
     #
     # @!attribute [rw] cognito_identity_pool_id
@@ -13683,7 +16103,7 @@ module Aws::IoT
     #   @return [String]
     #
     # @!attribute [rw] thing_group_names
-    #   Thing group names.
+    #   Thing group and billing group names.
     #   @return [Array<String>]
     #
     # @!attribute [rw] attributes
@@ -13773,6 +16193,11 @@ module Aws::IoT
     #   by the Fleet Indexing service. This is an optional field. For more
     #   information, see [Managed fields][1] in the *Amazon Web Services IoT
     #   Core Developer Guide*.
+    #
+    #   <note markdown="1"> You can't modify managed fields by updating fleet indexing
+    #   configuration.
+    #
+    #    </note>
     #
     #
     #
@@ -13897,7 +16322,18 @@ module Aws::IoT
     #
     # @!attribute [rw] managed_fields
     #   Contains fields that are indexed and whose types are already known
-    #   by the Fleet Indexing service.
+    #   by the Fleet Indexing service. This is an optional field. For more
+    #   information, see [Managed fields][1] in the *Amazon Web Services IoT
+    #   Core Developer Guide*.
+    #
+    #   <note markdown="1"> You can't modify managed fields by updating fleet indexing
+    #   configuration.
+    #
+    #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/iot/latest/developerguide/managing-fleet-index.html#managed-field
     #   @return [Array<Types::Field>]
     #
     # @!attribute [rw] custom_fields
@@ -13905,11 +16341,28 @@ module Aws::IoT
     #   @return [Array<Types::Field>]
     #
     # @!attribute [rw] filter
-    #   Provides additional filters for specific data sources. Named shadow
-    #   is the only data source that currently supports and requires a
-    #   filter. To add named shadows to your fleet indexing configuration,
-    #   set `namedShadowIndexingMode` to be `ON` and specify your shadow
-    #   names in `filter`.
+    #   Provides additional selections for named shadows and geolocation
+    #   data.
+    #
+    #   To add named shadows to your fleet indexing configuration, set
+    #   `namedShadowIndexingMode` to be ON and specify your shadow names in
+    #   `namedShadowNames` filter.
+    #
+    #   To add geolocation data to your fleet indexing configuration:
+    #
+    #   * If you store geolocation data in a class/unnamed shadow, set
+    #     `thingIndexingMode` to be `REGISTRY_AND_SHADOW` and specify your
+    #     geolocation data in `geoLocations` filter.
+    #
+    #   * If you store geolocation data in a named shadow, set
+    #     `namedShadowIndexingMode` to be `ON`, add the shadow name in
+    #     `namedShadowNames` filter, and specify your geolocation data in
+    #     `geoLocations` filter. For more information, see [Managing fleet
+    #     indexing][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/iot/latest/developerguide/managing-fleet-index.html
     #   @return [Types::IndexingFilter]
     #
     class ThingIndexingConfiguration < Struct.new(
@@ -13920,6 +16373,37 @@ module Aws::IoT
       :managed_fields,
       :custom_fields,
       :filter)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # An object that represents the principal and the type of relation it
+    # has with the thing.
+    #
+    # @!attribute [rw] principal
+    #   The principal of the thing principal object.
+    #   @return [String]
+    #
+    # @!attribute [rw] thing_principal_type
+    #   The type of the relation you want to specify when you attach a
+    #   principal to a thing. The value defaults to `NON_EXCLUSIVE_THING`.
+    #
+    #   * `EXCLUSIVE_THING` - Attaches the specified principal to the
+    #     specified thing, exclusively. The thing will be the only thing
+    #     that’s attached to the principal.
+    #
+    #   ^
+    #   ^
+    #
+    #   * `NON_EXCLUSIVE_THING` - Attaches the specified principal to the
+    #     specified thing. Multiple things can be attached to the principal.
+    #
+    #   ^
+    #   @return [String]
+    #
+    class ThingPrincipalObject < Struct.new(
+      :principal,
+      :thing_principal_type)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -13993,9 +16477,15 @@ module Aws::IoT
     #   A list of searchable thing attribute names.
     #   @return [Array<String>]
     #
+    # @!attribute [rw] mqtt5_configuration
+    #   The configuration to add user-defined properties to enrich MQTT 5
+    #   messages.
+    #   @return [Types::Mqtt5Configuration]
+    #
     class ThingTypeProperties < Struct.new(
       :thing_type_description,
-      :searchable_attributes)
+      :searchable_attributes,
+      :mqtt5_configuration)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -14008,6 +16498,26 @@ module Aws::IoT
     #
     class ThrottlingException < Struct.new(
       :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A filter that can be used to list command executions for a device that
+    # started or completed before or after a particular date and time.
+    #
+    # @!attribute [rw] after
+    #   Filter to display command executions that started or completed only
+    #   after a particular date and time.
+    #   @return [String]
+    #
+    # @!attribute [rw] before
+    #   Filter to display command executions that started or completed only
+    #   before a particular date and time.
+    #   @return [String]
+    #
+    class TimeFilter < Struct.new(
+      :after,
+      :before)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -14125,6 +16635,24 @@ module Aws::IoT
     class TimestreamTimestamp < Struct.new(
       :value,
       :unit)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # An object that specifies the TLS configuration for a domain.
+    #
+    # @!attribute [rw] security_policy
+    #   The security policy for a domain configuration. For more
+    #   information, see [Security policies ][1] in the *Amazon Web Services
+    #   IoT Core developer guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/iot/latest/developerguide/transport-security.html#tls-policy-table
+    #   @return [String]
+    #
+    class TlsConfig < Struct.new(
+      :security_policy)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -14754,6 +17282,43 @@ module Aws::IoT
       include Aws::Structure
     end
 
+    # @!attribute [rw] certificate_provider_name
+    #   The name of the certificate provider.
+    #   @return [String]
+    #
+    # @!attribute [rw] lambda_function_arn
+    #   The Lambda function ARN that's associated with the certificate
+    #   provider.
+    #   @return [String]
+    #
+    # @!attribute [rw] account_default_for_operations
+    #   A list of the operations that the certificate provider will use to
+    #   generate certificates. Valid value: `CreateCertificateFromCsr`.
+    #   @return [Array<String>]
+    #
+    class UpdateCertificateProviderRequest < Struct.new(
+      :certificate_provider_name,
+      :lambda_function_arn,
+      :account_default_for_operations)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] certificate_provider_name
+    #   The name of the certificate provider.
+    #   @return [String]
+    #
+    # @!attribute [rw] certificate_provider_arn
+    #   The ARN of the certificate provider.
+    #   @return [String]
+    #
+    class UpdateCertificateProviderResponse < Struct.new(
+      :certificate_provider_name,
+      :certificate_provider_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The input for the UpdateCertificate operation.
     #
     # @!attribute [rw] certificate_id
@@ -14776,6 +17341,64 @@ module Aws::IoT
     class UpdateCertificateRequest < Struct.new(
       :certificate_id,
       :new_status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] command_id
+    #   The unique identifier of the command to be updated.
+    #   @return [String]
+    #
+    # @!attribute [rw] display_name
+    #   The new user-friendly name to use in the console for the command.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   A short text description of the command.
+    #   @return [String]
+    #
+    # @!attribute [rw] deprecated
+    #   A boolean that you can use to specify whether to deprecate a
+    #   command.
+    #   @return [Boolean]
+    #
+    class UpdateCommandRequest < Struct.new(
+      :command_id,
+      :display_name,
+      :description,
+      :deprecated)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] command_id
+    #   The unique identifier of the command.
+    #   @return [String]
+    #
+    # @!attribute [rw] display_name
+    #   The updated user-friendly display name in the console for the
+    #   command.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The updated text description of the command.
+    #   @return [String]
+    #
+    # @!attribute [rw] deprecated
+    #   The boolean that indicates whether the command was deprecated.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] last_updated_at
+    #   The date and time (epoch timestamp in seconds) when the command was
+    #   last updated.
+    #   @return [Time]
+    #
+    class UpdateCommandResponse < Struct.new(
+      :command_id,
+      :display_name,
+      :description,
+      :deprecated,
+      :last_updated_at)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -14925,11 +17548,101 @@ module Aws::IoT
     #   Removes the authorization configuration from a domain.
     #   @return [Boolean]
     #
+    # @!attribute [rw] tls_config
+    #   An object that specifies the TLS configuration for a domain.
+    #   @return [Types::TlsConfig]
+    #
+    # @!attribute [rw] server_certificate_config
+    #   The server certificate configuration.
+    #   @return [Types::ServerCertificateConfig]
+    #
+    # @!attribute [rw] authentication_type
+    #   An enumerated string that speciﬁes the authentication type.
+    #
+    #   * `CUSTOM_AUTH_X509` - Use custom authentication and authorization
+    #     with additional details from the X.509 client certificate.
+    #
+    #   ^
+    #   ^
+    #
+    #   * `CUSTOM_AUTH` - Use custom authentication and authorization. For
+    #     more information, see [Custom authentication and
+    #     authorization][1].
+    #
+    #   ^
+    #   ^
+    #
+    #   * `AWS_X509` - Use X.509 client certificates without custom
+    #     authentication and authorization. For more information, see [X.509
+    #     client certificates][2].
+    #
+    #   ^
+    #   ^
+    #
+    #   * `AWS_SIGV4` - Use Amazon Web Services Signature Version 4. For
+    #     more information, see [IAM users, groups, and roles][1].
+    #
+    #   ^
+    #   ^
+    #
+    #   * `DEFAULT ` - Use a combination of port and Application Layer
+    #     Protocol Negotiation (ALPN) to specify authentication type. For
+    #     more information, see [Device communication protocols][3].
+    #
+    #   ^
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/iot/latest/developerguide/custom-authentication.html
+    #   [2]: https://docs.aws.amazon.com/iot/latest/developerguide/x509-client-certs.html
+    #   [3]: https://docs.aws.amazon.com/iot/latest/developerguide/protocols.html
+    #   @return [String]
+    #
+    # @!attribute [rw] application_protocol
+    #   An enumerated string that speciﬁes the application-layer protocol.
+    #
+    #   * `SECURE_MQTT` - MQTT over TLS.
+    #
+    #   ^
+    #   ^
+    #
+    #   * `MQTT_WSS` - MQTT over WebSocket.
+    #
+    #   ^
+    #   ^
+    #
+    #   * `HTTPS` - HTTP over TLS.
+    #
+    #   ^
+    #   ^
+    #
+    #   * `DEFAULT` - Use a combination of port and Application Layer
+    #     Protocol Negotiation (ALPN) to specify application\_layer
+    #     protocol. For more information, see [Device communication
+    #     protocols][1].
+    #
+    #   ^
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/iot/latest/developerguide/protocols.html
+    #   @return [String]
+    #
+    # @!attribute [rw] client_certificate_config
+    #   An object that speciﬁes the client certificate conﬁguration for a
+    #   domain.
+    #   @return [Types::ClientCertificateConfig]
+    #
     class UpdateDomainConfigurationRequest < Struct.new(
       :domain_configuration_name,
       :authorizer_config,
       :domain_configuration_status,
-      :remove_authorizer_config)
+      :remove_authorizer_config,
+      :tls_config,
+      :server_certificate_config,
+      :authentication_type,
+      :application_protocol,
+      :client_certificate_config)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -15130,9 +17843,15 @@ module Aws::IoT
     #
     #   `$aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/`
     #
-    #   <note markdown="1"> The `namespaceId` feature is in public preview.
+    #   <note markdown="1"> The `namespaceId` feature is only supported by IoT Greengrass at
+    #   this time. For more information, see [Setting up IoT Greengrass core
+    #   devices.][1]
     #
     #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/greengrass/v2/developerguide/setting-up.html
     #   @return [String]
     #
     # @!attribute [rw] job_executions_retry_config
@@ -15188,6 +17907,140 @@ module Aws::IoT
       SENSITIVE = []
       include Aws::Structure
     end
+
+    # @!attribute [rw] version_update_by_jobs_config
+    #   Configuration to manage job's package version reporting. This
+    #   updates the thing's reserved named shadow that the job targets.
+    #   @return [Types::VersionUpdateByJobsConfig]
+    #
+    # @!attribute [rw] client_token
+    #   A unique case-sensitive identifier that you can provide to ensure
+    #   the idempotency of the request. Don't reuse this client token if a
+    #   new idempotent request is required.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    class UpdatePackageConfigurationRequest < Struct.new(
+      :version_update_by_jobs_config,
+      :client_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    class UpdatePackageConfigurationResponse < Aws::EmptyStructure; end
+
+    # @!attribute [rw] package_name
+    #   The name of the target software package.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The package description.
+    #   @return [String]
+    #
+    # @!attribute [rw] default_version_name
+    #   The name of the default package version.
+    #
+    #   **Note:** You cannot name a `defaultVersion` and set
+    #   `unsetDefaultVersion` equal to `true` at the same time.
+    #   @return [String]
+    #
+    # @!attribute [rw] unset_default_version
+    #   Indicates whether you want to remove the named default package
+    #   version from the software package. Set as `true` to remove the
+    #   default package version.
+    #
+    #   **Note:** You cannot name a `defaultVersion` and set
+    #   `unsetDefaultVersion` equal to `true` at the same time.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] client_token
+    #   A unique case-sensitive identifier that you can provide to ensure
+    #   the idempotency of the request. Don't reuse this client token if a
+    #   new idempotent request is required.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    class UpdatePackageRequest < Struct.new(
+      :package_name,
+      :description,
+      :default_version_name,
+      :unset_default_version,
+      :client_token)
+      SENSITIVE = [:description]
+      include Aws::Structure
+    end
+
+    class UpdatePackageResponse < Aws::EmptyStructure; end
+
+    # @!attribute [rw] package_name
+    #   The name of the associated software package.
+    #   @return [String]
+    #
+    # @!attribute [rw] version_name
+    #   The name of the target package version.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The package version description.
+    #   @return [String]
+    #
+    # @!attribute [rw] attributes
+    #   Metadata that can be used to define a package version’s
+    #   configuration. For example, the Amazon S3 file location,
+    #   configuration options that are being sent to the device or fleet.
+    #
+    #   **Note:** Attributes can be updated only when the package version is
+    #   in a draft state.
+    #
+    #   The combined size of all the attributes on a package version is
+    #   limited to 3KB.
+    #   @return [Hash<String,String>]
+    #
+    # @!attribute [rw] artifact
+    #   The various components that make up a software package version.
+    #   @return [Types::PackageVersionArtifact]
+    #
+    # @!attribute [rw] action
+    #   The status that the package version should be assigned. For more
+    #   information, see [Package version lifecycle][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/iot/latest/developerguide/preparing-to-use-software-package-catalog.html#package-version-lifecycle
+    #   @return [String]
+    #
+    # @!attribute [rw] recipe
+    #   The inline job document associated with a software package version
+    #   used for a quick job deployment.
+    #   @return [String]
+    #
+    # @!attribute [rw] client_token
+    #   A unique case-sensitive identifier that you can provide to ensure
+    #   the idempotency of the request. Don't reuse this client token if a
+    #   new idempotent request is required.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    class UpdatePackageVersionRequest < Struct.new(
+      :package_name,
+      :version_name,
+      :description,
+      :attributes,
+      :artifact,
+      :action,
+      :recipe,
+      :client_token)
+      SENSITIVE = [:description, :attributes, :recipe]
+      include Aws::Structure
+    end
+
+    class UpdatePackageVersionResponse < Aws::EmptyStructure; end
 
     # @!attribute [rw] template_name
     #   The name of the provisioning template.
@@ -15389,6 +18242,15 @@ module Aws::IoT
     #   `VersionConflictException` is thrown.
     #   @return [Integer]
     #
+    # @!attribute [rw] metrics_export_config
+    #   Specifies the MQTT topic and role ARN required for metric export.
+    #   @return [Types::MetricsExportConfig]
+    #
+    # @!attribute [rw] delete_metrics_export_config
+    #   Set the value as true to delete metrics export related
+    #   configurations.
+    #   @return [Boolean]
+    #
     class UpdateSecurityProfileRequest < Struct.new(
       :security_profile_name,
       :security_profile_description,
@@ -15399,7 +18261,9 @@ module Aws::IoT
       :delete_behaviors,
       :delete_alert_targets,
       :delete_additional_metrics_to_retain,
-      :expected_version)
+      :expected_version,
+      :metrics_export_config,
+      :delete_metrics_export_config)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -15453,6 +18317,10 @@ module Aws::IoT
     #   The time the security profile was last modified.
     #   @return [Time]
     #
+    # @!attribute [rw] metrics_export_config
+    #   Specifies the MQTT topic and role ARN required for metric export.
+    #   @return [Types::MetricsExportConfig]
+    #
     class UpdateSecurityProfileResponse < Struct.new(
       :security_profile_name,
       :security_profile_arn,
@@ -15463,7 +18331,8 @@ module Aws::IoT
       :additional_metrics_to_retain_v2,
       :version,
       :creation_date,
-      :last_modified_date)
+      :last_modified_date,
+      :metrics_export_config)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -15598,7 +18467,7 @@ module Aws::IoT
     #   A list of thing attributes, a JSON string containing name-value
     #   pairs. For example:
     #
-    #   `\{"attributes":\{"name1":"value2"\}\}`
+    #   `{"attributes":{"name1":"value2"}}`
     #
     #   This data is used to add new attributes or update existing
     #   attributes.
@@ -15629,6 +18498,25 @@ module Aws::IoT
     # The output from the UpdateThing operation.
     #
     class UpdateThingResponse < Aws::EmptyStructure; end
+
+    # @!attribute [rw] thing_type_name
+    #   The name of a thing type.
+    #   @return [String]
+    #
+    # @!attribute [rw] thing_type_properties
+    #   The ThingTypeProperties contains information about the thing type
+    #   including: a thing type description, and a list of searchable thing
+    #   attribute names.
+    #   @return [Types::ThingTypeProperties]
+    #
+    class UpdateThingTypeRequest < Struct.new(
+      :thing_type_name,
+      :thing_type_properties)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    class UpdateThingTypeResponse < Aws::EmptyStructure; end
 
     # @!attribute [rw] arn
     #   The ARN of the topic rule destination.
@@ -15736,6 +18624,17 @@ module Aws::IoT
       include Aws::Structure
     end
 
+    # The request is not valid.
+    #
+    # @!attribute [rw] message
+    #   @return [String]
+    #
+    class ValidationException < Struct.new(
+      :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # An exception thrown when the version of an entity specified with the
     # `expectedVersion` parameter does not match the latest version in the
     # system.
@@ -15746,6 +18645,31 @@ module Aws::IoT
     #
     class VersionConflictException < Struct.new(
       :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Configuration to manage IoT Job's package version reporting. If
+    # configured, Jobs updates the thing's reserved named shadow with the
+    # package version information up on successful job completion.
+    #
+    # **Note:** For each job, the destinationPackageVersions attribute has
+    # to be set with the correct data for Jobs to report to the thing
+    # shadow.
+    #
+    # @!attribute [rw] enabled
+    #   Indicates whether the Job is enabled or not.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] role_arn
+    #   The Amazon Resource Name (ARN) of the role that grants permission to
+    #   the IoT jobs service to update the reserved named shadow when the
+    #   job successfully completes.
+    #   @return [String]
+    #
+    class VersionUpdateByJobsConfig < Struct.new(
+      :enabled,
+      :role_arn)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -15939,3 +18863,4 @@ module Aws::IoT
 
   end
 end
+

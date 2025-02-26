@@ -7,33 +7,34 @@
 #
 # WARNING ABOUT GENERATED CODE
 
-require 'seahorse/client/plugins/content_length.rb'
-require 'aws-sdk-core/plugins/credentials_configuration.rb'
-require 'aws-sdk-core/plugins/logging.rb'
-require 'aws-sdk-core/plugins/param_converter.rb'
-require 'aws-sdk-core/plugins/param_validator.rb'
-require 'aws-sdk-core/plugins/user_agent.rb'
-require 'aws-sdk-core/plugins/helpful_socket_errors.rb'
-require 'aws-sdk-core/plugins/retry_errors.rb'
-require 'aws-sdk-core/plugins/global_configuration.rb'
-require 'aws-sdk-core/plugins/regional_endpoint.rb'
-require 'aws-sdk-core/plugins/endpoint_discovery.rb'
-require 'aws-sdk-core/plugins/endpoint_pattern.rb'
-require 'aws-sdk-core/plugins/response_paging.rb'
-require 'aws-sdk-core/plugins/stub_responses.rb'
-require 'aws-sdk-core/plugins/idempotency_token.rb'
-require 'aws-sdk-core/plugins/jsonvalue_converter.rb'
-require 'aws-sdk-core/plugins/client_metrics_plugin.rb'
-require 'aws-sdk-core/plugins/client_metrics_send_plugin.rb'
-require 'aws-sdk-core/plugins/transfer_encoding.rb'
-require 'aws-sdk-core/plugins/http_checksum.rb'
-require 'aws-sdk-core/plugins/checksum_algorithm.rb'
-require 'aws-sdk-core/plugins/defaults_mode.rb'
-require 'aws-sdk-core/plugins/recursion_detection.rb'
-require 'aws-sdk-core/plugins/sign.rb'
-require 'aws-sdk-core/plugins/protocols/rest_json.rb'
-
-Aws::Plugins::GlobalConfiguration.add_identifier(:groundstation)
+require 'seahorse/client/plugins/content_length'
+require 'aws-sdk-core/plugins/credentials_configuration'
+require 'aws-sdk-core/plugins/logging'
+require 'aws-sdk-core/plugins/param_converter'
+require 'aws-sdk-core/plugins/param_validator'
+require 'aws-sdk-core/plugins/user_agent'
+require 'aws-sdk-core/plugins/helpful_socket_errors'
+require 'aws-sdk-core/plugins/retry_errors'
+require 'aws-sdk-core/plugins/global_configuration'
+require 'aws-sdk-core/plugins/regional_endpoint'
+require 'aws-sdk-core/plugins/endpoint_discovery'
+require 'aws-sdk-core/plugins/endpoint_pattern'
+require 'aws-sdk-core/plugins/response_paging'
+require 'aws-sdk-core/plugins/stub_responses'
+require 'aws-sdk-core/plugins/idempotency_token'
+require 'aws-sdk-core/plugins/invocation_id'
+require 'aws-sdk-core/plugins/jsonvalue_converter'
+require 'aws-sdk-core/plugins/client_metrics_plugin'
+require 'aws-sdk-core/plugins/client_metrics_send_plugin'
+require 'aws-sdk-core/plugins/transfer_encoding'
+require 'aws-sdk-core/plugins/http_checksum'
+require 'aws-sdk-core/plugins/checksum_algorithm'
+require 'aws-sdk-core/plugins/request_compression'
+require 'aws-sdk-core/plugins/defaults_mode'
+require 'aws-sdk-core/plugins/recursion_detection'
+require 'aws-sdk-core/plugins/telemetry'
+require 'aws-sdk-core/plugins/sign'
+require 'aws-sdk-core/plugins/protocols/rest_json'
 
 module Aws::GroundStation
   # An API client for GroundStation.  To construct a client, you need to configure a `:region` and `:credentials`.
@@ -71,20 +72,28 @@ module Aws::GroundStation
     add_plugin(Aws::Plugins::ResponsePaging)
     add_plugin(Aws::Plugins::StubResponses)
     add_plugin(Aws::Plugins::IdempotencyToken)
+    add_plugin(Aws::Plugins::InvocationId)
     add_plugin(Aws::Plugins::JsonvalueConverter)
     add_plugin(Aws::Plugins::ClientMetricsPlugin)
     add_plugin(Aws::Plugins::ClientMetricsSendPlugin)
     add_plugin(Aws::Plugins::TransferEncoding)
     add_plugin(Aws::Plugins::HttpChecksum)
     add_plugin(Aws::Plugins::ChecksumAlgorithm)
+    add_plugin(Aws::Plugins::RequestCompression)
     add_plugin(Aws::Plugins::DefaultsMode)
     add_plugin(Aws::Plugins::RecursionDetection)
+    add_plugin(Aws::Plugins::Telemetry)
     add_plugin(Aws::Plugins::Sign)
     add_plugin(Aws::Plugins::Protocols::RestJson)
     add_plugin(Aws::GroundStation::Plugins::Endpoints)
 
     # @overload initialize(options)
     #   @param [Hash] options
+    #
+    #   @option options [Array<Seahorse::Client::Plugin>] :plugins ([]])
+    #     A list of plugins to apply to the client. Each plugin is either a
+    #     class name or an instance of a plugin class.
+    #
     #   @option options [required, Aws::CredentialProvider] :credentials
     #     Your AWS credentials. This can be an instance of any one of the
     #     following classes:
@@ -119,13 +128,15 @@ module Aws::GroundStation
     #     locations will be searched for credentials:
     #
     #     * `Aws.config[:credentials]`
-    #     * The `:access_key_id`, `:secret_access_key`, and `:session_token` options.
-    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']
+    #     * The `:access_key_id`, `:secret_access_key`, `:session_token`, and
+    #       `:account_id` options.
+    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'],
+    #       ENV['AWS_SESSION_TOKEN'], and ENV['AWS_ACCOUNT_ID']
     #     * `~/.aws/credentials`
     #     * `~/.aws/config`
     #     * EC2/ECS IMDS instance profile - When used by default, the timeouts
     #       are very aggressive. Construct and pass an instance of
-    #       `Aws::InstanceProfileCredentails` or `Aws::ECSCredentials` to
+    #       `Aws::InstanceProfileCredentials` or `Aws::ECSCredentials` to
     #       enable retries and extended timeouts. Instance profile credential
     #       fetching can be disabled by setting ENV['AWS_EC2_METADATA_DISABLED']
     #       to true.
@@ -143,6 +154,8 @@ module Aws::GroundStation
     #     * `~/.aws/config`
     #
     #   @option options [String] :access_key_id
+    #
+    #   @option options [String] :account_id
     #
     #   @option options [Boolean] :active_endpoint_cache (false)
     #     When set to `true`, a thread polling for endpoints will be running in
@@ -190,10 +203,20 @@ module Aws::GroundStation
     #     Set to true to disable SDK automatically adding host prefix
     #     to default service endpoint when available.
     #
-    #   @option options [String] :endpoint
-    #     The client endpoint is normally constructed from the `:region`
-    #     option. You should only configure an `:endpoint` when connecting
-    #     to test or custom endpoints. This should be a valid HTTP(S) URI.
+    #   @option options [Boolean] :disable_request_compression (false)
+    #     When set to 'true' the request body will not be compressed
+    #     for supported operations.
+    #
+    #   @option options [String, URI::HTTPS, URI::HTTP] :endpoint
+    #     Normally you should not configure the `:endpoint` option
+    #     directly. This is normally constructed from the `:region`
+    #     option. Configuring `:endpoint` is normally reserved for
+    #     connecting to test or custom endpoints. The endpoint should
+    #     be a URI formatted like:
+    #
+    #         'http://example.com'
+    #         'https://example.com'
+    #         'http://example.com:123'
     #
     #   @option options [Integer] :endpoint_cache_max_entries (1000)
     #     Used for the maximum size limit of the LRU cache storing endpoints data
@@ -209,6 +232,10 @@ module Aws::GroundStation
     #
     #   @option options [Boolean] :endpoint_discovery (false)
     #     When set to `true`, endpoint discovery will be enabled for operations when available.
+    #
+    #   @option options [Boolean] :ignore_configured_endpoint_urls
+    #     Setting to true disables use of endpoint URLs provided via environment
+    #     variables and the shared configuration file.
     #
     #   @option options [Aws::Log::Formatter] :log_formatter (Aws::Log::Formatter.default)
     #     The log formatter.
@@ -229,6 +256,34 @@ module Aws::GroundStation
     #   @option options [String] :profile ("default")
     #     Used when loading credentials from the shared credentials file
     #     at HOME/.aws/credentials.  When not specified, 'default' is used.
+    #
+    #   @option options [String] :request_checksum_calculation ("when_supported")
+    #     Determines when a checksum will be calculated for request payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, a checksum will be
+    #       calculated for all request payloads of operations modeled with the
+    #       `httpChecksum` trait where `requestChecksumRequired` is `true` and/or a
+    #       `requestAlgorithmMember` is modeled.
+    #     * `when_required` - When set, a checksum will only be calculated for
+    #       request payloads of operations modeled with the  `httpChecksum` trait where
+    #       `requestChecksumRequired` is `true` or where a `requestAlgorithmMember`
+    #       is modeled and supplied.
+    #
+    #   @option options [Integer] :request_min_compression_size_bytes (10240)
+    #     The minimum size in bytes that triggers compression for request
+    #     bodies. The value must be non-negative integer value between 0
+    #     and 10485780 bytes inclusive.
+    #
+    #   @option options [String] :response_checksum_validation ("when_supported")
+    #     Determines when checksum validation will be performed on response payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, checksum validation is performed on all
+    #       response payloads of operations modeled with the `httpChecksum` trait where
+    #       `responseAlgorithms` is modeled, except when no modeled checksum algorithms
+    #       are supported.
+    #     * `when_required` - When set, checksum validation is not performed on
+    #       response payloads of operations unless the checksum algorithm is supported and
+    #       the `requestValidationModeMember` member is set to `ENABLED`.
     #
     #   @option options [Proc] :retry_backoff
     #     A proc or lambda used for backoff. Defaults to 2**retries * retry_base_delay.
@@ -274,10 +329,24 @@ module Aws::GroundStation
     #       throttling.  This is a provisional mode that may change behavior
     #       in the future.
     #
+    #   @option options [String] :sdk_ua_app_id
+    #     A unique and opaque application ID that is appended to the
+    #     User-Agent header as app/sdk_ua_app_id. It should have a
+    #     maximum length of 50. This variable is sourced from environment
+    #     variable AWS_SDK_UA_APP_ID or the shared config profile attribute sdk_ua_app_id.
     #
     #   @option options [String] :secret_access_key
     #
     #   @option options [String] :session_token
+    #
+    #   @option options [Array] :sigv4a_signing_region_set
+    #     A list of regions that should be signed with SigV4a signing. When
+    #     not passed, a default `:sigv4a_signing_region_set` is searched for
+    #     in the following locations:
+    #
+    #     * `Aws.config[:sigv4a_signing_region_set]`
+    #     * `ENV['AWS_SIGV4A_SIGNING_REGION_SET']`
+    #     * `~/.aws/config`
     #
     #   @option options [Boolean] :stub_responses (false)
     #     Causes the client to return stubbed responses. By default
@@ -287,6 +356,16 @@ module Aws::GroundStation
     #
     #     ** Please note ** When response stubbing is enabled, no HTTP
     #     requests are made, and retries are disabled.
+    #
+    #   @option options [Aws::Telemetry::TelemetryProviderBase] :telemetry_provider (Aws::Telemetry::NoOpTelemetryProvider)
+    #     Allows you to provide a telemetry provider, which is used to
+    #     emit telemetry data. By default, uses `NoOpTelemetryProvider` which
+    #     will not record or emit any telemetry data. The SDK supports the
+    #     following telemetry providers:
+    #
+    #     * OpenTelemetry (OTel) - To use the OTel provider, install and require the
+    #     `opentelemetry-sdk` gem and then, pass in an instance of a
+    #     `Aws::Telemetry::OTelProvider` for telemetry provider.
     #
     #   @option options [Aws::TokenProvider] :token_provider
     #     A Bearer Token Provider. This can be an instance of any one of the
@@ -315,52 +394,75 @@ module Aws::GroundStation
     #     sending the request.
     #
     #   @option options [Aws::GroundStation::EndpointProvider] :endpoint_provider
-    #     The endpoint provider used to resolve endpoints. Any object that responds to `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to `Aws::GroundStation::EndpointParameters`
+    #     The endpoint provider used to resolve endpoints. Any object that responds to
+    #     `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+    #     `Aws::GroundStation::EndpointParameters`.
     #
-    #   @option options [URI::HTTP,String] :http_proxy A proxy to send
-    #     requests through.  Formatted like 'http://proxy.com:123'.
+    #   @option options [Float] :http_continue_timeout (1)
+    #     The number of seconds to wait for a 100-continue response before sending the
+    #     request body.  This option has no effect unless the request has "Expect"
+    #     header set to "100-continue".  Defaults to `nil` which  disables this
+    #     behaviour.  This value can safely be set per request on the session.
     #
-    #   @option options [Float] :http_open_timeout (15) The number of
-    #     seconds to wait when opening a HTTP session before raising a
-    #     `Timeout::Error`.
+    #   @option options [Float] :http_idle_timeout (5)
+    #     The number of seconds a connection is allowed to sit idle before it
+    #     is considered stale.  Stale connections are closed and removed from the
+    #     pool before making a request.
     #
-    #   @option options [Float] :http_read_timeout (60) The default
-    #     number of seconds to wait for response data.  This value can
-    #     safely be set per-request on the session.
+    #   @option options [Float] :http_open_timeout (15)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :http_idle_timeout (5) The number of
-    #     seconds a connection is allowed to sit idle before it is
-    #     considered stale.  Stale connections are closed and removed
-    #     from the pool before making a request.
+    #   @option options [URI::HTTP,String] :http_proxy
+    #     A proxy to send requests through.  Formatted like 'http://proxy.com:123'.
     #
-    #   @option options [Float] :http_continue_timeout (1) The number of
-    #     seconds to wait for a 100-continue response before sending the
-    #     request body.  This option has no effect unless the request has
-    #     "Expect" header set to "100-continue".  Defaults to `nil` which
-    #     disables this behaviour.  This value can safely be set per
-    #     request on the session.
+    #   @option options [Float] :http_read_timeout (60)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :ssl_timeout (nil) Sets the SSL timeout
-    #     in seconds.
+    #   @option options [Boolean] :http_wire_trace (false)
+    #     When `true`,  HTTP debug output will be sent to the `:logger`.
     #
-    #   @option options [Boolean] :http_wire_trace (false) When `true`,
-    #     HTTP debug output will be sent to the `:logger`.
+    #   @option options [Proc] :on_chunk_received
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the response body is received. It provides three arguments: the chunk,
+    #     the number of bytes received, and the total number of
+    #     bytes in the response (or nil if the server did not send a `content-length`).
     #
-    #   @option options [Boolean] :ssl_verify_peer (true) When `true`,
-    #     SSL peer certificates are verified when establishing a
-    #     connection.
+    #   @option options [Proc] :on_chunk_sent
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the request body is sent. It provides three arguments: the chunk,
+    #     the number of bytes read from the body, and the total number of
+    #     bytes in the body.
     #
-    #   @option options [String] :ssl_ca_bundle Full path to the SSL
-    #     certificate authority bundle file that should be used when
-    #     verifying peer certificates.  If you do not pass
-    #     `:ssl_ca_bundle` or `:ssl_ca_directory` the the system default
-    #     will be used if available.
+    #   @option options [Boolean] :raise_response_errors (true)
+    #     When `true`, response errors are raised.
     #
-    #   @option options [String] :ssl_ca_directory Full path of the
-    #     directory that contains the unbundled SSL certificate
+    #   @option options [String] :ssl_ca_bundle
+    #     Full path to the SSL certificate authority bundle file that should be used when
+    #     verifying peer certificates.  If you do not pass `:ssl_ca_bundle` or
+    #     `:ssl_ca_directory` the the system default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_directory
+    #     Full path of the directory that contains the unbundled SSL certificate
     #     authority files for verifying peer certificates.  If you do
-    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the
-    #     system default will be used if available.
+    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the system
+    #     default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_store
+    #     Sets the X509::Store to verify peer certificate.
+    #
+    #   @option options [OpenSSL::X509::Certificate] :ssl_cert
+    #     Sets a client certificate when creating http connections.
+    #
+    #   @option options [OpenSSL::PKey] :ssl_key
+    #     Sets a client key when creating http connections.
+    #
+    #   @option options [Float] :ssl_timeout
+    #     Sets the SSL timeout in seconds
+    #
+    #   @option options [Boolean] :ssl_verify_peer (true)
+    #     When `true`, SSL peer certificates are verified when establishing a connection.
     #
     def initialize(*args)
       super
@@ -514,14 +616,17 @@ module Aws::GroundStation
     # `Config` must match a `DataflowEndpoint` in the same group.
     #
     # @option params [Integer] :contact_post_pass_duration_seconds
-    #   Amount of time, in seconds, after a contact ends for the contact to
-    #   remain in a `POSTPASS` state. A CloudWatch event is emitted when the
-    #   contact enters and exits the `POSTPASS` state.
+    #   Amount of time, in seconds, after a contact ends that the Ground
+    #   Station Dataflow Endpoint Group will be in a `POSTPASS` state. A
+    #   Ground Station Dataflow Endpoint Group State Change event will be
+    #   emitted when the Dataflow Endpoint Group enters and exits the
+    #   `POSTPASS` state.
     #
     # @option params [Integer] :contact_pre_pass_duration_seconds
-    #   Amount of time, in seconds, prior to contact start for the contact to
-    #   remain in a `PREPASS` state. A CloudWatch event is emitted when the
-    #   contact enters and exits the `PREPASS` state.
+    #   Amount of time, in seconds, before a contact starts that the Ground
+    #   Station Dataflow Endpoint Group will be in a `PREPASS` state. A Ground
+    #   Station Dataflow Endpoint Group State Change event will be emitted
+    #   when the Dataflow Endpoint Group enters and exits the `PREPASS` state.
     #
     # @option params [required, Array<Types::EndpointDetails>] :endpoint_details
     #   Endpoint details of each endpoint in the dataflow endpoint group.
@@ -571,6 +676,8 @@ module Aws::GroundStation
     #           name: "SafeName",
     #           status: "created", # accepts created, creating, deleted, deleting, failed
     #         },
+    #         health_reasons: ["NO_REGISTERED_AGENT"], # accepts NO_REGISTERED_AGENT, INVALID_IP_OWNERSHIP, NOT_AUTHORIZED_TO_CREATE_SLR, UNVERIFIED_IP_OWNERSHIP, INITIALIZING_DATAPLANE, DATAPLANE_FAILURE, HEALTHY
+    #         health_status: "UNHEALTHY", # accepts UNHEALTHY, HEALTHY
     #         security_details: {
     #           role_arn: "RoleArn", # required
     #           security_group_ids: ["String"], # required
@@ -698,11 +805,12 @@ module Aws::GroundStation
     #
     # @option params [Integer] :contact_post_pass_duration_seconds
     #   Amount of time after a contact ends that you’d like to receive a
-    #   CloudWatch event indicating the pass has finished.
+    #   Ground Station Contact State Change event indicating the pass has
+    #   finished.
     #
     # @option params [Integer] :contact_pre_pass_duration_seconds
-    #   Amount of time prior to contact start you’d like to receive a
-    #   CloudWatch event indicating an upcoming pass.
+    #   Amount of time prior to contact start you’d like to receive a Ground
+    #   Station Contact State Change event indicating an upcoming pass.
     #
     # @option params [required, Array<Array>] :dataflow_edges
     #   A list of lists of ARNs. Each list of ARNs is an edge, with a *from*
@@ -744,6 +852,7 @@ module Aws::GroundStation
     #     name: "SafeName", # required
     #     streams_kms_key: {
     #       kms_alias_arn: "KeyAliasArn",
+    #       kms_alias_name: "KeyAliasName",
     #       kms_key_arn: "KeyArn",
     #     },
     #     streams_kms_role: "RoleArn",
@@ -907,6 +1016,8 @@ module Aws::GroundStation
     #   * {Types::DescribeContactResponse#satellite_arn #satellite_arn} => String
     #   * {Types::DescribeContactResponse#start_time #start_time} => Time
     #   * {Types::DescribeContactResponse#tags #tags} => Hash&lt;String,String&gt;
+    #   * {Types::DescribeContactResponse#visibility_end_time #visibility_end_time} => Time
+    #   * {Types::DescribeContactResponse#visibility_start_time #visibility_start_time} => Time
     #
     # @example Request syntax with placeholder values
     #
@@ -935,6 +1046,9 @@ module Aws::GroundStation
     #   resp.dataflow_list[0].destination.config_details.endpoint_details.endpoint.mtu #=> Integer
     #   resp.dataflow_list[0].destination.config_details.endpoint_details.endpoint.name #=> String
     #   resp.dataflow_list[0].destination.config_details.endpoint_details.endpoint.status #=> String, one of "created", "creating", "deleted", "deleting", "failed"
+    #   resp.dataflow_list[0].destination.config_details.endpoint_details.health_reasons #=> Array
+    #   resp.dataflow_list[0].destination.config_details.endpoint_details.health_reasons[0] #=> String, one of "NO_REGISTERED_AGENT", "INVALID_IP_OWNERSHIP", "NOT_AUTHORIZED_TO_CREATE_SLR", "UNVERIFIED_IP_OWNERSHIP", "INITIALIZING_DATAPLANE", "DATAPLANE_FAILURE", "HEALTHY"
+    #   resp.dataflow_list[0].destination.config_details.endpoint_details.health_status #=> String, one of "UNHEALTHY", "HEALTHY"
     #   resp.dataflow_list[0].destination.config_details.endpoint_details.security_details.role_arn #=> String
     #   resp.dataflow_list[0].destination.config_details.endpoint_details.security_details.security_group_ids #=> Array
     #   resp.dataflow_list[0].destination.config_details.endpoint_details.security_details.security_group_ids[0] #=> String
@@ -962,6 +1076,9 @@ module Aws::GroundStation
     #   resp.dataflow_list[0].source.config_details.endpoint_details.endpoint.mtu #=> Integer
     #   resp.dataflow_list[0].source.config_details.endpoint_details.endpoint.name #=> String
     #   resp.dataflow_list[0].source.config_details.endpoint_details.endpoint.status #=> String, one of "created", "creating", "deleted", "deleting", "failed"
+    #   resp.dataflow_list[0].source.config_details.endpoint_details.health_reasons #=> Array
+    #   resp.dataflow_list[0].source.config_details.endpoint_details.health_reasons[0] #=> String, one of "NO_REGISTERED_AGENT", "INVALID_IP_OWNERSHIP", "NOT_AUTHORIZED_TO_CREATE_SLR", "UNVERIFIED_IP_OWNERSHIP", "INITIALIZING_DATAPLANE", "DATAPLANE_FAILURE", "HEALTHY"
+    #   resp.dataflow_list[0].source.config_details.endpoint_details.health_status #=> String, one of "UNHEALTHY", "HEALTHY"
     #   resp.dataflow_list[0].source.config_details.endpoint_details.security_details.role_arn #=> String
     #   resp.dataflow_list[0].source.config_details.endpoint_details.security_details.security_group_ids #=> Array
     #   resp.dataflow_list[0].source.config_details.endpoint_details.security_details.security_group_ids[0] #=> String
@@ -985,6 +1102,8 @@ module Aws::GroundStation
     #   resp.start_time #=> Time
     #   resp.tags #=> Hash
     #   resp.tags["String"] #=> String
+    #   resp.visibility_end_time #=> Time
+    #   resp.visibility_start_time #=> Time
     #
     #
     # The following waiters are defined for this operation (see {Client#wait_until} for detailed usage):
@@ -1054,6 +1173,10 @@ module Aws::GroundStation
       req.send_request(options)
     end
 
+    # <note markdown="1"> For use by AWS Ground Station Agent and shouldn't be called directly.
+    #
+    #  </note>
+    #
     # Gets the latest configuration information for a registered agent.
     #
     # @option params [required, String] :agent_id
@@ -1196,6 +1319,9 @@ module Aws::GroundStation
     #   resp.endpoints_details[0].endpoint.mtu #=> Integer
     #   resp.endpoints_details[0].endpoint.name #=> String
     #   resp.endpoints_details[0].endpoint.status #=> String, one of "created", "creating", "deleted", "deleting", "failed"
+    #   resp.endpoints_details[0].health_reasons #=> Array
+    #   resp.endpoints_details[0].health_reasons[0] #=> String, one of "NO_REGISTERED_AGENT", "INVALID_IP_OWNERSHIP", "NOT_AUTHORIZED_TO_CREATE_SLR", "UNVERIFIED_IP_OWNERSHIP", "INITIALIZING_DATAPLANE", "DATAPLANE_FAILURE", "HEALTHY"
+    #   resp.endpoints_details[0].health_status #=> String, one of "UNHEALTHY", "HEALTHY"
     #   resp.endpoints_details[0].security_details.role_arn #=> String
     #   resp.endpoints_details[0].security_details.security_group_ids #=> Array
     #   resp.endpoints_details[0].security_details.security_group_ids[0] #=> String
@@ -1213,7 +1339,7 @@ module Aws::GroundStation
       req.send_request(options)
     end
 
-    # Returns the number of minutes used by account.
+    # Returns the number of reserved minutes used by account.
     #
     # @option params [required, Integer] :month
     #   The month being requested, with a value of 1-12.
@@ -1292,6 +1418,7 @@ module Aws::GroundStation
     #   resp.name #=> String
     #   resp.region #=> String
     #   resp.streams_kms_key.kms_alias_arn #=> String
+    #   resp.streams_kms_key.kms_alias_name #=> String
     #   resp.streams_kms_key.kms_key_arn #=> String
     #   resp.streams_kms_role #=> String
     #   resp.tags #=> Hash
@@ -1456,6 +1583,8 @@ module Aws::GroundStation
     #   resp.contact_list[0].start_time #=> Time
     #   resp.contact_list[0].tags #=> Hash
     #   resp.contact_list[0].tags["String"] #=> String
+    #   resp.contact_list[0].visibility_end_time #=> Time
+    #   resp.contact_list[0].visibility_start_time #=> Time
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/groundstation-2019-05-23/ListContacts AWS API Documentation
@@ -1732,13 +1861,17 @@ module Aws::GroundStation
       req.send_request(options)
     end
 
-    # Registers a new agent with AWS Groundstation.
+    # <note markdown="1"> For use by AWS Ground Station Agent and shouldn't be called directly.
+    #
+    #  </note>
+    #
+    # Registers a new agent with AWS Ground Station.
     #
     # @option params [required, Types::AgentDetails] :agent_details
     #   Detailed information about the agent being registered.
     #
     # @option params [required, Types::DiscoveryData] :discovery_data
-    #   Data for associating and agent with the capabilities it is managing.
+    #   Data for associating an agent with the capabilities it is managing.
     #
     # @return [Types::RegisterAgentResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1748,16 +1881,17 @@ module Aws::GroundStation
     #
     #   resp = client.register_agent({
     #     agent_details: { # required
+    #       agent_cpu_cores: [1],
     #       agent_version: "VersionString", # required
     #       component_versions: [ # required
     #         {
-    #           component_type: "LAMINAR_FLOW", # required, accepts LAMINAR_FLOW, PRISM, DIGITIZER
+    #           component_type: "ComponentTypeString", # required
     #           versions: ["VersionString"], # required
     #         },
     #       ],
     #       instance_id: "InstanceId", # required
     #       instance_type: "InstanceType", # required
-    #       reserved_cpu_cores: [1], # required
+    #       reserved_cpu_cores: [1],
     #     },
     #     discovery_data: { # required
     #       capability_arns: ["CapabilityArn"], # required
@@ -1883,6 +2017,10 @@ module Aws::GroundStation
       req.send_request(options)
     end
 
+    # <note markdown="1"> For use by AWS Ground Station Agent and shouldn't be called directly.
+    #
+    #  </note>
+    #
     # Update the status of the agent.
     #
     # @option params [required, String] :agent_id
@@ -1916,7 +2054,7 @@ module Aws::GroundStation
     #         bytes_received: 1,
     #         bytes_sent: 1,
     #         capability_arn: "CapabilityArn", # required
-    #         component_type: "LAMINAR_FLOW", # required, accepts LAMINAR_FLOW, PRISM, DIGITIZER
+    #         component_type: "ComponentTypeString", # required
     #         dataflow_id: "Uuid", # required
     #         packets_dropped: 1,
     #         status: "SUCCESS", # required, accepts SUCCESS, FAILED, ACTIVE, INACTIVE
@@ -2103,11 +2241,13 @@ module Aws::GroundStation
     #
     # @option params [Integer] :contact_post_pass_duration_seconds
     #   Amount of time after a contact ends that you’d like to receive a
-    #   CloudWatch event indicating the pass has finished.
+    #   Ground Station Contact State Change event indicating the pass has
+    #   finished.
     #
     # @option params [Integer] :contact_pre_pass_duration_seconds
     #   Amount of time after a contact ends that you’d like to receive a
-    #   CloudWatch event indicating the pass has finished.
+    #   Ground Station Contact State Change event indicating the pass has
+    #   finished.
     #
     # @option params [Array<Array>] :dataflow_edges
     #   A list of lists of ARNs. Each list of ARNs is an edge, with a *from*
@@ -2150,6 +2290,7 @@ module Aws::GroundStation
     #     name: "SafeName",
     #     streams_kms_key: {
     #       kms_alias_arn: "KeyAliasArn",
+    #       kms_alias_name: "KeyAliasName",
     #       kms_key_arn: "KeyArn",
     #     },
     #     streams_kms_role: "RoleArn",
@@ -2175,14 +2316,19 @@ module Aws::GroundStation
     # @api private
     def build_request(operation_name, params = {})
       handlers = @handlers.for(operation_name)
+      tracer = config.telemetry_provider.tracer_provider.tracer(
+        Aws::Telemetry.module_to_tracer_name('Aws::GroundStation')
+      )
       context = Seahorse::Client::RequestContext.new(
         operation_name: operation_name,
         operation: config.api.operation(operation_name),
         client: self,
         params: params,
-        config: config)
+        config: config,
+        tracer: tracer
+      )
       context[:gem_name] = 'aws-sdk-groundstation'
-      context[:gem_version] = '1.32.0'
+      context[:gem_version] = '1.63.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

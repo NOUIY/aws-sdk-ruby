@@ -29,24 +29,52 @@ module Aws::ConnectCampaignService
       include Aws::Structure
     end
 
+    # Agentless Dialer config
+    #
+    # @!attribute [rw] dialing_capacity
+    #   Allocates dialing capacity for this campaign between multiple active
+    #   campaigns
+    #   @return [Float]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connectcampaigns-2021-01-30/AgentlessDialerConfig AWS API Documentation
+    #
+    class AgentlessDialerConfig < Struct.new(
+      :dialing_capacity)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Answering Machine Detection config
     #
     # @!attribute [rw] enable_answer_machine_detection
     #   Enable or disable answering machine detection
     #   @return [Boolean]
     #
+    # @!attribute [rw] await_answer_machine_prompt
+    #   Enable or disable await answer machine prompt
+    #   @return [Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connectcampaigns-2021-01-30/AnswerMachineDetectionConfig AWS API Documentation
     #
     class AnswerMachineDetectionConfig < Struct.new(
-      :enable_answer_machine_detection)
+      :enable_answer_machine_detection,
+      :await_answer_machine_prompt)
       SENSITIVE = []
       include Aws::Structure
     end
 
     # An Amazon Connect campaign.
     #
+    # @!attribute [rw] id
+    #   Identifier representing a Campaign
+    #   @return [String]
+    #
     # @!attribute [rw] arn
     #   The resource name of an Amazon Connect campaign.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of an Amazon Connect Campaign name.
     #   @return [String]
     #
     # @!attribute [rw] connect_instance_id
@@ -56,14 +84,6 @@ module Aws::ConnectCampaignService
     # @!attribute [rw] dialer_config
     #   The possible types of dialer config parameters
     #   @return [Types::DialerConfig]
-    #
-    # @!attribute [rw] id
-    #   Identifier representing a Campaign
-    #   @return [String]
-    #
-    # @!attribute [rw] name
-    #   The name of an Amazon Connect Campaign name.
-    #   @return [String]
     #
     # @!attribute [rw] outbound_call_config
     #   The configuration used for outbound calls.
@@ -76,11 +96,11 @@ module Aws::ConnectCampaignService
     # @see http://docs.aws.amazon.com/goto/WebAPI/connectcampaigns-2021-01-30/Campaign AWS API Documentation
     #
     class Campaign < Struct.new(
+      :id,
       :arn,
+      :name,
       :connect_instance_id,
       :dialer_config,
-      :id,
-      :name,
       :outbound_call_config,
       :tags)
       SENSITIVE = []
@@ -103,29 +123,29 @@ module Aws::ConnectCampaignService
 
     # An Amazon Connect campaign summary.
     #
-    # @!attribute [rw] arn
-    #   The resource name of an Amazon Connect campaign.
-    #   @return [String]
-    #
-    # @!attribute [rw] connect_instance_id
-    #   Amazon Connect Instance Id
-    #   @return [String]
-    #
     # @!attribute [rw] id
     #   Identifier representing a Campaign
+    #   @return [String]
+    #
+    # @!attribute [rw] arn
+    #   The resource name of an Amazon Connect campaign.
     #   @return [String]
     #
     # @!attribute [rw] name
     #   The name of an Amazon Connect Campaign name.
     #   @return [String]
     #
+    # @!attribute [rw] connect_instance_id
+    #   Amazon Connect Instance Id
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connectcampaigns-2021-01-30/CampaignSummary AWS API Documentation
     #
     class CampaignSummary < Struct.new(
-      :arn,
-      :connect_instance_id,
       :id,
-      :name)
+      :arn,
+      :name,
+      :connect_instance_id)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -152,6 +172,10 @@ module Aws::ConnectCampaignService
 
     # The request for Create Campaign API.
     #
+    # @!attribute [rw] name
+    #   The name of an Amazon Connect Campaign name.
+    #   @return [String]
+    #
     # @!attribute [rw] connect_instance_id
     #   Amazon Connect Instance Id
     #   @return [String]
@@ -159,10 +183,6 @@ module Aws::ConnectCampaignService
     # @!attribute [rw] dialer_config
     #   The possible types of dialer config parameters
     #   @return [Types::DialerConfig]
-    #
-    # @!attribute [rw] name
-    #   The name of an Amazon Connect Campaign name.
-    #   @return [String]
     #
     # @!attribute [rw] outbound_call_config
     #   The configuration used for outbound calls.
@@ -175,9 +195,9 @@ module Aws::ConnectCampaignService
     # @see http://docs.aws.amazon.com/goto/WebAPI/connectcampaigns-2021-01-30/CreateCampaignRequest AWS API Documentation
     #
     class CreateCampaignRequest < Struct.new(
+      :name,
       :connect_instance_id,
       :dialer_config,
-      :name,
       :outbound_call_config,
       :tags)
       SENSITIVE = []
@@ -186,12 +206,12 @@ module Aws::ConnectCampaignService
 
     # The response for Create Campaign API
     #
-    # @!attribute [rw] arn
-    #   The resource name of an Amazon Connect campaign.
-    #   @return [String]
-    #
     # @!attribute [rw] id
     #   Identifier representing a Campaign
+    #   @return [String]
+    #
+    # @!attribute [rw] arn
+    #   The resource name of an Amazon Connect campaign.
     #   @return [String]
     #
     # @!attribute [rw] tags
@@ -201,8 +221,8 @@ module Aws::ConnectCampaignService
     # @see http://docs.aws.amazon.com/goto/WebAPI/connectcampaigns-2021-01-30/CreateCampaignResponse AWS API Documentation
     #
     class CreateCampaignResponse < Struct.new(
-      :arn,
       :id,
+      :arn,
       :tags)
       SENSITIVE = []
       include Aws::Structure
@@ -280,33 +300,33 @@ module Aws::ConnectCampaignService
 
     # A dial request for a campaign.
     #
-    # @!attribute [rw] attributes
-    #   A custom key-value pair using an attribute map. The attributes are
-    #   standard Amazon Connect attributes, and can be accessed in contact
-    #   flows just like any other contact attributes.
-    #   @return [Hash<String,String>]
-    #
     # @!attribute [rw] client_token
     #   Client provided parameter used for idempotency. Its value must be
     #   unique for each request.
+    #   @return [String]
+    #
+    # @!attribute [rw] phone_number
+    #   The phone number of the customer, in E.164 format.
     #   @return [String]
     #
     # @!attribute [rw] expiration_time
     #   Timestamp with no UTC offset or timezone
     #   @return [Time]
     #
-    # @!attribute [rw] phone_number
-    #   The phone number of the customer, in E.164 format.
-    #   @return [String]
+    # @!attribute [rw] attributes
+    #   A custom key-value pair using an attribute map. The attributes are
+    #   standard Amazon Connect attributes, and can be accessed in contact
+    #   flows just like any other contact attributes.
+    #   @return [Hash<String,String>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connectcampaigns-2021-01-30/DialRequest AWS API Documentation
     #
     class DialRequest < Struct.new(
-      :attributes,
       :client_token,
+      :phone_number,
       :expiration_time,
-      :phone_number)
-      SENSITIVE = [:attributes, :phone_number]
+      :attributes)
+      SENSITIVE = [:phone_number, :attributes]
       include Aws::Structure
     end
 
@@ -316,26 +336,32 @@ module Aws::ConnectCampaignService
     #
     # @note DialerConfig is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of DialerConfig corresponding to the set member.
     #
-    # @!attribute [rw] predictive_dialer_config
-    #   Predictive Dialer config
-    #   @return [Types::PredictiveDialerConfig]
-    #
     # @!attribute [rw] progressive_dialer_config
     #   Progressive Dialer config
     #   @return [Types::ProgressiveDialerConfig]
     #
+    # @!attribute [rw] predictive_dialer_config
+    #   Predictive Dialer config
+    #   @return [Types::PredictiveDialerConfig]
+    #
+    # @!attribute [rw] agentless_dialer_config
+    #   Agentless Dialer config
+    #   @return [Types::AgentlessDialerConfig]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connectcampaigns-2021-01-30/DialerConfig AWS API Documentation
     #
     class DialerConfig < Struct.new(
-      :predictive_dialer_config,
       :progressive_dialer_config,
+      :predictive_dialer_config,
+      :agentless_dialer_config,
       :unknown)
       SENSITIVE = []
       include Aws::Structure
       include Aws::Structure::Union
 
-      class PredictiveDialerConfig < DialerConfig; end
       class ProgressiveDialerConfig < DialerConfig; end
+      class PredictiveDialerConfig < DialerConfig; end
+      class AgentlessDialerConfig < DialerConfig; end
       class Unknown < DialerConfig; end
     end
 
@@ -393,20 +419,20 @@ module Aws::ConnectCampaignService
     #   unique for each request.
     #   @return [String]
     #
-    # @!attribute [rw] failure_code
-    #   A predefined code indicating the error that caused the failure.
-    #   @return [String]
-    #
     # @!attribute [rw] id
     #   Identifier representing a Dial request
+    #   @return [String]
+    #
+    # @!attribute [rw] failure_code
+    #   A predefined code indicating the error that caused the failure.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connectcampaigns-2021-01-30/FailedRequest AWS API Documentation
     #
     class FailedRequest < Struct.new(
       :client_token,
-      :failure_code,
-      :id)
+      :id,
+      :failure_code)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -427,19 +453,19 @@ module Aws::ConnectCampaignService
 
     # GetCampaignStateBatchResponse
     #
-    # @!attribute [rw] failed_requests
-    #   List of failed requests of campaign state
-    #   @return [Array<Types::FailedCampaignStateResponse>]
-    #
     # @!attribute [rw] successful_requests
     #   List of successful response of campaign state
     #   @return [Array<Types::SuccessfulCampaignStateResponse>]
     #
+    # @!attribute [rw] failed_requests
+    #   List of failed requests of campaign state
+    #   @return [Array<Types::FailedCampaignStateResponse>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connectcampaigns-2021-01-30/GetCampaignStateBatchResponse AWS API Documentation
     #
     class GetCampaignStateBatchResponse < Struct.new(
-      :failed_requests,
-      :successful_requests)
+      :successful_requests,
+      :failed_requests)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -534,6 +560,10 @@ module Aws::ConnectCampaignService
     #   Amazon Connect Instance Id
     #   @return [String]
     #
+    # @!attribute [rw] service_linked_role_arn
+    #   Service linked role arn
+    #   @return [String]
+    #
     # @!attribute [rw] encryption_config
     #   Encryption config for Connect Instance. Note that sensitive data
     #   will always be encrypted. If disabled, service will perform
@@ -541,35 +571,31 @@ module Aws::ConnectCampaignService
     #   provided and KMS charges will apply. KMS is only type supported
     #   @return [Types::EncryptionConfig]
     #
-    # @!attribute [rw] service_linked_role_arn
-    #   Service linked role arn
-    #   @return [String]
-    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connectcampaigns-2021-01-30/InstanceConfig AWS API Documentation
     #
     class InstanceConfig < Struct.new(
       :connect_instance_id,
-      :encryption_config,
-      :service_linked_role_arn)
+      :service_linked_role_arn,
+      :encryption_config)
       SENSITIVE = []
       include Aws::Structure
     end
 
     # Connect instance identifier filter
     #
-    # @!attribute [rw] operator
-    #   Operators for Connect instance identifier filter
-    #   @return [String]
-    #
     # @!attribute [rw] value
     #   Amazon Connect Instance Id
+    #   @return [String]
+    #
+    # @!attribute [rw] operator
+    #   Operators for Connect instance identifier filter
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connectcampaigns-2021-01-30/InstanceIdFilter AWS API Documentation
     #
     class InstanceIdFilter < Struct.new(
-      :operator,
-      :value)
+      :value,
+      :operator)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -580,21 +606,21 @@ module Aws::ConnectCampaignService
     #   Amazon Connect Instance Id
     #   @return [String]
     #
+    # @!attribute [rw] status
+    #   Enumeration of the possible states for instance onboarding job
+    #   @return [String]
+    #
     # @!attribute [rw] failure_code
     #   Enumeration of the possible failure codes for instance onboarding
     #   job
-    #   @return [String]
-    #
-    # @!attribute [rw] status
-    #   Enumeration of the possible states for instance onboarding job
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connectcampaigns-2021-01-30/InstanceOnboardingJobStatus AWS API Documentation
     #
     class InstanceOnboardingJobStatus < Struct.new(
       :connect_instance_id,
-      :failure_code,
-      :status)
+      :status,
+      :failure_code)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -622,11 +648,11 @@ module Aws::ConnectCampaignService
     # The request could not be processed because of conflict in the current
     # state of the campaign.
     #
-    # @!attribute [rw] message
-    #   @return [String]
-    #
     # @!attribute [rw] state
     #   State of a campaign
+    #   @return [String]
+    #
+    # @!attribute [rw] message
     #   @return [String]
     #
     # @!attribute [rw] x_amz_error_type
@@ -637,8 +663,8 @@ module Aws::ConnectCampaignService
     # @see http://docs.aws.amazon.com/goto/WebAPI/connectcampaigns-2021-01-30/InvalidCampaignStateException AWS API Documentation
     #
     class InvalidCampaignStateException < Struct.new(
-      :message,
       :state,
+      :message,
       :x_amz_error_type)
       SENSITIVE = []
       include Aws::Structure
@@ -666,10 +692,6 @@ module Aws::ConnectCampaignService
 
     # ListCampaignsRequest
     #
-    # @!attribute [rw] filters
-    #   Filter model by type
-    #   @return [Types::CampaignFilters]
-    #
     # @!attribute [rw] max_results
     #   The maximum number of results to return per page.
     #   @return [Integer]
@@ -678,31 +700,35 @@ module Aws::ConnectCampaignService
     #   The token for the next set of results.
     #   @return [String]
     #
+    # @!attribute [rw] filters
+    #   Filter model by type
+    #   @return [Types::CampaignFilters]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connectcampaigns-2021-01-30/ListCampaignsRequest AWS API Documentation
     #
     class ListCampaignsRequest < Struct.new(
-      :filters,
       :max_results,
-      :next_token)
+      :next_token,
+      :filters)
       SENSITIVE = []
       include Aws::Structure
     end
 
     # ListCampaignsResponse
     #
-    # @!attribute [rw] campaign_summary_list
-    #   A list of Amazon Connect campaigns.
-    #   @return [Array<Types::CampaignSummary>]
-    #
     # @!attribute [rw] next_token
     #   The token for the next set of results.
     #   @return [String]
     #
+    # @!attribute [rw] campaign_summary_list
+    #   A list of Amazon Connect campaigns.
+    #   @return [Array<Types::CampaignSummary>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connectcampaigns-2021-01-30/ListCampaignsResponse AWS API Documentation
     #
     class ListCampaignsResponse < Struct.new(
-      :campaign_summary_list,
-      :next_token)
+      :next_token,
+      :campaign_summary_list)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -737,12 +763,14 @@ module Aws::ConnectCampaignService
 
     # The configuration used for outbound calls.
     #
-    # @!attribute [rw] answer_machine_detection_config
-    #   Answering Machine Detection config
-    #   @return [Types::AnswerMachineDetectionConfig]
-    #
     # @!attribute [rw] connect_contact_flow_id
     #   The identifier of the contact flow for the outbound call.
+    #   @return [String]
+    #
+    # @!attribute [rw] connect_source_phone_number
+    #   The phone number associated with the Amazon Connect instance, in
+    #   E.164 format. If you do not specify a source phone number, you must
+    #   specify a queue.
     #   @return [String]
     #
     # @!attribute [rw] connect_queue_id
@@ -753,19 +781,17 @@ module Aws::ConnectCampaignService
     #   number.
     #   @return [String]
     #
-    # @!attribute [rw] connect_source_phone_number
-    #   The phone number associated with the Amazon Connect instance, in
-    #   E.164 format. If you do not specify a source phone number, you must
-    #   specify a queue.
-    #   @return [String]
+    # @!attribute [rw] answer_machine_detection_config
+    #   Answering Machine Detection config
+    #   @return [Types::AnswerMachineDetectionConfig]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connectcampaigns-2021-01-30/OutboundCallConfig AWS API Documentation
     #
     class OutboundCallConfig < Struct.new(
-      :answer_machine_detection_config,
       :connect_contact_flow_id,
+      :connect_source_phone_number,
       :connect_queue_id,
-      :connect_source_phone_number)
+      :answer_machine_detection_config)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -790,10 +816,16 @@ module Aws::ConnectCampaignService
     #   The bandwidth allocation of a queue resource.
     #   @return [Float]
     #
+    # @!attribute [rw] dialing_capacity
+    #   Allocates dialing capacity for this campaign between multiple active
+    #   campaigns
+    #   @return [Float]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connectcampaigns-2021-01-30/PredictiveDialerConfig AWS API Documentation
     #
     class PredictiveDialerConfig < Struct.new(
-      :bandwidth_allocation)
+      :bandwidth_allocation,
+      :dialing_capacity)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -804,48 +836,54 @@ module Aws::ConnectCampaignService
     #   The bandwidth allocation of a queue resource.
     #   @return [Float]
     #
+    # @!attribute [rw] dialing_capacity
+    #   Allocates dialing capacity for this campaign between multiple active
+    #   campaigns
+    #   @return [Float]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connectcampaigns-2021-01-30/ProgressiveDialerConfig AWS API Documentation
     #
     class ProgressiveDialerConfig < Struct.new(
-      :bandwidth_allocation)
+      :bandwidth_allocation,
+      :dialing_capacity)
       SENSITIVE = []
       include Aws::Structure
     end
 
     # PutDialRequestBatchRequest
     #
-    # @!attribute [rw] dial_requests
-    #   A list of dial requests.
-    #   @return [Array<Types::DialRequest>]
-    #
     # @!attribute [rw] id
     #   Identifier representing a Campaign
     #   @return [String]
     #
+    # @!attribute [rw] dial_requests
+    #   A list of dial requests.
+    #   @return [Array<Types::DialRequest>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connectcampaigns-2021-01-30/PutDialRequestBatchRequest AWS API Documentation
     #
     class PutDialRequestBatchRequest < Struct.new(
-      :dial_requests,
-      :id)
+      :id,
+      :dial_requests)
       SENSITIVE = []
       include Aws::Structure
     end
 
     # PutDialRequestBatchResponse
     #
-    # @!attribute [rw] failed_requests
-    #   A list of failed requests.
-    #   @return [Array<Types::FailedRequest>]
-    #
     # @!attribute [rw] successful_requests
     #   A list of successful requests identified by the unique client token.
     #   @return [Array<Types::SuccessfulRequest>]
     #
+    # @!attribute [rw] failed_requests
+    #   A list of failed requests.
+    #   @return [Array<Types::FailedRequest>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connectcampaigns-2021-01-30/PutDialRequestBatchResponse AWS API Documentation
     #
     class PutDialRequestBatchResponse < Struct.new(
-      :failed_requests,
-      :successful_requests)
+      :successful_requests,
+      :failed_requests)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1064,19 +1102,19 @@ module Aws::ConnectCampaignService
 
     # UpdateCampaignDialerConfigRequest
     #
-    # @!attribute [rw] dialer_config
-    #   The possible types of dialer config parameters
-    #   @return [Types::DialerConfig]
-    #
     # @!attribute [rw] id
     #   Identifier representing a Campaign
     #   @return [String]
     #
+    # @!attribute [rw] dialer_config
+    #   The possible types of dialer config parameters
+    #   @return [Types::DialerConfig]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connectcampaigns-2021-01-30/UpdateCampaignDialerConfigRequest AWS API Documentation
     #
     class UpdateCampaignDialerConfigRequest < Struct.new(
-      :dialer_config,
-      :id)
+      :id,
+      :dialer_config)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1102,9 +1140,9 @@ module Aws::ConnectCampaignService
 
     # UpdateCampaignOutboundCallConfigRequest
     #
-    # @!attribute [rw] answer_machine_detection_config
-    #   Answering Machine Detection config
-    #   @return [Types::AnswerMachineDetectionConfig]
+    # @!attribute [rw] id
+    #   Identifier representing a Campaign
+    #   @return [String]
     #
     # @!attribute [rw] connect_contact_flow_id
     #   The identifier of the contact flow for the outbound call.
@@ -1116,17 +1154,17 @@ module Aws::ConnectCampaignService
     #   specify a queue.
     #   @return [String]
     #
-    # @!attribute [rw] id
-    #   Identifier representing a Campaign
-    #   @return [String]
+    # @!attribute [rw] answer_machine_detection_config
+    #   Answering Machine Detection config
+    #   @return [Types::AnswerMachineDetectionConfig]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connectcampaigns-2021-01-30/UpdateCampaignOutboundCallConfigRequest AWS API Documentation
     #
     class UpdateCampaignOutboundCallConfigRequest < Struct.new(
-      :answer_machine_detection_config,
+      :id,
       :connect_contact_flow_id,
       :connect_source_phone_number,
-      :id)
+      :answer_machine_detection_config)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1153,3 +1191,4 @@ module Aws::ConnectCampaignService
 
   end
 end
+

@@ -1,6 +1,726 @@
 Unreleased Changes
 ------------------
 
+1.508.0 (2025-02-26)
+------------------
+
+* Feature - Amazon EC2 Fleet customers can now override the Block Device Mapping specified in the Launch Template when creating a new Fleet request, saving the effort of creating and associating new Launch Templates to customize the Block Device Mapping.
+
+1.507.0 (2025-02-25)
+------------------
+
+* Feature - Adds support for time-based EBS-backed AMI copy operations. Time-based copy ensures that EBS-backed AMIs are copied within and across Regions in a specified timeframe.
+
+1.506.0 (2025-02-18)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.505.0 (2025-02-11)
+------------------
+
+* Feature - Adding support for the new fullSnapshotSizeInBytes field in the response of the EC2 EBS DescribeSnapshots API. This field represents the size of all the blocks that were written to the source volume at the time the snapshot was created.
+
+1.504.0 (2025-02-06)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.503.0 (2025-01-28)
+------------------
+
+* Feature - This release changes the CreateFleet CLI and SDK's such that if you do not specify a client token, a randomly generated token is used for the request to ensure idempotency.
+
+1.502.0 (2025-01-23)
+------------------
+
+* Feature - Added "future" allocation type for future dated capacity reservation
+
+1.501.0 (2025-01-17)
+------------------
+
+* Feature - Release u7i-6tb.112xlarge, u7i-8tb.112xlarge, u7inh-32tb.480xlarge, p5e.48xlarge, p5en.48xlarge, f2.12xlarge, f2.48xlarge, trn2.48xlarge instance types.
+
+1.500.0 (2025-01-15)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.499.0 (2025-01-13)
+------------------
+
+* Feature - Add support for DisconnectOnSessionTimeout flag in CreateClientVpnEndpoint and ModifyClientVpnEndpoint requests and DescribeClientVpnEndpoints responses
+
+1.498.0 (2024-12-16)
+------------------
+
+* Feature - This release adds support for EBS local snapshots in AWS Dedicated Local Zones, which allows you to store snapshots of EBS volumes locally in Dedicated Local Zones.
+
+1.497.0 (2024-12-13)
+------------------
+
+* Feature - This release adds GroupId to the response for DeleteSecurityGroup.
+
+1.496.0 (2024-12-09)
+------------------
+
+* Feature - This release includes a new API for modifying instance network-performance-options after launch.
+
+1.495.0 (2024-12-02)
+------------------
+
+* Feature - Adds support for declarative policies that allow you to enforce desired configuration across an AWS organization through configuring account attributes. Adds support for Allowed AMIs that allows you to limit the use of AMIs in AWS accounts. Adds support for connectivity over non-HTTP protocols.
+
+1.494.0 (2024-11-26)
+------------------
+
+* Feature - Adds support for Time-based Copy for EBS Snapshots and Cross Region PrivateLink. Time-based Copy ensures that EBS Snapshots are copied within and across AWS Regions in a specified timeframe. Cross Region PrivateLink enables customers to connect to VPC endpoint services hosted in other AWS Regions.
+
+1.493.0 (2024-11-21)
+------------------
+
+* Feature - Adds support for requesting future-dated Capacity Reservations with a minimum commitment duration, enabling IPAM for organizational units within AWS Organizations, reserving EC2 Capacity Blocks that start in 30 minutes, and extending the end date of existing Capacity Blocks.
+
+1.492.0 (2024-11-20)
+------------------
+
+* Feature - With this release, customers can express their desire to launch instances only in an ODCR or ODCR group rather than OnDemand capacity. Customers can express their baseline instances' CPU-performance in attribute-based Instance Requirements configuration by referencing an instance family.
+
+1.491.0 (2024-11-19)
+------------------
+
+* Feature - This release adds VPC Block Public Access (VPC BPA), a new declarative control which blocks resources in VPCs and subnets that you own in a Region from reaching or being reached from the internet through internet gateways and egress-only internet gateways.
+
+1.490.0 (2024-11-18)
+------------------
+
+* Feature - Adding request and response elements for managed resources.
+
+1.489.0 (2024-11-15)
+------------------
+
+* Feature - Remove non-functional enum variants for FleetCapacityReservationUsageStrategy
+
+1.488.0 (2024-11-13)
+------------------
+
+* Feature - This release adds the source AMI details in DescribeImages API
+
+1.487.0 (2024-11-06)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.486.0 (2024-10-30)
+------------------
+
+* Feature - This release adds two new capabilities to VPC Security Groups: Security Group VPC Associations and Shared Security Groups.
+
+1.485.0 (2024-10-24)
+------------------
+
+* Feature - This release includes a new API to describe some details of the Amazon Machine Images (AMIs) that were used to launch EC2 instances, even if those AMIs are no longer available for use.
+
+1.484.0 (2024-10-23)
+------------------
+
+* Feature - Amazon EC2 X8g, C8g and M8g instances are powered by AWS Graviton4 processors. X8g provide the lowest cost per GiB of memory among Graviton4 instances. C8g provide the best price performance for compute-intensive workloads. M8g provide the best price performance in for general purpose workloads.
+
+1.483.0 (2024-10-21)
+------------------
+
+* Feature - Amazon EC2 now allows you to create network interfaces with just the EFA driver and no ENA driver by specifying the network interface type as efa-only.
+
+1.482.0 (2024-10-18)
+------------------
+
+* Feature - RequestSpotInstances and RequestSpotFleet feature release.
+
+1.481.0 (2024-10-10)
+------------------
+
+* Feature - This release adds support for assigning the billing of shared Amazon EC2 On-Demand Capacity Reservations.
+
+1.480.0 (2024-10-04)
+------------------
+
+* Feature - Documentation updates for Amazon EC2.
+
+1.479.0 (2024-10-03)
+------------------
+
+* Feature - This release includes a new API for modifying instance cpu-options after launch.
+
+1.478.0 (2024-09-25)
+------------------
+
+* Feature - Updates to documentation for the transit gateway security group referencing feature.
+
+1.477.0 (2024-09-24)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.476.0 (2024-09-23)
+------------------
+
+* Feature - Amazon EC2 G6e instances powered by NVIDIA L40S Tensor Core GPUs are the most cost-efficient GPU instances for deploying generative AI models and the highest performance GPU instances for spatial computing workloads.
+
+1.475.0 (2024-09-20)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.474.0 (2024-09-11)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.473.0 (2024-09-10)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.472.0 (2024-09-03)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.471.0 (2024-08-28)
+------------------
+
+* Feature - Amazon VPC IP Address Manager (IPAM) now allows customers to provision IPv4 CIDR blocks and allocate Elastic IP Addresses directly from IPAM pools with public IPv4 space
+
+1.470.0 (2024-08-21)
+------------------
+
+* Feature - DescribeInstanceStatus now returns health information on EBS volumes attached to Nitro instances
+
+1.469.0 (2024-08-12)
+------------------
+
+* Feature - This release adds new capabilities to manage On-Demand Capacity Reservations including the ability to split your reservation, move capacity between reservations, and modify the instance eligibility of your reservation.
+
+1.468.0 (2024-08-08)
+------------------
+
+* Feature - Launch of private IPv6 addressing for VPCs and Subnets. VPC IPAM supports the planning and monitoring of private IPv6 usage.
+
+1.467.0 (2024-07-25)
+------------------
+
+* Feature - EC2 Fleet now supports using custom identifiers to reference Amazon Machine Images (AMI) in launch requests that are configured to choose from a diversified list of instance types.
+
+1.466.0 (2024-07-18)
+------------------
+
+* Feature - Amazon VPC IP Address Manager (IPAM) now supports Bring-Your-Own-IP (BYOIP) for IP addresses registered with any Internet Registry. This feature uses DNS TXT records to validate ownership of a public IP address range.
+
+1.465.0 (2024-07-10)
+------------------
+
+* Feature - Add parameters to enable provisioning IPAM BYOIPv4 space at a Local Zone Network Border Group level
+
+1.464.0 (2024-07-02)
+------------------
+
+* Feature - Documentation updates for Elastic Compute Cloud (EC2).
+
+1.463.0 (2024-06-25)
+------------------
+
+* Feature - This release is for the launch of the new u7ib-12tb.224xlarge, R8g, c7gn.metal and mac2-m1ultra.metal instance types
+
+1.462.0 (2024-06-24)
+------------------
+
+* Feature - Fix EC2 multi-protocol info in models.
+
+1.461.0 (2024-06-14)
+------------------
+
+* Feature - Documentation updates for Amazon EC2.
+
+1.460.0 (2024-06-05)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.459.0 (2024-06-04)
+------------------
+
+* Feature - U7i instances with up to 32 TiB of DDR5 memory and 896 vCPUs are now available. C7i-flex instances are launched and are lower-priced variants of the Amazon EC2 C7i instances that offer a baseline level of CPU performance with the ability to scale up to the full compute performance 95% of the time.
+
+1.458.0 (2024-05-28)
+------------------
+
+* Feature - Providing support to accept BgpAsnExtended attribute
+
+1.457.1 (2024-05-21)
+------------------
+
+* Issue - Fix Aws::EC2::Resource not to set max_results automatically when the options contains the parameter that cannot be used with the parameter max_results.
+
+1.457.0 (2024-05-13)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.456.0 (2024-05-08)
+------------------
+
+* Feature - Adding Precision Hardware Clock (PHC) to public API DescribeInstanceTypes
+
+1.455.0 (2024-05-02)
+------------------
+
+* Feature - This release includes a new API for retrieving the public endorsement key of the EC2 instance's Nitro Trusted Platform Module (NitroTPM).
+
+1.454.0 (2024-05-01)
+------------------
+
+* Feature - Documentation updates for Amazon EC2.
+
+1.453.0 (2024-04-25)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.452.0 (2024-04-24)
+------------------
+
+* Feature - Launching capability for customers to enable or disable automatic assignment of public IPv4 addresses to their network interface
+
+1.451.0 (2024-04-23)
+------------------
+
+* Feature - This release introduces EC2 AMI Deregistration Protection, a new AMI property that can be enabled by customers to protect an AMI against an unintended deregistration. This release also enables the AMI owners to view the AMI 'LastLaunchedTime' in DescribeImages API.
+
+1.450.0 (2024-04-17)
+------------------
+
+* Feature - Documentation updates for Elastic Compute Cloud (EC2).
+
+1.449.0 (2024-04-16)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.448.1 (2024-04-12)
+------------------
+
+* Issue - Add default max_results value to Resource methods for legacy APIs that support un-paginated calls by default.
+
+1.448.0 (2024-04-04)
+------------------
+
+* Feature - Amazon EC2 G6 instances powered by NVIDIA L4 Tensor Core GPUs can be used for a wide range of graphics-intensive and machine learning use cases. Gr6 instances also feature NVIDIA L4 GPUs and can be used for graphics workloads with higher memory requirements.
+
+1.447.0 (2024-03-28)
+------------------
+
+* Feature - Amazon EC2 C7gd, M7gd and R7gd metal instances with up to 3.8 TB of local NVMe-based SSD block-level storage have up to 45% improved real-time NVMe storage performance than comparable Graviton2-based instances.
+
+1.446.0 (2024-03-26)
+------------------
+
+* Feature - Documentation updates for Elastic Compute Cloud (EC2).
+
+1.445.0 (2024-03-25)
+------------------
+
+* Feature - Added support for ModifyInstanceMetadataDefaults and GetInstanceMetadataDefaults to set Instance Metadata Service account defaults
+
+1.444.0 (2024-03-19)
+------------------
+
+* Feature - This release adds the new DescribeMacHosts API operation for getting information about EC2 Mac Dedicated Hosts. Users can now see the latest macOS versions that their underlying Apple Mac can support without needing to be updated.
+
+1.443.0 (2024-03-15)
+------------------
+
+* Feature - Add media accelerator and neuron device information on the describe instance types API.
+
+1.442.0 (2024-03-12)
+------------------
+
+* Feature - Documentation updates for Amazon EC2.
+
+1.441.0 (2024-03-07)
+------------------
+
+* Feature - This release adds an optional parameter to RegisterImage and CopyImage APIs to support tagging AMIs at the time of creation.
+
+1.440.0 (2024-03-01)
+------------------
+
+* Feature - With this release, Amazon EC2 Auto Scaling groups, EC2 Fleet, and Spot Fleet improve the default price protection behavior of attribute-based instance type selection of Spot Instances, to consistently select from a wide range of instance types.
+
+1.439.0 (2024-02-28)
+------------------
+
+* Feature - This release increases the range of MaxResults for GetNetworkInsightsAccessScopeAnalysisFindings to 1,000.
+
+1.438.0 (2024-02-14)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.437.0 (2024-01-29)
+------------------
+
+* Feature - EC2 Fleet customers who use attribute based instance-type selection can now intuitively define their Spot instances price protection limit as a percentage of the lowest priced On-Demand instance type.
+
+1.436.0 (2024-01-26)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.435.0 (2024-01-24)
+------------------
+
+* Feature - Introduced a new clientToken request parameter on CreateNetworkAcl and CreateRouteTable APIs. The clientToken parameter allows idempotent operations on the APIs.
+
+1.434.0 (2024-01-22)
+------------------
+
+* Feature - Documentation updates for Amazon EC2.
+
+1.433.0 (2024-01-11)
+------------------
+
+* Feature - This release adds support for adding an ElasticBlockStorage volume configurations in ECS RunTask/StartTask/CreateService/UpdateService APIs. The configuration allows for attaching EBS volumes to ECS Tasks.
+
+1.432.0 (2024-01-08)
+------------------
+
+* Feature - Amazon EC2 R7iz bare metal instances are powered by custom 4th generation Intel Xeon Scalable processors.
+
+1.431.0 (2023-12-19)
+------------------
+
+* Feature - Provision BYOIPv4 address ranges and advertise them by specifying the network border groups option in Los Angeles, Phoenix and Dallas AWS Local Zones.
+
+1.430.0 (2023-12-08)
+------------------
+
+* Feature - M2 Mac instances are built on Apple M2 Mac mini computers. I4i instances are powered by 3rd generation Intel Xeon Scalable processors. C7i compute optimized, M7i general purpose and R7i memory optimized instances are powered by custom 4th Generation Intel Xeon Scalable processors.
+
+1.429.0 (2023-12-06)
+------------------
+
+* Feature - Releasing the new cpuManufacturer attribute within the DescribeInstanceTypes API response which notifies our customers with information on who the Manufacturer is for the processor attached to the instance, for example: Intel.
+
+1.428.0 (2023-12-05)
+------------------
+
+* Feature - Adds A10G, T4G, and H100 as accelerator name options and Habana as an accelerator manufacturer option for attribute based selection
+
+1.427.0 (2023-11-28)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.426.0 (2023-11-22)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.425.0 (2023-11-21)
+------------------
+
+* Feature - Documentation updates for Amazon EC2.
+
+1.424.0 (2023-11-20)
+------------------
+
+* Feature - This release adds support for Security group referencing over Transit gateways, enabling you to simplify Security group management and control of instance-to-instance traffic across VPCs that are connected by Transit gateway.
+
+1.423.0 (2023-11-17)
+------------------
+
+* Feature - This release adds new features for Amazon VPC IP Address Manager (IPAM) Allowing a choice between Free and Advanced Tiers, viewing public IP address insights across regions and in Amazon Cloudwatch, use IPAM to plan your subnet IPs within a VPC and bring your own autonomous system number to IPAM.
+
+1.422.0 (2023-11-16)
+------------------
+
+* Feature - Enable use of tenant-specific PublicSigningKeyUrl from device trust providers and onboard jumpcloud as a new device trust provider.
+
+1.421.0 (2023-11-15)
+------------------
+
+* Feature - AWS EBS now supports Snapshot Lock, giving users the ability to lock an EBS Snapshot to prohibit deletion of the snapshot. This release introduces the LockSnapshot, UnlockSnapshot & DescribeLockedSnapshots APIs to manage lock configuration for snapshots. The release also includes the dl2q_24xlarge.
+
+1.420.0 (2023-11-13)
+------------------
+
+* Feature - Adds the new EC2 DescribeInstanceTopology API, which you can use to retrieve the network topology of your running instances on select platform types to determine their relative proximity to each other.
+
+1.419.0 (2023-11-10)
+------------------
+
+* Feature - EC2 adds API updates to enable ENA Express at instance launch time.
+
+1.418.0 (2023-11-09)
+------------------
+
+* Feature - AWS EBS now supports Block Public Access for EBS Snapshots. This release introduces the EnableSnapshotBlockPublicAccess, DisableSnapshotBlockPublicAccess and GetSnapshotBlockPublicAccessState APIs to manage account-level public access settings for EBS Snapshots in an AWS Region.
+
+1.417.0 (2023-10-31)
+------------------
+
+* Feature - Capacity Blocks for ML are a new EC2 purchasing option for reserving GPU instances on a future date to support short duration machine learning (ML) workloads. Capacity Blocks automatically place instances close together inside Amazon EC2 UltraClusters for low-latency, high-throughput networking.
+
+1.416.0 (2023-10-26)
+------------------
+
+* Feature - Launching GetSecurityGroupsForVpc API. This API gets security groups that can be associated by the AWS account making the request with network interfaces in the specified VPC.
+
+1.415.0 (2023-10-24)
+------------------
+
+* Feature - This release updates the documentation for InstanceInterruptionBehavior and HibernationOptionsRequest to more accurately describe the behavior of these two parameters when using Spot hibernation.
+
+1.414.0 (2023-10-19)
+------------------
+
+* Feature - Amazon EC2 C7a instances, powered by 4th generation AMD EPYC processors, are ideal for high performance, compute-intensive workloads such as high performance computing. Amazon EC2 R7i instances are next-generation memory optimized and powered by custom 4th Generation Intel Xeon Scalable processors.
+
+1.413.0 (2023-10-12)
+------------------
+
+* Feature - This release adds Ubuntu Pro as a supported platform for On-Demand Capacity Reservations and adds support for setting an Amazon Machine Image (AMI) to disabled state. Disabling the AMI makes it private if it was previously shared, and prevents new EC2 instance launches from it.
+
+1.412.0 (2023-10-06)
+------------------
+
+* Feature - Documentation updates for Elastic Compute Cloud (EC2).
+
+1.411.0 (2023-10-02)
+------------------
+
+* Feature - Introducing Amazon EC2 R7iz instances with 3.9 GHz sustained all-core turbo frequency and deliver up to 20% better performance than previous generation z1d instances.
+
+1.410.0 (2023-09-28)
+------------------
+
+* Feature - Adds support for Customer Managed Key encryption for Amazon Verified Access resources
+
+1.409.0 (2023-09-27)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.408.0 (2023-09-26)
+------------------
+
+* Feature - The release includes AWS verified access to support FIPs compliance in North America regions
+
+1.407.0 (2023-09-22)
+------------------
+
+* Feature - EC2 M2 Pro Mac instances are powered by Apple M2 Pro Mac Mini computers featuring 12 core CPU, 19 core GPU, 32 GiB of memory, and 16 core Apple Neural Engine and uniquely enabled by the AWS Nitro System through high-speed Thunderbolt connections.
+
+1.406.0 (2023-09-19)
+------------------
+
+* Feature - This release adds support for C7i, and R7a instance types.
+
+1.405.0 (2023-09-12)
+------------------
+
+* Feature - This release adds support for restricting public sharing of AMIs through AMI Block Public Access
+
+1.404.0 (2023-09-06)
+------------------
+
+* Feature - This release adds 'outpost' location type to the DescribeInstanceTypeOfferings API, allowing customers that have been allowlisted for outpost to query their offerings in the API.
+
+1.403.0 (2023-09-05)
+------------------
+
+* Feature - Introducing Amazon EC2 C7gd, M7gd, and R7gd Instances with up to 3.8 TB of local NVMe-based SSD block-level storage. These instances are powered by AWS Graviton3 processors, delivering up to 25% better performance over Graviton2-based instances.
+
+1.402.0 (2023-08-24)
+------------------
+
+* Feature - Amazon EC2 M7a instances, powered by 4th generation AMD EPYC processors, deliver up to 50% higher performance compared to M6a instances. Amazon EC2 Hpc7a instances, powered by 4th Gen AMD EPYC processors, deliver up to 2.5x better performance compared to Amazon EC2 Hpc6a instances.
+
+1.401.0 (2023-08-23)
+------------------
+
+* Feature - Marking fields as sensitive on BundleTask and GetPasswordData
+
+1.400.0 (2023-08-21)
+------------------
+
+* Feature - The DeleteKeyPair API has been updated to return the keyPairId when an existing key pair is deleted.
+
+1.399.0 (2023-08-17)
+------------------
+
+* Feature - Adds support for SubnetConfigurations to allow users to select their own IPv4 and IPv6 addresses for Interface VPC endpoints
+
+1.398.0 (2023-08-15)
+------------------
+
+* Feature - Documentation updates for Elastic Compute Cloud (EC2).
+
+1.397.0 (2023-08-11)
+------------------
+
+* Feature - Amazon EC2 P5 instances, powered by the latest NVIDIA H100 Tensor Core GPUs, deliver the highest performance in EC2 for deep learning (DL) and HPC applications. M7i-flex and M7i instances are next-generation general purpose instances powered by custom 4th Generation Intel Xeon Scalable processors.
+
+1.396.0 (2023-08-03)
+------------------
+
+* Feature - This release adds new parameter isPrimaryIPv6 to  allow assigning an IPv6 address as a primary IPv6 address to a network interface which cannot be changed to give equivalent functionality available for network interfaces with primary IPv4 address.
+
+1.395.0 (2023-07-27)
+------------------
+
+* Feature - SDK and documentation updates for Amazon Elastic Block Store APIs
+
+1.394.0 (2023-07-25)
+------------------
+
+* Feature - This release adds an instance's peak and baseline network bandwidth as well as the memory sizes of an instance's inference accelerators to DescribeInstanceTypes.
+
+1.393.0 (2023-07-24)
+------------------
+
+* Feature - Add "disabled" enum value to SpotInstanceState.
+
+1.392.0 (2023-07-19)
+------------------
+
+* Feature - Amazon EC2 documentation updates.
+
+1.391.0 (2023-07-17)
+------------------
+
+* Feature - Add Nitro TPM support on DescribeInstanceTypes
+
+1.390.0 (2023-07-13)
+------------------
+
+* Feature - This release adds support for the C7gn and Hpc7g instances. C7gn instances are powered by AWS Graviton3 processors and the fifth-generation AWS Nitro Cards. Hpc7g instances are powered by AWS Graviton 3E processors and provide up to 200 Gbps network bandwidth.
+
+1.389.0 (2023-07-11)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.388.0 (2023-07-06)
+------------------
+
+* Feature - Add Nitro Enclaves support on DescribeInstanceTypes
+
+1.387.0 (2023-06-28)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.386.0 (2023-06-20)
+------------------
+
+* Feature - Adds support for targeting Dedicated Host allocations by assetIds in AWS Outposts
+
+1.385.0 (2023-06-19)
+------------------
+
+* Feature - API changes to AWS Verified Access to include data from trust providers in logs
+
+1.384.0 (2023-06-15)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.383.0 (2023-06-13)
+------------------
+
+* Feature - This release introduces a new feature, EC2 Instance Connect Endpoint, that enables you to connect to a resource over TCP, without requiring the resource to have a public IPv4 address.
+
+1.382.0 (2023-06-05)
+------------------
+
+* Feature - Making InstanceTagAttribute as the required parameter for the DeregisterInstanceEventNotificationAttributes and RegisterInstanceEventNotificationAttributes APIs.
+
+1.381.0 (2023-05-31)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.380.0 (2023-05-18)
+------------------
+
+* Feature - Add support for i4g.large, i4g.xlarge, i4g.2xlarge, i4g.4xlarge, i4g.8xlarge and i4g.16xlarge instances powered by AWS Graviton2 processors that deliver up to 15% better compute performance than our other storage-optimized instances.
+
+1.379.0 (2023-05-05)
+------------------
+
+* Feature - This release adds support the inf2 and trn1n instances. inf2 instances are purpose built for deep learning inference while trn1n instances are powered by AWS Trainium accelerators and they build on the capabilities of Trainium-powered trn1 instances.
+
+1.378.0 (2023-05-03)
+------------------
+
+* Feature - Adds an SDK paginator for GetNetworkInsightsAccessScopeAnalysisFindings
+
+1.377.0 (2023-04-27)
+------------------
+
+* Feature - This release adds support for AMD SEV-SNP on EC2 instances.
+
+1.376.0 (2023-04-24)
+------------------
+
+* Feature - API changes to AWS Verified Access related to identity providers' information.
+
+1.375.0 (2023-04-04)
+------------------
+
+* Feature - C6in, M6in, M6idn, R6in and R6idn bare metal instances are powered by 3rd Generation Intel Xeon Scalable processors and offer up to 200 Gbps of network bandwidth.
+
+1.374.0 (2023-04-04)
+------------------
+
+* Feature - C6in, M6in, M6idn, R6in and R6idn bare metal instances are powered by 3rd Generation Intel Xeon Scalable processors and offer up to 200 Gbps of network bandwidth.
+
+1.373.0 (2023-03-31)
+------------------
+
+* Feature - Documentation updates for EC2 On Demand Capacity Reservations
+
+1.372.0 (2023-03-30)
+------------------
+
+* Feature - This release adds support for Tunnel Endpoint Lifecycle control, a new feature that provides Site-to-Site VPN customers with better visibility and control of their VPN tunnel maintenance updates.
+
+1.371.0 (2023-03-21)
+------------------
+
+* Feature - This release adds support for AWS Network Firewall, AWS PrivateLink, and Gateway Load Balancers to Amazon VPC Reachability Analyzer, and it makes the path destination optional as long as a destination address in the filter at source is provided.
+
+1.370.0 (2023-03-14)
+------------------
+
+* Feature - This release adds a new DnsOptions key (PrivateDnsOnlyForInboundResolverEndpoint) to CreateVpcEndpoint and ModifyVpcEndpoint APIs.
+
+1.369.0 (2023-03-08)
+------------------
+
+* Feature - Introducing Amazon EC2 C7g, M7g and R7g instances, powered by the latest generation AWS Graviton3 processors and deliver up to 25% better performance over Graviton2-based instances.
+
+1.368.0 (2023-03-03)
+------------------
+
+* Feature - This release adds support for a new boot mode for EC2 instances called 'UEFI Preferred'.
+
+1.367.0 (2023-02-28)
+------------------
+
+* Feature - This release allows IMDS support to be set to v2-only on an existing AMI, so that all future instances launched from that AMI will use IMDSv2 by default.
+
 1.366.0 (2023-02-14)
 ------------------
 

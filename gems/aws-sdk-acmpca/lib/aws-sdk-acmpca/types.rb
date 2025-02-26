@@ -466,14 +466,14 @@ module Aws::ACMPCA
     #   @return [Types::CertificateAuthorityConfiguration]
     #
     # @!attribute [rw] revocation_configuration
-    #   Contains information to enable Online Certificate Status Protocol
-    #   (OCSP) support, to enable a certificate revocation list (CRL), to
-    #   enable both, or to enable neither. The default is for both
-    #   certificate validation mechanisms to be disabled.
+    #   Contains information to enable support for Online Certificate Status
+    #   Protocol (OCSP), certificate revocation list (CRL), both protocols,
+    #   or neither. By default, both certificate validation mechanisms are
+    #   disabled.
     #
-    #   <note markdown="1"> The following requirements apply to revocation configurations.
+    #   The following requirements apply to revocation configurations.
     #
-    #    * A configuration disabling CRLs or OCSP must contain only the
+    #   * A configuration disabling CRLs or OCSP must contain only the
     #     `Enabled=False` parameter, and will fail if other parameters such
     #     as `CustomCname` or `ExpirationInDays` are included.
     #
@@ -487,8 +487,6 @@ module Aws::ACMPCA
     #   * In a CRL or OCSP configuration, the value of a CNAME parameter
     #     must not include a protocol prefix such as "http://" or
     #     "https://".
-    #
-    #    </note>
     #
     #   For more information, see the [OcspConfiguration][3] and
     #   [CrlConfiguration][4] types.
@@ -523,19 +521,23 @@ module Aws::ACMPCA
     #
     #   Default: FIPS\_140\_2\_LEVEL\_3\_OR\_HIGHER
     #
-    #   *Note:* `FIPS_140_2_LEVEL_3_OR_HIGHER` is not supported in the
-    #   following Regions:
-    #
-    #   * ap-northeast-3
-    #
-    #   * ap-southeast-3
-    #
-    #   When creating a CA in these Regions, you must provide
+    #   <note markdown="1"> Some Amazon Web Services Regions do not support the default. When
+    #   creating a CA in these Regions, you must provide
     #   `FIPS_140_2_LEVEL_2_OR_HIGHER` as the argument for
     #   `KeyStorageSecurityStandard`. Failure to do this results in an
     #   `InvalidArgsException` with the message, "A certificate authority
     #   cannot be created in this region with the specified security
     #   standard."
+    #
+    #    For information about security standard support in various Regions,
+    #   see [Storage and security compliance of Amazon Web Services Private
+    #   CA private keys][1].
+    #
+    #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/privateca/latest/userguide/data-protection.html#private-keys
     #   @return [String]
     #
     # @!attribute [rw] tags
@@ -636,9 +638,12 @@ module Aws::ACMPCA
     # Your private CA writes CRLs to an S3 bucket that you specify in the
     # **S3BucketName** parameter. You can hide the name of your bucket by
     # specifying a value for the **CustomCname** parameter. Your private CA
-    # copies the CNAME or the S3 bucket name to the **CRL Distribution
-    # Points** extension of each certificate it issues. Your S3 bucket
-    # policy must give write permission to Amazon Web Services Private CA.
+    # by default copies the CNAME or the S3 bucket name to the **CRL
+    # Distribution Points** extension of each certificate it issues. If you
+    # want to configure this default behavior to be something different, you
+    # can set the **CrlDistributionPointExtensionConfiguration** parameter.
+    # Your S3 bucket policy must give write permission to Amazon Web
+    # Services Private CA.
     #
     # Amazon Web Services Private CA assets that are stored in Amazon S3 can
     # be protected with encryption. For more information, see [Encrypting
@@ -657,45 +662,43 @@ module Aws::ACMPCA
     #
     # CRLs contain the following fields:
     #
-    # * **Version**\: The current version number defined in RFC 5280 is V2.
+    # * **Version**: The current version number defined in RFC 5280 is V2.
     #   The integer value is 0x1.
     #
-    # * **Signature Algorithm**\: The name of the algorithm used to sign the
+    # * **Signature Algorithm**: The name of the algorithm used to sign the
     #   CRL.
     #
-    # * **Issuer**\: The X.500 distinguished name of your private CA that
+    # * **Issuer**: The X.500 distinguished name of your private CA that
     #   issued the CRL.
     #
-    # * **Last Update**\: The issue date and time of this CRL.
+    # * **Last Update**: The issue date and time of this CRL.
     #
-    # * **Next Update**\: The day and time by which the next CRL will be
+    # * **Next Update**: The day and time by which the next CRL will be
     #   issued.
     #
-    # * **Revoked Certificates**\: List of revoked certificates. Each list
+    # * **Revoked Certificates**: List of revoked certificates. Each list
     #   item contains the following information.
     #
-    #   * **Serial Number**\: The serial number, in hexadecimal format, of
+    #   * **Serial Number**: The serial number, in hexadecimal format, of
     #     the revoked certificate.
     #
-    #   * **Revocation Date**\: Date and time the certificate was revoked.
+    #   * **Revocation Date**: Date and time the certificate was revoked.
     #
-    #   * **CRL Entry Extensions**\: Optional extensions for the CRL entry.
+    #   * **CRL Entry Extensions**: Optional extensions for the CRL entry.
     #
-    #     * **X509v3 CRL Reason Code**\: Reason the certificate was revoked.
+    #     * **X509v3 CRL Reason Code**: Reason the certificate was revoked.
     #
     #     ^
+    # * **CRL Extensions**: Optional extensions for the CRL.
     #
-    # * **CRL Extensions**\: Optional extensions for the CRL.
-    #
-    #   * **X509v3 Authority Key Identifier**\: Identifies the public key
+    #   * **X509v3 Authority Key Identifier**: Identifies the public key
     #     associated with the private key used to sign the certificate.
     #
-    #   * **X509v3 CRL Number:**\: Decimal sequence number for the CRL.
-    #
-    # * **Signature Algorithm**\: Algorithm used by your private CA to sign
+    #   * **X509v3 CRL Number:**: Decimal sequence number for the CRL.
+    # * **Signature Algorithm**: Algorithm used by your private CA to sign
     #   the CRL.
     #
-    # * **Signature Value**\: Signature computed over the CRL.
+    # * **Signature Value**: Signature computed over the CRL.
     #
     # Certificate revocation lists created by Amazon Web Services Private CA
     # are DER-encoded. You can use the following OpenSSL command to list a
@@ -709,7 +712,7 @@ module Aws::ACMPCA
     #
     #
     #
-    # [1]: https://docs.aws.amazon.com/privateca/latest/userguide/PcaCreateCa.html#crl-encryption
+    # [1]: https://docs.aws.amazon.com/privateca/latest/userguide/crl-planning.html#crl-encryption
     # [2]: https://docs.aws.amazon.com/privateca/latest/userguide/crl-planning.html
     #
     # @!attribute [rw] enabled
@@ -794,6 +797,47 @@ module Aws::ACMPCA
     #   [1]: https://docs.aws.amazon.com/privateca/latest/userguide/PcaCreateCa.html#s3-bpa
     #   @return [String]
     #
+    # @!attribute [rw] crl_distribution_point_extension_configuration
+    #   Configures the behavior of the CRL Distribution Point extension for
+    #   certificates issued by your certificate authority. If this field is
+    #   not provided, then the CRl Distribution Point Extension will be
+    #   present and contain the default CRL URL.
+    #   @return [Types::CrlDistributionPointExtensionConfiguration]
+    #
+    # @!attribute [rw] crl_type
+    #   Specifies whether to create a complete or partitioned CRL. This
+    #   setting determines the maximum number of certificates that the
+    #   certificate authority can issue and revoke. For more information,
+    #   see [Amazon Web Services Private CA
+    #   quotas](privateca/latest/userguide/pca.html#limits_pca).
+    #
+    #   * `COMPLETE` - The default setting. Amazon Web Services Private CA
+    #     maintains a single CRL ﬁle for all unexpired certiﬁcates issued by
+    #     a CA that have been revoked for any reason. Each certiﬁcate that
+    #     Amazon Web Services Private CA issues is bound to a speciﬁc CRL
+    #     through its CRL distribution point (CDP) extension, deﬁned in [
+    #     RFC 5280][1].
+    #
+    #   * `PARTITIONED` - Compared to complete CRLs, partitioned CRLs
+    #     dramatically increase the number of certiﬁcates your private CA
+    #     can issue.
+    #
+    #     When using partitioned CRLs, you must validate that the CRL's
+    #     associated issuing distribution point (IDP) URI matches the
+    #     certiﬁcate's CDP URI to ensure the right CRL has been fetched.
+    #     Amazon Web Services Private CA marks the IDP extension as
+    #     critical, which your client must be able to process.
+    #
+    #
+    #
+    #   [1]: https://datatracker.ietf.org/doc/html/rfc5280#section-4.2.1.9
+    #   @return [String]
+    #
+    # @!attribute [rw] custom_path
+    #   Designates a custom ﬁle path in S3 for CRL(s). For example,
+    #   `http://<CustomName>/ <CustomPath>/<CrlPartition_GUID>.crl`.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/acm-pca-2017-08-22/CrlConfiguration AWS API Documentation
     #
     class CrlConfiguration < Struct.new(
@@ -801,7 +845,40 @@ module Aws::ACMPCA
       :expiration_in_days,
       :custom_cname,
       :s3_bucket_name,
-      :s3_object_acl)
+      :s3_object_acl,
+      :crl_distribution_point_extension_configuration,
+      :crl_type,
+      :custom_path)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains configuration information for the default behavior of the CRL
+    # Distribution Point (CDP) extension in certificates issued by your CA.
+    # This extension contains a link to download the CRL, so you can check
+    # whether a certificate has been revoked. To choose whether you want
+    # this extension omitted or not in certificates issued by your CA, you
+    # can set the **OmitExtension** parameter.
+    #
+    # @!attribute [rw] omit_extension
+    #   Configures whether the CRL Distribution Point extension should be
+    #   populated with the default URL to the CRL. If set to `true`, then
+    #   the CDP extension will not be present in any certificates issued by
+    #   that CA unless otherwise specified through CSR or API passthrough.
+    #
+    #   <note markdown="1"> Only set this if you have another way to distribute the CRL
+    #   Distribution Points ffor certificates issued by your CA, such as the
+    #   Matter Distributed Compliance Ledger
+    #
+    #    This configuration cannot be enabled with a custom CNAME set.
+    #
+    #    </note>
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/acm-pca-2017-08-22/CrlDistributionPointExtensionConfiguration AWS API Documentation
+    #
+    class CrlDistributionPointExtensionConfiguration < Struct.new(
+      :omit_extension)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1357,7 +1434,7 @@ module Aws::ACMPCA
     # @!attribute [rw] resource_arn
     #   The Amazon Resource Number (ARN) of the private CA that will have
     #   its policy retrieved. You can find the CA's ARN by calling the
-    #   ListCertificateAuthorities action.
+    #   ListCertificateAuthorities action.      </p>
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/acm-pca-2017-08-22/GetPolicyRequest AWS API Documentation
@@ -1581,7 +1658,7 @@ module Aws::ACMPCA
     #   parameter used to sign a CSR in the `CreateCertificateAuthority`
     #   action.
     #
-    #   <note markdown="1"> The specified signing algorithm family (RSA or ECDSA) much match the
+    #   <note markdown="1"> The specified signing algorithm family (RSA or ECDSA) must match the
     #   algorithm family of the CA's secret key.
     #
     #    </note>
@@ -1652,16 +1729,16 @@ module Aws::ACMPCA
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_Validity.html
+    #   [1]: https://docs.aws.amazon.com/privateca/latest/APIReference/API_Validity.html
     #   [2]: https://datatracker.ietf.org/doc/html/rfc5280#section-4.1.2.5
     #   @return [Types::Validity]
     #
     # @!attribute [rw] idempotency_token
     #   Alphanumeric string that can be used to distinguish between calls to
     #   the **IssueCertificate** action. Idempotency tokens for
-    #   **IssueCertificate** time out after one minute. Therefore, if you
+    #   **IssueCertificate** time out after five minutes. Therefore, if you
     #   call **IssueCertificate** multiple times with the same idempotency
-    #   token within one minute, Amazon Web Services Private CA recognizes
+    #   token within five minutes, Amazon Web Services Private CA recognizes
     #   that you are requesting only one certificate and will issue only
     #   one. If you change the idempotency token for each call, Amazon Web
     #   Services Private CA recognizes that you are requesting multiple
@@ -1768,20 +1845,23 @@ module Aws::ACMPCA
       include Aws::Structure
     end
 
-    # @!attribute [rw] next_token
-    #   Use this parameter when paginating results in a subsequent request
-    #   after you receive a response with truncated results. Set it to the
-    #   value of the `NextToken` parameter from the response you just
-    #   received.
-    #   @return [String]
-    #
     # @!attribute [rw] max_results
     #   Use this parameter when paginating results to specify the maximum
     #   number of items to return in the response on each page. If
     #   additional items exist beyond the number you specify, the
     #   `NextToken` element is sent in the response. Use this `NextToken`
     #   value in a subsequent request to retrieve additional items.
+    #
+    #   Although the maximum value is 1000, the action only returns a
+    #   maximum of 100 items.
     #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   Use this parameter when paginating results in a subsequent request
+    #   after you receive a response with truncated results. Set it to the
+    #   value of the `NextToken` parameter from the response you just
+    #   received.
+    #   @return [String]
     #
     # @!attribute [rw] resource_owner
     #   Use this parameter to filter the returned set of certificate
@@ -1791,32 +1871,46 @@ module Aws::ACMPCA
     # @see http://docs.aws.amazon.com/goto/WebAPI/acm-pca-2017-08-22/ListCertificateAuthoritiesRequest AWS API Documentation
     #
     class ListCertificateAuthoritiesRequest < Struct.new(
-      :next_token,
       :max_results,
+      :next_token,
       :resource_owner)
       SENSITIVE = []
       include Aws::Structure
     end
 
-    # @!attribute [rw] certificate_authorities
-    #   Summary information about each certificate authority you have
-    #   created.
-    #   @return [Array<Types::CertificateAuthority>]
-    #
     # @!attribute [rw] next_token
     #   When the list is truncated, this value is present and should be used
     #   for the `NextToken` parameter in a subsequent pagination request.
     #   @return [String]
     #
+    # @!attribute [rw] certificate_authorities
+    #   Summary information about each certificate authority you have
+    #   created.
+    #   @return [Array<Types::CertificateAuthority>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/acm-pca-2017-08-22/ListCertificateAuthoritiesResponse AWS API Documentation
     #
     class ListCertificateAuthoritiesResponse < Struct.new(
-      :certificate_authorities,
-      :next_token)
+      :next_token,
+      :certificate_authorities)
       SENSITIVE = []
       include Aws::Structure
     end
 
+    # @!attribute [rw] max_results
+    #   When paginating results, use this parameter to specify the maximum
+    #   number of items to return in the response. If additional items exist
+    #   beyond the number you specify, the **NextToken** element is sent in
+    #   the response. Use this **NextToken** value in a subsequent request
+    #   to retrieve additional items.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   When paginating results, use this parameter in a subsequent request
+    #   after you receive a response with truncated results. Set it to the
+    #   value of **NextToken** from the response you just received.
+    #   @return [String]
+    #
     # @!attribute [rw] certificate_authority_arn
     #   The Amazon Resource Number (ARN) of the private CA to inspect. You
     #   can find the ARN by calling the [ListCertificateAuthorities][1]
@@ -1830,50 +1924,50 @@ module Aws::ACMPCA
     #   [1]: https://docs.aws.amazon.com/privateca/latest/APIReference/API_ListCertificateAuthorities.html
     #   @return [String]
     #
-    # @!attribute [rw] next_token
-    #   When paginating results, use this parameter in a subsequent request
-    #   after you receive a response with truncated results. Set it to the
-    #   value of **NextToken** from the response you just received.
-    #   @return [String]
-    #
-    # @!attribute [rw] max_results
-    #   When paginating results, use this parameter to specify the maximum
-    #   number of items to return in the response. If additional items exist
-    #   beyond the number you specify, the **NextToken** element is sent in
-    #   the response. Use this **NextToken** value in a subsequent request
-    #   to retrieve additional items.
-    #   @return [Integer]
-    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/acm-pca-2017-08-22/ListPermissionsRequest AWS API Documentation
     #
     class ListPermissionsRequest < Struct.new(
-      :certificate_authority_arn,
+      :max_results,
       :next_token,
-      :max_results)
+      :certificate_authority_arn)
       SENSITIVE = []
       include Aws::Structure
     end
 
+    # @!attribute [rw] next_token
+    #   When the list is truncated, this value is present and should be used
+    #   for the **NextToken** parameter in a subsequent pagination request.
+    #   @return [String]
+    #
     # @!attribute [rw] permissions
     #   Summary information about each permission assigned by the specified
     #   private CA, including the action enabled, the policy provided, and
     #   the time of creation.
     #   @return [Array<Types::Permission>]
     #
-    # @!attribute [rw] next_token
-    #   When the list is truncated, this value is present and should be used
-    #   for the **NextToken** parameter in a subsequent pagination request.
-    #   @return [String]
-    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/acm-pca-2017-08-22/ListPermissionsResponse AWS API Documentation
     #
     class ListPermissionsResponse < Struct.new(
-      :permissions,
-      :next_token)
+      :next_token,
+      :permissions)
       SENSITIVE = []
       include Aws::Structure
     end
 
+    # @!attribute [rw] max_results
+    #   Use this parameter when paginating results to specify the maximum
+    #   number of items to return in the response. If additional items exist
+    #   beyond the number you specify, the **NextToken** element is sent in
+    #   the response. Use this **NextToken** value in a subsequent request
+    #   to retrieve additional items.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   Use this parameter when paginating results in a subsequent request
+    #   after you receive a response with truncated results. Set it to the
+    #   value of **NextToken** from the response you just received.
+    #   @return [String]
+    #
     # @!attribute [rw] certificate_authority_arn
     #   The Amazon Resource Name (ARN) that was returned when you called the
     #   [CreateCertificateAuthority][1] action. This must be of the form:
@@ -1886,44 +1980,30 @@ module Aws::ACMPCA
     #   [1]: https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthority.html
     #   @return [String]
     #
-    # @!attribute [rw] next_token
-    #   Use this parameter when paginating results in a subsequent request
-    #   after you receive a response with truncated results. Set it to the
-    #   value of **NextToken** from the response you just received.
-    #   @return [String]
-    #
-    # @!attribute [rw] max_results
-    #   Use this parameter when paginating results to specify the maximum
-    #   number of items to return in the response. If additional items exist
-    #   beyond the number you specify, the **NextToken** element is sent in
-    #   the response. Use this **NextToken** value in a subsequent request
-    #   to retrieve additional items.
-    #   @return [Integer]
-    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/acm-pca-2017-08-22/ListTagsRequest AWS API Documentation
     #
     class ListTagsRequest < Struct.new(
-      :certificate_authority_arn,
+      :max_results,
       :next_token,
-      :max_results)
+      :certificate_authority_arn)
       SENSITIVE = []
       include Aws::Structure
     end
 
-    # @!attribute [rw] tags
-    #   The tags associated with your private CA.
-    #   @return [Array<Types::Tag>]
-    #
     # @!attribute [rw] next_token
     #   When the list is truncated, this value is present and should be used
     #   for the **NextToken** parameter in a subsequent pagination request.
     #   @return [String]
     #
+    # @!attribute [rw] tags
+    #   The tags associated with your private CA.
+    #   @return [Array<Types::Tag>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/acm-pca-2017-08-22/ListTagsResponse AWS API Documentation
     #
     class ListTagsResponse < Struct.new(
-      :tags,
-      :next_token)
+      :next_token,
+      :tags)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2470,16 +2550,15 @@ module Aws::ACMPCA
     #   @return [String]
     #
     # @!attribute [rw] revocation_configuration
-    #   Contains information to enable Online Certificate Status Protocol
-    #   (OCSP) support, to enable a certificate revocation list (CRL), to
-    #   enable both, or to enable neither. If this parameter is not
-    #   supplied, existing capibilites remain unchanged. For more
-    #   information, see the [OcspConfiguration][1] and
-    #   [CrlConfiguration][2] types.
+    #   Contains information to enable support for Online Certificate Status
+    #   Protocol (OCSP), certificate revocation list (CRL), both protocols,
+    #   or neither. If you don't supply this parameter, existing
+    #   capibilites remain unchanged. For more information, see the
+    #   [OcspConfiguration][1] and [CrlConfiguration][2] types.
     #
-    #   <note markdown="1"> The following requirements apply to revocation configurations.
+    #   The following requirements apply to revocation configurations.
     #
-    #    * A configuration disabling CRLs or OCSP must contain only the
+    #   * A configuration disabling CRLs or OCSP must contain only the
     #     `Enabled=False` parameter, and will fail if other parameters such
     #     as `CustomCname` or `ExpirationInDays` are included.
     #
@@ -2494,7 +2573,17 @@ module Aws::ACMPCA
     #     must not include a protocol prefix such as "http://" or
     #     "https://".
     #
-    #    </note>
+    #   If you update the `S3BucketName` of [CrlConfiguration][2], you can
+    #   break revocation for existing certificates. In other words, if you
+    #   call [UpdateCertificateAuthority][5] to update the CRL
+    #   configuration's S3 bucket name, Amazon Web Services Private CA only
+    #   writes CRLs to the new S3 bucket. Certificates issued prior to this
+    #   point will have the old S3 bucket name in your CRL Distribution
+    #   Point (CDP) extension, essentially breaking revocation. If you must
+    #   update the S3 bucket, you'll need to reissue old certificates to
+    #   keep the revocation working. Alternatively, you can use a
+    #   [CustomCname][6] in your CRL configuration if you might need to
+    #   change the S3 bucket name in the future.
     #
     #
     #
@@ -2502,6 +2591,8 @@ module Aws::ACMPCA
     #   [2]: https://docs.aws.amazon.com/privateca/latest/APIReference/API_CrlConfiguration.html
     #   [3]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html
     #   [4]: https://www.ietf.org/rfc/rfc2396.txt
+    #   [5]: https://docs.aws.amazon.com/privateca/latest/APIReference/API_UpdateCertificateAuthority.html
+    #   [6]: https://docs.aws.amazon.com/privateca/latest/APIReference/API_CrlConfiguration.html#privateca-Type-CrlConfiguration-CustomCname
     #   @return [Types::RevocationConfiguration]
     #
     # @!attribute [rw] status
@@ -2526,10 +2617,10 @@ module Aws::ACMPCA
     #
     # Amazon Web Services Private CA API consumes the `Validity` data type
     # differently in two distinct parameters of the `IssueCertificate`
-    # action. The required parameter `IssueCertificate`\:`Validity`
-    # specifies the end of a certificate's validity period. The optional
-    # parameter `IssueCertificate`\:`ValidityNotBefore` specifies a
-    # customized starting time for the validity period.
+    # action. The required parameter `IssueCertificate`:`Validity` specifies
+    # the end of a certificate's validity period. The optional parameter
+    # `IssueCertificate`:`ValidityNotBefore` specifies a customized starting
+    # time for the validity period.
     #
     #
     #
@@ -2545,7 +2636,7 @@ module Aws::ACMPCA
     #   those listed below. Type definitions with values include a sample
     #   input value and the resulting output.
     #
-    #   `END_DATE`\: The specific date and time when the certificate will
+    #   `END_DATE`: The specific date and time when the certificate will
     #   expire, expressed using UTCTime (YYMMDDHHMMSS) or GeneralizedTime
     #   (YYYYMMDDHHMMSS) format. When UTCTime is used, if the year field
     #   (YY) is greater than or equal to 50, the year is interpreted as
@@ -2556,7 +2647,7 @@ module Aws::ACMPCA
     #
     #   * Output expiration date/time: 12/31/2049 23:59:59
     #
-    #   `ABSOLUTE`\: The specific date and time when the validity of a
+    #   `ABSOLUTE`: The specific date and time when the validity of a
     #   certificate will start or expire, expressed in seconds since the
     #   Unix Epoch.
     #
@@ -2564,7 +2655,7 @@ module Aws::ACMPCA
     #
     #   * Output expiration date/time: 01/01/2050 00:00:00
     #
-    #   `DAYS`, `MONTHS`, `YEARS`\: The relative time from the moment of
+    #   `DAYS`, `MONTHS`, `YEARS`: The relative time from the moment of
     #   issuance until the certificate will expire, expressed in days,
     #   months, or years.
     #
@@ -2590,3 +2681,4 @@ module Aws::ACMPCA
 
   end
 end
+

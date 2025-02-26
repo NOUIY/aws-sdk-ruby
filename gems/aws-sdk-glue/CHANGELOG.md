@@ -1,6 +1,401 @@
 Unreleased Changes
 ------------------
 
+1.210.0 (2025-02-18)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.209.0 (2025-02-06)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.208.0 (2025-01-22)
+------------------
+
+* Feature - Docs Update for timeout changes
+
+1.207.0 (2025-01-15)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.206.0 (2024-12-23)
+------------------
+
+* Feature - Add IncludeRoot parameters to GetCatalogs API to return root catalog.
+
+1.205.0 (2024-12-12)
+------------------
+
+* Feature - To support customer-managed encryption in Data Quality to allow customers encrypt data with their own KMS key, we will add a DataQualityEncryption field to the SecurityConfiguration API where customers can provide their KMS keys.
+
+1.204.0 (2024-12-03)
+------------------
+
+* Feature - This release includes(1)Zero-ETL integration to ingest data from 3P SaaS and DynamoDB to Redshift/Redlake (2)new properties on Connections to enable reuse; new connection APIs for retrieve/preview metadata (3)support of CRUD operations for Multi-catalog (4)support of automatic statistics collections
+
+1.203.0 (2024-11-19)
+------------------
+
+* Feature - AWS Glue Data Catalog now enhances managed table optimizations of Apache Iceberg tables that can be accessed only from a specific Amazon Virtual Private Cloud (VPC) environment.
+
+1.202.0 (2024-11-18)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.201.0 (2024-11-06)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.200.0 (2024-10-31)
+------------------
+
+* Feature - Add schedule support for AWS Glue column statistics
+
+1.199.0 (2024-10-18)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.198.0 (2024-09-24)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.197.0 (2024-09-23)
+------------------
+
+* Feature - Added AthenaProperties parameter to Glue Connections, allowing Athena to store service specific properties on Glue Connections.
+
+1.196.0 (2024-09-20)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.195.0 (2024-09-19)
+------------------
+
+* Feature - This change is for releasing TestConnection api SDK model
+
+1.194.0 (2024-09-12)
+------------------
+
+* Feature - AWS Glue is introducing two new optimizers for Apache Iceberg tables: snapshot retention and orphan file deletion. Customers can enable these optimizers and customize their configurations to perform daily maintenance tasks on their Iceberg tables based on their specific requirements.
+
+1.193.0 (2024-09-11)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.192.0 (2024-09-10)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.191.0 (2024-09-03)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.190.0 (2024-08-21)
+------------------
+
+* Feature - Add optional field JobRunQueuingEnabled to CreateJob and UpdateJob APIs.
+
+1.189.0 (2024-08-13)
+------------------
+
+* Feature - Add AttributesToGet parameter support for Glue GetTables
+
+1.188.0 (2024-08-08)
+------------------
+
+* Feature - This release adds support to retrieve the validation status when creating or updating Glue Data Catalog Views. Also added is support for BasicCatalogTarget partition keys.
+
+1.187.0 (2024-08-07)
+------------------
+
+* Feature - Introducing AWS Glue Data Quality anomaly detection, a new functionality that uses ML-based solutions to detect data anomalies users have not explicitly defined rules for.
+
+1.186.0 (2024-08-02)
+------------------
+
+* Feature - Add v2 smoke tests and smithy smokeTests trait for SDK testing.
+
+1.185.0 (2024-07-10)
+------------------
+
+* Feature - Add recipe step support for recipe node
+
+1.184.0 (2024-07-02)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.183.0 (2024-06-28)
+------------------
+
+* Feature - Added AttributesToGet parameter to Glue GetDatabases, allowing caller to limit output to include only the database name.
+
+1.182.0 (2024-06-25)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.181.0 (2024-06-24)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.180.0 (2024-06-20)
+------------------
+
+* Feature - Fix Glue paginators for Jobs, JobRuns, Triggers, Blueprints and Workflows.
+
+1.179.0 (2024-06-17)
+------------------
+
+* Feature - This release introduces a new feature, Usage profiles. Usage profiles allow the AWS Glue admin to create different profiles for various classes of users within the account, enforcing limits and defaults for jobs and sessions.
+
+1.178.0 (2024-06-13)
+------------------
+
+* Feature - This release adds support for configuration of evaluation method for composite rules in Glue Data Quality rulesets.
+
+1.177.0 (2024-06-06)
+------------------
+
+* Feature - This release adds support for creating and updating Glue Data Catalog Views.
+
+1.176.0 (2024-06-05)
+------------------
+
+* Feature - AWS Glue now supports native SaaS connectivity: Salesforce connector available now
+
+1.175.0 (2024-05-29)
+------------------
+
+* Feature - Add optional field JobMode to CreateJob and UpdateJob APIs.
+
+1.174.0 (2024-05-21)
+------------------
+
+* Feature - Add Maintenance window to CreateJob and UpdateJob APIs and JobRun response. Add a new Job Run State for EXPIRED.
+
+1.173.0 (2024-05-13)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.172.0 (2024-04-25)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.171.0 (2024-04-19)
+------------------
+
+* Feature - Adding RowFilter in the response for GetUnfilteredTableMetadata API
+
+1.170.0 (2024-04-12)
+------------------
+
+* Feature - Modifying request for GetUnfilteredTableMetadata for view-related fields.
+
+1.169.0 (2024-04-02)
+------------------
+
+* Feature - Adding View related fields to responses of read-only Table APIs.
+
+1.168.0 (2024-02-05)
+------------------
+
+* Feature - Introduce Catalog Encryption Role within Glue Data Catalog Settings. Introduce SASL/PLAIN as an authentication method for Glue Kafka connections
+
+1.167.0 (2024-01-31)
+------------------
+
+* Feature - Update page size limits for GetJobRuns and GetTriggers APIs.
+
+1.166.0 (2024-01-26)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.165.0 (2023-12-22)
+------------------
+
+* Feature - This release adds additional configurations for Query Session Context on the following APIs: GetUnfilteredTableMetadata, GetUnfilteredPartitionMetadata, GetUnfilteredPartitionsMetadata.
+
+1.164.0 (2023-11-30)
+------------------
+
+* Feature - Adds observation and analyzer support to the GetDataQualityResult and BatchGetDataQualityResult APIs.
+
+1.163.0 (2023-11-28)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.162.0 (2023-11-27)
+------------------
+
+* Feature - add observations support to DQ CodeGen config model + update document for connectiontypes supported by ConnectorData entities
+
+1.161.0 (2023-11-22)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.160.0 (2023-11-16)
+------------------
+
+* Feature - Introduces new column statistics APIs to support statistics generation for tables within the Glue Data Catalog.
+
+1.159.0 (2023-11-14)
+------------------
+
+* Feature - Introduces new storage optimization APIs to support automatic compaction of Apache Iceberg tables.
+
+1.158.0 (2023-11-02)
+------------------
+
+* Feature - This release introduces Google BigQuery Source and Target in AWS Glue CodeGenConfigurationNode.
+
+1.157.0 (2023-10-12)
+------------------
+
+* Feature - Extending version control support to GitLab and Bitbucket from AWSGlue
+
+1.156.0 (2023-09-27)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.155.0 (2023-08-24)
+------------------
+
+* Feature - Added API attributes that help in the monitoring of sessions.
+
+1.154.0 (2023-08-15)
+------------------
+
+* Feature - AWS Glue Crawlers can now accept SerDe overrides from a custom csv classifier. The two SerDe options are LazySimpleSerDe and OpenCSVSerDe. In case, the user wants crawler to do the selection, "None" can be selected for this purpose.
+
+1.153.0 (2023-08-02)
+------------------
+
+* Feature - This release includes additional Glue Streaming KAKFA SASL property types.
+
+1.152.0 (2023-07-26)
+------------------
+
+* Feature - Release Glue Studio Snowflake Connector Node for SDK/CLI
+
+1.151.0 (2023-07-24)
+------------------
+
+* Feature - Added support for Data Preparation Recipe node in Glue Studio jobs
+
+1.150.0 (2023-07-21)
+------------------
+
+* Feature - This release adds support for AWS Glue Crawler with Apache Hudi Tables, allowing Crawlers to discover Hudi Tables in S3 and register them in Glue Data Catalog for query engines to query against.
+
+1.149.0 (2023-07-17)
+------------------
+
+* Feature - Adding new supported permission type flags to get-unfiltered endpoints that callers may pass to indicate support for enforcing Lake Formation fine-grained access control on nested column attributes.
+
+1.148.0 (2023-07-11)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.147.0 (2023-07-07)
+------------------
+
+* Feature - This release enables customers to create new Apache Iceberg tables and associated metadata in Amazon S3 by using native AWS Glue CreateTable operation.
+
+1.146.0 (2023-07-06)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.145.0 (2023-06-29)
+------------------
+
+* Feature - This release adds support for AWS Glue Crawler with Iceberg Tables, allowing Crawlers to discover Iceberg Tables in S3 and register them in Glue Data Catalog for query engines to query against.
+
+1.144.0 (2023-06-28)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.143.0 (2023-06-26)
+------------------
+
+* Feature - Timestamp Starting Position For Kinesis and Kafka Data Sources in a Glue Streaming Job
+
+1.142.0 (2023-06-19)
+------------------
+
+* Feature - This release adds support for creating cross region table/database resource links
+
+1.141.0 (2023-06-15)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.140.0 (2023-05-31)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.139.0 (2023-05-30)
+------------------
+
+* Feature - Added Runtime parameter to allow selection of Ray Runtime
+
+1.138.0 (2023-05-25)
+------------------
+
+* Feature - Added ability to create data quality rulesets for shared, cross-account Glue Data Catalog tables. Added support for dataset comparison rules through a new parameter called AdditionalDataSources. Enhanced the data quality results with a map containing profiled metric values.
+
+1.137.0 (2023-05-16)
+------------------
+
+* Feature - Add Support for Tags for Custom Entity Types
+
+1.136.0 (2023-05-09)
+------------------
+
+* Feature - This release adds AmazonRedshift Source and Target nodes in addition to DynamicTransform OutputSchemas
+
+1.135.0 (2023-05-08)
+------------------
+
+* Feature - Support large worker types G.4x and G.8x for Glue Spark.
+
+1.134.0 (2023-04-03)
+------------------
+
+* Feature - Add support for database-level federation
+
+1.133.0 (2023-03-30)
+------------------
+
+* Feature - This release adds support for AWS Glue Data Quality, which helps you evaluate and monitor the quality of your data and includes the API for creating, deleting, or updating data quality rulesets, runs and evaluations.
+
+1.132.0 (2023-02-17)
+------------------
+
+* Feature - Release of Delta Lake Data Lake Format for Glue Studio Service
+
 1.131.0 (2023-02-15)
 ------------------
 

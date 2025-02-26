@@ -7,6 +7,7 @@
 #
 # WARNING ABOUT GENERATED CODE
 
+
 module Aws::GroundStation
   # @api private
   module ClientApi
@@ -14,6 +15,7 @@ module Aws::GroundStation
     include Seahorse::Model
 
     AWSRegion = Shapes::StringShape.new(name: 'AWSRegion')
+    AgentCpuCoresList = Shapes::ListShape.new(name: 'AgentCpuCoresList')
     AgentDetails = Shapes::StructureShape.new(name: 'AgentDetails')
     AgentStatus = Shapes::StringShape.new(name: 'AgentStatus')
     AggregateStatus = Shapes::StructureShape.new(name: 'AggregateStatus')
@@ -31,9 +33,12 @@ module Aws::GroundStation
     CancelContactRequest = Shapes::StructureShape.new(name: 'CancelContactRequest')
     CapabilityArn = Shapes::StringShape.new(name: 'CapabilityArn')
     CapabilityArnList = Shapes::ListShape.new(name: 'CapabilityArnList')
+    CapabilityHealth = Shapes::StringShape.new(name: 'CapabilityHealth')
+    CapabilityHealthReason = Shapes::StringShape.new(name: 'CapabilityHealthReason')
+    CapabilityHealthReasonList = Shapes::ListShape.new(name: 'CapabilityHealthReasonList')
     ComponentStatusData = Shapes::StructureShape.new(name: 'ComponentStatusData')
     ComponentStatusList = Shapes::ListShape.new(name: 'ComponentStatusList')
-    ComponentType = Shapes::StringShape.new(name: 'ComponentType')
+    ComponentTypeString = Shapes::StringShape.new(name: 'ComponentTypeString')
     ComponentVersion = Shapes::StructureShape.new(name: 'ComponentVersion')
     ComponentVersionList = Shapes::ListShape.new(name: 'ComponentVersionList')
     ConfigArn = Shapes::StringShape.new(name: 'ConfigArn')
@@ -127,6 +132,7 @@ module Aws::GroundStation
     IpV4Address = Shapes::StringShape.new(name: 'IpV4Address')
     JsonString = Shapes::StringShape.new(name: 'JsonString')
     KeyAliasArn = Shapes::StringShape.new(name: 'KeyAliasArn')
+    KeyAliasName = Shapes::StringShape.new(name: 'KeyAliasName')
     KeyArn = Shapes::StringShape.new(name: 'KeyArn')
     KmsKey = Shapes::UnionShape.new(name: 'KmsKey')
     ListConfigsRequest = Shapes::StructureShape.new(name: 'ListConfigsRequest')
@@ -162,7 +168,6 @@ module Aws::GroundStation
     RegisterAgentRequest = Shapes::StructureShape.new(name: 'RegisterAgentRequest')
     RegisterAgentResponse = Shapes::StructureShape.new(name: 'RegisterAgentResponse')
     ReserveContactRequest = Shapes::StructureShape.new(name: 'ReserveContactRequest')
-    ReservedCpuCoresList = Shapes::ListShape.new(name: 'ReservedCpuCoresList')
     ResourceLimitExceededException = Shapes::StructureShape.new(name: 'ResourceLimitExceededException')
     ResourceNotFoundException = Shapes::StructureShape.new(name: 'ResourceNotFoundException')
     RoleArn = Shapes::StringShape.new(name: 'RoleArn')
@@ -214,11 +219,14 @@ module Aws::GroundStation
     noradSatelliteID = Shapes::IntegerShape.new(name: 'noradSatelliteID')
     satelliteArn = Shapes::StringShape.new(name: 'satelliteArn')
 
+    AgentCpuCoresList.member = Shapes::ShapeRef.new(shape: Integer)
+
+    AgentDetails.add_member(:agent_cpu_cores, Shapes::ShapeRef.new(shape: AgentCpuCoresList, location_name: "agentCpuCores"))
     AgentDetails.add_member(:agent_version, Shapes::ShapeRef.new(shape: VersionString, required: true, location_name: "agentVersion"))
     AgentDetails.add_member(:component_versions, Shapes::ShapeRef.new(shape: ComponentVersionList, required: true, location_name: "componentVersions"))
     AgentDetails.add_member(:instance_id, Shapes::ShapeRef.new(shape: InstanceId, required: true, location_name: "instanceId"))
     AgentDetails.add_member(:instance_type, Shapes::ShapeRef.new(shape: InstanceType, required: true, location_name: "instanceType"))
-    AgentDetails.add_member(:reserved_cpu_cores, Shapes::ShapeRef.new(shape: ReservedCpuCoresList, required: true, location_name: "reservedCpuCores"))
+    AgentDetails.add_member(:reserved_cpu_cores, Shapes::ShapeRef.new(shape: AgentCpuCoresList, location_name: "reservedCpuCores"))
     AgentDetails.struct_class = Types::AgentDetails
 
     AggregateStatus.add_member(:signature_map, Shapes::ShapeRef.new(shape: SignatureMap, location_name: "signatureMap"))
@@ -253,10 +261,12 @@ module Aws::GroundStation
 
     CapabilityArnList.member = Shapes::ShapeRef.new(shape: CapabilityArn)
 
+    CapabilityHealthReasonList.member = Shapes::ShapeRef.new(shape: CapabilityHealthReason)
+
     ComponentStatusData.add_member(:bytes_received, Shapes::ShapeRef.new(shape: Long, location_name: "bytesReceived"))
     ComponentStatusData.add_member(:bytes_sent, Shapes::ShapeRef.new(shape: Long, location_name: "bytesSent"))
     ComponentStatusData.add_member(:capability_arn, Shapes::ShapeRef.new(shape: CapabilityArn, required: true, location_name: "capabilityArn"))
-    ComponentStatusData.add_member(:component_type, Shapes::ShapeRef.new(shape: ComponentType, required: true, location_name: "componentType"))
+    ComponentStatusData.add_member(:component_type, Shapes::ShapeRef.new(shape: ComponentTypeString, required: true, location_name: "componentType"))
     ComponentStatusData.add_member(:dataflow_id, Shapes::ShapeRef.new(shape: Uuid, required: true, location_name: "dataflowId"))
     ComponentStatusData.add_member(:packets_dropped, Shapes::ShapeRef.new(shape: Long, location_name: "packetsDropped"))
     ComponentStatusData.add_member(:status, Shapes::ShapeRef.new(shape: AgentStatus, required: true, location_name: "status"))
@@ -264,7 +274,7 @@ module Aws::GroundStation
 
     ComponentStatusList.member = Shapes::ShapeRef.new(shape: ComponentStatusData)
 
-    ComponentVersion.add_member(:component_type, Shapes::ShapeRef.new(shape: ComponentType, required: true, location_name: "componentType"))
+    ComponentVersion.add_member(:component_type, Shapes::ShapeRef.new(shape: ComponentTypeString, required: true, location_name: "componentType"))
     ComponentVersion.add_member(:versions, Shapes::ShapeRef.new(shape: VersionStringList, required: true, location_name: "versions"))
     ComponentVersion.struct_class = Types::ComponentVersion
 
@@ -328,6 +338,8 @@ module Aws::GroundStation
     ContactData.add_member(:satellite_arn, Shapes::ShapeRef.new(shape: satelliteArn, location_name: "satelliteArn"))
     ContactData.add_member(:start_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "startTime"))
     ContactData.add_member(:tags, Shapes::ShapeRef.new(shape: TagsMap, location_name: "tags"))
+    ContactData.add_member(:visibility_end_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "visibilityEndTime"))
+    ContactData.add_member(:visibility_start_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "visibilityStartTime"))
     ContactData.struct_class = Types::ContactData
 
     ContactIdResponse.add_member(:contact_id, Shapes::ShapeRef.new(shape: Uuid, location_name: "contactId"))
@@ -437,6 +449,8 @@ module Aws::GroundStation
     DescribeContactResponse.add_member(:satellite_arn, Shapes::ShapeRef.new(shape: satelliteArn, location_name: "satelliteArn"))
     DescribeContactResponse.add_member(:start_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "startTime"))
     DescribeContactResponse.add_member(:tags, Shapes::ShapeRef.new(shape: TagsMap, location_name: "tags"))
+    DescribeContactResponse.add_member(:visibility_end_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "visibilityEndTime"))
+    DescribeContactResponse.add_member(:visibility_start_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "visibilityStartTime"))
     DescribeContactResponse.struct_class = Types::DescribeContactResponse
 
     DescribeEphemerisRequest.add_member(:ephemeris_id, Shapes::ShapeRef.new(shape: Uuid, required: true, location: "uri", location_name: "ephemerisId"))
@@ -475,6 +489,8 @@ module Aws::GroundStation
 
     EndpointDetails.add_member(:aws_ground_station_agent_endpoint, Shapes::ShapeRef.new(shape: AwsGroundStationAgentEndpoint, location_name: "awsGroundStationAgentEndpoint"))
     EndpointDetails.add_member(:endpoint, Shapes::ShapeRef.new(shape: DataflowEndpoint, location_name: "endpoint"))
+    EndpointDetails.add_member(:health_reasons, Shapes::ShapeRef.new(shape: CapabilityHealthReasonList, location_name: "healthReasons"))
+    EndpointDetails.add_member(:health_status, Shapes::ShapeRef.new(shape: CapabilityHealth, location_name: "healthStatus"))
     EndpointDetails.add_member(:security_details, Shapes::ShapeRef.new(shape: SecurityDetails, location_name: "securityDetails"))
     EndpointDetails.struct_class = Types::EndpointDetails
 
@@ -618,9 +634,11 @@ module Aws::GroundStation
     IpAddressList.member = Shapes::ShapeRef.new(shape: IpV4Address)
 
     KmsKey.add_member(:kms_alias_arn, Shapes::ShapeRef.new(shape: KeyAliasArn, location_name: "kmsAliasArn"))
+    KmsKey.add_member(:kms_alias_name, Shapes::ShapeRef.new(shape: KeyAliasName, location_name: "kmsAliasName"))
     KmsKey.add_member(:kms_key_arn, Shapes::ShapeRef.new(shape: KeyArn, location_name: "kmsKeyArn"))
     KmsKey.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
     KmsKey.add_member_subclass(:kms_alias_arn, Types::KmsKey::KmsAliasArn)
+    KmsKey.add_member_subclass(:kms_alias_name, Types::KmsKey::KmsAliasName)
     KmsKey.add_member_subclass(:kms_key_arn, Types::KmsKey::KmsKeyArn)
     KmsKey.add_member_subclass(:unknown, Types::KmsKey::Unknown)
     KmsKey.struct_class = Types::KmsKey
@@ -735,8 +753,6 @@ module Aws::GroundStation
     ReserveContactRequest.add_member(:start_time, Shapes::ShapeRef.new(shape: Timestamp, required: true, location_name: "startTime"))
     ReserveContactRequest.add_member(:tags, Shapes::ShapeRef.new(shape: TagsMap, location_name: "tags"))
     ReserveContactRequest.struct_class = Types::ReserveContactRequest
-
-    ReservedCpuCoresList.member = Shapes::ShapeRef.new(shape: Integer)
 
     ResourceLimitExceededException.add_member(:message, Shapes::ShapeRef.new(shape: String, location_name: "message"))
     ResourceLimitExceededException.add_member(:parameter_name, Shapes::ShapeRef.new(shape: String, location_name: "parameterName"))
@@ -882,9 +898,11 @@ module Aws::GroundStation
 
       api.metadata = {
         "apiVersion" => "2019-05-23",
+        "auth" => ["aws.auth#sigv4"],
         "endpointPrefix" => "groundstation",
         "jsonVersion" => "1.1",
         "protocol" => "rest-json",
+        "protocols" => ["rest-json"],
         "serviceFullName" => "AWS Ground Station",
         "serviceId" => "GroundStation",
         "signatureVersion" => "v4",

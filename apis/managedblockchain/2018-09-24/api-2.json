@@ -5,12 +5,14 @@
     "endpointPrefix":"managedblockchain",
     "jsonVersion":"1.1",
     "protocol":"rest-json",
+    "protocols":["rest-json"],
     "serviceAbbreviation":"ManagedBlockchain",
     "serviceFullName":"Amazon Managed Blockchain",
     "serviceId":"ManagedBlockchain",
     "signatureVersion":"v4",
     "signingName":"managedblockchain",
-    "uid":"managedblockchain-2018-09-24"
+    "uid":"managedblockchain-2018-09-24",
+    "auth":["aws.auth#sigv4"]
   },
   "operations":{
     "CreateAccessor":{
@@ -27,7 +29,8 @@
         {"shape":"ResourceAlreadyExistsException"},
         {"shape":"ThrottlingException"},
         {"shape":"ResourceLimitExceededException"},
-        {"shape":"InternalServiceErrorException"}
+        {"shape":"InternalServiceErrorException"},
+        {"shape":"TooManyTagsException"}
       ]
     },
     "CreateMember":{
@@ -474,7 +477,9 @@
         "BillingToken":{"shape":"AccessorBillingTokenString"},
         "Status":{"shape":"AccessorStatus"},
         "CreationDate":{"shape":"Timestamp"},
-        "Arn":{"shape":"ArnString"}
+        "Arn":{"shape":"ArnString"},
+        "Tags":{"shape":"OutputTagMap"},
+        "NetworkType":{"shape":"AccessorNetworkType"}
       }
     },
     "AccessorBillingTokenString":{
@@ -487,6 +492,16 @@
       "box":true,
       "max":50,
       "min":1
+    },
+    "AccessorNetworkType":{
+      "type":"string",
+      "enum":[
+        "ETHEREUM_GOERLI",
+        "ETHEREUM_MAINNET",
+        "ETHEREUM_MAINNET_AND_GOERLI",
+        "POLYGON_MAINNET",
+        "POLYGON_MUMBAI"
+      ]
     },
     "AccessorStatus":{
       "type":"string",
@@ -503,7 +518,8 @@
         "Type":{"shape":"AccessorType"},
         "Status":{"shape":"AccessorStatus"},
         "CreationDate":{"shape":"Timestamp"},
-        "Arn":{"shape":"ArnString"}
+        "Arn":{"shape":"ArnString"},
+        "NetworkType":{"shape":"AccessorNetworkType"}
       }
     },
     "AccessorSummaryList":{
@@ -545,14 +561,17 @@
           "shape":"ClientRequestTokenString",
           "idempotencyToken":true
         },
-        "AccessorType":{"shape":"AccessorType"}
+        "AccessorType":{"shape":"AccessorType"},
+        "Tags":{"shape":"InputTagMap"},
+        "NetworkType":{"shape":"AccessorNetworkType"}
       }
     },
     "CreateAccessorOutput":{
       "type":"structure",
       "members":{
         "AccessorId":{"shape":"ResourceIdString"},
-        "BillingToken":{"shape":"AccessorBillingTokenString"}
+        "BillingToken":{"shape":"AccessorBillingTokenString"},
+        "NetworkType":{"shape":"AccessorNetworkType"}
       }
     },
     "CreateMemberInput":{
@@ -967,6 +986,11 @@
           "shape":"PaginationToken",
           "location":"querystring",
           "locationName":"nextToken"
+        },
+        "NetworkType":{
+          "shape":"AccessorNetworkType",
+          "location":"querystring",
+          "locationName":"networkType"
         }
       }
     },

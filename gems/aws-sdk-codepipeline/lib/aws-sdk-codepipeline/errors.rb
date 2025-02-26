@@ -32,6 +32,8 @@ module Aws::CodePipeline
   # * {ActionTypeNotFoundException}
   # * {ApprovalAlreadyCompletedException}
   # * {ConcurrentModificationException}
+  # * {ConcurrentPipelineExecutionsLimitExceededException}
+  # * {ConditionNotOverridableException}
   # * {ConflictException}
   # * {DuplicatedStopRequestException}
   # * {InvalidActionDeclarationException}
@@ -54,6 +56,7 @@ module Aws::CodePipeline
   # * {OutputVariablesSizeExceededException}
   # * {PipelineExecutionNotFoundException}
   # * {PipelineExecutionNotStoppableException}
+  # * {PipelineExecutionOutdatedException}
   # * {PipelineNameInUseException}
   # * {PipelineNotFoundException}
   # * {PipelineVersionNotFoundException}
@@ -62,6 +65,7 @@ module Aws::CodePipeline
   # * {StageNotFoundException}
   # * {StageNotRetryableException}
   # * {TooManyTagsException}
+  # * {UnableToRollbackStageException}
   # * {ValidationException}
   # * {WebhookNotFoundException}
   #
@@ -116,6 +120,36 @@ module Aws::CodePipeline
       # @param [Seahorse::Client::RequestContext] context
       # @param [String] message
       # @param [Aws::CodePipeline::Types::ConcurrentModificationException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+
+      # @return [String]
+      def message
+        @message || @data[:message]
+      end
+    end
+
+    class ConcurrentPipelineExecutionsLimitExceededException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::CodePipeline::Types::ConcurrentPipelineExecutionsLimitExceededException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+
+      # @return [String]
+      def message
+        @message || @data[:message]
+      end
+    end
+
+    class ConditionNotOverridableException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::CodePipeline::Types::ConditionNotOverridableException] data
       def initialize(context, message, data = Aws::EmptyStructure.new)
         super(context, message, data)
       end
@@ -376,6 +410,21 @@ module Aws::CodePipeline
       end
     end
 
+    class PipelineExecutionOutdatedException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::CodePipeline::Types::PipelineExecutionOutdatedException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+
+      # @return [String]
+      def message
+        @message || @data[:message]
+      end
+    end
+
     class PipelineNameInUseException < ServiceError
 
       # @param [Seahorse::Client::RequestContext] context
@@ -456,6 +505,21 @@ module Aws::CodePipeline
       # @param [Seahorse::Client::RequestContext] context
       # @param [String] message
       # @param [Aws::CodePipeline::Types::TooManyTagsException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+
+      # @return [String]
+      def message
+        @message || @data[:message]
+      end
+    end
+
+    class UnableToRollbackStageException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::CodePipeline::Types::UnableToRollbackStageException] data
       def initialize(context, message, data = Aws::EmptyStructure.new)
         super(context, message, data)
       end

@@ -7,6 +7,7 @@
 #
 # WARNING ABOUT GENERATED CODE
 
+
 module Aws::AppRegistry
   # @api private
   module ClientApi
@@ -20,12 +21,16 @@ module Aws::AppRegistry
     ApplicationSpecifier = Shapes::StringShape.new(name: 'ApplicationSpecifier')
     ApplicationSummaries = Shapes::ListShape.new(name: 'ApplicationSummaries')
     ApplicationSummary = Shapes::StructureShape.new(name: 'ApplicationSummary')
+    ApplicationTagDefinition = Shapes::MapShape.new(name: 'ApplicationTagDefinition')
+    ApplicationTagResult = Shapes::StructureShape.new(name: 'ApplicationTagResult')
+    ApplicationTagStatus = Shapes::StringShape.new(name: 'ApplicationTagStatus')
     Arn = Shapes::StringShape.new(name: 'Arn')
     AssociateAttributeGroupRequest = Shapes::StructureShape.new(name: 'AssociateAttributeGroupRequest')
     AssociateAttributeGroupResponse = Shapes::StructureShape.new(name: 'AssociateAttributeGroupResponse')
     AssociateResourceRequest = Shapes::StructureShape.new(name: 'AssociateResourceRequest')
     AssociateResourceResponse = Shapes::StructureShape.new(name: 'AssociateResourceResponse')
     AssociationCount = Shapes::IntegerShape.new(name: 'AssociationCount')
+    AssociationOption = Shapes::StringShape.new(name: 'AssociationOption')
     AttributeGroup = Shapes::StructureShape.new(name: 'AttributeGroup')
     AttributeGroupArn = Shapes::StringShape.new(name: 'AttributeGroupArn')
     AttributeGroupDetails = Shapes::StructureShape.new(name: 'AttributeGroupDetails')
@@ -42,6 +47,7 @@ module Aws::AppRegistry
     CreateApplicationResponse = Shapes::StructureShape.new(name: 'CreateApplicationResponse')
     CreateAttributeGroupRequest = Shapes::StructureShape.new(name: 'CreateAttributeGroupRequest')
     CreateAttributeGroupResponse = Shapes::StructureShape.new(name: 'CreateAttributeGroupResponse')
+    CreatedBy = Shapes::StringShape.new(name: 'CreatedBy')
     DeleteApplicationRequest = Shapes::StructureShape.new(name: 'DeleteApplicationRequest')
     DeleteApplicationResponse = Shapes::StructureShape.new(name: 'DeleteApplicationResponse')
     DeleteAttributeGroupRequest = Shapes::StructureShape.new(name: 'DeleteAttributeGroupRequest')
@@ -53,6 +59,7 @@ module Aws::AppRegistry
     DisassociateResourceResponse = Shapes::StructureShape.new(name: 'DisassociateResourceResponse')
     GetApplicationRequest = Shapes::StructureShape.new(name: 'GetApplicationRequest')
     GetApplicationResponse = Shapes::StructureShape.new(name: 'GetApplicationResponse')
+    GetAssociatedResourceFilter = Shapes::ListShape.new(name: 'GetAssociatedResourceFilter')
     GetAssociatedResourceRequest = Shapes::StructureShape.new(name: 'GetAssociatedResourceRequest')
     GetAssociatedResourceResponse = Shapes::StructureShape.new(name: 'GetAssociatedResourceResponse')
     GetAttributeGroupRequest = Shapes::StructureShape.new(name: 'GetAttributeGroupRequest')
@@ -75,6 +82,7 @@ module Aws::AppRegistry
     MaxResults = Shapes::IntegerShape.new(name: 'MaxResults')
     Name = Shapes::StringShape.new(name: 'Name')
     NextToken = Shapes::StringShape.new(name: 'NextToken')
+    Options = Shapes::ListShape.new(name: 'Options')
     PutConfigurationRequest = Shapes::StructureShape.new(name: 'PutConfigurationRequest')
     Resource = Shapes::StructureShape.new(name: 'Resource')
     ResourceDetails = Shapes::StructureShape.new(name: 'ResourceDetails')
@@ -82,12 +90,16 @@ module Aws::AppRegistry
     ResourceGroupState = Shapes::StringShape.new(name: 'ResourceGroupState')
     ResourceInfo = Shapes::StructureShape.new(name: 'ResourceInfo')
     ResourceIntegrations = Shapes::StructureShape.new(name: 'ResourceIntegrations')
+    ResourceItemStatus = Shapes::StringShape.new(name: 'ResourceItemStatus')
+    ResourceItemType = Shapes::StringShape.new(name: 'ResourceItemType')
     ResourceNotFoundException = Shapes::StructureShape.new(name: 'ResourceNotFoundException')
     ResourceSpecifier = Shapes::StringShape.new(name: 'ResourceSpecifier')
     ResourceType = Shapes::StringShape.new(name: 'ResourceType')
     Resources = Shapes::ListShape.new(name: 'Resources')
+    ResourcesList = Shapes::ListShape.new(name: 'ResourcesList')
+    ResourcesListItem = Shapes::StructureShape.new(name: 'ResourcesListItem')
+    ResourcesListItemErrorMessage = Shapes::StringShape.new(name: 'ResourcesListItemErrorMessage')
     ServiceQuotaExceededException = Shapes::StructureShape.new(name: 'ServiceQuotaExceededException')
-    StackArn = Shapes::StringShape.new(name: 'StackArn')
     String = Shapes::StringShape.new(name: 'String')
     SyncAction = Shapes::StringShape.new(name: 'SyncAction')
     SyncResourceRequest = Shapes::StructureShape.new(name: 'SyncResourceRequest')
@@ -100,6 +112,7 @@ module Aws::AppRegistry
     TagResourceResponse = Shapes::StructureShape.new(name: 'TagResourceResponse')
     TagValue = Shapes::StringShape.new(name: 'TagValue')
     Tags = Shapes::MapShape.new(name: 'Tags')
+    ThrottlingException = Shapes::StructureShape.new(name: 'ThrottlingException')
     Timestamp = Shapes::TimestampShape.new(name: 'Timestamp', timestampFormat: "iso8601")
     UntagResourceRequest = Shapes::StructureShape.new(name: 'UntagResourceRequest')
     UntagResourceResponse = Shapes::StructureShape.new(name: 'UntagResourceResponse')
@@ -119,6 +132,7 @@ module Aws::AppRegistry
     Application.add_member(:creation_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "creationTime"))
     Application.add_member(:last_update_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "lastUpdateTime"))
     Application.add_member(:tags, Shapes::ShapeRef.new(shape: Tags, location_name: "tags"))
+    Application.add_member(:application_tag, Shapes::ShapeRef.new(shape: ApplicationTagDefinition, location_name: "applicationTag"))
     Application.struct_class = Types::Application
 
     ApplicationSummaries.member = Shapes::ShapeRef.new(shape: ApplicationSummary)
@@ -131,6 +145,15 @@ module Aws::AppRegistry
     ApplicationSummary.add_member(:last_update_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "lastUpdateTime"))
     ApplicationSummary.struct_class = Types::ApplicationSummary
 
+    ApplicationTagDefinition.key = Shapes::ShapeRef.new(shape: TagKey)
+    ApplicationTagDefinition.value = Shapes::ShapeRef.new(shape: TagValue)
+
+    ApplicationTagResult.add_member(:application_tag_status, Shapes::ShapeRef.new(shape: ApplicationTagStatus, location_name: "applicationTagStatus"))
+    ApplicationTagResult.add_member(:error_message, Shapes::ShapeRef.new(shape: String, location_name: "errorMessage"))
+    ApplicationTagResult.add_member(:resources, Shapes::ShapeRef.new(shape: ResourcesList, location_name: "resources"))
+    ApplicationTagResult.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
+    ApplicationTagResult.struct_class = Types::ApplicationTagResult
+
     AssociateAttributeGroupRequest.add_member(:application, Shapes::ShapeRef.new(shape: ApplicationSpecifier, required: true, location: "uri", location_name: "application"))
     AssociateAttributeGroupRequest.add_member(:attribute_group, Shapes::ShapeRef.new(shape: AttributeGroupSpecifier, required: true, location: "uri", location_name: "attributeGroup"))
     AssociateAttributeGroupRequest.struct_class = Types::AssociateAttributeGroupRequest
@@ -142,10 +165,12 @@ module Aws::AppRegistry
     AssociateResourceRequest.add_member(:application, Shapes::ShapeRef.new(shape: ApplicationSpecifier, required: true, location: "uri", location_name: "application"))
     AssociateResourceRequest.add_member(:resource_type, Shapes::ShapeRef.new(shape: ResourceType, required: true, location: "uri", location_name: "resourceType"))
     AssociateResourceRequest.add_member(:resource, Shapes::ShapeRef.new(shape: ResourceSpecifier, required: true, location: "uri", location_name: "resource"))
+    AssociateResourceRequest.add_member(:options, Shapes::ShapeRef.new(shape: Options, location_name: "options"))
     AssociateResourceRequest.struct_class = Types::AssociateResourceRequest
 
     AssociateResourceResponse.add_member(:application_arn, Shapes::ShapeRef.new(shape: ApplicationArn, location_name: "applicationArn"))
     AssociateResourceResponse.add_member(:resource_arn, Shapes::ShapeRef.new(shape: Arn, location_name: "resourceArn"))
+    AssociateResourceResponse.add_member(:options, Shapes::ShapeRef.new(shape: Options, location_name: "options"))
     AssociateResourceResponse.struct_class = Types::AssociateResourceResponse
 
     AttributeGroup.add_member(:id, Shapes::ShapeRef.new(shape: AttributeGroupId, location_name: "id"))
@@ -159,7 +184,8 @@ module Aws::AppRegistry
 
     AttributeGroupDetails.add_member(:id, Shapes::ShapeRef.new(shape: AttributeGroupId, location_name: "id"))
     AttributeGroupDetails.add_member(:arn, Shapes::ShapeRef.new(shape: AttributeGroupArn, location_name: "arn"))
-    AttributeGroupDetails.add_member(:name, Shapes::ShapeRef.new(shape: Name, deprecated: true, location_name: "name", metadata: {"deprecatedMessage"=>"This field is deprecated. We recommend not using the field when using ListAttributeGroupsForApplication."}))
+    AttributeGroupDetails.add_member(:name, Shapes::ShapeRef.new(shape: Name, location_name: "name"))
+    AttributeGroupDetails.add_member(:created_by, Shapes::ShapeRef.new(shape: CreatedBy, location_name: "createdBy"))
     AttributeGroupDetails.struct_class = Types::AttributeGroupDetails
 
     AttributeGroupDetailsList.member = Shapes::ShapeRef.new(shape: AttributeGroupDetails)
@@ -174,6 +200,7 @@ module Aws::AppRegistry
     AttributeGroupSummary.add_member(:description, Shapes::ShapeRef.new(shape: Description, location_name: "description"))
     AttributeGroupSummary.add_member(:creation_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "creationTime"))
     AttributeGroupSummary.add_member(:last_update_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "lastUpdateTime"))
+    AttributeGroupSummary.add_member(:created_by, Shapes::ShapeRef.new(shape: CreatedBy, location_name: "createdBy"))
     AttributeGroupSummary.struct_class = Types::AttributeGroupSummary
 
     ConflictException.add_member(:message, Shapes::ShapeRef.new(shape: String, location_name: "message"))
@@ -239,14 +266,22 @@ module Aws::AppRegistry
     GetApplicationResponse.add_member(:associated_resource_count, Shapes::ShapeRef.new(shape: AssociationCount, location_name: "associatedResourceCount"))
     GetApplicationResponse.add_member(:tags, Shapes::ShapeRef.new(shape: Tags, location_name: "tags"))
     GetApplicationResponse.add_member(:integrations, Shapes::ShapeRef.new(shape: Integrations, location_name: "integrations"))
+    GetApplicationResponse.add_member(:application_tag, Shapes::ShapeRef.new(shape: ApplicationTagDefinition, location_name: "applicationTag"))
     GetApplicationResponse.struct_class = Types::GetApplicationResponse
+
+    GetAssociatedResourceFilter.member = Shapes::ShapeRef.new(shape: ResourceItemStatus)
 
     GetAssociatedResourceRequest.add_member(:application, Shapes::ShapeRef.new(shape: ApplicationSpecifier, required: true, location: "uri", location_name: "application"))
     GetAssociatedResourceRequest.add_member(:resource_type, Shapes::ShapeRef.new(shape: ResourceType, required: true, location: "uri", location_name: "resourceType"))
     GetAssociatedResourceRequest.add_member(:resource, Shapes::ShapeRef.new(shape: ResourceSpecifier, required: true, location: "uri", location_name: "resource"))
+    GetAssociatedResourceRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location: "querystring", location_name: "nextToken"))
+    GetAssociatedResourceRequest.add_member(:resource_tag_status, Shapes::ShapeRef.new(shape: GetAssociatedResourceFilter, location: "querystring", location_name: "resourceTagStatus"))
+    GetAssociatedResourceRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location: "querystring", location_name: "maxResults", metadata: {"box"=>true}))
     GetAssociatedResourceRequest.struct_class = Types::GetAssociatedResourceRequest
 
     GetAssociatedResourceResponse.add_member(:resource, Shapes::ShapeRef.new(shape: Resource, location_name: "resource"))
+    GetAssociatedResourceResponse.add_member(:options, Shapes::ShapeRef.new(shape: Options, location_name: "options"))
+    GetAssociatedResourceResponse.add_member(:application_tag_result, Shapes::ShapeRef.new(shape: ApplicationTagResult, location_name: "applicationTagResult"))
     GetAssociatedResourceResponse.struct_class = Types::GetAssociatedResourceResponse
 
     GetAttributeGroupRequest.add_member(:attribute_group, Shapes::ShapeRef.new(shape: AttributeGroupSpecifier, required: true, location: "uri", location_name: "attributeGroup"))
@@ -260,12 +295,14 @@ module Aws::AppRegistry
     GetAttributeGroupResponse.add_member(:creation_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "creationTime"))
     GetAttributeGroupResponse.add_member(:last_update_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "lastUpdateTime"))
     GetAttributeGroupResponse.add_member(:tags, Shapes::ShapeRef.new(shape: Tags, location_name: "tags"))
+    GetAttributeGroupResponse.add_member(:created_by, Shapes::ShapeRef.new(shape: CreatedBy, location_name: "createdBy"))
     GetAttributeGroupResponse.struct_class = Types::GetAttributeGroupResponse
 
     GetConfigurationResponse.add_member(:configuration, Shapes::ShapeRef.new(shape: AppRegistryConfiguration, location_name: "configuration"))
     GetConfigurationResponse.struct_class = Types::GetConfigurationResponse
 
     Integrations.add_member(:resource_group, Shapes::ShapeRef.new(shape: ResourceGroup, location_name: "resourceGroup"))
+    Integrations.add_member(:application_tag_resource_group, Shapes::ShapeRef.new(shape: ResourceGroup, location_name: "applicationTagResourceGroup"))
     Integrations.struct_class = Types::Integrations
 
     InternalServerException.add_member(:message, Shapes::ShapeRef.new(shape: String, location_name: "message"))
@@ -320,11 +357,13 @@ module Aws::AppRegistry
     ListTagsForResourceResponse.add_member(:tags, Shapes::ShapeRef.new(shape: Tags, location_name: "tags"))
     ListTagsForResourceResponse.struct_class = Types::ListTagsForResourceResponse
 
+    Options.member = Shapes::ShapeRef.new(shape: AssociationOption)
+
     PutConfigurationRequest.add_member(:configuration, Shapes::ShapeRef.new(shape: AppRegistryConfiguration, required: true, location_name: "configuration"))
     PutConfigurationRequest.struct_class = Types::PutConfigurationRequest
 
     Resource.add_member(:name, Shapes::ShapeRef.new(shape: ResourceSpecifier, location_name: "name"))
-    Resource.add_member(:arn, Shapes::ShapeRef.new(shape: StackArn, location_name: "arn"))
+    Resource.add_member(:arn, Shapes::ShapeRef.new(shape: Arn, location_name: "arn"))
     Resource.add_member(:association_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "associationTime"))
     Resource.add_member(:integrations, Shapes::ShapeRef.new(shape: ResourceIntegrations, location_name: "integrations"))
     Resource.struct_class = Types::Resource
@@ -341,6 +380,7 @@ module Aws::AppRegistry
     ResourceInfo.add_member(:arn, Shapes::ShapeRef.new(shape: Arn, location_name: "arn"))
     ResourceInfo.add_member(:resource_type, Shapes::ShapeRef.new(shape: ResourceType, location_name: "resourceType"))
     ResourceInfo.add_member(:resource_details, Shapes::ShapeRef.new(shape: ResourceDetails, location_name: "resourceDetails"))
+    ResourceInfo.add_member(:options, Shapes::ShapeRef.new(shape: Options, location_name: "options"))
     ResourceInfo.struct_class = Types::ResourceInfo
 
     ResourceIntegrations.add_member(:resource_group, Shapes::ShapeRef.new(shape: ResourceGroup, location_name: "resourceGroup"))
@@ -350,6 +390,14 @@ module Aws::AppRegistry
     ResourceNotFoundException.struct_class = Types::ResourceNotFoundException
 
     Resources.member = Shapes::ShapeRef.new(shape: ResourceInfo)
+
+    ResourcesList.member = Shapes::ShapeRef.new(shape: ResourcesListItem)
+
+    ResourcesListItem.add_member(:resource_arn, Shapes::ShapeRef.new(shape: Arn, location_name: "resourceArn"))
+    ResourcesListItem.add_member(:error_message, Shapes::ShapeRef.new(shape: ResourcesListItemErrorMessage, location_name: "errorMessage"))
+    ResourcesListItem.add_member(:status, Shapes::ShapeRef.new(shape: String, location_name: "status"))
+    ResourcesListItem.add_member(:resource_type, Shapes::ShapeRef.new(shape: ResourceItemType, location_name: "resourceType"))
+    ResourcesListItem.struct_class = Types::ResourcesListItem
 
     ServiceQuotaExceededException.add_member(:message, Shapes::ShapeRef.new(shape: String, location_name: "message"))
     ServiceQuotaExceededException.struct_class = Types::ServiceQuotaExceededException
@@ -376,6 +424,10 @@ module Aws::AppRegistry
 
     Tags.key = Shapes::ShapeRef.new(shape: TagKey)
     Tags.value = Shapes::ShapeRef.new(shape: TagValue)
+
+    ThrottlingException.add_member(:message, Shapes::ShapeRef.new(shape: String, required: true, location_name: "message"))
+    ThrottlingException.add_member(:service_code, Shapes::ShapeRef.new(shape: String, location_name: "serviceCode"))
+    ThrottlingException.struct_class = Types::ThrottlingException
 
     UntagResourceRequest.add_member(:resource_arn, Shapes::ShapeRef.new(shape: Arn, required: true, location: "uri", location_name: "resourceArn"))
     UntagResourceRequest.add_member(:tag_keys, Shapes::ShapeRef.new(shape: TagKeys, required: true, location: "querystring", location_name: "tagKeys"))
@@ -411,9 +463,11 @@ module Aws::AppRegistry
 
       api.metadata = {
         "apiVersion" => "2020-06-24",
+        "auth" => ["aws.auth#sigv4"],
         "endpointPrefix" => "servicecatalog-appregistry",
         "jsonVersion" => "1.1",
         "protocol" => "rest-json",
+        "protocols" => ["rest-json"],
         "serviceAbbreviation" => "AppRegistry",
         "serviceFullName" => "AWS Service Catalog App Registry",
         "serviceId" => "Service Catalog AppRegistry",
@@ -446,6 +500,7 @@ module Aws::AppRegistry
         o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
         o.errors << Shapes::ShapeRef.new(shape: ConflictException)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
       end)
 
       api.add_operation(:create_application, Seahorse::Model::Operation.new.tap do |o|
@@ -458,6 +513,7 @@ module Aws::AppRegistry
         o.errors << Shapes::ShapeRef.new(shape: ConflictException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
       end)
 
       api.add_operation(:create_attribute_group, Seahorse::Model::Operation.new.tap do |o|
@@ -514,6 +570,7 @@ module Aws::AppRegistry
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
       end)
 
       api.add_operation(:get_application, Seahorse::Model::Operation.new.tap do |o|
@@ -674,6 +731,8 @@ module Aws::AppRegistry
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
         o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
       end)
 
       api.add_operation(:tag_resource, Seahorse::Model::Operation.new.tap do |o|
@@ -708,6 +767,7 @@ module Aws::AppRegistry
         o.errors << Shapes::ShapeRef.new(shape: ConflictException)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
       end)
 
       api.add_operation(:update_attribute_group, Seahorse::Model::Operation.new.tap do |o|

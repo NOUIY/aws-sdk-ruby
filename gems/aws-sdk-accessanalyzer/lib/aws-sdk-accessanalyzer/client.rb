@@ -7,33 +7,34 @@
 #
 # WARNING ABOUT GENERATED CODE
 
-require 'seahorse/client/plugins/content_length.rb'
-require 'aws-sdk-core/plugins/credentials_configuration.rb'
-require 'aws-sdk-core/plugins/logging.rb'
-require 'aws-sdk-core/plugins/param_converter.rb'
-require 'aws-sdk-core/plugins/param_validator.rb'
-require 'aws-sdk-core/plugins/user_agent.rb'
-require 'aws-sdk-core/plugins/helpful_socket_errors.rb'
-require 'aws-sdk-core/plugins/retry_errors.rb'
-require 'aws-sdk-core/plugins/global_configuration.rb'
-require 'aws-sdk-core/plugins/regional_endpoint.rb'
-require 'aws-sdk-core/plugins/endpoint_discovery.rb'
-require 'aws-sdk-core/plugins/endpoint_pattern.rb'
-require 'aws-sdk-core/plugins/response_paging.rb'
-require 'aws-sdk-core/plugins/stub_responses.rb'
-require 'aws-sdk-core/plugins/idempotency_token.rb'
-require 'aws-sdk-core/plugins/jsonvalue_converter.rb'
-require 'aws-sdk-core/plugins/client_metrics_plugin.rb'
-require 'aws-sdk-core/plugins/client_metrics_send_plugin.rb'
-require 'aws-sdk-core/plugins/transfer_encoding.rb'
-require 'aws-sdk-core/plugins/http_checksum.rb'
-require 'aws-sdk-core/plugins/checksum_algorithm.rb'
-require 'aws-sdk-core/plugins/defaults_mode.rb'
-require 'aws-sdk-core/plugins/recursion_detection.rb'
-require 'aws-sdk-core/plugins/sign.rb'
-require 'aws-sdk-core/plugins/protocols/rest_json.rb'
-
-Aws::Plugins::GlobalConfiguration.add_identifier(:accessanalyzer)
+require 'seahorse/client/plugins/content_length'
+require 'aws-sdk-core/plugins/credentials_configuration'
+require 'aws-sdk-core/plugins/logging'
+require 'aws-sdk-core/plugins/param_converter'
+require 'aws-sdk-core/plugins/param_validator'
+require 'aws-sdk-core/plugins/user_agent'
+require 'aws-sdk-core/plugins/helpful_socket_errors'
+require 'aws-sdk-core/plugins/retry_errors'
+require 'aws-sdk-core/plugins/global_configuration'
+require 'aws-sdk-core/plugins/regional_endpoint'
+require 'aws-sdk-core/plugins/endpoint_discovery'
+require 'aws-sdk-core/plugins/endpoint_pattern'
+require 'aws-sdk-core/plugins/response_paging'
+require 'aws-sdk-core/plugins/stub_responses'
+require 'aws-sdk-core/plugins/idempotency_token'
+require 'aws-sdk-core/plugins/invocation_id'
+require 'aws-sdk-core/plugins/jsonvalue_converter'
+require 'aws-sdk-core/plugins/client_metrics_plugin'
+require 'aws-sdk-core/plugins/client_metrics_send_plugin'
+require 'aws-sdk-core/plugins/transfer_encoding'
+require 'aws-sdk-core/plugins/http_checksum'
+require 'aws-sdk-core/plugins/checksum_algorithm'
+require 'aws-sdk-core/plugins/request_compression'
+require 'aws-sdk-core/plugins/defaults_mode'
+require 'aws-sdk-core/plugins/recursion_detection'
+require 'aws-sdk-core/plugins/telemetry'
+require 'aws-sdk-core/plugins/sign'
+require 'aws-sdk-core/plugins/protocols/rest_json'
 
 module Aws::AccessAnalyzer
   # An API client for AccessAnalyzer.  To construct a client, you need to configure a `:region` and `:credentials`.
@@ -71,20 +72,28 @@ module Aws::AccessAnalyzer
     add_plugin(Aws::Plugins::ResponsePaging)
     add_plugin(Aws::Plugins::StubResponses)
     add_plugin(Aws::Plugins::IdempotencyToken)
+    add_plugin(Aws::Plugins::InvocationId)
     add_plugin(Aws::Plugins::JsonvalueConverter)
     add_plugin(Aws::Plugins::ClientMetricsPlugin)
     add_plugin(Aws::Plugins::ClientMetricsSendPlugin)
     add_plugin(Aws::Plugins::TransferEncoding)
     add_plugin(Aws::Plugins::HttpChecksum)
     add_plugin(Aws::Plugins::ChecksumAlgorithm)
+    add_plugin(Aws::Plugins::RequestCompression)
     add_plugin(Aws::Plugins::DefaultsMode)
     add_plugin(Aws::Plugins::RecursionDetection)
+    add_plugin(Aws::Plugins::Telemetry)
     add_plugin(Aws::Plugins::Sign)
     add_plugin(Aws::Plugins::Protocols::RestJson)
     add_plugin(Aws::AccessAnalyzer::Plugins::Endpoints)
 
     # @overload initialize(options)
     #   @param [Hash] options
+    #
+    #   @option options [Array<Seahorse::Client::Plugin>] :plugins ([]])
+    #     A list of plugins to apply to the client. Each plugin is either a
+    #     class name or an instance of a plugin class.
+    #
     #   @option options [required, Aws::CredentialProvider] :credentials
     #     Your AWS credentials. This can be an instance of any one of the
     #     following classes:
@@ -119,13 +128,15 @@ module Aws::AccessAnalyzer
     #     locations will be searched for credentials:
     #
     #     * `Aws.config[:credentials]`
-    #     * The `:access_key_id`, `:secret_access_key`, and `:session_token` options.
-    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']
+    #     * The `:access_key_id`, `:secret_access_key`, `:session_token`, and
+    #       `:account_id` options.
+    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'],
+    #       ENV['AWS_SESSION_TOKEN'], and ENV['AWS_ACCOUNT_ID']
     #     * `~/.aws/credentials`
     #     * `~/.aws/config`
     #     * EC2/ECS IMDS instance profile - When used by default, the timeouts
     #       are very aggressive. Construct and pass an instance of
-    #       `Aws::InstanceProfileCredentails` or `Aws::ECSCredentials` to
+    #       `Aws::InstanceProfileCredentials` or `Aws::ECSCredentials` to
     #       enable retries and extended timeouts. Instance profile credential
     #       fetching can be disabled by setting ENV['AWS_EC2_METADATA_DISABLED']
     #       to true.
@@ -143,6 +154,8 @@ module Aws::AccessAnalyzer
     #     * `~/.aws/config`
     #
     #   @option options [String] :access_key_id
+    #
+    #   @option options [String] :account_id
     #
     #   @option options [Boolean] :active_endpoint_cache (false)
     #     When set to `true`, a thread polling for endpoints will be running in
@@ -190,10 +203,20 @@ module Aws::AccessAnalyzer
     #     Set to true to disable SDK automatically adding host prefix
     #     to default service endpoint when available.
     #
-    #   @option options [String] :endpoint
-    #     The client endpoint is normally constructed from the `:region`
-    #     option. You should only configure an `:endpoint` when connecting
-    #     to test or custom endpoints. This should be a valid HTTP(S) URI.
+    #   @option options [Boolean] :disable_request_compression (false)
+    #     When set to 'true' the request body will not be compressed
+    #     for supported operations.
+    #
+    #   @option options [String, URI::HTTPS, URI::HTTP] :endpoint
+    #     Normally you should not configure the `:endpoint` option
+    #     directly. This is normally constructed from the `:region`
+    #     option. Configuring `:endpoint` is normally reserved for
+    #     connecting to test or custom endpoints. The endpoint should
+    #     be a URI formatted like:
+    #
+    #         'http://example.com'
+    #         'https://example.com'
+    #         'http://example.com:123'
     #
     #   @option options [Integer] :endpoint_cache_max_entries (1000)
     #     Used for the maximum size limit of the LRU cache storing endpoints data
@@ -209,6 +232,10 @@ module Aws::AccessAnalyzer
     #
     #   @option options [Boolean] :endpoint_discovery (false)
     #     When set to `true`, endpoint discovery will be enabled for operations when available.
+    #
+    #   @option options [Boolean] :ignore_configured_endpoint_urls
+    #     Setting to true disables use of endpoint URLs provided via environment
+    #     variables and the shared configuration file.
     #
     #   @option options [Aws::Log::Formatter] :log_formatter (Aws::Log::Formatter.default)
     #     The log formatter.
@@ -229,6 +256,34 @@ module Aws::AccessAnalyzer
     #   @option options [String] :profile ("default")
     #     Used when loading credentials from the shared credentials file
     #     at HOME/.aws/credentials.  When not specified, 'default' is used.
+    #
+    #   @option options [String] :request_checksum_calculation ("when_supported")
+    #     Determines when a checksum will be calculated for request payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, a checksum will be
+    #       calculated for all request payloads of operations modeled with the
+    #       `httpChecksum` trait where `requestChecksumRequired` is `true` and/or a
+    #       `requestAlgorithmMember` is modeled.
+    #     * `when_required` - When set, a checksum will only be calculated for
+    #       request payloads of operations modeled with the  `httpChecksum` trait where
+    #       `requestChecksumRequired` is `true` or where a `requestAlgorithmMember`
+    #       is modeled and supplied.
+    #
+    #   @option options [Integer] :request_min_compression_size_bytes (10240)
+    #     The minimum size in bytes that triggers compression for request
+    #     bodies. The value must be non-negative integer value between 0
+    #     and 10485780 bytes inclusive.
+    #
+    #   @option options [String] :response_checksum_validation ("when_supported")
+    #     Determines when checksum validation will be performed on response payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, checksum validation is performed on all
+    #       response payloads of operations modeled with the `httpChecksum` trait where
+    #       `responseAlgorithms` is modeled, except when no modeled checksum algorithms
+    #       are supported.
+    #     * `when_required` - When set, checksum validation is not performed on
+    #       response payloads of operations unless the checksum algorithm is supported and
+    #       the `requestValidationModeMember` member is set to `ENABLED`.
     #
     #   @option options [Proc] :retry_backoff
     #     A proc or lambda used for backoff. Defaults to 2**retries * retry_base_delay.
@@ -274,10 +329,24 @@ module Aws::AccessAnalyzer
     #       throttling.  This is a provisional mode that may change behavior
     #       in the future.
     #
+    #   @option options [String] :sdk_ua_app_id
+    #     A unique and opaque application ID that is appended to the
+    #     User-Agent header as app/sdk_ua_app_id. It should have a
+    #     maximum length of 50. This variable is sourced from environment
+    #     variable AWS_SDK_UA_APP_ID or the shared config profile attribute sdk_ua_app_id.
     #
     #   @option options [String] :secret_access_key
     #
     #   @option options [String] :session_token
+    #
+    #   @option options [Array] :sigv4a_signing_region_set
+    #     A list of regions that should be signed with SigV4a signing. When
+    #     not passed, a default `:sigv4a_signing_region_set` is searched for
+    #     in the following locations:
+    #
+    #     * `Aws.config[:sigv4a_signing_region_set]`
+    #     * `ENV['AWS_SIGV4A_SIGNING_REGION_SET']`
+    #     * `~/.aws/config`
     #
     #   @option options [Boolean] :stub_responses (false)
     #     Causes the client to return stubbed responses. By default
@@ -287,6 +356,16 @@ module Aws::AccessAnalyzer
     #
     #     ** Please note ** When response stubbing is enabled, no HTTP
     #     requests are made, and retries are disabled.
+    #
+    #   @option options [Aws::Telemetry::TelemetryProviderBase] :telemetry_provider (Aws::Telemetry::NoOpTelemetryProvider)
+    #     Allows you to provide a telemetry provider, which is used to
+    #     emit telemetry data. By default, uses `NoOpTelemetryProvider` which
+    #     will not record or emit any telemetry data. The SDK supports the
+    #     following telemetry providers:
+    #
+    #     * OpenTelemetry (OTel) - To use the OTel provider, install and require the
+    #     `opentelemetry-sdk` gem and then, pass in an instance of a
+    #     `Aws::Telemetry::OTelProvider` for telemetry provider.
     #
     #   @option options [Aws::TokenProvider] :token_provider
     #     A Bearer Token Provider. This can be an instance of any one of the
@@ -315,52 +394,75 @@ module Aws::AccessAnalyzer
     #     sending the request.
     #
     #   @option options [Aws::AccessAnalyzer::EndpointProvider] :endpoint_provider
-    #     The endpoint provider used to resolve endpoints. Any object that responds to `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to `Aws::AccessAnalyzer::EndpointParameters`
+    #     The endpoint provider used to resolve endpoints. Any object that responds to
+    #     `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+    #     `Aws::AccessAnalyzer::EndpointParameters`.
     #
-    #   @option options [URI::HTTP,String] :http_proxy A proxy to send
-    #     requests through.  Formatted like 'http://proxy.com:123'.
+    #   @option options [Float] :http_continue_timeout (1)
+    #     The number of seconds to wait for a 100-continue response before sending the
+    #     request body.  This option has no effect unless the request has "Expect"
+    #     header set to "100-continue".  Defaults to `nil` which  disables this
+    #     behaviour.  This value can safely be set per request on the session.
     #
-    #   @option options [Float] :http_open_timeout (15) The number of
-    #     seconds to wait when opening a HTTP session before raising a
-    #     `Timeout::Error`.
+    #   @option options [Float] :http_idle_timeout (5)
+    #     The number of seconds a connection is allowed to sit idle before it
+    #     is considered stale.  Stale connections are closed and removed from the
+    #     pool before making a request.
     #
-    #   @option options [Float] :http_read_timeout (60) The default
-    #     number of seconds to wait for response data.  This value can
-    #     safely be set per-request on the session.
+    #   @option options [Float] :http_open_timeout (15)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :http_idle_timeout (5) The number of
-    #     seconds a connection is allowed to sit idle before it is
-    #     considered stale.  Stale connections are closed and removed
-    #     from the pool before making a request.
+    #   @option options [URI::HTTP,String] :http_proxy
+    #     A proxy to send requests through.  Formatted like 'http://proxy.com:123'.
     #
-    #   @option options [Float] :http_continue_timeout (1) The number of
-    #     seconds to wait for a 100-continue response before sending the
-    #     request body.  This option has no effect unless the request has
-    #     "Expect" header set to "100-continue".  Defaults to `nil` which
-    #     disables this behaviour.  This value can safely be set per
-    #     request on the session.
+    #   @option options [Float] :http_read_timeout (60)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :ssl_timeout (nil) Sets the SSL timeout
-    #     in seconds.
+    #   @option options [Boolean] :http_wire_trace (false)
+    #     When `true`,  HTTP debug output will be sent to the `:logger`.
     #
-    #   @option options [Boolean] :http_wire_trace (false) When `true`,
-    #     HTTP debug output will be sent to the `:logger`.
+    #   @option options [Proc] :on_chunk_received
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the response body is received. It provides three arguments: the chunk,
+    #     the number of bytes received, and the total number of
+    #     bytes in the response (or nil if the server did not send a `content-length`).
     #
-    #   @option options [Boolean] :ssl_verify_peer (true) When `true`,
-    #     SSL peer certificates are verified when establishing a
-    #     connection.
+    #   @option options [Proc] :on_chunk_sent
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the request body is sent. It provides three arguments: the chunk,
+    #     the number of bytes read from the body, and the total number of
+    #     bytes in the body.
     #
-    #   @option options [String] :ssl_ca_bundle Full path to the SSL
-    #     certificate authority bundle file that should be used when
-    #     verifying peer certificates.  If you do not pass
-    #     `:ssl_ca_bundle` or `:ssl_ca_directory` the the system default
-    #     will be used if available.
+    #   @option options [Boolean] :raise_response_errors (true)
+    #     When `true`, response errors are raised.
     #
-    #   @option options [String] :ssl_ca_directory Full path of the
-    #     directory that contains the unbundled SSL certificate
+    #   @option options [String] :ssl_ca_bundle
+    #     Full path to the SSL certificate authority bundle file that should be used when
+    #     verifying peer certificates.  If you do not pass `:ssl_ca_bundle` or
+    #     `:ssl_ca_directory` the the system default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_directory
+    #     Full path of the directory that contains the unbundled SSL certificate
     #     authority files for verifying peer certificates.  If you do
-    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the
-    #     system default will be used if available.
+    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the system
+    #     default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_store
+    #     Sets the X509::Store to verify peer certificate.
+    #
+    #   @option options [OpenSSL::X509::Certificate] :ssl_cert
+    #     Sets a client certificate when creating http connections.
+    #
+    #   @option options [OpenSSL::PKey] :ssl_key
+    #     Sets a client key when creating http connections.
+    #
+    #   @option options [Float] :ssl_timeout
+    #     Sets the SSL timeout in seconds
+    #
+    #   @option options [Boolean] :ssl_verify_peer (true)
+    #     When `true`, SSL peer certificates are verified when establishing a connection.
     #
     def initialize(*args)
       super
@@ -424,6 +526,277 @@ module Aws::AccessAnalyzer
     # @param [Hash] params ({})
     def cancel_policy_generation(params = {}, options = {})
       req = build_request(:cancel_policy_generation, params)
+      req.send_request(options)
+    end
+
+    # Checks whether the specified access isn't allowed by a policy.
+    #
+    # @option params [required, String] :policy_document
+    #   The JSON policy document to use as the content for the policy.
+    #
+    # @option params [required, Array<Types::Access>] :access
+    #   An access object containing the permissions that shouldn't be granted
+    #   by the specified policy. If only actions are specified, IAM Access
+    #   Analyzer checks for access to peform at least one of the actions on
+    #   any resource in the policy. If only resources are specified, then IAM
+    #   Access Analyzer checks for access to perform any action on at least
+    #   one of the resources. If both actions and resources are specified, IAM
+    #   Access Analyzer checks for access to perform at least one of the
+    #   specified actions on at least one of the specified resources.
+    #
+    # @option params [required, String] :policy_type
+    #   The type of policy. Identity policies grant permissions to IAM
+    #   principals. Identity policies include managed and inline policies for
+    #   IAM roles, users, and groups.
+    #
+    #   Resource policies grant permissions on Amazon Web Services resources.
+    #   Resource policies include trust policies for IAM roles and bucket
+    #   policies for Amazon S3 buckets.
+    #
+    # @return [Types::CheckAccessNotGrantedResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CheckAccessNotGrantedResponse#result #result} => String
+    #   * {Types::CheckAccessNotGrantedResponse#message #message} => String
+    #   * {Types::CheckAccessNotGrantedResponse#reasons #reasons} => Array&lt;Types::ReasonSummary&gt;
+    #
+    #
+    # @example Example: Passing check. Restrictive identity policy.
+    #
+    #   resp = client.check_access_not_granted({
+    #     access: [
+    #       {
+    #         actions: [
+    #           "s3:PutObject", 
+    #         ], 
+    #       }, 
+    #     ], 
+    #     policy_document: "{\"Version\":\"2012-10-17\",\"Id\":\"123\",\"Statement\":[{\"Sid\":\"AllowJohnDoe\",\"Effect\":\"Allow\",\"Principal\":{\"AWS\":\"arn:aws:iam::123456789012:user/JohnDoe\"},\"Action\":\"s3:GetObject\",\"Resource\":\"*\"}]}", 
+    #     policy_type: "RESOURCE_POLICY", 
+    #   })
+    #
+    #   resp.to_h outputs the following:
+    #   {
+    #     message: "The policy document does not grant access to perform the listed actions or resources.", 
+    #     result: "PASS", 
+    #   }
+    #
+    # @example Example: Passing check. Restrictive S3 Bucket resource policy.
+    #
+    #   resp = client.check_access_not_granted({
+    #     access: [
+    #       {
+    #         resources: [
+    #           "arn:aws:s3:::sensitive-bucket/*", 
+    #         ], 
+    #       }, 
+    #     ], 
+    #     policy_document: "{\"Version\":\"2012-10-17\",\"Id\":\"123\",\"Statement\":[{\"Sid\":\"AllowJohnDoe\",\"Effect\":\"Allow\",\"Principal\":{\"AWS\":\"arn:aws:iam::123456789012:user/JohnDoe\"},\"Action\":\"s3:PutObject\",\"Resource\":\"arn:aws:s3:::non-sensitive-bucket/*\"}]}", 
+    #     policy_type: "RESOURCE_POLICY", 
+    #   })
+    #
+    #   resp.to_h outputs the following:
+    #   {
+    #     message: "The policy document does not grant access to perform the listed actions or resources.", 
+    #     result: "PASS", 
+    #   }
+    #
+    # @example Example: Failing check. Permissive S3 Bucket resource policy.
+    #
+    #   resp = client.check_access_not_granted({
+    #     access: [
+    #       {
+    #         resources: [
+    #           "arn:aws:s3:::my-bucket/*", 
+    #         ], 
+    #       }, 
+    #     ], 
+    #     policy_document: "{\"Version\":\"2012-10-17\",\"Id\":\"123\",\"Statement\":[{\"Sid\":\"AllowJohnDoe\",\"Effect\":\"Allow\",\"Principal\":{\"AWS\":\"arn:aws:iam::123456789012:user/JohnDoe\"},\"Action\":\"s3:PutObject\",\"Resource\":\"arn:aws:s3:::my-bucket/*\"}]}", 
+    #     policy_type: "RESOURCE_POLICY", 
+    #   })
+    #
+    #   resp.to_h outputs the following:
+    #   {
+    #     message: "The policy document grants access to perform one or more of the listed actions or resources.", 
+    #     reasons: [
+    #       {
+    #         description: "One or more of the listed actions or resources in the statement with sid: AllowJohnDoe.", 
+    #         statement_id: "AllowJohnDoe", 
+    #         statement_index: 0, 
+    #       }, 
+    #     ], 
+    #     result: "FAIL", 
+    #   }
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.check_access_not_granted({
+    #     policy_document: "AccessCheckPolicyDocument", # required
+    #     access: [ # required
+    #       {
+    #         actions: ["Action"],
+    #         resources: ["Resource"],
+    #       },
+    #     ],
+    #     policy_type: "IDENTITY_POLICY", # required, accepts IDENTITY_POLICY, RESOURCE_POLICY
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.result #=> String, one of "PASS", "FAIL"
+    #   resp.message #=> String
+    #   resp.reasons #=> Array
+    #   resp.reasons[0].description #=> String
+    #   resp.reasons[0].statement_index #=> Integer
+    #   resp.reasons[0].statement_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/accessanalyzer-2019-11-01/CheckAccessNotGranted AWS API Documentation
+    #
+    # @overload check_access_not_granted(params = {})
+    # @param [Hash] params ({})
+    def check_access_not_granted(params = {}, options = {})
+      req = build_request(:check_access_not_granted, params)
+      req.send_request(options)
+    end
+
+    # Checks whether new access is allowed for an updated policy when
+    # compared to the existing policy.
+    #
+    # You can find examples for reference policies and learn how to set up
+    # and run a custom policy check for new access in the [IAM Access
+    # Analyzer custom policy checks samples][1] repository on GitHub. The
+    # reference policies in this repository are meant to be passed to the
+    # `existingPolicyDocument` request parameter.
+    #
+    #
+    #
+    # [1]: https://github.com/aws-samples/iam-access-analyzer-custom-policy-check-samples
+    #
+    # @option params [required, String] :new_policy_document
+    #   The JSON policy document to use as the content for the updated policy.
+    #
+    # @option params [required, String] :existing_policy_document
+    #   The JSON policy document to use as the content for the existing
+    #   policy.
+    #
+    # @option params [required, String] :policy_type
+    #   The type of policy to compare. Identity policies grant permissions to
+    #   IAM principals. Identity policies include managed and inline policies
+    #   for IAM roles, users, and groups.
+    #
+    #   Resource policies grant permissions on Amazon Web Services resources.
+    #   Resource policies include trust policies for IAM roles and bucket
+    #   policies for Amazon S3 buckets. You can provide a generic input such
+    #   as identity policy or resource policy or a specific input such as
+    #   managed policy or Amazon S3 bucket policy.
+    #
+    # @return [Types::CheckNoNewAccessResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CheckNoNewAccessResponse#result #result} => String
+    #   * {Types::CheckNoNewAccessResponse#message #message} => String
+    #   * {Types::CheckNoNewAccessResponse#reasons #reasons} => Array&lt;Types::ReasonSummary&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.check_no_new_access({
+    #     new_policy_document: "AccessCheckPolicyDocument", # required
+    #     existing_policy_document: "AccessCheckPolicyDocument", # required
+    #     policy_type: "IDENTITY_POLICY", # required, accepts IDENTITY_POLICY, RESOURCE_POLICY
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.result #=> String, one of "PASS", "FAIL"
+    #   resp.message #=> String
+    #   resp.reasons #=> Array
+    #   resp.reasons[0].description #=> String
+    #   resp.reasons[0].statement_index #=> Integer
+    #   resp.reasons[0].statement_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/accessanalyzer-2019-11-01/CheckNoNewAccess AWS API Documentation
+    #
+    # @overload check_no_new_access(params = {})
+    # @param [Hash] params ({})
+    def check_no_new_access(params = {}, options = {})
+      req = build_request(:check_no_new_access, params)
+      req.send_request(options)
+    end
+
+    # Checks whether a resource policy can grant public access to the
+    # specified resource type.
+    #
+    # @option params [required, String] :policy_document
+    #   The JSON policy document to evaluate for public access.
+    #
+    # @option params [required, String] :resource_type
+    #   The type of resource to evaluate for public access. For example, to
+    #   check for public access to Amazon S3 buckets, you can choose
+    #   `AWS::S3::Bucket` for the resource type.
+    #
+    #   For resource types not supported as valid values, IAM Access Analyzer
+    #   will return an error.
+    #
+    # @return [Types::CheckNoPublicAccessResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CheckNoPublicAccessResponse#result #result} => String
+    #   * {Types::CheckNoPublicAccessResponse#message #message} => String
+    #   * {Types::CheckNoPublicAccessResponse#reasons #reasons} => Array&lt;Types::ReasonSummary&gt;
+    #
+    #
+    # @example Example: Passing check. S3 Bucket policy without public access.
+    #
+    #   resp = client.check_no_public_access({
+    #     policy_document: "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Sid\":\"Bob\",\"Effect\":\"Allow\",\"Principal\":{\"AWS\":\"arn:aws:iam::111122223333:user/JohnDoe\"},\"Action\":[\"s3:GetObject\"]}]}", 
+    #     resource_type: "AWS::S3::Bucket", 
+    #   })
+    #
+    #   resp.to_h outputs the following:
+    #   {
+    #     message: "The resource policy does not grant public access for the given resource type.", 
+    #     result: "PASS", 
+    #   }
+    #
+    # @example Example: Failing check. S3 Bucket policy with public access.
+    #
+    #   resp = client.check_no_public_access({
+    #     policy_document: "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Sid\":\"Bob\",\"Effect\":\"Allow\",\"Principal\":\"*\",\"Action\":[\"s3:GetObject\"]}]}", 
+    #     resource_type: "AWS::S3::Bucket", 
+    #   })
+    #
+    #   resp.to_h outputs the following:
+    #   {
+    #     message: "The resource policy grants public access for the given resource type.", 
+    #     reasons: [
+    #       {
+    #         description: "Public access granted in the following statement with sid: Bob.", 
+    #         statement_id: "Bob", 
+    #         statement_index: 0, 
+    #       }, 
+    #     ], 
+    #     result: "FAIL", 
+    #   }
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.check_no_public_access({
+    #     policy_document: "AccessCheckPolicyDocument", # required
+    #     resource_type: "AWS::DynamoDB::Table", # required, accepts AWS::DynamoDB::Table, AWS::DynamoDB::Stream, AWS::EFS::FileSystem, AWS::OpenSearchService::Domain, AWS::Kinesis::Stream, AWS::Kinesis::StreamConsumer, AWS::KMS::Key, AWS::Lambda::Function, AWS::S3::Bucket, AWS::S3::AccessPoint, AWS::S3Express::DirectoryBucket, AWS::S3::Glacier, AWS::S3Outposts::Bucket, AWS::S3Outposts::AccessPoint, AWS::SecretsManager::Secret, AWS::SNS::Topic, AWS::SQS::Queue, AWS::IAM::AssumeRolePolicyDocument
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.result #=> String, one of "PASS", "FAIL"
+    #   resp.message #=> String
+    #   resp.reasons #=> Array
+    #   resp.reasons[0].description #=> String
+    #   resp.reasons[0].statement_index #=> Integer
+    #   resp.reasons[0].statement_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/accessanalyzer-2019-11-01/CheckNoPublicAccess AWS API Documentation
+    #
+    # @overload check_no_public_access(params = {})
+    # @param [Hash] params ({})
+    def check_no_public_access(params = {}, options = {})
+      req = build_request(:check_no_public_access, params)
       req.send_request(options)
     end
 
@@ -556,6 +929,15 @@ module Aws::AccessAnalyzer
     #         sqs_queue: {
     #           queue_policy: "SqsQueuePolicy",
     #         },
+    #         s3_express_directory_bucket: {
+    #           bucket_policy: "S3ExpressDirectoryBucketPolicy",
+    #         },
+    #         dynamodb_stream: {
+    #           stream_policy: "DynamodbStreamPolicy",
+    #         },
+    #         dynamodb_table: {
+    #           table_policy: "DynamodbTablePolicy",
+    #         },
     #       },
     #     },
     #     client_token: "String",
@@ -580,10 +962,10 @@ module Aws::AccessAnalyzer
     #   The name of the analyzer to create.
     #
     # @option params [required, String] :type
-    #   The type of analyzer to create. Only ACCOUNT and ORGANIZATION
-    #   analyzers are supported. You can create only one analyzer per account
-    #   per Region. You can create up to 5 analyzers per organization per
-    #   Region.
+    #   The type of analyzer to create. Only `ACCOUNT`, `ORGANIZATION`,
+    #   `ACCOUNT_UNUSED_ACCESS`, and `ORGANIZATION_UNUSED_ACCESS` analyzers
+    #   are supported. You can create only one analyzer per account per
+    #   Region. You can create up to 5 analyzers per organization per Region.
     #
     # @option params [Array<Types::InlineArchiveRule>] :archive_rules
     #   Specifies the archive rules to add for the analyzer. Archive rules
@@ -591,13 +973,26 @@ module Aws::AccessAnalyzer
     #   the rule.
     #
     # @option params [Hash<String,String>] :tags
-    #   The tags to apply to the analyzer.
+    #   An array of key-value pairs to apply to the analyzer. You can use the
+    #   set of Unicode letters, digits, whitespace, `_`, `.`, `/`, `=`, `+`,
+    #   and `-`.
+    #
+    #   For the tag key, you can specify a value that is 1 to 128 characters
+    #   in length and cannot be prefixed with `aws:`.
+    #
+    #   For the tag value, you can specify a value that is 0 to 256 characters
+    #   in length.
     #
     # @option params [String] :client_token
     #   A client token.
     #
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.**
+    #
+    # @option params [Types::AnalyzerConfiguration] :configuration
+    #   Specifies the configuration of the analyzer. If the analyzer is an
+    #   unused access analyzer, the specified scope of unused access is used
+    #   for the configuration.
     #
     # @return [Types::CreateAnalyzerResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -607,7 +1002,7 @@ module Aws::AccessAnalyzer
     #
     #   resp = client.create_analyzer({
     #     analyzer_name: "Name", # required
-    #     type: "ACCOUNT", # required, accepts ACCOUNT, ORGANIZATION
+    #     type: "ACCOUNT", # required, accepts ACCOUNT, ORGANIZATION, ACCOUNT_UNUSED_ACCESS, ORGANIZATION_UNUSED_ACCESS
     #     archive_rules: [
     #       {
     #         rule_name: "Name", # required
@@ -625,6 +1020,23 @@ module Aws::AccessAnalyzer
     #       "String" => "String",
     #     },
     #     client_token: "String",
+    #     configuration: {
+    #       unused_access: {
+    #         unused_access_age: 1,
+    #         analysis_rule: {
+    #           exclusions: [
+    #             {
+    #               account_ids: ["String"],
+    #               resource_tags: [
+    #                 {
+    #                   "String" => "String",
+    #                 },
+    #               ],
+    #             },
+    #           ],
+    #         },
+    #       },
+    #     },
     #   })
     #
     # @example Response structure
@@ -759,6 +1171,56 @@ module Aws::AccessAnalyzer
       req.send_request(options)
     end
 
+    # Creates a recommendation for an unused permissions finding.
+    #
+    # @option params [required, String] :analyzer_arn
+    #   The [ARN of the analyzer][1] used to generate the finding
+    #   recommendation.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-getting-started.html#permission-resources
+    #
+    # @option params [required, String] :id
+    #   The unique ID for the finding recommendation.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    #
+    # @example Example: Successfully started generating finding recommendation
+    #
+    #   resp = client.generate_finding_recommendation({
+    #     analyzer_arn: "arn:aws:access-analyzer:us-east-1:111122223333:analyzer/a", 
+    #     id: "finding-id", 
+    #   })
+    #
+    #   resp.to_h outputs the following:
+    #   {
+    #   }
+    #
+    # @example Example: Failed field validation for id value
+    #
+    #   resp = client.generate_finding_recommendation({
+    #     analyzer_arn: "arn:aws:access-analyzer:us-east-1:111122223333:analyzer/a", 
+    #     id: "!", 
+    #   })
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.generate_finding_recommendation({
+    #     analyzer_arn: "AnalyzerArn", # required
+    #     id: "GenerateFindingRecommendationRequestIdString", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/accessanalyzer-2019-11-01/GenerateFindingRecommendation AWS API Documentation
+    #
+    # @overload generate_finding_recommendation(params = {})
+    # @param [Hash] params ({})
+    def generate_finding_recommendation(params = {}, options = {})
+      req = build_request(:generate_finding_recommendation, params)
+      req.send_request(options)
+    end
+
     # Retrieves information about an access preview for the specified
     # analyzer.
     #
@@ -832,6 +1294,9 @@ module Aws::AccessAnalyzer
     #   resp.access_preview.configurations["ConfigurationsMapKey"].s3_bucket.access_points["AccessPointArn"].network_origin.vpc_configuration.vpc_id #=> String
     #   resp.access_preview.configurations["ConfigurationsMapKey"].sns_topic.topic_policy #=> String
     #   resp.access_preview.configurations["ConfigurationsMapKey"].sqs_queue.queue_policy #=> String
+    #   resp.access_preview.configurations["ConfigurationsMapKey"].s3_express_directory_bucket.bucket_policy #=> String
+    #   resp.access_preview.configurations["ConfigurationsMapKey"].dynamodb_stream.stream_policy #=> String
+    #   resp.access_preview.configurations["ConfigurationsMapKey"].dynamodb_table.table_policy #=> String
     #   resp.access_preview.created_at #=> Time
     #   resp.access_preview.status #=> String, one of "COMPLETED", "CREATING", "FAILED"
     #   resp.access_preview.status_reason.code #=> String, one of "INTERNAL_ERROR", "INVALID_CONFIGURATION"
@@ -871,7 +1336,7 @@ module Aws::AccessAnalyzer
     # @example Response structure
     #
     #   resp.resource.resource_arn #=> String
-    #   resp.resource.resource_type #=> String, one of "AWS::S3::Bucket", "AWS::IAM::Role", "AWS::SQS::Queue", "AWS::Lambda::Function", "AWS::Lambda::LayerVersion", "AWS::KMS::Key", "AWS::SecretsManager::Secret", "AWS::EFS::FileSystem", "AWS::EC2::Snapshot", "AWS::ECR::Repository", "AWS::RDS::DBSnapshot", "AWS::RDS::DBClusterSnapshot", "AWS::SNS::Topic"
+    #   resp.resource.resource_type #=> String, one of "AWS::S3::Bucket", "AWS::IAM::Role", "AWS::SQS::Queue", "AWS::Lambda::Function", "AWS::Lambda::LayerVersion", "AWS::KMS::Key", "AWS::SecretsManager::Secret", "AWS::EFS::FileSystem", "AWS::EC2::Snapshot", "AWS::ECR::Repository", "AWS::RDS::DBSnapshot", "AWS::RDS::DBClusterSnapshot", "AWS::SNS::Topic", "AWS::S3Express::DirectoryBucket", "AWS::DynamoDB::Table", "AWS::DynamoDB::Stream", "AWS::IAM::User"
     #   resp.resource.created_at #=> Time
     #   resp.resource.analyzed_at #=> Time
     #   resp.resource.updated_at #=> Time
@@ -912,7 +1377,7 @@ module Aws::AccessAnalyzer
     #
     #   resp.analyzer.arn #=> String
     #   resp.analyzer.name #=> String
-    #   resp.analyzer.type #=> String, one of "ACCOUNT", "ORGANIZATION"
+    #   resp.analyzer.type #=> String, one of "ACCOUNT", "ORGANIZATION", "ACCOUNT_UNUSED_ACCESS", "ORGANIZATION_UNUSED_ACCESS"
     #   resp.analyzer.created_at #=> Time
     #   resp.analyzer.last_resource_analyzed #=> String
     #   resp.analyzer.last_resource_analyzed_at #=> Time
@@ -920,6 +1385,13 @@ module Aws::AccessAnalyzer
     #   resp.analyzer.tags["String"] #=> String
     #   resp.analyzer.status #=> String, one of "ACTIVE", "CREATING", "DISABLED", "FAILED"
     #   resp.analyzer.status_reason.code #=> String, one of "AWS_SERVICE_ACCESS_DISABLED", "DELEGATED_ADMINISTRATOR_DEREGISTERED", "ORGANIZATION_DELETED", "SERVICE_LINKED_ROLE_CREATION_FAILED"
+    #   resp.analyzer.configuration.unused_access.unused_access_age #=> Integer
+    #   resp.analyzer.configuration.unused_access.analysis_rule.exclusions #=> Array
+    #   resp.analyzer.configuration.unused_access.analysis_rule.exclusions[0].account_ids #=> Array
+    #   resp.analyzer.configuration.unused_access.analysis_rule.exclusions[0].account_ids[0] #=> String
+    #   resp.analyzer.configuration.unused_access.analysis_rule.exclusions[0].resource_tags #=> Array
+    #   resp.analyzer.configuration.unused_access.analysis_rule.exclusions[0].resource_tags[0] #=> Hash
+    #   resp.analyzer.configuration.unused_access.analysis_rule.exclusions[0].resource_tags[0]["String"] #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/accessanalyzer-2019-11-01/GetAnalyzer AWS API Documentation
     #
@@ -979,7 +1451,10 @@ module Aws::AccessAnalyzer
       req.send_request(options)
     end
 
-    # Retrieves information about the specified finding.
+    # Retrieves information about the specified finding. GetFinding and
+    # GetFindingV2 both use `access-analyzer:GetFinding` in the `Action`
+    # element of an IAM policy statement. You must have permission to
+    # perform the `access-analyzer:GetFinding` action.
     #
     # @option params [required, String] :analyzer_arn
     #   The [ARN of the analyzer][1] that generated the finding.
@@ -1011,7 +1486,7 @@ module Aws::AccessAnalyzer
     #   resp.finding.action[0] #=> String
     #   resp.finding.resource #=> String
     #   resp.finding.is_public #=> Boolean
-    #   resp.finding.resource_type #=> String, one of "AWS::S3::Bucket", "AWS::IAM::Role", "AWS::SQS::Queue", "AWS::Lambda::Function", "AWS::Lambda::LayerVersion", "AWS::KMS::Key", "AWS::SecretsManager::Secret", "AWS::EFS::FileSystem", "AWS::EC2::Snapshot", "AWS::ECR::Repository", "AWS::RDS::DBSnapshot", "AWS::RDS::DBClusterSnapshot", "AWS::SNS::Topic"
+    #   resp.finding.resource_type #=> String, one of "AWS::S3::Bucket", "AWS::IAM::Role", "AWS::SQS::Queue", "AWS::Lambda::Function", "AWS::Lambda::LayerVersion", "AWS::KMS::Key", "AWS::SecretsManager::Secret", "AWS::EFS::FileSystem", "AWS::EC2::Snapshot", "AWS::ECR::Repository", "AWS::RDS::DBSnapshot", "AWS::RDS::DBClusterSnapshot", "AWS::SNS::Topic", "AWS::S3Express::DirectoryBucket", "AWS::DynamoDB::Table", "AWS::DynamoDB::Stream", "AWS::IAM::User"
     #   resp.finding.condition #=> Hash
     #   resp.finding.condition["String"] #=> String
     #   resp.finding.created_at #=> Time
@@ -1024,6 +1499,7 @@ module Aws::AccessAnalyzer
     #   resp.finding.sources[0].type #=> String, one of "POLICY", "BUCKET_ACL", "S3_ACCESS_POINT", "S3_ACCESS_POINT_ACCOUNT"
     #   resp.finding.sources[0].detail.access_point_arn #=> String
     #   resp.finding.sources[0].detail.access_point_account #=> String
+    #   resp.finding.resource_control_policy_restriction #=> String, one of "APPLICABLE", "FAILED_TO_EVALUATE_RCP", "NOT_APPLICABLE"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/accessanalyzer-2019-11-01/GetFinding AWS API Documentation
     #
@@ -1031,6 +1507,295 @@ module Aws::AccessAnalyzer
     # @param [Hash] params ({})
     def get_finding(params = {}, options = {})
       req = build_request(:get_finding, params)
+      req.send_request(options)
+    end
+
+    # Retrieves information about a finding recommendation for the specified
+    # analyzer.
+    #
+    # @option params [required, String] :analyzer_arn
+    #   The [ARN of the analyzer][1] used to generate the finding
+    #   recommendation.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-getting-started.html#permission-resources
+    #
+    # @option params [required, String] :id
+    #   The unique ID for the finding recommendation.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return in the response.
+    #
+    # @option params [String] :next_token
+    #   A token used for pagination of results returned.
+    #
+    # @return [Types::GetFindingRecommendationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetFindingRecommendationResponse#started_at #started_at} => Time
+    #   * {Types::GetFindingRecommendationResponse#completed_at #completed_at} => Time
+    #   * {Types::GetFindingRecommendationResponse#next_token #next_token} => String
+    #   * {Types::GetFindingRecommendationResponse#error #error} => Types::RecommendationError
+    #   * {Types::GetFindingRecommendationResponse#resource_arn #resource_arn} => String
+    #   * {Types::GetFindingRecommendationResponse#recommended_steps #recommended_steps} => Array&lt;Types::RecommendedStep&gt;
+    #   * {Types::GetFindingRecommendationResponse#recommendation_type #recommendation_type} => String
+    #   * {Types::GetFindingRecommendationResponse#status #status} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    #
+    # @example Example: Successfully fetched finding recommendation
+    #
+    #   resp = client.get_finding_recommendation({
+    #     analyzer_arn: "arn:aws:access-analyzer:us-east-1:111122223333:analyzer/a", 
+    #     id: "finding-id", 
+    #     max_results: 3, 
+    #     next_token: "token", 
+    #   })
+    #
+    #   resp.to_h outputs the following:
+    #   {
+    #     completed_at: Time.parse("2000-01-01T00:00:01Z"), 
+    #     recommendation_type: "UnusedPermissionRecommendation", 
+    #     recommended_steps: [
+    #       {
+    #         unused_permissions_recommended_step: {
+    #           existing_policy_id: "policy-id", 
+    #           recommended_action: "DETACH_POLICY", 
+    #         }, 
+    #       }, 
+    #       {
+    #         unused_permissions_recommended_step: {
+    #           existing_policy_id: "policy-id", 
+    #           recommended_action: "CREATE_POLICY", 
+    #           recommended_policy: "policy-content", 
+    #         }, 
+    #       }, 
+    #     ], 
+    #     resource_arn: "arn:aws:iam::111122223333:role/test", 
+    #     started_at: Time.parse("2000-01-01T00:00:00Z"), 
+    #     status: "SUCCEEDED", 
+    #   }
+    #
+    # @example Example: In progress finding recommendation
+    #
+    #   resp = client.get_finding_recommendation({
+    #     analyzer_arn: "arn:aws:access-analyzer:us-east-1:111122223333:analyzer/a", 
+    #     id: "finding-id", 
+    #     max_results: 3, 
+    #   })
+    #
+    #   resp.to_h outputs the following:
+    #   {
+    #     recommendation_type: "UnusedPermissionRecommendation", 
+    #     resource_arn: "arn:aws:iam::111122223333:role/test", 
+    #     started_at: Time.parse("2000-01-01T00:00:00Z"), 
+    #     status: "IN_PROGRESS", 
+    #   }
+    #
+    # @example Example: Failed finding recommendation
+    #
+    #   resp = client.get_finding_recommendation({
+    #     analyzer_arn: "arn:aws:access-analyzer:us-east-1:111122223333:analyzer/a", 
+    #     id: "finding-id", 
+    #     max_results: 3, 
+    #   })
+    #
+    #   resp.to_h outputs the following:
+    #   {
+    #     completed_at: Time.parse("2000-01-01T00:00:01Z"), 
+    #     error: {
+    #       code: "SERVICE_ERROR", 
+    #       message: "Service error. Please try again.", 
+    #     }, 
+    #     recommendation_type: "UnusedPermissionRecommendation", 
+    #     resource_arn: "arn:aws:iam::111122223333:role/test", 
+    #     started_at: Time.parse("2000-01-01T00:00:00Z"), 
+    #     status: "FAILED", 
+    #   }
+    #
+    # @example Example: Failed field validation for id value
+    #
+    #   resp = client.get_finding_recommendation({
+    #     analyzer_arn: "arn:aws:access-analyzer:us-east-1:111122223333:analyzer/a", 
+    #     id: "!", 
+    #   })
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_finding_recommendation({
+    #     analyzer_arn: "AnalyzerArn", # required
+    #     id: "GetFindingRecommendationRequestIdString", # required
+    #     max_results: 1,
+    #     next_token: "Token",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.started_at #=> Time
+    #   resp.completed_at #=> Time
+    #   resp.next_token #=> String
+    #   resp.error.code #=> String
+    #   resp.error.message #=> String
+    #   resp.resource_arn #=> String
+    #   resp.recommended_steps #=> Array
+    #   resp.recommended_steps[0].unused_permissions_recommended_step.policy_updated_at #=> Time
+    #   resp.recommended_steps[0].unused_permissions_recommended_step.recommended_action #=> String, one of "CREATE_POLICY", "DETACH_POLICY"
+    #   resp.recommended_steps[0].unused_permissions_recommended_step.recommended_policy #=> String
+    #   resp.recommended_steps[0].unused_permissions_recommended_step.existing_policy_id #=> String
+    #   resp.recommendation_type #=> String, one of "UnusedPermissionRecommendation"
+    #   resp.status #=> String, one of "SUCCEEDED", "FAILED", "IN_PROGRESS"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/accessanalyzer-2019-11-01/GetFindingRecommendation AWS API Documentation
+    #
+    # @overload get_finding_recommendation(params = {})
+    # @param [Hash] params ({})
+    def get_finding_recommendation(params = {}, options = {})
+      req = build_request(:get_finding_recommendation, params)
+      req.send_request(options)
+    end
+
+    # Retrieves information about the specified finding. GetFinding and
+    # GetFindingV2 both use `access-analyzer:GetFinding` in the `Action`
+    # element of an IAM policy statement. You must have permission to
+    # perform the `access-analyzer:GetFinding` action.
+    #
+    # @option params [required, String] :analyzer_arn
+    #   The [ARN of the analyzer][1] that generated the finding.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-getting-started.html#permission-resources
+    #
+    # @option params [required, String] :id
+    #   The ID of the finding to retrieve.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return in the response.
+    #
+    # @option params [String] :next_token
+    #   A token used for pagination of results returned.
+    #
+    # @return [Types::GetFindingV2Response] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetFindingV2Response#analyzed_at #analyzed_at} => Time
+    #   * {Types::GetFindingV2Response#created_at #created_at} => Time
+    #   * {Types::GetFindingV2Response#error #error} => String
+    #   * {Types::GetFindingV2Response#id #id} => String
+    #   * {Types::GetFindingV2Response#next_token #next_token} => String
+    #   * {Types::GetFindingV2Response#resource #resource} => String
+    #   * {Types::GetFindingV2Response#resource_type #resource_type} => String
+    #   * {Types::GetFindingV2Response#resource_owner_account #resource_owner_account} => String
+    #   * {Types::GetFindingV2Response#status #status} => String
+    #   * {Types::GetFindingV2Response#updated_at #updated_at} => Time
+    #   * {Types::GetFindingV2Response#finding_details #finding_details} => Array&lt;Types::FindingDetails&gt;
+    #   * {Types::GetFindingV2Response#finding_type #finding_type} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_finding_v2({
+    #     analyzer_arn: "AnalyzerArn", # required
+    #     id: "FindingId", # required
+    #     max_results: 1,
+    #     next_token: "Token",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.analyzed_at #=> Time
+    #   resp.created_at #=> Time
+    #   resp.error #=> String
+    #   resp.id #=> String
+    #   resp.next_token #=> String
+    #   resp.resource #=> String
+    #   resp.resource_type #=> String, one of "AWS::S3::Bucket", "AWS::IAM::Role", "AWS::SQS::Queue", "AWS::Lambda::Function", "AWS::Lambda::LayerVersion", "AWS::KMS::Key", "AWS::SecretsManager::Secret", "AWS::EFS::FileSystem", "AWS::EC2::Snapshot", "AWS::ECR::Repository", "AWS::RDS::DBSnapshot", "AWS::RDS::DBClusterSnapshot", "AWS::SNS::Topic", "AWS::S3Express::DirectoryBucket", "AWS::DynamoDB::Table", "AWS::DynamoDB::Stream", "AWS::IAM::User"
+    #   resp.resource_owner_account #=> String
+    #   resp.status #=> String, one of "ACTIVE", "ARCHIVED", "RESOLVED"
+    #   resp.updated_at #=> Time
+    #   resp.finding_details #=> Array
+    #   resp.finding_details[0].external_access_details.action #=> Array
+    #   resp.finding_details[0].external_access_details.action[0] #=> String
+    #   resp.finding_details[0].external_access_details.condition #=> Hash
+    #   resp.finding_details[0].external_access_details.condition["String"] #=> String
+    #   resp.finding_details[0].external_access_details.is_public #=> Boolean
+    #   resp.finding_details[0].external_access_details.principal #=> Hash
+    #   resp.finding_details[0].external_access_details.principal["String"] #=> String
+    #   resp.finding_details[0].external_access_details.sources #=> Array
+    #   resp.finding_details[0].external_access_details.sources[0].type #=> String, one of "POLICY", "BUCKET_ACL", "S3_ACCESS_POINT", "S3_ACCESS_POINT_ACCOUNT"
+    #   resp.finding_details[0].external_access_details.sources[0].detail.access_point_arn #=> String
+    #   resp.finding_details[0].external_access_details.sources[0].detail.access_point_account #=> String
+    #   resp.finding_details[0].external_access_details.resource_control_policy_restriction #=> String, one of "APPLICABLE", "FAILED_TO_EVALUATE_RCP", "NOT_APPLICABLE"
+    #   resp.finding_details[0].unused_permission_details.actions #=> Array
+    #   resp.finding_details[0].unused_permission_details.actions[0].action #=> String
+    #   resp.finding_details[0].unused_permission_details.actions[0].last_accessed #=> Time
+    #   resp.finding_details[0].unused_permission_details.service_namespace #=> String
+    #   resp.finding_details[0].unused_permission_details.last_accessed #=> Time
+    #   resp.finding_details[0].unused_iam_user_access_key_details.access_key_id #=> String
+    #   resp.finding_details[0].unused_iam_user_access_key_details.last_accessed #=> Time
+    #   resp.finding_details[0].unused_iam_role_details.last_accessed #=> Time
+    #   resp.finding_details[0].unused_iam_user_password_details.last_accessed #=> Time
+    #   resp.finding_type #=> String, one of "ExternalAccess", "UnusedIAMRole", "UnusedIAMUserAccessKey", "UnusedIAMUserPassword", "UnusedPermission"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/accessanalyzer-2019-11-01/GetFindingV2 AWS API Documentation
+    #
+    # @overload get_finding_v2(params = {})
+    # @param [Hash] params ({})
+    def get_finding_v2(params = {}, options = {})
+      req = build_request(:get_finding_v2, params)
+      req.send_request(options)
+    end
+
+    # Retrieves a list of aggregated finding statistics for an external
+    # access or unused access analyzer.
+    #
+    # @option params [required, String] :analyzer_arn
+    #   The [ARN of the analyzer][1] used to generate the statistics.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-getting-started.html#permission-resources
+    #
+    # @return [Types::GetFindingsStatisticsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetFindingsStatisticsResponse#findings_statistics #findings_statistics} => Array&lt;Types::FindingsStatistics&gt;
+    #   * {Types::GetFindingsStatisticsResponse#last_updated_at #last_updated_at} => Time
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_findings_statistics({
+    #     analyzer_arn: "AnalyzerArn", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.findings_statistics #=> Array
+    #   resp.findings_statistics[0].external_access_findings_statistics.resource_type_statistics #=> Hash
+    #   resp.findings_statistics[0].external_access_findings_statistics.resource_type_statistics["ResourceType"].total_active_public #=> Integer
+    #   resp.findings_statistics[0].external_access_findings_statistics.resource_type_statistics["ResourceType"].total_active_cross_account #=> Integer
+    #   resp.findings_statistics[0].external_access_findings_statistics.total_active_findings #=> Integer
+    #   resp.findings_statistics[0].external_access_findings_statistics.total_archived_findings #=> Integer
+    #   resp.findings_statistics[0].external_access_findings_statistics.total_resolved_findings #=> Integer
+    #   resp.findings_statistics[0].unused_access_findings_statistics.unused_access_type_statistics #=> Array
+    #   resp.findings_statistics[0].unused_access_findings_statistics.unused_access_type_statistics[0].unused_access_type #=> String
+    #   resp.findings_statistics[0].unused_access_findings_statistics.unused_access_type_statistics[0].total #=> Integer
+    #   resp.findings_statistics[0].unused_access_findings_statistics.top_accounts #=> Array
+    #   resp.findings_statistics[0].unused_access_findings_statistics.top_accounts[0].account #=> String
+    #   resp.findings_statistics[0].unused_access_findings_statistics.top_accounts[0].number_of_active_findings #=> Integer
+    #   resp.findings_statistics[0].unused_access_findings_statistics.top_accounts[0].details #=> Hash
+    #   resp.findings_statistics[0].unused_access_findings_statistics.top_accounts[0].details["String"] #=> Integer
+    #   resp.findings_statistics[0].unused_access_findings_statistics.total_active_findings #=> Integer
+    #   resp.findings_statistics[0].unused_access_findings_statistics.total_archived_findings #=> Integer
+    #   resp.findings_statistics[0].unused_access_findings_statistics.total_resolved_findings #=> Integer
+    #   resp.last_updated_at #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/accessanalyzer-2019-11-01/GetFindingsStatistics AWS API Documentation
+    #
+    # @overload get_findings_statistics(params = {})
+    # @param [Hash] params ({})
+    def get_findings_statistics(params = {}, options = {})
+      req = build_request(:get_findings_statistics, params)
       req.send_request(options)
     end
 
@@ -1048,8 +1813,8 @@ module Aws::AccessAnalyzer
     #   that support resource level granularity in policies.
     #
     #   For example, in the resource section of a policy, you can receive a
-    #   placeholder such as `"Resource":"arn:aws:s3:::$\{BucketName\}"`
-    #   instead of `"*"`.
+    #   placeholder such as `"Resource":"arn:aws:s3:::${BucketName}"` instead
+    #   of `"*"`.
     #
     # @option params [Boolean] :include_service_level_template
     #   The level of detail that you want to generate. You can specify whether
@@ -1161,7 +1926,7 @@ module Aws::AccessAnalyzer
     #   resp.findings[0].condition["String"] #=> String
     #   resp.findings[0].resource #=> String
     #   resp.findings[0].is_public #=> Boolean
-    #   resp.findings[0].resource_type #=> String, one of "AWS::S3::Bucket", "AWS::IAM::Role", "AWS::SQS::Queue", "AWS::Lambda::Function", "AWS::Lambda::LayerVersion", "AWS::KMS::Key", "AWS::SecretsManager::Secret", "AWS::EFS::FileSystem", "AWS::EC2::Snapshot", "AWS::ECR::Repository", "AWS::RDS::DBSnapshot", "AWS::RDS::DBClusterSnapshot", "AWS::SNS::Topic"
+    #   resp.findings[0].resource_type #=> String, one of "AWS::S3::Bucket", "AWS::IAM::Role", "AWS::SQS::Queue", "AWS::Lambda::Function", "AWS::Lambda::LayerVersion", "AWS::KMS::Key", "AWS::SecretsManager::Secret", "AWS::EFS::FileSystem", "AWS::EC2::Snapshot", "AWS::ECR::Repository", "AWS::RDS::DBSnapshot", "AWS::RDS::DBClusterSnapshot", "AWS::SNS::Topic", "AWS::S3Express::DirectoryBucket", "AWS::DynamoDB::Table", "AWS::DynamoDB::Stream", "AWS::IAM::User"
     #   resp.findings[0].created_at #=> Time
     #   resp.findings[0].change_type #=> String, one of "CHANGED", "NEW", "UNCHANGED"
     #   resp.findings[0].status #=> String, one of "ACTIVE", "ARCHIVED", "RESOLVED"
@@ -1171,6 +1936,7 @@ module Aws::AccessAnalyzer
     #   resp.findings[0].sources[0].type #=> String, one of "POLICY", "BUCKET_ACL", "S3_ACCESS_POINT", "S3_ACCESS_POINT_ACCOUNT"
     #   resp.findings[0].sources[0].detail.access_point_arn #=> String
     #   resp.findings[0].sources[0].detail.access_point_account #=> String
+    #   resp.findings[0].resource_control_policy_restriction #=> String, one of "APPLICABLE", "FAILED_TO_EVALUATE_RCP", "NOT_APPLICABLE"
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/accessanalyzer-2019-11-01/ListAccessPreviewFindings AWS API Documentation
@@ -1232,7 +1998,7 @@ module Aws::AccessAnalyzer
     end
 
     # Retrieves a list of resources of the specified type that have been
-    # analyzed by the specified analyzer..
+    # analyzed by the specified analyzer.
     #
     # @option params [required, String] :analyzer_arn
     #   The [ARN of the analyzer][1] to retrieve a list of analyzed resources
@@ -1262,7 +2028,7 @@ module Aws::AccessAnalyzer
     #
     #   resp = client.list_analyzed_resources({
     #     analyzer_arn: "AnalyzerArn", # required
-    #     resource_type: "AWS::S3::Bucket", # accepts AWS::S3::Bucket, AWS::IAM::Role, AWS::SQS::Queue, AWS::Lambda::Function, AWS::Lambda::LayerVersion, AWS::KMS::Key, AWS::SecretsManager::Secret, AWS::EFS::FileSystem, AWS::EC2::Snapshot, AWS::ECR::Repository, AWS::RDS::DBSnapshot, AWS::RDS::DBClusterSnapshot, AWS::SNS::Topic
+    #     resource_type: "AWS::S3::Bucket", # accepts AWS::S3::Bucket, AWS::IAM::Role, AWS::SQS::Queue, AWS::Lambda::Function, AWS::Lambda::LayerVersion, AWS::KMS::Key, AWS::SecretsManager::Secret, AWS::EFS::FileSystem, AWS::EC2::Snapshot, AWS::ECR::Repository, AWS::RDS::DBSnapshot, AWS::RDS::DBClusterSnapshot, AWS::SNS::Topic, AWS::S3Express::DirectoryBucket, AWS::DynamoDB::Table, AWS::DynamoDB::Stream, AWS::IAM::User
     #     next_token: "Token",
     #     max_results: 1,
     #   })
@@ -1272,7 +2038,7 @@ module Aws::AccessAnalyzer
     #   resp.analyzed_resources #=> Array
     #   resp.analyzed_resources[0].resource_arn #=> String
     #   resp.analyzed_resources[0].resource_owner_account #=> String
-    #   resp.analyzed_resources[0].resource_type #=> String, one of "AWS::S3::Bucket", "AWS::IAM::Role", "AWS::SQS::Queue", "AWS::Lambda::Function", "AWS::Lambda::LayerVersion", "AWS::KMS::Key", "AWS::SecretsManager::Secret", "AWS::EFS::FileSystem", "AWS::EC2::Snapshot", "AWS::ECR::Repository", "AWS::RDS::DBSnapshot", "AWS::RDS::DBClusterSnapshot", "AWS::SNS::Topic"
+    #   resp.analyzed_resources[0].resource_type #=> String, one of "AWS::S3::Bucket", "AWS::IAM::Role", "AWS::SQS::Queue", "AWS::Lambda::Function", "AWS::Lambda::LayerVersion", "AWS::KMS::Key", "AWS::SecretsManager::Secret", "AWS::EFS::FileSystem", "AWS::EC2::Snapshot", "AWS::ECR::Repository", "AWS::RDS::DBSnapshot", "AWS::RDS::DBClusterSnapshot", "AWS::SNS::Topic", "AWS::S3Express::DirectoryBucket", "AWS::DynamoDB::Table", "AWS::DynamoDB::Stream", "AWS::IAM::User"
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/accessanalyzer-2019-11-01/ListAnalyzedResources AWS API Documentation
@@ -1307,7 +2073,7 @@ module Aws::AccessAnalyzer
     #   resp = client.list_analyzers({
     #     next_token: "Token",
     #     max_results: 1,
-    #     type: "ACCOUNT", # accepts ACCOUNT, ORGANIZATION
+    #     type: "ACCOUNT", # accepts ACCOUNT, ORGANIZATION, ACCOUNT_UNUSED_ACCESS, ORGANIZATION_UNUSED_ACCESS
     #   })
     #
     # @example Response structure
@@ -1315,7 +2081,7 @@ module Aws::AccessAnalyzer
     #   resp.analyzers #=> Array
     #   resp.analyzers[0].arn #=> String
     #   resp.analyzers[0].name #=> String
-    #   resp.analyzers[0].type #=> String, one of "ACCOUNT", "ORGANIZATION"
+    #   resp.analyzers[0].type #=> String, one of "ACCOUNT", "ORGANIZATION", "ACCOUNT_UNUSED_ACCESS", "ORGANIZATION_UNUSED_ACCESS"
     #   resp.analyzers[0].created_at #=> Time
     #   resp.analyzers[0].last_resource_analyzed #=> String
     #   resp.analyzers[0].last_resource_analyzed_at #=> Time
@@ -1323,6 +2089,13 @@ module Aws::AccessAnalyzer
     #   resp.analyzers[0].tags["String"] #=> String
     #   resp.analyzers[0].status #=> String, one of "ACTIVE", "CREATING", "DISABLED", "FAILED"
     #   resp.analyzers[0].status_reason.code #=> String, one of "AWS_SERVICE_ACCESS_DISABLED", "DELEGATED_ADMINISTRATOR_DEREGISTERED", "ORGANIZATION_DELETED", "SERVICE_LINKED_ROLE_CREATION_FAILED"
+    #   resp.analyzers[0].configuration.unused_access.unused_access_age #=> Integer
+    #   resp.analyzers[0].configuration.unused_access.analysis_rule.exclusions #=> Array
+    #   resp.analyzers[0].configuration.unused_access.analysis_rule.exclusions[0].account_ids #=> Array
+    #   resp.analyzers[0].configuration.unused_access.analysis_rule.exclusions[0].account_ids[0] #=> String
+    #   resp.analyzers[0].configuration.unused_access.analysis_rule.exclusions[0].resource_tags #=> Array
+    #   resp.analyzers[0].configuration.unused_access.analysis_rule.exclusions[0].resource_tags[0] #=> Hash
+    #   resp.analyzers[0].configuration.unused_access.analysis_rule.exclusions[0].resource_tags[0]["String"] #=> String
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/accessanalyzer-2019-11-01/ListAnalyzers AWS API Documentation
@@ -1386,6 +2159,10 @@ module Aws::AccessAnalyzer
     end
 
     # Retrieves a list of findings generated by the specified analyzer.
+    # ListFindings and ListFindingsV2 both use
+    # `access-analyzer:ListFindings` in the `Action` element of an IAM
+    # policy statement. You must have permission to perform the
+    # `access-analyzer:ListFindings` action.
     #
     # To learn about filter keys that you can use to retrieve a list of
     # findings, see [IAM Access Analyzer filter keys][1] in the **IAM User
@@ -1451,7 +2228,7 @@ module Aws::AccessAnalyzer
     #   resp.findings[0].action[0] #=> String
     #   resp.findings[0].resource #=> String
     #   resp.findings[0].is_public #=> Boolean
-    #   resp.findings[0].resource_type #=> String, one of "AWS::S3::Bucket", "AWS::IAM::Role", "AWS::SQS::Queue", "AWS::Lambda::Function", "AWS::Lambda::LayerVersion", "AWS::KMS::Key", "AWS::SecretsManager::Secret", "AWS::EFS::FileSystem", "AWS::EC2::Snapshot", "AWS::ECR::Repository", "AWS::RDS::DBSnapshot", "AWS::RDS::DBClusterSnapshot", "AWS::SNS::Topic"
+    #   resp.findings[0].resource_type #=> String, one of "AWS::S3::Bucket", "AWS::IAM::Role", "AWS::SQS::Queue", "AWS::Lambda::Function", "AWS::Lambda::LayerVersion", "AWS::KMS::Key", "AWS::SecretsManager::Secret", "AWS::EFS::FileSystem", "AWS::EC2::Snapshot", "AWS::ECR::Repository", "AWS::RDS::DBSnapshot", "AWS::RDS::DBClusterSnapshot", "AWS::SNS::Topic", "AWS::S3Express::DirectoryBucket", "AWS::DynamoDB::Table", "AWS::DynamoDB::Stream", "AWS::IAM::User"
     #   resp.findings[0].condition #=> Hash
     #   resp.findings[0].condition["String"] #=> String
     #   resp.findings[0].created_at #=> Time
@@ -1464,6 +2241,7 @@ module Aws::AccessAnalyzer
     #   resp.findings[0].sources[0].type #=> String, one of "POLICY", "BUCKET_ACL", "S3_ACCESS_POINT", "S3_ACCESS_POINT_ACCOUNT"
     #   resp.findings[0].sources[0].detail.access_point_arn #=> String
     #   resp.findings[0].sources[0].detail.access_point_account #=> String
+    #   resp.findings[0].resource_control_policy_restriction #=> String, one of "APPLICABLE", "FAILED_TO_EVALUATE_RCP", "NOT_APPLICABLE"
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/accessanalyzer-2019-11-01/ListFindings AWS API Documentation
@@ -1472,6 +2250,90 @@ module Aws::AccessAnalyzer
     # @param [Hash] params ({})
     def list_findings(params = {}, options = {})
       req = build_request(:list_findings, params)
+      req.send_request(options)
+    end
+
+    # Retrieves a list of findings generated by the specified analyzer.
+    # ListFindings and ListFindingsV2 both use
+    # `access-analyzer:ListFindings` in the `Action` element of an IAM
+    # policy statement. You must have permission to perform the
+    # `access-analyzer:ListFindings` action.
+    #
+    # To learn about filter keys that you can use to retrieve a list of
+    # findings, see [IAM Access Analyzer filter keys][1] in the **IAM User
+    # Guide**.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-filter-keys.html
+    #
+    # @option params [required, String] :analyzer_arn
+    #   The [ARN of the analyzer][1] to retrieve findings from.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-getting-started.html#permission-resources
+    #
+    # @option params [Hash<String,Types::Criterion>] :filter
+    #   A filter to match for the findings to return.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return in the response.
+    #
+    # @option params [String] :next_token
+    #   A token used for pagination of results returned.
+    #
+    # @option params [Types::SortCriteria] :sort
+    #   The criteria used to sort.
+    #
+    # @return [Types::ListFindingsV2Response] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListFindingsV2Response#findings #findings} => Array&lt;Types::FindingSummaryV2&gt;
+    #   * {Types::ListFindingsV2Response#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_findings_v2({
+    #     analyzer_arn: "AnalyzerArn", # required
+    #     filter: {
+    #       "String" => {
+    #         eq: ["String"],
+    #         neq: ["String"],
+    #         contains: ["String"],
+    #         exists: false,
+    #       },
+    #     },
+    #     max_results: 1,
+    #     next_token: "Token",
+    #     sort: {
+    #       attribute_name: "String",
+    #       order_by: "ASC", # accepts ASC, DESC
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.findings #=> Array
+    #   resp.findings[0].analyzed_at #=> Time
+    #   resp.findings[0].created_at #=> Time
+    #   resp.findings[0].error #=> String
+    #   resp.findings[0].id #=> String
+    #   resp.findings[0].resource #=> String
+    #   resp.findings[0].resource_type #=> String, one of "AWS::S3::Bucket", "AWS::IAM::Role", "AWS::SQS::Queue", "AWS::Lambda::Function", "AWS::Lambda::LayerVersion", "AWS::KMS::Key", "AWS::SecretsManager::Secret", "AWS::EFS::FileSystem", "AWS::EC2::Snapshot", "AWS::ECR::Repository", "AWS::RDS::DBSnapshot", "AWS::RDS::DBClusterSnapshot", "AWS::SNS::Topic", "AWS::S3Express::DirectoryBucket", "AWS::DynamoDB::Table", "AWS::DynamoDB::Stream", "AWS::IAM::User"
+    #   resp.findings[0].resource_owner_account #=> String
+    #   resp.findings[0].status #=> String, one of "ACTIVE", "ARCHIVED", "RESOLVED"
+    #   resp.findings[0].updated_at #=> Time
+    #   resp.findings[0].finding_type #=> String, one of "ExternalAccess", "UnusedIAMRole", "UnusedIAMUserAccessKey", "UnusedIAMUserPassword", "UnusedPermission"
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/accessanalyzer-2019-11-01/ListFindingsV2 AWS API Documentation
+    #
+    # @overload list_findings_v2(params = {})
+    # @param [Hash] params ({})
+    def list_findings_v2(params = {}, options = {})
+      req = build_request(:list_findings_v2, params)
       req.send_request(options)
     end
 
@@ -1705,6 +2567,61 @@ module Aws::AccessAnalyzer
       req.send_request(options)
     end
 
+    # Modifies the configuration of an existing analyzer.
+    #
+    # @option params [required, String] :analyzer_name
+    #   The name of the analyzer to modify.
+    #
+    # @option params [Types::AnalyzerConfiguration] :configuration
+    #   Contains information about the configuration of an analyzer for an
+    #   Amazon Web Services organization or account.
+    #
+    # @return [Types::UpdateAnalyzerResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateAnalyzerResponse#configuration #configuration} => Types::AnalyzerConfiguration
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_analyzer({
+    #     analyzer_name: "Name", # required
+    #     configuration: {
+    #       unused_access: {
+    #         unused_access_age: 1,
+    #         analysis_rule: {
+    #           exclusions: [
+    #             {
+    #               account_ids: ["String"],
+    #               resource_tags: [
+    #                 {
+    #                   "String" => "String",
+    #                 },
+    #               ],
+    #             },
+    #           ],
+    #         },
+    #       },
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.configuration.unused_access.unused_access_age #=> Integer
+    #   resp.configuration.unused_access.analysis_rule.exclusions #=> Array
+    #   resp.configuration.unused_access.analysis_rule.exclusions[0].account_ids #=> Array
+    #   resp.configuration.unused_access.analysis_rule.exclusions[0].account_ids[0] #=> String
+    #   resp.configuration.unused_access.analysis_rule.exclusions[0].resource_tags #=> Array
+    #   resp.configuration.unused_access.analysis_rule.exclusions[0].resource_tags[0] #=> Hash
+    #   resp.configuration.unused_access.analysis_rule.exclusions[0].resource_tags[0]["String"] #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/accessanalyzer-2019-11-01/UpdateAnalyzer AWS API Documentation
+    #
+    # @overload update_analyzer(params = {})
+    # @param [Hash] params ({})
+    def update_analyzer(params = {}, options = {})
+      req = build_request(:update_analyzer, params)
+      req.send_request(options)
+    end
+
     # Updates the criteria and values for the specified archive rule.
     #
     # @option params [required, String] :analyzer_name
@@ -1817,15 +2734,17 @@ module Aws::AccessAnalyzer
     # @option params [required, String] :policy_type
     #   The type of policy to validate. Identity policies grant permissions to
     #   IAM principals. Identity policies include managed and inline policies
-    #   for IAM roles, users, and groups. They also include service-control
-    #   policies (SCPs) that are attached to an Amazon Web Services
-    #   organization, organizational unit (OU), or an account.
+    #   for IAM roles, users, and groups.
     #
     #   Resource policies grant permissions on Amazon Web Services resources.
     #   Resource policies include trust policies for IAM roles and bucket
     #   policies for Amazon S3 buckets. You can provide a generic input such
     #   as identity policy or resource policy or a specific input such as
     #   managed policy or Amazon S3 bucket policy.
+    #
+    #   Service control policies (SCPs) are a type of organization policy
+    #   attached to an Amazon Web Services organization, organizational unit
+    #   (OU), or an account.
     #
     # @option params [String] :validate_policy_resource_type
     #   The type of resource to attach to your resource policy. Specify a
@@ -1854,8 +2773,8 @@ module Aws::AccessAnalyzer
     #     max_results: 1,
     #     next_token: "Token",
     #     policy_document: "PolicyDocument", # required
-    #     policy_type: "IDENTITY_POLICY", # required, accepts IDENTITY_POLICY, RESOURCE_POLICY, SERVICE_CONTROL_POLICY
-    #     validate_policy_resource_type: "AWS::S3::Bucket", # accepts AWS::S3::Bucket, AWS::S3::AccessPoint, AWS::S3::MultiRegionAccessPoint, AWS::S3ObjectLambda::AccessPoint, AWS::IAM::AssumeRolePolicyDocument
+    #     policy_type: "IDENTITY_POLICY", # required, accepts IDENTITY_POLICY, RESOURCE_POLICY, SERVICE_CONTROL_POLICY, RESOURCE_CONTROL_POLICY
+    #     validate_policy_resource_type: "AWS::S3::Bucket", # accepts AWS::S3::Bucket, AWS::S3::AccessPoint, AWS::S3::MultiRegionAccessPoint, AWS::S3ObjectLambda::AccessPoint, AWS::IAM::AssumeRolePolicyDocument, AWS::DynamoDB::Table
     #   })
     #
     # @example Response structure
@@ -1895,14 +2814,19 @@ module Aws::AccessAnalyzer
     # @api private
     def build_request(operation_name, params = {})
       handlers = @handlers.for(operation_name)
+      tracer = config.telemetry_provider.tracer_provider.tracer(
+        Aws::Telemetry.module_to_tracer_name('Aws::AccessAnalyzer')
+      )
       context = Seahorse::Client::RequestContext.new(
         operation_name: operation_name,
         operation: config.api.operation(operation_name),
         client: self,
         params: params,
-        config: config)
+        config: config,
+        tracer: tracer
+      )
       context[:gem_name] = 'aws-sdk-accessanalyzer'
-      context[:gem_version] = '1.34.0'
+      context[:gem_version] = '1.68.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

@@ -7,33 +7,34 @@
 #
 # WARNING ABOUT GENERATED CODE
 
-require 'seahorse/client/plugins/content_length.rb'
-require 'aws-sdk-core/plugins/credentials_configuration.rb'
-require 'aws-sdk-core/plugins/logging.rb'
-require 'aws-sdk-core/plugins/param_converter.rb'
-require 'aws-sdk-core/plugins/param_validator.rb'
-require 'aws-sdk-core/plugins/user_agent.rb'
-require 'aws-sdk-core/plugins/helpful_socket_errors.rb'
-require 'aws-sdk-core/plugins/retry_errors.rb'
-require 'aws-sdk-core/plugins/global_configuration.rb'
-require 'aws-sdk-core/plugins/regional_endpoint.rb'
-require 'aws-sdk-core/plugins/endpoint_discovery.rb'
-require 'aws-sdk-core/plugins/endpoint_pattern.rb'
-require 'aws-sdk-core/plugins/response_paging.rb'
-require 'aws-sdk-core/plugins/stub_responses.rb'
-require 'aws-sdk-core/plugins/idempotency_token.rb'
-require 'aws-sdk-core/plugins/jsonvalue_converter.rb'
-require 'aws-sdk-core/plugins/client_metrics_plugin.rb'
-require 'aws-sdk-core/plugins/client_metrics_send_plugin.rb'
-require 'aws-sdk-core/plugins/transfer_encoding.rb'
-require 'aws-sdk-core/plugins/http_checksum.rb'
-require 'aws-sdk-core/plugins/checksum_algorithm.rb'
-require 'aws-sdk-core/plugins/defaults_mode.rb'
-require 'aws-sdk-core/plugins/recursion_detection.rb'
-require 'aws-sdk-core/plugins/sign.rb'
-require 'aws-sdk-core/plugins/protocols/json_rpc.rb'
-
-Aws::Plugins::GlobalConfiguration.add_identifier(:route53resolver)
+require 'seahorse/client/plugins/content_length'
+require 'aws-sdk-core/plugins/credentials_configuration'
+require 'aws-sdk-core/plugins/logging'
+require 'aws-sdk-core/plugins/param_converter'
+require 'aws-sdk-core/plugins/param_validator'
+require 'aws-sdk-core/plugins/user_agent'
+require 'aws-sdk-core/plugins/helpful_socket_errors'
+require 'aws-sdk-core/plugins/retry_errors'
+require 'aws-sdk-core/plugins/global_configuration'
+require 'aws-sdk-core/plugins/regional_endpoint'
+require 'aws-sdk-core/plugins/endpoint_discovery'
+require 'aws-sdk-core/plugins/endpoint_pattern'
+require 'aws-sdk-core/plugins/response_paging'
+require 'aws-sdk-core/plugins/stub_responses'
+require 'aws-sdk-core/plugins/idempotency_token'
+require 'aws-sdk-core/plugins/invocation_id'
+require 'aws-sdk-core/plugins/jsonvalue_converter'
+require 'aws-sdk-core/plugins/client_metrics_plugin'
+require 'aws-sdk-core/plugins/client_metrics_send_plugin'
+require 'aws-sdk-core/plugins/transfer_encoding'
+require 'aws-sdk-core/plugins/http_checksum'
+require 'aws-sdk-core/plugins/checksum_algorithm'
+require 'aws-sdk-core/plugins/request_compression'
+require 'aws-sdk-core/plugins/defaults_mode'
+require 'aws-sdk-core/plugins/recursion_detection'
+require 'aws-sdk-core/plugins/telemetry'
+require 'aws-sdk-core/plugins/sign'
+require 'aws-sdk-core/plugins/protocols/json_rpc'
 
 module Aws::Route53Resolver
   # An API client for Route53Resolver.  To construct a client, you need to configure a `:region` and `:credentials`.
@@ -71,20 +72,28 @@ module Aws::Route53Resolver
     add_plugin(Aws::Plugins::ResponsePaging)
     add_plugin(Aws::Plugins::StubResponses)
     add_plugin(Aws::Plugins::IdempotencyToken)
+    add_plugin(Aws::Plugins::InvocationId)
     add_plugin(Aws::Plugins::JsonvalueConverter)
     add_plugin(Aws::Plugins::ClientMetricsPlugin)
     add_plugin(Aws::Plugins::ClientMetricsSendPlugin)
     add_plugin(Aws::Plugins::TransferEncoding)
     add_plugin(Aws::Plugins::HttpChecksum)
     add_plugin(Aws::Plugins::ChecksumAlgorithm)
+    add_plugin(Aws::Plugins::RequestCompression)
     add_plugin(Aws::Plugins::DefaultsMode)
     add_plugin(Aws::Plugins::RecursionDetection)
+    add_plugin(Aws::Plugins::Telemetry)
     add_plugin(Aws::Plugins::Sign)
     add_plugin(Aws::Plugins::Protocols::JsonRpc)
     add_plugin(Aws::Route53Resolver::Plugins::Endpoints)
 
     # @overload initialize(options)
     #   @param [Hash] options
+    #
+    #   @option options [Array<Seahorse::Client::Plugin>] :plugins ([]])
+    #     A list of plugins to apply to the client. Each plugin is either a
+    #     class name or an instance of a plugin class.
+    #
     #   @option options [required, Aws::CredentialProvider] :credentials
     #     Your AWS credentials. This can be an instance of any one of the
     #     following classes:
@@ -119,13 +128,15 @@ module Aws::Route53Resolver
     #     locations will be searched for credentials:
     #
     #     * `Aws.config[:credentials]`
-    #     * The `:access_key_id`, `:secret_access_key`, and `:session_token` options.
-    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']
+    #     * The `:access_key_id`, `:secret_access_key`, `:session_token`, and
+    #       `:account_id` options.
+    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'],
+    #       ENV['AWS_SESSION_TOKEN'], and ENV['AWS_ACCOUNT_ID']
     #     * `~/.aws/credentials`
     #     * `~/.aws/config`
     #     * EC2/ECS IMDS instance profile - When used by default, the timeouts
     #       are very aggressive. Construct and pass an instance of
-    #       `Aws::InstanceProfileCredentails` or `Aws::ECSCredentials` to
+    #       `Aws::InstanceProfileCredentials` or `Aws::ECSCredentials` to
     #       enable retries and extended timeouts. Instance profile credential
     #       fetching can be disabled by setting ENV['AWS_EC2_METADATA_DISABLED']
     #       to true.
@@ -143,6 +154,8 @@ module Aws::Route53Resolver
     #     * `~/.aws/config`
     #
     #   @option options [String] :access_key_id
+    #
+    #   @option options [String] :account_id
     #
     #   @option options [Boolean] :active_endpoint_cache (false)
     #     When set to `true`, a thread polling for endpoints will be running in
@@ -190,10 +203,20 @@ module Aws::Route53Resolver
     #     Set to true to disable SDK automatically adding host prefix
     #     to default service endpoint when available.
     #
-    #   @option options [String] :endpoint
-    #     The client endpoint is normally constructed from the `:region`
-    #     option. You should only configure an `:endpoint` when connecting
-    #     to test or custom endpoints. This should be a valid HTTP(S) URI.
+    #   @option options [Boolean] :disable_request_compression (false)
+    #     When set to 'true' the request body will not be compressed
+    #     for supported operations.
+    #
+    #   @option options [String, URI::HTTPS, URI::HTTP] :endpoint
+    #     Normally you should not configure the `:endpoint` option
+    #     directly. This is normally constructed from the `:region`
+    #     option. Configuring `:endpoint` is normally reserved for
+    #     connecting to test or custom endpoints. The endpoint should
+    #     be a URI formatted like:
+    #
+    #         'http://example.com'
+    #         'https://example.com'
+    #         'http://example.com:123'
     #
     #   @option options [Integer] :endpoint_cache_max_entries (1000)
     #     Used for the maximum size limit of the LRU cache storing endpoints data
@@ -209,6 +232,10 @@ module Aws::Route53Resolver
     #
     #   @option options [Boolean] :endpoint_discovery (false)
     #     When set to `true`, endpoint discovery will be enabled for operations when available.
+    #
+    #   @option options [Boolean] :ignore_configured_endpoint_urls
+    #     Setting to true disables use of endpoint URLs provided via environment
+    #     variables and the shared configuration file.
     #
     #   @option options [Aws::Log::Formatter] :log_formatter (Aws::Log::Formatter.default)
     #     The log formatter.
@@ -229,6 +256,34 @@ module Aws::Route53Resolver
     #   @option options [String] :profile ("default")
     #     Used when loading credentials from the shared credentials file
     #     at HOME/.aws/credentials.  When not specified, 'default' is used.
+    #
+    #   @option options [String] :request_checksum_calculation ("when_supported")
+    #     Determines when a checksum will be calculated for request payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, a checksum will be
+    #       calculated for all request payloads of operations modeled with the
+    #       `httpChecksum` trait where `requestChecksumRequired` is `true` and/or a
+    #       `requestAlgorithmMember` is modeled.
+    #     * `when_required` - When set, a checksum will only be calculated for
+    #       request payloads of operations modeled with the  `httpChecksum` trait where
+    #       `requestChecksumRequired` is `true` or where a `requestAlgorithmMember`
+    #       is modeled and supplied.
+    #
+    #   @option options [Integer] :request_min_compression_size_bytes (10240)
+    #     The minimum size in bytes that triggers compression for request
+    #     bodies. The value must be non-negative integer value between 0
+    #     and 10485780 bytes inclusive.
+    #
+    #   @option options [String] :response_checksum_validation ("when_supported")
+    #     Determines when checksum validation will be performed on response payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, checksum validation is performed on all
+    #       response payloads of operations modeled with the `httpChecksum` trait where
+    #       `responseAlgorithms` is modeled, except when no modeled checksum algorithms
+    #       are supported.
+    #     * `when_required` - When set, checksum validation is not performed on
+    #       response payloads of operations unless the checksum algorithm is supported and
+    #       the `requestValidationModeMember` member is set to `ENABLED`.
     #
     #   @option options [Proc] :retry_backoff
     #     A proc or lambda used for backoff. Defaults to 2**retries * retry_base_delay.
@@ -274,20 +329,31 @@ module Aws::Route53Resolver
     #       throttling.  This is a provisional mode that may change behavior
     #       in the future.
     #
+    #   @option options [String] :sdk_ua_app_id
+    #     A unique and opaque application ID that is appended to the
+    #     User-Agent header as app/sdk_ua_app_id. It should have a
+    #     maximum length of 50. This variable is sourced from environment
+    #     variable AWS_SDK_UA_APP_ID or the shared config profile attribute sdk_ua_app_id.
     #
     #   @option options [String] :secret_access_key
     #
     #   @option options [String] :session_token
     #
+    #   @option options [Array] :sigv4a_signing_region_set
+    #     A list of regions that should be signed with SigV4a signing. When
+    #     not passed, a default `:sigv4a_signing_region_set` is searched for
+    #     in the following locations:
+    #
+    #     * `Aws.config[:sigv4a_signing_region_set]`
+    #     * `ENV['AWS_SIGV4A_SIGNING_REGION_SET']`
+    #     * `~/.aws/config`
+    #
     #   @option options [Boolean] :simple_json (false)
     #     Disables request parameter conversion, validation, and formatting.
-    #     Also disable response data type conversions. This option is useful
-    #     when you want to ensure the highest level of performance by
-    #     avoiding overhead of walking request parameters and response data
-    #     structures.
-    #
-    #     When `:simple_json` is enabled, the request parameters hash must
-    #     be formatted exactly as the DynamoDB API expects.
+    #     Also disables response data type conversions. The request parameters
+    #     hash must be formatted exactly as the API expects.This option is useful
+    #     when you want to ensure the highest level of performance by avoiding
+    #     overhead of walking request parameters and response data structures.
     #
     #   @option options [Boolean] :stub_responses (false)
     #     Causes the client to return stubbed responses. By default
@@ -297,6 +363,16 @@ module Aws::Route53Resolver
     #
     #     ** Please note ** When response stubbing is enabled, no HTTP
     #     requests are made, and retries are disabled.
+    #
+    #   @option options [Aws::Telemetry::TelemetryProviderBase] :telemetry_provider (Aws::Telemetry::NoOpTelemetryProvider)
+    #     Allows you to provide a telemetry provider, which is used to
+    #     emit telemetry data. By default, uses `NoOpTelemetryProvider` which
+    #     will not record or emit any telemetry data. The SDK supports the
+    #     following telemetry providers:
+    #
+    #     * OpenTelemetry (OTel) - To use the OTel provider, install and require the
+    #     `opentelemetry-sdk` gem and then, pass in an instance of a
+    #     `Aws::Telemetry::OTelProvider` for telemetry provider.
     #
     #   @option options [Aws::TokenProvider] :token_provider
     #     A Bearer Token Provider. This can be an instance of any one of the
@@ -325,52 +401,75 @@ module Aws::Route53Resolver
     #     sending the request.
     #
     #   @option options [Aws::Route53Resolver::EndpointProvider] :endpoint_provider
-    #     The endpoint provider used to resolve endpoints. Any object that responds to `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to `Aws::Route53Resolver::EndpointParameters`
+    #     The endpoint provider used to resolve endpoints. Any object that responds to
+    #     `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+    #     `Aws::Route53Resolver::EndpointParameters`.
     #
-    #   @option options [URI::HTTP,String] :http_proxy A proxy to send
-    #     requests through.  Formatted like 'http://proxy.com:123'.
+    #   @option options [Float] :http_continue_timeout (1)
+    #     The number of seconds to wait for a 100-continue response before sending the
+    #     request body.  This option has no effect unless the request has "Expect"
+    #     header set to "100-continue".  Defaults to `nil` which  disables this
+    #     behaviour.  This value can safely be set per request on the session.
     #
-    #   @option options [Float] :http_open_timeout (15) The number of
-    #     seconds to wait when opening a HTTP session before raising a
-    #     `Timeout::Error`.
+    #   @option options [Float] :http_idle_timeout (5)
+    #     The number of seconds a connection is allowed to sit idle before it
+    #     is considered stale.  Stale connections are closed and removed from the
+    #     pool before making a request.
     #
-    #   @option options [Float] :http_read_timeout (60) The default
-    #     number of seconds to wait for response data.  This value can
-    #     safely be set per-request on the session.
+    #   @option options [Float] :http_open_timeout (15)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :http_idle_timeout (5) The number of
-    #     seconds a connection is allowed to sit idle before it is
-    #     considered stale.  Stale connections are closed and removed
-    #     from the pool before making a request.
+    #   @option options [URI::HTTP,String] :http_proxy
+    #     A proxy to send requests through.  Formatted like 'http://proxy.com:123'.
     #
-    #   @option options [Float] :http_continue_timeout (1) The number of
-    #     seconds to wait for a 100-continue response before sending the
-    #     request body.  This option has no effect unless the request has
-    #     "Expect" header set to "100-continue".  Defaults to `nil` which
-    #     disables this behaviour.  This value can safely be set per
-    #     request on the session.
+    #   @option options [Float] :http_read_timeout (60)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :ssl_timeout (nil) Sets the SSL timeout
-    #     in seconds.
+    #   @option options [Boolean] :http_wire_trace (false)
+    #     When `true`,  HTTP debug output will be sent to the `:logger`.
     #
-    #   @option options [Boolean] :http_wire_trace (false) When `true`,
-    #     HTTP debug output will be sent to the `:logger`.
+    #   @option options [Proc] :on_chunk_received
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the response body is received. It provides three arguments: the chunk,
+    #     the number of bytes received, and the total number of
+    #     bytes in the response (or nil if the server did not send a `content-length`).
     #
-    #   @option options [Boolean] :ssl_verify_peer (true) When `true`,
-    #     SSL peer certificates are verified when establishing a
-    #     connection.
+    #   @option options [Proc] :on_chunk_sent
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the request body is sent. It provides three arguments: the chunk,
+    #     the number of bytes read from the body, and the total number of
+    #     bytes in the body.
     #
-    #   @option options [String] :ssl_ca_bundle Full path to the SSL
-    #     certificate authority bundle file that should be used when
-    #     verifying peer certificates.  If you do not pass
-    #     `:ssl_ca_bundle` or `:ssl_ca_directory` the the system default
-    #     will be used if available.
+    #   @option options [Boolean] :raise_response_errors (true)
+    #     When `true`, response errors are raised.
     #
-    #   @option options [String] :ssl_ca_directory Full path of the
-    #     directory that contains the unbundled SSL certificate
+    #   @option options [String] :ssl_ca_bundle
+    #     Full path to the SSL certificate authority bundle file that should be used when
+    #     verifying peer certificates.  If you do not pass `:ssl_ca_bundle` or
+    #     `:ssl_ca_directory` the the system default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_directory
+    #     Full path of the directory that contains the unbundled SSL certificate
     #     authority files for verifying peer certificates.  If you do
-    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the
-    #     system default will be used if available.
+    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the system
+    #     default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_store
+    #     Sets the X509::Store to verify peer certificate.
+    #
+    #   @option options [OpenSSL::X509::Certificate] :ssl_cert
+    #     Sets a client certificate when creating http connections.
+    #
+    #   @option options [OpenSSL::PKey] :ssl_key
+    #     Sets a client key when creating http connections.
+    #
+    #   @option options [Float] :ssl_timeout
+    #     Sets the SSL timeout in seconds
+    #
+    #   @option options [Boolean] :ssl_verify_peer (true)
+    #     When `true`, SSL peer certificates are verified when establishing a connection.
     #
     def initialize(*args)
       super
@@ -502,6 +601,7 @@ module Aws::Route53Resolver
     #       ip_id: "ResourceId",
     #       subnet_id: "SubnetId",
     #       ip: "Ip",
+    #       ipv_6: "Ipv6",
     #     },
     #   })
     #
@@ -520,6 +620,11 @@ module Aws::Route53Resolver
     #   resp.resolver_endpoint.status_message #=> String
     #   resp.resolver_endpoint.creation_time #=> String
     #   resp.resolver_endpoint.modification_time #=> String
+    #   resp.resolver_endpoint.outpost_arn #=> String
+    #   resp.resolver_endpoint.preferred_instance_type #=> String
+    #   resp.resolver_endpoint.resolver_endpoint_type #=> String, one of "IPV6", "IPV4", "DUALSTACK"
+    #   resp.resolver_endpoint.protocols #=> Array
+    #   resp.resolver_endpoint.protocols[0] #=> String, one of "DoH", "Do53", "DoH-FIPS"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/route53resolver-2018-04-01/AssociateResolverEndpointIpAddress AWS API Documentation
     #
@@ -723,8 +828,9 @@ module Aws::Route53Resolver
     #   The unique identifier of the firewall rule group where you want to
     #   create the rule.
     #
-    # @option params [required, String] :firewall_domain_list_id
-    #   The ID of the domain list that you want to use in the rule.
+    # @option params [String] :firewall_domain_list_id
+    #   The ID of the domain list that you want to use in the rule. Can't be
+    #   used together with `DnsThreatProtecton`.
     #
     # @option params [required, Integer] :priority
     #   The setting that determines the processing order of the rule in the
@@ -738,9 +844,11 @@ module Aws::Route53Resolver
     #
     # @option params [required, String] :action
     #   The action that DNS Firewall should take on a DNS query when it
-    #   matches one of the domains in the rule's domain list:
+    #   matches one of the domains in the rule's domain list, or a threat in
+    #   a DNS Firewall Advanced rule:
     #
-    #   * `ALLOW` - Permit the request to go through.
+    #   * `ALLOW` - Permit the request to go through. Not available for DNS
+    #     Firewall Advanced rules.
     #
     #   * `ALERT` - Permit the request and send metrics and logs to Cloud
     #     Watch.
@@ -787,6 +895,75 @@ module Aws::Route53Resolver
     # @option params [required, String] :name
     #   A name that lets you identify the rule in the rule group.
     #
+    # @option params [String] :firewall_domain_redirection_action
+    #   How you want the the rule to evaluate DNS redirection in the DNS
+    #   redirection chain, such as CNAME or DNAME.
+    #
+    #   `INSPECT_REDIRECTION_DOMAIN`: (Default) inspects all domains in the
+    #   redirection chain. The individual domains in the redirection chain
+    #   must be added to the domain list.
+    #
+    #   `TRUST_REDIRECTION_DOMAIN`: Inspects only the first domain in the
+    #   redirection chain. You don't need to add the subsequent domains in
+    #   the domain in the redirection list to the domain list.
+    #
+    # @option params [String] :qtype
+    #   The DNS query type you want the rule to evaluate. Allowed values are;
+    #
+    #   * A: Returns an IPv4 address.
+    #
+    #   * AAAA: Returns an Ipv6 address.
+    #
+    #   * CAA: Restricts CAs that can create SSL/TLS certifications for the
+    #     domain.
+    #
+    #   * CNAME: Returns another domain name.
+    #
+    #   * DS: Record that identifies the DNSSEC signing key of a delegated
+    #     zone.
+    #
+    #   * MX: Specifies mail servers.
+    #
+    #   * NAPTR: Regular-expression-based rewriting of domain names.
+    #
+    #   * NS: Authoritative name servers.
+    #
+    #   * PTR: Maps an IP address to a domain name.
+    #
+    #   * SOA: Start of authority record for the zone.
+    #
+    #   * SPF: Lists the servers authorized to send emails from a domain.
+    #
+    #   * SRV: Application specific values that identify servers.
+    #
+    #   * TXT: Verifies email senders and application-specific values.
+    #
+    #   * A query type you define by using the DNS type ID, for example 28 for
+    #     AAAA. The values must be defined as TYPENUMBER, where the NUMBER can
+    #     be 1-65334, for example, TYPE28. For more information, see [List of
+    #     DNS record types][1].
+    #
+    #
+    #
+    #   [1]: https://en.wikipedia.org/wiki/List_of_DNS_record_types
+    #
+    # @option params [String] :dns_threat_protection
+    #   Use to create a DNS Firewall Advanced rule.
+    #
+    # @option params [String] :confidence_threshold
+    #   The confidence threshold for DNS Firewall Advanced. You must provide
+    #   this value when you create a DNS Firewall Advanced rule. The
+    #   confidence level values mean:
+    #
+    #   * `LOW`: Provides the highest detection rate for threats, but also
+    #     increases false positives.
+    #
+    #   * `MEDIUM`: Provides a balance between detecting threats and false
+    #     positives.
+    #
+    #   * `HIGH`: Detects only the most well corroborated threats with a low
+    #     rate of false positives.
+    #
     # @return [Types::CreateFirewallRuleResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreateFirewallRuleResponse#firewall_rule #firewall_rule} => Types::FirewallRule
@@ -796,7 +973,7 @@ module Aws::Route53Resolver
     #   resp = client.create_firewall_rule({
     #     creator_request_id: "CreatorRequestId", # required
     #     firewall_rule_group_id: "ResourceId", # required
-    #     firewall_domain_list_id: "ResourceId", # required
+    #     firewall_domain_list_id: "ResourceId",
     #     priority: 1, # required
     #     action: "ALLOW", # required, accepts ALLOW, BLOCK, ALERT
     #     block_response: "NODATA", # accepts NODATA, NXDOMAIN, OVERRIDE
@@ -804,12 +981,17 @@ module Aws::Route53Resolver
     #     block_override_dns_type: "CNAME", # accepts CNAME
     #     block_override_ttl: 1,
     #     name: "Name", # required
+    #     firewall_domain_redirection_action: "INSPECT_REDIRECTION_DOMAIN", # accepts INSPECT_REDIRECTION_DOMAIN, TRUST_REDIRECTION_DOMAIN
+    #     qtype: "Qtype",
+    #     dns_threat_protection: "DGA", # accepts DGA, DNS_TUNNELING
+    #     confidence_threshold: "LOW", # accepts LOW, MEDIUM, HIGH
     #   })
     #
     # @example Response structure
     #
     #   resp.firewall_rule.firewall_rule_group_id #=> String
     #   resp.firewall_rule.firewall_domain_list_id #=> String
+    #   resp.firewall_rule.firewall_threat_protection_id #=> String
     #   resp.firewall_rule.name #=> String
     #   resp.firewall_rule.priority #=> Integer
     #   resp.firewall_rule.action #=> String, one of "ALLOW", "BLOCK", "ALERT"
@@ -820,6 +1002,10 @@ module Aws::Route53Resolver
     #   resp.firewall_rule.creator_request_id #=> String
     #   resp.firewall_rule.creation_time #=> String
     #   resp.firewall_rule.modification_time #=> String
+    #   resp.firewall_rule.firewall_domain_redirection_action #=> String, one of "INSPECT_REDIRECTION_DOMAIN", "TRUST_REDIRECTION_DOMAIN"
+    #   resp.firewall_rule.qtype #=> String
+    #   resp.firewall_rule.dns_threat_protection #=> String, one of "DGA", "DNS_TUNNELING"
+    #   resp.firewall_rule.confidence_threshold #=> String, one of "LOW", "MEDIUM", "HIGH"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/route53resolver-2018-04-01/CreateFirewallRule AWS API Documentation
     #
@@ -889,6 +1075,78 @@ module Aws::Route53Resolver
       req.send_request(options)
     end
 
+    # Creates a Route 53 Resolver on an Outpost.
+    #
+    # @option params [required, String] :creator_request_id
+    #   A unique string that identifies the request and that allows failed
+    #   requests to be retried without the risk of running the operation
+    #   twice.
+    #
+    #   `CreatorRequestId` can be any unique string, for example, a date/time
+    #   stamp.
+    #
+    # @option params [required, String] :name
+    #   A friendly name that lets you easily find a configuration in the
+    #   Resolver dashboard in the Route 53 console.
+    #
+    # @option params [Integer] :instance_count
+    #   Number of Amazon EC2 instances for the Resolver on Outpost. The
+    #   default and minimal value is 4.
+    #
+    # @option params [required, String] :preferred_instance_type
+    #   The Amazon EC2 instance type. If you specify this, you must also
+    #   specify a value for the `OutpostArn`.
+    #
+    # @option params [required, String] :outpost_arn
+    #   The Amazon Resource Name (ARN) of the Outpost. If you specify this,
+    #   you must also specify a value for the `PreferredInstanceType`.
+    #
+    # @option params [Array<Types::Tag>] :tags
+    #   A string that helps identify the Route 53 Resolvers on Outpost.
+    #
+    # @return [Types::CreateOutpostResolverResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateOutpostResolverResponse#outpost_resolver #outpost_resolver} => Types::OutpostResolver
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_outpost_resolver({
+    #     creator_request_id: "CreatorRequestId", # required
+    #     name: "OutpostResolverName", # required
+    #     instance_count: 1,
+    #     preferred_instance_type: "OutpostInstanceType", # required
+    #     outpost_arn: "OutpostArn", # required
+    #     tags: [
+    #       {
+    #         key: "TagKey", # required
+    #         value: "TagValue", # required
+    #       },
+    #     ],
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.outpost_resolver.arn #=> String
+    #   resp.outpost_resolver.creation_time #=> String
+    #   resp.outpost_resolver.modification_time #=> String
+    #   resp.outpost_resolver.creator_request_id #=> String
+    #   resp.outpost_resolver.id #=> String
+    #   resp.outpost_resolver.instance_count #=> Integer
+    #   resp.outpost_resolver.preferred_instance_type #=> String
+    #   resp.outpost_resolver.name #=> String
+    #   resp.outpost_resolver.status #=> String, one of "CREATING", "OPERATIONAL", "UPDATING", "DELETING", "ACTION_NEEDED", "FAILED_CREATION", "FAILED_DELETION"
+    #   resp.outpost_resolver.status_message #=> String
+    #   resp.outpost_resolver.outpost_arn #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/route53resolver-2018-04-01/CreateOutpostResolver AWS API Documentation
+    #
+    # @overload create_outpost_resolver(params = {})
+    # @param [Hash] params ({})
+    def create_outpost_resolver(params = {}, options = {})
+      req = build_request(:create_outpost_resolver, params)
+      req.send_request(options)
+    end
+
     # Creates a Resolver endpoint. There are two types of Resolver
     # endpoints, inbound and outbound:
     #
@@ -917,23 +1175,81 @@ module Aws::Route53Resolver
     #   outbound access, open the port that you're using for DNS queries on
     #   your network.
     #
+    #   Some security group rules will cause your connection to be tracked.
+    #   For outbound resolver endpoint, it can potentially impact the maximum
+    #   queries per second from outbound endpoint to your target name server.
+    #   For inbound resolver endpoint, it can bring down the overall maximum
+    #   queries per second per IP address to as low as 1500. To avoid
+    #   connection tracking caused by security group, see [Untracked
+    #   connections][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/security-group-connection-tracking.html#untracked-connectionsl
+    #
     # @option params [required, String] :direction
     #   Specify the applicable value:
     #
-    #   * `INBOUND`\: Resolver forwards DNS queries to the DNS service for a
+    #   * `INBOUND`: Resolver forwards DNS queries to the DNS service for a
     #     VPC from your network
     #
-    #   * `OUTBOUND`\: Resolver forwards DNS queries from the DNS service for
-    #     a VPC to your network
+    #   * `OUTBOUND`: Resolver forwards DNS queries from the DNS service for a
+    #     VPC to your network
     #
     # @option params [required, Array<Types::IpAddressRequest>] :ip_addresses
     #   The subnets and IP addresses in your VPC that DNS queries originate
     #   from (for outbound endpoints) or that you forward DNS queries to (for
     #   inbound endpoints). The subnet ID uniquely identifies a VPC.
     #
+    #   <note markdown="1"> Even though the minimum is 1, Route 53 requires that you create at
+    #   least two.
+    #
+    #    </note>
+    #
+    # @option params [String] :outpost_arn
+    #   The Amazon Resource Name (ARN) of the Outpost. If you specify this,
+    #   you must also specify a value for the `PreferredInstanceType`.
+    #
+    # @option params [String] :preferred_instance_type
+    #   The instance type. If you specify this, you must also specify a value
+    #   for the `OutpostArn`.
+    #
     # @option params [Array<Types::Tag>] :tags
     #   A list of the tag keys and values that you want to associate with the
     #   endpoint.
+    #
+    # @option params [String] :resolver_endpoint_type
+    #   For the endpoint type you can choose either IPv4, IPv6, or dual-stack.
+    #   A dual-stack endpoint means that it will resolve via both IPv4 and
+    #   IPv6. This endpoint type is applied to all IP addresses.
+    #
+    # @option params [Array<String>] :protocols
+    #   The protocols you want to use for the endpoint. DoH-FIPS is applicable
+    #   for inbound endpoints only.
+    #
+    #   For an inbound endpoint you can apply the protocols as follows:
+    #
+    #   * Do53 and DoH in combination.
+    #
+    #   * Do53 and DoH-FIPS in combination.
+    #
+    #   * Do53 alone.
+    #
+    #   * DoH alone.
+    #
+    #   * DoH-FIPS alone.
+    #
+    #   * None, which is treated as Do53.
+    #
+    #   For an outbound endpoint you can apply the protocols as follows:
+    #
+    #   * Do53 and DoH in combination.
+    #
+    #   * Do53 alone.
+    #
+    #   * DoH alone.
+    #
+    #   * None, which is treated as Do53.
     #
     # @return [Types::CreateResolverEndpointResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -950,14 +1266,19 @@ module Aws::Route53Resolver
     #       {
     #         subnet_id: "SubnetId", # required
     #         ip: "Ip",
+    #         ipv_6: "Ipv6",
     #       },
     #     ],
+    #     outpost_arn: "OutpostArn",
+    #     preferred_instance_type: "OutpostInstanceType",
     #     tags: [
     #       {
     #         key: "TagKey", # required
     #         value: "TagValue", # required
     #       },
     #     ],
+    #     resolver_endpoint_type: "IPV6", # accepts IPV6, IPV4, DUALSTACK
+    #     protocols: ["DoH"], # accepts DoH, Do53, DoH-FIPS
     #   })
     #
     # @example Response structure
@@ -975,6 +1296,11 @@ module Aws::Route53Resolver
     #   resp.resolver_endpoint.status_message #=> String
     #   resp.resolver_endpoint.creation_time #=> String
     #   resp.resolver_endpoint.modification_time #=> String
+    #   resp.resolver_endpoint.outpost_arn #=> String
+    #   resp.resolver_endpoint.preferred_instance_type #=> String
+    #   resp.resolver_endpoint.resolver_endpoint_type #=> String, one of "IPV6", "IPV4", "DUALSTACK"
+    #   resp.resolver_endpoint.protocols #=> Array
+    #   resp.resolver_endpoint.protocols[0] #=> String, one of "DoH", "Do53", "DoH-FIPS"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/route53resolver-2018-04-01/CreateResolverEndpoint AWS API Documentation
     #
@@ -1014,19 +1340,19 @@ module Aws::Route53Resolver
     #   Kinesis Data Firehose delivery stream. Examples of valid values
     #   include the following:
     #
-    #   * **S3 bucket**\:
+    #   * **S3 bucket**:
     #
-    #     `arn:aws:s3:::examplebucket`
+    #     `arn:aws:s3:::amzn-s3-demo-bucket`
     #
     #     You can optionally append a file prefix to the end of the ARN.
     #
-    #     `arn:aws:s3:::examplebucket/development/`
+    #     `arn:aws:s3:::amzn-s3-demo-bucket/development/`
     #
-    #   * **CloudWatch Logs log group**\:
+    #   * **CloudWatch Logs log group**:
     #
     #     `arn:aws:logs:us-west-1:123456789012:log-group:/mystack-testgroup-12ABC1AB12A1:*`
     #
-    #   * **Kinesis Data Firehose delivery stream**\:
+    #   * **Kinesis Data Firehose delivery stream**:
     #
     #     `arn:aws:kinesis:us-east-2:0123456789:stream/my_stream_name`
     #
@@ -1114,7 +1440,7 @@ module Aws::Route53Resolver
     #   Currently, only Resolver can create rules that have a value of
     #   `RECURSIVE` for `RuleType`.
     #
-    # @option params [required, String] :domain_name
+    # @option params [String] :domain_name
     #   DNS queries for this domain name are forwarded to the IP addresses
     #   that you specify in `TargetIps`. If a query matches multiple Resolver
     #   rules (example.com and www.example.com), outbound DNS queries are
@@ -1123,7 +1449,8 @@ module Aws::Route53Resolver
     #
     # @option params [Array<Types::TargetAddress>] :target_ips
     #   The IPs that you want Resolver to forward DNS queries to. You can
-    #   specify only IPv4 addresses. Separate IP addresses with a space.
+    #   specify either Ipv4 or Ipv6 addresses but not both in the same rule.
+    #   Separate IP addresses with a space.
     #
     #   `TargetIps` is available only when the value of `Rule type` is
     #   `FORWARD`.
@@ -1146,11 +1473,14 @@ module Aws::Route53Resolver
     #     creator_request_id: "CreatorRequestId", # required
     #     name: "Name",
     #     rule_type: "FORWARD", # required, accepts FORWARD, SYSTEM, RECURSIVE
-    #     domain_name: "DomainName", # required
+    #     domain_name: "DomainName",
     #     target_ips: [
     #       {
-    #         ip: "Ip", # required
+    #         ip: "Ip",
     #         port: 1,
+    #         ipv_6: "Ipv6",
+    #         protocol: "DoH", # accepts DoH, Do53, DoH-FIPS
+    #         server_name_indication: "ServerNameIndication",
     #       },
     #     ],
     #     resolver_endpoint_id: "ResourceId",
@@ -1175,6 +1505,9 @@ module Aws::Route53Resolver
     #   resp.resolver_rule.target_ips #=> Array
     #   resp.resolver_rule.target_ips[0].ip #=> String
     #   resp.resolver_rule.target_ips[0].port #=> Integer
+    #   resp.resolver_rule.target_ips[0].ipv_6 #=> String
+    #   resp.resolver_rule.target_ips[0].protocol #=> String, one of "DoH", "Do53", "DoH-FIPS"
+    #   resp.resolver_rule.target_ips[0].server_name_indication #=> String
     #   resp.resolver_rule.resolver_endpoint_id #=> String
     #   resp.resolver_rule.owner_id #=> String
     #   resp.resolver_rule.share_status #=> String, one of "NOT_SHARED", "SHARED_WITH_ME", "SHARED_BY_ME"
@@ -1233,8 +1566,52 @@ module Aws::Route53Resolver
     #   The unique identifier of the firewall rule group that you want to
     #   delete the rule from.
     #
-    # @option params [required, String] :firewall_domain_list_id
+    # @option params [String] :firewall_domain_list_id
     #   The ID of the domain list that's used in the rule.
+    #
+    # @option params [String] :firewall_threat_protection_id
+    #   The ID that is created for a DNS Firewall Advanced rule.
+    #
+    # @option params [String] :qtype
+    #   The DNS query type that the rule you are deleting evaluates. Allowed
+    #   values are;
+    #
+    #   * A: Returns an IPv4 address.
+    #
+    #   * AAAA: Returns an Ipv6 address.
+    #
+    #   * CAA: Restricts CAs that can create SSL/TLS certifications for the
+    #     domain.
+    #
+    #   * CNAME: Returns another domain name.
+    #
+    #   * DS: Record that identifies the DNSSEC signing key of a delegated
+    #     zone.
+    #
+    #   * MX: Specifies mail servers.
+    #
+    #   * NAPTR: Regular-expression-based rewriting of domain names.
+    #
+    #   * NS: Authoritative name servers.
+    #
+    #   * PTR: Maps an IP address to a domain name.
+    #
+    #   * SOA: Start of authority record for the zone.
+    #
+    #   * SPF: Lists the servers authorized to send emails from a domain.
+    #
+    #   * SRV: Application specific values that identify servers.
+    #
+    #   * TXT: Verifies email senders and application-specific values.
+    #
+    #   * A query type you define by using the DNS type ID, for example 28 for
+    #     AAAA. The values must be defined as TYPENUMBER, where the NUMBER can
+    #     be 1-65334, for example, TYPE28. For more information, see [List of
+    #     DNS record types][1].
+    #
+    #
+    #
+    #   [1]: https://en.wikipedia.org/wiki/List_of_DNS_record_types
     #
     # @return [Types::DeleteFirewallRuleResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1244,13 +1621,16 @@ module Aws::Route53Resolver
     #
     #   resp = client.delete_firewall_rule({
     #     firewall_rule_group_id: "ResourceId", # required
-    #     firewall_domain_list_id: "ResourceId", # required
+    #     firewall_domain_list_id: "ResourceId",
+    #     firewall_threat_protection_id: "ResourceId",
+    #     qtype: "Qtype",
     #   })
     #
     # @example Response structure
     #
     #   resp.firewall_rule.firewall_rule_group_id #=> String
     #   resp.firewall_rule.firewall_domain_list_id #=> String
+    #   resp.firewall_rule.firewall_threat_protection_id #=> String
     #   resp.firewall_rule.name #=> String
     #   resp.firewall_rule.priority #=> Integer
     #   resp.firewall_rule.action #=> String, one of "ALLOW", "BLOCK", "ALERT"
@@ -1261,6 +1641,10 @@ module Aws::Route53Resolver
     #   resp.firewall_rule.creator_request_id #=> String
     #   resp.firewall_rule.creation_time #=> String
     #   resp.firewall_rule.modification_time #=> String
+    #   resp.firewall_rule.firewall_domain_redirection_action #=> String, one of "INSPECT_REDIRECTION_DOMAIN", "TRUST_REDIRECTION_DOMAIN"
+    #   resp.firewall_rule.qtype #=> String
+    #   resp.firewall_rule.dns_threat_protection #=> String, one of "DGA", "DNS_TUNNELING"
+    #   resp.firewall_rule.confidence_threshold #=> String, one of "LOW", "MEDIUM", "HIGH"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/route53resolver-2018-04-01/DeleteFirewallRule AWS API Documentation
     #
@@ -1310,14 +1694,52 @@ module Aws::Route53Resolver
       req.send_request(options)
     end
 
+    # Deletes a Resolver on the Outpost.
+    #
+    # @option params [required, String] :id
+    #   A unique string that identifies the Resolver on the Outpost.
+    #
+    # @return [Types::DeleteOutpostResolverResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DeleteOutpostResolverResponse#outpost_resolver #outpost_resolver} => Types::OutpostResolver
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_outpost_resolver({
+    #     id: "ResourceId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.outpost_resolver.arn #=> String
+    #   resp.outpost_resolver.creation_time #=> String
+    #   resp.outpost_resolver.modification_time #=> String
+    #   resp.outpost_resolver.creator_request_id #=> String
+    #   resp.outpost_resolver.id #=> String
+    #   resp.outpost_resolver.instance_count #=> Integer
+    #   resp.outpost_resolver.preferred_instance_type #=> String
+    #   resp.outpost_resolver.name #=> String
+    #   resp.outpost_resolver.status #=> String, one of "CREATING", "OPERATIONAL", "UPDATING", "DELETING", "ACTION_NEEDED", "FAILED_CREATION", "FAILED_DELETION"
+    #   resp.outpost_resolver.status_message #=> String
+    #   resp.outpost_resolver.outpost_arn #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/route53resolver-2018-04-01/DeleteOutpostResolver AWS API Documentation
+    #
+    # @overload delete_outpost_resolver(params = {})
+    # @param [Hash] params ({})
+    def delete_outpost_resolver(params = {}, options = {})
+      req = build_request(:delete_outpost_resolver, params)
+      req.send_request(options)
+    end
+
     # Deletes a Resolver endpoint. The effect of deleting a Resolver
     # endpoint depends on whether it's an inbound or an outbound Resolver
     # endpoint:
     #
-    # * **Inbound**\: DNS queries from your network are no longer routed to
+    # * **Inbound**: DNS queries from your network are no longer routed to
     #   the DNS service for the specified VPC.
     #
-    # * **Outbound**\: DNS queries from a VPC are no longer routed to your
+    # * **Outbound**: DNS queries from a VPC are no longer routed to your
     #   network.
     #
     # @option params [required, String] :resolver_endpoint_id
@@ -1348,6 +1770,11 @@ module Aws::Route53Resolver
     #   resp.resolver_endpoint.status_message #=> String
     #   resp.resolver_endpoint.creation_time #=> String
     #   resp.resolver_endpoint.modification_time #=> String
+    #   resp.resolver_endpoint.outpost_arn #=> String
+    #   resp.resolver_endpoint.preferred_instance_type #=> String
+    #   resp.resolver_endpoint.resolver_endpoint_type #=> String, one of "IPV6", "IPV4", "DUALSTACK"
+    #   resp.resolver_endpoint.protocols #=> Array
+    #   resp.resolver_endpoint.protocols[0] #=> String, one of "DoH", "Do53", "DoH-FIPS"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/route53resolver-2018-04-01/DeleteResolverEndpoint AWS API Documentation
     #
@@ -1451,6 +1878,9 @@ module Aws::Route53Resolver
     #   resp.resolver_rule.target_ips #=> Array
     #   resp.resolver_rule.target_ips[0].ip #=> String
     #   resp.resolver_rule.target_ips[0].port #=> Integer
+    #   resp.resolver_rule.target_ips[0].ipv_6 #=> String
+    #   resp.resolver_rule.target_ips[0].protocol #=> String, one of "DoH", "Do53", "DoH-FIPS"
+    #   resp.resolver_rule.target_ips[0].server_name_indication #=> String
     #   resp.resolver_rule.resolver_endpoint_id #=> String
     #   resp.resolver_rule.owner_id #=> String
     #   resp.resolver_rule.share_status #=> String, one of "NOT_SHARED", "SHARED_WITH_ME", "SHARED_BY_ME"
@@ -1537,6 +1967,7 @@ module Aws::Route53Resolver
     #       ip_id: "ResourceId",
     #       subnet_id: "SubnetId",
     #       ip: "Ip",
+    #       ipv_6: "Ipv6",
     #     },
     #   })
     #
@@ -1555,6 +1986,11 @@ module Aws::Route53Resolver
     #   resp.resolver_endpoint.status_message #=> String
     #   resp.resolver_endpoint.creation_time #=> String
     #   resp.resolver_endpoint.modification_time #=> String
+    #   resp.resolver_endpoint.outpost_arn #=> String
+    #   resp.resolver_endpoint.preferred_instance_type #=> String
+    #   resp.resolver_endpoint.resolver_endpoint_type #=> String, one of "IPV6", "IPV4", "DUALSTACK"
+    #   resp.resolver_endpoint.protocols #=> Array
+    #   resp.resolver_endpoint.protocols[0] #=> String, one of "DoH", "Do53", "DoH-FIPS"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/route53resolver-2018-04-01/DisassociateResolverEndpointIpAddress AWS API Documentation
     #
@@ -1684,7 +2120,7 @@ module Aws::Route53Resolver
     #   resp.firewall_config.id #=> String
     #   resp.firewall_config.resource_id #=> String
     #   resp.firewall_config.owner_id #=> String
-    #   resp.firewall_config.firewall_fail_open #=> String, one of "ENABLED", "DISABLED"
+    #   resp.firewall_config.firewall_fail_open #=> String, one of "ENABLED", "DISABLED", "USE_LOCAL_RESOURCE_SETTING"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/route53resolver-2018-04-01/GetFirewallConfig AWS API Documentation
     #
@@ -1843,7 +2279,47 @@ module Aws::Route53Resolver
       req.send_request(options)
     end
 
-    # Retrieves the behavior configuration of Route 53 Resolver behavior for
+    # Gets information about a specified Resolver on the Outpost, such as
+    # its instance count and type, name, and the current status of the
+    # Resolver.
+    #
+    # @option params [required, String] :id
+    #   The ID of the Resolver on the Outpost.
+    #
+    # @return [Types::GetOutpostResolverResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetOutpostResolverResponse#outpost_resolver #outpost_resolver} => Types::OutpostResolver
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_outpost_resolver({
+    #     id: "ResourceId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.outpost_resolver.arn #=> String
+    #   resp.outpost_resolver.creation_time #=> String
+    #   resp.outpost_resolver.modification_time #=> String
+    #   resp.outpost_resolver.creator_request_id #=> String
+    #   resp.outpost_resolver.id #=> String
+    #   resp.outpost_resolver.instance_count #=> Integer
+    #   resp.outpost_resolver.preferred_instance_type #=> String
+    #   resp.outpost_resolver.name #=> String
+    #   resp.outpost_resolver.status #=> String, one of "CREATING", "OPERATIONAL", "UPDATING", "DELETING", "ACTION_NEEDED", "FAILED_CREATION", "FAILED_DELETION"
+    #   resp.outpost_resolver.status_message #=> String
+    #   resp.outpost_resolver.outpost_arn #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/route53resolver-2018-04-01/GetOutpostResolver AWS API Documentation
+    #
+    # @overload get_outpost_resolver(params = {})
+    # @param [Hash] params ({})
+    def get_outpost_resolver(params = {}, options = {})
+      req = build_request(:get_outpost_resolver, params)
+      req.send_request(options)
+    end
+
+    # Retrieves the behavior configuration of Route 53 Resolver behavior for
     # a single VPC from Amazon Virtual Private Cloud.
     #
     # @option params [required, String] :resource_id
@@ -1864,7 +2340,7 @@ module Aws::Route53Resolver
     #   resp.resolver_config.id #=> String
     #   resp.resolver_config.resource_id #=> String
     #   resp.resolver_config.owner_id #=> String
-    #   resp.resolver_config.autodefined_reverse #=> String, one of "ENABLING", "ENABLED", "DISABLING", "DISABLED"
+    #   resp.resolver_config.autodefined_reverse #=> String, one of "ENABLING", "ENABLED", "DISABLING", "DISABLED", "UPDATING_TO_USE_LOCAL_RESOURCE_SETTING", "USE_LOCAL_RESOURCE_SETTING"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/route53resolver-2018-04-01/GetResolverConfig AWS API Documentation
     #
@@ -1896,7 +2372,7 @@ module Aws::Route53Resolver
     #   resp.resolver_dnssec_config.id #=> String
     #   resp.resolver_dnssec_config.owner_id #=> String
     #   resp.resolver_dnssec_config.resource_id #=> String
-    #   resp.resolver_dnssec_config.validation_status #=> String, one of "ENABLING", "ENABLED", "DISABLING", "DISABLED"
+    #   resp.resolver_dnssec_config.validation_status #=> String, one of "ENABLING", "ENABLED", "DISABLING", "DISABLED", "UPDATING_TO_USE_LOCAL_RESOURCE_SETTING", "USE_LOCAL_RESOURCE_SETTING"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/route53resolver-2018-04-01/GetResolverDnssecConfig AWS API Documentation
     #
@@ -1940,6 +2416,11 @@ module Aws::Route53Resolver
     #   resp.resolver_endpoint.status_message #=> String
     #   resp.resolver_endpoint.creation_time #=> String
     #   resp.resolver_endpoint.modification_time #=> String
+    #   resp.resolver_endpoint.outpost_arn #=> String
+    #   resp.resolver_endpoint.preferred_instance_type #=> String
+    #   resp.resolver_endpoint.resolver_endpoint_type #=> String, one of "IPV6", "IPV4", "DUALSTACK"
+    #   resp.resolver_endpoint.protocols #=> Array
+    #   resp.resolver_endpoint.protocols[0] #=> String, one of "DoH", "Do53", "DoH-FIPS"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/route53resolver-2018-04-01/GetResolverEndpoint AWS API Documentation
     #
@@ -2089,6 +2570,9 @@ module Aws::Route53Resolver
     #   resp.resolver_rule.target_ips #=> Array
     #   resp.resolver_rule.target_ips[0].ip #=> String
     #   resp.resolver_rule.target_ips[0].port #=> Integer
+    #   resp.resolver_rule.target_ips[0].ipv_6 #=> String
+    #   resp.resolver_rule.target_ips[0].protocol #=> String, one of "DoH", "Do53", "DoH-FIPS"
+    #   resp.resolver_rule.target_ips[0].server_name_indication #=> String
     #   resp.resolver_rule.resolver_endpoint_id #=> String
     #   resp.resolver_rule.owner_id #=> String
     #   resp.resolver_rule.share_status #=> String, one of "NOT_SHARED", "SHARED_WITH_ME", "SHARED_BY_ME"
@@ -2284,7 +2768,7 @@ module Aws::Route53Resolver
     #   resp.firewall_configs[0].id #=> String
     #   resp.firewall_configs[0].resource_id #=> String
     #   resp.firewall_configs[0].owner_id #=> String
-    #   resp.firewall_configs[0].firewall_fail_open #=> String, one of "ENABLED", "DISABLED"
+    #   resp.firewall_configs[0].firewall_fail_open #=> String, one of "ENABLED", "DISABLED", "USE_LOCAL_RESOURCE_SETTING"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/route53resolver-2018-04-01/ListFirewallConfigs AWS API Documentation
     #
@@ -2580,9 +3064,11 @@ module Aws::Route53Resolver
     #   Optional additional filter for the rules to retrieve.
     #
     #   The action that DNS Firewall should take on a DNS query when it
-    #   matches one of the domains in the rule's domain list:
+    #   matches one of the domains in the rule's domain list, or a threat in
+    #   a DNS Firewall Advanced rule:
     #
-    #   * `ALLOW` - Permit the request to go through.
+    #   * `ALLOW` - Permit the request to go through. Not availabe for DNS
+    #     Firewall Advanced rules.
     #
     #   * `ALERT` - Permit the request to go through but send an alert to the
     #     logs.
@@ -2632,6 +3118,7 @@ module Aws::Route53Resolver
     #   resp.firewall_rules #=> Array
     #   resp.firewall_rules[0].firewall_rule_group_id #=> String
     #   resp.firewall_rules[0].firewall_domain_list_id #=> String
+    #   resp.firewall_rules[0].firewall_threat_protection_id #=> String
     #   resp.firewall_rules[0].name #=> String
     #   resp.firewall_rules[0].priority #=> Integer
     #   resp.firewall_rules[0].action #=> String, one of "ALLOW", "BLOCK", "ALERT"
@@ -2642,6 +3129,10 @@ module Aws::Route53Resolver
     #   resp.firewall_rules[0].creator_request_id #=> String
     #   resp.firewall_rules[0].creation_time #=> String
     #   resp.firewall_rules[0].modification_time #=> String
+    #   resp.firewall_rules[0].firewall_domain_redirection_action #=> String, one of "INSPECT_REDIRECTION_DOMAIN", "TRUST_REDIRECTION_DOMAIN"
+    #   resp.firewall_rules[0].qtype #=> String
+    #   resp.firewall_rules[0].dns_threat_protection #=> String, one of "DGA", "DNS_TUNNELING"
+    #   resp.firewall_rules[0].confidence_threshold #=> String, one of "LOW", "MEDIUM", "HIGH"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/route53resolver-2018-04-01/ListFirewallRules AWS API Documentation
     #
@@ -2652,7 +3143,62 @@ module Aws::Route53Resolver
       req.send_request(options)
     end
 
-    # Retrieves the Resolver configurations that you have defined. Route 53
+    # Lists all the Resolvers on Outposts that were created using the
+    # current Amazon Web Services account.
+    #
+    # @option params [String] :outpost_arn
+    #   The Amazon Resource Name (ARN) of the Outpost.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of Resolvers on the Outpost that you want to return
+    #   in the response to a `ListOutpostResolver` request. If you don't
+    #   specify a value for `MaxResults`, the request returns up to 100
+    #   Resolvers.
+    #
+    # @option params [String] :next_token
+    #   For the first `ListOutpostResolver` request, omit this value.
+    #
+    # @return [Types::ListOutpostResolversResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListOutpostResolversResponse#outpost_resolvers #outpost_resolvers} => Array&lt;Types::OutpostResolver&gt;
+    #   * {Types::ListOutpostResolversResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_outpost_resolvers({
+    #     outpost_arn: "OutpostArn",
+    #     max_results: 1,
+    #     next_token: "NextToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.outpost_resolvers #=> Array
+    #   resp.outpost_resolvers[0].arn #=> String
+    #   resp.outpost_resolvers[0].creation_time #=> String
+    #   resp.outpost_resolvers[0].modification_time #=> String
+    #   resp.outpost_resolvers[0].creator_request_id #=> String
+    #   resp.outpost_resolvers[0].id #=> String
+    #   resp.outpost_resolvers[0].instance_count #=> Integer
+    #   resp.outpost_resolvers[0].preferred_instance_type #=> String
+    #   resp.outpost_resolvers[0].name #=> String
+    #   resp.outpost_resolvers[0].status #=> String, one of "CREATING", "OPERATIONAL", "UPDATING", "DELETING", "ACTION_NEEDED", "FAILED_CREATION", "FAILED_DELETION"
+    #   resp.outpost_resolvers[0].status_message #=> String
+    #   resp.outpost_resolvers[0].outpost_arn #=> String
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/route53resolver-2018-04-01/ListOutpostResolvers AWS API Documentation
+    #
+    # @overload list_outpost_resolvers(params = {})
+    # @param [Hash] params ({})
+    def list_outpost_resolvers(params = {}, options = {})
+      req = build_request(:list_outpost_resolvers, params)
+      req.send_request(options)
+    end
+
+    # Retrieves the Resolver configurations that you have defined. Route 53
     # Resolver uses the configurations to manage DNS resolution behavior for
     # your VPCs.
     #
@@ -2694,7 +3240,7 @@ module Aws::Route53Resolver
     #   resp.resolver_configs[0].id #=> String
     #   resp.resolver_configs[0].resource_id #=> String
     #   resp.resolver_configs[0].owner_id #=> String
-    #   resp.resolver_configs[0].autodefined_reverse #=> String, one of "ENABLING", "ENABLED", "DISABLING", "DISABLED"
+    #   resp.resolver_configs[0].autodefined_reverse #=> String, one of "ENABLING", "ENABLED", "DISABLING", "DISABLED", "UPDATING_TO_USE_LOCAL_RESOURCE_SETTING", "USE_LOCAL_RESOURCE_SETTING"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/route53resolver-2018-04-01/ListResolverConfigs AWS API Documentation
     #
@@ -2709,7 +3255,7 @@ module Aws::Route53Resolver
     # with the current Amazon Web Services account.
     #
     # @option params [Integer] :max_results
-    #   *Optional*\: An integer that specifies the maximum number of DNSSEC
+    #   *Optional*: An integer that specifies the maximum number of DNSSEC
     #   configuration results that you want Amazon Route 53 to return. If you
     #   don't specify a value for `MaxResults`, Route 53 returns up to 100
     #   configuration per page.
@@ -2755,7 +3301,7 @@ module Aws::Route53Resolver
     #   resp.resolver_dnssec_configs[0].id #=> String
     #   resp.resolver_dnssec_configs[0].owner_id #=> String
     #   resp.resolver_dnssec_configs[0].resource_id #=> String
-    #   resp.resolver_dnssec_configs[0].validation_status #=> String, one of "ENABLING", "ENABLED", "DISABLING", "DISABLED"
+    #   resp.resolver_dnssec_configs[0].validation_status #=> String, one of "ENABLING", "ENABLED", "DISABLING", "DISABLED", "UPDATING_TO_USE_LOCAL_RESOURCE_SETTING", "USE_LOCAL_RESOURCE_SETTING"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/route53resolver-2018-04-01/ListResolverDnssecConfigs AWS API Documentation
     #
@@ -2810,7 +3356,8 @@ module Aws::Route53Resolver
     #   resp.ip_addresses[0].ip_id #=> String
     #   resp.ip_addresses[0].subnet_id #=> String
     #   resp.ip_addresses[0].ip #=> String
-    #   resp.ip_addresses[0].status #=> String, one of "CREATING", "FAILED_CREATION", "ATTACHING", "ATTACHED", "REMAP_DETACHING", "REMAP_ATTACHING", "DETACHING", "FAILED_RESOURCE_GONE", "DELETING", "DELETE_FAILED_FAS_EXPIRED"
+    #   resp.ip_addresses[0].ipv_6 #=> String
+    #   resp.ip_addresses[0].status #=> String, one of "CREATING", "FAILED_CREATION", "ATTACHING", "ATTACHED", "REMAP_DETACHING", "REMAP_ATTACHING", "DETACHING", "FAILED_RESOURCE_GONE", "DELETING", "DELETE_FAILED_FAS_EXPIRED", "UPDATING", "UPDATE_FAILED"
     #   resp.ip_addresses[0].status_message #=> String
     #   resp.ip_addresses[0].creation_time #=> String
     #   resp.ip_addresses[0].modification_time #=> String
@@ -2890,6 +3437,11 @@ module Aws::Route53Resolver
     #   resp.resolver_endpoints[0].status_message #=> String
     #   resp.resolver_endpoints[0].creation_time #=> String
     #   resp.resolver_endpoints[0].modification_time #=> String
+    #   resp.resolver_endpoints[0].outpost_arn #=> String
+    #   resp.resolver_endpoints[0].preferred_instance_type #=> String
+    #   resp.resolver_endpoints[0].resolver_endpoint_type #=> String, one of "IPV6", "IPV4", "DUALSTACK"
+    #   resp.resolver_endpoints[0].protocols #=> Array
+    #   resp.resolver_endpoints[0].protocols[0] #=> String, one of "DoH", "Do53", "DoH-FIPS"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/route53resolver-2018-04-01/ListResolverEndpoints AWS API Documentation
     #
@@ -2943,41 +3495,40 @@ module Aws::Route53Resolver
     #
     #   Valid values include the following elements:
     #
-    #   * `CreationTime`\: The ID of the query logging association.
+    #   * `CreationTime`: The ID of the query logging association.
     #
-    #   * `Error`\: If the value of `Status` is `FAILED`, the value of `Error`
+    #   * `Error`: If the value of `Status` is `FAILED`, the value of `Error`
     #     indicates the cause:
     #
-    #     * `DESTINATION_NOT_FOUND`\: The specified destination (for example,
+    #     * `DESTINATION_NOT_FOUND`: The specified destination (for example,
     #       an Amazon S3 bucket) was deleted.
     #
-    #     * `ACCESS_DENIED`\: Permissions don't allow sending logs to the
+    #     * `ACCESS_DENIED`: Permissions don't allow sending logs to the
     #       destination.
-    #
     #     If `Status` is a value other than `FAILED`, `ERROR` is null.
     #
-    #   * `Id`\: The ID of the query logging association
+    #   * `Id`: The ID of the query logging association
     #
-    #   * `ResolverQueryLogConfigId`\: The ID of the query logging
+    #   * `ResolverQueryLogConfigId`: The ID of the query logging
     #     configuration
     #
-    #   * `ResourceId`\: The ID of the VPC that is associated with the query
+    #   * `ResourceId`: The ID of the VPC that is associated with the query
     #     logging configuration
     #
-    #   * `Status`\: The current status of the configuration. Valid values
+    #   * `Status`: The current status of the configuration. Valid values
     #     include the following:
     #
-    #     * `CREATING`\: Resolver is creating an association between an Amazon
+    #     * `CREATING`: Resolver is creating an association between an Amazon
     #       VPC and a query logging configuration.
     #
-    #     * `CREATED`\: The association between an Amazon VPC and a query
+    #     * `CREATED`: The association between an Amazon VPC and a query
     #       logging configuration was successfully created. Resolver is
     #       logging queries that originate in the specified VPC.
     #
-    #     * `DELETING`\: Resolver is deleting this query logging association.
+    #     * `DELETING`: Resolver is deleting this query logging association.
     #
-    #     * `FAILED`\: Resolver either couldn't create or couldn't delete
-    #       the query logging association. Here are two common causes:
+    #     * `FAILED`: Resolver either couldn't create or couldn't delete the
+    #       query logging association. Here are two common causes:
     #
     #       * The specified destination (for example, an Amazon S3 bucket) was
     #         deleted.
@@ -3083,45 +3634,44 @@ module Aws::Route53Resolver
     #
     #   Valid values include the following elements:
     #
-    #   * `Arn`\: The ARN of the query logging configuration
+    #   * `Arn`: The ARN of the query logging configuration
     #
-    #   * `AssociationCount`\: The number of VPCs that are associated with the
+    #   * `AssociationCount`: The number of VPCs that are associated with the
     #     specified configuration
     #
-    #   * `CreationTime`\: The date and time that Resolver returned when the
+    #   * `CreationTime`: The date and time that Resolver returned when the
     #     configuration was created
     #
-    #   * `CreatorRequestId`\: The value that was specified for
+    #   * `CreatorRequestId`: The value that was specified for
     #     `CreatorRequestId` when the configuration was created
     #
-    #   * `DestinationArn`\: The location that logs are sent to
+    #   * `DestinationArn`: The location that logs are sent to
     #
-    #   * `Id`\: The ID of the configuration
+    #   * `Id`: The ID of the configuration
     #
-    #   * `Name`\: The name of the configuration
+    #   * `Name`: The name of the configuration
     #
-    #   * `OwnerId`\: The Amazon Web Services account number of the account
+    #   * `OwnerId`: The Amazon Web Services account number of the account
     #     that created the configuration
     #
-    #   * `ShareStatus`\: Whether the configuration is shared with other
-    #     Amazon Web Services accounts or shared with the current account by
-    #     another Amazon Web Services account. Sharing is configured through
-    #     Resource Access Manager (RAM).
+    #   * `ShareStatus`: Whether the configuration is shared with other Amazon
+    #     Web Services accounts or shared with the current account by another
+    #     Amazon Web Services account. Sharing is configured through Resource
+    #     Access Manager (RAM).
     #
-    #   * `Status`\: The current status of the configuration. Valid values
+    #   * `Status`: The current status of the configuration. Valid values
     #     include the following:
     #
-    #     * `CREATING`\: Resolver is creating the query logging configuration.
+    #     * `CREATING`: Resolver is creating the query logging configuration.
     #
-    #     * `CREATED`\: The query logging configuration was successfully
+    #     * `CREATED`: The query logging configuration was successfully
     #       created. Resolver is logging queries that originate in the
     #       specified VPC.
     #
-    #     * `DELETING`\: Resolver is deleting this query logging
-    #       configuration.
+    #     * `DELETING`: Resolver is deleting this query logging configuration.
     #
-    #     * `FAILED`\: Resolver either couldn't create or couldn't delete
-    #       the query logging configuration. Here are two common causes:
+    #     * `FAILED`: Resolver either couldn't create or couldn't delete the
+    #       query logging configuration. Here are two common causes:
     #
     #       * The specified destination (for example, an Amazon S3 bucket) was
     #         deleted.
@@ -3321,6 +3871,9 @@ module Aws::Route53Resolver
     #   resp.resolver_rules[0].target_ips #=> Array
     #   resp.resolver_rules[0].target_ips[0].ip #=> String
     #   resp.resolver_rules[0].target_ips[0].port #=> Integer
+    #   resp.resolver_rules[0].target_ips[0].ipv_6 #=> String
+    #   resp.resolver_rules[0].target_ips[0].protocol #=> String, one of "DoH", "Do53", "DoH-FIPS"
+    #   resp.resolver_rules[0].target_ips[0].server_name_indication #=> String
     #   resp.resolver_rules[0].resolver_endpoint_id #=> String
     #   resp.resolver_rules[0].owner_id #=> String
     #   resp.resolver_rules[0].share_status #=> String, one of "NOT_SHARED", "SHARED_WITH_ME", "SHARED_BY_ME"
@@ -3441,8 +3994,6 @@ module Aws::Route53Resolver
     #   * `route53resolver:AssociateResolverQueryLogConfig`
     #
     #   * `route53resolver:DisassociateResolverQueryLogConfig`
-    #
-    #   * `route53resolver:ListResolverQueryLogConfigAssociations`
     #
     #   * `route53resolver:ListResolverQueryLogConfigs`
     #
@@ -3662,7 +4213,7 @@ module Aws::Route53Resolver
     #
     #   resp = client.update_firewall_config({
     #     resource_id: "ResourceId", # required
-    #     firewall_fail_open: "ENABLED", # required, accepts ENABLED, DISABLED
+    #     firewall_fail_open: "ENABLED", # required, accepts ENABLED, DISABLED, USE_LOCAL_RESOURCE_SETTING
     #   })
     #
     # @example Response structure
@@ -3670,7 +4221,7 @@ module Aws::Route53Resolver
     #   resp.firewall_config.id #=> String
     #   resp.firewall_config.resource_id #=> String
     #   resp.firewall_config.owner_id #=> String
-    #   resp.firewall_config.firewall_fail_open #=> String, one of "ENABLED", "DISABLED"
+    #   resp.firewall_config.firewall_fail_open #=> String, one of "ENABLED", "DISABLED", "USE_LOCAL_RESOURCE_SETTING"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/route53resolver-2018-04-01/UpdateFirewallConfig AWS API Documentation
     #
@@ -3702,6 +4253,8 @@ module Aws::Route53Resolver
     #
     # @option params [required, Array<String>] :domains
     #   A list of domains to use in the update operation.
+    #
+    #   There is a limit of 1000 domains per request.
     #
     #   Each domain specification in your domain list must satisfy the
     #   following requirements:
@@ -3749,8 +4302,11 @@ module Aws::Route53Resolver
     # @option params [required, String] :firewall_rule_group_id
     #   The unique identifier of the firewall rule group for the rule.
     #
-    # @option params [required, String] :firewall_domain_list_id
+    # @option params [String] :firewall_domain_list_id
     #   The ID of the domain list to use in the rule.
+    #
+    # @option params [String] :firewall_threat_protection_id
+    #   The DNS Firewall Advanced rule ID.
     #
     # @option params [Integer] :priority
     #   The setting that determines the processing order of the rule in the
@@ -3764,9 +4320,11 @@ module Aws::Route53Resolver
     #
     # @option params [String] :action
     #   The action that DNS Firewall should take on a DNS query when it
-    #   matches one of the domains in the rule's domain list:
+    #   matches one of the domains in the rule's domain list, or a threat in
+    #   a DNS Firewall Advanced rule:
     #
-    #   * `ALLOW` - Permit the request to go through.
+    #   * `ALLOW` - Permit the request to go through. Not available for DNS
+    #     Firewall Advanced rules.
     #
     #   * `ALERT` - Permit the request to go through but send an alert to the
     #     logs.
@@ -3805,6 +4363,89 @@ module Aws::Route53Resolver
     # @option params [String] :name
     #   The name of the rule.
     #
+    # @option params [String] :firewall_domain_redirection_action
+    #   How you want the the rule to evaluate DNS redirection in the DNS
+    #   redirection chain, such as CNAME or DNAME.
+    #
+    #   `INSPECT_REDIRECTION_DOMAIN`: (Default) inspects all domains in the
+    #   redirection chain. The individual domains in the redirection chain
+    #   must be added to the domain list.
+    #
+    #   `TRUST_REDIRECTION_DOMAIN`: Inspects only the first domain in the
+    #   redirection chain. You don't need to add the subsequent domains in
+    #   the domain in the redirection list to the domain list.
+    #
+    # @option params [String] :qtype
+    #   The DNS query type you want the rule to evaluate. Allowed values are;
+    #
+    #   * A: Returns an IPv4 address.
+    #
+    #   * AAAA: Returns an Ipv6 address.
+    #
+    #   * CAA: Restricts CAs that can create SSL/TLS certifications for the
+    #     domain.
+    #
+    #   * CNAME: Returns another domain name.
+    #
+    #   * DS: Record that identifies the DNSSEC signing key of a delegated
+    #     zone.
+    #
+    #   * MX: Specifies mail servers.
+    #
+    #   * NAPTR: Regular-expression-based rewriting of domain names.
+    #
+    #   * NS: Authoritative name servers.
+    #
+    #   * PTR: Maps an IP address to a domain name.
+    #
+    #   * SOA: Start of authority record for the zone.
+    #
+    #   * SPF: Lists the servers authorized to send emails from a domain.
+    #
+    #   * SRV: Application specific values that identify servers.
+    #
+    #   * TXT: Verifies email senders and application-specific values.
+    #
+    #   * A query type you define by using the DNS type ID, for example 28 for
+    #     AAAA. The values must be defined as TYPENUMBER, where the NUMBER can
+    #     be 1-65334, for example, TYPE28. For more information, see [List of
+    #     DNS record types][1].
+    #
+    #     <note markdown="1"> If you set up a firewall BLOCK rule with action NXDOMAIN on query
+    #     type equals AAAA, this action will not be applied to synthetic IPv6
+    #     addresses generated when DNS64 is enabled.
+    #
+    #      </note>
+    #
+    #
+    #
+    #   [1]: https://en.wikipedia.org/wiki/List_of_DNS_record_types
+    #
+    # @option params [String] :dns_threat_protection
+    #   The type of the DNS Firewall Advanced rule. Valid values are:
+    #
+    #   * `DGA`: Domain generation algorithms detection. DGAs are used by
+    #     attackers to generate a large number of domains to to launch malware
+    #     attacks.
+    #
+    #   * `DNS_TUNNELING`: DNS tunneling detection. DNS tunneling is used by
+    #     attackers to exfiltrate data from the client by using the DNS tunnel
+    #     without making a network connection to the client.
+    #
+    # @option params [String] :confidence_threshold
+    #   The confidence threshold for DNS Firewall Advanced. You must provide
+    #   this value when you create a DNS Firewall Advanced rule. The
+    #   confidence level values mean:
+    #
+    #   * `LOW`: Provides the highest detection rate for threats, but also
+    #     increases false positives.
+    #
+    #   * `MEDIUM`: Provides a balance between detecting threats and false
+    #     positives.
+    #
+    #   * `HIGH`: Detects only the most well corroborated threats with a low
+    #     rate of false positives.
+    #
     # @return [Types::UpdateFirewallRuleResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::UpdateFirewallRuleResponse#firewall_rule #firewall_rule} => Types::FirewallRule
@@ -3813,7 +4454,8 @@ module Aws::Route53Resolver
     #
     #   resp = client.update_firewall_rule({
     #     firewall_rule_group_id: "ResourceId", # required
-    #     firewall_domain_list_id: "ResourceId", # required
+    #     firewall_domain_list_id: "ResourceId",
+    #     firewall_threat_protection_id: "ResourceId",
     #     priority: 1,
     #     action: "ALLOW", # accepts ALLOW, BLOCK, ALERT
     #     block_response: "NODATA", # accepts NODATA, NXDOMAIN, OVERRIDE
@@ -3821,12 +4463,17 @@ module Aws::Route53Resolver
     #     block_override_dns_type: "CNAME", # accepts CNAME
     #     block_override_ttl: 1,
     #     name: "Name",
+    #     firewall_domain_redirection_action: "INSPECT_REDIRECTION_DOMAIN", # accepts INSPECT_REDIRECTION_DOMAIN, TRUST_REDIRECTION_DOMAIN
+    #     qtype: "Qtype",
+    #     dns_threat_protection: "DGA", # accepts DGA, DNS_TUNNELING
+    #     confidence_threshold: "LOW", # accepts LOW, MEDIUM, HIGH
     #   })
     #
     # @example Response structure
     #
     #   resp.firewall_rule.firewall_rule_group_id #=> String
     #   resp.firewall_rule.firewall_domain_list_id #=> String
+    #   resp.firewall_rule.firewall_threat_protection_id #=> String
     #   resp.firewall_rule.name #=> String
     #   resp.firewall_rule.priority #=> Integer
     #   resp.firewall_rule.action #=> String, one of "ALLOW", "BLOCK", "ALERT"
@@ -3837,6 +4484,10 @@ module Aws::Route53Resolver
     #   resp.firewall_rule.creator_request_id #=> String
     #   resp.firewall_rule.creation_time #=> String
     #   resp.firewall_rule.modification_time #=> String
+    #   resp.firewall_rule.firewall_domain_redirection_action #=> String, one of "INSPECT_REDIRECTION_DOMAIN", "TRUST_REDIRECTION_DOMAIN"
+    #   resp.firewall_rule.qtype #=> String
+    #   resp.firewall_rule.dns_threat_protection #=> String, one of "DGA", "DNS_TUNNELING"
+    #   resp.firewall_rule.confidence_threshold #=> String, one of "LOW", "MEDIUM", "HIGH"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/route53resolver-2018-04-01/UpdateFirewallRule AWS API Documentation
     #
@@ -3911,7 +4562,58 @@ module Aws::Route53Resolver
       req.send_request(options)
     end
 
-    # Updates the behavior configuration of Route 53 Resolver behavior for a
+    # You can use `UpdateOutpostResolver` to update the instance count,
+    # type, or name of a Resolver on an Outpost.
+    #
+    # @option params [required, String] :id
+    #   A unique string that identifies Resolver on an Outpost.
+    #
+    # @option params [String] :name
+    #   Name of the Resolver on the Outpost.
+    #
+    # @option params [Integer] :instance_count
+    #   The Amazon EC2 instance count for a Resolver on the Outpost.
+    #
+    # @option params [String] :preferred_instance_type
+    #   Amazon EC2 instance type.
+    #
+    # @return [Types::UpdateOutpostResolverResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateOutpostResolverResponse#outpost_resolver #outpost_resolver} => Types::OutpostResolver
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_outpost_resolver({
+    #     id: "ResourceId", # required
+    #     name: "OutpostResolverName",
+    #     instance_count: 1,
+    #     preferred_instance_type: "OutpostInstanceType",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.outpost_resolver.arn #=> String
+    #   resp.outpost_resolver.creation_time #=> String
+    #   resp.outpost_resolver.modification_time #=> String
+    #   resp.outpost_resolver.creator_request_id #=> String
+    #   resp.outpost_resolver.id #=> String
+    #   resp.outpost_resolver.instance_count #=> Integer
+    #   resp.outpost_resolver.preferred_instance_type #=> String
+    #   resp.outpost_resolver.name #=> String
+    #   resp.outpost_resolver.status #=> String, one of "CREATING", "OPERATIONAL", "UPDATING", "DELETING", "ACTION_NEEDED", "FAILED_CREATION", "FAILED_DELETION"
+    #   resp.outpost_resolver.status_message #=> String
+    #   resp.outpost_resolver.outpost_arn #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/route53resolver-2018-04-01/UpdateOutpostResolver AWS API Documentation
+    #
+    # @overload update_outpost_resolver(params = {})
+    # @param [Hash] params ({})
+    def update_outpost_resolver(params = {}, options = {})
+      req = build_request(:update_outpost_resolver, params)
+      req.send_request(options)
+    end
+
+    # Updates the behavior configuration of Route 53 Resolver behavior for a
     # single VPC from Amazon Virtual Private Cloud.
     #
     # @option params [required, String] :resource_id
@@ -3924,6 +4626,11 @@ module Aws::Route53Resolver
     #   option will also affect EC2-Classic instances using ClassicLink. For
     #   more information, see [ClassicLink][1] in the *Amazon EC2 guide*.
     #
+    #   We are retiring EC2-Classic on August 15, 2022. We recommend that you
+    #   migrate from EC2-Classic to a VPC. For more information, see [Migrate
+    #   from EC2-Classic to a VPC][2] in the *Amazon EC2 guide* and the blog
+    #   [EC2-Classic Networking is Retiring – Here’s How to Prepare][3].
+    #
     #   <note markdown="1"> It can take some time for the status change to be completed.
     #
     #    </note>
@@ -3933,6 +4640,8 @@ module Aws::Route53Resolver
     #
     #
     #   [1]: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/vpc-classiclink.html
+    #   [2]: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/vpc-migrate.html
+    #   [3]: http://aws.amazon.com/blogs/aws/ec2-classic-is-retiring-heres-how-to-prepare/
     #
     # @return [Types::UpdateResolverConfigResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -3942,7 +4651,7 @@ module Aws::Route53Resolver
     #
     #   resp = client.update_resolver_config({
     #     resource_id: "ResourceId", # required
-    #     autodefined_reverse_flag: "ENABLE", # required, accepts ENABLE, DISABLE
+    #     autodefined_reverse_flag: "ENABLE", # required, accepts ENABLE, DISABLE, USE_LOCAL_RESOURCE_SETTING
     #   })
     #
     # @example Response structure
@@ -3950,7 +4659,7 @@ module Aws::Route53Resolver
     #   resp.resolver_config.id #=> String
     #   resp.resolver_config.resource_id #=> String
     #   resp.resolver_config.owner_id #=> String
-    #   resp.resolver_config.autodefined_reverse #=> String, one of "ENABLING", "ENABLED", "DISABLING", "DISABLED"
+    #   resp.resolver_config.autodefined_reverse #=> String, one of "ENABLING", "ENABLED", "DISABLING", "DISABLED", "UPDATING_TO_USE_LOCAL_RESOURCE_SETTING", "USE_LOCAL_RESOURCE_SETTING"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/route53resolver-2018-04-01/UpdateResolverConfig AWS API Documentation
     #
@@ -3981,7 +4690,7 @@ module Aws::Route53Resolver
     #
     #   resp = client.update_resolver_dnssec_config({
     #     resource_id: "ResourceId", # required
-    #     validation: "ENABLE", # required, accepts ENABLE, DISABLE
+    #     validation: "ENABLE", # required, accepts ENABLE, DISABLE, USE_LOCAL_RESOURCE_SETTING
     #   })
     #
     # @example Response structure
@@ -3989,7 +4698,7 @@ module Aws::Route53Resolver
     #   resp.resolver_dnssec_config.id #=> String
     #   resp.resolver_dnssec_config.owner_id #=> String
     #   resp.resolver_dnssec_config.resource_id #=> String
-    #   resp.resolver_dnssec_config.validation_status #=> String, one of "ENABLING", "ENABLED", "DISABLING", "DISABLED"
+    #   resp.resolver_dnssec_config.validation_status #=> String, one of "ENABLING", "ENABLED", "DISABLING", "DISABLED", "UPDATING_TO_USE_LOCAL_RESOURCE_SETTING", "USE_LOCAL_RESOURCE_SETTING"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/route53resolver-2018-04-01/UpdateResolverDnssecConfig AWS API Documentation
     #
@@ -4000,13 +4709,62 @@ module Aws::Route53Resolver
       req.send_request(options)
     end
 
-    # Updates the name of an inbound or an outbound Resolver endpoint.
+    # Updates the name, or endpoint type for an inbound or an outbound
+    # Resolver endpoint. You can only update between IPV4 and DUALSTACK,
+    # IPV6 endpoint type can't be updated to other type.
     #
     # @option params [required, String] :resolver_endpoint_id
     #   The ID of the Resolver endpoint that you want to update.
     #
     # @option params [String] :name
     #   The name of the Resolver endpoint that you want to update.
+    #
+    # @option params [String] :resolver_endpoint_type
+    #   Specifies the endpoint type for what type of IP address the endpoint
+    #   uses to forward DNS queries.
+    #
+    #   Updating to `IPV6` type isn't currently supported.
+    #
+    # @option params [Array<Types::UpdateIpAddress>] :update_ip_addresses
+    #   Specifies the IPv6 address when you update the Resolver endpoint from
+    #   IPv4 to dual-stack. If you don't specify an IPv6 address, one will be
+    #   automatically chosen from your subnet.
+    #
+    # @option params [Array<String>] :protocols
+    #   The protocols you want to use for the endpoint. DoH-FIPS is applicable
+    #   for inbound endpoints only.
+    #
+    #   For an inbound endpoint you can apply the protocols as follows:
+    #
+    #   * Do53 and DoH in combination.
+    #
+    #   * Do53 and DoH-FIPS in combination.
+    #
+    #   * Do53 alone.
+    #
+    #   * DoH alone.
+    #
+    #   * DoH-FIPS alone.
+    #
+    #   * None, which is treated as Do53.
+    #
+    #   For an outbound endpoint you can apply the protocols as follows:
+    #
+    #   * Do53 and DoH in combination.
+    #
+    #   * Do53 alone.
+    #
+    #   * DoH alone.
+    #
+    #   * None, which is treated as Do53.
+    #
+    #   You can't change the protocol of an inbound endpoint directly from
+    #   only Do53 to only DoH, or DoH-FIPS. This is to prevent a sudden
+    #   disruption to incoming traffic that relies on Do53. To change the
+    #   protocol from Do53 to DoH, or DoH-FIPS, you must first enable both
+    #   Do53 and DoH, or Do53 and DoH-FIPS, to make sure that all incoming
+    #   traffic has transferred to using the DoH protocol, or DoH-FIPS, and
+    #   then remove the Do53.
     #
     # @return [Types::UpdateResolverEndpointResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -4017,6 +4775,14 @@ module Aws::Route53Resolver
     #   resp = client.update_resolver_endpoint({
     #     resolver_endpoint_id: "ResourceId", # required
     #     name: "Name",
+    #     resolver_endpoint_type: "IPV6", # accepts IPV6, IPV4, DUALSTACK
+    #     update_ip_addresses: [
+    #       {
+    #         ip_id: "ResourceId", # required
+    #         ipv_6: "Ipv6", # required
+    #       },
+    #     ],
+    #     protocols: ["DoH"], # accepts DoH, Do53, DoH-FIPS
     #   })
     #
     # @example Response structure
@@ -4034,6 +4800,11 @@ module Aws::Route53Resolver
     #   resp.resolver_endpoint.status_message #=> String
     #   resp.resolver_endpoint.creation_time #=> String
     #   resp.resolver_endpoint.modification_time #=> String
+    #   resp.resolver_endpoint.outpost_arn #=> String
+    #   resp.resolver_endpoint.preferred_instance_type #=> String
+    #   resp.resolver_endpoint.resolver_endpoint_type #=> String, one of "IPV6", "IPV4", "DUALSTACK"
+    #   resp.resolver_endpoint.protocols #=> Array
+    #   resp.resolver_endpoint.protocols[0] #=> String, one of "DoH", "Do53", "DoH-FIPS"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/route53resolver-2018-04-01/UpdateResolverEndpoint AWS API Documentation
     #
@@ -4066,8 +4837,11 @@ module Aws::Route53Resolver
     #       name: "Name",
     #       target_ips: [
     #         {
-    #           ip: "Ip", # required
+    #           ip: "Ip",
     #           port: 1,
+    #           ipv_6: "Ipv6",
+    #           protocol: "DoH", # accepts DoH, Do53, DoH-FIPS
+    #           server_name_indication: "ServerNameIndication",
     #         },
     #       ],
     #       resolver_endpoint_id: "ResourceId",
@@ -4087,6 +4861,9 @@ module Aws::Route53Resolver
     #   resp.resolver_rule.target_ips #=> Array
     #   resp.resolver_rule.target_ips[0].ip #=> String
     #   resp.resolver_rule.target_ips[0].port #=> Integer
+    #   resp.resolver_rule.target_ips[0].ipv_6 #=> String
+    #   resp.resolver_rule.target_ips[0].protocol #=> String, one of "DoH", "Do53", "DoH-FIPS"
+    #   resp.resolver_rule.target_ips[0].server_name_indication #=> String
     #   resp.resolver_rule.resolver_endpoint_id #=> String
     #   resp.resolver_rule.owner_id #=> String
     #   resp.resolver_rule.share_status #=> String, one of "NOT_SHARED", "SHARED_WITH_ME", "SHARED_BY_ME"
@@ -4108,14 +4885,19 @@ module Aws::Route53Resolver
     # @api private
     def build_request(operation_name, params = {})
       handlers = @handlers.for(operation_name)
+      tracer = config.telemetry_provider.tracer_provider.tracer(
+        Aws::Telemetry.module_to_tracer_name('Aws::Route53Resolver')
+      )
       context = Seahorse::Client::RequestContext.new(
         operation_name: operation_name,
         operation: config.api.operation(operation_name),
         client: self,
         params: params,
-        config: config)
+        config: config,
+        tracer: tracer
+      )
       context[:gem_name] = 'aws-sdk-route53resolver'
-      context[:gem_version] = '1.39.0'
+      context[:gem_version] = '1.77.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

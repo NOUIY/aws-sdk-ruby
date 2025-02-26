@@ -7,6 +7,7 @@
 #
 # WARNING ABOUT GENERATED CODE
 
+
 module Aws::ForecastQueryService
   # @api private
   module ClientApi
@@ -96,9 +97,11 @@ module Aws::ForecastQueryService
 
       api.metadata = {
         "apiVersion" => "2018-06-26",
+        "auth" => ["aws.auth#sigv4"],
         "endpointPrefix" => "forecastquery",
         "jsonVersion" => "1.1",
         "protocol" => "json",
+        "protocols" => ["json"],
         "serviceFullName" => "Amazon Forecast Query Service",
         "serviceId" => "forecastquery",
         "signatureVersion" => "v4",

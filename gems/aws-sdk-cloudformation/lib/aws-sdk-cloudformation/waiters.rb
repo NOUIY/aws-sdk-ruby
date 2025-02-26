@@ -67,16 +67,18 @@ module Aws::CloudFormation
   # The following table lists the valid waiter names, the operations they call,
   # and the default `:delay` and `:max_attempts` values.
   #
-  # | waiter_name                | params                              | :delay   | :max_attempts |
-  # | -------------------------- | ----------------------------------- | -------- | ------------- |
-  # | change_set_create_complete | {Client#describe_change_set}        | 30       | 120           |
-  # | stack_create_complete      | {Client#describe_stacks}            | 30       | 120           |
-  # | stack_delete_complete      | {Client#describe_stacks}            | 30       | 120           |
-  # | stack_exists               | {Client#describe_stacks}            | 5        | 20            |
-  # | stack_import_complete      | {Client#describe_stacks}            | 30       | 120           |
-  # | stack_rollback_complete    | {Client#describe_stacks}            | 30       | 120           |
-  # | stack_update_complete      | {Client#describe_stacks}            | 30       | 120           |
-  # | type_registration_complete | {Client#describe_type_registration} | 30       | 120           |
+  # | waiter_name                     | params                              | :delay   | :max_attempts |
+  # | ------------------------------- | ----------------------------------- | -------- | ------------- |
+  # | change_set_create_complete      | {Client#describe_change_set}        | 30       | 120           |
+  # | stack_create_complete           | {Client#describe_stacks}            | 30       | 120           |
+  # | stack_delete_complete           | {Client#describe_stacks}            | 30       | 120           |
+  # | stack_exists                    | {Client#describe_stacks}            | 5        | 20            |
+  # | stack_import_complete           | {Client#describe_stacks}            | 30       | 120           |
+  # | stack_refactor_create_complete  | {Client#describe_stack_refactor}    | 5        | 120           |
+  # | stack_refactor_execute_complete | {Client#describe_stack_refactor}    | 15       | 120           |
+  # | stack_rollback_complete         | {Client#describe_stacks}            | 30       | 120           |
+  # | stack_update_complete           | {Client#describe_stacks}            | 30       | 120           |
+  # | type_registration_complete      | {Client#describe_type_registration} | 30       | 120           |
   #
   module Waiters
 
@@ -150,6 +152,54 @@ module Aws::CloudFormation
               {
                 "argument" => "stacks[].stack_status",
                 "expected" => "CREATE_COMPLETE",
+                "matcher" => "pathAll",
+                "state" => "success"
+              },
+              {
+                "argument" => "stacks[].stack_status",
+                "expected" => "UPDATE_COMPLETE",
+                "matcher" => "pathAll",
+                "state" => "success"
+              },
+              {
+                "argument" => "stacks[].stack_status",
+                "expected" => "UPDATE_IN_PROGRESS",
+                "matcher" => "pathAll",
+                "state" => "success"
+              },
+              {
+                "argument" => "stacks[].stack_status",
+                "expected" => "UPDATE_COMPLETE_CLEANUP_IN_PROGRESS",
+                "matcher" => "pathAll",
+                "state" => "success"
+              },
+              {
+                "argument" => "stacks[].stack_status",
+                "expected" => "UPDATE_FAILED",
+                "matcher" => "pathAll",
+                "state" => "success"
+              },
+              {
+                "argument" => "stacks[].stack_status",
+                "expected" => "UPDATE_ROLLBACK_IN_PROGRESS",
+                "matcher" => "pathAll",
+                "state" => "success"
+              },
+              {
+                "argument" => "stacks[].stack_status",
+                "expected" => "UPDATE_ROLLBACK_FAILED",
+                "matcher" => "pathAll",
+                "state" => "success"
+              },
+              {
+                "argument" => "stacks[].stack_status",
+                "expected" => "UPDATE_ROLLBACK_COMPLETE_CLEANUP_IN_PROGRESS",
+                "matcher" => "pathAll",
+                "state" => "success"
+              },
+              {
+                "argument" => "stacks[].stack_status",
+                "expected" => "UPDATE_ROLLBACK_COMPLETE",
                 "matcher" => "pathAll",
                 "state" => "success"
               },
@@ -265,6 +315,12 @@ module Aws::CloudFormation
               {
                 "argument" => "stacks[].stack_status",
                 "expected" => "UPDATE_ROLLBACK_COMPLETE",
+                "matcher" => "pathAny",
+                "state" => "failure"
+              },
+              {
+                "argument" => "stacks[].stack_status",
+                "expected" => "UPDATE_COMPLETE",
                 "matcher" => "pathAny",
                 "state" => "failure"
               }
@@ -391,6 +447,112 @@ module Aws::CloudFormation
 
       # @option (see Client#describe_stacks)
       # @return (see Client#describe_stacks)
+      def wait(params = {})
+        @waiter.wait(client: @client, params: params)
+      end
+
+      # @api private
+      attr_reader :waiter
+
+    end
+
+    # Wait until the stack refactor status is CREATE_COMPLETE.
+    class StackRefactorCreateComplete
+
+      # @param [Hash] options
+      # @option options [required, Client] :client
+      # @option options [Integer] :max_attempts (120)
+      # @option options [Integer] :delay (5)
+      # @option options [Proc] :before_attempt
+      # @option options [Proc] :before_wait
+      def initialize(options)
+        @client = options.fetch(:client)
+        @waiter = Aws::Waiters::Waiter.new({
+          max_attempts: 120,
+          delay: 5,
+          poller: Aws::Waiters::Poller.new(
+            operation_name: :describe_stack_refactor,
+            acceptors: [
+              {
+                "argument" => "status",
+                "expected" => "CREATE_COMPLETE",
+                "matcher" => "path",
+                "state" => "success"
+              },
+              {
+                "argument" => "status",
+                "expected" => "CREATE_FAILED",
+                "matcher" => "path",
+                "state" => "failure"
+              },
+              {
+                "expected" => "ValidationError",
+                "matcher" => "error",
+                "state" => "failure"
+              }
+            ]
+          )
+        }.merge(options))
+      end
+
+      # @option (see Client#describe_stack_refactor)
+      # @return (see Client#describe_stack_refactor)
+      def wait(params = {})
+        @waiter.wait(client: @client, params: params)
+      end
+
+      # @api private
+      attr_reader :waiter
+
+    end
+
+    # Wait until the stack refactor status is EXECUTE_COMPLETE.
+    class StackRefactorExecuteComplete
+
+      # @param [Hash] options
+      # @option options [required, Client] :client
+      # @option options [Integer] :max_attempts (120)
+      # @option options [Integer] :delay (15)
+      # @option options [Proc] :before_attempt
+      # @option options [Proc] :before_wait
+      def initialize(options)
+        @client = options.fetch(:client)
+        @waiter = Aws::Waiters::Waiter.new({
+          max_attempts: 120,
+          delay: 15,
+          poller: Aws::Waiters::Poller.new(
+            operation_name: :describe_stack_refactor,
+            acceptors: [
+              {
+                "argument" => "execution_status",
+                "expected" => "EXECUTE_COMPLETE",
+                "matcher" => "path",
+                "state" => "success"
+              },
+              {
+                "argument" => "execution_status",
+                "expected" => "EXECUTE_FAILED",
+                "matcher" => "path",
+                "state" => "failure"
+              },
+              {
+                "argument" => "execution_status",
+                "expected" => "ROLLBACK_COMPLETE",
+                "matcher" => "path",
+                "state" => "failure"
+              },
+              {
+                "expected" => "ValidationError",
+                "matcher" => "error",
+                "state" => "failure"
+              }
+            ]
+          )
+        }.merge(options))
+      end
+
+      # @option (see Client#describe_stack_refactor)
+      # @return (see Client#describe_stack_refactor)
       def wait(params = {})
         @waiter.wait(client: @client, params: params)
       end

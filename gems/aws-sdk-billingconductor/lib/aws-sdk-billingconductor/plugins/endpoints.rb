@@ -14,34 +14,48 @@ module Aws::BillingConductor
       option(
         :endpoint_provider,
         doc_type: 'Aws::BillingConductor::EndpointProvider',
-        docstring: 'The endpoint provider used to resolve endpoints. Any '\
-                   'object that responds to `#resolve_endpoint(parameters)` '\
-                   'where `parameters` is a Struct similar to '\
-                   '`Aws::BillingConductor::EndpointParameters`'
-      ) do |cfg|
+        rbs_type: 'untyped',
+        docstring: <<~DOCS) do |_cfg|
+The endpoint provider used to resolve endpoints. Any object that responds to
+`#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+`Aws::BillingConductor::EndpointParameters`.
+        DOCS
         Aws::BillingConductor::EndpointProvider.new
       end
 
       # @api private
       class Handler < Seahorse::Client::Handler
         def call(context)
-          # If endpoint was discovered, do not resolve or apply the endpoint.
           unless context[:discovered_endpoint]
-            params = parameters_for_operation(context)
+            params = Aws::BillingConductor::Endpoints.parameters_for_operation(context)
             endpoint = context.config.endpoint_provider.resolve_endpoint(params)
 
             context.http_request.endpoint = endpoint.url
             apply_endpoint_headers(context, endpoint.headers)
+
+            context[:endpoint_params] = params
+            context[:endpoint_properties] = endpoint.properties
           end
 
-          context[:endpoint_params] = params
           context[:auth_scheme] =
             Aws::Endpoints.resolve_auth_scheme(context, endpoint)
 
-          @handler.call(context)
+          with_metrics(context) { @handler.call(context) }
         end
 
         private
+
+        def with_metrics(context, &block)
+          metrics = []
+          metrics << 'ENDPOINT_OVERRIDE' unless context.config.regional_endpoint
+          if context[:auth_scheme] && context[:auth_scheme]['name'] == 'sigv4a'
+            metrics << 'SIGV4A_SIGNING'
+          end
+          if context.config.credentials&.credentials&.account_id
+            metrics << 'RESOLVED_ACCOUNT_ID'
+          end
+          Aws::Plugins::UserAgent.metric(*metrics, &block)
+        end
 
         def apply_endpoint_headers(context, headers)
           headers.each do |key, values|
@@ -51,73 +65,6 @@ module Aws::BillingConductor
               .join(',')
 
             context.http_request.headers[key] = value
-          end
-        end
-
-        def parameters_for_operation(context)
-          case context.operation_name
-          when :associate_accounts
-            Aws::BillingConductor::Endpoints::AssociateAccounts.build(context)
-          when :associate_pricing_rules
-            Aws::BillingConductor::Endpoints::AssociatePricingRules.build(context)
-          when :batch_associate_resources_to_custom_line_item
-            Aws::BillingConductor::Endpoints::BatchAssociateResourcesToCustomLineItem.build(context)
-          when :batch_disassociate_resources_from_custom_line_item
-            Aws::BillingConductor::Endpoints::BatchDisassociateResourcesFromCustomLineItem.build(context)
-          when :create_billing_group
-            Aws::BillingConductor::Endpoints::CreateBillingGroup.build(context)
-          when :create_custom_line_item
-            Aws::BillingConductor::Endpoints::CreateCustomLineItem.build(context)
-          when :create_pricing_plan
-            Aws::BillingConductor::Endpoints::CreatePricingPlan.build(context)
-          when :create_pricing_rule
-            Aws::BillingConductor::Endpoints::CreatePricingRule.build(context)
-          when :delete_billing_group
-            Aws::BillingConductor::Endpoints::DeleteBillingGroup.build(context)
-          when :delete_custom_line_item
-            Aws::BillingConductor::Endpoints::DeleteCustomLineItem.build(context)
-          when :delete_pricing_plan
-            Aws::BillingConductor::Endpoints::DeletePricingPlan.build(context)
-          when :delete_pricing_rule
-            Aws::BillingConductor::Endpoints::DeletePricingRule.build(context)
-          when :disassociate_accounts
-            Aws::BillingConductor::Endpoints::DisassociateAccounts.build(context)
-          when :disassociate_pricing_rules
-            Aws::BillingConductor::Endpoints::DisassociatePricingRules.build(context)
-          when :list_account_associations
-            Aws::BillingConductor::Endpoints::ListAccountAssociations.build(context)
-          when :list_billing_group_cost_reports
-            Aws::BillingConductor::Endpoints::ListBillingGroupCostReports.build(context)
-          when :list_billing_groups
-            Aws::BillingConductor::Endpoints::ListBillingGroups.build(context)
-          when :list_custom_line_item_versions
-            Aws::BillingConductor::Endpoints::ListCustomLineItemVersions.build(context)
-          when :list_custom_line_items
-            Aws::BillingConductor::Endpoints::ListCustomLineItems.build(context)
-          when :list_pricing_plans
-            Aws::BillingConductor::Endpoints::ListPricingPlans.build(context)
-          when :list_pricing_plans_associated_with_pricing_rule
-            Aws::BillingConductor::Endpoints::ListPricingPlansAssociatedWithPricingRule.build(context)
-          when :list_pricing_rules
-            Aws::BillingConductor::Endpoints::ListPricingRules.build(context)
-          when :list_pricing_rules_associated_to_pricing_plan
-            Aws::BillingConductor::Endpoints::ListPricingRulesAssociatedToPricingPlan.build(context)
-          when :list_resources_associated_to_custom_line_item
-            Aws::BillingConductor::Endpoints::ListResourcesAssociatedToCustomLineItem.build(context)
-          when :list_tags_for_resource
-            Aws::BillingConductor::Endpoints::ListTagsForResource.build(context)
-          when :tag_resource
-            Aws::BillingConductor::Endpoints::TagResource.build(context)
-          when :untag_resource
-            Aws::BillingConductor::Endpoints::UntagResource.build(context)
-          when :update_billing_group
-            Aws::BillingConductor::Endpoints::UpdateBillingGroup.build(context)
-          when :update_custom_line_item
-            Aws::BillingConductor::Endpoints::UpdateCustomLineItem.build(context)
-          when :update_pricing_plan
-            Aws::BillingConductor::Endpoints::UpdatePricingPlan.build(context)
-          when :update_pricing_rule
-            Aws::BillingConductor::Endpoints::UpdatePricingRule.build(context)
           end
         end
       end

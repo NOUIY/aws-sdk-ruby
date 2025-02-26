@@ -5,11 +5,13 @@
     "endpointPrefix":"storagegateway",
     "jsonVersion":"1.1",
     "protocol":"json",
+    "protocols":["json"],
     "serviceFullName":"AWS Storage Gateway",
     "serviceId":"Storage Gateway",
     "signatureVersion":"v4",
     "targetPrefix":"StorageGateway_20130630",
-    "uid":"storagegateway-2013-06-30"
+    "uid":"storagegateway-2013-06-30",
+    "auth":["aws.auth#sigv4"]
   },
   "operations":{
     "ActivateGateway":{
@@ -124,6 +126,19 @@
       },
       "input":{"shape":"CancelArchivalInput"},
       "output":{"shape":"CancelArchivalOutput"},
+      "errors":[
+        {"shape":"InvalidGatewayRequestException"},
+        {"shape":"InternalServerError"}
+      ]
+    },
+    "CancelCacheReport":{
+      "name":"CancelCacheReport",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"CancelCacheReportInput"},
+      "output":{"shape":"CancelCacheReportOutput"},
       "errors":[
         {"shape":"InvalidGatewayRequestException"},
         {"shape":"InternalServerError"}
@@ -287,6 +302,19 @@
         {"shape":"InternalServerError"}
       ]
     },
+    "DeleteCacheReport":{
+      "name":"DeleteCacheReport",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"DeleteCacheReportInput"},
+      "output":{"shape":"DeleteCacheReportOutput"},
+      "errors":[
+        {"shape":"InvalidGatewayRequestException"},
+        {"shape":"InternalServerError"}
+      ]
+    },
     "DeleteChapCredentials":{
       "name":"DeleteChapCredentials",
       "http":{
@@ -438,6 +466,19 @@
       },
       "input":{"shape":"DescribeCacheInput"},
       "output":{"shape":"DescribeCacheOutput"},
+      "errors":[
+        {"shape":"InvalidGatewayRequestException"},
+        {"shape":"InternalServerError"}
+      ]
+    },
+    "DescribeCacheReport":{
+      "name":"DescribeCacheReport",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"DescribeCacheReportInput"},
+      "output":{"shape":"DescribeCacheReportOutput"},
       "errors":[
         {"shape":"InvalidGatewayRequestException"},
         {"shape":"InternalServerError"}
@@ -716,6 +757,19 @@
         {"shape":"InternalServerError"}
       ]
     },
+    "ListCacheReports":{
+      "name":"ListCacheReports",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"ListCacheReportsInput"},
+      "output":{"shape":"ListCacheReportsOutput"},
+      "errors":[
+        {"shape":"InvalidGatewayRequestException"},
+        {"shape":"InternalServerError"}
+      ]
+    },
     "ListFileShares":{
       "name":"ListFileShares",
       "http":{
@@ -971,6 +1025,19 @@
       },
       "input":{"shape":"StartAvailabilityMonitorTestInput"},
       "output":{"shape":"StartAvailabilityMonitorTestOutput"},
+      "errors":[
+        {"shape":"InvalidGatewayRequestException"},
+        {"shape":"InternalServerError"}
+      ]
+    },
+    "StartCacheReport":{
+      "name":"StartCacheReport",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"StartCacheReportInput"},
+      "output":{"shape":"StartCacheReportOutput"},
       "errors":[
         {"shape":"InvalidGatewayRequestException"},
         {"shape":"InternalServerError"}
@@ -1405,6 +1472,13 @@
       "max":10,
       "min":1
     },
+    "AutomaticUpdatePolicy":{
+      "type":"string",
+      "enum":[
+        "ALL_VERSIONS",
+        "EMERGENCY_VERSIONS_ONLY"
+      ]
+    },
     "AvailabilityMonitorTestStatus":{
       "type":"string",
       "enum":[
@@ -1458,6 +1532,78 @@
         "CacheStaleTimeoutInSeconds":{"shape":"CacheStaleTimeoutInSeconds"}
       }
     },
+    "CacheReportARN":{
+      "type":"string",
+      "max":500,
+      "min":50
+    },
+    "CacheReportFilter":{
+      "type":"structure",
+      "required":[
+        "Name",
+        "Values"
+      ],
+      "members":{
+        "Name":{"shape":"CacheReportFilterName"},
+        "Values":{"shape":"CacheReportFilterValues"}
+      }
+    },
+    "CacheReportFilterList":{
+      "type":"list",
+      "member":{"shape":"CacheReportFilter"}
+    },
+    "CacheReportFilterName":{
+      "type":"string",
+      "enum":[
+        "UploadState",
+        "UploadFailureReason"
+      ]
+    },
+    "CacheReportFilterValue":{
+      "type":"string",
+      "max":25,
+      "min":1
+    },
+    "CacheReportFilterValues":{
+      "type":"list",
+      "member":{"shape":"CacheReportFilterValue"}
+    },
+    "CacheReportInfo":{
+      "type":"structure",
+      "members":{
+        "CacheReportARN":{"shape":"CacheReportARN"},
+        "CacheReportStatus":{"shape":"CacheReportStatus"},
+        "ReportCompletionPercent":{"shape":"ReportCompletionPercent"},
+        "EndTime":{"shape":"Time"},
+        "Role":{"shape":"Role"},
+        "FileShareARN":{"shape":"FileShareARN"},
+        "LocationARN":{"shape":"LocationARN"},
+        "StartTime":{"shape":"Time"},
+        "InclusionFilters":{"shape":"CacheReportFilterList"},
+        "ExclusionFilters":{"shape":"CacheReportFilterList"},
+        "ReportName":{"shape":"CacheReportName"},
+        "Tags":{"shape":"Tags"}
+      }
+    },
+    "CacheReportList":{
+      "type":"list",
+      "member":{"shape":"CacheReportInfo"}
+    },
+    "CacheReportName":{
+      "type":"string",
+      "max":100,
+      "min":1
+    },
+    "CacheReportStatus":{
+      "type":"string",
+      "enum":[
+        "IN_PROGRESS",
+        "COMPLETED",
+        "CANCELED",
+        "FAILED",
+        "ERROR"
+      ]
+    },
     "CacheStaleTimeoutInSeconds":{"type":"integer"},
     "CachediSCSIVolume":{
       "type":"structure",
@@ -1496,6 +1642,19 @@
       "type":"structure",
       "members":{
         "TapeARN":{"shape":"TapeARN"}
+      }
+    },
+    "CancelCacheReportInput":{
+      "type":"structure",
+      "required":["CacheReportARN"],
+      "members":{
+        "CacheReportARN":{"shape":"CacheReportARN"}
+      }
+    },
+    "CancelCacheReportOutput":{
+      "type":"structure",
+      "members":{
+        "CacheReportARN":{"shape":"CacheReportARN"}
       }
     },
     "CancelRetrievalInput":{
@@ -1591,7 +1750,12 @@
         "ClientToken":{"shape":"ClientToken"},
         "NFSFileShareDefaults":{"shape":"NFSFileShareDefaults"},
         "GatewayARN":{"shape":"GatewayARN"},
-        "KMSEncrypted":{"shape":"Boolean"},
+        "EncryptionType":{"shape":"EncryptionType"},
+        "KMSEncrypted":{
+          "shape":"Boolean",
+          "deprecated":true,
+          "deprecatedMessage":"KMSEncrypted is deprecated, use EncryptionType instead."
+        },
         "KMSKey":{"shape":"KMSKey"},
         "Role":{"shape":"Role"},
         "LocationARN":{"shape":"LocationARN"},
@@ -1628,7 +1792,12 @@
       "members":{
         "ClientToken":{"shape":"ClientToken"},
         "GatewayARN":{"shape":"GatewayARN"},
-        "KMSEncrypted":{"shape":"Boolean"},
+        "EncryptionType":{"shape":"EncryptionType"},
+        "KMSEncrypted":{
+          "shape":"Boolean",
+          "deprecated":true,
+          "deprecatedMessage":"KMSEncrypted is deprecated, use EncryptionType instead."
+        },
         "KMSKey":{"shape":"KMSKey"},
         "Role":{"shape":"Role"},
         "LocationARN":{"shape":"LocationARN"},
@@ -1853,6 +2022,19 @@
         "GatewayARN":{"shape":"GatewayARN"}
       }
     },
+    "DeleteCacheReportInput":{
+      "type":"structure",
+      "required":["CacheReportARN"],
+      "members":{
+        "CacheReportARN":{"shape":"CacheReportARN"}
+      }
+    },
+    "DeleteCacheReportOutput":{
+      "type":"structure",
+      "members":{
+        "CacheReportARN":{"shape":"CacheReportARN"}
+      }
+    },
     "DeleteChapCredentialsInput":{
       "type":"structure",
       "required":[
@@ -2037,6 +2219,19 @@
         "CacheMissPercentage":{"shape":"double"}
       }
     },
+    "DescribeCacheReportInput":{
+      "type":"structure",
+      "required":["CacheReportARN"],
+      "members":{
+        "CacheReportARN":{"shape":"CacheReportARN"}
+      }
+    },
+    "DescribeCacheReportOutput":{
+      "type":"structure",
+      "members":{
+        "CacheReportInfo":{"shape":"CacheReportInfo"}
+      }
+    },
     "DescribeCachediSCSIVolumesInput":{
       "type":"structure",
       "required":["VolumeARNs"],
@@ -2106,7 +2301,8 @@
         "DeprecationDate":{"shape":"DeprecationDate"},
         "GatewayCapacity":{"shape":"GatewayCapacity"},
         "SupportedGatewayCapacities":{"shape":"SupportedGatewayCapacities"},
-        "HostEnvironmentId":{"shape":"HostEnvironmentId"}
+        "HostEnvironmentId":{"shape":"HostEnvironmentId"},
+        "SoftwareVersion":{"shape":"SoftwareVersion"}
       }
     },
     "DescribeMaintenanceStartTimeInput":{
@@ -2124,7 +2320,8 @@
         "MinuteOfHour":{"shape":"MinuteOfHour"},
         "DayOfWeek":{"shape":"DayOfWeek"},
         "DayOfMonth":{"shape":"DayOfMonth"},
-        "Timezone":{"shape":"GatewayTimezone"}
+        "Timezone":{"shape":"GatewayTimezone"},
+        "SoftwareUpdatePreferences":{"shape":"SoftwareUpdatePreferences"}
       }
     },
     "DescribeNFSFileSharesInput":{
@@ -2426,6 +2623,14 @@
     "DoubleObject":{"type":"double"},
     "Ec2InstanceId":{"type":"string"},
     "Ec2InstanceRegion":{"type":"string"},
+    "EncryptionType":{
+      "type":"string",
+      "enum":[
+        "SseS3",
+        "SseKms",
+        "DsseKms"
+      ]
+    },
     "EndpointNetworkConfiguration":{
       "type":"structure",
       "members":{
@@ -2665,7 +2870,9 @@
         "Ec2InstanceId":{"shape":"Ec2InstanceId"},
         "Ec2InstanceRegion":{"shape":"Ec2InstanceRegion"},
         "HostEnvironment":{"shape":"HostEnvironment"},
-        "HostEnvironmentId":{"shape":"HostEnvironmentId"}
+        "HostEnvironmentId":{"shape":"HostEnvironmentId"},
+        "DeprecationDate":{"shape":"DeprecationDate"},
+        "SoftwareVersion":{"shape":"SoftwareVersion"}
       }
     },
     "GatewayName":{
@@ -2809,7 +3016,7 @@
       "type":"string",
       "max":2048,
       "min":7,
-      "pattern":"(^arn:(aws|aws-cn|aws-us-gov):kms:([a-zA-Z0-9-]+):([0-9]+):(key|alias)/(\\S+)$)|(^alias/(\\S+)$)"
+      "pattern":"(^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*)):kms:([a-zA-Z0-9-]+):([0-9]+):(key|alias)/(\\S+)$)|(^alias/(\\S+)$)"
     },
     "LastSoftwareUpdate":{
       "type":"string",
@@ -2826,6 +3033,19 @@
       "type":"structure",
       "members":{
         "AutomaticTapeCreationPolicyInfos":{"shape":"AutomaticTapeCreationPolicyInfos"}
+      }
+    },
+    "ListCacheReportsInput":{
+      "type":"structure",
+      "members":{
+        "Marker":{"shape":"Marker"}
+      }
+    },
+    "ListCacheReportsOutput":{
+      "type":"structure",
+      "members":{
+        "CacheReportList":{"shape":"CacheReportList"},
+        "Marker":{"shape":"Marker"}
       }
     },
     "ListFileSharesInput":{
@@ -3027,7 +3247,12 @@
         "FileShareId":{"shape":"FileShareId"},
         "FileShareStatus":{"shape":"FileShareStatus"},
         "GatewayARN":{"shape":"GatewayARN"},
-        "KMSEncrypted":{"shape":"boolean"},
+        "EncryptionType":{"shape":"EncryptionType"},
+        "KMSEncrypted":{
+          "shape":"boolean",
+          "deprecated":true,
+          "deprecatedMessage":"KMSEncrypted is deprecated, use EncryptionType instead."
+        },
         "KMSKey":{"shape":"KMSKey"},
         "Path":{"shape":"Path"},
         "Role":{"shape":"Role"},
@@ -3058,7 +3283,8 @@
         "Ipv4Address":{"shape":"string"},
         "MacAddress":{"shape":"string"},
         "Ipv6Address":{"shape":"string"}
-      }
+      },
+      "sensitive":true
     },
     "NetworkInterfaceId":{
       "type":"string",
@@ -3217,6 +3443,11 @@
         "ResourceARN":{"shape":"ResourceARN"}
       }
     },
+    "ReportCompletionPercent":{
+      "type":"integer",
+      "max":100,
+      "min":0
+    },
     "ResetCacheInput":{
       "type":"structure",
       "required":["GatewayARN"],
@@ -3286,7 +3517,7 @@
       "type":"string",
       "max":2048,
       "min":20,
-      "pattern":"^arn:(aws|aws-cn|aws-us-gov):iam::([0-9]+):role/(\\S+)$"
+      "pattern":"^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*)):iam::([0-9]+):role/(\\S+)$"
     },
     "SMBFileShareInfo":{
       "type":"structure",
@@ -3295,7 +3526,12 @@
         "FileShareId":{"shape":"FileShareId"},
         "FileShareStatus":{"shape":"FileShareStatus"},
         "GatewayARN":{"shape":"GatewayARN"},
-        "KMSEncrypted":{"shape":"boolean"},
+        "EncryptionType":{"shape":"EncryptionType"},
+        "KMSEncrypted":{
+          "shape":"boolean",
+          "deprecated":true,
+          "deprecatedMessage":"KMSEncrypted is deprecated, use EncryptionType instead."
+        },
         "KMSKey":{"shape":"KMSKey"},
         "Path":{"shape":"Path"},
         "Role":{"shape":"Role"},
@@ -3344,7 +3580,8 @@
       "enum":[
         "ClientSpecified",
         "MandatorySigning",
-        "MandatoryEncryption"
+        "MandatoryEncryption",
+        "MandatoryEncryptionNoAes128"
       ]
     },
     "ServiceUnavailableError":{
@@ -3411,11 +3648,18 @@
       "type":"string",
       "pattern":"\\Asnap-([0-9A-Fa-f]{8}|[0-9A-Fa-f]{17})\\z"
     },
+    "SoftwareUpdatePreferences":{
+      "type":"structure",
+      "members":{
+        "AutomaticUpdatePolicy":{"shape":"AutomaticUpdatePolicy"}
+      }
+    },
     "SoftwareUpdatesEndDate":{
       "type":"string",
       "max":25,
       "min":1
     },
+    "SoftwareVersion":{"type":"string"},
     "Squash":{
       "type":"string",
       "max":15,
@@ -3432,6 +3676,33 @@
       "type":"structure",
       "members":{
         "GatewayARN":{"shape":"GatewayARN"}
+      }
+    },
+    "StartCacheReportInput":{
+      "type":"structure",
+      "required":[
+        "FileShareARN",
+        "Role",
+        "LocationARN",
+        "BucketRegion",
+        "ClientToken"
+      ],
+      "members":{
+        "FileShareARN":{"shape":"FileShareARN"},
+        "Role":{"shape":"Role"},
+        "LocationARN":{"shape":"LocationARN"},
+        "BucketRegion":{"shape":"RegionId"},
+        "VPCEndpointDNSName":{"shape":"DNSHostName"},
+        "InclusionFilters":{"shape":"CacheReportFilterList"},
+        "ExclusionFilters":{"shape":"CacheReportFilterList"},
+        "ClientToken":{"shape":"ClientToken"},
+        "Tags":{"shape":"Tags"}
+      }
+    },
+    "StartCacheReportOutput":{
+      "type":"structure",
+      "members":{
+        "CacheReportARN":{"shape":"CacheReportARN"}
       }
     },
     "StartGatewayInput":{
@@ -3538,7 +3809,7 @@
       "type":"string",
       "max":500,
       "min":50,
-      "pattern":"^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{5,16}$"
+      "pattern":"arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*)):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{5,16}$"
     },
     "TapeARNs":{
       "type":"list",
@@ -3766,17 +4037,14 @@
     },
     "UpdateMaintenanceStartTimeInput":{
       "type":"structure",
-      "required":[
-        "GatewayARN",
-        "HourOfDay",
-        "MinuteOfHour"
-      ],
+      "required":["GatewayARN"],
       "members":{
         "GatewayARN":{"shape":"GatewayARN"},
         "HourOfDay":{"shape":"HourOfDay"},
         "MinuteOfHour":{"shape":"MinuteOfHour"},
         "DayOfWeek":{"shape":"DayOfWeek"},
-        "DayOfMonth":{"shape":"DayOfMonth"}
+        "DayOfMonth":{"shape":"DayOfMonth"},
+        "SoftwareUpdatePreferences":{"shape":"SoftwareUpdatePreferences"}
       }
     },
     "UpdateMaintenanceStartTimeOutput":{
@@ -3790,7 +4058,12 @@
       "required":["FileShareARN"],
       "members":{
         "FileShareARN":{"shape":"FileShareARN"},
-        "KMSEncrypted":{"shape":"Boolean"},
+        "EncryptionType":{"shape":"EncryptionType"},
+        "KMSEncrypted":{
+          "shape":"Boolean",
+          "deprecated":true,
+          "deprecatedMessage":"KMSEncrypted is deprecated, use EncryptionType instead."
+        },
         "KMSKey":{"shape":"KMSKey"},
         "NFSFileShareDefaults":{"shape":"NFSFileShareDefaults"},
         "DefaultStorageClass":{"shape":"StorageClass"},
@@ -3817,7 +4090,12 @@
       "required":["FileShareARN"],
       "members":{
         "FileShareARN":{"shape":"FileShareARN"},
-        "KMSEncrypted":{"shape":"Boolean"},
+        "EncryptionType":{"shape":"EncryptionType"},
+        "KMSEncrypted":{
+          "shape":"Boolean",
+          "deprecated":true,
+          "deprecatedMessage":"KMSEncrypted is deprecated, use EncryptionType instead."
+        },
         "KMSKey":{"shape":"KMSKey"},
         "DefaultStorageClass":{"shape":"StorageClass"},
         "ObjectACL":{"shape":"ObjectACL"},
@@ -3972,7 +4250,8 @@
     "VolumeARN":{
       "type":"string",
       "max":500,
-      "min":50
+      "min":50,
+      "pattern":"arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*)):storagegateway:[a-z\\-0-9]+:[0-9]+:gateway\\/(.+)\\/volume\\/vol-(\\S+)"
     },
     "VolumeARNs":{
       "type":"list",

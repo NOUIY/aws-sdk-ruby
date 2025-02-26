@@ -34,6 +34,7 @@ module Aws::CognitoIdentityProvider
   # * {DuplicateProviderException}
   # * {EnableSoftwareTokenMFAException}
   # * {ExpiredCodeException}
+  # * {FeatureUnavailableInTierException}
   # * {ForbiddenException}
   # * {GroupExistsException}
   # * {InternalErrorException}
@@ -47,12 +48,15 @@ module Aws::CognitoIdentityProvider
   # * {InvalidUserPoolConfigurationException}
   # * {LimitExceededException}
   # * {MFAMethodNotFoundException}
+  # * {ManagedLoginBrandingExistsException}
   # * {NotAuthorizedException}
+  # * {PasswordHistoryPolicyViolationException}
   # * {PasswordResetRequiredException}
   # * {PreconditionNotMetException}
   # * {ResourceNotFoundException}
   # * {ScopeDoesNotExistException}
   # * {SoftwareTokenMFANotFoundException}
+  # * {TierChangeNotAllowedException}
   # * {TooManyFailedAttemptsException}
   # * {TooManyRequestsException}
   # * {UnauthorizedException}
@@ -68,6 +72,13 @@ module Aws::CognitoIdentityProvider
   # * {UserPoolAddOnNotEnabledException}
   # * {UserPoolTaggingException}
   # * {UsernameExistsException}
+  # * {WebAuthnChallengeNotFoundException}
+  # * {WebAuthnClientMismatchException}
+  # * {WebAuthnConfigurationMissingException}
+  # * {WebAuthnCredentialNotSupportedException}
+  # * {WebAuthnNotEnabledException}
+  # * {WebAuthnOriginNotAllowedException}
+  # * {WebAuthnRelyingPartyMismatchException}
   #
   # Additionally, error classes are dynamically generated for service errors based on the error code
   # if they are not defined above.
@@ -170,6 +181,21 @@ module Aws::CognitoIdentityProvider
       # @param [Seahorse::Client::RequestContext] context
       # @param [String] message
       # @param [Aws::CognitoIdentityProvider::Types::ExpiredCodeException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+
+      # @return [String]
+      def message
+        @message || @data[:message]
+      end
+    end
+
+    class FeatureUnavailableInTierException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::CognitoIdentityProvider::Types::FeatureUnavailableInTierException] data
       def initialize(context, message, data = Aws::EmptyStructure.new)
         super(context, message, data)
       end
@@ -283,6 +309,11 @@ module Aws::CognitoIdentityProvider
       def message
         @message || @data[:message]
       end
+
+      # @return [String]
+      def reason_code
+        @data[:reason_code]
+      end
     end
 
     class InvalidPasswordException < ServiceError
@@ -375,11 +406,41 @@ module Aws::CognitoIdentityProvider
       end
     end
 
+    class ManagedLoginBrandingExistsException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::CognitoIdentityProvider::Types::ManagedLoginBrandingExistsException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+
+      # @return [String]
+      def message
+        @message || @data[:message]
+      end
+    end
+
     class NotAuthorizedException < ServiceError
 
       # @param [Seahorse::Client::RequestContext] context
       # @param [String] message
       # @param [Aws::CognitoIdentityProvider::Types::NotAuthorizedException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+
+      # @return [String]
+      def message
+        @message || @data[:message]
+      end
+    end
+
+    class PasswordHistoryPolicyViolationException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::CognitoIdentityProvider::Types::PasswordHistoryPolicyViolationException] data
       def initialize(context, message, data = Aws::EmptyStructure.new)
         super(context, message, data)
       end
@@ -455,6 +516,21 @@ module Aws::CognitoIdentityProvider
       # @param [Seahorse::Client::RequestContext] context
       # @param [String] message
       # @param [Aws::CognitoIdentityProvider::Types::SoftwareTokenMFANotFoundException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+
+      # @return [String]
+      def message
+        @message || @data[:message]
+      end
+    end
+
+    class TierChangeNotAllowedException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::CognitoIdentityProvider::Types::TierChangeNotAllowedException] data
       def initialize(context, message, data = Aws::EmptyStructure.new)
         super(context, message, data)
       end
@@ -680,6 +756,111 @@ module Aws::CognitoIdentityProvider
       # @param [Seahorse::Client::RequestContext] context
       # @param [String] message
       # @param [Aws::CognitoIdentityProvider::Types::UsernameExistsException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+
+      # @return [String]
+      def message
+        @message || @data[:message]
+      end
+    end
+
+    class WebAuthnChallengeNotFoundException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::CognitoIdentityProvider::Types::WebAuthnChallengeNotFoundException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+
+      # @return [String]
+      def message
+        @message || @data[:message]
+      end
+    end
+
+    class WebAuthnClientMismatchException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::CognitoIdentityProvider::Types::WebAuthnClientMismatchException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+
+      # @return [String]
+      def message
+        @message || @data[:message]
+      end
+    end
+
+    class WebAuthnConfigurationMissingException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::CognitoIdentityProvider::Types::WebAuthnConfigurationMissingException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+
+      # @return [String]
+      def message
+        @message || @data[:message]
+      end
+    end
+
+    class WebAuthnCredentialNotSupportedException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::CognitoIdentityProvider::Types::WebAuthnCredentialNotSupportedException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+
+      # @return [String]
+      def message
+        @message || @data[:message]
+      end
+    end
+
+    class WebAuthnNotEnabledException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::CognitoIdentityProvider::Types::WebAuthnNotEnabledException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+
+      # @return [String]
+      def message
+        @message || @data[:message]
+      end
+    end
+
+    class WebAuthnOriginNotAllowedException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::CognitoIdentityProvider::Types::WebAuthnOriginNotAllowedException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+
+      # @return [String]
+      def message
+        @message || @data[:message]
+      end
+    end
+
+    class WebAuthnRelyingPartyMismatchException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::CognitoIdentityProvider::Types::WebAuthnRelyingPartyMismatchException] data
       def initialize(context, message, data = Aws::EmptyStructure.new)
         super(context, message, data)
       end

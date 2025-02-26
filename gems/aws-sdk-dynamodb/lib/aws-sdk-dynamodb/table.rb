@@ -58,7 +58,6 @@ module Aws::DynamoDB
     #   * `HASH` - partition key
     #
     #   * `RANGE` - sort key
-    #
     #   <note markdown="1"> The partition key of an item is also known as its *hash attribute*.
     #   The term "hash attribute" derives from DynamoDB's usage of an
     #   internal hash function to evenly distribute data items across
@@ -191,14 +190,12 @@ module Aws::DynamoDB
     #
     #     * `ALL` - All of the table attributes are projected into the
     #       index.
-    #
     #   * `NonKeyAttributes` - A list of one or more non-key attribute names
     #     that are projected into the secondary index. The total count of
     #     attributes provided in `NonKeyAttributes`, summed across all of
     #     the secondary indexes, must not exceed 100. If you project the
     #     same attribute into two different indexes, this counts as two
     #     distinct attributes when determining the total.
-    #
     # * `IndexSizeBytes` - Represents the total size of the index, in bytes.
     #   DynamoDB updates this value approximately every six hours. Recent
     #   changes might not be reflected in this value.
@@ -246,7 +243,6 @@ module Aws::DynamoDB
     #   * `DELETING` - The index is being deleted.
     #
     #   * `ACTIVE` - The index is ready for use.
-    #
     # * `ItemCount` - The number of items in the global secondary index.
     #   DynamoDB updates this value approximately every six hours. Recent
     #   changes might not be reflected in this value.
@@ -272,14 +268,12 @@ module Aws::DynamoDB
     #
     #     * `ALL` - All of the table attributes are projected into the
     #       index.
-    #
     #   * `NonKeyAttributes` - A list of one or more non-key attribute names
     #     that are projected into the secondary index. The total count of
     #     attributes provided in `NonKeyAttributes`, summed across all of
     #     the secondary indexes, must not exceed 100. If you project the
     #     same attribute into two different indexes, this counts as two
     #     distinct attributes when determining the total.
-    #
     # * `ProvisionedThroughput` - The provisioned throughput settings for
     #   the global secondary index, consisting of read and write capacity
     #   units, along with data about increases and decreases.
@@ -363,6 +357,52 @@ module Aws::DynamoDB
       data[:table_class_summary]
     end
 
+    # Indicates whether deletion protection is enabled (true) or disabled
+    # (false) on the table.
+    # @return [Boolean]
+    def deletion_protection_enabled
+      data[:deletion_protection_enabled]
+    end
+
+    # The maximum number of read and write units for the specified on-demand
+    # table. If you use this parameter, you must specify
+    # `MaxReadRequestUnits`, `MaxWriteRequestUnits`, or both.
+    # @return [Types::OnDemandThroughput]
+    def on_demand_throughput
+      data[:on_demand_throughput]
+    end
+
+    # Describes the warm throughput value of the base table.
+    # @return [Types::TableWarmThroughputDescription]
+    def warm_throughput
+      data[:warm_throughput]
+    end
+
+    # Indicates one of the following consistency modes for a global table:
+    #
+    # * `EVENTUAL`: Indicates that the global table is configured for
+    #   multi-Region eventual consistency.
+    #
+    # * `STRONG`: Indicates that the global table is configured for
+    #   multi-Region strong consistency (preview).
+    #
+    #   <note markdown="1"> Multi-Region strong consistency (MRSC) is a new DynamoDB global
+    #   tables capability currently available in preview mode. For more
+    #   information, see [Global tables multi-Region strong consistency][1].
+    #
+    #    </note>
+    #
+    # If you don't specify this field, the global table consistency mode
+    # defaults to `EVENTUAL`.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/PreviewFeatures.html#multi-region-strong-consistency-gt
+    # @return [String]
+    def multi_region_consistency
+      data[:multi_region_consistency]
+    end
+
     # @!endgroup
 
     # @return [Client]
@@ -377,7 +417,9 @@ module Aws::DynamoDB
     #
     # @return [self]
     def load
-      resp = @client.describe_table(table_name: @name)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.describe_table(table_name: @name)
+      end
       @data = resp.table
       self
     end
@@ -492,7 +534,9 @@ module Aws::DynamoDB
           :retry
         end
       end
-      Aws::Waiters::Waiter.new(options).wait({})
+      Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        Aws::Waiters::Waiter.new(options).wait({})
+      end
     end
 
     # @!group Actions
@@ -504,7 +548,9 @@ module Aws::DynamoDB
     # @return [Types::DeleteTableOutput]
     def delete(options = {})
       options = options.merge(table_name: @name)
-      resp = @client.delete_table(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.delete_table(options)
+      end
       resp.data
     end
 
@@ -533,13 +579,14 @@ module Aws::DynamoDB
     #     expression_attribute_values: {
     #       "ExpressionAttributeValueVariable" => "value", # value <Hash,Array,String,Numeric,Boolean,IO,Set,nil>
     #     },
+    #     return_values_on_condition_check_failure: "ALL_OLD", # accepts ALL_OLD, NONE
     #   })
     # @param [Hash] options ({})
     # @option options [required, Hash<String,Types::AttributeValue>] :key
     #   A map of attribute names to `AttributeValue` objects, representing the
     #   primary key of the item to delete.
     #
-    #   For the primary key, you must provide all of the attributes. For
+    #   For the primary key, you must provide all of the key attributes. For
     #   example, with a simple primary key, you only need to provide a value
     #   for the partition key. For a composite primary key, you must provide
     #   values for both the partition key and the sort key.
@@ -623,8 +670,7 @@ module Aws::DynamoDB
     #   [1]: https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.SpecifyingConditions.html
     # @option options [Hash<String,String>] :expression_attribute_names
     #   One or more substitution tokens for attribute names in an expression.
-    #   The following are some use cases for using
-    #   `ExpressionAttributeNames`\:
+    #   The following are some use cases for using `ExpressionAttributeNames`:
     #
     #   * To access an attribute whose name conflicts with a DynamoDB reserved
     #     word.
@@ -646,9 +692,9 @@ module Aws::DynamoDB
     #   cannot be used directly in an expression. (For the complete list of
     #   reserved words, see [Reserved Words][1] in the *Amazon DynamoDB
     #   Developer Guide*). To work around this, you could specify the
-    #   following for `ExpressionAttributeNames`\:
+    #   following for `ExpressionAttributeNames`:
     #
-    #   * `\{"#P":"Percentile"\}`
+    #   * `{"#P":"Percentile"}`
     #
     #   ^
     #
@@ -683,8 +729,8 @@ module Aws::DynamoDB
     #   You would first need to specify `ExpressionAttributeValues` as
     #   follows:
     #
-    #   `\{ ":avail":\{"S":"Available"\}, ":back":\{"S":"Backordered"\},
-    #   ":disc":\{"S":"Discontinued"\} \}`
+    #   `{ ":avail":{"S":"Available"}, ":back":{"S":"Backordered"},
+    #   ":disc":{"S":"Discontinued"} }`
     #
     #   You could then use these values in an expression, such as this:
     #
@@ -696,10 +742,19 @@ module Aws::DynamoDB
     #
     #
     #   [1]: https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.SpecifyingConditions.html
+    # @option options [String] :return_values_on_condition_check_failure
+    #   An optional parameter that returns the item attributes for a
+    #   `DeleteItem` operation that failed a condition check.
+    #
+    #   There is no additional cost associated with requesting a return value
+    #   aside from the small network and processing overhead of receiving a
+    #   larger response. No read capacity units are consumed.
     # @return [Types::DeleteItemOutput]
     def delete_item(options = {})
       options = options.merge(table_name: @name)
-      resp = @client.delete_item(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.delete_item(options)
+      end
       resp.data
     end
 
@@ -772,8 +827,7 @@ module Aws::DynamoDB
     #   [1]: https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.AccessingItemAttributes.html
     # @option options [Hash<String,String>] :expression_attribute_names
     #   One or more substitution tokens for attribute names in an expression.
-    #   The following are some use cases for using
-    #   `ExpressionAttributeNames`\:
+    #   The following are some use cases for using `ExpressionAttributeNames`:
     #
     #   * To access an attribute whose name conflicts with a DynamoDB reserved
     #     word.
@@ -795,9 +849,9 @@ module Aws::DynamoDB
     #   cannot be used directly in an expression. (For the complete list of
     #   reserved words, see [Reserved Words][1] in the *Amazon DynamoDB
     #   Developer Guide*). To work around this, you could specify the
-    #   following for `ExpressionAttributeNames`\:
+    #   following for `ExpressionAttributeNames`:
     #
-    #   * `\{"#P":"Percentile"\}`
+    #   * `{"#P":"Percentile"}`
     #
     #   ^
     #
@@ -823,7 +877,9 @@ module Aws::DynamoDB
     # @return [Types::GetItemOutput]
     def get_item(options = {})
       options = options.merge(table_name: @name)
-      resp = @client.get_item(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.get_item(options)
+      end
       resp.data
     end
 
@@ -852,6 +908,7 @@ module Aws::DynamoDB
     #     expression_attribute_values: {
     #       "ExpressionAttributeValueVariable" => "value", # value <Hash,Array,String,Numeric,Boolean,IO,Set,nil>
     #     },
+    #     return_values_on_condition_check_failure: "ALL_OLD", # accepts ALL_OLD, NONE
     #   })
     # @param [Hash] options ({})
     # @option options [required, Hash<String,Types::AttributeValue>] :item
@@ -963,8 +1020,7 @@ module Aws::DynamoDB
     #   [1]: https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.SpecifyingConditions.html
     # @option options [Hash<String,String>] :expression_attribute_names
     #   One or more substitution tokens for attribute names in an expression.
-    #   The following are some use cases for using
-    #   `ExpressionAttributeNames`\:
+    #   The following are some use cases for using `ExpressionAttributeNames`:
     #
     #   * To access an attribute whose name conflicts with a DynamoDB reserved
     #     word.
@@ -986,9 +1042,9 @@ module Aws::DynamoDB
     #   cannot be used directly in an expression. (For the complete list of
     #   reserved words, see [Reserved Words][1] in the *Amazon DynamoDB
     #   Developer Guide*). To work around this, you could specify the
-    #   following for `ExpressionAttributeNames`\:
+    #   following for `ExpressionAttributeNames`:
     #
-    #   * `\{"#P":"Percentile"\}`
+    #   * `{"#P":"Percentile"}`
     #
     #   ^
     #
@@ -1023,8 +1079,8 @@ module Aws::DynamoDB
     #   You would first need to specify `ExpressionAttributeValues` as
     #   follows:
     #
-    #   `\{ ":avail":\{"S":"Available"\}, ":back":\{"S":"Backordered"\},
-    #   ":disc":\{"S":"Discontinued"\} \}`
+    #   `{ ":avail":{"S":"Available"}, ":back":{"S":"Backordered"},
+    #   ":disc":{"S":"Discontinued"} }`
     #
     #   You could then use these values in an expression, such as this:
     #
@@ -1036,10 +1092,19 @@ module Aws::DynamoDB
     #
     #
     #   [1]: https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.SpecifyingConditions.html
+    # @option options [String] :return_values_on_condition_check_failure
+    #   An optional parameter that returns the item attributes for a `PutItem`
+    #   operation that failed a condition check.
+    #
+    #   There is no additional cost associated with requesting a return value
+    #   aside from the small network and processing overhead of receiving a
+    #   larger response. No read capacity units are consumed.
     # @return [Types::PutItemOutput]
     def put_item(options = {})
       options = options.merge(table_name: @name)
-      resp = @client.put_item(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.put_item(options)
+      end
       resp.data
     end
 
@@ -1103,7 +1168,9 @@ module Aws::DynamoDB
     #     is equivalent to specifying `ALL_ATTRIBUTES`.
     #
     #   * `COUNT` - Returns the number of matching items, rather than the
-    #     matching items themselves.
+    #     matching items themselves. Note that this uses the same quantity of
+    #     read capacity units as getting the items, and is subject to the same
+    #     item size calculations.
     #
     #   * `SPECIFIC_ATTRIBUTES` - Returns only the attributes listed in
     #     `ProjectionExpression`. This return value is equivalent to
@@ -1264,7 +1331,7 @@ module Aws::DynamoDB
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/QueryAndScan.html#Query.FilterExpression
+    #   [1]: https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Query.FilterExpression.html
     # @option options [String] :key_condition_expression
     #   The condition that specifies the key values for items to be retrieved
     #   by the `Query` action.
@@ -1350,8 +1417,7 @@ module Aws::DynamoDB
     #   [2]: https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ExpressionPlaceholders.html
     # @option options [Hash<String,String>] :expression_attribute_names
     #   One or more substitution tokens for attribute names in an expression.
-    #   The following are some use cases for using
-    #   `ExpressionAttributeNames`\:
+    #   The following are some use cases for using `ExpressionAttributeNames`:
     #
     #   * To access an attribute whose name conflicts with a DynamoDB reserved
     #     word.
@@ -1373,9 +1439,9 @@ module Aws::DynamoDB
     #   cannot be used directly in an expression. (For the complete list of
     #   reserved words, see [Reserved Words][1] in the *Amazon DynamoDB
     #   Developer Guide*). To work around this, you could specify the
-    #   following for `ExpressionAttributeNames`\:
+    #   following for `ExpressionAttributeNames`:
     #
-    #   * `\{"#P":"Percentile"\}`
+    #   * `{"#P":"Percentile"}`
     #
     #   ^
     #
@@ -1410,8 +1476,8 @@ module Aws::DynamoDB
     #   You would first need to specify `ExpressionAttributeValues` as
     #   follows:
     #
-    #   `\{ ":avail":\{"S":"Available"\}, ":back":\{"S":"Backordered"\},
-    #   ":disc":\{"S":"Discontinued"\} \}`
+    #   `{ ":avail":{"S":"Available"}, ":back":{"S":"Backordered"},
+    #   ":disc":{"S":"Discontinued"} }`
     #
     #   You could then use these values in an expression, such as this:
     #
@@ -1426,7 +1492,9 @@ module Aws::DynamoDB
     # @return [Types::QueryOutput]
     def query(options = {})
       options = options.merge(table_name: @name)
-      resp = @client.query(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.query(options)
+      end
       resp.data
     end
 
@@ -1508,7 +1576,9 @@ module Aws::DynamoDB
     #     is equivalent to specifying `ALL_ATTRIBUTES`.
     #
     #   * `COUNT` - Returns the number of matching items, rather than the
-    #     matching items themselves.
+    #     matching items themselves. Note that this uses the same quantity of
+    #     read capacity units as getting the items, and is subject to the same
+    #     item size calculations.
     #
     #   * `SPECIFIC_ATTRIBUTES` - Returns only the attributes listed in
     #     `ProjectionExpression`. This return value is equivalent to
@@ -1644,11 +1714,10 @@ module Aws::DynamoDB
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/QueryAndScan.html#Query.FilterExpression
+    #   [1]: https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Scan.html#Scan.FilterExpression
     # @option options [Hash<String,String>] :expression_attribute_names
     #   One or more substitution tokens for attribute names in an expression.
-    #   The following are some use cases for using
-    #   `ExpressionAttributeNames`\:
+    #   The following are some use cases for using `ExpressionAttributeNames`:
     #
     #   * To access an attribute whose name conflicts with a DynamoDB reserved
     #     word.
@@ -1670,9 +1739,9 @@ module Aws::DynamoDB
     #   cannot be used directly in an expression. (For the complete list of
     #   reserved words, see [Reserved Words][1] in the *Amazon DynamoDB
     #   Developer Guide*). To work around this, you could specify the
-    #   following for `ExpressionAttributeNames`\:
+    #   following for `ExpressionAttributeNames`:
     #
-    #   * `\{"#P":"Percentile"\}`
+    #   * `{"#P":"Percentile"}`
     #
     #   ^
     #
@@ -1707,8 +1776,8 @@ module Aws::DynamoDB
     #   You would first need to specify `ExpressionAttributeValues` as
     #   follows:
     #
-    #   `\{ ":avail":\{"S":"Available"\}, ":back":\{"S":"Backordered"\},
-    #   ":disc":\{"S":"Discontinued"\} \}`
+    #   `{ ":avail":{"S":"Available"}, ":back":{"S":"Backordered"},
+    #   ":disc":{"S":"Discontinued"} }`
     #
     #   You could then use these values in an expression, such as this:
     #
@@ -1740,7 +1809,9 @@ module Aws::DynamoDB
     # @return [Types::ScanOutput]
     def scan(options = {})
       options = options.merge(table_name: @name)
-      resp = @client.scan(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.scan(options)
+      end
       resp.data
     end
 
@@ -1762,9 +1833,17 @@ module Aws::DynamoDB
     #       {
     #         update: {
     #           index_name: "IndexName", # required
-    #           provisioned_throughput: { # required
+    #           provisioned_throughput: {
     #             read_capacity_units: 1, # required
     #             write_capacity_units: 1, # required
+    #           },
+    #           on_demand_throughput: {
+    #             max_read_request_units: 1,
+    #             max_write_request_units: 1,
+    #           },
+    #           warm_throughput: {
+    #             read_units_per_second: 1,
+    #             write_units_per_second: 1,
     #           },
     #         },
     #         create: {
@@ -1782,6 +1861,14 @@ module Aws::DynamoDB
     #           provisioned_throughput: {
     #             read_capacity_units: 1, # required
     #             write_capacity_units: 1, # required
+    #           },
+    #           on_demand_throughput: {
+    #             max_read_request_units: 1,
+    #             max_write_request_units: 1,
+    #           },
+    #           warm_throughput: {
+    #             read_units_per_second: 1,
+    #             write_units_per_second: 1,
     #           },
     #         },
     #         delete: {
@@ -1806,11 +1893,17 @@ module Aws::DynamoDB
     #           provisioned_throughput_override: {
     #             read_capacity_units: 1,
     #           },
+    #           on_demand_throughput_override: {
+    #             max_read_request_units: 1,
+    #           },
     #           global_secondary_indexes: [
     #             {
     #               index_name: "IndexName", # required
     #               provisioned_throughput_override: {
     #                 read_capacity_units: 1,
+    #               },
+    #               on_demand_throughput_override: {
+    #                 max_read_request_units: 1,
     #               },
     #             },
     #           ],
@@ -1822,11 +1915,17 @@ module Aws::DynamoDB
     #           provisioned_throughput_override: {
     #             read_capacity_units: 1,
     #           },
+    #           on_demand_throughput_override: {
+    #             max_read_request_units: 1,
+    #           },
     #           global_secondary_indexes: [
     #             {
     #               index_name: "IndexName", # required
     #               provisioned_throughput_override: {
     #                 read_capacity_units: 1,
+    #               },
+    #               on_demand_throughput_override: {
+    #                 max_read_request_units: 1,
     #               },
     #             },
     #           ],
@@ -1838,6 +1937,16 @@ module Aws::DynamoDB
     #       },
     #     ],
     #     table_class: "STANDARD", # accepts STANDARD, STANDARD_INFREQUENT_ACCESS
+    #     deletion_protection_enabled: false,
+    #     multi_region_consistency: "EVENTUAL", # accepts EVENTUAL, STRONG
+    #     on_demand_throughput: {
+    #       max_read_request_units: 1,
+    #       max_write_request_units: 1,
+    #     },
+    #     warm_throughput: {
+    #       read_units_per_second: 1,
+    #       write_units_per_second: 1,
+    #     },
     #   })
     # @param [Hash] options ({})
     # @option options [Array<Types::AttributeDefinition>] :attribute_definitions
@@ -1855,16 +1964,16 @@ module Aws::DynamoDB
     #
     #   * `PROVISIONED` - We recommend using `PROVISIONED` for predictable
     #     workloads. `PROVISIONED` sets the billing mode to [Provisioned
-    #     Mode][1].
+    #     capacity mode][1].
     #
     #   * `PAY_PER_REQUEST` - We recommend using `PAY_PER_REQUEST` for
     #     unpredictable workloads. `PAY_PER_REQUEST` sets the billing mode to
-    #     [On-Demand Mode][2].
+    #     [On-demand capacity mode][2].
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadWriteCapacityMode.html#HowItWorks.ProvisionedThroughput.Manual
-    #   [2]: https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadWriteCapacityMode.html#HowItWorks.OnDemand
+    #   [1]: https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/provisioned-capacity-mode.html
+    #   [2]: https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/on-demand-capacity-mode.html
     # @option options [Types::ProvisionedThroughput] :provisioned_throughput
     #   The new provisioned throughput settings for the specified table or
     #   index.
@@ -1891,9 +2000,9 @@ module Aws::DynamoDB
     # @option options [Types::StreamSpecification] :stream_specification
     #   Represents the DynamoDB Streams configuration for the table.
     #
-    #   <note markdown="1"> You receive a `ResourceInUseException` if you try to enable a stream
-    #   on a table that already has a stream, or if you try to disable a
-    #   stream on a table that doesn't have a stream.
+    #   <note markdown="1"> You receive a `ValidationException` if you try to enable a stream on a
+    #   table that already has a stream, or if you try to disable a stream on
+    #   a table that doesn't have a stream.
     #
     #    </note>
     # @option options [Types::SSESpecification] :sse_specification
@@ -1902,21 +2011,56 @@ module Aws::DynamoDB
     #   A list of replica update actions (create, delete, or update) for the
     #   table.
     #
-    #   <note markdown="1"> This property only applies to [Version 2019.11.21][1] of global
-    #   tables.
+    #   <note markdown="1"> For global tables, this property only applies to global tables using
+    #   Version 2019.11.21 (Current version).
     #
     #    </note>
-    #
-    #
-    #
-    #   [1]: https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/globaltables.V2.html
     # @option options [String] :table_class
     #   The table class of the table to be updated. Valid values are
     #   `STANDARD` and `STANDARD_INFREQUENT_ACCESS`.
+    # @option options [Boolean] :deletion_protection_enabled
+    #   Indicates whether deletion protection is to be enabled (true) or
+    #   disabled (false) on the table.
+    # @option options [String] :multi_region_consistency
+    #   Specifies the consistency mode for a new global table. This parameter
+    #   is only valid when you create a global table by specifying one or more
+    #   [Create][1] actions in the [ReplicaUpdates][2] action list.
+    #
+    #   You can specify one of the following consistency modes:
+    #
+    #   * `EVENTUAL`: Configures a new global table for multi-Region eventual
+    #     consistency. This is the default consistency mode for global tables.
+    #
+    #   * `STRONG`: Configures a new global table for multi-Region strong
+    #     consistency (preview).
+    #
+    #     <note markdown="1"> Multi-Region strong consistency (MRSC) is a new DynamoDB global
+    #     tables capability currently available in preview mode. For more
+    #     information, see [Global tables multi-Region strong consistency][3].
+    #
+    #      </note>
+    #
+    #   If you don't specify this parameter, the global table consistency
+    #   mode defaults to `EVENTUAL`.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_ReplicationGroupUpdate.html#DDB-Type-ReplicationGroupUpdate-Create
+    #   [2]: https://docs.aws.amazon.com/https:/docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_UpdateTable.html#DDB-UpdateTable-request-ReplicaUpdates
+    #   [3]: https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/PreviewFeatures.html#multi-region-strong-consistency-gt
+    # @option options [Types::OnDemandThroughput] :on_demand_throughput
+    #   Updates the maximum number of read and write units for the specified
+    #   table in on-demand capacity mode. If you use this parameter, you must
+    #   specify `MaxReadRequestUnits`, `MaxWriteRequestUnits`, or both.
+    # @option options [Types::WarmThroughput] :warm_throughput
+    #   Represents the warm throughput (in read units per second and write
+    #   units per second) for updating a table.
     # @return [Table]
     def update(options = {})
       options = options.merge(table_name: @name)
-      resp = @client.update_table(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.update_table(options)
+      end
       Table.new(
         name: @name,
         data: resp.data.table_description,
@@ -1956,6 +2100,7 @@ module Aws::DynamoDB
     #     expression_attribute_values: {
     #       "ExpressionAttributeValueVariable" => "value", # value <Hash,Array,String,Numeric,Boolean,IO,Set,nil>
     #     },
+    #     return_values_on_condition_check_failure: "ALL_OLD", # accepts ALL_OLD, NONE
     #   })
     # @param [Hash] options ({})
     # @option options [required, Hash<String,Types::AttributeValue>] :key
@@ -1992,8 +2137,8 @@ module Aws::DynamoDB
     #   [1]: https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/LegacyConditionalParameters.ConditionalOperator.html
     # @option options [String] :return_values
     #   Use `ReturnValues` if you want to get the item attributes as they
-    #   appear before or after they are updated. For `UpdateItem`, the valid
-    #   values are:
+    #   appear before or after they are successfully updated. For
+    #   `UpdateItem`, the valid values are:
     #
     #   * `NONE` - If `ReturnValues` is not specified, or if its value is
     #     `NONE`, then nothing is returned. (This setting is the default for
@@ -2059,7 +2204,6 @@ module Aws::DynamoDB
     #     * `list_append (operand, operand)` - evaluates to a list with a new
     #       element added to it. You can append the new element to the start
     #       or the end of the list by reversing the order of the operands.
-    #
     #     These function names are case-sensitive.
     #
     #   * `REMOVE` - Removes one or more attributes from an item.
@@ -2099,7 +2243,6 @@ module Aws::DynamoDB
     #       Both sets must have the same primitive data type. For example, if
     #       the existing data type is a set of strings, the `Value` must also
     #       be a set of strings.
-    #
     #     The `ADD` action only supports Number and set data types. In
     #     addition, `ADD` can only be used on top-level attributes, not nested
     #     attributes.
@@ -2147,8 +2290,7 @@ module Aws::DynamoDB
     #   [1]: https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.SpecifyingConditions.html
     # @option options [Hash<String,String>] :expression_attribute_names
     #   One or more substitution tokens for attribute names in an expression.
-    #   The following are some use cases for using
-    #   `ExpressionAttributeNames`\:
+    #   The following are some use cases for using `ExpressionAttributeNames`:
     #
     #   * To access an attribute whose name conflicts with a DynamoDB reserved
     #     word.
@@ -2170,9 +2312,9 @@ module Aws::DynamoDB
     #   cannot be used directly in an expression. (For the complete list of
     #   reserved words, see [Reserved Words][1] in the *Amazon DynamoDB
     #   Developer Guide*.) To work around this, you could specify the
-    #   following for `ExpressionAttributeNames`\:
+    #   following for `ExpressionAttributeNames`:
     #
-    #   * `\{"#P":"Percentile"\}`
+    #   * `{"#P":"Percentile"}`
     #
     #   ^
     #
@@ -2207,8 +2349,8 @@ module Aws::DynamoDB
     #   You would first need to specify `ExpressionAttributeValues` as
     #   follows:
     #
-    #   `\{ ":avail":\{"S":"Available"\}, ":back":\{"S":"Backordered"\},
-    #   ":disc":\{"S":"Discontinued"\} \}`
+    #   `{ ":avail":{"S":"Available"}, ":back":{"S":"Backordered"},
+    #   ":disc":{"S":"Discontinued"} }`
     #
     #   You could then use these values in an expression, such as this:
     #
@@ -2220,10 +2362,19 @@ module Aws::DynamoDB
     #
     #
     #   [1]: https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.SpecifyingConditions.html
+    # @option options [String] :return_values_on_condition_check_failure
+    #   An optional parameter that returns the item attributes for an
+    #   `UpdateItem` operation that failed a condition check.
+    #
+    #   There is no additional cost associated with requesting a return value
+    #   aside from the small network and processing overhead of receiving a
+    #   larger response. No read capacity units are consumed.
     # @return [Types::UpdateItemOutput]
     def update_item(options = {})
       options = options.merge(table_name: @name)
-      resp = @client.update_item(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.update_item(options)
+      end
       resp.data
     end
 

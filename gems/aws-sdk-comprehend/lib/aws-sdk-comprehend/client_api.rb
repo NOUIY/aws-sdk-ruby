@@ -7,6 +7,7 @@
 #
 # WARNING ABOUT GENERATED CODE
 
+
 module Aws::Comprehend
   # @api private
   module ClientApi
@@ -51,28 +52,53 @@ module Aws::Comprehend
     ClientRequestTokenString = Shapes::StringShape.new(name: 'ClientRequestTokenString')
     ComprehendArn = Shapes::StringShape.new(name: 'ComprehendArn')
     ComprehendArnName = Shapes::StringShape.new(name: 'ComprehendArnName')
+    ComprehendDatasetArn = Shapes::StringShape.new(name: 'ComprehendDatasetArn')
     ComprehendEndpointArn = Shapes::StringShape.new(name: 'ComprehendEndpointArn')
     ComprehendEndpointName = Shapes::StringShape.new(name: 'ComprehendEndpointName')
+    ComprehendFlywheelArn = Shapes::StringShape.new(name: 'ComprehendFlywheelArn')
     ComprehendModelArn = Shapes::StringShape.new(name: 'ComprehendModelArn')
     ConcurrentModificationException = Shapes::StructureShape.new(name: 'ConcurrentModificationException')
     ContainsPiiEntitiesRequest = Shapes::StructureShape.new(name: 'ContainsPiiEntitiesRequest')
     ContainsPiiEntitiesResponse = Shapes::StructureShape.new(name: 'ContainsPiiEntitiesResponse')
+    CreateDatasetRequest = Shapes::StructureShape.new(name: 'CreateDatasetRequest')
+    CreateDatasetResponse = Shapes::StructureShape.new(name: 'CreateDatasetResponse')
     CreateDocumentClassifierRequest = Shapes::StructureShape.new(name: 'CreateDocumentClassifierRequest')
     CreateDocumentClassifierResponse = Shapes::StructureShape.new(name: 'CreateDocumentClassifierResponse')
     CreateEndpointRequest = Shapes::StructureShape.new(name: 'CreateEndpointRequest')
     CreateEndpointResponse = Shapes::StructureShape.new(name: 'CreateEndpointResponse')
     CreateEntityRecognizerRequest = Shapes::StructureShape.new(name: 'CreateEntityRecognizerRequest')
     CreateEntityRecognizerResponse = Shapes::StructureShape.new(name: 'CreateEntityRecognizerResponse')
+    CreateFlywheelRequest = Shapes::StructureShape.new(name: 'CreateFlywheelRequest')
+    CreateFlywheelResponse = Shapes::StructureShape.new(name: 'CreateFlywheelResponse')
     CustomerInputString = Shapes::StringShape.new(name: 'CustomerInputString')
     CustomerInputStringList = Shapes::ListShape.new(name: 'CustomerInputStringList')
+    DataSecurityConfig = Shapes::StructureShape.new(name: 'DataSecurityConfig')
+    DatasetAugmentedManifestsList = Shapes::ListShape.new(name: 'DatasetAugmentedManifestsList')
+    DatasetAugmentedManifestsListItem = Shapes::StructureShape.new(name: 'DatasetAugmentedManifestsListItem')
+    DatasetDataFormat = Shapes::StringShape.new(name: 'DatasetDataFormat')
+    DatasetDocumentClassifierInputDataConfig = Shapes::StructureShape.new(name: 'DatasetDocumentClassifierInputDataConfig')
+    DatasetEntityRecognizerAnnotations = Shapes::StructureShape.new(name: 'DatasetEntityRecognizerAnnotations')
+    DatasetEntityRecognizerDocuments = Shapes::StructureShape.new(name: 'DatasetEntityRecognizerDocuments')
+    DatasetEntityRecognizerEntityList = Shapes::StructureShape.new(name: 'DatasetEntityRecognizerEntityList')
+    DatasetEntityRecognizerInputDataConfig = Shapes::StructureShape.new(name: 'DatasetEntityRecognizerInputDataConfig')
+    DatasetFilter = Shapes::StructureShape.new(name: 'DatasetFilter')
+    DatasetInputDataConfig = Shapes::StructureShape.new(name: 'DatasetInputDataConfig')
+    DatasetProperties = Shapes::StructureShape.new(name: 'DatasetProperties')
+    DatasetPropertiesList = Shapes::ListShape.new(name: 'DatasetPropertiesList')
+    DatasetStatus = Shapes::StringShape.new(name: 'DatasetStatus')
+    DatasetType = Shapes::StringShape.new(name: 'DatasetType')
     DeleteDocumentClassifierRequest = Shapes::StructureShape.new(name: 'DeleteDocumentClassifierRequest')
     DeleteDocumentClassifierResponse = Shapes::StructureShape.new(name: 'DeleteDocumentClassifierResponse')
     DeleteEndpointRequest = Shapes::StructureShape.new(name: 'DeleteEndpointRequest')
     DeleteEndpointResponse = Shapes::StructureShape.new(name: 'DeleteEndpointResponse')
     DeleteEntityRecognizerRequest = Shapes::StructureShape.new(name: 'DeleteEntityRecognizerRequest')
     DeleteEntityRecognizerResponse = Shapes::StructureShape.new(name: 'DeleteEntityRecognizerResponse')
+    DeleteFlywheelRequest = Shapes::StructureShape.new(name: 'DeleteFlywheelRequest')
+    DeleteFlywheelResponse = Shapes::StructureShape.new(name: 'DeleteFlywheelResponse')
     DeleteResourcePolicyRequest = Shapes::StructureShape.new(name: 'DeleteResourcePolicyRequest')
     DeleteResourcePolicyResponse = Shapes::StructureShape.new(name: 'DeleteResourcePolicyResponse')
+    DescribeDatasetRequest = Shapes::StructureShape.new(name: 'DescribeDatasetRequest')
+    DescribeDatasetResponse = Shapes::StructureShape.new(name: 'DescribeDatasetResponse')
     DescribeDocumentClassificationJobRequest = Shapes::StructureShape.new(name: 'DescribeDocumentClassificationJobRequest')
     DescribeDocumentClassificationJobResponse = Shapes::StructureShape.new(name: 'DescribeDocumentClassificationJobResponse')
     DescribeDocumentClassifierRequest = Shapes::StructureShape.new(name: 'DescribeDocumentClassifierRequest')
@@ -87,6 +113,10 @@ module Aws::Comprehend
     DescribeEntityRecognizerResponse = Shapes::StructureShape.new(name: 'DescribeEntityRecognizerResponse')
     DescribeEventsDetectionJobRequest = Shapes::StructureShape.new(name: 'DescribeEventsDetectionJobRequest')
     DescribeEventsDetectionJobResponse = Shapes::StructureShape.new(name: 'DescribeEventsDetectionJobResponse')
+    DescribeFlywheelIterationRequest = Shapes::StructureShape.new(name: 'DescribeFlywheelIterationRequest')
+    DescribeFlywheelIterationResponse = Shapes::StructureShape.new(name: 'DescribeFlywheelIterationResponse')
+    DescribeFlywheelRequest = Shapes::StructureShape.new(name: 'DescribeFlywheelRequest')
+    DescribeFlywheelResponse = Shapes::StructureShape.new(name: 'DescribeFlywheelResponse')
     DescribeKeyPhrasesDetectionJobRequest = Shapes::StructureShape.new(name: 'DescribeKeyPhrasesDetectionJobRequest')
     DescribeKeyPhrasesDetectionJobResponse = Shapes::StructureShape.new(name: 'DescribeKeyPhrasesDetectionJobResponse')
     DescribePiiEntitiesDetectionJobRequest = Shapes::StructureShape.new(name: 'DescribePiiEntitiesDetectionJobRequest')
@@ -99,6 +129,7 @@ module Aws::Comprehend
     DescribeTargetedSentimentDetectionJobResponse = Shapes::StructureShape.new(name: 'DescribeTargetedSentimentDetectionJobResponse')
     DescribeTopicsDetectionJobRequest = Shapes::StructureShape.new(name: 'DescribeTopicsDetectionJobRequest')
     DescribeTopicsDetectionJobResponse = Shapes::StructureShape.new(name: 'DescribeTopicsDetectionJobResponse')
+    Description = Shapes::StringShape.new(name: 'Description')
     DetectDominantLanguageRequest = Shapes::StructureShape.new(name: 'DetectDominantLanguageRequest')
     DetectDominantLanguageResponse = Shapes::StructureShape.new(name: 'DetectDominantLanguageResponse')
     DetectEntitiesRequest = Shapes::StructureShape.new(name: 'DetectEntitiesRequest')
@@ -113,13 +144,18 @@ module Aws::Comprehend
     DetectSyntaxResponse = Shapes::StructureShape.new(name: 'DetectSyntaxResponse')
     DetectTargetedSentimentRequest = Shapes::StructureShape.new(name: 'DetectTargetedSentimentRequest')
     DetectTargetedSentimentResponse = Shapes::StructureShape.new(name: 'DetectTargetedSentimentResponse')
+    DetectToxicContentRequest = Shapes::StructureShape.new(name: 'DetectToxicContentRequest')
+    DetectToxicContentResponse = Shapes::StructureShape.new(name: 'DetectToxicContentResponse')
     DocumentClass = Shapes::StructureShape.new(name: 'DocumentClass')
+    DocumentClassificationConfig = Shapes::StructureShape.new(name: 'DocumentClassificationConfig')
     DocumentClassificationJobFilter = Shapes::StructureShape.new(name: 'DocumentClassificationJobFilter')
     DocumentClassificationJobProperties = Shapes::StructureShape.new(name: 'DocumentClassificationJobProperties')
     DocumentClassificationJobPropertiesList = Shapes::ListShape.new(name: 'DocumentClassificationJobPropertiesList')
     DocumentClassifierArn = Shapes::StringShape.new(name: 'DocumentClassifierArn')
     DocumentClassifierAugmentedManifestsList = Shapes::ListShape.new(name: 'DocumentClassifierAugmentedManifestsList')
     DocumentClassifierDataFormat = Shapes::StringShape.new(name: 'DocumentClassifierDataFormat')
+    DocumentClassifierDocumentTypeFormat = Shapes::StringShape.new(name: 'DocumentClassifierDocumentTypeFormat')
+    DocumentClassifierDocuments = Shapes::StructureShape.new(name: 'DocumentClassifierDocuments')
     DocumentClassifierEndpointArn = Shapes::StringShape.new(name: 'DocumentClassifierEndpointArn')
     DocumentClassifierFilter = Shapes::StructureShape.new(name: 'DocumentClassifierFilter')
     DocumentClassifierInputDataConfig = Shapes::StructureShape.new(name: 'DocumentClassifierInputDataConfig')
@@ -151,6 +187,7 @@ module Aws::Comprehend
     EntitiesDetectionJobPropertiesList = Shapes::ListShape.new(name: 'EntitiesDetectionJobPropertiesList')
     Entity = Shapes::StructureShape.new(name: 'Entity')
     EntityLabel = Shapes::StructureShape.new(name: 'EntityLabel')
+    EntityRecognitionConfig = Shapes::StructureShape.new(name: 'EntityRecognitionConfig')
     EntityRecognizerAnnotations = Shapes::StructureShape.new(name: 'EntityRecognizerAnnotations')
     EntityRecognizerArn = Shapes::StringShape.new(name: 'EntityRecognizerArn')
     EntityRecognizerAugmentedManifestsList = Shapes::ListShape.new(name: 'EntityRecognizerAugmentedManifestsList')
@@ -164,6 +201,7 @@ module Aws::Comprehend
     EntityRecognizerMetadata = Shapes::StructureShape.new(name: 'EntityRecognizerMetadata')
     EntityRecognizerMetadataEntityTypesList = Shapes::ListShape.new(name: 'EntityRecognizerMetadataEntityTypesList')
     EntityRecognizerMetadataEntityTypesListItem = Shapes::StructureShape.new(name: 'EntityRecognizerMetadataEntityTypesListItem')
+    EntityRecognizerOutputDataConfig = Shapes::StructureShape.new(name: 'EntityRecognizerOutputDataConfig')
     EntityRecognizerProperties = Shapes::StructureShape.new(name: 'EntityRecognizerProperties')
     EntityRecognizerPropertiesList = Shapes::ListShape.new(name: 'EntityRecognizerPropertiesList')
     EntityRecognizerSummariesList = Shapes::ListShape.new(name: 'EntityRecognizerSummariesList')
@@ -180,6 +218,18 @@ module Aws::Comprehend
     EventsDetectionJobPropertiesList = Shapes::ListShape.new(name: 'EventsDetectionJobPropertiesList')
     ExtractedCharactersListItem = Shapes::StructureShape.new(name: 'ExtractedCharactersListItem')
     Float = Shapes::FloatShape.new(name: 'Float')
+    FlywheelFilter = Shapes::StructureShape.new(name: 'FlywheelFilter')
+    FlywheelIterationFilter = Shapes::StructureShape.new(name: 'FlywheelIterationFilter')
+    FlywheelIterationId = Shapes::StringShape.new(name: 'FlywheelIterationId')
+    FlywheelIterationProperties = Shapes::StructureShape.new(name: 'FlywheelIterationProperties')
+    FlywheelIterationPropertiesList = Shapes::ListShape.new(name: 'FlywheelIterationPropertiesList')
+    FlywheelIterationStatus = Shapes::StringShape.new(name: 'FlywheelIterationStatus')
+    FlywheelModelEvaluationMetrics = Shapes::StructureShape.new(name: 'FlywheelModelEvaluationMetrics')
+    FlywheelProperties = Shapes::StructureShape.new(name: 'FlywheelProperties')
+    FlywheelS3Uri = Shapes::StringShape.new(name: 'FlywheelS3Uri')
+    FlywheelStatus = Shapes::StringShape.new(name: 'FlywheelStatus')
+    FlywheelSummary = Shapes::StructureShape.new(name: 'FlywheelSummary')
+    FlywheelSummaryList = Shapes::ListShape.new(name: 'FlywheelSummaryList')
     Geometry = Shapes::StructureShape.new(name: 'Geometry')
     IamRoleArn = Shapes::StringShape.new(name: 'IamRoleArn')
     ImportModelRequest = Shapes::StructureShape.new(name: 'ImportModelRequest')
@@ -205,7 +255,11 @@ module Aws::Comprehend
     KmsKeyId = Shapes::StringShape.new(name: 'KmsKeyId')
     KmsKeyValidationException = Shapes::StructureShape.new(name: 'KmsKeyValidationException')
     LabelDelimiter = Shapes::StringShape.new(name: 'LabelDelimiter')
+    LabelListItem = Shapes::StringShape.new(name: 'LabelListItem')
+    LabelsList = Shapes::ListShape.new(name: 'LabelsList')
     LanguageCode = Shapes::StringShape.new(name: 'LanguageCode')
+    ListDatasetsRequest = Shapes::StructureShape.new(name: 'ListDatasetsRequest')
+    ListDatasetsResponse = Shapes::StructureShape.new(name: 'ListDatasetsResponse')
     ListDocumentClassificationJobsRequest = Shapes::StructureShape.new(name: 'ListDocumentClassificationJobsRequest')
     ListDocumentClassificationJobsResponse = Shapes::StructureShape.new(name: 'ListDocumentClassificationJobsResponse')
     ListDocumentClassifierSummariesRequest = Shapes::StructureShape.new(name: 'ListDocumentClassifierSummariesRequest')
@@ -224,6 +278,10 @@ module Aws::Comprehend
     ListEntityRecognizersResponse = Shapes::StructureShape.new(name: 'ListEntityRecognizersResponse')
     ListEventsDetectionJobsRequest = Shapes::StructureShape.new(name: 'ListEventsDetectionJobsRequest')
     ListEventsDetectionJobsResponse = Shapes::StructureShape.new(name: 'ListEventsDetectionJobsResponse')
+    ListFlywheelIterationHistoryRequest = Shapes::StructureShape.new(name: 'ListFlywheelIterationHistoryRequest')
+    ListFlywheelIterationHistoryResponse = Shapes::StructureShape.new(name: 'ListFlywheelIterationHistoryResponse')
+    ListFlywheelsRequest = Shapes::StructureShape.new(name: 'ListFlywheelsRequest')
+    ListFlywheelsResponse = Shapes::StructureShape.new(name: 'ListFlywheelsResponse')
     ListKeyPhrasesDetectionJobsRequest = Shapes::StructureShape.new(name: 'ListKeyPhrasesDetectionJobsRequest')
     ListKeyPhrasesDetectionJobsResponse = Shapes::StructureShape.new(name: 'ListKeyPhrasesDetectionJobsResponse')
     ListOfBlockReferences = Shapes::ListShape.new(name: 'ListOfBlockReferences')
@@ -252,6 +310,10 @@ module Aws::Comprehend
     ListOfRelationships = Shapes::ListShape.new(name: 'ListOfRelationships')
     ListOfSyntaxTokens = Shapes::ListShape.new(name: 'ListOfSyntaxTokens')
     ListOfTargetedSentimentEntities = Shapes::ListShape.new(name: 'ListOfTargetedSentimentEntities')
+    ListOfTextSegments = Shapes::ListShape.new(name: 'ListOfTextSegments')
+    ListOfToxicContent = Shapes::ListShape.new(name: 'ListOfToxicContent')
+    ListOfToxicLabels = Shapes::ListShape.new(name: 'ListOfToxicLabels')
+    ListOfWarnings = Shapes::ListShape.new(name: 'ListOfWarnings')
     ListPiiEntitiesDetectionJobsRequest = Shapes::StructureShape.new(name: 'ListPiiEntitiesDetectionJobsRequest')
     ListPiiEntitiesDetectionJobsResponse = Shapes::StructureShape.new(name: 'ListPiiEntitiesDetectionJobsResponse')
     ListSentimentDetectionJobsRequest = Shapes::StructureShape.new(name: 'ListSentimentDetectionJobsRequest')
@@ -266,9 +328,12 @@ module Aws::Comprehend
     MaxResultsInteger = Shapes::IntegerShape.new(name: 'MaxResultsInteger')
     MentionSentiment = Shapes::StructureShape.new(name: 'MentionSentiment')
     ModelStatus = Shapes::StringShape.new(name: 'ModelStatus')
+    ModelType = Shapes::StringShape.new(name: 'ModelType')
+    NumberOfDocuments = Shapes::IntegerShape.new(name: 'NumberOfDocuments')
     NumberOfTopicsInteger = Shapes::IntegerShape.new(name: 'NumberOfTopicsInteger')
     OutputDataConfig = Shapes::StructureShape.new(name: 'OutputDataConfig')
     PageBasedErrorCode = Shapes::StringShape.new(name: 'PageBasedErrorCode')
+    PageBasedWarningCode = Shapes::StringShape.new(name: 'PageBasedWarningCode')
     PartOfSpeechTag = Shapes::StructureShape.new(name: 'PartOfSpeechTag')
     PartOfSpeechTagType = Shapes::StringShape.new(name: 'PartOfSpeechTagType')
     PiiEntitiesDetectionJobFilter = Shapes::StructureShape.new(name: 'PiiEntitiesDetectionJobFilter')
@@ -310,6 +375,8 @@ module Aws::Comprehend
     StartEntitiesDetectionJobResponse = Shapes::StructureShape.new(name: 'StartEntitiesDetectionJobResponse')
     StartEventsDetectionJobRequest = Shapes::StructureShape.new(name: 'StartEventsDetectionJobRequest')
     StartEventsDetectionJobResponse = Shapes::StructureShape.new(name: 'StartEventsDetectionJobResponse')
+    StartFlywheelIterationRequest = Shapes::StructureShape.new(name: 'StartFlywheelIterationRequest')
+    StartFlywheelIterationResponse = Shapes::StructureShape.new(name: 'StartFlywheelIterationResponse')
     StartKeyPhrasesDetectionJobRequest = Shapes::StructureShape.new(name: 'StartKeyPhrasesDetectionJobRequest')
     StartKeyPhrasesDetectionJobResponse = Shapes::StructureShape.new(name: 'StartKeyPhrasesDetectionJobResponse')
     StartPiiEntitiesDetectionJobRequest = Shapes::StructureShape.new(name: 'StartPiiEntitiesDetectionJobRequest')
@@ -358,6 +425,8 @@ module Aws::Comprehend
     TargetedSentimentEntity = Shapes::StructureShape.new(name: 'TargetedSentimentEntity')
     TargetedSentimentEntityType = Shapes::StringShape.new(name: 'TargetedSentimentEntityType')
     TargetedSentimentMention = Shapes::StructureShape.new(name: 'TargetedSentimentMention')
+    TaskConfig = Shapes::StructureShape.new(name: 'TaskConfig')
+    TextSegment = Shapes::StructureShape.new(name: 'TextSegment')
     TextSizeLimitExceededException = Shapes::StructureShape.new(name: 'TextSizeLimitExceededException')
     Timestamp = Shapes::TimestampShape.new(name: 'Timestamp')
     TooManyRequestsException = Shapes::StructureShape.new(name: 'TooManyRequestsException')
@@ -366,13 +435,20 @@ module Aws::Comprehend
     TopicsDetectionJobFilter = Shapes::StructureShape.new(name: 'TopicsDetectionJobFilter')
     TopicsDetectionJobProperties = Shapes::StructureShape.new(name: 'TopicsDetectionJobProperties')
     TopicsDetectionJobPropertiesList = Shapes::ListShape.new(name: 'TopicsDetectionJobPropertiesList')
+    ToxicContent = Shapes::StructureShape.new(name: 'ToxicContent')
+    ToxicContentType = Shapes::StringShape.new(name: 'ToxicContentType')
+    ToxicLabels = Shapes::StructureShape.new(name: 'ToxicLabels')
     UnsupportedLanguageException = Shapes::StructureShape.new(name: 'UnsupportedLanguageException')
     UntagResourceRequest = Shapes::StructureShape.new(name: 'UntagResourceRequest')
     UntagResourceResponse = Shapes::StructureShape.new(name: 'UntagResourceResponse')
+    UpdateDataSecurityConfig = Shapes::StructureShape.new(name: 'UpdateDataSecurityConfig')
     UpdateEndpointRequest = Shapes::StructureShape.new(name: 'UpdateEndpointRequest')
     UpdateEndpointResponse = Shapes::StructureShape.new(name: 'UpdateEndpointResponse')
+    UpdateFlywheelRequest = Shapes::StructureShape.new(name: 'UpdateFlywheelRequest')
+    UpdateFlywheelResponse = Shapes::StructureShape.new(name: 'UpdateFlywheelResponse')
     VersionName = Shapes::StringShape.new(name: 'VersionName')
     VpcConfig = Shapes::StructureShape.new(name: 'VpcConfig')
+    WarningsListItem = Shapes::StructureShape.new(name: 'WarningsListItem')
 
     AttributeNamesList.member = Shapes::ShapeRef.new(shape: AttributeNamesListItem)
 
@@ -518,6 +594,7 @@ module Aws::Comprehend
     ClassifyDocumentResponse.add_member(:document_metadata, Shapes::ShapeRef.new(shape: DocumentMetadata, location_name: "DocumentMetadata"))
     ClassifyDocumentResponse.add_member(:document_type, Shapes::ShapeRef.new(shape: ListOfDocumentType, location_name: "DocumentType"))
     ClassifyDocumentResponse.add_member(:errors, Shapes::ShapeRef.new(shape: ListOfErrors, location_name: "Errors"))
+    ClassifyDocumentResponse.add_member(:warnings, Shapes::ShapeRef.new(shape: ListOfWarnings, location_name: "Warnings"))
     ClassifyDocumentResponse.struct_class = Types::ClassifyDocumentResponse
 
     ConcurrentModificationException.add_member(:message, Shapes::ShapeRef.new(shape: String, location_name: "Message"))
@@ -529,6 +606,18 @@ module Aws::Comprehend
 
     ContainsPiiEntitiesResponse.add_member(:labels, Shapes::ShapeRef.new(shape: ListOfEntityLabels, location_name: "Labels"))
     ContainsPiiEntitiesResponse.struct_class = Types::ContainsPiiEntitiesResponse
+
+    CreateDatasetRequest.add_member(:flywheel_arn, Shapes::ShapeRef.new(shape: ComprehendFlywheelArn, required: true, location_name: "FlywheelArn"))
+    CreateDatasetRequest.add_member(:dataset_name, Shapes::ShapeRef.new(shape: ComprehendArnName, required: true, location_name: "DatasetName"))
+    CreateDatasetRequest.add_member(:dataset_type, Shapes::ShapeRef.new(shape: DatasetType, location_name: "DatasetType"))
+    CreateDatasetRequest.add_member(:description, Shapes::ShapeRef.new(shape: Description, location_name: "Description"))
+    CreateDatasetRequest.add_member(:input_data_config, Shapes::ShapeRef.new(shape: DatasetInputDataConfig, required: true, location_name: "InputDataConfig"))
+    CreateDatasetRequest.add_member(:client_request_token, Shapes::ShapeRef.new(shape: ClientRequestTokenString, location_name: "ClientRequestToken", metadata: {"idempotencyToken"=>true}))
+    CreateDatasetRequest.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "Tags"))
+    CreateDatasetRequest.struct_class = Types::CreateDatasetRequest
+
+    CreateDatasetResponse.add_member(:dataset_arn, Shapes::ShapeRef.new(shape: ComprehendDatasetArn, location_name: "DatasetArn"))
+    CreateDatasetResponse.struct_class = Types::CreateDatasetResponse
 
     CreateDocumentClassifierRequest.add_member(:document_classifier_name, Shapes::ShapeRef.new(shape: ComprehendArnName, required: true, location_name: "DocumentClassifierName"))
     CreateDocumentClassifierRequest.add_member(:version_name, Shapes::ShapeRef.new(shape: VersionName, location_name: "VersionName"))
@@ -549,14 +638,16 @@ module Aws::Comprehend
     CreateDocumentClassifierResponse.struct_class = Types::CreateDocumentClassifierResponse
 
     CreateEndpointRequest.add_member(:endpoint_name, Shapes::ShapeRef.new(shape: ComprehendEndpointName, required: true, location_name: "EndpointName"))
-    CreateEndpointRequest.add_member(:model_arn, Shapes::ShapeRef.new(shape: ComprehendModelArn, required: true, location_name: "ModelArn"))
+    CreateEndpointRequest.add_member(:model_arn, Shapes::ShapeRef.new(shape: ComprehendModelArn, location_name: "ModelArn"))
     CreateEndpointRequest.add_member(:desired_inference_units, Shapes::ShapeRef.new(shape: InferenceUnitsInteger, required: true, location_name: "DesiredInferenceUnits"))
     CreateEndpointRequest.add_member(:client_request_token, Shapes::ShapeRef.new(shape: ClientRequestTokenString, location_name: "ClientRequestToken", metadata: {"idempotencyToken"=>true}))
     CreateEndpointRequest.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "Tags"))
     CreateEndpointRequest.add_member(:data_access_role_arn, Shapes::ShapeRef.new(shape: IamRoleArn, location_name: "DataAccessRoleArn"))
+    CreateEndpointRequest.add_member(:flywheel_arn, Shapes::ShapeRef.new(shape: ComprehendFlywheelArn, location_name: "FlywheelArn"))
     CreateEndpointRequest.struct_class = Types::CreateEndpointRequest
 
     CreateEndpointResponse.add_member(:endpoint_arn, Shapes::ShapeRef.new(shape: ComprehendEndpointArn, location_name: "EndpointArn"))
+    CreateEndpointResponse.add_member(:model_arn, Shapes::ShapeRef.new(shape: ComprehendModelArn, location_name: "ModelArn"))
     CreateEndpointResponse.struct_class = Types::CreateEndpointResponse
 
     CreateEntityRecognizerRequest.add_member(:recognizer_name, Shapes::ShapeRef.new(shape: ComprehendArnName, required: true, location_name: "RecognizerName"))
@@ -575,7 +666,82 @@ module Aws::Comprehend
     CreateEntityRecognizerResponse.add_member(:entity_recognizer_arn, Shapes::ShapeRef.new(shape: EntityRecognizerArn, location_name: "EntityRecognizerArn"))
     CreateEntityRecognizerResponse.struct_class = Types::CreateEntityRecognizerResponse
 
+    CreateFlywheelRequest.add_member(:flywheel_name, Shapes::ShapeRef.new(shape: ComprehendArnName, required: true, location_name: "FlywheelName"))
+    CreateFlywheelRequest.add_member(:active_model_arn, Shapes::ShapeRef.new(shape: ComprehendModelArn, location_name: "ActiveModelArn"))
+    CreateFlywheelRequest.add_member(:data_access_role_arn, Shapes::ShapeRef.new(shape: IamRoleArn, required: true, location_name: "DataAccessRoleArn"))
+    CreateFlywheelRequest.add_member(:task_config, Shapes::ShapeRef.new(shape: TaskConfig, location_name: "TaskConfig"))
+    CreateFlywheelRequest.add_member(:model_type, Shapes::ShapeRef.new(shape: ModelType, location_name: "ModelType"))
+    CreateFlywheelRequest.add_member(:data_lake_s3_uri, Shapes::ShapeRef.new(shape: FlywheelS3Uri, required: true, location_name: "DataLakeS3Uri"))
+    CreateFlywheelRequest.add_member(:data_security_config, Shapes::ShapeRef.new(shape: DataSecurityConfig, location_name: "DataSecurityConfig"))
+    CreateFlywheelRequest.add_member(:client_request_token, Shapes::ShapeRef.new(shape: ClientRequestTokenString, location_name: "ClientRequestToken", metadata: {"idempotencyToken"=>true}))
+    CreateFlywheelRequest.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "Tags"))
+    CreateFlywheelRequest.struct_class = Types::CreateFlywheelRequest
+
+    CreateFlywheelResponse.add_member(:flywheel_arn, Shapes::ShapeRef.new(shape: ComprehendFlywheelArn, location_name: "FlywheelArn"))
+    CreateFlywheelResponse.add_member(:active_model_arn, Shapes::ShapeRef.new(shape: ComprehendModelArn, location_name: "ActiveModelArn"))
+    CreateFlywheelResponse.struct_class = Types::CreateFlywheelResponse
+
     CustomerInputStringList.member = Shapes::ShapeRef.new(shape: CustomerInputString)
+
+    DataSecurityConfig.add_member(:model_kms_key_id, Shapes::ShapeRef.new(shape: KmsKeyId, location_name: "ModelKmsKeyId"))
+    DataSecurityConfig.add_member(:volume_kms_key_id, Shapes::ShapeRef.new(shape: KmsKeyId, location_name: "VolumeKmsKeyId"))
+    DataSecurityConfig.add_member(:data_lake_kms_key_id, Shapes::ShapeRef.new(shape: KmsKeyId, location_name: "DataLakeKmsKeyId"))
+    DataSecurityConfig.add_member(:vpc_config, Shapes::ShapeRef.new(shape: VpcConfig, location_name: "VpcConfig"))
+    DataSecurityConfig.struct_class = Types::DataSecurityConfig
+
+    DatasetAugmentedManifestsList.member = Shapes::ShapeRef.new(shape: DatasetAugmentedManifestsListItem)
+
+    DatasetAugmentedManifestsListItem.add_member(:attribute_names, Shapes::ShapeRef.new(shape: AttributeNamesList, required: true, location_name: "AttributeNames"))
+    DatasetAugmentedManifestsListItem.add_member(:s3_uri, Shapes::ShapeRef.new(shape: S3Uri, required: true, location_name: "S3Uri"))
+    DatasetAugmentedManifestsListItem.add_member(:annotation_data_s3_uri, Shapes::ShapeRef.new(shape: S3Uri, location_name: "AnnotationDataS3Uri"))
+    DatasetAugmentedManifestsListItem.add_member(:source_documents_s3_uri, Shapes::ShapeRef.new(shape: S3Uri, location_name: "SourceDocumentsS3Uri"))
+    DatasetAugmentedManifestsListItem.add_member(:document_type, Shapes::ShapeRef.new(shape: AugmentedManifestsDocumentTypeFormat, location_name: "DocumentType"))
+    DatasetAugmentedManifestsListItem.struct_class = Types::DatasetAugmentedManifestsListItem
+
+    DatasetDocumentClassifierInputDataConfig.add_member(:s3_uri, Shapes::ShapeRef.new(shape: S3Uri, required: true, location_name: "S3Uri"))
+    DatasetDocumentClassifierInputDataConfig.add_member(:label_delimiter, Shapes::ShapeRef.new(shape: LabelDelimiter, location_name: "LabelDelimiter"))
+    DatasetDocumentClassifierInputDataConfig.struct_class = Types::DatasetDocumentClassifierInputDataConfig
+
+    DatasetEntityRecognizerAnnotations.add_member(:s3_uri, Shapes::ShapeRef.new(shape: S3Uri, required: true, location_name: "S3Uri"))
+    DatasetEntityRecognizerAnnotations.struct_class = Types::DatasetEntityRecognizerAnnotations
+
+    DatasetEntityRecognizerDocuments.add_member(:s3_uri, Shapes::ShapeRef.new(shape: S3Uri, required: true, location_name: "S3Uri"))
+    DatasetEntityRecognizerDocuments.add_member(:input_format, Shapes::ShapeRef.new(shape: InputFormat, location_name: "InputFormat"))
+    DatasetEntityRecognizerDocuments.struct_class = Types::DatasetEntityRecognizerDocuments
+
+    DatasetEntityRecognizerEntityList.add_member(:s3_uri, Shapes::ShapeRef.new(shape: S3Uri, required: true, location_name: "S3Uri"))
+    DatasetEntityRecognizerEntityList.struct_class = Types::DatasetEntityRecognizerEntityList
+
+    DatasetEntityRecognizerInputDataConfig.add_member(:annotations, Shapes::ShapeRef.new(shape: DatasetEntityRecognizerAnnotations, location_name: "Annotations"))
+    DatasetEntityRecognizerInputDataConfig.add_member(:documents, Shapes::ShapeRef.new(shape: DatasetEntityRecognizerDocuments, required: true, location_name: "Documents"))
+    DatasetEntityRecognizerInputDataConfig.add_member(:entity_list, Shapes::ShapeRef.new(shape: DatasetEntityRecognizerEntityList, location_name: "EntityList"))
+    DatasetEntityRecognizerInputDataConfig.struct_class = Types::DatasetEntityRecognizerInputDataConfig
+
+    DatasetFilter.add_member(:status, Shapes::ShapeRef.new(shape: DatasetStatus, location_name: "Status"))
+    DatasetFilter.add_member(:dataset_type, Shapes::ShapeRef.new(shape: DatasetType, location_name: "DatasetType"))
+    DatasetFilter.add_member(:creation_time_after, Shapes::ShapeRef.new(shape: Timestamp, location_name: "CreationTimeAfter"))
+    DatasetFilter.add_member(:creation_time_before, Shapes::ShapeRef.new(shape: Timestamp, location_name: "CreationTimeBefore"))
+    DatasetFilter.struct_class = Types::DatasetFilter
+
+    DatasetInputDataConfig.add_member(:augmented_manifests, Shapes::ShapeRef.new(shape: DatasetAugmentedManifestsList, location_name: "AugmentedManifests"))
+    DatasetInputDataConfig.add_member(:data_format, Shapes::ShapeRef.new(shape: DatasetDataFormat, location_name: "DataFormat"))
+    DatasetInputDataConfig.add_member(:document_classifier_input_data_config, Shapes::ShapeRef.new(shape: DatasetDocumentClassifierInputDataConfig, location_name: "DocumentClassifierInputDataConfig"))
+    DatasetInputDataConfig.add_member(:entity_recognizer_input_data_config, Shapes::ShapeRef.new(shape: DatasetEntityRecognizerInputDataConfig, location_name: "EntityRecognizerInputDataConfig"))
+    DatasetInputDataConfig.struct_class = Types::DatasetInputDataConfig
+
+    DatasetProperties.add_member(:dataset_arn, Shapes::ShapeRef.new(shape: ComprehendDatasetArn, location_name: "DatasetArn"))
+    DatasetProperties.add_member(:dataset_name, Shapes::ShapeRef.new(shape: ComprehendArnName, location_name: "DatasetName"))
+    DatasetProperties.add_member(:dataset_type, Shapes::ShapeRef.new(shape: DatasetType, location_name: "DatasetType"))
+    DatasetProperties.add_member(:dataset_s3_uri, Shapes::ShapeRef.new(shape: S3Uri, location_name: "DatasetS3Uri"))
+    DatasetProperties.add_member(:description, Shapes::ShapeRef.new(shape: Description, location_name: "Description"))
+    DatasetProperties.add_member(:status, Shapes::ShapeRef.new(shape: DatasetStatus, location_name: "Status"))
+    DatasetProperties.add_member(:message, Shapes::ShapeRef.new(shape: AnyLengthString, location_name: "Message"))
+    DatasetProperties.add_member(:number_of_documents, Shapes::ShapeRef.new(shape: NumberOfDocuments, location_name: "NumberOfDocuments"))
+    DatasetProperties.add_member(:creation_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "CreationTime"))
+    DatasetProperties.add_member(:end_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "EndTime"))
+    DatasetProperties.struct_class = Types::DatasetProperties
+
+    DatasetPropertiesList.member = Shapes::ShapeRef.new(shape: DatasetProperties)
 
     DeleteDocumentClassifierRequest.add_member(:document_classifier_arn, Shapes::ShapeRef.new(shape: DocumentClassifierArn, required: true, location_name: "DocumentClassifierArn"))
     DeleteDocumentClassifierRequest.struct_class = Types::DeleteDocumentClassifierRequest
@@ -592,11 +758,22 @@ module Aws::Comprehend
 
     DeleteEntityRecognizerResponse.struct_class = Types::DeleteEntityRecognizerResponse
 
+    DeleteFlywheelRequest.add_member(:flywheel_arn, Shapes::ShapeRef.new(shape: ComprehendFlywheelArn, required: true, location_name: "FlywheelArn"))
+    DeleteFlywheelRequest.struct_class = Types::DeleteFlywheelRequest
+
+    DeleteFlywheelResponse.struct_class = Types::DeleteFlywheelResponse
+
     DeleteResourcePolicyRequest.add_member(:resource_arn, Shapes::ShapeRef.new(shape: ComprehendModelArn, required: true, location_name: "ResourceArn"))
     DeleteResourcePolicyRequest.add_member(:policy_revision_id, Shapes::ShapeRef.new(shape: PolicyRevisionId, location_name: "PolicyRevisionId"))
     DeleteResourcePolicyRequest.struct_class = Types::DeleteResourcePolicyRequest
 
     DeleteResourcePolicyResponse.struct_class = Types::DeleteResourcePolicyResponse
+
+    DescribeDatasetRequest.add_member(:dataset_arn, Shapes::ShapeRef.new(shape: ComprehendDatasetArn, required: true, location_name: "DatasetArn"))
+    DescribeDatasetRequest.struct_class = Types::DescribeDatasetRequest
+
+    DescribeDatasetResponse.add_member(:dataset_properties, Shapes::ShapeRef.new(shape: DatasetProperties, location_name: "DatasetProperties"))
+    DescribeDatasetResponse.struct_class = Types::DescribeDatasetResponse
 
     DescribeDocumentClassificationJobRequest.add_member(:job_id, Shapes::ShapeRef.new(shape: JobId, required: true, location_name: "JobId"))
     DescribeDocumentClassificationJobRequest.struct_class = Types::DescribeDocumentClassificationJobRequest
@@ -639,6 +816,19 @@ module Aws::Comprehend
 
     DescribeEventsDetectionJobResponse.add_member(:events_detection_job_properties, Shapes::ShapeRef.new(shape: EventsDetectionJobProperties, location_name: "EventsDetectionJobProperties"))
     DescribeEventsDetectionJobResponse.struct_class = Types::DescribeEventsDetectionJobResponse
+
+    DescribeFlywheelIterationRequest.add_member(:flywheel_arn, Shapes::ShapeRef.new(shape: ComprehendFlywheelArn, required: true, location_name: "FlywheelArn"))
+    DescribeFlywheelIterationRequest.add_member(:flywheel_iteration_id, Shapes::ShapeRef.new(shape: FlywheelIterationId, required: true, location_name: "FlywheelIterationId"))
+    DescribeFlywheelIterationRequest.struct_class = Types::DescribeFlywheelIterationRequest
+
+    DescribeFlywheelIterationResponse.add_member(:flywheel_iteration_properties, Shapes::ShapeRef.new(shape: FlywheelIterationProperties, location_name: "FlywheelIterationProperties"))
+    DescribeFlywheelIterationResponse.struct_class = Types::DescribeFlywheelIterationResponse
+
+    DescribeFlywheelRequest.add_member(:flywheel_arn, Shapes::ShapeRef.new(shape: ComprehendFlywheelArn, required: true, location_name: "FlywheelArn"))
+    DescribeFlywheelRequest.struct_class = Types::DescribeFlywheelRequest
+
+    DescribeFlywheelResponse.add_member(:flywheel_properties, Shapes::ShapeRef.new(shape: FlywheelProperties, location_name: "FlywheelProperties"))
+    DescribeFlywheelResponse.struct_class = Types::DescribeFlywheelResponse
 
     DescribeKeyPhrasesDetectionJobRequest.add_member(:job_id, Shapes::ShapeRef.new(shape: JobId, required: true, location_name: "JobId"))
     DescribeKeyPhrasesDetectionJobRequest.struct_class = Types::DescribeKeyPhrasesDetectionJobRequest
@@ -735,10 +925,21 @@ module Aws::Comprehend
     DetectTargetedSentimentResponse.add_member(:entities, Shapes::ShapeRef.new(shape: ListOfTargetedSentimentEntities, location_name: "Entities"))
     DetectTargetedSentimentResponse.struct_class = Types::DetectTargetedSentimentResponse
 
+    DetectToxicContentRequest.add_member(:text_segments, Shapes::ShapeRef.new(shape: ListOfTextSegments, required: true, location_name: "TextSegments"))
+    DetectToxicContentRequest.add_member(:language_code, Shapes::ShapeRef.new(shape: LanguageCode, required: true, location_name: "LanguageCode"))
+    DetectToxicContentRequest.struct_class = Types::DetectToxicContentRequest
+
+    DetectToxicContentResponse.add_member(:result_list, Shapes::ShapeRef.new(shape: ListOfToxicLabels, location_name: "ResultList"))
+    DetectToxicContentResponse.struct_class = Types::DetectToxicContentResponse
+
     DocumentClass.add_member(:name, Shapes::ShapeRef.new(shape: String, location_name: "Name"))
     DocumentClass.add_member(:score, Shapes::ShapeRef.new(shape: Float, location_name: "Score"))
     DocumentClass.add_member(:page, Shapes::ShapeRef.new(shape: Integer, location_name: "Page"))
     DocumentClass.struct_class = Types::DocumentClass
+
+    DocumentClassificationConfig.add_member(:mode, Shapes::ShapeRef.new(shape: DocumentClassifierMode, required: true, location_name: "Mode"))
+    DocumentClassificationConfig.add_member(:labels, Shapes::ShapeRef.new(shape: LabelsList, location_name: "Labels"))
+    DocumentClassificationConfig.struct_class = Types::DocumentClassificationConfig
 
     DocumentClassificationJobFilter.add_member(:job_name, Shapes::ShapeRef.new(shape: JobName, location_name: "JobName"))
     DocumentClassificationJobFilter.add_member(:job_status, Shapes::ShapeRef.new(shape: JobStatus, location_name: "JobStatus"))
@@ -759,11 +960,16 @@ module Aws::Comprehend
     DocumentClassificationJobProperties.add_member(:data_access_role_arn, Shapes::ShapeRef.new(shape: IamRoleArn, location_name: "DataAccessRoleArn"))
     DocumentClassificationJobProperties.add_member(:volume_kms_key_id, Shapes::ShapeRef.new(shape: KmsKeyId, location_name: "VolumeKmsKeyId"))
     DocumentClassificationJobProperties.add_member(:vpc_config, Shapes::ShapeRef.new(shape: VpcConfig, location_name: "VpcConfig"))
+    DocumentClassificationJobProperties.add_member(:flywheel_arn, Shapes::ShapeRef.new(shape: ComprehendFlywheelArn, location_name: "FlywheelArn"))
     DocumentClassificationJobProperties.struct_class = Types::DocumentClassificationJobProperties
 
     DocumentClassificationJobPropertiesList.member = Shapes::ShapeRef.new(shape: DocumentClassificationJobProperties)
 
     DocumentClassifierAugmentedManifestsList.member = Shapes::ShapeRef.new(shape: AugmentedManifestsListItem)
+
+    DocumentClassifierDocuments.add_member(:s3_uri, Shapes::ShapeRef.new(shape: S3Uri, required: true, location_name: "S3Uri"))
+    DocumentClassifierDocuments.add_member(:test_s3_uri, Shapes::ShapeRef.new(shape: S3Uri, location_name: "TestS3Uri"))
+    DocumentClassifierDocuments.struct_class = Types::DocumentClassifierDocuments
 
     DocumentClassifierFilter.add_member(:status, Shapes::ShapeRef.new(shape: ModelStatus, location_name: "Status"))
     DocumentClassifierFilter.add_member(:document_classifier_name, Shapes::ShapeRef.new(shape: ComprehendArnName, location_name: "DocumentClassifierName"))
@@ -776,10 +982,14 @@ module Aws::Comprehend
     DocumentClassifierInputDataConfig.add_member(:test_s3_uri, Shapes::ShapeRef.new(shape: S3Uri, location_name: "TestS3Uri"))
     DocumentClassifierInputDataConfig.add_member(:label_delimiter, Shapes::ShapeRef.new(shape: LabelDelimiter, location_name: "LabelDelimiter"))
     DocumentClassifierInputDataConfig.add_member(:augmented_manifests, Shapes::ShapeRef.new(shape: DocumentClassifierAugmentedManifestsList, location_name: "AugmentedManifests"))
+    DocumentClassifierInputDataConfig.add_member(:document_type, Shapes::ShapeRef.new(shape: DocumentClassifierDocumentTypeFormat, location_name: "DocumentType"))
+    DocumentClassifierInputDataConfig.add_member(:documents, Shapes::ShapeRef.new(shape: DocumentClassifierDocuments, location_name: "Documents"))
+    DocumentClassifierInputDataConfig.add_member(:document_reader_config, Shapes::ShapeRef.new(shape: DocumentReaderConfig, location_name: "DocumentReaderConfig"))
     DocumentClassifierInputDataConfig.struct_class = Types::DocumentClassifierInputDataConfig
 
     DocumentClassifierOutputDataConfig.add_member(:s3_uri, Shapes::ShapeRef.new(shape: S3Uri, location_name: "S3Uri"))
     DocumentClassifierOutputDataConfig.add_member(:kms_key_id, Shapes::ShapeRef.new(shape: KmsKeyId, location_name: "KmsKeyId"))
+    DocumentClassifierOutputDataConfig.add_member(:flywheel_stats_s3_prefix, Shapes::ShapeRef.new(shape: S3Uri, location_name: "FlywheelStatsS3Prefix"))
     DocumentClassifierOutputDataConfig.struct_class = Types::DocumentClassifierOutputDataConfig
 
     DocumentClassifierProperties.add_member(:document_classifier_arn, Shapes::ShapeRef.new(shape: DocumentClassifierArn, location_name: "DocumentClassifierArn"))
@@ -800,6 +1010,7 @@ module Aws::Comprehend
     DocumentClassifierProperties.add_member(:model_kms_key_id, Shapes::ShapeRef.new(shape: KmsKeyId, location_name: "ModelKmsKeyId"))
     DocumentClassifierProperties.add_member(:version_name, Shapes::ShapeRef.new(shape: VersionName, location_name: "VersionName"))
     DocumentClassifierProperties.add_member(:source_model_arn, Shapes::ShapeRef.new(shape: DocumentClassifierArn, location_name: "SourceModelArn"))
+    DocumentClassifierProperties.add_member(:flywheel_arn, Shapes::ShapeRef.new(shape: ComprehendFlywheelArn, location_name: "FlywheelArn"))
     DocumentClassifierProperties.struct_class = Types::DocumentClassifierProperties
 
     DocumentClassifierPropertiesList.member = Shapes::ShapeRef.new(shape: DocumentClassifierProperties)
@@ -874,6 +1085,7 @@ module Aws::Comprehend
     EndpointProperties.add_member(:last_modified_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "LastModifiedTime"))
     EndpointProperties.add_member(:data_access_role_arn, Shapes::ShapeRef.new(shape: IamRoleArn, location_name: "DataAccessRoleArn"))
     EndpointProperties.add_member(:desired_data_access_role_arn, Shapes::ShapeRef.new(shape: IamRoleArn, location_name: "DesiredDataAccessRoleArn"))
+    EndpointProperties.add_member(:flywheel_arn, Shapes::ShapeRef.new(shape: ComprehendFlywheelArn, location_name: "FlywheelArn"))
     EndpointProperties.struct_class = Types::EndpointProperties
 
     EndpointPropertiesList.member = Shapes::ShapeRef.new(shape: EndpointProperties)
@@ -898,6 +1110,7 @@ module Aws::Comprehend
     EntitiesDetectionJobProperties.add_member(:data_access_role_arn, Shapes::ShapeRef.new(shape: IamRoleArn, location_name: "DataAccessRoleArn"))
     EntitiesDetectionJobProperties.add_member(:volume_kms_key_id, Shapes::ShapeRef.new(shape: KmsKeyId, location_name: "VolumeKmsKeyId"))
     EntitiesDetectionJobProperties.add_member(:vpc_config, Shapes::ShapeRef.new(shape: VpcConfig, location_name: "VpcConfig"))
+    EntitiesDetectionJobProperties.add_member(:flywheel_arn, Shapes::ShapeRef.new(shape: ComprehendFlywheelArn, location_name: "FlywheelArn"))
     EntitiesDetectionJobProperties.struct_class = Types::EntitiesDetectionJobProperties
 
     EntitiesDetectionJobPropertiesList.member = Shapes::ShapeRef.new(shape: EntitiesDetectionJobProperties)
@@ -913,6 +1126,9 @@ module Aws::Comprehend
     EntityLabel.add_member(:name, Shapes::ShapeRef.new(shape: PiiEntityType, location_name: "Name"))
     EntityLabel.add_member(:score, Shapes::ShapeRef.new(shape: Float, location_name: "Score"))
     EntityLabel.struct_class = Types::EntityLabel
+
+    EntityRecognitionConfig.add_member(:entity_types, Shapes::ShapeRef.new(shape: EntityTypesList, required: true, location_name: "EntityTypes"))
+    EntityRecognitionConfig.struct_class = Types::EntityRecognitionConfig
 
     EntityRecognizerAnnotations.add_member(:s3_uri, Shapes::ShapeRef.new(shape: S3Uri, required: true, location_name: "S3Uri"))
     EntityRecognizerAnnotations.add_member(:test_s3_uri, Shapes::ShapeRef.new(shape: S3Uri, location_name: "TestS3Uri"))
@@ -960,6 +1176,9 @@ module Aws::Comprehend
     EntityRecognizerMetadataEntityTypesListItem.add_member(:number_of_train_mentions, Shapes::ShapeRef.new(shape: Integer, location_name: "NumberOfTrainMentions"))
     EntityRecognizerMetadataEntityTypesListItem.struct_class = Types::EntityRecognizerMetadataEntityTypesListItem
 
+    EntityRecognizerOutputDataConfig.add_member(:flywheel_stats_s3_prefix, Shapes::ShapeRef.new(shape: S3Uri, location_name: "FlywheelStatsS3Prefix"))
+    EntityRecognizerOutputDataConfig.struct_class = Types::EntityRecognizerOutputDataConfig
+
     EntityRecognizerProperties.add_member(:entity_recognizer_arn, Shapes::ShapeRef.new(shape: EntityRecognizerArn, location_name: "EntityRecognizerArn"))
     EntityRecognizerProperties.add_member(:language_code, Shapes::ShapeRef.new(shape: LanguageCode, location_name: "LanguageCode"))
     EntityRecognizerProperties.add_member(:status, Shapes::ShapeRef.new(shape: ModelStatus, location_name: "Status"))
@@ -976,6 +1195,8 @@ module Aws::Comprehend
     EntityRecognizerProperties.add_member(:model_kms_key_id, Shapes::ShapeRef.new(shape: KmsKeyId, location_name: "ModelKmsKeyId"))
     EntityRecognizerProperties.add_member(:version_name, Shapes::ShapeRef.new(shape: VersionName, location_name: "VersionName"))
     EntityRecognizerProperties.add_member(:source_model_arn, Shapes::ShapeRef.new(shape: EntityRecognizerArn, location_name: "SourceModelArn"))
+    EntityRecognizerProperties.add_member(:flywheel_arn, Shapes::ShapeRef.new(shape: ComprehendFlywheelArn, location_name: "FlywheelArn"))
+    EntityRecognizerProperties.add_member(:output_data_config, Shapes::ShapeRef.new(shape: EntityRecognizerOutputDataConfig, location_name: "OutputDataConfig"))
     EntityRecognizerProperties.struct_class = Types::EntityRecognizerProperties
 
     EntityRecognizerPropertiesList.member = Shapes::ShapeRef.new(shape: EntityRecognizerProperties)
@@ -1029,6 +1250,63 @@ module Aws::Comprehend
     ExtractedCharactersListItem.add_member(:page, Shapes::ShapeRef.new(shape: Integer, location_name: "Page"))
     ExtractedCharactersListItem.add_member(:count, Shapes::ShapeRef.new(shape: Integer, location_name: "Count"))
     ExtractedCharactersListItem.struct_class = Types::ExtractedCharactersListItem
+
+    FlywheelFilter.add_member(:status, Shapes::ShapeRef.new(shape: FlywheelStatus, location_name: "Status"))
+    FlywheelFilter.add_member(:creation_time_after, Shapes::ShapeRef.new(shape: Timestamp, location_name: "CreationTimeAfter"))
+    FlywheelFilter.add_member(:creation_time_before, Shapes::ShapeRef.new(shape: Timestamp, location_name: "CreationTimeBefore"))
+    FlywheelFilter.struct_class = Types::FlywheelFilter
+
+    FlywheelIterationFilter.add_member(:creation_time_after, Shapes::ShapeRef.new(shape: Timestamp, location_name: "CreationTimeAfter"))
+    FlywheelIterationFilter.add_member(:creation_time_before, Shapes::ShapeRef.new(shape: Timestamp, location_name: "CreationTimeBefore"))
+    FlywheelIterationFilter.struct_class = Types::FlywheelIterationFilter
+
+    FlywheelIterationProperties.add_member(:flywheel_arn, Shapes::ShapeRef.new(shape: ComprehendFlywheelArn, location_name: "FlywheelArn"))
+    FlywheelIterationProperties.add_member(:flywheel_iteration_id, Shapes::ShapeRef.new(shape: FlywheelIterationId, location_name: "FlywheelIterationId"))
+    FlywheelIterationProperties.add_member(:creation_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "CreationTime"))
+    FlywheelIterationProperties.add_member(:end_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "EndTime"))
+    FlywheelIterationProperties.add_member(:status, Shapes::ShapeRef.new(shape: FlywheelIterationStatus, location_name: "Status"))
+    FlywheelIterationProperties.add_member(:message, Shapes::ShapeRef.new(shape: AnyLengthString, location_name: "Message"))
+    FlywheelIterationProperties.add_member(:evaluated_model_arn, Shapes::ShapeRef.new(shape: ComprehendModelArn, location_name: "EvaluatedModelArn"))
+    FlywheelIterationProperties.add_member(:evaluated_model_metrics, Shapes::ShapeRef.new(shape: FlywheelModelEvaluationMetrics, location_name: "EvaluatedModelMetrics"))
+    FlywheelIterationProperties.add_member(:trained_model_arn, Shapes::ShapeRef.new(shape: ComprehendModelArn, location_name: "TrainedModelArn"))
+    FlywheelIterationProperties.add_member(:trained_model_metrics, Shapes::ShapeRef.new(shape: FlywheelModelEvaluationMetrics, location_name: "TrainedModelMetrics"))
+    FlywheelIterationProperties.add_member(:evaluation_manifest_s3_prefix, Shapes::ShapeRef.new(shape: S3Uri, location_name: "EvaluationManifestS3Prefix"))
+    FlywheelIterationProperties.struct_class = Types::FlywheelIterationProperties
+
+    FlywheelIterationPropertiesList.member = Shapes::ShapeRef.new(shape: FlywheelIterationProperties)
+
+    FlywheelModelEvaluationMetrics.add_member(:average_f1_score, Shapes::ShapeRef.new(shape: Double, location_name: "AverageF1Score"))
+    FlywheelModelEvaluationMetrics.add_member(:average_precision, Shapes::ShapeRef.new(shape: Double, location_name: "AveragePrecision"))
+    FlywheelModelEvaluationMetrics.add_member(:average_recall, Shapes::ShapeRef.new(shape: Double, location_name: "AverageRecall"))
+    FlywheelModelEvaluationMetrics.add_member(:average_accuracy, Shapes::ShapeRef.new(shape: Double, location_name: "AverageAccuracy"))
+    FlywheelModelEvaluationMetrics.struct_class = Types::FlywheelModelEvaluationMetrics
+
+    FlywheelProperties.add_member(:flywheel_arn, Shapes::ShapeRef.new(shape: ComprehendFlywheelArn, location_name: "FlywheelArn"))
+    FlywheelProperties.add_member(:active_model_arn, Shapes::ShapeRef.new(shape: ComprehendModelArn, location_name: "ActiveModelArn"))
+    FlywheelProperties.add_member(:data_access_role_arn, Shapes::ShapeRef.new(shape: IamRoleArn, location_name: "DataAccessRoleArn"))
+    FlywheelProperties.add_member(:task_config, Shapes::ShapeRef.new(shape: TaskConfig, location_name: "TaskConfig"))
+    FlywheelProperties.add_member(:data_lake_s3_uri, Shapes::ShapeRef.new(shape: S3Uri, location_name: "DataLakeS3Uri"))
+    FlywheelProperties.add_member(:data_security_config, Shapes::ShapeRef.new(shape: DataSecurityConfig, location_name: "DataSecurityConfig"))
+    FlywheelProperties.add_member(:status, Shapes::ShapeRef.new(shape: FlywheelStatus, location_name: "Status"))
+    FlywheelProperties.add_member(:model_type, Shapes::ShapeRef.new(shape: ModelType, location_name: "ModelType"))
+    FlywheelProperties.add_member(:message, Shapes::ShapeRef.new(shape: AnyLengthString, location_name: "Message"))
+    FlywheelProperties.add_member(:creation_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "CreationTime"))
+    FlywheelProperties.add_member(:last_modified_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "LastModifiedTime"))
+    FlywheelProperties.add_member(:latest_flywheel_iteration, Shapes::ShapeRef.new(shape: FlywheelIterationId, location_name: "LatestFlywheelIteration"))
+    FlywheelProperties.struct_class = Types::FlywheelProperties
+
+    FlywheelSummary.add_member(:flywheel_arn, Shapes::ShapeRef.new(shape: ComprehendFlywheelArn, location_name: "FlywheelArn"))
+    FlywheelSummary.add_member(:active_model_arn, Shapes::ShapeRef.new(shape: ComprehendModelArn, location_name: "ActiveModelArn"))
+    FlywheelSummary.add_member(:data_lake_s3_uri, Shapes::ShapeRef.new(shape: S3Uri, location_name: "DataLakeS3Uri"))
+    FlywheelSummary.add_member(:status, Shapes::ShapeRef.new(shape: FlywheelStatus, location_name: "Status"))
+    FlywheelSummary.add_member(:model_type, Shapes::ShapeRef.new(shape: ModelType, location_name: "ModelType"))
+    FlywheelSummary.add_member(:message, Shapes::ShapeRef.new(shape: AnyLengthString, location_name: "Message"))
+    FlywheelSummary.add_member(:creation_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "CreationTime"))
+    FlywheelSummary.add_member(:last_modified_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "LastModifiedTime"))
+    FlywheelSummary.add_member(:latest_flywheel_iteration, Shapes::ShapeRef.new(shape: FlywheelIterationId, location_name: "LatestFlywheelIteration"))
+    FlywheelSummary.struct_class = Types::FlywheelSummary
+
+    FlywheelSummaryList.member = Shapes::ShapeRef.new(shape: FlywheelSummary)
 
     Geometry.add_member(:bounding_box, Shapes::ShapeRef.new(shape: BoundingBox, location_name: "BoundingBox"))
     Geometry.add_member(:polygon, Shapes::ShapeRef.new(shape: Polygon, location_name: "Polygon"))
@@ -1098,6 +1376,18 @@ module Aws::Comprehend
 
     KmsKeyValidationException.add_member(:message, Shapes::ShapeRef.new(shape: String, location_name: "Message"))
     KmsKeyValidationException.struct_class = Types::KmsKeyValidationException
+
+    LabelsList.member = Shapes::ShapeRef.new(shape: LabelListItem)
+
+    ListDatasetsRequest.add_member(:flywheel_arn, Shapes::ShapeRef.new(shape: ComprehendFlywheelArn, location_name: "FlywheelArn"))
+    ListDatasetsRequest.add_member(:filter, Shapes::ShapeRef.new(shape: DatasetFilter, location_name: "Filter"))
+    ListDatasetsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: String, location_name: "NextToken"))
+    ListDatasetsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResultsInteger, location_name: "MaxResults"))
+    ListDatasetsRequest.struct_class = Types::ListDatasetsRequest
+
+    ListDatasetsResponse.add_member(:dataset_properties_list, Shapes::ShapeRef.new(shape: DatasetPropertiesList, location_name: "DatasetPropertiesList"))
+    ListDatasetsResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: String, location_name: "NextToken"))
+    ListDatasetsResponse.struct_class = Types::ListDatasetsResponse
 
     ListDocumentClassificationJobsRequest.add_member(:filter, Shapes::ShapeRef.new(shape: DocumentClassificationJobFilter, location_name: "Filter"))
     ListDocumentClassificationJobsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: String, location_name: "NextToken"))
@@ -1178,6 +1468,25 @@ module Aws::Comprehend
     ListEventsDetectionJobsResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: String, location_name: "NextToken"))
     ListEventsDetectionJobsResponse.struct_class = Types::ListEventsDetectionJobsResponse
 
+    ListFlywheelIterationHistoryRequest.add_member(:flywheel_arn, Shapes::ShapeRef.new(shape: ComprehendFlywheelArn, required: true, location_name: "FlywheelArn"))
+    ListFlywheelIterationHistoryRequest.add_member(:filter, Shapes::ShapeRef.new(shape: FlywheelIterationFilter, location_name: "Filter"))
+    ListFlywheelIterationHistoryRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: String, location_name: "NextToken"))
+    ListFlywheelIterationHistoryRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResultsInteger, location_name: "MaxResults"))
+    ListFlywheelIterationHistoryRequest.struct_class = Types::ListFlywheelIterationHistoryRequest
+
+    ListFlywheelIterationHistoryResponse.add_member(:flywheel_iteration_properties_list, Shapes::ShapeRef.new(shape: FlywheelIterationPropertiesList, location_name: "FlywheelIterationPropertiesList"))
+    ListFlywheelIterationHistoryResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: String, location_name: "NextToken"))
+    ListFlywheelIterationHistoryResponse.struct_class = Types::ListFlywheelIterationHistoryResponse
+
+    ListFlywheelsRequest.add_member(:filter, Shapes::ShapeRef.new(shape: FlywheelFilter, location_name: "Filter"))
+    ListFlywheelsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: String, location_name: "NextToken"))
+    ListFlywheelsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResultsInteger, location_name: "MaxResults"))
+    ListFlywheelsRequest.struct_class = Types::ListFlywheelsRequest
+
+    ListFlywheelsResponse.add_member(:flywheel_summary_list, Shapes::ShapeRef.new(shape: FlywheelSummaryList, location_name: "FlywheelSummaryList"))
+    ListFlywheelsResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: String, location_name: "NextToken"))
+    ListFlywheelsResponse.struct_class = Types::ListFlywheelsResponse
+
     ListKeyPhrasesDetectionJobsRequest.add_member(:filter, Shapes::ShapeRef.new(shape: KeyPhrasesDetectionJobFilter, location_name: "Filter"))
     ListKeyPhrasesDetectionJobsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: String, location_name: "NextToken"))
     ListKeyPhrasesDetectionJobsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResultsInteger, location_name: "MaxResults"))
@@ -1238,6 +1547,14 @@ module Aws::Comprehend
     ListOfSyntaxTokens.member = Shapes::ShapeRef.new(shape: SyntaxToken)
 
     ListOfTargetedSentimentEntities.member = Shapes::ShapeRef.new(shape: TargetedSentimentEntity)
+
+    ListOfTextSegments.member = Shapes::ShapeRef.new(shape: TextSegment)
+
+    ListOfToxicContent.member = Shapes::ShapeRef.new(shape: ToxicContent)
+
+    ListOfToxicLabels.member = Shapes::ShapeRef.new(shape: ToxicLabels)
+
+    ListOfWarnings.member = Shapes::ShapeRef.new(shape: WarningsListItem)
 
     ListPiiEntitiesDetectionJobsRequest.add_member(:filter, Shapes::ShapeRef.new(shape: PiiEntitiesDetectionJobFilter, location_name: "Filter"))
     ListPiiEntitiesDetectionJobsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: String, location_name: "NextToken"))
@@ -1394,7 +1711,7 @@ module Aws::Comprehend
     SentimentScore.struct_class = Types::SentimentScore
 
     StartDocumentClassificationJobRequest.add_member(:job_name, Shapes::ShapeRef.new(shape: JobName, location_name: "JobName"))
-    StartDocumentClassificationJobRequest.add_member(:document_classifier_arn, Shapes::ShapeRef.new(shape: DocumentClassifierArn, required: true, location_name: "DocumentClassifierArn"))
+    StartDocumentClassificationJobRequest.add_member(:document_classifier_arn, Shapes::ShapeRef.new(shape: DocumentClassifierArn, location_name: "DocumentClassifierArn"))
     StartDocumentClassificationJobRequest.add_member(:input_data_config, Shapes::ShapeRef.new(shape: InputDataConfig, required: true, location_name: "InputDataConfig"))
     StartDocumentClassificationJobRequest.add_member(:output_data_config, Shapes::ShapeRef.new(shape: OutputDataConfig, required: true, location_name: "OutputDataConfig"))
     StartDocumentClassificationJobRequest.add_member(:data_access_role_arn, Shapes::ShapeRef.new(shape: IamRoleArn, required: true, location_name: "DataAccessRoleArn"))
@@ -1402,11 +1719,13 @@ module Aws::Comprehend
     StartDocumentClassificationJobRequest.add_member(:volume_kms_key_id, Shapes::ShapeRef.new(shape: KmsKeyId, location_name: "VolumeKmsKeyId"))
     StartDocumentClassificationJobRequest.add_member(:vpc_config, Shapes::ShapeRef.new(shape: VpcConfig, location_name: "VpcConfig"))
     StartDocumentClassificationJobRequest.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "Tags"))
+    StartDocumentClassificationJobRequest.add_member(:flywheel_arn, Shapes::ShapeRef.new(shape: ComprehendFlywheelArn, location_name: "FlywheelArn"))
     StartDocumentClassificationJobRequest.struct_class = Types::StartDocumentClassificationJobRequest
 
     StartDocumentClassificationJobResponse.add_member(:job_id, Shapes::ShapeRef.new(shape: JobId, location_name: "JobId"))
     StartDocumentClassificationJobResponse.add_member(:job_arn, Shapes::ShapeRef.new(shape: ComprehendArn, location_name: "JobArn"))
     StartDocumentClassificationJobResponse.add_member(:job_status, Shapes::ShapeRef.new(shape: JobStatus, location_name: "JobStatus"))
+    StartDocumentClassificationJobResponse.add_member(:document_classifier_arn, Shapes::ShapeRef.new(shape: DocumentClassifierArn, location_name: "DocumentClassifierArn"))
     StartDocumentClassificationJobResponse.struct_class = Types::StartDocumentClassificationJobResponse
 
     StartDominantLanguageDetectionJobRequest.add_member(:input_data_config, Shapes::ShapeRef.new(shape: InputDataConfig, required: true, location_name: "InputDataConfig"))
@@ -1434,11 +1753,13 @@ module Aws::Comprehend
     StartEntitiesDetectionJobRequest.add_member(:volume_kms_key_id, Shapes::ShapeRef.new(shape: KmsKeyId, location_name: "VolumeKmsKeyId"))
     StartEntitiesDetectionJobRequest.add_member(:vpc_config, Shapes::ShapeRef.new(shape: VpcConfig, location_name: "VpcConfig"))
     StartEntitiesDetectionJobRequest.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "Tags"))
+    StartEntitiesDetectionJobRequest.add_member(:flywheel_arn, Shapes::ShapeRef.new(shape: ComprehendFlywheelArn, location_name: "FlywheelArn"))
     StartEntitiesDetectionJobRequest.struct_class = Types::StartEntitiesDetectionJobRequest
 
     StartEntitiesDetectionJobResponse.add_member(:job_id, Shapes::ShapeRef.new(shape: JobId, location_name: "JobId"))
     StartEntitiesDetectionJobResponse.add_member(:job_arn, Shapes::ShapeRef.new(shape: ComprehendArn, location_name: "JobArn"))
     StartEntitiesDetectionJobResponse.add_member(:job_status, Shapes::ShapeRef.new(shape: JobStatus, location_name: "JobStatus"))
+    StartEntitiesDetectionJobResponse.add_member(:entity_recognizer_arn, Shapes::ShapeRef.new(shape: EntityRecognizerArn, location_name: "EntityRecognizerArn"))
     StartEntitiesDetectionJobResponse.struct_class = Types::StartEntitiesDetectionJobResponse
 
     StartEventsDetectionJobRequest.add_member(:input_data_config, Shapes::ShapeRef.new(shape: InputDataConfig, required: true, location_name: "InputDataConfig"))
@@ -1455,6 +1776,14 @@ module Aws::Comprehend
     StartEventsDetectionJobResponse.add_member(:job_arn, Shapes::ShapeRef.new(shape: ComprehendArn, location_name: "JobArn"))
     StartEventsDetectionJobResponse.add_member(:job_status, Shapes::ShapeRef.new(shape: JobStatus, location_name: "JobStatus"))
     StartEventsDetectionJobResponse.struct_class = Types::StartEventsDetectionJobResponse
+
+    StartFlywheelIterationRequest.add_member(:flywheel_arn, Shapes::ShapeRef.new(shape: ComprehendFlywheelArn, required: true, location_name: "FlywheelArn"))
+    StartFlywheelIterationRequest.add_member(:client_request_token, Shapes::ShapeRef.new(shape: ClientRequestTokenString, location_name: "ClientRequestToken"))
+    StartFlywheelIterationRequest.struct_class = Types::StartFlywheelIterationRequest
+
+    StartFlywheelIterationResponse.add_member(:flywheel_arn, Shapes::ShapeRef.new(shape: ComprehendFlywheelArn, location_name: "FlywheelArn"))
+    StartFlywheelIterationResponse.add_member(:flywheel_iteration_id, Shapes::ShapeRef.new(shape: FlywheelIterationId, location_name: "FlywheelIterationId"))
+    StartFlywheelIterationResponse.struct_class = Types::StartFlywheelIterationResponse
 
     StartKeyPhrasesDetectionJobRequest.add_member(:input_data_config, Shapes::ShapeRef.new(shape: InputDataConfig, required: true, location_name: "InputDataConfig"))
     StartKeyPhrasesDetectionJobRequest.add_member(:output_data_config, Shapes::ShapeRef.new(shape: OutputDataConfig, required: true, location_name: "OutputDataConfig"))
@@ -1658,6 +1987,14 @@ module Aws::Comprehend
     TargetedSentimentMention.add_member(:end_offset, Shapes::ShapeRef.new(shape: Integer, location_name: "EndOffset"))
     TargetedSentimentMention.struct_class = Types::TargetedSentimentMention
 
+    TaskConfig.add_member(:language_code, Shapes::ShapeRef.new(shape: LanguageCode, required: true, location_name: "LanguageCode"))
+    TaskConfig.add_member(:document_classification_config, Shapes::ShapeRef.new(shape: DocumentClassificationConfig, location_name: "DocumentClassificationConfig"))
+    TaskConfig.add_member(:entity_recognition_config, Shapes::ShapeRef.new(shape: EntityRecognitionConfig, location_name: "EntityRecognitionConfig"))
+    TaskConfig.struct_class = Types::TaskConfig
+
+    TextSegment.add_member(:text, Shapes::ShapeRef.new(shape: CustomerInputString, required: true, location_name: "Text"))
+    TextSegment.struct_class = Types::TextSegment
+
     TextSizeLimitExceededException.add_member(:message, Shapes::ShapeRef.new(shape: String, location_name: "Message"))
     TextSizeLimitExceededException.struct_class = Types::TextSizeLimitExceededException
 
@@ -1693,6 +2030,14 @@ module Aws::Comprehend
 
     TopicsDetectionJobPropertiesList.member = Shapes::ShapeRef.new(shape: TopicsDetectionJobProperties)
 
+    ToxicContent.add_member(:name, Shapes::ShapeRef.new(shape: ToxicContentType, location_name: "Name"))
+    ToxicContent.add_member(:score, Shapes::ShapeRef.new(shape: Float, location_name: "Score"))
+    ToxicContent.struct_class = Types::ToxicContent
+
+    ToxicLabels.add_member(:labels, Shapes::ShapeRef.new(shape: ListOfToxicContent, location_name: "Labels"))
+    ToxicLabels.add_member(:toxicity, Shapes::ShapeRef.new(shape: Float, location_name: "Toxicity"))
+    ToxicLabels.struct_class = Types::ToxicLabels
+
     UnsupportedLanguageException.add_member(:message, Shapes::ShapeRef.new(shape: String, location_name: "Message"))
     UnsupportedLanguageException.struct_class = Types::UnsupportedLanguageException
 
@@ -1702,17 +2047,38 @@ module Aws::Comprehend
 
     UntagResourceResponse.struct_class = Types::UntagResourceResponse
 
+    UpdateDataSecurityConfig.add_member(:model_kms_key_id, Shapes::ShapeRef.new(shape: KmsKeyId, location_name: "ModelKmsKeyId"))
+    UpdateDataSecurityConfig.add_member(:volume_kms_key_id, Shapes::ShapeRef.new(shape: KmsKeyId, location_name: "VolumeKmsKeyId"))
+    UpdateDataSecurityConfig.add_member(:vpc_config, Shapes::ShapeRef.new(shape: VpcConfig, location_name: "VpcConfig"))
+    UpdateDataSecurityConfig.struct_class = Types::UpdateDataSecurityConfig
+
     UpdateEndpointRequest.add_member(:endpoint_arn, Shapes::ShapeRef.new(shape: ComprehendEndpointArn, required: true, location_name: "EndpointArn"))
     UpdateEndpointRequest.add_member(:desired_model_arn, Shapes::ShapeRef.new(shape: ComprehendModelArn, location_name: "DesiredModelArn"))
     UpdateEndpointRequest.add_member(:desired_inference_units, Shapes::ShapeRef.new(shape: InferenceUnitsInteger, location_name: "DesiredInferenceUnits"))
     UpdateEndpointRequest.add_member(:desired_data_access_role_arn, Shapes::ShapeRef.new(shape: IamRoleArn, location_name: "DesiredDataAccessRoleArn"))
+    UpdateEndpointRequest.add_member(:flywheel_arn, Shapes::ShapeRef.new(shape: ComprehendFlywheelArn, location_name: "FlywheelArn"))
     UpdateEndpointRequest.struct_class = Types::UpdateEndpointRequest
 
+    UpdateEndpointResponse.add_member(:desired_model_arn, Shapes::ShapeRef.new(shape: ComprehendModelArn, location_name: "DesiredModelArn"))
     UpdateEndpointResponse.struct_class = Types::UpdateEndpointResponse
+
+    UpdateFlywheelRequest.add_member(:flywheel_arn, Shapes::ShapeRef.new(shape: ComprehendFlywheelArn, required: true, location_name: "FlywheelArn"))
+    UpdateFlywheelRequest.add_member(:active_model_arn, Shapes::ShapeRef.new(shape: ComprehendModelArn, location_name: "ActiveModelArn"))
+    UpdateFlywheelRequest.add_member(:data_access_role_arn, Shapes::ShapeRef.new(shape: IamRoleArn, location_name: "DataAccessRoleArn"))
+    UpdateFlywheelRequest.add_member(:data_security_config, Shapes::ShapeRef.new(shape: UpdateDataSecurityConfig, location_name: "DataSecurityConfig"))
+    UpdateFlywheelRequest.struct_class = Types::UpdateFlywheelRequest
+
+    UpdateFlywheelResponse.add_member(:flywheel_properties, Shapes::ShapeRef.new(shape: FlywheelProperties, location_name: "FlywheelProperties"))
+    UpdateFlywheelResponse.struct_class = Types::UpdateFlywheelResponse
 
     VpcConfig.add_member(:security_group_ids, Shapes::ShapeRef.new(shape: SecurityGroupIds, required: true, location_name: "SecurityGroupIds"))
     VpcConfig.add_member(:subnets, Shapes::ShapeRef.new(shape: Subnets, required: true, location_name: "Subnets"))
     VpcConfig.struct_class = Types::VpcConfig
+
+    WarningsListItem.add_member(:page, Shapes::ShapeRef.new(shape: Integer, location_name: "Page"))
+    WarningsListItem.add_member(:warn_code, Shapes::ShapeRef.new(shape: PageBasedWarningCode, location_name: "WarnCode"))
+    WarningsListItem.add_member(:warn_message, Shapes::ShapeRef.new(shape: String, location_name: "WarnMessage"))
+    WarningsListItem.struct_class = Types::WarningsListItem
 
 
     # @api private
@@ -1722,9 +2088,11 @@ module Aws::Comprehend
 
       api.metadata = {
         "apiVersion" => "2017-11-27",
+        "auth" => ["aws.auth#sigv4"],
         "endpointPrefix" => "comprehend",
         "jsonVersion" => "1.1",
         "protocol" => "json",
+        "protocols" => ["json"],
         "serviceFullName" => "Amazon Comprehend",
         "serviceId" => "Comprehend",
         "signatureVersion" => "v4",
@@ -1834,6 +2202,21 @@ module Aws::Comprehend
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
       end)
 
+      api.add_operation(:create_dataset, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "CreateDataset"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: CreateDatasetRequest)
+        o.output = Shapes::ShapeRef.new(shape: CreateDatasetResponse)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceInUseException)
+        o.errors << Shapes::ShapeRef.new(shape: TooManyTagsException)
+        o.errors << Shapes::ShapeRef.new(shape: TooManyRequestsException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceLimitExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+      end)
+
       api.add_operation(:create_document_classifier, Seahorse::Model::Operation.new.tap do |o|
         o.name = "CreateDocumentClassifier"
         o.http_method = "POST"
@@ -1882,6 +2265,24 @@ module Aws::Comprehend
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
       end)
 
+      api.add_operation(:create_flywheel, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "CreateFlywheel"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: CreateFlywheelRequest)
+        o.output = Shapes::ShapeRef.new(shape: CreateFlywheelResponse)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceInUseException)
+        o.errors << Shapes::ShapeRef.new(shape: TooManyTagsException)
+        o.errors << Shapes::ShapeRef.new(shape: TooManyRequestsException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceLimitExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: UnsupportedLanguageException)
+        o.errors << Shapes::ShapeRef.new(shape: KmsKeyValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceUnavailableException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+      end)
+
       api.add_operation(:delete_document_classifier, Seahorse::Model::Operation.new.tap do |o|
         o.name = "DeleteDocumentClassifier"
         o.http_method = "POST"
@@ -1923,6 +2324,20 @@ module Aws::Comprehend
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
       end)
 
+      api.add_operation(:delete_flywheel, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DeleteFlywheel"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: DeleteFlywheelRequest)
+        o.output = Shapes::ShapeRef.new(shape: DeleteFlywheelResponse)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: TooManyRequestsException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceUnavailableException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceInUseException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+      end)
+
       api.add_operation(:delete_resource_policy, Seahorse::Model::Operation.new.tap do |o|
         o.name = "DeleteResourcePolicy"
         o.http_method = "POST"
@@ -1930,6 +2345,18 @@ module Aws::Comprehend
         o.input = Shapes::ShapeRef.new(shape: DeleteResourcePolicyRequest)
         o.output = Shapes::ShapeRef.new(shape: DeleteResourcePolicyResponse)
         o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+      end)
+
+      api.add_operation(:describe_dataset, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DescribeDataset"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: DescribeDatasetRequest)
+        o.output = Shapes::ShapeRef.new(shape: DescribeDatasetResponse)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: TooManyRequestsException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
       end)
@@ -2015,6 +2442,30 @@ module Aws::Comprehend
         o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
         o.errors << Shapes::ShapeRef.new(shape: JobNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: TooManyRequestsException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+      end)
+
+      api.add_operation(:describe_flywheel, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DescribeFlywheel"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: DescribeFlywheelRequest)
+        o.output = Shapes::ShapeRef.new(shape: DescribeFlywheelResponse)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: TooManyRequestsException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+      end)
+
+      api.add_operation(:describe_flywheel_iteration, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DescribeFlywheelIteration"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: DescribeFlywheelIterationRequest)
+        o.output = Shapes::ShapeRef.new(shape: DescribeFlywheelIterationResponse)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: TooManyRequestsException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
       end)
 
@@ -2173,6 +2624,18 @@ module Aws::Comprehend
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
       end)
 
+      api.add_operation(:detect_toxic_content, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DetectToxicContent"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: DetectToxicContentRequest)
+        o.output = Shapes::ShapeRef.new(shape: DetectToxicContentResponse)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: TextSizeLimitExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: UnsupportedLanguageException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+      end)
+
       api.add_operation(:import_model, Seahorse::Model::Operation.new.tap do |o|
         o.name = "ImportModel"
         o.http_method = "POST"
@@ -2188,6 +2651,25 @@ module Aws::Comprehend
         o.errors << Shapes::ShapeRef.new(shape: ResourceLimitExceededException)
         o.errors << Shapes::ShapeRef.new(shape: KmsKeyValidationException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+      end)
+
+      api.add_operation(:list_datasets, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListDatasets"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: ListDatasetsRequest)
+        o.output = Shapes::ShapeRef.new(shape: ListDatasetsResponse)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: TooManyRequestsException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidFilterException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
       end)
 
       api.add_operation(:list_document_classification_jobs, Seahorse::Model::Operation.new.tap do |o|
@@ -2349,6 +2831,43 @@ module Aws::Comprehend
         )
       end)
 
+      api.add_operation(:list_flywheel_iteration_history, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListFlywheelIterationHistory"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: ListFlywheelIterationHistoryRequest)
+        o.output = Shapes::ShapeRef.new(shape: ListFlywheelIterationHistoryResponse)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: TooManyRequestsException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidFilterException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
+      end)
+
+      api.add_operation(:list_flywheels, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListFlywheels"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: ListFlywheelsRequest)
+        o.output = Shapes::ShapeRef.new(shape: ListFlywheelsResponse)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: TooManyRequestsException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidFilterException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
+      end)
+
       api.add_operation(:list_key_phrases_detection_jobs, Seahorse::Model::Operation.new.tap do |o|
         o.name = "ListKeyPhrasesDetectionJobs"
         o.http_method = "POST"
@@ -2473,6 +2992,7 @@ module Aws::Comprehend
         o.errors << Shapes::ShapeRef.new(shape: ResourceUnavailableException)
         o.errors << Shapes::ShapeRef.new(shape: KmsKeyValidationException)
         o.errors << Shapes::ShapeRef.new(shape: TooManyTagsException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceInUseException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
       end)
 
@@ -2486,6 +3006,7 @@ module Aws::Comprehend
         o.errors << Shapes::ShapeRef.new(shape: TooManyRequestsException)
         o.errors << Shapes::ShapeRef.new(shape: KmsKeyValidationException)
         o.errors << Shapes::ShapeRef.new(shape: TooManyTagsException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceInUseException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
       end)
 
@@ -2501,6 +3022,7 @@ module Aws::Comprehend
         o.errors << Shapes::ShapeRef.new(shape: ResourceUnavailableException)
         o.errors << Shapes::ShapeRef.new(shape: KmsKeyValidationException)
         o.errors << Shapes::ShapeRef.new(shape: TooManyTagsException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceInUseException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
       end)
 
@@ -2514,6 +3036,20 @@ module Aws::Comprehend
         o.errors << Shapes::ShapeRef.new(shape: TooManyRequestsException)
         o.errors << Shapes::ShapeRef.new(shape: KmsKeyValidationException)
         o.errors << Shapes::ShapeRef.new(shape: TooManyTagsException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceInUseException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+      end)
+
+      api.add_operation(:start_flywheel_iteration, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "StartFlywheelIteration"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: StartFlywheelIterationRequest)
+        o.output = Shapes::ShapeRef.new(shape: StartFlywheelIterationResponse)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: TooManyRequestsException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceInUseException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
       end)
 
@@ -2527,6 +3063,7 @@ module Aws::Comprehend
         o.errors << Shapes::ShapeRef.new(shape: TooManyRequestsException)
         o.errors << Shapes::ShapeRef.new(shape: KmsKeyValidationException)
         o.errors << Shapes::ShapeRef.new(shape: TooManyTagsException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceInUseException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
       end)
 
@@ -2540,6 +3077,7 @@ module Aws::Comprehend
         o.errors << Shapes::ShapeRef.new(shape: TooManyRequestsException)
         o.errors << Shapes::ShapeRef.new(shape: KmsKeyValidationException)
         o.errors << Shapes::ShapeRef.new(shape: TooManyTagsException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceInUseException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
       end)
 
@@ -2553,6 +3091,7 @@ module Aws::Comprehend
         o.errors << Shapes::ShapeRef.new(shape: TooManyRequestsException)
         o.errors << Shapes::ShapeRef.new(shape: KmsKeyValidationException)
         o.errors << Shapes::ShapeRef.new(shape: TooManyTagsException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceInUseException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
       end)
 
@@ -2566,6 +3105,7 @@ module Aws::Comprehend
         o.errors << Shapes::ShapeRef.new(shape: TooManyRequestsException)
         o.errors << Shapes::ShapeRef.new(shape: KmsKeyValidationException)
         o.errors << Shapes::ShapeRef.new(shape: TooManyTagsException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceInUseException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
       end)
 
@@ -2579,6 +3119,7 @@ module Aws::Comprehend
         o.errors << Shapes::ShapeRef.new(shape: TooManyRequestsException)
         o.errors << Shapes::ShapeRef.new(shape: KmsKeyValidationException)
         o.errors << Shapes::ShapeRef.new(shape: TooManyTagsException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceInUseException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
       end)
 
@@ -2721,6 +3262,19 @@ module Aws::Comprehend
         o.errors << Shapes::ShapeRef.new(shape: ResourceLimitExceededException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceUnavailableException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+      end)
+
+      api.add_operation(:update_flywheel, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "UpdateFlywheel"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: UpdateFlywheelRequest)
+        o.output = Shapes::ShapeRef.new(shape: UpdateFlywheelResponse)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: TooManyRequestsException)
+        o.errors << Shapes::ShapeRef.new(shape: KmsKeyValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
       end)
     end

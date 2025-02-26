@@ -43,11 +43,14 @@ module Aws
 
       # @option options [required,String] :bucket
       # @option options [required,String] :key
+      # @option options [Integer] :thread_count (THREAD_COUNT)
       # @return [Seahorse::Client::Response] - the CompleteMultipartUploadResponse
       def upload(options = {}, &block)
-        upload_id = initiate_upload(options)
-        parts = upload_parts(upload_id, options, &block)
-        complete_upload(upload_id, parts, options)
+        Aws::Plugins::UserAgent.metric('S3_TRANSFER') do
+          upload_id = initiate_upload(options)
+          parts = upload_parts(upload_id, options, &block)
+          complete_upload(upload_id, parts, options)
+        end
       end
 
       private
@@ -99,12 +102,13 @@ module Aws
           key: options[:key],
           upload_id: upload_id
         )
-        msg = "multipart upload failed: #{errors.map(&:message).join("; ")}"
+        msg = "multipart upload failed: #{errors.map(&:message).join('; ')}"
         raise MultipartUploadError.new(msg, errors)
       rescue MultipartUploadError => error
         raise error
       rescue => error
-        msg = "failed to abort multipart upload: #{error.message}"
+        msg = "failed to abort multipart upload: #{error.message}. "\
+          "Multipart upload failed: #{errors.map(&:message).join('; ')}"
         raise MultipartUploadError.new(msg, errors + [error])
       end
 
@@ -149,7 +153,7 @@ module Aws
       def upload_in_threads(read_pipe, completed, options, thread_errors)
         mutex = Mutex.new
         part_number = 0
-        @thread_count.times.map do
+        options.fetch(:thread_count, @thread_count).times.map do
           thread = Thread.new do
             begin
               loop do
@@ -190,7 +194,6 @@ module Aws
               error
             end
           end
-          thread.abort_on_exception = true
           thread
         end
       end

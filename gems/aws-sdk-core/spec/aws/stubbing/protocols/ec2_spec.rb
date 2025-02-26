@@ -66,8 +66,6 @@ module Aws
                   <requestId>stubbed-request-id</requestId>
                   <reservationSet>
                       <item>
-                          <reservationId>reservation-id</reservationId>
-                          <ownerId>owner-id</ownerId>
                           <groupSet>
                               <item>
                                   <groupName>group-name</groupName>
@@ -76,8 +74,8 @@ module Aws
                           </groupSet>
                           <instancesSet>
                               <item>
-                                  <instanceId>i-12345678</instanceId>
                                   <imageId>ami-12345678</imageId>
+                                  <instanceId>i-12345678</instanceId>
                                   <instanceState>
                                       <code>16</code>
                                       <name>running</name>
@@ -94,9 +92,24 @@ module Aws
                                   </tagSet>
                               </item>
                           </instancesSet>
+                          <ownerId>owner-id</ownerId>
+                          <reservationId>reservation-id</reservationId>
                       </item>
                   </reservationSet>
               </DescribeInstancesResponse>
+            XML
+          end
+
+          it 'can stub errors' do
+            resp = EC2.new.stub_error('error-code')
+            expect(resp.status_code).to eq(400)
+            expect(normalize(resp.body.string)).to eq(normalize(<<-XML))
+              <ErrorResponse>
+                <Error>
+                  <Code>error-code</Code>
+                  <Message>stubbed-response-error-message</Message>
+                </Error>
+              </ErrorResponse>
             XML
           end
 

@@ -34,7 +34,9 @@ module Seahorse
           ssl_ca_bundle: nil,
           ssl_ca_directory: nil,
           ssl_ca_store: nil,
-          ssl_timeout: nil
+          ssl_timeout: nil,
+          ssl_cert: nil,
+          ssl_key: nil
         }
 
         # @api private
@@ -119,11 +121,7 @@ module Seahorse
         #   pool, not counting those currently in use.
         def size
           @pool_mutex.synchronize do
-            size = 0
-            @pool.each_pair do |endpoint,sessions|
-              size += sessions.size
-            end
-            size
+            @pool.values.flatten.size
           end
         end
 
@@ -142,9 +140,7 @@ module Seahorse
         # @return [nil]
         def empty!
           @pool_mutex.synchronize do
-            @pool.each_pair do |endpoint,sessions|
-              sessions.each(&:finish)
-            end
+            @pool.values.flatten.map(&:finish)
             @pool.clear
           end
           nil
@@ -252,7 +248,9 @@ module Seahorse
               :ssl_ca_bundle => options[:ssl_ca_bundle],
               :ssl_ca_directory => options[:ssl_ca_directory],
               :ssl_ca_store => options[:ssl_ca_store],
-              :ssl_timeout => options[:ssl_timeout]
+              :ssl_timeout => options[:ssl_timeout],
+              :ssl_cert => options[:ssl_cert],
+              :ssl_key => options[:ssl_key]
             }
           end
 
@@ -297,6 +295,8 @@ module Seahorse
               http.ca_file = ssl_ca_bundle if ssl_ca_bundle
               http.ca_path = ssl_ca_directory if ssl_ca_directory
               http.cert_store = ssl_ca_store if ssl_ca_store
+              http.cert = ssl_cert if ssl_cert
+              http.key = ssl_key if ssl_key
             else
               http.verify_mode = OpenSSL::SSL::VERIFY_NONE
             end
@@ -312,7 +312,7 @@ module Seahorse
         # @note **Must** be called behind a `@pool_mutex` synchronize block.
         def _clean
           now = Aws::Util.monotonic_milliseconds
-          @pool.each_pair do |endpoint,sessions|
+          @pool.values.each do |sessions|
             sessions.delete_if do |session|
               if session.last_used.nil? or now - session.last_used > http_idle_timeout * 1000
                 session.finish
@@ -336,6 +336,8 @@ module Seahorse
           attr_reader :last_used
 
           def __getobj__
+            return yield if block_given? && !defined?(@http)
+
             @http
           end
 

@@ -1,6 +1,644 @@
 Unreleased Changes
 ------------------
 
+3.219.0 (2025-02-18)
+------------------
+
+* Feature - Updated Aws::STS::Client with the latest API changes.
+
+* Feature - Updated Aws::SSOOIDC::Client with the latest API changes.
+
+* Feature - Updated Aws::SSO::Client with the latest API changes.
+
+3.218.1 (2025-02-07)
+------------------
+
+* Issue - Add handling of block in ExtendedSession delegation (#3178).
+
+3.218.0 (2025-02-06)
+------------------
+
+* Feature - Updated Aws::STS::Client with the latest API changes.
+
+* Feature - Updated Aws::SSOOIDC::Client with the latest API changes.
+
+* Feature - Updated Aws::SSO::Client with the latest API changes.
+
+3.217.1 (2025-01-30)
+------------------
+
+* Issue - Add `transfer-encoding` and `connection` to list of unsigned sigv4 headers.
+
+3.217.0 (2025-01-24)
+------------------
+
+* Feature - Updated Aws::SSOOIDC::Client with the latest API changes.
+
+* Feature - Fixed typos in the descriptions.
+
+3.216.1 (2025-01-22)
+------------------
+
+* Issue - Use epoch seconds instead of milliseconds in cbor encode/decode.
+
+* Issue - Add handling of block in response delegation (#3169). 
+
+3.216.0 (2025-01-15)
+------------------
+
+* Feature - Updated Aws::STS::Client with the latest API changes.
+
+* Feature - Updated Aws::SSOOIDC::Client with the latest API changes.
+
+* Feature - Updated Aws::SSO::Client with the latest API changes.
+
+* Feature - Always calculate request checksums for operations that support or require it. Supported config options are `when_supported` and `when_required`. The default value is `when_supported`. This option is configured in code with `:request_checksum_calculation`, in the shared config file as `request_checksum_calculation`, and in the ENV as `ENV['AWS_REQUEST_CHECKSUM_CALCULATION']`.
+
+* Feature - Always validate response checksums for operations that support or require it. Supported config options are `when_supported` and `when_required`. The default value is `when_supported`. This option is configured in code with `:response_checksum_validation`, in the shared config file as `response_checksum_validation`, and in the ENV as `ENV['AWS_RESPONSE_CHECKSUM_VALIDATION']`.
+
+* Feature - Support CRC64NVME checksums through the `aws-crt` gem.
+
+3.215.1 (2025-01-14)
+------------------
+
+* Issue - Fixed error when attempting to log an unlinked tempfile.
+
+3.215.0 (2025-01-10)
+------------------
+
+* Feature - Updated Aws::STS::Client with the latest API changes.
+
+* Feature - Fixed typos in the descriptions.
+
+3.214.1 (2024-12-28)
+------------------
+
+* Issue - Fix documentation that references a non-existent method.
+
+3.214.0 (2024-11-25)
+------------------
+
+* Feature - Updated configuration values for `defaults_mode`.
+
+3.213.0 (2024-11-14)
+------------------
+
+* Feature - Updated Aws::STS::Client with the latest API changes.
+
+* Feature - This release introduces the new API 'AssumeRoot', which returns short-term credentials that you can use to perform privileged tasks.
+
+3.212.0 (2024-11-06)
+------------------
+
+* Feature - Updated Aws::STS::Client with the latest API changes.
+
+3.211.0 (2024-10-21)
+------------------
+
+* Feature - Support functionality for services that migrate from AWS Query to AWS JSON or CBOR.
+
+* Issue - Fix RPCv2 protocol to always send an Accept header for CBOR.
+
+3.210.0 (2024-10-18)
+------------------
+
+* Feature - Updated Aws::STS::Client with the latest API changes.
+
+* Feature - Updated Aws::SSOOIDC::Client with the latest API changes.
+
+* Feature - Updated Aws::SSO::Client with the latest API changes.
+
+* Feature - reduce memory usage by not using legacy endpoint data unless required.
+
+3.209.1 (2024-09-25)
+------------------
+
+* Issue - Add all core plugins to autoloads.
+
+3.209.0 (2024-09-24)
+------------------
+
+* Feature - Updated Aws::STS::Client with the latest API changes.
+
+* Feature - Updated Aws::SSOOIDC::Client with the latest API changes.
+
+* Feature - Updated Aws::SSO::Client with the latest API changes.
+
+* Issue - Add service identifiers to GlobalConfig's list of identifiers outside of autoload (#3113).
+
+* Issue - Ignore invalid ARNs when trying to parse accountId in assume role credentials.
+
+3.208.0 (2024-09-23)
+------------------
+
+* Feature - Updated Aws::STS::Client with the latest API changes.
+
+* Feature - Updated Aws::SSOOIDC::Client with the latest API changes.
+
+* Feature - Updated Aws::SSO::Client with the latest API changes.
+
+* Feature - Use autoloading at the service level to load service clients and resources.
+
+3.207.0 (2024-09-20)
+------------------
+
+* Feature - Updated Aws::STS::Client with the latest API changes.
+
+* Feature - Updated Aws::SSOOIDC::Client with the latest API changes.
+
+* Feature - Updated Aws::SSO::Client with the latest API changes.
+
+* Feature - Support Account ID credentials using `ENV['AWS_ACCOUNT_ID']`, `aws_account_id` shared config, or the `account_id` Client configuration option.
+
+* Feature - Support Account ID endpoint mode using `ENV['AWS_ACCOUNT_ID_ENDPOINT_MODE']`, `aws_account_id_endpoint_mode` shared config, or the `account_id_endpoint_mode` Client configuration option. Defaults to `preferred`, which will use the account id endpoint if available. Set to `disabled` to disable account id endpoints. Set to `required` to require account id endpoint usage; an error is raised if credentials do not have an account id.
+
+3.206.0 (2024-09-17)
+------------------
+
+* Feature - Support `sigv4a` endpoint auth without CRT.
+
+3.205.0 (2024-09-11)
+------------------
+
+* Feature - Updated Aws::STS::Client with the latest API changes.
+
+* Feature - Updated Aws::SSOOIDC::Client with the latest API changes.
+
+* Feature - Updated Aws::SSO::Client with the latest API changes.
+
+* Issue - Additional metrics collection in the User-Agent plugin.
+
+3.204.0 (2024-09-10)
+------------------
+
+* Feature - Updated Aws::STS::Client with the latest API changes.
+
+* Feature - Updated Aws::SSOOIDC::Client with the latest API changes.
+
+* Feature - Updated Aws::SSO::Client with the latest API changes.
+
+* Issue - Add support for `ssl_cert` and `ssl_key` configuration options to support mTLS.
+
+3.203.0 (2024-09-03)
+------------------
+
+* Feature - Updated Aws::STS::Client with the latest API changes.
+
+* Feature - Updated Aws::SSOOIDC::Client with the latest API changes.
+
+* Feature - Updated Aws::SSO::Client with the latest API changes.
+
+* Feature - Add support for Observability which includes a configuration, `telemetry_provider` and an OpenTelemetry-based telemetry provider.
+
+3.202.2 (2024-08-30)
+------------------
+
+* Issue - revert auto-loading of bundled gems.
+
+3.202.1 (2024-08-29)
+------------------
+
+* Issue - require default plugins when loading aws-sdk-core.
+
+3.202.0 (2024-08-27)
+------------------
+
+* Feature - Updated Aws::STS::Client with the latest API changes.
+
+* Feature - Updated Aws::SSOOIDC::Client with the latest API changes.
+
+* Feature - Updated Aws::SSO::Client with the latest API changes.
+
+* Issue - Reduce initial memory usage by auto-loading bundled gems (STS, SSO, SSOOIDC).
+
+3.201.5 (2024-08-15)
+------------------
+
+* Issue - Allow legacy/undocumented `sigv4_signer` configuration to override resolved signer.
+
+* Issue - Consider sigv4a supported without crt check.
+
+3.201.4 (2024-08-08)
+------------------
+
+* Issue - Update waiters to handle expected boolean values when matching errors.
+
+3.201.3 (2024-07-23)
+------------------
+
+* Issue - Add `disableNormalizePath` when resolving auth_scheme for S3.
+
+3.201.2 (2024-07-18)
+------------------
+
+* Issue - Allow modeled types to be used for Union inputs.
+* Issue - Ensure that nested sensitive members and sensitive members of lists and maps are filtered.
+
+3.201.1 (2024-07-05)
+------------------
+
+* Issue - Fix `Aws::ProcessCredentials` warning in cases where shared config is used.
+
+3.201.0 (2024-07-02)
+------------------
+
+* Feature - Updated Aws::STS::Client with the latest API changes.
+
+* Feature - Updated Aws::SSOOIDC::Client with the latest API changes.
+
+* Feature - Updated Aws::SSO::Client with the latest API changes.
+
+* Feature - Support `auth` trait to enable SigV4a based services.
+
+* Feature - Support configuration for sigv4a signing regions using `ENV['AWS_SIGV4A_SIGNING_REGION_SET']`, `sigv4a_signing_region_set` shared config, or the `sigv4a_signing_region_set` client option.
+
+3.200.0 (2024-06-28)
+------------------
+
+* Feature - Updated Aws::STS::Client with the latest API changes.
+
+* Feature - Updated Aws::SSOOIDC::Client with the latest API changes.
+
+* Feature - Updated Aws::SSO::Client with the latest API changes.
+
+3.199.0 (2024-06-25)
+------------------
+
+* Feature - Support RpcV2 protocol.
+
+* Feature - Add CBOR encoder and decoder.
+
+* Issue - Enhance, refactor, and rebase protocols to be consistent. Ensure protocol tests are run for each engine.
+
+3.198.0 (2024-06-24)
+------------------
+
+* Feature - Updated Aws::STS::Client with the latest API changes.
+
+* Feature - Updated Aws::SSOOIDC::Client with the latest API changes.
+
+* Feature - Updated Aws::SSO::Client with the latest API changes.
+
+* Feature - Support `:plugins` option on all Clients or using `Aws.config[:plugins]`.
+
+3.197.2 (2024-06-20)
+------------------
+
+* Issue - fix issue in Endpoint `attr` matcher when path is only an array index.
+
+* Issue - Fix trailing slash in endpoint URLs for rest-json and rest-xml services.
+
+3.197.1 (2024-06-19)
+------------------
+
+* Issue - Support an array of string arguments for `Aws::ProcessCredentials` to be executed by `system`.
+
+3.197.0 (2024-06-05)
+------------------
+
+* Issue - Ensure no UTC offset when deserializing `iso8601` timestamp format values.
+
+* Feature - Bump User Agent to version 2.1 to track business metrics. This changes the User Agent plugin order to be just before sending.
+
+3.196.1 (2024-05-14)
+------------------
+
+* Issue - Fix `ConnectionPool` for `.empty!` and `.clear!` since it prevented adding a new key from being added to the pool (#3020).
+
+3.196.0 (2024-05-13)
+------------------
+
+* Feature - Updated Aws::STS::Client with the latest API changes.
+
+* Feature - Updated Aws::SSOOIDC::Client with the latest API changes.
+
+* Feature - Updated Aws::SSO::Client with the latest API changes.
+
+3.195.0 (2024-05-10)
+------------------
+
+* Feature - Updated Aws::SSOOIDC::Client with the latest API changes.
+
+* Feature - Updated request parameters for PKCE support.
+
+3.194.2 (2024-05-07)
+------------------
+
+* Issue - Fix issue where `ConnectionPool` size iteration would prevent a new key from being added to the pool.
+
+3.194.1 (2024-05-03)
+------------------
+
+* Issue - Update EC2 protocol to not serialize empty lists.
+
+3.194.0 (2024-04-30)
+------------------
+
+* Feature - Add an API private cache for S3 Express and Access Grants.
+
+3.193.0 (2024-04-25)
+------------------
+
+* Feature - Updated Aws::STS::Client with the latest API changes.
+
+* Feature - Updated Aws::SSOOIDC::Client with the latest API changes.
+
+* Feature - Updated Aws::SSO::Client with the latest API changes.
+
+* Issue - Update event stream documentation.
+* Issue - Move `InvocationId` plugin to all clients.
+* Issue - Handle event streaming content-sha256 header in the signer plugin.
+* Issue - Add the event stream content type to initial requests.
+* Issue - Fix `standard` and `adaptive` retry mode for event streams.
+* Issue - Add `authority` to http2 headers.
+* Issue - Do not treat single members in event stream structures as implicit payloads.
+* Issue - Do not wait for initial response headers to start sending input events.
+
+3.192.1 (2024-04-18)
+------------------
+
+* Issue - Drop key/value pair if value is `nil` when deserializing json maps.
+
+3.192.0 (2024-04-16)
+------------------
+
+* Feature - Updated Aws::STS::Client with the latest API changes.
+
+* Feature - Update serializing/deserializing for all protocols to align with Smithy protocol-tests.
+* Issue - Allow `nil` values in lists and maps.
+* Issue - Populate headers for XML and JSON error responses.
+* Issue - Support fractional seconds when parsing `DateTime` timestamps.
+* Issue - Correctly serialize flattened lists for Query protocol.
+* Issue - Correctly serialize payload name in Rest-XML requests.
+* Issue - Fix an issue where Rest-XML requests do not have a default `Content-Type` header applied.
+* Issue - Apply appropriate `Content-Type` header for payloads in Rest services.
+* Issue - Correctly serialize URI label bindings in Rest requests.
+* Issue - Correctly serialize and parse header bindings in Rest services.
+* Issue - Ensure that null and empty headers are not sent in Rest requests.
+* Issue - Ensure keys in query maps do not override modeled keys in Rest requests.
+* Issue - Ensure empty blob payloads are omitted in Rest requests.
+* Issue - Support parsing of `NaN`, `Infinity` and `-Infinity` float values.
+* Issue - Apply appropriate `xmlName` for flattened lists and maps in Rest-XML services.
+* Issue - Handle serializing of different formats of `xmlNamespace` on shapes.
+* Issue - Fix deserializing of an empty blob to produce an empty string.
+* Issue - Fix deserializing an empty self-closed blob to produce an empty string.
+* Issue - Support parsing of different formats of error data in Rest-XML services.
+
+3.191.6 (2024-04-02)
+------------------
+* Issue - Performance optimization: ensure presence and order of instance variables in `PluginOptions` (#3002).
+
+3.191.5 (2024-03-26)
+------------------
+
+* Issue - Fix `EC2Metadata` and `InstanceProfileCredentials` to respect the port from a configured endpoint from code, ENV, or shared config.
+
+3.191.4 (2024-03-15)
+------------------
+
+* Issue - Ensure output unions work correctly with stub_responses.
+
+3.191.3 (2024-02-20)
+------------------
+
+* Issue - Remove base64 as dependency.
+
+3.191.2 (2024-02-14)
+------------------
+
+* Issue - Add base64 as dependency to prepare for Ruby 3.4 release (#2984).
+
+3.191.1 (2024-02-07)
+------------------
+
+* Issue - Warn on previously silent credential failures (#2981).
+
+3.191.0 (2024-01-26)
+------------------
+
+* Feature - Updated Aws::STS::Client with the latest API changes.
+
+* Feature - Updated Aws::SSOOIDC::Client with the latest API changes.
+
+* Feature - Updated Aws::SSO::Client with the latest API changes.
+
+* Feature - Add RBS signature files to support static type checking
+
+3.190.3 (2024-01-16)
+------------------
+
+* Issue - Add mutex around accessing stub api_requests.
+
+3.190.2 (2024-01-09)
+------------------
+
+* Issue - Minor performance optimization.
+
+3.190.1 (2023-12-20)
+------------------
+
+* Issue - Add mutex around stub api_requests.
+
+3.190.0 (2023-11-29)
+------------------
+
+* Feature - Updated Aws::STS::Client with the latest API changes.
+
+3.189.0 (2023-11-28)
+------------------
+
+* Feature - Updated Aws::STS::Client with the latest API changes.
+
+* Feature - Updated Aws::SSOOIDC::Client with the latest API changes.
+
+* Feature - Updated Aws::SSO::Client with the latest API changes.
+
+* Feature - Support S3 Express authentication.
+
+3.188.0 (2023-11-22)
+------------------
+
+* Feature - AWS SDK for Ruby no longer supports Ruby runtime versions 2.3 and 2.4.
+
+* Feature - Support `AWS_CONTAINER_AUTHORIZATION_TOKEN_FILE` in `ECSCredentials` and also allow for ECS and EKS link-local http addresses.
+
+3.187.1 (2023-11-20)
+------------------
+
+* Issue - For `awsQueryCompatible` services, default an empty list or map for shapes that were previously flattened in the query protocol.
+
+3.187.0 (2023-11-17)
+------------------
+
+* Feature - Updated Aws::STS::Client with the latest API changes.
+
+* Feature - Updated Aws::SSOOIDC::Client with the latest API changes.
+
+3.186.0 (2023-11-02)
+------------------
+
+* Feature - Support disabling IMDSv1 in `InstanceProfileCredentials` using `ENV['AWS_EC2_METADATA_V1_DISABLED']`, `ec2_metadata_v1_disabled` shared config, or the `disable_imds_v1` credentials option.
+
+3.185.2 (2023-10-31)
+------------------
+
+* Issue - Fix query string support to lists of booleans, floats, integers and timestamps per rest-json protocol.
+
+3.185.1 (2023-10-05)
+------------------
+
+* Issue - Ignore `__type` when deserializing Unions.
+
+3.185.0 (2023-10-02)
+------------------
+
+* Feature - Updated Aws::STS::Client with the latest API changes.
+
+* Feature - Updated Aws::SSO::Client with the latest API changes.
+
+3.184.0 (2023-09-27)
+------------------
+
+* Feature - Change the `ServiceError` data member from read only to read/write.
+
+3.183.1 (2023-09-25)
+------------------
+
+* Issue - Remove value inspection from param validation errors.
+
+3.183.0 (2023-09-20)
+------------------
+
+* Feature - Updated Aws::SSOOIDC::Client with the latest API changes.
+
+3.182.0 (2023-09-19)
+------------------
+
+* Feature - Updated Aws::SSOOIDC::Client with the latest API changes.
+
+* Feature - Updated Aws::SSO::Client with the latest API changes.
+
+3.181.1 (2023-09-14)
+------------------
+
+* Issue - Fix host label validation in endpoint matchers.
+
+3.181.0 (2023-08-22)
+------------------
+
+* Feature - Add support for `on_chunk_received` callback.
+
+3.180.3 (2023-08-09)
+------------------
+
+* Issue - Add support for sso-session names with whitespace configured by the CLI `aws sso configure` command (#2895).
+
+3.180.2 (2023-08-07)
+------------------
+
+* Issue - Fix parsing of ini files with mixes of blank properties and nested configurations.
+
+3.180.1 (2023-07-31)
+------------------
+
+* Issue - Remove checksums from default stubs (#2888).
+
+3.180.0 (2023-07-25)
+------------------
+
+* Feature - Updated Aws::STS::Client with the latest API changes.
+
+3.179.0 (2023-07-24)
+------------------
+
+* Feature - Add `checksum_validated` method to response.
+
+3.178.0 (2023-07-11)
+------------------
+
+* Feature - Updated Aws::STS::Client with the latest API changes.
+
+* Feature - Updated Aws::SSOOIDC::Client with the latest API changes.
+
+* Feature - Updated Aws::SSO::Client with the latest API changes.
+
+* Feature - Add support for configuring the endpoint URL in the shared configuration file or via an environment variable for a specific AWS service or all AWS services.
+
+3.177.0 (2023-07-06)
+------------------
+
+* Feature - Updated Aws::STS::Client with the latest API changes.
+
+* Feature - Updated Aws::SSOOIDC::Client with the latest API changes.
+
+* Feature - Updated Aws::SSO::Client with the latest API changes.
+
+* Feature - Add support for Request Compression.
+
+3.176.1 (2023-06-29)
+------------------
+
+* Issue - Fix signing for S3/S3 Control and `aws-crt` gem for certain object keys (#2849).
+
+* Issue - Ensure `SSOCredentials` `#expiration` is a `Time` (#2874)
+
+3.176.0 (2023-06-28)
+------------------
+
+* Feature - Add :expiration accessor to `CredentialProvider` and do not refresh credentials when checking expiration (#2872).
+
+3.175.0 (2023-06-15)
+------------------
+
+* Feature - Updated Aws::STS::Client with the latest API changes.
+
+* Feature - Updated Aws::SSOOIDC::Client with the latest API changes.
+
+* Feature - Updated Aws::SSO::Client with the latest API changes.
+
+3.174.0 (2023-05-31)
+------------------
+
+* Feature - Updated Aws::STS::Client with the latest API changes.
+
+* Feature - Updated Aws::SSOOIDC::Client with the latest API changes.
+
+* Feature - Updated Aws::SSO::Client with the latest API changes.
+
+* Feature - Improve User-Agent metrics tracking.
+
+3.173.1 (2023-05-24)
+------------------
+
+* Issue - Updated `checksum_algorithm` plugin to use IO.copy_stream for JRuby.
+
+3.173.0 (2023-05-18)
+------------------
+
+* Feature - Updated Aws::STS::Client with the latest API changes.
+
+3.172.0 (2023-05-08)
+------------------
+
+* Feature - Updated Aws::STS::Client with the latest API changes.
+
+* Feature - Add :region option to `Aws::Log::Formatter`.
+
+3.171.1 (2023-05-04)
+------------------
+
+* Issue - Fix error code parsing in AWS query compatible JSON services.
+
+3.171.0 (2023-03-22)
+------------------
+
+* Feature - Add support for `AWS_CONTAINER_CREDENTIALS_FULL_URI` and `AWS_CONTAINER_AUTHORIZATION_TOKEN` environment variables to `ECSCredentials`.
+
+3.170.1 (2023-03-17)
+------------------
+
+* Issue - Reduce memory usage in H2::Connection when `http_wire_log` is not set.
+
 3.170.0 (2023-01-25)
 ------------------
 

@@ -139,6 +139,28 @@ module Aws::CloudWatchRUM
     # @!attribute [rw] guest_role_arn
     #   The ARN of the guest IAM role that is attached to the Amazon Cognito
     #   identity pool that is used to authorize the sending of data to RUM.
+    #
+    #   <note markdown="1"> It is possible that an app monitor does not have a value for
+    #   `GuestRoleArn`. For example, this can happen when you use the
+    #   console to create an app monitor and you allow CloudWatch RUM to
+    #   create a new identity pool for Authorization. In this case,
+    #   `GuestRoleArn` is not present in the [GetAppMonitor][1] response
+    #   because it is not stored by the service.
+    #
+    #    If this issue affects you, you can take one of the following steps:
+    #
+    #    * Use the Cloud Development Kit (CDK) to create an identity pool and
+    #     the associated IAM role, and use that for your app monitor.
+    #
+    #   * Make a separate [GetIdentityPoolRoles][2] call to Amazon Cognito
+    #     to retrieve the `GuestRoleArn`.
+    #
+    #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/cloudwatchrum/latest/APIReference/API_GetAppMonitor.html
+    #   [2]: https://docs.aws.amazon.com/cognitoidentity/latest/APIReference/API_GetIdentityPoolRoles.html
     #   @return [String]
     #
     # @!attribute [rw] identity_pool_id
@@ -295,9 +317,9 @@ module Aws::CloudWatchRUM
     # @!attribute [rw] destination
     #   The destination to send the metrics to. Valid values are
     #   `CloudWatch` and `Evidently`. If you specify `Evidently`, you must
-    #   also specify the ARN of the CloudWatchEvidently experiment that will
-    #   receive the metrics and an IAM role that has permission to write to
-    #   the experiment.
+    #   also specify the Amazon Resource Name (ARN) of the
+    #   CloudWatchEvidently experiment that will receive the metrics and an
+    #   IAM role that has permission to write to the experiment.
     #   @return [String]
     #
     # @!attribute [rw] destination_arn
@@ -530,7 +552,7 @@ module Aws::CloudWatchRUM
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/monitoring/CloudWatch-RUM-get-started-authorization.html
+    #   [1]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-RUM-get-started-authorization.html
     #   @return [Types::AppMonitorConfiguration]
     #
     # @!attribute [rw] custom_events
@@ -965,6 +987,12 @@ module Aws::CloudWatchRUM
     #   The name of the metric that is defined in this structure.
     #   @return [String]
     #
+    # @!attribute [rw] namespace
+    #   If this metric definition is for a custom metric instead of an
+    #   extended metric, this field displays the metric namespace that the
+    #   custom metric is published to.
+    #   @return [String]
+    #
     # @!attribute [rw] unit_label
     #   Use this field only if you are sending this metric to CloudWatch. It
     #   defines the CloudWatch metric unit that this metric is measured in.
@@ -982,79 +1010,164 @@ module Aws::CloudWatchRUM
       :event_pattern,
       :metric_definition_id,
       :name,
+      :namespace,
       :unit_label,
       :value_key)
       SENSITIVE = []
       include Aws::Structure
     end
 
-    # Use this structure to define one extended metric that RUM will send to
-    # CloudWatch or CloudWatch Evidently. For more information, see [
-    # Additional metrics that you can send to CloudWatch and CloudWatch
-    # Evidently][1].
+    # Use this structure to define one extended metric or custom metric that
+    # RUM will send to CloudWatch or CloudWatch Evidently. For more
+    # information, see [ Custom metrics and extended metrics that you can
+    # send to CloudWatch and CloudWatch Evidently][1].
     #
-    # Only certain combinations of values for `Name`, `ValueKey`, and
-    # `EventPattern` are valid. In addition to what is displayed in the list
-    # below, the `EventPattern` can also include information used by the
-    # `DimensionKeys` field.
+    # This structure is validated differently for extended metrics and
+    # custom metrics. For extended metrics that are sent to the `AWS/RUM`
+    # namespace, the following validations apply:
     #
-    # * If `Name` is `PerformanceNavigationDuration`, then `ValueKey`must be
-    #   `event_details.duration` and the `EventPattern` must include
-    #   `\{"event_type":["com.amazon.rum.performance_navigation_event"]\}`
+    # * The `Namespace` parameter must be omitted or set to `AWS/RUM`.
     #
-    # * If `Name` is `PerformanceResourceDuration`, then `ValueKey`must be
-    #   `event_details.duration` and the `EventPattern` must include
-    #   `\{"event_type":["com.amazon.rum.performance_resource_event"]\}`
+    # * Only certain combinations of values for `Name`, `ValueKey`, and
+    #   `EventPattern` are valid. In addition to what is displayed in the
+    #   following list, the `EventPattern` can also include information used
+    #   by the `DimensionKeys` field.
     #
-    # * If `Name` is `NavigationSatisfiedTransaction`, then `ValueKey`must
-    #   be null and the `EventPattern` must include `\{ "event_type":
-    #   ["com.amazon.rum.performance_navigation_event"], "event_details": \{
-    #   "duration": [\{ "numeric": [">",2000] \}] \} \}`
+    #   * If `Name` is `PerformanceNavigationDuration`, then `ValueKey`must
+    #     be `event_details.duration` and the `EventPattern` must include
+    #     `{"event_type":["com.amazon.rum.performance_navigation_event"]}`
     #
-    # * If `Name` is `NavigationToleratedTransaction`, then `ValueKey`must
-    #   be null and the `EventPattern` must include `\{ "event_type":
-    #   ["com.amazon.rum.performance_navigation_event"], "event_details": \{
-    #   "duration": [\{ "numeric": [">=",2000,"<"8000] \}] \} \}`
+    #   * If `Name` is `PerformanceResourceDuration`, then `ValueKey`must be
+    #     `event_details.duration` and the `EventPattern` must include
+    #     `{"event_type":["com.amazon.rum.performance_resource_event"]}`
     #
-    # * If `Name` is `NavigationFrustratedTransaction`, then `ValueKey`must
-    #   be null and the `EventPattern` must include `\{ "event_type":
-    #   ["com.amazon.rum.performance_navigation_event"], "event_details": \{
-    #   "duration": [\{ "numeric": [">=",8000] \}] \} \}`
+    #   * If `Name` is `NavigationSatisfiedTransaction`, then `ValueKey`must
+    #     be null and the `EventPattern` must include `{ "event_type":
+    #     ["com.amazon.rum.performance_navigation_event"], "event_details":
+    #     { "duration": [{ "numeric": [">",2000] }] } }`
     #
-    # * If `Name` is `WebVitalsCumulativeLayoutShift`, then `ValueKey`must
-    #   be `event_details.value` and the `EventPattern` must include
-    #   `\{"event_type":["com.amazon.rum.cumulative_layout_shift_event"]\}`
+    #   * If `Name` is `NavigationToleratedTransaction`, then `ValueKey`must
+    #     be null and the `EventPattern` must include `{ "event_type":
+    #     ["com.amazon.rum.performance_navigation_event"], "event_details":
+    #     { "duration": [{ "numeric": [">=",2000,"<"8000] }] } }`
     #
-    # * If `Name` is `WebVitalsFirstInputDelay`, then `ValueKey`must be
-    #   `event_details.value` and the `EventPattern` must include
-    #   `\{"event_type":["com.amazon.rum.first_input_delay_event"]\}`
+    #   * If `Name` is `NavigationFrustratedTransaction`, then
+    #     `ValueKey`must be null and the `EventPattern` must include `{
+    #     "event_type": ["com.amazon.rum.performance_navigation_event"],
+    #     "event_details": { "duration": [{ "numeric": [">=",8000] }] } }`
     #
-    # * If `Name` is `WebVitalsLargestContentfulPaint`, then `ValueKey`must
-    #   be `event_details.value` and the `EventPattern` must include
-    #   `\{"event_type":["com.amazon.rum.largest_contentful_paint_event"]\}`
+    #   * If `Name` is `WebVitalsCumulativeLayoutShift`, then `ValueKey`must
+    #     be `event_details.value` and the `EventPattern` must include
+    #     `{"event_type":["com.amazon.rum.cumulative_layout_shift_event"]}`
     #
-    # * If `Name` is `JsErrorCount`, then `ValueKey`must be null and the
-    #   `EventPattern` must include
-    #   `\{"event_type":["com.amazon.rum.js_error_event"]\}`
+    #   * If `Name` is `WebVitalsFirstInputDelay`, then `ValueKey`must be
+    #     `event_details.value` and the `EventPattern` must include
+    #     `{"event_type":["com.amazon.rum.first_input_delay_event"]}`
     #
-    # * If `Name` is `HttpErrorCount`, then `ValueKey`must be null and the
-    #   `EventPattern` must include
-    #   `\{"event_type":["com.amazon.rum.http_event"]\}`
+    #   * If `Name` is `WebVitalsLargestContentfulPaint`, then
+    #     `ValueKey`must be `event_details.value` and the `EventPattern`
+    #     must include
+    #     `{"event_type":["com.amazon.rum.largest_contentful_paint_event"]}`
     #
-    # * If `Name` is `SessionCount`, then `ValueKey`must be null and the
-    #   `EventPattern` must include
-    #   `\{"event_type":["com.amazon.rum.session_start_event"]\}`
+    #   * If `Name` is `JsErrorCount`, then `ValueKey`must be null and the
+    #     `EventPattern` must include
+    #     `{"event_type":["com.amazon.rum.js_error_event"]}`
+    #
+    #   * If `Name` is `HttpErrorCount`, then `ValueKey`must be null and the
+    #     `EventPattern` must include
+    #     `{"event_type":["com.amazon.rum.http_event"]}`
+    #
+    #   * If `Name` is `SessionCount`, then `ValueKey`must be null and the
+    #     `EventPattern` must include
+    #     `{"event_type":["com.amazon.rum.session_start_event"]}`
+    #
+    #   * If `Name` is `PageViewCount`, then `ValueKey`must be null and the
+    #     `EventPattern` must include
+    #     `{"event_type":["com.amazon.rum.page_view_event"]}`
+    #
+    #   * If `Name` is `Http4xxCount`, then `ValueKey`must be null and the
+    #     `EventPattern` must include `{"event_type":
+    #     ["com.amazon.rum.http_event"],"event_details":{"response":{"status":[{"numeric":[">=",400,"<",500]}]}}}
+    #     }`
+    #
+    #   * If `Name` is `Http5xxCount`, then `ValueKey`must be null and the
+    #     `EventPattern` must include `{"event_type":
+    #     ["com.amazon.rum.http_event"],"event_details":{"response":{"status":[{"numeric":[">=",500,"<=",599]}]}}}
+    #     }`
+    #
+    # For custom metrics, the following validation rules apply:
+    #
+    # * The namespace can't be omitted and can't be `AWS/RUM`. You can use
+    #   the `AWS/RUM` namespace only for extended metrics.
+    #
+    # * All dimensions listed in the `DimensionKeys` field must be present
+    #   in the value of `EventPattern`.
+    #
+    # * The values that you specify for `ValueKey`, `EventPattern`, and
+    #   `DimensionKeys` must be fields in RUM events, so all first-level
+    #   keys in these fields must be one of the keys in the list later in
+    #   this section.
+    #
+    # * If you set a value for `EventPattern`, it must be a JSON object.
+    #
+    # * For every non-empty `event_details`, there must be a non-empty
+    #   `event_type`.
+    #
+    # * If `EventPattern` contains an `event_details` field, it must also
+    #   contain an `event_type`. For every built-in `event_type` that you
+    #   use, you must use a value for `event_details` that corresponds to
+    #   that `event_type`. For information about event details that
+    #   correspond to event types, see [ RUM event details][2].
+    #
+    # * In `EventPattern`, any JSON array must contain only one value.
+    #
+    # Valid key values for first-level keys in the `ValueKey`,
+    # `EventPattern`, and `DimensionKeys` fields:
+    #
+    # * `account_id`
+    #
+    # * `application_Id`
+    #
+    # * `application_version`
+    #
+    # * `application_name`
+    #
+    # * `batch_id`
+    #
+    # * `event_details`
+    #
+    # * `event_id`
+    #
+    # * `event_interaction`
+    #
+    # * `event_timestamp`
+    #
+    # * `event_type`
+    #
+    # * `event_version`
+    #
+    # * `log_stream`
+    #
+    # * `metadata`
+    #
+    # * `sessionId`
+    #
+    # * `user_details`
+    #
+    # * `userId`
     #
     #
     #
-    # [1]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-RUM-vended-metrics.html
+    # [1]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-RUM-custom-and-extended-metrics.html
+    # [2]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-RUM-datacollected.html#CloudWatch-RUM-datacollected-eventDetails
     #
     # @!attribute [rw] dimension_keys
     #   Use this field only if you are sending the metric to CloudWatch.
     #
     #   This field is a map of field paths to dimension names. It defines
-    #   the dimensions to associate with this metric in CloudWatch. Valid
-    #   values for the entries in this field are the following:
+    #   the dimensions to associate with this metric in CloudWatch. For
+    #   extended metrics, valid values for the entries in this field are the
+    #   following:
     #
     #   * `"metadata.pageId": "PageId"`
     #
@@ -1068,8 +1181,8 @@ module Aws::CloudWatchRUM
     #
     #   * `"event_details.fileType": "FileType"`
     #
-    #   All dimensions listed in this field must also be included in
-    #   `EventPattern`.
+    #   For both extended metrics and custom metrics, all dimensions listed
+    #   in this field must also be included in `EventPattern`.
     #   @return [Hash<String,String>]
     #
     # @!attribute [rw] event_pattern
@@ -1083,28 +1196,28 @@ module Aws::CloudWatchRUM
     #
     #   Example event patterns:
     #
-    #   * `'\{ "event_type": ["com.amazon.rum.js_error_event"], "metadata":
-    #     \{ "browserName": [ "Chrome", "Safari" ], \} \}'`
+    #   * `'{ "event_type": ["com.amazon.rum.js_error_event"], "metadata": {
+    #     "browserName": [ "Chrome", "Safari" ], } }'`
     #
-    #   * `'\{ "event_type":
-    #     ["com.amazon.rum.performance_navigation_event"], "metadata": \{
-    #     "browserName": [ "Chrome", "Firefox" ] \}, "event_details": \{
-    #     "duration": [\{ "numeric": [ "<", 2000 ] \}] \} \}'`
+    #   * `'{ "event_type": ["com.amazon.rum.performance_navigation_event"],
+    #     "metadata": { "browserName": [ "Chrome", "Firefox" ] },
+    #     "event_details": { "duration": [{ "numeric": [ "<", 2000 ] }] }
+    #     }'`
     #
-    #   * `'\{ "event_type":
-    #     ["com.amazon.rum.performance_navigation_event"], "metadata": \{
-    #     "browserName": [ "Chrome", "Safari" ], "countryCode": [ "US" ] \},
-    #     "event_details": \{ "duration": [\{ "numeric": [ ">=", 2000, "<",
-    #     8000 ] \}] \} \}'`
+    #   * `'{ "event_type": ["com.amazon.rum.performance_navigation_event"],
+    #     "metadata": { "browserName": [ "Chrome", "Safari" ],
+    #     "countryCode": [ "US" ] }, "event_details": { "duration": [{
+    #     "numeric": [ ">=", 2000, "<", 8000 ] }] } }'`
     #
-    #   If the metrics destination' is `CloudWatch` and the event also
+    #   If the metrics destination is `CloudWatch` and the event also
     #   matches a value in `DimensionKeys`, then the metric is published
     #   with the specified dimensions.
     #   @return [String]
     #
     # @!attribute [rw] name
-    #   The name for the metric that is defined in this structure. Valid
-    #   values are the following:
+    #   The name for the metric that is defined in this structure. For
+    #   custom metrics, you can specify any name that you like. For extended
+    #   metrics, valid values are the following:
     #
     #   * `PerformanceNavigationDuration`
     #
@@ -1129,6 +1242,16 @@ module Aws::CloudWatchRUM
     #   * `SessionCount`
     #   @return [String]
     #
+    # @!attribute [rw] namespace
+    #   If this structure is for a custom metric instead of an extended
+    #   metrics, use this parameter to define the metric namespace for that
+    #   custom metric. Do not specify this parameter if this structure is
+    #   for an extended metric.
+    #
+    #   You cannot use any string that starts with `AWS/` for your
+    #   namespace.
+    #   @return [String]
+    #
     # @!attribute [rw] unit_label
     #   The CloudWatch metric unit to use for this metric. If you omit this
     #   field, the metric is recorded with no unit.
@@ -1139,12 +1262,12 @@ module Aws::CloudWatchRUM
     #   from.
     #
     #   If you omit this field, a hardcoded value of 1 is pushed as the
-    #   metric value. This is useful if you just want to count the number of
+    #   metric value. This is useful if you want to count the number of
     #   events that the filter catches.
     #
     #   If this metric is sent to CloudWatch Evidently, this field will be
-    #   passed to Evidently raw and Evidently will handle data extraction
-    #   from the event.
+    #   passed to Evidently raw. Evidently will handle data extraction from
+    #   the event.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/rum-2018-05-10/MetricDefinitionRequest AWS API Documentation
@@ -1153,6 +1276,7 @@ module Aws::CloudWatchRUM
       :dimension_keys,
       :event_pattern,
       :name,
+      :namespace,
       :unit_label,
       :value_key)
       SENSITIVE = []
@@ -1246,11 +1370,21 @@ module Aws::CloudWatchRUM
     #
     # @!attribute [rw] iam_role_arn
     #   This parameter is required if `Destination` is `Evidently`. If
-    #   `Destination` is `CloudWatch`, do not use this parameter.
+    #   `Destination` is `CloudWatch`, don't use this parameter.
     #
     #   This parameter specifies the ARN of an IAM role that RUM will assume
     #   to write to the Evidently experiment that you are sending metrics
     #   to. This role must have permission to write to that experiment.
+    #
+    #   If you specify this parameter, you must be signed on to a role that
+    #   has [PassRole][1] permissions attached to it, to allow the role to
+    #   be passed. The [ CloudWatchAmazonCloudWatchRUMFullAccess][2] policy
+    #   doesn't include `PassRole` permissions.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_passrole.html
+    #   [2]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/auth-and-access-control-cw.html#managed-policies-cloudwatch-RUM
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/rum-2018-05-10/PutRumMetricsDestinationRequest AWS API Documentation
@@ -1483,7 +1617,7 @@ module Aws::CloudWatchRUM
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/monitoring/CloudWatch-RUM-get-started-authorization.html
+    #   [1]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-RUM-get-started-authorization.html
     #   @return [Types::AppMonitorConfiguration]
     #
     # @!attribute [rw] custom_events
@@ -1620,3 +1754,4 @@ module Aws::CloudWatchRUM
 
   end
 end
+

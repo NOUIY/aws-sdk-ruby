@@ -7,6 +7,7 @@
 #
 # WARNING ABOUT GENERATED CODE
 
+
 module Aws::ServiceCatalog
   # @api private
   module ClientApi
@@ -148,6 +149,10 @@ module Aws::ServiceCatalog
     DuplicateResourceException = Shapes::StructureShape.new(name: 'DuplicateResourceException')
     EnableAWSOrganizationsAccessInput = Shapes::StructureShape.new(name: 'EnableAWSOrganizationsAccessInput')
     EnableAWSOrganizationsAccessOutput = Shapes::StructureShape.new(name: 'EnableAWSOrganizationsAccessOutput')
+    EngineWorkflowFailureReason = Shapes::StringShape.new(name: 'EngineWorkflowFailureReason')
+    EngineWorkflowResourceIdentifier = Shapes::StructureShape.new(name: 'EngineWorkflowResourceIdentifier')
+    EngineWorkflowStatus = Shapes::StringShape.new(name: 'EngineWorkflowStatus')
+    EngineWorkflowToken = Shapes::StringShape.new(name: 'EngineWorkflowToken')
     Error = Shapes::StringShape.new(name: 'Error')
     ErrorCode = Shapes::StringShape.new(name: 'ErrorCode')
     ErrorDescription = Shapes::StringShape.new(name: 'ErrorDescription')
@@ -234,6 +239,12 @@ module Aws::ServiceCatalog
     NoEcho = Shapes::BooleanShape.new(name: 'NoEcho')
     NotificationArn = Shapes::StringShape.new(name: 'NotificationArn')
     NotificationArns = Shapes::ListShape.new(name: 'NotificationArns')
+    NotifyProvisionProductEngineWorkflowResultInput = Shapes::StructureShape.new(name: 'NotifyProvisionProductEngineWorkflowResultInput')
+    NotifyProvisionProductEngineWorkflowResultOutput = Shapes::StructureShape.new(name: 'NotifyProvisionProductEngineWorkflowResultOutput')
+    NotifyTerminateProvisionedProductEngineWorkflowResultInput = Shapes::StructureShape.new(name: 'NotifyTerminateProvisionedProductEngineWorkflowResultInput')
+    NotifyTerminateProvisionedProductEngineWorkflowResultOutput = Shapes::StructureShape.new(name: 'NotifyTerminateProvisionedProductEngineWorkflowResultOutput')
+    NotifyUpdateProvisionedProductEngineWorkflowResultInput = Shapes::StructureShape.new(name: 'NotifyUpdateProvisionedProductEngineWorkflowResultInput')
+    NotifyUpdateProvisionedProductEngineWorkflowResultOutput = Shapes::StructureShape.new(name: 'NotifyUpdateProvisionedProductEngineWorkflowResultOutput')
     NullableBoolean = Shapes::BooleanShape.new(name: 'NullableBoolean')
     OperationNotSupportedException = Shapes::StructureShape.new(name: 'OperationNotSupportedException')
     OrganizationNode = Shapes::StructureShape.new(name: 'OrganizationNode')
@@ -457,6 +468,9 @@ module Aws::ServiceCatalog
     TerminateProvisionedProductInput = Shapes::StructureShape.new(name: 'TerminateProvisionedProductInput')
     TerminateProvisionedProductOutput = Shapes::StructureShape.new(name: 'TerminateProvisionedProductOutput')
     TotalResultsCount = Shapes::IntegerShape.new(name: 'TotalResultsCount')
+    UniqueTagKey = Shapes::StringShape.new(name: 'UniqueTagKey')
+    UniqueTagResourceIdentifier = Shapes::StructureShape.new(name: 'UniqueTagResourceIdentifier')
+    UniqueTagValue = Shapes::StringShape.new(name: 'UniqueTagValue')
     UpdateConstraintInput = Shapes::StructureShape.new(name: 'UpdateConstraintInput')
     UpdateConstraintOutput = Shapes::StructureShape.new(name: 'UpdateConstraintOutput')
     UpdatePortfolioInput = Shapes::StructureShape.new(name: 'UpdatePortfolioInput')
@@ -529,6 +543,7 @@ module Aws::ServiceCatalog
     AssociateServiceActionWithProvisioningArtifactInput.add_member(:provisioning_artifact_id, Shapes::ShapeRef.new(shape: Id, required: true, location_name: "ProvisioningArtifactId"))
     AssociateServiceActionWithProvisioningArtifactInput.add_member(:service_action_id, Shapes::ShapeRef.new(shape: Id, required: true, location_name: "ServiceActionId"))
     AssociateServiceActionWithProvisioningArtifactInput.add_member(:accept_language, Shapes::ShapeRef.new(shape: AcceptLanguage, location_name: "AcceptLanguage"))
+    AssociateServiceActionWithProvisioningArtifactInput.add_member(:idempotency_token, Shapes::ShapeRef.new(shape: IdempotencyToken, location_name: "IdempotencyToken", metadata: {"idempotencyToken"=>true}))
     AssociateServiceActionWithProvisioningArtifactInput.struct_class = Types::AssociateServiceActionWithProvisioningArtifactInput
 
     AssociateServiceActionWithProvisioningArtifactOutput.struct_class = Types::AssociateServiceActionWithProvisioningArtifactOutput
@@ -748,6 +763,7 @@ module Aws::ServiceCatalog
 
     DeleteServiceActionInput.add_member(:id, Shapes::ShapeRef.new(shape: Id, required: true, location_name: "Id"))
     DeleteServiceActionInput.add_member(:accept_language, Shapes::ShapeRef.new(shape: AcceptLanguage, location_name: "AcceptLanguage"))
+    DeleteServiceActionInput.add_member(:idempotency_token, Shapes::ShapeRef.new(shape: IdempotencyToken, location_name: "IdempotencyToken", metadata: {"idempotencyToken"=>true}))
     DeleteServiceActionInput.struct_class = Types::DeleteServiceActionInput
 
     DeleteServiceActionOutput.struct_class = Types::DeleteServiceActionOutput
@@ -863,11 +879,13 @@ module Aws::ServiceCatalog
     DescribeProvisioningArtifactInput.add_member(:provisioning_artifact_name, Shapes::ShapeRef.new(shape: ProvisioningArtifactName, location_name: "ProvisioningArtifactName"))
     DescribeProvisioningArtifactInput.add_member(:product_name, Shapes::ShapeRef.new(shape: ProductViewName, location_name: "ProductName"))
     DescribeProvisioningArtifactInput.add_member(:verbose, Shapes::ShapeRef.new(shape: Verbose, location_name: "Verbose"))
+    DescribeProvisioningArtifactInput.add_member(:include_provisioning_artifact_parameters, Shapes::ShapeRef.new(shape: Boolean, location_name: "IncludeProvisioningArtifactParameters"))
     DescribeProvisioningArtifactInput.struct_class = Types::DescribeProvisioningArtifactInput
 
     DescribeProvisioningArtifactOutput.add_member(:provisioning_artifact_detail, Shapes::ShapeRef.new(shape: ProvisioningArtifactDetail, location_name: "ProvisioningArtifactDetail"))
     DescribeProvisioningArtifactOutput.add_member(:info, Shapes::ShapeRef.new(shape: ProvisioningArtifactInfo, location_name: "Info"))
     DescribeProvisioningArtifactOutput.add_member(:status, Shapes::ShapeRef.new(shape: Status, location_name: "Status"))
+    DescribeProvisioningArtifactOutput.add_member(:provisioning_artifact_parameters, Shapes::ShapeRef.new(shape: ProvisioningArtifactParameters, location_name: "ProvisioningArtifactParameters"))
     DescribeProvisioningArtifactOutput.struct_class = Types::DescribeProvisioningArtifactOutput
 
     DescribeProvisioningParametersInput.add_member(:accept_language, Shapes::ShapeRef.new(shape: AcceptLanguage, location_name: "AcceptLanguage"))
@@ -949,6 +967,7 @@ module Aws::ServiceCatalog
     DisassociateServiceActionFromProvisioningArtifactInput.add_member(:provisioning_artifact_id, Shapes::ShapeRef.new(shape: Id, required: true, location_name: "ProvisioningArtifactId"))
     DisassociateServiceActionFromProvisioningArtifactInput.add_member(:service_action_id, Shapes::ShapeRef.new(shape: Id, required: true, location_name: "ServiceActionId"))
     DisassociateServiceActionFromProvisioningArtifactInput.add_member(:accept_language, Shapes::ShapeRef.new(shape: AcceptLanguage, location_name: "AcceptLanguage"))
+    DisassociateServiceActionFromProvisioningArtifactInput.add_member(:idempotency_token, Shapes::ShapeRef.new(shape: IdempotencyToken, location_name: "IdempotencyToken", metadata: {"idempotencyToken"=>true}))
     DisassociateServiceActionFromProvisioningArtifactInput.struct_class = Types::DisassociateServiceActionFromProvisioningArtifactInput
 
     DisassociateServiceActionFromProvisioningArtifactOutput.struct_class = Types::DisassociateServiceActionFromProvisioningArtifactOutput
@@ -964,6 +983,9 @@ module Aws::ServiceCatalog
     EnableAWSOrganizationsAccessInput.struct_class = Types::EnableAWSOrganizationsAccessInput
 
     EnableAWSOrganizationsAccessOutput.struct_class = Types::EnableAWSOrganizationsAccessOutput
+
+    EngineWorkflowResourceIdentifier.add_member(:unique_tag, Shapes::ShapeRef.new(shape: UniqueTagResourceIdentifier, location_name: "UniqueTag"))
+    EngineWorkflowResourceIdentifier.struct_class = Types::EngineWorkflowResourceIdentifier
 
     ExecuteProvisionedProductPlanInput.add_member(:accept_language, Shapes::ShapeRef.new(shape: AcceptLanguage, location_name: "AcceptLanguage"))
     ExecuteProvisionedProductPlanInput.add_member(:plan_id, Shapes::ShapeRef.new(shape: Id, required: true, location_name: "PlanId"))
@@ -1252,6 +1274,36 @@ module Aws::ServiceCatalog
     Namespaces.member = Shapes::ShapeRef.new(shape: AccountId)
 
     NotificationArns.member = Shapes::ShapeRef.new(shape: NotificationArn)
+
+    NotifyProvisionProductEngineWorkflowResultInput.add_member(:workflow_token, Shapes::ShapeRef.new(shape: EngineWorkflowToken, required: true, location_name: "WorkflowToken"))
+    NotifyProvisionProductEngineWorkflowResultInput.add_member(:record_id, Shapes::ShapeRef.new(shape: Id, required: true, location_name: "RecordId"))
+    NotifyProvisionProductEngineWorkflowResultInput.add_member(:status, Shapes::ShapeRef.new(shape: EngineWorkflowStatus, required: true, location_name: "Status"))
+    NotifyProvisionProductEngineWorkflowResultInput.add_member(:failure_reason, Shapes::ShapeRef.new(shape: EngineWorkflowFailureReason, location_name: "FailureReason"))
+    NotifyProvisionProductEngineWorkflowResultInput.add_member(:resource_identifier, Shapes::ShapeRef.new(shape: EngineWorkflowResourceIdentifier, location_name: "ResourceIdentifier"))
+    NotifyProvisionProductEngineWorkflowResultInput.add_member(:outputs, Shapes::ShapeRef.new(shape: RecordOutputs, location_name: "Outputs"))
+    NotifyProvisionProductEngineWorkflowResultInput.add_member(:idempotency_token, Shapes::ShapeRef.new(shape: IdempotencyToken, required: true, location_name: "IdempotencyToken", metadata: {"idempotencyToken"=>true}))
+    NotifyProvisionProductEngineWorkflowResultInput.struct_class = Types::NotifyProvisionProductEngineWorkflowResultInput
+
+    NotifyProvisionProductEngineWorkflowResultOutput.struct_class = Types::NotifyProvisionProductEngineWorkflowResultOutput
+
+    NotifyTerminateProvisionedProductEngineWorkflowResultInput.add_member(:workflow_token, Shapes::ShapeRef.new(shape: EngineWorkflowToken, required: true, location_name: "WorkflowToken"))
+    NotifyTerminateProvisionedProductEngineWorkflowResultInput.add_member(:record_id, Shapes::ShapeRef.new(shape: Id, required: true, location_name: "RecordId"))
+    NotifyTerminateProvisionedProductEngineWorkflowResultInput.add_member(:status, Shapes::ShapeRef.new(shape: EngineWorkflowStatus, required: true, location_name: "Status"))
+    NotifyTerminateProvisionedProductEngineWorkflowResultInput.add_member(:failure_reason, Shapes::ShapeRef.new(shape: EngineWorkflowFailureReason, location_name: "FailureReason"))
+    NotifyTerminateProvisionedProductEngineWorkflowResultInput.add_member(:idempotency_token, Shapes::ShapeRef.new(shape: IdempotencyToken, required: true, location_name: "IdempotencyToken", metadata: {"idempotencyToken"=>true}))
+    NotifyTerminateProvisionedProductEngineWorkflowResultInput.struct_class = Types::NotifyTerminateProvisionedProductEngineWorkflowResultInput
+
+    NotifyTerminateProvisionedProductEngineWorkflowResultOutput.struct_class = Types::NotifyTerminateProvisionedProductEngineWorkflowResultOutput
+
+    NotifyUpdateProvisionedProductEngineWorkflowResultInput.add_member(:workflow_token, Shapes::ShapeRef.new(shape: EngineWorkflowToken, required: true, location_name: "WorkflowToken"))
+    NotifyUpdateProvisionedProductEngineWorkflowResultInput.add_member(:record_id, Shapes::ShapeRef.new(shape: Id, required: true, location_name: "RecordId"))
+    NotifyUpdateProvisionedProductEngineWorkflowResultInput.add_member(:status, Shapes::ShapeRef.new(shape: EngineWorkflowStatus, required: true, location_name: "Status"))
+    NotifyUpdateProvisionedProductEngineWorkflowResultInput.add_member(:failure_reason, Shapes::ShapeRef.new(shape: EngineWorkflowFailureReason, location_name: "FailureReason"))
+    NotifyUpdateProvisionedProductEngineWorkflowResultInput.add_member(:outputs, Shapes::ShapeRef.new(shape: RecordOutputs, location_name: "Outputs"))
+    NotifyUpdateProvisionedProductEngineWorkflowResultInput.add_member(:idempotency_token, Shapes::ShapeRef.new(shape: IdempotencyToken, required: true, location_name: "IdempotencyToken", metadata: {"idempotencyToken"=>true}))
+    NotifyUpdateProvisionedProductEngineWorkflowResultInput.struct_class = Types::NotifyUpdateProvisionedProductEngineWorkflowResultInput
+
+    NotifyUpdateProvisionedProductEngineWorkflowResultOutput.struct_class = Types::NotifyUpdateProvisionedProductEngineWorkflowResultOutput
 
     OperationNotSupportedException.struct_class = Types::OperationNotSupportedException
 
@@ -1743,6 +1795,10 @@ module Aws::ServiceCatalog
     TerminateProvisionedProductOutput.add_member(:record_detail, Shapes::ShapeRef.new(shape: RecordDetail, location_name: "RecordDetail"))
     TerminateProvisionedProductOutput.struct_class = Types::TerminateProvisionedProductOutput
 
+    UniqueTagResourceIdentifier.add_member(:key, Shapes::ShapeRef.new(shape: UniqueTagKey, location_name: "Key"))
+    UniqueTagResourceIdentifier.add_member(:value, Shapes::ShapeRef.new(shape: UniqueTagValue, location_name: "Value"))
+    UniqueTagResourceIdentifier.struct_class = Types::UniqueTagResourceIdentifier
+
     UpdateConstraintInput.add_member(:accept_language, Shapes::ShapeRef.new(shape: AcceptLanguage, location_name: "AcceptLanguage"))
     UpdateConstraintInput.add_member(:id, Shapes::ShapeRef.new(shape: Id, required: true, location_name: "Id"))
     UpdateConstraintInput.add_member(:description, Shapes::ShapeRef.new(shape: ConstraintDescription, location_name: "Description"))
@@ -1889,9 +1945,11 @@ module Aws::ServiceCatalog
 
       api.metadata = {
         "apiVersion" => "2015-12-10",
+        "auth" => ["aws.auth#sigv4"],
         "endpointPrefix" => "servicecatalog",
         "jsonVersion" => "1.1",
         "protocol" => "json",
+        "protocols" => ["json"],
         "serviceFullName" => "AWS Service Catalog",
         "serviceId" => "Service Catalog",
         "signatureVersion" => "v4",
@@ -1953,6 +2011,7 @@ module Aws::ServiceCatalog
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: DuplicateResourceException)
         o.errors << Shapes::ShapeRef.new(shape: LimitExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParametersException)
       end)
 
       api.add_operation(:associate_tag_option_with_resource, Seahorse::Model::Operation.new.tap do |o|
@@ -2729,6 +2788,36 @@ module Aws::ServiceCatalog
             "page_token" => "page_token"
           }
         )
+      end)
+
+      api.add_operation(:notify_provision_product_engine_workflow_result, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "NotifyProvisionProductEngineWorkflowResult"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: NotifyProvisionProductEngineWorkflowResultInput)
+        o.output = Shapes::ShapeRef.new(shape: NotifyProvisionProductEngineWorkflowResultOutput)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParametersException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+      end)
+
+      api.add_operation(:notify_terminate_provisioned_product_engine_workflow_result, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "NotifyTerminateProvisionedProductEngineWorkflowResult"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: NotifyTerminateProvisionedProductEngineWorkflowResultInput)
+        o.output = Shapes::ShapeRef.new(shape: NotifyTerminateProvisionedProductEngineWorkflowResultOutput)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParametersException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+      end)
+
+      api.add_operation(:notify_update_provisioned_product_engine_workflow_result, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "NotifyUpdateProvisionedProductEngineWorkflowResult"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: NotifyUpdateProvisionedProductEngineWorkflowResultInput)
+        o.output = Shapes::ShapeRef.new(shape: NotifyUpdateProvisionedProductEngineWorkflowResultOutput)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParametersException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
       end)
 
       api.add_operation(:provision_product, Seahorse::Model::Operation.new.tap do |o|

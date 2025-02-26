@@ -9,119 +9,12 @@
 
 
 module Aws::ResourceGroupsTaggingAPI
+  # @api private
   module Endpoints
 
-    class DescribeReportCreation
-      def self.build(context)
-        unless context.config.regional_endpoint
-          endpoint = context.config.endpoint.to_s
-        end
-        Aws::ResourceGroupsTaggingAPI::EndpointParameters.new(
-          region: context.config.region,
-          use_dual_stack: context.config.use_dualstack_endpoint,
-          use_fips: context.config.use_fips_endpoint,
-          endpoint: endpoint,
-        )
-      end
-    end
 
-    class GetComplianceSummary
-      def self.build(context)
-        unless context.config.regional_endpoint
-          endpoint = context.config.endpoint.to_s
-        end
-        Aws::ResourceGroupsTaggingAPI::EndpointParameters.new(
-          region: context.config.region,
-          use_dual_stack: context.config.use_dualstack_endpoint,
-          use_fips: context.config.use_fips_endpoint,
-          endpoint: endpoint,
-        )
-      end
+    def self.parameters_for_operation(context)
+      Aws::ResourceGroupsTaggingAPI::EndpointParameters.create(context.config)
     end
-
-    class GetResources
-      def self.build(context)
-        unless context.config.regional_endpoint
-          endpoint = context.config.endpoint.to_s
-        end
-        Aws::ResourceGroupsTaggingAPI::EndpointParameters.new(
-          region: context.config.region,
-          use_dual_stack: context.config.use_dualstack_endpoint,
-          use_fips: context.config.use_fips_endpoint,
-          endpoint: endpoint,
-        )
-      end
-    end
-
-    class GetTagKeys
-      def self.build(context)
-        unless context.config.regional_endpoint
-          endpoint = context.config.endpoint.to_s
-        end
-        Aws::ResourceGroupsTaggingAPI::EndpointParameters.new(
-          region: context.config.region,
-          use_dual_stack: context.config.use_dualstack_endpoint,
-          use_fips: context.config.use_fips_endpoint,
-          endpoint: endpoint,
-        )
-      end
-    end
-
-    class GetTagValues
-      def self.build(context)
-        unless context.config.regional_endpoint
-          endpoint = context.config.endpoint.to_s
-        end
-        Aws::ResourceGroupsTaggingAPI::EndpointParameters.new(
-          region: context.config.region,
-          use_dual_stack: context.config.use_dualstack_endpoint,
-          use_fips: context.config.use_fips_endpoint,
-          endpoint: endpoint,
-        )
-      end
-    end
-
-    class StartReportCreation
-      def self.build(context)
-        unless context.config.regional_endpoint
-          endpoint = context.config.endpoint.to_s
-        end
-        Aws::ResourceGroupsTaggingAPI::EndpointParameters.new(
-          region: context.config.region,
-          use_dual_stack: context.config.use_dualstack_endpoint,
-          use_fips: context.config.use_fips_endpoint,
-          endpoint: endpoint,
-        )
-      end
-    end
-
-    class TagResources
-      def self.build(context)
-        unless context.config.regional_endpoint
-          endpoint = context.config.endpoint.to_s
-        end
-        Aws::ResourceGroupsTaggingAPI::EndpointParameters.new(
-          region: context.config.region,
-          use_dual_stack: context.config.use_dualstack_endpoint,
-          use_fips: context.config.use_fips_endpoint,
-          endpoint: endpoint,
-        )
-      end
-    end
-
-    class UntagResources
-      def self.build(context)
-        unless context.config.regional_endpoint
-          endpoint = context.config.endpoint.to_s
-        end
-        Aws::ResourceGroupsTaggingAPI::EndpointParameters.new(
-          region: context.config.region,
-          use_dual_stack: context.config.use_dualstack_endpoint,
-          use_fips: context.config.use_fips_endpoint,
-          endpoint: endpoint,
-        )
-      end
-    end
-
   end
 end

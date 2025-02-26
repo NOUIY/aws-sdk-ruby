@@ -7,6 +7,7 @@
 #
 # WARNING ABOUT GENERATED CODE
 
+
 module Aws::CloudHSM
   # @api private
   module ClientApi
@@ -309,9 +310,11 @@ module Aws::CloudHSM
 
       api.metadata = {
         "apiVersion" => "2014-05-30",
+        "auth" => ["aws.auth#sigv4"],
         "endpointPrefix" => "cloudhsm",
         "jsonVersion" => "1.1",
         "protocol" => "json",
+        "protocols" => ["json"],
         "serviceAbbreviation" => "CloudHSM",
         "serviceFullName" => "Amazon CloudHSM",
         "serviceId" => "CloudHSM",
@@ -324,6 +327,7 @@ module Aws::CloudHSM
         o.name = "AddTagsToResource"
         o.http_method = "POST"
         o.http_request_uri = "/"
+        o.deprecated = true
         o.input = Shapes::ShapeRef.new(shape: AddTagsToResourceRequest)
         o.output = Shapes::ShapeRef.new(shape: AddTagsToResourceResponse)
         o.errors << Shapes::ShapeRef.new(shape: CloudHsmServiceException)
@@ -335,6 +339,7 @@ module Aws::CloudHSM
         o.name = "CreateHapg"
         o.http_method = "POST"
         o.http_request_uri = "/"
+        o.deprecated = true
         o.input = Shapes::ShapeRef.new(shape: CreateHapgRequest)
         o.output = Shapes::ShapeRef.new(shape: CreateHapgResponse)
         o.errors << Shapes::ShapeRef.new(shape: CloudHsmServiceException)
@@ -346,6 +351,7 @@ module Aws::CloudHSM
         o.name = "CreateHsm"
         o.http_method = "POST"
         o.http_request_uri = "/"
+        o.deprecated = true
         o.input = Shapes::ShapeRef.new(shape: CreateHsmRequest)
         o.output = Shapes::ShapeRef.new(shape: CreateHsmResponse)
         o.errors << Shapes::ShapeRef.new(shape: CloudHsmServiceException)
@@ -357,6 +363,7 @@ module Aws::CloudHSM
         o.name = "CreateLunaClient"
         o.http_method = "POST"
         o.http_request_uri = "/"
+        o.deprecated = true
         o.input = Shapes::ShapeRef.new(shape: CreateLunaClientRequest)
         o.output = Shapes::ShapeRef.new(shape: CreateLunaClientResponse)
         o.errors << Shapes::ShapeRef.new(shape: CloudHsmServiceException)
@@ -368,6 +375,7 @@ module Aws::CloudHSM
         o.name = "DeleteHapg"
         o.http_method = "POST"
         o.http_request_uri = "/"
+        o.deprecated = true
         o.input = Shapes::ShapeRef.new(shape: DeleteHapgRequest)
         o.output = Shapes::ShapeRef.new(shape: DeleteHapgResponse)
         o.errors << Shapes::ShapeRef.new(shape: CloudHsmServiceException)
@@ -379,6 +387,7 @@ module Aws::CloudHSM
         o.name = "DeleteHsm"
         o.http_method = "POST"
         o.http_request_uri = "/"
+        o.deprecated = true
         o.input = Shapes::ShapeRef.new(shape: DeleteHsmRequest)
         o.output = Shapes::ShapeRef.new(shape: DeleteHsmResponse)
         o.errors << Shapes::ShapeRef.new(shape: CloudHsmServiceException)
@@ -390,6 +399,7 @@ module Aws::CloudHSM
         o.name = "DeleteLunaClient"
         o.http_method = "POST"
         o.http_request_uri = "/"
+        o.deprecated = true
         o.input = Shapes::ShapeRef.new(shape: DeleteLunaClientRequest)
         o.output = Shapes::ShapeRef.new(shape: DeleteLunaClientResponse)
         o.errors << Shapes::ShapeRef.new(shape: CloudHsmServiceException)
@@ -401,6 +411,7 @@ module Aws::CloudHSM
         o.name = "DescribeHapg"
         o.http_method = "POST"
         o.http_request_uri = "/"
+        o.deprecated = true
         o.input = Shapes::ShapeRef.new(shape: DescribeHapgRequest)
         o.output = Shapes::ShapeRef.new(shape: DescribeHapgResponse)
         o.errors << Shapes::ShapeRef.new(shape: CloudHsmServiceException)
@@ -412,6 +423,7 @@ module Aws::CloudHSM
         o.name = "DescribeHsm"
         o.http_method = "POST"
         o.http_request_uri = "/"
+        o.deprecated = true
         o.input = Shapes::ShapeRef.new(shape: DescribeHsmRequest)
         o.output = Shapes::ShapeRef.new(shape: DescribeHsmResponse)
         o.errors << Shapes::ShapeRef.new(shape: CloudHsmServiceException)
@@ -423,6 +435,7 @@ module Aws::CloudHSM
         o.name = "DescribeLunaClient"
         o.http_method = "POST"
         o.http_request_uri = "/"
+        o.deprecated = true
         o.input = Shapes::ShapeRef.new(shape: DescribeLunaClientRequest)
         o.output = Shapes::ShapeRef.new(shape: DescribeLunaClientResponse)
         o.errors << Shapes::ShapeRef.new(shape: CloudHsmServiceException)
@@ -434,6 +447,7 @@ module Aws::CloudHSM
         o.name = "GetConfig"
         o.http_method = "POST"
         o.http_request_uri = "/"
+        o.deprecated = true
         o.input = Shapes::ShapeRef.new(shape: GetConfigRequest)
         o.output = Shapes::ShapeRef.new(shape: GetConfigResponse)
         o.errors << Shapes::ShapeRef.new(shape: CloudHsmServiceException)
@@ -445,6 +459,7 @@ module Aws::CloudHSM
         o.name = "ListAvailableZones"
         o.http_method = "POST"
         o.http_request_uri = "/"
+        o.deprecated = true
         o.input = Shapes::ShapeRef.new(shape: ListAvailableZonesRequest)
         o.output = Shapes::ShapeRef.new(shape: ListAvailableZonesResponse)
         o.errors << Shapes::ShapeRef.new(shape: CloudHsmServiceException)
@@ -456,6 +471,7 @@ module Aws::CloudHSM
         o.name = "ListHapgs"
         o.http_method = "POST"
         o.http_request_uri = "/"
+        o.deprecated = true
         o.input = Shapes::ShapeRef.new(shape: ListHapgsRequest)
         o.output = Shapes::ShapeRef.new(shape: ListHapgsResponse)
         o.errors << Shapes::ShapeRef.new(shape: CloudHsmServiceException)
@@ -467,6 +483,7 @@ module Aws::CloudHSM
         o.name = "ListHsms"
         o.http_method = "POST"
         o.http_request_uri = "/"
+        o.deprecated = true
         o.input = Shapes::ShapeRef.new(shape: ListHsmsRequest)
         o.output = Shapes::ShapeRef.new(shape: ListHsmsResponse)
         o.errors << Shapes::ShapeRef.new(shape: CloudHsmServiceException)
@@ -478,6 +495,7 @@ module Aws::CloudHSM
         o.name = "ListLunaClients"
         o.http_method = "POST"
         o.http_request_uri = "/"
+        o.deprecated = true
         o.input = Shapes::ShapeRef.new(shape: ListLunaClientsRequest)
         o.output = Shapes::ShapeRef.new(shape: ListLunaClientsResponse)
         o.errors << Shapes::ShapeRef.new(shape: CloudHsmServiceException)
@@ -489,6 +507,7 @@ module Aws::CloudHSM
         o.name = "ListTagsForResource"
         o.http_method = "POST"
         o.http_request_uri = "/"
+        o.deprecated = true
         o.input = Shapes::ShapeRef.new(shape: ListTagsForResourceRequest)
         o.output = Shapes::ShapeRef.new(shape: ListTagsForResourceResponse)
         o.errors << Shapes::ShapeRef.new(shape: CloudHsmServiceException)
@@ -500,6 +519,7 @@ module Aws::CloudHSM
         o.name = "ModifyHapg"
         o.http_method = "POST"
         o.http_request_uri = "/"
+        o.deprecated = true
         o.input = Shapes::ShapeRef.new(shape: ModifyHapgRequest)
         o.output = Shapes::ShapeRef.new(shape: ModifyHapgResponse)
         o.errors << Shapes::ShapeRef.new(shape: CloudHsmServiceException)
@@ -511,6 +531,7 @@ module Aws::CloudHSM
         o.name = "ModifyHsm"
         o.http_method = "POST"
         o.http_request_uri = "/"
+        o.deprecated = true
         o.input = Shapes::ShapeRef.new(shape: ModifyHsmRequest)
         o.output = Shapes::ShapeRef.new(shape: ModifyHsmResponse)
         o.errors << Shapes::ShapeRef.new(shape: CloudHsmServiceException)
@@ -522,6 +543,7 @@ module Aws::CloudHSM
         o.name = "ModifyLunaClient"
         o.http_method = "POST"
         o.http_request_uri = "/"
+        o.deprecated = true
         o.input = Shapes::ShapeRef.new(shape: ModifyLunaClientRequest)
         o.output = Shapes::ShapeRef.new(shape: ModifyLunaClientResponse)
         o.errors << Shapes::ShapeRef.new(shape: CloudHsmServiceException)
@@ -531,6 +553,7 @@ module Aws::CloudHSM
         o.name = "RemoveTagsFromResource"
         o.http_method = "POST"
         o.http_request_uri = "/"
+        o.deprecated = true
         o.input = Shapes::ShapeRef.new(shape: RemoveTagsFromResourceRequest)
         o.output = Shapes::ShapeRef.new(shape: RemoveTagsFromResourceResponse)
         o.errors << Shapes::ShapeRef.new(shape: CloudHsmServiceException)

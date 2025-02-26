@@ -7,6 +7,7 @@
 #
 # WARNING ABOUT GENERATED CODE
 
+
 module Aws::EMR
   # @api private
   module ClientApi
@@ -100,11 +101,16 @@ module Aws::EMR
     EbsVolume = Shapes::StructureShape.new(name: 'EbsVolume')
     EbsVolumeList = Shapes::ListShape.new(name: 'EbsVolumeList')
     Ec2InstanceAttributes = Shapes::StructureShape.new(name: 'Ec2InstanceAttributes')
+    EnvironmentVariablesMap = Shapes::MapShape.new(name: 'EnvironmentVariablesMap')
     ErrorCode = Shapes::StringShape.new(name: 'ErrorCode')
+    ErrorData = Shapes::ListShape.new(name: 'ErrorData')
+    ErrorDetail = Shapes::StructureShape.new(name: 'ErrorDetail')
+    ErrorDetailList = Shapes::ListShape.new(name: 'ErrorDetailList')
     ErrorMessage = Shapes::StringShape.new(name: 'ErrorMessage')
     ExecutionEngineConfig = Shapes::StructureShape.new(name: 'ExecutionEngineConfig')
     ExecutionEngineType = Shapes::StringShape.new(name: 'ExecutionEngineType')
     FailureDetails = Shapes::StructureShape.new(name: 'FailureDetails')
+    Float = Shapes::FloatShape.new(name: 'Float')
     GetAutoTerminationPolicyInput = Shapes::StructureShape.new(name: 'GetAutoTerminationPolicyInput')
     GetAutoTerminationPolicyOutput = Shapes::StructureShape.new(name: 'GetAutoTerminationPolicyOutput')
     GetBlockPublicAccessConfigurationInput = Shapes::StructureShape.new(name: 'GetBlockPublicAccessConfigurationInput')
@@ -117,6 +123,8 @@ module Aws::EMR
     GetStudioSessionMappingOutput = Shapes::StructureShape.new(name: 'GetStudioSessionMappingOutput')
     HadoopJarStepConfig = Shapes::StructureShape.new(name: 'HadoopJarStepConfig')
     HadoopStepConfig = Shapes::StructureShape.new(name: 'HadoopStepConfig')
+    IAMRoleArn = Shapes::StringShape.new(name: 'IAMRoleArn')
+    IdcUserAssignment = Shapes::StringShape.new(name: 'IdcUserAssignment')
     IdentityType = Shapes::StringShape.new(name: 'IdentityType')
     Instance = Shapes::StructureShape.new(name: 'Instance')
     InstanceCollectionType = Shapes::StringShape.new(name: 'InstanceCollectionType')
@@ -202,6 +210,8 @@ module Aws::EMR
     ListStudioSessionMappingsOutput = Shapes::StructureShape.new(name: 'ListStudioSessionMappingsOutput')
     ListStudiosInput = Shapes::StructureShape.new(name: 'ListStudiosInput')
     ListStudiosOutput = Shapes::StructureShape.new(name: 'ListStudiosOutput')
+    ListSupportedInstanceTypesInput = Shapes::StructureShape.new(name: 'ListSupportedInstanceTypesInput')
+    ListSupportedInstanceTypesOutput = Shapes::StructureShape.new(name: 'ListSupportedInstanceTypesOutput')
     Long = Shapes::IntegerShape.new(name: 'Long')
     ManagedScalingPolicy = Shapes::StructureShape.new(name: 'ManagedScalingPolicy')
     Marker = Shapes::StringShape.new(name: 'Marker')
@@ -219,6 +229,8 @@ module Aws::EMR
     NotebookExecutionStatus = Shapes::StringShape.new(name: 'NotebookExecutionStatus')
     NotebookExecutionSummary = Shapes::StructureShape.new(name: 'NotebookExecutionSummary')
     NotebookExecutionSummaryList = Shapes::ListShape.new(name: 'NotebookExecutionSummaryList')
+    NotebookS3LocationForOutput = Shapes::StructureShape.new(name: 'NotebookS3LocationForOutput')
+    NotebookS3LocationFromInput = Shapes::StructureShape.new(name: 'NotebookS3LocationFromInput')
     OSRelease = Shapes::StructureShape.new(name: 'OSRelease')
     OSReleaseList = Shapes::ListShape.new(name: 'OSReleaseList')
     OnDemandCapacityReservationOptions = Shapes::StructureShape.new(name: 'OnDemandCapacityReservationOptions')
@@ -228,6 +240,9 @@ module Aws::EMR
     OnDemandProvisioningSpecification = Shapes::StructureShape.new(name: 'OnDemandProvisioningSpecification')
     OnDemandResizingSpecification = Shapes::StructureShape.new(name: 'OnDemandResizingSpecification')
     OptionalArnType = Shapes::StringShape.new(name: 'OptionalArnType')
+    OutputNotebookFormat = Shapes::StringShape.new(name: 'OutputNotebookFormat')
+    OutputNotebookS3LocationForOutput = Shapes::StructureShape.new(name: 'OutputNotebookS3LocationForOutput')
+    OutputNotebookS3LocationFromInput = Shapes::StructureShape.new(name: 'OutputNotebookS3LocationFromInput')
     PlacementGroupConfig = Shapes::StructureShape.new(name: 'PlacementGroupConfig')
     PlacementGroupConfigList = Shapes::ListShape.new(name: 'PlacementGroupConfigList')
     PlacementGroupStrategy = Shapes::StringShape.new(name: 'PlacementGroupStrategy')
@@ -262,6 +277,7 @@ module Aws::EMR
     ScalingConstraints = Shapes::StructureShape.new(name: 'ScalingConstraints')
     ScalingRule = Shapes::StructureShape.new(name: 'ScalingRule')
     ScalingRuleList = Shapes::ListShape.new(name: 'ScalingRuleList')
+    ScalingStrategy = Shapes::StringShape.new(name: 'ScalingStrategy')
     ScalingTrigger = Shapes::StructureShape.new(name: 'ScalingTrigger')
     ScriptBootstrapActionConfig = Shapes::StructureShape.new(name: 'ScriptBootstrapActionConfig')
     SecurityConfigurationList = Shapes::ListShape.new(name: 'SecurityConfigurationList')
@@ -270,7 +286,9 @@ module Aws::EMR
     SessionMappingDetail = Shapes::StructureShape.new(name: 'SessionMappingDetail')
     SessionMappingSummary = Shapes::StructureShape.new(name: 'SessionMappingSummary')
     SessionMappingSummaryList = Shapes::ListShape.new(name: 'SessionMappingSummaryList')
+    SetKeepJobFlowAliveWhenNoStepsInput = Shapes::StructureShape.new(name: 'SetKeepJobFlowAliveWhenNoStepsInput')
     SetTerminationProtectionInput = Shapes::StructureShape.new(name: 'SetTerminationProtectionInput')
+    SetUnhealthyNodeReplacementInput = Shapes::StructureShape.new(name: 'SetUnhealthyNodeReplacementInput')
     SetVisibleToAllUsersInput = Shapes::StructureShape.new(name: 'SetVisibleToAllUsersInput')
     ShrinkPolicy = Shapes::StructureShape.new(name: 'ShrinkPolicy')
     SimpleScalingPolicyConfiguration = Shapes::StructureShape.new(name: 'SimpleScalingPolicyConfiguration')
@@ -309,6 +327,8 @@ module Aws::EMR
     StudioSummary = Shapes::StructureShape.new(name: 'StudioSummary')
     StudioSummaryList = Shapes::ListShape.new(name: 'StudioSummaryList')
     SubnetIdList = Shapes::ListShape.new(name: 'SubnetIdList')
+    SupportedInstanceType = Shapes::StructureShape.new(name: 'SupportedInstanceType')
+    SupportedInstanceTypesList = Shapes::ListShape.new(name: 'SupportedInstanceTypesList')
     SupportedProductConfig = Shapes::StructureShape.new(name: 'SupportedProductConfig')
     SupportedProductsList = Shapes::ListShape.new(name: 'SupportedProductsList')
     Tag = Shapes::StructureShape.new(name: 'Tag')
@@ -318,7 +338,9 @@ module Aws::EMR
     Unit = Shapes::StringShape.new(name: 'Unit')
     UpdateStudioInput = Shapes::StructureShape.new(name: 'UpdateStudioInput')
     UpdateStudioSessionMappingInput = Shapes::StructureShape.new(name: 'UpdateStudioSessionMappingInput')
+    UriString = Shapes::StringShape.new(name: 'UriString')
     UsernamePassword = Shapes::StructureShape.new(name: 'UsernamePassword')
+    UtilizationPerformanceIndexInteger = Shapes::IntegerShape.new(name: 'UtilizationPerformanceIndexInteger')
     VolumeSpecification = Shapes::StructureShape.new(name: 'VolumeSpecification')
     WholeNumber = Shapes::IntegerShape.new(name: 'WholeNumber')
     XmlString = Shapes::StringShape.new(name: 'XmlString')
@@ -443,6 +465,7 @@ module Aws::EMR
     Cluster.add_member(:release_label, Shapes::ShapeRef.new(shape: String, location_name: "ReleaseLabel"))
     Cluster.add_member(:auto_terminate, Shapes::ShapeRef.new(shape: Boolean, location_name: "AutoTerminate"))
     Cluster.add_member(:termination_protected, Shapes::ShapeRef.new(shape: Boolean, location_name: "TerminationProtected"))
+    Cluster.add_member(:unhealthy_node_replacement, Shapes::ShapeRef.new(shape: BooleanObject, location_name: "UnhealthyNodeReplacement"))
     Cluster.add_member(:visible_to_all_users, Shapes::ShapeRef.new(shape: Boolean, location_name: "VisibleToAllUsers"))
     Cluster.add_member(:applications, Shapes::ShapeRef.new(shape: ApplicationList, location_name: "Applications"))
     Cluster.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "Tags"))
@@ -462,6 +485,8 @@ module Aws::EMR
     Cluster.add_member(:step_concurrency_level, Shapes::ShapeRef.new(shape: Integer, location_name: "StepConcurrencyLevel"))
     Cluster.add_member(:placement_groups, Shapes::ShapeRef.new(shape: PlacementGroupConfigList, location_name: "PlacementGroups"))
     Cluster.add_member(:os_release_label, Shapes::ShapeRef.new(shape: String, location_name: "OSReleaseLabel"))
+    Cluster.add_member(:ebs_root_volume_iops, Shapes::ShapeRef.new(shape: Integer, location_name: "EbsRootVolumeIops"))
+    Cluster.add_member(:ebs_root_volume_throughput, Shapes::ShapeRef.new(shape: Integer, location_name: "EbsRootVolumeThroughput"))
     Cluster.struct_class = Types::Cluster
 
     ClusterStateChangeReason.add_member(:code, Shapes::ShapeRef.new(shape: ClusterStateChangeReasonCode, location_name: "Code"))
@@ -473,6 +498,7 @@ module Aws::EMR
     ClusterStatus.add_member(:state, Shapes::ShapeRef.new(shape: ClusterState, location_name: "State"))
     ClusterStatus.add_member(:state_change_reason, Shapes::ShapeRef.new(shape: ClusterStateChangeReason, location_name: "StateChangeReason"))
     ClusterStatus.add_member(:timeline, Shapes::ShapeRef.new(shape: ClusterTimeline, location_name: "Timeline"))
+    ClusterStatus.add_member(:error_details, Shapes::ShapeRef.new(shape: ErrorDetailList, location_name: "ErrorDetails"))
     ClusterStatus.struct_class = Types::ClusterStatus
 
     ClusterSummary.add_member(:id, Shapes::ShapeRef.new(shape: ClusterId, location_name: "Id"))
@@ -532,6 +558,10 @@ module Aws::EMR
     CreateStudioInput.add_member(:idp_auth_url, Shapes::ShapeRef.new(shape: XmlString, location_name: "IdpAuthUrl"))
     CreateStudioInput.add_member(:idp_relay_state_parameter_name, Shapes::ShapeRef.new(shape: XmlStringMaxLen256, location_name: "IdpRelayStateParameterName"))
     CreateStudioInput.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "Tags"))
+    CreateStudioInput.add_member(:trusted_identity_propagation_enabled, Shapes::ShapeRef.new(shape: BooleanObject, location_name: "TrustedIdentityPropagationEnabled"))
+    CreateStudioInput.add_member(:idc_user_assignment, Shapes::ShapeRef.new(shape: IdcUserAssignment, location_name: "IdcUserAssignment"))
+    CreateStudioInput.add_member(:idc_instance_arn, Shapes::ShapeRef.new(shape: ArnType, location_name: "IdcInstanceArn"))
+    CreateStudioInput.add_member(:encryption_key_arn, Shapes::ShapeRef.new(shape: XmlString, location_name: "EncryptionKeyArn"))
     CreateStudioInput.struct_class = Types::CreateStudioInput
 
     CreateStudioOutput.add_member(:studio_id, Shapes::ShapeRef.new(shape: XmlStringMaxLen256, location_name: "StudioId"))
@@ -657,9 +687,22 @@ module Aws::EMR
     Ec2InstanceAttributes.add_member(:additional_slave_security_groups, Shapes::ShapeRef.new(shape: StringList, location_name: "AdditionalSlaveSecurityGroups"))
     Ec2InstanceAttributes.struct_class = Types::Ec2InstanceAttributes
 
+    EnvironmentVariablesMap.key = Shapes::ShapeRef.new(shape: XmlStringMaxLen256)
+    EnvironmentVariablesMap.value = Shapes::ShapeRef.new(shape: XmlString)
+
+    ErrorData.member = Shapes::ShapeRef.new(shape: StringMap)
+
+    ErrorDetail.add_member(:error_code, Shapes::ShapeRef.new(shape: String, location_name: "ErrorCode"))
+    ErrorDetail.add_member(:error_data, Shapes::ShapeRef.new(shape: ErrorData, location_name: "ErrorData"))
+    ErrorDetail.add_member(:error_message, Shapes::ShapeRef.new(shape: String, location_name: "ErrorMessage"))
+    ErrorDetail.struct_class = Types::ErrorDetail
+
+    ErrorDetailList.member = Shapes::ShapeRef.new(shape: ErrorDetail)
+
     ExecutionEngineConfig.add_member(:id, Shapes::ShapeRef.new(shape: XmlStringMaxLen256, required: true, location_name: "Id"))
     ExecutionEngineConfig.add_member(:type, Shapes::ShapeRef.new(shape: ExecutionEngineType, location_name: "Type"))
     ExecutionEngineConfig.add_member(:master_instance_security_group_id, Shapes::ShapeRef.new(shape: XmlStringMaxLen256, location_name: "MasterInstanceSecurityGroupId"))
+    ExecutionEngineConfig.add_member(:execution_role_arn, Shapes::ShapeRef.new(shape: IAMRoleArn, location_name: "ExecutionRoleArn"))
     ExecutionEngineConfig.struct_class = Types::ExecutionEngineConfig
 
     FailureDetails.add_member(:reason, Shapes::ShapeRef.new(shape: String, location_name: "Reason"))
@@ -680,7 +723,7 @@ module Aws::EMR
     GetBlockPublicAccessConfigurationOutput.struct_class = Types::GetBlockPublicAccessConfigurationOutput
 
     GetClusterSessionCredentialsInput.add_member(:cluster_id, Shapes::ShapeRef.new(shape: XmlStringMaxLen256, required: true, location_name: "ClusterId"))
-    GetClusterSessionCredentialsInput.add_member(:execution_role_arn, Shapes::ShapeRef.new(shape: ArnType, required: true, location_name: "ExecutionRoleArn"))
+    GetClusterSessionCredentialsInput.add_member(:execution_role_arn, Shapes::ShapeRef.new(shape: ArnType, location_name: "ExecutionRoleArn"))
     GetClusterSessionCredentialsInput.struct_class = Types::GetClusterSessionCredentialsInput
 
     GetClusterSessionCredentialsOutput.add_member(:credentials, Shapes::ShapeRef.new(shape: Credentials, location_name: "Credentials"))
@@ -739,6 +782,7 @@ module Aws::EMR
     InstanceFleet.add_member(:instance_type_specifications, Shapes::ShapeRef.new(shape: InstanceTypeSpecificationList, location_name: "InstanceTypeSpecifications"))
     InstanceFleet.add_member(:launch_specifications, Shapes::ShapeRef.new(shape: InstanceFleetProvisioningSpecifications, location_name: "LaunchSpecifications"))
     InstanceFleet.add_member(:resize_specifications, Shapes::ShapeRef.new(shape: InstanceFleetResizingSpecifications, location_name: "ResizeSpecifications"))
+    InstanceFleet.add_member(:context, Shapes::ShapeRef.new(shape: XmlStringMaxLen256, location_name: "Context"))
     InstanceFleet.struct_class = Types::InstanceFleet
 
     InstanceFleetConfig.add_member(:name, Shapes::ShapeRef.new(shape: XmlStringMaxLen256, location_name: "Name"))
@@ -748,6 +792,7 @@ module Aws::EMR
     InstanceFleetConfig.add_member(:instance_type_configs, Shapes::ShapeRef.new(shape: InstanceTypeConfigList, location_name: "InstanceTypeConfigs"))
     InstanceFleetConfig.add_member(:launch_specifications, Shapes::ShapeRef.new(shape: InstanceFleetProvisioningSpecifications, location_name: "LaunchSpecifications"))
     InstanceFleetConfig.add_member(:resize_specifications, Shapes::ShapeRef.new(shape: InstanceFleetResizingSpecifications, location_name: "ResizeSpecifications"))
+    InstanceFleetConfig.add_member(:context, Shapes::ShapeRef.new(shape: XmlStringMaxLen256, location_name: "Context"))
     InstanceFleetConfig.struct_class = Types::InstanceFleetConfig
 
     InstanceFleetConfigList.member = Shapes::ShapeRef.new(shape: InstanceFleetConfig)
@@ -758,6 +803,8 @@ module Aws::EMR
     InstanceFleetModifyConfig.add_member(:target_on_demand_capacity, Shapes::ShapeRef.new(shape: WholeNumber, location_name: "TargetOnDemandCapacity"))
     InstanceFleetModifyConfig.add_member(:target_spot_capacity, Shapes::ShapeRef.new(shape: WholeNumber, location_name: "TargetSpotCapacity"))
     InstanceFleetModifyConfig.add_member(:resize_specifications, Shapes::ShapeRef.new(shape: InstanceFleetResizingSpecifications, location_name: "ResizeSpecifications"))
+    InstanceFleetModifyConfig.add_member(:instance_type_configs, Shapes::ShapeRef.new(shape: InstanceTypeConfigList, location_name: "InstanceTypeConfigs"))
+    InstanceFleetModifyConfig.add_member(:context, Shapes::ShapeRef.new(shape: XmlStringMaxLen256, location_name: "Context"))
     InstanceFleetModifyConfig.struct_class = Types::InstanceFleetModifyConfig
 
     InstanceFleetProvisioningSpecifications.add_member(:spot_specification, Shapes::ShapeRef.new(shape: SpotProvisioningSpecification, location_name: "SpotSpecification"))
@@ -895,6 +942,7 @@ module Aws::EMR
     InstanceTypeConfig.add_member(:ebs_configuration, Shapes::ShapeRef.new(shape: EbsConfiguration, location_name: "EbsConfiguration"))
     InstanceTypeConfig.add_member(:configurations, Shapes::ShapeRef.new(shape: ConfigurationList, location_name: "Configurations"))
     InstanceTypeConfig.add_member(:custom_ami_id, Shapes::ShapeRef.new(shape: XmlStringMaxLen256, location_name: "CustomAmiId"))
+    InstanceTypeConfig.add_member(:priority, Shapes::ShapeRef.new(shape: NonNegativeDouble, location_name: "Priority"))
     InstanceTypeConfig.struct_class = Types::InstanceTypeConfig
 
     InstanceTypeConfigList.member = Shapes::ShapeRef.new(shape: InstanceTypeConfig)
@@ -907,6 +955,7 @@ module Aws::EMR
     InstanceTypeSpecification.add_member(:ebs_block_devices, Shapes::ShapeRef.new(shape: EbsBlockDeviceList, location_name: "EbsBlockDevices"))
     InstanceTypeSpecification.add_member(:ebs_optimized, Shapes::ShapeRef.new(shape: BooleanObject, location_name: "EbsOptimized"))
     InstanceTypeSpecification.add_member(:custom_ami_id, Shapes::ShapeRef.new(shape: XmlStringMaxLen256, location_name: "CustomAmiId"))
+    InstanceTypeSpecification.add_member(:priority, Shapes::ShapeRef.new(shape: NonNegativeDouble, location_name: "Priority"))
     InstanceTypeSpecification.struct_class = Types::InstanceTypeSpecification
 
     InstanceTypeSpecificationList.member = Shapes::ShapeRef.new(shape: InstanceTypeSpecification)
@@ -958,6 +1007,7 @@ module Aws::EMR
     JobFlowInstancesConfig.add_member(:placement, Shapes::ShapeRef.new(shape: PlacementType, location_name: "Placement"))
     JobFlowInstancesConfig.add_member(:keep_job_flow_alive_when_no_steps, Shapes::ShapeRef.new(shape: Boolean, location_name: "KeepJobFlowAliveWhenNoSteps"))
     JobFlowInstancesConfig.add_member(:termination_protected, Shapes::ShapeRef.new(shape: Boolean, location_name: "TerminationProtected"))
+    JobFlowInstancesConfig.add_member(:unhealthy_node_replacement, Shapes::ShapeRef.new(shape: BooleanObject, location_name: "UnhealthyNodeReplacement"))
     JobFlowInstancesConfig.add_member(:hadoop_version, Shapes::ShapeRef.new(shape: XmlStringMaxLen256, location_name: "HadoopVersion"))
     JobFlowInstancesConfig.add_member(:ec2_subnet_id, Shapes::ShapeRef.new(shape: XmlStringMaxLen256, location_name: "Ec2SubnetId"))
     JobFlowInstancesConfig.add_member(:ec2_subnet_ids, Shapes::ShapeRef.new(shape: XmlStringMaxLen256List, location_name: "Ec2SubnetIds"))
@@ -980,6 +1030,7 @@ module Aws::EMR
     JobFlowInstancesDetail.add_member(:placement, Shapes::ShapeRef.new(shape: PlacementType, location_name: "Placement"))
     JobFlowInstancesDetail.add_member(:keep_job_flow_alive_when_no_steps, Shapes::ShapeRef.new(shape: Boolean, location_name: "KeepJobFlowAliveWhenNoSteps"))
     JobFlowInstancesDetail.add_member(:termination_protected, Shapes::ShapeRef.new(shape: Boolean, location_name: "TerminationProtected"))
+    JobFlowInstancesDetail.add_member(:unhealthy_node_replacement, Shapes::ShapeRef.new(shape: BooleanObject, location_name: "UnhealthyNodeReplacement"))
     JobFlowInstancesDetail.add_member(:hadoop_version, Shapes::ShapeRef.new(shape: XmlStringMaxLen256, location_name: "HadoopVersion"))
     JobFlowInstancesDetail.struct_class = Types::JobFlowInstancesDetail
 
@@ -1048,6 +1099,7 @@ module Aws::EMR
     ListNotebookExecutionsInput.add_member(:from, Shapes::ShapeRef.new(shape: Date, location_name: "From"))
     ListNotebookExecutionsInput.add_member(:to, Shapes::ShapeRef.new(shape: Date, location_name: "To"))
     ListNotebookExecutionsInput.add_member(:marker, Shapes::ShapeRef.new(shape: Marker, location_name: "Marker"))
+    ListNotebookExecutionsInput.add_member(:execution_engine_id, Shapes::ShapeRef.new(shape: XmlString, location_name: "ExecutionEngineId"))
     ListNotebookExecutionsInput.struct_class = Types::ListNotebookExecutionsInput
 
     ListNotebookExecutionsOutput.add_member(:notebook_executions, Shapes::ShapeRef.new(shape: NotebookExecutionSummaryList, location_name: "NotebookExecutions"))
@@ -1096,7 +1148,17 @@ module Aws::EMR
     ListStudiosOutput.add_member(:marker, Shapes::ShapeRef.new(shape: Marker, location_name: "Marker"))
     ListStudiosOutput.struct_class = Types::ListStudiosOutput
 
+    ListSupportedInstanceTypesInput.add_member(:release_label, Shapes::ShapeRef.new(shape: String, required: true, location_name: "ReleaseLabel"))
+    ListSupportedInstanceTypesInput.add_member(:marker, Shapes::ShapeRef.new(shape: String, location_name: "Marker"))
+    ListSupportedInstanceTypesInput.struct_class = Types::ListSupportedInstanceTypesInput
+
+    ListSupportedInstanceTypesOutput.add_member(:supported_instance_types, Shapes::ShapeRef.new(shape: SupportedInstanceTypesList, location_name: "SupportedInstanceTypes"))
+    ListSupportedInstanceTypesOutput.add_member(:marker, Shapes::ShapeRef.new(shape: String, location_name: "Marker"))
+    ListSupportedInstanceTypesOutput.struct_class = Types::ListSupportedInstanceTypesOutput
+
     ManagedScalingPolicy.add_member(:compute_limits, Shapes::ShapeRef.new(shape: ComputeLimits, location_name: "ComputeLimits"))
+    ManagedScalingPolicy.add_member(:utilization_performance_index, Shapes::ShapeRef.new(shape: UtilizationPerformanceIndexInteger, location_name: "UtilizationPerformanceIndex"))
+    ManagedScalingPolicy.add_member(:scaling_strategy, Shapes::ShapeRef.new(shape: ScalingStrategy, location_name: "ScalingStrategy"))
     ManagedScalingPolicy.struct_class = Types::ManagedScalingPolicy
 
     MetricDimension.add_member(:key, Shapes::ShapeRef.new(shape: String, location_name: "Key"))
@@ -1135,6 +1197,10 @@ module Aws::EMR
     NotebookExecution.add_member(:last_state_change_reason, Shapes::ShapeRef.new(shape: XmlString, location_name: "LastStateChangeReason"))
     NotebookExecution.add_member(:notebook_instance_security_group_id, Shapes::ShapeRef.new(shape: XmlStringMaxLen256, location_name: "NotebookInstanceSecurityGroupId"))
     NotebookExecution.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "Tags"))
+    NotebookExecution.add_member(:notebook_s3_location, Shapes::ShapeRef.new(shape: NotebookS3LocationForOutput, location_name: "NotebookS3Location"))
+    NotebookExecution.add_member(:output_notebook_s3_location, Shapes::ShapeRef.new(shape: OutputNotebookS3LocationForOutput, location_name: "OutputNotebookS3Location"))
+    NotebookExecution.add_member(:output_notebook_format, Shapes::ShapeRef.new(shape: OutputNotebookFormat, location_name: "OutputNotebookFormat"))
+    NotebookExecution.add_member(:environment_variables, Shapes::ShapeRef.new(shape: EnvironmentVariablesMap, location_name: "EnvironmentVariables"))
     NotebookExecution.struct_class = Types::NotebookExecution
 
     NotebookExecutionSummary.add_member(:notebook_execution_id, Shapes::ShapeRef.new(shape: XmlStringMaxLen256, location_name: "NotebookExecutionId"))
@@ -1143,9 +1209,19 @@ module Aws::EMR
     NotebookExecutionSummary.add_member(:status, Shapes::ShapeRef.new(shape: NotebookExecutionStatus, location_name: "Status"))
     NotebookExecutionSummary.add_member(:start_time, Shapes::ShapeRef.new(shape: Date, location_name: "StartTime"))
     NotebookExecutionSummary.add_member(:end_time, Shapes::ShapeRef.new(shape: Date, location_name: "EndTime"))
+    NotebookExecutionSummary.add_member(:notebook_s3_location, Shapes::ShapeRef.new(shape: NotebookS3LocationForOutput, location_name: "NotebookS3Location"))
+    NotebookExecutionSummary.add_member(:execution_engine_id, Shapes::ShapeRef.new(shape: XmlString, location_name: "ExecutionEngineId"))
     NotebookExecutionSummary.struct_class = Types::NotebookExecutionSummary
 
     NotebookExecutionSummaryList.member = Shapes::ShapeRef.new(shape: NotebookExecutionSummary)
+
+    NotebookS3LocationForOutput.add_member(:bucket, Shapes::ShapeRef.new(shape: XmlStringMaxLen256, location_name: "Bucket"))
+    NotebookS3LocationForOutput.add_member(:key, Shapes::ShapeRef.new(shape: UriString, location_name: "Key"))
+    NotebookS3LocationForOutput.struct_class = Types::NotebookS3LocationForOutput
+
+    NotebookS3LocationFromInput.add_member(:bucket, Shapes::ShapeRef.new(shape: XmlStringMaxLen256, location_name: "Bucket"))
+    NotebookS3LocationFromInput.add_member(:key, Shapes::ShapeRef.new(shape: UriString, location_name: "Key"))
+    NotebookS3LocationFromInput.struct_class = Types::NotebookS3LocationFromInput
 
     OSRelease.add_member(:label, Shapes::ShapeRef.new(shape: String, location_name: "Label"))
     OSRelease.struct_class = Types::OSRelease
@@ -1161,8 +1237,18 @@ module Aws::EMR
     OnDemandProvisioningSpecification.add_member(:capacity_reservation_options, Shapes::ShapeRef.new(shape: OnDemandCapacityReservationOptions, location_name: "CapacityReservationOptions"))
     OnDemandProvisioningSpecification.struct_class = Types::OnDemandProvisioningSpecification
 
-    OnDemandResizingSpecification.add_member(:timeout_duration_minutes, Shapes::ShapeRef.new(shape: WholeNumber, required: true, location_name: "TimeoutDurationMinutes"))
+    OnDemandResizingSpecification.add_member(:timeout_duration_minutes, Shapes::ShapeRef.new(shape: WholeNumber, location_name: "TimeoutDurationMinutes"))
+    OnDemandResizingSpecification.add_member(:allocation_strategy, Shapes::ShapeRef.new(shape: OnDemandProvisioningAllocationStrategy, location_name: "AllocationStrategy"))
+    OnDemandResizingSpecification.add_member(:capacity_reservation_options, Shapes::ShapeRef.new(shape: OnDemandCapacityReservationOptions, location_name: "CapacityReservationOptions"))
     OnDemandResizingSpecification.struct_class = Types::OnDemandResizingSpecification
+
+    OutputNotebookS3LocationForOutput.add_member(:bucket, Shapes::ShapeRef.new(shape: XmlStringMaxLen256, location_name: "Bucket"))
+    OutputNotebookS3LocationForOutput.add_member(:key, Shapes::ShapeRef.new(shape: UriString, location_name: "Key"))
+    OutputNotebookS3LocationForOutput.struct_class = Types::OutputNotebookS3LocationForOutput
+
+    OutputNotebookS3LocationFromInput.add_member(:bucket, Shapes::ShapeRef.new(shape: XmlStringMaxLen256, location_name: "Bucket"))
+    OutputNotebookS3LocationFromInput.add_member(:key, Shapes::ShapeRef.new(shape: UriString, location_name: "Key"))
+    OutputNotebookS3LocationFromInput.struct_class = Types::OutputNotebookS3LocationFromInput
 
     PlacementGroupConfig.add_member(:instance_role, Shapes::ShapeRef.new(shape: InstanceRoleType, required: true, location_name: "InstanceRole"))
     PlacementGroupConfig.add_member(:placement_strategy, Shapes::ShapeRef.new(shape: PlacementGroupStrategy, location_name: "PlacementStrategy"))
@@ -1263,6 +1349,8 @@ module Aws::EMR
     RunJobFlowInput.add_member(:placement_group_configs, Shapes::ShapeRef.new(shape: PlacementGroupConfigList, location_name: "PlacementGroupConfigs"))
     RunJobFlowInput.add_member(:auto_termination_policy, Shapes::ShapeRef.new(shape: AutoTerminationPolicy, location_name: "AutoTerminationPolicy"))
     RunJobFlowInput.add_member(:os_release_label, Shapes::ShapeRef.new(shape: XmlStringMaxLen256, location_name: "OSReleaseLabel"))
+    RunJobFlowInput.add_member(:ebs_root_volume_iops, Shapes::ShapeRef.new(shape: Integer, location_name: "EbsRootVolumeIops"))
+    RunJobFlowInput.add_member(:ebs_root_volume_throughput, Shapes::ShapeRef.new(shape: Integer, location_name: "EbsRootVolumeThroughput"))
     RunJobFlowInput.struct_class = Types::RunJobFlowInput
 
     RunJobFlowOutput.add_member(:job_flow_id, Shapes::ShapeRef.new(shape: XmlStringMaxLen256, location_name: "JobFlowId"))
@@ -1319,9 +1407,17 @@ module Aws::EMR
 
     SessionMappingSummaryList.member = Shapes::ShapeRef.new(shape: SessionMappingSummary)
 
+    SetKeepJobFlowAliveWhenNoStepsInput.add_member(:job_flow_ids, Shapes::ShapeRef.new(shape: XmlStringList, required: true, location_name: "JobFlowIds"))
+    SetKeepJobFlowAliveWhenNoStepsInput.add_member(:keep_job_flow_alive_when_no_steps, Shapes::ShapeRef.new(shape: Boolean, required: true, location_name: "KeepJobFlowAliveWhenNoSteps"))
+    SetKeepJobFlowAliveWhenNoStepsInput.struct_class = Types::SetKeepJobFlowAliveWhenNoStepsInput
+
     SetTerminationProtectionInput.add_member(:job_flow_ids, Shapes::ShapeRef.new(shape: XmlStringList, required: true, location_name: "JobFlowIds"))
     SetTerminationProtectionInput.add_member(:termination_protected, Shapes::ShapeRef.new(shape: Boolean, required: true, location_name: "TerminationProtected"))
     SetTerminationProtectionInput.struct_class = Types::SetTerminationProtectionInput
+
+    SetUnhealthyNodeReplacementInput.add_member(:job_flow_ids, Shapes::ShapeRef.new(shape: XmlStringList, required: true, location_name: "JobFlowIds"))
+    SetUnhealthyNodeReplacementInput.add_member(:unhealthy_node_replacement, Shapes::ShapeRef.new(shape: BooleanObject, required: true, location_name: "UnhealthyNodeReplacement"))
+    SetUnhealthyNodeReplacementInput.struct_class = Types::SetUnhealthyNodeReplacementInput
 
     SetVisibleToAllUsersInput.add_member(:job_flow_ids, Shapes::ShapeRef.new(shape: XmlStringList, required: true, location_name: "JobFlowIds"))
     SetVisibleToAllUsersInput.add_member(:visible_to_all_users, Shapes::ShapeRef.new(shape: Boolean, required: true, location_name: "VisibleToAllUsers"))
@@ -1348,17 +1444,22 @@ module Aws::EMR
     SpotProvisioningSpecification.add_member(:allocation_strategy, Shapes::ShapeRef.new(shape: SpotProvisioningAllocationStrategy, location_name: "AllocationStrategy"))
     SpotProvisioningSpecification.struct_class = Types::SpotProvisioningSpecification
 
-    SpotResizingSpecification.add_member(:timeout_duration_minutes, Shapes::ShapeRef.new(shape: WholeNumber, required: true, location_name: "TimeoutDurationMinutes"))
+    SpotResizingSpecification.add_member(:timeout_duration_minutes, Shapes::ShapeRef.new(shape: WholeNumber, location_name: "TimeoutDurationMinutes"))
+    SpotResizingSpecification.add_member(:allocation_strategy, Shapes::ShapeRef.new(shape: SpotProvisioningAllocationStrategy, location_name: "AllocationStrategy"))
     SpotResizingSpecification.struct_class = Types::SpotResizingSpecification
 
-    StartNotebookExecutionInput.add_member(:editor_id, Shapes::ShapeRef.new(shape: XmlStringMaxLen256, required: true, location_name: "EditorId"))
-    StartNotebookExecutionInput.add_member(:relative_path, Shapes::ShapeRef.new(shape: XmlString, required: true, location_name: "RelativePath"))
+    StartNotebookExecutionInput.add_member(:editor_id, Shapes::ShapeRef.new(shape: XmlStringMaxLen256, location_name: "EditorId"))
+    StartNotebookExecutionInput.add_member(:relative_path, Shapes::ShapeRef.new(shape: XmlString, location_name: "RelativePath"))
     StartNotebookExecutionInput.add_member(:notebook_execution_name, Shapes::ShapeRef.new(shape: XmlStringMaxLen256, location_name: "NotebookExecutionName"))
     StartNotebookExecutionInput.add_member(:notebook_params, Shapes::ShapeRef.new(shape: XmlString, location_name: "NotebookParams"))
     StartNotebookExecutionInput.add_member(:execution_engine, Shapes::ShapeRef.new(shape: ExecutionEngineConfig, required: true, location_name: "ExecutionEngine"))
     StartNotebookExecutionInput.add_member(:service_role, Shapes::ShapeRef.new(shape: XmlString, required: true, location_name: "ServiceRole"))
     StartNotebookExecutionInput.add_member(:notebook_instance_security_group_id, Shapes::ShapeRef.new(shape: XmlStringMaxLen256, location_name: "NotebookInstanceSecurityGroupId"))
     StartNotebookExecutionInput.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "Tags"))
+    StartNotebookExecutionInput.add_member(:notebook_s3_location, Shapes::ShapeRef.new(shape: NotebookS3LocationFromInput, location_name: "NotebookS3Location"))
+    StartNotebookExecutionInput.add_member(:output_notebook_s3_location, Shapes::ShapeRef.new(shape: OutputNotebookS3LocationFromInput, location_name: "OutputNotebookS3Location"))
+    StartNotebookExecutionInput.add_member(:output_notebook_format, Shapes::ShapeRef.new(shape: OutputNotebookFormat, location_name: "OutputNotebookFormat"))
+    StartNotebookExecutionInput.add_member(:environment_variables, Shapes::ShapeRef.new(shape: EnvironmentVariablesMap, location_name: "EnvironmentVariables"))
     StartNotebookExecutionInput.struct_class = Types::StartNotebookExecutionInput
 
     StartNotebookExecutionOutput.add_member(:notebook_execution_id, Shapes::ShapeRef.new(shape: XmlStringMaxLen256, location_name: "NotebookExecutionId"))
@@ -1445,6 +1546,10 @@ module Aws::EMR
     Studio.add_member(:idp_auth_url, Shapes::ShapeRef.new(shape: XmlString, location_name: "IdpAuthUrl"))
     Studio.add_member(:idp_relay_state_parameter_name, Shapes::ShapeRef.new(shape: XmlStringMaxLen256, location_name: "IdpRelayStateParameterName"))
     Studio.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "Tags"))
+    Studio.add_member(:idc_instance_arn, Shapes::ShapeRef.new(shape: ArnType, location_name: "IdcInstanceArn"))
+    Studio.add_member(:trusted_identity_propagation_enabled, Shapes::ShapeRef.new(shape: BooleanObject, location_name: "TrustedIdentityPropagationEnabled"))
+    Studio.add_member(:idc_user_assignment, Shapes::ShapeRef.new(shape: IdcUserAssignment, location_name: "IdcUserAssignment"))
+    Studio.add_member(:encryption_key_arn, Shapes::ShapeRef.new(shape: XmlString, location_name: "EncryptionKeyArn"))
     Studio.struct_class = Types::Studio
 
     StudioSummary.add_member(:studio_id, Shapes::ShapeRef.new(shape: XmlStringMaxLen256, location_name: "StudioId"))
@@ -1459,6 +1564,21 @@ module Aws::EMR
     StudioSummaryList.member = Shapes::ShapeRef.new(shape: StudioSummary)
 
     SubnetIdList.member = Shapes::ShapeRef.new(shape: String)
+
+    SupportedInstanceType.add_member(:type, Shapes::ShapeRef.new(shape: String, location_name: "Type"))
+    SupportedInstanceType.add_member(:memory_gb, Shapes::ShapeRef.new(shape: Float, location_name: "MemoryGB"))
+    SupportedInstanceType.add_member(:storage_gb, Shapes::ShapeRef.new(shape: Integer, location_name: "StorageGB"))
+    SupportedInstanceType.add_member(:vcpu, Shapes::ShapeRef.new(shape: Integer, location_name: "VCPU"))
+    SupportedInstanceType.add_member(:is_64_bits_only, Shapes::ShapeRef.new(shape: Boolean, location_name: "Is64BitsOnly"))
+    SupportedInstanceType.add_member(:instance_family_id, Shapes::ShapeRef.new(shape: String, location_name: "InstanceFamilyId"))
+    SupportedInstanceType.add_member(:ebs_optimized_available, Shapes::ShapeRef.new(shape: Boolean, location_name: "EbsOptimizedAvailable"))
+    SupportedInstanceType.add_member(:ebs_optimized_by_default, Shapes::ShapeRef.new(shape: Boolean, location_name: "EbsOptimizedByDefault"))
+    SupportedInstanceType.add_member(:number_of_disks, Shapes::ShapeRef.new(shape: Integer, location_name: "NumberOfDisks"))
+    SupportedInstanceType.add_member(:ebs_storage_only, Shapes::ShapeRef.new(shape: Boolean, location_name: "EbsStorageOnly"))
+    SupportedInstanceType.add_member(:architecture, Shapes::ShapeRef.new(shape: String, location_name: "Architecture"))
+    SupportedInstanceType.struct_class = Types::SupportedInstanceType
+
+    SupportedInstanceTypesList.member = Shapes::ShapeRef.new(shape: SupportedInstanceType)
 
     SupportedProductConfig.add_member(:name, Shapes::ShapeRef.new(shape: XmlStringMaxLen256, location_name: "Name"))
     SupportedProductConfig.add_member(:args, Shapes::ShapeRef.new(shape: XmlStringList, location_name: "Args"))
@@ -1480,6 +1600,7 @@ module Aws::EMR
     UpdateStudioInput.add_member(:description, Shapes::ShapeRef.new(shape: XmlStringMaxLen256, location_name: "Description"))
     UpdateStudioInput.add_member(:subnet_ids, Shapes::ShapeRef.new(shape: SubnetIdList, location_name: "SubnetIds"))
     UpdateStudioInput.add_member(:default_s3_location, Shapes::ShapeRef.new(shape: XmlString, location_name: "DefaultS3Location"))
+    UpdateStudioInput.add_member(:encryption_key_arn, Shapes::ShapeRef.new(shape: XmlString, location_name: "EncryptionKeyArn"))
     UpdateStudioInput.struct_class = Types::UpdateStudioInput
 
     UpdateStudioSessionMappingInput.add_member(:studio_id, Shapes::ShapeRef.new(shape: XmlStringMaxLen256, required: true, location_name: "StudioId"))
@@ -1511,9 +1632,11 @@ module Aws::EMR
 
       api.metadata = {
         "apiVersion" => "2009-03-31",
+        "auth" => ["aws.auth#sigv4"],
         "endpointPrefix" => "elasticmapreduce",
         "jsonVersion" => "1.1",
         "protocol" => "json",
+        "protocols" => ["json"],
         "serviceAbbreviation" => "Amazon EMR",
         "serviceFullName" => "Amazon EMR",
         "serviceId" => "EMR",
@@ -1912,6 +2035,21 @@ module Aws::EMR
         )
       end)
 
+      api.add_operation(:list_supported_instance_types, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListSupportedInstanceTypes"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: ListSupportedInstanceTypesInput)
+        o.output = Shapes::ShapeRef.new(shape: ListSupportedInstanceTypesOutput)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+        o[:pager] = Aws::Pager.new(
+          tokens: {
+            "marker" => "marker"
+          }
+        )
+      end)
+
       api.add_operation(:modify_cluster, Seahorse::Model::Operation.new.tap do |o|
         o.name = "ModifyCluster"
         o.http_method = "POST"
@@ -2018,11 +2156,29 @@ module Aws::EMR
         o.errors << Shapes::ShapeRef.new(shape: InternalServerError)
       end)
 
+      api.add_operation(:set_keep_job_flow_alive_when_no_steps, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "SetKeepJobFlowAliveWhenNoSteps"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: SetKeepJobFlowAliveWhenNoStepsInput)
+        o.output = Shapes::ShapeRef.new(shape: Shapes::StructureShape.new(struct_class: Aws::EmptyStructure))
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerError)
+      end)
+
       api.add_operation(:set_termination_protection, Seahorse::Model::Operation.new.tap do |o|
         o.name = "SetTerminationProtection"
         o.http_method = "POST"
         o.http_request_uri = "/"
         o.input = Shapes::ShapeRef.new(shape: SetTerminationProtectionInput)
+        o.output = Shapes::ShapeRef.new(shape: Shapes::StructureShape.new(struct_class: Aws::EmptyStructure))
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerError)
+      end)
+
+      api.add_operation(:set_unhealthy_node_replacement, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "SetUnhealthyNodeReplacement"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: SetUnhealthyNodeReplacementInput)
         o.output = Shapes::ShapeRef.new(shape: Shapes::StructureShape.new(struct_class: Aws::EmptyStructure))
         o.errors << Shapes::ShapeRef.new(shape: InternalServerError)
       end)

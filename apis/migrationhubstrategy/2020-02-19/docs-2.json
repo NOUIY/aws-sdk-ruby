@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "service": "<p><fullname>Migration Hub Strategy Recommendations</fullname></p> <pre><code> &lt;p&gt;This API reference provides descriptions, syntax, and other details about each of the actions and data types for Migration Hub Strategy Recommendations (Strategy Recommendations). The topic for each action shows the API request parameters and the response. Alternatively, you can use one of the AWS SDKs to access an API that is tailored to the programming language or platform that you're using. For more information, see &lt;a href=&quot;http://aws.amazon.com/tools/#SDKs&quot;&gt;AWS SDKs&lt;/a&gt;.&lt;/p&gt; </code></pre>",
+  "service": "<p><fullname>Migration Hub Strategy Recommendations</fullname> <p>This API reference provides descriptions, syntax, and other details about each of the actions and data types for Migration Hub Strategy Recommendations (Strategy Recommendations). The topic for each action shows the API request parameters and the response. Alternatively, you can use one of the AWS SDKs to access an API that is tailored to the programming language or platform that you're using. For more information, see <a href=\"http://aws.amazon.com/tools/#SDKs\">AWS SDKs</a>.</p></p>",
   "operations": {
     "GetApplicationComponentDetails": "<p> Retrieves details about an application component. </p>",
     "GetApplicationComponentStrategies": "<p> Retrieves a list of all the recommended strategies and tools for an application component running on a server. </p>",
@@ -12,6 +12,7 @@
     "GetRecommendationReportDetails": "<p> Retrieves detailed information about the specified recommendation report. </p>",
     "GetServerDetails": "<p> Retrieves detailed information about a specified server. </p>",
     "GetServerStrategies": "<p> Retrieves recommended strategies and tools for the specified server. </p>",
+    "ListAnalyzableServers": "<p>Retrieves a list of all the servers fetched from customer vCenter using Strategy Recommendation Collector.</p>",
     "ListApplicationComponents": "<p> Retrieves a list of all the application components (processes). </p>",
     "ListCollectors": "<p> Retrieves a list of all the installed collectors. </p>",
     "ListImportFileTask": "<p> Retrieves a list of all the imports performed. </p>",
@@ -26,13 +27,56 @@
   },
   "shapes": {
     "AccessDeniedException": {
-      "base": "<p> The AWS user account does not have permission to perform the action. Check the AWS Identity and Access Management (IAM) policy associated with this account.</p>",
+      "base": "<p> The user does not have permission to perform the action. Check the AWS Identity and Access Management (IAM) policy associated with this user.</p>",
       "refs": {
+      }
+    },
+    "AnalysisStatusUnion": {
+      "base": "<p>A combination of existing analysis statuses.</p>",
+      "refs": {
+        "Result$analysisStatus": "<p>The error in server analysis.</p>"
+      }
+    },
+    "AnalysisType": {
+      "base": null,
+      "refs": {
+        "Result$analysisType": "<p>The error in server analysis.</p>"
+      }
+    },
+    "AnalyzableServerSummary": {
+      "base": "<p>Summary information about an analyzable server.</p>",
+      "refs": {
+        "AnalyzableServerSummaryList$member": null
+      }
+    },
+    "AnalyzableServerSummaryList": {
+      "base": null,
+      "refs": {
+        "ListAnalyzableServersResponse$analyzableServers": "<p>The list of analyzable servers with summary information about each server.</p>"
+      }
+    },
+    "AnalyzerNameUnion": {
+      "base": "<p>The combination of the existing analyzers.</p>",
+      "refs": {
+        "AntipatternReportResult$analyzerName": "<p>The analyzer name.</p>"
+      }
+    },
+    "AntipatternReportResult": {
+      "base": "<p>The anti-pattern report result.</p>",
+      "refs": {
+        "AntipatternReportResultList$member": null
+      }
+    },
+    "AntipatternReportResultList": {
+      "base": null,
+      "refs": {
+        "Result$antipatternReportResultList": "<p>The error in server analysis.</p>"
       }
     },
     "AntipatternReportStatus": {
       "base": null,
       "refs": {
+        "AntipatternReportResult$antipatternReportStatus": "<p>The status of the anti-pattern report generation.</p>",
         "ApplicationComponentDetail$antipatternReportStatus": "<p> The status of the anti-pattern report generation.</p>",
         "AssessmentSummary$antipatternReportStatus": "<p> The status of the anti-pattern report. </p>",
         "ServerDetail$antipatternReportStatus": "<p> The status of the anti-pattern report generation. </p>"
@@ -129,6 +173,12 @@
         "PutPortfolioPreferencesRequest$applicationPreferences": "<p> The transformation preferences for non-database applications. </p>"
       }
     },
+    "AssessmentDataSourceType": {
+      "base": null,
+      "refs": {
+        "StartAssessmentRequest$assessmentDataSourceType": "<p>The data source type of an assessment to be started.</p>"
+      }
+    },
     "AssessmentStatus": {
       "base": null,
       "refs": {
@@ -217,6 +267,12 @@
       "base": null,
       "refs": {
         "AwsManagedResources$targetDestination": "<p> The choice of application destination that you specify. </p>"
+      }
+    },
+    "BinaryAnalyzerName": {
+      "base": null,
+      "refs": {
+        "AnalyzerNameUnion$binaryAnalyzerName": "<p>The binary analyzer names.</p>"
       }
     },
     "Boolean": {
@@ -549,6 +605,16 @@
       "refs": {
       }
     },
+    "ListAnalyzableServersRequest": {
+      "base": "<p>Represents input for ListAnalyzableServers operation.</p>",
+      "refs": {
+      }
+    },
+    "ListAnalyzableServersResponse": {
+      "base": "<p>Represents output for ListAnalyzableServers operation.</p>",
+      "refs": {
+      }
+    },
     "ListAntipatternSeveritySummary": {
       "base": null,
       "refs": {
@@ -663,6 +729,7 @@
       "base": null,
       "refs": {
         "GetServerDetailsRequest$maxResults": "<p> The maximum number of items to include in the response. The maximum value is 100. </p>",
+        "ListAnalyzableServersRequest$maxResults": "<p>The maximum number of items to include in the response. The maximum value is 100.</p>",
         "ListApplicationComponentsRequest$maxResults": "<p> The maximum number of items to include in the response. The maximum value is 100. </p>",
         "ListCollectorsRequest$maxResults": "<p> The maximum number of items to include in the response. The maximum value is 100. </p>",
         "ListServersRequest$maxResults": "<p> The maximum number of items to include in the response. The maximum value is 100. </p>"
@@ -690,6 +757,8 @@
       "base": null,
       "refs": {
         "GetServerDetailsRequest$nextToken": "<p> The token from a previous call that you use to retrieve the next set of results. For example, if a previous call to this action returned 100 items, but you set <code>maxResults</code> to 10. You'll receive a set of 10 results along with a token. You then use the returned token to retrieve the next set of 10. </p>",
+        "ListAnalyzableServersRequest$nextToken": "<p>The token from a previous call that you use to retrieve the next set of results. For example, if a previous call to this action returned 100 items, but you set maxResults to 10. You'll receive a set of 10 results along with a token. You then use the returned token to retrieve the next set of 10.</p>",
+        "ListAnalyzableServersResponse$nextToken": "<p>The token you use to retrieve the next set of results, or null if there are no more results.</p>",
         "ListApplicationComponentsRequest$nextToken": "<p> The token from a previous call that you use to retrieve the next set of results. For example, if a previous call to this action returned 100 items, but you set <code>maxResults</code> to 10. You'll receive a set of 10 results along with a token. You then use the returned token to retrieve the next set of 10. </p>",
         "ListApplicationComponentsResponse$nextToken": "<p> The token you use to retrieve the next set of results, or null if there are no more results. </p>",
         "ListCollectorsRequest$nextToken": "<p> The token from a previous call that you use to retrieve the next set of results. For example, if a previous call to this action returned 100 items, but you set <code>maxResults</code> to 10. You'll receive a set of 10 results along with a token. You then use the returned token to retrieve the next set of 10. </p>",
@@ -862,6 +931,24 @@
         "ApplicationComponentDetail$resourceSubType": "<p> The application component subtype.</p>"
       }
     },
+    "Result": {
+      "base": "<p>The error in server analysis.</p>",
+      "refs": {
+        "ResultList$member": null
+      }
+    },
+    "ResultList": {
+      "base": null,
+      "refs": {
+        "ApplicationComponentDetail$resultList": "<p>A list of the analysis results.</p>"
+      }
+    },
+    "RunTimeAnalyzerName": {
+      "base": null,
+      "refs": {
+        "AnalyzerNameUnion$runTimeAnalyzerName": "<p>The assessment analyzer names.</p>"
+      }
+    },
     "RunTimeAssessmentStatus": {
       "base": null,
       "refs": {
@@ -872,6 +959,7 @@
     "RuntimeAnalysisStatus": {
       "base": null,
       "refs": {
+        "AnalysisStatusUnion$runtimeAnalysisStatus": "<p>The status of the analysis.</p>",
         "ApplicationComponentDetail$runtimeStatus": "<p>The status of the application unit.</p>"
       }
     },
@@ -896,6 +984,7 @@
     "S3Object": {
       "base": "<p> Contains the S3 bucket name and the Amazon S3 key name. </p>",
       "refs": {
+        "AntipatternReportResult$antiPatternReportS3Object": null,
         "ApplicationComponentDetail$antipatternReportS3Object": "<p> The S3 bucket name and the Amazon S3 key name for the anti-pattern report. </p>",
         "AssessmentSummary$antipatternReportS3Object": "<p> The Amazon S3 object containing the anti-pattern report. </p>",
         "ServerDetail$antipatternReportS3Object": "<p> The S3 bucket name and Amazon S3 key name for anti-pattern report. </p>"
@@ -1014,6 +1103,7 @@
     "SortOrder": {
       "base": null,
       "refs": {
+        "ListAnalyzableServersRequest$sort": "<p>Specifies whether to sort by ascending (ASC) or descending (DESC) order.</p>",
         "ListApplicationComponentsRequest$sort": "<p> Specifies whether to sort by ascending (<code>ASC</code>) or descending (<code>DESC</code>) order. </p>",
         "ListServersRequest$sort": "<p> Specifies whether to sort by ascending (<code>ASC</code>) or descending (<code>DESC</code>) order. </p>"
       }
@@ -1022,6 +1112,12 @@
       "base": "<p> Object containing source code information that is linked to an application component. </p>",
       "refs": {
         "SourceCodeList$member": null
+      }
+    },
+    "SourceCodeAnalyzerName": {
+      "base": null,
+      "refs": {
+        "AnalyzerNameUnion$sourceCodeAnalyzerName": "<p>The source code analyzer names.</p>"
       }
     },
     "SourceCodeList": {
@@ -1051,6 +1147,7 @@
     "SrcCodeOrDbAnalysisStatus": {
       "base": null,
       "refs": {
+        "AnalysisStatusUnion$srcCodeOrDbAnalysisStatus": "<p>The status of the source code or database analysis.</p>",
         "ApplicationComponentDetail$analysisStatus": "<p> The status of analysis, if the application component has source code or an associated database. </p>",
         "ApplicationComponentStatusSummary$srcCodeOrDbAnalysisStatus": "<p>The status of database analysis.</p>"
       }
@@ -1112,10 +1209,12 @@
     "StatusMessage": {
       "base": null,
       "refs": {
+        "AntipatternReportResult$antipatternReportStatusMessage": "<p>The status message for the anti-pattern.</p>",
         "ApplicationComponentDetail$antipatternReportStatusMessage": "<p> The status message for the anti-pattern. </p>",
         "ApplicationComponentDetail$runtimeStatusMessage": "<p>The status message for the application unit.</p>",
         "ApplicationComponentDetail$statusMessage": "<p> A detailed description of the analysis status and any failure message. </p>",
         "AssessmentSummary$antipatternReportStatusMessage": "<p> The status message of the anti-pattern report. </p>",
+        "Result$statusMessage": "<p>The error in server analysis.</p>",
         "ServerDetail$antipatternReportStatusMessage": "<p> A message about the status of the anti-pattern report generation. </p>",
         "ServerDetail$statusMessage": "<p> A message about the status of data collection, which contains detailed descriptions of any error messages. </p>"
       }
@@ -1162,6 +1261,10 @@
       "base": null,
       "refs": {
         "AccessDeniedException$message": null,
+        "AnalyzableServerSummary$hostname": "<p>The host name of the analyzable server.</p>",
+        "AnalyzableServerSummary$ipAddress": "<p>The ip address of the analyzable server.</p>",
+        "AnalyzableServerSummary$source": "<p>The data source of the analyzable server.</p>",
+        "AnalyzableServerSummary$vmId": "<p>The virtual machine id of the analyzable server.</p>",
         "ApplicationComponentDetail$osDriver": "<p> OS driver. </p>",
         "ApplicationComponentDetail$osVersion": "<p> OS version. </p>",
         "AssessmentTarget$name": "<p>Name of an assessment.</p>",

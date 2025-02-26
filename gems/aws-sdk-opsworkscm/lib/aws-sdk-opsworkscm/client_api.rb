@@ -7,6 +7,7 @@
 #
 # WARNING ABOUT GENERATED CODE
 
+
 module Aws::OpsWorksCM
   # @api private
   module ClientApi
@@ -380,9 +381,11 @@ module Aws::OpsWorksCM
 
       api.metadata = {
         "apiVersion" => "2016-11-01",
+        "auth" => ["aws.auth#sigv4"],
         "endpointPrefix" => "opsworks-cm",
         "jsonVersion" => "1.1",
         "protocol" => "json",
+        "protocols" => ["json"],
         "serviceAbbreviation" => "OpsWorksCM",
         "serviceFullName" => "AWS OpsWorks CM",
         "serviceId" => "OpsWorksCM",

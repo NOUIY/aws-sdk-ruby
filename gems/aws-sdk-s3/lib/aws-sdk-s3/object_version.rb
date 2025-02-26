@@ -62,6 +62,18 @@ module Aws::S3
       data[:checksum_algorithm]
     end
 
+    # The checksum type that is used to calculate the object’s checksum
+    # value. For more information, see [Checking object integrity][1] in the
+    # *Amazon S3 User Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html
+    # @return [String]
+    def checksum_type
+      data[:checksum_type]
+    end
+
     # Size in bytes of the object.
     # @return [Integer]
     def size
@@ -93,7 +105,7 @@ module Aws::S3
       data[:is_latest]
     end
 
-    # Date and time the object was last modified.
+    # Date and time when the object was last modified.
     # @return [Time]
     def last_modified
       data[:last_modified]
@@ -103,6 +115,20 @@ module Aws::S3
     # @return [Types::Owner]
     def owner
       data[:owner]
+    end
+
+    # Specifies the restoration status of an object. Objects in certain
+    # storage classes must be restored before they can be retrieved. For
+    # more information about these storage classes and how to work with
+    # archived objects, see [ Working with archived objects][1] in the
+    # *Amazon S3 User Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/archived-objects.html
+    # @return [Types::RestoreStatus]
+    def restore_status
+      data[:restore_status]
     end
 
     # @!endgroup
@@ -229,7 +255,9 @@ module Aws::S3
           :retry
         end
       end
-      Aws::Waiters::Waiter.new(options).wait({})
+      Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        Aws::Waiters::Waiter.new(options).wait({})
+      end
     end
 
     # @!group Actions
@@ -241,6 +269,9 @@ module Aws::S3
     #     request_payer: "requester", # accepts requester
     #     bypass_governance_retention: false,
     #     expected_bucket_owner: "AccountId",
+    #     if_match: "IfMatch",
+    #     if_match_last_modified_time: Time.now,
+    #     if_match_size: 1,
     #   })
     # @param [Hash] options ({})
     # @option options [String] :mfa
@@ -248,12 +279,22 @@ module Aws::S3
     #   space, and the value that is displayed on your authentication device.
     #   Required to permanently delete a versioned object if versioning is
     #   configured with MFA delete enabled.
+    #
+    #   <note markdown="1"> This functionality is not supported for directory buckets.
+    #
+    #    </note>
     # @option options [String] :request_payer
     #   Confirms that the requester knows that they will be charged for the
     #   request. Bucket owners need not specify this parameter in their
-    #   requests. For information about downloading objects from Requester
+    #   requests. If either the source or destination S3 bucket has Requester
+    #   Pays enabled, the requester will pay for corresponding charges to copy
+    #   the object. For information about downloading objects from Requester
     #   Pays buckets, see [Downloading Objects in Requester Pays Buckets][1]
     #   in the *Amazon S3 User Guide*.
+    #
+    #   <note markdown="1"> This functionality is not supported for directory buckets.
+    #
+    #    </note>
     #
     #
     #
@@ -262,10 +303,54 @@ module Aws::S3
     #   Indicates whether S3 Object Lock should bypass Governance-mode
     #   restrictions to process this operation. To use this header, you must
     #   have the `s3:BypassGovernanceRetention` permission.
+    #
+    #   <note markdown="1"> This functionality is not supported for directory buckets.
+    #
+    #    </note>
     # @option options [String] :expected_bucket_owner
-    #   The account ID of the expected bucket owner. If the bucket is owned by
-    #   a different account, the request fails with the HTTP status code `403
-    #   Forbidden` (access denied).
+    #   The account ID of the expected bucket owner. If the account ID that
+    #   you provide does not match the actual owner of the bucket, the request
+    #   fails with the HTTP status code `403 Forbidden` (access denied).
+    # @option options [String] :if_match
+    #   The `If-Match` header field makes the request method conditional on
+    #   ETags. If the ETag value does not match, the operation returns a `412
+    #   Precondition Failed` error. If the ETag matches or if the object
+    #   doesn't exist, the operation will return a `204 Success (No Content)
+    #   response`.
+    #
+    #   For more information about conditional requests, see [RFC 7232][1].
+    #
+    #   <note markdown="1"> This functionality is only supported for directory buckets.
+    #
+    #    </note>
+    #
+    #
+    #
+    #   [1]: https://tools.ietf.org/html/rfc7232
+    # @option options [Time,DateTime,Date,Integer,String] :if_match_last_modified_time
+    #   If present, the object is deleted only if its modification times
+    #   matches the provided `Timestamp`. If the `Timestamp` values do not
+    #   match, the operation returns a `412 Precondition Failed` error. If the
+    #   `Timestamp` matches or if the object doesn’t exist, the operation
+    #   returns a `204 Success (No Content)` response.
+    #
+    #   <note markdown="1"> This functionality is only supported for directory buckets.
+    #
+    #    </note>
+    # @option options [Integer] :if_match_size
+    #   If present, the object is deleted only if its size matches the
+    #   provided size in bytes. If the `Size` value does not match, the
+    #   operation returns a `412 Precondition Failed` error. If the `Size`
+    #   matches or if the object doesn’t exist, the operation returns a `204
+    #   Success (No Content)` response.
+    #
+    #   <note markdown="1"> This functionality is only supported for directory buckets.
+    #
+    #    </note>
+    #
+    #   You can use the `If-Match`, `x-amz-if-match-last-modified-time` and
+    #   `x-amz-if-match-size` conditional headers in conjunction with
+    #   each-other or individually.
     # @return [Types::DeleteObjectOutput]
     def delete(options = {})
       options = options.merge(
@@ -273,7 +358,9 @@ module Aws::S3
         key: @object_key,
         version_id: @id
       )
-      resp = @client.delete_object(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.delete_object(options)
+      end
       resp.data
     end
 
@@ -302,20 +389,66 @@ module Aws::S3
     # @param [Hash] options ({})
     # @option options [String] :if_match
     #   Return the object only if its entity tag (ETag) is the same as the one
-    #   specified; otherwise, return a 412 (precondition failed) error.
+    #   specified in this header; otherwise, return a `412 Precondition
+    #   Failed` error.
+    #
+    #   If both of the `If-Match` and `If-Unmodified-Since` headers are
+    #   present in the request as follows: `If-Match` condition evaluates to
+    #   `true`, and; `If-Unmodified-Since` condition evaluates to `false`;
+    #   then, S3 returns `200 OK` and the data requested.
+    #
+    #   For more information about conditional requests, see [RFC 7232][1].
+    #
+    #
+    #
+    #   [1]: https://tools.ietf.org/html/rfc7232
     # @option options [Time,DateTime,Date,Integer,String] :if_modified_since
     #   Return the object only if it has been modified since the specified
-    #   time; otherwise, return a 304 (not modified) error.
+    #   time; otherwise, return a `304 Not Modified` error.
+    #
+    #   If both of the `If-None-Match` and `If-Modified-Since` headers are
+    #   present in the request as follows:` If-None-Match` condition evaluates
+    #   to `false`, and; `If-Modified-Since` condition evaluates to `true`;
+    #   then, S3 returns `304 Not Modified` status code.
+    #
+    #   For more information about conditional requests, see [RFC 7232][1].
+    #
+    #
+    #
+    #   [1]: https://tools.ietf.org/html/rfc7232
     # @option options [String] :if_none_match
     #   Return the object only if its entity tag (ETag) is different from the
-    #   one specified; otherwise, return a 304 (not modified) error.
+    #   one specified in this header; otherwise, return a `304 Not Modified`
+    #   error.
+    #
+    #   If both of the `If-None-Match` and `If-Modified-Since` headers are
+    #   present in the request as follows:` If-None-Match` condition evaluates
+    #   to `false`, and; `If-Modified-Since` condition evaluates to `true`;
+    #   then, S3 returns `304 Not Modified` HTTP status code.
+    #
+    #   For more information about conditional requests, see [RFC 7232][1].
+    #
+    #
+    #
+    #   [1]: https://tools.ietf.org/html/rfc7232
     # @option options [Time,DateTime,Date,Integer,String] :if_unmodified_since
     #   Return the object only if it has not been modified since the specified
-    #   time; otherwise, return a 412 (precondition failed) error.
+    #   time; otherwise, return a `412 Precondition Failed` error.
+    #
+    #   If both of the `If-Match` and `If-Unmodified-Since` headers are
+    #   present in the request as follows: `If-Match` condition evaluates to
+    #   `true`, and; `If-Unmodified-Since` condition evaluates to `false`;
+    #   then, S3 returns `200 OK` and the data requested.
+    #
+    #   For more information about conditional requests, see [RFC 7232][1].
+    #
+    #
+    #
+    #   [1]: https://tools.ietf.org/html/rfc7232
     # @option options [String] :range
-    #   Downloads the specified range bytes of an object. For more information
+    #   Downloads the specified byte range of an object. For more information
     #   about the HTTP Range header, see
-    #   [https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35][1].
+    #   [https://www.rfc-editor.org/rfc/rfc9110.html#name-range][1].
     #
     #   <note markdown="1"> Amazon S3 doesn't support retrieving multiple ranges of data per
     #   `GET` request.
@@ -324,11 +457,11 @@ module Aws::S3
     #
     #
     #
-    #   [1]: https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35
+    #   [1]: https://www.rfc-editor.org/rfc/rfc9110.html#name-range
     # @option options [String] :response_cache_control
     #   Sets the `Cache-Control` header of the response.
     # @option options [String] :response_content_disposition
-    #   Sets the `Content-Disposition` header of the response
+    #   Sets the `Content-Disposition` header of the response.
     # @option options [String] :response_content_encoding
     #   Sets the `Content-Encoding` header of the response.
     # @option options [String] :response_content_language
@@ -338,24 +471,98 @@ module Aws::S3
     # @option options [Time,DateTime,Date,Integer,String] :response_expires
     #   Sets the `Expires` header of the response.
     # @option options [String] :sse_customer_algorithm
-    #   Specifies the algorithm to use to when decrypting the object (for
-    #   example, AES256).
+    #   Specifies the algorithm to use when decrypting the object (for
+    #   example, `AES256`).
+    #
+    #   If you encrypt an object by using server-side encryption with
+    #   customer-provided encryption keys (SSE-C) when you store the object in
+    #   Amazon S3, then when you GET the object, you must use the following
+    #   headers:
+    #
+    #   * `x-amz-server-side-encryption-customer-algorithm`
+    #
+    #   * `x-amz-server-side-encryption-customer-key`
+    #
+    #   * `x-amz-server-side-encryption-customer-key-MD5`
+    #
+    #   For more information about SSE-C, see [Server-Side Encryption (Using
+    #   Customer-Provided Encryption Keys)][1] in the *Amazon S3 User Guide*.
+    #
+    #   <note markdown="1"> This functionality is not supported for directory buckets.
+    #
+    #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html
     # @option options [String] :sse_customer_key
-    #   Specifies the customer-provided encryption key for Amazon S3 used to
-    #   encrypt the data. This value is used to decrypt the object when
-    #   recovering it and must match the one used when storing the data. The
-    #   key must be appropriate for use with the algorithm specified in the
+    #   Specifies the customer-provided encryption key that you originally
+    #   provided for Amazon S3 to encrypt the data before storing it. This
+    #   value is used to decrypt the object when recovering it and must match
+    #   the one used when storing the data. The key must be appropriate for
+    #   use with the algorithm specified in the
     #   `x-amz-server-side-encryption-customer-algorithm` header.
+    #
+    #   If you encrypt an object by using server-side encryption with
+    #   customer-provided encryption keys (SSE-C) when you store the object in
+    #   Amazon S3, then when you GET the object, you must use the following
+    #   headers:
+    #
+    #   * `x-amz-server-side-encryption-customer-algorithm`
+    #
+    #   * `x-amz-server-side-encryption-customer-key`
+    #
+    #   * `x-amz-server-side-encryption-customer-key-MD5`
+    #
+    #   For more information about SSE-C, see [Server-Side Encryption (Using
+    #   Customer-Provided Encryption Keys)][1] in the *Amazon S3 User Guide*.
+    #
+    #   <note markdown="1"> This functionality is not supported for directory buckets.
+    #
+    #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html
     # @option options [String] :sse_customer_key_md5
-    #   Specifies the 128-bit MD5 digest of the encryption key according to
-    #   RFC 1321. Amazon S3 uses this header for a message integrity check to
-    #   ensure that the encryption key was transmitted without error.
+    #   Specifies the 128-bit MD5 digest of the customer-provided encryption
+    #   key according to RFC 1321. Amazon S3 uses this header for a message
+    #   integrity check to ensure that the encryption key was transmitted
+    #   without error.
+    #
+    #   If you encrypt an object by using server-side encryption with
+    #   customer-provided encryption keys (SSE-C) when you store the object in
+    #   Amazon S3, then when you GET the object, you must use the following
+    #   headers:
+    #
+    #   * `x-amz-server-side-encryption-customer-algorithm`
+    #
+    #   * `x-amz-server-side-encryption-customer-key`
+    #
+    #   * `x-amz-server-side-encryption-customer-key-MD5`
+    #
+    #   For more information about SSE-C, see [Server-Side Encryption (Using
+    #   Customer-Provided Encryption Keys)][1] in the *Amazon S3 User Guide*.
+    #
+    #   <note markdown="1"> This functionality is not supported for directory buckets.
+    #
+    #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html
     # @option options [String] :request_payer
     #   Confirms that the requester knows that they will be charged for the
     #   request. Bucket owners need not specify this parameter in their
-    #   requests. For information about downloading objects from Requester
+    #   requests. If either the source or destination S3 bucket has Requester
+    #   Pays enabled, the requester will pay for corresponding charges to copy
+    #   the object. For information about downloading objects from Requester
     #   Pays buckets, see [Downloading Objects in Requester Pays Buckets][1]
     #   in the *Amazon S3 User Guide*.
+    #
+    #   <note markdown="1"> This functionality is not supported for directory buckets.
+    #
+    #    </note>
     #
     #
     #
@@ -366,9 +573,9 @@ module Aws::S3
     #   for the part specified. Useful for downloading just a part of an
     #   object.
     # @option options [String] :expected_bucket_owner
-    #   The account ID of the expected bucket owner. If the bucket is owned by
-    #   a different account, the request fails with the HTTP status code `403
-    #   Forbidden` (access denied).
+    #   The account ID of the expected bucket owner. If the account ID that
+    #   you provide does not match the actual owner of the bucket, the request
+    #   fails with the HTTP status code `403 Forbidden` (access denied).
     # @option options [String] :checksum_mode
     #   To retrieve the checksum, this mode must be enabled.
     # @return [Types::GetObjectOutput]
@@ -378,7 +585,9 @@ module Aws::S3
         key: @object_key,
         version_id: @id
       )
-      resp = @client.get_object(options, &block)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.get_object(options, &block)
+      end
       resp.data
     end
 
@@ -390,6 +599,12 @@ module Aws::S3
     #     if_none_match: "IfNoneMatch",
     #     if_unmodified_since: Time.now,
     #     range: "Range",
+    #     response_cache_control: "ResponseCacheControl",
+    #     response_content_disposition: "ResponseContentDisposition",
+    #     response_content_encoding: "ResponseContentEncoding",
+    #     response_content_language: "ResponseContentLanguage",
+    #     response_content_type: "ResponseContentType",
+    #     response_expires: Time.now,
     #     sse_customer_algorithm: "SSECustomerAlgorithm",
     #     sse_customer_key: "SSECustomerKey",
     #     sse_customer_key_md5: "SSECustomerKeyMD5",
@@ -402,37 +617,129 @@ module Aws::S3
     # @option options [String] :if_match
     #   Return the object only if its entity tag (ETag) is the same as the one
     #   specified; otherwise, return a 412 (precondition failed) error.
+    #
+    #   If both of the `If-Match` and `If-Unmodified-Since` headers are
+    #   present in the request as follows:
+    #
+    #   * `If-Match` condition evaluates to `true`, and;
+    #
+    #   * `If-Unmodified-Since` condition evaluates to `false`;
+    #
+    #   Then Amazon S3 returns `200 OK` and the data requested.
+    #
+    #   For more information about conditional requests, see [RFC 7232][1].
+    #
+    #
+    #
+    #   [1]: https://tools.ietf.org/html/rfc7232
     # @option options [Time,DateTime,Date,Integer,String] :if_modified_since
     #   Return the object only if it has been modified since the specified
     #   time; otherwise, return a 304 (not modified) error.
+    #
+    #   If both of the `If-None-Match` and `If-Modified-Since` headers are
+    #   present in the request as follows:
+    #
+    #   * `If-None-Match` condition evaluates to `false`, and;
+    #
+    #   * `If-Modified-Since` condition evaluates to `true`;
+    #
+    #   Then Amazon S3 returns the `304 Not Modified` response code.
+    #
+    #   For more information about conditional requests, see [RFC 7232][1].
+    #
+    #
+    #
+    #   [1]: https://tools.ietf.org/html/rfc7232
     # @option options [String] :if_none_match
     #   Return the object only if its entity tag (ETag) is different from the
     #   one specified; otherwise, return a 304 (not modified) error.
+    #
+    #   If both of the `If-None-Match` and `If-Modified-Since` headers are
+    #   present in the request as follows:
+    #
+    #   * `If-None-Match` condition evaluates to `false`, and;
+    #
+    #   * `If-Modified-Since` condition evaluates to `true`;
+    #
+    #   Then Amazon S3 returns the `304 Not Modified` response code.
+    #
+    #   For more information about conditional requests, see [RFC 7232][1].
+    #
+    #
+    #
+    #   [1]: https://tools.ietf.org/html/rfc7232
     # @option options [Time,DateTime,Date,Integer,String] :if_unmodified_since
     #   Return the object only if it has not been modified since the specified
     #   time; otherwise, return a 412 (precondition failed) error.
+    #
+    #   If both of the `If-Match` and `If-Unmodified-Since` headers are
+    #   present in the request as follows:
+    #
+    #   * `If-Match` condition evaluates to `true`, and;
+    #
+    #   * `If-Unmodified-Since` condition evaluates to `false`;
+    #
+    #   Then Amazon S3 returns `200 OK` and the data requested.
+    #
+    #   For more information about conditional requests, see [RFC 7232][1].
+    #
+    #
+    #
+    #   [1]: https://tools.ietf.org/html/rfc7232
     # @option options [String] :range
-    #   Because `HeadObject` returns only the metadata for an object, this
-    #   parameter has no effect.
+    #   HeadObject returns only the metadata for an object. If the Range is
+    #   satisfiable, only the `ContentLength` is affected in the response. If
+    #   the Range is not satisfiable, S3 returns a `416 - Requested Range Not
+    #   Satisfiable` error.
+    # @option options [String] :response_cache_control
+    #   Sets the `Cache-Control` header of the response.
+    # @option options [String] :response_content_disposition
+    #   Sets the `Content-Disposition` header of the response.
+    # @option options [String] :response_content_encoding
+    #   Sets the `Content-Encoding` header of the response.
+    # @option options [String] :response_content_language
+    #   Sets the `Content-Language` header of the response.
+    # @option options [String] :response_content_type
+    #   Sets the `Content-Type` header of the response.
+    # @option options [Time,DateTime,Date,Integer,String] :response_expires
+    #   Sets the `Expires` header of the response.
     # @option options [String] :sse_customer_algorithm
-    #   Specifies the algorithm to use to when encrypting the object (for
+    #   Specifies the algorithm to use when encrypting the object (for
     #   example, AES256).
+    #
+    #   <note markdown="1"> This functionality is not supported for directory buckets.
+    #
+    #    </note>
     # @option options [String] :sse_customer_key
     #   Specifies the customer-provided encryption key for Amazon S3 to use in
     #   encrypting data. This value is used to store the object and then it is
     #   discarded; Amazon S3 does not store the encryption key. The key must
     #   be appropriate for use with the algorithm specified in the
     #   `x-amz-server-side-encryption-customer-algorithm` header.
+    #
+    #   <note markdown="1"> This functionality is not supported for directory buckets.
+    #
+    #    </note>
     # @option options [String] :sse_customer_key_md5
     #   Specifies the 128-bit MD5 digest of the encryption key according to
     #   RFC 1321. Amazon S3 uses this header for a message integrity check to
     #   ensure that the encryption key was transmitted without error.
+    #
+    #   <note markdown="1"> This functionality is not supported for directory buckets.
+    #
+    #    </note>
     # @option options [String] :request_payer
     #   Confirms that the requester knows that they will be charged for the
     #   request. Bucket owners need not specify this parameter in their
-    #   requests. For information about downloading objects from Requester
+    #   requests. If either the source or destination S3 bucket has Requester
+    #   Pays enabled, the requester will pay for corresponding charges to copy
+    #   the object. For information about downloading objects from Requester
     #   Pays buckets, see [Downloading Objects in Requester Pays Buckets][1]
     #   in the *Amazon S3 User Guide*.
+    #
+    #   <note markdown="1"> This functionality is not supported for directory buckets.
+    #
+    #    </note>
     #
     #
     #
@@ -443,16 +750,26 @@ module Aws::S3
     #   for the part specified. Useful querying about the size of the part and
     #   the number of parts in this object.
     # @option options [String] :expected_bucket_owner
-    #   The account ID of the expected bucket owner. If the bucket is owned by
-    #   a different account, the request fails with the HTTP status code `403
-    #   Forbidden` (access denied).
+    #   The account ID of the expected bucket owner. If the account ID that
+    #   you provide does not match the actual owner of the bucket, the request
+    #   fails with the HTTP status code `403 Forbidden` (access denied).
     # @option options [String] :checksum_mode
     #   To retrieve the checksum, this parameter must be enabled.
     #
-    #   In addition, if you enable `ChecksumMode` and the object is encrypted
-    #   with Amazon Web Services Key Management Service (Amazon Web Services
-    #   KMS), you must have permission to use the `kms:Decrypt` action for the
-    #   request to succeed.
+    #   **General purpose buckets** - If you enable checksum mode and the
+    #   object is uploaded with a [checksum][1] and encrypted with an Key
+    #   Management Service (KMS) key, you must have permission to use the
+    #   `kms:Decrypt` action to retrieve the checksum.
+    #
+    #   **Directory buckets** - If you enable `ChecksumMode` and the object is
+    #   encrypted with Amazon Web Services Key Management Service (Amazon Web
+    #   Services KMS), you must also have the `kms:GenerateDataKey` and
+    #   `kms:Decrypt` permissions in IAM identity-based policies and KMS key
+    #   policies for the KMS key to retrieve the checksum of the object.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_Checksum.html
     # @return [Types::HeadObjectOutput]
     def head(options = {})
       options = options.merge(
@@ -460,7 +777,9 @@ module Aws::S3
         key: @object_key,
         version_id: @id
       )
-      resp = @client.head_object(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.head_object(options)
+      end
       resp.data
     end
 
@@ -532,7 +851,7 @@ module Aws::S3
       #     request_payer: "requester", # accepts requester
       #     bypass_governance_retention: false,
       #     expected_bucket_owner: "AccountId",
-      #     checksum_algorithm: "CRC32", # accepts CRC32, CRC32C, SHA1, SHA256
+      #     checksum_algorithm: "CRC32", # accepts CRC32, CRC32C, SHA1, SHA256, CRC64NVME
       #   })
       # @param options ({})
       # @option options [String] :mfa
@@ -540,12 +859,35 @@ module Aws::S3
       #   space, and the value that is displayed on your authentication device.
       #   Required to permanently delete a versioned object if versioning is
       #   configured with MFA delete enabled.
+      #
+      #   When performing the `DeleteObjects` operation on an MFA delete enabled
+      #   bucket, which attempts to delete the specified versioned objects, you
+      #   must include an MFA token. If you don't provide an MFA token, the
+      #   entire request will fail, even if there are non-versioned objects that
+      #   you are trying to delete. If you provide an invalid token, whether
+      #   there are versioned object keys in the request or not, the entire
+      #   Multi-Object Delete request will fail. For information about MFA
+      #   Delete, see [ MFA Delete][1] in the *Amazon S3 User Guide*.
+      #
+      #   <note markdown="1"> This functionality is not supported for directory buckets.
+      #
+      #    </note>
+      #
+      #
+      #
+      #   [1]: https://docs.aws.amazon.com/AmazonS3/latest/dev/Versioning.html#MultiFactorAuthenticationDelete
       # @option options [String] :request_payer
       #   Confirms that the requester knows that they will be charged for the
       #   request. Bucket owners need not specify this parameter in their
-      #   requests. For information about downloading objects from Requester
+      #   requests. If either the source or destination S3 bucket has Requester
+      #   Pays enabled, the requester will pay for corresponding charges to copy
+      #   the object. For information about downloading objects from Requester
       #   Pays buckets, see [Downloading Objects in Requester Pays Buckets][1]
       #   in the *Amazon S3 User Guide*.
+      #
+      #   <note markdown="1"> This functionality is not supported for directory buckets.
+      #
+      #    </note>
       #
       #
       #
@@ -554,24 +896,45 @@ module Aws::S3
       #   Specifies whether you want to delete this object even if it has a
       #   Governance-type Object Lock in place. To use this header, you must
       #   have the `s3:BypassGovernanceRetention` permission.
+      #
+      #   <note markdown="1"> This functionality is not supported for directory buckets.
+      #
+      #    </note>
       # @option options [String] :expected_bucket_owner
-      #   The account ID of the expected bucket owner. If the bucket is owned by
-      #   a different account, the request fails with the HTTP status code `403
-      #   Forbidden` (access denied).
+      #   The account ID of the expected bucket owner. If the account ID that
+      #   you provide does not match the actual owner of the bucket, the request
+      #   fails with the HTTP status code `403 Forbidden` (access denied).
       # @option options [String] :checksum_algorithm
       #   Indicates the algorithm used to create the checksum for the object
-      #   when using the SDK. This header will not provide any additional
-      #   functionality if not using the SDK. When sending this header, there
-      #   must be a corresponding `x-amz-checksum` or `x-amz-trailer` header
-      #   sent. Otherwise, Amazon S3 fails the request with the HTTP status code
-      #   `400 Bad Request`. For more information, see [Checking object
-      #   integrity][1] in the *Amazon S3 User Guide*.
+      #   when you use the SDK. This header will not provide any additional
+      #   functionality if you don't use the SDK. When you send this header,
+      #   there must be a corresponding `x-amz-checksum-algorithm ` or
+      #   `x-amz-trailer` header sent. Otherwise, Amazon S3 fails the request
+      #   with the HTTP status code `400 Bad Request`.
+      #
+      #   For the `x-amz-checksum-algorithm ` header, replace ` algorithm ` with
+      #   the supported algorithm from the following list:
+      #
+      #   * `CRC32`
+      #
+      #   * `CRC32C`
+      #
+      #   * `CRC64NVME`
+      #
+      #   * `SHA1`
+      #
+      #   * `SHA256`
+      #
+      #   For more information, see [Checking object integrity][1] in the
+      #   *Amazon S3 User Guide*.
+      #
+      #   If the individual checksum value you provide through
+      #   `x-amz-checksum-algorithm ` doesn't match the checksum algorithm you
+      #   set through `x-amz-sdk-checksum-algorithm`, Amazon S3 fails the
+      #   request with a `BadDigest` error.
       #
       #   If you provide an individual checksum, Amazon S3 ignores any provided
       #   `ChecksumAlgorithm` parameter.
-      #
-      #   This checksum algorithm must be the same for all parts and it match
-      #   the checksum value supplied in the `CreateMultipartUpload` request.
       #
       #
       #
@@ -589,7 +952,9 @@ module Aws::S3
               version_id: item.id
             }
           end
-          batch[0].client.delete_objects(params)
+          Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+            batch[0].client.delete_objects(params)
+          end
         end
         nil
       end
@@ -599,3 +964,6 @@ module Aws::S3
     end
   end
 end
+
+# Load customizations if they exist
+require 'aws-sdk-s3/customizations/object_version'

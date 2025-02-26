@@ -163,7 +163,9 @@ module Aws::SQS
         queue_url: @queue_url,
         receipt_handle: @receipt_handle
       )
-      resp = @client.change_message_visibility(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.change_message_visibility(options)
+      end
       resp.data
     end
 
@@ -177,7 +179,9 @@ module Aws::SQS
         queue_url: @queue_url,
         receipt_handle: @receipt_handle
       )
-      resp = @client.delete_message(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.delete_message(options)
+      end
       resp.data
     end
 
@@ -242,7 +246,9 @@ module Aws::SQS
               receipt_handle: item.receipt_handle
             }
           end
-          batch[0].client.delete_message_batch(params)
+          Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+            batch[0].client.delete_message_batch(params)
+          end
         end
         nil
       end

@@ -7,33 +7,34 @@
 #
 # WARNING ABOUT GENERATED CODE
 
-require 'seahorse/client/plugins/content_length.rb'
-require 'aws-sdk-core/plugins/credentials_configuration.rb'
-require 'aws-sdk-core/plugins/logging.rb'
-require 'aws-sdk-core/plugins/param_converter.rb'
-require 'aws-sdk-core/plugins/param_validator.rb'
-require 'aws-sdk-core/plugins/user_agent.rb'
-require 'aws-sdk-core/plugins/helpful_socket_errors.rb'
-require 'aws-sdk-core/plugins/retry_errors.rb'
-require 'aws-sdk-core/plugins/global_configuration.rb'
-require 'aws-sdk-core/plugins/regional_endpoint.rb'
-require 'aws-sdk-core/plugins/endpoint_discovery.rb'
-require 'aws-sdk-core/plugins/endpoint_pattern.rb'
-require 'aws-sdk-core/plugins/response_paging.rb'
-require 'aws-sdk-core/plugins/stub_responses.rb'
-require 'aws-sdk-core/plugins/idempotency_token.rb'
-require 'aws-sdk-core/plugins/jsonvalue_converter.rb'
-require 'aws-sdk-core/plugins/client_metrics_plugin.rb'
-require 'aws-sdk-core/plugins/client_metrics_send_plugin.rb'
-require 'aws-sdk-core/plugins/transfer_encoding.rb'
-require 'aws-sdk-core/plugins/http_checksum.rb'
-require 'aws-sdk-core/plugins/checksum_algorithm.rb'
-require 'aws-sdk-core/plugins/defaults_mode.rb'
-require 'aws-sdk-core/plugins/recursion_detection.rb'
-require 'aws-sdk-core/plugins/sign.rb'
-require 'aws-sdk-core/plugins/protocols/rest_json.rb'
-
-Aws::Plugins::GlobalConfiguration.add_identifier(:marketplacecatalog)
+require 'seahorse/client/plugins/content_length'
+require 'aws-sdk-core/plugins/credentials_configuration'
+require 'aws-sdk-core/plugins/logging'
+require 'aws-sdk-core/plugins/param_converter'
+require 'aws-sdk-core/plugins/param_validator'
+require 'aws-sdk-core/plugins/user_agent'
+require 'aws-sdk-core/plugins/helpful_socket_errors'
+require 'aws-sdk-core/plugins/retry_errors'
+require 'aws-sdk-core/plugins/global_configuration'
+require 'aws-sdk-core/plugins/regional_endpoint'
+require 'aws-sdk-core/plugins/endpoint_discovery'
+require 'aws-sdk-core/plugins/endpoint_pattern'
+require 'aws-sdk-core/plugins/response_paging'
+require 'aws-sdk-core/plugins/stub_responses'
+require 'aws-sdk-core/plugins/idempotency_token'
+require 'aws-sdk-core/plugins/invocation_id'
+require 'aws-sdk-core/plugins/jsonvalue_converter'
+require 'aws-sdk-core/plugins/client_metrics_plugin'
+require 'aws-sdk-core/plugins/client_metrics_send_plugin'
+require 'aws-sdk-core/plugins/transfer_encoding'
+require 'aws-sdk-core/plugins/http_checksum'
+require 'aws-sdk-core/plugins/checksum_algorithm'
+require 'aws-sdk-core/plugins/request_compression'
+require 'aws-sdk-core/plugins/defaults_mode'
+require 'aws-sdk-core/plugins/recursion_detection'
+require 'aws-sdk-core/plugins/telemetry'
+require 'aws-sdk-core/plugins/sign'
+require 'aws-sdk-core/plugins/protocols/rest_json'
 
 module Aws::MarketplaceCatalog
   # An API client for MarketplaceCatalog.  To construct a client, you need to configure a `:region` and `:credentials`.
@@ -71,20 +72,28 @@ module Aws::MarketplaceCatalog
     add_plugin(Aws::Plugins::ResponsePaging)
     add_plugin(Aws::Plugins::StubResponses)
     add_plugin(Aws::Plugins::IdempotencyToken)
+    add_plugin(Aws::Plugins::InvocationId)
     add_plugin(Aws::Plugins::JsonvalueConverter)
     add_plugin(Aws::Plugins::ClientMetricsPlugin)
     add_plugin(Aws::Plugins::ClientMetricsSendPlugin)
     add_plugin(Aws::Plugins::TransferEncoding)
     add_plugin(Aws::Plugins::HttpChecksum)
     add_plugin(Aws::Plugins::ChecksumAlgorithm)
+    add_plugin(Aws::Plugins::RequestCompression)
     add_plugin(Aws::Plugins::DefaultsMode)
     add_plugin(Aws::Plugins::RecursionDetection)
+    add_plugin(Aws::Plugins::Telemetry)
     add_plugin(Aws::Plugins::Sign)
     add_plugin(Aws::Plugins::Protocols::RestJson)
     add_plugin(Aws::MarketplaceCatalog::Plugins::Endpoints)
 
     # @overload initialize(options)
     #   @param [Hash] options
+    #
+    #   @option options [Array<Seahorse::Client::Plugin>] :plugins ([]])
+    #     A list of plugins to apply to the client. Each plugin is either a
+    #     class name or an instance of a plugin class.
+    #
     #   @option options [required, Aws::CredentialProvider] :credentials
     #     Your AWS credentials. This can be an instance of any one of the
     #     following classes:
@@ -119,13 +128,15 @@ module Aws::MarketplaceCatalog
     #     locations will be searched for credentials:
     #
     #     * `Aws.config[:credentials]`
-    #     * The `:access_key_id`, `:secret_access_key`, and `:session_token` options.
-    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']
+    #     * The `:access_key_id`, `:secret_access_key`, `:session_token`, and
+    #       `:account_id` options.
+    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'],
+    #       ENV['AWS_SESSION_TOKEN'], and ENV['AWS_ACCOUNT_ID']
     #     * `~/.aws/credentials`
     #     * `~/.aws/config`
     #     * EC2/ECS IMDS instance profile - When used by default, the timeouts
     #       are very aggressive. Construct and pass an instance of
-    #       `Aws::InstanceProfileCredentails` or `Aws::ECSCredentials` to
+    #       `Aws::InstanceProfileCredentials` or `Aws::ECSCredentials` to
     #       enable retries and extended timeouts. Instance profile credential
     #       fetching can be disabled by setting ENV['AWS_EC2_METADATA_DISABLED']
     #       to true.
@@ -143,6 +154,8 @@ module Aws::MarketplaceCatalog
     #     * `~/.aws/config`
     #
     #   @option options [String] :access_key_id
+    #
+    #   @option options [String] :account_id
     #
     #   @option options [Boolean] :active_endpoint_cache (false)
     #     When set to `true`, a thread polling for endpoints will be running in
@@ -190,10 +203,20 @@ module Aws::MarketplaceCatalog
     #     Set to true to disable SDK automatically adding host prefix
     #     to default service endpoint when available.
     #
-    #   @option options [String] :endpoint
-    #     The client endpoint is normally constructed from the `:region`
-    #     option. You should only configure an `:endpoint` when connecting
-    #     to test or custom endpoints. This should be a valid HTTP(S) URI.
+    #   @option options [Boolean] :disable_request_compression (false)
+    #     When set to 'true' the request body will not be compressed
+    #     for supported operations.
+    #
+    #   @option options [String, URI::HTTPS, URI::HTTP] :endpoint
+    #     Normally you should not configure the `:endpoint` option
+    #     directly. This is normally constructed from the `:region`
+    #     option. Configuring `:endpoint` is normally reserved for
+    #     connecting to test or custom endpoints. The endpoint should
+    #     be a URI formatted like:
+    #
+    #         'http://example.com'
+    #         'https://example.com'
+    #         'http://example.com:123'
     #
     #   @option options [Integer] :endpoint_cache_max_entries (1000)
     #     Used for the maximum size limit of the LRU cache storing endpoints data
@@ -209,6 +232,10 @@ module Aws::MarketplaceCatalog
     #
     #   @option options [Boolean] :endpoint_discovery (false)
     #     When set to `true`, endpoint discovery will be enabled for operations when available.
+    #
+    #   @option options [Boolean] :ignore_configured_endpoint_urls
+    #     Setting to true disables use of endpoint URLs provided via environment
+    #     variables and the shared configuration file.
     #
     #   @option options [Aws::Log::Formatter] :log_formatter (Aws::Log::Formatter.default)
     #     The log formatter.
@@ -229,6 +256,34 @@ module Aws::MarketplaceCatalog
     #   @option options [String] :profile ("default")
     #     Used when loading credentials from the shared credentials file
     #     at HOME/.aws/credentials.  When not specified, 'default' is used.
+    #
+    #   @option options [String] :request_checksum_calculation ("when_supported")
+    #     Determines when a checksum will be calculated for request payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, a checksum will be
+    #       calculated for all request payloads of operations modeled with the
+    #       `httpChecksum` trait where `requestChecksumRequired` is `true` and/or a
+    #       `requestAlgorithmMember` is modeled.
+    #     * `when_required` - When set, a checksum will only be calculated for
+    #       request payloads of operations modeled with the  `httpChecksum` trait where
+    #       `requestChecksumRequired` is `true` or where a `requestAlgorithmMember`
+    #       is modeled and supplied.
+    #
+    #   @option options [Integer] :request_min_compression_size_bytes (10240)
+    #     The minimum size in bytes that triggers compression for request
+    #     bodies. The value must be non-negative integer value between 0
+    #     and 10485780 bytes inclusive.
+    #
+    #   @option options [String] :response_checksum_validation ("when_supported")
+    #     Determines when checksum validation will be performed on response payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, checksum validation is performed on all
+    #       response payloads of operations modeled with the `httpChecksum` trait where
+    #       `responseAlgorithms` is modeled, except when no modeled checksum algorithms
+    #       are supported.
+    #     * `when_required` - When set, checksum validation is not performed on
+    #       response payloads of operations unless the checksum algorithm is supported and
+    #       the `requestValidationModeMember` member is set to `ENABLED`.
     #
     #   @option options [Proc] :retry_backoff
     #     A proc or lambda used for backoff. Defaults to 2**retries * retry_base_delay.
@@ -274,10 +329,24 @@ module Aws::MarketplaceCatalog
     #       throttling.  This is a provisional mode that may change behavior
     #       in the future.
     #
+    #   @option options [String] :sdk_ua_app_id
+    #     A unique and opaque application ID that is appended to the
+    #     User-Agent header as app/sdk_ua_app_id. It should have a
+    #     maximum length of 50. This variable is sourced from environment
+    #     variable AWS_SDK_UA_APP_ID or the shared config profile attribute sdk_ua_app_id.
     #
     #   @option options [String] :secret_access_key
     #
     #   @option options [String] :session_token
+    #
+    #   @option options [Array] :sigv4a_signing_region_set
+    #     A list of regions that should be signed with SigV4a signing. When
+    #     not passed, a default `:sigv4a_signing_region_set` is searched for
+    #     in the following locations:
+    #
+    #     * `Aws.config[:sigv4a_signing_region_set]`
+    #     * `ENV['AWS_SIGV4A_SIGNING_REGION_SET']`
+    #     * `~/.aws/config`
     #
     #   @option options [Boolean] :stub_responses (false)
     #     Causes the client to return stubbed responses. By default
@@ -287,6 +356,16 @@ module Aws::MarketplaceCatalog
     #
     #     ** Please note ** When response stubbing is enabled, no HTTP
     #     requests are made, and retries are disabled.
+    #
+    #   @option options [Aws::Telemetry::TelemetryProviderBase] :telemetry_provider (Aws::Telemetry::NoOpTelemetryProvider)
+    #     Allows you to provide a telemetry provider, which is used to
+    #     emit telemetry data. By default, uses `NoOpTelemetryProvider` which
+    #     will not record or emit any telemetry data. The SDK supports the
+    #     following telemetry providers:
+    #
+    #     * OpenTelemetry (OTel) - To use the OTel provider, install and require the
+    #     `opentelemetry-sdk` gem and then, pass in an instance of a
+    #     `Aws::Telemetry::OTelProvider` for telemetry provider.
     #
     #   @option options [Aws::TokenProvider] :token_provider
     #     A Bearer Token Provider. This can be an instance of any one of the
@@ -315,58 +394,124 @@ module Aws::MarketplaceCatalog
     #     sending the request.
     #
     #   @option options [Aws::MarketplaceCatalog::EndpointProvider] :endpoint_provider
-    #     The endpoint provider used to resolve endpoints. Any object that responds to `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to `Aws::MarketplaceCatalog::EndpointParameters`
+    #     The endpoint provider used to resolve endpoints. Any object that responds to
+    #     `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+    #     `Aws::MarketplaceCatalog::EndpointParameters`.
     #
-    #   @option options [URI::HTTP,String] :http_proxy A proxy to send
-    #     requests through.  Formatted like 'http://proxy.com:123'.
+    #   @option options [Float] :http_continue_timeout (1)
+    #     The number of seconds to wait for a 100-continue response before sending the
+    #     request body.  This option has no effect unless the request has "Expect"
+    #     header set to "100-continue".  Defaults to `nil` which  disables this
+    #     behaviour.  This value can safely be set per request on the session.
     #
-    #   @option options [Float] :http_open_timeout (15) The number of
-    #     seconds to wait when opening a HTTP session before raising a
-    #     `Timeout::Error`.
+    #   @option options [Float] :http_idle_timeout (5)
+    #     The number of seconds a connection is allowed to sit idle before it
+    #     is considered stale.  Stale connections are closed and removed from the
+    #     pool before making a request.
     #
-    #   @option options [Float] :http_read_timeout (60) The default
-    #     number of seconds to wait for response data.  This value can
-    #     safely be set per-request on the session.
+    #   @option options [Float] :http_open_timeout (15)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :http_idle_timeout (5) The number of
-    #     seconds a connection is allowed to sit idle before it is
-    #     considered stale.  Stale connections are closed and removed
-    #     from the pool before making a request.
+    #   @option options [URI::HTTP,String] :http_proxy
+    #     A proxy to send requests through.  Formatted like 'http://proxy.com:123'.
     #
-    #   @option options [Float] :http_continue_timeout (1) The number of
-    #     seconds to wait for a 100-continue response before sending the
-    #     request body.  This option has no effect unless the request has
-    #     "Expect" header set to "100-continue".  Defaults to `nil` which
-    #     disables this behaviour.  This value can safely be set per
-    #     request on the session.
+    #   @option options [Float] :http_read_timeout (60)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :ssl_timeout (nil) Sets the SSL timeout
-    #     in seconds.
+    #   @option options [Boolean] :http_wire_trace (false)
+    #     When `true`,  HTTP debug output will be sent to the `:logger`.
     #
-    #   @option options [Boolean] :http_wire_trace (false) When `true`,
-    #     HTTP debug output will be sent to the `:logger`.
+    #   @option options [Proc] :on_chunk_received
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the response body is received. It provides three arguments: the chunk,
+    #     the number of bytes received, and the total number of
+    #     bytes in the response (or nil if the server did not send a `content-length`).
     #
-    #   @option options [Boolean] :ssl_verify_peer (true) When `true`,
-    #     SSL peer certificates are verified when establishing a
-    #     connection.
+    #   @option options [Proc] :on_chunk_sent
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the request body is sent. It provides three arguments: the chunk,
+    #     the number of bytes read from the body, and the total number of
+    #     bytes in the body.
     #
-    #   @option options [String] :ssl_ca_bundle Full path to the SSL
-    #     certificate authority bundle file that should be used when
-    #     verifying peer certificates.  If you do not pass
-    #     `:ssl_ca_bundle` or `:ssl_ca_directory` the the system default
-    #     will be used if available.
+    #   @option options [Boolean] :raise_response_errors (true)
+    #     When `true`, response errors are raised.
     #
-    #   @option options [String] :ssl_ca_directory Full path of the
-    #     directory that contains the unbundled SSL certificate
+    #   @option options [String] :ssl_ca_bundle
+    #     Full path to the SSL certificate authority bundle file that should be used when
+    #     verifying peer certificates.  If you do not pass `:ssl_ca_bundle` or
+    #     `:ssl_ca_directory` the the system default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_directory
+    #     Full path of the directory that contains the unbundled SSL certificate
     #     authority files for verifying peer certificates.  If you do
-    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the
-    #     system default will be used if available.
+    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the system
+    #     default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_store
+    #     Sets the X509::Store to verify peer certificate.
+    #
+    #   @option options [OpenSSL::X509::Certificate] :ssl_cert
+    #     Sets a client certificate when creating http connections.
+    #
+    #   @option options [OpenSSL::PKey] :ssl_key
+    #     Sets a client key when creating http connections.
+    #
+    #   @option options [Float] :ssl_timeout
+    #     Sets the SSL timeout in seconds
+    #
+    #   @option options [Boolean] :ssl_verify_peer (true)
+    #     When `true`, SSL peer certificates are verified when establishing a connection.
     #
     def initialize(*args)
       super
     end
 
     # @!group API Operations
+
+    # Returns metadata and content for multiple entities. This is the Batch
+    # version of the `DescribeEntity` API and uses the same IAM permission
+    # action as `DescribeEntity` API.
+    #
+    # @option params [required, Array<Types::EntityRequest>] :entity_request_list
+    #   List of entity IDs and the catalogs the entities are present in.
+    #
+    # @return [Types::BatchDescribeEntitiesResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::BatchDescribeEntitiesResponse#entity_details #entity_details} => Hash&lt;String,Types::EntityDetail&gt;
+    #   * {Types::BatchDescribeEntitiesResponse#errors #errors} => Hash&lt;String,Types::BatchDescribeErrorDetail&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.batch_describe_entities({
+    #     entity_request_list: [ # required
+    #       {
+    #         catalog: "Catalog", # required
+    #         entity_id: "EntityId", # required
+    #       },
+    #     ],
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.entity_details #=> Hash
+    #   resp.entity_details["EntityId"].entity_type #=> String
+    #   resp.entity_details["EntityId"].entity_arn #=> String
+    #   resp.entity_details["EntityId"].entity_identifier #=> String
+    #   resp.entity_details["EntityId"].last_modified_date #=> String
+    #   resp.errors #=> Hash
+    #   resp.errors["EntityId"].error_code #=> String
+    #   resp.errors["EntityId"].error_message #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/marketplace-catalog-2018-09-17/BatchDescribeEntities AWS API Documentation
+    #
+    # @overload batch_describe_entities(params = {})
+    # @param [Hash] params ({})
+    def batch_describe_entities(params = {}, options = {})
+      req = build_request(:batch_describe_entities, params)
+      req.send_request(options)
+    end
 
     # Used to cancel an open change request. Must be sent before the status
     # of the request changes to `APPLYING`, the final stage of completing
@@ -407,6 +552,30 @@ module Aws::MarketplaceCatalog
       req.send_request(options)
     end
 
+    # Deletes a resource-based policy on an entity that is identified by its
+    # resource ARN.
+    #
+    # @option params [required, String] :resource_arn
+    #   The Amazon Resource Name (ARN) of the entity resource that is
+    #   associated with the resource policy.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_resource_policy({
+    #     resource_arn: "ResourceARN", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/marketplace-catalog-2018-09-17/DeleteResourcePolicy AWS API Documentation
+    #
+    # @overload delete_resource_policy(params = {})
+    # @param [Hash] params ({})
+    def delete_resource_policy(params = {}, options = {})
+      req = build_request(:delete_resource_policy, params)
+      req.send_request(options)
+    end
+
     # Provides information about a given change set.
     #
     # @option params [required, String] :catalog
@@ -422,6 +591,7 @@ module Aws::MarketplaceCatalog
     #   * {Types::DescribeChangeSetResponse#change_set_id #change_set_id} => String
     #   * {Types::DescribeChangeSetResponse#change_set_arn #change_set_arn} => String
     #   * {Types::DescribeChangeSetResponse#change_set_name #change_set_name} => String
+    #   * {Types::DescribeChangeSetResponse#intent #intent} => String
     #   * {Types::DescribeChangeSetResponse#start_time #start_time} => String
     #   * {Types::DescribeChangeSetResponse#end_time #end_time} => String
     #   * {Types::DescribeChangeSetResponse#status #status} => String
@@ -441,6 +611,7 @@ module Aws::MarketplaceCatalog
     #   resp.change_set_id #=> String
     #   resp.change_set_arn #=> String
     #   resp.change_set_name #=> String
+    #   resp.intent #=> String, one of "VALIDATE", "APPLY"
     #   resp.start_time #=> String
     #   resp.end_time #=> String
     #   resp.status #=> String, one of "PREPARING", "APPLYING", "SUCCEEDED", "CANCELLED", "FAILED"
@@ -481,6 +652,7 @@ module Aws::MarketplaceCatalog
     #   * {Types::DescribeEntityResponse#entity_arn #entity_arn} => String
     #   * {Types::DescribeEntityResponse#last_modified_date #last_modified_date} => String
     #   * {Types::DescribeEntityResponse#details #details} => String
+    #   * {Types::DescribeEntityResponse#details_document #details_document} => Hash,Array,String,Numeric,Boolean
     #
     # @example Request syntax with placeholder values
     #
@@ -503,6 +675,36 @@ module Aws::MarketplaceCatalog
     # @param [Hash] params ({})
     def describe_entity(params = {}, options = {})
       req = build_request(:describe_entity, params)
+      req.send_request(options)
+    end
+
+    # Gets a resource-based policy of an entity that is identified by its
+    # resource ARN.
+    #
+    # @option params [required, String] :resource_arn
+    #   The Amazon Resource Name (ARN) of the entity resource that is
+    #   associated with the resource policy.
+    #
+    # @return [Types::GetResourcePolicyResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetResourcePolicyResponse#policy #policy} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_resource_policy({
+    #     resource_arn: "ResourceARN", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.policy #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/marketplace-catalog-2018-09-17/GetResourcePolicy AWS API Documentation
+    #
+    # @overload get_resource_policy(params = {})
+    # @param [Hash] params ({})
+    def get_resource_policy(params = {}, options = {})
+      req = build_request(:get_resource_policy, params)
       req.send_request(options)
     end
 
@@ -587,7 +789,10 @@ module Aws::MarketplaceCatalog
     #   The catalog related to the request. Fixed value: `AWSMarketplace`
     #
     # @option params [required, String] :entity_type
-    #   The type of entities to retrieve.
+    #   The type of entities to retrieve. Valid values are: `AmiProduct`,
+    #   `ContainerProduct`, `DataProduct`, `SaaSProduct`, `ProcurementPolicy`,
+    #   `Experience`, `Audience`, `BrandingSettings`, `Offer`, `Seller`,
+    #   `ResaleAuthorization`.
     #
     # @option params [Array<Types::Filter>] :filter_list
     #   An array of filter objects. Each filter object contains two
@@ -603,6 +808,24 @@ module Aws::MarketplaceCatalog
     # @option params [Integer] :max_results
     #   Specifies the upper limit of the elements on a single page. If a value
     #   isn't provided, the default value is 20.
+    #
+    # @option params [String] :ownership_type
+    #   Filters the returned set of entities based on their owner. The default
+    #   is `SELF`. To list entities shared with you through AWS Resource
+    #   Access Manager (AWS RAM), set to `SHARED`. Entities shared through the
+    #   AWS Marketplace Catalog API `PutResourcePolicy` operation can't be
+    #   discovered through the `SHARED` parameter.
+    #
+    # @option params [Types::EntityTypeFilters] :entity_type_filters
+    #   A Union object containing filter shapes for all `EntityType`s. Each
+    #   `EntityTypeFilter` shape will have filters applicable for that
+    #   `EntityType` that can be used to search or filter entities.
+    #
+    # @option params [Types::EntityTypeSort] :entity_type_sort
+    #   A Union object containing `Sort` shapes for all `EntityType`s. Each
+    #   `EntityTypeSort` shape will have `SortBy` and `SortOrder` applicable
+    #   for fields on that `EntityType`. This can be used to sort the results
+    #   of the filter query.
     #
     # @return [Types::ListEntitiesResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -628,6 +851,208 @@ module Aws::MarketplaceCatalog
     #     },
     #     next_token: "NextToken",
     #     max_results: 1,
+    #     ownership_type: "SELF", # accepts SELF, SHARED
+    #     entity_type_filters: {
+    #       data_product_filters: {
+    #         entity_id: {
+    #           value_list: ["DataProductEntityIdString"],
+    #         },
+    #         product_title: {
+    #           value_list: ["DataProductTitleString"],
+    #           wild_card_value: "DataProductTitleString",
+    #         },
+    #         visibility: {
+    #           value_list: ["Limited"], # accepts Limited, Public, Restricted, Unavailable, Draft
+    #         },
+    #         last_modified_date: {
+    #           date_range: {
+    #             after_value: "DateTimeISO8601",
+    #             before_value: "DateTimeISO8601",
+    #           },
+    #         },
+    #       },
+    #       saa_s_product_filters: {
+    #         entity_id: {
+    #           value_list: ["SaaSProductEntityIdString"],
+    #         },
+    #         product_title: {
+    #           value_list: ["SaaSProductTitleString"],
+    #           wild_card_value: "SaaSProductTitleString",
+    #         },
+    #         visibility: {
+    #           value_list: ["Limited"], # accepts Limited, Public, Restricted, Draft
+    #         },
+    #         last_modified_date: {
+    #           date_range: {
+    #             after_value: "DateTimeISO8601",
+    #             before_value: "DateTimeISO8601",
+    #           },
+    #         },
+    #       },
+    #       ami_product_filters: {
+    #         entity_id: {
+    #           value_list: ["AmiProductEntityIdString"],
+    #         },
+    #         last_modified_date: {
+    #           date_range: {
+    #             after_value: "DateTimeISO8601",
+    #             before_value: "DateTimeISO8601",
+    #           },
+    #         },
+    #         product_title: {
+    #           value_list: ["AmiProductTitleString"],
+    #           wild_card_value: "AmiProductTitleString",
+    #         },
+    #         visibility: {
+    #           value_list: ["Limited"], # accepts Limited, Public, Restricted, Draft
+    #         },
+    #       },
+    #       offer_filters: {
+    #         entity_id: {
+    #           value_list: ["OfferEntityIdString"],
+    #         },
+    #         name: {
+    #           value_list: ["OfferNameString"],
+    #           wild_card_value: "OfferNameString",
+    #         },
+    #         product_id: {
+    #           value_list: ["OfferProductIdString"],
+    #         },
+    #         resale_authorization_id: {
+    #           value_list: ["OfferResaleAuthorizationIdString"],
+    #         },
+    #         release_date: {
+    #           date_range: {
+    #             after_value: "DateTimeISO8601",
+    #             before_value: "DateTimeISO8601",
+    #           },
+    #         },
+    #         availability_end_date: {
+    #           date_range: {
+    #             after_value: "DateTimeISO8601",
+    #             before_value: "DateTimeISO8601",
+    #           },
+    #         },
+    #         buyer_accounts: {
+    #           wild_card_value: "OfferBuyerAccountsFilterWildcard",
+    #         },
+    #         state: {
+    #           value_list: ["Draft"], # accepts Draft, Released
+    #         },
+    #         targeting: {
+    #           value_list: ["BuyerAccounts"], # accepts BuyerAccounts, ParticipatingPrograms, CountryCodes, None
+    #         },
+    #         last_modified_date: {
+    #           date_range: {
+    #             after_value: "DateTimeISO8601",
+    #             before_value: "DateTimeISO8601",
+    #           },
+    #         },
+    #       },
+    #       container_product_filters: {
+    #         entity_id: {
+    #           value_list: ["ContainerProductEntityIdString"],
+    #         },
+    #         last_modified_date: {
+    #           date_range: {
+    #             after_value: "DateTimeISO8601",
+    #             before_value: "DateTimeISO8601",
+    #           },
+    #         },
+    #         product_title: {
+    #           value_list: ["ContainerProductTitleString"],
+    #           wild_card_value: "ContainerProductTitleString",
+    #         },
+    #         visibility: {
+    #           value_list: ["Limited"], # accepts Limited, Public, Restricted, Draft
+    #         },
+    #       },
+    #       resale_authorization_filters: {
+    #         entity_id: {
+    #           value_list: ["ResaleAuthorizationEntityIdString"],
+    #         },
+    #         name: {
+    #           value_list: ["ResaleAuthorizationNameString"],
+    #           wild_card_value: "ResaleAuthorizationNameFilterWildcard",
+    #         },
+    #         product_id: {
+    #           value_list: ["ResaleAuthorizationProductIdString"],
+    #           wild_card_value: "ResaleAuthorizationProductIdFilterWildcard",
+    #         },
+    #         created_date: {
+    #           date_range: {
+    #             after_value: "DateTimeISO8601",
+    #             before_value: "DateTimeISO8601",
+    #           },
+    #           value_list: ["DateTimeISO8601"],
+    #         },
+    #         availability_end_date: {
+    #           date_range: {
+    #             after_value: "DateTimeISO8601",
+    #             before_value: "DateTimeISO8601",
+    #           },
+    #           value_list: ["DateTimeISO8601"],
+    #         },
+    #         manufacturer_account_id: {
+    #           value_list: ["ResaleAuthorizationManufacturerAccountIdString"],
+    #           wild_card_value: "ResaleAuthorizationManufacturerAccountIdFilterWildcard",
+    #         },
+    #         product_name: {
+    #           value_list: ["ResaleAuthorizationProductNameString"],
+    #           wild_card_value: "ResaleAuthorizationProductNameFilterWildcard",
+    #         },
+    #         manufacturer_legal_name: {
+    #           value_list: ["ResaleAuthorizationManufacturerLegalNameString"],
+    #           wild_card_value: "ResaleAuthorizationManufacturerLegalNameFilterWildcard",
+    #         },
+    #         reseller_account_id: {
+    #           value_list: ["ResaleAuthorizationResellerAccountIDString"],
+    #           wild_card_value: "ResaleAuthorizationResellerAccountIDFilterWildcard",
+    #         },
+    #         reseller_legal_name: {
+    #           value_list: ["ResaleAuthorizationResellerLegalNameString"],
+    #           wild_card_value: "ResaleAuthorizationResellerLegalNameFilterWildcard",
+    #         },
+    #         status: {
+    #           value_list: ["Draft"], # accepts Draft, Active, Restricted
+    #         },
+    #         offer_extended_status: {
+    #           value_list: ["ResaleAuthorizationOfferExtendedStatusString"],
+    #         },
+    #         last_modified_date: {
+    #           date_range: {
+    #             after_value: "DateTimeISO8601",
+    #             before_value: "DateTimeISO8601",
+    #           },
+    #         },
+    #       },
+    #     },
+    #     entity_type_sort: {
+    #       data_product_sort: {
+    #         sort_by: "EntityId", # accepts EntityId, ProductTitle, Visibility, LastModifiedDate
+    #         sort_order: "ASCENDING", # accepts ASCENDING, DESCENDING
+    #       },
+    #       saa_s_product_sort: {
+    #         sort_by: "EntityId", # accepts EntityId, ProductTitle, Visibility, LastModifiedDate
+    #         sort_order: "ASCENDING", # accepts ASCENDING, DESCENDING
+    #       },
+    #       ami_product_sort: {
+    #         sort_by: "EntityId", # accepts EntityId, LastModifiedDate, ProductTitle, Visibility
+    #         sort_order: "ASCENDING", # accepts ASCENDING, DESCENDING
+    #       },
+    #       offer_sort: {
+    #         sort_by: "EntityId", # accepts EntityId, Name, ProductId, ResaleAuthorizationId, ReleaseDate, AvailabilityEndDate, BuyerAccounts, State, Targeting, LastModifiedDate
+    #         sort_order: "ASCENDING", # accepts ASCENDING, DESCENDING
+    #       },
+    #       container_product_sort: {
+    #         sort_by: "EntityId", # accepts EntityId, LastModifiedDate, ProductTitle, Visibility
+    #         sort_order: "ASCENDING", # accepts ASCENDING, DESCENDING
+    #       },
+    #       resale_authorization_sort: {
+    #         sort_by: "EntityId", # accepts EntityId, Name, ProductId, ProductName, ManufacturerAccountId, ManufacturerLegalName, ResellerAccountID, ResellerLegalName, Status, OfferExtendedStatus, CreatedDate, AvailabilityEndDate, LastModifiedDate
+    #         sort_order: "ASCENDING", # accepts ASCENDING, DESCENDING
+    #       },
+    #     },
     #   })
     #
     # @example Response structure
@@ -639,6 +1064,35 @@ module Aws::MarketplaceCatalog
     #   resp.entity_summary_list[0].entity_arn #=> String
     #   resp.entity_summary_list[0].last_modified_date #=> String
     #   resp.entity_summary_list[0].visibility #=> String
+    #   resp.entity_summary_list[0].ami_product_summary.product_title #=> String
+    #   resp.entity_summary_list[0].ami_product_summary.visibility #=> String, one of "Limited", "Public", "Restricted", "Draft"
+    #   resp.entity_summary_list[0].container_product_summary.product_title #=> String
+    #   resp.entity_summary_list[0].container_product_summary.visibility #=> String, one of "Limited", "Public", "Restricted", "Draft"
+    #   resp.entity_summary_list[0].data_product_summary.product_title #=> String
+    #   resp.entity_summary_list[0].data_product_summary.visibility #=> String, one of "Limited", "Public", "Restricted", "Unavailable", "Draft"
+    #   resp.entity_summary_list[0].saa_s_product_summary.product_title #=> String
+    #   resp.entity_summary_list[0].saa_s_product_summary.visibility #=> String, one of "Limited", "Public", "Restricted", "Draft"
+    #   resp.entity_summary_list[0].offer_summary.name #=> String
+    #   resp.entity_summary_list[0].offer_summary.product_id #=> String
+    #   resp.entity_summary_list[0].offer_summary.resale_authorization_id #=> String
+    #   resp.entity_summary_list[0].offer_summary.release_date #=> String
+    #   resp.entity_summary_list[0].offer_summary.availability_end_date #=> String
+    #   resp.entity_summary_list[0].offer_summary.buyer_accounts #=> Array
+    #   resp.entity_summary_list[0].offer_summary.buyer_accounts[0] #=> String
+    #   resp.entity_summary_list[0].offer_summary.state #=> String, one of "Draft", "Released"
+    #   resp.entity_summary_list[0].offer_summary.targeting #=> Array
+    #   resp.entity_summary_list[0].offer_summary.targeting[0] #=> String, one of "BuyerAccounts", "ParticipatingPrograms", "CountryCodes", "None"
+    #   resp.entity_summary_list[0].resale_authorization_summary.name #=> String
+    #   resp.entity_summary_list[0].resale_authorization_summary.product_id #=> String
+    #   resp.entity_summary_list[0].resale_authorization_summary.product_name #=> String
+    #   resp.entity_summary_list[0].resale_authorization_summary.manufacturer_account_id #=> String
+    #   resp.entity_summary_list[0].resale_authorization_summary.manufacturer_legal_name #=> String
+    #   resp.entity_summary_list[0].resale_authorization_summary.reseller_account_id #=> String
+    #   resp.entity_summary_list[0].resale_authorization_summary.reseller_legal_name #=> String
+    #   resp.entity_summary_list[0].resale_authorization_summary.status #=> String, one of "Draft", "Active", "Restricted"
+    #   resp.entity_summary_list[0].resale_authorization_summary.offer_extended_status #=> String
+    #   resp.entity_summary_list[0].resale_authorization_summary.created_date #=> String
+    #   resp.entity_summary_list[0].resale_authorization_summary.availability_end_date #=> String
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/marketplace-catalog-2018-09-17/ListEntities AWS API Documentation
@@ -689,6 +1143,34 @@ module Aws::MarketplaceCatalog
       req.send_request(options)
     end
 
+    # Attaches a resource-based policy to an entity. Examples of an entity
+    # include: `AmiProduct` and `ContainerProduct`.
+    #
+    # @option params [required, String] :resource_arn
+    #   The Amazon Resource Name (ARN) of the entity resource you want to
+    #   associate with a resource policy.
+    #
+    # @option params [required, String] :policy
+    #   The policy document to set; formatted in JSON.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.put_resource_policy({
+    #     resource_arn: "ResourceARN", # required
+    #     policy: "ResourcePolicyJson", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/marketplace-catalog-2018-09-17/PutResourcePolicy AWS API Documentation
+    #
+    # @overload put_resource_policy(params = {})
+    # @param [Hash] params ({})
+    def put_resource_policy(params = {}, options = {})
+      req = build_request(:put_resource_policy, params)
+      req.send_request(options)
+    end
+
     # Allows you to request changes for your entities. Within a single
     # `ChangeSet`, you can't start the same change type against the same
     # entity multiple times. Additionally, when a `ChangeSet` is running,
@@ -704,12 +1186,17 @@ module Aws::MarketplaceCatalog
     # (`entity-id@1`).
     #
     # For more information about working with change sets, see [ Working
-    # with change sets][2].
+    # with change sets][2]. For information about change types for
+    # single-AMI products, see [Working with single-AMI products][3]. Also,
+    # for more information about change types available for container-based
+    # products, see [Working with container products][4].
     #
     #
     #
     # [1]: https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/API_StartChangeSet.html#API_StartChangeSet_Examples
     # [2]: https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/welcome.html#working-with-change-sets
+    # [3]: https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/ami-products.html#working-with-single-AMI-products
+    # [4]: https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/container-products.html#working-with-container-products
     #
     # @option params [required, String] :catalog
     #   The catalog related to the request. Fixed value: `AWSMarketplace`
@@ -730,6 +1217,16 @@ module Aws::MarketplaceCatalog
     # @option params [Array<Types::Tag>] :change_set_tags
     #   A list of objects specifying each key name and value for the
     #   `ChangeSetTags` property.
+    #
+    # @option params [String] :intent
+    #   The intent related to the request. The default is `APPLY`. To test
+    #   your request before applying changes to your entities, use `VALIDATE`.
+    #   This feature is currently available for adding versions to single-AMI
+    #   products. For more information, see [Add a new version][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/ami-products.html#ami-add-version
     #
     # @return [Types::StartChangeSetResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -753,7 +1250,9 @@ module Aws::MarketplaceCatalog
     #             value: "TagValue", # required
     #           },
     #         ],
-    #         details: "Json", # required
+    #         details: "Json",
+    #         details_document: {
+    #         },
     #         change_name: "ChangeName",
     #       },
     #     ],
@@ -765,6 +1264,7 @@ module Aws::MarketplaceCatalog
     #         value: "TagValue", # required
     #       },
     #     ],
+    #     intent: "VALIDATE", # accepts VALIDATE, APPLY
     #   })
     #
     # @example Response structure
@@ -859,14 +1359,19 @@ module Aws::MarketplaceCatalog
     # @api private
     def build_request(operation_name, params = {})
       handlers = @handlers.for(operation_name)
+      tracer = config.telemetry_provider.tracer_provider.tracer(
+        Aws::Telemetry.module_to_tracer_name('Aws::MarketplaceCatalog')
+      )
       context = Seahorse::Client::RequestContext.new(
         operation_name: operation_name,
         operation: config.api.operation(operation_name),
         client: self,
         params: params,
-        config: config)
+        config: config,
+        tracer: tracer
+      )
       context[:gem_name] = 'aws-sdk-marketplacecatalog'
-      context[:gem_version] = '1.25.0'
+      context[:gem_version] = '1.57.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

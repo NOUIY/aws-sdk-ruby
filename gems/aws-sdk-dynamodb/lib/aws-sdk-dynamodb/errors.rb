@@ -46,9 +46,11 @@ module Aws::DynamoDB
   # * {ItemCollectionSizeLimitExceededException}
   # * {LimitExceededException}
   # * {PointInTimeRecoveryUnavailableException}
+  # * {PolicyNotFoundException}
   # * {ProvisionedThroughputExceededException}
   # * {ReplicaAlreadyExistsException}
   # * {ReplicaNotFoundException}
+  # * {ReplicatedWriteConflictException}
   # * {RequestLimitExceeded}
   # * {ResourceInUseException}
   # * {ResourceNotFoundException}
@@ -107,6 +109,11 @@ module Aws::DynamoDB
       # @return [String]
       def message
         @message || @data[:message]
+      end
+
+      # @return [String]
+      def item
+        @data[:item]
       end
     end
 
@@ -350,6 +357,21 @@ module Aws::DynamoDB
       end
     end
 
+    class PolicyNotFoundException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::DynamoDB::Types::PolicyNotFoundException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+
+      # @return [String]
+      def message
+        @message || @data[:message]
+      end
+    end
+
     class ProvisionedThroughputExceededException < ServiceError
 
       # @param [Seahorse::Client::RequestContext] context
@@ -385,6 +407,21 @@ module Aws::DynamoDB
       # @param [Seahorse::Client::RequestContext] context
       # @param [String] message
       # @param [Aws::DynamoDB::Types::ReplicaNotFoundException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+
+      # @return [String]
+      def message
+        @message || @data[:message]
+      end
+    end
+
+    class ReplicatedWriteConflictException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::DynamoDB::Types::ReplicatedWriteConflictException] data
       def initialize(context, message, data = Aws::EmptyStructure.new)
         super(context, message, data)
       end

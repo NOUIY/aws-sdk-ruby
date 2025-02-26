@@ -6,6 +6,7 @@ module BuildTools
     @api_customizations = {}
     @doc_customizations = {}
     @example_customizations = {}
+    @smoke_customizations = {}
 
     class << self
 
@@ -21,6 +22,10 @@ module BuildTools
         @example_customizations[svc_name] = block
       end
 
+      def smoke(svc_name, &block)
+        @smoke_customizations[svc_name] = block
+      end
+
       def apply_api_customizations(svc_name, api)
         @api_customizations[svc_name].call(api) if @api_customizations[svc_name]
       end
@@ -31,6 +36,10 @@ module BuildTools
 
       def apply_example_customizations(svc_name, examples)
         @example_customizations[svc_name].call(examples) if @example_customizations[svc_name]
+      end
+
+      def apply_smoke_customizations(svc_name, smoke)
+        @smoke_customizations[svc_name].call(smoke) if @smoke_customizations[svc_name]
       end
 
       private
@@ -52,13 +61,11 @@ module BuildTools
           subsegment
         end
       end
-
     end
 
     api('CloudFront') do |api|
-
       api['shapes'].each do |_, shape|
-        if shape['members'] && shape['members']['MaxItems']
+        if shape['members'] && shape['members']['MaxItems'] && shape['members']['MaxItems']['shape'] == 'string'
           shape['members']['MaxItems']['shape'] = 'integer'
         end
       end
@@ -67,7 +74,6 @@ module BuildTools
         symbolized = name.sub(/\d{4}_\d{2}_\d{2}$/, '')
         api['operations'][symbolized] = api['operations'].delete(name)
       end
-
     end
 
     api('EC2') do |api|
@@ -98,26 +104,15 @@ module BuildTools
     end
 
     api('ImportExport') do |api|
+      api['metadata']['serviceId'] ||= 'importexport'
+
       api['operations'].each do |_, operation|
         operation['http']['requestUri'] = '/'
       end
     end
 
-    api('IoTDataPlane') do |api|
-      api['metadata'].delete('endpointPrefix')
-    end
-
-    %w(Lambda LambdaPreview).each do |svc_name|
-
-      api(svc_name) do |api|
-        api['shapes']['Timestamp']['type'] = 'timestamp'
-      end
-
-      doc('lambda') do |docs|
-        docs['shapes']['Blob']['refs']['UpdateFunctionCodeRequest$ZipFile'] =
-          "<p>.zip file containing your packaged source code.</p>"
-      end
-
+    api('Lambda') do |api|
+      api['shapes']['Timestamp']['type'] = 'timestamp'
     end
 
     # Cross Region Copying
@@ -167,6 +162,10 @@ module BuildTools
         end
       end
 
+      # Ensure Expires is a timestamp regardless of model to be backwards
+      # compatible. Add ExpiresString in cases where Expires cannot be parsed
+      # as a Timestamp.
+      api['shapes']['Expires'] = { 'type' => 'timestamp' }
       api['shapes']['ExpiresString'] = { 'type' => 'string' }
       %w(HeadObjectOutput GetObjectOutput).each do |shape|
         members = api['shapes'][shape]['members']
@@ -188,11 +187,11 @@ module BuildTools
     api('S3Control') do |api|
       # handled by endpoints 2.0
       api['operations'].each do |_key, operation|
-        # removes accountId host prefix trait and requiredness
-        # defensive - checks host prefix labels and removes only those from API
+        # Removes the accountId host prefix trait and requiredness.
+        # Checks the hostPrefix labels and removes only those from the API.
         next unless operation['endpoint'] &&
-                    (host_prefix = operation['endpoint']['hostPrefix'])
-                    host_prefix != '{AccountId}.'
+                    (host_prefix = operation['endpoint']['hostPrefix']) &&
+                    host_prefix == '{AccountId}.'
 
         operation['endpoint'].delete('hostPrefix')
 
@@ -201,6 +200,24 @@ module BuildTools
           input_shape = api['shapes'][operation['input']['shape']]
           input_shape['members'][label].delete('hostLabel')
           input_shape['required']&.delete(label)
+        end
+      end
+    end
+
+    # SimpleDB does not adhere to the query protocol guidelines because it
+    # uses both flattened and locationName. Query protocol is supposed to
+    # ignore location name (xmlName) when flattened (xmlFlattened) is used.
+    api('SimpleDB') do |api|
+      api['metadata']['serviceId'] ||= 'SimpleDB'
+
+      api['shapes'].each do |_, shape|
+        next unless shape['type'] == 'structure'
+
+        shape['members'].each do |_, member|
+          member_ref = api['shapes'][member['shape']]
+          next unless member_ref['flattened']
+
+          member['locationName'] = member_ref['member']['locationName']
         end
       end
     end
@@ -216,8 +233,38 @@ module BuildTools
     api('STS') do |api|
       operations = %w(AssumeRoleWithSAML AssumeRoleWithWebIdentity)
       operations.each do |operation|
-        api['operations'][operation]['authtype'] = 'none'
+        api['operations'][operation]['auth'] = ['smithy.api#noAuth']
       end
+    end
+
+    smoke('DSQL') do |smoke|
+      test = smoke['testCases'].find do |test_case|
+        test_case['id'] == 'GetClusterNotFound'
+      end
+      test['input']['identifier'] = 'a' * 26
+    end
+
+    smoke('ElasticTranscoder') do |smoke|
+      # discontinued service
+      smoke['testCases'] = []
+    end
+
+    smoke('NetworkFlowMonitor') do |smoke|
+      test = smoke['testCases'].find do |test_case|
+        test_case['id'] == 'GetMonitorSuccess'
+      end
+      test['expectation'] = { 'failure' => {} }
+    end
+
+    smoke('ObservabilityAdmin') do |smoke|
+      test = smoke['testCases'].find do |test_case|
+        test_case['id'] == 'GetTelemetryEvaluationStatusForOrganization'
+      end
+      test['expectation'] = { 'failure' => { 'errorId' => 'ValidationException' } }
+      test = smoke['testCases'].find do |test_case|
+        test_case['id'] == 'GetTelemetryEvaluationStatus'
+      end
+      test['expectation'] = { 'success' => {} }
     end
   end
 end

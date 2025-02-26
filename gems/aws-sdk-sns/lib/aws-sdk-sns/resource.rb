@@ -54,14 +54,17 @@ module Aws::SNS
     #   APNS (Apple Push Notification Service), APNS\_SANDBOX, and GCM
     #   (Firebase Cloud Messaging).
     # @option options [required, Hash<String,String>] :attributes
-    #   For a list of attributes, see [SetPlatformApplicationAttributes][1].
+    #   For a list of attributes, see [ `SetPlatformApplicationAttributes`
+    #   ][1].
     #
     #
     #
     #   [1]: https://docs.aws.amazon.com/sns/latest/api/API_SetPlatformApplicationAttributes.html
     # @return [PlatformApplication]
     def create_platform_application(options = {})
-      resp = @client.create_platform_application(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.create_platform_application(options)
+      end
       PlatformApplication.new(
         arn: resp.data.platform_application_arn,
         client: @client
@@ -96,7 +99,7 @@ module Aws::SNS
     # @option options [Hash<String,String>] :attributes
     #   A map of attributes with their corresponding values.
     #
-    #   The following lists the names, descriptions, and values of the special
+    #   The following lists names, descriptions, and values of the special
     #   request parameters that the `CreateTopic` action uses:
     #
     #   * `DeliveryPolicy` – The policy that defines how Amazon SNS retries
@@ -123,7 +126,7 @@ module Aws::SNS
     #     segment data to topic owner account if the sampled flag in the
     #     tracing header is true. This is only supported on standard topics.
     #
-    #   The following attribute applies only to [server-side encryption][1]\:
+    #   The following attribute applies only to [server-side encryption][1]:
     #
     #   * `KmsMasterKeyId` – The ID of an Amazon Web Services managed customer
     #     master key (CMK) for Amazon SNS or a custom CMK. For more
@@ -132,9 +135,10 @@ module Aws::SNS
     #
     #   ^
     #
-    #   The following attributes apply only to [FIFO topics][4]\:
+    #   The following attributes apply only to [FIFO topics][4]:
     #
-    #   * `FifoTopic` – When this is set to `true`, a FIFO topic is created.
+    #   * `ArchivePolicy` – The policy that sets the retention period for
+    #     messages stored in the message archive of an Amazon SNS FIFO topic.
     #
     #   * `ContentBasedDeduplication` – Enables content-based deduplication
     #     for FIFO topics.
@@ -151,6 +155,22 @@ module Aws::SNS
     #       (Optional) To override the generated value, you can specify a
     #       value for the `MessageDeduplicationId` parameter for the `Publish`
     #       action.
+    #   ^
+    #
+    #   * `FifoThroughputScope` – Enables higher throughput for your FIFO
+    #     topic by adjusting the scope of deduplication. This attribute has
+    #     two possible values:
+    #
+    #     * `Topic` – The scope of message deduplication is across the entire
+    #       topic. This is the default value and maintains existing behavior,
+    #       with a maximum throughput of 3000 messages per second or 20MB per
+    #       second, whichever comes first.
+    #
+    #     * `MessageGroup` – The scope of deduplication is within each
+    #       individual message group, which enables higher throughput per
+    #       topic subject to regional quotas. For more information on quotas
+    #       or to request an increase, see [Amazon SNS service quotas][6] in
+    #       the Amazon Web Services General Reference.
     #
     #
     #
@@ -159,6 +179,7 @@ module Aws::SNS
     #   [3]: https://docs.aws.amazon.com/kms/latest/APIReference/API_DescribeKey.html#API_DescribeKey_RequestParameters
     #   [4]: https://docs.aws.amazon.com/sns/latest/dg/sns-fifo-topics.html
     #   [5]: https://docs.aws.amazon.com/sns/latest/api/API_Publish.html
+    #   [6]: https://docs.aws.amazon.com/general/latest/gr/sns.html
     # @option options [Array<Types::Tag>] :tags
     #   The list of tags to add to a new topic.
     #
@@ -176,7 +197,9 @@ module Aws::SNS
     #   Length Constraints: Maximum length of 30,720.
     # @return [Topic]
     def create_topic(options = {})
-      resp = @client.create_topic(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.create_topic(options)
+      end
       Topic.new(
         arn: resp.data.topic_arn,
         client: @client
@@ -201,7 +224,9 @@ module Aws::SNS
     # @return [PlatformApplication::Collection]
     def platform_applications(options = {})
       batches = Enumerator.new do |y|
-        resp = @client.list_platform_applications(options)
+        resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+          @client.list_platform_applications(options)
+        end
         resp.each_page do |page|
           batch = []
           page.data.platform_applications.each do |p|
@@ -241,7 +266,9 @@ module Aws::SNS
     # @return [Subscription::Collection]
     def subscriptions(options = {})
       batches = Enumerator.new do |y|
-        resp = @client.list_subscriptions(options)
+        resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+          @client.list_subscriptions(options)
+        end
         resp.each_page do |page|
           batch = []
           page.data.subscriptions.each do |s|
@@ -272,7 +299,9 @@ module Aws::SNS
     # @return [Topic::Collection]
     def topics(options = {})
       batches = Enumerator.new do |y|
-        resp = @client.list_topics(options)
+        resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+          @client.list_topics(options)
+        end
         resp.each_page do |page|
           batch = []
           page.data.topics.each do |t|

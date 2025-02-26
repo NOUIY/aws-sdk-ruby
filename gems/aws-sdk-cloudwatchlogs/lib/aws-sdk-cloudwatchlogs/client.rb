@@ -7,33 +7,35 @@
 #
 # WARNING ABOUT GENERATED CODE
 
-require 'seahorse/client/plugins/content_length.rb'
-require 'aws-sdk-core/plugins/credentials_configuration.rb'
-require 'aws-sdk-core/plugins/logging.rb'
-require 'aws-sdk-core/plugins/param_converter.rb'
-require 'aws-sdk-core/plugins/param_validator.rb'
-require 'aws-sdk-core/plugins/user_agent.rb'
-require 'aws-sdk-core/plugins/helpful_socket_errors.rb'
-require 'aws-sdk-core/plugins/retry_errors.rb'
-require 'aws-sdk-core/plugins/global_configuration.rb'
-require 'aws-sdk-core/plugins/regional_endpoint.rb'
-require 'aws-sdk-core/plugins/endpoint_discovery.rb'
-require 'aws-sdk-core/plugins/endpoint_pattern.rb'
-require 'aws-sdk-core/plugins/response_paging.rb'
-require 'aws-sdk-core/plugins/stub_responses.rb'
-require 'aws-sdk-core/plugins/idempotency_token.rb'
-require 'aws-sdk-core/plugins/jsonvalue_converter.rb'
-require 'aws-sdk-core/plugins/client_metrics_plugin.rb'
-require 'aws-sdk-core/plugins/client_metrics_send_plugin.rb'
-require 'aws-sdk-core/plugins/transfer_encoding.rb'
-require 'aws-sdk-core/plugins/http_checksum.rb'
-require 'aws-sdk-core/plugins/checksum_algorithm.rb'
-require 'aws-sdk-core/plugins/defaults_mode.rb'
-require 'aws-sdk-core/plugins/recursion_detection.rb'
-require 'aws-sdk-core/plugins/sign.rb'
-require 'aws-sdk-core/plugins/protocols/json_rpc.rb'
-
-Aws::Plugins::GlobalConfiguration.add_identifier(:cloudwatchlogs)
+require 'seahorse/client/plugins/content_length'
+require 'aws-sdk-core/plugins/credentials_configuration'
+require 'aws-sdk-core/plugins/logging'
+require 'aws-sdk-core/plugins/param_converter'
+require 'aws-sdk-core/plugins/param_validator'
+require 'aws-sdk-core/plugins/user_agent'
+require 'aws-sdk-core/plugins/helpful_socket_errors'
+require 'aws-sdk-core/plugins/retry_errors'
+require 'aws-sdk-core/plugins/global_configuration'
+require 'aws-sdk-core/plugins/regional_endpoint'
+require 'aws-sdk-core/plugins/endpoint_discovery'
+require 'aws-sdk-core/plugins/endpoint_pattern'
+require 'aws-sdk-core/plugins/response_paging'
+require 'aws-sdk-core/plugins/stub_responses'
+require 'aws-sdk-core/plugins/idempotency_token'
+require 'aws-sdk-core/plugins/invocation_id'
+require 'aws-sdk-core/plugins/jsonvalue_converter'
+require 'aws-sdk-core/plugins/client_metrics_plugin'
+require 'aws-sdk-core/plugins/client_metrics_send_plugin'
+require 'aws-sdk-core/plugins/transfer_encoding'
+require 'aws-sdk-core/plugins/http_checksum'
+require 'aws-sdk-core/plugins/checksum_algorithm'
+require 'aws-sdk-core/plugins/request_compression'
+require 'aws-sdk-core/plugins/defaults_mode'
+require 'aws-sdk-core/plugins/recursion_detection'
+require 'aws-sdk-core/plugins/telemetry'
+require 'aws-sdk-core/plugins/sign'
+require 'aws-sdk-core/plugins/protocols/json_rpc'
+require 'aws-sdk-core/plugins/event_stream_configuration'
 
 module Aws::CloudWatchLogs
   # An API client for CloudWatchLogs.  To construct a client, you need to configure a `:region` and `:credentials`.
@@ -71,20 +73,29 @@ module Aws::CloudWatchLogs
     add_plugin(Aws::Plugins::ResponsePaging)
     add_plugin(Aws::Plugins::StubResponses)
     add_plugin(Aws::Plugins::IdempotencyToken)
+    add_plugin(Aws::Plugins::InvocationId)
     add_plugin(Aws::Plugins::JsonvalueConverter)
     add_plugin(Aws::Plugins::ClientMetricsPlugin)
     add_plugin(Aws::Plugins::ClientMetricsSendPlugin)
     add_plugin(Aws::Plugins::TransferEncoding)
     add_plugin(Aws::Plugins::HttpChecksum)
     add_plugin(Aws::Plugins::ChecksumAlgorithm)
+    add_plugin(Aws::Plugins::RequestCompression)
     add_plugin(Aws::Plugins::DefaultsMode)
     add_plugin(Aws::Plugins::RecursionDetection)
+    add_plugin(Aws::Plugins::Telemetry)
     add_plugin(Aws::Plugins::Sign)
     add_plugin(Aws::Plugins::Protocols::JsonRpc)
+    add_plugin(Aws::Plugins::EventStreamConfiguration)
     add_plugin(Aws::CloudWatchLogs::Plugins::Endpoints)
 
     # @overload initialize(options)
     #   @param [Hash] options
+    #
+    #   @option options [Array<Seahorse::Client::Plugin>] :plugins ([]])
+    #     A list of plugins to apply to the client. Each plugin is either a
+    #     class name or an instance of a plugin class.
+    #
     #   @option options [required, Aws::CredentialProvider] :credentials
     #     Your AWS credentials. This can be an instance of any one of the
     #     following classes:
@@ -119,13 +130,15 @@ module Aws::CloudWatchLogs
     #     locations will be searched for credentials:
     #
     #     * `Aws.config[:credentials]`
-    #     * The `:access_key_id`, `:secret_access_key`, and `:session_token` options.
-    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']
+    #     * The `:access_key_id`, `:secret_access_key`, `:session_token`, and
+    #       `:account_id` options.
+    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'],
+    #       ENV['AWS_SESSION_TOKEN'], and ENV['AWS_ACCOUNT_ID']
     #     * `~/.aws/credentials`
     #     * `~/.aws/config`
     #     * EC2/ECS IMDS instance profile - When used by default, the timeouts
     #       are very aggressive. Construct and pass an instance of
-    #       `Aws::InstanceProfileCredentails` or `Aws::ECSCredentials` to
+    #       `Aws::InstanceProfileCredentials` or `Aws::ECSCredentials` to
     #       enable retries and extended timeouts. Instance profile credential
     #       fetching can be disabled by setting ENV['AWS_EC2_METADATA_DISABLED']
     #       to true.
@@ -143,6 +156,8 @@ module Aws::CloudWatchLogs
     #     * `~/.aws/config`
     #
     #   @option options [String] :access_key_id
+    #
+    #   @option options [String] :account_id
     #
     #   @option options [Boolean] :active_endpoint_cache (false)
     #     When set to `true`, a thread polling for endpoints will be running in
@@ -190,10 +205,20 @@ module Aws::CloudWatchLogs
     #     Set to true to disable SDK automatically adding host prefix
     #     to default service endpoint when available.
     #
-    #   @option options [String] :endpoint
-    #     The client endpoint is normally constructed from the `:region`
-    #     option. You should only configure an `:endpoint` when connecting
-    #     to test or custom endpoints. This should be a valid HTTP(S) URI.
+    #   @option options [Boolean] :disable_request_compression (false)
+    #     When set to 'true' the request body will not be compressed
+    #     for supported operations.
+    #
+    #   @option options [String, URI::HTTPS, URI::HTTP] :endpoint
+    #     Normally you should not configure the `:endpoint` option
+    #     directly. This is normally constructed from the `:region`
+    #     option. Configuring `:endpoint` is normally reserved for
+    #     connecting to test or custom endpoints. The endpoint should
+    #     be a URI formatted like:
+    #
+    #         'http://example.com'
+    #         'https://example.com'
+    #         'http://example.com:123'
     #
     #   @option options [Integer] :endpoint_cache_max_entries (1000)
     #     Used for the maximum size limit of the LRU cache storing endpoints data
@@ -209,6 +234,16 @@ module Aws::CloudWatchLogs
     #
     #   @option options [Boolean] :endpoint_discovery (false)
     #     When set to `true`, endpoint discovery will be enabled for operations when available.
+    #
+    #   @option options [Proc] :event_stream_handler
+    #     When an EventStream or Proc object is provided, it will be used as callback for each chunk of event stream response received along the way.
+    #
+    #   @option options [Boolean] :ignore_configured_endpoint_urls
+    #     Setting to true disables use of endpoint URLs provided via environment
+    #     variables and the shared configuration file.
+    #
+    #   @option options [Proc] :input_event_stream_handler
+    #     When an EventStream or Proc object is provided, it can be used for sending events for the event stream.
     #
     #   @option options [Aws::Log::Formatter] :log_formatter (Aws::Log::Formatter.default)
     #     The log formatter.
@@ -226,9 +261,40 @@ module Aws::CloudWatchLogs
     #     setting this value to 5 will result in a request being retried up to
     #     4 times. Used in `standard` and `adaptive` retry modes.
     #
+    #   @option options [Proc] :output_event_stream_handler
+    #     When an EventStream or Proc object is provided, it will be used as callback for each chunk of event stream response received along the way.
+    #
     #   @option options [String] :profile ("default")
     #     Used when loading credentials from the shared credentials file
     #     at HOME/.aws/credentials.  When not specified, 'default' is used.
+    #
+    #   @option options [String] :request_checksum_calculation ("when_supported")
+    #     Determines when a checksum will be calculated for request payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, a checksum will be
+    #       calculated for all request payloads of operations modeled with the
+    #       `httpChecksum` trait where `requestChecksumRequired` is `true` and/or a
+    #       `requestAlgorithmMember` is modeled.
+    #     * `when_required` - When set, a checksum will only be calculated for
+    #       request payloads of operations modeled with the  `httpChecksum` trait where
+    #       `requestChecksumRequired` is `true` or where a `requestAlgorithmMember`
+    #       is modeled and supplied.
+    #
+    #   @option options [Integer] :request_min_compression_size_bytes (10240)
+    #     The minimum size in bytes that triggers compression for request
+    #     bodies. The value must be non-negative integer value between 0
+    #     and 10485780 bytes inclusive.
+    #
+    #   @option options [String] :response_checksum_validation ("when_supported")
+    #     Determines when checksum validation will be performed on response payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, checksum validation is performed on all
+    #       response payloads of operations modeled with the `httpChecksum` trait where
+    #       `responseAlgorithms` is modeled, except when no modeled checksum algorithms
+    #       are supported.
+    #     * `when_required` - When set, checksum validation is not performed on
+    #       response payloads of operations unless the checksum algorithm is supported and
+    #       the `requestValidationModeMember` member is set to `ENABLED`.
     #
     #   @option options [Proc] :retry_backoff
     #     A proc or lambda used for backoff. Defaults to 2**retries * retry_base_delay.
@@ -274,20 +340,31 @@ module Aws::CloudWatchLogs
     #       throttling.  This is a provisional mode that may change behavior
     #       in the future.
     #
+    #   @option options [String] :sdk_ua_app_id
+    #     A unique and opaque application ID that is appended to the
+    #     User-Agent header as app/sdk_ua_app_id. It should have a
+    #     maximum length of 50. This variable is sourced from environment
+    #     variable AWS_SDK_UA_APP_ID or the shared config profile attribute sdk_ua_app_id.
     #
     #   @option options [String] :secret_access_key
     #
     #   @option options [String] :session_token
     #
+    #   @option options [Array] :sigv4a_signing_region_set
+    #     A list of regions that should be signed with SigV4a signing. When
+    #     not passed, a default `:sigv4a_signing_region_set` is searched for
+    #     in the following locations:
+    #
+    #     * `Aws.config[:sigv4a_signing_region_set]`
+    #     * `ENV['AWS_SIGV4A_SIGNING_REGION_SET']`
+    #     * `~/.aws/config`
+    #
     #   @option options [Boolean] :simple_json (false)
     #     Disables request parameter conversion, validation, and formatting.
-    #     Also disable response data type conversions. This option is useful
-    #     when you want to ensure the highest level of performance by
-    #     avoiding overhead of walking request parameters and response data
-    #     structures.
-    #
-    #     When `:simple_json` is enabled, the request parameters hash must
-    #     be formatted exactly as the DynamoDB API expects.
+    #     Also disables response data type conversions. The request parameters
+    #     hash must be formatted exactly as the API expects.This option is useful
+    #     when you want to ensure the highest level of performance by avoiding
+    #     overhead of walking request parameters and response data structures.
     #
     #   @option options [Boolean] :stub_responses (false)
     #     Causes the client to return stubbed responses. By default
@@ -297,6 +374,16 @@ module Aws::CloudWatchLogs
     #
     #     ** Please note ** When response stubbing is enabled, no HTTP
     #     requests are made, and retries are disabled.
+    #
+    #   @option options [Aws::Telemetry::TelemetryProviderBase] :telemetry_provider (Aws::Telemetry::NoOpTelemetryProvider)
+    #     Allows you to provide a telemetry provider, which is used to
+    #     emit telemetry data. By default, uses `NoOpTelemetryProvider` which
+    #     will not record or emit any telemetry data. The SDK supports the
+    #     following telemetry providers:
+    #
+    #     * OpenTelemetry (OTel) - To use the OTel provider, install and require the
+    #     `opentelemetry-sdk` gem and then, pass in an instance of a
+    #     `Aws::Telemetry::OTelProvider` for telemetry provider.
     #
     #   @option options [Aws::TokenProvider] :token_provider
     #     A Bearer Token Provider. This can be an instance of any one of the
@@ -325,52 +412,75 @@ module Aws::CloudWatchLogs
     #     sending the request.
     #
     #   @option options [Aws::CloudWatchLogs::EndpointProvider] :endpoint_provider
-    #     The endpoint provider used to resolve endpoints. Any object that responds to `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to `Aws::CloudWatchLogs::EndpointParameters`
+    #     The endpoint provider used to resolve endpoints. Any object that responds to
+    #     `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+    #     `Aws::CloudWatchLogs::EndpointParameters`.
     #
-    #   @option options [URI::HTTP,String] :http_proxy A proxy to send
-    #     requests through.  Formatted like 'http://proxy.com:123'.
+    #   @option options [Float] :http_continue_timeout (1)
+    #     The number of seconds to wait for a 100-continue response before sending the
+    #     request body.  This option has no effect unless the request has "Expect"
+    #     header set to "100-continue".  Defaults to `nil` which  disables this
+    #     behaviour.  This value can safely be set per request on the session.
     #
-    #   @option options [Float] :http_open_timeout (15) The number of
-    #     seconds to wait when opening a HTTP session before raising a
-    #     `Timeout::Error`.
+    #   @option options [Float] :http_idle_timeout (5)
+    #     The number of seconds a connection is allowed to sit idle before it
+    #     is considered stale.  Stale connections are closed and removed from the
+    #     pool before making a request.
     #
-    #   @option options [Float] :http_read_timeout (60) The default
-    #     number of seconds to wait for response data.  This value can
-    #     safely be set per-request on the session.
+    #   @option options [Float] :http_open_timeout (15)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :http_idle_timeout (5) The number of
-    #     seconds a connection is allowed to sit idle before it is
-    #     considered stale.  Stale connections are closed and removed
-    #     from the pool before making a request.
+    #   @option options [URI::HTTP,String] :http_proxy
+    #     A proxy to send requests through.  Formatted like 'http://proxy.com:123'.
     #
-    #   @option options [Float] :http_continue_timeout (1) The number of
-    #     seconds to wait for a 100-continue response before sending the
-    #     request body.  This option has no effect unless the request has
-    #     "Expect" header set to "100-continue".  Defaults to `nil` which
-    #     disables this behaviour.  This value can safely be set per
-    #     request on the session.
+    #   @option options [Float] :http_read_timeout (60)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :ssl_timeout (nil) Sets the SSL timeout
-    #     in seconds.
+    #   @option options [Boolean] :http_wire_trace (false)
+    #     When `true`,  HTTP debug output will be sent to the `:logger`.
     #
-    #   @option options [Boolean] :http_wire_trace (false) When `true`,
-    #     HTTP debug output will be sent to the `:logger`.
+    #   @option options [Proc] :on_chunk_received
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the response body is received. It provides three arguments: the chunk,
+    #     the number of bytes received, and the total number of
+    #     bytes in the response (or nil if the server did not send a `content-length`).
     #
-    #   @option options [Boolean] :ssl_verify_peer (true) When `true`,
-    #     SSL peer certificates are verified when establishing a
-    #     connection.
+    #   @option options [Proc] :on_chunk_sent
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the request body is sent. It provides three arguments: the chunk,
+    #     the number of bytes read from the body, and the total number of
+    #     bytes in the body.
     #
-    #   @option options [String] :ssl_ca_bundle Full path to the SSL
-    #     certificate authority bundle file that should be used when
-    #     verifying peer certificates.  If you do not pass
-    #     `:ssl_ca_bundle` or `:ssl_ca_directory` the the system default
-    #     will be used if available.
+    #   @option options [Boolean] :raise_response_errors (true)
+    #     When `true`, response errors are raised.
     #
-    #   @option options [String] :ssl_ca_directory Full path of the
-    #     directory that contains the unbundled SSL certificate
+    #   @option options [String] :ssl_ca_bundle
+    #     Full path to the SSL certificate authority bundle file that should be used when
+    #     verifying peer certificates.  If you do not pass `:ssl_ca_bundle` or
+    #     `:ssl_ca_directory` the the system default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_directory
+    #     Full path of the directory that contains the unbundled SSL certificate
     #     authority files for verifying peer certificates.  If you do
-    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the
-    #     system default will be used if available.
+    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the system
+    #     default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_store
+    #     Sets the X509::Store to verify peer certificate.
+    #
+    #   @option options [OpenSSL::X509::Certificate] :ssl_cert
+    #     Sets a client certificate when creating http connections.
+    #
+    #   @option options [OpenSSL::PKey] :ssl_key
+    #     Sets a client key when creating http connections.
+    #
+    #   @option options [Float] :ssl_timeout
+    #     Sets the SSL timeout in seconds
+    #
+    #   @option options [Boolean] :ssl_verify_peer (true)
+    #     When `true`, SSL peer certificates are verified when establishing a connection.
     #
     def initialize(*args)
       super
@@ -378,19 +488,57 @@ module Aws::CloudWatchLogs
 
     # @!group API Operations
 
-    # Associates the specified KMS key with the specified log group.
+    # Associates the specified KMS key with either one log group in the
+    # account, or with all stored CloudWatch Logs query insights results in
+    # the account.
     #
-    # Associating a KMS key with a log group overrides any existing
-    # associations between the log group and a KMS key. After a KMS key is
-    # associated with a log group, all newly ingested data for the log group
-    # is encrypted using the KMS key. This association is stored as long as
-    # the data encrypted with the KMS keyis still within CloudWatch Logs.
-    # This enables CloudWatch Logs to decrypt this data whenever it is
-    # requested.
+    # When you use `AssociateKmsKey`, you specify either the `logGroupName`
+    # parameter or the `resourceIdentifier` parameter. You can't specify
+    # both of those parameters in the same operation.
     #
-    # CloudWatch Logs supports only symmetric KMS keys. Do not use an
-    # associate an asymmetric KMS key with your log group. For more
-    # information, see [Using Symmetric and Asymmetric Keys][1].
+    # * Specify the `logGroupName` parameter to cause log events ingested
+    #   into that log group to be encrypted with that key. Only the log
+    #   events ingested after the key is associated are encrypted with that
+    #   key.
+    #
+    #   Associating a KMS key with a log group overrides any existing
+    #   associations between the log group and a KMS key. After a KMS key is
+    #   associated with a log group, all newly ingested data for the log
+    #   group is encrypted using the KMS key. This association is stored as
+    #   long as the data encrypted with the KMS key is still within
+    #   CloudWatch Logs. This enables CloudWatch Logs to decrypt this data
+    #   whenever it is requested.
+    #
+    #   Associating a key with a log group does not cause the results of
+    #   queries of that log group to be encrypted with that key. To have
+    #   query results encrypted with a KMS key, you must use an
+    #   `AssociateKmsKey` operation with the `resourceIdentifier` parameter
+    #   that specifies a `query-result` resource.
+    #
+    # * Specify the `resourceIdentifier` parameter with a `query-result`
+    #   resource, to use that key to encrypt the stored results of all
+    #   future [StartQuery][1] operations in the account. The response from
+    #   a [GetQueryResults][2] operation will still return the query results
+    #   in plain text.
+    #
+    #   Even if you have not associated a key with your query results, the
+    #   query results are encrypted when stored, using the default
+    #   CloudWatch Logs method.
+    #
+    #   If you run a query from a monitoring account that queries logs in a
+    #   source account, the query results key from the monitoring account,
+    #   if any, is used.
+    #
+    # If you delete the key that is used to encrypt log events or log group
+    # query results, then all the associated stored log events or query
+    # results that were encrypted with that key will be unencryptable and
+    # unusable.
+    #
+    # <note markdown="1"> CloudWatch Logs supports only symmetric KMS keys. Do not use an
+    # associate an asymmetric KMS key with your log group or query results.
+    # For more information, see [Using Symmetric and Asymmetric Keys][3].
+    #
+    #  </note>
     #
     # It can take up to 5 minutes for this operation to take effect.
     #
@@ -400,10 +548,16 @@ module Aws::CloudWatchLogs
     #
     #
     #
-    # [1]: https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html
+    # [1]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_StartQuery.html
+    # [2]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_GetQueryResults.html
+    # [3]: https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html
     #
-    # @option params [required, String] :log_group_name
+    # @option params [String] :log_group_name
     #   The name of the log group.
+    #
+    #   In your `AssociateKmsKey` operation, you must specify either the
+    #   `resourceIdentifier` parameter or the `logGroup` parameter, but you
+    #   can't specify both.
     #
     # @option params [required, String] :kms_key_id
     #   The Amazon Resource Name (ARN) of the KMS key to use when encrypting
@@ -416,13 +570,40 @@ module Aws::CloudWatchLogs
     #   [1]: https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-kms
     #   [2]: https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html
     #
+    # @option params [String] :resource_identifier
+    #   Specifies the target for this operation. You must specify one of the
+    #   following:
+    #
+    #   * Specify the following ARN to have future [GetQueryResults][1]
+    #     operations in this account encrypt the results with the specified
+    #     KMS key. Replace *REGION* and *ACCOUNT\_ID* with your Region and
+    #     account ID.
+    #
+    #     `arn:aws:logs:REGION:ACCOUNT_ID:query-result:*`
+    #
+    #   * Specify the ARN of a log group to have CloudWatch Logs use the KMS
+    #     key to encrypt log events that are ingested and stored by that log
+    #     group. The log group ARN must be in the following format. Replace
+    #     *REGION* and *ACCOUNT\_ID* with your Region and account ID.
+    #
+    #     `arn:aws:logs:REGION:ACCOUNT_ID:log-group:LOG_GROUP_NAME `
+    #
+    #   In your `AssociateKmsKey` operation, you must specify either the
+    #   `resourceIdentifier` parameter or the `logGroup` parameter, but you
+    #   can't specify both.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_GetQueryResults.html
+    #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
     # @example Request syntax with placeholder values
     #
     #   resp = client.associate_kms_key({
-    #     log_group_name: "LogGroupName", # required
+    #     log_group_name: "LogGroupName",
     #     kms_key_id: "KmsKeyId", # required
+    #     resource_identifier: "ResourceIdentifier",
     #   })
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/AssociateKmsKey AWS API Documentation
@@ -458,6 +639,126 @@ module Aws::CloudWatchLogs
       req.send_request(options)
     end
 
+    # Creates a *delivery*. A delivery is a connection between a logical
+    # *delivery source* and a logical *delivery destination* that you have
+    # already created.
+    #
+    # Only some Amazon Web Services services support being configured as a
+    # delivery source using this operation. These services are listed as
+    # **Supported \[V2 Permissions\]** in the table at [Enabling logging
+    # from Amazon Web Services services.][1]
+    #
+    # A delivery destination can represent a log group in CloudWatch Logs,
+    # an Amazon S3 bucket, or a delivery stream in Firehose.
+    #
+    # To configure logs delivery between a supported Amazon Web Services
+    # service and a destination, you must do the following:
+    #
+    # * Create a delivery source, which is a logical object that represents
+    #   the resource that is actually sending the logs. For more
+    #   information, see [PutDeliverySource][2].
+    #
+    # * Create a *delivery destination*, which is a logical object that
+    #   represents the actual delivery destination. For more information,
+    #   see [PutDeliveryDestination][3].
+    #
+    # * If you are delivering logs cross-account, you must use
+    #   [PutDeliveryDestinationPolicy][4] in the destination account to
+    #   assign an IAM policy to the destination. This policy allows delivery
+    #   to that destination.
+    #
+    # * Use `CreateDelivery` to create a *delivery* by pairing exactly one
+    #   delivery source and one delivery destination.
+    #
+    # You can configure a single delivery source to send logs to multiple
+    # destinations by creating multiple deliveries. You can also create
+    # multiple deliveries to configure multiple delivery sources to send
+    # logs to the same delivery destination.
+    #
+    # To update an existing delivery configuration, use
+    # [UpdateDeliveryConfiguration][5].
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/AWS-logs-and-resource-policy.html
+    # [2]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliverySource.html
+    # [3]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliveryDestination.html
+    # [4]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliveryDestinationPolicy.html
+    # [5]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_UpdateDeliveryConfiguration.html
+    #
+    # @option params [required, String] :delivery_source_name
+    #   The name of the delivery source to use for this delivery.
+    #
+    # @option params [required, String] :delivery_destination_arn
+    #   The ARN of the delivery destination to use for this delivery.
+    #
+    # @option params [Array<String>] :record_fields
+    #   The list of record fields to be delivered to the destination, in
+    #   order. If the delivery's log source has mandatory fields, they must
+    #   be included in this list.
+    #
+    # @option params [String] :field_delimiter
+    #   The field delimiter to use between record fields when the final output
+    #   format of a delivery is in `Plain`, `W3C`, or `Raw` format.
+    #
+    # @option params [Types::S3DeliveryConfiguration] :s3_delivery_configuration
+    #   This structure contains parameters that are valid only when the
+    #   delivery's delivery destination is an S3 bucket.
+    #
+    # @option params [Hash<String,String>] :tags
+    #   An optional list of key-value pairs to associate with the resource.
+    #
+    #   For more information about tagging, see [Tagging Amazon Web Services
+    #   resources][1]
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html
+    #
+    # @return [Types::CreateDeliveryResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateDeliveryResponse#delivery #delivery} => Types::Delivery
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_delivery({
+    #     delivery_source_name: "DeliverySourceName", # required
+    #     delivery_destination_arn: "Arn", # required
+    #     record_fields: ["FieldHeader"],
+    #     field_delimiter: "FieldDelimiter",
+    #     s3_delivery_configuration: {
+    #       suffix_path: "DeliverySuffixPath",
+    #       enable_hive_compatible_path: false,
+    #     },
+    #     tags: {
+    #       "TagKey" => "TagValue",
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.delivery.id #=> String
+    #   resp.delivery.arn #=> String
+    #   resp.delivery.delivery_source_name #=> String
+    #   resp.delivery.delivery_destination_arn #=> String
+    #   resp.delivery.delivery_destination_type #=> String, one of "S3", "CWL", "FH"
+    #   resp.delivery.record_fields #=> Array
+    #   resp.delivery.record_fields[0] #=> String
+    #   resp.delivery.field_delimiter #=> String
+    #   resp.delivery.s3_delivery_configuration.suffix_path #=> String
+    #   resp.delivery.s3_delivery_configuration.enable_hive_compatible_path #=> Boolean
+    #   resp.delivery.tags #=> Hash
+    #   resp.delivery.tags["TagKey"] #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/CreateDelivery AWS API Documentation
+    #
+    # @overload create_delivery(params = {})
+    # @param [Hash] params ({})
+    def create_delivery(params = {}, options = {})
+      req = build_request(:create_delivery, params)
+      req.send_request(options)
+    end
+
     # Creates an export task so that you can efficiently export data from a
     # log group to an Amazon S3 bucket. When you perform a
     # `CreateExportTask` operation, you must use credentials that have
@@ -482,6 +783,14 @@ module Aws::CloudWatchLogs
     # specify a prefix to be used as the Amazon S3 key prefix for all
     # exported objects.
     #
+    # <note markdown="1"> We recommend that you don't regularly export to Amazon S3 as a way to
+    # continuously archive your logs. For that use case, we instaed
+    # recommend that you use subscriptions. For more information about
+    # subscriptions, see [Real-time processing of log data with
+    # subscriptions][3].
+    #
+    #  </note>
+    #
     # <note markdown="1"> Time-based sorting on chunks of log data inside an exported file is
     # not guaranteed. You can sort the exported log field data by using
     # Linux utilities.
@@ -492,6 +801,7 @@ module Aws::CloudWatchLogs
     #
     # [1]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DescribeExportTasks.html
     # [2]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_CancelExportTask.html
+    # [3]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/Subscriptions.html
     #
     # @option params [String] :task_name
     #   The name of the export task.
@@ -524,6 +834,10 @@ module Aws::CloudWatchLogs
     #   The prefix used as the start of the key for every object exported. If
     #   you don't specify a value, the default is `exportedlogs`.
     #
+    #   The length of this parameter must comply with the S3 object key name
+    #   length limits. The object key name is a sequence of Unicode characters
+    #   with UTF-8 encoding, and can be up to 1,024 bytes.
+    #
     # @return [Types::CreateExportTaskResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreateExportTaskResponse#task_id #task_id} => String
@@ -553,8 +867,134 @@ module Aws::CloudWatchLogs
       req.send_request(options)
     end
 
+    # Creates an *anomaly detector* that regularly scans one or more log
+    # groups and look for patterns and anomalies in the logs.
+    #
+    # An anomaly detector can help surface issues by automatically
+    # discovering anomalies in your log event traffic. An anomaly detector
+    # uses machine learning algorithms to scan log events and find
+    # *patterns*. A pattern is a shared text structure that recurs among
+    # your log fields. Patterns provide a useful tool for analyzing large
+    # sets of logs because a large number of log events can often be
+    # compressed into a few patterns.
+    #
+    # The anomaly detector uses pattern recognition to find `anomalies`,
+    # which are unusual log events. It uses the `evaluationFrequency` to
+    # compare current log events and patterns with trained baselines.
+    #
+    # Fields within a pattern are called *tokens*. Fields that vary within a
+    # pattern, such as a request ID or timestamp, are referred to as
+    # *dynamic tokens* and represented by `<*>`.
+    #
+    # The following is an example of a pattern:
+    #
+    # `[INFO] Request time: <*> ms`
+    #
+    # This pattern represents log events like `[INFO] Request time: 327 ms`
+    # and other similar log events that differ only by the number, in this
+    # csse 327. When the pattern is displayed, the different numbers are
+    # replaced by `<*>`
+    #
+    # <note markdown="1"> Any parts of log events that are masked as sensitive data are not
+    # scanned for anomalies. For more information about masking sensitive
+    # data, see [Help protect sensitive log data with masking][1].
+    #
+    #  </note>
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/mask-sensitive-log-data.html
+    #
+    # @option params [required, Array<String>] :log_group_arn_list
+    #   An array containing the ARN of the log group that this anomaly
+    #   detector will watch. You can specify only one log group ARN.
+    #
+    # @option params [String] :detector_name
+    #   A name for this anomaly detector.
+    #
+    # @option params [String] :evaluation_frequency
+    #   Specifies how often the anomaly detector is to run and look for
+    #   anomalies. Set this value according to the frequency that the log
+    #   group receives new logs. For example, if the log group receives new
+    #   log events every 10 minutes, then 15 minutes might be a good setting
+    #   for `evaluationFrequency` .
+    #
+    # @option params [String] :filter_pattern
+    #   You can use this parameter to limit the anomaly detection model to
+    #   examine only log events that match the pattern you specify here. For
+    #   more information, see [Filter and Pattern Syntax][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/FilterAndPatternSyntax.html
+    #
+    # @option params [String] :kms_key_id
+    #   Optionally assigns a KMS key to secure this anomaly detector and its
+    #   findings. If a key is assigned, the anomalies found and the model used
+    #   by this detector are encrypted at rest with the key. If a key is
+    #   assigned to an anomaly detector, a user must have permissions for both
+    #   this key and for the anomaly detector to retrieve information about
+    #   the anomalies that it finds.
+    #
+    #   For more information about using a KMS key and to see the required IAM
+    #   policy, see [Use a KMS key with an anomaly detector][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/LogsAnomalyDetection-KMS.html
+    #
+    # @option params [Integer] :anomaly_visibility_time
+    #   The number of days to have visibility on an anomaly. After this time
+    #   period has elapsed for an anomaly, it will be automatically baselined
+    #   and the anomaly detector will treat new occurrences of a similar
+    #   anomaly as normal. Therefore, if you do not correct the cause of an
+    #   anomaly during the time period specified in `anomalyVisibilityTime`,
+    #   it will be considered normal going forward and will not be detected as
+    #   an anomaly.
+    #
+    # @option params [Hash<String,String>] :tags
+    #   An optional list of key-value pairs to associate with the resource.
+    #
+    #   For more information about tagging, see [Tagging Amazon Web Services
+    #   resources][1]
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html
+    #
+    # @return [Types::CreateLogAnomalyDetectorResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateLogAnomalyDetectorResponse#anomaly_detector_arn #anomaly_detector_arn} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_log_anomaly_detector({
+    #     log_group_arn_list: ["LogGroupArn"], # required
+    #     detector_name: "DetectorName",
+    #     evaluation_frequency: "ONE_MIN", # accepts ONE_MIN, FIVE_MIN, TEN_MIN, FIFTEEN_MIN, THIRTY_MIN, ONE_HOUR
+    #     filter_pattern: "FilterPattern",
+    #     kms_key_id: "KmsKeyId",
+    #     anomaly_visibility_time: 1,
+    #     tags: {
+    #       "TagKey" => "TagValue",
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.anomaly_detector_arn #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/CreateLogAnomalyDetector AWS API Documentation
+    #
+    # @overload create_log_anomaly_detector(params = {})
+    # @param [Hash] params ({})
+    def create_log_anomaly_detector(params = {}, options = {})
+      req = build_request(:create_log_anomaly_detector, params)
+      req.send_request(options)
+    end
+
     # Creates a log group with the specified name. You can create up to
-    # 20,000 log groups per account.
+    # 1,000,000 log groups per Region per account.
     #
     # You must use the following guidelines when naming a log group:
     #
@@ -567,6 +1007,8 @@ module Aws::CloudWatchLogs
     #   '\_' (underscore), '-' (hyphen), '/' (forward slash), '.'
     #   (period), and '#' (number sign)
     #
+    # * Log group names can't start with the string `aws/`
+    #
     # When you create a log group, by default the log events in the log
     # group do not expire. To set a retention policy so that events expire
     # and are deleted after a specified time, use [PutRetentionPolicy][1].
@@ -577,7 +1019,7 @@ module Aws::CloudWatchLogs
     # enables CloudWatch Logs to decrypt this data whenever it is requested.
     #
     # If you attempt to associate a KMS key with the log group but the KMS
-    # keydoes not exist or the KMS key is disabled, you receive an
+    # key does not exist or the KMS key is disabled, you receive an
     # `InvalidParameterException` error.
     #
     # CloudWatch Logs supports only symmetric KMS keys. Do not associate an
@@ -590,7 +1032,7 @@ module Aws::CloudWatchLogs
     # [2]: https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html
     #
     # @option params [required, String] :log_group_name
-    #   The name of the log group.
+    #   A name for the log group.
     #
     # @option params [String] :kms_key_id
     #   The Amazon Resource Name (ARN) of the KMS key to use when encrypting
@@ -617,6 +1059,27 @@ module Aws::CloudWatchLogs
     #   [1]: https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html
     #   [2]: https://docs.aws.amazon.com/IAM/latest/UserGuide/access_tags.html
     #
+    # @option params [String] :log_group_class
+    #   Use this parameter to specify the log group class for this log group.
+    #   There are two classes:
+    #
+    #   * The `Standard` log class supports all CloudWatch Logs features.
+    #
+    #   * The `Infrequent Access` log class supports a subset of CloudWatch
+    #     Logs features and incurs lower costs.
+    #
+    #   If you omit this parameter, the default of `STANDARD` is used.
+    #
+    #   The value of `logGroupClass` can't be changed after a log group is
+    #   created.
+    #
+    #   For details about the features supported by each class, see [Log
+    #   classes][1]
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch_Logs_Log_Classes.html
+    #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
     # @example Request syntax with placeholder values
@@ -627,6 +1090,7 @@ module Aws::CloudWatchLogs
     #     tags: {
     #       "TagKey" => "TagValue",
     #     },
+    #     log_group_class: "STANDARD", # accepts STANDARD, INFREQUENT_ACCESS
     #   })
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/CreateLogGroup AWS API Documentation
@@ -678,6 +1142,56 @@ module Aws::CloudWatchLogs
       req.send_request(options)
     end
 
+    # Deletes a CloudWatch Logs account policy. This stops the account-wide
+    # policy from applying to log groups in the account. If you delete a
+    # data protection policy or subscription filter policy, any log-group
+    # level policies of those types remain in effect.
+    #
+    # To use this operation, you must be signed on with the correct
+    # permissions depending on the type of policy that you are deleting.
+    #
+    # * To delete a data protection policy, you must have the
+    #   `logs:DeleteDataProtectionPolicy` and `logs:DeleteAccountPolicy`
+    #   permissions.
+    #
+    # * To delete a subscription filter policy, you must have the
+    #   `logs:DeleteSubscriptionFilter` and `logs:DeleteAccountPolicy`
+    #   permissions.
+    #
+    # * To delete a transformer policy, you must have the
+    #   `logs:DeleteTransformer` and `logs:DeleteAccountPolicy` permissions.
+    #
+    # * To delete a field index policy, you must have the
+    #   `logs:DeleteIndexPolicy` and `logs:DeleteAccountPolicy` permissions.
+    #
+    # If you delete a field index policy, the indexing of the log events
+    # that happened before you deleted the policy will still be used for up
+    # to 30 days to improve CloudWatch Logs Insights queries.
+    #
+    # @option params [required, String] :policy_name
+    #   The name of the policy to delete.
+    #
+    # @option params [required, String] :policy_type
+    #   The type of policy to delete.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_account_policy({
+    #     policy_name: "PolicyName", # required
+    #     policy_type: "DATA_PROTECTION_POLICY", # required, accepts DATA_PROTECTION_POLICY, SUBSCRIPTION_FILTER_POLICY, FIELD_INDEX_POLICY, TRANSFORMER_POLICY
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DeleteAccountPolicy AWS API Documentation
+    #
+    # @overload delete_account_policy(params = {})
+    # @param [Hash] params ({})
+    def delete_account_policy(params = {}, options = {})
+      req = build_request(:delete_account_policy, params)
+      req.send_request(options)
+    end
+
     # Deletes the data protection policy from the specified log group.
     #
     # For more information about data protection policies, see
@@ -708,6 +1222,135 @@ module Aws::CloudWatchLogs
       req.send_request(options)
     end
 
+    # Deletes a *delivery*. A delivery is a connection between a logical
+    # *delivery source* and a logical *delivery destination*. Deleting a
+    # delivery only deletes the connection between the delivery source and
+    # delivery destination. It does not delete the delivery destination or
+    # the delivery source.
+    #
+    # @option params [required, String] :id
+    #   The unique ID of the delivery to delete. You can find the ID of a
+    #   delivery with the [DescribeDeliveries][1] operation.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DescribeDeliveries.html
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_delivery({
+    #     id: "DeliveryId", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DeleteDelivery AWS API Documentation
+    #
+    # @overload delete_delivery(params = {})
+    # @param [Hash] params ({})
+    def delete_delivery(params = {}, options = {})
+      req = build_request(:delete_delivery, params)
+      req.send_request(options)
+    end
+
+    # Deletes a *delivery destination*. A delivery is a connection between a
+    # logical *delivery source* and a logical *delivery destination*.
+    #
+    # You can't delete a delivery destination if any current deliveries are
+    # associated with it. To find whether any deliveries are associated with
+    # this delivery destination, use the [DescribeDeliveries][1] operation
+    # and check the `deliveryDestinationArn` field in the results.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DescribeDeliveries.html
+    #
+    # @option params [required, String] :name
+    #   The name of the delivery destination that you want to delete. You can
+    #   find a list of delivery destionation names by using the
+    #   [DescribeDeliveryDestinations][1] operation.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DescribeDeliveryDestinations.html
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_delivery_destination({
+    #     name: "DeliveryDestinationName", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DeleteDeliveryDestination AWS API Documentation
+    #
+    # @overload delete_delivery_destination(params = {})
+    # @param [Hash] params ({})
+    def delete_delivery_destination(params = {}, options = {})
+      req = build_request(:delete_delivery_destination, params)
+      req.send_request(options)
+    end
+
+    # Deletes a delivery destination policy. For more information about
+    # these policies, see [PutDeliveryDestinationPolicy][1].
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliveryDestinationPolicy.html
+    #
+    # @option params [required, String] :delivery_destination_name
+    #   The name of the delivery destination that you want to delete the
+    #   policy for.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_delivery_destination_policy({
+    #     delivery_destination_name: "DeliveryDestinationName", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DeleteDeliveryDestinationPolicy AWS API Documentation
+    #
+    # @overload delete_delivery_destination_policy(params = {})
+    # @param [Hash] params ({})
+    def delete_delivery_destination_policy(params = {}, options = {})
+      req = build_request(:delete_delivery_destination_policy, params)
+      req.send_request(options)
+    end
+
+    # Deletes a *delivery source*. A delivery is a connection between a
+    # logical *delivery source* and a logical *delivery destination*.
+    #
+    # You can't delete a delivery source if any current deliveries are
+    # associated with it. To find whether any deliveries are associated with
+    # this delivery source, use the [DescribeDeliveries][1] operation and
+    # check the `deliverySourceName` field in the results.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DescribeDeliveries.html
+    #
+    # @option params [required, String] :name
+    #   The name of the delivery source that you want to delete.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_delivery_source({
+    #     name: "DeliverySourceName", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DeleteDeliverySource AWS API Documentation
+    #
+    # @overload delete_delivery_source(params = {})
+    # @param [Hash] params ({})
+    def delete_delivery_source(params = {}, options = {})
+      req = build_request(:delete_delivery_source, params)
+      req.send_request(options)
+    end
+
     # Deletes the specified destination, and eventually disables all the
     # subscription filters that publish to it. This operation does not
     # delete the physical resource encapsulated by the destination.
@@ -729,6 +1372,111 @@ module Aws::CloudWatchLogs
     # @param [Hash] params ({})
     def delete_destination(params = {}, options = {})
       req = build_request(:delete_destination, params)
+      req.send_request(options)
+    end
+
+    # Deletes a log-group level field index policy that was applied to a
+    # single log group. The indexing of the log events that happened before
+    # you delete the policy will still be used for as many as 30 days to
+    # improve CloudWatch Logs Insights queries.
+    #
+    # You can't use this operation to delete an account-level index policy.
+    # Instead, use [DeletAccountPolicy][1].
+    #
+    # If you delete a log-group level field index policy and there is an
+    # account-level field index policy, in a few minutes the log group
+    # begins using that account-wide policy to index new incoming log
+    # events.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DeleteAccountPolicy.html
+    #
+    # @option params [required, String] :log_group_identifier
+    #   The log group to delete the index policy for. You can specify either
+    #   the name or the ARN of the log group.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_index_policy({
+    #     log_group_identifier: "LogGroupIdentifier", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DeleteIndexPolicy AWS API Documentation
+    #
+    # @overload delete_index_policy(params = {})
+    # @param [Hash] params ({})
+    def delete_index_policy(params = {}, options = {})
+      req = build_request(:delete_index_policy, params)
+      req.send_request(options)
+    end
+
+    # Deletes the integration between CloudWatch Logs and OpenSearch
+    # Service. If your integration has active vended logs dashboards, you
+    # must specify `true` for the `force` parameter, otherwise the operation
+    # will fail. If you delete the integration by setting `force` to `true`,
+    # all your vended logs dashboards powered by OpenSearch Service will be
+    # deleted and the data that was on them will no longer be accessible.
+    #
+    # @option params [required, String] :integration_name
+    #   The name of the integration to delete. To find the name of your
+    #   integration, use [ListIntegrations][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_ListIntegrations.html
+    #
+    # @option params [Boolean] :force
+    #   Specify `true` to force the deletion of the integration even if vended
+    #   logs dashboards currently exist.
+    #
+    #   The default is `false`.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_integration({
+    #     integration_name: "IntegrationName", # required
+    #     force: false,
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DeleteIntegration AWS API Documentation
+    #
+    # @overload delete_integration(params = {})
+    # @param [Hash] params ({})
+    def delete_integration(params = {}, options = {})
+      req = build_request(:delete_integration, params)
+      req.send_request(options)
+    end
+
+    # Deletes the specified CloudWatch Logs anomaly detector.
+    #
+    # @option params [required, String] :anomaly_detector_arn
+    #   The ARN of the anomaly detector to delete. You can find the ARNs of
+    #   log anomaly detectors in your account by using the
+    #   [ListLogAnomalyDetectors][1] operation.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_ListLogAnomalyDetectors.html
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_log_anomaly_detector({
+    #     anomaly_detector_arn: "AnomalyDetectorArn", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DeleteLogAnomalyDetector AWS API Documentation
+    #
+    # @overload delete_log_anomaly_detector(params = {})
+    # @param [Hash] params ({})
+    def delete_log_anomaly_detector(params = {}, options = {})
+      req = build_request(:delete_log_anomaly_detector, params)
       req.send_request(options)
     end
 
@@ -924,6 +1672,364 @@ module Aws::CloudWatchLogs
       req.send_request(options)
     end
 
+    # Deletes the log transformer for the specified log group. As soon as
+    # you do this, the transformation of incoming log events according to
+    # that transformer stops. If this account has an account-level
+    # transformer that applies to this log group, the log group begins using
+    # that account-level transformer when this log-group level transformer
+    # is deleted.
+    #
+    # After you delete a transformer, be sure to edit any metric filters or
+    # subscription filters that relied on the transformed versions of the
+    # log events.
+    #
+    # @option params [required, String] :log_group_identifier
+    #   Specify either the name or ARN of the log group to delete the
+    #   transformer for. If the log group is in a source account and you are
+    #   using a monitoring account, you must use the log group ARN.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_transformer({
+    #     log_group_identifier: "LogGroupIdentifier", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DeleteTransformer AWS API Documentation
+    #
+    # @overload delete_transformer(params = {})
+    # @param [Hash] params ({})
+    def delete_transformer(params = {}, options = {})
+      req = build_request(:delete_transformer, params)
+      req.send_request(options)
+    end
+
+    # Returns a list of all CloudWatch Logs account policies in the account.
+    #
+    # To use this operation, you must be signed on with the correct
+    # permissions depending on the type of policy that you are retrieving
+    # information for.
+    #
+    # * To see data protection policies, you must have the
+    #   `logs:GetDataProtectionPolicy` and `logs:DescribeAccountPolicies`
+    #   permissions.
+    #
+    # * To see subscription filter policies, you must have the
+    #   `logs:DescrubeSubscriptionFilters` and
+    #   `logs:DescribeAccountPolicies` permissions.
+    #
+    # * To see transformer policies, you must have the `logs:GetTransformer`
+    #   and `logs:DescribeAccountPolicies` permissions.
+    #
+    # * To see field index policies, you must have the
+    #   `logs:DescribeIndexPolicies` and `logs:DescribeAccountPolicies`
+    #   permissions.
+    #
+    # @option params [required, String] :policy_type
+    #   Use this parameter to limit the returned policies to only the policies
+    #   that match the policy type that you specify.
+    #
+    # @option params [String] :policy_name
+    #   Use this parameter to limit the returned policies to only the policy
+    #   with the name that you specify.
+    #
+    # @option params [Array<String>] :account_identifiers
+    #   If you are using an account that is set up as a monitoring account for
+    #   CloudWatch unified cross-account observability, you can use this to
+    #   specify the account ID of a source account. If you do, the operation
+    #   returns the account policy for the specified account. Currently, you
+    #   can specify only one account ID in this parameter.
+    #
+    #   If you omit this parameter, only the policy in the current account is
+    #   returned.
+    #
+    # @option params [String] :next_token
+    #   The token for the next set of items to return. (You received this
+    #   token from a previous call.)
+    #
+    # @return [Types::DescribeAccountPoliciesResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeAccountPoliciesResponse#account_policies #account_policies} => Array&lt;Types::AccountPolicy&gt;
+    #   * {Types::DescribeAccountPoliciesResponse#next_token #next_token} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_account_policies({
+    #     policy_type: "DATA_PROTECTION_POLICY", # required, accepts DATA_PROTECTION_POLICY, SUBSCRIPTION_FILTER_POLICY, FIELD_INDEX_POLICY, TRANSFORMER_POLICY
+    #     policy_name: "PolicyName",
+    #     account_identifiers: ["AccountId"],
+    #     next_token: "NextToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.account_policies #=> Array
+    #   resp.account_policies[0].policy_name #=> String
+    #   resp.account_policies[0].policy_document #=> String
+    #   resp.account_policies[0].last_updated_time #=> Integer
+    #   resp.account_policies[0].policy_type #=> String, one of "DATA_PROTECTION_POLICY", "SUBSCRIPTION_FILTER_POLICY", "FIELD_INDEX_POLICY", "TRANSFORMER_POLICY"
+    #   resp.account_policies[0].scope #=> String, one of "ALL"
+    #   resp.account_policies[0].selection_criteria #=> String
+    #   resp.account_policies[0].account_id #=> String
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DescribeAccountPolicies AWS API Documentation
+    #
+    # @overload describe_account_policies(params = {})
+    # @param [Hash] params ({})
+    def describe_account_policies(params = {}, options = {})
+      req = build_request(:describe_account_policies, params)
+      req.send_request(options)
+    end
+
+    # Use this operation to return the valid and default values that are
+    # used when creating delivery sources, delivery destinations, and
+    # deliveries. For more information about deliveries, see
+    # [CreateDelivery][1].
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_CreateDelivery.html
+    #
+    # @option params [String] :service
+    #   Use this parameter to filter the response to include only the
+    #   configuration templates that apply to the Amazon Web Services service
+    #   that you specify here.
+    #
+    # @option params [Array<String>] :log_types
+    #   Use this parameter to filter the response to include only the
+    #   configuration templates that apply to the log types that you specify
+    #   here.
+    #
+    # @option params [Array<String>] :resource_types
+    #   Use this parameter to filter the response to include only the
+    #   configuration templates that apply to the resource types that you
+    #   specify here.
+    #
+    # @option params [Array<String>] :delivery_destination_types
+    #   Use this parameter to filter the response to include only the
+    #   configuration templates that apply to the delivery destination types
+    #   that you specify here.
+    #
+    # @option params [String] :next_token
+    #   The token for the next set of items to return. The token expires after
+    #   24 hours.
+    #
+    # @option params [Integer] :limit
+    #   Use this parameter to limit the number of configuration templates that
+    #   are returned in the response.
+    #
+    # @return [Types::DescribeConfigurationTemplatesResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeConfigurationTemplatesResponse#configuration_templates #configuration_templates} => Array&lt;Types::ConfigurationTemplate&gt;
+    #   * {Types::DescribeConfigurationTemplatesResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_configuration_templates({
+    #     service: "Service",
+    #     log_types: ["LogType"],
+    #     resource_types: ["ResourceType"],
+    #     delivery_destination_types: ["S3"], # accepts S3, CWL, FH
+    #     next_token: "NextToken",
+    #     limit: 1,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.configuration_templates #=> Array
+    #   resp.configuration_templates[0].service #=> String
+    #   resp.configuration_templates[0].log_type #=> String
+    #   resp.configuration_templates[0].resource_type #=> String
+    #   resp.configuration_templates[0].delivery_destination_type #=> String, one of "S3", "CWL", "FH"
+    #   resp.configuration_templates[0].default_delivery_config_values.record_fields #=> Array
+    #   resp.configuration_templates[0].default_delivery_config_values.record_fields[0] #=> String
+    #   resp.configuration_templates[0].default_delivery_config_values.field_delimiter #=> String
+    #   resp.configuration_templates[0].default_delivery_config_values.s3_delivery_configuration.suffix_path #=> String
+    #   resp.configuration_templates[0].default_delivery_config_values.s3_delivery_configuration.enable_hive_compatible_path #=> Boolean
+    #   resp.configuration_templates[0].allowed_fields #=> Array
+    #   resp.configuration_templates[0].allowed_fields[0].name #=> String
+    #   resp.configuration_templates[0].allowed_fields[0].mandatory #=> Boolean
+    #   resp.configuration_templates[0].allowed_output_formats #=> Array
+    #   resp.configuration_templates[0].allowed_output_formats[0] #=> String, one of "json", "plain", "w3c", "raw", "parquet"
+    #   resp.configuration_templates[0].allowed_action_for_allow_vended_logs_delivery_for_resource #=> String
+    #   resp.configuration_templates[0].allowed_field_delimiters #=> Array
+    #   resp.configuration_templates[0].allowed_field_delimiters[0] #=> String
+    #   resp.configuration_templates[0].allowed_suffix_path_fields #=> Array
+    #   resp.configuration_templates[0].allowed_suffix_path_fields[0] #=> String
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DescribeConfigurationTemplates AWS API Documentation
+    #
+    # @overload describe_configuration_templates(params = {})
+    # @param [Hash] params ({})
+    def describe_configuration_templates(params = {}, options = {})
+      req = build_request(:describe_configuration_templates, params)
+      req.send_request(options)
+    end
+
+    # Retrieves a list of the deliveries that have been created in the
+    # account.
+    #
+    # A *delivery* is a connection between a [ *delivery source* ][1] and a
+    # [ *delivery destination* ][2].
+    #
+    # A delivery source represents an Amazon Web Services resource that
+    # sends logs to an logs delivery destination. The destination can be
+    # CloudWatch Logs, Amazon S3, or Firehose. Only some Amazon Web Services
+    # services support being configured as a delivery source. These services
+    # are listed in [Enable logging from Amazon Web Services services.][3]
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliverySource.html
+    # [2]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliveryDestination.html
+    # [3]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/AWS-logs-and-resource-policy.html
+    #
+    # @option params [String] :next_token
+    #   The token for the next set of items to return. The token expires after
+    #   24 hours.
+    #
+    # @option params [Integer] :limit
+    #   Optionally specify the maximum number of deliveries to return in the
+    #   response.
+    #
+    # @return [Types::DescribeDeliveriesResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeDeliveriesResponse#deliveries #deliveries} => Array&lt;Types::Delivery&gt;
+    #   * {Types::DescribeDeliveriesResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_deliveries({
+    #     next_token: "NextToken",
+    #     limit: 1,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.deliveries #=> Array
+    #   resp.deliveries[0].id #=> String
+    #   resp.deliveries[0].arn #=> String
+    #   resp.deliveries[0].delivery_source_name #=> String
+    #   resp.deliveries[0].delivery_destination_arn #=> String
+    #   resp.deliveries[0].delivery_destination_type #=> String, one of "S3", "CWL", "FH"
+    #   resp.deliveries[0].record_fields #=> Array
+    #   resp.deliveries[0].record_fields[0] #=> String
+    #   resp.deliveries[0].field_delimiter #=> String
+    #   resp.deliveries[0].s3_delivery_configuration.suffix_path #=> String
+    #   resp.deliveries[0].s3_delivery_configuration.enable_hive_compatible_path #=> Boolean
+    #   resp.deliveries[0].tags #=> Hash
+    #   resp.deliveries[0].tags["TagKey"] #=> String
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DescribeDeliveries AWS API Documentation
+    #
+    # @overload describe_deliveries(params = {})
+    # @param [Hash] params ({})
+    def describe_deliveries(params = {}, options = {})
+      req = build_request(:describe_deliveries, params)
+      req.send_request(options)
+    end
+
+    # Retrieves a list of the delivery destinations that have been created
+    # in the account.
+    #
+    # @option params [String] :next_token
+    #   The token for the next set of items to return. The token expires after
+    #   24 hours.
+    #
+    # @option params [Integer] :limit
+    #   Optionally specify the maximum number of delivery destinations to
+    #   return in the response.
+    #
+    # @return [Types::DescribeDeliveryDestinationsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeDeliveryDestinationsResponse#delivery_destinations #delivery_destinations} => Array&lt;Types::DeliveryDestination&gt;
+    #   * {Types::DescribeDeliveryDestinationsResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_delivery_destinations({
+    #     next_token: "NextToken",
+    #     limit: 1,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.delivery_destinations #=> Array
+    #   resp.delivery_destinations[0].name #=> String
+    #   resp.delivery_destinations[0].arn #=> String
+    #   resp.delivery_destinations[0].delivery_destination_type #=> String, one of "S3", "CWL", "FH"
+    #   resp.delivery_destinations[0].output_format #=> String, one of "json", "plain", "w3c", "raw", "parquet"
+    #   resp.delivery_destinations[0].delivery_destination_configuration.destination_resource_arn #=> String
+    #   resp.delivery_destinations[0].tags #=> Hash
+    #   resp.delivery_destinations[0].tags["TagKey"] #=> String
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DescribeDeliveryDestinations AWS API Documentation
+    #
+    # @overload describe_delivery_destinations(params = {})
+    # @param [Hash] params ({})
+    def describe_delivery_destinations(params = {}, options = {})
+      req = build_request(:describe_delivery_destinations, params)
+      req.send_request(options)
+    end
+
+    # Retrieves a list of the delivery sources that have been created in the
+    # account.
+    #
+    # @option params [String] :next_token
+    #   The token for the next set of items to return. The token expires after
+    #   24 hours.
+    #
+    # @option params [Integer] :limit
+    #   Optionally specify the maximum number of delivery sources to return in
+    #   the response.
+    #
+    # @return [Types::DescribeDeliverySourcesResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeDeliverySourcesResponse#delivery_sources #delivery_sources} => Array&lt;Types::DeliverySource&gt;
+    #   * {Types::DescribeDeliverySourcesResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_delivery_sources({
+    #     next_token: "NextToken",
+    #     limit: 1,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.delivery_sources #=> Array
+    #   resp.delivery_sources[0].name #=> String
+    #   resp.delivery_sources[0].arn #=> String
+    #   resp.delivery_sources[0].resource_arns #=> Array
+    #   resp.delivery_sources[0].resource_arns[0] #=> String
+    #   resp.delivery_sources[0].service #=> String
+    #   resp.delivery_sources[0].log_type #=> String
+    #   resp.delivery_sources[0].tags #=> Hash
+    #   resp.delivery_sources[0].tags["TagKey"] #=> String
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DescribeDeliverySources AWS API Documentation
+    #
+    # @overload describe_delivery_sources(params = {})
+    # @param [Hash] params ({})
+    def describe_delivery_sources(params = {}, options = {})
+      req = build_request(:describe_delivery_sources, params)
+      req.send_request(options)
+    end
+
     # Lists all your destinations. The results are ASCII-sorted by
     # destination name.
     #
@@ -1032,11 +2138,115 @@ module Aws::CloudWatchLogs
       req.send_request(options)
     end
 
+    # Returns a list of field indexes listed in the field index policies of
+    # one or more log groups. For more information about field index
+    # policies, see [PutIndexPolicy][1].
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutIndexPolicy.html
+    #
+    # @option params [required, Array<String>] :log_group_identifiers
+    #   An array containing the names or ARNs of the log groups that you want
+    #   to retrieve field indexes for.
+    #
+    # @option params [String] :next_token
+    #   The token for the next set of items to return. The token expires after
+    #   24 hours.
+    #
+    # @return [Types::DescribeFieldIndexesResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeFieldIndexesResponse#field_indexes #field_indexes} => Array&lt;Types::FieldIndex&gt;
+    #   * {Types::DescribeFieldIndexesResponse#next_token #next_token} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_field_indexes({
+    #     log_group_identifiers: ["LogGroupIdentifier"], # required
+    #     next_token: "NextToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.field_indexes #=> Array
+    #   resp.field_indexes[0].log_group_identifier #=> String
+    #   resp.field_indexes[0].field_index_name #=> String
+    #   resp.field_indexes[0].last_scan_time #=> Integer
+    #   resp.field_indexes[0].first_event_time #=> Integer
+    #   resp.field_indexes[0].last_event_time #=> Integer
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DescribeFieldIndexes AWS API Documentation
+    #
+    # @overload describe_field_indexes(params = {})
+    # @param [Hash] params ({})
+    def describe_field_indexes(params = {}, options = {})
+      req = build_request(:describe_field_indexes, params)
+      req.send_request(options)
+    end
+
+    # Returns the field index policies of one or more log groups. For more
+    # information about field index policies, see [PutIndexPolicy][1].
+    #
+    # If a specified log group has a log-group level index policy, that
+    # policy is returned by this operation.
+    #
+    # If a specified log group doesn't have a log-group level index policy,
+    # but an account-wide index policy applies to it, that account-wide
+    # policy is returned by this operation.
+    #
+    # To find information about only account-level policies, use
+    # [DescribeAccountPolicies][2] instead.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutIndexPolicy.html
+    # [2]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DescribeAccountPolicies.html
+    #
+    # @option params [required, Array<String>] :log_group_identifiers
+    #   An array containing the name or ARN of the log group that you want to
+    #   retrieve field index policies for.
+    #
+    # @option params [String] :next_token
+    #   The token for the next set of items to return. The token expires after
+    #   24 hours.
+    #
+    # @return [Types::DescribeIndexPoliciesResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeIndexPoliciesResponse#index_policies #index_policies} => Array&lt;Types::IndexPolicy&gt;
+    #   * {Types::DescribeIndexPoliciesResponse#next_token #next_token} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_index_policies({
+    #     log_group_identifiers: ["LogGroupIdentifier"], # required
+    #     next_token: "NextToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.index_policies #=> Array
+    #   resp.index_policies[0].log_group_identifier #=> String
+    #   resp.index_policies[0].last_update_time #=> Integer
+    #   resp.index_policies[0].policy_document #=> String
+    #   resp.index_policies[0].policy_name #=> String
+    #   resp.index_policies[0].source #=> String, one of "ACCOUNT", "LOG_GROUP"
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DescribeIndexPolicies AWS API Documentation
+    #
+    # @overload describe_index_policies(params = {})
+    # @param [Hash] params ({})
+    def describe_index_policies(params = {}, options = {})
+      req = build_request(:describe_index_policies, params)
+      req.send_request(options)
+    end
+
     # Lists the specified log groups. You can list all your log groups or
     # filter the results by prefix. The results are ASCII-sorted by log
     # group name.
     #
-    # CloudWatch Logs doesn’t support IAM policies that control access to
+    # CloudWatch Logs doesn't support IAM policies that control access to
     # the `DescribeLogGroups` action by using the `aws:ResourceTag/key-name
     # ` condition key. Other CloudWatch Logs actions do support the use of
     # the `aws:ResourceTag/key-name ` condition key to control access. For
@@ -1073,6 +2283,9 @@ module Aws::CloudWatchLogs
     #   log groups named `FooBar`, `aws/Foo`, and `GroupFoo` would match, but
     #   `foo`, `F/o/o` and `Froo` would not match.
     #
+    #   If you specify `logGroupNamePattern` in your request, then only `arn`,
+    #   `creationTime`, and `logGroupName` are included in the response.
+    #
     #   <note markdown="1"> `logGroupNamePattern` and `logGroupNamePrefix` are mutually exclusive.
     #   Only one of these parameters can be passed.
     #
@@ -1096,11 +2309,21 @@ module Aws::CloudWatchLogs
     #   account and all log groups in all source accounts that are linked to
     #   the monitoring account.
     #
-    #   <note markdown="1"> If you specify `includeLinkedAccounts` in your request, then
-    #   `metricFilterCount`, `retentionInDays`, and `storedBytes` are not
-    #   included in the response.
+    # @option params [String] :log_group_class
+    #   Specifies the log group class for this log group. There are two
+    #   classes:
     #
-    #    </note>
+    #   * The `Standard` log class supports all CloudWatch Logs features.
+    #
+    #   * The `Infrequent Access` log class supports a subset of CloudWatch
+    #     Logs features and incurs lower costs.
+    #
+    #   For details about the features supported by each class, see [Log
+    #   classes][1]
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch_Logs_Log_Classes.html
     #
     # @return [Types::DescribeLogGroupsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1118,6 +2341,7 @@ module Aws::CloudWatchLogs
     #     next_token: "NextToken",
     #     limit: 1,
     #     include_linked_accounts: false,
+    #     log_group_class: "STANDARD", # accepts STANDARD, INFREQUENT_ACCESS
     #   })
     #
     # @example Response structure
@@ -1131,6 +2355,10 @@ module Aws::CloudWatchLogs
     #   resp.log_groups[0].stored_bytes #=> Integer
     #   resp.log_groups[0].kms_key_id #=> String
     #   resp.log_groups[0].data_protection_status #=> String, one of "ACTIVATED", "DELETED", "ARCHIVED", "DISABLED"
+    #   resp.log_groups[0].inherited_properties #=> Array
+    #   resp.log_groups[0].inherited_properties[0] #=> String, one of "ACCOUNT_DATA_PROTECTION"
+    #   resp.log_groups[0].log_group_class #=> String, one of "STANDARD", "INFREQUENT_ACCESS"
+    #   resp.log_groups[0].log_group_arn #=> String
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DescribeLogGroups AWS API Documentation
@@ -1150,8 +2378,8 @@ module Aws::CloudWatchLogs
     # `logGroupIdentifier` or `logGroupName`. You must include one of these
     # two parameters, but you can't include both.
     #
-    # This operation has a limit of five transactions per second, after
-    # which transactions are throttled.
+    # This operation has a limit of 25 transactions per second, after which
+    # transactions are throttled.
     #
     # If you are using CloudWatch cross-account observability, you can use
     # this operation in a monitoring account and view data from the linked
@@ -1316,6 +2544,7 @@ module Aws::CloudWatchLogs
     #   resp.metric_filters[0].metric_transformations[0].unit #=> String, one of "Seconds", "Microseconds", "Milliseconds", "Bytes", "Kilobytes", "Megabytes", "Gigabytes", "Terabytes", "Bits", "Kilobits", "Megabits", "Gigabits", "Terabits", "Percent", "Count", "Bytes/Second", "Kilobytes/Second", "Megabytes/Second", "Gigabytes/Second", "Terabytes/Second", "Bits/Second", "Kilobits/Second", "Megabits/Second", "Gigabits/Second", "Terabits/Second", "Count/Second", "None"
     #   resp.metric_filters[0].creation_time #=> Integer
     #   resp.metric_filters[0].log_group_name #=> String
+    #   resp.metric_filters[0].apply_on_transformed_logs #=> Boolean
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DescribeMetricFilters AWS API Documentation
@@ -1347,6 +2576,10 @@ module Aws::CloudWatchLogs
     #   The token for the next set of items to return. The token expires after
     #   24 hours.
     #
+    # @option params [String] :query_language
+    #   Limits the returned queries to only the queries that use the specified
+    #   query language.
+    #
     # @return [Types::DescribeQueriesResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::DescribeQueriesResponse#queries #queries} => Array&lt;Types::QueryInfo&gt;
@@ -1359,11 +2592,13 @@ module Aws::CloudWatchLogs
     #     status: "Scheduled", # accepts Scheduled, Running, Complete, Failed, Cancelled, Timeout, Unknown
     #     max_results: 1,
     #     next_token: "NextToken",
+    #     query_language: "CWLI", # accepts CWLI, SQL, PPL
     #   })
     #
     # @example Response structure
     #
     #   resp.queries #=> Array
+    #   resp.queries[0].query_language #=> String, one of "CWLI", "SQL", "PPL"
     #   resp.queries[0].query_id #=> String
     #   resp.queries[0].query_string #=> String
     #   resp.queries[0].status #=> String, one of "Scheduled", "Running", "Complete", "Failed", "Cancelled", "Timeout", "Unknown"
@@ -1381,11 +2616,22 @@ module Aws::CloudWatchLogs
     end
 
     # This operation returns a paginated list of your saved CloudWatch Logs
-    # Insights query definitions.
+    # Insights query definitions. You can retrieve query definitions from
+    # the current account or from a source account that is linked to the
+    # current account.
     #
     # You can use the `queryDefinitionNamePrefix` parameter to limit the
     # results to only the query definitions that have names that start with
     # a certain string.
+    #
+    # @option params [String] :query_language
+    #   The query language used for this query. For more information about the
+    #   query languages that CloudWatch Logs supports, see [Supported query
+    #   languages][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL_AnalyzeLogData_Languages.html
     #
     # @option params [String] :query_definition_name_prefix
     #   Use this parameter to filter your results to only the query
@@ -1407,6 +2653,7 @@ module Aws::CloudWatchLogs
     # @example Request syntax with placeholder values
     #
     #   resp = client.describe_query_definitions({
+    #     query_language: "CWLI", # accepts CWLI, SQL, PPL
     #     query_definition_name_prefix: "QueryDefinitionName",
     #     max_results: 1,
     #     next_token: "NextToken",
@@ -1415,6 +2662,7 @@ module Aws::CloudWatchLogs
     # @example Response structure
     #
     #   resp.query_definitions #=> Array
+    #   resp.query_definitions[0].query_language #=> String, one of "CWLI", "SQL", "PPL"
     #   resp.query_definitions[0].query_definition_id #=> String
     #   resp.query_definitions[0].name #=> String
     #   resp.query_definitions[0].query_string #=> String
@@ -1515,6 +2763,7 @@ module Aws::CloudWatchLogs
     #   resp.subscription_filters[0].destination_arn #=> String
     #   resp.subscription_filters[0].role_arn #=> String
     #   resp.subscription_filters[0].distribution #=> String, one of "Random", "ByLogStream"
+    #   resp.subscription_filters[0].apply_on_transformed_logs #=> Boolean
     #   resp.subscription_filters[0].creation_time #=> Integer
     #   resp.next_token #=> String
     #
@@ -1527,25 +2776,76 @@ module Aws::CloudWatchLogs
       req.send_request(options)
     end
 
-    # Disassociates the associated KMS key from the specified log group.
+    # Disassociates the specified KMS key from the specified log group or
+    # from all CloudWatch Logs Insights query results in the account.
     #
-    # After the KMS key is disassociated from the log group, CloudWatch Logs
-    # stops encrypting newly ingested data for the log group. All previously
-    # ingested data remains encrypted, and CloudWatch Logs requires
-    # permissions for the KMS key whenever the encrypted data is requested.
+    # When you use `DisassociateKmsKey`, you specify either the
+    # `logGroupName` parameter or the `resourceIdentifier` parameter. You
+    # can't specify both of those parameters in the same operation.
     #
-    # Note that it can take up to 5 minutes for this operation to take
-    # effect.
+    # * Specify the `logGroupName` parameter to stop using the KMS key to
+    #   encrypt future log events ingested and stored in the log group.
+    #   Instead, they will be encrypted with the default CloudWatch Logs
+    #   method. The log events that were ingested while the key was
+    #   associated with the log group are still encrypted with that key.
+    #   Therefore, CloudWatch Logs will need permissions for the key
+    #   whenever that data is accessed.
     #
-    # @option params [required, String] :log_group_name
+    # * Specify the `resourceIdentifier` parameter with the `query-result`
+    #   resource to stop using the KMS key to encrypt the results of all
+    #   future [StartQuery][1] operations in the account. They will instead
+    #   be encrypted with the default CloudWatch Logs method. The results
+    #   from queries that ran while the key was associated with the account
+    #   are still encrypted with that key. Therefore, CloudWatch Logs will
+    #   need permissions for the key whenever that data is accessed.
+    #
+    # It can take up to 5 minutes for this operation to take effect.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_StartQuery.html
+    #
+    # @option params [String] :log_group_name
     #   The name of the log group.
+    #
+    #   In your `DisassociateKmsKey` operation, you must specify either the
+    #   `resourceIdentifier` parameter or the `logGroup` parameter, but you
+    #   can't specify both.
+    #
+    # @option params [String] :resource_identifier
+    #   Specifies the target for this operation. You must specify one of the
+    #   following:
+    #
+    #   * Specify the ARN of a log group to stop having CloudWatch Logs use
+    #     the KMS key to encrypt log events that are ingested and stored by
+    #     that log group. After you run this operation, CloudWatch Logs
+    #     encrypts ingested log events with the default CloudWatch Logs
+    #     method. The log group ARN must be in the following format. Replace
+    #     *REGION* and *ACCOUNT\_ID* with your Region and account ID.
+    #
+    #     `arn:aws:logs:REGION:ACCOUNT_ID:log-group:LOG_GROUP_NAME `
+    #
+    #   * Specify the following ARN to stop using this key to encrypt the
+    #     results of future [StartQuery][1] operations in this account.
+    #     Replace *REGION* and *ACCOUNT\_ID* with your Region and account ID.
+    #
+    #     `arn:aws:logs:REGION:ACCOUNT_ID:query-result:*`
+    #
+    #   In your `DisssociateKmsKey` operation, you must specify either the
+    #   `resourceIdentifier` parameter or the `logGroup` parameter, but you
+    #   can't specify both.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_StartQuery.html
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
     # @example Request syntax with placeholder values
     #
     #   resp = client.disassociate_kms_key({
-    #     log_group_name: "LogGroupName", # required
+    #     log_group_name: "LogGroupName",
+    #     resource_identifier: "ResourceIdentifier",
     #   })
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/DisassociateKmsKey AWS API Documentation
@@ -1561,7 +2861,7 @@ module Aws::CloudWatchLogs
     # log events or filter the results using a filter pattern, a time range,
     # and the name of the log stream.
     #
-    # You must have the `logs;FilterLogEvents` permission to perform this
+    # You must have the `logs:FilterLogEvents` permission to perform this
     # operation.
     #
     # You can specify the log group to search by using either
@@ -1610,18 +2910,17 @@ module Aws::CloudWatchLogs
     # @option params [Array<String>] :log_stream_names
     #   Filters the results to only logs from the log streams in this list.
     #
-    #   If you specify a value for both `logStreamNamePrefix` and
-    #   `logStreamNames`, the action returns an `InvalidParameterException`
-    #   error.
+    #   If you specify a value for both `logStreamNames` and
+    #   `logStreamNamePrefix`, the action returns an
+    #   `InvalidParameterException` error.
     #
     # @option params [String] :log_stream_name_prefix
     #   Filters the results to include only events from log streams that have
     #   names starting with this prefix.
     #
     #   If you specify a value for both `logStreamNamePrefix` and
-    #   `logStreamNames`, but the value for `logStreamNamePrefix` does not
-    #   match any log stream names specified in `logStreamNames`, the action
-    #   returns an `InvalidParameterException` error.
+    #   `logStreamNames`, the action returns an `InvalidParameterException`
+    #   error.
     #
     # @option params [Integer] :start_time
     #   The start of the time range, expressed as the number of milliseconds
@@ -1744,6 +3043,286 @@ module Aws::CloudWatchLogs
     # @param [Hash] params ({})
     def get_data_protection_policy(params = {}, options = {})
       req = build_request(:get_data_protection_policy, params)
+      req.send_request(options)
+    end
+
+    # Returns complete information about one logical *delivery*. A delivery
+    # is a connection between a [ *delivery source* ][1] and a [ *delivery
+    # destination* ][2].
+    #
+    # A delivery source represents an Amazon Web Services resource that
+    # sends logs to an logs delivery destination. The destination can be
+    # CloudWatch Logs, Amazon S3, or Firehose. Only some Amazon Web Services
+    # services support being configured as a delivery source. These services
+    # are listed in [Enable logging from Amazon Web Services services.][3]
+    #
+    # You need to specify the delivery `id` in this operation. You can find
+    # the IDs of the deliveries in your account with the
+    # [DescribeDeliveries][4] operation.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliverySource.html
+    # [2]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliveryDestination.html
+    # [3]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/AWS-logs-and-resource-policy.html
+    # [4]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DescribeDeliveries.html
+    #
+    # @option params [required, String] :id
+    #   The ID of the delivery that you want to retrieve.
+    #
+    # @return [Types::GetDeliveryResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetDeliveryResponse#delivery #delivery} => Types::Delivery
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_delivery({
+    #     id: "DeliveryId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.delivery.id #=> String
+    #   resp.delivery.arn #=> String
+    #   resp.delivery.delivery_source_name #=> String
+    #   resp.delivery.delivery_destination_arn #=> String
+    #   resp.delivery.delivery_destination_type #=> String, one of "S3", "CWL", "FH"
+    #   resp.delivery.record_fields #=> Array
+    #   resp.delivery.record_fields[0] #=> String
+    #   resp.delivery.field_delimiter #=> String
+    #   resp.delivery.s3_delivery_configuration.suffix_path #=> String
+    #   resp.delivery.s3_delivery_configuration.enable_hive_compatible_path #=> Boolean
+    #   resp.delivery.tags #=> Hash
+    #   resp.delivery.tags["TagKey"] #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/GetDelivery AWS API Documentation
+    #
+    # @overload get_delivery(params = {})
+    # @param [Hash] params ({})
+    def get_delivery(params = {}, options = {})
+      req = build_request(:get_delivery, params)
+      req.send_request(options)
+    end
+
+    # Retrieves complete information about one delivery destination.
+    #
+    # @option params [required, String] :name
+    #   The name of the delivery destination that you want to retrieve.
+    #
+    # @return [Types::GetDeliveryDestinationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetDeliveryDestinationResponse#delivery_destination #delivery_destination} => Types::DeliveryDestination
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_delivery_destination({
+    #     name: "DeliveryDestinationName", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.delivery_destination.name #=> String
+    #   resp.delivery_destination.arn #=> String
+    #   resp.delivery_destination.delivery_destination_type #=> String, one of "S3", "CWL", "FH"
+    #   resp.delivery_destination.output_format #=> String, one of "json", "plain", "w3c", "raw", "parquet"
+    #   resp.delivery_destination.delivery_destination_configuration.destination_resource_arn #=> String
+    #   resp.delivery_destination.tags #=> Hash
+    #   resp.delivery_destination.tags["TagKey"] #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/GetDeliveryDestination AWS API Documentation
+    #
+    # @overload get_delivery_destination(params = {})
+    # @param [Hash] params ({})
+    def get_delivery_destination(params = {}, options = {})
+      req = build_request(:get_delivery_destination, params)
+      req.send_request(options)
+    end
+
+    # Retrieves the delivery destination policy assigned to the delivery
+    # destination that you specify. For more information about delivery
+    # destinations and their policies, see
+    # [PutDeliveryDestinationPolicy][1].
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliveryDestinationPolicy.html
+    #
+    # @option params [required, String] :delivery_destination_name
+    #   The name of the delivery destination that you want to retrieve the
+    #   policy of.
+    #
+    # @return [Types::GetDeliveryDestinationPolicyResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetDeliveryDestinationPolicyResponse#policy #policy} => Types::Policy
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_delivery_destination_policy({
+    #     delivery_destination_name: "DeliveryDestinationName", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.policy.delivery_destination_policy #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/GetDeliveryDestinationPolicy AWS API Documentation
+    #
+    # @overload get_delivery_destination_policy(params = {})
+    # @param [Hash] params ({})
+    def get_delivery_destination_policy(params = {}, options = {})
+      req = build_request(:get_delivery_destination_policy, params)
+      req.send_request(options)
+    end
+
+    # Retrieves complete information about one delivery source.
+    #
+    # @option params [required, String] :name
+    #   The name of the delivery source that you want to retrieve.
+    #
+    # @return [Types::GetDeliverySourceResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetDeliverySourceResponse#delivery_source #delivery_source} => Types::DeliverySource
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_delivery_source({
+    #     name: "DeliverySourceName", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.delivery_source.name #=> String
+    #   resp.delivery_source.arn #=> String
+    #   resp.delivery_source.resource_arns #=> Array
+    #   resp.delivery_source.resource_arns[0] #=> String
+    #   resp.delivery_source.service #=> String
+    #   resp.delivery_source.log_type #=> String
+    #   resp.delivery_source.tags #=> Hash
+    #   resp.delivery_source.tags["TagKey"] #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/GetDeliverySource AWS API Documentation
+    #
+    # @overload get_delivery_source(params = {})
+    # @param [Hash] params ({})
+    def get_delivery_source(params = {}, options = {})
+      req = build_request(:get_delivery_source, params)
+      req.send_request(options)
+    end
+
+    # Returns information about one integration between CloudWatch Logs and
+    # OpenSearch Service.
+    #
+    # @option params [required, String] :integration_name
+    #   The name of the integration that you want to find information about.
+    #   To find the name of your integration, use [ListIntegrations][1]
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_ListIntegrations.html
+    #
+    # @return [Types::GetIntegrationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetIntegrationResponse#integration_name #integration_name} => String
+    #   * {Types::GetIntegrationResponse#integration_type #integration_type} => String
+    #   * {Types::GetIntegrationResponse#integration_status #integration_status} => String
+    #   * {Types::GetIntegrationResponse#integration_details #integration_details} => Types::IntegrationDetails
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_integration({
+    #     integration_name: "IntegrationName", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.integration_name #=> String
+    #   resp.integration_type #=> String, one of "OPENSEARCH"
+    #   resp.integration_status #=> String, one of "PROVISIONING", "ACTIVE", "FAILED"
+    #   resp.integration_details.open_search_integration_details.data_source.data_source_name #=> String
+    #   resp.integration_details.open_search_integration_details.data_source.status.status #=> String, one of "ACTIVE", "NOT_FOUND", "ERROR"
+    #   resp.integration_details.open_search_integration_details.data_source.status.status_message #=> String
+    #   resp.integration_details.open_search_integration_details.application.application_endpoint #=> String
+    #   resp.integration_details.open_search_integration_details.application.application_arn #=> String
+    #   resp.integration_details.open_search_integration_details.application.application_id #=> String
+    #   resp.integration_details.open_search_integration_details.application.status.status #=> String, one of "ACTIVE", "NOT_FOUND", "ERROR"
+    #   resp.integration_details.open_search_integration_details.application.status.status_message #=> String
+    #   resp.integration_details.open_search_integration_details.collection.collection_endpoint #=> String
+    #   resp.integration_details.open_search_integration_details.collection.collection_arn #=> String
+    #   resp.integration_details.open_search_integration_details.collection.status.status #=> String, one of "ACTIVE", "NOT_FOUND", "ERROR"
+    #   resp.integration_details.open_search_integration_details.collection.status.status_message #=> String
+    #   resp.integration_details.open_search_integration_details.workspace.workspace_id #=> String
+    #   resp.integration_details.open_search_integration_details.workspace.status.status #=> String, one of "ACTIVE", "NOT_FOUND", "ERROR"
+    #   resp.integration_details.open_search_integration_details.workspace.status.status_message #=> String
+    #   resp.integration_details.open_search_integration_details.encryption_policy.policy_name #=> String
+    #   resp.integration_details.open_search_integration_details.encryption_policy.status.status #=> String, one of "ACTIVE", "NOT_FOUND", "ERROR"
+    #   resp.integration_details.open_search_integration_details.encryption_policy.status.status_message #=> String
+    #   resp.integration_details.open_search_integration_details.network_policy.policy_name #=> String
+    #   resp.integration_details.open_search_integration_details.network_policy.status.status #=> String, one of "ACTIVE", "NOT_FOUND", "ERROR"
+    #   resp.integration_details.open_search_integration_details.network_policy.status.status_message #=> String
+    #   resp.integration_details.open_search_integration_details.access_policy.policy_name #=> String
+    #   resp.integration_details.open_search_integration_details.access_policy.status.status #=> String, one of "ACTIVE", "NOT_FOUND", "ERROR"
+    #   resp.integration_details.open_search_integration_details.access_policy.status.status_message #=> String
+    #   resp.integration_details.open_search_integration_details.lifecycle_policy.policy_name #=> String
+    #   resp.integration_details.open_search_integration_details.lifecycle_policy.status.status #=> String, one of "ACTIVE", "NOT_FOUND", "ERROR"
+    #   resp.integration_details.open_search_integration_details.lifecycle_policy.status.status_message #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/GetIntegration AWS API Documentation
+    #
+    # @overload get_integration(params = {})
+    # @param [Hash] params ({})
+    def get_integration(params = {}, options = {})
+      req = build_request(:get_integration, params)
+      req.send_request(options)
+    end
+
+    # Retrieves information about the log anomaly detector that you specify.
+    #
+    # @option params [required, String] :anomaly_detector_arn
+    #   The ARN of the anomaly detector to retrieve information about. You can
+    #   find the ARNs of log anomaly detectors in your account by using the
+    #   [ListLogAnomalyDetectors][1] operation.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_ListLogAnomalyDetectors.html
+    #
+    # @return [Types::GetLogAnomalyDetectorResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetLogAnomalyDetectorResponse#detector_name #detector_name} => String
+    #   * {Types::GetLogAnomalyDetectorResponse#log_group_arn_list #log_group_arn_list} => Array&lt;String&gt;
+    #   * {Types::GetLogAnomalyDetectorResponse#evaluation_frequency #evaluation_frequency} => String
+    #   * {Types::GetLogAnomalyDetectorResponse#filter_pattern #filter_pattern} => String
+    #   * {Types::GetLogAnomalyDetectorResponse#anomaly_detector_status #anomaly_detector_status} => String
+    #   * {Types::GetLogAnomalyDetectorResponse#kms_key_id #kms_key_id} => String
+    #   * {Types::GetLogAnomalyDetectorResponse#creation_time_stamp #creation_time_stamp} => Integer
+    #   * {Types::GetLogAnomalyDetectorResponse#last_modified_time_stamp #last_modified_time_stamp} => Integer
+    #   * {Types::GetLogAnomalyDetectorResponse#anomaly_visibility_time #anomaly_visibility_time} => Integer
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_log_anomaly_detector({
+    #     anomaly_detector_arn: "AnomalyDetectorArn", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.detector_name #=> String
+    #   resp.log_group_arn_list #=> Array
+    #   resp.log_group_arn_list[0] #=> String
+    #   resp.evaluation_frequency #=> String, one of "ONE_MIN", "FIVE_MIN", "TEN_MIN", "FIFTEEN_MIN", "THIRTY_MIN", "ONE_HOUR"
+    #   resp.filter_pattern #=> String
+    #   resp.anomaly_detector_status #=> String, one of "INITIALIZING", "TRAINING", "ANALYZING", "FAILED", "DELETED", "PAUSED"
+    #   resp.kms_key_id #=> String
+    #   resp.creation_time_stamp #=> Integer
+    #   resp.last_modified_time_stamp #=> Integer
+    #   resp.anomaly_visibility_time #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/GetLogAnomalyDetector AWS API Documentation
+    #
+    # @overload get_log_anomaly_detector(params = {})
+    # @param [Hash] params ({})
+    def get_log_anomaly_detector(params = {}, options = {})
+      req = build_request(:get_log_anomaly_detector, params)
       req.send_request(options)
     end
 
@@ -1903,8 +3482,9 @@ module Aws::CloudWatchLogs
     #
     # @option params [Integer] :time
     #   The time to set as the center of the query. If you specify `time`, the
-    #   15 minutes before this time are queries. If you omit `time`, the 8
-    #   minutes before and 8 minutes after this time are searched.
+    #   8 minutes before and 8 minutes after this time are searched. If you
+    #   omit `time`, the most recent 15 minutes up to the current time are
+    #   searched.
     #
     #   The `time` value is specified as epoch time, which is the number of
     #   seconds since `January 1, 1970, 00:00:00 UTC`.
@@ -2000,7 +3580,8 @@ module Aws::CloudWatchLogs
     # log record.
     #
     # `GetQueryResults` does not start running a query. To run a query, use
-    # [StartQuery][2].
+    # [StartQuery][2]. For more information about how long results of
+    # previous queries are available, see [CloudWatch Logs quotas][3].
     #
     # If the value of the `Status` field in the output is `Running`, this
     # operation returns only partial results. If you see a value of
@@ -2010,22 +3591,25 @@ module Aws::CloudWatchLogs
     # If you are using CloudWatch cross-account observability, you can use
     # this operation in a monitoring account to start queries in linked
     # source accounts. For more information, see [CloudWatch cross-account
-    # observability][3].
+    # observability][4].
     #
     #
     #
     # [1]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_GetLogRecord.html
     # [2]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_StartQuery.html
-    # [3]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Unified-Cross-Account.html
+    # [3]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/cloudwatch_limits_cwl.html
+    # [4]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Unified-Cross-Account.html
     #
     # @option params [required, String] :query_id
     #   The ID number of the query.
     #
     # @return [Types::GetQueryResultsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
+    #   * {Types::GetQueryResultsResponse#query_language #query_language} => String
     #   * {Types::GetQueryResultsResponse#results #results} => Array&lt;Array&lt;Types::ResultField&gt;&gt;
     #   * {Types::GetQueryResultsResponse#statistics #statistics} => Types::QueryStatistics
     #   * {Types::GetQueryResultsResponse#status #status} => String
+    #   * {Types::GetQueryResultsResponse#encryption_key #encryption_key} => String
     #
     # @example Request syntax with placeholder values
     #
@@ -2035,14 +3619,19 @@ module Aws::CloudWatchLogs
     #
     # @example Response structure
     #
+    #   resp.query_language #=> String, one of "CWLI", "SQL", "PPL"
     #   resp.results #=> Array
     #   resp.results[0] #=> Array
     #   resp.results[0][0].field #=> String
     #   resp.results[0][0].value #=> String
     #   resp.statistics.records_matched #=> Float
     #   resp.statistics.records_scanned #=> Float
+    #   resp.statistics.estimated_records_skipped #=> Float
     #   resp.statistics.bytes_scanned #=> Float
+    #   resp.statistics.estimated_bytes_skipped #=> Float
+    #   resp.statistics.log_groups_scanned #=> Float
     #   resp.status #=> String, one of "Scheduled", "Running", "Complete", "Failed", "Cancelled", "Timeout", "Unknown"
+    #   resp.encryption_key #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/GetQueryResults AWS API Documentation
     #
@@ -2050,6 +3639,355 @@ module Aws::CloudWatchLogs
     # @param [Hash] params ({})
     def get_query_results(params = {}, options = {})
       req = build_request(:get_query_results, params)
+      req.send_request(options)
+    end
+
+    # Returns the information about the log transformer associated with this
+    # log group.
+    #
+    # This operation returns data only for transformers created at the log
+    # group level. To get information for an account-level transformer, use
+    # [DescribeAccountPolicies][1].
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DescribeAccountPolicies.html
+    #
+    # @option params [required, String] :log_group_identifier
+    #   Specify either the name or ARN of the log group to return transformer
+    #   information for. If the log group is in a source account and you are
+    #   using a monitoring account, you must use the log group ARN.
+    #
+    # @return [Types::GetTransformerResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetTransformerResponse#log_group_identifier #log_group_identifier} => String
+    #   * {Types::GetTransformerResponse#creation_time #creation_time} => Integer
+    #   * {Types::GetTransformerResponse#last_modified_time #last_modified_time} => Integer
+    #   * {Types::GetTransformerResponse#transformer_config #transformer_config} => Array&lt;Types::Processor&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_transformer({
+    #     log_group_identifier: "LogGroupIdentifier", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.log_group_identifier #=> String
+    #   resp.creation_time #=> Integer
+    #   resp.last_modified_time #=> Integer
+    #   resp.transformer_config #=> Array
+    #   resp.transformer_config[0].add_keys.entries #=> Array
+    #   resp.transformer_config[0].add_keys.entries[0].key #=> String
+    #   resp.transformer_config[0].add_keys.entries[0].value #=> String
+    #   resp.transformer_config[0].add_keys.entries[0].overwrite_if_exists #=> Boolean
+    #   resp.transformer_config[0].copy_value.entries #=> Array
+    #   resp.transformer_config[0].copy_value.entries[0].source #=> String
+    #   resp.transformer_config[0].copy_value.entries[0].target #=> String
+    #   resp.transformer_config[0].copy_value.entries[0].overwrite_if_exists #=> Boolean
+    #   resp.transformer_config[0].csv.quote_character #=> String
+    #   resp.transformer_config[0].csv.delimiter #=> String
+    #   resp.transformer_config[0].csv.columns #=> Array
+    #   resp.transformer_config[0].csv.columns[0] #=> String
+    #   resp.transformer_config[0].csv.source #=> String
+    #   resp.transformer_config[0].date_time_converter.source #=> String
+    #   resp.transformer_config[0].date_time_converter.target #=> String
+    #   resp.transformer_config[0].date_time_converter.target_format #=> String
+    #   resp.transformer_config[0].date_time_converter.match_patterns #=> Array
+    #   resp.transformer_config[0].date_time_converter.match_patterns[0] #=> String
+    #   resp.transformer_config[0].date_time_converter.source_timezone #=> String
+    #   resp.transformer_config[0].date_time_converter.target_timezone #=> String
+    #   resp.transformer_config[0].date_time_converter.locale #=> String
+    #   resp.transformer_config[0].delete_keys.with_keys #=> Array
+    #   resp.transformer_config[0].delete_keys.with_keys[0] #=> String
+    #   resp.transformer_config[0].grok.source #=> String
+    #   resp.transformer_config[0].grok.match #=> String
+    #   resp.transformer_config[0].list_to_map.source #=> String
+    #   resp.transformer_config[0].list_to_map.key #=> String
+    #   resp.transformer_config[0].list_to_map.value_key #=> String
+    #   resp.transformer_config[0].list_to_map.target #=> String
+    #   resp.transformer_config[0].list_to_map.flatten #=> Boolean
+    #   resp.transformer_config[0].list_to_map.flattened_element #=> String, one of "first", "last"
+    #   resp.transformer_config[0].lower_case_string.with_keys #=> Array
+    #   resp.transformer_config[0].lower_case_string.with_keys[0] #=> String
+    #   resp.transformer_config[0].move_keys.entries #=> Array
+    #   resp.transformer_config[0].move_keys.entries[0].source #=> String
+    #   resp.transformer_config[0].move_keys.entries[0].target #=> String
+    #   resp.transformer_config[0].move_keys.entries[0].overwrite_if_exists #=> Boolean
+    #   resp.transformer_config[0].parse_cloudfront.source #=> String
+    #   resp.transformer_config[0].parse_json.source #=> String
+    #   resp.transformer_config[0].parse_json.destination #=> String
+    #   resp.transformer_config[0].parse_key_value.source #=> String
+    #   resp.transformer_config[0].parse_key_value.destination #=> String
+    #   resp.transformer_config[0].parse_key_value.field_delimiter #=> String
+    #   resp.transformer_config[0].parse_key_value.key_value_delimiter #=> String
+    #   resp.transformer_config[0].parse_key_value.key_prefix #=> String
+    #   resp.transformer_config[0].parse_key_value.non_match_value #=> String
+    #   resp.transformer_config[0].parse_key_value.overwrite_if_exists #=> Boolean
+    #   resp.transformer_config[0].parse_route_53.source #=> String
+    #   resp.transformer_config[0].parse_postgres.source #=> String
+    #   resp.transformer_config[0].parse_vpc.source #=> String
+    #   resp.transformer_config[0].parse_waf.source #=> String
+    #   resp.transformer_config[0].rename_keys.entries #=> Array
+    #   resp.transformer_config[0].rename_keys.entries[0].key #=> String
+    #   resp.transformer_config[0].rename_keys.entries[0].rename_to #=> String
+    #   resp.transformer_config[0].rename_keys.entries[0].overwrite_if_exists #=> Boolean
+    #   resp.transformer_config[0].split_string.entries #=> Array
+    #   resp.transformer_config[0].split_string.entries[0].source #=> String
+    #   resp.transformer_config[0].split_string.entries[0].delimiter #=> String
+    #   resp.transformer_config[0].substitute_string.entries #=> Array
+    #   resp.transformer_config[0].substitute_string.entries[0].source #=> String
+    #   resp.transformer_config[0].substitute_string.entries[0].from #=> String
+    #   resp.transformer_config[0].substitute_string.entries[0].to #=> String
+    #   resp.transformer_config[0].trim_string.with_keys #=> Array
+    #   resp.transformer_config[0].trim_string.with_keys[0] #=> String
+    #   resp.transformer_config[0].type_converter.entries #=> Array
+    #   resp.transformer_config[0].type_converter.entries[0].key #=> String
+    #   resp.transformer_config[0].type_converter.entries[0].type #=> String, one of "boolean", "integer", "double", "string"
+    #   resp.transformer_config[0].upper_case_string.with_keys #=> Array
+    #   resp.transformer_config[0].upper_case_string.with_keys[0] #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/GetTransformer AWS API Documentation
+    #
+    # @overload get_transformer(params = {})
+    # @param [Hash] params ({})
+    def get_transformer(params = {}, options = {})
+      req = build_request(:get_transformer, params)
+      req.send_request(options)
+    end
+
+    # Returns a list of anomalies that log anomaly detectors have found. For
+    # details about the structure format of each anomaly object that is
+    # returned, see the example in this section.
+    #
+    # @option params [String] :anomaly_detector_arn
+    #   Use this to optionally limit the results to only the anomalies found
+    #   by a certain anomaly detector.
+    #
+    # @option params [String] :suppression_state
+    #   You can specify this parameter if you want to the operation to return
+    #   only anomalies that are currently either suppressed or unsuppressed.
+    #
+    # @option params [Integer] :limit
+    #   The maximum number of items to return. If you don't specify a value,
+    #   the default maximum value of 50 items is used.
+    #
+    # @option params [String] :next_token
+    #   The token for the next set of items to return. The token expires after
+    #   24 hours.
+    #
+    # @return [Types::ListAnomaliesResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListAnomaliesResponse#anomalies #anomalies} => Array&lt;Types::Anomaly&gt;
+    #   * {Types::ListAnomaliesResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_anomalies({
+    #     anomaly_detector_arn: "AnomalyDetectorArn",
+    #     suppression_state: "SUPPRESSED", # accepts SUPPRESSED, UNSUPPRESSED
+    #     limit: 1,
+    #     next_token: "NextToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.anomalies #=> Array
+    #   resp.anomalies[0].anomaly_id #=> String
+    #   resp.anomalies[0].pattern_id #=> String
+    #   resp.anomalies[0].anomaly_detector_arn #=> String
+    #   resp.anomalies[0].pattern_string #=> String
+    #   resp.anomalies[0].pattern_regex #=> String
+    #   resp.anomalies[0].priority #=> String
+    #   resp.anomalies[0].first_seen #=> Integer
+    #   resp.anomalies[0].last_seen #=> Integer
+    #   resp.anomalies[0].description #=> String
+    #   resp.anomalies[0].active #=> Boolean
+    #   resp.anomalies[0].state #=> String, one of "Active", "Suppressed", "Baseline"
+    #   resp.anomalies[0].histogram #=> Hash
+    #   resp.anomalies[0].histogram["Time"] #=> Integer
+    #   resp.anomalies[0].log_samples #=> Array
+    #   resp.anomalies[0].log_samples[0].timestamp #=> Integer
+    #   resp.anomalies[0].log_samples[0].message #=> String
+    #   resp.anomalies[0].pattern_tokens #=> Array
+    #   resp.anomalies[0].pattern_tokens[0].dynamic_token_position #=> Integer
+    #   resp.anomalies[0].pattern_tokens[0].is_dynamic #=> Boolean
+    #   resp.anomalies[0].pattern_tokens[0].token_string #=> String
+    #   resp.anomalies[0].pattern_tokens[0].enumerations #=> Hash
+    #   resp.anomalies[0].pattern_tokens[0].enumerations["TokenString"] #=> Integer
+    #   resp.anomalies[0].pattern_tokens[0].inferred_token_name #=> String
+    #   resp.anomalies[0].log_group_arn_list #=> Array
+    #   resp.anomalies[0].log_group_arn_list[0] #=> String
+    #   resp.anomalies[0].suppressed #=> Boolean
+    #   resp.anomalies[0].suppressed_date #=> Integer
+    #   resp.anomalies[0].suppressed_until #=> Integer
+    #   resp.anomalies[0].is_pattern_level_suppression #=> Boolean
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/ListAnomalies AWS API Documentation
+    #
+    # @overload list_anomalies(params = {})
+    # @param [Hash] params ({})
+    def list_anomalies(params = {}, options = {})
+      req = build_request(:list_anomalies, params)
+      req.send_request(options)
+    end
+
+    # Returns a list of integrations between CloudWatch Logs and other
+    # services in this account. Currently, only one integration can be
+    # created in an account, and this integration must be with OpenSearch
+    # Service.
+    #
+    # @option params [String] :integration_name_prefix
+    #   To limit the results to integrations that start with a certain name
+    #   prefix, specify that name prefix here.
+    #
+    # @option params [String] :integration_type
+    #   To limit the results to integrations of a certain type, specify that
+    #   type here.
+    #
+    # @option params [String] :integration_status
+    #   To limit the results to integrations with a certain status, specify
+    #   that status here.
+    #
+    # @return [Types::ListIntegrationsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListIntegrationsResponse#integration_summaries #integration_summaries} => Array&lt;Types::IntegrationSummary&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_integrations({
+    #     integration_name_prefix: "IntegrationNamePrefix",
+    #     integration_type: "OPENSEARCH", # accepts OPENSEARCH
+    #     integration_status: "PROVISIONING", # accepts PROVISIONING, ACTIVE, FAILED
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.integration_summaries #=> Array
+    #   resp.integration_summaries[0].integration_name #=> String
+    #   resp.integration_summaries[0].integration_type #=> String, one of "OPENSEARCH"
+    #   resp.integration_summaries[0].integration_status #=> String, one of "PROVISIONING", "ACTIVE", "FAILED"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/ListIntegrations AWS API Documentation
+    #
+    # @overload list_integrations(params = {})
+    # @param [Hash] params ({})
+    def list_integrations(params = {}, options = {})
+      req = build_request(:list_integrations, params)
+      req.send_request(options)
+    end
+
+    # Retrieves a list of the log anomaly detectors in the account.
+    #
+    # @option params [String] :filter_log_group_arn
+    #   Use this to optionally filter the results to only include anomaly
+    #   detectors that are associated with the specified log group.
+    #
+    # @option params [Integer] :limit
+    #   The maximum number of items to return. If you don't specify a value,
+    #   the default maximum value of 50 items is used.
+    #
+    # @option params [String] :next_token
+    #   The token for the next set of items to return. The token expires after
+    #   24 hours.
+    #
+    # @return [Types::ListLogAnomalyDetectorsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListLogAnomalyDetectorsResponse#anomaly_detectors #anomaly_detectors} => Array&lt;Types::AnomalyDetector&gt;
+    #   * {Types::ListLogAnomalyDetectorsResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_log_anomaly_detectors({
+    #     filter_log_group_arn: "LogGroupArn",
+    #     limit: 1,
+    #     next_token: "NextToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.anomaly_detectors #=> Array
+    #   resp.anomaly_detectors[0].anomaly_detector_arn #=> String
+    #   resp.anomaly_detectors[0].detector_name #=> String
+    #   resp.anomaly_detectors[0].log_group_arn_list #=> Array
+    #   resp.anomaly_detectors[0].log_group_arn_list[0] #=> String
+    #   resp.anomaly_detectors[0].evaluation_frequency #=> String, one of "ONE_MIN", "FIVE_MIN", "TEN_MIN", "FIFTEEN_MIN", "THIRTY_MIN", "ONE_HOUR"
+    #   resp.anomaly_detectors[0].filter_pattern #=> String
+    #   resp.anomaly_detectors[0].anomaly_detector_status #=> String, one of "INITIALIZING", "TRAINING", "ANALYZING", "FAILED", "DELETED", "PAUSED"
+    #   resp.anomaly_detectors[0].kms_key_id #=> String
+    #   resp.anomaly_detectors[0].creation_time_stamp #=> Integer
+    #   resp.anomaly_detectors[0].last_modified_time_stamp #=> Integer
+    #   resp.anomaly_detectors[0].anomaly_visibility_time #=> Integer
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/ListLogAnomalyDetectors AWS API Documentation
+    #
+    # @overload list_log_anomaly_detectors(params = {})
+    # @param [Hash] params ({})
+    def list_log_anomaly_detectors(params = {}, options = {})
+      req = build_request(:list_log_anomaly_detectors, params)
+      req.send_request(options)
+    end
+
+    # Returns a list of the log groups that were analyzed during a single
+    # CloudWatch Logs Insights query. This can be useful for queries that
+    # use log group name prefixes or the `filterIndex` command, because the
+    # log groups are dynamically selected in these cases.
+    #
+    # For more information about field indexes, see [Create field indexes to
+    # improve query performance and reduce costs][1].
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatchLogs-Field-Indexing.html
+    #
+    # @option params [required, String] :query_id
+    #   The ID of the query to use. This query ID is from the response to your
+    #   [StartQuery][1] operation.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_StartQuery.html
+    #
+    # @option params [String] :next_token
+    #   The token for the next set of items to return. The token expires after
+    #   24 hours.
+    #
+    # @option params [Integer] :max_results
+    #   Limits the number of returned log groups to the specified number.
+    #
+    # @return [Types::ListLogGroupsForQueryResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListLogGroupsForQueryResponse#log_group_identifiers #log_group_identifiers} => Array&lt;String&gt;
+    #   * {Types::ListLogGroupsForQueryResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_log_groups_for_query({
+    #     query_id: "QueryId", # required
+    #     next_token: "NextToken",
+    #     max_results: 1,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.log_group_identifiers #=> Array
+    #   resp.log_group_identifiers[0] #=> String
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/ListLogGroupsForQuery AWS API Documentation
+    #
+    # @overload list_log_groups_for_query(params = {})
+    # @param [Hash] params ({})
+    def list_log_groups_for_query(params = {}, options = {})
+      req = build_request(:list_log_groups_for_query, params)
       req.send_request(options)
     end
 
@@ -2132,6 +4070,382 @@ module Aws::CloudWatchLogs
       req.send_request(options)
     end
 
+    # Creates an account-level data protection policy, subscription filter
+    # policy, or field index policy that applies to all log groups or a
+    # subset of log groups in the account.
+    #
+    # To use this operation, you must be signed on with the correct
+    # permissions depending on the type of policy that you are creating.
+    #
+    # * To create a data protection policy, you must have the
+    #   `logs:PutDataProtectionPolicy` and `logs:PutAccountPolicy`
+    #   permissions.
+    #
+    # * To create a subscription filter policy, you must have the
+    #   `logs:PutSubscriptionFilter` and `logs:PutccountPolicy` permissions.
+    #
+    # * To create a transformer policy, you must have the
+    #   `logs:PutTransformer` and `logs:PutAccountPolicy` permissions.
+    #
+    # * To create a field index policy, you must have the
+    #   `logs:PutIndexPolicy` and `logs:PutAccountPolicy` permissions.
+    #
+    # **Data protection policy**
+    #
+    # A data protection policy can help safeguard sensitive data that's
+    # ingested by your log groups by auditing and masking the sensitive log
+    # data. Each account can have only one account-level data protection
+    # policy.
+    #
+    # Sensitive data is detected and masked when it is ingested into a log
+    # group. When you set a data protection policy, log events ingested into
+    # the log groups before that time are not masked.
+    #
+    # If you use `PutAccountPolicy` to create a data protection policy for
+    # your whole account, it applies to both existing log groups and all log
+    # groups that are created later in this account. The account-level
+    # policy is applied to existing log groups with eventual consistency. It
+    # might take up to 5 minutes before sensitive data in existing log
+    # groups begins to be masked.
+    #
+    # By default, when a user views a log event that includes masked data,
+    # the sensitive data is replaced by asterisks. A user who has the
+    # `logs:Unmask` permission can use a [GetLogEvents][1] or
+    # [FilterLogEvents][2] operation with the `unmask` parameter set to
+    # `true` to view the unmasked log events. Users with the `logs:Unmask`
+    # can also view unmasked data in the CloudWatch Logs console by running
+    # a CloudWatch Logs Insights query with the `unmask` query command.
+    #
+    # For more information, including a list of types of data that can be
+    # audited and masked, see [Protect sensitive log data with masking][3].
+    #
+    # To use the `PutAccountPolicy` operation for a data protection policy,
+    # you must be signed on with the `logs:PutDataProtectionPolicy` and
+    # `logs:PutAccountPolicy` permissions.
+    #
+    # The `PutAccountPolicy` operation applies to all log groups in the
+    # account. You can use [PutDataProtectionPolicy][4] to create a data
+    # protection policy that applies to just one log group. If a log group
+    # has its own data protection policy and the account also has an
+    # account-level data protection policy, then the two policies are
+    # cumulative. Any sensitive term specified in either policy is masked.
+    #
+    # **Subscription filter policy**
+    #
+    # A subscription filter policy sets up a real-time feed of log events
+    # from CloudWatch Logs to other Amazon Web Services services.
+    # Account-level subscription filter policies apply to both existing log
+    # groups and log groups that are created later in this account.
+    # Supported destinations are Kinesis Data Streams, Firehose, and Lambda.
+    # When log events are sent to the receiving service, they are Base64
+    # encoded and compressed with the GZIP format.
+    #
+    # The following destinations are supported for subscription filters:
+    #
+    # * An Kinesis Data Streams data stream in the same account as the
+    #   subscription policy, for same-account delivery.
+    #
+    # * An Firehose data stream in the same account as the subscription
+    #   policy, for same-account delivery.
+    #
+    # * A Lambda function in the same account as the subscription policy,
+    #   for same-account delivery.
+    #
+    # * A logical destination in a different account created with
+    #   [PutDestination][5], for cross-account delivery. Kinesis Data
+    #   Streams and Firehose are supported as logical destinations.
+    #
+    # Each account can have one account-level subscription filter policy per
+    # Region. If you are updating an existing filter, you must specify the
+    # correct name in `PolicyName`. To perform a `PutAccountPolicy`
+    # subscription filter operation for any destination except a Lambda
+    # function, you must also have the `iam:PassRole` permission.
+    #
+    # **Transformer policy**
+    #
+    # Creates or updates a *log transformer policy* for your account. You
+    # use log transformers to transform log events into a different format,
+    # making them easier for you to process and analyze. You can also
+    # transform logs from different sources into standardized formats that
+    # contain relevant, source-specific information. After you have created
+    # a transformer, CloudWatch Logs performs this transformation at the
+    # time of log ingestion. You can then refer to the transformed versions
+    # of the logs during operations such as querying with CloudWatch Logs
+    # Insights or creating metric filters or subscription filters.
+    #
+    # You can also use a transformer to copy metadata from metadata keys
+    # into the log events themselves. This metadata can include log group
+    # name, log stream name, account ID and Region.
+    #
+    # A transformer for a log group is a series of processors, where each
+    # processor applies one type of transformation to the log events
+    # ingested into this log group. For more information about the available
+    # processors to use in a transformer, see [ Processors that you can
+    # use][6].
+    #
+    # Having log events in standardized format enables visibility across
+    # your applications for your log analysis, reporting, and alarming
+    # needs. CloudWatch Logs provides transformation for common log types
+    # with out-of-the-box transformation templates for major Amazon Web
+    # Services log sources such as VPC flow logs, Lambda, and Amazon RDS.
+    # You can use pre-built transformation templates or create custom
+    # transformation policies.
+    #
+    # You can create transformers only for the log groups in the Standard
+    # log class.
+    #
+    # You can have one account-level transformer policy that applies to all
+    # log groups in the account. Or you can create as many as 20
+    # account-level transformer policies that are each scoped to a subset of
+    # log groups with the `selectionCriteria` parameter. If you have
+    # multiple account-level transformer policies with selection criteria,
+    # no two of them can use the same or overlapping log group name
+    # prefixes. For example, if you have one policy filtered to log groups
+    # that start with `my-log`, you can't have another field index policy
+    # filtered to `my-logpprod` or `my-logging`.
+    #
+    # You can also set up a transformer at the log-group level. For more
+    # information, see [PutTransformer][7]. If there is both a log-group
+    # level transformer created with `PutTransformer` and an account-level
+    # transformer that could apply to the same log group, the log group uses
+    # only the log-group level transformer. It ignores the account-level
+    # transformer.
+    #
+    # **Field index policy**
+    #
+    # You can use field index policies to create indexes on fields found in
+    # log events in the log group. Creating field indexes can help lower the
+    # scan volume for CloudWatch Logs Insights queries that reference those
+    # fields, because these queries attempt to skip the processing of log
+    # events that are known to not match the indexed field. Good fields to
+    # index are fields that you often need to query for and fields or values
+    # that match only a small fraction of the total log events. Common
+    # examples of indexes include request ID, session ID, user IDs, or
+    # instance IDs. For more information, see [Create field indexes to
+    # improve query performance and reduce costs][8]
+    #
+    # To find the fields that are in your log group events, use the
+    # [GetLogGroupFields][9] operation.
+    #
+    # For example, suppose you have created a field index for `requestId`.
+    # Then, any CloudWatch Logs Insights query on that log group that
+    # includes `requestId = value ` or `requestId in [value, value, ...]`
+    # will attempt to process only the log events where the indexed field
+    # matches the specified value.
+    #
+    # Matches of log events to the names of indexed fields are
+    # case-sensitive. For example, an indexed field of `RequestId` won't
+    # match a log event containing `requestId`.
+    #
+    # You can have one account-level field index policy that applies to all
+    # log groups in the account. Or you can create as many as 20
+    # account-level field index policies that are each scoped to a subset of
+    # log groups with the `selectionCriteria` parameter. If you have
+    # multiple account-level index policies with selection criteria, no two
+    # of them can use the same or overlapping log group name prefixes. For
+    # example, if you have one policy filtered to log groups that start with
+    # `my-log`, you can't have another field index policy filtered to
+    # `my-logpprod` or `my-logging`.
+    #
+    # If you create an account-level field index policy in a monitoring
+    # account in cross-account observability, the policy is applied only to
+    # the monitoring account and not to any source accounts.
+    #
+    # If you want to create a field index policy for a single log group, you
+    # can use [PutIndexPolicy][10] instead of `PutAccountPolicy`. If you do
+    # so, that log group will use only that log-group level policy, and will
+    # ignore the account-level policy that you create with
+    # [PutAccountPolicy][11].
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_GetLogEvents.html
+    # [2]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_FilterLogEvents.html
+    # [3]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/mask-sensitive-log-data.html
+    # [4]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDataProtectionPolicy.html
+    # [5]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDestination.html
+    # [6]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation.html#CloudWatch-Logs-Transformation-Processors
+    # [7]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutTransformer.html
+    # [8]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatchLogs-Field-Indexing.html
+    # [9]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_GetLogGroupFields.html
+    # [10]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutIndexPolicy.html
+    # [11]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutAccountPolicy.html
+    #
+    # @option params [required, String] :policy_name
+    #   A name for the policy. This must be unique within the account.
+    #
+    # @option params [required, String] :policy_document
+    #   Specify the policy, in JSON.
+    #
+    #   **Data protection policy**
+    #
+    #   A data protection policy must include two JSON blocks:
+    #
+    #   * The first block must include both a `DataIdentifer` array and an
+    #     `Operation` property with an `Audit` action. The `DataIdentifer`
+    #     array lists the types of sensitive data that you want to mask. For
+    #     more information about the available options, see [Types of data
+    #     that you can mask][1].
+    #
+    #     The `Operation` property with an `Audit` action is required to find
+    #     the sensitive data terms. This `Audit` action must contain a
+    #     `FindingsDestination` object. You can optionally use that
+    #     `FindingsDestination` object to list one or more destinations to
+    #     send audit findings to. If you specify destinations such as log
+    #     groups, Firehose streams, and S3 buckets, they must already exist.
+    #
+    #   * The second block must include both a `DataIdentifer` array and an
+    #     `Operation` property with an `Deidentify` action. The
+    #     `DataIdentifer` array must exactly match the `DataIdentifer` array
+    #     in the first block of the policy.
+    #
+    #     The `Operation` property with the `Deidentify` action is what
+    #     actually masks the data, and it must contain the ` "MaskConfig": {}`
+    #     object. The ` "MaskConfig": {}` object must be empty.
+    #
+    #   For an example data protection policy, see the **Examples** section on
+    #   this page.
+    #
+    #   The contents of the two `DataIdentifer` arrays must match exactly.
+    #
+    #   In addition to the two JSON blocks, the `policyDocument` can also
+    #   include `Name`, `Description`, and `Version` fields. The `Name` is
+    #   different than the operation's `policyName` parameter, and is used as
+    #   a dimension when CloudWatch Logs reports audit findings metrics to
+    #   CloudWatch.
+    #
+    #   The JSON specified in `policyDocument` can be up to 30,720 characters
+    #   long.
+    #
+    #   **Subscription filter policy**
+    #
+    #   A subscription filter policy can include the following attributes in a
+    #   JSON block:
+    #
+    #   * **DestinationArn** The ARN of the destination to deliver log events
+    #     to. Supported destinations are:
+    #
+    #     * An Kinesis Data Streams data stream in the same account as the
+    #       subscription policy, for same-account delivery.
+    #
+    #     * An Firehose data stream in the same account as the subscription
+    #       policy, for same-account delivery.
+    #
+    #     * A Lambda function in the same account as the subscription policy,
+    #       for same-account delivery.
+    #
+    #     * A logical destination in a different account created with
+    #       [PutDestination][2], for cross-account delivery. Kinesis Data
+    #       Streams and Firehose are supported as logical destinations.
+    #   * **RoleArn** The ARN of an IAM role that grants CloudWatch Logs
+    #     permissions to deliver ingested log events to the destination
+    #     stream. You don't need to provide the ARN when you are working with
+    #     a logical destination for cross-account delivery.
+    #
+    #   * **FilterPattern** A filter pattern for subscribing to a filtered
+    #     stream of log events.
+    #
+    #   * **Distribution** The method used to distribute log data to the
+    #     destination. By default, log data is grouped by log stream, but the
+    #     grouping can be set to `Random` for a more even distribution. This
+    #     property is only applicable when the destination is an Kinesis Data
+    #     Streams data stream.
+    #
+    #   **Transformer policy**
+    #
+    #   A transformer policy must include one JSON block with the array of
+    #   processors and their configurations. For more information about
+    #   available processors, see [ Processors that you can use][3].
+    #
+    #   **Field index policy**
+    #
+    #   A field index filter policy can include the following attribute in a
+    #   JSON block:
+    #
+    #   * **Fields** The array of field indexes to create.
+    #
+    #   ^
+    #
+    #   It must contain at least one field index.
+    #
+    #   The following is an example of an index policy document that creates
+    #   two indexes, `RequestId` and `TransactionId`.
+    #
+    #   `"policyDocument": "{ "Fields": [ "RequestId", "TransactionId" ]
+    #   }"`
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/mask-sensitive-log-data-types.html
+    #   [2]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDestination.html
+    #   [3]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation.html#CloudWatch-Logs-Transformation-Processors
+    #
+    # @option params [required, String] :policy_type
+    #   The type of policy that you're creating or updating.
+    #
+    # @option params [String] :scope
+    #   Currently the only valid value for this parameter is `ALL`, which
+    #   specifies that the data protection policy applies to all log groups in
+    #   the account. If you omit this parameter, the default of `ALL` is used.
+    #
+    # @option params [String] :selection_criteria
+    #   Use this parameter to apply the new policy to a subset of log groups
+    #   in the account.
+    #
+    #   Specifing `selectionCriteria` is valid only when you specify
+    #   `SUBSCRIPTION_FILTER_POLICY`, `FIELD_INDEX_POLICY` or
+    #   `TRANSFORMER_POLICY`for `policyType`.
+    #
+    #   If `policyType` is `SUBSCRIPTION_FILTER_POLICY`, the only supported
+    #   `selectionCriteria` filter is `LogGroupName NOT IN []`
+    #
+    #   If `policyType` is `FIELD_INDEX_POLICY` or `TRANSFORMER_POLICY`, the
+    #   only supported `selectionCriteria` filter is `LogGroupNamePrefix`
+    #
+    #   The `selectionCriteria` string can be up to 25KB in length. The length
+    #   is determined by using its UTF-8 bytes.
+    #
+    #   Using the `selectionCriteria` parameter with
+    #   `SUBSCRIPTION_FILTER_POLICY` is useful to help prevent infinite loops.
+    #   For more information, see [Log recursion prevention][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/Subscriptions-recursion-prevention.html
+    #
+    # @return [Types::PutAccountPolicyResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::PutAccountPolicyResponse#account_policy #account_policy} => Types::AccountPolicy
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.put_account_policy({
+    #     policy_name: "PolicyName", # required
+    #     policy_document: "AccountPolicyDocument", # required
+    #     policy_type: "DATA_PROTECTION_POLICY", # required, accepts DATA_PROTECTION_POLICY, SUBSCRIPTION_FILTER_POLICY, FIELD_INDEX_POLICY, TRANSFORMER_POLICY
+    #     scope: "ALL", # accepts ALL
+    #     selection_criteria: "SelectionCriteria",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.account_policy.policy_name #=> String
+    #   resp.account_policy.policy_document #=> String
+    #   resp.account_policy.last_updated_time #=> Integer
+    #   resp.account_policy.policy_type #=> String, one of "DATA_PROTECTION_POLICY", "SUBSCRIPTION_FILTER_POLICY", "FIELD_INDEX_POLICY", "TRANSFORMER_POLICY"
+    #   resp.account_policy.scope #=> String, one of "ALL"
+    #   resp.account_policy.selection_criteria #=> String
+    #   resp.account_policy.account_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/PutAccountPolicy AWS API Documentation
+    #
+    # @overload put_account_policy(params = {})
+    # @param [Hash] params ({})
+    def put_account_policy(params = {}, options = {})
+      req = build_request(:put_account_policy, params)
+      req.send_request(options)
+    end
+
     # Creates a data protection policy for the specified log group. A data
     # protection policy can help safeguard sensitive data that's ingested
     # by the log group by auditing and masking the sensitive log data.
@@ -2151,11 +4465,21 @@ module Aws::CloudWatchLogs
     # For more information, including a list of types of data that can be
     # audited and masked, see [Protect sensitive log data with masking][3].
     #
+    # The `PutDataProtectionPolicy` operation applies to only the specified
+    # log group. You can also use [PutAccountPolicy][4] to create an
+    # account-level data protection policy that applies to all log groups in
+    # the account, including both existing log groups and log groups that
+    # are created level. If a log group has its own data protection policy
+    # and the account also has an account-level data protection policy, then
+    # the two policies are cumulative. Any sensitive term specified in
+    # either policy is masked.
+    #
     #
     #
     # [1]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_GetLogEvents.html
     # [2]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_FilterLogEvents.html
     # [3]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/mask-sensitive-log-data.html
+    # [4]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutAccountPolicy.html
     #
     # @option params [required, String] :log_group_identifier
     #   Specify either the log group name or log group ARN.
@@ -2176,8 +4500,7 @@ module Aws::CloudWatchLogs
     #     `FindingsDestination` object. You can optionally use that
     #     `FindingsDestination` object to list one or more destinations to
     #     send audit findings to. If you specify destinations such as log
-    #     groups, Kinesis Data Firehose streams, and S3 buckets, they must
-    #     already exist.
+    #     groups, Firehose streams, and S3 buckets, they must already exist.
     #
     #   * The second block must include both a `DataIdentifer` array and an
     #     `Operation` property with an `Deidentify` action. The
@@ -2185,13 +4508,20 @@ module Aws::CloudWatchLogs
     #     in the first block of the policy.
     #
     #     The `Operation` property with the `Deidentify` action is what
-    #     actually masks the data, and it must contain the ` "MaskConfig":
-    #     \{\}` object. The ` "MaskConfig": \{\}` object must be empty.
+    #     actually masks the data, and it must contain the ` "MaskConfig": {}`
+    #     object. The ` "MaskConfig": {}` object must be empty.
     #
     #   For an example data protection policy, see the **Examples** section on
     #   this page.
     #
-    #   The contents of two `DataIdentifer` arrays must match exactly.
+    #   The contents of the two `DataIdentifer` arrays must match exactly.
+    #
+    #   In addition to the two JSON blocks, the `policyDocument` can also
+    #   include `Name`, `Description`, and `Version` fields. The `Name` is
+    #   used as a dimension when CloudWatch Logs reports audit findings
+    #   metrics to CloudWatch.
+    #
+    #   The JSON specified in `policyDocument` can be up to 30,720 characters.
     #
     #
     #
@@ -2222,6 +4552,305 @@ module Aws::CloudWatchLogs
     # @param [Hash] params ({})
     def put_data_protection_policy(params = {}, options = {})
       req = build_request(:put_data_protection_policy, params)
+      req.send_request(options)
+    end
+
+    # Creates or updates a logical *delivery destination*. A delivery
+    # destination is an Amazon Web Services resource that represents an
+    # Amazon Web Services service that logs can be sent to. CloudWatch Logs,
+    # Amazon S3, and Firehose are supported as logs delivery destinations.
+    #
+    # To configure logs delivery between a supported Amazon Web Services
+    # service and a destination, you must do the following:
+    #
+    # * Create a delivery source, which is a logical object that represents
+    #   the resource that is actually sending the logs. For more
+    #   information, see [PutDeliverySource][1].
+    #
+    # * Use `PutDeliveryDestination` to create a *delivery destination* in
+    #   the same account of the actual delivery destination. The delivery
+    #   destination that you create is a logical object that represents the
+    #   actual delivery destination.
+    #
+    # * If you are delivering logs cross-account, you must use
+    #   [PutDeliveryDestinationPolicy][2] in the destination account to
+    #   assign an IAM policy to the destination. This policy allows delivery
+    #   to that destination.
+    #
+    # * Use `CreateDelivery` to create a *delivery* by pairing exactly one
+    #   delivery source and one delivery destination. For more information,
+    #   see [CreateDelivery][3].
+    #
+    # You can configure a single delivery source to send logs to multiple
+    # destinations by creating multiple deliveries. You can also create
+    # multiple deliveries to configure multiple delivery sources to send
+    # logs to the same delivery destination.
+    #
+    # Only some Amazon Web Services services support being configured as a
+    # delivery source. These services are listed as **Supported \[V2
+    # Permissions\]** in the table at [Enabling logging from Amazon Web
+    # Services services.][4]
+    #
+    # If you use this operation to update an existing delivery destination,
+    # all the current delivery destination parameters are overwritten with
+    # the new parameter values that you specify.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliverySource.html
+    # [2]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliveryDestinationPolicy.html
+    # [3]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_CreateDelivery.html
+    # [4]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/AWS-logs-and-resource-policy.html
+    #
+    # @option params [required, String] :name
+    #   A name for this delivery destination. This name must be unique for all
+    #   delivery destinations in your account.
+    #
+    # @option params [String] :output_format
+    #   The format for the logs that this delivery destination will receive.
+    #
+    # @option params [required, Types::DeliveryDestinationConfiguration] :delivery_destination_configuration
+    #   A structure that contains the ARN of the Amazon Web Services resource
+    #   that will receive the logs.
+    #
+    # @option params [Hash<String,String>] :tags
+    #   An optional list of key-value pairs to associate with the resource.
+    #
+    #   For more information about tagging, see [Tagging Amazon Web Services
+    #   resources][1]
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html
+    #
+    # @return [Types::PutDeliveryDestinationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::PutDeliveryDestinationResponse#delivery_destination #delivery_destination} => Types::DeliveryDestination
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.put_delivery_destination({
+    #     name: "DeliveryDestinationName", # required
+    #     output_format: "json", # accepts json, plain, w3c, raw, parquet
+    #     delivery_destination_configuration: { # required
+    #       destination_resource_arn: "Arn", # required
+    #     },
+    #     tags: {
+    #       "TagKey" => "TagValue",
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.delivery_destination.name #=> String
+    #   resp.delivery_destination.arn #=> String
+    #   resp.delivery_destination.delivery_destination_type #=> String, one of "S3", "CWL", "FH"
+    #   resp.delivery_destination.output_format #=> String, one of "json", "plain", "w3c", "raw", "parquet"
+    #   resp.delivery_destination.delivery_destination_configuration.destination_resource_arn #=> String
+    #   resp.delivery_destination.tags #=> Hash
+    #   resp.delivery_destination.tags["TagKey"] #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/PutDeliveryDestination AWS API Documentation
+    #
+    # @overload put_delivery_destination(params = {})
+    # @param [Hash] params ({})
+    def put_delivery_destination(params = {}, options = {})
+      req = build_request(:put_delivery_destination, params)
+      req.send_request(options)
+    end
+
+    # Creates and assigns an IAM policy that grants permissions to
+    # CloudWatch Logs to deliver logs cross-account to a specified
+    # destination in this account. To configure the delivery of logs from an
+    # Amazon Web Services service in another account to a logs delivery
+    # destination in the current account, you must do the following:
+    #
+    # * Create a delivery source, which is a logical object that represents
+    #   the resource that is actually sending the logs. For more
+    #   information, see [PutDeliverySource][1].
+    #
+    # * Create a *delivery destination*, which is a logical object that
+    #   represents the actual delivery destination. For more information,
+    #   see [PutDeliveryDestination][2].
+    #
+    # * Use this operation in the destination account to assign an IAM
+    #   policy to the destination. This policy allows delivery to that
+    #   destination.
+    #
+    # * Create a *delivery* by pairing exactly one delivery source and one
+    #   delivery destination. For more information, see [CreateDelivery][3].
+    #
+    # Only some Amazon Web Services services support being configured as a
+    # delivery source. These services are listed as **Supported \[V2
+    # Permissions\]** in the table at [Enabling logging from Amazon Web
+    # Services services.][4]
+    #
+    # The contents of the policy must include two statements. One statement
+    # enables general logs delivery, and the other allows delivery to the
+    # chosen destination. See the examples for the needed policies.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliverySource.html
+    # [2]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliveryDestination.html
+    # [3]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_CreateDelivery.html
+    # [4]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/AWS-logs-and-resource-policy.html
+    #
+    # @option params [required, String] :delivery_destination_name
+    #   The name of the delivery destination to assign this policy to.
+    #
+    # @option params [required, String] :delivery_destination_policy
+    #   The contents of the policy.
+    #
+    # @return [Types::PutDeliveryDestinationPolicyResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::PutDeliveryDestinationPolicyResponse#policy #policy} => Types::Policy
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.put_delivery_destination_policy({
+    #     delivery_destination_name: "DeliveryDestinationName", # required
+    #     delivery_destination_policy: "DeliveryDestinationPolicy", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.policy.delivery_destination_policy #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/PutDeliveryDestinationPolicy AWS API Documentation
+    #
+    # @overload put_delivery_destination_policy(params = {})
+    # @param [Hash] params ({})
+    def put_delivery_destination_policy(params = {}, options = {})
+      req = build_request(:put_delivery_destination_policy, params)
+      req.send_request(options)
+    end
+
+    # Creates or updates a logical *delivery source*. A delivery source
+    # represents an Amazon Web Services resource that sends logs to an logs
+    # delivery destination. The destination can be CloudWatch Logs, Amazon
+    # S3, or Firehose.
+    #
+    # To configure logs delivery between a delivery destination and an
+    # Amazon Web Services service that is supported as a delivery source,
+    # you must do the following:
+    #
+    # * Use `PutDeliverySource` to create a delivery source, which is a
+    #   logical object that represents the resource that is actually sending
+    #   the logs.
+    #
+    # * Use `PutDeliveryDestination` to create a *delivery destination*,
+    #   which is a logical object that represents the actual delivery
+    #   destination. For more information, see [PutDeliveryDestination][1].
+    #
+    # * If you are delivering logs cross-account, you must use
+    #   [PutDeliveryDestinationPolicy][2] in the destination account to
+    #   assign an IAM policy to the destination. This policy allows delivery
+    #   to that destination.
+    #
+    # * Use `CreateDelivery` to create a *delivery* by pairing exactly one
+    #   delivery source and one delivery destination. For more information,
+    #   see [CreateDelivery][3].
+    #
+    # You can configure a single delivery source to send logs to multiple
+    # destinations by creating multiple deliveries. You can also create
+    # multiple deliveries to configure multiple delivery sources to send
+    # logs to the same delivery destination.
+    #
+    # Only some Amazon Web Services services support being configured as a
+    # delivery source. These services are listed as **Supported \[V2
+    # Permissions\]** in the table at [Enabling logging from Amazon Web
+    # Services services.][4]
+    #
+    # If you use this operation to update an existing delivery source, all
+    # the current delivery source parameters are overwritten with the new
+    # parameter values that you specify.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliveryDestination.html
+    # [2]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliveryDestinationPolicy.html
+    # [3]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_CreateDelivery.html
+    # [4]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/AWS-logs-and-resource-policy.html
+    #
+    # @option params [required, String] :name
+    #   A name for this delivery source. This name must be unique for all
+    #   delivery sources in your account.
+    #
+    # @option params [required, String] :resource_arn
+    #   The ARN of the Amazon Web Services resource that is generating and
+    #   sending logs. For example,
+    #   `arn:aws:workmail:us-east-1:123456789012:organization/m-1234EXAMPLEabcd1234abcd1234abcd1234`
+    #
+    # @option params [required, String] :log_type
+    #   Defines the type of log that the source is sending.
+    #
+    #   * For Amazon Bedrock, the valid value is `APPLICATION_LOGS`.
+    #
+    #   * For CloudFront, the valid value is `ACCESS_LOGS`.
+    #
+    #   * For Amazon CodeWhisperer, the valid value is `EVENT_LOGS`.
+    #
+    #   * For Elemental MediaPackage, the valid values are
+    #     `EGRESS_ACCESS_LOGS` and `INGRESS_ACCESS_LOGS`.
+    #
+    #   * For Elemental MediaTailor, the valid values are
+    #     `AD_DECISION_SERVER_LOGS`, `MANIFEST_SERVICE_LOGS`, and
+    #     `TRANSCODE_LOGS`.
+    #
+    #   * For IAM Identity Center, the valid value is `ERROR_LOGS`.
+    #
+    #   * For Amazon Q, the valid value is `EVENT_LOGS`.
+    #
+    #   * For Amazon SES mail manager, the valid value is `APPLICATION_LOG`.
+    #
+    #   * For Amazon WorkMail, the valid values are `ACCESS_CONTROL_LOGS`,
+    #     `AUTHENTICATION_LOGS`, `WORKMAIL_AVAILABILITY_PROVIDER_LOGS`,
+    #     `WORKMAIL_MAILBOX_ACCESS_LOGS`, and
+    #     `WORKMAIL_PERSONAL_ACCESS_TOKEN_LOGS`.
+    #
+    # @option params [Hash<String,String>] :tags
+    #   An optional list of key-value pairs to associate with the resource.
+    #
+    #   For more information about tagging, see [Tagging Amazon Web Services
+    #   resources][1]
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html
+    #
+    # @return [Types::PutDeliverySourceResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::PutDeliverySourceResponse#delivery_source #delivery_source} => Types::DeliverySource
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.put_delivery_source({
+    #     name: "DeliverySourceName", # required
+    #     resource_arn: "Arn", # required
+    #     log_type: "LogType", # required
+    #     tags: {
+    #       "TagKey" => "TagValue",
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.delivery_source.name #=> String
+    #   resp.delivery_source.arn #=> String
+    #   resp.delivery_source.resource_arns #=> Array
+    #   resp.delivery_source.resource_arns[0] #=> String
+    #   resp.delivery_source.service #=> String
+    #   resp.delivery_source.log_type #=> String
+    #   resp.delivery_source.tags #=> Hash
+    #   resp.delivery_source.tags["TagKey"] #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/PutDeliverySource AWS API Documentation
+    #
+    # @overload put_delivery_source(params = {})
+    # @param [Hash] params ({})
+    def put_delivery_source(params = {}, options = {})
+      req = build_request(:put_delivery_source, params)
       req.send_request(options)
     end
 
@@ -2323,11 +4952,11 @@ module Aws::CloudWatchLogs
     # @option params [Boolean] :force_update
     #   Specify true if you are updating an existing destination policy to
     #   grant permission to an organization ID instead of granting permission
-    #   to individual AWS accounts. Before you update a destination policy
-    #   this way, you must first update the subscription filters in the
-    #   accounts that send logs to this destination. If you do not, the
-    #   subscription filters might stop working. By specifying `true` for
-    #   `forceUpdate`, you are affirming that you have already updated the
+    #   to individual Amazon Web Services accounts. Before you update a
+    #   destination policy this way, you must first update the subscription
+    #   filters in the accounts that send logs to this destination. If you do
+    #   not, the subscription filters might stop working. By specifying `true`
+    #   for `forceUpdate`, you are affirming that you have already updated the
     #   subscription filters. For more information, see [ Updating an existing
     #   cross-account subscription][1]
     #
@@ -2353,6 +4982,167 @@ module Aws::CloudWatchLogs
     # @param [Hash] params ({})
     def put_destination_policy(params = {}, options = {})
       req = build_request(:put_destination_policy, params)
+      req.send_request(options)
+    end
+
+    # Creates or updates a *field index policy* for the specified log group.
+    # Only log groups in the Standard log class support field index
+    # policies. For more information about log classes, see [Log
+    # classes][1].
+    #
+    # You can use field index policies to create *field indexes* on fields
+    # found in log events in the log group. Creating field indexes speeds up
+    # and lowers the costs for CloudWatch Logs Insights queries that
+    # reference those field indexes, because these queries attempt to skip
+    # the processing of log events that are known to not match the indexed
+    # field. Good fields to index are fields that you often need to query
+    # for and fields or values that match only a small fraction of the total
+    # log events. Common examples of indexes include request ID, session ID,
+    # userID, and instance IDs. For more information, see [Create field
+    # indexes to improve query performance and reduce costs][2].
+    #
+    # To find the fields that are in your log group events, use the
+    # [GetLogGroupFields][3] operation.
+    #
+    # For example, suppose you have created a field index for `requestId`.
+    # Then, any CloudWatch Logs Insights query on that log group that
+    # includes `requestId = value ` or `requestId IN [value, value, ...]`
+    # will process fewer log events to reduce costs, and have improved
+    # performance.
+    #
+    # Each index policy has the following quotas and restrictions:
+    #
+    # * As many as 20 fields can be included in the policy.
+    #
+    # * Each field name can include as many as 100 characters.
+    #
+    # Matches of log events to the names of indexed fields are
+    # case-sensitive. For example, a field index of `RequestId` won't match
+    # a log event containing `requestId`.
+    #
+    # Log group-level field index policies created with `PutIndexPolicy`
+    # override account-level field index policies created with
+    # [PutAccountPolicy][4]. If you use `PutIndexPolicy` to create a field
+    # index policy for a log group, that log group uses only that policy.
+    # The log group ignores any account-wide field index policy that you
+    # might have created.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch_Logs_Log_Classes.html
+    # [2]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatchLogs-Field-Indexing.html
+    # [3]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_GetLogGroupFields.html
+    # [4]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutAccountPolicy.html
+    #
+    # @option params [required, String] :log_group_identifier
+    #   Specify either the log group name or log group ARN to apply this field
+    #   index policy to. If you specify an ARN, use the format
+    #   arn:aws:logs:*region*:*account-id*:log-group:*log\_group\_name* Don't
+    #   include an * at the end.
+    #
+    # @option params [required, String] :policy_document
+    #   The index policy document, in JSON format. The following is an example
+    #   of an index policy document that creates two indexes, `RequestId` and
+    #   `TransactionId`.
+    #
+    #   `"policyDocument": "{ "Fields": [ "RequestId", "TransactionId" ] }"`
+    #
+    #   The policy document must include at least one field index. For more
+    #   information about the fields that can be included and other
+    #   restrictions, see [Field index syntax and quotas][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatchLogs-Field-Indexing-Syntax.html
+    #
+    # @return [Types::PutIndexPolicyResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::PutIndexPolicyResponse#index_policy #index_policy} => Types::IndexPolicy
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.put_index_policy({
+    #     log_group_identifier: "LogGroupIdentifier", # required
+    #     policy_document: "PolicyDocument", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.index_policy.log_group_identifier #=> String
+    #   resp.index_policy.last_update_time #=> Integer
+    #   resp.index_policy.policy_document #=> String
+    #   resp.index_policy.policy_name #=> String
+    #   resp.index_policy.source #=> String, one of "ACCOUNT", "LOG_GROUP"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/PutIndexPolicy AWS API Documentation
+    #
+    # @overload put_index_policy(params = {})
+    # @param [Hash] params ({})
+    def put_index_policy(params = {}, options = {})
+      req = build_request(:put_index_policy, params)
+      req.send_request(options)
+    end
+
+    # Creates an integration between CloudWatch Logs and another service in
+    # this account. Currently, only integrations with OpenSearch Service are
+    # supported, and currently you can have only one integration in your
+    # account.
+    #
+    # Integrating with OpenSearch Service makes it possible for you to
+    # create curated vended logs dashboards, powered by OpenSearch Service
+    # analytics. For more information, see [Vended log dashboards powered by
+    # Amazon OpenSearch Service][1].
+    #
+    # You can use this operation only to create a new integration. You
+    # can't modify an existing integration.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatchLogs-OpenSearch-Dashboards.html
+    #
+    # @option params [required, String] :integration_name
+    #   A name for the integration.
+    #
+    # @option params [required, Types::ResourceConfig] :resource_config
+    #   A structure that contains configuration information for the
+    #   integration that you are creating.
+    #
+    # @option params [required, String] :integration_type
+    #   The type of integration. Currently, the only supported type is
+    #   `OPENSEARCH`.
+    #
+    # @return [Types::PutIntegrationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::PutIntegrationResponse#integration_name #integration_name} => String
+    #   * {Types::PutIntegrationResponse#integration_status #integration_status} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.put_integration({
+    #     integration_name: "IntegrationName", # required
+    #     resource_config: { # required
+    #       open_search_resource_config: {
+    #         kms_key_arn: "Arn",
+    #         data_source_role_arn: "Arn", # required
+    #         dashboard_viewer_principals: ["Arn"], # required
+    #         application_arn: "Arn",
+    #         retention_days: 1, # required
+    #       },
+    #     },
+    #     integration_type: "OPENSEARCH", # required, accepts OPENSEARCH
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.integration_name #=> String
+    #   resp.integration_status #=> String, one of "PROVISIONING", "ACTIVE", "FAILED"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/PutIntegration AWS API Documentation
+    #
+    # @overload put_integration(params = {})
+    # @param [Hash] params ({})
+    def put_integration(params = {}, options = {})
+      req = build_request(:put_integration, params)
       req.send_request(options)
     end
 
@@ -2387,6 +5177,8 @@ module Aws::CloudWatchLogs
     # * A batch of log events in a single request cannot span more than 24
     #   hours. Otherwise, the operation fails.
     #
+    # * Each log event can be no larger than 256 KB.
+    #
     # * The maximum number of log events in a batch is 10,000.
     #
     # * The quota of five requests per second per log stream has been
@@ -2416,10 +5208,14 @@ module Aws::CloudWatchLogs
     #   `InvalidSequenceTokenException` or `DataAlreadyAcceptedException` even
     #   if the sequence token is not valid.
     #
+    # @option params [Types::Entity] :entity
+    #   The entity associated with the log events.
+    #
     # @return [Types::PutLogEventsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::PutLogEventsResponse#next_sequence_token #next_sequence_token} => String
     #   * {Types::PutLogEventsResponse#rejected_log_events_info #rejected_log_events_info} => Types::RejectedLogEventsInfo
+    #   * {Types::PutLogEventsResponse#rejected_entity_info #rejected_entity_info} => Types::RejectedEntityInfo
     #
     # @example Request syntax with placeholder values
     #
@@ -2433,6 +5229,14 @@ module Aws::CloudWatchLogs
     #       },
     #     ],
     #     sequence_token: "SequenceToken",
+    #     entity: {
+    #       key_attributes: {
+    #         "EntityKeyAttributesKey" => "EntityKeyAttributesValue",
+    #       },
+    #       attributes: {
+    #         "EntityAttributesKey" => "EntityAttributesValue",
+    #       },
+    #     },
     #   })
     #
     # @example Response structure
@@ -2441,6 +5245,7 @@ module Aws::CloudWatchLogs
     #   resp.rejected_log_events_info.too_new_log_event_start_index #=> Integer
     #   resp.rejected_log_events_info.too_old_log_event_end_index #=> Integer
     #   resp.rejected_log_events_info.expired_log_event_end_index #=> Integer
+    #   resp.rejected_entity_info.error_type #=> String, one of "InvalidEntity", "InvalidTypeValue", "InvalidKeyAttributes", "InvalidAttributes", "EntitySizeTooLarge", "UnsupportedLogGroupType", "MissingRequiredFields"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/PutLogEvents AWS API Documentation
     #
@@ -2459,6 +5264,14 @@ module Aws::CloudWatchLogs
     # The maximum number of metric filters that can be associated with a log
     # group is 100.
     #
+    # Using regular expressions in filter patterns is supported. For these
+    # filters, there is a quota of two regular expression patterns within a
+    # single filter pattern. There is also a quota of five regular
+    # expression patterns per log group. For more information about using
+    # regular expressions in filter patterns, see [ Filter pattern syntax
+    # for metric filters, subscription filters, filter log events, and Live
+    # Tail][2].
+    #
     # When you create a metric filter, you can also optionally assign a unit
     # and dimensions to the metric that is created.
     #
@@ -2468,18 +5281,19 @@ module Aws::CloudWatchLogs
     # different value found for a dimension is treated as a separate metric
     # and accrues charges as a separate custom metric.
     #
-    #  CloudWatch Logs disables a metric filter if it generates 1,000
-    # different name/value pairs for your specified dimensions within a
-    # certain amount of time. This helps to prevent accidental high charges.
+    #  CloudWatch Logs might disable a metric filter if it generates 1,000
+    # different name/value pairs for your specified dimensions within one
+    # hour.
     #
     #  You can also set up a billing alarm to alert you if your charges are
     # higher than expected. For more information, see [ Creating a Billing
-    # Alarm to Monitor Your Estimated Amazon Web Services Charges][2].
+    # Alarm to Monitor Your Estimated Amazon Web Services Charges][3].
     #
     #
     #
     # [1]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutLogEvents.html
-    # [2]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/monitor_estimated_charges_with_cloudwatch.html
+    # [2]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/FilterAndPatternSyntax.html
+    # [3]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/monitor_estimated_charges_with_cloudwatch.html
     #
     # @option params [required, String] :log_group_name
     #   The name of the log group.
@@ -2493,6 +5307,20 @@ module Aws::CloudWatchLogs
     #
     # @option params [required, Array<Types::MetricTransformation>] :metric_transformations
     #   A collection of information that defines how metric data gets emitted.
+    #
+    # @option params [Boolean] :apply_on_transformed_logs
+    #   This parameter is valid only for log groups that have an active log
+    #   transformer. For more information about log transformers, see
+    #   [PutTransformer][1].
+    #
+    #   If the log group uses either a log-group level or account-level
+    #   transformer, and you specify `true`, the metric filter will be applied
+    #   on the transformed version of the log events instead of the original
+    #   ingested log events.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutTransformer.html
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
@@ -2514,6 +5342,7 @@ module Aws::CloudWatchLogs
     #         unit: "Seconds", # accepts Seconds, Microseconds, Milliseconds, Bytes, Kilobytes, Megabytes, Gigabytes, Terabytes, Bits, Kilobits, Megabits, Gigabits, Terabits, Percent, Count, Bytes/Second, Kilobytes/Second, Megabytes/Second, Gigabytes/Second, Terabytes/Second, Bits/Second, Kilobits/Second, Megabits/Second, Gigabits/Second, Terabits/Second, Count/Second, None
     #       },
     #     ],
+    #     apply_on_transformed_logs: false,
     #   })
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/PutMetricFilter AWS API Documentation
@@ -2545,6 +5374,16 @@ module Aws::CloudWatchLogs
     #
     # [1]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/AnalyzingLogData.html
     #
+    # @option params [String] :query_language
+    #   Specify the query language to use for this query. The options are Logs
+    #   Insights QL, OpenSearch PPL, and OpenSearch SQL. For more information
+    #   about the query languages that CloudWatch Logs supports, see
+    #   [Supported query languages][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL_AnalyzeLogData_Languages.html
+    #
     # @option params [required, String] :name
     #   A name for the query definition. If you are saving numerous query
     #   definitions, we recommend that you name them. This way, you can find
@@ -2572,10 +5411,13 @@ module Aws::CloudWatchLogs
     #
     # @option params [Array<String>] :log_group_names
     #   Use this parameter to include specific log groups as part of your
-    #   query definition.
+    #   query definition. If your query uses the OpenSearch Service query
+    #   language, you specify the log group names inside the `querystring`
+    #   instead of here.
     #
-    #   If you are updating a query definition and you omit this parameter,
-    #   then the updated definition will contain no log groups.
+    #   If you are updating an existing query definition for the Logs Insights
+    #   QL or OpenSearch Service PPL and you omit this parameter, then the
+    #   updated definition will contain no log groups.
     #
     # @option params [required, String] :query_string
     #   The query string to use for this definition. For more information, see
@@ -2585,6 +5427,13 @@ module Aws::CloudWatchLogs
     #
     #   [1]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL_QuerySyntax.html
     #
+    # @option params [String] :client_token
+    #   Used as an idempotency token, to avoid returning an exception if the
+    #   service receives the same request twice because of a network error.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
     # @return [Types::PutQueryDefinitionResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::PutQueryDefinitionResponse#query_definition_id #query_definition_id} => String
@@ -2592,10 +5441,12 @@ module Aws::CloudWatchLogs
     # @example Request syntax with placeholder values
     #
     #   resp = client.put_query_definition({
+    #     query_language: "CWLI", # accepts CWLI, SQL, PPL
     #     name: "QueryDefinitionName", # required
     #     query_definition_id: "QueryId",
     #     log_group_names: ["LogGroupName"],
     #     query_string: "QueryDefinitionString", # required
+    #     client_token: "ClientToken",
     #   })
     #
     # @example Response structure
@@ -2639,12 +5490,12 @@ module Aws::CloudWatchLogs
     #
     #
     #
-    #   `\{ "Version": "2012-10-17", "Statement": [ \{ "Sid":
-    #   "Route53LogsToCloudWatchLogs", "Effect": "Allow", "Principal": \{
-    #   "Service": [ "route53.amazonaws.com" ] \}, "Action":
-    #   "logs:PutLogEvents", "Resource": "logArn", "Condition": \{ "ArnLike":
-    #   \{ "aws:SourceArn": "myRoute53ResourceArn" \}, "StringEquals": \{
-    #   "aws:SourceAccount": "myAwsAccountId" \} \} \} ] \}`
+    #   `{ "Version": "2012-10-17", "Statement": [ { "Sid":
+    #   "Route53LogsToCloudWatchLogs", "Effect": "Allow", "Principal": {
+    #   "Service": [ "route53.amazonaws.com" ] }, "Action":
+    #   "logs:PutLogEvents", "Resource": "logArn", "Condition": { "ArnLike": {
+    #   "aws:SourceArn": "myRoute53ResourceArn" }, "StringEquals": {
+    #   "aws:SourceAccount": "myAwsAccountId" } } } ] }`
     #
     #
     #
@@ -2681,19 +5532,26 @@ module Aws::CloudWatchLogs
     # policy, you can configure the number of days for which to retain log
     # events in the specified log group.
     #
-    # <note markdown="1"> CloudWatch Logs doesn’t immediately delete log events when they reach
+    # <note markdown="1"> CloudWatch Logs doesn't immediately delete log events when they reach
     # their retention setting. It typically takes up to 72 hours after that
     # before log events are deleted, but in rare situations might take
     # longer.
     #
     #  To illustrate, imagine that you change a log group to have a longer
     # retention setting when it contains log events that are past the
-    # expiration date, but haven’t been deleted. Those log events will take
+    # expiration date, but haven't been deleted. Those log events will take
     # up to 72 hours to be deleted after the new retention date is reached.
     # To make sure that log data is deleted permanently, keep a log group at
     # its lower retention setting until 72 hours after the previous
     # retention period ends. Alternatively, wait to change the retention
     # setting until you confirm that the earlier log events are deleted.
+    #
+    #  When log events reach their retention setting they are marked for
+    # deletion. After they are marked for deletion, they do not add to your
+    # archival storage costs anymore, even if they are not actually deleted
+    # until later. These log events marked for deletion are also not
+    # included when you use an API to retrieve the `storedBytes` value to
+    # see how many bytes a log group is storing.
     #
     #  </note>
     #
@@ -2703,7 +5561,7 @@ module Aws::CloudWatchLogs
     # @option params [required, Integer] :retention_in_days
     #   The number of days to retain the log events in the specified log
     #   group. Possible values are: 1, 3, 5, 7, 14, 30, 60, 90, 120, 150, 180,
-    #   365, 400, 545, 731, 1827, 2192, 2557, 2922, 3288, and 3653.
+    #   365, 400, 545, 731, 1096, 1827, 2192, 2557, 2922, 3288, and 3653.
     #
     #   To set a log group so that its log events do not expire, use
     #   [DeleteRetentionPolicy][1].
@@ -2742,8 +5600,9 @@ module Aws::CloudWatchLogs
     # * An Amazon Kinesis data stream belonging to the same account as the
     #   subscription filter, for same-account delivery.
     #
-    # * A logical destination that belongs to a different account, for
-    #   cross-account delivery.
+    # * A logical destination created with [PutDestination][2] that belongs
+    #   to a different account, for cross-account delivery. We currently
+    #   support Kinesis Data Streams and Firehose as logical destinations.
     #
     # * An Amazon Kinesis Data Firehose delivery stream that belongs to the
     #   same account as the subscription filter, for same-account delivery.
@@ -2755,12 +5614,23 @@ module Aws::CloudWatchLogs
     # it. If you are updating an existing filter, you must specify the
     # correct name in `filterName`.
     #
-    # To perform a `PutSubscriptionFilter` operation, you must also have the
-    # `iam:PassRole` permission.
+    # Using regular expressions in filter patterns is supported. For these
+    # filters, there is a quotas of quota of two regular expression patterns
+    # within a single filter pattern. There is also a quota of five regular
+    # expression patterns per log group. For more information about using
+    # regular expressions in filter patterns, see [ Filter pattern syntax
+    # for metric filters, subscription filters, filter log events, and Live
+    # Tail][3].
+    #
+    # To perform a `PutSubscriptionFilter` operation for any destination
+    # except a Lambda function, you must also have the `iam:PassRole`
+    # permission.
     #
     #
     #
     # [1]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutLogEvents.html
+    # [2]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDestination.html
+    # [3]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/FilterAndPatternSyntax.html
     #
     # @option params [required, String] :log_group_name
     #   The name of the log group.
@@ -2815,6 +5685,20 @@ module Aws::CloudWatchLogs
     #   random for a more even distribution. This property is only applicable
     #   when the destination is an Amazon Kinesis data stream.
     #
+    # @option params [Boolean] :apply_on_transformed_logs
+    #   This parameter is valid only for log groups that have an active log
+    #   transformer. For more information about log transformers, see
+    #   [PutTransformer][1].
+    #
+    #   If the log group uses either a log-group level or account-level
+    #   transformer, and you specify `true`, the subscription filter will be
+    #   applied on the transformed version of the log events instead of the
+    #   original ingested log events.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutTransformer.html
+    #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
     # @example Request syntax with placeholder values
@@ -2826,6 +5710,7 @@ module Aws::CloudWatchLogs
     #     destination_arn: "DestinationArn", # required
     #     role_arn: "RoleArn",
     #     distribution: "Random", # accepts Random, ByLogStream
+    #     apply_on_transformed_logs: false,
     #   })
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/PutSubscriptionFilter AWS API Documentation
@@ -2837,35 +5722,567 @@ module Aws::CloudWatchLogs
       req.send_request(options)
     end
 
-    # Schedules a query of a log group using CloudWatch Logs Insights. You
-    # specify the log group and time range to query and the query string to
-    # use.
+    # Creates or updates a *log transformer* for a single log group. You use
+    # log transformers to transform log events into a different format,
+    # making them easier for you to process and analyze. You can also
+    # transform logs from different sources into standardized formats that
+    # contains relevant, source-specific information.
+    #
+    # After you have created a transformer, CloudWatch Logs performs the
+    # transformations at the time of log ingestion. You can then refer to
+    # the transformed versions of the logs during operations such as
+    # querying with CloudWatch Logs Insights or creating metric filters or
+    # subscription filers.
+    #
+    # You can also use a transformer to copy metadata from metadata keys
+    # into the log events themselves. This metadata can include log group
+    # name, log stream name, account ID and Region.
+    #
+    # A transformer for a log group is a series of processors, where each
+    # processor applies one type of transformation to the log events
+    # ingested into this log group. The processors work one after another,
+    # in the order that you list them, like a pipeline. For more information
+    # about the available processors to use in a transformer, see [
+    # Processors that you can use][1].
+    #
+    # Having log events in standardized format enables visibility across
+    # your applications for your log analysis, reporting, and alarming
+    # needs. CloudWatch Logs provides transformation for common log types
+    # with out-of-the-box transformation templates for major Amazon Web
+    # Services log sources such as VPC flow logs, Lambda, and Amazon RDS.
+    # You can use pre-built transformation templates or create custom
+    # transformation policies.
+    #
+    # You can create transformers only for the log groups in the Standard
+    # log class.
+    #
+    # You can also set up a transformer at the account level. For more
+    # information, see [PutAccountPolicy][2]. If there is both a log-group
+    # level transformer created with `PutTransformer` and an account-level
+    # transformer that could apply to the same log group, the log group uses
+    # only the log-group level transformer. It ignores the account-level
+    # transformer.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatch-Logs-Transformation.html#CloudWatch-Logs-Transformation-Processors
+    # [2]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutAccountPolicy.html
+    #
+    # @option params [required, String] :log_group_identifier
+    #   Specify either the name or ARN of the log group to create the
+    #   transformer for.
+    #
+    # @option params [required, Array<Types::Processor>] :transformer_config
+    #   This structure contains the configuration of this log transformer. A
+    #   log transformer is an array of processors, where each processor
+    #   applies one type of transformation to the log events that are
+    #   ingested.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.put_transformer({
+    #     log_group_identifier: "LogGroupIdentifier", # required
+    #     transformer_config: [ # required
+    #       {
+    #         add_keys: {
+    #           entries: [ # required
+    #             {
+    #               key: "Key", # required
+    #               value: "AddKeyValue", # required
+    #               overwrite_if_exists: false,
+    #             },
+    #           ],
+    #         },
+    #         copy_value: {
+    #           entries: [ # required
+    #             {
+    #               source: "Source", # required
+    #               target: "Target", # required
+    #               overwrite_if_exists: false,
+    #             },
+    #           ],
+    #         },
+    #         csv: {
+    #           quote_character: "QuoteCharacter",
+    #           delimiter: "Delimiter",
+    #           columns: ["Column"],
+    #           source: "Source",
+    #         },
+    #         date_time_converter: {
+    #           source: "Source", # required
+    #           target: "Target", # required
+    #           target_format: "TargetFormat",
+    #           match_patterns: ["MatchPattern"], # required
+    #           source_timezone: "SourceTimezone",
+    #           target_timezone: "TargetTimezone",
+    #           locale: "Locale",
+    #         },
+    #         delete_keys: {
+    #           with_keys: ["WithKey"], # required
+    #         },
+    #         grok: {
+    #           source: "Source",
+    #           match: "GrokMatch", # required
+    #         },
+    #         list_to_map: {
+    #           source: "Source", # required
+    #           key: "Key", # required
+    #           value_key: "ValueKey",
+    #           target: "Target",
+    #           flatten: false,
+    #           flattened_element: "first", # accepts first, last
+    #         },
+    #         lower_case_string: {
+    #           with_keys: ["WithKey"], # required
+    #         },
+    #         move_keys: {
+    #           entries: [ # required
+    #             {
+    #               source: "Source", # required
+    #               target: "Target", # required
+    #               overwrite_if_exists: false,
+    #             },
+    #           ],
+    #         },
+    #         parse_cloudfront: {
+    #           source: "Source",
+    #         },
+    #         parse_json: {
+    #           source: "Source",
+    #           destination: "DestinationField",
+    #         },
+    #         parse_key_value: {
+    #           source: "Source",
+    #           destination: "DestinationField",
+    #           field_delimiter: "ParserFieldDelimiter",
+    #           key_value_delimiter: "KeyValueDelimiter",
+    #           key_prefix: "KeyPrefix",
+    #           non_match_value: "NonMatchValue",
+    #           overwrite_if_exists: false,
+    #         },
+    #         parse_route_53: {
+    #           source: "Source",
+    #         },
+    #         parse_postgres: {
+    #           source: "Source",
+    #         },
+    #         parse_vpc: {
+    #           source: "Source",
+    #         },
+    #         parse_waf: {
+    #           source: "Source",
+    #         },
+    #         rename_keys: {
+    #           entries: [ # required
+    #             {
+    #               key: "Key", # required
+    #               rename_to: "RenameTo", # required
+    #               overwrite_if_exists: false,
+    #             },
+    #           ],
+    #         },
+    #         split_string: {
+    #           entries: [ # required
+    #             {
+    #               source: "Source", # required
+    #               delimiter: "Delimiter", # required
+    #             },
+    #           ],
+    #         },
+    #         substitute_string: {
+    #           entries: [ # required
+    #             {
+    #               source: "Source", # required
+    #               from: "FromKey", # required
+    #               to: "ToKey", # required
+    #             },
+    #           ],
+    #         },
+    #         trim_string: {
+    #           with_keys: ["WithKey"], # required
+    #         },
+    #         type_converter: {
+    #           entries: [ # required
+    #             {
+    #               key: "Key", # required
+    #               type: "boolean", # required, accepts boolean, integer, double, string
+    #             },
+    #           ],
+    #         },
+    #         upper_case_string: {
+    #           with_keys: ["WithKey"], # required
+    #         },
+    #       },
+    #     ],
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/PutTransformer AWS API Documentation
+    #
+    # @overload put_transformer(params = {})
+    # @param [Hash] params ({})
+    def put_transformer(params = {}, options = {})
+      req = build_request(:put_transformer, params)
+      req.send_request(options)
+    end
+
+    # Starts a Live Tail streaming session for one or more log groups. A
+    # Live Tail session returns a stream of log events that have been
+    # recently ingested in the log groups. For more information, see [Use
+    # Live Tail to view logs in near real time][1].
+    #
+    # The response to this operation is a response stream, over which the
+    # server sends live log events and the client receives them.
+    #
+    # The following objects are sent over the stream:
+    #
+    # * A single [LiveTailSessionStart][2] object is sent at the start of
+    #   the session.
+    #
+    # * Every second, a [LiveTailSessionUpdate][3] object is sent. Each of
+    #   these objects contains an array of the actual log events.
+    #
+    #   If no new log events were ingested in the past second, the
+    #   `LiveTailSessionUpdate` object will contain an empty array.
+    #
+    #   The array of log events contained in a `LiveTailSessionUpdate` can
+    #   include as many as 500 log events. If the number of log events
+    #   matching the request exceeds 500 per second, the log events are
+    #   sampled down to 500 log events to be included in each
+    #   `LiveTailSessionUpdate` object.
+    #
+    #   If your client consumes the log events slower than the server
+    #   produces them, CloudWatch Logs buffers up to 10
+    #   `LiveTailSessionUpdate` events or 5000 log events, after which it
+    #   starts dropping the oldest events.
+    #
+    # * A [SessionStreamingException][4] object is returned if an unknown
+    #   error occurs on the server side.
+    #
+    # * A [SessionTimeoutException][5] object is returned when the session
+    #   times out, after it has been kept open for three hours.
+    #
+    # You can end a session before it times out by closing the session
+    # stream or by closing the client that is receiving the stream. The
+    # session also ends if the established connection between the client and
+    # the server breaks.
+    #
+    # For examples of using an SDK to start a Live Tail session, see [ Start
+    # a Live Tail session using an Amazon Web Services SDK][6].
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CloudWatchLogs_LiveTail.html
+    # [2]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_LiveTailSessionStart.html
+    # [3]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_LiveTailSessionUpdate.html
+    # [4]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_StartLiveTailResponseStream.html#CWL-Type-StartLiveTailResponseStream-SessionStreamingException
+    # [5]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_StartLiveTailResponseStream.html#CWL-Type-StartLiveTailResponseStream-SessionTimeoutException
+    # [6]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/example_cloudwatch-logs_StartLiveTail_section.html
+    #
+    # @option params [required, Array<String>] :log_group_identifiers
+    #   An array where each item in the array is a log group to include in the
+    #   Live Tail session.
+    #
+    #   Specify each log group by its ARN.
+    #
+    #   If you specify an ARN, the ARN can't end with an asterisk (*).
+    #
+    #   <note markdown="1"> You can include up to 10 log groups.
+    #
+    #    </note>
+    #
+    # @option params [Array<String>] :log_stream_names
+    #   If you specify this parameter, then only log events in the log streams
+    #   that you specify here are included in the Live Tail session.
+    #
+    #   If you specify this field, you can't also specify the
+    #   `logStreamNamePrefixes` field.
+    #
+    #   <note markdown="1"> You can specify this parameter only if you specify only one log group
+    #   in `logGroupIdentifiers`.
+    #
+    #    </note>
+    #
+    # @option params [Array<String>] :log_stream_name_prefixes
+    #   If you specify this parameter, then only log events in the log streams
+    #   that have names that start with the prefixes that you specify here are
+    #   included in the Live Tail session.
+    #
+    #   If you specify this field, you can't also specify the
+    #   `logStreamNames` field.
+    #
+    #   <note markdown="1"> You can specify this parameter only if you specify only one log group
+    #   in `logGroupIdentifiers`.
+    #
+    #    </note>
+    #
+    # @option params [String] :log_event_filter_pattern
+    #   An optional pattern to use to filter the results to include only log
+    #   events that match the pattern. For example, a filter pattern of `error
+    #   404` causes only log events that include both `error` and `404` to be
+    #   included in the Live Tail stream.
+    #
+    #   Regular expression filter patterns are supported.
+    #
+    #   For more information about filter pattern syntax, see [Filter and
+    #   Pattern Syntax][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/FilterAndPatternSyntax.html
+    #
+    # @return [Types::StartLiveTailResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::StartLiveTailResponse#response_stream #response_stream} => Types::StartLiveTailResponseStream
+    #
+    # @example EventStream Operation Example
+    #
+    #   You can process the event once it arrives immediately, or wait until the
+    #   full response is complete and iterate through the eventstream enumerator.
+    #
+    #   To interact with event immediately, you need to register #start_live_tail
+    #   with callbacks. Callbacks can be registered for specific events or for all
+    #   events, including error events.
+    #
+    #   Callbacks can be passed into the `:event_stream_handler` option or within a
+    #   block statement attached to the #start_live_tail call directly. Hybrid
+    #   pattern of both is also supported.
+    #
+    #   `:event_stream_handler` option takes in either a Proc object or
+    #   Aws::CloudWatchLogs::EventStreams::StartLiveTailResponseStream object.
+    #
+    #   Usage pattern a): Callbacks with a block attached to #start_live_tail
+    #     Example for registering callbacks for all event types and an error event
+    #
+    #     client.start_live_tail( # params input# ) do |stream|
+    #       stream.on_error_event do |event|
+    #         # catch unmodeled error event in the stream
+    #         raise event
+    #         # => Aws::Errors::EventError
+    #         # event.event_type => :error
+    #         # event.error_code => String
+    #         # event.error_message => String
+    #       end
+    #
+    #       stream.on_event do |event|
+    #         # process all events arrive
+    #         puts event.event_type
+    #         ...
+    #       end
+    #
+    #     end
+    #
+    #   Usage pattern b): Pass in `:event_stream_handler` for #start_live_tail
+    #
+    #     1) Create a Aws::CloudWatchLogs::EventStreams::StartLiveTailResponseStream object
+    #     Example for registering callbacks with specific events
+    #
+    #       handler = Aws::CloudWatchLogs::EventStreams::StartLiveTailResponseStream.new
+    #       handler.on_session_start_event do |event|
+    #         event # => Aws::CloudWatchLogs::Types::sessionStart
+    #       end
+    #       handler.on_session_update_event do |event|
+    #         event # => Aws::CloudWatchLogs::Types::sessionUpdate
+    #       end
+    #       handler.on_session_timeout_exception_event do |event|
+    #         event # => Aws::CloudWatchLogs::Types::SessionTimeoutException
+    #       end
+    #       handler.on_session_streaming_exception_event do |event|
+    #         event # => Aws::CloudWatchLogs::Types::SessionStreamingException
+    #       end
+    #
+    #     client.start_live_tail( # params input #, event_stream_handler: handler)
+    #
+    #     2) Use a Ruby Proc object
+    #     Example for registering callbacks with specific events
+    #
+    #     handler = Proc.new do |stream|
+    #       stream.on_session_start_event do |event|
+    #         event # => Aws::CloudWatchLogs::Types::sessionStart
+    #       end
+    #       stream.on_session_update_event do |event|
+    #         event # => Aws::CloudWatchLogs::Types::sessionUpdate
+    #       end
+    #       stream.on_session_timeout_exception_event do |event|
+    #         event # => Aws::CloudWatchLogs::Types::SessionTimeoutException
+    #       end
+    #       stream.on_session_streaming_exception_event do |event|
+    #         event # => Aws::CloudWatchLogs::Types::SessionStreamingException
+    #       end
+    #     end
+    #
+    #     client.start_live_tail( # params input #, event_stream_handler: handler)
+    #
+    #   Usage pattern c): Hybrid pattern of a) and b)
+    #
+    #       handler = Aws::CloudWatchLogs::EventStreams::StartLiveTailResponseStream.new
+    #       handler.on_session_start_event do |event|
+    #         event # => Aws::CloudWatchLogs::Types::sessionStart
+    #       end
+    #       handler.on_session_update_event do |event|
+    #         event # => Aws::CloudWatchLogs::Types::sessionUpdate
+    #       end
+    #       handler.on_session_timeout_exception_event do |event|
+    #         event # => Aws::CloudWatchLogs::Types::SessionTimeoutException
+    #       end
+    #       handler.on_session_streaming_exception_event do |event|
+    #         event # => Aws::CloudWatchLogs::Types::SessionStreamingException
+    #       end
+    #
+    #     client.start_live_tail( # params input #, event_stream_handler: handler) do |stream|
+    #       stream.on_error_event do |event|
+    #         # catch unmodeled error event in the stream
+    #         raise event
+    #         # => Aws::Errors::EventError
+    #         # event.event_type => :error
+    #         # event.error_code => String
+    #         # event.error_message => String
+    #       end
+    #     end
+    #
+    #   You can also iterate through events after the response complete.
+    #
+    #   Events are available at resp.response_stream # => Enumerator
+    #   For parameter input example, please refer to following request syntax
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.start_live_tail({
+    #     log_group_identifiers: ["LogGroupIdentifier"], # required
+    #     log_stream_names: ["LogStreamName"],
+    #     log_stream_name_prefixes: ["LogStreamName"],
+    #     log_event_filter_pattern: "FilterPattern",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   All events are available at resp.response_stream:
+    #   resp.response_stream #=> Enumerator
+    #   resp.response_stream.event_types #=> [:session_start, :session_update, :session_timeout_exception, :session_streaming_exception]
+    #
+    #   For :session_start event available at #on_session_start_event callback and response eventstream enumerator:
+    #   event.request_id #=> String
+    #   event.session_id #=> String
+    #   event.log_group_identifiers #=> Array
+    #   event.log_group_identifiers[0] #=> String
+    #   event.log_stream_names #=> Array
+    #   event.log_stream_names[0] #=> String
+    #   event.log_stream_name_prefixes #=> Array
+    #   event.log_stream_name_prefixes[0] #=> String
+    #   event.log_event_filter_pattern #=> String
+    #
+    #   For :session_update event available at #on_session_update_event callback and response eventstream enumerator:
+    #   event.session_metadata.sampled #=> Boolean
+    #   event.session_results #=> Array
+    #   event.session_results[0].log_stream_name #=> String
+    #   event.session_results[0].log_group_identifier #=> String
+    #   event.session_results[0].message #=> String
+    #   event.session_results[0].timestamp #=> Integer
+    #   event.session_results[0].ingestion_time #=> Integer
+    #
+    #   For :session_timeout_exception event available at #on_session_timeout_exception_event callback and response eventstream enumerator:
+    #   event.message #=> String
+    #
+    #   For :session_streaming_exception event available at #on_session_streaming_exception_event callback and response eventstream enumerator:
+    #   event.message #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/StartLiveTail AWS API Documentation
+    #
+    # @overload start_live_tail(params = {})
+    # @param [Hash] params ({})
+    def start_live_tail(params = {}, options = {})
+      params = params.dup
+      event_stream_handler = case handler = params.delete(:event_stream_handler)
+        when EventStreams::StartLiveTailResponseStream then handler
+        when Proc then EventStreams::StartLiveTailResponseStream.new.tap(&handler)
+        when nil then EventStreams::StartLiveTailResponseStream.new
+        else
+          msg = "expected :event_stream_handler to be a block or "\
+                "instance of Aws::CloudWatchLogs::EventStreams::StartLiveTailResponseStream"\
+                ", got `#{handler.inspect}` instead"
+          raise ArgumentError, msg
+        end
+
+      yield(event_stream_handler) if block_given?
+
+      req = build_request(:start_live_tail, params)
+
+      req.context[:event_stream_handler] = event_stream_handler
+      req.handlers.add(Aws::Binary::DecodeHandler, priority: 95)
+
+      req.send_request(options)
+    end
+
+    # Starts a query of one or more log groups using CloudWatch Logs
+    # Insights. You specify the log groups and time range to query and the
+    # query string to use.
     #
     # For more information, see [CloudWatch Logs Insights Query Syntax][1].
     #
-    # Queries time out after 15 minutes of runtime. If your queries are
+    # After you run a query using `StartQuery`, the query results are stored
+    # by CloudWatch Logs. You can use [GetQueryResults][2] to retrieve the
+    # results of a query, using the `queryId` that `StartQuery` returns.
+    #
+    # <note markdown="1"> To specify the log groups to query, a `StartQuery` operation must
+    # include one of the following:
+    #
+    #  * Either exactly one of the following parameters: `logGroupName`,
+    #   `logGroupNames`, or `logGroupIdentifiers`
+    #
+    # * Or the `queryString` must include a `SOURCE` command to select log
+    #   groups for the query. The `SOURCE` command can select log groups
+    #   based on log group name prefix, account ID, and log class.
+    #
+    #   For more information about the `SOURCE` command, see [SOURCE][3].
+    #
+    #  </note>
+    #
+    # If you have associated a KMS key with the query results in this
+    # account, then [StartQuery][4] uses that key to encrypt the results
+    # when it stores them. If no key is associated with query results, the
+    # query results are encrypted with the default CloudWatch Logs
+    # encryption method.
+    #
+    # Queries time out after 60 minutes of runtime. If your queries are
     # timing out, reduce the time range being searched or partition your
     # query into a number of queries.
     #
     # If you are using CloudWatch cross-account observability, you can use
     # this operation in a monitoring account to start a query in a linked
     # source account. For more information, see [CloudWatch cross-account
-    # observability][2]. For a cross-account `StartQuery` operation, the
+    # observability][5]. For a cross-account `StartQuery` operation, the
     # query definition must be defined in the monitoring account.
     #
-    # You can have up to 20 concurrent CloudWatch Logs insights queries,
+    # You can have up to 30 concurrent CloudWatch Logs insights queries,
     # including queries that have been added to dashboards.
     #
     #
     #
     # [1]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL_QuerySyntax.html
-    # [2]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Unified-Cross-Account.html
+    # [2]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_GetQueryResults.html
+    # [3]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL_QuerySyntax-Source.html
+    # [4]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_StartQuery.html
+    # [5]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Unified-Cross-Account.html
+    #
+    # @option params [String] :query_language
+    #   Specify the query language to use for this query. The options are Logs
+    #   Insights QL, OpenSearch PPL, and OpenSearch SQL. For more information
+    #   about the query languages that CloudWatch Logs supports, see
+    #   [Supported query languages][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL_AnalyzeLogData_Languages.html
     #
     # @option params [String] :log_group_name
     #   The log group on which to perform the query.
     #
     #   <note markdown="1"> A `StartQuery` operation must include exactly one of the following
-    #   parameters: `logGroupName`, `logGroupNames` or `logGroupIdentifiers`.
+    #   parameters: `logGroupName`, `logGroupNames`, or `logGroupIdentifiers`.
+    #   The exception is queries using the OpenSearch Service SQL query
+    #   language, where you specify the log group names inside the
+    #   `querystring` instead of here.
     #
     #    </note>
     #
@@ -2874,7 +6291,10 @@ module Aws::CloudWatchLogs
     #   groups.
     #
     #   <note markdown="1"> A `StartQuery` operation must include exactly one of the following
-    #   parameters: `logGroupName`, `logGroupNames` or `logGroupIdentifiers`.
+    #   parameters: `logGroupName`, `logGroupNames`, or `logGroupIdentifiers`.
+    #   The exception is queries using the OpenSearch Service SQL query
+    #   language, where you specify the log group names inside the
+    #   `querystring` instead of here.
     #
     #    </note>
     #
@@ -2886,10 +6306,15 @@ module Aws::CloudWatchLogs
     #   account, you must specify the ARN of the log group here. The query
     #   definition must also be defined in the monitoring account.
     #
-    #   If you specify an ARN, the ARN can't end with an asterisk (*).
+    #   If you specify an ARN, use the format
+    #   arn:aws:logs:*region*:*account-id*:log-group:*log\_group\_name* Don't
+    #   include an * at the end.
     #
     #   A `StartQuery` operation must include exactly one of the following
-    #   parameters: `logGroupName`, `logGroupNames` or `logGroupIdentifiers`.
+    #   parameters: `logGroupName`, `logGroupNames`, or `logGroupIdentifiers`.
+    #   The exception is queries using the OpenSearch Service SQL query
+    #   language, where you specify the log group names inside the
+    #   `querystring` instead of here.
     #
     # @option params [required, Integer] :start_time
     #   The beginning of the time range to query. The range is inclusive, so
@@ -2912,7 +6337,7 @@ module Aws::CloudWatchLogs
     # @option params [Integer] :limit
     #   The maximum number of log events to return in the query. If the query
     #   string uses the `fields` command, only the specified fields and their
-    #   values are returned. The default is 1000.
+    #   values are returned. The default is 10,000.
     #
     # @return [Types::StartQueryResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -2921,6 +6346,7 @@ module Aws::CloudWatchLogs
     # @example Request syntax with placeholder values
     #
     #   resp = client.start_query({
+    #     query_language: "CWLI", # accepts CWLI, SQL, PPL
     #     log_group_name: "LogGroupName",
     #     log_group_names: ["LogGroupName"],
     #     log_group_identifiers: ["LogGroupIdentifier"],
@@ -2985,7 +6411,7 @@ module Aws::CloudWatchLogs
     # For more information about tags, see [Tag Log Groups in Amazon
     # CloudWatch Logs][4] in the *Amazon CloudWatch Logs User Guide*.
     #
-    # CloudWatch Logs doesn’t support IAM policies that prevent users from
+    # CloudWatch Logs doesn't support IAM policies that prevent users from
     # assigning specified tags to log groups using the
     # `aws:Resource/key-name ` or `aws:TagKeys` condition keys. For more
     # information about using tags to control access, see [Controlling
@@ -3124,6 +6550,179 @@ module Aws::CloudWatchLogs
       req.send_request(options)
     end
 
+    # Use this operation to test a log transformer. You enter the
+    # transformer configuration and a set of log events to test with. The
+    # operation responds with an array that includes the original log events
+    # and the transformed versions.
+    #
+    # @option params [required, Array<Types::Processor>] :transformer_config
+    #   This structure contains the configuration of this log transformer that
+    #   you want to test. A log transformer is an array of processors, where
+    #   each processor applies one type of transformation to the log events
+    #   that are ingested.
+    #
+    # @option params [required, Array<String>] :log_event_messages
+    #   An array of the raw log events that you want to use to test this
+    #   transformer.
+    #
+    # @return [Types::TestTransformerResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::TestTransformerResponse#transformed_logs #transformed_logs} => Array&lt;Types::TransformedLogRecord&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.test_transformer({
+    #     transformer_config: [ # required
+    #       {
+    #         add_keys: {
+    #           entries: [ # required
+    #             {
+    #               key: "Key", # required
+    #               value: "AddKeyValue", # required
+    #               overwrite_if_exists: false,
+    #             },
+    #           ],
+    #         },
+    #         copy_value: {
+    #           entries: [ # required
+    #             {
+    #               source: "Source", # required
+    #               target: "Target", # required
+    #               overwrite_if_exists: false,
+    #             },
+    #           ],
+    #         },
+    #         csv: {
+    #           quote_character: "QuoteCharacter",
+    #           delimiter: "Delimiter",
+    #           columns: ["Column"],
+    #           source: "Source",
+    #         },
+    #         date_time_converter: {
+    #           source: "Source", # required
+    #           target: "Target", # required
+    #           target_format: "TargetFormat",
+    #           match_patterns: ["MatchPattern"], # required
+    #           source_timezone: "SourceTimezone",
+    #           target_timezone: "TargetTimezone",
+    #           locale: "Locale",
+    #         },
+    #         delete_keys: {
+    #           with_keys: ["WithKey"], # required
+    #         },
+    #         grok: {
+    #           source: "Source",
+    #           match: "GrokMatch", # required
+    #         },
+    #         list_to_map: {
+    #           source: "Source", # required
+    #           key: "Key", # required
+    #           value_key: "ValueKey",
+    #           target: "Target",
+    #           flatten: false,
+    #           flattened_element: "first", # accepts first, last
+    #         },
+    #         lower_case_string: {
+    #           with_keys: ["WithKey"], # required
+    #         },
+    #         move_keys: {
+    #           entries: [ # required
+    #             {
+    #               source: "Source", # required
+    #               target: "Target", # required
+    #               overwrite_if_exists: false,
+    #             },
+    #           ],
+    #         },
+    #         parse_cloudfront: {
+    #           source: "Source",
+    #         },
+    #         parse_json: {
+    #           source: "Source",
+    #           destination: "DestinationField",
+    #         },
+    #         parse_key_value: {
+    #           source: "Source",
+    #           destination: "DestinationField",
+    #           field_delimiter: "ParserFieldDelimiter",
+    #           key_value_delimiter: "KeyValueDelimiter",
+    #           key_prefix: "KeyPrefix",
+    #           non_match_value: "NonMatchValue",
+    #           overwrite_if_exists: false,
+    #         },
+    #         parse_route_53: {
+    #           source: "Source",
+    #         },
+    #         parse_postgres: {
+    #           source: "Source",
+    #         },
+    #         parse_vpc: {
+    #           source: "Source",
+    #         },
+    #         parse_waf: {
+    #           source: "Source",
+    #         },
+    #         rename_keys: {
+    #           entries: [ # required
+    #             {
+    #               key: "Key", # required
+    #               rename_to: "RenameTo", # required
+    #               overwrite_if_exists: false,
+    #             },
+    #           ],
+    #         },
+    #         split_string: {
+    #           entries: [ # required
+    #             {
+    #               source: "Source", # required
+    #               delimiter: "Delimiter", # required
+    #             },
+    #           ],
+    #         },
+    #         substitute_string: {
+    #           entries: [ # required
+    #             {
+    #               source: "Source", # required
+    #               from: "FromKey", # required
+    #               to: "ToKey", # required
+    #             },
+    #           ],
+    #         },
+    #         trim_string: {
+    #           with_keys: ["WithKey"], # required
+    #         },
+    #         type_converter: {
+    #           entries: [ # required
+    #             {
+    #               key: "Key", # required
+    #               type: "boolean", # required, accepts boolean, integer, double, string
+    #             },
+    #           ],
+    #         },
+    #         upper_case_string: {
+    #           with_keys: ["WithKey"], # required
+    #         },
+    #       },
+    #     ],
+    #     log_event_messages: ["EventMessage"], # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.transformed_logs #=> Array
+    #   resp.transformed_logs[0].event_number #=> Integer
+    #   resp.transformed_logs[0].event_message #=> String
+    #   resp.transformed_logs[0].transformed_event_message #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/TestTransformer AWS API Documentation
+    #
+    # @overload test_transformer(params = {})
+    # @param [Hash] params ({})
+    def test_transformer(params = {}, options = {})
+      req = build_request(:test_transformer, params)
+      req.send_request(options)
+    end
+
     # The UntagLogGroup operation is on the path to deprecation. We
     # recommend that you use [UntagResource][1] instead.
     #
@@ -3132,7 +6731,7 @@ module Aws::CloudWatchLogs
     # To list the tags for a log group, use [ListTagsForResource][2]. To add
     # tags, use [TagResource][3].
     #
-    # CloudWatch Logs doesn’t support IAM policies that prevent users from
+    # CloudWatch Logs doesn't support IAM policies that prevent users from
     # assigning specified tags to log groups using the
     # `aws:Resource/key-name ` or `aws:TagKeys` condition keys.
     #
@@ -3206,20 +6805,203 @@ module Aws::CloudWatchLogs
       req.send_request(options)
     end
 
+    # Use this operation to *suppress* anomaly detection for a specified
+    # anomaly or pattern. If you suppress an anomaly, CloudWatch Logs won't
+    # report new occurrences of that anomaly and won't update that anomaly
+    # with new data. If you suppress a pattern, CloudWatch Logs won't
+    # report any anomalies related to that pattern.
+    #
+    # You must specify either `anomalyId` or `patternId`, but you can't
+    # specify both parameters in the same operation.
+    #
+    # If you have previously used this operation to suppress detection of a
+    # pattern or anomaly, you can use it again to cause CloudWatch Logs to
+    # end the suppression. To do this, use this operation and specify the
+    # anomaly or pattern to stop suppressing, and omit the `suppressionType`
+    # and `suppressionPeriod` parameters.
+    #
+    # @option params [String] :anomaly_id
+    #   If you are suppressing or unsuppressing an anomaly, specify its unique
+    #   ID here. You can find anomaly IDs by using the [ListAnomalies][1]
+    #   operation.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_ListAnomalies.html
+    #
+    # @option params [String] :pattern_id
+    #   If you are suppressing or unsuppressing an pattern, specify its unique
+    #   ID here. You can find pattern IDs by using the [ListAnomalies][1]
+    #   operation.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_ListAnomalies.html
+    #
+    # @option params [required, String] :anomaly_detector_arn
+    #   The ARN of the anomaly detector that this operation is to act on.
+    #
+    # @option params [String] :suppression_type
+    #   Use this to specify whether the suppression to be temporary or
+    #   infinite. If you specify `LIMITED`, you must also specify a
+    #   `suppressionPeriod`. If you specify `INFINITE`, any value for
+    #   `suppressionPeriod` is ignored.
+    #
+    # @option params [Types::SuppressionPeriod] :suppression_period
+    #   If you are temporarily suppressing an anomaly or pattern, use this
+    #   structure to specify how long the suppression is to last.
+    #
+    # @option params [Boolean] :baseline
+    #   Set this to `true` to prevent CloudWatch Logs from displaying this
+    #   behavior as an anomaly in the future. The behavior is then treated as
+    #   baseline behavior. However, if similar but more severe occurrences of
+    #   this behavior occur in the future, those will still be reported as
+    #   anomalies.
+    #
+    #   The default is `false`
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_anomaly({
+    #     anomaly_id: "AnomalyId",
+    #     pattern_id: "PatternId",
+    #     anomaly_detector_arn: "AnomalyDetectorArn", # required
+    #     suppression_type: "LIMITED", # accepts LIMITED, INFINITE
+    #     suppression_period: {
+    #       value: 1,
+    #       suppression_unit: "SECONDS", # accepts SECONDS, MINUTES, HOURS
+    #     },
+    #     baseline: false,
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/UpdateAnomaly AWS API Documentation
+    #
+    # @overload update_anomaly(params = {})
+    # @param [Hash] params ({})
+    def update_anomaly(params = {}, options = {})
+      req = build_request(:update_anomaly, params)
+      req.send_request(options)
+    end
+
+    # Use this operation to update the configuration of a [delivery][1] to
+    # change either the S3 path pattern or the format of the delivered logs.
+    # You can't use this operation to change the source or destination of
+    # the delivery.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_Delivery.html
+    #
+    # @option params [required, String] :id
+    #   The ID of the delivery to be updated by this request.
+    #
+    # @option params [Array<String>] :record_fields
+    #   The list of record fields to be delivered to the destination, in
+    #   order. If the delivery's log source has mandatory fields, they must
+    #   be included in this list.
+    #
+    # @option params [String] :field_delimiter
+    #   The field delimiter to use between record fields when the final output
+    #   format of a delivery is in `Plain`, `W3C`, or `Raw` format.
+    #
+    # @option params [Types::S3DeliveryConfiguration] :s3_delivery_configuration
+    #   This structure contains parameters that are valid only when the
+    #   delivery's delivery destination is an S3 bucket.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_delivery_configuration({
+    #     id: "DeliveryId", # required
+    #     record_fields: ["FieldHeader"],
+    #     field_delimiter: "FieldDelimiter",
+    #     s3_delivery_configuration: {
+    #       suffix_path: "DeliverySuffixPath",
+    #       enable_hive_compatible_path: false,
+    #     },
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/UpdateDeliveryConfiguration AWS API Documentation
+    #
+    # @overload update_delivery_configuration(params = {})
+    # @param [Hash] params ({})
+    def update_delivery_configuration(params = {}, options = {})
+      req = build_request(:update_delivery_configuration, params)
+      req.send_request(options)
+    end
+
+    # Updates an existing log anomaly detector.
+    #
+    # @option params [required, String] :anomaly_detector_arn
+    #   The ARN of the anomaly detector that you want to update.
+    #
+    # @option params [String] :evaluation_frequency
+    #   Specifies how often the anomaly detector runs and look for anomalies.
+    #   Set this value according to the frequency that the log group receives
+    #   new logs. For example, if the log group receives new log events every
+    #   10 minutes, then setting `evaluationFrequency` to `FIFTEEN_MIN` might
+    #   be appropriate.
+    #
+    # @option params [String] :filter_pattern
+    #   A symbolic description of how CloudWatch Logs should interpret the
+    #   data in each log event. For example, a log event can contain
+    #   timestamps, IP addresses, strings, and so on. You use the filter
+    #   pattern to specify what to look for in the log event message.
+    #
+    # @option params [Integer] :anomaly_visibility_time
+    #   The number of days to use as the life cycle of anomalies. After this
+    #   time, anomalies are automatically baselined and the anomaly detector
+    #   model will treat new occurrences of similar event as normal.
+    #   Therefore, if you do not correct the cause of an anomaly during this
+    #   time, it will be considered normal going forward and will not be
+    #   detected.
+    #
+    # @option params [required, Boolean] :enabled
+    #   Use this parameter to pause or restart the anomaly detector.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_log_anomaly_detector({
+    #     anomaly_detector_arn: "AnomalyDetectorArn", # required
+    #     evaluation_frequency: "ONE_MIN", # accepts ONE_MIN, FIVE_MIN, TEN_MIN, FIFTEEN_MIN, THIRTY_MIN, ONE_HOUR
+    #     filter_pattern: "FilterPattern",
+    #     anomaly_visibility_time: 1,
+    #     enabled: false, # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/logs-2014-03-28/UpdateLogAnomalyDetector AWS API Documentation
+    #
+    # @overload update_log_anomaly_detector(params = {})
+    # @param [Hash] params ({})
+    def update_log_anomaly_detector(params = {}, options = {})
+      req = build_request(:update_log_anomaly_detector, params)
+      req.send_request(options)
+    end
+
     # @!endgroup
 
     # @param params ({})
     # @api private
     def build_request(operation_name, params = {})
       handlers = @handlers.for(operation_name)
+      tracer = config.telemetry_provider.tracer_provider.tracer(
+        Aws::Telemetry.module_to_tracer_name('Aws::CloudWatchLogs')
+      )
       context = Seahorse::Client::RequestContext.new(
         operation_name: operation_name,
         operation: config.api.operation(operation_name),
         client: self,
         params: params,
-        config: config)
+        config: config,
+        tracer: tracer
+      )
       context[:gem_name] = 'aws-sdk-cloudwatchlogs'
-      context[:gem_version] = '1.62.0'
+      context[:gem_version] = '1.109.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

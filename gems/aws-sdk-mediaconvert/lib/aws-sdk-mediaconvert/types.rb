@@ -10,14 +10,12 @@
 module Aws::MediaConvert
   module Types
 
-    # Required when you set (Codec) under
-    # (AudioDescriptions)>(CodecSettings) to the value AAC. The service
-    # accepts one of two mutually exclusive groups of AAC settings--VBR and
-    # CBR. To select one of these modes, set the value of Bitrate control
-    # mode (rateControlMode) to "VBR" or "CBR". In VBR mode, you control
-    # the audio quality with the setting VBR quality (vbrQuality). In CBR
-    # mode, you use the setting Bitrate (bitrate). Defaults and valid values
-    # depend on the rate control mode.
+    # Required when you set Codec to the value AAC. The service accepts one
+    # of two mutually exclusive groups of AAC settings--VBR and CBR. To
+    # select one of these modes, set the value of Bitrate control mode to
+    # "VBR" or "CBR". In VBR mode, you control the audio quality with
+    # the setting VBR quality. In CBR mode, you use the setting Bitrate.
+    # Defaults and valid values depend on the rate control mode.
     #
     # @!attribute [rw] audio_description_broadcaster_mix
     #   Choose BROADCASTER\_MIXED\_AD when the input contains pre-mixed main
@@ -40,13 +38,18 @@ module Aws::MediaConvert
     #   96000, 112000, 128000, 160000, 192000, 224000, 256000, 288000,
     #   320000, 384000, 448000, 512000, 576000, 640000, 768000, 896000,
     #   1024000. The value you set is also constrained by the values that
-    #   you choose for Profile (codecProfile), Bitrate control mode
-    #   (codingMode), and Sample rate (sampleRate). Default values depend on
-    #   Bitrate control mode and Profile.
+    #   you choose for Profile, Bitrate control mode, and Sample rate.
+    #   Default values depend on Bitrate control mode and Profile.
     #   @return [Integer]
     #
     # @!attribute [rw] codec_profile
-    #   AAC Profile.
+    #   Specify the AAC profile. For the widest player compatibility and
+    #   where higher bitrates are acceptable: Keep the default profile, LC
+    #   (AAC-LC) For improved audio performance at lower bitrates: Choose
+    #   HEV1 or HEV2. HEV1 (AAC-HE v1) adds spectral band replication to
+    #   improve speech audio at low bitrates. HEV2 (AAC-HE v2) adds
+    #   parametric stereo, which optimizes for encoding stereo audio at very
+    #   low bitrates.
     #   @return [String]
     #
     # @!attribute [rw] coding_mode
@@ -58,11 +61,15 @@ module Aws::MediaConvert
     #   (Receiver Mix): One channel, C. Includes audio description data from
     #   your stereo input. For more information see ETSI TS 101 154 Annex E.
     #   * 1.0 Mono: One channel, C. * 2.0 Stereo: Two channels, L, R. *
-    #   5.1 Surround: Five channels, C, L, R, Ls, Rs, LFE.
+    #   5.1 Surround: Six channels, C, L, R, Ls, Rs, LFE.
     #   @return [String]
     #
     # @!attribute [rw] rate_control_mode
-    #   Rate Control Mode.
+    #   Specify the AAC rate control mode. For a constant bitrate: Choose
+    #   CBR. Your AAC output bitrate will be equal to the value that you
+    #   choose for Bitrate. For a variable bitrate: Choose VBR. Your AAC
+    #   output bitrate will vary according to your audio content and the
+    #   value that you choose for Bitrate quality.
     #   @return [String]
     #
     # @!attribute [rw] raw_format
@@ -72,15 +79,10 @@ module Aws::MediaConvert
     #   @return [String]
     #
     # @!attribute [rw] sample_rate
-    #   Specify the Sample rate in Hz. Valid sample rates depend on the
-    #   Profile and Coding mode that you select. The following list shows
-    #   valid sample rates for each Profile and Coding mode. * LC Profile,
-    #   Coding mode 1.0, 2.0, and Receiver Mix: 8000, 12000, 16000, 22050,
-    #   24000, 32000, 44100, 48000, 88200, 96000. * LC Profile, Coding mode
-    #   5.1: 32000, 44100, 48000, 96000. * HEV1 Profile, Coding mode 1.0
-    #   and Receiver Mix: 22050, 24000, 32000, 44100, 48000. * HEV1
-    #   Profile, Coding mode 2.0 and 5.1: 32000, 44100, 48000, 96000. *
-    #   HEV2 Profile, Coding mode 2.0: 22050, 24000, 32000, 44100, 48000.
+    #   Specify the AAC sample rate in samples per second (Hz). Valid sample
+    #   rates depend on the AAC profile and Coding mode that you select. For
+    #   a list of supported sample rates, see:
+    #   https://docs.aws.amazon.com/mediaconvert/latest/ug/aac-support.html
     #   @return [Integer]
     #
     # @!attribute [rw] specification
@@ -89,7 +91,9 @@ module Aws::MediaConvert
     #   @return [String]
     #
     # @!attribute [rw] vbr_quality
-    #   VBR Quality Level - Only used if rate\_control\_mode is VBR.
+    #   Specify the quality of your variable bitrate (VBR) AAC audio. For a
+    #   list of approximate VBR bitrates, see:
+    #   https://docs.aws.amazon.com/mediaconvert/latest/ug/aac-support.html#aac\_vbr
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/AacSettings AWS API Documentation
@@ -108,8 +112,7 @@ module Aws::MediaConvert
       include Aws::Structure
     end
 
-    # Required when you set (Codec) under
-    # (AudioDescriptions)>(CodecSettings) to the value AC3.
+    # Required when you set Codec to the value AC3.
     #
     # @!attribute [rw] bitrate
     #   Specify the average bitrate in bits per second. The bitrate that you
@@ -144,27 +147,24 @@ module Aws::MediaConvert
     #   MediaConvert uses when encoding the metadata in the Dolby Digital
     #   stream for the line operating mode. Related setting: When you use
     #   this setting, MediaConvert ignores any value you provide for Dynamic
-    #   range compression profile (DynamicRangeCompressionProfile). For
-    #   information about the Dolby Digital DRC operating modes and
-    #   profiles, see the Dynamic Range Control chapter of the Dolby
-    #   Metadata Guide at
+    #   range compression profile. For information about the Dolby Digital
+    #   DRC operating modes and profiles, see the Dynamic Range Control
+    #   chapter of the Dolby Metadata Guide at
     #   https://developer.dolby.com/globalassets/professional/documents/dolby-metadata-guide.pdf.
     #   @return [String]
     #
     # @!attribute [rw] dynamic_range_compression_profile
     #   When you want to add Dolby dynamic range compression (DRC) signaling
     #   to your output stream, we recommend that you use the mode-specific
-    #   settings instead of Dynamic range compression profile
-    #   (DynamicRangeCompressionProfile). The mode-specific settings are
-    #   Dynamic range compression profile, line mode
-    #   (dynamicRangeCompressionLine) and Dynamic range compression profile,
-    #   RF mode (dynamicRangeCompressionRf). Note that when you specify
-    #   values for all three settings, MediaConvert ignores the value of
-    #   this setting in favor of the mode-specific settings. If you do use
-    #   this setting instead of the mode-specific settings, choose None
-    #   (NONE) to leave out DRC signaling. Keep the default Film standard
-    #   (FILM\_STANDARD) to set the profile to Dolby's film standard
-    #   profile for all operating modes.
+    #   settings instead of Dynamic range compression profile. The
+    #   mode-specific settings are Dynamic range compression profile, line
+    #   mode and Dynamic range compression profile, RF mode. Note that when
+    #   you specify values for all three settings, MediaConvert ignores the
+    #   value of this setting in favor of the mode-specific settings. If you
+    #   do use this setting instead of the mode-specific settings, choose
+    #   None to leave out DRC signaling. Keep the default Film standard to
+    #   set the profile to Dolby's film standard profile for all operating
+    #   modes.
     #   @return [String]
     #
     # @!attribute [rw] dynamic_range_compression_rf
@@ -172,10 +172,9 @@ module Aws::MediaConvert
     #   MediaConvert uses when encoding the metadata in the Dolby Digital
     #   stream for the RF operating mode. Related setting: When you use this
     #   setting, MediaConvert ignores any value you provide for Dynamic
-    #   range compression profile (DynamicRangeCompressionProfile). For
-    #   information about the Dolby Digital DRC operating modes and
-    #   profiles, see the Dynamic Range Control chapter of the Dolby
-    #   Metadata Guide at
+    #   range compression profile. For information about the Dolby Digital
+    #   DRC operating modes and profiles, see the Dynamic Range Control
+    #   chapter of the Dolby Metadata Guide at
     #   https://developer.dolby.com/globalassets/professional/documents/dolby-metadata-guide.pdf.
     #   @return [String]
     #
@@ -228,12 +227,40 @@ module Aws::MediaConvert
       include Aws::Structure
     end
 
-    # Required when you set (Codec) under
-    # (AudioDescriptions)>(CodecSettings) to the value AIFF.
+    # Optional settings for Advanced input filter when you set Advanced
+    # input filter to Enabled.
+    #
+    # @!attribute [rw] add_texture
+    #   Add texture and detail to areas of your input video content that
+    #   were lost after applying the Advanced input filter. To adaptively
+    #   add texture and reduce softness: Choose Enabled. To not add any
+    #   texture: Keep the default value, Disabled. We recommend that you
+    #   choose Disabled for input video content that doesn't have texture,
+    #   including screen recordings, computer graphics, or cartoons.
+    #   @return [String]
+    #
+    # @!attribute [rw] sharpening
+    #   Optionally specify the amount of sharpening to apply when you use
+    #   the Advanced input filter. Sharpening adds contrast to the edges of
+    #   your video content and can reduce softness. To apply no sharpening:
+    #   Keep the default value, Off. To apply a minimal amount of sharpening
+    #   choose Low, or for the maximum choose High.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/AdvancedInputFilterSettings AWS API Documentation
+    #
+    class AdvancedInputFilterSettings < Struct.new(
+      :add_texture,
+      :sharpening)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Required when you set Codec to the value AIFF.
     #
     # @!attribute [rw] bit_depth
-    #   Specify Bit depth (BitDepth), in bits per sample, to choose the
-    #   encoding quality for this audio track.
+    #   Specify Bit depth, in bits per sample, to choose the encoding
+    #   quality for this audio track.
     #   @return [Integer]
     #
     # @!attribute [rw] channels
@@ -243,7 +270,7 @@ module Aws::MediaConvert
     #   @return [Integer]
     #
     # @!attribute [rw] sample_rate
-    #   Sample rate in hz.
+    #   Sample rate in Hz.
     #   @return [Integer]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/AiffSettings AWS API Documentation
@@ -294,10 +321,10 @@ module Aws::MediaConvert
     #
     # @!attribute [rw] convert_608_to_708
     #   Specify whether this set of input captions appears in your outputs
-    #   in both 608 and 708 format. If you choose Upconvert (UPCONVERT),
-    #   MediaConvert includes the captions data in two ways: it passes the
-    #   608 data through using the 608 compatibility bytes fields of the 708
-    #   wrapper, and it also translates the 608 data into 708.
+    #   in both 608 and 708 format. If you choose Upconvert, MediaConvert
+    #   includes the captions data in two ways: it passes the 608 data
+    #   through using the 608 compatibility bytes fields of the 708 wrapper,
+    #   and it also translates the 608 data into 708.
     #   @return [String]
     #
     # @!attribute [rw] source_ancillary_channel_number
@@ -344,25 +371,37 @@ module Aws::MediaConvert
     #
     class AssociateCertificateResponse < Aws::EmptyStructure; end
 
-    # When you mimic a multi-channel audio layout with multiple mono-channel
-    # tracks, you can tag each channel layout manually. For example, you
-    # would tag the tracks that contain your left, right, and center audio
-    # with Left (L), Right (R), and Center (C), respectively. When you
-    # don't specify a value, MediaConvert labels your track as Center (C)
-    # by default. To use audio layout tagging, your output must be in a
-    # QuickTime (.mov) container; your audio codec must be AAC, WAV, or
-    # AIFF; and you must set up your audio track to have only one channel.
+    # Specify the QuickTime audio channel layout tags for the audio channels
+    # in this audio track. When you don't specify a value, MediaConvert
+    # labels your track as Center (C) by default. To use Audio layout
+    # tagging, your output must be in a QuickTime (MOV) container and your
+    # audio codec must be AAC, WAV, or AIFF.
     #
     # @!attribute [rw] channel_tag
-    #   You can add a tag for this mono-channel audio track to mimic its
-    #   placement in a multi-channel layout. For example, if this track is
-    #   the left surround channel, choose Left surround (LS).
+    #   Specify the QuickTime audio channel layout tags for the audio
+    #   channels in this audio track. Enter channel layout tags in the same
+    #   order as your output's audio channel order. For example, if your
+    #   output audio track has a left and a right channel, enter Left (L)
+    #   for the first channel and Right (R) for the second. If your output
+    #   has multiple single-channel audio tracks, enter a single channel
+    #   layout tag for each track.
     #   @return [String]
+    #
+    # @!attribute [rw] channel_tags
+    #   Specify the QuickTime audio channel layout tags for the audio
+    #   channels in this audio track. Enter channel layout tags in the same
+    #   order as your output's audio channel order. For example, if your
+    #   output audio track has a left and a right channel, enter Left (L)
+    #   for the first channel and Right (R) for the second. If your output
+    #   has multiple single-channel audio tracks, enter a single channel
+    #   layout tag for each track.
+    #   @return [Array<String>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/AudioChannelTaggingSettings AWS API Documentation
     #
     class AudioChannelTaggingSettings < Struct.new(
-      :channel_tag)
+      :channel_tag,
+      :channel_tags)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -371,31 +410,27 @@ module Aws::MediaConvert
     # depending on the value that you choose for your audio codec.
     #
     # @!attribute [rw] aac_settings
-    #   Required when you set (Codec) under
-    #   (AudioDescriptions)>(CodecSettings) to the value AAC. The service
-    #   accepts one of two mutually exclusive groups of AAC settings--VBR
-    #   and CBR. To select one of these modes, set the value of Bitrate
-    #   control mode (rateControlMode) to "VBR" or "CBR". In VBR mode,
-    #   you control the audio quality with the setting VBR quality
-    #   (vbrQuality). In CBR mode, you use the setting Bitrate (bitrate).
-    #   Defaults and valid values depend on the rate control mode.
+    #   Required when you set Codec to the value AAC. The service accepts
+    #   one of two mutually exclusive groups of AAC settings--VBR and CBR.
+    #   To select one of these modes, set the value of Bitrate control mode
+    #   to "VBR" or "CBR". In VBR mode, you control the audio quality
+    #   with the setting VBR quality. In CBR mode, you use the setting
+    #   Bitrate. Defaults and valid values depend on the rate control mode.
     #   @return [Types::AacSettings]
     #
     # @!attribute [rw] ac_3_settings
-    #   Required when you set (Codec) under
-    #   (AudioDescriptions)>(CodecSettings) to the value AC3.
+    #   Required when you set Codec to the value AC3.
     #   @return [Types::Ac3Settings]
     #
     # @!attribute [rw] aiff_settings
-    #   Required when you set (Codec) under
-    #   (AudioDescriptions)>(CodecSettings) to the value AIFF.
+    #   Required when you set Codec to the value AIFF.
     #   @return [Types::AiffSettings]
     #
     # @!attribute [rw] codec
     #   Choose the audio codec for this output. Note that the option Dolby
-    #   Digital passthrough (PASSTHROUGH) applies only to Dolby Digital and
-    #   Dolby Digital Plus audio inputs. Make sure that you choose a codec
-    #   that's supported with your output container:
+    #   Digital passthrough applies only to Dolby Digital and Dolby Digital
+    #   Plus audio inputs. Make sure that you choose a codec that's
+    #   supported with your output container:
     #   https://docs.aws.amazon.com/mediaconvert/latest/ug/reference-codecs-containers.html#reference-codecs-containers-output-audio
     #   For audio-only outputs, make sure that both your input audio codec
     #   and your output audio codec are supported for audio-only workflows.
@@ -406,18 +441,20 @@ module Aws::MediaConvert
     #   @return [String]
     #
     # @!attribute [rw] eac_3_atmos_settings
-    #   Required when you set (Codec) under
-    #   (AudioDescriptions)>(CodecSettings) to the value EAC3\_ATMOS.
+    #   Required when you set Codec to the value EAC3\_ATMOS.
     #   @return [Types::Eac3AtmosSettings]
     #
     # @!attribute [rw] eac_3_settings
-    #   Required when you set (Codec) under
-    #   (AudioDescriptions)>(CodecSettings) to the value EAC3.
+    #   Required when you set Codec to the value EAC3.
     #   @return [Types::Eac3Settings]
     #
+    # @!attribute [rw] flac_settings
+    #   Required when you set Codec, under AudioDescriptions>CodecSettings,
+    #   to the value FLAC.
+    #   @return [Types::FlacSettings]
+    #
     # @!attribute [rw] mp_2_settings
-    #   Required when you set (Codec) under
-    #   (AudioDescriptions)>(CodecSettings) to the value MP2.
+    #   Required when you set Codec to the value MP2.
     #   @return [Types::Mp2Settings]
     #
     # @!attribute [rw] mp_3_settings
@@ -436,8 +473,7 @@ module Aws::MediaConvert
     #   @return [Types::VorbisSettings]
     #
     # @!attribute [rw] wav_settings
-    #   Required when you set (Codec) under
-    #   (AudioDescriptions)>(CodecSettings) to the value WAV.
+    #   Required when you set Codec to the value WAV.
     #   @return [Types::WavSettings]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/AudioCodecSettings AWS API Documentation
@@ -449,6 +485,7 @@ module Aws::MediaConvert
       :codec,
       :eac_3_atmos_settings,
       :eac_3_settings,
+      :flac_settings,
       :mp_2_settings,
       :mp_3_settings,
       :opus_settings,
@@ -466,15 +503,11 @@ module Aws::MediaConvert
     # correspond to a group of output audio tracks.
     #
     # @!attribute [rw] audio_channel_tagging_settings
-    #   When you mimic a multi-channel audio layout with multiple
-    #   mono-channel tracks, you can tag each channel layout manually. For
-    #   example, you would tag the tracks that contain your left, right, and
-    #   center audio with Left (L), Right (R), and Center (C), respectively.
-    #   When you don't specify a value, MediaConvert labels your track as
-    #   Center (C) by default. To use audio layout tagging, your output must
-    #   be in a QuickTime (.mov) container; your audio codec must be AAC,
-    #   WAV, or AIFF; and you must set up your audio track to have only one
-    #   channel.
+    #   Specify the QuickTime audio channel layout tags for the audio
+    #   channels in this audio track. When you don't specify a value,
+    #   MediaConvert labels your track as Center (C) by default. To use
+    #   Audio layout tagging, your output must be in a QuickTime (MOV)
+    #   container and your audio codec must be AAC, WAV, or AIFF.
     #   @return [Types::AudioChannelTaggingSettings]
     #
     # @!attribute [rw] audio_normalization_settings
@@ -522,15 +555,14 @@ module Aws::MediaConvert
     # @!attribute [rw] custom_language_code
     #   Specify the language for this audio output track. The service puts
     #   this language code into your output audio track when you set
-    #   Language code control (AudioLanguageCodeControl) to Use configured
-    #   (USE\_CONFIGURED). The service also uses your specified custom
-    #   language code when you set Language code control
-    #   (AudioLanguageCodeControl) to Follow input (FOLLOW\_INPUT), but your
-    #   input file doesn't specify a language code. For all outputs, you
-    #   can use an ISO 639-2 or ISO 639-3 code. For streaming outputs, you
-    #   can also use any other code in the full RFC-5646 specification.
-    #   Streaming outputs are those that are in one of the following output
-    #   groups: CMAF, DASH ISO, Apple HLS, or Microsoft Smooth Streaming.
+    #   Language code control to Use configured. The service also uses your
+    #   specified custom language code when you set Language code control to
+    #   Follow input, but your input file doesn't specify a language code.
+    #   For all outputs, you can use an ISO 639-2 or ISO 639-3 code. For
+    #   streaming outputs, you can also use any other code in the full
+    #   RFC-5646 specification. Streaming outputs are those that are in one
+    #   of the following output groups: CMAF, DASH ISO, Apple HLS, or
+    #   Microsoft Smooth Streaming.
     #   @return [String]
     #
     # @!attribute [rw] language_code
@@ -543,13 +575,11 @@ module Aws::MediaConvert
     #
     # @!attribute [rw] language_code_control
     #   Specify which source for language code takes precedence for this
-    #   audio track. When you choose Follow input (FOLLOW\_INPUT), the
-    #   service uses the language code from the input track if it's
-    #   present. If there's no languge code on the input track, the service
-    #   uses the code that you specify in the setting Language code
-    #   (languageCode or customLanguageCode). When you choose Use configured
-    #   (USE\_CONFIGURED), the service uses the language code that you
-    #   specify.
+    #   audio track. When you choose Follow input, the service uses the
+    #   language code from the input track if it's present. If there's no
+    #   languge code on the input track, the service uses the code that you
+    #   specify in the setting Language code. When you choose Use
+    #   configured, the service uses the language code that you specify.
     #   @return [String]
     #
     # @!attribute [rw] remix_settings
@@ -620,19 +650,18 @@ module Aws::MediaConvert
     #   @return [String]
     #
     # @!attribute [rw] target_lkfs
-    #   When you use Audio normalization (AudioNormalizationSettings),
-    #   optionally use this setting to specify a target loudness. If you
-    #   don't specify a value here, the encoder chooses a value for you,
-    #   based on the algorithm that you choose for Algorithm (algorithm). If
-    #   you choose algorithm 1770-1, the encoder will choose -24 LKFS;
-    #   otherwise, the encoder will choose -23 LKFS.
+    #   When you use Audio normalization, optionally use this setting to
+    #   specify a target loudness. If you don't specify a value here, the
+    #   encoder chooses a value for you, based on the algorithm that you
+    #   choose for Algorithm. If you choose algorithm 1770-1, the encoder
+    #   will choose -24 LKFS; otherwise, the encoder will choose -23 LKFS.
     #   @return [Float]
     #
     # @!attribute [rw] true_peak_limiter_threshold
     #   Specify the True-peak limiter threshold in decibels relative to full
     #   scale (dBFS). The peak inter-audio sample loudness in your output
     #   will be limited to the value that you specify, without affecting the
-    #   overall target LKFS. Enter a value from 0 to -20. Leave blank to use
+    #   overall target LKFS. Enter a value from 0 to -8. Leave blank to use
     #   the default value 0.
     #   @return [Float]
     #
@@ -650,9 +679,9 @@ module Aws::MediaConvert
       include Aws::Structure
     end
 
-    # Use Audio selectors (AudioSelectors) to specify a track or set of
-    # tracks from the input that you will use in your outputs. You can use
-    # multiple Audio selectors per input.
+    # Use Audio selectors to specify a track or set of tracks from the input
+    # that you will use in your outputs. You can use multiple Audio
+    # selectors per input.
     #
     # @!attribute [rw] audio_duration_correction
     #   Apply audio timing corrections to help synchronize audio and video
@@ -671,7 +700,10 @@ module Aws::MediaConvert
     #   timestamps. No corrections are made to already-aligned frames.
     #   Frame-level correction may affect the pitch of corrected frames, and
     #   is recommended for atonal audio content such as speech or
-    #   percussion.
+    #   percussion. * Force: Apply audio duration correction, either Track
+    #   or Frame depending on your input, regardless of the accuracy of your
+    #   input's STTS table. Your output audio and video may not be aligned
+    #   or it may contain audio artifacts.
     #   @return [String]
     #
     # @!attribute [rw] custom_language_code
@@ -687,7 +719,8 @@ module Aws::MediaConvert
     #   @return [String]
     #
     # @!attribute [rw] external_audio_file_input
-    #   Specifies audio data from an external file source.
+    #   Specify the S3, HTTP, or HTTPS URL for your external audio file
+    #   input.
     #   @return [String]
     #
     # @!attribute [rw] hls_rendition_group_settings
@@ -704,12 +737,16 @@ module Aws::MediaConvert
     #   @return [Types::HlsRenditionGroupSettings]
     #
     # @!attribute [rw] language_code
-    #   Selects a specific language code from within an audio source.
+    #   Specify the language to select from your audio input. In the
+    #   MediaConvert console choose from a list of languages. In your JSON
+    #   job settings choose from an ISO 639-2 three-letter code listed at
+    #   https://www.loc.gov/standards/iso639-2/php/code\_list.php
     #   @return [String]
     #
     # @!attribute [rw] offset
-    #   Specifies a time delta in milliseconds to offset the audio from the
-    #   input video.
+    #   Specify a time delta, in milliseconds, to offset the audio from the
+    #   input video. To specify no offset: Keep the default value, 0. To
+    #   specify an offset: Enter an integer from -2147483648 to 2147483647
     #   @return [Integer]
     #
     # @!attribute [rw] pids
@@ -723,11 +760,10 @@ module Aws::MediaConvert
     #   multiple programs, create multiple selectors with the same Track and
     #   different Program numbers. In the console, this setting is visible
     #   when you set Selector type to Track. Choose the program number from
-    #   the dropdown list. If you are sending a JSON file, provide the
-    #   program ID, which is part of the audio metadata. If your input file
-    #   has incorrect metadata, you can choose All channels instead of a
-    #   program number to have the service ignore the program IDs and
-    #   include all the programs in the track.
+    #   the dropdown list. If your input file has incorrect metadata, you
+    #   can choose All channels instead of a program number to have the
+    #   service ignore the program IDs and include all the programs in the
+    #   track.
     #   @return [Integer]
     #
     # @!attribute [rw] remix_settings
@@ -744,10 +780,8 @@ module Aws::MediaConvert
     #   Identify a track from the input audio to include in this selector by
     #   entering the track index number. To include several tracks in a
     #   single audio selector, specify multiple tracks as follows. Using the
-    #   console, enter a comma-separated list. For examle, type "1,2,3" to
-    #   include tracks 1 through 3. Specifying directly in your JSON job
-    #   file, provide the track numbers in an array. For example,
-    #   "tracks": \[1,2,3\].
+    #   console, enter a comma-separated list. For example, type "1,2,3"
+    #   to include tracks 1 through 3.
     #   @return [Array<Integer>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/AudioSelector AWS API Documentation
@@ -770,10 +804,10 @@ module Aws::MediaConvert
     end
 
     # Use audio selector groups to combine multiple sidecar audio inputs so
-    # that you can assign them to a single output audio tab
-    # (AudioDescription). Note that, if you're working with embedded audio,
-    # it's simpler to assign multiple input tracks into a single audio
-    # selector rather than use an audio selector group.
+    # that you can assign them to a single output audio tab. Note that, if
+    # you're working with embedded audio, it's simpler to assign multiple
+    # input tracks into a single audio selector rather than use an audio
+    # selector group.
     #
     # @!attribute [rw] audio_selector_names
     #   Name of an Audio Selector within the same input to include in the
@@ -886,12 +920,13 @@ module Aws::MediaConvert
     # overall size of your ABR package.
     #
     # @!attribute [rw] max_abr_bitrate
-    #   Optional. The maximum target bit rate used in your automated ABR
-    #   stack. Use this value to set an upper limit on the bandwidth
-    #   consumed by the highest-quality rendition. This is the rendition
-    #   that is delivered to viewers with the fastest internet connections.
-    #   If you don't specify a value, MediaConvert uses 8,000,000 (8 mb/s)
-    #   by default.
+    #   Specify the maximum average bitrate for MediaConvert to use in your
+    #   automated ABR stack. If you don't specify a value, MediaConvert
+    #   uses 8,000,000 (8 mb/s) by default. The average bitrate of your
+    #   highest-quality rendition will be equal to or below this value,
+    #   depending on the quality, complexity, and resolution of your
+    #   content. Note that the instantaneous maximum bitrate may vary above
+    #   the value that you specify.
     #   @return [Integer]
     #
     # @!attribute [rw] max_renditions
@@ -904,10 +939,12 @@ module Aws::MediaConvert
     #   @return [Integer]
     #
     # @!attribute [rw] min_abr_bitrate
-    #   Optional. The minimum target bitrate used in your automated ABR
-    #   stack. Use this value to set a lower limit on the bitrate of video
-    #   delivered to viewers with slow internet connections. If you don't
-    #   specify a value, MediaConvert uses 600,000 (600 kb/s) by default.
+    #   Specify the minimum average bitrate for MediaConvert to use in your
+    #   automated ABR stack. If you don't specify a value, MediaConvert
+    #   uses 600,000 (600 kb/s) by default. The average bitrate of your
+    #   lowest-quality rendition will be near this value. Note that the
+    #   instantaneous minimum bitrate may vary below the value that you
+    #   specify.
     #   @return [Integer]
     #
     # @!attribute [rw] rules
@@ -948,23 +985,23 @@ module Aws::MediaConvert
     end
 
     # Settings for quality-defined variable bitrate encoding with the AV1
-    # codec. Use these settings only when you set QVBR for Rate control mode
-    # (RateControlMode).
+    # codec. Use these settings only when you set QVBR for Rate control
+    # mode.
     #
     # @!attribute [rw] qvbr_quality_level
-    #   Use this setting only when you set Rate control mode
-    #   (RateControlMode) to QVBR. Specify the target quality level for this
-    #   output. MediaConvert determines the right number of bits to use for
-    #   each part of the video to maintain the video quality that you
-    #   specify. When you keep the default value, AUTO, MediaConvert picks a
-    #   quality level for you, based on characteristics of your input video.
-    #   If you prefer to specify a quality level, specify a number from 1
-    #   through 10. Use higher numbers for greater quality. Level 10 results
-    #   in nearly lossless compression. The quality level for most
-    #   broadcast-quality transcodes is between 6 and 9. Optionally, to
-    #   specify a value between whole numbers, also provide a value for the
-    #   setting qvbrQualityLevelFineTune. For example, if you want your QVBR
-    #   quality level to be 7.33, set qvbrQualityLevel to 7 and set
+    #   Use this setting only when you set Rate control mode to QVBR.
+    #   Specify the target quality level for this output. MediaConvert
+    #   determines the right number of bits to use for each part of the
+    #   video to maintain the video quality that you specify. When you keep
+    #   the default value, AUTO, MediaConvert picks a quality level for you,
+    #   based on characteristics of your input video. If you prefer to
+    #   specify a quality level, specify a number from 1 through 10. Use
+    #   higher numbers for greater quality. Level 10 results in nearly
+    #   lossless compression. The quality level for most broadcast-quality
+    #   transcodes is between 6 and 9. Optionally, to specify a value
+    #   between whole numbers, also provide a value for the setting
+    #   qvbrQualityLevelFineTune. For example, if you want your QVBR quality
+    #   level to be 7.33, set qvbrQualityLevel to 7 and set
     #   qvbrQualityLevelFineTune to .33.
     #   @return [Integer]
     #
@@ -994,43 +1031,51 @@ module Aws::MediaConvert
     # @!attribute [rw] adaptive_quantization
     #   Specify the strength of any adaptive quantization filters that you
     #   enable. The value that you choose here applies to Spatial adaptive
-    #   quantization (spatialAdaptiveQuantization).
+    #   quantization.
     #   @return [String]
     #
     # @!attribute [rw] bit_depth
-    #   Specify the Bit depth (Av1BitDepth). You can choose 8-bit (BIT\_8)
-    #   or 10-bit (BIT\_10).
+    #   Specify the Bit depth. You can choose 8-bit or 10-bit.
+    #   @return [String]
+    #
+    # @!attribute [rw] film_grain_synthesis
+    #   Film grain synthesis replaces film grain present in your content
+    #   with similar quality synthesized AV1 film grain. We recommend that
+    #   you choose Enabled to reduce the bandwidth of your QVBR quality
+    #   level 5, 6, 7, or 8 outputs. For QVBR quality level 9 or 10 outputs
+    #   we recommend that you keep the default value, Disabled. When you
+    #   include Film grain synthesis, you cannot include the Noise reducer
+    #   preprocessor.
     #   @return [String]
     #
     # @!attribute [rw] framerate_control
-    #   If you are using the console, use the Framerate setting to specify
-    #   the frame rate for this output. If you want to keep the same frame
-    #   rate as the input video, choose Follow source. If you want to do
-    #   frame rate conversion, choose a frame rate from the dropdown list or
-    #   choose Custom. The framerates shown in the dropdown list are decimal
-    #   approximations of fractions. If you choose Custom, specify your
-    #   frame rate as a fraction. If you are creating your transcoding job
-    #   specification as a JSON file without the console, use
-    #   FramerateControl to specify which value the service uses for the
-    #   frame rate for this output. Choose INITIALIZE\_FROM\_SOURCE if you
-    #   want the service to use the frame rate from the input. Choose
-    #   SPECIFIED if you want the service to use the frame rate you specify
-    #   in the settings FramerateNumerator and FramerateDenominator.
+    #   Use the Framerate setting to specify the frame rate for this output.
+    #   If you want to keep the same frame rate as the input video, choose
+    #   Follow source. If you want to do frame rate conversion, choose a
+    #   frame rate from the dropdown list or choose Custom. The framerates
+    #   shown in the dropdown list are decimal approximations of fractions.
+    #   If you choose Custom, specify your frame rate as a fraction.
     #   @return [String]
     #
     # @!attribute [rw] framerate_conversion_algorithm
     #   Choose the method that you want MediaConvert to use when increasing
-    #   or decreasing the frame rate. We recommend using drop duplicate
-    #   (DUPLICATE\_DROP) for numerically simple conversions, such as 60 fps
-    #   to 30 fps. For numerically complex conversions, you can use
-    #   interpolate (INTERPOLATE) to avoid stutter. This results in a smooth
-    #   picture, but might introduce undesirable video artifacts. For
+    #   or decreasing your video's frame rate. For numerically simple
+    #   conversions, such as 60 fps to 30 fps: We recommend that you keep
+    #   the default value, Drop duplicate. For numerically complex
+    #   conversions, to avoid stutter: Choose Interpolate. This results in a
+    #   smooth picture, but might introduce undesirable video artifacts. For
     #   complex frame rate conversions, especially if your source video has
-    #   already been converted from its original cadence, use FrameFormer
-    #   (FRAMEFORMER) to do motion-compensated interpolation. FrameFormer
-    #   chooses the best conversion method frame by frame. Note that using
-    #   FrameFormer increases the transcoding time and incurs a significant
-    #   add-on cost.
+    #   already been converted from its original cadence: Choose FrameFormer
+    #   to do motion-compensated interpolation. FrameFormer uses the best
+    #   conversion method frame by frame. Note that using FrameFormer
+    #   increases the transcoding time and incurs a significant add-on cost.
+    #   When you choose FrameFormer, your input video resolution must be at
+    #   least 128x96. To create an output with the same number of frames as
+    #   your input: Choose Maintain frame count. When you do, MediaConvert
+    #   will not drop, interpolate, add, or otherwise change the frame count
+    #   from your input to your output. Note that since the frame count is
+    #   maintained, the duration of your output will become shorter at
+    #   higher frame rates and longer at lower frame rates.
     #   @return [String]
     #
     # @!attribute [rw] framerate_denominator
@@ -1075,7 +1120,7 @@ module Aws::MediaConvert
     # @!attribute [rw] qvbr_settings
     #   Settings for quality-defined variable bitrate encoding with the
     #   H.265 codec. Use these settings only when you set QVBR for Rate
-    #   control mode (RateControlMode).
+    #   control mode.
     #   @return [Types::Av1QvbrSettings]
     #
     # @!attribute [rw] rate_control_mode
@@ -1093,23 +1138,23 @@ module Aws::MediaConvert
     #   @return [Integer]
     #
     # @!attribute [rw] spatial_adaptive_quantization
-    #   Keep the default value, Enabled (ENABLED), to adjust quantization
-    #   within each frame based on spatial variation of content complexity.
-    #   When you enable this feature, the encoder uses fewer bits on areas
-    #   that can sustain more distortion with no noticeable visual
-    #   degradation and uses more bits on areas where any small distortion
-    #   will be noticeable. For example, complex textured blocks are encoded
-    #   with fewer bits and smooth textured blocks are encoded with more
-    #   bits. Enabling this feature will almost always improve your video
-    #   quality. Note, though, that this feature doesn't take into account
-    #   where the viewer's attention is likely to be. If viewers are likely
-    #   to be focusing their attention on a part of the screen with a lot of
+    #   Keep the default value, Enabled, to adjust quantization within each
+    #   frame based on spatial variation of content complexity. When you
+    #   enable this feature, the encoder uses fewer bits on areas that can
+    #   sustain more distortion with no noticeable visual degradation and
+    #   uses more bits on areas where any small distortion will be
+    #   noticeable. For example, complex textured blocks are encoded with
+    #   fewer bits and smooth textured blocks are encoded with more bits.
+    #   Enabling this feature will almost always improve your video quality.
+    #   Note, though, that this feature doesn't take into account where the
+    #   viewer's attention is likely to be. If viewers are likely to be
+    #   focusing their attention on a part of the screen with a lot of
     #   complex texture, you might choose to disable this feature. Related
     #   setting: When you enable spatial adaptive quantization, set the
-    #   value for Adaptive quantization (adaptiveQuantization) depending on
-    #   your content. For homogeneous content, such as cartoons and video
-    #   games, set it to Low. For content with a wider variety of textures,
-    #   set it to High or Higher.
+    #   value for Adaptive quantization depending on your content. For
+    #   homogeneous content, such as cartoons and video games, set it to
+    #   Low. For content with a wider variety of textures, set it to High or
+    #   Higher.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/Av1Settings AWS API Documentation
@@ -1117,6 +1162,7 @@ module Aws::MediaConvert
     class Av1Settings < Struct.new(
       :adaptive_quantization,
       :bit_depth,
+      :film_grain_synthesis,
       :framerate_control,
       :framerate_conversion_algorithm,
       :framerate_denominator,
@@ -1167,9 +1213,8 @@ module Aws::MediaConvert
     #   @return [String]
     #
     # @!attribute [rw] avc_intra_uhd_settings
-    #   Optional when you set AVC-Intra class (avcIntraClass) to Class 4K/2K
-    #   (CLASS\_4K\_2K). When you set AVC-Intra class to a different value,
-    #   this object isn't allowed.
+    #   Optional when you set AVC-Intra class to Class 4K/2K. When you set
+    #   AVC-Intra class to a different value, this object isn't allowed.
     #   @return [Types::AvcIntraUhdSettings]
     #
     # @!attribute [rw] framerate_control
@@ -1179,28 +1224,28 @@ module Aws::MediaConvert
     #   frame rate conversion, choose a frame rate from the dropdown list or
     #   choose Custom. The framerates shown in the dropdown list are decimal
     #   approximations of fractions. If you choose Custom, specify your
-    #   frame rate as a fraction. If you are creating your transcoding job
-    #   specification as a JSON file without the console, use
-    #   FramerateControl to specify which value the service uses for the
-    #   frame rate for this output. Choose INITIALIZE\_FROM\_SOURCE if you
-    #   want the service to use the frame rate from the input. Choose
-    #   SPECIFIED if you want the service to use the frame rate you specify
-    #   in the settings FramerateNumerator and FramerateDenominator.
+    #   frame rate as a fraction.
     #   @return [String]
     #
     # @!attribute [rw] framerate_conversion_algorithm
     #   Choose the method that you want MediaConvert to use when increasing
-    #   or decreasing the frame rate. We recommend using drop duplicate
-    #   (DUPLICATE\_DROP) for numerically simple conversions, such as 60 fps
-    #   to 30 fps. For numerically complex conversions, you can use
-    #   interpolate (INTERPOLATE) to avoid stutter. This results in a smooth
-    #   picture, but might introduce undesirable video artifacts. For
+    #   or decreasing your video's frame rate. For numerically simple
+    #   conversions, such as 60 fps to 30 fps: We recommend that you keep
+    #   the default value, Drop duplicate. For numerically complex
+    #   conversions, to avoid stutter: Choose Interpolate. This results in a
+    #   smooth picture, but might introduce undesirable video artifacts. For
     #   complex frame rate conversions, especially if your source video has
-    #   already been converted from its original cadence, use FrameFormer
-    #   (FRAMEFORMER) to do motion-compensated interpolation. FrameFormer
-    #   chooses the best conversion method frame by frame. Note that using
-    #   FrameFormer increases the transcoding time and incurs a significant
-    #   add-on cost.
+    #   already been converted from its original cadence: Choose FrameFormer
+    #   to do motion-compensated interpolation. FrameFormer uses the best
+    #   conversion method frame by frame. Note that using FrameFormer
+    #   increases the transcoding time and incurs a significant add-on cost.
+    #   When you choose FrameFormer, your input video resolution must be at
+    #   least 128x96. To create an output with the same number of frames as
+    #   your input: Choose Maintain frame count. When you do, MediaConvert
+    #   will not drop, interpolate, add, or otherwise change the frame count
+    #   from your input to your output. Note that since the frame count is
+    #   maintained, the duration of your output will become shorter at
+    #   higher frame rates and longer at lower frame rates.
     #   @return [String]
     #
     # @!attribute [rw] framerate_denominator
@@ -1225,37 +1270,34 @@ module Aws::MediaConvert
     #
     # @!attribute [rw] interlace_mode
     #   Choose the scan line type for the output. Keep the default value,
-    #   Progressive (PROGRESSIVE) to create a progressive output, regardless
-    #   of the scan type of your input. Use Top field first (TOP\_FIELD) or
-    #   Bottom field first (BOTTOM\_FIELD) to create an output that's
-    #   interlaced with the same field polarity throughout. Use Follow,
-    #   default top (FOLLOW\_TOP\_FIELD) or Follow, default bottom
-    #   (FOLLOW\_BOTTOM\_FIELD) to produce outputs with the same field
-    #   polarity as the source. For jobs that have multiple inputs, the
-    #   output field polarity might change over the course of the output.
-    #   Follow behavior depends on the input scan type. If the source is
-    #   interlaced, the output will be interlaced with the same polarity as
-    #   the source. If the source is progressive, the output will be
-    #   interlaced with top field bottom field first, depending on which of
-    #   the Follow options you choose.
+    #   Progressive to create a progressive output, regardless of the scan
+    #   type of your input. Use Top field first or Bottom field first to
+    #   create an output that's interlaced with the same field polarity
+    #   throughout. Use Follow, default top or Follow, default bottom to
+    #   produce outputs with the same field polarity as the source. For jobs
+    #   that have multiple inputs, the output field polarity might change
+    #   over the course of the output. Follow behavior depends on the input
+    #   scan type. If the source is interlaced, the output will be
+    #   interlaced with the same polarity as the source. If the source is
+    #   progressive, the output will be interlaced with top field bottom
+    #   field first, depending on which of the Follow options you choose.
     #   @return [String]
     #
     # @!attribute [rw] scan_type_conversion_mode
     #   Use this setting for interlaced outputs, when your output frame rate
     #   is half of your input frame rate. In this situation, choose
-    #   Optimized interlacing (INTERLACED\_OPTIMIZE) to create a better
-    #   quality interlaced output. In this case, each progressive frame from
-    #   the input corresponds to an interlaced field in the output. Keep the
-    #   default value, Basic interlacing (INTERLACED), for all other output
-    #   frame rates. With basic interlacing, MediaConvert performs any frame
-    #   rate conversion first and then interlaces the frames. When you
-    #   choose Optimized interlacing and you set your output frame rate to a
-    #   value that isn't suitable for optimized interlacing, MediaConvert
+    #   Optimized interlacing to create a better quality interlaced output.
+    #   In this case, each progressive frame from the input corresponds to
+    #   an interlaced field in the output. Keep the default value, Basic
+    #   interlacing, for all other output frame rates. With basic
+    #   interlacing, MediaConvert performs any frame rate conversion first
+    #   and then interlaces the frames. When you choose Optimized
+    #   interlacing and you set your output frame rate to a value that
+    #   isn't suitable for optimized interlacing, MediaConvert
     #   automatically falls back to basic interlacing. Required settings: To
-    #   use optimized interlacing, you must set Telecine (telecine) to None
-    #   (NONE) or Soft (SOFT). You can't use optimized interlacing for hard
-    #   telecine outputs. You must also set Interlace mode (interlaceMode)
-    #   to a value other than Progressive (PROGRESSIVE).
+    #   use optimized interlacing, you must set Telecine to None or Soft.
+    #   You can't use optimized interlacing for hard telecine outputs. You
+    #   must also set Interlace mode to a value other than Progressive.
     #   @return [String]
     #
     # @!attribute [rw] slow_pal
@@ -1265,18 +1307,16 @@ module Aws::MediaConvert
     #   25 fps and resamples your audio to keep it synchronized with the
     #   video. Note that enabling this setting will slightly reduce the
     #   duration of your video. Required settings: You must also set
-    #   Framerate to 25. In your JSON job specification, set
-    #   (framerateControl) to (SPECIFIED), (framerateNumerator) to 25 and
-    #   (framerateDenominator) to 1.
+    #   Framerate to 25.
     #   @return [String]
     #
     # @!attribute [rw] telecine
     #   When you do frame rate conversion from 23.976 frames per second
     #   (fps) to 29.97 fps, and your output scan type is interlaced, you can
-    #   optionally enable hard telecine (HARD) to create a smoother picture.
-    #   When you keep the default value, None (NONE), MediaConvert does a
-    #   standard frame rate conversion to 29.97 without doing anything with
-    #   the field polarity to create a smoother picture.
+    #   optionally enable hard telecine to create a smoother picture. When
+    #   you keep the default value, None, MediaConvert does a standard frame
+    #   rate conversion to 29.97 without doing anything with the field
+    #   polarity to create a smoother picture.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/AvcIntraSettings AWS API Documentation
@@ -1296,19 +1336,17 @@ module Aws::MediaConvert
       include Aws::Structure
     end
 
-    # Optional when you set AVC-Intra class (avcIntraClass) to Class 4K/2K
-    # (CLASS\_4K\_2K). When you set AVC-Intra class to a different value,
-    # this object isn't allowed.
+    # Optional when you set AVC-Intra class to Class 4K/2K. When you set
+    # AVC-Intra class to a different value, this object isn't allowed.
     #
     # @!attribute [rw] quality_tuning_level
-    #   Optional. Use Quality tuning level (qualityTuningLevel) to choose
-    #   how many transcoding passes MediaConvert does with your video. When
-    #   you choose Multi-pass (MULTI\_PASS), your video quality is better
-    #   and your output bitrate is more accurate. That is, the actual
-    #   bitrate of your output is closer to the target bitrate defined in
-    #   the specification. When you choose Single-pass (SINGLE\_PASS), your
-    #   encoding time is faster. The default behavior is Single-pass
-    #   (SINGLE\_PASS).
+    #   Optional. Use Quality tuning level to choose how many transcoding
+    #   passes MediaConvert does with your video. When you choose
+    #   Multi-pass, your video quality is better and your output bitrate is
+    #   more accurate. That is, the actual bitrate of your output is closer
+    #   to the target bitrate defined in the specification. When you choose
+    #   Single-pass, your encoding time is faster. The default behavior is
+    #   Single-pass.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/AvcIntraUhdSettings AWS API Documentation
@@ -1330,14 +1368,49 @@ module Aws::MediaConvert
       include Aws::Structure
     end
 
+    # The Bandwidth reduction filter increases the video quality of your
+    # output relative to its bitrate. Use to lower the bitrate of your
+    # constant quality QVBR output, with little or no perceptual decrease in
+    # quality. Or, use to increase the video quality of outputs with other
+    # rate control modes relative to the bitrate that you specify. Bandwidth
+    # reduction increases further when your input is low quality or noisy.
+    # Outputs that use this feature incur pro-tier pricing. When you include
+    # Bandwidth reduction filter, you cannot include the Noise reducer
+    # preprocessor.
+    #
+    # @!attribute [rw] sharpening
+    #   Optionally specify the level of sharpening to apply when you use the
+    #   Bandwidth reduction filter. Sharpening adds contrast to the edges of
+    #   your video content and can reduce softness. Keep the default value
+    #   Off to apply no sharpening. Set Sharpening strength to Low to apply
+    #   a minimal amount of sharpening, or High to apply a maximum amount of
+    #   sharpening.
+    #   @return [String]
+    #
+    # @!attribute [rw] strength
+    #   Specify the strength of the Bandwidth reduction filter. For most
+    #   workflows, we recommend that you choose Auto to reduce the bandwidth
+    #   of your output with little to no perceptual decrease in video
+    #   quality. For high quality and high bitrate outputs, choose Low. For
+    #   the most bandwidth reduction, choose High. We recommend that you
+    #   choose High for low bitrate outputs. Note that High may incur a
+    #   slight increase in the softness of your output.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/BandwidthReductionFilter AWS API Documentation
+    #
+    class BandwidthReductionFilter < Struct.new(
+      :sharpening,
+      :strength)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Burn-in is a captions delivery method, rather than a captions format.
     # Burn-in writes the captions directly on your video frames, replacing
     # pixels of video content with the captions. Set up burn-in captions in
     # the same output as your video. For more information, see
     # https://docs.aws.amazon.com/mediaconvert/latest/ug/burn-in-output-captions.html.
-    # When you work directly in your JSON job specification, include this
-    # object and any required children when you set destinationType to
-    # BURN\_IN.
     #
     # @!attribute [rw] alignment
     #   Specify the alignment of your captions. If no explicit x\_position
@@ -1350,53 +1423,77 @@ module Aws::MediaConvert
     #   @return [String]
     #
     # @!attribute [rw] apply_font_color
-    #   Ignore this setting unless Style passthrough (StylePassthrough) is
-    #   set to Enabled and Font color (FontColor) set to Black, Yellow, Red,
-    #   Green, Blue, or Hex. Use Apply font color (ApplyFontColor) for
-    #   additional font color controls. When you choose White text only
-    #   (WHITE\_TEXT\_ONLY), or leave blank, your font color setting only
-    #   applies to white text in your input captions. For example, if your
-    #   font color setting is Yellow, and your input captions have red and
-    #   white text, your output captions will have red and yellow text. When
-    #   you choose ALL\_TEXT, your font color setting applies to all of your
-    #   output captions text.
+    #   Ignore this setting unless Style passthrough is set to Enabled and
+    #   Font color set to Black, Yellow, Red, Green, Blue, or Hex. Use Apply
+    #   font color for additional font color controls. When you choose White
+    #   text only, or leave blank, your font color setting only applies to
+    #   white text in your input captions. For example, if your font color
+    #   setting is Yellow, and your input captions have red and white text,
+    #   your output captions will have red and yellow text. When you choose
+    #   ALL\_TEXT, your font color setting applies to all of your output
+    #   captions text.
     #   @return [String]
     #
     # @!attribute [rw] background_color
     #   Specify the color of the rectangle behind the captions. Leave
-    #   background color (BackgroundColor) blank and set Style passthrough
-    #   (StylePassthrough) to enabled to use the background color data from
-    #   your input captions, if present.
+    #   background color blank and set Style passthrough to enabled to use
+    #   the background color data from your input captions, if present.
     #   @return [String]
     #
     # @!attribute [rw] background_opacity
     #   Specify the opacity of the background rectangle. Enter a value from
     #   0 to 255, where 0 is transparent and 255 is opaque. If Style
-    #   passthrough (StylePassthrough) is set to enabled, leave blank to
-    #   pass through the background style information in your input captions
-    #   to your output captions. If Style passthrough is set to disabled,
-    #   leave blank to use a value of 0 and remove all backgrounds from your
-    #   output captions.
+    #   passthrough is set to enabled, leave blank to pass through the
+    #   background style information in your input captions to your output
+    #   captions. If Style passthrough is set to disabled, leave blank to
+    #   use a value of 0 and remove all backgrounds from your output
+    #   captions.
     #   @return [Integer]
     #
     # @!attribute [rw] fallback_font
     #   Specify the font that you want the service to use for your burn in
     #   captions when your input captions specify a font that MediaConvert
-    #   doesn't support. When you set Fallback font (FallbackFont) to best
-    #   match (BEST\_MATCH), or leave blank, MediaConvert uses a supported
-    #   font that most closely matches the font that your input captions
-    #   specify. When there are multiple unsupported fonts in your input
-    #   captions, MediaConvert matches each font with the supported font
-    #   that matches best. When you explicitly choose a replacement font,
-    #   MediaConvert uses that font to replace all unsupported fonts from
-    #   your input.
+    #   doesn't support. When you set Fallback font to best match, or leave
+    #   blank, MediaConvert uses a supported font that most closely matches
+    #   the font that your input captions specify. When there are multiple
+    #   unsupported fonts in your input captions, MediaConvert matches each
+    #   font with the supported font that matches best. When you explicitly
+    #   choose a replacement font, MediaConvert uses that font to replace
+    #   all unsupported fonts from your input.
     #   @return [String]
     #
     # @!attribute [rw] font_color
     #   Specify the color of the burned-in captions text. Leave Font color
-    #   (FontColor) blank and set Style passthrough (StylePassthrough) to
-    #   enabled to use the font color data from your input captions, if
-    #   present.
+    #   blank and set Style passthrough to enabled to use the font color
+    #   data from your input captions, if present.
+    #   @return [String]
+    #
+    # @!attribute [rw] font_file_bold
+    #   Specify a bold TrueType font file to use when rendering your output
+    #   captions. Enter an S3, HTTP, or HTTPS URL. When you do, you must
+    #   also separately specify a regular, an italic, and a bold italic font
+    #   file.
+    #   @return [String]
+    #
+    # @!attribute [rw] font_file_bold_italic
+    #   Specify a bold italic TrueType font file to use when rendering your
+    #   output captions. Enter an S3, HTTP, or HTTPS URL. When you do, you
+    #   must also separately specify a regular, a bold, and an italic font
+    #   file.
+    #   @return [String]
+    #
+    # @!attribute [rw] font_file_italic
+    #   Specify an italic TrueType font file to use when rendering your
+    #   output captions. Enter an S3, HTTP, or HTTPS URL. When you do, you
+    #   must also separately specify a regular, a bold, and a bold italic
+    #   font file.
+    #   @return [String]
+    #
+    # @!attribute [rw] font_file_regular
+    #   Specify a regular TrueType font file to use when rendering your
+    #   output captions. Enter an S3, HTTP, or HTTPS URL. When you do, you
+    #   must also separately specify a bold, an italic, and a bold italic
+    #   font file.
     #   @return [String]
     #
     # @!attribute [rw] font_opacity
@@ -1405,20 +1502,20 @@ module Aws::MediaConvert
     #   @return [Integer]
     #
     # @!attribute [rw] font_resolution
-    #   Specify the Font resolution (FontResolution) in DPI (dots per inch).
+    #   Specify the Font resolution in DPI (dots per inch).
     #   @return [Integer]
     #
     # @!attribute [rw] font_script
-    #   Set Font script (FontScript) to Automatically determined
-    #   (AUTOMATIC), or leave blank, to automatically determine the font
-    #   script in your input captions. Otherwise, set to Simplified Chinese
-    #   (HANS) or Traditional Chinese (HANT) if your input font script uses
-    #   Simplified or Traditional Chinese.
+    #   Set Font script to Automatically determined, or leave blank, to
+    #   automatically determine the font script in your input captions.
+    #   Otherwise, set to Simplified Chinese (HANS) or Traditional Chinese
+    #   (HANT) if your input font script uses Simplified or Traditional
+    #   Chinese.
     #   @return [String]
     #
     # @!attribute [rw] font_size
-    #   Specify the Font size (FontSize) in pixels. Must be a positive
-    #   integer. Set to 0, or leave blank, for automatic font size.
+    #   Specify the Font size in pixels. Must be a positive integer. Set to
+    #   0, or leave blank, for automatic font size.
     #   @return [Integer]
     #
     # @!attribute [rw] hex_font_color
@@ -1430,33 +1527,39 @@ module Aws::MediaConvert
     #   @return [String]
     #
     # @!attribute [rw] outline_color
-    #   Specify font outline color. Leave Outline color (OutlineColor) blank
-    #   and set Style passthrough (StylePassthrough) to enabled to use the
-    #   font outline color data from your input captions, if present.
+    #   Specify font outline color. Leave Outline color blank and set Style
+    #   passthrough to enabled to use the font outline color data from your
+    #   input captions, if present.
     #   @return [String]
     #
     # @!attribute [rw] outline_size
-    #   Specify the Outline size (OutlineSize) of the caption text, in
-    #   pixels. Leave Outline size blank and set Style passthrough
-    #   (StylePassthrough) to enabled to use the outline size data from your
-    #   input captions, if present.
+    #   Specify the Outline size of the caption text, in pixels. Leave
+    #   Outline size blank and set Style passthrough to enabled to use the
+    #   outline size data from your input captions, if present.
     #   @return [Integer]
+    #
+    # @!attribute [rw] remove_ruby_reserve_attributes
+    #   Optionally remove any tts:rubyReserve attributes present in your
+    #   input, that do not have a tts:ruby attribute in the same element,
+    #   from your output. Use if your vertical Japanese output captions have
+    #   alignment issues. To remove ruby reserve attributes when present:
+    #   Choose Enabled. To not remove any ruby reserve attributes: Keep the
+    #   default value, Disabled.
+    #   @return [String]
     #
     # @!attribute [rw] shadow_color
     #   Specify the color of the shadow cast by the captions. Leave Shadow
-    #   color (ShadowColor) blank and set Style passthrough
-    #   (StylePassthrough) to enabled to use the shadow color data from your
-    #   input captions, if present.
+    #   color blank and set Style passthrough to enabled to use the shadow
+    #   color data from your input captions, if present.
     #   @return [String]
     #
     # @!attribute [rw] shadow_opacity
     #   Specify the opacity of the shadow. Enter a value from 0 to 255,
-    #   where 0 is transparent and 255 is opaque. If Style passthrough
-    #   (StylePassthrough) is set to Enabled, leave Shadow opacity
-    #   (ShadowOpacity) blank to pass through the shadow style information
-    #   in your input captions to your output captions. If Style passthrough
-    #   is set to disabled, leave blank to use a value of 0 and remove all
-    #   shadows from your output captions.
+    #   where 0 is transparent and 255 is opaque. If Style passthrough is
+    #   set to Enabled, leave Shadow opacity blank to pass through the
+    #   shadow style information in your input captions to your output
+    #   captions. If Style passthrough is set to disabled, leave blank to
+    #   use a value of 0 and remove all shadows from your output captions.
     #   @return [Integer]
     #
     # @!attribute [rw] shadow_x_offset
@@ -1468,46 +1571,47 @@ module Aws::MediaConvert
     # @!attribute [rw] shadow_y_offset
     #   Specify the vertical offset of the shadow relative to the captions
     #   in pixels. A value of -2 would result in a shadow offset 2 pixels
-    #   above the text. Leave Shadow y-offset (ShadowYOffset) blank and set
-    #   Style passthrough (StylePassthrough) to enabled to use the shadow
-    #   y-offset data from your input captions, if present.
+    #   above the text. Leave Shadow y-offset blank and set Style
+    #   passthrough to enabled to use the shadow y-offset data from your
+    #   input captions, if present.
     #   @return [Integer]
     #
     # @!attribute [rw] style_passthrough
-    #   Set Style passthrough (StylePassthrough) to ENABLED to use the
-    #   available style, color, and position information from your input
-    #   captions. MediaConvert uses default settings for any missing style
-    #   and position information in your input captions. Set Style
-    #   passthrough to DISABLED, or leave blank, to ignore the style and
-    #   position information from your input captions and use default
-    #   settings: white text with black outlining, bottom-center
-    #   positioning, and automatic sizing. Whether you set Style passthrough
-    #   to enabled or not, you can also choose to manually override any of
-    #   the individual style and position settings.
+    #   To use the available style, color, and position information from
+    #   your input captions: Set Style passthrough to Enabled. Note that
+    #   MediaConvert uses default settings for any missing style or position
+    #   information in your input captions To ignore the style and position
+    #   information from your input captions and use default settings: Leave
+    #   blank or keep the default value, Disabled. Default settings include
+    #   white text with black outlining, bottom-center positioning, and
+    #   automatic sizing. Whether you set Style passthrough to enabled or
+    #   not, you can also choose to manually override any of the individual
+    #   style and position settings. You can also override any fonts by
+    #   manually specifying custom font files.
     #   @return [String]
     #
     # @!attribute [rw] teletext_spacing
-    #   Specify whether the text spacing (TeletextSpacing) in your captions
-    #   is set by the captions grid, or varies depending on letter width.
-    #   Choose fixed grid (FIXED\_GRID) to conform to the spacing specified
-    #   in the captions file more accurately. Choose proportional
-    #   (PROPORTIONAL) to make the text easier to read for closed captions.
+    #   Specify whether the text spacing in your captions is set by the
+    #   captions grid, or varies depending on letter width. Choose fixed
+    #   grid to conform to the spacing specified in the captions file more
+    #   accurately. Choose proportional to make the text easier to read for
+    #   closed captions.
     #   @return [String]
     #
     # @!attribute [rw] x_position
-    #   Specify the horizontal position (XPosition) of the captions,
-    #   relative to the left side of the output in pixels. A value of 10
-    #   would result in the captions starting 10 pixels from the left of the
-    #   output. If no explicit x\_position is provided, the horizontal
-    #   caption position will be determined by the alignment parameter.
+    #   Specify the horizontal position of the captions, relative to the
+    #   left side of the output in pixels. A value of 10 would result in the
+    #   captions starting 10 pixels from the left of the output. If no
+    #   explicit x\_position is provided, the horizontal caption position
+    #   will be determined by the alignment parameter.
     #   @return [Integer]
     #
     # @!attribute [rw] y_position
-    #   Specify the vertical position (YPosition) of the captions, relative
-    #   to the top of the output in pixels. A value of 10 would result in
-    #   the captions starting 10 pixels from the top of the output. If no
-    #   explicit y\_position is provided, the caption will be positioned
-    #   towards the bottom of the output.
+    #   Specify the vertical position of the captions, relative to the top
+    #   of the output in pixels. A value of 10 would result in the captions
+    #   starting 10 pixels from the top of the output. If no explicit
+    #   y\_position is provided, the caption will be positioned towards the
+    #   bottom of the output.
     #   @return [Integer]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/BurninDestinationSettings AWS API Documentation
@@ -1519,6 +1623,10 @@ module Aws::MediaConvert
       :background_opacity,
       :fallback_font,
       :font_color,
+      :font_file_bold,
+      :font_file_bold_italic,
+      :font_file_italic,
+      :font_file_regular,
       :font_opacity,
       :font_resolution,
       :font_script,
@@ -1526,6 +1634,7 @@ module Aws::MediaConvert
       :hex_font_color,
       :outline_color,
       :outline_size,
+      :remove_ruby_reserve_attributes,
       :shadow_color,
       :shadow_opacity,
       :shadow_x_offset,
@@ -1580,12 +1689,10 @@ module Aws::MediaConvert
     #   @return [String]
     #
     # @!attribute [rw] destination_settings
-    #   Settings related to one captions tab on the MediaConvert console. In
-    #   your job JSON, an instance of captions DestinationSettings is
-    #   equivalent to one captions tab in the console. Usually, one captions
-    #   tab corresponds to one output captions track. Depending on your
-    #   output captions format, one tab might correspond to a set of output
-    #   captions tracks. For more information, see
+    #   Settings related to one captions tab on the MediaConvert console.
+    #   Usually, one captions tab corresponds to one output captions track.
+    #   Depending on your output captions format, one tab might correspond
+    #   to a set of output captions tracks. For more information, see
     #   https://docs.aws.amazon.com/mediaconvert/latest/ug/including-captions.html.
     #   @return [Types::CaptionDestinationSettings]
     #
@@ -1633,12 +1740,10 @@ module Aws::MediaConvert
     #   @return [String]
     #
     # @!attribute [rw] destination_settings
-    #   Settings related to one captions tab on the MediaConvert console. In
-    #   your job JSON, an instance of captions DestinationSettings is
-    #   equivalent to one captions tab in the console. Usually, one captions
-    #   tab corresponds to one output captions track. Depending on your
-    #   output captions format, one tab might correspond to a set of output
-    #   captions tracks. For more information, see
+    #   Settings related to one captions tab on the MediaConvert console.
+    #   Usually, one captions tab corresponds to one output captions track.
+    #   Depending on your output captions format, one tab might correspond
+    #   to a set of output captions tracks. For more information, see
     #   https://docs.aws.amazon.com/mediaconvert/latest/ug/including-captions.html.
     #   @return [Types::CaptionDestinationSettings]
     #
@@ -1669,12 +1774,10 @@ module Aws::MediaConvert
       include Aws::Structure
     end
 
-    # Settings related to one captions tab on the MediaConvert console. In
-    # your job JSON, an instance of captions DestinationSettings is
-    # equivalent to one captions tab in the console. Usually, one captions
-    # tab corresponds to one output captions track. Depending on your output
-    # captions format, one tab might correspond to a set of output captions
-    # tracks. For more information, see
+    # Settings related to one captions tab on the MediaConvert console.
+    # Usually, one captions tab corresponds to one output captions track.
+    # Depending on your output captions format, one tab might correspond to
+    # a set of output captions tracks. For more information, see
     # https://docs.aws.amazon.com/mediaconvert/latest/ug/including-captions.html.
     #
     # @!attribute [rw] burnin_destination_settings
@@ -1683,9 +1786,6 @@ module Aws::MediaConvert
     #   replacing pixels of video content with the captions. Set up burn-in
     #   captions in the same output as your video. For more information, see
     #   https://docs.aws.amazon.com/mediaconvert/latest/ug/burn-in-output-captions.html.
-    #   When you work directly in your JSON job specification, include this
-    #   object and any required children when you set destinationType to
-    #   BURN\_IN.
     #   @return [Types::BurninDestinationSettings]
     #
     # @!attribute [rw] destination_type
@@ -1695,19 +1795,15 @@ module Aws::MediaConvert
     #   format. For more information, see
     #   https://docs.aws.amazon.com/mediaconvert/latest/ug/captions-support-tables.html.
     #   If you are using SCTE-20 and you want to create an output that
-    #   complies with the SCTE-43 spec, choose SCTE-20 plus embedded
-    #   (SCTE20\_PLUS\_EMBEDDED). To create a non-compliant output where the
-    #   embedded captions come first, choose Embedded plus SCTE-20
-    #   (EMBEDDED\_PLUS\_SCTE20).
+    #   complies with the SCTE-43 spec, choose SCTE-20 plus embedded. To
+    #   create a non-compliant output where the embedded captions come
+    #   first, choose Embedded plus SCTE-20.
     #   @return [String]
     #
     # @!attribute [rw] dvb_sub_destination_settings
     #   Settings related to DVB-Sub captions. Set up DVB-Sub captions in the
     #   same output as your video. For more information, see
     #   https://docs.aws.amazon.com/mediaconvert/latest/ug/dvb-sub-output-captions.html.
-    #   When you work directly in your JSON job specification, include this
-    #   object and any required children when you set destinationType to
-    #   DVB\_SUB.
     #   @return [Types::DvbSubDestinationSettings]
     #
     # @!attribute [rw] embedded_destination_settings
@@ -1715,9 +1811,6 @@ module Aws::MediaConvert
     #   embedded or ancillary) captions. Set up embedded captions in the
     #   same output as your video. For more information, see
     #   https://docs.aws.amazon.com/mediaconvert/latest/ug/embedded-output-captions.html.
-    #   When you work directly in your JSON job specification, include this
-    #   object and any required children when you set destinationType to
-    #   EMBEDDED, EMBEDDED\_PLUS\_SCTE20, or SCTE20\_PLUS\_EMBEDDED.
     #   @return [Types::EmbeddedDestinationSettings]
     #
     # @!attribute [rw] imsc_destination_settings
@@ -1726,9 +1819,6 @@ module Aws::MediaConvert
     #   Set up sidecar captions in the same output group, but different
     #   output from your video. For more information, see
     #   https://docs.aws.amazon.com/mediaconvert/latest/ug/ttml-and-webvtt-output-captions.html.
-    #   When you work directly in your JSON job specification, include this
-    #   object and any required children when you set destinationType to
-    #   IMSC.
     #   @return [Types::ImscDestinationSettings]
     #
     # @!attribute [rw] scc_destination_settings
@@ -1737,27 +1827,19 @@ module Aws::MediaConvert
     #   sidecar captions in the same output group, but different output from
     #   your video. For more information, see
     #   https://docs.aws.amazon.com/mediaconvert/latest/ug/scc-srt-output-captions.html.
-    #   When you work directly in your JSON job specification, include this
-    #   object and any required children when you set destinationType to
-    #   SCC.
     #   @return [Types::SccDestinationSettings]
     #
     # @!attribute [rw] srt_destination_settings
     #   Settings related to SRT captions. SRT is a sidecar format that holds
     #   captions in a file that is separate from the video container. Set up
     #   sidecar captions in the same output group, but different output from
-    #   your video. When you work directly in your JSON job specification,
-    #   include this object and any required children when you set
-    #   destinationType to SRT.
+    #   your video.
     #   @return [Types::SrtDestinationSettings]
     #
     # @!attribute [rw] teletext_destination_settings
     #   Settings related to teletext captions. Set up teletext captions in
     #   the same output as your video. For more information, see
     #   https://docs.aws.amazon.com/mediaconvert/latest/ug/teletext-output-captions.html.
-    #   When you work directly in your JSON job specification, include this
-    #   object and any required children when you set destinationType to
-    #   TELETEXT.
     #   @return [Types::TeletextDestinationSettings]
     #
     # @!attribute [rw] ttml_destination_settings
@@ -1766,9 +1848,6 @@ module Aws::MediaConvert
     #   Set up sidecar captions in the same output group, but different
     #   output from your video. For more information, see
     #   https://docs.aws.amazon.com/mediaconvert/latest/ug/ttml-and-webvtt-output-captions.html.
-    #   When you work directly in your JSON job specification, include this
-    #   object and any required children when you set destinationType to
-    #   TTML.
     #   @return [Types::TtmlDestinationSettings]
     #
     # @!attribute [rw] webvtt_destination_settings
@@ -1777,9 +1856,6 @@ module Aws::MediaConvert
     #   Set up sidecar captions in the same output group, but different
     #   output from your video. For more information, see
     #   https://docs.aws.amazon.com/mediaconvert/latest/ug/ttml-and-webvtt-output-captions.html.
-    #   When you work directly in your JSON job specification, include this
-    #   object and any required children when you set destinationType to
-    #   WebVTT.
     #   @return [Types::WebvttDestinationSettings]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/CaptionDestinationSettings AWS API Documentation
@@ -1800,28 +1876,27 @@ module Aws::MediaConvert
     end
 
     # Use captions selectors to specify the captions data from your input
-    # that you use in your outputs. You can use up to 20 captions selectors
+    # that you use in your outputs. You can use up to 100 captions selectors
     # per input.
     #
     # @!attribute [rw] custom_language_code
     #   The specific language to extract from source, using the ISO 639-2 or
     #   ISO 639-3 three-letter language code. If input is SCTE-27, complete
     #   this field and/or PID to select the caption language to extract. If
-    #   input is DVB-Sub and output is Burn-in or SMPTE-TT, complete this
-    #   field and/or PID to select the caption language to extract. If input
-    #   is DVB-Sub that is being passed through, omit this field (and PID
-    #   field); there is no way to extract a specific language with
-    #   pass-through captions.
+    #   input is DVB-Sub and output is Burn-in, complete this field and/or
+    #   PID to select the caption language to extract. If input is DVB-Sub
+    #   that is being passed through, omit this field (and PID field); there
+    #   is no way to extract a specific language with pass-through captions.
     #   @return [String]
     #
     # @!attribute [rw] language_code
     #   The specific language to extract from source. If input is SCTE-27,
     #   complete this field and/or PID to select the caption language to
-    #   extract. If input is DVB-Sub and output is Burn-in or SMPTE-TT,
-    #   complete this field and/or PID to select the caption language to
-    #   extract. If input is DVB-Sub that is being passed through, omit this
-    #   field (and PID field); there is no way to extract a specific
-    #   language with pass-through captions.
+    #   extract. If input is DVB-Sub and output is Burn-in, complete this
+    #   field and/or PID to select the caption language to extract. If input
+    #   is DVB-Sub that is being passed through, omit this field (and PID
+    #   field); there is no way to extract a specific language with
+    #   pass-through captions.
     #   @return [String]
     #
     # @!attribute [rw] source_settings
@@ -1844,24 +1919,20 @@ module Aws::MediaConvert
     # Ignore this setting unless your input captions format is SCC. To have
     # the service compensate for differing frame rates between your input
     # captions and input video, specify the frame rate of the captions file.
-    # Specify this value as a fraction. When you work directly in your JSON
-    # job specification, use the settings framerateNumerator and
-    # framerateDenominator. For example, you might specify 24 / 1 for 24
-    # fps, 25 / 1 for 25 fps, 24000 / 1001 for 23.976 fps, or 30000 / 1001
-    # for 29.97 fps.
+    # Specify this value as a fraction. For example, you might specify 24 /
+    # 1 for 24 fps, 25 / 1 for 25 fps, 24000 / 1001 for 23.976 fps, or 30000
+    # / 1001 for 29.97 fps.
     #
     # @!attribute [rw] framerate_denominator
     #   Specify the denominator of the fraction that represents the frame
-    #   rate for the setting Caption source frame rate
-    #   (CaptionSourceFramerate). Use this setting along with the setting
-    #   Framerate numerator (framerateNumerator).
+    #   rate for the setting Caption source frame rate. Use this setting
+    #   along with the setting Framerate numerator.
     #   @return [Integer]
     #
     # @!attribute [rw] framerate_numerator
     #   Specify the numerator of the fraction that represents the frame rate
-    #   for the setting Caption source frame rate (CaptionSourceFramerate).
-    #   Use this setting along with the setting Framerate denominator
-    #   (framerateDenominator).
+    #   for the setting Caption source frame rate. Use this setting along
+    #   with the setting Framerate denominator.
     #   @return [Integer]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/CaptionSourceFramerate AWS API Documentation
@@ -1898,8 +1969,8 @@ module Aws::MediaConvert
     #   @return [Types::FileSourceSettings]
     #
     # @!attribute [rw] source_type
-    #   Use Source (SourceType) to identify the format of your input
-    #   captions. The service cannot auto-detect caption format.
+    #   Use Source to identify the format of your input captions. The
+    #   service cannot auto-detect caption format.
     #   @return [String]
     #
     # @!attribute [rw] teletext_source_settings
@@ -1941,11 +2012,11 @@ module Aws::MediaConvert
       include Aws::Structure
     end
 
-    # Channel mapping (ChannelMapping) contains the group of fields that
-    # hold the remixing value for each channel, in dB. Specify remix values
-    # to indicate how much of the content from your input audio channel you
-    # want in your output audio channels. Each instance of the InputChannels
-    # or InputChannelsFineTune array specifies these values for one output
+    # Channel mapping contains the group of fields that hold the remixing
+    # value for each channel, in dB. Specify remix values to indicate how
+    # much of the content from your input audio channel you want in your
+    # output audio channels. Each instance of the InputChannels or
+    # InputChannelsFineTune array specifies these values for one output
     # channel. Use one instance of this array for each output channel. In
     # the console, each array corresponds to a column in the graphical
     # depiction of the mapping matrix. The rows of the graphical matrix
@@ -2066,8 +2137,7 @@ module Aws::MediaConvert
     #
     # @!attribute [rw] encryption_method
     #   Specify the encryption scheme that you want the service to use when
-    #   encrypting your CMAF segments. Choose AES-CBC subsample (SAMPLE-AES)
-    #   or AES\_CTR (AES-CTR).
+    #   encrypting your CMAF segments. Choose AES-CBC subsample or AES\_CTR.
     #   @return [String]
     #
     # @!attribute [rw] initialization_vector_in_manifest
@@ -2110,9 +2180,6 @@ module Aws::MediaConvert
     # Settings related to your CMAF output package. For more information,
     # see
     # https://docs.aws.amazon.com/mediaconvert/latest/ug/outputs-file-ABR.html.
-    # When you work directly in your JSON job specification, include this
-    # object and any required children when you set Type, under
-    # OutputGroupSettings, to CMAF\_GROUP\_SETTINGS.
     #
     # @!attribute [rw] additional_manifests
     #   By default, the service creates one top-level .m3u8 HLS manifest and
@@ -2133,13 +2200,27 @@ module Aws::MediaConvert
     # @!attribute [rw] client_cache
     #   Disable this setting only when your workflow requires the
     #   #EXT-X-ALLOW-CACHE:no tag. Otherwise, keep the default value Enabled
-    #   (ENABLED) and control caching in your video distribution set up. For
-    #   example, use the Cache-Control http header.
+    #   and control caching in your video distribution set up. For example,
+    #   use the Cache-Control http header.
     #   @return [String]
     #
     # @!attribute [rw] codec_specification
     #   Specification to use (RFC-6381 or the default RFC-4281) during m3u8
     #   playlist generation.
+    #   @return [String]
+    #
+    # @!attribute [rw] dash_i_frame_trick_play_name_modifier
+    #   Specify whether MediaConvert generates I-frame only video segments
+    #   for DASH trick play, also known as trick mode. When specified, the
+    #   I-frame only video segments are included within an additional
+    #   AdaptationSet in your DASH output manifest. To generate I-frame only
+    #   video segments: Enter a name as a text string, up to 256 character
+    #   long. This name is appended to the end of this output group's base
+    #   filename, that you specify as part of your destination URI, and used
+    #   for the I-frame only video segment files. You may also include
+    #   format identifiers. For more information, see:
+    #   https://docs.aws.amazon.com/mediaconvert/latest/ug/using-variables-in-your-job-settings.html#using-settings-variables-with-streaming-outputs
+    #   To not generate I-frame only video segments: Leave blank.
     #   @return [String]
     #
     # @!attribute [rw] dash_manifest_style
@@ -2154,11 +2235,11 @@ module Aws::MediaConvert
     #   @return [String]
     #
     # @!attribute [rw] destination
-    #   Use Destination (Destination) to specify the S3 output location and
-    #   the output filename base. Destination accepts format identifiers. If
-    #   you do not specify the base filename in the URI, the service will
-    #   use the filename of the input file. If your job has multiple inputs,
-    #   the service uses the filename of the first input file.
+    #   Use Destination to specify the S3 output location and the output
+    #   filename base. Destination accepts format identifiers. If you do not
+    #   specify the base filename in the URI, the service will use the
+    #   filename of the input file. If your job has multiple inputs, the
+    #   service uses the filename of the first input file.
     #   @return [String]
     #
     # @!attribute [rw] destination_settings
@@ -2173,21 +2254,20 @@ module Aws::MediaConvert
     # @!attribute [rw] fragment_length
     #   Specify the length, in whole seconds, of the mp4 fragments. When you
     #   don't specify a value, MediaConvert defaults to 2. Related setting:
-    #   Use Fragment length control (FragmentLengthControl) to specify
-    #   whether the encoder enforces this value strictly.
+    #   Use Fragment length control to specify whether the encoder enforces
+    #   this value strictly.
     #   @return [Integer]
     #
     # @!attribute [rw] image_based_trick_play
     #   Specify whether MediaConvert generates images for trick play. Keep
-    #   the default value, None (NONE), to not generate any images. Choose
-    #   Thumbnail (THUMBNAIL) to generate tiled thumbnails. Choose Thumbnail
-    #   and full frame (THUMBNAIL\_AND\_FULLFRAME) to generate tiled
-    #   thumbnails and full-resolution images of single frames. When you
-    #   enable Write HLS manifest (WriteHlsManifest), MediaConvert creates a
-    #   child manifest for each set of images that you generate and adds
-    #   corresponding entries to the parent manifest. When you enable Write
-    #   DASH manifest (WriteDashManifest), MediaConvert adds an entry in the
-    #   .mpd manifest for each set of images that you generate. A common
+    #   the default value, None, to not generate any images. Choose
+    #   Thumbnail to generate tiled thumbnails. Choose Thumbnail and full
+    #   frame to generate tiled thumbnails and full-resolution images of
+    #   single frames. When you enable Write HLS manifest, MediaConvert
+    #   creates a child manifest for each set of images that you generate
+    #   and adds corresponding entries to the parent manifest. When you
+    #   enable Write DASH manifest, MediaConvert adds an entry in the .mpd
+    #   manifest for each set of images that you generate. A common
     #   application for these images is Roku trick mode. The thumbnails and
     #   full-frame images that MediaConvert creates with this feature are
     #   compatible with this Roku specification:
@@ -2241,12 +2321,12 @@ module Aws::MediaConvert
     #
     # @!attribute [rw] mpd_profile
     #   Specify whether your DASH profile is on-demand or main. When you
-    #   choose Main profile (MAIN\_PROFILE), the service signals
+    #   choose Main profile, the service signals
     #   urn:mpeg:dash:profile:isoff-main:2011 in your .mpd DASH manifest.
-    #   When you choose On-demand (ON\_DEMAND\_PROFILE), the service signals
+    #   When you choose On-demand, the service signals
     #   urn:mpeg:dash:profile:isoff-on-demand:2011 in your .mpd. When you
     #   choose On-demand, you must also set the output group setting Segment
-    #   control (SegmentControl) to Single file (SINGLE\_FILE).
+    #   control to Single file.
     #   @return [String]
     #
     # @!attribute [rw] pts_offset_handling_for_b_frames
@@ -2254,13 +2334,12 @@ module Aws::MediaConvert
     #   which causes the initial presentation time stamp (PTS) to be offset
     #   from the initial decode time stamp (DTS). Specify how MediaConvert
     #   handles PTS when writing time stamps in output DASH manifests.
-    #   Choose Match initial PTS (MATCH\_INITIAL\_PTS) when you want
-    #   MediaConvert to use the initial PTS as the first time stamp in the
-    #   manifest. Choose Zero-based (ZERO\_BASED) to have MediaConvert
-    #   ignore the initial PTS in the video stream and instead write the
-    #   initial time stamp as zero in the manifest. For outputs that don't
-    #   have B-frames, the time stamps in your DASH manifests start at zero
-    #   regardless of your choice here.
+    #   Choose Match initial PTS when you want MediaConvert to use the
+    #   initial PTS as the first time stamp in the manifest. Choose
+    #   Zero-based to have MediaConvert ignore the initial PTS in the video
+    #   stream and instead write the initial time stamp as zero in the
+    #   manifest. For outputs that don't have B-frames, the time stamps in
+    #   your DASH manifests start at zero regardless of your choice here.
     #   @return [String]
     #
     # @!attribute [rw] segment_control
@@ -2273,20 +2352,18 @@ module Aws::MediaConvert
     # @!attribute [rw] segment_length
     #   Specify the length, in whole seconds, of each segment. When you
     #   don't specify a value, MediaConvert defaults to 10. Related
-    #   settings: Use Segment length control (SegmentLengthControl) to
-    #   specify whether the encoder enforces this value strictly. Use
-    #   Segment control (CmafSegmentControl) to specify whether MediaConvert
-    #   creates separate segment files or one content file that has metadata
-    #   to mark the segment boundaries.
+    #   settings: Use Segment length control to specify whether the encoder
+    #   enforces this value strictly. Use Segment control to specify whether
+    #   MediaConvert creates separate segment files or one content file that
+    #   has metadata to mark the segment boundaries.
     #   @return [Integer]
     #
     # @!attribute [rw] segment_length_control
     #   Specify how you want MediaConvert to determine the segment length.
-    #   Choose Exact (EXACT) to have the encoder use the exact length that
-    #   you specify with the setting Segment length (SegmentLength). This
-    #   might result in extra I-frames. Choose Multiple of GOP
-    #   (GOP\_MULTIPLE) to have the encoder round up the segment lengths to
-    #   match the next GOP boundary.
+    #   Choose Exact to have the encoder use the exact length that you
+    #   specify with the setting Segment length. This might result in extra
+    #   I-frames. Choose Multiple of GOP to have the encoder round up the
+    #   segment lengths to match the next GOP boundary.
     #   @return [String]
     #
     # @!attribute [rw] stream_inf_resolution
@@ -2329,14 +2406,13 @@ module Aws::MediaConvert
     #   @return [String]
     #
     # @!attribute [rw] write_segment_timeline_in_representation
-    #   When you enable Precise segment duration in DASH manifests
-    #   (writeSegmentTimelineInRepresentation), your DASH manifest shows
-    #   precise segment durations. The segment duration information appears
-    #   inside the SegmentTimeline element, inside SegmentTemplate at the
-    #   Representation level. When this feature isn't enabled, the segment
-    #   durations in your DASH manifest are approximate. The segment
-    #   duration information appears in the duration attribute of the
-    #   SegmentTemplate element.
+    #   When you enable Precise segment duration in DASH manifests, your
+    #   DASH manifest shows precise segment durations. The segment duration
+    #   information appears inside the SegmentTimeline element, inside
+    #   SegmentTemplate at the Representation level. When this feature
+    #   isn't enabled, the segment durations in your DASH manifest are
+    #   approximate. The segment duration information appears in the
+    #   duration attribute of the SegmentTemplate element.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/CmafGroupSettings AWS API Documentation
@@ -2346,6 +2422,7 @@ module Aws::MediaConvert
       :base_url,
       :client_cache,
       :codec_specification,
+      :dash_i_frame_trick_play_name_modifier,
       :dash_manifest_style,
       :destination,
       :destination_settings,
@@ -2435,9 +2512,8 @@ module Aws::MediaConvert
     #   Specify this setting only when your output will be consumed by a
     #   downstream repackaging workflow that is sensitive to very small
     #   duration differences between video and audio. For this situation,
-    #   choose Match video duration (MATCH\_VIDEO\_DURATION). In all other
-    #   cases, keep the default value, Default codec duration
-    #   (DEFAULT\_CODEC\_DURATION). When you choose Match video duration,
+    #   choose Match video duration. In all other cases, keep the default
+    #   value, Default codec duration. When you choose Match video duration,
     #   MediaConvert pads the output audio streams with silence or trims
     #   them to ensure that the total duration of each audio stream is at
     #   least as long as the total duration of the video stream. After
@@ -2460,8 +2536,7 @@ module Aws::MediaConvert
     #   #EXT-X-MEDIA:TYPE=AUDIO,GROUP-ID="audio\_aac\_1". Related setting:
     #   To associate the rendition group that this audio track belongs to
     #   with a video rendition, include the same value that you provide here
-    #   for that video output's setting Audio rendition sets
-    #   (audioRenditionSets).
+    #   for that video output's setting Audio rendition sets.
     #   @return [String]
     #
     # @!attribute [rw] audio_rendition_sets
@@ -2472,61 +2547,62 @@ module Aws::MediaConvert
     #   this value: "audio\_aac\_1,audio\_dolby". Related setting: The
     #   rendition groups that you include in your comma-separated list
     #   should all match values that you specify in the setting Audio group
-    #   ID (AudioGroupId) for audio renditions in the same output group as
-    #   this video rendition. Default behavior: If you don't specify
-    #   anything here and for Audio group ID, MediaConvert puts each audio
-    #   variant in its own audio rendition group and associates it with
-    #   every video variant. Each value in your list appears in your HLS
-    #   parent manifest in the EXT-X-STREAM-INF tag as the value for the
-    #   AUDIO attribute. To continue the previous example, say that the file
-    #   name for the child manifest for your video rendition is
-    #   "amazing\_video\_1.m3u8". Then, in your parent manifest, each
-    #   value will appear on separate lines, like this:
-    #   #EXT-X-STREAM-INF:AUDIO="audio\_aac\_1"... amazing\_video\_1.m3u8
-    #   #EXT-X-STREAM-INF:AUDIO="audio\_dolby"... amazing\_video\_1.m3u8
+    #   ID for audio renditions in the same output group as this video
+    #   rendition. Default behavior: If you don't specify anything here and
+    #   for Audio group ID, MediaConvert puts each audio variant in its own
+    #   audio rendition group and associates it with every video variant.
+    #   Each value in your list appears in your HLS parent manifest in the
+    #   EXT-X-STREAM-INF tag as the value for the AUDIO attribute. To
+    #   continue the previous example, say that the file name for the child
+    #   manifest for your video rendition is "amazing\_video\_1.m3u8".
+    #   Then, in your parent manifest, each value will appear on separate
+    #   lines, like this: #EXT-X-STREAM-INF:AUDIO="audio\_aac\_1"...
+    #   amazing\_video\_1.m3u8 #EXT-X-STREAM-INF:AUDIO="audio\_dolby"...
+    #   amazing\_video\_1.m3u8
     #   @return [String]
     #
     # @!attribute [rw] audio_track_type
     #   Use this setting to control the values that MediaConvert puts in
     #   your HLS parent playlist to control how the client player selects
-    #   which audio track to play. The other options for this setting
-    #   determine the values that MediaConvert writes for the DEFAULT and
-    #   AUTOSELECT attributes of the EXT-X-MEDIA entry for the audio
-    #   variant. For more information about these attributes, see the Apple
-    #   documentation article
+    #   which audio track to play. Choose Audio-only variant stream
+    #   (AUDIO\_ONLY\_VARIANT\_STREAM) for any variant that you want to
+    #   prohibit the client from playing with video. This causes
+    #   MediaConvert to represent the variant as an EXT-X-STREAM-INF in the
+    #   HLS manifest. The other options for this setting determine the
+    #   values that MediaConvert writes for the DEFAULT and AUTOSELECT
+    #   attributes of the EXT-X-MEDIA entry for the audio variant. For more
+    #   information about these attributes, see the Apple documentation
+    #   article
     #   https://developer.apple.com/documentation/http\_live\_streaming/example\_playlists\_for\_http\_live\_streaming/adding\_alternate\_media\_to\_a\_playlist.
-    #   Choose Alternate audio, auto select, default
-    #   (ALTERNATE\_AUDIO\_AUTO\_SELECT\_DEFAULT) to set DEFAULT=YES and
+    #   Choose Alternate audio, auto select, default to set DEFAULT=YES and
     #   AUTOSELECT=YES. Choose this value for only one variant in your
-    #   output group. Choose Alternate audio, auto select, not default
-    #   (ALTERNATE\_AUDIO\_AUTO\_SELECT) to set DEFAULT=NO and
-    #   AUTOSELECT=YES. Choose Alternate Audio, Not Auto Select to set
-    #   DEFAULT=NO and AUTOSELECT=NO. When you don't specify a value for
-    #   this setting, MediaConvert defaults to Alternate audio, auto select,
-    #   default. When there is more than one variant in your output group,
-    #   you must explicitly choose a value for this setting.
+    #   output group. Choose Alternate audio, auto select, not default to
+    #   set DEFAULT=NO and AUTOSELECT=YES. Choose Alternate Audio, Not Auto
+    #   Select to set DEFAULT=NO and AUTOSELECT=NO. When you don't specify
+    #   a value for this setting, MediaConvert defaults to Alternate audio,
+    #   auto select, default. When there is more than one variant in your
+    #   output group, you must explicitly choose a value for this setting.
     #   @return [String]
     #
     # @!attribute [rw] descriptive_video_service_flag
     #   Specify whether to flag this audio track as descriptive video
-    #   service (DVS) in your HLS parent manifest. When you choose Flag
-    #   (FLAG), MediaConvert includes the parameter
+    #   service (DVS) in your HLS parent manifest. When you choose Flag,
+    #   MediaConvert includes the parameter
     #   CHARACTERISTICS="public.accessibility.describes-video" in the
     #   EXT-X-MEDIA entry for this track. When you keep the default choice,
-    #   Don't flag (DONT\_FLAG), MediaConvert leaves this parameter out.
-    #   The DVS flag can help with accessibility on Apple devices. For more
-    #   information, see the Apple documentation.
+    #   Don't flag, MediaConvert leaves this parameter out. The DVS flag
+    #   can help with accessibility on Apple devices. For more information,
+    #   see the Apple documentation.
     #   @return [String]
     #
     # @!attribute [rw] i_frame_only_manifest
-    #   Choose Include (INCLUDE) to have MediaConvert generate an HLS child
-    #   manifest that lists only the I-frames for this rendition, in
-    #   addition to your regular manifest for this rendition. You might use
-    #   this manifest as part of a workflow that creates preview functions
-    #   for your video. MediaConvert adds both the I-frame only child
-    #   manifest and the regular child manifest to the parent manifest. When
-    #   you don't need the I-frame only child manifest, keep the default
-    #   value Exclude (EXCLUDE).
+    #   Choose Include to have MediaConvert generate an HLS child manifest
+    #   that lists only the I-frames for this rendition, in addition to your
+    #   regular manifest for this rendition. You might use this manifest as
+    #   part of a workflow that creates preview functions for your video.
+    #   MediaConvert adds both the I-frame only child manifest and the
+    #   regular child manifest to the parent manifest. When you don't need
+    #   the I-frame only child manifest, keep the default value Exclude.
     #   @return [String]
     #
     # @!attribute [rw] klv_metadata
@@ -2548,31 +2624,29 @@ module Aws::MediaConvert
     #   these elements out of your output MPD manifest, set Manifest
     #   metadata signaling to Disabled. To enable Manifest metadata
     #   signaling, you must also set SCTE-35 source to Passthrough, ESAM
-    #   SCTE-35 to insert, or ID3 metadata (TimedMetadata) to Passthrough.
+    #   SCTE-35 to insert, or ID3 metadata to Passthrough.
     #   @return [String]
     #
     # @!attribute [rw] scte_35_esam
     #   Use this setting only when you specify SCTE-35 markers from ESAM.
     #   Choose INSERT to put SCTE-35 markers in this output at the insertion
     #   points that you specify in an ESAM XML document. Provide the
-    #   document in the setting SCC XML (sccXml).
+    #   document in the setting SCC XML.
     #   @return [String]
     #
     # @!attribute [rw] scte_35_source
     #   Ignore this setting unless you have SCTE-35 markers in your input
-    #   video file. Choose Passthrough (PASSTHROUGH) if you want SCTE-35
-    #   markers that appear in your input to also appear in this output.
-    #   Choose None (NONE) if you don't want those SCTE-35 markers in this
-    #   output.
+    #   video file. Choose Passthrough if you want SCTE-35 markers that
+    #   appear in your input to also appear in this output. Choose None if
+    #   you don't want those SCTE-35 markers in this output.
     #   @return [String]
     #
     # @!attribute [rw] timed_metadata
-    #   To include ID3 metadata in this output: Set ID3 metadata
-    #   (timedMetadata) to Passthrough (PASSTHROUGH). Specify this ID3
-    #   metadata in Custom ID3 metadata inserter (timedMetadataInsertion).
-    #   MediaConvert writes each instance of ID3 metadata in a separate
-    #   Event Message (eMSG) box. To exclude this ID3 metadata: Set ID3
-    #   metadata to None (NONE) or leave blank.
+    #   To include ID3 metadata in this output: Set ID3 metadata to
+    #   Passthrough. Specify this ID3 metadata in Custom ID3 metadata
+    #   inserter. MediaConvert writes each instance of ID3 metadata in a
+    #   separate Event Message (eMSG) box. To exclude this ID3 metadata: Set
+    #   ID3 metadata to None or leave blank.
     #   @return [String]
     #
     # @!attribute [rw] timed_metadata_box_version
@@ -2580,24 +2654,23 @@ module Aws::MediaConvert
     #   in your output. For more information, see ISO/IEC 23009-1:2022
     #   section 5.10.3.3.3 Syntax. Leave blank to use the default value
     #   Version 0. When you specify Version 1, you must also set ID3
-    #   metadata (timedMetadata) to Passthrough.
+    #   metadata to Passthrough.
     #   @return [String]
     #
     # @!attribute [rw] timed_metadata_scheme_id_uri
-    #   Specify the event message box (eMSG) scheme ID URI (scheme\_id\_uri)
-    #   for ID3 timed metadata in your output. For more informaiton, see
-    #   ISO/IEC 23009-1:2022 section 5.10.3.3.4 Semantics. Leave blank to
-    #   use the default value: https://aomedia.org/emsg/ID3 When you specify
-    #   a value for ID3 metadata scheme ID URI, you must also set ID3
-    #   metadata (timedMetadata) to Passthrough.
+    #   Specify the event message box (eMSG) scheme ID URI for ID3 timed
+    #   metadata in your output. For more information, see ISO/IEC
+    #   23009-1:2022 section 5.10.3.3.4 Semantics. Leave blank to use the
+    #   default value: https://aomedia.org/emsg/ID3 When you specify a value
+    #   for ID3 metadata scheme ID URI, you must also set ID3 metadata to
+    #   Passthrough.
     #   @return [String]
     #
     # @!attribute [rw] timed_metadata_value
     #   Specify the event message box (eMSG) value for ID3 timed metadata in
-    #   your output. For more informaiton, see ISO/IEC 23009-1:2022 section
+    #   your output. For more information, see ISO/IEC 23009-1:2022 section
     #   5.10.3.3.4 Semantics. When you specify a value for ID3 Metadata
-    #   Value, you must also set ID3 metadata (timedMetadata) to
-    #   Passthrough.
+    #   Value, you must also set ID3 metadata to Passthrough.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/CmfcSettings AWS API Documentation
@@ -2621,6 +2694,52 @@ module Aws::MediaConvert
       include Aws::Structure
     end
 
+    # Custom 3D lut settings
+    #
+    # @!attribute [rw] file_input
+    #   Specify the input file S3, HTTP, or HTTPS URL for your 3D LUT .cube
+    #   file. Note that MediaConvert accepts 3D LUT files up to 8MB in size.
+    #   @return [String]
+    #
+    # @!attribute [rw] input_color_space
+    #   Specify which inputs use this 3D LUT, according to their color
+    #   space.
+    #   @return [String]
+    #
+    # @!attribute [rw] input_mastering_luminance
+    #   Specify which inputs use this 3D LUT, according to their luminance.
+    #   To apply this 3D LUT to HDR10 or P3D65 (HDR) inputs with a specific
+    #   mastering luminance: Enter an integer from 0 to 2147483647,
+    #   corresponding to the input's Maximum luminance value. To apply this
+    #   3D LUT to any input regardless of its luminance: Leave blank, or
+    #   enter 0.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] output_color_space
+    #   Specify which outputs use this 3D LUT, according to their color
+    #   space.
+    #   @return [String]
+    #
+    # @!attribute [rw] output_mastering_luminance
+    #   Specify which outputs use this 3D LUT, according to their luminance.
+    #   To apply this 3D LUT to HDR10 or P3D65 (HDR) outputs with a specific
+    #   luminance: Enter an integer from 0 to 2147483647, corresponding to
+    #   the output's luminance. To apply this 3D LUT to any output
+    #   regardless of its luminance: Leave blank, or enter 0.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/ColorConversion3DLUTSetting AWS API Documentation
+    #
+    class ColorConversion3DLUTSetting < Struct.new(
+      :file_input,
+      :input_color_space,
+      :input_mastering_luminance,
+      :output_color_space,
+      :output_mastering_luminance)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Settings for color correction.
     #
     # @!attribute [rw] brightness
@@ -2638,11 +2757,14 @@ module Aws::MediaConvert
     #   SDR to HDR, and from HDR to SDR. SDR to HDR conversion doesn't
     #   upgrade the dynamic range. The converted video has an HDR format,
     #   but visually appears the same as an unconverted output. HDR to SDR
-    #   conversion uses Elemental tone mapping technology to approximate the
-    #   outcome of manually regrading from HDR to SDR. Select Force P3D65
-    #   (SDR) to set the output color space metadata to the following: *
-    #   Color primaries: Display P3 * Transfer characteristics: SMPTE 428M
-    #   * Matrix coefficients: BT.709
+    #   conversion uses tone mapping to approximate the outcome of manually
+    #   regrading from HDR to SDR. When you specify an output color space,
+    #   MediaConvert uses the following color space metadata, which includes
+    #   color primaries, transfer characteristics, and matrix coefficients:
+    #   * HDR 10: BT.2020, PQ, BT.2020 non-constant * HLG 2020: BT.2020,
+    #   HLG, BT.2020 non-constant * P3DCI (Theater): DCIP3, SMPTE 428M,
+    #   BT.709 * P3D65 (SDR): Display P3, sRGB, BT.709 * P3D65 (HDR):
+    #   Display P3, PQ, BT.709
     #   @return [String]
     #
     # @!attribute [rw] contrast
@@ -2656,18 +2778,39 @@ module Aws::MediaConvert
     #   affect the pixel values that are encoded in the video stream. They
     #   are intended to help the downstream video player display content in
     #   a way that reflects the intentions of the the content creator. When
-    #   you set Color space conversion (ColorSpaceConversion) to HDR 10
-    #   (FORCE\_HDR10), these settings are required. You must set values for
-    #   Max frame average light level (maxFrameAverageLightLevel) and Max
-    #   content light level (maxContentLightLevel); these settings don't
-    #   have a default value. The default values for the other HDR 10
-    #   metadata settings are defined by the P3D65 color space. For more
-    #   information about MediaConvert HDR jobs, see
+    #   you set Color space conversion to HDR 10, these settings are
+    #   required. You must set values for Max frame average light level and
+    #   Max content light level; these settings don't have a default value.
+    #   The default values for the other HDR 10 metadata settings are
+    #   defined by the P3D65 color space. For more information about
+    #   MediaConvert HDR jobs, see
     #   https://docs.aws.amazon.com/console/mediaconvert/hdr.
     #   @return [Types::Hdr10Metadata]
     #
+    # @!attribute [rw] hdr_to_sdr_tone_mapper
+    #   Specify how MediaConvert maps brightness and colors from your HDR
+    #   input to your SDR output. The mode that you select represents a
+    #   creative choice, with different tradeoffs in the details and tones
+    #   of your output. To maintain details in bright or saturated areas of
+    #   your output: Choose Preserve details. For some sources, your SDR
+    #   output may look less bright and less saturated when compared to your
+    #   HDR source. MediaConvert automatically applies this mode for HLG
+    #   sources, regardless of your choice. For a bright and saturated
+    #   output: Choose Vibrant. We recommend that you choose this mode when
+    #   any of your source content is HDR10, and for the best results when
+    #   it is mastered for 1000 nits. You may notice loss of details in
+    #   bright or saturated areas of your output. HDR to SDR tone mapping
+    #   has no effect when your input is SDR.
+    #   @return [String]
+    #
     # @!attribute [rw] hue
     #   Hue in degrees.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] max_luminance
+    #   Specify the maximum mastering display luminance. Enter an integer
+    #   from 0 to 2147483647, in units of 0.0001 nits. For example, enter
+    #   10000000 for 1000 nits.
     #   @return [Integer]
     #
     # @!attribute [rw] sample_range_conversion
@@ -2715,7 +2858,9 @@ module Aws::MediaConvert
       :color_space_conversion,
       :contrast,
       :hdr_10_metadata,
+      :hdr_to_sdr_tone_mapper,
       :hue,
+      :max_luminance,
       :sample_range_conversion,
       :saturation,
       :sdr_reference_white_level)
@@ -2753,16 +2898,16 @@ module Aws::MediaConvert
     #
     # @!attribute [rw] m2ts_settings
     #   MPEG-2 TS container settings. These apply to outputs in a File
-    #   output group when the output's container (ContainerType) is MPEG-2
-    #   Transport Stream (M2TS). In these assets, data is organized by the
-    #   program map table (PMT). Each transport stream program contains
-    #   subsets of data, including audio, video, and metadata. Each of these
-    #   subsets of data has a numerical label called a packet identifier
-    #   (PID). Each transport stream program corresponds to one MediaConvert
-    #   output. The PMT lists the types of data in a program along with
-    #   their PID. Downstream systems and players use the program map table
-    #   to look up the PID for each type of data it accesses and then uses
-    #   the PIDs to locate specific data within the asset.
+    #   output group when the output's container is MPEG-2 Transport Stream
+    #   (M2TS). In these assets, data is organized by the program map table
+    #   (PMT). Each transport stream program contains subsets of data,
+    #   including audio, video, and metadata. Each of these subsets of data
+    #   has a numerical label called a packet identifier (PID). Each
+    #   transport stream program corresponds to one MediaConvert output. The
+    #   PMT lists the types of data in a program along with their PID.
+    #   Downstream systems and players use the program map table to look up
+    #   the PID for each type of data it accesses and then uses the PIDs to
+    #   locate specific data within the asset.
     #   @return [Types::M2tsSettings]
     #
     # @!attribute [rw] m3u_8_settings
@@ -2837,6 +2982,14 @@ module Aws::MediaConvert
     #   feature, see the AWS Elemental MediaConvert User Guide.
     #   @return [Array<Types::HopDestination>]
     #
+    # @!attribute [rw] job_engine_version
+    #   Use Job engine versions to run jobs for your production workflow on
+    #   one version, while you test and validate the latest version. To
+    #   specify a Job engine version: Enter a date in a YYYY-MM-DD format.
+    #   For a list of valid Job engine versions, submit a ListVersions
+    #   request. To not specify a Job engine version: Leave blank.
+    #   @return [String]
+    #
     # @!attribute [rw] job_template
     #   Optional. When you create a job, you can either specify a job
     #   template or specify the transcoding settings individually.
@@ -2904,6 +3057,7 @@ module Aws::MediaConvert
       :billing_tags_source,
       :client_request_token,
       :hop_destinations,
+      :job_engine_version,
       :job_template,
       :priority,
       :queue,
@@ -3088,6 +3242,15 @@ module Aws::MediaConvert
     # create a reserved queue, you enter into a 12-month commitment to
     # purchase the RTS that you specify. You can't cancel this commitment.
     #
+    # @!attribute [rw] concurrent_jobs
+    #   Specify the maximum number of jobs your queue can process
+    #   concurrently. For on-demand queues, the value you enter is
+    #   constrained by your service quotas for Maximum concurrent jobs, per
+    #   on-demand queue and Maximum concurrent jobs, per account. For
+    #   reserved queues, specify the number of jobs you can process
+    #   concurrently in your reservation plan instead.
+    #   @return [Integer]
+    #
     # @!attribute [rw] description
     #   Optional. A description of the queue that you are creating.
     #   @return [String]
@@ -3123,6 +3286,7 @@ module Aws::MediaConvert
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/CreateQueueRequest AWS API Documentation
     #
     class CreateQueueRequest < Struct.new(
+      :concurrent_jobs,
       :description,
       :name,
       :pricing_plan,
@@ -3184,11 +3348,11 @@ module Aws::MediaConvert
     # @!attribute [rw] playback_device_compatibility
     #   This setting can improve the compatibility of your output with video
     #   players on obsolete devices. It applies only to DASH H.264 outputs
-    #   with DRM encryption. Choose Unencrypted SEI (UNENCRYPTED\_SEI) only
-    #   to correct problems with playback on older devices. Otherwise, keep
-    #   the default setting CENC v1 (CENC\_V1). If you choose Unencrypted
-    #   SEI, for that output, the service will exclude the access unit
-    #   delimiter and will leave the SEI NAL units unencrypted.
+    #   with DRM encryption. Choose Unencrypted SEI only to correct problems
+    #   with playback on older devices. Otherwise, keep the default setting
+    #   CENC v1. If you choose Unencrypted SEI, for that output, the service
+    #   will exclude the access unit delimiter and will leave the SEI NAL
+    #   units unencrypted.
     #   @return [String]
     #
     # @!attribute [rw] speke_key_provider
@@ -3210,9 +3374,6 @@ module Aws::MediaConvert
     # Settings related to your DASH output package. For more information,
     # see
     # https://docs.aws.amazon.com/mediaconvert/latest/ug/outputs-file-ABR.html.
-    # When you work directly in your JSON job specification, include this
-    # object and any required children when you set Type, under
-    # OutputGroupSettings, to DASH\_ISO\_GROUP\_SETTINGS.
     #
     # @!attribute [rw] additional_manifests
     #   By default, the service creates one .mpd DASH manifest for each DASH
@@ -3229,11 +3390,9 @@ module Aws::MediaConvert
     #   MPEG one. For example, you might need to use this to make dynamic ad
     #   insertion work. Specify which audio channel configuration scheme ID
     #   URI MediaConvert writes in your DASH manifest. Keep the default
-    #   value, MPEG channel configuration (MPEG\_CHANNEL\_CONFIGURATION), to
-    #   have MediaConvert write this:
+    #   value, MPEG channel configuration, to have MediaConvert write this:
     #   urn:mpeg:mpegB:cicp:ChannelConfiguration. Choose Dolby channel
-    #   configuration (DOLBY\_CHANNEL\_CONFIGURATION) to have MediaConvert
-    #   write this instead:
+    #   configuration to have MediaConvert write this instead:
     #   tag:dolby.com,2014:dash:audio\_channel\_configuration:2011.
     #   @return [String]
     #
@@ -3241,6 +3400,20 @@ module Aws::MediaConvert
     #   A partial URI prefix that will be put in the manifest (.mpd) file at
     #   the top level BaseURL element. Can be used if streams are delivered
     #   from a different URL than the manifest file.
+    #   @return [String]
+    #
+    # @!attribute [rw] dash_i_frame_trick_play_name_modifier
+    #   Specify whether MediaConvert generates I-frame only video segments
+    #   for DASH trick play, also known as trick mode. When specified, the
+    #   I-frame only video segments are included within an additional
+    #   AdaptationSet in your DASH output manifest. To generate I-frame only
+    #   video segments: Enter a name as a text string, up to 256 character
+    #   long. This name is appended to the end of this output group's base
+    #   filename, that you specify as part of your destination URI, and used
+    #   for the I-frame only video segment files. You may also include
+    #   format identifiers. For more information, see:
+    #   https://docs.aws.amazon.com/mediaconvert/latest/ug/using-variables-in-your-job-settings.html#using-settings-variables-with-streaming-outputs
+    #   To not generate I-frame only video segments: Leave blank.
     #   @return [String]
     #
     # @!attribute [rw] dash_manifest_style
@@ -3255,11 +3428,11 @@ module Aws::MediaConvert
     #   @return [String]
     #
     # @!attribute [rw] destination
-    #   Use Destination (Destination) to specify the S3 output location and
-    #   the output filename base. Destination accepts format identifiers. If
-    #   you do not specify the base filename in the URI, the service will
-    #   use the filename of the input file. If your job has multiple inputs,
-    #   the service uses the filename of the first input file.
+    #   Use Destination to specify the S3 output location and the output
+    #   filename base. Destination accepts format identifiers. If you do not
+    #   specify the base filename in the URI, the service will use the
+    #   filename of the input file. If your job has multiple inputs, the
+    #   service uses the filename of the first input file.
     #   @return [String]
     #
     # @!attribute [rw] destination_settings
@@ -3286,14 +3459,14 @@ module Aws::MediaConvert
     #
     # @!attribute [rw] image_based_trick_play
     #   Specify whether MediaConvert generates images for trick play. Keep
-    #   the default value, None (NONE), to not generate any images. Choose
-    #   Thumbnail (THUMBNAIL) to generate tiled thumbnails. Choose Thumbnail
-    #   and full frame (THUMBNAIL\_AND\_FULLFRAME) to generate tiled
-    #   thumbnails and full-resolution images of single frames. MediaConvert
-    #   adds an entry in the .mpd manifest for each set of images that you
-    #   generate. A common application for these images is Roku trick mode.
-    #   The thumbnails and full-frame images that MediaConvert creates with
-    #   this feature are compatible with this Roku specification:
+    #   the default value, None, to not generate any images. Choose
+    #   Thumbnail to generate tiled thumbnails. Choose Thumbnail and full
+    #   frame to generate tiled thumbnails and full-resolution images of
+    #   single frames. MediaConvert adds an entry in the .mpd manifest for
+    #   each set of images that you generate. A common application for these
+    #   images is Roku trick mode. The thumbnails and full-frame images that
+    #   MediaConvert creates with this feature are compatible with this Roku
+    #   specification:
     #   https://developer.roku.com/docs/developer-program/media-playback/trick-mode/hls-and-dash.md
     #   @return [String]
     #
@@ -3335,12 +3508,12 @@ module Aws::MediaConvert
     #
     # @!attribute [rw] mpd_profile
     #   Specify whether your DASH profile is on-demand or main. When you
-    #   choose Main profile (MAIN\_PROFILE), the service signals
+    #   choose Main profile, the service signals
     #   urn:mpeg:dash:profile:isoff-main:2011 in your .mpd DASH manifest.
-    #   When you choose On-demand (ON\_DEMAND\_PROFILE), the service signals
+    #   When you choose On-demand, the service signals
     #   urn:mpeg:dash:profile:isoff-on-demand:2011 in your .mpd. When you
     #   choose On-demand, you must also set the output group setting Segment
-    #   control (SegmentControl) to Single file (SINGLE\_FILE).
+    #   control to Single file.
     #   @return [String]
     #
     # @!attribute [rw] pts_offset_handling_for_b_frames
@@ -3348,13 +3521,12 @@ module Aws::MediaConvert
     #   which causes the initial presentation time stamp (PTS) to be offset
     #   from the initial decode time stamp (DTS). Specify how MediaConvert
     #   handles PTS when writing time stamps in output DASH manifests.
-    #   Choose Match initial PTS (MATCH\_INITIAL\_PTS) when you want
-    #   MediaConvert to use the initial PTS as the first time stamp in the
-    #   manifest. Choose Zero-based (ZERO\_BASED) to have MediaConvert
-    #   ignore the initial PTS in the video stream and instead write the
-    #   initial time stamp as zero in the manifest. For outputs that don't
-    #   have B-frames, the time stamps in your DASH manifests start at zero
-    #   regardless of your choice here.
+    #   Choose Match initial PTS when you want MediaConvert to use the
+    #   initial PTS as the first time stamp in the manifest. Choose
+    #   Zero-based to have MediaConvert ignore the initial PTS in the video
+    #   stream and instead write the initial time stamp as zero in the
+    #   manifest. For outputs that don't have B-frames, the time stamps in
+    #   your DASH manifests start at zero regardless of your choice here.
     #   @return [String]
     #
     # @!attribute [rw] segment_control
@@ -3367,20 +3539,18 @@ module Aws::MediaConvert
     # @!attribute [rw] segment_length
     #   Specify the length, in whole seconds, of each segment. When you
     #   don't specify a value, MediaConvert defaults to 30. Related
-    #   settings: Use Segment length control (SegmentLengthControl) to
-    #   specify whether the encoder enforces this value strictly. Use
-    #   Segment control (DashIsoSegmentControl) to specify whether
+    #   settings: Use Segment length control to specify whether the encoder
+    #   enforces this value strictly. Use Segment control to specify whether
     #   MediaConvert creates separate segment files or one content file that
     #   has metadata to mark the segment boundaries.
     #   @return [Integer]
     #
     # @!attribute [rw] segment_length_control
     #   Specify how you want MediaConvert to determine the segment length.
-    #   Choose Exact (EXACT) to have the encoder use the exact length that
-    #   you specify with the setting Segment length (SegmentLength). This
-    #   might result in extra I-frames. Choose Multiple of GOP
-    #   (GOP\_MULTIPLE) to have the encoder round up the segment lengths to
-    #   match the next GOP boundary.
+    #   Choose Exact to have the encoder use the exact length that you
+    #   specify with the setting Segment length. This might result in extra
+    #   I-frames. Choose Multiple of GOP to have the encoder round up the
+    #   segment lengths to match the next GOP boundary.
     #   @return [String]
     #
     # @!attribute [rw] video_composition_offsets
@@ -3411,6 +3581,7 @@ module Aws::MediaConvert
       :additional_manifests,
       :audio_channel_config_scheme_id_uri,
       :base_url,
+      :dash_i_frame_trick_play_name_modifier,
       :dash_manifest_style,
       :destination,
       :destination_settings,
@@ -3491,12 +3662,13 @@ module Aws::MediaConvert
     # Settings for deinterlacer
     #
     # @!attribute [rw] algorithm
-    #   Only applies when you set Deinterlacer (DeinterlaceMode) to
-    #   Deinterlace (DEINTERLACE) or Adaptive (ADAPTIVE). Motion adaptive
-    #   interpolate (INTERPOLATE) produces sharper pictures, while blend
-    #   (BLEND) produces smoother motion. Use (INTERPOLATE\_TICKER) OR
-    #   (BLEND\_TICKER) if your source file includes a ticker, such as a
-    #   scrolling headline at the bottom of the frame.
+    #   Only applies when you set Deinterlace mode to Deinterlace or
+    #   Adaptive. Interpolate produces sharper pictures, while blend
+    #   produces smoother motion. If your source file includes a ticker,
+    #   such as a scrolling headline at the bottom of the frame: Choose
+    #   Interpolate ticker or Blend ticker. To apply field doubling: Choose
+    #   Linear interpolation. Note that Linear interpolation may introduce
+    #   video artifacts into your output.
     #   @return [String]
     #
     # @!attribute [rw] control
@@ -3513,11 +3685,11 @@ module Aws::MediaConvert
     #   @return [String]
     #
     # @!attribute [rw] mode
-    #   Use Deinterlacer (DeinterlaceMode) to choose how the service will do
-    #   deinterlacing. Default is Deinterlace. - Deinterlace converts
-    #   interlaced to progressive. - Inverse telecine converts Hard Telecine
-    #   29.97i to progressive 23.976p. - Adaptive auto-detects and converts
-    #   to progressive.
+    #   Use Deinterlacer to choose how the service will do deinterlacing.
+    #   Default is Deinterlace. - Deinterlace converts interlaced to
+    #   progressive. - Inverse telecine converts Hard Telecine 29.97i to
+    #   progressive 23.976p. - Adaptive auto-detects and converts to
+    #   progressive.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/Deinterlacer AWS API Documentation
@@ -3609,8 +3781,10 @@ module Aws::MediaConvert
     #
     class DeleteQueueResponse < Aws::EmptyStructure; end
 
-    # Send an request with an empty body to the regional API endpoint to get
-    # your account API endpoint.
+    # Send a request with an empty body to the regional API endpoint to get
+    # your account API endpoint. Note that DescribeEndpoints is no longer
+    # required. We recommend that you send your requests directly to the
+    # regional endpoint instead.
     #
     # @!attribute [rw] max_results
     #   Optional. Max number of endpoints, up to twenty, that will be
@@ -3769,10 +3943,7 @@ module Aws::MediaConvert
     end
 
     # Use these settings to insert a DVB Network Information Table (NIT) in
-    # the transport stream of this output. When you work directly in your
-    # JSON job specification, include this object only when your job has a
-    # transport stream output and the container settings contain the object
-    # M2tsSettings.
+    # the transport stream of this output.
     #
     # @!attribute [rw] network_id
     #   The numeric value placed in the Network Information Table (NIT).
@@ -3799,10 +3970,7 @@ module Aws::MediaConvert
     end
 
     # Use these settings to insert a DVB Service Description Table (SDT) in
-    # the transport stream of this output. When you work directly in your
-    # JSON job specification, include this object only when your job has a
-    # transport stream output and the container settings contain the object
-    # M2tsSettings.
+    # the transport stream of this output.
     #
     # @!attribute [rw] output_sdt
     #   Selects method of inserting SDT information into output stream.
@@ -3844,9 +4012,6 @@ module Aws::MediaConvert
     # Settings related to DVB-Sub captions. Set up DVB-Sub captions in the
     # same output as your video. For more information, see
     # https://docs.aws.amazon.com/mediaconvert/latest/ug/dvb-sub-output-captions.html.
-    # When you work directly in your JSON job specification, include this
-    # object and any required children when you set destinationType to
-    # DVB\_SUB.
     #
     # @!attribute [rw] alignment
     #   Specify the alignment of your captions. If no explicit x\_position
@@ -3860,101 +4025,119 @@ module Aws::MediaConvert
     #   @return [String]
     #
     # @!attribute [rw] apply_font_color
-    #   Ignore this setting unless Style Passthrough (StylePassthrough) is
-    #   set to Enabled and Font color (FontColor) set to Black, Yellow, Red,
-    #   Green, Blue, or Hex. Use Apply font color (ApplyFontColor) for
-    #   additional font color controls. When you choose White text only
-    #   (WHITE\_TEXT\_ONLY), or leave blank, your font color setting only
-    #   applies to white text in your input captions. For example, if your
-    #   font color setting is Yellow, and your input captions have red and
-    #   white text, your output captions will have red and yellow text. When
-    #   you choose ALL\_TEXT, your font color setting applies to all of your
-    #   output captions text.
+    #   Ignore this setting unless Style Passthrough is set to Enabled and
+    #   Font color set to Black, Yellow, Red, Green, Blue, or Hex. Use Apply
+    #   font color for additional font color controls. When you choose White
+    #   text only, or leave blank, your font color setting only applies to
+    #   white text in your input captions. For example, if your font color
+    #   setting is Yellow, and your input captions have red and white text,
+    #   your output captions will have red and yellow text. When you choose
+    #   ALL\_TEXT, your font color setting applies to all of your output
+    #   captions text.
     #   @return [String]
     #
     # @!attribute [rw] background_color
     #   Specify the color of the rectangle behind the captions. Leave
-    #   background color (BackgroundColor) blank and set Style passthrough
-    #   (StylePassthrough) to enabled to use the background color data from
-    #   your input captions, if present.
+    #   background color blank and set Style passthrough to enabled to use
+    #   the background color data from your input captions, if present.
     #   @return [String]
     #
     # @!attribute [rw] background_opacity
     #   Specify the opacity of the background rectangle. Enter a value from
     #   0 to 255, where 0 is transparent and 255 is opaque. If Style
-    #   passthrough (StylePassthrough) is set to enabled, leave blank to
-    #   pass through the background style information in your input captions
-    #   to your output captions. If Style passthrough is set to disabled,
-    #   leave blank to use a value of 0 and remove all backgrounds from your
-    #   output captions. Within your job settings, all of your DVB-Sub
-    #   settings must be identical.
+    #   passthrough is set to enabled, leave blank to pass through the
+    #   background style information in your input captions to your output
+    #   captions. If Style passthrough is set to disabled, leave blank to
+    #   use a value of 0 and remove all backgrounds from your output
+    #   captions. Within your job settings, all of your DVB-Sub settings
+    #   must be identical.
     #   @return [Integer]
     #
     # @!attribute [rw] dds_handling
     #   Specify how MediaConvert handles the display definition segment
-    #   (DDS). Keep the default, None (NONE), to exclude the DDS from this
-    #   set of captions. Choose No display window (NO\_DISPLAY\_WINDOW) to
-    #   have MediaConvert include the DDS but not include display window
-    #   data. In this case, MediaConvert writes that information to the page
-    #   composition segment (PCS) instead. Choose Specify (SPECIFIED) to
-    #   have MediaConvert set up the display window based on the values that
-    #   you specify in related job settings. For video resolutions that are
-    #   576 pixels or smaller in height, MediaConvert doesn't include the
-    #   DDS, regardless of the value you choose for DDS handling
-    #   (ddsHandling). In this case, it doesn't write the display window
-    #   data to the PCS either. Related settings: Use the settings DDS
-    #   x-coordinate (ddsXCoordinate) and DDS y-coordinate (ddsYCoordinate)
-    #   to specify the offset between the top left corner of the display
-    #   window and the top left corner of the video frame. All burn-in and
-    #   DVB-Sub font settings must match.
+    #   (DDS). To exclude the DDS from this set of captions: Keep the
+    #   default, None. To include the DDS: Choose Specified. When you do,
+    #   also specify the offset coordinates of the display window with DDS
+    #   x-coordinate and DDS y-coordinate. To include the DDS, but not
+    #   include display window data: Choose No display window. When you do,
+    #   you can write position metadata to the page composition segment
+    #   (PCS) with DDS x-coordinate and DDS y-coordinate. For video
+    #   resolutions with a height of 576 pixels or less, MediaConvert
+    #   doesn't include the DDS, regardless of the value you choose for DDS
+    #   handling. All burn-in and DVB-Sub font settings must match.
     #   @return [String]
     #
     # @!attribute [rw] dds_x_coordinate
-    #   Use this setting, along with DDS y-coordinate (ddsYCoordinate), to
-    #   specify the upper left corner of the display definition segment
-    #   (DDS) display window. With this setting, specify the distance, in
-    #   pixels, between the left side of the frame and the left side of the
-    #   DDS display window. Keep the default value, 0, to have MediaConvert
-    #   automatically choose this offset. Related setting: When you use this
-    #   setting, you must set DDS handling (ddsHandling) to a value other
-    #   than None (NONE). MediaConvert uses these values to determine
-    #   whether to write page position data to the DDS or to the page
-    #   composition segment (PCS). All burn-in and DVB-Sub font settings
+    #   Use this setting, along with DDS y-coordinate, to specify the upper
+    #   left corner of the display definition segment (DDS) display window.
+    #   With this setting, specify the distance, in pixels, between the left
+    #   side of the frame and the left side of the DDS display window. Keep
+    #   the default value, 0, to have MediaConvert automatically choose this
+    #   offset. Related setting: When you use this setting, you must set DDS
+    #   handling to a value other than None. MediaConvert uses these values
+    #   to determine whether to write page position data to the DDS or to
+    #   the page composition segment. All burn-in and DVB-Sub font settings
     #   must match.
     #   @return [Integer]
     #
     # @!attribute [rw] dds_y_coordinate
-    #   Use this setting, along with DDS x-coordinate (ddsXCoordinate), to
-    #   specify the upper left corner of the display definition segment
-    #   (DDS) display window. With this setting, specify the distance, in
-    #   pixels, between the top of the frame and the top of the DDS display
-    #   window. Keep the default value, 0, to have MediaConvert
-    #   automatically choose this offset. Related setting: When you use this
-    #   setting, you must set DDS handling (ddsHandling) to a value other
-    #   than None (NONE). MediaConvert uses these values to determine
-    #   whether to write page position data to the DDS or to the page
-    #   composition segment (PCS). All burn-in and DVB-Sub font settings
-    #   must match.
+    #   Use this setting, along with DDS x-coordinate, to specify the upper
+    #   left corner of the display definition segment (DDS) display window.
+    #   With this setting, specify the distance, in pixels, between the top
+    #   of the frame and the top of the DDS display window. Keep the default
+    #   value, 0, to have MediaConvert automatically choose this offset.
+    #   Related setting: When you use this setting, you must set DDS
+    #   handling to a value other than None. MediaConvert uses these values
+    #   to determine whether to write page position data to the DDS or to
+    #   the page composition segment (PCS). All burn-in and DVB-Sub font
+    #   settings must match.
     #   @return [Integer]
     #
     # @!attribute [rw] fallback_font
     #   Specify the font that you want the service to use for your burn in
     #   captions when your input captions specify a font that MediaConvert
-    #   doesn't support. When you set Fallback font (FallbackFont) to best
-    #   match (BEST\_MATCH), or leave blank, MediaConvert uses a supported
-    #   font that most closely matches the font that your input captions
-    #   specify. When there are multiple unsupported fonts in your input
-    #   captions, MediaConvert matches each font with the supported font
-    #   that matches best. When you explicitly choose a replacement font,
-    #   MediaConvert uses that font to replace all unsupported fonts from
-    #   your input.
+    #   doesn't support. When you set Fallback font to best match, or leave
+    #   blank, MediaConvert uses a supported font that most closely matches
+    #   the font that your input captions specify. When there are multiple
+    #   unsupported fonts in your input captions, MediaConvert matches each
+    #   font with the supported font that matches best. When you explicitly
+    #   choose a replacement font, MediaConvert uses that font to replace
+    #   all unsupported fonts from your input.
     #   @return [String]
     #
     # @!attribute [rw] font_color
-    #   Specify the color of the captions text. Leave Font color (FontColor)
-    #   blank and set Style passthrough (StylePassthrough) to enabled to use
-    #   the font color data from your input captions, if present. Within
-    #   your job settings, all of your DVB-Sub settings must be identical.
+    #   Specify the color of the captions text. Leave Font color blank and
+    #   set Style passthrough to enabled to use the font color data from
+    #   your input captions, if present. Within your job settings, all of
+    #   your DVB-Sub settings must be identical.
+    #   @return [String]
+    #
+    # @!attribute [rw] font_file_bold
+    #   Specify a bold TrueType font file to use when rendering your output
+    #   captions. Enter an S3, HTTP, or HTTPS URL. When you do, you must
+    #   also separately specify a regular, an italic, and a bold italic font
+    #   file.
+    #   @return [String]
+    #
+    # @!attribute [rw] font_file_bold_italic
+    #   Specify a bold italic TrueType font file to use when rendering your
+    #   output captions. Enter an S3, HTTP, or HTTPS URL. When you do, you
+    #   must also separately specify a regular, a bold, and an italic font
+    #   file.
+    #   @return [String]
+    #
+    # @!attribute [rw] font_file_italic
+    #   Specify an italic TrueType font file to use when rendering your
+    #   output captions. Enter an S3, HTTP, or HTTPS URL. When you do, you
+    #   must also separately specify a regular, a bold, and a bold italic
+    #   font file.
+    #   @return [String]
+    #
+    # @!attribute [rw] font_file_regular
+    #   Specify a regular TrueType font file to use when rendering your
+    #   output captions. Enter an S3, HTTP, or HTTPS URL. When you do, you
+    #   must also separately specify a bold, an italic, and a bold italic
+    #   font file.
     #   @return [String]
     #
     # @!attribute [rw] font_opacity
@@ -3964,31 +4147,30 @@ module Aws::MediaConvert
     #   @return [Integer]
     #
     # @!attribute [rw] font_resolution
-    #   Specify the Font resolution (FontResolution) in DPI (dots per inch).
-    #   Within your job settings, all of your DVB-Sub settings must be
-    #   identical.
+    #   Specify the Font resolution in DPI (dots per inch). Within your job
+    #   settings, all of your DVB-Sub settings must be identical.
     #   @return [Integer]
     #
     # @!attribute [rw] font_script
-    #   Set Font script (FontScript) to Automatically determined
-    #   (AUTOMATIC), or leave blank, to automatically determine the font
-    #   script in your input captions. Otherwise, set to Simplified Chinese
-    #   (HANS) or Traditional Chinese (HANT) if your input font script uses
-    #   Simplified or Traditional Chinese. Within your job settings, all of
-    #   your DVB-Sub settings must be identical.
+    #   Set Font script to Automatically determined, or leave blank, to
+    #   automatically determine the font script in your input captions.
+    #   Otherwise, set to Simplified Chinese (HANS) or Traditional Chinese
+    #   (HANT) if your input font script uses Simplified or Traditional
+    #   Chinese. Within your job settings, all of your DVB-Sub settings must
+    #   be identical.
     #   @return [String]
     #
     # @!attribute [rw] font_size
-    #   Specify the Font size (FontSize) in pixels. Must be a positive
-    #   integer. Set to 0, or leave blank, for automatic font size. Within
-    #   your job settings, all of your DVB-Sub settings must be identical.
+    #   Specify the Font size in pixels. Must be a positive integer. Set to
+    #   0, or leave blank, for automatic font size. Within your job
+    #   settings, all of your DVB-Sub settings must be identical.
     #   @return [Integer]
     #
     # @!attribute [rw] height
     #   Specify the height, in pixels, of this set of DVB-Sub captions. The
     #   default value is 576 pixels. Related setting: When you use this
-    #   setting, you must set DDS handling (ddsHandling) to a value other
-    #   than None (NONE). All burn-in and DVB-Sub font settings must match.
+    #   setting, you must set DDS handling to a value other than None. All
+    #   burn-in and DVB-Sub font settings must match.
     #   @return [Integer]
     #
     # @!attribute [rw] hex_font_color
@@ -4000,37 +4182,35 @@ module Aws::MediaConvert
     #   @return [String]
     #
     # @!attribute [rw] outline_color
-    #   Specify font outline color. Leave Outline color (OutlineColor) blank
-    #   and set Style passthrough (StylePassthrough) to enabled to use the
-    #   font outline color data from your input captions, if present. Within
-    #   your job settings, all of your DVB-Sub settings must be identical.
+    #   Specify font outline color. Leave Outline color blank and set Style
+    #   passthrough to enabled to use the font outline color data from your
+    #   input captions, if present. Within your job settings, all of your
+    #   DVB-Sub settings must be identical.
     #   @return [String]
     #
     # @!attribute [rw] outline_size
-    #   Specify the Outline size (OutlineSize) of the caption text, in
-    #   pixels. Leave Outline size blank and set Style passthrough
-    #   (StylePassthrough) to enabled to use the outline size data from your
-    #   input captions, if present. Within your job settings, all of your
-    #   DVB-Sub settings must be identical.
+    #   Specify the Outline size of the caption text, in pixels. Leave
+    #   Outline size blank and set Style passthrough to enabled to use the
+    #   outline size data from your input captions, if present. Within your
+    #   job settings, all of your DVB-Sub settings must be identical.
     #   @return [Integer]
     #
     # @!attribute [rw] shadow_color
     #   Specify the color of the shadow cast by the captions. Leave Shadow
-    #   color (ShadowColor) blank and set Style passthrough
-    #   (StylePassthrough) to enabled to use the shadow color data from your
-    #   input captions, if present. Within your job settings, all of your
-    #   DVB-Sub settings must be identical.
+    #   color blank and set Style passthrough to enabled to use the shadow
+    #   color data from your input captions, if present. Within your job
+    #   settings, all of your DVB-Sub settings must be identical.
     #   @return [String]
     #
     # @!attribute [rw] shadow_opacity
     #   Specify the opacity of the shadow. Enter a value from 0 to 255,
-    #   where 0 is transparent and 255 is opaque. If Style passthrough
-    #   (StylePassthrough) is set to Enabled, leave Shadow opacity
-    #   (ShadowOpacity) blank to pass through the shadow style information
-    #   in your input captions to your output captions. If Style passthrough
-    #   is set to disabled, leave blank to use a value of 0 and remove all
-    #   shadows from your output captions. Within your job settings, all of
-    #   your DVB-Sub settings must be identical.
+    #   where 0 is transparent and 255 is opaque. If Style passthrough is
+    #   set to Enabled, leave Shadow opacity blank to pass through the
+    #   shadow style information in your input captions to your output
+    #   captions. If Style passthrough is set to disabled, leave blank to
+    #   use a value of 0 and remove all shadows from your output captions.
+    #   Within your job settings, all of your DVB-Sub settings must be
+    #   identical.
     #   @return [Integer]
     #
     # @!attribute [rw] shadow_x_offset
@@ -4043,23 +4223,24 @@ module Aws::MediaConvert
     # @!attribute [rw] shadow_y_offset
     #   Specify the vertical offset of the shadow relative to the captions
     #   in pixels. A value of -2 would result in a shadow offset 2 pixels
-    #   above the text. Leave Shadow y-offset (ShadowYOffset) blank and set
-    #   Style passthrough (StylePassthrough) to enabled to use the shadow
-    #   y-offset data from your input captions, if present. Within your job
-    #   settings, all of your DVB-Sub settings must be identical.
+    #   above the text. Leave Shadow y-offset blank and set Style
+    #   passthrough to enabled to use the shadow y-offset data from your
+    #   input captions, if present. Within your job settings, all of your
+    #   DVB-Sub settings must be identical.
     #   @return [Integer]
     #
     # @!attribute [rw] style_passthrough
-    #   Set Style passthrough (StylePassthrough) to ENABLED to use the
-    #   available style, color, and position information from your input
-    #   captions. MediaConvert uses default settings for any missing style
-    #   and position information in your input captions. Set Style
-    #   passthrough to DISABLED, or leave blank, to ignore the style and
-    #   position information from your input captions and use default
-    #   settings: white text with black outlining, bottom-center
-    #   positioning, and automatic sizing. Whether you set Style passthrough
-    #   to enabled or not, you can also choose to manually override any of
-    #   the individual style and position settings.
+    #   To use the available style, color, and position information from
+    #   your input captions: Set Style passthrough to Enabled. Note that
+    #   MediaConvert uses default settings for any missing style or position
+    #   information in your input captions To ignore the style and position
+    #   information from your input captions and use default settings: Leave
+    #   blank or keep the default value, Disabled. Default settings include
+    #   white text with black outlining, bottom-center positioning, and
+    #   automatic sizing. Whether you set Style passthrough to enabled or
+    #   not, you can also choose to manually override any of the individual
+    #   style and position settings. You can also override any fonts by
+    #   manually specifying custom font files.
     #   @return [String]
     #
     # @!attribute [rw] subtitling_type
@@ -4070,39 +4251,37 @@ module Aws::MediaConvert
     #   @return [String]
     #
     # @!attribute [rw] teletext_spacing
-    #   Specify whether the Text spacing (TeletextSpacing) in your captions
-    #   is set by the captions grid, or varies depending on letter width.
-    #   Choose fixed grid (FIXED\_GRID) to conform to the spacing specified
-    #   in the captions file more accurately. Choose proportional
-    #   (PROPORTIONAL) to make the text easier to read for closed captions.
-    #   Within your job settings, all of your DVB-Sub settings must be
-    #   identical.
+    #   Specify whether the Text spacing in your captions is set by the
+    #   captions grid, or varies depending on letter width. Choose fixed
+    #   grid to conform to the spacing specified in the captions file more
+    #   accurately. Choose proportional to make the text easier to read for
+    #   closed captions. Within your job settings, all of your DVB-Sub
+    #   settings must be identical.
     #   @return [String]
     #
     # @!attribute [rw] width
     #   Specify the width, in pixels, of this set of DVB-Sub captions. The
     #   default value is 720 pixels. Related setting: When you use this
-    #   setting, you must set DDS handling (ddsHandling) to a value other
-    #   than None (NONE). All burn-in and DVB-Sub font settings must match.
+    #   setting, you must set DDS handling to a value other than None. All
+    #   burn-in and DVB-Sub font settings must match.
     #   @return [Integer]
     #
     # @!attribute [rw] x_position
-    #   Specify the horizontal position (XPosition) of the captions,
-    #   relative to the left side of the outputin pixels. A value of 10
-    #   would result in the captions starting 10 pixels from the left ofthe
-    #   output. If no explicit x\_position is provided, the horizontal
-    #   caption position will bedetermined by the alignment parameter.
-    #   Within your job settings, all of your DVB-Sub settings must be
-    #   identical.
+    #   Specify the horizontal position of the captions, relative to the
+    #   left side of the output in pixels. A value of 10 would result in the
+    #   captions starting 10 pixels from the left of the output. If no
+    #   explicit x\_position is provided, the horizontal caption position
+    #   will be determined by the alignment parameter. Within your job
+    #   settings, all of your DVB-Sub settings must be identical.
     #   @return [Integer]
     #
     # @!attribute [rw] y_position
-    #   Specify the vertical position (YPosition) of the captions, relative
-    #   to the top of the output in pixels. A value of 10 would result in
-    #   the captions starting 10 pixels from the top of the output. If no
-    #   explicit y\_position is provided, the caption will be positioned
-    #   towards the bottom of the output. Within your job settings, all of
-    #   your DVB-Sub settings must be identical.
+    #   Specify the vertical position of the captions, relative to the top
+    #   of the output in pixels. A value of 10 would result in the captions
+    #   starting 10 pixels from the top of the output. If no explicit
+    #   y\_position is provided, the caption will be positioned towards the
+    #   bottom of the output. Within your job settings, all of your DVB-Sub
+    #   settings must be identical.
     #   @return [Integer]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/DvbSubDestinationSettings AWS API Documentation
@@ -4117,6 +4296,10 @@ module Aws::MediaConvert
       :dds_y_coordinate,
       :fallback_font,
       :font_color,
+      :font_file_bold,
+      :font_file_bold_italic,
+      :font_file_italic,
+      :font_file_regular,
       :font_opacity,
       :font_resolution,
       :font_script,
@@ -4142,9 +4325,9 @@ module Aws::MediaConvert
     # DVB Sub Source Settings
     #
     # @!attribute [rw] pid
-    #   When using DVB-Sub with Burn-In or SMPTE-TT, use this PID for the
-    #   source content. Unused for DVB-Sub passthrough. All DVB-Sub content
-    #   is passed through, regardless of selectors.
+    #   When using DVB-Sub with Burn-in, use this PID for the source
+    #   content. Unused for DVB-Sub passthrough. All DVB-Sub content is
+    #   passed through, regardless of selectors.
     #   @return [Integer]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/DvbSubSourceSettings AWS API Documentation
@@ -4156,10 +4339,7 @@ module Aws::MediaConvert
     end
 
     # Use these settings to insert a DVB Time and Date Table (TDT) in the
-    # transport stream of this output. When you work directly in your JSON
-    # job specification, include this object only when your job has a
-    # transport stream output and the container settings contain the object
-    # M2tsSettings.
+    # transport stream of this output.
     #
     # @!attribute [rw] tdt_interval
     #   The number of milliseconds between instances of this table in the
@@ -4174,8 +4354,78 @@ module Aws::MediaConvert
       include Aws::Structure
     end
 
-    # Required when you set (Codec) under
-    # (AudioDescriptions)>(CodecSettings) to the value EAC3\_ATMOS.
+    # Use Dynamic audio selectors when you do not know the track layout of
+    # your source when you submit your job, but want to select multiple
+    # audio tracks. When you include an audio track in your output and
+    # specify this Dynamic audio selector as the Audio source, MediaConvert
+    # creates an output audio track for each dynamically selected track.
+    # Note that when you include a Dynamic audio selector for two or more
+    # inputs, each input must have the same number of audio tracks and audio
+    # channels.
+    #
+    # @!attribute [rw] audio_duration_correction
+    #   Apply audio timing corrections to help synchronize audio and video
+    #   in your output. To apply timing corrections, your input must meet
+    #   the following requirements: * Container: MP4, or MOV, with an
+    #   accurate time-to-sample (STTS) table. * Audio track: AAC. Choose
+    #   from the following audio timing correction settings: * Disabled
+    #   (Default): Apply no correction. * Auto: Recommended for most
+    #   inputs. MediaConvert analyzes the audio timing in your input and
+    #   determines which correction setting to use, if needed. * Track:
+    #   Adjust the duration of each audio frame by a constant amount to
+    #   align the audio track length with STTS duration. Track-level
+    #   correction does not affect pitch, and is recommended for tonal audio
+    #   content such as music. * Frame: Adjust the duration of each audio
+    #   frame by a variable amount to align audio frames with STTS
+    #   timestamps. No corrections are made to already-aligned frames.
+    #   Frame-level correction may affect the pitch of corrected frames, and
+    #   is recommended for atonal audio content such as speech or
+    #   percussion. * Force: Apply audio duration correction, either Track
+    #   or Frame depending on your input, regardless of the accuracy of your
+    #   input's STTS table. Your output audio and video may not be aligned
+    #   or it may contain audio artifacts.
+    #   @return [String]
+    #
+    # @!attribute [rw] external_audio_file_input
+    #   Specify the S3, HTTP, or HTTPS URL for your external audio file
+    #   input.
+    #   @return [String]
+    #
+    # @!attribute [rw] language_code
+    #   Specify the language to select from your audio input. In the
+    #   MediaConvert console choose from a list of languages. In your JSON
+    #   job settings choose from an ISO 639-2 three-letter code listed at
+    #   https://www.loc.gov/standards/iso639-2/php/code\_list.php
+    #   @return [String]
+    #
+    # @!attribute [rw] offset
+    #   Specify a time delta, in milliseconds, to offset the audio from the
+    #   input video. To specify no offset: Keep the default value, 0. To
+    #   specify an offset: Enter an integer from -2147483648 to 2147483647
+    #   @return [Integer]
+    #
+    # @!attribute [rw] selector_type
+    #   Specify which audio tracks to dynamically select from your source.
+    #   To select all audio tracks: Keep the default value, All tracks. To
+    #   select all audio tracks with a specific language code: Choose
+    #   Language code. When you do, you must also specify a language code
+    #   under the Language code setting. If there is no matching Language
+    #   code in your source, then no track will be selected.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/DynamicAudioSelector AWS API Documentation
+    #
+    class DynamicAudioSelector < Struct.new(
+      :audio_duration_correction,
+      :external_audio_file_input,
+      :language_code,
+      :offset,
+      :selector_type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Required when you set Codec to the value EAC3\_ATMOS.
     #
     # @!attribute [rw] bitrate
     #   Specify the average bitrate for this output in bits per second.
@@ -4203,57 +4453,48 @@ module Aws::MediaConvert
     #
     # @!attribute [rw] downmix_control
     #   Specify whether MediaConvert should use any downmix metadata from
-    #   your input file. Keep the default value, Custom (SPECIFIED) to
-    #   provide downmix values in your job settings. Choose Follow source
-    #   (INITIALIZE\_FROM\_SOURCE) to use the metadata from your input.
-    #   Related settings--Use these settings to specify your downmix values:
-    #   Left only/Right only surround (LoRoSurroundMixLevel), Left
-    #   total/Right total surround (LtRtSurroundMixLevel), Left total/Right
-    #   total center (LtRtCenterMixLevel), Left only/Right only center
-    #   (LoRoCenterMixLevel), and Stereo downmix (StereoDownmix). When you
-    #   keep Custom (SPECIFIED) for Downmix control (DownmixControl) and you
-    #   don't specify values for the related settings, MediaConvert uses
-    #   default values for those settings.
+    #   your input file. Keep the default value, Custom to provide downmix
+    #   values in your job settings. Choose Follow source to use the
+    #   metadata from your input. Related settings--Use these settings to
+    #   specify your downmix values: Left only/Right only surround, Left
+    #   total/Right total surround, Left total/Right total center, Left
+    #   only/Right only center, and Stereo downmix. When you keep Custom for
+    #   Downmix control and you don't specify values for the related
+    #   settings, MediaConvert uses default values for those settings.
     #   @return [String]
     #
     # @!attribute [rw] dynamic_range_compression_line
     #   Choose the Dolby dynamic range control (DRC) profile that
     #   MediaConvert uses when encoding the metadata in the Dolby stream for
-    #   the line operating mode. Default value: Film light
-    #   (ATMOS\_STORAGE\_DDP\_COMPR\_FILM\_LIGHT) Related setting: To have
-    #   MediaConvert use the value you specify here, keep the default value,
-    #   Custom (SPECIFIED) for the setting Dynamic range control
-    #   (DynamicRangeControl). Otherwise, MediaConvert ignores Dynamic range
-    #   compression line (DynamicRangeCompressionLine). For information
-    #   about the Dolby DRC operating modes and profiles, see the Dynamic
-    #   Range Control chapter of the Dolby Metadata Guide at
+    #   the line operating mode. Default value: Film light Related setting:
+    #   To have MediaConvert use the value you specify here, keep the
+    #   default value, Custom for the setting Dynamic range control.
+    #   Otherwise, MediaConvert ignores Dynamic range compression line. For
+    #   information about the Dolby DRC operating modes and profiles, see
+    #   the Dynamic Range Control chapter of the Dolby Metadata Guide at
     #   https://developer.dolby.com/globalassets/professional/documents/dolby-metadata-guide.pdf.
     #   @return [String]
     #
     # @!attribute [rw] dynamic_range_compression_rf
     #   Choose the Dolby dynamic range control (DRC) profile that
     #   MediaConvert uses when encoding the metadata in the Dolby stream for
-    #   the RF operating mode. Default value: Film light
-    #   (ATMOS\_STORAGE\_DDP\_COMPR\_FILM\_LIGHT) Related setting: To have
-    #   MediaConvert use the value you specify here, keep the default value,
-    #   Custom (SPECIFIED) for the setting Dynamic range control
-    #   (DynamicRangeControl). Otherwise, MediaConvert ignores Dynamic range
-    #   compression RF (DynamicRangeCompressionRf). For information about
-    #   the Dolby DRC operating modes and profiles, see the Dynamic Range
-    #   Control chapter of the Dolby Metadata Guide at
+    #   the RF operating mode. Default value: Film light Related setting: To
+    #   have MediaConvert use the value you specify here, keep the default
+    #   value, Custom for the setting Dynamic range control. Otherwise,
+    #   MediaConvert ignores Dynamic range compression RF. For information
+    #   about the Dolby DRC operating modes and profiles, see the Dynamic
+    #   Range Control chapter of the Dolby Metadata Guide at
     #   https://developer.dolby.com/globalassets/professional/documents/dolby-metadata-guide.pdf.
     #   @return [String]
     #
     # @!attribute [rw] dynamic_range_control
     #   Specify whether MediaConvert should use any dynamic range control
-    #   metadata from your input file. Keep the default value, Custom
-    #   (SPECIFIED), to provide dynamic range control values in your job
-    #   settings. Choose Follow source (INITIALIZE\_FROM\_SOURCE) to use the
-    #   metadata from your input. Related settings--Use these settings to
-    #   specify your dynamic range control values: Dynamic range compression
-    #   line (DynamicRangeCompressionLine) and Dynamic range compression RF
-    #   (DynamicRangeCompressionRf). When you keep the value Custom
-    #   (SPECIFIED) for Dynamic range control (DynamicRangeControl) and you
+    #   metadata from your input file. Keep the default value, Custom, to
+    #   provide dynamic range control values in your job settings. Choose
+    #   Follow source to use the metadata from your input. Related
+    #   settings--Use these settings to specify your dynamic range control
+    #   values: Dynamic range compression line and Dynamic range compression
+    #   RF. When you keep the value Custom for Dynamic range control and you
     #   don't specify values for the related settings, MediaConvert uses
     #   default values for those settings.
     #   @return [String]
@@ -4261,57 +4502,46 @@ module Aws::MediaConvert
     # @!attribute [rw] lo_ro_center_mix_level
     #   Specify a value for the following Dolby Atmos setting: Left
     #   only/Right only center mix (Lo/Ro center). MediaConvert uses this
-    #   value for downmixing. Default value: -3 dB
-    #   (ATMOS\_STORAGE\_DDP\_MIXLEV\_MINUS\_3\_DB). Valid values: 3.0, 1.5,
+    #   value for downmixing. Default value: -3 dB. Valid values: 3.0, 1.5,
     #   0.0, -1.5, -3.0, -4.5, and -6.0. Related setting: How the service
     #   uses this value depends on the value that you choose for Stereo
-    #   downmix (Eac3AtmosStereoDownmix). Related setting: To have
-    #   MediaConvert use this value, keep the default value, Custom
-    #   (SPECIFIED) for the setting Downmix control (DownmixControl).
-    #   Otherwise, MediaConvert ignores Left only/Right only center
-    #   (LoRoCenterMixLevel).
+    #   downmix. Related setting: To have MediaConvert use this value, keep
+    #   the default value, Custom for the setting Downmix control.
+    #   Otherwise, MediaConvert ignores Left only/Right only center.
     #   @return [Float]
     #
     # @!attribute [rw] lo_ro_surround_mix_level
     #   Specify a value for the following Dolby Atmos setting: Left
-    #   only/Right only (Lo/Ro surround). MediaConvert uses this value for
-    #   downmixing. Default value: -3 dB
-    #   (ATMOS\_STORAGE\_DDP\_MIXLEV\_MINUS\_3\_DB). Valid values: -1.5,
-    #   -3.0, -4.5, -6.0, and -60. The value -60 mutes the channel. Related
-    #   setting: How the service uses this value depends on the value that
-    #   you choose for Stereo downmix (Eac3AtmosStereoDownmix). Related
-    #   setting: To have MediaConvert use this value, keep the default
-    #   value, Custom (SPECIFIED) for the setting Downmix control
-    #   (DownmixControl). Otherwise, MediaConvert ignores Left only/Right
-    #   only surround (LoRoSurroundMixLevel).
+    #   only/Right only. MediaConvert uses this value for downmixing.
+    #   Default value: -3 dB. Valid values: -1.5, -3.0, -4.5, -6.0, and -60.
+    #   The value -60 mutes the channel. Related setting: How the service
+    #   uses this value depends on the value that you choose for Stereo
+    #   downmix. Related setting: To have MediaConvert use this value, keep
+    #   the default value, Custom for the setting Downmix control.
+    #   Otherwise, MediaConvert ignores Left only/Right only surround.
     #   @return [Float]
     #
     # @!attribute [rw] lt_rt_center_mix_level
     #   Specify a value for the following Dolby Atmos setting: Left
     #   total/Right total center mix (Lt/Rt center). MediaConvert uses this
-    #   value for downmixing. Default value: -3 dB
-    #   (ATMOS\_STORAGE\_DDP\_MIXLEV\_MINUS\_3\_DB) Valid values: 3.0, 1.5,
+    #   value for downmixing. Default value: -3 dB Valid values: 3.0, 1.5,
     #   0.0, -1.5, -3.0, -4.5, and -6.0. Related setting: How the service
     #   uses this value depends on the value that you choose for Stereo
-    #   downmix (Eac3AtmosStereoDownmix). Related setting: To have
-    #   MediaConvert use this value, keep the default value, Custom
-    #   (SPECIFIED) for the setting Downmix control (DownmixControl).
-    #   Otherwise, MediaConvert ignores Left total/Right total center
-    #   (LtRtCenterMixLevel).
+    #   downmix. Related setting: To have MediaConvert use this value, keep
+    #   the default value, Custom for the setting Downmix control.
+    #   Otherwise, MediaConvert ignores Left total/Right total center.
     #   @return [Float]
     #
     # @!attribute [rw] lt_rt_surround_mix_level
     #   Specify a value for the following Dolby Atmos setting: Left
     #   total/Right total surround mix (Lt/Rt surround). MediaConvert uses
-    #   this value for downmixing. Default value: -3 dB
-    #   (ATMOS\_STORAGE\_DDP\_MIXLEV\_MINUS\_3\_DB) Valid values: -1.5,
+    #   this value for downmixing. Default value: -3 dB Valid values: -1.5,
     #   -3.0, -4.5, -6.0, and -60. The value -60 mutes the channel. Related
     #   setting: How the service uses this value depends on the value that
-    #   you choose for Stereo downmix (Eac3AtmosStereoDownmix). Related
-    #   setting: To have MediaConvert use this value, keep the default
-    #   value, Custom (SPECIFIED) for the setting Downmix control
-    #   (DownmixControl). Otherwise, the service ignores Left total/Right
-    #   total surround (LtRtSurroundMixLevel).
+    #   you choose for Stereo downmix. Related setting: To have MediaConvert
+    #   use this value, keep the default value, Custom for the setting
+    #   Downmix control. Otherwise, the service ignores Left total/Right
+    #   total surround.
     #   @return [Float]
     #
     # @!attribute [rw] metering_mode
@@ -4330,11 +4560,9 @@ module Aws::MediaConvert
     #
     # @!attribute [rw] stereo_downmix
     #   Choose how the service does stereo downmixing. Default value: Not
-    #   indicated (ATMOS\_STORAGE\_DDP\_DMIXMOD\_NOT\_INDICATED) Related
-    #   setting: To have MediaConvert use this value, keep the default
-    #   value, Custom (SPECIFIED) for the setting Downmix control
-    #   (DownmixControl). Otherwise, MediaConvert ignores Stereo downmix
-    #   (StereoDownmix).
+    #   indicated Related setting: To have MediaConvert use this value, keep
+    #   the default value, Custom for the setting Downmix control.
+    #   Otherwise, MediaConvert ignores Stereo downmix.
     #   @return [String]
     #
     # @!attribute [rw] surround_ex_mode
@@ -4367,8 +4595,7 @@ module Aws::MediaConvert
       include Aws::Structure
     end
 
-    # Required when you set (Codec) under
-    # (AudioDescriptions)>(CodecSettings) to the value EAC3.
+    # Required when you set Codec to the value EAC3.
     #
     # @!attribute [rw] attenuation_control
     #   If set to ATTENUATE\_3\_DB, applies a 3 dB attenuation to the
@@ -4410,10 +4637,9 @@ module Aws::MediaConvert
     #   MediaConvert uses when encoding the metadata in the Dolby Digital
     #   stream for the line operating mode. Related setting: When you use
     #   this setting, MediaConvert ignores any value you provide for Dynamic
-    #   range compression profile (DynamicRangeCompressionProfile). For
-    #   information about the Dolby Digital DRC operating modes and
-    #   profiles, see the Dynamic Range Control chapter of the Dolby
-    #   Metadata Guide at
+    #   range compression profile. For information about the Dolby Digital
+    #   DRC operating modes and profiles, see the Dynamic Range Control
+    #   chapter of the Dolby Metadata Guide at
     #   https://developer.dolby.com/globalassets/professional/documents/dolby-metadata-guide.pdf.
     #   @return [String]
     #
@@ -4422,10 +4648,9 @@ module Aws::MediaConvert
     #   MediaConvert uses when encoding the metadata in the Dolby Digital
     #   stream for the RF operating mode. Related setting: When you use this
     #   setting, MediaConvert ignores any value you provide for Dynamic
-    #   range compression profile (DynamicRangeCompressionProfile). For
-    #   information about the Dolby Digital DRC operating modes and
-    #   profiles, see the Dynamic Range Control chapter of the Dolby
-    #   Metadata Guide at
+    #   range compression profile. For information about the Dolby Digital
+    #   DRC operating modes and profiles, see the Dynamic Range Control
+    #   chapter of the Dolby Metadata Guide at
     #   https://developer.dolby.com/globalassets/professional/documents/dolby-metadata-guide.pdf.
     #   @return [String]
     #
@@ -4440,54 +4665,48 @@ module Aws::MediaConvert
     #
     # @!attribute [rw] lo_ro_center_mix_level
     #   Specify a value for the following Dolby Digital Plus setting: Left
-    #   only/Right only center mix (Lo/Ro center). MediaConvert uses this
-    #   value for downmixing. How the service uses this value depends on the
-    #   value that you choose for Stereo downmix (Eac3StereoDownmix). Valid
-    #   values: 3.0, 1.5, 0.0, -1.5, -3.0, -4.5, -6.0, and -60. The value
-    #   -60 mutes the channel. This setting applies only if you keep the
-    #   default value of 3/2 - L, R, C, Ls, Rs (CODING\_MODE\_3\_2) for the
-    #   setting Coding mode (Eac3CodingMode). If you choose a different
+    #   only/Right only center mix. MediaConvert uses this value for
+    #   downmixing. How the service uses this value depends on the value
+    #   that you choose for Stereo downmix. Valid values: 3.0, 1.5, 0.0,
+    #   -1.5, -3.0, -4.5, -6.0, and -60. The value -60 mutes the channel.
+    #   This setting applies only if you keep the default value of 3/2 - L,
+    #   R, C, Ls, Rs for the setting Coding mode. If you choose a different
     #   value for Coding mode, the service ignores Left only/Right only
-    #   center (loRoCenterMixLevel).
+    #   center.
     #   @return [Float]
     #
     # @!attribute [rw] lo_ro_surround_mix_level
     #   Specify a value for the following Dolby Digital Plus setting: Left
-    #   only/Right only (Lo/Ro surround). MediaConvert uses this value for
-    #   downmixing. How the service uses this value depends on the value
-    #   that you choose for Stereo downmix (Eac3StereoDownmix). Valid
-    #   values: -1.5, -3.0, -4.5, -6.0, and -60. The value -60 mutes the
-    #   channel. This setting applies only if you keep the default value of
-    #   3/2 - L, R, C, Ls, Rs (CODING\_MODE\_3\_2) for the setting Coding
-    #   mode (Eac3CodingMode). If you choose a different value for Coding
-    #   mode, the service ignores Left only/Right only surround
-    #   (loRoSurroundMixLevel).
+    #   only/Right only. MediaConvert uses this value for downmixing. How
+    #   the service uses this value depends on the value that you choose for
+    #   Stereo downmix. Valid values: -1.5, -3.0, -4.5, -6.0, and -60. The
+    #   value -60 mutes the channel. This setting applies only if you keep
+    #   the default value of 3/2 - L, R, C, Ls, Rs for the setting Coding
+    #   mode. If you choose a different value for Coding mode, the service
+    #   ignores Left only/Right only surround.
     #   @return [Float]
     #
     # @!attribute [rw] lt_rt_center_mix_level
     #   Specify a value for the following Dolby Digital Plus setting: Left
-    #   total/Right total center mix (Lt/Rt center). MediaConvert uses this
-    #   value for downmixing. How the service uses this value depends on the
-    #   value that you choose for Stereo downmix (Eac3StereoDownmix). Valid
-    #   values: 3.0, 1.5, 0.0, -1.5, -3.0, -4.5, -6.0, and -60. The value
-    #   -60 mutes the channel. This setting applies only if you keep the
-    #   default value of 3/2 - L, R, C, Ls, Rs (CODING\_MODE\_3\_2) for the
-    #   setting Coding mode (Eac3CodingMode). If you choose a different
+    #   total/Right total center mix. MediaConvert uses this value for
+    #   downmixing. How the service uses this value depends on the value
+    #   that you choose for Stereo downmix. Valid values: 3.0, 1.5, 0.0,
+    #   -1.5, -3.0, -4.5, -6.0, and -60. The value -60 mutes the channel.
+    #   This setting applies only if you keep the default value of 3/2 - L,
+    #   R, C, Ls, Rs for the setting Coding mode. If you choose a different
     #   value for Coding mode, the service ignores Left total/Right total
-    #   center (ltRtCenterMixLevel).
+    #   center.
     #   @return [Float]
     #
     # @!attribute [rw] lt_rt_surround_mix_level
     #   Specify a value for the following Dolby Digital Plus setting: Left
-    #   total/Right total surround mix (Lt/Rt surround). MediaConvert uses
-    #   this value for downmixing. How the service uses this value depends
-    #   on the value that you choose for Stereo downmix (Eac3StereoDownmix).
-    #   Valid values: -1.5, -3.0, -4.5, -6.0, and -60. The value -60 mutes
-    #   the channel. This setting applies only if you keep the default value
-    #   of 3/2 - L, R, C, Ls, Rs (CODING\_MODE\_3\_2) for the setting Coding
-    #   mode (Eac3CodingMode). If you choose a different value for Coding
-    #   mode, the service ignores Left total/Right total surround
-    #   (ltRtSurroundMixLevel).
+    #   total/Right total surround mix. MediaConvert uses this value for
+    #   downmixing. How the service uses this value depends on the value
+    #   that you choose for Stereo downmix. Valid values: -1.5, -3.0, -4.5,
+    #   -6.0, and -60. The value -60 mutes the channel. This setting applies
+    #   only if you keep the default value of 3/2 - L, R, C, Ls, Rs for the
+    #   setting Coding mode. If you choose a different value for Coding
+    #   mode, the service ignores Left total/Right total surround.
     #   @return [Float]
     #
     # @!attribute [rw] metadata_control
@@ -4516,10 +4735,9 @@ module Aws::MediaConvert
     #
     # @!attribute [rw] stereo_downmix
     #   Choose how the service does stereo downmixing. This setting only
-    #   applies if you keep the default value of 3/2 - L, R, C, Ls, Rs
-    #   (CODING\_MODE\_3\_2) for the setting Coding mode (Eac3CodingMode).
-    #   If you choose a different value for Coding mode, the service ignores
-    #   Stereo downmix (Eac3StereoDownmix).
+    #   applies if you keep the default value of 3/2 - L, R, C, Ls, Rs for
+    #   the setting Coding mode. If you choose a different value for Coding
+    #   mode, the service ignores Stereo downmix.
     #   @return [String]
     #
     # @!attribute [rw] surround_ex_mode
@@ -4564,9 +4782,6 @@ module Aws::MediaConvert
     # or ancillary) captions. Set up embedded captions in the same output as
     # your video. For more information, see
     # https://docs.aws.amazon.com/mediaconvert/latest/ug/embedded-output-captions.html.
-    # When you work directly in your JSON job specification, include this
-    # object and any required children when you set destinationType to
-    # EMBEDDED, EMBEDDED\_PLUS\_SCTE20, or SCTE20\_PLUS\_EMBEDDED.
     #
     # @!attribute [rw] destination_608_channel_number
     #   Ignore this setting unless your input captions are SCC format and
@@ -4582,12 +4797,11 @@ module Aws::MediaConvert
     #   you want both 608 and 708 captions embedded in your output stream.
     #   Optionally, specify the 708 service number for each output captions
     #   channel. Choose a different number for each channel. To use this
-    #   setting, also set Force 608 to 708 upconvert (Convert608To708) to
-    #   Upconvert (UPCONVERT) in your input captions selector settings. If
-    #   you choose to upconvert but don't specify a 708 service number,
-    #   MediaConvert uses the number that you specify for CC channel number
-    #   (destination608ChannelNumber) for the 708 service number. For more
-    #   information, see
+    #   setting, also set Force 608 to 708 upconvert to Upconvert in your
+    #   input captions selector settings. If you choose to upconvert but
+    #   don't specify a 708 service number, MediaConvert uses the number
+    #   that you specify for CC channel number for the 708 service number.
+    #   For more information, see
     #   https://docs.aws.amazon.com/console/mediaconvert/dual-scc-to-embedded.
     #   @return [Integer]
     #
@@ -4604,10 +4818,10 @@ module Aws::MediaConvert
     #
     # @!attribute [rw] convert_608_to_708
     #   Specify whether this set of input captions appears in your outputs
-    #   in both 608 and 708 format. If you choose Upconvert (UPCONVERT),
-    #   MediaConvert includes the captions data in two ways: it passes the
-    #   608 data through using the 608 compatibility bytes fields of the 708
-    #   wrapper, and it also translates the 608 data into 708.
+    #   in both 608 and 708 format. If you choose Upconvert, MediaConvert
+    #   includes the captions data in two ways: it passes the 608 data
+    #   through using the 608 compatibility bytes fields of the 708 wrapper,
+    #   and it also translates the 608 data into 708.
     #   @return [String]
     #
     # @!attribute [rw] source_608_channel_number
@@ -4634,6 +4848,52 @@ module Aws::MediaConvert
       :source_608_channel_number,
       :source_608_track_number,
       :terminate_captions)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Specify the SPEKE version, either v1.0 or v2.0, that MediaConvert uses
+    # when encrypting your output. For more information, see:
+    # https://docs.aws.amazon.com/speke/latest/documentation/speke-api-specification.html
+    # To use SPEKE v1.0: Leave blank. To use SPEKE v2.0: Specify a SPEKE
+    # v2.0 video preset and a SPEKE v2.0 audio preset.
+    #
+    # @!attribute [rw] speke_audio_preset
+    #   Specify which SPEKE version 2.0 audio preset MediaConvert uses to
+    #   request content keys from your SPEKE server. For more information,
+    #   see:
+    #   https://docs.aws.amazon.com/mediaconvert/latest/ug/drm-content-speke-v2-presets.html
+    #   To encrypt to your audio outputs, choose from the following: Audio
+    #   preset 1, Audio preset 2, or Audio preset 3. To encrypt your audio
+    #   outputs, using the same content key for both your audio and video
+    #   outputs: Choose Shared. When you do, you must also set SPEKE v2.0
+    #   video preset to Shared. To not encrypt your audio outputs: Choose
+    #   Unencrypted. When you do, to encrypt your video outputs, you must
+    #   also specify a SPEKE v2.0 video preset (other than Shared or
+    #   Unencrypted).
+    #   @return [String]
+    #
+    # @!attribute [rw] speke_video_preset
+    #   Specify which SPEKE version 2.0 video preset MediaConvert uses to
+    #   request content keys from your SPEKE server. For more information,
+    #   see:
+    #   https://docs.aws.amazon.com/mediaconvert/latest/ug/drm-content-speke-v2-presets.html
+    #   To encrypt to your video outputs, choose from the following: Video
+    #   preset 1, Video preset 2, Video preset 3, Video preset 4, Video
+    #   preset 5, Video preset 6, Video preset 7, or Video preset 8. To
+    #   encrypt your video outputs, using the same content key for both your
+    #   video and audio outputs: Choose Shared. When you do, you must also
+    #   set SPEKE v2.0 audio preset to Shared. To not encrypt your video
+    #   outputs: Choose Unencrypted. When you do, to encrypt your audio
+    #   outputs, you must also specify a SPEKE v2.0 audio preset (other than
+    #   Shared or Unencrypted).
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/EncryptionContractConfiguration AWS API Documentation
+    #
+    class EncryptionContractConfiguration < Struct.new(
+      :speke_audio_preset,
+      :speke_video_preset)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4676,8 +4936,7 @@ module Aws::MediaConvert
     # @!attribute [rw] manifest_confirm_condition_notification
     #   Specifies an ESAM ManifestConfirmConditionNotification XML as per
     #   OC-SP-ESAM-API-I03-131025. The transcoder uses the manifest
-    #   conditioning instructions that you provide in the setting MCC XML
-    #   (mccXml).
+    #   conditioning instructions that you provide in the setting MCC XML.
     #   @return [Types::EsamManifestConfirmConditionNotification]
     #
     # @!attribute [rw] response_signal_preroll
@@ -4691,7 +4950,7 @@ module Aws::MediaConvert
     # @!attribute [rw] signal_processing_notification
     #   Specifies an ESAM SignalProcessingNotification XML as per
     #   OC-SP-ESAM-API-I03-131025. The transcoder uses the signal processing
-    #   instructions that you provide in the setting SCC XML (sccXml).
+    #   instructions that you provide in the setting SCC XML.
     #   @return [Types::EsamSignalProcessingNotification]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/EsamSettings AWS API Documentation
@@ -4711,13 +4970,11 @@ module Aws::MediaConvert
     #   Provide your ESAM SignalProcessingNotification XML document inside
     #   your JSON job settings. Form the XML document as per
     #   OC-SP-ESAM-API-I03-131025. The transcoder will use the signal
-    #   processing instructions in the message that you supply. Provide your
-    #   ESAM SignalProcessingNotification XML document inside your JSON job
-    #   settings. For your MPEG2-TS file outputs, if you want the service to
-    #   place SCTE-35 markers at the insertion points you specify in the XML
-    #   document, you must also enable SCTE-35 ESAM (scte35Esam). Note that
-    #   you can either specify an ESAM XML document or enable SCTE-35
-    #   passthrough. You can't do both.
+    #   processing instructions in the message that you supply. For your
+    #   MPEG2-TS file outputs, if you want the service to place SCTE-35
+    #   markers at the insertion points you specify in the XML document, you
+    #   must also enable SCTE-35 ESAM. Note that you can either specify an
+    #   ESAM XML document or enable SCTE-35 passthrough. You can't do both.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/EsamSignalProcessingNotification AWS API Documentation
@@ -4746,9 +5003,9 @@ module Aws::MediaConvert
     # EIA-608 Line Data Services, section 9.5.1.5 05h Content Advisory.
     #
     # @!attribute [rw] copy_protection_action
-    #   The action to take on content advisory XDS packets. If you select
-    #   PASSTHROUGH, packets will not be changed. If you select STRIP, any
-    #   packets will be removed in output captions.
+    #   The action to take on copy and redistribution control XDS packets.
+    #   If you select PASSTHROUGH, packets will not be changed. If you
+    #   select STRIP, any packets will be removed in output captions.
     #   @return [String]
     #
     # @!attribute [rw] vchip_action
@@ -4769,9 +5026,10 @@ module Aws::MediaConvert
     # Settings for F4v container
     #
     # @!attribute [rw] moov_placement
-    #   If set to PROGRESSIVE\_DOWNLOAD, the MOOV atom is relocated to the
-    #   beginning of the archive as required for progressive downloading.
-    #   Otherwise it is placed normally at the end.
+    #   To place the MOOV atom at the beginning of your output, which is
+    #   useful for progressive downloading: Leave blank or choose
+    #   Progressive download. To place the MOOV at the end of your output:
+    #   Choose Normal.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/F4vSettings AWS API Documentation
@@ -4784,16 +5042,14 @@ module Aws::MediaConvert
 
     # Settings related to your File output group. MediaConvert uses this
     # group of settings to generate a single standalone file, rather than a
-    # streaming package. When you work directly in your JSON job
-    # specification, include this object and any required children when you
-    # set Type, under OutputGroupSettings, to FILE\_GROUP\_SETTINGS.
+    # streaming package.
     #
     # @!attribute [rw] destination
-    #   Use Destination (Destination) to specify the S3 output location and
-    #   the output filename base. Destination accepts format identifiers. If
-    #   you do not specify the base filename in the URI, the service will
-    #   use the filename of the input file. If your job has multiple inputs,
-    #   the service uses the filename of the first input file.
+    #   Use Destination to specify the S3 output location and the output
+    #   filename base. Destination accepts format identifiers. If you do not
+    #   specify the base filename in the URI, the service will use the
+    #   filename of the input file. If your job has multiple inputs, the
+    #   service uses the filename of the first input file.
     #   @return [String]
     #
     # @!attribute [rw] destination_settings
@@ -4815,22 +5071,41 @@ module Aws::MediaConvert
     # If your caption source is IMSC in an IMF package, use
     # TrackSourceSettings instead of FileSoureSettings.
     #
+    # @!attribute [rw] byte_rate_limit
+    #   Choose whether to limit the byte rate at which your SCC input
+    #   captions are inserted into your output. To not limit the caption
+    #   rate: We recommend that you keep the default value, Disabled.
+    #   MediaConvert inserts captions in your output according to the byte
+    #   rates listed in the EIA-608 specification, typically 2 or 3 caption
+    #   bytes per frame depending on your output frame rate. To limit your
+    #   output caption rate: Choose Enabled. Choose this option if your
+    #   downstream systems require a maximum of 2 caption bytes per frame.
+    #   Note that this setting has no effect when your output frame rate is
+    #   30 or 60.
+    #   @return [String]
+    #
     # @!attribute [rw] convert_608_to_708
     #   Specify whether this set of input captions appears in your outputs
-    #   in both 608 and 708 format. If you choose Upconvert (UPCONVERT),
-    #   MediaConvert includes the captions data in two ways: it passes the
-    #   608 data through using the 608 compatibility bytes fields of the 708
-    #   wrapper, and it also translates the 608 data into 708.
+    #   in both 608 and 708 format. If you choose Upconvert, MediaConvert
+    #   includes the captions data in two ways: it passes the 608 data
+    #   through using the 608 compatibility bytes fields of the 708 wrapper,
+    #   and it also translates the 608 data into 708.
+    #   @return [String]
+    #
+    # @!attribute [rw] convert_paint_to_pop
+    #   Choose the presentation style of your input SCC captions. To use the
+    #   same presentation style as your input: Keep the default value,
+    #   Disabled. To convert paint-on captions to pop-on: Choose Enabled. We
+    #   also recommend that you choose Enabled if you notice additional
+    #   repeated lines in your output captions.
     #   @return [String]
     #
     # @!attribute [rw] framerate
     #   Ignore this setting unless your input captions format is SCC. To
     #   have the service compensate for differing frame rates between your
     #   input captions and input video, specify the frame rate of the
-    #   captions file. Specify this value as a fraction. When you work
-    #   directly in your JSON job specification, use the settings
-    #   framerateNumerator and framerateDenominator. For example, you might
-    #   specify 24 / 1 for 24 fps, 25 / 1 for 25 fps, 24000 / 1001 for
+    #   captions file. Specify this value as a fraction. For example, you
+    #   might specify 24 / 1 for 24 fps, 25 / 1 for 25 fps, 24000 / 1001 for
     #   23.976 fps, or 30000 / 1001 for 29.97 fps.
     #   @return [Types::CaptionSourceFramerate]
     #
@@ -4849,31 +5124,60 @@ module Aws::MediaConvert
     #   times in the captions file. Type -5 to subtract 5 seconds from the
     #   times in the captions file. You can optionally specify your time
     #   delta in milliseconds instead of seconds. When you do so, set the
-    #   related setting, Time delta units (TimeDeltaUnits) to Milliseconds
-    #   (MILLISECONDS). Note that, when you specify a time delta for
-    #   timecode-based caption sources, such as SCC and STL, and your time
-    #   delta isn't a multiple of the input frame rate, MediaConvert snaps
-    #   the captions to the nearest frame. For example, when your input
-    #   video frame rate is 25 fps and you specify 1010ms for time delta,
-    #   MediaConvert delays your captions by 1000 ms.
+    #   related setting, Time delta units to Milliseconds. Note that, when
+    #   you specify a time delta for timecode-based caption sources, such as
+    #   SCC and STL, and your time delta isn't a multiple of the input
+    #   frame rate, MediaConvert snaps the captions to the nearest frame.
+    #   For example, when your input video frame rate is 25 fps and you
+    #   specify 1010ms for time delta, MediaConvert delays your captions by
+    #   1000 ms.
     #   @return [Integer]
     #
     # @!attribute [rw] time_delta_units
-    #   When you use the setting Time delta (TimeDelta) to adjust the sync
-    #   between your sidecar captions and your video, use this setting to
-    #   specify the units for the delta that you specify. When you don't
-    #   specify a value for Time delta units (TimeDeltaUnits), MediaConvert
-    #   uses seconds by default.
+    #   When you use the setting Time delta to adjust the sync between your
+    #   sidecar captions and your video, use this setting to specify the
+    #   units for the delta that you specify. When you don't specify a
+    #   value for Time delta units, MediaConvert uses seconds by default.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/FileSourceSettings AWS API Documentation
     #
     class FileSourceSettings < Struct.new(
+      :byte_rate_limit,
       :convert_608_to_708,
+      :convert_paint_to_pop,
       :framerate,
       :source_file,
       :time_delta,
       :time_delta_units)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Required when you set Codec, under AudioDescriptions>CodecSettings, to
+    # the value FLAC.
+    #
+    # @!attribute [rw] bit_depth
+    #   Specify Bit depth (BitDepth), in bits per sample, to choose the
+    #   encoding quality for this audio track.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] channels
+    #   Specify the number of channels in this output audio track. Choosing
+    #   Mono on the console gives you 1 output channel; choosing Stereo
+    #   gives you 2. In the API, valid values are between 1 and 8.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] sample_rate
+    #   Sample rate in Hz.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/FlacSettings AWS API Documentation
+    #
+    class FlacSettings < Struct.new(
+      :bit_depth,
+      :channels,
+      :sample_rate)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4921,8 +5225,7 @@ module Aws::MediaConvert
       include Aws::Structure
     end
 
-    # Required when you set (Codec) under (VideoDescription)>(CodecSettings)
-    # to the value FRAME\_CAPTURE.
+    # Required when you set Codec to the value FRAME\_CAPTURE.
     #
     # @!attribute [rw] framerate_denominator
     #   Frame capture will encode the first frame of the output stream, then
@@ -5113,9 +5416,66 @@ module Aws::MediaConvert
       include Aws::Structure
     end
 
+    # Required when you set (Codec) under (VideoDescription)>(CodecSettings)
+    # to the value GIF
+    #
+    # @!attribute [rw] framerate_control
+    #   If you are using the console, use the Framerate setting to specify
+    #   the frame rate for this output. If you want to keep the same frame
+    #   rate as the input video, choose Follow source. If you want to do
+    #   frame rate conversion, choose a frame rate from the dropdown list or
+    #   choose Custom. The framerates shown in the dropdown list are decimal
+    #   approximations of fractions. If you choose Custom, specify your
+    #   frame rate as a fraction. If you are creating your transcoding job
+    #   specification as a JSON file without the console, use
+    #   FramerateControl to specify which value the service uses for the
+    #   frame rate for this output. Choose INITIALIZE\_FROM\_SOURCE if you
+    #   want the service to use the frame rate from the input. Choose
+    #   SPECIFIED if you want the service to use the frame rate you specify
+    #   in the settings FramerateNumerator and FramerateDenominator.
+    #   @return [String]
+    #
+    # @!attribute [rw] framerate_conversion_algorithm
+    #   Optional. Specify how the transcoder performs framerate conversion.
+    #   The default behavior is to use Drop duplicate (DUPLICATE\_DROP)
+    #   conversion. When you choose Interpolate (INTERPOLATE) instead, the
+    #   conversion produces smoother motion.
+    #   @return [String]
+    #
+    # @!attribute [rw] framerate_denominator
+    #   When you use the API for transcode jobs that use frame rate
+    #   conversion, specify the frame rate as a fraction. For example, 24000
+    #   / 1001 = 23.976 fps. Use FramerateDenominator to specify the
+    #   denominator of this fraction. In this example, use 1001 for the
+    #   value of FramerateDenominator. When you use the console for
+    #   transcode jobs that use frame rate conversion, provide the value as
+    #   a decimal number for Framerate. In this example, specify 23.976.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] framerate_numerator
+    #   When you use the API for transcode jobs that use frame rate
+    #   conversion, specify the frame rate as a fraction. For example, 24000
+    #   / 1001 = 23.976 fps. Use FramerateNumerator to specify the numerator
+    #   of this fraction. In this example, use 24000 for the value of
+    #   FramerateNumerator. When you use the console for transcode jobs that
+    #   use frame rate conversion, provide the value as a decimal number for
+    #   Framerate. In this example, specify 23.976.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/GifSettings AWS API Documentation
+    #
+    class GifSettings < Struct.new(
+      :framerate_control,
+      :framerate_conversion_algorithm,
+      :framerate_denominator,
+      :framerate_numerator)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Settings for quality-defined variable bitrate encoding with the H.264
-    # codec. Use these settings only when you set QVBR for Rate control mode
-    # (RateControlMode).
+    # codec. Use these settings only when you set QVBR for Rate control
+    # mode.
     #
     # @!attribute [rw] max_average_bitrate
     #   Use this setting only when Rate control mode is QVBR and Quality
@@ -5128,19 +5488,19 @@ module Aws::MediaConvert
     #   @return [Integer]
     #
     # @!attribute [rw] qvbr_quality_level
-    #   Use this setting only when you set Rate control mode
-    #   (RateControlMode) to QVBR. Specify the target quality level for this
-    #   output. MediaConvert determines the right number of bits to use for
-    #   each part of the video to maintain the video quality that you
-    #   specify. When you keep the default value, AUTO, MediaConvert picks a
-    #   quality level for you, based on characteristics of your input video.
-    #   If you prefer to specify a quality level, specify a number from 1
-    #   through 10. Use higher numbers for greater quality. Level 10 results
-    #   in nearly lossless compression. The quality level for most
-    #   broadcast-quality transcodes is between 6 and 9. Optionally, to
-    #   specify a value between whole numbers, also provide a value for the
-    #   setting qvbrQualityLevelFineTune. For example, if you want your QVBR
-    #   quality level to be 7.33, set qvbrQualityLevel to 7 and set
+    #   Use this setting only when you set Rate control mode to QVBR.
+    #   Specify the target quality level for this output. MediaConvert
+    #   determines the right number of bits to use for each part of the
+    #   video to maintain the video quality that you specify. When you keep
+    #   the default value, AUTO, MediaConvert picks a quality level for you,
+    #   based on characteristics of your input video. If you prefer to
+    #   specify a quality level, specify a number from 1 through 10. Use
+    #   higher numbers for greater quality. Level 10 results in nearly
+    #   lossless compression. The quality level for most broadcast-quality
+    #   transcodes is between 6 and 9. Optionally, to specify a value
+    #   between whole numbers, also provide a value for the setting
+    #   qvbrQualityLevelFineTune. For example, if you want your QVBR quality
+    #   level to be 7.33, set qvbrQualityLevel to 7 and set
     #   qvbrQualityLevelFineTune to .33.
     #   @return [Integer]
     #
@@ -5165,23 +5525,33 @@ module Aws::MediaConvert
       include Aws::Structure
     end
 
-    # Required when you set (Codec) under (VideoDescription)>(CodecSettings)
-    # to the value H\_264.
+    # Required when you set Codec to the value H\_264.
     #
     # @!attribute [rw] adaptive_quantization
-    #   Keep the default value, Auto (AUTO), for this setting to have
-    #   MediaConvert automatically apply the best types of quantization for
-    #   your video content. When you want to apply your quantization
-    #   settings manually, you must set H264AdaptiveQuantization to a value
-    #   other than Auto (AUTO). Use this setting to specify the strength of
-    #   any adaptive quantization filters that you enable. If you don't
-    #   want MediaConvert to do any adaptive quantization in this transcode,
-    #   set Adaptive quantization (H264AdaptiveQuantization) to Off (OFF).
-    #   Related settings: The value that you choose here applies to the
-    #   following settings: H264FlickerAdaptiveQuantization,
-    #   H264SpatialAdaptiveQuantization, and
-    #   H264TemporalAdaptiveQuantization.
+    #   Keep the default value, Auto, for this setting to have MediaConvert
+    #   automatically apply the best types of quantization for your video
+    #   content. When you want to apply your quantization settings manually,
+    #   you must set H264AdaptiveQuantization to a value other than Auto.
+    #   Use this setting to specify the strength of any adaptive
+    #   quantization filters that you enable. If you don't want
+    #   MediaConvert to do any adaptive quantization in this transcode, set
+    #   Adaptive quantization to Off. Related settings: The value that you
+    #   choose here applies to the following settings:
+    #   H264FlickerAdaptiveQuantization, H264SpatialAdaptiveQuantization,
+    #   and H264TemporalAdaptiveQuantization.
     #   @return [String]
+    #
+    # @!attribute [rw] bandwidth_reduction_filter
+    #   The Bandwidth reduction filter increases the video quality of your
+    #   output relative to its bitrate. Use to lower the bitrate of your
+    #   constant quality QVBR output, with little or no perceptual decrease
+    #   in quality. Or, use to increase the video quality of outputs with
+    #   other rate control modes relative to the bitrate that you specify.
+    #   Bandwidth reduction increases further when your input is low quality
+    #   or noisy. Outputs that use this feature incur pro-tier pricing. When
+    #   you include Bandwidth reduction filter, you cannot include the Noise
+    #   reducer preprocessor.
+    #   @return [Types::BandwidthReductionFilter]
     #
     # @!attribute [rw] bitrate
     #   Specify the average bitrate in bits per second. Required for VBR and
@@ -5191,8 +5561,7 @@ module Aws::MediaConvert
     #
     # @!attribute [rw] codec_level
     #   Specify an H.264 level that is consistent with your output video
-    #   settings. If you aren't sure what level to specify, choose Auto
-    #   (AUTO).
+    #   settings. If you aren't sure what level to specify, choose Auto.
     #   @return [String]
     #
     # @!attribute [rw] codec_profile
@@ -5201,13 +5570,23 @@ module Aws::MediaConvert
     #   @return [String]
     #
     # @!attribute [rw] dynamic_sub_gop
-    #   Choose Adaptive to improve subjective video quality for high-motion
-    #   content. This will cause the service to use fewer B-frames (which
-    #   infer information based on other frames) for high-motion portions of
-    #   the video and more B-frames for low-motion portions. The maximum
-    #   number of B-frames is limited by the value you provide for the
-    #   setting B frames between reference frames
-    #   (numberBFramesBetweenReferenceFrames).
+    #   Specify whether to allow the number of B-frames in your output GOP
+    #   structure to vary or not depending on your input video content. To
+    #   improve the subjective video quality of your output that has
+    #   high-motion content: Leave blank or keep the default value Adaptive.
+    #   MediaConvert will use fewer B-frames for high-motion video content
+    #   than low-motion content. The maximum number of B- frames is limited
+    #   by the value that you choose for B-frames between reference frames.
+    #   To use the same number B-frames for all types of content: Choose
+    #   Static.
+    #   @return [String]
+    #
+    # @!attribute [rw] end_of_stream_markers
+    #   Optionally include or suppress markers at the end of your output
+    #   that signal the end of the video stream. To include end of stream
+    #   markers: Leave blank or keep the default value, Include. To not
+    #   include end of stream markers: Choose Suppress. This is useful when
+    #   your output will be inserted into another stream.
     #   @return [String]
     #
     # @!attribute [rw] entropy_encoding
@@ -5218,10 +5597,9 @@ module Aws::MediaConvert
     # @!attribute [rw] field_encoding
     #   The video encoding method for your MPEG-4 AVC output. Keep the
     #   default value, PAFF, to have MediaConvert use PAFF encoding for
-    #   interlaced outputs. Choose Force field (FORCE\_FIELD) to disable
-    #   PAFF encoding and create separate interlaced fields. Choose MBAFF to
-    #   disable PAFF and have MediaConvert use MBAFF encoding for interlaced
-    #   outputs.
+    #   interlaced outputs. Choose Force field to disable PAFF encoding and
+    #   create separate interlaced fields. Choose MBAFF to disable PAFF and
+    #   have MediaConvert use MBAFF encoding for interlaced outputs.
     #   @return [String]
     #
     # @!attribute [rw] flicker_adaptive_quantization
@@ -5232,14 +5610,14 @@ module Aws::MediaConvert
     #   automatically applies the best types of quantization for your video
     #   content. When you set H264AdaptiveQuantization to a value other than
     #   AUTO, the default value for H264FlickerAdaptiveQuantization is
-    #   Disabled (DISABLED). Change this value to Enabled (ENABLED) to
-    #   reduce I-frame pop. I-frame pop appears as a visual flicker that can
-    #   arise when the encoder saves bits by copying some macroblocks many
-    #   times from frame to frame, and then refreshes them at the I-frame.
-    #   When you enable this setting, the encoder updates these macroblocks
-    #   slightly more often to smooth out the flicker. To manually enable or
-    #   disable H264FlickerAdaptiveQuantization, you must set Adaptive
-    #   quantization (H264AdaptiveQuantization) to a value other than AUTO.
+    #   Disabled. Change this value to Enabled to reduce I-frame pop.
+    #   I-frame pop appears as a visual flicker that can arise when the
+    #   encoder saves bits by copying some macroblocks many times from frame
+    #   to frame, and then refreshes them at the I-frame. When you enable
+    #   this setting, the encoder updates these macroblocks slightly more
+    #   often to smooth out the flicker. To manually enable or disable
+    #   H264FlickerAdaptiveQuantization, you must set Adaptive quantization
+    #   to a value other than AUTO.
     #   @return [String]
     #
     # @!attribute [rw] framerate_control
@@ -5249,28 +5627,28 @@ module Aws::MediaConvert
     #   frame rate conversion, choose a frame rate from the dropdown list or
     #   choose Custom. The framerates shown in the dropdown list are decimal
     #   approximations of fractions. If you choose Custom, specify your
-    #   frame rate as a fraction. If you are creating your transcoding job
-    #   specification as a JSON file without the console, use
-    #   FramerateControl to specify which value the service uses for the
-    #   frame rate for this output. Choose INITIALIZE\_FROM\_SOURCE if you
-    #   want the service to use the frame rate from the input. Choose
-    #   SPECIFIED if you want the service to use the frame rate you specify
-    #   in the settings FramerateNumerator and FramerateDenominator.
+    #   frame rate as a fraction.
     #   @return [String]
     #
     # @!attribute [rw] framerate_conversion_algorithm
     #   Choose the method that you want MediaConvert to use when increasing
-    #   or decreasing the frame rate. We recommend using drop duplicate
-    #   (DUPLICATE\_DROP) for numerically simple conversions, such as 60 fps
-    #   to 30 fps. For numerically complex conversions, you can use
-    #   interpolate (INTERPOLATE) to avoid stutter. This results in a smooth
-    #   picture, but might introduce undesirable video artifacts. For
+    #   or decreasing your video's frame rate. For numerically simple
+    #   conversions, such as 60 fps to 30 fps: We recommend that you keep
+    #   the default value, Drop duplicate. For numerically complex
+    #   conversions, to avoid stutter: Choose Interpolate. This results in a
+    #   smooth picture, but might introduce undesirable video artifacts. For
     #   complex frame rate conversions, especially if your source video has
-    #   already been converted from its original cadence, use FrameFormer
-    #   (FRAMEFORMER) to do motion-compensated interpolation. FrameFormer
-    #   chooses the best conversion method frame by frame. Note that using
-    #   FrameFormer increases the transcoding time and incurs a significant
-    #   add-on cost.
+    #   already been converted from its original cadence: Choose FrameFormer
+    #   to do motion-compensated interpolation. FrameFormer uses the best
+    #   conversion method frame by frame. Note that using FrameFormer
+    #   increases the transcoding time and incurs a significant add-on cost.
+    #   When you choose FrameFormer, your input video resolution must be at
+    #   least 128x96. To create an output with the same number of frames as
+    #   your input: Choose Maintain frame count. When you do, MediaConvert
+    #   will not drop, interpolate, add, or otherwise change the frame count
+    #   from your input to your output. Note that since the frame count is
+    #   maintained, the duration of your output will become shorter at
+    #   higher frame rates and longer at lower frame rates.
     #   @return [String]
     #
     # @!attribute [rw] framerate_denominator
@@ -5294,8 +5672,12 @@ module Aws::MediaConvert
     #   @return [Integer]
     #
     # @!attribute [rw] gop_b_reference
-    #   If enable, use reference B frames for GOP structures that have B
-    #   frames > 1.
+    #   Specify whether to allow B-frames to be referenced by other frame
+    #   types. To use reference B-frames when your GOP structure has 1 or
+    #   more B-frames: Leave blank or keep the default value Enabled. We
+    #   recommend that you choose Enabled to help improve the video quality
+    #   of your output relative to its bitrate. To not use reference
+    #   B-frames: Choose Disabled.
     #   @return [String]
     #
     # @!attribute [rw] gop_closed_cadence
@@ -5303,38 +5685,35 @@ module Aws::MediaConvert
     #   output. For example, if you want to allow four open GOPs and then
     #   require a closed GOP, set this value to 5. We recommend that you
     #   have the transcoder automatically choose this value for you based on
-    #   characteristics of your input video. To enable this automatic
-    #   behavior, keep the default value by leaving this setting out of your
-    #   JSON job specification. In the console, do this by keeping the
-    #   default empty value. If you do explicitly specify a value, for
-    #   segmented outputs, don't set this value to 0.
+    #   characteristics of your input video. In the console, do this by
+    #   keeping the default empty value. If you do explicitly specify a
+    #   value, for segmented outputs, don't set this value to 0.
     #   @return [Integer]
     #
     # @!attribute [rw] gop_size
-    #   Use this setting only when you set GOP mode control (GopSizeUnits)
-    #   to Specified, frames (FRAMES) or Specified, seconds (SECONDS).
-    #   Specify the GOP length using a whole number of frames or a decimal
-    #   value of seconds. MediaConvert will interpret this value as frames
-    #   or seconds depending on the value you choose for GOP mode control
-    #   (GopSizeUnits). If you want to allow MediaConvert to automatically
-    #   determine GOP size, leave GOP size blank and set GOP mode control to
-    #   Auto (AUTO). If your output group specifies HLS, DASH, or CMAF,
-    #   leave GOP size blank and set GOP mode control to Auto in each output
-    #   in your output group.
+    #   Use this setting only when you set GOP mode control to Specified,
+    #   frames or Specified, seconds. Specify the GOP length using a whole
+    #   number of frames or a decimal value of seconds. MediaConvert will
+    #   interpret this value as frames or seconds depending on the value you
+    #   choose for GOP mode control. If you want to allow MediaConvert to
+    #   automatically determine GOP size, leave GOP size blank and set GOP
+    #   mode control to Auto. If your output group specifies HLS, DASH, or
+    #   CMAF, leave GOP size blank and set GOP mode control to Auto in each
+    #   output in your output group.
     #   @return [Float]
     #
     # @!attribute [rw] gop_size_units
     #   Specify how the transcoder determines GOP size for this output. We
     #   recommend that you have the transcoder automatically choose this
     #   value for you based on characteristics of your input video. To
-    #   enable this automatic behavior, choose Auto (AUTO) and and leave GOP
-    #   size (GopSize) blank. By default, if you don't specify GOP mode
-    #   control (GopSizeUnits), MediaConvert will use automatic behavior. If
-    #   your output group specifies HLS, DASH, or CMAF, set GOP mode control
-    #   to Auto and leave GOP size blank in each output in your output
-    #   group. To explicitly specify the GOP length, choose Specified,
-    #   frames (FRAMES) or Specified, seconds (SECONDS) and then provide the
-    #   GOP length in the related setting GOP size (GopSize).
+    #   enable this automatic behavior, choose Auto and and leave GOP size
+    #   blank. By default, if you don't specify GOP mode control,
+    #   MediaConvert will use automatic behavior. If your output group
+    #   specifies HLS, DASH, or CMAF, set GOP mode control to Auto and leave
+    #   GOP size blank in each output in your output group. To explicitly
+    #   specify the GOP length, choose Specified, frames or Specified,
+    #   seconds and then provide the GOP length in the related setting GOP
+    #   size.
     #   @return [String]
     #
     # @!attribute [rw] hrd_buffer_final_fill_percentage
@@ -5357,19 +5736,17 @@ module Aws::MediaConvert
     #
     # @!attribute [rw] interlace_mode
     #   Choose the scan line type for the output. Keep the default value,
-    #   Progressive (PROGRESSIVE) to create a progressive output, regardless
-    #   of the scan type of your input. Use Top field first (TOP\_FIELD) or
-    #   Bottom field first (BOTTOM\_FIELD) to create an output that's
-    #   interlaced with the same field polarity throughout. Use Follow,
-    #   default top (FOLLOW\_TOP\_FIELD) or Follow, default bottom
-    #   (FOLLOW\_BOTTOM\_FIELD) to produce outputs with the same field
-    #   polarity as the source. For jobs that have multiple inputs, the
-    #   output field polarity might change over the course of the output.
-    #   Follow behavior depends on the input scan type. If the source is
-    #   interlaced, the output will be interlaced with the same polarity as
-    #   the source. If the source is progressive, the output will be
-    #   interlaced with top field bottom field first, depending on which of
-    #   the Follow options you choose.
+    #   Progressive to create a progressive output, regardless of the scan
+    #   type of your input. Use Top field first or Bottom field first to
+    #   create an output that's interlaced with the same field polarity
+    #   throughout. Use Follow, default top or Follow, default bottom to
+    #   produce outputs with the same field polarity as the source. For jobs
+    #   that have multiple inputs, the output field polarity might change
+    #   over the course of the output. Follow behavior depends on the input
+    #   scan type. If the source is interlaced, the output will be
+    #   interlaced with the same polarity as the source. If the source is
+    #   progressive, the output will be interlaced with top field bottom
+    #   field first, depending on which of the Follow options you choose.
     #   @return [String]
     #
     # @!attribute [rw] max_bitrate
@@ -5378,36 +5755,33 @@ module Aws::MediaConvert
     #   @return [Integer]
     #
     # @!attribute [rw] min_i_interval
-    #   Use this setting only when you also enable Scene change detection
-    #   (SceneChangeDetect). This setting determines how the encoder manages
-    #   the spacing between I-frames that it inserts as part of the I-frame
-    #   cadence and the I-frames that it inserts for Scene change detection.
-    #   We recommend that you have the transcoder automatically choose this
-    #   value for you based on characteristics of your input video. To
-    #   enable this automatic behavior, keep the default value by leaving
-    #   this setting out of your JSON job specification. In the console, do
-    #   this by keeping the default empty value. When you explicitly specify
-    #   a value for this setting, the encoder determines whether to skip a
-    #   cadence-driven I-frame by the value you set. For example, if you set
-    #   Min I interval (minIInterval) to 5 and a cadence-driven I-frame
-    #   would fall within 5 frames of a scene-change I-frame, then the
-    #   encoder skips the cadence-driven I-frame. In this way, one GOP is
-    #   shrunk slightly and one GOP is stretched slightly. When the
-    #   cadence-driven I-frames are farther from the scene-change I-frame
-    #   than the value you set, then the encoder leaves all I-frames in
-    #   place and the GOPs surrounding the scene change are smaller than the
-    #   usual cadence GOPs.
+    #   Specify the minimum number of frames allowed between two IDR-frames
+    #   in your output. This includes frames created at the start of a GOP
+    #   or a scene change. Use Min I-Interval to improve video compression
+    #   by varying GOP size when two IDR-frames would be created near each
+    #   other. For example, if a regular cadence-driven IDR-frame would fall
+    #   within 5 frames of a scene-change IDR-frame, and you set Min
+    #   I-interval to 5, then the encoder would only write an IDR-frame for
+    #   the scene-change. In this way, one GOP is shortened or extended. If
+    #   a cadence-driven IDR-frame would be further than 5 frames from a
+    #   scene-change IDR-frame, then the encoder leaves all IDR-frames in
+    #   place. To use an automatically determined interval: We recommend
+    #   that you keep this value blank. This allows for MediaConvert to use
+    #   an optimal setting according to the characteristics of your input
+    #   video, and results in better video compression. To manually specify
+    #   an interval: Enter a value from 1 to 30. Use when your downstream
+    #   systems have specific GOP size requirements. To disable GOP size
+    #   variance: Enter 0. MediaConvert will only create IDR-frames at the
+    #   start of your output's cadence-driven GOP. Use when your downstream
+    #   systems require a regular GOP size.
     #   @return [Integer]
     #
     # @!attribute [rw] number_b_frames_between_reference_frames
-    #   This setting to determines the number of B-frames that MediaConvert
-    #   puts between reference frames in this output. We recommend that you
-    #   use automatic behavior to allow the transcoder to choose the best
-    #   value based on characteristics of your input video. In the console,
-    #   choose AUTO to select this automatic behavior. When you manually
-    #   edit your JSON job specification, leave this setting out to choose
-    #   automatic behavior. When you want to specify this number explicitly,
-    #   choose a whole number from 0 through 7.
+    #   Specify the number of B-frames between reference frames in this
+    #   output. For the best video quality: Leave blank. MediaConvert
+    #   automatically determines the number of B-frames to use based on the
+    #   characteristics of your input video. To manually specify the number
+    #   of B-frames between reference frames: Enter an integer from 0 to 7.
     #   @return [Integer]
     #
     # @!attribute [rw] number_reference_frames
@@ -5417,43 +5791,46 @@ module Aws::MediaConvert
     #
     # @!attribute [rw] par_control
     #   Optional. Specify how the service determines the pixel aspect ratio
-    #   (PAR) for this output. The default behavior, Follow source
-    #   (INITIALIZE\_FROM\_SOURCE), uses the PAR from your input video for
-    #   your output. To specify a different PAR in the console, choose any
-    #   value other than Follow source. To specify a different PAR by
-    #   editing the JSON job specification, choose SPECIFIED. When you
-    #   choose SPECIFIED for this setting, you must also specify values for
-    #   the parNumerator and parDenominator settings.
+    #   (PAR) for this output. The default behavior, Follow source, uses the
+    #   PAR from your input video for your output. To specify a different
+    #   PAR in the console, choose any value other than Follow source. When
+    #   you choose SPECIFIED for this setting, you must also specify values
+    #   for the parNumerator and parDenominator settings.
     #   @return [String]
     #
     # @!attribute [rw] par_denominator
-    #   Required when you set Pixel aspect ratio (parControl) to SPECIFIED.
-    #   On the console, this corresponds to any value other than Follow
-    #   source. When you specify an output pixel aspect ratio (PAR) that is
+    #   Required when you set Pixel aspect ratio to SPECIFIED. On the
+    #   console, this corresponds to any value other than Follow source.
+    #   When you specify an output pixel aspect ratio (PAR) that is
     #   different from your input video PAR, provide your output PAR as a
     #   ratio. For example, for D1/DV NTSC widescreen, you would specify the
     #   ratio 40:33. In this example, the value for parDenominator is 33.
     #   @return [Integer]
     #
     # @!attribute [rw] par_numerator
-    #   Required when you set Pixel aspect ratio (parControl) to SPECIFIED.
-    #   On the console, this corresponds to any value other than Follow
-    #   source. When you specify an output pixel aspect ratio (PAR) that is
+    #   Required when you set Pixel aspect ratio to SPECIFIED. On the
+    #   console, this corresponds to any value other than Follow source.
+    #   When you specify an output pixel aspect ratio (PAR) that is
     #   different from your input video PAR, provide your output PAR as a
     #   ratio. For example, for D1/DV NTSC widescreen, you would specify the
     #   ratio 40:33. In this example, the value for parNumerator is 40.
     #   @return [Integer]
     #
     # @!attribute [rw] quality_tuning_level
-    #   Optional. Use Quality tuning level (qualityTuningLevel) to choose
-    #   how you want to trade off encoding speed for output video quality.
-    #   The default behavior is faster, lower quality, single-pass encoding.
+    #   The Quality tuning level you choose represents a trade-off between
+    #   the encoding speed of your job and the output video quality. For the
+    #   fastest encoding speed at the cost of video quality: Choose Single
+    #   pass. For a good balance between encoding speed and video quality:
+    #   Leave blank or keep the default value Single pass HQ. For the best
+    #   video quality, at the cost of encoding speed: Choose Multi pass HQ.
+    #   MediaConvert performs an analysis pass on your input followed by an
+    #   encoding pass. Outputs that use this feature incur pro-tier pricing.
     #   @return [String]
     #
     # @!attribute [rw] qvbr_settings
     #   Settings for quality-defined variable bitrate encoding with the
     #   H.265 codec. Use these settings only when you set QVBR for Rate
-    #   control mode (RateControlMode).
+    #   control mode.
     #   @return [Types::H264QvbrSettings]
     #
     # @!attribute [rw] rate_control_mode
@@ -5466,30 +5843,42 @@ module Aws::MediaConvert
     #   Places a PPS header on each encoded picture, even if repeated.
     #   @return [String]
     #
+    # @!attribute [rw] saliency_aware_encoding
+    #   Specify whether to apply Saliency aware encoding to your output. Use
+    #   to improve the perceptual video quality of your output by allocating
+    #   more encoding bits to the prominent or noticeable parts of your
+    #   content. To apply saliency aware encoding, when possible: We
+    #   recommend that you choose Preferred. The effects of Saliency aware
+    #   encoding are best seen in lower bitrate outputs. When you choose
+    #   Preferred, note that Saliency aware encoding will only apply to
+    #   outputs that are 720p or higher in resolution. To not apply saliency
+    #   aware encoding, prioritizing encoding speed over perceptual video
+    #   quality: Choose Disabled.
+    #   @return [String]
+    #
     # @!attribute [rw] scan_type_conversion_mode
     #   Use this setting for interlaced outputs, when your output frame rate
     #   is half of your input frame rate. In this situation, choose
-    #   Optimized interlacing (INTERLACED\_OPTIMIZE) to create a better
-    #   quality interlaced output. In this case, each progressive frame from
-    #   the input corresponds to an interlaced field in the output. Keep the
-    #   default value, Basic interlacing (INTERLACED), for all other output
-    #   frame rates. With basic interlacing, MediaConvert performs any frame
-    #   rate conversion first and then interlaces the frames. When you
-    #   choose Optimized interlacing and you set your output frame rate to a
-    #   value that isn't suitable for optimized interlacing, MediaConvert
+    #   Optimized interlacing to create a better quality interlaced output.
+    #   In this case, each progressive frame from the input corresponds to
+    #   an interlaced field in the output. Keep the default value, Basic
+    #   interlacing, for all other output frame rates. With basic
+    #   interlacing, MediaConvert performs any frame rate conversion first
+    #   and then interlaces the frames. When you choose Optimized
+    #   interlacing and you set your output frame rate to a value that
+    #   isn't suitable for optimized interlacing, MediaConvert
     #   automatically falls back to basic interlacing. Required settings: To
-    #   use optimized interlacing, you must set Telecine (telecine) to None
-    #   (NONE) or Soft (SOFT). You can't use optimized interlacing for hard
-    #   telecine outputs. You must also set Interlace mode (interlaceMode)
-    #   to a value other than Progressive (PROGRESSIVE).
+    #   use optimized interlacing, you must set Telecine to None or Soft.
+    #   You can't use optimized interlacing for hard telecine outputs. You
+    #   must also set Interlace mode to a value other than Progressive.
     #   @return [String]
     #
     # @!attribute [rw] scene_change_detect
     #   Enable this setting to insert I-frames at scene changes that the
     #   service automatically detects. This improves video quality and is
     #   enabled by default. If this output uses QVBR, choose Transition
-    #   detection (TRANSITION\_DETECTION) for further video quality
-    #   improvement. For more information about QVBR, see
+    #   detection for further video quality improvement. For more
+    #   information about QVBR, see
     #   https://docs.aws.amazon.com/console/mediaconvert/cbr-vbr-qvbr.
     #   @return [String]
     #
@@ -5506,54 +5895,51 @@ module Aws::MediaConvert
     #   25 fps and resamples your audio to keep it synchronized with the
     #   video. Note that enabling this setting will slightly reduce the
     #   duration of your video. Required settings: You must also set
-    #   Framerate to 25. In your JSON job specification, set
-    #   (framerateControl) to (SPECIFIED), (framerateNumerator) to 25 and
-    #   (framerateDenominator) to 1.
+    #   Framerate to 25.
     #   @return [String]
     #
     # @!attribute [rw] softness
     #   Ignore this setting unless you need to comply with a specification
     #   that requires a specific value. If you don't have a specification
     #   requirement, we recommend that you adjust the softness of your
-    #   output by using a lower value for the setting Sharpness (sharpness)
-    #   or by enabling a noise reducer filter (noiseReducerFilter). The
-    #   Softness (softness) setting specifies the quantization matrices that
-    #   the encoder uses. Keep the default value, 0, for flat quantization.
-    #   Choose the value 1 or 16 to use the default JVT softening
-    #   quantization matricies from the H.264 specification. Choose a value
-    #   from 17 to 128 to use planar interpolation. Increasing values from
-    #   17 to 128 result in increasing reduction of high-frequency data. The
-    #   value 128 results in the softest video.
+    #   output by using a lower value for the setting Sharpness or by
+    #   enabling a noise reducer filter. The Softness setting specifies the
+    #   quantization matrices that the encoder uses. Keep the default value,
+    #   0, for flat quantization. Choose the value 1 or 16 to use the
+    #   default JVT softening quantization matricies from the H.264
+    #   specification. Choose a value from 17 to 128 to use planar
+    #   interpolation. Increasing values from 17 to 128 result in increasing
+    #   reduction of high-frequency data. The value 128 results in the
+    #   softest video.
     #   @return [Integer]
     #
     # @!attribute [rw] spatial_adaptive_quantization
-    #   Only use this setting when you change the default value, Auto
-    #   (AUTO), for the setting H264AdaptiveQuantization. When you keep all
-    #   defaults, excluding H264AdaptiveQuantization and all other adaptive
+    #   Only use this setting when you change the default value, Auto, for
+    #   the setting H264AdaptiveQuantization. When you keep all defaults,
+    #   excluding H264AdaptiveQuantization and all other adaptive
     #   quantization from your JSON job specification, MediaConvert
     #   automatically applies the best types of quantization for your video
     #   content. When you set H264AdaptiveQuantization to a value other than
     #   AUTO, the default value for H264SpatialAdaptiveQuantization is
-    #   Enabled (ENABLED). Keep this default value to adjust quantization
-    #   within each frame based on spatial variation of content complexity.
-    #   When you enable this feature, the encoder uses fewer bits on areas
-    #   that can sustain more distortion with no noticeable visual
-    #   degradation and uses more bits on areas where any small distortion
-    #   will be noticeable. For example, complex textured blocks are encoded
-    #   with fewer bits and smooth textured blocks are encoded with more
-    #   bits. Enabling this feature will almost always improve your video
-    #   quality. Note, though, that this feature doesn't take into account
-    #   where the viewer's attention is likely to be. If viewers are likely
-    #   to be focusing their attention on a part of the screen with a lot of
+    #   Enabled. Keep this default value to adjust quantization within each
+    #   frame based on spatial variation of content complexity. When you
+    #   enable this feature, the encoder uses fewer bits on areas that can
+    #   sustain more distortion with no noticeable visual degradation and
+    #   uses more bits on areas where any small distortion will be
+    #   noticeable. For example, complex textured blocks are encoded with
+    #   fewer bits and smooth textured blocks are encoded with more bits.
+    #   Enabling this feature will almost always improve your video quality.
+    #   Note, though, that this feature doesn't take into account where the
+    #   viewer's attention is likely to be. If viewers are likely to be
+    #   focusing their attention on a part of the screen with a lot of
     #   complex texture, you might choose to set
-    #   H264SpatialAdaptiveQuantization to Disabled (DISABLED). Related
-    #   setting: When you enable spatial adaptive quantization, set the
-    #   value for Adaptive quantization (H264AdaptiveQuantization) depending
-    #   on your content. For homogeneous content, such as cartoons and video
-    #   games, set it to Low. For content with a wider variety of textures,
-    #   set it to High or Higher. To manually enable or disable
-    #   H264SpatialAdaptiveQuantization, you must set Adaptive quantization
-    #   (H264AdaptiveQuantization) to a value other than AUTO.
+    #   H264SpatialAdaptiveQuantization to Disabled. Related setting: When
+    #   you enable spatial adaptive quantization, set the value for Adaptive
+    #   quantization depending on your content. For homogeneous content,
+    #   such as cartoons and video games, set it to Low. For content with a
+    #   wider variety of textures, set it to High or Higher. To manually
+    #   enable or disable H264SpatialAdaptiveQuantization, you must set
+    #   Adaptive quantization to a value other than AUTO.
     #   @return [String]
     #
     # @!attribute [rw] syntax
@@ -5564,12 +5950,12 @@ module Aws::MediaConvert
     #   When you do frame rate conversion from 23.976 frames per second
     #   (fps) to 29.97 fps, and your output scan type is interlaced, you can
     #   optionally enable hard or soft telecine to create a smoother
-    #   picture. Hard telecine (HARD) produces a 29.97i output. Soft
-    #   telecine (SOFT) produces an output with a 23.976 output that signals
-    #   to the video player device to do the conversion during play back.
-    #   When you keep the default value, None (NONE), MediaConvert does a
-    #   standard frame rate conversion to 29.97 without doing anything with
-    #   the field polarity to create a smoother picture.
+    #   picture. Hard telecine produces a 29.97i output. Soft telecine
+    #   produces an output with a 23.976 output that signals to the video
+    #   player device to do the conversion during play back. When you keep
+    #   the default value, None, MediaConvert does a standard frame rate
+    #   conversion to 29.97 without doing anything with the field polarity
+    #   to create a smoother picture.
     #   @return [String]
     #
     # @!attribute [rw] temporal_adaptive_quantization
@@ -5580,24 +5966,23 @@ module Aws::MediaConvert
     #   automatically applies the best types of quantization for your video
     #   content. When you set H264AdaptiveQuantization to a value other than
     #   AUTO, the default value for H264TemporalAdaptiveQuantization is
-    #   Enabled (ENABLED). Keep this default value to adjust quantization
-    #   within each frame based on temporal variation of content complexity.
-    #   When you enable this feature, the encoder uses fewer bits on areas
-    #   of the frame that aren't moving and uses more bits on complex
-    #   objects with sharp edges that move a lot. For example, this feature
-    #   improves the readability of text tickers on newscasts and
-    #   scoreboards on sports matches. Enabling this feature will almost
-    #   always improve your video quality. Note, though, that this feature
-    #   doesn't take into account where the viewer's attention is likely
-    #   to be. If viewers are likely to be focusing their attention on a
-    #   part of the screen that doesn't have moving objects with sharp
-    #   edges, such as sports athletes' faces, you might choose to set
-    #   H264TemporalAdaptiveQuantization to Disabled (DISABLED). Related
-    #   setting: When you enable temporal quantization, adjust the strength
-    #   of the filter with the setting Adaptive quantization
-    #   (adaptiveQuantization). To manually enable or disable
+    #   Enabled. Keep this default value to adjust quantization within each
+    #   frame based on temporal variation of content complexity. When you
+    #   enable this feature, the encoder uses fewer bits on areas of the
+    #   frame that aren't moving and uses more bits on complex objects with
+    #   sharp edges that move a lot. For example, this feature improves the
+    #   readability of text tickers on newscasts and scoreboards on sports
+    #   matches. Enabling this feature will almost always improve your video
+    #   quality. Note, though, that this feature doesn't take into account
+    #   where the viewer's attention is likely to be. If viewers are likely
+    #   to be focusing their attention on a part of the screen that doesn't
+    #   have moving objects with sharp edges, such as sports athletes'
+    #   faces, you might choose to set H264TemporalAdaptiveQuantization to
+    #   Disabled. Related setting: When you enable temporal quantization,
+    #   adjust the strength of the filter with the setting Adaptive
+    #   quantization. To manually enable or disable
     #   H264TemporalAdaptiveQuantization, you must set Adaptive quantization
-    #   (H264AdaptiveQuantization) to a value other than AUTO.
+    #   to a value other than AUTO.
     #   @return [String]
     #
     # @!attribute [rw] unregistered_sei_timecode
@@ -5605,14 +5990,27 @@ module Aws::MediaConvert
     #   message.
     #   @return [String]
     #
+    # @!attribute [rw] write_mp_4_packaging_type
+    #   Specify how SPS and PPS NAL units are written in your output MP4
+    #   container, according to ISO/IEC 14496-15. If the location of these
+    #   parameters doesn't matter in your workflow: Keep the default value,
+    #   AVC1. MediaConvert writes SPS and PPS NAL units in the sample
+    #   description ('stsd') box (but not into samples directly). To write
+    #   SPS and PPS NAL units directly into samples (but not in the 'stsd'
+    #   box): Choose AVC3. When you do, note that your output might not play
+    #   properly with some downstream systems or players.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/H264Settings AWS API Documentation
     #
     class H264Settings < Struct.new(
       :adaptive_quantization,
+      :bandwidth_reduction_filter,
       :bitrate,
       :codec_level,
       :codec_profile,
       :dynamic_sub_gop,
+      :end_of_stream_markers,
       :entropy_encoding,
       :field_encoding,
       :flicker_adaptive_quantization,
@@ -5639,6 +6037,7 @@ module Aws::MediaConvert
       :qvbr_settings,
       :rate_control_mode,
       :repeat_pps,
+      :saliency_aware_encoding,
       :scan_type_conversion_mode,
       :scene_change_detect,
       :slices,
@@ -5648,14 +6047,15 @@ module Aws::MediaConvert
       :syntax,
       :telecine,
       :temporal_adaptive_quantization,
-      :unregistered_sei_timecode)
+      :unregistered_sei_timecode,
+      :write_mp_4_packaging_type)
       SENSITIVE = []
       include Aws::Structure
     end
 
     # Settings for quality-defined variable bitrate encoding with the H.265
-    # codec. Use these settings only when you set QVBR for Rate control mode
-    # (RateControlMode).
+    # codec. Use these settings only when you set QVBR for Rate control
+    # mode.
     #
     # @!attribute [rw] max_average_bitrate
     #   Use this setting only when Rate control mode is QVBR and Quality
@@ -5668,19 +6068,19 @@ module Aws::MediaConvert
     #   @return [Integer]
     #
     # @!attribute [rw] qvbr_quality_level
-    #   Use this setting only when you set Rate control mode
-    #   (RateControlMode) to QVBR. Specify the target quality level for this
-    #   output. MediaConvert determines the right number of bits to use for
-    #   each part of the video to maintain the video quality that you
-    #   specify. When you keep the default value, AUTO, MediaConvert picks a
-    #   quality level for you, based on characteristics of your input video.
-    #   If you prefer to specify a quality level, specify a number from 1
-    #   through 10. Use higher numbers for greater quality. Level 10 results
-    #   in nearly lossless compression. The quality level for most
-    #   broadcast-quality transcodes is between 6 and 9. Optionally, to
-    #   specify a value between whole numbers, also provide a value for the
-    #   setting qvbrQualityLevelFineTune. For example, if you want your QVBR
-    #   quality level to be 7.33, set qvbrQualityLevel to 7 and set
+    #   Use this setting only when you set Rate control mode to QVBR.
+    #   Specify the target quality level for this output. MediaConvert
+    #   determines the right number of bits to use for each part of the
+    #   video to maintain the video quality that you specify. When you keep
+    #   the default value, AUTO, MediaConvert picks a quality level for you,
+    #   based on characteristics of your input video. If you prefer to
+    #   specify a quality level, specify a number from 1 through 10. Use
+    #   higher numbers for greater quality. Level 10 results in nearly
+    #   lossless compression. The quality level for most broadcast-quality
+    #   transcodes is between 6 and 9. Optionally, to specify a value
+    #   between whole numbers, also provide a value for the setting
+    #   qvbrQualityLevelFineTune. For example, if you want your QVBR quality
+    #   level to be 7.33, set qvbrQualityLevel to 7 and set
     #   qvbrQualityLevelFineTune to .33.
     #   @return [Integer]
     #
@@ -5708,23 +6108,33 @@ module Aws::MediaConvert
     # Settings for H265 codec
     #
     # @!attribute [rw] adaptive_quantization
-    #   When you set Adaptive Quantization (H265AdaptiveQuantization) to
-    #   Auto (AUTO), or leave blank, MediaConvert automatically applies
-    #   quantization to improve the video quality of your output. Set
-    #   Adaptive Quantization to Low (LOW), Medium (MEDIUM), High (HIGH),
-    #   Higher (HIGHER), or Max (MAX) to manually control the strength of
-    #   the quantization filter. When you do, you can specify a value for
-    #   Spatial Adaptive Quantization (H265SpatialAdaptiveQuantization),
-    #   Temporal Adaptive Quantization (H265TemporalAdaptiveQuantization),
-    #   and Flicker Adaptive Quantization (H265FlickerAdaptiveQuantization),
-    #   to further control the quantization filter. Set Adaptive
-    #   Quantization to Off (OFF) to apply no quantization to your output.
+    #   When you set Adaptive Quantization to Auto, or leave blank,
+    #   MediaConvert automatically applies quantization to improve the video
+    #   quality of your output. Set Adaptive Quantization to Low, Medium,
+    #   High, Higher, or Max to manually control the strength of the
+    #   quantization filter. When you do, you can specify a value for
+    #   Spatial Adaptive Quantization, Temporal Adaptive Quantization, and
+    #   Flicker Adaptive Quantization, to further control the quantization
+    #   filter. Set Adaptive Quantization to Off to apply no quantization to
+    #   your output.
     #   @return [String]
     #
     # @!attribute [rw] alternate_transfer_function_sei
     #   Enables Alternate Transfer Function SEI message for outputs using
     #   Hybrid Log Gamma (HLG) Electro-Optical Transfer Function (EOTF).
     #   @return [String]
+    #
+    # @!attribute [rw] bandwidth_reduction_filter
+    #   The Bandwidth reduction filter increases the video quality of your
+    #   output relative to its bitrate. Use to lower the bitrate of your
+    #   constant quality QVBR output, with little or no perceptual decrease
+    #   in quality. Or, use to increase the video quality of outputs with
+    #   other rate control modes relative to the bitrate that you specify.
+    #   Bandwidth reduction increases further when your input is low quality
+    #   or noisy. Outputs that use this feature incur pro-tier pricing. When
+    #   you include Bandwidth reduction filter, you cannot include the Noise
+    #   reducer preprocessor.
+    #   @return [Types::BandwidthReductionFilter]
     #
     # @!attribute [rw] bitrate
     #   Specify the average bitrate in bits per second. Required for VBR and
@@ -5743,14 +6153,33 @@ module Aws::MediaConvert
     #   available with the HEVC 4:2:2 License.
     #   @return [String]
     #
+    # @!attribute [rw] deblocking
+    #   Use Deblocking to improve the video quality of your output by
+    #   smoothing the edges of macroblock artifacts created during video
+    #   compression. To reduce blocking artifacts at block boundaries, and
+    #   improve overall video quality: Keep the default value, Enabled. To
+    #   not apply any deblocking: Choose Disabled. Visible block edge
+    #   artifacts might appear in the output, especially at lower bitrates.
+    #   @return [String]
+    #
     # @!attribute [rw] dynamic_sub_gop
-    #   Choose Adaptive to improve subjective video quality for high-motion
-    #   content. This will cause the service to use fewer B-frames (which
-    #   infer information based on other frames) for high-motion portions of
-    #   the video and more B-frames for low-motion portions. The maximum
-    #   number of B-frames is limited by the value you provide for the
-    #   setting B frames between reference frames
-    #   (numberBFramesBetweenReferenceFrames).
+    #   Specify whether to allow the number of B-frames in your output GOP
+    #   structure to vary or not depending on your input video content. To
+    #   improve the subjective video quality of your output that has
+    #   high-motion content: Leave blank or keep the default value Adaptive.
+    #   MediaConvert will use fewer B-frames for high-motion video content
+    #   than low-motion content. The maximum number of B- frames is limited
+    #   by the value that you choose for B-frames between reference frames.
+    #   To use the same number B-frames for all types of content: Choose
+    #   Static.
+    #   @return [String]
+    #
+    # @!attribute [rw] end_of_stream_markers
+    #   Optionally include or suppress markers at the end of your output
+    #   that signal the end of the video stream. To include end of stream
+    #   markers: Leave blank or keep the default value, Include. To not
+    #   include end of stream markers: Choose Suppress. This is useful when
+    #   your output will be inserted into another stream.
     #   @return [String]
     #
     # @!attribute [rw] flicker_adaptive_quantization
@@ -5761,38 +6190,37 @@ module Aws::MediaConvert
     #   setting, the encoder updates these macroblocks slightly more often
     #   to smooth out the flicker. This setting is disabled by default.
     #   Related setting: In addition to enabling this setting, you must also
-    #   set adaptiveQuantization to a value other than Off (OFF).
+    #   set adaptiveQuantization to a value other than Off.
     #   @return [String]
     #
     # @!attribute [rw] framerate_control
-    #   If you are using the console, use the Framerate setting to specify
-    #   the frame rate for this output. If you want to keep the same frame
-    #   rate as the input video, choose Follow source. If you want to do
-    #   frame rate conversion, choose a frame rate from the dropdown list or
-    #   choose Custom. The framerates shown in the dropdown list are decimal
-    #   approximations of fractions. If you choose Custom, specify your
-    #   frame rate as a fraction. If you are creating your transcoding job
-    #   specification as a JSON file without the console, use
-    #   FramerateControl to specify which value the service uses for the
-    #   frame rate for this output. Choose INITIALIZE\_FROM\_SOURCE if you
-    #   want the service to use the frame rate from the input. Choose
-    #   SPECIFIED if you want the service to use the frame rate you specify
-    #   in the settings FramerateNumerator and FramerateDenominator.
+    #   Use the Framerate setting to specify the frame rate for this output.
+    #   If you want to keep the same frame rate as the input video, choose
+    #   Follow source. If you want to do frame rate conversion, choose a
+    #   frame rate from the dropdown list or choose Custom. The framerates
+    #   shown in the dropdown list are decimal approximations of fractions.
+    #   If you choose Custom, specify your frame rate as a fraction.
     #   @return [String]
     #
     # @!attribute [rw] framerate_conversion_algorithm
     #   Choose the method that you want MediaConvert to use when increasing
-    #   or decreasing the frame rate. We recommend using drop duplicate
-    #   (DUPLICATE\_DROP) for numerically simple conversions, such as 60 fps
-    #   to 30 fps. For numerically complex conversions, you can use
-    #   interpolate (INTERPOLATE) to avoid stutter. This results in a smooth
-    #   picture, but might introduce undesirable video artifacts. For
+    #   or decreasing your video's frame rate. For numerically simple
+    #   conversions, such as 60 fps to 30 fps: We recommend that you keep
+    #   the default value, Drop duplicate. For numerically complex
+    #   conversions, to avoid stutter: Choose Interpolate. This results in a
+    #   smooth picture, but might introduce undesirable video artifacts. For
     #   complex frame rate conversions, especially if your source video has
-    #   already been converted from its original cadence, use FrameFormer
-    #   (FRAMEFORMER) to do motion-compensated interpolation. FrameFormer
-    #   chooses the best conversion method frame by frame. Note that using
-    #   FrameFormer increases the transcoding time and incurs a significant
-    #   add-on cost.
+    #   already been converted from its original cadence: Choose FrameFormer
+    #   to do motion-compensated interpolation. FrameFormer uses the best
+    #   conversion method frame by frame. Note that using FrameFormer
+    #   increases the transcoding time and incurs a significant add-on cost.
+    #   When you choose FrameFormer, your input video resolution must be at
+    #   least 128x96. To create an output with the same number of frames as
+    #   your input: Choose Maintain frame count. When you do, MediaConvert
+    #   will not drop, interpolate, add, or otherwise change the frame count
+    #   from your input to your output. Note that since the frame count is
+    #   maintained, the duration of your output will become shorter at
+    #   higher frame rates and longer at lower frame rates.
     #   @return [String]
     #
     # @!attribute [rw] framerate_denominator
@@ -5816,8 +6244,12 @@ module Aws::MediaConvert
     #   @return [Integer]
     #
     # @!attribute [rw] gop_b_reference
-    #   If enable, use reference B frames for GOP structures that have B
-    #   frames > 1.
+    #   Specify whether to allow B-frames to be referenced by other frame
+    #   types. To use reference B-frames when your GOP structure has 1 or
+    #   more B-frames: Leave blank or keep the default value Enabled. We
+    #   recommend that you choose Enabled to help improve the video quality
+    #   of your output relative to its bitrate. To not use reference
+    #   B-frames: Choose Disabled.
     #   @return [String]
     #
     # @!attribute [rw] gop_closed_cadence
@@ -5826,37 +6258,35 @@ module Aws::MediaConvert
     #   require a closed GOP, set this value to 5. We recommend that you
     #   have the transcoder automatically choose this value for you based on
     #   characteristics of your input video. To enable this automatic
-    #   behavior, keep the default value by leaving this setting out of your
-    #   JSON job specification. In the console, do this by keeping the
-    #   default empty value. If you do explicitly specify a value, for
-    #   segmented outputs, don't set this value to 0.
+    #   behavior, do this by keeping the default empty value. If you do
+    #   explicitly specify a value, for segmented outputs, don't set this
+    #   value to 0.
     #   @return [Integer]
     #
     # @!attribute [rw] gop_size
-    #   Use this setting only when you set GOP mode control (GopSizeUnits)
-    #   to Specified, frames (FRAMES) or Specified, seconds (SECONDS).
-    #   Specify the GOP length using a whole number of frames or a decimal
-    #   value of seconds. MediaConvert will interpret this value as frames
-    #   or seconds depending on the value you choose for GOP mode control
-    #   (GopSizeUnits). If you want to allow MediaConvert to automatically
-    #   determine GOP size, leave GOP size blank and set GOP mode control to
-    #   Auto (AUTO). If your output group specifies HLS, DASH, or CMAF,
-    #   leave GOP size blank and set GOP mode control to Auto in each output
-    #   in your output group.
+    #   Use this setting only when you set GOP mode control to Specified,
+    #   frames or Specified, seconds. Specify the GOP length using a whole
+    #   number of frames or a decimal value of seconds. MediaConvert will
+    #   interpret this value as frames or seconds depending on the value you
+    #   choose for GOP mode control. If you want to allow MediaConvert to
+    #   automatically determine GOP size, leave GOP size blank and set GOP
+    #   mode control to Auto. If your output group specifies HLS, DASH, or
+    #   CMAF, leave GOP size blank and set GOP mode control to Auto in each
+    #   output in your output group.
     #   @return [Float]
     #
     # @!attribute [rw] gop_size_units
     #   Specify how the transcoder determines GOP size for this output. We
     #   recommend that you have the transcoder automatically choose this
     #   value for you based on characteristics of your input video. To
-    #   enable this automatic behavior, choose Auto (AUTO) and and leave GOP
-    #   size (GopSize) blank. By default, if you don't specify GOP mode
-    #   control (GopSizeUnits), MediaConvert will use automatic behavior. If
-    #   your output group specifies HLS, DASH, or CMAF, set GOP mode control
-    #   to Auto and leave GOP size blank in each output in your output
-    #   group. To explicitly specify the GOP length, choose Specified,
-    #   frames (FRAMES) or Specified, seconds (SECONDS) and then provide the
-    #   GOP length in the related setting GOP size (GopSize).
+    #   enable this automatic behavior, choose Auto and and leave GOP size
+    #   blank. By default, if you don't specify GOP mode control,
+    #   MediaConvert will use automatic behavior. If your output group
+    #   specifies HLS, DASH, or CMAF, set GOP mode control to Auto and leave
+    #   GOP size blank in each output in your output group. To explicitly
+    #   specify the GOP length, choose Specified, frames or Specified,
+    #   seconds and then provide the GOP length in the related setting GOP
+    #   size.
     #   @return [String]
     #
     # @!attribute [rw] hrd_buffer_final_fill_percentage
@@ -5879,19 +6309,17 @@ module Aws::MediaConvert
     #
     # @!attribute [rw] interlace_mode
     #   Choose the scan line type for the output. Keep the default value,
-    #   Progressive (PROGRESSIVE) to create a progressive output, regardless
-    #   of the scan type of your input. Use Top field first (TOP\_FIELD) or
-    #   Bottom field first (BOTTOM\_FIELD) to create an output that's
-    #   interlaced with the same field polarity throughout. Use Follow,
-    #   default top (FOLLOW\_TOP\_FIELD) or Follow, default bottom
-    #   (FOLLOW\_BOTTOM\_FIELD) to produce outputs with the same field
-    #   polarity as the source. For jobs that have multiple inputs, the
-    #   output field polarity might change over the course of the output.
-    #   Follow behavior depends on the input scan type. If the source is
-    #   interlaced, the output will be interlaced with the same polarity as
-    #   the source. If the source is progressive, the output will be
-    #   interlaced with top field bottom field first, depending on which of
-    #   the Follow options you choose.
+    #   Progressive to create a progressive output, regardless of the scan
+    #   type of your input. Use Top field first or Bottom field first to
+    #   create an output that's interlaced with the same field polarity
+    #   throughout. Use Follow, default top or Follow, default bottom to
+    #   produce outputs with the same field polarity as the source. For jobs
+    #   that have multiple inputs, the output field polarity might change
+    #   over the course of the output. Follow behavior depends on the input
+    #   scan type. If the source is interlaced, the output will be
+    #   interlaced with the same polarity as the source. If the source is
+    #   progressive, the output will be interlaced with top field bottom
+    #   field first, depending on which of the Follow options you choose.
     #   @return [String]
     #
     # @!attribute [rw] max_bitrate
@@ -5900,32 +6328,33 @@ module Aws::MediaConvert
     #   @return [Integer]
     #
     # @!attribute [rw] min_i_interval
-    #   Use this setting only when you also enable Scene change detection
-    #   (SceneChangeDetect). This setting determines how the encoder manages
-    #   the spacing between I-frames that it inserts as part of the I-frame
-    #   cadence and the I-frames that it inserts for Scene change detection.
-    #   We recommend that you have the transcoder automatically choose this
-    #   value for you based on characteristics of your input video. To
-    #   enable this automatic behavior, keep the default value by leaving
-    #   this setting out of your JSON job specification. In the console, do
-    #   this by keeping the default empty value. When you explicitly specify
-    #   a value for this setting, the encoder determines whether to skip a
-    #   cadence-driven I-frame by the value you set. For example, if you set
-    #   Min I interval (minIInterval) to 5 and a cadence-driven I-frame
-    #   would fall within 5 frames of a scene-change I-frame, then the
-    #   encoder skips the cadence-driven I-frame. In this way, one GOP is
-    #   shrunk slightly and one GOP is stretched slightly. When the
-    #   cadence-driven I-frames are farther from the scene-change I-frame
-    #   than the value you set, then the encoder leaves all I-frames in
-    #   place and the GOPs surrounding the scene change are smaller than the
-    #   usual cadence GOPs.
+    #   Specify the minimum number of frames allowed between two IDR-frames
+    #   in your output. This includes frames created at the start of a GOP
+    #   or a scene change. Use Min I-Interval to improve video compression
+    #   by varying GOP size when two IDR-frames would be created near each
+    #   other. For example, if a regular cadence-driven IDR-frame would fall
+    #   within 5 frames of a scene-change IDR-frame, and you set Min
+    #   I-interval to 5, then the encoder would only write an IDR-frame for
+    #   the scene-change. In this way, one GOP is shortened or extended. If
+    #   a cadence-driven IDR-frame would be further than 5 frames from a
+    #   scene-change IDR-frame, then the encoder leaves all IDR-frames in
+    #   place. To use an automatically determined interval: We recommend
+    #   that you keep this value blank. This allows for MediaConvert to use
+    #   an optimal setting according to the characteristics of your input
+    #   video, and results in better video compression. To manually specify
+    #   an interval: Enter a value from 1 to 30. Use when your downstream
+    #   systems have specific GOP size requirements. To disable GOP size
+    #   variance: Enter 0. MediaConvert will only create IDR-frames at the
+    #   start of your output's cadence-driven GOP. Use when your downstream
+    #   systems require a regular GOP size.
     #   @return [Integer]
     #
     # @!attribute [rw] number_b_frames_between_reference_frames
-    #   Specify the number of B-frames that MediaConvert puts between
-    #   reference frames in this output. Valid values are whole numbers from
-    #   0 through 7. When you don't specify a value, MediaConvert defaults
-    #   to 2.
+    #   Specify the number of B-frames between reference frames in this
+    #   output. For the best video quality: Leave blank. MediaConvert
+    #   automatically determines the number of B-frames to use based on the
+    #   characteristics of your input video. To manually specify the number
+    #   of B-frames between reference frames: Enter an integer from 0 to 7.
     #   @return [Integer]
     #
     # @!attribute [rw] number_reference_frames
@@ -5935,43 +6364,41 @@ module Aws::MediaConvert
     #
     # @!attribute [rw] par_control
     #   Optional. Specify how the service determines the pixel aspect ratio
-    #   (PAR) for this output. The default behavior, Follow source
-    #   (INITIALIZE\_FROM\_SOURCE), uses the PAR from your input video for
-    #   your output. To specify a different PAR in the console, choose any
-    #   value other than Follow source. To specify a different PAR by
-    #   editing the JSON job specification, choose SPECIFIED. When you
-    #   choose SPECIFIED for this setting, you must also specify values for
-    #   the parNumerator and parDenominator settings.
+    #   (PAR) for this output. The default behavior, Follow source, uses the
+    #   PAR from your input video for your output. To specify a different
+    #   PAR, choose any value other than Follow source. When you choose
+    #   SPECIFIED for this setting, you must also specify values for the
+    #   parNumerator and parDenominator settings.
     #   @return [String]
     #
     # @!attribute [rw] par_denominator
-    #   Required when you set Pixel aspect ratio (parControl) to SPECIFIED.
-    #   On the console, this corresponds to any value other than Follow
-    #   source. When you specify an output pixel aspect ratio (PAR) that is
+    #   Required when you set Pixel aspect ratio to SPECIFIED. On the
+    #   console, this corresponds to any value other than Follow source.
+    #   When you specify an output pixel aspect ratio (PAR) that is
     #   different from your input video PAR, provide your output PAR as a
     #   ratio. For example, for D1/DV NTSC widescreen, you would specify the
     #   ratio 40:33. In this example, the value for parDenominator is 33.
     #   @return [Integer]
     #
     # @!attribute [rw] par_numerator
-    #   Required when you set Pixel aspect ratio (parControl) to SPECIFIED.
-    #   On the console, this corresponds to any value other than Follow
-    #   source. When you specify an output pixel aspect ratio (PAR) that is
+    #   Required when you set Pixel aspect ratio to SPECIFIED. On the
+    #   console, this corresponds to any value other than Follow source.
+    #   When you specify an output pixel aspect ratio (PAR) that is
     #   different from your input video PAR, provide your output PAR as a
     #   ratio. For example, for D1/DV NTSC widescreen, you would specify the
     #   ratio 40:33. In this example, the value for parNumerator is 40.
     #   @return [Integer]
     #
     # @!attribute [rw] quality_tuning_level
-    #   Optional. Use Quality tuning level (qualityTuningLevel) to choose
-    #   how you want to trade off encoding speed for output video quality.
-    #   The default behavior is faster, lower quality, single-pass encoding.
+    #   Optional. Use Quality tuning level to choose how you want to trade
+    #   off encoding speed for output video quality. The default behavior is
+    #   faster, lower quality, single-pass encoding.
     #   @return [String]
     #
     # @!attribute [rw] qvbr_settings
     #   Settings for quality-defined variable bitrate encoding with the
     #   H.265 codec. Use these settings only when you set QVBR for Rate
-    #   control mode (RateControlMode).
+    #   control mode.
     #   @return [Types::H265QvbrSettings]
     #
     # @!attribute [rw] rate_control_mode
@@ -5988,27 +6415,26 @@ module Aws::MediaConvert
     # @!attribute [rw] scan_type_conversion_mode
     #   Use this setting for interlaced outputs, when your output frame rate
     #   is half of your input frame rate. In this situation, choose
-    #   Optimized interlacing (INTERLACED\_OPTIMIZE) to create a better
-    #   quality interlaced output. In this case, each progressive frame from
-    #   the input corresponds to an interlaced field in the output. Keep the
-    #   default value, Basic interlacing (INTERLACED), for all other output
-    #   frame rates. With basic interlacing, MediaConvert performs any frame
-    #   rate conversion first and then interlaces the frames. When you
-    #   choose Optimized interlacing and you set your output frame rate to a
-    #   value that isn't suitable for optimized interlacing, MediaConvert
+    #   Optimized interlacing to create a better quality interlaced output.
+    #   In this case, each progressive frame from the input corresponds to
+    #   an interlaced field in the output. Keep the default value, Basic
+    #   interlacing, for all other output frame rates. With basic
+    #   interlacing, MediaConvert performs any frame rate conversion first
+    #   and then interlaces the frames. When you choose Optimized
+    #   interlacing and you set your output frame rate to a value that
+    #   isn't suitable for optimized interlacing, MediaConvert
     #   automatically falls back to basic interlacing. Required settings: To
-    #   use optimized interlacing, you must set Telecine (telecine) to None
-    #   (NONE) or Soft (SOFT). You can't use optimized interlacing for hard
-    #   telecine outputs. You must also set Interlace mode (interlaceMode)
-    #   to a value other than Progressive (PROGRESSIVE).
+    #   use optimized interlacing, you must set Telecine to None or Soft.
+    #   You can't use optimized interlacing for hard telecine outputs. You
+    #   must also set Interlace mode to a value other than Progressive.
     #   @return [String]
     #
     # @!attribute [rw] scene_change_detect
     #   Enable this setting to insert I-frames at scene changes that the
     #   service automatically detects. This improves video quality and is
     #   enabled by default. If this output uses QVBR, choose Transition
-    #   detection (TRANSITION\_DETECTION) for further video quality
-    #   improvement. For more information about QVBR, see
+    #   detection for further video quality improvement. For more
+    #   information about QVBR, see
     #   https://docs.aws.amazon.com/console/mediaconvert/cbr-vbr-qvbr.
     #   @return [String]
     #
@@ -6025,58 +6451,54 @@ module Aws::MediaConvert
     #   25 fps and resamples your audio to keep it synchronized with the
     #   video. Note that enabling this setting will slightly reduce the
     #   duration of your video. Required settings: You must also set
-    #   Framerate to 25. In your JSON job specification, set
-    #   (framerateControl) to (SPECIFIED), (framerateNumerator) to 25 and
-    #   (framerateDenominator) to 1.
+    #   Framerate to 25.
     #   @return [String]
     #
     # @!attribute [rw] spatial_adaptive_quantization
-    #   Keep the default value, Enabled (ENABLED), to adjust quantization
-    #   within each frame based on spatial variation of content complexity.
-    #   When you enable this feature, the encoder uses fewer bits on areas
-    #   that can sustain more distortion with no noticeable visual
-    #   degradation and uses more bits on areas where any small distortion
-    #   will be noticeable. For example, complex textured blocks are encoded
-    #   with fewer bits and smooth textured blocks are encoded with more
-    #   bits. Enabling this feature will almost always improve your video
-    #   quality. Note, though, that this feature doesn't take into account
-    #   where the viewer's attention is likely to be. If viewers are likely
-    #   to be focusing their attention on a part of the screen with a lot of
+    #   Keep the default value, Enabled, to adjust quantization within each
+    #   frame based on spatial variation of content complexity. When you
+    #   enable this feature, the encoder uses fewer bits on areas that can
+    #   sustain more distortion with no noticeable visual degradation and
+    #   uses more bits on areas where any small distortion will be
+    #   noticeable. For example, complex textured blocks are encoded with
+    #   fewer bits and smooth textured blocks are encoded with more bits.
+    #   Enabling this feature will almost always improve your video quality.
+    #   Note, though, that this feature doesn't take into account where the
+    #   viewer's attention is likely to be. If viewers are likely to be
+    #   focusing their attention on a part of the screen with a lot of
     #   complex texture, you might choose to disable this feature. Related
     #   setting: When you enable spatial adaptive quantization, set the
-    #   value for Adaptive quantization (adaptiveQuantization) depending on
-    #   your content. For homogeneous content, such as cartoons and video
-    #   games, set it to Low. For content with a wider variety of textures,
-    #   set it to High or Higher.
+    #   value for Adaptive quantization depending on your content. For
+    #   homogeneous content, such as cartoons and video games, set it to
+    #   Low. For content with a wider variety of textures, set it to High or
+    #   Higher.
     #   @return [String]
     #
     # @!attribute [rw] telecine
-    #   This field applies only if the Streams > Advanced > Framerate
-    #   (framerate) field is set to 29.970. This field works with the
-    #   Streams > Advanced > Preprocessors > Deinterlacer field
-    #   (deinterlace\_mode) and the Streams > Advanced > Interlaced Mode
-    #   field (interlace\_mode) to identify the scan type for the output:
+    #   This field applies only if the Streams > Advanced > Framerate field
+    #   is set to 29.970. This field works with the Streams > Advanced >
+    #   Preprocessors > Deinterlacer field and the Streams > Advanced >
+    #   Interlaced Mode field to identify the scan type for the output:
     #   Progressive, Interlaced, Hard Telecine or Soft Telecine. - Hard:
     #   produces 29.97i output from 23.976 input. - Soft: produces 23.976;
     #   the player converts this output to 29.97i.
     #   @return [String]
     #
     # @!attribute [rw] temporal_adaptive_quantization
-    #   Keep the default value, Enabled (ENABLED), to adjust quantization
-    #   within each frame based on temporal variation of content complexity.
-    #   When you enable this feature, the encoder uses fewer bits on areas
-    #   of the frame that aren't moving and uses more bits on complex
-    #   objects with sharp edges that move a lot. For example, this feature
-    #   improves the readability of text tickers on newscasts and
-    #   scoreboards on sports matches. Enabling this feature will almost
-    #   always improve your video quality. Note, though, that this feature
-    #   doesn't take into account where the viewer's attention is likely
-    #   to be. If viewers are likely to be focusing their attention on a
-    #   part of the screen that doesn't have moving objects with sharp
-    #   edges, such as sports athletes' faces, you might choose to disable
-    #   this feature. Related setting: When you enable temporal
-    #   quantization, adjust the strength of the filter with the setting
-    #   Adaptive quantization (adaptiveQuantization).
+    #   Keep the default value, Enabled, to adjust quantization within each
+    #   frame based on temporal variation of content complexity. When you
+    #   enable this feature, the encoder uses fewer bits on areas of the
+    #   frame that aren't moving and uses more bits on complex objects with
+    #   sharp edges that move a lot. For example, this feature improves the
+    #   readability of text tickers on newscasts and scoreboards on sports
+    #   matches. Enabling this feature will almost always improve your video
+    #   quality. Note, though, that this feature doesn't take into account
+    #   where the viewer's attention is likely to be. If viewers are likely
+    #   to be focusing their attention on a part of the screen that doesn't
+    #   have moving objects with sharp edges, such as sports athletes'
+    #   faces, you might choose to disable this feature. Related setting:
+    #   When you enable temporal quantization, adjust the strength of the
+    #   filter with the setting Adaptive quantization.
     #   @return [String]
     #
     # @!attribute [rw] temporal_ids
@@ -6121,10 +6543,13 @@ module Aws::MediaConvert
     class H265Settings < Struct.new(
       :adaptive_quantization,
       :alternate_transfer_function_sei,
+      :bandwidth_reduction_filter,
       :bitrate,
       :codec_level,
       :codec_profile,
+      :deblocking,
       :dynamic_sub_gop,
+      :end_of_stream_markers,
       :flicker_adaptive_quantization,
       :framerate_control,
       :framerate_conversion_algorithm,
@@ -6415,9 +6840,6 @@ module Aws::MediaConvert
 
     # Settings related to your HLS output package. For more information, see
     # https://docs.aws.amazon.com/mediaconvert/latest/ug/outputs-file-ABR.html.
-    # When you work directly in your JSON job specification, include this
-    # object and any required children when you set Type, under
-    # OutputGroupSettings, to HLS\_GROUP\_SETTINGS.
     #
     # @!attribute [rw] ad_markers
     #   Choose one or more ad marker types to decorate your Apple HLS
@@ -6436,9 +6858,8 @@ module Aws::MediaConvert
     # @!attribute [rw] audio_only_header
     #   Ignore this setting unless you are using FairPlay DRM with
     #   Verimatrix and you encounter playback issues. Keep the default
-    #   value, Include (INCLUDE), to output audio-only headers. Choose
-    #   Exclude (EXCLUDE) to remove the audio-only headers from your audio
-    #   segments.
+    #   value, Include, to output audio-only headers. Choose Exclude to
+    #   remove the audio-only headers from your audio segments.
     #   @return [String]
     #
     # @!attribute [rw] base_url
@@ -6465,20 +6886,19 @@ module Aws::MediaConvert
     #   @return [String]
     #
     # @!attribute [rw] caption_segment_length_control
-    #   Set Caption segment length control (CaptionSegmentLengthControl) to
-    #   Match video (MATCH\_VIDEO) to create caption segments that align
-    #   with the video segments from the first video output in this output
-    #   group. For example, if the video segments are 2 seconds long, your
-    #   WebVTT segments will also be 2 seconds long. Keep the default
-    #   setting, Large segments (LARGE\_SEGMENTS) to create caption segments
+    #   Set Caption segment length control to Match video to create caption
+    #   segments that align with the video segments from the first video
+    #   output in this output group. For example, if the video segments are
+    #   2 seconds long, your WebVTT segments will also be 2 seconds long.
+    #   Keep the default setting, Large segments to create caption segments
     #   that are 300 seconds long.
     #   @return [String]
     #
     # @!attribute [rw] client_cache
     #   Disable this setting only when your workflow requires the
     #   #EXT-X-ALLOW-CACHE:no tag. Otherwise, keep the default value Enabled
-    #   (ENABLED) and control caching in your video distribution set up. For
-    #   example, use the Cache-Control http header.
+    #   and control caching in your video distribution set up. For example,
+    #   use the Cache-Control http header.
     #   @return [String]
     #
     # @!attribute [rw] codec_specification
@@ -6487,11 +6907,11 @@ module Aws::MediaConvert
     #   @return [String]
     #
     # @!attribute [rw] destination
-    #   Use Destination (Destination) to specify the S3 output location and
-    #   the output filename base. Destination accepts format identifiers. If
-    #   you do not specify the base filename in the URI, the service will
-    #   use the filename of the input file. If your job has multiple inputs,
-    #   the service uses the filename of the first input file.
+    #   Use Destination to specify the S3 output location and the output
+    #   filename base. Destination accepts format identifiers. If you do not
+    #   specify the base filename in the URI, the service will use the
+    #   filename of the input file. If your job has multiple inputs, the
+    #   service uses the filename of the first input file.
     #   @return [String]
     #
     # @!attribute [rw] destination_settings
@@ -6509,15 +6929,14 @@ module Aws::MediaConvert
     #
     # @!attribute [rw] image_based_trick_play
     #   Specify whether MediaConvert generates images for trick play. Keep
-    #   the default value, None (NONE), to not generate any images. Choose
-    #   Thumbnail (THUMBNAIL) to generate tiled thumbnails. Choose Thumbnail
-    #   and full frame (THUMBNAIL\_AND\_FULLFRAME) to generate tiled
-    #   thumbnails and full-resolution images of single frames. MediaConvert
-    #   creates a child manifest for each set of images that you generate
-    #   and adds corresponding entries to the parent manifest. A common
-    #   application for these images is Roku trick mode. The thumbnails and
-    #   full-frame images that MediaConvert creates with this feature are
-    #   compatible with this Roku specification:
+    #   the default value, None, to not generate any images. Choose
+    #   Thumbnail to generate tiled thumbnails. Choose Thumbnail and full
+    #   frame to generate tiled thumbnails and full-resolution images of
+    #   single frames. MediaConvert creates a child manifest for each set of
+    #   images that you generate and adds corresponding entries to the
+    #   parent manifest. A common application for these images is Roku trick
+    #   mode. The thumbnails and full-frame images that MediaConvert creates
+    #   with this feature are compatible with this Roku specification:
     #   https://developer.roku.com/docs/developer-program/media-playback/trick-mode/hls-and-dash.md
     #   @return [String]
     #
@@ -6574,6 +6993,21 @@ module Aws::MediaConvert
     #   Period of insertion of EXT-X-PROGRAM-DATE-TIME entry, in seconds.
     #   @return [Integer]
     #
+    # @!attribute [rw] progressive_write_hls_manifest
+    #   Specify whether MediaConvert generates HLS manifests while your job
+    #   is running or when your job is complete. To generate HLS manifests
+    #   while your job is running: Choose Enabled. Use if you want to play
+    #   back your content as soon as it's available. MediaConvert writes
+    #   the parent and child manifests after the first three media segments
+    #   are written to your destination S3 bucket. It then writes new
+    #   updated manifests after each additional segment is written. The
+    #   parent manifest includes the latest BANDWIDTH and AVERAGE-BANDWIDTH
+    #   attributes, and child manifests include the latest available media
+    #   segment. When your job completes, the final child playlists include
+    #   an EXT-X-ENDLIST tag. To generate HLS manifests only when your job
+    #   completes: Choose Disabled.
+    #   @return [String]
+    #
     # @!attribute [rw] segment_control
     #   When set to SINGLE\_FILE, emits program as a single media resource
     #   (.ts) file, uses #EXT-X-BYTERANGE tags to index segment for
@@ -6583,26 +7017,24 @@ module Aws::MediaConvert
     # @!attribute [rw] segment_length
     #   Specify the length, in whole seconds, of each segment. When you
     #   don't specify a value, MediaConvert defaults to 10. Related
-    #   settings: Use Segment length control (SegmentLengthControl) to
-    #   specify whether the encoder enforces this value strictly. Use
-    #   Segment control (HlsSegmentControl) to specify whether MediaConvert
-    #   creates separate segment files or one content file that has metadata
-    #   to mark the segment boundaries.
+    #   settings: Use Segment length control to specify whether the encoder
+    #   enforces this value strictly. Use Segment control to specify whether
+    #   MediaConvert creates separate segment files or one content file that
+    #   has metadata to mark the segment boundaries.
     #   @return [Integer]
     #
     # @!attribute [rw] segment_length_control
     #   Specify how you want MediaConvert to determine the segment length.
-    #   Choose Exact (EXACT) to have the encoder use the exact length that
-    #   you specify with the setting Segment length (SegmentLength). This
-    #   might result in extra I-frames. Choose Multiple of GOP
-    #   (GOP\_MULTIPLE) to have the encoder round up the segment lengths to
-    #   match the next GOP boundary.
+    #   Choose Exact to have the encoder use the exact length that you
+    #   specify with the setting Segment length. This might result in extra
+    #   I-frames. Choose Multiple of GOP to have the encoder round up the
+    #   segment lengths to match the next GOP boundary.
     #   @return [String]
     #
     # @!attribute [rw] segments_per_subdirectory
-    #   Number of segments to write to a subdirectory before starting a new
-    #   one. directoryStructure must be SINGLE\_DIRECTORY for this setting
-    #   to have an effect.
+    #   Specify the number of segments to write to a subdirectory before
+    #   starting a new one. You must also set Directory structure to
+    #   Subdirectory per stream for this setting to have an effect.
     #   @return [Integer]
     #
     # @!attribute [rw] stream_inf_resolution
@@ -6624,11 +7056,10 @@ module Aws::MediaConvert
     #   @return [String]
     #
     # @!attribute [rw] timed_metadata_id_3_frame
-    #   Specify the type of the ID3 frame (timedMetadataId3Frame) to use for
-    #   ID3 timestamps (timedMetadataId3Period) in your output. To include
-    #   ID3 timestamps: Specify PRIV (PRIV) or TDRL (TDRL) and set ID3
-    #   metadata (timedMetadata) to Passthrough (PASSTHROUGH). To exclude
-    #   ID3 timestamps: Set ID3 timestamp frame type to None (NONE).
+    #   Specify the type of the ID3 frame to use for ID3 timestamps in your
+    #   output. To include ID3 timestamps: Specify PRIV or TDRL and set ID3
+    #   metadata to Passthrough. To exclude ID3 timestamps: Set ID3
+    #   timestamp frame type to None.
     #   @return [String]
     #
     # @!attribute [rw] timed_metadata_id_3_period
@@ -6636,9 +7067,8 @@ module Aws::MediaConvert
     #   output. The first timestamp starts at the output timecode and date,
     #   and increases incrementally with each ID3 timestamp. To use the
     #   default interval of 10 seconds: Leave blank. To include this
-    #   metadata in your output: Set ID3 timestamp frame type
-    #   (timedMetadataId3Frame) to PRIV (PRIV) or TDRL (TDRL), and set ID3
-    #   metadata (timedMetadata) to Passthrough (PASSTHROUGH).
+    #   metadata in your output: Set ID3 timestamp frame type to PRIV or
+    #   TDRL, and set ID3 metadata to Passthrough.
     #   @return [Integer]
     #
     # @!attribute [rw] timestamp_delta_milliseconds
@@ -6671,6 +7101,7 @@ module Aws::MediaConvert
       :output_selection,
       :program_date_time,
       :program_date_time_period,
+      :progressive_write_hls_manifest,
       :segment_control,
       :segment_length,
       :segment_length_control,
@@ -6781,10 +7212,10 @@ module Aws::MediaConvert
     # @!attribute [rw] audio_only_container
     #   Use this setting only in audio-only outputs. Choose MPEG-2 Transport
     #   Stream (M2TS) to create a file in an MPEG2-TS container. Keep the
-    #   default value Automatic (AUTOMATIC) to create an audio-only file in
-    #   a raw container. Regardless of the value that you specify here, if
-    #   this output has video, the service will place the output into an
-    #   MPEG2-TS container.
+    #   default value Automatic to create an audio-only file in a raw
+    #   container. Regardless of the value that you specify here, if this
+    #   output has video, the service will place the output into an MPEG2-TS
+    #   container.
     #   @return [String]
     #
     # @!attribute [rw] audio_rendition_sets
@@ -6810,24 +7241,23 @@ module Aws::MediaConvert
     #
     # @!attribute [rw] descriptive_video_service_flag
     #   Specify whether to flag this audio track as descriptive video
-    #   service (DVS) in your HLS parent manifest. When you choose Flag
-    #   (FLAG), MediaConvert includes the parameter
+    #   service (DVS) in your HLS parent manifest. When you choose Flag,
+    #   MediaConvert includes the parameter
     #   CHARACTERISTICS="public.accessibility.describes-video" in the
     #   EXT-X-MEDIA entry for this track. When you keep the default choice,
-    #   Don't flag (DONT\_FLAG), MediaConvert leaves this parameter out.
-    #   The DVS flag can help with accessibility on Apple devices. For more
-    #   information, see the Apple documentation.
+    #   Don't flag, MediaConvert leaves this parameter out. The DVS flag
+    #   can help with accessibility on Apple devices. For more information,
+    #   see the Apple documentation.
     #   @return [String]
     #
     # @!attribute [rw] i_frame_only_manifest
-    #   Choose Include (INCLUDE) to have MediaConvert generate a child
-    #   manifest that lists only the I-frames for this rendition, in
-    #   addition to your regular manifest for this rendition. You might use
-    #   this manifest as part of a workflow that creates preview functions
-    #   for your video. MediaConvert adds both the I-frame only child
-    #   manifest and the regular child manifest to the parent manifest. When
-    #   you don't need the I-frame only child manifest, keep the default
-    #   value Exclude (EXCLUDE).
+    #   Choose Include to have MediaConvert generate a child manifest that
+    #   lists only the I-frames for this rendition, in addition to your
+    #   regular manifest for this rendition. You might use this manifest as
+    #   part of a workflow that creates preview functions for your video.
+    #   MediaConvert adds both the I-frame only child manifest and the
+    #   regular child manifest to the parent manifest. When you don't need
+    #   the I-frame only child manifest, keep the default value Exclude.
     #   @return [String]
     #
     # @!attribute [rw] segment_modifier
@@ -6874,7 +7304,7 @@ module Aws::MediaConvert
     # @!attribute [rw] wait_minutes
     #   Required for setting up a job to use queue hopping. Minimum wait
     #   time in minutes until the job can hop to the destination queue.
-    #   Valid range is 1 to 1440 minutes, inclusive.
+    #   Valid range is 1 to 4320 minutes, inclusive.
     #   @return [Integer]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/HopDestination AWS API Documentation
@@ -6887,19 +7317,18 @@ module Aws::MediaConvert
       include Aws::Structure
     end
 
-    # To insert ID3 tags in your output, specify two values. Use ID3 tag
-    # (Id3) to specify the base 64 encoded string and use Timecode
-    # (TimeCode) to specify the time when the tag should be inserted. To
-    # insert multiple ID3 tags in your output, create multiple instances of
-    # ID3 insertion (Id3Insertion).
+    # To insert ID3 tags in your output, specify two values. Use ID3 tag to
+    # specify the base 64 encoded string and use Timecode to specify the
+    # time when the tag should be inserted. To insert multiple ID3 tags in
+    # your output, create multiple instances of ID3 insertion.
     #
     # @!attribute [rw] id_3
-    #   Use ID3 tag (Id3) to provide a fully formed ID3 tag in base64-encode
+    #   Use ID3 tag to provide a fully formed ID3 tag in base64-encode
     #   format.
     #   @return [String]
     #
     # @!attribute [rw] timecode
-    #   Provide a Timecode (TimeCode) in HH:MM:SS:FF or HH:MM:SS;FF format.
+    #   Provide a Timecode in HH:MM:SS:FF or HH:MM:SS;FF format.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/Id3Insertion AWS API Documentation
@@ -6945,19 +7374,26 @@ module Aws::MediaConvert
     # sidecar captions in the same output group, but different output from
     # your video. For more information, see
     # https://docs.aws.amazon.com/mediaconvert/latest/ug/ttml-and-webvtt-output-captions.html.
-    # When you work directly in your JSON job specification, include this
-    # object and any required children when you set destinationType to IMSC.
     #
     # @!attribute [rw] accessibility
-    #   Set Accessibility subtitles to Enabled if the ISMC or WebVTT
-    #   captions track is intended to provide accessibility for people who
-    #   are deaf or hard of hearing. When you enable this feature,
-    #   MediaConvert adds the following attributes under EXT-X-MEDIA in the
-    #   HLS or CMAF manifest for this track:
+    #   If the IMSC captions track is intended to provide accessibility for
+    #   people who are deaf or hard of hearing: Set Accessibility subtitles
+    #   to Enabled. When you do, MediaConvert adds accessibility attributes
+    #   to your output HLS or DASH manifest. For HLS manifests, MediaConvert
+    #   adds the following accessibility attributes under EXT-X-MEDIA for
+    #   this track:
     #   CHARACTERISTICS="public.accessibility.describes-spoken-dialog,public.accessibility.describes-music-and-sound"
-    #   and AUTOSELECT="YES". Keep the default value, Disabled, if the
-    #   captions track is not intended to provide such accessibility.
-    #   MediaConvert will not add the above attributes.
+    #   and AUTOSELECT="YES". For DASH manifests, MediaConvert adds the
+    #   following in the adaptation set for this track: <Accessibility
+    #   schemeIdUri="urn:mpeg:dash:role:2011" value="caption" />
+    #
+    #   . If the captions track is not intended to provide such
+    #   accessibility: Keep the default value, Disabled. When you do, for
+    #   DASH manifests, MediaConvert instead adds the following in the
+    #   adaptation set for this track: <Role
+    #   schemeIDUri="urn:mpeg:dash:role:2011" value="subtitle" />
+    #
+    #   .
     #   @return [String]
     #
     # @!attribute [rw] style_passthrough
@@ -6984,37 +7420,58 @@ module Aws::MediaConvert
     # information, see
     # https://docs.aws.amazon.com/mediaconvert/latest/ug/assembling-multiple-inputs-and-input-clips.html
     #
+    # @!attribute [rw] advanced_input_filter
+    #   Use to remove noise, blocking, blurriness, or ringing from your
+    #   input as a pre-filter step before encoding. The Advanced input
+    #   filter removes more types of compression artifacts and is an
+    #   improvement when compared to basic Deblock and Denoise filters. To
+    #   remove video compression artifacts from your input and improve the
+    #   video quality: Choose Enabled. Additionally, this filter can help
+    #   increase the video quality of your output relative to its bitrate,
+    #   since noisy inputs are more complex and require more bits to encode.
+    #   To help restore loss of detail after applying the filter, you can
+    #   optionally add texture or sharpening as an additional step. Jobs
+    #   that use this feature incur pro-tier pricing. To not apply advanced
+    #   input filtering: Choose Disabled. Note that you can still apply
+    #   basic filtering with Deblock and Denoise.
+    #   @return [String]
+    #
+    # @!attribute [rw] advanced_input_filter_settings
+    #   Optional settings for Advanced input filter when you set Advanced
+    #   input filter to Enabled.
+    #   @return [Types::AdvancedInputFilterSettings]
+    #
     # @!attribute [rw] audio_selector_groups
     #   Use audio selector groups to combine multiple sidecar audio inputs
-    #   so that you can assign them to a single output audio tab
-    #   (AudioDescription). Note that, if you're working with embedded
-    #   audio, it's simpler to assign multiple input tracks into a single
-    #   audio selector rather than use an audio selector group.
+    #   so that you can assign them to a single output audio tab. Note that,
+    #   if you're working with embedded audio, it's simpler to assign
+    #   multiple input tracks into a single audio selector rather than use
+    #   an audio selector group.
     #   @return [Hash<String,Types::AudioSelectorGroup>]
     #
     # @!attribute [rw] audio_selectors
-    #   Use Audio selectors (AudioSelectors) to specify a track or set of
-    #   tracks from the input that you will use in your outputs. You can use
-    #   multiple Audio selectors per input.
+    #   Use Audio selectors to specify a track or set of tracks from the
+    #   input that you will use in your outputs. You can use multiple Audio
+    #   selectors per input.
     #   @return [Hash<String,Types::AudioSelector>]
     #
     # @!attribute [rw] caption_selectors
     #   Use captions selectors to specify the captions data from your input
-    #   that you use in your outputs. You can use up to 20 captions
+    #   that you use in your outputs. You can use up to 100 captions
     #   selectors per input.
     #   @return [Hash<String,Types::CaptionSelector>]
     #
     # @!attribute [rw] crop
-    #   Use Cropping selection (crop) to specify the video area that the
-    #   service will include in the output video frame. If you specify a
-    #   value here, it will override any value that you specify in the
-    #   output setting Cropping selection (crop).
+    #   Use Cropping selection to specify the video area that the service
+    #   will include in the output video frame. If you specify a value here,
+    #   it will override any value that you specify in the output setting
+    #   Cropping selection.
     #   @return [Types::Rectangle]
     #
     # @!attribute [rw] deblock_filter
-    #   Enable Deblock (InputDeblockFilter) to produce smoother motion in
-    #   the output. Default is disabled. Only manually controllable for
-    #   MPEG2 and uncompressed video inputs.
+    #   Enable Deblock to produce smoother motion in the output. Default is
+    #   disabled. Only manually controllable for MPEG2 and uncompressed
+    #   video inputs.
     #   @return [String]
     #
     # @!attribute [rw] decryption_settings
@@ -7025,9 +7482,9 @@ module Aws::MediaConvert
     #   @return [Types::InputDecryptionSettings]
     #
     # @!attribute [rw] denoise_filter
-    #   Enable Denoise (InputDenoiseFilter) to filter noise from the input.
-    #   Default is disabled. Only applicable to MPEG2, H.264, H.265, and
-    #   uncompressed video inputs.
+    #   Enable Denoise to filter noise from the input. Default is disabled.
+    #   Only applicable to MPEG2, H.264, H.265, and uncompressed video
+    #   inputs.
     #   @return [String]
     #
     # @!attribute [rw] dolby_vision_metadata_xml
@@ -7044,6 +7501,17 @@ module Aws::MediaConvert
     #   https://docs.aws.amazon.com/mediaconvert/latest/ug/iam-role.html.
     #   @return [String]
     #
+    # @!attribute [rw] dynamic_audio_selectors
+    #   Use Dynamic audio selectors when you do not know the track layout of
+    #   your source when you submit your job, but want to select multiple
+    #   audio tracks. When you include an audio track in your output and
+    #   specify this Dynamic audio selector as the Audio source,
+    #   MediaConvert creates an output audio track for each dynamically
+    #   selected track. Note that when you include a Dynamic audio selector
+    #   for two or more inputs, each input must have the same number of
+    #   audio tracks and audio channels.
+    #   @return [Hash<String,Types::DynamicAudioSelector>]
+    #
     # @!attribute [rw] file_input
     #   Specify the source file for your transcoding job. You can use
     #   multiple inputs in a single job. The service concatenates these
@@ -7051,25 +7519,28 @@ module Aws::MediaConvert
     #   outputs. If your input format is IMF, specify your input by
     #   providing the path to your CPL. For example,
     #   "s3://bucket/vf/cpl.xml". If the CPL is in an incomplete IMP, make
-    #   sure to use *Supplemental IMPs* (SupplementalImps) to specify any
-    #   supplemental IMPs that contain assets referenced by the CPL.
+    #   sure to use *Supplemental IMPs* to specify any supplemental IMPs
+    #   that contain assets referenced by the CPL.
     #   @return [String]
     #
     # @!attribute [rw] filter_enable
-    #   Specify how the transcoding service applies the denoise and deblock
-    #   filters. You must also enable the filters separately, with Denoise
-    #   (InputDenoiseFilter) and Deblock (InputDeblockFilter). * Auto - The
-    #   transcoding service determines whether to apply filtering, depending
-    #   on input type and quality. * Disable - The input is not filtered.
-    #   This is true even if you use the API to enable them in
-    #   (InputDeblockFilter) and (InputDeblockFilter). * Force - The input
-    #   is filtered regardless of input type.
+    #   Specify whether to apply input filtering to improve the video
+    #   quality of your input. To apply filtering depending on your input
+    #   type and quality: Choose Auto. To apply no filtering: Choose
+    #   Disable. To apply filtering regardless of your input type and
+    #   quality: Choose Force. When you do, you must also specify a value
+    #   for Filter strength.
     #   @return [String]
     #
     # @!attribute [rw] filter_strength
-    #   Use Filter strength (FilterStrength) to adjust the magnitude the
-    #   input filter settings (Deblock and Denoise). The range is 0 to 5.
-    #   Default is 0.
+    #   Specify the strength of the input filter. To apply an automatic
+    #   amount of filtering based the compression artifacts measured in your
+    #   input: We recommend that you leave Filter strength blank and set
+    #   Filter enable to Auto. To manually apply filtering: Enter a value
+    #   from 1 to 5, where 1 is the least amount of filtering and 5 is the
+    #   most. The value that you enter applies to the strength of the
+    #   Deblock or Denoise filters, or to the strength of the Advanced input
+    #   filter.
     #   @return [Integer]
     #
     # @!attribute [rw] image_inserter
@@ -7079,13 +7550,13 @@ module Aws::MediaConvert
     #   @return [Types::ImageInserter]
     #
     # @!attribute [rw] input_clippings
-    #   (InputClippings) contains sets of start and end times that together
-    #   specify a portion of the input to be used in the outputs. If you
-    #   provide only a start time, the clip will be the entire input from
-    #   that point to the end. If you provide only an end time, it will be
-    #   the entire input up to that point. When you specify more than one
-    #   input clip, the transcoding service creates the job outputs by
-    #   stringing the clips together in the order you specify them.
+    #   Contains sets of start and end times that together specify a portion
+    #   of the input to be used in the outputs. If you provide only a start
+    #   time, the clip will be the entire input from that point to the end.
+    #   If you provide only an end time, it will be the entire input up to
+    #   that point. When you specify more than one input clip, the
+    #   transcoding service creates the job outputs by stringing the clips
+    #   together in the order you specify them.
     #   @return [Array<Types::InputClipping>]
     #
     # @!attribute [rw] input_scan_type
@@ -7094,36 +7565,34 @@ module Aws::MediaConvert
     #   automatically detect PsF. Therefore, flagging your input as PsF
     #   results in better preservation of video quality when you do
     #   deinterlacing and frame rate conversion. If you don't specify, the
-    #   default value is Auto (AUTO). Auto is the correct setting for all
-    #   inputs that are not PsF. Don't set this value to PsF when your
-    #   input is interlaced. Doing so creates horizontal interlacing
-    #   artifacts.
+    #   default value is Auto. Auto is the correct setting for all inputs
+    #   that are not PsF. Don't set this value to PsF when your input is
+    #   interlaced. Doing so creates horizontal interlacing artifacts.
     #   @return [String]
     #
     # @!attribute [rw] position
-    #   Use Selection placement (position) to define the video area in your
-    #   output frame. The area outside of the rectangle that you specify
-    #   here is black. If you specify a value here, it will override any
-    #   value that you specify in the output setting Selection placement
-    #   (position). If you specify a value here, this will override any AFD
-    #   values in your input, even if you set Respond to AFD (RespondToAfd)
-    #   to Respond (RESPOND). If you specify a value here, this will ignore
-    #   anything that you specify for the setting Scaling Behavior
-    #   (scalingBehavior).
+    #   Use Selection placement to define the video area in your output
+    #   frame. The area outside of the rectangle that you specify here is
+    #   black. If you specify a value here, it will override any value that
+    #   you specify in the output setting Selection placement. If you
+    #   specify a value here, this will override any AFD values in your
+    #   input, even if you set Respond to AFD to Respond. If you specify a
+    #   value here, this will ignore anything that you specify for the
+    #   setting Scaling Behavior.
     #   @return [Types::Rectangle]
     #
     # @!attribute [rw] program_number
-    #   Use Program (programNumber) to select a specific program from within
-    #   a multi-program transport stream. Note that Quad 4K is not currently
-    #   supported. Default is the first program within the transport stream.
-    #   If the program you specify doesn't exist, the transcoding service
-    #   will use this default.
+    #   Use Program to select a specific program from within a multi-program
+    #   transport stream. Note that Quad 4K is not currently supported.
+    #   Default is the first program within the transport stream. If the
+    #   program you specify doesn't exist, the transcoding service will use
+    #   this default.
     #   @return [Integer]
     #
     # @!attribute [rw] psi_control
-    #   Set PSI control (InputPsiControl) for transport stream inputs to
-    #   specify which data the demux process to scans. * Ignore PSI - Scan
-    #   all PIDs for audio and video. * Use PSI - Scan only PSI data.
+    #   Set PSI control for transport stream inputs to specify which data
+    #   the demux process to scans. * Ignore PSI - Scan all PIDs for audio
+    #   and video. * Use PSI - Scan only PSI data.
     #   @return [String]
     #
     # @!attribute [rw] supplemental_imps
@@ -7137,26 +7606,24 @@ module Aws::MediaConvert
     #   @return [Array<String>]
     #
     # @!attribute [rw] timecode_source
-    #   Use this Timecode source setting, located under the input settings
-    #   (InputTimecodeSource), to specify how the service counts input video
-    #   frames. This input frame count affects only the behavior of features
-    #   that apply to a single input at a time, such as input clipping and
-    #   synchronizing some captions formats. Choose Embedded (EMBEDDED) to
-    #   use the timecodes in your input video. Choose Start at zero
-    #   (ZEROBASED) to start the first frame at zero. Choose Specified start
-    #   (SPECIFIEDSTART) to start the first frame at the timecode that you
-    #   specify in the setting Start timecode (timecodeStart). If you don't
-    #   specify a value for Timecode source, the service will use Embedded
-    #   by default. For more information about timecodes, see
+    #   Use this Timecode source setting, located under the input settings,
+    #   to specify how the service counts input video frames. This input
+    #   frame count affects only the behavior of features that apply to a
+    #   single input at a time, such as input clipping and synchronizing
+    #   some captions formats. Choose Embedded to use the timecodes in your
+    #   input video. Choose Start at zero to start the first frame at zero.
+    #   Choose Specified start to start the first frame at the timecode that
+    #   you specify in the setting Start timecode. If you don't specify a
+    #   value for Timecode source, the service will use Embedded by default.
+    #   For more information about timecodes, see
     #   https://docs.aws.amazon.com/console/mediaconvert/timecode.
     #   @return [String]
     #
     # @!attribute [rw] timecode_start
     #   Specify the timecode that you want the service to use for this
     #   input's initial frame. To use this setting, you must set the
-    #   Timecode source setting, located under the input settings
-    #   (InputTimecodeSource), to Specified start (SPECIFIEDSTART). For more
-    #   information about timecodes, see
+    #   Timecode source setting, located under the input settings, to
+    #   Specified start. For more information about timecodes, see
     #   https://docs.aws.amazon.com/console/mediaconvert/timecode.
     #   @return [String]
     #
@@ -7169,6 +7636,10 @@ module Aws::MediaConvert
     #   https://docs.aws.amazon.com/mediaconvert/latest/ug/video-generator.html
     #   @return [Types::InputVideoGenerator]
     #
+    # @!attribute [rw] video_overlays
+    #   Contains an array of video overlays.
+    #   @return [Array<Types::VideoOverlay>]
+    #
     # @!attribute [rw] video_selector
     #   Input video selectors contain the video settings for the input. Each
     #   of your inputs can have up to one video selector.
@@ -7177,6 +7648,8 @@ module Aws::MediaConvert
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/Input AWS API Documentation
     #
     class Input < Struct.new(
+      :advanced_input_filter,
+      :advanced_input_filter_settings,
       :audio_selector_groups,
       :audio_selectors,
       :caption_selectors,
@@ -7185,6 +7658,7 @@ module Aws::MediaConvert
       :decryption_settings,
       :denoise_filter,
       :dolby_vision_metadata_xml,
+      :dynamic_audio_selectors,
       :file_input,
       :filter_enable,
       :filter_strength,
@@ -7198,6 +7672,7 @@ module Aws::MediaConvert
       :timecode_source,
       :timecode_start,
       :video_generator,
+      :video_overlays,
       :video_selector)
       SENSITIVE = []
       include Aws::Structure
@@ -7210,28 +7685,27 @@ module Aws::MediaConvert
     # https://docs.aws.amazon.com/mediaconvert/latest/ug/assembling-multiple-inputs-and-input-clips.html.
     #
     # @!attribute [rw] end_timecode
-    #   Set End timecode (EndTimecode) to the end of the portion of the
-    #   input you are clipping. The frame corresponding to the End timecode
-    #   value is included in the clip. Start timecode or End timecode may be
-    #   left blank, but not both. Use the format HH:MM:SS:FF or HH:MM:SS;FF,
+    #   Set End timecode to the end of the portion of the input you are
+    #   clipping. The frame corresponding to the End timecode value is
+    #   included in the clip. Start timecode or End timecode may be left
+    #   blank, but not both. Use the format HH:MM:SS:FF or HH:MM:SS;FF,
     #   where HH is the hour, MM is the minute, SS is the second, and FF is
     #   the frame number. When choosing this value, take into account your
-    #   setting for timecode source under input settings
-    #   (InputTimecodeSource). For example, if you have embedded timecodes
-    #   that start at 01:00:00:00 and you want your clip to end six minutes
-    #   into the video, use 01:06:00:00.
+    #   setting for timecode source under input settings. For example, if
+    #   you have embedded timecodes that start at 01:00:00:00 and you want
+    #   your clip to end six minutes into the video, use 01:06:00:00.
     #   @return [String]
     #
     # @!attribute [rw] start_timecode
-    #   Set Start timecode (StartTimecode) to the beginning of the portion
-    #   of the input you are clipping. The frame corresponding to the Start
-    #   timecode value is included in the clip. Start timecode or End
-    #   timecode may be left blank, but not both. Use the format HH:MM:SS:FF
-    #   or HH:MM:SS;FF, where HH is the hour, MM is the minute, SS is the
-    #   second, and FF is the frame number. When choosing this value, take
-    #   into account your setting for Input timecode source. For example, if
-    #   you have embedded timecodes that start at 01:00:00:00 and you want
-    #   your clip to begin five minutes into the video, use 01:05:00:00.
+    #   Set Start timecode to the beginning of the portion of the input you
+    #   are clipping. The frame corresponding to the Start timecode value is
+    #   included in the clip. Start timecode or End timecode may be left
+    #   blank, but not both. Use the format HH:MM:SS:FF or HH:MM:SS;FF,
+    #   where HH is the hour, MM is the minute, SS is the second, and FF is
+    #   the frame number. When choosing this value, take into account your
+    #   setting for Input timecode source. For example, if you have embedded
+    #   timecodes that start at 01:00:00:00 and you want your clip to begin
+    #   five minutes into the video, use 01:05:00:00.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/InputClipping AWS API Documentation
@@ -7288,43 +7762,64 @@ module Aws::MediaConvert
 
     # Specified video input in a template.
     #
+    # @!attribute [rw] advanced_input_filter
+    #   Use to remove noise, blocking, blurriness, or ringing from your
+    #   input as a pre-filter step before encoding. The Advanced input
+    #   filter removes more types of compression artifacts and is an
+    #   improvement when compared to basic Deblock and Denoise filters. To
+    #   remove video compression artifacts from your input and improve the
+    #   video quality: Choose Enabled. Additionally, this filter can help
+    #   increase the video quality of your output relative to its bitrate,
+    #   since noisy inputs are more complex and require more bits to encode.
+    #   To help restore loss of detail after applying the filter, you can
+    #   optionally add texture or sharpening as an additional step. Jobs
+    #   that use this feature incur pro-tier pricing. To not apply advanced
+    #   input filtering: Choose Disabled. Note that you can still apply
+    #   basic filtering with Deblock and Denoise.
+    #   @return [String]
+    #
+    # @!attribute [rw] advanced_input_filter_settings
+    #   Optional settings for Advanced input filter when you set Advanced
+    #   input filter to Enabled.
+    #   @return [Types::AdvancedInputFilterSettings]
+    #
     # @!attribute [rw] audio_selector_groups
     #   Use audio selector groups to combine multiple sidecar audio inputs
-    #   so that you can assign them to a single output audio tab
-    #   (AudioDescription). Note that, if you're working with embedded
-    #   audio, it's simpler to assign multiple input tracks into a single
-    #   audio selector rather than use an audio selector group.
+    #   so that you can assign them to a single output audio tab. Note that,
+    #   if you're working with embedded audio, it's simpler to assign
+    #   multiple input tracks into a single audio selector rather than use
+    #   an audio selector group.
     #   @return [Hash<String,Types::AudioSelectorGroup>]
     #
     # @!attribute [rw] audio_selectors
-    #   Use Audio selectors (AudioSelectors) to specify a track or set of
-    #   tracks from the input that you will use in your outputs. You can use
-    #   multiple Audio selectors per input.
+    #   Use Audio selectors to specify a track or set of tracks from the
+    #   input that you will use in your outputs. You can use multiple Audio
+    #   selectors per input.
     #   @return [Hash<String,Types::AudioSelector>]
     #
     # @!attribute [rw] caption_selectors
     #   Use captions selectors to specify the captions data from your input
-    #   that you use in your outputs. You can use up to 20 captions
+    #   that you use in your outputs. You can use up to 100 captions
     #   selectors per input.
     #   @return [Hash<String,Types::CaptionSelector>]
     #
     # @!attribute [rw] crop
-    #   Use Cropping selection (crop) to specify the video area that the
-    #   service will include in the output video frame. If you specify a
-    #   value here, it will override any value that you specify in the
-    #   output setting Cropping selection (crop).
+    #   Use Cropping selection to specify the video area that the service
+    #   will include in the output video frame. If you specify a value here,
+    #   it will override any value that you specify in the output setting
+    #   Cropping selection.
     #   @return [Types::Rectangle]
     #
     # @!attribute [rw] deblock_filter
-    #   Enable Deblock (InputDeblockFilter) to produce smoother motion in
-    #   the output. Default is disabled. Only manually controllable for
-    #   MPEG2 and uncompressed video inputs.
+    #   Enable Deblock to produce smoother motion in the output. Default is
+    #   disabled. Only manually controllable for MPEG2 and uncompressed
+    #   video inputs.
     #   @return [String]
     #
     # @!attribute [rw] denoise_filter
-    #   Enable Denoise (InputDenoiseFilter) to filter noise from the input.
-    #   Default is disabled. Only applicable to MPEG2, H.264, H.265, and
-    #   uncompressed video inputs.
+    #   Enable Denoise to filter noise from the input. Default is disabled.
+    #   Only applicable to MPEG2, H.264, H.265, and uncompressed video
+    #   inputs.
     #   @return [String]
     #
     # @!attribute [rw] dolby_vision_metadata_xml
@@ -7341,21 +7836,35 @@ module Aws::MediaConvert
     #   https://docs.aws.amazon.com/mediaconvert/latest/ug/iam-role.html.
     #   @return [String]
     #
+    # @!attribute [rw] dynamic_audio_selectors
+    #   Use Dynamic audio selectors when you do not know the track layout of
+    #   your source when you submit your job, but want to select multiple
+    #   audio tracks. When you include an audio track in your output and
+    #   specify this Dynamic audio selector as the Audio source,
+    #   MediaConvert creates an output audio track for each dynamically
+    #   selected track. Note that when you include a Dynamic audio selector
+    #   for two or more inputs, each input must have the same number of
+    #   audio tracks and audio channels.
+    #   @return [Hash<String,Types::DynamicAudioSelector>]
+    #
     # @!attribute [rw] filter_enable
-    #   Specify how the transcoding service applies the denoise and deblock
-    #   filters. You must also enable the filters separately, with Denoise
-    #   (InputDenoiseFilter) and Deblock (InputDeblockFilter). * Auto - The
-    #   transcoding service determines whether to apply filtering, depending
-    #   on input type and quality. * Disable - The input is not filtered.
-    #   This is true even if you use the API to enable them in
-    #   (InputDeblockFilter) and (InputDeblockFilter). * Force - The input
-    #   is filtered regardless of input type.
+    #   Specify whether to apply input filtering to improve the video
+    #   quality of your input. To apply filtering depending on your input
+    #   type and quality: Choose Auto. To apply no filtering: Choose
+    #   Disable. To apply filtering regardless of your input type and
+    #   quality: Choose Force. When you do, you must also specify a value
+    #   for Filter strength.
     #   @return [String]
     #
     # @!attribute [rw] filter_strength
-    #   Use Filter strength (FilterStrength) to adjust the magnitude the
-    #   input filter settings (Deblock and Denoise). The range is 0 to 5.
-    #   Default is 0.
+    #   Specify the strength of the input filter. To apply an automatic
+    #   amount of filtering based the compression artifacts measured in your
+    #   input: We recommend that you leave Filter strength blank and set
+    #   Filter enable to Auto. To manually apply filtering: Enter a value
+    #   from 1 to 5, where 1 is the least amount of filtering and 5 is the
+    #   most. The value that you enter applies to the strength of the
+    #   Deblock or Denoise filters, or to the strength of the Advanced input
+    #   filter.
     #   @return [Integer]
     #
     # @!attribute [rw] image_inserter
@@ -7365,13 +7874,13 @@ module Aws::MediaConvert
     #   @return [Types::ImageInserter]
     #
     # @!attribute [rw] input_clippings
-    #   (InputClippings) contains sets of start and end times that together
-    #   specify a portion of the input to be used in the outputs. If you
-    #   provide only a start time, the clip will be the entire input from
-    #   that point to the end. If you provide only an end time, it will be
-    #   the entire input up to that point. When you specify more than one
-    #   input clip, the transcoding service creates the job outputs by
-    #   stringing the clips together in the order you specify them.
+    #   Contains sets of start and end times that together specify a portion
+    #   of the input to be used in the outputs. If you provide only a start
+    #   time, the clip will be the entire input from that point to the end.
+    #   If you provide only an end time, it will be the entire input up to
+    #   that point. When you specify more than one input clip, the
+    #   transcoding service creates the job outputs by stringing the clips
+    #   together in the order you specify them.
     #   @return [Array<Types::InputClipping>]
     #
     # @!attribute [rw] input_scan_type
@@ -7380,61 +7889,61 @@ module Aws::MediaConvert
     #   automatically detect PsF. Therefore, flagging your input as PsF
     #   results in better preservation of video quality when you do
     #   deinterlacing and frame rate conversion. If you don't specify, the
-    #   default value is Auto (AUTO). Auto is the correct setting for all
-    #   inputs that are not PsF. Don't set this value to PsF when your
-    #   input is interlaced. Doing so creates horizontal interlacing
-    #   artifacts.
+    #   default value is Auto. Auto is the correct setting for all inputs
+    #   that are not PsF. Don't set this value to PsF when your input is
+    #   interlaced. Doing so creates horizontal interlacing artifacts.
     #   @return [String]
     #
     # @!attribute [rw] position
-    #   Use Selection placement (position) to define the video area in your
-    #   output frame. The area outside of the rectangle that you specify
-    #   here is black. If you specify a value here, it will override any
-    #   value that you specify in the output setting Selection placement
-    #   (position). If you specify a value here, this will override any AFD
-    #   values in your input, even if you set Respond to AFD (RespondToAfd)
-    #   to Respond (RESPOND). If you specify a value here, this will ignore
-    #   anything that you specify for the setting Scaling Behavior
-    #   (scalingBehavior).
+    #   Use Selection placement to define the video area in your output
+    #   frame. The area outside of the rectangle that you specify here is
+    #   black. If you specify a value here, it will override any value that
+    #   you specify in the output setting Selection placement. If you
+    #   specify a value here, this will override any AFD values in your
+    #   input, even if you set Respond to AFD to Respond. If you specify a
+    #   value here, this will ignore anything that you specify for the
+    #   setting Scaling Behavior.
     #   @return [Types::Rectangle]
     #
     # @!attribute [rw] program_number
-    #   Use Program (programNumber) to select a specific program from within
-    #   a multi-program transport stream. Note that Quad 4K is not currently
-    #   supported. Default is the first program within the transport stream.
-    #   If the program you specify doesn't exist, the transcoding service
-    #   will use this default.
+    #   Use Program to select a specific program from within a multi-program
+    #   transport stream. Note that Quad 4K is not currently supported.
+    #   Default is the first program within the transport stream. If the
+    #   program you specify doesn't exist, the transcoding service will use
+    #   this default.
     #   @return [Integer]
     #
     # @!attribute [rw] psi_control
-    #   Set PSI control (InputPsiControl) for transport stream inputs to
-    #   specify which data the demux process to scans. * Ignore PSI - Scan
-    #   all PIDs for audio and video. * Use PSI - Scan only PSI data.
+    #   Set PSI control for transport stream inputs to specify which data
+    #   the demux process to scans. * Ignore PSI - Scan all PIDs for audio
+    #   and video. * Use PSI - Scan only PSI data.
     #   @return [String]
     #
     # @!attribute [rw] timecode_source
-    #   Use this Timecode source setting, located under the input settings
-    #   (InputTimecodeSource), to specify how the service counts input video
-    #   frames. This input frame count affects only the behavior of features
-    #   that apply to a single input at a time, such as input clipping and
-    #   synchronizing some captions formats. Choose Embedded (EMBEDDED) to
-    #   use the timecodes in your input video. Choose Start at zero
-    #   (ZEROBASED) to start the first frame at zero. Choose Specified start
-    #   (SPECIFIEDSTART) to start the first frame at the timecode that you
-    #   specify in the setting Start timecode (timecodeStart). If you don't
-    #   specify a value for Timecode source, the service will use Embedded
-    #   by default. For more information about timecodes, see
+    #   Use this Timecode source setting, located under the input settings,
+    #   to specify how the service counts input video frames. This input
+    #   frame count affects only the behavior of features that apply to a
+    #   single input at a time, such as input clipping and synchronizing
+    #   some captions formats. Choose Embedded to use the timecodes in your
+    #   input video. Choose Start at zero to start the first frame at zero.
+    #   Choose Specified start to start the first frame at the timecode that
+    #   you specify in the setting Start timecode. If you don't specify a
+    #   value for Timecode source, the service will use Embedded by default.
+    #   For more information about timecodes, see
     #   https://docs.aws.amazon.com/console/mediaconvert/timecode.
     #   @return [String]
     #
     # @!attribute [rw] timecode_start
     #   Specify the timecode that you want the service to use for this
     #   input's initial frame. To use this setting, you must set the
-    #   Timecode source setting, located under the input settings
-    #   (InputTimecodeSource), to Specified start (SPECIFIEDSTART). For more
-    #   information about timecodes, see
+    #   Timecode source setting, located under the input settings, to
+    #   Specified start. For more information about timecodes, see
     #   https://docs.aws.amazon.com/console/mediaconvert/timecode.
     #   @return [String]
+    #
+    # @!attribute [rw] video_overlays
+    #   Contains an array of video overlays.
+    #   @return [Array<Types::VideoOverlay>]
     #
     # @!attribute [rw] video_selector
     #   Input video selectors contain the video settings for the input. Each
@@ -7444,6 +7953,8 @@ module Aws::MediaConvert
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/InputTemplate AWS API Documentation
     #
     class InputTemplate < Struct.new(
+      :advanced_input_filter,
+      :advanced_input_filter_settings,
       :audio_selector_groups,
       :audio_selectors,
       :caption_selectors,
@@ -7451,6 +7962,7 @@ module Aws::MediaConvert
       :deblock_filter,
       :denoise_filter,
       :dolby_vision_metadata_xml,
+      :dynamic_audio_selectors,
       :filter_enable,
       :filter_strength,
       :image_inserter,
@@ -7461,6 +7973,7 @@ module Aws::MediaConvert
       :psi_control,
       :timecode_source,
       :timecode_start,
+      :video_overlays,
       :video_selector)
       SENSITIVE = []
       include Aws::Structure
@@ -7473,16 +7986,46 @@ module Aws::MediaConvert
     # file, but you cannot specify both. For more information, see
     # https://docs.aws.amazon.com/mediaconvert/latest/ug/video-generator.html
     #
+    # @!attribute [rw] channels
+    #   Specify the number of audio channels to include in your video
+    #   generator input. MediaConvert creates these audio channels as silent
+    #   audio within a single audio track. Enter an integer from 1 to 32.
+    #   @return [Integer]
+    #
     # @!attribute [rw] duration
-    #   Specify an integer value for Black video duration from 50 to
-    #   86400000 to generate a black video input for that many milliseconds.
-    #   Required when you include Video generator.
+    #   Specify the duration, in milliseconds, for your video generator
+    #   input. Enter an integer from 50 to 86400000.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] framerate_denominator
+    #   Specify the denominator of the fraction that represents the frame
+    #   rate for your video generator input. When you do, you must also
+    #   specify a value for Frame rate numerator. MediaConvert uses a
+    #   default frame rate of 29.97 when you leave Frame rate numerator and
+    #   Frame rate denominator blank.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] framerate_numerator
+    #   Specify the numerator of the fraction that represents the frame rate
+    #   for your video generator input. When you do, you must also specify a
+    #   value for Frame rate denominator. MediaConvert uses a default frame
+    #   rate of 29.97 when you leave Frame rate numerator and Frame rate
+    #   denominator blank.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] sample_rate
+    #   Specify the audio sample rate, in Hz, for the silent audio in your
+    #   video generator input. Enter an integer from 32000 to 48000.
     #   @return [Integer]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/InputVideoGenerator AWS API Documentation
     #
     class InputVideoGenerator < Struct.new(
-      :duration)
+      :channels,
+      :duration,
+      :framerate_denominator,
+      :framerate_numerator,
+      :sample_rate)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -7543,8 +8086,8 @@ module Aws::MediaConvert
     #   @return [Integer]
     #
     # @!attribute [rw] opacity
-    #   Use Opacity (Opacity) to specify how much of the underlying video
-    #   shows through the inserted image. 0 is transparent and 100 is fully
+    #   Use Opacity to specify how much of the underlying video shows
+    #   through the inserted image. 0 is transparent and 100 is fully
     #   opaque. Default is 50.
     #   @return [Integer]
     #
@@ -7626,6 +8169,16 @@ module Aws::MediaConvert
     #   set up.
     #   @return [String]
     #
+    # @!attribute [rw] client_request_token
+    #   Prevent duplicate jobs from being created and ensure idempotency for
+    #   your requests. A client request token can be any string that
+    #   includes up to 64 ASCII characters. If you reuse a client request
+    #   token within one minute of a successful request, the API returns the
+    #   job details of the original request instead. For more information
+    #   see
+    #   https://docs.aws.amazon.com/mediaconvert/latest/apireference/idempotency.html.
+    #   @return [String]
+    #
     # @!attribute [rw] created_at
     #   The time, in Unix epoch format in seconds, when the job got created.
     #   @return [Time]
@@ -7649,6 +8202,22 @@ module Aws::MediaConvert
     # @!attribute [rw] id
     #   A portion of the job's ARN, unique within your AWS Elemental
     #   MediaConvert resources
+    #   @return [String]
+    #
+    # @!attribute [rw] job_engine_version_requested
+    #   The Job engine version that you requested for your job. Valid
+    #   versions are in a YYYY-MM-DD format.
+    #   @return [String]
+    #
+    # @!attribute [rw] job_engine_version_used
+    #   The Job engine version that your job used. Job engine versions are
+    #   in a YYYY-MM-DD format. When you request an expired version, the
+    #   response for this property will be empty. Requests to create jobs
+    #   with an expired version result in a regular job, as if no specific
+    #   Job engine version was requested. When you request an invalid
+    #   version, the response for this property will be empty. Requests to
+    #   create jobs with an invalid version result in a 400 error message,
+    #   and no job is created.
     #   @return [String]
     #
     # @!attribute [rw] job_percent_complete
@@ -7739,6 +8308,13 @@ module Aws::MediaConvert
     #   MediaConvert job. You specify metadata in key/value pairs.
     #   @return [Hash<String,String>]
     #
+    # @!attribute [rw] warnings
+    #   Contains any warning messages for the job. Use to help identify
+    #   potential issues with your input, output, or job. For more
+    #   information, see
+    #   https://docs.aws.amazon.com/mediaconvert/latest/ug/warning\_codes.html
+    #   @return [Array<Types::WarningGroup>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/Job AWS API Documentation
     #
     class Job < Struct.new(
@@ -7746,12 +8322,15 @@ module Aws::MediaConvert
       :acceleration_status,
       :arn,
       :billing_tags_source,
+      :client_request_token,
       :created_at,
       :current_phase,
       :error_code,
       :error_message,
       :hop_destinations,
       :id,
+      :job_engine_version_requested,
+      :job_engine_version_used,
       :job_percent_complete,
       :job_template,
       :messages,
@@ -7766,7 +8345,33 @@ module Aws::MediaConvert
       :status,
       :status_update_interval,
       :timing,
-      :user_metadata)
+      :user_metadata,
+      :warnings)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Use Job engine versions to run jobs for your production workflow on
+    # one version, while you test and validate the latest version. Job
+    # engine versions are in a YYYY-MM-DD format.
+    #
+    # @!attribute [rw] expiration_date
+    #   The date that this Job engine version expires. Requests to create
+    #   jobs with an expired version result in a regular job, as if no
+    #   specific Job engine version was requested.
+    #   @return [Time]
+    #
+    # @!attribute [rw] version
+    #   Use Job engine versions to run jobs for your production workflow on
+    #   one version, while you test and validate the latest version. Job
+    #   engine versions are in a YYYY-MM-DD format.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/JobEngineVersion AWS API Documentation
+    #
+    class JobEngineVersion < Struct.new(
+      :expiration_date,
+      :version)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -7805,6 +8410,13 @@ module Aws::MediaConvert
     #   with an image, and audio muted during SCTE-35 triggered ad avails.
     #   @return [Types::AvailBlanking]
     #
+    # @!attribute [rw] color_conversion_3_dlut_settings
+    #   Use 3D LUTs to specify custom color mapping behavior when you
+    #   convert from one color space into another. You can include up to 8
+    #   different 3D LUTs. For more information, see:
+    #   https://docs.aws.amazon.com/mediaconvert/latest/ug/3d-luts.html
+    #   @return [Array<Types::ColorConversion3DLUTSetting>]
+    #
     # @!attribute [rw] esam
     #   Settings for Event Signaling And Messaging (ESAM). If you don't do
     #   ad insertion, you can ignore these settings.
@@ -7819,9 +8431,21 @@ module Aws::MediaConvert
     #   Advisory.
     #   @return [Types::ExtendedDataServices]
     #
+    # @!attribute [rw] follow_source
+    #   Specify the input that MediaConvert references for your default
+    #   output settings. MediaConvert uses this input's Resolution, Frame
+    #   rate, and Pixel aspect ratio for all outputs that you don't
+    #   manually specify different output settings for. Enabling this
+    #   setting will disable "Follow source" for all other inputs. If
+    #   MediaConvert cannot follow your source, for example if you specify
+    #   an audio-only input, MediaConvert uses the first followable input
+    #   instead. In your JSON job specification, enter an integer from 1 to
+    #   150 corresponding to the order of your inputs.
+    #   @return [Integer]
+    #
     # @!attribute [rw] inputs
-    #   Use Inputs (inputs) to define source file used in the transcode job.
-    #   There can be multiple inputs add in a job. These inputs will be
+    #   Use Inputs to define source file used in the transcode job. There
+    #   can be multiple inputs add in a job. These inputs will be
     #   concantenated together to create the output.
     #   @return [Array<Types::Input>]
     #
@@ -7845,12 +8469,8 @@ module Aws::MediaConvert
     # @!attribute [rw] nielsen_configuration
     #   Settings for your Nielsen configuration. If you don't do Nielsen
     #   measurement and analytics, ignore these settings. When you enable
-    #   Nielsen configuration (nielsenConfiguration), MediaConvert enables
-    #   PCM to ID3 tagging for all outputs in the job. To enable Nielsen
-    #   configuration programmatically, include an instance of
-    #   nielsenConfiguration in your JSON job specification. Even if you
-    #   don't include any children of nielsenConfiguration, you still
-    #   enable the setting.
+    #   Nielsen configuration, MediaConvert enables PCM to ID3 tagging for
+    #   all outputs in the job.
     #   @return [Types::NielsenConfiguration]
     #
     # @!attribute [rw] nielsen_non_linear_watermark
@@ -7860,23 +8480,21 @@ module Aws::MediaConvert
     #   specifying these values, you also need to set up your cloud TIC
     #   server. These settings apply to every output in your job. The
     #   MediaConvert implementation is currently with the following Nielsen
-    #   versions: Nielsen Watermark SDK Version 5.2.1 Nielsen NLM Watermark
-    #   Engine Version 1.2.7 Nielsen Watermark Authenticator \[SID\_TIC\]
-    #   Version \[5.0.0\]
+    #   versions: Nielsen Watermark SDK Version 6.0.13 Nielsen NLM Watermark
+    #   Engine Version 1.3.3 Nielsen Watermark Authenticator \[SID\_TIC\]
+    #   Version \[7.0.0\]
     #   @return [Types::NielsenNonLinearWatermarkSettings]
     #
     # @!attribute [rw] output_groups
-    #   (OutputGroups) contains one group of settings for each set of
-    #   outputs that share a common package type. All unpackaged files
-    #   (MPEG-4, MPEG-2 TS, Quicktime, MXF, and no container) are grouped in
-    #   a single output group as well. Required in (OutputGroups) is a group
-    #   of settings that apply to the whole group. This required object
-    #   depends on the value you set for (Type) under
-    #   (OutputGroups)>(OutputGroupSettings). Type, settings object pairs
-    #   are as follows. * FILE\_GROUP\_SETTINGS, FileGroupSettings *
-    #   HLS\_GROUP\_SETTINGS, HlsGroupSettings *
-    #   DASH\_ISO\_GROUP\_SETTINGS, DashIsoGroupSettings *
-    #   MS\_SMOOTH\_GROUP\_SETTINGS, MsSmoothGroupSettings *
+    #   Contains one group of settings for each set of outputs that share a
+    #   common package type. All unpackaged files (MPEG-4, MPEG-2 TS,
+    #   Quicktime, MXF, and no container) are grouped in a single output
+    #   group as well. Required in is a group of settings that apply to the
+    #   whole group. This required object depends on the value you set for
+    #   Type. Type, settings object pairs are as follows. *
+    #   FILE\_GROUP\_SETTINGS, FileGroupSettings * HLS\_GROUP\_SETTINGS,
+    #   HlsGroupSettings * DASH\_ISO\_GROUP\_SETTINGS, DashIsoGroupSettings
+    #   * MS\_SMOOTH\_GROUP\_SETTINGS, MsSmoothGroupSettings *
     #   CMAF\_GROUP\_SETTINGS, CmafGroupSettings
     #   @return [Array<Types::OutputGroup>]
     #
@@ -7886,10 +8504,9 @@ module Aws::MediaConvert
     #   @return [Types::TimecodeConfig]
     #
     # @!attribute [rw] timed_metadata_insertion
-    #   Insert user-defined custom ID3 metadata (id3) at timecodes
-    #   (timecode) that you specify. In each output that you want to include
-    #   this metadata, you must set ID3 metadata (timedMetadata) to
-    #   Passthrough (PASSTHROUGH).
+    #   Insert user-defined custom ID3 metadata at timecodes that you
+    #   specify. In each output that you want to include this metadata, you
+    #   must set ID3 metadata to Passthrough.
     #   @return [Types::TimedMetadataInsertion]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/JobSettings AWS API Documentation
@@ -7897,8 +8514,10 @@ module Aws::MediaConvert
     class JobSettings < Struct.new(
       :ad_avail_offset,
       :avail_blanking,
+      :color_conversion_3_dlut_settings,
       :esam,
       :extended_data_services,
+      :follow_source,
       :inputs,
       :kantar_watermark,
       :motion_image_inserter,
@@ -8010,6 +8629,13 @@ module Aws::MediaConvert
     #   with an image, and audio muted during SCTE-35 triggered ad avails.
     #   @return [Types::AvailBlanking]
     #
+    # @!attribute [rw] color_conversion_3_dlut_settings
+    #   Use 3D LUTs to specify custom color mapping behavior when you
+    #   convert from one color space into another. You can include up to 8
+    #   different 3D LUTs. For more information, see:
+    #   https://docs.aws.amazon.com/mediaconvert/latest/ug/3d-luts.html
+    #   @return [Array<Types::ColorConversion3DLUTSetting>]
+    #
     # @!attribute [rw] esam
     #   Settings for Event Signaling And Messaging (ESAM). If you don't do
     #   ad insertion, you can ignore these settings.
@@ -8024,10 +8650,22 @@ module Aws::MediaConvert
     #   Advisory.
     #   @return [Types::ExtendedDataServices]
     #
+    # @!attribute [rw] follow_source
+    #   Specify the input that MediaConvert references for your default
+    #   output settings. MediaConvert uses this input's Resolution, Frame
+    #   rate, and Pixel aspect ratio for all outputs that you don't
+    #   manually specify different output settings for. Enabling this
+    #   setting will disable "Follow source" for all other inputs. If
+    #   MediaConvert cannot follow your source, for example if you specify
+    #   an audio-only input, MediaConvert uses the first followable input
+    #   instead. In your JSON job specification, enter an integer from 1 to
+    #   150 corresponding to the order of your inputs.
+    #   @return [Integer]
+    #
     # @!attribute [rw] inputs
-    #   Use Inputs (inputs) to define the source file used in the transcode
-    #   job. There can only be one input in a job template. Using the API,
-    #   you can include multiple inputs when referencing a job template.
+    #   Use Inputs to define the source file used in the transcode job.
+    #   There can only be one input in a job template. Using the API, you
+    #   can include multiple inputs when referencing a job template.
     #   @return [Array<Types::InputTemplate>]
     #
     # @!attribute [rw] kantar_watermark
@@ -8050,12 +8688,8 @@ module Aws::MediaConvert
     # @!attribute [rw] nielsen_configuration
     #   Settings for your Nielsen configuration. If you don't do Nielsen
     #   measurement and analytics, ignore these settings. When you enable
-    #   Nielsen configuration (nielsenConfiguration), MediaConvert enables
-    #   PCM to ID3 tagging for all outputs in the job. To enable Nielsen
-    #   configuration programmatically, include an instance of
-    #   nielsenConfiguration in your JSON job specification. Even if you
-    #   don't include any children of nielsenConfiguration, you still
-    #   enable the setting.
+    #   Nielsen configuration, MediaConvert enables PCM to ID3 tagging for
+    #   all outputs in the job.
     #   @return [Types::NielsenConfiguration]
     #
     # @!attribute [rw] nielsen_non_linear_watermark
@@ -8065,23 +8699,21 @@ module Aws::MediaConvert
     #   specifying these values, you also need to set up your cloud TIC
     #   server. These settings apply to every output in your job. The
     #   MediaConvert implementation is currently with the following Nielsen
-    #   versions: Nielsen Watermark SDK Version 5.2.1 Nielsen NLM Watermark
-    #   Engine Version 1.2.7 Nielsen Watermark Authenticator \[SID\_TIC\]
-    #   Version \[5.0.0\]
+    #   versions: Nielsen Watermark SDK Version 6.0.13 Nielsen NLM Watermark
+    #   Engine Version 1.3.3 Nielsen Watermark Authenticator \[SID\_TIC\]
+    #   Version \[7.0.0\]
     #   @return [Types::NielsenNonLinearWatermarkSettings]
     #
     # @!attribute [rw] output_groups
-    #   (OutputGroups) contains one group of settings for each set of
-    #   outputs that share a common package type. All unpackaged files
-    #   (MPEG-4, MPEG-2 TS, Quicktime, MXF, and no container) are grouped in
-    #   a single output group as well. Required in (OutputGroups) is a group
-    #   of settings that apply to the whole group. This required object
-    #   depends on the value you set for (Type) under
-    #   (OutputGroups)>(OutputGroupSettings). Type, settings object pairs
-    #   are as follows. * FILE\_GROUP\_SETTINGS, FileGroupSettings *
-    #   HLS\_GROUP\_SETTINGS, HlsGroupSettings *
-    #   DASH\_ISO\_GROUP\_SETTINGS, DashIsoGroupSettings *
-    #   MS\_SMOOTH\_GROUP\_SETTINGS, MsSmoothGroupSettings *
+    #   Contains one group of settings for each set of outputs that share a
+    #   common package type. All unpackaged files (MPEG-4, MPEG-2 TS,
+    #   Quicktime, MXF, and no container) are grouped in a single output
+    #   group as well. Required in is a group of settings that apply to the
+    #   whole group. This required object depends on the value you set for
+    #   Type. Type, settings object pairs are as follows. *
+    #   FILE\_GROUP\_SETTINGS, FileGroupSettings * HLS\_GROUP\_SETTINGS,
+    #   HlsGroupSettings * DASH\_ISO\_GROUP\_SETTINGS, DashIsoGroupSettings
+    #   * MS\_SMOOTH\_GROUP\_SETTINGS, MsSmoothGroupSettings *
     #   CMAF\_GROUP\_SETTINGS, CmafGroupSettings
     #   @return [Array<Types::OutputGroup>]
     #
@@ -8091,10 +8723,9 @@ module Aws::MediaConvert
     #   @return [Types::TimecodeConfig]
     #
     # @!attribute [rw] timed_metadata_insertion
-    #   Insert user-defined custom ID3 metadata (id3) at timecodes
-    #   (timecode) that you specify. In each output that you want to include
-    #   this metadata, you must set ID3 metadata (timedMetadata) to
-    #   Passthrough (PASSTHROUGH).
+    #   Insert user-defined custom ID3 metadata at timecodes that you
+    #   specify. In each output that you want to include this metadata, you
+    #   must set ID3 metadata to Passthrough.
     #   @return [Types::TimedMetadataInsertion]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/JobTemplateSettings AWS API Documentation
@@ -8102,8 +8733,10 @@ module Aws::MediaConvert
     class JobTemplateSettings < Struct.new(
       :ad_avail_offset,
       :avail_blanking,
+      :color_conversion_3_dlut_settings,
       :esam,
       :extended_data_services,
+      :follow_source,
       :inputs,
       :kantar_watermark,
       :motion_image_inserter,
@@ -8466,11 +9099,24 @@ module Aws::MediaConvert
     #   List of queues.
     #   @return [Array<Types::Queue>]
     #
+    # @!attribute [rw] total_concurrent_jobs
+    #   The maximum number of jobs that MediaConvert can process at one
+    #   time, across all of your on-demand queues in the current AWS Region.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] unallocated_concurrent_jobs
+    #   The remaining number of concurrent jobs that are not associated with
+    #   a queue and are available to allocate to a queue. You can allocate
+    #   these jobs when you create or update a queue.
+    #   @return [Integer]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/ListQueuesResponse AWS API Documentation
     #
     class ListQueuesResponse < Struct.new(
       :next_token,
-      :queues)
+      :queues,
+      :total_concurrent_jobs,
+      :unallocated_concurrent_jobs)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -8508,10 +9154,54 @@ module Aws::MediaConvert
       include Aws::Structure
     end
 
+    # Retrieve a JSON array of all available Job engine versions and the
+    # date they expire. Job engine versions are in YYYY-MM-DD format.
+    #
+    # @!attribute [rw] max_results
+    #   Optional. Number of valid Job engine versions, up to twenty, that
+    #   will be returned at one time.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   Optional. Use this string, provided with the response to a previous
+    #   request, to request the next batch of Job engine versions.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/ListVersionsRequest AWS API Documentation
+    #
+    class ListVersionsRequest < Struct.new(
+      :max_results,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Successful list versions requests will return a JSON for available Job
+    # engine versions.
+    #
+    # @!attribute [rw] next_token
+    #   Optional. Use this string, provided with the response to a previous
+    #   request, to request the next batch of Job engine versions.
+    #   @return [String]
+    #
+    # @!attribute [rw] versions
+    #   Retrieve a JSON array of all available Job engine versions and the
+    #   date they expire.
+    #   @return [Array<Types::JobEngineVersion>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/ListVersionsResponse AWS API Documentation
+    #
+    class ListVersionsResponse < Struct.new(
+      :next_token,
+      :versions)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Settings for SCTE-35 signals from ESAM. Include this in your job
     # settings to put SCTE-35 markers in your HLS and transport stream
     # outputs at the insertion points that you specify in an ESAM XML
-    # document. Provide the document in the setting SCC XML (sccXml).
+    # document. Provide the document in the setting SCC XML.
     #
     # @!attribute [rw] scte_35_esam_pid
     #   Packet Identifier (PID) of the SCTE-35 stream in the transport
@@ -8527,11 +9217,11 @@ module Aws::MediaConvert
     end
 
     # MPEG-2 TS container settings. These apply to outputs in a File output
-    # group when the output's container (ContainerType) is MPEG-2 Transport
-    # Stream (M2TS). In these assets, data is organized by the program map
-    # table (PMT). Each transport stream program contains subsets of data,
-    # including audio, video, and metadata. Each of these subsets of data
-    # has a numerical label called a packet identifier (PID). Each transport
+    # group when the output's container is MPEG-2 Transport Stream (M2TS).
+    # In these assets, data is organized by the program map table (PMT).
+    # Each transport stream program contains subsets of data, including
+    # audio, video, and metadata. Each of these subsets of data has a
+    # numerical label called a packet identifier (PID). Each transport
     # stream program corresponds to one MediaConvert output. The PMT lists
     # the types of data in a program along with their PID. Downstream
     # systems and players use the program map table to look up the PID for
@@ -8547,9 +9237,8 @@ module Aws::MediaConvert
     #   Specify this setting only when your output will be consumed by a
     #   downstream repackaging workflow that is sensitive to very small
     #   duration differences between video and audio. For this situation,
-    #   choose Match video duration (MATCH\_VIDEO\_DURATION). In all other
-    #   cases, keep the default value, Default codec duration
-    #   (DEFAULT\_CODEC\_DURATION). When you choose Match video duration,
+    #   choose Match video duration. In all other cases, keep the default
+    #   value, Default codec duration. When you choose Match video duration,
     #   MediaConvert pads the output audio streams with silence or trims
     #   them to ensure that the total duration of each audio stream is at
     #   least as long as the total duration of the video stream. After
@@ -8590,24 +9279,18 @@ module Aws::MediaConvert
     #   If you select ALIGN\_TO\_VIDEO, MediaConvert writes captions and
     #   data packets with Presentation Timestamp (PTS) values greater than
     #   or equal to the first video packet PTS (MediaConvert drops captions
-    #   and data packets with lesser PTS values). Keep the default value
-    #   (AUTO) to allow all PTS values.
+    #   and data packets with lesser PTS values). Keep the default value to
+    #   allow all PTS values.
     #   @return [String]
     #
     # @!attribute [rw] dvb_nit_settings
     #   Use these settings to insert a DVB Network Information Table (NIT)
-    #   in the transport stream of this output. When you work directly in
-    #   your JSON job specification, include this object only when your job
-    #   has a transport stream output and the container settings contain the
-    #   object M2tsSettings.
+    #   in the transport stream of this output.
     #   @return [Types::DvbNitSettings]
     #
     # @!attribute [rw] dvb_sdt_settings
     #   Use these settings to insert a DVB Service Description Table (SDT)
-    #   in the transport stream of this output. When you work directly in
-    #   your JSON job specification, include this object only when your job
-    #   has a transport stream output and the container settings contain the
-    #   object M2tsSettings.
+    #   in the transport stream of this output.
     #   @return [Types::DvbSdtSettings]
     #
     # @!attribute [rw] dvb_sub_pids
@@ -8618,10 +9301,7 @@ module Aws::MediaConvert
     #
     # @!attribute [rw] dvb_tdt_settings
     #   Use these settings to insert a DVB Time and Date Table (TDT) in the
-    #   transport stream of this output. When you work directly in your JSON
-    #   job specification, include this object only when your job has a
-    #   transport stream output and the container settings contain the
-    #   object M2tsSettings.
+    #   transport stream of this output.
     #   @return [Types::DvbTdtSettings]
     #
     # @!attribute [rw] dvb_teletext_pid
@@ -8650,9 +9330,9 @@ module Aws::MediaConvert
     #   @return [String]
     #
     # @!attribute [rw] force_ts_video_ebp_order
-    #   Keep the default value (DEFAULT) unless you know that your audio EBP
-    #   markers are incorrectly appearing before your video EBP markers. To
-    #   correct this problem, set this value to Force (FORCE).
+    #   Keep the default value unless you know that your audio EBP markers
+    #   are incorrectly appearing before your video EBP markers. To correct
+    #   this problem, set this value to Force.
     #   @return [String]
     #
     # @!attribute [rw] fragment_time
@@ -8710,7 +9390,7 @@ module Aws::MediaConvert
     # @!attribute [rw] pcr_pid
     #   Specify the packet identifier (PID) for the program clock reference
     #   (PCR) in this output. If you do not specify a value, the service
-    #   will use the value for Video PID (VideoPid).
+    #   will use the value for Video PID.
     #   @return [Integer]
     #
     # @!attribute [rw] pmt_interval
@@ -8723,17 +9403,46 @@ module Aws::MediaConvert
     #   itself. Default is 480.
     #   @return [Integer]
     #
+    # @!attribute [rw] prevent_buffer_underflow
+    #   Specify whether MediaConvert automatically attempts to prevent
+    #   decoder buffer underflows in your transport stream output. Use if
+    #   you are seeing decoder buffer underflows in your output and are
+    #   unable to increase your transport stream's bitrate. For most
+    #   workflows: We recommend that you keep the default value, Disabled.
+    #   To prevent decoder buffer underflows in your output, when possible:
+    #   Choose Enabled. Note that if MediaConvert prevents a decoder buffer
+    #   underflow in your output, output video quality is reduced and your
+    #   job will take longer to complete.
+    #   @return [String]
+    #
     # @!attribute [rw] private_metadata_pid
     #   Specify the packet identifier (PID) of the private metadata stream.
     #   Default is 503.
     #   @return [Integer]
     #
     # @!attribute [rw] program_number
-    #   Use Program number (programNumber) to specify the program number
-    #   used in the program map table (PMT) for this output. Default is 1.
-    #   Program numbers and program map tables are parts of MPEG-2 transport
-    #   stream containers, used for organizing data.
+    #   Use Program number to specify the program number used in the program
+    #   map table (PMT) for this output. Default is 1. Program numbers and
+    #   program map tables are parts of MPEG-2 transport stream containers,
+    #   used for organizing data.
     #   @return [Integer]
+    #
+    # @!attribute [rw] pts_offset
+    #   Manually specify the initial PTS offset, in seconds, when you set
+    #   PTS offset to Seconds. Enter an integer from 0 to 3600. Leave blank
+    #   to keep the default value 2.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] pts_offset_mode
+    #   Specify the initial presentation timestamp (PTS) offset for your
+    #   transport stream output. To let MediaConvert automatically determine
+    #   the initial PTS offset: Keep the default value, Auto. We recommend
+    #   that you choose Auto for the widest player compatibility. The
+    #   initial PTS will be at least two seconds and vary depending on your
+    #   output's bitrate, HRD buffer size and HRD buffer initial fill
+    #   percentage. To manually specify an initial PTS offset: Choose
+    #   Seconds. Then specify the number of seconds with PTS offset.
+    #   @return [String]
     #
     # @!attribute [rw] rate_mode
     #   When set to CBR, inserts null packets into transport stream to fill
@@ -8746,7 +9455,7 @@ module Aws::MediaConvert
     #   Include this in your job settings to put SCTE-35 markers in your HLS
     #   and transport stream outputs at the insertion points that you
     #   specify in an ESAM XML document. Provide the document in the setting
-    #   SCC XML (sccXml).
+    #   SCC XML.
     #   @return [Types::M2tsScte35Esam]
     #
     # @!attribute [rw] scte_35_pid
@@ -8755,13 +9464,13 @@ module Aws::MediaConvert
     #   @return [Integer]
     #
     # @!attribute [rw] scte_35_source
-    #   For SCTE-35 markers from your input-- Choose Passthrough
-    #   (PASSTHROUGH) if you want SCTE-35 markers that appear in your input
-    #   to also appear in this output. Choose None (NONE) if you don't want
-    #   SCTE-35 markers in this output. For SCTE-35 markers from an ESAM XML
-    #   document-- Choose None (NONE). Also provide the ESAM XML as a string
-    #   in the setting Signal processing notification XML (sccXml). Also
-    #   enable ESAM SCTE-35 (include the property scte35Esam).
+    #   For SCTE-35 markers from your input-- Choose Passthrough if you want
+    #   SCTE-35 markers that appear in your input to also appear in this
+    #   output. Choose None if you don't want SCTE-35 markers in this
+    #   output. For SCTE-35 markers from an ESAM XML document-- Choose None.
+    #   Also provide the ESAM XML as a string in the setting Signal
+    #   processing notification XML. Also enable ESAM SCTE-35 (include the
+    #   property scte35Esam).
     #   @return [String]
     #
     # @!attribute [rw] segmentation_markers
@@ -8844,8 +9553,11 @@ module Aws::MediaConvert
       :pcr_pid,
       :pmt_interval,
       :pmt_pid,
+      :prevent_buffer_underflow,
       :private_metadata_pid,
       :program_number,
+      :pts_offset,
+      :pts_offset_mode,
       :rate_mode,
       :scte_35_esam,
       :scte_35_pid,
@@ -8867,9 +9579,8 @@ module Aws::MediaConvert
     #   Specify this setting only when your output will be consumed by a
     #   downstream repackaging workflow that is sensitive to very small
     #   duration differences between video and audio. For this situation,
-    #   choose Match video duration (MATCH\_VIDEO\_DURATION). In all other
-    #   cases, keep the default value, Default codec duration
-    #   (DEFAULT\_CODEC\_DURATION). When you choose Match video duration,
+    #   choose Match video duration. In all other cases, keep the default
+    #   value, Default codec duration. When you choose Match video duration,
     #   MediaConvert pads the output audio streams with silence or trims
     #   them to ensure that the total duration of each audio stream is at
     #   least as long as the total duration of the video stream. After
@@ -8897,7 +9608,7 @@ module Aws::MediaConvert
     #   data packets with Presentation Timestamp (PTS) values greater than
     #   or equal to the first video packet PTS (MediaConvert drops captions
     #   and data packets with lesser PTS values). Keep the default value
-    #   (AUTO) to allow all PTS values.
+    #   AUTO to allow all PTS values.
     #   @return [String]
     #
     # @!attribute [rw] max_pcr_interval
@@ -8948,30 +9659,45 @@ module Aws::MediaConvert
     #   The value of the program number field in the Program Map Table.
     #   @return [Integer]
     #
+    # @!attribute [rw] pts_offset
+    #   Manually specify the initial PTS offset, in seconds, when you set
+    #   PTS offset to Seconds. Enter an integer from 0 to 3600. Leave blank
+    #   to keep the default value 2.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] pts_offset_mode
+    #   Specify the initial presentation timestamp (PTS) offset for your
+    #   transport stream output. To let MediaConvert automatically determine
+    #   the initial PTS offset: Keep the default value, Auto. We recommend
+    #   that you choose Auto for the widest player compatibility. The
+    #   initial PTS will be at least two seconds and vary depending on your
+    #   output's bitrate, HRD buffer size and HRD buffer initial fill
+    #   percentage. To manually specify an initial PTS offset: Choose
+    #   Seconds. Then specify the number of seconds with PTS offset.
+    #   @return [String]
+    #
     # @!attribute [rw] scte_35_pid
     #   Packet Identifier (PID) of the SCTE-35 stream in the transport
     #   stream.
     #   @return [Integer]
     #
     # @!attribute [rw] scte_35_source
-    #   For SCTE-35 markers from your input-- Choose Passthrough
-    #   (PASSTHROUGH) if you want SCTE-35 markers that appear in your input
-    #   to also appear in this output. Choose None (NONE) if you don't want
-    #   SCTE-35 markers in this output. For SCTE-35 markers from an ESAM XML
-    #   document-- Choose None (NONE) if you don't want manifest
-    #   conditioning. Choose Passthrough (PASSTHROUGH) and choose Ad markers
-    #   (adMarkers) if you do want manifest conditioning. In both cases,
-    #   also provide the ESAM XML as a string in the setting Signal
-    #   processing notification XML (sccXml).
+    #   For SCTE-35 markers from your input-- Choose Passthrough if you want
+    #   SCTE-35 markers that appear in your input to also appear in this
+    #   output. Choose None if you don't want SCTE-35 markers in this
+    #   output. For SCTE-35 markers from an ESAM XML document-- Choose None
+    #   if you don't want manifest conditioning. Choose Passthrough and
+    #   choose Ad markers if you do want manifest conditioning. In both
+    #   cases, also provide the ESAM XML as a string in the setting Signal
+    #   processing notification XML.
     #   @return [String]
     #
     # @!attribute [rw] timed_metadata
-    #   Set ID3 metadata (timedMetadata) to Passthrough (PASSTHROUGH) to
-    #   include ID3 metadata in this output. This includes ID3 metadata from
-    #   the following features: ID3 timestamp period
-    #   (timedMetadataId3Period), and Custom ID3 metadata inserter
-    #   (timedMetadataInsertion). To exclude this ID3 metadata in this
-    #   output: set ID3 metadata to None (NONE) or leave blank.
+    #   Set ID3 metadata to Passthrough to include ID3 metadata in this
+    #   output. This includes ID3 metadata from the following features: ID3
+    #   timestamp period, and Custom ID3 metadata inserter. To exclude this
+    #   ID3 metadata in this output: set ID3 metadata to None or leave
+    #   blank.
     #   @return [String]
     #
     # @!attribute [rw] timed_metadata_pid
@@ -9004,6 +9730,8 @@ module Aws::MediaConvert
       :pmt_pid,
       :private_metadata_pid,
       :program_number,
+      :pts_offset,
+      :pts_offset_mode,
       :scte_35_pid,
       :scte_35_source,
       :timed_metadata,
@@ -9130,9 +9858,6 @@ module Aws::MediaConvert
     #   don't start at zero, make sure that you specify a start time that
     #   is after the first embedded timecode. For more information, see
     #   https://docs.aws.amazon.com/mediaconvert/latest/ug/setting-up-timecode.html
-    #   Find job-wide and input timecode configuration settings in your JSON
-    #   job settings specification at settings>timecodeConfig>source and
-    #   settings>inputs>timecodeSource.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/MotionImageInserter AWS API Documentation
@@ -9217,12 +9942,11 @@ module Aws::MediaConvert
     #   @return [String]
     #
     # @!attribute [rw] padding_control
-    #   To make this output compatible with Omenon, keep the default value,
-    #   OMNEON. Unless you need Omneon compatibility, set this value to
-    #   NONE. When you keep the default value, OMNEON, MediaConvert
-    #   increases the length of the edit list atom. This might cause file
-    #   rejections when a recipient of the output file doesn't expct this
-    #   extra padding.
+    #   Unless you need Omneon compatibility: Keep the default value, None.
+    #   To make this output compatible with Omneon: Choose Omneon. When you
+    #   do, MediaConvert increases the length of the 'elst' edit list
+    #   atom. Note that this might cause file rejections when a recipient of
+    #   the output file doesn't expect this extra padding.
     #   @return [String]
     #
     # @!attribute [rw] reference
@@ -9241,8 +9965,7 @@ module Aws::MediaConvert
       include Aws::Structure
     end
 
-    # Required when you set (Codec) under
-    # (AudioDescriptions)>(CodecSettings) to the value MP2.
+    # Required when you set Codec to the value MP2.
     #
     # @!attribute [rw] bitrate
     #   Specify the average bitrate in bits per second.
@@ -9250,13 +9973,12 @@ module Aws::MediaConvert
     #
     # @!attribute [rw] channels
     #   Set Channels to specify the number of channels in this output audio
-    #   track. Choosing Mono in the console will give you 1 output channel;
-    #   choosing Stereo will give you 2. In the API, valid values are 1 and
-    #   2.
+    #   track. Choosing Mono in will give you 1 output channel; choosing
+    #   Stereo will give you 2. In the API, valid values are 1 and 2.
     #   @return [Integer]
     #
     # @!attribute [rw] sample_rate
-    #   Sample rate in hz.
+    #   Sample rate in Hz.
     #   @return [Integer]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/Mp2Settings AWS API Documentation
@@ -9278,8 +10000,8 @@ module Aws::MediaConvert
     #
     # @!attribute [rw] channels
     #   Specify the number of channels in this output audio track. Choosing
-    #   Mono on the console gives you 1 output channel; choosing Stereo
-    #   gives you 2. In the API, valid values are 1 and 2.
+    #   Mono gives you 1 output channel; choosing Stereo gives you 2. In the
+    #   API, valid values are 1 and 2.
     #   @return [Integer]
     #
     # @!attribute [rw] rate_control_mode
@@ -9288,13 +10010,13 @@ module Aws::MediaConvert
     #   @return [String]
     #
     # @!attribute [rw] sample_rate
-    #   Sample rate in hz.
+    #   Sample rate in Hz.
     #   @return [Integer]
     #
     # @!attribute [rw] vbr_quality
-    #   Required when you set Bitrate control mode (rateControlMode) to VBR.
-    #   Specify the audio quality of this MP3 output from 0 (highest
-    #   quality) to 9 (lowest quality).
+    #   Required when you set Bitrate control mode to VBR. Specify the audio
+    #   quality of this MP3 output from 0 (highest quality) to 9 (lowest
+    #   quality).
     #   @return [Integer]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/Mp3Settings AWS API Documentation
@@ -9317,9 +10039,8 @@ module Aws::MediaConvert
     #   Specify this setting only when your output will be consumed by a
     #   downstream repackaging workflow that is sensitive to very small
     #   duration differences between video and audio. For this situation,
-    #   choose Match video duration (MATCH\_VIDEO\_DURATION). In all other
-    #   cases, keep the default value, Default codec duration
-    #   (DEFAULT\_CODEC\_DURATION). When you choose Match video duration,
+    #   choose Match video duration. In all other cases, keep the default
+    #   value, Default codec duration. When you choose Match video duration,
     #   MediaConvert pads the output audio streams with silence or trims
     #   them to ensure that the total duration of each audio stream is at
     #   least as long as the total duration of the video stream. After
@@ -9345,9 +10066,9 @@ module Aws::MediaConvert
     #   specification matters in your workflow. Specify a value of 1 to set
     #   your CTTS box version to 1 and make your output compliant with the
     #   specification. When you specify a value of 1, you must also set CSLG
-    #   atom (cslgAtom) to the value INCLUDE. Keep the default value 0 to
-    #   set your CTTS box version to 0. This can provide backward
-    #   compatibility for some players and packagers.
+    #   atom to the value INCLUDE. Keep the default value 0 to set your CTTS
+    #   box version to 0. This can provide backward compatibility for some
+    #   players and packagers.
     #   @return [Integer]
     #
     # @!attribute [rw] free_space_box
@@ -9355,9 +10076,10 @@ module Aws::MediaConvert
     #   @return [String]
     #
     # @!attribute [rw] moov_placement
-    #   If set to PROGRESSIVE\_DOWNLOAD, the MOOV atom is relocated to the
-    #   beginning of the archive as required for progressive downloading.
-    #   Otherwise it is placed normally at the end.
+    #   To place the MOOV atom at the beginning of your output, which is
+    #   useful for progressive downloading: Leave blank or choose
+    #   Progressive download. To place the MOOV at the end of your output:
+    #   Choose Normal.
     #   @return [String]
     #
     # @!attribute [rw] mp_4_major_brand
@@ -9382,16 +10104,15 @@ module Aws::MediaConvert
     # in your DASH outputs.
     #
     # @!attribute [rw] accessibility_caption_hints
-    #   Optional. Choose Include (INCLUDE) to have MediaConvert mark up your DASH manifest with <Accessibility> elements for embedded 608 captions. This markup isn't generally required, but some video players require it to discover and play embedded 608 captions. Keep the default value, Exclude (EXCLUDE), to leave these elements out. When you enable this setting, this is the markup that MediaConvert includes in your manifest: <Accessibility schemeIdUri="urn:scte:dash:cc:cea-608:2015" value="CC1=eng" /> </Accessibility>
+    #   Optional. Choose Include to have MediaConvert mark up your DASH manifest with <Accessibility> elements for embedded 608 captions. This markup isn't generally required, but some video players require it to discover and play embedded 608 captions. Keep the default value, Exclude, to leave these elements out. When you enable this setting, this is the markup that MediaConvert includes in your manifest: <Accessibility schemeIdUri="urn:scte:dash:cc:cea-608:2015" value="CC1=eng" /> </Accessibility>
     #   @return [String]
     #
     # @!attribute [rw] audio_duration
     #   Specify this setting only when your output will be consumed by a
     #   downstream repackaging workflow that is sensitive to very small
     #   duration differences between video and audio. For this situation,
-    #   choose Match video duration (MATCH\_VIDEO\_DURATION). In all other
-    #   cases, keep the default value, Default codec duration
-    #   (DEFAULT\_CODEC\_DURATION). When you choose Match video duration,
+    #   choose Match video duration. In all other cases, keep the default
+    #   value, Default codec duration. When you choose Match video duration,
     #   MediaConvert pads the output audio streams with silence or trims
     #   them to ensure that the total duration of each audio stream is at
     #   least as long as the total duration of the video stream. After
@@ -9407,11 +10128,11 @@ module Aws::MediaConvert
     # @!attribute [rw] caption_container_type
     #   Use this setting only in DASH output groups that include sidecar
     #   TTML or IMSC captions. You specify sidecar captions in a separate
-    #   output from your audio and video. Choose Raw (RAW) for captions in a
-    #   single XML file in a raw container. Choose Fragmented MPEG-4
-    #   (FRAGMENTED\_MP4) for captions in XML format contained within
-    #   fragmented MP4 files. This set of fragmented MP4 files is separate
-    #   from your video and audio fragmented MP4 files.
+    #   output from your audio and video. Choose Raw for captions in a
+    #   single XML file in a raw container. Choose Fragmented MPEG-4 for
+    #   captions in XML format contained within fragmented MP4 files. This
+    #   set of fragmented MP4 files is separate from your video and audio
+    #   fragmented MP4 files.
     #   @return [String]
     #
     # @!attribute [rw] klv_metadata
@@ -9433,31 +10154,29 @@ module Aws::MediaConvert
     #   these elements out of your output MPD manifest, set Manifest
     #   metadata signaling to Disabled. To enable Manifest metadata
     #   signaling, you must also set SCTE-35 source to Passthrough, ESAM
-    #   SCTE-35 to insert, or ID3 metadata (TimedMetadata) to Passthrough.
+    #   SCTE-35 to insert, or ID3 metadata to Passthrough.
     #   @return [String]
     #
     # @!attribute [rw] scte_35_esam
     #   Use this setting only when you specify SCTE-35 markers from ESAM.
     #   Choose INSERT to put SCTE-35 markers in this output at the insertion
     #   points that you specify in an ESAM XML document. Provide the
-    #   document in the setting SCC XML (sccXml).
+    #   document in the setting SCC XML.
     #   @return [String]
     #
     # @!attribute [rw] scte_35_source
     #   Ignore this setting unless you have SCTE-35 markers in your input
-    #   video file. Choose Passthrough (PASSTHROUGH) if you want SCTE-35
-    #   markers that appear in your input to also appear in this output.
-    #   Choose None (NONE) if you don't want those SCTE-35 markers in this
-    #   output.
+    #   video file. Choose Passthrough if you want SCTE-35 markers that
+    #   appear in your input to also appear in this output. Choose None if
+    #   you don't want those SCTE-35 markers in this output.
     #   @return [String]
     #
     # @!attribute [rw] timed_metadata
-    #   To include ID3 metadata in this output: Set ID3 metadata
-    #   (timedMetadata) to Passthrough (PASSTHROUGH). Specify this ID3
-    #   metadata in Custom ID3 metadata inserter (timedMetadataInsertion).
-    #   MediaConvert writes each instance of ID3 metadata in a separate
-    #   Event Message (eMSG) box. To exclude this ID3 metadata: Set ID3
-    #   metadata to None (NONE) or leave blank.
+    #   To include ID3 metadata in this output: Set ID3 metadata to
+    #   Passthrough. Specify this ID3 metadata in Custom ID3 metadata
+    #   inserter. MediaConvert writes each instance of ID3 metadata in a
+    #   separate Event Message (eMSG) box. To exclude this ID3 metadata: Set
+    #   ID3 metadata to None or leave blank.
     #   @return [String]
     #
     # @!attribute [rw] timed_metadata_box_version
@@ -9465,24 +10184,23 @@ module Aws::MediaConvert
     #   in your output. For more information, see ISO/IEC 23009-1:2022
     #   section 5.10.3.3.3 Syntax. Leave blank to use the default value
     #   Version 0. When you specify Version 1, you must also set ID3
-    #   metadata (timedMetadata) to Passthrough.
+    #   metadata to Passthrough.
     #   @return [String]
     #
     # @!attribute [rw] timed_metadata_scheme_id_uri
-    #   Specify the event message box (eMSG) scheme ID URI (scheme\_id\_uri)
-    #   for ID3 timed metadata in your output. For more informaiton, see
-    #   ISO/IEC 23009-1:2022 section 5.10.3.3.4 Semantics. Leave blank to
-    #   use the default value: https://aomedia.org/emsg/ID3 When you specify
-    #   a value for ID3 metadata scheme ID URI, you must also set ID3
-    #   metadata (timedMetadata) to Passthrough.
+    #   Specify the event message box (eMSG) scheme ID URI for ID3 timed
+    #   metadata in your output. For more information, see ISO/IEC
+    #   23009-1:2022 section 5.10.3.3.4 Semantics. Leave blank to use the
+    #   default value: https://aomedia.org/emsg/ID3 When you specify a value
+    #   for ID3 metadata scheme ID URI, you must also set ID3 metadata to
+    #   Passthrough.
     #   @return [String]
     #
     # @!attribute [rw] timed_metadata_value
     #   Specify the event message box (eMSG) value for ID3 timed metadata in
-    #   your output. For more informaiton, see ISO/IEC 23009-1:2022 section
+    #   your output. For more information, see ISO/IEC 23009-1:2022 section
     #   5.10.3.3.4 Semantics. When you specify a value for ID3 Metadata
-    #   Value, you must also set ID3 metadata (timedMetadata) to
-    #   Passthrough.
+    #   Value, you must also set ID3 metadata to Passthrough.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/MpdSettings AWS API Documentation
@@ -9503,15 +10221,13 @@ module Aws::MediaConvert
       include Aws::Structure
     end
 
-    # Required when you set (Codec) under (VideoDescription)>(CodecSettings)
-    # to the value MPEG2.
+    # Required when you set Codec to the value MPEG2.
     #
     # @!attribute [rw] adaptive_quantization
     #   Specify the strength of any adaptive quantization filters that you
     #   enable. The value that you choose here applies to the following
-    #   settings: Spatial adaptive quantization
-    #   (spatialAdaptiveQuantization), and Temporal adaptive quantization
-    #   (temporalAdaptiveQuantization).
+    #   settings: Spatial adaptive quantization, and Temporal adaptive
+    #   quantization.
     #   @return [String]
     #
     # @!attribute [rw] bitrate
@@ -9521,13 +10237,11 @@ module Aws::MediaConvert
     #   @return [Integer]
     #
     # @!attribute [rw] codec_level
-    #   Use Level (Mpeg2CodecLevel) to set the MPEG-2 level for the video
-    #   output.
+    #   Use Level to set the MPEG-2 level for the video output.
     #   @return [String]
     #
     # @!attribute [rw] codec_profile
-    #   Use Profile (Mpeg2CodecProfile) to set the MPEG-2 profile for the
-    #   video output.
+    #   Use Profile to set the MPEG-2 profile for the video output.
     #   @return [String]
     #
     # @!attribute [rw] dynamic_sub_gop
@@ -9536,8 +10250,7 @@ module Aws::MediaConvert
     #   infer information based on other frames) for high-motion portions of
     #   the video and more B-frames for low-motion portions. The maximum
     #   number of B-frames is limited by the value you provide for the
-    #   setting B frames between reference frames
-    #   (numberBFramesBetweenReferenceFrames).
+    #   setting B frames between reference frames.
     #   @return [String]
     #
     # @!attribute [rw] framerate_control
@@ -9547,28 +10260,28 @@ module Aws::MediaConvert
     #   frame rate conversion, choose a frame rate from the dropdown list or
     #   choose Custom. The framerates shown in the dropdown list are decimal
     #   approximations of fractions. If you choose Custom, specify your
-    #   frame rate as a fraction. If you are creating your transcoding job
-    #   specification as a JSON file without the console, use
-    #   FramerateControl to specify which value the service uses for the
-    #   frame rate for this output. Choose INITIALIZE\_FROM\_SOURCE if you
-    #   want the service to use the frame rate from the input. Choose
-    #   SPECIFIED if you want the service to use the frame rate you specify
-    #   in the settings FramerateNumerator and FramerateDenominator.
+    #   frame rate as a fraction.
     #   @return [String]
     #
     # @!attribute [rw] framerate_conversion_algorithm
     #   Choose the method that you want MediaConvert to use when increasing
-    #   or decreasing the frame rate. We recommend using drop duplicate
-    #   (DUPLICATE\_DROP) for numerically simple conversions, such as 60 fps
-    #   to 30 fps. For numerically complex conversions, you can use
-    #   interpolate (INTERPOLATE) to avoid stutter. This results in a smooth
-    #   picture, but might introduce undesirable video artifacts. For
+    #   or decreasing your video's frame rate. For numerically simple
+    #   conversions, such as 60 fps to 30 fps: We recommend that you keep
+    #   the default value, Drop duplicate. For numerically complex
+    #   conversions, to avoid stutter: Choose Interpolate. This results in a
+    #   smooth picture, but might introduce undesirable video artifacts. For
     #   complex frame rate conversions, especially if your source video has
-    #   already been converted from its original cadence, use FrameFormer
-    #   (FRAMEFORMER) to do motion-compensated interpolation. FrameFormer
-    #   chooses the best conversion method frame by frame. Note that using
-    #   FrameFormer increases the transcoding time and incurs a significant
-    #   add-on cost.
+    #   already been converted from its original cadence: Choose FrameFormer
+    #   to do motion-compensated interpolation. FrameFormer uses the best
+    #   conversion method frame by frame. Note that using FrameFormer
+    #   increases the transcoding time and incurs a significant add-on cost.
+    #   When you choose FrameFormer, your input video resolution must be at
+    #   least 128x96. To create an output with the same number of frames as
+    #   your input: Choose Maintain frame count. When you do, MediaConvert
+    #   will not drop, interpolate, add, or otherwise change the frame count
+    #   from your input to your output. Note that since the frame count is
+    #   maintained, the duration of your output will become shorter at
+    #   higher frame rates and longer at lower frame rates.
     #   @return [String]
     #
     # @!attribute [rw] framerate_denominator
@@ -9604,14 +10317,13 @@ module Aws::MediaConvert
     # @!attribute [rw] gop_size
     #   Specify the interval between keyframes, in seconds or frames, for
     #   this output. Default: 12 Related settings: When you specify the GOP
-    #   size in seconds, set GOP mode control (GopSizeUnits) to Specified,
-    #   seconds (SECONDS). The default value for GOP mode control
-    #   (GopSizeUnits) is Frames (FRAMES).
+    #   size in seconds, set GOP mode control to Specified, seconds. The
+    #   default value for GOP mode control is Frames.
     #   @return [Float]
     #
     # @!attribute [rw] gop_size_units
-    #   Specify the units for GOP size (GopSize). If you don't specify a
-    #   value here, by default the encoder measures GOP size in frames.
+    #   Specify the units for GOP size. If you don't specify a value here,
+    #   by default the encoder measures GOP size in frames.
     #   @return [String]
     #
     # @!attribute [rw] hrd_buffer_final_fill_percentage
@@ -9634,26 +10346,24 @@ module Aws::MediaConvert
     #
     # @!attribute [rw] interlace_mode
     #   Choose the scan line type for the output. Keep the default value,
-    #   Progressive (PROGRESSIVE) to create a progressive output, regardless
-    #   of the scan type of your input. Use Top field first (TOP\_FIELD) or
-    #   Bottom field first (BOTTOM\_FIELD) to create an output that's
-    #   interlaced with the same field polarity throughout. Use Follow,
-    #   default top (FOLLOW\_TOP\_FIELD) or Follow, default bottom
-    #   (FOLLOW\_BOTTOM\_FIELD) to produce outputs with the same field
-    #   polarity as the source. For jobs that have multiple inputs, the
-    #   output field polarity might change over the course of the output.
-    #   Follow behavior depends on the input scan type. If the source is
-    #   interlaced, the output will be interlaced with the same polarity as
-    #   the source. If the source is progressive, the output will be
-    #   interlaced with top field bottom field first, depending on which of
-    #   the Follow options you choose.
+    #   Progressive to create a progressive output, regardless of the scan
+    #   type of your input. Use Top field first or Bottom field first to
+    #   create an output that's interlaced with the same field polarity
+    #   throughout. Use Follow, default top or Follow, default bottom to
+    #   produce outputs with the same field polarity as the source. For jobs
+    #   that have multiple inputs, the output field polarity might change
+    #   over the course of the output. Follow behavior depends on the input
+    #   scan type. If the source is interlaced, the output will be
+    #   interlaced with the same polarity as the source. If the source is
+    #   progressive, the output will be interlaced with top field bottom
+    #   field first, depending on which of the Follow options you choose.
     #   @return [String]
     #
     # @!attribute [rw] intra_dc_precision
-    #   Use Intra DC precision (Mpeg2IntraDcPrecision) to set quantization
-    #   precision for intra-block DC coefficients. If you choose the value
-    #   auto, the service will automatically select the precision based on
-    #   the per-frame compression ratio.
+    #   Use Intra DC precision to set quantization precision for intra-block
+    #   DC coefficients. If you choose the value auto, the service will
+    #   automatically select the precision based on the per-frame
+    #   compression ratio.
     #   @return [String]
     #
     # @!attribute [rw] max_bitrate
@@ -9662,20 +10372,22 @@ module Aws::MediaConvert
     #   @return [Integer]
     #
     # @!attribute [rw] min_i_interval
-    #   Use this setting only when you also enable Scene change detection
-    #   (SceneChangeDetect). This setting determines how the encoder manages
-    #   the spacing between I-frames that it inserts as part of the I-frame
-    #   cadence and the I-frames that it inserts for Scene change detection.
-    #   When you specify a value for this setting, the encoder determines
-    #   whether to skip a cadence-driven I-frame by the value you set. For
-    #   example, if you set Min I interval (minIInterval) to 5 and a
-    #   cadence-driven I-frame would fall within 5 frames of a scene-change
-    #   I-frame, then the encoder skips the cadence-driven I-frame. In this
-    #   way, one GOP is shrunk slightly and one GOP is stretched slightly.
-    #   When the cadence-driven I-frames are farther from the scene-change
-    #   I-frame than the value you set, then the encoder leaves all I-frames
-    #   in place and the GOPs surrounding the scene change are smaller than
-    #   the usual cadence GOPs.
+    #   Specify the minimum number of frames allowed between two IDR-frames
+    #   in your output. This includes frames created at the start of a GOP
+    #   or a scene change. Use Min I-Interval to improve video compression
+    #   by varying GOP size when two IDR-frames would be created near each
+    #   other. For example, if a regular cadence-driven IDR-frame would fall
+    #   within 5 frames of a scene-change IDR-frame, and you set Min
+    #   I-interval to 5, then the encoder would only write an IDR-frame for
+    #   the scene-change. In this way, one GOP is shortened or extended. If
+    #   a cadence-driven IDR-frame would be further than 5 frames from a
+    #   scene-change IDR-frame, then the encoder leaves all IDR-frames in
+    #   place. To manually specify an interval: Enter a value from 1 to 30.
+    #   Use when your downstream systems have specific GOP size
+    #   requirements. To disable GOP size variance: Enter 0. MediaConvert
+    #   will only create IDR-frames at the start of your output's
+    #   cadence-driven GOP. Use when your downstream systems require a
+    #   regular GOP size.
     #   @return [Integer]
     #
     # @!attribute [rw] number_b_frames_between_reference_frames
@@ -9687,60 +10399,57 @@ module Aws::MediaConvert
     #
     # @!attribute [rw] par_control
     #   Optional. Specify how the service determines the pixel aspect ratio
-    #   (PAR) for this output. The default behavior, Follow source
-    #   (INITIALIZE\_FROM\_SOURCE), uses the PAR from your input video for
-    #   your output. To specify a different PAR in the console, choose any
-    #   value other than Follow source. To specify a different PAR by
-    #   editing the JSON job specification, choose SPECIFIED. When you
-    #   choose SPECIFIED for this setting, you must also specify values for
-    #   the parNumerator and parDenominator settings.
+    #   (PAR) for this output. The default behavior, Follow source, uses the
+    #   PAR from your input video for your output. To specify a different
+    #   PAR in the console, choose any value other than Follow source. When
+    #   you choose SPECIFIED for this setting, you must also specify values
+    #   for the parNumerator and parDenominator settings.
     #   @return [String]
     #
     # @!attribute [rw] par_denominator
-    #   Required when you set Pixel aspect ratio (parControl) to SPECIFIED.
-    #   On the console, this corresponds to any value other than Follow
-    #   source. When you specify an output pixel aspect ratio (PAR) that is
+    #   Required when you set Pixel aspect ratio to SPECIFIED. On the
+    #   console, this corresponds to any value other than Follow source.
+    #   When you specify an output pixel aspect ratio (PAR) that is
     #   different from your input video PAR, provide your output PAR as a
     #   ratio. For example, for D1/DV NTSC widescreen, you would specify the
     #   ratio 40:33. In this example, the value for parDenominator is 33.
     #   @return [Integer]
     #
     # @!attribute [rw] par_numerator
-    #   Required when you set Pixel aspect ratio (parControl) to SPECIFIED.
-    #   On the console, this corresponds to any value other than Follow
-    #   source. When you specify an output pixel aspect ratio (PAR) that is
+    #   Required when you set Pixel aspect ratio to SPECIFIED. On the
+    #   console, this corresponds to any value other than Follow source.
+    #   When you specify an output pixel aspect ratio (PAR) that is
     #   different from your input video PAR, provide your output PAR as a
     #   ratio. For example, for D1/DV NTSC widescreen, you would specify the
     #   ratio 40:33. In this example, the value for parNumerator is 40.
     #   @return [Integer]
     #
     # @!attribute [rw] quality_tuning_level
-    #   Optional. Use Quality tuning level (qualityTuningLevel) to choose
-    #   how you want to trade off encoding speed for output video quality.
-    #   The default behavior is faster, lower quality, single-pass encoding.
+    #   Optional. Use Quality tuning level to choose how you want to trade
+    #   off encoding speed for output video quality. The default behavior is
+    #   faster, lower quality, single-pass encoding.
     #   @return [String]
     #
     # @!attribute [rw] rate_control_mode
-    #   Use Rate control mode (Mpeg2RateControlMode) to specify whether the
-    #   bitrate is variable (vbr) or constant (cbr).
+    #   Use Rate control mode to specify whether the bitrate is variable
+    #   (vbr) or constant (cbr).
     #   @return [String]
     #
     # @!attribute [rw] scan_type_conversion_mode
     #   Use this setting for interlaced outputs, when your output frame rate
     #   is half of your input frame rate. In this situation, choose
-    #   Optimized interlacing (INTERLACED\_OPTIMIZE) to create a better
-    #   quality interlaced output. In this case, each progressive frame from
-    #   the input corresponds to an interlaced field in the output. Keep the
-    #   default value, Basic interlacing (INTERLACED), for all other output
-    #   frame rates. With basic interlacing, MediaConvert performs any frame
-    #   rate conversion first and then interlaces the frames. When you
-    #   choose Optimized interlacing and you set your output frame rate to a
-    #   value that isn't suitable for optimized interlacing, MediaConvert
+    #   Optimized interlacing to create a better quality interlaced output.
+    #   In this case, each progressive frame from the input corresponds to
+    #   an interlaced field in the output. Keep the default value, Basic
+    #   interlacing, for all other output frame rates. With basic
+    #   interlacing, MediaConvert performs any frame rate conversion first
+    #   and then interlaces the frames. When you choose Optimized
+    #   interlacing and you set your output frame rate to a value that
+    #   isn't suitable for optimized interlacing, MediaConvert
     #   automatically falls back to basic interlacing. Required settings: To
-    #   use optimized interlacing, you must set Telecine (telecine) to None
-    #   (NONE) or Soft (SOFT). You can't use optimized interlacing for hard
-    #   telecine outputs. You must also set Interlace mode (interlaceMode)
-    #   to a value other than Progressive (PROGRESSIVE).
+    #   use optimized interlacing, you must set Telecine to None or Soft.
+    #   You can't use optimized interlacing for hard telecine outputs. You
+    #   must also set Interlace mode to a value other than Progressive.
     #   @return [String]
     #
     # @!attribute [rw] scene_change_detect
@@ -9756,80 +10465,76 @@ module Aws::MediaConvert
     #   25 fps and resamples your audio to keep it synchronized with the
     #   video. Note that enabling this setting will slightly reduce the
     #   duration of your video. Required settings: You must also set
-    #   Framerate to 25. In your JSON job specification, set
-    #   (framerateControl) to (SPECIFIED), (framerateNumerator) to 25 and
-    #   (framerateDenominator) to 1.
+    #   Framerate to 25.
     #   @return [String]
     #
     # @!attribute [rw] softness
     #   Ignore this setting unless you need to comply with a specification
     #   that requires a specific value. If you don't have a specification
     #   requirement, we recommend that you adjust the softness of your
-    #   output by using a lower value for the setting Sharpness (sharpness)
-    #   or by enabling a noise reducer filter (noiseReducerFilter). The
-    #   Softness (softness) setting specifies the quantization matrices that
-    #   the encoder uses. Keep the default value, 0, to use the AWS
-    #   Elemental default matrices. Choose a value from 17 to 128 to use
-    #   planar interpolation. Increasing values from 17 to 128 result in
-    #   increasing reduction of high-frequency data. The value 128 results
-    #   in the softest video.
+    #   output by using a lower value for the setting Sharpness or by
+    #   enabling a noise reducer filter. The Softness setting specifies the
+    #   quantization matrices that the encoder uses. Keep the default value,
+    #   0, to use the AWS Elemental default matrices. Choose a value from 17
+    #   to 128 to use planar interpolation. Increasing values from 17 to 128
+    #   result in increasing reduction of high-frequency data. The value 128
+    #   results in the softest video.
     #   @return [Integer]
     #
     # @!attribute [rw] spatial_adaptive_quantization
-    #   Keep the default value, Enabled (ENABLED), to adjust quantization
-    #   within each frame based on spatial variation of content complexity.
-    #   When you enable this feature, the encoder uses fewer bits on areas
-    #   that can sustain more distortion with no noticeable visual
-    #   degradation and uses more bits on areas where any small distortion
-    #   will be noticeable. For example, complex textured blocks are encoded
-    #   with fewer bits and smooth textured blocks are encoded with more
-    #   bits. Enabling this feature will almost always improve your video
-    #   quality. Note, though, that this feature doesn't take into account
-    #   where the viewer's attention is likely to be. If viewers are likely
-    #   to be focusing their attention on a part of the screen with a lot of
+    #   Keep the default value, Enabled, to adjust quantization within each
+    #   frame based on spatial variation of content complexity. When you
+    #   enable this feature, the encoder uses fewer bits on areas that can
+    #   sustain more distortion with no noticeable visual degradation and
+    #   uses more bits on areas where any small distortion will be
+    #   noticeable. For example, complex textured blocks are encoded with
+    #   fewer bits and smooth textured blocks are encoded with more bits.
+    #   Enabling this feature will almost always improve your video quality.
+    #   Note, though, that this feature doesn't take into account where the
+    #   viewer's attention is likely to be. If viewers are likely to be
+    #   focusing their attention on a part of the screen with a lot of
     #   complex texture, you might choose to disable this feature. Related
     #   setting: When you enable spatial adaptive quantization, set the
-    #   value for Adaptive quantization (adaptiveQuantization) depending on
-    #   your content. For homogeneous content, such as cartoons and video
-    #   games, set it to Low. For content with a wider variety of textures,
-    #   set it to High or Higher.
+    #   value for Adaptive quantization depending on your content. For
+    #   homogeneous content, such as cartoons and video games, set it to
+    #   Low. For content with a wider variety of textures, set it to High or
+    #   Higher.
     #   @return [String]
     #
     # @!attribute [rw] syntax
     #   Specify whether this output's video uses the D10 syntax. Keep the
     #   default value to not use the syntax. Related settings: When you
-    #   choose D10 (D\_10) for your MXF profile (profile), you must also set
-    #   this value to D10 (D\_10).
+    #   choose D10 for your MXF profile, you must also set this value to
+    #   D10.
     #   @return [String]
     #
     # @!attribute [rw] telecine
     #   When you do frame rate conversion from 23.976 frames per second
     #   (fps) to 29.97 fps, and your output scan type is interlaced, you can
     #   optionally enable hard or soft telecine to create a smoother
-    #   picture. Hard telecine (HARD) produces a 29.97i output. Soft
-    #   telecine (SOFT) produces an output with a 23.976 output that signals
-    #   to the video player device to do the conversion during play back.
-    #   When you keep the default value, None (NONE), MediaConvert does a
-    #   standard frame rate conversion to 29.97 without doing anything with
-    #   the field polarity to create a smoother picture.
+    #   picture. Hard telecine produces a 29.97i output. Soft telecine
+    #   produces an output with a 23.976 output that signals to the video
+    #   player device to do the conversion during play back. When you keep
+    #   the default value, None, MediaConvert does a standard frame rate
+    #   conversion to 29.97 without doing anything with the field polarity
+    #   to create a smoother picture.
     #   @return [String]
     #
     # @!attribute [rw] temporal_adaptive_quantization
-    #   Keep the default value, Enabled (ENABLED), to adjust quantization
-    #   within each frame based on temporal variation of content complexity.
-    #   When you enable this feature, the encoder uses fewer bits on areas
-    #   of the frame that aren't moving and uses more bits on complex
-    #   objects with sharp edges that move a lot. For example, this feature
-    #   improves the readability of text tickers on newscasts and
-    #   scoreboards on sports matches. Enabling this feature will almost
-    #   always improve your video quality. Note, though, that this feature
-    #   doesn't take into account where the viewer's attention is likely
-    #   to be. If viewers are likely to be focusing their attention on a
-    #   part of the screen that doesn't have moving objects with sharp
-    #   edges, such as sports athletes' faces, you might choose to disable
-    #   this feature. Related setting: When you enable temporal
-    #   quantization, adjust the strength of the filter with the setting
-    #   Adaptive quantization (adaptiveQuantization).
+    #   Keep the default value, Enabled, to adjust quantization within each
+    #   frame based on temporal variation of content complexity. When you
+    #   enable this feature, the encoder uses fewer bits on areas of the
+    #   frame that aren't moving and uses more bits on complex objects with
+    #   sharp edges that move a lot. For example, this feature improves the
+    #   readability of text tickers on newscasts and scoreboards on sports
+    #   matches. Enabling this feature will almost always improve your video
+    #   quality. Note, though, that this feature doesn't take into account
+    #   where the viewer's attention is likely to be. If viewers are likely
+    #   to be focusing their attention on a part of the screen that doesn't
+    #   have moving objects with sharp edges, such as sports athletes'
+    #   faces, you might choose to disable this feature. Related setting:
+    #   When you enable temporal quantization, adjust the strength of the
+    #   filter with the setting Adaptive quantization.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/Mpeg2Settings AWS API Documentation
@@ -9901,8 +10606,8 @@ module Aws::MediaConvert
       include Aws::Structure
     end
 
-    # If you are using DRM, set DRM System (MsSmoothEncryptionSettings) to
-    # specify the value SpekeKeyProvider.
+    # If you are using DRM, set DRM System to specify the value
+    # SpekeKeyProvider.
     #
     # @!attribute [rw] speke_key_provider
     #   If your output group type is HLS, DASH, or Microsoft Smooth, use
@@ -9922,9 +10627,6 @@ module Aws::MediaConvert
     # Settings related to your Microsoft Smooth Streaming output package.
     # For more information, see
     # https://docs.aws.amazon.com/mediaconvert/latest/ug/outputs-file-ABR.html.
-    # When you work directly in your JSON job specification, include this
-    # object and any required children when you set Type, under
-    # OutputGroupSettings, to MS\_SMOOTH\_GROUP\_SETTINGS.
     #
     # @!attribute [rw] additional_manifests
     #   By default, the service creates one .ism Microsoft Smooth Streaming
@@ -9941,11 +10643,11 @@ module Aws::MediaConvert
     #   @return [String]
     #
     # @!attribute [rw] destination
-    #   Use Destination (Destination) to specify the S3 output location and
-    #   the output filename base. Destination accepts format identifiers. If
-    #   you do not specify the base filename in the URI, the service will
-    #   use the filename of the input file. If your job has multiple inputs,
-    #   the service uses the filename of the first input file.
+    #   Use Destination to specify the S3 output location and the output
+    #   filename base. Destination accepts format identifiers. If you do not
+    #   specify the base filename in the URI, the service will use the
+    #   filename of the input file. If your job has multiple inputs, the
+    #   service uses the filename of the first input file.
     #   @return [String]
     #
     # @!attribute [rw] destination_settings
@@ -9954,32 +10656,29 @@ module Aws::MediaConvert
     #   @return [Types::DestinationSettings]
     #
     # @!attribute [rw] encryption
-    #   If you are using DRM, set DRM System (MsSmoothEncryptionSettings) to
-    #   specify the value SpekeKeyProvider.
+    #   If you are using DRM, set DRM System to specify the value
+    #   SpekeKeyProvider.
     #   @return [Types::MsSmoothEncryptionSettings]
     #
     # @!attribute [rw] fragment_length
     #   Specify how you want MediaConvert to determine the fragment length.
-    #   Choose Exact (EXACT) to have the encoder use the exact length that
-    #   you specify with the setting Fragment length (FragmentLength). This
-    #   might result in extra I-frames. Choose Multiple of GOP
-    #   (GOP\_MULTIPLE) to have the encoder round up the segment lengths to
-    #   match the next GOP boundary.
+    #   Choose Exact to have the encoder use the exact length that you
+    #   specify with the setting Fragment length. This might result in extra
+    #   I-frames. Choose Multiple of GOP to have the encoder round up the
+    #   segment lengths to match the next GOP boundary.
     #   @return [Integer]
     #
     # @!attribute [rw] fragment_length_control
     #   Specify how you want MediaConvert to determine the fragment length.
-    #   Choose Exact (EXACT) to have the encoder use the exact length that
-    #   you specify with the setting Fragment length (FragmentLength). This
-    #   might result in extra I-frames. Choose Multiple of GOP
-    #   (GOP\_MULTIPLE) to have the encoder round up the segment lengths to
-    #   match the next GOP boundary.
+    #   Choose Exact to have the encoder use the exact length that you
+    #   specify with the setting Fragment length. This might result in extra
+    #   I-frames. Choose Multiple of GOP to have the encoder round up the
+    #   segment lengths to match the next GOP boundary.
     #   @return [String]
     #
     # @!attribute [rw] manifest_encoding
-    #   Use Manifest encoding (MsSmoothManifestEncoding) to specify the
-    #   encoding format for the server and client manifest. Valid options
-    #   are utf8 and utf16.
+    #   Use Manifest encoding to specify the encoding format for the server
+    #   and client manifest. Valid options are utf8 and utf16.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/MsSmoothGroupSettings AWS API Documentation
@@ -10002,21 +10701,21 @@ module Aws::MediaConvert
     # @!attribute [rw] afd_signaling
     #   Optional. When you have AFD signaling set up in your output video
     #   stream, use this setting to choose whether to also include it in the
-    #   MXF wrapper. Choose Don't copy (NO\_COPY) to exclude AFD signaling
-    #   from the MXF wrapper. Choose Copy from video stream
-    #   (COPY\_FROM\_VIDEO) to copy the AFD values from the video stream for
-    #   this output to the MXF wrapper. Regardless of which option you
-    #   choose, the AFD values remain in the video stream. Related settings:
-    #   To set up your output to include or exclude AFD values, see
-    #   AfdSignaling, under VideoDescription. On the console, find AFD
-    #   signaling under the output's video encoding settings.
+    #   MXF wrapper. Choose Don't copy to exclude AFD signaling from the
+    #   MXF wrapper. Choose Copy from video stream to copy the AFD values
+    #   from the video stream for this output to the MXF wrapper. Regardless
+    #   of which option you choose, the AFD values remain in the video
+    #   stream. Related settings: To set up your output to include or
+    #   exclude AFD values, see AfdSignaling, under VideoDescription. On the
+    #   console, find AFD signaling under the output's video encoding
+    #   settings.
     #   @return [String]
     #
     # @!attribute [rw] profile
-    #   Specify the MXF profile, also called shim, for this output. When you
-    #   choose Auto, MediaConvert chooses a profile based on the video codec
-    #   and resolution. For a list of codecs supported with each MXF
-    #   profile, see
+    #   Specify the MXF profile, also called shim, for this output. To
+    #   automatically select a profile according to your output video codec
+    #   and resolution, leave blank. For a list of codecs supported with
+    #   each MXF profile, see
     #   https://docs.aws.amazon.com/mediaconvert/latest/ug/codecs-supported-with-each-mxf-profile.html.
     #   For more information about the automatic selection behavior, see
     #   https://docs.aws.amazon.com/mediaconvert/latest/ug/default-automatic-selection-of-mxf-profiles.html.
@@ -10043,23 +10742,21 @@ module Aws::MediaConvert
     # @!attribute [rw] duration_mode
     #   To create an output that complies with the XAVC file format
     #   guidelines for interoperability, keep the default value, Drop frames
-    #   for compliance (DROP\_FRAMES\_FOR\_COMPLIANCE). To include all
-    #   frames from your input in this output, keep the default setting,
-    #   Allow any duration (ALLOW\_ANY\_DURATION). The number of frames that
-    #   MediaConvert excludes when you set this to Drop frames for
-    #   compliance depends on the output frame rate and duration.
+    #   for compliance. To include all frames from your input in this
+    #   output, keep the default setting, Allow any duration. The number of
+    #   frames that MediaConvert excludes when you set this to Drop frames
+    #   for compliance depends on the output frame rate and duration.
     #   @return [String]
     #
     # @!attribute [rw] max_anc_data_size
     #   Specify a value for this setting only for outputs that you set up
-    #   with one of these two XAVC profiles: XAVC HD Intra CBG
-    #   (XAVC\_HD\_INTRA\_CBG) or XAVC 4K Intra CBG (XAVC\_4K\_INTRA\_CBG).
-    #   Specify the amount of space in each frame that the service reserves
-    #   for ancillary data, such as teletext captions. The default value for
-    #   this setting is 1492 bytes per frame. This should be sufficient to
-    #   prevent overflow unless you have multiple pages of teletext captions
-    #   data. If you have a large amount of teletext data, specify a larger
-    #   number.
+    #   with one of these two XAVC profiles: XAVC HD Intra CBG or XAVC 4K
+    #   Intra CBG. Specify the amount of space in each frame that the
+    #   service reserves for ancillary data, such as teletext captions. The
+    #   default value for this setting is 1492 bytes per frame. This should
+    #   be sufficient to prevent overflow unless you have multiple pages of
+    #   teletext captions data. If you have a large amount of teletext data,
+    #   specify a larger number.
     #   @return [Integer]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/MxfXavcProfileSettings AWS API Documentation
@@ -10078,30 +10775,29 @@ module Aws::MediaConvert
     # @!attribute [rw] license
     #   Use the base64 license string that Nagra provides you. Enter it
     #   directly in your JSON job specification or in the console. Required
-    #   when you include Nagra NexGuard File Marker watermarking
-    #   (NexGuardWatermarkingSettings) in your job.
+    #   when you include Nagra NexGuard File Marker watermarking in your
+    #   job.
     #   @return [String]
     #
     # @!attribute [rw] payload
     #   Specify the payload ID that you want associated with this output.
     #   Valid values vary depending on your Nagra NexGuard forensic
     #   watermarking workflow. Required when you include Nagra NexGuard File
-    #   Marker watermarking (NexGuardWatermarkingSettings) in your job. For
-    #   PreRelease Content (NGPR/G2), specify an integer from 1 through
-    #   4,194,303. You must generate a unique ID for each asset you
-    #   watermark, and keep a record of which ID you have assigned to each
-    #   asset. Neither Nagra nor MediaConvert keep track of the relationship
-    #   between output files and your IDs. For OTT Streaming, create two
-    #   adaptive bitrate (ABR) stacks for each asset. Do this by setting up
-    #   two output groups. For one output group, set the value of Payload ID
-    #   (payload) to 0 in every output. For the other output group, set
-    #   Payload ID (payload) to 1 in every output.
+    #   Marker watermarking in your job. For PreRelease Content (NGPR/G2),
+    #   specify an integer from 1 through 4,194,303. You must generate a
+    #   unique ID for each asset you watermark, and keep a record of which
+    #   ID you have assigned to each asset. Neither Nagra nor MediaConvert
+    #   keep track of the relationship between output files and your IDs.
+    #   For OTT Streaming, create two adaptive bitrate (ABR) stacks for each
+    #   asset. Do this by setting up two output groups. For one output
+    #   group, set the value of Payload ID to 0 in every output. For the
+    #   other output group, set Payload ID to 1 in every output.
     #   @return [Integer]
     #
     # @!attribute [rw] preset
     #   Enter one of the watermarking preset strings that Nagra provides
     #   you. Required when you include Nagra NexGuard File Marker
-    #   watermarking (NexGuardWatermarkingSettings) in your job.
+    #   watermarking in your job.
     #   @return [String]
     #
     # @!attribute [rw] strength
@@ -10123,12 +10819,8 @@ module Aws::MediaConvert
 
     # Settings for your Nielsen configuration. If you don't do Nielsen
     # measurement and analytics, ignore these settings. When you enable
-    # Nielsen configuration (nielsenConfiguration), MediaConvert enables PCM
-    # to ID3 tagging for all outputs in the job. To enable Nielsen
-    # configuration programmatically, include an instance of
-    # nielsenConfiguration in your JSON job specification. Even if you
-    # don't include any children of nielsenConfiguration, you still enable
-    # the setting.
+    # Nielsen configuration, MediaConvert enables PCM to ID3 tagging for all
+    # outputs in the job.
     #
     # @!attribute [rw] breakout_code
     #   Nielsen has discontinued the use of breakout code functionality. If
@@ -10136,8 +10828,8 @@ module Aws::MediaConvert
     #   @return [Integer]
     #
     # @!attribute [rw] distributor_id
-    #   Use Distributor ID (DistributorID) to specify the distributor ID
-    #   that is assigned to your organization by Neilsen.
+    #   Use Distributor ID to specify the distributor ID that is assigned to
+    #   your organization by Nielsen.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/NielsenConfiguration AWS API Documentation
@@ -10155,17 +10847,16 @@ module Aws::MediaConvert
     # specifying these values, you also need to set up your cloud TIC
     # server. These settings apply to every output in your job. The
     # MediaConvert implementation is currently with the following Nielsen
-    # versions: Nielsen Watermark SDK Version 5.2.1 Nielsen NLM Watermark
-    # Engine Version 1.2.7 Nielsen Watermark Authenticator \[SID\_TIC\]
-    # Version \[5.0.0\]
+    # versions: Nielsen Watermark SDK Version 6.0.13 Nielsen NLM Watermark
+    # Engine Version 1.3.3 Nielsen Watermark Authenticator \[SID\_TIC\]
+    # Version \[7.0.0\]
     #
     # @!attribute [rw] active_watermark_process
     #   Choose the type of Nielsen watermarks that you want in your outputs.
-    #   When you choose NAES 2 and NW (NAES2\_AND\_NW), you must provide a
-    #   value for the setting SID (sourceId). When you choose CBET (CBET),
-    #   you must provide a value for the setting CSID (cbetSourceId). When
-    #   you choose NAES 2, NW, and CBET (NAES2\_AND\_NW\_AND\_CBET), you
-    #   must provide values for both of these settings.
+    #   When you choose NAES 2 and NW, you must provide a value for the
+    #   setting SID. When you choose CBET, you must provide a value for the
+    #   setting CSID. When you choose NAES 2, NW, and CBET, you must provide
+    #   values for both of these settings.
     #   @return [String]
     #
     # @!attribute [rw] adi_filename
@@ -10174,7 +10865,7 @@ module Aws::MediaConvert
     #   store it in Amazon S3 and provide a URL to it here. The URL should
     #   be in the following format: S3://bucket/path/ADI-file. For more
     #   information about the metadata .zip file, see the setting Metadata
-    #   destination (metadataDestination).
+    #   destination.
     #   @return [String]
     #
     # @!attribute [rw] asset_id
@@ -10191,8 +10882,7 @@ module Aws::MediaConvert
     #   Use the CSID that Nielsen provides to you. This CBET source ID
     #   should be unique to your Nielsen account but common to all of your
     #   output assets that have CBET watermarking. Required when you choose
-    #   a value for the setting Watermark types (ActiveWatermarkProcess)
-    #   that includes CBET.
+    #   a value for the setting Watermark types that includes CBET.
     #   @return [String]
     #
     # @!attribute [rw] episode_id
@@ -10205,11 +10895,10 @@ module Aws::MediaConvert
     #   your Nielsen non-linear metadata .zip file. This Amazon S3 bucket
     #   must be in the same Region as the one where you do your MediaConvert
     #   transcoding. If you want to include an ADI file in this .zip file,
-    #   use the setting ADI file (adiFilename) to specify it. MediaConvert
-    #   delivers the Nielsen metadata .zip files only to your metadata
-    #   destination Amazon S3 bucket. It doesn't deliver the .zip files to
-    #   Nielsen. You are responsible for delivering the metadata .zip files
-    #   to Nielsen.
+    #   use the setting ADI file to specify it. MediaConvert delivers the
+    #   Nielsen metadata .zip files only to your metadata destination Amazon
+    #   S3 bucket. It doesn't deliver the .zip files to Nielsen. You are
+    #   responsible for delivering the metadata .zip files to Nielsen.
     #   @return [String]
     #
     # @!attribute [rw] source_id
@@ -10223,9 +10912,9 @@ module Aws::MediaConvert
     # @!attribute [rw] source_watermark_status
     #   Required. Specify whether your source content already contains
     #   Nielsen non-linear watermarks. When you set this value to
-    #   Watermarked (WATERMARKED), the service fails the job. Nielsen
-    #   requires that you add non-linear watermarking to only clean content
-    #   that doesn't already have non-linear Nielsen watermarks.
+    #   Watermarked, the service fails the job. Nielsen requires that you
+    #   add non-linear watermarking to only clean content that doesn't
+    #   already have non-linear Nielsen watermarks.
     #   @return [String]
     #
     # @!attribute [rw] tic_server_url
@@ -10240,9 +10929,8 @@ module Aws::MediaConvert
     #
     # @!attribute [rw] unique_tic_per_audio_track
     #   To create assets that have the same TIC values in each audio track,
-    #   keep the default value Share TICs (SAME\_TICS\_PER\_TRACK). To
-    #   create assets that have unique TIC values for each audio track,
-    #   choose Use unique TICs (RESERVE\_UNIQUE\_TICS\_PER\_TRACK).
+    #   keep the default value Share TICs. To create assets that have unique
+    #   TIC values for each audio track, choose Use unique TICs.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/NielsenNonLinearWatermarkSettings AWS API Documentation
@@ -10263,21 +10951,21 @@ module Aws::MediaConvert
       include Aws::Structure
     end
 
-    # Enable the Noise reducer (NoiseReducer) feature to remove noise from
-    # your video output if necessary. Enable or disable this feature for
-    # each output individually. This setting is disabled by default. When
-    # you enable Noise reducer (NoiseReducer), you must also select a value
-    # for Noise reducer filter (NoiseReducerFilter).
+    # Enable the Noise reducer feature to remove noise from your video
+    # output if necessary. Enable or disable this feature for each output
+    # individually. This setting is disabled by default. When you enable
+    # Noise reducer, you must also select a value for Noise reducer filter.
+    # For AVC outputs, when you include Noise reducer, you cannot include
+    # the Bandwidth reduction filter.
     #
     # @!attribute [rw] filter
-    #   Use Noise reducer filter (NoiseReducerFilter) to select one of the
-    #   following spatial image filtering functions. To use this setting,
-    #   you must also enable Noise reducer (NoiseReducer). * Bilateral
-    #   preserves edges while reducing noise. * Mean (softest), Gaussian,
-    #   Lanczos, and Sharpen (sharpest) do convolution filtering. *
-    #   Conserve does min/max noise reduction. * Spatial does
-    #   frequency-domain filtering based on JND principles. * Temporal
-    #   optimizes video quality for complex motion.
+    #   Use Noise reducer filter to select one of the following spatial
+    #   image filtering functions. To use this setting, you must also enable
+    #   Noise reducer. * Bilateral preserves edges while reducing noise. *
+    #   Mean (softest), Gaussian, Lanczos, and Sharpen (sharpest) do
+    #   convolution filtering. * Conserve does min/max noise reduction. *
+    #   Spatial does frequency-domain filtering based on JND principles. *
+    #   Temporal optimizes video quality for complex motion.
     #   @return [String]
     #
     # @!attribute [rw] filter_settings
@@ -10355,26 +11043,23 @@ module Aws::MediaConvert
     #   @return [Integer]
     #
     # @!attribute [rw] post_temporal_sharpening
-    #   When you set Noise reducer (noiseReducer) to Temporal (TEMPORAL),
-    #   the bandwidth and sharpness of your output is reduced. You can
-    #   optionally use Post temporal sharpening (postTemporalSharpening) to
-    #   apply sharpening to the edges of your output. Note that Post
-    #   temporal sharpening will also make the bandwidth reduction from the
-    #   Noise reducer smaller. The default behavior, Auto (AUTO), allows the
-    #   transcoder to determine whether to apply sharpening, depending on
-    #   your input type and quality. When you set Post temporal sharpening
-    #   to Enabled (ENABLED), specify how much sharpening is applied using
-    #   Post temporal sharpening strength (postTemporalSharpeningStrength).
-    #   Set Post temporal sharpening to Disabled (DISABLED) to not apply
-    #   sharpening.
+    #   When you set Noise reducer to Temporal, the bandwidth and sharpness
+    #   of your output is reduced. You can optionally use Post temporal
+    #   sharpening to apply sharpening to the edges of your output. Note
+    #   that Post temporal sharpening will also make the bandwidth reduction
+    #   from the Noise reducer smaller. The default behavior, Auto, allows
+    #   the transcoder to determine whether to apply sharpening, depending
+    #   on your input type and quality. When you set Post temporal
+    #   sharpening to Enabled, specify how much sharpening is applied using
+    #   Post temporal sharpening strength. Set Post temporal sharpening to
+    #   Disabled to not apply sharpening.
     #   @return [String]
     #
     # @!attribute [rw] post_temporal_sharpening_strength
-    #   Use Post temporal sharpening strength
-    #   (postTemporalSharpeningStrength) to define the amount of sharpening
-    #   the transcoder applies to your output. Set Post temporal sharpening
-    #   strength to Low (LOW), Medium (MEDIUM), or High (HIGH) to indicate
-    #   the amount of sharpening.
+    #   Use Post temporal sharpening strength to define the amount of
+    #   sharpening the transcoder applies to your output. Set Post temporal
+    #   sharpening strength to Low, Medium, or High to indicate the amount
+    #   of sharpening.
     #   @return [String]
     #
     # @!attribute [rw] speed
@@ -10426,12 +11111,12 @@ module Aws::MediaConvert
     #
     # @!attribute [rw] channels
     #   Specify the number of channels in this output audio track. Choosing
-    #   Mono on the console gives you 1 output channel; choosing Stereo
-    #   gives you 2. In the API, valid values are 1 and 2.
+    #   Mono on gives you 1 output channel; choosing Stereo gives you 2. In
+    #   the API, valid values are 1 and 2.
     #   @return [Integer]
     #
     # @!attribute [rw] sample_rate
-    #   Optional. Sample rate in hz. Valid values are 16000, 24000, and
+    #   Optional. Sample rate in Hz. Valid values are 16000, 24000, and
     #   48000. The default value is 48000.
     #   @return [Integer]
     #
@@ -10451,17 +11136,15 @@ module Aws::MediaConvert
     # https://docs.aws.amazon.com/mediaconvert/latest/ug/create-outputs.html.
     #
     # @!attribute [rw] audio_descriptions
-    #   (AudioDescriptions) contains groups of audio encoding settings
-    #   organized by audio codec. Include one instance of
-    #   (AudioDescriptions) per output. (AudioDescriptions) can contain
-    #   multiple groups of encoding settings.
+    #   Contains groups of audio encoding settings organized by audio codec.
+    #   Include one instance of per output. Can contain multiple groups of
+    #   encoding settings.
     #   @return [Array<Types::AudioDescription>]
     #
     # @!attribute [rw] caption_descriptions
-    #   (CaptionDescriptions) contains groups of captions settings. For each
-    #   output that has captions, include one instance of
-    #   (CaptionDescriptions). (CaptionDescriptions) can contain multiple
-    #   groups of captions settings.
+    #   Contains groups of captions settings. For each output that has
+    #   captions, include one instance of CaptionDescriptions. Can contain
+    #   multiple groups of captions settings.
     #   @return [Array<Types::CaptionDescription>]
     #
     # @!attribute [rw] container_settings
@@ -10469,23 +11152,23 @@ module Aws::MediaConvert
     #   @return [Types::ContainerSettings]
     #
     # @!attribute [rw] extension
-    #   Use Extension (Extension) to specify the file extension for outputs
-    #   in File output groups. If you do not specify a value, the service
-    #   will use default extensions by container type as follows * MPEG-2
-    #   transport stream, m2ts * Quicktime, mov * MXF container, mxf *
-    #   MPEG-4 container, mp4 * WebM container, webm * No Container, the
-    #   service will use codec extensions (e.g. AAC, H265, H265, AC3)
+    #   Use Extension to specify the file extension for outputs in File
+    #   output groups. If you do not specify a value, the service will use
+    #   default extensions by container type as follows * MPEG-2 transport
+    #   stream, m2ts * Quicktime, mov * MXF container, mxf * MPEG-4
+    #   container, mp4 * WebM container, webm * Animated GIF container,
+    #   gif * No Container, the service will use codec extensions (e.g.
+    #   AAC, H265, H265, AC3)
     #   @return [String]
     #
     # @!attribute [rw] name_modifier
-    #   Use Name modifier (NameModifier) to have the service add a string to
-    #   the end of each output filename. You specify the base filename as
-    #   part of your destination URI. When you create multiple outputs in
-    #   the same output group, Name modifier (NameModifier) is required.
-    #   Name modifier also accepts format identifiers. For DASH ISO outputs,
-    #   if you use the format identifiers $Number$ or $Time$ in one output,
-    #   you must use them in the same way in all outputs of the output
-    #   group.
+    #   Use Name modifier to have the service add a string to the end of
+    #   each output filename. You specify the base filename as part of your
+    #   destination URI. When you create multiple outputs in the same output
+    #   group, Name modifier is required. Name modifier also accepts format
+    #   identifiers. For DASH ISO outputs, if you use the format identifiers
+    #   $Number$ or $Time$ in one output, you must use them in the same way
+    #   in all outputs of the output group.
     #   @return [String]
     #
     # @!attribute [rw] output_settings
@@ -10493,10 +11176,9 @@ module Aws::MediaConvert
     #   @return [Types::OutputSettings]
     #
     # @!attribute [rw] preset
-    #   Use Preset (Preset) to specify a preset for your transcoding
-    #   settings. Provide the system or custom preset name. You can specify
-    #   either Preset (Preset) or Container settings (ContainerSettings),
-    #   but not both.
+    #   Use Preset to specify a preset for your transcoding settings.
+    #   Provide the system or custom preset name. You can specify either
+    #   Preset or Container settings, but not both.
     #   @return [String]
     #
     # @!attribute [rw] video_description
@@ -10570,11 +11252,11 @@ module Aws::MediaConvert
     #   @return [Types::AutomatedEncodingSettings]
     #
     # @!attribute [rw] custom_name
-    #   Use Custom Group Name (CustomName) to specify a name for the output
-    #   group. This value is displayed on the console and can make your job
-    #   settings JSON more human-readable. It does not affect your outputs.
-    #   Use up to twelve characters that are either letters, numbers,
-    #   spaces, or underscores.
+    #   Use Custom Group Name to specify a name for the output group. This
+    #   value is displayed on the console and can make your job settings
+    #   JSON more human-readable. It does not affect your outputs. Use up to
+    #   twelve characters that are either letters, numbers, spaces, or
+    #   underscores.
     #   @return [String]
     #
     # @!attribute [rw] name
@@ -10623,44 +11305,30 @@ module Aws::MediaConvert
     #   Settings related to your CMAF output package. For more information,
     #   see
     #   https://docs.aws.amazon.com/mediaconvert/latest/ug/outputs-file-ABR.html.
-    #   When you work directly in your JSON job specification, include this
-    #   object and any required children when you set Type, under
-    #   OutputGroupSettings, to CMAF\_GROUP\_SETTINGS.
     #   @return [Types::CmafGroupSettings]
     #
     # @!attribute [rw] dash_iso_group_settings
     #   Settings related to your DASH output package. For more information,
     #   see
     #   https://docs.aws.amazon.com/mediaconvert/latest/ug/outputs-file-ABR.html.
-    #   When you work directly in your JSON job specification, include this
-    #   object and any required children when you set Type, under
-    #   OutputGroupSettings, to DASH\_ISO\_GROUP\_SETTINGS.
     #   @return [Types::DashIsoGroupSettings]
     #
     # @!attribute [rw] file_group_settings
     #   Settings related to your File output group. MediaConvert uses this
     #   group of settings to generate a single standalone file, rather than
-    #   a streaming package. When you work directly in your JSON job
-    #   specification, include this object and any required children when
-    #   you set Type, under OutputGroupSettings, to FILE\_GROUP\_SETTINGS.
+    #   a streaming package.
     #   @return [Types::FileGroupSettings]
     #
     # @!attribute [rw] hls_group_settings
     #   Settings related to your HLS output package. For more information,
     #   see
     #   https://docs.aws.amazon.com/mediaconvert/latest/ug/outputs-file-ABR.html.
-    #   When you work directly in your JSON job specification, include this
-    #   object and any required children when you set Type, under
-    #   OutputGroupSettings, to HLS\_GROUP\_SETTINGS.
     #   @return [Types::HlsGroupSettings]
     #
     # @!attribute [rw] ms_smooth_group_settings
     #   Settings related to your Microsoft Smooth Streaming output package.
     #   For more information, see
     #   https://docs.aws.amazon.com/mediaconvert/latest/ug/outputs-file-ABR.html.
-    #   When you work directly in your JSON job specification, include this
-    #   object and any required children when you set Type, under
-    #   OutputGroupSettings, to MS\_SMOOTH\_GROUP\_SETTINGS.
     #   @return [Types::MsSmoothGroupSettings]
     #
     # @!attribute [rw] type
@@ -10796,10 +11464,9 @@ module Aws::MediaConvert
     # Settings for preset
     #
     # @!attribute [rw] audio_descriptions
-    #   (AudioDescriptions) contains groups of audio encoding settings
-    #   organized by audio codec. Include one instance of
-    #   (AudioDescriptions) per output. (AudioDescriptions) can contain
-    #   multiple groups of encoding settings.
+    #   Contains groups of audio encoding settings organized by audio codec.
+    #   Include one instance of per output. Can contain multiple groups of
+    #   encoding settings.
     #   @return [Array<Types::AudioDescription>]
     #
     # @!attribute [rw] caption_descriptions
@@ -10830,31 +11497,24 @@ module Aws::MediaConvert
       include Aws::Structure
     end
 
-    # Required when you set (Codec) under (VideoDescription)>(CodecSettings)
-    # to the value PRORES.
+    # Required when you set Codec to the value PRORES.
     #
     # @!attribute [rw] chroma_sampling
     #   This setting applies only to ProRes 4444 and ProRes 4444 XQ outputs
     #   that you create from inputs that use 4:4:4 chroma sampling. Set
-    #   Preserve 4:4:4 sampling (PRESERVE\_444\_SAMPLING) to allow outputs
-    #   to also use 4:4:4 chroma sampling. You must specify a value for this
-    #   setting when your output codec profile supports 4:4:4 chroma
-    #   sampling. Related Settings: When you set Chroma sampling to Preserve
-    #   4:4:4 sampling (PRESERVE\_444\_SAMPLING), you must choose an output
-    #   codec profile that supports 4:4:4 chroma sampling. These values for
-    #   Profile (CodecProfile) support 4:4:4 chroma sampling: Apple ProRes
-    #   4444 (APPLE\_PRORES\_4444) or Apple ProRes 4444 XQ
-    #   (APPLE\_PRORES\_4444\_XQ). When you set Chroma sampling to Preserve
-    #   4:4:4 sampling, you must disable all video preprocessors except for
-    #   Nexguard file marker (PartnerWatermarking). When you set Chroma
-    #   sampling to Preserve 4:4:4 sampling and use framerate conversion,
-    #   you must set Frame rate conversion algorithm
-    #   (FramerateConversionAlgorithm) to Drop duplicate (DUPLICATE\_DROP).
+    #   Preserve 4:4:4 sampling to allow outputs to also use 4:4:4 chroma
+    #   sampling. You must specify a value for this setting when your output
+    #   codec profile supports 4:4:4 chroma sampling. Related Settings: For
+    #   Apple ProRes outputs with 4:4:4 chroma sampling: Choose Preserve
+    #   4:4:4 sampling. Use when your input has 4:4:4 chroma sampling and
+    #   your output codec Profile is Apple ProRes 4444 or 4444 XQ. Note that
+    #   when you choose Preserve 4:4:4 sampling, you cannot include any of
+    #   the following Preprocessors: Dolby Vision, HDR10+, or Noise reducer.
     #   @return [String]
     #
     # @!attribute [rw] codec_profile
-    #   Use Profile (ProResCodecProfile) to specify the type of Apple ProRes
-    #   codec to use for this output.
+    #   Use Profile to specify the type of Apple ProRes codec to use for
+    #   this output.
     #   @return [String]
     #
     # @!attribute [rw] framerate_control
@@ -10864,28 +11524,28 @@ module Aws::MediaConvert
     #   frame rate conversion, choose a frame rate from the dropdown list or
     #   choose Custom. The framerates shown in the dropdown list are decimal
     #   approximations of fractions. If you choose Custom, specify your
-    #   frame rate as a fraction. If you are creating your transcoding job
-    #   specification as a JSON file without the console, use
-    #   FramerateControl to specify which value the service uses for the
-    #   frame rate for this output. Choose INITIALIZE\_FROM\_SOURCE if you
-    #   want the service to use the frame rate from the input. Choose
-    #   SPECIFIED if you want the service to use the frame rate you specify
-    #   in the settings FramerateNumerator and FramerateDenominator.
+    #   frame rate as a fraction.
     #   @return [String]
     #
     # @!attribute [rw] framerate_conversion_algorithm
     #   Choose the method that you want MediaConvert to use when increasing
-    #   or decreasing the frame rate. We recommend using drop duplicate
-    #   (DUPLICATE\_DROP) for numerically simple conversions, such as 60 fps
-    #   to 30 fps. For numerically complex conversions, you can use
-    #   interpolate (INTERPOLATE) to avoid stutter. This results in a smooth
-    #   picture, but might introduce undesirable video artifacts. For
+    #   or decreasing your video's frame rate. For numerically simple
+    #   conversions, such as 60 fps to 30 fps: We recommend that you keep
+    #   the default value, Drop duplicate. For numerically complex
+    #   conversions, to avoid stutter: Choose Interpolate. This results in a
+    #   smooth picture, but might introduce undesirable video artifacts. For
     #   complex frame rate conversions, especially if your source video has
-    #   already been converted from its original cadence, use FrameFormer
-    #   (FRAMEFORMER) to do motion-compensated interpolation. FrameFormer
-    #   chooses the best conversion method frame by frame. Note that using
-    #   FrameFormer increases the transcoding time and incurs a significant
-    #   add-on cost.
+    #   already been converted from its original cadence: Choose FrameFormer
+    #   to do motion-compensated interpolation. FrameFormer uses the best
+    #   conversion method frame by frame. Note that using FrameFormer
+    #   increases the transcoding time and incurs a significant add-on cost.
+    #   When you choose FrameFormer, your input video resolution must be at
+    #   least 128x96. To create an output with the same number of frames as
+    #   your input: Choose Maintain frame count. When you do, MediaConvert
+    #   will not drop, interpolate, add, or otherwise change the frame count
+    #   from your input to your output. Note that since the frame count is
+    #   maintained, the duration of your output will become shorter at
+    #   higher frame rates and longer at lower frame rates.
     #   @return [String]
     #
     # @!attribute [rw] framerate_denominator
@@ -10910,45 +11570,41 @@ module Aws::MediaConvert
     #
     # @!attribute [rw] interlace_mode
     #   Choose the scan line type for the output. Keep the default value,
-    #   Progressive (PROGRESSIVE) to create a progressive output, regardless
-    #   of the scan type of your input. Use Top field first (TOP\_FIELD) or
-    #   Bottom field first (BOTTOM\_FIELD) to create an output that's
-    #   interlaced with the same field polarity throughout. Use Follow,
-    #   default top (FOLLOW\_TOP\_FIELD) or Follow, default bottom
-    #   (FOLLOW\_BOTTOM\_FIELD) to produce outputs with the same field
-    #   polarity as the source. For jobs that have multiple inputs, the
-    #   output field polarity might change over the course of the output.
-    #   Follow behavior depends on the input scan type. If the source is
-    #   interlaced, the output will be interlaced with the same polarity as
-    #   the source. If the source is progressive, the output will be
-    #   interlaced with top field bottom field first, depending on which of
-    #   the Follow options you choose.
+    #   Progressive to create a progressive output, regardless of the scan
+    #   type of your input. Use Top field first or Bottom field first to
+    #   create an output that's interlaced with the same field polarity
+    #   throughout. Use Follow, default top or Follow, default bottom to
+    #   produce outputs with the same field polarity as the source. For jobs
+    #   that have multiple inputs, the output field polarity might change
+    #   over the course of the output. Follow behavior depends on the input
+    #   scan type. If the source is interlaced, the output will be
+    #   interlaced with the same polarity as the source. If the source is
+    #   progressive, the output will be interlaced with top field bottom
+    #   field first, depending on which of the Follow options you choose.
     #   @return [String]
     #
     # @!attribute [rw] par_control
     #   Optional. Specify how the service determines the pixel aspect ratio
-    #   (PAR) for this output. The default behavior, Follow source
-    #   (INITIALIZE\_FROM\_SOURCE), uses the PAR from your input video for
-    #   your output. To specify a different PAR in the console, choose any
-    #   value other than Follow source. To specify a different PAR by
-    #   editing the JSON job specification, choose SPECIFIED. When you
-    #   choose SPECIFIED for this setting, you must also specify values for
-    #   the parNumerator and parDenominator settings.
+    #   (PAR) for this output. The default behavior, Follow source, uses the
+    #   PAR from your input video for your output. To specify a different
+    #   PAR, choose any value other than Follow source. When you choose
+    #   SPECIFIED for this setting, you must also specify values for the
+    #   parNumerator and parDenominator settings.
     #   @return [String]
     #
     # @!attribute [rw] par_denominator
-    #   Required when you set Pixel aspect ratio (parControl) to SPECIFIED.
-    #   On the console, this corresponds to any value other than Follow
-    #   source. When you specify an output pixel aspect ratio (PAR) that is
+    #   Required when you set Pixel aspect ratio to SPECIFIED. On the
+    #   console, this corresponds to any value other than Follow source.
+    #   When you specify an output pixel aspect ratio (PAR) that is
     #   different from your input video PAR, provide your output PAR as a
     #   ratio. For example, for D1/DV NTSC widescreen, you would specify the
     #   ratio 40:33. In this example, the value for parDenominator is 33.
     #   @return [Integer]
     #
     # @!attribute [rw] par_numerator
-    #   Required when you set Pixel aspect ratio (parControl) to SPECIFIED.
-    #   On the console, this corresponds to any value other than Follow
-    #   source. When you specify an output pixel aspect ratio (PAR) that is
+    #   Required when you set Pixel aspect ratio to SPECIFIED. On the
+    #   console, this corresponds to any value other than Follow source.
+    #   When you specify an output pixel aspect ratio (PAR) that is
     #   different from your input video PAR, provide your output PAR as a
     #   ratio. For example, for D1/DV NTSC widescreen, you would specify the
     #   ratio 40:33. In this example, the value for parNumerator is 40.
@@ -10957,19 +11613,18 @@ module Aws::MediaConvert
     # @!attribute [rw] scan_type_conversion_mode
     #   Use this setting for interlaced outputs, when your output frame rate
     #   is half of your input frame rate. In this situation, choose
-    #   Optimized interlacing (INTERLACED\_OPTIMIZE) to create a better
-    #   quality interlaced output. In this case, each progressive frame from
-    #   the input corresponds to an interlaced field in the output. Keep the
-    #   default value, Basic interlacing (INTERLACED), for all other output
-    #   frame rates. With basic interlacing, MediaConvert performs any frame
-    #   rate conversion first and then interlaces the frames. When you
-    #   choose Optimized interlacing and you set your output frame rate to a
-    #   value that isn't suitable for optimized interlacing, MediaConvert
+    #   Optimized interlacing to create a better quality interlaced output.
+    #   In this case, each progressive frame from the input corresponds to
+    #   an interlaced field in the output. Keep the default value, Basic
+    #   interlacing, for all other output frame rates. With basic
+    #   interlacing, MediaConvert performs any frame rate conversion first
+    #   and then interlaces the frames. When you choose Optimized
+    #   interlacing and you set your output frame rate to a value that
+    #   isn't suitable for optimized interlacing, MediaConvert
     #   automatically falls back to basic interlacing. Required settings: To
-    #   use optimized interlacing, you must set Telecine (telecine) to None
-    #   (NONE) or Soft (SOFT). You can't use optimized interlacing for hard
-    #   telecine outputs. You must also set Interlace mode (interlaceMode)
-    #   to a value other than Progressive (PROGRESSIVE).
+    #   use optimized interlacing, you must set Telecine to None or Soft.
+    #   You can't use optimized interlacing for hard telecine outputs. You
+    #   must also set Interlace mode to a value other than Progressive.
     #   @return [String]
     #
     # @!attribute [rw] slow_pal
@@ -10979,18 +11634,16 @@ module Aws::MediaConvert
     #   25 fps and resamples your audio to keep it synchronized with the
     #   video. Note that enabling this setting will slightly reduce the
     #   duration of your video. Required settings: You must also set
-    #   Framerate to 25. In your JSON job specification, set
-    #   (framerateControl) to (SPECIFIED), (framerateNumerator) to 25 and
-    #   (framerateDenominator) to 1.
+    #   Framerate to 25.
     #   @return [String]
     #
     # @!attribute [rw] telecine
     #   When you do frame rate conversion from 23.976 frames per second
     #   (fps) to 29.97 fps, and your output scan type is interlaced, you can
-    #   optionally enable hard telecine (HARD) to create a smoother picture.
-    #   When you keep the default value, None (NONE), MediaConvert does a
-    #   standard frame rate conversion to 29.97 without doing anything with
-    #   the field polarity to create a smoother picture.
+    #   optionally enable hard telecine to create a smoother picture. When
+    #   you keep the default value, None, MediaConvert does a standard frame
+    #   rate conversion to 29.97 without doing anything with the field
+    #   polarity to create a smoother picture.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/ProresSettings AWS API Documentation
@@ -11058,6 +11711,10 @@ module Aws::MediaConvert
     #   An identifier for this resource that is unique within all of AWS.
     #   @return [String]
     #
+    # @!attribute [rw] concurrent_jobs
+    #   The maximum number of jobs your queue can process concurrently.
+    #   @return [Integer]
+    #
     # @!attribute [rw] created_at
     #   The timestamp in epoch seconds for when you created the queue.
     #   @return [Time]
@@ -11093,6 +11750,12 @@ module Aws::MediaConvert
     #   reserved queues and not applicable to on-demand queues.
     #   @return [Types::ReservationPlan]
     #
+    # @!attribute [rw] service_overrides
+    #   A list of any service overrides applied by MediaConvert to the
+    #   settings that you have configured. If you see any overrides, we
+    #   recommend that you contact AWS Support.
+    #   @return [Array<Types::ServiceOverride>]
+    #
     # @!attribute [rw] status
     #   Queues can be ACTIVE or PAUSED. If you pause a queue, the service
     #   won't begin processing jobs in that queue. Jobs that are running
@@ -11114,6 +11777,7 @@ module Aws::MediaConvert
     #
     class Queue < Struct.new(
       :arn,
+      :concurrent_jobs,
       :created_at,
       :description,
       :last_updated,
@@ -11121,6 +11785,7 @@ module Aws::MediaConvert
       :pricing_plan,
       :progressing_jobs_count,
       :reservation_plan,
+      :service_overrides,
       :status,
       :submitted_jobs_count,
       :type)
@@ -11185,25 +11850,45 @@ module Aws::MediaConvert
       include Aws::Structure
     end
 
-    # Use Manual audio remixing (RemixSettings) to adjust audio levels for
-    # each audio channel in each output of your job. With audio remixing,
-    # you can output more or fewer audio channels than your input audio
-    # source provides.
+    # Use Manual audio remixing to adjust audio levels for each audio
+    # channel in each output of your job. With audio remixing, you can
+    # output more or fewer audio channels than your input audio source
+    # provides.
+    #
+    # @!attribute [rw] audio_description_audio_channel
+    #   Optionally specify the channel in your input that contains your
+    #   audio description audio signal. MediaConvert mixes your audio signal
+    #   across all output channels, while reducing their volume according to
+    #   your data stream. When you specify an audio description audio
+    #   channel, you must also specify an audio description data channel.
+    #   For more information about audio description signals, see the BBC
+    #   WHP 198 and 051 white papers.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] audio_description_data_channel
+    #   Optionally specify the channel in your input that contains your
+    #   audio description data stream. MediaConvert mixes your audio signal
+    #   across all output channels, while reducing their volume according to
+    #   your data stream. When you specify an audio description data
+    #   channel, you must also specify an audio description audio channel.
+    #   For more information about audio description signals, see the BBC
+    #   WHP 198 and 051 white papers.
+    #   @return [Integer]
     #
     # @!attribute [rw] channel_mapping
-    #   Channel mapping (ChannelMapping) contains the group of fields that
-    #   hold the remixing value for each channel, in dB. Specify remix
-    #   values to indicate how much of the content from your input audio
-    #   channel you want in your output audio channels. Each instance of the
-    #   InputChannels or InputChannelsFineTune array specifies these values
-    #   for one output channel. Use one instance of this array for each
-    #   output channel. In the console, each array corresponds to a column
-    #   in the graphical depiction of the mapping matrix. The rows of the
-    #   graphical matrix correspond to input channels. Valid values are
-    #   within the range from -60 (mute) through 6. A setting of 0 passes
-    #   the input channel unchanged to the output channel (no attenuation or
-    #   amplification). Use InputChannels or InputChannelsFineTune to
-    #   specify your remix values. Don't use both.
+    #   Channel mapping contains the group of fields that hold the remixing
+    #   value for each channel, in dB. Specify remix values to indicate how
+    #   much of the content from your input audio channel you want in your
+    #   output audio channels. Each instance of the InputChannels or
+    #   InputChannelsFineTune array specifies these values for one output
+    #   channel. Use one instance of this array for each output channel. In
+    #   the console, each array corresponds to a column in the graphical
+    #   depiction of the mapping matrix. The rows of the graphical matrix
+    #   correspond to input channels. Valid values are within the range from
+    #   -60 (mute) through 6. A setting of 0 passes the input channel
+    #   unchanged to the output channel (no attenuation or amplification).
+    #   Use InputChannels or InputChannelsFineTune to specify your remix
+    #   values. Don't use both.
     #   @return [Types::ChannelMapping]
     #
     # @!attribute [rw] channels_in
@@ -11227,6 +11912,8 @@ module Aws::MediaConvert
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/RemixSettings AWS API Documentation
     #
     class RemixSettings < Struct.new(
+      :audio_description_audio_channel,
+      :audio_description_data_channel,
       :channel_mapping,
       :channels_in,
       :channels_out)
@@ -11376,11 +12063,19 @@ module Aws::MediaConvert
     #   to Amazon S3.
     #   @return [Types::S3EncryptionSettings]
     #
+    # @!attribute [rw] storage_class
+    #   Specify the S3 storage class to use for this output. To use your
+    #   destination's default storage class: Keep the default value, Not
+    #   set. For more information about S3 storage classes, see
+    #   https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-class-intro.html
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/S3DestinationSettings AWS API Documentation
     #
     class S3DestinationSettings < Struct.new(
       :access_control,
-      :encryption)
+      :encryption,
+      :storage_class)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -11394,14 +12089,13 @@ module Aws::MediaConvert
     #   using a customer master key (CMK), and then stores the encrypted
     #   data keys alongside your encrypted content. Use this setting to
     #   specify which AWS service manages the CMK. For simplest set up,
-    #   choose Amazon S3 (SERVER\_SIDE\_ENCRYPTION\_S3). If you want your
-    #   master key to be managed by AWS Key Management Service (KMS), choose
-    #   AWS KMS (SERVER\_SIDE\_ENCRYPTION\_KMS). By default, when you choose
-    #   AWS KMS, KMS uses the AWS managed customer master key (CMK)
+    #   choose Amazon S3. If you want your master key to be managed by AWS
+    #   Key Management Service (KMS), choose AWS KMS. By default, when you
+    #   choose AWS KMS, KMS uses the AWS managed customer master key (CMK)
     #   associated with Amazon S3 to encrypt your data keys. You can
     #   optionally choose to specify a different, customer managed CMK. Do
     #   so by specifying the Amazon Resource Name (ARN) of the key for the
-    #   setting KMS ARN (kmsKeyArn).
+    #   setting KMS ARN.
     #   @return [String]
     #
     # @!attribute [rw] kms_encryption_context
@@ -11410,9 +12104,8 @@ module Aws::MediaConvert
     #   additional authenticated data (AAD) to support authenticated
     #   encryption. This value must be a base64-encoded UTF-8 string holding
     #   JSON which represents a string-string map. To use this setting, you
-    #   must also set Server-side encryption (S3ServerSideEncryptionType) to
-    #   AWS KMS (SERVER\_SIDE\_ENCRYPTION\_KMS). For more information about
-    #   encryption context, see:
+    #   must also set Server-side encryption to AWS KMS. For more
+    #   information about encryption context, see:
     #   https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt\_context.
     #   @return [String]
     #
@@ -11420,11 +12113,9 @@ module Aws::MediaConvert
     #   Optionally, specify the customer master key (CMK) that you want to
     #   use to encrypt the data key that AWS uses to encrypt your output
     #   content. Enter the Amazon Resource Name (ARN) of the CMK. To use
-    #   this setting, you must also set Server-side encryption
-    #   (S3ServerSideEncryptionType) to AWS KMS
-    #   (SERVER\_SIDE\_ENCRYPTION\_KMS). If you set Server-side encryption
-    #   to AWS KMS but don't specify a CMK here, AWS uses the AWS managed
-    #   CMK associated with Amazon S3.
+    #   this setting, you must also set Server-side encryption to AWS KMS.
+    #   If you set Server-side encryption to AWS KMS but don't specify a
+    #   CMK here, AWS uses the AWS managed CMK associated with Amazon S3.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/S3EncryptionSettings AWS API Documentation
@@ -11442,23 +12133,124 @@ module Aws::MediaConvert
     # sidecar captions in the same output group, but different output from
     # your video. For more information, see
     # https://docs.aws.amazon.com/mediaconvert/latest/ug/scc-srt-output-captions.html.
-    # When you work directly in your JSON job specification, include this
-    # object and any required children when you set destinationType to SCC.
     #
     # @!attribute [rw] framerate
-    #   Set Framerate (SccDestinationFramerate) to make sure that the
-    #   captions and the video are synchronized in the output. Specify a
-    #   frame rate that matches the frame rate of the associated video. If
-    #   the video frame rate is 29.97, choose 29.97 dropframe
-    #   (FRAMERATE\_29\_97\_DROPFRAME) only if the video has
+    #   Set Framerate to make sure that the captions and the video are
+    #   synchronized in the output. Specify a frame rate that matches the
+    #   frame rate of the associated video. If the video frame rate is
+    #   29.97, choose 29.97 dropframe only if the video has
     #   video\_insertion=true and drop\_frame\_timecode=true; otherwise,
-    #   choose 29.97 non-dropframe (FRAMERATE\_29\_97\_NON\_DROPFRAME).
+    #   choose 29.97 non-dropframe.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/SccDestinationSettings AWS API Documentation
     #
     class SccDestinationSettings < Struct.new(
       :framerate)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Retrieve a JSON array that includes job details for up to twenty of
+    # your most recent jobs. Optionally filter results further according to
+    # input file, queue, or status. To retrieve the twenty next most recent
+    # jobs, use the nextToken string returned with the array.
+    #
+    # @!attribute [rw] input_file
+    #   Optional. Provide your input file URL or your partial input file
+    #   name. The maximum length for an input file is 300 characters.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   Optional. Number of jobs, up to twenty, that will be returned at one
+    #   time.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   Optional. Use this string, provided with the response to a previous
+    #   request, to request the next batch of jobs.
+    #   @return [String]
+    #
+    # @!attribute [rw] order
+    #   Optional. When you request lists of resources, you can specify
+    #   whether they are sorted in ASCENDING or DESCENDING order. Default
+    #   varies by resource.
+    #   @return [String]
+    #
+    # @!attribute [rw] queue
+    #   Optional. Provide a queue name, or a queue ARN, to return only jobs
+    #   from that queue.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   Optional. A job's status can be SUBMITTED, PROGRESSING, COMPLETE,
+    #   CANCELED, or ERROR.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/SearchJobsRequest AWS API Documentation
+    #
+    class SearchJobsRequest < Struct.new(
+      :input_file,
+      :max_results,
+      :next_token,
+      :order,
+      :queue,
+      :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Successful search jobs requests return a JSON array of jobs. If you
+    # don't specify how they are ordered, you will receive the most
+    # recently created first.
+    #
+    # @!attribute [rw] jobs
+    #   List of jobs.
+    #   @return [Array<Types::Job>]
+    #
+    # @!attribute [rw] next_token
+    #   Use this string to request the next batch of jobs.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/SearchJobsResponse AWS API Documentation
+    #
+    class SearchJobsResponse < Struct.new(
+      :jobs,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A service override applied by MediaConvert to the settings that you
+    # have configured. If you see any overrides, we recommend that you
+    # contact AWS Support.
+    #
+    # @!attribute [rw] message
+    #   Details about the service override that MediaConvert has applied.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the setting that MediaConvert has applied an override
+    #   to.
+    #   @return [String]
+    #
+    # @!attribute [rw] override_value
+    #   The current value of the service override that MediaConvert has
+    #   applied.
+    #   @return [String]
+    #
+    # @!attribute [rw] value
+    #   The value of the setting that you configured, prior to any overrides
+    #   that MediaConvert has applied.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/ServiceOverride AWS API Documentation
+    #
+    class ServiceOverride < Struct.new(
+      :message,
+      :name,
+      :override_value,
+      :value)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -11474,6 +12266,14 @@ module Aws::MediaConvert
     #   using AWS Certificate Manager. Specify the certificate's Amazon
     #   Resource Name (ARN) here.
     #   @return [String]
+    #
+    # @!attribute [rw] encryption_contract_configuration
+    #   Specify the SPEKE version, either v1.0 or v2.0, that MediaConvert
+    #   uses when encrypting your output. For more information, see:
+    #   https://docs.aws.amazon.com/speke/latest/documentation/speke-api-specification.html
+    #   To use SPEKE v1.0: Leave blank. To use SPEKE v2.0: Specify a SPEKE
+    #   v2.0 video preset and a SPEKE v2.0 audio preset.
+    #   @return [Types::EncryptionContractConfiguration]
     #
     # @!attribute [rw] resource_id
     #   Specify the resource ID that your SPEKE-compliant key provider uses
@@ -11497,6 +12297,7 @@ module Aws::MediaConvert
     #
     class SpekeKeyProvider < Struct.new(
       :certificate_arn,
+      :encryption_contract_configuration,
       :resource_id,
       :system_ids,
       :url)
@@ -11524,6 +12325,14 @@ module Aws::MediaConvert
     #   https://dashif.org/identifiers/content\_protection/.
     #   @return [Array<String>]
     #
+    # @!attribute [rw] encryption_contract_configuration
+    #   Specify the SPEKE version, either v1.0 or v2.0, that MediaConvert
+    #   uses when encrypting your output. For more information, see:
+    #   https://docs.aws.amazon.com/speke/latest/documentation/speke-api-specification.html
+    #   To use SPEKE v1.0: Leave blank. To use SPEKE v2.0: Specify a SPEKE
+    #   v2.0 video preset and a SPEKE v2.0 audio preset.
+    #   @return [Types::EncryptionContractConfiguration]
+    #
     # @!attribute [rw] hls_signaled_system_ids
     #   Specify the DRM system ID that you want signaled in the HLS manifest
     #   that MediaConvert creates as part of this CMAF package. The HLS
@@ -11547,6 +12356,7 @@ module Aws::MediaConvert
     class SpekeKeyProviderCmaf < Struct.new(
       :certificate_arn,
       :dash_signaled_system_ids,
+      :encryption_contract_configuration,
       :hls_signaled_system_ids,
       :resource_id,
       :url)
@@ -11557,18 +12367,15 @@ module Aws::MediaConvert
     # Settings related to SRT captions. SRT is a sidecar format that holds
     # captions in a file that is separate from the video container. Set up
     # sidecar captions in the same output group, but different output from
-    # your video. When you work directly in your JSON job specification,
-    # include this object and any required children when you set
-    # destinationType to SRT.
+    # your video.
     #
     # @!attribute [rw] style_passthrough
-    #   Set Style passthrough (StylePassthrough) to ENABLED to use the
-    #   available style, color, and position information from your input
-    #   captions. MediaConvert uses default settings for any missing style
-    #   and position information in your input captions. Set Style
-    #   passthrough to DISABLED, or leave blank, to ignore the style and
-    #   position information from your input captions and use simplified
-    #   output captions.
+    #   Set Style passthrough to ENABLED to use the available style, color,
+    #   and position information from your input captions. MediaConvert uses
+    #   default settings for any missing style and position information in
+    #   your input captions. Set Style passthrough to DISABLED, or leave
+    #   blank, to ignore the style and position information from your input
+    #   captions and use simplified output captions.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/SrtDestinationSettings AWS API Documentation
@@ -11594,7 +12401,7 @@ module Aws::MediaConvert
     #
     # @!attribute [rw] static_key_value
     #   Relates to DRM implementation. Use a 32-character hexidecimal string
-    #   to specify Key Value (StaticKeyValue).
+    #   to specify Key Value.
     #   @return [String]
     #
     # @!attribute [rw] url
@@ -11645,9 +12452,6 @@ module Aws::MediaConvert
     # Settings related to teletext captions. Set up teletext captions in the
     # same output as your video. For more information, see
     # https://docs.aws.amazon.com/mediaconvert/latest/ug/teletext-output-captions.html.
-    # When you work directly in your JSON job specification, include this
-    # object and any required children when you set destinationType to
-    # TELETEXT.
     #
     # @!attribute [rw] page_number
     #   Set pageNumber to the Teletext page number for the destination
@@ -11660,10 +12464,9 @@ module Aws::MediaConvert
     # @!attribute [rw] page_types
     #   Specify the page types for this Teletext page. If you don't specify
     #   a value here, the service sets the page type to the default value
-    #   Subtitle (PAGE\_TYPE\_SUBTITLE). If you pass through the entire set
-    #   of Teletext data, don't use this field. When you pass through a set
-    #   of Teletext pages, your output has the same page types as your
-    #   input.
+    #   Subtitle. If you pass through the entire set of Teletext data,
+    #   don't use this field. When you pass through a set of Teletext
+    #   pages, your output has the same page types as your input.
     #   @return [Array<String>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/TeletextDestinationSettings AWS API Documentation
@@ -11678,10 +12481,9 @@ module Aws::MediaConvert
     # Settings specific to Teletext caption sources, including Page number.
     #
     # @!attribute [rw] page_number
-    #   Use Page Number (PageNumber) to specify the three-digit hexadecimal
-    #   page number that will be used for Teletext captions. Do not use this
-    #   setting if you are passing through teletext from the input source to
-    #   output.
+    #   Use Page Number to specify the three-digit hexadecimal page number
+    #   that will be used for Teletext captions. Do not use this setting if
+    #   you are passing through teletext from the input source to output.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/TeletextSourceSettings AWS API Documentation
@@ -11696,23 +12498,22 @@ module Aws::MediaConvert
     # output.
     #
     # @!attribute [rw] font_size
-    #   Use Font Size (FontSize) to set the font size of any burned-in
-    #   timecode. Valid values are 10, 16, 32, 48.
+    #   Use Font size to set the font size of any burned-in timecode. Valid
+    #   values are 10, 16, 32, 48.
     #   @return [Integer]
     #
     # @!attribute [rw] position
-    #   Use Position (Position) under under Timecode burn-in
-    #   (TimecodeBurnIn) to specify the location the burned-in timecode on
-    #   output video.
+    #   Use Position under Timecode burn-in to specify the location the
+    #   burned-in timecode on output video.
     #   @return [String]
     #
     # @!attribute [rw] prefix
-    #   Use Prefix (Prefix) to place ASCII characters before any burned-in
-    #   timecode. For example, a prefix of "EZ-" will result in the
-    #   timecode "EZ-00:00:00:00". Provide either the characters
-    #   themselves or the ASCII code equivalents. The supported range of
-    #   characters is 0x20 through 0x7e. This includes letters, numbers, and
-    #   all special characters represented on a standard English keyboard.
+    #   Use Prefix to place ASCII characters before any burned-in timecode.
+    #   For example, a prefix of "EZ-" will result in the timecode
+    #   "EZ-00:00:00:00". Provide either the characters themselves or the
+    #   ASCII code equivalents. The supported range of characters is 0x20
+    #   through 0x7e. This includes letters, numbers, and all special
+    #   characters represented on a standard English keyboard.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/TimecodeBurnin AWS API Documentation
@@ -11730,51 +12531,47 @@ module Aws::MediaConvert
     #
     # @!attribute [rw] anchor
     #   If you use an editing platform that relies on an anchor timecode,
-    #   use Anchor Timecode (Anchor) to specify a timecode that will match
-    #   the input video frame to the output video frame. Use 24-hour format
-    #   with frame number, (HH:MM:SS:FF) or (HH:MM:SS;FF). This setting
-    #   ignores frame rate conversion. System behavior for Anchor Timecode
-    #   varies depending on your setting for Source (TimecodeSource). * If
-    #   Source (TimecodeSource) is set to Specified Start (SPECIFIEDSTART),
-    #   the first input frame is the specified value in Start Timecode
-    #   (Start). Anchor Timecode (Anchor) and Start Timecode (Start) are
-    #   used calculate output timecode. * If Source (TimecodeSource) is set
-    #   to Start at 0 (ZEROBASED) the first frame is 00:00:00:00. * If
-    #   Source (TimecodeSource) is set to Embedded (EMBEDDED), the first
-    #   frame is the timecode value on the first input frame of the input.
+    #   use Anchor Timecode to specify a timecode that will match the input
+    #   video frame to the output video frame. Use 24-hour format with frame
+    #   number, (HH:MM:SS:FF) or (HH:MM:SS;FF). This setting ignores frame
+    #   rate conversion. System behavior for Anchor Timecode varies
+    #   depending on your setting for Source. * If Source is set to
+    #   Specified Start, the first input frame is the specified value in
+    #   Start Timecode. Anchor Timecode and Start Timecode are used
+    #   calculate output timecode. * If Source is set to Start at 0 the
+    #   first frame is 00:00:00:00. * If Source is set to Embedded, the
+    #   first frame is the timecode value on the first input frame of the
+    #   input.
     #   @return [String]
     #
     # @!attribute [rw] source
-    #   Use Source (TimecodeSource) to set how timecodes are handled within
-    #   this job. To make sure that your video, audio, captions, and markers
-    #   are synchronized and that time-based features, such as image
-    #   inserter, work correctly, choose the Timecode source option that
-    #   matches your assets. All timecodes are in a 24-hour format with
-    #   frame number (HH:MM:SS:FF). * Embedded (EMBEDDED) - Use the
-    #   timecode that is in the input video. If no embedded timecode is in
-    #   the source, the service will use Start at 0 (ZEROBASED) instead. *
-    #   Start at 0 (ZEROBASED) - Set the timecode of the initial frame to
-    #   00:00:00:00. * Specified Start (SPECIFIEDSTART) - Set the timecode
+    #   Use Source to set how timecodes are handled within this job. To make
+    #   sure that your video, audio, captions, and markers are synchronized
+    #   and that time-based features, such as image inserter, work
+    #   correctly, choose the Timecode source option that matches your
+    #   assets. All timecodes are in a 24-hour format with frame number
+    #   (HH:MM:SS:FF). * Embedded - Use the timecode that is in the input
+    #   video. If no embedded timecode is in the source, the service will
+    #   use Start at 0 instead. * Start at 0 - Set the timecode of the
+    #   initial frame to 00:00:00:00. * Specified Start - Set the timecode
     #   of the initial frame to a value other than zero. You use Start
-    #   timecode (Start) to provide this value.
+    #   timecode to provide this value.
     #   @return [String]
     #
     # @!attribute [rw] start
-    #   Only use when you set Source (TimecodeSource) to Specified start
-    #   (SPECIFIEDSTART). Use Start timecode (Start) to specify the timecode
-    #   for the initial frame. Use 24-hour format with frame number,
-    #   (HH:MM:SS:FF) or (HH:MM:SS;FF).
+    #   Only use when you set Source to Specified start. Use Start timecode
+    #   to specify the timecode for the initial frame. Use 24-hour format
+    #   with frame number, (HH:MM:SS:FF) or (HH:MM:SS;FF).
     #   @return [String]
     #
     # @!attribute [rw] timestamp_offset
     #   Only applies to outputs that support program-date-time stamp. Use
-    #   Timestamp offset (TimestampOffset) to overwrite the timecode date
-    #   without affecting the time and frame number. Provide the new date as
-    #   a string in the format "yyyy-mm-dd". To use Time stamp offset, you
-    #   must also enable Insert program-date-time (InsertProgramDateTime) in
-    #   the output settings. For example, if the date part of your timecodes
-    #   is 2002-1-25 and you want to change it to one year later, set
-    #   Timestamp offset (TimestampOffset) to 2003-1-25.
+    #   Timestamp offset to overwrite the timecode date without affecting
+    #   the time and frame number. Provide the new date as a string in the
+    #   format "yyyy-mm-dd". To use Timestamp offset, you must also enable
+    #   Insert program-date-time in the output settings. For example, if the
+    #   date part of your timecodes is 2002-1-25 and you want to change it
+    #   to one year later, set Timestamp offset to 2003-1-25.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/TimecodeConfig AWS API Documentation
@@ -11788,10 +12585,9 @@ module Aws::MediaConvert
       include Aws::Structure
     end
 
-    # Insert user-defined custom ID3 metadata (id3) at timecodes (timecode)
-    # that you specify. In each output that you want to include this
-    # metadata, you must set ID3 metadata (timedMetadata) to Passthrough
-    # (PASSTHROUGH).
+    # Insert user-defined custom ID3 metadata at timecodes that you specify.
+    # In each output that you want to include this metadata, you must set
+    # ID3 metadata to Passthrough.
     #
     # @!attribute [rw] id_3_insertions
     #   Id3Insertions contains the array of Id3Insertion instances.
@@ -11869,8 +12665,6 @@ module Aws::MediaConvert
     # sidecar captions in the same output group, but different output from
     # your video. For more information, see
     # https://docs.aws.amazon.com/mediaconvert/latest/ug/ttml-and-webvtt-output-captions.html.
-    # When you work directly in your JSON job specification, include this
-    # object and any required children when you set destinationType to TTML.
     #
     # @!attribute [rw] style_passthrough
     #   Pass through style and position information from a TTML-like input
@@ -11881,6 +12675,118 @@ module Aws::MediaConvert
     #
     class TtmlDestinationSettings < Struct.new(
       :style_passthrough)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Required when you set Codec, under VideoDescription>CodecSettings to
+    # the value UNCOMPRESSED.
+    #
+    # @!attribute [rw] fourcc
+    #   The four character code for the uncompressed video.
+    #   @return [String]
+    #
+    # @!attribute [rw] framerate_control
+    #   Use the Framerate setting to specify the frame rate for this output.
+    #   If you want to keep the same frame rate as the input video, choose
+    #   Follow source. If you want to do frame rate conversion, choose a
+    #   frame rate from the dropdown list or choose Custom. The framerates
+    #   shown in the dropdown list are decimal approximations of fractions.
+    #   If you choose Custom, specify your frame rate as a fraction.
+    #   @return [String]
+    #
+    # @!attribute [rw] framerate_conversion_algorithm
+    #   Choose the method that you want MediaConvert to use when increasing
+    #   or decreasing your video's frame rate. For numerically simple
+    #   conversions, such as 60 fps to 30 fps: We recommend that you keep
+    #   the default value, Drop duplicate. For numerically complex
+    #   conversions, to avoid stutter: Choose Interpolate. This results in a
+    #   smooth picture, but might introduce undesirable video artifacts. For
+    #   complex frame rate conversions, especially if your source video has
+    #   already been converted from its original cadence: Choose FrameFormer
+    #   to do motion-compensated interpolation. FrameFormer uses the best
+    #   conversion method frame by frame. Note that using FrameFormer
+    #   increases the transcoding time and incurs a significant add-on cost.
+    #   When you choose FrameFormer, your input video resolution must be at
+    #   least 128x96. To create an output with the same number of frames as
+    #   your input: Choose Maintain frame count. When you do, MediaConvert
+    #   will not drop, interpolate, add, or otherwise change the frame count
+    #   from your input to your output. Note that since the frame count is
+    #   maintained, the duration of your output will become shorter at
+    #   higher frame rates and longer at lower frame rates.
+    #   @return [String]
+    #
+    # @!attribute [rw] framerate_denominator
+    #   When you use the API for transcode jobs that use frame rate
+    #   conversion, specify the frame rate as a fraction. For example, 24000
+    #   / 1001 = 23.976 fps. Use FramerateDenominator to specify the
+    #   denominator of this fraction. In this example, use 1001 for the
+    #   value of FramerateDenominator. When you use the console for
+    #   transcode jobs that use frame rate conversion, provide the value as
+    #   a decimal number for Framerate. In this example, specify 23.976.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] framerate_numerator
+    #   When you use the API for transcode jobs that use frame rate
+    #   conversion, specify the frame rate as a fraction. For example, 24000
+    #   / 1001 = 23.976 fps. Use FramerateNumerator to specify the numerator
+    #   of this fraction. In this example, use 24000 for the value of
+    #   FramerateNumerator. When you use the console for transcode jobs that
+    #   use frame rate conversion, provide the value as a decimal number for
+    #   Framerate. In this example, specify 23.976.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] interlace_mode
+    #   Optional. Choose the scan line type for this output. If you don't
+    #   specify a value, MediaConvert will create a progressive output.
+    #   @return [String]
+    #
+    # @!attribute [rw] scan_type_conversion_mode
+    #   Use this setting for interlaced outputs, when your output frame rate
+    #   is half of your input frame rate. In this situation, choose
+    #   Optimized interlacing to create a better quality interlaced output.
+    #   In this case, each progressive frame from the input corresponds to
+    #   an interlaced field in the output. Keep the default value, Basic
+    #   interlacing, for all other output frame rates. With basic
+    #   interlacing, MediaConvert performs any frame rate conversion first
+    #   and then interlaces the frames. When you choose Optimized
+    #   interlacing and you set your output frame rate to a value that
+    #   isn't suitable for optimized interlacing, MediaConvert
+    #   automatically falls back to basic interlacing. Required settings: To
+    #   use optimized interlacing, you must set Telecine to None or Soft.
+    #   You can't use optimized interlacing for hard telecine outputs. You
+    #   must also set Interlace mode to a value other than Progressive.
+    #   @return [String]
+    #
+    # @!attribute [rw] slow_pal
+    #   Ignore this setting unless your input frame rate is 23.976 or 24
+    #   frames per second (fps). Enable slow PAL to create a 25 fps output
+    #   by relabeling the video frames and resampling your audio. Note that
+    #   enabling this setting will slightly reduce the duration of your
+    #   video. Related settings: You must also set Framerate to 25.
+    #   @return [String]
+    #
+    # @!attribute [rw] telecine
+    #   When you do frame rate conversion from 23.976 frames per second
+    #   (fps) to 29.97 fps, and your output scan type is interlaced, you can
+    #   optionally enable hard telecine to create a smoother picture. When
+    #   you keep the default value, None, MediaConvert does a standard frame
+    #   rate conversion to 29.97 without doing anything with the field
+    #   polarity to create a smoother picture.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/UncompressedSettings AWS API Documentation
+    #
+    class UncompressedSettings < Struct.new(
+      :fourcc,
+      :framerate_control,
+      :framerate_conversion_algorithm,
+      :framerate_denominator,
+      :framerate_numerator,
+      :interlace_mode,
+      :scan_type_conversion_mode,
+      :slow_pal,
+      :telecine)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -12049,6 +12955,15 @@ module Aws::MediaConvert
     # Modify a queue by sending a request with the queue name and any
     # changes to the queue.
     #
+    # @!attribute [rw] concurrent_jobs
+    #   Specify the maximum number of jobs your queue can process
+    #   concurrently. For on-demand queues, the value you enter is
+    #   constrained by your service quotas for Maximum concurrent jobs, per
+    #   on-demand queue and Maximum concurrent jobs, per account. For
+    #   reserved queues, update your reservation plan instead in order to
+    #   increase your yearly commitment.
+    #   @return [Integer]
+    #
     # @!attribute [rw] description
     #   The new description for the queue, if you are changing it.
     #   @return [String]
@@ -12076,6 +12991,7 @@ module Aws::MediaConvert
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/UpdateQueueRequest AWS API Documentation
     #
     class UpdateQueueRequest < Struct.new(
+      :concurrent_jobs,
       :description,
       :name,
       :reservation_plan_settings,
@@ -12103,8 +13019,7 @@ module Aws::MediaConvert
       include Aws::Structure
     end
 
-    # Required when you set (Codec) under (VideoDescription)>(CodecSettings)
-    # to the value VC3
+    # Required when you set Codec to the value VC3
     #
     # @!attribute [rw] framerate_control
     #   If you are using the console, use the Framerate setting to specify
@@ -12113,28 +13028,28 @@ module Aws::MediaConvert
     #   frame rate conversion, choose a frame rate from the dropdown list or
     #   choose Custom. The framerates shown in the dropdown list are decimal
     #   approximations of fractions. If you choose Custom, specify your
-    #   frame rate as a fraction. If you are creating your transcoding job
-    #   specification as a JSON file without the console, use
-    #   FramerateControl to specify which value the service uses for the
-    #   frame rate for this output. Choose INITIALIZE\_FROM\_SOURCE if you
-    #   want the service to use the frame rate from the input. Choose
-    #   SPECIFIED if you want the service to use the frame rate you specify
-    #   in the settings FramerateNumerator and FramerateDenominator.
+    #   frame rate as a fraction.
     #   @return [String]
     #
     # @!attribute [rw] framerate_conversion_algorithm
     #   Choose the method that you want MediaConvert to use when increasing
-    #   or decreasing the frame rate. We recommend using drop duplicate
-    #   (DUPLICATE\_DROP) for numerically simple conversions, such as 60 fps
-    #   to 30 fps. For numerically complex conversions, you can use
-    #   interpolate (INTERPOLATE) to avoid stutter. This results in a smooth
-    #   picture, but might introduce undesirable video artifacts. For
+    #   or decreasing your video's frame rate. For numerically simple
+    #   conversions, such as 60 fps to 30 fps: We recommend that you keep
+    #   the default value, Drop duplicate. For numerically complex
+    #   conversions, to avoid stutter: Choose Interpolate. This results in a
+    #   smooth picture, but might introduce undesirable video artifacts. For
     #   complex frame rate conversions, especially if your source video has
-    #   already been converted from its original cadence, use FrameFormer
-    #   (FRAMEFORMER) to do motion-compensated interpolation. FrameFormer
-    #   chooses the best conversion method frame by frame. Note that using
-    #   FrameFormer increases the transcoding time and incurs a significant
-    #   add-on cost.
+    #   already been converted from its original cadence: Choose FrameFormer
+    #   to do motion-compensated interpolation. FrameFormer uses the best
+    #   conversion method frame by frame. Note that using FrameFormer
+    #   increases the transcoding time and incurs a significant add-on cost.
+    #   When you choose FrameFormer, your input video resolution must be at
+    #   least 128x96. To create an output with the same number of frames as
+    #   your input: Choose Maintain frame count. When you do, MediaConvert
+    #   will not drop, interpolate, add, or otherwise change the frame count
+    #   from your input to your output. Note that since the frame count is
+    #   maintained, the duration of your output will become shorter at
+    #   higher frame rates and longer at lower frame rates.
     #   @return [String]
     #
     # @!attribute [rw] framerate_denominator
@@ -12165,19 +13080,18 @@ module Aws::MediaConvert
     # @!attribute [rw] scan_type_conversion_mode
     #   Use this setting for interlaced outputs, when your output frame rate
     #   is half of your input frame rate. In this situation, choose
-    #   Optimized interlacing (INTERLACED\_OPTIMIZE) to create a better
-    #   quality interlaced output. In this case, each progressive frame from
-    #   the input corresponds to an interlaced field in the output. Keep the
-    #   default value, Basic interlacing (INTERLACED), for all other output
-    #   frame rates. With basic interlacing, MediaConvert performs any frame
-    #   rate conversion first and then interlaces the frames. When you
-    #   choose Optimized interlacing and you set your output frame rate to a
-    #   value that isn't suitable for optimized interlacing, MediaConvert
+    #   Optimized interlacing to create a better quality interlaced output.
+    #   In this case, each progressive frame from the input corresponds to
+    #   an interlaced field in the output. Keep the default value, Basic
+    #   interlacing, for all other output frame rates. With basic
+    #   interlacing, MediaConvert performs any frame rate conversion first
+    #   and then interlaces the frames. When you choose Optimized
+    #   interlacing and you set your output frame rate to a value that
+    #   isn't suitable for optimized interlacing, MediaConvert
     #   automatically falls back to basic interlacing. Required settings: To
-    #   use optimized interlacing, you must set Telecine (telecine) to None
-    #   (NONE) or Soft (SOFT). You can't use optimized interlacing for hard
-    #   telecine outputs. You must also set Interlace mode (interlaceMode)
-    #   to a value other than Progressive (PROGRESSIVE).
+    #   use optimized interlacing, you must set Telecine to None or Soft.
+    #   You can't use optimized interlacing for hard telecine outputs. You
+    #   must also set Interlace mode to a value other than Progressive.
     #   @return [String]
     #
     # @!attribute [rw] slow_pal
@@ -12185,18 +13099,16 @@ module Aws::MediaConvert
     #   frames per second (fps). Enable slow PAL to create a 25 fps output
     #   by relabeling the video frames and resampling your audio. Note that
     #   enabling this setting will slightly reduce the duration of your
-    #   video. Related settings: You must also set Framerate to 25. In your
-    #   JSON job specification, set (framerateControl) to (SPECIFIED),
-    #   (framerateNumerator) to 25 and (framerateDenominator) to 1.
+    #   video. Related settings: You must also set Framerate to 25.
     #   @return [String]
     #
     # @!attribute [rw] telecine
     #   When you do frame rate conversion from 23.976 frames per second
     #   (fps) to 29.97 fps, and your output scan type is interlaced, you can
-    #   optionally enable hard telecine (HARD) to create a smoother picture.
-    #   When you keep the default value, None (NONE), MediaConvert does a
-    #   standard frame rate conversion to 29.97 without doing anything with
-    #   the field polarity to create a smoother picture.
+    #   optionally enable hard telecine to create a smoother picture. When
+    #   you keep the default value, None, MediaConvert does a standard frame
+    #   rate conversion to 29.97 without doing anything with the field
+    #   polarity to create a smoother picture.
     #   @return [String]
     #
     # @!attribute [rw] vc_3_class
@@ -12205,10 +13117,10 @@ module Aws::MediaConvert
     #   (framerateNumerator and framerateDenominator) and Resolution (height
     #   and width), determine your output bitrate. For example, say that
     #   your video resolution is 1920x1080 and your framerate is 29.97. Then
-    #   Class 145 (CLASS\_145) gives you an output with a bitrate of
-    #   approximately 145 Mbps and Class 220 (CLASS\_220) gives you and
-    #   output with a bitrate of approximately 220 Mbps. VC3 class also
-    #   specifies the color bit depth of your output.
+    #   Class 145 gives you an output with a bitrate of approximately 145
+    #   Mbps and Class 220 gives you and output with a bitrate of
+    #   approximately 220 Mbps. VC3 class also specifies the color bit depth
+    #   of your output.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/Vc3Settings AWS API Documentation
@@ -12227,15 +13139,15 @@ module Aws::MediaConvert
       include Aws::Structure
     end
 
-    # Video codec settings, (CodecSettings) under (VideoDescription),
-    # contains the group of settings related to video encoding. The settings
-    # in this group vary depending on the value that you choose for Video
-    # codec (Codec). For each codec enum that you choose, define the
-    # corresponding settings object. The following lists the codec enum,
-    # settings object pairs. * AV1, Av1Settings * AVC\_INTRA,
-    # AvcIntraSettings * FRAME\_CAPTURE, FrameCaptureSettings * H\_264,
-    # H264Settings * H\_265, H265Settings * MPEG2, Mpeg2Settings *
-    # PRORES, ProresSettings * VC3, Vc3Settings * VP8, Vp8Settings * VP9,
+    # Video codec settings contains the group of settings related to video
+    # encoding. The settings in this group vary depending on the value that
+    # you choose for Video codec. For each codec enum that you choose,
+    # define the corresponding settings object. The following lists the
+    # codec enum, settings object pairs. * AV1, Av1Settings * AVC\_INTRA,
+    # AvcIntraSettings * FRAME\_CAPTURE, FrameCaptureSettings * GIF,
+    # GifSettings * H\_264, H264Settings * H\_265, H265Settings * MPEG2,
+    # Mpeg2Settings * PRORES, ProresSettings * UNCOMPRESSED,
+    # UncompressedSettings * VC3, Vc3Settings * VP8, Vp8Settings * VP9,
     # Vp9Settings * XAVC, XavcSettings
     #
     # @!attribute [rw] av_1_settings
@@ -12254,17 +13166,25 @@ module Aws::MediaConvert
     #
     # @!attribute [rw] codec
     #   Specifies the video codec. This must be equal to one of the enum
-    #   values defined by the object VideoCodec.
+    #   values defined by the object VideoCodec. To passthrough the video
+    #   stream of your input JPEG2000, VC-3, AVC-INTRA or Apple ProRes video
+    #   without any video encoding: Choose Passthrough. If you have multiple
+    #   input videos, note that they must have identical encoding
+    #   attributes. When you choose Passthrough, your output container must
+    #   be MXF or QuickTime MOV.
     #   @return [String]
     #
     # @!attribute [rw] frame_capture_settings
-    #   Required when you set (Codec) under
-    #   (VideoDescription)>(CodecSettings) to the value FRAME\_CAPTURE.
+    #   Required when you set Codec to the value FRAME\_CAPTURE.
     #   @return [Types::FrameCaptureSettings]
     #
-    # @!attribute [rw] h264_settings
+    # @!attribute [rw] gif_settings
     #   Required when you set (Codec) under
-    #   (VideoDescription)>(CodecSettings) to the value H\_264.
+    #   (VideoDescription)>(CodecSettings) to the value GIF
+    #   @return [Types::GifSettings]
+    #
+    # @!attribute [rw] h264_settings
+    #   Required when you set Codec to the value H\_264.
     #   @return [Types::H264Settings]
     #
     # @!attribute [rw] h265_settings
@@ -12272,33 +13192,32 @@ module Aws::MediaConvert
     #   @return [Types::H265Settings]
     #
     # @!attribute [rw] mpeg_2_settings
-    #   Required when you set (Codec) under
-    #   (VideoDescription)>(CodecSettings) to the value MPEG2.
+    #   Required when you set Codec to the value MPEG2.
     #   @return [Types::Mpeg2Settings]
     #
     # @!attribute [rw] prores_settings
-    #   Required when you set (Codec) under
-    #   (VideoDescription)>(CodecSettings) to the value PRORES.
+    #   Required when you set Codec to the value PRORES.
     #   @return [Types::ProresSettings]
     #
+    # @!attribute [rw] uncompressed_settings
+    #   Required when you set Codec, under VideoDescription>CodecSettings to
+    #   the value UNCOMPRESSED.
+    #   @return [Types::UncompressedSettings]
+    #
     # @!attribute [rw] vc_3_settings
-    #   Required when you set (Codec) under
-    #   (VideoDescription)>(CodecSettings) to the value VC3
+    #   Required when you set Codec to the value VC3
     #   @return [Types::Vc3Settings]
     #
     # @!attribute [rw] vp_8_settings
-    #   Required when you set (Codec) under
-    #   (VideoDescription)>(CodecSettings) to the value VP8.
+    #   Required when you set Codec to the value VP8.
     #   @return [Types::Vp8Settings]
     #
     # @!attribute [rw] vp_9_settings
-    #   Required when you set (Codec) under
-    #   (VideoDescription)>(CodecSettings) to the value VP9.
+    #   Required when you set Codec to the value VP9.
     #   @return [Types::Vp9Settings]
     #
     # @!attribute [rw] xavc_settings
-    #   Required when you set (Codec) under
-    #   (VideoDescription)>(CodecSettings) to the value XAVC.
+    #   Required when you set Codec to the value XAVC.
     #   @return [Types::XavcSettings]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/VideoCodecSettings AWS API Documentation
@@ -12308,10 +13227,12 @@ module Aws::MediaConvert
       :avc_intra_settings,
       :codec,
       :frame_capture_settings,
+      :gif_settings,
       :h264_settings,
       :h265_settings,
       :mpeg_2_settings,
       :prores_settings,
+      :uncompressed_settings,
       :vc_3_settings,
       :vp_8_settings,
       :vp_9_settings,
@@ -12321,18 +13242,16 @@ module Aws::MediaConvert
     end
 
     # Settings related to video encoding of your output. The specific video
-    # settings depend on the video codec that you choose. When you work
-    # directly in your JSON job specification, include one instance of Video
-    # description (VideoDescription) per output.
+    # settings depend on the video codec that you choose.
     #
     # @!attribute [rw] afd_signaling
     #   This setting only applies to H.264, H.265, and MPEG2 outputs. Use
-    #   Insert AFD signaling (AfdSignaling) to specify whether the service
-    #   includes AFD values in the output video data and what those values
-    #   are. * Choose None to remove all AFD values from this output. *
-    #   Choose Fixed to ignore input AFD values and instead encode the value
-    #   specified in the job. * Choose Auto to calculate output AFD values
-    #   based on the input AFD scaler data.
+    #   Insert AFD signaling to specify whether the service includes AFD
+    #   values in the output video data and what those values are. * Choose
+    #   None to remove all AFD values from this output. * Choose Fixed to
+    #   ignore input AFD values and instead encode the value specified in
+    #   the job. * Choose Auto to calculate output AFD values based on the
+    #   input AFD scaler data.
     #   @return [String]
     #
     # @!attribute [rw] anti_alias
@@ -12341,29 +13260,37 @@ module Aws::MediaConvert
     #   specify that in your job, the service will ignore the setting.
     #   @return [String]
     #
+    # @!attribute [rw] chroma_position_mode
+    #   Specify the chroma sample positioning metadata for your H.264 or
+    #   H.265 output. To have MediaConvert automatically determine chroma
+    #   positioning: We recommend that you keep the default value, Auto. To
+    #   specify center positioning: Choose Force center. To specify top left
+    #   positioning: Choose Force top left.
+    #   @return [String]
+    #
     # @!attribute [rw] codec_settings
-    #   Video codec settings, (CodecSettings) under (VideoDescription),
-    #   contains the group of settings related to video encoding. The
-    #   settings in this group vary depending on the value that you choose
-    #   for Video codec (Codec). For each codec enum that you choose, define
-    #   the corresponding settings object. The following lists the codec
-    #   enum, settings object pairs. * AV1, Av1Settings * AVC\_INTRA,
-    #   AvcIntraSettings * FRAME\_CAPTURE, FrameCaptureSettings * H\_264,
-    #   H264Settings * H\_265, H265Settings * MPEG2, Mpeg2Settings *
-    #   PRORES, ProresSettings * VC3, Vc3Settings * VP8, Vp8Settings *
-    #   VP9, Vp9Settings * XAVC, XavcSettings
+    #   Video codec settings contains the group of settings related to video
+    #   encoding. The settings in this group vary depending on the value
+    #   that you choose for Video codec. For each codec enum that you
+    #   choose, define the corresponding settings object. The following
+    #   lists the codec enum, settings object pairs. * AV1, Av1Settings *
+    #   AVC\_INTRA, AvcIntraSettings * FRAME\_CAPTURE, FrameCaptureSettings
+    #   * GIF, GifSettings * H\_264, H264Settings * H\_265, H265Settings
+    #   * MPEG2, Mpeg2Settings * PRORES, ProresSettings * UNCOMPRESSED,
+    #   UncompressedSettings * VC3, Vc3Settings * VP8, Vp8Settings * VP9,
+    #   Vp9Settings * XAVC, XavcSettings
     #   @return [Types::VideoCodecSettings]
     #
     # @!attribute [rw] color_metadata
-    #   Choose Insert (INSERT) for this setting to include color metadata in
-    #   this output. Choose Ignore (IGNORE) to exclude color metadata from
-    #   this output. If you don't specify a value, the service sets this to
-    #   Insert by default.
+    #   Choose Insert for this setting to include color metadata in this
+    #   output. Choose Ignore to exclude color metadata from this output. If
+    #   you don't specify a value, the service sets this to Insert by
+    #   default.
     #   @return [String]
     #
     # @!attribute [rw] crop
-    #   Use Cropping selection (crop) to specify the video area that the
-    #   service will include in the output video frame.
+    #   Use Cropping selection to specify the video area that the service
+    #   will include in the output video frame.
     #   @return [Types::Rectangle]
     #
     # @!attribute [rw] drop_frame_timecode
@@ -12371,85 +13298,93 @@ module Aws::MediaConvert
     #   service will use drop-frame timecode on outputs. If it is not
     #   possible to use drop-frame timecode, the system will fall back to
     #   non-drop-frame. This setting is enabled by default when Timecode
-    #   insertion (TimecodeInsertion) is enabled.
+    #   insertion or Timecode track is enabled.
     #   @return [String]
     #
     # @!attribute [rw] fixed_afd
-    #   Applies only if you set AFD Signaling(AfdSignaling) to Fixed
-    #   (FIXED). Use Fixed (FixedAfd) to specify a four-bit AFD value which
-    #   the service will write on all frames of this video output.
+    #   Applies only if you set AFD Signaling to Fixed. Use Fixed to specify
+    #   a four-bit AFD value which the service will write on all frames of
+    #   this video output.
     #   @return [Integer]
     #
     # @!attribute [rw] height
-    #   Use the Height (Height) setting to define the video resolution
-    #   height for this output. Specify in pixels. If you don't provide a
-    #   value here, the service will use the input height.
+    #   Use Height to define the video resolution height, in pixels, for
+    #   this output. To use the same resolution as your input: Leave both
+    #   Width and Height blank. To evenly scale from your input resolution:
+    #   Leave Height blank and enter a value for Width. For example, if your
+    #   input is 1920x1080 and you set Width to 1280, your output will be
+    #   1280x720.
     #   @return [Integer]
     #
     # @!attribute [rw] position
-    #   Use Selection placement (position) to define the video area in your
-    #   output frame. The area outside of the rectangle that you specify
-    #   here is black.
+    #   Use Selection placement to define the video area in your output
+    #   frame. The area outside of the rectangle that you specify here is
+    #   black.
     #   @return [Types::Rectangle]
     #
     # @!attribute [rw] respond_to_afd
-    #   Use Respond to AFD (RespondToAfd) to specify how the service changes
-    #   the video itself in response to AFD values in the input. * Choose
-    #   Respond to clip the input video frame according to the AFD value,
-    #   input display aspect ratio, and output display aspect ratio. *
-    #   Choose Passthrough to include the input AFD values. Do not choose
-    #   this when AfdSignaling is set to (NONE). A preferred implementation
-    #   of this workflow is to set RespondToAfd to (NONE) and set
-    #   AfdSignaling to (AUTO). * Choose None to remove all input AFD
-    #   values from this output.
+    #   Use Respond to AFD to specify how the service changes the video
+    #   itself in response to AFD values in the input. * Choose Respond to
+    #   clip the input video frame according to the AFD value, input display
+    #   aspect ratio, and output display aspect ratio. * Choose Passthrough
+    #   to include the input AFD values. Do not choose this when
+    #   AfdSignaling is set to NONE. A preferred implementation of this
+    #   workflow is to set RespondToAfd to and set AfdSignaling to AUTO. *
+    #   Choose None to remove all input AFD values from this output.
     #   @return [String]
     #
     # @!attribute [rw] scaling_behavior
-    #   Specify how the service handles outputs that have a different aspect
-    #   ratio from the input aspect ratio. Choose Stretch to output
-    #   (STRETCH\_TO\_OUTPUT) to have the service stretch your video image
-    #   to fit. Keep the setting Default (DEFAULT) to have the service
-    #   letterbox your video instead. This setting overrides any value that
-    #   you specify for the setting Selection placement (position) in this
-    #   output.
+    #   Specify the video Scaling behavior when your output has a different
+    #   resolution than your input. For more information, see
+    #   https://docs.aws.amazon.com/mediaconvert/latest/ug/video-scaling.html
     #   @return [String]
     #
     # @!attribute [rw] sharpness
-    #   Use Sharpness (Sharpness) setting to specify the strength of
-    #   anti-aliasing. This setting changes the width of the anti-alias
-    #   filter kernel used for scaling. Sharpness only applies if your
-    #   output resolution is different from your input resolution. 0 is the
-    #   softest setting, 100 the sharpest, and 50 recommended for most
-    #   content.
+    #   Use Sharpness setting to specify the strength of anti-aliasing. This
+    #   setting changes the width of the anti-alias filter kernel used for
+    #   scaling. Sharpness only applies if your output resolution is
+    #   different from your input resolution. 0 is the softest setting, 100
+    #   the sharpest, and 50 recommended for most content.
     #   @return [Integer]
     #
     # @!attribute [rw] timecode_insertion
     #   Applies only to H.264, H.265, MPEG2, and ProRes outputs. Only enable
     #   Timecode insertion when the input frame rate is identical to the
     #   output frame rate. To include timecodes in this output, set Timecode
-    #   insertion (VideoTimecodeInsertion) to PIC\_TIMING\_SEI. To leave
-    #   them out, set it to DISABLED. Default is DISABLED. When the service
-    #   inserts timecodes in an output, by default, it uses any embedded
-    #   timecodes from the input. If none are present, the service will set
-    #   the timecode for the first output frame to zero. To change this
-    #   default behavior, adjust the settings under Timecode configuration
-    #   (TimecodeConfig). In the console, these settings are located under
-    #   Job > Job settings > Timecode configuration. Note - Timecode source
-    #   under input settings (InputTimecodeSource) does not affect the
-    #   timecodes that are inserted in the output. Source under Job settings
-    #   > Timecode configuration (TimecodeSource) does.
+    #   insertion to PIC\_TIMING\_SEI. To leave them out, set it to
+    #   DISABLED. Default is DISABLED. When the service inserts timecodes in
+    #   an output, by default, it uses any embedded timecodes from the
+    #   input. If none are present, the service will set the timecode for
+    #   the first output frame to zero. To change this default behavior,
+    #   adjust the settings under Timecode configuration. In the console,
+    #   these settings are located under Job > Job settings > Timecode
+    #   configuration. Note - Timecode source under input settings does not
+    #   affect the timecodes that are inserted in the output. Source under
+    #   Job settings > Timecode configuration does.
+    #   @return [String]
+    #
+    # @!attribute [rw] timecode_track
+    #   To include a timecode track in your MP4 output: Choose Enabled.
+    #   MediaConvert writes the timecode track in the Null Media Header box
+    #   (NMHD), without any timecode text formatting information. You can
+    #   also specify dropframe or non-dropframe timecode under the Drop
+    #   Frame Timecode setting. To not include a timecode track: Keep the
+    #   default value, Disabled.
     #   @return [String]
     #
     # @!attribute [rw] video_preprocessors
-    #   Find additional transcoding features under Preprocessors
-    #   (VideoPreprocessors). Enable the features at each output
-    #   individually. These features are disabled by default.
+    #   Find additional transcoding features under Preprocessors. Enable the
+    #   features at each output individually. These features are disabled by
+    #   default.
     #   @return [Types::VideoPreprocessor]
     #
     # @!attribute [rw] width
-    #   Use Width (Width) to define the video resolution width, in pixels,
-    #   for this output. If you don't provide a value here, the service
-    #   will use the input width.
+    #   Use Width to define the video resolution width, in pixels, for this
+    #   output. To use the same resolution as your input: Leave both Width
+    #   and Height blank. To evenly scale from your input resolution: Leave
+    #   Width blank and enter a value for Height. For example, if your input
+    #   is 1920x1080 and you set Height to 720, your output will be
+    #   1280x720.
     #   @return [Integer]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/VideoDescription AWS API Documentation
@@ -12457,6 +13392,7 @@ module Aws::MediaConvert
     class VideoDescription < Struct.new(
       :afd_signaling,
       :anti_alias,
+      :chroma_position_mode,
       :codec_settings,
       :color_metadata,
       :crop,
@@ -12468,6 +13404,7 @@ module Aws::MediaConvert
       :scaling_behavior,
       :sharpness,
       :timecode_insertion,
+      :timecode_track,
       :video_preprocessors,
       :width)
       SENSITIVE = []
@@ -12493,9 +13430,259 @@ module Aws::MediaConvert
       include Aws::Structure
     end
 
-    # Find additional transcoding features under Preprocessors
-    # (VideoPreprocessors). Enable the features at each output individually.
-    # These features are disabled by default.
+    # Overlay one or more videos on top of your input video. For more
+    # information, see
+    # https://docs.aws.amazon.com/mediaconvert/latest/ug/video-overlays.html
+    #
+    # @!attribute [rw] end_timecode
+    #   Enter the end timecode in the base input video for this overlay.
+    #   Your overlay will be active through this frame. To display your
+    #   video overlay for the duration of the base input video: Leave blank.
+    #   Use the format HH:MM:SS:FF or HH:MM:SS;FF, where HH is the hour, MM
+    #   is the minute, SS isthe second, and FF is the frame number. When
+    #   entering this value, take into account your choice for the base
+    #   input video's timecode source. For example, if you have embedded
+    #   timecodes that start at 01:00:00:00 and you want your overlay to end
+    #   ten minutes into the video, enter 01:10:00:00.
+    #   @return [String]
+    #
+    # @!attribute [rw] initial_position
+    #   Specify the Initial position of your video overlay. To specify the
+    #   Initial position of your video overlay, including distance from the
+    #   left or top edge of the base input video's frame, or size: Enter a
+    #   value for X position, Y position, Width, or Height. To use the full
+    #   frame of the base input video: Leave blank.
+    #   @return [Types::VideoOverlayPosition]
+    #
+    # @!attribute [rw] input
+    #   Input settings for Video overlay. You can include one or more video
+    #   overlays in sequence at different times that you specify.
+    #   @return [Types::VideoOverlayInput]
+    #
+    # @!attribute [rw] playback
+    #   Specify whether your video overlay repeats or plays only once. To
+    #   repeat your video overlay on a loop: Keep the default value, Repeat.
+    #   Your overlay will repeat for the duration of the base input video.
+    #   To playback your video overlay only once: Choose Once. With either
+    #   option, you can end playback at a time that you specify by entering
+    #   a value for End timecode.
+    #   @return [String]
+    #
+    # @!attribute [rw] start_timecode
+    #   Enter the start timecode in the base input video for this overlay.
+    #   Your overlay will be active starting with this frame. To display
+    #   your video overlay starting at the beginning of the base input
+    #   video: Leave blank. Use the format HH:MM:SS:FF or HH:MM:SS;FF, where
+    #   HH is the hour, MM is the minute, SS is the second, and FF is the
+    #   frame number. When entering this value, take into account your
+    #   choice for the base input video's timecode source. For example, if
+    #   you have embedded timecodes that start at 01:00:00:00 and you want
+    #   your overlay to begin five minutes into the video, enter
+    #   01:05:00:00.
+    #   @return [String]
+    #
+    # @!attribute [rw] transitions
+    #   Specify one or more transitions for your video overlay. Use
+    #   Transitions to reposition or resize your overlay over time. To use
+    #   the same position and size for the duration of your video overlay:
+    #   Leave blank. To specify a Transition: Enter a value for Start
+    #   timecode, End Timecode, X Position, Y Position, Width, or Height.
+    #   @return [Array<Types::VideoOverlayTransition>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/VideoOverlay AWS API Documentation
+    #
+    class VideoOverlay < Struct.new(
+      :end_timecode,
+      :initial_position,
+      :input,
+      :playback,
+      :start_timecode,
+      :transitions)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Input settings for Video overlay. You can include one or more video
+    # overlays in sequence at different times that you specify.
+    #
+    # @!attribute [rw] file_input
+    #   Specify the input file S3, HTTP, or HTTPS URL for your video
+    #   overlay. To specify one or more Transitions for your base input
+    #   video instead: Leave blank.
+    #   @return [String]
+    #
+    # @!attribute [rw] input_clippings
+    #   Specify one or more clips to use from your video overlay. When you
+    #   include an input clip, you must also specify its start timecode, end
+    #   timecode, or both start and end timecode.
+    #   @return [Array<Types::VideoOverlayInputClipping>]
+    #
+    # @!attribute [rw] timecode_source
+    #   Specify the timecode source for your video overlay input clips. To
+    #   use the timecode present in your video overlay: Choose Embedded. To
+    #   use a zerobased timecode: Choose Start at 0. To choose a timecode:
+    #   Choose Specified start. When you do, enter the starting timecode in
+    #   Start timecode. If you don't specify a value for Timecode source,
+    #   MediaConvert uses Embedded by default.
+    #   @return [String]
+    #
+    # @!attribute [rw] timecode_start
+    #   Specify the starting timecode for this video overlay. To use this
+    #   setting, you must set Timecode source to Specified start.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/VideoOverlayInput AWS API Documentation
+    #
+    class VideoOverlayInput < Struct.new(
+      :file_input,
+      :input_clippings,
+      :timecode_source,
+      :timecode_start)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # To transcode only portions of your video overlay, include one input
+    # clip for each part of your video overlay that you want in your output.
+    #
+    # @!attribute [rw] end_timecode
+    #   Specify the timecode of the last frame to include in your video
+    #   overlay's clip. Use the format HH:MM:SS:FF or HH:MM:SS;FF, where HH
+    #   is the hour, MM is the minute, SS is the second, and FF is the frame
+    #   number. When entering this value, take into account your choice for
+    #   Timecode source.
+    #   @return [String]
+    #
+    # @!attribute [rw] start_timecode
+    #   Specify the timecode of the first frame to include in your video
+    #   overlay's clip. Use the format HH:MM:SS:FF or HH:MM:SS;FF, where HH
+    #   is the hour, MM is the minute, SS is the second, and FF is the frame
+    #   number. When entering this value, take into account your choice for
+    #   Timecode source.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/VideoOverlayInputClipping AWS API Documentation
+    #
+    class VideoOverlayInputClipping < Struct.new(
+      :end_timecode,
+      :start_timecode)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # position of video overlay
+    #
+    # @!attribute [rw] height
+    #   To scale your video overlay to the same height as the base input
+    #   video: Leave blank. To scale the height of your video overlay to a
+    #   different height: Enter an integer representing the Unit type that
+    #   you choose, either Pixels or Percentage. For example, when you enter
+    #   360 and choose Pixels, your video overlay will be rendered with a
+    #   height of 360. When you enter 50, choose Percentage, and your
+    #   overlay's source has a height of 1080, your video overlay will be
+    #   rendered with a height of 540. To scale your overlay to a specific
+    #   height while automatically maintaining its original aspect ratio,
+    #   enter a value for Height and leave Width blank.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] unit
+    #   Specify the Unit type to use when you enter a value for X position,
+    #   Y position, Width, or Height. You can choose Pixels or Percentage.
+    #   Leave blank to use the default value, Pixels.
+    #   @return [String]
+    #
+    # @!attribute [rw] width
+    #   To scale your video overlay to the same width as the base input
+    #   video: Leave blank. To scale the width of your video overlay to a
+    #   different width: Enter an integer representing the Unit type that
+    #   you choose, either Pixels or Percentage. For example, when you enter
+    #   640 and choose Pixels, your video overlay will scale to a height of
+    #   640 pixels. When you enter 50, choose Percentage, and your
+    #   overlay's source has a width of 1920, your video overlay will scale
+    #   to a width of 960. To scale your overlay to a specific width while
+    #   automatically maintaining its original aspect ratio, enter a value
+    #   for Width and leave Height blank.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] x_position
+    #   To position the left edge of your video overlay along the left edge
+    #   of the base input video's frame: Keep blank, or enter 0. To
+    #   position the left edge of your video overlay to the right, relative
+    #   to the left edge of the base input video's frame: Enter an integer
+    #   representing the Unit type that you choose, either Pixels or
+    #   Percentage. For example, when you enter 10 and choose Pixels, your
+    #   video overlay will be positioned 10 pixels from the left edge of the
+    #   base input video's frame. When you enter 10, choose Percentage, and
+    #   your base input video is 1920x1080, your video overlay will be
+    #   positioned 192 pixels from the left edge of the base input video's
+    #   frame.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] y_position
+    #   To position the top edge of your video overlay along the top edge of
+    #   the base input video's frame: Keep blank, or enter 0. To position
+    #   the top edge of your video overlay down, relative to the top edge of
+    #   the base input video's frame: Enter an integer representing the
+    #   Unit type that you choose, either Pixels or Percentage. For example,
+    #   when you enter 10 and choose Pixels, your video overlay will be
+    #   positioned 10 pixels from the top edge of the base input video's
+    #   frame. When you enter 10, choose Percentage, and your underlying
+    #   video is 1920x1080, your video overlay will be positioned 108 pixels
+    #   from the top edge of the base input video's frame.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/VideoOverlayPosition AWS API Documentation
+    #
+    class VideoOverlayPosition < Struct.new(
+      :height,
+      :unit,
+      :width,
+      :x_position,
+      :y_position)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Specify one or more Transitions for your video overlay. Use
+    # Transitions to reposition or resize your overlay over time. To use the
+    # same position and size for the duration of your video overlay: Leave
+    # blank. To specify a Transition: Enter a value for Start timecode, End
+    # Timecode, X Position, Y Position, Width, or Height.
+    #
+    # @!attribute [rw] end_position
+    #   Specify the ending position for this transition, relative to the
+    #   base input video's frame. Your video overlay will move smoothly to
+    #   this position, beginning at this transition's Start timecode and
+    #   ending at this transition's End timecode.
+    #   @return [Types::VideoOverlayPosition]
+    #
+    # @!attribute [rw] end_timecode
+    #   Specify the timecode for when this transition ends. Use the format
+    #   HH:MM:SS:FF or HH:MM:SS;FF, where HH is the hour, MM is the minute,
+    #   SS is the second, and FF is the frame number. When entering this
+    #   value, take into account your choice for Timecode source.
+    #   @return [String]
+    #
+    # @!attribute [rw] start_timecode
+    #   Specify the timecode for when this transition begins. Use the format
+    #   HH:MM:SS:FF or HH:MM:SS;FF, where HH is the hour, MM is the minute,
+    #   SS is the second, and FF is the frame number. When entering this
+    #   value, take into account your choice for Timecode source.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/VideoOverlayTransition AWS API Documentation
+    #
+    class VideoOverlayTransition < Struct.new(
+      :end_position,
+      :end_timecode,
+      :start_timecode)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Find additional transcoding features under Preprocessors. Enable the
+    # features at each output individually. These features are disabled by
+    # default.
     #
     # @!attribute [rw] color_corrector
     #   Use these settings to convert the color space or to modify
@@ -12516,20 +13703,23 @@ module Aws::MediaConvert
     #   @return [Types::DolbyVision]
     #
     # @!attribute [rw] hdr_10_plus
-    #   Enable HDR10+ analyis and metadata injection. Compatible with HEVC
+    #   Enable HDR10+ analysis and metadata injection. Compatible with HEVC
     #   only.
     #   @return [Types::Hdr10Plus]
     #
     # @!attribute [rw] image_inserter
-    #   Enable the Image inserter (ImageInserter) feature to include a
-    #   graphic overlay on your video. Enable or disable this feature for
-    #   each output individually. This setting is disabled by default.
+    #   Enable the Image inserter feature to include a graphic overlay on
+    #   your video. Enable or disable this feature for each output
+    #   individually. This setting is disabled by default.
     #   @return [Types::ImageInserter]
     #
     # @!attribute [rw] noise_reducer
-    #   Enable the Noise reducer (NoiseReducer) feature to remove noise from
-    #   your video output if necessary. Enable or disable this feature for
-    #   each output individually. This setting is disabled by default.
+    #   Enable the Noise reducer feature to remove noise from your video
+    #   output if necessary. Enable or disable this feature for each output
+    #   individually. This setting is disabled by default. When you enable
+    #   Noise reducer, you must also select a value for Noise reducer
+    #   filter. For AVC outputs, when you include Noise reducer, you cannot
+    #   include the Bandwidth reduction filter.
     #   @return [Types::NoiseReducer]
     #
     # @!attribute [rw] partner_watermarking
@@ -12573,41 +13763,42 @@ module Aws::MediaConvert
     #
     # @!attribute [rw] color_space
     #   If your input video has accurate color space metadata, or if you
-    #   don't know about color space, leave this set to the default value
-    #   Follow. The service will automatically detect your input color
-    #   space. If your input video has metadata indicating the wrong color
-    #   space, specify the accurate color space here. If your input video is
-    #   HDR 10 and the SMPTE ST 2086 Mastering Display Color Volume static
-    #   metadata isn't present in your video stream, or if that metadata is
-    #   present but not accurate, choose Force HDR 10 here and specify
-    #   correct values in the input HDR 10 metadata settings. For more
-    #   information about MediaConvert HDR jobs, see
-    #   https://docs.aws.amazon.com/console/mediaconvert/hdr. Select P3D65
-    #   (SDR) to set the input color space metadata to the following: *
-    #   Color primaries: Display P3 * Transfer characteristics: SMPTE 428M
-    #   * Matrix coefficients: BT.709
+    #   don't know about color space: Keep the default value, Follow.
+    #   MediaConvert will automatically detect your input color space. If
+    #   your input video has metadata indicating the wrong color space, or
+    #   has missing metadata: Specify the accurate color space here. If your
+    #   input video is HDR 10 and the SMPTE ST 2086 Mastering Display Color
+    #   Volume static metadata isn't present in your video stream, or if
+    #   that metadata is present but not accurate: Choose Force HDR 10.
+    #   Specify correct values in the input HDR 10 metadata settings. For
+    #   more information about HDR jobs, see
+    #   https://docs.aws.amazon.com/console/mediaconvert/hdr. When you
+    #   specify an input color space, MediaConvert uses the following color
+    #   space metadata, which includes color primaries, transfer
+    #   characteristics, and matrix coefficients: * HDR 10: BT.2020, PQ,
+    #   BT.2020 non-constant * HLG 2020: BT.2020, HLG, BT.2020 non-constant
+    #   * P3DCI (Theater): DCIP3, SMPTE 428M, BT.709 * P3D65 (SDR):
+    #   Display P3, sRGB, BT.709 * P3D65 (HDR): Display P3, PQ, BT.709
     #   @return [String]
     #
     # @!attribute [rw] color_space_usage
     #   There are two sources for color metadata, the input file and the job
-    #   input settings Color space (ColorSpace) and HDR master display
-    #   information settings(Hdr10Metadata). The Color space usage setting
-    #   determines which takes precedence. Choose Force (FORCE) to use color
-    #   metadata from the input job settings. If you don't specify values
-    #   for those settings, the service defaults to using metadata from your
-    #   input. FALLBACK - Choose Fallback (FALLBACK) to use color metadata
-    #   from the source when it is present. If there's no color metadata in
-    #   your input file, the service defaults to using values you specify in
-    #   the input settings.
+    #   input settings Color space and HDR master display information
+    #   settings. The Color space usage setting determines which takes
+    #   precedence. Choose Force to use color metadata from the input job
+    #   settings. If you don't specify values for those settings, the
+    #   service defaults to using metadata from your input. FALLBACK -
+    #   Choose Fallback to use color metadata from the source when it is
+    #   present. If there's no color metadata in your input file, the
+    #   service defaults to using values you specify in the input settings.
     #   @return [String]
     #
     # @!attribute [rw] embedded_timecode_override
-    #   Set Embedded timecode override (embeddedTimecodeOverride) to Use
-    #   MDPM (USE\_MDPM) when your AVCHD input contains timecode tag data in
-    #   the Modified Digital Video Pack Metadata (MDPM). When you do, we
-    #   recommend you also set Timecode source (inputTimecodeSource) to
-    #   Embedded (EMBEDDED). Leave Embedded timecode override blank, or set
-    #   to None (NONE), when your input does not contain MDPM timecode.
+    #   Set Embedded timecode override to Use MDPM when your AVCHD input
+    #   contains timecode tag data in the Modified Digital Video Pack
+    #   Metadata. When you do, we recommend you also set Timecode source to
+    #   Embedded. Leave Embedded timecode override blank, or set to None,
+    #   when your input does not contain MDPM timecode.
     #   @return [String]
     #
     # @!attribute [rw] hdr_10_metadata
@@ -12618,33 +13809,37 @@ module Aws::MediaConvert
     #   The valid range for each of these settings is 0 to 50,000. Each
     #   increment represents 0.00002 in CIE1931 color coordinate. Related
     #   settings - When you specify these values, you must also set Color
-    #   space (ColorSpace) to HDR 10 (HDR10). To specify whether the the
-    #   values you specify here take precedence over the values in the
-    #   metadata of your input file, set Color space usage
-    #   (ColorSpaceUsage). To specify whether color metadata is included in
-    #   an output, set Color metadata (ColorMetadata). For more information
-    #   about MediaConvert HDR jobs, see
+    #   space to HDR 10. To specify whether the the values you specify here
+    #   take precedence over the values in the metadata of your input file,
+    #   set Color space usage. To specify whether color metadata is included
+    #   in an output, set Color metadata. For more information about
+    #   MediaConvert HDR jobs, see
     #   https://docs.aws.amazon.com/console/mediaconvert/hdr.
     #   @return [Types::Hdr10Metadata]
+    #
+    # @!attribute [rw] max_luminance
+    #   Specify the maximum mastering display luminance. Enter an integer
+    #   from 0 to 2147483647, in units of 0.0001 nits. For example, enter
+    #   10000000 for 1000 nits.
+    #   @return [Integer]
     #
     # @!attribute [rw] pad_video
     #   Use this setting if your input has video and audio durations that
     #   don't align, and your output or player has strict alignment
     #   requirements. Examples: Input audio track has a delayed start. Input
-    #   video track ends before audio ends. When you set Pad video
-    #   (padVideo) to Black (BLACK), MediaConvert generates black video
-    #   frames so that output video and audio durations match. Black video
-    #   frames are added at the beginning or end, depending on your input.
-    #   To keep the default behavior and not generate black video, set Pad
-    #   video to Disabled (DISABLED) or leave blank.
+    #   video track ends before audio ends. When you set Pad video to Black,
+    #   MediaConvert generates black video frames so that output video and
+    #   audio durations match. Black video frames are added at the beginning
+    #   or end, depending on your input. To keep the default behavior and
+    #   not generate black video, set Pad video to Disabled or leave blank.
     #   @return [String]
     #
     # @!attribute [rw] pid
-    #   Use PID (Pid) to select specific video data from an input file.
-    #   Specify this value as an integer; the system automatically converts
-    #   it to the hexidecimal value. For example, 257 selects PID 0x101. A
-    #   PID, or packet identifier, is an identifier for a set of data in an
-    #   MPEG-2 transport stream container.
+    #   Use PID to select specific video data from an input file. Specify
+    #   this value as an integer; the system automatically converts it to
+    #   the hexidecimal value. For example, 257 selects PID 0x101. A PID, or
+    #   packet identifier, is an identifier for a set of data in an MPEG-2
+    #   transport stream container.
     #   @return [Integer]
     #
     # @!attribute [rw] program_number
@@ -12653,30 +13848,30 @@ module Aws::MediaConvert
     #   @return [Integer]
     #
     # @!attribute [rw] rotate
-    #   Use Rotate (InputRotate) to specify how the service rotates your
-    #   video. You can choose automatic rotation or specify a rotation. You
-    #   can specify a clockwise rotation of 0, 90, 180, or 270 degrees. If
-    #   your input video container is .mov or .mp4 and your input has
-    #   rotation metadata, you can choose Automatic to have the service
-    #   rotate your video according to the rotation specified in the
-    #   metadata. The rotation must be within one degree of 90, 180, or 270
-    #   degrees. If the rotation metadata specifies any other rotation, the
-    #   service will default to no rotation. By default, the service does no
-    #   rotation, even if your input video has rotation metadata. The
-    #   service doesn't pass through rotation metadata.
+    #   Use Rotate to specify how the service rotates your video. You can
+    #   choose automatic rotation or specify a rotation. You can specify a
+    #   clockwise rotation of 0, 90, 180, or 270 degrees. If your input
+    #   video container is .mov or .mp4 and your input has rotation
+    #   metadata, you can choose Automatic to have the service rotate your
+    #   video according to the rotation specified in the metadata. The
+    #   rotation must be within one degree of 90, 180, or 270 degrees. If
+    #   the rotation metadata specifies any other rotation, the service will
+    #   default to no rotation. By default, the service does no rotation,
+    #   even if your input video has rotation metadata. The service doesn't
+    #   pass through rotation metadata.
     #   @return [String]
     #
     # @!attribute [rw] sample_range
     #   If the sample range metadata in your input video is accurate, or if
-    #   you don't know about sample range, keep the default value, Follow
-    #   (FOLLOW), for this setting. When you do, the service automatically
-    #   detects your input sample range. If your input video has metadata
-    #   indicating the wrong sample range, specify the accurate sample range
-    #   here. When you do, MediaConvert ignores any sample range information
-    #   in the input metadata. Regardless of whether MediaConvert uses the
-    #   input sample range or the sample range that you specify,
-    #   MediaConvert uses the sample range for transcoding and also writes
-    #   it to the output metadata.
+    #   you don't know about sample range, keep the default value, Follow,
+    #   for this setting. When you do, the service automatically detects
+    #   your input sample range. If your input video has metadata indicating
+    #   the wrong sample range, specify the accurate sample range here. When
+    #   you do, MediaConvert ignores any sample range information in the
+    #   input metadata. Regardless of whether MediaConvert uses the input
+    #   sample range or the sample range that you specify, MediaConvert uses
+    #   the sample range for transcoding and also writes it to the output
+    #   metadata.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/VideoSelector AWS API Documentation
@@ -12687,6 +13882,7 @@ module Aws::MediaConvert
       :color_space_usage,
       :embedded_timecode_override,
       :hdr_10_metadata,
+      :max_luminance,
       :pad_video,
       :pid,
       :program_number,
@@ -12728,8 +13924,7 @@ module Aws::MediaConvert
       include Aws::Structure
     end
 
-    # Required when you set (Codec) under (VideoDescription)>(CodecSettings)
-    # to the value VP8.
+    # Required when you set Codec to the value VP8.
     #
     # @!attribute [rw] bitrate
     #   Target bitrate in bits/second. For example, enter five megabits per
@@ -12743,28 +13938,28 @@ module Aws::MediaConvert
     #   frame rate conversion, choose a frame rate from the dropdown list or
     #   choose Custom. The framerates shown in the dropdown list are decimal
     #   approximations of fractions. If you choose Custom, specify your
-    #   frame rate as a fraction. If you are creating your transcoding job
-    #   specification as a JSON file without the console, use
-    #   FramerateControl to specify which value the service uses for the
-    #   frame rate for this output. Choose INITIALIZE\_FROM\_SOURCE if you
-    #   want the service to use the frame rate from the input. Choose
-    #   SPECIFIED if you want the service to use the frame rate you specify
-    #   in the settings FramerateNumerator and FramerateDenominator.
+    #   frame rate as a fraction.
     #   @return [String]
     #
     # @!attribute [rw] framerate_conversion_algorithm
     #   Choose the method that you want MediaConvert to use when increasing
-    #   or decreasing the frame rate. We recommend using drop duplicate
-    #   (DUPLICATE\_DROP) for numerically simple conversions, such as 60 fps
-    #   to 30 fps. For numerically complex conversions, you can use
-    #   interpolate (INTERPOLATE) to avoid stutter. This results in a smooth
-    #   picture, but might introduce undesirable video artifacts. For
+    #   or decreasing your video's frame rate. For numerically simple
+    #   conversions, such as 60 fps to 30 fps: We recommend that you keep
+    #   the default value, Drop duplicate. For numerically complex
+    #   conversions, to avoid stutter: Choose Interpolate. This results in a
+    #   smooth picture, but might introduce undesirable video artifacts. For
     #   complex frame rate conversions, especially if your source video has
-    #   already been converted from its original cadence, use FrameFormer
-    #   (FRAMEFORMER) to do motion-compensated interpolation. FrameFormer
-    #   chooses the best conversion method frame by frame. Note that using
-    #   FrameFormer increases the transcoding time and incurs a significant
-    #   add-on cost.
+    #   already been converted from its original cadence: Choose FrameFormer
+    #   to do motion-compensated interpolation. FrameFormer uses the best
+    #   conversion method frame by frame. Note that using FrameFormer
+    #   increases the transcoding time and incurs a significant add-on cost.
+    #   When you choose FrameFormer, your input video resolution must be at
+    #   least 128x96. To create an output with the same number of frames as
+    #   your input: Choose Maintain frame count. When you do, MediaConvert
+    #   will not drop, interpolate, add, or otherwise change the frame count
+    #   from your input to your output. Note that since the frame count is
+    #   maintained, the duration of your output will become shorter at
+    #   higher frame rates and longer at lower frame rates.
     #   @return [String]
     #
     # @!attribute [rw] framerate_denominator
@@ -12805,37 +14000,35 @@ module Aws::MediaConvert
     #
     # @!attribute [rw] par_control
     #   Optional. Specify how the service determines the pixel aspect ratio
-    #   (PAR) for this output. The default behavior, Follow source
-    #   (INITIALIZE\_FROM\_SOURCE), uses the PAR from your input video for
-    #   your output. To specify a different PAR in the console, choose any
-    #   value other than Follow source. To specify a different PAR by
-    #   editing the JSON job specification, choose SPECIFIED. When you
-    #   choose SPECIFIED for this setting, you must also specify values for
-    #   the parNumerator and parDenominator settings.
+    #   (PAR) for this output. The default behavior, Follow source, uses the
+    #   PAR from your input video for your output. To specify a different
+    #   PAR in the console, choose any value other than Follow source. When
+    #   you choose SPECIFIED for this setting, you must also specify values
+    #   for the parNumerator and parDenominator settings.
     #   @return [String]
     #
     # @!attribute [rw] par_denominator
-    #   Required when you set Pixel aspect ratio (parControl) to SPECIFIED.
-    #   On the console, this corresponds to any value other than Follow
-    #   source. When you specify an output pixel aspect ratio (PAR) that is
+    #   Required when you set Pixel aspect ratio to SPECIFIED. On the
+    #   console, this corresponds to any value other than Follow source.
+    #   When you specify an output pixel aspect ratio (PAR) that is
     #   different from your input video PAR, provide your output PAR as a
     #   ratio. For example, for D1/DV NTSC widescreen, you would specify the
     #   ratio 40:33. In this example, the value for parDenominator is 33.
     #   @return [Integer]
     #
     # @!attribute [rw] par_numerator
-    #   Required when you set Pixel aspect ratio (parControl) to SPECIFIED.
-    #   On the console, this corresponds to any value other than Follow
-    #   source. When you specify an output pixel aspect ratio (PAR) that is
+    #   Required when you set Pixel aspect ratio to SPECIFIED. On the
+    #   console, this corresponds to any value other than Follow source.
+    #   When you specify an output pixel aspect ratio (PAR) that is
     #   different from your input video PAR, provide your output PAR as a
     #   ratio. For example, for D1/DV NTSC widescreen, you would specify the
     #   ratio 40:33. In this example, the value for parNumerator is 40.
     #   @return [Integer]
     #
     # @!attribute [rw] quality_tuning_level
-    #   Optional. Use Quality tuning level (qualityTuningLevel) to choose
-    #   how you want to trade off encoding speed for output video quality.
-    #   The default behavior is faster, lower quality, multi-pass encoding.
+    #   Optional. Use Quality tuning level to choose how you want to trade
+    #   off encoding speed for output video quality. The default behavior is
+    #   faster, lower quality, multi-pass encoding.
     #   @return [String]
     #
     # @!attribute [rw] rate_control_mode
@@ -12863,8 +14056,7 @@ module Aws::MediaConvert
       include Aws::Structure
     end
 
-    # Required when you set (Codec) under (VideoDescription)>(CodecSettings)
-    # to the value VP9.
+    # Required when you set Codec to the value VP9.
     #
     # @!attribute [rw] bitrate
     #   Target bitrate in bits/second. For example, enter five megabits per
@@ -12878,28 +14070,28 @@ module Aws::MediaConvert
     #   frame rate conversion, choose a frame rate from the dropdown list or
     #   choose Custom. The framerates shown in the dropdown list are decimal
     #   approximations of fractions. If you choose Custom, specify your
-    #   frame rate as a fraction. If you are creating your transcoding job
-    #   specification as a JSON file without the console, use
-    #   FramerateControl to specify which value the service uses for the
-    #   frame rate for this output. Choose INITIALIZE\_FROM\_SOURCE if you
-    #   want the service to use the frame rate from the input. Choose
-    #   SPECIFIED if you want the service to use the frame rate you specify
-    #   in the settings FramerateNumerator and FramerateDenominator.
+    #   frame rate as a fraction.
     #   @return [String]
     #
     # @!attribute [rw] framerate_conversion_algorithm
     #   Choose the method that you want MediaConvert to use when increasing
-    #   or decreasing the frame rate. We recommend using drop duplicate
-    #   (DUPLICATE\_DROP) for numerically simple conversions, such as 60 fps
-    #   to 30 fps. For numerically complex conversions, you can use
-    #   interpolate (INTERPOLATE) to avoid stutter. This results in a smooth
-    #   picture, but might introduce undesirable video artifacts. For
+    #   or decreasing your video's frame rate. For numerically simple
+    #   conversions, such as 60 fps to 30 fps: We recommend that you keep
+    #   the default value, Drop duplicate. For numerically complex
+    #   conversions, to avoid stutter: Choose Interpolate. This results in a
+    #   smooth picture, but might introduce undesirable video artifacts. For
     #   complex frame rate conversions, especially if your source video has
-    #   already been converted from its original cadence, use FrameFormer
-    #   (FRAMEFORMER) to do motion-compensated interpolation. FrameFormer
-    #   chooses the best conversion method frame by frame. Note that using
-    #   FrameFormer increases the transcoding time and incurs a significant
-    #   add-on cost.
+    #   already been converted from its original cadence: Choose FrameFormer
+    #   to do motion-compensated interpolation. FrameFormer uses the best
+    #   conversion method frame by frame. Note that using FrameFormer
+    #   increases the transcoding time and incurs a significant add-on cost.
+    #   When you choose FrameFormer, your input video resolution must be at
+    #   least 128x96. To create an output with the same number of frames as
+    #   your input: Choose Maintain frame count. When you do, MediaConvert
+    #   will not drop, interpolate, add, or otherwise change the frame count
+    #   from your input to your output. Note that since the frame count is
+    #   maintained, the duration of your output will become shorter at
+    #   higher frame rates and longer at lower frame rates.
     #   @return [String]
     #
     # @!attribute [rw] framerate_denominator
@@ -12945,27 +14137,27 @@ module Aws::MediaConvert
     #   @return [String]
     #
     # @!attribute [rw] par_denominator
-    #   Required when you set Pixel aspect ratio (parControl) to SPECIFIED.
-    #   On the console, this corresponds to any value other than Follow
-    #   source. When you specify an output pixel aspect ratio (PAR) that is
+    #   Required when you set Pixel aspect ratio to SPECIFIED. On the
+    #   console, this corresponds to any value other than Follow source.
+    #   When you specify an output pixel aspect ratio (PAR) that is
     #   different from your input video PAR, provide your output PAR as a
     #   ratio. For example, for D1/DV NTSC widescreen, you would specify the
     #   ratio 40:33. In this example, the value for parDenominator is 33.
     #   @return [Integer]
     #
     # @!attribute [rw] par_numerator
-    #   Required when you set Pixel aspect ratio (parControl) to SPECIFIED.
-    #   On the console, this corresponds to any value other than Follow
-    #   source. When you specify an output pixel aspect ratio (PAR) that is
+    #   Required when you set Pixel aspect ratio to SPECIFIED. On the
+    #   console, this corresponds to any value other than Follow source.
+    #   When you specify an output pixel aspect ratio (PAR) that is
     #   different from your input video PAR, provide your output PAR as a
     #   ratio. For example, for D1/DV NTSC widescreen, you would specify the
     #   ratio 40:33. In this example, the value for parNumerator is 40.
     #   @return [Integer]
     #
     # @!attribute [rw] quality_tuning_level
-    #   Optional. Use Quality tuning level (qualityTuningLevel) to choose
-    #   how you want to trade off encoding speed for output video quality.
-    #   The default behavior is faster, lower quality, multi-pass encoding.
+    #   Optional. Use Quality tuning level to choose how you want to trade
+    #   off encoding speed for output video quality. The default behavior is
+    #   faster, lower quality, multi-pass encoding.
     #   @return [String]
     #
     # @!attribute [rw] rate_control_mode
@@ -12993,12 +14185,32 @@ module Aws::MediaConvert
       include Aws::Structure
     end
 
-    # Required when you set (Codec) under
-    # (AudioDescriptions)>(CodecSettings) to the value WAV.
+    # Contains any warning codes and their count for the job.
+    #
+    # @!attribute [rw] code
+    #   Warning code that identifies a specific warning in the job. For more
+    #   information, see
+    #   https://docs.aws.amazon.com/mediaconvert/latest/ug/warning\_codes.html
+    #   @return [Integer]
+    #
+    # @!attribute [rw] count
+    #   The number of times this warning occurred in the job.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/WarningGroup AWS API Documentation
+    #
+    class WarningGroup < Struct.new(
+      :code,
+      :count)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Required when you set Codec to the value WAV.
     #
     # @!attribute [rw] bit_depth
-    #   Specify Bit depth (BitDepth), in bits per sample, to choose the
-    #   encoding quality for this audio track.
+    #   Specify Bit depth, in bits per sample, to choose the encoding
+    #   quality for this audio track.
     #   @return [Integer]
     #
     # @!attribute [rw] channels
@@ -13008,10 +14220,11 @@ module Aws::MediaConvert
     #   @return [Integer]
     #
     # @!attribute [rw] format
-    #   The service defaults to using RIFF for WAV outputs. If your output
-    #   audio is likely to exceed 4 GB in file size, or if you otherwise
-    #   need the extended support of the RF64 format, set your output WAV
-    #   file format to RF64.
+    #   Specify the file format for your wave audio output. To use a RIFF
+    #   wave format: Keep the default value, RIFF. If your output audio is
+    #   likely to exceed 4GB in file size, or if you otherwise need the
+    #   extended support of the RF64 format: Choose RF64. If your player
+    #   only supports the extensible wave format: Choose Extensible.
     #   @return [String]
     #
     # @!attribute [rw] sample_rate
@@ -13034,34 +14247,44 @@ module Aws::MediaConvert
     # Set up sidecar captions in the same output group, but different output
     # from your video. For more information, see
     # https://docs.aws.amazon.com/mediaconvert/latest/ug/ttml-and-webvtt-output-captions.html.
-    # When you work directly in your JSON job specification, include this
-    # object and any required children when you set destinationType to
-    # WebVTT.
     #
     # @!attribute [rw] accessibility
-    #   Set Accessibility subtitles to Enabled if the ISMC or WebVTT
-    #   captions track is intended to provide accessibility for people who
-    #   are deaf or hard of hearing. When you enable this feature,
-    #   MediaConvert adds the following attributes under EXT-X-MEDIA in the
-    #   HLS or CMAF manifest for this track:
+    #   If the WebVTT captions track is intended to provide accessibility
+    #   for people who are deaf or hard of hearing: Set Accessibility
+    #   subtitles to Enabled. When you do, MediaConvert adds accessibility
+    #   attributes to your output HLS or DASH manifest. For HLS manifests,
+    #   MediaConvert adds the following accessibility attributes under
+    #   EXT-X-MEDIA for this track:
     #   CHARACTERISTICS="public.accessibility.describes-spoken-dialog,public.accessibility.describes-music-and-sound"
-    #   and AUTOSELECT="YES". Keep the default value, Disabled, if the
-    #   captions track is not intended to provide such accessibility.
-    #   MediaConvert will not add the above attributes.
+    #   and AUTOSELECT="YES". For DASH manifests, MediaConvert adds the
+    #   following in the adaptation set for this track: <Accessibility
+    #   schemeIdUri="urn:mpeg:dash:role:2011" value="caption" />
+    #
+    #   . If the captions track is not intended to provide such
+    #   accessibility: Keep the default value, Disabled. When you do, for
+    #   DASH manifests, MediaConvert instead adds the following in the
+    #   adaptation set for this track: <Role
+    #   schemeIDUri="urn:mpeg:dash:role:2011" value="subtitle" />
+    #
+    #   .
     #   @return [String]
     #
     # @!attribute [rw] style_passthrough
-    #   To use the available style, color, and position information from
-    #   your input captions: Set Style passthrough (stylePassthrough) to
-    #   Enabled (ENABLED). MediaConvert uses default settings when style and
-    #   position information is missing from your input captions. To
-    #   recreate the input captions exactly: Set Style passthrough to Strict
-    #   (STRICT). MediaConvert automatically applies timing adjustments,
-    #   including adjustments for frame rate conversion, ad avails, and
-    #   input clipping. Your input captions format must be WebVTT. To ignore
-    #   the style and position information from your input captions and use
-    #   simplified output captions: Set Style passthrough to Disabled
-    #   (DISABLED), or leave blank.
+    #   Specify how MediaConvert writes style information in your output
+    #   WebVTT captions. To use the available style, color, and position
+    #   information from your input captions: Choose Enabled. MediaConvert
+    #   uses default settings when style and position information is missing
+    #   from your input captions. To recreate the input captions exactly:
+    #   Choose Strict. MediaConvert automatically applies timing
+    #   adjustments, including adjustments for frame rate conversion, ad
+    #   avails, and input clipping. Your input captions format must be
+    #   WebVTT. To ignore the style and position information from your input
+    #   captions and use simplified output captions: Keep the default value,
+    #   Disabled. Or leave blank. To use the available style, color, and
+    #   position information from your input captions, while merging cues
+    #   with identical time ranges: Choose merge. This setting can help
+    #   prevent positioning overlaps for certain players that expect a
+    #   single single cue for any given time range.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/WebvttDestinationSettings AWS API Documentation
@@ -13106,9 +14329,7 @@ module Aws::MediaConvert
       include Aws::Structure
     end
 
-    # Required when you set (Profile) under
-    # (VideoDescription)>(CodecSettings)>(XavcSettings) to the value
-    # XAVC\_4K\_INTRA\_CBG.
+    # Required when you set Profile to the value XAVC\_4K\_INTRA\_CBG.
     #
     # @!attribute [rw] xavc_class
     #   Specify the XAVC Intra 4k (CBG) Class to set the bitrate of your
@@ -13124,9 +14345,7 @@ module Aws::MediaConvert
       include Aws::Structure
     end
 
-    # Required when you set (Profile) under
-    # (VideoDescription)>(CodecSettings)>(XavcSettings) to the value
-    # XAVC\_4K\_INTRA\_VBR.
+    # Required when you set Profile to the value XAVC\_4K\_INTRA\_VBR.
     #
     # @!attribute [rw] xavc_class
     #   Specify the XAVC Intra 4k (VBR) Class to set the bitrate of your
@@ -13142,9 +14361,7 @@ module Aws::MediaConvert
       include Aws::Structure
     end
 
-    # Required when you set (Profile) under
-    # (VideoDescription)>(CodecSettings)>(XavcSettings) to the value
-    # XAVC\_4K.
+    # Required when you set Profile to the value XAVC\_4K.
     #
     # @!attribute [rw] bitrate_class
     #   Specify the XAVC 4k (Long GOP) Bitrate Class to set the bitrate of
@@ -13160,30 +14377,27 @@ module Aws::MediaConvert
     #
     # @!attribute [rw] flicker_adaptive_quantization
     #   The best way to set up adaptive quantization is to keep the default
-    #   value, Auto (AUTO), for the setting Adaptive quantization
-    #   (XavcAdaptiveQuantization). When you do so, MediaConvert
-    #   automatically applies the best types of quantization for your video
-    #   content. Include this setting in your JSON job specification only
-    #   when you choose to change the default value for Adaptive
-    #   quantization. Enable this setting to have the encoder reduce I-frame
-    #   pop. I-frame pop appears as a visual flicker that can arise when the
-    #   encoder saves bits by copying some macroblocks many times from frame
-    #   to frame, and then refreshes them at the I-frame. When you enable
-    #   this setting, the encoder updates these macroblocks slightly more
-    #   often to smooth out the flicker. This setting is disabled by
-    #   default. Related setting: In addition to enabling this setting, you
-    #   must also set Adaptive quantization (adaptiveQuantization) to a
-    #   value other than Off (OFF) or Auto (AUTO). Use Adaptive quantization
-    #   to adjust the degree of smoothing that Flicker adaptive quantization
-    #   provides.
+    #   value, Auto, for the setting Adaptive quantization. When you do so,
+    #   MediaConvert automatically applies the best types of quantization
+    #   for your video content. Include this setting in your JSON job
+    #   specification only when you choose to change the default value for
+    #   Adaptive quantization. Enable this setting to have the encoder
+    #   reduce I-frame pop. I-frame pop appears as a visual flicker that can
+    #   arise when the encoder saves bits by copying some macroblocks many
+    #   times from frame to frame, and then refreshes them at the I-frame.
+    #   When you enable this setting, the encoder updates these macroblocks
+    #   slightly more often to smooth out the flicker. This setting is
+    #   disabled by default. Related setting: In addition to enabling this
+    #   setting, you must also set Adaptive quantization to a value other
+    #   than Off or Auto. Use Adaptive quantization to adjust the degree of
+    #   smoothing that Flicker adaptive quantization provides.
     #   @return [String]
     #
     # @!attribute [rw] gop_b_reference
     #   Specify whether the encoder uses B-frames as reference frames for
-    #   other pictures in the same GOP. Choose Allow (ENABLED) to allow the
-    #   encoder to use B-frames as reference frames. Choose Don't allow
-    #   (DISABLED) to prevent the encoder from using B-frames as reference
-    #   frames.
+    #   other pictures in the same GOP. Choose Allow to allow the encoder to
+    #   use B-frames as reference frames. Choose Don't allow to prevent the
+    #   encoder from using B-frames as reference frames.
     #   @return [String]
     #
     # @!attribute [rw] gop_closed_cadence
@@ -13202,9 +14416,9 @@ module Aws::MediaConvert
     #   @return [Integer]
     #
     # @!attribute [rw] quality_tuning_level
-    #   Optional. Use Quality tuning level (qualityTuningLevel) to choose
-    #   how you want to trade off encoding speed for output video quality.
-    #   The default behavior is faster, lower quality, single-pass encoding.
+    #   Optional. Use Quality tuning level to choose how you want to trade
+    #   off encoding speed for output video quality. The default behavior is
+    #   faster, lower quality, single-pass encoding.
     #   @return [String]
     #
     # @!attribute [rw] slices
@@ -13228,9 +14442,7 @@ module Aws::MediaConvert
       include Aws::Structure
     end
 
-    # Required when you set (Profile) under
-    # (VideoDescription)>(CodecSettings)>(XavcSettings) to the value
-    # XAVC\_HD\_INTRA\_CBG.
+    # Required when you set Profile to the value XAVC\_HD\_INTRA\_CBG.
     #
     # @!attribute [rw] xavc_class
     #   Specify the XAVC Intra HD (CBG) Class to set the bitrate of your
@@ -13246,9 +14458,7 @@ module Aws::MediaConvert
       include Aws::Structure
     end
 
-    # Required when you set (Profile) under
-    # (VideoDescription)>(CodecSettings)>(XavcSettings) to the value
-    # XAVC\_HD.
+    # Required when you set Profile to the value XAVC\_HD.
     #
     # @!attribute [rw] bitrate_class
     #   Specify the XAVC HD (Long GOP) Bitrate Class to set the bitrate of
@@ -13258,30 +14468,27 @@ module Aws::MediaConvert
     #
     # @!attribute [rw] flicker_adaptive_quantization
     #   The best way to set up adaptive quantization is to keep the default
-    #   value, Auto (AUTO), for the setting Adaptive quantization
-    #   (XavcAdaptiveQuantization). When you do so, MediaConvert
-    #   automatically applies the best types of quantization for your video
-    #   content. Include this setting in your JSON job specification only
-    #   when you choose to change the default value for Adaptive
-    #   quantization. Enable this setting to have the encoder reduce I-frame
-    #   pop. I-frame pop appears as a visual flicker that can arise when the
-    #   encoder saves bits by copying some macroblocks many times from frame
-    #   to frame, and then refreshes them at the I-frame. When you enable
-    #   this setting, the encoder updates these macroblocks slightly more
-    #   often to smooth out the flicker. This setting is disabled by
-    #   default. Related setting: In addition to enabling this setting, you
-    #   must also set Adaptive quantization (adaptiveQuantization) to a
-    #   value other than Off (OFF) or Auto (AUTO). Use Adaptive quantization
-    #   to adjust the degree of smoothing that Flicker adaptive quantization
-    #   provides.
+    #   value, Auto, for the setting Adaptive quantization. When you do so,
+    #   MediaConvert automatically applies the best types of quantization
+    #   for your video content. Include this setting in your JSON job
+    #   specification only when you choose to change the default value for
+    #   Adaptive quantization. Enable this setting to have the encoder
+    #   reduce I-frame pop. I-frame pop appears as a visual flicker that can
+    #   arise when the encoder saves bits by copying some macroblocks many
+    #   times from frame to frame, and then refreshes them at the I-frame.
+    #   When you enable this setting, the encoder updates these macroblocks
+    #   slightly more often to smooth out the flicker. This setting is
+    #   disabled by default. Related setting: In addition to enabling this
+    #   setting, you must also set Adaptive quantization to a value other
+    #   than Off or Auto. Use Adaptive quantization to adjust the degree of
+    #   smoothing that Flicker adaptive quantization provides.
     #   @return [String]
     #
     # @!attribute [rw] gop_b_reference
     #   Specify whether the encoder uses B-frames as reference frames for
-    #   other pictures in the same GOP. Choose Allow (ENABLED) to allow the
-    #   encoder to use B-frames as reference frames. Choose Don't allow
-    #   (DISABLED) to prevent the encoder from using B-frames as reference
-    #   frames.
+    #   other pictures in the same GOP. Choose Allow to allow the encoder to
+    #   use B-frames as reference frames. Choose Don't allow to prevent the
+    #   encoder from using B-frames as reference frames.
     #   @return [String]
     #
     # @!attribute [rw] gop_closed_cadence
@@ -13301,25 +14508,23 @@ module Aws::MediaConvert
     #
     # @!attribute [rw] interlace_mode
     #   Choose the scan line type for the output. Keep the default value,
-    #   Progressive (PROGRESSIVE) to create a progressive output, regardless
-    #   of the scan type of your input. Use Top field first (TOP\_FIELD) or
-    #   Bottom field first (BOTTOM\_FIELD) to create an output that's
-    #   interlaced with the same field polarity throughout. Use Follow,
-    #   default top (FOLLOW\_TOP\_FIELD) or Follow, default bottom
-    #   (FOLLOW\_BOTTOM\_FIELD) to produce outputs with the same field
-    #   polarity as the source. For jobs that have multiple inputs, the
-    #   output field polarity might change over the course of the output.
-    #   Follow behavior depends on the input scan type. If the source is
-    #   interlaced, the output will be interlaced with the same polarity as
-    #   the source. If the source is progressive, the output will be
-    #   interlaced with top field bottom field first, depending on which of
-    #   the Follow options you choose.
+    #   Progressive to create a progressive output, regardless of the scan
+    #   type of your input. Use Top field first or Bottom field first to
+    #   create an output that's interlaced with the same field polarity
+    #   throughout. Use Follow, default top or Follow, default bottom to
+    #   produce outputs with the same field polarity as the source. For jobs
+    #   that have multiple inputs, the output field polarity might change
+    #   over the course of the output. Follow behavior depends on the input
+    #   scan type. If the source is interlaced, the output will be
+    #   interlaced with the same polarity as the source. If the source is
+    #   progressive, the output will be interlaced with top field bottom
+    #   field first, depending on which of the Follow options you choose.
     #   @return [String]
     #
     # @!attribute [rw] quality_tuning_level
-    #   Optional. Use Quality tuning level (qualityTuningLevel) to choose
-    #   how you want to trade off encoding speed for output video quality.
-    #   The default behavior is faster, lower quality, single-pass encoding.
+    #   Optional. Use Quality tuning level to choose how you want to trade
+    #   off encoding speed for output video quality. The default behavior is
+    #   faster, lower quality, single-pass encoding.
     #   @return [String]
     #
     # @!attribute [rw] slices
@@ -13331,8 +14536,8 @@ module Aws::MediaConvert
     # @!attribute [rw] telecine
     #   Ignore this setting unless you set Frame rate (framerateNumerator
     #   divided by framerateDenominator) to 29.970. If your input framerate
-    #   is 23.976, choose Hard (HARD). Otherwise, keep the default value
-    #   None (NONE). For more information, see
+    #   is 23.976, choose Hard. Otherwise, keep the default value None. For
+    #   more information, see
     #   https://docs.aws.amazon.com/mediaconvert/latest/ug/working-with-telecine-and-inverse-telecine.html.
     #   @return [String]
     #
@@ -13352,23 +14557,20 @@ module Aws::MediaConvert
       include Aws::Structure
     end
 
-    # Required when you set (Codec) under (VideoDescription)>(CodecSettings)
-    # to the value XAVC.
+    # Required when you set Codec to the value XAVC.
     #
     # @!attribute [rw] adaptive_quantization
-    #   Keep the default value, Auto (AUTO), for this setting to have
-    #   MediaConvert automatically apply the best types of quantization for
-    #   your video content. When you want to apply your quantization
-    #   settings manually, you must set Adaptive quantization
-    #   (adaptiveQuantization) to a value other than Auto (AUTO). Use this
-    #   setting to specify the strength of any adaptive quantization filters
-    #   that you enable. If you don't want MediaConvert to do any adaptive
-    #   quantization in this transcode, set Adaptive quantization to Off
-    #   (OFF). Related settings: The value that you choose here applies to
+    #   Keep the default value, Auto, for this setting to have MediaConvert
+    #   automatically apply the best types of quantization for your video
+    #   content. When you want to apply your quantization settings manually,
+    #   you must set Adaptive quantization to a value other than Auto. Use
+    #   this setting to specify the strength of any adaptive quantization
+    #   filters that you enable. If you don't want MediaConvert to do any
+    #   adaptive quantization in this transcode, set Adaptive quantization
+    #   to Off. Related settings: The value that you choose here applies to
     #   the following settings: Flicker adaptive quantization
-    #   (flickerAdaptiveQuantization), Spatial adaptive quantization
-    #   (spatialAdaptiveQuantization), and Temporal adaptive quantization
-    #   (temporalAdaptiveQuantization).
+    #   (flickerAdaptiveQuantization), Spatial adaptive quantization, and
+    #   Temporal adaptive quantization.
     #   @return [String]
     #
     # @!attribute [rw] entropy_encoding
@@ -13384,28 +14586,28 @@ module Aws::MediaConvert
     #   rate as the input video, choose Follow source. If you want to do
     #   frame rate conversion, choose a frame rate from the dropdown list.
     #   The framerates shown in the dropdown list are decimal approximations
-    #   of fractions. If you are creating your transcoding job specification
-    #   as a JSON file without the console, use FramerateControl to specify
-    #   which value the service uses for the frame rate for this output.
-    #   Choose INITIALIZE\_FROM\_SOURCE if you want the service to use the
-    #   frame rate from the input. Choose SPECIFIED if you want the service
-    #   to use the frame rate that you specify in the settings
-    #   FramerateNumerator and FramerateDenominator.
+    #   of fractions.
     #   @return [String]
     #
     # @!attribute [rw] framerate_conversion_algorithm
     #   Choose the method that you want MediaConvert to use when increasing
-    #   or decreasing the frame rate. We recommend using drop duplicate
-    #   (DUPLICATE\_DROP) for numerically simple conversions, such as 60 fps
-    #   to 30 fps. For numerically complex conversions, you can use
-    #   interpolate (INTERPOLATE) to avoid stutter. This results in a smooth
-    #   picture, but might introduce undesirable video artifacts. For
+    #   or decreasing your video's frame rate. For numerically simple
+    #   conversions, such as 60 fps to 30 fps: We recommend that you keep
+    #   the default value, Drop duplicate. For numerically complex
+    #   conversions, to avoid stutter: Choose Interpolate. This results in a
+    #   smooth picture, but might introduce undesirable video artifacts. For
     #   complex frame rate conversions, especially if your source video has
-    #   already been converted from its original cadence, use FrameFormer
-    #   (FRAMEFORMER) to do motion-compensated interpolation. FrameFormer
-    #   chooses the best conversion method frame by frame. Note that using
-    #   FrameFormer increases the transcoding time and incurs a significant
-    #   add-on cost.
+    #   already been converted from its original cadence: Choose FrameFormer
+    #   to do motion-compensated interpolation. FrameFormer uses the best
+    #   conversion method frame by frame. Note that using FrameFormer
+    #   increases the transcoding time and incurs a significant add-on cost.
+    #   When you choose FrameFormer, your input video resolution must be at
+    #   least 128x96. To create an output with the same number of frames as
+    #   your input: Choose Maintain frame count. When you do, MediaConvert
+    #   will not drop, interpolate, add, or otherwise change the frame count
+    #   from your input to your output. Note that since the frame count is
+    #   maintained, the duration of your output will become shorter at
+    #   higher frame rates and longer at lower frame rates.
     #   @return [String]
     #
     # @!attribute [rw] framerate_denominator
@@ -13441,21 +14643,18 @@ module Aws::MediaConvert
     #   frames per second (fps). Enable slow PAL to create a 25 fps output
     #   by relabeling the video frames and resampling your audio. Note that
     #   enabling this setting will slightly reduce the duration of your
-    #   video. Related settings: You must also set Frame rate to 25. In your
-    #   JSON job specification, set (framerateControl) to (SPECIFIED),
-    #   (framerateNumerator) to 25 and (framerateDenominator) to 1.
+    #   video. Related settings: You must also set Frame rate to 25.
     #   @return [String]
     #
     # @!attribute [rw] softness
     #   Ignore this setting unless your downstream workflow requires that
     #   you specify it explicitly. Otherwise, we recommend that you adjust
     #   the softness of your output by using a lower value for the setting
-    #   Sharpness (sharpness) or by enabling a noise reducer filter
-    #   (noiseReducerFilter). The Softness (softness) setting specifies the
-    #   quantization matrices that the encoder uses. Keep the default value,
-    #   0, for flat quantization. Choose the value 1 or 16 to use the
-    #   default JVT softening quantization matricies from the H.264
-    #   specification. Choose a value from 17 to 128 to use planar
+    #   Sharpness or by enabling a noise reducer filter. The Softness
+    #   setting specifies the quantization matrices that the encoder uses.
+    #   Keep the default value, 0, for flat quantization. Choose the value 1
+    #   or 16 to use the default JVT softening quantization matricies from
+    #   the H.264 specification. Choose a value from 17 to 128 to use planar
     #   interpolation. Increasing values from 17 to 128 result in increasing
     #   reduction of high-frequency data. The value 128 results in the
     #   softest video.
@@ -13463,82 +14662,70 @@ module Aws::MediaConvert
     #
     # @!attribute [rw] spatial_adaptive_quantization
     #   The best way to set up adaptive quantization is to keep the default
-    #   value, Auto (AUTO), for the setting Adaptive quantization
-    #   (adaptiveQuantization). When you do so, MediaConvert automatically
-    #   applies the best types of quantization for your video content.
-    #   Include this setting in your JSON job specification only when you
-    #   choose to change the default value for Adaptive quantization. For
-    #   this setting, keep the default value, Enabled (ENABLED), to adjust
-    #   quantization within each frame based on spatial variation of content
-    #   complexity. When you enable this feature, the encoder uses fewer
-    #   bits on areas that can sustain more distortion with no noticeable
-    #   visual degradation and uses more bits on areas where any small
-    #   distortion will be noticeable. For example, complex textured blocks
-    #   are encoded with fewer bits and smooth textured blocks are encoded
-    #   with more bits. Enabling this feature will almost always improve
-    #   your video quality. Note, though, that this feature doesn't take
-    #   into account where the viewer's attention is likely to be. If
-    #   viewers are likely to be focusing their attention on a part of the
-    #   screen with a lot of complex texture, you might choose to disable
-    #   this feature. Related setting: When you enable spatial adaptive
-    #   quantization, set the value for Adaptive quantization
-    #   (adaptiveQuantization) depending on your content. For homogeneous
-    #   content, such as cartoons and video games, set it to Low. For
-    #   content with a wider variety of textures, set it to High or Higher.
+    #   value, Auto, for the setting Adaptive quantization. When you do so,
+    #   MediaConvert automatically applies the best types of quantization
+    #   for your video content. Include this setting in your JSON job
+    #   specification only when you choose to change the default value for
+    #   Adaptive quantization. For this setting, keep the default value,
+    #   Enabled, to adjust quantization within each frame based on spatial
+    #   variation of content complexity. When you enable this feature, the
+    #   encoder uses fewer bits on areas that can sustain more distortion
+    #   with no noticeable visual degradation and uses more bits on areas
+    #   where any small distortion will be noticeable. For example, complex
+    #   textured blocks are encoded with fewer bits and smooth textured
+    #   blocks are encoded with more bits. Enabling this feature will almost
+    #   always improve your video quality. Note, though, that this feature
+    #   doesn't take into account where the viewer's attention is likely
+    #   to be. If viewers are likely to be focusing their attention on a
+    #   part of the screen with a lot of complex texture, you might choose
+    #   to disable this feature. Related setting: When you enable spatial
+    #   adaptive quantization, set the value for Adaptive quantization
+    #   depending on your content. For homogeneous content, such as cartoons
+    #   and video games, set it to Low. For content with a wider variety of
+    #   textures, set it to High or Higher.
     #   @return [String]
     #
     # @!attribute [rw] temporal_adaptive_quantization
     #   The best way to set up adaptive quantization is to keep the default
-    #   value, Auto (AUTO), for the setting Adaptive quantization
-    #   (adaptiveQuantization). When you do so, MediaConvert automatically
-    #   applies the best types of quantization for your video content.
-    #   Include this setting in your JSON job specification only when you
-    #   choose to change the default value for Adaptive quantization. For
-    #   this setting, keep the default value, Enabled (ENABLED), to adjust
-    #   quantization within each frame based on temporal variation of
-    #   content complexity. When you enable this feature, the encoder uses
-    #   fewer bits on areas of the frame that aren't moving and uses more
-    #   bits on complex objects with sharp edges that move a lot. For
-    #   example, this feature improves the readability of text tickers on
-    #   newscasts and scoreboards on sports matches. Enabling this feature
-    #   will almost always improve your video quality. Note, though, that
-    #   this feature doesn't take into account where the viewer's
-    #   attention is likely to be. If viewers are likely to be focusing
-    #   their attention on a part of the screen that doesn't have moving
-    #   objects with sharp edges, such as sports athletes' faces, you might
-    #   choose to disable this feature. Related setting: When you enable
-    #   temporal adaptive quantization, adjust the strength of the filter
-    #   with the setting Adaptive quantization (adaptiveQuantization).
+    #   value, Auto, for the setting Adaptive quantization. When you do so,
+    #   MediaConvert automatically applies the best types of quantization
+    #   for your video content. Include this setting in your JSON job
+    #   specification only when you choose to change the default value for
+    #   Adaptive quantization. For this setting, keep the default value,
+    #   Enabled, to adjust quantization within each frame based on temporal
+    #   variation of content complexity. When you enable this feature, the
+    #   encoder uses fewer bits on areas of the frame that aren't moving
+    #   and uses more bits on complex objects with sharp edges that move a
+    #   lot. For example, this feature improves the readability of text
+    #   tickers on newscasts and scoreboards on sports matches. Enabling
+    #   this feature will almost always improve your video quality. Note,
+    #   though, that this feature doesn't take into account where the
+    #   viewer's attention is likely to be. If viewers are likely to be
+    #   focusing their attention on a part of the screen that doesn't have
+    #   moving objects with sharp edges, such as sports athletes' faces,
+    #   you might choose to disable this feature. Related setting: When you
+    #   enable temporal adaptive quantization, adjust the strength of the
+    #   filter with the setting Adaptive quantization.
     #   @return [String]
     #
     # @!attribute [rw] xavc_4k_intra_cbg_profile_settings
-    #   Required when you set (Profile) under
-    #   (VideoDescription)>(CodecSettings)>(XavcSettings) to the value
-    #   XAVC\_4K\_INTRA\_CBG.
+    #   Required when you set Profile to the value XAVC\_4K\_INTRA\_CBG.
     #   @return [Types::Xavc4kIntraCbgProfileSettings]
     #
     # @!attribute [rw] xavc_4k_intra_vbr_profile_settings
-    #   Required when you set (Profile) under
-    #   (VideoDescription)>(CodecSettings)>(XavcSettings) to the value
-    #   XAVC\_4K\_INTRA\_VBR.
+    #   Required when you set Profile to the value XAVC\_4K\_INTRA\_VBR.
     #   @return [Types::Xavc4kIntraVbrProfileSettings]
     #
     # @!attribute [rw] xavc_4k_profile_settings
-    #   Required when you set (Profile) under
-    #   (VideoDescription)>(CodecSettings)>(XavcSettings) to the value
-    #   XAVC\_4K.
+    #   Required when you set Profile to the value XAVC\_4K.
     #   @return [Types::Xavc4kProfileSettings]
     #
     # @!attribute [rw] xavc_hd_intra_cbg_profile_settings
-    #   Required when you set (Profile) under
-    #   (VideoDescription)>(CodecSettings)>(XavcSettings) to the value
-    #   XAVC\_HD\_INTRA\_CBG.
+    #   Required when you set Profile to the value XAVC\_HD\_INTRA\_CBG.
     #   @return [Types::XavcHdIntraCbgProfileSettings]
     #
     # @!attribute [rw] xavc_hd_profile_settings
-    #   Required when you set (Profile) under
-    #   (VideoDescription)>(CodecSettings)>(XavcSettings) to the value
-    #   XAVC\_HD.
+    #   Required when you set Profile to the value XAVC\_HD.
     #   @return [Types::XavcHdProfileSettings]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconvert-2017-08-29/XavcSettings AWS API Documentation
@@ -13566,3 +14753,4 @@ module Aws::MediaConvert
 
   end
 end
+

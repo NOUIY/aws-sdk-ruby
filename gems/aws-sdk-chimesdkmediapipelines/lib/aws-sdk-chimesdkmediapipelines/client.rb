@@ -7,33 +7,34 @@
 #
 # WARNING ABOUT GENERATED CODE
 
-require 'seahorse/client/plugins/content_length.rb'
-require 'aws-sdk-core/plugins/credentials_configuration.rb'
-require 'aws-sdk-core/plugins/logging.rb'
-require 'aws-sdk-core/plugins/param_converter.rb'
-require 'aws-sdk-core/plugins/param_validator.rb'
-require 'aws-sdk-core/plugins/user_agent.rb'
-require 'aws-sdk-core/plugins/helpful_socket_errors.rb'
-require 'aws-sdk-core/plugins/retry_errors.rb'
-require 'aws-sdk-core/plugins/global_configuration.rb'
-require 'aws-sdk-core/plugins/regional_endpoint.rb'
-require 'aws-sdk-core/plugins/endpoint_discovery.rb'
-require 'aws-sdk-core/plugins/endpoint_pattern.rb'
-require 'aws-sdk-core/plugins/response_paging.rb'
-require 'aws-sdk-core/plugins/stub_responses.rb'
-require 'aws-sdk-core/plugins/idempotency_token.rb'
-require 'aws-sdk-core/plugins/jsonvalue_converter.rb'
-require 'aws-sdk-core/plugins/client_metrics_plugin.rb'
-require 'aws-sdk-core/plugins/client_metrics_send_plugin.rb'
-require 'aws-sdk-core/plugins/transfer_encoding.rb'
-require 'aws-sdk-core/plugins/http_checksum.rb'
-require 'aws-sdk-core/plugins/checksum_algorithm.rb'
-require 'aws-sdk-core/plugins/defaults_mode.rb'
-require 'aws-sdk-core/plugins/recursion_detection.rb'
-require 'aws-sdk-core/plugins/sign.rb'
-require 'aws-sdk-core/plugins/protocols/rest_json.rb'
-
-Aws::Plugins::GlobalConfiguration.add_identifier(:chimesdkmediapipelines)
+require 'seahorse/client/plugins/content_length'
+require 'aws-sdk-core/plugins/credentials_configuration'
+require 'aws-sdk-core/plugins/logging'
+require 'aws-sdk-core/plugins/param_converter'
+require 'aws-sdk-core/plugins/param_validator'
+require 'aws-sdk-core/plugins/user_agent'
+require 'aws-sdk-core/plugins/helpful_socket_errors'
+require 'aws-sdk-core/plugins/retry_errors'
+require 'aws-sdk-core/plugins/global_configuration'
+require 'aws-sdk-core/plugins/regional_endpoint'
+require 'aws-sdk-core/plugins/endpoint_discovery'
+require 'aws-sdk-core/plugins/endpoint_pattern'
+require 'aws-sdk-core/plugins/response_paging'
+require 'aws-sdk-core/plugins/stub_responses'
+require 'aws-sdk-core/plugins/idempotency_token'
+require 'aws-sdk-core/plugins/invocation_id'
+require 'aws-sdk-core/plugins/jsonvalue_converter'
+require 'aws-sdk-core/plugins/client_metrics_plugin'
+require 'aws-sdk-core/plugins/client_metrics_send_plugin'
+require 'aws-sdk-core/plugins/transfer_encoding'
+require 'aws-sdk-core/plugins/http_checksum'
+require 'aws-sdk-core/plugins/checksum_algorithm'
+require 'aws-sdk-core/plugins/request_compression'
+require 'aws-sdk-core/plugins/defaults_mode'
+require 'aws-sdk-core/plugins/recursion_detection'
+require 'aws-sdk-core/plugins/telemetry'
+require 'aws-sdk-core/plugins/sign'
+require 'aws-sdk-core/plugins/protocols/rest_json'
 
 module Aws::ChimeSDKMediaPipelines
   # An API client for ChimeSDKMediaPipelines.  To construct a client, you need to configure a `:region` and `:credentials`.
@@ -71,20 +72,28 @@ module Aws::ChimeSDKMediaPipelines
     add_plugin(Aws::Plugins::ResponsePaging)
     add_plugin(Aws::Plugins::StubResponses)
     add_plugin(Aws::Plugins::IdempotencyToken)
+    add_plugin(Aws::Plugins::InvocationId)
     add_plugin(Aws::Plugins::JsonvalueConverter)
     add_plugin(Aws::Plugins::ClientMetricsPlugin)
     add_plugin(Aws::Plugins::ClientMetricsSendPlugin)
     add_plugin(Aws::Plugins::TransferEncoding)
     add_plugin(Aws::Plugins::HttpChecksum)
     add_plugin(Aws::Plugins::ChecksumAlgorithm)
+    add_plugin(Aws::Plugins::RequestCompression)
     add_plugin(Aws::Plugins::DefaultsMode)
     add_plugin(Aws::Plugins::RecursionDetection)
+    add_plugin(Aws::Plugins::Telemetry)
     add_plugin(Aws::Plugins::Sign)
     add_plugin(Aws::Plugins::Protocols::RestJson)
     add_plugin(Aws::ChimeSDKMediaPipelines::Plugins::Endpoints)
 
     # @overload initialize(options)
     #   @param [Hash] options
+    #
+    #   @option options [Array<Seahorse::Client::Plugin>] :plugins ([]])
+    #     A list of plugins to apply to the client. Each plugin is either a
+    #     class name or an instance of a plugin class.
+    #
     #   @option options [required, Aws::CredentialProvider] :credentials
     #     Your AWS credentials. This can be an instance of any one of the
     #     following classes:
@@ -119,13 +128,15 @@ module Aws::ChimeSDKMediaPipelines
     #     locations will be searched for credentials:
     #
     #     * `Aws.config[:credentials]`
-    #     * The `:access_key_id`, `:secret_access_key`, and `:session_token` options.
-    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']
+    #     * The `:access_key_id`, `:secret_access_key`, `:session_token`, and
+    #       `:account_id` options.
+    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'],
+    #       ENV['AWS_SESSION_TOKEN'], and ENV['AWS_ACCOUNT_ID']
     #     * `~/.aws/credentials`
     #     * `~/.aws/config`
     #     * EC2/ECS IMDS instance profile - When used by default, the timeouts
     #       are very aggressive. Construct and pass an instance of
-    #       `Aws::InstanceProfileCredentails` or `Aws::ECSCredentials` to
+    #       `Aws::InstanceProfileCredentials` or `Aws::ECSCredentials` to
     #       enable retries and extended timeouts. Instance profile credential
     #       fetching can be disabled by setting ENV['AWS_EC2_METADATA_DISABLED']
     #       to true.
@@ -143,6 +154,8 @@ module Aws::ChimeSDKMediaPipelines
     #     * `~/.aws/config`
     #
     #   @option options [String] :access_key_id
+    #
+    #   @option options [String] :account_id
     #
     #   @option options [Boolean] :active_endpoint_cache (false)
     #     When set to `true`, a thread polling for endpoints will be running in
@@ -190,10 +203,20 @@ module Aws::ChimeSDKMediaPipelines
     #     Set to true to disable SDK automatically adding host prefix
     #     to default service endpoint when available.
     #
-    #   @option options [String] :endpoint
-    #     The client endpoint is normally constructed from the `:region`
-    #     option. You should only configure an `:endpoint` when connecting
-    #     to test or custom endpoints. This should be a valid HTTP(S) URI.
+    #   @option options [Boolean] :disable_request_compression (false)
+    #     When set to 'true' the request body will not be compressed
+    #     for supported operations.
+    #
+    #   @option options [String, URI::HTTPS, URI::HTTP] :endpoint
+    #     Normally you should not configure the `:endpoint` option
+    #     directly. This is normally constructed from the `:region`
+    #     option. Configuring `:endpoint` is normally reserved for
+    #     connecting to test or custom endpoints. The endpoint should
+    #     be a URI formatted like:
+    #
+    #         'http://example.com'
+    #         'https://example.com'
+    #         'http://example.com:123'
     #
     #   @option options [Integer] :endpoint_cache_max_entries (1000)
     #     Used for the maximum size limit of the LRU cache storing endpoints data
@@ -209,6 +232,10 @@ module Aws::ChimeSDKMediaPipelines
     #
     #   @option options [Boolean] :endpoint_discovery (false)
     #     When set to `true`, endpoint discovery will be enabled for operations when available.
+    #
+    #   @option options [Boolean] :ignore_configured_endpoint_urls
+    #     Setting to true disables use of endpoint URLs provided via environment
+    #     variables and the shared configuration file.
     #
     #   @option options [Aws::Log::Formatter] :log_formatter (Aws::Log::Formatter.default)
     #     The log formatter.
@@ -229,6 +256,34 @@ module Aws::ChimeSDKMediaPipelines
     #   @option options [String] :profile ("default")
     #     Used when loading credentials from the shared credentials file
     #     at HOME/.aws/credentials.  When not specified, 'default' is used.
+    #
+    #   @option options [String] :request_checksum_calculation ("when_supported")
+    #     Determines when a checksum will be calculated for request payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, a checksum will be
+    #       calculated for all request payloads of operations modeled with the
+    #       `httpChecksum` trait where `requestChecksumRequired` is `true` and/or a
+    #       `requestAlgorithmMember` is modeled.
+    #     * `when_required` - When set, a checksum will only be calculated for
+    #       request payloads of operations modeled with the  `httpChecksum` trait where
+    #       `requestChecksumRequired` is `true` or where a `requestAlgorithmMember`
+    #       is modeled and supplied.
+    #
+    #   @option options [Integer] :request_min_compression_size_bytes (10240)
+    #     The minimum size in bytes that triggers compression for request
+    #     bodies. The value must be non-negative integer value between 0
+    #     and 10485780 bytes inclusive.
+    #
+    #   @option options [String] :response_checksum_validation ("when_supported")
+    #     Determines when checksum validation will be performed on response payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, checksum validation is performed on all
+    #       response payloads of operations modeled with the `httpChecksum` trait where
+    #       `responseAlgorithms` is modeled, except when no modeled checksum algorithms
+    #       are supported.
+    #     * `when_required` - When set, checksum validation is not performed on
+    #       response payloads of operations unless the checksum algorithm is supported and
+    #       the `requestValidationModeMember` member is set to `ENABLED`.
     #
     #   @option options [Proc] :retry_backoff
     #     A proc or lambda used for backoff. Defaults to 2**retries * retry_base_delay.
@@ -274,10 +329,24 @@ module Aws::ChimeSDKMediaPipelines
     #       throttling.  This is a provisional mode that may change behavior
     #       in the future.
     #
+    #   @option options [String] :sdk_ua_app_id
+    #     A unique and opaque application ID that is appended to the
+    #     User-Agent header as app/sdk_ua_app_id. It should have a
+    #     maximum length of 50. This variable is sourced from environment
+    #     variable AWS_SDK_UA_APP_ID or the shared config profile attribute sdk_ua_app_id.
     #
     #   @option options [String] :secret_access_key
     #
     #   @option options [String] :session_token
+    #
+    #   @option options [Array] :sigv4a_signing_region_set
+    #     A list of regions that should be signed with SigV4a signing. When
+    #     not passed, a default `:sigv4a_signing_region_set` is searched for
+    #     in the following locations:
+    #
+    #     * `Aws.config[:sigv4a_signing_region_set]`
+    #     * `ENV['AWS_SIGV4A_SIGNING_REGION_SET']`
+    #     * `~/.aws/config`
     #
     #   @option options [Boolean] :stub_responses (false)
     #     Causes the client to return stubbed responses. By default
@@ -287,6 +356,16 @@ module Aws::ChimeSDKMediaPipelines
     #
     #     ** Please note ** When response stubbing is enabled, no HTTP
     #     requests are made, and retries are disabled.
+    #
+    #   @option options [Aws::Telemetry::TelemetryProviderBase] :telemetry_provider (Aws::Telemetry::NoOpTelemetryProvider)
+    #     Allows you to provide a telemetry provider, which is used to
+    #     emit telemetry data. By default, uses `NoOpTelemetryProvider` which
+    #     will not record or emit any telemetry data. The SDK supports the
+    #     following telemetry providers:
+    #
+    #     * OpenTelemetry (OTel) - To use the OTel provider, install and require the
+    #     `opentelemetry-sdk` gem and then, pass in an instance of a
+    #     `Aws::Telemetry::OTelProvider` for telemetry provider.
     #
     #   @option options [Aws::TokenProvider] :token_provider
     #     A Bearer Token Provider. This can be an instance of any one of the
@@ -315,52 +394,75 @@ module Aws::ChimeSDKMediaPipelines
     #     sending the request.
     #
     #   @option options [Aws::ChimeSDKMediaPipelines::EndpointProvider] :endpoint_provider
-    #     The endpoint provider used to resolve endpoints. Any object that responds to `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to `Aws::ChimeSDKMediaPipelines::EndpointParameters`
+    #     The endpoint provider used to resolve endpoints. Any object that responds to
+    #     `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+    #     `Aws::ChimeSDKMediaPipelines::EndpointParameters`.
     #
-    #   @option options [URI::HTTP,String] :http_proxy A proxy to send
-    #     requests through.  Formatted like 'http://proxy.com:123'.
+    #   @option options [Float] :http_continue_timeout (1)
+    #     The number of seconds to wait for a 100-continue response before sending the
+    #     request body.  This option has no effect unless the request has "Expect"
+    #     header set to "100-continue".  Defaults to `nil` which  disables this
+    #     behaviour.  This value can safely be set per request on the session.
     #
-    #   @option options [Float] :http_open_timeout (15) The number of
-    #     seconds to wait when opening a HTTP session before raising a
-    #     `Timeout::Error`.
+    #   @option options [Float] :http_idle_timeout (5)
+    #     The number of seconds a connection is allowed to sit idle before it
+    #     is considered stale.  Stale connections are closed and removed from the
+    #     pool before making a request.
     #
-    #   @option options [Float] :http_read_timeout (60) The default
-    #     number of seconds to wait for response data.  This value can
-    #     safely be set per-request on the session.
+    #   @option options [Float] :http_open_timeout (15)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :http_idle_timeout (5) The number of
-    #     seconds a connection is allowed to sit idle before it is
-    #     considered stale.  Stale connections are closed and removed
-    #     from the pool before making a request.
+    #   @option options [URI::HTTP,String] :http_proxy
+    #     A proxy to send requests through.  Formatted like 'http://proxy.com:123'.
     #
-    #   @option options [Float] :http_continue_timeout (1) The number of
-    #     seconds to wait for a 100-continue response before sending the
-    #     request body.  This option has no effect unless the request has
-    #     "Expect" header set to "100-continue".  Defaults to `nil` which
-    #     disables this behaviour.  This value can safely be set per
-    #     request on the session.
+    #   @option options [Float] :http_read_timeout (60)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :ssl_timeout (nil) Sets the SSL timeout
-    #     in seconds.
+    #   @option options [Boolean] :http_wire_trace (false)
+    #     When `true`,  HTTP debug output will be sent to the `:logger`.
     #
-    #   @option options [Boolean] :http_wire_trace (false) When `true`,
-    #     HTTP debug output will be sent to the `:logger`.
+    #   @option options [Proc] :on_chunk_received
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the response body is received. It provides three arguments: the chunk,
+    #     the number of bytes received, and the total number of
+    #     bytes in the response (or nil if the server did not send a `content-length`).
     #
-    #   @option options [Boolean] :ssl_verify_peer (true) When `true`,
-    #     SSL peer certificates are verified when establishing a
-    #     connection.
+    #   @option options [Proc] :on_chunk_sent
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the request body is sent. It provides three arguments: the chunk,
+    #     the number of bytes read from the body, and the total number of
+    #     bytes in the body.
     #
-    #   @option options [String] :ssl_ca_bundle Full path to the SSL
-    #     certificate authority bundle file that should be used when
-    #     verifying peer certificates.  If you do not pass
-    #     `:ssl_ca_bundle` or `:ssl_ca_directory` the the system default
-    #     will be used if available.
+    #   @option options [Boolean] :raise_response_errors (true)
+    #     When `true`, response errors are raised.
     #
-    #   @option options [String] :ssl_ca_directory Full path of the
-    #     directory that contains the unbundled SSL certificate
+    #   @option options [String] :ssl_ca_bundle
+    #     Full path to the SSL certificate authority bundle file that should be used when
+    #     verifying peer certificates.  If you do not pass `:ssl_ca_bundle` or
+    #     `:ssl_ca_directory` the the system default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_directory
+    #     Full path of the directory that contains the unbundled SSL certificate
     #     authority files for verifying peer certificates.  If you do
-    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the
-    #     system default will be used if available.
+    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the system
+    #     default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_store
+    #     Sets the X509::Store to verify peer certificate.
+    #
+    #   @option options [OpenSSL::X509::Certificate] :ssl_cert
+    #     Sets a client certificate when creating http connections.
+    #
+    #   @option options [OpenSSL::PKey] :ssl_key
+    #     Sets a client key when creating http connections.
+    #
+    #   @option options [Float] :ssl_timeout
+    #     Sets the SSL timeout in seconds
+    #
+    #   @option options [Boolean] :ssl_verify_peer (true)
+    #     When `true`, SSL peer certificates are verified when establishing a connection.
     #
     def initialize(*args)
       super
@@ -395,6 +497,26 @@ module Aws::ChimeSDKMediaPipelines
     # @option params [Types::ChimeSdkMeetingConfiguration] :chime_sdk_meeting_configuration
     #   The configuration for a specified media pipeline. `SourceType` must be
     #   `ChimeSdkMeeting`.
+    #
+    # @option params [Types::SseAwsKeyManagementParams] :sse_aws_key_management_params
+    #   An object that contains server side encryption parameters to be used
+    #   by media capture pipeline. The parameters can also be used by media
+    #   concatenation pipeline taking media capture pipeline as a media
+    #   source.
+    #
+    # @option params [String] :sink_iam_role_arn
+    #   The Amazon Resource Name (ARN) of the sink role to be used with
+    #   `AwsKmsKeyId` in `SseAwsKeyManagementParams`. Can only interact with
+    #   `S3Bucket` sink type. The role must belong to the caller’s account and
+    #   be able to act on behalf of the caller during the API call. All
+    #   minimum policy permissions requirements for the caller to perform
+    #   sink-related actions are the same for `SinkIamRoleArn`.
+    #
+    #   Additionally, the role must have permission to `kms:GenerateDataKey`
+    #   using KMS key supplied as `AwsKmsKeyId` in
+    #   `SseAwsKeyManagementParams`. If media concatenation will be required
+    #   later, the role must also have permission to `kms:Decrypt` for the
+    #   same KMS key.
     #
     # @option params [Array<Types::Tag>] :tags
     #   The tag key-value pairs.
@@ -434,14 +556,41 @@ module Aws::ChimeSDKMediaPipelines
     #           layout: "GridView", # accepts GridView
     #           resolution: "HD", # accepts HD, FHD
     #           grid_view_configuration: { # required
-    #             content_share_layout: "PresenterOnly", # required, accepts PresenterOnly, Horizontal, Vertical
+    #             content_share_layout: "PresenterOnly", # required, accepts PresenterOnly, Horizontal, Vertical, ActiveSpeakerOnly
     #             presenter_only_configuration: {
     #               presenter_position: "TopLeft", # accepts TopLeft, TopRight, BottomLeft, BottomRight
     #             },
+    #             active_speaker_only_configuration: {
+    #               active_speaker_position: "TopLeft", # accepts TopLeft, TopRight, BottomLeft, BottomRight
+    #             },
+    #             horizontal_layout_configuration: {
+    #               tile_order: "JoinSequence", # accepts JoinSequence, SpeakerSequence
+    #               tile_position: "Top", # accepts Top, Bottom
+    #               tile_count: 1,
+    #               tile_aspect_ratio: "TileAspectRatio",
+    #             },
+    #             vertical_layout_configuration: {
+    #               tile_order: "JoinSequence", # accepts JoinSequence, SpeakerSequence
+    #               tile_position: "Left", # accepts Left, Right
+    #               tile_count: 1,
+    #               tile_aspect_ratio: "TileAspectRatio",
+    #             },
+    #             video_attribute: {
+    #               corner_radius: 1,
+    #               border_color: "Black", # accepts Black, Blue, Red, Green, White, Yellow
+    #               highlight_color: "Black", # accepts Black, Blue, Red, Green, White, Yellow
+    #               border_thickness: 1,
+    #             },
+    #             canvas_orientation: "Landscape", # accepts Landscape, Portrait
     #           },
     #         },
     #       },
     #     },
+    #     sse_aws_key_management_params: {
+    #       aws_kms_key_id: "String", # required
+    #       aws_kms_encryption_context: "String",
+    #     },
+    #     sink_iam_role_arn: "Arn",
     #     tags: [
     #       {
     #         key: "TagKey", # required
@@ -456,7 +605,7 @@ module Aws::ChimeSDKMediaPipelines
     #   resp.media_capture_pipeline.media_pipeline_arn #=> String
     #   resp.media_capture_pipeline.source_type #=> String, one of "ChimeSdkMeeting"
     #   resp.media_capture_pipeline.source_arn #=> String
-    #   resp.media_capture_pipeline.status #=> String, one of "Initializing", "InProgress", "Failed", "Stopping", "Stopped"
+    #   resp.media_capture_pipeline.status #=> String, one of "Initializing", "InProgress", "Failed", "Stopping", "Stopped", "Paused", "NotStarted"
     #   resp.media_capture_pipeline.sink_type #=> String, one of "S3Bucket"
     #   resp.media_capture_pipeline.sink_arn #=> String
     #   resp.media_capture_pipeline.created_timestamp #=> Time
@@ -472,8 +621,25 @@ module Aws::ChimeSDKMediaPipelines
     #   resp.media_capture_pipeline.chime_sdk_meeting_configuration.artifacts_configuration.content.mux_type #=> String, one of "ContentOnly"
     #   resp.media_capture_pipeline.chime_sdk_meeting_configuration.artifacts_configuration.composited_video.layout #=> String, one of "GridView"
     #   resp.media_capture_pipeline.chime_sdk_meeting_configuration.artifacts_configuration.composited_video.resolution #=> String, one of "HD", "FHD"
-    #   resp.media_capture_pipeline.chime_sdk_meeting_configuration.artifacts_configuration.composited_video.grid_view_configuration.content_share_layout #=> String, one of "PresenterOnly", "Horizontal", "Vertical"
+    #   resp.media_capture_pipeline.chime_sdk_meeting_configuration.artifacts_configuration.composited_video.grid_view_configuration.content_share_layout #=> String, one of "PresenterOnly", "Horizontal", "Vertical", "ActiveSpeakerOnly"
     #   resp.media_capture_pipeline.chime_sdk_meeting_configuration.artifacts_configuration.composited_video.grid_view_configuration.presenter_only_configuration.presenter_position #=> String, one of "TopLeft", "TopRight", "BottomLeft", "BottomRight"
+    #   resp.media_capture_pipeline.chime_sdk_meeting_configuration.artifacts_configuration.composited_video.grid_view_configuration.active_speaker_only_configuration.active_speaker_position #=> String, one of "TopLeft", "TopRight", "BottomLeft", "BottomRight"
+    #   resp.media_capture_pipeline.chime_sdk_meeting_configuration.artifacts_configuration.composited_video.grid_view_configuration.horizontal_layout_configuration.tile_order #=> String, one of "JoinSequence", "SpeakerSequence"
+    #   resp.media_capture_pipeline.chime_sdk_meeting_configuration.artifacts_configuration.composited_video.grid_view_configuration.horizontal_layout_configuration.tile_position #=> String, one of "Top", "Bottom"
+    #   resp.media_capture_pipeline.chime_sdk_meeting_configuration.artifacts_configuration.composited_video.grid_view_configuration.horizontal_layout_configuration.tile_count #=> Integer
+    #   resp.media_capture_pipeline.chime_sdk_meeting_configuration.artifacts_configuration.composited_video.grid_view_configuration.horizontal_layout_configuration.tile_aspect_ratio #=> String
+    #   resp.media_capture_pipeline.chime_sdk_meeting_configuration.artifacts_configuration.composited_video.grid_view_configuration.vertical_layout_configuration.tile_order #=> String, one of "JoinSequence", "SpeakerSequence"
+    #   resp.media_capture_pipeline.chime_sdk_meeting_configuration.artifacts_configuration.composited_video.grid_view_configuration.vertical_layout_configuration.tile_position #=> String, one of "Left", "Right"
+    #   resp.media_capture_pipeline.chime_sdk_meeting_configuration.artifacts_configuration.composited_video.grid_view_configuration.vertical_layout_configuration.tile_count #=> Integer
+    #   resp.media_capture_pipeline.chime_sdk_meeting_configuration.artifacts_configuration.composited_video.grid_view_configuration.vertical_layout_configuration.tile_aspect_ratio #=> String
+    #   resp.media_capture_pipeline.chime_sdk_meeting_configuration.artifacts_configuration.composited_video.grid_view_configuration.video_attribute.corner_radius #=> Integer
+    #   resp.media_capture_pipeline.chime_sdk_meeting_configuration.artifacts_configuration.composited_video.grid_view_configuration.video_attribute.border_color #=> String, one of "Black", "Blue", "Red", "Green", "White", "Yellow"
+    #   resp.media_capture_pipeline.chime_sdk_meeting_configuration.artifacts_configuration.composited_video.grid_view_configuration.video_attribute.highlight_color #=> String, one of "Black", "Blue", "Red", "Green", "White", "Yellow"
+    #   resp.media_capture_pipeline.chime_sdk_meeting_configuration.artifacts_configuration.composited_video.grid_view_configuration.video_attribute.border_thickness #=> Integer
+    #   resp.media_capture_pipeline.chime_sdk_meeting_configuration.artifacts_configuration.composited_video.grid_view_configuration.canvas_orientation #=> String, one of "Landscape", "Portrait"
+    #   resp.media_capture_pipeline.sse_aws_key_management_params.aws_kms_key_id #=> String
+    #   resp.media_capture_pipeline.sse_aws_key_management_params.aws_kms_encryption_context #=> String
+    #   resp.media_capture_pipeline.sink_iam_role_arn #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-media-pipelines-2021-07-15/CreateMediaCapturePipeline AWS API Documentation
     #
@@ -579,7 +745,7 @@ module Aws::ChimeSDKMediaPipelines
     #   resp.media_concatenation_pipeline.sinks #=> Array
     #   resp.media_concatenation_pipeline.sinks[0].type #=> String, one of "S3Bucket"
     #   resp.media_concatenation_pipeline.sinks[0].s3_bucket_sink_configuration.destination #=> String
-    #   resp.media_concatenation_pipeline.status #=> String, one of "Initializing", "InProgress", "Failed", "Stopping", "Stopped"
+    #   resp.media_concatenation_pipeline.status #=> String, one of "Initializing", "InProgress", "Failed", "Stopping", "Stopped", "Paused", "NotStarted"
     #   resp.media_concatenation_pipeline.created_timestamp #=> Time
     #   resp.media_concatenation_pipeline.updated_timestamp #=> Time
     #
@@ -592,13 +758,351 @@ module Aws::ChimeSDKMediaPipelines
       req.send_request(options)
     end
 
-    # Creates a streaming media pipeline in an Amazon Chime SDK meeting.
+    # Creates a media insights pipeline.
+    #
+    # @option params [required, String] :media_insights_pipeline_configuration_arn
+    #   The ARN of the pipeline's configuration.
+    #
+    # @option params [Types::KinesisVideoStreamSourceRuntimeConfiguration] :kinesis_video_stream_source_runtime_configuration
+    #   The runtime configuration for the Kinesis video stream source of the
+    #   media insights pipeline.
+    #
+    # @option params [Hash<String,String>] :media_insights_runtime_metadata
+    #   The runtime metadata for the media insights pipeline. Consists of a
+    #   key-value map of strings.
+    #
+    # @option params [Types::KinesisVideoStreamRecordingSourceRuntimeConfiguration] :kinesis_video_stream_recording_source_runtime_configuration
+    #   The runtime configuration for the Kinesis video recording stream
+    #   source.
+    #
+    # @option params [Types::S3RecordingSinkRuntimeConfiguration] :s3_recording_sink_runtime_configuration
+    #   The runtime configuration for the S3 recording sink. If specified, the
+    #   settings in this structure override any settings in
+    #   `S3RecordingSinkConfiguration`.
+    #
+    # @option params [Array<Types::Tag>] :tags
+    #   The tags assigned to the media insights pipeline.
+    #
+    # @option params [String] :client_request_token
+    #   The unique identifier for the media insights pipeline request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @return [Types::CreateMediaInsightsPipelineResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateMediaInsightsPipelineResponse#media_insights_pipeline #media_insights_pipeline} => Types::MediaInsightsPipeline
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_media_insights_pipeline({
+    #     media_insights_pipeline_configuration_arn: "Arn", # required
+    #     kinesis_video_stream_source_runtime_configuration: {
+    #       streams: [ # required
+    #         {
+    #           stream_arn: "KinesisVideoStreamArn", # required
+    #           fragment_number: "FragmentNumberString",
+    #           stream_channel_definition: { # required
+    #             number_of_channels: 1, # required
+    #             channel_definitions: [
+    #               {
+    #                 channel_id: 1, # required
+    #                 participant_role: "AGENT", # accepts AGENT, CUSTOMER
+    #               },
+    #             ],
+    #           },
+    #         },
+    #       ],
+    #       media_encoding: "pcm", # required, accepts pcm
+    #       media_sample_rate: 1, # required
+    #     },
+    #     media_insights_runtime_metadata: {
+    #       "NonEmptyString" => "String",
+    #     },
+    #     kinesis_video_stream_recording_source_runtime_configuration: {
+    #       streams: [ # required
+    #         {
+    #           stream_arn: "KinesisVideoStreamArn",
+    #         },
+    #       ],
+    #       fragment_selector: { # required
+    #         fragment_selector_type: "ProducerTimestamp", # required, accepts ProducerTimestamp, ServerTimestamp
+    #         timestamp_range: { # required
+    #           start_timestamp: Time.now, # required
+    #           end_timestamp: Time.now, # required
+    #         },
+    #       },
+    #     },
+    #     s3_recording_sink_runtime_configuration: {
+    #       destination: "Arn", # required
+    #       recording_file_format: "Wav", # required, accepts Wav, Opus
+    #     },
+    #     tags: [
+    #       {
+    #         key: "TagKey", # required
+    #         value: "TagValue", # required
+    #       },
+    #     ],
+    #     client_request_token: "ClientRequestToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.media_insights_pipeline.media_pipeline_id #=> String
+    #   resp.media_insights_pipeline.media_pipeline_arn #=> String
+    #   resp.media_insights_pipeline.media_insights_pipeline_configuration_arn #=> String
+    #   resp.media_insights_pipeline.status #=> String, one of "Initializing", "InProgress", "Failed", "Stopping", "Stopped", "Paused", "NotStarted"
+    #   resp.media_insights_pipeline.kinesis_video_stream_source_runtime_configuration.streams #=> Array
+    #   resp.media_insights_pipeline.kinesis_video_stream_source_runtime_configuration.streams[0].stream_arn #=> String
+    #   resp.media_insights_pipeline.kinesis_video_stream_source_runtime_configuration.streams[0].fragment_number #=> String
+    #   resp.media_insights_pipeline.kinesis_video_stream_source_runtime_configuration.streams[0].stream_channel_definition.number_of_channels #=> Integer
+    #   resp.media_insights_pipeline.kinesis_video_stream_source_runtime_configuration.streams[0].stream_channel_definition.channel_definitions #=> Array
+    #   resp.media_insights_pipeline.kinesis_video_stream_source_runtime_configuration.streams[0].stream_channel_definition.channel_definitions[0].channel_id #=> Integer
+    #   resp.media_insights_pipeline.kinesis_video_stream_source_runtime_configuration.streams[0].stream_channel_definition.channel_definitions[0].participant_role #=> String, one of "AGENT", "CUSTOMER"
+    #   resp.media_insights_pipeline.kinesis_video_stream_source_runtime_configuration.media_encoding #=> String, one of "pcm"
+    #   resp.media_insights_pipeline.kinesis_video_stream_source_runtime_configuration.media_sample_rate #=> Integer
+    #   resp.media_insights_pipeline.media_insights_runtime_metadata #=> Hash
+    #   resp.media_insights_pipeline.media_insights_runtime_metadata["NonEmptyString"] #=> String
+    #   resp.media_insights_pipeline.kinesis_video_stream_recording_source_runtime_configuration.streams #=> Array
+    #   resp.media_insights_pipeline.kinesis_video_stream_recording_source_runtime_configuration.streams[0].stream_arn #=> String
+    #   resp.media_insights_pipeline.kinesis_video_stream_recording_source_runtime_configuration.fragment_selector.fragment_selector_type #=> String, one of "ProducerTimestamp", "ServerTimestamp"
+    #   resp.media_insights_pipeline.kinesis_video_stream_recording_source_runtime_configuration.fragment_selector.timestamp_range.start_timestamp #=> Time
+    #   resp.media_insights_pipeline.kinesis_video_stream_recording_source_runtime_configuration.fragment_selector.timestamp_range.end_timestamp #=> Time
+    #   resp.media_insights_pipeline.s3_recording_sink_runtime_configuration.destination #=> String
+    #   resp.media_insights_pipeline.s3_recording_sink_runtime_configuration.recording_file_format #=> String, one of "Wav", "Opus"
+    #   resp.media_insights_pipeline.created_timestamp #=> Time
+    #   resp.media_insights_pipeline.element_statuses #=> Array
+    #   resp.media_insights_pipeline.element_statuses[0].type #=> String, one of "AmazonTranscribeCallAnalyticsProcessor", "VoiceAnalyticsProcessor", "AmazonTranscribeProcessor", "KinesisDataStreamSink", "LambdaFunctionSink", "SqsQueueSink", "SnsTopicSink", "S3RecordingSink", "VoiceEnhancementSink"
+    #   resp.media_insights_pipeline.element_statuses[0].status #=> String, one of "NotStarted", "NotSupported", "Initializing", "InProgress", "Failed", "Stopping", "Stopped", "Paused"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-media-pipelines-2021-07-15/CreateMediaInsightsPipeline AWS API Documentation
+    #
+    # @overload create_media_insights_pipeline(params = {})
+    # @param [Hash] params ({})
+    def create_media_insights_pipeline(params = {}, options = {})
+      req = build_request(:create_media_insights_pipeline, params)
+      req.send_request(options)
+    end
+
+    # A structure that contains the static configurations for a media
+    # insights pipeline.
+    #
+    # @option params [required, String] :media_insights_pipeline_configuration_name
+    #   The name of the media insights pipeline configuration.
+    #
+    # @option params [required, String] :resource_access_role_arn
+    #   The ARN of the role used by the service to access Amazon Web Services
+    #   resources, including `Transcribe` and `Transcribe Call Analytics`, on
+    #   the caller’s behalf.
+    #
+    # @option params [Types::RealTimeAlertConfiguration] :real_time_alert_configuration
+    #   The configuration settings for the real-time alerts in a media
+    #   insights pipeline configuration.
+    #
+    # @option params [required, Array<Types::MediaInsightsPipelineConfigurationElement>] :elements
+    #   The elements in the request, such as a processor for Amazon Transcribe
+    #   or a sink for a Kinesis Data Stream.
+    #
+    # @option params [Array<Types::Tag>] :tags
+    #   The tags assigned to the media insights pipeline configuration.
+    #
+    # @option params [String] :client_request_token
+    #   The unique identifier for the media insights pipeline configuration
+    #   request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @return [Types::CreateMediaInsightsPipelineConfigurationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateMediaInsightsPipelineConfigurationResponse#media_insights_pipeline_configuration #media_insights_pipeline_configuration} => Types::MediaInsightsPipelineConfiguration
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_media_insights_pipeline_configuration({
+    #     media_insights_pipeline_configuration_name: "MediaInsightsPipelineConfigurationNameString", # required
+    #     resource_access_role_arn: "Arn", # required
+    #     real_time_alert_configuration: {
+    #       disabled: false,
+    #       rules: [
+    #         {
+    #           type: "KeywordMatch", # required, accepts KeywordMatch, Sentiment, IssueDetection
+    #           keyword_match_configuration: {
+    #             rule_name: "RuleName", # required
+    #             keywords: ["Keyword"], # required
+    #             negate: false,
+    #           },
+    #           sentiment_configuration: {
+    #             rule_name: "RuleName", # required
+    #             sentiment_type: "NEGATIVE", # required, accepts NEGATIVE
+    #             time_period: 1, # required
+    #           },
+    #           issue_detection_configuration: {
+    #             rule_name: "RuleName", # required
+    #           },
+    #         },
+    #       ],
+    #     },
+    #     elements: [ # required
+    #       {
+    #         type: "AmazonTranscribeCallAnalyticsProcessor", # required, accepts AmazonTranscribeCallAnalyticsProcessor, VoiceAnalyticsProcessor, AmazonTranscribeProcessor, KinesisDataStreamSink, LambdaFunctionSink, SqsQueueSink, SnsTopicSink, S3RecordingSink, VoiceEnhancementSink
+    #         amazon_transcribe_call_analytics_processor_configuration: {
+    #           language_code: "en-US", # required, accepts en-US, en-GB, es-US, fr-CA, fr-FR, en-AU, it-IT, de-DE, pt-BR
+    #           vocabulary_name: "VocabularyName",
+    #           vocabulary_filter_name: "VocabularyFilterName",
+    #           vocabulary_filter_method: "remove", # accepts remove, mask, tag
+    #           language_model_name: "ModelName",
+    #           enable_partial_results_stabilization: false,
+    #           partial_results_stability: "high", # accepts high, medium, low
+    #           content_identification_type: "PII", # accepts PII
+    #           content_redaction_type: "PII", # accepts PII
+    #           pii_entity_types: "PiiEntityTypes",
+    #           filter_partial_results: false,
+    #           post_call_analytics_settings: {
+    #             output_location: "String", # required
+    #             data_access_role_arn: "String", # required
+    #             content_redaction_output: "redacted", # accepts redacted, redacted_and_unredacted
+    #             output_encryption_kms_key_id: "String",
+    #           },
+    #           call_analytics_stream_categories: ["CategoryName"],
+    #         },
+    #         amazon_transcribe_processor_configuration: {
+    #           language_code: "en-US", # accepts en-US, en-GB, es-US, fr-CA, fr-FR, en-AU, it-IT, de-DE, pt-BR
+    #           vocabulary_name: "VocabularyName",
+    #           vocabulary_filter_name: "VocabularyFilterName",
+    #           vocabulary_filter_method: "remove", # accepts remove, mask, tag
+    #           show_speaker_label: false,
+    #           enable_partial_results_stabilization: false,
+    #           partial_results_stability: "high", # accepts high, medium, low
+    #           content_identification_type: "PII", # accepts PII
+    #           content_redaction_type: "PII", # accepts PII
+    #           pii_entity_types: "PiiEntityTypes",
+    #           language_model_name: "ModelName",
+    #           filter_partial_results: false,
+    #           identify_language: false,
+    #           identify_multiple_languages: false,
+    #           language_options: "LanguageOptions",
+    #           preferred_language: "en-US", # accepts en-US, en-GB, es-US, fr-CA, fr-FR, en-AU, it-IT, de-DE, pt-BR
+    #           vocabulary_names: "VocabularyNames",
+    #           vocabulary_filter_names: "VocabularyFilterNames",
+    #         },
+    #         kinesis_data_stream_sink_configuration: {
+    #           insights_target: "Arn",
+    #         },
+    #         s3_recording_sink_configuration: {
+    #           destination: "Arn",
+    #           recording_file_format: "Wav", # accepts Wav, Opus
+    #         },
+    #         voice_analytics_processor_configuration: {
+    #           speaker_search_status: "Enabled", # accepts Enabled, Disabled
+    #           voice_tone_analysis_status: "Enabled", # accepts Enabled, Disabled
+    #         },
+    #         lambda_function_sink_configuration: {
+    #           insights_target: "Arn",
+    #         },
+    #         sqs_queue_sink_configuration: {
+    #           insights_target: "Arn",
+    #         },
+    #         sns_topic_sink_configuration: {
+    #           insights_target: "Arn",
+    #         },
+    #         voice_enhancement_sink_configuration: {
+    #           disabled: false,
+    #         },
+    #       },
+    #     ],
+    #     tags: [
+    #       {
+    #         key: "TagKey", # required
+    #         value: "TagValue", # required
+    #       },
+    #     ],
+    #     client_request_token: "ClientRequestToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.media_insights_pipeline_configuration.media_insights_pipeline_configuration_name #=> String
+    #   resp.media_insights_pipeline_configuration.media_insights_pipeline_configuration_arn #=> String
+    #   resp.media_insights_pipeline_configuration.resource_access_role_arn #=> String
+    #   resp.media_insights_pipeline_configuration.real_time_alert_configuration.disabled #=> Boolean
+    #   resp.media_insights_pipeline_configuration.real_time_alert_configuration.rules #=> Array
+    #   resp.media_insights_pipeline_configuration.real_time_alert_configuration.rules[0].type #=> String, one of "KeywordMatch", "Sentiment", "IssueDetection"
+    #   resp.media_insights_pipeline_configuration.real_time_alert_configuration.rules[0].keyword_match_configuration.rule_name #=> String
+    #   resp.media_insights_pipeline_configuration.real_time_alert_configuration.rules[0].keyword_match_configuration.keywords #=> Array
+    #   resp.media_insights_pipeline_configuration.real_time_alert_configuration.rules[0].keyword_match_configuration.keywords[0] #=> String
+    #   resp.media_insights_pipeline_configuration.real_time_alert_configuration.rules[0].keyword_match_configuration.negate #=> Boolean
+    #   resp.media_insights_pipeline_configuration.real_time_alert_configuration.rules[0].sentiment_configuration.rule_name #=> String
+    #   resp.media_insights_pipeline_configuration.real_time_alert_configuration.rules[0].sentiment_configuration.sentiment_type #=> String, one of "NEGATIVE"
+    #   resp.media_insights_pipeline_configuration.real_time_alert_configuration.rules[0].sentiment_configuration.time_period #=> Integer
+    #   resp.media_insights_pipeline_configuration.real_time_alert_configuration.rules[0].issue_detection_configuration.rule_name #=> String
+    #   resp.media_insights_pipeline_configuration.elements #=> Array
+    #   resp.media_insights_pipeline_configuration.elements[0].type #=> String, one of "AmazonTranscribeCallAnalyticsProcessor", "VoiceAnalyticsProcessor", "AmazonTranscribeProcessor", "KinesisDataStreamSink", "LambdaFunctionSink", "SqsQueueSink", "SnsTopicSink", "S3RecordingSink", "VoiceEnhancementSink"
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_call_analytics_processor_configuration.language_code #=> String, one of "en-US", "en-GB", "es-US", "fr-CA", "fr-FR", "en-AU", "it-IT", "de-DE", "pt-BR"
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_call_analytics_processor_configuration.vocabulary_name #=> String
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_call_analytics_processor_configuration.vocabulary_filter_name #=> String
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_call_analytics_processor_configuration.vocabulary_filter_method #=> String, one of "remove", "mask", "tag"
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_call_analytics_processor_configuration.language_model_name #=> String
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_call_analytics_processor_configuration.enable_partial_results_stabilization #=> Boolean
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_call_analytics_processor_configuration.partial_results_stability #=> String, one of "high", "medium", "low"
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_call_analytics_processor_configuration.content_identification_type #=> String, one of "PII"
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_call_analytics_processor_configuration.content_redaction_type #=> String, one of "PII"
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_call_analytics_processor_configuration.pii_entity_types #=> String
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_call_analytics_processor_configuration.filter_partial_results #=> Boolean
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_call_analytics_processor_configuration.post_call_analytics_settings.output_location #=> String
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_call_analytics_processor_configuration.post_call_analytics_settings.data_access_role_arn #=> String
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_call_analytics_processor_configuration.post_call_analytics_settings.content_redaction_output #=> String, one of "redacted", "redacted_and_unredacted"
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_call_analytics_processor_configuration.post_call_analytics_settings.output_encryption_kms_key_id #=> String
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_call_analytics_processor_configuration.call_analytics_stream_categories #=> Array
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_call_analytics_processor_configuration.call_analytics_stream_categories[0] #=> String
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_processor_configuration.language_code #=> String, one of "en-US", "en-GB", "es-US", "fr-CA", "fr-FR", "en-AU", "it-IT", "de-DE", "pt-BR"
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_processor_configuration.vocabulary_name #=> String
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_processor_configuration.vocabulary_filter_name #=> String
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_processor_configuration.vocabulary_filter_method #=> String, one of "remove", "mask", "tag"
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_processor_configuration.show_speaker_label #=> Boolean
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_processor_configuration.enable_partial_results_stabilization #=> Boolean
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_processor_configuration.partial_results_stability #=> String, one of "high", "medium", "low"
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_processor_configuration.content_identification_type #=> String, one of "PII"
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_processor_configuration.content_redaction_type #=> String, one of "PII"
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_processor_configuration.pii_entity_types #=> String
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_processor_configuration.language_model_name #=> String
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_processor_configuration.filter_partial_results #=> Boolean
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_processor_configuration.identify_language #=> Boolean
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_processor_configuration.identify_multiple_languages #=> Boolean
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_processor_configuration.language_options #=> String
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_processor_configuration.preferred_language #=> String, one of "en-US", "en-GB", "es-US", "fr-CA", "fr-FR", "en-AU", "it-IT", "de-DE", "pt-BR"
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_processor_configuration.vocabulary_names #=> String
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_processor_configuration.vocabulary_filter_names #=> String
+    #   resp.media_insights_pipeline_configuration.elements[0].kinesis_data_stream_sink_configuration.insights_target #=> String
+    #   resp.media_insights_pipeline_configuration.elements[0].s3_recording_sink_configuration.destination #=> String
+    #   resp.media_insights_pipeline_configuration.elements[0].s3_recording_sink_configuration.recording_file_format #=> String, one of "Wav", "Opus"
+    #   resp.media_insights_pipeline_configuration.elements[0].voice_analytics_processor_configuration.speaker_search_status #=> String, one of "Enabled", "Disabled"
+    #   resp.media_insights_pipeline_configuration.elements[0].voice_analytics_processor_configuration.voice_tone_analysis_status #=> String, one of "Enabled", "Disabled"
+    #   resp.media_insights_pipeline_configuration.elements[0].lambda_function_sink_configuration.insights_target #=> String
+    #   resp.media_insights_pipeline_configuration.elements[0].sqs_queue_sink_configuration.insights_target #=> String
+    #   resp.media_insights_pipeline_configuration.elements[0].sns_topic_sink_configuration.insights_target #=> String
+    #   resp.media_insights_pipeline_configuration.elements[0].voice_enhancement_sink_configuration.disabled #=> Boolean
+    #   resp.media_insights_pipeline_configuration.media_insights_pipeline_configuration_id #=> String
+    #   resp.media_insights_pipeline_configuration.created_timestamp #=> Time
+    #   resp.media_insights_pipeline_configuration.updated_timestamp #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-media-pipelines-2021-07-15/CreateMediaInsightsPipelineConfiguration AWS API Documentation
+    #
+    # @overload create_media_insights_pipeline_configuration(params = {})
+    # @param [Hash] params ({})
+    def create_media_insights_pipeline_configuration(params = {}, options = {})
+      req = build_request(:create_media_insights_pipeline_configuration, params)
+      req.send_request(options)
+    end
+
+    # Creates a media live connector pipeline in an Amazon Chime SDK
+    # meeting.
     #
     # @option params [required, Array<Types::LiveConnectorSourceConfiguration>] :sources
-    #   The media pipeline's data sources.
+    #   The media live connector pipeline's data sources.
     #
     # @option params [required, Array<Types::LiveConnectorSinkConfiguration>] :sinks
-    #   The media pipeline's data sinks.
+    #   The media live connector pipeline's data sinks.
     #
     # @option params [String] :client_request_token
     #   The token assigned to the client making the request.
@@ -607,7 +1111,7 @@ module Aws::ChimeSDKMediaPipelines
     #   not need to pass this option.**
     #
     # @option params [Array<Types::Tag>] :tags
-    #   The tags associated with the media pipeline.
+    #   The tags associated with the media live connector pipeline.
     #
     # @return [Types::CreateMediaLiveConnectorPipelineResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -626,10 +1130,32 @@ module Aws::ChimeSDKMediaPipelines
     #             layout: "GridView", # accepts GridView
     #             resolution: "HD", # accepts HD, FHD
     #             grid_view_configuration: { # required
-    #               content_share_layout: "PresenterOnly", # required, accepts PresenterOnly, Horizontal, Vertical
+    #               content_share_layout: "PresenterOnly", # required, accepts PresenterOnly, Horizontal, Vertical, ActiveSpeakerOnly
     #               presenter_only_configuration: {
     #                 presenter_position: "TopLeft", # accepts TopLeft, TopRight, BottomLeft, BottomRight
     #               },
+    #               active_speaker_only_configuration: {
+    #                 active_speaker_position: "TopLeft", # accepts TopLeft, TopRight, BottomLeft, BottomRight
+    #               },
+    #               horizontal_layout_configuration: {
+    #                 tile_order: "JoinSequence", # accepts JoinSequence, SpeakerSequence
+    #                 tile_position: "Top", # accepts Top, Bottom
+    #                 tile_count: 1,
+    #                 tile_aspect_ratio: "TileAspectRatio",
+    #               },
+    #               vertical_layout_configuration: {
+    #                 tile_order: "JoinSequence", # accepts JoinSequence, SpeakerSequence
+    #                 tile_position: "Left", # accepts Left, Right
+    #                 tile_count: 1,
+    #                 tile_aspect_ratio: "TileAspectRatio",
+    #               },
+    #               video_attribute: {
+    #                 corner_radius: 1,
+    #                 border_color: "Black", # accepts Black, Blue, Red, Green, White, Yellow
+    #                 highlight_color: "Black", # accepts Black, Blue, Red, Green, White, Yellow
+    #                 border_thickness: 1,
+    #               },
+    #               canvas_orientation: "Landscape", # accepts Landscape, Portrait
     #             },
     #           },
     #           source_configuration: {
@@ -668,8 +1194,22 @@ module Aws::ChimeSDKMediaPipelines
     #   resp.media_live_connector_pipeline.sources[0].chime_sdk_meeting_live_connector_configuration.mux_type #=> String, one of "AudioWithCompositedVideo", "AudioWithActiveSpeakerVideo"
     #   resp.media_live_connector_pipeline.sources[0].chime_sdk_meeting_live_connector_configuration.composited_video.layout #=> String, one of "GridView"
     #   resp.media_live_connector_pipeline.sources[0].chime_sdk_meeting_live_connector_configuration.composited_video.resolution #=> String, one of "HD", "FHD"
-    #   resp.media_live_connector_pipeline.sources[0].chime_sdk_meeting_live_connector_configuration.composited_video.grid_view_configuration.content_share_layout #=> String, one of "PresenterOnly", "Horizontal", "Vertical"
+    #   resp.media_live_connector_pipeline.sources[0].chime_sdk_meeting_live_connector_configuration.composited_video.grid_view_configuration.content_share_layout #=> String, one of "PresenterOnly", "Horizontal", "Vertical", "ActiveSpeakerOnly"
     #   resp.media_live_connector_pipeline.sources[0].chime_sdk_meeting_live_connector_configuration.composited_video.grid_view_configuration.presenter_only_configuration.presenter_position #=> String, one of "TopLeft", "TopRight", "BottomLeft", "BottomRight"
+    #   resp.media_live_connector_pipeline.sources[0].chime_sdk_meeting_live_connector_configuration.composited_video.grid_view_configuration.active_speaker_only_configuration.active_speaker_position #=> String, one of "TopLeft", "TopRight", "BottomLeft", "BottomRight"
+    #   resp.media_live_connector_pipeline.sources[0].chime_sdk_meeting_live_connector_configuration.composited_video.grid_view_configuration.horizontal_layout_configuration.tile_order #=> String, one of "JoinSequence", "SpeakerSequence"
+    #   resp.media_live_connector_pipeline.sources[0].chime_sdk_meeting_live_connector_configuration.composited_video.grid_view_configuration.horizontal_layout_configuration.tile_position #=> String, one of "Top", "Bottom"
+    #   resp.media_live_connector_pipeline.sources[0].chime_sdk_meeting_live_connector_configuration.composited_video.grid_view_configuration.horizontal_layout_configuration.tile_count #=> Integer
+    #   resp.media_live_connector_pipeline.sources[0].chime_sdk_meeting_live_connector_configuration.composited_video.grid_view_configuration.horizontal_layout_configuration.tile_aspect_ratio #=> String
+    #   resp.media_live_connector_pipeline.sources[0].chime_sdk_meeting_live_connector_configuration.composited_video.grid_view_configuration.vertical_layout_configuration.tile_order #=> String, one of "JoinSequence", "SpeakerSequence"
+    #   resp.media_live_connector_pipeline.sources[0].chime_sdk_meeting_live_connector_configuration.composited_video.grid_view_configuration.vertical_layout_configuration.tile_position #=> String, one of "Left", "Right"
+    #   resp.media_live_connector_pipeline.sources[0].chime_sdk_meeting_live_connector_configuration.composited_video.grid_view_configuration.vertical_layout_configuration.tile_count #=> Integer
+    #   resp.media_live_connector_pipeline.sources[0].chime_sdk_meeting_live_connector_configuration.composited_video.grid_view_configuration.vertical_layout_configuration.tile_aspect_ratio #=> String
+    #   resp.media_live_connector_pipeline.sources[0].chime_sdk_meeting_live_connector_configuration.composited_video.grid_view_configuration.video_attribute.corner_radius #=> Integer
+    #   resp.media_live_connector_pipeline.sources[0].chime_sdk_meeting_live_connector_configuration.composited_video.grid_view_configuration.video_attribute.border_color #=> String, one of "Black", "Blue", "Red", "Green", "White", "Yellow"
+    #   resp.media_live_connector_pipeline.sources[0].chime_sdk_meeting_live_connector_configuration.composited_video.grid_view_configuration.video_attribute.highlight_color #=> String, one of "Black", "Blue", "Red", "Green", "White", "Yellow"
+    #   resp.media_live_connector_pipeline.sources[0].chime_sdk_meeting_live_connector_configuration.composited_video.grid_view_configuration.video_attribute.border_thickness #=> Integer
+    #   resp.media_live_connector_pipeline.sources[0].chime_sdk_meeting_live_connector_configuration.composited_video.grid_view_configuration.canvas_orientation #=> String, one of "Landscape", "Portrait"
     #   resp.media_live_connector_pipeline.sources[0].chime_sdk_meeting_live_connector_configuration.source_configuration.selected_video_streams.attendee_ids #=> Array
     #   resp.media_live_connector_pipeline.sources[0].chime_sdk_meeting_live_connector_configuration.source_configuration.selected_video_streams.attendee_ids[0] #=> String
     #   resp.media_live_connector_pipeline.sources[0].chime_sdk_meeting_live_connector_configuration.source_configuration.selected_video_streams.external_user_ids #=> Array
@@ -681,7 +1221,7 @@ module Aws::ChimeSDKMediaPipelines
     #   resp.media_live_connector_pipeline.sinks[0].rtmp_configuration.audio_sample_rate #=> String
     #   resp.media_live_connector_pipeline.media_pipeline_id #=> String
     #   resp.media_live_connector_pipeline.media_pipeline_arn #=> String
-    #   resp.media_live_connector_pipeline.status #=> String, one of "Initializing", "InProgress", "Failed", "Stopping", "Stopped"
+    #   resp.media_live_connector_pipeline.status #=> String, one of "Initializing", "InProgress", "Failed", "Stopping", "Stopped", "Paused", "NotStarted"
     #   resp.media_live_connector_pipeline.created_timestamp #=> Time
     #   resp.media_live_connector_pipeline.updated_timestamp #=> Time
     #
@@ -691,6 +1231,164 @@ module Aws::ChimeSDKMediaPipelines
     # @param [Hash] params ({})
     def create_media_live_connector_pipeline(params = {}, options = {})
       req = build_request(:create_media_live_connector_pipeline, params)
+      req.send_request(options)
+    end
+
+    # Creates an Amazon Kinesis Video Stream pool for use with media stream
+    # pipelines.
+    #
+    # <note markdown="1"> If a meeting uses an opt-in Region as its [MediaRegion][1], the KVS
+    # stream must be in that same Region. For example, if a meeting uses the
+    # `af-south-1` Region, the KVS stream must also be in `af-south-1`.
+    # However, if the meeting uses a Region that AWS turns on by default,
+    # the KVS stream can be in any available Region, including an opt-in
+    # Region. For example, if the meeting uses `ca-central-1`, the KVS
+    # stream can be in `eu-west-2`, `us-east-1`, `af-south-1`, or any other
+    # Region that the Amazon Chime SDK supports.
+    #
+    #  To learn which AWS Region a meeting uses, call the [GetMeeting][2] API
+    # and use the [MediaRegion][1] parameter from the response.
+    #
+    #  For more information about opt-in Regions, refer to [Available
+    # Regions][3] in the *Amazon Chime SDK Developer Guide*, and [Specify
+    # which AWS Regions your account can use][4], in the *AWS Account
+    # Management Reference Guide*.
+    #
+    #  </note>
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_CreateMeeting.html#chimesdk-meeting-chime_CreateMeeting-request-MediaRegion
+    # [2]: https://docs.aws.amazon.com/chime-sdk/latest/APIReference/API_meeting-chime_GetMeeting.html
+    # [3]: https://docs.aws.amazon.com/chime-sdk/latest/dg/sdk-available-regions.html
+    # [4]: https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-regions.html#rande-manage-enable.html
+    #
+    # @option params [required, Types::KinesisVideoStreamConfiguration] :stream_configuration
+    #   The configuration settings for the stream.
+    #
+    # @option params [required, String] :pool_name
+    #   The name of the pool.
+    #
+    # @option params [String] :client_request_token
+    #   The token assigned to the client making the request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @option params [Array<Types::Tag>] :tags
+    #   The tags assigned to the stream pool.
+    #
+    # @return [Types::CreateMediaPipelineKinesisVideoStreamPoolResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateMediaPipelineKinesisVideoStreamPoolResponse#kinesis_video_stream_pool_configuration #kinesis_video_stream_pool_configuration} => Types::KinesisVideoStreamPoolConfiguration
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_media_pipeline_kinesis_video_stream_pool({
+    #     stream_configuration: { # required
+    #       region: "AwsRegion", # required
+    #       data_retention_in_hours: 1,
+    #     },
+    #     pool_name: "KinesisVideoStreamPoolName", # required
+    #     client_request_token: "ClientRequestToken",
+    #     tags: [
+    #       {
+    #         key: "TagKey", # required
+    #         value: "TagValue", # required
+    #       },
+    #     ],
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.kinesis_video_stream_pool_configuration.pool_arn #=> String
+    #   resp.kinesis_video_stream_pool_configuration.pool_name #=> String
+    #   resp.kinesis_video_stream_pool_configuration.pool_id #=> String
+    #   resp.kinesis_video_stream_pool_configuration.pool_status #=> String, one of "CREATING", "ACTIVE", "UPDATING", "DELETING", "FAILED"
+    #   resp.kinesis_video_stream_pool_configuration.pool_size #=> Integer
+    #   resp.kinesis_video_stream_pool_configuration.stream_configuration.region #=> String
+    #   resp.kinesis_video_stream_pool_configuration.stream_configuration.data_retention_in_hours #=> Integer
+    #   resp.kinesis_video_stream_pool_configuration.created_timestamp #=> Time
+    #   resp.kinesis_video_stream_pool_configuration.updated_timestamp #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-media-pipelines-2021-07-15/CreateMediaPipelineKinesisVideoStreamPool AWS API Documentation
+    #
+    # @overload create_media_pipeline_kinesis_video_stream_pool(params = {})
+    # @param [Hash] params ({})
+    def create_media_pipeline_kinesis_video_stream_pool(params = {}, options = {})
+      req = build_request(:create_media_pipeline_kinesis_video_stream_pool, params)
+      req.send_request(options)
+    end
+
+    # Creates a streaming media pipeline.
+    #
+    # @option params [required, Array<Types::MediaStreamSource>] :sources
+    #   The data sources for the media pipeline.
+    #
+    # @option params [required, Array<Types::MediaStreamSink>] :sinks
+    #   The data sink for the media pipeline.
+    #
+    # @option params [String] :client_request_token
+    #   The token assigned to the client making the request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @option params [Array<Types::Tag>] :tags
+    #   The tags assigned to the media pipeline.
+    #
+    # @return [Types::CreateMediaStreamPipelineResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateMediaStreamPipelineResponse#media_stream_pipeline #media_stream_pipeline} => Types::MediaStreamPipeline
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_media_stream_pipeline({
+    #     sources: [ # required
+    #       {
+    #         source_type: "ChimeSdkMeeting", # required, accepts ChimeSdkMeeting
+    #         source_arn: "Arn", # required
+    #       },
+    #     ],
+    #     sinks: [ # required
+    #       {
+    #         sink_arn: "Arn", # required
+    #         sink_type: "KinesisVideoStreamPool", # required, accepts KinesisVideoStreamPool
+    #         reserved_stream_capacity: 1, # required
+    #         media_stream_type: "MixedAudio", # required, accepts MixedAudio, IndividualAudio
+    #       },
+    #     ],
+    #     client_request_token: "ClientRequestToken",
+    #     tags: [
+    #       {
+    #         key: "TagKey", # required
+    #         value: "TagValue", # required
+    #       },
+    #     ],
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.media_stream_pipeline.media_pipeline_id #=> String
+    #   resp.media_stream_pipeline.media_pipeline_arn #=> String
+    #   resp.media_stream_pipeline.created_timestamp #=> Time
+    #   resp.media_stream_pipeline.updated_timestamp #=> Time
+    #   resp.media_stream_pipeline.status #=> String, one of "Initializing", "InProgress", "Failed", "Stopping", "Stopped", "Paused", "NotStarted"
+    #   resp.media_stream_pipeline.sources #=> Array
+    #   resp.media_stream_pipeline.sources[0].source_type #=> String, one of "ChimeSdkMeeting"
+    #   resp.media_stream_pipeline.sources[0].source_arn #=> String
+    #   resp.media_stream_pipeline.sinks #=> Array
+    #   resp.media_stream_pipeline.sinks[0].sink_arn #=> String
+    #   resp.media_stream_pipeline.sinks[0].sink_type #=> String, one of "KinesisVideoStreamPool"
+    #   resp.media_stream_pipeline.sinks[0].reserved_stream_capacity #=> Integer
+    #   resp.media_stream_pipeline.sinks[0].media_stream_type #=> String, one of "MixedAudio", "IndividualAudio"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-media-pipelines-2021-07-15/CreateMediaStreamPipeline AWS API Documentation
+    #
+    # @overload create_media_stream_pipeline(params = {})
+    # @param [Hash] params ({})
+    def create_media_stream_pipeline(params = {}, options = {})
+      req = build_request(:create_media_stream_pipeline, params)
       req.send_request(options)
     end
 
@@ -716,6 +1414,29 @@ module Aws::ChimeSDKMediaPipelines
       req.send_request(options)
     end
 
+    # Deletes the specified configuration settings.
+    #
+    # @option params [required, String] :identifier
+    #   The unique identifier of the resource to be deleted. Valid values
+    #   include the name and ARN of the media insights pipeline configuration.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_media_insights_pipeline_configuration({
+    #     identifier: "NonEmptyString", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-media-pipelines-2021-07-15/DeleteMediaInsightsPipelineConfiguration AWS API Documentation
+    #
+    # @overload delete_media_insights_pipeline_configuration(params = {})
+    # @param [Hash] params ({})
+    def delete_media_insights_pipeline_configuration(params = {}, options = {})
+      req = build_request(:delete_media_insights_pipeline_configuration, params)
+      req.send_request(options)
+    end
+
     # Deletes the media pipeline.
     #
     # @option params [required, String] :media_pipeline_id
@@ -735,6 +1456,29 @@ module Aws::ChimeSDKMediaPipelines
     # @param [Hash] params ({})
     def delete_media_pipeline(params = {}, options = {})
       req = build_request(:delete_media_pipeline, params)
+      req.send_request(options)
+    end
+
+    # Deletes an Amazon Kinesis Video Stream pool.
+    #
+    # @option params [required, String] :identifier
+    #   The unique identifier of the requested resource. Valid values include
+    #   the name and ARN of the media pipeline Kinesis Video Stream pool.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_media_pipeline_kinesis_video_stream_pool({
+    #     identifier: "NonEmptyString", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-media-pipelines-2021-07-15/DeleteMediaPipelineKinesisVideoStreamPool AWS API Documentation
+    #
+    # @overload delete_media_pipeline_kinesis_video_stream_pool(params = {})
+    # @param [Hash] params ({})
+    def delete_media_pipeline_kinesis_video_stream_pool(params = {}, options = {})
+      req = build_request(:delete_media_pipeline_kinesis_video_stream_pool, params)
       req.send_request(options)
     end
 
@@ -759,7 +1503,7 @@ module Aws::ChimeSDKMediaPipelines
     #   resp.media_capture_pipeline.media_pipeline_arn #=> String
     #   resp.media_capture_pipeline.source_type #=> String, one of "ChimeSdkMeeting"
     #   resp.media_capture_pipeline.source_arn #=> String
-    #   resp.media_capture_pipeline.status #=> String, one of "Initializing", "InProgress", "Failed", "Stopping", "Stopped"
+    #   resp.media_capture_pipeline.status #=> String, one of "Initializing", "InProgress", "Failed", "Stopping", "Stopped", "Paused", "NotStarted"
     #   resp.media_capture_pipeline.sink_type #=> String, one of "S3Bucket"
     #   resp.media_capture_pipeline.sink_arn #=> String
     #   resp.media_capture_pipeline.created_timestamp #=> Time
@@ -775,8 +1519,25 @@ module Aws::ChimeSDKMediaPipelines
     #   resp.media_capture_pipeline.chime_sdk_meeting_configuration.artifacts_configuration.content.mux_type #=> String, one of "ContentOnly"
     #   resp.media_capture_pipeline.chime_sdk_meeting_configuration.artifacts_configuration.composited_video.layout #=> String, one of "GridView"
     #   resp.media_capture_pipeline.chime_sdk_meeting_configuration.artifacts_configuration.composited_video.resolution #=> String, one of "HD", "FHD"
-    #   resp.media_capture_pipeline.chime_sdk_meeting_configuration.artifacts_configuration.composited_video.grid_view_configuration.content_share_layout #=> String, one of "PresenterOnly", "Horizontal", "Vertical"
+    #   resp.media_capture_pipeline.chime_sdk_meeting_configuration.artifacts_configuration.composited_video.grid_view_configuration.content_share_layout #=> String, one of "PresenterOnly", "Horizontal", "Vertical", "ActiveSpeakerOnly"
     #   resp.media_capture_pipeline.chime_sdk_meeting_configuration.artifacts_configuration.composited_video.grid_view_configuration.presenter_only_configuration.presenter_position #=> String, one of "TopLeft", "TopRight", "BottomLeft", "BottomRight"
+    #   resp.media_capture_pipeline.chime_sdk_meeting_configuration.artifacts_configuration.composited_video.grid_view_configuration.active_speaker_only_configuration.active_speaker_position #=> String, one of "TopLeft", "TopRight", "BottomLeft", "BottomRight"
+    #   resp.media_capture_pipeline.chime_sdk_meeting_configuration.artifacts_configuration.composited_video.grid_view_configuration.horizontal_layout_configuration.tile_order #=> String, one of "JoinSequence", "SpeakerSequence"
+    #   resp.media_capture_pipeline.chime_sdk_meeting_configuration.artifacts_configuration.composited_video.grid_view_configuration.horizontal_layout_configuration.tile_position #=> String, one of "Top", "Bottom"
+    #   resp.media_capture_pipeline.chime_sdk_meeting_configuration.artifacts_configuration.composited_video.grid_view_configuration.horizontal_layout_configuration.tile_count #=> Integer
+    #   resp.media_capture_pipeline.chime_sdk_meeting_configuration.artifacts_configuration.composited_video.grid_view_configuration.horizontal_layout_configuration.tile_aspect_ratio #=> String
+    #   resp.media_capture_pipeline.chime_sdk_meeting_configuration.artifacts_configuration.composited_video.grid_view_configuration.vertical_layout_configuration.tile_order #=> String, one of "JoinSequence", "SpeakerSequence"
+    #   resp.media_capture_pipeline.chime_sdk_meeting_configuration.artifacts_configuration.composited_video.grid_view_configuration.vertical_layout_configuration.tile_position #=> String, one of "Left", "Right"
+    #   resp.media_capture_pipeline.chime_sdk_meeting_configuration.artifacts_configuration.composited_video.grid_view_configuration.vertical_layout_configuration.tile_count #=> Integer
+    #   resp.media_capture_pipeline.chime_sdk_meeting_configuration.artifacts_configuration.composited_video.grid_view_configuration.vertical_layout_configuration.tile_aspect_ratio #=> String
+    #   resp.media_capture_pipeline.chime_sdk_meeting_configuration.artifacts_configuration.composited_video.grid_view_configuration.video_attribute.corner_radius #=> Integer
+    #   resp.media_capture_pipeline.chime_sdk_meeting_configuration.artifacts_configuration.composited_video.grid_view_configuration.video_attribute.border_color #=> String, one of "Black", "Blue", "Red", "Green", "White", "Yellow"
+    #   resp.media_capture_pipeline.chime_sdk_meeting_configuration.artifacts_configuration.composited_video.grid_view_configuration.video_attribute.highlight_color #=> String, one of "Black", "Blue", "Red", "Green", "White", "Yellow"
+    #   resp.media_capture_pipeline.chime_sdk_meeting_configuration.artifacts_configuration.composited_video.grid_view_configuration.video_attribute.border_thickness #=> Integer
+    #   resp.media_capture_pipeline.chime_sdk_meeting_configuration.artifacts_configuration.composited_video.grid_view_configuration.canvas_orientation #=> String, one of "Landscape", "Portrait"
+    #   resp.media_capture_pipeline.sse_aws_key_management_params.aws_kms_key_id #=> String
+    #   resp.media_capture_pipeline.sse_aws_key_management_params.aws_kms_encryption_context #=> String
+    #   resp.media_capture_pipeline.sink_iam_role_arn #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-media-pipelines-2021-07-15/GetMediaCapturePipeline AWS API Documentation
     #
@@ -784,6 +1545,97 @@ module Aws::ChimeSDKMediaPipelines
     # @param [Hash] params ({})
     def get_media_capture_pipeline(params = {}, options = {})
       req = build_request(:get_media_capture_pipeline, params)
+      req.send_request(options)
+    end
+
+    # Gets the configuration settings for a media insights pipeline.
+    #
+    # @option params [required, String] :identifier
+    #   The unique identifier of the requested resource. Valid values include
+    #   the name and ARN of the media insights pipeline configuration.
+    #
+    # @return [Types::GetMediaInsightsPipelineConfigurationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetMediaInsightsPipelineConfigurationResponse#media_insights_pipeline_configuration #media_insights_pipeline_configuration} => Types::MediaInsightsPipelineConfiguration
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_media_insights_pipeline_configuration({
+    #     identifier: "NonEmptyString", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.media_insights_pipeline_configuration.media_insights_pipeline_configuration_name #=> String
+    #   resp.media_insights_pipeline_configuration.media_insights_pipeline_configuration_arn #=> String
+    #   resp.media_insights_pipeline_configuration.resource_access_role_arn #=> String
+    #   resp.media_insights_pipeline_configuration.real_time_alert_configuration.disabled #=> Boolean
+    #   resp.media_insights_pipeline_configuration.real_time_alert_configuration.rules #=> Array
+    #   resp.media_insights_pipeline_configuration.real_time_alert_configuration.rules[0].type #=> String, one of "KeywordMatch", "Sentiment", "IssueDetection"
+    #   resp.media_insights_pipeline_configuration.real_time_alert_configuration.rules[0].keyword_match_configuration.rule_name #=> String
+    #   resp.media_insights_pipeline_configuration.real_time_alert_configuration.rules[0].keyword_match_configuration.keywords #=> Array
+    #   resp.media_insights_pipeline_configuration.real_time_alert_configuration.rules[0].keyword_match_configuration.keywords[0] #=> String
+    #   resp.media_insights_pipeline_configuration.real_time_alert_configuration.rules[0].keyword_match_configuration.negate #=> Boolean
+    #   resp.media_insights_pipeline_configuration.real_time_alert_configuration.rules[0].sentiment_configuration.rule_name #=> String
+    #   resp.media_insights_pipeline_configuration.real_time_alert_configuration.rules[0].sentiment_configuration.sentiment_type #=> String, one of "NEGATIVE"
+    #   resp.media_insights_pipeline_configuration.real_time_alert_configuration.rules[0].sentiment_configuration.time_period #=> Integer
+    #   resp.media_insights_pipeline_configuration.real_time_alert_configuration.rules[0].issue_detection_configuration.rule_name #=> String
+    #   resp.media_insights_pipeline_configuration.elements #=> Array
+    #   resp.media_insights_pipeline_configuration.elements[0].type #=> String, one of "AmazonTranscribeCallAnalyticsProcessor", "VoiceAnalyticsProcessor", "AmazonTranscribeProcessor", "KinesisDataStreamSink", "LambdaFunctionSink", "SqsQueueSink", "SnsTopicSink", "S3RecordingSink", "VoiceEnhancementSink"
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_call_analytics_processor_configuration.language_code #=> String, one of "en-US", "en-GB", "es-US", "fr-CA", "fr-FR", "en-AU", "it-IT", "de-DE", "pt-BR"
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_call_analytics_processor_configuration.vocabulary_name #=> String
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_call_analytics_processor_configuration.vocabulary_filter_name #=> String
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_call_analytics_processor_configuration.vocabulary_filter_method #=> String, one of "remove", "mask", "tag"
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_call_analytics_processor_configuration.language_model_name #=> String
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_call_analytics_processor_configuration.enable_partial_results_stabilization #=> Boolean
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_call_analytics_processor_configuration.partial_results_stability #=> String, one of "high", "medium", "low"
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_call_analytics_processor_configuration.content_identification_type #=> String, one of "PII"
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_call_analytics_processor_configuration.content_redaction_type #=> String, one of "PII"
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_call_analytics_processor_configuration.pii_entity_types #=> String
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_call_analytics_processor_configuration.filter_partial_results #=> Boolean
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_call_analytics_processor_configuration.post_call_analytics_settings.output_location #=> String
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_call_analytics_processor_configuration.post_call_analytics_settings.data_access_role_arn #=> String
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_call_analytics_processor_configuration.post_call_analytics_settings.content_redaction_output #=> String, one of "redacted", "redacted_and_unredacted"
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_call_analytics_processor_configuration.post_call_analytics_settings.output_encryption_kms_key_id #=> String
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_call_analytics_processor_configuration.call_analytics_stream_categories #=> Array
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_call_analytics_processor_configuration.call_analytics_stream_categories[0] #=> String
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_processor_configuration.language_code #=> String, one of "en-US", "en-GB", "es-US", "fr-CA", "fr-FR", "en-AU", "it-IT", "de-DE", "pt-BR"
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_processor_configuration.vocabulary_name #=> String
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_processor_configuration.vocabulary_filter_name #=> String
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_processor_configuration.vocabulary_filter_method #=> String, one of "remove", "mask", "tag"
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_processor_configuration.show_speaker_label #=> Boolean
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_processor_configuration.enable_partial_results_stabilization #=> Boolean
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_processor_configuration.partial_results_stability #=> String, one of "high", "medium", "low"
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_processor_configuration.content_identification_type #=> String, one of "PII"
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_processor_configuration.content_redaction_type #=> String, one of "PII"
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_processor_configuration.pii_entity_types #=> String
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_processor_configuration.language_model_name #=> String
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_processor_configuration.filter_partial_results #=> Boolean
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_processor_configuration.identify_language #=> Boolean
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_processor_configuration.identify_multiple_languages #=> Boolean
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_processor_configuration.language_options #=> String
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_processor_configuration.preferred_language #=> String, one of "en-US", "en-GB", "es-US", "fr-CA", "fr-FR", "en-AU", "it-IT", "de-DE", "pt-BR"
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_processor_configuration.vocabulary_names #=> String
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_processor_configuration.vocabulary_filter_names #=> String
+    #   resp.media_insights_pipeline_configuration.elements[0].kinesis_data_stream_sink_configuration.insights_target #=> String
+    #   resp.media_insights_pipeline_configuration.elements[0].s3_recording_sink_configuration.destination #=> String
+    #   resp.media_insights_pipeline_configuration.elements[0].s3_recording_sink_configuration.recording_file_format #=> String, one of "Wav", "Opus"
+    #   resp.media_insights_pipeline_configuration.elements[0].voice_analytics_processor_configuration.speaker_search_status #=> String, one of "Enabled", "Disabled"
+    #   resp.media_insights_pipeline_configuration.elements[0].voice_analytics_processor_configuration.voice_tone_analysis_status #=> String, one of "Enabled", "Disabled"
+    #   resp.media_insights_pipeline_configuration.elements[0].lambda_function_sink_configuration.insights_target #=> String
+    #   resp.media_insights_pipeline_configuration.elements[0].sqs_queue_sink_configuration.insights_target #=> String
+    #   resp.media_insights_pipeline_configuration.elements[0].sns_topic_sink_configuration.insights_target #=> String
+    #   resp.media_insights_pipeline_configuration.elements[0].voice_enhancement_sink_configuration.disabled #=> Boolean
+    #   resp.media_insights_pipeline_configuration.media_insights_pipeline_configuration_id #=> String
+    #   resp.media_insights_pipeline_configuration.created_timestamp #=> Time
+    #   resp.media_insights_pipeline_configuration.updated_timestamp #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-media-pipelines-2021-07-15/GetMediaInsightsPipelineConfiguration AWS API Documentation
+    #
+    # @overload get_media_insights_pipeline_configuration(params = {})
+    # @param [Hash] params ({})
+    def get_media_insights_pipeline_configuration(params = {}, options = {})
+      req = build_request(:get_media_insights_pipeline_configuration, params)
       req.send_request(options)
     end
 
@@ -808,7 +1660,7 @@ module Aws::ChimeSDKMediaPipelines
     #   resp.media_pipeline.media_capture_pipeline.media_pipeline_arn #=> String
     #   resp.media_pipeline.media_capture_pipeline.source_type #=> String, one of "ChimeSdkMeeting"
     #   resp.media_pipeline.media_capture_pipeline.source_arn #=> String
-    #   resp.media_pipeline.media_capture_pipeline.status #=> String, one of "Initializing", "InProgress", "Failed", "Stopping", "Stopped"
+    #   resp.media_pipeline.media_capture_pipeline.status #=> String, one of "Initializing", "InProgress", "Failed", "Stopping", "Stopped", "Paused", "NotStarted"
     #   resp.media_pipeline.media_capture_pipeline.sink_type #=> String, one of "S3Bucket"
     #   resp.media_pipeline.media_capture_pipeline.sink_arn #=> String
     #   resp.media_pipeline.media_capture_pipeline.created_timestamp #=> Time
@@ -824,16 +1676,47 @@ module Aws::ChimeSDKMediaPipelines
     #   resp.media_pipeline.media_capture_pipeline.chime_sdk_meeting_configuration.artifacts_configuration.content.mux_type #=> String, one of "ContentOnly"
     #   resp.media_pipeline.media_capture_pipeline.chime_sdk_meeting_configuration.artifacts_configuration.composited_video.layout #=> String, one of "GridView"
     #   resp.media_pipeline.media_capture_pipeline.chime_sdk_meeting_configuration.artifacts_configuration.composited_video.resolution #=> String, one of "HD", "FHD"
-    #   resp.media_pipeline.media_capture_pipeline.chime_sdk_meeting_configuration.artifacts_configuration.composited_video.grid_view_configuration.content_share_layout #=> String, one of "PresenterOnly", "Horizontal", "Vertical"
+    #   resp.media_pipeline.media_capture_pipeline.chime_sdk_meeting_configuration.artifacts_configuration.composited_video.grid_view_configuration.content_share_layout #=> String, one of "PresenterOnly", "Horizontal", "Vertical", "ActiveSpeakerOnly"
     #   resp.media_pipeline.media_capture_pipeline.chime_sdk_meeting_configuration.artifacts_configuration.composited_video.grid_view_configuration.presenter_only_configuration.presenter_position #=> String, one of "TopLeft", "TopRight", "BottomLeft", "BottomRight"
+    #   resp.media_pipeline.media_capture_pipeline.chime_sdk_meeting_configuration.artifacts_configuration.composited_video.grid_view_configuration.active_speaker_only_configuration.active_speaker_position #=> String, one of "TopLeft", "TopRight", "BottomLeft", "BottomRight"
+    #   resp.media_pipeline.media_capture_pipeline.chime_sdk_meeting_configuration.artifacts_configuration.composited_video.grid_view_configuration.horizontal_layout_configuration.tile_order #=> String, one of "JoinSequence", "SpeakerSequence"
+    #   resp.media_pipeline.media_capture_pipeline.chime_sdk_meeting_configuration.artifacts_configuration.composited_video.grid_view_configuration.horizontal_layout_configuration.tile_position #=> String, one of "Top", "Bottom"
+    #   resp.media_pipeline.media_capture_pipeline.chime_sdk_meeting_configuration.artifacts_configuration.composited_video.grid_view_configuration.horizontal_layout_configuration.tile_count #=> Integer
+    #   resp.media_pipeline.media_capture_pipeline.chime_sdk_meeting_configuration.artifacts_configuration.composited_video.grid_view_configuration.horizontal_layout_configuration.tile_aspect_ratio #=> String
+    #   resp.media_pipeline.media_capture_pipeline.chime_sdk_meeting_configuration.artifacts_configuration.composited_video.grid_view_configuration.vertical_layout_configuration.tile_order #=> String, one of "JoinSequence", "SpeakerSequence"
+    #   resp.media_pipeline.media_capture_pipeline.chime_sdk_meeting_configuration.artifacts_configuration.composited_video.grid_view_configuration.vertical_layout_configuration.tile_position #=> String, one of "Left", "Right"
+    #   resp.media_pipeline.media_capture_pipeline.chime_sdk_meeting_configuration.artifacts_configuration.composited_video.grid_view_configuration.vertical_layout_configuration.tile_count #=> Integer
+    #   resp.media_pipeline.media_capture_pipeline.chime_sdk_meeting_configuration.artifacts_configuration.composited_video.grid_view_configuration.vertical_layout_configuration.tile_aspect_ratio #=> String
+    #   resp.media_pipeline.media_capture_pipeline.chime_sdk_meeting_configuration.artifacts_configuration.composited_video.grid_view_configuration.video_attribute.corner_radius #=> Integer
+    #   resp.media_pipeline.media_capture_pipeline.chime_sdk_meeting_configuration.artifacts_configuration.composited_video.grid_view_configuration.video_attribute.border_color #=> String, one of "Black", "Blue", "Red", "Green", "White", "Yellow"
+    #   resp.media_pipeline.media_capture_pipeline.chime_sdk_meeting_configuration.artifacts_configuration.composited_video.grid_view_configuration.video_attribute.highlight_color #=> String, one of "Black", "Blue", "Red", "Green", "White", "Yellow"
+    #   resp.media_pipeline.media_capture_pipeline.chime_sdk_meeting_configuration.artifacts_configuration.composited_video.grid_view_configuration.video_attribute.border_thickness #=> Integer
+    #   resp.media_pipeline.media_capture_pipeline.chime_sdk_meeting_configuration.artifacts_configuration.composited_video.grid_view_configuration.canvas_orientation #=> String, one of "Landscape", "Portrait"
+    #   resp.media_pipeline.media_capture_pipeline.sse_aws_key_management_params.aws_kms_key_id #=> String
+    #   resp.media_pipeline.media_capture_pipeline.sse_aws_key_management_params.aws_kms_encryption_context #=> String
+    #   resp.media_pipeline.media_capture_pipeline.sink_iam_role_arn #=> String
     #   resp.media_pipeline.media_live_connector_pipeline.sources #=> Array
     #   resp.media_pipeline.media_live_connector_pipeline.sources[0].source_type #=> String, one of "ChimeSdkMeeting"
     #   resp.media_pipeline.media_live_connector_pipeline.sources[0].chime_sdk_meeting_live_connector_configuration.arn #=> String
     #   resp.media_pipeline.media_live_connector_pipeline.sources[0].chime_sdk_meeting_live_connector_configuration.mux_type #=> String, one of "AudioWithCompositedVideo", "AudioWithActiveSpeakerVideo"
     #   resp.media_pipeline.media_live_connector_pipeline.sources[0].chime_sdk_meeting_live_connector_configuration.composited_video.layout #=> String, one of "GridView"
     #   resp.media_pipeline.media_live_connector_pipeline.sources[0].chime_sdk_meeting_live_connector_configuration.composited_video.resolution #=> String, one of "HD", "FHD"
-    #   resp.media_pipeline.media_live_connector_pipeline.sources[0].chime_sdk_meeting_live_connector_configuration.composited_video.grid_view_configuration.content_share_layout #=> String, one of "PresenterOnly", "Horizontal", "Vertical"
+    #   resp.media_pipeline.media_live_connector_pipeline.sources[0].chime_sdk_meeting_live_connector_configuration.composited_video.grid_view_configuration.content_share_layout #=> String, one of "PresenterOnly", "Horizontal", "Vertical", "ActiveSpeakerOnly"
     #   resp.media_pipeline.media_live_connector_pipeline.sources[0].chime_sdk_meeting_live_connector_configuration.composited_video.grid_view_configuration.presenter_only_configuration.presenter_position #=> String, one of "TopLeft", "TopRight", "BottomLeft", "BottomRight"
+    #   resp.media_pipeline.media_live_connector_pipeline.sources[0].chime_sdk_meeting_live_connector_configuration.composited_video.grid_view_configuration.active_speaker_only_configuration.active_speaker_position #=> String, one of "TopLeft", "TopRight", "BottomLeft", "BottomRight"
+    #   resp.media_pipeline.media_live_connector_pipeline.sources[0].chime_sdk_meeting_live_connector_configuration.composited_video.grid_view_configuration.horizontal_layout_configuration.tile_order #=> String, one of "JoinSequence", "SpeakerSequence"
+    #   resp.media_pipeline.media_live_connector_pipeline.sources[0].chime_sdk_meeting_live_connector_configuration.composited_video.grid_view_configuration.horizontal_layout_configuration.tile_position #=> String, one of "Top", "Bottom"
+    #   resp.media_pipeline.media_live_connector_pipeline.sources[0].chime_sdk_meeting_live_connector_configuration.composited_video.grid_view_configuration.horizontal_layout_configuration.tile_count #=> Integer
+    #   resp.media_pipeline.media_live_connector_pipeline.sources[0].chime_sdk_meeting_live_connector_configuration.composited_video.grid_view_configuration.horizontal_layout_configuration.tile_aspect_ratio #=> String
+    #   resp.media_pipeline.media_live_connector_pipeline.sources[0].chime_sdk_meeting_live_connector_configuration.composited_video.grid_view_configuration.vertical_layout_configuration.tile_order #=> String, one of "JoinSequence", "SpeakerSequence"
+    #   resp.media_pipeline.media_live_connector_pipeline.sources[0].chime_sdk_meeting_live_connector_configuration.composited_video.grid_view_configuration.vertical_layout_configuration.tile_position #=> String, one of "Left", "Right"
+    #   resp.media_pipeline.media_live_connector_pipeline.sources[0].chime_sdk_meeting_live_connector_configuration.composited_video.grid_view_configuration.vertical_layout_configuration.tile_count #=> Integer
+    #   resp.media_pipeline.media_live_connector_pipeline.sources[0].chime_sdk_meeting_live_connector_configuration.composited_video.grid_view_configuration.vertical_layout_configuration.tile_aspect_ratio #=> String
+    #   resp.media_pipeline.media_live_connector_pipeline.sources[0].chime_sdk_meeting_live_connector_configuration.composited_video.grid_view_configuration.video_attribute.corner_radius #=> Integer
+    #   resp.media_pipeline.media_live_connector_pipeline.sources[0].chime_sdk_meeting_live_connector_configuration.composited_video.grid_view_configuration.video_attribute.border_color #=> String, one of "Black", "Blue", "Red", "Green", "White", "Yellow"
+    #   resp.media_pipeline.media_live_connector_pipeline.sources[0].chime_sdk_meeting_live_connector_configuration.composited_video.grid_view_configuration.video_attribute.highlight_color #=> String, one of "Black", "Blue", "Red", "Green", "White", "Yellow"
+    #   resp.media_pipeline.media_live_connector_pipeline.sources[0].chime_sdk_meeting_live_connector_configuration.composited_video.grid_view_configuration.video_attribute.border_thickness #=> Integer
+    #   resp.media_pipeline.media_live_connector_pipeline.sources[0].chime_sdk_meeting_live_connector_configuration.composited_video.grid_view_configuration.canvas_orientation #=> String, one of "Landscape", "Portrait"
     #   resp.media_pipeline.media_live_connector_pipeline.sources[0].chime_sdk_meeting_live_connector_configuration.source_configuration.selected_video_streams.attendee_ids #=> Array
     #   resp.media_pipeline.media_live_connector_pipeline.sources[0].chime_sdk_meeting_live_connector_configuration.source_configuration.selected_video_streams.attendee_ids[0] #=> String
     #   resp.media_pipeline.media_live_connector_pipeline.sources[0].chime_sdk_meeting_live_connector_configuration.source_configuration.selected_video_streams.external_user_ids #=> Array
@@ -845,7 +1728,7 @@ module Aws::ChimeSDKMediaPipelines
     #   resp.media_pipeline.media_live_connector_pipeline.sinks[0].rtmp_configuration.audio_sample_rate #=> String
     #   resp.media_pipeline.media_live_connector_pipeline.media_pipeline_id #=> String
     #   resp.media_pipeline.media_live_connector_pipeline.media_pipeline_arn #=> String
-    #   resp.media_pipeline.media_live_connector_pipeline.status #=> String, one of "Initializing", "InProgress", "Failed", "Stopping", "Stopped"
+    #   resp.media_pipeline.media_live_connector_pipeline.status #=> String, one of "Initializing", "InProgress", "Failed", "Stopping", "Stopped", "Paused", "NotStarted"
     #   resp.media_pipeline.media_live_connector_pipeline.created_timestamp #=> Time
     #   resp.media_pipeline.media_live_connector_pipeline.updated_timestamp #=> Time
     #   resp.media_pipeline.media_concatenation_pipeline.media_pipeline_id #=> String
@@ -863,9 +1746,48 @@ module Aws::ChimeSDKMediaPipelines
     #   resp.media_pipeline.media_concatenation_pipeline.sinks #=> Array
     #   resp.media_pipeline.media_concatenation_pipeline.sinks[0].type #=> String, one of "S3Bucket"
     #   resp.media_pipeline.media_concatenation_pipeline.sinks[0].s3_bucket_sink_configuration.destination #=> String
-    #   resp.media_pipeline.media_concatenation_pipeline.status #=> String, one of "Initializing", "InProgress", "Failed", "Stopping", "Stopped"
+    #   resp.media_pipeline.media_concatenation_pipeline.status #=> String, one of "Initializing", "InProgress", "Failed", "Stopping", "Stopped", "Paused", "NotStarted"
     #   resp.media_pipeline.media_concatenation_pipeline.created_timestamp #=> Time
     #   resp.media_pipeline.media_concatenation_pipeline.updated_timestamp #=> Time
+    #   resp.media_pipeline.media_insights_pipeline.media_pipeline_id #=> String
+    #   resp.media_pipeline.media_insights_pipeline.media_pipeline_arn #=> String
+    #   resp.media_pipeline.media_insights_pipeline.media_insights_pipeline_configuration_arn #=> String
+    #   resp.media_pipeline.media_insights_pipeline.status #=> String, one of "Initializing", "InProgress", "Failed", "Stopping", "Stopped", "Paused", "NotStarted"
+    #   resp.media_pipeline.media_insights_pipeline.kinesis_video_stream_source_runtime_configuration.streams #=> Array
+    #   resp.media_pipeline.media_insights_pipeline.kinesis_video_stream_source_runtime_configuration.streams[0].stream_arn #=> String
+    #   resp.media_pipeline.media_insights_pipeline.kinesis_video_stream_source_runtime_configuration.streams[0].fragment_number #=> String
+    #   resp.media_pipeline.media_insights_pipeline.kinesis_video_stream_source_runtime_configuration.streams[0].stream_channel_definition.number_of_channels #=> Integer
+    #   resp.media_pipeline.media_insights_pipeline.kinesis_video_stream_source_runtime_configuration.streams[0].stream_channel_definition.channel_definitions #=> Array
+    #   resp.media_pipeline.media_insights_pipeline.kinesis_video_stream_source_runtime_configuration.streams[0].stream_channel_definition.channel_definitions[0].channel_id #=> Integer
+    #   resp.media_pipeline.media_insights_pipeline.kinesis_video_stream_source_runtime_configuration.streams[0].stream_channel_definition.channel_definitions[0].participant_role #=> String, one of "AGENT", "CUSTOMER"
+    #   resp.media_pipeline.media_insights_pipeline.kinesis_video_stream_source_runtime_configuration.media_encoding #=> String, one of "pcm"
+    #   resp.media_pipeline.media_insights_pipeline.kinesis_video_stream_source_runtime_configuration.media_sample_rate #=> Integer
+    #   resp.media_pipeline.media_insights_pipeline.media_insights_runtime_metadata #=> Hash
+    #   resp.media_pipeline.media_insights_pipeline.media_insights_runtime_metadata["NonEmptyString"] #=> String
+    #   resp.media_pipeline.media_insights_pipeline.kinesis_video_stream_recording_source_runtime_configuration.streams #=> Array
+    #   resp.media_pipeline.media_insights_pipeline.kinesis_video_stream_recording_source_runtime_configuration.streams[0].stream_arn #=> String
+    #   resp.media_pipeline.media_insights_pipeline.kinesis_video_stream_recording_source_runtime_configuration.fragment_selector.fragment_selector_type #=> String, one of "ProducerTimestamp", "ServerTimestamp"
+    #   resp.media_pipeline.media_insights_pipeline.kinesis_video_stream_recording_source_runtime_configuration.fragment_selector.timestamp_range.start_timestamp #=> Time
+    #   resp.media_pipeline.media_insights_pipeline.kinesis_video_stream_recording_source_runtime_configuration.fragment_selector.timestamp_range.end_timestamp #=> Time
+    #   resp.media_pipeline.media_insights_pipeline.s3_recording_sink_runtime_configuration.destination #=> String
+    #   resp.media_pipeline.media_insights_pipeline.s3_recording_sink_runtime_configuration.recording_file_format #=> String, one of "Wav", "Opus"
+    #   resp.media_pipeline.media_insights_pipeline.created_timestamp #=> Time
+    #   resp.media_pipeline.media_insights_pipeline.element_statuses #=> Array
+    #   resp.media_pipeline.media_insights_pipeline.element_statuses[0].type #=> String, one of "AmazonTranscribeCallAnalyticsProcessor", "VoiceAnalyticsProcessor", "AmazonTranscribeProcessor", "KinesisDataStreamSink", "LambdaFunctionSink", "SqsQueueSink", "SnsTopicSink", "S3RecordingSink", "VoiceEnhancementSink"
+    #   resp.media_pipeline.media_insights_pipeline.element_statuses[0].status #=> String, one of "NotStarted", "NotSupported", "Initializing", "InProgress", "Failed", "Stopping", "Stopped", "Paused"
+    #   resp.media_pipeline.media_stream_pipeline.media_pipeline_id #=> String
+    #   resp.media_pipeline.media_stream_pipeline.media_pipeline_arn #=> String
+    #   resp.media_pipeline.media_stream_pipeline.created_timestamp #=> Time
+    #   resp.media_pipeline.media_stream_pipeline.updated_timestamp #=> Time
+    #   resp.media_pipeline.media_stream_pipeline.status #=> String, one of "Initializing", "InProgress", "Failed", "Stopping", "Stopped", "Paused", "NotStarted"
+    #   resp.media_pipeline.media_stream_pipeline.sources #=> Array
+    #   resp.media_pipeline.media_stream_pipeline.sources[0].source_type #=> String, one of "ChimeSdkMeeting"
+    #   resp.media_pipeline.media_stream_pipeline.sources[0].source_arn #=> String
+    #   resp.media_pipeline.media_stream_pipeline.sinks #=> Array
+    #   resp.media_pipeline.media_stream_pipeline.sinks[0].sink_arn #=> String
+    #   resp.media_pipeline.media_stream_pipeline.sinks[0].sink_type #=> String, one of "KinesisVideoStreamPool"
+    #   resp.media_pipeline.media_stream_pipeline.sinks[0].reserved_stream_capacity #=> Integer
+    #   resp.media_pipeline.media_stream_pipeline.sinks[0].media_stream_type #=> String, one of "MixedAudio", "IndividualAudio"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-media-pipelines-2021-07-15/GetMediaPipeline AWS API Documentation
     #
@@ -873,6 +1795,115 @@ module Aws::ChimeSDKMediaPipelines
     # @param [Hash] params ({})
     def get_media_pipeline(params = {}, options = {})
       req = build_request(:get_media_pipeline, params)
+      req.send_request(options)
+    end
+
+    # Gets an Kinesis video stream pool.
+    #
+    # @option params [required, String] :identifier
+    #   The unique identifier of the requested resource. Valid values include
+    #   the name and ARN of the media pipeline Kinesis Video Stream pool.
+    #
+    # @return [Types::GetMediaPipelineKinesisVideoStreamPoolResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetMediaPipelineKinesisVideoStreamPoolResponse#kinesis_video_stream_pool_configuration #kinesis_video_stream_pool_configuration} => Types::KinesisVideoStreamPoolConfiguration
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_media_pipeline_kinesis_video_stream_pool({
+    #     identifier: "NonEmptyString", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.kinesis_video_stream_pool_configuration.pool_arn #=> String
+    #   resp.kinesis_video_stream_pool_configuration.pool_name #=> String
+    #   resp.kinesis_video_stream_pool_configuration.pool_id #=> String
+    #   resp.kinesis_video_stream_pool_configuration.pool_status #=> String, one of "CREATING", "ACTIVE", "UPDATING", "DELETING", "FAILED"
+    #   resp.kinesis_video_stream_pool_configuration.pool_size #=> Integer
+    #   resp.kinesis_video_stream_pool_configuration.stream_configuration.region #=> String
+    #   resp.kinesis_video_stream_pool_configuration.stream_configuration.data_retention_in_hours #=> Integer
+    #   resp.kinesis_video_stream_pool_configuration.created_timestamp #=> Time
+    #   resp.kinesis_video_stream_pool_configuration.updated_timestamp #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-media-pipelines-2021-07-15/GetMediaPipelineKinesisVideoStreamPool AWS API Documentation
+    #
+    # @overload get_media_pipeline_kinesis_video_stream_pool(params = {})
+    # @param [Hash] params ({})
+    def get_media_pipeline_kinesis_video_stream_pool(params = {}, options = {})
+      req = build_request(:get_media_pipeline_kinesis_video_stream_pool, params)
+      req.send_request(options)
+    end
+
+    # Retrieves the details of the specified speaker search task.
+    #
+    # @option params [required, String] :identifier
+    #   The unique identifier of the resource to be updated. Valid values
+    #   include the ID and ARN of the media insights pipeline.
+    #
+    # @option params [required, String] :speaker_search_task_id
+    #   The ID of the speaker search task.
+    #
+    # @return [Types::GetSpeakerSearchTaskResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetSpeakerSearchTaskResponse#speaker_search_task #speaker_search_task} => Types::SpeakerSearchTask
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_speaker_search_task({
+    #     identifier: "NonEmptyString", # required
+    #     speaker_search_task_id: "GuidString", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.speaker_search_task.speaker_search_task_id #=> String
+    #   resp.speaker_search_task.speaker_search_task_status #=> String, one of "NotStarted", "Initializing", "InProgress", "Failed", "Stopping", "Stopped"
+    #   resp.speaker_search_task.created_timestamp #=> Time
+    #   resp.speaker_search_task.updated_timestamp #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-media-pipelines-2021-07-15/GetSpeakerSearchTask AWS API Documentation
+    #
+    # @overload get_speaker_search_task(params = {})
+    # @param [Hash] params ({})
+    def get_speaker_search_task(params = {}, options = {})
+      req = build_request(:get_speaker_search_task, params)
+      req.send_request(options)
+    end
+
+    # Retrieves the details of a voice tone analysis task.
+    #
+    # @option params [required, String] :identifier
+    #   The unique identifier of the resource to be updated. Valid values
+    #   include the ID and ARN of the media insights pipeline.
+    #
+    # @option params [required, String] :voice_tone_analysis_task_id
+    #   The ID of the voice tone analysis task.
+    #
+    # @return [Types::GetVoiceToneAnalysisTaskResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetVoiceToneAnalysisTaskResponse#voice_tone_analysis_task #voice_tone_analysis_task} => Types::VoiceToneAnalysisTask
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_voice_tone_analysis_task({
+    #     identifier: "NonEmptyString", # required
+    #     voice_tone_analysis_task_id: "GuidString", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.voice_tone_analysis_task.voice_tone_analysis_task_id #=> String
+    #   resp.voice_tone_analysis_task.voice_tone_analysis_task_status #=> String, one of "NotStarted", "Initializing", "InProgress", "Failed", "Stopping", "Stopped"
+    #   resp.voice_tone_analysis_task.created_timestamp #=> Time
+    #   resp.voice_tone_analysis_task.updated_timestamp #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-media-pipelines-2021-07-15/GetVoiceToneAnalysisTask AWS API Documentation
+    #
+    # @overload get_voice_tone_analysis_task(params = {})
+    # @param [Hash] params ({})
+    def get_voice_tone_analysis_task(params = {}, options = {})
+      req = build_request(:get_voice_tone_analysis_task, params)
       req.send_request(options)
     end
 
@@ -912,6 +1943,84 @@ module Aws::ChimeSDKMediaPipelines
     # @param [Hash] params ({})
     def list_media_capture_pipelines(params = {}, options = {})
       req = build_request(:list_media_capture_pipelines, params)
+      req.send_request(options)
+    end
+
+    # Lists the available media insights pipeline configurations.
+    #
+    # @option params [String] :next_token
+    #   The token used to return the next page of results.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return in a single call.
+    #
+    # @return [Types::ListMediaInsightsPipelineConfigurationsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListMediaInsightsPipelineConfigurationsResponse#media_insights_pipeline_configurations #media_insights_pipeline_configurations} => Array&lt;Types::MediaInsightsPipelineConfigurationSummary&gt;
+    #   * {Types::ListMediaInsightsPipelineConfigurationsResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_media_insights_pipeline_configurations({
+    #     next_token: "String",
+    #     max_results: 1,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.media_insights_pipeline_configurations #=> Array
+    #   resp.media_insights_pipeline_configurations[0].media_insights_pipeline_configuration_name #=> String
+    #   resp.media_insights_pipeline_configurations[0].media_insights_pipeline_configuration_id #=> String
+    #   resp.media_insights_pipeline_configurations[0].media_insights_pipeline_configuration_arn #=> String
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-media-pipelines-2021-07-15/ListMediaInsightsPipelineConfigurations AWS API Documentation
+    #
+    # @overload list_media_insights_pipeline_configurations(params = {})
+    # @param [Hash] params ({})
+    def list_media_insights_pipeline_configurations(params = {}, options = {})
+      req = build_request(:list_media_insights_pipeline_configurations, params)
+      req.send_request(options)
+    end
+
+    # Lists the video stream pools in the media pipeline.
+    #
+    # @option params [String] :next_token
+    #   The token used to return the next page of results.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return in a single call.
+    #
+    # @return [Types::ListMediaPipelineKinesisVideoStreamPoolsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListMediaPipelineKinesisVideoStreamPoolsResponse#kinesis_video_stream_pools #kinesis_video_stream_pools} => Array&lt;Types::KinesisVideoStreamPoolSummary&gt;
+    #   * {Types::ListMediaPipelineKinesisVideoStreamPoolsResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_media_pipeline_kinesis_video_stream_pools({
+    #     next_token: "String",
+    #     max_results: 1,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.kinesis_video_stream_pools #=> Array
+    #   resp.kinesis_video_stream_pools[0].pool_name #=> String
+    #   resp.kinesis_video_stream_pools[0].pool_id #=> String
+    #   resp.kinesis_video_stream_pools[0].pool_arn #=> String
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-media-pipelines-2021-07-15/ListMediaPipelineKinesisVideoStreamPools AWS API Documentation
+    #
+    # @overload list_media_pipeline_kinesis_video_stream_pools(params = {})
+    # @param [Hash] params ({})
+    def list_media_pipeline_kinesis_video_stream_pools(params = {}, options = {})
+      req = build_request(:list_media_pipeline_kinesis_video_stream_pools, params)
       req.send_request(options)
     end
 
@@ -985,7 +2094,188 @@ module Aws::ChimeSDKMediaPipelines
       req.send_request(options)
     end
 
-    # The ARN of the media pipeline that you want to tag. Consists of he
+    # Starts a speaker search task.
+    #
+    # Before starting any speaker search tasks, you must provide all notices
+    # and obtain all consents from the speaker as required under applicable
+    # privacy and biometrics laws, and as required under the [AWS service
+    # terms][1] for the Amazon Chime SDK.
+    #
+    #
+    #
+    # [1]: https://aws.amazon.com/service-terms/
+    #
+    # @option params [required, String] :identifier
+    #   The unique identifier of the resource to be updated. Valid values
+    #   include the ID and ARN of the media insights pipeline.
+    #
+    # @option params [required, String] :voice_profile_domain_arn
+    #   The ARN of the voice profile domain that will store the voice profile.
+    #
+    # @option params [Types::KinesisVideoStreamSourceTaskConfiguration] :kinesis_video_stream_source_task_configuration
+    #   The task configuration for the Kinesis video stream source of the
+    #   media insights pipeline.
+    #
+    # @option params [String] :client_request_token
+    #   The unique identifier for the client request. Use a different token
+    #   for different speaker search tasks.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @return [Types::StartSpeakerSearchTaskResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::StartSpeakerSearchTaskResponse#speaker_search_task #speaker_search_task} => Types::SpeakerSearchTask
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.start_speaker_search_task({
+    #     identifier: "NonEmptyString", # required
+    #     voice_profile_domain_arn: "Arn", # required
+    #     kinesis_video_stream_source_task_configuration: {
+    #       stream_arn: "KinesisVideoStreamArn", # required
+    #       channel_id: 1, # required
+    #       fragment_number: "FragmentNumberString",
+    #     },
+    #     client_request_token: "ClientRequestToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.speaker_search_task.speaker_search_task_id #=> String
+    #   resp.speaker_search_task.speaker_search_task_status #=> String, one of "NotStarted", "Initializing", "InProgress", "Failed", "Stopping", "Stopped"
+    #   resp.speaker_search_task.created_timestamp #=> Time
+    #   resp.speaker_search_task.updated_timestamp #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-media-pipelines-2021-07-15/StartSpeakerSearchTask AWS API Documentation
+    #
+    # @overload start_speaker_search_task(params = {})
+    # @param [Hash] params ({})
+    def start_speaker_search_task(params = {}, options = {})
+      req = build_request(:start_speaker_search_task, params)
+      req.send_request(options)
+    end
+
+    # Starts a voice tone analysis task. For more information about voice
+    # tone analysis, see [Using Amazon Chime SDK voice analytics][1] in the
+    # *Amazon Chime SDK Developer Guide*.
+    #
+    # Before starting any voice tone analysis tasks, you must provide all
+    # notices and obtain all consents from the speaker as required under
+    # applicable privacy and biometrics laws, and as required under the [AWS
+    # service terms][2] for the Amazon Chime SDK.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/chime-sdk/latest/dg/voice-analytics.html
+    # [2]: https://aws.amazon.com/service-terms/
+    #
+    # @option params [required, String] :identifier
+    #   The unique identifier of the resource to be updated. Valid values
+    #   include the ID and ARN of the media insights pipeline.
+    #
+    # @option params [required, String] :language_code
+    #   The language code.
+    #
+    # @option params [Types::KinesisVideoStreamSourceTaskConfiguration] :kinesis_video_stream_source_task_configuration
+    #   The task configuration for the Kinesis video stream source of the
+    #   media insights pipeline.
+    #
+    # @option params [String] :client_request_token
+    #   The unique identifier for the client request. Use a different token
+    #   for different voice tone analysis tasks.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @return [Types::StartVoiceToneAnalysisTaskResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::StartVoiceToneAnalysisTaskResponse#voice_tone_analysis_task #voice_tone_analysis_task} => Types::VoiceToneAnalysisTask
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.start_voice_tone_analysis_task({
+    #     identifier: "NonEmptyString", # required
+    #     language_code: "en-US", # required, accepts en-US
+    #     kinesis_video_stream_source_task_configuration: {
+    #       stream_arn: "KinesisVideoStreamArn", # required
+    #       channel_id: 1, # required
+    #       fragment_number: "FragmentNumberString",
+    #     },
+    #     client_request_token: "ClientRequestToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.voice_tone_analysis_task.voice_tone_analysis_task_id #=> String
+    #   resp.voice_tone_analysis_task.voice_tone_analysis_task_status #=> String, one of "NotStarted", "Initializing", "InProgress", "Failed", "Stopping", "Stopped"
+    #   resp.voice_tone_analysis_task.created_timestamp #=> Time
+    #   resp.voice_tone_analysis_task.updated_timestamp #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-media-pipelines-2021-07-15/StartVoiceToneAnalysisTask AWS API Documentation
+    #
+    # @overload start_voice_tone_analysis_task(params = {})
+    # @param [Hash] params ({})
+    def start_voice_tone_analysis_task(params = {}, options = {})
+      req = build_request(:start_voice_tone_analysis_task, params)
+      req.send_request(options)
+    end
+
+    # Stops a speaker search task.
+    #
+    # @option params [required, String] :identifier
+    #   The unique identifier of the resource to be updated. Valid values
+    #   include the ID and ARN of the media insights pipeline.
+    #
+    # @option params [required, String] :speaker_search_task_id
+    #   The speaker search task ID.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.stop_speaker_search_task({
+    #     identifier: "NonEmptyString", # required
+    #     speaker_search_task_id: "GuidString", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-media-pipelines-2021-07-15/StopSpeakerSearchTask AWS API Documentation
+    #
+    # @overload stop_speaker_search_task(params = {})
+    # @param [Hash] params ({})
+    def stop_speaker_search_task(params = {}, options = {})
+      req = build_request(:stop_speaker_search_task, params)
+      req.send_request(options)
+    end
+
+    # Stops a voice tone analysis task.
+    #
+    # @option params [required, String] :identifier
+    #   The unique identifier of the resource to be updated. Valid values
+    #   include the ID and ARN of the media insights pipeline.
+    #
+    # @option params [required, String] :voice_tone_analysis_task_id
+    #   The ID of the voice tone analysis task.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.stop_voice_tone_analysis_task({
+    #     identifier: "NonEmptyString", # required
+    #     voice_tone_analysis_task_id: "GuidString", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-media-pipelines-2021-07-15/StopVoiceToneAnalysisTask AWS API Documentation
+    #
+    # @overload stop_voice_tone_analysis_task(params = {})
+    # @param [Hash] params ({})
+    def stop_voice_tone_analysis_task(params = {}, options = {})
+      req = build_request(:stop_voice_tone_analysis_task, params)
+      req.send_request(options)
+    end
+
+    # The ARN of the media pipeline that you want to tag. Consists of the
     # pipeline's endpoint region, resource ID, and pipeline ID.
     #
     # @option params [required, String] :resource_arn
@@ -1045,20 +2335,288 @@ module Aws::ChimeSDKMediaPipelines
       req.send_request(options)
     end
 
+    # Updates the media insights pipeline's configuration settings.
+    #
+    # @option params [required, String] :identifier
+    #   The unique identifier for the resource to be updated. Valid values
+    #   include the name and ARN of the media insights pipeline configuration.
+    #
+    # @option params [required, String] :resource_access_role_arn
+    #   The ARN of the role used by the service to access Amazon Web Services
+    #   resources.
+    #
+    # @option params [Types::RealTimeAlertConfiguration] :real_time_alert_configuration
+    #   The configuration settings for real-time alerts for the media insights
+    #   pipeline.
+    #
+    # @option params [required, Array<Types::MediaInsightsPipelineConfigurationElement>] :elements
+    #   The elements in the request, such as a processor for Amazon Transcribe
+    #   or a sink for a Kinesis Data Stream..
+    #
+    # @return [Types::UpdateMediaInsightsPipelineConfigurationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateMediaInsightsPipelineConfigurationResponse#media_insights_pipeline_configuration #media_insights_pipeline_configuration} => Types::MediaInsightsPipelineConfiguration
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_media_insights_pipeline_configuration({
+    #     identifier: "NonEmptyString", # required
+    #     resource_access_role_arn: "Arn", # required
+    #     real_time_alert_configuration: {
+    #       disabled: false,
+    #       rules: [
+    #         {
+    #           type: "KeywordMatch", # required, accepts KeywordMatch, Sentiment, IssueDetection
+    #           keyword_match_configuration: {
+    #             rule_name: "RuleName", # required
+    #             keywords: ["Keyword"], # required
+    #             negate: false,
+    #           },
+    #           sentiment_configuration: {
+    #             rule_name: "RuleName", # required
+    #             sentiment_type: "NEGATIVE", # required, accepts NEGATIVE
+    #             time_period: 1, # required
+    #           },
+    #           issue_detection_configuration: {
+    #             rule_name: "RuleName", # required
+    #           },
+    #         },
+    #       ],
+    #     },
+    #     elements: [ # required
+    #       {
+    #         type: "AmazonTranscribeCallAnalyticsProcessor", # required, accepts AmazonTranscribeCallAnalyticsProcessor, VoiceAnalyticsProcessor, AmazonTranscribeProcessor, KinesisDataStreamSink, LambdaFunctionSink, SqsQueueSink, SnsTopicSink, S3RecordingSink, VoiceEnhancementSink
+    #         amazon_transcribe_call_analytics_processor_configuration: {
+    #           language_code: "en-US", # required, accepts en-US, en-GB, es-US, fr-CA, fr-FR, en-AU, it-IT, de-DE, pt-BR
+    #           vocabulary_name: "VocabularyName",
+    #           vocabulary_filter_name: "VocabularyFilterName",
+    #           vocabulary_filter_method: "remove", # accepts remove, mask, tag
+    #           language_model_name: "ModelName",
+    #           enable_partial_results_stabilization: false,
+    #           partial_results_stability: "high", # accepts high, medium, low
+    #           content_identification_type: "PII", # accepts PII
+    #           content_redaction_type: "PII", # accepts PII
+    #           pii_entity_types: "PiiEntityTypes",
+    #           filter_partial_results: false,
+    #           post_call_analytics_settings: {
+    #             output_location: "String", # required
+    #             data_access_role_arn: "String", # required
+    #             content_redaction_output: "redacted", # accepts redacted, redacted_and_unredacted
+    #             output_encryption_kms_key_id: "String",
+    #           },
+    #           call_analytics_stream_categories: ["CategoryName"],
+    #         },
+    #         amazon_transcribe_processor_configuration: {
+    #           language_code: "en-US", # accepts en-US, en-GB, es-US, fr-CA, fr-FR, en-AU, it-IT, de-DE, pt-BR
+    #           vocabulary_name: "VocabularyName",
+    #           vocabulary_filter_name: "VocabularyFilterName",
+    #           vocabulary_filter_method: "remove", # accepts remove, mask, tag
+    #           show_speaker_label: false,
+    #           enable_partial_results_stabilization: false,
+    #           partial_results_stability: "high", # accepts high, medium, low
+    #           content_identification_type: "PII", # accepts PII
+    #           content_redaction_type: "PII", # accepts PII
+    #           pii_entity_types: "PiiEntityTypes",
+    #           language_model_name: "ModelName",
+    #           filter_partial_results: false,
+    #           identify_language: false,
+    #           identify_multiple_languages: false,
+    #           language_options: "LanguageOptions",
+    #           preferred_language: "en-US", # accepts en-US, en-GB, es-US, fr-CA, fr-FR, en-AU, it-IT, de-DE, pt-BR
+    #           vocabulary_names: "VocabularyNames",
+    #           vocabulary_filter_names: "VocabularyFilterNames",
+    #         },
+    #         kinesis_data_stream_sink_configuration: {
+    #           insights_target: "Arn",
+    #         },
+    #         s3_recording_sink_configuration: {
+    #           destination: "Arn",
+    #           recording_file_format: "Wav", # accepts Wav, Opus
+    #         },
+    #         voice_analytics_processor_configuration: {
+    #           speaker_search_status: "Enabled", # accepts Enabled, Disabled
+    #           voice_tone_analysis_status: "Enabled", # accepts Enabled, Disabled
+    #         },
+    #         lambda_function_sink_configuration: {
+    #           insights_target: "Arn",
+    #         },
+    #         sqs_queue_sink_configuration: {
+    #           insights_target: "Arn",
+    #         },
+    #         sns_topic_sink_configuration: {
+    #           insights_target: "Arn",
+    #         },
+    #         voice_enhancement_sink_configuration: {
+    #           disabled: false,
+    #         },
+    #       },
+    #     ],
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.media_insights_pipeline_configuration.media_insights_pipeline_configuration_name #=> String
+    #   resp.media_insights_pipeline_configuration.media_insights_pipeline_configuration_arn #=> String
+    #   resp.media_insights_pipeline_configuration.resource_access_role_arn #=> String
+    #   resp.media_insights_pipeline_configuration.real_time_alert_configuration.disabled #=> Boolean
+    #   resp.media_insights_pipeline_configuration.real_time_alert_configuration.rules #=> Array
+    #   resp.media_insights_pipeline_configuration.real_time_alert_configuration.rules[0].type #=> String, one of "KeywordMatch", "Sentiment", "IssueDetection"
+    #   resp.media_insights_pipeline_configuration.real_time_alert_configuration.rules[0].keyword_match_configuration.rule_name #=> String
+    #   resp.media_insights_pipeline_configuration.real_time_alert_configuration.rules[0].keyword_match_configuration.keywords #=> Array
+    #   resp.media_insights_pipeline_configuration.real_time_alert_configuration.rules[0].keyword_match_configuration.keywords[0] #=> String
+    #   resp.media_insights_pipeline_configuration.real_time_alert_configuration.rules[0].keyword_match_configuration.negate #=> Boolean
+    #   resp.media_insights_pipeline_configuration.real_time_alert_configuration.rules[0].sentiment_configuration.rule_name #=> String
+    #   resp.media_insights_pipeline_configuration.real_time_alert_configuration.rules[0].sentiment_configuration.sentiment_type #=> String, one of "NEGATIVE"
+    #   resp.media_insights_pipeline_configuration.real_time_alert_configuration.rules[0].sentiment_configuration.time_period #=> Integer
+    #   resp.media_insights_pipeline_configuration.real_time_alert_configuration.rules[0].issue_detection_configuration.rule_name #=> String
+    #   resp.media_insights_pipeline_configuration.elements #=> Array
+    #   resp.media_insights_pipeline_configuration.elements[0].type #=> String, one of "AmazonTranscribeCallAnalyticsProcessor", "VoiceAnalyticsProcessor", "AmazonTranscribeProcessor", "KinesisDataStreamSink", "LambdaFunctionSink", "SqsQueueSink", "SnsTopicSink", "S3RecordingSink", "VoiceEnhancementSink"
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_call_analytics_processor_configuration.language_code #=> String, one of "en-US", "en-GB", "es-US", "fr-CA", "fr-FR", "en-AU", "it-IT", "de-DE", "pt-BR"
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_call_analytics_processor_configuration.vocabulary_name #=> String
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_call_analytics_processor_configuration.vocabulary_filter_name #=> String
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_call_analytics_processor_configuration.vocabulary_filter_method #=> String, one of "remove", "mask", "tag"
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_call_analytics_processor_configuration.language_model_name #=> String
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_call_analytics_processor_configuration.enable_partial_results_stabilization #=> Boolean
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_call_analytics_processor_configuration.partial_results_stability #=> String, one of "high", "medium", "low"
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_call_analytics_processor_configuration.content_identification_type #=> String, one of "PII"
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_call_analytics_processor_configuration.content_redaction_type #=> String, one of "PII"
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_call_analytics_processor_configuration.pii_entity_types #=> String
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_call_analytics_processor_configuration.filter_partial_results #=> Boolean
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_call_analytics_processor_configuration.post_call_analytics_settings.output_location #=> String
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_call_analytics_processor_configuration.post_call_analytics_settings.data_access_role_arn #=> String
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_call_analytics_processor_configuration.post_call_analytics_settings.content_redaction_output #=> String, one of "redacted", "redacted_and_unredacted"
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_call_analytics_processor_configuration.post_call_analytics_settings.output_encryption_kms_key_id #=> String
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_call_analytics_processor_configuration.call_analytics_stream_categories #=> Array
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_call_analytics_processor_configuration.call_analytics_stream_categories[0] #=> String
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_processor_configuration.language_code #=> String, one of "en-US", "en-GB", "es-US", "fr-CA", "fr-FR", "en-AU", "it-IT", "de-DE", "pt-BR"
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_processor_configuration.vocabulary_name #=> String
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_processor_configuration.vocabulary_filter_name #=> String
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_processor_configuration.vocabulary_filter_method #=> String, one of "remove", "mask", "tag"
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_processor_configuration.show_speaker_label #=> Boolean
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_processor_configuration.enable_partial_results_stabilization #=> Boolean
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_processor_configuration.partial_results_stability #=> String, one of "high", "medium", "low"
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_processor_configuration.content_identification_type #=> String, one of "PII"
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_processor_configuration.content_redaction_type #=> String, one of "PII"
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_processor_configuration.pii_entity_types #=> String
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_processor_configuration.language_model_name #=> String
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_processor_configuration.filter_partial_results #=> Boolean
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_processor_configuration.identify_language #=> Boolean
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_processor_configuration.identify_multiple_languages #=> Boolean
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_processor_configuration.language_options #=> String
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_processor_configuration.preferred_language #=> String, one of "en-US", "en-GB", "es-US", "fr-CA", "fr-FR", "en-AU", "it-IT", "de-DE", "pt-BR"
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_processor_configuration.vocabulary_names #=> String
+    #   resp.media_insights_pipeline_configuration.elements[0].amazon_transcribe_processor_configuration.vocabulary_filter_names #=> String
+    #   resp.media_insights_pipeline_configuration.elements[0].kinesis_data_stream_sink_configuration.insights_target #=> String
+    #   resp.media_insights_pipeline_configuration.elements[0].s3_recording_sink_configuration.destination #=> String
+    #   resp.media_insights_pipeline_configuration.elements[0].s3_recording_sink_configuration.recording_file_format #=> String, one of "Wav", "Opus"
+    #   resp.media_insights_pipeline_configuration.elements[0].voice_analytics_processor_configuration.speaker_search_status #=> String, one of "Enabled", "Disabled"
+    #   resp.media_insights_pipeline_configuration.elements[0].voice_analytics_processor_configuration.voice_tone_analysis_status #=> String, one of "Enabled", "Disabled"
+    #   resp.media_insights_pipeline_configuration.elements[0].lambda_function_sink_configuration.insights_target #=> String
+    #   resp.media_insights_pipeline_configuration.elements[0].sqs_queue_sink_configuration.insights_target #=> String
+    #   resp.media_insights_pipeline_configuration.elements[0].sns_topic_sink_configuration.insights_target #=> String
+    #   resp.media_insights_pipeline_configuration.elements[0].voice_enhancement_sink_configuration.disabled #=> Boolean
+    #   resp.media_insights_pipeline_configuration.media_insights_pipeline_configuration_id #=> String
+    #   resp.media_insights_pipeline_configuration.created_timestamp #=> Time
+    #   resp.media_insights_pipeline_configuration.updated_timestamp #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-media-pipelines-2021-07-15/UpdateMediaInsightsPipelineConfiguration AWS API Documentation
+    #
+    # @overload update_media_insights_pipeline_configuration(params = {})
+    # @param [Hash] params ({})
+    def update_media_insights_pipeline_configuration(params = {}, options = {})
+      req = build_request(:update_media_insights_pipeline_configuration, params)
+      req.send_request(options)
+    end
+
+    # Updates the status of a media insights pipeline.
+    #
+    # @option params [required, String] :identifier
+    #   The unique identifier of the resource to be updated. Valid values
+    #   include the ID and ARN of the media insights pipeline.
+    #
+    # @option params [required, String] :update_status
+    #   The requested status of the media insights pipeline.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_media_insights_pipeline_status({
+    #     identifier: "NonEmptyString", # required
+    #     update_status: "Pause", # required, accepts Pause, Resume
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-media-pipelines-2021-07-15/UpdateMediaInsightsPipelineStatus AWS API Documentation
+    #
+    # @overload update_media_insights_pipeline_status(params = {})
+    # @param [Hash] params ({})
+    def update_media_insights_pipeline_status(params = {}, options = {})
+      req = build_request(:update_media_insights_pipeline_status, params)
+      req.send_request(options)
+    end
+
+    # Updates an Amazon Kinesis Video Stream pool in a media pipeline.
+    #
+    # @option params [required, String] :identifier
+    #   The unique identifier of the requested resource. Valid values include
+    #   the name and ARN of the media pipeline Kinesis Video Stream pool.
+    #
+    # @option params [Types::KinesisVideoStreamConfigurationUpdate] :stream_configuration
+    #   The configuration settings for the video stream.
+    #
+    # @return [Types::UpdateMediaPipelineKinesisVideoStreamPoolResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateMediaPipelineKinesisVideoStreamPoolResponse#kinesis_video_stream_pool_configuration #kinesis_video_stream_pool_configuration} => Types::KinesisVideoStreamPoolConfiguration
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_media_pipeline_kinesis_video_stream_pool({
+    #     identifier: "NonEmptyString", # required
+    #     stream_configuration: {
+    #       data_retention_in_hours: 1,
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.kinesis_video_stream_pool_configuration.pool_arn #=> String
+    #   resp.kinesis_video_stream_pool_configuration.pool_name #=> String
+    #   resp.kinesis_video_stream_pool_configuration.pool_id #=> String
+    #   resp.kinesis_video_stream_pool_configuration.pool_status #=> String, one of "CREATING", "ACTIVE", "UPDATING", "DELETING", "FAILED"
+    #   resp.kinesis_video_stream_pool_configuration.pool_size #=> Integer
+    #   resp.kinesis_video_stream_pool_configuration.stream_configuration.region #=> String
+    #   resp.kinesis_video_stream_pool_configuration.stream_configuration.data_retention_in_hours #=> Integer
+    #   resp.kinesis_video_stream_pool_configuration.created_timestamp #=> Time
+    #   resp.kinesis_video_stream_pool_configuration.updated_timestamp #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-media-pipelines-2021-07-15/UpdateMediaPipelineKinesisVideoStreamPool AWS API Documentation
+    #
+    # @overload update_media_pipeline_kinesis_video_stream_pool(params = {})
+    # @param [Hash] params ({})
+    def update_media_pipeline_kinesis_video_stream_pool(params = {}, options = {})
+      req = build_request(:update_media_pipeline_kinesis_video_stream_pool, params)
+      req.send_request(options)
+    end
+
     # @!endgroup
 
     # @param params ({})
     # @api private
     def build_request(operation_name, params = {})
       handlers = @handlers.for(operation_name)
+      tracer = config.telemetry_provider.tracer_provider.tracer(
+        Aws::Telemetry.module_to_tracer_name('Aws::ChimeSDKMediaPipelines')
+      )
       context = Seahorse::Client::RequestContext.new(
         operation_name: operation_name,
         operation: config.api.operation(operation_name),
         client: self,
         params: params,
-        config: config)
+        config: config,
+        tracer: tracer
+      )
       context[:gem_name] = 'aws-sdk-chimesdkmediapipelines'
-      context[:gem_version] = '1.3.0'
+      context[:gem_version] = '1.37.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

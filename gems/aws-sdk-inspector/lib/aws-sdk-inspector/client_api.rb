@@ -7,6 +7,7 @@
 #
 # WARNING ABOUT GENERATED CODE
 
+
 module Aws::Inspector
   # @api private
   module ClientApi
@@ -870,9 +871,11 @@ module Aws::Inspector
 
       api.metadata = {
         "apiVersion" => "2016-02-16",
+        "auth" => ["aws.auth#sigv4"],
         "endpointPrefix" => "inspector",
         "jsonVersion" => "1.1",
         "protocol" => "json",
+        "protocols" => ["json"],
         "serviceFullName" => "Amazon Inspector",
         "serviceId" => "Inspector",
         "signatureVersion" => "v4",

@@ -316,10 +316,10 @@ module Aws::CloudWatchEvents
     # the only supported condition is membership in a certain Amazon Web
     # Services organization. The string must contain `Type`, `Key`, and
     # `Value` fields. The `Value` field specifies the ID of the Amazon Web
-    # Services organization. Following is an example value for `Condition`\:
+    # Services organization. Following is an example value for `Condition`:
     #
-    # `'\{"Type" : "StringEquals", "Key": "aws:PrincipalOrgID", "Value":
-    # "o-1234567890"\}'`
+    # `'{"Type" : "StringEquals", "Key": "aws:PrincipalOrgID", "Value":
+    # "o-1234567890"}'`
     #
     # @!attribute [rw] type
     #   Specifies the type of condition. Currently the only supported value
@@ -478,7 +478,7 @@ module Aws::CloudWatchEvents
       :key,
       :value,
       :is_value_secret)
-      SENSITIVE = []
+      SENSITIVE = [:value]
       include Aws::Structure
     end
 
@@ -504,7 +504,7 @@ module Aws::CloudWatchEvents
       :key,
       :value,
       :is_value_secret)
-      SENSITIVE = []
+      SENSITIVE = [:value]
       include Aws::Structure
     end
 
@@ -604,7 +604,7 @@ module Aws::CloudWatchEvents
       :key,
       :value,
       :is_value_secret)
-      SENSITIVE = []
+      SENSITIVE = [:value]
       include Aws::Structure
     end
 
@@ -752,7 +752,7 @@ module Aws::CloudWatchEvents
     class CreateConnectionApiKeyAuthRequestParameters < Struct.new(
       :api_key_name,
       :api_key_value)
-      SENSITIVE = []
+      SENSITIVE = [:api_key_value]
       include Aws::Structure
     end
 
@@ -808,7 +808,7 @@ module Aws::CloudWatchEvents
     class CreateConnectionBasicAuthRequestParameters < Struct.new(
       :username,
       :password)
-      SENSITIVE = []
+      SENSITIVE = [:password]
       include Aws::Structure
     end
 
@@ -828,7 +828,7 @@ module Aws::CloudWatchEvents
     class CreateConnectionOAuthClientRequestParameters < Struct.new(
       :client_id,
       :client_secret)
-      SENSITIVE = []
+      SENSITIVE = [:client_secret]
       include Aws::Structure
     end
 
@@ -2041,14 +2041,14 @@ module Aws::CloudWatchEvents
     #
     #   ` "InputTransformer":`
     #
-    #   `\{`
+    #   `{`
     #
-    #   `"InputPathsMap": \{"instance": "$.detail.instance","status":
-    #   "$.detail.status"\},`
+    #   `"InputPathsMap": {"instance": "$.detail.instance","status":
+    #   "$.detail.status"},`
     #
     #   `"InputTemplate": "<instance> is in state <status>"`
     #
-    #   `\}`
+    #   `}`
     #
     #   To have the `InputTemplate` include quote marks within a JSON
     #   string, escape each quote marks with a slash, as in the following
@@ -2056,29 +2056,29 @@ module Aws::CloudWatchEvents
     #
     #   ` "InputTransformer":`
     #
-    #   `\{`
+    #   `{`
     #
-    #   `"InputPathsMap": \{"instance": "$.detail.instance","status":
-    #   "$.detail.status"\},`
+    #   `"InputPathsMap": {"instance": "$.detail.instance","status":
+    #   "$.detail.status"},`
     #
     #   `"InputTemplate": "<instance> is in state "<status>""`
     #
-    #   `\}`
+    #   `}`
     #
     #   The `InputTemplate` can also be valid JSON with varibles in quotes
     #   or out, as in the following example:
     #
     #   ` "InputTransformer":`
     #
-    #   `\{`
+    #   `{`
     #
-    #   `"InputPathsMap": \{"instance": "$.detail.instance","status":
-    #   "$.detail.status"\},`
+    #   `"InputPathsMap": {"instance": "$.detail.instance","status":
+    #   "$.detail.status"},`
     #
-    #   `"InputTemplate": '\{"myInstance": <instance>,"myStatus":
-    #   "<instance> is in state "<status>""\}'`
+    #   `"InputTemplate": '{"myInstance": <instance>,"myStatus": "<instance>
+    #   is in state "<status>""}'`
     #
-    #   `\}`
+    #   `}`
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/events-2015-10-07/InputTransformer AWS API Documentation
@@ -4198,7 +4198,7 @@ module Aws::CloudWatchEvents
     class UpdateConnectionApiKeyAuthRequestParameters < Struct.new(
       :api_key_name,
       :api_key_value)
-      SENSITIVE = []
+      SENSITIVE = [:api_key_value]
       include Aws::Structure
     end
 
@@ -4251,7 +4251,7 @@ module Aws::CloudWatchEvents
     class UpdateConnectionBasicAuthRequestParameters < Struct.new(
       :username,
       :password)
-      SENSITIVE = []
+      SENSITIVE = [:password]
       include Aws::Structure
     end
 
@@ -4271,7 +4271,7 @@ module Aws::CloudWatchEvents
     class UpdateConnectionOAuthClientRequestParameters < Struct.new(
       :client_id,
       :client_secret)
-      SENSITIVE = []
+      SENSITIVE = [:client_secret]
       include Aws::Structure
     end
 
@@ -4369,3 +4369,4 @@ module Aws::CloudWatchEvents
 
   end
 end
+

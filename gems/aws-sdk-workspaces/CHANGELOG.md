@@ -1,6 +1,266 @@
 Unreleased Changes
 ------------------
 
+1.131.0 (2025-02-18)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.130.0 (2025-02-06)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.129.0 (2025-01-15)
+------------------
+
+* Feature - Added GeneralPurpose.4xlarge & GeneralPurpose.8xlarge ComputeTypes.
+
+1.128.0 (2024-12-19)
+------------------
+
+* Feature - Added AWS Global Accelerator (AGA) support for WorkSpaces Personal.
+
+1.127.0 (2024-12-09)
+------------------
+
+* Feature - Added text to clarify case-sensitivity
+
+1.126.0 (2024-11-22)
+------------------
+
+* Feature - While integrating WSP-DCV rebrand, a few mentions were erroneously renamed from WSP to DCV. This release reverts those mentions back to WSP.
+
+1.125.0 (2024-11-20)
+------------------
+
+* Feature - Added support for Rocky Linux 8 on Amazon WorkSpaces Personal.
+
+1.124.0 (2024-11-19)
+------------------
+
+* Feature - Releasing new ErrorCodes for Image Validation failure during CreateWorkspaceImage process
+
+1.123.0 (2024-10-18)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.122.0 (2024-10-17)
+------------------
+
+* Feature - Updated the DomainName pattern for Active Directory
+
+1.121.0 (2024-10-02)
+------------------
+
+* Feature - WSP is being rebranded to become DCV.
+
+1.120.0 (2024-09-24)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.119.0 (2024-09-23)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.118.0 (2024-09-20)
+------------------
+
+* Feature - Releasing new ErrorCodes for SysPrep failures during ImageImport and CreateImage process
+
+1.117.0 (2024-09-11)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.116.0 (2024-09-10)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.115.0 (2024-09-03)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.114.0 (2024-08-28)
+------------------
+
+* Feature - Documentation-only update that clarifies the StartWorkspaces and StopWorkspaces actions, and a few other minor edits.
+
+1.113.0 (2024-08-26)
+------------------
+
+* Feature - This release adds support for creating and managing directories that use AWS IAM Identity Center as user identity source. Such directories can be used to create non-Active Directory domain joined WorkSpaces Personal.Updated RegisterWorkspaceDirectory and DescribeWorkspaceDirectories APIs.
+
+1.112.0 (2024-08-06)
+------------------
+
+* Feature - Added support for BYOL_GRAPHICS_G4DN_WSP IngestionProcess
+
+1.111.0 (2024-07-30)
+------------------
+
+* Feature - Removing multi-session as it isn't supported for pools
+
+1.110.0 (2024-07-03)
+------------------
+
+* Feature - Fix create workspace bundle RootStorage/UserStorage to accept non null values
+
+1.109.0 (2024-07-02)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.108.0 (2024-06-28)
+------------------
+
+* Feature - Added support for Red Hat Enterprise Linux 8 on Amazon WorkSpaces Personal.
+
+1.107.0 (2024-06-27)
+------------------
+
+* Feature - Added support for WorkSpaces Pools.
+
+1.106.0 (2024-06-25)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.105.0 (2024-06-24)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.104.0 (2024-06-05)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.103.0 (2024-05-13)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.102.0 (2024-04-25)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.101.0 (2024-04-18)
+------------------
+
+* Feature - Adds new APIs for managing and sharing WorkSpaces BYOL configuration across accounts.
+
+1.100.0 (2024-03-07)
+------------------
+
+* Feature - Added note for user decoupling
+
+1.99.0 (2024-02-08)
+------------------
+
+* Feature - This release introduces User-Decoupling feature. This feature allows Workspaces Core customers to provision workspaces without providing users. CreateWorkspaces and DescribeWorkspaces APIs will now take a new optional parameter "WorkspaceName".
+
+1.98.0 (2024-02-05)
+------------------
+
+* Feature - Added definitions of various WorkSpace states
+
+1.97.0 (2024-01-26)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.96.0 (2024-01-11)
+------------------
+
+* Feature - Added AWS Workspaces RebootWorkspaces API - Extended Reboot documentation update
+
+1.95.0 (2023-12-14)
+------------------
+
+* Feature - Updated note to ensure customers understand running modes.
+
+1.94.0 (2023-11-28)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.93.0 (2023-11-27)
+------------------
+
+* Feature - The release introduces Multi-Region Resilience one-way data replication that allows you to replicate data from your primary WorkSpace to a standby WorkSpace in another AWS Region. DescribeWorkspaces now returns the status of data replication.
+
+1.92.0 (2023-11-22)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.91.0 (2023-10-19)
+------------------
+
+* Feature - Documentation updates for WorkSpaces
+
+1.90.0 (2023-10-12)
+------------------
+
+* Feature - Updated the CreateWorkspaces action documentation to clarify that the PCoIP protocol is only available for Windows bundles.
+
+1.89.0 (2023-10-05)
+------------------
+
+* Feature - This release introduces Manage applications. This feature allows users to manage their WorkSpaces applications by associating or disassociating their WorkSpaces with applications. The DescribeWorkspaces API will now additionally return OperatingSystemName in its responses.
+
+1.88.0 (2023-09-27)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.87.0 (2023-09-08)
+------------------
+
+* Feature - A new field "ErrorDetails" will be added to the output of "DescribeWorkspaceImages" API call. This field provides in-depth details about the error occurred during image import process. These details include the possible causes of the errors and troubleshooting information.
+
+1.86.0 (2023-07-21)
+------------------
+
+* Feature - Fixed VolumeEncryptionKey descriptions
+
+1.85.0 (2023-07-11)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.84.0 (2023-07-06)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.83.0 (2023-06-28)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.82.0 (2023-06-15)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.81.0 (2023-05-31)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.80.0 (2023-04-28)
+------------------
+
+* Feature - Added Windows 11 to support Microsoft_Office_2019
+
 1.79.0 (2023-02-09)
 ------------------
 

@@ -9,119 +9,12 @@
 
 
 module Aws::IoTSecureTunneling
+  # @api private
   module Endpoints
 
-    class CloseTunnel
-      def self.build(context)
-        unless context.config.regional_endpoint
-          endpoint = context.config.endpoint.to_s
-        end
-        Aws::IoTSecureTunneling::EndpointParameters.new(
-          region: context.config.region,
-          use_dual_stack: context.config.use_dualstack_endpoint,
-          use_fips: context.config.use_fips_endpoint,
-          endpoint: endpoint,
-        )
-      end
-    end
 
-    class DescribeTunnel
-      def self.build(context)
-        unless context.config.regional_endpoint
-          endpoint = context.config.endpoint.to_s
-        end
-        Aws::IoTSecureTunneling::EndpointParameters.new(
-          region: context.config.region,
-          use_dual_stack: context.config.use_dualstack_endpoint,
-          use_fips: context.config.use_fips_endpoint,
-          endpoint: endpoint,
-        )
-      end
+    def self.parameters_for_operation(context)
+      Aws::IoTSecureTunneling::EndpointParameters.create(context.config)
     end
-
-    class ListTagsForResource
-      def self.build(context)
-        unless context.config.regional_endpoint
-          endpoint = context.config.endpoint.to_s
-        end
-        Aws::IoTSecureTunneling::EndpointParameters.new(
-          region: context.config.region,
-          use_dual_stack: context.config.use_dualstack_endpoint,
-          use_fips: context.config.use_fips_endpoint,
-          endpoint: endpoint,
-        )
-      end
-    end
-
-    class ListTunnels
-      def self.build(context)
-        unless context.config.regional_endpoint
-          endpoint = context.config.endpoint.to_s
-        end
-        Aws::IoTSecureTunneling::EndpointParameters.new(
-          region: context.config.region,
-          use_dual_stack: context.config.use_dualstack_endpoint,
-          use_fips: context.config.use_fips_endpoint,
-          endpoint: endpoint,
-        )
-      end
-    end
-
-    class OpenTunnel
-      def self.build(context)
-        unless context.config.regional_endpoint
-          endpoint = context.config.endpoint.to_s
-        end
-        Aws::IoTSecureTunneling::EndpointParameters.new(
-          region: context.config.region,
-          use_dual_stack: context.config.use_dualstack_endpoint,
-          use_fips: context.config.use_fips_endpoint,
-          endpoint: endpoint,
-        )
-      end
-    end
-
-    class RotateTunnelAccessToken
-      def self.build(context)
-        unless context.config.regional_endpoint
-          endpoint = context.config.endpoint.to_s
-        end
-        Aws::IoTSecureTunneling::EndpointParameters.new(
-          region: context.config.region,
-          use_dual_stack: context.config.use_dualstack_endpoint,
-          use_fips: context.config.use_fips_endpoint,
-          endpoint: endpoint,
-        )
-      end
-    end
-
-    class TagResource
-      def self.build(context)
-        unless context.config.regional_endpoint
-          endpoint = context.config.endpoint.to_s
-        end
-        Aws::IoTSecureTunneling::EndpointParameters.new(
-          region: context.config.region,
-          use_dual_stack: context.config.use_dualstack_endpoint,
-          use_fips: context.config.use_fips_endpoint,
-          endpoint: endpoint,
-        )
-      end
-    end
-
-    class UntagResource
-      def self.build(context)
-        unless context.config.regional_endpoint
-          endpoint = context.config.endpoint.to_s
-        end
-        Aws::IoTSecureTunneling::EndpointParameters.new(
-          region: context.config.region,
-          use_dual_stack: context.config.use_dualstack_endpoint,
-          use_fips: context.config.use_fips_endpoint,
-          endpoint: endpoint,
-        )
-      end
-    end
-
   end
 end

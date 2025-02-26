@@ -10,6 +10,19 @@
 module Aws::States
   module Types
 
+    # Activity already exists. `EncryptionConfiguration` may not be updated.
+    #
+    # @!attribute [rw] message
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/ActivityAlreadyExists AWS API Documentation
+    #
+    class ActivityAlreadyExists < Struct.new(
+      :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The specified activity does not exist.
     #
     # @!attribute [rw] message
@@ -69,7 +82,7 @@ module Aws::States
     #
     #   * white space
     #
-    #   * brackets `< > \{ \} [ ]`
+    #   * brackets `< > { } [ ]`
     #
     #   * wildcard characters `? *`
     #
@@ -221,6 +234,23 @@ module Aws::States
       include Aws::Structure
     end
 
+    # Provides details about assigned variables in an execution history
+    # event.
+    #
+    # @!attribute [rw] truncated
+    #   Indicates whether assigned variables were truncated in the response.
+    #   Always `false` for API calls. In CloudWatch logs, the value will be
+    #   true if the data is truncated due to size limits.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/AssignedVariablesDetails AWS API Documentation
+    #
+    class AssignedVariablesDetails < Struct.new(
+      :truncated)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # An object that describes workflow billing details.
     #
     # @!attribute [rw] billed_memory_used_in_mb
@@ -268,6 +298,24 @@ module Aws::States
       include Aws::Structure
     end
 
+    # Updating or deleting a resource can cause an inconsistent state. This
+    # error occurs when there're concurrent requests for
+    # DeleteStateMachineVersion, PublishStateMachineVersion, or
+    # UpdateStateMachine with the `publish` parameter set to `true`.
+    #
+    # HTTP Status Code: 409
+    #
+    # @!attribute [rw] message
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/ConflictException AWS API Documentation
+    #
+    class ConflictException < Struct.new(
+      :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] name
     #   The name of the activity to create. This name must be unique for
     #   your Amazon Web Services account and region for 90 days. For more
@@ -278,7 +326,7 @@ module Aws::States
     #
     #   * white space
     #
-    #   * brackets `< > \{ \} [ ]`
+    #   * brackets `< > { } [ ]`
     #
     #   * wildcard characters `? *`
     #
@@ -310,11 +358,16 @@ module Aws::States
     #   [2]: https://docs.aws.amazon.com/IAM/latest/UserGuide/access_iam-tags.html
     #   @return [Array<Types::Tag>]
     #
+    # @!attribute [rw] encryption_configuration
+    #   Settings to configure server-side encryption.
+    #   @return [Types::EncryptionConfiguration]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/CreateActivityInput AWS API Documentation
     #
     class CreateActivityInput < Struct.new(
       :name,
-      :tags)
+      :tags,
+      :encryption_configuration)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -336,6 +389,55 @@ module Aws::States
       include Aws::Structure
     end
 
+    # @!attribute [rw] description
+    #   A description for the state machine alias.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the state machine alias.
+    #
+    #   To avoid conflict with version ARNs, don't use an integer in the
+    #   name of the alias.
+    #   @return [String]
+    #
+    # @!attribute [rw] routing_configuration
+    #   The routing configuration of a state machine alias. The routing
+    #   configuration shifts execution traffic between two state machine
+    #   versions. `routingConfiguration` contains an array of
+    #   `RoutingConfig` objects that specify up to two state machine
+    #   versions. Step Functions then randomly choses which version to run
+    #   an execution with based on the weight assigned to each
+    #   `RoutingConfig`.
+    #   @return [Array<Types::RoutingConfigurationListItem>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/CreateStateMachineAliasInput AWS API Documentation
+    #
+    class CreateStateMachineAliasInput < Struct.new(
+      :description,
+      :name,
+      :routing_configuration)
+      SENSITIVE = [:description]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] state_machine_alias_arn
+    #   The Amazon Resource Name (ARN) that identifies the created state
+    #   machine alias.
+    #   @return [String]
+    #
+    # @!attribute [rw] creation_date
+    #   The date the state machine alias was created.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/CreateStateMachineAliasOutput AWS API Documentation
+    #
+    class CreateStateMachineAliasOutput < Struct.new(
+      :state_machine_alias_arn,
+      :creation_date)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] name
     #   The name of the state machine.
     #
@@ -343,7 +445,7 @@ module Aws::States
     #
     #   * white space
     #
-    #   * brackets `< > \{ \} [ ]`
+    #   * brackets `< > { } [ ]`
     #
     #   * wildcard characters `? *`
     #
@@ -409,6 +511,22 @@ module Aws::States
     #   Selects whether X-Ray tracing is enabled.
     #   @return [Types::TracingConfiguration]
     #
+    # @!attribute [rw] publish
+    #   Set to `true` to publish the first version of the state machine
+    #   during creation. The default is `false`.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] version_description
+    #   Sets description about the state machine version. You can only set
+    #   the description if the `publish` parameter is set to `true`.
+    #   Otherwise, if you set `versionDescription`, but `publish` to
+    #   `false`, this API action throws `ValidationException`.
+    #   @return [String]
+    #
+    # @!attribute [rw] encryption_configuration
+    #   Settings to configure server-side encryption.
+    #   @return [Types::EncryptionConfiguration]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/CreateStateMachineInput AWS API Documentation
     #
     class CreateStateMachineInput < Struct.new(
@@ -418,8 +536,11 @@ module Aws::States
       :type,
       :logging_configuration,
       :tags,
-      :tracing_configuration)
-      SENSITIVE = [:definition]
+      :tracing_configuration,
+      :publish,
+      :version_description,
+      :encryption_configuration)
+      SENSITIVE = [:definition, :version_description]
       include Aws::Structure
     end
 
@@ -432,11 +553,18 @@ module Aws::States
     #   The date the state machine is created.
     #   @return [Time]
     #
+    # @!attribute [rw] state_machine_version_arn
+    #   The Amazon Resource Name (ARN) that identifies the created state
+    #   machine version. If you do not set the `publish` parameter to
+    #   `true`, this field returns null value.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/CreateStateMachineOutput AWS API Documentation
     #
     class CreateStateMachineOutput < Struct.new(
       :state_machine_arn,
-      :creation_date)
+      :creation_date,
+      :state_machine_version_arn)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -457,6 +585,22 @@ module Aws::States
     #
     class DeleteActivityOutput < Aws::EmptyStructure; end
 
+    # @!attribute [rw] state_machine_alias_arn
+    #   The Amazon Resource Name (ARN) of the state machine alias to delete.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/DeleteStateMachineAliasInput AWS API Documentation
+    #
+    class DeleteStateMachineAliasInput < Struct.new(
+      :state_machine_alias_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/DeleteStateMachineAliasOutput AWS API Documentation
+    #
+    class DeleteStateMachineAliasOutput < Aws::EmptyStructure; end
+
     # @!attribute [rw] state_machine_arn
     #   The Amazon Resource Name (ARN) of the state machine to delete.
     #   @return [String]
@@ -472,6 +616,23 @@ module Aws::States
     # @see http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/DeleteStateMachineOutput AWS API Documentation
     #
     class DeleteStateMachineOutput < Aws::EmptyStructure; end
+
+    # @!attribute [rw] state_machine_version_arn
+    #   The Amazon Resource Name (ARN) of the state machine version to
+    #   delete.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/DeleteStateMachineVersionInput AWS API Documentation
+    #
+    class DeleteStateMachineVersionInput < Struct.new(
+      :state_machine_version_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/DeleteStateMachineVersionOutput AWS API Documentation
+    #
+    class DeleteStateMachineVersionOutput < Aws::EmptyStructure; end
 
     # @!attribute [rw] activity_arn
     #   The Amazon Resource Name (ARN) of the activity to describe.
@@ -496,7 +657,7 @@ module Aws::States
     #
     #   * white space
     #
-    #   * brackets `< > \{ \} [ ]`
+    #   * brackets `< > { } [ ]`
     #
     #   * wildcard characters `? *`
     #
@@ -512,12 +673,17 @@ module Aws::States
     #   The date the activity is created.
     #   @return [Time]
     #
+    # @!attribute [rw] encryption_configuration
+    #   Settings for configured server-side encryption.
+    #   @return [Types::EncryptionConfiguration]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/DescribeActivityOutput AWS API Documentation
     #
     class DescribeActivityOutput < Struct.new(
       :activity_arn,
       :name,
-      :creation_date)
+      :creation_date,
+      :encryption_configuration)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -526,10 +692,19 @@ module Aws::States
     #   The Amazon Resource Name (ARN) of the execution to describe.
     #   @return [String]
     #
+    # @!attribute [rw] included_data
+    #   If your state machine definition is encrypted with a KMS key,
+    #   callers must have `kms:Decrypt` permission to decrypt the
+    #   definition. Alternatively, you can call DescribeStateMachine API
+    #   with `includedData = METADATA_ONLY` to get a successful response
+    #   without the encrypted definition.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/DescribeExecutionInput AWS API Documentation
     #
     class DescribeExecutionInput < Struct.new(
-      :execution_arn)
+      :execution_arn,
+      :included_data)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -549,7 +724,7 @@ module Aws::States
     #
     #   * white space
     #
-    #   * brackets `< > \{ \} [ ]`
+    #   * brackets `< > { } [ ]`
     #
     #   * wildcard characters `? *`
     #
@@ -570,7 +745,7 @@ module Aws::States
     #   @return [Time]
     #
     # @!attribute [rw] stop_date
-    #   If the execution has already ended, the date the execution stopped.
+    #   If the execution ended, the date the execution stopped.
     #   @return [Time]
     #
     # @!attribute [rw] input
@@ -614,6 +789,93 @@ module Aws::States
     #   The cause string if the state machine execution failed.
     #   @return [String]
     #
+    # @!attribute [rw] state_machine_version_arn
+    #   The Amazon Resource Name (ARN) of the state machine version
+    #   associated with the execution. The version ARN is a combination of
+    #   state machine ARN and the version number separated by a colon (:).
+    #   For example, `stateMachineARN:1`.
+    #
+    #   If you start an execution from a `StartExecution` request without
+    #   specifying a state machine version or alias ARN, Step Functions
+    #   returns a null value.
+    #   @return [String]
+    #
+    # @!attribute [rw] state_machine_alias_arn
+    #   The Amazon Resource Name (ARN) of the state machine alias associated
+    #   with the execution. The alias ARN is a combination of state machine
+    #   ARN and the alias name separated by a colon (:). For example,
+    #   `stateMachineARN:PROD`.
+    #
+    #   If you start an execution from a `StartExecution` request with a
+    #   state machine version ARN, this field will be null.
+    #   @return [String]
+    #
+    # @!attribute [rw] redrive_count
+    #   The number of times you've redriven an execution. If you have not
+    #   yet redriven an execution, the `redriveCount` is 0. This count is
+    #   only updated if you successfully redrive an execution.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] redrive_date
+    #   The date the execution was last redriven. If you have not yet
+    #   redriven an execution, the `redriveDate` is null.
+    #
+    #   The `redriveDate` is unavailable if you redrive a Map Run that
+    #   starts child workflow executions of type `EXPRESS`.
+    #   @return [Time]
+    #
+    # @!attribute [rw] redrive_status
+    #   Indicates whether or not an execution can be redriven at a given
+    #   point in time.
+    #
+    #   * For executions of type `STANDARD`, `redriveStatus` is
+    #     `NOT_REDRIVABLE` if calling the RedriveExecution API action would
+    #     return the `ExecutionNotRedrivable` error.
+    #
+    #   * For a Distributed Map that includes child workflows of type
+    #     `STANDARD`, `redriveStatus` indicates whether or not the Map Run
+    #     can redrive child workflow executions.
+    #
+    #   * For a Distributed Map that includes child workflows of type
+    #     `EXPRESS`, `redriveStatus` indicates whether or not the Map Run
+    #     can redrive child workflow executions.
+    #
+    #     You can redrive failed or timed out `EXPRESS` workflows *only if*
+    #     they're a part of a Map Run. When you [redrive][1] the Map Run,
+    #     these workflows are restarted using the StartExecution API action.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/step-functions/latest/dg/redrive-map-run.html
+    #   @return [String]
+    #
+    # @!attribute [rw] redrive_status_reason
+    #   When `redriveStatus` is `NOT_REDRIVABLE`, `redriveStatusReason`
+    #   specifies the reason why an execution cannot be redriven.
+    #
+    #   * For executions of type `STANDARD`, or for a Distributed Map that
+    #     includes child workflows of type `STANDARD`, `redriveStatusReason`
+    #     can include one of the following reasons:
+    #
+    #     * `State machine is in DELETING status`.
+    #
+    #     * `Execution is RUNNING and cannot be redriven`.
+    #
+    #     * `Execution is SUCCEEDED and cannot be redriven`.
+    #
+    #     * `Execution was started before the launch of RedriveExecution`.
+    #
+    #     * `Execution history event limit exceeded`.
+    #
+    #     * `Execution has exceeded the max execution time`.
+    #
+    #     * `Execution redrivable period exceeded`.
+    #   * For a Distributed Map that includes child workflows of type
+    #     `EXPRESS`, `redriveStatusReason` is only returned if the child
+    #     workflows are not redrivable. This happens when the child workflow
+    #     executions have completed successfully.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/DescribeExecutionOutput AWS API Documentation
     #
     class DescribeExecutionOutput < Struct.new(
@@ -630,8 +892,14 @@ module Aws::States
       :trace_header,
       :map_run_arn,
       :error,
-      :cause)
-      SENSITIVE = [:input, :output, :error, :cause]
+      :cause,
+      :state_machine_version_arn,
+      :state_machine_alias_arn,
+      :redrive_count,
+      :redrive_date,
+      :redrive_status,
+      :redrive_status_reason)
+      SENSITIVE = [:input, :output, :error, :cause, :redrive_status_reason]
       include Aws::Structure
     end
 
@@ -696,6 +964,17 @@ module Aws::States
     #   `succeeded`.
     #   @return [Types::MapRunExecutionCounts]
     #
+    # @!attribute [rw] redrive_count
+    #   The number of times you've redriven a Map Run. If you have not yet
+    #   redriven a Map Run, the `redriveCount` is 0. This count is only
+    #   updated if you successfully redrive a Map Run.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] redrive_date
+    #   The date a Map Run was last redriven. If you have not yet redriven a
+    #   Map Run, the `redriveDate` is null.
+    #   @return [Time]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/DescribeMapRunOutput AWS API Documentation
     #
     class DescribeMapRunOutput < Struct.new(
@@ -708,8 +987,62 @@ module Aws::States
       :tolerated_failure_percentage,
       :tolerated_failure_count,
       :item_counts,
-      :execution_counts)
+      :execution_counts,
+      :redrive_count,
+      :redrive_date)
       SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] state_machine_alias_arn
+    #   The Amazon Resource Name (ARN) of the state machine alias.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/DescribeStateMachineAliasInput AWS API Documentation
+    #
+    class DescribeStateMachineAliasInput < Struct.new(
+      :state_machine_alias_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] state_machine_alias_arn
+    #   The Amazon Resource Name (ARN) of the state machine alias.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the state machine alias.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   A description of the alias.
+    #   @return [String]
+    #
+    # @!attribute [rw] routing_configuration
+    #   The routing configuration of the alias.
+    #   @return [Array<Types::RoutingConfigurationListItem>]
+    #
+    # @!attribute [rw] creation_date
+    #   The date the state machine alias was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] update_date
+    #   The date the state machine alias was last updated.
+    #
+    #   For a newly created state machine, this is the same as the creation
+    #   date.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/DescribeStateMachineAliasOutput AWS API Documentation
+    #
+    class DescribeStateMachineAliasOutput < Struct.new(
+      :state_machine_alias_arn,
+      :name,
+      :description,
+      :routing_configuration,
+      :creation_date,
+      :update_date)
+      SENSITIVE = [:description]
       include Aws::Structure
     end
 
@@ -718,10 +1051,19 @@ module Aws::States
     #   machine information for.
     #   @return [String]
     #
+    # @!attribute [rw] included_data
+    #   If your state machine definition is encrypted with a KMS key,
+    #   callers must have `kms:Decrypt` permission to decrypt the
+    #   definition. Alternatively, you can call the API with `includedData =
+    #   METADATA_ONLY` to get a successful response without the encrypted
+    #   definition.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/DescribeStateMachineForExecutionInput AWS API Documentation
     #
     class DescribeStateMachineForExecutionInput < Struct.new(
-      :execution_arn)
+      :execution_arn,
+      :included_data)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -777,6 +1119,26 @@ module Aws::States
     #   workflow execution that was started by a Distributed Map state.
     #   @return [String]
     #
+    # @!attribute [rw] revision_id
+    #   The revision identifier for the state machine. The first revision ID
+    #   when you create the state machine is null.
+    #
+    #   Use the state machine `revisionId` parameter to compare the revision
+    #   of a state machine with the configuration of the state machine used
+    #   for executions without performing a diff of the properties, such as
+    #   `definition` and `roleArn`.
+    #   @return [String]
+    #
+    # @!attribute [rw] encryption_configuration
+    #   Settings to configure server-side encryption.
+    #   @return [Types::EncryptionConfiguration]
+    #
+    # @!attribute [rw] variable_references
+    #   A map of **state name** to a list of variables referenced by that
+    #   state. States that do not use variable references will not be shown
+    #   in the response.
+    #   @return [Hash<String,Array<String>>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/DescribeStateMachineForExecutionOutput AWS API Documentation
     #
     class DescribeStateMachineForExecutionOutput < Struct.new(
@@ -788,25 +1150,56 @@ module Aws::States
       :logging_configuration,
       :tracing_configuration,
       :map_run_arn,
-      :label)
-      SENSITIVE = [:definition]
+      :label,
+      :revision_id,
+      :encryption_configuration,
+      :variable_references)
+      SENSITIVE = [:definition, :variable_references]
       include Aws::Structure
     end
 
     # @!attribute [rw] state_machine_arn
-    #   The Amazon Resource Name (ARN) of the state machine to describe.
+    #   The Amazon Resource Name (ARN) of the state machine for which you
+    #   want the information.
+    #
+    #   If you specify a state machine version ARN, this API returns details
+    #   about that version. The version ARN is a combination of state
+    #   machine ARN and the version number separated by a colon (:). For
+    #   example, `stateMachineARN:1`.
+    #   @return [String]
+    #
+    # @!attribute [rw] included_data
+    #   If your state machine definition is encrypted with a KMS key,
+    #   callers must have `kms:Decrypt` permission to decrypt the
+    #   definition. Alternatively, you can call the API with `includedData =
+    #   METADATA_ONLY` to get a successful response without the encrypted
+    #   definition.
+    #
+    #   <note markdown="1"> When calling a labelled ARN for an encrypted state machine, the
+    #   `includedData = METADATA_ONLY` parameter will not apply because Step
+    #   Functions needs to decrypt the entire state machine definition to
+    #   get the Distributed Map state’s definition. In this case, the API
+    #   caller needs to have `kms:Decrypt` permission.
+    #
+    #    </note>
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/DescribeStateMachineInput AWS API Documentation
     #
     class DescribeStateMachineInput < Struct.new(
-      :state_machine_arn)
+      :state_machine_arn,
+      :included_data)
       SENSITIVE = []
       include Aws::Structure
     end
 
     # @!attribute [rw] state_machine_arn
     #   The Amazon Resource Name (ARN) that identifies the state machine.
+    #
+    #   If you specified a state machine version ARN in your request, the
+    #   API returns the version ARN. The version ARN is a combination of
+    #   state machine ARN and the version number separated by a colon (:).
+    #   For example, `stateMachineARN:1`.
     #   @return [String]
     #
     # @!attribute [rw] name
@@ -816,7 +1209,7 @@ module Aws::States
     #
     #   * white space
     #
-    #   * brackets `< > \{ \} [ ]`
+    #   * brackets `< > { } [ ]`
     #
     #   * wildcard characters `? *`
     #
@@ -836,6 +1229,9 @@ module Aws::States
     #   The Amazon States Language definition of the state machine. See
     #   [Amazon States Language][1].
     #
+    #   If called with `includedData = METADATA_ONLY`, the returned
+    #   definition will be `{}`.
+    #
     #
     #
     #   [1]: https://docs.aws.amazon.com/step-functions/latest/dg/concepts-amazon-states-language.html
@@ -853,6 +1249,9 @@ module Aws::States
     #
     # @!attribute [rw] creation_date
     #   The date the state machine is created.
+    #
+    #   For a state machine version, `creationDate` is the date the version
+    #   was created.
     #   @return [Time]
     #
     # @!attribute [rw] logging_configuration
@@ -870,6 +1269,28 @@ module Aws::States
     #   specified in input is a qualified state machine ARN.
     #   @return [String]
     #
+    # @!attribute [rw] revision_id
+    #   The revision identifier for the state machine.
+    #
+    #   Use the `revisionId` parameter to compare between versions of a
+    #   state machine configuration used for executions without performing a
+    #   diff of the properties, such as `definition` and `roleArn`.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the state machine version.
+    #   @return [String]
+    #
+    # @!attribute [rw] encryption_configuration
+    #   Settings to configure server-side encryption.
+    #   @return [Types::EncryptionConfiguration]
+    #
+    # @!attribute [rw] variable_references
+    #   A map of **state name** to a list of variables referenced by that
+    #   state. States that do not use variable references will not be shown
+    #   in the response.
+    #   @return [Hash<String,Array<String>>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/DescribeStateMachineOutput AWS API Documentation
     #
     class DescribeStateMachineOutput < Struct.new(
@@ -882,8 +1303,96 @@ module Aws::States
       :creation_date,
       :logging_configuration,
       :tracing_configuration,
-      :label)
-      SENSITIVE = [:definition]
+      :label,
+      :revision_id,
+      :description,
+      :encryption_configuration,
+      :variable_references)
+      SENSITIVE = [:definition, :description, :variable_references]
+      include Aws::Structure
+    end
+
+    # Settings to configure server-side encryption.
+    #
+    # For additional control over security, you can encrypt your data using
+    # a **customer-managed key** for Step Functions state machines and
+    # activities. You can configure a symmetric KMS key and data key reuse
+    # period when creating or updating a **State Machine**, and when
+    # creating an **Activity**. The execution history and state machine
+    # definition will be encrypted with the key applied to the State
+    # Machine. Activity inputs will be encrypted with the key applied to the
+    # Activity.
+    #
+    # <note markdown="1"> Step Functions automatically enables encryption at rest using Amazon
+    # Web Services owned keys at no charge. However, KMS charges apply when
+    # using a customer managed key. For more information about pricing, see
+    # [Key Management Service pricing][1].
+    #
+    #  </note>
+    #
+    # For more information on KMS, see [What is Key Management Service?][2]
+    #
+    #
+    #
+    # [1]: https://aws.amazon.com/kms/pricing/
+    # [2]: https://docs.aws.amazon.com/kms/latest/developerguide/overview.html
+    #
+    # @!attribute [rw] kms_key_id
+    #   An alias, alias ARN, key ID, or key ARN of a symmetric encryption
+    #   KMS key to encrypt data. To specify a KMS key in a different Amazon
+    #   Web Services account, you must use the key ARN or alias ARN.
+    #   @return [String]
+    #
+    # @!attribute [rw] kms_data_key_reuse_period_seconds
+    #   Maximum duration that Step Functions will reuse data keys. When the
+    #   period expires, Step Functions will call `GenerateDataKey`. Only
+    #   applies to customer managed keys.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] type
+    #   Encryption type
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/EncryptionConfiguration AWS API Documentation
+    #
+    class EncryptionConfiguration < Struct.new(
+      :kms_key_id,
+      :kms_data_key_reuse_period_seconds,
+      :type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains details about an evaluation failure that occurred while
+    # processing a state, for example, when a JSONata expression throws an
+    # error. This event will only be present in state machines that have <b>
+    # QueryLanguage</b> set to JSONata, or individual states set to JSONata.
+    #
+    # @!attribute [rw] error
+    #   The error code of the failure.
+    #   @return [String]
+    #
+    # @!attribute [rw] cause
+    #   A more detailed explanation of the cause of the failure.
+    #   @return [String]
+    #
+    # @!attribute [rw] location
+    #   The location of the field in the state in which the evaluation error
+    #   occurred.
+    #   @return [String]
+    #
+    # @!attribute [rw] state
+    #   The name of the state in which the evaluation error occurred.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/EvaluationFailedEventDetails AWS API Documentation
+    #
+    class EvaluationFailedEventDetails < Struct.new(
+      :error,
+      :cause,
+      :location,
+      :state)
+      SENSITIVE = [:error, :cause, :location]
       include Aws::Structure
     end
 
@@ -978,7 +1487,8 @@ module Aws::States
     #   @return [String]
     #
     # @!attribute [rw] state_machine_arn
-    #   The Amazon Resource Name (ARN) of the executed state machine.
+    #   The Amazon Resource Name (ARN) of the state machine that ran the
+    #   execution.
     #   @return [String]
     #
     # @!attribute [rw] name
@@ -988,7 +1498,7 @@ module Aws::States
     #
     #   * white space
     #
-    #   * brackets `< > \{ \} [ ]`
+    #   * brackets `< > { } [ ]`
     #
     #   * wildcard characters `? *`
     #
@@ -1026,6 +1536,36 @@ module Aws::States
     #   `ListExecutions`, the `itemCount` field isn't returned.
     #   @return [Integer]
     #
+    # @!attribute [rw] state_machine_version_arn
+    #   The Amazon Resource Name (ARN) of the state machine version
+    #   associated with the execution.
+    #
+    #   If the state machine execution was started with an unqualified ARN,
+    #   it returns null.
+    #
+    #   If the execution was started using a `stateMachineAliasArn`, both
+    #   the `stateMachineAliasArn` and `stateMachineVersionArn` parameters
+    #   contain the respective values.
+    #   @return [String]
+    #
+    # @!attribute [rw] state_machine_alias_arn
+    #   The Amazon Resource Name (ARN) of the state machine alias used to
+    #   start an execution.
+    #
+    #   If the state machine execution was started with an unqualified ARN
+    #   or a version ARN, it returns null.
+    #   @return [String]
+    #
+    # @!attribute [rw] redrive_count
+    #   The number of times you've redriven an execution. If you have not
+    #   yet redriven an execution, the `redriveCount` is 0. This count is
+    #   only updated when you successfully redrive an execution.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] redrive_date
+    #   The date the execution was last redriven.
+    #   @return [Time]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/ExecutionListItem AWS API Documentation
     #
     class ExecutionListItem < Struct.new(
@@ -1036,7 +1576,42 @@ module Aws::States
       :start_date,
       :stop_date,
       :map_run_arn,
-      :item_count)
+      :item_count,
+      :state_machine_version_arn,
+      :state_machine_alias_arn,
+      :redrive_count,
+      :redrive_date)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The execution Amazon Resource Name (ARN) that you specified for
+    # `executionArn` cannot be redriven.
+    #
+    # @!attribute [rw] message
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/ExecutionNotRedrivable AWS API Documentation
+    #
+    class ExecutionNotRedrivable < Struct.new(
+      :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains details about a redriven execution.
+    #
+    # @!attribute [rw] redrive_count
+    #   The number of times you've redriven an execution. If you have not
+    #   yet redriven an execution, the `redriveCount` is 0. This count is
+    #   not updated for redrives that failed to start or are pending to be
+    #   redriven.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/ExecutionRedrivenEventDetails AWS API Documentation
+    #
+    class ExecutionRedrivenEventDetails < Struct.new(
+      :redrive_count)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1057,12 +1632,24 @@ module Aws::States
     #   Lambda tasks.
     #   @return [String]
     #
+    # @!attribute [rw] state_machine_alias_arn
+    #   The Amazon Resource Name (ARN) that identifies a state machine alias
+    #   used for starting the state machine execution.
+    #   @return [String]
+    #
+    # @!attribute [rw] state_machine_version_arn
+    #   The Amazon Resource Name (ARN) that identifies a state machine
+    #   version used for starting the state machine execution.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/ExecutionStartedEventDetails AWS API Documentation
     #
     class ExecutionStartedEventDetails < Struct.new(
       :input,
       :input_details,
-      :role_arn)
+      :role_arn,
+      :state_machine_alias_arn,
+      :state_machine_version_arn)
       SENSITIVE = [:input]
       include Aws::Structure
     end
@@ -1314,6 +1901,10 @@ module Aws::States
     #   the execution.
     #   @return [Types::ExecutionTimedOutEventDetails]
     #
+    # @!attribute [rw] execution_redriven_event_details
+    #   Contains details about the redrive attempt of an execution.
+    #   @return [Types::ExecutionRedrivenEventDetails]
+    #
     # @!attribute [rw] map_state_started_event_details
     #   Contains details about Map state that was started.
     #   @return [Types::MapStateStartedEventDetails]
@@ -1382,6 +1973,15 @@ module Aws::States
     #   Contains error and cause details about a Map Run that failed.
     #   @return [Types::MapRunFailedEventDetails]
     #
+    # @!attribute [rw] map_run_redriven_event_details
+    #   Contains details about the redrive attempt of a Map Run.
+    #   @return [Types::MapRunRedrivenEventDetails]
+    #
+    # @!attribute [rw] evaluation_failed_event_details
+    #   Contains details about an evaluation failure that occurred while
+    #   processing a state.
+    #   @return [Types::EvaluationFailedEventDetails]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/HistoryEvent AWS API Documentation
     #
     class HistoryEvent < Struct.new(
@@ -1408,6 +2008,7 @@ module Aws::States
       :execution_succeeded_event_details,
       :execution_aborted_event_details,
       :execution_timed_out_event_details,
+      :execution_redriven_event_details,
       :map_state_started_event_details,
       :map_iteration_started_event_details,
       :map_iteration_succeeded_event_details,
@@ -1422,7 +2023,9 @@ module Aws::States
       :state_entered_event_details,
       :state_exited_event_details,
       :map_run_started_event_details,
-      :map_run_failed_event_details)
+      :map_run_failed_event_details,
+      :map_run_redriven_event_details,
+      :evaluation_failed_event_details)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1431,13 +2034,179 @@ module Aws::States
     #
     # @!attribute [rw] truncated
     #   Indicates whether input or output was truncated in the response.
-    #   Always `false` for API calls.
+    #   Always `false` for API calls. In CloudWatch logs, the value will be
+    #   true if the data is truncated due to size limits.
     #   @return [Boolean]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/HistoryEventExecutionDataDetails AWS API Documentation
     #
     class HistoryEventExecutionDataDetails < Struct.new(
       :truncated)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains additional details about the state's execution, including
+    # its input and output data processing flow, and HTTP request and
+    # response information.
+    #
+    # @!attribute [rw] input
+    #   The raw state input.
+    #   @return [String]
+    #
+    # @!attribute [rw] after_arguments
+    #   The input after Step Functions applies an Arguments filter. This
+    #   event will only be present when QueryLanguage for the state machine
+    #   or individual states is set to JSONata. For more info, see
+    #   [Transforming data with Step Functions][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/step-functions/latest/dg/data-transform.html
+    #   @return [String]
+    #
+    # @!attribute [rw] after_input_path
+    #   The input after Step Functions applies the [InputPath][1] filter.
+    #   Not populated when QueryLanguage is JSONata.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/step-functions/latest/dg/input-output-inputpath-params.html#input-output-inputpath
+    #   @return [String]
+    #
+    # @!attribute [rw] after_parameters
+    #   The effective input after Step Functions applies the [Parameters][1]
+    #   filter. Not populated when QueryLanguage is JSONata.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/step-functions/latest/dg/input-output-inputpath-params.html#input-output-parameters
+    #   @return [String]
+    #
+    # @!attribute [rw] result
+    #   The state's raw result.
+    #   @return [String]
+    #
+    # @!attribute [rw] after_result_selector
+    #   The effective result after Step Functions applies the
+    #   [ResultSelector][1] filter. Not populated when QueryLanguage is
+    #   JSONata.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/step-functions/latest/dg/input-output-inputpath-params.html#input-output-resultselector
+    #   @return [String]
+    #
+    # @!attribute [rw] after_result_path
+    #   The effective result combined with the raw state input after Step
+    #   Functions applies the [ResultPath][1] filter. Not populated when
+    #   QueryLanguage is JSONata.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/step-functions/latest/dg/input-output-resultpath.html
+    #   @return [String]
+    #
+    # @!attribute [rw] request
+    #   The raw HTTP request that is sent when you test an HTTP Task.
+    #   @return [Types::InspectionDataRequest]
+    #
+    # @!attribute [rw] response
+    #   The raw HTTP response that is returned when you test an HTTP Task.
+    #   @return [Types::InspectionDataResponse]
+    #
+    # @!attribute [rw] variables
+    #   JSON string that contains the set of workflow variables after
+    #   execution of the state. The set will include variables assigned in
+    #   the state and variables set up as test state input.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/InspectionData AWS API Documentation
+    #
+    class InspectionData < Struct.new(
+      :input,
+      :after_arguments,
+      :after_input_path,
+      :after_parameters,
+      :result,
+      :after_result_selector,
+      :after_result_path,
+      :request,
+      :response,
+      :variables)
+      SENSITIVE = [:input, :after_arguments, :after_input_path, :after_parameters, :result, :after_result_selector, :after_result_path, :variables]
+      include Aws::Structure
+    end
+
+    # Contains additional details about the state's execution, including
+    # its input and output data processing flow, and HTTP request
+    # information.
+    #
+    # @!attribute [rw] protocol
+    #   The protocol used to make the HTTP request.
+    #   @return [String]
+    #
+    # @!attribute [rw] method
+    #   The HTTP method used for the HTTP request.
+    #   @return [String]
+    #
+    # @!attribute [rw] url
+    #   The API endpoint used for the HTTP request.
+    #   @return [String]
+    #
+    # @!attribute [rw] headers
+    #   The request headers associated with the HTTP request.
+    #   @return [String]
+    #
+    # @!attribute [rw] body
+    #   The request body for the HTTP request.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/InspectionDataRequest AWS API Documentation
+    #
+    class InspectionDataRequest < Struct.new(
+      :protocol,
+      :method,
+      :url,
+      :headers,
+      :body)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains additional details about the state's execution, including
+    # its input and output data processing flow, and HTTP response
+    # information. The `inspectionLevel` request parameter specifies which
+    # details are returned.
+    #
+    # @!attribute [rw] protocol
+    #   The protocol used to return the HTTP response.
+    #   @return [String]
+    #
+    # @!attribute [rw] status_code
+    #   The HTTP response status code for the HTTP response.
+    #   @return [String]
+    #
+    # @!attribute [rw] status_message
+    #   The message associated with the HTTP status code.
+    #   @return [String]
+    #
+    # @!attribute [rw] headers
+    #   The response headers associated with the HTTP response.
+    #   @return [String]
+    #
+    # @!attribute [rw] body
+    #   The HTTP response returned.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/InspectionDataResponse AWS API Documentation
+    #
+    class InspectionDataResponse < Struct.new(
+      :protocol,
+      :status_code,
+      :status_message,
+      :headers,
+      :body)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1468,6 +2237,23 @@ module Aws::States
       include Aws::Structure
     end
 
+    # Received when `encryptionConfiguration` is specified but various
+    # conditions exist which make the configuration invalid. For example, if
+    # `type` is set to `CUSTOMER_MANAGED_KMS_KEY`, but `kmsKeyId` is null,
+    # or `kmsDataKeyReusePeriodSeconds` is not between 60 and 900, or the
+    # KMS key is not symmetric or inactive.
+    #
+    # @!attribute [rw] message
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/InvalidEncryptionConfiguration AWS API Documentation
+    #
+    class InvalidEncryptionConfiguration < Struct.new(
+      :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The provided JSON input data is not valid.
     #
     # @!attribute [rw] message
@@ -1481,6 +2267,8 @@ module Aws::States
       include Aws::Structure
     end
 
+    # Configuration is not valid.
+    #
     # @!attribute [rw] message
     #   @return [String]
     #
@@ -1540,6 +2328,53 @@ module Aws::States
     # @see http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/InvalidTracingConfiguration AWS API Documentation
     #
     class InvalidTracingConfiguration < Struct.new(
+      :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Either your KMS key policy or API caller does not have the required
+    # permissions.
+    #
+    # @!attribute [rw] message
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/KmsAccessDeniedException AWS API Documentation
+    #
+    class KmsAccessDeniedException < Struct.new(
+      :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The KMS key is not in valid state, for example: Disabled or Deleted.
+    #
+    # @!attribute [rw] kms_key_state
+    #   Current status of the KMS; key. For example: `DISABLED`,
+    #   `PENDING_DELETION`, `PENDING_IMPORT`, `UNAVAILABLE`, `CREATING`.
+    #   @return [String]
+    #
+    # @!attribute [rw] message
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/KmsInvalidStateException AWS API Documentation
+    #
+    class KmsInvalidStateException < Struct.new(
+      :kms_key_state,
+      :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Received when KMS returns `ThrottlingException` for a KMS call that
+    # Step Functions makes on behalf of the caller.
+    #
+    # @!attribute [rw] message
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/KmsThrottlingException AWS API Documentation
+    #
+    class KmsThrottlingException < Struct.new(
       :message)
       SENSITIVE = []
       include Aws::Structure
@@ -1739,6 +2574,15 @@ module Aws::States
     #
     #   You can specify either a `mapRunArn` or a `stateMachineArn`, but not
     #   both.
+    #
+    #   You can also return a list of executions associated with a specific
+    #   [alias][1] or [version][2], by specifying an alias ARN or a version
+    #   ARN in the `stateMachineArn` parameter.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/step-functions/latest/dg/concepts-state-machine-alias.html
+    #   [2]: https://docs.aws.amazon.com/step-functions/latest/dg/concepts-state-machine-version.html
     #   @return [String]
     #
     # @!attribute [rw] status_filter
@@ -1780,6 +2624,20 @@ module Aws::States
     #   [1]: https://docs.aws.amazon.com/step-functions/latest/dg/concepts-examine-map-run.html
     #   @return [String]
     #
+    # @!attribute [rw] redrive_filter
+    #   Sets a filter to list executions based on whether or not they have
+    #   been redriven.
+    #
+    #   For a Distributed Map, `redriveFilter` sets a filter to list child
+    #   workflow executions based on whether or not they have been redriven.
+    #
+    #   If you do not provide a `redriveFilter`, Step Functions returns a
+    #   list of both redriven and non-redriven executions.
+    #
+    #   If you provide a state machine ARN in `redriveFilter`, the API
+    #   returns a validation exception.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/ListExecutionsInput AWS API Documentation
     #
     class ListExecutionsInput < Struct.new(
@@ -1787,7 +2645,8 @@ module Aws::States
       :status_filter,
       :max_results,
       :next_token,
-      :map_run_arn)
+      :map_run_arn,
+      :redrive_filter)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1867,6 +2726,120 @@ module Aws::States
     #
     class ListMapRunsOutput < Struct.new(
       :map_runs,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] state_machine_arn
+    #   The Amazon Resource Name (ARN) of the state machine for which you
+    #   want to list aliases.
+    #
+    #   If you specify a state machine version ARN, this API returns a list
+    #   of aliases for that version.
+    #   @return [String]
+    #
+    # @!attribute [rw] next_token
+    #   If `nextToken` is returned, there are more results available. The
+    #   value of `nextToken` is a unique pagination token for each page.
+    #   Make the call again using the returned token to retrieve the next
+    #   page. Keep all other arguments unchanged. Each pagination token
+    #   expires after 24 hours. Using an expired pagination token will
+    #   return an *HTTP 400 InvalidToken* error.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results that are returned per call. You can
+    #   use `nextToken` to obtain further pages of results. The default is
+    #   100 and the maximum allowed page size is 1000. A value of 0 uses the
+    #   default.
+    #
+    #   This is only an upper limit. The actual number of results returned
+    #   per call might be fewer than the specified maximum.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/ListStateMachineAliasesInput AWS API Documentation
+    #
+    class ListStateMachineAliasesInput < Struct.new(
+      :state_machine_arn,
+      :next_token,
+      :max_results)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] state_machine_aliases
+    #   Aliases for the state machine.
+    #   @return [Array<Types::StateMachineAliasListItem>]
+    #
+    # @!attribute [rw] next_token
+    #   If `nextToken` is returned, there are more results available. The
+    #   value of `nextToken` is a unique pagination token for each page.
+    #   Make the call again using the returned token to retrieve the next
+    #   page. Keep all other arguments unchanged. Each pagination token
+    #   expires after 24 hours. Using an expired pagination token will
+    #   return an *HTTP 400 InvalidToken* error.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/ListStateMachineAliasesOutput AWS API Documentation
+    #
+    class ListStateMachineAliasesOutput < Struct.new(
+      :state_machine_aliases,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] state_machine_arn
+    #   The Amazon Resource Name (ARN) of the state machine.
+    #   @return [String]
+    #
+    # @!attribute [rw] next_token
+    #   If `nextToken` is returned, there are more results available. The
+    #   value of `nextToken` is a unique pagination token for each page.
+    #   Make the call again using the returned token to retrieve the next
+    #   page. Keep all other arguments unchanged. Each pagination token
+    #   expires after 24 hours. Using an expired pagination token will
+    #   return an *HTTP 400 InvalidToken* error.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results that are returned per call. You can
+    #   use `nextToken` to obtain further pages of results. The default is
+    #   100 and the maximum allowed page size is 1000. A value of 0 uses the
+    #   default.
+    #
+    #   This is only an upper limit. The actual number of results returned
+    #   per call might be fewer than the specified maximum.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/ListStateMachineVersionsInput AWS API Documentation
+    #
+    class ListStateMachineVersionsInput < Struct.new(
+      :state_machine_arn,
+      :next_token,
+      :max_results)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] state_machine_versions
+    #   Versions for the state machine.
+    #   @return [Array<Types::StateMachineVersionListItem>]
+    #
+    # @!attribute [rw] next_token
+    #   If `nextToken` is returned, there are more results available. The
+    #   value of `nextToken` is a unique pagination token for each page.
+    #   Make the call again using the returned token to retrieve the next
+    #   page. Keep all other arguments unchanged. Each pagination token
+    #   expires after 24 hours. Using an expired pagination token will
+    #   return an *HTTP 400 InvalidToken* error.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/ListStateMachineVersionsOutput AWS API Documentation
+    #
+    class ListStateMachineVersionsOutput < Struct.new(
+      :state_machine_versions,
       :next_token)
       SENSITIVE = []
       include Aws::Structure
@@ -2059,6 +3032,21 @@ module Aws::States
     #   [1]: https://docs.aws.amazon.com/step-functions/latest/dg/input-output-resultwriter.html
     #   @return [Integer]
     #
+    # @!attribute [rw] failures_not_redrivable
+    #   The number of `FAILED`, `ABORTED`, or `TIMED_OUT` child workflow
+    #   executions that cannot be redriven because their execution status is
+    #   terminal. For example, child workflows with an execution status of
+    #   `FAILED`, `ABORTED`, or `TIMED_OUT` and a `redriveStatus` of
+    #   `NOT_REDRIVABLE`.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] pending_redrive
+    #   The number of unsuccessful child workflow executions currently
+    #   waiting to be redriven. The status of these child workflow
+    #   executions could be `FAILED`, `ABORTED`, or `TIMED_OUT` in the
+    #   original execution attempt or a previous redrive attempt.
+    #   @return [Integer]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/MapRunExecutionCounts AWS API Documentation
     #
     class MapRunExecutionCounts < Struct.new(
@@ -2069,7 +3057,9 @@ module Aws::States
       :timed_out,
       :aborted,
       :total,
-      :results_written)
+      :results_written,
+      :failures_not_redrivable,
+      :pending_redrive)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2143,6 +3133,19 @@ module Aws::States
     #   [1]: https://docs.aws.amazon.com/step-functions/latest/dg/input-output-resultwriter.html
     #   @return [Integer]
     #
+    # @!attribute [rw] failures_not_redrivable
+    #   The number of `FAILED`, `ABORTED`, or `TIMED_OUT` items in child
+    #   workflow executions that cannot be redriven because the execution
+    #   status of those child workflows is terminal. For example, child
+    #   workflows with an execution status of `FAILED`, `ABORTED`, or
+    #   `TIMED_OUT` and a `redriveStatus` of `NOT_REDRIVABLE`.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] pending_redrive
+    #   The number of unsuccessful items in child workflow executions
+    #   currently waiting to be redriven.
+    #   @return [Integer]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/MapRunItemCounts AWS API Documentation
     #
     class MapRunItemCounts < Struct.new(
@@ -2153,7 +3156,9 @@ module Aws::States
       :timed_out,
       :aborted,
       :total,
-      :results_written)
+      :results_written,
+      :failures_not_redrivable,
+      :pending_redrive)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2189,6 +3194,27 @@ module Aws::States
       :state_machine_arn,
       :start_date,
       :stop_date)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains details about a Map Run that was redriven.
+    #
+    # @!attribute [rw] map_run_arn
+    #   The Amazon Resource Name (ARN) of a Map Run that was redriven.
+    #   @return [String]
+    #
+    # @!attribute [rw] redrive_count
+    #   The number of times the Map Run has been redriven at this point in
+    #   the execution's history including this event. The redrive count for
+    #   a redriven Map Run is always greater than 0.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/MapRunRedrivenEventDetails AWS API Documentation
+    #
+    class MapRunRedrivenEventDetails < Struct.new(
+      :map_run_arn,
+      :redrive_count)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2236,8 +3262,99 @@ module Aws::States
       include Aws::Structure
     end
 
-    # Could not find the referenced resource. Only state machine and
-    # activity ARNs are supported.
+    # @!attribute [rw] state_machine_arn
+    #   The Amazon Resource Name (ARN) of the state machine.
+    #   @return [String]
+    #
+    # @!attribute [rw] revision_id
+    #   Only publish the state machine version if the current state
+    #   machine's revision ID matches the specified ID.
+    #
+    #   Use this option to avoid publishing a version if the state machine
+    #   changed since you last updated it. If the specified revision ID
+    #   doesn't match the state machine's current revision ID, the API
+    #   returns `ConflictException`.
+    #
+    #   <note markdown="1"> To specify an initial revision ID for a state machine with no
+    #   revision ID assigned, specify the string `INITIAL` for the
+    #   `revisionId` parameter. For example, you can specify a `revisionID`
+    #   of `INITIAL` when you create a state machine using the
+    #   CreateStateMachine API action.
+    #
+    #    </note>
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   An optional description of the state machine version.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/PublishStateMachineVersionInput AWS API Documentation
+    #
+    class PublishStateMachineVersionInput < Struct.new(
+      :state_machine_arn,
+      :revision_id,
+      :description)
+      SENSITIVE = [:description]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] creation_date
+    #   The date the version was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] state_machine_version_arn
+    #   The Amazon Resource Name (ARN) (ARN) that identifies the state
+    #   machine version.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/PublishStateMachineVersionOutput AWS API Documentation
+    #
+    class PublishStateMachineVersionOutput < Struct.new(
+      :creation_date,
+      :state_machine_version_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] execution_arn
+    #   The Amazon Resource Name (ARN) of the execution to be redriven.
+    #   @return [String]
+    #
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier that you provide to ensure the
+    #   idempotency of the request. If you don’t specify a client token, the
+    #   Amazon Web Services SDK automatically generates a client token and
+    #   uses it for the request to ensure idempotency. The API will return
+    #   idempotent responses for the last 10 client tokens used to
+    #   successfully redrive the execution. These client tokens are valid
+    #   for up to 15 minutes after they are first used.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/RedriveExecutionInput AWS API Documentation
+    #
+    class RedriveExecutionInput < Struct.new(
+      :execution_arn,
+      :client_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] redrive_date
+    #   The date the execution was last redriven.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/RedriveExecutionOutput AWS API Documentation
+    #
+    class RedriveExecutionOutput < Struct.new(
+      :redrive_date)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Could not find the referenced resource.
     #
     # @!attribute [rw] message
     #   @return [String]
@@ -2250,6 +3367,34 @@ module Aws::States
     class ResourceNotFound < Struct.new(
       :message,
       :resource_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains details about the routing configuration of a state machine
+    # alias. In a routing configuration, you define an array of objects that
+    # specify up to two state machine versions. You also specify the
+    # percentage of traffic to be routed to each version.
+    #
+    # @!attribute [rw] state_machine_version_arn
+    #   The Amazon Resource Name (ARN) that identifies one or two state
+    #   machine versions defined in the routing configuration.
+    #
+    #   If you specify the ARN of a second version, it must belong to the
+    #   same state machine as the first version.
+    #   @return [String]
+    #
+    # @!attribute [rw] weight
+    #   The percentage of traffic you want to route to a state machine
+    #   version. The sum of the weights in the routing configuration must be
+    #   equal to 100.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/RoutingConfigurationListItem AWS API Documentation
+    #
+    class RoutingConfigurationListItem < Struct.new(
+      :state_machine_version_arn,
+      :weight)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2339,21 +3484,74 @@ module Aws::States
     #
     class SendTaskSuccessOutput < Aws::EmptyStructure; end
 
+    # The request would cause a service quota to be exceeded.
+    #
+    # HTTP Status Code: 402
+    #
+    # @!attribute [rw] message
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/ServiceQuotaExceededException AWS API Documentation
+    #
+    class ServiceQuotaExceededException < Struct.new(
+      :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] state_machine_arn
     #   The Amazon Resource Name (ARN) of the state machine to execute.
+    #
+    #   The `stateMachineArn` parameter accepts one of the following inputs:
+    #
+    #   * **An unqualified state machine ARN** – Refers to a state machine
+    #     ARN that isn't qualified with a version or alias ARN. The
+    #     following is an example of an unqualified state machine ARN.
+    #
+    #     `arn:<partition>:states:<region>:<account-id>:stateMachine:<myStateMachine>`
+    #
+    #     Step Functions doesn't associate state machine executions that
+    #     you start with an unqualified ARN with a version. This is true
+    #     even if that version uses the same revision that the execution
+    #     used.
+    #
+    #   * **A state machine version ARN** – Refers to a version ARN, which
+    #     is a combination of state machine ARN and the version number
+    #     separated by a colon (:). The following is an example of the ARN
+    #     for version 10.
+    #
+    #     `arn:<partition>:states:<region>:<account-id>:stateMachine:<myStateMachine>:10`
+    #
+    #     Step Functions doesn't associate executions that you start with a
+    #     version ARN with any aliases that point to that version.
+    #
+    #   * **A state machine alias ARN** – Refers to an alias ARN, which is a
+    #     combination of state machine ARN and the alias name separated by a
+    #     colon (:). The following is an example of the ARN for an alias
+    #     named `PROD`.
+    #
+    #     `arn:<partition>:states:<region>:<account-id>:stateMachine:<myStateMachine:PROD>`
+    #
+    #     Step Functions associates executions that you start with an alias
+    #     ARN with that alias and the state machine version used for that
+    #     execution.
     #   @return [String]
     #
     # @!attribute [rw] name
-    #   The name of the execution. This name must be unique for your Amazon
-    #   Web Services account, region, and state machine for 90 days. For
-    #   more information, see [ Limits Related to State Machine
+    #   Optional name of the execution. This name must be unique for your
+    #   Amazon Web Services account, Region, and state machine for 90 days.
+    #   For more information, see [ Limits Related to State Machine
     #   Executions][1] in the *Step Functions Developer Guide*.
+    #
+    #   If you don't provide a name for the execution, Step Functions
+    #   automatically generates a universally unique identifier (UUID) as
+    #   the execution name.
     #
     #   A name must *not* contain:
     #
     #   * white space
     #
-    #   * brackets `< > \{ \} [ ]`
+    #   * brackets `< > { } [ ]`
     #
     #   * wildcard characters `? *`
     #
@@ -2373,10 +3571,10 @@ module Aws::States
     #   The string that contains the JSON input data for the execution, for
     #   example:
     #
-    #   `"input": "\{"first_name" : "test"\}"`
+    #   `"input": "{"first_name" : "test"}"`
     #
     #   <note markdown="1"> If you don't include any JSON input data, you still must include
-    #   the two braces, for example: `"input": "\{\}"`
+    #   the two braces, for example: `"input": "{}"`
     #
     #    </note>
     #
@@ -2429,10 +3627,10 @@ module Aws::States
     #   The string that contains the JSON input data for the execution, for
     #   example:
     #
-    #   `"input": "\{"first_name" : "test"\}"`
+    #   `"input": "{"first_name" : "test"}"`
     #
     #   <note markdown="1"> If you don't include any JSON input data, you still must include
-    #   the two braces, for example: `"input": "\{\}"`
+    #   the two braces, for example: `"input": "{}"`
     #
     #    </note>
     #
@@ -2445,13 +3643,22 @@ module Aws::States
     #   in the request payload.
     #   @return [String]
     #
+    # @!attribute [rw] included_data
+    #   If your state machine definition is encrypted with a KMS key,
+    #   callers must have `kms:Decrypt` permission to decrypt the
+    #   definition. Alternatively, you can call the API with `includedData =
+    #   METADATA_ONLY` to get a successful response without the encrypted
+    #   definition.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/StartSyncExecutionInput AWS API Documentation
     #
     class StartSyncExecutionInput < Struct.new(
       :state_machine_arn,
       :name,
       :input,
-      :trace_header)
+      :trace_header,
+      :included_data)
       SENSITIVE = [:input]
       include Aws::Structure
     end
@@ -2577,7 +3784,7 @@ module Aws::States
     #
     #   * white space
     #
-    #   * brackets `< > \{ \} [ ]`
+    #   * brackets `< > { } [ ]`
     #
     #   * wildcard characters `? *`
     #
@@ -2598,13 +3805,46 @@ module Aws::States
     #   Contains details about the output of an execution history event.
     #   @return [Types::HistoryEventExecutionDataDetails]
     #
+    # @!attribute [rw] assigned_variables
+    #   Map of variable name and value as a serialized JSON representation.
+    #   @return [Hash<String,String>]
+    #
+    # @!attribute [rw] assigned_variables_details
+    #   Provides details about input or output in an execution history
+    #   event.
+    #   @return [Types::AssignedVariablesDetails]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/StateExitedEventDetails AWS API Documentation
     #
     class StateExitedEventDetails < Struct.new(
       :name,
       :output,
-      :output_details)
-      SENSITIVE = [:output]
+      :output_details,
+      :assigned_variables,
+      :assigned_variables_details)
+      SENSITIVE = [:output, :assigned_variables]
+      include Aws::Structure
+    end
+
+    # Contains details about a specific state machine alias.
+    #
+    # @!attribute [rw] state_machine_alias_arn
+    #   The Amazon Resource Name (ARN) that identifies a state machine
+    #   alias. The alias ARN is a combination of state machine ARN and the
+    #   alias name separated by a colon (:). For example,
+    #   `stateMachineARN:PROD`.
+    #   @return [String]
+    #
+    # @!attribute [rw] creation_date
+    #   The creation date of a state machine alias.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/StateMachineAliasListItem AWS API Documentation
+    #
+    class StateMachineAliasListItem < Struct.new(
+      :state_machine_alias_arn,
+      :creation_date)
+      SENSITIVE = []
       include Aws::Structure
     end
 
@@ -2675,7 +3915,7 @@ module Aws::States
     #
     #   * white space
     #
-    #   * brackets `< > \{ \} [ ]`
+    #   * brackets `< > { } [ ]`
     #
     #   * wildcard characters `? *`
     #
@@ -2705,6 +3945,8 @@ module Aws::States
       include Aws::Structure
     end
 
+    # State machine type is not supported.
+    #
     # @!attribute [rw] message
     #   @return [String]
     #
@@ -2712,6 +3954,28 @@ module Aws::States
     #
     class StateMachineTypeNotSupported < Struct.new(
       :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains details about a specific state machine version.
+    #
+    # @!attribute [rw] state_machine_version_arn
+    #   The Amazon Resource Name (ARN) that identifies a state machine
+    #   version. The version ARN is a combination of state machine ARN and
+    #   the version number separated by a colon (:). For example,
+    #   `stateMachineARN:1`.
+    #   @return [String]
+    #
+    # @!attribute [rw] creation_date
+    #   The creation date of a state machine version.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/StateMachineVersionListItem AWS API Documentation
+    #
+    class StateMachineVersionListItem < Struct.new(
+      :state_machine_version_arn,
+      :creation_date)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2823,6 +4087,8 @@ module Aws::States
       include Aws::Structure
     end
 
+    # The activity does not exist.
+    #
     # @!attribute [rw] message
     #   @return [String]
     #
@@ -3051,6 +4317,9 @@ module Aws::States
       include Aws::Structure
     end
 
+    # The task token has either expired or the task associated with the
+    # token has already been closed.
+    #
     # @!attribute [rw] message
     #   @return [String]
     #
@@ -3089,6 +4358,125 @@ module Aws::States
       :error,
       :cause)
       SENSITIVE = [:error, :cause]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] definition
+    #   The [Amazon States Language][1] (ASL) definition of the state.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/step-functions/latest/dg/concepts-amazon-states-language.html
+    #   @return [String]
+    #
+    # @!attribute [rw] role_arn
+    #   The Amazon Resource Name (ARN) of the execution role with the
+    #   required IAM permissions for the state.
+    #   @return [String]
+    #
+    # @!attribute [rw] input
+    #   A string that contains the JSON input data for the state.
+    #   @return [String]
+    #
+    # @!attribute [rw] inspection_level
+    #   Determines the values to return when a state is tested. You can
+    #   specify one of the following types:
+    #
+    #   * `INFO`: Shows the final state output. By default, Step Functions
+    #     sets `inspectionLevel` to `INFO` if you don't specify a level.
+    #
+    #   * `DEBUG`: Shows the final state output along with the input and
+    #     output data processing result.
+    #
+    #   * `TRACE`: Shows the HTTP request and response for an HTTP Task.
+    #     This level also shows the final state output along with the input
+    #     and output data processing result.
+    #
+    #   Each of these levels also provide information about the status of
+    #   the state execution and the next state to transition to.
+    #   @return [String]
+    #
+    # @!attribute [rw] reveal_secrets
+    #   Specifies whether or not to include secret information in the test
+    #   result. For HTTP Tasks, a secret includes the data that an
+    #   EventBridge connection adds to modify the HTTP request headers,
+    #   query parameters, and body. Step Functions doesn't omit any
+    #   information included in the state definition or the HTTP response.
+    #
+    #   If you set `revealSecrets` to `true`, you must make sure that the
+    #   IAM user that calls the `TestState` API has permission for the
+    #   `states:RevealSecrets` action. For an example of IAM policy that
+    #   sets the `states:RevealSecrets` permission, see [IAM permissions to
+    #   test a state][1]. Without this permission, Step Functions throws an
+    #   access denied error.
+    #
+    #   By default, `revealSecrets` is set to `false`.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/step-functions/latest/dg/test-state-isolation.html#test-state-permissions
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] variables
+    #   JSON object literal that sets variables used in the state under
+    #   test. Object keys are the variable names and values are the variable
+    #   values.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/TestStateInput AWS API Documentation
+    #
+    class TestStateInput < Struct.new(
+      :definition,
+      :role_arn,
+      :input,
+      :inspection_level,
+      :reveal_secrets,
+      :variables)
+      SENSITIVE = [:definition, :input, :variables]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] output
+    #   The JSON output data of the state. Length constraints apply to the
+    #   payload size, and are expressed as bytes in UTF-8 encoding.
+    #   @return [String]
+    #
+    # @!attribute [rw] error
+    #   The error returned when the execution of a state fails.
+    #   @return [String]
+    #
+    # @!attribute [rw] cause
+    #   A detailed explanation of the cause for the error when the execution
+    #   of a state fails.
+    #   @return [String]
+    #
+    # @!attribute [rw] inspection_data
+    #   Returns additional details about the state's execution, including
+    #   its input and output data processing flow, and HTTP request and
+    #   response information. The `inspectionLevel` request parameter
+    #   specifies which details are returned.
+    #   @return [Types::InspectionData]
+    #
+    # @!attribute [rw] next_state
+    #   The name of the next state to transition to. If you haven't defined
+    #   a next state in your definition or if the execution of the state
+    #   fails, this ﬁeld doesn't contain a value.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The execution status of the state.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/TestStateOutput AWS API Documentation
+    #
+    class TestStateOutput < Struct.new(
+      :output,
+      :error,
+      :cause,
+      :inspection_data,
+      :next_state,
+      :status)
+      SENSITIVE = [:output, :error, :cause, :inspection_data]
       include Aws::Structure
     end
 
@@ -3183,6 +4571,43 @@ module Aws::States
     #
     class UpdateMapRunOutput < Aws::EmptyStructure; end
 
+    # @!attribute [rw] state_machine_alias_arn
+    #   The Amazon Resource Name (ARN) of the state machine alias.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   A description of the state machine alias.
+    #   @return [String]
+    #
+    # @!attribute [rw] routing_configuration
+    #   The routing configuration of the state machine alias.
+    #
+    #   An array of `RoutingConfig` objects that specifies up to two state
+    #   machine versions that the alias starts executions for.
+    #   @return [Array<Types::RoutingConfigurationListItem>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/UpdateStateMachineAliasInput AWS API Documentation
+    #
+    class UpdateStateMachineAliasInput < Struct.new(
+      :state_machine_alias_arn,
+      :description,
+      :routing_configuration)
+      SENSITIVE = [:description]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] update_date
+    #   The date and time the state machine alias was updated.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/UpdateStateMachineAliasOutput AWS API Documentation
+    #
+    class UpdateStateMachineAliasOutput < Struct.new(
+      :update_date)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] state_machine_arn
     #   The Amazon Resource Name (ARN) of the state machine.
     #   @return [String]
@@ -3201,13 +4626,30 @@ module Aws::States
     #   @return [String]
     #
     # @!attribute [rw] logging_configuration
-    #   The `LoggingConfiguration` data type is used to set CloudWatch Logs
+    #   Use the `LoggingConfiguration` data type to set CloudWatch Logs
     #   options.
     #   @return [Types::LoggingConfiguration]
     #
     # @!attribute [rw] tracing_configuration
     #   Selects whether X-Ray tracing is enabled.
     #   @return [Types::TracingConfiguration]
+    #
+    # @!attribute [rw] publish
+    #   Specifies whether the state machine version is published. The
+    #   default is `false`. To publish a version after updating the state
+    #   machine, set `publish` to `true`.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] version_description
+    #   An optional description of the state machine version to publish.
+    #
+    #   You can only specify the `versionDescription` parameter if you've
+    #   set `publish` to `true`.
+    #   @return [String]
+    #
+    # @!attribute [rw] encryption_configuration
+    #   Settings to configure server-side encryption.
+    #   @return [Types::EncryptionConfiguration]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/UpdateStateMachineInput AWS API Documentation
     #
@@ -3216,8 +4658,11 @@ module Aws::States
       :definition,
       :role_arn,
       :logging_configuration,
-      :tracing_configuration)
-      SENSITIVE = [:definition]
+      :tracing_configuration,
+      :publish,
+      :version_description,
+      :encryption_configuration)
+      SENSITIVE = [:definition, :version_description]
       include Aws::Structure
     end
 
@@ -3225,10 +4670,222 @@ module Aws::States
     #   The date and time the state machine was updated.
     #   @return [Time]
     #
+    # @!attribute [rw] revision_id
+    #   The revision identifier for the updated state machine.
+    #   @return [String]
+    #
+    # @!attribute [rw] state_machine_version_arn
+    #   The Amazon Resource Name (ARN) of the published state machine
+    #   version.
+    #
+    #   If the `publish` parameter isn't set to `true`, this field returns
+    #   null.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/UpdateStateMachineOutput AWS API Documentation
     #
     class UpdateStateMachineOutput < Struct.new(
-      :update_date)
+      :update_date,
+      :revision_id,
+      :state_machine_version_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Describes potential issues found during state machine validation.
+    # Rather than raise an exception, validation will return a list of
+    # **diagnostic elements** containing diagnostic information.
+    #
+    # <note markdown="1"> The [ValidateStateMachineDefinitionlAPI][1] might add new diagnostics
+    # in the future, adjust diagnostic codes, or change the message wording.
+    # Your automated processes should only rely on the value of the
+    # **result** field value (OK, FAIL). Do **not** rely on the exact order,
+    # count, or wording of diagnostic messages.
+    #
+    #  </note>
+    #
+    # **List of warning codes**
+    #
+    # NO\_DOLLAR
+    #
+    # : No `.$` on a field that appears to be a JSONPath or Intrinsic
+    #   Function.
+    #
+    # NO\_PATH
+    #
+    # : Field value looks like a path, but field name does not end with
+    #   'Path'.
+    #
+    # PASS\_RESULT\_IS\_STATIC
+    #
+    # : Attempt to use a path in the result of a pass state.
+    #
+    # **List of error codes**
+    #
+    # INVALID\_JSON\_DESCRIPTION
+    #
+    # : JSON syntax problem found.
+    #
+    # MISSING\_DESCRIPTION
+    #
+    # : Received a null or empty workflow input.
+    #
+    # SCHEMA\_VALIDATION\_FAILED
+    #
+    # : Schema validation reported errors.
+    #
+    # INVALID\_RESOURCE
+    #
+    # : The value of a Task-state resource field is invalid.
+    #
+    # MISSING\_END\_STATE
+    #
+    # : The workflow does not have a terminal state.
+    #
+    # DUPLICATE\_STATE\_NAME
+    #
+    # : The same state name appears more than once.
+    #
+    # INVALID\_STATE\_NAME
+    #
+    # : The state name does not follow the naming convention.
+    #
+    # STATE\_MACHINE\_NAME\_EMPTY
+    #
+    # : The state machine name has not been specified.
+    #
+    # STATE\_MACHINE\_NAME\_INVALID
+    #
+    # : The state machine name does not follow the naming convention.
+    #
+    # STATE\_MACHINE\_NAME\_TOO\_LONG
+    #
+    # : The state name exceeds the allowed length.
+    #
+    # STATE\_MACHINE\_NAME\_ALREADY\_EXISTS
+    #
+    # : The state name already exists.
+    #
+    # DUPLICATE\_LABEL\_NAME
+    #
+    # : A label name appears more than once.
+    #
+    # INVALID\_LABEL\_NAME
+    #
+    # : You have provided an invalid label name.
+    #
+    # MISSING\_TRANSITION\_TARGET
+    #
+    # : The value of "Next" field doesn't match a known state name.
+    #
+    # TOO\_DEEPLY\_NESTED
+    #
+    # : The states are too deeply nested.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/step-functions/latest/apireference/API_ValidateStateMachineDefinition.html
+    #
+    # @!attribute [rw] severity
+    #   A value of `ERROR` means that you cannot create or update a state
+    #   machine with this definition.
+    #
+    #   `WARNING` level diagnostics alert you to potential issues, but they
+    #   will not prevent you from creating or updating your state machine.
+    #   @return [String]
+    #
+    # @!attribute [rw] code
+    #   Identifying code for the diagnostic.
+    #   @return [String]
+    #
+    # @!attribute [rw] message
+    #   Message describing the diagnostic condition.
+    #   @return [String]
+    #
+    # @!attribute [rw] location
+    #   Location of the issue in the state machine, if available.
+    #
+    #   For errors specific to a field, the location could be in the format:
+    #   `/States/<StateName>/<FieldName>`, for example:
+    #   `/States/FailState/ErrorPath`.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/ValidateStateMachineDefinitionDiagnostic AWS API Documentation
+    #
+    class ValidateStateMachineDefinitionDiagnostic < Struct.new(
+      :severity,
+      :code,
+      :message,
+      :location)
+      SENSITIVE = [:code, :message, :location]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] definition
+    #   The Amazon States Language definition of the state machine. For more
+    #   information, see [Amazon States Language][1] (ASL).
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/step-functions/latest/dg/concepts-amazon-states-language.html
+    #   @return [String]
+    #
+    # @!attribute [rw] type
+    #   The target type of state machine for this definition. The default is
+    #   `STANDARD`.
+    #   @return [String]
+    #
+    # @!attribute [rw] severity
+    #   Minimum level of diagnostics to return. `ERROR` returns only `ERROR`
+    #   diagnostics, whereas `WARNING` returns both `WARNING` and `ERROR`
+    #   diagnostics. The default is `ERROR`.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of diagnostics that are returned per call. The
+    #   default and maximum value is 100. Setting the value to 0 will also
+    #   use the default of 100.
+    #
+    #   If the number of diagnostics returned in the response exceeds
+    #   `maxResults`, the value of the `truncated` field in the response
+    #   will be set to `true`.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/ValidateStateMachineDefinitionInput AWS API Documentation
+    #
+    class ValidateStateMachineDefinitionInput < Struct.new(
+      :definition,
+      :type,
+      :severity,
+      :max_results)
+      SENSITIVE = [:definition]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] result
+    #   The result value will be `OK` when no syntax errors are found, or
+    #   `FAIL` if the workflow definition does not pass verification.
+    #   @return [String]
+    #
+    # @!attribute [rw] diagnostics
+    #   An array of diagnostic errors and warnings found during validation
+    #   of the state machine definition. Since **warnings** do not prevent
+    #   deploying your workflow definition, the **result** value could be
+    #   `OK` even when warning diagnostics are present in the response.
+    #   @return [Array<Types::ValidateStateMachineDefinitionDiagnostic>]
+    #
+    # @!attribute [rw] truncated
+    #   The result value will be `true` if the number of diagnostics found
+    #   in the workflow definition exceeds `maxResults`. When all
+    #   diagnostics results are returned, the value will be `false`.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/states-2016-11-23/ValidateStateMachineDefinitionOutput AWS API Documentation
+    #
+    class ValidateStateMachineDefinitionOutput < Struct.new(
+      :result,
+      :diagnostics,
+      :truncated)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3255,3 +4912,4 @@ module Aws::States
 
   end
 end
+

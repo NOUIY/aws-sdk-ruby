@@ -160,6 +160,45 @@ module Aws::CustomerProfiles
       include Aws::Structure
     end
 
+    # Object that segments on Customer Profile's address object.
+    #
+    # @!attribute [rw] city
+    #   The city belonging to the address.
+    #   @return [Types::ProfileDimension]
+    #
+    # @!attribute [rw] country
+    #   The country belonging to the address.
+    #   @return [Types::ProfileDimension]
+    #
+    # @!attribute [rw] county
+    #   The county belonging to the address.
+    #   @return [Types::ProfileDimension]
+    #
+    # @!attribute [rw] postal_code
+    #   The postal code belonging to the address.
+    #   @return [Types::ProfileDimension]
+    #
+    # @!attribute [rw] province
+    #   The province belonging to the address.
+    #   @return [Types::ProfileDimension]
+    #
+    # @!attribute [rw] state
+    #   The state belonging to the address.
+    #   @return [Types::ProfileDimension]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/AddressDimension AWS API Documentation
+    #
+    class AddressDimension < Struct.new(
+      :city,
+      :country,
+      :county,
+      :postal_code,
+      :province,
+      :state)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Details for workflow of type `APPFLOW_INTEGRATION`.
     #
     # @!attribute [rw] flow_definition
@@ -177,7 +216,7 @@ module Aws::CustomerProfiles
     class AppflowIntegration < Struct.new(
       :flow_definition,
       :batches)
-      SENSITIVE = []
+      SENSITIVE = [:flow_definition]
       include Aws::Structure
     end
 
@@ -291,6 +330,161 @@ module Aws::CustomerProfiles
       include Aws::Structure
     end
 
+    # Mathematical expression and a list of attribute items specified in
+    # that expression.
+    #
+    # @!attribute [rw] attributes
+    #   A list of attribute items specified in the mathematical expression.
+    #   @return [Array<Types::AttributeItem>]
+    #
+    # @!attribute [rw] expression
+    #   Mathematical expression that is performed on attribute items
+    #   provided in the attribute list. Each element in the expression
+    #   should follow the structure of
+    #   \\"\{ObjectTypeName.AttributeName}\\".
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/AttributeDetails AWS API Documentation
+    #
+    class AttributeDetails < Struct.new(
+      :attributes,
+      :expression)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Object that segments on various Customer Profile's fields.
+    #
+    # @!attribute [rw] dimension_type
+    #   The action to segment with.
+    #   @return [String]
+    #
+    # @!attribute [rw] values
+    #   The values to apply the DimensionType on.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/AttributeDimension AWS API Documentation
+    #
+    class AttributeDimension < Struct.new(
+      :dimension_type,
+      :values)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The details of a single attribute item specified in the mathematical
+    # expression.
+    #
+    # @!attribute [rw] name
+    #   The name of an attribute defined in a profile object type.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/AttributeItem AWS API Documentation
+    #
+    class AttributeItem < Struct.new(
+      :name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Configuration information about the `AttributeTypesSelector `where the
+    # rule-based identity resolution uses to match profiles. You can choose
+    # how profiles are compared across attribute types and which attribute
+    # to use for matching from each type. There are three attribute types
+    # you can configure:
+    #
+    # * Email type
+    #
+    #   * You can choose from `Email`, `BusinessEmail`, and `PersonalEmail`
+    #
+    #   ^
+    # * Phone number type
+    #
+    #   * You can choose from `Phone`, `HomePhone`, and `MobilePhone`
+    #
+    #   ^
+    # * Address type
+    #
+    #   * You can choose from `Address`, `BusinessAddress`,
+    #     `MaillingAddress`, and `ShippingAddress`
+    #
+    #   ^
+    #
+    # You can either choose `ONE_TO_ONE` or `MANY_TO_MANY` as the
+    # `AttributeMatchingModel`. When choosing `MANY_TO_MANY`, the system can
+    # match attribute across the sub-types of an attribute type. For
+    # example, if the value of the `Email` field of Profile A and the value
+    # of `BusinessEmail` field of Profile B matches, the two profiles are
+    # matched on the Email type. When choosing `ONE_TO_ONE` the system can
+    # only match if the sub-types are exact matches. For example, only when
+    # the value of the `Email` field of Profile A and the value of the
+    # `Email` field of Profile B matches, the two profiles are matched on
+    # the Email type.
+    #
+    # @!attribute [rw] attribute_matching_model
+    #   Configures the `AttributeMatchingModel`, you can either choose
+    #   `ONE_TO_ONE` or `MANY_TO_MANY`.
+    #   @return [String]
+    #
+    # @!attribute [rw] address
+    #   The `Address` type. You can choose from `Address`,
+    #   `BusinessAddress`, `MaillingAddress`, and `ShippingAddress`.
+    #
+    #   You only can use the Address type in the `MatchingRule`. For
+    #   example, if you want to match profile based on
+    #   `BusinessAddress.City` or `MaillingAddress.City`, you need to choose
+    #   the `BusinessAddress` and the `MaillingAddress` to represent the
+    #   Address type and specify the `Address.City` on the matching rule.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] phone_number
+    #   The `PhoneNumber` type. You can choose from `PhoneNumber`,
+    #   `HomePhoneNumber`, and `MobilePhoneNumber`.
+    #
+    #   You only can use the `PhoneNumber` type in the `MatchingRule`. For
+    #   example, if you want to match a profile based on `Phone` or
+    #   `HomePhone`, you need to choose the `Phone` and the `HomePhone` to
+    #   represent the `PhoneNumber` type and only specify the `PhoneNumber`
+    #   on the matching rule.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] email_address
+    #   The `Email` type. You can choose from `EmailAddress`,
+    #   `BusinessEmailAddress` and `PersonalEmailAddress`.
+    #
+    #   You only can use the `EmailAddress` type in the `MatchingRule`. For
+    #   example, if you want to match profile based on
+    #   `PersonalEmailAddress` or `BusinessEmailAddress`, you need to choose
+    #   the `PersonalEmailAddress` and the `BusinessEmailAddress` to
+    #   represent the `EmailAddress` type and only specify the
+    #   `EmailAddress` on the matching rule.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/AttributeTypesSelector AWS API Documentation
+    #
+    class AttributeTypesSelector < Struct.new(
+      :attribute_matching_model,
+      :address,
+      :phone_number,
+      :email_address)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # List containing the values for the given attribute.
+    #
+    # @!attribute [rw] value
+    #   An individual value belonging to the given attribute.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/AttributeValueItem AWS API Documentation
+    #
+    class AttributeValueItem < Struct.new(
+      :value)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Configuration settings for how to perform the auto-merging of
     # profiles.
     #
@@ -363,6 +557,251 @@ module Aws::CustomerProfiles
       include Aws::Structure
     end
 
+    # Error object describing why a specific profile and calculated
+    # attribute failed.
+    #
+    # @!attribute [rw] code
+    #   Status code for why a specific profile and calculated attribute
+    #   failed.
+    #   @return [String]
+    #
+    # @!attribute [rw] message
+    #   Message describing why a specific profile and calculated attribute
+    #   failed.
+    #   @return [String]
+    #
+    # @!attribute [rw] profile_id
+    #   The profile id that failed.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/BatchGetCalculatedAttributeForProfileError AWS API Documentation
+    #
+    class BatchGetCalculatedAttributeForProfileError < Struct.new(
+      :code,
+      :message,
+      :profile_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] calculated_attribute_name
+    #   The unique name of the calculated attribute.
+    #   @return [String]
+    #
+    # @!attribute [rw] domain_name
+    #   The unique name of the domain.
+    #   @return [String]
+    #
+    # @!attribute [rw] profile_ids
+    #   List of unique identifiers for customer profiles to retrieve.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] condition_overrides
+    #   Overrides the condition block within the original calculated
+    #   attribute definition.
+    #   @return [Types::ConditionOverrides]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/BatchGetCalculatedAttributeForProfileRequest AWS API Documentation
+    #
+    class BatchGetCalculatedAttributeForProfileRequest < Struct.new(
+      :calculated_attribute_name,
+      :domain_name,
+      :profile_ids,
+      :condition_overrides)
+      SENSITIVE = [:condition_overrides]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] errors
+    #   List of errors for calculated attribute values that could not be
+    #   retrieved.
+    #   @return [Array<Types::BatchGetCalculatedAttributeForProfileError>]
+    #
+    # @!attribute [rw] calculated_attribute_values
+    #   List of calculated attribute values retrieved.
+    #   @return [Array<Types::CalculatedAttributeValue>]
+    #
+    # @!attribute [rw] condition_overrides
+    #   Overrides the condition block within the original calculated
+    #   attribute definition.
+    #   @return [Types::ConditionOverrides]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/BatchGetCalculatedAttributeForProfileResponse AWS API Documentation
+    #
+    class BatchGetCalculatedAttributeForProfileResponse < Struct.new(
+      :errors,
+      :calculated_attribute_values,
+      :condition_overrides)
+      SENSITIVE = [:condition_overrides]
+      include Aws::Structure
+    end
+
+    # Error object describing why a specific profile failed.
+    #
+    # @!attribute [rw] code
+    #   Status code for why a specific profile failed.
+    #   @return [String]
+    #
+    # @!attribute [rw] message
+    #   Message describing why a specific profile failed.
+    #   @return [String]
+    #
+    # @!attribute [rw] profile_id
+    #   The profile id that failed.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/BatchGetProfileError AWS API Documentation
+    #
+    class BatchGetProfileError < Struct.new(
+      :code,
+      :message,
+      :profile_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] domain_name
+    #   The unique name of the domain.
+    #   @return [String]
+    #
+    # @!attribute [rw] profile_ids
+    #   List of unique identifiers for customer profiles to retrieve.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/BatchGetProfileRequest AWS API Documentation
+    #
+    class BatchGetProfileRequest < Struct.new(
+      :domain_name,
+      :profile_ids)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] errors
+    #   For information about the errors that are common to all actions, see
+    #   [Common Errors][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/APIReference/CommonErrors.html
+    #   @return [Array<Types::BatchGetProfileError>]
+    #
+    # @!attribute [rw] profiles
+    #   Array of Profile Objects.
+    #   @return [Array<Types::Profile>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/BatchGetProfileResponse AWS API Documentation
+    #
+    class BatchGetProfileResponse < Struct.new(
+      :errors,
+      :profiles)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Object that segments on Customer Profile's Calculated Attributes.
+    #
+    # @!attribute [rw] dimension_type
+    #   The action to segment with.
+    #   @return [String]
+    #
+    # @!attribute [rw] values
+    #   The values to apply the DimensionType with.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] condition_overrides
+    #   Applies the given condition over the initial Calculated Attribute's
+    #   definition.
+    #   @return [Types::ConditionOverrides]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/CalculatedAttributeDimension AWS API Documentation
+    #
+    class CalculatedAttributeDimension < Struct.new(
+      :dimension_type,
+      :values,
+      :condition_overrides)
+      SENSITIVE = [:condition_overrides]
+      include Aws::Structure
+    end
+
+    # The object containing the values of a single calculated attribute
+    # value.
+    #
+    # @!attribute [rw] calculated_attribute_name
+    #   The unique name of the calculated attribute.
+    #   @return [String]
+    #
+    # @!attribute [rw] display_name
+    #   The display name of the calculated attribute.
+    #   @return [String]
+    #
+    # @!attribute [rw] is_data_partial
+    #   Indicates whether the calculated attribute's value is based on
+    #   partial data. If the data is partial, it is set to true.
+    #   @return [String]
+    #
+    # @!attribute [rw] profile_id
+    #   The profile id belonging to this calculated attribute value.
+    #   @return [String]
+    #
+    # @!attribute [rw] value
+    #   The value of the calculated attribute.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/CalculatedAttributeValue AWS API Documentation
+    #
+    class CalculatedAttributeValue < Struct.new(
+      :calculated_attribute_name,
+      :display_name,
+      :is_data_partial,
+      :profile_id,
+      :value)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # An object to override the original condition block of a calculated
+    # attribute.
+    #
+    # @!attribute [rw] range
+    #   The relative time period over which data is included in the
+    #   aggregation for this override.
+    #   @return [Types::RangeOverride]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/ConditionOverrides AWS API Documentation
+    #
+    class ConditionOverrides < Struct.new(
+      :range)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The conditions including range, object count, and threshold for the
+    # calculated attribute.
+    #
+    # @!attribute [rw] range
+    #   The relative time period over which data is included in the
+    #   aggregation.
+    #   @return [Types::Range]
+    #
+    # @!attribute [rw] object_count
+    #   The number of profile objects used for the calculated attribute.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] threshold
+    #   The threshold for the calculated attribute.
+    #   @return [Types::Threshold]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/Conditions AWS API Documentation
+    #
+    class Conditions < Struct.new(
+      :range,
+      :object_count,
+      :threshold)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # How the auto-merging process should resolve conflicts between
     # different profiles.
     #
@@ -370,9 +809,9 @@ module Aws::CustomerProfiles
     #   How the auto-merging process should resolve conflicts between
     #   different profiles.
     #
-    #   * `RECENCY`\: Uses the data that was most recently updated.
+    #   * `RECENCY`: Uses the data that was most recently updated.
     #
-    #   * `SOURCE`\: Uses the data from a specific source. For example, if a
+    #   * `SOURCE`: Uses the data from a specific source. For example, if a
     #     company has been aquired or two departments have merged, data from
     #     the specified source is used. If two duplicate profiles are from
     #     the same source, then `RECENCY` is used again.
@@ -447,6 +886,124 @@ module Aws::CustomerProfiles
     #   The unique name of the domain.
     #   @return [String]
     #
+    # @!attribute [rw] calculated_attribute_name
+    #   The unique name of the calculated attribute.
+    #   @return [String]
+    #
+    # @!attribute [rw] display_name
+    #   The display name of the calculated attribute.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the calculated attribute.
+    #   @return [String]
+    #
+    # @!attribute [rw] attribute_details
+    #   Mathematical expression and a list of attribute items specified in
+    #   that expression.
+    #   @return [Types::AttributeDetails]
+    #
+    # @!attribute [rw] conditions
+    #   The conditions including range, object count, and threshold for the
+    #   calculated attribute.
+    #   @return [Types::Conditions]
+    #
+    # @!attribute [rw] filter
+    #   Defines how to filter incoming objects to include part of the
+    #   Calculated Attribute.
+    #   @return [Types::Filter]
+    #
+    # @!attribute [rw] statistic
+    #   The aggregation operation to perform for the calculated attribute.
+    #   @return [String]
+    #
+    # @!attribute [rw] tags
+    #   The tags used to organize, track, or control access for this
+    #   resource.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/CreateCalculatedAttributeDefinitionRequest AWS API Documentation
+    #
+    class CreateCalculatedAttributeDefinitionRequest < Struct.new(
+      :domain_name,
+      :calculated_attribute_name,
+      :display_name,
+      :description,
+      :attribute_details,
+      :conditions,
+      :filter,
+      :statistic,
+      :tags)
+      SENSITIVE = [:description, :attribute_details, :conditions, :statistic]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] calculated_attribute_name
+    #   The unique name of the calculated attribute.
+    #   @return [String]
+    #
+    # @!attribute [rw] display_name
+    #   The display name of the calculated attribute.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the calculated attribute.
+    #   @return [String]
+    #
+    # @!attribute [rw] attribute_details
+    #   Mathematical expression and a list of attribute items specified in
+    #   that expression.
+    #   @return [Types::AttributeDetails]
+    #
+    # @!attribute [rw] conditions
+    #   The conditions including range, object count, and threshold for the
+    #   calculated attribute.
+    #   @return [Types::Conditions]
+    #
+    # @!attribute [rw] filter
+    #   The filter that was used as part of the request.
+    #   @return [Types::Filter]
+    #
+    # @!attribute [rw] statistic
+    #   The aggregation operation to perform for the calculated attribute.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The timestamp of when the calculated attribute definition was
+    #   created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] last_updated_at
+    #   The timestamp of when the calculated attribute definition was most
+    #   recently edited.
+    #   @return [Time]
+    #
+    # @!attribute [rw] tags
+    #   The tags used to organize, track, or control access for this
+    #   resource.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/CreateCalculatedAttributeDefinitionResponse AWS API Documentation
+    #
+    class CreateCalculatedAttributeDefinitionResponse < Struct.new(
+      :calculated_attribute_name,
+      :display_name,
+      :description,
+      :attribute_details,
+      :conditions,
+      :filter,
+      :statistic,
+      :created_at,
+      :last_updated_at,
+      :tags)
+      SENSITIVE = [:description, :attribute_details, :conditions, :statistic]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] domain_name
+    #   The unique name of the domain.
+    #   @return [String]
+    #
     # @!attribute [rw] default_expiration_days
     #   The default number of days until the data within the domain expires.
     #   @return [Integer]
@@ -483,6 +1040,17 @@ module Aws::CustomerProfiles
     #   [1]: https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_GetMatches.html
     #   @return [Types::MatchingRequest]
     #
+    # @!attribute [rw] rule_based_matching
+    #   The process of matching duplicate profiles using the Rule-Based
+    #   matching. If `RuleBasedMatching` = true, Amazon Connect Customer
+    #   Profiles will start to match and merge your profiles according to
+    #   your configuration in the `RuleBasedMatchingRequest`. You can use
+    #   the `ListRuleBasedMatches` and `GetSimilarProfiles` API to return
+    #   and review the results. Also, if you have configured
+    #   `ExportingConfig` in the `RuleBasedMatchingRequest`, you can
+    #   download the results from S3.
+    #   @return [Types::RuleBasedMatchingRequest]
+    #
     # @!attribute [rw] tags
     #   The tags used to organize, track, or control access for this
     #   resource.
@@ -496,6 +1064,7 @@ module Aws::CustomerProfiles
       :default_encryption_key,
       :dead_letter_queue_url,
       :matching,
+      :rule_based_matching,
       :tags)
       SENSITIVE = []
       include Aws::Structure
@@ -538,6 +1107,17 @@ module Aws::CustomerProfiles
     #   [1]: https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_GetMatches.html
     #   @return [Types::MatchingResponse]
     #
+    # @!attribute [rw] rule_based_matching
+    #   The process of matching duplicate profiles using the Rule-Based
+    #   matching. If `RuleBasedMatching` = true, Amazon Connect Customer
+    #   Profiles will start to match and merge your profiles according to
+    #   your configuration in the `RuleBasedMatchingRequest`. You can use
+    #   the `ListRuleBasedMatches` and `GetSimilarProfiles` API to return
+    #   and review the results. Also, if you have configured
+    #   `ExportingConfig` in the `RuleBasedMatchingRequest`, you can
+    #   download the results from S3.
+    #   @return [Types::RuleBasedMatchingResponse]
+    #
     # @!attribute [rw] created_at
     #   The timestamp of when the domain was created.
     #   @return [Time]
@@ -559,10 +1139,165 @@ module Aws::CustomerProfiles
       :default_encryption_key,
       :dead_letter_queue_url,
       :matching,
+      :rule_based_matching,
       :created_at,
       :last_updated_at,
       :tags)
       SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] domain_name
+    #   The unique name of the domain.
+    #   @return [String]
+    #
+    # @!attribute [rw] uri
+    #   The StreamARN of the destination to deliver profile events to. For
+    #   example, arn:aws:kinesis:region:account-id:stream/stream-name
+    #   @return [String]
+    #
+    # @!attribute [rw] event_stream_name
+    #   The name of the event stream.
+    #   @return [String]
+    #
+    # @!attribute [rw] tags
+    #   The tags used to organize, track, or control access for this
+    #   resource.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/CreateEventStreamRequest AWS API Documentation
+    #
+    class CreateEventStreamRequest < Struct.new(
+      :domain_name,
+      :uri,
+      :event_stream_name,
+      :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] event_stream_arn
+    #   A unique identifier for the event stream.
+    #   @return [String]
+    #
+    # @!attribute [rw] tags
+    #   The tags used to organize, track, or control access for this
+    #   resource.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/CreateEventStreamResponse AWS API Documentation
+    #
+    class CreateEventStreamResponse < Struct.new(
+      :event_stream_arn,
+      :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] domain_name
+    #   The unique name of the domain.
+    #   @return [String]
+    #
+    # @!attribute [rw] event_trigger_name
+    #   The unique name of the event trigger.
+    #   @return [String]
+    #
+    # @!attribute [rw] object_type_name
+    #   The unique name of the object type.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the event trigger.
+    #   @return [String]
+    #
+    # @!attribute [rw] event_trigger_conditions
+    #   A list of conditions that determine when an event should trigger the
+    #   destination.
+    #   @return [Array<Types::EventTriggerCondition>]
+    #
+    # @!attribute [rw] segment_filter
+    #   The destination is triggered only for profiles that meet the
+    #   criteria of a segment definition.
+    #   @return [String]
+    #
+    # @!attribute [rw] event_trigger_limits
+    #   Defines limits controlling whether an event triggers the
+    #   destination, based on ingestion latency and the number of
+    #   invocations per profile over specific time periods.
+    #   @return [Types::EventTriggerLimits]
+    #
+    # @!attribute [rw] tags
+    #   An array of key-value pairs to apply to this resource.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/CreateEventTriggerRequest AWS API Documentation
+    #
+    class CreateEventTriggerRequest < Struct.new(
+      :domain_name,
+      :event_trigger_name,
+      :object_type_name,
+      :description,
+      :event_trigger_conditions,
+      :segment_filter,
+      :event_trigger_limits,
+      :tags)
+      SENSITIVE = [:description, :event_trigger_conditions]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] event_trigger_name
+    #   The unique name of the event trigger.
+    #   @return [String]
+    #
+    # @!attribute [rw] object_type_name
+    #   The unique name of the object type.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the event trigger.
+    #   @return [String]
+    #
+    # @!attribute [rw] event_trigger_conditions
+    #   A list of conditions that determine when an event should trigger the
+    #   destination.
+    #   @return [Array<Types::EventTriggerCondition>]
+    #
+    # @!attribute [rw] segment_filter
+    #   The destination is triggered only for profiles that meet the
+    #   criteria of a segment definition.
+    #   @return [String]
+    #
+    # @!attribute [rw] event_trigger_limits
+    #   Defines limits controlling whether an event triggers the
+    #   destination, based on ingestion latency and the number of
+    #   invocations per profile over specific time periods.
+    #   @return [Types::EventTriggerLimits]
+    #
+    # @!attribute [rw] created_at
+    #   The timestamp of when the event trigger was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] last_updated_at
+    #   The timestamp of when the event trigger was most recently updated.
+    #   @return [Time]
+    #
+    # @!attribute [rw] tags
+    #   An array of key-value pairs to apply to this resource.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/CreateEventTriggerResponse AWS API Documentation
+    #
+    class CreateEventTriggerResponse < Struct.new(
+      :event_trigger_name,
+      :object_type_name,
+      :description,
+      :event_trigger_conditions,
+      :segment_filter,
+      :event_trigger_limits,
+      :created_at,
+      :last_updated_at,
+      :tags)
+      SENSITIVE = [:description, :event_trigger_conditions]
       include Aws::Structure
     end
 
@@ -629,7 +1364,7 @@ module Aws::CustomerProfiles
     #   @return [String]
     #
     # @!attribute [rw] account_number
-    #   A unique account number that you have given to the customer.
+    #   An account number that you have given to the customer.
     #   @return [String]
     #
     # @!attribute [rw] additional_information
@@ -750,7 +1485,7 @@ module Aws::CustomerProfiles
       :attributes,
       :party_type_string,
       :gender_string)
-      SENSITIVE = []
+      SENSITIVE = [:account_number, :additional_information, :party_type, :business_name, :first_name, :middle_name, :last_name, :birth_date, :gender, :phone_number, :mobile_phone_number, :home_phone_number, :business_phone_number, :email_address, :personal_email_address, :business_email_address, :address, :shipping_address, :mailing_address, :billing_address, :attributes, :party_type_string, :gender_string]
       include Aws::Structure
     end
 
@@ -765,6 +1500,218 @@ module Aws::CustomerProfiles
       SENSITIVE = []
       include Aws::Structure
     end
+
+    # @!attribute [rw] domain_name
+    #   The unique name of the domain.
+    #   @return [String]
+    #
+    # @!attribute [rw] segment_definition_name
+    #   The unique name of the segment definition.
+    #   @return [String]
+    #
+    # @!attribute [rw] display_name
+    #   The display name of the segment definition.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the segment definition.
+    #   @return [String]
+    #
+    # @!attribute [rw] segment_groups
+    #   Specifies the base segments and dimensions for a segment definition
+    #   along with their respective relationship.
+    #   @return [Types::SegmentGroup]
+    #
+    # @!attribute [rw] tags
+    #   The tags used to organize, track, or control access for this
+    #   resource.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/CreateSegmentDefinitionRequest AWS API Documentation
+    #
+    class CreateSegmentDefinitionRequest < Struct.new(
+      :domain_name,
+      :segment_definition_name,
+      :display_name,
+      :description,
+      :segment_groups,
+      :tags)
+      SENSITIVE = [:description, :segment_groups]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] segment_definition_name
+    #   The name of the segment definition.
+    #   @return [String]
+    #
+    # @!attribute [rw] display_name
+    #   The display name of the segment definition.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the segment definition.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The timestamp of when the segment definition was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] segment_definition_arn
+    #   The arn of the segment definition.
+    #   @return [String]
+    #
+    # @!attribute [rw] tags
+    #   The tags used to organize, track, or control access for this
+    #   resource.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/CreateSegmentDefinitionResponse AWS API Documentation
+    #
+    class CreateSegmentDefinitionResponse < Struct.new(
+      :segment_definition_name,
+      :display_name,
+      :description,
+      :created_at,
+      :segment_definition_arn,
+      :tags)
+      SENSITIVE = [:description]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] domain_name
+    #   The unique name of the domain.
+    #   @return [String]
+    #
+    # @!attribute [rw] segment_query
+    #   The segment query for calculating a segment estimate.
+    #   @return [Types::SegmentGroupStructure]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/CreateSegmentEstimateRequest AWS API Documentation
+    #
+    class CreateSegmentEstimateRequest < Struct.new(
+      :domain_name,
+      :segment_query)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] domain_name
+    #   The unique name of the domain.
+    #   @return [String]
+    #
+    # @!attribute [rw] estimate_id
+    #   A unique identifier for the resource. The value can be passed to
+    #   `GetSegmentEstimate` to retrieve the result of segment estimate
+    #   status.
+    #   @return [String]
+    #
+    # @!attribute [rw] status_code
+    #   The status code for the response.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/CreateSegmentEstimateResponse AWS API Documentation
+    #
+    class CreateSegmentEstimateResponse < Struct.new(
+      :domain_name,
+      :estimate_id,
+      :status_code)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] domain_name
+    #   The unique name of the domain.
+    #   @return [String]
+    #
+    # @!attribute [rw] segment_definition_name
+    #   The name of the segment definition used in this snapshot request.
+    #   @return [String]
+    #
+    # @!attribute [rw] data_format
+    #   The format in which the segment will be exported.
+    #   @return [String]
+    #
+    # @!attribute [rw] encryption_key
+    #   The Amazon Resource Name (ARN) of the KMS key used to encrypt the
+    #   exported segment.
+    #   @return [String]
+    #
+    # @!attribute [rw] role_arn
+    #   The Amazon Resource Name (ARN) of the IAM role that allows Customer
+    #   Profiles service principal to assume the role for conducting KMS and
+    #   S3 operations.
+    #   @return [String]
+    #
+    # @!attribute [rw] destination_uri
+    #   The destination to which the segment will be exported. This field
+    #   must be provided if the request is not submitted from the Amazon
+    #   Connect Admin Website.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/CreateSegmentSnapshotRequest AWS API Documentation
+    #
+    class CreateSegmentSnapshotRequest < Struct.new(
+      :domain_name,
+      :segment_definition_name,
+      :data_format,
+      :encryption_key,
+      :role_arn,
+      :destination_uri)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] snapshot_id
+    #   The unique identifier of the segment snapshot.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/CreateSegmentSnapshotResponse AWS API Documentation
+    #
+    class CreateSegmentSnapshotResponse < Struct.new(
+      :snapshot_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Object that segments on various Customer Profile's date fields.
+    #
+    # @!attribute [rw] dimension_type
+    #   The action to segment with.
+    #   @return [String]
+    #
+    # @!attribute [rw] values
+    #   The values to apply the DimensionType on.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/DateDimension AWS API Documentation
+    #
+    class DateDimension < Struct.new(
+      :dimension_type,
+      :values)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] domain_name
+    #   The unique name of the domain.
+    #   @return [String]
+    #
+    # @!attribute [rw] calculated_attribute_name
+    #   The unique name of the calculated attribute.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/DeleteCalculatedAttributeDefinitionRequest AWS API Documentation
+    #
+    class DeleteCalculatedAttributeDefinitionRequest < Struct.new(
+      :domain_name,
+      :calculated_attribute_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/DeleteCalculatedAttributeDefinitionResponse AWS API Documentation
+    #
+    class DeleteCalculatedAttributeDefinitionResponse < Aws::EmptyStructure; end
 
     # @!attribute [rw] domain_name
     #   The unique name of the domain.
@@ -785,6 +1732,56 @@ module Aws::CustomerProfiles
     # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/DeleteDomainResponse AWS API Documentation
     #
     class DeleteDomainResponse < Struct.new(
+      :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] domain_name
+    #   The unique name of the domain.
+    #   @return [String]
+    #
+    # @!attribute [rw] event_stream_name
+    #   The name of the event stream
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/DeleteEventStreamRequest AWS API Documentation
+    #
+    class DeleteEventStreamRequest < Struct.new(
+      :domain_name,
+      :event_stream_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/DeleteEventStreamResponse AWS API Documentation
+    #
+    class DeleteEventStreamResponse < Aws::EmptyStructure; end
+
+    # @!attribute [rw] domain_name
+    #   The unique name of the domain.
+    #   @return [String]
+    #
+    # @!attribute [rw] event_trigger_name
+    #   The unique name of the event trigger.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/DeleteEventTriggerRequest AWS API Documentation
+    #
+    class DeleteEventTriggerRequest < Struct.new(
+      :domain_name,
+      :event_trigger_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] message
+    #   A message that indicates the delete request is done.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/DeleteEventTriggerResponse AWS API Documentation
+    #
+    class DeleteEventTriggerResponse < Struct.new(
       :message)
       SENSITIVE = []
       include Aws::Structure
@@ -960,6 +1957,35 @@ module Aws::CustomerProfiles
     #   The unique name of the domain.
     #   @return [String]
     #
+    # @!attribute [rw] segment_definition_name
+    #   The unique name of the segment definition.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/DeleteSegmentDefinitionRequest AWS API Documentation
+    #
+    class DeleteSegmentDefinitionRequest < Struct.new(
+      :domain_name,
+      :segment_definition_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] message
+    #   A message that indicates the delete request is done.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/DeleteSegmentDefinitionResponse AWS API Documentation
+    #
+    class DeleteSegmentDefinitionResponse < Struct.new(
+      :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] domain_name
+    #   The unique name of the domain.
+    #   @return [String]
+    #
     # @!attribute [rw] workflow_id
     #   Unique identifier for the workflow.
     #   @return [String]
@@ -976,6 +2002,117 @@ module Aws::CustomerProfiles
     # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/DeleteWorkflowResponse AWS API Documentation
     #
     class DeleteWorkflowResponse < Aws::EmptyStructure; end
+
+    # Summary information about the Kinesis data stream
+    #
+    # @!attribute [rw] uri
+    #   The StreamARN of the destination to deliver profile events to. For
+    #   example, arn:aws:kinesis:region:account-id:stream/stream-name.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status of enabling the Kinesis stream as a destination for
+    #   export.
+    #   @return [String]
+    #
+    # @!attribute [rw] unhealthy_since
+    #   The timestamp when the status last changed to `UNHEALHY`.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/DestinationSummary AWS API Documentation
+    #
+    class DestinationSummary < Struct.new(
+      :uri,
+      :status,
+      :unhealthy_since)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] objects
+    #   A string that is serialized from a JSON object.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] domain_name
+    #   The unique name of the domain.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/DetectProfileObjectTypeRequest AWS API Documentation
+    #
+    class DetectProfileObjectTypeRequest < Struct.new(
+      :objects,
+      :domain_name)
+      SENSITIVE = [:objects]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] detected_profile_object_types
+    #   Detected `ProfileObjectType` mappings from given objects. A maximum
+    #   of one mapping is supported.
+    #   @return [Array<Types::DetectedProfileObjectType>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/DetectProfileObjectTypeResponse AWS API Documentation
+    #
+    class DetectProfileObjectTypeResponse < Struct.new(
+      :detected_profile_object_types)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains `ProfileObjectType` mapping information from the model.
+    #
+    # @!attribute [rw] source_last_updated_timestamp_format
+    #   The format of `sourceLastUpdatedTimestamp` that was detected in
+    #   fields.
+    #   @return [String]
+    #
+    # @!attribute [rw] fields
+    #   A map of the name and the `ObjectType` field.
+    #   @return [Hash<String,Types::ObjectTypeField>]
+    #
+    # @!attribute [rw] keys
+    #   A list of unique keys that can be used to map data to a profile.
+    #   @return [Hash<String,Array<Types::ObjectTypeKey>>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/DetectedProfileObjectType AWS API Documentation
+    #
+    class DetectedProfileObjectType < Struct.new(
+      :source_last_updated_timestamp_format,
+      :fields,
+      :keys)
+      SENSITIVE = [:fields, :keys]
+      include Aws::Structure
+    end
+
+    # Object that holds what profile and calculated attributes to segment
+    # on.
+    #
+    # @note Dimension is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @note Dimension is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of Dimension corresponding to the set member.
+    #
+    # @!attribute [rw] profile_attributes
+    #   Object that holds the profile attributes to segment on.
+    #   @return [Types::ProfileAttributes]
+    #
+    # @!attribute [rw] calculated_attributes
+    #   Object that holds the calculated attributes to segment on.
+    #   @return [Hash<String,Types::CalculatedAttributeDimension>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/Dimension AWS API Documentation
+    #
+    class Dimension < Struct.new(
+      :profile_attributes,
+      :calculated_attributes,
+      :unknown)
+      SENSITIVE = [:profile_attributes]
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class ProfileAttributes < Dimension; end
+      class CalculatedAttributes < Dimension; end
+      class Unknown < Dimension; end
+    end
 
     # Usage-specific statistics about the domain.
     #
@@ -1005,6 +2142,178 @@ module Aws::CustomerProfiles
       :metering_profile_count,
       :object_count,
       :total_size)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Details of the destination being used for the EventStream.
+    #
+    # @!attribute [rw] uri
+    #   The StreamARN of the destination to deliver profile events to. For
+    #   example, arn:aws:kinesis:region:account-id:stream/stream-name.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status of enabling the Kinesis stream as a destination for
+    #   export.
+    #   @return [String]
+    #
+    # @!attribute [rw] unhealthy_since
+    #   The timestamp when the status last changed to `UNHEALHY`.
+    #   @return [Time]
+    #
+    # @!attribute [rw] message
+    #   The human-readable string that corresponds to the error or success
+    #   while enabling the streaming destination.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/EventStreamDestinationDetails AWS API Documentation
+    #
+    class EventStreamDestinationDetails < Struct.new(
+      :uri,
+      :status,
+      :unhealthy_since,
+      :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # An instance of EventStream in a list of EventStreams.
+    #
+    # @!attribute [rw] domain_name
+    #   The unique name of the domain.
+    #   @return [String]
+    #
+    # @!attribute [rw] event_stream_name
+    #   The name of the event stream.
+    #   @return [String]
+    #
+    # @!attribute [rw] event_stream_arn
+    #   A unique identifier for the event stream.
+    #   @return [String]
+    #
+    # @!attribute [rw] state
+    #   The operational state of destination stream for export.
+    #   @return [String]
+    #
+    # @!attribute [rw] stopped_since
+    #   The timestamp when the `State` changed to `STOPPED`.
+    #   @return [Time]
+    #
+    # @!attribute [rw] destination_summary
+    #   Summary information about the Kinesis data stream.
+    #   @return [Types::DestinationSummary]
+    #
+    # @!attribute [rw] tags
+    #   The tags used to organize, track, or control access for this
+    #   resource.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/EventStreamSummary AWS API Documentation
+    #
+    class EventStreamSummary < Struct.new(
+      :domain_name,
+      :event_stream_name,
+      :event_stream_arn,
+      :state,
+      :stopped_since,
+      :destination_summary,
+      :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Specifies the circumstances under which the event should trigger the
+    # destination.
+    #
+    # @!attribute [rw] event_trigger_dimensions
+    #   A list of dimensions to be evaluated for the event.
+    #   @return [Array<Types::EventTriggerDimension>]
+    #
+    # @!attribute [rw] logical_operator
+    #   The operator used to combine multiple dimensions.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/EventTriggerCondition AWS API Documentation
+    #
+    class EventTriggerCondition < Struct.new(
+      :event_trigger_dimensions,
+      :logical_operator)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A specific event dimension to be assessed.
+    #
+    # @!attribute [rw] object_attributes
+    #   A list of object attributes to be evaluated.
+    #   @return [Array<Types::ObjectAttribute>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/EventTriggerDimension AWS API Documentation
+    #
+    class EventTriggerDimension < Struct.new(
+      :object_attributes)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Defines limits controlling whether an event triggers the destination,
+    # based on ingestion latency and the number of invocations per profile
+    # over specific time periods.
+    #
+    # @!attribute [rw] event_expiration
+    #   In milliseconds. Specifies that an event will only trigger the
+    #   destination if it is processed within a certain latency period.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] periods
+    #   A list of time periods during which the limits apply.
+    #   @return [Array<Types::Period>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/EventTriggerLimits AWS API Documentation
+    #
+    class EventTriggerLimits < Struct.new(
+      :event_expiration,
+      :periods)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The summary of the event trigger.
+    #
+    # @!attribute [rw] object_type_name
+    #   The unique name of the object type.
+    #   @return [String]
+    #
+    # @!attribute [rw] event_trigger_name
+    #   The unique name of the event trigger.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the event trigger.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The timestamp of when the event trigger was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] last_updated_at
+    #   The timestamp of when the event trigger was most recently updated.
+    #   @return [Time]
+    #
+    # @!attribute [rw] tags
+    #   An array of key-value pairs to apply to this resource.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/EventTriggerSummaryItem AWS API Documentation
+    #
+    class EventTriggerSummaryItem < Struct.new(
+      :object_type_name,
+      :event_trigger_name,
+      :description,
+      :created_at,
+      :last_updated_at,
+      :tags)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1046,6 +2355,26 @@ module Aws::CustomerProfiles
     #
     class ExportingLocation < Struct.new(
       :s3_exporting)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Object that segments on various Customer profile's fields that are
+    # larger than normal.
+    #
+    # @!attribute [rw] dimension_type
+    #   The action to segment with.
+    #   @return [String]
+    #
+    # @!attribute [rw] values
+    #   The values to apply the DimensionType on.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/ExtraLengthValueProfileDimension AWS API Documentation
+    #
+    class ExtraLengthValueProfileDimension < Struct.new(
+      :dimension_type,
+      :values)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1163,6 +2492,80 @@ module Aws::CustomerProfiles
       :mailing_address,
       :billing_address,
       :attributes)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Defines how to filter the objects coming in for calculated attributes.
+    #
+    # @!attribute [rw] include
+    #   Define whether to include or exclude objects for Calculated
+    #   Attributed calculation that fit the filter groups criteria.
+    #   @return [String]
+    #
+    # @!attribute [rw] groups
+    #   Holds the list of Filter groups within the Filter definition.
+    #   @return [Array<Types::FilterGroup>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/Filter AWS API Documentation
+    #
+    class Filter < Struct.new(
+      :include,
+      :groups)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Object that defines how to filter the incoming objects for the
+    # calculated attribute.
+    #
+    # @!attribute [rw] dimension_type
+    #   The action to filter with.
+    #   @return [String]
+    #
+    # @!attribute [rw] values
+    #   The values to apply the DimensionType on.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/FilterAttributeDimension AWS API Documentation
+    #
+    class FilterAttributeDimension < Struct.new(
+      :dimension_type,
+      :values)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains the map of attribute names to attribute dimensions.
+    #
+    # @!attribute [rw] attributes
+    #   Is the attribute within the FilterDimension map
+    #   @return [Hash<String,Types::FilterAttributeDimension>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/FilterDimension AWS API Documentation
+    #
+    class FilterDimension < Struct.new(
+      :attributes)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Object that holds the dimensions to filter on.
+    #
+    # @!attribute [rw] type
+    #   The type of logical relationship between the dimensions of the
+    #   Filter group.
+    #   @return [String]
+    #
+    # @!attribute [rw] dimensions
+    #   Object that holds the attributes to filter on.
+    #   @return [Array<Types::FilterDimension>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/FilterGroup AWS API Documentation
+    #
+    class FilterGroup < Struct.new(
+      :type,
+      :dimensions)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1299,6 +2702,135 @@ module Aws::CustomerProfiles
     #   The unique name of the domain.
     #   @return [String]
     #
+    # @!attribute [rw] calculated_attribute_name
+    #   The unique name of the calculated attribute.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/GetCalculatedAttributeDefinitionRequest AWS API Documentation
+    #
+    class GetCalculatedAttributeDefinitionRequest < Struct.new(
+      :domain_name,
+      :calculated_attribute_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] calculated_attribute_name
+    #   The unique name of the calculated attribute.
+    #   @return [String]
+    #
+    # @!attribute [rw] display_name
+    #   The display name of the calculated attribute.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the calculated attribute.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The timestamp of when the calculated attribute definition was
+    #   created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] last_updated_at
+    #   The timestamp of when the calculated attribute definition was most
+    #   recently edited.
+    #   @return [Time]
+    #
+    # @!attribute [rw] statistic
+    #   The aggregation operation to perform for the calculated attribute.
+    #   @return [String]
+    #
+    # @!attribute [rw] filter
+    #   The filter assigned to this calculated attribute definition.
+    #   @return [Types::Filter]
+    #
+    # @!attribute [rw] conditions
+    #   The conditions including range, object count, and threshold for the
+    #   calculated attribute.
+    #   @return [Types::Conditions]
+    #
+    # @!attribute [rw] attribute_details
+    #   Mathematical expression and a list of attribute items specified in
+    #   that expression.
+    #   @return [Types::AttributeDetails]
+    #
+    # @!attribute [rw] tags
+    #   The tags used to organize, track, or control access for this
+    #   resource.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/GetCalculatedAttributeDefinitionResponse AWS API Documentation
+    #
+    class GetCalculatedAttributeDefinitionResponse < Struct.new(
+      :calculated_attribute_name,
+      :display_name,
+      :description,
+      :created_at,
+      :last_updated_at,
+      :statistic,
+      :filter,
+      :conditions,
+      :attribute_details,
+      :tags)
+      SENSITIVE = [:description, :statistic, :conditions, :attribute_details]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] domain_name
+    #   The unique name of the domain.
+    #   @return [String]
+    #
+    # @!attribute [rw] profile_id
+    #   The unique identifier of a customer profile.
+    #   @return [String]
+    #
+    # @!attribute [rw] calculated_attribute_name
+    #   The unique name of the calculated attribute.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/GetCalculatedAttributeForProfileRequest AWS API Documentation
+    #
+    class GetCalculatedAttributeForProfileRequest < Struct.new(
+      :domain_name,
+      :profile_id,
+      :calculated_attribute_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] calculated_attribute_name
+    #   The unique name of the calculated attribute.
+    #   @return [String]
+    #
+    # @!attribute [rw] display_name
+    #   The display name of the calculated attribute.
+    #   @return [String]
+    #
+    # @!attribute [rw] is_data_partial
+    #   Indicates whether the calculated attribute’s value is based on
+    #   partial data. If data is partial, it is set to true.
+    #   @return [String]
+    #
+    # @!attribute [rw] value
+    #   The value of the calculated attribute.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/GetCalculatedAttributeForProfileResponse AWS API Documentation
+    #
+    class GetCalculatedAttributeForProfileResponse < Struct.new(
+      :calculated_attribute_name,
+      :display_name,
+      :is_data_partial,
+      :value)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] domain_name
+    #   The unique name of the domain.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/GetDomainRequest AWS API Documentation
     #
     class GetDomainRequest < Struct.new(
@@ -1348,6 +2880,17 @@ module Aws::CustomerProfiles
     #   [1]: https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_GetMatches.html
     #   @return [Types::MatchingResponse]
     #
+    # @!attribute [rw] rule_based_matching
+    #   The process of matching duplicate profiles using the Rule-Based
+    #   matching. If `RuleBasedMatching` = true, Amazon Connect Customer
+    #   Profiles will start to match and merge your profiles according to
+    #   your configuration in the `RuleBasedMatchingRequest`. You can use
+    #   the `ListRuleBasedMatches` and `GetSimilarProfiles` API to return
+    #   and review the results. Also, if you have configured
+    #   `ExportingConfig` in the `RuleBasedMatchingRequest`, you can
+    #   download the results from S3.
+    #   @return [Types::RuleBasedMatchingResponse]
+    #
     # @!attribute [rw] created_at
     #   The timestamp of when the domain was created.
     #   @return [Time]
@@ -1370,10 +2913,144 @@ module Aws::CustomerProfiles
       :dead_letter_queue_url,
       :stats,
       :matching,
+      :rule_based_matching,
       :created_at,
       :last_updated_at,
       :tags)
       SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] domain_name
+    #   The unique name of the domain.
+    #   @return [String]
+    #
+    # @!attribute [rw] event_stream_name
+    #   The name of the event stream provided during create operations.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/GetEventStreamRequest AWS API Documentation
+    #
+    class GetEventStreamRequest < Struct.new(
+      :domain_name,
+      :event_stream_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] domain_name
+    #   The unique name of the domain.
+    #   @return [String]
+    #
+    # @!attribute [rw] event_stream_arn
+    #   A unique identifier for the event stream.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The timestamp of when the export was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] state
+    #   The operational state of destination stream for export.
+    #   @return [String]
+    #
+    # @!attribute [rw] stopped_since
+    #   The timestamp when the `State` changed to `STOPPED`.
+    #   @return [Time]
+    #
+    # @!attribute [rw] destination_details
+    #   Details regarding the Kinesis stream.
+    #   @return [Types::EventStreamDestinationDetails]
+    #
+    # @!attribute [rw] tags
+    #   The tags used to organize, track, or control access for this
+    #   resource.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/GetEventStreamResponse AWS API Documentation
+    #
+    class GetEventStreamResponse < Struct.new(
+      :domain_name,
+      :event_stream_arn,
+      :created_at,
+      :state,
+      :stopped_since,
+      :destination_details,
+      :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] domain_name
+    #   The unique name of the domain.
+    #   @return [String]
+    #
+    # @!attribute [rw] event_trigger_name
+    #   The unique name of the event trigger.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/GetEventTriggerRequest AWS API Documentation
+    #
+    class GetEventTriggerRequest < Struct.new(
+      :domain_name,
+      :event_trigger_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] event_trigger_name
+    #   The unique name of the event trigger.
+    #   @return [String]
+    #
+    # @!attribute [rw] object_type_name
+    #   The unique name of the object type.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the event trigger.
+    #   @return [String]
+    #
+    # @!attribute [rw] event_trigger_conditions
+    #   A list of conditions that determine when an event should trigger the
+    #   destination.
+    #   @return [Array<Types::EventTriggerCondition>]
+    #
+    # @!attribute [rw] segment_filter
+    #   The destination is triggered only for profiles that meet the
+    #   criteria of a segment definition.
+    #   @return [String]
+    #
+    # @!attribute [rw] event_trigger_limits
+    #   Defines limits controlling whether an event triggers the
+    #   destination, based on ingestion latency and the number of
+    #   invocations per profile over specific time periods.
+    #   @return [Types::EventTriggerLimits]
+    #
+    # @!attribute [rw] created_at
+    #   The timestamp of when the event trigger was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] last_updated_at
+    #   The timestamp of when the event trigger was most recently updated.
+    #   @return [Time]
+    #
+    # @!attribute [rw] tags
+    #   An array of key-value pairs to apply to this resource.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/GetEventTriggerResponse AWS API Documentation
+    #
+    class GetEventTriggerResponse < Struct.new(
+      :event_trigger_name,
+      :object_type_name,
+      :description,
+      :event_trigger_conditions,
+      :segment_filter,
+      :event_trigger_limits,
+      :created_at,
+      :last_updated_at,
+      :tags)
+      SENSITIVE = [:description, :event_trigger_conditions]
       include Aws::Structure
     end
 
@@ -1405,27 +3082,26 @@ module Aws::CustomerProfiles
     # @!attribute [rw] status
     #   The status of the Identity Resolution Job.
     #
-    #   * `PENDING`\: The Identity Resolution Job is scheduled but has not
+    #   * `PENDING`: The Identity Resolution Job is scheduled but has not
     #     started yet. If you turn off the Identity Resolution feature in
     #     your domain, jobs in the `PENDING` state are deleted.
     #
-    #   * `PREPROCESSING`\: The Identity Resolution Job is loading your
-    #     data.
+    #   * `PREPROCESSING`: The Identity Resolution Job is loading your data.
     #
-    #   * `FIND_MATCHING`\: The Identity Resolution Job is using the machine
+    #   * `FIND_MATCHING`: The Identity Resolution Job is using the machine
     #     learning model to identify profiles that belong to the same
     #     matching group.
     #
-    #   * `MERGING`\: The Identity Resolution Job is merging duplicate
+    #   * `MERGING`: The Identity Resolution Job is merging duplicate
     #     profiles.
     #
-    #   * `COMPLETED`\: The Identity Resolution Job completed successfully.
+    #   * `COMPLETED`: The Identity Resolution Job completed successfully.
     #
-    #   * `PARTIAL_SUCCESS`\: There's a system error and not all of the
-    #     data is merged. The Identity Resolution Job writes a message
-    #     indicating the source of the problem.
+    #   * `PARTIAL_SUCCESS`: There's a system error and not all of the data
+    #     is merged. The Identity Resolution Job writes a message indicating
+    #     the source of the problem.
     #
-    #   * `FAILED`\: The Identity Resolution Job did not merge any data. It
+    #   * `FAILED`: The Identity Resolution Job did not merge any data. It
     #     writes a message indicating the source of the problem.
     #   @return [String]
     #
@@ -1546,6 +3222,17 @@ module Aws::CustomerProfiles
     #   equals \_unstructured via API/CLI in flowDefinition.
     #   @return [Boolean]
     #
+    # @!attribute [rw] role_arn
+    #   The Amazon Resource Name (ARN) of the IAM role. The Integration uses
+    #   this role to make Customer Profiles requests on your behalf.
+    #   @return [String]
+    #
+    # @!attribute [rw] event_trigger_names
+    #   A list of unique names for active event triggers associated with the
+    #   integration. This list would be empty if no Event Trigger is
+    #   associated with the integration.
+    #   @return [Array<String>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/GetIntegrationResponse AWS API Documentation
     #
     class GetIntegrationResponse < Struct.new(
@@ -1557,7 +3244,9 @@ module Aws::CustomerProfiles
       :tags,
       :object_type_names,
       :workflow_id,
-      :is_unstructured)
+      :is_unstructured,
+      :role_arn,
+      :event_trigger_names)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1666,6 +3355,14 @@ module Aws::CustomerProfiles
     #   set up.
     #   @return [String]
     #
+    # @!attribute [rw] max_available_profile_object_count
+    #   The amount of provisioned profile object max count available.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] max_profile_object_count
+    #   The amount of profile object max count assigned to the object type.
+    #   @return [Integer]
+    #
     # @!attribute [rw] fields
     #   A map of the name and ObjectType field.
     #   @return [Hash<String,Types::ObjectTypeField>]
@@ -1697,12 +3394,14 @@ module Aws::CustomerProfiles
       :encryption_key,
       :allow_profile_creation,
       :source_last_updated_timestamp_format,
+      :max_available_profile_object_count,
+      :max_profile_object_count,
       :fields,
       :keys,
       :created_at,
       :last_updated_at,
       :tags)
-      SENSITIVE = []
+      SENSITIVE = [:description, :fields, :keys]
       include Aws::Structure
     end
 
@@ -1762,6 +3461,323 @@ module Aws::CustomerProfiles
       :source_last_updated_timestamp_format,
       :fields,
       :keys)
+      SENSITIVE = [:fields, :keys]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] domain_name
+    #   The unique name of the domain.
+    #   @return [String]
+    #
+    # @!attribute [rw] segment_definition_name
+    #   The unique name of the segment definition.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/GetSegmentDefinitionRequest AWS API Documentation
+    #
+    class GetSegmentDefinitionRequest < Struct.new(
+      :domain_name,
+      :segment_definition_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] segment_definition_name
+    #   The name of the segment definition.
+    #   @return [String]
+    #
+    # @!attribute [rw] display_name
+    #   The display name of the segment definition.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the segment definition.
+    #   @return [String]
+    #
+    # @!attribute [rw] segment_groups
+    #   The segment criteria associated with this definition.
+    #   @return [Types::SegmentGroup]
+    #
+    # @!attribute [rw] segment_definition_arn
+    #   The arn of the segment definition.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The timestamp of when the segment definition was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] tags
+    #   The tags used to organize, track, or control access for this
+    #   resource.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/GetSegmentDefinitionResponse AWS API Documentation
+    #
+    class GetSegmentDefinitionResponse < Struct.new(
+      :segment_definition_name,
+      :display_name,
+      :description,
+      :segment_groups,
+      :segment_definition_arn,
+      :created_at,
+      :tags)
+      SENSITIVE = [:description, :segment_groups]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] domain_name
+    #   The unique name of the domain.
+    #   @return [String]
+    #
+    # @!attribute [rw] estimate_id
+    #   The query Id passed by a previous `CreateSegmentEstimate` operation.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/GetSegmentEstimateRequest AWS API Documentation
+    #
+    class GetSegmentEstimateRequest < Struct.new(
+      :domain_name,
+      :estimate_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] domain_name
+    #   The unique name of the domain.
+    #   @return [String]
+    #
+    # @!attribute [rw] estimate_id
+    #   The `QueryId` which is the same as the value passed in `QueryId`.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the query.
+    #   @return [String]
+    #
+    # @!attribute [rw] estimate
+    #   The estimated number of profiles contained in the segment.
+    #   @return [String]
+    #
+    # @!attribute [rw] message
+    #   The error message if there is any error.
+    #   @return [String]
+    #
+    # @!attribute [rw] status_code
+    #   The status code of the segment estimate.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/GetSegmentEstimateResponse AWS API Documentation
+    #
+    class GetSegmentEstimateResponse < Struct.new(
+      :domain_name,
+      :estimate_id,
+      :status,
+      :estimate,
+      :message,
+      :status_code)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] domain_name
+    #   The unique name of the domain.
+    #   @return [String]
+    #
+    # @!attribute [rw] segment_definition_name
+    #   The Id of the wanted segment. Needs to be a valid, and existing
+    #   segment Id.
+    #   @return [String]
+    #
+    # @!attribute [rw] profile_ids
+    #   The list of profile IDs to query for.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/GetSegmentMembershipRequest AWS API Documentation
+    #
+    class GetSegmentMembershipRequest < Struct.new(
+      :domain_name,
+      :segment_definition_name,
+      :profile_ids)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] segment_definition_name
+    #   The unique name of the segment definition.
+    #   @return [String]
+    #
+    # @!attribute [rw] profiles
+    #   An array of maps where each contains a response per profile
+    #   requested.
+    #   @return [Array<Types::ProfileQueryResult>]
+    #
+    # @!attribute [rw] failures
+    #   An array of maps where each contains a response per profile failed
+    #   for the request.
+    #   @return [Array<Types::ProfileQueryFailures>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/GetSegmentMembershipResponse AWS API Documentation
+    #
+    class GetSegmentMembershipResponse < Struct.new(
+      :segment_definition_name,
+      :profiles,
+      :failures)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] domain_name
+    #   The unique identifier of the domain.
+    #   @return [String]
+    #
+    # @!attribute [rw] segment_definition_name
+    #   The unique name of the segment definition.
+    #   @return [String]
+    #
+    # @!attribute [rw] snapshot_id
+    #   The unique identifier of the segment snapshot.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/GetSegmentSnapshotRequest AWS API Documentation
+    #
+    class GetSegmentSnapshotRequest < Struct.new(
+      :domain_name,
+      :segment_definition_name,
+      :snapshot_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] snapshot_id
+    #   The unique identifier of the segment snapshot.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status of the asynchronous job for exporting the segment
+    #   snapshot.
+    #   @return [String]
+    #
+    # @!attribute [rw] status_message
+    #   The status message of the asynchronous job for exporting the segment
+    #   snapshot.
+    #   @return [String]
+    #
+    # @!attribute [rw] data_format
+    #   The format in which the segment will be exported.
+    #   @return [String]
+    #
+    # @!attribute [rw] encryption_key
+    #   The Amazon Resource Name (ARN) of the KMS key used to encrypt the
+    #   exported segment.
+    #   @return [String]
+    #
+    # @!attribute [rw] role_arn
+    #   The Amazon Resource Name (ARN) of the IAM role that allows Customer
+    #   Profiles service principal to assume the role for conducting KMS and
+    #   S3 operations.
+    #   @return [String]
+    #
+    # @!attribute [rw] destination_uri
+    #   The destination to which the segment will be exported. This field
+    #   must be provided if the request is not submitted from the Amazon
+    #   Connect Admin Website.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/GetSegmentSnapshotResponse AWS API Documentation
+    #
+    class GetSegmentSnapshotResponse < Struct.new(
+      :snapshot_id,
+      :status,
+      :status_message,
+      :data_format,
+      :encryption_key,
+      :role_arn,
+      :destination_uri)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] next_token
+    #   The pagination token from the previous `GetSimilarProfiles` API
+    #   call.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of objects returned per page.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] domain_name
+    #   The unique name of the domain.
+    #   @return [String]
+    #
+    # @!attribute [rw] match_type
+    #   Specify the type of matching to get similar profiles for.
+    #   @return [String]
+    #
+    # @!attribute [rw] search_key
+    #   The string indicating the search key to be used.
+    #   @return [String]
+    #
+    # @!attribute [rw] search_value
+    #   The string based on `SearchKey` to be searched for similar profiles.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/GetSimilarProfilesRequest AWS API Documentation
+    #
+    class GetSimilarProfilesRequest < Struct.new(
+      :next_token,
+      :max_results,
+      :domain_name,
+      :match_type,
+      :search_key,
+      :search_value)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] profile_ids
+    #   Set of `profileId`s that belong to the same matching group.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] match_id
+    #   The string `matchId` that the similar profiles belong to.
+    #   @return [String]
+    #
+    # @!attribute [rw] match_type
+    #   Specify the type of matching to get similar profiles for.
+    #   @return [String]
+    #
+    # @!attribute [rw] rule_level
+    #   The integer rule level that the profiles matched on.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] confidence_score
+    #   It only has value when the `MatchType` is `ML_BASED_MATCHING`.A
+    #   number between 0 and 1, where a higher score means higher
+    #   similarity. Examining match confidence scores lets you distinguish
+    #   between groups of similar records in which the system is highly
+    #   confident (which you may decide to merge), groups of similar records
+    #   about which the system is uncertain (which you may decide to have
+    #   reviewed by a human), and groups of similar records that the system
+    #   deems to be unlikely (which you may decide to reject). Given
+    #   confidence scores vary as per the data input, it should not be used
+    #   as an absolute measure of matching quality.
+    #   @return [Float]
+    #
+    # @!attribute [rw] next_token
+    #   The pagination token from the previous `GetSimilarProfiles` API
+    #   call.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/GetSimilarProfilesResponse AWS API Documentation
+    #
+    class GetSimilarProfilesResponse < Struct.new(
+      :profile_ids,
+      :match_id,
+      :match_type,
+      :rule_level,
+      :confidence_score,
+      :next_token)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1889,6 +3905,36 @@ module Aws::CustomerProfiles
       include Aws::Structure
     end
 
+    # Contains dimensions that determine what to segment on.
+    #
+    # @!attribute [rw] dimensions
+    #   Defines the attributes to segment on.
+    #   @return [Array<Types::Dimension>]
+    #
+    # @!attribute [rw] source_segments
+    #   Defines the starting source of data.
+    #   @return [Array<Types::SourceSegment>]
+    #
+    # @!attribute [rw] source_type
+    #   Defines how to interact with the source data.
+    #   @return [String]
+    #
+    # @!attribute [rw] type
+    #   Defines how to interact with the profiles found in the current
+    #   filtering.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/Group AWS API Documentation
+    #
+    class Group < Struct.new(
+      :dimensions,
+      :source_segments,
+      :source_type,
+      :type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Information about the Identity Resolution Job.
     #
     # @!attribute [rw] domain_name
@@ -1902,27 +3948,26 @@ module Aws::CustomerProfiles
     # @!attribute [rw] status
     #   The status of the Identity Resolution Job.
     #
-    #   * `PENDING`\: The Identity Resolution Job is scheduled but has not
+    #   * `PENDING`: The Identity Resolution Job is scheduled but has not
     #     started yet. If you turn off the Identity Resolution feature in
     #     your domain, jobs in the `PENDING` state are deleted.
     #
-    #   * `PREPROCESSING`\: The Identity Resolution Job is loading your
-    #     data.
+    #   * `PREPROCESSING`: The Identity Resolution Job is loading your data.
     #
-    #   * `FIND_MATCHING`\: The Identity Resolution Job is using the machine
+    #   * `FIND_MATCHING`: The Identity Resolution Job is using the machine
     #     learning model to identify profiles that belong to the same
     #     matching group.
     #
-    #   * `MERGING`\: The Identity Resolution Job is merging duplicate
+    #   * `MERGING`: The Identity Resolution Job is merging duplicate
     #     profiles.
     #
-    #   * `COMPLETED`\: The Identity Resolution Job completed successfully.
+    #   * `COMPLETED`: The Identity Resolution Job completed successfully.
     #
-    #   * `PARTIAL_SUCCESS`\: There's a system error and not all of the
-    #     data is merged. The Identity Resolution Job writes a message
-    #     indicating the source of the problem.
+    #   * `PARTIAL_SUCCESS`: There's a system error and not all of the data
+    #     is merged. The Identity Resolution Job writes a message indicating
+    #     the source of the problem.
     #
-    #   * `FAILED`\: The Identity Resolution Job did not merge any data. It
+    #   * `FAILED`: The Identity Resolution Job did not merge any data. It
     #     writes a message indicating the source of the problem.
     #   @return [String]
     #
@@ -2097,6 +4142,165 @@ module Aws::CustomerProfiles
       include Aws::Structure
     end
 
+    # The details of a single calculated attribute definition.
+    #
+    # @!attribute [rw] calculated_attribute_name
+    #   The unique name of the calculated attribute.
+    #   @return [String]
+    #
+    # @!attribute [rw] display_name
+    #   The display name of the calculated attribute.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The threshold for the calculated attribute.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The threshold for the calculated attribute.
+    #   @return [Time]
+    #
+    # @!attribute [rw] last_updated_at
+    #   The timestamp of when the calculated attribute definition was most
+    #   recently edited.
+    #   @return [Time]
+    #
+    # @!attribute [rw] tags
+    #   The tags used to organize, track, or control access for this
+    #   resource.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/ListCalculatedAttributeDefinitionItem AWS API Documentation
+    #
+    class ListCalculatedAttributeDefinitionItem < Struct.new(
+      :calculated_attribute_name,
+      :display_name,
+      :description,
+      :created_at,
+      :last_updated_at,
+      :tags)
+      SENSITIVE = [:description]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] domain_name
+    #   The unique name of the domain.
+    #   @return [String]
+    #
+    # @!attribute [rw] next_token
+    #   The pagination token from the previous call to
+    #   ListCalculatedAttributeDefinitions.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of calculated attribute definitions returned per
+    #   page.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/ListCalculatedAttributeDefinitionsRequest AWS API Documentation
+    #
+    class ListCalculatedAttributeDefinitionsRequest < Struct.new(
+      :domain_name,
+      :next_token,
+      :max_results)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] items
+    #   The list of calculated attribute definitions.
+    #   @return [Array<Types::ListCalculatedAttributeDefinitionItem>]
+    #
+    # @!attribute [rw] next_token
+    #   The pagination token from the previous call to
+    #   ListCalculatedAttributeDefinitions.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/ListCalculatedAttributeDefinitionsResponse AWS API Documentation
+    #
+    class ListCalculatedAttributeDefinitionsResponse < Struct.new(
+      :items,
+      :next_token)
+      SENSITIVE = [:items]
+      include Aws::Structure
+    end
+
+    # The details of a single calculated attribute for a profile.
+    #
+    # @!attribute [rw] calculated_attribute_name
+    #   The unique name of the calculated attribute.
+    #   @return [String]
+    #
+    # @!attribute [rw] display_name
+    #   The display name of the calculated attribute.
+    #   @return [String]
+    #
+    # @!attribute [rw] is_data_partial
+    #   Indicates whether the calculated attribute’s value is based on
+    #   partial data. If data is partial, it is set to true.
+    #   @return [String]
+    #
+    # @!attribute [rw] value
+    #   The value of the calculated attribute.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/ListCalculatedAttributeForProfileItem AWS API Documentation
+    #
+    class ListCalculatedAttributeForProfileItem < Struct.new(
+      :calculated_attribute_name,
+      :display_name,
+      :is_data_partial,
+      :value)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] next_token
+    #   The pagination token from the previous call to
+    #   ListCalculatedAttributesForProfile.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of calculated attributes returned per page.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] domain_name
+    #   The unique name of the domain.
+    #   @return [String]
+    #
+    # @!attribute [rw] profile_id
+    #   The unique identifier of a customer profile.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/ListCalculatedAttributesForProfileRequest AWS API Documentation
+    #
+    class ListCalculatedAttributesForProfileRequest < Struct.new(
+      :next_token,
+      :max_results,
+      :domain_name,
+      :profile_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] items
+    #   The list of calculated attributes.
+    #   @return [Array<Types::ListCalculatedAttributeForProfileItem>]
+    #
+    # @!attribute [rw] next_token
+    #   The pagination token from the previous call to
+    #   ListCalculatedAttributesForProfile.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/ListCalculatedAttributesForProfileResponse AWS API Documentation
+    #
+    class ListCalculatedAttributesForProfileResponse < Struct.new(
+      :items,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # An object in a list that represents a domain.
     #
     # @!attribute [rw] domain_name
@@ -2158,6 +4362,84 @@ module Aws::CustomerProfiles
       :items,
       :next_token)
       SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] domain_name
+    #   The unique name of the domain.
+    #   @return [String]
+    #
+    # @!attribute [rw] next_token
+    #   Identifies the next page of results to return.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of objects returned per page.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/ListEventStreamsRequest AWS API Documentation
+    #
+    class ListEventStreamsRequest < Struct.new(
+      :domain_name,
+      :next_token,
+      :max_results)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] items
+    #   Contains summary information about an EventStream.
+    #   @return [Array<Types::EventStreamSummary>]
+    #
+    # @!attribute [rw] next_token
+    #   Identifies the next page of results to return.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/ListEventStreamsResponse AWS API Documentation
+    #
+    class ListEventStreamsResponse < Struct.new(
+      :items,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] domain_name
+    #   The unique name of the domain.
+    #   @return [String]
+    #
+    # @!attribute [rw] next_token
+    #   The pagination token to use with ListEventTriggers.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return per page.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/ListEventTriggersRequest AWS API Documentation
+    #
+    class ListEventTriggersRequest < Struct.new(
+      :domain_name,
+      :next_token,
+      :max_results)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] items
+    #   The list of Event Triggers.
+    #   @return [Array<Types::EventTriggerSummaryItem>]
+    #
+    # @!attribute [rw] next_token
+    #   The pagination token from the previous call to ListEventTriggers.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/ListEventTriggersResponse AWS API Documentation
+    #
+    class ListEventTriggersResponse < Struct.new(
+      :items,
+      :next_token)
+      SENSITIVE = [:items]
       include Aws::Structure
     end
 
@@ -2250,6 +4532,16 @@ module Aws::CustomerProfiles
     #   equals \_unstructured via API/CLI in flowDefinition.
     #   @return [Boolean]
     #
+    # @!attribute [rw] role_arn
+    #   The Amazon Resource Name (ARN) of the IAM role. The Integration uses
+    #   this role to make Customer Profiles requests on your behalf.
+    #   @return [String]
+    #
+    # @!attribute [rw] event_trigger_names
+    #   A list of unique names for active event triggers associated with the
+    #   integration.
+    #   @return [Array<String>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/ListIntegrationItem AWS API Documentation
     #
     class ListIntegrationItem < Struct.new(
@@ -2261,7 +4553,9 @@ module Aws::CustomerProfiles
       :tags,
       :object_type_names,
       :workflow_id,
-      :is_unstructured)
+      :is_unstructured,
+      :role_arn,
+      :event_trigger_names)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2311,6 +4605,69 @@ module Aws::CustomerProfiles
       include Aws::Structure
     end
 
+    # Item that contains the attribute and when it was last updated.
+    #
+    # @!attribute [rw] attribute_name
+    #   Name of the attribute.
+    #   @return [String]
+    #
+    # @!attribute [rw] last_updated_at
+    #   When the attribute was last updated.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/ListObjectTypeAttributeItem AWS API Documentation
+    #
+    class ListObjectTypeAttributeItem < Struct.new(
+      :attribute_name,
+      :last_updated_at)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] next_token
+    #   The pagination token from the previous call.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of objects returned per page.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] domain_name
+    #   The unique identifier of the domain.
+    #   @return [String]
+    #
+    # @!attribute [rw] object_type_name
+    #   The name of the profile object type.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/ListObjectTypeAttributesRequest AWS API Documentation
+    #
+    class ListObjectTypeAttributesRequest < Struct.new(
+      :next_token,
+      :max_results,
+      :domain_name,
+      :object_type_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] items
+    #   The items returned as part of the response.
+    #   @return [Array<Types::ListObjectTypeAttributeItem>]
+    #
+    # @!attribute [rw] next_token
+    #   The pagination token from the previous call.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/ListObjectTypeAttributesResponse AWS API Documentation
+    #
+    class ListObjectTypeAttributesResponse < Struct.new(
+      :items,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # A ProfileObjectType instance.
     #
     # @!attribute [rw] object_type_name
@@ -2329,6 +4686,14 @@ module Aws::CustomerProfiles
     #   The timestamp of when the domain was most recently edited.
     #   @return [Time]
     #
+    # @!attribute [rw] max_profile_object_count
+    #   The amount of profile object max count assigned to the object type.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] max_available_profile_object_count
+    #   The amount of provisioned profile object max count available.
+    #   @return [Integer]
+    #
     # @!attribute [rw] tags
     #   The tags used to organize, track, or control access for this
     #   resource.
@@ -2341,6 +4706,8 @@ module Aws::CustomerProfiles
       :description,
       :created_at,
       :last_updated_at,
+      :max_profile_object_count,
+      :max_available_profile_object_count,
       :tags)
       SENSITIVE = []
       include Aws::Structure
@@ -2441,7 +4808,7 @@ module Aws::CustomerProfiles
     class ListProfileObjectTypesResponse < Struct.new(
       :items,
       :next_token)
-      SENSITIVE = []
+      SENSITIVE = [:items]
       include Aws::Structure
     end
 
@@ -2466,7 +4833,7 @@ module Aws::CustomerProfiles
       :object_type_name,
       :profile_object_unique_key,
       :object)
-      SENSITIVE = []
+      SENSITIVE = [:object]
       include Aws::Structure
     end
 
@@ -2492,8 +4859,7 @@ module Aws::CustomerProfiles
     #
     # @!attribute [rw] object_filter
     #   Applies a filter to the response to include profile objects with the
-    #   specified index values. This filter is only supported for
-    #   ObjectTypeName \_asset, \_case and \_order.
+    #   specified index values.
     #   @return [Types::ObjectFilter]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/ListProfileObjectsRequest AWS API Documentation
@@ -2522,6 +4888,86 @@ module Aws::CustomerProfiles
     class ListProfileObjectsResponse < Struct.new(
       :items,
       :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] next_token
+    #   The pagination token from the previous `ListRuleBasedMatches` API
+    #   call.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of `MatchIds` returned per page.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] domain_name
+    #   The unique name of the domain.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/ListRuleBasedMatchesRequest AWS API Documentation
+    #
+    class ListRuleBasedMatchesRequest < Struct.new(
+      :next_token,
+      :max_results,
+      :domain_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] match_ids
+    #   The list of `MatchIds` for the given domain.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] next_token
+    #   The pagination token from the previous `ListRuleBasedMatches` API
+    #   call.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/ListRuleBasedMatchesResponse AWS API Documentation
+    #
+    class ListRuleBasedMatchesResponse < Struct.new(
+      :match_ids,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] domain_name
+    #   The unique identifier of the domain.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of objects returned per page.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   The pagination token from the previous call.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/ListSegmentDefinitionsRequest AWS API Documentation
+    #
+    class ListSegmentDefinitionsRequest < Struct.new(
+      :domain_name,
+      :max_results,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] next_token
+    #   The pagination token from the previous call.
+    #   @return [String]
+    #
+    # @!attribute [rw] items
+    #   List of segment definitions.
+    #   @return [Array<Types::SegmentDefinitionItem>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/ListSegmentDefinitionsResponse AWS API Documentation
+    #
+    class ListSegmentDefinitionsResponse < Struct.new(
+      :next_token,
+      :items)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2763,6 +5209,57 @@ module Aws::CustomerProfiles
       include Aws::Structure
     end
 
+    # Specifies how does the rule-based matching process should match
+    # profiles. You can choose from the following attributes to build the
+    # matching Rule:
+    #
+    # * AccountNumber
+    #
+    # * Address.Address
+    #
+    # * Address.City
+    #
+    # * Address.Country
+    #
+    # * Address.County
+    #
+    # * Address.PostalCode
+    #
+    # * Address.State
+    #
+    # * Address.Province
+    #
+    # * BirthDate
+    #
+    # * BusinessName
+    #
+    # * EmailAddress
+    #
+    # * FirstName
+    #
+    # * Gender
+    #
+    # * LastName
+    #
+    # * MiddleName
+    #
+    # * PhoneNumber
+    #
+    # * Any customized profile attributes that start with the `Attributes`
+    #
+    # @!attribute [rw] rule
+    #   A single rule level of the `MatchRules`. Configures how the
+    #   rule-based matching process should match profiles.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/MatchingRule AWS API Documentation
+    #
+    class MatchingRule < Struct.new(
+      :rule)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] domain_name
     #   The unique name of the domain.
     #   @return [String]
@@ -2805,16 +5302,45 @@ module Aws::CustomerProfiles
       include Aws::Structure
     end
 
-    # The filter applied to ListProfileObjects response to include profile
-    # objects with the specified index values. This filter is only supported
-    # for ObjectTypeName \_asset, \_case and \_order.
+    # The criteria that a specific object attribute must meet to trigger the
+    # destination.
+    #
+    # @!attribute [rw] source
+    #   An attribute contained within a source object.
+    #   @return [String]
+    #
+    # @!attribute [rw] field_name
+    #   A field defined within an object type.
+    #   @return [String]
+    #
+    # @!attribute [rw] comparison_operator
+    #   The operator used to compare an attribute against a list of values.
+    #   @return [String]
+    #
+    # @!attribute [rw] values
+    #   A list of attribute values used for comparison.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/ObjectAttribute AWS API Documentation
+    #
+    class ObjectAttribute < Struct.new(
+      :source,
+      :field_name,
+      :comparison_operator,
+      :values)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The filter applied to `ListProfileObjects` response to include profile
+    # objects with the specified index values.
     #
     # @!attribute [rw] key_name
-    #   A searchable identifier of a standard profile object. The predefined
-    #   keys you can use to search for \_asset include: \_assetId,
-    #   \_assetName, \_serialNumber. The predefined keys you can use to
-    #   search for \_case include: \_caseId. The predefined keys you can use
-    #   to search for \_order include: \_orderId.
+    #   A searchable identifier of a profile object. The predefined keys you
+    #   can use to search for `_asset` include: `_assetId`, `_assetName`,
+    #   and `_serialNumber`. The predefined keys you can use to search for
+    #   `_case` include: `_caseId`. The predefined keys you can use to
+    #   search for `_order` include: `_orderId`.
     #   @return [String]
     #
     # @!attribute [rw] values
@@ -2888,6 +5414,36 @@ module Aws::CustomerProfiles
       include Aws::Structure
     end
 
+    # Defines a limit and the time period during which it is enforced.
+    #
+    # @!attribute [rw] unit
+    #   The unit of time.
+    #   @return [String]
+    #
+    # @!attribute [rw] value
+    #   The amount of time of the specified unit.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] max_invocations_per_profile
+    #   The maximum allowed number of destination invocations per profile.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] unlimited
+    #   If set to true, there is no limit on the number of destination
+    #   invocations per profile. The default is false.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/Period AWS API Documentation
+    #
+    class Period < Struct.new(
+      :unit,
+      :value,
+      :max_invocations_per_profile,
+      :unlimited)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The standard profile of a customer.
     #
     # @!attribute [rw] profile_id
@@ -2895,7 +5451,7 @@ module Aws::CustomerProfiles
     #   @return [String]
     #
     # @!attribute [rw] account_number
-    #   A unique account number that you have given to the customer.
+    #   An account number that you have given to the customer.
     #   @return [String]
     #
     # @!attribute [rw] additional_information
@@ -3045,6 +5601,235 @@ module Aws::CustomerProfiles
       :found_by_items,
       :party_type_string,
       :gender_string)
+      SENSITIVE = [:account_number, :additional_information, :party_type, :business_name, :first_name, :middle_name, :last_name, :birth_date, :gender, :phone_number, :mobile_phone_number, :home_phone_number, :business_phone_number, :email_address, :personal_email_address, :business_email_address, :address, :shipping_address, :mailing_address, :billing_address, :attributes, :party_type_string, :gender_string]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] domain_name
+    #   The unique identifier of the domain.
+    #   @return [String]
+    #
+    # @!attribute [rw] attribute_name
+    #   The attribute name.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/ProfileAttributeValuesRequest AWS API Documentation
+    #
+    class ProfileAttributeValuesRequest < Struct.new(
+      :domain_name,
+      :attribute_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] domain_name
+    #   The name of the domain.
+    #   @return [String]
+    #
+    # @!attribute [rw] attribute_name
+    #   The attribute name.
+    #   @return [String]
+    #
+    # @!attribute [rw] items
+    #   The items returned as part of the response.
+    #   @return [Array<Types::AttributeValueItem>]
+    #
+    # @!attribute [rw] status_code
+    #   The status code for the response.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/ProfileAttributeValuesResponse AWS API Documentation
+    #
+    class ProfileAttributeValuesResponse < Struct.new(
+      :domain_name,
+      :attribute_name,
+      :items,
+      :status_code)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The object used to segment on attributes within the customer profile.
+    #
+    # @!attribute [rw] account_number
+    #   A field to describe values to segment on within account number.
+    #   @return [Types::ProfileDimension]
+    #
+    # @!attribute [rw] additional_information
+    #   A field to describe values to segment on within additional
+    #   information.
+    #   @return [Types::ExtraLengthValueProfileDimension]
+    #
+    # @!attribute [rw] first_name
+    #   A field to describe values to segment on within first name.
+    #   @return [Types::ProfileDimension]
+    #
+    # @!attribute [rw] last_name
+    #   A field to describe values to segment on within last name.
+    #   @return [Types::ProfileDimension]
+    #
+    # @!attribute [rw] middle_name
+    #   A field to describe values to segment on within middle name.
+    #   @return [Types::ProfileDimension]
+    #
+    # @!attribute [rw] gender_string
+    #   A field to describe values to segment on within genderString.
+    #   @return [Types::ProfileDimension]
+    #
+    # @!attribute [rw] party_type_string
+    #   A field to describe values to segment on within partyTypeString.
+    #   @return [Types::ProfileDimension]
+    #
+    # @!attribute [rw] birth_date
+    #   A field to describe values to segment on within birthDate.
+    #   @return [Types::DateDimension]
+    #
+    # @!attribute [rw] phone_number
+    #   A field to describe values to segment on within phone number.
+    #   @return [Types::ProfileDimension]
+    #
+    # @!attribute [rw] business_name
+    #   A field to describe values to segment on within business name.
+    #   @return [Types::ProfileDimension]
+    #
+    # @!attribute [rw] business_phone_number
+    #   A field to describe values to segment on within business phone
+    #   number.
+    #   @return [Types::ProfileDimension]
+    #
+    # @!attribute [rw] home_phone_number
+    #   A field to describe values to segment on within home phone number.
+    #   @return [Types::ProfileDimension]
+    #
+    # @!attribute [rw] mobile_phone_number
+    #   A field to describe values to segment on within mobile phone number.
+    #   @return [Types::ProfileDimension]
+    #
+    # @!attribute [rw] email_address
+    #   A field to describe values to segment on within email address.
+    #   @return [Types::ProfileDimension]
+    #
+    # @!attribute [rw] personal_email_address
+    #   A field to describe values to segment on within personal email
+    #   address.
+    #   @return [Types::ProfileDimension]
+    #
+    # @!attribute [rw] business_email_address
+    #   A field to describe values to segment on within business email
+    #   address.
+    #   @return [Types::ProfileDimension]
+    #
+    # @!attribute [rw] address
+    #   A field to describe values to segment on within address.
+    #   @return [Types::AddressDimension]
+    #
+    # @!attribute [rw] shipping_address
+    #   A field to describe values to segment on within shipping address.
+    #   @return [Types::AddressDimension]
+    #
+    # @!attribute [rw] mailing_address
+    #   A field to describe values to segment on within mailing address.
+    #   @return [Types::AddressDimension]
+    #
+    # @!attribute [rw] billing_address
+    #   A field to describe values to segment on within billing address.
+    #   @return [Types::AddressDimension]
+    #
+    # @!attribute [rw] attributes
+    #   A field to describe values to segment on within attributes.
+    #   @return [Hash<String,Types::AttributeDimension>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/ProfileAttributes AWS API Documentation
+    #
+    class ProfileAttributes < Struct.new(
+      :account_number,
+      :additional_information,
+      :first_name,
+      :last_name,
+      :middle_name,
+      :gender_string,
+      :party_type_string,
+      :birth_date,
+      :phone_number,
+      :business_name,
+      :business_phone_number,
+      :home_phone_number,
+      :mobile_phone_number,
+      :email_address,
+      :personal_email_address,
+      :business_email_address,
+      :address,
+      :shipping_address,
+      :mailing_address,
+      :billing_address,
+      :attributes)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Object to hold the dimensions of a profile's fields to segment on.
+    #
+    # @!attribute [rw] dimension_type
+    #   The action to segment on.
+    #   @return [String]
+    #
+    # @!attribute [rw] values
+    #   The values to apply the DimensionType on.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/ProfileDimension AWS API Documentation
+    #
+    class ProfileDimension < Struct.new(
+      :dimension_type,
+      :values)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Object that holds failures for membership.
+    #
+    # @!attribute [rw] profile_id
+    #   The profile id the failure belongs to.
+    #   @return [String]
+    #
+    # @!attribute [rw] message
+    #   A message describing the failure.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status describing the failure.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/ProfileQueryFailures AWS API Documentation
+    #
+    class ProfileQueryFailures < Struct.new(
+      :profile_id,
+      :message,
+      :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Object that holds the results for membership.
+    #
+    # @!attribute [rw] profile_id
+    #   The profile id the result belongs to.
+    #   @return [String]
+    #
+    # @!attribute [rw] query_result
+    #   Describes whether the profile was absent or present in the segment.
+    #   @return [String]
+    #
+    # @!attribute [rw] profile
+    #   The standard profile of a customer.
+    #   @return [Types::Profile]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/ProfileQueryResult AWS API Documentation
+    #
+    class ProfileQueryResult < Struct.new(
+      :profile_id,
+      :query_result,
+      :profile)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3081,6 +5866,16 @@ module Aws::CustomerProfiles
     #   `ShopifyCreateOrders`, and `ShopifyUpdatedOrders`.
     #   @return [Hash<String,String>]
     #
+    # @!attribute [rw] role_arn
+    #   The Amazon Resource Name (ARN) of the IAM role. The Integration uses
+    #   this role to make Customer Profiles requests on your behalf.
+    #   @return [String]
+    #
+    # @!attribute [rw] event_trigger_names
+    #   A list of unique names for active event triggers associated with the
+    #   integration.
+    #   @return [Array<String>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/PutIntegrationRequest AWS API Documentation
     #
     class PutIntegrationRequest < Struct.new(
@@ -3089,8 +5884,10 @@ module Aws::CustomerProfiles
       :object_type_name,
       :tags,
       :flow_definition,
-      :object_type_names)
-      SENSITIVE = []
+      :object_type_names,
+      :role_arn,
+      :event_trigger_names)
+      SENSITIVE = [:flow_definition]
       include Aws::Structure
     end
 
@@ -3139,6 +5936,17 @@ module Aws::CustomerProfiles
     #   equals \_unstructured via API/CLI in flowDefinition.
     #   @return [Boolean]
     #
+    # @!attribute [rw] role_arn
+    #   The Amazon Resource Name (ARN) of the IAM role. The Integration uses
+    #   this role to make Customer Profiles requests on your behalf.
+    #   @return [String]
+    #
+    # @!attribute [rw] event_trigger_names
+    #   A list of unique names for active event triggers associated with the
+    #   integration. This list would be empty if no Event Trigger is
+    #   associated with the integration.
+    #   @return [Array<String>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/PutIntegrationResponse AWS API Documentation
     #
     class PutIntegrationResponse < Struct.new(
@@ -3150,7 +5958,9 @@ module Aws::CustomerProfiles
       :tags,
       :object_type_names,
       :workflow_id,
-      :is_unstructured)
+      :is_unstructured,
+      :role_arn,
+      :event_trigger_names)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3173,7 +5983,7 @@ module Aws::CustomerProfiles
       :object_type_name,
       :object,
       :domain_name)
-      SENSITIVE = []
+      SENSITIVE = [:object]
       include Aws::Structure
     end
 
@@ -3236,6 +6046,10 @@ module Aws::CustomerProfiles
     #   set up.
     #   @return [String]
     #
+    # @!attribute [rw] max_profile_object_count
+    #   The amount of profile object max count assigned to the object type
+    #   @return [Integer]
+    #
     # @!attribute [rw] fields
     #   A map of the name and ObjectType field.
     #   @return [Hash<String,Types::ObjectTypeField>]
@@ -3260,10 +6074,11 @@ module Aws::CustomerProfiles
       :encryption_key,
       :allow_profile_creation,
       :source_last_updated_timestamp_format,
+      :max_profile_object_count,
       :fields,
       :keys,
       :tags)
-      SENSITIVE = []
+      SENSITIVE = [:description, :fields, :keys]
       include Aws::Structure
     end
 
@@ -3308,6 +6123,14 @@ module Aws::CustomerProfiles
     #   [1]: https://docs.oracle.com/javase/10/docs/api/java/text/SimpleDateFormat.html
     #   @return [String]
     #
+    # @!attribute [rw] max_profile_object_count
+    #   The amount of profile object max count assigned to the object type.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] max_available_profile_object_count
+    #   The amount of provisioned profile object max count available.
+    #   @return [Integer]
+    #
     # @!attribute [rw] fields
     #   A map of the name and ObjectType field.
     #   @return [Hash<String,Types::ObjectTypeField>]
@@ -3339,11 +6162,57 @@ module Aws::CustomerProfiles
       :encryption_key,
       :allow_profile_creation,
       :source_last_updated_timestamp_format,
+      :max_profile_object_count,
+      :max_available_profile_object_count,
       :fields,
       :keys,
       :created_at,
       :last_updated_at,
       :tags)
+      SENSITIVE = [:description, :fields, :keys]
+      include Aws::Structure
+    end
+
+    # The relative time period over which data is included in the
+    # aggregation.
+    #
+    # @!attribute [rw] value
+    #   The amount of time of the specified unit.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] unit
+    #   The unit of time.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/Range AWS API Documentation
+    #
+    class Range < Struct.new(
+      :value,
+      :unit)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Overrides the original range on a calculated attribute definition.
+    #
+    # @!attribute [rw] start
+    #   The start time of when to include objects.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] end
+    #   The end time of when to include objects.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] unit
+    #   The unit for start and end.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/RangeOverride AWS API Documentation
+    #
+    class RangeOverride < Struct.new(
+      :start,
+      :end,
+      :unit)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3357,6 +6226,163 @@ module Aws::CustomerProfiles
     #
     class ResourceNotFoundException < Struct.new(
       :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The request to enable the rule-based matching.
+    #
+    # @!attribute [rw] enabled
+    #   The flag that enables the rule-based matching process of duplicate
+    #   profiles.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] matching_rules
+    #   Configures how the rule-based matching process should match
+    #   profiles. You can have up to 15 `MatchingRule` in the
+    #   `MatchingRules`.
+    #   @return [Array<Types::MatchingRule>]
+    #
+    # @!attribute [rw] max_allowed_rule_level_for_merging
+    #   [MatchingRule][1]
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_MatchingRule.html
+    #   @return [Integer]
+    #
+    # @!attribute [rw] max_allowed_rule_level_for_matching
+    #   Indicates the maximum allowed rule level.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] attribute_types_selector
+    #   Configures information about the `AttributeTypesSelector` where the
+    #   rule-based identity resolution uses to match profiles.
+    #   @return [Types::AttributeTypesSelector]
+    #
+    # @!attribute [rw] conflict_resolution
+    #   How the auto-merging process should resolve conflicts between
+    #   different profiles.
+    #   @return [Types::ConflictResolution]
+    #
+    # @!attribute [rw] exporting_config
+    #   Configuration information about the S3 bucket where Identity
+    #   Resolution Jobs writes result files.
+    #
+    #   <note markdown="1"> You need to give Customer Profiles service principal write
+    #   permission to your S3 bucket. Otherwise, you'll get an exception in
+    #   the API response. For an example policy, see [Amazon Connect
+    #   Customer Profiles cross-service confused deputy prevention][1].
+    #
+    #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/cross-service-confused-deputy-prevention.html#customer-profiles-cross-service
+    #   @return [Types::ExportingConfig]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/RuleBasedMatchingRequest AWS API Documentation
+    #
+    class RuleBasedMatchingRequest < Struct.new(
+      :enabled,
+      :matching_rules,
+      :max_allowed_rule_level_for_merging,
+      :max_allowed_rule_level_for_matching,
+      :attribute_types_selector,
+      :conflict_resolution,
+      :exporting_config)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The response of the Rule-based matching request.
+    #
+    # @!attribute [rw] enabled
+    #   The flag that enables the rule-based matching process of duplicate
+    #   profiles.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] matching_rules
+    #   Configures how the rule-based matching process should match
+    #   profiles. You can have up to 15 `MatchingRule` in the
+    #   `MatchingRules`.
+    #   @return [Array<Types::MatchingRule>]
+    #
+    # @!attribute [rw] status
+    #   PENDING
+    #
+    #   * The first status after configuration a rule-based matching rule.
+    #     If it is an existing domain, the rule-based Identity Resolution
+    #     waits one hour before creating the matching rule. If it is a new
+    #     domain, the system will skip the `PENDING` stage.
+    #
+    #   ^
+    #
+    #   IN\_PROGRESS
+    #
+    #   * The system is creating the rule-based matching rule. Under this
+    #     status, the system is evaluating the existing data and you can no
+    #     longer change the Rule-based matching configuration.
+    #
+    #   ^
+    #
+    #   ACTIVE
+    #
+    #   * The rule is ready to use. You can change the rule a day after the
+    #     status is in `ACTIVE`.
+    #
+    #   ^
+    #   @return [String]
+    #
+    # @!attribute [rw] max_allowed_rule_level_for_merging
+    #   [MatchingRule][1]
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_MatchingRule.html
+    #   @return [Integer]
+    #
+    # @!attribute [rw] max_allowed_rule_level_for_matching
+    #   Indicates the maximum allowed rule level.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] attribute_types_selector
+    #   Configures information about the `AttributeTypesSelector` where the
+    #   rule-based identity resolution uses to match profiles.
+    #   @return [Types::AttributeTypesSelector]
+    #
+    # @!attribute [rw] conflict_resolution
+    #   How the auto-merging process should resolve conflicts between
+    #   different profiles.
+    #   @return [Types::ConflictResolution]
+    #
+    # @!attribute [rw] exporting_config
+    #   Configuration information about the S3 bucket where Identity
+    #   Resolution Jobs writes result files.
+    #
+    #   <note markdown="1"> You need to give Customer Profiles service principal write
+    #   permission to your S3 bucket. Otherwise, you'll get an exception in
+    #   the API response. For an example policy, see [Amazon Connect
+    #   Customer Profiles cross-service confused deputy prevention][1].
+    #
+    #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/cross-service-confused-deputy-prevention.html#customer-profiles-cross-service
+    #   @return [Types::ExportingConfig]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/RuleBasedMatchingResponse AWS API Documentation
+    #
+    class RuleBasedMatchingResponse < Struct.new(
+      :enabled,
+      :matching_rules,
+      :status,
+      :max_allowed_rule_level_for_merging,
+      :max_allowed_rule_level_for_matching,
+      :attribute_types_selector,
+      :conflict_resolution,
+      :exporting_config)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3591,6 +6617,85 @@ module Aws::CustomerProfiles
       include Aws::Structure
     end
 
+    # Object holding the segment definition fields.
+    #
+    # @!attribute [rw] segment_definition_name
+    #   Name of the segment definition.
+    #   @return [String]
+    #
+    # @!attribute [rw] display_name
+    #   Display name of the segment definition.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the segment definition.
+    #   @return [String]
+    #
+    # @!attribute [rw] segment_definition_arn
+    #   The arn of the segment definition.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   When the segment definition was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] tags
+    #   The tags belonging to the segment definition.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/SegmentDefinitionItem AWS API Documentation
+    #
+    class SegmentDefinitionItem < Struct.new(
+      :segment_definition_name,
+      :display_name,
+      :description,
+      :segment_definition_arn,
+      :created_at,
+      :tags)
+      SENSITIVE = [:description]
+      include Aws::Structure
+    end
+
+    # Contains all groups of the segment definition.
+    #
+    # @!attribute [rw] groups
+    #   Holds the list of groups within the segment definition.
+    #   @return [Array<Types::Group>]
+    #
+    # @!attribute [rw] include
+    #   Defines whether to include or exclude the profiles that fit the
+    #   segment criteria.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/SegmentGroup AWS API Documentation
+    #
+    class SegmentGroup < Struct.new(
+      :groups,
+      :include)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains all groups of the segment definition.
+    #
+    # @!attribute [rw] groups
+    #   Holds the list of groups within the segment definition.
+    #   @return [Array<Types::Group>]
+    #
+    # @!attribute [rw] include
+    #   Define whether to include or exclude the profiles that fit the
+    #   segment criteria.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/SegmentGroupStructure AWS API Documentation
+    #
+    class SegmentGroupStructure < Struct.new(
+      :groups,
+      :include)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The properties that are applied when ServiceNow is being used as a
     # source.
     #
@@ -3680,6 +6785,20 @@ module Aws::CustomerProfiles
       include Aws::Structure
     end
 
+    # The source segments to build off of.
+    #
+    # @!attribute [rw] segment_definition_name
+    #   The unique name of the segment definition.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/SourceSegment AWS API Documentation
+    #
+    class SourceSegment < Struct.new(
+      :segment_definition_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] resource_arn
     #   The ARN of the resource that you're adding tags to.
     #   @return [String]
@@ -3736,6 +6855,25 @@ module Aws::CustomerProfiles
       :source_fields,
       :task_properties,
       :task_type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The threshold for the calculated attribute.
+    #
+    # @!attribute [rw] value
+    #   The value of the threshold.
+    #   @return [String]
+    #
+    # @!attribute [rw] operator
+    #   The operator of the threshold.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/Threshold AWS API Documentation
+    #
+    class Threshold < Struct.new(
+      :value,
+      :operator)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3877,6 +7015,96 @@ module Aws::CustomerProfiles
     #   The unique name of the domain.
     #   @return [String]
     #
+    # @!attribute [rw] calculated_attribute_name
+    #   The unique name of the calculated attribute.
+    #   @return [String]
+    #
+    # @!attribute [rw] display_name
+    #   The display name of the calculated attribute.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the calculated attribute.
+    #   @return [String]
+    #
+    # @!attribute [rw] conditions
+    #   The conditions including range, object count, and threshold for the
+    #   calculated attribute.
+    #   @return [Types::Conditions]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/UpdateCalculatedAttributeDefinitionRequest AWS API Documentation
+    #
+    class UpdateCalculatedAttributeDefinitionRequest < Struct.new(
+      :domain_name,
+      :calculated_attribute_name,
+      :display_name,
+      :description,
+      :conditions)
+      SENSITIVE = [:description, :conditions]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] calculated_attribute_name
+    #   The unique name of the calculated attribute.
+    #   @return [String]
+    #
+    # @!attribute [rw] display_name
+    #   The display name of the calculated attribute.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the calculated attribute.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The timestamp of when the calculated attribute definition was
+    #   created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] last_updated_at
+    #   The timestamp of when the calculated attribute definition was most
+    #   recently edited.
+    #   @return [Time]
+    #
+    # @!attribute [rw] statistic
+    #   The aggregation operation to perform for the calculated attribute.
+    #   @return [String]
+    #
+    # @!attribute [rw] conditions
+    #   The conditions including range, object count, and threshold for the
+    #   calculated attribute.
+    #   @return [Types::Conditions]
+    #
+    # @!attribute [rw] attribute_details
+    #   The mathematical expression and a list of attribute items specified
+    #   in that expression.
+    #   @return [Types::AttributeDetails]
+    #
+    # @!attribute [rw] tags
+    #   The tags used to organize, track, or control access for this
+    #   resource.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/UpdateCalculatedAttributeDefinitionResponse AWS API Documentation
+    #
+    class UpdateCalculatedAttributeDefinitionResponse < Struct.new(
+      :calculated_attribute_name,
+      :display_name,
+      :description,
+      :created_at,
+      :last_updated_at,
+      :statistic,
+      :conditions,
+      :attribute_details,
+      :tags)
+      SENSITIVE = [:description, :statistic, :conditions, :attribute_details]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] domain_name
+    #   The unique name of the domain.
+    #   @return [String]
+    #
     # @!attribute [rw] default_expiration_days
     #   The default number of days until the data within the domain expires.
     #   @return [Integer]
@@ -3915,6 +7143,17 @@ module Aws::CustomerProfiles
     #   [1]: https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_GetMatches.html
     #   @return [Types::MatchingRequest]
     #
+    # @!attribute [rw] rule_based_matching
+    #   The process of matching duplicate profiles using the rule-Based
+    #   matching. If `RuleBasedMatching` = true, Amazon Connect Customer
+    #   Profiles will start to match and merge your profiles according to
+    #   your configuration in the `RuleBasedMatchingRequest`. You can use
+    #   the `ListRuleBasedMatches` and `GetSimilarProfiles` API to return
+    #   and review the results. Also, if you have configured
+    #   `ExportingConfig` in the `RuleBasedMatchingRequest`, you can
+    #   download the results from S3.
+    #   @return [Types::RuleBasedMatchingRequest]
+    #
     # @!attribute [rw] tags
     #   The tags used to organize, track, or control access for this
     #   resource.
@@ -3928,6 +7167,7 @@ module Aws::CustomerProfiles
       :default_encryption_key,
       :dead_letter_queue_url,
       :matching,
+      :rule_based_matching,
       :tags)
       SENSITIVE = []
       include Aws::Structure
@@ -3970,6 +7210,17 @@ module Aws::CustomerProfiles
     #   [1]: https://docs.aws.amazon.com/customerprofiles/latest/APIReference/API_GetMatches.html
     #   @return [Types::MatchingResponse]
     #
+    # @!attribute [rw] rule_based_matching
+    #   The process of matching duplicate profiles using the rule-Based
+    #   matching. If `RuleBasedMatching` = true, Amazon Connect Customer
+    #   Profiles will start to match and merge your profiles according to
+    #   your configuration in the `RuleBasedMatchingRequest`. You can use
+    #   the `ListRuleBasedMatches` and `GetSimilarProfiles` API to return
+    #   and review the results. Also, if you have configured
+    #   `ExportingConfig` in the `RuleBasedMatchingRequest`, you can
+    #   download the results from S3.
+    #   @return [Types::RuleBasedMatchingResponse]
+    #
     # @!attribute [rw] created_at
     #   The timestamp of when the domain was created.
     #   @return [Time]
@@ -3991,10 +7242,113 @@ module Aws::CustomerProfiles
       :default_encryption_key,
       :dead_letter_queue_url,
       :matching,
+      :rule_based_matching,
       :created_at,
       :last_updated_at,
       :tags)
       SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] domain_name
+    #   The unique name of the domain.
+    #   @return [String]
+    #
+    # @!attribute [rw] event_trigger_name
+    #   The unique name of the event trigger.
+    #   @return [String]
+    #
+    # @!attribute [rw] object_type_name
+    #   The unique name of the object type.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the event trigger.
+    #   @return [String]
+    #
+    # @!attribute [rw] event_trigger_conditions
+    #   A list of conditions that determine when an event should trigger the
+    #   destination.
+    #   @return [Array<Types::EventTriggerCondition>]
+    #
+    # @!attribute [rw] segment_filter
+    #   The destination is triggered only for profiles that meet the
+    #   criteria of a segment definition.
+    #   @return [String]
+    #
+    # @!attribute [rw] event_trigger_limits
+    #   Defines limits controlling whether an event triggers the
+    #   destination, based on ingestion latency and the number of
+    #   invocations per profile over specific time periods.
+    #   @return [Types::EventTriggerLimits]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/UpdateEventTriggerRequest AWS API Documentation
+    #
+    class UpdateEventTriggerRequest < Struct.new(
+      :domain_name,
+      :event_trigger_name,
+      :object_type_name,
+      :description,
+      :event_trigger_conditions,
+      :segment_filter,
+      :event_trigger_limits)
+      SENSITIVE = [:description, :event_trigger_conditions]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] event_trigger_name
+    #   The unique name of the event trigger.
+    #   @return [String]
+    #
+    # @!attribute [rw] object_type_name
+    #   The unique name of the object type.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the event trigger.
+    #   @return [String]
+    #
+    # @!attribute [rw] event_trigger_conditions
+    #   A list of conditions that determine when an event should trigger the
+    #   destination.
+    #   @return [Array<Types::EventTriggerCondition>]
+    #
+    # @!attribute [rw] segment_filter
+    #   The destination is triggered only for profiles that meet the
+    #   criteria of a segment definition.
+    #   @return [String]
+    #
+    # @!attribute [rw] event_trigger_limits
+    #   Defines limits controlling whether an event triggers the
+    #   destination, based on ingestion latency and the number of
+    #   invocations per profile over specific time periods.
+    #   @return [Types::EventTriggerLimits]
+    #
+    # @!attribute [rw] created_at
+    #   The timestamp of when the event trigger was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] last_updated_at
+    #   The timestamp of when the event trigger was most recently updated.
+    #   @return [Time]
+    #
+    # @!attribute [rw] tags
+    #   An array of key-value pairs to apply to this resource.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/customer-profiles-2020-08-15/UpdateEventTriggerResponse AWS API Documentation
+    #
+    class UpdateEventTriggerResponse < Struct.new(
+      :event_trigger_name,
+      :object_type_name,
+      :description,
+      :event_trigger_conditions,
+      :segment_filter,
+      :event_trigger_limits,
+      :created_at,
+      :last_updated_at,
+      :tags)
+      SENSITIVE = [:description, :event_trigger_conditions]
       include Aws::Structure
     end
 
@@ -4011,7 +7365,7 @@ module Aws::CustomerProfiles
     #   @return [String]
     #
     # @!attribute [rw] account_number
-    #   A unique account number that you have given to the customer.
+    #   An account number that you have given to the customer.
     #   @return [String]
     #
     # @!attribute [rw] party_type
@@ -4129,7 +7483,7 @@ module Aws::CustomerProfiles
       :attributes,
       :party_type_string,
       :gender_string)
-      SENSITIVE = []
+      SENSITIVE = [:additional_information, :account_number, :party_type, :business_name, :first_name, :middle_name, :last_name, :birth_date, :gender, :phone_number, :mobile_phone_number, :home_phone_number, :business_phone_number, :email_address, :personal_email_address, :business_email_address, :address, :shipping_address, :mailing_address, :billing_address, :attributes, :party_type_string, :gender_string]
       include Aws::Structure
     end
 
@@ -4204,3 +7558,4 @@ module Aws::CustomerProfiles
 
   end
 end
+

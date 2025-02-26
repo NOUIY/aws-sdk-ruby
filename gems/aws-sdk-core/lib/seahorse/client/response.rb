@@ -30,6 +30,12 @@ module Seahorse
       # @return [StandardError, nil]
       attr_accessor :error
 
+      # @return [String, nil] returns the algorithm used to validate
+      #   the response checksum.  Returns nil if no verification was done.
+      def checksum_validated
+        context[:http_checksum][:validated] if context[:http_checksum]
+      end
+
       # @overload on(status_code, &block)
       #   @param [Integer] status_code The block will be
       #     triggered only for responses with the given status code.
@@ -69,6 +75,8 @@ module Seahorse
       # Necessary to define as a subclass of Delegator
       # @api private
       def __getobj__
+        return yield if block_given? && !defined?(@data)
+
         @data
       end
 

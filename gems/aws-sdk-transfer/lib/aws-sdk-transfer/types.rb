@@ -23,8 +23,8 @@ module Aws::Transfer
       include Aws::Structure
     end
 
-    # Contains the details for a connector object. The connector object is
-    # used for AS2 outbound processes, to connect the Transfer Family
+    # Contains the details for an AS2 connector object. The connector object
+    # is used for AS2 outbound processes, to connect the Transfer Family
     # customer with the trading partner.
     #
     # @!attribute [rw] local_profile_id
@@ -47,10 +47,14 @@ module Aws::Transfer
     # @!attribute [rw] encryption_algorithm
     #   The algorithm that is used to encrypt the file.
     #
-    #   <note markdown="1"> You can only specify `NONE` if the URL for your connector uses
-    #   HTTPS. This ensures that no traffic is sent in clear text.
+    #   Note the following:
     #
-    #    </note>
+    #   * Do not use the `DES_EDE3_CBC` algorithm unless you must support a
+    #     legacy client that requires it, as it is a weak encryption
+    #     algorithm.
+    #
+    #   * You can only specify `NONE` if the URL for your connector uses
+    #     HTTPS. Using HTTPS ensures that no traffic is sent in clear text.
     #   @return [String]
     #
     # @!attribute [rw] signing_algorithm
@@ -73,10 +77,54 @@ module Aws::Transfer
     #   transfers is synchronous or asynchronous. Specify either of the
     #   following values:
     #
-    #   * `SYNC`\: The system expects a synchronous MDN response, confirming
+    #   * `SYNC`: The system expects a synchronous MDN response, confirming
     #     that the file was transferred successfully (or not).
     #
-    #   * `NONE`\: Specifies that no MDN response is required.
+    #   * `NONE`: Specifies that no MDN response is required.
+    #   @return [String]
+    #
+    # @!attribute [rw] basic_auth_secret_id
+    #   Provides Basic authentication support to the AS2 Connectors API. To
+    #   use Basic authentication, you must provide the name or Amazon
+    #   Resource Name (ARN) of a secret in Secrets Manager.
+    #
+    #   The default value for this parameter is `null`, which indicates that
+    #   Basic authentication is not enabled for the connector.
+    #
+    #   If the connector should use Basic authentication, the secret needs
+    #   to be in the following format:
+    #
+    #   `{ "Username": "user-name", "Password": "user-password" }`
+    #
+    #   Replace `user-name` and `user-password` with the credentials for the
+    #   actual user that is being authenticated.
+    #
+    #   Note the following:
+    #
+    #   * You are storing these credentials in Secrets Manager, *not passing
+    #     them directly* into this API.
+    #
+    #   * If you are using the API, SDKs, or CloudFormation to configure
+    #     your connector, then you must create the secret before you can
+    #     enable Basic authentication. However, if you are using the Amazon
+    #     Web Services management console, you can have the system create
+    #     the secret for you.
+    #
+    #   If you have previously enabled Basic authentication for a connector,
+    #   you can disable it by using the `UpdateConnector` API call. For
+    #   example, if you are using the CLI, you can run the following command
+    #   to remove Basic authentication:
+    #
+    #   `update-connector --connector-id my-connector-id --as2-config
+    #   'BasicAuthSecretId=""'`
+    #   @return [String]
+    #
+    # @!attribute [rw] preserve_content_type
+    #   Allows you to use the Amazon S3 `Content-Type` that is associated
+    #   with objects in S3 instead of having the content type mapped based
+    #   on the file extension. This parameter is enabled by default when you
+    #   create an AS2 connector from the console, but disabled by default
+    #   when you create an AS2 connector by calling the API directly.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/transfer-2018-11-05/As2ConnectorConfig AWS API Documentation
@@ -89,7 +137,9 @@ module Aws::Transfer
       :encryption_algorithm,
       :signing_algorithm,
       :mdn_signing_algorithm,
-      :mdn_response)
+      :mdn_response,
+      :basic_auth_secret_id,
+      :preserve_content_type)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -109,6 +159,39 @@ module Aws::Transfer
       include Aws::Structure
     end
 
+    # A structure that contains the details for files transferred using an
+    # SFTP connector, during a single transfer.
+    #
+    # @!attribute [rw] file_path
+    #   The filename and path to where the file was sent to or retrieved
+    #   from.
+    #   @return [String]
+    #
+    # @!attribute [rw] status_code
+    #   The current status for the transfer.
+    #   @return [String]
+    #
+    # @!attribute [rw] failure_code
+    #   For transfers that fail, this parameter contains a code indicating
+    #   the reason. For example, `RETRIEVE_FILE_NOT_FOUND`
+    #   @return [String]
+    #
+    # @!attribute [rw] failure_message
+    #   For transfers that fail, this parameter describes the reason for the
+    #   failure.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/transfer-2018-11-05/ConnectorFileTransferResult AWS API Documentation
+    #
+    class ConnectorFileTransferResult < Struct.new(
+      :file_path,
+      :status_code,
+      :failure_code,
+      :failure_message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Each step type has its own `StepDetails` structure.
     #
     # @!attribute [rw] name
@@ -117,20 +200,20 @@ module Aws::Transfer
     #
     # @!attribute [rw] destination_file_location
     #   Specifies the location for the file being copied. Use
-    #   `$\{Transfer:username\}` or `$\{Transfer:UploadDate\}` in this field
-    #   to parametrize the destination prefix by username or uploaded date.
+    #   `${Transfer:UserName}` or `${Transfer:UploadDate}` in this field to
+    #   parametrize the destination prefix by username or uploaded date.
     #
     #   * Set the value of `DestinationFileLocation` to
-    #     `$\{Transfer:username\}` to copy uploaded files to an Amazon S3
+    #     `${Transfer:UserName}` to copy uploaded files to an Amazon S3
     #     bucket that is prefixed with the name of the Transfer Family user
     #     that uploaded the file.
     #
     #   * Set the value of `DestinationFileLocation` to
-    #     `$\{Transfer:UploadDate\}` to copy uploaded files to an Amazon S3
+    #     `${Transfer:UploadDate}` to copy uploaded files to an Amazon S3
     #     bucket that is prefixed with the date of the upload.
     #
     #     <note markdown="1"> The system resolves `UploadDate` to a date format of *YYYY-MM-DD*,
-    #     based on the date the file is uploaded.
+    #     based on the date the file is uploaded in UTC.
     #
     #      </note>
     #   @return [Types::InputFileLocation]
@@ -138,6 +221,15 @@ module Aws::Transfer
     # @!attribute [rw] overwrite_existing
     #   A flag that indicates whether to overwrite an existing file of the
     #   same name. The default is `FALSE`.
+    #
+    #   If the workflow is processing a file that has the same name as an
+    #   existing file, the behavior is as follows:
+    #
+    #   * If `OverwriteExisting` is `TRUE`, the existing file is replaced
+    #     with the file being processed.
+    #
+    #   * If `OverwriteExisting` is `FALSE`, nothing happens, and the
+    #     workflow processing stops.
     #   @return [String]
     #
     # @!attribute [rw] source_file_location
@@ -145,12 +237,12 @@ module Aws::Transfer
     #   the output from the previous step, or the originally uploaded file
     #   for the workflow.
     #
-    #   * To use the previous file as the input, enter `$\{previous.file\}`.
+    #   * To use the previous file as the input, enter `${previous.file}`.
     #     In this case, this workflow step uses the output file from the
     #     previous workflow step as input. This is the default value.
     #
     #   * To use the originally uploaded file location as input for this
-    #     step, enter `$\{original.file\}`.
+    #     step, enter `${original.file}`.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/transfer-2018-11-05/CopyStepDetails AWS API Documentation
@@ -169,16 +261,29 @@ module Aws::Transfer
     #   server using the client.
     #
     #   A `HomeDirectory` example is `/bucket_name/home/mydirectory`.
+    #
+    #   <note markdown="1"> The `HomeDirectory` parameter is only used if `HomeDirectoryType` is
+    #   set to `PATH`.
+    #
+    #    </note>
     #   @return [String]
     #
     # @!attribute [rw] home_directory_type
     #   The type of landing directory (folder) that you want your users'
     #   home directory to be when they log in to the server. If you set it
-    #   to `PATH`, the user will see the absolute Amazon S3 bucket or EFS
-    #   paths as is in their file transfer protocol clients. If you set it
-    #   `LOGICAL`, you need to provide mappings in the
+    #   to `PATH`, the user will see the absolute Amazon S3 bucket or Amazon
+    #   EFS path as is in their file transfer protocol clients. If you set
+    #   it to `LOGICAL`, you need to provide mappings in the
     #   `HomeDirectoryMappings` for how you want to make Amazon S3 or Amazon
     #   EFS paths visible to your users.
+    #
+    #   <note markdown="1"> If `HomeDirectoryType` is `LOGICAL`, you must provide mappings,
+    #   using the `HomeDirectoryMappings` parameter. If, on the other hand,
+    #   `HomeDirectoryType` is `PATH`, you provide an absolute path using
+    #   the `HomeDirectory` parameter. You cannot have both `HomeDirectory`
+    #   and `HomeDirectoryMappings` in your template.
+    #
+    #    </note>
     #   @return [String]
     #
     # @!attribute [rw] home_directory_mappings
@@ -194,8 +299,8 @@ module Aws::Transfer
     #
     #   The following is an `Entry` and `Target` pair example.
     #
-    #   `[ \{ "Entry": "/directory1", "Target":
-    #   "/bucket_name/home/mydirectory" \} ]`
+    #   `[ { "Entry": "/directory1", "Target":
+    #   "/bucket_name/home/mydirectory" } ]`
     #
     #   In most cases, you can use this value instead of the session policy
     #   to lock down your user to the designated home directory
@@ -204,7 +309,7 @@ module Aws::Transfer
     #
     #   The following is an `Entry` and `Target` pair example for `chroot`.
     #
-    #   `[ \{ "Entry": "/", "Target": "/bucket_name/home/mydirectory" \} ]`
+    #   `[ { "Entry": "/", "Target": "/bucket_name/home/mydirectory" } ]`
     #   @return [Array<Types::HomeDirectoryMapEntry>]
     #
     # @!attribute [rw] policy
@@ -212,8 +317,8 @@ module Aws::Transfer
     #   and Access Management (IAM) role across multiple users. This policy
     #   scopes down a user's access to portions of their Amazon S3 bucket.
     #   Variables that you can use inside this policy include
-    #   `$\{Transfer:UserName\}`, `$\{Transfer:HomeDirectory\}`, and
-    #   `$\{Transfer:HomeBucket\}`.
+    #   `${Transfer:UserName}`, `${Transfer:HomeDirectory}`, and
+    #   `${Transfer:HomeBucket}`.
     #
     #   <note markdown="1"> This policy applies only when the domain of `ServerId` is Amazon S3.
     #   Amazon EFS does not use session policies.
@@ -268,7 +373,7 @@ module Aws::Transfer
     #   you can view the SID values by running the following command using
     #   Windows PowerShell.
     #
-    #   `Get-ADGroup -Filter \{samAccountName -like "YourGroupName*"\}
+    #   `Get-ADGroup -Filter {samAccountName -like "YourGroupName*"}
     #   -Properties * | Select SamAccountName,ObjectSid`
     #
     #   In that command, replace *YourGroupName* with the name of your
@@ -335,10 +440,17 @@ module Aws::Transfer
     #   The landing directory (folder) for files transferred by using the
     #   AS2 protocol.
     #
-    #   A `BaseDirectory` example is `/DOC-EXAMPLE-BUCKET/home/mydirectory`.
+    #   A `BaseDirectory` example is
+    #   `/amzn-s3-demo-bucket/home/mydirectory`.
     #   @return [String]
     #
     # @!attribute [rw] access_role
+    #   Connectors are used to send files using either the AS2 or SFTP
+    #   protocol. For the access role, provide the Amazon Resource Name
+    #   (ARN) of the Identity and Access Management role to use.
+    #
+    #   **For AS2 connectors**
+    #
     #   With AS2, you can send files by calling `StartFileTransfer` and
     #   specifying the file paths in the request parameter, `SendFilePaths`.
     #   We use the file’s parent directory (for example, for
@@ -351,6 +463,21 @@ module Aws::Transfer
     #   `StartFileTransfer` request. Additionally, you need to provide read
     #   and write access to the parent directory of the files that you
     #   intend to send with `StartFileTransfer`.
+    #
+    #   If you are using Basic authentication for your AS2 connector, the
+    #   access role requires the `secretsmanager:GetSecretValue` permission
+    #   for the secret. If the secret is encrypted using a customer-managed
+    #   key instead of the Amazon Web Services managed key in Secrets
+    #   Manager, then the role also needs the `kms:Decrypt` permission for
+    #   that key.
+    #
+    #   **For SFTP connectors**
+    #
+    #   Make sure that the access role provides read and write access to the
+    #   parent directory of the file location that's used in the
+    #   `StartFileTransfer` request. Additionally, make sure that the role
+    #   provides `secretsmanager:GetSecretValue` permission to Secrets
+    #   Manager.
     #   @return [String]
     #
     # @!attribute [rw] status
@@ -362,6 +489,50 @@ module Aws::Transfer
     #   Key-value pairs that can be used to group and search for agreements.
     #   @return [Array<Types::Tag>]
     #
+    # @!attribute [rw] preserve_filename
+    #   Determines whether or not Transfer Family appends a unique string of
+    #   characters to the end of the AS2 message payload filename when
+    #   saving it.
+    #
+    #   * `ENABLED`: the filename provided by your trading parter is
+    #     preserved when the file is saved.
+    #
+    #   * `DISABLED` (default value): when Transfer Family saves the file,
+    #     the filename is adjusted, as described in [File names and
+    #     locations][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/transfer/latest/userguide/send-as2-messages.html#file-names-as2
+    #   @return [String]
+    #
+    # @!attribute [rw] enforce_message_signing
+    #   Determines whether or not unsigned messages from your trading
+    #   partners will be accepted.
+    #
+    #   * `ENABLED`: Transfer Family rejects unsigned messages from your
+    #     trading partner.
+    #
+    #   * `DISABLED` (default value): Transfer Family accepts unsigned
+    #     messages from your trading partner.
+    #   @return [String]
+    #
+    # @!attribute [rw] custom_directories
+    #   A `CustomDirectoriesType` structure. This structure specifies custom
+    #   directories for storing various AS2 message files. You can specify
+    #   directories for the following types of files.
+    #
+    #   * Failed files
+    #
+    #   * MDN files
+    #
+    #   * Payload files
+    #
+    #   * Status files
+    #
+    #   * Temporary files
+    #   @return [Types::CustomDirectoriesType]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/transfer-2018-11-05/CreateAgreementRequest AWS API Documentation
     #
     class CreateAgreementRequest < Struct.new(
@@ -372,7 +543,10 @@ module Aws::Transfer
       :base_directory,
       :access_role,
       :status,
-      :tags)
+      :tags,
+      :preserve_filename,
+      :enforce_message_signing,
+      :custom_directories)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -392,14 +566,21 @@ module Aws::Transfer
     end
 
     # @!attribute [rw] url
-    #   The URL of the partner's AS2 endpoint.
+    #   The URL of the partner's AS2 or SFTP endpoint.
     #   @return [String]
     #
     # @!attribute [rw] as_2_config
-    #   A structure that contains the parameters for a connector object.
+    #   A structure that contains the parameters for an AS2 connector
+    #   object.
     #   @return [Types::As2ConnectorConfig]
     #
     # @!attribute [rw] access_role
+    #   Connectors are used to send files using either the AS2 or SFTP
+    #   protocol. For the access role, provide the Amazon Resource Name
+    #   (ARN) of the Identity and Access Management role to use.
+    #
+    #   **For AS2 connectors**
+    #
     #   With AS2, you can send files by calling `StartFileTransfer` and
     #   specifying the file paths in the request parameter, `SendFilePaths`.
     #   We use the file’s parent directory (for example, for
@@ -412,6 +593,21 @@ module Aws::Transfer
     #   `StartFileTransfer` request. Additionally, you need to provide read
     #   and write access to the parent directory of the files that you
     #   intend to send with `StartFileTransfer`.
+    #
+    #   If you are using Basic authentication for your AS2 connector, the
+    #   access role requires the `secretsmanager:GetSecretValue` permission
+    #   for the secret. If the secret is encrypted using a customer-managed
+    #   key instead of the Amazon Web Services managed key in Secrets
+    #   Manager, then the role also needs the `kms:Decrypt` permission for
+    #   that key.
+    #
+    #   **For SFTP connectors**
+    #
+    #   Make sure that the access role provides read and write access to the
+    #   parent directory of the file location that's used in the
+    #   `StartFileTransfer` request. Additionally, make sure that the role
+    #   provides `secretsmanager:GetSecretValue` permission to Secrets
+    #   Manager.
     #   @return [String]
     #
     # @!attribute [rw] logging_role
@@ -426,6 +622,15 @@ module Aws::Transfer
     #   Tags are metadata attached to connectors for any purpose.
     #   @return [Array<Types::Tag>]
     #
+    # @!attribute [rw] sftp_config
+    #   A structure that contains the parameters for an SFTP connector
+    #   object.
+    #   @return [Types::SftpConnectorConfig]
+    #
+    # @!attribute [rw] security_policy_name
+    #   Specifies the name of the security policy for the connector.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/transfer-2018-11-05/CreateConnectorRequest AWS API Documentation
     #
     class CreateConnectorRequest < Struct.new(
@@ -433,7 +638,9 @@ module Aws::Transfer
       :as_2_config,
       :access_role,
       :logging_role,
-      :tags)
+      :tags,
+      :sftp_config,
+      :security_policy_name)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -637,11 +844,12 @@ module Aws::Transfer
     #
     # @!attribute [rw] identity_provider_details
     #   Required when `IdentityProviderType` is set to
-    #   `AWS_DIRECTORY_SERVICE` or `API_GATEWAY`. Accepts an array
-    #   containing all of the information required to use a directory in
-    #   `AWS_DIRECTORY_SERVICE` or invoke a customer-supplied authentication
-    #   API, including the API Gateway URL. Not required when
-    #   `IdentityProviderType` is set to `SERVICE_MANAGED`.
+    #   `AWS_DIRECTORY_SERVICE`, `Amazon Web Services_LAMBDA` or
+    #   `API_GATEWAY`. Accepts an array containing all of the information
+    #   required to use a directory in `AWS_DIRECTORY_SERVICE` or invoke a
+    #   customer-supplied authentication API, including the API Gateway URL.
+    #   Cannot be specified when `IdentityProviderType` is set to
+    #   `SERVICE_MANAGED`.
     #   @return [Types::IdentityProviderDetails]
     #
     # @!attribute [rw] identity_provider_type
@@ -663,7 +871,7 @@ module Aws::Transfer
     #
     #   Use the `AWS_LAMBDA` value to directly use an Lambda function as
     #   your identity provider. If you choose this value, you must specify
-    #   the ARN for the Lambda function in the `Function` parameter or the
+    #   the ARN for the Lambda function in the `Function` parameter for the
     #   `IdentityProviderDetails` data type.
     #   @return [String]
     #
@@ -760,8 +968,7 @@ module Aws::Transfer
     #   @return [Types::ProtocolDetails]
     #
     # @!attribute [rw] security_policy_name
-    #   Specifies the name of the security policy that is attached to the
-    #   server.
+    #   Specifies the name of the security policy for the server.
     #   @return [String]
     #
     # @!attribute [rw] tags
@@ -775,9 +982,39 @@ module Aws::Transfer
     #   In addition to a workflow to execute when a file is uploaded
     #   completely, `WorkflowDetails` can also contain a workflow ID (and
     #   execution role) for a workflow to execute on partial upload. A
-    #   partial upload occurs when a file is open when the session
-    #   disconnects.
+    #   partial upload occurs when the server session disconnects while the
+    #   file is still being uploaded.
     #   @return [Types::WorkflowDetails]
+    #
+    # @!attribute [rw] structured_log_destinations
+    #   Specifies the log groups to which your server logs are sent.
+    #
+    #   To specify a log group, you must provide the ARN for an existing log
+    #   group. In this case, the format of the log group is as follows:
+    #
+    #   `arn:aws:logs:region-name:amazon-account-id:log-group:log-group-name:*`
+    #
+    #   For example,
+    #   `arn:aws:logs:us-east-1:111122223333:log-group:mytestgroup:*`
+    #
+    #   If you have previously specified a log group for a server, you can
+    #   clear it, and in effect turn off structured logging, by providing an
+    #   empty value for this parameter in an `update-server` call. For
+    #   example:
+    #
+    #   `update-server --server-id s-1234567890abcdef0
+    #   --structured-log-destinations`
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] s3_storage_options
+    #   Specifies whether or not performance for your Amazon S3 directories
+    #   is optimized. This is disabled by default.
+    #
+    #   By default, home directory mappings have a `TYPE` of `DIRECTORY`. If
+    #   you enable this option, you would then need to explicitly set the
+    #   `HomeDirectoryMapEntry` `Type` to `FILE` if you want a mapping to
+    #   have a file target.
+    #   @return [Types::S3StorageOptions]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/transfer-2018-11-05/CreateServerRequest AWS API Documentation
     #
@@ -796,7 +1033,9 @@ module Aws::Transfer
       :protocol_details,
       :security_policy_name,
       :tags,
-      :workflow_details)
+      :workflow_details,
+      :structured_log_destinations,
+      :s3_storage_options)
       SENSITIVE = [:host_key]
       include Aws::Structure
     end
@@ -818,16 +1057,29 @@ module Aws::Transfer
     #   server using the client.
     #
     #   A `HomeDirectory` example is `/bucket_name/home/mydirectory`.
+    #
+    #   <note markdown="1"> The `HomeDirectory` parameter is only used if `HomeDirectoryType` is
+    #   set to `PATH`.
+    #
+    #    </note>
     #   @return [String]
     #
     # @!attribute [rw] home_directory_type
     #   The type of landing directory (folder) that you want your users'
     #   home directory to be when they log in to the server. If you set it
-    #   to `PATH`, the user will see the absolute Amazon S3 bucket or EFS
-    #   paths as is in their file transfer protocol clients. If you set it
-    #   `LOGICAL`, you need to provide mappings in the
+    #   to `PATH`, the user will see the absolute Amazon S3 bucket or Amazon
+    #   EFS path as is in their file transfer protocol clients. If you set
+    #   it to `LOGICAL`, you need to provide mappings in the
     #   `HomeDirectoryMappings` for how you want to make Amazon S3 or Amazon
     #   EFS paths visible to your users.
+    #
+    #   <note markdown="1"> If `HomeDirectoryType` is `LOGICAL`, you must provide mappings,
+    #   using the `HomeDirectoryMappings` parameter. If, on the other hand,
+    #   `HomeDirectoryType` is `PATH`, you provide an absolute path using
+    #   the `HomeDirectory` parameter. You cannot have both `HomeDirectory`
+    #   and `HomeDirectoryMappings` in your template.
+    #
+    #    </note>
     #   @return [String]
     #
     # @!attribute [rw] home_directory_mappings
@@ -843,17 +1095,18 @@ module Aws::Transfer
     #
     #   The following is an `Entry` and `Target` pair example.
     #
-    #   `[ \{ "Entry": "/directory1", "Target":
-    #   "/bucket_name/home/mydirectory" \} ]`
+    #   `[ { "Entry": "/directory1", "Target":
+    #   "/bucket_name/home/mydirectory" } ]`
     #
     #   In most cases, you can use this value instead of the session policy
     #   to lock your user down to the designated home directory
     #   ("`chroot`"). To do this, you can set `Entry` to `/` and set
-    #   `Target` to the HomeDirectory parameter value.
+    #   `Target` to the value the user should see for their home directory
+    #   when they log in.
     #
     #   The following is an `Entry` and `Target` pair example for `chroot`.
     #
-    #   `[ \{ "Entry": "/", "Target": "/bucket_name/home/mydirectory" \} ]`
+    #   `[ { "Entry": "/", "Target": "/bucket_name/home/mydirectory" } ]`
     #   @return [Array<Types::HomeDirectoryMapEntry>]
     #
     # @!attribute [rw] policy
@@ -861,8 +1114,8 @@ module Aws::Transfer
     #   and Access Management (IAM) role across multiple users. This policy
     #   scopes down a user's access to portions of their Amazon S3 bucket.
     #   Variables that you can use inside this policy include
-    #   `$\{Transfer:UserName\}`, `$\{Transfer:HomeDirectory\}`, and
-    #   `$\{Transfer:HomeBucket\}`.
+    #   `${Transfer:UserName}`, `${Transfer:HomeDirectory}`, and
+    #   `${Transfer:HomeBucket}`.
     #
     #   <note markdown="1"> This policy applies only when the domain of `ServerId` is Amazon S3.
     #   Amazon EFS does not use session policies.
@@ -963,8 +1216,7 @@ module Aws::Transfer
     #   @return [String]
     #
     # @!attribute [rw] user_name
-    #   A unique string that identifies a user account associated with a
-    #   server.
+    #   A unique string that identifies a Transfer Family user.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/transfer-2018-11-05/CreateUserResponse AWS API Documentation
@@ -972,6 +1224,49 @@ module Aws::Transfer
     class CreateUserResponse < Struct.new(
       :server_id,
       :user_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] identity_provider_details
+    #   You can provide a structure that contains the details for the
+    #   identity provider to use with your web app.
+    #   @return [Types::WebAppIdentityProviderDetails]
+    #
+    # @!attribute [rw] access_endpoint
+    #   The `AccessEndpoint` is the URL that you provide to your users for
+    #   them to interact with the Transfer Family web app. You can specify a
+    #   custom URL or use the default value.
+    #   @return [String]
+    #
+    # @!attribute [rw] web_app_units
+    #   A union that contains the value for number of concurrent connections
+    #   or the user sessions on your web app.
+    #   @return [Types::WebAppUnits]
+    #
+    # @!attribute [rw] tags
+    #   Key-value pairs that can be used to group and search for web apps.
+    #   @return [Array<Types::Tag>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/transfer-2018-11-05/CreateWebAppRequest AWS API Documentation
+    #
+    class CreateWebAppRequest < Struct.new(
+      :identity_provider_details,
+      :access_endpoint,
+      :web_app_units,
+      :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] web_app_id
+    #   Returns a unique identifier for the web app.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/transfer-2018-11-05/CreateWebAppResponse AWS API Documentation
+    #
+    class CreateWebAppResponse < Struct.new(
+      :web_app_id)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1011,9 +1306,9 @@ module Aws::Transfer
     #   Specifies the steps (actions) to take if errors are encountered
     #   during execution of the workflow.
     #
-    #   <note markdown="1"> For custom steps, the lambda function needs to send `FAILURE` to the
+    #   <note markdown="1"> For custom steps, the Lambda function needs to send `FAILURE` to the
     #   call back API to kick off the exception steps. Additionally, if the
-    #   lambda does not send `SUCCESS` before it times out, the exception
+    #   Lambda does not send `SUCCESS` before it times out, the exception
     #   steps are executed.
     #
     #    </note>
@@ -1047,6 +1342,41 @@ module Aws::Transfer
       include Aws::Structure
     end
 
+    # Contains Amazon S3 locations for storing specific types of AS2 message
+    # files.
+    #
+    # @!attribute [rw] failed_files_directory
+    #   Specifies a location to store failed AS2 message files.
+    #   @return [String]
+    #
+    # @!attribute [rw] mdn_files_directory
+    #   Specifies a location to store MDN files.
+    #   @return [String]
+    #
+    # @!attribute [rw] payload_files_directory
+    #   Specifies a location to store the payload for AS2 message files.
+    #   @return [String]
+    #
+    # @!attribute [rw] status_files_directory
+    #   Specifies a location to store AS2 status messages.
+    #   @return [String]
+    #
+    # @!attribute [rw] temporary_files_directory
+    #   Specifies a location to store temporary AS2 message files.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/transfer-2018-11-05/CustomDirectoriesType AWS API Documentation
+    #
+    class CustomDirectoriesType < Struct.new(
+      :failed_files_directory,
+      :mdn_files_directory,
+      :payload_files_directory,
+      :status_files_directory,
+      :temporary_files_directory)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Each step type has its own `StepDetails` structure.
     #
     # @!attribute [rw] name
@@ -1054,7 +1384,7 @@ module Aws::Transfer
     #   @return [String]
     #
     # @!attribute [rw] target
-    #   The ARN for the lambda function that is being called.
+    #   The ARN for the Lambda function that is being called.
     #   @return [String]
     #
     # @!attribute [rw] timeout_seconds
@@ -1066,12 +1396,12 @@ module Aws::Transfer
     #   the output from the previous step, or the originally uploaded file
     #   for the workflow.
     #
-    #   * To use the previous file as the input, enter `$\{previous.file\}`.
+    #   * To use the previous file as the input, enter `${previous.file}`.
     #     In this case, this workflow step uses the output file from the
     #     previous workflow step as input. This is the default value.
     #
     #   * To use the originally uploaded file location as input for this
-    #     step, enter `$\{original.file\}`.
+    #     step, enter `${original.file}`.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/transfer-2018-11-05/CustomStepDetails AWS API Documentation
@@ -1100,21 +1430,46 @@ module Aws::Transfer
     #   the output from the previous step, or the originally uploaded file
     #   for the workflow.
     #
-    #   * To use the previous file as the input, enter `$\{previous.file\}`.
+    #   * To use the previous file as the input, enter `${previous.file}`.
     #     In this case, this workflow step uses the output file from the
     #     previous workflow step as input. This is the default value.
     #
     #   * To use the originally uploaded file location as input for this
-    #     step, enter `$\{original.file\}`.
+    #     step, enter `${original.file}`.
     #   @return [String]
     #
     # @!attribute [rw] overwrite_existing
     #   A flag that indicates whether to overwrite an existing file of the
     #   same name. The default is `FALSE`.
+    #
+    #   If the workflow is processing a file that has the same name as an
+    #   existing file, the behavior is as follows:
+    #
+    #   * If `OverwriteExisting` is `TRUE`, the existing file is replaced
+    #     with the file being processed.
+    #
+    #   * If `OverwriteExisting` is `FALSE`, nothing happens, and the
+    #     workflow processing stops.
     #   @return [String]
     #
     # @!attribute [rw] destination_file_location
-    #   Specifies the location for the file that's being processed.
+    #   Specifies the location for the file being decrypted. Use
+    #   `${Transfer:UserName}` or `${Transfer:UploadDate}` in this field to
+    #   parametrize the destination prefix by username or uploaded date.
+    #
+    #   * Set the value of `DestinationFileLocation` to
+    #     `${Transfer:UserName}` to decrypt uploaded files to an Amazon S3
+    #     bucket that is prefixed with the name of the Transfer Family user
+    #     that uploaded the file.
+    #
+    #   * Set the value of `DestinationFileLocation` to
+    #     `${Transfer:UploadDate}` to decrypt uploaded files to an Amazon S3
+    #     bucket that is prefixed with the date of the upload.
+    #
+    #     <note markdown="1"> The system resolves `UploadDate` to a date format of *YYYY-MM-DD*,
+    #     based on the date the file is uploaded in UTC.
+    #
+    #      </note>
     #   @return [Types::InputFileLocation]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/transfer-2018-11-05/DecryptStepDetails AWS API Documentation
@@ -1142,7 +1497,7 @@ module Aws::Transfer
     #   you can view the SID values by running the following command using
     #   Windows PowerShell.
     #
-    #   `Get-ADGroup -Filter \{samAccountName -like "YourGroupName*"\}
+    #   `Get-ADGroup -Filter {samAccountName -like "YourGroupName*"}
     #   -Properties * | Select SamAccountName,ObjectSid`
     #
     #   In that command, replace *YourGroupName* with the name of your
@@ -1283,12 +1638,12 @@ module Aws::Transfer
     #   the output from the previous step, or the originally uploaded file
     #   for the workflow.
     #
-    #   * To use the previous file as the input, enter `$\{previous.file\}`.
+    #   * To use the previous file as the input, enter `${previous.file}`.
     #     In this case, this workflow step uses the output file from the
     #     previous workflow step as input. This is the default value.
     #
     #   * To use the originally uploaded file location as input for this
-    #     step, enter `$\{original.file\}`.
+    #     step, enter `${original.file}`.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/transfer-2018-11-05/DeleteStepDetails AWS API Documentation
@@ -1319,6 +1674,31 @@ module Aws::Transfer
       include Aws::Structure
     end
 
+    # @!attribute [rw] web_app_id
+    #   Provide the unique identifier for the web app that contains the
+    #   customizations that you are deleting.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/transfer-2018-11-05/DeleteWebAppCustomizationRequest AWS API Documentation
+    #
+    class DeleteWebAppCustomizationRequest < Struct.new(
+      :web_app_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] web_app_id
+    #   Provide the unique identifier for the web app that you are deleting.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/transfer-2018-11-05/DeleteWebAppRequest AWS API Documentation
+    #
+    class DeleteWebAppRequest < Struct.new(
+      :web_app_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] workflow_id
     #   A unique identifier for the workflow.
     #   @return [String]
@@ -1344,7 +1724,7 @@ module Aws::Transfer
     #   you can view the SID values by running the following command using
     #   Windows PowerShell.
     #
-    #   `Get-ADGroup -Filter \{samAccountName -like "YourGroupName*"\}
+    #   `Get-ADGroup -Filter {samAccountName -like "YourGroupName*"}
     #   -Properties * | Select SamAccountName,ObjectSid`
     #
     #   In that command, replace *YourGroupName* with the name of your
@@ -1553,8 +1933,8 @@ module Aws::Transfer
     end
 
     # @!attribute [rw] security_policy_name
-    #   Specifies the name of the security policy that is attached to the
-    #   server.
+    #   Specify the text name of the security policy for which you want the
+    #   details.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/transfer-2018-11-05/DescribeSecurityPolicyRequest AWS API Documentation
@@ -1628,8 +2008,8 @@ module Aws::Transfer
     #   @return [String]
     #
     # @!attribute [rw] user
-    #   An array containing the properties of the user account for the
-    #   `ServerID` value that you specified.
+    #   An array containing the properties of the Transfer Family user for
+    #   the `ServerID` value that you specified.
     #   @return [Types::DescribedUser]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/transfer-2018-11-05/DescribeUserResponse AWS API Documentation
@@ -1637,6 +2017,55 @@ module Aws::Transfer
     class DescribeUserResponse < Struct.new(
       :server_id,
       :user)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] web_app_id
+    #   Provide the unique identifier for the web app.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/transfer-2018-11-05/DescribeWebAppCustomizationRequest AWS API Documentation
+    #
+    class DescribeWebAppCustomizationRequest < Struct.new(
+      :web_app_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] web_app_customization
+    #   Returns a structure that contains the details of the web app
+    #   customizations.
+    #   @return [Types::DescribedWebAppCustomization]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/transfer-2018-11-05/DescribeWebAppCustomizationResponse AWS API Documentation
+    #
+    class DescribeWebAppCustomizationResponse < Struct.new(
+      :web_app_customization)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] web_app_id
+    #   Provide the unique identifier for the web app.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/transfer-2018-11-05/DescribeWebAppRequest AWS API Documentation
+    #
+    class DescribeWebAppRequest < Struct.new(
+      :web_app_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] web_app
+    #   Returns a structure that contains the details of the web app.
+    #   @return [Types::DescribedWebApp]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/transfer-2018-11-05/DescribeWebAppResponse AWS API Documentation
+    #
+    class DescribeWebAppResponse < Struct.new(
+      :web_app)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1672,6 +2101,11 @@ module Aws::Transfer
     #   server using the client.
     #
     #   A `HomeDirectory` example is `/bucket_name/home/mydirectory`.
+    #
+    #   <note markdown="1"> The `HomeDirectory` parameter is only used if `HomeDirectoryType` is
+    #   set to `PATH`.
+    #
+    #    </note>
     #   @return [String]
     #
     # @!attribute [rw] home_directory_mappings
@@ -1694,11 +2128,19 @@ module Aws::Transfer
     # @!attribute [rw] home_directory_type
     #   The type of landing directory (folder) that you want your users'
     #   home directory to be when they log in to the server. If you set it
-    #   to `PATH`, the user will see the absolute Amazon S3 bucket or EFS
-    #   paths as is in their file transfer protocol clients. If you set it
-    #   `LOGICAL`, you need to provide mappings in the
+    #   to `PATH`, the user will see the absolute Amazon S3 bucket or Amazon
+    #   EFS path as is in their file transfer protocol clients. If you set
+    #   it to `LOGICAL`, you need to provide mappings in the
     #   `HomeDirectoryMappings` for how you want to make Amazon S3 or Amazon
     #   EFS paths visible to your users.
+    #
+    #   <note markdown="1"> If `HomeDirectoryType` is `LOGICAL`, you must provide mappings,
+    #   using the `HomeDirectoryMappings` parameter. If, on the other hand,
+    #   `HomeDirectoryType` is `PATH`, you provide an absolute path using
+    #   the `HomeDirectory` parameter. You cannot have both `HomeDirectory`
+    #   and `HomeDirectoryMappings` in your template.
+    #
+    #    </note>
     #   @return [String]
     #
     # @!attribute [rw] policy
@@ -1706,8 +2148,8 @@ module Aws::Transfer
     #   and Access Management (IAM) role across multiple users. This policy
     #   scopes down a user's access to portions of their Amazon S3 bucket.
     #   Variables that you can use inside this policy include
-    #   `$\{Transfer:UserName\}`, `$\{Transfer:HomeDirectory\}`, and
-    #   `$\{Transfer:HomeBucket\}`.
+    #   `${Transfer:UserName}`, `${Transfer:HomeDirectory}`, and
+    #   `${Transfer:HomeBucket}`.
     #   @return [String]
     #
     # @!attribute [rw] posix_profile
@@ -1738,7 +2180,7 @@ module Aws::Transfer
     #   you can view the SID values by running the following command using
     #   Windows PowerShell.
     #
-    #   `Get-ADGroup -Filter \{samAccountName -like "YourGroupName*"\}
+    #   `Get-ADGroup -Filter {samAccountName -like "YourGroupName*"}
     #   -Properties * | Select SamAccountName,ObjectSid`
     #
     #   In that command, replace *YourGroupName* with the name of your
@@ -1803,6 +2245,12 @@ module Aws::Transfer
     #   @return [String]
     #
     # @!attribute [rw] access_role
+    #   Connectors are used to send files using either the AS2 or SFTP
+    #   protocol. For the access role, provide the Amazon Resource Name
+    #   (ARN) of the Identity and Access Management role to use.
+    #
+    #   **For AS2 connectors**
+    #
     #   With AS2, you can send files by calling `StartFileTransfer` and
     #   specifying the file paths in the request parameter, `SendFilePaths`.
     #   We use the file’s parent directory (for example, for
@@ -1815,11 +2263,70 @@ module Aws::Transfer
     #   `StartFileTransfer` request. Additionally, you need to provide read
     #   and write access to the parent directory of the files that you
     #   intend to send with `StartFileTransfer`.
+    #
+    #   If you are using Basic authentication for your AS2 connector, the
+    #   access role requires the `secretsmanager:GetSecretValue` permission
+    #   for the secret. If the secret is encrypted using a customer-managed
+    #   key instead of the Amazon Web Services managed key in Secrets
+    #   Manager, then the role also needs the `kms:Decrypt` permission for
+    #   that key.
+    #
+    #   **For SFTP connectors**
+    #
+    #   Make sure that the access role provides read and write access to the
+    #   parent directory of the file location that's used in the
+    #   `StartFileTransfer` request. Additionally, make sure that the role
+    #   provides `secretsmanager:GetSecretValue` permission to Secrets
+    #   Manager.
     #   @return [String]
     #
     # @!attribute [rw] tags
     #   Key-value pairs that can be used to group and search for agreements.
     #   @return [Array<Types::Tag>]
+    #
+    # @!attribute [rw] preserve_filename
+    #   Determines whether or not Transfer Family appends a unique string of
+    #   characters to the end of the AS2 message payload filename when
+    #   saving it.
+    #
+    #   * `ENABLED`: the filename provided by your trading parter is
+    #     preserved when the file is saved.
+    #
+    #   * `DISABLED` (default value): when Transfer Family saves the file,
+    #     the filename is adjusted, as described in [File names and
+    #     locations][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/transfer/latest/userguide/send-as2-messages.html#file-names-as2
+    #   @return [String]
+    #
+    # @!attribute [rw] enforce_message_signing
+    #   Determines whether or not unsigned messages from your trading
+    #   partners will be accepted.
+    #
+    #   * `ENABLED`: Transfer Family rejects unsigned messages from your
+    #     trading partner.
+    #
+    #   * `DISABLED` (default value): Transfer Family accepts unsigned
+    #     messages from your trading partner.
+    #   @return [String]
+    #
+    # @!attribute [rw] custom_directories
+    #   A `CustomDirectoriesType` structure. This structure specifies custom
+    #   directories for storing various AS2 message files. You can specify
+    #   directories for the following types of files.
+    #
+    #   * Failed files
+    #
+    #   * MDN files
+    #
+    #   * Payload files
+    #
+    #   * Status files
+    #
+    #   * Temporary files
+    #   @return [Types::CustomDirectoriesType]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/transfer-2018-11-05/DescribedAgreement AWS API Documentation
     #
@@ -1833,7 +2340,10 @@ module Aws::Transfer
       :partner_profile_id,
       :base_directory,
       :access_role,
-      :tags)
+      :tags,
+      :preserve_filename,
+      :enforce_message_signing,
+      :custom_directories)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1850,14 +2360,19 @@ module Aws::Transfer
     #   @return [String]
     #
     # @!attribute [rw] usage
-    #   Specifies whether this certificate is used for signing or
-    #   encryption.
+    #   Specifies how this certificate is used. It can be used in the
+    #   following ways:
+    #
+    #   * `SIGNING`: For signing AS2 messages
+    #
+    #   * `ENCRYPTION`: For encrypting AS2 messages
+    #
+    #   * `TLS`: For securing AS2 communications sent over HTTPS
     #   @return [String]
     #
     # @!attribute [rw] status
-    #   The certificate can be either `ACTIVE`, `PENDING_ROTATION`, or
-    #   `INACTIVE`. `PENDING_ROTATION` means that this certificate will
-    #   replace the current certificate when it expires.
+    #   Currently, the only available status is `ACTIVE`: all other values
+    #   are reserved for future use.
     #   @return [String]
     #
     # @!attribute [rw] certificate
@@ -1937,14 +2452,21 @@ module Aws::Transfer
     #   @return [String]
     #
     # @!attribute [rw] url
-    #   The URL of the partner's AS2 endpoint.
+    #   The URL of the partner's AS2 or SFTP endpoint.
     #   @return [String]
     #
     # @!attribute [rw] as_2_config
-    #   A structure that contains the parameters for a connector object.
+    #   A structure that contains the parameters for an AS2 connector
+    #   object.
     #   @return [Types::As2ConnectorConfig]
     #
     # @!attribute [rw] access_role
+    #   Connectors are used to send files using either the AS2 or SFTP
+    #   protocol. For the access role, provide the Amazon Resource Name
+    #   (ARN) of the Identity and Access Management role to use.
+    #
+    #   **For AS2 connectors**
+    #
     #   With AS2, you can send files by calling `StartFileTransfer` and
     #   specifying the file paths in the request parameter, `SendFilePaths`.
     #   We use the file’s parent directory (for example, for
@@ -1957,6 +2479,21 @@ module Aws::Transfer
     #   `StartFileTransfer` request. Additionally, you need to provide read
     #   and write access to the parent directory of the files that you
     #   intend to send with `StartFileTransfer`.
+    #
+    #   If you are using Basic authentication for your AS2 connector, the
+    #   access role requires the `secretsmanager:GetSecretValue` permission
+    #   for the secret. If the secret is encrypted using a customer-managed
+    #   key instead of the Amazon Web Services managed key in Secrets
+    #   Manager, then the role also needs the `kms:Decrypt` permission for
+    #   that key.
+    #
+    #   **For SFTP connectors**
+    #
+    #   Make sure that the access role provides read and write access to the
+    #   parent directory of the file location that's used in the
+    #   `StartFileTransfer` request. Additionally, make sure that the role
+    #   provides `secretsmanager:GetSecretValue` permission to Secrets
+    #   Manager.
     #   @return [String]
     #
     # @!attribute [rw] logging_role
@@ -1970,6 +2507,20 @@ module Aws::Transfer
     #   Key-value pairs that can be used to group and search for connectors.
     #   @return [Array<Types::Tag>]
     #
+    # @!attribute [rw] sftp_config
+    #   A structure that contains the parameters for an SFTP connector
+    #   object.
+    #   @return [Types::SftpConnectorConfig]
+    #
+    # @!attribute [rw] service_managed_egress_ip_addresses
+    #   The list of egress IP addresses of this connector. These IP
+    #   addresses are assigned automatically when you create the connector.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] security_policy_name
+    #   The text name of the security policy for the specified connector.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/transfer-2018-11-05/DescribedConnector AWS API Documentation
     #
     class DescribedConnector < Struct.new(
@@ -1979,7 +2530,10 @@ module Aws::Transfer
       :as_2_config,
       :access_role,
       :logging_role,
-      :tags)
+      :tags,
+      :sftp_config,
+      :service_managed_egress_ip_addresses,
+      :security_policy_name)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2101,6 +2655,34 @@ module Aws::Transfer
       include Aws::Structure
     end
 
+    # A structure that contains the details of the IAM Identity Center used
+    # for your web app. Returned during a call to `DescribeWebApp`.
+    #
+    # @!attribute [rw] application_arn
+    #   The Amazon Resource Name (ARN) for the IAM Identity Center
+    #   application: this value is set automatically when you create your
+    #   web app.
+    #   @return [String]
+    #
+    # @!attribute [rw] instance_arn
+    #   The Amazon Resource Name (ARN) for the IAM Identity Center used for
+    #   the web app.
+    #   @return [String]
+    #
+    # @!attribute [rw] role
+    #   The IAM role in IAM Identity Center used for the web app.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/transfer-2018-11-05/DescribedIdentityCenterConfig AWS API Documentation
+    #
+    class DescribedIdentityCenterConfig < Struct.new(
+      :application_arn,
+      :instance_arn,
+      :role)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The details for a local or partner AS2 profile.
     #
     # @!attribute [rw] arn
@@ -2151,44 +2733,72 @@ module Aws::Transfer
       include Aws::Structure
     end
 
-    # Describes the properties of a security policy that was specified. For
+    # Describes the properties of a security policy that you specify. For
     # more information about security policies, see [Working with security
-    # policies][1].
+    # policies for servers][1] or [Working with security policies for SFTP
+    # connectors][2].
     #
     #
     #
     # [1]: https://docs.aws.amazon.com/transfer/latest/userguide/security-policies.html
+    # [2]: https://docs.aws.amazon.com/transfer/latest/userguide/security-policies-connectors.html
     #
     # @!attribute [rw] fips
     #   Specifies whether this policy enables Federal Information Processing
-    #   Standards (FIPS).
+    #   Standards (FIPS). This parameter applies to both server and
+    #   connector security policies.
     #   @return [Boolean]
     #
     # @!attribute [rw] security_policy_name
-    #   Specifies the name of the security policy that is attached to the
-    #   server.
+    #   The text name of the specified security policy.
     #   @return [String]
     #
     # @!attribute [rw] ssh_ciphers
-    #   Specifies the enabled Secure Shell (SSH) cipher encryption
-    #   algorithms in the security policy that is attached to the server.
+    #   Lists the enabled Secure Shell (SSH) cipher encryption algorithms in
+    #   the security policy that is attached to the server or connector.
+    #   This parameter applies to both server and connector security
+    #   policies.
     #   @return [Array<String>]
     #
     # @!attribute [rw] ssh_kexs
-    #   Specifies the enabled SSH key exchange (KEX) encryption algorithms
-    #   in the security policy that is attached to the server.
+    #   Lists the enabled SSH key exchange (KEX) encryption algorithms in
+    #   the security policy that is attached to the server or connector.
+    #   This parameter applies to both server and connector security
+    #   policies.
     #   @return [Array<String>]
     #
     # @!attribute [rw] ssh_macs
-    #   Specifies the enabled SSH message authentication code (MAC)
-    #   encryption algorithms in the security policy that is attached to the
-    #   server.
+    #   Lists the enabled SSH message authentication code (MAC) encryption
+    #   algorithms in the security policy that is attached to the server or
+    #   connector. This parameter applies to both server and connector
+    #   security policies.
     #   @return [Array<String>]
     #
     # @!attribute [rw] tls_ciphers
-    #   Specifies the enabled Transport Layer Security (TLS) cipher
-    #   encryption algorithms in the security policy that is attached to the
-    #   server.
+    #   Lists the enabled Transport Layer Security (TLS) cipher encryption
+    #   algorithms in the security policy that is attached to the server.
+    #
+    #   <note markdown="1"> This parameter only applies to security policies for servers.
+    #
+    #    </note>
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] ssh_host_key_algorithms
+    #   Lists the host key algorithms for the security policy.
+    #
+    #   <note markdown="1"> This parameter only applies to security policies for connectors.
+    #
+    #    </note>
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] type
+    #   The resource type to which the security policy applies, either
+    #   server or connector.
+    #   @return [String]
+    #
+    # @!attribute [rw] protocols
+    #   Lists the file transfer protocols that the security policy applies
+    #   to.
     #   @return [Array<String>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/transfer-2018-11-05/DescribedSecurityPolicy AWS API Documentation
@@ -2199,7 +2809,10 @@ module Aws::Transfer
       :ssh_ciphers,
       :ssh_kexs,
       :ssh_macs,
-      :tls_ciphers)
+      :tls_ciphers,
+      :ssh_host_key_algorithms,
+      :type,
+      :protocols)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2244,7 +2857,9 @@ module Aws::Transfer
     #
     # @!attribute [rw] domain
     #   Specifies the domain of the storage system that is used for file
-    #   transfers.
+    #   transfers. There are two domains available: Amazon Simple Storage
+    #   Service (Amazon S3) and Amazon Elastic File System (Amazon EFS). The
+    #   default value is S3.
     #   @return [String]
     #
     # @!attribute [rw] endpoint_details
@@ -2293,7 +2908,7 @@ module Aws::Transfer
     #
     #   Use the `AWS_LAMBDA` value to directly use an Lambda function as
     #   your identity provider. If you choose this value, you must specify
-    #   the ARN for the Lambda function in the `Function` parameter or the
+    #   the ARN for the Lambda function in the `Function` parameter for the
     #   `IdentityProviderDetails` data type.
     #   @return [String]
     #
@@ -2364,8 +2979,7 @@ module Aws::Transfer
     #   @return [Array<String>]
     #
     # @!attribute [rw] security_policy_name
-    #   Specifies the name of the security policy that is attached to the
-    #   server.
+    #   Specifies the name of the security policy for the server.
     #   @return [String]
     #
     # @!attribute [rw] server_id
@@ -2402,9 +3016,49 @@ module Aws::Transfer
     #   In addition to a workflow to execute when a file is uploaded
     #   completely, `WorkflowDetails` can also contain a workflow ID (and
     #   execution role) for a workflow to execute on partial upload. A
-    #   partial upload occurs when a file is open when the session
-    #   disconnects.
+    #   partial upload occurs when the server session disconnects while the
+    #   file is still being uploaded.
     #   @return [Types::WorkflowDetails]
+    #
+    # @!attribute [rw] structured_log_destinations
+    #   Specifies the log groups to which your server logs are sent.
+    #
+    #   To specify a log group, you must provide the ARN for an existing log
+    #   group. In this case, the format of the log group is as follows:
+    #
+    #   `arn:aws:logs:region-name:amazon-account-id:log-group:log-group-name:*`
+    #
+    #   For example,
+    #   `arn:aws:logs:us-east-1:111122223333:log-group:mytestgroup:*`
+    #
+    #   If you have previously specified a log group for a server, you can
+    #   clear it, and in effect turn off structured logging, by providing an
+    #   empty value for this parameter in an `update-server` call. For
+    #   example:
+    #
+    #   `update-server --server-id s-1234567890abcdef0
+    #   --structured-log-destinations`
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] s3_storage_options
+    #   Specifies whether or not performance for your Amazon S3 directories
+    #   is optimized. This is disabled by default.
+    #
+    #   By default, home directory mappings have a `TYPE` of `DIRECTORY`. If
+    #   you enable this option, you would then need to explicitly set the
+    #   `HomeDirectoryMapEntry` `Type` to `FILE` if you want a mapping to
+    #   have a file target.
+    #   @return [Types::S3StorageOptions]
+    #
+    # @!attribute [rw] as_2_service_managed_egress_ip_addresses
+    #   The list of egress IP addresses of this server. These IP addresses
+    #   are only relevant for servers that use the AS2 protocol. They are
+    #   used for sending asynchronous MDNs.
+    #
+    #   These IP addresses are assigned automatically when you create an AS2
+    #   server. Additionally, if you update an existing server and add the
+    #   AS2 protocol, static IP addresses are assigned as well.
+    #   @return [Array<String>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/transfer-2018-11-05/DescribedServer AWS API Documentation
     #
@@ -2427,7 +3081,10 @@ module Aws::Transfer
       :state,
       :tags,
       :user_count,
-      :workflow_details)
+      :workflow_details,
+      :structured_log_destinations,
+      :s3_storage_options,
+      :as_2_service_managed_egress_ip_addresses)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2444,6 +3101,11 @@ module Aws::Transfer
     #   server using the client.
     #
     #   A `HomeDirectory` example is `/bucket_name/home/mydirectory`.
+    #
+    #   <note markdown="1"> The `HomeDirectory` parameter is only used if `HomeDirectoryType` is
+    #   set to `PATH`.
+    #
+    #    </note>
     #   @return [String]
     #
     # @!attribute [rw] home_directory_mappings
@@ -2466,11 +3128,19 @@ module Aws::Transfer
     # @!attribute [rw] home_directory_type
     #   The type of landing directory (folder) that you want your users'
     #   home directory to be when they log in to the server. If you set it
-    #   to `PATH`, the user will see the absolute Amazon S3 bucket or EFS
-    #   paths as is in their file transfer protocol clients. If you set it
-    #   `LOGICAL`, you need to provide mappings in the
+    #   to `PATH`, the user will see the absolute Amazon S3 bucket or Amazon
+    #   EFS path as is in their file transfer protocol clients. If you set
+    #   it to `LOGICAL`, you need to provide mappings in the
     #   `HomeDirectoryMappings` for how you want to make Amazon S3 or Amazon
     #   EFS paths visible to your users.
+    #
+    #   <note markdown="1"> If `HomeDirectoryType` is `LOGICAL`, you must provide mappings,
+    #   using the `HomeDirectoryMappings` parameter. If, on the other hand,
+    #   `HomeDirectoryType` is `PATH`, you provide an absolute path using
+    #   the `HomeDirectory` parameter. You cannot have both `HomeDirectory`
+    #   and `HomeDirectoryMappings` in your template.
+    #
+    #    </note>
     #   @return [String]
     #
     # @!attribute [rw] policy
@@ -2478,8 +3148,8 @@ module Aws::Transfer
     #   and Access Management (IAM) role across multiple users. This policy
     #   scopes down a user's access to portions of their Amazon S3 bucket.
     #   Variables that you can use inside this policy include
-    #   `$\{Transfer:UserName\}`, `$\{Transfer:HomeDirectory\}`, and
-    #   `$\{Transfer:HomeBucket\}`.
+    #   `${Transfer:UserName}`, `${Transfer:HomeDirectory}`, and
+    #   `${Transfer:HomeBucket}`.
     #   @return [String]
     #
     # @!attribute [rw] posix_profile
@@ -2534,6 +3204,118 @@ module Aws::Transfer
       :user_name)
       SENSITIVE = []
       include Aws::Structure
+    end
+
+    # A structure that describes the parameters for the web app, as
+    # identified by the `WebAppId`.
+    #
+    # @!attribute [rw] arn
+    #   The Amazon Resource Name (ARN) of the web app.
+    #   @return [String]
+    #
+    # @!attribute [rw] web_app_id
+    #   The unique identifier for the web app.
+    #   @return [String]
+    #
+    # @!attribute [rw] described_identity_provider_details
+    #   A structure that contains the details for the identity provider used
+    #   by the web app.
+    #   @return [Types::DescribedWebAppIdentityProviderDetails]
+    #
+    # @!attribute [rw] access_endpoint
+    #   The `AccessEndpoint` is the URL that you provide to your users for
+    #   them to interact with the Transfer Family web app. You can specify a
+    #   custom URL or use the default value.
+    #   @return [String]
+    #
+    # @!attribute [rw] web_app_endpoint
+    #   The `WebAppEndpoint` is the unique URL for your Transfer Family web
+    #   app. This is the value that you use when you configure **Origins**
+    #   on CloudFront.
+    #   @return [String]
+    #
+    # @!attribute [rw] web_app_units
+    #   A union that contains the value for number of concurrent connections
+    #   or the user sessions on your web app.
+    #   @return [Types::WebAppUnits]
+    #
+    # @!attribute [rw] tags
+    #   Key-value pairs that can be used to group and search for web apps.
+    #   Tags are metadata attached to web apps for any purpose.
+    #   @return [Array<Types::Tag>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/transfer-2018-11-05/DescribedWebApp AWS API Documentation
+    #
+    class DescribedWebApp < Struct.new(
+      :arn,
+      :web_app_id,
+      :described_identity_provider_details,
+      :access_endpoint,
+      :web_app_endpoint,
+      :web_app_units,
+      :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A structure that contains the customization fields for the web app.
+    # You can provide a title, logo, and icon to customize the appearance of
+    # your web app.
+    #
+    # @!attribute [rw] arn
+    #   Returns the Amazon Resource Name (ARN) for the web app.
+    #   @return [String]
+    #
+    # @!attribute [rw] web_app_id
+    #   Returns the unique identifier for your web app.
+    #   @return [String]
+    #
+    # @!attribute [rw] title
+    #   Returns the page title that you defined for your web app.
+    #   @return [String]
+    #
+    # @!attribute [rw] logo_file
+    #   Returns a logo file data string (in base64 encoding).
+    #   @return [String]
+    #
+    # @!attribute [rw] favicon_file
+    #   Returns a icon file data string (in base64 encoding).
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/transfer-2018-11-05/DescribedWebAppCustomization AWS API Documentation
+    #
+    class DescribedWebAppCustomization < Struct.new(
+      :arn,
+      :web_app_id,
+      :title,
+      :logo_file,
+      :favicon_file)
+      SENSITIVE = [:logo_file, :favicon_file]
+      include Aws::Structure
+    end
+
+    # Returns a structure that contains the identity provider details for
+    # your web app.
+    #
+    # @note DescribedWebAppIdentityProviderDetails is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of DescribedWebAppIdentityProviderDetails corresponding to the set member.
+    #
+    # @!attribute [rw] identity_center_config
+    #   Returns a structure for your identity provider details. This
+    #   structure contains the instance ARN and role being used for the web
+    #   app.
+    #   @return [Types::DescribedIdentityCenterConfig]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/transfer-2018-11-05/DescribedWebAppIdentityProviderDetails AWS API Documentation
+    #
+    class DescribedWebAppIdentityProviderDetails < Struct.new(
+      :identity_center_config,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class IdentityCenterConfig < DescribedWebAppIdentityProviderDetails; end
+      class Unknown < DescribedWebAppIdentityProviderDetails; end
     end
 
     # Describes the properties of the specified workflow
@@ -2606,14 +3388,21 @@ module Aws::Transfer
     # API and attach an Elastic IP address to your server's endpoint.
     #
     # <note markdown="1"> After May 19, 2021, you won't be able to create a server using
-    # `EndpointType=VPC_ENDPOINT` in your Amazon Web Servicesaccount if your
-    # account hasn't already done so before May 19, 2021. If you have
+    # `EndpointType=VPC_ENDPOINT` in your Amazon Web Services account if
+    # your account hasn't already done so before May 19, 2021. If you have
     # already created servers with `EndpointType=VPC_ENDPOINT` in your
-    # Amazon Web Servicesaccount on or before May 19, 2021, you will not be
+    # Amazon Web Services account on or before May 19, 2021, you will not be
     # affected. After this date, use `EndpointType`=`VPC`.
     #
     #  For more information, see
     # https://docs.aws.amazon.com/transfer/latest/userguide/create-server-in-vpc.html#deprecate-vpc-endpoint.
+    #
+    #  It is recommended that you use `VPC` as the `EndpointType`. With this
+    # endpoint type, you have the option to directly associate up to three
+    # Elastic IPv4 addresses (BYO IP included) with your server's endpoint
+    # and use VPC security groups to restrict traffic by the client's
+    # public IP address. This is not possible with `EndpointType` set to
+    # `VPC_ENDPOINT`.
     #
     #  </note>
     #
@@ -2621,10 +3410,41 @@ module Aws::Transfer
     #   A list of address allocation IDs that are required to attach an
     #   Elastic IP address to your server's endpoint.
     #
-    #   <note markdown="1"> This property can only be set when `EndpointType` is set to `VPC`
-    #   and it is only valid in the `UpdateServer` API.
+    #   An address allocation ID corresponds to the allocation ID of an
+    #   Elastic IP address. This value can be retrieved from the
+    #   `allocationId` field from the Amazon EC2 [Address][1] data type. One
+    #   way to retrieve this value is by calling the EC2
+    #   [DescribeAddresses][2] API.
+    #
+    #   This parameter is optional. Set this parameter if you want to make
+    #   your VPC endpoint public-facing. For details, see [Create an
+    #   internet-facing endpoint for your server][3].
+    #
+    #   <note markdown="1"> This property can only be set as follows:
+    #
+    #    * `EndpointType` must be set to `VPC`
+    #
+    #   * The Transfer Family server must be offline.
+    #
+    #   * You cannot set this parameter for Transfer Family servers that use
+    #     the FTP protocol.
+    #
+    #   * The server must already have `SubnetIds` populated (`SubnetIds`
+    #     and `AddressAllocationIds` cannot be updated simultaneously).
+    #
+    #   * `AddressAllocationIds` can't contain duplicates, and must be
+    #     equal in length to `SubnetIds`. For example, if you have three
+    #     subnet IDs, you must also specify three address allocation IDs.
+    #
+    #   * Call the `UpdateServer` API to set or change this parameter.
     #
     #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_Address.html
+    #   [2]: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeAddresses.html
+    #   [3]: https://docs.aws.amazon.com/transfer/latest/userguide/create-server-in-vpc.html#create-internet-facing-endpoint
     #   @return [Array<String>]
     #
     # @!attribute [rw] subnet_ids
@@ -2695,36 +3515,36 @@ module Aws::Transfer
     # @!attribute [rw] type
     #   Specifies the error type.
     #
-    #   * `ALREADY_EXISTS`\: occurs for a copy step, if the overwrite option
+    #   * `ALREADY_EXISTS`: occurs for a copy step, if the overwrite option
     #     is not selected and a file with the same name already exists in
     #     the target location.
     #
-    #   * `BAD_REQUEST`\: a general bad request: for example, a step that
+    #   * `BAD_REQUEST`: a general bad request: for example, a step that
     #     attempts to tag an EFS file returns `BAD_REQUEST`, as only S3
     #     files can be tagged.
     #
-    #   * `CUSTOM_STEP_FAILED`\: occurs when the custom step provided a
+    #   * `CUSTOM_STEP_FAILED`: occurs when the custom step provided a
     #     callback that indicates failure.
     #
-    #   * `INTERNAL_SERVER_ERROR`\: a catch-all error that can occur for a
+    #   * `INTERNAL_SERVER_ERROR`: a catch-all error that can occur for a
     #     variety of reasons.
     #
-    #   * `NOT_FOUND`\: occurs when a requested entity, for example a source
+    #   * `NOT_FOUND`: occurs when a requested entity, for example a source
     #     file for a copy step, does not exist.
     #
-    #   * `PERMISSION_DENIED`\: occurs if your policy does not contain the
+    #   * `PERMISSION_DENIED`: occurs if your policy does not contain the
     #     correct permissions to complete one or more of the steps in the
     #     workflow.
     #
-    #   * `TIMEOUT`\: occurs when the execution times out.
+    #   * `TIMEOUT`: occurs when the execution times out.
     #
     #     <note markdown="1"> You can set the `TimeoutSeconds` for a custom step, anywhere from
     #     1 second to 1800 seconds (30 minutes).
     #
     #      </note>
     #
-    #   * `THROTTLED`\: occurs if you exceed the new execution refill rate
-    #     of one workflow per second.
+    #   * `THROTTLED`: occurs if you exceed the new execution refill rate of
+    #     one workflow per second.
     #   @return [String]
     #
     # @!attribute [rw] message
@@ -2828,21 +3648,56 @@ module Aws::Transfer
     #
     # The following is an `Entry` and `Target` pair example for `chroot`.
     #
-    # `[ \{ "Entry": "/", "Target": "/bucket_name/home/mydirectory" \} ]`
+    # `[ { "Entry": "/", "Target": "/bucket_name/home/mydirectory" } ]`
     #
     # @!attribute [rw] entry
     #   Represents an entry for `HomeDirectoryMappings`.
     #   @return [String]
     #
     # @!attribute [rw] target
-    #   Represents the map target that is used in a `HomeDirectorymapEntry`.
+    #   Represents the map target that is used in a `HomeDirectoryMapEntry`.
+    #   @return [String]
+    #
+    # @!attribute [rw] type
+    #   Specifies the type of mapping. Set the type to `FILE` if you want
+    #   the mapping to point to a file, or `DIRECTORY` for the directory to
+    #   point to a directory.
+    #
+    #   <note markdown="1"> By default, home directory mappings have a `Type` of `DIRECTORY`
+    #   when you create a Transfer Family server. You would need to
+    #   explicitly set `Type` to `FILE` if you want a mapping to have a file
+    #   target.
+    #
+    #    </note>
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/transfer-2018-11-05/HomeDirectoryMapEntry AWS API Documentation
     #
     class HomeDirectoryMapEntry < Struct.new(
       :entry,
-      :target)
+      :target,
+      :type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A structure that describes the values to use for the IAM Identity
+    # Center settings when you create or update a web app.
+    #
+    # @!attribute [rw] instance_arn
+    #   The Amazon Resource Name (ARN) for the IAM Identity Center used for
+    #   the web app.
+    #   @return [String]
+    #
+    # @!attribute [rw] role
+    #   The IAM role in IAM Identity Center used for the web app.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/transfer-2018-11-05/IdentityCenterConfig AWS API Documentation
+    #
+    class IdentityCenterConfig < Struct.new(
+      :instance_arn,
+      :role)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2857,17 +3712,37 @@ module Aws::Transfer
     #   @return [String]
     #
     # @!attribute [rw] invocation_role
-    #   Provides the type of `InvocationRole` used to authenticate the user
-    #   account.
+    #   This parameter is only applicable if your `IdentityProviderType` is
+    #   `API_GATEWAY`. Provides the type of `InvocationRole` used to
+    #   authenticate the user account.
     #   @return [String]
     #
     # @!attribute [rw] directory_id
     #   The identifier of the Directory Service directory that you want to
-    #   stop sharing.
+    #   use as your identity provider.
     #   @return [String]
     #
     # @!attribute [rw] function
-    #   The ARN for a lambda function to use for the Identity provider.
+    #   The ARN for a Lambda function to use for the Identity provider.
+    #   @return [String]
+    #
+    # @!attribute [rw] sftp_authentication_methods
+    #   For SFTP-enabled servers, and for custom identity providers *only*,
+    #   you can specify whether to authenticate using a password, SSH key
+    #   pair, or both.
+    #
+    #   * `PASSWORD` - users must provide their password to connect.
+    #
+    #   * `PUBLIC_KEY` - users must provide their private key to connect.
+    #
+    #   * `PUBLIC_KEY_OR_PASSWORD` - users can authenticate with either
+    #     their password or their key. This is the default value.
+    #
+    #   * `PUBLIC_KEY_AND_PASSWORD` - users must provide both their private
+    #     key and their password to connect. The server checks the key
+    #     first, and then if the key is valid, the system prompts for a
+    #     password. If the private key provided does not match the public
+    #     key that is stored, authentication fails.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/transfer-2018-11-05/IdentityProviderDetails AWS API Documentation
@@ -2876,14 +3751,21 @@ module Aws::Transfer
       :url,
       :invocation_role,
       :directory_id,
-      :function)
+      :function,
+      :sftp_authentication_methods)
       SENSITIVE = []
       include Aws::Structure
     end
 
     # @!attribute [rw] usage
-    #   Specifies whether this certificate is used for signing or
-    #   encryption.
+    #   Specifies how this certificate is used. It can be used in the
+    #   following ways:
+    #
+    #   * `SIGNING`: For signing AS2 messages
+    #
+    #   * `ENCRYPTION`: For encrypting AS2 messages
+    #
+    #   * `TLS`: For securing AS2 communications sent over HTTPS
     #   @return [String]
     #
     # @!attribute [rw] certificate
@@ -3014,7 +3896,7 @@ module Aws::Transfer
     #   @return [String]
     #
     # @!attribute [rw] user_name
-    #   The name of the user account that is assigned to one or more
+    #   The name of the Transfer Family user that is assigned to one or more
     #   servers.
     #   @return [String]
     #
@@ -3075,8 +3957,8 @@ module Aws::Transfer
       include Aws::Structure
     end
 
-    # This exception is thrown when an error occurs in the Amazon Web
-    # ServicesTransfer Family service.
+    # This exception is thrown when an error occurs in the Transfer Family
+    # service.
     #
     # @!attribute [rw] message
     #   @return [String]
@@ -3116,7 +3998,7 @@ module Aws::Transfer
     end
 
     # @!attribute [rw] max_results
-    #   Specifies the maximum number of access SIDs to return.
+    #   The maximum number of items to return.
     #   @return [Integer]
     #
     # @!attribute [rw] next_token
@@ -3169,7 +4051,7 @@ module Aws::Transfer
     end
 
     # @!attribute [rw] max_results
-    #   The maximum number of agreements to return.
+    #   The maximum number of items to return.
     #   @return [Integer]
     #
     # @!attribute [rw] next_token
@@ -3214,7 +4096,7 @@ module Aws::Transfer
     end
 
     # @!attribute [rw] max_results
-    #   The maximum number of certificates to return.
+    #   The maximum number of items to return.
     #   @return [Integer]
     #
     # @!attribute [rw] next_token
@@ -3253,7 +4135,7 @@ module Aws::Transfer
     end
 
     # @!attribute [rw] max_results
-    #   The maximum number of connectors to return.
+    #   The maximum number of items to return.
     #   @return [Integer]
     #
     # @!attribute [rw] next_token
@@ -3292,7 +4174,7 @@ module Aws::Transfer
     end
 
     # @!attribute [rw] max_results
-    #   Specifies the maximum number of executions to return.
+    #   The maximum number of items to return.
     #   @return [Integer]
     #
     # @!attribute [rw] next_token
@@ -3302,7 +4184,7 @@ module Aws::Transfer
     #
     #   This is useful for pagination, for instance. If you have 100
     #   executions for a workflow, you might only want to list first 10. If
-    #   so, call the API by specifying the `max-results`\:
+    #   so, call the API by specifying the `max-results`:
     #
     #   `aws transfer list-executions --max-results 10`
     #
@@ -3343,19 +4225,8 @@ module Aws::Transfer
     #   @return [String]
     #
     # @!attribute [rw] executions
-    #   Returns the details for each execution.
-    #
-    #   * **NextToken**\: returned from a call to several APIs, you can use
-    #     pass it to a subsequent command to continue listing additional
-    #     executions.
-    #
-    #   * **StartTime**\: timestamp indicating when the execution began.
-    #
-    #   * **Executions**\: details of the execution, including the execution
-    #     ID, initial file location, and Service metadata.
-    #
-    #   * **Status**\: one of the following values: `IN_PROGRESS`,
-    #     `COMPLETED`, `EXCEPTION`, `HANDLING_EXEPTION`.
+    #   Returns the details for each execution, in a `ListedExecution`
+    #   array.
     #   @return [Array<Types::ListedExecution>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/transfer-2018-11-05/ListExecutionsResponse AWS API Documentation
@@ -3368,8 +4239,79 @@ module Aws::Transfer
       include Aws::Structure
     end
 
+    # @!attribute [rw] connector_id
+    #   A unique identifier for a connector. This value should match the
+    #   value supplied to the corresponding `StartFileTransfer` call.
+    #   @return [String]
+    #
+    # @!attribute [rw] transfer_id
+    #   A unique identifier for a file transfer. This value should match the
+    #   value supplied to the corresponding `StartFileTransfer` call.
+    #   @return [String]
+    #
+    # @!attribute [rw] next_token
+    #   If there are more file details than returned in this call, use this
+    #   value for a subsequent call to `ListFileTransferResults` to retrieve
+    #   them.
+    #   @return [String]
+    #
     # @!attribute [rw] max_results
-    #   The maximum number of host keys to return.
+    #   The maximum number of files to return in a single page. Note that
+    #   currently you can specify a maximum of 10 file paths in a single
+    #   [StartFileTransfer][1] operation. Thus, the maximum number of file
+    #   transfer results that can be returned in a single page is 10.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/transfer/latest/APIReference/API_StartFileTransfer.html
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/transfer-2018-11-05/ListFileTransferResultsRequest AWS API Documentation
+    #
+    class ListFileTransferResultsRequest < Struct.new(
+      :connector_id,
+      :transfer_id,
+      :next_token,
+      :max_results)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] file_transfer_results
+    #   Returns the details for the files transferred in the transfer
+    #   identified by the `TransferId` and `ConnectorId` specified.
+    #
+    #   * `FilePath`: the filename and path to where the file was sent to or
+    #     retrieved from.
+    #
+    #   * `StatusCode`: current status for the transfer. The status returned
+    #     is one of the following values:`QUEUED`, `IN_PROGRESS`,
+    #     `COMPLETED`, or `FAILED`
+    #
+    #   * `FailureCode`: for transfers that fail, this parameter contains a
+    #     code indicating the reason. For example, `RETRIEVE_FILE_NOT_FOUND`
+    #
+    #   * `FailureMessage`: for transfers that fail, this parameter
+    #     describes the reason for the failure.
+    #   @return [Array<Types::ConnectorFileTransferResult>]
+    #
+    # @!attribute [rw] next_token
+    #   Returns a token that you can use to call `ListFileTransferResults`
+    #   again and receive additional results, if there are any (against the
+    #   same `TransferId`.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/transfer-2018-11-05/ListFileTransferResultsResponse AWS API Documentation
+    #
+    class ListFileTransferResultsResponse < Struct.new(
+      :file_transfer_results,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] max_results
+    #   The maximum number of items to return.
     #   @return [Integer]
     #
     # @!attribute [rw] next_token
@@ -3418,7 +4360,7 @@ module Aws::Transfer
     end
 
     # @!attribute [rw] max_results
-    #   The maximum number of profiles to return.
+    #   The maximum number of items to return.
     #   @return [Integer]
     #
     # @!attribute [rw] next_token
@@ -3604,9 +4546,9 @@ module Aws::Transfer
     #   @return [Integer]
     #
     # @!attribute [rw] next_token
-    #   When you can get additional results from the `ListUsers` call, a
+    #   If there are additional results from the `ListUsers` call, a
     #   `NextToken` parameter is returned in the output. You can then pass
-    #   in a subsequent command to the `NextToken` parameter to continue
+    #   the `NextToken` to a subsequent `ListUsers` command, to continue
     #   listing additional users.
     #   @return [String]
     #
@@ -3638,8 +4580,8 @@ module Aws::Transfer
     #   @return [String]
     #
     # @!attribute [rw] users
-    #   Returns the user accounts and their properties for the `ServerId`
-    #   value that you specify.
+    #   Returns the Transfer Family users and their properties for the
+    #   `ServerId` value that you specify.
     #   @return [Array<Types::ListedUser>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/transfer-2018-11-05/ListUsersResponse AWS API Documentation
@@ -3653,7 +4595,45 @@ module Aws::Transfer
     end
 
     # @!attribute [rw] max_results
-    #   Specifies the maximum number of workflows to return.
+    #   The maximum number of items to return.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   Returns the `NextToken` parameter in the output. You can then pass
+    #   the `NextToken` parameter in a subsequent command to continue
+    #   listing additional web apps.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/transfer-2018-11-05/ListWebAppsRequest AWS API Documentation
+    #
+    class ListWebAppsRequest < Struct.new(
+      :max_results,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] next_token
+    #   Provide this value for the `NextToken` parameter in a subsequent
+    #   command to continue listing additional web apps.
+    #   @return [String]
+    #
+    # @!attribute [rw] web_apps
+    #   Returns, for each listed web app, a structure that contains details
+    #   for the web app.
+    #   @return [Array<Types::ListedWebApp>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/transfer-2018-11-05/ListWebAppsResponse AWS API Documentation
+    #
+    class ListWebAppsResponse < Struct.new(
+      :next_token,
+      :web_apps)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] max_results
+    #   The maximum number of items to return.
     #   @return [Integer]
     #
     # @!attribute [rw] next_token
@@ -3698,16 +4678,29 @@ module Aws::Transfer
     #   server using the client.
     #
     #   A `HomeDirectory` example is `/bucket_name/home/mydirectory`.
+    #
+    #   <note markdown="1"> The `HomeDirectory` parameter is only used if `HomeDirectoryType` is
+    #   set to `PATH`.
+    #
+    #    </note>
     #   @return [String]
     #
     # @!attribute [rw] home_directory_type
     #   The type of landing directory (folder) that you want your users'
     #   home directory to be when they log in to the server. If you set it
-    #   to `PATH`, the user will see the absolute Amazon S3 bucket or EFS
-    #   paths as is in their file transfer protocol clients. If you set it
-    #   `LOGICAL`, you need to provide mappings in the
+    #   to `PATH`, the user will see the absolute Amazon S3 bucket or Amazon
+    #   EFS path as is in their file transfer protocol clients. If you set
+    #   it to `LOGICAL`, you need to provide mappings in the
     #   `HomeDirectoryMappings` for how you want to make Amazon S3 or Amazon
     #   EFS paths visible to your users.
+    #
+    #   <note markdown="1"> If `HomeDirectoryType` is `LOGICAL`, you must provide mappings,
+    #   using the `HomeDirectoryMappings` parameter. If, on the other hand,
+    #   `HomeDirectoryType` is `PATH`, you provide an absolute path using
+    #   the `HomeDirectory` parameter. You cannot have both `HomeDirectory`
+    #   and `HomeDirectoryMappings` in your template.
+    #
+    #    </note>
     #   @return [String]
     #
     # @!attribute [rw] role
@@ -3729,7 +4722,7 @@ module Aws::Transfer
     #   you can view the SID values by running the following command using
     #   Windows PowerShell.
     #
-    #   `Get-ADGroup -Filter \{samAccountName -like "YourGroupName*"\}
+    #   `Get-ADGroup -Filter {samAccountName -like "YourGroupName*"}
     #   -Properties * | Select SamAccountName,ObjectSid`
     #
     #   In that command, replace *YourGroupName* with the name of your
@@ -3811,8 +4804,14 @@ module Aws::Transfer
     #   @return [String]
     #
     # @!attribute [rw] usage
-    #   Specifies whether this certificate is used for signing or
-    #   encryption.
+    #   Specifies how this certificate is used. It can be used in the
+    #   following ways:
+    #
+    #   * `SIGNING`: For signing AS2 messages
+    #
+    #   * `ENCRYPTION`: For encrypting AS2 messages
+    #
+    #   * `TLS`: For securing AS2 communications sent over HTTPS
     #   @return [String]
     #
     # @!attribute [rw] status
@@ -3867,7 +4866,7 @@ module Aws::Transfer
     #   @return [String]
     #
     # @!attribute [rw] url
-    #   The URL of the partner's AS2 endpoint.
+    #   The URL of the partner's AS2 or SFTP endpoint.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/transfer-2018-11-05/ListedConnector AWS API Documentation
@@ -4016,7 +5015,9 @@ module Aws::Transfer
     #
     # @!attribute [rw] domain
     #   Specifies the domain of the storage system that is used for file
-    #   transfers.
+    #   transfers. There are two domains available: Amazon Simple Storage
+    #   Service (Amazon S3) and Amazon Elastic File System (Amazon EFS). The
+    #   default value is S3.
     #   @return [String]
     #
     # @!attribute [rw] identity_provider_type
@@ -4038,7 +5039,7 @@ module Aws::Transfer
     #
     #   Use the `AWS_LAMBDA` value to directly use an Lambda function as
     #   your identity provider. If you choose this value, you must specify
-    #   the ARN for the Lambda function in the `Function` parameter or the
+    #   the ARN for the Lambda function in the `Function` parameter for the
     #   `IdentityProviderDetails` data type.
     #   @return [String]
     #
@@ -4104,16 +5105,29 @@ module Aws::Transfer
     #   server using the client.
     #
     #   A `HomeDirectory` example is `/bucket_name/home/mydirectory`.
+    #
+    #   <note markdown="1"> The `HomeDirectory` parameter is only used if `HomeDirectoryType` is
+    #   set to `PATH`.
+    #
+    #    </note>
     #   @return [String]
     #
     # @!attribute [rw] home_directory_type
     #   The type of landing directory (folder) that you want your users'
     #   home directory to be when they log in to the server. If you set it
-    #   to `PATH`, the user will see the absolute Amazon S3 bucket or EFS
-    #   paths as is in their file transfer protocol clients. If you set it
-    #   `LOGICAL`, you need to provide mappings in the
+    #   to `PATH`, the user will see the absolute Amazon S3 bucket or Amazon
+    #   EFS path as is in their file transfer protocol clients. If you set
+    #   it to `LOGICAL`, you need to provide mappings in the
     #   `HomeDirectoryMappings` for how you want to make Amazon S3 or Amazon
     #   EFS paths visible to your users.
+    #
+    #   <note markdown="1"> If `HomeDirectoryType` is `LOGICAL`, you must provide mappings,
+    #   using the `HomeDirectoryMappings` parameter. If, on the other hand,
+    #   `HomeDirectoryType` is `PATH`, you provide an absolute path using
+    #   the `HomeDirectory` parameter. You cannot have both `HomeDirectory`
+    #   and `HomeDirectoryMappings` in your template.
+    #
+    #    </note>
     #   @return [String]
     #
     # @!attribute [rw] role
@@ -4156,6 +5170,39 @@ module Aws::Transfer
       :role,
       :ssh_public_key_count,
       :user_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # a structure that contains details for the web app.
+    #
+    # @!attribute [rw] arn
+    #   The Amazon Resource Name (ARN) for the web app.
+    #   @return [String]
+    #
+    # @!attribute [rw] web_app_id
+    #   The unique identifier for the web app.
+    #   @return [String]
+    #
+    # @!attribute [rw] access_endpoint
+    #   The `AccessEndpoint` is the URL that you provide to your users for
+    #   them to interact with the Transfer Family web app. You can specify a
+    #   custom URL or use the default value.
+    #   @return [String]
+    #
+    # @!attribute [rw] web_app_endpoint
+    #   The `WebAppEndpoint` is the unique URL for your Transfer Family web
+    #   app. This is the value that you use when you configure **Origins**
+    #   on CloudFront.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/transfer-2018-11-05/ListedWebApp AWS API Documentation
+    #
+    class ListedWebApp < Struct.new(
+      :arn,
+      :web_app_id,
+      :access_endpoint,
+      :web_app_endpoint)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4292,15 +5339,15 @@ module Aws::Transfer
     #   `TlsSessionResumptionMode` value is not specified during
     #   `CreateServer`, it is set to `ENFORCED` by default.
     #
-    #   * `DISABLED`\: the server does not process TLS session resumption
+    #   * `DISABLED`: the server does not process TLS session resumption
     #     client requests and creates a new TLS session for each request.
     #
-    #   * `ENABLED`\: the server processes and accepts clients that are
+    #   * `ENABLED`: the server processes and accepts clients that are
     #     performing TLS session resumption. The server doesn't reject
     #     client data connections that do not perform the TLS session
     #     resumption client processing.
     #
-    #   * `ENFORCED`\: the server processes and accepts clients that are
+    #   * `ENFORCED`: the server processes and accepts clients that are
     #     performing TLS session resumption. The server rejects client data
     #     connections that do not perform the TLS session resumption client
     #     processing. Before you set the value to `ENFORCED`, test your
@@ -4358,7 +5405,8 @@ module Aws::Transfer
       include Aws::Structure
     end
 
-    # The requested resource does not exist.
+    # The requested resource does not exist, or exists in a region other
+    # than the one specified for the command.
     #
     # @!attribute [rw] message
     #   @return [String]
@@ -4448,7 +5496,7 @@ module Aws::Transfer
     # For example, if your path is `shared-files/bob/`, your uploaded files
     # are copied to the `shared-files/bob/`, folder. If your path is
     # `shared-files/today`, each uploaded file is copied to the
-    # `shared-files` folder and named `today`\: each upload overwrites the
+    # `shared-files` folder and named `today`: each upload overwrites the
     # previous version of the *bob* file.
     #
     # @!attribute [rw] bucket
@@ -4465,6 +5513,26 @@ module Aws::Transfer
     class S3InputFileLocation < Struct.new(
       :bucket,
       :key)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The Amazon S3 storage options that are configured for your server.
+    #
+    # @!attribute [rw] directory_listing_optimization
+    #   Specifies whether or not performance for your Amazon S3 directories
+    #   is optimized. This is disabled by default.
+    #
+    #   By default, home directory mappings have a `TYPE` of `DIRECTORY`. If
+    #   you enable this option, you would then need to explicitly set the
+    #   `HomeDirectoryMapEntry` `Type` to `FILE` if you want a mapping to
+    #   have a file target.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/transfer-2018-11-05/S3StorageOptions AWS API Documentation
+    #
+    class S3StorageOptions < Struct.new(
+      :directory_listing_optimization)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4551,16 +5619,80 @@ module Aws::Transfer
       include Aws::Structure
     end
 
+    # Contains the details for an SFTP connector object. The connector
+    # object is used for transferring files to and from a partner's SFTP
+    # server.
+    #
+    # <note markdown="1"> Because the `SftpConnectorConfig` data type is used for both creating
+    # and updating SFTP connectors, its parameters, `TrustedHostKeys` and
+    # `UserSecretId` are marked as not required. This is a bit misleading,
+    # as they are not required when you are updating an existing SFTP
+    # connector, but *are required* when you are creating a new SFTP
+    # connector.
+    #
+    #  </note>
+    #
+    # @!attribute [rw] user_secret_id
+    #   The identifier for the secret (in Amazon Web Services Secrets
+    #   Manager) that contains the SFTP user's private key, password, or
+    #   both. The identifier must be the Amazon Resource Name (ARN) of the
+    #   secret.
+    #   @return [String]
+    #
+    # @!attribute [rw] trusted_host_keys
+    #   The public portion of the host key, or keys, that are used to
+    #   identify the external server to which you are connecting. You can
+    #   use the `ssh-keyscan` command against the SFTP server to retrieve
+    #   the necessary key.
+    #
+    #   The three standard SSH public key format elements are `<key type>`,
+    #   `<body base64>`, and an optional `<comment>`, with spaces between
+    #   each element. Specify only the `<key type>` and `<body base64>`: do
+    #   not enter the `<comment>` portion of the key.
+    #
+    #   For the trusted host key, Transfer Family accepts RSA and ECDSA
+    #   keys.
+    #
+    #   * For RSA keys, the `<key type>` string is `ssh-rsa`.
+    #
+    #   * For ECDSA keys, the `<key type>` string is either
+    #     `ecdsa-sha2-nistp256`, `ecdsa-sha2-nistp384`, or
+    #     `ecdsa-sha2-nistp521`, depending on the size of the key you
+    #     generated.
+    #
+    #   Run this command to retrieve the SFTP server host key, where your
+    #   SFTP server name is `ftp.host.com`.
+    #
+    #   `ssh-keyscan ftp.host.com`
+    #
+    #   This prints the public host key to standard output.
+    #
+    #   `ftp.host.com ssh-rsa AAAAB3Nza...<long-string-for-public-key`
+    #
+    #   Copy and paste this string into the `TrustedHostKeys` field for the
+    #   `create-connector` command or into the **Trusted host keys** field
+    #   in the console.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/transfer-2018-11-05/SftpConnectorConfig AWS API Documentation
+    #
+    class SftpConnectorConfig < Struct.new(
+      :user_secret_id,
+      :trusted_host_keys)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Provides information about the public Secure Shell (SSH) key that is
-    # associated with a user account for the specific file transfer
+    # associated with a Transfer Family user for the specific file transfer
     # protocol-enabled server (as identified by `ServerId`). The information
     # returned includes the date the key was imported, the public key
     # contents, and the public key ID. A user can store more than one SSH
     # public key associated with their user name on a specific server.
     #
     # @!attribute [rw] date_imported
-    #   Specifies the date that the public key was added to the user
-    #   account.
+    #   Specifies the date that the public key was added to the Transfer
+    #   Family user.
     #   @return [Time]
     #
     # @!attribute [rw] ssh_public_key_body
@@ -4589,23 +5721,98 @@ module Aws::Transfer
     #   The unique identifier for the connector.
     #   @return [String]
     #
+    # @!attribute [rw] remote_directory_path
+    #   Specifies the directory on the remote SFTP server for which you want
+    #   to list its contents.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_items
+    #   An optional parameter where you can specify the maximum number of
+    #   file/directory names to retrieve. The default value is 1,000.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] output_directory_path
+    #   Specifies the path (bucket and prefix) in Amazon S3 storage to store
+    #   the results of the directory listing.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/transfer-2018-11-05/StartDirectoryListingRequest AWS API Documentation
+    #
+    class StartDirectoryListingRequest < Struct.new(
+      :connector_id,
+      :remote_directory_path,
+      :max_items,
+      :output_directory_path)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] listing_id
+    #   Returns a unique identifier for the directory listing call.
+    #   @return [String]
+    #
+    # @!attribute [rw] output_file_name
+    #   Returns the file name where the results are stored. This is a
+    #   combination of the connector ID and the listing ID:
+    #   `<connector-id>-<listing-id>.json`.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/transfer-2018-11-05/StartDirectoryListingResponse AWS API Documentation
+    #
+    class StartDirectoryListingResponse < Struct.new(
+      :listing_id,
+      :output_file_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] connector_id
+    #   The unique identifier for the connector.
+    #   @return [String]
+    #
     # @!attribute [rw] send_file_paths
-    #   An array of strings. Each string represents the absolute path for
-    #   one outbound file transfer. For example, `
-    #   DOC-EXAMPLE-BUCKET/myfile.txt `.
+    #   One or more source paths for the Amazon S3 storage. Each string
+    #   represents a source file path for one outbound file transfer. For
+    #   example, ` amzn-s3-demo-bucket/myfile.txt `.
+    #
+    #   <note markdown="1"> Replace ` amzn-s3-demo-bucket ` with one of your actual buckets.
+    #
+    #    </note>
     #   @return [Array<String>]
+    #
+    # @!attribute [rw] retrieve_file_paths
+    #   One or more source paths for the partner's SFTP server. Each string
+    #   represents a source file path for one inbound file transfer.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] local_directory_path
+    #   For an inbound transfer, the `LocaDirectoryPath` specifies the
+    #   destination for one or more files that are transferred from the
+    #   partner's SFTP server.
+    #   @return [String]
+    #
+    # @!attribute [rw] remote_directory_path
+    #   For an outbound transfer, the `RemoteDirectoryPath` specifies the
+    #   destination for one or more files that are transferred to the
+    #   partner's SFTP server. If you don't specify a
+    #   `RemoteDirectoryPath`, the destination for transferred files is the
+    #   SFTP user's home directory.
+    #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/transfer-2018-11-05/StartFileTransferRequest AWS API Documentation
     #
     class StartFileTransferRequest < Struct.new(
       :connector_id,
-      :send_file_paths)
+      :send_file_paths,
+      :retrieve_file_paths,
+      :local_directory_path,
+      :remote_directory_path)
       SENSITIVE = []
       include Aws::Structure
     end
 
     # @!attribute [rw] transfer_id
-    #   Returns the unique identifier for this file transfer.
+    #   Returns the unique identifier for the file transfer.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/transfer-2018-11-05/StartFileTransferResponse AWS API Documentation
@@ -4672,8 +5879,8 @@ module Aws::Transfer
     #
     # @!attribute [rw] tags
     #   Key-value pairs assigned to ARNs that you can use to group and
-    #   search for resources by type. You can attach this metadata to user
-    #   accounts for any purpose.
+    #   search for resources by type. You can attach this metadata to
+    #   resources (servers, users, workflows, and so on) for any purpose.
     #   @return [Array<Types::Tag>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/transfer-2018-11-05/TagResourceRequest AWS API Documentation
@@ -4703,12 +5910,12 @@ module Aws::Transfer
     #   the output from the previous step, or the originally uploaded file
     #   for the workflow.
     #
-    #   * To use the previous file as the input, enter `$\{previous.file\}`.
+    #   * To use the previous file as the input, enter `${previous.file}`.
     #     In this case, this workflow step uses the output file from the
     #     previous workflow step as input. This is the default value.
     #
     #   * To use the originally uploaded file location as input for this
-    #     step, enter `$\{original.file\}`.
+    #     step, enter `${original.file}`.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/transfer-2018-11-05/TagStepDetails AWS API Documentation
@@ -4717,6 +5924,55 @@ module Aws::Transfer
       :name,
       :tags,
       :source_file_location)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] connector_id
+    #   The unique identifier for the connector.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/transfer-2018-11-05/TestConnectionRequest AWS API Documentation
+    #
+    class TestConnectionRequest < Struct.new(
+      :connector_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] connector_id
+    #   Returns the identifier of the connector object that you are testing.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   Returns `OK` for successful test, or `ERROR` if the test fails.
+    #   @return [String]
+    #
+    # @!attribute [rw] status_message
+    #   Returns `Connection succeeded` if the test is successful. Or,
+    #   returns a descriptive error message if the test fails. The following
+    #   list provides troubleshooting details, depending on the error
+    #   message that you receive.
+    #
+    #   * Verify that your secret name aligns with the one in Transfer Role
+    #     permissions.
+    #
+    #   * Verify the server URL in the connector configuration , and verify
+    #     that the login credentials work successfully outside of the
+    #     connector.
+    #
+    #   * Verify that the secret exists and is formatted correctly.
+    #
+    #   * Verify that the trusted host key in the connector configuration
+    #     matches the `ssh-keyscan` output.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/transfer-2018-11-05/TestConnectionResponse AWS API Documentation
+    #
+    class TestConnectionResponse < Struct.new(
+      :connector_id,
+      :status,
+      :status_message)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4736,18 +5992,20 @@ module Aws::Transfer
     #   * File Transfer Protocol Secure (FTPS)
     #
     #   * File Transfer Protocol (FTP)
+    #
+    #   * Applicability Statement 2 (AS2)
     #   @return [String]
     #
     # @!attribute [rw] source_ip
-    #   The source IP address of the user account to be tested.
+    #   The source IP address of the account to be tested.
     #   @return [String]
     #
     # @!attribute [rw] user_name
-    #   The name of the user account to be tested.
+    #   The name of the account to be tested.
     #   @return [String]
     #
     # @!attribute [rw] user_password
-    #   The password of the user account to be tested.
+    #   The password of the account to be tested.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/transfer-2018-11-05/TestIdentityProviderRequest AWS API Documentation
@@ -4763,11 +6021,13 @@ module Aws::Transfer
     end
 
     # @!attribute [rw] response
-    #   The response that is returned from your API Gateway.
+    #   The response that is returned from your API Gateway or your Lambda
+    #   function.
     #   @return [String]
     #
     # @!attribute [rw] status_code
-    #   The HTTP status code that is the response from your API Gateway.
+    #   The HTTP status code that is the response from your API Gateway or
+    #   your Lambda function.
     #   @return [Integer]
     #
     # @!attribute [rw] message
@@ -4833,16 +6093,29 @@ module Aws::Transfer
     #   server using the client.
     #
     #   A `HomeDirectory` example is `/bucket_name/home/mydirectory`.
+    #
+    #   <note markdown="1"> The `HomeDirectory` parameter is only used if `HomeDirectoryType` is
+    #   set to `PATH`.
+    #
+    #    </note>
     #   @return [String]
     #
     # @!attribute [rw] home_directory_type
     #   The type of landing directory (folder) that you want your users'
     #   home directory to be when they log in to the server. If you set it
-    #   to `PATH`, the user will see the absolute Amazon S3 bucket or EFS
-    #   paths as is in their file transfer protocol clients. If you set it
-    #   `LOGICAL`, you need to provide mappings in the
+    #   to `PATH`, the user will see the absolute Amazon S3 bucket or Amazon
+    #   EFS path as is in their file transfer protocol clients. If you set
+    #   it to `LOGICAL`, you need to provide mappings in the
     #   `HomeDirectoryMappings` for how you want to make Amazon S3 or Amazon
     #   EFS paths visible to your users.
+    #
+    #   <note markdown="1"> If `HomeDirectoryType` is `LOGICAL`, you must provide mappings,
+    #   using the `HomeDirectoryMappings` parameter. If, on the other hand,
+    #   `HomeDirectoryType` is `PATH`, you provide an absolute path using
+    #   the `HomeDirectory` parameter. You cannot have both `HomeDirectory`
+    #   and `HomeDirectoryMappings` in your template.
+    #
+    #    </note>
     #   @return [String]
     #
     # @!attribute [rw] home_directory_mappings
@@ -4858,8 +6131,8 @@ module Aws::Transfer
     #
     #   The following is an `Entry` and `Target` pair example.
     #
-    #   `[ \{ "Entry": "/directory1", "Target":
-    #   "/bucket_name/home/mydirectory" \} ]`
+    #   `[ { "Entry": "/directory1", "Target":
+    #   "/bucket_name/home/mydirectory" } ]`
     #
     #   In most cases, you can use this value instead of the session policy
     #   to lock down your user to the designated home directory
@@ -4868,7 +6141,7 @@ module Aws::Transfer
     #
     #   The following is an `Entry` and `Target` pair example for `chroot`.
     #
-    #   `[ \{ "Entry": "/", "Target": "/bucket_name/home/mydirectory" \} ]`
+    #   `[ { "Entry": "/", "Target": "/bucket_name/home/mydirectory" } ]`
     #   @return [Array<Types::HomeDirectoryMapEntry>]
     #
     # @!attribute [rw] policy
@@ -4876,8 +6149,8 @@ module Aws::Transfer
     #   and Access Management (IAM) role across multiple users. This policy
     #   scopes down a user's access to portions of their Amazon S3 bucket.
     #   Variables that you can use inside this policy include
-    #   `$\{Transfer:UserName\}`, `$\{Transfer:HomeDirectory\}`, and
-    #   `$\{Transfer:HomeBucket\}`.
+    #   `${Transfer:UserName}`, `${Transfer:HomeDirectory}`, and
+    #   `${Transfer:HomeBucket}`.
     #
     #   <note markdown="1"> This policy applies only when the domain of `ServerId` is Amazon S3.
     #   Amazon EFS does not use session policies.
@@ -4932,7 +6205,7 @@ module Aws::Transfer
     #   you can view the SID values by running the following command using
     #   Windows PowerShell.
     #
-    #   `Get-ADGroup -Filter \{samAccountName -like "YourGroupName*"\}
+    #   `Get-ADGroup -Filter {samAccountName -like "YourGroupName*"}
     #   -Properties * | Select SamAccountName,ObjectSid`
     #
     #   In that command, replace *YourGroupName* with the name of your
@@ -5012,10 +6285,16 @@ module Aws::Transfer
     # @!attribute [rw] base_directory
     #   To change the landing directory (folder) for files that are
     #   transferred, provide the bucket folder that you want to use; for
-    #   example, `/DOC-EXAMPLE-BUCKET/home/mydirectory `.
+    #   example, `/amzn-s3-demo-bucket/home/mydirectory `.
     #   @return [String]
     #
     # @!attribute [rw] access_role
+    #   Connectors are used to send files using either the AS2 or SFTP
+    #   protocol. For the access role, provide the Amazon Resource Name
+    #   (ARN) of the Identity and Access Management role to use.
+    #
+    #   **For AS2 connectors**
+    #
     #   With AS2, you can send files by calling `StartFileTransfer` and
     #   specifying the file paths in the request parameter, `SendFilePaths`.
     #   We use the file’s parent directory (for example, for
@@ -5028,7 +6307,66 @@ module Aws::Transfer
     #   `StartFileTransfer` request. Additionally, you need to provide read
     #   and write access to the parent directory of the files that you
     #   intend to send with `StartFileTransfer`.
+    #
+    #   If you are using Basic authentication for your AS2 connector, the
+    #   access role requires the `secretsmanager:GetSecretValue` permission
+    #   for the secret. If the secret is encrypted using a customer-managed
+    #   key instead of the Amazon Web Services managed key in Secrets
+    #   Manager, then the role also needs the `kms:Decrypt` permission for
+    #   that key.
+    #
+    #   **For SFTP connectors**
+    #
+    #   Make sure that the access role provides read and write access to the
+    #   parent directory of the file location that's used in the
+    #   `StartFileTransfer` request. Additionally, make sure that the role
+    #   provides `secretsmanager:GetSecretValue` permission to Secrets
+    #   Manager.
     #   @return [String]
+    #
+    # @!attribute [rw] preserve_filename
+    #   Determines whether or not Transfer Family appends a unique string of
+    #   characters to the end of the AS2 message payload filename when
+    #   saving it.
+    #
+    #   * `ENABLED`: the filename provided by your trading parter is
+    #     preserved when the file is saved.
+    #
+    #   * `DISABLED` (default value): when Transfer Family saves the file,
+    #     the filename is adjusted, as described in [File names and
+    #     locations][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/transfer/latest/userguide/send-as2-messages.html#file-names-as2
+    #   @return [String]
+    #
+    # @!attribute [rw] enforce_message_signing
+    #   Determines whether or not unsigned messages from your trading
+    #   partners will be accepted.
+    #
+    #   * `ENABLED`: Transfer Family rejects unsigned messages from your
+    #     trading partner.
+    #
+    #   * `DISABLED` (default value): Transfer Family accepts unsigned
+    #     messages from your trading partner.
+    #   @return [String]
+    #
+    # @!attribute [rw] custom_directories
+    #   A `CustomDirectoriesType` structure. This structure specifies custom
+    #   directories for storing various AS2 message files. You can specify
+    #   directories for the following types of files.
+    #
+    #   * Failed files
+    #
+    #   * MDN files
+    #
+    #   * Payload files
+    #
+    #   * Status files
+    #
+    #   * Temporary files
+    #   @return [Types::CustomDirectoriesType]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/transfer-2018-11-05/UpdateAgreementRequest AWS API Documentation
     #
@@ -5040,7 +6378,10 @@ module Aws::Transfer
       :local_profile_id,
       :partner_profile_id,
       :base_directory,
-      :access_role)
+      :access_role,
+      :preserve_filename,
+      :enforce_message_signing,
+      :custom_directories)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5104,14 +6445,21 @@ module Aws::Transfer
     #   @return [String]
     #
     # @!attribute [rw] url
-    #   The URL of the partner's AS2 endpoint.
+    #   The URL of the partner's AS2 or SFTP endpoint.
     #   @return [String]
     #
     # @!attribute [rw] as_2_config
-    #   A structure that contains the parameters for a connector object.
+    #   A structure that contains the parameters for an AS2 connector
+    #   object.
     #   @return [Types::As2ConnectorConfig]
     #
     # @!attribute [rw] access_role
+    #   Connectors are used to send files using either the AS2 or SFTP
+    #   protocol. For the access role, provide the Amazon Resource Name
+    #   (ARN) of the Identity and Access Management role to use.
+    #
+    #   **For AS2 connectors**
+    #
     #   With AS2, you can send files by calling `StartFileTransfer` and
     #   specifying the file paths in the request parameter, `SendFilePaths`.
     #   We use the file’s parent directory (for example, for
@@ -5124,6 +6472,21 @@ module Aws::Transfer
     #   `StartFileTransfer` request. Additionally, you need to provide read
     #   and write access to the parent directory of the files that you
     #   intend to send with `StartFileTransfer`.
+    #
+    #   If you are using Basic authentication for your AS2 connector, the
+    #   access role requires the `secretsmanager:GetSecretValue` permission
+    #   for the secret. If the secret is encrypted using a customer-managed
+    #   key instead of the Amazon Web Services managed key in Secrets
+    #   Manager, then the role also needs the `kms:Decrypt` permission for
+    #   that key.
+    #
+    #   **For SFTP connectors**
+    #
+    #   Make sure that the access role provides read and write access to the
+    #   parent directory of the file location that's used in the
+    #   `StartFileTransfer` request. Additionally, make sure that the role
+    #   provides `secretsmanager:GetSecretValue` permission to Secrets
+    #   Manager.
     #   @return [String]
     #
     # @!attribute [rw] logging_role
@@ -5133,6 +6496,15 @@ module Aws::Transfer
     #   CloudWatch logs.
     #   @return [String]
     #
+    # @!attribute [rw] sftp_config
+    #   A structure that contains the parameters for an SFTP connector
+    #   object.
+    #   @return [Types::SftpConnectorConfig]
+    #
+    # @!attribute [rw] security_policy_name
+    #   Specifies the name of the security policy for the connector.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/transfer-2018-11-05/UpdateConnectorRequest AWS API Documentation
     #
     class UpdateConnectorRequest < Struct.new(
@@ -5140,7 +6512,9 @@ module Aws::Transfer
       :url,
       :as_2_config,
       :access_role,
-      :logging_role)
+      :logging_role,
+      :sftp_config,
+      :security_policy_name)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5315,10 +6689,10 @@ module Aws::Transfer
     #   Elastic IP addresses directly to it.
     #
     #   <note markdown="1"> After May 19, 2021, you won't be able to create a server using
-    #   `EndpointType=VPC_ENDPOINT` in your Amazon Web Servicesaccount if
+    #   `EndpointType=VPC_ENDPOINT` in your Amazon Web Services account if
     #   your account hasn't already done so before May 19, 2021. If you
     #   have already created servers with `EndpointType=VPC_ENDPOINT` in
-    #   your Amazon Web Servicesaccount on or before May 19, 2021, you will
+    #   your Amazon Web Services account on or before May 19, 2021, you will
     #   not be affected. After this date, use `EndpointType`=`VPC`.
     #
     #    For more information, see
@@ -5446,13 +6820,12 @@ module Aws::Transfer
     #   @return [Array<String>]
     #
     # @!attribute [rw] security_policy_name
-    #   Specifies the name of the security policy that is attached to the
-    #   server.
+    #   Specifies the name of the security policy for the server.
     #   @return [String]
     #
     # @!attribute [rw] server_id
     #   A system-assigned unique identifier for a server instance that the
-    #   user account is assigned to.
+    #   Transfer Family user is assigned to.
     #   @return [String]
     #
     # @!attribute [rw] workflow_details
@@ -5462,15 +6835,45 @@ module Aws::Transfer
     #   In addition to a workflow to execute when a file is uploaded
     #   completely, `WorkflowDetails` can also contain a workflow ID (and
     #   execution role) for a workflow to execute on partial upload. A
-    #   partial upload occurs when a file is open when the session
-    #   disconnects.
+    #   partial upload occurs when the server session disconnects while the
+    #   file is still being uploaded.
     #
     #   To remove an associated workflow from a server, you can provide an
     #   empty `OnUpload` object, as in the following example.
     #
     #   `aws transfer update-server --server-id s-01234567890abcdef
-    #   --workflow-details '\{"OnUpload":[]\}'`
+    #   --workflow-details '{"OnUpload":[]}'`
     #   @return [Types::WorkflowDetails]
+    #
+    # @!attribute [rw] structured_log_destinations
+    #   Specifies the log groups to which your server logs are sent.
+    #
+    #   To specify a log group, you must provide the ARN for an existing log
+    #   group. In this case, the format of the log group is as follows:
+    #
+    #   `arn:aws:logs:region-name:amazon-account-id:log-group:log-group-name:*`
+    #
+    #   For example,
+    #   `arn:aws:logs:us-east-1:111122223333:log-group:mytestgroup:*`
+    #
+    #   If you have previously specified a log group for a server, you can
+    #   clear it, and in effect turn off structured logging, by providing an
+    #   empty value for this parameter in an `update-server` call. For
+    #   example:
+    #
+    #   `update-server --server-id s-1234567890abcdef0
+    #   --structured-log-destinations`
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] s3_storage_options
+    #   Specifies whether or not performance for your Amazon S3 directories
+    #   is optimized. This is disabled by default.
+    #
+    #   By default, home directory mappings have a `TYPE` of `DIRECTORY`. If
+    #   you enable this option, you would then need to explicitly set the
+    #   `HomeDirectoryMapEntry` `Type` to `FILE` if you want a mapping to
+    #   have a file target.
+    #   @return [Types::S3StorageOptions]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/transfer-2018-11-05/UpdateServerRequest AWS API Documentation
     #
@@ -5487,14 +6890,16 @@ module Aws::Transfer
       :protocols,
       :security_policy_name,
       :server_id,
-      :workflow_details)
+      :workflow_details,
+      :structured_log_destinations,
+      :s3_storage_options)
       SENSITIVE = [:host_key]
       include Aws::Structure
     end
 
     # @!attribute [rw] server_id
-    #   A system-assigned unique identifier for a server that the user
-    #   account is assigned to.
+    #   A system-assigned unique identifier for a server that the Transfer
+    #   Family user is assigned to.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/transfer-2018-11-05/UpdateServerResponse AWS API Documentation
@@ -5510,16 +6915,29 @@ module Aws::Transfer
     #   server using the client.
     #
     #   A `HomeDirectory` example is `/bucket_name/home/mydirectory`.
+    #
+    #   <note markdown="1"> The `HomeDirectory` parameter is only used if `HomeDirectoryType` is
+    #   set to `PATH`.
+    #
+    #    </note>
     #   @return [String]
     #
     # @!attribute [rw] home_directory_type
     #   The type of landing directory (folder) that you want your users'
     #   home directory to be when they log in to the server. If you set it
-    #   to `PATH`, the user will see the absolute Amazon S3 bucket or EFS
-    #   paths as is in their file transfer protocol clients. If you set it
-    #   `LOGICAL`, you need to provide mappings in the
+    #   to `PATH`, the user will see the absolute Amazon S3 bucket or Amazon
+    #   EFS path as is in their file transfer protocol clients. If you set
+    #   it to `LOGICAL`, you need to provide mappings in the
     #   `HomeDirectoryMappings` for how you want to make Amazon S3 or Amazon
     #   EFS paths visible to your users.
+    #
+    #   <note markdown="1"> If `HomeDirectoryType` is `LOGICAL`, you must provide mappings,
+    #   using the `HomeDirectoryMappings` parameter. If, on the other hand,
+    #   `HomeDirectoryType` is `PATH`, you provide an absolute path using
+    #   the `HomeDirectory` parameter. You cannot have both `HomeDirectory`
+    #   and `HomeDirectoryMappings` in your template.
+    #
+    #    </note>
     #   @return [String]
     #
     # @!attribute [rw] home_directory_mappings
@@ -5535,8 +6953,8 @@ module Aws::Transfer
     #
     #   The following is an `Entry` and `Target` pair example.
     #
-    #   `[ \{ "Entry": "/directory1", "Target":
-    #   "/bucket_name/home/mydirectory" \} ]`
+    #   `[ { "Entry": "/directory1", "Target":
+    #   "/bucket_name/home/mydirectory" } ]`
     #
     #   In most cases, you can use this value instead of the session policy
     #   to lock down your user to the designated home directory
@@ -5545,7 +6963,7 @@ module Aws::Transfer
     #
     #   The following is an `Entry` and `Target` pair example for `chroot`.
     #
-    #   `[ \{ "Entry": "/", "Target": "/bucket_name/home/mydirectory" \} ]`
+    #   `[ { "Entry": "/", "Target": "/bucket_name/home/mydirectory" } ]`
     #   @return [Array<Types::HomeDirectoryMapEntry>]
     #
     # @!attribute [rw] policy
@@ -5553,8 +6971,8 @@ module Aws::Transfer
     #   and Access Management (IAM) role across multiple users. This policy
     #   scopes down a user's access to portions of their Amazon S3 bucket.
     #   Variables that you can use inside this policy include
-    #   `$\{Transfer:UserName\}`, `$\{Transfer:HomeDirectory\}`, and
-    #   `$\{Transfer:HomeBucket\}`.
+    #   `${Transfer:UserName}`, `${Transfer:HomeDirectory}`, and
+    #   `${Transfer:HomeBucket}`.
     #
     #   <note markdown="1"> This policy applies only when the domain of `ServerId` is Amazon S3.
     #   Amazon EFS does not use session policies.
@@ -5599,8 +7017,8 @@ module Aws::Transfer
     #   @return [String]
     #
     # @!attribute [rw] server_id
-    #   A system-assigned unique identifier for a server instance that the
-    #   user account is assigned to.
+    #   A system-assigned unique identifier for a Transfer Family server
+    #   instance that the user is assigned to.
     #   @return [String]
     #
     # @!attribute [rw] user_name
@@ -5631,8 +7049,8 @@ module Aws::Transfer
     # request to update a user's properties.
     #
     # @!attribute [rw] server_id
-    #   A system-assigned unique identifier for a server instance that the
-    #   user account is assigned to.
+    #   A system-assigned unique identifier for a Transfer Family server
+    #   instance that the account is assigned to.
     #   @return [String]
     #
     # @!attribute [rw] user_name
@@ -5649,11 +7067,130 @@ module Aws::Transfer
       include Aws::Structure
     end
 
+    # @!attribute [rw] web_app_id
+    #   Provide the identifier of the web app that you are updating.
+    #   @return [String]
+    #
+    # @!attribute [rw] title
+    #   Provide an updated title.
+    #   @return [String]
+    #
+    # @!attribute [rw] logo_file
+    #   Specify logo file data string (in base64 encoding).
+    #   @return [String]
+    #
+    # @!attribute [rw] favicon_file
+    #   Specify icon file data string (in base64 encoding).
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/transfer-2018-11-05/UpdateWebAppCustomizationRequest AWS API Documentation
+    #
+    class UpdateWebAppCustomizationRequest < Struct.new(
+      :web_app_id,
+      :title,
+      :logo_file,
+      :favicon_file)
+      SENSITIVE = [:logo_file, :favicon_file]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] web_app_id
+    #   Returns the unique identifier for the web app being updated.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/transfer-2018-11-05/UpdateWebAppCustomizationResponse AWS API Documentation
+    #
+    class UpdateWebAppCustomizationResponse < Struct.new(
+      :web_app_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A structure that describes the values to use for the IAM Identity
+    # Center settings when you update a web app.
+    #
+    # @!attribute [rw] role
+    #   The IAM role used to access IAM Identity Center.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/transfer-2018-11-05/UpdateWebAppIdentityCenterConfig AWS API Documentation
+    #
+    class UpdateWebAppIdentityCenterConfig < Struct.new(
+      :role)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A union that contains the `UpdateWebAppIdentityCenterConfig` object.
+    #
+    # @note UpdateWebAppIdentityProviderDetails is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @!attribute [rw] identity_center_config
+    #   A structure that describes the values to use for the IAM Identity
+    #   Center settings when you update a web app.
+    #   @return [Types::UpdateWebAppIdentityCenterConfig]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/transfer-2018-11-05/UpdateWebAppIdentityProviderDetails AWS API Documentation
+    #
+    class UpdateWebAppIdentityProviderDetails < Struct.new(
+      :identity_center_config,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class IdentityCenterConfig < UpdateWebAppIdentityProviderDetails; end
+      class Unknown < UpdateWebAppIdentityProviderDetails; end
+    end
+
+    # @!attribute [rw] web_app_id
+    #   Provide the identifier of the web app that you are updating.
+    #   @return [String]
+    #
+    # @!attribute [rw] identity_provider_details
+    #   Provide updated identity provider values in a
+    #   `WebAppIdentityProviderDetails` object.
+    #   @return [Types::UpdateWebAppIdentityProviderDetails]
+    #
+    # @!attribute [rw] access_endpoint
+    #   The `AccessEndpoint` is the URL that you provide to your users for
+    #   them to interact with the Transfer Family web app. You can specify a
+    #   custom URL or use the default value.
+    #   @return [String]
+    #
+    # @!attribute [rw] web_app_units
+    #   A union that contains the value for number of concurrent connections
+    #   or the user sessions on your web app.
+    #   @return [Types::WebAppUnits]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/transfer-2018-11-05/UpdateWebAppRequest AWS API Documentation
+    #
+    class UpdateWebAppRequest < Struct.new(
+      :web_app_id,
+      :identity_provider_details,
+      :access_endpoint,
+      :web_app_units)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] web_app_id
+    #   Returns the unique identifier for the web app being updated.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/transfer-2018-11-05/UpdateWebAppResponse AWS API Documentation
+    #
+    class UpdateWebAppResponse < Struct.new(
+      :web_app_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Specifies the user name, server ID, and session ID for a workflow.
     #
     # @!attribute [rw] user_name
-    #   A unique string that identifies a user account associated with a
-    #   server.
+    #   A unique string that identifies a Transfer Family user associated
+    #   with a server.
     #   @return [String]
     #
     # @!attribute [rw] server_id
@@ -5676,13 +7213,66 @@ module Aws::Transfer
       include Aws::Structure
     end
 
+    # A union that contains the `IdentityCenterConfig` object.
+    #
+    # @note WebAppIdentityProviderDetails is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @!attribute [rw] identity_center_config
+    #   A structure that describes the values to use for the IAM Identity
+    #   Center settings when you create a web app.
+    #   @return [Types::IdentityCenterConfig]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/transfer-2018-11-05/WebAppIdentityProviderDetails AWS API Documentation
+    #
+    class WebAppIdentityProviderDetails < Struct.new(
+      :identity_center_config,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class IdentityCenterConfig < WebAppIdentityProviderDetails; end
+      class Unknown < WebAppIdentityProviderDetails; end
+    end
+
+    # Contains an integer value that represents the value for number of
+    # concurrent connections or the user sessions on your web app.
+    #
+    # @note WebAppUnits is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @note WebAppUnits is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of WebAppUnits corresponding to the set member.
+    #
+    # @!attribute [rw] provisioned
+    #   An integer that represents the number of units for your desired
+    #   number of concurrent connections, or the number of user sessions on
+    #   your web app at the same time.
+    #
+    #   Each increment allows an additional 250 concurrent sessions: a value
+    #   of `1` sets the number of concurrent sessions to 250; `2` sets a
+    #   value of 500, and so on.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/transfer-2018-11-05/WebAppUnits AWS API Documentation
+    #
+    class WebAppUnits < Struct.new(
+      :provisioned,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class Provisioned < WebAppUnits; end
+      class Unknown < WebAppUnits; end
+    end
+
     # Specifies the workflow ID for the workflow to assign and the execution
     # role that's used for executing the workflow.
     #
     # In addition to a workflow to execute when a file is uploaded
     # completely, `WorkflowDetails` can also contain a workflow ID (and
     # execution role) for a workflow to execute on partial upload. A partial
-    # upload occurs when a file is open when the session disconnects.
+    # upload occurs when the server session disconnects while the file is
+    # still being uploaded.
     #
     # @!attribute [rw] workflow_id
     #   A unique identifier for the workflow.
@@ -5714,7 +7304,11 @@ module Aws::Transfer
     #   empty `OnUpload` object, as in the following example.
     #
     #   `aws transfer update-server --server-id s-01234567890abcdef
-    #   --workflow-details '\{"OnUpload":[]\}'`
+    #   --workflow-details '{"OnUpload":[]}'`
+    #
+    #   <note markdown="1"> `OnUpload` can contain a maximum of one `WorkflowDetail` object.
+    #
+    #    </note>
     #   @return [Array<Types::WorkflowDetail>]
     #
     # @!attribute [rw] on_partial_upload
@@ -5724,6 +7318,11 @@ module Aws::Transfer
     #
     #   A *partial upload* occurs when a file is open when the session
     #   disconnects.
+    #
+    #   <note markdown="1"> `OnPartialUpload` can contain a maximum of one `WorkflowDetail`
+    #   object.
+    #
+    #    </note>
     #   @return [Array<Types::WorkflowDetail>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/transfer-2018-11-05/WorkflowDetails AWS API Documentation
@@ -5818,3 +7417,4 @@ module Aws::Transfer
 
   end
 end
+

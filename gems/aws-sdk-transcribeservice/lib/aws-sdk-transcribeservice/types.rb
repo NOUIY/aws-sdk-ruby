@@ -110,12 +110,17 @@ module Aws::TranscribeService
     #   your transcription job failed.
     #   @return [String]
     #
+    # @!attribute [rw] call_analytics_job_details
+    #   Provides detailed information about a call analytics job, including
+    #   information about skipped analytics features.
+    #   @return [Types::CallAnalyticsJobDetails]
+    #
     # @!attribute [rw] language_code
     #   The language code used to create your Call Analytics job. For a list
     #   of supported languages and their associated language codes, refer to
     #   the [Supported languages][1] table.
     #
-    #   If you don't know the language spoken in your media file, you can
+    #   If you do not know the language spoken in your media file, you can
     #   omit this field and let Amazon Transcribe automatically identify the
     #   language of your media. To improve the accuracy of language
     #   identification, you can include several language codes and Amazon
@@ -182,7 +187,8 @@ module Aws::TranscribeService
     #   * `Unsupported media format`.
     #
     #     The media format specified in `MediaFormat` isn't valid. Refer to
-    #     **MediaFormat** for a list of supported formats.
+    #     refer to the `MediaFormat` parameter for a list of supported
+    #     formats.
     #
     #   * `The media format provided does not match the detected media
     #     format`.
@@ -206,18 +212,16 @@ module Aws::TranscribeService
     #   * `Invalid file size: file size too large`.
     #
     #     The size of your media file is larger than what Amazon Transcribe
-    #     can process. For more information, refer to [Guidelines and
-    #     quotas][1].
+    #     can process. For more information, refer to [Service quotas][1].
     #
     #   * `Invalid number of channels: number of channels too large`.
     #
     #     Your audio contains more channels than Amazon Transcribe is able
-    #     to process. For more information, refer to [Guidelines and
-    #     quotas][1].
+    #     to process. For more information, refer to [Service quotas][1].
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/transcribe/latest/dg/limits-guidelines.html#limits
+    #   [1]: https://docs.aws.amazon.com/general/latest/gr/transcribe.html#limits-amazon-transcribe
     #   @return [String]
     #
     # @!attribute [rw] data_access_role_arn
@@ -243,11 +247,17 @@ module Aws::TranscribeService
     #   Indicates which speaker is on which channel.
     #   @return [Array<Types::ChannelDefinition>]
     #
+    # @!attribute [rw] tags
+    #   The tags, each in the form of a key:value pair, assigned to the
+    #   specified call analytics job.
+    #   @return [Array<Types::Tag>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/transcribe-2017-10-26/CallAnalyticsJob AWS API Documentation
     #
     class CallAnalyticsJob < Struct.new(
       :call_analytics_job_name,
       :call_analytics_job_status,
+      :call_analytics_job_details,
       :language_code,
       :media_sample_rate_hertz,
       :media_format,
@@ -260,7 +270,27 @@ module Aws::TranscribeService
       :data_access_role_arn,
       :identified_language_score,
       :settings,
-      :channel_definitions)
+      :channel_definitions,
+      :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains details about a call analytics job, including information
+    # about skipped analytics features.
+    #
+    # @!attribute [rw] skipped
+    #   Contains information about any skipped analytics features during the
+    #   analysis of a call analytics job.
+    #
+    #   This array lists all the analytics features that were skipped, along
+    #   with their corresponding reason code and message.
+    #   @return [Array<Types::CallAnalyticsSkippedFeature>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/transcribe-2017-10-26/CallAnalyticsJobDetails AWS API Documentation
+    #
+    class CallAnalyticsJobDetails < Struct.new(
+      :skipped)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -303,7 +333,7 @@ module Aws::TranscribeService
     #
     #   The language of the specified custom language model must match the
     #   language code that you specify in your transcription request. If the
-    #   languages don't match, the custom language model isn't applied.
+    #   languages do not match, the custom language model isn't applied.
     #   There are no errors or warnings associated with a language mismatch.
     #   @return [String]
     #
@@ -311,7 +341,8 @@ module Aws::TranscribeService
     #   Makes it possible to redact or flag specified personally
     #   identifiable information (PII) in your transcript. If you use
     #   `ContentRedaction`, you must also include the sub-parameters:
-    #   `PiiEntityTypes`, `RedactionOutput`, and `RedactionType`.
+    #   `RedactionOutput` and `RedactionType`. You can optionally include
+    #   `PiiEntityTypes` to choose which types of PII you want to redact.
     #   @return [Types::ContentRedaction]
     #
     # @!attribute [rw] language_options
@@ -326,8 +357,11 @@ module Aws::TranscribeService
     #   For a list of languages supported with Call Analytics, refer to the
     #   [Supported languages][1] table.
     #
-    #   To transcribe speech in Modern Standard Arabic (`ar-SA`), your media
-    #   file must be encoded at a sample rate of 16,000 Hz or higher.
+    #   To transcribe speech in Modern Standard Arabic (`ar-SA`) in Amazon
+    #   Web Services GovCloud (US) (US-West, us-gov-west-1), Amazon Web
+    #   Services GovCloud (US) (US-East, us-gov-east-1), Canada (Calgary)
+    #   ca-west-1 and Africa (Cape Town) af-south-1, your media file must be
+    #   encoded at a sample rate of 16,000 Hz or higher.
     #
     #
     #
@@ -367,6 +401,12 @@ module Aws::TranscribeService
     #   `
     #   @return [Hash<String,Types::LanguageIdSettings>]
     #
+    # @!attribute [rw] summarization
+    #   Contains `GenerateAbstractiveSummary`, which is a required parameter
+    #   if you want to enable Generative call summarization in your Call
+    #   Analytics request.
+    #   @return [Types::Summarization]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/transcribe-2017-10-26/CallAnalyticsJobSettings AWS API Documentation
     #
     class CallAnalyticsJobSettings < Struct.new(
@@ -376,7 +416,8 @@ module Aws::TranscribeService
       :language_model_name,
       :content_redaction,
       :language_options,
-      :language_id_settings)
+      :language_id_settings,
+      :summarization)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -430,6 +471,11 @@ module Aws::TranscribeService
     #   your transcription job failed.
     #   @return [String]
     #
+    # @!attribute [rw] call_analytics_job_details
+    #   Provides detailed information about a call analytics job, including
+    #   information about skipped analytics features.
+    #   @return [Types::CallAnalyticsJobDetails]
+    #
     # @!attribute [rw] failure_reason
     #   If `CallAnalyticsJobStatus` is `FAILED`, `FailureReason` contains
     #   information about why the Call Analytics job failed. See also:
@@ -449,7 +495,46 @@ module Aws::TranscribeService
       :completion_time,
       :language_code,
       :call_analytics_job_status,
+      :call_analytics_job_details,
       :failure_reason)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Represents a skipped analytics feature during the analysis of a call
+    # analytics job.
+    #
+    # The `Feature` field indicates the type of analytics feature that was
+    # skipped.
+    #
+    # The `Message` field contains additional information or a message
+    # explaining why the analytics feature was skipped.
+    #
+    # The `ReasonCode` field provides a code indicating the reason why the
+    # analytics feature was skipped.
+    #
+    # @!attribute [rw] feature
+    #   Indicates the type of analytics feature that was skipped during the
+    #   analysis of a call analytics job.
+    #   @return [String]
+    #
+    # @!attribute [rw] reason_code
+    #   Provides a code indicating the reason why a specific analytics
+    #   feature was skipped during the analysis of a call analytics job.
+    #   @return [String]
+    #
+    # @!attribute [rw] message
+    #   Contains additional information or a message explaining why a
+    #   specific analytics feature was skipped during the analysis of a call
+    #   analytics job.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/transcribe-2017-10-26/CallAnalyticsSkippedFeature AWS API Documentation
+    #
+    class CallAnalyticsSkippedFeature < Struct.new(
+      :feature,
+      :reason_code,
+      :message)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -485,6 +570,11 @@ module Aws::TranscribeService
     #   UTC-7 on May 5, 2022.
     #   @return [Time]
     #
+    # @!attribute [rw] tags
+    #   The tags, each in the form of a key:value pair, assigned to the
+    #   specified call analytics category.
+    #   @return [Array<Types::Tag>]
+    #
     # @!attribute [rw] input_type
     #   The input type associated with the specified category. `POST_CALL`
     #   refers to a category that is applied to batch transcriptions;
@@ -499,6 +589,7 @@ module Aws::TranscribeService
       :rules,
       :create_time,
       :last_update_time,
+      :tags,
       :input_type)
       SENSITIVE = []
       include Aws::Structure
@@ -528,6 +619,30 @@ module Aws::TranscribeService
       include Aws::Structure
     end
 
+    # The output configuration for clinical note generation.
+    #
+    # @!attribute [rw] note_template
+    #   Specify one of the following templates to use for the clinical note
+    #   summary. The default is `HISTORY_AND_PHYSICAL`.
+    #
+    #   * HISTORY\_AND\_PHYSICAL: Provides summaries for key sections of the
+    #     clinical documentation. Sections include Chief Complaint, History
+    #     of Present Illness, Review of Systems, Past Medical History,
+    #     Assessment, and Plan.
+    #
+    #   * GIRPP: Provides summaries based on the patients progress toward
+    #     goals. Sections include Goal, Intervention, Response, Progress,
+    #     and Plan.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/transcribe-2017-10-26/ClinicalNoteGenerationSettings AWS API Documentation
+    #
+    class ClinicalNoteGenerationSettings < Struct.new(
+      :note_template)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # A resource already exists with this name. Resource names must be
     # unique within an Amazon Web Services account.
     #
@@ -544,14 +659,16 @@ module Aws::TranscribeService
 
     # Makes it possible to redact or flag specified personally identifiable
     # information (PII) in your transcript. If you use `ContentRedaction`,
-    # you must also include the sub-parameters: `PiiEntityTypes`,
-    # `RedactionOutput`, and `RedactionType`.
+    # you must also include the sub-parameters: `RedactionOutput` and
+    # `RedactionType`. You can optionally include `PiiEntityTypes` to choose
+    # which types of PII you want to redact.
     #
     # @!attribute [rw] redaction_type
     #   Specify the category of information you want to redact; `PII`
     #   (personally identifiable information) is the only valid value. You
     #   can use `PiiEntityTypes` to choose which types of PII you want to
-    #   redact.
+    #   redact. If you do not include `PiiEntityTypes` in your request, all
+    #   PII is redacted.
     #   @return [String]
     #
     # @!attribute [rw] redaction_output
@@ -568,7 +685,8 @@ module Aws::TranscribeService
     # @!attribute [rw] pii_entity_types
     #   Specify which types of personally identifiable information (PII) you
     #   want to redact in your transcript. You can include as many types as
-    #   you'd like, or you can select `ALL`.
+    #   you'd like, or you can select `ALL`. If you do not include
+    #   `PiiEntityTypes` in your request, all PII is redacted.
     #   @return [Array<String>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/transcribe-2017-10-26/ContentRedaction AWS API Documentation
@@ -600,20 +718,32 @@ module Aws::TranscribeService
     #   30 seconds of the call.
     #   @return [Array<Types::Rule>]
     #
-    # @!attribute [rw] input_type
-    #   Choose whether you want to create a streaming or a batch category
-    #   for your Call Analytics transcription.
+    # @!attribute [rw] tags
+    #   Adds one or more custom tags, each in the form of a key:value pair,
+    #   to a new call analytics category at the time you start this new job.
     #
-    #   Specifying `POST_CALL` assigns your category to batch
+    #   To learn more about using tags with Amazon Transcribe, refer to
+    #   [Tagging resources][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/transcribe/latest/dg/tagging.html
+    #   @return [Array<Types::Tag>]
+    #
+    # @!attribute [rw] input_type
+    #   Choose whether you want to create a real-time or a post-call
+    #   category for your Call Analytics transcription.
+    #
+    #   Specifying `POST_CALL` assigns your category to post-call
     #   transcriptions; categories with this input type cannot be applied to
     #   streaming (real-time) transcriptions.
     #
     #   Specifying `REAL_TIME` assigns your category to streaming
     #   transcriptions; categories with this input type cannot be applied to
-    #   batch (post-call) transcriptions.
+    #   post-call transcriptions.
     #
     #   If you do not include `InputType`, your category is created as a
-    #   batch category by default.
+    #   post-call category by default.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/transcribe-2017-10-26/CreateCallAnalyticsCategoryRequest AWS API Documentation
@@ -621,6 +751,7 @@ module Aws::TranscribeService
     class CreateCallAnalyticsCategoryRequest < Struct.new(
       :category_name,
       :rules,
+      :tags,
       :input_type)
       SENSITIVE = []
       include Aws::Structure
@@ -924,6 +1055,24 @@ module Aws::TranscribeService
     #   [1]: https://docs.aws.amazon.com/transcribe/latest/dg/tagging.html
     #   @return [Array<Types::Tag>]
     #
+    # @!attribute [rw] data_access_role_arn
+    #   The Amazon Resource Name (ARN) of an IAM role that has permissions
+    #   to access the Amazon S3 bucket that contains your input files (in
+    #   this case, your custom vocabulary filter). If the role that you
+    #   specify doesn’t have the appropriate permissions to access the
+    #   specified Amazon S3 location, your request fails.
+    #
+    #   IAM role ARNs have the format
+    #   `arn:partition:iam::account:role/role-name-with-path`. For example:
+    #   `arn:aws:iam::111122223333:role/Admin`.
+    #
+    #   For more information, see [IAM ARNs][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/transcribe-2017-10-26/CreateVocabularyFilterRequest AWS API Documentation
     #
     class CreateVocabularyFilterRequest < Struct.new(
@@ -931,7 +1080,8 @@ module Aws::TranscribeService
       :language_code,
       :words,
       :vocabulary_filter_file_uri,
-      :tags)
+      :tags,
+      :data_access_role_arn)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1036,6 +1186,24 @@ module Aws::TranscribeService
     #   [1]: https://docs.aws.amazon.com/transcribe/latest/dg/tagging.html
     #   @return [Array<Types::Tag>]
     #
+    # @!attribute [rw] data_access_role_arn
+    #   The Amazon Resource Name (ARN) of an IAM role that has permissions
+    #   to access the Amazon S3 bucket that contains your input files (in
+    #   this case, your custom vocabulary). If the role that you specify
+    #   doesn’t have the appropriate permissions to access the specified
+    #   Amazon S3 location, your request fails.
+    #
+    #   IAM role ARNs have the format
+    #   `arn:partition:iam::account:role/role-name-with-path`. For example:
+    #   `arn:aws:iam::111122223333:role/Admin`.
+    #
+    #   For more information, see [IAM ARNs][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/transcribe-2017-10-26/CreateVocabularyRequest AWS API Documentation
     #
     class CreateVocabularyRequest < Struct.new(
@@ -1043,7 +1211,8 @@ module Aws::TranscribeService
       :language_code,
       :phrases,
       :vocabulary_file_uri,
-      :tags)
+      :tags,
+      :data_access_role_arn)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1135,6 +1304,19 @@ module Aws::TranscribeService
     #
     class DeleteLanguageModelRequest < Struct.new(
       :model_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] medical_scribe_job_name
+    #   The name of the Medical Scribe job you want to delete. Job names are
+    #   case sensitive.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/transcribe-2017-10-26/DeleteMedicalScribeJobRequest AWS API Documentation
+    #
+    class DeleteMedicalScribeJobRequest < Struct.new(
+      :medical_scribe_job_name)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1290,6 +1472,32 @@ module Aws::TranscribeService
       include Aws::Structure
     end
 
+    # @!attribute [rw] medical_scribe_job_name
+    #   The name of the Medical Scribe job you want information about. Job
+    #   names are case sensitive.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/transcribe-2017-10-26/GetMedicalScribeJobRequest AWS API Documentation
+    #
+    class GetMedicalScribeJobRequest < Struct.new(
+      :medical_scribe_job_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] medical_scribe_job
+    #   Provides detailed information about the specified Medical Scribe
+    #   job, including job status and, if applicable, failure reason
+    #   @return [Types::MedicalScribeJob]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/transcribe-2017-10-26/GetMedicalScribeJobResponse AWS API Documentation
+    #
+    class GetMedicalScribeJobResponse < Struct.new(
+      :medical_scribe_job)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] medical_transcription_job_name
     #   The name of the medical transcription job you want information
     #   about. Job names are case sensitive.
@@ -1367,8 +1575,8 @@ module Aws::TranscribeService
     #   @return [String]
     #
     # @!attribute [rw] download_uri
-    #   The S3 location where the specified custom medical vocabulary is
-    #   stored; use this URI to view or download the custom vocabulary.
+    #   The Amazon S3 location where the specified custom medical vocabulary
+    #   is stored; use this URI to view or download the custom vocabulary.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/transcribe-2017-10-26/GetMedicalVocabularyResponse AWS API Documentation
@@ -1503,8 +1711,8 @@ module Aws::TranscribeService
     #   @return [String]
     #
     # @!attribute [rw] download_uri
-    #   The S3 location where the custom vocabulary is stored; use this URI
-    #   to view or download the custom vocabulary.
+    #   The Amazon S3 location where the custom vocabulary is stored; use
+    #   this URI to view or download the custom vocabulary.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/transcribe-2017-10-26/GetVocabularyResponse AWS API Documentation
@@ -1598,7 +1806,7 @@ module Aws::TranscribeService
     #
     # * A lack of interruptions
     #
-    # See [Rule criteria for batch categories][1] for usage examples.
+    # See [Rule criteria for post-call categories][1] for usage examples.
     #
     #
     #
@@ -1661,8 +1869,6 @@ module Aws::TranscribeService
     #   `AllowDeferredExecution` is set to `false` and the number of
     #   transcription job requests exceed the concurrent request limit, you
     #   get a `LimitExceededException` error.
-    #
-    #   Note that job queuing is enabled by default for Call Analytics jobs.
     #
     #   If you include `AllowDeferredExecution` in your request, you must
     #   also include `DataAccessRoleArn`.
@@ -1758,7 +1964,7 @@ module Aws::TranscribeService
     #
     #   The language of the specified custom vocabulary must match the
     #   language code that you specify in your transcription request. If the
-    #   languages don't match, the custom vocabulary isn't applied. There
+    #   languages do not match, the custom vocabulary isn't applied. There
     #   are no errors or warnings associated with a language mismatch.
     #   @return [String]
     #
@@ -1769,7 +1975,7 @@ module Aws::TranscribeService
     #
     #   The language of the specified custom vocabulary filter must match
     #   the language code that you specify in your transcription request. If
-    #   the languages don't match, the custom vocabulary filter isn't
+    #   the languages do not match, the custom vocabulary filter isn't
     #   applied. There are no errors or warnings associated with a language
     #   mismatch.
     #
@@ -1784,7 +1990,7 @@ module Aws::TranscribeService
     #
     #   The language of the specified custom language model must match the
     #   language code that you specify in your transcription request. If the
-    #   languages don't match, the custom language model isn't applied.
+    #   languages do not match, the custom language model isn't applied.
     #   There are no errors or warnings associated with a language mismatch.
     #   @return [String]
     #
@@ -1798,11 +2004,23 @@ module Aws::TranscribeService
       include Aws::Structure
     end
 
-    # Provides information about a custom language model, including the base
-    # model name, when the model was created, the location of the files used
-    # to train the model, when the model was last modified, the name you
-    # chose for the model, its language, its processing state, and if there
-    # is an upgrade available for the base model.
+    # Provides information about a custom language model, including:
+    #
+    # * The base model name
+    #
+    # * When the model was created
+    #
+    # * The location of the files used to train the model
+    #
+    # * When the model was last modified
+    #
+    # * The name you chose for the model
+    #
+    # * The model's language
+    #
+    # * The model's processing state
+    #
+    # * Any available upgrades for the base model
     #
     # @!attribute [rw] model_name
     #   A unique name, chosen by you, for your custom language model.
@@ -1835,7 +2053,7 @@ module Aws::TranscribeService
     #   the language of your training and tuning data.
     #
     #   For a list of supported languages and their associated language
-    #   codes, refer to the [Supported languages][1] table. Note that U.S.
+    #   codes, refer to the [Supported languages][1] table. Note that US
     #   English (`en-US`) is the only language supported with Amazon
     #   Transcribe Medical.
     #
@@ -1927,7 +2145,7 @@ module Aws::TranscribeService
     # @!attribute [rw] max_results
     #   The maximum number of Call Analytics categories to return in each
     #   page of results. If there are fewer results than the value that you
-    #   specify, only the actual results are returned. If you don't specify
+    #   specify, only the actual results are returned. If you do not specify
     #   a value, a default of 5 is used.
     #   @return [Integer]
     #
@@ -1965,7 +2183,7 @@ module Aws::TranscribeService
 
     # @!attribute [rw] status
     #   Returns only Call Analytics jobs with the specified status. Jobs are
-    #   ordered by creation date, with the newest job first. If you don't
+    #   ordered by creation date, with the newest job first. If you do not
     #   include `Status`, all Call Analytics jobs are returned.
     #   @return [String]
     #
@@ -1985,7 +2203,7 @@ module Aws::TranscribeService
     # @!attribute [rw] max_results
     #   The maximum number of Call Analytics jobs to return in each page of
     #   results. If there are fewer results than the value that you specify,
-    #   only the actual results are returned. If you don't specify a value,
+    #   only the actual results are returned. If you do not specify a value,
     #   a default of 5 is used.
     #   @return [Integer]
     #
@@ -2032,7 +2250,7 @@ module Aws::TranscribeService
     # @!attribute [rw] status_equals
     #   Returns only custom language models with the specified status.
     #   Language models are ordered by creation date, with the newest model
-    #   first. If you don't include `StatusEquals`, all custom language
+    #   first. If you do not include `StatusEquals`, all custom language
     #   models are returned.
     #   @return [String]
     #
@@ -2052,7 +2270,7 @@ module Aws::TranscribeService
     # @!attribute [rw] max_results
     #   The maximum number of custom language models to return in each page
     #   of results. If there are fewer results than the value that you
-    #   specify, only the actual results are returned. If you don't specify
+    #   specify, only the actual results are returned. If you do not specify
     #   a value, a default of 5 is used.
     #   @return [Integer]
     #
@@ -2091,9 +2309,75 @@ module Aws::TranscribeService
     end
 
     # @!attribute [rw] status
+    #   Returns only Medical Scribe jobs with the specified status. Jobs are
+    #   ordered by creation date, with the newest job first. If you do not
+    #   include `Status`, all Medical Scribe jobs are returned.
+    #   @return [String]
+    #
+    # @!attribute [rw] job_name_contains
+    #   Returns only the Medical Scribe jobs that contain the specified
+    #   string. The search is not case sensitive.
+    #   @return [String]
+    #
+    # @!attribute [rw] next_token
+    #   If your `ListMedicalScribeJobs` request returns more results than
+    #   can be displayed, `NextToken` is displayed in the response with an
+    #   associated string. To get the next page of results, copy this string
+    #   and repeat your request, including `NextToken` with the value of the
+    #   copied string. Repeat as needed to view all your results.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of Medical Scribe jobs to return in each page of
+    #   results. If there are fewer results than the value that you specify,
+    #   only the actual results are returned. If you do not specify a value,
+    #   a default of 5 is used.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/transcribe-2017-10-26/ListMedicalScribeJobsRequest AWS API Documentation
+    #
+    class ListMedicalScribeJobsRequest < Struct.new(
+      :status,
+      :job_name_contains,
+      :next_token,
+      :max_results)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] status
+    #   Lists all Medical Scribe jobs that have the status specified in your
+    #   request. Jobs are ordered by creation date, with the newest job
+    #   first.
+    #   @return [String]
+    #
+    # @!attribute [rw] next_token
+    #   If `NextToken` is present in your response, it indicates that not
+    #   all results are displayed. To view the next set of results, copy the
+    #   string associated with the `NextToken` parameter in your results
+    #   output, then run your request again including `NextToken` with the
+    #   value of the copied string. Repeat as needed to view all your
+    #   results.
+    #   @return [String]
+    #
+    # @!attribute [rw] medical_scribe_job_summaries
+    #   Provides a summary of information about each result.
+    #   @return [Array<Types::MedicalScribeJobSummary>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/transcribe-2017-10-26/ListMedicalScribeJobsResponse AWS API Documentation
+    #
+    class ListMedicalScribeJobsResponse < Struct.new(
+      :status,
+      :next_token,
+      :medical_scribe_job_summaries)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] status
     #   Returns only medical transcription jobs with the specified status.
     #   Jobs are ordered by creation date, with the newest job first. If you
-    #   don't include `Status`, all medical transcription jobs are
+    #   do not include `Status`, all medical transcription jobs are
     #   returned.
     #   @return [String]
     #
@@ -2113,7 +2397,7 @@ module Aws::TranscribeService
     # @!attribute [rw] max_results
     #   The maximum number of medical transcription jobs to return in each
     #   page of results. If there are fewer results than the value that you
-    #   specify, only the actual results are returned. If you don't specify
+    #   specify, only the actual results are returned. If you do not specify
     #   a value, a default of 5 is used.
     #   @return [Integer]
     #
@@ -2168,14 +2452,14 @@ module Aws::TranscribeService
     # @!attribute [rw] max_results
     #   The maximum number of custom medical vocabularies to return in each
     #   page of results. If there are fewer results than the value that you
-    #   specify, only the actual results are returned. If you don't specify
+    #   specify, only the actual results are returned. If you do not specify
     #   a value, a default of 5 is used.
     #   @return [Integer]
     #
     # @!attribute [rw] state_equals
     #   Returns only custom medical vocabularies with the specified state.
     #   Custom vocabularies are ordered by creation date, with the newest
-    #   vocabulary first. If you don't include `StateEquals`, all custom
+    #   vocabulary first. If you do not include `StateEquals`, all custom
     #   medical vocabularies are returned.
     #   @return [String]
     #
@@ -2266,7 +2550,7 @@ module Aws::TranscribeService
 
     # @!attribute [rw] status
     #   Returns only transcription jobs with the specified status. Jobs are
-    #   ordered by creation date, with the newest job first. If you don't
+    #   ordered by creation date, with the newest job first. If you do not
     #   include `Status`, all transcription jobs are returned.
     #   @return [String]
     #
@@ -2286,7 +2570,7 @@ module Aws::TranscribeService
     # @!attribute [rw] max_results
     #   The maximum number of transcription jobs to return in each page of
     #   results. If there are fewer results than the value that you specify,
-    #   only the actual results are returned. If you don't specify a value,
+    #   only the actual results are returned. If you do not specify a value,
     #   a default of 5 is used.
     #   @return [Integer]
     #
@@ -2341,14 +2625,14 @@ module Aws::TranscribeService
     # @!attribute [rw] max_results
     #   The maximum number of custom vocabularies to return in each page of
     #   results. If there are fewer results than the value that you specify,
-    #   only the actual results are returned. If you don't specify a value,
+    #   only the actual results are returned. If you do not specify a value,
     #   a default of 5 is used.
     #   @return [Integer]
     #
     # @!attribute [rw] state_equals
     #   Returns only custom vocabularies with the specified state.
     #   Vocabularies are ordered by creation date, with the newest
-    #   vocabulary first. If you don't include `StateEquals`, all custom
+    #   vocabulary first. If you do not include `StateEquals`, all custom
     #   medical vocabularies are returned.
     #   @return [String]
     #
@@ -2409,7 +2693,7 @@ module Aws::TranscribeService
     # @!attribute [rw] max_results
     #   The maximum number of custom vocabulary filters to return in each
     #   page of results. If there are fewer results than the value that you
-    #   specify, only the actual results are returned. If you don't specify
+    #   specify, only the actual results are returned. If you do not specify
     #   a value, a default of 5 is used.
     #   @return [Integer]
     #
@@ -2454,14 +2738,13 @@ module Aws::TranscribeService
     # Describes the Amazon S3 location of the media file you want to use in
     # your request.
     #
-    # For information on supported media formats, refer to the
-    # [MediaFormat][1] parameter or the [Media formats][2] section in the
-    # Amazon S3 Developer Guide.
+    # For information on supported media formats, refer to the `MediaFormat`
+    # parameter or the [Media formats][1] section in the Amazon S3 Developer
+    # Guide.
     #
     #
     #
-    # [1]: https://docs.aws.amazon.com/APIReference/API_StartTranscriptionJob.html#transcribe-StartTranscriptionJob-request-MediaFormat
-    # [2]: https://docs.aws.amazon.com/transcribe/latest/dg/how-input.html#how-input-audio
+    # [1]: https://docs.aws.amazon.com/transcribe/latest/dg/how-input.html#how-input-audio
     #
     # @!attribute [rw] media_file_uri
     #   The Amazon S3 location of the media file you want to transcribe. For
@@ -2498,6 +2781,373 @@ module Aws::TranscribeService
     class Media < Struct.new(
       :media_file_uri,
       :redacted_media_file_uri)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Indicates which speaker is on which channel. The options are
+    # `CLINICIAN` and `PATIENT`
+    #
+    # @!attribute [rw] channel_id
+    #   Specify the audio channel you want to define.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] participant_role
+    #   Specify the participant that you want to flag. The options are
+    #   `CLINICIAN` and `PATIENT`
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/transcribe-2017-10-26/MedicalScribeChannelDefinition AWS API Documentation
+    #
+    class MedicalScribeChannelDefinition < Struct.new(
+      :channel_id,
+      :participant_role)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Provides detailed information about a Medical Scribe job.
+    #
+    # To view the status of the specified Medical Scribe job, check the
+    # `MedicalScribeJobStatus` field. If the status is `COMPLETED`, the job
+    # is finished and you can find the results at the locations specified in
+    # `MedicalScribeOutput`. If the status is `FAILED`, `FailureReason`
+    # provides details on why your Medical Scribe job failed.
+    #
+    # @!attribute [rw] medical_scribe_job_name
+    #   The name of the Medical Scribe job. Job names are case sensitive and
+    #   must be unique within an Amazon Web Services account.
+    #   @return [String]
+    #
+    # @!attribute [rw] medical_scribe_job_status
+    #   Provides the status of the specified Medical Scribe job.
+    #
+    #   If the status is `COMPLETED`, the job is finished and you can find
+    #   the results at the location specified in `MedicalScribeOutput` If
+    #   the status is `FAILED`, `FailureReason` provides details on why your
+    #   Medical Scribe job failed.
+    #   @return [String]
+    #
+    # @!attribute [rw] language_code
+    #   The language code used to create your Medical Scribe job. US English
+    #   (`en-US`) is the only supported language for Medical Scribe jobs.
+    #   @return [String]
+    #
+    # @!attribute [rw] media
+    #   Describes the Amazon S3 location of the media file you want to use
+    #   in your request.
+    #
+    #   For information on supported media formats, refer to the
+    #   `MediaFormat` parameter or the [Media formats][1] section in the
+    #   Amazon S3 Developer Guide.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/transcribe/latest/dg/how-input.html#how-input-audio
+    #   @return [Types::Media]
+    #
+    # @!attribute [rw] medical_scribe_output
+    #   The location of the output of your Medical Scribe job.
+    #   `ClinicalDocumentUri` holds the Amazon S3 URI for the Clinical
+    #   Document and `TranscriptFileUri` holds the Amazon S3 URI for the
+    #   Transcript.
+    #   @return [Types::MedicalScribeOutput]
+    #
+    # @!attribute [rw] start_time
+    #   The date and time your Medical Scribe job began processing.
+    #
+    #   Timestamps are in the format `YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC`. For
+    #   example, `2022-05-04T12:32:58.789000-07:00` represents a Medical
+    #   Scribe job that started processing at 12:32 PM UTC-7 on May 4, 2022.
+    #   @return [Time]
+    #
+    # @!attribute [rw] creation_time
+    #   The date and time the specified Medical Scribe job request was made.
+    #
+    #   Timestamps are in the format `YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC`. For
+    #   example, `2022-05-04T12:32:58.761000-07:00` represents a Medical
+    #   Scribe job that started processing at 12:32 PM UTC-7 on May 4, 2022.
+    #   @return [Time]
+    #
+    # @!attribute [rw] completion_time
+    #   The date and time the specified Medical Scribe job finished
+    #   processing.
+    #
+    #   Timestamps are in the format `YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC`. For
+    #   example, `2022-05-04T12:32:58.761000-07:00` represents a Medical
+    #   Scribe job that finished processing at 12:32 PM UTC-7 on May 4,
+    #   2022.
+    #   @return [Time]
+    #
+    # @!attribute [rw] failure_reason
+    #   If `MedicalScribeJobStatus` is `FAILED`, `FailureReason` contains
+    #   information about why the transcription job failed. See also:
+    #   [Common Errors][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/transcribe/latest/APIReference/CommonErrors.html
+    #   @return [String]
+    #
+    # @!attribute [rw] settings
+    #   Makes it possible to control how your Medical Scribe job is
+    #   processed using a `MedicalScribeSettings` object. Specify
+    #   `ChannelIdentification` if `ChannelDefinitions` are set. Enabled
+    #   `ShowSpeakerLabels` if `ChannelIdentification` and
+    #   `ChannelDefinitions` are not set. One and only one of
+    #   `ChannelIdentification` and `ShowSpeakerLabels` must be set. If
+    #   `ShowSpeakerLabels` is set, `MaxSpeakerLabels` must also be set. Use
+    #   `Settings` to specify a vocabulary or vocabulary filter or both
+    #   using `VocabularyName`, `VocabularyFilterName`.
+    #   `VocabularyFilterMethod` must be specified if `VocabularyFilterName`
+    #   is set.
+    #   @return [Types::MedicalScribeSettings]
+    #
+    # @!attribute [rw] data_access_role_arn
+    #   The Amazon Resource Name (ARN) of an IAM role that has permissions
+    #   to access the Amazon S3 bucket that contains your input files, write
+    #   to the output bucket, and use your KMS key if supplied. If the role
+    #   that you specify doesn’t have the appropriate permissions your
+    #   request fails.
+    #
+    #   IAM role ARNs have the format
+    #   `arn:partition:iam::account:role/role-name-with-path`. For example:
+    #   `arn:aws:iam::111122223333:role/Admin`.
+    #
+    #   For more information, see [IAM ARNs][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns
+    #   @return [String]
+    #
+    # @!attribute [rw] channel_definitions
+    #   Makes it possible to specify which speaker is on which channel. For
+    #   example, if the clinician is the first participant to speak, you
+    #   would set `ChannelId` of the first `ChannelDefinition` in the list
+    #   to `0` (to indicate the first channel) and `ParticipantRole` to
+    #   `CLINICIAN` (to indicate that it's the clinician speaking). Then
+    #   you would set the `ChannelId` of the second `ChannelDefinition` in
+    #   the list to `1` (to indicate the second channel) and
+    #   `ParticipantRole` to `PATIENT` (to indicate that it's the patient
+    #   speaking).
+    #   @return [Array<Types::MedicalScribeChannelDefinition>]
+    #
+    # @!attribute [rw] tags
+    #   Adds one or more custom tags, each in the form of a key:value pair,
+    #   to the Medica Scribe job.
+    #
+    #   To learn more about using tags with Amazon Transcribe, refer to
+    #   [Tagging resources][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/transcribe/latest/dg/tagging.html
+    #   @return [Array<Types::Tag>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/transcribe-2017-10-26/MedicalScribeJob AWS API Documentation
+    #
+    class MedicalScribeJob < Struct.new(
+      :medical_scribe_job_name,
+      :medical_scribe_job_status,
+      :language_code,
+      :media,
+      :medical_scribe_output,
+      :start_time,
+      :creation_time,
+      :completion_time,
+      :failure_reason,
+      :settings,
+      :data_access_role_arn,
+      :channel_definitions,
+      :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Provides detailed information about a specific Medical Scribe job.
+    #
+    # @!attribute [rw] medical_scribe_job_name
+    #   The name of the Medical Scribe job. Job names are case sensitive and
+    #   must be unique within an Amazon Web Services account.
+    #   @return [String]
+    #
+    # @!attribute [rw] creation_time
+    #   The date and time the specified Medical Scribe job request was made.
+    #
+    #   Timestamps are in the format `YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC`. For
+    #   example, `2022-05-04T12:32:58.761000-07:00` represents a Medical
+    #   Scribe job that started processing at 12:32 PM UTC-7 on May 4, 2022.
+    #   @return [Time]
+    #
+    # @!attribute [rw] start_time
+    #   The date and time your Medical Scribe job began processing.
+    #
+    #   Timestamps are in the format `YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC`. For
+    #   example, `2022-05-04T12:32:58.789000-07:00` represents a Medical
+    #   Scribe job that started processing at 12:32 PM UTC-7 on May 4, 2022.
+    #   @return [Time]
+    #
+    # @!attribute [rw] completion_time
+    #   The date and time the specified Medical Scribe job finished
+    #   processing.
+    #
+    #   Timestamps are in the format `YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC`. For
+    #   example, `2022-05-04T12:32:58.761000-07:00` represents a Medical
+    #   Scribe job that finished processing at 12:32 PM UTC-7 on May 4,
+    #   2022.
+    #   @return [Time]
+    #
+    # @!attribute [rw] language_code
+    #   The language code used to create your Medical Scribe job. US English
+    #   (`en-US`) is the only supported language for Medical Scribe jobs.
+    #   @return [String]
+    #
+    # @!attribute [rw] medical_scribe_job_status
+    #   Provides the status of the specified Medical Scribe job.
+    #
+    #   If the status is `COMPLETED`, the job is finished and you can find
+    #   the results at the location specified in `MedicalScribeOutput` If
+    #   the status is `FAILED`, `FailureReason` provides details on why your
+    #   Medical Scribe job failed.
+    #   @return [String]
+    #
+    # @!attribute [rw] failure_reason
+    #   If `MedicalScribeJobStatus` is `FAILED`, `FailureReason` contains
+    #   information about why the transcription job failed. See also:
+    #   [Common Errors][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/transcribe/latest/APIReference/CommonErrors.html
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/transcribe-2017-10-26/MedicalScribeJobSummary AWS API Documentation
+    #
+    class MedicalScribeJobSummary < Struct.new(
+      :medical_scribe_job_name,
+      :creation_time,
+      :start_time,
+      :completion_time,
+      :language_code,
+      :medical_scribe_job_status,
+      :failure_reason)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The location of the output of your Medical Scribe job.
+    # `ClinicalDocumentUri` holds the Amazon S3 URI for the Clinical
+    # Document and `TranscriptFileUri` holds the Amazon S3 URI for the
+    # Transcript.
+    #
+    # @!attribute [rw] transcript_file_uri
+    #   Holds the Amazon S3 URI for the Transcript.
+    #   @return [String]
+    #
+    # @!attribute [rw] clinical_document_uri
+    #   Holds the Amazon S3 URI for the Clinical Document.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/transcribe-2017-10-26/MedicalScribeOutput AWS API Documentation
+    #
+    class MedicalScribeOutput < Struct.new(
+      :transcript_file_uri,
+      :clinical_document_uri)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Makes it possible to control how your Medical Scribe job is processed
+    # using a `MedicalScribeSettings` object. Specify
+    # `ChannelIdentification` if `ChannelDefinitions` are set. Enabled
+    # `ShowSpeakerLabels` if `ChannelIdentification` and
+    # `ChannelDefinitions` are not set. One and only one of
+    # `ChannelIdentification` and `ShowSpeakerLabels` must be set. If
+    # `ShowSpeakerLabels` is set, `MaxSpeakerLabels` must also be set. Use
+    # `Settings` to specify a vocabulary or vocabulary filter or both using
+    # `VocabularyName`, `VocabularyFilterName`. `VocabularyFilterMethod`
+    # must be specified if `VocabularyFilterName` is set.
+    #
+    # @!attribute [rw] show_speaker_labels
+    #   Enables speaker partitioning (diarization) in your Medical Scribe
+    #   output. Speaker partitioning labels the speech from individual
+    #   speakers in your media file.
+    #
+    #   If you enable `ShowSpeakerLabels` in your request, you must also
+    #   include `MaxSpeakerLabels`.
+    #
+    #   For more information, see [Partitioning speakers (diarization)][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/transcribe/latest/dg/diarization.html
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] max_speaker_labels
+    #   Specify the maximum number of speakers you want to partition in your
+    #   media.
+    #
+    #   Note that if your media contains more speakers than the specified
+    #   number, multiple speakers are treated as a single speaker.
+    #
+    #   If you specify the `MaxSpeakerLabels` field, you must set the
+    #   `ShowSpeakerLabels` field to true.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] channel_identification
+    #   Enables channel identification in multi-channel audio.
+    #
+    #   Channel identification transcribes the audio on each channel
+    #   independently, then appends the output for each channel into one
+    #   transcript.
+    #
+    #   For more information, see [Transcribing multi-channel audio][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/transcribe/latest/dg/channel-id.html
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] vocabulary_name
+    #   The name of the custom vocabulary you want to include in your
+    #   Medical Scribe request. Custom vocabulary names are case sensitive.
+    #   @return [String]
+    #
+    # @!attribute [rw] vocabulary_filter_name
+    #   The name of the custom vocabulary filter you want to include in your
+    #   Medical Scribe request. Custom vocabulary filter names are case
+    #   sensitive.
+    #
+    #   Note that if you include `VocabularyFilterName` in your request, you
+    #   must also include `VocabularyFilterMethod`.
+    #   @return [String]
+    #
+    # @!attribute [rw] vocabulary_filter_method
+    #   Specify how you want your custom vocabulary filter applied to your
+    #   transcript.
+    #
+    #   To replace words with `***`, choose `mask`.
+    #
+    #   To delete words, choose `remove`.
+    #
+    #   To flag words without changing them, choose `tag`.
+    #   @return [String]
+    #
+    # @!attribute [rw] clinical_note_generation_settings
+    #   Specify settings for the clinical note generation.
+    #   @return [Types::ClinicalNoteGenerationSettings]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/transcribe-2017-10-26/MedicalScribeSettings AWS API Documentation
+    #
+    class MedicalScribeSettings < Struct.new(
+      :show_speaker_labels,
+      :max_speaker_labels,
+      :channel_identification,
+      :vocabulary_name,
+      :vocabulary_filter_name,
+      :vocabulary_filter_method,
+      :clinical_note_generation_settings)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2563,13 +3213,12 @@ module Aws::TranscribeService
     #   in your request.
     #
     #   For information on supported media formats, refer to the
-    #   [MediaFormat][1] parameter or the [Media formats][2] section in the
+    #   `MediaFormat` parameter or the [Media formats][1] section in the
     #   Amazon S3 Developer Guide.
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/APIReference/API_StartTranscriptionJob.html#transcribe-StartTranscriptionJob-request-MediaFormat
-    #   [2]: https://docs.aws.amazon.com/transcribe/latest/dg/how-input.html#how-input-audio
+    #   [1]: https://docs.aws.amazon.com/transcribe/latest/dg/how-input.html#how-input-audio
     #   @return [Types::Media]
     #
     # @!attribute [rw] transcript
@@ -2616,7 +3265,8 @@ module Aws::TranscribeService
     #   * `Unsupported media format`.
     #
     #     The media format specified in `MediaFormat` isn't valid. Refer to
-    #     **MediaFormat** for a list of supported formats.
+    #     refer to the `MediaFormat` parameter for a list of supported
+    #     formats.
     #
     #   * `The media format provided does not match the detected media
     #     format`.
@@ -2640,18 +3290,16 @@ module Aws::TranscribeService
     #   * `Invalid file size: file size too large`.
     #
     #     The size of your media file is larger than what Amazon Transcribe
-    #     can process. For more information, refer to [Guidelines and
-    #     quotas][1].
+    #     can process. For more information, refer to [Service quotas][1].
     #
     #   * `Invalid number of channels: number of channels too large`.
     #
     #     Your audio contains more channels than Amazon Transcribe is able
-    #     to process. For more information, refer to [Guidelines and
-    #     quotas][1].
+    #     to process. For more information, refer to [Service quotas][1].
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/transcribe/latest/dg/limits-guidelines.html#limits
+    #   [1]: https://docs.aws.amazon.com/general/latest/gr/transcribe.html#limits-amazon-transcribe
     #   @return [String]
     #
     # @!attribute [rw] settings
@@ -2829,10 +3477,6 @@ module Aws::TranscribeService
     #   If you enable `ShowSpeakerLabels` in your request, you must also
     #   include `MaxSpeakerLabels`.
     #
-    #   You can't include `ShowSpeakerLabels` and `ChannelIdentification`
-    #   in the same request. Including both parameters returns a
-    #   `BadRequestException`.
-    #
     #   For more information, see [Partitioning speakers (diarization)][1].
     #
     #
@@ -2861,10 +3505,6 @@ module Aws::TranscribeService
     #   If you have multi-channel audio and do not enable channel
     #   identification, your audio is transcribed in a continuous manner and
     #   your transcript does not separate the speech by channel.
-    #
-    #   You can't include both `ShowSpeakerLabels` and
-    #   `ChannelIdentification` in the same request. Including both
-    #   parameters returns a `BadRequestException`.
     #
     #   For more information, see [Transcribing multi-channel audio][1].
     #
@@ -2913,7 +3553,7 @@ module Aws::TranscribeService
     #
     #   The language of the specified custom vocabulary must match the
     #   language code that you specify in your transcription request. If the
-    #   languages don't match, the custom vocabulary isn't applied. There
+    #   languages do not match, the custom vocabulary isn't applied. There
     #   are no errors or warnings associated with a language mismatch. US
     #   English (`en-US`) is the only valid language for Amazon Transcribe
     #   Medical.
@@ -2948,7 +3588,7 @@ module Aws::TranscribeService
     #
     #   The language of the specified custom language model must match the
     #   language code that you specify in your transcription request. If the
-    #   languages don't match, the custom language model isn't applied.
+    #   languages do not match, the custom language model isn't applied.
     #   There are no errors or warnings associated with a language mismatch.
     #   @return [String]
     #
@@ -2969,7 +3609,7 @@ module Aws::TranscribeService
     #
     # * The presence of speech at specified periods throughout the call
     #
-    # See [Rule criteria for batch categories][1] for usage examples.
+    # See [Rule criteria for post-call categories][1] for usage examples.
     #
     #
     #
@@ -3082,8 +3722,8 @@ module Aws::TranscribeService
     # Rules can include these parameters: , , , and .
     #
     # To learn more about Call Analytics rules and categories, see [Creating
-    # categories for batch transcriptions][1] and [Creating categories for
-    # streaming transcriptions][2].
+    # categories for post-call transcriptions][1] and [Creating categories
+    # for real-time transcriptions][2].
     #
     # To learn more about Call Analytics, see [Analyzing call center audio
     # with Call Analytics][3].
@@ -3154,7 +3794,7 @@ module Aws::TranscribeService
     # * The presence or absence of a mixed sentiment felt by the customer,
     #   the agent, or both at specified points in the call
     #
-    # See [Rule criteria for batch categories][1] for usage examples.
+    # See [Rule criteria for post-call categories][1] for usage examples.
     #
     #
     #
@@ -3219,10 +3859,6 @@ module Aws::TranscribeService
     #   If you enable `ShowSpeakerLabels` in your request, you must also
     #   include `MaxSpeakerLabels`.
     #
-    #   You can't include both `ShowSpeakerLabels` and
-    #   `ChannelIdentification` in the same request. Including both
-    #   parameters returns a `BadRequestException`.
-    #
     #   For more information, see [Partitioning speakers (diarization)][1].
     #
     #
@@ -3247,10 +3883,6 @@ module Aws::TranscribeService
     #   Channel identification transcribes the audio on each channel
     #   independently, then appends the output for each channel into one
     #   transcript.
-    #
-    #   You can't include both `ShowSpeakerLabels` and
-    #   `ChannelIdentification` in the same request. Including both
-    #   parameters returns a `BadRequestException`.
     #
     #   For more information, see [Transcribing multi-channel audio][1].
     #
@@ -3362,11 +3994,11 @@ module Aws::TranscribeService
     #   your transcription job using the `CallAnalyticsJobName` parameter.
     #
     #   You can specify a KMS key to encrypt your output using the
-    #   `OutputEncryptionKMSKeyId` parameter. If you don't specify a KMS
+    #   `OutputEncryptionKMSKeyId` parameter. If you do not specify a KMS
     #   key, Amazon Transcribe uses the default Amazon S3 key for
     #   server-side encryption.
     #
-    #   If you don't specify `OutputLocation`, your transcript is placed in
+    #   If you do not specify `OutputLocation`, your transcript is placed in
     #   a service-managed Amazon S3 bucket and you are provided with a URI
     #   to access your transcript.
     #   @return [String]
@@ -3400,13 +4032,13 @@ module Aws::TranscribeService
     #   2.  Use the ARN for the KMS key alias. For example,
     #       `arn:aws:kms:region:account-ID:alias/ExampleAlias`.
     #
-    #   If you don't specify an encryption key, your output is encrypted
+    #   If you do not specify an encryption key, your output is encrypted
     #   with the default Amazon S3 key (SSE-S3).
     #
     #   If you specify a KMS key to encrypt your output, you must also
     #   specify an output location using the `OutputLocation` parameter.
     #
-    #   Note that the user making the request must have permission to use
+    #   Note that the role making the request must have permission to use
     #   the specified KMS key.
     #   @return [String]
     #
@@ -3434,6 +4066,18 @@ module Aws::TranscribeService
     #   job.
     #   @return [Types::CallAnalyticsJobSettings]
     #
+    # @!attribute [rw] tags
+    #   Adds one or more custom tags, each in the form of a key:value pair,
+    #   to a new call analytics job at the time you start this new job.
+    #
+    #   To learn more about using tags with Amazon Transcribe, refer to
+    #   [Tagging resources][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/transcribe/latest/dg/tagging.html
+    #   @return [Array<Types::Tag>]
+    #
     # @!attribute [rw] channel_definitions
     #   Makes it possible to specify which speaker is on which channel. For
     #   example, if your agent is the first participant to speak, you would
@@ -3451,6 +4095,7 @@ module Aws::TranscribeService
       :output_encryption_kms_key_id,
       :data_access_role_arn,
       :settings,
+      :tags,
       :channel_definitions)
       SENSITIVE = []
       include Aws::Structure
@@ -3465,6 +4110,178 @@ module Aws::TranscribeService
     #
     class StartCallAnalyticsJobResponse < Struct.new(
       :call_analytics_job)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] medical_scribe_job_name
+    #   A unique name, chosen by you, for your Medical Scribe job.
+    #
+    #   This name is case sensitive, cannot contain spaces, and must be
+    #   unique within an Amazon Web Services account. If you try to create a
+    #   new job with the same name as an existing job, you get a
+    #   `ConflictException` error.
+    #   @return [String]
+    #
+    # @!attribute [rw] media
+    #   Describes the Amazon S3 location of the media file you want to use
+    #   in your request.
+    #
+    #   For information on supported media formats, refer to the
+    #   `MediaFormat` parameter or the [Media formats][1] section in the
+    #   Amazon S3 Developer Guide.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/transcribe/latest/dg/how-input.html#how-input-audio
+    #   @return [Types::Media]
+    #
+    # @!attribute [rw] output_bucket_name
+    #   The name of the Amazon S3 bucket where you want your Medical Scribe
+    #   output stored. Do not include the `S3://` prefix of the specified
+    #   bucket.
+    #
+    #   Note that the role specified in the `DataAccessRoleArn` request
+    #   parameter must have permission to use the specified location. You
+    #   can change Amazon S3 permissions using the [Amazon Web Services
+    #   Management Console][1]. See also [Permissions Required for IAM User
+    #   Roles][2].
+    #
+    #
+    #
+    #   [1]: https://console.aws.amazon.com/s3
+    #   [2]: https://docs.aws.amazon.com/transcribe/latest/dg/security_iam_id-based-policy-examples.html#auth-role-iam-user
+    #   @return [String]
+    #
+    # @!attribute [rw] output_encryption_kms_key_id
+    #   The KMS key you want to use to encrypt your Medical Scribe output.
+    #
+    #   If using a key located in the **current** Amazon Web Services
+    #   account, you can specify your KMS key in one of four ways:
+    #
+    #   1.  Use the KMS key ID itself. For example,
+    #       `1234abcd-12ab-34cd-56ef-1234567890ab`.
+    #
+    #   2.  Use an alias for the KMS key ID. For example,
+    #       `alias/ExampleAlias`.
+    #
+    #   3.  Use the Amazon Resource Name (ARN) for the KMS key ID. For
+    #       example,
+    #       `arn:aws:kms:region:account-ID:key/1234abcd-12ab-34cd-56ef-1234567890ab`.
+    #
+    #   4.  Use the ARN for the KMS key alias. For example,
+    #       `arn:aws:kms:region:account-ID:alias/ExampleAlias`.
+    #
+    #   If using a key located in a **different** Amazon Web Services
+    #   account than the current Amazon Web Services account, you can
+    #   specify your KMS key in one of two ways:
+    #
+    #   1.  Use the ARN for the KMS key ID. For example,
+    #       `arn:aws:kms:region:account-ID:key/1234abcd-12ab-34cd-56ef-1234567890ab`.
+    #
+    #   2.  Use the ARN for the KMS key alias. For example,
+    #       `arn:aws:kms:region:account-ID:alias/ExampleAlias`.
+    #
+    #   If you do not specify an encryption key, your output is encrypted
+    #   with the default Amazon S3 key (SSE-S3).
+    #
+    #   Note that the role specified in the `DataAccessRoleArn` request
+    #   parameter must have permission to use the specified KMS key.
+    #   @return [String]
+    #
+    # @!attribute [rw] kms_encryption_context
+    #   A map of plain text, non-secret key:value pairs, known as encryption
+    #   context pairs, that provide an added layer of security for your
+    #   data. For more information, see [KMS encryption context][1] and
+    #   [Asymmetric keys in KMS][2].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/transcribe/latest/dg/key-management.html#kms-context
+    #   [2]: https://docs.aws.amazon.com/transcribe/latest/dg/symmetric-asymmetric.html
+    #   @return [Hash<String,String>]
+    #
+    # @!attribute [rw] data_access_role_arn
+    #   The Amazon Resource Name (ARN) of an IAM role that has permissions
+    #   to access the Amazon S3 bucket that contains your input files, write
+    #   to the output bucket, and use your KMS key if supplied. If the role
+    #   that you specify doesn’t have the appropriate permissions your
+    #   request fails.
+    #
+    #   IAM role ARNs have the format
+    #   `arn:partition:iam::account:role/role-name-with-path`. For example:
+    #   `arn:aws:iam::111122223333:role/Admin`.
+    #
+    #   For more information, see [IAM ARNs][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns
+    #   @return [String]
+    #
+    # @!attribute [rw] settings
+    #   Makes it possible to control how your Medical Scribe job is
+    #   processed using a `MedicalScribeSettings` object. Specify
+    #   `ChannelIdentification` if `ChannelDefinitions` are set. Enabled
+    #   `ShowSpeakerLabels` if `ChannelIdentification` and
+    #   `ChannelDefinitions` are not set. One and only one of
+    #   `ChannelIdentification` and `ShowSpeakerLabels` must be set. If
+    #   `ShowSpeakerLabels` is set, `MaxSpeakerLabels` must also be set. Use
+    #   `Settings` to specify a vocabulary or vocabulary filter or both
+    #   using `VocabularyName`, `VocabularyFilterName`.
+    #   `VocabularyFilterMethod` must be specified if `VocabularyFilterName`
+    #   is set.
+    #   @return [Types::MedicalScribeSettings]
+    #
+    # @!attribute [rw] channel_definitions
+    #   Makes it possible to specify which speaker is on which channel. For
+    #   example, if the clinician is the first participant to speak, you
+    #   would set `ChannelId` of the first `ChannelDefinition` in the list
+    #   to `0` (to indicate the first channel) and `ParticipantRole` to
+    #   `CLINICIAN` (to indicate that it's the clinician speaking). Then
+    #   you would set the `ChannelId` of the second `ChannelDefinition` in
+    #   the list to `1` (to indicate the second channel) and
+    #   `ParticipantRole` to `PATIENT` (to indicate that it's the patient
+    #   speaking).
+    #   @return [Array<Types::MedicalScribeChannelDefinition>]
+    #
+    # @!attribute [rw] tags
+    #   Adds one or more custom tags, each in the form of a key:value pair,
+    #   to the Medica Scribe job.
+    #
+    #   To learn more about using tags with Amazon Transcribe, refer to
+    #   [Tagging resources][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/transcribe/latest/dg/tagging.html
+    #   @return [Array<Types::Tag>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/transcribe-2017-10-26/StartMedicalScribeJobRequest AWS API Documentation
+    #
+    class StartMedicalScribeJobRequest < Struct.new(
+      :medical_scribe_job_name,
+      :media,
+      :output_bucket_name,
+      :output_encryption_kms_key_id,
+      :kms_encryption_context,
+      :data_access_role_arn,
+      :settings,
+      :channel_definitions,
+      :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] medical_scribe_job
+    #   Provides detailed information about the current Medical Scribe job,
+    #   including job status and, if applicable, failure reason.
+    #   @return [Types::MedicalScribeJob]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/transcribe-2017-10-26/StartMedicalScribeJobResponse AWS API Documentation
+    #
+    class StartMedicalScribeJobResponse < Struct.new(
+      :medical_scribe_job)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3492,7 +4309,7 @@ module Aws::TranscribeService
     #   The sample rate, in hertz, of the audio track in your input media
     #   file.
     #
-    #   If you don't specify the media sample rate, Amazon Transcribe
+    #   If you do not specify the media sample rate, Amazon Transcribe
     #   Medical determines it for you. If you specify the sample rate, it
     #   must match the rate detected by Amazon Transcribe Medical; if
     #   there's a mismatch between the value that you specify and the value
@@ -3510,13 +4327,12 @@ module Aws::TranscribeService
     #   in your request.
     #
     #   For information on supported media formats, refer to the
-    #   [MediaFormat][1] parameter or the [Media formats][2] section in the
+    #   `MediaFormat` parameter or the [Media formats][1] section in the
     #   Amazon S3 Developer Guide.
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/APIReference/API_StartTranscriptionJob.html#transcribe-StartTranscriptionJob-request-MediaFormat
-    #   [2]: https://docs.aws.amazon.com/transcribe/latest/dg/how-input.html#how-input-audio
+    #   [1]: https://docs.aws.amazon.com/transcribe/latest/dg/how-input.html#how-input-audio
     #   @return [Types::Media]
     #
     # @!attribute [rw] output_bucket_name
@@ -3552,7 +4368,7 @@ module Aws::TranscribeService
     #   same as the name you specified for your medical transcription job
     #   (`MedicalTranscriptionJobName`).
     #
-    #   Here are some examples of how you can use `OutputKey`\:
+    #   Here are some examples of how you can use `OutputKey`:
     #
     #   * If you specify 'DOC-EXAMPLE-BUCKET' as the `OutputBucketName`
     #     and 'my-transcript.json' as the `OutputKey`, your transcription
@@ -3609,13 +4425,13 @@ module Aws::TranscribeService
     #   2.  Use the ARN for the KMS key alias. For example,
     #       `arn:aws:kms:region:account-ID:alias/ExampleAlias`.
     #
-    #   If you don't specify an encryption key, your output is encrypted
+    #   If you do not specify an encryption key, your output is encrypted
     #   with the default Amazon S3 key (SSE-S3).
     #
     #   If you specify a KMS key to encrypt your output, you must also
     #   specify an output location using the `OutputLocation` parameter.
     #
-    #   Note that the user making the request must have permission to use
+    #   Note that the role making the request must have permission to use
     #   the specified KMS key.
     #   @return [String]
     #
@@ -3741,8 +4557,11 @@ module Aws::TranscribeService
     #   For a list of supported languages and their associated language
     #   codes, refer to the [Supported languages][1] table.
     #
-    #   <note markdown="1"> To transcribe speech in Modern Standard Arabic (`ar-SA`), your media
-    #   file must be encoded at a sample rate of 16,000 Hz or higher.
+    #   <note markdown="1"> To transcribe speech in Modern Standard Arabic (`ar-SA`) in Amazon
+    #   Web Services GovCloud (US) (US-West, us-gov-west-1), Amazon Web
+    #   Services GovCloud (US) (US-East, us-gov-east-1), Canada (Calgary,
+    #   ca-west-1) and Africa (Cape Town, af-south-1), your media file must
+    #   be encoded at a sample rate of 16,000 Hz or higher.
     #
     #    </note>
     #
@@ -3755,7 +4574,7 @@ module Aws::TranscribeService
     #   The sample rate, in hertz, of the audio track in your input media
     #   file.
     #
-    #   If you don't specify the media sample rate, Amazon Transcribe
+    #   If you do not specify the media sample rate, Amazon Transcribe
     #   determines it for you. If you specify the sample rate, it must match
     #   the rate detected by Amazon Transcribe. If there's a mismatch
     #   between the value that you specify and the value detected, your job
@@ -3792,7 +4611,7 @@ module Aws::TranscribeService
     #   [Amazon Web Services Management Console][1]. See also [Permissions
     #   Required for IAM User Roles][2].
     #
-    #   If you don't specify `OutputBucketName`, your transcript is placed
+    #   If you do not specify `OutputBucketName`, your transcript is placed
     #   in a service-managed Amazon S3 bucket and you are provided with a
     #   URI to access your transcript.
     #
@@ -3809,7 +4628,7 @@ module Aws::TranscribeService
     #   same as the name you specified for your transcription job
     #   (`TranscriptionJobName`).
     #
-    #   Here are some examples of how you can use `OutputKey`\:
+    #   Here are some examples of how you can use `OutputKey`:
     #
     #   * If you specify 'DOC-EXAMPLE-BUCKET' as the `OutputBucketName`
     #     and 'my-transcript.json' as the `OutputKey`, your transcription
@@ -3865,13 +4684,13 @@ module Aws::TranscribeService
     #   2.  Use the ARN for the KMS key alias. For example,
     #       `arn:aws:kms:region:account-ID:alias/ExampleAlias`.
     #
-    #   If you don't specify an encryption key, your output is encrypted
+    #   If you do not specify an encryption key, your output is encrypted
     #   with the default Amazon S3 key (SSE-S3).
     #
     #   If you specify a KMS key to encrypt your output, you must also
     #   specify an output location using the `OutputLocation` parameter.
     #
-    #   Note that the user making the request must have permission to use
+    #   Note that the role making the request must have permission to use
     #   the specified KMS key.
     #   @return [String]
     #
@@ -3933,7 +4752,10 @@ module Aws::TranscribeService
     #   Makes it possible to redact or flag specified personally
     #   identifiable information (PII) in your transcript. If you use
     #   `ContentRedaction`, you must also include the sub-parameters:
-    #   `PiiEntityTypes`, `RedactionOutput`, and `RedactionType`.
+    #   `RedactionOutput` and `RedactionType`. You can optionally include
+    #   `PiiEntityTypes` to choose which types of PII you want to redact. If
+    #   you do not include `PiiEntityTypes` in your request, all PII is
+    #   redacted.
     #   @return [Types::ContentRedaction]
     #
     # @!attribute [rw] identify_language
@@ -3996,8 +4818,11 @@ module Aws::TranscribeService
     #
     #   For more information, refer to [Supported languages][1].
     #
-    #   To transcribe speech in Modern Standard Arabic (`ar-SA`), your media
-    #   file must be encoded at a sample rate of 16,000 Hz or higher.
+    #   To transcribe speech in Modern Standard Arabic (`ar-SA`)in Amazon
+    #   Web Services GovCloud (US) (US-West, us-gov-west-1), Amazon Web
+    #   Services GovCloud (US) (US-East, us-gov-east-1), in Canada (Calgary)
+    #   ca-west-1 and Africa (Cape Town) af-south-1, your media file must be
+    #   encoded at a sample rate of 16,000 Hz or higher.
     #
     #
     #
@@ -4056,6 +4881,19 @@ module Aws::TranscribeService
     #   `
     #   @return [Hash<String,Types::LanguageIdSettings>]
     #
+    # @!attribute [rw] toxicity_detection
+    #   Enables toxic speech detection in your transcript. If you include
+    #   `ToxicityDetection` in your request, you must also include
+    #   `ToxicityCategories`.
+    #
+    #   For information on the types of toxic speech Amazon Transcribe can
+    #   detect, see [Detecting toxic speech][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/transcribe/latest/dg/toxic-language.html
+    #   @return [Array<Types::ToxicityDetectionSettings>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/transcribe-2017-10-26/StartTranscriptionJobRequest AWS API Documentation
     #
     class StartTranscriptionJobRequest < Struct.new(
@@ -4077,7 +4915,8 @@ module Aws::TranscribeService
       :language_options,
       :subtitles,
       :tags,
-      :language_id_settings)
+      :language_id_settings,
+      :toxicity_detection)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4178,6 +5017,32 @@ module Aws::TranscribeService
       include Aws::Structure
     end
 
+    # Contains `GenerateAbstractiveSummary`, which is a required parameter
+    # if you want to enable Generative call summarization in your Call
+    # Analytics request.
+    #
+    # @!attribute [rw] generate_abstractive_summary
+    #   Enables Generative call summarization in your Call Analytics request
+    #
+    #   Generative call summarization provides a summary of the transcript
+    #   including important components discussed in the conversation.
+    #
+    #   For more information, see [Enabling generative call
+    #   summarization][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/transcribe/latest/dg/tca-enable-summarization.html
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/transcribe-2017-10-26/Summarization AWS API Documentation
+    #
+    class Summarization < Struct.new(
+      :generate_abstractive_summary)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Adds metadata, in the form of a key:value pair, to the specified
     # resource.
     #
@@ -4254,6 +5119,24 @@ module Aws::TranscribeService
     #
     class TagResourceResponse < Aws::EmptyStructure; end
 
+    # Contains `ToxicityCategories`, which is a required parameter if you
+    # want to enable toxicity detection (`ToxicityDetection`) in your
+    # transcription request.
+    #
+    # @!attribute [rw] toxicity_categories
+    #   If you include `ToxicityDetection` in your transcription request,
+    #   you must also include `ToxicityCategories`. The only accepted value
+    #   for this parameter is `ALL`.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/transcribe-2017-10-26/ToxicityDetectionSettings AWS API Documentation
+    #
+    class ToxicityDetectionSettings < Struct.new(
+      :toxicity_categories)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Provides you with the Amazon S3 URI you can use to access your
     # transcript.
     #
@@ -4322,7 +5205,7 @@ module Aws::TranscribeService
     #
     # * Custom words or phrases that occur at a specific time frame
     #
-    # See [Rule criteria for batch categories][1] and [Rule criteria for
+    # See [Rule criteria for post-call categories][1] and [Rule criteria for
     # streaming categories][2] for usage examples.
     #
     #
@@ -4470,7 +5353,8 @@ module Aws::TranscribeService
     #   * `Unsupported media format`.
     #
     #     The media format specified in `MediaFormat` isn't valid. Refer to
-    #     **MediaFormat** for a list of supported formats.
+    #     refer to the `MediaFormat` parameter for a list of supported
+    #     formats.
     #
     #   * `The media format provided does not match the detected media
     #     format`.
@@ -4494,18 +5378,16 @@ module Aws::TranscribeService
     #   * `Invalid file size: file size too large`.
     #
     #     The size of your media file is larger than what Amazon Transcribe
-    #     can process. For more information, refer to [Guidelines and
-    #     quotas][1].
+    #     can process. For more information, refer to [Service quotas][1].
     #
     #   * `Invalid number of channels: number of channels too large`.
     #
     #     Your audio contains more channels than Amazon Transcribe is able
-    #     to process. For more information, refer to [Guidelines and
-    #     quotas][1].
+    #     to process. For more information, refer to [Service quotas][1].
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/transcribe/latest/dg/limits-guidelines.html#limits
+    #   [1]: https://docs.aws.amazon.com/general/latest/gr/transcribe.html#limits-amazon-transcribe
     #   @return [String]
     #
     # @!attribute [rw] settings
@@ -4575,6 +5457,11 @@ module Aws::TranscribeService
     #   your request.
     #   @return [Hash<String,Types::LanguageIdSettings>]
     #
+    # @!attribute [rw] toxicity_detection
+    #   Provides information about the toxicity detection settings applied
+    #   to your transcription.
+    #   @return [Array<Types::ToxicityDetectionSettings>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/transcribe-2017-10-26/TranscriptionJob AWS API Documentation
     #
     class TranscriptionJob < Struct.new(
@@ -4600,7 +5487,8 @@ module Aws::TranscribeService
       :language_codes,
       :tags,
       :subtitles,
-      :language_id_settings)
+      :language_id_settings,
+      :toxicity_detection)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4719,6 +5607,11 @@ module Aws::TranscribeService
     #   parameter, `LanguageCode`, is present.
     #   @return [Array<Types::LanguageCodeItem>]
     #
+    # @!attribute [rw] toxicity_detection
+    #   Indicates whether toxicity detection was enabled for the specified
+    #   transcription job.
+    #   @return [Array<Types::ToxicityDetectionSettings>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/transcribe-2017-10-26/TranscriptionJobSummary AWS API Documentation
     #
     class TranscriptionJobSummary < Struct.new(
@@ -4735,7 +5628,8 @@ module Aws::TranscribeService
       :identify_language,
       :identify_multiple_languages,
       :identified_language_score,
-      :language_codes)
+      :language_codes,
+      :toxicity_detection)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4783,11 +5677,11 @@ module Aws::TranscribeService
     #   @return [Array<Types::Rule>]
     #
     # @!attribute [rw] input_type
-    #   Choose whether you want to update a streaming or a batch Call
-    #   Analytics category. The input type you specify must match the input
-    #   type specified when the category was created. For example, if you
-    #   created a category with the `POST_CALL` input type, you must use
-    #   `POST_CALL` as the input type when updating this category.
+    #   Choose whether you want to update a real-time or a post-call
+    #   category. The input type you specify must match the input type
+    #   specified when the category was created. For example, if you created
+    #   a category with the `POST_CALL` input type, you must use `POST_CALL`
+    #   as the input type when updating this category.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/transcribe-2017-10-26/UpdateCallAnalyticsCategoryRequest AWS API Documentation
@@ -4918,12 +5812,31 @@ module Aws::TranscribeService
     #   you cannot use `Words`; you must choose one or the other.
     #   @return [String]
     #
+    # @!attribute [rw] data_access_role_arn
+    #   The Amazon Resource Name (ARN) of an IAM role that has permissions
+    #   to access the Amazon S3 bucket that contains your input files (in
+    #   this case, your custom vocabulary filter). If the role that you
+    #   specify doesn’t have the appropriate permissions to access the
+    #   specified Amazon S3 location, your request fails.
+    #
+    #   IAM role ARNs have the format
+    #   `arn:partition:iam::account:role/role-name-with-path`. For example:
+    #   `arn:aws:iam::111122223333:role/Admin`.
+    #
+    #   For more information, see [IAM ARNs][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/transcribe-2017-10-26/UpdateVocabularyFilterRequest AWS API Documentation
     #
     class UpdateVocabularyFilterRequest < Struct.new(
       :vocabulary_filter_name,
       :words,
-      :vocabulary_filter_file_uri)
+      :vocabulary_filter_file_uri,
+      :data_access_role_arn)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5012,13 +5925,32 @@ module Aws::TranscribeService
     #   cannot use the `Phrases` flag; you must choose one or the other.
     #   @return [String]
     #
+    # @!attribute [rw] data_access_role_arn
+    #   The Amazon Resource Name (ARN) of an IAM role that has permissions
+    #   to access the Amazon S3 bucket that contains your input files (in
+    #   this case, your custom vocabulary). If the role that you specify
+    #   doesn’t have the appropriate permissions to access the specified
+    #   Amazon S3 location, your request fails.
+    #
+    #   IAM role ARNs have the format
+    #   `arn:partition:iam::account:role/role-name-with-path`. For example:
+    #   `arn:aws:iam::111122223333:role/Admin`.
+    #
+    #   For more information, see [IAM ARNs][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/transcribe-2017-10-26/UpdateVocabularyRequest AWS API Documentation
     #
     class UpdateVocabularyRequest < Struct.new(
       :vocabulary_name,
       :language_code,
       :phrases,
-      :vocabulary_file_uri)
+      :vocabulary_file_uri,
+      :data_access_role_arn)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5149,3 +6081,4 @@ module Aws::TranscribeService
 
   end
 end
+

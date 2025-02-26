@@ -4,7 +4,7 @@ require 'cgi'
 
 module Aws
   module Xml
-    class ErrorHandler < Seahorse::Client::Handler
+    class ErrorHandler < Aws::ErrorHandler
 
       def call(context)
         @handler.call(context).on(300..599) do |response|
@@ -15,42 +15,29 @@ module Aws
 
       private
 
-      def error(context)
-        body = context.http_response.body_contents
-        if body.empty?
-          code = http_status_error_code(context)
-          message = ''
-          data = EmptyStructure.new
-        else
-          code, message, data = extract_error(body, context)
-        end
-        context[:request_id] = request_id(body)
-        errors_module = context.client.class.errors_module
-        error_class = errors_module.error_class(code).new(context, message, data)
-        error_class
-      end
-
       def extract_error(body, context)
+        context[:request_id] = request_id(body)
         code = error_code(body, context)
         [
           code,
           error_message(body),
-          error_data(context, code)
+          error_data(context, body, code)
         ]
       end
 
-      def error_data(context, code)
+      def error_data(context, body, code)
         data = EmptyStructure.new
-        if error_rules = context.operation.errors
+        if (error_rules = context.operation.errors)
           error_rules.each do |rule|
-            # for modeled shape with error trait
-            # match `code` in the error trait before
-            # match modeled shape name
+            # query protocol may have custom error code
+            # reference: https://smithy.io/2.0/aws/protocols/aws-query-protocol.html#error-code-resolution
             error_shape_code = rule.shape['error']['code'] if rule.shape['error']
             match = (code == error_shape_code || code == rule.shape.name)
-            if match && rule.shape.members.any?
-              data = Parser.new(rule).parse(context.http_response.body_contents)
-            end
+            next unless match && rule.shape.members.any?
+
+            data = parse_error_data(rule, body)
+            # supporting HTTP bindings
+            apply_error_headers(rule, context, data)
           end
         end
         data
@@ -58,29 +45,32 @@ module Aws
         EmptyStructure.new
       end
 
+      def parse_error_data(rule, body)
+        # errors may nested under <Errors><Error>structure_data</Error></Errors>
+        # Or may be flat and under <Error>structure_data</Error>
+        body = body.tr("\n", '')
+        if (matches = body.match(/<Error>(.+?)<\/Error>/))
+          Parser.new(rule).parse("<#{rule.shape.name}>#{matches[1]}</#{rule.shape.name}>")
+        else
+          EmptyStructure.new
+        end
+      end
+
+      def apply_error_headers(rule, context, data)
+        headers = Aws::Rest::Response::Headers.new(rule)
+        headers.apply(context.http_response, data)
+      end
+
       def error_code(body, context)
-        if matches = body.match(/<Code>(.+?)<\/Code>/)
+        if (matches = body.match(/<Code>(.+?)<\/Code>/))
           remove_prefix(unescape(matches[1]), context)
         else
           http_status_error_code(context)
         end
       end
 
-      def http_status_error_code(context)
-        status_code = context.http_response.status_code
-        {
-          302 => 'MovedTemporarily',
-          304 => 'NotModified',
-          400 => 'BadRequest',
-          403 => 'Forbidden',
-          404 => 'NotFound',
-          412 => 'PreconditionFailed',
-          413 => 'RequestEntityTooLarge',
-        }[status_code] || "Http#{status_code}Error"
-      end
-
       def remove_prefix(error_code, context)
-        if prefix = context.config.api.metadata['errorPrefix']
+        if (prefix = context.config.api.metadata['errorPrefix'])
           error_code.sub(/^#{prefix}/, '')
         else
           error_code
@@ -88,7 +78,7 @@ module Aws
       end
 
       def error_message(body)
-        if matches = body.match(/<Message>(.+?)<\/Message>/m)
+        if (matches = body.match(/<Message>(.+?)<\/Message>/m))
           unescape(matches[1])
         else
           ''
@@ -96,7 +86,7 @@ module Aws
       end
 
       def request_id(body)
-        if matches = body.match(/<RequestId>(.+?)<\/RequestId>/m)
+        if (matches = body.match(/<RequestId>(.+?)<\/RequestId>/m))
           matches[1]
         end
       end

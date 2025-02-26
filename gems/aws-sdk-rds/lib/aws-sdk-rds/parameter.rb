@@ -35,7 +35,7 @@ module Aws::RDS
     end
     alias :parameter_name :name
 
-    # Specifies the value of the parameter.
+    # The value of the parameter.
     # @return [String]
     def parameter_value
       data[:parameter_value]
@@ -47,7 +47,7 @@ module Aws::RDS
       data[:description]
     end
 
-    # Indicates the source of the parameter value.
+    # The source of the parameter value.
     # @return [String]
     def source
       data[:source]
@@ -221,7 +221,9 @@ module Aws::RDS
           :retry
         end
       end
-      Aws::Waiters::Waiter.new(options).wait({})
+      Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        Aws::Waiters::Waiter.new(options).wait({})
+      end
     end
 
     # @deprecated

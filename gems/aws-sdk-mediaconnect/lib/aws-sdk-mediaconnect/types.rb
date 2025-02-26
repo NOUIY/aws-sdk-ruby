@@ -10,6 +10,233 @@
 module Aws::MediaConnect
   module Types
 
+    # Add a flow source to an existing bridge.
+    #
+    # @!attribute [rw] flow_arn
+    #   The Amazon Resource Number (ARN) of the cloud flow to use as a
+    #   source of this bridge.
+    #   @return [String]
+    #
+    # @!attribute [rw] flow_vpc_interface_attachment
+    #   The name of the VPC interface attachment to use for this source.
+    #   @return [Types::VpcInterfaceAttachment]
+    #
+    # @!attribute [rw] name
+    #   The name of the flow source. This name is used to reference the
+    #   source and must be unique among sources in this bridge.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/AddBridgeFlowSourceRequest AWS API Documentation
+    #
+    class AddBridgeFlowSourceRequest < Struct.new(
+      :flow_arn,
+      :flow_vpc_interface_attachment,
+      :name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Add a network output to an existing bridge.
+    #
+    # @!attribute [rw] ip_address
+    #   The network output IP Address.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The network output name. This name is used to reference the output
+    #   and must be unique among outputs in this bridge.
+    #   @return [String]
+    #
+    # @!attribute [rw] network_name
+    #   The network output's gateway network name.
+    #   @return [String]
+    #
+    # @!attribute [rw] port
+    #   The network output port.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] protocol
+    #   The network output protocol.
+    #   @return [String]
+    #
+    # @!attribute [rw] ttl
+    #   The network output TTL.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/AddBridgeNetworkOutputRequest AWS API Documentation
+    #
+    class AddBridgeNetworkOutputRequest < Struct.new(
+      :ip_address,
+      :name,
+      :network_name,
+      :port,
+      :protocol,
+      :ttl)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Add a network source to an existing bridge.
+    #
+    # @!attribute [rw] multicast_ip
+    #   The network source multicast IP.
+    #   @return [String]
+    #
+    # @!attribute [rw] multicast_source_settings
+    #   The IP address of the source for source-specific multicast (SSM).
+    #   @return [Types::MulticastSourceSettings]
+    #
+    # @!attribute [rw] name
+    #   The name of the network source. This name is used to reference the
+    #   source and must be unique among sources in this bridge.
+    #   @return [String]
+    #
+    # @!attribute [rw] network_name
+    #   The network source's gateway network name.
+    #   @return [String]
+    #
+    # @!attribute [rw] port
+    #   The network source port.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] protocol
+    #   The network source protocol.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/AddBridgeNetworkSourceRequest AWS API Documentation
+    #
+    class AddBridgeNetworkSourceRequest < Struct.new(
+      :multicast_ip,
+      :multicast_source_settings,
+      :name,
+      :network_name,
+      :port,
+      :protocol)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Add an output to a bridge.
+    #
+    # @!attribute [rw] network_output
+    #   Add a network output to an existing bridge.
+    #   @return [Types::AddBridgeNetworkOutputRequest]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/AddBridgeOutputRequest AWS API Documentation
+    #
+    class AddBridgeOutputRequest < Struct.new(
+      :network_output)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Adds outputs to an existing bridge. You can create up to 2 outputs per
+    # bridge.
+    #
+    # @!attribute [rw] bridge_arn
+    #   @return [String]
+    #
+    # @!attribute [rw] outputs
+    #   The outputs that you want to add to this bridge.
+    #   @return [Array<Types::AddBridgeOutputRequest>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/AddBridgeOutputsRequest AWS API Documentation
+    #
+    class AddBridgeOutputsRequest < Struct.new(
+      :bridge_arn,
+      :outputs)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The result of a successful AddBridgeOutputs request.
+    #
+    # @!attribute [rw] bridge_arn
+    #   The Amazon Resource Number (ARN) of the bridge.
+    #   @return [String]
+    #
+    # @!attribute [rw] outputs
+    #   The outputs that you added to this bridge.
+    #   @return [Array<Types::BridgeOutput>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/AddBridgeOutputsResponse AWS API Documentation
+    #
+    class AddBridgeOutputsResponse < Struct.new(
+      :bridge_arn,
+      :outputs)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Add a source to an existing bridge.
+    #
+    # @!attribute [rw] flow_source
+    #   Add a flow source to an existing bridge.
+    #   @return [Types::AddBridgeFlowSourceRequest]
+    #
+    # @!attribute [rw] network_source
+    #   Add a network source to an existing bridge.
+    #   @return [Types::AddBridgeNetworkSourceRequest]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/AddBridgeSourceRequest AWS API Documentation
+    #
+    class AddBridgeSourceRequest < Struct.new(
+      :flow_source,
+      :network_source)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Add sources to an existing bridge. You can create up to 2 sources per
+    # bridge.
+    #
+    # @!attribute [rw] bridge_arn
+    #   @return [String]
+    #
+    # @!attribute [rw] sources
+    #   The sources that you want to add to this bridge.
+    #   @return [Array<Types::AddBridgeSourceRequest>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/AddBridgeSourcesRequest AWS API Documentation
+    #
+    class AddBridgeSourcesRequest < Struct.new(
+      :bridge_arn,
+      :sources)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The result of a successful AddBridgeSources request.
+    #
+    # @!attribute [rw] bridge_arn
+    #   The Amazon Resource Number (ARN) of the bridge.
+    #   @return [String]
+    #
+    # @!attribute [rw] sources
+    #   The sources that you added to this bridge.
+    #   @return [Array<Types::BridgeSource>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/AddBridgeSourcesResponse AWS API Documentation
+    #
+    class AddBridgeSourcesResponse < Struct.new(
+      :bridge_arn,
+      :sources)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] max_bitrate
+    #   The maximum expected bitrate (in bps).
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/AddEgressGatewayBridgeRequest AWS API Documentation
+    #
+    class AddEgressGatewayBridgeRequest < Struct.new(
+      :max_bitrate)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Adds media streams to an existing flow.
     #
     # @!attribute [rw] flow_arn
@@ -28,8 +255,8 @@ module Aws::MediaConnect
       include Aws::Structure
     end
 
-    # The result of a successful AddFlowMediaStreamsRequest request. The
-    # response includes the details of the newly added media streams.
+    # The result of a successful AddFlowMediaStreams request. The response
+    # includes the details of the newly added media streams.
     #
     # @!attribute [rw] flow_arn
     #   The ARN of the flow that you added media streams to.
@@ -178,6 +405,23 @@ module Aws::MediaConnect
       include Aws::Structure
     end
 
+    # @!attribute [rw] max_bitrate
+    #   The maximum expected bitrate (in bps).
+    #   @return [Integer]
+    #
+    # @!attribute [rw] max_outputs
+    #   The maximum number of expected outputs.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/AddIngressGatewayBridgeRequest AWS API Documentation
+    #
+    class AddIngressGatewayBridgeRequest < Struct.new(
+      :max_bitrate,
+      :max_outputs)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Create maintenance setting for a flow
     #
     # @!attribute [rw] maintenance_day
@@ -319,12 +563,18 @@ module Aws::MediaConnect
     #
     # @!attribute [rw] stream_id
     #   The stream ID that you want to use for this transport. This
-    #   parameter applies only to Zixi-based streams.
+    #   parameter applies only to Zixi and SRT caller-based streams.
     #   @return [String]
     #
     # @!attribute [rw] vpc_interface_attachment
     #   The name of the VPC interface attachment to use for this output.
     #   @return [Types::VpcInterfaceAttachment]
+    #
+    # @!attribute [rw] output_status
+    #   An indication of whether the new output should be enabled or
+    #   disabled as soon as it is created. If you don't specify the
+    #   outputStatus field in your request, MediaConnect sets it to ENABLED.
+    #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/AddOutputRequest AWS API Documentation
     #
@@ -343,7 +593,22 @@ module Aws::MediaConnect
       :sender_control_port,
       :smoothing_latency,
       :stream_id,
-      :vpc_interface_attachment)
+      :vpc_interface_attachment,
+      :output_status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Specifies the configuration for audio stream metrics monitoring.
+    #
+    # @!attribute [rw] silent_audio
+    #   Detects periods of silence.
+    #   @return [Types::SilentAudio]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/AudioMonitoringSetting AWS API Documentation
+    #
+    class AudioMonitoringSetting < Struct.new(
+      :silent_audio)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -359,6 +624,354 @@ module Aws::MediaConnect
     #
     class BadRequestException < Struct.new(
       :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Configures settings for the BlackFrames metric.
+    #
+    # @!attribute [rw] state
+    #   Indicates whether the BlackFrames metric is enabled or disabled.
+    #   @return [String]
+    #
+    # @!attribute [rw] threshold_seconds
+    #   Specifies the number of consecutive seconds of black frames that
+    #   triggers an event or alert.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/BlackFrames AWS API Documentation
+    #
+    class BlackFrames < Struct.new(
+      :state,
+      :threshold_seconds)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A Bridge is the connection between your data center's Instances and
+    # the AWS cloud. A bridge can be used to send video from the AWS cloud
+    # to your data center or from your data center to the AWS cloud.
+    #
+    # @!attribute [rw] bridge_arn
+    #   The Amazon Resource Number (ARN) of the bridge.
+    #   @return [String]
+    #
+    # @!attribute [rw] bridge_messages
+    #   @return [Array<Types::MessageDetail>]
+    #
+    # @!attribute [rw] bridge_state
+    #   @return [String]
+    #
+    # @!attribute [rw] egress_gateway_bridge
+    #   @return [Types::EgressGatewayBridge]
+    #
+    # @!attribute [rw] ingress_gateway_bridge
+    #   @return [Types::IngressGatewayBridge]
+    #
+    # @!attribute [rw] name
+    #   The name of the bridge.
+    #   @return [String]
+    #
+    # @!attribute [rw] outputs
+    #   The outputs on this bridge.
+    #   @return [Array<Types::BridgeOutput>]
+    #
+    # @!attribute [rw] placement_arn
+    #   The placement Amazon Resource Number (ARN) of the bridge.
+    #   @return [String]
+    #
+    # @!attribute [rw] source_failover_config
+    #   The settings for source failover.
+    #   @return [Types::FailoverConfig]
+    #
+    # @!attribute [rw] sources
+    #   The sources on this bridge.
+    #   @return [Array<Types::BridgeSource>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/Bridge AWS API Documentation
+    #
+    class Bridge < Struct.new(
+      :bridge_arn,
+      :bridge_messages,
+      :bridge_state,
+      :egress_gateway_bridge,
+      :ingress_gateway_bridge,
+      :name,
+      :outputs,
+      :placement_arn,
+      :source_failover_config,
+      :sources)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The output of the bridge. A flow output is delivered to the AWS cloud.
+    #
+    # @!attribute [rw] flow_arn
+    #   The Amazon Resource Number (ARN) of the cloud flow.
+    #   @return [String]
+    #
+    # @!attribute [rw] flow_source_arn
+    #   The Amazon Resource Number (ARN) of the flow source.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the bridge's output.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/BridgeFlowOutput AWS API Documentation
+    #
+    class BridgeFlowOutput < Struct.new(
+      :flow_arn,
+      :flow_source_arn,
+      :name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The source of the bridge. A flow source originates in MediaConnect as
+    # an existing cloud flow.
+    #
+    # @!attribute [rw] flow_arn
+    #   The ARN of the cloud flow used as a source of this bridge.
+    #   @return [String]
+    #
+    # @!attribute [rw] flow_vpc_interface_attachment
+    #   The name of the VPC interface attachment to use for this source.
+    #   @return [Types::VpcInterfaceAttachment]
+    #
+    # @!attribute [rw] name
+    #   The name of the flow source.
+    #   @return [String]
+    #
+    # @!attribute [rw] output_arn
+    #   The Amazon Resource Number (ARN) of the output.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/BridgeFlowSource AWS API Documentation
+    #
+    class BridgeFlowSource < Struct.new(
+      :flow_arn,
+      :flow_vpc_interface_attachment,
+      :name,
+      :output_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The output of the bridge. A network output is delivered to your
+    # premises.
+    #
+    # @!attribute [rw] ip_address
+    #   The network output IP Address.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The network output name.
+    #   @return [String]
+    #
+    # @!attribute [rw] network_name
+    #   The network output's gateway network name.
+    #   @return [String]
+    #
+    # @!attribute [rw] port
+    #   The network output port.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] protocol
+    #   The network output protocol.
+    #   @return [String]
+    #
+    # @!attribute [rw] ttl
+    #   The network output TTL.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/BridgeNetworkOutput AWS API Documentation
+    #
+    class BridgeNetworkOutput < Struct.new(
+      :ip_address,
+      :name,
+      :network_name,
+      :port,
+      :protocol,
+      :ttl)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The source of the bridge. A network source originates at your
+    # premises.
+    #
+    # @!attribute [rw] multicast_ip
+    #   The network source multicast IP.
+    #   @return [String]
+    #
+    # @!attribute [rw] multicast_source_settings
+    #   The IP address of the source for source-specific multicast (SSM).
+    #   @return [Types::MulticastSourceSettings]
+    #
+    # @!attribute [rw] name
+    #   The name of the network source.
+    #   @return [String]
+    #
+    # @!attribute [rw] network_name
+    #   The network source's gateway network name.
+    #   @return [String]
+    #
+    # @!attribute [rw] port
+    #   The network source port.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] protocol
+    #   The network source protocol.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/BridgeNetworkSource AWS API Documentation
+    #
+    class BridgeNetworkSource < Struct.new(
+      :multicast_ip,
+      :multicast_source_settings,
+      :name,
+      :network_name,
+      :port,
+      :protocol)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The output of the bridge.
+    #
+    # @!attribute [rw] flow_output
+    #   The output of the bridge. A flow output is delivered to the AWS
+    #   cloud.
+    #   @return [Types::BridgeFlowOutput]
+    #
+    # @!attribute [rw] network_output
+    #   The output of the bridge. A network output is delivered to your
+    #   premises.
+    #   @return [Types::BridgeNetworkOutput]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/BridgeOutput AWS API Documentation
+    #
+    class BridgeOutput < Struct.new(
+      :flow_output,
+      :network_output)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The bridge's source.
+    #
+    # @!attribute [rw] flow_source
+    #   The source of the bridge. A flow source originates in MediaConnect
+    #   as an existing cloud flow.
+    #   @return [Types::BridgeFlowSource]
+    #
+    # @!attribute [rw] network_source
+    #   The source of the bridge. A network source originates at your
+    #   premises.
+    #   @return [Types::BridgeNetworkSource]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/BridgeSource AWS API Documentation
+    #
+    class BridgeSource < Struct.new(
+      :flow_source,
+      :network_source)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Exception raised by AWS Elemental MediaConnect. See the error message
+    # and documentation for the operation for more information on the cause
+    # of this exception.
+    #
+    # @!attribute [rw] message
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/ConflictException AWS API Documentation
+    #
+    class ConflictException < Struct.new(
+      :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Exception raised by AWS Elemental MediaConnect. See the error message
+    # and documentation for the operation for more information on the cause
+    # of this exception.
+    #
+    # @!attribute [rw] message
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/CreateBridge420Exception AWS API Documentation
+    #
+    class CreateBridge420Exception < Struct.new(
+      :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Creates a new bridge. The request must include one source.
+    #
+    # @!attribute [rw] egress_gateway_bridge
+    #   Create a bridge with the egress bridge type. An egress bridge is a
+    #   cloud-to-ground bridge. The content comes from an existing
+    #   MediaConnect flow and is delivered to your premises.
+    #   @return [Types::AddEgressGatewayBridgeRequest]
+    #
+    # @!attribute [rw] ingress_gateway_bridge
+    #   Create a bridge with the ingress bridge type. An ingress bridge is a
+    #   ground-to-cloud bridge. The content originates at your premises and
+    #   is delivered to the cloud.
+    #   @return [Types::AddIngressGatewayBridgeRequest]
+    #
+    # @!attribute [rw] name
+    #   The name of the bridge. This name can not be modified after the
+    #   bridge is created.
+    #   @return [String]
+    #
+    # @!attribute [rw] outputs
+    #   The outputs that you want to add to this bridge.
+    #   @return [Array<Types::AddBridgeOutputRequest>]
+    #
+    # @!attribute [rw] placement_arn
+    #   The bridge placement Amazon Resource Number (ARN).
+    #   @return [String]
+    #
+    # @!attribute [rw] source_failover_config
+    #   The settings for source failover.
+    #   @return [Types::FailoverConfig]
+    #
+    # @!attribute [rw] sources
+    #   The sources that you want to add to this bridge.
+    #   @return [Array<Types::AddBridgeSourceRequest>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/CreateBridgeRequest AWS API Documentation
+    #
+    class CreateBridgeRequest < Struct.new(
+      :egress_gateway_bridge,
+      :ingress_gateway_bridge,
+      :name,
+      :outputs,
+      :placement_arn,
+      :source_failover_config,
+      :sources)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The result of a successful CreateBridge request.
+    #
+    # @!attribute [rw] bridge
+    #   A Bridge is the connection between your data center's Instances and
+    #   the AWS cloud. A bridge can be used to send video from the AWS cloud
+    #   to your data center or from your data center to the AWS cloud.
+    #   @return [Types::Bridge]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/CreateBridgeResponse AWS API Documentation
+    #
+    class CreateBridgeResponse < Struct.new(
+      :bridge)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -423,6 +1036,10 @@ module Aws::MediaConnect
     #   Create maintenance setting for a flow
     #   @return [Types::AddMaintenance]
     #
+    # @!attribute [rw] source_monitoring_config
+    #   The settings for source monitoring.
+    #   @return [Types::MonitoringConfig]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/CreateFlowRequest AWS API Documentation
     #
     class CreateFlowRequest < Struct.new(
@@ -435,7 +1052,8 @@ module Aws::MediaConnect
       :source_failover_config,
       :sources,
       :vpc_interfaces,
-      :maintenance)
+      :maintenance,
+      :source_monitoring_config)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -451,6 +1069,86 @@ module Aws::MediaConnect
     #
     class CreateFlowResponse < Struct.new(
       :flow)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Exception raised by AWS Elemental MediaConnect. See the error message
+    # and documentation for the operation for more information on the cause
+    # of this exception.
+    #
+    # @!attribute [rw] message
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/CreateGateway420Exception AWS API Documentation
+    #
+    class CreateGateway420Exception < Struct.new(
+      :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Creates a new gateway. The request must include one network (up to 4).
+    #
+    # @!attribute [rw] egress_cidr_blocks
+    #   The range of IP addresses that are allowed to contribute content or
+    #   initiate output requests for flows communicating with this gateway.
+    #   These IP addresses should be in the form of a Classless Inter-Domain
+    #   Routing (CIDR) block; for example, 10.0.0.0/16.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] name
+    #   The name of the gateway. This name can not be modified after the
+    #   gateway is created.
+    #   @return [String]
+    #
+    # @!attribute [rw] networks
+    #   The list of networks that you want to add.
+    #   @return [Array<Types::GatewayNetwork>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/CreateGatewayRequest AWS API Documentation
+    #
+    class CreateGatewayRequest < Struct.new(
+      :egress_cidr_blocks,
+      :name,
+      :networks)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] gateway
+    #   The settings for a gateway, including its networks.
+    #   @return [Types::Gateway]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/CreateGatewayResponse AWS API Documentation
+    #
+    class CreateGatewayResponse < Struct.new(
+      :gateway)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] bridge_arn
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/DeleteBridgeRequest AWS API Documentation
+    #
+    class DeleteBridgeRequest < Struct.new(
+      :bridge_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The result of a successful DeleteBridge request.
+    #
+    # @!attribute [rw] bridge_arn
+    #   The Amazon Resource Number (ARN) of the deleted bridge.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/DeleteBridgeResponse AWS API Documentation
+    #
+    class DeleteBridgeResponse < Struct.new(
+      :bridge_arn)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -485,6 +1183,92 @@ module Aws::MediaConnect
       include Aws::Structure
     end
 
+    # @!attribute [rw] gateway_arn
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/DeleteGatewayRequest AWS API Documentation
+    #
+    class DeleteGatewayRequest < Struct.new(
+      :gateway_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The result of a successful DeleteGateway request.
+    #
+    # @!attribute [rw] gateway_arn
+    #   The Amazon Resource Name (ARN) of the gateway that was deleted.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/DeleteGatewayResponse AWS API Documentation
+    #
+    class DeleteGatewayResponse < Struct.new(
+      :gateway_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] force
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] gateway_instance_arn
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/DeregisterGatewayInstanceRequest AWS API Documentation
+    #
+    class DeregisterGatewayInstanceRequest < Struct.new(
+      :force,
+      :gateway_instance_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The result of a successful DeregisterGatewayInstance request.
+    #
+    # @!attribute [rw] gateway_instance_arn
+    #   The Amazon Resource Name (ARN) of the instance.
+    #   @return [String]
+    #
+    # @!attribute [rw] instance_state
+    #   The status of the instance.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/DeregisterGatewayInstanceResponse AWS API Documentation
+    #
+    class DeregisterGatewayInstanceResponse < Struct.new(
+      :gateway_instance_arn,
+      :instance_state)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] bridge_arn
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/DescribeBridgeRequest AWS API Documentation
+    #
+    class DescribeBridgeRequest < Struct.new(
+      :bridge_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The result of a successful DescribeBridge request.
+    #
+    # @!attribute [rw] bridge
+    #   A Bridge is the connection between your data center's Instances and
+    #   the AWS cloud. A bridge can be used to send video from the AWS cloud
+    #   to your data center or from your data center to the AWS cloud.
+    #   @return [Types::Bridge]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/DescribeBridgeResponse AWS API Documentation
+    #
+    class DescribeBridgeResponse < Struct.new(
+      :bridge)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] flow_arn
     #   @return [String]
     #
@@ -512,6 +1296,125 @@ module Aws::MediaConnect
     class DescribeFlowResponse < Struct.new(
       :flow,
       :messages)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] flow_arn
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/DescribeFlowSourceMetadataRequest AWS API Documentation
+    #
+    class DescribeFlowSourceMetadataRequest < Struct.new(
+      :flow_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The result of a successful DescribeFlowSourceMetadata request.
+    #
+    # @!attribute [rw] flow_arn
+    #   The ARN of the flow that DescribeFlowSourceMetadata was performed
+    #   on.
+    #   @return [String]
+    #
+    # @!attribute [rw] messages
+    #   Provides a status code and message regarding issues found with the
+    #   flow source metadata.
+    #   @return [Array<Types::MessageDetail>]
+    #
+    # @!attribute [rw] timestamp
+    #   The timestamp of the most recent change in metadata for this flow’s
+    #   source.
+    #   @return [Time]
+    #
+    # @!attribute [rw] transport_media_info
+    #   The metadata of the transport stream in the current flow's source.
+    #   @return [Types::TransportMediaInfo]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/DescribeFlowSourceMetadataResponse AWS API Documentation
+    #
+    class DescribeFlowSourceMetadataResponse < Struct.new(
+      :flow_arn,
+      :messages,
+      :timestamp,
+      :transport_media_info)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] flow_arn
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/DescribeFlowSourceThumbnailRequest AWS API Documentation
+    #
+    class DescribeFlowSourceThumbnailRequest < Struct.new(
+      :flow_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The result of a successful DescribeFlowSourceThumbnail request.
+    #
+    # @!attribute [rw] thumbnail_details
+    #   The details of the thumbnail, including thumbnail base64 string,
+    #   timecode and the time when thumbnail was generated.
+    #   @return [Types::ThumbnailDetails]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/DescribeFlowSourceThumbnailResponse AWS API Documentation
+    #
+    class DescribeFlowSourceThumbnailResponse < Struct.new(
+      :thumbnail_details)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] gateway_instance_arn
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/DescribeGatewayInstanceRequest AWS API Documentation
+    #
+    class DescribeGatewayInstanceRequest < Struct.new(
+      :gateway_instance_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The result of a successful DescribeGatewayInstance request.
+    #
+    # @!attribute [rw] gateway_instance
+    #   The settings for an instance in a gateway.
+    #   @return [Types::GatewayInstance]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/DescribeGatewayInstanceResponse AWS API Documentation
+    #
+    class DescribeGatewayInstanceResponse < Struct.new(
+      :gateway_instance)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] gateway_arn
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/DescribeGatewayRequest AWS API Documentation
+    #
+    class DescribeGatewayRequest < Struct.new(
+      :gateway_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The result of a successful DescribeGateway request.
+    #
+    # @!attribute [rw] gateway
+    #   The settings for a gateway, including its networks.
+    #   @return [Types::Gateway]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/DescribeGatewayResponse AWS API Documentation
+    #
+    class DescribeGatewayResponse < Struct.new(
+      :gateway)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -632,6 +1535,23 @@ module Aws::MediaConnect
       :destination_ip,
       :destination_port,
       :interface)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] instance_id
+    #   The ID of the instance running this bridge.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_bitrate
+    #   The maximum expected bitrate (in bps) of the egress bridge.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/EgressGatewayBridge AWS API Documentation
+    #
+    class EgressGatewayBridge < Struct.new(
+      :instance_id,
+      :max_bitrate)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -868,8 +1788,7 @@ module Aws::MediaConnect
     #   @return [Array<Types::Entitlement>]
     #
     # @!attribute [rw] flow_arn
-    #   The Amazon Resource Name (ARN), a unique identifier for any AWS
-    #   resource, of the flow.
+    #   The Amazon Resource Name (ARN) of the flow.
     #   @return [String]
     #
     # @!attribute [rw] media_streams
@@ -909,6 +1828,10 @@ module Aws::MediaConnect
     #   The maintenance setting of a flow
     #   @return [Types::Maintenance]
     #
+    # @!attribute [rw] source_monitoring_config
+    #   The settings for source monitoring.
+    #   @return [Types::MonitoringConfig]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/Flow AWS API Documentation
     #
     class Flow < Struct.new(
@@ -925,7 +1848,8 @@ module Aws::MediaConnect
       :sources,
       :status,
       :vpc_interfaces,
-      :maintenance)
+      :maintenance,
+      :source_monitoring_config)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1041,6 +1965,182 @@ module Aws::MediaConnect
       include Aws::Structure
     end
 
+    # The frame resolution used by the video stream.
+    #
+    # @!attribute [rw] frame_height
+    #   The number of pixels in the height of the video frame.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] frame_width
+    #   The number of pixels in the width of the video frame.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/FrameResolution AWS API Documentation
+    #
+    class FrameResolution < Struct.new(
+      :frame_height,
+      :frame_width)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Configures settings for the FrozenFrames metric.
+    #
+    # @!attribute [rw] state
+    #   Indicates whether the FrozenFrames metric is enabled or disabled.
+    #   @return [String]
+    #
+    # @!attribute [rw] threshold_seconds
+    #   Specifies the number of consecutive seconds of a static image that
+    #   triggers an event or alert.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/FrozenFrames AWS API Documentation
+    #
+    class FrozenFrames < Struct.new(
+      :state,
+      :threshold_seconds)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The settings for a gateway, including its networks.
+    #
+    # @!attribute [rw] egress_cidr_blocks
+    #   The range of IP addresses that contribute content or initiate output
+    #   requests for flows communicating with this gateway. These IP
+    #   addresses should be in the form of a Classless Inter-Domain Routing
+    #   (CIDR) block; for example, 10.0.0.0/16.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] gateway_arn
+    #   The Amazon Resource Name (ARN) of the gateway.
+    #   @return [String]
+    #
+    # @!attribute [rw] gateway_messages
+    #   @return [Array<Types::MessageDetail>]
+    #
+    # @!attribute [rw] gateway_state
+    #   The current status of the gateway.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the gateway. This name can not be modified after the
+    #   gateway is created.
+    #   @return [String]
+    #
+    # @!attribute [rw] networks
+    #   The list of networks in the gateway.
+    #   @return [Array<Types::GatewayNetwork>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/Gateway AWS API Documentation
+    #
+    class Gateway < Struct.new(
+      :egress_cidr_blocks,
+      :gateway_arn,
+      :gateway_messages,
+      :gateway_state,
+      :name,
+      :networks)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The source configuration for cloud flows receiving a stream from a
+    # bridge.
+    #
+    # @!attribute [rw] bridge_arn
+    #   The ARN of the bridge feeding this flow.
+    #   @return [String]
+    #
+    # @!attribute [rw] vpc_interface_attachment
+    #   The name of the VPC interface attachment to use for this bridge
+    #   source.
+    #   @return [Types::VpcInterfaceAttachment]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/GatewayBridgeSource AWS API Documentation
+    #
+    class GatewayBridgeSource < Struct.new(
+      :bridge_arn,
+      :vpc_interface_attachment)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The settings for an instance in a gateway.
+    #
+    # @!attribute [rw] bridge_placement
+    #   The availability of the instance to host new bridges. The
+    #   bridgePlacement property can be LOCKED or AVAILABLE. If it is
+    #   LOCKED, no new bridges can be deployed to this instance. If it is
+    #   AVAILABLE, new bridges can be added to this instance.
+    #   @return [String]
+    #
+    # @!attribute [rw] connection_status
+    #   The connection state of the instance.
+    #   @return [String]
+    #
+    # @!attribute [rw] gateway_arn
+    #   The Amazon Resource Name (ARN) of the instance.
+    #   @return [String]
+    #
+    # @!attribute [rw] gateway_instance_arn
+    #   The Amazon Resource Name (ARN) of the gateway.
+    #   @return [String]
+    #
+    # @!attribute [rw] instance_id
+    #   The managed instance ID generated by the SSM install. This will
+    #   begin with "mi-".
+    #   @return [String]
+    #
+    # @!attribute [rw] instance_messages
+    #   @return [Array<Types::MessageDetail>]
+    #
+    # @!attribute [rw] instance_state
+    #   The status of the instance.
+    #   @return [String]
+    #
+    # @!attribute [rw] running_bridge_count
+    #   The running bridge count.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/GatewayInstance AWS API Documentation
+    #
+    class GatewayInstance < Struct.new(
+      :bridge_placement,
+      :connection_status,
+      :gateway_arn,
+      :gateway_instance_arn,
+      :instance_id,
+      :instance_messages,
+      :instance_state,
+      :running_bridge_count)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The network settings for a gateway.
+    #
+    # @!attribute [rw] cidr_block
+    #   A unique IP address range to use for this network. These IP
+    #   addresses should be in the form of a Classless Inter-Domain Routing
+    #   (CIDR) block; for example, 10.0.0.0/16.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the network. This name is used to reference the network
+    #   and must be unique among networks in this gateway.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/GatewayNetwork AWS API Documentation
+    #
+    class GatewayNetwork < Struct.new(
+      :cidr_block,
+      :name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The entitlements that you want to grant on a flow.
     #
     # @!attribute [rw] data_transfer_subscriber_fee_percent
@@ -1124,7 +2224,7 @@ module Aws::MediaConnect
       include Aws::Structure
     end
 
-    # The entitlements that were just granted.
+    # The result of a successful GrantFlowEntitlements request.
     #
     # @!attribute [rw] entitlements
     #   The entitlements that were just granted.
@@ -1139,6 +2239,28 @@ module Aws::MediaConnect
     class GrantFlowEntitlementsResponse < Struct.new(
       :entitlements,
       :flow_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] instance_id
+    #   The ID of the instance running this bridge.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_bitrate
+    #   The maximum expected bitrate (in bps) of the ingress bridge.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] max_outputs
+    #   The maximum number of outputs on the ingress bridge.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/IngressGatewayBridge AWS API Documentation
+    #
+    class IngressGatewayBridge < Struct.new(
+      :instance_id,
+      :max_bitrate,
+      :max_outputs)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1236,6 +2358,51 @@ module Aws::MediaConnect
       include Aws::Structure
     end
 
+    # @!attribute [rw] filter_arn
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/ListBridgesRequest AWS API Documentation
+    #
+    class ListBridgesRequest < Struct.new(
+      :filter_arn,
+      :max_results,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The result of a successful ListBridges request. The response includes
+    # bridge summaries and the NextToken to use in a subsequent ListBridges
+    # request.
+    #
+    # @!attribute [rw] bridges
+    #   A list of bridge summaries.
+    #   @return [Array<Types::ListedBridge>]
+    #
+    # @!attribute [rw] next_token
+    #   The token that identifies which batch of results that you want to
+    #   see. For example, you submit a ListBridges request with MaxResults
+    #   set at 5. The service returns the first batch of results (up to 5)
+    #   and a NextToken value. To see the next batch of results, you can
+    #   submit the ListBridges request a second time and specify the
+    #   NextToken value.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/ListBridgesResponse AWS API Documentation
+    #
+    class ListBridgesResponse < Struct.new(
+      :bridges,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] max_results
     #   @return [Integer]
     #
@@ -1313,6 +2480,92 @@ module Aws::MediaConnect
     #
     class ListFlowsResponse < Struct.new(
       :flows,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] filter_arn
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/ListGatewayInstancesRequest AWS API Documentation
+    #
+    class ListGatewayInstancesRequest < Struct.new(
+      :filter_arn,
+      :max_results,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The result of a successful ListGatewayInstances request. The response
+    # includes instance summaries and the NextToken to use in a subsequent
+    # ListInstances request.
+    #
+    # @!attribute [rw] instances
+    #   A list of instance summaries.
+    #   @return [Array<Types::ListedGatewayInstance>]
+    #
+    # @!attribute [rw] next_token
+    #   The token that identifies which batch of results that you want to
+    #   see. For example, you submit a ListInstances request with MaxResults
+    #   set at 5. The service returns the first batch of results (up to 5)
+    #   and a NextToken value. To see the next batch of results, you can
+    #   submit the ListInstances request a second time and specify the
+    #   NextToken value.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/ListGatewayInstancesResponse AWS API Documentation
+    #
+    class ListGatewayInstancesResponse < Struct.new(
+      :instances,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] max_results
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/ListGatewaysRequest AWS API Documentation
+    #
+    class ListGatewaysRequest < Struct.new(
+      :max_results,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The result of a successful ListGateways request. The response includes
+    # gateway summaries and the NextToken to use in a subsequent
+    # ListGateways request.
+    #
+    # @!attribute [rw] gateways
+    #   A list of gateway summaries.
+    #   @return [Array<Types::ListedGateway>]
+    #
+    # @!attribute [rw] next_token
+    #   The token that identifies which batch of results that you want to
+    #   see. For example, you submit a ListGateways request with MaxResults
+    #   set at 5. The service returns the first batch of results (up to 5)
+    #   and a NextToken value. To see the next batch of results, you can
+    #   submit the ListGateways request a second time and specify the
+    #   NextToken value.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/ListGatewaysResponse AWS API Documentation
+    #
+    class ListGatewaysResponse < Struct.new(
+      :gateways,
       :next_token)
       SENSITIVE = []
       include Aws::Structure
@@ -1435,6 +2688,39 @@ module Aws::MediaConnect
       include Aws::Structure
     end
 
+    # Displays details of the selected bridge.
+    #
+    # @!attribute [rw] bridge_arn
+    #   The ARN of the bridge.
+    #   @return [String]
+    #
+    # @!attribute [rw] bridge_state
+    #   @return [String]
+    #
+    # @!attribute [rw] bridge_type
+    #   The type of the bridge.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the bridge.
+    #   @return [String]
+    #
+    # @!attribute [rw] placement_arn
+    #   The ARN of the gateway associated with the bridge.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/ListedBridge AWS API Documentation
+    #
+    class ListedBridge < Struct.new(
+      :bridge_arn,
+      :bridge_state,
+      :bridge_type,
+      :name,
+      :placement_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # An entitlement that has been granted to you from other AWS accounts.
     #
     # @!attribute [rw] data_transfer_subscriber_fee_percent
@@ -1504,6 +2790,59 @@ module Aws::MediaConnect
       :source_type,
       :status,
       :maintenance)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Provides a summary of a gateway, including its name, ARN, and status.
+    #
+    # @!attribute [rw] gateway_arn
+    #   The Amazon Resource Name (ARN) of the gateway.
+    #   @return [String]
+    #
+    # @!attribute [rw] gateway_state
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the gateway.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/ListedGateway AWS API Documentation
+    #
+    class ListedGateway < Struct.new(
+      :gateway_arn,
+      :gateway_state,
+      :name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Provides a summary of an instance.
+    #
+    # @!attribute [rw] gateway_arn
+    #   The Amazon Resource Name (ARN) of the gateway.
+    #   @return [String]
+    #
+    # @!attribute [rw] gateway_instance_arn
+    #   The Amazon Resource Name (ARN) of the instance.
+    #   @return [String]
+    #
+    # @!attribute [rw] instance_id
+    #   The managed instance ID generated by the SSM install. This will
+    #   begin with "mi-".
+    #   @return [String]
+    #
+    # @!attribute [rw] instance_state
+    #   The status of the instance.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/ListedGatewayInstance AWS API Documentation
+    #
+    class ListedGatewayInstance < Struct.new(
+      :gateway_arn,
+      :gateway_instance_arn,
+      :instance_id,
+      :instance_state)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1768,6 +3107,29 @@ module Aws::MediaConnect
       include Aws::Structure
     end
 
+    # @!attribute [rw] code
+    #   The error code.
+    #   @return [String]
+    #
+    # @!attribute [rw] message
+    #   The specific error message that MediaConnect returns to help you
+    #   understand the reason that the request did not succeed.
+    #   @return [String]
+    #
+    # @!attribute [rw] resource_name
+    #   The name of the resource.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/MessageDetail AWS API Documentation
+    #
+    class MessageDetail < Struct.new(
+      :code,
+      :message,
+      :resource_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Messages that provide the state of the flow.
     #
     # @!attribute [rw] errors
@@ -1779,6 +3141,48 @@ module Aws::MediaConnect
     #
     class Messages < Struct.new(
       :errors)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The settings for source monitoring.
+    #
+    # @!attribute [rw] thumbnail_state
+    #   The state of thumbnail monitoring.
+    #   @return [String]
+    #
+    # @!attribute [rw] audio_monitoring_settings
+    #   Contains the settings for audio stream metrics monitoring.
+    #   @return [Array<Types::AudioMonitoringSetting>]
+    #
+    # @!attribute [rw] content_quality_analysis_state
+    #   Indicates whether content quality analysis is enabled or disabled.
+    #   @return [String]
+    #
+    # @!attribute [rw] video_monitoring_settings
+    #   Contains the settings for video stream metrics monitoring.
+    #   @return [Array<Types::VideoMonitoringSetting>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/MonitoringConfig AWS API Documentation
+    #
+    class MonitoringConfig < Struct.new(
+      :thumbnail_state,
+      :audio_monitoring_settings,
+      :content_quality_analysis_state,
+      :video_monitoring_settings)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The settings related to the multicast source.
+    #
+    # @!attribute [rw] multicast_source_ip
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/MulticastSourceSettings AWS API Documentation
+    #
+    class MulticastSourceSettings < Struct.new(
+      :multicast_source_ip)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1920,6 +3324,18 @@ module Aws::MediaConnect
     #   The name of the VPC interface attachment to use for this output.
     #   @return [Types::VpcInterfaceAttachment]
     #
+    # @!attribute [rw] bridge_arn
+    #   The ARN of the bridge that added this output.
+    #   @return [String]
+    #
+    # @!attribute [rw] bridge_ports
+    #   The bridge output ports currently in use.
+    #   @return [Array<Integer>]
+    #
+    # @!attribute [rw] output_status
+    #   An indication of whether the output is transmitting data or not.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/Output AWS API Documentation
     #
     class Output < Struct.new(
@@ -1935,7 +3351,10 @@ module Aws::MediaConnect
       :output_arn,
       :port,
       :transport,
-      :vpc_interface_attachment)
+      :vpc_interface_attachment,
+      :bridge_arn,
+      :bridge_ports,
+      :output_status)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1987,6 +3406,70 @@ module Aws::MediaConnect
     #
     class PurchaseOfferingResponse < Struct.new(
       :reservation)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] bridge_arn
+    #   @return [String]
+    #
+    # @!attribute [rw] output_name
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/RemoveBridgeOutputRequest AWS API Documentation
+    #
+    class RemoveBridgeOutputRequest < Struct.new(
+      :bridge_arn,
+      :output_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The result of a successful RemoveBridgeOutput request.
+    #
+    # @!attribute [rw] bridge_arn
+    #   @return [String]
+    #
+    # @!attribute [rw] output_name
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/RemoveBridgeOutputResponse AWS API Documentation
+    #
+    class RemoveBridgeOutputResponse < Struct.new(
+      :bridge_arn,
+      :output_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] bridge_arn
+    #   @return [String]
+    #
+    # @!attribute [rw] source_name
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/RemoveBridgeSourceRequest AWS API Documentation
+    #
+    class RemoveBridgeSourceRequest < Struct.new(
+      :bridge_arn,
+      :source_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The result of a successful RemoveBridgeSource request.
+    #
+    # @!attribute [rw] bridge_arn
+    #   @return [String]
+    #
+    # @!attribute [rw] source_name
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/RemoveBridgeSourceResponse AWS API Documentation
+    #
+    class RemoveBridgeSourceResponse < Struct.new(
+      :bridge_arn,
+      :source_name)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2320,6 +3803,27 @@ module Aws::MediaConnect
       include Aws::Structure
     end
 
+    # The source configuration for cloud flows receiving a stream from a
+    # bridge.
+    #
+    # @!attribute [rw] bridge_arn
+    #   The ARN of the bridge feeding this flow.
+    #   @return [String]
+    #
+    # @!attribute [rw] vpc_interface_attachment
+    #   The name of the VPC interface attachment to use for this bridge
+    #   source.
+    #   @return [Types::VpcInterfaceAttachment]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/SetGatewayBridgeSourceRequest AWS API Documentation
+    #
+    class SetGatewayBridgeSourceRequest < Struct.new(
+      :bridge_arn,
+      :vpc_interface_attachment)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The settings for the source of the flow.
     #
     # @!attribute [rw] decryption
@@ -2343,7 +3847,8 @@ module Aws::MediaConnect
     #   @return [Integer]
     #
     # @!attribute [rw] max_bitrate
-    #   The smoothing max bitrate for RIST, RTP, and RTP-FEC streams.
+    #   The smoothing max bitrate (in bps) for RIST, RTP, and RTP-FEC
+    #   streams.
     #   @return [Integer]
     #
     # @!attribute [rw] max_latency
@@ -2398,7 +3903,7 @@ module Aws::MediaConnect
     #
     # @!attribute [rw] stream_id
     #   The stream ID that you want to use for this transport. This
-    #   parameter applies only to Zixi-based streams.
+    #   parameter applies only to Zixi and SRT caller-based streams.
     #   @return [String]
     #
     # @!attribute [rw] vpc_interface_name
@@ -2411,6 +3916,11 @@ module Aws::MediaConnect
     #   a Classless Inter-Domain Routing (CIDR) block; for example,
     #   10.0.0.0/16.
     #   @return [String]
+    #
+    # @!attribute [rw] gateway_bridge_source
+    #   The source configuration for cloud flows receiving a stream from a
+    #   bridge.
+    #   @return [Types::SetGatewayBridgeSourceRequest]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/SetSourceRequest AWS API Documentation
     #
@@ -2432,7 +3942,28 @@ module Aws::MediaConnect
       :source_listener_port,
       :stream_id,
       :vpc_interface_name,
-      :whitelist_cidr)
+      :whitelist_cidr,
+      :gateway_bridge_source)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Configures settings for the SilentAudio metric.
+    #
+    # @!attribute [rw] state
+    #   Indicates whether the SilentAudio metric is enabled or disabled.
+    #   @return [String]
+    #
+    # @!attribute [rw] threshold_seconds
+    #   Specifies the number of consecutive seconds of silence that triggers
+    #   an event or alert.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/SilentAudio AWS API Documentation
+    #
+    class SilentAudio < Struct.new(
+      :state,
+      :threshold_seconds)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2509,6 +4040,11 @@ module Aws::MediaConnect
     #   10.0.0.0/16.
     #   @return [String]
     #
+    # @!attribute [rw] gateway_bridge_source
+    #   The source configuration for cloud flows receiving a stream from a
+    #   bridge.
+    #   @return [Types::GatewayBridgeSource]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/Source AWS API Documentation
     #
     class Source < Struct.new(
@@ -2525,7 +4061,8 @@ module Aws::MediaConnect
       :source_arn,
       :transport,
       :vpc_interface_name,
-      :whitelist_cidr)
+      :whitelist_cidr,
+      :gateway_bridge_source)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2628,6 +4165,42 @@ module Aws::MediaConnect
       include Aws::Structure
     end
 
+    # The details of the thumbnail, including thumbnail base64 string,
+    # timecode and the time when thumbnail was generated.
+    #
+    # @!attribute [rw] flow_arn
+    #   The ARN of the flow that DescribeFlowSourceThumbnail was performed
+    #   on.
+    #   @return [String]
+    #
+    # @!attribute [rw] thumbnail
+    #   Thumbnail Base64 string.
+    #   @return [String]
+    #
+    # @!attribute [rw] thumbnail_messages
+    #   Status code and messages about the flow source thumbnail.
+    #   @return [Array<Types::MessageDetail>]
+    #
+    # @!attribute [rw] timecode
+    #   Timecode of thumbnail.
+    #   @return [String]
+    #
+    # @!attribute [rw] timestamp
+    #   The timestamp of when thumbnail was generated.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/ThumbnailDetails AWS API Documentation
+    #
+    class ThumbnailDetails < Struct.new(
+      :flow_arn,
+      :thumbnail,
+      :thumbnail_messages,
+      :timecode,
+      :timestamp)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Exception raised by AWS Elemental MediaConnect. See the error message
     # and documentation for the operation for more information on the cause
     # of this exception.
@@ -2654,7 +4227,8 @@ module Aws::MediaConnect
     #   @return [Array<String>]
     #
     # @!attribute [rw] max_bitrate
-    #   The smoothing max bitrate for RIST, RTP, and RTP-FEC streams.
+    #   The smoothing max bitrate (in bps) for RIST, RTP, and RTP-FEC
+    #   streams.
     #   @return [Integer]
     #
     # @!attribute [rw] max_latency
@@ -2709,7 +4283,7 @@ module Aws::MediaConnect
     #
     # @!attribute [rw] stream_id
     #   The stream ID that you want to use for this transport. This
-    #   parameter applies only to Zixi-based streams.
+    #   parameter applies only to Zixi and SRT caller-based streams.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/Transport AWS API Documentation
@@ -2732,6 +4306,107 @@ module Aws::MediaConnect
       include Aws::Structure
     end
 
+    # The metadata of the transport stream in the current flow's source.
+    #
+    # @!attribute [rw] programs
+    #   The list of transport stream programs in the current flow's source.
+    #   @return [Array<Types::TransportStreamProgram>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/TransportMediaInfo AWS API Documentation
+    #
+    class TransportMediaInfo < Struct.new(
+      :programs)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The metadata of an elementary transport stream.
+    #
+    # @!attribute [rw] channels
+    #   The number of channels in the audio stream.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] codec
+    #   The codec used by the stream.
+    #   @return [String]
+    #
+    # @!attribute [rw] frame_rate
+    #   The frame rate used by the video stream.
+    #   @return [String]
+    #
+    # @!attribute [rw] frame_resolution
+    #   The frame resolution used by the video stream.
+    #   @return [Types::FrameResolution]
+    #
+    # @!attribute [rw] pid
+    #   The Packet ID (PID) as it is reported in the Program Map Table.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] sample_rate
+    #   The sample rate used by the audio stream.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] sample_size
+    #   The sample bit size used by the audio stream.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] stream_type
+    #   The Stream Type as it is reported in the Program Map Table.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/TransportStream AWS API Documentation
+    #
+    class TransportStream < Struct.new(
+      :channels,
+      :codec,
+      :frame_rate,
+      :frame_resolution,
+      :pid,
+      :sample_rate,
+      :sample_size,
+      :stream_type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The metadata of a single transport stream program.
+    #
+    # @!attribute [rw] pcr_pid
+    #   The Program Clock Reference (PCR) Packet ID (PID) as it is reported
+    #   in the Program Association Table.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] program_name
+    #   The program name as it is reported in the Program Association Table.
+    #   @return [String]
+    #
+    # @!attribute [rw] program_number
+    #   The program number as it is reported in the Program Association
+    #   Table.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] program_pid
+    #   The program Packet ID (PID) as it is reported in the Program
+    #   Association Table.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] streams
+    #   The list of elementary transport streams in the program. The list
+    #   includes video, audio, and data streams.
+    #   @return [Array<Types::TransportStream>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/TransportStreamProgram AWS API Documentation
+    #
+    class TransportStreamProgram < Struct.new(
+      :pcr_pid,
+      :program_name,
+      :program_number,
+      :program_pid,
+      :streams)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] resource_arn
     #   @return [String]
     #
@@ -2743,6 +4418,270 @@ module Aws::MediaConnect
     class UntagResourceRequest < Struct.new(
       :resource_arn,
       :tag_keys)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Update the flow source of the bridge.
+    #
+    # @!attribute [rw] flow_arn
+    #   The ARN of the cloud flow to use as a source of this bridge.
+    #   @return [String]
+    #
+    # @!attribute [rw] flow_vpc_interface_attachment
+    #   The name of the VPC interface attachment to use for this source.
+    #   @return [Types::VpcInterfaceAttachment]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/UpdateBridgeFlowSourceRequest AWS API Documentation
+    #
+    class UpdateBridgeFlowSourceRequest < Struct.new(
+      :flow_arn,
+      :flow_vpc_interface_attachment)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Update an existing network output.
+    #
+    # @!attribute [rw] ip_address
+    #   The network output IP Address.
+    #   @return [String]
+    #
+    # @!attribute [rw] network_name
+    #   The network output's gateway network name.
+    #   @return [String]
+    #
+    # @!attribute [rw] port
+    #   The network output port.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] protocol
+    #   The network output protocol.
+    #   @return [String]
+    #
+    # @!attribute [rw] ttl
+    #   The network output TTL.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/UpdateBridgeNetworkOutputRequest AWS API Documentation
+    #
+    class UpdateBridgeNetworkOutputRequest < Struct.new(
+      :ip_address,
+      :network_name,
+      :port,
+      :protocol,
+      :ttl)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Update the network source of the bridge.
+    #
+    # @!attribute [rw] multicast_ip
+    #   The network source multicast IP.
+    #   @return [String]
+    #
+    # @!attribute [rw] multicast_source_settings
+    #   The IP address of the source for source-specific multicast (SSM).
+    #   @return [Types::MulticastSourceSettings]
+    #
+    # @!attribute [rw] network_name
+    #   The network source's gateway network name.
+    #   @return [String]
+    #
+    # @!attribute [rw] port
+    #   The network source port.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] protocol
+    #   The network source protocol.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/UpdateBridgeNetworkSourceRequest AWS API Documentation
+    #
+    class UpdateBridgeNetworkSourceRequest < Struct.new(
+      :multicast_ip,
+      :multicast_source_settings,
+      :network_name,
+      :port,
+      :protocol)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Update an existing bridge output.
+    #
+    # @!attribute [rw] bridge_arn
+    #   @return [String]
+    #
+    # @!attribute [rw] network_output
+    #   Update an existing network output.
+    #   @return [Types::UpdateBridgeNetworkOutputRequest]
+    #
+    # @!attribute [rw] output_name
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/UpdateBridgeOutputRequest AWS API Documentation
+    #
+    class UpdateBridgeOutputRequest < Struct.new(
+      :bridge_arn,
+      :network_output,
+      :output_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The result of a successful UpdateBridgeOutput request.
+    #
+    # @!attribute [rw] bridge_arn
+    #   The Amazon Resource Number (ARN) of the bridge.
+    #   @return [String]
+    #
+    # @!attribute [rw] output
+    #   The output that you updated.
+    #   @return [Types::BridgeOutput]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/UpdateBridgeOutputResponse AWS API Documentation
+    #
+    class UpdateBridgeOutputResponse < Struct.new(
+      :bridge_arn,
+      :output)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Update an existing bridge.
+    #
+    # @!attribute [rw] bridge_arn
+    #   @return [String]
+    #
+    # @!attribute [rw] egress_gateway_bridge
+    #   @return [Types::UpdateEgressGatewayBridgeRequest]
+    #
+    # @!attribute [rw] ingress_gateway_bridge
+    #   @return [Types::UpdateIngressGatewayBridgeRequest]
+    #
+    # @!attribute [rw] source_failover_config
+    #   The settings for source failover.
+    #   @return [Types::UpdateFailoverConfig]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/UpdateBridgeRequest AWS API Documentation
+    #
+    class UpdateBridgeRequest < Struct.new(
+      :bridge_arn,
+      :egress_gateway_bridge,
+      :ingress_gateway_bridge,
+      :source_failover_config)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The bridge has been successfully updated.
+    #
+    # @!attribute [rw] bridge
+    #   A Bridge is the connection between your data center's Instances and
+    #   the AWS cloud. A bridge can be used to send video from the AWS cloud
+    #   to your data center or from your data center to the AWS cloud.
+    #   @return [Types::Bridge]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/UpdateBridgeResponse AWS API Documentation
+    #
+    class UpdateBridgeResponse < Struct.new(
+      :bridge)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Update the bridge source.
+    #
+    # @!attribute [rw] bridge_arn
+    #   @return [String]
+    #
+    # @!attribute [rw] flow_source
+    #   Update the flow source of the bridge.
+    #   @return [Types::UpdateBridgeFlowSourceRequest]
+    #
+    # @!attribute [rw] network_source
+    #   Update the network source of the bridge.
+    #   @return [Types::UpdateBridgeNetworkSourceRequest]
+    #
+    # @!attribute [rw] source_name
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/UpdateBridgeSourceRequest AWS API Documentation
+    #
+    class UpdateBridgeSourceRequest < Struct.new(
+      :bridge_arn,
+      :flow_source,
+      :network_source,
+      :source_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The result of a successful UpdateBridgeSource request.
+    #
+    # @!attribute [rw] bridge_arn
+    #   The Amazon Resource Number (ARN) of the bridge.
+    #   @return [String]
+    #
+    # @!attribute [rw] source
+    #   The bridge's source.
+    #   @return [Types::BridgeSource]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/UpdateBridgeSourceResponse AWS API Documentation
+    #
+    class UpdateBridgeSourceResponse < Struct.new(
+      :bridge_arn,
+      :source)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Update the state of a bridge. ACTIVE or STANDBY.
+    #
+    # @!attribute [rw] bridge_arn
+    #   @return [String]
+    #
+    # @!attribute [rw] desired_state
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/UpdateBridgeStateRequest AWS API Documentation
+    #
+    class UpdateBridgeStateRequest < Struct.new(
+      :bridge_arn,
+      :desired_state)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The bridge state has been updated.
+    #
+    # @!attribute [rw] bridge_arn
+    #   The Amazon Resource Number (ARN) of the bridge.
+    #   @return [String]
+    #
+    # @!attribute [rw] desired_state
+    #   The state of the bridge. ACTIVE or STANDBY.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/UpdateBridgeStateResponse AWS API Documentation
+    #
+    class UpdateBridgeStateResponse < Struct.new(
+      :bridge_arn,
+      :desired_state)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] max_bitrate
+    #   Update an existing egress-type bridge.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/UpdateEgressGatewayBridgeRequest AWS API Documentation
+    #
+    class UpdateEgressGatewayBridgeRequest < Struct.new(
+      :max_bitrate)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2961,7 +4900,7 @@ module Aws::MediaConnect
       include Aws::Structure
     end
 
-    # Update response
+    # The result of a successful UpdateFlowMediaStream request.
     #
     # @!attribute [rw] flow_arn
     #   The ARN of the flow that is associated with the media stream that
@@ -3061,12 +5000,18 @@ module Aws::MediaConnect
     #
     # @!attribute [rw] stream_id
     #   The stream ID that you want to use for this transport. This
-    #   parameter applies only to Zixi-based streams.
+    #   parameter applies only to Zixi and SRT caller-based streams.
     #   @return [String]
     #
     # @!attribute [rw] vpc_interface_attachment
     #   The name of the VPC interface attachment to use for this output.
     #   @return [Types::VpcInterfaceAttachment]
+    #
+    # @!attribute [rw] output_status
+    #   An indication of whether the output should transmit data or not. If
+    #   you don't specify the outputStatus field in your request,
+    #   MediaConnect leaves the value unchanged.
+    #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/UpdateFlowOutputRequest AWS API Documentation
     #
@@ -3087,7 +5032,8 @@ module Aws::MediaConnect
       :sender_ip_address,
       :smoothing_latency,
       :stream_id,
-      :vpc_interface_attachment)
+      :vpc_interface_attachment,
+      :output_status)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3125,17 +5071,23 @@ module Aws::MediaConnect
     #   Update maintenance setting for a flow
     #   @return [Types::UpdateMaintenance]
     #
+    # @!attribute [rw] source_monitoring_config
+    #   The settings for source monitoring.
+    #   @return [Types::MonitoringConfig]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/UpdateFlowRequest AWS API Documentation
     #
     class UpdateFlowRequest < Struct.new(
       :flow_arn,
       :source_failover_config,
-      :maintenance)
+      :maintenance,
+      :source_monitoring_config)
       SENSITIVE = []
       include Aws::Structure
     end
 
-    # Updates an existing flow.
+    # The result of a successful UpdateFlow request. Updates an existing
+    # flow.
     #
     # @!attribute [rw] flow
     #   The settings for a flow, including its source, outputs, and
@@ -3177,7 +5129,8 @@ module Aws::MediaConnect
     #   @return [Integer]
     #
     # @!attribute [rw] max_bitrate
-    #   The smoothing max bitrate for RIST, RTP, and RTP-FEC streams.
+    #   The smoothing max bitrate (in bps) for RIST, RTP, and RTP-FEC
+    #   streams.
     #   @return [Integer]
     #
     # @!attribute [rw] max_latency
@@ -3231,7 +5184,7 @@ module Aws::MediaConnect
     #
     # @!attribute [rw] stream_id
     #   The stream ID that you want to use for this transport. This
-    #   parameter applies only to Zixi-based streams.
+    #   parameter applies only to Zixi and SRT caller-based streams.
     #   @return [String]
     #
     # @!attribute [rw] vpc_interface_name
@@ -3244,6 +5197,11 @@ module Aws::MediaConnect
     #   a Classless Inter-Domain Routing (CIDR) block; for example,
     #   10.0.0.0/16.
     #   @return [String]
+    #
+    # @!attribute [rw] gateway_bridge_source
+    #   The source configuration for cloud flows receiving a stream from a
+    #   bridge.
+    #   @return [Types::UpdateGatewayBridgeSourceRequest]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/UpdateFlowSourceRequest AWS API Documentation
     #
@@ -3266,7 +5224,8 @@ module Aws::MediaConnect
       :source_listener_port,
       :stream_id,
       :vpc_interface_name,
-      :whitelist_cidr)
+      :whitelist_cidr,
+      :gateway_bridge_source)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3288,6 +5247,88 @@ module Aws::MediaConnect
     class UpdateFlowSourceResponse < Struct.new(
       :flow_arn,
       :source)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The source configuration for cloud flows receiving a stream from a
+    # bridge.
+    #
+    # @!attribute [rw] bridge_arn
+    #   The ARN of the bridge feeding this flow.
+    #   @return [String]
+    #
+    # @!attribute [rw] vpc_interface_attachment
+    #   The name of the VPC interface attachment to use for this bridge
+    #   source.
+    #   @return [Types::VpcInterfaceAttachment]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/UpdateGatewayBridgeSourceRequest AWS API Documentation
+    #
+    class UpdateGatewayBridgeSourceRequest < Struct.new(
+      :bridge_arn,
+      :vpc_interface_attachment)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The state update that you want to make to an existing gateway
+    # instance.
+    #
+    # @!attribute [rw] bridge_placement
+    #   The availability of the instance to host new bridges. The
+    #   bridgePlacement property can be LOCKED or AVAILABLE. If it is
+    #   LOCKED, no new bridges can be deployed to this instance. If it is
+    #   AVAILABLE, new bridges can be added to this instance.
+    #   @return [String]
+    #
+    # @!attribute [rw] gateway_instance_arn
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/UpdateGatewayInstanceRequest AWS API Documentation
+    #
+    class UpdateGatewayInstanceRequest < Struct.new(
+      :bridge_placement,
+      :gateway_instance_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The result of a successful UpdateGatewayInstance request.
+    #
+    # @!attribute [rw] bridge_placement
+    #   The availability of the instance to host new bridges. The
+    #   bridgePlacement property can be LOCKED or AVAILABLE. If it is
+    #   LOCKED, no new bridges can be deployed to this instance. If it is
+    #   AVAILABLE, new bridges can be added to this instance.
+    #   @return [String]
+    #
+    # @!attribute [rw] gateway_instance_arn
+    #   The Amazon Resource Name (ARN) of the instance.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/UpdateGatewayInstanceResponse AWS API Documentation
+    #
+    class UpdateGatewayInstanceResponse < Struct.new(
+      :bridge_placement,
+      :gateway_instance_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] max_bitrate
+    #   The maximum expected bitrate (in bps).
+    #   @return [Integer]
+    #
+    # @!attribute [rw] max_outputs
+    #   The maximum number of expected outputs.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/UpdateIngressGatewayBridgeRequest AWS API Documentation
+    #
+    class UpdateIngressGatewayBridgeRequest < Struct.new(
+      :max_bitrate,
+      :max_outputs)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3315,6 +5356,25 @@ module Aws::MediaConnect
       :maintenance_day,
       :maintenance_scheduled_date,
       :maintenance_start_hour)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Specifies the configuration for video stream metrics monitoring.
+    #
+    # @!attribute [rw] black_frames
+    #   Detects video frames that are black.
+    #   @return [Types::BlackFrames]
+    #
+    # @!attribute [rw] frozen_frames
+    #   Detects video frames that have not changed.
+    #   @return [Types::FrozenFrames]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/VideoMonitoringSetting AWS API Documentation
+    #
+    class VideoMonitoringSetting < Struct.new(
+      :black_frames,
+      :frozen_frames)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3361,10 +5421,10 @@ module Aws::MediaConnect
       include Aws::Structure
     end
 
-    # The settings for attaching a VPC interface to an output.
+    # The settings for attaching a VPC interface to an resource.
     #
     # @!attribute [rw] vpc_interface_name
-    #   The name of the VPC interface to use for this output.
+    #   The name of the VPC interface to use for this resource.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/mediaconnect-2018-11-14/VpcInterfaceAttachment AWS API Documentation
@@ -3414,3 +5474,4 @@ module Aws::MediaConnect
 
   end
 end
+

@@ -7,34 +7,35 @@
 #
 # WARNING ABOUT GENERATED CODE
 
-require 'seahorse/client/plugins/content_length.rb'
-require 'aws-sdk-core/plugins/credentials_configuration.rb'
-require 'aws-sdk-core/plugins/logging.rb'
-require 'aws-sdk-core/plugins/param_converter.rb'
-require 'aws-sdk-core/plugins/param_validator.rb'
-require 'aws-sdk-core/plugins/user_agent.rb'
-require 'aws-sdk-core/plugins/helpful_socket_errors.rb'
-require 'aws-sdk-core/plugins/retry_errors.rb'
-require 'aws-sdk-core/plugins/global_configuration.rb'
-require 'aws-sdk-core/plugins/regional_endpoint.rb'
-require 'aws-sdk-core/plugins/endpoint_discovery.rb'
-require 'aws-sdk-core/plugins/endpoint_pattern.rb'
-require 'aws-sdk-core/plugins/response_paging.rb'
-require 'aws-sdk-core/plugins/stub_responses.rb'
-require 'aws-sdk-core/plugins/idempotency_token.rb'
-require 'aws-sdk-core/plugins/jsonvalue_converter.rb'
-require 'aws-sdk-core/plugins/client_metrics_plugin.rb'
-require 'aws-sdk-core/plugins/client_metrics_send_plugin.rb'
-require 'aws-sdk-core/plugins/transfer_encoding.rb'
-require 'aws-sdk-core/plugins/http_checksum.rb'
-require 'aws-sdk-core/plugins/checksum_algorithm.rb'
-require 'aws-sdk-core/plugins/defaults_mode.rb'
-require 'aws-sdk-core/plugins/recursion_detection.rb'
-require 'aws-sdk-core/plugins/sign.rb'
-require 'aws-sdk-core/plugins/protocols/query.rb'
-require 'aws-sdk-docdb/plugins/cross_region_copying.rb'
-
-Aws::Plugins::GlobalConfiguration.add_identifier(:docdb)
+require 'seahorse/client/plugins/content_length'
+require 'aws-sdk-core/plugins/credentials_configuration'
+require 'aws-sdk-core/plugins/logging'
+require 'aws-sdk-core/plugins/param_converter'
+require 'aws-sdk-core/plugins/param_validator'
+require 'aws-sdk-core/plugins/user_agent'
+require 'aws-sdk-core/plugins/helpful_socket_errors'
+require 'aws-sdk-core/plugins/retry_errors'
+require 'aws-sdk-core/plugins/global_configuration'
+require 'aws-sdk-core/plugins/regional_endpoint'
+require 'aws-sdk-core/plugins/endpoint_discovery'
+require 'aws-sdk-core/plugins/endpoint_pattern'
+require 'aws-sdk-core/plugins/response_paging'
+require 'aws-sdk-core/plugins/stub_responses'
+require 'aws-sdk-core/plugins/idempotency_token'
+require 'aws-sdk-core/plugins/invocation_id'
+require 'aws-sdk-core/plugins/jsonvalue_converter'
+require 'aws-sdk-core/plugins/client_metrics_plugin'
+require 'aws-sdk-core/plugins/client_metrics_send_plugin'
+require 'aws-sdk-core/plugins/transfer_encoding'
+require 'aws-sdk-core/plugins/http_checksum'
+require 'aws-sdk-core/plugins/checksum_algorithm'
+require 'aws-sdk-core/plugins/request_compression'
+require 'aws-sdk-core/plugins/defaults_mode'
+require 'aws-sdk-core/plugins/recursion_detection'
+require 'aws-sdk-core/plugins/telemetry'
+require 'aws-sdk-core/plugins/sign'
+require 'aws-sdk-core/plugins/protocols/query'
+require 'aws-sdk-docdb/plugins/cross_region_copying'
 
 module Aws::DocDB
   # An API client for DocDB.  To construct a client, you need to configure a `:region` and `:credentials`.
@@ -72,14 +73,17 @@ module Aws::DocDB
     add_plugin(Aws::Plugins::ResponsePaging)
     add_plugin(Aws::Plugins::StubResponses)
     add_plugin(Aws::Plugins::IdempotencyToken)
+    add_plugin(Aws::Plugins::InvocationId)
     add_plugin(Aws::Plugins::JsonvalueConverter)
     add_plugin(Aws::Plugins::ClientMetricsPlugin)
     add_plugin(Aws::Plugins::ClientMetricsSendPlugin)
     add_plugin(Aws::Plugins::TransferEncoding)
     add_plugin(Aws::Plugins::HttpChecksum)
     add_plugin(Aws::Plugins::ChecksumAlgorithm)
+    add_plugin(Aws::Plugins::RequestCompression)
     add_plugin(Aws::Plugins::DefaultsMode)
     add_plugin(Aws::Plugins::RecursionDetection)
+    add_plugin(Aws::Plugins::Telemetry)
     add_plugin(Aws::Plugins::Sign)
     add_plugin(Aws::Plugins::Protocols::Query)
     add_plugin(Aws::DocDB::Plugins::CrossRegionCopying)
@@ -87,6 +91,11 @@ module Aws::DocDB
 
     # @overload initialize(options)
     #   @param [Hash] options
+    #
+    #   @option options [Array<Seahorse::Client::Plugin>] :plugins ([]])
+    #     A list of plugins to apply to the client. Each plugin is either a
+    #     class name or an instance of a plugin class.
+    #
     #   @option options [required, Aws::CredentialProvider] :credentials
     #     Your AWS credentials. This can be an instance of any one of the
     #     following classes:
@@ -121,13 +130,15 @@ module Aws::DocDB
     #     locations will be searched for credentials:
     #
     #     * `Aws.config[:credentials]`
-    #     * The `:access_key_id`, `:secret_access_key`, and `:session_token` options.
-    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']
+    #     * The `:access_key_id`, `:secret_access_key`, `:session_token`, and
+    #       `:account_id` options.
+    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'],
+    #       ENV['AWS_SESSION_TOKEN'], and ENV['AWS_ACCOUNT_ID']
     #     * `~/.aws/credentials`
     #     * `~/.aws/config`
     #     * EC2/ECS IMDS instance profile - When used by default, the timeouts
     #       are very aggressive. Construct and pass an instance of
-    #       `Aws::InstanceProfileCredentails` or `Aws::ECSCredentials` to
+    #       `Aws::InstanceProfileCredentials` or `Aws::ECSCredentials` to
     #       enable retries and extended timeouts. Instance profile credential
     #       fetching can be disabled by setting ENV['AWS_EC2_METADATA_DISABLED']
     #       to true.
@@ -145,6 +156,8 @@ module Aws::DocDB
     #     * `~/.aws/config`
     #
     #   @option options [String] :access_key_id
+    #
+    #   @option options [String] :account_id
     #
     #   @option options [Boolean] :active_endpoint_cache (false)
     #     When set to `true`, a thread polling for endpoints will be running in
@@ -192,10 +205,20 @@ module Aws::DocDB
     #     Set to true to disable SDK automatically adding host prefix
     #     to default service endpoint when available.
     #
-    #   @option options [String] :endpoint
-    #     The client endpoint is normally constructed from the `:region`
-    #     option. You should only configure an `:endpoint` when connecting
-    #     to test or custom endpoints. This should be a valid HTTP(S) URI.
+    #   @option options [Boolean] :disable_request_compression (false)
+    #     When set to 'true' the request body will not be compressed
+    #     for supported operations.
+    #
+    #   @option options [String, URI::HTTPS, URI::HTTP] :endpoint
+    #     Normally you should not configure the `:endpoint` option
+    #     directly. This is normally constructed from the `:region`
+    #     option. Configuring `:endpoint` is normally reserved for
+    #     connecting to test or custom endpoints. The endpoint should
+    #     be a URI formatted like:
+    #
+    #         'http://example.com'
+    #         'https://example.com'
+    #         'http://example.com:123'
     #
     #   @option options [Integer] :endpoint_cache_max_entries (1000)
     #     Used for the maximum size limit of the LRU cache storing endpoints data
@@ -211,6 +234,10 @@ module Aws::DocDB
     #
     #   @option options [Boolean] :endpoint_discovery (false)
     #     When set to `true`, endpoint discovery will be enabled for operations when available.
+    #
+    #   @option options [Boolean] :ignore_configured_endpoint_urls
+    #     Setting to true disables use of endpoint URLs provided via environment
+    #     variables and the shared configuration file.
     #
     #   @option options [Aws::Log::Formatter] :log_formatter (Aws::Log::Formatter.default)
     #     The log formatter.
@@ -231,6 +258,34 @@ module Aws::DocDB
     #   @option options [String] :profile ("default")
     #     Used when loading credentials from the shared credentials file
     #     at HOME/.aws/credentials.  When not specified, 'default' is used.
+    #
+    #   @option options [String] :request_checksum_calculation ("when_supported")
+    #     Determines when a checksum will be calculated for request payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, a checksum will be
+    #       calculated for all request payloads of operations modeled with the
+    #       `httpChecksum` trait where `requestChecksumRequired` is `true` and/or a
+    #       `requestAlgorithmMember` is modeled.
+    #     * `when_required` - When set, a checksum will only be calculated for
+    #       request payloads of operations modeled with the  `httpChecksum` trait where
+    #       `requestChecksumRequired` is `true` or where a `requestAlgorithmMember`
+    #       is modeled and supplied.
+    #
+    #   @option options [Integer] :request_min_compression_size_bytes (10240)
+    #     The minimum size in bytes that triggers compression for request
+    #     bodies. The value must be non-negative integer value between 0
+    #     and 10485780 bytes inclusive.
+    #
+    #   @option options [String] :response_checksum_validation ("when_supported")
+    #     Determines when checksum validation will be performed on response payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, checksum validation is performed on all
+    #       response payloads of operations modeled with the `httpChecksum` trait where
+    #       `responseAlgorithms` is modeled, except when no modeled checksum algorithms
+    #       are supported.
+    #     * `when_required` - When set, checksum validation is not performed on
+    #       response payloads of operations unless the checksum algorithm is supported and
+    #       the `requestValidationModeMember` member is set to `ENABLED`.
     #
     #   @option options [Proc] :retry_backoff
     #     A proc or lambda used for backoff. Defaults to 2**retries * retry_base_delay.
@@ -276,10 +331,24 @@ module Aws::DocDB
     #       throttling.  This is a provisional mode that may change behavior
     #       in the future.
     #
+    #   @option options [String] :sdk_ua_app_id
+    #     A unique and opaque application ID that is appended to the
+    #     User-Agent header as app/sdk_ua_app_id. It should have a
+    #     maximum length of 50. This variable is sourced from environment
+    #     variable AWS_SDK_UA_APP_ID or the shared config profile attribute sdk_ua_app_id.
     #
     #   @option options [String] :secret_access_key
     #
     #   @option options [String] :session_token
+    #
+    #   @option options [Array] :sigv4a_signing_region_set
+    #     A list of regions that should be signed with SigV4a signing. When
+    #     not passed, a default `:sigv4a_signing_region_set` is searched for
+    #     in the following locations:
+    #
+    #     * `Aws.config[:sigv4a_signing_region_set]`
+    #     * `ENV['AWS_SIGV4A_SIGNING_REGION_SET']`
+    #     * `~/.aws/config`
     #
     #   @option options [Boolean] :stub_responses (false)
     #     Causes the client to return stubbed responses. By default
@@ -289,6 +358,16 @@ module Aws::DocDB
     #
     #     ** Please note ** When response stubbing is enabled, no HTTP
     #     requests are made, and retries are disabled.
+    #
+    #   @option options [Aws::Telemetry::TelemetryProviderBase] :telemetry_provider (Aws::Telemetry::NoOpTelemetryProvider)
+    #     Allows you to provide a telemetry provider, which is used to
+    #     emit telemetry data. By default, uses `NoOpTelemetryProvider` which
+    #     will not record or emit any telemetry data. The SDK supports the
+    #     following telemetry providers:
+    #
+    #     * OpenTelemetry (OTel) - To use the OTel provider, install and require the
+    #     `opentelemetry-sdk` gem and then, pass in an instance of a
+    #     `Aws::Telemetry::OTelProvider` for telemetry provider.
     #
     #   @option options [Aws::TokenProvider] :token_provider
     #     A Bearer Token Provider. This can be an instance of any one of the
@@ -317,52 +396,75 @@ module Aws::DocDB
     #     sending the request.
     #
     #   @option options [Aws::DocDB::EndpointProvider] :endpoint_provider
-    #     The endpoint provider used to resolve endpoints. Any object that responds to `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to `Aws::DocDB::EndpointParameters`
+    #     The endpoint provider used to resolve endpoints. Any object that responds to
+    #     `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+    #     `Aws::DocDB::EndpointParameters`.
     #
-    #   @option options [URI::HTTP,String] :http_proxy A proxy to send
-    #     requests through.  Formatted like 'http://proxy.com:123'.
+    #   @option options [Float] :http_continue_timeout (1)
+    #     The number of seconds to wait for a 100-continue response before sending the
+    #     request body.  This option has no effect unless the request has "Expect"
+    #     header set to "100-continue".  Defaults to `nil` which  disables this
+    #     behaviour.  This value can safely be set per request on the session.
     #
-    #   @option options [Float] :http_open_timeout (15) The number of
-    #     seconds to wait when opening a HTTP session before raising a
-    #     `Timeout::Error`.
+    #   @option options [Float] :http_idle_timeout (5)
+    #     The number of seconds a connection is allowed to sit idle before it
+    #     is considered stale.  Stale connections are closed and removed from the
+    #     pool before making a request.
     #
-    #   @option options [Float] :http_read_timeout (60) The default
-    #     number of seconds to wait for response data.  This value can
-    #     safely be set per-request on the session.
+    #   @option options [Float] :http_open_timeout (15)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :http_idle_timeout (5) The number of
-    #     seconds a connection is allowed to sit idle before it is
-    #     considered stale.  Stale connections are closed and removed
-    #     from the pool before making a request.
+    #   @option options [URI::HTTP,String] :http_proxy
+    #     A proxy to send requests through.  Formatted like 'http://proxy.com:123'.
     #
-    #   @option options [Float] :http_continue_timeout (1) The number of
-    #     seconds to wait for a 100-continue response before sending the
-    #     request body.  This option has no effect unless the request has
-    #     "Expect" header set to "100-continue".  Defaults to `nil` which
-    #     disables this behaviour.  This value can safely be set per
-    #     request on the session.
+    #   @option options [Float] :http_read_timeout (60)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :ssl_timeout (nil) Sets the SSL timeout
-    #     in seconds.
+    #   @option options [Boolean] :http_wire_trace (false)
+    #     When `true`,  HTTP debug output will be sent to the `:logger`.
     #
-    #   @option options [Boolean] :http_wire_trace (false) When `true`,
-    #     HTTP debug output will be sent to the `:logger`.
+    #   @option options [Proc] :on_chunk_received
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the response body is received. It provides three arguments: the chunk,
+    #     the number of bytes received, and the total number of
+    #     bytes in the response (or nil if the server did not send a `content-length`).
     #
-    #   @option options [Boolean] :ssl_verify_peer (true) When `true`,
-    #     SSL peer certificates are verified when establishing a
-    #     connection.
+    #   @option options [Proc] :on_chunk_sent
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the request body is sent. It provides three arguments: the chunk,
+    #     the number of bytes read from the body, and the total number of
+    #     bytes in the body.
     #
-    #   @option options [String] :ssl_ca_bundle Full path to the SSL
-    #     certificate authority bundle file that should be used when
-    #     verifying peer certificates.  If you do not pass
-    #     `:ssl_ca_bundle` or `:ssl_ca_directory` the the system default
-    #     will be used if available.
+    #   @option options [Boolean] :raise_response_errors (true)
+    #     When `true`, response errors are raised.
     #
-    #   @option options [String] :ssl_ca_directory Full path of the
-    #     directory that contains the unbundled SSL certificate
+    #   @option options [String] :ssl_ca_bundle
+    #     Full path to the SSL certificate authority bundle file that should be used when
+    #     verifying peer certificates.  If you do not pass `:ssl_ca_bundle` or
+    #     `:ssl_ca_directory` the the system default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_directory
+    #     Full path of the directory that contains the unbundled SSL certificate
     #     authority files for verifying peer certificates.  If you do
-    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the
-    #     system default will be used if available.
+    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the system
+    #     default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_store
+    #     Sets the X509::Store to verify peer certificate.
+    #
+    #   @option options [OpenSSL::X509::Certificate] :ssl_cert
+    #     Sets a client certificate when creating http connections.
+    #
+    #   @option options [OpenSSL::PKey] :ssl_key
+    #     Sets a client key when creating http connections.
+    #
+    #   @option options [Float] :ssl_timeout
+    #     Sets the SSL timeout in seconds
+    #
+    #   @option options [Boolean] :ssl_verify_peer (true)
+    #     When `true`, SSL peer certificates are verified when establishing a connection.
     #
     def initialize(*args)
       super
@@ -752,6 +854,7 @@ module Aws::DocDB
     #   resp.db_cluster_snapshot.kms_key_id #=> String
     #   resp.db_cluster_snapshot.db_cluster_snapshot_arn #=> String
     #   resp.db_cluster_snapshot.source_db_cluster_snapshot_arn #=> String
+    #   resp.db_cluster_snapshot.storage_type #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/docdb-2014-10-31/CopyDBClusterSnapshot AWS API Documentation
     #
@@ -889,7 +992,7 @@ module Aws::DocDB
     #   encrypt the new cluster, you can use the KMS key alias instead of the
     #   ARN for the KMS encryption key.
     #
-    #   If an encryption key is not specified in `KmsKeyId`\:
+    #   If an encryption key is not specified in `KmsKeyId`:
     #
     #   * If the `StorageEncrypted` parameter is `true`, Amazon DocumentDB
     #     uses your default encryption key.
@@ -922,6 +1025,52 @@ module Aws::DocDB
     #
     # @option params [String] :global_cluster_identifier
     #   The cluster identifier of the new global cluster.
+    #
+    # @option params [String] :storage_type
+    #   The storage type to associate with the DB cluster.
+    #
+    #   For information on storage types for Amazon DocumentDB clusters, see
+    #   Cluster storage configurations in the *Amazon DocumentDB Developer
+    #   Guide*.
+    #
+    #   Valid values for storage type - `standard | iopt1`
+    #
+    #   Default value is `standard `
+    #
+    #   <note markdown="1"> When you create a DocumentDB DB cluster with the storage type set to
+    #   `iopt1`, the storage type is returned in the response. The storage
+    #   type isn't returned when you set it to `standard`.
+    #
+    #    </note>
+    #
+    # @option params [Boolean] :manage_master_user_password
+    #   Specifies whether to manage the master user password with Amazon Web
+    #   Services Secrets Manager.
+    #
+    #   Constraint: You can't manage the master user password with Amazon Web
+    #   Services Secrets Manager if `MasterUserPassword` is specified.
+    #
+    # @option params [String] :master_user_secret_kms_key_id
+    #   The Amazon Web Services KMS key identifier to encrypt a secret that is
+    #   automatically generated and managed in Amazon Web Services Secrets
+    #   Manager. This setting is valid only if the master user password is
+    #   managed by Amazon DocumentDB in Amazon Web Services Secrets Manager
+    #   for the DB cluster.
+    #
+    #   The Amazon Web Services KMS key identifier is the key ARN, key ID,
+    #   alias ARN, or alias name for the KMS key. To use a KMS key in a
+    #   different Amazon Web Services account, specify the key ARN or alias
+    #   ARN.
+    #
+    #   If you don't specify `MasterUserSecretKmsKeyId`, then the
+    #   `aws/secretsmanager` KMS key is used to encrypt the secret. If the
+    #   secret is in a different Amazon Web Services account, then you can't
+    #   use the `aws/secretsmanager` KMS key to encrypt the secret, and you
+    #   must use a customer managed KMS key.
+    #
+    #   There is a default KMS key for your Amazon Web Services account. Your
+    #   Amazon Web Services account has a different default KMS key for each
+    #   Amazon Web Services Region.
     #
     # @option params [String] :source_region
     #   The source region of the snapshot. This is only needed when the
@@ -959,6 +1108,9 @@ module Aws::DocDB
     #     enable_cloudwatch_logs_exports: ["String"],
     #     deletion_protection: false,
     #     global_cluster_identifier: "GlobalClusterIdentifier",
+    #     storage_type: "String",
+    #     manage_master_user_password: false,
+    #     master_user_secret_kms_key_id: "String",
     #     source_region: "String",
     #   })
     #
@@ -1007,6 +1159,10 @@ module Aws::DocDB
     #   resp.db_cluster.enabled_cloudwatch_logs_exports #=> Array
     #   resp.db_cluster.enabled_cloudwatch_logs_exports[0] #=> String
     #   resp.db_cluster.deletion_protection #=> Boolean
+    #   resp.db_cluster.storage_type #=> String
+    #   resp.db_cluster.master_user_secret.secret_arn #=> String
+    #   resp.db_cluster.master_user_secret.secret_status #=> String
+    #   resp.db_cluster.master_user_secret.kms_key_id #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/docdb-2014-10-31/CreateDBCluster AWS API Documentation
     #
@@ -1165,6 +1321,7 @@ module Aws::DocDB
     #   resp.db_cluster_snapshot.kms_key_id #=> String
     #   resp.db_cluster_snapshot.db_cluster_snapshot_arn #=> String
     #   resp.db_cluster_snapshot.source_db_cluster_snapshot_arn #=> String
+    #   resp.db_cluster_snapshot.storage_type #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/docdb-2014-10-31/CreateDBClusterSnapshot AWS API Documentation
     #
@@ -1269,6 +1426,19 @@ module Aws::DocDB
     #   account has a different default KMS key for each Amazon Web Services
     #   region.
     #
+    # @option params [String] :ca_certificate_identifier
+    #   The CA certificate identifier to use for the DB instance's server
+    #   certificate.
+    #
+    #   For more information, see [Updating Your Amazon DocumentDB TLS
+    #   Certificates][1] and [ Encrypting Data in Transit][2] in the *Amazon
+    #   DocumentDB Developer Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/documentdb/latest/developerguide/ca_cert_rotation.html
+    #   [2]: https://docs.aws.amazon.com/documentdb/latest/developerguide/security.encryption.ssl.html
+    #
     # @return [Types::CreateDBInstanceResult] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreateDBInstanceResult#db_instance #db_instance} => Types::DBInstance
@@ -1293,6 +1463,7 @@ module Aws::DocDB
     #     promotion_tier: 1,
     #     enable_performance_insights: false,
     #     performance_insights_kms_key_id: "String",
+    #     ca_certificate_identifier: "String",
     #   })
     #
     # @example Response structure
@@ -1357,6 +1528,10 @@ module Aws::DocDB
     #   resp.db_instance.db_instance_arn #=> String
     #   resp.db_instance.enabled_cloudwatch_logs_exports #=> Array
     #   resp.db_instance.enabled_cloudwatch_logs_exports[0] #=> String
+    #   resp.db_instance.certificate_details.ca_identifier #=> String
+    #   resp.db_instance.certificate_details.valid_till #=> Time
+    #   resp.db_instance.performance_insights_enabled #=> Boolean
+    #   resp.db_instance.performance_insights_kms_key_id #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/docdb-2014-10-31/CreateDBInstance AWS API Documentation
     #
@@ -1739,6 +1914,10 @@ module Aws::DocDB
     #   resp.db_cluster.enabled_cloudwatch_logs_exports #=> Array
     #   resp.db_cluster.enabled_cloudwatch_logs_exports[0] #=> String
     #   resp.db_cluster.deletion_protection #=> Boolean
+    #   resp.db_cluster.storage_type #=> String
+    #   resp.db_cluster.master_user_secret.secret_arn #=> String
+    #   resp.db_cluster.master_user_secret.secret_status #=> String
+    #   resp.db_cluster.master_user_secret.kms_key_id #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/docdb-2014-10-31/DeleteDBCluster AWS API Documentation
     #
@@ -1823,6 +2002,7 @@ module Aws::DocDB
     #   resp.db_cluster_snapshot.kms_key_id #=> String
     #   resp.db_cluster_snapshot.db_cluster_snapshot_arn #=> String
     #   resp.db_cluster_snapshot.source_db_cluster_snapshot_arn #=> String
+    #   resp.db_cluster_snapshot.storage_type #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/docdb-2014-10-31/DeleteDBClusterSnapshot AWS API Documentation
     #
@@ -1917,6 +2097,10 @@ module Aws::DocDB
     #   resp.db_instance.db_instance_arn #=> String
     #   resp.db_instance.enabled_cloudwatch_logs_exports #=> Array
     #   resp.db_instance.enabled_cloudwatch_logs_exports[0] #=> String
+    #   resp.db_instance.certificate_details.ca_identifier #=> String
+    #   resp.db_instance.certificate_details.valid_till #=> Time
+    #   resp.db_instance.performance_insights_enabled #=> Boolean
+    #   resp.db_instance.performance_insights_kms_key_id #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/docdb-2014-10-31/DeleteDBInstance AWS API Documentation
     #
@@ -2458,6 +2642,7 @@ module Aws::DocDB
     #   resp.db_cluster_snapshots[0].kms_key_id #=> String
     #   resp.db_cluster_snapshots[0].db_cluster_snapshot_arn #=> String
     #   resp.db_cluster_snapshots[0].source_db_cluster_snapshot_arn #=> String
+    #   resp.db_cluster_snapshots[0].storage_type #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/docdb-2014-10-31/DescribeDBClusterSnapshots AWS API Documentation
     #
@@ -2580,6 +2765,10 @@ module Aws::DocDB
     #   resp.db_clusters[0].enabled_cloudwatch_logs_exports #=> Array
     #   resp.db_clusters[0].enabled_cloudwatch_logs_exports[0] #=> String
     #   resp.db_clusters[0].deletion_protection #=> Boolean
+    #   resp.db_clusters[0].storage_type #=> String
+    #   resp.db_clusters[0].master_user_secret.secret_arn #=> String
+    #   resp.db_clusters[0].master_user_secret.secret_status #=> String
+    #   resp.db_clusters[0].master_user_secret.kms_key_id #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/docdb-2014-10-31/DescribeDBClusters AWS API Documentation
     #
@@ -2685,6 +2874,9 @@ module Aws::DocDB
     #   resp.db_engine_versions[0].exportable_log_types #=> Array
     #   resp.db_engine_versions[0].exportable_log_types[0] #=> String
     #   resp.db_engine_versions[0].supports_log_exports_to_cloudwatch_logs #=> Boolean
+    #   resp.db_engine_versions[0].supported_ca_certificate_identifiers #=> Array
+    #   resp.db_engine_versions[0].supported_ca_certificate_identifiers[0] #=> String
+    #   resp.db_engine_versions[0].supports_certificate_rotation_without_restart #=> Boolean
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/docdb-2014-10-31/DescribeDBEngineVersions AWS API Documentation
     #
@@ -2823,6 +3015,10 @@ module Aws::DocDB
     #   resp.db_instances[0].db_instance_arn #=> String
     #   resp.db_instances[0].enabled_cloudwatch_logs_exports #=> Array
     #   resp.db_instances[0].enabled_cloudwatch_logs_exports[0] #=> String
+    #   resp.db_instances[0].certificate_details.ca_identifier #=> String
+    #   resp.db_instances[0].certificate_details.valid_till #=> Time
+    #   resp.db_instances[0].performance_insights_enabled #=> Boolean
+    #   resp.db_instances[0].performance_insights_kms_key_id #=> String
     #
     #
     # The following waiters are defined for this operation (see {Client#wait_until} for detailed usage):
@@ -3369,6 +3565,7 @@ module Aws::DocDB
     #   resp.orderable_db_instance_options[0].availability_zones #=> Array
     #   resp.orderable_db_instance_options[0].availability_zones[0].name #=> String
     #   resp.orderable_db_instance_options[0].vpc #=> Boolean
+    #   resp.orderable_db_instance_options[0].storage_type #=> String
     #   resp.marker #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/docdb-2014-10-31/DescribeOrderableDBInstanceOptions AWS API Documentation
@@ -3541,6 +3738,10 @@ module Aws::DocDB
     #   resp.db_cluster.enabled_cloudwatch_logs_exports #=> Array
     #   resp.db_cluster.enabled_cloudwatch_logs_exports[0] #=> String
     #   resp.db_cluster.deletion_protection #=> Boolean
+    #   resp.db_cluster.storage_type #=> String
+    #   resp.db_cluster.master_user_secret.secret_arn #=> String
+    #   resp.db_cluster.master_user_secret.secret_status #=> String
+    #   resp.db_cluster.master_user_secret.kms_key_id #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/docdb-2014-10-31/FailoverDBCluster AWS API Documentation
     #
@@ -3548,6 +3749,107 @@ module Aws::DocDB
     # @param [Hash] params ({})
     def failover_db_cluster(params = {}, options = {})
       req = build_request(:failover_db_cluster, params)
+      req.send_request(options)
+    end
+
+    # Promotes the specified secondary DB cluster to be the primary DB
+    # cluster in the global cluster when failing over a global cluster
+    # occurs.
+    #
+    # Use this operation to respond to an unplanned event, such as a
+    # regional disaster in the primary region. Failing over can result in a
+    # loss of write transaction data that wasn't replicated to the chosen
+    # secondary before the failover event occurred. However, the recovery
+    # process that promotes a DB instance on the chosen seconday DB cluster
+    # to be the primary writer DB instance guarantees that the data is in a
+    # transactionally consistent state.
+    #
+    # @option params [required, String] :global_cluster_identifier
+    #   The identifier of the Amazon DocumentDB global cluster to apply this
+    #   operation. The identifier is the unique key assigned by the user when
+    #   the cluster is created. In other words, it's the name of the global
+    #   cluster.
+    #
+    #   Constraints:
+    #
+    #   * Must match the identifier of an existing global cluster.
+    #
+    #   * Minimum length of 1. Maximum length of 255.
+    #
+    #   Pattern: `[A-Za-z][0-9A-Za-z-:._]*`
+    #
+    # @option params [required, String] :target_db_cluster_identifier
+    #   The identifier of the secondary Amazon DocumentDB cluster that you
+    #   want to promote to the primary for the global cluster. Use the Amazon
+    #   Resource Name (ARN) for the identifier so that Amazon DocumentDB can
+    #   locate the cluster in its Amazon Web Services region.
+    #
+    #   Constraints:
+    #
+    #   * Must match the identifier of an existing secondary cluster.
+    #
+    #   * Minimum length of 1. Maximum length of 255.
+    #
+    #   Pattern: `[A-Za-z][0-9A-Za-z-:._]*`
+    #
+    # @option params [Boolean] :allow_data_loss
+    #   Specifies whether to allow data loss for this global cluster
+    #   operation. Allowing data loss triggers a global failover operation.
+    #
+    #   If you don't specify `AllowDataLoss`, the global cluster operation
+    #   defaults to a switchover.
+    #
+    #   Constraints:
+    #
+    #   * Can't be specified together with the `Switchover` parameter.
+    #
+    #   ^
+    #
+    # @option params [Boolean] :switchover
+    #   Specifies whether to switch over this global database cluster.
+    #
+    #   Constraints:
+    #
+    #   * Can't be specified together with the `AllowDataLoss` parameter.
+    #
+    #   ^
+    #
+    # @return [Types::FailoverGlobalClusterResult] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::FailoverGlobalClusterResult#global_cluster #global_cluster} => Types::GlobalCluster
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.failover_global_cluster({
+    #     global_cluster_identifier: "GlobalClusterIdentifier", # required
+    #     target_db_cluster_identifier: "DBClusterIdentifier", # required
+    #     allow_data_loss: false,
+    #     switchover: false,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.global_cluster.global_cluster_identifier #=> String
+    #   resp.global_cluster.global_cluster_resource_id #=> String
+    #   resp.global_cluster.global_cluster_arn #=> String
+    #   resp.global_cluster.status #=> String
+    #   resp.global_cluster.engine #=> String
+    #   resp.global_cluster.engine_version #=> String
+    #   resp.global_cluster.database_name #=> String
+    #   resp.global_cluster.storage_encrypted #=> Boolean
+    #   resp.global_cluster.deletion_protection #=> Boolean
+    #   resp.global_cluster.global_cluster_members #=> Array
+    #   resp.global_cluster.global_cluster_members[0].db_cluster_arn #=> String
+    #   resp.global_cluster.global_cluster_members[0].readers #=> Array
+    #   resp.global_cluster.global_cluster_members[0].readers[0] #=> String
+    #   resp.global_cluster.global_cluster_members[0].is_writer #=> Boolean
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/docdb-2014-10-31/FailoverGlobalCluster AWS API Documentation
+    #
+    # @overload failover_global_cluster(params = {})
+    # @param [Hash] params ({})
+    def failover_global_cluster(params = {}, options = {})
+      req = build_request(:failover_global_cluster, params)
       req.send_request(options)
     end
 
@@ -3709,14 +4011,93 @@ module Aws::DocDB
     #
     # @option params [String] :engine_version
     #   The version number of the database engine to which you want to
-    #   upgrade. Modifying engine version is not supported on Amazon
-    #   DocumentDB.
+    #   upgrade. Changing this parameter results in an outage. The change is
+    #   applied during the next maintenance window unless `ApplyImmediately`
+    #   is enabled.
+    #
+    #   To list all of the available engine versions for Amazon DocumentDB use
+    #   the following command:
+    #
+    #   `aws docdb describe-db-engine-versions --engine docdb --query
+    #   "DBEngineVersions[].EngineVersion"`
+    #
+    # @option params [Boolean] :allow_major_version_upgrade
+    #   A value that indicates whether major version upgrades are allowed.
+    #
+    #   Constraints: You must allow major version upgrades when specifying a
+    #   value for the `EngineVersion` parameter that is a different major
+    #   version than the DB cluster's current version.
     #
     # @option params [Boolean] :deletion_protection
     #   Specifies whether this cluster can be deleted. If `DeletionProtection`
     #   is enabled, the cluster cannot be deleted unless it is modified and
     #   `DeletionProtection` is disabled. `DeletionProtection` protects
     #   clusters from being accidentally deleted.
+    #
+    # @option params [String] :storage_type
+    #   The storage type to associate with the DB cluster.
+    #
+    #   For information on storage types for Amazon DocumentDB clusters, see
+    #   Cluster storage configurations in the *Amazon DocumentDB Developer
+    #   Guide*.
+    #
+    #   Valid values for storage type - `standard | iopt1`
+    #
+    #   Default value is `standard `
+    #
+    # @option params [Boolean] :manage_master_user_password
+    #   Specifies whether to manage the master user password with Amazon Web
+    #   Services Secrets Manager. If the cluster doesn't manage the master
+    #   user password with Amazon Web Services Secrets Manager, you can turn
+    #   on this management. In this case, you can't specify
+    #   `MasterUserPassword`. If the cluster already manages the master user
+    #   password with Amazon Web Services Secrets Manager, and you specify
+    #   that the master user password is not managed with Amazon Web Services
+    #   Secrets Manager, then you must specify `MasterUserPassword`. In this
+    #   case, Amazon DocumentDB deletes the secret and uses the new password
+    #   for the master user specified by `MasterUserPassword`.
+    #
+    # @option params [String] :master_user_secret_kms_key_id
+    #   The Amazon Web Services KMS key identifier to encrypt a secret that is
+    #   automatically generated and managed in Amazon Web Services Secrets
+    #   Manager.
+    #
+    #   This setting is valid only if both of the following conditions are
+    #   met:
+    #
+    #   * The cluster doesn't manage the master user password in Amazon Web
+    #     Services Secrets Manager. If the cluster already manages the master
+    #     user password in Amazon Web Services Secrets Manager, you can't
+    #     change the KMS key that is used to encrypt the secret.
+    #
+    #   * You are enabling `ManageMasterUserPassword` to manage the master
+    #     user password in Amazon Web Services Secrets Manager. If you are
+    #     turning on `ManageMasterUserPassword` and don't specify
+    #     `MasterUserSecretKmsKeyId`, then the `aws/secretsmanager` KMS key is
+    #     used to encrypt the secret. If the secret is in a different Amazon
+    #     Web Services account, then you can't use the `aws/secretsmanager`
+    #     KMS key to encrypt the secret, and you must use a customer managed
+    #     KMS key.
+    #
+    #   The Amazon Web Services KMS key identifier is the key ARN, key ID,
+    #   alias ARN, or alias name for the KMS key. To use a KMS key in a
+    #   different Amazon Web Services account, specify the key ARN or alias
+    #   ARN.
+    #
+    #   There is a default KMS key for your Amazon Web Services account. Your
+    #   Amazon Web Services account has a different default KMS key for each
+    #   Amazon Web Services Region.
+    #
+    # @option params [Boolean] :rotate_master_user_password
+    #   Specifies whether to rotate the secret managed by Amazon Web Services
+    #   Secrets Manager for the master user password.
+    #
+    #   This setting is valid only if the master user password is managed by
+    #   Amazon DocumentDB in Amazon Web Services Secrets Manager for the
+    #   cluster. The secret value contains the updated password.
+    #
+    #   Constraint: You must apply the change immediately when rotating the
+    #   master user password.
     #
     # @return [Types::ModifyDBClusterResult] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -3740,7 +4121,12 @@ module Aws::DocDB
     #       disable_log_types: ["String"],
     #     },
     #     engine_version: "String",
+    #     allow_major_version_upgrade: false,
     #     deletion_protection: false,
+    #     storage_type: "String",
+    #     manage_master_user_password: false,
+    #     master_user_secret_kms_key_id: "String",
+    #     rotate_master_user_password: false,
     #   })
     #
     # @example Response structure
@@ -3788,6 +4174,10 @@ module Aws::DocDB
     #   resp.db_cluster.enabled_cloudwatch_logs_exports #=> Array
     #   resp.db_cluster.enabled_cloudwatch_logs_exports[0] #=> String
     #   resp.db_cluster.deletion_protection #=> Boolean
+    #   resp.db_cluster.storage_type #=> String
+    #   resp.db_cluster.master_user_secret.secret_arn #=> String
+    #   resp.db_cluster.master_user_secret.secret_status #=> String
+    #   resp.db_cluster.master_user_secret.kms_key_id #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/docdb-2014-10-31/ModifyDBCluster AWS API Documentation
     #
@@ -4055,6 +4445,26 @@ module Aws::DocDB
     #   account has a different default KMS key for each Amazon Web Services
     #   region.
     #
+    # @option params [Boolean] :certificate_rotation_restart
+    #   Specifies whether the DB instance is restarted when you rotate your
+    #   SSL/TLS certificate.
+    #
+    #   By default, the DB instance is restarted when you rotate your SSL/TLS
+    #   certificate. The certificate is not updated until the DB instance is
+    #   restarted.
+    #
+    #   Set this parameter only if you are *not* using SSL/TLS to connect to
+    #   the DB instance.
+    #
+    #   If you are using SSL/TLS to connect to the DB instance, see [Updating
+    #   Your Amazon DocumentDB TLS Certificates][1] and [ Encrypting Data in
+    #   Transit][2] in the *Amazon DocumentDB Developer Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/documentdb/latest/developerguide/ca_cert_rotation.html
+    #   [2]: https://docs.aws.amazon.com/documentdb/latest/developerguide/security.encryption.ssl.html
+    #
     # @return [Types::ModifyDBInstanceResult] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::ModifyDBInstanceResult#db_instance #db_instance} => Types::DBInstance
@@ -4073,6 +4483,7 @@ module Aws::DocDB
     #     promotion_tier: 1,
     #     enable_performance_insights: false,
     #     performance_insights_kms_key_id: "String",
+    #     certificate_rotation_restart: false,
     #   })
     #
     # @example Response structure
@@ -4137,6 +4548,10 @@ module Aws::DocDB
     #   resp.db_instance.db_instance_arn #=> String
     #   resp.db_instance.enabled_cloudwatch_logs_exports #=> Array
     #   resp.db_instance.enabled_cloudwatch_logs_exports[0] #=> String
+    #   resp.db_instance.certificate_details.ca_identifier #=> String
+    #   resp.db_instance.certificate_details.valid_till #=> Time
+    #   resp.db_instance.performance_insights_enabled #=> Boolean
+    #   resp.db_instance.performance_insights_kms_key_id #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/docdb-2014-10-31/ModifyDBInstance AWS API Documentation
     #
@@ -4434,6 +4849,10 @@ module Aws::DocDB
     #   resp.db_instance.db_instance_arn #=> String
     #   resp.db_instance.enabled_cloudwatch_logs_exports #=> Array
     #   resp.db_instance.enabled_cloudwatch_logs_exports[0] #=> String
+    #   resp.db_instance.certificate_details.ca_identifier #=> String
+    #   resp.db_instance.certificate_details.valid_till #=> Time
+    #   resp.db_instance.performance_insights_enabled #=> Boolean
+    #   resp.db_instance.performance_insights_kms_key_id #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/docdb-2014-10-31/RebootDBInstance AWS API Documentation
     #
@@ -4737,6 +5156,29 @@ module Aws::DocDB
     #   `DeletionProtection` is disabled. `DeletionProtection` protects
     #   clusters from being accidentally deleted.
     #
+    # @option params [String] :db_cluster_parameter_group_name
+    #   The name of the DB cluster parameter group to associate with this DB
+    #   cluster.
+    #
+    #   *Type:* String.       *Required:* No.
+    #
+    #   If this argument is omitted, the default DB cluster parameter group is
+    #   used. If supplied, must match the name of an existing default DB
+    #   cluster parameter group. The string must consist of from 1 to 255
+    #   letters, numbers or hyphens. Its first character must be a letter, and
+    #   it cannot end with a hyphen or contain two consecutive hyphens.
+    #
+    # @option params [String] :storage_type
+    #   The storage type to associate with the DB cluster.
+    #
+    #   For information on storage types for Amazon DocumentDB clusters, see
+    #   Cluster storage configurations in the *Amazon DocumentDB Developer
+    #   Guide*.
+    #
+    #   Valid values for storage type - `standard | iopt1`
+    #
+    #   Default value is `standard `
+    #
     # @return [Types::RestoreDBClusterFromSnapshotResult] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::RestoreDBClusterFromSnapshotResult#db_cluster #db_cluster} => Types::DBCluster
@@ -4761,6 +5203,8 @@ module Aws::DocDB
     #     kms_key_id: "String",
     #     enable_cloudwatch_logs_exports: ["String"],
     #     deletion_protection: false,
+    #     db_cluster_parameter_group_name: "String",
+    #     storage_type: "String",
     #   })
     #
     # @example Response structure
@@ -4808,6 +5252,10 @@ module Aws::DocDB
     #   resp.db_cluster.enabled_cloudwatch_logs_exports #=> Array
     #   resp.db_cluster.enabled_cloudwatch_logs_exports[0] #=> String
     #   resp.db_cluster.deletion_protection #=> Boolean
+    #   resp.db_cluster.storage_type #=> String
+    #   resp.db_cluster.master_user_secret.secret_arn #=> String
+    #   resp.db_cluster.master_user_secret.secret_status #=> String
+    #   resp.db_cluster.master_user_secret.kms_key_id #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/docdb-2014-10-31/RestoreDBClusterFromSnapshot AWS API Documentation
     #
@@ -4845,6 +5293,9 @@ module Aws::DocDB
     #
     #   * `copy-on-write` - The new DB cluster is restored as a clone of the
     #     source DB cluster.
+    #
+    #   Constraints: You can't specify `copy-on-write` if the engine version
+    #   of the source DB cluster is earlier than 1.11.
     #
     #   If you don't specify a `RestoreType` value, then the new DB cluster
     #   is restored as a full copy of the source DB cluster.
@@ -4945,6 +5396,17 @@ module Aws::DocDB
     #   `DeletionProtection` is disabled. `DeletionProtection` protects
     #   clusters from being accidentally deleted.
     #
+    # @option params [String] :storage_type
+    #   The storage type to associate with the DB cluster.
+    #
+    #   For information on storage types for Amazon DocumentDB clusters, see
+    #   Cluster storage configurations in the *Amazon DocumentDB Developer
+    #   Guide*.
+    #
+    #   Valid values for storage type - `standard | iopt1`
+    #
+    #   Default value is `standard `
+    #
     # @return [Types::RestoreDBClusterToPointInTimeResult] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::RestoreDBClusterToPointInTimeResult#db_cluster #db_cluster} => Types::DBCluster
@@ -4969,6 +5431,7 @@ module Aws::DocDB
     #     kms_key_id: "String",
     #     enable_cloudwatch_logs_exports: ["String"],
     #     deletion_protection: false,
+    #     storage_type: "String",
     #   })
     #
     # @example Response structure
@@ -5016,6 +5479,10 @@ module Aws::DocDB
     #   resp.db_cluster.enabled_cloudwatch_logs_exports #=> Array
     #   resp.db_cluster.enabled_cloudwatch_logs_exports[0] #=> String
     #   resp.db_cluster.deletion_protection #=> Boolean
+    #   resp.db_cluster.storage_type #=> String
+    #   resp.db_cluster.master_user_secret.secret_arn #=> String
+    #   resp.db_cluster.master_user_secret.secret_status #=> String
+    #   resp.db_cluster.master_user_secret.kms_key_id #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/docdb-2014-10-31/RestoreDBClusterToPointInTime AWS API Documentation
     #
@@ -5093,6 +5560,10 @@ module Aws::DocDB
     #   resp.db_cluster.enabled_cloudwatch_logs_exports #=> Array
     #   resp.db_cluster.enabled_cloudwatch_logs_exports[0] #=> String
     #   resp.db_cluster.deletion_protection #=> Boolean
+    #   resp.db_cluster.storage_type #=> String
+    #   resp.db_cluster.master_user_secret.secret_arn #=> String
+    #   resp.db_cluster.master_user_secret.secret_status #=> String
+    #   resp.db_cluster.master_user_secret.kms_key_id #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/docdb-2014-10-31/StartDBCluster AWS API Documentation
     #
@@ -5170,6 +5641,10 @@ module Aws::DocDB
     #   resp.db_cluster.enabled_cloudwatch_logs_exports #=> Array
     #   resp.db_cluster.enabled_cloudwatch_logs_exports[0] #=> String
     #   resp.db_cluster.deletion_protection #=> Boolean
+    #   resp.db_cluster.storage_type #=> String
+    #   resp.db_cluster.master_user_secret.secret_arn #=> String
+    #   resp.db_cluster.master_user_secret.secret_status #=> String
+    #   resp.db_cluster.master_user_secret.kms_key_id #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/docdb-2014-10-31/StopDBCluster AWS API Documentation
     #
@@ -5180,20 +5655,95 @@ module Aws::DocDB
       req.send_request(options)
     end
 
+    # Switches over the specified secondary Amazon DocumentDB cluster to be
+    # the new primary Amazon DocumentDB cluster in the global database
+    # cluster.
+    #
+    # @option params [required, String] :global_cluster_identifier
+    #   The identifier of the Amazon DocumentDB global database cluster to
+    #   switch over. The identifier is the unique key assigned by the user
+    #   when the cluster is created. In other words, it's the name of the
+    #   global cluster. This parameter isn’t case-sensitive.
+    #
+    #   Constraints:
+    #
+    #   * Must match the identifier of an existing global cluster (Amazon
+    #     DocumentDB global database).
+    #
+    #   * Minimum length of 1. Maximum length of 255.
+    #
+    #   Pattern: `[A-Za-z][0-9A-Za-z-:._]*`
+    #
+    # @option params [required, String] :target_db_cluster_identifier
+    #   The identifier of the secondary Amazon DocumentDB cluster to promote
+    #   to the new primary for the global database cluster. Use the Amazon
+    #   Resource Name (ARN) for the identifier so that Amazon DocumentDB can
+    #   locate the cluster in its Amazon Web Services region.
+    #
+    #   Constraints:
+    #
+    #   * Must match the identifier of an existing secondary cluster.
+    #
+    #   * Minimum length of 1. Maximum length of 255.
+    #
+    #   Pattern: `[A-Za-z][0-9A-Za-z-:._]*`
+    #
+    # @return [Types::SwitchoverGlobalClusterResult] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::SwitchoverGlobalClusterResult#global_cluster #global_cluster} => Types::GlobalCluster
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.switchover_global_cluster({
+    #     global_cluster_identifier: "GlobalClusterIdentifier", # required
+    #     target_db_cluster_identifier: "DBClusterIdentifier", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.global_cluster.global_cluster_identifier #=> String
+    #   resp.global_cluster.global_cluster_resource_id #=> String
+    #   resp.global_cluster.global_cluster_arn #=> String
+    #   resp.global_cluster.status #=> String
+    #   resp.global_cluster.engine #=> String
+    #   resp.global_cluster.engine_version #=> String
+    #   resp.global_cluster.database_name #=> String
+    #   resp.global_cluster.storage_encrypted #=> Boolean
+    #   resp.global_cluster.deletion_protection #=> Boolean
+    #   resp.global_cluster.global_cluster_members #=> Array
+    #   resp.global_cluster.global_cluster_members[0].db_cluster_arn #=> String
+    #   resp.global_cluster.global_cluster_members[0].readers #=> Array
+    #   resp.global_cluster.global_cluster_members[0].readers[0] #=> String
+    #   resp.global_cluster.global_cluster_members[0].is_writer #=> Boolean
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/docdb-2014-10-31/SwitchoverGlobalCluster AWS API Documentation
+    #
+    # @overload switchover_global_cluster(params = {})
+    # @param [Hash] params ({})
+    def switchover_global_cluster(params = {}, options = {})
+      req = build_request(:switchover_global_cluster, params)
+      req.send_request(options)
+    end
+
     # @!endgroup
 
     # @param params ({})
     # @api private
     def build_request(operation_name, params = {})
       handlers = @handlers.for(operation_name)
+      tracer = config.telemetry_provider.tracer_provider.tracer(
+        Aws::Telemetry.module_to_tracer_name('Aws::DocDB')
+      )
       context = Seahorse::Client::RequestContext.new(
         operation_name: operation_name,
         operation: config.api.operation(operation_name),
         client: self,
         params: params,
-        config: config)
+        config: config,
+        tracer: tracer
+      )
       context[:gem_name] = 'aws-sdk-docdb'
-      context[:gem_version] = '1.46.0'
+      context[:gem_version] = '1.83.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

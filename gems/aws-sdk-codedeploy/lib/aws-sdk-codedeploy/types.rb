@@ -60,10 +60,10 @@ module Aws::CodeDeploy
     #   the current state of alarms cannot be retrieved from Amazon
     #   CloudWatch. The default value is false.
     #
-    #   * `true`\: The deployment proceeds even if alarm status information
+    #   * `true`: The deployment proceeds even if alarm status information
     #     can't be retrieved from Amazon CloudWatch.
     #
-    #   * `false`\: The deployment stops if alarm status information can't
+    #   * `false`: The deployment stops if alarm status information can't
     #     be retrieved from Amazon CloudWatch.
     #   @return [Boolean]
     #
@@ -123,15 +123,15 @@ module Aws::CodeDeploy
       include Aws::Structure
     end
 
-    # An application with the specified name with the IAM user or Amazon Web
+    # An application with the specified name with the user or Amazon Web
     # Services account already exists.
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/ApplicationAlreadyExistsException AWS API Documentation
     #
     class ApplicationAlreadyExistsException < Aws::EmptyStructure; end
 
-    # The application does not exist with the IAM user or Amazon Web
-    # Services account.
+    # The application does not exist with the user or Amazon Web Services
+    # account.
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/ApplicationDoesNotExistException AWS API Documentation
     #
@@ -226,14 +226,36 @@ module Aws::CodeDeploy
     #   @return [String]
     #
     # @!attribute [rw] hook
-    #   An Auto Scaling lifecycle event hook name.
+    #   The name of the launch hook that CodeDeploy installed into the Auto
+    #   Scaling group.
+    #
+    #   For more information about the launch hook, see [How Amazon EC2 Auto
+    #   Scaling works with CodeDeploy][1] in the *CodeDeploy User Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/codedeploy/latest/userguide/integrations-aws-auto-scaling.html#integrations-aws-auto-scaling-behaviors
+    #   @return [String]
+    #
+    # @!attribute [rw] termination_hook
+    #   The name of the termination hook that CodeDeploy installed into the
+    #   Auto Scaling group.
+    #
+    #   For more information about the termination hook, see [Enabling
+    #   termination deployments during Auto Scaling scale-in events][1] in
+    #   the *CodeDeploy User Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/codedeploy/latest/userguide/integrations-aws-auto-scaling.html#integrations-aws-auto-scaling-behaviors-hook-enable
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/AutoScalingGroup AWS API Documentation
     #
     class AutoScalingGroup < Struct.new(
       :name,
-      :hook)
+      :hook,
+      :termination_hook)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -320,7 +342,7 @@ module Aws::CodeDeploy
     #
     # @!attribute [rw] application_name
     #   The name of an CodeDeploy application associated with the applicable
-    #   IAM or Amazon Web Services account.
+    #   user or Amazon Web Services account.
     #   @return [String]
     #
     # @!attribute [rw] deployment_group_names
@@ -438,15 +460,15 @@ module Aws::CodeDeploy
     #   events. The type of the target objects depends on the deployment'
     #   compute platform.
     #
-    #   * **EC2/On-premises**\: Each target object is an Amazon EC2 or
+    #   * **EC2/On-premises**: Each target object is an Amazon EC2 or
     #     on-premises instance.
     #
-    #   * **Lambda**\: The target object is a specific version of an Lambda
+    #   * **Lambda**: The target object is a specific version of an Lambda
     #     function.
     #
-    #   * **Amazon ECS**\: The target object is an Amazon ECS service.
+    #   * **Amazon ECS**: The target object is an Amazon ECS service.
     #
-    #   * **CloudFormation**\: The target object is an CloudFormation
+    #   * **CloudFormation**: The target object is an CloudFormation
     #     blue/green deployment.
     #   @return [Array<Types::DeploymentTarget>]
     #
@@ -560,10 +582,9 @@ module Aws::CodeDeploy
     #   The action to take on instances in the original environment after a
     #   successful blue/green deployment.
     #
-    #   * `TERMINATE`\: Instances are terminated after a specified wait
-    #     time.
+    #   * `TERMINATE`: Instances are terminated after a specified wait time.
     #
-    #   * `KEEP_ALIVE`\: Instances are left running after they are
+    #   * `KEEP_ALIVE`: Instances are left running after they are
     #     deregistered from the load balancer and removed from the
     #     deployment group.
     #   @return [String]
@@ -672,7 +693,7 @@ module Aws::CodeDeploy
     #
     # @!attribute [rw] application_name
     #   The name of the application. This name must be unique with the
-    #   applicable IAM or Amazon Web Services account.
+    #   applicable user or Amazon Web Services account.
     #   @return [String]
     #
     # @!attribute [rw] compute_platform
@@ -748,13 +769,28 @@ module Aws::CodeDeploy
     #   `Server`, or `ECS`).
     #   @return [String]
     #
+    # @!attribute [rw] zonal_config
+    #   Configure the `ZonalConfig` object if you want CodeDeploy to deploy
+    #   your application to one [Availability Zone][1] at a time, within an
+    #   Amazon Web Services Region.
+    #
+    #   For more information about the zonal configuration feature, see
+    #   [zonal configuration][2] in the *CodeDeploy User Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html#concepts-availability-zones
+    #   [2]: https://docs.aws.amazon.com/codedeploy/latest/userguide/deployment-configurations-create.html#zonal-config
+    #   @return [Types::ZonalConfig]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/CreateDeploymentConfigInput AWS API Documentation
     #
     class CreateDeploymentConfigInput < Struct.new(
       :deployment_config_name,
       :minimum_healthy_hosts,
       :traffic_routing_config,
-      :compute_platform)
+      :compute_platform,
+      :zonal_config)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -776,8 +812,8 @@ module Aws::CodeDeploy
     # Represents the input of a `CreateDeploymentGroup` operation.
     #
     # @!attribute [rw] application_name
-    #   The name of an CodeDeploy application associated with the IAM user
-    #   or Amazon Web Services account.
+    #   The name of an CodeDeploy application associated with the user or
+    #   Amazon Web Services account.
     #   @return [String]
     #
     # @!attribute [rw] deployment_group_name
@@ -902,6 +938,30 @@ module Aws::CodeDeploy
     #   optional value, both of which you define.
     #   @return [Array<Types::Tag>]
     #
+    # @!attribute [rw] termination_hook_enabled
+    #   This parameter only applies if you are using CodeDeploy with Amazon
+    #   EC2 Auto Scaling. For more information, see [Integrating CodeDeploy
+    #   with Amazon EC2 Auto Scaling][1] in the *CodeDeploy User Guide*.
+    #
+    #   Set `terminationHookEnabled` to `true` to have CodeDeploy install a
+    #   termination hook into your Auto Scaling group when you create a
+    #   deployment group. When this hook is installed, CodeDeploy will
+    #   perform termination deployments.
+    #
+    #   For information about termination deployments, see [Enabling
+    #   termination deployments during Auto Scaling scale-in events][2] in
+    #   the *CodeDeploy User Guide*.
+    #
+    #   For more information about Auto Scaling scale-in events, see the
+    #   [Scale in][3] topic in the *Amazon EC2 Auto Scaling User Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/codedeploy/latest/userguide/integrations-aws-auto-scaling.html
+    #   [2]: https://docs.aws.amazon.com/codedeploy/latest/userguide/integrations-aws-auto-scaling.html#integrations-aws-auto-scaling-behaviors-hook-enable
+    #   [3]: https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-lifecycle.html#as-lifecycle-scale-in
+    #   @return [Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/CreateDeploymentGroupInput AWS API Documentation
     #
     class CreateDeploymentGroupInput < Struct.new(
@@ -922,7 +982,8 @@ module Aws::CodeDeploy
       :ec2_tag_set,
       :ecs_services,
       :on_premises_tag_set,
-      :tags)
+      :tags,
+      :termination_hook_enabled)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -944,8 +1005,8 @@ module Aws::CodeDeploy
     # Represents the input of a `CreateDeployment` operation.
     #
     # @!attribute [rw] application_name
-    #   The name of an CodeDeploy application associated with the IAM user
-    #   or Amazon Web Services account.
+    #   The name of an CodeDeploy application associated with the user or
+    #   Amazon Web Services account.
     #   @return [String]
     #
     # @!attribute [rw] deployment_group_name
@@ -957,8 +1018,8 @@ module Aws::CodeDeploy
     #   @return [Types::RevisionLocation]
     #
     # @!attribute [rw] deployment_config_name
-    #   The name of a deployment configuration associated with the IAM user
-    #   or Amazon Web Services account.
+    #   The name of a deployment configuration associated with the user or
+    #   Amazon Web Services account.
     #
     #   If not specified, the value configured in the deployment group is
     #   used as the default. If the deployment group does not have a
@@ -1088,8 +1149,8 @@ module Aws::CodeDeploy
     # Represents the input of a `DeleteApplication` operation.
     #
     # @!attribute [rw] application_name
-    #   The name of an CodeDeploy application associated with the IAM user
-    #   or Amazon Web Services account.
+    #   The name of an CodeDeploy application associated with the user or
+    #   Amazon Web Services account.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/DeleteApplicationInput AWS API Documentation
@@ -1103,8 +1164,8 @@ module Aws::CodeDeploy
     # Represents the input of a `DeleteDeploymentConfig` operation.
     #
     # @!attribute [rw] deployment_config_name
-    #   The name of a deployment configuration associated with the IAM user
-    #   or Amazon Web Services account.
+    #   The name of a deployment configuration associated with the user or
+    #   Amazon Web Services account.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/DeleteDeploymentConfigInput AWS API Documentation
@@ -1118,8 +1179,8 @@ module Aws::CodeDeploy
     # Represents the input of a `DeleteDeploymentGroup` operation.
     #
     # @!attribute [rw] application_name
-    #   The name of an CodeDeploy application associated with the IAM user
-    #   or Amazon Web Services account.
+    #   The name of an CodeDeploy application associated with the user or
+    #   Amazon Web Services account.
     #   @return [String]
     #
     # @!attribute [rw] deployment_group_name
@@ -1213,15 +1274,15 @@ module Aws::CodeDeploy
     #
     class DeploymentAlreadyStartedException < Aws::EmptyStructure; end
 
-    # A deployment configuration with the specified name with the IAM user
-    # or Amazon Web Services account already exists.
+    # A deployment configuration with the specified name with the user or
+    # Amazon Web Services account already exists.
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/DeploymentConfigAlreadyExistsException AWS API Documentation
     #
     class DeploymentConfigAlreadyExistsException < Aws::EmptyStructure; end
 
-    # The deployment configuration does not exist with the IAM user or
-    # Amazon Web Services account.
+    # The deployment configuration does not exist with the user or Amazon
+    # Web Services account.
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/DeploymentConfigDoesNotExistException AWS API Documentation
     #
@@ -1245,7 +1306,7 @@ module Aws::CodeDeploy
     #
     # @!attribute [rw] minimum_healthy_hosts
     #   Information about the number or percentage of minimum healthy
-    #   instance.
+    #   instances.
     #   @return [Types::MinimumHealthyHosts]
     #
     # @!attribute [rw] create_time
@@ -1263,6 +1324,10 @@ module Aws::CodeDeploy
     #   platform only.
     #   @return [Types::TrafficRoutingConfig]
     #
+    # @!attribute [rw] zonal_config
+    #   Information about a zonal configuration.
+    #   @return [Types::ZonalConfig]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/DeploymentConfigInfo AWS API Documentation
     #
     class DeploymentConfigInfo < Struct.new(
@@ -1271,7 +1336,8 @@ module Aws::CodeDeploy
       :minimum_healthy_hosts,
       :create_time,
       :compute_platform,
-      :traffic_routing_config)
+      :traffic_routing_config,
+      :zonal_config)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1288,21 +1354,21 @@ module Aws::CodeDeploy
     #
     class DeploymentConfigNameRequiredException < Aws::EmptyStructure; end
 
-    # The deployment with the IAM user or Amazon Web Services account does
-    # not exist.
+    # The deployment with the user or Amazon Web Services account does not
+    # exist.
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/DeploymentDoesNotExistException AWS API Documentation
     #
     class DeploymentDoesNotExistException < Aws::EmptyStructure; end
 
-    # A deployment group with the specified name with the IAM user or Amazon
-    # Web Services account already exists.
+    # A deployment group with the specified name with the user or Amazon Web
+    # Services account already exists.
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/DeploymentGroupAlreadyExistsException AWS API Documentation
     #
     class DeploymentGroupAlreadyExistsException < Aws::EmptyStructure; end
 
-    # The named deployment group with the IAM user or Amazon Web Services
+    # The named deployment group with the user or Amazon Web Services
     # account does not exist.
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/DeploymentGroupDoesNotExistException AWS API Documentation
@@ -1436,6 +1502,19 @@ module Aws::CodeDeploy
     #   `<clustername>:<servicename>`.
     #   @return [Array<Types::ECSService>]
     #
+    # @!attribute [rw] termination_hook_enabled
+    #   Indicates whether the deployment group was configured to have
+    #   CodeDeploy install a termination hook into an Auto Scaling group.
+    #
+    #   For more information about the termination hook, see [How Amazon EC2
+    #   Auto Scaling works with CodeDeploy][1] in the *CodeDeploy User
+    #   Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/codedeploy/latest/userguide/integrations-aws-auto-scaling.html#integrations-aws-auto-scaling-behaviors
+    #   @return [Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/DeploymentGroupInfo AWS API Documentation
     #
     class DeploymentGroupInfo < Struct.new(
@@ -1460,7 +1539,8 @@ module Aws::CodeDeploy
       :ec2_tag_set,
       :on_premises_tag_set,
       :compute_platform,
-      :ecs_services)
+      :ecs_services,
+      :termination_hook_enabled)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1549,13 +1629,13 @@ module Aws::CodeDeploy
     # @!attribute [rw] creator
     #   The means by which the deployment was created:
     #
-    #   * `user`\: A user created the deployment.
+    #   * `user`: A user created the deployment.
     #
-    #   * `autoscaling`\: Amazon EC2 Auto Scaling created the deployment.
+    #   * `autoscaling`: Amazon EC2 Auto Scaling created the deployment.
     #
-    #   * `codeDeployRollback`\: A rollback process created the deployment.
+    #   * `codeDeployRollback`: A rollback process created the deployment.
     #
-    #   * `CodeDeployAutoUpdate`\: An auto-update process created the
+    #   * `CodeDeployAutoUpdate`: An auto-update process created the
     #     deployment when it detected outdated Amazon EC2 instances.
     #   @return [String]
     #
@@ -1639,14 +1719,14 @@ module Aws::CodeDeploy
     #   a deployment target location but weren't part of the previous
     #   successful deployment.
     #
-    #   * `DISALLOW`\: The deployment fails. This is also the default
+    #   * `DISALLOW`: The deployment fails. This is also the default
     #     behavior if no option is specified.
     #
-    #   * `OVERWRITE`\: The version of the file from the application
-    #     revision currently being deployed replaces the version already on
-    #     the instance.
+    #   * `OVERWRITE`: The version of the file from the application revision
+    #     currently being deployed replaces the version already on the
+    #     instance.
     #
-    #   * `RETAIN`\: The version of the file already on the instance is kept
+    #   * `RETAIN`: The version of the file already on the instance is kept
     #     and used as part of the new deployment.
     #   @return [String]
     #
@@ -1971,11 +2051,11 @@ module Aws::CodeDeploy
     # @!attribute [rw] type
     #   The tag filter type:
     #
-    #   * `KEY_ONLY`\: Key only.
+    #   * `KEY_ONLY`: Key only.
     #
-    #   * `VALUE_ONLY`\: Value only.
+    #   * `VALUE_ONLY`: Value only.
     #
-    #   * `KEY_AND_VALUE`\: Key and value.
+    #   * `KEY_AND_VALUE`: Key and value.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/EC2TagFilter AWS API Documentation
@@ -2115,12 +2195,12 @@ module Aws::CodeDeploy
     # @!attribute [rw] status
     #   The status of the task set. There are three valid task set statuses:
     #
-    #   * `PRIMARY`\: Indicates the task set is serving production traffic.
+    #   * `PRIMARY`: Indicates the task set is serving production traffic.
     #
-    #   * `ACTIVE`\: Indicates the task set is not serving production
+    #   * `ACTIVE`: Indicates the task set is not serving production
     #     traffic.
     #
-    #   * `DRAINING`\: Indicates the tasks in the task set are being stopped
+    #   * `DRAINING`: Indicates the tasks in the task set are being stopped
     #     and their corresponding targets are being deregistered from their
     #     target group.
     #   @return [String]
@@ -2154,16 +2234,16 @@ module Aws::CodeDeploy
       include Aws::Structure
     end
 
-    # Information about a load balancer in Elastic Load Balancing to use in
-    # a deployment. Instances are registered directly with a load balancer,
-    # and traffic is routed to the load balancer.
+    # Information about a Classic Load Balancer in Elastic Load Balancing to
+    # use in a deployment. Instances are registered directly with a load
+    # balancer, and traffic is routed to the load balancer.
     #
     # @!attribute [rw] name
-    #   For blue/green deployments, the name of the load balancer that is
-    #   used to route traffic from original instances to replacement
+    #   For blue/green deployments, the name of the Classic Load Balancer
+    #   that is used to route traffic from original instances to replacement
     #   instances in a blue/green deployment. For in-place deployments, the
-    #   name of the load balancer that instances are deregistered from so
-    #   they are not serving traffic during a deployment, and then
+    #   name of the Classic Load Balancer that instances are deregistered
+    #   from so they are not serving traffic during a deployment, and then
     #   re-registered with after the deployment is complete.
     #   @return [String]
     #
@@ -2280,8 +2360,8 @@ module Aws::CodeDeploy
     # Represents the input of a `GetApplication` operation.
     #
     # @!attribute [rw] application_name
-    #   The name of an CodeDeploy application associated with the IAM user
-    #   or Amazon Web Services account.
+    #   The name of an CodeDeploy application associated with the user or
+    #   Amazon Web Services account.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/GetApplicationInput AWS API Documentation
@@ -2354,8 +2434,8 @@ module Aws::CodeDeploy
     # Represents the input of a `GetDeploymentConfig` operation.
     #
     # @!attribute [rw] deployment_config_name
-    #   The name of a deployment configuration associated with the IAM user
-    #   or Amazon Web Services account.
+    #   The name of a deployment configuration associated with the user or
+    #   Amazon Web Services account.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/GetDeploymentConfigInput AWS API Documentation
@@ -2383,8 +2463,8 @@ module Aws::CodeDeploy
     # Represents the input of a `GetDeploymentGroup` operation.
     #
     # @!attribute [rw] application_name
-    #   The name of an CodeDeploy application associated with the IAM user
-    #   or Amazon Web Services account.
+    #   The name of an CodeDeploy application associated with the user or
+    #   Amazon Web Services account.
     #   @return [String]
     #
     # @!attribute [rw] deployment_group_name
@@ -2417,8 +2497,8 @@ module Aws::CodeDeploy
     # Represents the input of a `GetDeployment` operation.
     #
     # @!attribute [rw] deployment_id
-    #   The unique ID of a deployment associated with the IAM user or Amazon
-    #   Web Services account.
+    #   The unique ID of a deployment associated with the user or Amazon Web
+    #   Services account.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/GetDeploymentInput AWS API Documentation
@@ -2581,10 +2661,10 @@ module Aws::CodeDeploy
     # @!attribute [rw] action
     #   The method used to add instances to a replacement environment.
     #
-    #   * `DISCOVER_EXISTING`\: Use instances that already exist or will be
+    #   * `DISCOVER_EXISTING`: Use instances that already exist or will be
     #     created manually.
     #
-    #   * `COPY_AUTO_SCALING_GROUP`\: Use settings from a specified Auto
+    #   * `COPY_AUTO_SCALING_GROUP`: Use settings from a specified Auto
     #     Scaling group to define and create instances in a new Auto Scaling
     #     group.
     #   @return [String]
@@ -2598,7 +2678,7 @@ module Aws::CodeDeploy
     end
 
     # No IAM ARN was included in the request. You must use an IAM session
-    # ARN or IAM user ARN in the request.
+    # ARN or user ARN in the request.
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/IamArnRequiredException AWS API Documentation
     #
@@ -2611,14 +2691,14 @@ module Aws::CodeDeploy
     #
     class IamSessionArnAlreadyRegisteredException < Aws::EmptyStructure; end
 
-    # The specified IAM user ARN is already registered with an on-premises
+    # The specified user ARN is already registered with an on-premises
     # instance.
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/IamUserArnAlreadyRegisteredException AWS API Documentation
     #
     class IamUserArnAlreadyRegisteredException < Aws::EmptyStructure; end
 
-    # An IAM user ARN was not specified.
+    # An user ARN was not specified.
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/IamUserArnRequiredException AWS API Documentation
     #
@@ -2647,7 +2727,7 @@ module Aws::CodeDeploy
     #   @return [String]
     #
     # @!attribute [rw] iam_user_arn
-    #   The IAM user ARN associated with the on-premises instance.
+    #   The user ARN associated with the on-premises instance.
     #   @return [String]
     #
     # @!attribute [rw] instance_arn
@@ -2719,17 +2799,17 @@ module Aws::CodeDeploy
     # @!attribute [rw] status
     #   The deployment status for this instance:
     #
-    #   * `Pending`\: The deployment is pending for this instance.
+    #   * `Pending`: The deployment is pending for this instance.
     #
-    #   * `In Progress`\: The deployment is in progress for this instance.
+    #   * `In Progress`: The deployment is in progress for this instance.
     #
-    #   * `Succeeded`\: The deployment has succeeded for this instance.
+    #   * `Succeeded`: The deployment has succeeded for this instance.
     #
-    #   * `Failed`\: The deployment has failed for this instance.
+    #   * `Failed`: The deployment has failed for this instance.
     #
-    #   * `Skipped`\: The deployment has been skipped for this instance.
+    #   * `Skipped`: The deployment has been skipped for this instance.
     #
-    #   * `Unknown`\: The deployment status is unknown for this instance.
+    #   * `Unknown`: The deployment status is unknown for this instance.
     #   @return [String]
     #
     # @!attribute [rw] last_updated_at
@@ -2989,7 +3069,7 @@ module Aws::CodeDeploy
     #
     class InvalidIamSessionArnException < Aws::EmptyStructure; end
 
-    # The IAM user ARN was specified in an invalid format.
+    # The user ARN was specified in an invalid format.
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/InvalidIamUserArnException AWS API Documentation
     #
@@ -3198,6 +3278,12 @@ module Aws::CodeDeploy
     #
     class InvalidUpdateOutdatedInstancesOnlyValueException < Aws::EmptyStructure; end
 
+    # The `ZonalConfig` object is not valid.
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/InvalidZonalDeploymentConfigurationException AWS API Documentation
+    #
+    class InvalidZonalDeploymentConfigurationException < Aws::EmptyStructure; end
+
     # Information about a Lambda function specified in a deployment.
     #
     # @!attribute [rw] function_name
@@ -3386,21 +3472,21 @@ module Aws::CodeDeploy
     # Represents the input of a `ListApplicationRevisions` operation.
     #
     # @!attribute [rw] application_name
-    #   The name of an CodeDeploy application associated with the IAM user
-    #   or Amazon Web Services account.
+    #   The name of an CodeDeploy application associated with the user or
+    #   Amazon Web Services account.
     #   @return [String]
     #
     # @!attribute [rw] sort_by
     #   The column name to use to sort the list results:
     #
-    #   * `registerTime`\: Sort by the time the revisions were registered
+    #   * `registerTime`: Sort by the time the revisions were registered
     #     with CodeDeploy.
     #
-    #   * `firstUsedTime`\: Sort by the time the revisions were first used
-    #     in a deployment.
-    #
-    #   * `lastUsedTime`\: Sort by the time the revisions were last used in
+    #   * `firstUsedTime`: Sort by the time the revisions were first used in
     #     a deployment.
+    #
+    #   * `lastUsedTime`: Sort by the time the revisions were last used in a
+    #     deployment.
     #
     #   If not specified or set to null, the results are returned in an
     #   arbitrary order.
@@ -3409,9 +3495,9 @@ module Aws::CodeDeploy
     # @!attribute [rw] sort_order
     #   The order in which to sort the list results:
     #
-    #   * `ascending`\: ascending order.
+    #   * `ascending`: ascending order.
     #
-    #   * `descending`\: descending order.
+    #   * `descending`: descending order.
     #
     #   If not specified, the results are sorted in ascending order.
     #
@@ -3433,13 +3519,13 @@ module Aws::CodeDeploy
     #   Whether to list revisions based on whether the revision is the
     #   target revision of a deployment group:
     #
-    #   * `include`\: List revisions that are target revisions of a
+    #   * `include`: List revisions that are target revisions of a
     #     deployment group.
     #
-    #   * `exclude`\: Do not list revisions that are target revisions of a
+    #   * `exclude`: Do not list revisions that are target revisions of a
     #     deployment group.
     #
-    #   * `ignore`\: List all revisions.
+    #   * `ignore`: List all revisions.
     #   @return [String]
     #
     # @!attribute [rw] next_token
@@ -3561,8 +3647,8 @@ module Aws::CodeDeploy
     # Represents the input of a `ListDeploymentGroups` operation.
     #
     # @!attribute [rw] application_name
-    #   The name of an CodeDeploy application associated with the IAM user
-    #   or Amazon Web Services account.
+    #   The name of an CodeDeploy application associated with the user or
+    #   Amazon Web Services account.
     #   @return [String]
     #
     # @!attribute [rw] next_token
@@ -3621,18 +3707,18 @@ module Aws::CodeDeploy
     # @!attribute [rw] instance_status_filter
     #   A subset of instances to list by status:
     #
-    #   * `Pending`\: Include those instances with pending deployments.
+    #   * `Pending`: Include those instances with pending deployments.
     #
-    #   * `InProgress`\: Include those instances where deployments are still
+    #   * `InProgress`: Include those instances where deployments are still
     #     in progress.
     #
-    #   * `Succeeded`\: Include those instances with successful deployments.
+    #   * `Succeeded`: Include those instances with successful deployments.
     #
-    #   * `Failed`\: Include those instances with failed deployments.
+    #   * `Failed`: Include those instances with failed deployments.
     #
-    #   * `Skipped`\: Include those instances with skipped deployments.
+    #   * `Skipped`: Include those instances with skipped deployments.
     #
-    #   * `Unknown`\: Include those instances with deployments in an unknown
+    #   * `Unknown`: Include those instances with deployments in an unknown
     #     state.
     #   @return [Array<String>]
     #
@@ -3729,8 +3815,8 @@ module Aws::CodeDeploy
     # Represents the input of a `ListDeployments` operation.
     #
     # @!attribute [rw] application_name
-    #   The name of an CodeDeploy application associated with the IAM user
-    #   or Amazon Web Services account.
+    #   The name of an CodeDeploy application associated with the user or
+    #   Amazon Web Services account.
     #
     #   <note markdown="1"> If `applicationName` is specified, then `deploymentGroupName` must
     #   be specified. If it is not specified, then `deploymentGroupName`
@@ -3757,19 +3843,18 @@ module Aws::CodeDeploy
     # @!attribute [rw] include_only_statuses
     #   A subset of deployments to list by status:
     #
-    #   * `Created`\: Include created deployments in the resulting list.
+    #   * `Created`: Include created deployments in the resulting list.
     #
-    #   * `Queued`\: Include queued deployments in the resulting list.
+    #   * `Queued`: Include queued deployments in the resulting list.
     #
-    #   * `In Progress`\: Include in-progress deployments in the resulting
+    #   * `In Progress`: Include in-progress deployments in the resulting
     #     list.
     #
-    #   * `Succeeded`\: Include successful deployments in the resulting
-    #     list.
+    #   * `Succeeded`: Include successful deployments in the resulting list.
     #
-    #   * `Failed`\: Include failed deployments in the resulting list.
+    #   * `Failed`: Include failed deployments in the resulting list.
     #
-    #   * `Stopped`\: Include stopped deployments in the resulting list.
+    #   * `Stopped`: Include stopped deployments in the resulting list.
     #   @return [Array<String>]
     #
     # @!attribute [rw] create_time_range
@@ -3859,10 +3944,10 @@ module Aws::CodeDeploy
     # @!attribute [rw] registration_status
     #   The registration status of the on-premises instances:
     #
-    #   * `Deregistered`\: Include deregistered on-premises instances in the
+    #   * `Deregistered`: Include deregistered on-premises instances in the
     #     resulting list.
     #
-    #   * `Registered`\: Include registered on-premises instances in the
+    #   * `Registered`: Include registered on-premises instances in the
     #     resulting list.
     #   @return [String]
     #
@@ -3952,22 +4037,39 @@ module Aws::CodeDeploy
     # Information about the Elastic Load Balancing load balancer or target
     # group used in a deployment.
     #
-    # @!attribute [rw] elb_info_list
-    #   An array that contains information about the load balancer to use
-    #   for load balancing in a deployment. In Elastic Load Balancing, load
-    #   balancers are used with Classic Load Balancers.
+    # You can use load balancers and target groups in combination. For
+    # example, if you have two Classic Load Balancers, and five target
+    # groups tied to an Application Load Balancer, you can specify the two
+    # Classic Load Balancers in `elbInfoList`, and the five target groups in
+    # `targetGroupInfoList`.
     #
-    #   <note markdown="1"> Adding more than one load balancer to the array is not supported.
+    # @!attribute [rw] elb_info_list
+    #   An array that contains information about the load balancers to use
+    #   for load balancing in a deployment. If you're using Classic Load
+    #   Balancers, specify those load balancers in this array.
+    #
+    #   <note markdown="1"> You can add up to 10 load balancers to the array.
+    #
+    #    </note>
+    #
+    #   <note markdown="1"> If you're using Application Load Balancers or Network Load
+    #   Balancers, use the `targetGroupInfoList` array instead of this one.
     #
     #    </note>
     #   @return [Array<Types::ELBInfo>]
     #
     # @!attribute [rw] target_group_info_list
-    #   An array that contains information about the target group to use for
-    #   load balancing in a deployment. In Elastic Load Balancing, target
-    #   groups are used with Application Load Balancers.
+    #   An array that contains information about the target groups to use
+    #   for load balancing in a deployment. If you're using Application
+    #   Load Balancers and Network Load Balancers, specify their associated
+    #   target groups in this array.
     #
-    #   <note markdown="1"> Adding more than one target group to the array is not supported.
+    #   <note markdown="1"> You can add up to 10 target groups to the array.
+    #
+    #    </note>
+    #
+    #   <note markdown="1"> If you're using Classic Load Balancers, use the `elbInfoList` array
+    #   instead of this one.
     #
     #    </note>
     #   @return [Array<Types::TargetGroupInfo>]
@@ -3987,15 +4089,15 @@ module Aws::CodeDeploy
       include Aws::Structure
     end
 
-    # Information about minimum healthy instance.
+    # Information about the minimum number of healthy instances.
     #
     # @!attribute [rw] type
     #   The minimum healthy instance type:
     #
-    #   * `HOST_COUNT`\: The minimum number of healthy instances as an
+    #   * `HOST_COUNT`: The minimum number of healthy instances as an
     #     absolute value.
     #
-    #   * `FLEET_PERCENT`\: The minimum number of healthy instances as a
+    #   * `FLEET_PERCENT`: The minimum number of healthy instances as a
     #     percentage of the total number of instances in the deployment.
     #
     #   In an example of nine instances, if a HOST\_COUNT of six is
@@ -4040,8 +4142,28 @@ module Aws::CodeDeploy
       include Aws::Structure
     end
 
-    # Both an IAM user ARN and an IAM session ARN were included in the
-    # request. Use only one ARN type.
+    # Information about the minimum number of healthy instances per
+    # Availability Zone.
+    #
+    # @!attribute [rw] type
+    #   The `type` associated with the `MinimumHealthyHostsPerZone` option.
+    #   @return [String]
+    #
+    # @!attribute [rw] value
+    #   The `value` associated with the `MinimumHealthyHostsPerZone` option.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/MinimumHealthyHostsPerZone AWS API Documentation
+    #
+    class MinimumHealthyHostsPerZone < Struct.new(
+      :type,
+      :value)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Both an user ARN and an IAM session ARN were included in the request.
+    # Use only one ARN type.
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/MultipleIamArnsProvidedException AWS API Documentation
     #
@@ -4136,8 +4258,8 @@ module Aws::CodeDeploy
     # Represents the input of a RegisterApplicationRevision operation.
     #
     # @!attribute [rw] application_name
-    #   The name of an CodeDeploy application associated with the IAM user
-    #   or Amazon Web Services account.
+    #   The name of an CodeDeploy application associated with the user or
+    #   Amazon Web Services account.
     #   @return [String]
     #
     # @!attribute [rw] description
@@ -4171,7 +4293,7 @@ module Aws::CodeDeploy
     #   @return [String]
     #
     # @!attribute [rw] iam_user_arn
-    #   The ARN of the IAM user to associate with the on-premises instance.
+    #   The ARN of the user to associate with the on-premises instance.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/RegisterOnPremisesInstanceInput AWS API Documentation
@@ -4237,8 +4359,8 @@ module Aws::CodeDeploy
     #
     class ResourceValidationException < Aws::EmptyStructure; end
 
-    # The named revision does not exist with the IAM user or Amazon Web
-    # Services account.
+    # The named revision does not exist with the user or Amazon Web Services
+    # account.
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/RevisionDoesNotExistException AWS API Documentation
     #
@@ -4371,11 +4493,15 @@ module Aws::CodeDeploy
     #   The file type of the application revision. Must be one of the
     #   following:
     #
-    #   * `tar`\: A tar archive file.
+    #   * `tar`: A tar archive file.
     #
-    #   * `tgz`\: A compressed tar archive file.
+    #   * `tgz`: A compressed tar archive file.
     #
-    #   * `zip`\: A zip archive file.
+    #   * `zip`: A zip archive file.
+    #
+    #   * `YAML`: A YAML-formatted file.
+    #
+    #   * `JSON`: A JSON-formatted file.
     #   @return [String]
     #
     # @!attribute [rw] version
@@ -4903,7 +5029,7 @@ module Aws::CodeDeploy
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/https:/docs.aws.amazon.com/codedeploy/latest/userguide/troubleshooting-auto-scaling.html#troubleshooting-auto-scaling-heartbeat
+    #   [1]: https://docs.aws.amazon.com/codedeploy/latest/userguide/troubleshooting-auto-scaling.html#troubleshooting-auto-scaling-heartbeat
     #   @return [Array<String>]
     #
     # @!attribute [rw] service_role_arn
@@ -4979,6 +5105,30 @@ module Aws::CodeDeploy
     #   groups.
     #   @return [Types::OnPremisesTagSet]
     #
+    # @!attribute [rw] termination_hook_enabled
+    #   This parameter only applies if you are using CodeDeploy with Amazon
+    #   EC2 Auto Scaling. For more information, see [Integrating CodeDeploy
+    #   with Amazon EC2 Auto Scaling][1] in the *CodeDeploy User Guide*.
+    #
+    #   Set `terminationHookEnabled` to `true` to have CodeDeploy install a
+    #   termination hook into your Auto Scaling group when you update a
+    #   deployment group. When this hook is installed, CodeDeploy will
+    #   perform termination deployments.
+    #
+    #   For information about termination deployments, see [Enabling
+    #   termination deployments during Auto Scaling scale-in events][2] in
+    #   the *CodeDeploy User Guide*.
+    #
+    #   For more information about Auto Scaling scale-in events, see the
+    #   [Scale in][3] topic in the *Amazon EC2 Auto Scaling User Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/codedeploy/latest/userguide/integrations-aws-auto-scaling.html
+    #   [2]: https://docs.aws.amazon.com/codedeploy/latest/userguide/integrations-aws-auto-scaling.html#integrations-aws-auto-scaling-behaviors-hook-enable
+    #   [3]: https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-lifecycle.html#as-lifecycle-scale-in
+    #   @return [Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/UpdateDeploymentGroupInput AWS API Documentation
     #
     class UpdateDeploymentGroupInput < Struct.new(
@@ -4999,7 +5149,8 @@ module Aws::CodeDeploy
       :load_balancer_info,
       :ec2_tag_set,
       :ecs_services,
-      :on_premises_tag_set)
+      :on_premises_tag_set,
+      :termination_hook_enabled)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5023,5 +5174,88 @@ module Aws::CodeDeploy
       include Aws::Structure
     end
 
+    # Configure the `ZonalConfig` object if you want CodeDeploy to deploy
+    # your application to one [Availability Zone][1] at a time, within an
+    # Amazon Web Services Region. By deploying to one Availability Zone at a
+    # time, you can expose your deployment to a progressively larger
+    # audience as confidence in the deployment's performance and viability
+    # grows. If you don't configure the `ZonalConfig` object, CodeDeploy
+    # deploys your application to a random selection of hosts across a
+    # Region.
+    #
+    # For more information about the zonal configuration feature, see [zonal
+    # configuration][2] in the *CodeDeploy User Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html#concepts-availability-zones
+    # [2]: https://docs.aws.amazon.com/codedeploy/latest/userguide/deployment-configurations-create.html#zonal-config
+    #
+    # @!attribute [rw] first_zone_monitor_duration_in_seconds
+    #   The period of time, in seconds, that CodeDeploy must wait after
+    #   completing a deployment to the *first* Availability Zone. CodeDeploy
+    #   will wait this amount of time before starting a deployment to the
+    #   second Availability Zone. You might set this option if you want to
+    #   allow extra bake time for the first Availability Zone. If you don't
+    #   specify a value for `firstZoneMonitorDurationInSeconds`, then
+    #   CodeDeploy uses the `monitorDurationInSeconds` value for the first
+    #   Availability Zone.
+    #
+    #   For more information about the zonal configuration feature, see
+    #   [zonal configuration][1] in the *CodeDeploy User Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/codedeploy/latest/userguide/deployment-configurations-create.html#zonal-config
+    #   @return [Integer]
+    #
+    # @!attribute [rw] monitor_duration_in_seconds
+    #   The period of time, in seconds, that CodeDeploy must wait after
+    #   completing a deployment to an Availability Zone. CodeDeploy will
+    #   wait this amount of time before starting a deployment to the next
+    #   Availability Zone. Consider adding a monitor duration to give the
+    #   deployment some time to prove itself (or 'bake') in one
+    #   Availability Zone before it is released in the next zone. If you
+    #   don't specify a `monitorDurationInSeconds`, CodeDeploy starts
+    #   deploying to the next Availability Zone immediately.
+    #
+    #   For more information about the zonal configuration feature, see
+    #   [zonal configuration][1] in the *CodeDeploy User Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/codedeploy/latest/userguide/deployment-configurations-create.html#zonal-config
+    #   @return [Integer]
+    #
+    # @!attribute [rw] minimum_healthy_hosts_per_zone
+    #   The number or percentage of instances that must remain available per
+    #   Availability Zone during a deployment. This option works in
+    #   conjunction with the `MinimumHealthyHosts` option. For more
+    #   information, see [About the minimum number of healthy hosts per
+    #   Availability Zone][1] in the *CodeDeploy User Guide*.
+    #
+    #   If you don't specify the `minimumHealthyHostsPerZone` option, then
+    #   CodeDeploy uses a default value of `0` percent.
+    #
+    #   For more information about the zonal configuration feature, see
+    #   [zonal configuration][2] in the *CodeDeploy User Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/codedeploy/latest/userguide/instances-health.html#minimum-healthy-hosts-az
+    #   [2]: https://docs.aws.amazon.com/codedeploy/latest/userguide/deployment-configurations-create.html#zonal-config
+    #   @return [Types::MinimumHealthyHostsPerZone]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/ZonalConfig AWS API Documentation
+    #
+    class ZonalConfig < Struct.new(
+      :first_zone_monitor_duration_in_seconds,
+      :monitor_duration_in_seconds,
+      :minimum_healthy_hosts_per_zone)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
   end
 end
+

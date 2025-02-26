@@ -201,7 +201,9 @@ module Aws
       def next_response(params)
         params = next_page_params(params)
         request = context.client.build_request(context.operation_name, params)
-        request.send_request
+        Aws::Plugins::UserAgent.metric('PAGINATOR') do
+          request.send_request
+        end
       end
 
       def next_page_params(params)

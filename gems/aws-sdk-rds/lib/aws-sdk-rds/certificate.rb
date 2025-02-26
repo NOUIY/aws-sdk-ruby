@@ -65,7 +65,8 @@ module Aws::RDS
       data[:certificate_arn]
     end
 
-    # Whether there is an override for the default certificate identifier.
+    # Indicates whether there is an override for the default certificate
+    # identifier.
     # @return [Boolean]
     def customer_override
       data[:customer_override]
@@ -92,7 +93,9 @@ module Aws::RDS
     #
     # @return [self]
     def load
-      resp = @client.describe_certificates(certificate_identifier: @id)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.describe_certificates(certificate_identifier: @id)
+      end
       @data = resp.certificates[0]
       self
     end
@@ -207,7 +210,9 @@ module Aws::RDS
           :retry
         end
       end
-      Aws::Waiters::Waiter.new(options).wait({})
+      Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        Aws::Waiters::Waiter.new(options).wait({})
+      end
     end
 
     # @deprecated

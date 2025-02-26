@@ -5,12 +5,14 @@
     "endpointPrefix":"email",
     "jsonVersion":"1.1",
     "protocol":"rest-json",
+    "protocols":["rest-json"],
     "serviceAbbreviation":"Amazon SES V2",
     "serviceFullName":"Amazon Simple Email Service",
     "serviceId":"SESv2",
     "signatureVersion":"v4",
     "signingName":"ses",
-    "uid":"sesv2-2019-09-27"
+    "uid":"sesv2-2019-09-27",
+    "auth":["aws.auth#sigv4"]
   },
   "operations":{
     "BatchGetMetricData":{
@@ -26,6 +28,20 @@
         {"shape":"InternalServiceErrorException"},
         {"shape":"TooManyRequestsException"},
         {"shape":"NotFoundException"}
+      ]
+    },
+    "CancelExportJob":{
+      "name":"CancelExportJob",
+      "http":{
+        "method":"PUT",
+        "requestUri":"/v2/email/export-jobs/{JobId}/cancel"
+      },
+      "input":{"shape":"CancelExportJobRequest"},
+      "output":{"shape":"CancelExportJobResponse"},
+      "errors":[
+        {"shape":"NotFoundException"},
+        {"shape":"BadRequestException"},
+        {"shape":"TooManyRequestsException"}
       ]
     },
     "CreateConfigurationSet":{
@@ -191,6 +207,21 @@
         {"shape":"LimitExceededException"}
       ]
     },
+    "CreateExportJob":{
+      "name":"CreateExportJob",
+      "http":{
+        "method":"POST",
+        "requestUri":"/v2/email/export-jobs"
+      },
+      "input":{"shape":"CreateExportJobRequest"},
+      "output":{"shape":"CreateExportJobResponse"},
+      "errors":[
+        {"shape":"BadRequestException"},
+        {"shape":"TooManyRequestsException"},
+        {"shape":"NotFoundException"},
+        {"shape":"LimitExceededException"}
+      ]
+    },
     "CreateImportJob":{
       "name":"CreateImportJob",
       "http":{
@@ -203,6 +234,21 @@
         {"shape":"BadRequestException"},
         {"shape":"LimitExceededException"},
         {"shape":"TooManyRequestsException"}
+      ]
+    },
+    "CreateMultiRegionEndpoint":{
+      "name":"CreateMultiRegionEndpoint",
+      "http":{
+        "method":"POST",
+        "requestUri":"/v2/email/multi-region-endpoints"
+      },
+      "input":{"shape":"CreateMultiRegionEndpointRequest"},
+      "output":{"shape":"CreateMultiRegionEndpointResponse"},
+      "errors":[
+        {"shape":"LimitExceededException"},
+        {"shape":"TooManyRequestsException"},
+        {"shape":"AlreadyExistsException"},
+        {"shape":"BadRequestException"}
       ]
     },
     "DeleteConfigurationSet":{
@@ -333,6 +379,21 @@
         {"shape":"NotFoundException"},
         {"shape":"TooManyRequestsException"},
         {"shape":"BadRequestException"}
+      ]
+    },
+    "DeleteMultiRegionEndpoint":{
+      "name":"DeleteMultiRegionEndpoint",
+      "http":{
+        "method":"DELETE",
+        "requestUri":"/v2/email/multi-region-endpoints/{EndpointName}"
+      },
+      "input":{"shape":"DeleteMultiRegionEndpointRequest"},
+      "output":{"shape":"DeleteMultiRegionEndpointResponse"},
+      "errors":[
+        {"shape":"NotFoundException"},
+        {"shape":"TooManyRequestsException"},
+        {"shape":"BadRequestException"},
+        {"shape":"ConcurrentModificationException"}
       ]
     },
     "DeleteSuppressedDestination":{
@@ -586,6 +647,20 @@
         {"shape":"BadRequestException"}
       ]
     },
+    "GetExportJob":{
+      "name":"GetExportJob",
+      "http":{
+        "method":"GET",
+        "requestUri":"/v2/email/export-jobs/{JobId}"
+      },
+      "input":{"shape":"GetExportJobRequest"},
+      "output":{"shape":"GetExportJobResponse"},
+      "errors":[
+        {"shape":"BadRequestException"},
+        {"shape":"NotFoundException"},
+        {"shape":"TooManyRequestsException"}
+      ]
+    },
     "GetImportJob":{
       "name":"GetImportJob",
       "http":{
@@ -598,6 +673,34 @@
         {"shape":"BadRequestException"},
         {"shape":"NotFoundException"},
         {"shape":"TooManyRequestsException"}
+      ]
+    },
+    "GetMessageInsights":{
+      "name":"GetMessageInsights",
+      "http":{
+        "method":"GET",
+        "requestUri":"/v2/email/insights/{MessageId}/"
+      },
+      "input":{"shape":"GetMessageInsightsRequest"},
+      "output":{"shape":"GetMessageInsightsResponse"},
+      "errors":[
+        {"shape":"NotFoundException"},
+        {"shape":"TooManyRequestsException"},
+        {"shape":"BadRequestException"}
+      ]
+    },
+    "GetMultiRegionEndpoint":{
+      "name":"GetMultiRegionEndpoint",
+      "http":{
+        "method":"GET",
+        "requestUri":"/v2/email/multi-region-endpoints/{EndpointName}"
+      },
+      "input":{"shape":"GetMultiRegionEndpointRequest"},
+      "output":{"shape":"GetMultiRegionEndpointResponse"},
+      "errors":[
+        {"shape":"NotFoundException"},
+        {"shape":"TooManyRequestsException"},
+        {"shape":"BadRequestException"}
       ]
     },
     "GetSuppressedDestination":{
@@ -643,8 +746,8 @@
     "ListContacts":{
       "name":"ListContacts",
       "http":{
-        "method":"GET",
-        "requestUri":"/v2/email/contact-lists/{ContactListName}/contacts"
+        "method":"POST",
+        "requestUri":"/v2/email/contact-lists/{ContactListName}/contacts/list"
       },
       "input":{"shape":"ListContactsRequest"},
       "output":{"shape":"ListContactsResponse"},
@@ -734,14 +837,40 @@
         {"shape":"BadRequestException"}
       ]
     },
+    "ListExportJobs":{
+      "name":"ListExportJobs",
+      "http":{
+        "method":"POST",
+        "requestUri":"/v2/email/list-export-jobs"
+      },
+      "input":{"shape":"ListExportJobsRequest"},
+      "output":{"shape":"ListExportJobsResponse"},
+      "errors":[
+        {"shape":"TooManyRequestsException"},
+        {"shape":"BadRequestException"}
+      ]
+    },
     "ListImportJobs":{
       "name":"ListImportJobs",
       "http":{
-        "method":"GET",
-        "requestUri":"/v2/email/import-jobs"
+        "method":"POST",
+        "requestUri":"/v2/email/import-jobs/list"
       },
       "input":{"shape":"ListImportJobsRequest"},
       "output":{"shape":"ListImportJobsResponse"},
+      "errors":[
+        {"shape":"TooManyRequestsException"},
+        {"shape":"BadRequestException"}
+      ]
+    },
+    "ListMultiRegionEndpoints":{
+      "name":"ListMultiRegionEndpoints",
+      "http":{
+        "method":"GET",
+        "requestUri":"/v2/email/multi-region-endpoints"
+      },
+      "input":{"shape":"ListMultiRegionEndpointsRequest"},
+      "output":{"shape":"ListMultiRegionEndpointsResponse"},
       "errors":[
         {"shape":"TooManyRequestsException"},
         {"shape":"BadRequestException"}
@@ -855,6 +984,21 @@
         {"shape":"TooManyRequestsException"}
       ]
     },
+    "PutConfigurationSetArchivingOptions":{
+      "name":"PutConfigurationSetArchivingOptions",
+      "http":{
+        "method":"PUT",
+        "requestUri":"/v2/email/configuration-sets/{ConfigurationSetName}/archiving-options"
+      },
+      "input":{"shape":"PutConfigurationSetArchivingOptionsRequest"},
+      "output":{"shape":"PutConfigurationSetArchivingOptionsResponse"},
+      "errors":[
+        {"shape":"NotFoundException"},
+        {"shape":"TooManyRequestsException"},
+        {"shape":"BadRequestException"}
+      ],
+      "idempotent":true
+    },
     "PutConfigurationSetDeliveryOptions":{
       "name":"PutConfigurationSetDeliveryOptions",
       "http":{
@@ -952,6 +1096,22 @@
         {"shape":"TooManyRequestsException"},
         {"shape":"BadRequestException"}
       ]
+    },
+    "PutDedicatedIpPoolScalingAttributes":{
+      "name":"PutDedicatedIpPoolScalingAttributes",
+      "http":{
+        "method":"PUT",
+        "requestUri":"/v2/email/dedicated-ip-pools/{PoolName}/scaling"
+      },
+      "input":{"shape":"PutDedicatedIpPoolScalingAttributesRequest"},
+      "output":{"shape":"PutDedicatedIpPoolScalingAttributesResponse"},
+      "errors":[
+        {"shape":"NotFoundException"},
+        {"shape":"ConcurrentModificationException"},
+        {"shape":"TooManyRequestsException"},
+        {"shape":"BadRequestException"}
+      ],
+      "idempotent":true
     },
     "PutDedicatedIpWarmupAttributes":{
       "name":"PutDedicatedIpWarmupAttributes",
@@ -1286,6 +1446,7 @@
       "min":1,
       "sensitive":true
     },
+    "AdminEmail":{"type":"string"},
     "AlreadyExistsException":{
       "type":"structure",
       "members":{
@@ -1294,6 +1455,18 @@
       "exception":true
     },
     "AmazonResourceName":{"type":"string"},
+    "ArchiveArn":{
+      "type":"string",
+      "max":1011,
+      "min":20,
+      "pattern":"arn:(aws|aws-[a-z-]+):ses:[a-z]{2}-[a-z-]+-[0-9]:[0-9]{1,20}:mailmanager-archive/a-[a-z0-9]{24,62}"
+    },
+    "ArchivingOptions":{
+      "type":"structure",
+      "members":{
+        "ArchiveArn":{"shape":"ArchiveArn"}
+      }
+    },
     "AttributesData":{"type":"string"},
     "BadRequestException":{
       "type":"structure",
@@ -1377,6 +1550,23 @@
         "Html":{"shape":"Content"}
       }
     },
+    "Bounce":{
+      "type":"structure",
+      "members":{
+        "BounceType":{"shape":"BounceType"},
+        "BounceSubType":{"shape":"BounceSubType"},
+        "DiagnosticCode":{"shape":"DiagnosticCode"}
+      }
+    },
+    "BounceSubType":{"type":"string"},
+    "BounceType":{
+      "type":"string",
+      "enum":[
+        "UNDETERMINED",
+        "TRANSIENT",
+        "PERMANENT"
+      ]
+    },
     "BulkEmailContent":{
       "type":"structure",
       "members":{
@@ -1389,7 +1579,8 @@
       "members":{
         "Destination":{"shape":"Destination"},
         "ReplacementTags":{"shape":"MessageTagList"},
-        "ReplacementEmailContent":{"shape":"ReplacementEmailContent"}
+        "ReplacementEmailContent":{"shape":"ReplacementEmailContent"},
+        "ReplacementHeaders":{"shape":"MessageHeaderList"}
       }
     },
     "BulkEmailEntryList":{
@@ -1428,6 +1619,22 @@
       ]
     },
     "CampaignId":{"type":"string"},
+    "CancelExportJobRequest":{
+      "type":"structure",
+      "required":["JobId"],
+      "members":{
+        "JobId":{
+          "shape":"JobId",
+          "location":"uri",
+          "locationName":"JobId"
+        }
+      }
+    },
+    "CancelExportJobResponse":{
+      "type":"structure",
+      "members":{
+      }
+    },
     "CaseId":{"type":"string"},
     "Charset":{"type":"string"},
     "CloudWatchDestination":{
@@ -1454,6 +1661,15 @@
       "type":"list",
       "member":{"shape":"CloudWatchDimensionConfiguration"}
     },
+    "Complaint":{
+      "type":"structure",
+      "members":{
+        "ComplaintSubType":{"shape":"ComplaintSubType"},
+        "ComplaintFeedbackType":{"shape":"ComplaintFeedbackType"}
+      }
+    },
+    "ComplaintFeedbackType":{"type":"string"},
+    "ComplaintSubType":{"type":"string"},
     "ConcurrentModificationException":{
       "type":"structure",
       "members":{
@@ -1559,7 +1775,8 @@
         "SendingOptions":{"shape":"SendingOptions"},
         "Tags":{"shape":"TagList"},
         "SuppressionOptions":{"shape":"SuppressionOptions"},
-        "VdmOptions":{"shape":"VdmOptions"}
+        "VdmOptions":{"shape":"VdmOptions"},
+        "ArchivingOptions":{"shape":"ArchivingOptions"}
       }
     },
     "CreateConfigurationSetResponse":{
@@ -1727,6 +1944,23 @@
       "members":{
       }
     },
+    "CreateExportJobRequest":{
+      "type":"structure",
+      "required":[
+        "ExportDataSource",
+        "ExportDestination"
+      ],
+      "members":{
+        "ExportDataSource":{"shape":"ExportDataSource"},
+        "ExportDestination":{"shape":"ExportDestination"}
+      }
+    },
+    "CreateExportJobResponse":{
+      "type":"structure",
+      "members":{
+        "JobId":{"shape":"JobId"}
+      }
+    },
     "CreateImportJobRequest":{
       "type":"structure",
       "required":[
@@ -1742,6 +1976,25 @@
       "type":"structure",
       "members":{
         "JobId":{"shape":"JobId"}
+      }
+    },
+    "CreateMultiRegionEndpointRequest":{
+      "type":"structure",
+      "required":[
+        "EndpointName",
+        "Details"
+      ],
+      "members":{
+        "EndpointName":{"shape":"EndpointName"},
+        "Details":{"shape":"Details"},
+        "Tags":{"shape":"TagList"}
+      }
+    },
+    "CreateMultiRegionEndpointResponse":{
+      "type":"structure",
+      "members":{
+        "Status":{"shape":"Status"},
+        "EndpointId":{"shape":"EndpointId"}
       }
     },
     "CustomRedirectDomain":{"type":"string"},
@@ -1988,6 +2241,23 @@
       "members":{
       }
     },
+    "DeleteMultiRegionEndpointRequest":{
+      "type":"structure",
+      "required":["EndpointName"],
+      "members":{
+        "EndpointName":{
+          "shape":"EndpointName",
+          "location":"uri",
+          "locationName":"EndpointName"
+        }
+      }
+    },
+    "DeleteMultiRegionEndpointResponse":{
+      "type":"structure",
+      "members":{
+        "Status":{"shape":"Status"}
+      }
+    },
     "DeleteSuppressedDestinationRequest":{
       "type":"structure",
       "required":["EmailAddress"],
@@ -2035,11 +2305,23 @@
       ]
     },
     "DeliverabilityTestSubject":{"type":"string"},
+    "DeliveryEventType":{
+      "type":"string",
+      "enum":[
+        "SEND",
+        "DELIVERY",
+        "TRANSIENT_BOUNCE",
+        "PERMANENT_BOUNCE",
+        "UNDETERMINED_BOUNCE",
+        "COMPLAINT"
+      ]
+    },
     "DeliveryOptions":{
       "type":"structure",
       "members":{
         "TlsPolicy":{"shape":"TlsPolicy"},
-        "SendingPoolName":{"shape":"PoolName"}
+        "SendingPoolName":{"shape":"PoolName"},
+        "MaxDeliverySeconds":{"shape":"MaxDeliverySeconds"}
       }
     },
     "Description":{"type":"string"},
@@ -2051,6 +2333,14 @@
         "BccAddresses":{"shape":"EmailAddressList"}
       }
     },
+    "Details":{
+      "type":"structure",
+      "required":["RoutesDetails"],
+      "members":{
+        "RoutesDetails":{"shape":"RoutesDetails"}
+      }
+    },
+    "DiagnosticCode":{"type":"string"},
     "DimensionName":{"type":"string"},
     "DimensionValueSource":{
       "type":"string",
@@ -2085,14 +2375,37 @@
       "members":{
         "DomainSigningSelector":{"shape":"Selector"},
         "DomainSigningPrivateKey":{"shape":"PrivateKey"},
-        "NextSigningKeyLength":{"shape":"DkimSigningKeyLength"}
+        "NextSigningKeyLength":{"shape":"DkimSigningKeyLength"},
+        "DomainSigningAttributesOrigin":{"shape":"DkimSigningAttributesOrigin"}
       }
     },
     "DkimSigningAttributesOrigin":{
       "type":"string",
       "enum":[
         "AWS_SES",
-        "EXTERNAL"
+        "EXTERNAL",
+        "AWS_SES_AF_SOUTH_1",
+        "AWS_SES_EU_NORTH_1",
+        "AWS_SES_AP_SOUTH_1",
+        "AWS_SES_EU_WEST_3",
+        "AWS_SES_EU_WEST_2",
+        "AWS_SES_EU_SOUTH_1",
+        "AWS_SES_EU_WEST_1",
+        "AWS_SES_AP_NORTHEAST_3",
+        "AWS_SES_AP_NORTHEAST_2",
+        "AWS_SES_ME_SOUTH_1",
+        "AWS_SES_AP_NORTHEAST_1",
+        "AWS_SES_IL_CENTRAL_1",
+        "AWS_SES_SA_EAST_1",
+        "AWS_SES_CA_CENTRAL_1",
+        "AWS_SES_AP_SOUTHEAST_1",
+        "AWS_SES_AP_SOUTHEAST_2",
+        "AWS_SES_AP_SOUTHEAST_3",
+        "AWS_SES_EU_CENTRAL_1",
+        "AWS_SES_US_EAST_1",
+        "AWS_SES_US_EAST_2",
+        "AWS_SES_US_WEST_1",
+        "AWS_SES_US_WEST_2"
       ]
     },
     "DkimSigningKeyLength":{
@@ -2168,6 +2481,11 @@
       "member":{"shape":"DomainIspPlacement"}
     },
     "EmailAddress":{"type":"string"},
+    "EmailAddressFilterList":{
+      "type":"list",
+      "member":{"shape":"InsightsEmailAddress"},
+      "max":5
+    },
     "EmailAddressList":{
       "type":"list",
       "member":{"shape":"EmailAddress"}
@@ -2179,6 +2497,29 @@
         "Raw":{"shape":"RawMessage"},
         "Template":{"shape":"Template"}
       }
+    },
+    "EmailInsights":{
+      "type":"structure",
+      "members":{
+        "Destination":{"shape":"InsightsEmailAddress"},
+        "Isp":{"shape":"Isp"},
+        "Events":{"shape":"InsightsEvents"}
+      }
+    },
+    "EmailInsightsList":{
+      "type":"list",
+      "member":{"shape":"EmailInsights"}
+    },
+    "EmailSubject":{
+      "type":"string",
+      "max":998,
+      "min":1,
+      "sensitive":true
+    },
+    "EmailSubjectFilterList":{
+      "type":"list",
+      "member":{"shape":"EmailSubject"},
+      "max":1
     },
     "EmailTemplateContent":{
       "type":"structure",
@@ -2212,11 +2553,32 @@
     "EmailTemplateText":{"type":"string"},
     "Enabled":{"type":"boolean"},
     "EnabledWrapper":{"type":"boolean"},
+    "EndpointId":{"type":"string"},
+    "EndpointName":{
+      "type":"string",
+      "max":64,
+      "min":1,
+      "pattern":"^[\\w\\-_]+$"
+    },
+    "EngagementEventType":{
+      "type":"string",
+      "enum":[
+        "OPEN",
+        "CLICK"
+      ]
+    },
     "ErrorMessage":{"type":"string"},
     "Esp":{"type":"string"},
     "Esps":{
       "type":"list",
       "member":{"shape":"Esp"}
+    },
+    "EventBridgeDestination":{
+      "type":"structure",
+      "required":["EventBusArn"],
+      "members":{
+        "EventBusArn":{"shape":"AmazonResourceName"}
+      }
     },
     "EventDestination":{
       "type":"structure",
@@ -2231,6 +2593,7 @@
         "KinesisFirehoseDestination":{"shape":"KinesisFirehoseDestination"},
         "CloudWatchDestination":{"shape":"CloudWatchDestination"},
         "SnsDestination":{"shape":"SnsDestination"},
+        "EventBridgeDestination":{"shape":"EventBridgeDestination"},
         "PinpointDestination":{"shape":"PinpointDestination"}
       }
     },
@@ -2242,6 +2605,7 @@
         "KinesisFirehoseDestination":{"shape":"KinesisFirehoseDestination"},
         "CloudWatchDestination":{"shape":"CloudWatchDestination"},
         "SnsDestination":{"shape":"SnsDestination"},
+        "EventBridgeDestination":{"shape":"EventBridgeDestination"},
         "PinpointDestination":{"shape":"PinpointDestination"}
       }
     },
@@ -2249,6 +2613,13 @@
     "EventDestinations":{
       "type":"list",
       "member":{"shape":"EventDestination"}
+    },
+    "EventDetails":{
+      "type":"structure",
+      "members":{
+        "Bounce":{"shape":"Bounce"},
+        "Complaint":{"shape":"Complaint"}
+      }
     },
     "EventType":{
       "type":"string",
@@ -2269,6 +2640,76 @@
       "type":"list",
       "member":{"shape":"EventType"}
     },
+    "ExportDataSource":{
+      "type":"structure",
+      "members":{
+        "MetricsDataSource":{"shape":"MetricsDataSource"},
+        "MessageInsightsDataSource":{"shape":"MessageInsightsDataSource"}
+      }
+    },
+    "ExportDestination":{
+      "type":"structure",
+      "required":["DataFormat"],
+      "members":{
+        "DataFormat":{"shape":"DataFormat"},
+        "S3Url":{"shape":"S3Url"}
+      }
+    },
+    "ExportDimensionValue":{
+      "type":"list",
+      "member":{"shape":"MetricDimensionValue"},
+      "max":10,
+      "min":1
+    },
+    "ExportDimensions":{
+      "type":"map",
+      "key":{"shape":"MetricDimensionName"},
+      "value":{"shape":"ExportDimensionValue"},
+      "max":3,
+      "min":1
+    },
+    "ExportJobSummary":{
+      "type":"structure",
+      "members":{
+        "JobId":{"shape":"JobId"},
+        "ExportSourceType":{"shape":"ExportSourceType"},
+        "JobStatus":{"shape":"JobStatus"},
+        "CreatedTimestamp":{"shape":"Timestamp"},
+        "CompletedTimestamp":{"shape":"Timestamp"}
+      }
+    },
+    "ExportJobSummaryList":{
+      "type":"list",
+      "member":{"shape":"ExportJobSummary"}
+    },
+    "ExportMetric":{
+      "type":"structure",
+      "members":{
+        "Name":{"shape":"Metric"},
+        "Aggregation":{"shape":"MetricAggregation"}
+      }
+    },
+    "ExportMetrics":{
+      "type":"list",
+      "member":{"shape":"ExportMetric"},
+      "max":10,
+      "min":1
+    },
+    "ExportSourceType":{
+      "type":"string",
+      "enum":[
+        "METRICS_DATA",
+        "MESSAGE_INSIGHTS"
+      ]
+    },
+    "ExportStatistics":{
+      "type":"structure",
+      "members":{
+        "ProcessedRecordsCount":{"shape":"ProcessedRecordsCount"},
+        "ExportedRecordsCount":{"shape":"ExportedRecordsCount"}
+      }
+    },
+    "ExportedRecordsCount":{"type":"integer"},
     "FailedRecordsCount":{"type":"integer"},
     "FailedRecordsS3Url":{"type":"string"},
     "FailureInfo":{
@@ -2362,7 +2803,8 @@
         "SendingOptions":{"shape":"SendingOptions"},
         "Tags":{"shape":"TagList"},
         "SuppressionOptions":{"shape":"SuppressionOptions"},
-        "VdmOptions":{"shape":"VdmOptions"}
+        "VdmOptions":{"shape":"VdmOptions"},
+        "ArchivingOptions":{"shape":"ArchivingOptions"}
       }
     },
     "GetContactListRequest":{
@@ -2637,7 +3079,8 @@
         "Policies":{"shape":"PolicyMap"},
         "Tags":{"shape":"TagList"},
         "ConfigurationSetName":{"shape":"ConfigurationSetName"},
-        "VerificationStatus":{"shape":"VerificationStatus"}
+        "VerificationStatus":{"shape":"VerificationStatus"},
+        "VerificationInfo":{"shape":"VerificationInfo"}
       }
     },
     "GetEmailTemplateRequest":{
@@ -2660,6 +3103,31 @@
       "members":{
         "TemplateName":{"shape":"EmailTemplateName"},
         "TemplateContent":{"shape":"EmailTemplateContent"}
+      }
+    },
+    "GetExportJobRequest":{
+      "type":"structure",
+      "required":["JobId"],
+      "members":{
+        "JobId":{
+          "shape":"JobId",
+          "location":"uri",
+          "locationName":"JobId"
+        }
+      }
+    },
+    "GetExportJobResponse":{
+      "type":"structure",
+      "members":{
+        "JobId":{"shape":"JobId"},
+        "ExportSourceType":{"shape":"ExportSourceType"},
+        "JobStatus":{"shape":"JobStatus"},
+        "ExportDestination":{"shape":"ExportDestination"},
+        "ExportDataSource":{"shape":"ExportDataSource"},
+        "CreatedTimestamp":{"shape":"Timestamp"},
+        "CompletedTimestamp":{"shape":"Timestamp"},
+        "FailureInfo":{"shape":"FailureInfo"},
+        "Statistics":{"shape":"ExportStatistics"}
       }
     },
     "GetImportJobRequest":{
@@ -2685,6 +3153,49 @@
         "CompletedTimestamp":{"shape":"Timestamp"},
         "ProcessedRecordsCount":{"shape":"ProcessedRecordsCount"},
         "FailedRecordsCount":{"shape":"FailedRecordsCount"}
+      }
+    },
+    "GetMessageInsightsRequest":{
+      "type":"structure",
+      "required":["MessageId"],
+      "members":{
+        "MessageId":{
+          "shape":"OutboundMessageId",
+          "location":"uri",
+          "locationName":"MessageId"
+        }
+      }
+    },
+    "GetMessageInsightsResponse":{
+      "type":"structure",
+      "members":{
+        "MessageId":{"shape":"OutboundMessageId"},
+        "FromEmailAddress":{"shape":"InsightsEmailAddress"},
+        "Subject":{"shape":"EmailSubject"},
+        "EmailTags":{"shape":"MessageTagList"},
+        "Insights":{"shape":"EmailInsightsList"}
+      }
+    },
+    "GetMultiRegionEndpointRequest":{
+      "type":"structure",
+      "required":["EndpointName"],
+      "members":{
+        "EndpointName":{
+          "shape":"EndpointName",
+          "location":"uri",
+          "locationName":"EndpointName"
+        }
+      }
+    },
+    "GetMultiRegionEndpointResponse":{
+      "type":"structure",
+      "members":{
+        "EndpointName":{"shape":"EndpointName"},
+        "EndpointId":{"shape":"EndpointId"},
+        "Routes":{"shape":"Routes"},
+        "Status":{"shape":"Status"},
+        "CreatedTimestamp":{"shape":"Timestamp"},
+        "LastUpdatedTimestamp":{"shape":"Timestamp"}
       }
     },
     "GetSuppressedDestinationRequest":{
@@ -2716,6 +3227,14 @@
       "members":{
         "OptimizedSharedDelivery":{"shape":"FeatureStatus"}
       }
+    },
+    "HttpsPolicy":{
+      "type":"string",
+      "enum":[
+        "REQUIRE",
+        "REQUIRE_OPEN_ONLY",
+        "OPTIONAL"
+      ]
     },
     "Identity":{
       "type":"string",
@@ -2790,6 +3309,24 @@
         "TrackedIsps":{"shape":"IspNameList"}
       }
     },
+    "InsightsEmailAddress":{
+      "type":"string",
+      "max":320,
+      "min":1,
+      "sensitive":true
+    },
+    "InsightsEvent":{
+      "type":"structure",
+      "members":{
+        "Timestamp":{"shape":"Timestamp"},
+        "Type":{"shape":"EventType"},
+        "Details":{"shape":"EventDetails"}
+      }
+    },
+    "InsightsEvents":{
+      "type":"list",
+      "member":{"shape":"InsightsEvent"}
+    },
     "InternalServiceErrorException":{
       "type":"structure",
       "members":{
@@ -2809,6 +3346,12 @@
     "IpList":{
       "type":"list",
       "member":{"shape":"Ip"}
+    },
+    "Isp":{"type":"string"},
+    "IspFilterList":{
+      "type":"list",
+      "member":{"shape":"Isp"},
+      "max":5
     },
     "IspName":{"type":"string"},
     "IspNameList":{
@@ -2836,7 +3379,8 @@
         "CREATED",
         "PROCESSING",
         "COMPLETED",
-        "FAILED"
+        "FAILED",
+        "CANCELLED"
       ]
     },
     "KinesisFirehoseDestination":{
@@ -2849,6 +3393,16 @@
         "IamRoleArn":{"shape":"AmazonResourceName"},
         "DeliveryStreamArn":{"shape":"AmazonResourceName"}
       }
+    },
+    "LastDeliveryEventList":{
+      "type":"list",
+      "member":{"shape":"DeliveryEventType"},
+      "max":5
+    },
+    "LastEngagementEventList":{
+      "type":"list",
+      "member":{"shape":"EngagementEventType"},
+      "max":2
     },
     "LastFreshStart":{"type":"timestamp"},
     "LimitExceededException":{
@@ -2919,16 +3473,8 @@
           "locationName":"ContactListName"
         },
         "Filter":{"shape":"ListContactsFilter"},
-        "PageSize":{
-          "shape":"MaxItems",
-          "location":"querystring",
-          "locationName":"PageSize"
-        },
-        "NextToken":{
-          "shape":"NextToken",
-          "location":"querystring",
-          "locationName":"NextToken"
-        }
+        "PageSize":{"shape":"MaxItems"},
+        "NextToken":{"shape":"NextToken"}
       }
     },
     "ListContactsResponse":{
@@ -3092,20 +3638,28 @@
         "NextToken":{"shape":"NextToken"}
       }
     },
+    "ListExportJobsRequest":{
+      "type":"structure",
+      "members":{
+        "NextToken":{"shape":"NextToken"},
+        "PageSize":{"shape":"MaxItems"},
+        "ExportSourceType":{"shape":"ExportSourceType"},
+        "JobStatus":{"shape":"JobStatus"}
+      }
+    },
+    "ListExportJobsResponse":{
+      "type":"structure",
+      "members":{
+        "ExportJobs":{"shape":"ExportJobSummaryList"},
+        "NextToken":{"shape":"NextToken"}
+      }
+    },
     "ListImportJobsRequest":{
       "type":"structure",
       "members":{
         "ImportDestinationType":{"shape":"ImportDestinationType"},
-        "NextToken":{
-          "shape":"NextToken",
-          "location":"querystring",
-          "locationName":"NextToken"
-        },
-        "PageSize":{
-          "shape":"MaxItems",
-          "location":"querystring",
-          "locationName":"PageSize"
-        }
+        "NextToken":{"shape":"NextToken"},
+        "PageSize":{"shape":"MaxItems"}
       }
     },
     "ListImportJobsResponse":{
@@ -3121,6 +3675,28 @@
       "members":{
         "ContactListName":{"shape":"ContactListName"},
         "TopicName":{"shape":"TopicName"}
+      }
+    },
+    "ListMultiRegionEndpointsRequest":{
+      "type":"structure",
+      "members":{
+        "NextToken":{
+          "shape":"NextTokenV2",
+          "location":"querystring",
+          "locationName":"NextToken"
+        },
+        "PageSize":{
+          "shape":"PageSizeV2",
+          "location":"querystring",
+          "locationName":"PageSize"
+        }
+      }
+    },
+    "ListMultiRegionEndpointsResponse":{
+      "type":"structure",
+      "members":{
+        "MultiRegionEndpoints":{"shape":"MultiRegionEndpoints"},
+        "NextToken":{"shape":"NextTokenV2"}
       }
     },
     "ListOfContactLists":{
@@ -3264,6 +3840,11 @@
       ]
     },
     "Max24HourSend":{"type":"double"},
+    "MaxDeliverySeconds":{
+      "type":"long",
+      "max":50400,
+      "min":300
+    },
     "MaxItems":{"type":"integer"},
     "MaxSendRate":{"type":"double"},
     "Message":{
@@ -3274,11 +3855,71 @@
       ],
       "members":{
         "Subject":{"shape":"Content"},
-        "Body":{"shape":"Body"}
+        "Body":{"shape":"Body"},
+        "Headers":{"shape":"MessageHeaderList"}
       }
     },
     "MessageContent":{"type":"string"},
     "MessageData":{"type":"string"},
+    "MessageHeader":{
+      "type":"structure",
+      "required":[
+        "Name",
+        "Value"
+      ],
+      "members":{
+        "Name":{"shape":"MessageHeaderName"},
+        "Value":{"shape":"MessageHeaderValue"}
+      }
+    },
+    "MessageHeaderList":{
+      "type":"list",
+      "member":{"shape":"MessageHeader"},
+      "max":15,
+      "min":0
+    },
+    "MessageHeaderName":{
+      "type":"string",
+      "max":126,
+      "min":1,
+      "pattern":"^[!-9;-@A-~]+$"
+    },
+    "MessageHeaderValue":{
+      "type":"string",
+      "max":870,
+      "min":1,
+      "pattern":"[ -~]*"
+    },
+    "MessageInsightsDataSource":{
+      "type":"structure",
+      "required":[
+        "StartDate",
+        "EndDate"
+      ],
+      "members":{
+        "StartDate":{"shape":"Timestamp"},
+        "EndDate":{"shape":"Timestamp"},
+        "Include":{"shape":"MessageInsightsFilters"},
+        "Exclude":{"shape":"MessageInsightsFilters"},
+        "MaxResults":{"shape":"MessageInsightsExportMaxResults"}
+      }
+    },
+    "MessageInsightsExportMaxResults":{
+      "type":"integer",
+      "max":10000,
+      "min":1
+    },
+    "MessageInsightsFilters":{
+      "type":"structure",
+      "members":{
+        "FromEmailAddress":{"shape":"EmailAddressFilterList"},
+        "Destination":{"shape":"EmailAddressFilterList"},
+        "Subject":{"shape":"EmailSubjectFilterList"},
+        "Isp":{"shape":"IspFilterList"},
+        "LastDeliveryEvent":{"shape":"LastDeliveryEventList"},
+        "LastEngagementEvent":{"shape":"LastEngagementEventList"}
+      }
+    },
     "MessageRejected":{
       "type":"structure",
       "members":{
@@ -3316,6 +3957,13 @@
         "DELIVERY_OPEN",
         "DELIVERY_CLICK",
         "DELIVERY_COMPLAINT"
+      ]
+    },
+    "MetricAggregation":{
+      "type":"string",
+      "enum":[
+        "RATE",
+        "VOLUME"
       ]
     },
     "MetricDataError":{
@@ -3359,7 +4007,45 @@
       "type":"list",
       "member":{"shape":"Counter"}
     },
+    "MetricsDataSource":{
+      "type":"structure",
+      "required":[
+        "Dimensions",
+        "Namespace",
+        "Metrics",
+        "StartDate",
+        "EndDate"
+      ],
+      "members":{
+        "Dimensions":{"shape":"ExportDimensions"},
+        "Namespace":{"shape":"MetricNamespace"},
+        "Metrics":{"shape":"ExportMetrics"},
+        "StartDate":{"shape":"Timestamp"},
+        "EndDate":{"shape":"Timestamp"}
+      }
+    },
+    "MultiRegionEndpoint":{
+      "type":"structure",
+      "members":{
+        "EndpointName":{"shape":"EndpointName"},
+        "Status":{"shape":"Status"},
+        "EndpointId":{"shape":"EndpointId"},
+        "Regions":{"shape":"Regions"},
+        "CreatedTimestamp":{"shape":"Timestamp"},
+        "LastUpdatedTimestamp":{"shape":"Timestamp"}
+      }
+    },
+    "MultiRegionEndpoints":{
+      "type":"list",
+      "member":{"shape":"MultiRegionEndpoint"}
+    },
     "NextToken":{"type":"string"},
+    "NextTokenV2":{
+      "type":"string",
+      "max":5000,
+      "min":1,
+      "pattern":"^^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$"
+    },
     "NotFoundException":{
       "type":"structure",
       "members":{
@@ -3375,6 +4061,11 @@
         "ReadRatePercent":{"shape":"Percentage"},
         "DomainIspPlacements":{"shape":"DomainIspPlacements"}
       }
+    },
+    "PageSizeV2":{
+      "type":"integer",
+      "max":1000,
+      "min":1
     },
     "Percentage":{"type":"double"},
     "Percentage100Wrapper":{"type":"integer"},
@@ -3409,6 +4100,7 @@
       "min":1
     },
     "PoolName":{"type":"string"},
+    "PrimaryNameServer":{"type":"string"},
     "PrivateKey":{
       "type":"string",
       "max":20480,
@@ -3432,8 +4124,7 @@
       "type":"structure",
       "required":[
         "MailType",
-        "WebsiteURL",
-        "UseCaseDescription"
+        "WebsiteURL"
       ],
       "members":{
         "MailType":{"shape":"MailType"},
@@ -3483,6 +4174,23 @@
       "members":{
       }
     },
+    "PutConfigurationSetArchivingOptionsRequest":{
+      "type":"structure",
+      "required":["ConfigurationSetName"],
+      "members":{
+        "ConfigurationSetName":{
+          "shape":"ConfigurationSetName",
+          "location":"uri",
+          "locationName":"ConfigurationSetName"
+        },
+        "ArchiveArn":{"shape":"ArchiveArn"}
+      }
+    },
+    "PutConfigurationSetArchivingOptionsResponse":{
+      "type":"structure",
+      "members":{
+      }
+    },
     "PutConfigurationSetDeliveryOptionsRequest":{
       "type":"structure",
       "required":["ConfigurationSetName"],
@@ -3493,7 +4201,8 @@
           "locationName":"ConfigurationSetName"
         },
         "TlsPolicy":{"shape":"TlsPolicy"},
-        "SendingPoolName":{"shape":"SendingPoolName"}
+        "SendingPoolName":{"shape":"SendingPoolName"},
+        "MaxDeliverySeconds":{"shape":"MaxDeliverySeconds"}
       }
     },
     "PutConfigurationSetDeliveryOptionsResponse":{
@@ -3561,7 +4270,8 @@
           "location":"uri",
           "locationName":"ConfigurationSetName"
         },
-        "CustomRedirectDomain":{"shape":"CustomRedirectDomain"}
+        "CustomRedirectDomain":{"shape":"CustomRedirectDomain"},
+        "HttpsPolicy":{"shape":"HttpsPolicy"}
       }
     },
     "PutConfigurationSetTrackingOptionsResponse":{
@@ -3602,6 +4312,26 @@
       }
     },
     "PutDedicatedIpInPoolResponse":{
+      "type":"structure",
+      "members":{
+      }
+    },
+    "PutDedicatedIpPoolScalingAttributesRequest":{
+      "type":"structure",
+      "required":[
+        "PoolName",
+        "ScalingMode"
+      ],
+      "members":{
+        "PoolName":{
+          "shape":"PoolName",
+          "location":"uri",
+          "locationName":"PoolName"
+        },
+        "ScalingMode":{"shape":"ScalingMode"}
+      }
+    },
+    "PutDedicatedIpPoolScalingAttributesResponse":{
       "type":"structure",
       "members":{
       }
@@ -3801,12 +4531,19 @@
       "enum":[
         "DKIM",
         "DMARC",
-        "SPF"
+        "SPF",
+        "BIMI",
+        "COMPLAINT"
       ]
     },
     "RecommendationsList":{
       "type":"list",
       "member":{"shape":"Recommendation"}
+    },
+    "Region":{"type":"string"},
+    "Regions":{
+      "type":"list",
+      "member":{"shape":"Region"}
     },
     "RenderedEmailTemplate":{"type":"string"},
     "ReplacementEmailContent":{
@@ -3846,9 +4583,39 @@
         "DENIED"
       ]
     },
+    "Route":{
+      "type":"structure",
+      "required":["Region"],
+      "members":{
+        "Region":{"shape":"Region"}
+      }
+    },
+    "RouteDetails":{
+      "type":"structure",
+      "required":["Region"],
+      "members":{
+        "Region":{"shape":"Region"}
+      }
+    },
+    "Routes":{
+      "type":"list",
+      "member":{"shape":"Route"}
+    },
+    "RoutesDetails":{
+      "type":"list",
+      "member":{"shape":"RouteDetails"}
+    },
     "S3Url":{
       "type":"string",
       "pattern":"^s3:\\/\\/([^\\/]+)\\/(.*?([^\\/]+)\\/?)$"
+    },
+    "SOARecord":{
+      "type":"structure",
+      "members":{
+        "PrimaryNameServer":{"shape":"PrimaryNameServer"},
+        "AdminEmail":{"shape":"AdminEmail"},
+        "SerialNumber":{"shape":"SerialNumber"}
+      }
     },
     "ScalingMode":{
       "type":"string",
@@ -3878,7 +4645,11 @@
         "DefaultEmailTags":{"shape":"MessageTagList"},
         "DefaultContent":{"shape":"BulkEmailContent"},
         "BulkEmailEntries":{"shape":"BulkEmailEntryList"},
-        "ConfigurationSetName":{"shape":"ConfigurationSetName"}
+        "ConfigurationSetName":{"shape":"ConfigurationSetName"},
+        "EndpointId":{
+          "shape":"EndpointId",
+          "contextParam":{"name":"EndpointId"}
+        }
       }
     },
     "SendBulkEmailResponse":{
@@ -3919,6 +4690,10 @@
         "Content":{"shape":"EmailContent"},
         "EmailTags":{"shape":"MessageTagList"},
         "ConfigurationSetName":{"shape":"ConfigurationSetName"},
+        "EndpointId":{
+          "shape":"EndpointId",
+          "contextParam":{"name":"EndpointId"}
+        },
         "ListManagementOptions":{"shape":"ListManagementOptions"}
       }
     },
@@ -3951,12 +4726,22 @@
     },
     "SendingPoolName":{"type":"string"},
     "SentLast24Hours":{"type":"double"},
+    "SerialNumber":{"type":"long"},
     "SnsDestination":{
       "type":"structure",
       "required":["TopicArn"],
       "members":{
         "TopicArn":{"shape":"AmazonResourceName"}
       }
+    },
+    "Status":{
+      "type":"string",
+      "enum":[
+        "CREATING",
+        "READY",
+        "FAILED",
+        "DELETING"
+      ]
     },
     "Subject":{"type":"string"},
     "SubscriptionStatus":{
@@ -4084,7 +4869,9 @@
       "members":{
         "TemplateName":{"shape":"EmailTemplateName"},
         "TemplateArn":{"shape":"AmazonResourceName"},
-        "TemplateData":{"shape":"EmailTemplateData"}
+        "TemplateContent":{"shape":"EmailTemplateContent"},
+        "TemplateData":{"shape":"EmailTemplateData"},
+        "Headers":{"shape":"MessageHeaderList"}
       }
     },
     "TemplateContent":{"type":"string"},
@@ -4174,7 +4961,8 @@
       "type":"structure",
       "required":["CustomRedirectDomain"],
       "members":{
-        "CustomRedirectDomain":{"shape":"CustomRedirectDomain"}
+        "CustomRedirectDomain":{"shape":"CustomRedirectDomain"},
+        "HttpsPolicy":{"shape":"HttpsPolicy"}
       }
     },
     "UnsubscribeAll":{"type":"boolean"},
@@ -4349,8 +5137,9 @@
     },
     "UseCaseDescription":{
       "type":"string",
+      "deprecated":true,
+      "deprecatedMessage":"Use case description is optional and deprecated",
       "max":5000,
-      "min":1,
       "sensitive":true
     },
     "UseDefaultIfPreferenceUnavailable":{"type":"boolean"},
@@ -4368,6 +5157,30 @@
       "members":{
         "DashboardOptions":{"shape":"DashboardOptions"},
         "GuardianOptions":{"shape":"GuardianOptions"}
+      }
+    },
+    "VerificationError":{
+      "type":"string",
+      "enum":[
+        "SERVICE_ERROR",
+        "DNS_SERVER_ERROR",
+        "HOST_NOT_FOUND",
+        "TYPE_NOT_FOUND",
+        "INVALID_VALUE",
+        "REPLICATION_ACCESS_DENIED",
+        "REPLICATION_PRIMARY_NOT_FOUND",
+        "REPLICATION_PRIMARY_BYO_DKIM_NOT_SUPPORTED",
+        "REPLICATION_REPLICA_AS_PRIMARY_NOT_SUPPORTED",
+        "REPLICATION_PRIMARY_INVALID_REGION"
+      ]
+    },
+    "VerificationInfo":{
+      "type":"structure",
+      "members":{
+        "LastCheckedTimestamp":{"shape":"Timestamp"},
+        "LastSuccessTimestamp":{"shape":"Timestamp"},
+        "ErrorType":{"shape":"VerificationError"},
+        "SOARecord":{"shape":"SOARecord"}
       }
     },
     "VerificationStatus":{

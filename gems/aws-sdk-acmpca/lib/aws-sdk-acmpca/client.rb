@@ -7,33 +7,34 @@
 #
 # WARNING ABOUT GENERATED CODE
 
-require 'seahorse/client/plugins/content_length.rb'
-require 'aws-sdk-core/plugins/credentials_configuration.rb'
-require 'aws-sdk-core/plugins/logging.rb'
-require 'aws-sdk-core/plugins/param_converter.rb'
-require 'aws-sdk-core/plugins/param_validator.rb'
-require 'aws-sdk-core/plugins/user_agent.rb'
-require 'aws-sdk-core/plugins/helpful_socket_errors.rb'
-require 'aws-sdk-core/plugins/retry_errors.rb'
-require 'aws-sdk-core/plugins/global_configuration.rb'
-require 'aws-sdk-core/plugins/regional_endpoint.rb'
-require 'aws-sdk-core/plugins/endpoint_discovery.rb'
-require 'aws-sdk-core/plugins/endpoint_pattern.rb'
-require 'aws-sdk-core/plugins/response_paging.rb'
-require 'aws-sdk-core/plugins/stub_responses.rb'
-require 'aws-sdk-core/plugins/idempotency_token.rb'
-require 'aws-sdk-core/plugins/jsonvalue_converter.rb'
-require 'aws-sdk-core/plugins/client_metrics_plugin.rb'
-require 'aws-sdk-core/plugins/client_metrics_send_plugin.rb'
-require 'aws-sdk-core/plugins/transfer_encoding.rb'
-require 'aws-sdk-core/plugins/http_checksum.rb'
-require 'aws-sdk-core/plugins/checksum_algorithm.rb'
-require 'aws-sdk-core/plugins/defaults_mode.rb'
-require 'aws-sdk-core/plugins/recursion_detection.rb'
-require 'aws-sdk-core/plugins/sign.rb'
-require 'aws-sdk-core/plugins/protocols/json_rpc.rb'
-
-Aws::Plugins::GlobalConfiguration.add_identifier(:acmpca)
+require 'seahorse/client/plugins/content_length'
+require 'aws-sdk-core/plugins/credentials_configuration'
+require 'aws-sdk-core/plugins/logging'
+require 'aws-sdk-core/plugins/param_converter'
+require 'aws-sdk-core/plugins/param_validator'
+require 'aws-sdk-core/plugins/user_agent'
+require 'aws-sdk-core/plugins/helpful_socket_errors'
+require 'aws-sdk-core/plugins/retry_errors'
+require 'aws-sdk-core/plugins/global_configuration'
+require 'aws-sdk-core/plugins/regional_endpoint'
+require 'aws-sdk-core/plugins/endpoint_discovery'
+require 'aws-sdk-core/plugins/endpoint_pattern'
+require 'aws-sdk-core/plugins/response_paging'
+require 'aws-sdk-core/plugins/stub_responses'
+require 'aws-sdk-core/plugins/idempotency_token'
+require 'aws-sdk-core/plugins/invocation_id'
+require 'aws-sdk-core/plugins/jsonvalue_converter'
+require 'aws-sdk-core/plugins/client_metrics_plugin'
+require 'aws-sdk-core/plugins/client_metrics_send_plugin'
+require 'aws-sdk-core/plugins/transfer_encoding'
+require 'aws-sdk-core/plugins/http_checksum'
+require 'aws-sdk-core/plugins/checksum_algorithm'
+require 'aws-sdk-core/plugins/request_compression'
+require 'aws-sdk-core/plugins/defaults_mode'
+require 'aws-sdk-core/plugins/recursion_detection'
+require 'aws-sdk-core/plugins/telemetry'
+require 'aws-sdk-core/plugins/sign'
+require 'aws-sdk-core/plugins/protocols/json_rpc'
 
 module Aws::ACMPCA
   # An API client for ACMPCA.  To construct a client, you need to configure a `:region` and `:credentials`.
@@ -71,20 +72,28 @@ module Aws::ACMPCA
     add_plugin(Aws::Plugins::ResponsePaging)
     add_plugin(Aws::Plugins::StubResponses)
     add_plugin(Aws::Plugins::IdempotencyToken)
+    add_plugin(Aws::Plugins::InvocationId)
     add_plugin(Aws::Plugins::JsonvalueConverter)
     add_plugin(Aws::Plugins::ClientMetricsPlugin)
     add_plugin(Aws::Plugins::ClientMetricsSendPlugin)
     add_plugin(Aws::Plugins::TransferEncoding)
     add_plugin(Aws::Plugins::HttpChecksum)
     add_plugin(Aws::Plugins::ChecksumAlgorithm)
+    add_plugin(Aws::Plugins::RequestCompression)
     add_plugin(Aws::Plugins::DefaultsMode)
     add_plugin(Aws::Plugins::RecursionDetection)
+    add_plugin(Aws::Plugins::Telemetry)
     add_plugin(Aws::Plugins::Sign)
     add_plugin(Aws::Plugins::Protocols::JsonRpc)
     add_plugin(Aws::ACMPCA::Plugins::Endpoints)
 
     # @overload initialize(options)
     #   @param [Hash] options
+    #
+    #   @option options [Array<Seahorse::Client::Plugin>] :plugins ([]])
+    #     A list of plugins to apply to the client. Each plugin is either a
+    #     class name or an instance of a plugin class.
+    #
     #   @option options [required, Aws::CredentialProvider] :credentials
     #     Your AWS credentials. This can be an instance of any one of the
     #     following classes:
@@ -119,13 +128,15 @@ module Aws::ACMPCA
     #     locations will be searched for credentials:
     #
     #     * `Aws.config[:credentials]`
-    #     * The `:access_key_id`, `:secret_access_key`, and `:session_token` options.
-    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']
+    #     * The `:access_key_id`, `:secret_access_key`, `:session_token`, and
+    #       `:account_id` options.
+    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'],
+    #       ENV['AWS_SESSION_TOKEN'], and ENV['AWS_ACCOUNT_ID']
     #     * `~/.aws/credentials`
     #     * `~/.aws/config`
     #     * EC2/ECS IMDS instance profile - When used by default, the timeouts
     #       are very aggressive. Construct and pass an instance of
-    #       `Aws::InstanceProfileCredentails` or `Aws::ECSCredentials` to
+    #       `Aws::InstanceProfileCredentials` or `Aws::ECSCredentials` to
     #       enable retries and extended timeouts. Instance profile credential
     #       fetching can be disabled by setting ENV['AWS_EC2_METADATA_DISABLED']
     #       to true.
@@ -143,6 +154,8 @@ module Aws::ACMPCA
     #     * `~/.aws/config`
     #
     #   @option options [String] :access_key_id
+    #
+    #   @option options [String] :account_id
     #
     #   @option options [Boolean] :active_endpoint_cache (false)
     #     When set to `true`, a thread polling for endpoints will be running in
@@ -190,10 +203,20 @@ module Aws::ACMPCA
     #     Set to true to disable SDK automatically adding host prefix
     #     to default service endpoint when available.
     #
-    #   @option options [String] :endpoint
-    #     The client endpoint is normally constructed from the `:region`
-    #     option. You should only configure an `:endpoint` when connecting
-    #     to test or custom endpoints. This should be a valid HTTP(S) URI.
+    #   @option options [Boolean] :disable_request_compression (false)
+    #     When set to 'true' the request body will not be compressed
+    #     for supported operations.
+    #
+    #   @option options [String, URI::HTTPS, URI::HTTP] :endpoint
+    #     Normally you should not configure the `:endpoint` option
+    #     directly. This is normally constructed from the `:region`
+    #     option. Configuring `:endpoint` is normally reserved for
+    #     connecting to test or custom endpoints. The endpoint should
+    #     be a URI formatted like:
+    #
+    #         'http://example.com'
+    #         'https://example.com'
+    #         'http://example.com:123'
     #
     #   @option options [Integer] :endpoint_cache_max_entries (1000)
     #     Used for the maximum size limit of the LRU cache storing endpoints data
@@ -209,6 +232,10 @@ module Aws::ACMPCA
     #
     #   @option options [Boolean] :endpoint_discovery (false)
     #     When set to `true`, endpoint discovery will be enabled for operations when available.
+    #
+    #   @option options [Boolean] :ignore_configured_endpoint_urls
+    #     Setting to true disables use of endpoint URLs provided via environment
+    #     variables and the shared configuration file.
     #
     #   @option options [Aws::Log::Formatter] :log_formatter (Aws::Log::Formatter.default)
     #     The log formatter.
@@ -229,6 +256,34 @@ module Aws::ACMPCA
     #   @option options [String] :profile ("default")
     #     Used when loading credentials from the shared credentials file
     #     at HOME/.aws/credentials.  When not specified, 'default' is used.
+    #
+    #   @option options [String] :request_checksum_calculation ("when_supported")
+    #     Determines when a checksum will be calculated for request payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, a checksum will be
+    #       calculated for all request payloads of operations modeled with the
+    #       `httpChecksum` trait where `requestChecksumRequired` is `true` and/or a
+    #       `requestAlgorithmMember` is modeled.
+    #     * `when_required` - When set, a checksum will only be calculated for
+    #       request payloads of operations modeled with the  `httpChecksum` trait where
+    #       `requestChecksumRequired` is `true` or where a `requestAlgorithmMember`
+    #       is modeled and supplied.
+    #
+    #   @option options [Integer] :request_min_compression_size_bytes (10240)
+    #     The minimum size in bytes that triggers compression for request
+    #     bodies. The value must be non-negative integer value between 0
+    #     and 10485780 bytes inclusive.
+    #
+    #   @option options [String] :response_checksum_validation ("when_supported")
+    #     Determines when checksum validation will be performed on response payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, checksum validation is performed on all
+    #       response payloads of operations modeled with the `httpChecksum` trait where
+    #       `responseAlgorithms` is modeled, except when no modeled checksum algorithms
+    #       are supported.
+    #     * `when_required` - When set, checksum validation is not performed on
+    #       response payloads of operations unless the checksum algorithm is supported and
+    #       the `requestValidationModeMember` member is set to `ENABLED`.
     #
     #   @option options [Proc] :retry_backoff
     #     A proc or lambda used for backoff. Defaults to 2**retries * retry_base_delay.
@@ -274,20 +329,31 @@ module Aws::ACMPCA
     #       throttling.  This is a provisional mode that may change behavior
     #       in the future.
     #
+    #   @option options [String] :sdk_ua_app_id
+    #     A unique and opaque application ID that is appended to the
+    #     User-Agent header as app/sdk_ua_app_id. It should have a
+    #     maximum length of 50. This variable is sourced from environment
+    #     variable AWS_SDK_UA_APP_ID or the shared config profile attribute sdk_ua_app_id.
     #
     #   @option options [String] :secret_access_key
     #
     #   @option options [String] :session_token
     #
+    #   @option options [Array] :sigv4a_signing_region_set
+    #     A list of regions that should be signed with SigV4a signing. When
+    #     not passed, a default `:sigv4a_signing_region_set` is searched for
+    #     in the following locations:
+    #
+    #     * `Aws.config[:sigv4a_signing_region_set]`
+    #     * `ENV['AWS_SIGV4A_SIGNING_REGION_SET']`
+    #     * `~/.aws/config`
+    #
     #   @option options [Boolean] :simple_json (false)
     #     Disables request parameter conversion, validation, and formatting.
-    #     Also disable response data type conversions. This option is useful
-    #     when you want to ensure the highest level of performance by
-    #     avoiding overhead of walking request parameters and response data
-    #     structures.
-    #
-    #     When `:simple_json` is enabled, the request parameters hash must
-    #     be formatted exactly as the DynamoDB API expects.
+    #     Also disables response data type conversions. The request parameters
+    #     hash must be formatted exactly as the API expects.This option is useful
+    #     when you want to ensure the highest level of performance by avoiding
+    #     overhead of walking request parameters and response data structures.
     #
     #   @option options [Boolean] :stub_responses (false)
     #     Causes the client to return stubbed responses. By default
@@ -297,6 +363,16 @@ module Aws::ACMPCA
     #
     #     ** Please note ** When response stubbing is enabled, no HTTP
     #     requests are made, and retries are disabled.
+    #
+    #   @option options [Aws::Telemetry::TelemetryProviderBase] :telemetry_provider (Aws::Telemetry::NoOpTelemetryProvider)
+    #     Allows you to provide a telemetry provider, which is used to
+    #     emit telemetry data. By default, uses `NoOpTelemetryProvider` which
+    #     will not record or emit any telemetry data. The SDK supports the
+    #     following telemetry providers:
+    #
+    #     * OpenTelemetry (OTel) - To use the OTel provider, install and require the
+    #     `opentelemetry-sdk` gem and then, pass in an instance of a
+    #     `Aws::Telemetry::OTelProvider` for telemetry provider.
     #
     #   @option options [Aws::TokenProvider] :token_provider
     #     A Bearer Token Provider. This can be an instance of any one of the
@@ -325,52 +401,75 @@ module Aws::ACMPCA
     #     sending the request.
     #
     #   @option options [Aws::ACMPCA::EndpointProvider] :endpoint_provider
-    #     The endpoint provider used to resolve endpoints. Any object that responds to `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to `Aws::ACMPCA::EndpointParameters`
+    #     The endpoint provider used to resolve endpoints. Any object that responds to
+    #     `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+    #     `Aws::ACMPCA::EndpointParameters`.
     #
-    #   @option options [URI::HTTP,String] :http_proxy A proxy to send
-    #     requests through.  Formatted like 'http://proxy.com:123'.
+    #   @option options [Float] :http_continue_timeout (1)
+    #     The number of seconds to wait for a 100-continue response before sending the
+    #     request body.  This option has no effect unless the request has "Expect"
+    #     header set to "100-continue".  Defaults to `nil` which  disables this
+    #     behaviour.  This value can safely be set per request on the session.
     #
-    #   @option options [Float] :http_open_timeout (15) The number of
-    #     seconds to wait when opening a HTTP session before raising a
-    #     `Timeout::Error`.
+    #   @option options [Float] :http_idle_timeout (5)
+    #     The number of seconds a connection is allowed to sit idle before it
+    #     is considered stale.  Stale connections are closed and removed from the
+    #     pool before making a request.
     #
-    #   @option options [Float] :http_read_timeout (60) The default
-    #     number of seconds to wait for response data.  This value can
-    #     safely be set per-request on the session.
+    #   @option options [Float] :http_open_timeout (15)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :http_idle_timeout (5) The number of
-    #     seconds a connection is allowed to sit idle before it is
-    #     considered stale.  Stale connections are closed and removed
-    #     from the pool before making a request.
+    #   @option options [URI::HTTP,String] :http_proxy
+    #     A proxy to send requests through.  Formatted like 'http://proxy.com:123'.
     #
-    #   @option options [Float] :http_continue_timeout (1) The number of
-    #     seconds to wait for a 100-continue response before sending the
-    #     request body.  This option has no effect unless the request has
-    #     "Expect" header set to "100-continue".  Defaults to `nil` which
-    #     disables this behaviour.  This value can safely be set per
-    #     request on the session.
+    #   @option options [Float] :http_read_timeout (60)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :ssl_timeout (nil) Sets the SSL timeout
-    #     in seconds.
+    #   @option options [Boolean] :http_wire_trace (false)
+    #     When `true`,  HTTP debug output will be sent to the `:logger`.
     #
-    #   @option options [Boolean] :http_wire_trace (false) When `true`,
-    #     HTTP debug output will be sent to the `:logger`.
+    #   @option options [Proc] :on_chunk_received
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the response body is received. It provides three arguments: the chunk,
+    #     the number of bytes received, and the total number of
+    #     bytes in the response (or nil if the server did not send a `content-length`).
     #
-    #   @option options [Boolean] :ssl_verify_peer (true) When `true`,
-    #     SSL peer certificates are verified when establishing a
-    #     connection.
+    #   @option options [Proc] :on_chunk_sent
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the request body is sent. It provides three arguments: the chunk,
+    #     the number of bytes read from the body, and the total number of
+    #     bytes in the body.
     #
-    #   @option options [String] :ssl_ca_bundle Full path to the SSL
-    #     certificate authority bundle file that should be used when
-    #     verifying peer certificates.  If you do not pass
-    #     `:ssl_ca_bundle` or `:ssl_ca_directory` the the system default
-    #     will be used if available.
+    #   @option options [Boolean] :raise_response_errors (true)
+    #     When `true`, response errors are raised.
     #
-    #   @option options [String] :ssl_ca_directory Full path of the
-    #     directory that contains the unbundled SSL certificate
+    #   @option options [String] :ssl_ca_bundle
+    #     Full path to the SSL certificate authority bundle file that should be used when
+    #     verifying peer certificates.  If you do not pass `:ssl_ca_bundle` or
+    #     `:ssl_ca_directory` the the system default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_directory
+    #     Full path of the directory that contains the unbundled SSL certificate
     #     authority files for verifying peer certificates.  If you do
-    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the
-    #     system default will be used if available.
+    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the system
+    #     default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_store
+    #     Sets the X509::Store to verify peer certificate.
+    #
+    #   @option options [OpenSSL::X509::Certificate] :ssl_cert
+    #     Sets a client certificate when creating http connections.
+    #
+    #   @option options [OpenSSL::PKey] :ssl_key
+    #     Sets a client key when creating http connections.
+    #
+    #   @option options [Float] :ssl_timeout
+    #     Sets the SSL timeout in seconds
+    #
+    #   @option options [Boolean] :ssl_verify_peer (true)
+    #     When `true`, SSL peer certificates are verified when establishing a connection.
     #
     def initialize(*args)
       super
@@ -408,21 +507,21 @@ module Aws::ACMPCA
     #
     #
     # [1]: https://docs.aws.amazon.com/privateca/latest/userguide/crl-planning.html#s3-policies
-    # [2]: https://docs.aws.amazon.com/privateca/latest/userguide/PcaCreateCa.html#crl-encryption
+    # [2]: https://docs.aws.amazon.com/privateca/latest/userguide/crl-planning.html#crl-encryption
     #
     # @option params [required, Types::CertificateAuthorityConfiguration] :certificate_authority_configuration
     #   Name and bit size of the private key algorithm, the name of the
     #   signing algorithm, and X.500 certificate subject information.
     #
     # @option params [Types::RevocationConfiguration] :revocation_configuration
-    #   Contains information to enable Online Certificate Status Protocol
-    #   (OCSP) support, to enable a certificate revocation list (CRL), to
-    #   enable both, or to enable neither. The default is for both certificate
-    #   validation mechanisms to be disabled.
+    #   Contains information to enable support for Online Certificate Status
+    #   Protocol (OCSP), certificate revocation list (CRL), both protocols, or
+    #   neither. By default, both certificate validation mechanisms are
+    #   disabled.
     #
-    #   <note markdown="1"> The following requirements apply to revocation configurations.
+    #   The following requirements apply to revocation configurations.
     #
-    #    * A configuration disabling CRLs or OCSP must contain only the
+    #   * A configuration disabling CRLs or OCSP must contain only the
     #     `Enabled=False` parameter, and will fail if other parameters such as
     #     `CustomCname` or `ExpirationInDays` are included.
     #
@@ -435,8 +534,6 @@ module Aws::ACMPCA
     #
     #   * In a CRL or OCSP configuration, the value of a CNAME parameter must
     #     not include a protocol prefix such as "http://" or "https://".
-    #
-    #    </note>
     #
     #   For more information, see the [OcspConfiguration][3] and
     #   [CrlConfiguration][4] types.
@@ -468,19 +565,23 @@ module Aws::ACMPCA
     #
     #   Default: FIPS\_140\_2\_LEVEL\_3\_OR\_HIGHER
     #
-    #   *Note:* `FIPS_140_2_LEVEL_3_OR_HIGHER` is not supported in the
-    #   following Regions:
-    #
-    #   * ap-northeast-3
-    #
-    #   * ap-southeast-3
-    #
-    #   When creating a CA in these Regions, you must provide
+    #   <note markdown="1"> Some Amazon Web Services Regions do not support the default. When
+    #   creating a CA in these Regions, you must provide
     #   `FIPS_140_2_LEVEL_2_OR_HIGHER` as the argument for
     #   `KeyStorageSecurityStandard`. Failure to do this results in an
     #   `InvalidArgsException` with the message, "A certificate authority
     #   cannot be created in this region with the specified security
     #   standard."
+    #
+    #    For information about security standard support in various Regions,
+    #   see [Storage and security compliance of Amazon Web Services Private CA
+    #   private keys][1].
+    #
+    #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/privateca/latest/userguide/data-protection.html#private-keys
     #
     # @option params [Array<Types::Tag>] :tags
     #   Key-value pairs that will be attached to the new private CA. You can
@@ -508,8 +609,8 @@ module Aws::ACMPCA
     #
     #   resp = client.create_certificate_authority({
     #     certificate_authority_configuration: { # required
-    #       key_algorithm: "RSA_2048", # required, accepts RSA_2048, RSA_4096, EC_prime256v1, EC_secp384r1
-    #       signing_algorithm: "SHA256WITHECDSA", # required, accepts SHA256WITHECDSA, SHA384WITHECDSA, SHA512WITHECDSA, SHA256WITHRSA, SHA384WITHRSA, SHA512WITHRSA
+    #       key_algorithm: "RSA_2048", # required, accepts RSA_2048, RSA_4096, EC_prime256v1, EC_secp384r1, SM2
+    #       signing_algorithm: "SHA256WITHECDSA", # required, accepts SHA256WITHECDSA, SHA384WITHECDSA, SHA512WITHECDSA, SHA256WITHRSA, SHA384WITHRSA, SHA512WITHRSA, SM3WITHSM2
     #       subject: { # required
     #         country: "CountryCodeString",
     #         organization: "String64",
@@ -598,6 +699,11 @@ module Aws::ACMPCA
     #         custom_cname: "CnameString",
     #         s3_bucket_name: "S3BucketName3To255",
     #         s3_object_acl: "PUBLIC_READ", # accepts PUBLIC_READ, BUCKET_OWNER_FULL_CONTROL
+    #         crl_distribution_point_extension_configuration: {
+    #           omit_extension: false, # required
+    #         },
+    #         crl_type: "COMPLETE", # accepts COMPLETE, PARTITIONED
+    #         custom_path: "CrlPathString",
     #       },
     #       ocsp_configuration: {
     #         enabled: false, # required
@@ -606,7 +712,7 @@ module Aws::ACMPCA
     #     },
     #     certificate_authority_type: "ROOT", # required, accepts ROOT, SUBORDINATE
     #     idempotency_token: "IdempotencyToken",
-    #     key_storage_security_standard: "FIPS_140_2_LEVEL_2_OR_HIGHER", # accepts FIPS_140_2_LEVEL_2_OR_HIGHER, FIPS_140_2_LEVEL_3_OR_HIGHER
+    #     key_storage_security_standard: "FIPS_140_2_LEVEL_2_OR_HIGHER", # accepts FIPS_140_2_LEVEL_2_OR_HIGHER, FIPS_140_2_LEVEL_3_OR_HIGHER, CCPC_LEVEL_1_OR_HIGHER
     #     tags: [
     #       {
     #         key: "TagKey", # required
@@ -630,17 +736,13 @@ module Aws::ACMPCA
     end
 
     # Creates an audit report that lists every time that your CA private key
-    # is used. The report is saved in the Amazon S3 bucket that you specify
-    # on input. The [IssueCertificate][1] and [RevokeCertificate][2] actions
-    # use the private key.
+    # is used to issue a certificate. The [IssueCertificate][1] and
+    # [RevokeCertificate][2] actions use the private key.
     #
-    # <note markdown="1"> Both Amazon Web Services Private CA and the IAM principal must have
-    # permission to write to the S3 bucket that you specify. If the IAM
-    # principal making the call does not have permission to write to the
-    # bucket, then an exception is thrown. For more information, see [Access
-    # policies for CRLs in Amazon S3][3].
-    #
-    #  </note>
+    # To save the audit report to your designated Amazon S3 bucket, you must
+    # create a bucket policy that grants Amazon Web Services Private CA
+    # permission to access and write to it. For an example policy, see
+    # [Prepare an Amazon S3 bucket for audit reports][3].
     #
     # Amazon Web Services Private CA assets that are stored in Amazon S3 can
     # be protected with encryption. For more information, see [Encrypting
@@ -654,7 +756,7 @@ module Aws::ACMPCA
     #
     # [1]: https://docs.aws.amazon.com/privateca/latest/APIReference/API_IssueCertificate.html
     # [2]: https://docs.aws.amazon.com/privateca/latest/APIReference/API_RevokeCertificate.html
-    # [3]: https://docs.aws.amazon.com/privateca/latest/userguide/crl-planning.html#s3-policies
+    # [3]: https://docs.aws.amazon.com/privateca/latest/userguide/PcaAuditReport.html#s3-access
     # [4]: https://docs.aws.amazon.com/privateca/latest/userguide/PcaAuditReport.html#audit-report-encryption
     #
     # @option params [required, String] :certificate_authority_arn
@@ -1052,8 +1154,8 @@ module Aws::ACMPCA
     #   resp.certificate_authority.not_before #=> Time
     #   resp.certificate_authority.not_after #=> Time
     #   resp.certificate_authority.failure_reason #=> String, one of "REQUEST_TIMED_OUT", "UNSUPPORTED_ALGORITHM", "OTHER"
-    #   resp.certificate_authority.certificate_authority_configuration.key_algorithm #=> String, one of "RSA_2048", "RSA_4096", "EC_prime256v1", "EC_secp384r1"
-    #   resp.certificate_authority.certificate_authority_configuration.signing_algorithm #=> String, one of "SHA256WITHECDSA", "SHA384WITHECDSA", "SHA512WITHECDSA", "SHA256WITHRSA", "SHA384WITHRSA", "SHA512WITHRSA"
+    #   resp.certificate_authority.certificate_authority_configuration.key_algorithm #=> String, one of "RSA_2048", "RSA_4096", "EC_prime256v1", "EC_secp384r1", "SM2"
+    #   resp.certificate_authority.certificate_authority_configuration.signing_algorithm #=> String, one of "SHA256WITHECDSA", "SHA384WITHECDSA", "SHA512WITHECDSA", "SHA256WITHRSA", "SHA384WITHRSA", "SHA512WITHRSA", "SM3WITHSM2"
     #   resp.certificate_authority.certificate_authority_configuration.subject.country #=> String
     #   resp.certificate_authority.certificate_authority_configuration.subject.organization #=> String
     #   resp.certificate_authority.certificate_authority_configuration.subject.organizational_unit #=> String
@@ -1114,10 +1216,13 @@ module Aws::ACMPCA
     #   resp.certificate_authority.revocation_configuration.crl_configuration.custom_cname #=> String
     #   resp.certificate_authority.revocation_configuration.crl_configuration.s3_bucket_name #=> String
     #   resp.certificate_authority.revocation_configuration.crl_configuration.s3_object_acl #=> String, one of "PUBLIC_READ", "BUCKET_OWNER_FULL_CONTROL"
+    #   resp.certificate_authority.revocation_configuration.crl_configuration.crl_distribution_point_extension_configuration.omit_extension #=> Boolean
+    #   resp.certificate_authority.revocation_configuration.crl_configuration.crl_type #=> String, one of "COMPLETE", "PARTITIONED"
+    #   resp.certificate_authority.revocation_configuration.crl_configuration.custom_path #=> String
     #   resp.certificate_authority.revocation_configuration.ocsp_configuration.enabled #=> Boolean
     #   resp.certificate_authority.revocation_configuration.ocsp_configuration.ocsp_custom_cname #=> String
     #   resp.certificate_authority.restorable_until #=> Time
-    #   resp.certificate_authority.key_storage_security_standard #=> String, one of "FIPS_140_2_LEVEL_2_OR_HIGHER", "FIPS_140_2_LEVEL_3_OR_HIGHER"
+    #   resp.certificate_authority.key_storage_security_standard #=> String, one of "FIPS_140_2_LEVEL_2_OR_HIGHER", "FIPS_140_2_LEVEL_3_OR_HIGHER", "CCPC_LEVEL_1_OR_HIGHER"
     #   resp.certificate_authority.usage_mode #=> String, one of "GENERAL_PURPOSE", "SHORT_LIVED_CERTIFICATE"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/acm-pca-2017-08-22/DescribeCertificateAuthority AWS API Documentation
@@ -1384,7 +1489,7 @@ module Aws::ACMPCA
     # @option params [required, String] :resource_arn
     #   The Amazon Resource Number (ARN) of the private CA that will have its
     #   policy retrieved. You can find the CA's ARN by calling the
-    #   ListCertificateAuthorities action.
+    #   ListCertificateAuthorities action.      </p>
     #
     # @return [Types::GetPolicyResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1465,44 +1570,46 @@ module Aws::ACMPCA
     # Amazon Web Services Private CA allows the following extensions to be
     # marked critical in the imported CA certificate or chain.
     #
-    # * Basic constraints (*must* be marked critical)
-    #
-    # * Subject alternative names
-    #
-    # * Key usage
-    #
-    # * Extended key usage
-    #
     # * Authority key identifier
     #
-    # * Subject key identifier
-    #
-    # * Issuer alternative name
-    #
-    # * Subject directory attributes
-    #
-    # * Subject information access
+    # * Basic constraints (*must* be marked critical)
     #
     # * Certificate policies
     #
-    # * Policy mappings
+    # * Extended key usage
     #
     # * Inhibit anyPolicy
+    #
+    # * Issuer alternative name
+    #
+    # * Key usage
+    #
+    # * Name constraints
+    #
+    # * Policy mappings
+    #
+    # * Subject alternative name
+    #
+    # * Subject directory attributes
+    #
+    # * Subject key identifier
+    #
+    # * Subject information access
     #
     # Amazon Web Services Private CA rejects the following extensions when
     # they are marked critical in an imported CA certificate or chain.
     #
-    # * Name constraints
-    #
-    # * Policy constraints
+    # * Authority information access
     #
     # * CRL distribution points
     #
-    # * Authority information access
-    #
     # * Freshest CRL
     #
-    # * Any other extension
+    # * Policy constraints
+    #
+    # Amazon Web Services Private Certificate Authority will also reject any
+    # other extension marked as critical not contained on the preceding list
+    # of allowed extensions.
     #
     #
     #
@@ -1624,7 +1731,7 @@ module Aws::ACMPCA
     #   parameter used to sign a CSR in the `CreateCertificateAuthority`
     #   action.
     #
-    #   <note markdown="1"> The specified signing algorithm family (RSA or ECDSA) much match the
+    #   <note markdown="1"> The specified signing algorithm family (RSA or ECDSA) must match the
     #   algorithm family of the CA's secret key.
     #
     #    </note>
@@ -1692,17 +1799,17 @@ module Aws::ACMPCA
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/acm-pca/latest/APIReference/API_Validity.html
+    #   [1]: https://docs.aws.amazon.com/privateca/latest/APIReference/API_Validity.html
     #   [2]: https://datatracker.ietf.org/doc/html/rfc5280#section-4.1.2.5
     #
     # @option params [String] :idempotency_token
     #   Alphanumeric string that can be used to distinguish between calls to
     #   the **IssueCertificate** action. Idempotency tokens for
-    #   **IssueCertificate** time out after one minute. Therefore, if you call
-    #   **IssueCertificate** multiple times with the same idempotency token
-    #   within one minute, Amazon Web Services Private CA recognizes that you
-    #   are requesting only one certificate and will issue only one. If you
-    #   change the idempotency token for each call, Amazon Web Services
+    #   **IssueCertificate** time out after five minutes. Therefore, if you
+    #   call **IssueCertificate** multiple times with the same idempotency
+    #   token within five minutes, Amazon Web Services Private CA recognizes
+    #   that you are requesting only one certificate and will issue only one.
+    #   If you change the idempotency token for each call, Amazon Web Services
     #   Private CA recognizes that you are requesting multiple certificates.
     #
     # @return [Types::IssueCertificateResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
@@ -1816,7 +1923,7 @@ module Aws::ACMPCA
     #     },
     #     certificate_authority_arn: "Arn", # required
     #     csr: "data", # required
-    #     signing_algorithm: "SHA256WITHECDSA", # required, accepts SHA256WITHECDSA, SHA384WITHECDSA, SHA512WITHECDSA, SHA256WITHRSA, SHA384WITHRSA, SHA512WITHRSA
+    #     signing_algorithm: "SHA256WITHECDSA", # required, accepts SHA256WITHECDSA, SHA384WITHECDSA, SHA512WITHECDSA, SHA256WITHRSA, SHA384WITHRSA, SHA512WITHRSA, SM3WITHSM2
     #     template_arn: "Arn",
     #     validity: { # required
     #       value: 1, # required
@@ -1849,12 +1956,6 @@ module Aws::ACMPCA
     #
     # [1]: https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthority.html
     #
-    # @option params [String] :next_token
-    #   Use this parameter when paginating results in a subsequent request
-    #   after you receive a response with truncated results. Set it to the
-    #   value of the `NextToken` parameter from the response you just
-    #   received.
-    #
     # @option params [Integer] :max_results
     #   Use this parameter when paginating results to specify the maximum
     #   number of items to return in the response on each page. If additional
@@ -1862,27 +1963,37 @@ module Aws::ACMPCA
     #   sent in the response. Use this `NextToken` value in a subsequent
     #   request to retrieve additional items.
     #
+    #   Although the maximum value is 1000, the action only returns a maximum
+    #   of 100 items.
+    #
+    # @option params [String] :next_token
+    #   Use this parameter when paginating results in a subsequent request
+    #   after you receive a response with truncated results. Set it to the
+    #   value of the `NextToken` parameter from the response you just
+    #   received.
+    #
     # @option params [String] :resource_owner
     #   Use this parameter to filter the returned set of certificate
     #   authorities based on their owner. The default is SELF.
     #
     # @return [Types::ListCertificateAuthoritiesResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
-    #   * {Types::ListCertificateAuthoritiesResponse#certificate_authorities #certificate_authorities} => Array&lt;Types::CertificateAuthority&gt;
     #   * {Types::ListCertificateAuthoritiesResponse#next_token #next_token} => String
+    #   * {Types::ListCertificateAuthoritiesResponse#certificate_authorities #certificate_authorities} => Array&lt;Types::CertificateAuthority&gt;
     #
     # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
     #
     # @example Request syntax with placeholder values
     #
     #   resp = client.list_certificate_authorities({
-    #     next_token: "NextToken",
     #     max_results: 1,
+    #     next_token: "NextToken",
     #     resource_owner: "SELF", # accepts SELF, OTHER_ACCOUNTS
     #   })
     #
     # @example Response structure
     #
+    #   resp.next_token #=> String
     #   resp.certificate_authorities #=> Array
     #   resp.certificate_authorities[0].arn #=> String
     #   resp.certificate_authorities[0].owner_account #=> String
@@ -1894,8 +2005,8 @@ module Aws::ACMPCA
     #   resp.certificate_authorities[0].not_before #=> Time
     #   resp.certificate_authorities[0].not_after #=> Time
     #   resp.certificate_authorities[0].failure_reason #=> String, one of "REQUEST_TIMED_OUT", "UNSUPPORTED_ALGORITHM", "OTHER"
-    #   resp.certificate_authorities[0].certificate_authority_configuration.key_algorithm #=> String, one of "RSA_2048", "RSA_4096", "EC_prime256v1", "EC_secp384r1"
-    #   resp.certificate_authorities[0].certificate_authority_configuration.signing_algorithm #=> String, one of "SHA256WITHECDSA", "SHA384WITHECDSA", "SHA512WITHECDSA", "SHA256WITHRSA", "SHA384WITHRSA", "SHA512WITHRSA"
+    #   resp.certificate_authorities[0].certificate_authority_configuration.key_algorithm #=> String, one of "RSA_2048", "RSA_4096", "EC_prime256v1", "EC_secp384r1", "SM2"
+    #   resp.certificate_authorities[0].certificate_authority_configuration.signing_algorithm #=> String, one of "SHA256WITHECDSA", "SHA384WITHECDSA", "SHA512WITHECDSA", "SHA256WITHRSA", "SHA384WITHRSA", "SHA512WITHRSA", "SM3WITHSM2"
     #   resp.certificate_authorities[0].certificate_authority_configuration.subject.country #=> String
     #   resp.certificate_authorities[0].certificate_authority_configuration.subject.organization #=> String
     #   resp.certificate_authorities[0].certificate_authority_configuration.subject.organizational_unit #=> String
@@ -1956,12 +2067,14 @@ module Aws::ACMPCA
     #   resp.certificate_authorities[0].revocation_configuration.crl_configuration.custom_cname #=> String
     #   resp.certificate_authorities[0].revocation_configuration.crl_configuration.s3_bucket_name #=> String
     #   resp.certificate_authorities[0].revocation_configuration.crl_configuration.s3_object_acl #=> String, one of "PUBLIC_READ", "BUCKET_OWNER_FULL_CONTROL"
+    #   resp.certificate_authorities[0].revocation_configuration.crl_configuration.crl_distribution_point_extension_configuration.omit_extension #=> Boolean
+    #   resp.certificate_authorities[0].revocation_configuration.crl_configuration.crl_type #=> String, one of "COMPLETE", "PARTITIONED"
+    #   resp.certificate_authorities[0].revocation_configuration.crl_configuration.custom_path #=> String
     #   resp.certificate_authorities[0].revocation_configuration.ocsp_configuration.enabled #=> Boolean
     #   resp.certificate_authorities[0].revocation_configuration.ocsp_configuration.ocsp_custom_cname #=> String
     #   resp.certificate_authorities[0].restorable_until #=> Time
-    #   resp.certificate_authorities[0].key_storage_security_standard #=> String, one of "FIPS_140_2_LEVEL_2_OR_HIGHER", "FIPS_140_2_LEVEL_3_OR_HIGHER"
+    #   resp.certificate_authorities[0].key_storage_security_standard #=> String, one of "FIPS_140_2_LEVEL_2_OR_HIGHER", "FIPS_140_2_LEVEL_3_OR_HIGHER", "CCPC_LEVEL_1_OR_HIGHER"
     #   resp.certificate_authorities[0].usage_mode #=> String, one of "GENERAL_PURPOSE", "SHORT_LIVED_CERTIFICATE"
-    #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/acm-pca-2017-08-22/ListCertificateAuthorities AWS API Documentation
     #
@@ -2004,6 +2117,18 @@ module Aws::ACMPCA
     # [2]: https://docs.aws.amazon.com/privateca/latest/APIReference/API_DeletePermission.html
     # [3]: https://docs.aws.amazon.com/privateca/latest/userguide/pca-rbp.html
     #
+    # @option params [Integer] :max_results
+    #   When paginating results, use this parameter to specify the maximum
+    #   number of items to return in the response. If additional items exist
+    #   beyond the number you specify, the **NextToken** element is sent in
+    #   the response. Use this **NextToken** value in a subsequent request to
+    #   retrieve additional items.
+    #
+    # @option params [String] :next_token
+    #   When paginating results, use this parameter in a subsequent request
+    #   after you receive a response with truncated results. Set it to the
+    #   value of **NextToken** from the response you just received.
+    #
     # @option params [required, String] :certificate_authority_arn
     #   The Amazon Resource Number (ARN) of the private CA to inspect. You can
     #   find the ARN by calling the [ListCertificateAuthorities][1] action.
@@ -2016,35 +2141,24 @@ module Aws::ACMPCA
     #
     #   [1]: https://docs.aws.amazon.com/privateca/latest/APIReference/API_ListCertificateAuthorities.html
     #
-    # @option params [String] :next_token
-    #   When paginating results, use this parameter in a subsequent request
-    #   after you receive a response with truncated results. Set it to the
-    #   value of **NextToken** from the response you just received.
-    #
-    # @option params [Integer] :max_results
-    #   When paginating results, use this parameter to specify the maximum
-    #   number of items to return in the response. If additional items exist
-    #   beyond the number you specify, the **NextToken** element is sent in
-    #   the response. Use this **NextToken** value in a subsequent request to
-    #   retrieve additional items.
-    #
     # @return [Types::ListPermissionsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
-    #   * {Types::ListPermissionsResponse#permissions #permissions} => Array&lt;Types::Permission&gt;
     #   * {Types::ListPermissionsResponse#next_token #next_token} => String
+    #   * {Types::ListPermissionsResponse#permissions #permissions} => Array&lt;Types::Permission&gt;
     #
     # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
     #
     # @example Request syntax with placeholder values
     #
     #   resp = client.list_permissions({
-    #     certificate_authority_arn: "Arn", # required
-    #     next_token: "NextToken",
     #     max_results: 1,
+    #     next_token: "NextToken",
+    #     certificate_authority_arn: "Arn", # required
     #   })
     #
     # @example Response structure
     #
+    #   resp.next_token #=> String
     #   resp.permissions #=> Array
     #   resp.permissions[0].certificate_authority_arn #=> String
     #   resp.permissions[0].created_at #=> Time
@@ -2053,7 +2167,6 @@ module Aws::ACMPCA
     #   resp.permissions[0].actions #=> Array
     #   resp.permissions[0].actions[0] #=> String, one of "IssueCertificate", "GetCertificate", "ListPermissions"
     #   resp.permissions[0].policy #=> String
-    #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/acm-pca-2017-08-22/ListPermissions AWS API Documentation
     #
@@ -2076,6 +2189,18 @@ module Aws::ACMPCA
     # [1]: https://docs.aws.amazon.com/privateca/latest/APIReference/API_TagCertificateAuthority.html
     # [2]: https://docs.aws.amazon.com/privateca/latest/APIReference/API_UntagCertificateAuthority.html
     #
+    # @option params [Integer] :max_results
+    #   Use this parameter when paginating results to specify the maximum
+    #   number of items to return in the response. If additional items exist
+    #   beyond the number you specify, the **NextToken** element is sent in
+    #   the response. Use this **NextToken** value in a subsequent request to
+    #   retrieve additional items.
+    #
+    # @option params [String] :next_token
+    #   Use this parameter when paginating results in a subsequent request
+    #   after you receive a response with truncated results. Set it to the
+    #   value of **NextToken** from the response you just received.
+    #
     # @option params [required, String] :certificate_authority_arn
     #   The Amazon Resource Name (ARN) that was returned when you called the
     #   [CreateCertificateAuthority][1] action. This must be of the form:
@@ -2087,39 +2212,27 @@ module Aws::ACMPCA
     #
     #   [1]: https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthority.html
     #
-    # @option params [String] :next_token
-    #   Use this parameter when paginating results in a subsequent request
-    #   after you receive a response with truncated results. Set it to the
-    #   value of **NextToken** from the response you just received.
-    #
-    # @option params [Integer] :max_results
-    #   Use this parameter when paginating results to specify the maximum
-    #   number of items to return in the response. If additional items exist
-    #   beyond the number you specify, the **NextToken** element is sent in
-    #   the response. Use this **NextToken** value in a subsequent request to
-    #   retrieve additional items.
-    #
     # @return [Types::ListTagsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
-    #   * {Types::ListTagsResponse#tags #tags} => Array&lt;Types::Tag&gt;
     #   * {Types::ListTagsResponse#next_token #next_token} => String
+    #   * {Types::ListTagsResponse#tags #tags} => Array&lt;Types::Tag&gt;
     #
     # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
     #
     # @example Request syntax with placeholder values
     #
     #   resp = client.list_tags({
-    #     certificate_authority_arn: "Arn", # required
-    #     next_token: "NextToken",
     #     max_results: 1,
+    #     next_token: "NextToken",
+    #     certificate_authority_arn: "Arn", # required
     #   })
     #
     # @example Response structure
     #
+    #   resp.next_token #=> String
     #   resp.tags #=> Array
     #   resp.tags[0].key #=> String
     #   resp.tags[0].value #=> String
-    #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/acm-pca-2017-08-22/ListTags AWS API Documentation
     #
@@ -2484,15 +2597,15 @@ module Aws::ACMPCA
     #   `
     #
     # @option params [Types::RevocationConfiguration] :revocation_configuration
-    #   Contains information to enable Online Certificate Status Protocol
-    #   (OCSP) support, to enable a certificate revocation list (CRL), to
-    #   enable both, or to enable neither. If this parameter is not supplied,
-    #   existing capibilites remain unchanged. For more information, see the
-    #   [OcspConfiguration][1] and [CrlConfiguration][2] types.
+    #   Contains information to enable support for Online Certificate Status
+    #   Protocol (OCSP), certificate revocation list (CRL), both protocols, or
+    #   neither. If you don't supply this parameter, existing capibilites
+    #   remain unchanged. For more information, see the [OcspConfiguration][1]
+    #   and [CrlConfiguration][2] types.
     #
-    #   <note markdown="1"> The following requirements apply to revocation configurations.
+    #   The following requirements apply to revocation configurations.
     #
-    #    * A configuration disabling CRLs or OCSP must contain only the
+    #   * A configuration disabling CRLs or OCSP must contain only the
     #     `Enabled=False` parameter, and will fail if other parameters such as
     #     `CustomCname` or `ExpirationInDays` are included.
     #
@@ -2506,7 +2619,17 @@ module Aws::ACMPCA
     #   * In a CRL or OCSP configuration, the value of a CNAME parameter must
     #     not include a protocol prefix such as "http://" or "https://".
     #
-    #    </note>
+    #   If you update the `S3BucketName` of [CrlConfiguration][2], you can
+    #   break revocation for existing certificates. In other words, if you
+    #   call [UpdateCertificateAuthority][5] to update the CRL
+    #   configuration's S3 bucket name, Amazon Web Services Private CA only
+    #   writes CRLs to the new S3 bucket. Certificates issued prior to this
+    #   point will have the old S3 bucket name in your CRL Distribution Point
+    #   (CDP) extension, essentially breaking revocation. If you must update
+    #   the S3 bucket, you'll need to reissue old certificates to keep the
+    #   revocation working. Alternatively, you can use a [CustomCname][6] in
+    #   your CRL configuration if you might need to change the S3 bucket name
+    #   in the future.
     #
     #
     #
@@ -2514,6 +2637,8 @@ module Aws::ACMPCA
     #   [2]: https://docs.aws.amazon.com/privateca/latest/APIReference/API_CrlConfiguration.html
     #   [3]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html
     #   [4]: https://www.ietf.org/rfc/rfc2396.txt
+    #   [5]: https://docs.aws.amazon.com/privateca/latest/APIReference/API_UpdateCertificateAuthority.html
+    #   [6]: https://docs.aws.amazon.com/privateca/latest/APIReference/API_CrlConfiguration.html#privateca-Type-CrlConfiguration-CustomCname
     #
     # @option params [String] :status
     #   Status of your private CA.
@@ -2531,6 +2656,11 @@ module Aws::ACMPCA
     #         custom_cname: "CnameString",
     #         s3_bucket_name: "S3BucketName3To255",
     #         s3_object_acl: "PUBLIC_READ", # accepts PUBLIC_READ, BUCKET_OWNER_FULL_CONTROL
+    #         crl_distribution_point_extension_configuration: {
+    #           omit_extension: false, # required
+    #         },
+    #         crl_type: "COMPLETE", # accepts COMPLETE, PARTITIONED
+    #         custom_path: "CrlPathString",
     #       },
     #       ocsp_configuration: {
     #         enabled: false, # required
@@ -2555,14 +2685,19 @@ module Aws::ACMPCA
     # @api private
     def build_request(operation_name, params = {})
       handlers = @handlers.for(operation_name)
+      tracer = config.telemetry_provider.tracer_provider.tracer(
+        Aws::Telemetry.module_to_tracer_name('Aws::ACMPCA')
+      )
       context = Seahorse::Client::RequestContext.new(
         operation_name: operation_name,
         operation: config.api.operation(operation_name),
         client: self,
         params: params,
-        config: config)
+        config: config,
+        tracer: tracer
+      )
       context[:gem_name] = 'aws-sdk-acmpca'
-      context[:gem_version] = '1.53.0'
+      context[:gem_version] = '1.90.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 
@@ -2632,7 +2767,7 @@ module Aws::ACMPCA
     # | --------------------------------- | ---------------------------------------------------- | -------- | ------------- |
     # | audit_report_created              | {Client#describe_certificate_authority_audit_report} | 3        | 60            |
     # | certificate_authority_csr_created | {Client#get_certificate_authority_csr}               | 3        | 60            |
-    # | certificate_issued                | {Client#get_certificate}                             | 3        | 60            |
+    # | certificate_issued                | {Client#get_certificate}                             | 1        | 60            |
     #
     # @raise [Errors::FailureStateError] Raised when the waiter terminates
     #   because the waiter has entered a state that it will not transition

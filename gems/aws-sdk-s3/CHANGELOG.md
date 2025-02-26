@@ -1,6 +1,406 @@
 Unreleased Changes
 ------------------
 
+1.182.0 (2025-02-18)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.181.0 (2025-02-14)
+------------------
+
+* Feature - Added support for Content-Range header in HeadObject response.
+
+1.180.0 (2025-02-06)
+------------------
+
+* Feature - Updated list of the valid AWS Region values for the LocationConstraint parameter for general purpose buckets.
+
+1.179.0 (2025-01-29)
+------------------
+
+* Feature - Change the type of MpuObjectSize in CompleteMultipartUploadRequest from int to long.
+
+1.178.0 (2025-01-15)
+------------------
+
+* Feature - This change enhances integrity protections for new SDK requests to S3. S3 SDKs now support the CRC64NVME checksum algorithm, full object checksums for multipart S3 objects, and new default integrity protections for S3 requests.
+
+* Feature - Default to using `CRC32` checksum validation for S3 uploads and downloads.
+
+1.177.0 (2025-01-03)
+------------------
+
+* Feature - This change is only for updating the model regexp of CopySource which is not for validation but only for documentation and user guide change.
+
+1.176.1 (2024-12-12)
+------------------
+
+* Issue - Do not normalize object keys when calling `presigned_url` or `presigned_request`.
+
+1.176.0 (2024-12-03)
+------------------
+
+* Feature - Amazon S3 Metadata stores object metadata in read-only, fully managed Apache Iceberg metadata tables that you can query. You can create metadata table configurations for S3 general purpose buckets.
+
+1.175.0 (2024-12-02)
+------------------
+
+* Feature - Amazon S3 introduces support for AWS Dedicated Local Zones
+
+1.174.0 (2024-11-25)
+------------------
+
+* Feature - Amazon Simple Storage Service / Features: Add support for ETag based conditional writes in PutObject and CompleteMultiPartUpload APIs to prevent unintended object modifications.
+
+1.173.0 (2024-11-21)
+------------------
+
+* Feature - Add support for conditional deletes for the S3 DeleteObject and DeleteObjects APIs. Add support for write offset bytes option used to append to objects with the S3 PutObject API.
+
+1.172.0 (2024-11-18)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.171.0 (2024-11-14)
+------------------
+
+* Feature - This release updates the ListBuckets API Reference documentation in support of the new 10,000 general purpose bucket default quota on all AWS accounts. To increase your bucket quota from 10,000 to up to 1 million buckets, simply request a quota increase via Service Quotas.
+
+1.170.1 (2024-11-11)
+------------------
+
+* Issue - Tighten regex used to check for S3 200 errors.
+
+1.170.0 (2024-11-06)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.169.0 (2024-10-18)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.168.0 (2024-10-16)
+------------------
+
+* Feature - Add support for the new optional bucket-region and prefix query parameters in the ListBuckets API. For ListBuckets requests that express pagination, Amazon S3 will now return both the bucket names and associated AWS regions in the response.
+
+1.167.0 (2024-10-02)
+------------------
+
+* Feature - This release introduces a header representing the minimum object size limit for Lifecycle transitions.
+
+1.166.0 (2024-09-24)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.165.0 (2024-09-23)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.164.0 (2024-09-20)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.163.0 (2024-09-18)
+------------------
+
+* Feature - Added SSE-KMS support for directory buckets.
+
+1.162.0 (2024-09-11)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.161.0 (2024-09-10)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.160.0 (2024-09-03)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.159.0 (2024-08-20)
+------------------
+
+* Feature - Amazon Simple Storage Service / Features : Add support for conditional writes for PutObject and CompleteMultipartUpload APIs.
+
+1.158.0 (2024-08-15)
+------------------
+
+* Feature - Amazon Simple Storage Service / Features  : Adds support for pagination in the S3 ListBuckets API.
+
+1.157.0 (2024-08-01)
+------------------
+
+* Feature - Support `head_bucket`, `get_object_attributes`, `delete_objects`, and `copy_object` for Access Grants.
+
+1.156.0 (2024-07-02)
+------------------
+
+* Feature - Added response overrides to Head Object requests.
+
+1.155.0 (2024-06-28)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.154.0 (2024-06-25)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.153.0 (2024-06-24)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.152.3 (2024-06-13)
+------------------
+
+* Issue - Handle 200 errors for all S3 operations that do not have streaming responses.
+
+1.152.2 (2024-06-12)
+------------------
+
+* Issue - Revert Handling of 200 errors for all S3 operations.
+
+1.152.1 (2024-06-10)
+------------------
+
+* Issue - Handle 200 errors for all S3 operations that do not have streaming responses.
+
+1.152.0 (2024-06-05)
+------------------
+
+* Feature - Added new params copySource and key to copyObject API for supporting S3 Access Grants plugin. These changes will not change any of the existing S3 API functionality.
+
+1.151.0 (2024-05-14)
+------------------
+
+* Feature - Updated a few x-id in the http uri traits
+
+1.150.0 (2024-05-13)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.149.1 (2024-05-06)
+------------------
+
+* Issue - Fix bug where destination bucket default encryption was inadvertently overridden by source object encryption.
+
+1.149.0 (2024-04-30)
+------------------
+
+* Feature - Support S3 Access Grants authentication. Access Grants can be enabled with the `access_grants` option, and custom options can be passed into the `access_grants_credentials_provider` option. This feature requires `aws-sdk-s3control` to be installed.
+
+* Feature - Add RBS signatures for customizations of S3.
+
+1.148.0 (2024-04-25)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.147.0 (2024-04-16)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+* Issue - Omit `ContentType` plugin when generating presigned url.
+
+1.146.1 (2024-03-28)
+------------------
+
+* Issue - Fix bug where thread_count option was not being respected for multipart uploads.
+
+1.146.0 (2024-03-18)
+------------------
+
+* Feature - Fix two issues with response root node names.
+
+1.145.0 (2024-03-15)
+------------------
+
+* Feature - Documentation updates for Amazon S3.
+
+1.144.0 (2024-03-13)
+------------------
+
+* Feature - This release makes the default option for S3 on Outposts request signing to use the SigV4A algorithm when using AWS Common Runtime (CRT).
+
+1.143.1 (2024-03-12)
+------------------
+
+* Issue - Include original part errors in message when aborting multipart upload fails (#2990).
+
+1.143.0 (2024-01-26)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.142.0 (2023-12-22)
+------------------
+
+* Feature - Added additional examples for some operations.
+
+1.141.0 (2023-11-28)
+------------------
+
+* Feature - Adds support for S3 Express One Zone.
+
+* Feature - Support S3 Express authentication and endpoints. Express session auth can be disabled with the `disable_s3_express_session_auth` Client option, the `AWS_S3_DISABLE_EXPRESS_SESSION_AUTH` environment variable, and the `s3_disable_express_session_auth` shared config option. A custom `express_credentials_provider` can be configured onto the Client.
+
+1.140.0 (2023-11-27)
+------------------
+
+* Feature - Adding new params - Key and Prefix, to S3 API operations for supporting S3 Access Grants. Note - These updates will not change any of the existing S3 API functionality.
+
+* Issue - Fix thread interruptions in multipart `download_file`, `file_uploader` and `stream_uploader` (#2944).
+
+1.139.0 (2023-11-22)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.138.0 (2023-11-21)
+------------------
+
+* Feature - Add support for automatic date based partitioning in S3 Server Access Logs.
+
+1.137.0 (2023-11-17)
+------------------
+
+* Feature - Removes all default 0 values for numbers and false values for booleans
+
+1.136.0 (2023-09-26)
+------------------
+
+* Feature - This release adds a new field COMPLETED to the ReplicationStatus Enum. You can now use this field to validate the replication status of S3 objects using the AWS SDK.
+
+1.135.0 (2023-09-20)
+------------------
+
+* Feature - Fix an issue where the SDK can fail to unmarshall response due to NumberFormatException
+
+1.134.0 (2023-08-24)
+------------------
+
+* Feature - Updates to endpoint ruleset tests to address Smithy validation issues.
+
+1.133.0 (2023-08-22)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+* Feature - Add support for `progress_callback` in `Object#download_file` and improve multi-threaded performance #(2901).
+
+1.132.1 (2023-08-09)
+------------------
+
+* Issue - Add support for disabling checksum validation in `Object#download_file` (#2893).
+
+1.132.0 (2023-07-24)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+* Feature - Add support for verifying checksums in FileDownloader.
+
+1.131.0 (2023-07-20)
+------------------
+
+* Feature - Improve performance of S3 clients by simplifying and optimizing endpoint resolution.
+
+1.130.0 (2023-07-13)
+------------------
+
+* Feature - S3 Inventory now supports Object Access Control List and Object Owner as available object metadata fields in inventory reports.
+
+* Feature - Allow Object multipart copy API to work when requiring a checksum algorithm.
+
+* Feature - Allow Object multipart copy API to optionally copy parts as they exist on the source object if it has parts, instead of generating new part ranges, when specifying `use_source_parts: true`.
+
+1.129.0 (2023-07-11)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.128.0 (2023-07-06)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.127.0 (2023-06-28)
+------------------
+
+* Feature - The S3 LISTObjects, ListObjectsV2 and ListObjectVersions API now supports a new optional header x-amz-optional-object-attributes. If header contains RestoreStatus as the value, then S3 will include Glacier restore status i.e. isRestoreInProgress and RestoreExpiryDate in List response.
+
+* Feature - Select minimum expiration time for presigned urls between the expiration time option and the credential expiration time.
+
+1.126.0 (2023-06-16)
+------------------
+
+* Feature - This release adds SDK support for request-payer request header and request-charged response header in the "GetBucketAccelerateConfiguration", "ListMultipartUploads", "ListObjects", "ListObjectsV2" and "ListObjectVersions" S3 APIs.
+
+1.125.0 (2023-06-15)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.124.0 (2023-06-13)
+------------------
+
+* Feature - Integrate double encryption feature to SDKs.
+
+1.123.2 (2023-06-12)
+------------------
+
+* Issue - Fix issue when decrypting noncurrent versions of objects when using client side encryption (#2866).
+
+1.123.1 (2023-06-02)
+------------------
+
+* Issue - Fix multipart `download_file` so that it does not download bytes out of range (#2859).
+
+1.123.0 (2023-05-31)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.122.0 (2023-05-04)
+------------------
+
+* Feature - Documentation updates for Amazon S3
+
+1.121.0 (2023-04-19)
+------------------
+
+* Feature - Provides support for "Snow" Storage class.
+
+1.120.1 (2023-04-05)
+------------------
+
+* Issue - Skip `#check_for_cached_region` if custom endpoint provided
+
+1.120.0 (2023-03-31)
+------------------
+
+* Feature - Documentation updates for Amazon S3
+
+1.119.2 (2023-03-22)
+------------------
+
+* Issue - Provide `endpoint` and `bucket` attributes on `Aws::S3::Errors::PermanentRedirect` error objects.
+
 1.119.1 (2023-02-13)
 ------------------
 

@@ -1,6 +1,51 @@
 Unreleased Changes
 ------------------
 
+1.11.0 (2025-01-10)
+------------------
+
+* Feature - Add RBS signature files to support static type checking
+
+1.10.1 (2024-10-21)
+------------------
+
+* Issue - Fix sigv4a signing issue with derive_asymmetric_key for certain credentials.
+
+1.10.0 (2024-09-17)
+------------------
+
+* Feature - Remove CRT `sigv4a` signing capability.
+
+1.9.1 (2024-07-29)
+------------------
+
+* Issue - Add missing require of `pathname` to `Signer`.
+
+1.9.0 (2024-07-23)
+------------------
+
+* Feature - Support `sigv4a` signing algorithm without `aws-crt`.
+
+1.8.0 (2023-11-28)
+------------------
+
+* Feature - Support `sigv4-s3express` signing algorithm.
+
+1.7.0 (2023-11-22)
+------------------
+
+* Feature - AWS SDK for Ruby no longer supports Ruby runtime versions 2.3 and 2.4.
+
+1.6.1 (2023-10-25)
+------------------
+
+* Issue - (Static Stability) use provided `expires_in` in presigned url when credentials are expired.
+
+1.6.0 (2023-06-28)
+------------------
+
+* Feature - Select the minimum expiration time for presigned urls between the expiration time option and the credential expiration time.
+
 1.5.2 (2022-09-30)
 ------------------
 

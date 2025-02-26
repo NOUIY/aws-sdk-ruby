@@ -7,33 +7,34 @@
 #
 # WARNING ABOUT GENERATED CODE
 
-require 'seahorse/client/plugins/content_length.rb'
-require 'aws-sdk-core/plugins/credentials_configuration.rb'
-require 'aws-sdk-core/plugins/logging.rb'
-require 'aws-sdk-core/plugins/param_converter.rb'
-require 'aws-sdk-core/plugins/param_validator.rb'
-require 'aws-sdk-core/plugins/user_agent.rb'
-require 'aws-sdk-core/plugins/helpful_socket_errors.rb'
-require 'aws-sdk-core/plugins/retry_errors.rb'
-require 'aws-sdk-core/plugins/global_configuration.rb'
-require 'aws-sdk-core/plugins/regional_endpoint.rb'
-require 'aws-sdk-core/plugins/endpoint_discovery.rb'
-require 'aws-sdk-core/plugins/endpoint_pattern.rb'
-require 'aws-sdk-core/plugins/response_paging.rb'
-require 'aws-sdk-core/plugins/stub_responses.rb'
-require 'aws-sdk-core/plugins/idempotency_token.rb'
-require 'aws-sdk-core/plugins/jsonvalue_converter.rb'
-require 'aws-sdk-core/plugins/client_metrics_plugin.rb'
-require 'aws-sdk-core/plugins/client_metrics_send_plugin.rb'
-require 'aws-sdk-core/plugins/transfer_encoding.rb'
-require 'aws-sdk-core/plugins/http_checksum.rb'
-require 'aws-sdk-core/plugins/checksum_algorithm.rb'
-require 'aws-sdk-core/plugins/defaults_mode.rb'
-require 'aws-sdk-core/plugins/recursion_detection.rb'
-require 'aws-sdk-core/plugins/sign.rb'
-require 'aws-sdk-core/plugins/protocols/rest_json.rb'
-
-Aws::Plugins::GlobalConfiguration.add_identifier(:qldb)
+require 'seahorse/client/plugins/content_length'
+require 'aws-sdk-core/plugins/credentials_configuration'
+require 'aws-sdk-core/plugins/logging'
+require 'aws-sdk-core/plugins/param_converter'
+require 'aws-sdk-core/plugins/param_validator'
+require 'aws-sdk-core/plugins/user_agent'
+require 'aws-sdk-core/plugins/helpful_socket_errors'
+require 'aws-sdk-core/plugins/retry_errors'
+require 'aws-sdk-core/plugins/global_configuration'
+require 'aws-sdk-core/plugins/regional_endpoint'
+require 'aws-sdk-core/plugins/endpoint_discovery'
+require 'aws-sdk-core/plugins/endpoint_pattern'
+require 'aws-sdk-core/plugins/response_paging'
+require 'aws-sdk-core/plugins/stub_responses'
+require 'aws-sdk-core/plugins/idempotency_token'
+require 'aws-sdk-core/plugins/invocation_id'
+require 'aws-sdk-core/plugins/jsonvalue_converter'
+require 'aws-sdk-core/plugins/client_metrics_plugin'
+require 'aws-sdk-core/plugins/client_metrics_send_plugin'
+require 'aws-sdk-core/plugins/transfer_encoding'
+require 'aws-sdk-core/plugins/http_checksum'
+require 'aws-sdk-core/plugins/checksum_algorithm'
+require 'aws-sdk-core/plugins/request_compression'
+require 'aws-sdk-core/plugins/defaults_mode'
+require 'aws-sdk-core/plugins/recursion_detection'
+require 'aws-sdk-core/plugins/telemetry'
+require 'aws-sdk-core/plugins/sign'
+require 'aws-sdk-core/plugins/protocols/rest_json'
 
 module Aws::QLDB
   # An API client for QLDB.  To construct a client, you need to configure a `:region` and `:credentials`.
@@ -71,20 +72,28 @@ module Aws::QLDB
     add_plugin(Aws::Plugins::ResponsePaging)
     add_plugin(Aws::Plugins::StubResponses)
     add_plugin(Aws::Plugins::IdempotencyToken)
+    add_plugin(Aws::Plugins::InvocationId)
     add_plugin(Aws::Plugins::JsonvalueConverter)
     add_plugin(Aws::Plugins::ClientMetricsPlugin)
     add_plugin(Aws::Plugins::ClientMetricsSendPlugin)
     add_plugin(Aws::Plugins::TransferEncoding)
     add_plugin(Aws::Plugins::HttpChecksum)
     add_plugin(Aws::Plugins::ChecksumAlgorithm)
+    add_plugin(Aws::Plugins::RequestCompression)
     add_plugin(Aws::Plugins::DefaultsMode)
     add_plugin(Aws::Plugins::RecursionDetection)
+    add_plugin(Aws::Plugins::Telemetry)
     add_plugin(Aws::Plugins::Sign)
     add_plugin(Aws::Plugins::Protocols::RestJson)
     add_plugin(Aws::QLDB::Plugins::Endpoints)
 
     # @overload initialize(options)
     #   @param [Hash] options
+    #
+    #   @option options [Array<Seahorse::Client::Plugin>] :plugins ([]])
+    #     A list of plugins to apply to the client. Each plugin is either a
+    #     class name or an instance of a plugin class.
+    #
     #   @option options [required, Aws::CredentialProvider] :credentials
     #     Your AWS credentials. This can be an instance of any one of the
     #     following classes:
@@ -119,13 +128,15 @@ module Aws::QLDB
     #     locations will be searched for credentials:
     #
     #     * `Aws.config[:credentials]`
-    #     * The `:access_key_id`, `:secret_access_key`, and `:session_token` options.
-    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']
+    #     * The `:access_key_id`, `:secret_access_key`, `:session_token`, and
+    #       `:account_id` options.
+    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'],
+    #       ENV['AWS_SESSION_TOKEN'], and ENV['AWS_ACCOUNT_ID']
     #     * `~/.aws/credentials`
     #     * `~/.aws/config`
     #     * EC2/ECS IMDS instance profile - When used by default, the timeouts
     #       are very aggressive. Construct and pass an instance of
-    #       `Aws::InstanceProfileCredentails` or `Aws::ECSCredentials` to
+    #       `Aws::InstanceProfileCredentials` or `Aws::ECSCredentials` to
     #       enable retries and extended timeouts. Instance profile credential
     #       fetching can be disabled by setting ENV['AWS_EC2_METADATA_DISABLED']
     #       to true.
@@ -143,6 +154,8 @@ module Aws::QLDB
     #     * `~/.aws/config`
     #
     #   @option options [String] :access_key_id
+    #
+    #   @option options [String] :account_id
     #
     #   @option options [Boolean] :active_endpoint_cache (false)
     #     When set to `true`, a thread polling for endpoints will be running in
@@ -190,10 +203,20 @@ module Aws::QLDB
     #     Set to true to disable SDK automatically adding host prefix
     #     to default service endpoint when available.
     #
-    #   @option options [String] :endpoint
-    #     The client endpoint is normally constructed from the `:region`
-    #     option. You should only configure an `:endpoint` when connecting
-    #     to test or custom endpoints. This should be a valid HTTP(S) URI.
+    #   @option options [Boolean] :disable_request_compression (false)
+    #     When set to 'true' the request body will not be compressed
+    #     for supported operations.
+    #
+    #   @option options [String, URI::HTTPS, URI::HTTP] :endpoint
+    #     Normally you should not configure the `:endpoint` option
+    #     directly. This is normally constructed from the `:region`
+    #     option. Configuring `:endpoint` is normally reserved for
+    #     connecting to test or custom endpoints. The endpoint should
+    #     be a URI formatted like:
+    #
+    #         'http://example.com'
+    #         'https://example.com'
+    #         'http://example.com:123'
     #
     #   @option options [Integer] :endpoint_cache_max_entries (1000)
     #     Used for the maximum size limit of the LRU cache storing endpoints data
@@ -209,6 +232,10 @@ module Aws::QLDB
     #
     #   @option options [Boolean] :endpoint_discovery (false)
     #     When set to `true`, endpoint discovery will be enabled for operations when available.
+    #
+    #   @option options [Boolean] :ignore_configured_endpoint_urls
+    #     Setting to true disables use of endpoint URLs provided via environment
+    #     variables and the shared configuration file.
     #
     #   @option options [Aws::Log::Formatter] :log_formatter (Aws::Log::Formatter.default)
     #     The log formatter.
@@ -229,6 +256,34 @@ module Aws::QLDB
     #   @option options [String] :profile ("default")
     #     Used when loading credentials from the shared credentials file
     #     at HOME/.aws/credentials.  When not specified, 'default' is used.
+    #
+    #   @option options [String] :request_checksum_calculation ("when_supported")
+    #     Determines when a checksum will be calculated for request payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, a checksum will be
+    #       calculated for all request payloads of operations modeled with the
+    #       `httpChecksum` trait where `requestChecksumRequired` is `true` and/or a
+    #       `requestAlgorithmMember` is modeled.
+    #     * `when_required` - When set, a checksum will only be calculated for
+    #       request payloads of operations modeled with the  `httpChecksum` trait where
+    #       `requestChecksumRequired` is `true` or where a `requestAlgorithmMember`
+    #       is modeled and supplied.
+    #
+    #   @option options [Integer] :request_min_compression_size_bytes (10240)
+    #     The minimum size in bytes that triggers compression for request
+    #     bodies. The value must be non-negative integer value between 0
+    #     and 10485780 bytes inclusive.
+    #
+    #   @option options [String] :response_checksum_validation ("when_supported")
+    #     Determines when checksum validation will be performed on response payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, checksum validation is performed on all
+    #       response payloads of operations modeled with the `httpChecksum` trait where
+    #       `responseAlgorithms` is modeled, except when no modeled checksum algorithms
+    #       are supported.
+    #     * `when_required` - When set, checksum validation is not performed on
+    #       response payloads of operations unless the checksum algorithm is supported and
+    #       the `requestValidationModeMember` member is set to `ENABLED`.
     #
     #   @option options [Proc] :retry_backoff
     #     A proc or lambda used for backoff. Defaults to 2**retries * retry_base_delay.
@@ -274,10 +329,24 @@ module Aws::QLDB
     #       throttling.  This is a provisional mode that may change behavior
     #       in the future.
     #
+    #   @option options [String] :sdk_ua_app_id
+    #     A unique and opaque application ID that is appended to the
+    #     User-Agent header as app/sdk_ua_app_id. It should have a
+    #     maximum length of 50. This variable is sourced from environment
+    #     variable AWS_SDK_UA_APP_ID or the shared config profile attribute sdk_ua_app_id.
     #
     #   @option options [String] :secret_access_key
     #
     #   @option options [String] :session_token
+    #
+    #   @option options [Array] :sigv4a_signing_region_set
+    #     A list of regions that should be signed with SigV4a signing. When
+    #     not passed, a default `:sigv4a_signing_region_set` is searched for
+    #     in the following locations:
+    #
+    #     * `Aws.config[:sigv4a_signing_region_set]`
+    #     * `ENV['AWS_SIGV4A_SIGNING_REGION_SET']`
+    #     * `~/.aws/config`
     #
     #   @option options [Boolean] :stub_responses (false)
     #     Causes the client to return stubbed responses. By default
@@ -287,6 +356,16 @@ module Aws::QLDB
     #
     #     ** Please note ** When response stubbing is enabled, no HTTP
     #     requests are made, and retries are disabled.
+    #
+    #   @option options [Aws::Telemetry::TelemetryProviderBase] :telemetry_provider (Aws::Telemetry::NoOpTelemetryProvider)
+    #     Allows you to provide a telemetry provider, which is used to
+    #     emit telemetry data. By default, uses `NoOpTelemetryProvider` which
+    #     will not record or emit any telemetry data. The SDK supports the
+    #     following telemetry providers:
+    #
+    #     * OpenTelemetry (OTel) - To use the OTel provider, install and require the
+    #     `opentelemetry-sdk` gem and then, pass in an instance of a
+    #     `Aws::Telemetry::OTelProvider` for telemetry provider.
     #
     #   @option options [Aws::TokenProvider] :token_provider
     #     A Bearer Token Provider. This can be an instance of any one of the
@@ -315,52 +394,75 @@ module Aws::QLDB
     #     sending the request.
     #
     #   @option options [Aws::QLDB::EndpointProvider] :endpoint_provider
-    #     The endpoint provider used to resolve endpoints. Any object that responds to `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to `Aws::QLDB::EndpointParameters`
+    #     The endpoint provider used to resolve endpoints. Any object that responds to
+    #     `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+    #     `Aws::QLDB::EndpointParameters`.
     #
-    #   @option options [URI::HTTP,String] :http_proxy A proxy to send
-    #     requests through.  Formatted like 'http://proxy.com:123'.
+    #   @option options [Float] :http_continue_timeout (1)
+    #     The number of seconds to wait for a 100-continue response before sending the
+    #     request body.  This option has no effect unless the request has "Expect"
+    #     header set to "100-continue".  Defaults to `nil` which  disables this
+    #     behaviour.  This value can safely be set per request on the session.
     #
-    #   @option options [Float] :http_open_timeout (15) The number of
-    #     seconds to wait when opening a HTTP session before raising a
-    #     `Timeout::Error`.
+    #   @option options [Float] :http_idle_timeout (5)
+    #     The number of seconds a connection is allowed to sit idle before it
+    #     is considered stale.  Stale connections are closed and removed from the
+    #     pool before making a request.
     #
-    #   @option options [Float] :http_read_timeout (60) The default
-    #     number of seconds to wait for response data.  This value can
-    #     safely be set per-request on the session.
+    #   @option options [Float] :http_open_timeout (15)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :http_idle_timeout (5) The number of
-    #     seconds a connection is allowed to sit idle before it is
-    #     considered stale.  Stale connections are closed and removed
-    #     from the pool before making a request.
+    #   @option options [URI::HTTP,String] :http_proxy
+    #     A proxy to send requests through.  Formatted like 'http://proxy.com:123'.
     #
-    #   @option options [Float] :http_continue_timeout (1) The number of
-    #     seconds to wait for a 100-continue response before sending the
-    #     request body.  This option has no effect unless the request has
-    #     "Expect" header set to "100-continue".  Defaults to `nil` which
-    #     disables this behaviour.  This value can safely be set per
-    #     request on the session.
+    #   @option options [Float] :http_read_timeout (60)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :ssl_timeout (nil) Sets the SSL timeout
-    #     in seconds.
+    #   @option options [Boolean] :http_wire_trace (false)
+    #     When `true`,  HTTP debug output will be sent to the `:logger`.
     #
-    #   @option options [Boolean] :http_wire_trace (false) When `true`,
-    #     HTTP debug output will be sent to the `:logger`.
+    #   @option options [Proc] :on_chunk_received
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the response body is received. It provides three arguments: the chunk,
+    #     the number of bytes received, and the total number of
+    #     bytes in the response (or nil if the server did not send a `content-length`).
     #
-    #   @option options [Boolean] :ssl_verify_peer (true) When `true`,
-    #     SSL peer certificates are verified when establishing a
-    #     connection.
+    #   @option options [Proc] :on_chunk_sent
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the request body is sent. It provides three arguments: the chunk,
+    #     the number of bytes read from the body, and the total number of
+    #     bytes in the body.
     #
-    #   @option options [String] :ssl_ca_bundle Full path to the SSL
-    #     certificate authority bundle file that should be used when
-    #     verifying peer certificates.  If you do not pass
-    #     `:ssl_ca_bundle` or `:ssl_ca_directory` the the system default
-    #     will be used if available.
+    #   @option options [Boolean] :raise_response_errors (true)
+    #     When `true`, response errors are raised.
     #
-    #   @option options [String] :ssl_ca_directory Full path of the
-    #     directory that contains the unbundled SSL certificate
+    #   @option options [String] :ssl_ca_bundle
+    #     Full path to the SSL certificate authority bundle file that should be used when
+    #     verifying peer certificates.  If you do not pass `:ssl_ca_bundle` or
+    #     `:ssl_ca_directory` the the system default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_directory
+    #     Full path of the directory that contains the unbundled SSL certificate
     #     authority files for verifying peer certificates.  If you do
-    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the
-    #     system default will be used if available.
+    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the system
+    #     default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_store
+    #     Sets the X509::Store to verify peer certificate.
+    #
+    #   @option options [OpenSSL::X509::Certificate] :ssl_cert
+    #     Sets a client certificate when creating http connections.
+    #
+    #   @option options [OpenSSL::PKey] :ssl_key
+    #     Sets a client key when creating http connections.
+    #
+    #   @option options [Float] :ssl_timeout
+    #     Sets the SSL timeout in seconds
+    #
+    #   @option options [Boolean] :ssl_verify_peer (true)
+    #     When `true`, SSL peer certificates are verified when establishing a connection.
     #
     def initialize(*args)
       super
@@ -430,7 +532,7 @@ module Aws::QLDB
     #   The permissions mode to assign to the ledger that you want to create.
     #   This parameter can have one of the following values:
     #
-    #   * `ALLOW_ALL`\: A legacy permissions mode that enables access control
+    #   * `ALLOW_ALL`: A legacy permissions mode that enables access control
     #     with API-level granularity for ledgers.
     #
     #     This mode allows users who have the `SendCommand` API permission for
@@ -439,7 +541,7 @@ module Aws::QLDB
     #     or command-level IAM permissions policies that you create for the
     #     ledger.
     #
-    #   * `STANDARD`\: (*Recommended*) A permissions mode that enables access
+    #   * `STANDARD`: (*Recommended*) A permissions mode that enables access
     #     control with finer granularity for ledgers, tables, and PartiQL
     #     commands.
     #
@@ -461,13 +563,13 @@ module Aws::QLDB
     #   [1]: https://docs.aws.amazon.com/qldb/latest/developerguide/getting-started-standard-mode.html
     #
     # @option params [Boolean] :deletion_protection
-    #   The flag that prevents a ledger from being deleted by any user. If not
-    #   provided on ledger creation, this feature is enabled (`true`) by
-    #   default.
+    #   Specifies whether the ledger is protected from being deleted by any
+    #   user. If not defined during ledger creation, this feature is enabled
+    #   (`true`) by default.
     #
     #   If deletion protection is enabled, you must first disable it before
     #   you can delete the ledger. You can disable it by calling the
-    #   `UpdateLedger` operation to set the flag to `false`.
+    #   `UpdateLedger` operation to set this parameter to `false`.
     #
     # @option params [String] :kms_key
     #   The key in Key Management Service (KMS) to use for encryption of data
@@ -476,14 +578,14 @@ module Aws::QLDB
     #
     #   Use one of the following options to specify this parameter:
     #
-    #   * `AWS_OWNED_KMS_KEY`\: Use an KMS key that is owned and managed by
+    #   * `AWS_OWNED_KMS_KEY`: Use an KMS key that is owned and managed by
     #     Amazon Web Services on your behalf.
     #
-    #   * **Undefined**\: By default, use an Amazon Web Services owned KMS
-    #     key.
+    #   * **Undefined**: By default, use an Amazon Web Services owned KMS key.
     #
-    #   * **A valid symmetric customer managed KMS key**\: Use the specified
-    #     KMS key in your account that you create, own, and manage.
+    #   * **A valid symmetric customer managed KMS key**: Use the specified
+    #     symmetric encryption KMS key in your account that you create, own,
+    #     and manage.
     #
     #     Amazon QLDB does not support asymmetric keys. For more information,
     #     see [Using symmetric and asymmetric keys][2] in the *Key Management
@@ -559,7 +661,7 @@ module Aws::QLDB
     #
     # If deletion protection is enabled, you must first disable it before
     # you can delete the ledger. You can disable it by calling the
-    # `UpdateLedger` operation to set the flag to `false`.
+    # `UpdateLedger` operation to set this parameter to `false`.
     #
     # @option params [required, String] :name
     #   The name of the ledger that you want to delete.
@@ -745,13 +847,6 @@ module Aws::QLDB
     # binary representation of Amazon Ion format, or in *JSON Lines* text
     # format.
     #
-    # In JSON Lines format, each journal block in the exported data object
-    # is a valid JSON object that is delimited by a newline. You can use
-    # this format to easily integrate JSON exports with analytics tools such
-    # as Glue and Amazon Athena because these services can parse
-    # newline-delimited JSON automatically. For more information about the
-    # format, see [JSON Lines][1].
-    #
     # If the ledger with the given `Name` doesn't exist, then throws
     # `ResourceNotFoundException`.
     #
@@ -761,10 +856,6 @@ module Aws::QLDB
     # You can initiate up to two concurrent journal export requests for each
     # ledger. Beyond this limit, journal export requests throw
     # `LimitExceededException`.
-    #
-    #
-    #
-    # [1]: https://jsonlines.org/
     #
     # @option params [required, String] :name
     #   The name of the ledger.
@@ -802,8 +893,7 @@ module Aws::QLDB
     #   The Amazon Resource Name (ARN) of the IAM role that grants QLDB
     #   permissions for a journal export job to do the following:
     #
-    #   * Write objects into your Amazon Simple Storage Service (Amazon S3)
-    #     bucket.
+    #   * Write objects into your Amazon S3 bucket.
     #
     #   * (Optional) Use your customer managed key in Key Management Service
     #     (KMS) for server-side encryption of your exported data.
@@ -813,8 +903,22 @@ module Aws::QLDB
     #   resource. This is required for all journal export requests.
     #
     # @option params [String] :output_format
-    #   The output format of your exported journal data. If this parameter is
-    #   not specified, the exported data defaults to `ION_TEXT` format.
+    #   The output format of your exported journal data. A journal export job
+    #   can write the data objects in either the text or binary representation
+    #   of [Amazon Ion][1] format, or in [JSON Lines][2] text format.
+    #
+    #   Default: `ION_TEXT`
+    #
+    #   In JSON Lines format, each journal block in an exported data object is
+    #   a valid JSON object that is delimited by a newline. You can use this
+    #   format to directly integrate JSON exports with analytics tools such as
+    #   Amazon Athena and Glue because these services can parse
+    #   newline-delimited JSON automatically.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/qldb/latest/developerguide/ion.html
+    #   [2]: https://jsonlines.org/
     #
     # @return [Types::ExportJournalToS3Response] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -878,14 +982,14 @@ module Aws::QLDB
     #   The location of the block that you want to request. An address is an
     #   Amazon Ion structure that has two fields: `strandId` and `sequenceNo`.
     #
-    #   For example: `\{strandId:"BlFTjlSXze9BIh1KOszcE3",sequenceNo:14\}`.
+    #   For example: `{strandId:"BlFTjlSXze9BIh1KOszcE3",sequenceNo:14}`.
     #
     # @option params [Types::ValueHolder] :digest_tip_address
     #   The latest block location covered by the digest for which to request a
     #   proof. An address is an Amazon Ion structure that has two fields:
     #   `strandId` and `sequenceNo`.
     #
-    #   For example: `\{strandId:"BlFTjlSXze9BIh1KOszcE3",sequenceNo:49\}`.
+    #   For example: `{strandId:"BlFTjlSXze9BIh1KOszcE3",sequenceNo:49}`.
     #
     # @return [Types::GetBlockResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -962,7 +1066,7 @@ module Aws::QLDB
     #   is an Amazon Ion structure that has two fields: `strandId` and
     #   `sequenceNo`.
     #
-    #   For example: `\{strandId:"BlFTjlSXze9BIh1KOszcE3",sequenceNo:14\}`.
+    #   For example: `{strandId:"BlFTjlSXze9BIh1KOszcE3",sequenceNo:14}`.
     #
     # @option params [required, String] :document_id
     #   The UUID (represented in Base62-encoded text) of the document to be
@@ -973,7 +1077,7 @@ module Aws::QLDB
     #   proof. An address is an Amazon Ion structure that has two fields:
     #   `strandId` and `sequenceNo`.
     #
-    #   For example: `\{strandId:"BlFTjlSXze9BIh1KOszcE3",sequenceNo:49\}`.
+    #   For example: `{strandId:"BlFTjlSXze9BIh1KOszcE3",sequenceNo:49}`.
     #
     # @return [Types::GetRevisionResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1007,9 +1111,7 @@ module Aws::QLDB
       req.send_request(options)
     end
 
-    # Returns an array of all Amazon QLDB journal stream descriptors for a
-    # given ledger. The output of each stream descriptor includes the same
-    # details that are returned by `DescribeJournalKinesisStream`.
+    # Returns all Amazon QLDB journal streams for a given ledger.
     #
     # This action does not return any expired journal streams. For more
     # information, see [Expiration for terminal streams][1] in the *Amazon
@@ -1078,9 +1180,8 @@ module Aws::QLDB
       req.send_request(options)
     end
 
-    # Returns an array of journal export job descriptions for all ledgers
-    # that are associated with the current Amazon Web Services account and
-    # Region.
+    # Returns all journal export jobs for all ledgers that are associated
+    # with the current Amazon Web Services account and Region.
     #
     # This action returns a maximum of `MaxResults` items, and is paginated
     # so that you can retrieve all the items by calling
@@ -1145,8 +1246,7 @@ module Aws::QLDB
       req.send_request(options)
     end
 
-    # Returns an array of journal export job descriptions for a specified
-    # ledger.
+    # Returns all journal export jobs for a specified ledger.
     #
     # This action returns a maximum of `MaxResults` items, and is paginated
     # so that you can retrieve all the items by calling
@@ -1215,12 +1315,12 @@ module Aws::QLDB
       req.send_request(options)
     end
 
-    # Returns an array of ledger summaries that are associated with the
-    # current Amazon Web Services account and Region.
+    # Returns all ledgers that are associated with the current Amazon Web
+    # Services account and Region.
     #
-    # This action returns a maximum of 100 items and is paginated so that
-    # you can retrieve all the items by calling `ListLedgers` multiple
-    # times.
+    # This action returns a maximum of `MaxResults` items and is paginated
+    # so that you can retrieve all the items by calling `ListLedgers`
+    # multiple times.
     #
     # @option params [Integer] :max_results
     #   The maximum number of results to return in a single `ListLedgers`
@@ -1464,13 +1564,13 @@ module Aws::QLDB
     #   The name of the ledger.
     #
     # @option params [Boolean] :deletion_protection
-    #   The flag that prevents a ledger from being deleted by any user. If not
-    #   provided on ledger creation, this feature is enabled (`true`) by
-    #   default.
+    #   Specifies whether the ledger is protected from being deleted by any
+    #   user. If not defined during ledger creation, this feature is enabled
+    #   (`true`) by default.
     #
     #   If deletion protection is enabled, you must first disable it before
     #   you can delete the ledger. You can disable it by calling the
-    #   `UpdateLedger` operation to set the flag to `false`.
+    #   `UpdateLedger` operation to set this parameter to `false`.
     #
     # @option params [String] :kms_key
     #   The key in Key Management Service (KMS) to use for encryption of data
@@ -1479,13 +1579,14 @@ module Aws::QLDB
     #
     #   Use one of the following options to specify this parameter:
     #
-    #   * `AWS_OWNED_KMS_KEY`\: Use an KMS key that is owned and managed by
+    #   * `AWS_OWNED_KMS_KEY`: Use an KMS key that is owned and managed by
     #     Amazon Web Services on your behalf.
     #
-    #   * **Undefined**\: Make no changes to the KMS key of the ledger.
+    #   * **Undefined**: Make no changes to the KMS key of the ledger.
     #
-    #   * **A valid symmetric customer managed KMS key**\: Use the specified
-    #     KMS key in your account that you create, own, and manage.
+    #   * **A valid symmetric customer managed KMS key**: Use the specified
+    #     symmetric encryption KMS key in your account that you create, own,
+    #     and manage.
     #
     #     Amazon QLDB does not support asymmetric keys. For more information,
     #     see [Using symmetric and asymmetric keys][2] in the *Key Management
@@ -1571,7 +1672,7 @@ module Aws::QLDB
     #   The permissions mode to assign to the ledger. This parameter can have
     #   one of the following values:
     #
-    #   * `ALLOW_ALL`\: A legacy permissions mode that enables access control
+    #   * `ALLOW_ALL`: A legacy permissions mode that enables access control
     #     with API-level granularity for ledgers.
     #
     #     This mode allows users who have the `SendCommand` API permission for
@@ -1580,7 +1681,7 @@ module Aws::QLDB
     #     or command-level IAM permissions policies that you create for the
     #     ledger.
     #
-    #   * `STANDARD`\: (*Recommended*) A permissions mode that enables access
+    #   * `STANDARD`: (*Recommended*) A permissions mode that enables access
     #     control with finer granularity for ledgers, tables, and PartiQL
     #     commands.
     #
@@ -1635,14 +1736,19 @@ module Aws::QLDB
     # @api private
     def build_request(operation_name, params = {})
       handlers = @handlers.for(operation_name)
+      tracer = config.telemetry_provider.tracer_provider.tracer(
+        Aws::Telemetry.module_to_tracer_name('Aws::QLDB')
+      )
       context = Seahorse::Client::RequestContext.new(
         operation_name: operation_name,
         operation: config.api.operation(operation_name),
         client: self,
         params: params,
-        config: config)
+        config: config,
+        tracer: tracer
+      )
       context[:gem_name] = 'aws-sdk-qldb'
-      context[:gem_version] = '1.27.0'
+      context[:gem_version] = '1.56.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

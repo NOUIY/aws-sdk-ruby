@@ -10,6 +10,52 @@
 module Aws::Omics
   module Types
 
+    # @!attribute [rw] sequence_store_id
+    #   The sequence store ID for the store involved in the multipart
+    #   upload.
+    #   @return [String]
+    #
+    # @!attribute [rw] upload_id
+    #   The ID for the multipart upload.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/AbortMultipartReadSetUploadRequest AWS API Documentation
+    #
+    class AbortMultipartReadSetUploadRequest < Struct.new(
+      :sequence_store_id,
+      :upload_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/AbortMultipartReadSetUploadResponse AWS API Documentation
+    #
+    class AbortMultipartReadSetUploadResponse < Aws::EmptyStructure; end
+
+    # @!attribute [rw] share_id
+    #   The ID of the resource share.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/AcceptShareRequest AWS API Documentation
+    #
+    class AcceptShareRequest < Struct.new(
+      :share_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] status
+    #   The status of the resource share.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/AcceptShareResponse AWS API Documentation
+    #
+    class AcceptShareResponse < Struct.new(
+      :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # You do not have sufficient access to perform this action.
     #
     # @!attribute [rw] message
@@ -25,6 +71,10 @@ module Aws::Omics
 
     # A read set activation job filter.
     #
+    # @!attribute [rw] status
+    #   The filter's status.
+    #   @return [String]
+    #
     # @!attribute [rw] created_after
     #   The filter's start date.
     #   @return [Time]
@@ -33,29 +83,17 @@ module Aws::Omics
     #   The filter's end date.
     #   @return [Time]
     #
-    # @!attribute [rw] status
-    #   The filter's status.
-    #   @return [String]
-    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/ActivateReadSetFilter AWS API Documentation
     #
     class ActivateReadSetFilter < Struct.new(
+      :status,
       :created_after,
-      :created_before,
-      :status)
+      :created_before)
       SENSITIVE = []
       include Aws::Structure
     end
 
     # A read set activation job.
-    #
-    # @!attribute [rw] completion_time
-    #   When the job completed.
-    #   @return [Time]
-    #
-    # @!attribute [rw] creation_time
-    #   When the job was created.
-    #   @return [Time]
     #
     # @!attribute [rw] id
     #   The job's ID.
@@ -69,14 +107,22 @@ module Aws::Omics
     #   The job's status.
     #   @return [String]
     #
+    # @!attribute [rw] creation_time
+    #   When the job was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] completion_time
+    #   When the job completed.
+    #   @return [Time]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/ActivateReadSetJobItem AWS API Documentation
     #
     class ActivateReadSetJobItem < Struct.new(
-      :completion_time,
-      :creation_time,
       :id,
       :sequence_store_id,
-      :status)
+      :status,
+      :creation_time,
+      :completion_time)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -107,19 +153,19 @@ module Aws::Omics
 
     # Details about an imported annotation item.
     #
-    # @!attribute [rw] job_status
-    #   The item's job status.
-    #   @return [String]
-    #
     # @!attribute [rw] source
     #   The source file's location in Amazon S3.
+    #   @return [String]
+    #
+    # @!attribute [rw] job_status
+    #   The item's job status.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/AnnotationImportItemDetail AWS API Documentation
     #
     class AnnotationImportItemDetail < Struct.new(
-      :job_status,
-      :source)
+      :source,
+      :job_status)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -140,118 +186,193 @@ module Aws::Omics
 
     # An annotation import job.
     #
-    # @!attribute [rw] completion_time
-    #   When the job completed.
-    #   @return [Time]
-    #
-    # @!attribute [rw] creation_time
-    #   When the job was created.
-    #   @return [Time]
+    # @!attribute [rw] id
+    #   The job's ID.
+    #   @return [String]
     #
     # @!attribute [rw] destination_name
     #   The job's destination annotation store.
     #   @return [String]
     #
-    # @!attribute [rw] id
-    #   The job's ID.
+    # @!attribute [rw] version_name
+    #   The name of the annotation store version.
     #   @return [String]
     #
     # @!attribute [rw] role_arn
     #   The job's service role ARN.
     #   @return [String]
     #
-    # @!attribute [rw] run_left_normalization
-    #   The job's left normalization setting.
-    #   @return [Boolean]
-    #
     # @!attribute [rw] status
     #   The job's status.
     #   @return [String]
+    #
+    # @!attribute [rw] creation_time
+    #   When the job was created.
+    #   @return [Time]
     #
     # @!attribute [rw] update_time
     #   When the job was updated.
     #   @return [Time]
     #
+    # @!attribute [rw] completion_time
+    #   When the job completed.
+    #   @return [Time]
+    #
+    # @!attribute [rw] run_left_normalization
+    #   The job's left normalization setting.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] annotation_fields
+    #   The annotation schema generated by the parsed annotation data.
+    #   @return [Hash<String,String>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/AnnotationImportJobItem AWS API Documentation
     #
     class AnnotationImportJobItem < Struct.new(
-      :completion_time,
-      :creation_time,
-      :destination_name,
       :id,
+      :destination_name,
+      :version_name,
       :role_arn,
-      :run_left_normalization,
       :status,
-      :update_time)
+      :creation_time,
+      :update_time,
+      :completion_time,
+      :run_left_normalization,
+      :annotation_fields)
       SENSITIVE = []
       include Aws::Structure
     end
 
     # An annotation store.
     #
-    # @!attribute [rw] creation_time
-    #   The store's creation time.
-    #   @return [Time]
-    #
-    # @!attribute [rw] description
-    #   The store's description.
-    #   @return [String]
-    #
     # @!attribute [rw] id
     #   The store's ID.
-    #   @return [String]
-    #
-    # @!attribute [rw] name
-    #   The store's name.
     #   @return [String]
     #
     # @!attribute [rw] reference
     #   The store's genome reference.
     #   @return [Types::ReferenceItem]
     #
-    # @!attribute [rw] sse_config
-    #   The store's server-side encryption (SSE) settings.
-    #   @return [Types::SseConfig]
-    #
     # @!attribute [rw] status
     #   The store's status.
-    #   @return [String]
-    #
-    # @!attribute [rw] status_message
-    #   The store's status message.
     #   @return [String]
     #
     # @!attribute [rw] store_arn
     #   The store's ARN.
     #   @return [String]
     #
+    # @!attribute [rw] name
+    #   The store's name.
+    #   @return [String]
+    #
     # @!attribute [rw] store_format
     #   The store's file format.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The store's description.
+    #   @return [String]
+    #
+    # @!attribute [rw] sse_config
+    #   The store's server-side encryption (SSE) settings.
+    #   @return [Types::SseConfig]
+    #
+    # @!attribute [rw] creation_time
+    #   The store's creation time.
+    #   @return [Time]
+    #
+    # @!attribute [rw] update_time
+    #   When the store was updated.
+    #   @return [Time]
+    #
+    # @!attribute [rw] status_message
+    #   The store's status message.
     #   @return [String]
     #
     # @!attribute [rw] store_size_bytes
     #   The store's size in bytes.
     #   @return [Integer]
     #
-    # @!attribute [rw] update_time
-    #   When the store was updated.
-    #   @return [Time]
-    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/AnnotationStoreItem AWS API Documentation
     #
     class AnnotationStoreItem < Struct.new(
-      :creation_time,
-      :description,
       :id,
-      :name,
       :reference,
-      :sse_config,
       :status,
-      :status_message,
       :store_arn,
+      :name,
       :store_format,
-      :store_size_bytes,
-      :update_time)
+      :description,
+      :sse_config,
+      :creation_time,
+      :update_time,
+      :status_message,
+      :store_size_bytes)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Annotation store versions.
+    #
+    # @!attribute [rw] store_id
+    #   The store ID for an annotation store version.
+    #   @return [String]
+    #
+    # @!attribute [rw] id
+    #   The annotation store version ID.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status of an annotation store version.
+    #   @return [String]
+    #
+    # @!attribute [rw] version_arn
+    #   The Arn for an annotation store version.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   A name given to an annotation store version to distinguish it from
+    #   others.
+    #   @return [String]
+    #
+    # @!attribute [rw] version_name
+    #   The name of an annotation store version.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of an annotation store version.
+    #   @return [String]
+    #
+    # @!attribute [rw] creation_time
+    #   The time stamp for when an annotation store version was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] update_time
+    #   The time stamp for when an annotation store version was updated.
+    #   @return [Time]
+    #
+    # @!attribute [rw] status_message
+    #   The status of an annotation store version.
+    #   @return [String]
+    #
+    # @!attribute [rw] version_size_bytes
+    #   The size of an annotation store version in Bytes.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/AnnotationStoreVersionItem AWS API Documentation
+    #
+    class AnnotationStoreVersionItem < Struct.new(
+      :store_id,
+      :id,
+      :status,
+      :version_arn,
+      :name,
+      :version_name,
+      :description,
+      :creation_time,
+      :update_time,
+      :status_message,
+      :version_size_bytes)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -329,6 +450,67 @@ module Aws::Omics
     #
     class CancelVariantImportResponse < Aws::EmptyStructure; end
 
+    # @!attribute [rw] sequence_store_id
+    #   The sequence store ID for the store involved in the multipart
+    #   upload.
+    #   @return [String]
+    #
+    # @!attribute [rw] upload_id
+    #   The ID for the multipart upload.
+    #   @return [String]
+    #
+    # @!attribute [rw] parts
+    #   The individual uploads or parts of a multipart upload.
+    #   @return [Array<Types::CompleteReadSetUploadPartListItem>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/CompleteMultipartReadSetUploadRequest AWS API Documentation
+    #
+    class CompleteMultipartReadSetUploadRequest < Struct.new(
+      :sequence_store_id,
+      :upload_id,
+      :parts)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] read_set_id
+    #   The read set ID created for an uploaded read set.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/CompleteMultipartReadSetUploadResponse AWS API Documentation
+    #
+    class CompleteMultipartReadSetUploadResponse < Struct.new(
+      :read_set_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Part of the response to the CompleteReadSetUpload API, including
+    # metadata.
+    #
+    # @!attribute [rw] part_number
+    #   A number identifying the part in a read set upload.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] part_source
+    #   The source file of the part being uploaded.
+    #   @return [String]
+    #
+    # @!attribute [rw] checksum
+    #   A unique identifier used to confirm that parts are being added to
+    #   the correct upload.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/CompleteReadSetUploadPartListItem AWS API Documentation
+    #
+    class CompleteReadSetUploadPartListItem < Struct.new(
+      :part_number,
+      :part_source,
+      :checksum)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The request cannot be applied to the target resource in its current
     # state.
     #
@@ -343,17 +525,26 @@ module Aws::Omics
       include Aws::Structure
     end
 
-    # @!attribute [rw] description
-    #   A description for the store.
-    #   @return [String]
+    # @!attribute [rw] reference
+    #   The genome reference for the store's annotations.
+    #   @return [Types::ReferenceItem]
     #
     # @!attribute [rw] name
     #   A name for the store.
     #   @return [String]
     #
-    # @!attribute [rw] reference
-    #   The genome reference for the store's annotations.
-    #   @return [Types::ReferenceItem]
+    # @!attribute [rw] description
+    #   A description for the store.
+    #   @return [String]
+    #
+    # @!attribute [rw] tags
+    #   Tags for the store.
+    #   @return [Hash<String,String>]
+    #
+    # @!attribute [rw] version_name
+    #   The name given to an annotation store version to distinguish it from
+    #   other versions.
+    #   @return [String]
     #
     # @!attribute [rw] sse_config
     #   Server-side encryption (SSE) settings for the store.
@@ -367,43 +558,29 @@ module Aws::Omics
     #   File parsing options for the annotation store.
     #   @return [Types::StoreOptions]
     #
-    # @!attribute [rw] tags
-    #   Tags for the store.
-    #   @return [Hash<String,String>]
-    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/CreateAnnotationStoreRequest AWS API Documentation
     #
     class CreateAnnotationStoreRequest < Struct.new(
-      :description,
-      :name,
       :reference,
+      :name,
+      :description,
+      :tags,
+      :version_name,
       :sse_config,
       :store_format,
-      :store_options,
-      :tags)
+      :store_options)
       SENSITIVE = []
       include Aws::Structure
     end
 
-    # @!attribute [rw] creation_time
-    #   When the store was created.
-    #   @return [Time]
-    #
     # @!attribute [rw] id
     #   The store's ID.
     #   @return [String]
     #
-    # @!attribute [rw] name
-    #   The store's name.
-    #   @return [String]
-    #
     # @!attribute [rw] reference
-    #   The store's genome reference.
+    #   The store's genome reference. Required for all stores except TSV
+    #   format with generic annotations.
     #   @return [Types::ReferenceItem]
-    #
-    # @!attribute [rw] status
-    #   The store's status.
-    #   @return [String]
     #
     # @!attribute [rw] store_format
     #   The annotation file format of the store.
@@ -413,31 +590,245 @@ module Aws::Omics
     #   The store's file parsing options.
     #   @return [Types::StoreOptions]
     #
+    # @!attribute [rw] status
+    #   The store's status.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The store's name.
+    #   @return [String]
+    #
+    # @!attribute [rw] version_name
+    #   The name given to an annotation store version to distinguish it from
+    #   other versions.
+    #   @return [String]
+    #
+    # @!attribute [rw] creation_time
+    #   When the store was created.
+    #   @return [Time]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/CreateAnnotationStoreResponse AWS API Documentation
     #
     class CreateAnnotationStoreResponse < Struct.new(
-      :creation_time,
       :id,
-      :name,
       :reference,
-      :status,
       :store_format,
-      :store_options)
+      :store_options,
+      :status,
+      :name,
+      :version_name,
+      :creation_time)
       SENSITIVE = []
       include Aws::Structure
     end
 
+    # @!attribute [rw] name
+    #   The name of an annotation store version from which versions are
+    #   being created.
+    #   @return [String]
+    #
+    # @!attribute [rw] version_name
+    #   The name given to an annotation store version to distinguish it from
+    #   other versions.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of an annotation store version.
+    #   @return [String]
+    #
+    # @!attribute [rw] version_options
+    #   The options for an annotation store version.
+    #   @return [Types::VersionOptions]
+    #
+    # @!attribute [rw] tags
+    #   Any tags added to annotation store version.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/CreateAnnotationStoreVersionRequest AWS API Documentation
+    #
+    class CreateAnnotationStoreVersionRequest < Struct.new(
+      :name,
+      :version_name,
+      :description,
+      :version_options,
+      :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] id
+    #   A generated ID for the annotation store
+    #   @return [String]
+    #
+    # @!attribute [rw] version_name
+    #   The name given to an annotation store version to distinguish it from
+    #   other versions.
+    #   @return [String]
+    #
+    # @!attribute [rw] store_id
+    #   The ID for the annotation store from which new versions are being
+    #   created.
+    #   @return [String]
+    #
+    # @!attribute [rw] version_options
+    #   The options for an annotation store version.
+    #   @return [Types::VersionOptions]
+    #
+    # @!attribute [rw] name
+    #   The name given to an annotation store version to distinguish it from
+    #   other versions.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status of a annotation store version.
+    #   @return [String]
+    #
+    # @!attribute [rw] creation_time
+    #   The time stamp for the creation of an annotation store version.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/CreateAnnotationStoreVersionResponse AWS API Documentation
+    #
+    class CreateAnnotationStoreVersionResponse < Struct.new(
+      :id,
+      :version_name,
+      :store_id,
+      :version_options,
+      :name,
+      :status,
+      :creation_time)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] sequence_store_id
+    #   The sequence store ID for the store that is the destination of the
+    #   multipart uploads.
+    #   @return [String]
+    #
     # @!attribute [rw] client_token
-    #   To ensure that requests don't run multiple times, specify a unique
-    #   token for each request.
+    #   An idempotency token that can be used to avoid triggering multiple
+    #   multipart uploads.
+    #   @return [String]
+    #
+    # @!attribute [rw] source_file_type
+    #   The type of file being uploaded.
+    #   @return [String]
+    #
+    # @!attribute [rw] subject_id
+    #   The source's subject ID.
+    #   @return [String]
+    #
+    # @!attribute [rw] sample_id
+    #   The source's sample ID.
+    #   @return [String]
+    #
+    # @!attribute [rw] generated_from
+    #   Where the source originated.
+    #   @return [String]
+    #
+    # @!attribute [rw] reference_arn
+    #   The ARN of the reference.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the read set.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the read set.
+    #   @return [String]
+    #
+    # @!attribute [rw] tags
+    #   Any tags to add to the read set.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/CreateMultipartReadSetUploadRequest AWS API Documentation
+    #
+    class CreateMultipartReadSetUploadRequest < Struct.new(
+      :sequence_store_id,
+      :client_token,
+      :source_file_type,
+      :subject_id,
+      :sample_id,
+      :generated_from,
+      :reference_arn,
+      :name,
+      :description,
+      :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] sequence_store_id
+    #   The sequence store ID for the store that the read set will be
+    #   created in.
+    #   @return [String]
+    #
+    # @!attribute [rw] upload_id
+    #   The ID for the initiated multipart upload.
+    #   @return [String]
+    #
+    # @!attribute [rw] source_file_type
+    #   The file type of the read set source.
+    #   @return [String]
+    #
+    # @!attribute [rw] subject_id
+    #   The source's subject ID.
+    #   @return [String]
+    #
+    # @!attribute [rw] sample_id
+    #   The source's sample ID.
+    #   @return [String]
+    #
+    # @!attribute [rw] generated_from
+    #   The source of the read set.
+    #   @return [String]
+    #
+    # @!attribute [rw] reference_arn
+    #   The read set source's reference ARN.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the read set.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the read set.
+    #   @return [String]
+    #
+    # @!attribute [rw] tags
+    #   The tags to add to the read set.
+    #   @return [Hash<String,String>]
+    #
+    # @!attribute [rw] creation_time
+    #   The creation time of the multipart upload.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/CreateMultipartReadSetUploadResponse AWS API Documentation
+    #
+    class CreateMultipartReadSetUploadResponse < Struct.new(
+      :sequence_store_id,
+      :upload_id,
+      :source_file_type,
+      :subject_id,
+      :sample_id,
+      :generated_from,
+      :reference_arn,
+      :name,
+      :description,
+      :tags,
+      :creation_time)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] name
+    #   A name for the store.
     #   @return [String]
     #
     # @!attribute [rw] description
     #   A description for the store.
-    #   @return [String]
-    #
-    # @!attribute [rw] name
-    #   A name for the store.
     #   @return [String]
     #
     # @!attribute [rw] sse_config
@@ -448,91 +839,205 @@ module Aws::Omics
     #   Tags for the store.
     #   @return [Hash<String,String>]
     #
+    # @!attribute [rw] client_token
+    #   To ensure that requests don't run multiple times, specify a unique
+    #   token for each request.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/CreateReferenceStoreRequest AWS API Documentation
     #
     class CreateReferenceStoreRequest < Struct.new(
-      :client_token,
-      :description,
       :name,
+      :description,
       :sse_config,
-      :tags)
+      :tags,
+      :client_token)
       SENSITIVE = []
       include Aws::Structure
     end
 
-    # @!attribute [rw] arn
-    #   The store's ARN.
-    #   @return [String]
-    #
-    # @!attribute [rw] creation_time
-    #   When the store was created.
-    #   @return [Time]
-    #
-    # @!attribute [rw] description
-    #   The store's description.
-    #   @return [String]
-    #
     # @!attribute [rw] id
     #   The store's ID.
+    #   @return [String]
+    #
+    # @!attribute [rw] arn
+    #   The store's ARN.
     #   @return [String]
     #
     # @!attribute [rw] name
     #   The store's name.
     #   @return [String]
     #
+    # @!attribute [rw] description
+    #   The store's description.
+    #   @return [String]
+    #
     # @!attribute [rw] sse_config
     #   The store's SSE settings.
     #   @return [Types::SseConfig]
     #
+    # @!attribute [rw] creation_time
+    #   When the store was created.
+    #   @return [Time]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/CreateReferenceStoreResponse AWS API Documentation
     #
     class CreateReferenceStoreResponse < Struct.new(
-      :arn,
-      :creation_time,
-      :description,
       :id,
+      :arn,
       :name,
-      :sse_config)
+      :description,
+      :sse_config,
+      :creation_time)
       SENSITIVE = []
       include Aws::Structure
     end
 
-    # @!attribute [rw] max_cpus
-    #   The maximum number of CPUs to use in the group.
-    #   @return [Integer]
+    # @!attribute [rw] cache_behavior
+    #   Default cache behavior for runs that use this cache. Supported
+    #   values are:
     #
-    # @!attribute [rw] max_duration
-    #   A max duration for the group.
-    #   @return [Integer]
+    #   `CACHE_ON_FAILURE`: Caches task outputs from completed tasks for
+    #   runs that fail. This setting is useful if you're debugging a
+    #   workflow that fails after several tasks completed successfully. The
+    #   subsequent run uses the cache outputs for previously-completed tasks
+    #   if the task definition, inputs, and container in ECR are identical
+    #   to the prior run.
     #
-    # @!attribute [rw] max_runs
-    #   The maximum number of concurrent runs for the group.
-    #   @return [Integer]
+    #   `CACHE_ALWAYS`: Caches task outputs from completed tasks for all
+    #   runs. This setting is useful in development mode, but do not use it
+    #   in a production setting.
+    #
+    #   If you don't specify a value, the default behavior is
+    #   CACHE\_ON\_FAILURE. When you start a run that uses this cache, you
+    #   can override the default cache behavior.
+    #
+    #   For more information, see [Run cache behavior][1] in the AWS
+    #   HealthOmics User Guide.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/omics/latest/dev/how-run-cache.html#run-cache-behavior
+    #   @return [String]
+    #
+    # @!attribute [rw] cache_s3_location
+    #   Specify the S3 location for storing the cached task outputs. This
+    #   data must be immediately accessible (not in an archived state).
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   Enter a description of the run cache.
+    #   @return [String]
     #
     # @!attribute [rw] name
-    #   A name for the group.
+    #   Enter a user-friendly name for the run cache.
     #   @return [String]
     #
     # @!attribute [rw] request_id
-    #   A request ID for the group.
+    #   A unique request token, to ensure idempotency. If you don't specify
+    #   a token, HealthOmics automatically generates a universally unique
+    #   identifier (UUID) for the request.
     #
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.
     #   @return [String]
     #
     # @!attribute [rw] tags
+    #   Specify one or more tags to associate with this run cache.
+    #   @return [Hash<String,String>]
+    #
+    # @!attribute [rw] cache_bucket_owner_id
+    #   The AWS account ID of the expected owner of the S3 bucket for the
+    #   run cache. If not provided, your account ID is set as the owner of
+    #   the bucket.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/CreateRunCacheRequest AWS API Documentation
+    #
+    class CreateRunCacheRequest < Struct.new(
+      :cache_behavior,
+      :cache_s3_location,
+      :description,
+      :name,
+      :request_id,
+      :tags,
+      :cache_bucket_owner_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] arn
+    #   Unique resource identifier for the run cache.
+    #   @return [String]
+    #
+    # @!attribute [rw] id
+    #   Identifier for the run cache.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   Run cache status.
+    #   @return [String]
+    #
+    # @!attribute [rw] tags
+    #   The tags associated with this run cache.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/CreateRunCacheResponse AWS API Documentation
+    #
+    class CreateRunCacheResponse < Struct.new(
+      :arn,
+      :id,
+      :status,
+      :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] name
+    #   A name for the group.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_cpus
+    #   The maximum number of CPUs that can run concurrently across all
+    #   active runs in the run group.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] max_runs
+    #   The maximum number of runs that can be running at the same time.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] max_duration
+    #   The maximum time for each run (in minutes). If a run exceeds the
+    #   maximum run time, the run fails automatically.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] tags
     #   Tags for the group.
     #   @return [Hash<String,String>]
+    #
+    # @!attribute [rw] request_id
+    #   To ensure that requests don't run multiple times, specify a unique
+    #   ID for each request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_gpus
+    #   The maximum number of GPUs that can run concurrently across all
+    #   active runs in the run group.
+    #   @return [Integer]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/CreateRunGroupRequest AWS API Documentation
     #
     class CreateRunGroupRequest < Struct.new(
-      :max_cpus,
-      :max_duration,
-      :max_runs,
       :name,
+      :max_cpus,
+      :max_runs,
+      :max_duration,
+      :tags,
       :request_id,
-      :tags)
+      :max_gpus)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -559,17 +1064,12 @@ module Aws::Omics
       include Aws::Structure
     end
 
-    # @!attribute [rw] client_token
-    #   To ensure that requests don't run multiple times, specify a unique
-    #   token for each request.
+    # @!attribute [rw] name
+    #   A name for the store.
     #   @return [String]
     #
     # @!attribute [rw] description
     #   A description for the store.
-    #   @return [String]
-    #
-    # @!attribute [rw] name
-    #   A name for the store.
     #   @return [String]
     #
     # @!attribute [rw] sse_config
@@ -580,97 +1080,196 @@ module Aws::Omics
     #   Tags for the store.
     #   @return [Hash<String,String>]
     #
+    # @!attribute [rw] client_token
+    #   To ensure that requests don't run multiple times, specify a unique
+    #   token for each request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @!attribute [rw] fallback_location
+    #   An S3 location that is used to store files that have failed a direct
+    #   upload.
+    #   @return [String]
+    #
+    # @!attribute [rw] e_tag_algorithm_family
+    #   The ETag algorithm family to use for ingested read sets.
+    #   @return [String]
+    #
+    # @!attribute [rw] propagated_set_level_tags
+    #   The tags keys to propagate to the S3 objects associated with read
+    #   sets in the sequence store.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] s3_access_config
+    #   S3 access configuration parameters
+    #   @return [Types::S3AccessConfig]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/CreateSequenceStoreRequest AWS API Documentation
     #
     class CreateSequenceStoreRequest < Struct.new(
-      :client_token,
-      :description,
       :name,
+      :description,
       :sse_config,
-      :tags)
+      :tags,
+      :client_token,
+      :fallback_location,
+      :e_tag_algorithm_family,
+      :propagated_set_level_tags,
+      :s3_access_config)
       SENSITIVE = []
       include Aws::Structure
     end
 
-    # @!attribute [rw] arn
-    #   The store's ARN.
-    #   @return [String]
-    #
-    # @!attribute [rw] creation_time
-    #   When the store was created.
-    #   @return [Time]
-    #
-    # @!attribute [rw] description
-    #   The store's description.
-    #   @return [String]
-    #
     # @!attribute [rw] id
     #   The store's ID.
     #   @return [String]
     #
+    # @!attribute [rw] arn
+    #   The store's ARN.
+    #   @return [String]
+    #
     # @!attribute [rw] name
     #   The store's name.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The store's description.
     #   @return [String]
     #
     # @!attribute [rw] sse_config
     #   The store's SSE settings.
     #   @return [Types::SseConfig]
     #
+    # @!attribute [rw] creation_time
+    #   When the store was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] fallback_location
+    #   An S3 location that is used to store files that have failed a direct
+    #   upload.
+    #   @return [String]
+    #
+    # @!attribute [rw] e_tag_algorithm_family
+    #   The algorithm family of the ETag.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status of the sequence store.
+    #   @return [String]
+    #
+    # @!attribute [rw] status_message
+    #   The status message of the sequence store.
+    #   @return [String]
+    #
+    # @!attribute [rw] propagated_set_level_tags
+    #   The tags keys to propagate to the S3 objects associated with read
+    #   sets in the sequence store.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] s3_access
+    #   The S3 access metadata of the sequence store.
+    #   @return [Types::SequenceStoreS3Access]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/CreateSequenceStoreResponse AWS API Documentation
     #
     class CreateSequenceStoreResponse < Struct.new(
-      :arn,
-      :creation_time,
-      :description,
       :id,
+      :arn,
       :name,
-      :sse_config)
+      :description,
+      :sse_config,
+      :creation_time,
+      :fallback_location,
+      :e_tag_algorithm_family,
+      :status,
+      :status_message,
+      :propagated_set_level_tags,
+      :s3_access)
       SENSITIVE = []
       include Aws::Structure
     end
 
-    # @!attribute [rw] description
-    #   A description for the store.
+    # @!attribute [rw] resource_arn
+    #   The ARN of the resource to be shared.
     #   @return [String]
+    #
+    # @!attribute [rw] principal_subscriber
+    #   The principal subscriber is the account being offered shared access
+    #   to the resource.
+    #   @return [String]
+    #
+    # @!attribute [rw] share_name
+    #   A name that the owner defines for the share.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/CreateShareRequest AWS API Documentation
+    #
+    class CreateShareRequest < Struct.new(
+      :resource_arn,
+      :principal_subscriber,
+      :share_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] share_id
+    #   The ID that HealthOmics generates for the share.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status of the share.
+    #   @return [String]
+    #
+    # @!attribute [rw] share_name
+    #   The name of the share.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/CreateShareResponse AWS API Documentation
+    #
+    class CreateShareResponse < Struct.new(
+      :share_id,
+      :status,
+      :share_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] reference
+    #   The genome reference for the store's variants.
+    #   @return [Types::ReferenceItem]
     #
     # @!attribute [rw] name
     #   A name for the store.
     #   @return [String]
     #
-    # @!attribute [rw] reference
-    #   The genome reference for the store's variants.
-    #   @return [Types::ReferenceItem]
-    #
-    # @!attribute [rw] sse_config
-    #   Server-side encryption (SSE) settings for the store.
-    #   @return [Types::SseConfig]
+    # @!attribute [rw] description
+    #   A description for the store.
+    #   @return [String]
     #
     # @!attribute [rw] tags
     #   Tags for the store.
     #   @return [Hash<String,String>]
     #
+    # @!attribute [rw] sse_config
+    #   Server-side encryption (SSE) settings for the store.
+    #   @return [Types::SseConfig]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/CreateVariantStoreRequest AWS API Documentation
     #
     class CreateVariantStoreRequest < Struct.new(
-      :description,
-      :name,
       :reference,
-      :sse_config,
-      :tags)
+      :name,
+      :description,
+      :tags,
+      :sse_config)
       SENSITIVE = []
       include Aws::Structure
     end
 
-    # @!attribute [rw] creation_time
-    #   When the store was created.
-    #   @return [Time]
-    #
     # @!attribute [rw] id
     #   The store's ID.
-    #   @return [String]
-    #
-    # @!attribute [rw] name
-    #   The store's name.
     #   @return [String]
     #
     # @!attribute [rw] reference
@@ -681,24 +1280,28 @@ module Aws::Omics
     #   The store's status.
     #   @return [String]
     #
+    # @!attribute [rw] name
+    #   The store's name.
+    #   @return [String]
+    #
+    # @!attribute [rw] creation_time
+    #   When the store was created.
+    #   @return [Time]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/CreateVariantStoreResponse AWS API Documentation
     #
     class CreateVariantStoreResponse < Struct.new(
-      :creation_time,
       :id,
-      :name,
       :reference,
-      :status)
+      :status,
+      :name,
+      :creation_time)
       SENSITIVE = []
       include Aws::Structure
     end
 
-    # @!attribute [rw] definition_uri
-    #   The URI of a definition for the workflow.
-    #   @return [String]
-    #
-    # @!attribute [rw] definition_zip
-    #   A ZIP archive for the workflow.
+    # @!attribute [rw] name
+    #   A name for the workflow.
     #   @return [String]
     #
     # @!attribute [rw] description
@@ -709,46 +1312,56 @@ module Aws::Omics
     #   An engine for the workflow.
     #   @return [String]
     #
-    # @!attribute [rw] main
-    #   The path of the main definition file for the workflow.
+    # @!attribute [rw] definition_zip
+    #   A ZIP archive for the workflow.
     #   @return [String]
     #
-    # @!attribute [rw] name
-    #   A name for the workflow.
+    # @!attribute [rw] definition_uri
+    #   The URI of a definition for the workflow.
+    #   @return [String]
+    #
+    # @!attribute [rw] main
+    #   The path of the main definition file for the workflow.
     #   @return [String]
     #
     # @!attribute [rw] parameter_template
     #   A parameter template for the workflow.
     #   @return [Hash<String,Types::WorkflowParameter>]
     #
-    # @!attribute [rw] request_id
-    #   A request ID for the workflow.
-    #
-    #   **A suitable default value is auto-generated.** You should normally
-    #   not need to pass this option.
-    #   @return [String]
-    #
     # @!attribute [rw] storage_capacity
-    #   A storage capacity for the workflow.
+    #   The default storage capacity for the workflow runs, in gibibytes.
     #   @return [Integer]
     #
     # @!attribute [rw] tags
     #   Tags for the workflow.
     #   @return [Hash<String,String>]
     #
+    # @!attribute [rw] request_id
+    #   To ensure that requests don't run multiple times, specify a unique
+    #   ID for each request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @!attribute [rw] accelerators
+    #   The computational accelerator specified to run the workflow.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/CreateWorkflowRequest AWS API Documentation
     #
     class CreateWorkflowRequest < Struct.new(
-      :definition_uri,
-      :definition_zip,
+      :name,
       :description,
       :engine,
+      :definition_zip,
+      :definition_uri,
       :main,
-      :name,
       :parameter_template,
-      :request_id,
       :storage_capacity,
-      :tags)
+      :tags,
+      :request_id,
+      :accelerators)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -780,19 +1393,19 @@ module Aws::Omics
       include Aws::Structure
     end
 
-    # @!attribute [rw] force
-    #   Whether to force deletion.
-    #   @return [Boolean]
-    #
     # @!attribute [rw] name
     #   The store's name.
     #   @return [String]
     #
+    # @!attribute [rw] force
+    #   Whether to force deletion.
+    #   @return [Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/DeleteAnnotationStoreRequest AWS API Documentation
     #
     class DeleteAnnotationStoreRequest < Struct.new(
-      :force,
-      :name)
+      :name,
+      :force)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -805,6 +1418,43 @@ module Aws::Omics
     #
     class DeleteAnnotationStoreResponse < Struct.new(
       :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] name
+    #   The name of the annotation store from which versions are being
+    #   deleted.
+    #   @return [String]
+    #
+    # @!attribute [rw] versions
+    #   The versions of an annotation store to be deleted.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] force
+    #   Forces the deletion of an annotation store version when imports are
+    #   in-progress..
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/DeleteAnnotationStoreVersionsRequest AWS API Documentation
+    #
+    class DeleteAnnotationStoreVersionsRequest < Struct.new(
+      :name,
+      :versions,
+      :force)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] errors
+    #   Any errors that occur when attempting to delete an annotation store
+    #   version.
+    #   @return [Array<Types::VersionDeleteError>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/DeleteAnnotationStoreVersionsResponse AWS API Documentation
+    #
+    class DeleteAnnotationStoreVersionsResponse < Struct.new(
+      :errors)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -847,6 +1497,18 @@ module Aws::Omics
     class DeleteReferenceStoreResponse < Aws::EmptyStructure; end
 
     # @!attribute [rw] id
+    #   Run cache identifier for the cache you want to delete.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/DeleteRunCacheRequest AWS API Documentation
+    #
+    class DeleteRunCacheRequest < Struct.new(
+      :id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] id
     #   The run group's ID.
     #   @return [String]
     #
@@ -870,6 +1532,22 @@ module Aws::Omics
       include Aws::Structure
     end
 
+    # @!attribute [rw] s3_access_point_arn
+    #   The S3 access point ARN that has the access policy.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/DeleteS3AccessPolicyRequest AWS API Documentation
+    #
+    class DeleteS3AccessPolicyRequest < Struct.new(
+      :s3_access_point_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/DeleteS3AccessPolicyResponse AWS API Documentation
+    #
+    class DeleteS3AccessPolicyResponse < Aws::EmptyStructure; end
+
     # @!attribute [rw] id
     #   The sequence store's ID.
     #   @return [String]
@@ -886,19 +1564,43 @@ module Aws::Omics
     #
     class DeleteSequenceStoreResponse < Aws::EmptyStructure; end
 
-    # @!attribute [rw] force
-    #   Whether to force deletion.
-    #   @return [Boolean]
+    # @!attribute [rw] share_id
+    #   The ID for the resource share to be deleted.
+    #   @return [String]
     #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/DeleteShareRequest AWS API Documentation
+    #
+    class DeleteShareRequest < Struct.new(
+      :share_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] status
+    #   The status of the share being deleted.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/DeleteShareResponse AWS API Documentation
+    #
+    class DeleteShareResponse < Struct.new(
+      :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] name
     #   The store's name.
     #   @return [String]
     #
+    # @!attribute [rw] force
+    #   Whether to force deletion.
+    #   @return [Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/DeleteVariantStoreRequest AWS API Documentation
     #
     class DeleteVariantStoreRequest < Struct.new(
-      :force,
-      :name)
+      :name,
+      :force)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -923,6 +1625,31 @@ module Aws::Omics
     #
     class DeleteWorkflowRequest < Struct.new(
       :id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The entity tag (ETag) is a hash of the object representing its
+    # semantic content.
+    #
+    # @!attribute [rw] algorithm
+    #   The algorithm used to calculate the read set’s ETag(s).
+    #   @return [String]
+    #
+    # @!attribute [rw] source1
+    #   The ETag hash calculated on Source1 of the read set.
+    #   @return [String]
+    #
+    # @!attribute [rw] source2
+    #   The ETag hash calculated on Source2 of the read set.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/ETag AWS API Documentation
+    #
+    class ETag < Struct.new(
+      :algorithm,
+      :source1,
+      :source2)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -967,6 +1694,10 @@ module Aws::Omics
 
     # An read set export job filter.
     #
+    # @!attribute [rw] status
+    #   A status to filter on.
+    #   @return [String]
+    #
     # @!attribute [rw] created_after
     #   The filter's start date.
     #   @return [Time]
@@ -975,33 +1706,17 @@ module Aws::Omics
     #   The filter's end date.
     #   @return [Time]
     #
-    # @!attribute [rw] status
-    #   A status to filter on.
-    #   @return [String]
-    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/ExportReadSetFilter AWS API Documentation
     #
     class ExportReadSetFilter < Struct.new(
+      :status,
       :created_after,
-      :created_before,
-      :status)
+      :created_before)
       SENSITIVE = []
       include Aws::Structure
     end
 
     # Details about a read set export job.
-    #
-    # @!attribute [rw] completion_time
-    #   When the job completed.
-    #   @return [Time]
-    #
-    # @!attribute [rw] creation_time
-    #   When the job was created.
-    #   @return [Time]
-    #
-    # @!attribute [rw] destination
-    #   The job's destination in Amazon S3.
-    #   @return [String]
     #
     # @!attribute [rw] id
     #   The job's ID.
@@ -1011,43 +1726,88 @@ module Aws::Omics
     #   The job's sequence store ID.
     #   @return [String]
     #
+    # @!attribute [rw] destination
+    #   The job's destination in Amazon S3.
+    #   @return [String]
+    #
     # @!attribute [rw] status
     #   The job's status.
     #   @return [String]
     #
+    # @!attribute [rw] creation_time
+    #   When the job was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] completion_time
+    #   When the job completed.
+    #   @return [Time]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/ExportReadSetJobDetail AWS API Documentation
     #
     class ExportReadSetJobDetail < Struct.new(
-      :completion_time,
-      :creation_time,
-      :destination,
       :id,
       :sequence_store_id,
-      :status)
+      :destination,
+      :status,
+      :creation_time,
+      :completion_time)
       SENSITIVE = []
       include Aws::Structure
     end
 
     # Details about a file.
     #
-    # @!attribute [rw] content_length
-    #   The file's content length.
+    # @!attribute [rw] total_parts
+    #   The file's total parts.
     #   @return [Integer]
     #
     # @!attribute [rw] part_size
     #   The file's part size.
     #   @return [Integer]
     #
-    # @!attribute [rw] total_parts
-    #   The file's total parts.
+    # @!attribute [rw] content_length
+    #   The file's content length.
     #   @return [Integer]
+    #
+    # @!attribute [rw] s3_access
+    #   The S3 URI metadata of a sequence store.
+    #   @return [Types::ReadSetS3Access]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/FileInformation AWS API Documentation
     #
     class FileInformation < Struct.new(
-      :content_length,
+      :total_parts,
       :part_size,
-      :total_parts)
+      :content_length,
+      :s3_access)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Use filters to return a subset of resources. You can define filters
+    # for specific parameters, such as the resource status.
+    #
+    # @!attribute [rw] resource_arns
+    #   Filter based on the Amazon Resource Number (ARN) of the resource.
+    #   You can specify up to 10 values.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] status
+    #   Filter based on the resource status. You can specify up to 10
+    #   values.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] type
+    #   The type of resources to be filtered. You can specify one or more of
+    #   the resource types.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/Filter AWS API Documentation
+    #
+    class Filter < Struct.new(
+      :resource_arns,
+      :status,
+      :type)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1093,37 +1853,21 @@ module Aws::Omics
       include Aws::Structure
     end
 
-    # @!attribute [rw] completion_time
-    #   When the job completed.
-    #   @return [Time]
-    #
-    # @!attribute [rw] creation_time
-    #   When the job was created.
-    #   @return [Time]
+    # @!attribute [rw] id
+    #   The job's ID.
+    #   @return [String]
     #
     # @!attribute [rw] destination_name
     #   The job's destination annotation store.
     #   @return [String]
     #
-    # @!attribute [rw] format_options
-    #   Formatting options for a file.
-    #   @return [Types::FormatOptions]
-    #
-    # @!attribute [rw] id
-    #   The job's ID.
+    # @!attribute [rw] version_name
+    #   The name of the annotation store version.
     #   @return [String]
-    #
-    # @!attribute [rw] items
-    #   The job's imported items.
-    #   @return [Array<Types::AnnotationImportItemDetail>]
     #
     # @!attribute [rw] role_arn
     #   The job's service role ARN.
     #   @return [String]
-    #
-    # @!attribute [rw] run_left_normalization
-    #   The job's left normalization setting.
-    #   @return [Boolean]
     #
     # @!attribute [rw] status
     #   The job's status.
@@ -1133,24 +1877,50 @@ module Aws::Omics
     #   The job's status message.
     #   @return [String]
     #
+    # @!attribute [rw] creation_time
+    #   When the job was created.
+    #   @return [Time]
+    #
     # @!attribute [rw] update_time
     #   When the job was updated.
     #   @return [Time]
     #
+    # @!attribute [rw] completion_time
+    #   When the job completed.
+    #   @return [Time]
+    #
+    # @!attribute [rw] items
+    #   The job's imported items.
+    #   @return [Array<Types::AnnotationImportItemDetail>]
+    #
+    # @!attribute [rw] run_left_normalization
+    #   The job's left normalization setting.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] format_options
+    #   Formatting options for a file.
+    #   @return [Types::FormatOptions]
+    #
+    # @!attribute [rw] annotation_fields
+    #   The annotation schema generated by the parsed annotation data.
+    #   @return [Hash<String,String>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/GetAnnotationImportResponse AWS API Documentation
     #
     class GetAnnotationImportResponse < Struct.new(
-      :completion_time,
-      :creation_time,
-      :destination_name,
-      :format_options,
       :id,
-      :items,
+      :destination_name,
+      :version_name,
       :role_arn,
-      :run_left_normalization,
       :status,
       :status_message,
-      :update_time)
+      :creation_time,
+      :update_time,
+      :completion_time,
+      :items,
+      :run_left_normalization,
+      :format_options,
+      :annotation_fields)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1167,79 +1937,177 @@ module Aws::Omics
       include Aws::Structure
     end
 
-    # @!attribute [rw] creation_time
-    #   When the store was created.
-    #   @return [Time]
-    #
-    # @!attribute [rw] description
-    #   The store's description.
-    #   @return [String]
-    #
     # @!attribute [rw] id
     #   The store's ID.
-    #   @return [String]
-    #
-    # @!attribute [rw] name
-    #   The store's name.
     #   @return [String]
     #
     # @!attribute [rw] reference
     #   The store's genome reference.
     #   @return [Types::ReferenceItem]
     #
-    # @!attribute [rw] sse_config
-    #   The store's server-side encryption (SSE) settings.
-    #   @return [Types::SseConfig]
-    #
     # @!attribute [rw] status
     #   The store's status.
-    #   @return [String]
-    #
-    # @!attribute [rw] status_message
-    #   A status message.
     #   @return [String]
     #
     # @!attribute [rw] store_arn
     #   The store's ARN.
     #   @return [String]
     #
-    # @!attribute [rw] store_format
-    #   The store's annotation file format.
+    # @!attribute [rw] name
+    #   The store's name.
     #   @return [String]
     #
-    # @!attribute [rw] store_options
-    #   The store's parsing options.
-    #   @return [Types::StoreOptions]
+    # @!attribute [rw] description
+    #   The store's description.
+    #   @return [String]
     #
-    # @!attribute [rw] store_size_bytes
-    #   The store's size in bytes.
-    #   @return [Integer]
+    # @!attribute [rw] sse_config
+    #   The store's server-side encryption (SSE) settings.
+    #   @return [Types::SseConfig]
     #
-    # @!attribute [rw] tags
-    #   The store's tags.
-    #   @return [Hash<String,String>]
+    # @!attribute [rw] creation_time
+    #   When the store was created.
+    #   @return [Time]
     #
     # @!attribute [rw] update_time
     #   When the store was updated.
     #   @return [Time]
     #
+    # @!attribute [rw] tags
+    #   The store's tags.
+    #   @return [Hash<String,String>]
+    #
+    # @!attribute [rw] store_options
+    #   The store's parsing options.
+    #   @return [Types::StoreOptions]
+    #
+    # @!attribute [rw] store_format
+    #   The store's annotation file format.
+    #   @return [String]
+    #
+    # @!attribute [rw] status_message
+    #   A status message.
+    #   @return [String]
+    #
+    # @!attribute [rw] store_size_bytes
+    #   The store's size in bytes.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] num_versions
+    #   An integer indicating how many versions of an annotation store
+    #   exist.
+    #   @return [Integer]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/GetAnnotationStoreResponse AWS API Documentation
     #
     class GetAnnotationStoreResponse < Struct.new(
-      :creation_time,
-      :description,
       :id,
-      :name,
       :reference,
-      :sse_config,
       :status,
-      :status_message,
       :store_arn,
-      :store_format,
-      :store_options,
-      :store_size_bytes,
+      :name,
+      :description,
+      :sse_config,
+      :creation_time,
+      :update_time,
       :tags,
-      :update_time)
+      :store_options,
+      :store_format,
+      :status_message,
+      :store_size_bytes,
+      :num_versions)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] name
+    #   The name given to an annotation store version to distinguish it from
+    #   others.
+    #   @return [String]
+    #
+    # @!attribute [rw] version_name
+    #   The name given to an annotation store version to distinguish it from
+    #   others.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/GetAnnotationStoreVersionRequest AWS API Documentation
+    #
+    class GetAnnotationStoreVersionRequest < Struct.new(
+      :name,
+      :version_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] store_id
+    #   The store ID for annotation store version.
+    #   @return [String]
+    #
+    # @!attribute [rw] id
+    #   The annotation store version ID.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status of an annotation store version.
+    #   @return [String]
+    #
+    # @!attribute [rw] version_arn
+    #   The Arn for the annotation store.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the annotation store.
+    #   @return [String]
+    #
+    # @!attribute [rw] version_name
+    #   The name given to an annotation store version to distinguish it from
+    #   others.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description for an annotation store version.
+    #   @return [String]
+    #
+    # @!attribute [rw] creation_time
+    #   The time stamp for when an annotation store version was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] update_time
+    #   The time stamp for when an annotation store version was updated.
+    #   @return [Time]
+    #
+    # @!attribute [rw] tags
+    #   Any tags associated with an annotation store version.
+    #   @return [Hash<String,String>]
+    #
+    # @!attribute [rw] version_options
+    #   The options for an annotation store version.
+    #   @return [Types::VersionOptions]
+    #
+    # @!attribute [rw] status_message
+    #   The status of an annotation store version.
+    #   @return [String]
+    #
+    # @!attribute [rw] version_size_bytes
+    #   The size of the annotation store version in Bytes.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/GetAnnotationStoreVersionResponse AWS API Documentation
+    #
+    class GetAnnotationStoreVersionResponse < Struct.new(
+      :store_id,
+      :id,
+      :status,
+      :version_arn,
+      :name,
+      :version_name,
+      :description,
+      :creation_time,
+      :update_time,
+      :tags,
+      :version_options,
+      :status_message,
+      :version_size_bytes)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1261,14 +2129,6 @@ module Aws::Omics
       include Aws::Structure
     end
 
-    # @!attribute [rw] completion_time
-    #   When the job completed.
-    #   @return [Time]
-    #
-    # @!attribute [rw] creation_time
-    #   When the job was created.
-    #   @return [Time]
-    #
     # @!attribute [rw] id
     #   The job's ID.
     #   @return [String]
@@ -1276,10 +2136,6 @@ module Aws::Omics
     # @!attribute [rw] sequence_store_id
     #   The job's sequence store ID.
     #   @return [String]
-    #
-    # @!attribute [rw] sources
-    #   The job's sources.
-    #   @return [Array<Types::ActivateReadSetSourceItem>]
     #
     # @!attribute [rw] status
     #   The job's status.
@@ -1289,59 +2145,59 @@ module Aws::Omics
     #   The job's status message.
     #   @return [String]
     #
+    # @!attribute [rw] creation_time
+    #   When the job was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] completion_time
+    #   When the job completed.
+    #   @return [Time]
+    #
+    # @!attribute [rw] sources
+    #   The job's source files.
+    #   @return [Array<Types::ActivateReadSetSourceItem>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/GetReadSetActivationJobResponse AWS API Documentation
     #
     class GetReadSetActivationJobResponse < Struct.new(
-      :completion_time,
-      :creation_time,
       :id,
       :sequence_store_id,
-      :sources,
       :status,
-      :status_message)
+      :status_message,
+      :creation_time,
+      :completion_time,
+      :sources)
       SENSITIVE = []
       include Aws::Structure
     end
 
-    # @!attribute [rw] id
-    #   The job's ID.
-    #   @return [String]
-    #
     # @!attribute [rw] sequence_store_id
     #   The job's sequence store ID.
+    #   @return [String]
+    #
+    # @!attribute [rw] id
+    #   The job's ID.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/GetReadSetExportJobRequest AWS API Documentation
     #
     class GetReadSetExportJobRequest < Struct.new(
-      :id,
-      :sequence_store_id)
+      :sequence_store_id,
+      :id)
       SENSITIVE = []
       include Aws::Structure
     end
 
-    # @!attribute [rw] completion_time
-    #   When the job completed.
-    #   @return [Time]
-    #
-    # @!attribute [rw] creation_time
-    #   When the job was created.
-    #   @return [Time]
-    #
-    # @!attribute [rw] destination
-    #   The job's destination in Amazon S3.
-    #   @return [String]
-    #
     # @!attribute [rw] id
     #   The job's ID.
     #   @return [String]
     #
-    # @!attribute [rw] read_sets
-    #   The job's read sets.
-    #   @return [Array<Types::ExportReadSetDetail>]
-    #
     # @!attribute [rw] sequence_store_id
     #   The job's sequence store ID.
+    #   @return [String]
+    #
+    # @!attribute [rw] destination
+    #   The job's destination in Amazon S3.
     #   @return [String]
     #
     # @!attribute [rw] status
@@ -1352,17 +2208,29 @@ module Aws::Omics
     #   The job's status message.
     #   @return [String]
     #
+    # @!attribute [rw] creation_time
+    #   When the job was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] completion_time
+    #   When the job completed.
+    #   @return [Time]
+    #
+    # @!attribute [rw] read_sets
+    #   The job's read sets.
+    #   @return [Array<Types::ExportReadSetDetail>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/GetReadSetExportJobResponse AWS API Documentation
     #
     class GetReadSetExportJobResponse < Struct.new(
-      :completion_time,
-      :creation_time,
-      :destination,
       :id,
-      :read_sets,
       :sequence_store_id,
+      :destination,
       :status,
-      :status_message)
+      :status_message,
+      :creation_time,
+      :completion_time,
+      :read_sets)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1384,29 +2252,17 @@ module Aws::Omics
       include Aws::Structure
     end
 
-    # @!attribute [rw] completion_time
-    #   When the job completed.
-    #   @return [Time]
-    #
-    # @!attribute [rw] creation_time
-    #   When the job was created.
-    #   @return [Time]
-    #
     # @!attribute [rw] id
     #   The job's ID.
-    #   @return [String]
-    #
-    # @!attribute [rw] role_arn
-    #   The job's service role ARN.
     #   @return [String]
     #
     # @!attribute [rw] sequence_store_id
     #   The job's sequence store ID.
     #   @return [String]
     #
-    # @!attribute [rw] sources
-    #   The job's sources.
-    #   @return [Array<Types::ImportReadSetSourceItem>]
+    # @!attribute [rw] role_arn
+    #   The job's service role ARN.
+    #   @return [String]
     #
     # @!attribute [rw] status
     #   The job's status.
@@ -1416,17 +2272,29 @@ module Aws::Omics
     #   The job's status message.
     #   @return [String]
     #
+    # @!attribute [rw] creation_time
+    #   When the job was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] completion_time
+    #   When the job completed.
+    #   @return [Time]
+    #
+    # @!attribute [rw] sources
+    #   The job's source files.
+    #   @return [Array<Types::ImportReadSetSourceItem>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/GetReadSetImportJobResponse AWS API Documentation
     #
     class GetReadSetImportJobResponse < Struct.new(
-      :completion_time,
-      :creation_time,
       :id,
-      :role_arn,
       :sequence_store_id,
-      :sources,
+      :role_arn,
       :status,
-      :status_message)
+      :status_message,
+      :creation_time,
+      :completion_time,
+      :sources)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1448,13 +2316,33 @@ module Aws::Omics
       include Aws::Structure
     end
 
+    # @!attribute [rw] id
+    #   The read set's ID.
+    #   @return [String]
+    #
     # @!attribute [rw] arn
     #   The read set's ARN.
     #   @return [String]
     #
-    # @!attribute [rw] creation_time
-    #   When the read set was created.
-    #   @return [Time]
+    # @!attribute [rw] sequence_store_id
+    #   The read set's sequence store ID.
+    #   @return [String]
+    #
+    # @!attribute [rw] subject_id
+    #   The read set's subject ID.
+    #   @return [String]
+    #
+    # @!attribute [rw] sample_id
+    #   The read set's sample ID.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The read set's status.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The read set's name.
+    #   @return [String]
     #
     # @!attribute [rw] description
     #   The read set's description.
@@ -1464,85 +2352,87 @@ module Aws::Omics
     #   The read set's file type.
     #   @return [String]
     #
-    # @!attribute [rw] files
-    #   The read set's files.
-    #   @return [Types::ReadSetFiles]
-    #
-    # @!attribute [rw] id
-    #   The read set's ID.
-    #   @return [String]
-    #
-    # @!attribute [rw] name
-    #   The read set's name.
-    #   @return [String]
-    #
-    # @!attribute [rw] reference_arn
-    #   The read set's genome reference ARN.
-    #   @return [String]
-    #
-    # @!attribute [rw] sample_id
-    #   The read set's sample ID.
-    #   @return [String]
+    # @!attribute [rw] creation_time
+    #   When the read set was created.
+    #   @return [Time]
     #
     # @!attribute [rw] sequence_information
     #   The read set's sequence information.
     #   @return [Types::SequenceInformation]
     #
-    # @!attribute [rw] sequence_store_id
-    #   The read set's sequence store ID.
+    # @!attribute [rw] reference_arn
+    #   The read set's genome reference ARN.
     #   @return [String]
     #
-    # @!attribute [rw] status
-    #   The read set's status.
+    # @!attribute [rw] files
+    #   The read set's files.
+    #   @return [Types::ReadSetFiles]
+    #
+    # @!attribute [rw] status_message
+    #   The status message for a read set. It provides more detail as to why
+    #   the read set has a status.
     #   @return [String]
     #
-    # @!attribute [rw] subject_id
-    #   The read set's subject ID.
+    # @!attribute [rw] creation_type
+    #   The creation type of the read set.
+    #   @return [String]
+    #
+    # @!attribute [rw] etag
+    #   The entity tag (ETag) is a hash of the object meant to represent its
+    #   semantic content.
+    #   @return [Types::ETag]
+    #
+    # @!attribute [rw] creation_job_id
+    #   The read set's creation job ID.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/GetReadSetMetadataResponse AWS API Documentation
     #
     class GetReadSetMetadataResponse < Struct.new(
+      :id,
       :arn,
-      :creation_time,
+      :sequence_store_id,
+      :subject_id,
+      :sample_id,
+      :status,
+      :name,
       :description,
       :file_type,
-      :files,
-      :id,
-      :name,
-      :reference_arn,
-      :sample_id,
+      :creation_time,
       :sequence_information,
-      :sequence_store_id,
-      :status,
-      :subject_id)
+      :reference_arn,
+      :files,
+      :status_message,
+      :creation_type,
+      :etag,
+      :creation_job_id)
       SENSITIVE = []
       include Aws::Structure
     end
 
-    # @!attribute [rw] file
-    #   The file to retrieve.
-    #   @return [String]
-    #
     # @!attribute [rw] id
     #   The read set's ID.
+    #   @return [String]
+    #
+    # @!attribute [rw] sequence_store_id
+    #   The read set's sequence store ID.
+    #   @return [String]
+    #
+    # @!attribute [rw] file
+    #   The file to retrieve.
     #   @return [String]
     #
     # @!attribute [rw] part_number
     #   The part number to retrieve.
     #   @return [Integer]
     #
-    # @!attribute [rw] sequence_store_id
-    #   The read set's sequence store ID.
-    #   @return [String]
-    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/GetReadSetRequest AWS API Documentation
     #
     class GetReadSetRequest < Struct.new(
-      :file,
       :id,
-      :part_number,
-      :sequence_store_id)
+      :sequence_store_id,
+      :file,
+      :part_number)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1576,14 +2466,6 @@ module Aws::Omics
       include Aws::Structure
     end
 
-    # @!attribute [rw] completion_time
-    #   When the job completed.
-    #   @return [Time]
-    #
-    # @!attribute [rw] creation_time
-    #   When the job was created.
-    #   @return [Time]
-    #
     # @!attribute [rw] id
     #   The job's ID.
     #   @return [String]
@@ -1596,10 +2478,6 @@ module Aws::Omics
     #   The job's service role ARN.
     #   @return [String]
     #
-    # @!attribute [rw] sources
-    #   The job's sources.
-    #   @return [Array<Types::ImportReferenceSourceItem>]
-    #
     # @!attribute [rw] status
     #   The job's status.
     #   @return [String]
@@ -1608,17 +2486,29 @@ module Aws::Omics
     #   The job's status message.
     #   @return [String]
     #
+    # @!attribute [rw] creation_time
+    #   When the job was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] completion_time
+    #   When the job completed.
+    #   @return [Time]
+    #
+    # @!attribute [rw] sources
+    #   The job's source files.
+    #   @return [Array<Types::ImportReferenceSourceItem>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/GetReferenceImportJobResponse AWS API Documentation
     #
     class GetReferenceImportJobResponse < Struct.new(
-      :completion_time,
-      :creation_time,
       :id,
       :reference_store_id,
       :role_arn,
-      :sources,
       :status,
-      :status_message)
+      :status_message,
+      :creation_time,
+      :completion_time,
+      :sources)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1640,91 +2530,101 @@ module Aws::Omics
       include Aws::Structure
     end
 
-    # @!attribute [rw] arn
-    #   The reference's ARN.
-    #   @return [String]
-    #
-    # @!attribute [rw] creation_time
-    #   When the reference was created.
-    #   @return [Time]
-    #
-    # @!attribute [rw] description
-    #   The reference's description.
-    #   @return [String]
-    #
-    # @!attribute [rw] files
-    #   The reference's files.
-    #   @return [Types::ReferenceFiles]
-    #
     # @!attribute [rw] id
     #   The reference's ID.
     #   @return [String]
     #
-    # @!attribute [rw] md5
-    #   The reference's MD5 checksum.
-    #   @return [String]
-    #
-    # @!attribute [rw] name
-    #   The reference's name.
+    # @!attribute [rw] arn
+    #   The reference's ARN.
     #   @return [String]
     #
     # @!attribute [rw] reference_store_id
     #   The reference's reference store ID.
     #   @return [String]
     #
+    # @!attribute [rw] md5
+    #   The reference's MD5 checksum.
+    #   @return [String]
+    #
     # @!attribute [rw] status
     #   The reference's status.
     #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The reference's name.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The reference's description.
+    #   @return [String]
+    #
+    # @!attribute [rw] creation_time
+    #   When the reference was created.
+    #   @return [Time]
     #
     # @!attribute [rw] update_time
     #   When the reference was updated.
     #   @return [Time]
     #
+    # @!attribute [rw] files
+    #   The reference's files.
+    #   @return [Types::ReferenceFiles]
+    #
+    # @!attribute [rw] creation_type
+    #   The reference's creation type.
+    #   @return [String]
+    #
+    # @!attribute [rw] creation_job_id
+    #   The reference's creation job ID.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/GetReferenceMetadataResponse AWS API Documentation
     #
     class GetReferenceMetadataResponse < Struct.new(
-      :arn,
-      :creation_time,
-      :description,
-      :files,
       :id,
-      :md5,
-      :name,
+      :arn,
       :reference_store_id,
+      :md5,
       :status,
-      :update_time)
+      :name,
+      :description,
+      :creation_time,
+      :update_time,
+      :files,
+      :creation_type,
+      :creation_job_id)
       SENSITIVE = []
       include Aws::Structure
     end
 
-    # @!attribute [rw] file
-    #   The file to retrieve.
-    #   @return [String]
-    #
     # @!attribute [rw] id
     #   The reference's ID.
-    #   @return [String]
-    #
-    # @!attribute [rw] part_number
-    #   The part number to retrieve.
-    #   @return [Integer]
-    #
-    # @!attribute [rw] range
-    #   The range to retrieve.
     #   @return [String]
     #
     # @!attribute [rw] reference_store_id
     #   The reference's store ID.
     #   @return [String]
     #
+    # @!attribute [rw] range
+    #   The range to retrieve.
+    #   @return [String]
+    #
+    # @!attribute [rw] part_number
+    #   The part number to retrieve.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] file
+    #   The file to retrieve.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/GetReferenceRequest AWS API Documentation
     #
     class GetReferenceRequest < Struct.new(
-      :file,
       :id,
-      :part_number,
+      :reference_store_id,
       :range,
-      :reference_store_id)
+      :part_number,
+      :file)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1753,39 +2653,108 @@ module Aws::Omics
       include Aws::Structure
     end
 
-    # @!attribute [rw] arn
-    #   The store's ARN.
-    #   @return [String]
-    #
-    # @!attribute [rw] creation_time
-    #   When the store was created.
-    #   @return [Time]
-    #
-    # @!attribute [rw] description
-    #   The store's description.
-    #   @return [String]
-    #
     # @!attribute [rw] id
     #   The store's ID.
+    #   @return [String]
+    #
+    # @!attribute [rw] arn
+    #   The store's ARN.
     #   @return [String]
     #
     # @!attribute [rw] name
     #   The store's name.
     #   @return [String]
     #
+    # @!attribute [rw] description
+    #   The store's description.
+    #   @return [String]
+    #
     # @!attribute [rw] sse_config
     #   The store's server-side encryption (SSE) settings.
     #   @return [Types::SseConfig]
     #
+    # @!attribute [rw] creation_time
+    #   When the store was created.
+    #   @return [Time]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/GetReferenceStoreResponse AWS API Documentation
     #
     class GetReferenceStoreResponse < Struct.new(
+      :id,
       :arn,
+      :name,
+      :description,
+      :sse_config,
+      :creation_time)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] id
+    #   The identifier of the run cache to retrieve.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/GetRunCacheRequest AWS API Documentation
+    #
+    class GetRunCacheRequest < Struct.new(
+      :id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] arn
+    #   Unique resource identifier for the run cache.
+    #   @return [String]
+    #
+    # @!attribute [rw] cache_behavior
+    #   The default cache behavior for runs using this cache.
+    #   @return [String]
+    #
+    # @!attribute [rw] cache_bucket_owner_id
+    #   The identifier of the bucket owner.
+    #   @return [String]
+    #
+    # @!attribute [rw] cache_s3_uri
+    #   The S3 URI where the cache data is stored.
+    #   @return [String]
+    #
+    # @!attribute [rw] creation_time
+    #   Creation time of the run cache (an ISO 8601 formatted string).
+    #   @return [Time]
+    #
+    # @!attribute [rw] description
+    #   The run cache description.
+    #   @return [String]
+    #
+    # @!attribute [rw] id
+    #   The run cache ID.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The run cache name.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The run cache status.
+    #   @return [String]
+    #
+    # @!attribute [rw] tags
+    #   The tags associated with the run cache.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/GetRunCacheResponse AWS API Documentation
+    #
+    class GetRunCacheResponse < Struct.new(
+      :arn,
+      :cache_behavior,
+      :cache_bucket_owner_id,
+      :cache_s3_uri,
       :creation_time,
       :description,
       :id,
       :name,
-      :sse_config)
+      :status,
+      :tags)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1806,62 +2775,67 @@ module Aws::Omics
     #   The group's ARN.
     #   @return [String]
     #
-    # @!attribute [rw] creation_time
-    #   When the group was created.
-    #   @return [Time]
-    #
     # @!attribute [rw] id
     #   The group's ID.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The group's name.
     #   @return [String]
     #
     # @!attribute [rw] max_cpus
     #   The group's maximum number of CPUs to use.
     #   @return [Integer]
     #
-    # @!attribute [rw] max_duration
-    #   The group's maximum run duration.
-    #   @return [Integer]
-    #
     # @!attribute [rw] max_runs
     #   The maximum number of concurrent runs for the group.
     #   @return [Integer]
     #
-    # @!attribute [rw] name
-    #   The group's name.
-    #   @return [String]
+    # @!attribute [rw] max_duration
+    #   The group's maximum run time in minutes.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] creation_time
+    #   When the group was created.
+    #   @return [Time]
     #
     # @!attribute [rw] tags
     #   The group's tags.
     #   @return [Hash<String,String>]
     #
+    # @!attribute [rw] max_gpus
+    #   The maximum GPUs that can be used by a run group.
+    #   @return [Integer]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/GetRunGroupResponse AWS API Documentation
     #
     class GetRunGroupResponse < Struct.new(
       :arn,
-      :creation_time,
       :id,
-      :max_cpus,
-      :max_duration,
-      :max_runs,
       :name,
-      :tags)
+      :max_cpus,
+      :max_runs,
+      :max_duration,
+      :creation_time,
+      :tags,
+      :max_gpus)
       SENSITIVE = []
       include Aws::Structure
     end
 
-    # @!attribute [rw] export
-    #   The run's export format.
-    #   @return [Array<String>]
-    #
     # @!attribute [rw] id
     #   The run's ID.
     #   @return [String]
     #
+    # @!attribute [rw] export
+    #   The run's export format.
+    #   @return [Array<String>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/GetRunRequest AWS API Documentation
     #
     class GetRunRequest < Struct.new(
-      :export,
-      :id)
+      :id,
+      :export)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1870,85 +2844,25 @@ module Aws::Omics
     #   The run's ARN.
     #   @return [String]
     #
-    # @!attribute [rw] creation_time
-    #   When the run was created.
-    #   @return [Time]
-    #
-    # @!attribute [rw] definition
-    #   The run's definition.
-    #   @return [String]
-    #
-    # @!attribute [rw] digest
-    #   The run's digest.
-    #   @return [String]
-    #
     # @!attribute [rw] id
     #   The run's ID.
     #   @return [String]
     #
-    # @!attribute [rw] log_level
-    #   The run's log level.
+    # @!attribute [rw] cache_id
+    #   The run cache associated with the run.
     #   @return [String]
     #
-    # @!attribute [rw] name
-    #   The run's name.
+    # @!attribute [rw] cache_behavior
+    #   The run cache behavior for the run.
     #   @return [String]
     #
-    # @!attribute [rw] output_uri
-    #   The run's output URI.
-    #   @return [String]
-    #
-    # @!attribute [rw] parameters
-    #   The run's parameters.
-    #   @return [Hash,Array,String,Numeric,Boolean]
-    #
-    # @!attribute [rw] priority
-    #   The run's priority.
-    #   @return [Integer]
-    #
-    # @!attribute [rw] resource_digests
-    #   The run's resource digests.
-    #   @return [Hash<String,String>]
-    #
-    # @!attribute [rw] role_arn
-    #   The run's service role ARN.
-    #   @return [String]
-    #
-    # @!attribute [rw] run_group_id
-    #   The run's group ID.
-    #   @return [String]
-    #
-    # @!attribute [rw] run_id
-    #   The run's ID.
-    #   @return [String]
-    #
-    # @!attribute [rw] start_time
-    #   When the run started.
-    #   @return [Time]
-    #
-    # @!attribute [rw] started_by
-    #   Who started the run.
+    # @!attribute [rw] engine_version
+    #   The workflow engine version.
     #   @return [String]
     #
     # @!attribute [rw] status
     #   The run's status.
     #   @return [String]
-    #
-    # @!attribute [rw] status_message
-    #   The run's status message.
-    #   @return [String]
-    #
-    # @!attribute [rw] stop_time
-    #   The run's stop time.
-    #   @return [Time]
-    #
-    # @!attribute [rw] storage_capacity
-    #   The run's storage capacity.
-    #   @return [Integer]
-    #
-    # @!attribute [rw] tags
-    #   The run's tags.
-    #   @return [Hash<String,String>]
     #
     # @!attribute [rw] workflow_id
     #   The run's workflow ID.
@@ -1958,38 +2872,155 @@ module Aws::Omics
     #   The run's workflow type.
     #   @return [String]
     #
+    # @!attribute [rw] run_id
+    #   The run's ID.
+    #   @return [String]
+    #
+    # @!attribute [rw] role_arn
+    #   The run's service role ARN.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The run's name.
+    #   @return [String]
+    #
+    # @!attribute [rw] run_group_id
+    #   The run's group ID.
+    #   @return [String]
+    #
+    # @!attribute [rw] priority
+    #   The run's priority.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] definition
+    #   The run's definition.
+    #   @return [String]
+    #
+    # @!attribute [rw] digest
+    #   The run's digest.
+    #   @return [String]
+    #
+    # @!attribute [rw] parameters
+    #   The run's parameters.
+    #   @return [Hash,Array,String,Numeric,Boolean]
+    #
+    # @!attribute [rw] storage_capacity
+    #   The run's storage capacity in gibibytes. For dynamic storage, after
+    #   the run has completed, this value is the maximum amount of storage
+    #   used during the run.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] output_uri
+    #   The run's output URI.
+    #   @return [String]
+    #
+    # @!attribute [rw] log_level
+    #   The run's log level.
+    #   @return [String]
+    #
+    # @!attribute [rw] resource_digests
+    #   The run's resource digests.
+    #   @return [Hash<String,String>]
+    #
+    # @!attribute [rw] started_by
+    #   Who started the run.
+    #   @return [String]
+    #
+    # @!attribute [rw] creation_time
+    #   When the run was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] start_time
+    #   When the run started.
+    #   @return [Time]
+    #
+    # @!attribute [rw] stop_time
+    #   The run's stop time.
+    #   @return [Time]
+    #
+    # @!attribute [rw] status_message
+    #   The run's status message.
+    #   @return [String]
+    #
+    # @!attribute [rw] tags
+    #   The run's tags.
+    #   @return [Hash<String,String>]
+    #
+    # @!attribute [rw] accelerators
+    #   The computational accelerator used to run the workflow.
+    #   @return [String]
+    #
+    # @!attribute [rw] retention_mode
+    #   The run's retention mode.
+    #   @return [String]
+    #
+    # @!attribute [rw] failure_reason
+    #   The reason a run has failed.
+    #   @return [String]
+    #
+    # @!attribute [rw] log_location
+    #   The location of the run log.
+    #   @return [Types::RunLogLocation]
+    #
+    # @!attribute [rw] uuid
+    #   The universally unique identifier for a run.
+    #   @return [String]
+    #
+    # @!attribute [rw] run_output_uri
+    #   The destination for workflow outputs.
+    #   @return [String]
+    #
+    # @!attribute [rw] storage_type
+    #   The run's storage type.
+    #   @return [String]
+    #
+    # @!attribute [rw] workflow_owner_id
+    #   The ID of the workflow owner.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/GetRunResponse AWS API Documentation
     #
     class GetRunResponse < Struct.new(
       :arn,
-      :creation_time,
+      :id,
+      :cache_id,
+      :cache_behavior,
+      :engine_version,
+      :status,
+      :workflow_id,
+      :workflow_type,
+      :run_id,
+      :role_arn,
+      :name,
+      :run_group_id,
+      :priority,
       :definition,
       :digest,
-      :id,
-      :log_level,
-      :name,
-      :output_uri,
       :parameters,
-      :priority,
-      :resource_digests,
-      :role_arn,
-      :run_group_id,
-      :run_id,
-      :start_time,
-      :started_by,
-      :status,
-      :status_message,
-      :stop_time,
       :storage_capacity,
+      :output_uri,
+      :log_level,
+      :resource_digests,
+      :started_by,
+      :creation_time,
+      :start_time,
+      :stop_time,
+      :status_message,
       :tags,
-      :workflow_id,
-      :workflow_type)
+      :accelerators,
+      :retention_mode,
+      :failure_reason,
+      :log_location,
+      :uuid,
+      :run_output_uri,
+      :storage_type,
+      :workflow_owner_id)
       SENSITIVE = []
       include Aws::Structure
     end
 
     # @!attribute [rw] id
-    #   The task's ID.
+    #   The workflow run ID.
     #   @return [String]
     #
     # @!attribute [rw] task_id
@@ -2005,59 +3036,129 @@ module Aws::Omics
       include Aws::Structure
     end
 
+    # @!attribute [rw] task_id
+    #   The task's ID.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The task's status.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The task's name.
+    #   @return [String]
+    #
     # @!attribute [rw] cpus
     #   The task's CPU usage.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] cache_hit
+    #   Set to true if AWS HealthOmics found a matching entry in the run
+    #   cache for this task.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] cache_s3_uri
+    #   The S3 URI of the cache location.
+    #   @return [String]
+    #
+    # @!attribute [rw] memory
+    #   The task's memory use in gigabytes.
     #   @return [Integer]
     #
     # @!attribute [rw] creation_time
     #   When the task was created.
     #   @return [Time]
     #
-    # @!attribute [rw] log_stream
-    #   The task's log stream.
-    #   @return [String]
-    #
-    # @!attribute [rw] memory
-    #   The task's memory setting.
-    #   @return [Integer]
-    #
-    # @!attribute [rw] name
-    #   The task's name.
-    #   @return [String]
-    #
     # @!attribute [rw] start_time
     #   The task's start time.
     #   @return [Time]
-    #
-    # @!attribute [rw] status
-    #   The task's status.
-    #   @return [String]
-    #
-    # @!attribute [rw] status_message
-    #   The task's status message.
-    #   @return [String]
     #
     # @!attribute [rw] stop_time
     #   The task's stop time.
     #   @return [Time]
     #
-    # @!attribute [rw] task_id
-    #   The task's ID.
+    # @!attribute [rw] status_message
+    #   The task's status message.
+    #   @return [String]
+    #
+    # @!attribute [rw] log_stream
+    #   The task's log stream.
+    #   @return [String]
+    #
+    # @!attribute [rw] gpus
+    #   The number of Graphics Processing Units (GPU) specified in the task.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] instance_type
+    #   The instance type for a task.
+    #   @return [String]
+    #
+    # @!attribute [rw] failure_reason
+    #   The reason a task has failed.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/GetRunTaskResponse AWS API Documentation
     #
     class GetRunTaskResponse < Struct.new(
-      :cpus,
-      :creation_time,
-      :log_stream,
-      :memory,
-      :name,
-      :start_time,
+      :task_id,
       :status,
-      :status_message,
+      :name,
+      :cpus,
+      :cache_hit,
+      :cache_s3_uri,
+      :memory,
+      :creation_time,
+      :start_time,
       :stop_time,
-      :task_id)
+      :status_message,
+      :log_stream,
+      :gpus,
+      :instance_type,
+      :failure_reason)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] s3_access_point_arn
+    #   The S3 access point ARN that has the access policy.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/GetS3AccessPolicyRequest AWS API Documentation
+    #
+    class GetS3AccessPolicyRequest < Struct.new(
+      :s3_access_point_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] s3_access_point_arn
+    #   The S3 access point ARN that has the access policy.
+    #   @return [String]
+    #
+    # @!attribute [rw] store_id
+    #   The AWS-generated Sequence Store or Reference Store ID.
+    #   @return [String]
+    #
+    # @!attribute [rw] store_type
+    #   The type of store associated with the access point.
+    #   @return [String]
+    #
+    # @!attribute [rw] update_time
+    #   The time when the policy was last updated.
+    #   @return [Time]
+    #
+    # @!attribute [rw] s3_access_policy
+    #   The current resource policy that controls S3 access on the store.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/GetS3AccessPolicyResponse AWS API Documentation
+    #
+    class GetS3AccessPolicyResponse < Struct.new(
+      :s3_access_point_arn,
+      :store_id,
+      :store_type,
+      :update_time,
+      :s3_access_policy)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2074,39 +3175,102 @@ module Aws::Omics
       include Aws::Structure
     end
 
-    # @!attribute [rw] arn
-    #   The store's ARN.
-    #   @return [String]
-    #
-    # @!attribute [rw] creation_time
-    #   When the store was created.
-    #   @return [Time]
-    #
-    # @!attribute [rw] description
-    #   The store's description.
-    #   @return [String]
-    #
     # @!attribute [rw] id
     #   The store's ID.
+    #   @return [String]
+    #
+    # @!attribute [rw] arn
+    #   The store's ARN.
     #   @return [String]
     #
     # @!attribute [rw] name
     #   The store's name.
     #   @return [String]
     #
+    # @!attribute [rw] description
+    #   The store's description.
+    #   @return [String]
+    #
     # @!attribute [rw] sse_config
     #   The store's server-side encryption (SSE) settings.
     #   @return [Types::SseConfig]
     #
+    # @!attribute [rw] creation_time
+    #   When the store was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] fallback_location
+    #   An S3 location that is used to store files that have failed a direct
+    #   upload.
+    #   @return [String]
+    #
+    # @!attribute [rw] s3_access
+    #   The S3 metadata of a sequence store, including the ARN and S3 URI of
+    #   the S3 bucket.
+    #   @return [Types::SequenceStoreS3Access]
+    #
+    # @!attribute [rw] e_tag_algorithm_family
+    #   The algorithm family of the ETag.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status of the sequence store.
+    #   @return [String]
+    #
+    # @!attribute [rw] status_message
+    #   The status message of the sequence store.
+    #   @return [String]
+    #
+    # @!attribute [rw] propagated_set_level_tags
+    #   The tags keys to propagate to the S3 objects associated with read
+    #   sets in the sequence store.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] update_time
+    #   The last-updated time of the sequence store.
+    #   @return [Time]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/GetSequenceStoreResponse AWS API Documentation
     #
     class GetSequenceStoreResponse < Struct.new(
-      :arn,
-      :creation_time,
-      :description,
       :id,
+      :arn,
       :name,
-      :sse_config)
+      :description,
+      :sse_config,
+      :creation_time,
+      :fallback_location,
+      :s3_access,
+      :e_tag_algorithm_family,
+      :status,
+      :status_message,
+      :propagated_set_level_tags,
+      :update_time)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] share_id
+    #   The ID of the share.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/GetShareRequest AWS API Documentation
+    #
+    class GetShareRequest < Struct.new(
+      :share_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] share
+    #   A resource share details object. The object includes the status, the
+    #   resourceArn, and ownerId.
+    #   @return [Types::ShareDetails]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/GetShareResponse AWS API Documentation
+    #
+    class GetShareResponse < Struct.new(
+      :share)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2123,33 +3287,17 @@ module Aws::Omics
       include Aws::Structure
     end
 
-    # @!attribute [rw] completion_time
-    #   When the job completed.
-    #   @return [Time]
-    #
-    # @!attribute [rw] creation_time
-    #   When the job was created.
-    #   @return [Time]
+    # @!attribute [rw] id
+    #   The job's ID.
+    #   @return [String]
     #
     # @!attribute [rw] destination_name
     #   The job's destination variant store.
     #   @return [String]
     #
-    # @!attribute [rw] id
-    #   The job's ID.
-    #   @return [String]
-    #
-    # @!attribute [rw] items
-    #   The job's items.
-    #   @return [Array<Types::VariantImportItemDetail>]
-    #
     # @!attribute [rw] role_arn
     #   The job's service role ARN.
     #   @return [String]
-    #
-    # @!attribute [rw] run_left_normalization
-    #   The job's left normalization setting.
-    #   @return [Boolean]
     #
     # @!attribute [rw] status
     #   The job's status.
@@ -2159,23 +3307,44 @@ module Aws::Omics
     #   The job's status message.
     #   @return [String]
     #
+    # @!attribute [rw] creation_time
+    #   When the job was created.
+    #   @return [Time]
+    #
     # @!attribute [rw] update_time
     #   When the job was updated.
     #   @return [Time]
     #
+    # @!attribute [rw] completion_time
+    #   When the job completed.
+    #   @return [Time]
+    #
+    # @!attribute [rw] items
+    #   The job's items.
+    #   @return [Array<Types::VariantImportItemDetail>]
+    #
+    # @!attribute [rw] run_left_normalization
+    #   The job's left normalization setting.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] annotation_fields
+    #   The annotation schema generated by the parsed annotation data.
+    #   @return [Hash<String,String>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/GetVariantImportResponse AWS API Documentation
     #
     class GetVariantImportResponse < Struct.new(
-      :completion_time,
-      :creation_time,
-      :destination_name,
       :id,
-      :items,
+      :destination_name,
       :role_arn,
-      :run_left_normalization,
       :status,
       :status_message,
-      :update_time)
+      :creation_time,
+      :update_time,
+      :completion_time,
+      :items,
+      :run_left_normalization,
+      :annotation_fields)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2192,77 +3361,73 @@ module Aws::Omics
       include Aws::Structure
     end
 
-    # @!attribute [rw] creation_time
-    #   When the store was created.
-    #   @return [Time]
-    #
-    # @!attribute [rw] description
-    #   The store's description.
-    #   @return [String]
-    #
     # @!attribute [rw] id
     #   The store's ID.
-    #   @return [String]
-    #
-    # @!attribute [rw] name
-    #   The store's name.
     #   @return [String]
     #
     # @!attribute [rw] reference
     #   The store's genome reference.
     #   @return [Types::ReferenceItem]
     #
-    # @!attribute [rw] sse_config
-    #   The store's server-side encryption (SSE) settings.
-    #   @return [Types::SseConfig]
-    #
     # @!attribute [rw] status
     #   The store's status.
-    #   @return [String]
-    #
-    # @!attribute [rw] status_message
-    #   The store's status message.
     #   @return [String]
     #
     # @!attribute [rw] store_arn
     #   The store's ARN.
     #   @return [String]
     #
-    # @!attribute [rw] store_size_bytes
-    #   The store's size in bytes.
-    #   @return [Integer]
+    # @!attribute [rw] name
+    #   The store's name.
+    #   @return [String]
     #
-    # @!attribute [rw] tags
-    #   The store's tags.
-    #   @return [Hash<String,String>]
+    # @!attribute [rw] description
+    #   The store's description.
+    #   @return [String]
+    #
+    # @!attribute [rw] sse_config
+    #   The store's server-side encryption (SSE) settings.
+    #   @return [Types::SseConfig]
+    #
+    # @!attribute [rw] creation_time
+    #   When the store was created.
+    #   @return [Time]
     #
     # @!attribute [rw] update_time
     #   When the store was updated.
     #   @return [Time]
     #
+    # @!attribute [rw] tags
+    #   The store's tags.
+    #   @return [Hash<String,String>]
+    #
+    # @!attribute [rw] status_message
+    #   The store's status message.
+    #   @return [String]
+    #
+    # @!attribute [rw] store_size_bytes
+    #   The store's size in bytes.
+    #   @return [Integer]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/GetVariantStoreResponse AWS API Documentation
     #
     class GetVariantStoreResponse < Struct.new(
-      :creation_time,
-      :description,
       :id,
-      :name,
       :reference,
-      :sse_config,
       :status,
-      :status_message,
       :store_arn,
-      :store_size_bytes,
+      :name,
+      :description,
+      :sse_config,
+      :creation_time,
+      :update_time,
       :tags,
-      :update_time)
+      :status_message,
+      :store_size_bytes)
       SENSITIVE = []
       include Aws::Structure
     end
 
-    # @!attribute [rw] export
-    #   The export format for the workflow.
-    #   @return [Array<String>]
-    #
     # @!attribute [rw] id
     #   The workflow's ID.
     #   @return [String]
@@ -2271,12 +3436,21 @@ module Aws::Omics
     #   The workflow's type.
     #   @return [String]
     #
+    # @!attribute [rw] export
+    #   The export format for the workflow.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] workflow_owner_id
+    #   The ID of the workflow owner.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/GetWorkflowRequest AWS API Documentation
     #
     class GetWorkflowRequest < Struct.new(
-      :export,
       :id,
-      :type)
+      :type,
+      :export,
+      :workflow_owner_id)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2285,85 +3459,99 @@ module Aws::Omics
     #   The workflow's ARN.
     #   @return [String]
     #
-    # @!attribute [rw] creation_time
-    #   When the workflow was created.
-    #   @return [Time]
-    #
-    # @!attribute [rw] definition
-    #   The workflow's definition.
-    #   @return [String]
-    #
-    # @!attribute [rw] description
-    #   The workflow's description.
-    #   @return [String]
-    #
-    # @!attribute [rw] digest
-    #   The workflow's digest.
-    #   @return [String]
-    #
-    # @!attribute [rw] engine
-    #   The workflow's engine.
-    #   @return [String]
-    #
     # @!attribute [rw] id
     #   The workflow's ID.
     #   @return [String]
     #
-    # @!attribute [rw] main
-    #   The path of the main definition file for the workflow.
+    # @!attribute [rw] status
+    #   The workflow's status.
+    #   @return [String]
+    #
+    # @!attribute [rw] type
+    #   The workflow's type.
     #   @return [String]
     #
     # @!attribute [rw] name
     #   The workflow's name.
     #   @return [String]
     #
+    # @!attribute [rw] description
+    #   The workflow's description.
+    #   @return [String]
+    #
+    # @!attribute [rw] engine
+    #   The workflow's engine.
+    #   @return [String]
+    #
+    # @!attribute [rw] definition
+    #   The workflow's definition.
+    #   @return [String]
+    #
+    # @!attribute [rw] main
+    #   The path of the main definition file for the workflow.
+    #   @return [String]
+    #
+    # @!attribute [rw] digest
+    #   The workflow's digest.
+    #   @return [String]
+    #
     # @!attribute [rw] parameter_template
     #   The workflow's parameter template.
     #   @return [Hash<String,Types::WorkflowParameter>]
     #
-    # @!attribute [rw] status
-    #   The workflow's status.
-    #   @return [String]
+    # @!attribute [rw] storage_capacity
+    #   The workflow's default run storage capacity in gibibytes.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] creation_time
+    #   When the workflow was created.
+    #   @return [Time]
     #
     # @!attribute [rw] status_message
     #   The workflow's status message.
     #   @return [String]
     #
-    # @!attribute [rw] storage_capacity
-    #   The workflow's storage capacity.
-    #   @return [Integer]
-    #
     # @!attribute [rw] tags
     #   The workflow's tags.
     #   @return [Hash<String,String>]
     #
-    # @!attribute [rw] type
-    #   The workflow's type.
+    # @!attribute [rw] metadata
+    #   Gets metadata for workflow.
+    #   @return [Hash<String,String>]
+    #
+    # @!attribute [rw] accelerators
+    #   The computational accelerator specified to run the workflow.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/GetWorkflowResponse AWS API Documentation
     #
     class GetWorkflowResponse < Struct.new(
       :arn,
-      :creation_time,
-      :definition,
-      :description,
-      :digest,
-      :engine,
       :id,
-      :main,
-      :name,
-      :parameter_template,
       :status,
-      :status_message,
+      :type,
+      :name,
+      :description,
+      :engine,
+      :definition,
+      :main,
+      :digest,
+      :parameter_template,
       :storage_capacity,
+      :creation_time,
+      :status_message,
       :tags,
-      :type)
+      :metadata,
+      :accelerators)
       SENSITIVE = []
       include Aws::Structure
     end
 
     # A filter for import read set jobs.
+    #
+    # @!attribute [rw] status
+    #   A status to filter on.
+    #   @return [String]
     #
     # @!attribute [rw] created_after
     #   The filter's start date.
@@ -2373,88 +3561,64 @@ module Aws::Omics
     #   The filter's end date.
     #   @return [Time]
     #
-    # @!attribute [rw] status
-    #   A status to filter on.
-    #   @return [String]
-    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/ImportReadSetFilter AWS API Documentation
     #
     class ImportReadSetFilter < Struct.new(
+      :status,
       :created_after,
-      :created_before,
-      :status)
+      :created_before)
       SENSITIVE = []
       include Aws::Structure
     end
 
     # An import read set job.
     #
-    # @!attribute [rw] completion_time
-    #   When the job completed.
-    #   @return [Time]
-    #
-    # @!attribute [rw] creation_time
-    #   When the job was created.
-    #   @return [Time]
-    #
     # @!attribute [rw] id
     #   The job's ID.
-    #   @return [String]
-    #
-    # @!attribute [rw] role_arn
-    #   The job's service role ARN.
     #   @return [String]
     #
     # @!attribute [rw] sequence_store_id
     #   The job's sequence store ID.
     #   @return [String]
     #
+    # @!attribute [rw] role_arn
+    #   The job's service role ARN.
+    #   @return [String]
+    #
     # @!attribute [rw] status
     #   The job's status.
     #   @return [String]
     #
+    # @!attribute [rw] creation_time
+    #   When the job was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] completion_time
+    #   When the job completed.
+    #   @return [Time]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/ImportReadSetJobItem AWS API Documentation
     #
     class ImportReadSetJobItem < Struct.new(
-      :completion_time,
-      :creation_time,
       :id,
-      :role_arn,
       :sequence_store_id,
-      :status)
+      :role_arn,
+      :status,
+      :creation_time,
+      :completion_time)
       SENSITIVE = []
       include Aws::Structure
     end
 
     # A source for an import read set job.
     #
-    # @!attribute [rw] description
-    #   The source's description.
-    #   @return [String]
-    #
-    # @!attribute [rw] generated_from
-    #   Where the source originated.
-    #   @return [String]
-    #
-    # @!attribute [rw] name
-    #   The source's name.
-    #   @return [String]
-    #
-    # @!attribute [rw] reference_arn
-    #   The source's genome reference ARN.
-    #   @return [String]
-    #
-    # @!attribute [rw] sample_id
-    #   The source's sample ID.
-    #   @return [String]
+    # @!attribute [rw] source_files
+    #   The source files' location in Amazon S3.
+    #   @return [Types::SourceFiles]
     #
     # @!attribute [rw] source_file_type
     #   The source's file type.
     #   @return [String]
-    #
-    # @!attribute [rw] source_files
-    #   The source files' location in Amazon S3.
-    #   @return [Types::SourceFiles]
     #
     # @!attribute [rw] status
     #   The source's status.
@@ -2468,29 +3632,58 @@ module Aws::Omics
     #   The source's subject ID.
     #   @return [String]
     #
+    # @!attribute [rw] sample_id
+    #   The source's sample ID.
+    #   @return [String]
+    #
+    # @!attribute [rw] generated_from
+    #   Where the source originated.
+    #   @return [String]
+    #
+    # @!attribute [rw] reference_arn
+    #   The source's genome reference ARN.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The source's name.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The source's description.
+    #   @return [String]
+    #
     # @!attribute [rw] tags
     #   The source's tags.
     #   @return [Hash<String,String>]
     #
+    # @!attribute [rw] read_set_id
+    #   The source's read set ID.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/ImportReadSetSourceItem AWS API Documentation
     #
     class ImportReadSetSourceItem < Struct.new(
-      :description,
-      :generated_from,
-      :name,
-      :reference_arn,
-      :sample_id,
-      :source_file_type,
       :source_files,
+      :source_file_type,
       :status,
       :status_message,
       :subject_id,
-      :tags)
+      :sample_id,
+      :generated_from,
+      :reference_arn,
+      :name,
+      :description,
+      :tags,
+      :read_set_id)
       SENSITIVE = []
       include Aws::Structure
     end
 
     # A filter for import references.
+    #
+    # @!attribute [rw] status
+    #   A status to filter on.
+    #   @return [String]
     #
     # @!attribute [rw] created_after
     #   The filter's start date.
@@ -2500,29 +3693,17 @@ module Aws::Omics
     #   The filter's end date.
     #   @return [Time]
     #
-    # @!attribute [rw] status
-    #   A status to filter on.
-    #   @return [String]
-    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/ImportReferenceFilter AWS API Documentation
     #
     class ImportReferenceFilter < Struct.new(
+      :status,
       :created_after,
-      :created_before,
-      :status)
+      :created_before)
       SENSITIVE = []
       include Aws::Structure
     end
 
     # An import reference job.
-    #
-    # @!attribute [rw] completion_time
-    #   When the job completed.
-    #   @return [Time]
-    #
-    # @!attribute [rw] creation_time
-    #   When the job was created.
-    #   @return [Time]
     #
     # @!attribute [rw] id
     #   The job's ID.
@@ -2540,28 +3721,28 @@ module Aws::Omics
     #   The job's status.
     #   @return [String]
     #
+    # @!attribute [rw] creation_time
+    #   When the job was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] completion_time
+    #   When the job completed.
+    #   @return [Time]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/ImportReferenceJobItem AWS API Documentation
     #
     class ImportReferenceJobItem < Struct.new(
-      :completion_time,
-      :creation_time,
       :id,
       :reference_store_id,
       :role_arn,
-      :status)
+      :status,
+      :creation_time,
+      :completion_time)
       SENSITIVE = []
       include Aws::Structure
     end
 
     # An genome reference source.
-    #
-    # @!attribute [rw] description
-    #   The source's description.
-    #   @return [String]
-    #
-    # @!attribute [rw] name
-    #   The source's name.
-    #   @return [String]
     #
     # @!attribute [rw] source_file
     #   The source file's location in Amazon S3.
@@ -2575,19 +3756,32 @@ module Aws::Omics
     #   The source's status message.
     #   @return [String]
     #
+    # @!attribute [rw] name
+    #   The source's name.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The source's description.
+    #   @return [String]
+    #
     # @!attribute [rw] tags
     #   The source's tags.
     #   @return [Hash<String,String>]
     #
+    # @!attribute [rw] reference_id
+    #   The source's reference ID.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/ImportReferenceSourceItem AWS API Documentation
     #
     class ImportReferenceSourceItem < Struct.new(
-      :description,
-      :name,
       :source_file,
       :status,
       :status_message,
-      :tags)
+      :name,
+      :description,
+      :tags,
+      :reference_id)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2624,30 +3818,30 @@ module Aws::Omics
       include Aws::Structure
     end
 
-    # @!attribute [rw] filter
-    #   A filter to apply to the list.
-    #   @return [Types::ListAnnotationImportJobsFilter]
+    # @!attribute [rw] max_results
+    #   The maximum number of jobs to return in one page of results.
+    #   @return [Integer]
     #
     # @!attribute [rw] ids
     #   IDs of annotation import jobs to retrieve.
     #   @return [Array<String>]
     #
-    # @!attribute [rw] max_results
-    #   The maximum number of jobs to return in one page of results.
-    #   @return [Integer]
-    #
     # @!attribute [rw] next_token
-    #   Specify the pagination token from a previous request to retrieve the
-    #   next page of results.
+    #   Specifies the pagination token from a previous request to retrieve
+    #   the next page of results.
     #   @return [String]
+    #
+    # @!attribute [rw] filter
+    #   A filter to apply to the list.
+    #   @return [Types::ListAnnotationImportJobsFilter]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/ListAnnotationImportJobsRequest AWS API Documentation
     #
     class ListAnnotationImportJobsRequest < Struct.new(
-      :filter,
-      :ids,
       :max_results,
-      :next_token)
+      :ids,
+      :next_token,
+      :filter)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2657,13 +3851,76 @@ module Aws::Omics
     #   @return [Array<Types::AnnotationImportJobItem>]
     #
     # @!attribute [rw] next_token
-    #   A pagination token that's included if more results are available.
+    #   Specifies the pagination token from a previous request to retrieve
+    #   the next page of results.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/ListAnnotationImportJobsResponse AWS API Documentation
     #
     class ListAnnotationImportJobsResponse < Struct.new(
       :annotation_import_jobs,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Use filters to focus the returned annotation store versions on a
+    # specific parameter, such as the status of the annotation store.
+    #
+    # @!attribute [rw] status
+    #   The status of an annotation store version.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/ListAnnotationStoreVersionsFilter AWS API Documentation
+    #
+    class ListAnnotationStoreVersionsFilter < Struct.new(
+      :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] name
+    #   The name of an annotation store.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of annotation store versions to return in one
+    #   page of results.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   Specifies the pagination token from a previous request to retrieve
+    #   the next page of results.
+    #   @return [String]
+    #
+    # @!attribute [rw] filter
+    #   A filter to apply to the list of annotation store versions.
+    #   @return [Types::ListAnnotationStoreVersionsFilter]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/ListAnnotationStoreVersionsRequest AWS API Documentation
+    #
+    class ListAnnotationStoreVersionsRequest < Struct.new(
+      :name,
+      :max_results,
+      :next_token,
+      :filter)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] annotation_store_versions
+    #   Lists all versions of an annotation store.
+    #   @return [Array<Types::AnnotationStoreVersionItem>]
+    #
+    # @!attribute [rw] next_token
+    #   Specifies the pagination token from a previous request to retrieve
+    #   the next page of results.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/ListAnnotationStoreVersionsResponse AWS API Documentation
+    #
+    class ListAnnotationStoreVersionsResponse < Struct.new(
+      :annotation_store_versions,
       :next_token)
       SENSITIVE = []
       include Aws::Structure
@@ -2683,10 +3940,6 @@ module Aws::Omics
       include Aws::Structure
     end
 
-    # @!attribute [rw] filter
-    #   A filter to apply to the list.
-    #   @return [Types::ListAnnotationStoresFilter]
-    #
     # @!attribute [rw] ids
     #   IDs of stores to list.
     #   @return [Array<String>]
@@ -2700,13 +3953,17 @@ module Aws::Omics
     #   next page of results.
     #   @return [String]
     #
+    # @!attribute [rw] filter
+    #   A filter to apply to the list.
+    #   @return [Types::ListAnnotationStoresFilter]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/ListAnnotationStoresRequest AWS API Documentation
     #
     class ListAnnotationStoresRequest < Struct.new(
-      :filter,
       :ids,
       :max_results,
-      :next_token)
+      :next_token,
+      :filter)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2728,9 +3985,52 @@ module Aws::Omics
       include Aws::Structure
     end
 
-    # @!attribute [rw] filter
-    #   A filter to apply to the list.
-    #   @return [Types::ActivateReadSetFilter]
+    # @!attribute [rw] sequence_store_id
+    #   The Sequence Store ID used for the multipart uploads.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of multipart uploads returned in a page.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   Next token returned in the response of a previous
+    #   ListMultipartReadSetUploads call. Used to get the next page of
+    #   results.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/ListMultipartReadSetUploadsRequest AWS API Documentation
+    #
+    class ListMultipartReadSetUploadsRequest < Struct.new(
+      :sequence_store_id,
+      :max_results,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] next_token
+    #   Next token returned in the response of a previous
+    #   ListMultipartReadSetUploads call. Used to get the next page of
+    #   results.
+    #   @return [String]
+    #
+    # @!attribute [rw] uploads
+    #   An array of multipart uploads.
+    #   @return [Array<Types::MultipartReadSetUploadListItem>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/ListMultipartReadSetUploadsResponse AWS API Documentation
+    #
+    class ListMultipartReadSetUploadsResponse < Struct.new(
+      :next_token,
+      :uploads)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] sequence_store_id
+    #   The read set's sequence store ID.
+    #   @return [String]
     #
     # @!attribute [rw] max_results
     #   The maximum number of read set activation jobs to return in one page
@@ -2742,87 +4042,83 @@ module Aws::Omics
     #   next page of results.
     #   @return [String]
     #
-    # @!attribute [rw] sequence_store_id
-    #   The read set's sequence store ID.
-    #   @return [String]
+    # @!attribute [rw] filter
+    #   A filter to apply to the list.
+    #   @return [Types::ActivateReadSetFilter]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/ListReadSetActivationJobsRequest AWS API Documentation
     #
     class ListReadSetActivationJobsRequest < Struct.new(
-      :filter,
+      :sequence_store_id,
       :max_results,
       :next_token,
-      :sequence_store_id)
+      :filter)
       SENSITIVE = []
       include Aws::Structure
     end
 
+    # @!attribute [rw] next_token
+    #   A pagination token that's included if more results are available.
+    #   @return [String]
+    #
     # @!attribute [rw] activation_jobs
     #   A list of jobs.
     #   @return [Array<Types::ActivateReadSetJobItem>]
     #
-    # @!attribute [rw] next_token
-    #   A pagination token that's included if more results are available.
-    #   @return [String]
-    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/ListReadSetActivationJobsResponse AWS API Documentation
     #
     class ListReadSetActivationJobsResponse < Struct.new(
-      :activation_jobs,
-      :next_token)
+      :next_token,
+      :activation_jobs)
       SENSITIVE = []
       include Aws::Structure
     end
 
+    # @!attribute [rw] sequence_store_id
+    #   The jobs' sequence store ID.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of jobs to return in one page of results.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   Specify the pagination token from a previous request to retrieve the
+    #   next page of results.
+    #   @return [String]
+    #
     # @!attribute [rw] filter
     #   A filter to apply to the list.
     #   @return [Types::ExportReadSetFilter]
     #
-    # @!attribute [rw] max_results
-    #   The maximum number of jobs to return in one page of results.
-    #   @return [Integer]
-    #
-    # @!attribute [rw] next_token
-    #   Specify the pagination token from a previous request to retrieve the
-    #   next page of results.
-    #   @return [String]
-    #
-    # @!attribute [rw] sequence_store_id
-    #   The jobs' sequence store ID.
-    #   @return [String]
-    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/ListReadSetExportJobsRequest AWS API Documentation
     #
     class ListReadSetExportJobsRequest < Struct.new(
-      :filter,
+      :sequence_store_id,
       :max_results,
       :next_token,
-      :sequence_store_id)
+      :filter)
       SENSITIVE = []
       include Aws::Structure
     end
 
+    # @!attribute [rw] next_token
+    #   A pagination token that's included if more results are available.
+    #   @return [String]
+    #
     # @!attribute [rw] export_jobs
     #   A list of jobs.
     #   @return [Array<Types::ExportReadSetJobDetail>]
     #
-    # @!attribute [rw] next_token
-    #   A pagination token that's included if more results are available.
-    #   @return [String]
-    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/ListReadSetExportJobsResponse AWS API Documentation
     #
     class ListReadSetExportJobsResponse < Struct.new(
-      :export_jobs,
-      :next_token)
+      :next_token,
+      :export_jobs)
       SENSITIVE = []
       include Aws::Structure
     end
 
-    # @!attribute [rw] filter
-    #   A filter to apply to the list.
-    #   @return [Types::ImportReadSetFilter]
-    #
     # @!attribute [rw] max_results
     #   The maximum number of jobs to return in one page of results.
     #   @return [Integer]
@@ -2836,37 +4132,99 @@ module Aws::Omics
     #   The jobs' sequence store ID.
     #   @return [String]
     #
+    # @!attribute [rw] filter
+    #   A filter to apply to the list.
+    #   @return [Types::ImportReadSetFilter]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/ListReadSetImportJobsRequest AWS API Documentation
     #
     class ListReadSetImportJobsRequest < Struct.new(
-      :filter,
       :max_results,
       :next_token,
-      :sequence_store_id)
+      :sequence_store_id,
+      :filter)
       SENSITIVE = []
       include Aws::Structure
     end
 
-    # @!attribute [rw] import_jobs
-    #   A list of jobs.
-    #   @return [Array<Types::ImportReadSetJobItem>]
-    #
     # @!attribute [rw] next_token
     #   A pagination token that's included if more results are available.
     #   @return [String]
     #
+    # @!attribute [rw] import_jobs
+    #   A list of jobs.
+    #   @return [Array<Types::ImportReadSetJobItem>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/ListReadSetImportJobsResponse AWS API Documentation
     #
     class ListReadSetImportJobsResponse < Struct.new(
-      :import_jobs,
-      :next_token)
+      :next_token,
+      :import_jobs)
       SENSITIVE = []
       include Aws::Structure
     end
 
+    # @!attribute [rw] sequence_store_id
+    #   The Sequence Store ID used for the multipart uploads.
+    #   @return [String]
+    #
+    # @!attribute [rw] upload_id
+    #   The ID for the initiated multipart upload.
+    #   @return [String]
+    #
+    # @!attribute [rw] part_source
+    #   The source file for the upload part.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of read set upload parts returned in a page.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   Next token returned in the response of a previous
+    #   ListReadSetUploadPartsRequest call. Used to get the next page of
+    #   results.
+    #   @return [String]
+    #
     # @!attribute [rw] filter
-    #   A filter to apply to the list.
-    #   @return [Types::ReadSetFilter]
+    #   Attributes used to filter for a specific subset of read set part
+    #   uploads.
+    #   @return [Types::ReadSetUploadPartListFilter]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/ListReadSetUploadPartsRequest AWS API Documentation
+    #
+    class ListReadSetUploadPartsRequest < Struct.new(
+      :sequence_store_id,
+      :upload_id,
+      :part_source,
+      :max_results,
+      :next_token,
+      :filter)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] next_token
+    #   Next token returned in the response of a previous
+    #   ListReadSetUploadParts call. Used to get the next page of results.
+    #   @return [String]
+    #
+    # @!attribute [rw] parts
+    #   An array of upload parts.
+    #   @return [Array<Types::ReadSetUploadPartListItem>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/ListReadSetUploadPartsResponse AWS API Documentation
+    #
+    class ListReadSetUploadPartsResponse < Struct.new(
+      :next_token,
+      :parts)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] sequence_store_id
+    #   The jobs' sequence store ID.
+    #   @return [String]
     #
     # @!attribute [rw] max_results
     #   The maximum number of read sets to return in one page of results.
@@ -2877,17 +4235,17 @@ module Aws::Omics
     #   next page of results.
     #   @return [String]
     #
-    # @!attribute [rw] sequence_store_id
-    #   The jobs' sequence store ID.
-    #   @return [String]
+    # @!attribute [rw] filter
+    #   A filter to apply to the list.
+    #   @return [Types::ReadSetFilter]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/ListReadSetsRequest AWS API Documentation
     #
     class ListReadSetsRequest < Struct.new(
-      :filter,
+      :sequence_store_id,
       :max_results,
       :next_token,
-      :sequence_store_id)
+      :filter)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2909,10 +4267,6 @@ module Aws::Omics
       include Aws::Structure
     end
 
-    # @!attribute [rw] filter
-    #   A filter to apply to the list.
-    #   @return [Types::ImportReferenceFilter]
-    #
     # @!attribute [rw] max_results
     #   The maximum number of jobs to return in one page of results.
     #   @return [Integer]
@@ -2926,38 +4280,38 @@ module Aws::Omics
     #   The job's reference store ID.
     #   @return [String]
     #
+    # @!attribute [rw] filter
+    #   A filter to apply to the list.
+    #   @return [Types::ImportReferenceFilter]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/ListReferenceImportJobsRequest AWS API Documentation
     #
     class ListReferenceImportJobsRequest < Struct.new(
-      :filter,
       :max_results,
       :next_token,
-      :reference_store_id)
+      :reference_store_id,
+      :filter)
       SENSITIVE = []
       include Aws::Structure
     end
 
-    # @!attribute [rw] import_jobs
-    #   A lis of jobs.
-    #   @return [Array<Types::ImportReferenceJobItem>]
-    #
     # @!attribute [rw] next_token
     #   A pagination token that's included if more results are available.
     #   @return [String]
     #
+    # @!attribute [rw] import_jobs
+    #   A lis of jobs.
+    #   @return [Array<Types::ImportReferenceJobItem>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/ListReferenceImportJobsResponse AWS API Documentation
     #
     class ListReferenceImportJobsResponse < Struct.new(
-      :import_jobs,
-      :next_token)
+      :next_token,
+      :import_jobs)
       SENSITIVE = []
       include Aws::Structure
     end
 
-    # @!attribute [rw] filter
-    #   A filter to apply to the list.
-    #   @return [Types::ReferenceStoreFilter]
-    #
     # @!attribute [rw] max_results
     #   The maximum number of stores to return in one page of results.
     #   @return [Integer]
@@ -2967,12 +4321,16 @@ module Aws::Omics
     #   next page of results.
     #   @return [String]
     #
+    # @!attribute [rw] filter
+    #   A filter to apply to the list.
+    #   @return [Types::ReferenceStoreFilter]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/ListReferenceStoresRequest AWS API Documentation
     #
     class ListReferenceStoresRequest < Struct.new(
-      :filter,
       :max_results,
-      :next_token)
+      :next_token,
+      :filter)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2994,9 +4352,9 @@ module Aws::Omics
       include Aws::Structure
     end
 
-    # @!attribute [rw] filter
-    #   A filter to apply to the list.
-    #   @return [Types::ReferenceFilter]
+    # @!attribute [rw] reference_store_id
+    #   The references' reference store ID.
+    #   @return [String]
     #
     # @!attribute [rw] max_results
     #   The maximum number of references to return in one page of results.
@@ -3007,17 +4365,17 @@ module Aws::Omics
     #   next page of results.
     #   @return [String]
     #
-    # @!attribute [rw] reference_store_id
-    #   The references' reference store ID.
-    #   @return [String]
+    # @!attribute [rw] filter
+    #   A filter to apply to the list.
+    #   @return [Types::ReferenceFilter]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/ListReferencesRequest AWS API Documentation
     #
     class ListReferencesRequest < Struct.new(
-      :filter,
+      :reference_store_id,
       :max_results,
       :next_token,
-      :reference_store_id)
+      :filter)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3040,9 +4398,42 @@ module Aws::Omics
     end
 
     # @!attribute [rw] max_results
-    #   The maximum number of run groups to return in one page of results.
+    #   The maximum number of results to return.
     #   @return [Integer]
     #
+    # @!attribute [rw] starting_token
+    #   Optional pagination token returned from a prior call to the
+    #   `ListRunCaches` API operation.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/ListRunCachesRequest AWS API Documentation
+    #
+    class ListRunCachesRequest < Struct.new(
+      :max_results,
+      :starting_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] items
+    #   Details about each run cache in the response.
+    #   @return [Array<Types::RunCacheListItem>]
+    #
+    # @!attribute [rw] next_token
+    #   Pagination token to retrieve additional run caches. If the response
+    #   does not have a `nextToken`value, you have reached to the end of the
+    #   list.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/ListRunCachesResponse AWS API Documentation
+    #
+    class ListRunCachesResponse < Struct.new(
+      :items,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] name
     #   The run groups' name.
     #   @return [String]
@@ -3052,12 +4443,16 @@ module Aws::Omics
     #   next page of results.
     #   @return [String]
     #
+    # @!attribute [rw] max_results
+    #   The maximum number of run groups to return in one page of results.
+    #   @return [Integer]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/ListRunGroupsRequest AWS API Documentation
     #
     class ListRunGroupsRequest < Struct.new(
-      :max_results,
       :name,
-      :starting_token)
+      :starting_token,
+      :max_results)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3083,26 +4478,26 @@ module Aws::Omics
     #   The run's ID.
     #   @return [String]
     #
-    # @!attribute [rw] max_results
-    #   The maximum number of run tasks to return in one page of results.
-    #   @return [Integer]
+    # @!attribute [rw] status
+    #   Filter the list by status.
+    #   @return [String]
     #
     # @!attribute [rw] starting_token
     #   Specify the pagination token from a previous request to retrieve the
     #   next page of results.
     #   @return [String]
     #
-    # @!attribute [rw] status
-    #   Filter the list by status.
-    #   @return [String]
+    # @!attribute [rw] max_results
+    #   The maximum number of run tasks to return in one page of results.
+    #   @return [Integer]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/ListRunTasksRequest AWS API Documentation
     #
     class ListRunTasksRequest < Struct.new(
       :id,
-      :max_results,
+      :status,
       :starting_token,
-      :status)
+      :max_results)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3124,10 +4519,6 @@ module Aws::Omics
       include Aws::Structure
     end
 
-    # @!attribute [rw] max_results
-    #   The maximum number of runs to return in one page of results.
-    #   @return [Integer]
-    #
     # @!attribute [rw] name
     #   Filter the list by run name.
     #   @return [String]
@@ -3141,13 +4532,22 @@ module Aws::Omics
     #   next page of results.
     #   @return [String]
     #
+    # @!attribute [rw] max_results
+    #   The maximum number of runs to return in one page of results.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] status
+    #   The status of a run.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/ListRunsRequest AWS API Documentation
     #
     class ListRunsRequest < Struct.new(
-      :max_results,
       :name,
       :run_group_id,
-      :starting_token)
+      :starting_token,
+      :max_results,
+      :status)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3169,10 +4569,6 @@ module Aws::Omics
       include Aws::Structure
     end
 
-    # @!attribute [rw] filter
-    #   A filter to apply to the list.
-    #   @return [Types::SequenceStoreFilter]
-    #
     # @!attribute [rw] max_results
     #   The maximum number of stores to return in one page of results.
     #   @return [Integer]
@@ -3182,12 +4578,16 @@ module Aws::Omics
     #   next page of results.
     #   @return [String]
     #
+    # @!attribute [rw] filter
+    #   A filter to apply to the list.
+    #   @return [Types::SequenceStoreFilter]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/ListSequenceStoresRequest AWS API Documentation
     #
     class ListSequenceStoresRequest < Struct.new(
-      :filter,
       :max_results,
-      :next_token)
+      :next_token,
+      :filter)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3205,6 +4605,54 @@ module Aws::Omics
     class ListSequenceStoresResponse < Struct.new(
       :next_token,
       :sequence_stores)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] resource_owner
+    #   The account that owns the resource shares.
+    #   @return [String]
+    #
+    # @!attribute [rw] filter
+    #   Attributes that you use to filter for a specific subset of resource
+    #   shares.
+    #   @return [Types::Filter]
+    #
+    # @!attribute [rw] next_token
+    #   Next token returned in the response of a previous
+    #   ListReadSetUploadPartsRequest call. Used to get the next page of
+    #   results.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of shares to return in one page of results.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/ListSharesRequest AWS API Documentation
+    #
+    class ListSharesRequest < Struct.new(
+      :resource_owner,
+      :filter,
+      :next_token,
+      :max_results)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] shares
+    #   The shares available and their metadata details.
+    #   @return [Array<Types::ShareDetails>]
+    #
+    # @!attribute [rw] next_token
+    #   Next token returned in the response of a previous ListSharesResponse
+    #   call. Used to get the next page of results.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/ListSharesResponse AWS API Documentation
+    #
+    class ListSharesResponse < Struct.new(
+      :shares,
+      :next_token)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3252,47 +4700,47 @@ module Aws::Omics
       include Aws::Structure
     end
 
-    # @!attribute [rw] filter
-    #   A filter to apply to the list.
-    #   @return [Types::ListVariantImportJobsFilter]
+    # @!attribute [rw] max_results
+    #   The maximum number of import jobs to return in one page of results.
+    #   @return [Integer]
     #
     # @!attribute [rw] ids
     #   A list of job IDs.
     #   @return [Array<String>]
-    #
-    # @!attribute [rw] max_results
-    #   The maximum number of import jobs to return in one page of results.
-    #   @return [Integer]
     #
     # @!attribute [rw] next_token
     #   Specify the pagination token from a previous request to retrieve the
     #   next page of results.
     #   @return [String]
     #
+    # @!attribute [rw] filter
+    #   A filter to apply to the list.
+    #   @return [Types::ListVariantImportJobsFilter]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/ListVariantImportJobsRequest AWS API Documentation
     #
     class ListVariantImportJobsRequest < Struct.new(
-      :filter,
-      :ids,
       :max_results,
-      :next_token)
+      :ids,
+      :next_token,
+      :filter)
       SENSITIVE = []
       include Aws::Structure
     end
 
-    # @!attribute [rw] next_token
-    #   A pagination token that's included if more results are available.
-    #   @return [String]
-    #
     # @!attribute [rw] variant_import_jobs
     #   A list of jobs.
     #   @return [Array<Types::VariantImportJobItem>]
     #
+    # @!attribute [rw] next_token
+    #   A pagination token that's included if more results are available.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/ListVariantImportJobsResponse AWS API Documentation
     #
     class ListVariantImportJobsResponse < Struct.new(
-      :next_token,
-      :variant_import_jobs)
+      :variant_import_jobs,
+      :next_token)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3311,57 +4759,57 @@ module Aws::Omics
       include Aws::Structure
     end
 
-    # @!attribute [rw] filter
-    #   A filter to apply to the list.
-    #   @return [Types::ListVariantStoresFilter]
+    # @!attribute [rw] max_results
+    #   The maximum number of stores to return in one page of results.
+    #   @return [Integer]
     #
     # @!attribute [rw] ids
     #   A list of store IDs.
     #   @return [Array<String>]
-    #
-    # @!attribute [rw] max_results
-    #   The maximum number of stores to return in one page of results.
-    #   @return [Integer]
     #
     # @!attribute [rw] next_token
     #   Specify the pagination token from a previous request to retrieve the
     #   next page of results.
     #   @return [String]
     #
+    # @!attribute [rw] filter
+    #   A filter to apply to the list.
+    #   @return [Types::ListVariantStoresFilter]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/ListVariantStoresRequest AWS API Documentation
     #
     class ListVariantStoresRequest < Struct.new(
-      :filter,
-      :ids,
       :max_results,
+      :ids,
+      :next_token,
+      :filter)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] variant_stores
+    #   A list of variant stores.
+    #   @return [Array<Types::VariantStoreItem>]
+    #
+    # @!attribute [rw] next_token
+    #   A pagination token that's included if more results are available.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/ListVariantStoresResponse AWS API Documentation
+    #
+    class ListVariantStoresResponse < Struct.new(
+      :variant_stores,
       :next_token)
       SENSITIVE = []
       include Aws::Structure
     end
 
-    # @!attribute [rw] next_token
-    #   A pagination token that's included if more results are available.
+    # @!attribute [rw] type
+    #   Filter the list by workflow type.
     #   @return [String]
     #
-    # @!attribute [rw] variant_stores
-    #   A list of variant stores.
-    #   @return [Array<Types::VariantStoreItem>]
-    #
-    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/ListVariantStoresResponse AWS API Documentation
-    #
-    class ListVariantStoresResponse < Struct.new(
-      :next_token,
-      :variant_stores)
-      SENSITIVE = []
-      include Aws::Structure
-    end
-
-    # @!attribute [rw] max_results
-    #   The maximum number of workflows to return in one page of results.
-    #   @return [Integer]
-    #
     # @!attribute [rw] name
-    #   The workflows' name.
+    #   Filter the list by workflow name.
     #   @return [String]
     #
     # @!attribute [rw] starting_token
@@ -3369,23 +4817,23 @@ module Aws::Omics
     #   next page of results.
     #   @return [String]
     #
-    # @!attribute [rw] type
-    #   The workflows' type.
-    #   @return [String]
+    # @!attribute [rw] max_results
+    #   The maximum number of workflows to return in one page of results.
+    #   @return [Integer]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/ListWorkflowsRequest AWS API Documentation
     #
     class ListWorkflowsRequest < Struct.new(
-      :max_results,
+      :type,
       :name,
       :starting_token,
-      :type)
+      :max_results)
       SENSITIVE = []
       include Aws::Structure
     end
 
     # @!attribute [rw] items
-    #   The workflows' items.
+    #   A list of workflow items.
     #   @return [Array<Types::WorkflowListItem>]
     #
     # @!attribute [rw] next_token
@@ -3397,6 +4845,124 @@ module Aws::Omics
     class ListWorkflowsResponse < Struct.new(
       :items,
       :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Part of the response to ListMultipartReadSetUploads, excluding
+    # completed and aborted multipart uploads.
+    #
+    # @!attribute [rw] sequence_store_id
+    #   The sequence store ID used for the multipart upload.
+    #   @return [String]
+    #
+    # @!attribute [rw] upload_id
+    #   The ID for the initiated multipart upload.
+    #   @return [String]
+    #
+    # @!attribute [rw] source_file_type
+    #   The type of file the read set originated from.
+    #   @return [String]
+    #
+    # @!attribute [rw] subject_id
+    #   The read set source's subject ID.
+    #   @return [String]
+    #
+    # @!attribute [rw] sample_id
+    #   The read set source's sample ID.
+    #   @return [String]
+    #
+    # @!attribute [rw] generated_from
+    #   The source of an uploaded part.
+    #   @return [String]
+    #
+    # @!attribute [rw] reference_arn
+    #   The source's reference ARN.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of a read set.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of a read set.
+    #   @return [String]
+    #
+    # @!attribute [rw] tags
+    #   Any tags you wish to add to a read set.
+    #   @return [Hash<String,String>]
+    #
+    # @!attribute [rw] creation_time
+    #   The time stamp for when a direct upload was created.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/MultipartReadSetUploadListItem AWS API Documentation
+    #
+    class MultipartReadSetUploadListItem < Struct.new(
+      :sequence_store_id,
+      :upload_id,
+      :source_file_type,
+      :subject_id,
+      :sample_id,
+      :generated_from,
+      :reference_arn,
+      :name,
+      :description,
+      :tags,
+      :creation_time)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The operation is not supported by Amazon Omics, or the API does not
+    # exist.
+    #
+    # @!attribute [rw] message
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/NotSupportedOperationException AWS API Documentation
+    #
+    class NotSupportedOperationException < Struct.new(
+      :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] s3_access_point_arn
+    #   The S3 access point ARN where you want to put the access policy.
+    #   @return [String]
+    #
+    # @!attribute [rw] s3_access_policy
+    #   The resource policy that controls S3 access to the store.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/PutS3AccessPolicyRequest AWS API Documentation
+    #
+    class PutS3AccessPolicyRequest < Struct.new(
+      :s3_access_point_arn,
+      :s3_access_policy)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] s3_access_point_arn
+    #   The S3 access point ARN that now has the access policy.
+    #   @return [String]
+    #
+    # @!attribute [rw] store_id
+    #   The AWS-generated Sequence Store or Reference Store ID.
+    #   @return [String]
+    #
+    # @!attribute [rw] store_type
+    #   The type of store associated with the access point.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/PutS3AccessPolicyResponse AWS API Documentation
+    #
+    class PutS3AccessPolicyResponse < Struct.new(
+      :s3_access_point_arn,
+      :store_id,
+      :store_type)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3416,28 +4982,12 @@ module Aws::Omics
 
     # Read options for an annotation import job.
     #
-    # @!attribute [rw] comment
-    #   The file's comment character.
+    # @!attribute [rw] sep
+    #   The file's field separator.
     #   @return [String]
     #
     # @!attribute [rw] encoding
     #   The file's encoding.
-    #   @return [String]
-    #
-    # @!attribute [rw] escape
-    #   A character for escaping quotes in the file.
-    #   @return [String]
-    #
-    # @!attribute [rw] escape_quotes
-    #   Whether quotes need to be escaped in the file.
-    #   @return [Boolean]
-    #
-    # @!attribute [rw] header
-    #   Whether the file has a header row.
-    #   @return [Boolean]
-    #
-    # @!attribute [rw] line_sep
-    #   A line separator for the file.
     #   @return [String]
     #
     # @!attribute [rw] quote
@@ -3449,34 +4999,50 @@ module Aws::Omics
     #   quotes.
     #   @return [Boolean]
     #
-    # @!attribute [rw] sep
-    #   The file's field separator.
+    # @!attribute [rw] escape
+    #   A character for escaping quotes in the file.
+    #   @return [String]
+    #
+    # @!attribute [rw] escape_quotes
+    #   Whether quotes need to be escaped in the file.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] comment
+    #   The file's comment character.
+    #   @return [String]
+    #
+    # @!attribute [rw] header
+    #   Whether the file has a header row.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] line_sep
+    #   A line separator for the file.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/ReadOptions AWS API Documentation
     #
     class ReadOptions < Struct.new(
-      :comment,
+      :sep,
       :encoding,
-      :escape,
-      :escape_quotes,
-      :header,
-      :line_sep,
       :quote,
       :quote_all,
-      :sep)
+      :escape,
+      :escape_quotes,
+      :comment,
+      :header,
+      :line_sep)
       SENSITIVE = []
       include Aws::Structure
     end
 
     # An error from a batch read set operation.
     #
-    # @!attribute [rw] code
-    #   The error's code.
-    #   @return [String]
-    #
     # @!attribute [rw] id
     #   The error's ID.
+    #   @return [String]
+    #
+    # @!attribute [rw] code
+    #   The error's code.
     #   @return [String]
     #
     # @!attribute [rw] message
@@ -3486,18 +5052,14 @@ module Aws::Omics
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/ReadSetBatchError AWS API Documentation
     #
     class ReadSetBatchError < Struct.new(
-      :code,
       :id,
+      :code,
       :message)
       SENSITIVE = []
       include Aws::Structure
     end
 
     # Files in a read set.
-    #
-    # @!attribute [rw] index
-    #   The files' index.
-    #   @return [Types::FileInformation]
     #
     # @!attribute [rw] source1
     #   The location of the first file in Amazon S3.
@@ -3507,139 +5069,33 @@ module Aws::Omics
     #   The location of the second file in Amazon S3.
     #   @return [Types::FileInformation]
     #
+    # @!attribute [rw] index
+    #   The files' index.
+    #   @return [Types::FileInformation]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/ReadSetFiles AWS API Documentation
     #
     class ReadSetFiles < Struct.new(
-      :index,
       :source1,
-      :source2)
+      :source2,
+      :index)
       SENSITIVE = []
       include Aws::Structure
     end
 
     # A filter for read sets.
     #
-    # @!attribute [rw] created_after
-    #   The filter's start date.
-    #   @return [Time]
-    #
-    # @!attribute [rw] created_before
-    #   The filter's end date.
-    #   @return [Time]
-    #
     # @!attribute [rw] name
     #   A name to filter on.
-    #   @return [String]
-    #
-    # @!attribute [rw] reference_arn
-    #   A genome reference ARN to filter on.
     #   @return [String]
     #
     # @!attribute [rw] status
     #   A status to filter on.
     #   @return [String]
     #
-    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/ReadSetFilter AWS API Documentation
-    #
-    class ReadSetFilter < Struct.new(
-      :created_after,
-      :created_before,
-      :name,
-      :reference_arn,
-      :status)
-      SENSITIVE = []
-      include Aws::Structure
-    end
-
-    # A read set.
-    #
-    # @!attribute [rw] arn
-    #   The read set's ARN.
-    #   @return [String]
-    #
-    # @!attribute [rw] creation_time
-    #   When the read set was created.
-    #   @return [Time]
-    #
-    # @!attribute [rw] description
-    #   The read set's description.
-    #   @return [String]
-    #
-    # @!attribute [rw] file_type
-    #   The read set's file type.
-    #   @return [String]
-    #
-    # @!attribute [rw] id
-    #   The read set's ID.
-    #   @return [String]
-    #
-    # @!attribute [rw] name
-    #   The read set's name.
-    #   @return [String]
-    #
     # @!attribute [rw] reference_arn
-    #   The read set's genome reference ARN.
+    #   A genome reference ARN to filter on.
     #   @return [String]
-    #
-    # @!attribute [rw] sample_id
-    #   The read set's sample ID.
-    #   @return [String]
-    #
-    # @!attribute [rw] sequence_information
-    #   Details about a sequence.
-    #   @return [Types::SequenceInformation]
-    #
-    # @!attribute [rw] sequence_store_id
-    #   The read set's sequence store ID.
-    #   @return [String]
-    #
-    # @!attribute [rw] status
-    #   The read set's status.
-    #   @return [String]
-    #
-    # @!attribute [rw] subject_id
-    #   The read set's subject ID.
-    #   @return [String]
-    #
-    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/ReadSetListItem AWS API Documentation
-    #
-    class ReadSetListItem < Struct.new(
-      :arn,
-      :creation_time,
-      :description,
-      :file_type,
-      :id,
-      :name,
-      :reference_arn,
-      :sample_id,
-      :sequence_information,
-      :sequence_store_id,
-      :status,
-      :subject_id)
-      SENSITIVE = []
-      include Aws::Structure
-    end
-
-    # A set of genome reference files.
-    #
-    # @!attribute [rw] index
-    #   The files' index.
-    #   @return [Types::FileInformation]
-    #
-    # @!attribute [rw] source
-    #   The source file's location in Amazon S3.
-    #   @return [Types::FileInformation]
-    #
-    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/ReferenceFiles AWS API Documentation
-    #
-    class ReferenceFiles < Struct.new(
-      :index,
-      :source)
-      SENSITIVE = []
-      include Aws::Structure
-    end
-
-    # A filter for references.
     #
     # @!attribute [rw] created_after
     #   The filter's start date.
@@ -3649,21 +5105,243 @@ module Aws::Omics
     #   The filter's end date.
     #   @return [Time]
     #
-    # @!attribute [rw] md5
-    #   An MD5 checksum to filter on.
+    # @!attribute [rw] sample_id
+    #   The read set source's sample ID.
     #   @return [String]
+    #
+    # @!attribute [rw] subject_id
+    #   The read set source's subject ID.
+    #   @return [String]
+    #
+    # @!attribute [rw] generated_from
+    #   Where the source originated.
+    #   @return [String]
+    #
+    # @!attribute [rw] creation_type
+    #   The creation type of the read set.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/ReadSetFilter AWS API Documentation
+    #
+    class ReadSetFilter < Struct.new(
+      :name,
+      :status,
+      :reference_arn,
+      :created_after,
+      :created_before,
+      :sample_id,
+      :subject_id,
+      :generated_from,
+      :creation_type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A read set.
+    #
+    # @!attribute [rw] id
+    #   The read set's ID.
+    #   @return [String]
+    #
+    # @!attribute [rw] arn
+    #   The read set's ARN.
+    #   @return [String]
+    #
+    # @!attribute [rw] sequence_store_id
+    #   The read set's sequence store ID.
+    #   @return [String]
+    #
+    # @!attribute [rw] subject_id
+    #   The read set's subject ID.
+    #   @return [String]
+    #
+    # @!attribute [rw] sample_id
+    #   The read set's sample ID.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The read set's status.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The read set's name.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The read set's description.
+    #   @return [String]
+    #
+    # @!attribute [rw] reference_arn
+    #   The read set's genome reference ARN.
+    #   @return [String]
+    #
+    # @!attribute [rw] file_type
+    #   The read set's file type.
+    #   @return [String]
+    #
+    # @!attribute [rw] sequence_information
+    #   Details about a sequence.
+    #   @return [Types::SequenceInformation]
+    #
+    # @!attribute [rw] creation_time
+    #   When the read set was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] status_message
+    #   The status for a read set. It provides more detail as to why the
+    #   read set has a status.
+    #   @return [String]
+    #
+    # @!attribute [rw] creation_type
+    #   The creation type of the read set.
+    #   @return [String]
+    #
+    # @!attribute [rw] etag
+    #   The entity tag (ETag) is a hash of the object representing its
+    #   semantic content.
+    #   @return [Types::ETag]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/ReadSetListItem AWS API Documentation
+    #
+    class ReadSetListItem < Struct.new(
+      :id,
+      :arn,
+      :sequence_store_id,
+      :subject_id,
+      :sample_id,
+      :status,
+      :name,
+      :description,
+      :reference_arn,
+      :file_type,
+      :sequence_information,
+      :creation_time,
+      :status_message,
+      :creation_type,
+      :etag)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The S3 URI for each read set file.
+    #
+    # @!attribute [rw] s3_uri
+    #   The S3 URI for each read set file.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/ReadSetS3Access AWS API Documentation
+    #
+    class ReadSetS3Access < Struct.new(
+      :s3_uri)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Filter settings that select for read set upload parts of interest.
+    #
+    # @!attribute [rw] created_after
+    #   Filters for read set uploads after a specified time.
+    #   @return [Time]
+    #
+    # @!attribute [rw] created_before
+    #   Filters for read set part uploads before a specified time.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/ReadSetUploadPartListFilter AWS API Documentation
+    #
+    class ReadSetUploadPartListFilter < Struct.new(
+      :created_after,
+      :created_before)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The metadata of a single part of a file that was added to a multipart
+    # upload. A list of these parts is returned in the response to the
+    # ListReadSetUploadParts API.
+    #
+    # @!attribute [rw] part_number
+    #   The number identifying the part in an upload.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] part_size
+    #   The size of the the part in an upload.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] part_source
+    #   The origin of the part being direct uploaded.
+    #   @return [String]
+    #
+    # @!attribute [rw] checksum
+    #   A unique identifier used to confirm that parts are being added to
+    #   the correct upload.
+    #   @return [String]
+    #
+    # @!attribute [rw] creation_time
+    #   The time stamp for when a direct upload was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] last_updated_time
+    #   The time stamp for the most recent update to an uploaded part.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/ReadSetUploadPartListItem AWS API Documentation
+    #
+    class ReadSetUploadPartListItem < Struct.new(
+      :part_number,
+      :part_size,
+      :part_source,
+      :checksum,
+      :creation_time,
+      :last_updated_time)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A set of genome reference files.
+    #
+    # @!attribute [rw] source
+    #   The source file's location in Amazon S3.
+    #   @return [Types::FileInformation]
+    #
+    # @!attribute [rw] index
+    #   The files' index.
+    #   @return [Types::FileInformation]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/ReferenceFiles AWS API Documentation
+    #
+    class ReferenceFiles < Struct.new(
+      :source,
+      :index)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A filter for references.
     #
     # @!attribute [rw] name
     #   A name to filter on.
     #   @return [String]
     #
+    # @!attribute [rw] md5
+    #   An MD5 checksum to filter on.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_after
+    #   The filter's start date.
+    #   @return [Time]
+    #
+    # @!attribute [rw] created_before
+    #   The filter's end date.
+    #   @return [Time]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/ReferenceFilter AWS API Documentation
     #
     class ReferenceFilter < Struct.new(
-      :created_after,
-      :created_before,
+      :name,
       :md5,
-      :name)
+      :created_after,
+      :created_before)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3693,37 +5371,37 @@ module Aws::Omics
 
     # A genome reference.
     #
-    # @!attribute [rw] arn
-    #   The reference's ARN.
-    #   @return [String]
-    #
-    # @!attribute [rw] creation_time
-    #   When the reference was created.
-    #   @return [Time]
-    #
-    # @!attribute [rw] description
-    #   The reference's description.
-    #   @return [String]
-    #
     # @!attribute [rw] id
     #   The reference's ID.
     #   @return [String]
     #
-    # @!attribute [rw] md5
-    #   The reference's MD5 checksum.
-    #   @return [String]
-    #
-    # @!attribute [rw] name
-    #   The reference's name.
+    # @!attribute [rw] arn
+    #   The reference's ARN.
     #   @return [String]
     #
     # @!attribute [rw] reference_store_id
     #   The reference's store ID.
     #   @return [String]
     #
+    # @!attribute [rw] md5
+    #   The reference's MD5 checksum.
+    #   @return [String]
+    #
     # @!attribute [rw] status
     #   The reference's status.
     #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The reference's name.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The reference's description.
+    #   @return [String]
+    #
+    # @!attribute [rw] creation_time
+    #   When the reference was created.
+    #   @return [Time]
     #
     # @!attribute [rw] update_time
     #   When the reference was updated.
@@ -3732,14 +5410,14 @@ module Aws::Omics
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/ReferenceListItem AWS API Documentation
     #
     class ReferenceListItem < Struct.new(
-      :arn,
-      :creation_time,
-      :description,
       :id,
-      :md5,
-      :name,
+      :arn,
       :reference_store_id,
+      :md5,
       :status,
+      :name,
+      :description,
+      :creation_time,
       :update_time)
       SENSITIVE = []
       include Aws::Structure
@@ -3751,14 +5429,6 @@ module Aws::Omics
     #   The store's ARN.
     #   @return [String]
     #
-    # @!attribute [rw] creation_time
-    #   When the store was created.
-    #   @return [Time]
-    #
-    # @!attribute [rw] description
-    #   The store's description.
-    #   @return [String]
-    #
     # @!attribute [rw] id
     #   The store's ID.
     #   @return [String]
@@ -3767,24 +5437,36 @@ module Aws::Omics
     #   The store's name.
     #   @return [String]
     #
+    # @!attribute [rw] description
+    #   The store's description.
+    #   @return [String]
+    #
     # @!attribute [rw] sse_config
     #   The store's server-side encryption (SSE) settings.
     #   @return [Types::SseConfig]
+    #
+    # @!attribute [rw] creation_time
+    #   When the store was created.
+    #   @return [Time]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/ReferenceStoreDetail AWS API Documentation
     #
     class ReferenceStoreDetail < Struct.new(
       :arn,
-      :creation_time,
-      :description,
       :id,
       :name,
-      :sse_config)
+      :description,
+      :sse_config,
+      :creation_time)
       SENSITIVE = []
       include Aws::Structure
     end
 
     # A filter for reference stores.
+    #
+    # @!attribute [rw] name
+    #   The name to filter on.
+    #   @return [String]
     #
     # @!attribute [rw] created_after
     #   The filter's start date.
@@ -3794,16 +5476,12 @@ module Aws::Omics
     #   The filter's end date.
     #   @return [Time]
     #
-    # @!attribute [rw] name
-    #   The name to filter on.
-    #   @return [String]
-    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/ReferenceStoreFilter AWS API Documentation
     #
     class ReferenceStoreFilter < Struct.new(
+      :name,
       :created_after,
-      :created_before,
-      :name)
+      :created_before)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3834,46 +5512,96 @@ module Aws::Omics
       include Aws::Structure
     end
 
+    # List entry for one run cache.
+    #
+    # @!attribute [rw] arn
+    #   Unique resource identifier for the run cache.
+    #   @return [String]
+    #
+    # @!attribute [rw] cache_behavior
+    #   Default cache behavior for the run cache.
+    #   @return [String]
+    #
+    # @!attribute [rw] cache_s3_uri
+    #   The S3 uri for the run cache data.
+    #   @return [String]
+    #
+    # @!attribute [rw] creation_time
+    #   The time that this run cache was created (an ISO 8601 formatted
+    #   string).
+    #   @return [Time]
+    #
+    # @!attribute [rw] id
+    #   The identifier for this run cache.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the run cache.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The run cache status.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/RunCacheListItem AWS API Documentation
+    #
+    class RunCacheListItem < Struct.new(
+      :arn,
+      :cache_behavior,
+      :cache_s3_uri,
+      :creation_time,
+      :id,
+      :name,
+      :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # A run group.
     #
     # @!attribute [rw] arn
     #   The group's ARN.
     #   @return [String]
     #
-    # @!attribute [rw] creation_time
-    #   When the group was created.
-    #   @return [Time]
-    #
     # @!attribute [rw] id
     #   The group's ID.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The group's name.
     #   @return [String]
     #
     # @!attribute [rw] max_cpus
     #   The group's maximum CPU count setting.
     #   @return [Integer]
     #
-    # @!attribute [rw] max_duration
-    #   The group's maximum duration setting.
-    #   @return [Integer]
-    #
     # @!attribute [rw] max_runs
     #   The group's maximum concurrent run setting.
     #   @return [Integer]
     #
-    # @!attribute [rw] name
-    #   The group's name.
-    #   @return [String]
+    # @!attribute [rw] max_duration
+    #   The group's maximum duration setting in minutes.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] creation_time
+    #   When the group was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] max_gpus
+    #   The maximum GPUs that can be used by a run group.
+    #   @return [Integer]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/RunGroupListItem AWS API Documentation
     #
     class RunGroupListItem < Struct.new(
       :arn,
-      :creation_time,
       :id,
+      :name,
       :max_cpus,
-      :max_duration,
       :max_runs,
-      :name)
+      :max_duration,
+      :creation_time,
+      :max_gpus)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3884,12 +5612,16 @@ module Aws::Omics
     #   The run's ARN.
     #   @return [String]
     #
-    # @!attribute [rw] creation_time
-    #   When the run was created.
-    #   @return [Time]
-    #
     # @!attribute [rw] id
     #   The run's ID.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The run's status.
+    #   @return [String]
+    #
+    # @!attribute [rw] workflow_id
+    #   The run's workflow ID.
     #   @return [String]
     #
     # @!attribute [rw] name
@@ -3900,68 +5632,104 @@ module Aws::Omics
     #   The run's priority.
     #   @return [Integer]
     #
+    # @!attribute [rw] storage_capacity
+    #   The run's storage capacity in gibibytes. For dynamic storage, after
+    #   the run has completed, this value is the maximum amount of storage
+    #   used during the run.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] creation_time
+    #   When the run was created.
+    #   @return [Time]
+    #
     # @!attribute [rw] start_time
     #   When the run started.
     #   @return [Time]
-    #
-    # @!attribute [rw] status
-    #   The run's status.
-    #   @return [String]
     #
     # @!attribute [rw] stop_time
     #   When the run stopped.
     #   @return [Time]
     #
-    # @!attribute [rw] storage_capacity
-    #   The run's storage capacity.
-    #   @return [Integer]
-    #
-    # @!attribute [rw] workflow_id
-    #   The run's workflow ID.
+    # @!attribute [rw] storage_type
+    #   The run's storage type.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/RunListItem AWS API Documentation
     #
     class RunListItem < Struct.new(
       :arn,
-      :creation_time,
       :id,
+      :status,
+      :workflow_id,
       :name,
       :priority,
-      :start_time,
-      :status,
-      :stop_time,
       :storage_capacity,
-      :workflow_id)
+      :creation_time,
+      :start_time,
+      :stop_time,
+      :storage_type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The URI for the run log.
+    #
+    # @!attribute [rw] engine_log_stream
+    #   The log stream ARN for the engine log.
+    #   @return [String]
+    #
+    # @!attribute [rw] run_log_stream
+    #   The log stream ARN for the run log.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/RunLogLocation AWS API Documentation
+    #
+    class RunLogLocation < Struct.new(
+      :engine_log_stream,
+      :run_log_stream)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # S3 access configuration parameters.
+    #
+    # @!attribute [rw] access_log_location
+    #   Location of the access logs.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/S3AccessConfig AWS API Documentation
+    #
+    class S3AccessConfig < Struct.new(
+      :access_log_location)
       SENSITIVE = []
       include Aws::Structure
     end
 
     # Details about a sequence.
     #
-    # @!attribute [rw] alignment
-    #   The sequence's alignment setting.
-    #   @return [String]
-    #
-    # @!attribute [rw] generated_from
-    #   Where the sequence originated.
-    #   @return [String]
+    # @!attribute [rw] total_read_count
+    #   The sequence's total read count.
+    #   @return [Integer]
     #
     # @!attribute [rw] total_base_count
     #   The sequence's total base count.
     #   @return [Integer]
     #
-    # @!attribute [rw] total_read_count
-    #   The sequence's total read count.
-    #   @return [Integer]
+    # @!attribute [rw] generated_from
+    #   Where the sequence originated.
+    #   @return [String]
+    #
+    # @!attribute [rw] alignment
+    #   The sequence's alignment setting.
+    #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/SequenceInformation AWS API Documentation
     #
     class SequenceInformation < Struct.new(
-      :alignment,
-      :generated_from,
+      :total_read_count,
       :total_base_count,
-      :total_read_count)
+      :generated_from,
+      :alignment)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3972,14 +5740,6 @@ module Aws::Omics
     #   The store's ARN.
     #   @return [String]
     #
-    # @!attribute [rw] creation_time
-    #   When the store was created.
-    #   @return [Time]
-    #
-    # @!attribute [rw] description
-    #   The store's description.
-    #   @return [String]
-    #
     # @!attribute [rw] id
     #   The store's ID.
     #   @return [String]
@@ -3988,24 +5748,62 @@ module Aws::Omics
     #   The store's name.
     #   @return [String]
     #
+    # @!attribute [rw] description
+    #   The store's description.
+    #   @return [String]
+    #
     # @!attribute [rw] sse_config
     #   The store's server-side encryption (SSE) settings.
     #   @return [Types::SseConfig]
+    #
+    # @!attribute [rw] creation_time
+    #   When the store was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] fallback_location
+    #   An S3 location that is used to store files that have failed a direct
+    #   upload.
+    #   @return [String]
+    #
+    # @!attribute [rw] e_tag_algorithm_family
+    #   The algorithm family of the ETag.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   Status of the sequence store.
+    #   @return [String]
+    #
+    # @!attribute [rw] status_message
+    #   The status message of the sequence store.
+    #   @return [String]
+    #
+    # @!attribute [rw] update_time
+    #   The last-updated time of the Sequence Store.
+    #   @return [Time]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/SequenceStoreDetail AWS API Documentation
     #
     class SequenceStoreDetail < Struct.new(
       :arn,
-      :creation_time,
-      :description,
       :id,
       :name,
-      :sse_config)
+      :description,
+      :sse_config,
+      :creation_time,
+      :fallback_location,
+      :e_tag_algorithm_family,
+      :status,
+      :status_message,
+      :update_time)
       SENSITIVE = []
       include Aws::Structure
     end
 
     # A filter for a sequence store.
+    #
+    # @!attribute [rw] name
+    #   A name to filter on.
+    #   @return [String]
     #
     # @!attribute [rw] created_after
     #   The filter's start date.
@@ -4015,16 +5813,52 @@ module Aws::Omics
     #   The filter's end date.
     #   @return [Time]
     #
-    # @!attribute [rw] name
-    #   A name to filter on.
+    # @!attribute [rw] status
+    #   Filter results based on status.
     #   @return [String]
+    #
+    # @!attribute [rw] updated_after
+    #   Filter results based on stores updated after the specified time.
+    #   @return [Time]
+    #
+    # @!attribute [rw] updated_before
+    #   Filter results based on stores updated before the specified time.
+    #   @return [Time]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/SequenceStoreFilter AWS API Documentation
     #
     class SequenceStoreFilter < Struct.new(
+      :name,
       :created_after,
       :created_before,
-      :name)
+      :status,
+      :updated_after,
+      :updated_before)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The S3 access metadata of the sequence store.
+    #
+    # @!attribute [rw] s3_uri
+    #   The S3 URI of the sequence store.
+    #   @return [String]
+    #
+    # @!attribute [rw] s3_access_point_arn
+    #   This is ARN of the access point associated with the S3 bucket
+    #   storing read sets.
+    #   @return [String]
+    #
+    # @!attribute [rw] access_log_location
+    #   Location of the access logs.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/SequenceStoreS3Access AWS API Documentation
+    #
+    class SequenceStoreS3Access < Struct.new(
+      :s3_uri,
+      :s3_access_point_arn,
+      :access_log_location)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4038,6 +5872,68 @@ module Aws::Omics
     #
     class ServiceQuotaExceededException < Struct.new(
       :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The details of a resource share.
+    #
+    # @!attribute [rw] share_id
+    #   The ID of the resource share.
+    #   @return [String]
+    #
+    # @!attribute [rw] resource_arn
+    #   The Arn of the shared resource.
+    #   @return [String]
+    #
+    # @!attribute [rw] resource_id
+    #   The ID of the shared resource.
+    #   @return [String]
+    #
+    # @!attribute [rw] principal_subscriber
+    #   The principal subscriber is the account that is sharing the
+    #   resource.
+    #   @return [String]
+    #
+    # @!attribute [rw] owner_id
+    #   The account ID for the data owner. The owner creates the resource
+    #   share.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status of the share.
+    #   @return [String]
+    #
+    # @!attribute [rw] status_message
+    #   The status message for a resource share. It provides additional
+    #   details about the share status.
+    #   @return [String]
+    #
+    # @!attribute [rw] share_name
+    #   The name of the resource share.
+    #   @return [String]
+    #
+    # @!attribute [rw] creation_time
+    #   The timestamp of when the resource share was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] update_time
+    #   The timestamp of the resource share update.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/ShareDetails AWS API Documentation
+    #
+    class ShareDetails < Struct.new(
+      :share_id,
+      :resource_arn,
+      :resource_id,
+      :principal_subscriber,
+      :owner_id,
+      :status,
+      :status_message,
+      :share_name,
+      :creation_time,
+      :update_time)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4063,19 +5959,19 @@ module Aws::Omics
 
     # Server-side encryption (SSE) settings for a store.
     #
-    # @!attribute [rw] key_arn
-    #   An encryption key ARN.
-    #   @return [String]
-    #
     # @!attribute [rw] type
     #   The encryption type.
+    #   @return [String]
+    #
+    # @!attribute [rw] key_arn
+    #   An encryption key ARN.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/SseConfig AWS API Documentation
     #
     class SseConfig < Struct.new(
-      :key_arn,
-      :type)
+      :type,
+      :key_arn)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4084,30 +5980,40 @@ module Aws::Omics
     #   A destination annotation store for the job.
     #   @return [String]
     #
-    # @!attribute [rw] format_options
-    #   Formatting options for the annotation file.
-    #   @return [Types::FormatOptions]
+    # @!attribute [rw] role_arn
+    #   A service role for the job.
+    #   @return [String]
     #
     # @!attribute [rw] items
     #   Items to import.
     #   @return [Array<Types::AnnotationImportItemSource>]
     #
-    # @!attribute [rw] role_arn
-    #   A service role for the job.
+    # @!attribute [rw] version_name
+    #   The name of the annotation store version.
     #   @return [String]
+    #
+    # @!attribute [rw] format_options
+    #   Formatting options for the annotation file.
+    #   @return [Types::FormatOptions]
     #
     # @!attribute [rw] run_left_normalization
     #   The job's left normalization setting.
     #   @return [Boolean]
     #
+    # @!attribute [rw] annotation_fields
+    #   The annotation schema generated by the parsed annotation data.
+    #   @return [Hash<String,String>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/StartAnnotationImportRequest AWS API Documentation
     #
     class StartAnnotationImportRequest < Struct.new(
       :destination_name,
-      :format_options,
-      :items,
       :role_arn,
-      :run_left_normalization)
+      :items,
+      :version_name,
+      :format_options,
+      :run_left_normalization,
+      :annotation_fields)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4124,33 +6030,29 @@ module Aws::Omics
       include Aws::Structure
     end
 
+    # @!attribute [rw] sequence_store_id
+    #   The read set's sequence store ID.
+    #   @return [String]
+    #
     # @!attribute [rw] client_token
     #   To ensure that jobs don't run multiple times, specify a unique
     #   token for each job.
     #   @return [String]
     #
-    # @!attribute [rw] sequence_store_id
-    #   The read set's sequence store ID.
-    #   @return [String]
-    #
     # @!attribute [rw] sources
-    #   The job's sources.
+    #   The job's source files.
     #   @return [Array<Types::StartReadSetActivationJobSourceItem>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/StartReadSetActivationJobRequest AWS API Documentation
     #
     class StartReadSetActivationJobRequest < Struct.new(
-      :client_token,
       :sequence_store_id,
+      :client_token,
       :sources)
       SENSITIVE = []
       include Aws::Structure
     end
 
-    # @!attribute [rw] creation_time
-    #   When the job was created.
-    #   @return [Time]
-    #
     # @!attribute [rw] id
     #   The job's ID.
     #   @return [String]
@@ -4163,13 +6065,17 @@ module Aws::Omics
     #   The job's status.
     #   @return [String]
     #
+    # @!attribute [rw] creation_time
+    #   When the job was created.
+    #   @return [Time]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/StartReadSetActivationJobResponse AWS API Documentation
     #
     class StartReadSetActivationJobResponse < Struct.new(
-      :creation_time,
       :id,
       :sequence_store_id,
-      :status)
+      :status,
+      :creation_time)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4188,9 +6094,8 @@ module Aws::Omics
       include Aws::Structure
     end
 
-    # @!attribute [rw] client_token
-    #   To ensure that jobs don't run multiple times, specify a unique
-    #   token for each job.
+    # @!attribute [rw] sequence_store_id
+    #   The read set's sequence store ID.
     #   @return [String]
     #
     # @!attribute [rw] destination
@@ -4201,34 +6106,27 @@ module Aws::Omics
     #   A service role for the job.
     #   @return [String]
     #
-    # @!attribute [rw] sequence_store_id
-    #   The read set's sequence store ID.
+    # @!attribute [rw] client_token
+    #   To ensure that jobs don't run multiple times, specify a unique
+    #   token for each job.
     #   @return [String]
     #
     # @!attribute [rw] sources
-    #   Sources for the job.
+    #   The job's source files.
     #   @return [Array<Types::ExportReadSet>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/StartReadSetExportJobRequest AWS API Documentation
     #
     class StartReadSetExportJobRequest < Struct.new(
-      :client_token,
+      :sequence_store_id,
       :destination,
       :role_arn,
-      :sequence_store_id,
+      :client_token,
       :sources)
       SENSITIVE = []
       include Aws::Structure
     end
 
-    # @!attribute [rw] creation_time
-    #   When the job was created.
-    #   @return [Time]
-    #
-    # @!attribute [rw] destination
-    #   The job's output location.
-    #   @return [String]
-    #
     # @!attribute [rw] id
     #   The job's ID.
     #   @return [String]
@@ -4237,114 +6135,122 @@ module Aws::Omics
     #   The read set's sequence store ID.
     #   @return [String]
     #
+    # @!attribute [rw] destination
+    #   The job's output location.
+    #   @return [String]
+    #
     # @!attribute [rw] status
     #   The job's status.
     #   @return [String]
     #
+    # @!attribute [rw] creation_time
+    #   When the job was created.
+    #   @return [Time]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/StartReadSetExportJobResponse AWS API Documentation
     #
     class StartReadSetExportJobResponse < Struct.new(
-      :creation_time,
-      :destination,
       :id,
       :sequence_store_id,
-      :status)
+      :destination,
+      :status,
+      :creation_time)
       SENSITIVE = []
       include Aws::Structure
     end
 
-    # @!attribute [rw] client_token
-    #   To ensure that jobs don't run multiple times, specify a unique
-    #   token for each job.
+    # @!attribute [rw] sequence_store_id
+    #   The read set's sequence store ID.
     #   @return [String]
     #
     # @!attribute [rw] role_arn
     #   A service role for the job.
     #   @return [String]
     #
-    # @!attribute [rw] sequence_store_id
-    #   The read set's sequence store ID.
+    # @!attribute [rw] client_token
+    #   To ensure that jobs don't run multiple times, specify a unique
+    #   token for each job.
     #   @return [String]
     #
     # @!attribute [rw] sources
-    #   Source files to import.
+    #   The job's source files.
     #   @return [Array<Types::StartReadSetImportJobSourceItem>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/StartReadSetImportJobRequest AWS API Documentation
     #
     class StartReadSetImportJobRequest < Struct.new(
-      :client_token,
-      :role_arn,
       :sequence_store_id,
+      :role_arn,
+      :client_token,
       :sources)
       SENSITIVE = []
       include Aws::Structure
     end
 
-    # @!attribute [rw] creation_time
-    #   When the job was created.
-    #   @return [Time]
-    #
     # @!attribute [rw] id
     #   The job's ID.
+    #   @return [String]
+    #
+    # @!attribute [rw] sequence_store_id
+    #   The read set's sequence store ID.
     #   @return [String]
     #
     # @!attribute [rw] role_arn
     #   The job's service role ARN.
     #   @return [String]
     #
-    # @!attribute [rw] sequence_store_id
-    #   The read set's sequence store ID.
-    #   @return [String]
-    #
     # @!attribute [rw] status
     #   The job's status.
     #   @return [String]
     #
+    # @!attribute [rw] creation_time
+    #   When the job was created.
+    #   @return [Time]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/StartReadSetImportJobResponse AWS API Documentation
     #
     class StartReadSetImportJobResponse < Struct.new(
-      :creation_time,
       :id,
-      :role_arn,
       :sequence_store_id,
-      :status)
+      :role_arn,
+      :status,
+      :creation_time)
       SENSITIVE = []
       include Aws::Structure
     end
 
     # A source for a read set import job.
     #
-    # @!attribute [rw] description
-    #   The source's description.
+    # @!attribute [rw] source_files
+    #   The source files' location in Amazon S3.
+    #   @return [Types::SourceFiles]
+    #
+    # @!attribute [rw] source_file_type
+    #   The source's file type.
     #   @return [String]
     #
-    # @!attribute [rw] generated_from
-    #   Where the source originated.
-    #   @return [String]
-    #
-    # @!attribute [rw] name
-    #   The source's name.
-    #   @return [String]
-    #
-    # @!attribute [rw] reference_arn
-    #   The source's reference ARN.
+    # @!attribute [rw] subject_id
+    #   The source's subject ID.
     #   @return [String]
     #
     # @!attribute [rw] sample_id
     #   The source's sample ID.
     #   @return [String]
     #
-    # @!attribute [rw] source_file_type
-    #   The source's file type.
+    # @!attribute [rw] generated_from
+    #   Where the source originated.
     #   @return [String]
     #
-    # @!attribute [rw] source_files
-    #   The source files' location in Amazon S3.
-    #   @return [Types::SourceFiles]
+    # @!attribute [rw] reference_arn
+    #   The source's reference ARN.
+    #   @return [String]
     #
-    # @!attribute [rw] subject_id
-    #   The source's subject ID.
+    # @!attribute [rw] name
+    #   The source's name.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The source's description.
     #   @return [String]
     #
     # @!attribute [rw] tags
@@ -4354,24 +6260,19 @@ module Aws::Omics
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/StartReadSetImportJobSourceItem AWS API Documentation
     #
     class StartReadSetImportJobSourceItem < Struct.new(
-      :description,
-      :generated_from,
-      :name,
-      :reference_arn,
-      :sample_id,
-      :source_file_type,
       :source_files,
+      :source_file_type,
       :subject_id,
+      :sample_id,
+      :generated_from,
+      :reference_arn,
+      :name,
+      :description,
       :tags)
       SENSITIVE = []
       include Aws::Structure
     end
 
-    # @!attribute [rw] client_token
-    #   To ensure that jobs don't run multiple times, specify a unique
-    #   token for each job.
-    #   @return [String]
-    #
     # @!attribute [rw] reference_store_id
     #   The job's reference store ID.
     #   @return [String]
@@ -4380,25 +6281,26 @@ module Aws::Omics
     #   A service role for the job.
     #   @return [String]
     #
+    # @!attribute [rw] client_token
+    #   To ensure that jobs don't run multiple times, specify a unique
+    #   token for each job.
+    #   @return [String]
+    #
     # @!attribute [rw] sources
-    #   Sources for the job.
+    #   The job's source files.
     #   @return [Array<Types::StartReferenceImportJobSourceItem>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/StartReferenceImportJobRequest AWS API Documentation
     #
     class StartReferenceImportJobRequest < Struct.new(
-      :client_token,
       :reference_store_id,
       :role_arn,
+      :client_token,
       :sources)
       SENSITIVE = []
       include Aws::Structure
     end
 
-    # @!attribute [rw] creation_time
-    #   When the job was created.
-    #   @return [Time]
-    #
     # @!attribute [rw] id
     #   The job's ID.
     #   @return [String]
@@ -4415,30 +6317,34 @@ module Aws::Omics
     #   The job's status.
     #   @return [String]
     #
+    # @!attribute [rw] creation_time
+    #   When the job was created.
+    #   @return [Time]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/StartReferenceImportJobResponse AWS API Documentation
     #
     class StartReferenceImportJobResponse < Struct.new(
-      :creation_time,
       :id,
       :reference_store_id,
       :role_arn,
-      :status)
+      :status,
+      :creation_time)
       SENSITIVE = []
       include Aws::Structure
     end
 
     # A source for a reference import job.
     #
-    # @!attribute [rw] description
-    #   The source's description.
+    # @!attribute [rw] source_file
+    #   The source file's location in Amazon S3.
     #   @return [String]
     #
     # @!attribute [rw] name
     #   The source's name.
     #   @return [String]
     #
-    # @!attribute [rw] source_file
-    #   The source file's location in Amazon S3.
+    # @!attribute [rw] description
+    #   The source's description.
     #   @return [String]
     #
     # @!attribute [rw] tags
@@ -4448,91 +6354,145 @@ module Aws::Omics
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/StartReferenceImportJobSourceItem AWS API Documentation
     #
     class StartReferenceImportJobSourceItem < Struct.new(
-      :description,
-      :name,
       :source_file,
+      :name,
+      :description,
       :tags)
       SENSITIVE = []
       include Aws::Structure
     end
 
-    # @!attribute [rw] log_level
-    #   A log level for the run.
+    # @!attribute [rw] workflow_id
+    #   The run's workflow ID.
     #   @return [String]
     #
-    # @!attribute [rw] name
-    #   A name for the run.
+    # @!attribute [rw] workflow_type
+    #   The run's workflow type.
     #   @return [String]
     #
-    # @!attribute [rw] output_uri
-    #   An output URI for the run.
-    #   @return [String]
-    #
-    # @!attribute [rw] parameters
-    #   Parameters for the run.
-    #   @return [Hash,Array,String,Numeric,Boolean]
-    #
-    # @!attribute [rw] priority
-    #   A priority for the run.
-    #   @return [Integer]
-    #
-    # @!attribute [rw] request_id
-    #   A request ID for the run.
-    #
-    #   **A suitable default value is auto-generated.** You should normally
-    #   not need to pass this option.
+    # @!attribute [rw] run_id
+    #   The ID of a run to duplicate.
     #   @return [String]
     #
     # @!attribute [rw] role_arn
     #   A service role for the run.
     #   @return [String]
     #
+    # @!attribute [rw] name
+    #   A name for the run.
+    #   @return [String]
+    #
+    # @!attribute [rw] cache_id
+    #   Identifier of the cache associated with this run. If you don't
+    #   specify a cache ID, no task outputs are cached for this run.
+    #   @return [String]
+    #
+    # @!attribute [rw] cache_behavior
+    #   The cache behavior for the run. You specify this value if you want
+    #   to override the default behavior for the cache. You had set the
+    #   default value when you created the cache. For more information, see
+    #   [Run cache behavior][1] in the AWS HealthOmics User Guide.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/omics/latest/dev/how-run-cache.html#run-cache-behavior
+    #   @return [String]
+    #
     # @!attribute [rw] run_group_id
     #   The run's group ID.
     #   @return [String]
     #
-    # @!attribute [rw] run_id
-    #   The run's ID.
-    #   @return [String]
+    # @!attribute [rw] priority
+    #   A priority for the run.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] parameters
+    #   Parameters for the run.
+    #   @return [Hash,Array,String,Numeric,Boolean]
     #
     # @!attribute [rw] storage_capacity
-    #   A storage capacity for the run.
+    #   A storage capacity for the run in gibibytes. This field is not
+    #   required if the storage type is dynamic (the system ignores any
+    #   value that you enter).
     #   @return [Integer]
+    #
+    # @!attribute [rw] output_uri
+    #   An output URI for the run.
+    #   @return [String]
+    #
+    # @!attribute [rw] log_level
+    #   A log level for the run.
+    #   @return [String]
     #
     # @!attribute [rw] tags
     #   Tags for the run.
     #   @return [Hash<String,String>]
     #
-    # @!attribute [rw] workflow_id
-    #   The run's workflow ID.
+    # @!attribute [rw] request_id
+    #   To ensure that requests don't run multiple times, specify a unique
+    #   ID for each request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
     #   @return [String]
     #
-    # @!attribute [rw] workflow_type
-    #   The run's workflows type.
+    # @!attribute [rw] retention_mode
+    #   The retention mode for the run. The default value is RETAIN.
+    #
+    #   HealthOmics stores a fixed number of runs that are available to the
+    #   console and API. In the default mode (RETAIN), you need to remove
+    #   runs manually when the number of run exceeds the maximum. If you set
+    #   the retention mode to `REMOVE`, HealthOmics automatically removes
+    #   runs (that have mode set to REMOVE) when the number of run exceeds
+    #   the maximum. All run logs are available in CloudWatch logs, if you
+    #   need information about a run that is no longer available to the API.
+    #
+    #   For more information about retention mode, see [Specifying run
+    #   retention mode][1] in the *AWS HealthOmics User Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/omics/latest/dev/starting-a-run.html
+    #   @return [String]
+    #
+    # @!attribute [rw] storage_type
+    #   The run's storage type. By default, the run uses STATIC storage
+    #   type, which allocates a fixed amount of storage. If you set the
+    #   storage type to DYNAMIC, HealthOmics dynamically scales the storage
+    #   up or down, based on file system utilization.
+    #   @return [String]
+    #
+    # @!attribute [rw] workflow_owner_id
+    #   The ID of the workflow owner.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/StartRunRequest AWS API Documentation
     #
     class StartRunRequest < Struct.new(
-      :log_level,
-      :name,
-      :output_uri,
-      :parameters,
-      :priority,
-      :request_id,
-      :role_arn,
-      :run_group_id,
-      :run_id,
-      :storage_capacity,
-      :tags,
       :workflow_id,
-      :workflow_type)
+      :workflow_type,
+      :run_id,
+      :role_arn,
+      :name,
+      :cache_id,
+      :cache_behavior,
+      :run_group_id,
+      :priority,
+      :parameters,
+      :storage_capacity,
+      :output_uri,
+      :log_level,
+      :tags,
+      :request_id,
+      :retention_mode,
+      :storage_type,
+      :workflow_owner_id)
       SENSITIVE = []
       include Aws::Structure
     end
 
     # @!attribute [rw] arn
-    #   The run's ARN.
+    #   Unique resource identifier for the run.
     #   @return [String]
     #
     # @!attribute [rw] id
@@ -4547,13 +6507,23 @@ module Aws::Omics
     #   The run's tags.
     #   @return [Hash<String,String>]
     #
+    # @!attribute [rw] uuid
+    #   The universally unique identifier for a run.
+    #   @return [String]
+    #
+    # @!attribute [rw] run_output_uri
+    #   The destination for workflow outputs.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/StartRunResponse AWS API Documentation
     #
     class StartRunResponse < Struct.new(
       :arn,
       :id,
       :status,
-      :tags)
+      :tags,
+      :uuid,
+      :run_output_uri)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4562,25 +6532,30 @@ module Aws::Omics
     #   The destination variant store for the job.
     #   @return [String]
     #
-    # @!attribute [rw] items
-    #   Items to import.
-    #   @return [Array<Types::VariantImportItemSource>]
-    #
     # @!attribute [rw] role_arn
     #   A service role for the job.
     #   @return [String]
+    #
+    # @!attribute [rw] items
+    #   Items to import.
+    #   @return [Array<Types::VariantImportItemSource>]
     #
     # @!attribute [rw] run_left_normalization
     #   The job's left normalization setting.
     #   @return [Boolean]
     #
+    # @!attribute [rw] annotation_fields
+    #   The annotation schema generated by the parsed annotation data.
+    #   @return [Hash<String,String>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/StartVariantImportRequest AWS API Documentation
     #
     class StartVariantImportRequest < Struct.new(
       :destination_name,
-      :items,
       :role_arn,
-      :run_left_normalization)
+      :items,
+      :run_left_normalization,
+      :annotation_fields)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4643,49 +6618,71 @@ module Aws::Omics
 
     # A workflow run task.
     #
+    # @!attribute [rw] task_id
+    #   The task's ID.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The task's status.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The task's name.
+    #   @return [String]
+    #
     # @!attribute [rw] cpus
     #   The task's CPU count.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] cache_hit
+    #   Set to true if AWS HealthOmics found a matching entry in the run
+    #   cache for this task.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] cache_s3_uri
+    #   The S3 URI of the cache location.
+    #   @return [String]
+    #
+    # @!attribute [rw] memory
+    #   The task's memory use in gigabyes.
     #   @return [Integer]
     #
     # @!attribute [rw] creation_time
     #   When the task was created.
     #   @return [Time]
     #
-    # @!attribute [rw] memory
-    #   The task's memory.
-    #   @return [Integer]
-    #
-    # @!attribute [rw] name
-    #   The task's name.
-    #   @return [String]
-    #
     # @!attribute [rw] start_time
     #   When the task started.
     #   @return [Time]
-    #
-    # @!attribute [rw] status
-    #   The task's status.
-    #   @return [String]
     #
     # @!attribute [rw] stop_time
     #   When the task stopped.
     #   @return [Time]
     #
-    # @!attribute [rw] task_id
-    #   The task's ID.
+    # @!attribute [rw] gpus
+    #   The number of Graphics Processing Units (GPU) specified for the
+    #   task.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] instance_type
+    #   The instance type for a task.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/TaskListItem AWS API Documentation
     #
     class TaskListItem < Struct.new(
-      :cpus,
-      :creation_time,
-      :memory,
-      :name,
-      :start_time,
+      :task_id,
       :status,
+      :name,
+      :cpus,
+      :cache_hit,
+      :cache_s3_uri,
+      :memory,
+      :creation_time,
+      :start_time,
       :stop_time,
-      :task_id)
+      :gpus,
+      :instance_type)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4741,6 +6738,30 @@ module Aws::Omics
       include Aws::Structure
     end
 
+    # The options for a TSV file.
+    #
+    # @!attribute [rw] annotation_type
+    #   The store version's annotation type.
+    #   @return [String]
+    #
+    # @!attribute [rw] format_to_header
+    #   The annotation store version's header key to column name mapping.
+    #   @return [Hash<String,String>]
+    #
+    # @!attribute [rw] schema
+    #   The TSV schema for an annotation store version.
+    #   @return [Array<Hash<String,String>>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/TsvVersionOptions AWS API Documentation
+    #
+    class TsvVersionOptions < Struct.new(
+      :annotation_type,
+      :format_to_header,
+      :schema)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] resource_arn
     #   The resource's ARN.
     #   @return [String]
@@ -4762,37 +6783,25 @@ module Aws::Omics
     #
     class UntagResourceResponse < Aws::EmptyStructure; end
 
-    # @!attribute [rw] description
-    #   A description for the store.
-    #   @return [String]
-    #
     # @!attribute [rw] name
     #   A name for the store.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   A description for the store.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/UpdateAnnotationStoreRequest AWS API Documentation
     #
     class UpdateAnnotationStoreRequest < Struct.new(
-      :description,
-      :name)
+      :name,
+      :description)
       SENSITIVE = []
       include Aws::Structure
     end
 
-    # @!attribute [rw] creation_time
-    #   When the store was created.
-    #   @return [Time]
-    #
-    # @!attribute [rw] description
-    #   The store's description.
-    #   @return [String]
-    #
     # @!attribute [rw] id
     #   The store's ID.
-    #   @return [String]
-    #
-    # @!attribute [rw] name
-    #   The store's name.
     #   @return [String]
     #
     # @!attribute [rw] reference
@@ -4803,30 +6812,138 @@ module Aws::Omics
     #   The store's status.
     #   @return [String]
     #
-    # @!attribute [rw] store_format
-    #   The annotation file format of the store.
+    # @!attribute [rw] name
+    #   The store's name.
     #   @return [String]
     #
-    # @!attribute [rw] store_options
-    #   Parsing options for the store.
-    #   @return [Types::StoreOptions]
+    # @!attribute [rw] description
+    #   The store's description.
+    #   @return [String]
+    #
+    # @!attribute [rw] creation_time
+    #   When the store was created.
+    #   @return [Time]
     #
     # @!attribute [rw] update_time
     #   When the store was updated.
     #   @return [Time]
     #
+    # @!attribute [rw] store_options
+    #   Parsing options for the store.
+    #   @return [Types::StoreOptions]
+    #
+    # @!attribute [rw] store_format
+    #   The annotation file format of the store.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/UpdateAnnotationStoreResponse AWS API Documentation
     #
     class UpdateAnnotationStoreResponse < Struct.new(
-      :creation_time,
-      :description,
       :id,
-      :name,
       :reference,
       :status,
-      :store_format,
+      :name,
+      :description,
+      :creation_time,
+      :update_time,
       :store_options,
+      :store_format)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] name
+    #   The name of an annotation store.
+    #   @return [String]
+    #
+    # @!attribute [rw] version_name
+    #   The name of an annotation store version.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of an annotation store.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/UpdateAnnotationStoreVersionRequest AWS API Documentation
+    #
+    class UpdateAnnotationStoreVersionRequest < Struct.new(
+      :name,
+      :version_name,
+      :description)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] store_id
+    #   The annotation store ID.
+    #   @return [String]
+    #
+    # @!attribute [rw] id
+    #   The annotation store version ID.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status of an annotation store version.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of an annotation store.
+    #   @return [String]
+    #
+    # @!attribute [rw] version_name
+    #   The name of an annotation store version.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of an annotation store version.
+    #   @return [String]
+    #
+    # @!attribute [rw] creation_time
+    #   The time stamp for when an annotation store version was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] update_time
+    #   The time stamp for when an annotation store version was updated.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/UpdateAnnotationStoreVersionResponse AWS API Documentation
+    #
+    class UpdateAnnotationStoreVersionResponse < Struct.new(
+      :store_id,
+      :id,
+      :status,
+      :name,
+      :version_name,
+      :description,
+      :creation_time,
       :update_time)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] cache_behavior
+    #   Update the default run cache behavior.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   Update the run cache description.
+    #   @return [String]
+    #
+    # @!attribute [rw] id
+    #   The identifier of the run cache you want to update.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   Update the name of the run cache.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/UpdateRunCacheRequest AWS API Documentation
+    #
+    class UpdateRunCacheRequest < Struct.new(
+      :cache_behavior,
+      :description,
+      :id,
+      :name)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4835,65 +6952,180 @@ module Aws::Omics
     #   The group's ID.
     #   @return [String]
     #
+    # @!attribute [rw] name
+    #   A name for the group.
+    #   @return [String]
+    #
     # @!attribute [rw] max_cpus
     #   The maximum number of CPUs to use.
-    #   @return [Integer]
-    #
-    # @!attribute [rw] max_duration
-    #   The maximum amount of time to run.
     #   @return [Integer]
     #
     # @!attribute [rw] max_runs
     #   The maximum number of concurrent runs for the group.
     #   @return [Integer]
     #
-    # @!attribute [rw] name
-    #   A name for the group.
-    #   @return [String]
+    # @!attribute [rw] max_duration
+    #   A maximum run time for the group in minutes.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] max_gpus
+    #   The maximum GPUs that can be used by a run group.
+    #   @return [Integer]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/UpdateRunGroupRequest AWS API Documentation
     #
     class UpdateRunGroupRequest < Struct.new(
       :id,
+      :name,
       :max_cpus,
-      :max_duration,
       :max_runs,
-      :name)
+      :max_duration,
+      :max_gpus)
       SENSITIVE = []
       include Aws::Structure
     end
 
-    # @!attribute [rw] description
-    #   A description for the store.
+    # @!attribute [rw] id
+    #   The ID of the sequence store.
     #   @return [String]
     #
     # @!attribute [rw] name
+    #   A name for the sequence store.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   A description for the sequence store.
+    #   @return [String]
+    #
+    # @!attribute [rw] client_token
+    #   To ensure that requests don't run multiple times, specify a unique
+    #   token for each request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @!attribute [rw] fallback_location
+    #   The S3 URI of a bucket and folder to store Read Sets that fail to
+    #   upload.
+    #   @return [String]
+    #
+    # @!attribute [rw] propagated_set_level_tags
+    #   The tags keys to propagate to the S3 objects associated with read
+    #   sets in the sequence store.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] s3_access_config
+    #   S3 access configuration parameters.
+    #   @return [Types::S3AccessConfig]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/UpdateSequenceStoreRequest AWS API Documentation
+    #
+    class UpdateSequenceStoreRequest < Struct.new(
+      :id,
+      :name,
+      :description,
+      :client_token,
+      :fallback_location,
+      :propagated_set_level_tags,
+      :s3_access_config)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] id
+    #   The ID of the sequence store.
+    #   @return [String]
+    #
+    # @!attribute [rw] arn
+    #   The ARN of the sequence store.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the sequence store.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   Description of the sequence store.
+    #   @return [String]
+    #
+    # @!attribute [rw] sse_config
+    #   Server-side encryption (SSE) settings for a store.
+    #   @return [Types::SseConfig]
+    #
+    # @!attribute [rw] creation_time
+    #   The time when the store was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] update_time
+    #   The last-updated time of the Sequence Store.
+    #   @return [Time]
+    #
+    # @!attribute [rw] propagated_set_level_tags
+    #   The tags keys to propagate to the S3 objects associated with read
+    #   sets in the sequence store.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] status
+    #   The status of the sequence store.
+    #   @return [String]
+    #
+    # @!attribute [rw] status_message
+    #   The status message of the sequence store.
+    #   @return [String]
+    #
+    # @!attribute [rw] fallback_location
+    #   The S3 URI of a bucket and folder to store Read Sets that fail to
+    #   upload.
+    #   @return [String]
+    #
+    # @!attribute [rw] s3_access
+    #   The S3 access metadata of the sequence store.
+    #   @return [Types::SequenceStoreS3Access]
+    #
+    # @!attribute [rw] e_tag_algorithm_family
+    #   The ETag algorithm family to use on ingested read sets.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/UpdateSequenceStoreResponse AWS API Documentation
+    #
+    class UpdateSequenceStoreResponse < Struct.new(
+      :id,
+      :arn,
+      :name,
+      :description,
+      :sse_config,
+      :creation_time,
+      :update_time,
+      :propagated_set_level_tags,
+      :status,
+      :status_message,
+      :fallback_location,
+      :s3_access,
+      :e_tag_algorithm_family)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] name
     #   A name for the store.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   A description for the store.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/UpdateVariantStoreRequest AWS API Documentation
     #
     class UpdateVariantStoreRequest < Struct.new(
-      :description,
-      :name)
+      :name,
+      :description)
       SENSITIVE = []
       include Aws::Structure
     end
 
-    # @!attribute [rw] creation_time
-    #   When the store was created.
-    #   @return [Time]
-    #
-    # @!attribute [rw] description
-    #   The store's description.
-    #   @return [String]
-    #
     # @!attribute [rw] id
     #   The store's ID.
-    #   @return [String]
-    #
-    # @!attribute [rw] name
-    #   The store's name.
     #   @return [String]
     #
     # @!attribute [rw] reference
@@ -4904,6 +7136,18 @@ module Aws::Omics
     #   The store's status.
     #   @return [String]
     #
+    # @!attribute [rw] name
+    #   The store's name.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The store's description.
+    #   @return [String]
+    #
+    # @!attribute [rw] creation_time
+    #   When the store was created.
+    #   @return [Time]
+    #
     # @!attribute [rw] update_time
     #   When the store was updated.
     #   @return [Time]
@@ -4911,21 +7155,17 @@ module Aws::Omics
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/UpdateVariantStoreResponse AWS API Documentation
     #
     class UpdateVariantStoreResponse < Struct.new(
-      :creation_time,
-      :description,
       :id,
-      :name,
       :reference,
       :status,
+      :name,
+      :description,
+      :creation_time,
       :update_time)
       SENSITIVE = []
       include Aws::Structure
     end
 
-    # @!attribute [rw] description
-    #   A description for the workflow.
-    #   @return [String]
-    #
     # @!attribute [rw] id
     #   The workflow's ID.
     #   @return [String]
@@ -4934,12 +7174,61 @@ module Aws::Omics
     #   A name for the workflow.
     #   @return [String]
     #
+    # @!attribute [rw] description
+    #   A description for the workflow.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/UpdateWorkflowRequest AWS API Documentation
     #
     class UpdateWorkflowRequest < Struct.new(
-      :description,
       :id,
-      :name)
+      :name,
+      :description)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] sequence_store_id
+    #   The Sequence Store ID used for the multipart upload.
+    #   @return [String]
+    #
+    # @!attribute [rw] upload_id
+    #   The ID for the initiated multipart upload.
+    #   @return [String]
+    #
+    # @!attribute [rw] part_source
+    #   The source file for an upload part.
+    #   @return [String]
+    #
+    # @!attribute [rw] part_number
+    #   The number of the part being uploaded.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] payload
+    #   The read set data to upload for a part.
+    #   @return [IO]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/UploadReadSetPartRequest AWS API Documentation
+    #
+    class UploadReadSetPartRequest < Struct.new(
+      :sequence_store_id,
+      :upload_id,
+      :part_source,
+      :part_number,
+      :payload)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] checksum
+    #   An identifier used to confirm that parts are being added to the
+    #   intended upload.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/UploadReadSetPartResponse AWS API Documentation
+    #
+    class UploadReadSetPartResponse < Struct.new(
+      :checksum)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4960,19 +7249,24 @@ module Aws::Omics
 
     # Details about an imported variant item.
     #
+    # @!attribute [rw] source
+    #   The source file's location in Amazon S3.
+    #   @return [String]
+    #
     # @!attribute [rw] job_status
     #   The item's job status.
     #   @return [String]
     #
-    # @!attribute [rw] source
-    #   The source file's location in Amazon S3.
+    # @!attribute [rw] status_message
+    #   A message that provides additional context about a job
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/VariantImportItemDetail AWS API Documentation
     #
     class VariantImportItemDetail < Struct.new(
+      :source,
       :job_status,
-      :source)
+      :status_message)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4993,148 +7287,187 @@ module Aws::Omics
 
     # A variant import job.
     #
-    # @!attribute [rw] completion_time
-    #   When the job completed.
-    #   @return [Time]
-    #
-    # @!attribute [rw] creation_time
-    #   When the job was created.
-    #   @return [Time]
+    # @!attribute [rw] id
+    #   The job's ID.
+    #   @return [String]
     #
     # @!attribute [rw] destination_name
     #   The job's destination variant store.
-    #   @return [String]
-    #
-    # @!attribute [rw] id
-    #   The job's ID.
     #   @return [String]
     #
     # @!attribute [rw] role_arn
     #   The job's service role ARN.
     #   @return [String]
     #
-    # @!attribute [rw] run_left_normalization
-    #   The job's left normalization setting.
-    #   @return [Boolean]
-    #
     # @!attribute [rw] status
     #   The job's status.
     #   @return [String]
+    #
+    # @!attribute [rw] creation_time
+    #   When the job was created.
+    #   @return [Time]
     #
     # @!attribute [rw] update_time
     #   When the job was updated.
     #   @return [Time]
     #
+    # @!attribute [rw] completion_time
+    #   When the job completed.
+    #   @return [Time]
+    #
+    # @!attribute [rw] run_left_normalization
+    #   The job's left normalization setting.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] annotation_fields
+    #   The annotation schema generated by the parsed annotation data.
+    #   @return [Hash<String,String>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/VariantImportJobItem AWS API Documentation
     #
     class VariantImportJobItem < Struct.new(
-      :completion_time,
-      :creation_time,
-      :destination_name,
       :id,
+      :destination_name,
       :role_arn,
-      :run_left_normalization,
       :status,
-      :update_time)
+      :creation_time,
+      :update_time,
+      :completion_time,
+      :run_left_normalization,
+      :annotation_fields)
       SENSITIVE = []
       include Aws::Structure
     end
 
     # A variant store.
     #
-    # @!attribute [rw] creation_time
-    #   When the store was created.
-    #   @return [Time]
-    #
-    # @!attribute [rw] description
-    #   The store's description.
-    #   @return [String]
-    #
     # @!attribute [rw] id
     #   The store's ID.
-    #   @return [String]
-    #
-    # @!attribute [rw] name
-    #   The store's name.
     #   @return [String]
     #
     # @!attribute [rw] reference
     #   The store's genome reference.
     #   @return [Types::ReferenceItem]
     #
-    # @!attribute [rw] sse_config
-    #   The store's server-side encryption (SSE) settings.
-    #   @return [Types::SseConfig]
-    #
     # @!attribute [rw] status
     #   The store's status.
-    #   @return [String]
-    #
-    # @!attribute [rw] status_message
-    #   The store's status message.
     #   @return [String]
     #
     # @!attribute [rw] store_arn
     #   The store's ARN.
     #   @return [String]
     #
-    # @!attribute [rw] store_size_bytes
-    #   The store's size in bytes.
-    #   @return [Integer]
+    # @!attribute [rw] name
+    #   The store's name.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The store's description.
+    #   @return [String]
+    #
+    # @!attribute [rw] sse_config
+    #   The store's server-side encryption (SSE) settings.
+    #   @return [Types::SseConfig]
+    #
+    # @!attribute [rw] creation_time
+    #   When the store was created.
+    #   @return [Time]
     #
     # @!attribute [rw] update_time
     #   When the store was updated.
     #   @return [Time]
     #
+    # @!attribute [rw] status_message
+    #   The store's status message.
+    #   @return [String]
+    #
+    # @!attribute [rw] store_size_bytes
+    #   The store's size in bytes.
+    #   @return [Integer]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/VariantStoreItem AWS API Documentation
     #
     class VariantStoreItem < Struct.new(
-      :creation_time,
-      :description,
       :id,
-      :name,
       :reference,
-      :sse_config,
       :status,
-      :status_message,
       :store_arn,
-      :store_size_bytes,
-      :update_time)
+      :name,
+      :description,
+      :sse_config,
+      :creation_time,
+      :update_time,
+      :status_message,
+      :store_size_bytes)
       SENSITIVE = []
       include Aws::Structure
     end
 
     # Formatting options for a VCF file.
     #
-    # @!attribute [rw] ignore_filter_field
-    #   The file's ignore filter field setting.
-    #   @return [Boolean]
-    #
     # @!attribute [rw] ignore_qual_field
     #   The file's ignore qual field setting.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] ignore_filter_field
+    #   The file's ignore filter field setting.
     #   @return [Boolean]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/VcfOptions AWS API Documentation
     #
     class VcfOptions < Struct.new(
-      :ignore_filter_field,
-      :ignore_qual_field)
+      :ignore_qual_field,
+      :ignore_filter_field)
       SENSITIVE = []
       include Aws::Structure
+    end
+
+    # The error preventing deletion of the annotation store version.
+    #
+    # @!attribute [rw] version_name
+    #   The name given to an annotation store version.
+    #   @return [String]
+    #
+    # @!attribute [rw] message
+    #   The message explaining the error in annotation store deletion.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/VersionDeleteError AWS API Documentation
+    #
+    class VersionDeleteError < Struct.new(
+      :version_name,
+      :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The options for an annotation store version.
+    #
+    # @note VersionOptions is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @note VersionOptions is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of VersionOptions corresponding to the set member.
+    #
+    # @!attribute [rw] tsv_version_options
+    #   File settings for a version of a TSV store.
+    #   @return [Types::TsvVersionOptions]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/VersionOptions AWS API Documentation
+    #
+    class VersionOptions < Struct.new(
+      :tsv_version_options,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class TsvVersionOptions < VersionOptions; end
+      class Unknown < VersionOptions; end
     end
 
     # A workflow.
     #
     # @!attribute [rw] arn
     #   The workflow's ARN.
-    #   @return [String]
-    #
-    # @!attribute [rw] creation_time
-    #   When the workflow was created.
-    #   @return [Time]
-    #
-    # @!attribute [rw] digest
-    #   The workflow's digest.
     #   @return [String]
     #
     # @!attribute [rw] id
@@ -5153,16 +7486,31 @@ module Aws::Omics
     #   The workflow's type.
     #   @return [String]
     #
+    # @!attribute [rw] digest
+    #   The workflow's digest.
+    #   @return [String]
+    #
+    # @!attribute [rw] creation_time
+    #   When the workflow was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] metadata
+    #   Any metadata available for workflow. The information listed may vary
+    #   depending on the workflow, and there may also be no metadata to
+    #   return.
+    #   @return [Hash<String,String>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/omics-2022-11-28/WorkflowListItem AWS API Documentation
     #
     class WorkflowListItem < Struct.new(
       :arn,
-      :creation_time,
-      :digest,
       :id,
       :name,
       :status,
-      :type)
+      :type,
+      :digest,
+      :creation_time,
+      :metadata)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5188,3 +7536,4 @@ module Aws::Omics
 
   end
 end
+

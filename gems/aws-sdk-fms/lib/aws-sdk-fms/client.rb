@@ -7,33 +7,34 @@
 #
 # WARNING ABOUT GENERATED CODE
 
-require 'seahorse/client/plugins/content_length.rb'
-require 'aws-sdk-core/plugins/credentials_configuration.rb'
-require 'aws-sdk-core/plugins/logging.rb'
-require 'aws-sdk-core/plugins/param_converter.rb'
-require 'aws-sdk-core/plugins/param_validator.rb'
-require 'aws-sdk-core/plugins/user_agent.rb'
-require 'aws-sdk-core/plugins/helpful_socket_errors.rb'
-require 'aws-sdk-core/plugins/retry_errors.rb'
-require 'aws-sdk-core/plugins/global_configuration.rb'
-require 'aws-sdk-core/plugins/regional_endpoint.rb'
-require 'aws-sdk-core/plugins/endpoint_discovery.rb'
-require 'aws-sdk-core/plugins/endpoint_pattern.rb'
-require 'aws-sdk-core/plugins/response_paging.rb'
-require 'aws-sdk-core/plugins/stub_responses.rb'
-require 'aws-sdk-core/plugins/idempotency_token.rb'
-require 'aws-sdk-core/plugins/jsonvalue_converter.rb'
-require 'aws-sdk-core/plugins/client_metrics_plugin.rb'
-require 'aws-sdk-core/plugins/client_metrics_send_plugin.rb'
-require 'aws-sdk-core/plugins/transfer_encoding.rb'
-require 'aws-sdk-core/plugins/http_checksum.rb'
-require 'aws-sdk-core/plugins/checksum_algorithm.rb'
-require 'aws-sdk-core/plugins/defaults_mode.rb'
-require 'aws-sdk-core/plugins/recursion_detection.rb'
-require 'aws-sdk-core/plugins/sign.rb'
-require 'aws-sdk-core/plugins/protocols/json_rpc.rb'
-
-Aws::Plugins::GlobalConfiguration.add_identifier(:fms)
+require 'seahorse/client/plugins/content_length'
+require 'aws-sdk-core/plugins/credentials_configuration'
+require 'aws-sdk-core/plugins/logging'
+require 'aws-sdk-core/plugins/param_converter'
+require 'aws-sdk-core/plugins/param_validator'
+require 'aws-sdk-core/plugins/user_agent'
+require 'aws-sdk-core/plugins/helpful_socket_errors'
+require 'aws-sdk-core/plugins/retry_errors'
+require 'aws-sdk-core/plugins/global_configuration'
+require 'aws-sdk-core/plugins/regional_endpoint'
+require 'aws-sdk-core/plugins/endpoint_discovery'
+require 'aws-sdk-core/plugins/endpoint_pattern'
+require 'aws-sdk-core/plugins/response_paging'
+require 'aws-sdk-core/plugins/stub_responses'
+require 'aws-sdk-core/plugins/idempotency_token'
+require 'aws-sdk-core/plugins/invocation_id'
+require 'aws-sdk-core/plugins/jsonvalue_converter'
+require 'aws-sdk-core/plugins/client_metrics_plugin'
+require 'aws-sdk-core/plugins/client_metrics_send_plugin'
+require 'aws-sdk-core/plugins/transfer_encoding'
+require 'aws-sdk-core/plugins/http_checksum'
+require 'aws-sdk-core/plugins/checksum_algorithm'
+require 'aws-sdk-core/plugins/request_compression'
+require 'aws-sdk-core/plugins/defaults_mode'
+require 'aws-sdk-core/plugins/recursion_detection'
+require 'aws-sdk-core/plugins/telemetry'
+require 'aws-sdk-core/plugins/sign'
+require 'aws-sdk-core/plugins/protocols/json_rpc'
 
 module Aws::FMS
   # An API client for FMS.  To construct a client, you need to configure a `:region` and `:credentials`.
@@ -71,20 +72,28 @@ module Aws::FMS
     add_plugin(Aws::Plugins::ResponsePaging)
     add_plugin(Aws::Plugins::StubResponses)
     add_plugin(Aws::Plugins::IdempotencyToken)
+    add_plugin(Aws::Plugins::InvocationId)
     add_plugin(Aws::Plugins::JsonvalueConverter)
     add_plugin(Aws::Plugins::ClientMetricsPlugin)
     add_plugin(Aws::Plugins::ClientMetricsSendPlugin)
     add_plugin(Aws::Plugins::TransferEncoding)
     add_plugin(Aws::Plugins::HttpChecksum)
     add_plugin(Aws::Plugins::ChecksumAlgorithm)
+    add_plugin(Aws::Plugins::RequestCompression)
     add_plugin(Aws::Plugins::DefaultsMode)
     add_plugin(Aws::Plugins::RecursionDetection)
+    add_plugin(Aws::Plugins::Telemetry)
     add_plugin(Aws::Plugins::Sign)
     add_plugin(Aws::Plugins::Protocols::JsonRpc)
     add_plugin(Aws::FMS::Plugins::Endpoints)
 
     # @overload initialize(options)
     #   @param [Hash] options
+    #
+    #   @option options [Array<Seahorse::Client::Plugin>] :plugins ([]])
+    #     A list of plugins to apply to the client. Each plugin is either a
+    #     class name or an instance of a plugin class.
+    #
     #   @option options [required, Aws::CredentialProvider] :credentials
     #     Your AWS credentials. This can be an instance of any one of the
     #     following classes:
@@ -119,13 +128,15 @@ module Aws::FMS
     #     locations will be searched for credentials:
     #
     #     * `Aws.config[:credentials]`
-    #     * The `:access_key_id`, `:secret_access_key`, and `:session_token` options.
-    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']
+    #     * The `:access_key_id`, `:secret_access_key`, `:session_token`, and
+    #       `:account_id` options.
+    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'],
+    #       ENV['AWS_SESSION_TOKEN'], and ENV['AWS_ACCOUNT_ID']
     #     * `~/.aws/credentials`
     #     * `~/.aws/config`
     #     * EC2/ECS IMDS instance profile - When used by default, the timeouts
     #       are very aggressive. Construct and pass an instance of
-    #       `Aws::InstanceProfileCredentails` or `Aws::ECSCredentials` to
+    #       `Aws::InstanceProfileCredentials` or `Aws::ECSCredentials` to
     #       enable retries and extended timeouts. Instance profile credential
     #       fetching can be disabled by setting ENV['AWS_EC2_METADATA_DISABLED']
     #       to true.
@@ -143,6 +154,8 @@ module Aws::FMS
     #     * `~/.aws/config`
     #
     #   @option options [String] :access_key_id
+    #
+    #   @option options [String] :account_id
     #
     #   @option options [Boolean] :active_endpoint_cache (false)
     #     When set to `true`, a thread polling for endpoints will be running in
@@ -190,10 +203,20 @@ module Aws::FMS
     #     Set to true to disable SDK automatically adding host prefix
     #     to default service endpoint when available.
     #
-    #   @option options [String] :endpoint
-    #     The client endpoint is normally constructed from the `:region`
-    #     option. You should only configure an `:endpoint` when connecting
-    #     to test or custom endpoints. This should be a valid HTTP(S) URI.
+    #   @option options [Boolean] :disable_request_compression (false)
+    #     When set to 'true' the request body will not be compressed
+    #     for supported operations.
+    #
+    #   @option options [String, URI::HTTPS, URI::HTTP] :endpoint
+    #     Normally you should not configure the `:endpoint` option
+    #     directly. This is normally constructed from the `:region`
+    #     option. Configuring `:endpoint` is normally reserved for
+    #     connecting to test or custom endpoints. The endpoint should
+    #     be a URI formatted like:
+    #
+    #         'http://example.com'
+    #         'https://example.com'
+    #         'http://example.com:123'
     #
     #   @option options [Integer] :endpoint_cache_max_entries (1000)
     #     Used for the maximum size limit of the LRU cache storing endpoints data
@@ -209,6 +232,10 @@ module Aws::FMS
     #
     #   @option options [Boolean] :endpoint_discovery (false)
     #     When set to `true`, endpoint discovery will be enabled for operations when available.
+    #
+    #   @option options [Boolean] :ignore_configured_endpoint_urls
+    #     Setting to true disables use of endpoint URLs provided via environment
+    #     variables and the shared configuration file.
     #
     #   @option options [Aws::Log::Formatter] :log_formatter (Aws::Log::Formatter.default)
     #     The log formatter.
@@ -229,6 +256,34 @@ module Aws::FMS
     #   @option options [String] :profile ("default")
     #     Used when loading credentials from the shared credentials file
     #     at HOME/.aws/credentials.  When not specified, 'default' is used.
+    #
+    #   @option options [String] :request_checksum_calculation ("when_supported")
+    #     Determines when a checksum will be calculated for request payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, a checksum will be
+    #       calculated for all request payloads of operations modeled with the
+    #       `httpChecksum` trait where `requestChecksumRequired` is `true` and/or a
+    #       `requestAlgorithmMember` is modeled.
+    #     * `when_required` - When set, a checksum will only be calculated for
+    #       request payloads of operations modeled with the  `httpChecksum` trait where
+    #       `requestChecksumRequired` is `true` or where a `requestAlgorithmMember`
+    #       is modeled and supplied.
+    #
+    #   @option options [Integer] :request_min_compression_size_bytes (10240)
+    #     The minimum size in bytes that triggers compression for request
+    #     bodies. The value must be non-negative integer value between 0
+    #     and 10485780 bytes inclusive.
+    #
+    #   @option options [String] :response_checksum_validation ("when_supported")
+    #     Determines when checksum validation will be performed on response payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, checksum validation is performed on all
+    #       response payloads of operations modeled with the `httpChecksum` trait where
+    #       `responseAlgorithms` is modeled, except when no modeled checksum algorithms
+    #       are supported.
+    #     * `when_required` - When set, checksum validation is not performed on
+    #       response payloads of operations unless the checksum algorithm is supported and
+    #       the `requestValidationModeMember` member is set to `ENABLED`.
     #
     #   @option options [Proc] :retry_backoff
     #     A proc or lambda used for backoff. Defaults to 2**retries * retry_base_delay.
@@ -274,20 +329,31 @@ module Aws::FMS
     #       throttling.  This is a provisional mode that may change behavior
     #       in the future.
     #
+    #   @option options [String] :sdk_ua_app_id
+    #     A unique and opaque application ID that is appended to the
+    #     User-Agent header as app/sdk_ua_app_id. It should have a
+    #     maximum length of 50. This variable is sourced from environment
+    #     variable AWS_SDK_UA_APP_ID or the shared config profile attribute sdk_ua_app_id.
     #
     #   @option options [String] :secret_access_key
     #
     #   @option options [String] :session_token
     #
+    #   @option options [Array] :sigv4a_signing_region_set
+    #     A list of regions that should be signed with SigV4a signing. When
+    #     not passed, a default `:sigv4a_signing_region_set` is searched for
+    #     in the following locations:
+    #
+    #     * `Aws.config[:sigv4a_signing_region_set]`
+    #     * `ENV['AWS_SIGV4A_SIGNING_REGION_SET']`
+    #     * `~/.aws/config`
+    #
     #   @option options [Boolean] :simple_json (false)
     #     Disables request parameter conversion, validation, and formatting.
-    #     Also disable response data type conversions. This option is useful
-    #     when you want to ensure the highest level of performance by
-    #     avoiding overhead of walking request parameters and response data
-    #     structures.
-    #
-    #     When `:simple_json` is enabled, the request parameters hash must
-    #     be formatted exactly as the DynamoDB API expects.
+    #     Also disables response data type conversions. The request parameters
+    #     hash must be formatted exactly as the API expects.This option is useful
+    #     when you want to ensure the highest level of performance by avoiding
+    #     overhead of walking request parameters and response data structures.
     #
     #   @option options [Boolean] :stub_responses (false)
     #     Causes the client to return stubbed responses. By default
@@ -297,6 +363,16 @@ module Aws::FMS
     #
     #     ** Please note ** When response stubbing is enabled, no HTTP
     #     requests are made, and retries are disabled.
+    #
+    #   @option options [Aws::Telemetry::TelemetryProviderBase] :telemetry_provider (Aws::Telemetry::NoOpTelemetryProvider)
+    #     Allows you to provide a telemetry provider, which is used to
+    #     emit telemetry data. By default, uses `NoOpTelemetryProvider` which
+    #     will not record or emit any telemetry data. The SDK supports the
+    #     following telemetry providers:
+    #
+    #     * OpenTelemetry (OTel) - To use the OTel provider, install and require the
+    #     `opentelemetry-sdk` gem and then, pass in an instance of a
+    #     `Aws::Telemetry::OTelProvider` for telemetry provider.
     #
     #   @option options [Aws::TokenProvider] :token_provider
     #     A Bearer Token Provider. This can be an instance of any one of the
@@ -325,52 +401,75 @@ module Aws::FMS
     #     sending the request.
     #
     #   @option options [Aws::FMS::EndpointProvider] :endpoint_provider
-    #     The endpoint provider used to resolve endpoints. Any object that responds to `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to `Aws::FMS::EndpointParameters`
+    #     The endpoint provider used to resolve endpoints. Any object that responds to
+    #     `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+    #     `Aws::FMS::EndpointParameters`.
     #
-    #   @option options [URI::HTTP,String] :http_proxy A proxy to send
-    #     requests through.  Formatted like 'http://proxy.com:123'.
+    #   @option options [Float] :http_continue_timeout (1)
+    #     The number of seconds to wait for a 100-continue response before sending the
+    #     request body.  This option has no effect unless the request has "Expect"
+    #     header set to "100-continue".  Defaults to `nil` which  disables this
+    #     behaviour.  This value can safely be set per request on the session.
     #
-    #   @option options [Float] :http_open_timeout (15) The number of
-    #     seconds to wait when opening a HTTP session before raising a
-    #     `Timeout::Error`.
+    #   @option options [Float] :http_idle_timeout (5)
+    #     The number of seconds a connection is allowed to sit idle before it
+    #     is considered stale.  Stale connections are closed and removed from the
+    #     pool before making a request.
     #
-    #   @option options [Float] :http_read_timeout (60) The default
-    #     number of seconds to wait for response data.  This value can
-    #     safely be set per-request on the session.
+    #   @option options [Float] :http_open_timeout (15)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :http_idle_timeout (5) The number of
-    #     seconds a connection is allowed to sit idle before it is
-    #     considered stale.  Stale connections are closed and removed
-    #     from the pool before making a request.
+    #   @option options [URI::HTTP,String] :http_proxy
+    #     A proxy to send requests through.  Formatted like 'http://proxy.com:123'.
     #
-    #   @option options [Float] :http_continue_timeout (1) The number of
-    #     seconds to wait for a 100-continue response before sending the
-    #     request body.  This option has no effect unless the request has
-    #     "Expect" header set to "100-continue".  Defaults to `nil` which
-    #     disables this behaviour.  This value can safely be set per
-    #     request on the session.
+    #   @option options [Float] :http_read_timeout (60)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :ssl_timeout (nil) Sets the SSL timeout
-    #     in seconds.
+    #   @option options [Boolean] :http_wire_trace (false)
+    #     When `true`,  HTTP debug output will be sent to the `:logger`.
     #
-    #   @option options [Boolean] :http_wire_trace (false) When `true`,
-    #     HTTP debug output will be sent to the `:logger`.
+    #   @option options [Proc] :on_chunk_received
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the response body is received. It provides three arguments: the chunk,
+    #     the number of bytes received, and the total number of
+    #     bytes in the response (or nil if the server did not send a `content-length`).
     #
-    #   @option options [Boolean] :ssl_verify_peer (true) When `true`,
-    #     SSL peer certificates are verified when establishing a
-    #     connection.
+    #   @option options [Proc] :on_chunk_sent
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the request body is sent. It provides three arguments: the chunk,
+    #     the number of bytes read from the body, and the total number of
+    #     bytes in the body.
     #
-    #   @option options [String] :ssl_ca_bundle Full path to the SSL
-    #     certificate authority bundle file that should be used when
-    #     verifying peer certificates.  If you do not pass
-    #     `:ssl_ca_bundle` or `:ssl_ca_directory` the the system default
-    #     will be used if available.
+    #   @option options [Boolean] :raise_response_errors (true)
+    #     When `true`, response errors are raised.
     #
-    #   @option options [String] :ssl_ca_directory Full path of the
-    #     directory that contains the unbundled SSL certificate
+    #   @option options [String] :ssl_ca_bundle
+    #     Full path to the SSL certificate authority bundle file that should be used when
+    #     verifying peer certificates.  If you do not pass `:ssl_ca_bundle` or
+    #     `:ssl_ca_directory` the the system default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_directory
+    #     Full path of the directory that contains the unbundled SSL certificate
     #     authority files for verifying peer certificates.  If you do
-    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the
-    #     system default will be used if available.
+    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the system
+    #     default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_store
+    #     Sets the X509::Store to verify peer certificate.
+    #
+    #   @option options [OpenSSL::X509::Certificate] :ssl_cert
+    #     Sets a client certificate when creating http connections.
+    #
+    #   @option options [OpenSSL::PKey] :ssl_key
+    #     Sets a client key when creating http connections.
+    #
+    #   @option options [Float] :ssl_timeout
+    #     Sets the SSL timeout in seconds
+    #
+    #   @option options [Boolean] :ssl_verify_peer (true)
+    #     When `true`, SSL peer certificates are verified when establishing a connection.
     #
     def initialize(*args)
       super
@@ -378,18 +477,26 @@ module Aws::FMS
 
     # @!group API Operations
 
-    # Sets the Firewall Manager administrator account. The account must be a
-    # member of the organization in Organizations whose resources you want
-    # to protect. Firewall Manager sets the permissions that allow the
-    # account to administer your Firewall Manager policies.
+    # Sets a Firewall Manager default administrator account. The Firewall
+    # Manager default administrator account can manage third-party firewalls
+    # and has full administrative scope that allows administration of all
+    # policy types, accounts, organizational units, and Regions. This
+    # account must be a member account of the organization in Organizations
+    # whose resources you want to protect.
     #
-    # The account that you associate with Firewall Manager is called the
-    # Firewall Manager administrator account.
+    # For information about working with Firewall Manager administrator
+    # accounts, see [Managing Firewall Manager administrators][1] in the
+    # *Firewall Manager Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/organizations/latest/userguide/fms-administrators.html
     #
     # @option params [required, String] :admin_account
     #   The Amazon Web Services account ID to associate with Firewall Manager
-    #   as the Firewall Manager administrator account. This must be an
-    #   Organizations member account. For more information about
+    #   as the Firewall Manager default administrator account. This account
+    #   must be a member account of the organization in Organizations whose
+    #   resources you want to protect. For more information about
     #   Organizations, see [Managing the Amazon Web Services Accounts in Your
     #   Organization][1].
     #
@@ -448,8 +555,8 @@ module Aws::FMS
     # Associate resources to a Firewall Manager resource set.
     #
     # @option params [required, String] :resource_set_identifier
-    #   A unique identifier for the resource set, used in a TODO to refer to
-    #   the resource set.
+    #   A unique identifier for the resource set, used in a request to refer
+    #   to the resource set.
     #
     # @option params [required, Array<String>] :items
     #   The uniform resource identifiers (URIs) of resources that should be
@@ -487,8 +594,8 @@ module Aws::FMS
     # Disassociates resources from a Firewall Manager resource set.
     #
     # @option params [required, String] :resource_set_identifier
-    #   A unique identifier for the resource set, used in a TODO to refer to
-    #   the resource set.
+    #   A unique identifier for the resource set, used in a request to refer
+    #   to the resource set.
     #
     # @option params [required, Array<String>] :items
     #   The uniform resource identifiers (URI) of resources that should be
@@ -588,6 +695,12 @@ module Aws::FMS
     #     Manager and if it's no longer associated with any resources through
     #     another policy
     #
+    #   <note markdown="1"> For security group common policies, even if set to `False`, Firewall
+    #   Manager deletes all security groups created by Firewall Manager that
+    #   aren't associated with any other resources through another policy.
+    #
+    #    </note>
+    #
     #   After the cleanup, in-scope resources are no longer protected by web
     #   ACLs in this policy. Protection of out-of-scope resources remains
     #   unchanged. Scope is determined by tags that you create and accounts
@@ -642,8 +755,8 @@ module Aws::FMS
     # Deletes the specified ResourceSet.
     #
     # @option params [required, String] :identifier
-    #   A unique identifier for the resource set, used in a TODO to refer to
-    #   the resource set.
+    #   A unique identifier for the resource set, used in a request to refer
+    #   to the resource set.
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
@@ -662,9 +775,15 @@ module Aws::FMS
       req.send_request(options)
     end
 
-    # Disassociates the account that has been set as the Firewall Manager
-    # administrator account. To set a different account as the administrator
-    # account, you must submit an `AssociateAdminAccount` request.
+    # Disassociates an Firewall Manager administrator account. To set a
+    # different account as an Firewall Manager administrator, submit a
+    # PutAdminAccount request. To set an account as a default administrator
+    # account, you must submit an AssociateAdminAccount request.
+    #
+    # Disassociation of the default administrator account follows the first
+    # in, last out principle. If you are the default administrator, all
+    # Firewall Manager administrators within the organization must first
+    # disassociate their accounts before you can disassociate your account.
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
@@ -709,7 +828,7 @@ module Aws::FMS
     end
 
     # Returns the Organizations account that is associated with Firewall
-    # Manager as the Firewall Manager administrator.
+    # Manager as the Firewall Manager default administrator.
     #
     # @return [Types::GetAdminAccountResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -727,6 +846,51 @@ module Aws::FMS
     # @param [Hash] params ({})
     def get_admin_account(params = {}, options = {})
       req = build_request(:get_admin_account, params)
+      req.send_request(options)
+    end
+
+    # Returns information about the specified account's administrative
+    # scope. The administrative scope defines the resources that an Firewall
+    # Manager administrator can manage.
+    #
+    # @option params [required, String] :admin_account
+    #   The administrator account that you want to get the details for.
+    #
+    # @return [Types::GetAdminScopeResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetAdminScopeResponse#admin_scope #admin_scope} => Types::AdminScope
+    #   * {Types::GetAdminScopeResponse#status #status} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_admin_scope({
+    #     admin_account: "AWSAccountId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.admin_scope.account_scope.accounts #=> Array
+    #   resp.admin_scope.account_scope.accounts[0] #=> String
+    #   resp.admin_scope.account_scope.all_accounts_enabled #=> Boolean
+    #   resp.admin_scope.account_scope.exclude_specified_accounts #=> Boolean
+    #   resp.admin_scope.organizational_unit_scope.organizational_units #=> Array
+    #   resp.admin_scope.organizational_unit_scope.organizational_units[0] #=> String
+    #   resp.admin_scope.organizational_unit_scope.all_organizational_units_enabled #=> Boolean
+    #   resp.admin_scope.organizational_unit_scope.exclude_specified_organizational_units #=> Boolean
+    #   resp.admin_scope.region_scope.regions #=> Array
+    #   resp.admin_scope.region_scope.regions[0] #=> String
+    #   resp.admin_scope.region_scope.all_regions_enabled #=> Boolean
+    #   resp.admin_scope.policy_type_scope.policy_types #=> Array
+    #   resp.admin_scope.policy_type_scope.policy_types[0] #=> String, one of "WAF", "WAFV2", "SHIELD_ADVANCED", "SECURITY_GROUPS_COMMON", "SECURITY_GROUPS_CONTENT_AUDIT", "SECURITY_GROUPS_USAGE_AUDIT", "NETWORK_FIREWALL", "DNS_FIREWALL", "THIRD_PARTY_FIREWALL", "IMPORT_NETWORK_FIREWALL", "NETWORK_ACL_COMMON"
+    #   resp.admin_scope.policy_type_scope.all_policy_types_enabled #=> Boolean
+    #   resp.status #=> String, one of "ONBOARDING", "ONBOARDING_COMPLETE", "OFFBOARDING", "OFFBOARDING_COMPLETE"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/fms-2018-01-01/GetAdminScope AWS API Documentation
+    #
+    # @overload get_admin_scope(params = {})
+    # @param [Hash] params ({})
+    def get_admin_scope(params = {}, options = {})
+      req = build_request(:get_admin_scope, params)
       req.send_request(options)
     end
 
@@ -784,23 +948,8 @@ module Aws::FMS
     # account. Details include resources that are in and out of compliance
     # with the specified policy.
     #
-    # * Resources are considered noncompliant for WAF and Shield Advanced
-    #   policies if the specified policy has not been applied to them.
-    #
-    # * Resources are considered noncompliant for security group policies if
-    #   they are in scope of the policy, they violate one or more of the
-    #   policy rules, and remediation is disabled or not possible.
-    #
-    # * Resources are considered noncompliant for Network Firewall policies
-    #   if a firewall is missing in the VPC, if the firewall endpoint isn't
-    #   set up in an expected Availability Zone and subnet, if a subnet
-    #   created by the Firewall Manager doesn't have the expected route
-    #   table, and for modifications to a firewall policy that violate the
-    #   Firewall Manager policy's rules.
-    #
-    # * Resources are considered noncompliant for DNS Firewall policies if a
-    #   DNS Firewall rule group is missing from the rule group associations
-    #   for the VPC.
+    # The reasons for resources being considered compliant depend on the
+    # Firewall Manager policy type.
     #
     # @option params [required, String] :policy_id
     #   The ID of the policy that you want to get the details for. `PolicyId`
@@ -828,7 +977,7 @@ module Aws::FMS
     #   resp.policy_compliance_detail.member_account #=> String
     #   resp.policy_compliance_detail.violators #=> Array
     #   resp.policy_compliance_detail.violators[0].resource_id #=> String
-    #   resp.policy_compliance_detail.violators[0].violation_reason #=> String, one of "WEB_ACL_MISSING_RULE_GROUP", "RESOURCE_MISSING_WEB_ACL", "RESOURCE_INCORRECT_WEB_ACL", "RESOURCE_MISSING_SHIELD_PROTECTION", "RESOURCE_MISSING_WEB_ACL_OR_SHIELD_PROTECTION", "RESOURCE_MISSING_SECURITY_GROUP", "RESOURCE_VIOLATES_AUDIT_SECURITY_GROUP", "SECURITY_GROUP_UNUSED", "SECURITY_GROUP_REDUNDANT", "FMS_CREATED_SECURITY_GROUP_EDITED", "MISSING_FIREWALL", "MISSING_FIREWALL_SUBNET_IN_AZ", "MISSING_EXPECTED_ROUTE_TABLE", "NETWORK_FIREWALL_POLICY_MODIFIED", "FIREWALL_SUBNET_IS_OUT_OF_SCOPE", "INTERNET_GATEWAY_MISSING_EXPECTED_ROUTE", "FIREWALL_SUBNET_MISSING_EXPECTED_ROUTE", "UNEXPECTED_FIREWALL_ROUTES", "UNEXPECTED_TARGET_GATEWAY_ROUTES", "TRAFFIC_INSPECTION_CROSSES_AZ_BOUNDARY", "INVALID_ROUTE_CONFIGURATION", "MISSING_TARGET_GATEWAY", "INTERNET_TRAFFIC_NOT_INSPECTED", "BLACK_HOLE_ROUTE_DETECTED", "BLACK_HOLE_ROUTE_DETECTED_IN_FIREWALL_SUBNET", "RESOURCE_MISSING_DNS_FIREWALL", "ROUTE_HAS_OUT_OF_SCOPE_ENDPOINT", "FIREWALL_SUBNET_MISSING_VPCE_ENDPOINT"
+    #   resp.policy_compliance_detail.violators[0].violation_reason #=> String, one of "WEB_ACL_MISSING_RULE_GROUP", "RESOURCE_MISSING_WEB_ACL", "RESOURCE_INCORRECT_WEB_ACL", "RESOURCE_MISSING_SHIELD_PROTECTION", "RESOURCE_MISSING_WEB_ACL_OR_SHIELD_PROTECTION", "RESOURCE_MISSING_SECURITY_GROUP", "RESOURCE_VIOLATES_AUDIT_SECURITY_GROUP", "SECURITY_GROUP_UNUSED", "SECURITY_GROUP_REDUNDANT", "FMS_CREATED_SECURITY_GROUP_EDITED", "MISSING_FIREWALL", "MISSING_FIREWALL_SUBNET_IN_AZ", "MISSING_EXPECTED_ROUTE_TABLE", "NETWORK_FIREWALL_POLICY_MODIFIED", "FIREWALL_SUBNET_IS_OUT_OF_SCOPE", "INTERNET_GATEWAY_MISSING_EXPECTED_ROUTE", "FIREWALL_SUBNET_MISSING_EXPECTED_ROUTE", "UNEXPECTED_FIREWALL_ROUTES", "UNEXPECTED_TARGET_GATEWAY_ROUTES", "TRAFFIC_INSPECTION_CROSSES_AZ_BOUNDARY", "INVALID_ROUTE_CONFIGURATION", "MISSING_TARGET_GATEWAY", "INTERNET_TRAFFIC_NOT_INSPECTED", "BLACK_HOLE_ROUTE_DETECTED", "BLACK_HOLE_ROUTE_DETECTED_IN_FIREWALL_SUBNET", "RESOURCE_MISSING_DNS_FIREWALL", "ROUTE_HAS_OUT_OF_SCOPE_ENDPOINT", "FIREWALL_SUBNET_MISSING_VPCE_ENDPOINT", "INVALID_NETWORK_ACL_ENTRY", "WEB_ACL_CONFIGURATION_OR_SCOPE_OF_USE"
     #   resp.policy_compliance_detail.violators[0].resource_type #=> String
     #   resp.policy_compliance_detail.violators[0].metadata #=> Hash
     #   resp.policy_compliance_detail.violators[0].metadata["LengthBoundedString"] #=> String
@@ -889,10 +1038,32 @@ module Aws::FMS
     #   resp.policy.policy_id #=> String
     #   resp.policy.policy_name #=> String
     #   resp.policy.policy_update_token #=> String
-    #   resp.policy.security_service_policy_data.type #=> String, one of "WAF", "WAFV2", "SHIELD_ADVANCED", "SECURITY_GROUPS_COMMON", "SECURITY_GROUPS_CONTENT_AUDIT", "SECURITY_GROUPS_USAGE_AUDIT", "NETWORK_FIREWALL", "DNS_FIREWALL", "THIRD_PARTY_FIREWALL", "IMPORT_NETWORK_FIREWALL"
+    #   resp.policy.security_service_policy_data.type #=> String, one of "WAF", "WAFV2", "SHIELD_ADVANCED", "SECURITY_GROUPS_COMMON", "SECURITY_GROUPS_CONTENT_AUDIT", "SECURITY_GROUPS_USAGE_AUDIT", "NETWORK_FIREWALL", "DNS_FIREWALL", "THIRD_PARTY_FIREWALL", "IMPORT_NETWORK_FIREWALL", "NETWORK_ACL_COMMON"
     #   resp.policy.security_service_policy_data.managed_service_data #=> String
     #   resp.policy.security_service_policy_data.policy_option.network_firewall_policy.firewall_deployment_model #=> String, one of "CENTRALIZED", "DISTRIBUTED"
     #   resp.policy.security_service_policy_data.policy_option.third_party_firewall_policy.firewall_deployment_model #=> String, one of "CENTRALIZED", "DISTRIBUTED"
+    #   resp.policy.security_service_policy_data.policy_option.network_acl_common_policy.network_acl_entry_set.first_entries #=> Array
+    #   resp.policy.security_service_policy_data.policy_option.network_acl_common_policy.network_acl_entry_set.first_entries[0].icmp_type_code.code #=> Integer
+    #   resp.policy.security_service_policy_data.policy_option.network_acl_common_policy.network_acl_entry_set.first_entries[0].icmp_type_code.type #=> Integer
+    #   resp.policy.security_service_policy_data.policy_option.network_acl_common_policy.network_acl_entry_set.first_entries[0].protocol #=> String
+    #   resp.policy.security_service_policy_data.policy_option.network_acl_common_policy.network_acl_entry_set.first_entries[0].port_range.from #=> Integer
+    #   resp.policy.security_service_policy_data.policy_option.network_acl_common_policy.network_acl_entry_set.first_entries[0].port_range.to #=> Integer
+    #   resp.policy.security_service_policy_data.policy_option.network_acl_common_policy.network_acl_entry_set.first_entries[0].cidr_block #=> String
+    #   resp.policy.security_service_policy_data.policy_option.network_acl_common_policy.network_acl_entry_set.first_entries[0].ipv_6_cidr_block #=> String
+    #   resp.policy.security_service_policy_data.policy_option.network_acl_common_policy.network_acl_entry_set.first_entries[0].rule_action #=> String, one of "allow", "deny"
+    #   resp.policy.security_service_policy_data.policy_option.network_acl_common_policy.network_acl_entry_set.first_entries[0].egress #=> Boolean
+    #   resp.policy.security_service_policy_data.policy_option.network_acl_common_policy.network_acl_entry_set.force_remediate_for_first_entries #=> Boolean
+    #   resp.policy.security_service_policy_data.policy_option.network_acl_common_policy.network_acl_entry_set.last_entries #=> Array
+    #   resp.policy.security_service_policy_data.policy_option.network_acl_common_policy.network_acl_entry_set.last_entries[0].icmp_type_code.code #=> Integer
+    #   resp.policy.security_service_policy_data.policy_option.network_acl_common_policy.network_acl_entry_set.last_entries[0].icmp_type_code.type #=> Integer
+    #   resp.policy.security_service_policy_data.policy_option.network_acl_common_policy.network_acl_entry_set.last_entries[0].protocol #=> String
+    #   resp.policy.security_service_policy_data.policy_option.network_acl_common_policy.network_acl_entry_set.last_entries[0].port_range.from #=> Integer
+    #   resp.policy.security_service_policy_data.policy_option.network_acl_common_policy.network_acl_entry_set.last_entries[0].port_range.to #=> Integer
+    #   resp.policy.security_service_policy_data.policy_option.network_acl_common_policy.network_acl_entry_set.last_entries[0].cidr_block #=> String
+    #   resp.policy.security_service_policy_data.policy_option.network_acl_common_policy.network_acl_entry_set.last_entries[0].ipv_6_cidr_block #=> String
+    #   resp.policy.security_service_policy_data.policy_option.network_acl_common_policy.network_acl_entry_set.last_entries[0].rule_action #=> String, one of "allow", "deny"
+    #   resp.policy.security_service_policy_data.policy_option.network_acl_common_policy.network_acl_entry_set.last_entries[0].egress #=> Boolean
+    #   resp.policy.security_service_policy_data.policy_option.network_acl_common_policy.network_acl_entry_set.force_remediate_for_last_entries #=> Boolean
     #   resp.policy.resource_type #=> String
     #   resp.policy.resource_type_list #=> Array
     #   resp.policy.resource_type_list[0] #=> String
@@ -911,6 +1082,8 @@ module Aws::FMS
     #   resp.policy.resource_set_ids #=> Array
     #   resp.policy.resource_set_ids[0] #=> String
     #   resp.policy.policy_description #=> String
+    #   resp.policy.policy_status #=> String, one of "ACTIVE", "OUT_OF_ADMIN_SCOPE"
+    #   resp.policy.resource_tag_logical_operator #=> String, one of "AND", "OR"
     #   resp.policy_arn #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/fms-2018-01-01/GetPolicy AWS API Documentation
@@ -981,7 +1154,7 @@ module Aws::FMS
     # @example Response structure
     #
     #   resp.admin_account_id #=> String
-    #   resp.service_type #=> String, one of "WAF", "WAFV2", "SHIELD_ADVANCED", "SECURITY_GROUPS_COMMON", "SECURITY_GROUPS_CONTENT_AUDIT", "SECURITY_GROUPS_USAGE_AUDIT", "NETWORK_FIREWALL", "DNS_FIREWALL", "THIRD_PARTY_FIREWALL", "IMPORT_NETWORK_FIREWALL"
+    #   resp.service_type #=> String, one of "WAF", "WAFV2", "SHIELD_ADVANCED", "SECURITY_GROUPS_COMMON", "SECURITY_GROUPS_CONTENT_AUDIT", "SECURITY_GROUPS_USAGE_AUDIT", "NETWORK_FIREWALL", "DNS_FIREWALL", "THIRD_PARTY_FIREWALL", "IMPORT_NETWORK_FIREWALL", "NETWORK_ACL_COMMON"
     #   resp.data #=> String
     #   resp.next_token #=> String
     #
@@ -1043,8 +1216,8 @@ module Aws::FMS
     # Gets information about a specific resource set.
     #
     # @option params [required, String] :identifier
-    #   A unique identifier for the resource set, used in a TODO to refer to
-    #   the resource set.
+    #   A unique identifier for the resource set, used in a request to refer
+    #   to the resource set.
     #
     # @return [Types::GetResourceSetResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1066,6 +1239,7 @@ module Aws::FMS
     #   resp.resource_set.resource_type_list #=> Array
     #   resp.resource_set.resource_type_list[0] #=> String
     #   resp.resource_set.last_update_time #=> Time
+    #   resp.resource_set.resource_set_status #=> String, one of "ACTIVE", "OUT_OF_ADMIN_SCOPE"
     #   resp.resource_set_arn #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/fms-2018-01-01/GetResourceSet AWS API Documentation
@@ -1113,7 +1287,21 @@ module Aws::FMS
     #
     # @option params [required, String] :policy_id
     #   The ID of the Firewall Manager policy that you want the details for.
-    #   This currently only supports security group content audit policies.
+    #   You can get violation details for the following policy types:
+    #
+    #   * WAF
+    #
+    #   * DNS Firewall
+    #
+    #   * Imported Network Firewall
+    #
+    #   * Network Firewall
+    #
+    #   * Security group content audit
+    #
+    #   * Network ACL
+    #
+    #   * Third-party firewall
     #
     # @option params [required, String] :member_account
     #   The Amazon Web Services account ID that you want the details for.
@@ -1124,9 +1312,9 @@ module Aws::FMS
     # @option params [required, String] :resource_type
     #   The resource type. This is in the format shown in the [Amazon Web
     #   Services Resource Types Reference][1]. Supported resource types are:
-    #   `AWS::EC2::Instance`, `AWS::EC2::NetworkInterface`,
-    #   `AWS::EC2::SecurityGroup`, `AWS::NetworkFirewall::FirewallPolicy`, and
-    #   `AWS::EC2::Subnet`.
+    #   `AWS::WAFv2::WebACL`, `AWS::EC2::Instance`,
+    #   `AWS::EC2::NetworkInterface`, `AWS::EC2::SecurityGroup`,
+    #   `AWS::NetworkFirewall::FirewallPolicy`, and `AWS::EC2::Subnet`.
     #
     #
     #
@@ -1208,6 +1396,7 @@ module Aws::FMS
     #   resp.violation_detail.resource_violations[0].network_firewall_policy_modified_violation.current_policy_description.stateful_default_actions #=> Array
     #   resp.violation_detail.resource_violations[0].network_firewall_policy_modified_violation.current_policy_description.stateful_default_actions[0] #=> String
     #   resp.violation_detail.resource_violations[0].network_firewall_policy_modified_violation.current_policy_description.stateful_engine_options.rule_order #=> String, one of "STRICT_ORDER", "DEFAULT_ACTION_ORDER"
+    #   resp.violation_detail.resource_violations[0].network_firewall_policy_modified_violation.current_policy_description.stateful_engine_options.stream_exception_policy #=> String, one of "DROP", "CONTINUE", "REJECT", "FMS_IGNORE"
     #   resp.violation_detail.resource_violations[0].network_firewall_policy_modified_violation.expected_policy_description.stateless_rule_groups #=> Array
     #   resp.violation_detail.resource_violations[0].network_firewall_policy_modified_violation.expected_policy_description.stateless_rule_groups[0].rule_group_name #=> String
     #   resp.violation_detail.resource_violations[0].network_firewall_policy_modified_violation.expected_policy_description.stateless_rule_groups[0].resource_id #=> String
@@ -1226,6 +1415,7 @@ module Aws::FMS
     #   resp.violation_detail.resource_violations[0].network_firewall_policy_modified_violation.expected_policy_description.stateful_default_actions #=> Array
     #   resp.violation_detail.resource_violations[0].network_firewall_policy_modified_violation.expected_policy_description.stateful_default_actions[0] #=> String
     #   resp.violation_detail.resource_violations[0].network_firewall_policy_modified_violation.expected_policy_description.stateful_engine_options.rule_order #=> String, one of "STRICT_ORDER", "DEFAULT_ACTION_ORDER"
+    #   resp.violation_detail.resource_violations[0].network_firewall_policy_modified_violation.expected_policy_description.stateful_engine_options.stream_exception_policy #=> String, one of "DROP", "CONTINUE", "REJECT", "FMS_IGNORE"
     #   resp.violation_detail.resource_violations[0].network_firewall_internet_traffic_not_inspected_violation.subnet_id #=> String
     #   resp.violation_detail.resource_violations[0].network_firewall_internet_traffic_not_inspected_violation.subnet_availability_zone #=> String
     #   resp.violation_detail.resource_violations[0].network_firewall_internet_traffic_not_inspected_violation.route_table_id #=> String
@@ -1360,6 +1550,95 @@ module Aws::FMS
     #   resp.violation_detail.resource_violations[0].dns_rule_group_limit_exceeded_violation.violation_target #=> String
     #   resp.violation_detail.resource_violations[0].dns_rule_group_limit_exceeded_violation.violation_target_description #=> String
     #   resp.violation_detail.resource_violations[0].dns_rule_group_limit_exceeded_violation.number_of_rule_groups_already_associated #=> Integer
+    #   resp.violation_detail.resource_violations[0].firewall_subnet_is_out_of_scope_violation.firewall_subnet_id #=> String
+    #   resp.violation_detail.resource_violations[0].firewall_subnet_is_out_of_scope_violation.vpc_id #=> String
+    #   resp.violation_detail.resource_violations[0].firewall_subnet_is_out_of_scope_violation.subnet_availability_zone #=> String
+    #   resp.violation_detail.resource_violations[0].firewall_subnet_is_out_of_scope_violation.subnet_availability_zone_id #=> String
+    #   resp.violation_detail.resource_violations[0].firewall_subnet_is_out_of_scope_violation.vpc_endpoint_id #=> String
+    #   resp.violation_detail.resource_violations[0].route_has_out_of_scope_endpoint_violation.subnet_id #=> String
+    #   resp.violation_detail.resource_violations[0].route_has_out_of_scope_endpoint_violation.vpc_id #=> String
+    #   resp.violation_detail.resource_violations[0].route_has_out_of_scope_endpoint_violation.route_table_id #=> String
+    #   resp.violation_detail.resource_violations[0].route_has_out_of_scope_endpoint_violation.violating_routes #=> Array
+    #   resp.violation_detail.resource_violations[0].route_has_out_of_scope_endpoint_violation.violating_routes[0].destination_type #=> String, one of "IPV4", "IPV6", "PREFIX_LIST"
+    #   resp.violation_detail.resource_violations[0].route_has_out_of_scope_endpoint_violation.violating_routes[0].target_type #=> String, one of "GATEWAY", "CARRIER_GATEWAY", "INSTANCE", "LOCAL_GATEWAY", "NAT_GATEWAY", "NETWORK_INTERFACE", "VPC_ENDPOINT", "VPC_PEERING_CONNECTION", "EGRESS_ONLY_INTERNET_GATEWAY", "TRANSIT_GATEWAY"
+    #   resp.violation_detail.resource_violations[0].route_has_out_of_scope_endpoint_violation.violating_routes[0].destination #=> String
+    #   resp.violation_detail.resource_violations[0].route_has_out_of_scope_endpoint_violation.violating_routes[0].target #=> String
+    #   resp.violation_detail.resource_violations[0].route_has_out_of_scope_endpoint_violation.subnet_availability_zone #=> String
+    #   resp.violation_detail.resource_violations[0].route_has_out_of_scope_endpoint_violation.subnet_availability_zone_id #=> String
+    #   resp.violation_detail.resource_violations[0].route_has_out_of_scope_endpoint_violation.current_firewall_subnet_route_table #=> String
+    #   resp.violation_detail.resource_violations[0].route_has_out_of_scope_endpoint_violation.firewall_subnet_id #=> String
+    #   resp.violation_detail.resource_violations[0].route_has_out_of_scope_endpoint_violation.firewall_subnet_routes #=> Array
+    #   resp.violation_detail.resource_violations[0].route_has_out_of_scope_endpoint_violation.firewall_subnet_routes[0].destination_type #=> String, one of "IPV4", "IPV6", "PREFIX_LIST"
+    #   resp.violation_detail.resource_violations[0].route_has_out_of_scope_endpoint_violation.firewall_subnet_routes[0].target_type #=> String, one of "GATEWAY", "CARRIER_GATEWAY", "INSTANCE", "LOCAL_GATEWAY", "NAT_GATEWAY", "NETWORK_INTERFACE", "VPC_ENDPOINT", "VPC_PEERING_CONNECTION", "EGRESS_ONLY_INTERNET_GATEWAY", "TRANSIT_GATEWAY"
+    #   resp.violation_detail.resource_violations[0].route_has_out_of_scope_endpoint_violation.firewall_subnet_routes[0].destination #=> String
+    #   resp.violation_detail.resource_violations[0].route_has_out_of_scope_endpoint_violation.firewall_subnet_routes[0].target #=> String
+    #   resp.violation_detail.resource_violations[0].route_has_out_of_scope_endpoint_violation.internet_gateway_id #=> String
+    #   resp.violation_detail.resource_violations[0].route_has_out_of_scope_endpoint_violation.current_internet_gateway_route_table #=> String
+    #   resp.violation_detail.resource_violations[0].route_has_out_of_scope_endpoint_violation.internet_gateway_routes #=> Array
+    #   resp.violation_detail.resource_violations[0].route_has_out_of_scope_endpoint_violation.internet_gateway_routes[0].destination_type #=> String, one of "IPV4", "IPV6", "PREFIX_LIST"
+    #   resp.violation_detail.resource_violations[0].route_has_out_of_scope_endpoint_violation.internet_gateway_routes[0].target_type #=> String, one of "GATEWAY", "CARRIER_GATEWAY", "INSTANCE", "LOCAL_GATEWAY", "NAT_GATEWAY", "NETWORK_INTERFACE", "VPC_ENDPOINT", "VPC_PEERING_CONNECTION", "EGRESS_ONLY_INTERNET_GATEWAY", "TRANSIT_GATEWAY"
+    #   resp.violation_detail.resource_violations[0].route_has_out_of_scope_endpoint_violation.internet_gateway_routes[0].destination #=> String
+    #   resp.violation_detail.resource_violations[0].route_has_out_of_scope_endpoint_violation.internet_gateway_routes[0].target #=> String
+    #   resp.violation_detail.resource_violations[0].third_party_firewall_missing_firewall_violation.violation_target #=> String
+    #   resp.violation_detail.resource_violations[0].third_party_firewall_missing_firewall_violation.vpc #=> String
+    #   resp.violation_detail.resource_violations[0].third_party_firewall_missing_firewall_violation.availability_zone #=> String
+    #   resp.violation_detail.resource_violations[0].third_party_firewall_missing_firewall_violation.target_violation_reason #=> String
+    #   resp.violation_detail.resource_violations[0].third_party_firewall_missing_subnet_violation.violation_target #=> String
+    #   resp.violation_detail.resource_violations[0].third_party_firewall_missing_subnet_violation.vpc #=> String
+    #   resp.violation_detail.resource_violations[0].third_party_firewall_missing_subnet_violation.availability_zone #=> String
+    #   resp.violation_detail.resource_violations[0].third_party_firewall_missing_subnet_violation.target_violation_reason #=> String
+    #   resp.violation_detail.resource_violations[0].third_party_firewall_missing_expected_route_table_violation.violation_target #=> String
+    #   resp.violation_detail.resource_violations[0].third_party_firewall_missing_expected_route_table_violation.vpc #=> String
+    #   resp.violation_detail.resource_violations[0].third_party_firewall_missing_expected_route_table_violation.availability_zone #=> String
+    #   resp.violation_detail.resource_violations[0].third_party_firewall_missing_expected_route_table_violation.current_route_table #=> String
+    #   resp.violation_detail.resource_violations[0].third_party_firewall_missing_expected_route_table_violation.expected_route_table #=> String
+    #   resp.violation_detail.resource_violations[0].firewall_subnet_missing_vpc_endpoint_violation.firewall_subnet_id #=> String
+    #   resp.violation_detail.resource_violations[0].firewall_subnet_missing_vpc_endpoint_violation.vpc_id #=> String
+    #   resp.violation_detail.resource_violations[0].firewall_subnet_missing_vpc_endpoint_violation.subnet_availability_zone #=> String
+    #   resp.violation_detail.resource_violations[0].firewall_subnet_missing_vpc_endpoint_violation.subnet_availability_zone_id #=> String
+    #   resp.violation_detail.resource_violations[0].invalid_network_acl_entries_violation.vpc #=> String
+    #   resp.violation_detail.resource_violations[0].invalid_network_acl_entries_violation.subnet #=> String
+    #   resp.violation_detail.resource_violations[0].invalid_network_acl_entries_violation.subnet_availability_zone #=> String
+    #   resp.violation_detail.resource_violations[0].invalid_network_acl_entries_violation.current_associated_network_acl #=> String
+    #   resp.violation_detail.resource_violations[0].invalid_network_acl_entries_violation.entry_violations #=> Array
+    #   resp.violation_detail.resource_violations[0].invalid_network_acl_entries_violation.entry_violations[0].expected_entry.entry_detail.icmp_type_code.code #=> Integer
+    #   resp.violation_detail.resource_violations[0].invalid_network_acl_entries_violation.entry_violations[0].expected_entry.entry_detail.icmp_type_code.type #=> Integer
+    #   resp.violation_detail.resource_violations[0].invalid_network_acl_entries_violation.entry_violations[0].expected_entry.entry_detail.protocol #=> String
+    #   resp.violation_detail.resource_violations[0].invalid_network_acl_entries_violation.entry_violations[0].expected_entry.entry_detail.port_range.from #=> Integer
+    #   resp.violation_detail.resource_violations[0].invalid_network_acl_entries_violation.entry_violations[0].expected_entry.entry_detail.port_range.to #=> Integer
+    #   resp.violation_detail.resource_violations[0].invalid_network_acl_entries_violation.entry_violations[0].expected_entry.entry_detail.cidr_block #=> String
+    #   resp.violation_detail.resource_violations[0].invalid_network_acl_entries_violation.entry_violations[0].expected_entry.entry_detail.ipv_6_cidr_block #=> String
+    #   resp.violation_detail.resource_violations[0].invalid_network_acl_entries_violation.entry_violations[0].expected_entry.entry_detail.rule_action #=> String, one of "allow", "deny"
+    #   resp.violation_detail.resource_violations[0].invalid_network_acl_entries_violation.entry_violations[0].expected_entry.entry_detail.egress #=> Boolean
+    #   resp.violation_detail.resource_violations[0].invalid_network_acl_entries_violation.entry_violations[0].expected_entry.entry_rule_number #=> Integer
+    #   resp.violation_detail.resource_violations[0].invalid_network_acl_entries_violation.entry_violations[0].expected_entry.entry_type #=> String, one of "FMS_MANAGED_FIRST_ENTRY", "FMS_MANAGED_LAST_ENTRY", "CUSTOM_ENTRY"
+    #   resp.violation_detail.resource_violations[0].invalid_network_acl_entries_violation.entry_violations[0].expected_evaluation_order #=> String
+    #   resp.violation_detail.resource_violations[0].invalid_network_acl_entries_violation.entry_violations[0].actual_evaluation_order #=> String
+    #   resp.violation_detail.resource_violations[0].invalid_network_acl_entries_violation.entry_violations[0].entry_at_expected_evaluation_order.entry_detail.icmp_type_code.code #=> Integer
+    #   resp.violation_detail.resource_violations[0].invalid_network_acl_entries_violation.entry_violations[0].entry_at_expected_evaluation_order.entry_detail.icmp_type_code.type #=> Integer
+    #   resp.violation_detail.resource_violations[0].invalid_network_acl_entries_violation.entry_violations[0].entry_at_expected_evaluation_order.entry_detail.protocol #=> String
+    #   resp.violation_detail.resource_violations[0].invalid_network_acl_entries_violation.entry_violations[0].entry_at_expected_evaluation_order.entry_detail.port_range.from #=> Integer
+    #   resp.violation_detail.resource_violations[0].invalid_network_acl_entries_violation.entry_violations[0].entry_at_expected_evaluation_order.entry_detail.port_range.to #=> Integer
+    #   resp.violation_detail.resource_violations[0].invalid_network_acl_entries_violation.entry_violations[0].entry_at_expected_evaluation_order.entry_detail.cidr_block #=> String
+    #   resp.violation_detail.resource_violations[0].invalid_network_acl_entries_violation.entry_violations[0].entry_at_expected_evaluation_order.entry_detail.ipv_6_cidr_block #=> String
+    #   resp.violation_detail.resource_violations[0].invalid_network_acl_entries_violation.entry_violations[0].entry_at_expected_evaluation_order.entry_detail.rule_action #=> String, one of "allow", "deny"
+    #   resp.violation_detail.resource_violations[0].invalid_network_acl_entries_violation.entry_violations[0].entry_at_expected_evaluation_order.entry_detail.egress #=> Boolean
+    #   resp.violation_detail.resource_violations[0].invalid_network_acl_entries_violation.entry_violations[0].entry_at_expected_evaluation_order.entry_rule_number #=> Integer
+    #   resp.violation_detail.resource_violations[0].invalid_network_acl_entries_violation.entry_violations[0].entry_at_expected_evaluation_order.entry_type #=> String, one of "FMS_MANAGED_FIRST_ENTRY", "FMS_MANAGED_LAST_ENTRY", "CUSTOM_ENTRY"
+    #   resp.violation_detail.resource_violations[0].invalid_network_acl_entries_violation.entry_violations[0].entries_with_conflicts #=> Array
+    #   resp.violation_detail.resource_violations[0].invalid_network_acl_entries_violation.entry_violations[0].entries_with_conflicts[0].entry_detail.icmp_type_code.code #=> Integer
+    #   resp.violation_detail.resource_violations[0].invalid_network_acl_entries_violation.entry_violations[0].entries_with_conflicts[0].entry_detail.icmp_type_code.type #=> Integer
+    #   resp.violation_detail.resource_violations[0].invalid_network_acl_entries_violation.entry_violations[0].entries_with_conflicts[0].entry_detail.protocol #=> String
+    #   resp.violation_detail.resource_violations[0].invalid_network_acl_entries_violation.entry_violations[0].entries_with_conflicts[0].entry_detail.port_range.from #=> Integer
+    #   resp.violation_detail.resource_violations[0].invalid_network_acl_entries_violation.entry_violations[0].entries_with_conflicts[0].entry_detail.port_range.to #=> Integer
+    #   resp.violation_detail.resource_violations[0].invalid_network_acl_entries_violation.entry_violations[0].entries_with_conflicts[0].entry_detail.cidr_block #=> String
+    #   resp.violation_detail.resource_violations[0].invalid_network_acl_entries_violation.entry_violations[0].entries_with_conflicts[0].entry_detail.ipv_6_cidr_block #=> String
+    #   resp.violation_detail.resource_violations[0].invalid_network_acl_entries_violation.entry_violations[0].entries_with_conflicts[0].entry_detail.rule_action #=> String, one of "allow", "deny"
+    #   resp.violation_detail.resource_violations[0].invalid_network_acl_entries_violation.entry_violations[0].entries_with_conflicts[0].entry_detail.egress #=> Boolean
+    #   resp.violation_detail.resource_violations[0].invalid_network_acl_entries_violation.entry_violations[0].entries_with_conflicts[0].entry_rule_number #=> Integer
+    #   resp.violation_detail.resource_violations[0].invalid_network_acl_entries_violation.entry_violations[0].entries_with_conflicts[0].entry_type #=> String, one of "FMS_MANAGED_FIRST_ENTRY", "FMS_MANAGED_LAST_ENTRY", "CUSTOM_ENTRY"
+    #   resp.violation_detail.resource_violations[0].invalid_network_acl_entries_violation.entry_violations[0].entry_violation_reasons #=> Array
+    #   resp.violation_detail.resource_violations[0].invalid_network_acl_entries_violation.entry_violations[0].entry_violation_reasons[0] #=> String, one of "MISSING_EXPECTED_ENTRY", "INCORRECT_ENTRY_ORDER", "ENTRY_CONFLICT"
     #   resp.violation_detail.resource_violations[0].possible_remediation_actions.description #=> String
     #   resp.violation_detail.resource_violations[0].possible_remediation_actions.actions #=> Array
     #   resp.violation_detail.resource_violations[0].possible_remediation_actions.actions[0].description #=> String
@@ -1411,54 +1690,55 @@ module Aws::FMS
     #   resp.violation_detail.resource_violations[0].possible_remediation_actions.actions[0].ordered_remediation_actions[0].remediation_action.ec2_create_route_table_action.vpc_id.description #=> String
     #   resp.violation_detail.resource_violations[0].possible_remediation_actions.actions[0].ordered_remediation_actions[0].remediation_action.fms_policy_update_firewall_creation_config_action.description #=> String
     #   resp.violation_detail.resource_violations[0].possible_remediation_actions.actions[0].ordered_remediation_actions[0].remediation_action.fms_policy_update_firewall_creation_config_action.firewall_creation_config #=> String
+    #   resp.violation_detail.resource_violations[0].possible_remediation_actions.actions[0].ordered_remediation_actions[0].remediation_action.create_network_acl_action.description #=> String
+    #   resp.violation_detail.resource_violations[0].possible_remediation_actions.actions[0].ordered_remediation_actions[0].remediation_action.create_network_acl_action.vpc.resource_id #=> String
+    #   resp.violation_detail.resource_violations[0].possible_remediation_actions.actions[0].ordered_remediation_actions[0].remediation_action.create_network_acl_action.vpc.description #=> String
+    #   resp.violation_detail.resource_violations[0].possible_remediation_actions.actions[0].ordered_remediation_actions[0].remediation_action.create_network_acl_action.fms_can_remediate #=> Boolean
+    #   resp.violation_detail.resource_violations[0].possible_remediation_actions.actions[0].ordered_remediation_actions[0].remediation_action.replace_network_acl_association_action.description #=> String
+    #   resp.violation_detail.resource_violations[0].possible_remediation_actions.actions[0].ordered_remediation_actions[0].remediation_action.replace_network_acl_association_action.association_id.resource_id #=> String
+    #   resp.violation_detail.resource_violations[0].possible_remediation_actions.actions[0].ordered_remediation_actions[0].remediation_action.replace_network_acl_association_action.association_id.description #=> String
+    #   resp.violation_detail.resource_violations[0].possible_remediation_actions.actions[0].ordered_remediation_actions[0].remediation_action.replace_network_acl_association_action.network_acl_id.resource_id #=> String
+    #   resp.violation_detail.resource_violations[0].possible_remediation_actions.actions[0].ordered_remediation_actions[0].remediation_action.replace_network_acl_association_action.network_acl_id.description #=> String
+    #   resp.violation_detail.resource_violations[0].possible_remediation_actions.actions[0].ordered_remediation_actions[0].remediation_action.replace_network_acl_association_action.fms_can_remediate #=> Boolean
+    #   resp.violation_detail.resource_violations[0].possible_remediation_actions.actions[0].ordered_remediation_actions[0].remediation_action.create_network_acl_entries_action.description #=> String
+    #   resp.violation_detail.resource_violations[0].possible_remediation_actions.actions[0].ordered_remediation_actions[0].remediation_action.create_network_acl_entries_action.network_acl_id.resource_id #=> String
+    #   resp.violation_detail.resource_violations[0].possible_remediation_actions.actions[0].ordered_remediation_actions[0].remediation_action.create_network_acl_entries_action.network_acl_id.description #=> String
+    #   resp.violation_detail.resource_violations[0].possible_remediation_actions.actions[0].ordered_remediation_actions[0].remediation_action.create_network_acl_entries_action.network_acl_entries_to_be_created #=> Array
+    #   resp.violation_detail.resource_violations[0].possible_remediation_actions.actions[0].ordered_remediation_actions[0].remediation_action.create_network_acl_entries_action.network_acl_entries_to_be_created[0].entry_detail.icmp_type_code.code #=> Integer
+    #   resp.violation_detail.resource_violations[0].possible_remediation_actions.actions[0].ordered_remediation_actions[0].remediation_action.create_network_acl_entries_action.network_acl_entries_to_be_created[0].entry_detail.icmp_type_code.type #=> Integer
+    #   resp.violation_detail.resource_violations[0].possible_remediation_actions.actions[0].ordered_remediation_actions[0].remediation_action.create_network_acl_entries_action.network_acl_entries_to_be_created[0].entry_detail.protocol #=> String
+    #   resp.violation_detail.resource_violations[0].possible_remediation_actions.actions[0].ordered_remediation_actions[0].remediation_action.create_network_acl_entries_action.network_acl_entries_to_be_created[0].entry_detail.port_range.from #=> Integer
+    #   resp.violation_detail.resource_violations[0].possible_remediation_actions.actions[0].ordered_remediation_actions[0].remediation_action.create_network_acl_entries_action.network_acl_entries_to_be_created[0].entry_detail.port_range.to #=> Integer
+    #   resp.violation_detail.resource_violations[0].possible_remediation_actions.actions[0].ordered_remediation_actions[0].remediation_action.create_network_acl_entries_action.network_acl_entries_to_be_created[0].entry_detail.cidr_block #=> String
+    #   resp.violation_detail.resource_violations[0].possible_remediation_actions.actions[0].ordered_remediation_actions[0].remediation_action.create_network_acl_entries_action.network_acl_entries_to_be_created[0].entry_detail.ipv_6_cidr_block #=> String
+    #   resp.violation_detail.resource_violations[0].possible_remediation_actions.actions[0].ordered_remediation_actions[0].remediation_action.create_network_acl_entries_action.network_acl_entries_to_be_created[0].entry_detail.rule_action #=> String, one of "allow", "deny"
+    #   resp.violation_detail.resource_violations[0].possible_remediation_actions.actions[0].ordered_remediation_actions[0].remediation_action.create_network_acl_entries_action.network_acl_entries_to_be_created[0].entry_detail.egress #=> Boolean
+    #   resp.violation_detail.resource_violations[0].possible_remediation_actions.actions[0].ordered_remediation_actions[0].remediation_action.create_network_acl_entries_action.network_acl_entries_to_be_created[0].entry_rule_number #=> Integer
+    #   resp.violation_detail.resource_violations[0].possible_remediation_actions.actions[0].ordered_remediation_actions[0].remediation_action.create_network_acl_entries_action.network_acl_entries_to_be_created[0].entry_type #=> String, one of "FMS_MANAGED_FIRST_ENTRY", "FMS_MANAGED_LAST_ENTRY", "CUSTOM_ENTRY"
+    #   resp.violation_detail.resource_violations[0].possible_remediation_actions.actions[0].ordered_remediation_actions[0].remediation_action.create_network_acl_entries_action.fms_can_remediate #=> Boolean
+    #   resp.violation_detail.resource_violations[0].possible_remediation_actions.actions[0].ordered_remediation_actions[0].remediation_action.delete_network_acl_entries_action.description #=> String
+    #   resp.violation_detail.resource_violations[0].possible_remediation_actions.actions[0].ordered_remediation_actions[0].remediation_action.delete_network_acl_entries_action.network_acl_id.resource_id #=> String
+    #   resp.violation_detail.resource_violations[0].possible_remediation_actions.actions[0].ordered_remediation_actions[0].remediation_action.delete_network_acl_entries_action.network_acl_id.description #=> String
+    #   resp.violation_detail.resource_violations[0].possible_remediation_actions.actions[0].ordered_remediation_actions[0].remediation_action.delete_network_acl_entries_action.network_acl_entries_to_be_deleted #=> Array
+    #   resp.violation_detail.resource_violations[0].possible_remediation_actions.actions[0].ordered_remediation_actions[0].remediation_action.delete_network_acl_entries_action.network_acl_entries_to_be_deleted[0].entry_detail.icmp_type_code.code #=> Integer
+    #   resp.violation_detail.resource_violations[0].possible_remediation_actions.actions[0].ordered_remediation_actions[0].remediation_action.delete_network_acl_entries_action.network_acl_entries_to_be_deleted[0].entry_detail.icmp_type_code.type #=> Integer
+    #   resp.violation_detail.resource_violations[0].possible_remediation_actions.actions[0].ordered_remediation_actions[0].remediation_action.delete_network_acl_entries_action.network_acl_entries_to_be_deleted[0].entry_detail.protocol #=> String
+    #   resp.violation_detail.resource_violations[0].possible_remediation_actions.actions[0].ordered_remediation_actions[0].remediation_action.delete_network_acl_entries_action.network_acl_entries_to_be_deleted[0].entry_detail.port_range.from #=> Integer
+    #   resp.violation_detail.resource_violations[0].possible_remediation_actions.actions[0].ordered_remediation_actions[0].remediation_action.delete_network_acl_entries_action.network_acl_entries_to_be_deleted[0].entry_detail.port_range.to #=> Integer
+    #   resp.violation_detail.resource_violations[0].possible_remediation_actions.actions[0].ordered_remediation_actions[0].remediation_action.delete_network_acl_entries_action.network_acl_entries_to_be_deleted[0].entry_detail.cidr_block #=> String
+    #   resp.violation_detail.resource_violations[0].possible_remediation_actions.actions[0].ordered_remediation_actions[0].remediation_action.delete_network_acl_entries_action.network_acl_entries_to_be_deleted[0].entry_detail.ipv_6_cidr_block #=> String
+    #   resp.violation_detail.resource_violations[0].possible_remediation_actions.actions[0].ordered_remediation_actions[0].remediation_action.delete_network_acl_entries_action.network_acl_entries_to_be_deleted[0].entry_detail.rule_action #=> String, one of "allow", "deny"
+    #   resp.violation_detail.resource_violations[0].possible_remediation_actions.actions[0].ordered_remediation_actions[0].remediation_action.delete_network_acl_entries_action.network_acl_entries_to_be_deleted[0].entry_detail.egress #=> Boolean
+    #   resp.violation_detail.resource_violations[0].possible_remediation_actions.actions[0].ordered_remediation_actions[0].remediation_action.delete_network_acl_entries_action.network_acl_entries_to_be_deleted[0].entry_rule_number #=> Integer
+    #   resp.violation_detail.resource_violations[0].possible_remediation_actions.actions[0].ordered_remediation_actions[0].remediation_action.delete_network_acl_entries_action.network_acl_entries_to_be_deleted[0].entry_type #=> String, one of "FMS_MANAGED_FIRST_ENTRY", "FMS_MANAGED_LAST_ENTRY", "CUSTOM_ENTRY"
+    #   resp.violation_detail.resource_violations[0].possible_remediation_actions.actions[0].ordered_remediation_actions[0].remediation_action.delete_network_acl_entries_action.fms_can_remediate #=> Boolean
     #   resp.violation_detail.resource_violations[0].possible_remediation_actions.actions[0].ordered_remediation_actions[0].order #=> Integer
     #   resp.violation_detail.resource_violations[0].possible_remediation_actions.actions[0].is_default_action #=> Boolean
-    #   resp.violation_detail.resource_violations[0].firewall_subnet_is_out_of_scope_violation.firewall_subnet_id #=> String
-    #   resp.violation_detail.resource_violations[0].firewall_subnet_is_out_of_scope_violation.vpc_id #=> String
-    #   resp.violation_detail.resource_violations[0].firewall_subnet_is_out_of_scope_violation.subnet_availability_zone #=> String
-    #   resp.violation_detail.resource_violations[0].firewall_subnet_is_out_of_scope_violation.subnet_availability_zone_id #=> String
-    #   resp.violation_detail.resource_violations[0].firewall_subnet_is_out_of_scope_violation.vpc_endpoint_id #=> String
-    #   resp.violation_detail.resource_violations[0].route_has_out_of_scope_endpoint_violation.subnet_id #=> String
-    #   resp.violation_detail.resource_violations[0].route_has_out_of_scope_endpoint_violation.vpc_id #=> String
-    #   resp.violation_detail.resource_violations[0].route_has_out_of_scope_endpoint_violation.route_table_id #=> String
-    #   resp.violation_detail.resource_violations[0].route_has_out_of_scope_endpoint_violation.violating_routes #=> Array
-    #   resp.violation_detail.resource_violations[0].route_has_out_of_scope_endpoint_violation.violating_routes[0].destination_type #=> String, one of "IPV4", "IPV6", "PREFIX_LIST"
-    #   resp.violation_detail.resource_violations[0].route_has_out_of_scope_endpoint_violation.violating_routes[0].target_type #=> String, one of "GATEWAY", "CARRIER_GATEWAY", "INSTANCE", "LOCAL_GATEWAY", "NAT_GATEWAY", "NETWORK_INTERFACE", "VPC_ENDPOINT", "VPC_PEERING_CONNECTION", "EGRESS_ONLY_INTERNET_GATEWAY", "TRANSIT_GATEWAY"
-    #   resp.violation_detail.resource_violations[0].route_has_out_of_scope_endpoint_violation.violating_routes[0].destination #=> String
-    #   resp.violation_detail.resource_violations[0].route_has_out_of_scope_endpoint_violation.violating_routes[0].target #=> String
-    #   resp.violation_detail.resource_violations[0].route_has_out_of_scope_endpoint_violation.subnet_availability_zone #=> String
-    #   resp.violation_detail.resource_violations[0].route_has_out_of_scope_endpoint_violation.subnet_availability_zone_id #=> String
-    #   resp.violation_detail.resource_violations[0].route_has_out_of_scope_endpoint_violation.current_firewall_subnet_route_table #=> String
-    #   resp.violation_detail.resource_violations[0].route_has_out_of_scope_endpoint_violation.firewall_subnet_id #=> String
-    #   resp.violation_detail.resource_violations[0].route_has_out_of_scope_endpoint_violation.firewall_subnet_routes #=> Array
-    #   resp.violation_detail.resource_violations[0].route_has_out_of_scope_endpoint_violation.firewall_subnet_routes[0].destination_type #=> String, one of "IPV4", "IPV6", "PREFIX_LIST"
-    #   resp.violation_detail.resource_violations[0].route_has_out_of_scope_endpoint_violation.firewall_subnet_routes[0].target_type #=> String, one of "GATEWAY", "CARRIER_GATEWAY", "INSTANCE", "LOCAL_GATEWAY", "NAT_GATEWAY", "NETWORK_INTERFACE", "VPC_ENDPOINT", "VPC_PEERING_CONNECTION", "EGRESS_ONLY_INTERNET_GATEWAY", "TRANSIT_GATEWAY"
-    #   resp.violation_detail.resource_violations[0].route_has_out_of_scope_endpoint_violation.firewall_subnet_routes[0].destination #=> String
-    #   resp.violation_detail.resource_violations[0].route_has_out_of_scope_endpoint_violation.firewall_subnet_routes[0].target #=> String
-    #   resp.violation_detail.resource_violations[0].route_has_out_of_scope_endpoint_violation.internet_gateway_id #=> String
-    #   resp.violation_detail.resource_violations[0].route_has_out_of_scope_endpoint_violation.current_internet_gateway_route_table #=> String
-    #   resp.violation_detail.resource_violations[0].route_has_out_of_scope_endpoint_violation.internet_gateway_routes #=> Array
-    #   resp.violation_detail.resource_violations[0].route_has_out_of_scope_endpoint_violation.internet_gateway_routes[0].destination_type #=> String, one of "IPV4", "IPV6", "PREFIX_LIST"
-    #   resp.violation_detail.resource_violations[0].route_has_out_of_scope_endpoint_violation.internet_gateway_routes[0].target_type #=> String, one of "GATEWAY", "CARRIER_GATEWAY", "INSTANCE", "LOCAL_GATEWAY", "NAT_GATEWAY", "NETWORK_INTERFACE", "VPC_ENDPOINT", "VPC_PEERING_CONNECTION", "EGRESS_ONLY_INTERNET_GATEWAY", "TRANSIT_GATEWAY"
-    #   resp.violation_detail.resource_violations[0].route_has_out_of_scope_endpoint_violation.internet_gateway_routes[0].destination #=> String
-    #   resp.violation_detail.resource_violations[0].route_has_out_of_scope_endpoint_violation.internet_gateway_routes[0].target #=> String
-    #   resp.violation_detail.resource_violations[0].third_party_firewall_missing_firewall_violation.violation_target #=> String
-    #   resp.violation_detail.resource_violations[0].third_party_firewall_missing_firewall_violation.vpc #=> String
-    #   resp.violation_detail.resource_violations[0].third_party_firewall_missing_firewall_violation.availability_zone #=> String
-    #   resp.violation_detail.resource_violations[0].third_party_firewall_missing_firewall_violation.target_violation_reason #=> String
-    #   resp.violation_detail.resource_violations[0].third_party_firewall_missing_subnet_violation.violation_target #=> String
-    #   resp.violation_detail.resource_violations[0].third_party_firewall_missing_subnet_violation.vpc #=> String
-    #   resp.violation_detail.resource_violations[0].third_party_firewall_missing_subnet_violation.availability_zone #=> String
-    #   resp.violation_detail.resource_violations[0].third_party_firewall_missing_subnet_violation.target_violation_reason #=> String
-    #   resp.violation_detail.resource_violations[0].third_party_firewall_missing_expected_route_table_violation.violation_target #=> String
-    #   resp.violation_detail.resource_violations[0].third_party_firewall_missing_expected_route_table_violation.vpc #=> String
-    #   resp.violation_detail.resource_violations[0].third_party_firewall_missing_expected_route_table_violation.availability_zone #=> String
-    #   resp.violation_detail.resource_violations[0].third_party_firewall_missing_expected_route_table_violation.current_route_table #=> String
-    #   resp.violation_detail.resource_violations[0].third_party_firewall_missing_expected_route_table_violation.expected_route_table #=> String
-    #   resp.violation_detail.resource_violations[0].firewall_subnet_missing_vpc_endpoint_violation.firewall_subnet_id #=> String
-    #   resp.violation_detail.resource_violations[0].firewall_subnet_missing_vpc_endpoint_violation.vpc_id #=> String
-    #   resp.violation_detail.resource_violations[0].firewall_subnet_missing_vpc_endpoint_violation.subnet_availability_zone #=> String
-    #   resp.violation_detail.resource_violations[0].firewall_subnet_missing_vpc_endpoint_violation.subnet_availability_zone_id #=> String
+    #   resp.violation_detail.resource_violations[0].web_acl_has_incompatible_configuration_violation.web_acl_arn #=> String
+    #   resp.violation_detail.resource_violations[0].web_acl_has_incompatible_configuration_violation.description #=> String
+    #   resp.violation_detail.resource_violations[0].web_acl_has_out_of_scope_resources_violation.web_acl_arn #=> String
+    #   resp.violation_detail.resource_violations[0].web_acl_has_out_of_scope_resources_violation.out_of_scope_resource_list #=> Array
+    #   resp.violation_detail.resource_violations[0].web_acl_has_out_of_scope_resources_violation.out_of_scope_resource_list[0] #=> String
     #   resp.violation_detail.resource_tags #=> Array
     #   resp.violation_detail.resource_tags[0].key #=> String
     #   resp.violation_detail.resource_tags[0].value #=> String
@@ -1470,6 +1750,105 @@ module Aws::FMS
     # @param [Hash] params ({})
     def get_violation_details(params = {}, options = {})
       req = build_request(:get_violation_details, params)
+      req.send_request(options)
+    end
+
+    # Returns a `AdminAccounts` object that lists the Firewall Manager
+    # administrators within the organization that are onboarded to Firewall
+    # Manager by AssociateAdminAccount.
+    #
+    # This operation can be called only from the organization's management
+    # account.
+    #
+    # @option params [String] :next_token
+    #   When you request a list of objects with a `MaxResults` setting, if the
+    #   number of objects that are still available for retrieval exceeds the
+    #   maximum you requested, Firewall Manager returns a `NextToken` value in
+    #   the response. To retrieve the next batch of objects, use the token
+    #   returned from the prior request in your next request.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of objects that you want Firewall Manager to return
+    #   for this request. If more objects are available, in the response,
+    #   Firewall Manager provides a `NextToken` value that you can use in a
+    #   subsequent call to get the next batch of objects.
+    #
+    # @return [Types::ListAdminAccountsForOrganizationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListAdminAccountsForOrganizationResponse#admin_accounts #admin_accounts} => Array&lt;Types::AdminAccountSummary&gt;
+    #   * {Types::ListAdminAccountsForOrganizationResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_admin_accounts_for_organization({
+    #     next_token: "PaginationToken",
+    #     max_results: 1,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.admin_accounts #=> Array
+    #   resp.admin_accounts[0].admin_account #=> String
+    #   resp.admin_accounts[0].default_admin #=> Boolean
+    #   resp.admin_accounts[0].status #=> String, one of "ONBOARDING", "ONBOARDING_COMPLETE", "OFFBOARDING", "OFFBOARDING_COMPLETE"
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/fms-2018-01-01/ListAdminAccountsForOrganization AWS API Documentation
+    #
+    # @overload list_admin_accounts_for_organization(params = {})
+    # @param [Hash] params ({})
+    def list_admin_accounts_for_organization(params = {}, options = {})
+      req = build_request(:list_admin_accounts_for_organization, params)
+      req.send_request(options)
+    end
+
+    # Lists the accounts that are managing the specified Organizations
+    # member account. This is useful for any member account so that they can
+    # view the accounts who are managing their account. This operation only
+    # returns the managing administrators that have the requested account
+    # within their AdminScope.
+    #
+    # @option params [String] :next_token
+    #   When you request a list of objects with a `MaxResults` setting, if the
+    #   number of objects that are still available for retrieval exceeds the
+    #   maximum you requested, Firewall Manager returns a `NextToken` value in
+    #   the response. To retrieve the next batch of objects, use the token
+    #   returned from the prior request in your next request.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of objects that you want Firewall Manager to return
+    #   for this request. If more objects are available, in the response,
+    #   Firewall Manager provides a `NextToken` value that you can use in a
+    #   subsequent call to get the next batch of objects.
+    #
+    # @return [Types::ListAdminsManagingAccountResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListAdminsManagingAccountResponse#admin_accounts #admin_accounts} => Array&lt;String&gt;
+    #   * {Types::ListAdminsManagingAccountResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_admins_managing_account({
+    #     next_token: "PaginationToken",
+    #     max_results: 1,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.admin_accounts #=> Array
+    #   resp.admin_accounts[0] #=> String
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/fms-2018-01-01/ListAdminsManagingAccount AWS API Documentation
+    #
+    # @overload list_admins_managing_account(params = {})
+    # @param [Hash] params ({})
+    def list_admins_managing_account(params = {}, options = {})
+      req = build_request(:list_admins_managing_account, params)
       req.send_request(options)
     end
 
@@ -1654,8 +2033,8 @@ module Aws::FMS
     # Returns a `MemberAccounts` object that lists the member accounts in
     # the administrator's Amazon Web Services organization.
     #
-    # The `ListMemberAccounts` must be submitted by the account that is set
-    # as the Firewall Manager administrator.
+    # Either an Firewall Manager administrator or the organization's
+    # management account can make this request.
     #
     # @option params [String] :next_token
     #   If you specify a value for `MaxResults` and you have more account IDs
@@ -1741,9 +2120,10 @@ module Aws::FMS
     #   resp.policy_list[0].policy_id #=> String
     #   resp.policy_list[0].policy_name #=> String
     #   resp.policy_list[0].resource_type #=> String
-    #   resp.policy_list[0].security_service_type #=> String, one of "WAF", "WAFV2", "SHIELD_ADVANCED", "SECURITY_GROUPS_COMMON", "SECURITY_GROUPS_CONTENT_AUDIT", "SECURITY_GROUPS_USAGE_AUDIT", "NETWORK_FIREWALL", "DNS_FIREWALL", "THIRD_PARTY_FIREWALL", "IMPORT_NETWORK_FIREWALL"
+    #   resp.policy_list[0].security_service_type #=> String, one of "WAF", "WAFV2", "SHIELD_ADVANCED", "SECURITY_GROUPS_COMMON", "SECURITY_GROUPS_CONTENT_AUDIT", "SECURITY_GROUPS_USAGE_AUDIT", "NETWORK_FIREWALL", "DNS_FIREWALL", "THIRD_PARTY_FIREWALL", "IMPORT_NETWORK_FIREWALL", "NETWORK_ACL_COMMON"
     #   resp.policy_list[0].remediation_enabled #=> Boolean
     #   resp.policy_list[0].delete_unused_fm_managed_resources #=> Boolean
+    #   resp.policy_list[0].policy_status #=> String, one of "ACTIVE", "OUT_OF_ADMIN_SCOPE"
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/fms-2018-01-01/ListPolicies AWS API Documentation
@@ -1815,8 +2195,8 @@ module Aws::FMS
     # resource set.
     #
     # @option params [required, String] :identifier
-    #   A unique identifier for the resource set, used in a TODO to refer to
-    #   the resource set.
+    #   A unique identifier for the resource set, used in a request to refer
+    #   to the resource set.
     #
     # @option params [Integer] :max_results
     #   The maximum number of objects that you want Firewall Manager to return
@@ -1894,6 +2274,7 @@ module Aws::FMS
     #   resp.resource_sets[0].name #=> String
     #   resp.resource_sets[0].description #=> String
     #   resp.resource_sets[0].last_update_time #=> Time
+    #   resp.resource_sets[0].resource_set_status #=> String, one of "ACTIVE", "OUT_OF_ADMIN_SCOPE"
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/fms-2018-01-01/ListResourceSets AWS API Documentation
@@ -1995,6 +2376,77 @@ module Aws::FMS
       req.send_request(options)
     end
 
+    # Creates or updates an Firewall Manager administrator account. The
+    # account must be a member of the organization that was onboarded to
+    # Firewall Manager by AssociateAdminAccount. Only the organization's
+    # management account can create an Firewall Manager administrator
+    # account. When you create an Firewall Manager administrator account,
+    # the service checks to see if the account is already a delegated
+    # administrator within Organizations. If the account isn't a delegated
+    # administrator, Firewall Manager calls Organizations to delegate the
+    # account within Organizations. For more information about administrator
+    # accounts within Organizations, see [Managing the Amazon Web Services
+    # Accounts in Your Organization][1].
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts.html
+    #
+    # @option params [required, String] :admin_account
+    #   The Amazon Web Services account ID to add as an Firewall Manager
+    #   administrator account. The account must be a member of the
+    #   organization that was onboarded to Firewall Manager by
+    #   AssociateAdminAccount. For more information about Organizations, see
+    #   [Managing the Amazon Web Services Accounts in Your Organization][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts.html
+    #
+    # @option params [Types::AdminScope] :admin_scope
+    #   Configures the resources that the specified Firewall Manager
+    #   administrator can manage. As a best practice, set the administrative
+    #   scope according to the principles of least privilege. Only grant the
+    #   administrator the specific resources or permissions that they need to
+    #   perform the duties of their role.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.put_admin_account({
+    #     admin_account: "AWSAccountId", # required
+    #     admin_scope: {
+    #       account_scope: {
+    #         accounts: ["AWSAccountId"],
+    #         all_accounts_enabled: false,
+    #         exclude_specified_accounts: false,
+    #       },
+    #       organizational_unit_scope: {
+    #         organizational_units: ["OrganizationalUnitId"],
+    #         all_organizational_units_enabled: false,
+    #         exclude_specified_organizational_units: false,
+    #       },
+    #       region_scope: {
+    #         regions: ["AWSRegion"],
+    #         all_regions_enabled: false,
+    #       },
+    #       policy_type_scope: {
+    #         policy_types: ["WAF"], # accepts WAF, WAFV2, SHIELD_ADVANCED, SECURITY_GROUPS_COMMON, SECURITY_GROUPS_CONTENT_AUDIT, SECURITY_GROUPS_USAGE_AUDIT, NETWORK_FIREWALL, DNS_FIREWALL, THIRD_PARTY_FIREWALL, IMPORT_NETWORK_FIREWALL, NETWORK_ACL_COMMON
+    #         all_policy_types_enabled: false,
+    #       },
+    #     },
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/fms-2018-01-01/PutAdminAccount AWS API Documentation
+    #
+    # @overload put_admin_account(params = {})
+    # @param [Hash] params ({})
+    def put_admin_account(params = {}, options = {})
+      req = build_request(:put_admin_account, params)
+      req.send_request(options)
+    end
+
     # Creates an Firewall Manager applications list.
     #
     # @option params [required, Types::AppsListData] :apps_list
@@ -2072,15 +2524,18 @@ module Aws::FMS
     # Designates the IAM role and Amazon Simple Notification Service (SNS)
     # topic that Firewall Manager uses to record SNS logs.
     #
-    # To perform this action outside of the console, you must configure the
-    # SNS topic to allow the Firewall Manager role `AWSServiceRoleForFMS` to
-    # publish SNS logs. For more information, see [Firewall Manager required
-    # permissions for API actions][1] in the *Firewall Manager Developer
-    # Guide*.
+    # To perform this action outside of the console, you must first
+    # configure the SNS topic's access policy to allow the `SnsRoleName` to
+    # publish SNS logs. If the `SnsRoleName` provided is a role other than
+    # the `AWSServiceRoleForFMS` service-linked role, this role must have a
+    # trust relationship configured to allow the Firewall Manager service
+    # principal `fms.amazonaws.com` to assume this role. For information
+    # about configuring an SNS access policy, see [Service roles for
+    # Firewall Manager][1] in the *Firewall Manager Developer Guide*.
     #
     #
     #
-    # [1]: https://docs.aws.amazon.com/waf/latest/developerguide/fms-api-permissions-ref.html
+    # [1]: https://docs.aws.amazon.com/waf/latest/developerguide/fms-security_iam_service-with-iam.html#fms-security_iam_service-with-iam-roles-service
     #
     # @option params [required, String] :sns_topic_arn
     #   The Amazon Resource Name (ARN) of the SNS topic that collects
@@ -2110,37 +2565,59 @@ module Aws::FMS
 
     # Creates an Firewall Manager policy.
     #
+    # A Firewall Manager policy is specific to the individual policy type.
+    # If you want to enforce multiple policy types across accounts, you can
+    # create multiple policies. You can create more than one policy for each
+    # type.
+    #
+    # If you add a new account to an organization that you created with
+    # Organizations, Firewall Manager automatically applies the policy to
+    # the resources in that account that are within scope of the policy.
+    #
     # Firewall Manager provides the following types of policies:
     #
-    # * An WAF policy (type WAFV2), which defines rule groups to run first
-    #   in the corresponding WAF web ACL and rule groups to run last in the
-    #   web ACL.
+    # * **WAF policy** - This policy applies WAF web ACL protections to
+    #   specified accounts and resources.
     #
-    # * An WAF Classic policy (type WAF), which defines a rule group.
+    # * **Shield Advanced policy** - This policy applies Shield Advanced
+    #   protection to specified accounts and resources.
     #
-    # * A Shield Advanced policy, which applies Shield Advanced protection
-    #   to specified accounts and resources.
+    # * **Security Groups policy** - This type of policy gives you control
+    #   over security groups that are in use throughout your organization in
+    #   Organizations and lets you enforce a baseline set of rules across
+    #   your organization.
     #
-    # * A security group policy, which manages VPC security groups across
-    #   your Amazon Web Services organization.
+    # * **Network ACL policy** - This type of policy gives you control over
+    #   the network ACLs that are in use throughout your organization in
+    #   Organizations and lets you enforce a baseline set of first and last
+    #   network ACL rules across your organization.
     #
-    # * An Network Firewall policy, which provides firewall rules to filter
-    #   network traffic in specified Amazon VPCs.
+    # * **Network Firewall policy** - This policy applies Network Firewall
+    #   protection to your organization's VPCs.
     #
-    # * A DNS Firewall policy, which provides Route 53 Resolver DNS Firewall
-    #   rules to filter DNS queries for specified VPCs.
+    # * **DNS Firewall policy** - This policy applies Amazon Route 53
+    #   Resolver DNS Firewall protections to your organization's VPCs.
     #
-    # Each policy is specific to one of the types. If you want to enforce
-    # more than one policy type across accounts, create multiple policies.
-    # You can create multiple policies for each type.
+    # * **Third-party firewall policy** - This policy applies third-party
+    #   firewall protections. Third-party firewalls are available by
+    #   subscription through the Amazon Web Services Marketplace console at
+    #   [Amazon Web Services Marketplace][1].
     #
-    # You must be subscribed to Shield Advanced to create a Shield Advanced
-    # policy. For more information about subscribing to Shield Advanced, see
-    # [CreateSubscription][1].
+    #   * **Palo Alto Networks Cloud NGFW policy** - This policy applies
+    #     Palo Alto Networks Cloud Next Generation Firewall (NGFW)
+    #     protections and Palo Alto Networks Cloud NGFW rulestacks to your
+    #     organization's VPCs.
+    #
+    #   * **Fortigate CNF policy** - This policy applies Fortigate Cloud
+    #     Native Firewall (CNF) protections. Fortigate CNF is a
+    #     cloud-centered solution that blocks Zero-Day threats and secures
+    #     cloud infrastructures with industry-leading advanced threat
+    #     prevention, smart web application firewalls (WAF), and API
+    #     protection.
     #
     #
     #
-    # [1]: https://docs.aws.amazon.com/waf/latest/DDOSAPIReference/API_CreateSubscription.html
+    # [1]: http://aws.amazon.com/marketplace
     #
     # @option params [required, Types::Policy] :policy
     #   The details of the Firewall Manager policy to be created.
@@ -2161,7 +2638,7 @@ module Aws::FMS
     #       policy_name: "ResourceName", # required
     #       policy_update_token: "PolicyUpdateToken",
     #       security_service_policy_data: { # required
-    #         type: "WAF", # required, accepts WAF, WAFV2, SHIELD_ADVANCED, SECURITY_GROUPS_COMMON, SECURITY_GROUPS_CONTENT_AUDIT, SECURITY_GROUPS_USAGE_AUDIT, NETWORK_FIREWALL, DNS_FIREWALL, THIRD_PARTY_FIREWALL, IMPORT_NETWORK_FIREWALL
+    #         type: "WAF", # required, accepts WAF, WAFV2, SHIELD_ADVANCED, SECURITY_GROUPS_COMMON, SECURITY_GROUPS_CONTENT_AUDIT, SECURITY_GROUPS_USAGE_AUDIT, NETWORK_FIREWALL, DNS_FIREWALL, THIRD_PARTY_FIREWALL, IMPORT_NETWORK_FIREWALL, NETWORK_ACL_COMMON
     #         managed_service_data: "ManagedServiceData",
     #         policy_option: {
     #           network_firewall_policy: {
@@ -2169,6 +2646,46 @@ module Aws::FMS
     #           },
     #           third_party_firewall_policy: {
     #             firewall_deployment_model: "CENTRALIZED", # accepts CENTRALIZED, DISTRIBUTED
+    #           },
+    #           network_acl_common_policy: {
+    #             network_acl_entry_set: { # required
+    #               first_entries: [
+    #                 {
+    #                   icmp_type_code: {
+    #                     code: 1,
+    #                     type: 1,
+    #                   },
+    #                   protocol: "LengthBoundedString", # required
+    #                   port_range: {
+    #                     from: 1,
+    #                     to: 1,
+    #                   },
+    #                   cidr_block: "LengthBoundedNonEmptyString",
+    #                   ipv_6_cidr_block: "LengthBoundedNonEmptyString",
+    #                   rule_action: "allow", # required, accepts allow, deny
+    #                   egress: false, # required
+    #                 },
+    #               ],
+    #               force_remediate_for_first_entries: false, # required
+    #               last_entries: [
+    #                 {
+    #                   icmp_type_code: {
+    #                     code: 1,
+    #                     type: 1,
+    #                   },
+    #                   protocol: "LengthBoundedString", # required
+    #                   port_range: {
+    #                     from: 1,
+    #                     to: 1,
+    #                   },
+    #                   cidr_block: "LengthBoundedNonEmptyString",
+    #                   ipv_6_cidr_block: "LengthBoundedNonEmptyString",
+    #                   rule_action: "allow", # required, accepts allow, deny
+    #                   egress: false, # required
+    #                 },
+    #               ],
+    #               force_remediate_for_last_entries: false, # required
+    #             },
     #           },
     #         },
     #       },
@@ -2191,6 +2708,8 @@ module Aws::FMS
     #       },
     #       resource_set_ids: ["Base62Id"],
     #       policy_description: "ResourceDescription",
+    #       policy_status: "ACTIVE", # accepts ACTIVE, OUT_OF_ADMIN_SCOPE
+    #       resource_tag_logical_operator: "AND", # accepts AND, OR
     #     },
     #     tag_list: [
     #       {
@@ -2205,10 +2724,32 @@ module Aws::FMS
     #   resp.policy.policy_id #=> String
     #   resp.policy.policy_name #=> String
     #   resp.policy.policy_update_token #=> String
-    #   resp.policy.security_service_policy_data.type #=> String, one of "WAF", "WAFV2", "SHIELD_ADVANCED", "SECURITY_GROUPS_COMMON", "SECURITY_GROUPS_CONTENT_AUDIT", "SECURITY_GROUPS_USAGE_AUDIT", "NETWORK_FIREWALL", "DNS_FIREWALL", "THIRD_PARTY_FIREWALL", "IMPORT_NETWORK_FIREWALL"
+    #   resp.policy.security_service_policy_data.type #=> String, one of "WAF", "WAFV2", "SHIELD_ADVANCED", "SECURITY_GROUPS_COMMON", "SECURITY_GROUPS_CONTENT_AUDIT", "SECURITY_GROUPS_USAGE_AUDIT", "NETWORK_FIREWALL", "DNS_FIREWALL", "THIRD_PARTY_FIREWALL", "IMPORT_NETWORK_FIREWALL", "NETWORK_ACL_COMMON"
     #   resp.policy.security_service_policy_data.managed_service_data #=> String
     #   resp.policy.security_service_policy_data.policy_option.network_firewall_policy.firewall_deployment_model #=> String, one of "CENTRALIZED", "DISTRIBUTED"
     #   resp.policy.security_service_policy_data.policy_option.third_party_firewall_policy.firewall_deployment_model #=> String, one of "CENTRALIZED", "DISTRIBUTED"
+    #   resp.policy.security_service_policy_data.policy_option.network_acl_common_policy.network_acl_entry_set.first_entries #=> Array
+    #   resp.policy.security_service_policy_data.policy_option.network_acl_common_policy.network_acl_entry_set.first_entries[0].icmp_type_code.code #=> Integer
+    #   resp.policy.security_service_policy_data.policy_option.network_acl_common_policy.network_acl_entry_set.first_entries[0].icmp_type_code.type #=> Integer
+    #   resp.policy.security_service_policy_data.policy_option.network_acl_common_policy.network_acl_entry_set.first_entries[0].protocol #=> String
+    #   resp.policy.security_service_policy_data.policy_option.network_acl_common_policy.network_acl_entry_set.first_entries[0].port_range.from #=> Integer
+    #   resp.policy.security_service_policy_data.policy_option.network_acl_common_policy.network_acl_entry_set.first_entries[0].port_range.to #=> Integer
+    #   resp.policy.security_service_policy_data.policy_option.network_acl_common_policy.network_acl_entry_set.first_entries[0].cidr_block #=> String
+    #   resp.policy.security_service_policy_data.policy_option.network_acl_common_policy.network_acl_entry_set.first_entries[0].ipv_6_cidr_block #=> String
+    #   resp.policy.security_service_policy_data.policy_option.network_acl_common_policy.network_acl_entry_set.first_entries[0].rule_action #=> String, one of "allow", "deny"
+    #   resp.policy.security_service_policy_data.policy_option.network_acl_common_policy.network_acl_entry_set.first_entries[0].egress #=> Boolean
+    #   resp.policy.security_service_policy_data.policy_option.network_acl_common_policy.network_acl_entry_set.force_remediate_for_first_entries #=> Boolean
+    #   resp.policy.security_service_policy_data.policy_option.network_acl_common_policy.network_acl_entry_set.last_entries #=> Array
+    #   resp.policy.security_service_policy_data.policy_option.network_acl_common_policy.network_acl_entry_set.last_entries[0].icmp_type_code.code #=> Integer
+    #   resp.policy.security_service_policy_data.policy_option.network_acl_common_policy.network_acl_entry_set.last_entries[0].icmp_type_code.type #=> Integer
+    #   resp.policy.security_service_policy_data.policy_option.network_acl_common_policy.network_acl_entry_set.last_entries[0].protocol #=> String
+    #   resp.policy.security_service_policy_data.policy_option.network_acl_common_policy.network_acl_entry_set.last_entries[0].port_range.from #=> Integer
+    #   resp.policy.security_service_policy_data.policy_option.network_acl_common_policy.network_acl_entry_set.last_entries[0].port_range.to #=> Integer
+    #   resp.policy.security_service_policy_data.policy_option.network_acl_common_policy.network_acl_entry_set.last_entries[0].cidr_block #=> String
+    #   resp.policy.security_service_policy_data.policy_option.network_acl_common_policy.network_acl_entry_set.last_entries[0].ipv_6_cidr_block #=> String
+    #   resp.policy.security_service_policy_data.policy_option.network_acl_common_policy.network_acl_entry_set.last_entries[0].rule_action #=> String, one of "allow", "deny"
+    #   resp.policy.security_service_policy_data.policy_option.network_acl_common_policy.network_acl_entry_set.last_entries[0].egress #=> Boolean
+    #   resp.policy.security_service_policy_data.policy_option.network_acl_common_policy.network_acl_entry_set.force_remediate_for_last_entries #=> Boolean
     #   resp.policy.resource_type #=> String
     #   resp.policy.resource_type_list #=> Array
     #   resp.policy.resource_type_list[0] #=> String
@@ -2227,6 +2768,8 @@ module Aws::FMS
     #   resp.policy.resource_set_ids #=> Array
     #   resp.policy.resource_set_ids[0] #=> String
     #   resp.policy.policy_description #=> String
+    #   resp.policy.policy_status #=> String, one of "ACTIVE", "OUT_OF_ADMIN_SCOPE"
+    #   resp.policy.resource_tag_logical_operator #=> String, one of "AND", "OR"
     #   resp.policy_arn #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/fms-2018-01-01/PutPolicy AWS API Documentation
@@ -2327,6 +2870,7 @@ module Aws::FMS
     #       update_token: "UpdateToken",
     #       resource_type_list: ["ResourceType"], # required
     #       last_update_time: Time.now,
+    #       resource_set_status: "ACTIVE", # accepts ACTIVE, OUT_OF_ADMIN_SCOPE
     #     },
     #     tag_list: [
     #       {
@@ -2345,6 +2889,7 @@ module Aws::FMS
     #   resp.resource_set.resource_type_list #=> Array
     #   resp.resource_set.resource_type_list[0] #=> String
     #   resp.resource_set.last_update_time #=> Time
+    #   resp.resource_set.resource_set_status #=> String, one of "ACTIVE", "OUT_OF_ADMIN_SCOPE"
     #   resp.resource_set_arn #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/fms-2018-01-01/PutResourceSet AWS API Documentation
@@ -2423,14 +2968,19 @@ module Aws::FMS
     # @api private
     def build_request(operation_name, params = {})
       handlers = @handlers.for(operation_name)
+      tracer = config.telemetry_provider.tracer_provider.tracer(
+        Aws::Telemetry.module_to_tracer_name('Aws::FMS')
+      )
       context = Seahorse::Client::RequestContext.new(
         operation_name: operation_name,
         operation: config.api.operation(operation_name),
         client: self,
         params: params,
-        config: config)
+        config: config,
+        tracer: tracer
+      )
       context[:gem_name] = 'aws-sdk-fms'
-      context[:gem_version] = '1.55.0'
+      context[:gem_version] = '1.90.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

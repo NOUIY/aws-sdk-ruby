@@ -95,7 +95,7 @@ module Aws::RDS
       data[:offering_type]
     end
 
-    # Indicates if the reservation applies to Multi-AZ deployments.
+    # Indicates whether the reservation applies to Multi-AZ deployments.
     # @return [Boolean]
     def multi_az
       data[:multi_az]
@@ -145,7 +145,9 @@ module Aws::RDS
     #
     # @return [self]
     def load
-      resp = @client.describe_reserved_db_instances(reserved_db_instance_id: @id)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.describe_reserved_db_instances(reserved_db_instance_id: @id)
+      end
       @data = resp.reserved_db_instances[0]
       self
     end
@@ -260,7 +262,9 @@ module Aws::RDS
           :retry
         end
       end
-      Aws::Waiters::Waiter.new(options).wait({})
+      Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        Aws::Waiters::Waiter.new(options).wait({})
+      end
     end
 
     # @!group Associations

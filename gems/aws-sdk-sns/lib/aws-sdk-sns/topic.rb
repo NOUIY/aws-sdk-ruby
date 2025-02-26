@@ -67,7 +67,6 @@ module Aws::SNS
     #     value **1**.
     #
     #      </note>
-    #
     # * `SubscriptionsConfirmed` – The number of confirmed subscriptions for
     #   the topic.
     #
@@ -86,7 +85,7 @@ module Aws::SNS
     #   segment data to topic owner account if the sampled flag in the
     #   tracing header is true. This is only supported on standard topics.
     #
-    # The following attribute applies only to [server-side-encryption][1]\:
+    # The following attribute applies only to [server-side-encryption][1]:
     #
     # * `KmsMasterKeyId` - The ID of an Amazon Web Services managed customer
     #   master key (CMK) for Amazon SNS or a custom CMK. For more
@@ -95,9 +94,15 @@ module Aws::SNS
     #
     # ^
     #
-    # The following attributes apply only to [FIFO topics][4]\:
+    # The following attributes apply only to [FIFO topics][4]:
     #
-    # * `FifoTopic` – When this is set to `true`, a FIFO topic is created.
+    # * `ArchivePolicy` – The policy that sets the retention period for
+    #   messages stored in the message archive of an Amazon SNS FIFO topic.
+    #
+    # * `BeginningArchiveTime` – The earliest starting point at which a
+    #   message in the topic’s archive can be replayed from. This point in
+    #   time is based on the configured message retention period set by the
+    #   topic’s message archiving policy.
     #
     # * `ContentBasedDeduplication` – Enables content-based deduplication
     #   for FIFO topics.
@@ -114,6 +119,7 @@ module Aws::SNS
     #     (Optional) To override the generated value, you can specify a
     #     value for the `MessageDeduplicationId` parameter for the `Publish`
     #     action.
+    # * `FifoTopic` – When this is set to `true`, a FIFO topic is created.
     #
     #
     #
@@ -141,7 +147,9 @@ module Aws::SNS
     #
     # @return [self]
     def load
-      resp = @client.get_topic_attributes(topic_arn: @arn)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.get_topic_attributes(topic_arn: @arn)
+      end
       @data = resp.data
       self
     end
@@ -186,7 +194,9 @@ module Aws::SNS
     # @return [EmptyStructure]
     def add_permission(options = {})
       options = options.merge(topic_arn: @arn)
-      resp = @client.add_permission(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.add_permission(options)
+      end
       resp.data
     end
 
@@ -208,7 +218,9 @@ module Aws::SNS
     # @return [Subscription]
     def confirm_subscription(options = {})
       options = options.merge(topic_arn: @arn)
-      resp = @client.confirm_subscription(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.confirm_subscription(options)
+      end
       Subscription.new(
         arn: resp.data.subscription_arn,
         client: @client
@@ -222,7 +234,9 @@ module Aws::SNS
     # @return [EmptyStructure]
     def delete(options = {})
       options = options.merge(topic_arn: @arn)
-      resp = @client.delete_topic(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.delete_topic(options)
+      end
       resp.data
     end
 
@@ -230,7 +244,7 @@ module Aws::SNS
     #
     #   topic.publish({
     #     target_arn: "String",
-    #     phone_number: "String",
+    #     phone_number: "PhoneNumber",
     #     message: "message", # required
     #     subject: "subject",
     #     message_structure: "messageStructure",
@@ -314,9 +328,8 @@ module Aws::SNS
     #   is delivered to email endpoints. This field will also be included, if
     #   present, in the standard JSON messages delivered to other endpoints.
     #
-    #   Constraints: Subjects must be ASCII text that begins with a letter,
-    #   number, or punctuation mark; must not include line breaks or control
-    #   characters; and must be less than 100 characters long.
+    #   Constraints: Subjects must be UTF-8 text with no line breaks or
+    #   control characters, and less than 100 characters long.
     # @option options [String] :message_structure
     #   Set `MessageStructure` to `json` if you want to send a different
     #   message for each protocol. For example, using one publish action, you
@@ -336,24 +349,54 @@ module Aws::SNS
     # @option options [Hash<String,Types::MessageAttributeValue>] :message_attributes
     #   Message attributes for Publish action.
     # @option options [String] :message_deduplication_id
-    #   This parameter applies only to FIFO (first-in-first-out) topics. The
-    #   `MessageDeduplicationId` can contain up to 128 alphanumeric characters
-    #   `(a-z, A-Z, 0-9)` and punctuation ``
-    #   (!"#$%&'()*+,-./:;<=>?@[\]^_`\{|\}~) ``.
+    #   * This parameter applies only to FIFO (first-in-first-out) topics. The
+    #     `MessageDeduplicationId` can contain up to 128 alphanumeric
+    #     characters `(a-z, A-Z, 0-9)` and punctuation ``
+    #     (!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~) ``.
     #
-    #   Every message must have a unique `MessageDeduplicationId`, which is a
-    #   token used for deduplication of sent messages. If a message with a
-    #   particular `MessageDeduplicationId` is sent successfully, any message
-    #   sent with the same `MessageDeduplicationId` during the 5-minute
-    #   deduplication interval is treated as a duplicate.
+    #   * Every message must have a unique `MessageDeduplicationId`, which is
+    #     a token used for deduplication of sent messages within the 5 minute
+    #     minimum deduplication interval.
     #
-    #   If the topic has `ContentBasedDeduplication` set, the system generates
-    #   a `MessageDeduplicationId` based on the contents of the message. Your
-    #   `MessageDeduplicationId` overrides the generated one.
+    #   * The scope of deduplication depends on the `FifoThroughputScope`
+    #     attribute, when set to `Topic` the message deduplication scope is
+    #     across the entire topic, when set to `MessageGroup` the message
+    #     deduplication scope is within each individual message group.
+    #
+    #   * If a message with a particular `MessageDeduplicationId` is sent
+    #     successfully, subsequent messages within the deduplication scope and
+    #     interval, with the same `MessageDeduplicationId`, are accepted
+    #     successfully but aren't delivered.
+    #
+    #   * Every message must have a unique `MessageDeduplicationId`:
+    #
+    #     * You may provide a `MessageDeduplicationId` explicitly.
+    #
+    #     * If you aren't able to provide a `MessageDeduplicationId` and you
+    #       enable `ContentBasedDeduplication` for your topic, Amazon SNS uses
+    #       a SHA-256 hash to generate the `MessageDeduplicationId` using the
+    #       body of the message (but not the attributes of the message).
+    #
+    #     * If you don't provide a `MessageDeduplicationId` and the topic
+    #       doesn't have `ContentBasedDeduplication` set, the action fails
+    #       with an error.
+    #
+    #     * If the topic has a `ContentBasedDeduplication` set, your
+    #       `MessageDeduplicationId` overrides the generated one.
+    #   * When `ContentBasedDeduplication` is in effect, messages with
+    #     identical content sent within the deduplication scope and interval
+    #     are treated as duplicates and only one copy of the message is
+    #     delivered.
+    #
+    #   * If you send one message with `ContentBasedDeduplication` enabled,
+    #     and then another message with a `MessageDeduplicationId` that is the
+    #     same as the one generated for the first `MessageDeduplicationId`,
+    #     the two messages are treated as duplicates, within the deduplication
+    #     scope and interval, and only one copy of the message is delivered.
     # @option options [String] :message_group_id
     #   This parameter applies only to FIFO (first-in-first-out) topics. The
     #   `MessageGroupId` can contain up to 128 alphanumeric characters `(a-z,
-    #   A-Z, 0-9)` and punctuation `` (!"#$%&'()*+,-./:;<=>?@[\]^_`\{|\}~) ``.
+    #   A-Z, 0-9)` and punctuation `` (!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~) ``.
     #
     #   The `MessageGroupId` is a tag that specifies that a message belongs to
     #   a specific message group. Messages that belong to the same message
@@ -363,7 +406,9 @@ module Aws::SNS
     # @return [Types::PublishResponse]
     def publish(options = {})
       options = options.merge(topic_arn: @arn)
-      resp = @client.publish(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.publish(options)
+      end
       resp.data
     end
 
@@ -378,7 +423,9 @@ module Aws::SNS
     # @return [EmptyStructure]
     def remove_permission(options = {})
       options = options.merge(topic_arn: @arn)
-      resp = @client.remove_permission(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.remove_permission(options)
+      end
       resp.data
     end
 
@@ -428,7 +475,6 @@ module Aws::SNS
     #     * `HTTPFailureFeedbackRoleArn` – Indicates failed message delivery
     #       status for an Amazon SNS topic that is subscribed to an HTTP
     #       endpoint.
-    #
     #   * Amazon Kinesis Data Firehose
     #
     #     * `FirehoseSuccessFeedbackRoleArn` – Indicates successful message
@@ -442,7 +488,6 @@ module Aws::SNS
     #     * `FirehoseFailureFeedbackRoleArn` – Indicates failed message
     #       delivery status for an Amazon SNS topic that is subscribed to an
     #       Amazon Kinesis Data Firehose endpoint.
-    #
     #   * Lambda
     #
     #     * `LambdaSuccessFeedbackRoleArn` – Indicates successful message
@@ -456,7 +501,6 @@ module Aws::SNS
     #     * `LambdaFailureFeedbackRoleArn` – Indicates failed message delivery
     #       status for an Amazon SNS topic that is subscribed to an Lambda
     #       endpoint.
-    #
     #   * Platform application endpoint
     #
     #     * `ApplicationSuccessFeedbackRoleArn` – Indicates successful message
@@ -470,7 +514,6 @@ module Aws::SNS
     #     * `ApplicationFailureFeedbackRoleArn` – Indicates failed message
     #       delivery status for an Amazon SNS topic that is subscribed to an
     #       Amazon Web Services application endpoint.
-    #
     #     <note markdown="1"> In addition to being able to configure topic attributes for message
     #     delivery status of notification messages sent to Amazon SNS
     #     application endpoints, you can also configure application attributes
@@ -507,7 +550,7 @@ module Aws::SNS
     #
     #    </note>
     #
-    #   The following attribute applies only to [server-side-encryption][2]\:
+    #   The following attribute applies only to [server-side-encryption][2]:
     #
     #   * `KmsMasterKeyId` – The ID of an Amazon Web Services managed customer
     #     master key (CMK) for Amazon SNS or a custom CMK. For more
@@ -520,7 +563,10 @@ module Aws::SNS
     #     confirmation messages sent by Amazon SNS. By default,
     #     `SignatureVersion` is set to `1`.
     #
-    #   The following attribute applies only to [FIFO topics][5]\:
+    #   The following attribute applies only to [FIFO topics][5]:
+    #
+    #   * `ArchivePolicy` – The policy that sets the retention period for
+    #     messages stored in the message archive of an Amazon SNS FIFO topic.
     #
     #   * `ContentBasedDeduplication` – Enables content-based deduplication
     #     for FIFO topics.
@@ -537,6 +583,22 @@ module Aws::SNS
     #       (Optional) To override the generated value, you can specify a
     #       value for the `MessageDeduplicationId` parameter for the `Publish`
     #       action.
+    #   ^
+    #
+    #   * `FifoThroughputScope` – Enables higher throughput for your FIFO
+    #     topic by adjusting the scope of deduplication. This attribute has
+    #     two possible values:
+    #
+    #     * `Topic` – The scope of message deduplication is across the entire
+    #       topic. This is the default value and maintains existing behavior,
+    #       with a maximum throughput of 3000 messages per second or 20MB per
+    #       second, whichever comes first.
+    #
+    #     * `MessageGroup` – The scope of deduplication is within each
+    #       individual message group, which enables higher throughput per
+    #       topic subject to regional quotas. For more information on quotas
+    #       or to request an increase, see [Amazon SNS service quotas][7] in
+    #       the Amazon Web Services General Reference.
     #
     #
     #
@@ -546,12 +608,15 @@ module Aws::SNS
     #   [4]: https://docs.aws.amazon.com/kms/latest/APIReference/API_DescribeKey.html#API_DescribeKey_RequestParameters
     #   [5]: https://docs.aws.amazon.com/sns/latest/dg/sns-fifo-topics.html
     #   [6]: https://docs.aws.amazon.com/sns/latest/api/API_Publish.html
+    #   [7]: https://docs.aws.amazon.com/general/latest/gr/sns.html
     # @option options [String] :attribute_value
     #   The new value for the attribute.
     # @return [EmptyStructure]
     def set_attributes(options = {})
       options = options.merge(topic_arn: @arn)
-      resp = @client.set_topic_attributes(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.set_topic_attributes(options)
+      end
       resp.data
     end
 
@@ -636,7 +701,6 @@ module Aws::SNS
     #       message attributes.
     #
     #     * `MessageBody` – The filter is applied on the message body.
-    #
     #   * `RawMessageDelivery` – When set to `true`, enables raw message
     #     delivery to Amazon SQS or HTTP/S endpoints. This eliminates the need
     #     for the endpoints to process JSON formatting, which is otherwise
@@ -649,24 +713,44 @@ module Aws::SNS
     #     service that powers the subscribed endpoint becomes unavailable) are
     #     held in the dead-letter queue for further analysis or reprocessing.
     #
-    #   The following attribute applies only to Amazon Kinesis Data Firehose
-    #   delivery stream subscriptions:
+    #   The following attribute applies only to Amazon Data Firehose delivery
+    #   stream subscriptions:
     #
     #   * `SubscriptionRoleArn` – The ARN of the IAM role that has the
     #     following:
     #
-    #     * Permission to write to the Kinesis Data Firehose delivery stream
+    #     * Permission to write to the Firehose delivery stream
     #
     #     * Amazon SNS listed as a trusted entity
+    #     Specifying a valid ARN for this attribute is required for Firehose
+    #     delivery stream subscriptions. For more information, see [Fanout to
+    #     Firehose delivery streams][1] in the *Amazon SNS Developer Guide*.
     #
-    #     Specifying a valid ARN for this attribute is required for Kinesis
-    #     Data Firehose delivery stream subscriptions. For more information,
-    #     see [Fanout to Kinesis Data Firehose delivery streams][1] in the
-    #     *Amazon SNS Developer Guide*.
+    #   The following attributes apply only to [FIFO topics][2]:
+    #
+    #   * `ReplayPolicy` – Adds or updates an inline policy document for a
+    #     subscription to replay messages stored in the specified Amazon SNS
+    #     topic.
+    #
+    #   * `ReplayStatus` – Retrieves the status of the subscription message
+    #     replay, which can be one of the following:
+    #
+    #     * `Completed` – The replay has successfully redelivered all
+    #       messages, and is now delivering newly published messages. If an
+    #       ending point was specified in the `ReplayPolicy` then the
+    #       subscription will no longer receive newly published messages.
+    #
+    #     * `In progress` – The replay is currently replaying the selected
+    #       messages.
+    #
+    #     * `Failed` – The replay was unable to complete.
+    #
+    #     * `Pending` – The default state while the replay initiates.
     #
     #
     #
     #   [1]: https://docs.aws.amazon.com/sns/latest/dg/sns-firehose-as-subscriber.html
+    #   [2]: https://docs.aws.amazon.com/sns/latest/dg/sns-fifo-topics.html
     # @option options [Boolean] :return_subscription_arn
     #   Sets whether the response from the `Subscribe` request includes the
     #   subscription ARN, even if the subscription is not yet confirmed.
@@ -684,7 +768,9 @@ module Aws::SNS
     # @return [Subscription]
     def subscribe(options = {})
       options = options.merge(topic_arn: @arn)
-      resp = @client.subscribe(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.subscribe(options)
+      end
       Subscription.new(
         arn: resp.data.subscription_arn,
         client: @client
@@ -701,7 +787,9 @@ module Aws::SNS
     def subscriptions(options = {})
       batches = Enumerator.new do |y|
         options = options.merge(topic_arn: @arn)
-        resp = @client.list_subscriptions_by_topic(options)
+        resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+          @client.list_subscriptions_by_topic(options)
+        end
         resp.each_page do |page|
           batch = []
           page.data.subscriptions.each do |s|

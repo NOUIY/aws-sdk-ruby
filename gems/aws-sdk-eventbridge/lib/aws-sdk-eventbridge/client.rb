@@ -7,33 +7,34 @@
 #
 # WARNING ABOUT GENERATED CODE
 
-require 'seahorse/client/plugins/content_length.rb'
-require 'aws-sdk-core/plugins/credentials_configuration.rb'
-require 'aws-sdk-core/plugins/logging.rb'
-require 'aws-sdk-core/plugins/param_converter.rb'
-require 'aws-sdk-core/plugins/param_validator.rb'
-require 'aws-sdk-core/plugins/user_agent.rb'
-require 'aws-sdk-core/plugins/helpful_socket_errors.rb'
-require 'aws-sdk-core/plugins/retry_errors.rb'
-require 'aws-sdk-core/plugins/global_configuration.rb'
-require 'aws-sdk-core/plugins/regional_endpoint.rb'
-require 'aws-sdk-core/plugins/endpoint_discovery.rb'
-require 'aws-sdk-core/plugins/endpoint_pattern.rb'
-require 'aws-sdk-core/plugins/response_paging.rb'
-require 'aws-sdk-core/plugins/stub_responses.rb'
-require 'aws-sdk-core/plugins/idempotency_token.rb'
-require 'aws-sdk-core/plugins/jsonvalue_converter.rb'
-require 'aws-sdk-core/plugins/client_metrics_plugin.rb'
-require 'aws-sdk-core/plugins/client_metrics_send_plugin.rb'
-require 'aws-sdk-core/plugins/transfer_encoding.rb'
-require 'aws-sdk-core/plugins/http_checksum.rb'
-require 'aws-sdk-core/plugins/checksum_algorithm.rb'
-require 'aws-sdk-core/plugins/defaults_mode.rb'
-require 'aws-sdk-core/plugins/recursion_detection.rb'
-require 'aws-sdk-core/plugins/sign.rb'
-require 'aws-sdk-core/plugins/protocols/json_rpc.rb'
-
-Aws::Plugins::GlobalConfiguration.add_identifier(:eventbridge)
+require 'seahorse/client/plugins/content_length'
+require 'aws-sdk-core/plugins/credentials_configuration'
+require 'aws-sdk-core/plugins/logging'
+require 'aws-sdk-core/plugins/param_converter'
+require 'aws-sdk-core/plugins/param_validator'
+require 'aws-sdk-core/plugins/user_agent'
+require 'aws-sdk-core/plugins/helpful_socket_errors'
+require 'aws-sdk-core/plugins/retry_errors'
+require 'aws-sdk-core/plugins/global_configuration'
+require 'aws-sdk-core/plugins/regional_endpoint'
+require 'aws-sdk-core/plugins/endpoint_discovery'
+require 'aws-sdk-core/plugins/endpoint_pattern'
+require 'aws-sdk-core/plugins/response_paging'
+require 'aws-sdk-core/plugins/stub_responses'
+require 'aws-sdk-core/plugins/idempotency_token'
+require 'aws-sdk-core/plugins/invocation_id'
+require 'aws-sdk-core/plugins/jsonvalue_converter'
+require 'aws-sdk-core/plugins/client_metrics_plugin'
+require 'aws-sdk-core/plugins/client_metrics_send_plugin'
+require 'aws-sdk-core/plugins/transfer_encoding'
+require 'aws-sdk-core/plugins/http_checksum'
+require 'aws-sdk-core/plugins/checksum_algorithm'
+require 'aws-sdk-core/plugins/request_compression'
+require 'aws-sdk-core/plugins/defaults_mode'
+require 'aws-sdk-core/plugins/recursion_detection'
+require 'aws-sdk-core/plugins/telemetry'
+require 'aws-sdk-core/plugins/sign'
+require 'aws-sdk-core/plugins/protocols/json_rpc'
 
 module Aws::EventBridge
   # An API client for EventBridge.  To construct a client, you need to configure a `:region` and `:credentials`.
@@ -71,20 +72,28 @@ module Aws::EventBridge
     add_plugin(Aws::Plugins::ResponsePaging)
     add_plugin(Aws::Plugins::StubResponses)
     add_plugin(Aws::Plugins::IdempotencyToken)
+    add_plugin(Aws::Plugins::InvocationId)
     add_plugin(Aws::Plugins::JsonvalueConverter)
     add_plugin(Aws::Plugins::ClientMetricsPlugin)
     add_plugin(Aws::Plugins::ClientMetricsSendPlugin)
     add_plugin(Aws::Plugins::TransferEncoding)
     add_plugin(Aws::Plugins::HttpChecksum)
     add_plugin(Aws::Plugins::ChecksumAlgorithm)
+    add_plugin(Aws::Plugins::RequestCompression)
     add_plugin(Aws::Plugins::DefaultsMode)
     add_plugin(Aws::Plugins::RecursionDetection)
+    add_plugin(Aws::Plugins::Telemetry)
     add_plugin(Aws::Plugins::Sign)
     add_plugin(Aws::Plugins::Protocols::JsonRpc)
     add_plugin(Aws::EventBridge::Plugins::Endpoints)
 
     # @overload initialize(options)
     #   @param [Hash] options
+    #
+    #   @option options [Array<Seahorse::Client::Plugin>] :plugins ([]])
+    #     A list of plugins to apply to the client. Each plugin is either a
+    #     class name or an instance of a plugin class.
+    #
     #   @option options [required, Aws::CredentialProvider] :credentials
     #     Your AWS credentials. This can be an instance of any one of the
     #     following classes:
@@ -119,13 +128,15 @@ module Aws::EventBridge
     #     locations will be searched for credentials:
     #
     #     * `Aws.config[:credentials]`
-    #     * The `:access_key_id`, `:secret_access_key`, and `:session_token` options.
-    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']
+    #     * The `:access_key_id`, `:secret_access_key`, `:session_token`, and
+    #       `:account_id` options.
+    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'],
+    #       ENV['AWS_SESSION_TOKEN'], and ENV['AWS_ACCOUNT_ID']
     #     * `~/.aws/credentials`
     #     * `~/.aws/config`
     #     * EC2/ECS IMDS instance profile - When used by default, the timeouts
     #       are very aggressive. Construct and pass an instance of
-    #       `Aws::InstanceProfileCredentails` or `Aws::ECSCredentials` to
+    #       `Aws::InstanceProfileCredentials` or `Aws::ECSCredentials` to
     #       enable retries and extended timeouts. Instance profile credential
     #       fetching can be disabled by setting ENV['AWS_EC2_METADATA_DISABLED']
     #       to true.
@@ -143,6 +154,8 @@ module Aws::EventBridge
     #     * `~/.aws/config`
     #
     #   @option options [String] :access_key_id
+    #
+    #   @option options [String] :account_id
     #
     #   @option options [Boolean] :active_endpoint_cache (false)
     #     When set to `true`, a thread polling for endpoints will be running in
@@ -190,10 +203,20 @@ module Aws::EventBridge
     #     Set to true to disable SDK automatically adding host prefix
     #     to default service endpoint when available.
     #
-    #   @option options [String] :endpoint
-    #     The client endpoint is normally constructed from the `:region`
-    #     option. You should only configure an `:endpoint` when connecting
-    #     to test or custom endpoints. This should be a valid HTTP(S) URI.
+    #   @option options [Boolean] :disable_request_compression (false)
+    #     When set to 'true' the request body will not be compressed
+    #     for supported operations.
+    #
+    #   @option options [String, URI::HTTPS, URI::HTTP] :endpoint
+    #     Normally you should not configure the `:endpoint` option
+    #     directly. This is normally constructed from the `:region`
+    #     option. Configuring `:endpoint` is normally reserved for
+    #     connecting to test or custom endpoints. The endpoint should
+    #     be a URI formatted like:
+    #
+    #         'http://example.com'
+    #         'https://example.com'
+    #         'http://example.com:123'
     #
     #   @option options [Integer] :endpoint_cache_max_entries (1000)
     #     Used for the maximum size limit of the LRU cache storing endpoints data
@@ -209,6 +232,10 @@ module Aws::EventBridge
     #
     #   @option options [Boolean] :endpoint_discovery (false)
     #     When set to `true`, endpoint discovery will be enabled for operations when available.
+    #
+    #   @option options [Boolean] :ignore_configured_endpoint_urls
+    #     Setting to true disables use of endpoint URLs provided via environment
+    #     variables and the shared configuration file.
     #
     #   @option options [Aws::Log::Formatter] :log_formatter (Aws::Log::Formatter.default)
     #     The log formatter.
@@ -229,6 +256,34 @@ module Aws::EventBridge
     #   @option options [String] :profile ("default")
     #     Used when loading credentials from the shared credentials file
     #     at HOME/.aws/credentials.  When not specified, 'default' is used.
+    #
+    #   @option options [String] :request_checksum_calculation ("when_supported")
+    #     Determines when a checksum will be calculated for request payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, a checksum will be
+    #       calculated for all request payloads of operations modeled with the
+    #       `httpChecksum` trait where `requestChecksumRequired` is `true` and/or a
+    #       `requestAlgorithmMember` is modeled.
+    #     * `when_required` - When set, a checksum will only be calculated for
+    #       request payloads of operations modeled with the  `httpChecksum` trait where
+    #       `requestChecksumRequired` is `true` or where a `requestAlgorithmMember`
+    #       is modeled and supplied.
+    #
+    #   @option options [Integer] :request_min_compression_size_bytes (10240)
+    #     The minimum size in bytes that triggers compression for request
+    #     bodies. The value must be non-negative integer value between 0
+    #     and 10485780 bytes inclusive.
+    #
+    #   @option options [String] :response_checksum_validation ("when_supported")
+    #     Determines when checksum validation will be performed on response payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, checksum validation is performed on all
+    #       response payloads of operations modeled with the `httpChecksum` trait where
+    #       `responseAlgorithms` is modeled, except when no modeled checksum algorithms
+    #       are supported.
+    #     * `when_required` - When set, checksum validation is not performed on
+    #       response payloads of operations unless the checksum algorithm is supported and
+    #       the `requestValidationModeMember` member is set to `ENABLED`.
     #
     #   @option options [Proc] :retry_backoff
     #     A proc or lambda used for backoff. Defaults to 2**retries * retry_base_delay.
@@ -274,20 +329,31 @@ module Aws::EventBridge
     #       throttling.  This is a provisional mode that may change behavior
     #       in the future.
     #
+    #   @option options [String] :sdk_ua_app_id
+    #     A unique and opaque application ID that is appended to the
+    #     User-Agent header as app/sdk_ua_app_id. It should have a
+    #     maximum length of 50. This variable is sourced from environment
+    #     variable AWS_SDK_UA_APP_ID or the shared config profile attribute sdk_ua_app_id.
     #
     #   @option options [String] :secret_access_key
     #
     #   @option options [String] :session_token
     #
+    #   @option options [Array] :sigv4a_signing_region_set
+    #     A list of regions that should be signed with SigV4a signing. When
+    #     not passed, a default `:sigv4a_signing_region_set` is searched for
+    #     in the following locations:
+    #
+    #     * `Aws.config[:sigv4a_signing_region_set]`
+    #     * `ENV['AWS_SIGV4A_SIGNING_REGION_SET']`
+    #     * `~/.aws/config`
+    #
     #   @option options [Boolean] :simple_json (false)
     #     Disables request parameter conversion, validation, and formatting.
-    #     Also disable response data type conversions. This option is useful
-    #     when you want to ensure the highest level of performance by
-    #     avoiding overhead of walking request parameters and response data
-    #     structures.
-    #
-    #     When `:simple_json` is enabled, the request parameters hash must
-    #     be formatted exactly as the DynamoDB API expects.
+    #     Also disables response data type conversions. The request parameters
+    #     hash must be formatted exactly as the API expects.This option is useful
+    #     when you want to ensure the highest level of performance by avoiding
+    #     overhead of walking request parameters and response data structures.
     #
     #   @option options [Boolean] :stub_responses (false)
     #     Causes the client to return stubbed responses. By default
@@ -297,6 +363,16 @@ module Aws::EventBridge
     #
     #     ** Please note ** When response stubbing is enabled, no HTTP
     #     requests are made, and retries are disabled.
+    #
+    #   @option options [Aws::Telemetry::TelemetryProviderBase] :telemetry_provider (Aws::Telemetry::NoOpTelemetryProvider)
+    #     Allows you to provide a telemetry provider, which is used to
+    #     emit telemetry data. By default, uses `NoOpTelemetryProvider` which
+    #     will not record or emit any telemetry data. The SDK supports the
+    #     following telemetry providers:
+    #
+    #     * OpenTelemetry (OTel) - To use the OTel provider, install and require the
+    #     `opentelemetry-sdk` gem and then, pass in an instance of a
+    #     `Aws::Telemetry::OTelProvider` for telemetry provider.
     #
     #   @option options [Aws::TokenProvider] :token_provider
     #     A Bearer Token Provider. This can be an instance of any one of the
@@ -325,52 +401,75 @@ module Aws::EventBridge
     #     sending the request.
     #
     #   @option options [Aws::EventBridge::EndpointProvider] :endpoint_provider
-    #     The endpoint provider used to resolve endpoints. Any object that responds to `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to `Aws::EventBridge::EndpointParameters`
+    #     The endpoint provider used to resolve endpoints. Any object that responds to
+    #     `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+    #     `Aws::EventBridge::EndpointParameters`.
     #
-    #   @option options [URI::HTTP,String] :http_proxy A proxy to send
-    #     requests through.  Formatted like 'http://proxy.com:123'.
+    #   @option options [Float] :http_continue_timeout (1)
+    #     The number of seconds to wait for a 100-continue response before sending the
+    #     request body.  This option has no effect unless the request has "Expect"
+    #     header set to "100-continue".  Defaults to `nil` which  disables this
+    #     behaviour.  This value can safely be set per request on the session.
     #
-    #   @option options [Float] :http_open_timeout (15) The number of
-    #     seconds to wait when opening a HTTP session before raising a
-    #     `Timeout::Error`.
+    #   @option options [Float] :http_idle_timeout (5)
+    #     The number of seconds a connection is allowed to sit idle before it
+    #     is considered stale.  Stale connections are closed and removed from the
+    #     pool before making a request.
     #
-    #   @option options [Float] :http_read_timeout (60) The default
-    #     number of seconds to wait for response data.  This value can
-    #     safely be set per-request on the session.
+    #   @option options [Float] :http_open_timeout (15)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :http_idle_timeout (5) The number of
-    #     seconds a connection is allowed to sit idle before it is
-    #     considered stale.  Stale connections are closed and removed
-    #     from the pool before making a request.
+    #   @option options [URI::HTTP,String] :http_proxy
+    #     A proxy to send requests through.  Formatted like 'http://proxy.com:123'.
     #
-    #   @option options [Float] :http_continue_timeout (1) The number of
-    #     seconds to wait for a 100-continue response before sending the
-    #     request body.  This option has no effect unless the request has
-    #     "Expect" header set to "100-continue".  Defaults to `nil` which
-    #     disables this behaviour.  This value can safely be set per
-    #     request on the session.
+    #   @option options [Float] :http_read_timeout (60)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :ssl_timeout (nil) Sets the SSL timeout
-    #     in seconds.
+    #   @option options [Boolean] :http_wire_trace (false)
+    #     When `true`,  HTTP debug output will be sent to the `:logger`.
     #
-    #   @option options [Boolean] :http_wire_trace (false) When `true`,
-    #     HTTP debug output will be sent to the `:logger`.
+    #   @option options [Proc] :on_chunk_received
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the response body is received. It provides three arguments: the chunk,
+    #     the number of bytes received, and the total number of
+    #     bytes in the response (or nil if the server did not send a `content-length`).
     #
-    #   @option options [Boolean] :ssl_verify_peer (true) When `true`,
-    #     SSL peer certificates are verified when establishing a
-    #     connection.
+    #   @option options [Proc] :on_chunk_sent
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the request body is sent. It provides three arguments: the chunk,
+    #     the number of bytes read from the body, and the total number of
+    #     bytes in the body.
     #
-    #   @option options [String] :ssl_ca_bundle Full path to the SSL
-    #     certificate authority bundle file that should be used when
-    #     verifying peer certificates.  If you do not pass
-    #     `:ssl_ca_bundle` or `:ssl_ca_directory` the the system default
-    #     will be used if available.
+    #   @option options [Boolean] :raise_response_errors (true)
+    #     When `true`, response errors are raised.
     #
-    #   @option options [String] :ssl_ca_directory Full path of the
-    #     directory that contains the unbundled SSL certificate
+    #   @option options [String] :ssl_ca_bundle
+    #     Full path to the SSL certificate authority bundle file that should be used when
+    #     verifying peer certificates.  If you do not pass `:ssl_ca_bundle` or
+    #     `:ssl_ca_directory` the the system default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_directory
+    #     Full path of the directory that contains the unbundled SSL certificate
     #     authority files for verifying peer certificates.  If you do
-    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the
-    #     system default will be used if available.
+    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the system
+    #     default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_store
+    #     Sets the X509::Store to verify peer certificate.
+    #
+    #   @option options [OpenSSL::X509::Certificate] :ssl_cert
+    #     Sets a client certificate when creating http connections.
+    #
+    #   @option options [OpenSSL::PKey] :ssl_key
+    #     Sets a client key when creating http connections.
+    #
+    #   @option options [Float] :ssl_timeout
+    #     Sets the SSL timeout in seconds
+    #
+    #   @option options [Boolean] :ssl_verify_peer (true)
+    #     When `true`, SSL peer certificates are verified when establishing a connection.
     #
     def initialize(*args)
       super
@@ -437,6 +536,16 @@ module Aws::EventBridge
     # Creates an API destination, which is an HTTP invocation endpoint
     # configured as a target for events.
     #
+    # API destinations do not support private destinations, such as
+    # interface VPC endpoints.
+    #
+    # For more information, see [API destinations][1] in the *EventBridge
+    # User Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-api-destinations.html
+    #
     # @option params [required, String] :name
     #   The name for the API destination to create.
     #
@@ -499,6 +608,29 @@ module Aws::EventBridge
     # archive, all events are sent to the archive except replayed events.
     # Replayed events are not sent to an archive.
     #
+    # <note markdown="1"> Archives and schema discovery are not supported for event buses
+    # encrypted using a customer managed key. EventBridge returns an error
+    # if:
+    #
+    #  * You call ` CreateArchive ` on an event bus set to use a customer
+    #   managed key for encryption.
+    #
+    # * You call ` CreateDiscoverer ` on an event bus set to use a customer
+    #   managed key for encryption.
+    #
+    # * You call ` UpdatedEventBus ` to set a customer managed key on an
+    #   event bus with an archives or schema discovery enabled.
+    #
+    #  To enable archives or schema discovery on an event bus, choose to use
+    # an Amazon Web Services owned key. For more information, see [Data
+    # encryption in EventBridge][1] in the *Amazon EventBridge User Guide*.
+    #
+    #  </note>
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-encryption.html
+    #
     # @option params [required, String] :archive_name
     #   The name for the archive to create.
     #
@@ -552,6 +684,13 @@ module Aws::EventBridge
     # credentials to use for authorization with an API destination HTTP
     # endpoint.
     #
+    # For more information, see [Connections for endpoint targets][1] in the
+    # *Amazon EventBridge User Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-target-connection.html
+    #
     # @option params [required, String] :name
     #   The name for the connection to create.
     #
@@ -566,8 +705,21 @@ module Aws::EventBridge
     #    </note>
     #
     # @option params [required, Types::CreateConnectionAuthRequestParameters] :auth_parameters
-    #   A `CreateConnectionAuthRequestParameters` object that contains the
-    #   authorization parameters to use to authorize with the endpoint.
+    #   The authorization parameters to use to authorize with the endpoint.
+    #
+    #   You must include only authorization parameters for the
+    #   `AuthorizationType` you specify.
+    #
+    # @option params [Types::ConnectivityResourceParameters] :invocation_connectivity_parameters
+    #   For connections to private resource endpoints, the parameters to use
+    #   for invoking the resource endpoint.
+    #
+    #   For more information, see [Connecting to private resources][1] in the
+    #   <i> <i>Amazon EventBridge User Guide</i> </i>.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-target-connection-private.html
     #
     # @return [Types::CreateConnectionResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -585,12 +737,12 @@ module Aws::EventBridge
     #     auth_parameters: { # required
     #       basic_auth_parameters: {
     #         username: "AuthHeaderParameters", # required
-    #         password: "AuthHeaderParameters", # required
+    #         password: "AuthHeaderParametersSensitive", # required
     #       },
     #       o_auth_parameters: {
     #         client_parameters: { # required
     #           client_id: "AuthHeaderParameters", # required
-    #           client_secret: "AuthHeaderParameters", # required
+    #           client_secret: "AuthHeaderParametersSensitive", # required
     #         },
     #         authorization_endpoint: "HttpsEndpoint", # required
     #         http_method: "GET", # required, accepts GET, POST, PUT
@@ -598,21 +750,21 @@ module Aws::EventBridge
     #           header_parameters: [
     #             {
     #               key: "HeaderKey",
-    #               value: "HeaderValue",
+    #               value: "HeaderValueSensitive",
     #               is_value_secret: false,
     #             },
     #           ],
     #           query_string_parameters: [
     #             {
     #               key: "QueryStringKey",
-    #               value: "QueryStringValue",
+    #               value: "QueryStringValueSensitive",
     #               is_value_secret: false,
     #             },
     #           ],
     #           body_parameters: [
     #             {
     #               key: "String",
-    #               value: "String",
+    #               value: "SensitiveString",
     #               is_value_secret: false,
     #             },
     #           ],
@@ -620,30 +772,40 @@ module Aws::EventBridge
     #       },
     #       api_key_auth_parameters: {
     #         api_key_name: "AuthHeaderParameters", # required
-    #         api_key_value: "AuthHeaderParameters", # required
+    #         api_key_value: "AuthHeaderParametersSensitive", # required
     #       },
     #       invocation_http_parameters: {
     #         header_parameters: [
     #           {
     #             key: "HeaderKey",
-    #             value: "HeaderValue",
+    #             value: "HeaderValueSensitive",
     #             is_value_secret: false,
     #           },
     #         ],
     #         query_string_parameters: [
     #           {
     #             key: "QueryStringKey",
-    #             value: "QueryStringValue",
+    #             value: "QueryStringValueSensitive",
     #             is_value_secret: false,
     #           },
     #         ],
     #         body_parameters: [
     #           {
     #             key: "String",
-    #             value: "String",
+    #             value: "SensitiveString",
     #             is_value_secret: false,
     #           },
     #         ],
+    #       },
+    #       connectivity_parameters: {
+    #         resource_parameters: { # required
+    #           resource_configuration_arn: "ResourceConfigurationArn", # required
+    #         },
+    #       },
+    #     },
+    #     invocation_connectivity_parameters: {
+    #       resource_parameters: { # required
+    #         resource_configuration_arn: "ResourceConfigurationArn", # required
     #       },
     #     },
     #   })
@@ -651,7 +813,7 @@ module Aws::EventBridge
     # @example Response structure
     #
     #   resp.connection_arn #=> String
-    #   resp.connection_state #=> String, one of "CREATING", "UPDATING", "DELETING", "AUTHORIZED", "DEAUTHORIZED", "AUTHORIZING", "DEAUTHORIZING"
+    #   resp.connection_state #=> String, one of "CREATING", "UPDATING", "DELETING", "AUTHORIZED", "DEAUTHORIZED", "AUTHORIZING", "DEAUTHORIZING", "ACTIVE", "FAILED_CONNECTIVITY"
     #   resp.creation_time #=> Time
     #   resp.last_modified_time #=> Time
     #
@@ -774,18 +936,77 @@ module Aws::EventBridge
     #   If you are creating a partner event bus, this specifies the partner
     #   event source that the new event bus will be matched with.
     #
+    # @option params [String] :description
+    #   The event bus description.
+    #
+    # @option params [String] :kms_key_identifier
+    #   The identifier of the KMS customer managed key for EventBridge to use,
+    #   if you choose to use a customer managed key to encrypt events on this
+    #   event bus. The identifier can be the key Amazon Resource Name (ARN),
+    #   KeyId, key alias, or key alias ARN.
+    #
+    #   If you do not specify a customer managed key identifier, EventBridge
+    #   uses an Amazon Web Services owned key to encrypt events on the event
+    #   bus.
+    #
+    #   For more information, see [Managing keys][1] in the *Key Management
+    #   Service Developer Guide*.
+    #
+    #   <note markdown="1"> Archives and schema discovery are not supported for event buses
+    #   encrypted using a customer managed key. EventBridge returns an error
+    #   if:
+    #
+    #    * You call ` CreateArchive ` on an event bus set to use a customer
+    #     managed key for encryption.
+    #
+    #   * You call ` CreateDiscoverer ` on an event bus set to use a customer
+    #     managed key for encryption.
+    #
+    #   * You call ` UpdatedEventBus ` to set a customer managed key on an
+    #     event bus with an archives or schema discovery enabled.
+    #
+    #    To enable archives or schema discovery on an event bus, choose to use
+    #   an Amazon Web Services owned key. For more information, see [Data
+    #   encryption in EventBridge][2] in the *Amazon EventBridge User Guide*.
+    #
+    #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/kms/latest/developerguide/getting-started.html
+    #   [2]: https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-encryption.html
+    #
+    # @option params [Types::DeadLetterConfig] :dead_letter_config
+    #   Configuration details of the Amazon SQS queue for EventBridge to use
+    #   as a dead-letter queue (DLQ).
+    #
+    #   For more information, see [Using dead-letter queues to process
+    #   undelivered events][1] in the *EventBridge User Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-rule-event-delivery.html#eb-rule-dlq
+    #
     # @option params [Array<Types::Tag>] :tags
     #   Tags to associate with the event bus.
     #
     # @return [Types::CreateEventBusResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreateEventBusResponse#event_bus_arn #event_bus_arn} => String
+    #   * {Types::CreateEventBusResponse#description #description} => String
+    #   * {Types::CreateEventBusResponse#kms_key_identifier #kms_key_identifier} => String
+    #   * {Types::CreateEventBusResponse#dead_letter_config #dead_letter_config} => Types::DeadLetterConfig
     #
     # @example Request syntax with placeholder values
     #
     #   resp = client.create_event_bus({
     #     name: "EventBusName", # required
     #     event_source_name: "EventSourceName",
+    #     description: "EventBusDescription",
+    #     kms_key_identifier: "KmsKeyIdentifier",
+    #     dead_letter_config: {
+    #       arn: "ResourceArn",
+    #     },
     #     tags: [
     #       {
     #         key: "TagKey", # required
@@ -797,6 +1018,9 @@ module Aws::EventBridge
     # @example Response structure
     #
     #   resp.event_bus_arn #=> String
+    #   resp.description #=> String
+    #   resp.kms_key_identifier #=> String
+    #   resp.dead_letter_config.arn #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/eventbridge-2015-10-07/CreateEventBus AWS API Documentation
     #
@@ -828,14 +1052,23 @@ module Aws::EventBridge
     #
     # ` partner_name/event_namespace/event_name `
     #
-    # *partner\_name* is determined during partner registration and
-    # identifies the partner to Amazon Web Services customers.
-    # *event\_namespace* is determined by the partner and is a way for the
-    # partner to categorize their events. *event\_name* is determined by the
-    # partner, and should uniquely identify an event-generating resource
-    # within the partner system. The combination of *event\_namespace* and
-    # *event\_name* should help Amazon Web Services customers decide whether
-    # to create an event bus to receive these events.
+    # * *partner\_name* is determined during partner registration, and
+    #   identifies the partner to Amazon Web Services customers.
+    #
+    # * *event\_namespace* is determined by the partner, and is a way for
+    #   the partner to categorize their events.
+    #
+    # * *event\_name* is determined by the partner, and should uniquely
+    #   identify an event-generating resource within the partner system.
+    #
+    #   The *event\_name* must be unique across all Amazon Web Services
+    #   customers. This is because the event source is a shared resource
+    #   between the partner and customer accounts, and each partner event
+    #   source unique in the partner account.
+    #
+    # The combination of *event\_namespace* and *event\_name* should help
+    # Amazon Web Services customers decide whether to create an event bus to
+    # receive these events.
     #
     # @option params [required, String] :name
     #   The name of the partner event source. This name must be unique and
@@ -931,7 +1164,7 @@ module Aws::EventBridge
     # @example Response structure
     #
     #   resp.connection_arn #=> String
-    #   resp.connection_state #=> String, one of "CREATING", "UPDATING", "DELETING", "AUTHORIZED", "DEAUTHORIZED", "AUTHORIZING", "DEAUTHORIZING"
+    #   resp.connection_state #=> String, one of "CREATING", "UPDATING", "DELETING", "AUTHORIZED", "DEAUTHORIZED", "AUTHORIZING", "DEAUTHORIZING", "ACTIVE", "FAILED_CONNECTIVITY"
     #   resp.creation_time #=> Time
     #   resp.last_modified_time #=> Time
     #   resp.last_authorized_time #=> Time
@@ -1011,7 +1244,7 @@ module Aws::EventBridge
     # @example Response structure
     #
     #   resp.connection_arn #=> String
-    #   resp.connection_state #=> String, one of "CREATING", "UPDATING", "DELETING", "AUTHORIZED", "DEAUTHORIZED", "AUTHORIZING", "DEAUTHORIZING"
+    #   resp.connection_state #=> String, one of "CREATING", "UPDATING", "DELETING", "AUTHORIZED", "DEAUTHORIZED", "AUTHORIZING", "DEAUTHORIZING", "ACTIVE", "FAILED_CONNECTIVITY"
     #   resp.creation_time #=> Time
     #   resp.last_modified_time #=> Time
     #   resp.last_authorized_time #=> Time
@@ -1027,8 +1260,8 @@ module Aws::EventBridge
 
     # Delete an existing global endpoint. For more information about global
     # endpoints, see [Making applications Regional-fault tolerant with
-    # global endpoints and event replication][1] in the Amazon EventBridge
-    # User Guide.
+    # global endpoints and event replication][1] in the <i> <i>Amazon
+    # EventBridge User Guide</i> </i>.
     #
     #
     #
@@ -1271,6 +1504,7 @@ module Aws::EventBridge
     #   * {Types::DescribeConnectionResponse#connection_arn #connection_arn} => String
     #   * {Types::DescribeConnectionResponse#name #name} => String
     #   * {Types::DescribeConnectionResponse#description #description} => String
+    #   * {Types::DescribeConnectionResponse#invocation_connectivity_parameters #invocation_connectivity_parameters} => Types::DescribeConnectionConnectivityParameters
     #   * {Types::DescribeConnectionResponse#connection_state #connection_state} => String
     #   * {Types::DescribeConnectionResponse#state_reason #state_reason} => String
     #   * {Types::DescribeConnectionResponse#authorization_type #authorization_type} => String
@@ -1291,7 +1525,9 @@ module Aws::EventBridge
     #   resp.connection_arn #=> String
     #   resp.name #=> String
     #   resp.description #=> String
-    #   resp.connection_state #=> String, one of "CREATING", "UPDATING", "DELETING", "AUTHORIZED", "DEAUTHORIZED", "AUTHORIZING", "DEAUTHORIZING"
+    #   resp.invocation_connectivity_parameters.resource_parameters.resource_configuration_arn #=> String
+    #   resp.invocation_connectivity_parameters.resource_parameters.resource_association_arn #=> String
+    #   resp.connection_state #=> String, one of "CREATING", "UPDATING", "DELETING", "AUTHORIZED", "DEAUTHORIZED", "AUTHORIZING", "DEAUTHORIZING", "ACTIVE", "FAILED_CONNECTIVITY"
     #   resp.state_reason #=> String
     #   resp.authorization_type #=> String, one of "BASIC", "OAUTH_CLIENT_CREDENTIALS", "API_KEY"
     #   resp.secret_arn #=> String
@@ -1324,6 +1560,8 @@ module Aws::EventBridge
     #   resp.auth_parameters.invocation_http_parameters.body_parameters[0].key #=> String
     #   resp.auth_parameters.invocation_http_parameters.body_parameters[0].value #=> String
     #   resp.auth_parameters.invocation_http_parameters.body_parameters[0].is_value_secret #=> Boolean
+    #   resp.auth_parameters.connectivity_parameters.resource_parameters.resource_configuration_arn #=> String
+    #   resp.auth_parameters.connectivity_parameters.resource_parameters.resource_association_arn #=> String
     #   resp.creation_time #=> Time
     #   resp.last_modified_time #=> Time
     #   resp.last_authorized_time #=> Time
@@ -1340,7 +1578,7 @@ module Aws::EventBridge
     # Get the information about an existing global endpoint. For more
     # information about global endpoints, see [Making applications
     # Regional-fault tolerant with global endpoints and event
-    # replication][1] in the Amazon EventBridge User Guide..
+    # replication][1] in the <i> <i>Amazon EventBridge User Guide</i> </i>.
     #
     #
     #
@@ -1429,7 +1667,12 @@ module Aws::EventBridge
     #
     #   * {Types::DescribeEventBusResponse#name #name} => String
     #   * {Types::DescribeEventBusResponse#arn #arn} => String
+    #   * {Types::DescribeEventBusResponse#description #description} => String
+    #   * {Types::DescribeEventBusResponse#kms_key_identifier #kms_key_identifier} => String
+    #   * {Types::DescribeEventBusResponse#dead_letter_config #dead_letter_config} => Types::DeadLetterConfig
     #   * {Types::DescribeEventBusResponse#policy #policy} => String
+    #   * {Types::DescribeEventBusResponse#creation_time #creation_time} => Time
+    #   * {Types::DescribeEventBusResponse#last_modified_time #last_modified_time} => Time
     #
     # @example Request syntax with placeholder values
     #
@@ -1441,7 +1684,12 @@ module Aws::EventBridge
     #
     #   resp.name #=> String
     #   resp.arn #=> String
+    #   resp.description #=> String
+    #   resp.kms_key_identifier #=> String
+    #   resp.dead_letter_config.arn #=> String
     #   resp.policy #=> String
+    #   resp.creation_time #=> Time
+    #   resp.last_modified_time #=> Time
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/eventbridge-2015-10-07/DescribeEventBus AWS API Documentation
     #
@@ -1632,7 +1880,7 @@ module Aws::EventBridge
     #   resp.arn #=> String
     #   resp.event_pattern #=> String
     #   resp.schedule_expression #=> String
-    #   resp.state #=> String, one of "ENABLED", "DISABLED"
+    #   resp.state #=> String, one of "ENABLED", "DISABLED", "ENABLED_WITH_ALL_CLOUDTRAIL_MANAGEMENT_EVENTS"
     #   resp.description #=> String
     #   resp.role_arn #=> String
     #   resp.managed_by #=> String
@@ -1723,8 +1971,15 @@ module Aws::EventBridge
     #   The ARN of the connection specified for the API destination.
     #
     # @option params [String] :next_token
-    #   The token returned by a previous call to retrieve the next set of
-    #   results.
+    #   The token returned by a previous call, which you can use to retrieve
+    #   the next set of results.
+    #
+    #   The value of `nextToken` is a unique pagination token for each page.
+    #   To retrieve the next page of results, make the call again using the
+    #   returned token. Keep all other arguments unchanged.
+    #
+    #   Using an expired pagination token results in an `HTTP 400
+    #   InvalidToken` error.
     #
     # @option params [Integer] :limit
     #   The maximum number of API destinations to include in the response.
@@ -1781,8 +2036,15 @@ module Aws::EventBridge
     #   The state of the archive.
     #
     # @option params [String] :next_token
-    #   The token returned by a previous call to retrieve the next set of
-    #   results.
+    #   The token returned by a previous call, which you can use to retrieve
+    #   the next set of results.
+    #
+    #   The value of `nextToken` is a unique pagination token for each page.
+    #   To retrieve the next page of results, make the call again using the
+    #   returned token. Keep all other arguments unchanged.
+    #
+    #   Using an expired pagination token results in an `HTTP 400
+    #   InvalidToken` error.
     #
     # @option params [Integer] :limit
     #   The maximum number of results to return.
@@ -1834,8 +2096,15 @@ module Aws::EventBridge
     #   The state of the connection.
     #
     # @option params [String] :next_token
-    #   The token returned by a previous call to retrieve the next set of
-    #   results.
+    #   The token returned by a previous call, which you can use to retrieve
+    #   the next set of results.
+    #
+    #   The value of `nextToken` is a unique pagination token for each page.
+    #   To retrieve the next page of results, make the call again using the
+    #   returned token. Keep all other arguments unchanged.
+    #
+    #   Using an expired pagination token results in an `HTTP 400
+    #   InvalidToken` error.
     #
     # @option params [Integer] :limit
     #   The maximum number of connections to return.
@@ -1849,7 +2118,7 @@ module Aws::EventBridge
     #
     #   resp = client.list_connections({
     #     name_prefix: "ConnectionName",
-    #     connection_state: "CREATING", # accepts CREATING, UPDATING, DELETING, AUTHORIZED, DEAUTHORIZED, AUTHORIZING, DEAUTHORIZING
+    #     connection_state: "CREATING", # accepts CREATING, UPDATING, DELETING, AUTHORIZED, DEAUTHORIZED, AUTHORIZING, DEAUTHORIZING, ACTIVE, FAILED_CONNECTIVITY
     #     next_token: "NextToken",
     #     limit: 1,
     #   })
@@ -1859,7 +2128,7 @@ module Aws::EventBridge
     #   resp.connections #=> Array
     #   resp.connections[0].connection_arn #=> String
     #   resp.connections[0].name #=> String
-    #   resp.connections[0].connection_state #=> String, one of "CREATING", "UPDATING", "DELETING", "AUTHORIZED", "DEAUTHORIZED", "AUTHORIZING", "DEAUTHORIZING"
+    #   resp.connections[0].connection_state #=> String, one of "CREATING", "UPDATING", "DELETING", "AUTHORIZED", "DEAUTHORIZED", "AUTHORIZING", "DEAUTHORIZING", "ACTIVE", "FAILED_CONNECTIVITY"
     #   resp.connections[0].state_reason #=> String
     #   resp.connections[0].authorization_type #=> String, one of "BASIC", "OAUTH_CLIENT_CREDENTIALS", "API_KEY"
     #   resp.connections[0].creation_time #=> Time
@@ -1879,7 +2148,7 @@ module Aws::EventBridge
     # List the global endpoints associated with this account. For more
     # information about global endpoints, see [Making applications
     # Regional-fault tolerant with global endpoints and event
-    # replication][1] in the Amazon EventBridge User Guide..
+    # replication][1] in the <i> <i>Amazon EventBridge User Guide</i> </i>.
     #
     #
     #
@@ -1895,12 +2164,15 @@ module Aws::EventBridge
     #   example `"HomeRegion": "us-east-1"`.
     #
     # @option params [String] :next_token
-    #   If `nextToken` is returned, there are more results available. The
-    #   value of `nextToken` is a unique pagination token for each page. Make
-    #   the call again using the returned token to retrieve the next page.
-    #   Keep all other arguments unchanged. Each pagination token expires
-    #   after 24 hours. Using an expired pagination token will return an HTTP
-    #   400 InvalidToken error.
+    #   The token returned by a previous call, which you can use to retrieve
+    #   the next set of results.
+    #
+    #   The value of `nextToken` is a unique pagination token for each page.
+    #   To retrieve the next page of results, make the call again using the
+    #   returned token. Keep all other arguments unchanged.
+    #
+    #   Using an expired pagination token results in an `HTTP 400
+    #   InvalidToken` error.
     #
     # @option params [Integer] :max_results
     #   The maximum number of results returned by the call.
@@ -1956,8 +2228,15 @@ module Aws::EventBridge
     #   names that start with the specified prefix.
     #
     # @option params [String] :next_token
-    #   The token returned by a previous call to retrieve the next set of
-    #   results.
+    #   The token returned by a previous call, which you can use to retrieve
+    #   the next set of results.
+    #
+    #   The value of `nextToken` is a unique pagination token for each page.
+    #   To retrieve the next page of results, make the call again using the
+    #   returned token. Keep all other arguments unchanged.
+    #
+    #   Using an expired pagination token results in an `HTTP 400
+    #   InvalidToken` error.
     #
     # @option params [Integer] :limit
     #   Specifying this limits the number of results returned by this
@@ -1982,7 +2261,10 @@ module Aws::EventBridge
     #   resp.event_buses #=> Array
     #   resp.event_buses[0].name #=> String
     #   resp.event_buses[0].arn #=> String
+    #   resp.event_buses[0].description #=> String
     #   resp.event_buses[0].policy #=> String
+    #   resp.event_buses[0].creation_time #=> Time
+    #   resp.event_buses[0].last_modified_time #=> Time
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/eventbridge-2015-10-07/ListEventBuses AWS API Documentation
@@ -2007,8 +2289,15 @@ module Aws::EventBridge
     #   with names that start with the specified prefix.
     #
     # @option params [String] :next_token
-    #   The token returned by a previous call to retrieve the next set of
-    #   results.
+    #   The token returned by a previous call, which you can use to retrieve
+    #   the next set of results.
+    #
+    #   The value of `nextToken` is a unique pagination token for each page.
+    #   To retrieve the next page of results, make the call again using the
+    #   returned token. Keep all other arguments unchanged.
+    #
+    #   Using an expired pagination token results in an `HTTP 400
+    #   InvalidToken` error.
     #
     # @option params [Integer] :limit
     #   Specifying this limits the number of results returned by this
@@ -2058,8 +2347,15 @@ module Aws::EventBridge
     #   about.
     #
     # @option params [String] :next_token
-    #   The token returned by a previous call to this operation. Specifying
-    #   this retrieves the next set of results.
+    #   The token returned by a previous call, which you can use to retrieve
+    #   the next set of results.
+    #
+    #   The value of `nextToken` is a unique pagination token for each page.
+    #   To retrieve the next page of results, make the call again using the
+    #   returned token. Keep all other arguments unchanged.
+    #
+    #   Using an expired pagination token results in an `HTTP 400
+    #   InvalidToken` error.
     #
     # @option params [Integer] :limit
     #   Specifying this limits the number of results returned by this
@@ -2106,8 +2402,15 @@ module Aws::EventBridge
     #   event sources that start with the string you specify.
     #
     # @option params [String] :next_token
-    #   The token returned by a previous call to this operation. Specifying
-    #   this retrieves the next set of results.
+    #   The token returned by a previous call, which you can use to retrieve
+    #   the next set of results.
+    #
+    #   The value of `nextToken` is a unique pagination token for each page.
+    #   To retrieve the next page of results, make the call again using the
+    #   returned token. Keep all other arguments unchanged.
+    #
+    #   Using an expired pagination token results in an `HTTP 400
+    #   InvalidToken` error.
     #
     # @option params [Integer] :limit
     #   pecifying this limits the number of results returned by this
@@ -2158,8 +2461,15 @@ module Aws::EventBridge
     #   The ARN of the archive from which the events are replayed.
     #
     # @option params [String] :next_token
-    #   The token returned by a previous call to retrieve the next set of
-    #   results.
+    #   The token returned by a previous call, which you can use to retrieve
+    #   the next set of results.
+    #
+    #   The value of `nextToken` is a unique pagination token for each page.
+    #   To retrieve the next page of results, make the call again using the
+    #   returned token. Keep all other arguments unchanged.
+    #
+    #   Using an expired pagination token results in an `HTTP 400
+    #   InvalidToken` error.
     #
     # @option params [Integer] :limit
     #   The maximum number of replays to retrieve.
@@ -2206,6 +2516,8 @@ module Aws::EventBridge
     # rules in Amazon EventBridge can invoke a specific target in your
     # account.
     #
+    # The maximum number of results per page for requests is 100.
+    #
     # @option params [required, String] :target_arn
     #   The Amazon Resource Name (ARN) of the target resource.
     #
@@ -2214,8 +2526,15 @@ module Aws::EventBridge
     #   the default event bus is used.
     #
     # @option params [String] :next_token
-    #   The token returned by a previous call to retrieve the next set of
-    #   results.
+    #   The token returned by a previous call, which you can use to retrieve
+    #   the next set of results.
+    #
+    #   The value of `nextToken` is a unique pagination token for each page.
+    #   To retrieve the next page of results, make the call again using the
+    #   returned token. Keep all other arguments unchanged.
+    #
+    #   Using an expired pagination token results in an `HTTP 400
+    #   InvalidToken` error.
     #
     # @option params [Integer] :limit
     #   The maximum number of results to return.
@@ -2252,6 +2571,8 @@ module Aws::EventBridge
     # Lists your Amazon EventBridge rules. You can either list all the rules
     # or you can provide a prefix to match to the rule names.
     #
+    # The maximum number of results per page for requests is 100.
+    #
     # ListRules does not list the targets of a rule. To see the targets
     # associated with a rule, use [ListTargetsByRule][1].
     #
@@ -2267,8 +2588,15 @@ module Aws::EventBridge
     #   this, the default event bus is used.
     #
     # @option params [String] :next_token
-    #   The token returned by a previous call to retrieve the next set of
-    #   results.
+    #   The token returned by a previous call, which you can use to retrieve
+    #   the next set of results.
+    #
+    #   The value of `nextToken` is a unique pagination token for each page.
+    #   To retrieve the next page of results, make the call again using the
+    #   returned token. Keep all other arguments unchanged.
+    #
+    #   Using an expired pagination token results in an `HTTP 400
+    #   InvalidToken` error.
     #
     # @option params [Integer] :limit
     #   The maximum number of results to return.
@@ -2293,7 +2621,7 @@ module Aws::EventBridge
     #   resp.rules[0].name #=> String
     #   resp.rules[0].arn #=> String
     #   resp.rules[0].event_pattern #=> String
-    #   resp.rules[0].state #=> String, one of "ENABLED", "DISABLED"
+    #   resp.rules[0].state #=> String, one of "ENABLED", "DISABLED", "ENABLED_WITH_ALL_CLOUDTRAIL_MANAGEMENT_EVENTS"
     #   resp.rules[0].description #=> String
     #   resp.rules[0].schedule_expression #=> String
     #   resp.rules[0].role_arn #=> String
@@ -2343,6 +2671,8 @@ module Aws::EventBridge
 
     # Lists the targets assigned to the specified rule.
     #
+    # The maximum number of results per page for requests is 100.
+    #
     # @option params [required, String] :rule
     #   The name of the rule.
     #
@@ -2351,8 +2681,15 @@ module Aws::EventBridge
     #   this, the default event bus is used.
     #
     # @option params [String] :next_token
-    #   The token returned by a previous call to retrieve the next set of
-    #   results.
+    #   The token returned by a previous call, which you can use to retrieve
+    #   the next set of results.
+    #
+    #   The value of `nextToken` is a unique pagination token for each page.
+    #   To retrieve the next page of results, make the call again using the
+    #   returned token. Keep all other arguments unchanged.
+    #
+    #   Using an expired pagination token results in an `HTTP 400
+    #   InvalidToken` error.
     #
     # @option params [Integer] :limit
     #   The maximum number of results to return.
@@ -2431,12 +2768,15 @@ module Aws::EventBridge
     #   resp.targets[0].redshift_data_parameters.sql #=> String
     #   resp.targets[0].redshift_data_parameters.statement_name #=> String
     #   resp.targets[0].redshift_data_parameters.with_event #=> Boolean
+    #   resp.targets[0].redshift_data_parameters.sqls #=> Array
+    #   resp.targets[0].redshift_data_parameters.sqls[0] #=> String
     #   resp.targets[0].sage_maker_pipeline_parameters.pipeline_parameter_list #=> Array
     #   resp.targets[0].sage_maker_pipeline_parameters.pipeline_parameter_list[0].name #=> String
     #   resp.targets[0].sage_maker_pipeline_parameters.pipeline_parameter_list[0].value #=> String
     #   resp.targets[0].dead_letter_config.arn #=> String
     #   resp.targets[0].retry_policy.maximum_retry_attempts #=> Integer
     #   resp.targets[0].retry_policy.maximum_event_age_in_seconds #=> Integer
+    #   resp.targets[0].app_sync_parameters.graph_ql_operation #=> String
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/eventbridge-2015-10-07/ListTargetsByRule AWS API Documentation
@@ -2451,9 +2791,24 @@ module Aws::EventBridge
     # Sends custom events to Amazon EventBridge so that they can be matched
     # to rules.
     #
-    # <note markdown="1"> PutEvents will only process nested JSON up to 1100 levels deep.
+    # The maximum size for a PutEvents event entry is 256 KB. Entry size is
+    # calculated including the event and any necessary characters and keys
+    # of the JSON representation of the event. To learn more, see
+    # [Calculating PutEvents event entry size][1] in the <i> <i>Amazon
+    # EventBridge User Guide</i> </i>
+    #
+    # PutEvents accepts the data in JSON format. For the JSON number
+    # (integer) data type, the constraints are: a minimum value of
+    # -9,223,372,036,854,775,808 and a maximum value of
+    # 9,223,372,036,854,775,807.
+    #
+    # <note markdown="1"> PutEvents will only process nested JSON up to 1000 levels deep.
     #
     #  </note>
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-putevent-size.html
     #
     # @option params [required, Array<Types::PutEventsRequestEntry>] :entries
     #   The entry that defines an event in your system. You can specify
@@ -2509,6 +2864,14 @@ module Aws::EventBridge
     # This is used by SaaS partners to write events to a customer's partner
     # event bus. Amazon Web Services customers do not use this operation.
     #
+    # For information on calculating event batch size, see [Calculating
+    # EventBridge PutEvents event entry size][1] in the *EventBridge User
+    # Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-putevent-size.html
+    #
     # @option params [required, Array<Types::PutPartnerEventsRequestEntry>] :entries
     #   The list of events to write to the event bus.
     #
@@ -2550,9 +2913,8 @@ module Aws::EventBridge
 
     # Running `PutPermission` permits the specified Amazon Web Services
     # account or Amazon Web Services organization to put events to the
-    # specified *event bus*. Amazon EventBridge (CloudWatch Events) rules in
-    # your account are triggered by these events arriving to an event bus in
-    # your account.
+    # specified *event bus*. Amazon EventBridge rules in your account are
+    # triggered by these events arriving to an event bus in your account.
     #
     # For another account to send events to your account, that external
     # account must have an EventBridge rule with your account's event bus
@@ -2722,6 +3084,10 @@ module Aws::EventBridge
     # your specified limit. For more information, see [Managing Your Costs
     # with Budgets][5].
     #
+    # To create a rule that filters for management events from Amazon Web
+    # Services services, see [Receiving read-only management events from
+    # Amazon Web Services services][6] in the *EventBridge User Guide*.
+    #
     #
     #
     # [1]: https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_DisableRule.html
@@ -2729,6 +3095,7 @@ module Aws::EventBridge
     # [3]: https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_TagResource.html
     # [4]: https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_UntagResource.html
     # [5]: https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/budgets-managing-costs.html
+    # [6]: https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-service-event-cloudtrail.html#eb-service-event-cloudtrail-management
     #
     # @option params [required, String] :name
     #   The name of the rule that you are creating or updating.
@@ -2739,14 +3106,47 @@ module Aws::EventBridge
     #
     # @option params [String] :event_pattern
     #   The event pattern. For more information, see [Amazon EventBridge event
-    #   patterns][1] in the *Amazon EventBridge User Guide*.
+    #   patterns][1] in the <i> <i>Amazon EventBridge User Guide</i> </i>.
     #
     #
     #
     #   [1]: https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-event-patterns.html
     #
     # @option params [String] :state
-    #   Indicates whether the rule is enabled or disabled.
+    #   The state of the rule.
+    #
+    #   Valid values include:
+    #
+    #   * `DISABLED`: The rule is disabled. EventBridge does not match any
+    #     events against the rule.
+    #
+    #   * `ENABLED`: The rule is enabled. EventBridge matches events against
+    #     the rule, *except* for Amazon Web Services management events
+    #     delivered through CloudTrail.
+    #
+    #   * `ENABLED_WITH_ALL_CLOUDTRAIL_MANAGEMENT_EVENTS`: The rule is enabled
+    #     for all events, including Amazon Web Services management events
+    #     delivered through CloudTrail.
+    #
+    #     Management events provide visibility into management operations that
+    #     are performed on resources in your Amazon Web Services account.
+    #     These are also known as control plane operations. For more
+    #     information, see [Logging management events][1] in the *CloudTrail
+    #     User Guide*, and [Filtering management events from Amazon Web
+    #     Services services][2] in the <i> <i>Amazon EventBridge User
+    #     Guide</i> </i>.
+    #
+    #     This value is only valid for rules on the [default][3] event bus or
+    #     [custom event buses][4]. It does not apply to [partner event
+    #     buses][5].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-management-events-with-cloudtrail.html#logging-management-events
+    #   [2]: https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-service-event.html#eb-service-event-cloudtrail
+    #   [3]: https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-what-is-how-it-works-concepts.html#eb-bus-concepts-buses
+    #   [4]: https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-create-event-bus.html
+    #   [5]: https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-saas.html
     #
     # @option params [String] :description
     #   A description of the rule.
@@ -2778,7 +3178,7 @@ module Aws::EventBridge
     #     name: "RuleName", # required
     #     schedule_expression: "ScheduleExpression",
     #     event_pattern: "EventPattern",
-    #     state: "ENABLED", # accepts ENABLED, DISABLED
+    #     state: "ENABLED", # accepts ENABLED, DISABLED, ENABLED_WITH_ALL_CLOUDTRAIL_MANAGEMENT_EVENTS
     #     description: "RuleDescription",
     #     role_arn: "RoleArn",
     #     tags: [
@@ -2808,75 +3208,27 @@ module Aws::EventBridge
     #
     # Targets are the resources that are invoked when a rule is triggered.
     #
+    # The maximum number of entries per request is 10.
+    #
     # <note markdown="1"> Each rule can have up to five (5) targets associated with it at one
     # time.
     #
     #  </note>
     #
-    # You can configure the following as targets for Events:
-    #
-    # * [API destination][1]
-    #
-    # * [API Gateway][2]
-    #
-    # * Batch job queue
-    #
-    # * CloudWatch group
-    #
-    # * CodeBuild project
-    #
-    # * CodePipeline
-    #
-    # * EC2 `CreateSnapshot` API call
-    #
-    # * EC2 Image Builder
-    #
-    # * EC2 `RebootInstances` API call
-    #
-    # * EC2 `StopInstances` API call
-    #
-    # * EC2 `TerminateInstances` API call
-    #
-    # * ECS task
-    #
-    # * [Event bus in a different account or Region][3]
-    #
-    # * [Event bus in the same account and Region][4]
-    #
-    # * Firehose delivery stream
-    #
-    # * Glue workflow
-    #
-    # * [Incident Manager response plan][5]
-    #
-    # * Inspector assessment template
-    #
-    # * Kinesis stream
-    #
-    # * Lambda function
-    #
-    # * Redshift cluster
-    #
-    # * Redshift Serverless workgroup
-    #
-    # * SageMaker Pipeline
-    #
-    # * SNS topic
-    #
-    # * SQS queue
-    #
-    # * Step Functions state machine
-    #
-    # * Systems Manager Automation
-    #
-    # * Systems Manager OpsItem
-    #
-    # * Systems Manager Run Command
+    # For a list of services you can configure as targets for events, see
+    # [EventBridge targets][1] in the <i> <i>Amazon EventBridge User
+    # Guide</i> </i>.
     #
     # Creating rules with built-in targets is supported only in the Amazon
-    # Web Services Management Console. The built-in targets are `EC2
-    # CreateSnapshot API call`, `EC2 RebootInstances API call`, `EC2
-    # StopInstances API call`, and `EC2 TerminateInstances API call`.
+    # Web Services Management Console. The built-in targets are:
+    #
+    # * `Amazon EBS CreateSnapshot API call`
+    #
+    # * `Amazon EC2 RebootInstances API call`
+    #
+    # * `Amazon EC2 StopInstances API call`
+    #
+    # * `Amazon EC2 TerminateInstances API call`
     #
     # For some target types, `PutTargets` provides target-specific
     # parameters. If the target is a Kinesis data stream, you can optionally
@@ -2885,13 +3237,17 @@ module Aws::EventBridge
     # you can use the `RunCommandParameters` field.
     #
     # To be able to make API calls against the resources that you own,
-    # Amazon EventBridge needs the appropriate permissions. For Lambda and
-    # Amazon SNS resources, EventBridge relies on resource-based policies.
-    # For EC2 instances, Kinesis Data Streams, Step Functions state machines
-    # and API Gateway APIs, EventBridge relies on IAM roles that you specify
-    # in the `RoleARN` argument in `PutTargets`. For more information, see
-    # [Authentication and Access Control][6] in the *Amazon EventBridge User
-    # Guide*.
+    # Amazon EventBridge needs the appropriate permissions:
+    #
+    # * For Lambda and Amazon SNS resources, EventBridge relies on
+    #   resource-based policies.
+    #
+    # * For EC2 instances, Kinesis Data Streams, Step Functions state
+    #   machines and API Gateway APIs, EventBridge relies on IAM roles that
+    #   you specify in the `RoleARN` argument in `PutTargets`.
+    #
+    # For more information, see [Authentication and Access Control][2] in
+    # the <i> <i>Amazon EventBridge User Guide</i> </i>.
     #
     # If another Amazon Web Services account is in the same region and has
     # granted you permission (using `PutPermission`), you can send events to
@@ -2902,7 +3258,7 @@ module Aws::EventBridge
     # account is charged for each sent event. Each event sent to another
     # account is charged as a custom event. The account receiving the event
     # is not charged. For more information, see [Amazon EventBridge
-    # Pricing][7].
+    # Pricing][3].
     #
     # <note markdown="1"> `Input`, `InputPath`, and `InputTransformer` are not available with
     # `PutTarget` if the target is an event bus of a different Amazon Web
@@ -2915,10 +3271,16 @@ module Aws::EventBridge
     # organization instead of directly by the account ID, then you must
     # specify a `RoleArn` with proper permissions in the `Target` structure.
     # For more information, see [Sending and Receiving Events Between Amazon
-    # Web Services Accounts][8] in the *Amazon EventBridge User Guide*.
+    # Web Services Accounts][4] in the *Amazon EventBridge User Guide*.
+    #
+    # <note markdown="1"> If you have an IAM role on a cross-account event bus target, a
+    # `PutTargets` call without a role on the same target (same `Id` and
+    # `Arn`) will not remove the role.
+    #
+    #  </note>
     #
     # For more information about enabling cross-account events, see
-    # [PutPermission][9].
+    # [PutPermission][5].
     #
     # **Input**, **InputPath**, and **InputTransformer** are mutually
     # exclusive and optional parameters of a target. When a rule is
@@ -2955,15 +3317,11 @@ module Aws::EventBridge
     #
     #
     #
-    # [1]: https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-api-destinations.html
-    # [2]: https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-api-gateway-target.html
-    # [3]: https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-cross-account.html
-    # [4]: https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-bus-to-bus.html
-    # [5]: https://docs.aws.amazon.com/incident-manager/latest/userguide/incident-creation.html#incident-tracking-auto-eventbridge
-    # [6]: https://docs.aws.amazon.com/eventbridge/latest/userguide/auth-and-access-control-eventbridge.html
-    # [7]: http://aws.amazon.com/eventbridge/pricing/
-    # [8]: https://docs.aws.amazon.com/eventbridge/latest/userguide/eventbridge-cross-account-event-delivery.html
-    # [9]: https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_PutPermission.html
+    # [1]: https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-targets.html
+    # [2]: https://docs.aws.amazon.com/eventbridge/latest/userguide/auth-and-access-control-eventbridge.html
+    # [3]: http://aws.amazon.com/eventbridge/pricing/
+    # [4]: https://docs.aws.amazon.com/eventbridge/latest/userguide/eventbridge-cross-account-event-delivery.html
+    # [5]: https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_PutPermission.html
     #
     # @option params [required, String] :rule
     #   The name of the rule.
@@ -3078,9 +3436,10 @@ module Aws::EventBridge
     #           secret_manager_arn: "RedshiftSecretManagerArn",
     #           database: "Database", # required
     #           db_user: "DbUser",
-    #           sql: "Sql", # required
+    #           sql: "Sql",
     #           statement_name: "StatementName",
     #           with_event: false,
+    #           sqls: ["Sql"],
     #         },
     #         sage_maker_pipeline_parameters: {
     #           pipeline_parameter_list: [
@@ -3096,6 +3455,9 @@ module Aws::EventBridge
     #         retry_policy: {
     #           maximum_retry_attempts: 1,
     #           maximum_event_age_in_seconds: 1,
+    #         },
+    #         app_sync_parameters: {
+    #           graph_ql_operation: "GraphQLOperation",
     #         },
     #       },
     #     ],
@@ -3175,6 +3537,8 @@ module Aws::EventBridge
     # same time. If that happens, `FailedEntryCount` is non-zero in the
     # response and each entry in `FailedEntries` provides the ID of the
     # failed target and the error code.
+    #
+    # The maximum number of entries per request is 10.
     #
     # @option params [required, String] :rule
     #   The name of the rule.
@@ -3349,7 +3713,7 @@ module Aws::EventBridge
     #
     # @option params [required, String] :event_pattern
     #   The event pattern. For more information, see [Events and Event
-    #   Patterns][1] in the *Amazon EventBridge User Guide*.
+    #   Patterns][1] in the <i> <i>Amazon EventBridge User Guide</i> </i>.
     #
     #
     #
@@ -3403,8 +3767,7 @@ module Aws::EventBridge
     end
 
     # Removes one or more tags from the specified EventBridge resource. In
-    # Amazon EventBridge (CloudWatch Events), rules and event buses can be
-    # tagged.
+    # Amazon EventBridge, rules and event buses can be tagged.
     #
     # @option params [required, String] :resource_arn
     #   The ARN of the EventBridge resource from which you are removing tags.
@@ -3545,6 +3908,17 @@ module Aws::EventBridge
     # @option params [Types::UpdateConnectionAuthRequestParameters] :auth_parameters
     #   The authorization parameters to use for the connection.
     #
+    # @option params [Types::ConnectivityResourceParameters] :invocation_connectivity_parameters
+    #   For connections to private resource endpoints, the parameters to use
+    #   for invoking the resource endpoint.
+    #
+    #   For more information, see [Connecting to private resources][1] in the
+    #   <i> <i>Amazon EventBridge User Guide</i> </i>.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-target-connection-private.html
+    #
     # @return [Types::UpdateConnectionResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::UpdateConnectionResponse#connection_arn #connection_arn} => String
@@ -3562,12 +3936,12 @@ module Aws::EventBridge
     #     auth_parameters: {
     #       basic_auth_parameters: {
     #         username: "AuthHeaderParameters",
-    #         password: "AuthHeaderParameters",
+    #         password: "AuthHeaderParametersSensitive",
     #       },
     #       o_auth_parameters: {
     #         client_parameters: {
     #           client_id: "AuthHeaderParameters",
-    #           client_secret: "AuthHeaderParameters",
+    #           client_secret: "AuthHeaderParametersSensitive",
     #         },
     #         authorization_endpoint: "HttpsEndpoint",
     #         http_method: "GET", # accepts GET, POST, PUT
@@ -3575,21 +3949,21 @@ module Aws::EventBridge
     #           header_parameters: [
     #             {
     #               key: "HeaderKey",
-    #               value: "HeaderValue",
+    #               value: "HeaderValueSensitive",
     #               is_value_secret: false,
     #             },
     #           ],
     #           query_string_parameters: [
     #             {
     #               key: "QueryStringKey",
-    #               value: "QueryStringValue",
+    #               value: "QueryStringValueSensitive",
     #               is_value_secret: false,
     #             },
     #           ],
     #           body_parameters: [
     #             {
     #               key: "String",
-    #               value: "String",
+    #               value: "SensitiveString",
     #               is_value_secret: false,
     #             },
     #           ],
@@ -3597,30 +3971,40 @@ module Aws::EventBridge
     #       },
     #       api_key_auth_parameters: {
     #         api_key_name: "AuthHeaderParameters",
-    #         api_key_value: "AuthHeaderParameters",
+    #         api_key_value: "AuthHeaderParametersSensitive",
     #       },
     #       invocation_http_parameters: {
     #         header_parameters: [
     #           {
     #             key: "HeaderKey",
-    #             value: "HeaderValue",
+    #             value: "HeaderValueSensitive",
     #             is_value_secret: false,
     #           },
     #         ],
     #         query_string_parameters: [
     #           {
     #             key: "QueryStringKey",
-    #             value: "QueryStringValue",
+    #             value: "QueryStringValueSensitive",
     #             is_value_secret: false,
     #           },
     #         ],
     #         body_parameters: [
     #           {
     #             key: "String",
-    #             value: "String",
+    #             value: "SensitiveString",
     #             is_value_secret: false,
     #           },
     #         ],
+    #       },
+    #       connectivity_parameters: {
+    #         resource_parameters: { # required
+    #           resource_configuration_arn: "ResourceConfigurationArn", # required
+    #         },
+    #       },
+    #     },
+    #     invocation_connectivity_parameters: {
+    #       resource_parameters: { # required
+    #         resource_configuration_arn: "ResourceConfigurationArn", # required
     #       },
     #     },
     #   })
@@ -3628,7 +4012,7 @@ module Aws::EventBridge
     # @example Response structure
     #
     #   resp.connection_arn #=> String
-    #   resp.connection_state #=> String, one of "CREATING", "UPDATING", "DELETING", "AUTHORIZED", "DEAUTHORIZED", "AUTHORIZING", "DEAUTHORIZING"
+    #   resp.connection_state #=> String, one of "CREATING", "UPDATING", "DELETING", "AUTHORIZED", "DEAUTHORIZED", "AUTHORIZING", "DEAUTHORIZING", "ACTIVE", "FAILED_CONNECTIVITY"
     #   resp.creation_time #=> Time
     #   resp.last_modified_time #=> Time
     #   resp.last_authorized_time #=> Time
@@ -3644,8 +4028,8 @@ module Aws::EventBridge
 
     # Update an existing endpoint. For more information about global
     # endpoints, see [Making applications Regional-fault tolerant with
-    # global endpoints and event replication][1] in the Amazon EventBridge
-    # User Guide..
+    # global endpoints and event replication][1] in the <i> <i>Amazon
+    # EventBridge User Guide</i> </i>.
     #
     #
     #
@@ -3731,20 +4115,117 @@ module Aws::EventBridge
       req.send_request(options)
     end
 
+    # Updates the specified event bus.
+    #
+    # @option params [String] :name
+    #   The name of the event bus.
+    #
+    # @option params [String] :kms_key_identifier
+    #   The identifier of the KMS customer managed key for EventBridge to use,
+    #   if you choose to use a customer managed key to encrypt events on this
+    #   event bus. The identifier can be the key Amazon Resource Name (ARN),
+    #   KeyId, key alias, or key alias ARN.
+    #
+    #   If you do not specify a customer managed key identifier, EventBridge
+    #   uses an Amazon Web Services owned key to encrypt events on the event
+    #   bus.
+    #
+    #   For more information, see [Managing keys][1] in the *Key Management
+    #   Service Developer Guide*.
+    #
+    #   <note markdown="1"> Archives and schema discovery are not supported for event buses
+    #   encrypted using a customer managed key. EventBridge returns an error
+    #   if:
+    #
+    #    * You call ` CreateArchive ` on an event bus set to use a customer
+    #     managed key for encryption.
+    #
+    #   * You call ` CreateDiscoverer ` on an event bus set to use a customer
+    #     managed key for encryption.
+    #
+    #   * You call ` UpdatedEventBus ` to set a customer managed key on an
+    #     event bus with an archives or schema discovery enabled.
+    #
+    #    To enable archives or schema discovery on an event bus, choose to use
+    #   an Amazon Web Services owned key. For more information, see [Data
+    #   encryption in EventBridge][2] in the *Amazon EventBridge User Guide*.
+    #
+    #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/kms/latest/developerguide/getting-started.html
+    #   [2]: https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-encryption.html
+    #
+    # @option params [String] :description
+    #   The event bus description.
+    #
+    # @option params [Types::DeadLetterConfig] :dead_letter_config
+    #   Configuration details of the Amazon SQS queue for EventBridge to use
+    #   as a dead-letter queue (DLQ).
+    #
+    #   For more information, see [Using dead-letter queues to process
+    #   undelivered events][1] in the *EventBridge User Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-rule-event-delivery.html#eb-rule-dlq
+    #
+    # @return [Types::UpdateEventBusResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateEventBusResponse#arn #arn} => String
+    #   * {Types::UpdateEventBusResponse#name #name} => String
+    #   * {Types::UpdateEventBusResponse#kms_key_identifier #kms_key_identifier} => String
+    #   * {Types::UpdateEventBusResponse#description #description} => String
+    #   * {Types::UpdateEventBusResponse#dead_letter_config #dead_letter_config} => Types::DeadLetterConfig
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_event_bus({
+    #     name: "EventBusName",
+    #     kms_key_identifier: "KmsKeyIdentifier",
+    #     description: "EventBusDescription",
+    #     dead_letter_config: {
+    #       arn: "ResourceArn",
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.arn #=> String
+    #   resp.name #=> String
+    #   resp.kms_key_identifier #=> String
+    #   resp.description #=> String
+    #   resp.dead_letter_config.arn #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/eventbridge-2015-10-07/UpdateEventBus AWS API Documentation
+    #
+    # @overload update_event_bus(params = {})
+    # @param [Hash] params ({})
+    def update_event_bus(params = {}, options = {})
+      req = build_request(:update_event_bus, params)
+      req.send_request(options)
+    end
+
     # @!endgroup
 
     # @param params ({})
     # @api private
     def build_request(operation_name, params = {})
       handlers = @handlers.for(operation_name)
+      tracer = config.telemetry_provider.tracer_provider.tracer(
+        Aws::Telemetry.module_to_tracer_name('Aws::EventBridge')
+      )
       context = Seahorse::Client::RequestContext.new(
         operation_name: operation_name,
         operation: config.api.operation(operation_name),
         client: self,
         params: params,
-        config: config)
+        config: config,
+        tracer: tracer
+      )
       context[:gem_name] = 'aws-sdk-eventbridge'
-      context[:gem_version] = '1.42.0'
+      context[:gem_version] = '1.77.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

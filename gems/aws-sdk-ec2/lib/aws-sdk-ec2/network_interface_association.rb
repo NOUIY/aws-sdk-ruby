@@ -79,10 +79,12 @@ module Aws::EC2
     #
     # @return [self]
     def load
-      resp = @client.describe_network_interfaces(filters: [{
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.describe_network_interfaces(filters: [{
         name: "association.association-id",
         values: [@id]
       }])
+      end
       @data = resp.network_interfaces[0].association
       self
     end
@@ -197,7 +199,9 @@ module Aws::EC2
           :retry
         end
       end
-      Aws::Waiters::Waiter.new(options).wait({})
+      Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        Aws::Waiters::Waiter.new(options).wait({})
+      end
     end
 
     # @!group Actions
@@ -205,12 +209,12 @@ module Aws::EC2
     # @example Request syntax with placeholder values
     #
     #   network_interface_association.delete({
-    #     public_ip: "String",
+    #     public_ip: "EipAllocationPublicIp",
     #     dry_run: false,
     #   })
     # @param [Hash] options ({})
     # @option options [String] :public_ip
-    #   \[EC2-Classic\] The Elastic IP address. Required for EC2-Classic.
+    #   Deprecated.
     # @option options [Boolean] :dry_run
     #   Checks whether you have the required permissions for the action,
     #   without actually making the request, and provides an error response.
@@ -219,7 +223,9 @@ module Aws::EC2
     # @return [EmptyStructure]
     def delete(options = {})
       options = options.merge(association_id: @id)
-      resp = @client.disassociate_address(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.disassociate_address(options)
+      end
       resp.data
     end
 

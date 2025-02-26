@@ -346,6 +346,11 @@
       "refs": {
       }
     },
+    "DBInstanceNotReadyFault": {
+      "base": "<p>An attempt to download or examine log files didn't succeed because an Aurora Serverless v2 instance was paused.</p>",
+      "refs": {
+      }
+    },
     "DBInstanceStatusInfo": {
       "base": null,
       "refs": {
@@ -1459,7 +1464,7 @@
       }
     },
     "StorageTypeNotSupportedFault": {
-      "base": "<p>Storage of the <code>StorageType</code> specified can't be associated with the DB instance.</p>",
+      "base": "<p>The specified <code>StorageType</code> can't be associated with the DB instance.</p>",
       "refs": {
       }
     },

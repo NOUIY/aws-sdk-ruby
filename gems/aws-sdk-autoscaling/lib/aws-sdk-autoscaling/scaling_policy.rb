@@ -166,7 +166,9 @@ module Aws::AutoScaling
     #
     # @return [self]
     def load
-      resp = @client.describe_policies(policy_names: [@name])
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.describe_policies(policy_names: [@name])
+      end
       @data = resp.scaling_policies[0]
       self
     end
@@ -281,7 +283,9 @@ module Aws::AutoScaling
           :retry
         end
       end
-      Aws::Waiters::Waiter.new(options).wait({})
+      Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        Aws::Waiters::Waiter.new(options).wait({})
+      end
     end
 
     # @!group Actions
@@ -297,7 +301,9 @@ module Aws::AutoScaling
     # @return [EmptyStructure]
     def delete(options = {})
       options = options.merge(policy_name: @name)
-      resp = @client.delete_policy(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.delete_policy(options)
+      end
       resp.data
     end
 
@@ -322,7 +328,7 @@ module Aws::AutoScaling
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/autoscaling/ec2/userguide/Cooldown.html
+    #   [1]: https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-scaling-cooldowns.html
     # @option options [Float] :metric_value
     #   The metric value to compare to `BreachThreshold`. This enables you to
     #   execute a policy of type `StepScaling` and determine which step
@@ -343,7 +349,9 @@ module Aws::AutoScaling
     # @return [EmptyStructure]
     def execute(options = {})
       options = options.merge(policy_name: @name)
-      resp = @client.execute_policy(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.execute_policy(options)
+      end
       resp.data
     end
 

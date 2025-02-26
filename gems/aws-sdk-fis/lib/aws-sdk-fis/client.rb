@@ -7,33 +7,34 @@
 #
 # WARNING ABOUT GENERATED CODE
 
-require 'seahorse/client/plugins/content_length.rb'
-require 'aws-sdk-core/plugins/credentials_configuration.rb'
-require 'aws-sdk-core/plugins/logging.rb'
-require 'aws-sdk-core/plugins/param_converter.rb'
-require 'aws-sdk-core/plugins/param_validator.rb'
-require 'aws-sdk-core/plugins/user_agent.rb'
-require 'aws-sdk-core/plugins/helpful_socket_errors.rb'
-require 'aws-sdk-core/plugins/retry_errors.rb'
-require 'aws-sdk-core/plugins/global_configuration.rb'
-require 'aws-sdk-core/plugins/regional_endpoint.rb'
-require 'aws-sdk-core/plugins/endpoint_discovery.rb'
-require 'aws-sdk-core/plugins/endpoint_pattern.rb'
-require 'aws-sdk-core/plugins/response_paging.rb'
-require 'aws-sdk-core/plugins/stub_responses.rb'
-require 'aws-sdk-core/plugins/idempotency_token.rb'
-require 'aws-sdk-core/plugins/jsonvalue_converter.rb'
-require 'aws-sdk-core/plugins/client_metrics_plugin.rb'
-require 'aws-sdk-core/plugins/client_metrics_send_plugin.rb'
-require 'aws-sdk-core/plugins/transfer_encoding.rb'
-require 'aws-sdk-core/plugins/http_checksum.rb'
-require 'aws-sdk-core/plugins/checksum_algorithm.rb'
-require 'aws-sdk-core/plugins/defaults_mode.rb'
-require 'aws-sdk-core/plugins/recursion_detection.rb'
-require 'aws-sdk-core/plugins/sign.rb'
-require 'aws-sdk-core/plugins/protocols/rest_json.rb'
-
-Aws::Plugins::GlobalConfiguration.add_identifier(:fis)
+require 'seahorse/client/plugins/content_length'
+require 'aws-sdk-core/plugins/credentials_configuration'
+require 'aws-sdk-core/plugins/logging'
+require 'aws-sdk-core/plugins/param_converter'
+require 'aws-sdk-core/plugins/param_validator'
+require 'aws-sdk-core/plugins/user_agent'
+require 'aws-sdk-core/plugins/helpful_socket_errors'
+require 'aws-sdk-core/plugins/retry_errors'
+require 'aws-sdk-core/plugins/global_configuration'
+require 'aws-sdk-core/plugins/regional_endpoint'
+require 'aws-sdk-core/plugins/endpoint_discovery'
+require 'aws-sdk-core/plugins/endpoint_pattern'
+require 'aws-sdk-core/plugins/response_paging'
+require 'aws-sdk-core/plugins/stub_responses'
+require 'aws-sdk-core/plugins/idempotency_token'
+require 'aws-sdk-core/plugins/invocation_id'
+require 'aws-sdk-core/plugins/jsonvalue_converter'
+require 'aws-sdk-core/plugins/client_metrics_plugin'
+require 'aws-sdk-core/plugins/client_metrics_send_plugin'
+require 'aws-sdk-core/plugins/transfer_encoding'
+require 'aws-sdk-core/plugins/http_checksum'
+require 'aws-sdk-core/plugins/checksum_algorithm'
+require 'aws-sdk-core/plugins/request_compression'
+require 'aws-sdk-core/plugins/defaults_mode'
+require 'aws-sdk-core/plugins/recursion_detection'
+require 'aws-sdk-core/plugins/telemetry'
+require 'aws-sdk-core/plugins/sign'
+require 'aws-sdk-core/plugins/protocols/rest_json'
 
 module Aws::FIS
   # An API client for FIS.  To construct a client, you need to configure a `:region` and `:credentials`.
@@ -71,20 +72,28 @@ module Aws::FIS
     add_plugin(Aws::Plugins::ResponsePaging)
     add_plugin(Aws::Plugins::StubResponses)
     add_plugin(Aws::Plugins::IdempotencyToken)
+    add_plugin(Aws::Plugins::InvocationId)
     add_plugin(Aws::Plugins::JsonvalueConverter)
     add_plugin(Aws::Plugins::ClientMetricsPlugin)
     add_plugin(Aws::Plugins::ClientMetricsSendPlugin)
     add_plugin(Aws::Plugins::TransferEncoding)
     add_plugin(Aws::Plugins::HttpChecksum)
     add_plugin(Aws::Plugins::ChecksumAlgorithm)
+    add_plugin(Aws::Plugins::RequestCompression)
     add_plugin(Aws::Plugins::DefaultsMode)
     add_plugin(Aws::Plugins::RecursionDetection)
+    add_plugin(Aws::Plugins::Telemetry)
     add_plugin(Aws::Plugins::Sign)
     add_plugin(Aws::Plugins::Protocols::RestJson)
     add_plugin(Aws::FIS::Plugins::Endpoints)
 
     # @overload initialize(options)
     #   @param [Hash] options
+    #
+    #   @option options [Array<Seahorse::Client::Plugin>] :plugins ([]])
+    #     A list of plugins to apply to the client. Each plugin is either a
+    #     class name or an instance of a plugin class.
+    #
     #   @option options [required, Aws::CredentialProvider] :credentials
     #     Your AWS credentials. This can be an instance of any one of the
     #     following classes:
@@ -119,13 +128,15 @@ module Aws::FIS
     #     locations will be searched for credentials:
     #
     #     * `Aws.config[:credentials]`
-    #     * The `:access_key_id`, `:secret_access_key`, and `:session_token` options.
-    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']
+    #     * The `:access_key_id`, `:secret_access_key`, `:session_token`, and
+    #       `:account_id` options.
+    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'],
+    #       ENV['AWS_SESSION_TOKEN'], and ENV['AWS_ACCOUNT_ID']
     #     * `~/.aws/credentials`
     #     * `~/.aws/config`
     #     * EC2/ECS IMDS instance profile - When used by default, the timeouts
     #       are very aggressive. Construct and pass an instance of
-    #       `Aws::InstanceProfileCredentails` or `Aws::ECSCredentials` to
+    #       `Aws::InstanceProfileCredentials` or `Aws::ECSCredentials` to
     #       enable retries and extended timeouts. Instance profile credential
     #       fetching can be disabled by setting ENV['AWS_EC2_METADATA_DISABLED']
     #       to true.
@@ -143,6 +154,8 @@ module Aws::FIS
     #     * `~/.aws/config`
     #
     #   @option options [String] :access_key_id
+    #
+    #   @option options [String] :account_id
     #
     #   @option options [Boolean] :active_endpoint_cache (false)
     #     When set to `true`, a thread polling for endpoints will be running in
@@ -190,10 +203,20 @@ module Aws::FIS
     #     Set to true to disable SDK automatically adding host prefix
     #     to default service endpoint when available.
     #
-    #   @option options [String] :endpoint
-    #     The client endpoint is normally constructed from the `:region`
-    #     option. You should only configure an `:endpoint` when connecting
-    #     to test or custom endpoints. This should be a valid HTTP(S) URI.
+    #   @option options [Boolean] :disable_request_compression (false)
+    #     When set to 'true' the request body will not be compressed
+    #     for supported operations.
+    #
+    #   @option options [String, URI::HTTPS, URI::HTTP] :endpoint
+    #     Normally you should not configure the `:endpoint` option
+    #     directly. This is normally constructed from the `:region`
+    #     option. Configuring `:endpoint` is normally reserved for
+    #     connecting to test or custom endpoints. The endpoint should
+    #     be a URI formatted like:
+    #
+    #         'http://example.com'
+    #         'https://example.com'
+    #         'http://example.com:123'
     #
     #   @option options [Integer] :endpoint_cache_max_entries (1000)
     #     Used for the maximum size limit of the LRU cache storing endpoints data
@@ -209,6 +232,10 @@ module Aws::FIS
     #
     #   @option options [Boolean] :endpoint_discovery (false)
     #     When set to `true`, endpoint discovery will be enabled for operations when available.
+    #
+    #   @option options [Boolean] :ignore_configured_endpoint_urls
+    #     Setting to true disables use of endpoint URLs provided via environment
+    #     variables and the shared configuration file.
     #
     #   @option options [Aws::Log::Formatter] :log_formatter (Aws::Log::Formatter.default)
     #     The log formatter.
@@ -229,6 +256,34 @@ module Aws::FIS
     #   @option options [String] :profile ("default")
     #     Used when loading credentials from the shared credentials file
     #     at HOME/.aws/credentials.  When not specified, 'default' is used.
+    #
+    #   @option options [String] :request_checksum_calculation ("when_supported")
+    #     Determines when a checksum will be calculated for request payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, a checksum will be
+    #       calculated for all request payloads of operations modeled with the
+    #       `httpChecksum` trait where `requestChecksumRequired` is `true` and/or a
+    #       `requestAlgorithmMember` is modeled.
+    #     * `when_required` - When set, a checksum will only be calculated for
+    #       request payloads of operations modeled with the  `httpChecksum` trait where
+    #       `requestChecksumRequired` is `true` or where a `requestAlgorithmMember`
+    #       is modeled and supplied.
+    #
+    #   @option options [Integer] :request_min_compression_size_bytes (10240)
+    #     The minimum size in bytes that triggers compression for request
+    #     bodies. The value must be non-negative integer value between 0
+    #     and 10485780 bytes inclusive.
+    #
+    #   @option options [String] :response_checksum_validation ("when_supported")
+    #     Determines when checksum validation will be performed on response payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, checksum validation is performed on all
+    #       response payloads of operations modeled with the `httpChecksum` trait where
+    #       `responseAlgorithms` is modeled, except when no modeled checksum algorithms
+    #       are supported.
+    #     * `when_required` - When set, checksum validation is not performed on
+    #       response payloads of operations unless the checksum algorithm is supported and
+    #       the `requestValidationModeMember` member is set to `ENABLED`.
     #
     #   @option options [Proc] :retry_backoff
     #     A proc or lambda used for backoff. Defaults to 2**retries * retry_base_delay.
@@ -274,10 +329,24 @@ module Aws::FIS
     #       throttling.  This is a provisional mode that may change behavior
     #       in the future.
     #
+    #   @option options [String] :sdk_ua_app_id
+    #     A unique and opaque application ID that is appended to the
+    #     User-Agent header as app/sdk_ua_app_id. It should have a
+    #     maximum length of 50. This variable is sourced from environment
+    #     variable AWS_SDK_UA_APP_ID or the shared config profile attribute sdk_ua_app_id.
     #
     #   @option options [String] :secret_access_key
     #
     #   @option options [String] :session_token
+    #
+    #   @option options [Array] :sigv4a_signing_region_set
+    #     A list of regions that should be signed with SigV4a signing. When
+    #     not passed, a default `:sigv4a_signing_region_set` is searched for
+    #     in the following locations:
+    #
+    #     * `Aws.config[:sigv4a_signing_region_set]`
+    #     * `ENV['AWS_SIGV4A_SIGNING_REGION_SET']`
+    #     * `~/.aws/config`
     #
     #   @option options [Boolean] :stub_responses (false)
     #     Causes the client to return stubbed responses. By default
@@ -287,6 +356,16 @@ module Aws::FIS
     #
     #     ** Please note ** When response stubbing is enabled, no HTTP
     #     requests are made, and retries are disabled.
+    #
+    #   @option options [Aws::Telemetry::TelemetryProviderBase] :telemetry_provider (Aws::Telemetry::NoOpTelemetryProvider)
+    #     Allows you to provide a telemetry provider, which is used to
+    #     emit telemetry data. By default, uses `NoOpTelemetryProvider` which
+    #     will not record or emit any telemetry data. The SDK supports the
+    #     following telemetry providers:
+    #
+    #     * OpenTelemetry (OTel) - To use the OTel provider, install and require the
+    #     `opentelemetry-sdk` gem and then, pass in an instance of a
+    #     `Aws::Telemetry::OTelProvider` for telemetry provider.
     #
     #   @option options [Aws::TokenProvider] :token_provider
     #     A Bearer Token Provider. This can be an instance of any one of the
@@ -315,52 +394,75 @@ module Aws::FIS
     #     sending the request.
     #
     #   @option options [Aws::FIS::EndpointProvider] :endpoint_provider
-    #     The endpoint provider used to resolve endpoints. Any object that responds to `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to `Aws::FIS::EndpointParameters`
+    #     The endpoint provider used to resolve endpoints. Any object that responds to
+    #     `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+    #     `Aws::FIS::EndpointParameters`.
     #
-    #   @option options [URI::HTTP,String] :http_proxy A proxy to send
-    #     requests through.  Formatted like 'http://proxy.com:123'.
+    #   @option options [Float] :http_continue_timeout (1)
+    #     The number of seconds to wait for a 100-continue response before sending the
+    #     request body.  This option has no effect unless the request has "Expect"
+    #     header set to "100-continue".  Defaults to `nil` which  disables this
+    #     behaviour.  This value can safely be set per request on the session.
     #
-    #   @option options [Float] :http_open_timeout (15) The number of
-    #     seconds to wait when opening a HTTP session before raising a
-    #     `Timeout::Error`.
+    #   @option options [Float] :http_idle_timeout (5)
+    #     The number of seconds a connection is allowed to sit idle before it
+    #     is considered stale.  Stale connections are closed and removed from the
+    #     pool before making a request.
     #
-    #   @option options [Float] :http_read_timeout (60) The default
-    #     number of seconds to wait for response data.  This value can
-    #     safely be set per-request on the session.
+    #   @option options [Float] :http_open_timeout (15)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :http_idle_timeout (5) The number of
-    #     seconds a connection is allowed to sit idle before it is
-    #     considered stale.  Stale connections are closed and removed
-    #     from the pool before making a request.
+    #   @option options [URI::HTTP,String] :http_proxy
+    #     A proxy to send requests through.  Formatted like 'http://proxy.com:123'.
     #
-    #   @option options [Float] :http_continue_timeout (1) The number of
-    #     seconds to wait for a 100-continue response before sending the
-    #     request body.  This option has no effect unless the request has
-    #     "Expect" header set to "100-continue".  Defaults to `nil` which
-    #     disables this behaviour.  This value can safely be set per
-    #     request on the session.
+    #   @option options [Float] :http_read_timeout (60)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :ssl_timeout (nil) Sets the SSL timeout
-    #     in seconds.
+    #   @option options [Boolean] :http_wire_trace (false)
+    #     When `true`,  HTTP debug output will be sent to the `:logger`.
     #
-    #   @option options [Boolean] :http_wire_trace (false) When `true`,
-    #     HTTP debug output will be sent to the `:logger`.
+    #   @option options [Proc] :on_chunk_received
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the response body is received. It provides three arguments: the chunk,
+    #     the number of bytes received, and the total number of
+    #     bytes in the response (or nil if the server did not send a `content-length`).
     #
-    #   @option options [Boolean] :ssl_verify_peer (true) When `true`,
-    #     SSL peer certificates are verified when establishing a
-    #     connection.
+    #   @option options [Proc] :on_chunk_sent
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the request body is sent. It provides three arguments: the chunk,
+    #     the number of bytes read from the body, and the total number of
+    #     bytes in the body.
     #
-    #   @option options [String] :ssl_ca_bundle Full path to the SSL
-    #     certificate authority bundle file that should be used when
-    #     verifying peer certificates.  If you do not pass
-    #     `:ssl_ca_bundle` or `:ssl_ca_directory` the the system default
-    #     will be used if available.
+    #   @option options [Boolean] :raise_response_errors (true)
+    #     When `true`, response errors are raised.
     #
-    #   @option options [String] :ssl_ca_directory Full path of the
-    #     directory that contains the unbundled SSL certificate
+    #   @option options [String] :ssl_ca_bundle
+    #     Full path to the SSL certificate authority bundle file that should be used when
+    #     verifying peer certificates.  If you do not pass `:ssl_ca_bundle` or
+    #     `:ssl_ca_directory` the the system default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_directory
+    #     Full path of the directory that contains the unbundled SSL certificate
     #     authority files for verifying peer certificates.  If you do
-    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the
-    #     system default will be used if available.
+    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the system
+    #     default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_store
+    #     Sets the X509::Store to verify peer certificate.
+    #
+    #   @option options [OpenSSL::X509::Certificate] :ssl_cert
+    #     Sets a client certificate when creating http connections.
+    #
+    #   @option options [OpenSSL::PKey] :ssl_key
+    #     Sets a client key when creating http connections.
+    #
+    #   @option options [Float] :ssl_timeout
+    #     Sets the SSL timeout in seconds
+    #
+    #   @option options [Boolean] :ssl_verify_peer (true)
+    #     When `true`, SSL peer certificates are verified when establishing a connection.
     #
     def initialize(*args)
       super
@@ -372,20 +474,20 @@ module Aws::FIS
     #
     # An experiment template includes the following components:
     #
-    # * **Targets**\: A target can be a specific resource in your Amazon Web
+    # * **Targets**: A target can be a specific resource in your Amazon Web
     #   Services environment, or one or more resources that match criteria
     #   that you specify, for example, resources that have specific tags.
     #
-    # * **Actions**\: The actions to carry out on the target. You can
-    #   specify multiple actions, the duration of each action, and when to
-    #   start each action during an experiment.
+    # * **Actions**: The actions to carry out on the target. You can specify
+    #   multiple actions, the duration of each action, and when to start
+    #   each action during an experiment.
     #
-    # * **Stop conditions**\: If a stop condition is triggered while an
+    # * **Stop conditions**: If a stop condition is triggered while an
     #   experiment is running, the experiment is automatically stopped. You
     #   can define a stop condition as a CloudWatch alarm.
     #
-    # For more information, see [Experiment templates][1] in the *Fault
-    # Injection Simulator User Guide*.
+    # For more information, see [experiment templates][1] in the *Fault
+    # Injection Service User Guide*.
     #
     #
     #
@@ -419,6 +521,12 @@ module Aws::FIS
     #
     # @option params [Types::CreateExperimentTemplateLogConfigurationInput] :log_configuration
     #   The configuration for experiment logging.
+    #
+    # @option params [Types::CreateExperimentTemplateExperimentOptionsInput] :experiment_options
+    #   The experiment options for the experiment template.
+    #
+    # @option params [Types::CreateExperimentTemplateReportConfigurationInput] :experiment_report_configuration
+    #   The experiment report configuration for the experiment template.
     #
     # @return [Types::CreateExperimentTemplateResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -481,11 +589,33 @@ module Aws::FIS
     #       },
     #       log_schema_version: 1, # required
     #     },
+    #     experiment_options: {
+    #       account_targeting: "single-account", # accepts single-account, multi-account
+    #       empty_target_resolution_mode: "fail", # accepts fail, skip
+    #     },
+    #     experiment_report_configuration: {
+    #       outputs: {
+    #         s3_configuration: {
+    #           bucket_name: "S3BucketName",
+    #           prefix: "ReportConfigurationS3OutputPrefix",
+    #         },
+    #       },
+    #       data_sources: {
+    #         cloud_watch_dashboards: [
+    #           {
+    #             dashboard_identifier: "ReportConfigurationCloudWatchDashboardIdentifier",
+    #           },
+    #         ],
+    #       },
+    #       pre_experiment_duration: "ReportConfigurationDuration",
+    #       post_experiment_duration: "ReportConfigurationDuration",
+    #     },
     #   })
     #
     # @example Response structure
     #
     #   resp.experiment_template.id #=> String
+    #   resp.experiment_template.arn #=> String
     #   resp.experiment_template.description #=> String
     #   resp.experiment_template.targets #=> Hash
     #   resp.experiment_template.targets["ExperimentTemplateTargetName"].resource_type #=> String
@@ -521,6 +651,15 @@ module Aws::FIS
     #   resp.experiment_template.log_configuration.s3_configuration.bucket_name #=> String
     #   resp.experiment_template.log_configuration.s3_configuration.prefix #=> String
     #   resp.experiment_template.log_configuration.log_schema_version #=> Integer
+    #   resp.experiment_template.experiment_options.account_targeting #=> String, one of "single-account", "multi-account"
+    #   resp.experiment_template.experiment_options.empty_target_resolution_mode #=> String, one of "fail", "skip"
+    #   resp.experiment_template.target_account_configurations_count #=> Integer
+    #   resp.experiment_template.experiment_report_configuration.outputs.s3_configuration.bucket_name #=> String
+    #   resp.experiment_template.experiment_report_configuration.outputs.s3_configuration.prefix #=> String
+    #   resp.experiment_template.experiment_report_configuration.data_sources.cloud_watch_dashboards #=> Array
+    #   resp.experiment_template.experiment_report_configuration.data_sources.cloud_watch_dashboards[0].dashboard_identifier #=> String
+    #   resp.experiment_template.experiment_report_configuration.pre_experiment_duration #=> String
+    #   resp.experiment_template.experiment_report_configuration.post_experiment_duration #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/fis-2020-12-01/CreateExperimentTemplate AWS API Documentation
     #
@@ -528,6 +667,64 @@ module Aws::FIS
     # @param [Hash] params ({})
     def create_experiment_template(params = {}, options = {})
       req = build_request(:create_experiment_template, params)
+      req.send_request(options)
+    end
+
+    # Creates a target account configuration for the experiment template. A
+    # target account configuration is required when `accountTargeting` of
+    # `experimentOptions` is set to `multi-account`. For more information,
+    # see [experiment options][1] in the *Fault Injection Service User
+    # Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/fis/latest/userguide/experiment-options.html
+    #
+    # @option params [String] :client_token
+    #   Unique, case-sensitive identifier that you provide to ensure the
+    #   idempotency of the request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @option params [required, String] :experiment_template_id
+    #   The experiment template ID.
+    #
+    # @option params [required, String] :account_id
+    #   The Amazon Web Services account ID of the target account.
+    #
+    # @option params [required, String] :role_arn
+    #   The Amazon Resource Name (ARN) of an IAM role for the target account.
+    #
+    # @option params [String] :description
+    #   The description of the target account.
+    #
+    # @return [Types::CreateTargetAccountConfigurationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateTargetAccountConfigurationResponse#target_account_configuration #target_account_configuration} => Types::TargetAccountConfiguration
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_target_account_configuration({
+    #     client_token: "ClientToken",
+    #     experiment_template_id: "ExperimentTemplateId", # required
+    #     account_id: "TargetAccountId", # required
+    #     role_arn: "RoleArn", # required
+    #     description: "TargetAccountConfigurationDescription",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.target_account_configuration.role_arn #=> String
+    #   resp.target_account_configuration.account_id #=> String
+    #   resp.target_account_configuration.description #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/fis-2020-12-01/CreateTargetAccountConfiguration AWS API Documentation
+    #
+    # @overload create_target_account_configuration(params = {})
+    # @param [Hash] params ({})
+    def create_target_account_configuration(params = {}, options = {})
+      req = build_request(:create_target_account_configuration, params)
       req.send_request(options)
     end
 
@@ -549,6 +746,7 @@ module Aws::FIS
     # @example Response structure
     #
     #   resp.experiment_template.id #=> String
+    #   resp.experiment_template.arn #=> String
     #   resp.experiment_template.description #=> String
     #   resp.experiment_template.targets #=> Hash
     #   resp.experiment_template.targets["ExperimentTemplateTargetName"].resource_type #=> String
@@ -584,6 +782,15 @@ module Aws::FIS
     #   resp.experiment_template.log_configuration.s3_configuration.bucket_name #=> String
     #   resp.experiment_template.log_configuration.s3_configuration.prefix #=> String
     #   resp.experiment_template.log_configuration.log_schema_version #=> Integer
+    #   resp.experiment_template.experiment_options.account_targeting #=> String, one of "single-account", "multi-account"
+    #   resp.experiment_template.experiment_options.empty_target_resolution_mode #=> String, one of "fail", "skip"
+    #   resp.experiment_template.target_account_configurations_count #=> Integer
+    #   resp.experiment_template.experiment_report_configuration.outputs.s3_configuration.bucket_name #=> String
+    #   resp.experiment_template.experiment_report_configuration.outputs.s3_configuration.prefix #=> String
+    #   resp.experiment_template.experiment_report_configuration.data_sources.cloud_watch_dashboards #=> Array
+    #   resp.experiment_template.experiment_report_configuration.data_sources.cloud_watch_dashboards[0].dashboard_identifier #=> String
+    #   resp.experiment_template.experiment_report_configuration.pre_experiment_duration #=> String
+    #   resp.experiment_template.experiment_report_configuration.post_experiment_duration #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/fis-2020-12-01/DeleteExperimentTemplate AWS API Documentation
     #
@@ -591,6 +798,41 @@ module Aws::FIS
     # @param [Hash] params ({})
     def delete_experiment_template(params = {}, options = {})
       req = build_request(:delete_experiment_template, params)
+      req.send_request(options)
+    end
+
+    # Deletes the specified target account configuration of the experiment
+    # template.
+    #
+    # @option params [required, String] :experiment_template_id
+    #   The ID of the experiment template.
+    #
+    # @option params [required, String] :account_id
+    #   The Amazon Web Services account ID of the target account.
+    #
+    # @return [Types::DeleteTargetAccountConfigurationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DeleteTargetAccountConfigurationResponse#target_account_configuration #target_account_configuration} => Types::TargetAccountConfiguration
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_target_account_configuration({
+    #     experiment_template_id: "ExperimentTemplateId", # required
+    #     account_id: "TargetAccountId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.target_account_configuration.role_arn #=> String
+    #   resp.target_account_configuration.account_id #=> String
+    #   resp.target_account_configuration.description #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/fis-2020-12-01/DeleteTargetAccountConfiguration AWS API Documentation
+    #
+    # @overload delete_target_account_configuration(params = {})
+    # @param [Hash] params ({})
+    def delete_target_account_configuration(params = {}, options = {})
+      req = build_request(:delete_target_account_configuration, params)
       req.send_request(options)
     end
 
@@ -612,6 +854,7 @@ module Aws::FIS
     # @example Response structure
     #
     #   resp.action.id #=> String
+    #   resp.action.arn #=> String
     #   resp.action.description #=> String
     #   resp.action.parameters #=> Hash
     #   resp.action.parameters["ActionParameterName"].description #=> String
@@ -648,10 +891,14 @@ module Aws::FIS
     # @example Response structure
     #
     #   resp.experiment.id #=> String
+    #   resp.experiment.arn #=> String
     #   resp.experiment.experiment_template_id #=> String
     #   resp.experiment.role_arn #=> String
-    #   resp.experiment.state.status #=> String, one of "pending", "initiating", "running", "completed", "stopping", "stopped", "failed"
+    #   resp.experiment.state.status #=> String, one of "pending", "initiating", "running", "completed", "stopping", "stopped", "failed", "cancelled"
     #   resp.experiment.state.reason #=> String
+    #   resp.experiment.state.error.account_id #=> String
+    #   resp.experiment.state.error.code #=> String
+    #   resp.experiment.state.error.location #=> String
     #   resp.experiment.targets #=> Hash
     #   resp.experiment.targets["ExperimentTargetName"].resource_type #=> String
     #   resp.experiment.targets["ExperimentTargetName"].resource_arns #=> Array
@@ -674,7 +921,7 @@ module Aws::FIS
     #   resp.experiment.actions["ExperimentActionName"].targets["ExperimentActionTargetName"] #=> String
     #   resp.experiment.actions["ExperimentActionName"].start_after #=> Array
     #   resp.experiment.actions["ExperimentActionName"].start_after[0] #=> String
-    #   resp.experiment.actions["ExperimentActionName"].state.status #=> String, one of "pending", "initiating", "running", "completed", "cancelled", "stopping", "stopped", "failed"
+    #   resp.experiment.actions["ExperimentActionName"].state.status #=> String, one of "pending", "initiating", "running", "completed", "cancelled", "stopping", "stopped", "failed", "skipped"
     #   resp.experiment.actions["ExperimentActionName"].state.reason #=> String
     #   resp.experiment.actions["ExperimentActionName"].start_time #=> Time
     #   resp.experiment.actions["ExperimentActionName"].end_time #=> Time
@@ -690,6 +937,22 @@ module Aws::FIS
     #   resp.experiment.log_configuration.s3_configuration.bucket_name #=> String
     #   resp.experiment.log_configuration.s3_configuration.prefix #=> String
     #   resp.experiment.log_configuration.log_schema_version #=> Integer
+    #   resp.experiment.experiment_options.account_targeting #=> String, one of "single-account", "multi-account"
+    #   resp.experiment.experiment_options.empty_target_resolution_mode #=> String, one of "fail", "skip"
+    #   resp.experiment.experiment_options.actions_mode #=> String, one of "skip-all", "run-all"
+    #   resp.experiment.target_account_configurations_count #=> Integer
+    #   resp.experiment.experiment_report_configuration.outputs.s3_configuration.bucket_name #=> String
+    #   resp.experiment.experiment_report_configuration.outputs.s3_configuration.prefix #=> String
+    #   resp.experiment.experiment_report_configuration.data_sources.cloud_watch_dashboards #=> Array
+    #   resp.experiment.experiment_report_configuration.data_sources.cloud_watch_dashboards[0].dashboard_identifier #=> String
+    #   resp.experiment.experiment_report_configuration.pre_experiment_duration #=> String
+    #   resp.experiment.experiment_report_configuration.post_experiment_duration #=> String
+    #   resp.experiment.experiment_report.state.status #=> String, one of "pending", "running", "completed", "cancelled", "failed"
+    #   resp.experiment.experiment_report.state.reason #=> String
+    #   resp.experiment.experiment_report.state.error.code #=> String
+    #   resp.experiment.experiment_report.s3_reports #=> Array
+    #   resp.experiment.experiment_report.s3_reports[0].arn #=> String
+    #   resp.experiment.experiment_report.s3_reports[0].report_type #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/fis-2020-12-01/GetExperiment AWS API Documentation
     #
@@ -697,6 +960,41 @@ module Aws::FIS
     # @param [Hash] params ({})
     def get_experiment(params = {}, options = {})
       req = build_request(:get_experiment, params)
+      req.send_request(options)
+    end
+
+    # Gets information about the specified target account configuration of
+    # the experiment.
+    #
+    # @option params [required, String] :experiment_id
+    #   The ID of the experiment.
+    #
+    # @option params [required, String] :account_id
+    #   The Amazon Web Services account ID of the target account.
+    #
+    # @return [Types::GetExperimentTargetAccountConfigurationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetExperimentTargetAccountConfigurationResponse#target_account_configuration #target_account_configuration} => Types::ExperimentTargetAccountConfiguration
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_experiment_target_account_configuration({
+    #     experiment_id: "ExperimentId", # required
+    #     account_id: "TargetAccountId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.target_account_configuration.role_arn #=> String
+    #   resp.target_account_configuration.account_id #=> String
+    #   resp.target_account_configuration.description #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/fis-2020-12-01/GetExperimentTargetAccountConfiguration AWS API Documentation
+    #
+    # @overload get_experiment_target_account_configuration(params = {})
+    # @param [Hash] params ({})
+    def get_experiment_target_account_configuration(params = {}, options = {})
+      req = build_request(:get_experiment_target_account_configuration, params)
       req.send_request(options)
     end
 
@@ -718,6 +1016,7 @@ module Aws::FIS
     # @example Response structure
     #
     #   resp.experiment_template.id #=> String
+    #   resp.experiment_template.arn #=> String
     #   resp.experiment_template.description #=> String
     #   resp.experiment_template.targets #=> Hash
     #   resp.experiment_template.targets["ExperimentTemplateTargetName"].resource_type #=> String
@@ -753,6 +1052,15 @@ module Aws::FIS
     #   resp.experiment_template.log_configuration.s3_configuration.bucket_name #=> String
     #   resp.experiment_template.log_configuration.s3_configuration.prefix #=> String
     #   resp.experiment_template.log_configuration.log_schema_version #=> Integer
+    #   resp.experiment_template.experiment_options.account_targeting #=> String, one of "single-account", "multi-account"
+    #   resp.experiment_template.experiment_options.empty_target_resolution_mode #=> String, one of "fail", "skip"
+    #   resp.experiment_template.target_account_configurations_count #=> Integer
+    #   resp.experiment_template.experiment_report_configuration.outputs.s3_configuration.bucket_name #=> String
+    #   resp.experiment_template.experiment_report_configuration.outputs.s3_configuration.prefix #=> String
+    #   resp.experiment_template.experiment_report_configuration.data_sources.cloud_watch_dashboards #=> Array
+    #   resp.experiment_template.experiment_report_configuration.data_sources.cloud_watch_dashboards[0].dashboard_identifier #=> String
+    #   resp.experiment_template.experiment_report_configuration.pre_experiment_duration #=> String
+    #   resp.experiment_template.experiment_report_configuration.post_experiment_duration #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/fis-2020-12-01/GetExperimentTemplate AWS API Documentation
     #
@@ -760,6 +1068,72 @@ module Aws::FIS
     # @param [Hash] params ({})
     def get_experiment_template(params = {}, options = {})
       req = build_request(:get_experiment_template, params)
+      req.send_request(options)
+    end
+
+    # Gets information about the specified safety lever.
+    #
+    # @option params [required, String] :id
+    #   The ID of the safety lever.
+    #
+    # @return [Types::GetSafetyLeverResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetSafetyLeverResponse#safety_lever #safety_lever} => Types::SafetyLever
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_safety_lever({
+    #     id: "SafetyLeverId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.safety_lever.id #=> String
+    #   resp.safety_lever.arn #=> String
+    #   resp.safety_lever.state.status #=> String, one of "disengaged", "engaged", "engaging"
+    #   resp.safety_lever.state.reason #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/fis-2020-12-01/GetSafetyLever AWS API Documentation
+    #
+    # @overload get_safety_lever(params = {})
+    # @param [Hash] params ({})
+    def get_safety_lever(params = {}, options = {})
+      req = build_request(:get_safety_lever, params)
+      req.send_request(options)
+    end
+
+    # Gets information about the specified target account configuration of
+    # the experiment template.
+    #
+    # @option params [required, String] :experiment_template_id
+    #   The ID of the experiment template.
+    #
+    # @option params [required, String] :account_id
+    #   The Amazon Web Services account ID of the target account.
+    #
+    # @return [Types::GetTargetAccountConfigurationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetTargetAccountConfigurationResponse#target_account_configuration #target_account_configuration} => Types::TargetAccountConfiguration
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_target_account_configuration({
+    #     experiment_template_id: "ExperimentTemplateId", # required
+    #     account_id: "TargetAccountId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.target_account_configuration.role_arn #=> String
+    #   resp.target_account_configuration.account_id #=> String
+    #   resp.target_account_configuration.description #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/fis-2020-12-01/GetTargetAccountConfiguration AWS API Documentation
+    #
+    # @overload get_target_account_configuration(params = {})
+    # @param [Hash] params ({})
+    def get_target_account_configuration(params = {}, options = {})
+      req = build_request(:get_target_account_configuration, params)
       req.send_request(options)
     end
 
@@ -823,6 +1197,7 @@ module Aws::FIS
     #
     #   resp.actions #=> Array
     #   resp.actions[0].id #=> String
+    #   resp.actions[0].arn #=> String
     #   resp.actions[0].description #=> String
     #   resp.actions[0].targets #=> Hash
     #   resp.actions[0].targets["ActionTargetName"].resource_type #=> String
@@ -836,6 +1211,93 @@ module Aws::FIS
     # @param [Hash] params ({})
     def list_actions(params = {}, options = {})
       req = build_request(:list_actions, params)
+      req.send_request(options)
+    end
+
+    # Lists the resolved targets information of the specified experiment.
+    #
+    # @option params [required, String] :experiment_id
+    #   The ID of the experiment.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return with a single call. To
+    #   retrieve the remaining results, make another call with the returned
+    #   nextToken value.
+    #
+    # @option params [String] :next_token
+    #   The token for the next page of results.
+    #
+    # @option params [String] :target_name
+    #   The name of the target.
+    #
+    # @return [Types::ListExperimentResolvedTargetsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListExperimentResolvedTargetsResponse#resolved_targets #resolved_targets} => Array&lt;Types::ResolvedTarget&gt;
+    #   * {Types::ListExperimentResolvedTargetsResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_experiment_resolved_targets({
+    #     experiment_id: "ExperimentId", # required
+    #     max_results: 1,
+    #     next_token: "NextToken",
+    #     target_name: "TargetName",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.resolved_targets #=> Array
+    #   resp.resolved_targets[0].resource_type #=> String
+    #   resp.resolved_targets[0].target_name #=> String
+    #   resp.resolved_targets[0].target_information #=> Hash
+    #   resp.resolved_targets[0].target_information["TargetInformationKey"] #=> String
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/fis-2020-12-01/ListExperimentResolvedTargets AWS API Documentation
+    #
+    # @overload list_experiment_resolved_targets(params = {})
+    # @param [Hash] params ({})
+    def list_experiment_resolved_targets(params = {}, options = {})
+      req = build_request(:list_experiment_resolved_targets, params)
+      req.send_request(options)
+    end
+
+    # Lists the target account configurations of the specified experiment.
+    #
+    # @option params [required, String] :experiment_id
+    #   The ID of the experiment.
+    #
+    # @option params [String] :next_token
+    #   The token for the next page of results.
+    #
+    # @return [Types::ListExperimentTargetAccountConfigurationsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListExperimentTargetAccountConfigurationsResponse#target_account_configurations #target_account_configurations} => Array&lt;Types::ExperimentTargetAccountConfigurationSummary&gt;
+    #   * {Types::ListExperimentTargetAccountConfigurationsResponse#next_token #next_token} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_experiment_target_account_configurations({
+    #     experiment_id: "ExperimentId", # required
+    #     next_token: "NextToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.target_account_configurations #=> Array
+    #   resp.target_account_configurations[0].role_arn #=> String
+    #   resp.target_account_configurations[0].account_id #=> String
+    #   resp.target_account_configurations[0].description #=> String
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/fis-2020-12-01/ListExperimentTargetAccountConfigurations AWS API Documentation
+    #
+    # @overload list_experiment_target_account_configurations(params = {})
+    # @param [Hash] params ({})
+    def list_experiment_target_account_configurations(params = {}, options = {})
+      req = build_request(:list_experiment_target_account_configurations, params)
       req.send_request(options)
     end
 
@@ -867,6 +1329,7 @@ module Aws::FIS
     #
     #   resp.experiment_templates #=> Array
     #   resp.experiment_templates[0].id #=> String
+    #   resp.experiment_templates[0].arn #=> String
     #   resp.experiment_templates[0].description #=> String
     #   resp.experiment_templates[0].creation_time #=> Time
     #   resp.experiment_templates[0].last_update_time #=> Time
@@ -893,6 +1356,9 @@ module Aws::FIS
     # @option params [String] :next_token
     #   The token for the next page of results.
     #
+    # @option params [String] :experiment_template_id
+    #   The ID of the experiment template.
+    #
     # @return [Types::ListExperimentsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::ListExperimentsResponse#experiments #experiments} => Array&lt;Types::ExperimentSummary&gt;
@@ -905,18 +1371,26 @@ module Aws::FIS
     #   resp = client.list_experiments({
     #     max_results: 1,
     #     next_token: "NextToken",
+    #     experiment_template_id: "ExperimentTemplateId",
     #   })
     #
     # @example Response structure
     #
     #   resp.experiments #=> Array
     #   resp.experiments[0].id #=> String
+    #   resp.experiments[0].arn #=> String
     #   resp.experiments[0].experiment_template_id #=> String
-    #   resp.experiments[0].state.status #=> String, one of "pending", "initiating", "running", "completed", "stopping", "stopped", "failed"
+    #   resp.experiments[0].state.status #=> String, one of "pending", "initiating", "running", "completed", "stopping", "stopped", "failed", "cancelled"
     #   resp.experiments[0].state.reason #=> String
+    #   resp.experiments[0].state.error.account_id #=> String
+    #   resp.experiments[0].state.error.code #=> String
+    #   resp.experiments[0].state.error.location #=> String
     #   resp.experiments[0].creation_time #=> Time
     #   resp.experiments[0].tags #=> Hash
     #   resp.experiments[0].tags["TagKey"] #=> String
+    #   resp.experiments[0].experiment_options.account_targeting #=> String, one of "single-account", "multi-account"
+    #   resp.experiments[0].experiment_options.empty_target_resolution_mode #=> String, one of "fail", "skip"
+    #   resp.experiments[0].experiment_options.actions_mode #=> String, one of "skip-all", "run-all"
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/fis-2020-12-01/ListExperiments AWS API Documentation
@@ -954,6 +1428,52 @@ module Aws::FIS
     # @param [Hash] params ({})
     def list_tags_for_resource(params = {}, options = {})
       req = build_request(:list_tags_for_resource, params)
+      req.send_request(options)
+    end
+
+    # Lists the target account configurations of the specified experiment
+    # template.
+    #
+    # @option params [required, String] :experiment_template_id
+    #   The ID of the experiment template.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return with a single call. To
+    #   retrieve the remaining results, make another call with the returned
+    #   nextToken value.
+    #
+    # @option params [String] :next_token
+    #   The token for the next page of results.
+    #
+    # @return [Types::ListTargetAccountConfigurationsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListTargetAccountConfigurationsResponse#target_account_configurations #target_account_configurations} => Array&lt;Types::TargetAccountConfigurationSummary&gt;
+    #   * {Types::ListTargetAccountConfigurationsResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_target_account_configurations({
+    #     experiment_template_id: "ExperimentTemplateId", # required
+    #     max_results: 1,
+    #     next_token: "NextToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.target_account_configurations #=> Array
+    #   resp.target_account_configurations[0].role_arn #=> String
+    #   resp.target_account_configurations[0].account_id #=> String
+    #   resp.target_account_configurations[0].description #=> String
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/fis-2020-12-01/ListTargetAccountConfigurations AWS API Documentation
+    #
+    # @overload list_target_account_configurations(params = {})
+    # @param [Hash] params ({})
+    def list_target_account_configurations(params = {}, options = {})
+      req = build_request(:list_target_account_configurations, params)
       req.send_request(options)
     end
 
@@ -1009,6 +1529,9 @@ module Aws::FIS
     # @option params [required, String] :experiment_template_id
     #   The ID of the experiment template.
     #
+    # @option params [Types::StartExperimentExperimentOptionsInput] :experiment_options
+    #   The experiment options for running the experiment.
+    #
     # @option params [Hash<String,String>] :tags
     #   The tags to apply to the experiment.
     #
@@ -1021,6 +1544,9 @@ module Aws::FIS
     #   resp = client.start_experiment({
     #     client_token: "ClientToken", # required
     #     experiment_template_id: "ExperimentTemplateId", # required
+    #     experiment_options: {
+    #       actions_mode: "skip-all", # accepts skip-all, run-all
+    #     },
     #     tags: {
     #       "TagKey" => "TagValue",
     #     },
@@ -1029,10 +1555,14 @@ module Aws::FIS
     # @example Response structure
     #
     #   resp.experiment.id #=> String
+    #   resp.experiment.arn #=> String
     #   resp.experiment.experiment_template_id #=> String
     #   resp.experiment.role_arn #=> String
-    #   resp.experiment.state.status #=> String, one of "pending", "initiating", "running", "completed", "stopping", "stopped", "failed"
+    #   resp.experiment.state.status #=> String, one of "pending", "initiating", "running", "completed", "stopping", "stopped", "failed", "cancelled"
     #   resp.experiment.state.reason #=> String
+    #   resp.experiment.state.error.account_id #=> String
+    #   resp.experiment.state.error.code #=> String
+    #   resp.experiment.state.error.location #=> String
     #   resp.experiment.targets #=> Hash
     #   resp.experiment.targets["ExperimentTargetName"].resource_type #=> String
     #   resp.experiment.targets["ExperimentTargetName"].resource_arns #=> Array
@@ -1055,7 +1585,7 @@ module Aws::FIS
     #   resp.experiment.actions["ExperimentActionName"].targets["ExperimentActionTargetName"] #=> String
     #   resp.experiment.actions["ExperimentActionName"].start_after #=> Array
     #   resp.experiment.actions["ExperimentActionName"].start_after[0] #=> String
-    #   resp.experiment.actions["ExperimentActionName"].state.status #=> String, one of "pending", "initiating", "running", "completed", "cancelled", "stopping", "stopped", "failed"
+    #   resp.experiment.actions["ExperimentActionName"].state.status #=> String, one of "pending", "initiating", "running", "completed", "cancelled", "stopping", "stopped", "failed", "skipped"
     #   resp.experiment.actions["ExperimentActionName"].state.reason #=> String
     #   resp.experiment.actions["ExperimentActionName"].start_time #=> Time
     #   resp.experiment.actions["ExperimentActionName"].end_time #=> Time
@@ -1071,6 +1601,22 @@ module Aws::FIS
     #   resp.experiment.log_configuration.s3_configuration.bucket_name #=> String
     #   resp.experiment.log_configuration.s3_configuration.prefix #=> String
     #   resp.experiment.log_configuration.log_schema_version #=> Integer
+    #   resp.experiment.experiment_options.account_targeting #=> String, one of "single-account", "multi-account"
+    #   resp.experiment.experiment_options.empty_target_resolution_mode #=> String, one of "fail", "skip"
+    #   resp.experiment.experiment_options.actions_mode #=> String, one of "skip-all", "run-all"
+    #   resp.experiment.target_account_configurations_count #=> Integer
+    #   resp.experiment.experiment_report_configuration.outputs.s3_configuration.bucket_name #=> String
+    #   resp.experiment.experiment_report_configuration.outputs.s3_configuration.prefix #=> String
+    #   resp.experiment.experiment_report_configuration.data_sources.cloud_watch_dashboards #=> Array
+    #   resp.experiment.experiment_report_configuration.data_sources.cloud_watch_dashboards[0].dashboard_identifier #=> String
+    #   resp.experiment.experiment_report_configuration.pre_experiment_duration #=> String
+    #   resp.experiment.experiment_report_configuration.post_experiment_duration #=> String
+    #   resp.experiment.experiment_report.state.status #=> String, one of "pending", "running", "completed", "cancelled", "failed"
+    #   resp.experiment.experiment_report.state.reason #=> String
+    #   resp.experiment.experiment_report.state.error.code #=> String
+    #   resp.experiment.experiment_report.s3_reports #=> Array
+    #   resp.experiment.experiment_report.s3_reports[0].arn #=> String
+    #   resp.experiment.experiment_report.s3_reports[0].report_type #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/fis-2020-12-01/StartExperiment AWS API Documentation
     #
@@ -1099,10 +1645,14 @@ module Aws::FIS
     # @example Response structure
     #
     #   resp.experiment.id #=> String
+    #   resp.experiment.arn #=> String
     #   resp.experiment.experiment_template_id #=> String
     #   resp.experiment.role_arn #=> String
-    #   resp.experiment.state.status #=> String, one of "pending", "initiating", "running", "completed", "stopping", "stopped", "failed"
+    #   resp.experiment.state.status #=> String, one of "pending", "initiating", "running", "completed", "stopping", "stopped", "failed", "cancelled"
     #   resp.experiment.state.reason #=> String
+    #   resp.experiment.state.error.account_id #=> String
+    #   resp.experiment.state.error.code #=> String
+    #   resp.experiment.state.error.location #=> String
     #   resp.experiment.targets #=> Hash
     #   resp.experiment.targets["ExperimentTargetName"].resource_type #=> String
     #   resp.experiment.targets["ExperimentTargetName"].resource_arns #=> Array
@@ -1125,7 +1675,7 @@ module Aws::FIS
     #   resp.experiment.actions["ExperimentActionName"].targets["ExperimentActionTargetName"] #=> String
     #   resp.experiment.actions["ExperimentActionName"].start_after #=> Array
     #   resp.experiment.actions["ExperimentActionName"].start_after[0] #=> String
-    #   resp.experiment.actions["ExperimentActionName"].state.status #=> String, one of "pending", "initiating", "running", "completed", "cancelled", "stopping", "stopped", "failed"
+    #   resp.experiment.actions["ExperimentActionName"].state.status #=> String, one of "pending", "initiating", "running", "completed", "cancelled", "stopping", "stopped", "failed", "skipped"
     #   resp.experiment.actions["ExperimentActionName"].state.reason #=> String
     #   resp.experiment.actions["ExperimentActionName"].start_time #=> Time
     #   resp.experiment.actions["ExperimentActionName"].end_time #=> Time
@@ -1141,6 +1691,22 @@ module Aws::FIS
     #   resp.experiment.log_configuration.s3_configuration.bucket_name #=> String
     #   resp.experiment.log_configuration.s3_configuration.prefix #=> String
     #   resp.experiment.log_configuration.log_schema_version #=> Integer
+    #   resp.experiment.experiment_options.account_targeting #=> String, one of "single-account", "multi-account"
+    #   resp.experiment.experiment_options.empty_target_resolution_mode #=> String, one of "fail", "skip"
+    #   resp.experiment.experiment_options.actions_mode #=> String, one of "skip-all", "run-all"
+    #   resp.experiment.target_account_configurations_count #=> Integer
+    #   resp.experiment.experiment_report_configuration.outputs.s3_configuration.bucket_name #=> String
+    #   resp.experiment.experiment_report_configuration.outputs.s3_configuration.prefix #=> String
+    #   resp.experiment.experiment_report_configuration.data_sources.cloud_watch_dashboards #=> Array
+    #   resp.experiment.experiment_report_configuration.data_sources.cloud_watch_dashboards[0].dashboard_identifier #=> String
+    #   resp.experiment.experiment_report_configuration.pre_experiment_duration #=> String
+    #   resp.experiment.experiment_report_configuration.post_experiment_duration #=> String
+    #   resp.experiment.experiment_report.state.status #=> String, one of "pending", "running", "completed", "cancelled", "failed"
+    #   resp.experiment.experiment_report.state.reason #=> String
+    #   resp.experiment.experiment_report.state.error.code #=> String
+    #   resp.experiment.experiment_report.s3_reports #=> Array
+    #   resp.experiment.experiment_report.s3_reports[0].arn #=> String
+    #   resp.experiment.experiment_report.s3_reports[0].report_type #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/fis-2020-12-01/StopExperiment AWS API Documentation
     #
@@ -1229,6 +1795,12 @@ module Aws::FIS
     # @option params [Types::UpdateExperimentTemplateLogConfigurationInput] :log_configuration
     #   The configuration for experiment logging.
     #
+    # @option params [Types::UpdateExperimentTemplateExperimentOptionsInput] :experiment_options
+    #   The experiment options for the experiment template.
+    #
+    # @option params [Types::UpdateExperimentTemplateReportConfigurationInput] :experiment_report_configuration
+    #   The experiment report configuration for the experiment template.
+    #
     # @return [Types::UpdateExperimentTemplateResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::UpdateExperimentTemplateResponse#experiment_template #experiment_template} => Types::ExperimentTemplate
@@ -1287,11 +1859,32 @@ module Aws::FIS
     #       },
     #       log_schema_version: 1,
     #     },
+    #     experiment_options: {
+    #       empty_target_resolution_mode: "fail", # accepts fail, skip
+    #     },
+    #     experiment_report_configuration: {
+    #       outputs: {
+    #         s3_configuration: {
+    #           bucket_name: "S3BucketName",
+    #           prefix: "ReportConfigurationS3OutputPrefix",
+    #         },
+    #       },
+    #       data_sources: {
+    #         cloud_watch_dashboards: [
+    #           {
+    #             dashboard_identifier: "ReportConfigurationCloudWatchDashboardIdentifier",
+    #           },
+    #         ],
+    #       },
+    #       pre_experiment_duration: "ReportConfigurationDuration",
+    #       post_experiment_duration: "ReportConfigurationDuration",
+    #     },
     #   })
     #
     # @example Response structure
     #
     #   resp.experiment_template.id #=> String
+    #   resp.experiment_template.arn #=> String
     #   resp.experiment_template.description #=> String
     #   resp.experiment_template.targets #=> Hash
     #   resp.experiment_template.targets["ExperimentTemplateTargetName"].resource_type #=> String
@@ -1327,6 +1920,15 @@ module Aws::FIS
     #   resp.experiment_template.log_configuration.s3_configuration.bucket_name #=> String
     #   resp.experiment_template.log_configuration.s3_configuration.prefix #=> String
     #   resp.experiment_template.log_configuration.log_schema_version #=> Integer
+    #   resp.experiment_template.experiment_options.account_targeting #=> String, one of "single-account", "multi-account"
+    #   resp.experiment_template.experiment_options.empty_target_resolution_mode #=> String, one of "fail", "skip"
+    #   resp.experiment_template.target_account_configurations_count #=> Integer
+    #   resp.experiment_template.experiment_report_configuration.outputs.s3_configuration.bucket_name #=> String
+    #   resp.experiment_template.experiment_report_configuration.outputs.s3_configuration.prefix #=> String
+    #   resp.experiment_template.experiment_report_configuration.data_sources.cloud_watch_dashboards #=> Array
+    #   resp.experiment_template.experiment_report_configuration.data_sources.cloud_watch_dashboards[0].dashboard_identifier #=> String
+    #   resp.experiment_template.experiment_report_configuration.pre_experiment_duration #=> String
+    #   resp.experiment_template.experiment_report_configuration.post_experiment_duration #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/fis-2020-12-01/UpdateExperimentTemplate AWS API Documentation
     #
@@ -1337,20 +1939,106 @@ module Aws::FIS
       req.send_request(options)
     end
 
+    # Updates the specified safety lever state.
+    #
+    # @option params [required, String] :id
+    #   The ID of the safety lever.
+    #
+    # @option params [required, Types::UpdateSafetyLeverStateInput] :state
+    #   The state of the safety lever.
+    #
+    # @return [Types::UpdateSafetyLeverStateResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateSafetyLeverStateResponse#safety_lever #safety_lever} => Types::SafetyLever
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_safety_lever_state({
+    #     id: "SafetyLeverId", # required
+    #     state: { # required
+    #       status: "disengaged", # required, accepts disengaged, engaged
+    #       reason: "SafetyLeverStatusReason", # required
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.safety_lever.id #=> String
+    #   resp.safety_lever.arn #=> String
+    #   resp.safety_lever.state.status #=> String, one of "disengaged", "engaged", "engaging"
+    #   resp.safety_lever.state.reason #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/fis-2020-12-01/UpdateSafetyLeverState AWS API Documentation
+    #
+    # @overload update_safety_lever_state(params = {})
+    # @param [Hash] params ({})
+    def update_safety_lever_state(params = {}, options = {})
+      req = build_request(:update_safety_lever_state, params)
+      req.send_request(options)
+    end
+
+    # Updates the target account configuration for the specified experiment
+    # template.
+    #
+    # @option params [required, String] :experiment_template_id
+    #   The ID of the experiment template.
+    #
+    # @option params [required, String] :account_id
+    #   The Amazon Web Services account ID of the target account.
+    #
+    # @option params [String] :role_arn
+    #   The Amazon Resource Name (ARN) of an IAM role for the target account.
+    #
+    # @option params [String] :description
+    #   The description of the target account.
+    #
+    # @return [Types::UpdateTargetAccountConfigurationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateTargetAccountConfigurationResponse#target_account_configuration #target_account_configuration} => Types::TargetAccountConfiguration
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_target_account_configuration({
+    #     experiment_template_id: "ExperimentTemplateId", # required
+    #     account_id: "TargetAccountId", # required
+    #     role_arn: "RoleArn",
+    #     description: "TargetAccountConfigurationDescription",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.target_account_configuration.role_arn #=> String
+    #   resp.target_account_configuration.account_id #=> String
+    #   resp.target_account_configuration.description #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/fis-2020-12-01/UpdateTargetAccountConfiguration AWS API Documentation
+    #
+    # @overload update_target_account_configuration(params = {})
+    # @param [Hash] params ({})
+    def update_target_account_configuration(params = {}, options = {})
+      req = build_request(:update_target_account_configuration, params)
+      req.send_request(options)
+    end
+
     # @!endgroup
 
     # @param params ({})
     # @api private
     def build_request(operation_name, params = {})
       handlers = @handlers.for(operation_name)
+      tracer = config.telemetry_provider.tracer_provider.tracer(
+        Aws::Telemetry.module_to_tracer_name('Aws::FIS')
+      )
       context = Seahorse::Client::RequestContext.new(
         operation_name: operation_name,
         operation: config.api.operation(operation_name),
         client: self,
         params: params,
-        config: config)
+        config: config,
+        tracer: tracer
+      )
       context[:gem_name] = 'aws-sdk-fis'
-      context[:gem_version] = '1.16.0'
+      context[:gem_version] = '1.48.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

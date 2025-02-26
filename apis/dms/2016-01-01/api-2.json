@@ -5,11 +5,13 @@
     "endpointPrefix":"dms",
     "jsonVersion":"1.1",
     "protocol":"json",
+    "protocols":["json"],
     "serviceFullName":"AWS Database Migration Service",
     "serviceId":"Database Migration Service",
     "signatureVersion":"v4",
     "targetPrefix":"AmazonDMSv20160101",
-    "uid":"dms-2016-01-01"
+    "uid":"dms-2016-01-01",
+    "auth":["aws.auth#sigv4"]
   },
   "operations":{
     "AddTagsToResource":{
@@ -21,7 +23,8 @@
       "input":{"shape":"AddTagsToResourceMessage"},
       "output":{"shape":"AddTagsToResourceResponse"},
       "errors":[
-        {"shape":"ResourceNotFoundFault"}
+        {"shape":"ResourceNotFoundFault"},
+        {"shape":"InvalidResourceStateFault"}
       ]
     },
     "ApplyPendingMaintenanceAction":{
@@ -33,6 +36,20 @@
       "input":{"shape":"ApplyPendingMaintenanceActionMessage"},
       "output":{"shape":"ApplyPendingMaintenanceActionResponse"},
       "errors":[
+        {"shape":"ResourceNotFoundFault"}
+      ]
+    },
+    "BatchStartRecommendations":{
+      "name":"BatchStartRecommendations",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"BatchStartRecommendationsRequest"},
+      "output":{"shape":"BatchStartRecommendationsResponse"},
+      "errors":[
+        {"shape":"InvalidResourceStateFault"},
+        {"shape":"AccessDeniedFault"},
         {"shape":"ResourceNotFoundFault"}
       ]
     },
@@ -48,6 +65,37 @@
         {"shape":"AccessDeniedFault"},
         {"shape":"ResourceNotFoundFault"},
         {"shape":"InvalidResourceStateFault"}
+      ]
+    },
+    "CreateDataMigration":{
+      "name":"CreateDataMigration",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"CreateDataMigrationMessage"},
+      "output":{"shape":"CreateDataMigrationResponse"},
+      "errors":[
+        {"shape":"ResourceQuotaExceededFault"},
+        {"shape":"ResourceNotFoundFault"},
+        {"shape":"ResourceAlreadyExistsFault"},
+        {"shape":"InvalidOperationFault"},
+        {"shape":"FailedDependencyFault"}
+      ]
+    },
+    "CreateDataProvider":{
+      "name":"CreateDataProvider",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"CreateDataProviderMessage"},
+      "output":{"shape":"CreateDataProviderResponse"},
+      "errors":[
+        {"shape":"ResourceQuotaExceededFault"},
+        {"shape":"AccessDeniedFault"},
+        {"shape":"ResourceAlreadyExistsFault"},
+        {"shape":"FailedDependencyFault"}
       ]
     },
     "CreateEndpoint":{
@@ -102,6 +150,63 @@
         {"shape":"AccessDeniedFault"},
         {"shape":"S3AccessDeniedFault"},
         {"shape":"S3ResourceNotFoundFault"},
+        {"shape":"ResourceQuotaExceededFault"}
+      ]
+    },
+    "CreateInstanceProfile":{
+      "name":"CreateInstanceProfile",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"CreateInstanceProfileMessage"},
+      "output":{"shape":"CreateInstanceProfileResponse"},
+      "errors":[
+        {"shape":"AccessDeniedFault"},
+        {"shape":"ResourceAlreadyExistsFault"},
+        {"shape":"ResourceNotFoundFault"},
+        {"shape":"ResourceQuotaExceededFault"},
+        {"shape":"InvalidResourceStateFault"},
+        {"shape":"KMSKeyNotAccessibleFault"},
+        {"shape":"S3ResourceNotFoundFault"},
+        {"shape":"S3AccessDeniedFault"},
+        {"shape":"FailedDependencyFault"}
+      ]
+    },
+    "CreateMigrationProject":{
+      "name":"CreateMigrationProject",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"CreateMigrationProjectMessage"},
+      "output":{"shape":"CreateMigrationProjectResponse"},
+      "errors":[
+        {"shape":"AccessDeniedFault"},
+        {"shape":"ResourceAlreadyExistsFault"},
+        {"shape":"ResourceQuotaExceededFault"},
+        {"shape":"ResourceNotFoundFault"},
+        {"shape":"S3ResourceNotFoundFault"},
+        {"shape":"S3AccessDeniedFault"},
+        {"shape":"FailedDependencyFault"}
+      ]
+    },
+    "CreateReplicationConfig":{
+      "name":"CreateReplicationConfig",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"CreateReplicationConfigMessage"},
+      "output":{"shape":"CreateReplicationConfigResponse"},
+      "errors":[
+        {"shape":"AccessDeniedFault"},
+        {"shape":"ResourceAlreadyExistsFault"},
+        {"shape":"ResourceNotFoundFault"},
+        {"shape":"InvalidResourceStateFault"},
+        {"shape":"ReplicationSubnetGroupDoesNotCoverEnoughAZs"},
+        {"shape":"InvalidSubnet"},
+        {"shape":"KMSKeyNotAccessibleFault"},
         {"shape":"ResourceQuotaExceededFault"}
       ]
     },
@@ -187,6 +292,35 @@
         {"shape":"InvalidResourceStateFault"}
       ]
     },
+    "DeleteDataMigration":{
+      "name":"DeleteDataMigration",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"DeleteDataMigrationMessage"},
+      "output":{"shape":"DeleteDataMigrationResponse"},
+      "errors":[
+        {"shape":"InvalidResourceStateFault"},
+        {"shape":"ResourceNotFoundFault"},
+        {"shape":"FailedDependencyFault"}
+      ]
+    },
+    "DeleteDataProvider":{
+      "name":"DeleteDataProvider",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"DeleteDataProviderMessage"},
+      "output":{"shape":"DeleteDataProviderResponse"},
+      "errors":[
+        {"shape":"AccessDeniedFault"},
+        {"shape":"ResourceNotFoundFault"},
+        {"shape":"InvalidResourceStateFault"},
+        {"shape":"FailedDependencyFault"}
+      ]
+    },
     "DeleteEndpoint":{
       "name":"DeleteEndpoint",
       "http":{
@@ -210,7 +344,8 @@
       "output":{"shape":"DeleteEventSubscriptionResponse"},
       "errors":[
         {"shape":"ResourceNotFoundFault"},
-        {"shape":"InvalidResourceStateFault"}
+        {"shape":"InvalidResourceStateFault"},
+        {"shape":"AccessDeniedFault"}
       ]
     },
     "DeleteFleetAdvisorCollector":{
@@ -222,7 +357,8 @@
       "input":{"shape":"DeleteCollectorRequest"},
       "errors":[
         {"shape":"InvalidResourceStateFault"},
-        {"shape":"CollectorNotFoundFault"}
+        {"shape":"CollectorNotFoundFault"},
+        {"shape":"AccessDeniedFault"}
       ]
     },
     "DeleteFleetAdvisorDatabases":{
@@ -235,7 +371,53 @@
       "output":{"shape":"DeleteFleetAdvisorDatabasesResponse"},
       "errors":[
         {"shape":"ResourceNotFoundFault"},
-        {"shape":"InvalidOperationFault"}
+        {"shape":"InvalidOperationFault"},
+        {"shape":"AccessDeniedFault"}
+      ]
+    },
+    "DeleteInstanceProfile":{
+      "name":"DeleteInstanceProfile",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"DeleteInstanceProfileMessage"},
+      "output":{"shape":"DeleteInstanceProfileResponse"},
+      "errors":[
+        {"shape":"AccessDeniedFault"},
+        {"shape":"ResourceNotFoundFault"},
+        {"shape":"InvalidResourceStateFault"},
+        {"shape":"FailedDependencyFault"}
+      ]
+    },
+    "DeleteMigrationProject":{
+      "name":"DeleteMigrationProject",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"DeleteMigrationProjectMessage"},
+      "output":{"shape":"DeleteMigrationProjectResponse"},
+      "errors":[
+        {"shape":"AccessDeniedFault"},
+        {"shape":"ResourceNotFoundFault"},
+        {"shape":"AccessDeniedFault"},
+        {"shape":"InvalidResourceStateFault"},
+        {"shape":"FailedDependencyFault"}
+      ]
+    },
+    "DeleteReplicationConfig":{
+      "name":"DeleteReplicationConfig",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"DeleteReplicationConfigMessage"},
+      "output":{"shape":"DeleteReplicationConfigResponse"},
+      "errors":[
+        {"shape":"AccessDeniedFault"},
+        {"shape":"ResourceNotFoundFault"},
+        {"shape":"InvalidResourceStateFault"}
       ]
     },
     "DeleteReplicationInstance":{
@@ -261,7 +443,8 @@
       "output":{"shape":"DeleteReplicationSubnetGroupResponse"},
       "errors":[
         {"shape":"InvalidResourceStateFault"},
-        {"shape":"ResourceNotFoundFault"}
+        {"shape":"ResourceNotFoundFault"},
+        {"shape":"AccessDeniedFault"}
       ]
     },
     "DeleteReplicationTask":{
@@ -338,6 +521,46 @@
         {"shape":"ResourceNotFoundFault"}
       ]
     },
+    "DescribeConversionConfiguration":{
+      "name":"DescribeConversionConfiguration",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"DescribeConversionConfigurationMessage"},
+      "output":{"shape":"DescribeConversionConfigurationResponse"},
+      "errors":[
+        {"shape":"ResourceNotFoundFault"}
+      ]
+    },
+    "DescribeDataMigrations":{
+      "name":"DescribeDataMigrations",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"DescribeDataMigrationsMessage"},
+      "output":{"shape":"DescribeDataMigrationsResponse"},
+      "errors":[
+        {"shape":"InvalidResourceStateFault"},
+        {"shape":"ResourceNotFoundFault"},
+        {"shape":"FailedDependencyFault"}
+      ]
+    },
+    "DescribeDataProviders":{
+      "name":"DescribeDataProviders",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"DescribeDataProvidersMessage"},
+      "output":{"shape":"DescribeDataProvidersResponse"},
+      "errors":[
+        {"shape":"ResourceNotFoundFault"},
+        {"shape":"AccessDeniedFault"},
+        {"shape":"FailedDependencyFault"}
+      ]
+    },
     "DescribeEndpointSettings":{
       "name":"DescribeEndpointSettings",
       "http":{
@@ -368,6 +591,15 @@
         {"shape":"ResourceNotFoundFault"}
       ]
     },
+    "DescribeEngineVersions":{
+      "name":"DescribeEngineVersions",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"DescribeEngineVersionsMessage"},
+      "output":{"shape":"DescribeEngineVersionsResponse"}
+    },
     "DescribeEventCategories":{
       "name":"DescribeEventCategories",
       "http":{
@@ -397,6 +629,15 @@
       },
       "input":{"shape":"DescribeEventsMessage"},
       "output":{"shape":"DescribeEventsResponse"}
+    },
+    "DescribeExtensionPackAssociations":{
+      "name":"DescribeExtensionPackAssociations",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"DescribeExtensionPackAssociationsMessage"},
+      "output":{"shape":"DescribeExtensionPackAssociationsResponse"}
     },
     "DescribeFleetAdvisorCollectors":{
       "name":"DescribeFleetAdvisorCollectors",
@@ -458,6 +699,94 @@
         {"shape":"InvalidResourceStateFault"}
       ]
     },
+    "DescribeInstanceProfiles":{
+      "name":"DescribeInstanceProfiles",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"DescribeInstanceProfilesMessage"},
+      "output":{"shape":"DescribeInstanceProfilesResponse"},
+      "errors":[
+        {"shape":"ResourceNotFoundFault"},
+        {"shape":"AccessDeniedFault"},
+        {"shape":"FailedDependencyFault"}
+      ]
+    },
+    "DescribeMetadataModelAssessments":{
+      "name":"DescribeMetadataModelAssessments",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"DescribeMetadataModelAssessmentsMessage"},
+      "output":{"shape":"DescribeMetadataModelAssessmentsResponse"},
+      "errors":[
+        {"shape":"ResourceNotFoundFault"}
+      ]
+    },
+    "DescribeMetadataModelConversions":{
+      "name":"DescribeMetadataModelConversions",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"DescribeMetadataModelConversionsMessage"},
+      "output":{"shape":"DescribeMetadataModelConversionsResponse"},
+      "errors":[
+        {"shape":"ResourceNotFoundFault"}
+      ]
+    },
+    "DescribeMetadataModelExportsAsScript":{
+      "name":"DescribeMetadataModelExportsAsScript",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"DescribeMetadataModelExportsAsScriptMessage"},
+      "output":{"shape":"DescribeMetadataModelExportsAsScriptResponse"},
+      "errors":[
+        {"shape":"ResourceNotFoundFault"}
+      ]
+    },
+    "DescribeMetadataModelExportsToTarget":{
+      "name":"DescribeMetadataModelExportsToTarget",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"DescribeMetadataModelExportsToTargetMessage"},
+      "output":{"shape":"DescribeMetadataModelExportsToTargetResponse"},
+      "errors":[
+        {"shape":"ResourceNotFoundFault"}
+      ]
+    },
+    "DescribeMetadataModelImports":{
+      "name":"DescribeMetadataModelImports",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"DescribeMetadataModelImportsMessage"},
+      "output":{"shape":"DescribeMetadataModelImportsResponse"},
+      "errors":[
+        {"shape":"ResourceNotFoundFault"}
+      ]
+    },
+    "DescribeMigrationProjects":{
+      "name":"DescribeMigrationProjects",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"DescribeMigrationProjectsMessage"},
+      "output":{"shape":"DescribeMigrationProjectsResponse"},
+      "errors":[
+        {"shape":"ResourceNotFoundFault"},
+        {"shape":"AccessDeniedFault"},
+        {"shape":"FailedDependencyFault"}
+      ]
+    },
     "DescribeOrderableReplicationInstances":{
       "name":"DescribeOrderableReplicationInstances",
       "http":{
@@ -479,6 +808,32 @@
         {"shape":"ResourceNotFoundFault"}
       ]
     },
+    "DescribeRecommendationLimitations":{
+      "name":"DescribeRecommendationLimitations",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"DescribeRecommendationLimitationsRequest"},
+      "output":{"shape":"DescribeRecommendationLimitationsResponse"},
+      "errors":[
+        {"shape":"InvalidResourceStateFault"},
+        {"shape":"AccessDeniedFault"}
+      ]
+    },
+    "DescribeRecommendations":{
+      "name":"DescribeRecommendations",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"DescribeRecommendationsRequest"},
+      "output":{"shape":"DescribeRecommendationsResponse"},
+      "errors":[
+        {"shape":"InvalidResourceStateFault"},
+        {"shape":"AccessDeniedFault"}
+      ]
+    },
     "DescribeRefreshSchemasStatus":{
       "name":"DescribeRefreshSchemasStatus",
       "http":{
@@ -489,6 +844,18 @@
       "output":{"shape":"DescribeRefreshSchemasStatusResponse"},
       "errors":[
         {"shape":"InvalidResourceStateFault"},
+        {"shape":"ResourceNotFoundFault"}
+      ]
+    },
+    "DescribeReplicationConfigs":{
+      "name":"DescribeReplicationConfigs",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"DescribeReplicationConfigsMessage"},
+      "output":{"shape":"DescribeReplicationConfigsResponse"},
+      "errors":[
         {"shape":"ResourceNotFoundFault"}
       ]
     },
@@ -527,6 +894,19 @@
       "output":{"shape":"DescribeReplicationSubnetGroupsResponse"},
       "errors":[
         {"shape":"ResourceNotFoundFault"}
+      ]
+    },
+    "DescribeReplicationTableStatistics":{
+      "name":"DescribeReplicationTableStatistics",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"DescribeReplicationTableStatisticsMessage"},
+      "output":{"shape":"DescribeReplicationTableStatisticsResponse"},
+      "errors":[
+        {"shape":"ResourceNotFoundFault"},
+        {"shape":"InvalidResourceStateFault"}
       ]
     },
     "DescribeReplicationTaskAssessmentResults":{
@@ -577,6 +957,18 @@
         {"shape":"ResourceNotFoundFault"}
       ]
     },
+    "DescribeReplications":{
+      "name":"DescribeReplications",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"DescribeReplicationsMessage"},
+      "output":{"shape":"DescribeReplicationsResponse"},
+      "errors":[
+        {"shape":"ResourceNotFoundFault"}
+      ]
+    },
     "DescribeSchemas":{
       "name":"DescribeSchemas",
       "http":{
@@ -600,7 +992,20 @@
       "output":{"shape":"DescribeTableStatisticsResponse"},
       "errors":[
         {"shape":"ResourceNotFoundFault"},
-        {"shape":"InvalidResourceStateFault"}
+        {"shape":"InvalidResourceStateFault"},
+        {"shape":"AccessDeniedFault"}
+      ]
+    },
+    "ExportMetadataModelAssessment":{
+      "name":"ExportMetadataModelAssessment",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"ExportMetadataModelAssessmentMessage"},
+      "output":{"shape":"ExportMetadataModelAssessmentResponse"},
+      "errors":[
+        {"shape":"ResourceNotFoundFault"}
       ]
     },
     "ImportCertificate":{
@@ -626,7 +1031,50 @@
       "input":{"shape":"ListTagsForResourceMessage"},
       "output":{"shape":"ListTagsForResourceResponse"},
       "errors":[
-        {"shape":"ResourceNotFoundFault"}
+        {"shape":"ResourceNotFoundFault"},
+        {"shape":"InvalidResourceStateFault"}
+      ]
+    },
+    "ModifyConversionConfiguration":{
+      "name":"ModifyConversionConfiguration",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"ModifyConversionConfigurationMessage"},
+      "output":{"shape":"ModifyConversionConfigurationResponse"},
+      "errors":[
+        {"shape":"ResourceNotFoundFault"},
+        {"shape":"InvalidResourceStateFault"}
+      ]
+    },
+    "ModifyDataMigration":{
+      "name":"ModifyDataMigration",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"ModifyDataMigrationMessage"},
+      "output":{"shape":"ModifyDataMigrationResponse"},
+      "errors":[
+        {"shape":"InvalidResourceStateFault"},
+        {"shape":"ResourceNotFoundFault"},
+        {"shape":"FailedDependencyFault"}
+      ]
+    },
+    "ModifyDataProvider":{
+      "name":"ModifyDataProvider",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"ModifyDataProviderMessage"},
+      "output":{"shape":"ModifyDataProviderResponse"},
+      "errors":[
+        {"shape":"AccessDeniedFault"},
+        {"shape":"ResourceNotFoundFault"},
+        {"shape":"InvalidResourceStateFault"},
+        {"shape":"FailedDependencyFault"}
       ]
     },
     "ModifyEndpoint":{
@@ -662,7 +1110,60 @@
         {"shape":"KMSDisabledFault"},
         {"shape":"KMSInvalidStateFault"},
         {"shape":"KMSNotFoundFault"},
-        {"shape":"KMSThrottlingFault"}
+        {"shape":"KMSThrottlingFault"},
+        {"shape":"AccessDeniedFault"}
+      ]
+    },
+    "ModifyInstanceProfile":{
+      "name":"ModifyInstanceProfile",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"ModifyInstanceProfileMessage"},
+      "output":{"shape":"ModifyInstanceProfileResponse"},
+      "errors":[
+        {"shape":"AccessDeniedFault"},
+        {"shape":"ResourceNotFoundFault"},
+        {"shape":"InvalidResourceStateFault"},
+        {"shape":"KMSKeyNotAccessibleFault"},
+        {"shape":"S3ResourceNotFoundFault"},
+        {"shape":"S3AccessDeniedFault"},
+        {"shape":"FailedDependencyFault"}
+      ]
+    },
+    "ModifyMigrationProject":{
+      "name":"ModifyMigrationProject",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"ModifyMigrationProjectMessage"},
+      "output":{"shape":"ModifyMigrationProjectResponse"},
+      "errors":[
+        {"shape":"AccessDeniedFault"},
+        {"shape":"ResourceNotFoundFault"},
+        {"shape":"InvalidResourceStateFault"},
+        {"shape":"S3ResourceNotFoundFault"},
+        {"shape":"S3AccessDeniedFault"},
+        {"shape":"FailedDependencyFault"}
+      ]
+    },
+    "ModifyReplicationConfig":{
+      "name":"ModifyReplicationConfig",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"ModifyReplicationConfigMessage"},
+      "output":{"shape":"ModifyReplicationConfigResponse"},
+      "errors":[
+        {"shape":"AccessDeniedFault"},
+        {"shape":"ResourceNotFoundFault"},
+        {"shape":"ReplicationSubnetGroupDoesNotCoverEnoughAZs"},
+        {"shape":"InvalidSubnet"},
+        {"shape":"KMSKeyNotAccessibleFault"},
+        {"shape":"InvalidResourceStateFault"}
       ]
     },
     "ModifyReplicationInstance":{
@@ -759,6 +1260,19 @@
         {"shape":"ResourceQuotaExceededFault"}
       ]
     },
+    "ReloadReplicationTables":{
+      "name":"ReloadReplicationTables",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"ReloadReplicationTablesMessage"},
+      "output":{"shape":"ReloadReplicationTablesResponse"},
+      "errors":[
+        {"shape":"ResourceNotFoundFault"},
+        {"shape":"InvalidResourceStateFault"}
+      ]
+    },
     "ReloadTables":{
       "name":"ReloadTables",
       "http":{
@@ -781,7 +1295,8 @@
       "input":{"shape":"RemoveTagsFromResourceMessage"},
       "output":{"shape":"RemoveTagsFromResourceResponse"},
       "errors":[
-        {"shape":"ResourceNotFoundFault"}
+        {"shape":"ResourceNotFoundFault"},
+        {"shape":"InvalidResourceStateFault"}
       ]
     },
     "RunFleetAdvisorLsaAnalysis":{
@@ -794,6 +1309,163 @@
       "errors":[
         {"shape":"InvalidResourceStateFault"},
         {"shape":"ResourceNotFoundFault"}
+      ]
+    },
+    "StartDataMigration":{
+      "name":"StartDataMigration",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"StartDataMigrationMessage"},
+      "output":{"shape":"StartDataMigrationResponse"},
+      "errors":[
+        {"shape":"InvalidResourceStateFault"},
+        {"shape":"InvalidOperationFault"},
+        {"shape":"ResourceNotFoundFault"},
+        {"shape":"ResourceQuotaExceededFault"},
+        {"shape":"FailedDependencyFault"}
+      ]
+    },
+    "StartExtensionPackAssociation":{
+      "name":"StartExtensionPackAssociation",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"StartExtensionPackAssociationMessage"},
+      "output":{"shape":"StartExtensionPackAssociationResponse"},
+      "errors":[
+        {"shape":"AccessDeniedFault"},
+        {"shape":"InvalidResourceStateFault"},
+        {"shape":"ResourceAlreadyExistsFault"},
+        {"shape":"ResourceNotFoundFault"},
+        {"shape":"KMSKeyNotAccessibleFault"},
+        {"shape":"ResourceQuotaExceededFault"},
+        {"shape":"S3ResourceNotFoundFault"},
+        {"shape":"S3AccessDeniedFault"}
+      ]
+    },
+    "StartMetadataModelAssessment":{
+      "name":"StartMetadataModelAssessment",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"StartMetadataModelAssessmentMessage"},
+      "output":{"shape":"StartMetadataModelAssessmentResponse"},
+      "errors":[
+        {"shape":"AccessDeniedFault"},
+        {"shape":"InvalidResourceStateFault"},
+        {"shape":"ResourceAlreadyExistsFault"},
+        {"shape":"ResourceNotFoundFault"},
+        {"shape":"KMSKeyNotAccessibleFault"},
+        {"shape":"ResourceQuotaExceededFault"},
+        {"shape":"S3ResourceNotFoundFault"},
+        {"shape":"S3AccessDeniedFault"}
+      ]
+    },
+    "StartMetadataModelConversion":{
+      "name":"StartMetadataModelConversion",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"StartMetadataModelConversionMessage"},
+      "output":{"shape":"StartMetadataModelConversionResponse"},
+      "errors":[
+        {"shape":"AccessDeniedFault"},
+        {"shape":"InvalidResourceStateFault"},
+        {"shape":"ResourceAlreadyExistsFault"},
+        {"shape":"ResourceNotFoundFault"},
+        {"shape":"KMSKeyNotAccessibleFault"},
+        {"shape":"ResourceQuotaExceededFault"},
+        {"shape":"S3ResourceNotFoundFault"},
+        {"shape":"S3AccessDeniedFault"}
+      ]
+    },
+    "StartMetadataModelExportAsScript":{
+      "name":"StartMetadataModelExportAsScript",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"StartMetadataModelExportAsScriptMessage"},
+      "output":{"shape":"StartMetadataModelExportAsScriptResponse"},
+      "errors":[
+        {"shape":"AccessDeniedFault"},
+        {"shape":"InvalidResourceStateFault"},
+        {"shape":"ResourceAlreadyExistsFault"},
+        {"shape":"ResourceNotFoundFault"},
+        {"shape":"KMSKeyNotAccessibleFault"},
+        {"shape":"ResourceQuotaExceededFault"},
+        {"shape":"S3ResourceNotFoundFault"},
+        {"shape":"S3AccessDeniedFault"}
+      ]
+    },
+    "StartMetadataModelExportToTarget":{
+      "name":"StartMetadataModelExportToTarget",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"StartMetadataModelExportToTargetMessage"},
+      "output":{"shape":"StartMetadataModelExportToTargetResponse"},
+      "errors":[
+        {"shape":"AccessDeniedFault"},
+        {"shape":"InvalidResourceStateFault"},
+        {"shape":"ResourceAlreadyExistsFault"},
+        {"shape":"ResourceNotFoundFault"},
+        {"shape":"KMSKeyNotAccessibleFault"},
+        {"shape":"ResourceQuotaExceededFault"},
+        {"shape":"S3ResourceNotFoundFault"},
+        {"shape":"S3AccessDeniedFault"}
+      ]
+    },
+    "StartMetadataModelImport":{
+      "name":"StartMetadataModelImport",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"StartMetadataModelImportMessage"},
+      "output":{"shape":"StartMetadataModelImportResponse"},
+      "errors":[
+        {"shape":"AccessDeniedFault"},
+        {"shape":"InvalidResourceStateFault"},
+        {"shape":"ResourceAlreadyExistsFault"},
+        {"shape":"ResourceNotFoundFault"},
+        {"shape":"KMSKeyNotAccessibleFault"},
+        {"shape":"ResourceQuotaExceededFault"},
+        {"shape":"S3ResourceNotFoundFault"},
+        {"shape":"S3AccessDeniedFault"}
+      ]
+    },
+    "StartRecommendations":{
+      "name":"StartRecommendations",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"StartRecommendationsRequest"},
+      "errors":[
+        {"shape":"InvalidResourceStateFault"},
+        {"shape":"AccessDeniedFault"},
+        {"shape":"ResourceNotFoundFault"}
+      ]
+    },
+    "StartReplication":{
+      "name":"StartReplication",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"StartReplicationMessage"},
+      "output":{"shape":"StartReplicationResponse"},
+      "errors":[
+        {"shape":"ResourceNotFoundFault"},
+        {"shape":"InvalidResourceStateFault"},
+        {"shape":"AccessDeniedFault"}
       ]
     },
     "StartReplicationTask":{
@@ -844,6 +1516,34 @@
         {"shape":"S3AccessDeniedFault"},
         {"shape":"S3ResourceNotFoundFault"},
         {"shape":"ResourceAlreadyExistsFault"}
+      ]
+    },
+    "StopDataMigration":{
+      "name":"StopDataMigration",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"StopDataMigrationMessage"},
+      "output":{"shape":"StopDataMigrationResponse"},
+      "errors":[
+        {"shape":"ResourceNotFoundFault"},
+        {"shape":"InvalidResourceStateFault"},
+        {"shape":"FailedDependencyFault"}
+      ]
+    },
+    "StopReplication":{
+      "name":"StopReplication",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"StopReplicationMessage"},
+      "output":{"shape":"StopReplicationResponse"},
+      "errors":[
+        {"shape":"ResourceNotFoundFault"},
+        {"shape":"InvalidResourceStateFault"},
+        {"shape":"AccessDeniedFault"}
       ]
     },
     "StopReplicationTask":{
@@ -948,6 +1648,18 @@
       "type":"list",
       "member":{"shape":"String"}
     },
+    "AssessmentReportType":{
+      "type":"string",
+      "enum":[
+        "pdf",
+        "csv"
+      ]
+    },
+    "AssessmentReportTypesList":{
+      "type":"list",
+      "member":{"shape":"AssessmentReportType"},
+      "min":1
+    },
     "AuthMechanismValue":{
       "type":"string",
       "enum":[
@@ -972,6 +1684,34 @@
     "AvailabilityZonesList":{
       "type":"list",
       "member":{"shape":"String"}
+    },
+    "AvailableUpgradesList":{
+      "type":"list",
+      "member":{"shape":"String"}
+    },
+    "BatchStartRecommendationsErrorEntry":{
+      "type":"structure",
+      "members":{
+        "DatabaseId":{"shape":"String"},
+        "Message":{"shape":"String"},
+        "Code":{"shape":"String"}
+      }
+    },
+    "BatchStartRecommendationsErrorEntryList":{
+      "type":"list",
+      "member":{"shape":"BatchStartRecommendationsErrorEntry"}
+    },
+    "BatchStartRecommendationsRequest":{
+      "type":"structure",
+      "members":{
+        "Data":{"shape":"StartRecommendationsRequestEntryList"}
+      }
+    },
+    "BatchStartRecommendationsResponse":{
+      "type":"structure",
+      "members":{
+        "ErrorEntries":{"shape":"BatchStartRecommendationsErrorEntryList"}
+      }
     },
     "Boolean":{"type":"boolean"},
     "BooleanOptional":{"type":"boolean"},
@@ -1092,6 +1832,20 @@
         "gzip"
       ]
     },
+    "ComputeConfig":{
+      "type":"structure",
+      "members":{
+        "AvailabilityZone":{"shape":"String"},
+        "DnsNameServers":{"shape":"String"},
+        "KmsKeyId":{"shape":"String"},
+        "MaxCapacityUnits":{"shape":"IntegerOptional"},
+        "MinCapacityUnits":{"shape":"IntegerOptional"},
+        "MultiAZ":{"shape":"BooleanOptional"},
+        "PreferredMaintenanceWindow":{"shape":"String"},
+        "ReplicationSubnetGroupId":{"shape":"String"},
+        "VpcSecurityGroupIds":{"shape":"StringList"}
+      }
+    },
     "Connection":{
       "type":"structure",
       "members":{
@@ -1106,6 +1860,52 @@
     "ConnectionList":{
       "type":"list",
       "member":{"shape":"Connection"}
+    },
+    "CreateDataMigrationMessage":{
+      "type":"structure",
+      "required":[
+        "MigrationProjectIdentifier",
+        "DataMigrationType",
+        "ServiceAccessRoleArn"
+      ],
+      "members":{
+        "DataMigrationName":{"shape":"String"},
+        "MigrationProjectIdentifier":{"shape":"String"},
+        "DataMigrationType":{"shape":"MigrationTypeValue"},
+        "ServiceAccessRoleArn":{"shape":"String"},
+        "EnableCloudwatchLogs":{"shape":"BooleanOptional"},
+        "SourceDataSettings":{"shape":"SourceDataSettings"},
+        "TargetDataSettings":{"shape":"TargetDataSettings"},
+        "NumberOfJobs":{"shape":"IntegerOptional"},
+        "Tags":{"shape":"TagList"},
+        "SelectionRules":{"shape":"SecretString"}
+      }
+    },
+    "CreateDataMigrationResponse":{
+      "type":"structure",
+      "members":{
+        "DataMigration":{"shape":"DataMigration"}
+      }
+    },
+    "CreateDataProviderMessage":{
+      "type":"structure",
+      "required":[
+        "Engine",
+        "Settings"
+      ],
+      "members":{
+        "DataProviderName":{"shape":"String"},
+        "Description":{"shape":"String"},
+        "Engine":{"shape":"String"},
+        "Settings":{"shape":"DataProviderSettings"},
+        "Tags":{"shape":"TagList"}
+      }
+    },
+    "CreateDataProviderResponse":{
+      "type":"structure",
+      "members":{
+        "DataProvider":{"shape":"DataProvider"}
+      }
     },
     "CreateEndpointMessage":{
       "type":"structure",
@@ -1148,7 +1948,8 @@
         "ResourceIdentifier":{"shape":"String"},
         "DocDbSettings":{"shape":"DocDbSettings"},
         "RedisSettings":{"shape":"RedisSettings"},
-        "GcpMySQLSettings":{"shape":"GcpMySQLSettings"}
+        "GcpMySQLSettings":{"shape":"GcpMySQLSettings"},
+        "TimestreamSettings":{"shape":"TimestreamSettings"}
       }
     },
     "CreateEndpointResponse":{
@@ -1203,6 +2004,79 @@
         "S3BucketName":{"shape":"String"}
       }
     },
+    "CreateInstanceProfileMessage":{
+      "type":"structure",
+      "members":{
+        "AvailabilityZone":{"shape":"String"},
+        "KmsKeyArn":{"shape":"String"},
+        "PubliclyAccessible":{"shape":"BooleanOptional"},
+        "Tags":{"shape":"TagList"},
+        "NetworkType":{"shape":"String"},
+        "InstanceProfileName":{"shape":"String"},
+        "Description":{"shape":"String"},
+        "SubnetGroupIdentifier":{"shape":"String"},
+        "VpcSecurityGroups":{"shape":"StringList"}
+      }
+    },
+    "CreateInstanceProfileResponse":{
+      "type":"structure",
+      "members":{
+        "InstanceProfile":{"shape":"InstanceProfile"}
+      }
+    },
+    "CreateMigrationProjectMessage":{
+      "type":"structure",
+      "required":[
+        "SourceDataProviderDescriptors",
+        "TargetDataProviderDescriptors",
+        "InstanceProfileIdentifier"
+      ],
+      "members":{
+        "MigrationProjectName":{"shape":"String"},
+        "SourceDataProviderDescriptors":{"shape":"DataProviderDescriptorDefinitionList"},
+        "TargetDataProviderDescriptors":{"shape":"DataProviderDescriptorDefinitionList"},
+        "InstanceProfileIdentifier":{"shape":"String"},
+        "TransformationRules":{"shape":"String"},
+        "Description":{"shape":"String"},
+        "Tags":{"shape":"TagList"},
+        "SchemaConversionApplicationAttributes":{"shape":"SCApplicationAttributes"}
+      }
+    },
+    "CreateMigrationProjectResponse":{
+      "type":"structure",
+      "members":{
+        "MigrationProject":{"shape":"MigrationProject"}
+      }
+    },
+    "CreateReplicationConfigMessage":{
+      "type":"structure",
+      "required":[
+        "ReplicationConfigIdentifier",
+        "SourceEndpointArn",
+        "TargetEndpointArn",
+        "ComputeConfig",
+        "ReplicationType",
+        "TableMappings"
+      ],
+      "members":{
+        "ReplicationConfigIdentifier":{"shape":"String"},
+        "SourceEndpointArn":{"shape":"String"},
+        "TargetEndpointArn":{"shape":"String"},
+        "ComputeConfig":{"shape":"ComputeConfig"},
+        "ReplicationType":{"shape":"MigrationTypeValue"},
+        "TableMappings":{"shape":"String"},
+        "ReplicationSettings":{"shape":"String"},
+        "SupplementalSettings":{"shape":"String"},
+        "ResourceIdentifier":{"shape":"String"},
+        "Tags":{"shape":"TagList"}
+      }
+    },
+    "CreateReplicationConfigResponse":{
+      "type":"structure",
+      "members":{
+        "ReplicationConfig":{"shape":"ReplicationConfig"}
+      }
+    },
     "CreateReplicationInstanceMessage":{
       "type":"structure",
       "required":[
@@ -1212,7 +2086,7 @@
       "members":{
         "ReplicationInstanceIdentifier":{"shape":"String"},
         "AllocatedStorage":{"shape":"IntegerOptional"},
-        "ReplicationInstanceClass":{"shape":"String"},
+        "ReplicationInstanceClass":{"shape":"ReplicationInstanceClass"},
         "VpcSecurityGroupIds":{"shape":"VpcSecurityGroupIdList"},
         "AvailabilityZone":{"shape":"String"},
         "ReplicationSubnetGroupIdentifier":{"shape":"String"},
@@ -1225,7 +2099,8 @@
         "PubliclyAccessible":{"shape":"BooleanOptional"},
         "DnsNameServers":{"shape":"String"},
         "ResourceIdentifier":{"shape":"String"},
-        "NetworkType":{"shape":"String"}
+        "NetworkType":{"shape":"String"},
+        "KerberosAuthenticationSettings":{"shape":"KerberosAuthenticationSettings"}
       }
     },
     "CreateReplicationInstanceResponse":{
@@ -1293,6 +2168,115 @@
         "parquet"
       ]
     },
+    "DataMigration":{
+      "type":"structure",
+      "members":{
+        "DataMigrationName":{"shape":"String"},
+        "DataMigrationArn":{"shape":"String"},
+        "DataMigrationCreateTime":{"shape":"Iso8601DateTime"},
+        "DataMigrationStartTime":{"shape":"Iso8601DateTime"},
+        "DataMigrationEndTime":{"shape":"Iso8601DateTime"},
+        "ServiceAccessRoleArn":{"shape":"String"},
+        "MigrationProjectArn":{"shape":"String"},
+        "DataMigrationType":{"shape":"MigrationTypeValue"},
+        "DataMigrationSettings":{"shape":"DataMigrationSettings"},
+        "SourceDataSettings":{"shape":"SourceDataSettings"},
+        "TargetDataSettings":{"shape":"TargetDataSettings"},
+        "DataMigrationStatistics":{"shape":"DataMigrationStatistics"},
+        "DataMigrationStatus":{"shape":"String"},
+        "PublicIpAddresses":{"shape":"PublicIpAddressList"},
+        "DataMigrationCidrBlocks":{"shape":"DataMigrationCidrBlock"},
+        "LastFailureMessage":{"shape":"String"},
+        "StopReason":{"shape":"String"}
+      }
+    },
+    "DataMigrationCidrBlock":{
+      "type":"list",
+      "member":{"shape":"String"}
+    },
+    "DataMigrationSettings":{
+      "type":"structure",
+      "members":{
+        "NumberOfJobs":{"shape":"IntegerOptional"},
+        "CloudwatchLogsEnabled":{"shape":"BooleanOptional"},
+        "SelectionRules":{"shape":"SecretString"}
+      }
+    },
+    "DataMigrationStatistics":{
+      "type":"structure",
+      "members":{
+        "TablesLoaded":{"shape":"Integer"},
+        "ElapsedTimeMillis":{"shape":"Long"},
+        "TablesLoading":{"shape":"Integer"},
+        "FullLoadPercentage":{"shape":"Integer"},
+        "CDCLatency":{"shape":"Integer"},
+        "TablesQueued":{"shape":"Integer"},
+        "TablesErrored":{"shape":"Integer"},
+        "StartTime":{"shape":"Iso8601DateTime"},
+        "StopTime":{"shape":"Iso8601DateTime"}
+      }
+    },
+    "DataMigrations":{
+      "type":"list",
+      "member":{"shape":"DataMigration"}
+    },
+    "DataProvider":{
+      "type":"structure",
+      "members":{
+        "DataProviderName":{"shape":"String"},
+        "DataProviderArn":{"shape":"String"},
+        "DataProviderCreationTime":{"shape":"Iso8601DateTime"},
+        "Description":{"shape":"String"},
+        "Engine":{"shape":"String"},
+        "Settings":{"shape":"DataProviderSettings"}
+      }
+    },
+    "DataProviderDescriptor":{
+      "type":"structure",
+      "members":{
+        "SecretsManagerSecretId":{"shape":"String"},
+        "SecretsManagerAccessRoleArn":{"shape":"String"},
+        "DataProviderName":{"shape":"String"},
+        "DataProviderArn":{"shape":"String"}
+      }
+    },
+    "DataProviderDescriptorDefinition":{
+      "type":"structure",
+      "required":["DataProviderIdentifier"],
+      "members":{
+        "DataProviderIdentifier":{"shape":"String"},
+        "SecretsManagerSecretId":{"shape":"String"},
+        "SecretsManagerAccessRoleArn":{"shape":"String"}
+      }
+    },
+    "DataProviderDescriptorDefinitionList":{
+      "type":"list",
+      "member":{"shape":"DataProviderDescriptorDefinition"}
+    },
+    "DataProviderDescriptorList":{
+      "type":"list",
+      "member":{"shape":"DataProviderDescriptor"}
+    },
+    "DataProviderList":{
+      "type":"list",
+      "member":{"shape":"DataProvider"}
+    },
+    "DataProviderSettings":{
+      "type":"structure",
+      "members":{
+        "RedshiftSettings":{"shape":"RedshiftDataProviderSettings"},
+        "PostgreSqlSettings":{"shape":"PostgreSqlDataProviderSettings"},
+        "MySqlSettings":{"shape":"MySqlDataProviderSettings"},
+        "OracleSettings":{"shape":"OracleDataProviderSettings"},
+        "MicrosoftSqlServerSettings":{"shape":"MicrosoftSqlServerDataProviderSettings"},
+        "DocDbSettings":{"shape":"DocDbDataProviderSettings"},
+        "MariaDbSettings":{"shape":"MariaDbDataProviderSettings"},
+        "IbmDb2LuwSettings":{"shape":"IbmDb2LuwDataProviderSettings"},
+        "IbmDb2zOsSettings":{"shape":"IbmDb2zOsDataProviderSettings"},
+        "MongoDbSettings":{"shape":"MongoDbDataProviderSettings"}
+      },
+      "union":true
+    },
     "DatabaseInstanceSoftwareDetailsResponse":{
       "type":"structure",
       "members":{
@@ -1308,6 +2292,13 @@
     "DatabaseList":{
       "type":"list",
       "member":{"shape":"DatabaseResponse"}
+    },
+    "DatabaseMode":{
+      "type":"string",
+      "enum":[
+        "default",
+        "babelfish"
+      ]
     },
     "DatabaseResponse":{
       "type":"structure",
@@ -1349,6 +2340,12 @@
         "DDMMYYYY"
       ]
     },
+    "DefaultErrorDetails":{
+      "type":"structure",
+      "members":{
+        "Message":{"shape":"String"}
+      }
+    },
     "DeleteCertificateMessage":{
       "type":"structure",
       "required":["CertificateArn"],
@@ -1384,6 +2381,32 @@
       "type":"structure",
       "members":{
         "Connection":{"shape":"Connection"}
+      }
+    },
+    "DeleteDataMigrationMessage":{
+      "type":"structure",
+      "required":["DataMigrationIdentifier"],
+      "members":{
+        "DataMigrationIdentifier":{"shape":"String"}
+      }
+    },
+    "DeleteDataMigrationResponse":{
+      "type":"structure",
+      "members":{
+        "DataMigration":{"shape":"DataMigration"}
+      }
+    },
+    "DeleteDataProviderMessage":{
+      "type":"structure",
+      "required":["DataProviderIdentifier"],
+      "members":{
+        "DataProviderIdentifier":{"shape":"String"}
+      }
+    },
+    "DeleteDataProviderResponse":{
+      "type":"structure",
+      "members":{
+        "DataProvider":{"shape":"DataProvider"}
       }
     },
     "DeleteEndpointMessage":{
@@ -1423,6 +2446,45 @@
       "type":"structure",
       "members":{
         "DatabaseIds":{"shape":"StringList"}
+      }
+    },
+    "DeleteInstanceProfileMessage":{
+      "type":"structure",
+      "required":["InstanceProfileIdentifier"],
+      "members":{
+        "InstanceProfileIdentifier":{"shape":"String"}
+      }
+    },
+    "DeleteInstanceProfileResponse":{
+      "type":"structure",
+      "members":{
+        "InstanceProfile":{"shape":"InstanceProfile"}
+      }
+    },
+    "DeleteMigrationProjectMessage":{
+      "type":"structure",
+      "required":["MigrationProjectIdentifier"],
+      "members":{
+        "MigrationProjectIdentifier":{"shape":"String"}
+      }
+    },
+    "DeleteMigrationProjectResponse":{
+      "type":"structure",
+      "members":{
+        "MigrationProject":{"shape":"MigrationProject"}
+      }
+    },
+    "DeleteReplicationConfigMessage":{
+      "type":"structure",
+      "required":["ReplicationConfigArn"],
+      "members":{
+        "ReplicationConfigArn":{"shape":"String"}
+      }
+    },
+    "DeleteReplicationConfigResponse":{
+      "type":"structure",
+      "members":{
+        "ReplicationConfig":{"shape":"ReplicationConfig"}
       }
     },
     "DeleteReplicationInstanceMessage":{
@@ -1493,6 +2555,7 @@
       "members":{
         "ReplicationTaskArn":{"shape":"String"},
         "ReplicationInstanceArn":{"shape":"String"},
+        "ReplicationConfigArn":{"shape":"String"},
         "SourceEngineName":{"shape":"String"},
         "TargetEngineName":{"shape":"String"},
         "MigrationType":{"shape":"MigrationTypeValue"},
@@ -1535,6 +2598,52 @@
       "members":{
         "Marker":{"shape":"String"},
         "Connections":{"shape":"ConnectionList"}
+      }
+    },
+    "DescribeConversionConfigurationMessage":{
+      "type":"structure",
+      "required":["MigrationProjectIdentifier"],
+      "members":{
+        "MigrationProjectIdentifier":{"shape":"String"}
+      }
+    },
+    "DescribeConversionConfigurationResponse":{
+      "type":"structure",
+      "members":{
+        "MigrationProjectIdentifier":{"shape":"String"},
+        "ConversionConfiguration":{"shape":"String"}
+      }
+    },
+    "DescribeDataMigrationsMessage":{
+      "type":"structure",
+      "members":{
+        "Filters":{"shape":"FilterList"},
+        "MaxRecords":{"shape":"IntegerOptional"},
+        "Marker":{"shape":"Marker"},
+        "WithoutSettings":{"shape":"BooleanOptional"},
+        "WithoutStatistics":{"shape":"BooleanOptional"}
+      }
+    },
+    "DescribeDataMigrationsResponse":{
+      "type":"structure",
+      "members":{
+        "DataMigrations":{"shape":"DataMigrations"},
+        "Marker":{"shape":"Marker"}
+      }
+    },
+    "DescribeDataProvidersMessage":{
+      "type":"structure",
+      "members":{
+        "Filters":{"shape":"FilterList"},
+        "MaxRecords":{"shape":"IntegerOptional"},
+        "Marker":{"shape":"String"}
+      }
+    },
+    "DescribeDataProvidersResponse":{
+      "type":"structure",
+      "members":{
+        "Marker":{"shape":"String"},
+        "DataProviders":{"shape":"DataProviderList"}
       }
     },
     "DescribeEndpointSettingsMessage":{
@@ -1581,6 +2690,20 @@
       "members":{
         "Marker":{"shape":"String"},
         "Endpoints":{"shape":"EndpointList"}
+      }
+    },
+    "DescribeEngineVersionsMessage":{
+      "type":"structure",
+      "members":{
+        "MaxRecords":{"shape":"IntegerOptional"},
+        "Marker":{"shape":"String"}
+      }
+    },
+    "DescribeEngineVersionsResponse":{
+      "type":"structure",
+      "members":{
+        "EngineVersions":{"shape":"EngineVersionList"},
+        "Marker":{"shape":"String"}
       }
     },
     "DescribeEventCategoriesMessage":{
@@ -1631,6 +2754,23 @@
       "members":{
         "Marker":{"shape":"String"},
         "Events":{"shape":"EventList"}
+      }
+    },
+    "DescribeExtensionPackAssociationsMessage":{
+      "type":"structure",
+      "required":["MigrationProjectIdentifier"],
+      "members":{
+        "MigrationProjectIdentifier":{"shape":"String"},
+        "Filters":{"shape":"FilterList"},
+        "Marker":{"shape":"String"},
+        "MaxRecords":{"shape":"IntegerOptional"}
+      }
+    },
+    "DescribeExtensionPackAssociationsResponse":{
+      "type":"structure",
+      "members":{
+        "Marker":{"shape":"String"},
+        "Requests":{"shape":"SchemaConversionRequestList"}
       }
     },
     "DescribeFleetAdvisorCollectorsRequest":{
@@ -1707,6 +2847,121 @@
         "NextToken":{"shape":"String"}
       }
     },
+    "DescribeInstanceProfilesMessage":{
+      "type":"structure",
+      "members":{
+        "Filters":{"shape":"FilterList"},
+        "MaxRecords":{"shape":"IntegerOptional"},
+        "Marker":{"shape":"String"}
+      }
+    },
+    "DescribeInstanceProfilesResponse":{
+      "type":"structure",
+      "members":{
+        "Marker":{"shape":"String"},
+        "InstanceProfiles":{"shape":"InstanceProfileList"}
+      }
+    },
+    "DescribeMetadataModelAssessmentsMessage":{
+      "type":"structure",
+      "required":["MigrationProjectIdentifier"],
+      "members":{
+        "MigrationProjectIdentifier":{"shape":"String"},
+        "Filters":{"shape":"FilterList"},
+        "Marker":{"shape":"String"},
+        "MaxRecords":{"shape":"IntegerOptional"}
+      }
+    },
+    "DescribeMetadataModelAssessmentsResponse":{
+      "type":"structure",
+      "members":{
+        "Marker":{"shape":"String"},
+        "Requests":{"shape":"SchemaConversionRequestList"}
+      }
+    },
+    "DescribeMetadataModelConversionsMessage":{
+      "type":"structure",
+      "required":["MigrationProjectIdentifier"],
+      "members":{
+        "MigrationProjectIdentifier":{"shape":"String"},
+        "Filters":{"shape":"FilterList"},
+        "Marker":{"shape":"String"},
+        "MaxRecords":{"shape":"IntegerOptional"}
+      }
+    },
+    "DescribeMetadataModelConversionsResponse":{
+      "type":"structure",
+      "members":{
+        "Marker":{"shape":"String"},
+        "Requests":{"shape":"SchemaConversionRequestList"}
+      }
+    },
+    "DescribeMetadataModelExportsAsScriptMessage":{
+      "type":"structure",
+      "required":["MigrationProjectIdentifier"],
+      "members":{
+        "MigrationProjectIdentifier":{"shape":"String"},
+        "Filters":{"shape":"FilterList"},
+        "Marker":{"shape":"String"},
+        "MaxRecords":{"shape":"IntegerOptional"}
+      }
+    },
+    "DescribeMetadataModelExportsAsScriptResponse":{
+      "type":"structure",
+      "members":{
+        "Marker":{"shape":"String"},
+        "Requests":{"shape":"SchemaConversionRequestList"}
+      }
+    },
+    "DescribeMetadataModelExportsToTargetMessage":{
+      "type":"structure",
+      "required":["MigrationProjectIdentifier"],
+      "members":{
+        "MigrationProjectIdentifier":{"shape":"String"},
+        "Filters":{"shape":"FilterList"},
+        "Marker":{"shape":"String"},
+        "MaxRecords":{"shape":"IntegerOptional"}
+      }
+    },
+    "DescribeMetadataModelExportsToTargetResponse":{
+      "type":"structure",
+      "members":{
+        "Marker":{"shape":"String"},
+        "Requests":{"shape":"SchemaConversionRequestList"}
+      }
+    },
+    "DescribeMetadataModelImportsMessage":{
+      "type":"structure",
+      "required":["MigrationProjectIdentifier"],
+      "members":{
+        "MigrationProjectIdentifier":{"shape":"String"},
+        "Filters":{"shape":"FilterList"},
+        "Marker":{"shape":"String"},
+        "MaxRecords":{"shape":"IntegerOptional"}
+      }
+    },
+    "DescribeMetadataModelImportsResponse":{
+      "type":"structure",
+      "members":{
+        "Marker":{"shape":"String"},
+        "Requests":{"shape":"SchemaConversionRequestList"}
+      }
+    },
+    "DescribeMigrationProjectsMessage":{
+      "type":"structure",
+      "members":{
+        "Filters":{"shape":"FilterList"},
+        "MaxRecords":{"shape":"IntegerOptional"},
+        "Marker":{"shape":"String"}
+      }
+    },
+    "DescribeMigrationProjectsResponse":{
+      "type":"structure",
+      "members":{
+        "Marker":{"shape":"String"},
+        "MigrationProjects":{"shape":"MigrationProjectList"}
+      }
+    },
     "DescribeOrderableReplicationInstancesMessage":{
       "type":"structure",
       "members":{
@@ -1737,6 +2992,36 @@
         "Marker":{"shape":"String"}
       }
     },
+    "DescribeRecommendationLimitationsRequest":{
+      "type":"structure",
+      "members":{
+        "Filters":{"shape":"FilterList"},
+        "MaxRecords":{"shape":"IntegerOptional"},
+        "NextToken":{"shape":"String"}
+      }
+    },
+    "DescribeRecommendationLimitationsResponse":{
+      "type":"structure",
+      "members":{
+        "NextToken":{"shape":"String"},
+        "Limitations":{"shape":"LimitationList"}
+      }
+    },
+    "DescribeRecommendationsRequest":{
+      "type":"structure",
+      "members":{
+        "Filters":{"shape":"FilterList"},
+        "MaxRecords":{"shape":"IntegerOptional"},
+        "NextToken":{"shape":"String"}
+      }
+    },
+    "DescribeRecommendationsResponse":{
+      "type":"structure",
+      "members":{
+        "NextToken":{"shape":"String"},
+        "Recommendations":{"shape":"RecommendationList"}
+      }
+    },
     "DescribeRefreshSchemasStatusMessage":{
       "type":"structure",
       "required":["EndpointArn"],
@@ -1748,6 +3033,21 @@
       "type":"structure",
       "members":{
         "RefreshSchemasStatus":{"shape":"RefreshSchemasStatus"}
+      }
+    },
+    "DescribeReplicationConfigsMessage":{
+      "type":"structure",
+      "members":{
+        "Filters":{"shape":"FilterList"},
+        "MaxRecords":{"shape":"IntegerOptional"},
+        "Marker":{"shape":"String"}
+      }
+    },
+    "DescribeReplicationConfigsResponse":{
+      "type":"structure",
+      "members":{
+        "Marker":{"shape":"String"},
+        "ReplicationConfigs":{"shape":"ReplicationConfigList"}
       }
     },
     "DescribeReplicationInstanceTaskLogsMessage":{
@@ -1795,6 +3095,24 @@
       "members":{
         "Marker":{"shape":"String"},
         "ReplicationSubnetGroups":{"shape":"ReplicationSubnetGroups"}
+      }
+    },
+    "DescribeReplicationTableStatisticsMessage":{
+      "type":"structure",
+      "required":["ReplicationConfigArn"],
+      "members":{
+        "ReplicationConfigArn":{"shape":"String"},
+        "MaxRecords":{"shape":"IntegerOptional"},
+        "Marker":{"shape":"String"},
+        "Filters":{"shape":"FilterList"}
+      }
+    },
+    "DescribeReplicationTableStatisticsResponse":{
+      "type":"structure",
+      "members":{
+        "ReplicationConfigArn":{"shape":"String"},
+        "Marker":{"shape":"String"},
+        "ReplicationTableStatistics":{"shape":"ReplicationTableStatisticsList"}
       }
     },
     "DescribeReplicationTaskAssessmentResultsMessage":{
@@ -1859,6 +3177,21 @@
         "ReplicationTasks":{"shape":"ReplicationTaskList"}
       }
     },
+    "DescribeReplicationsMessage":{
+      "type":"structure",
+      "members":{
+        "Filters":{"shape":"FilterList"},
+        "MaxRecords":{"shape":"IntegerOptional"},
+        "Marker":{"shape":"String"}
+      }
+    },
+    "DescribeReplicationsResponse":{
+      "type":"structure",
+      "members":{
+        "Marker":{"shape":"String"},
+        "Replications":{"shape":"ReplicationList"}
+      }
+    },
     "DescribeSchemasMessage":{
       "type":"structure",
       "required":["EndpointArn"],
@@ -1909,6 +3242,16 @@
         "BucketName":{"shape":"String"}
       }
     },
+    "DocDbDataProviderSettings":{
+      "type":"structure",
+      "members":{
+        "ServerName":{"shape":"String"},
+        "Port":{"shape":"IntegerOptional"},
+        "DatabaseName":{"shape":"String"},
+        "SslMode":{"shape":"DmsSslModeValue"},
+        "CertificateArn":{"shape":"String"}
+      }
+    },
     "DocDbSettings":{
       "type":"structure",
       "members":{
@@ -1922,7 +3265,9 @@
         "DocsToInvestigate":{"shape":"IntegerOptional"},
         "KmsKeyId":{"shape":"String"},
         "SecretsManagerAccessRoleArn":{"shape":"String"},
-        "SecretsManagerSecretId":{"shape":"String"}
+        "SecretsManagerSecretId":{"shape":"String"},
+        "UseUpdateLookUp":{"shape":"BooleanOptional"},
+        "ReplicateShardCollections":{"shape":"BooleanOptional"}
       }
     },
     "DoubleOptional":{"type":"double"},
@@ -1999,7 +3344,8 @@
         "IBMDb2Settings":{"shape":"IBMDb2Settings"},
         "DocDbSettings":{"shape":"DocDbSettings"},
         "RedisSettings":{"shape":"RedisSettings"},
-        "GcpMySQLSettings":{"shape":"GcpMySQLSettings"}
+        "GcpMySQLSettings":{"shape":"GcpMySQLSettings"},
+        "TimestreamSettings":{"shape":"TimestreamSettings"}
       }
     },
     "EndpointList":{
@@ -2036,6 +3382,30 @@
     "EndpointSettingsList":{
       "type":"list",
       "member":{"shape":"EndpointSetting"}
+    },
+    "EngineVersion":{
+      "type":"structure",
+      "members":{
+        "Version":{"shape":"String"},
+        "Lifecycle":{"shape":"String"},
+        "ReleaseStatus":{"shape":"ReleaseStatusValues"},
+        "LaunchDate":{"shape":"TStamp"},
+        "AutoUpgradeDate":{"shape":"TStamp"},
+        "DeprecationDate":{"shape":"TStamp"},
+        "ForceUpgradeDate":{"shape":"TStamp"},
+        "AvailableUpgrades":{"shape":"AvailableUpgradesList"}
+      }
+    },
+    "EngineVersionList":{
+      "type":"list",
+      "member":{"shape":"EngineVersion"}
+    },
+    "ErrorDetails":{
+      "type":"structure",
+      "members":{
+        "defaultErrorDetails":{"shape":"DefaultErrorDetails"}
+      },
+      "union":true
     },
     "Event":{
       "type":"structure",
@@ -2088,6 +3458,47 @@
     "ExcludeTestList":{
       "type":"list",
       "member":{"shape":"String"}
+    },
+    "ExportMetadataModelAssessmentMessage":{
+      "type":"structure",
+      "required":[
+        "MigrationProjectIdentifier",
+        "SelectionRules"
+      ],
+      "members":{
+        "MigrationProjectIdentifier":{"shape":"String"},
+        "SelectionRules":{"shape":"String"},
+        "FileName":{"shape":"String"},
+        "AssessmentReportTypes":{"shape":"AssessmentReportTypesList"}
+      }
+    },
+    "ExportMetadataModelAssessmentResponse":{
+      "type":"structure",
+      "members":{
+        "PdfReport":{"shape":"ExportMetadataModelAssessmentResultEntry"},
+        "CsvReport":{"shape":"ExportMetadataModelAssessmentResultEntry"}
+      }
+    },
+    "ExportMetadataModelAssessmentResultEntry":{
+      "type":"structure",
+      "members":{
+        "S3ObjectKey":{"shape":"String"},
+        "ObjectURL":{"shape":"String"}
+      }
+    },
+    "ExportSqlDetails":{
+      "type":"structure",
+      "members":{
+        "S3ObjectKey":{"shape":"String"},
+        "ObjectURL":{"shape":"String"}
+      }
+    },
+    "FailedDependencyFault":{
+      "type":"structure",
+      "members":{
+        "message":{"shape":"ExceptionMessage"}
+      },
+      "exception":true
     },
     "Filter":{
       "type":"structure",
@@ -2168,7 +3579,31 @@
         "MaxKBytesPerRead":{"shape":"IntegerOptional"},
         "Username":{"shape":"String"},
         "SecretsManagerAccessRoleArn":{"shape":"String"},
-        "SecretsManagerSecretId":{"shape":"String"}
+        "SecretsManagerSecretId":{"shape":"String"},
+        "LoadTimeout":{"shape":"IntegerOptional"},
+        "WriteBufferSize":{"shape":"IntegerOptional"},
+        "MaxFileSize":{"shape":"IntegerOptional"},
+        "KeepCsvFiles":{"shape":"BooleanOptional"}
+      }
+    },
+    "IbmDb2LuwDataProviderSettings":{
+      "type":"structure",
+      "members":{
+        "ServerName":{"shape":"String"},
+        "Port":{"shape":"IntegerOptional"},
+        "DatabaseName":{"shape":"String"},
+        "SslMode":{"shape":"DmsSslModeValue"},
+        "CertificateArn":{"shape":"String"}
+      }
+    },
+    "IbmDb2zOsDataProviderSettings":{
+      "type":"structure",
+      "members":{
+        "ServerName":{"shape":"String"},
+        "Port":{"shape":"IntegerOptional"},
+        "DatabaseName":{"shape":"String"},
+        "SslMode":{"shape":"DmsSslModeValue"},
+        "CertificateArn":{"shape":"String"}
       }
     },
     "ImportCertificateMessage":{
@@ -2194,6 +3629,25 @@
     "IndividualAssessmentNameList":{
       "type":"list",
       "member":{"shape":"String"}
+    },
+    "InstanceProfile":{
+      "type":"structure",
+      "members":{
+        "InstanceProfileArn":{"shape":"String"},
+        "AvailabilityZone":{"shape":"String"},
+        "KmsKeyArn":{"shape":"String"},
+        "PubliclyAccessible":{"shape":"BooleanOptional"},
+        "NetworkType":{"shape":"String"},
+        "InstanceProfileName":{"shape":"String"},
+        "Description":{"shape":"String"},
+        "InstanceProfileCreationTime":{"shape":"Iso8601DateTime"},
+        "SubnetGroupIdentifier":{"shape":"String"},
+        "VpcSecurityGroups":{"shape":"StringList"}
+      }
+    },
+    "InstanceProfileList":{
+      "type":"list",
+      "member":{"shape":"InstanceProfile"}
     },
     "InsufficientResourceCapacityFault":{
       "type":"structure",
@@ -2242,6 +3696,10 @@
         "NumberOfDatabases":{"shape":"IntegerOptional"},
         "NumberOfSchemas":{"shape":"IntegerOptional"}
       }
+    },
+    "Iso8601DateTime":{
+      "type":"timestamp",
+      "timestampFormat":"iso8601"
     },
     "KMSAccessDeniedFault":{
       "type":"structure",
@@ -2292,6 +3750,13 @@
       },
       "exception":true
     },
+    "KafkaSaslMechanism":{
+      "type":"string",
+      "enum":[
+        "scram-sha-512",
+        "plain"
+      ]
+    },
     "KafkaSecurityProtocol":{
       "type":"string",
       "enum":[
@@ -2321,7 +3786,25 @@
         "SslCaCertificateArn":{"shape":"String"},
         "SaslUsername":{"shape":"String"},
         "SaslPassword":{"shape":"SecretString"},
-        "NoHexPrefix":{"shape":"BooleanOptional"}
+        "NoHexPrefix":{"shape":"BooleanOptional"},
+        "SaslMechanism":{"shape":"KafkaSaslMechanism"},
+        "SslEndpointIdentificationAlgorithm":{"shape":"KafkaSslEndpointIdentificationAlgorithm"},
+        "UseLargeIntegerValue":{"shape":"BooleanOptional"}
+      }
+    },
+    "KafkaSslEndpointIdentificationAlgorithm":{
+      "type":"string",
+      "enum":[
+        "none",
+        "https"
+      ]
+    },
+    "KerberosAuthenticationSettings":{
+      "type":"structure",
+      "members":{
+        "KeyCacheSecretId":{"shape":"String"},
+        "KeyCacheSecretIamArn":{"shape":"String"},
+        "Krb5FileContents":{"shape":"String"}
       }
     },
     "KeyList":{
@@ -2340,8 +3823,24 @@
         "IncludeTableAlterOperations":{"shape":"BooleanOptional"},
         "IncludeControlDetails":{"shape":"BooleanOptional"},
         "IncludeNullAndEmpty":{"shape":"BooleanOptional"},
-        "NoHexPrefix":{"shape":"BooleanOptional"}
+        "NoHexPrefix":{"shape":"BooleanOptional"},
+        "UseLargeIntegerValue":{"shape":"BooleanOptional"}
       }
+    },
+    "Limitation":{
+      "type":"structure",
+      "members":{
+        "DatabaseId":{"shape":"String"},
+        "EngineName":{"shape":"String"},
+        "Name":{"shape":"String"},
+        "Description":{"shape":"String"},
+        "Impact":{"shape":"String"},
+        "Type":{"shape":"String"}
+      }
+    },
+    "LimitationList":{
+      "type":"list",
+      "member":{"shape":"Limitation"}
     },
     "ListTagsForResourceMessage":{
       "type":"structure",
@@ -2358,6 +3857,27 @@
     },
     "Long":{"type":"long"},
     "LongOptional":{"type":"long"},
+    "LongVarcharMappingType":{
+      "type":"string",
+      "enum":[
+        "wstring",
+        "clob",
+        "nclob"
+      ]
+    },
+    "MariaDbDataProviderSettings":{
+      "type":"structure",
+      "members":{
+        "ServerName":{"shape":"String"},
+        "Port":{"shape":"IntegerOptional"},
+        "SslMode":{"shape":"DmsSslModeValue"},
+        "CertificateArn":{"shape":"String"}
+      }
+    },
+    "Marker":{
+      "type":"string",
+      "max":1024
+    },
     "MessageFormatValue":{
       "type":"string",
       "enum":[
@@ -2382,8 +3902,40 @@
         "UseThirdPartyBackupDevice":{"shape":"BooleanOptional"},
         "SecretsManagerAccessRoleArn":{"shape":"String"},
         "SecretsManagerSecretId":{"shape":"String"},
-        "TrimSpaceInChar":{"shape":"BooleanOptional"}
+        "TrimSpaceInChar":{"shape":"BooleanOptional"},
+        "TlogAccessMode":{"shape":"TlogAccessMode"},
+        "ForceLobLookup":{"shape":"BooleanOptional"},
+        "AuthenticationMethod":{"shape":"SqlServerAuthenticationMethod"}
       }
+    },
+    "MicrosoftSqlServerDataProviderSettings":{
+      "type":"structure",
+      "members":{
+        "ServerName":{"shape":"String"},
+        "Port":{"shape":"IntegerOptional"},
+        "DatabaseName":{"shape":"String"},
+        "SslMode":{"shape":"DmsSslModeValue"},
+        "CertificateArn":{"shape":"String"}
+      }
+    },
+    "MigrationProject":{
+      "type":"structure",
+      "members":{
+        "MigrationProjectName":{"shape":"String"},
+        "MigrationProjectArn":{"shape":"String"},
+        "MigrationProjectCreationTime":{"shape":"Iso8601DateTime"},
+        "SourceDataProviderDescriptors":{"shape":"DataProviderDescriptorList"},
+        "TargetDataProviderDescriptors":{"shape":"DataProviderDescriptorList"},
+        "InstanceProfileArn":{"shape":"String"},
+        "InstanceProfileName":{"shape":"String"},
+        "TransformationRules":{"shape":"String"},
+        "Description":{"shape":"String"},
+        "SchemaConversionApplicationAttributes":{"shape":"SCApplicationAttributes"}
+      }
+    },
+    "MigrationProjectList":{
+      "type":"list",
+      "member":{"shape":"MigrationProject"}
     },
     "MigrationTypeValue":{
       "type":"string",
@@ -2392,6 +3944,62 @@
         "cdc",
         "full-load-and-cdc"
       ]
+    },
+    "ModifyConversionConfigurationMessage":{
+      "type":"structure",
+      "required":[
+        "MigrationProjectIdentifier",
+        "ConversionConfiguration"
+      ],
+      "members":{
+        "MigrationProjectIdentifier":{"shape":"String"},
+        "ConversionConfiguration":{"shape":"String"}
+      }
+    },
+    "ModifyConversionConfigurationResponse":{
+      "type":"structure",
+      "members":{
+        "MigrationProjectIdentifier":{"shape":"String"}
+      }
+    },
+    "ModifyDataMigrationMessage":{
+      "type":"structure",
+      "required":["DataMigrationIdentifier"],
+      "members":{
+        "DataMigrationIdentifier":{"shape":"String"},
+        "DataMigrationName":{"shape":"String"},
+        "EnableCloudwatchLogs":{"shape":"BooleanOptional"},
+        "ServiceAccessRoleArn":{"shape":"String"},
+        "DataMigrationType":{"shape":"MigrationTypeValue"},
+        "SourceDataSettings":{"shape":"SourceDataSettings"},
+        "TargetDataSettings":{"shape":"TargetDataSettings"},
+        "NumberOfJobs":{"shape":"IntegerOptional"},
+        "SelectionRules":{"shape":"SecretString"}
+      }
+    },
+    "ModifyDataMigrationResponse":{
+      "type":"structure",
+      "members":{
+        "DataMigration":{"shape":"DataMigration"}
+      }
+    },
+    "ModifyDataProviderMessage":{
+      "type":"structure",
+      "required":["DataProviderIdentifier"],
+      "members":{
+        "DataProviderIdentifier":{"shape":"String"},
+        "DataProviderName":{"shape":"String"},
+        "Description":{"shape":"String"},
+        "Engine":{"shape":"String"},
+        "ExactSettings":{"shape":"BooleanOptional"},
+        "Settings":{"shape":"DataProviderSettings"}
+      }
+    },
+    "ModifyDataProviderResponse":{
+      "type":"structure",
+      "members":{
+        "DataProvider":{"shape":"DataProvider"}
+      }
     },
     "ModifyEndpointMessage":{
       "type":"structure",
@@ -2429,7 +4037,8 @@
         "DocDbSettings":{"shape":"DocDbSettings"},
         "RedisSettings":{"shape":"RedisSettings"},
         "ExactSettings":{"shape":"BooleanOptional"},
-        "GcpMySQLSettings":{"shape":"GcpMySQLSettings"}
+        "GcpMySQLSettings":{"shape":"GcpMySQLSettings"},
+        "TimestreamSettings":{"shape":"TimestreamSettings"}
       }
     },
     "ModifyEndpointResponse":{
@@ -2455,6 +4064,68 @@
         "EventSubscription":{"shape":"EventSubscription"}
       }
     },
+    "ModifyInstanceProfileMessage":{
+      "type":"structure",
+      "required":["InstanceProfileIdentifier"],
+      "members":{
+        "InstanceProfileIdentifier":{"shape":"String"},
+        "AvailabilityZone":{"shape":"String"},
+        "KmsKeyArn":{"shape":"String"},
+        "PubliclyAccessible":{"shape":"BooleanOptional"},
+        "NetworkType":{"shape":"String"},
+        "InstanceProfileName":{"shape":"String"},
+        "Description":{"shape":"String"},
+        "SubnetGroupIdentifier":{"shape":"String"},
+        "VpcSecurityGroups":{"shape":"StringList"}
+      }
+    },
+    "ModifyInstanceProfileResponse":{
+      "type":"structure",
+      "members":{
+        "InstanceProfile":{"shape":"InstanceProfile"}
+      }
+    },
+    "ModifyMigrationProjectMessage":{
+      "type":"structure",
+      "required":["MigrationProjectIdentifier"],
+      "members":{
+        "MigrationProjectIdentifier":{"shape":"String"},
+        "MigrationProjectName":{"shape":"String"},
+        "SourceDataProviderDescriptors":{"shape":"DataProviderDescriptorDefinitionList"},
+        "TargetDataProviderDescriptors":{"shape":"DataProviderDescriptorDefinitionList"},
+        "InstanceProfileIdentifier":{"shape":"String"},
+        "TransformationRules":{"shape":"String"},
+        "Description":{"shape":"String"},
+        "SchemaConversionApplicationAttributes":{"shape":"SCApplicationAttributes"}
+      }
+    },
+    "ModifyMigrationProjectResponse":{
+      "type":"structure",
+      "members":{
+        "MigrationProject":{"shape":"MigrationProject"}
+      }
+    },
+    "ModifyReplicationConfigMessage":{
+      "type":"structure",
+      "required":["ReplicationConfigArn"],
+      "members":{
+        "ReplicationConfigArn":{"shape":"String"},
+        "ReplicationConfigIdentifier":{"shape":"String"},
+        "ReplicationType":{"shape":"MigrationTypeValue"},
+        "TableMappings":{"shape":"String"},
+        "ReplicationSettings":{"shape":"String"},
+        "SupplementalSettings":{"shape":"String"},
+        "ComputeConfig":{"shape":"ComputeConfig"},
+        "SourceEndpointArn":{"shape":"String"},
+        "TargetEndpointArn":{"shape":"String"}
+      }
+    },
+    "ModifyReplicationConfigResponse":{
+      "type":"structure",
+      "members":{
+        "ReplicationConfig":{"shape":"ReplicationConfig"}
+      }
+    },
     "ModifyReplicationInstanceMessage":{
       "type":"structure",
       "required":["ReplicationInstanceArn"],
@@ -2462,7 +4133,7 @@
         "ReplicationInstanceArn":{"shape":"String"},
         "AllocatedStorage":{"shape":"IntegerOptional"},
         "ApplyImmediately":{"shape":"Boolean"},
-        "ReplicationInstanceClass":{"shape":"String"},
+        "ReplicationInstanceClass":{"shape":"ReplicationInstanceClass"},
         "VpcSecurityGroupIds":{"shape":"VpcSecurityGroupIdList"},
         "PreferredMaintenanceWindow":{"shape":"String"},
         "MultiAZ":{"shape":"BooleanOptional"},
@@ -2470,7 +4141,8 @@
         "AllowMajorVersionUpgrade":{"shape":"Boolean"},
         "AutoMinorVersionUpgrade":{"shape":"BooleanOptional"},
         "ReplicationInstanceIdentifier":{"shape":"String"},
-        "NetworkType":{"shape":"String"}
+        "NetworkType":{"shape":"String"},
+        "KerberosAuthenticationSettings":{"shape":"KerberosAuthenticationSettings"}
       }
     },
     "ModifyReplicationInstanceResponse":{
@@ -2518,6 +4190,19 @@
         "ReplicationTask":{"shape":"ReplicationTask"}
       }
     },
+    "MongoDbDataProviderSettings":{
+      "type":"structure",
+      "members":{
+        "ServerName":{"shape":"String"},
+        "Port":{"shape":"IntegerOptional"},
+        "DatabaseName":{"shape":"String"},
+        "SslMode":{"shape":"DmsSslModeValue"},
+        "CertificateArn":{"shape":"String"},
+        "AuthType":{"shape":"AuthTypeValue"},
+        "AuthSource":{"shape":"String"},
+        "AuthMechanism":{"shape":"AuthMechanismValue"}
+      }
+    },
     "MongoDbSettings":{
       "type":"structure",
       "members":{
@@ -2534,7 +4219,9 @@
         "AuthSource":{"shape":"String"},
         "KmsKeyId":{"shape":"String"},
         "SecretsManagerAccessRoleArn":{"shape":"String"},
-        "SecretsManagerSecretId":{"shape":"String"}
+        "SecretsManagerSecretId":{"shape":"String"},
+        "UseUpdateLookUp":{"shape":"BooleanOptional"},
+        "ReplicateShardCollections":{"shape":"BooleanOptional"}
       }
     },
     "MoveReplicationTaskMessage":{
@@ -2570,7 +4257,17 @@
         "ServerTimezone":{"shape":"String"},
         "Username":{"shape":"String"},
         "SecretsManagerAccessRoleArn":{"shape":"String"},
-        "SecretsManagerSecretId":{"shape":"String"}
+        "SecretsManagerSecretId":{"shape":"String"},
+        "ExecuteTimeout":{"shape":"IntegerOptional"}
+      }
+    },
+    "MySqlDataProviderSettings":{
+      "type":"structure",
+      "members":{
+        "ServerName":{"shape":"String"},
+        "Port":{"shape":"IntegerOptional"},
+        "SslMode":{"shape":"DmsSslModeValue"},
+        "CertificateArn":{"shape":"String"}
       }
     },
     "NeptuneSettings":{
@@ -2595,6 +4292,28 @@
         "none",
         "one"
       ]
+    },
+    "OracleAuthenticationMethod":{
+      "type":"string",
+      "enum":[
+        "password",
+        "kerberos"
+      ]
+    },
+    "OracleDataProviderSettings":{
+      "type":"structure",
+      "members":{
+        "ServerName":{"shape":"String"},
+        "Port":{"shape":"IntegerOptional"},
+        "DatabaseName":{"shape":"String"},
+        "SslMode":{"shape":"DmsSslModeValue"},
+        "CertificateArn":{"shape":"String"},
+        "AsmServer":{"shape":"String"},
+        "SecretsManagerOracleAsmSecretId":{"shape":"String"},
+        "SecretsManagerOracleAsmAccessRoleArn":{"shape":"String"},
+        "SecretsManagerSecurityDbEncryptionSecretId":{"shape":"String"},
+        "SecretsManagerSecurityDbEncryptionAccessRoleArn":{"shape":"String"}
+      }
     },
     "OracleSettings":{
       "type":"structure",
@@ -2639,14 +4358,17 @@
         "SecretsManagerSecretId":{"shape":"String"},
         "SecretsManagerOracleAsmAccessRoleArn":{"shape":"String"},
         "SecretsManagerOracleAsmSecretId":{"shape":"String"},
-        "TrimSpaceInChar":{"shape":"BooleanOptional"}
+        "TrimSpaceInChar":{"shape":"BooleanOptional"},
+        "ConvertTimestampWithZoneToUTC":{"shape":"BooleanOptional"},
+        "OpenTransactionWindow":{"shape":"IntegerOptional"},
+        "AuthenticationMethod":{"shape":"OracleAuthenticationMethod"}
       }
     },
     "OrderableReplicationInstance":{
       "type":"structure",
       "members":{
         "EngineVersion":{"shape":"String"},
-        "ReplicationInstanceClass":{"shape":"String"},
+        "ReplicationInstanceClass":{"shape":"ReplicationInstanceClass"},
         "StorageType":{"shape":"String"},
         "MinAllocatedStorage":{"shape":"Integer"},
         "MaxAllocatedStorage":{"shape":"Integer"},
@@ -2659,6 +4381,13 @@
     "OrderableReplicationInstanceList":{
       "type":"list",
       "member":{"shape":"OrderableReplicationInstance"}
+    },
+    "OriginTypeValue":{
+      "type":"string",
+      "enum":[
+        "SOURCE",
+        "TARGET"
+      ]
     },
     "ParquetVersionValue":{
       "type":"string",
@@ -2715,7 +4444,92 @@
         "PluginName":{"shape":"PluginNameValue"},
         "SecretsManagerAccessRoleArn":{"shape":"String"},
         "SecretsManagerSecretId":{"shape":"String"},
-        "TrimSpaceInChar":{"shape":"BooleanOptional"}
+        "TrimSpaceInChar":{"shape":"BooleanOptional"},
+        "MapBooleanAsBoolean":{"shape":"BooleanOptional"},
+        "MapJsonbAsClob":{"shape":"BooleanOptional"},
+        "MapLongVarcharAs":{"shape":"LongVarcharMappingType"},
+        "DatabaseMode":{"shape":"DatabaseMode"},
+        "BabelfishDatabaseName":{"shape":"String"},
+        "DisableUnicodeSourceFilter":{"shape":"BooleanOptional"}
+      }
+    },
+    "PostgreSqlDataProviderSettings":{
+      "type":"structure",
+      "members":{
+        "ServerName":{"shape":"String"},
+        "Port":{"shape":"IntegerOptional"},
+        "DatabaseName":{"shape":"String"},
+        "SslMode":{"shape":"DmsSslModeValue"},
+        "CertificateArn":{"shape":"String"}
+      }
+    },
+    "PremigrationAssessmentStatus":{
+      "type":"structure",
+      "members":{
+        "PremigrationAssessmentRunArn":{"shape":"String"},
+        "FailOnAssessmentFailure":{"shape":"Boolean"},
+        "Status":{"shape":"String"},
+        "PremigrationAssessmentRunCreationDate":{"shape":"TStamp"},
+        "AssessmentProgress":{"shape":"ReplicationTaskAssessmentRunProgress"},
+        "LastFailureMessage":{"shape":"String"},
+        "ResultLocationBucket":{"shape":"String"},
+        "ResultLocationFolder":{"shape":"String"},
+        "ResultEncryptionMode":{"shape":"String"},
+        "ResultKmsKeyArn":{"shape":"String"},
+        "ResultStatistic":{"shape":"ReplicationTaskAssessmentRunResultStatistic"}
+      }
+    },
+    "PremigrationAssessmentStatusList":{
+      "type":"list",
+      "member":{"shape":"PremigrationAssessmentStatus"}
+    },
+    "ProvisionData":{
+      "type":"structure",
+      "members":{
+        "ProvisionState":{"shape":"String"},
+        "ProvisionedCapacityUnits":{"shape":"Integer"},
+        "DateProvisioned":{"shape":"TStamp"},
+        "IsNewProvisioningAvailable":{"shape":"Boolean"},
+        "DateNewProvisioningDataAvailable":{"shape":"TStamp"},
+        "ReasonForNewProvisioningData":{"shape":"String"}
+      }
+    },
+    "PublicIpAddressList":{
+      "type":"list",
+      "member":{"shape":"String"},
+      "sensitive":true
+    },
+    "RdsConfiguration":{
+      "type":"structure",
+      "members":{
+        "EngineEdition":{"shape":"String"},
+        "InstanceType":{"shape":"String"},
+        "InstanceVcpu":{"shape":"DoubleOptional"},
+        "InstanceMemory":{"shape":"DoubleOptional"},
+        "StorageType":{"shape":"String"},
+        "StorageSize":{"shape":"IntegerOptional"},
+        "StorageIops":{"shape":"IntegerOptional"},
+        "DeploymentOption":{"shape":"String"},
+        "EngineVersion":{"shape":"String"}
+      }
+    },
+    "RdsRecommendation":{
+      "type":"structure",
+      "members":{
+        "RequirementsToTarget":{"shape":"RdsRequirements"},
+        "TargetConfiguration":{"shape":"RdsConfiguration"}
+      }
+    },
+    "RdsRequirements":{
+      "type":"structure",
+      "members":{
+        "EngineEdition":{"shape":"String"},
+        "InstanceVcpu":{"shape":"DoubleOptional"},
+        "InstanceMemory":{"shape":"DoubleOptional"},
+        "StorageSize":{"shape":"IntegerOptional"},
+        "StorageIops":{"shape":"IntegerOptional"},
+        "DeploymentOption":{"shape":"String"},
+        "EngineVersion":{"shape":"String"}
       }
     },
     "RebootReplicationInstanceMessage":{
@@ -2731,6 +4545,39 @@
       "type":"structure",
       "members":{
         "ReplicationInstance":{"shape":"ReplicationInstance"}
+      }
+    },
+    "Recommendation":{
+      "type":"structure",
+      "members":{
+        "DatabaseId":{"shape":"String"},
+        "EngineName":{"shape":"String"},
+        "CreatedDate":{"shape":"String"},
+        "Status":{"shape":"String"},
+        "Preferred":{"shape":"BooleanOptional"},
+        "Settings":{"shape":"RecommendationSettings"},
+        "Data":{"shape":"RecommendationData"}
+      }
+    },
+    "RecommendationData":{
+      "type":"structure",
+      "members":{
+        "RdsEngine":{"shape":"RdsRecommendation"}
+      }
+    },
+    "RecommendationList":{
+      "type":"list",
+      "member":{"shape":"Recommendation"}
+    },
+    "RecommendationSettings":{
+      "type":"structure",
+      "required":[
+        "InstanceSizingType",
+        "WorkloadType"
+      ],
+      "members":{
+        "InstanceSizingType":{"shape":"String"},
+        "WorkloadType":{"shape":"String"}
       }
     },
     "RedisAuthTypeValue":{
@@ -2755,6 +4602,14 @@
         "AuthUserName":{"shape":"String"},
         "AuthPassword":{"shape":"SecretString"},
         "SslCaCertificateArn":{"shape":"String"}
+      }
+    },
+    "RedshiftDataProviderSettings":{
+      "type":"structure",
+      "members":{
+        "ServerName":{"shape":"String"},
+        "Port":{"shape":"IntegerOptional"},
+        "DatabaseName":{"shape":"String"}
       }
     },
     "RedshiftSettings":{
@@ -2789,7 +4644,8 @@
         "Username":{"shape":"String"},
         "WriteBufferSize":{"shape":"IntegerOptional"},
         "SecretsManagerAccessRoleArn":{"shape":"String"},
-        "SecretsManagerSecretId":{"shape":"String"}
+        "SecretsManagerSecretId":{"shape":"String"},
+        "MapBooleanAsBoolean":{"shape":"BooleanOptional"}
       }
     },
     "RefreshSchemasMessage":{
@@ -2829,7 +4685,10 @@
     },
     "ReleaseStatusValues":{
       "type":"string",
-      "enum":["beta"]
+      "enum":[
+        "beta",
+        "prod"
+      ]
     },
     "ReloadOptionValue":{
       "type":"string",
@@ -2837,6 +4696,24 @@
         "data-reload",
         "validate-only"
       ]
+    },
+    "ReloadReplicationTablesMessage":{
+      "type":"structure",
+      "required":[
+        "ReplicationConfigArn",
+        "TablesToReload"
+      ],
+      "members":{
+        "ReplicationConfigArn":{"shape":"String"},
+        "TablesToReload":{"shape":"TableListToReload"},
+        "ReloadOption":{"shape":"ReloadOptionValue"}
+      }
+    },
+    "ReloadReplicationTablesResponse":{
+      "type":"structure",
+      "members":{
+        "ReplicationConfigArn":{"shape":"String"}
+      }
     },
     "ReloadTablesMessage":{
       "type":"structure",
@@ -2872,6 +4749,51 @@
       "members":{
       }
     },
+    "Replication":{
+      "type":"structure",
+      "members":{
+        "ReplicationConfigIdentifier":{"shape":"String"},
+        "ReplicationConfigArn":{"shape":"String"},
+        "SourceEndpointArn":{"shape":"String"},
+        "TargetEndpointArn":{"shape":"String"},
+        "ReplicationType":{"shape":"MigrationTypeValue"},
+        "Status":{"shape":"String"},
+        "ProvisionData":{"shape":"ProvisionData"},
+        "PremigrationAssessmentStatuses":{"shape":"PremigrationAssessmentStatusList"},
+        "StopReason":{"shape":"String"},
+        "FailureMessages":{"shape":"StringList"},
+        "ReplicationStats":{"shape":"ReplicationStats"},
+        "StartReplicationType":{"shape":"String"},
+        "CdcStartTime":{"shape":"TStamp"},
+        "CdcStartPosition":{"shape":"String"},
+        "CdcStopPosition":{"shape":"String"},
+        "RecoveryCheckpoint":{"shape":"String"},
+        "ReplicationCreateTime":{"shape":"TStamp"},
+        "ReplicationUpdateTime":{"shape":"TStamp"},
+        "ReplicationLastStopTime":{"shape":"TStamp"},
+        "ReplicationDeprovisionTime":{"shape":"TStamp"}
+      }
+    },
+    "ReplicationConfig":{
+      "type":"structure",
+      "members":{
+        "ReplicationConfigIdentifier":{"shape":"String"},
+        "ReplicationConfigArn":{"shape":"String"},
+        "SourceEndpointArn":{"shape":"String"},
+        "TargetEndpointArn":{"shape":"String"},
+        "ReplicationType":{"shape":"MigrationTypeValue"},
+        "ComputeConfig":{"shape":"ComputeConfig"},
+        "ReplicationSettings":{"shape":"String"},
+        "SupplementalSettings":{"shape":"String"},
+        "TableMappings":{"shape":"String"},
+        "ReplicationConfigCreateTime":{"shape":"TStamp"},
+        "ReplicationConfigUpdateTime":{"shape":"TStamp"}
+      }
+    },
+    "ReplicationConfigList":{
+      "type":"list",
+      "member":{"shape":"ReplicationConfig"}
+    },
     "ReplicationEndpointTypeValue":{
       "type":"string",
       "enum":[
@@ -2883,7 +4805,7 @@
       "type":"structure",
       "members":{
         "ReplicationInstanceIdentifier":{"shape":"String"},
-        "ReplicationInstanceClass":{"shape":"String"},
+        "ReplicationInstanceClass":{"shape":"ReplicationInstanceClass"},
         "ReplicationInstanceStatus":{"shape":"String"},
         "AllocatedStorage":{"shape":"Integer"},
         "InstanceCreateTime":{"shape":"TStamp"},
@@ -2912,8 +4834,13 @@
         "SecondaryAvailabilityZone":{"shape":"String"},
         "FreeUntil":{"shape":"TStamp"},
         "DnsNameServers":{"shape":"String"},
-        "NetworkType":{"shape":"String"}
+        "NetworkType":{"shape":"String"},
+        "KerberosAuthenticationSettings":{"shape":"KerberosAuthenticationSettings"}
       }
+    },
+    "ReplicationInstanceClass":{
+      "type":"string",
+      "max":30
     },
     "ReplicationInstanceIpv6AddressList":{
       "type":"list",
@@ -2943,14 +4870,34 @@
       "type":"list",
       "member":{"shape":"ReplicationInstanceTaskLog"}
     },
+    "ReplicationList":{
+      "type":"list",
+      "member":{"shape":"Replication"}
+    },
     "ReplicationPendingModifiedValues":{
       "type":"structure",
       "members":{
-        "ReplicationInstanceClass":{"shape":"String"},
+        "ReplicationInstanceClass":{"shape":"ReplicationInstanceClass"},
         "AllocatedStorage":{"shape":"IntegerOptional"},
         "MultiAZ":{"shape":"BooleanOptional"},
         "EngineVersion":{"shape":"String"},
         "NetworkType":{"shape":"String"}
+      }
+    },
+    "ReplicationStats":{
+      "type":"structure",
+      "members":{
+        "FullLoadProgressPercent":{"shape":"Integer"},
+        "ElapsedTimeMillis":{"shape":"Long"},
+        "TablesLoaded":{"shape":"Integer"},
+        "TablesLoading":{"shape":"Integer"},
+        "TablesQueued":{"shape":"Integer"},
+        "TablesErrored":{"shape":"Integer"},
+        "FreshStartDate":{"shape":"TStamp"},
+        "StartDate":{"shape":"TStamp"},
+        "StopDate":{"shape":"TStamp"},
+        "FullLoadStartDate":{"shape":"TStamp"},
+        "FullLoadFinishDate":{"shape":"TStamp"}
       }
     },
     "ReplicationSubnetGroup":{
@@ -2974,6 +4921,10 @@
     "ReplicationSubnetGroups":{
       "type":"list",
       "member":{"shape":"ReplicationSubnetGroup"}
+    },
+    "ReplicationTableStatisticsList":{
+      "type":"list",
+      "member":{"shape":"TableStatistics"}
     },
     "ReplicationTask":{
       "type":"structure",
@@ -3008,7 +4959,7 @@
         "AssessmentStatus":{"shape":"String"},
         "AssessmentResultsFile":{"shape":"String"},
         "AssessmentResults":{"shape":"String"},
-        "S3ObjectUrl":{"shape":"String"}
+        "S3ObjectUrl":{"shape":"SecretString"}
       }
     },
     "ReplicationTaskAssessmentResultList":{
@@ -3029,7 +4980,9 @@
         "ResultLocationFolder":{"shape":"String"},
         "ResultEncryptionMode":{"shape":"String"},
         "ResultKmsKeyArn":{"shape":"String"},
-        "AssessmentRunName":{"shape":"String"}
+        "AssessmentRunName":{"shape":"String"},
+        "IsLatestTaskAssessmentRun":{"shape":"Boolean"},
+        "ResultStatistic":{"shape":"ReplicationTaskAssessmentRunResultStatistic"}
       }
     },
     "ReplicationTaskAssessmentRunList":{
@@ -3041,6 +4994,16 @@
       "members":{
         "IndividualAssessmentCount":{"shape":"Integer"},
         "IndividualAssessmentCompletedCount":{"shape":"Integer"}
+      }
+    },
+    "ReplicationTaskAssessmentRunResultStatistic":{
+      "type":"structure",
+      "members":{
+        "Passed":{"shape":"Integer"},
+        "Failed":{"shape":"Integer"},
+        "Error":{"shape":"Integer"},
+        "Warning":{"shape":"Integer"},
+        "Cancelled":{"shape":"Integer"}
       }
     },
     "ReplicationTaskIndividualAssessment":{
@@ -3170,7 +5133,15 @@
         "Rfc4180":{"shape":"BooleanOptional"},
         "DatePartitionTimezone":{"shape":"String"},
         "AddTrailingPaddingCharacter":{"shape":"BooleanOptional"},
-        "ExpectedBucketOwner":{"shape":"String"}
+        "ExpectedBucketOwner":{"shape":"String"},
+        "GlueCatalogGeneration":{"shape":"BooleanOptional"}
+      }
+    },
+    "SCApplicationAttributes":{
+      "type":"structure",
+      "members":{
+        "S3BucketPath":{"shape":"String"},
+        "S3BucketRoleArn":{"shape":"String"}
       }
     },
     "SNSInvalidTopicFault":{
@@ -3194,6 +5165,20 @@
         "exclusive-automatic-truncation",
         "shared-automatic-truncation"
       ]
+    },
+    "SchemaConversionRequest":{
+      "type":"structure",
+      "members":{
+        "Status":{"shape":"String"},
+        "RequestIdentifier":{"shape":"String"},
+        "MigrationProjectArn":{"shape":"String"},
+        "Error":{"shape":"ErrorDetails"},
+        "ExportSqlDetails":{"shape":"ExportSqlDetails"}
+      }
+    },
+    "SchemaConversionRequestList":{
+      "type":"list",
+      "member":{"shape":"SchemaConversionRequest"}
     },
     "SchemaList":{
       "type":"list",
@@ -3235,6 +5220,19 @@
         "ServerName":{"shape":"String"}
       }
     },
+    "SourceDataSetting":{
+      "type":"structure",
+      "members":{
+        "CDCStartPosition":{"shape":"String"},
+        "CDCStartTime":{"shape":"Iso8601DateTime"},
+        "CDCStopTime":{"shape":"Iso8601DateTime"},
+        "SlotName":{"shape":"String"}
+      }
+    },
+    "SourceDataSettings":{
+      "type":"list",
+      "member":{"shape":"SourceDataSetting"}
+    },
     "SourceIdsList":{
       "type":"list",
       "member":{"shape":"String"}
@@ -3243,12 +5241,196 @@
       "type":"string",
       "enum":["replication-instance"]
     },
+    "SqlServerAuthenticationMethod":{
+      "type":"string",
+      "enum":[
+        "password",
+        "kerberos"
+      ]
+    },
     "SslSecurityProtocolValue":{
       "type":"string",
       "enum":[
         "plaintext",
         "ssl-encryption"
       ]
+    },
+    "StartDataMigrationMessage":{
+      "type":"structure",
+      "required":[
+        "DataMigrationIdentifier",
+        "StartType"
+      ],
+      "members":{
+        "DataMigrationIdentifier":{"shape":"String"},
+        "StartType":{"shape":"StartReplicationMigrationTypeValue"}
+      }
+    },
+    "StartDataMigrationResponse":{
+      "type":"structure",
+      "members":{
+        "DataMigration":{"shape":"DataMigration"}
+      }
+    },
+    "StartExtensionPackAssociationMessage":{
+      "type":"structure",
+      "required":["MigrationProjectIdentifier"],
+      "members":{
+        "MigrationProjectIdentifier":{"shape":"String"}
+      }
+    },
+    "StartExtensionPackAssociationResponse":{
+      "type":"structure",
+      "members":{
+        "RequestIdentifier":{"shape":"String"}
+      }
+    },
+    "StartMetadataModelAssessmentMessage":{
+      "type":"structure",
+      "required":[
+        "MigrationProjectIdentifier",
+        "SelectionRules"
+      ],
+      "members":{
+        "MigrationProjectIdentifier":{"shape":"String"},
+        "SelectionRules":{"shape":"String"}
+      }
+    },
+    "StartMetadataModelAssessmentResponse":{
+      "type":"structure",
+      "members":{
+        "RequestIdentifier":{"shape":"String"}
+      }
+    },
+    "StartMetadataModelConversionMessage":{
+      "type":"structure",
+      "required":[
+        "MigrationProjectIdentifier",
+        "SelectionRules"
+      ],
+      "members":{
+        "MigrationProjectIdentifier":{"shape":"String"},
+        "SelectionRules":{"shape":"String"}
+      }
+    },
+    "StartMetadataModelConversionResponse":{
+      "type":"structure",
+      "members":{
+        "RequestIdentifier":{"shape":"String"}
+      }
+    },
+    "StartMetadataModelExportAsScriptMessage":{
+      "type":"structure",
+      "required":[
+        "MigrationProjectIdentifier",
+        "SelectionRules",
+        "Origin"
+      ],
+      "members":{
+        "MigrationProjectIdentifier":{"shape":"String"},
+        "SelectionRules":{"shape":"String"},
+        "Origin":{"shape":"OriginTypeValue"},
+        "FileName":{"shape":"String"}
+      }
+    },
+    "StartMetadataModelExportAsScriptResponse":{
+      "type":"structure",
+      "members":{
+        "RequestIdentifier":{"shape":"String"}
+      }
+    },
+    "StartMetadataModelExportToTargetMessage":{
+      "type":"structure",
+      "required":[
+        "MigrationProjectIdentifier",
+        "SelectionRules"
+      ],
+      "members":{
+        "MigrationProjectIdentifier":{"shape":"String"},
+        "SelectionRules":{"shape":"String"},
+        "OverwriteExtensionPack":{"shape":"BooleanOptional"}
+      }
+    },
+    "StartMetadataModelExportToTargetResponse":{
+      "type":"structure",
+      "members":{
+        "RequestIdentifier":{"shape":"String"}
+      }
+    },
+    "StartMetadataModelImportMessage":{
+      "type":"structure",
+      "required":[
+        "MigrationProjectIdentifier",
+        "SelectionRules",
+        "Origin"
+      ],
+      "members":{
+        "MigrationProjectIdentifier":{"shape":"String"},
+        "SelectionRules":{"shape":"String"},
+        "Origin":{"shape":"OriginTypeValue"},
+        "Refresh":{"shape":"Boolean"}
+      }
+    },
+    "StartMetadataModelImportResponse":{
+      "type":"structure",
+      "members":{
+        "RequestIdentifier":{"shape":"String"}
+      }
+    },
+    "StartRecommendationsRequest":{
+      "type":"structure",
+      "required":[
+        "DatabaseId",
+        "Settings"
+      ],
+      "members":{
+        "DatabaseId":{"shape":"String"},
+        "Settings":{"shape":"RecommendationSettings"}
+      }
+    },
+    "StartRecommendationsRequestEntry":{
+      "type":"structure",
+      "required":[
+        "DatabaseId",
+        "Settings"
+      ],
+      "members":{
+        "DatabaseId":{"shape":"String"},
+        "Settings":{"shape":"RecommendationSettings"}
+      }
+    },
+    "StartRecommendationsRequestEntryList":{
+      "type":"list",
+      "member":{"shape":"StartRecommendationsRequestEntry"}
+    },
+    "StartReplicationMessage":{
+      "type":"structure",
+      "required":[
+        "ReplicationConfigArn",
+        "StartReplicationType"
+      ],
+      "members":{
+        "ReplicationConfigArn":{"shape":"String"},
+        "StartReplicationType":{"shape":"String"},
+        "PremigrationAssessmentSettings":{"shape":"String"},
+        "CdcStartTime":{"shape":"TStamp"},
+        "CdcStartPosition":{"shape":"String"},
+        "CdcStopPosition":{"shape":"String"}
+      }
+    },
+    "StartReplicationMigrationTypeValue":{
+      "type":"string",
+      "enum":[
+        "reload-target",
+        "resume-processing",
+        "start-replication"
+      ]
+    },
+    "StartReplicationResponse":{
+      "type":"structure",
+      "members":{
+        "Replication":{"shape":"Replication"}
+      }
     },
     "StartReplicationTaskAssessmentMessage":{
       "type":"structure",
@@ -3280,7 +5462,8 @@
         "ResultKmsKeyArn":{"shape":"String"},
         "AssessmentRunName":{"shape":"String"},
         "IncludeOnly":{"shape":"IncludeTestList"},
-        "Exclude":{"shape":"ExcludeTestList"}
+        "Exclude":{"shape":"ExcludeTestList"},
+        "Tags":{"shape":"TagList"}
       }
     },
     "StartReplicationTaskAssessmentRunResponse":{
@@ -3316,6 +5499,32 @@
         "resume-processing",
         "reload-target"
       ]
+    },
+    "StopDataMigrationMessage":{
+      "type":"structure",
+      "required":["DataMigrationIdentifier"],
+      "members":{
+        "DataMigrationIdentifier":{"shape":"String"}
+      }
+    },
+    "StopDataMigrationResponse":{
+      "type":"structure",
+      "members":{
+        "DataMigration":{"shape":"DataMigration"}
+      }
+    },
+    "StopReplicationMessage":{
+      "type":"structure",
+      "required":["ReplicationConfigArn"],
+      "members":{
+        "ReplicationConfigArn":{"shape":"String"}
+      }
+    },
+    "StopReplicationResponse":{
+      "type":"structure",
+      "members":{
+        "Replication":{"shape":"Replication"}
+      }
     },
     "StopReplicationTaskMessage":{
       "type":"structure",
@@ -3396,6 +5605,14 @@
       "type":"list",
       "member":{"shape":"TableToReload"}
     },
+    "TablePreparationMode":{
+      "type":"string",
+      "enum":[
+        "do-nothing",
+        "truncate",
+        "drop-tables-on-target"
+      ]
+    },
     "TableStatistics":{
       "type":"structure",
       "members":{
@@ -3451,6 +5668,16 @@
       "type":"list",
       "member":{"shape":"Tag"}
     },
+    "TargetDataSetting":{
+      "type":"structure",
+      "members":{
+        "TablePreparationMode":{"shape":"TablePreparationMode"}
+      }
+    },
+    "TargetDataSettings":{
+      "type":"list",
+      "member":{"shape":"TargetDataSetting"}
+    },
     "TargetDbType":{
       "type":"string",
       "enum":[
@@ -3474,6 +5701,30 @@
       "members":{
         "Connection":{"shape":"Connection"}
       }
+    },
+    "TimestreamSettings":{
+      "type":"structure",
+      "required":[
+        "DatabaseName",
+        "MemoryDuration",
+        "MagneticDuration"
+      ],
+      "members":{
+        "DatabaseName":{"shape":"String"},
+        "MemoryDuration":{"shape":"IntegerOptional"},
+        "MagneticDuration":{"shape":"IntegerOptional"},
+        "CdcInsertsAndUpdates":{"shape":"BooleanOptional"},
+        "EnableMagneticStoreWrites":{"shape":"BooleanOptional"}
+      }
+    },
+    "TlogAccessMode":{
+      "type":"string",
+      "enum":[
+        "BackupOnly",
+        "PreferBackup",
+        "PreferTlog",
+        "TlogOnly"
+      ]
     },
     "UpdateSubscriptionsToEventBridgeMessage":{
       "type":"structure",

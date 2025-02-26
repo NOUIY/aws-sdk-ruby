@@ -14,34 +14,48 @@ module Aws::Appflow
       option(
         :endpoint_provider,
         doc_type: 'Aws::Appflow::EndpointProvider',
-        docstring: 'The endpoint provider used to resolve endpoints. Any '\
-                   'object that responds to `#resolve_endpoint(parameters)` '\
-                   'where `parameters` is a Struct similar to '\
-                   '`Aws::Appflow::EndpointParameters`'
-      ) do |cfg|
+        rbs_type: 'untyped',
+        docstring: <<~DOCS) do |_cfg|
+The endpoint provider used to resolve endpoints. Any object that responds to
+`#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+`Aws::Appflow::EndpointParameters`.
+        DOCS
         Aws::Appflow::EndpointProvider.new
       end
 
       # @api private
       class Handler < Seahorse::Client::Handler
         def call(context)
-          # If endpoint was discovered, do not resolve or apply the endpoint.
           unless context[:discovered_endpoint]
-            params = parameters_for_operation(context)
+            params = Aws::Appflow::Endpoints.parameters_for_operation(context)
             endpoint = context.config.endpoint_provider.resolve_endpoint(params)
 
             context.http_request.endpoint = endpoint.url
             apply_endpoint_headers(context, endpoint.headers)
+
+            context[:endpoint_params] = params
+            context[:endpoint_properties] = endpoint.properties
           end
 
-          context[:endpoint_params] = params
           context[:auth_scheme] =
             Aws::Endpoints.resolve_auth_scheme(context, endpoint)
 
-          @handler.call(context)
+          with_metrics(context) { @handler.call(context) }
         end
 
         private
+
+        def with_metrics(context, &block)
+          metrics = []
+          metrics << 'ENDPOINT_OVERRIDE' unless context.config.regional_endpoint
+          if context[:auth_scheme] && context[:auth_scheme]['name'] == 'sigv4a'
+            metrics << 'SIGV4A_SIGNING'
+          end
+          if context.config.credentials&.credentials&.account_id
+            metrics << 'RESOLVED_ACCOUNT_ID'
+          end
+          Aws::Plugins::UserAgent.metric(*metrics, &block)
+        end
 
         def apply_endpoint_headers(context, headers)
           headers.each do |key, values|
@@ -51,57 +65,6 @@ module Aws::Appflow
               .join(',')
 
             context.http_request.headers[key] = value
-          end
-        end
-
-        def parameters_for_operation(context)
-          case context.operation_name
-          when :create_connector_profile
-            Aws::Appflow::Endpoints::CreateConnectorProfile.build(context)
-          when :create_flow
-            Aws::Appflow::Endpoints::CreateFlow.build(context)
-          when :delete_connector_profile
-            Aws::Appflow::Endpoints::DeleteConnectorProfile.build(context)
-          when :delete_flow
-            Aws::Appflow::Endpoints::DeleteFlow.build(context)
-          when :describe_connector
-            Aws::Appflow::Endpoints::DescribeConnector.build(context)
-          when :describe_connector_entity
-            Aws::Appflow::Endpoints::DescribeConnectorEntity.build(context)
-          when :describe_connector_profiles
-            Aws::Appflow::Endpoints::DescribeConnectorProfiles.build(context)
-          when :describe_connectors
-            Aws::Appflow::Endpoints::DescribeConnectors.build(context)
-          when :describe_flow
-            Aws::Appflow::Endpoints::DescribeFlow.build(context)
-          when :describe_flow_execution_records
-            Aws::Appflow::Endpoints::DescribeFlowExecutionRecords.build(context)
-          when :list_connector_entities
-            Aws::Appflow::Endpoints::ListConnectorEntities.build(context)
-          when :list_connectors
-            Aws::Appflow::Endpoints::ListConnectors.build(context)
-          when :list_flows
-            Aws::Appflow::Endpoints::ListFlows.build(context)
-          when :list_tags_for_resource
-            Aws::Appflow::Endpoints::ListTagsForResource.build(context)
-          when :register_connector
-            Aws::Appflow::Endpoints::RegisterConnector.build(context)
-          when :start_flow
-            Aws::Appflow::Endpoints::StartFlow.build(context)
-          when :stop_flow
-            Aws::Appflow::Endpoints::StopFlow.build(context)
-          when :tag_resource
-            Aws::Appflow::Endpoints::TagResource.build(context)
-          when :unregister_connector
-            Aws::Appflow::Endpoints::UnregisterConnector.build(context)
-          when :untag_resource
-            Aws::Appflow::Endpoints::UntagResource.build(context)
-          when :update_connector_profile
-            Aws::Appflow::Endpoints::UpdateConnectorProfile.build(context)
-          when :update_connector_registration
-            Aws::Appflow::Endpoints::UpdateConnectorRegistration.build(context)
-          when :update_flow
-            Aws::Appflow::Endpoints::UpdateFlow.build(context)
           end
         end
       end

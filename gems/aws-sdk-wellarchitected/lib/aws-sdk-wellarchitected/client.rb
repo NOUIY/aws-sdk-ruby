@@ -7,33 +7,34 @@
 #
 # WARNING ABOUT GENERATED CODE
 
-require 'seahorse/client/plugins/content_length.rb'
-require 'aws-sdk-core/plugins/credentials_configuration.rb'
-require 'aws-sdk-core/plugins/logging.rb'
-require 'aws-sdk-core/plugins/param_converter.rb'
-require 'aws-sdk-core/plugins/param_validator.rb'
-require 'aws-sdk-core/plugins/user_agent.rb'
-require 'aws-sdk-core/plugins/helpful_socket_errors.rb'
-require 'aws-sdk-core/plugins/retry_errors.rb'
-require 'aws-sdk-core/plugins/global_configuration.rb'
-require 'aws-sdk-core/plugins/regional_endpoint.rb'
-require 'aws-sdk-core/plugins/endpoint_discovery.rb'
-require 'aws-sdk-core/plugins/endpoint_pattern.rb'
-require 'aws-sdk-core/plugins/response_paging.rb'
-require 'aws-sdk-core/plugins/stub_responses.rb'
-require 'aws-sdk-core/plugins/idempotency_token.rb'
-require 'aws-sdk-core/plugins/jsonvalue_converter.rb'
-require 'aws-sdk-core/plugins/client_metrics_plugin.rb'
-require 'aws-sdk-core/plugins/client_metrics_send_plugin.rb'
-require 'aws-sdk-core/plugins/transfer_encoding.rb'
-require 'aws-sdk-core/plugins/http_checksum.rb'
-require 'aws-sdk-core/plugins/checksum_algorithm.rb'
-require 'aws-sdk-core/plugins/defaults_mode.rb'
-require 'aws-sdk-core/plugins/recursion_detection.rb'
-require 'aws-sdk-core/plugins/sign.rb'
-require 'aws-sdk-core/plugins/protocols/rest_json.rb'
-
-Aws::Plugins::GlobalConfiguration.add_identifier(:wellarchitected)
+require 'seahorse/client/plugins/content_length'
+require 'aws-sdk-core/plugins/credentials_configuration'
+require 'aws-sdk-core/plugins/logging'
+require 'aws-sdk-core/plugins/param_converter'
+require 'aws-sdk-core/plugins/param_validator'
+require 'aws-sdk-core/plugins/user_agent'
+require 'aws-sdk-core/plugins/helpful_socket_errors'
+require 'aws-sdk-core/plugins/retry_errors'
+require 'aws-sdk-core/plugins/global_configuration'
+require 'aws-sdk-core/plugins/regional_endpoint'
+require 'aws-sdk-core/plugins/endpoint_discovery'
+require 'aws-sdk-core/plugins/endpoint_pattern'
+require 'aws-sdk-core/plugins/response_paging'
+require 'aws-sdk-core/plugins/stub_responses'
+require 'aws-sdk-core/plugins/idempotency_token'
+require 'aws-sdk-core/plugins/invocation_id'
+require 'aws-sdk-core/plugins/jsonvalue_converter'
+require 'aws-sdk-core/plugins/client_metrics_plugin'
+require 'aws-sdk-core/plugins/client_metrics_send_plugin'
+require 'aws-sdk-core/plugins/transfer_encoding'
+require 'aws-sdk-core/plugins/http_checksum'
+require 'aws-sdk-core/plugins/checksum_algorithm'
+require 'aws-sdk-core/plugins/request_compression'
+require 'aws-sdk-core/plugins/defaults_mode'
+require 'aws-sdk-core/plugins/recursion_detection'
+require 'aws-sdk-core/plugins/telemetry'
+require 'aws-sdk-core/plugins/sign'
+require 'aws-sdk-core/plugins/protocols/rest_json'
 
 module Aws::WellArchitected
   # An API client for WellArchitected.  To construct a client, you need to configure a `:region` and `:credentials`.
@@ -71,20 +72,28 @@ module Aws::WellArchitected
     add_plugin(Aws::Plugins::ResponsePaging)
     add_plugin(Aws::Plugins::StubResponses)
     add_plugin(Aws::Plugins::IdempotencyToken)
+    add_plugin(Aws::Plugins::InvocationId)
     add_plugin(Aws::Plugins::JsonvalueConverter)
     add_plugin(Aws::Plugins::ClientMetricsPlugin)
     add_plugin(Aws::Plugins::ClientMetricsSendPlugin)
     add_plugin(Aws::Plugins::TransferEncoding)
     add_plugin(Aws::Plugins::HttpChecksum)
     add_plugin(Aws::Plugins::ChecksumAlgorithm)
+    add_plugin(Aws::Plugins::RequestCompression)
     add_plugin(Aws::Plugins::DefaultsMode)
     add_plugin(Aws::Plugins::RecursionDetection)
+    add_plugin(Aws::Plugins::Telemetry)
     add_plugin(Aws::Plugins::Sign)
     add_plugin(Aws::Plugins::Protocols::RestJson)
     add_plugin(Aws::WellArchitected::Plugins::Endpoints)
 
     # @overload initialize(options)
     #   @param [Hash] options
+    #
+    #   @option options [Array<Seahorse::Client::Plugin>] :plugins ([]])
+    #     A list of plugins to apply to the client. Each plugin is either a
+    #     class name or an instance of a plugin class.
+    #
     #   @option options [required, Aws::CredentialProvider] :credentials
     #     Your AWS credentials. This can be an instance of any one of the
     #     following classes:
@@ -119,13 +128,15 @@ module Aws::WellArchitected
     #     locations will be searched for credentials:
     #
     #     * `Aws.config[:credentials]`
-    #     * The `:access_key_id`, `:secret_access_key`, and `:session_token` options.
-    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']
+    #     * The `:access_key_id`, `:secret_access_key`, `:session_token`, and
+    #       `:account_id` options.
+    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'],
+    #       ENV['AWS_SESSION_TOKEN'], and ENV['AWS_ACCOUNT_ID']
     #     * `~/.aws/credentials`
     #     * `~/.aws/config`
     #     * EC2/ECS IMDS instance profile - When used by default, the timeouts
     #       are very aggressive. Construct and pass an instance of
-    #       `Aws::InstanceProfileCredentails` or `Aws::ECSCredentials` to
+    #       `Aws::InstanceProfileCredentials` or `Aws::ECSCredentials` to
     #       enable retries and extended timeouts. Instance profile credential
     #       fetching can be disabled by setting ENV['AWS_EC2_METADATA_DISABLED']
     #       to true.
@@ -143,6 +154,8 @@ module Aws::WellArchitected
     #     * `~/.aws/config`
     #
     #   @option options [String] :access_key_id
+    #
+    #   @option options [String] :account_id
     #
     #   @option options [Boolean] :active_endpoint_cache (false)
     #     When set to `true`, a thread polling for endpoints will be running in
@@ -190,10 +203,20 @@ module Aws::WellArchitected
     #     Set to true to disable SDK automatically adding host prefix
     #     to default service endpoint when available.
     #
-    #   @option options [String] :endpoint
-    #     The client endpoint is normally constructed from the `:region`
-    #     option. You should only configure an `:endpoint` when connecting
-    #     to test or custom endpoints. This should be a valid HTTP(S) URI.
+    #   @option options [Boolean] :disable_request_compression (false)
+    #     When set to 'true' the request body will not be compressed
+    #     for supported operations.
+    #
+    #   @option options [String, URI::HTTPS, URI::HTTP] :endpoint
+    #     Normally you should not configure the `:endpoint` option
+    #     directly. This is normally constructed from the `:region`
+    #     option. Configuring `:endpoint` is normally reserved for
+    #     connecting to test or custom endpoints. The endpoint should
+    #     be a URI formatted like:
+    #
+    #         'http://example.com'
+    #         'https://example.com'
+    #         'http://example.com:123'
     #
     #   @option options [Integer] :endpoint_cache_max_entries (1000)
     #     Used for the maximum size limit of the LRU cache storing endpoints data
@@ -209,6 +232,10 @@ module Aws::WellArchitected
     #
     #   @option options [Boolean] :endpoint_discovery (false)
     #     When set to `true`, endpoint discovery will be enabled for operations when available.
+    #
+    #   @option options [Boolean] :ignore_configured_endpoint_urls
+    #     Setting to true disables use of endpoint URLs provided via environment
+    #     variables and the shared configuration file.
     #
     #   @option options [Aws::Log::Formatter] :log_formatter (Aws::Log::Formatter.default)
     #     The log formatter.
@@ -229,6 +256,34 @@ module Aws::WellArchitected
     #   @option options [String] :profile ("default")
     #     Used when loading credentials from the shared credentials file
     #     at HOME/.aws/credentials.  When not specified, 'default' is used.
+    #
+    #   @option options [String] :request_checksum_calculation ("when_supported")
+    #     Determines when a checksum will be calculated for request payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, a checksum will be
+    #       calculated for all request payloads of operations modeled with the
+    #       `httpChecksum` trait where `requestChecksumRequired` is `true` and/or a
+    #       `requestAlgorithmMember` is modeled.
+    #     * `when_required` - When set, a checksum will only be calculated for
+    #       request payloads of operations modeled with the  `httpChecksum` trait where
+    #       `requestChecksumRequired` is `true` or where a `requestAlgorithmMember`
+    #       is modeled and supplied.
+    #
+    #   @option options [Integer] :request_min_compression_size_bytes (10240)
+    #     The minimum size in bytes that triggers compression for request
+    #     bodies. The value must be non-negative integer value between 0
+    #     and 10485780 bytes inclusive.
+    #
+    #   @option options [String] :response_checksum_validation ("when_supported")
+    #     Determines when checksum validation will be performed on response payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, checksum validation is performed on all
+    #       response payloads of operations modeled with the `httpChecksum` trait where
+    #       `responseAlgorithms` is modeled, except when no modeled checksum algorithms
+    #       are supported.
+    #     * `when_required` - When set, checksum validation is not performed on
+    #       response payloads of operations unless the checksum algorithm is supported and
+    #       the `requestValidationModeMember` member is set to `ENABLED`.
     #
     #   @option options [Proc] :retry_backoff
     #     A proc or lambda used for backoff. Defaults to 2**retries * retry_base_delay.
@@ -274,10 +329,24 @@ module Aws::WellArchitected
     #       throttling.  This is a provisional mode that may change behavior
     #       in the future.
     #
+    #   @option options [String] :sdk_ua_app_id
+    #     A unique and opaque application ID that is appended to the
+    #     User-Agent header as app/sdk_ua_app_id. It should have a
+    #     maximum length of 50. This variable is sourced from environment
+    #     variable AWS_SDK_UA_APP_ID or the shared config profile attribute sdk_ua_app_id.
     #
     #   @option options [String] :secret_access_key
     #
     #   @option options [String] :session_token
+    #
+    #   @option options [Array] :sigv4a_signing_region_set
+    #     A list of regions that should be signed with SigV4a signing. When
+    #     not passed, a default `:sigv4a_signing_region_set` is searched for
+    #     in the following locations:
+    #
+    #     * `Aws.config[:sigv4a_signing_region_set]`
+    #     * `ENV['AWS_SIGV4A_SIGNING_REGION_SET']`
+    #     * `~/.aws/config`
     #
     #   @option options [Boolean] :stub_responses (false)
     #     Causes the client to return stubbed responses. By default
@@ -287,6 +356,16 @@ module Aws::WellArchitected
     #
     #     ** Please note ** When response stubbing is enabled, no HTTP
     #     requests are made, and retries are disabled.
+    #
+    #   @option options [Aws::Telemetry::TelemetryProviderBase] :telemetry_provider (Aws::Telemetry::NoOpTelemetryProvider)
+    #     Allows you to provide a telemetry provider, which is used to
+    #     emit telemetry data. By default, uses `NoOpTelemetryProvider` which
+    #     will not record or emit any telemetry data. The SDK supports the
+    #     following telemetry providers:
+    #
+    #     * OpenTelemetry (OTel) - To use the OTel provider, install and require the
+    #     `opentelemetry-sdk` gem and then, pass in an instance of a
+    #     `Aws::Telemetry::OTelProvider` for telemetry provider.
     #
     #   @option options [Aws::TokenProvider] :token_provider
     #     A Bearer Token Provider. This can be an instance of any one of the
@@ -315,52 +394,75 @@ module Aws::WellArchitected
     #     sending the request.
     #
     #   @option options [Aws::WellArchitected::EndpointProvider] :endpoint_provider
-    #     The endpoint provider used to resolve endpoints. Any object that responds to `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to `Aws::WellArchitected::EndpointParameters`
+    #     The endpoint provider used to resolve endpoints. Any object that responds to
+    #     `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+    #     `Aws::WellArchitected::EndpointParameters`.
     #
-    #   @option options [URI::HTTP,String] :http_proxy A proxy to send
-    #     requests through.  Formatted like 'http://proxy.com:123'.
+    #   @option options [Float] :http_continue_timeout (1)
+    #     The number of seconds to wait for a 100-continue response before sending the
+    #     request body.  This option has no effect unless the request has "Expect"
+    #     header set to "100-continue".  Defaults to `nil` which  disables this
+    #     behaviour.  This value can safely be set per request on the session.
     #
-    #   @option options [Float] :http_open_timeout (15) The number of
-    #     seconds to wait when opening a HTTP session before raising a
-    #     `Timeout::Error`.
+    #   @option options [Float] :http_idle_timeout (5)
+    #     The number of seconds a connection is allowed to sit idle before it
+    #     is considered stale.  Stale connections are closed and removed from the
+    #     pool before making a request.
     #
-    #   @option options [Float] :http_read_timeout (60) The default
-    #     number of seconds to wait for response data.  This value can
-    #     safely be set per-request on the session.
+    #   @option options [Float] :http_open_timeout (15)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :http_idle_timeout (5) The number of
-    #     seconds a connection is allowed to sit idle before it is
-    #     considered stale.  Stale connections are closed and removed
-    #     from the pool before making a request.
+    #   @option options [URI::HTTP,String] :http_proxy
+    #     A proxy to send requests through.  Formatted like 'http://proxy.com:123'.
     #
-    #   @option options [Float] :http_continue_timeout (1) The number of
-    #     seconds to wait for a 100-continue response before sending the
-    #     request body.  This option has no effect unless the request has
-    #     "Expect" header set to "100-continue".  Defaults to `nil` which
-    #     disables this behaviour.  This value can safely be set per
-    #     request on the session.
+    #   @option options [Float] :http_read_timeout (60)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :ssl_timeout (nil) Sets the SSL timeout
-    #     in seconds.
+    #   @option options [Boolean] :http_wire_trace (false)
+    #     When `true`,  HTTP debug output will be sent to the `:logger`.
     #
-    #   @option options [Boolean] :http_wire_trace (false) When `true`,
-    #     HTTP debug output will be sent to the `:logger`.
+    #   @option options [Proc] :on_chunk_received
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the response body is received. It provides three arguments: the chunk,
+    #     the number of bytes received, and the total number of
+    #     bytes in the response (or nil if the server did not send a `content-length`).
     #
-    #   @option options [Boolean] :ssl_verify_peer (true) When `true`,
-    #     SSL peer certificates are verified when establishing a
-    #     connection.
+    #   @option options [Proc] :on_chunk_sent
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the request body is sent. It provides three arguments: the chunk,
+    #     the number of bytes read from the body, and the total number of
+    #     bytes in the body.
     #
-    #   @option options [String] :ssl_ca_bundle Full path to the SSL
-    #     certificate authority bundle file that should be used when
-    #     verifying peer certificates.  If you do not pass
-    #     `:ssl_ca_bundle` or `:ssl_ca_directory` the the system default
-    #     will be used if available.
+    #   @option options [Boolean] :raise_response_errors (true)
+    #     When `true`, response errors are raised.
     #
-    #   @option options [String] :ssl_ca_directory Full path of the
-    #     directory that contains the unbundled SSL certificate
+    #   @option options [String] :ssl_ca_bundle
+    #     Full path to the SSL certificate authority bundle file that should be used when
+    #     verifying peer certificates.  If you do not pass `:ssl_ca_bundle` or
+    #     `:ssl_ca_directory` the the system default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_directory
+    #     Full path of the directory that contains the unbundled SSL certificate
     #     authority files for verifying peer certificates.  If you do
-    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the
-    #     system default will be used if available.
+    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the system
+    #     default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_store
+    #     Sets the X509::Store to verify peer certificate.
+    #
+    #   @option options [OpenSSL::X509::Certificate] :ssl_cert
+    #     Sets a client certificate when creating http connections.
+    #
+    #   @option options [OpenSSL::PKey] :ssl_key
+    #     Sets a client key when creating http connections.
+    #
+    #   @option options [Float] :ssl_timeout
+    #     Sets the SSL timeout in seconds
+    #
+    #   @option options [Boolean] :ssl_verify_peer (true)
+    #     When `true`, SSL peer certificates are verified when establishing a connection.
     #
     def initialize(*args)
       super
@@ -410,12 +512,48 @@ module Aws::WellArchitected
       req.send_request(options)
     end
 
+    # Associate a profile with a workload.
+    #
+    # @option params [required, String] :workload_id
+    #   The ID assigned to the workload. This ID is unique within an Amazon
+    #   Web Services Region.
+    #
+    # @option params [required, Array<String>] :profile_arns
+    #   The list of profile ARNs to associate with the workload.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.associate_profiles({
+    #     workload_id: "WorkloadId", # required
+    #     profile_arns: ["ProfileArn"], # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/wellarchitected-2020-03-31/AssociateProfiles AWS API Documentation
+    #
+    # @overload associate_profiles(params = {})
+    # @param [Hash] params ({})
+    def associate_profiles(params = {}, options = {})
+      req = build_request(:associate_profiles, params)
+      req.send_request(options)
+    end
+
     # Create a lens share.
     #
     # The owner of a lens can share it with other Amazon Web Services
-    # accounts, IAM users, an organization, and organizational units (OUs)
-    # in the same Amazon Web Services Region. Shared access to a lens is not
-    # removed until the lens invitation is deleted.
+    # accounts, users, an organization, and organizational units (OUs) in
+    # the same Amazon Web Services Region. Lenses provided by Amazon Web
+    # Services (Amazon Web Services Official Content) cannot be shared.
+    #
+    # Shared access to a lens is not removed until the lens invitation is
+    # deleted.
+    #
+    # If you share a lens with an organization or OU, all accounts in the
+    # organization or OU are granted access to the lens.
+    #
+    # For more information, see [Sharing a custom lens][1] in the
+    # *Well-Architected Tool User Guide*.
     #
     # <note markdown="1"> **Disclaimer**
     #
@@ -428,21 +566,28 @@ module Aws::WellArchitected
     #
     #  </note>
     #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/wellarchitected/latest/userguide/lenses-sharing.html
+    #
     # @option params [required, String] :lens_alias
     #   The alias of the lens.
     #
     #   For Amazon Web Services official lenses, this is either the lens
     #   alias, such as `serverless`, or the lens ARN, such as
-    #   `arn:aws:wellarchitected:us-west-2::lens/serverless`.
+    #   `arn:aws:wellarchitected:us-east-1::lens/serverless`. Note that some
+    #   operations (such as ExportLens and CreateLensShare) are not permitted
+    #   on Amazon Web Services official lenses.
     #
     #   For custom lenses, this is the lens ARN, such as
-    #   `arn:aws:wellarchitected:us-east-1:123456789012:lens/my-lens`.
+    #   `arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef`.
     #
     #   Each lens is identified by its LensSummary$LensAlias.
     #
     # @option params [required, String] :shared_with
-    #   The Amazon Web Services account ID, IAM role, organization ID, or
-    #   organizational unit (OU) ID with which the workload is shared.
+    #   The Amazon Web Services account ID, organization ID, or organizational
+    #   unit (OU) ID with which the workload, lens, profile, or review
+    #   template is shared.
     #
     # @option params [required, String] :client_request_token
     #   A unique case-sensitive string used to ensure that this request is
@@ -450,8 +595,8 @@ module Aws::WellArchitected
     #
     #   You should not reuse the same token for other requests. If you retry a
     #   request with the same client request token and the same parameters
-    #   after it has completed successfully, the result of the original
-    #   request is returned.
+    #   after the original request has completed successfully, the result of
+    #   the original request is returned.
     #
     #   This token is listed as required, however, if you do not specify it,
     #   the Amazon Web Services SDKs automatically generate one for you. If
@@ -490,9 +635,10 @@ module Aws::WellArchitected
     #
     # A lens can have up to 100 versions.
     #
-    # After a lens has been imported, create a new lens version to publish
-    # it. The owner of a lens can share the lens with other Amazon Web
-    # Services accounts and IAM users in the same Amazon Web Services
+    # Use this operation to publish a new lens version after you have
+    # imported a lens. The `LensAlias` is used to identify the lens to be
+    # published. The owner of a lens can share the lens with other Amazon
+    # Web Services accounts and users in the same Amazon Web Services
     # Region. Only the owner of a lens can delete it.
     #
     # @option params [required, String] :lens_alias
@@ -500,10 +646,12 @@ module Aws::WellArchitected
     #
     #   For Amazon Web Services official lenses, this is either the lens
     #   alias, such as `serverless`, or the lens ARN, such as
-    #   `arn:aws:wellarchitected:us-west-2::lens/serverless`.
+    #   `arn:aws:wellarchitected:us-east-1::lens/serverless`. Note that some
+    #   operations (such as ExportLens and CreateLensShare) are not permitted
+    #   on Amazon Web Services official lenses.
     #
     #   For custom lenses, this is the lens ARN, such as
-    #   `arn:aws:wellarchitected:us-east-1:123456789012:lens/my-lens`.
+    #   `arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef`.
     #
     #   Each lens is identified by its LensSummary$LensAlias.
     #
@@ -519,8 +667,8 @@ module Aws::WellArchitected
     #
     #   You should not reuse the same token for other requests. If you retry a
     #   request with the same client request token and the same parameters
-    #   after it has completed successfully, the result of the original
-    #   request is returned.
+    #   after the original request has completed successfully, the result of
+    #   the original request is returned.
     #
     #   This token is listed as required, however, if you do not specify it,
     #   the Amazon Web Services SDKs automatically generate one for you. If
@@ -575,8 +723,8 @@ module Aws::WellArchitected
     #
     #   You should not reuse the same token for other requests. If you retry a
     #   request with the same client request token and the same parameters
-    #   after it has completed successfully, the result of the original
-    #   request is returned.
+    #   after the original request has completed successfully, the result of
+    #   the original request is returned.
     #
     #   This token is listed as required, however, if you do not specify it,
     #   the Amazon Web Services SDKs automatically generate one for you. If
@@ -613,15 +761,305 @@ module Aws::WellArchitected
       req.send_request(options)
     end
 
+    # Create a profile.
+    #
+    # @option params [required, String] :profile_name
+    #   Name of the profile.
+    #
+    # @option params [required, String] :profile_description
+    #   The profile description.
+    #
+    # @option params [required, Array<Types::ProfileQuestionUpdate>] :profile_questions
+    #   The profile questions.
+    #
+    # @option params [required, String] :client_request_token
+    #   A unique case-sensitive string used to ensure that this request is
+    #   idempotent (executes only once).
+    #
+    #   You should not reuse the same token for other requests. If you retry a
+    #   request with the same client request token and the same parameters
+    #   after the original request has completed successfully, the result of
+    #   the original request is returned.
+    #
+    #   This token is listed as required, however, if you do not specify it,
+    #   the Amazon Web Services SDKs automatically generate one for you. If
+    #   you are not using the Amazon Web Services SDK or the CLI, you must
+    #   provide this token or the request will fail.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @option params [Hash<String,String>] :tags
+    #   The tags assigned to the profile.
+    #
+    # @return [Types::CreateProfileOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateProfileOutput#profile_arn #profile_arn} => String
+    #   * {Types::CreateProfileOutput#profile_version #profile_version} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_profile({
+    #     profile_name: "ProfileName", # required
+    #     profile_description: "ProfileDescription", # required
+    #     profile_questions: [ # required
+    #       {
+    #         question_id: "QuestionId",
+    #         selected_choice_ids: ["ChoiceId"],
+    #       },
+    #     ],
+    #     client_request_token: "ClientRequestToken", # required
+    #     tags: {
+    #       "TagKey" => "TagValue",
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.profile_arn #=> String
+    #   resp.profile_version #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/wellarchitected-2020-03-31/CreateProfile AWS API Documentation
+    #
+    # @overload create_profile(params = {})
+    # @param [Hash] params ({})
+    def create_profile(params = {}, options = {})
+      req = build_request(:create_profile, params)
+      req.send_request(options)
+    end
+
+    # Create a profile share.
+    #
+    # @option params [required, String] :profile_arn
+    #   The profile ARN.
+    #
+    # @option params [required, String] :shared_with
+    #   The Amazon Web Services account ID, organization ID, or organizational
+    #   unit (OU) ID with which the workload, lens, profile, or review
+    #   template is shared.
+    #
+    # @option params [required, String] :client_request_token
+    #   A unique case-sensitive string used to ensure that this request is
+    #   idempotent (executes only once).
+    #
+    #   You should not reuse the same token for other requests. If you retry a
+    #   request with the same client request token and the same parameters
+    #   after the original request has completed successfully, the result of
+    #   the original request is returned.
+    #
+    #   This token is listed as required, however, if you do not specify it,
+    #   the Amazon Web Services SDKs automatically generate one for you. If
+    #   you are not using the Amazon Web Services SDK or the CLI, you must
+    #   provide this token or the request will fail.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @return [Types::CreateProfileShareOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateProfileShareOutput#share_id #share_id} => String
+    #   * {Types::CreateProfileShareOutput#profile_arn #profile_arn} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_profile_share({
+    #     profile_arn: "ProfileArn", # required
+    #     shared_with: "SharedWith", # required
+    #     client_request_token: "ClientRequestToken", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.share_id #=> String
+    #   resp.profile_arn #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/wellarchitected-2020-03-31/CreateProfileShare AWS API Documentation
+    #
+    # @overload create_profile_share(params = {})
+    # @param [Hash] params ({})
+    def create_profile_share(params = {}, options = {})
+      req = build_request(:create_profile_share, params)
+      req.send_request(options)
+    end
+
+    # Create a review template.
+    #
+    # <note markdown="1"> **Disclaimer**
+    #
+    #  Do not include or gather personal identifiable information (PII) of
+    # end users or other identifiable individuals in or via your review
+    # templates. If your review template or those shared with you and used
+    # in your account do include or collect PII you are responsible for:
+    # ensuring that the included PII is processed in accordance with
+    # applicable law, providing adequate privacy notices, and obtaining
+    # necessary consents for processing such data.
+    #
+    #  </note>
+    #
+    # @option params [required, String] :template_name
+    #   Name of the review template.
+    #
+    # @option params [required, String] :description
+    #   The review template description.
+    #
+    # @option params [required, Array<String>] :lenses
+    #   Lenses applied to the review template.
+    #
+    # @option params [String] :notes
+    #   The notes associated with the workload.
+    #
+    #   For a review template, these are the notes that will be associated
+    #   with the workload when the template is applied.
+    #
+    # @option params [Hash<String,String>] :tags
+    #   The tags assigned to the review template.
+    #
+    # @option params [required, String] :client_request_token
+    #   A unique case-sensitive string used to ensure that this request is
+    #   idempotent (executes only once).
+    #
+    #   You should not reuse the same token for other requests. If you retry a
+    #   request with the same client request token and the same parameters
+    #   after the original request has completed successfully, the result of
+    #   the original request is returned.
+    #
+    #   This token is listed as required, however, if you do not specify it,
+    #   the Amazon Web Services SDKs automatically generate one for you. If
+    #   you are not using the Amazon Web Services SDK or the CLI, you must
+    #   provide this token or the request will fail.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @return [Types::CreateReviewTemplateOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateReviewTemplateOutput#template_arn #template_arn} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_review_template({
+    #     template_name: "TemplateName", # required
+    #     description: "TemplateDescription", # required
+    #     lenses: ["LensAlias"], # required
+    #     notes: "Notes",
+    #     tags: {
+    #       "TagKey" => "TagValue",
+    #     },
+    #     client_request_token: "ClientRequestToken", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.template_arn #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/wellarchitected-2020-03-31/CreateReviewTemplate AWS API Documentation
+    #
+    # @overload create_review_template(params = {})
+    # @param [Hash] params ({})
+    def create_review_template(params = {}, options = {})
+      req = build_request(:create_review_template, params)
+      req.send_request(options)
+    end
+
+    # Create a review template share.
+    #
+    # The owner of a review template can share it with other Amazon Web
+    # Services accounts, users, an organization, and organizational units
+    # (OUs) in the same Amazon Web Services Region.
+    #
+    # Shared access to a review template is not removed until the review
+    # template share invitation is deleted.
+    #
+    # If you share a review template with an organization or OU, all
+    # accounts in the organization or OU are granted access to the review
+    # template.
+    #
+    # <note markdown="1"> **Disclaimer**
+    #
+    #  By sharing your review template with other Amazon Web Services
+    # accounts, you acknowledge that Amazon Web Services will make your
+    # review template available to those other accounts.
+    #
+    #  </note>
+    #
+    # @option params [required, String] :template_arn
+    #   The review template ARN.
+    #
+    # @option params [required, String] :shared_with
+    #   The Amazon Web Services account ID, organization ID, or organizational
+    #   unit (OU) ID with which the workload, lens, profile, or review
+    #   template is shared.
+    #
+    # @option params [required, String] :client_request_token
+    #   A unique case-sensitive string used to ensure that this request is
+    #   idempotent (executes only once).
+    #
+    #   You should not reuse the same token for other requests. If you retry a
+    #   request with the same client request token and the same parameters
+    #   after the original request has completed successfully, the result of
+    #   the original request is returned.
+    #
+    #   This token is listed as required, however, if you do not specify it,
+    #   the Amazon Web Services SDKs automatically generate one for you. If
+    #   you are not using the Amazon Web Services SDK or the CLI, you must
+    #   provide this token or the request will fail.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @return [Types::CreateTemplateShareOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateTemplateShareOutput#template_arn #template_arn} => String
+    #   * {Types::CreateTemplateShareOutput#share_id #share_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_template_share({
+    #     template_arn: "TemplateArn", # required
+    #     shared_with: "SharedWith", # required
+    #     client_request_token: "ClientRequestToken", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.template_arn #=> String
+    #   resp.share_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/wellarchitected-2020-03-31/CreateTemplateShare AWS API Documentation
+    #
+    # @overload create_template_share(params = {})
+    # @param [Hash] params ({})
+    def create_template_share(params = {}, options = {})
+      req = build_request(:create_template_share, params)
+      req.send_request(options)
+    end
+
     # Create a new workload.
     #
     # The owner of a workload can share the workload with other Amazon Web
-    # Services accounts, IAM users, an organization, and organizational
-    # units (OUs) in the same Amazon Web Services Region. Only the owner of
-    # a workload can delete it.
+    # Services accounts, users, an organization, and organizational units
+    # (OUs) in the same Amazon Web Services Region. Only the owner of a
+    # workload can delete it.
     #
     # For more information, see [Defining a Workload][1] in the
     # *Well-Architected Tool User Guide*.
+    #
+    # Either `AwsRegions`, `NonAwsRegions`, or both must be specified when
+    # creating a workload.
+    #
+    #  You also must specify `ReviewOwner`, even though the parameter is
+    # listed as not being required in the following section.
+    #
+    # When creating a workload using a review template, you must have the
+    # following IAM permissions:
+    #
+    # * `wellarchitected:GetReviewTemplate`
+    #
+    # * `wellarchitected:GetReviewTemplateAnswer`
+    #
+    # * `wellarchitected:ListReviewTemplateAnswers`
+    #
+    # * `wellarchitected:GetReviewTemplateLensReview`
     #
     #
     #
@@ -731,8 +1169,14 @@ module Aws::WellArchitected
     #   The list of lenses associated with the workload. Each lens is
     #   identified by its LensSummary$LensAlias.
     #
+    #   If a review template that specifies lenses is applied to the workload,
+    #   those lenses are applied to the workload in addition to these lenses.
+    #
     # @option params [String] :notes
     #   The notes associated with the workload.
+    #
+    #   For a review template, these are the notes that will be associated
+    #   with the workload when the template is applied.
     #
     # @option params [required, String] :client_request_token
     #   A unique case-sensitive string used to ensure that this request is
@@ -740,8 +1184,8 @@ module Aws::WellArchitected
     #
     #   You should not reuse the same token for other requests. If you retry a
     #   request with the same client request token and the same parameters
-    #   after it has completed successfully, the result of the original
-    #   request is returned.
+    #   after the original request has completed successfully, the result of
+    #   the original request is returned.
     #
     #   This token is listed as required, however, if you do not specify it,
     #   the Amazon Web Services SDKs automatically generate one for you. If
@@ -760,6 +1204,15 @@ module Aws::WellArchitected
     #
     # @option params [Array<String>] :applications
     #   List of AppRegistry application ARNs associated to the workload.
+    #
+    # @option params [Array<String>] :profile_arns
+    #   The list of profile ARNs associated with the workload.
+    #
+    # @option params [Array<String>] :review_template_arns
+    #   The list of review template ARNs to associate with the workload.
+    #
+    # @option params [Types::WorkloadJiraConfigurationInput] :jira_configuration
+    #   Jira configuration settings when creating a workload.
     #
     # @return [Types::CreateWorkloadOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -788,8 +1241,16 @@ module Aws::WellArchitected
     #     },
     #     discovery_config: {
     #       trusted_advisor_integration_status: "ENABLED", # accepts ENABLED, DISABLED
+    #       workload_resource_definition: ["WORKLOAD_METADATA"], # accepts WORKLOAD_METADATA, APP_REGISTRY
     #     },
     #     applications: ["ApplicationArn"],
+    #     profile_arns: ["ProfileArn"],
+    #     review_template_arns: ["TemplateArn"],
+    #     jira_configuration: {
+    #       issue_management_status: "ENABLED", # accepts ENABLED, DISABLED, INHERIT
+    #       issue_management_type: "AUTO", # accepts AUTO, MANUAL
+    #       jira_project_key: "JiraProjectKey",
+    #     },
     #   })
     #
     # @example Response structure
@@ -809,11 +1270,14 @@ module Aws::WellArchitected
     # Create a workload share.
     #
     # The owner of a workload can share it with other Amazon Web Services
-    # accounts and IAM users in the same Amazon Web Services Region. Shared
+    # accounts and users in the same Amazon Web Services Region. Shared
     # access to a workload is not removed until the workload invitation is
     # deleted.
     #
-    # For more information, see [Sharing a Workload][1] in the
+    # If you share a workload with an organization or OU, all accounts in
+    # the organization or OU are granted access to the workload.
+    #
+    # For more information, see [Sharing a workload][1] in the
     # *Well-Architected Tool User Guide*.
     #
     #
@@ -825,11 +1289,12 @@ module Aws::WellArchitected
     #   Web Services Region.
     #
     # @option params [required, String] :shared_with
-    #   The Amazon Web Services account ID, IAM role, organization ID, or
-    #   organizational unit (OU) ID with which the workload is shared.
+    #   The Amazon Web Services account ID, organization ID, or organizational
+    #   unit (OU) ID with which the workload, lens, profile, or review
+    #   template is shared.
     #
     # @option params [required, String] :permission_type
-    #   Permission granted on a workload share.
+    #   Permission granted on a share request.
     #
     # @option params [required, String] :client_request_token
     #   A unique case-sensitive string used to ensure that this request is
@@ -837,8 +1302,8 @@ module Aws::WellArchitected
     #
     #   You should not reuse the same token for other requests. If you retry a
     #   request with the same client request token and the same parameters
-    #   after it has completed successfully, the result of the original
-    #   request is returned.
+    #   after the original request has completed successfully, the result of
+    #   the original request is returned.
     #
     #   This token is listed as required, however, if you do not specify it,
     #   the Amazon Web Services SDKs automatically generate one for you. If
@@ -879,9 +1344,9 @@ module Aws::WellArchitected
     # Delete an existing lens.
     #
     # Only the owner of a lens can delete it. After the lens is deleted,
-    # Amazon Web Services accounts and IAM users that you shared the lens
-    # with can continue to use it, but they will no longer be able to apply
-    # it to new workloads.
+    # Amazon Web Services accounts and users that you shared the lens with
+    # can continue to use it, but they will no longer be able to apply it to
+    # new workloads.
     #
     # <note markdown="1"> **Disclaimer**
     #
@@ -899,10 +1364,12 @@ module Aws::WellArchitected
     #
     #   For Amazon Web Services official lenses, this is either the lens
     #   alias, such as `serverless`, or the lens ARN, such as
-    #   `arn:aws:wellarchitected:us-west-2::lens/serverless`.
+    #   `arn:aws:wellarchitected:us-east-1::lens/serverless`. Note that some
+    #   operations (such as ExportLens and CreateLensShare) are not permitted
+    #   on Amazon Web Services official lenses.
     #
     #   For custom lenses, this is the lens ARN, such as
-    #   `arn:aws:wellarchitected:us-east-1:123456789012:lens/my-lens`.
+    #   `arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef`.
     #
     #   Each lens is identified by its LensSummary$LensAlias.
     #
@@ -912,8 +1379,8 @@ module Aws::WellArchitected
     #
     #   You should not reuse the same token for other requests. If you retry a
     #   request with the same client request token and the same parameters
-    #   after it has completed successfully, the result of the original
-    #   request is returned.
+    #   after the original request has completed successfully, the result of
+    #   the original request is returned.
     #
     #   This token is listed as required, however, if you do not specify it,
     #   the Amazon Web Services SDKs automatically generate one for you. If
@@ -947,10 +1414,10 @@ module Aws::WellArchitected
 
     # Delete a lens share.
     #
-    # After the lens share is deleted, Amazon Web Services accounts, IAM
-    # users, organizations, and organizational units (OUs) that you shared
-    # the lens with can continue to use it, but they will no longer be able
-    # to apply it to new workloads.
+    # After the lens share is deleted, Amazon Web Services accounts, users,
+    # organizations, and organizational units (OUs) that you shared the lens
+    # with can continue to use it, but they will no longer be able to apply
+    # it to new workloads.
     #
     # <note markdown="1"> **Disclaimer**
     #
@@ -964,17 +1431,19 @@ module Aws::WellArchitected
     #  </note>
     #
     # @option params [required, String] :share_id
-    #   The ID associated with the workload share.
+    #   The ID associated with the share.
     #
     # @option params [required, String] :lens_alias
     #   The alias of the lens.
     #
     #   For Amazon Web Services official lenses, this is either the lens
     #   alias, such as `serverless`, or the lens ARN, such as
-    #   `arn:aws:wellarchitected:us-west-2::lens/serverless`.
+    #   `arn:aws:wellarchitected:us-east-1::lens/serverless`. Note that some
+    #   operations (such as ExportLens and CreateLensShare) are not permitted
+    #   on Amazon Web Services official lenses.
     #
     #   For custom lenses, this is the lens ARN, such as
-    #   `arn:aws:wellarchitected:us-east-1:123456789012:lens/my-lens`.
+    #   `arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef`.
     #
     #   Each lens is identified by its LensSummary$LensAlias.
     #
@@ -984,8 +1453,8 @@ module Aws::WellArchitected
     #
     #   You should not reuse the same token for other requests. If you retry a
     #   request with the same client request token and the same parameters
-    #   after it has completed successfully, the result of the original
-    #   request is returned.
+    #   after the original request has completed successfully, the result of
+    #   the original request is returned.
     #
     #   This token is listed as required, however, if you do not specify it,
     #   the Amazon Web Services SDKs automatically generate one for you. If
@@ -1014,6 +1483,197 @@ module Aws::WellArchitected
       req.send_request(options)
     end
 
+    # Delete a profile.
+    #
+    # <note markdown="1"> **Disclaimer**
+    #
+    #  By sharing your profile with other Amazon Web Services accounts, you
+    # acknowledge that Amazon Web Services will make your profile available
+    # to those other accounts. Those other accounts may continue to access
+    # and use your shared profile even if you delete the profile from your
+    # own Amazon Web Services account or terminate your Amazon Web Services
+    # account.
+    #
+    #  </note>
+    #
+    # @option params [required, String] :profile_arn
+    #   The profile ARN.
+    #
+    # @option params [required, String] :client_request_token
+    #   A unique case-sensitive string used to ensure that this request is
+    #   idempotent (executes only once).
+    #
+    #   You should not reuse the same token for other requests. If you retry a
+    #   request with the same client request token and the same parameters
+    #   after the original request has completed successfully, the result of
+    #   the original request is returned.
+    #
+    #   This token is listed as required, however, if you do not specify it,
+    #   the Amazon Web Services SDKs automatically generate one for you. If
+    #   you are not using the Amazon Web Services SDK or the CLI, you must
+    #   provide this token or the request will fail.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_profile({
+    #     profile_arn: "ProfileArn", # required
+    #     client_request_token: "ClientRequestToken", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/wellarchitected-2020-03-31/DeleteProfile AWS API Documentation
+    #
+    # @overload delete_profile(params = {})
+    # @param [Hash] params ({})
+    def delete_profile(params = {}, options = {})
+      req = build_request(:delete_profile, params)
+      req.send_request(options)
+    end
+
+    # Delete a profile share.
+    #
+    # @option params [required, String] :share_id
+    #   The ID associated with the share.
+    #
+    # @option params [required, String] :profile_arn
+    #   The profile ARN.
+    #
+    # @option params [required, String] :client_request_token
+    #   A unique case-sensitive string used to ensure that this request is
+    #   idempotent (executes only once).
+    #
+    #   You should not reuse the same token for other requests. If you retry a
+    #   request with the same client request token and the same parameters
+    #   after the original request has completed successfully, the result of
+    #   the original request is returned.
+    #
+    #   This token is listed as required, however, if you do not specify it,
+    #   the Amazon Web Services SDKs automatically generate one for you. If
+    #   you are not using the Amazon Web Services SDK or the CLI, you must
+    #   provide this token or the request will fail.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_profile_share({
+    #     share_id: "ShareId", # required
+    #     profile_arn: "ProfileArn", # required
+    #     client_request_token: "ClientRequestToken", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/wellarchitected-2020-03-31/DeleteProfileShare AWS API Documentation
+    #
+    # @overload delete_profile_share(params = {})
+    # @param [Hash] params ({})
+    def delete_profile_share(params = {}, options = {})
+      req = build_request(:delete_profile_share, params)
+      req.send_request(options)
+    end
+
+    # Delete a review template.
+    #
+    # Only the owner of a review template can delete it.
+    #
+    # After the review template is deleted, Amazon Web Services accounts,
+    # users, organizations, and organizational units (OUs) that you shared
+    # the review template with will no longer be able to apply it to new
+    # workloads.
+    #
+    # @option params [required, String] :template_arn
+    #   The review template ARN.
+    #
+    # @option params [required, String] :client_request_token
+    #   A unique case-sensitive string used to ensure that this request is
+    #   idempotent (executes only once).
+    #
+    #   You should not reuse the same token for other requests. If you retry a
+    #   request with the same client request token and the same parameters
+    #   after the original request has completed successfully, the result of
+    #   the original request is returned.
+    #
+    #   This token is listed as required, however, if you do not specify it,
+    #   the Amazon Web Services SDKs automatically generate one for you. If
+    #   you are not using the Amazon Web Services SDK or the CLI, you must
+    #   provide this token or the request will fail.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_review_template({
+    #     template_arn: "TemplateArn", # required
+    #     client_request_token: "ClientRequestToken", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/wellarchitected-2020-03-31/DeleteReviewTemplate AWS API Documentation
+    #
+    # @overload delete_review_template(params = {})
+    # @param [Hash] params ({})
+    def delete_review_template(params = {}, options = {})
+      req = build_request(:delete_review_template, params)
+      req.send_request(options)
+    end
+
+    # Delete a review template share.
+    #
+    # After the review template share is deleted, Amazon Web Services
+    # accounts, users, organizations, and organizational units (OUs) that
+    # you shared the review template with will no longer be able to apply it
+    # to new workloads.
+    #
+    # @option params [required, String] :share_id
+    #   The ID associated with the share.
+    #
+    # @option params [required, String] :template_arn
+    #   The review template ARN.
+    #
+    # @option params [required, String] :client_request_token
+    #   A unique case-sensitive string used to ensure that this request is
+    #   idempotent (executes only once).
+    #
+    #   You should not reuse the same token for other requests. If you retry a
+    #   request with the same client request token and the same parameters
+    #   after the original request has completed successfully, the result of
+    #   the original request is returned.
+    #
+    #   This token is listed as required, however, if you do not specify it,
+    #   the Amazon Web Services SDKs automatically generate one for you. If
+    #   you are not using the Amazon Web Services SDK or the CLI, you must
+    #   provide this token or the request will fail.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_template_share({
+    #     share_id: "ShareId", # required
+    #     template_arn: "TemplateArn", # required
+    #     client_request_token: "ClientRequestToken", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/wellarchitected-2020-03-31/DeleteTemplateShare AWS API Documentation
+    #
+    # @overload delete_template_share(params = {})
+    # @param [Hash] params ({})
+    def delete_template_share(params = {}, options = {})
+      req = build_request(:delete_template_share, params)
+      req.send_request(options)
+    end
+
     # Delete an existing workload.
     #
     # @option params [required, String] :workload_id
@@ -1026,8 +1686,8 @@ module Aws::WellArchitected
     #
     #   You should not reuse the same token for other requests. If you retry a
     #   request with the same client request token and the same parameters
-    #   after it has completed successfully, the result of the original
-    #   request is returned.
+    #   after the original request has completed successfully, the result of
+    #   the original request is returned.
     #
     #   This token is listed as required, however, if you do not specify it,
     #   the Amazon Web Services SDKs automatically generate one for you. If
@@ -1058,7 +1718,7 @@ module Aws::WellArchitected
     # Delete a workload share.
     #
     # @option params [required, String] :share_id
-    #   The ID associated with the workload share.
+    #   The ID associated with the share.
     #
     # @option params [required, String] :workload_id
     #   The ID assigned to the workload. This ID is unique within an Amazon
@@ -1070,8 +1730,8 @@ module Aws::WellArchitected
     #
     #   You should not reuse the same token for other requests. If you retry a
     #   request with the same client request token and the same parameters
-    #   after it has completed successfully, the result of the original
-    #   request is returned.
+    #   after the original request has completed successfully, the result of
+    #   the original request is returned.
     #
     #   This token is listed as required, however, if you do not specify it,
     #   the Amazon Web Services SDKs automatically generate one for you. If
@@ -1138,11 +1798,40 @@ module Aws::WellArchitected
       req.send_request(options)
     end
 
+    # Disassociate a profile from a workload.
+    #
+    # @option params [required, String] :workload_id
+    #   The ID assigned to the workload. This ID is unique within an Amazon
+    #   Web Services Region.
+    #
+    # @option params [required, Array<String>] :profile_arns
+    #   The list of profile ARNs to disassociate from the workload.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.disassociate_profiles({
+    #     workload_id: "WorkloadId", # required
+    #     profile_arns: ["ProfileArn"], # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/wellarchitected-2020-03-31/DisassociateProfiles AWS API Documentation
+    #
+    # @overload disassociate_profiles(params = {})
+    # @param [Hash] params ({})
+    def disassociate_profiles(params = {}, options = {})
+      req = build_request(:disassociate_profiles, params)
+      req.send_request(options)
+    end
+
     # Export an existing lens.
     #
+    # Only the owner of a lens can export it. Lenses provided by Amazon Web
+    # Services (Amazon Web Services Official Content) cannot be exported.
+    #
     # Lenses are defined in JSON. For more information, see [JSON format
-    # specification][1] in the *Well-Architected Tool User Guide*. Only the
-    # owner of a lens can export it.
+    # specification][1] in the *Well-Architected Tool User Guide*.
     #
     # <note markdown="1"> **Disclaimer**
     #
@@ -1165,10 +1854,12 @@ module Aws::WellArchitected
     #
     #   For Amazon Web Services official lenses, this is either the lens
     #   alias, such as `serverless`, or the lens ARN, such as
-    #   `arn:aws:wellarchitected:us-west-2::lens/serverless`.
+    #   `arn:aws:wellarchitected:us-east-1::lens/serverless`. Note that some
+    #   operations (such as ExportLens and CreateLensShare) are not permitted
+    #   on Amazon Web Services official lenses.
     #
     #   For custom lenses, this is the lens ARN, such as
-    #   `arn:aws:wellarchitected:us-east-1:123456789012:lens/my-lens`.
+    #   `arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef`.
     #
     #   Each lens is identified by its LensSummary$LensAlias.
     #
@@ -1210,10 +1901,12 @@ module Aws::WellArchitected
     #
     #   For Amazon Web Services official lenses, this is either the lens
     #   alias, such as `serverless`, or the lens ARN, such as
-    #   `arn:aws:wellarchitected:us-west-2::lens/serverless`.
+    #   `arn:aws:wellarchitected:us-east-1::lens/serverless`. Note that some
+    #   operations (such as ExportLens and CreateLensShare) are not permitted
+    #   on Amazon Web Services official lenses.
     #
     #   For custom lenses, this is the lens ARN, such as
-    #   `arn:aws:wellarchitected:us-east-1:123456789012:lens/my-lens`.
+    #   `arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef`.
     #
     #   Each lens is identified by its LensSummary$LensAlias.
     #
@@ -1279,6 +1972,8 @@ module Aws::WellArchitected
     #   resp.answer.risk #=> String, one of "UNANSWERED", "HIGH", "MEDIUM", "NONE", "NOT_APPLICABLE"
     #   resp.answer.notes #=> String
     #   resp.answer.reason #=> String, one of "OUT_OF_SCOPE", "BUSINESS_PRIORITIES", "ARCHITECTURE_CONSTRAINTS", "OTHER", "NONE"
+    #   resp.answer.jira_configuration.jira_issue_url #=> String
+    #   resp.answer.jira_configuration.last_synced_time #=> Time
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/wellarchitected-2020-03-31/GetAnswer AWS API Documentation
     #
@@ -1289,6 +1984,108 @@ module Aws::WellArchitected
       req.send_request(options)
     end
 
+    # Get a consolidated report of your workloads.
+    #
+    # You can optionally choose to include workloads that have been shared
+    # with you.
+    #
+    # @option params [required, String] :format
+    #   The format of the consolidated report.
+    #
+    #   For `PDF`, `Base64String` is returned. For `JSON`, `Metrics` is
+    #   returned.
+    #
+    # @option params [Boolean] :include_shared_resources
+    #   Set to `true` to have shared resources included in the report.
+    #
+    # @option params [String] :next_token
+    #   The token to use to retrieve the next set of results.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return for this request.
+    #
+    # @return [Types::GetConsolidatedReportOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetConsolidatedReportOutput#metrics #metrics} => Array&lt;Types::ConsolidatedReportMetric&gt;
+    #   * {Types::GetConsolidatedReportOutput#next_token #next_token} => String
+    #   * {Types::GetConsolidatedReportOutput#base_64_string #base_64_string} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_consolidated_report({
+    #     format: "PDF", # required, accepts PDF, JSON
+    #     include_shared_resources: false,
+    #     next_token: "NextToken",
+    #     max_results: 1,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.metrics #=> Array
+    #   resp.metrics[0].metric_type #=> String, one of "WORKLOAD"
+    #   resp.metrics[0].risk_counts #=> Hash
+    #   resp.metrics[0].risk_counts["Risk"] #=> Integer
+    #   resp.metrics[0].workload_id #=> String
+    #   resp.metrics[0].workload_name #=> String
+    #   resp.metrics[0].workload_arn #=> String
+    #   resp.metrics[0].updated_at #=> Time
+    #   resp.metrics[0].lenses #=> Array
+    #   resp.metrics[0].lenses[0].lens_arn #=> String
+    #   resp.metrics[0].lenses[0].pillars #=> Array
+    #   resp.metrics[0].lenses[0].pillars[0].pillar_id #=> String
+    #   resp.metrics[0].lenses[0].pillars[0].risk_counts #=> Hash
+    #   resp.metrics[0].lenses[0].pillars[0].risk_counts["Risk"] #=> Integer
+    #   resp.metrics[0].lenses[0].pillars[0].questions #=> Array
+    #   resp.metrics[0].lenses[0].pillars[0].questions[0].question_id #=> String
+    #   resp.metrics[0].lenses[0].pillars[0].questions[0].risk #=> String, one of "UNANSWERED", "HIGH", "MEDIUM", "NONE", "NOT_APPLICABLE"
+    #   resp.metrics[0].lenses[0].pillars[0].questions[0].best_practices #=> Array
+    #   resp.metrics[0].lenses[0].pillars[0].questions[0].best_practices[0].choice_id #=> String
+    #   resp.metrics[0].lenses[0].pillars[0].questions[0].best_practices[0].choice_title #=> String
+    #   resp.metrics[0].lenses[0].risk_counts #=> Hash
+    #   resp.metrics[0].lenses[0].risk_counts["Risk"] #=> Integer
+    #   resp.metrics[0].lenses_applied_count #=> Integer
+    #   resp.next_token #=> String
+    #   resp.base_64_string #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/wellarchitected-2020-03-31/GetConsolidatedReport AWS API Documentation
+    #
+    # @overload get_consolidated_report(params = {})
+    # @param [Hash] params ({})
+    def get_consolidated_report(params = {}, options = {})
+      req = build_request(:get_consolidated_report, params)
+      req.send_request(options)
+    end
+
+    # Global settings for all workloads.
+    #
+    # @return [Types::GetGlobalSettingsOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetGlobalSettingsOutput#organization_sharing_status #organization_sharing_status} => String
+    #   * {Types::GetGlobalSettingsOutput#discovery_integration_status #discovery_integration_status} => String
+    #   * {Types::GetGlobalSettingsOutput#jira_configuration #jira_configuration} => Types::AccountJiraConfigurationOutput
+    #
+    # @example Response structure
+    #
+    #   resp.organization_sharing_status #=> String, one of "ENABLED", "DISABLED"
+    #   resp.discovery_integration_status #=> String, one of "ENABLED", "DISABLED"
+    #   resp.jira_configuration.integration_status #=> String, one of "CONFIGURED", "NOT_CONFIGURED"
+    #   resp.jira_configuration.issue_management_status #=> String, one of "ENABLED", "DISABLED"
+    #   resp.jira_configuration.issue_management_type #=> String, one of "AUTO", "MANUAL"
+    #   resp.jira_configuration.subdomain #=> String
+    #   resp.jira_configuration.jira_project_key #=> String
+    #   resp.jira_configuration.status_message #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/wellarchitected-2020-03-31/GetGlobalSettings AWS API Documentation
+    #
+    # @overload get_global_settings(params = {})
+    # @param [Hash] params ({})
+    def get_global_settings(params = {}, options = {})
+      req = build_request(:get_global_settings, params)
+      req.send_request(options)
+    end
+
     # Get an existing lens.
     #
     # @option params [required, String] :lens_alias
@@ -1296,10 +2093,12 @@ module Aws::WellArchitected
     #
     #   For Amazon Web Services official lenses, this is either the lens
     #   alias, such as `serverless`, or the lens ARN, such as
-    #   `arn:aws:wellarchitected:us-west-2::lens/serverless`.
+    #   `arn:aws:wellarchitected:us-east-1::lens/serverless`. Note that some
+    #   operations (such as ExportLens and CreateLensShare) are not permitted
+    #   on Amazon Web Services official lenses.
     #
     #   For custom lenses, this is the lens ARN, such as
-    #   `arn:aws:wellarchitected:us-east-1:123456789012:lens/my-lens`.
+    #   `arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef`.
     #
     #   Each lens is identified by its LensSummary$LensAlias.
     #
@@ -1348,10 +2147,12 @@ module Aws::WellArchitected
     #
     #   For Amazon Web Services official lenses, this is either the lens
     #   alias, such as `serverless`, or the lens ARN, such as
-    #   `arn:aws:wellarchitected:us-west-2::lens/serverless`.
+    #   `arn:aws:wellarchitected:us-east-1::lens/serverless`. Note that some
+    #   operations (such as ExportLens and CreateLensShare) are not permitted
+    #   on Amazon Web Services official lenses.
     #
     #   For custom lenses, this is the lens ARN, such as
-    #   `arn:aws:wellarchitected:us-east-1:123456789012:lens/my-lens`.
+    #   `arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef`.
     #
     #   Each lens is identified by its LensSummary$LensAlias.
     #
@@ -1389,11 +2190,22 @@ module Aws::WellArchitected
     #   resp.lens_review.pillar_review_summaries[0].notes #=> String
     #   resp.lens_review.pillar_review_summaries[0].risk_counts #=> Hash
     #   resp.lens_review.pillar_review_summaries[0].risk_counts["Risk"] #=> Integer
+    #   resp.lens_review.pillar_review_summaries[0].prioritized_risk_counts #=> Hash
+    #   resp.lens_review.pillar_review_summaries[0].prioritized_risk_counts["Risk"] #=> Integer
+    #   resp.lens_review.jira_configuration.selected_pillars #=> Array
+    #   resp.lens_review.jira_configuration.selected_pillars[0].pillar_id #=> String
+    #   resp.lens_review.jira_configuration.selected_pillars[0].selected_question_ids #=> Array
+    #   resp.lens_review.jira_configuration.selected_pillars[0].selected_question_ids[0] #=> String
     #   resp.lens_review.updated_at #=> Time
     #   resp.lens_review.notes #=> String
     #   resp.lens_review.risk_counts #=> Hash
     #   resp.lens_review.risk_counts["Risk"] #=> Integer
     #   resp.lens_review.next_token #=> String
+    #   resp.lens_review.profiles #=> Array
+    #   resp.lens_review.profiles[0].profile_arn #=> String
+    #   resp.lens_review.profiles[0].profile_version #=> String
+    #   resp.lens_review.prioritized_risk_counts #=> Hash
+    #   resp.lens_review.prioritized_risk_counts["Risk"] #=> Integer
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/wellarchitected-2020-03-31/GetLensReview AWS API Documentation
     #
@@ -1415,10 +2227,12 @@ module Aws::WellArchitected
     #
     #   For Amazon Web Services official lenses, this is either the lens
     #   alias, such as `serverless`, or the lens ARN, such as
-    #   `arn:aws:wellarchitected:us-west-2::lens/serverless`.
+    #   `arn:aws:wellarchitected:us-east-1::lens/serverless`. Note that some
+    #   operations (such as ExportLens and CreateLensShare) are not permitted
+    #   on Amazon Web Services official lenses.
     #
     #   For custom lenses, this is the lens ARN, such as
-    #   `arn:aws:wellarchitected:us-east-1:123456789012:lens/my-lens`.
+    #   `arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef`.
     #
     #   Each lens is identified by its LensSummary$LensAlias.
     #
@@ -1465,10 +2279,12 @@ module Aws::WellArchitected
     #
     #   For Amazon Web Services official lenses, this is either the lens
     #   alias, such as `serverless`, or the lens ARN, such as
-    #   `arn:aws:wellarchitected:us-west-2::lens/serverless`.
+    #   `arn:aws:wellarchitected:us-east-1::lens/serverless`. Note that some
+    #   operations (such as ExportLens and CreateLensShare) are not permitted
+    #   on Amazon Web Services official lenses.
     #
     #   For custom lenses, this is the lens ARN, such as
-    #   `arn:aws:wellarchitected:us-east-1:123456789012:lens/my-lens`.
+    #   `arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef`.
     #
     #   Each lens is identified by its LensSummary$LensAlias.
     #
@@ -1580,8 +2396,19 @@ module Aws::WellArchitected
     #   resp.milestone.workload.tags #=> Hash
     #   resp.milestone.workload.tags["TagKey"] #=> String
     #   resp.milestone.workload.discovery_config.trusted_advisor_integration_status #=> String, one of "ENABLED", "DISABLED"
+    #   resp.milestone.workload.discovery_config.workload_resource_definition #=> Array
+    #   resp.milestone.workload.discovery_config.workload_resource_definition[0] #=> String, one of "WORKLOAD_METADATA", "APP_REGISTRY"
     #   resp.milestone.workload.applications #=> Array
     #   resp.milestone.workload.applications[0] #=> String
+    #   resp.milestone.workload.profiles #=> Array
+    #   resp.milestone.workload.profiles[0].profile_arn #=> String
+    #   resp.milestone.workload.profiles[0].profile_version #=> String
+    #   resp.milestone.workload.prioritized_risk_counts #=> Hash
+    #   resp.milestone.workload.prioritized_risk_counts["Risk"] #=> Integer
+    #   resp.milestone.workload.jira_configuration.issue_management_status #=> String, one of "ENABLED", "DISABLED", "INHERIT"
+    #   resp.milestone.workload.jira_configuration.issue_management_type #=> String, one of "AUTO", "MANUAL"
+    #   resp.milestone.workload.jira_configuration.jira_project_key #=> String
+    #   resp.milestone.workload.jira_configuration.status_message #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/wellarchitected-2020-03-31/GetMilestone AWS API Documentation
     #
@@ -1589,6 +2416,272 @@ module Aws::WellArchitected
     # @param [Hash] params ({})
     def get_milestone(params = {}, options = {})
       req = build_request(:get_milestone, params)
+      req.send_request(options)
+    end
+
+    # Get profile information.
+    #
+    # @option params [required, String] :profile_arn
+    #   The profile ARN.
+    #
+    # @option params [String] :profile_version
+    #   The profile version.
+    #
+    # @return [Types::GetProfileOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetProfileOutput#profile #profile} => Types::Profile
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_profile({
+    #     profile_arn: "ProfileArn", # required
+    #     profile_version: "ProfileVersion",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.profile.profile_arn #=> String
+    #   resp.profile.profile_version #=> String
+    #   resp.profile.profile_name #=> String
+    #   resp.profile.profile_description #=> String
+    #   resp.profile.profile_questions #=> Array
+    #   resp.profile.profile_questions[0].question_id #=> String
+    #   resp.profile.profile_questions[0].question_title #=> String
+    #   resp.profile.profile_questions[0].question_description #=> String
+    #   resp.profile.profile_questions[0].question_choices #=> Array
+    #   resp.profile.profile_questions[0].question_choices[0].choice_id #=> String
+    #   resp.profile.profile_questions[0].question_choices[0].choice_title #=> String
+    #   resp.profile.profile_questions[0].question_choices[0].choice_description #=> String
+    #   resp.profile.profile_questions[0].selected_choice_ids #=> Array
+    #   resp.profile.profile_questions[0].selected_choice_ids[0] #=> String
+    #   resp.profile.profile_questions[0].min_selected_choices #=> Integer
+    #   resp.profile.profile_questions[0].max_selected_choices #=> Integer
+    #   resp.profile.owner #=> String
+    #   resp.profile.created_at #=> Time
+    #   resp.profile.updated_at #=> Time
+    #   resp.profile.share_invitation_id #=> String
+    #   resp.profile.tags #=> Hash
+    #   resp.profile.tags["TagKey"] #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/wellarchitected-2020-03-31/GetProfile AWS API Documentation
+    #
+    # @overload get_profile(params = {})
+    # @param [Hash] params ({})
+    def get_profile(params = {}, options = {})
+      req = build_request(:get_profile, params)
+      req.send_request(options)
+    end
+
+    # Get profile template.
+    #
+    # @return [Types::GetProfileTemplateOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetProfileTemplateOutput#profile_template #profile_template} => Types::ProfileTemplate
+    #
+    # @example Response structure
+    #
+    #   resp.profile_template.template_name #=> String
+    #   resp.profile_template.template_questions #=> Array
+    #   resp.profile_template.template_questions[0].question_id #=> String
+    #   resp.profile_template.template_questions[0].question_title #=> String
+    #   resp.profile_template.template_questions[0].question_description #=> String
+    #   resp.profile_template.template_questions[0].question_choices #=> Array
+    #   resp.profile_template.template_questions[0].question_choices[0].choice_id #=> String
+    #   resp.profile_template.template_questions[0].question_choices[0].choice_title #=> String
+    #   resp.profile_template.template_questions[0].question_choices[0].choice_description #=> String
+    #   resp.profile_template.template_questions[0].min_selected_choices #=> Integer
+    #   resp.profile_template.template_questions[0].max_selected_choices #=> Integer
+    #   resp.profile_template.created_at #=> Time
+    #   resp.profile_template.updated_at #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/wellarchitected-2020-03-31/GetProfileTemplate AWS API Documentation
+    #
+    # @overload get_profile_template(params = {})
+    # @param [Hash] params ({})
+    def get_profile_template(params = {}, options = {})
+      req = build_request(:get_profile_template, params)
+      req.send_request(options)
+    end
+
+    # Get review template.
+    #
+    # @option params [required, String] :template_arn
+    #   The review template ARN.
+    #
+    # @return [Types::GetReviewTemplateOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetReviewTemplateOutput#review_template #review_template} => Types::ReviewTemplate
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_review_template({
+    #     template_arn: "TemplateArn", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.review_template.description #=> String
+    #   resp.review_template.lenses #=> Array
+    #   resp.review_template.lenses[0] #=> String
+    #   resp.review_template.notes #=> String
+    #   resp.review_template.question_counts #=> Hash
+    #   resp.review_template.question_counts["Question"] #=> Integer
+    #   resp.review_template.owner #=> String
+    #   resp.review_template.updated_at #=> Time
+    #   resp.review_template.template_arn #=> String
+    #   resp.review_template.template_name #=> String
+    #   resp.review_template.tags #=> Hash
+    #   resp.review_template.tags["TagKey"] #=> String
+    #   resp.review_template.update_status #=> String, one of "CURRENT", "LENS_NOT_CURRENT"
+    #   resp.review_template.share_invitation_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/wellarchitected-2020-03-31/GetReviewTemplate AWS API Documentation
+    #
+    # @overload get_review_template(params = {})
+    # @param [Hash] params ({})
+    def get_review_template(params = {}, options = {})
+      req = build_request(:get_review_template, params)
+      req.send_request(options)
+    end
+
+    # Get review template answer.
+    #
+    # @option params [required, String] :template_arn
+    #   The review template ARN.
+    #
+    # @option params [required, String] :lens_alias
+    #   The alias of the lens.
+    #
+    #   For Amazon Web Services official lenses, this is either the lens
+    #   alias, such as `serverless`, or the lens ARN, such as
+    #   `arn:aws:wellarchitected:us-east-1::lens/serverless`. Note that some
+    #   operations (such as ExportLens and CreateLensShare) are not permitted
+    #   on Amazon Web Services official lenses.
+    #
+    #   For custom lenses, this is the lens ARN, such as
+    #   `arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef`.
+    #
+    #   Each lens is identified by its LensSummary$LensAlias.
+    #
+    # @option params [required, String] :question_id
+    #   The ID of the question.
+    #
+    # @return [Types::GetReviewTemplateAnswerOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetReviewTemplateAnswerOutput#template_arn #template_arn} => String
+    #   * {Types::GetReviewTemplateAnswerOutput#lens_alias #lens_alias} => String
+    #   * {Types::GetReviewTemplateAnswerOutput#answer #answer} => Types::ReviewTemplateAnswer
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_review_template_answer({
+    #     template_arn: "TemplateArn", # required
+    #     lens_alias: "LensAlias", # required
+    #     question_id: "QuestionId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.template_arn #=> String
+    #   resp.lens_alias #=> String
+    #   resp.answer.question_id #=> String
+    #   resp.answer.pillar_id #=> String
+    #   resp.answer.question_title #=> String
+    #   resp.answer.question_description #=> String
+    #   resp.answer.improvement_plan_url #=> String
+    #   resp.answer.helpful_resource_url #=> String
+    #   resp.answer.helpful_resource_display_text #=> String
+    #   resp.answer.choices #=> Array
+    #   resp.answer.choices[0].choice_id #=> String
+    #   resp.answer.choices[0].title #=> String
+    #   resp.answer.choices[0].description #=> String
+    #   resp.answer.choices[0].helpful_resource.display_text #=> String
+    #   resp.answer.choices[0].helpful_resource.url #=> String
+    #   resp.answer.choices[0].improvement_plan.display_text #=> String
+    #   resp.answer.choices[0].improvement_plan.url #=> String
+    #   resp.answer.choices[0].additional_resources #=> Array
+    #   resp.answer.choices[0].additional_resources[0].type #=> String, one of "HELPFUL_RESOURCE", "IMPROVEMENT_PLAN"
+    #   resp.answer.choices[0].additional_resources[0].content #=> Array
+    #   resp.answer.choices[0].additional_resources[0].content[0].display_text #=> String
+    #   resp.answer.choices[0].additional_resources[0].content[0].url #=> String
+    #   resp.answer.selected_choices #=> Array
+    #   resp.answer.selected_choices[0] #=> String
+    #   resp.answer.choice_answers #=> Array
+    #   resp.answer.choice_answers[0].choice_id #=> String
+    #   resp.answer.choice_answers[0].status #=> String, one of "SELECTED", "NOT_APPLICABLE", "UNSELECTED"
+    #   resp.answer.choice_answers[0].reason #=> String, one of "OUT_OF_SCOPE", "BUSINESS_PRIORITIES", "ARCHITECTURE_CONSTRAINTS", "OTHER", "NONE"
+    #   resp.answer.choice_answers[0].notes #=> String
+    #   resp.answer.is_applicable #=> Boolean
+    #   resp.answer.answer_status #=> String, one of "UNANSWERED", "ANSWERED"
+    #   resp.answer.notes #=> String
+    #   resp.answer.reason #=> String, one of "OUT_OF_SCOPE", "BUSINESS_PRIORITIES", "ARCHITECTURE_CONSTRAINTS", "OTHER", "NONE"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/wellarchitected-2020-03-31/GetReviewTemplateAnswer AWS API Documentation
+    #
+    # @overload get_review_template_answer(params = {})
+    # @param [Hash] params ({})
+    def get_review_template_answer(params = {}, options = {})
+      req = build_request(:get_review_template_answer, params)
+      req.send_request(options)
+    end
+
+    # Get a lens review associated with a review template.
+    #
+    # @option params [required, String] :template_arn
+    #   The review template ARN.
+    #
+    # @option params [required, String] :lens_alias
+    #   The alias of the lens.
+    #
+    #   For Amazon Web Services official lenses, this is either the lens
+    #   alias, such as `serverless`, or the lens ARN, such as
+    #   `arn:aws:wellarchitected:us-east-1::lens/serverless`. Note that some
+    #   operations (such as ExportLens and CreateLensShare) are not permitted
+    #   on Amazon Web Services official lenses.
+    #
+    #   For custom lenses, this is the lens ARN, such as
+    #   `arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef`.
+    #
+    #   Each lens is identified by its LensSummary$LensAlias.
+    #
+    # @return [Types::GetReviewTemplateLensReviewOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetReviewTemplateLensReviewOutput#template_arn #template_arn} => String
+    #   * {Types::GetReviewTemplateLensReviewOutput#lens_review #lens_review} => Types::ReviewTemplateLensReview
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_review_template_lens_review({
+    #     template_arn: "TemplateArn", # required
+    #     lens_alias: "LensAlias", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.template_arn #=> String
+    #   resp.lens_review.lens_alias #=> String
+    #   resp.lens_review.lens_arn #=> String
+    #   resp.lens_review.lens_version #=> String
+    #   resp.lens_review.lens_name #=> String
+    #   resp.lens_review.lens_status #=> String, one of "CURRENT", "NOT_CURRENT", "DEPRECATED", "DELETED", "UNSHARED"
+    #   resp.lens_review.pillar_review_summaries #=> Array
+    #   resp.lens_review.pillar_review_summaries[0].pillar_id #=> String
+    #   resp.lens_review.pillar_review_summaries[0].pillar_name #=> String
+    #   resp.lens_review.pillar_review_summaries[0].notes #=> String
+    #   resp.lens_review.pillar_review_summaries[0].question_counts #=> Hash
+    #   resp.lens_review.pillar_review_summaries[0].question_counts["Question"] #=> Integer
+    #   resp.lens_review.updated_at #=> Time
+    #   resp.lens_review.notes #=> String
+    #   resp.lens_review.question_counts #=> Hash
+    #   resp.lens_review.question_counts["Question"] #=> Integer
+    #   resp.lens_review.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/wellarchitected-2020-03-31/GetReviewTemplateLensReview AWS API Documentation
+    #
+    # @overload get_review_template_lens_review(params = {})
+    # @param [Hash] params ({})
+    def get_review_template_lens_review(params = {}, options = {})
+      req = build_request(:get_review_template_lens_review, params)
       req.send_request(options)
     end
 
@@ -1641,8 +2734,19 @@ module Aws::WellArchitected
     #   resp.workload.tags #=> Hash
     #   resp.workload.tags["TagKey"] #=> String
     #   resp.workload.discovery_config.trusted_advisor_integration_status #=> String, one of "ENABLED", "DISABLED"
+    #   resp.workload.discovery_config.workload_resource_definition #=> Array
+    #   resp.workload.discovery_config.workload_resource_definition[0] #=> String, one of "WORKLOAD_METADATA", "APP_REGISTRY"
     #   resp.workload.applications #=> Array
     #   resp.workload.applications[0] #=> String
+    #   resp.workload.profiles #=> Array
+    #   resp.workload.profiles[0].profile_arn #=> String
+    #   resp.workload.profiles[0].profile_version #=> String
+    #   resp.workload.prioritized_risk_counts #=> Hash
+    #   resp.workload.prioritized_risk_counts["Risk"] #=> Integer
+    #   resp.workload.jira_configuration.issue_management_status #=> String, one of "ENABLED", "DISABLED", "INHERIT"
+    #   resp.workload.jira_configuration.issue_management_type #=> String, one of "AUTO", "MANUAL"
+    #   resp.workload.jira_configuration.jira_project_key #=> String
+    #   resp.workload.jira_configuration.status_message #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/wellarchitected-2020-03-31/GetWorkload AWS API Documentation
     #
@@ -1653,10 +2757,14 @@ module Aws::WellArchitected
       req.send_request(options)
     end
 
-    # Import a new lens.
+    # Import a new custom lens or update an existing custom lens.
     #
-    # The lens cannot be applied to workloads or shared with other Amazon
-    # Web Services accounts until it's published with CreateLensVersion
+    # To update an existing custom lens, specify its ARN as the `LensAlias`.
+    # If no ARN is specified, a new custom lens is created.
+    #
+    # The new or updated lens will have a status of `DRAFT`. The lens cannot
+    # be applied to workloads or shared with other Amazon Web Services
+    # accounts until it's published with CreateLensVersion.
     #
     # Lenses are defined in JSON. For more information, see [JSON format
     # specification][1] in the *Well-Architected Tool User Guide*.
@@ -1684,10 +2792,12 @@ module Aws::WellArchitected
     #
     #   For Amazon Web Services official lenses, this is either the lens
     #   alias, such as `serverless`, or the lens ARN, such as
-    #   `arn:aws:wellarchitected:us-west-2::lens/serverless`.
+    #   `arn:aws:wellarchitected:us-east-1::lens/serverless`. Note that some
+    #   operations (such as ExportLens and CreateLensShare) are not permitted
+    #   on Amazon Web Services official lenses.
     #
     #   For custom lenses, this is the lens ARN, such as
-    #   `arn:aws:wellarchitected:us-east-1:123456789012:lens/my-lens`.
+    #   `arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef`.
     #
     #   Each lens is identified by its LensSummary$LensAlias.
     #
@@ -1700,8 +2810,8 @@ module Aws::WellArchitected
     #
     #   You should not reuse the same token for other requests. If you retry a
     #   request with the same client request token and the same parameters
-    #   after it has completed successfully, the result of the original
-    #   request is returned.
+    #   after the original request has completed successfully, the result of
+    #   the original request is returned.
     #
     #   This token is listed as required, however, if you do not specify it,
     #   the Amazon Web Services SDKs automatically generate one for you. If
@@ -1744,7 +2854,7 @@ module Aws::WellArchitected
       req.send_request(options)
     end
 
-    # List of answers.
+    # List of answers for a particular workload and lens.
     #
     # @option params [required, String] :workload_id
     #   The ID assigned to the workload. This ID is unique within an Amazon
@@ -1755,10 +2865,12 @@ module Aws::WellArchitected
     #
     #   For Amazon Web Services official lenses, this is either the lens
     #   alias, such as `serverless`, or the lens ARN, such as
-    #   `arn:aws:wellarchitected:us-west-2::lens/serverless`.
+    #   `arn:aws:wellarchitected:us-east-1::lens/serverless`. Note that some
+    #   operations (such as ExportLens and CreateLensShare) are not permitted
+    #   on Amazon Web Services official lenses.
     #
     #   For custom lenses, this is the lens ARN, such as
-    #   `arn:aws:wellarchitected:us-east-1:123456789012:lens/my-lens`.
+    #   `arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef`.
     #
     #   Each lens is identified by its LensSummary$LensAlias.
     #
@@ -1777,6 +2889,9 @@ module Aws::WellArchitected
     #
     # @option params [Integer] :max_results
     #   The maximum number of results to return for this request.
+    #
+    # @option params [String] :question_priority
+    #   The priority of the question.
     #
     # @return [Types::ListAnswersOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1798,6 +2913,7 @@ module Aws::WellArchitected
     #     milestone_number: 1,
     #     next_token: "NextToken",
     #     max_results: 1,
+    #     question_priority: "PRIORITIZED", # accepts PRIORITIZED, NONE
     #   })
     #
     # @example Response structure
@@ -1832,6 +2948,9 @@ module Aws::WellArchitected
     #   resp.answer_summaries[0].is_applicable #=> Boolean
     #   resp.answer_summaries[0].risk #=> String, one of "UNANSWERED", "HIGH", "MEDIUM", "NONE", "NOT_APPLICABLE"
     #   resp.answer_summaries[0].reason #=> String, one of "OUT_OF_SCOPE", "BUSINESS_PRIORITIES", "ARCHITECTURE_CONSTRAINTS", "OTHER", "NONE"
+    #   resp.answer_summaries[0].question_type #=> String, one of "PRIORITIZED", "NON_PRIORITIZED"
+    #   resp.answer_summaries[0].jira_configuration.jira_issue_url #=> String
+    #   resp.answer_summaries[0].jira_configuration.last_synced_time #=> Time
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/wellarchitected-2020-03-31/ListAnswers AWS API Documentation
@@ -1988,7 +3107,7 @@ module Aws::WellArchitected
       req.send_request(options)
     end
 
-    # List lens review improvements.
+    # List the improvements of a particular lens review.
     #
     # @option params [required, String] :workload_id
     #   The ID assigned to the workload. This ID is unique within an Amazon
@@ -1999,10 +3118,12 @@ module Aws::WellArchitected
     #
     #   For Amazon Web Services official lenses, this is either the lens
     #   alias, such as `serverless`, or the lens ARN, such as
-    #   `arn:aws:wellarchitected:us-west-2::lens/serverless`.
+    #   `arn:aws:wellarchitected:us-east-1::lens/serverless`. Note that some
+    #   operations (such as ExportLens and CreateLensShare) are not permitted
+    #   on Amazon Web Services official lenses.
     #
     #   For custom lenses, this is the lens ARN, such as
-    #   `arn:aws:wellarchitected:us-east-1:123456789012:lens/my-lens`.
+    #   `arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef`.
     #
     #   Each lens is identified by its LensSummary$LensAlias.
     #
@@ -2021,6 +3142,9 @@ module Aws::WellArchitected
     #
     # @option params [Integer] :max_results
     #   The maximum number of results to return for this request.
+    #
+    # @option params [String] :question_priority
+    #   The priority of the question.
     #
     # @return [Types::ListLensReviewImprovementsOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -2042,6 +3166,7 @@ module Aws::WellArchitected
     #     milestone_number: 1,
     #     next_token: "NextToken",
     #     max_results: 1,
+    #     question_priority: "PRIORITIZED", # accepts PRIORITIZED, NONE
     #   })
     #
     # @example Response structure
@@ -2060,6 +3185,8 @@ module Aws::WellArchitected
     #   resp.improvement_summaries[0].improvement_plans[0].choice_id #=> String
     #   resp.improvement_summaries[0].improvement_plans[0].display_text #=> String
     #   resp.improvement_summaries[0].improvement_plans[0].improvement_plan_url #=> String
+    #   resp.improvement_summaries[0].jira_configuration.jira_issue_url #=> String
+    #   resp.improvement_summaries[0].jira_configuration.last_synced_time #=> Time
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/wellarchitected-2020-03-31/ListLensReviewImprovements AWS API Documentation
@@ -2071,7 +3198,7 @@ module Aws::WellArchitected
       req.send_request(options)
     end
 
-    # List lens reviews.
+    # List lens reviews for a particular workload.
     #
     # @option params [required, String] :workload_id
     #   The ID assigned to the workload. This ID is unique within an Amazon
@@ -2119,6 +3246,11 @@ module Aws::WellArchitected
     #   resp.lens_review_summaries[0].updated_at #=> Time
     #   resp.lens_review_summaries[0].risk_counts #=> Hash
     #   resp.lens_review_summaries[0].risk_counts["Risk"] #=> Integer
+    #   resp.lens_review_summaries[0].profiles #=> Array
+    #   resp.lens_review_summaries[0].profiles[0].profile_arn #=> String
+    #   resp.lens_review_summaries[0].profiles[0].profile_version #=> String
+    #   resp.lens_review_summaries[0].prioritized_risk_counts #=> Hash
+    #   resp.lens_review_summaries[0].prioritized_risk_counts["Risk"] #=> Integer
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/wellarchitected-2020-03-31/ListLensReviews AWS API Documentation
@@ -2137,16 +3269,18 @@ module Aws::WellArchitected
     #
     #   For Amazon Web Services official lenses, this is either the lens
     #   alias, such as `serverless`, or the lens ARN, such as
-    #   `arn:aws:wellarchitected:us-west-2::lens/serverless`.
+    #   `arn:aws:wellarchitected:us-east-1::lens/serverless`. Note that some
+    #   operations (such as ExportLens and CreateLensShare) are not permitted
+    #   on Amazon Web Services official lenses.
     #
     #   For custom lenses, this is the lens ARN, such as
-    #   `arn:aws:wellarchitected:us-east-1:123456789012:lens/my-lens`.
+    #   `arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef`.
     #
     #   Each lens is identified by its LensSummary$LensAlias.
     #
     # @option params [String] :shared_with_prefix
-    #   The Amazon Web Services account ID, IAM role, organization ID, or
-    #   organizational unit (OU) ID with which the lens is shared.
+    #   The Amazon Web Services account ID, organization ID, or organizational
+    #   unit (OU) ID with which the lens is shared.
     #
     # @option params [String] :next_token
     #   The token to use to retrieve the next set of results.
@@ -2155,7 +3289,7 @@ module Aws::WellArchitected
     #   The maximum number of results to return for this request.
     #
     # @option params [String] :status
-    #   The status of a workload share.
+    #   The status of the share request.
     #
     # @return [Types::ListLensSharesOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -2295,6 +3429,11 @@ module Aws::WellArchitected
     #   resp.milestone_summaries[0].workload_summary.risk_counts #=> Hash
     #   resp.milestone_summaries[0].workload_summary.risk_counts["Risk"] #=> Integer
     #   resp.milestone_summaries[0].workload_summary.improvement_status #=> String, one of "NOT_APPLICABLE", "NOT_STARTED", "IN_PROGRESS", "COMPLETE", "RISK_ACKNOWLEDGED"
+    #   resp.milestone_summaries[0].workload_summary.profiles #=> Array
+    #   resp.milestone_summaries[0].workload_summary.profiles[0].profile_arn #=> String
+    #   resp.milestone_summaries[0].workload_summary.profiles[0].profile_version #=> String
+    #   resp.milestone_summaries[0].workload_summary.prioritized_risk_counts #=> Hash
+    #   resp.milestone_summaries[0].workload_summary.prioritized_risk_counts["Risk"] #=> Integer
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/wellarchitected-2020-03-31/ListMilestones AWS API Documentation
@@ -2318,6 +3457,13 @@ module Aws::WellArchitected
     # @option params [Integer] :max_results
     #   The maximum number of results to return for this request.
     #
+    # @option params [String] :resource_arn
+    #   The ARN for the related resource for the notification.
+    #
+    #   <note markdown="1"> Only one of `WorkloadID` or `ResourceARN` should be specified.
+    #
+    #    </note>
+    #
     # @return [Types::ListNotificationsOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::ListNotificationsOutput#notification_summaries #notification_summaries} => Array&lt;Types::NotificationSummary&gt;
@@ -2331,6 +3477,7 @@ module Aws::WellArchitected
     #     workload_id: "WorkloadId",
     #     next_token: "NextToken",
     #     max_results: 1,
+    #     resource_arn: "ResourceArn",
     #   })
     #
     # @example Response structure
@@ -2343,6 +3490,8 @@ module Aws::WellArchitected
     #   resp.notification_summaries[0].lens_upgrade_summary.lens_arn #=> String
     #   resp.notification_summaries[0].lens_upgrade_summary.current_lens_version #=> String
     #   resp.notification_summaries[0].lens_upgrade_summary.latest_lens_version #=> String
+    #   resp.notification_summaries[0].lens_upgrade_summary.resource_arn #=> String
+    #   resp.notification_summaries[0].lens_upgrade_summary.resource_name #=> String
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/wellarchitected-2020-03-31/ListNotifications AWS API Documentation
@@ -2354,7 +3503,299 @@ module Aws::WellArchitected
       req.send_request(options)
     end
 
-    # List the workload invitations.
+    # List profile notifications.
+    #
+    # @option params [String] :workload_id
+    #   The ID assigned to the workload. This ID is unique within an Amazon
+    #   Web Services Region.
+    #
+    # @option params [String] :next_token
+    #   The token to use to retrieve the next set of results.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return for this request.
+    #
+    # @return [Types::ListProfileNotificationsOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListProfileNotificationsOutput#notification_summaries #notification_summaries} => Array&lt;Types::ProfileNotificationSummary&gt;
+    #   * {Types::ListProfileNotificationsOutput#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_profile_notifications({
+    #     workload_id: "WorkloadId",
+    #     next_token: "NextToken",
+    #     max_results: 1,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.notification_summaries #=> Array
+    #   resp.notification_summaries[0].current_profile_version #=> String
+    #   resp.notification_summaries[0].latest_profile_version #=> String
+    #   resp.notification_summaries[0].type #=> String, one of "PROFILE_ANSWERS_UPDATED", "PROFILE_DELETED"
+    #   resp.notification_summaries[0].profile_arn #=> String
+    #   resp.notification_summaries[0].profile_name #=> String
+    #   resp.notification_summaries[0].workload_id #=> String
+    #   resp.notification_summaries[0].workload_name #=> String
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/wellarchitected-2020-03-31/ListProfileNotifications AWS API Documentation
+    #
+    # @overload list_profile_notifications(params = {})
+    # @param [Hash] params ({})
+    def list_profile_notifications(params = {}, options = {})
+      req = build_request(:list_profile_notifications, params)
+      req.send_request(options)
+    end
+
+    # List profile shares.
+    #
+    # @option params [required, String] :profile_arn
+    #   The profile ARN.
+    #
+    # @option params [String] :shared_with_prefix
+    #   The Amazon Web Services account ID, organization ID, or organizational
+    #   unit (OU) ID with which the profile is shared.
+    #
+    # @option params [String] :next_token
+    #   The token to use to retrieve the next set of results.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return for this request.
+    #
+    # @option params [String] :status
+    #   The status of the share request.
+    #
+    # @return [Types::ListProfileSharesOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListProfileSharesOutput#profile_share_summaries #profile_share_summaries} => Array&lt;Types::ProfileShareSummary&gt;
+    #   * {Types::ListProfileSharesOutput#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_profile_shares({
+    #     profile_arn: "ProfileArn", # required
+    #     shared_with_prefix: "SharedWithPrefix",
+    #     next_token: "NextToken",
+    #     max_results: 1,
+    #     status: "ACCEPTED", # accepts ACCEPTED, REJECTED, PENDING, REVOKED, EXPIRED, ASSOCIATING, ASSOCIATED, FAILED
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.profile_share_summaries #=> Array
+    #   resp.profile_share_summaries[0].share_id #=> String
+    #   resp.profile_share_summaries[0].shared_with #=> String
+    #   resp.profile_share_summaries[0].status #=> String, one of "ACCEPTED", "REJECTED", "PENDING", "REVOKED", "EXPIRED", "ASSOCIATING", "ASSOCIATED", "FAILED"
+    #   resp.profile_share_summaries[0].status_message #=> String
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/wellarchitected-2020-03-31/ListProfileShares AWS API Documentation
+    #
+    # @overload list_profile_shares(params = {})
+    # @param [Hash] params ({})
+    def list_profile_shares(params = {}, options = {})
+      req = build_request(:list_profile_shares, params)
+      req.send_request(options)
+    end
+
+    # List profiles.
+    #
+    # @option params [String] :profile_name_prefix
+    #   An optional string added to the beginning of each profile name
+    #   returned in the results.
+    #
+    # @option params [String] :profile_owner_type
+    #   Profile owner type.
+    #
+    # @option params [String] :next_token
+    #   The token to use to retrieve the next set of results.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return for this request.
+    #
+    # @return [Types::ListProfilesOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListProfilesOutput#profile_summaries #profile_summaries} => Array&lt;Types::ProfileSummary&gt;
+    #   * {Types::ListProfilesOutput#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_profiles({
+    #     profile_name_prefix: "ProfileNamePrefix",
+    #     profile_owner_type: "SELF", # accepts SELF, SHARED
+    #     next_token: "NextToken",
+    #     max_results: 1,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.profile_summaries #=> Array
+    #   resp.profile_summaries[0].profile_arn #=> String
+    #   resp.profile_summaries[0].profile_version #=> String
+    #   resp.profile_summaries[0].profile_name #=> String
+    #   resp.profile_summaries[0].profile_description #=> String
+    #   resp.profile_summaries[0].owner #=> String
+    #   resp.profile_summaries[0].created_at #=> Time
+    #   resp.profile_summaries[0].updated_at #=> Time
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/wellarchitected-2020-03-31/ListProfiles AWS API Documentation
+    #
+    # @overload list_profiles(params = {})
+    # @param [Hash] params ({})
+    def list_profiles(params = {}, options = {})
+      req = build_request(:list_profiles, params)
+      req.send_request(options)
+    end
+
+    # List the answers of a review template.
+    #
+    # @option params [required, String] :template_arn
+    #   The ARN of the review template.
+    #
+    # @option params [required, String] :lens_alias
+    #   The alias of the lens.
+    #
+    #   For Amazon Web Services official lenses, this is either the lens
+    #   alias, such as `serverless`, or the lens ARN, such as
+    #   `arn:aws:wellarchitected:us-east-1::lens/serverless`. Note that some
+    #   operations (such as ExportLens and CreateLensShare) are not permitted
+    #   on Amazon Web Services official lenses.
+    #
+    #   For custom lenses, this is the lens ARN, such as
+    #   `arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef`.
+    #
+    #   Each lens is identified by its LensSummary$LensAlias.
+    #
+    # @option params [String] :pillar_id
+    #   The ID used to identify a pillar, for example, `security`.
+    #
+    #   A pillar is identified by its PillarReviewSummary$PillarId.
+    #
+    # @option params [String] :next_token
+    #   The token to use to retrieve the next set of results.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return for this request.
+    #
+    # @return [Types::ListReviewTemplateAnswersOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListReviewTemplateAnswersOutput#template_arn #template_arn} => String
+    #   * {Types::ListReviewTemplateAnswersOutput#lens_alias #lens_alias} => String
+    #   * {Types::ListReviewTemplateAnswersOutput#answer_summaries #answer_summaries} => Array&lt;Types::ReviewTemplateAnswerSummary&gt;
+    #   * {Types::ListReviewTemplateAnswersOutput#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_review_template_answers({
+    #     template_arn: "TemplateArn", # required
+    #     lens_alias: "LensAlias", # required
+    #     pillar_id: "PillarId",
+    #     next_token: "NextToken",
+    #     max_results: 1,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.template_arn #=> String
+    #   resp.lens_alias #=> String
+    #   resp.answer_summaries #=> Array
+    #   resp.answer_summaries[0].question_id #=> String
+    #   resp.answer_summaries[0].pillar_id #=> String
+    #   resp.answer_summaries[0].question_title #=> String
+    #   resp.answer_summaries[0].choices #=> Array
+    #   resp.answer_summaries[0].choices[0].choice_id #=> String
+    #   resp.answer_summaries[0].choices[0].title #=> String
+    #   resp.answer_summaries[0].choices[0].description #=> String
+    #   resp.answer_summaries[0].choices[0].helpful_resource.display_text #=> String
+    #   resp.answer_summaries[0].choices[0].helpful_resource.url #=> String
+    #   resp.answer_summaries[0].choices[0].improvement_plan.display_text #=> String
+    #   resp.answer_summaries[0].choices[0].improvement_plan.url #=> String
+    #   resp.answer_summaries[0].choices[0].additional_resources #=> Array
+    #   resp.answer_summaries[0].choices[0].additional_resources[0].type #=> String, one of "HELPFUL_RESOURCE", "IMPROVEMENT_PLAN"
+    #   resp.answer_summaries[0].choices[0].additional_resources[0].content #=> Array
+    #   resp.answer_summaries[0].choices[0].additional_resources[0].content[0].display_text #=> String
+    #   resp.answer_summaries[0].choices[0].additional_resources[0].content[0].url #=> String
+    #   resp.answer_summaries[0].selected_choices #=> Array
+    #   resp.answer_summaries[0].selected_choices[0] #=> String
+    #   resp.answer_summaries[0].choice_answer_summaries #=> Array
+    #   resp.answer_summaries[0].choice_answer_summaries[0].choice_id #=> String
+    #   resp.answer_summaries[0].choice_answer_summaries[0].status #=> String, one of "SELECTED", "NOT_APPLICABLE", "UNSELECTED"
+    #   resp.answer_summaries[0].choice_answer_summaries[0].reason #=> String, one of "OUT_OF_SCOPE", "BUSINESS_PRIORITIES", "ARCHITECTURE_CONSTRAINTS", "OTHER", "NONE"
+    #   resp.answer_summaries[0].is_applicable #=> Boolean
+    #   resp.answer_summaries[0].answer_status #=> String, one of "UNANSWERED", "ANSWERED"
+    #   resp.answer_summaries[0].reason #=> String, one of "OUT_OF_SCOPE", "BUSINESS_PRIORITIES", "ARCHITECTURE_CONSTRAINTS", "OTHER", "NONE"
+    #   resp.answer_summaries[0].question_type #=> String, one of "PRIORITIZED", "NON_PRIORITIZED"
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/wellarchitected-2020-03-31/ListReviewTemplateAnswers AWS API Documentation
+    #
+    # @overload list_review_template_answers(params = {})
+    # @param [Hash] params ({})
+    def list_review_template_answers(params = {}, options = {})
+      req = build_request(:list_review_template_answers, params)
+      req.send_request(options)
+    end
+
+    # List review templates.
+    #
+    # @option params [String] :next_token
+    #   The token to use to retrieve the next set of results.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return for this request.
+    #
+    # @return [Types::ListReviewTemplatesOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListReviewTemplatesOutput#review_templates #review_templates} => Array&lt;Types::ReviewTemplateSummary&gt;
+    #   * {Types::ListReviewTemplatesOutput#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_review_templates({
+    #     next_token: "NextToken",
+    #     max_results: 1,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.review_templates #=> Array
+    #   resp.review_templates[0].description #=> String
+    #   resp.review_templates[0].lenses #=> Array
+    #   resp.review_templates[0].lenses[0] #=> String
+    #   resp.review_templates[0].owner #=> String
+    #   resp.review_templates[0].updated_at #=> Time
+    #   resp.review_templates[0].template_arn #=> String
+    #   resp.review_templates[0].template_name #=> String
+    #   resp.review_templates[0].update_status #=> String, one of "CURRENT", "LENS_NOT_CURRENT"
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/wellarchitected-2020-03-31/ListReviewTemplates AWS API Documentation
+    #
+    # @overload list_review_templates(params = {})
+    # @param [Hash] params ({})
+    def list_review_templates(params = {}, options = {})
+      req = build_request(:list_review_templates, params)
+      req.send_request(options)
+    end
+
+    # List the share invitations.
+    #
+    # `WorkloadNamePrefix`, `LensNamePrefix`, `ProfileNamePrefix`, and
+    # `TemplateNamePrefix` are mutually exclusive. Use the parameter that
+    # matches your `ShareResourceType`.
     #
     # @option params [String] :workload_name_prefix
     #   An optional string added to the beginning of each workload name
@@ -2373,6 +3814,14 @@ module Aws::WellArchitected
     # @option params [Integer] :max_results
     #   The maximum number of results to return for this request.
     #
+    # @option params [String] :profile_name_prefix
+    #   An optional string added to the beginning of each profile name
+    #   returned in the results.
+    #
+    # @option params [String] :template_name_prefix
+    #   An optional string added to the beginning of each review template name
+    #   returned in the results.
+    #
     # @return [Types::ListShareInvitationsOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::ListShareInvitationsOutput#share_invitation_summaries #share_invitation_summaries} => Array&lt;Types::ShareInvitationSummary&gt;
@@ -2385,9 +3834,11 @@ module Aws::WellArchitected
     #   resp = client.list_share_invitations({
     #     workload_name_prefix: "WorkloadNamePrefix",
     #     lens_name_prefix: "LensNamePrefix",
-    #     share_resource_type: "WORKLOAD", # accepts WORKLOAD, LENS
+    #     share_resource_type: "WORKLOAD", # accepts WORKLOAD, LENS, PROFILE, TEMPLATE
     #     next_token: "NextToken",
     #     max_results: 1,
+    #     profile_name_prefix: "ProfileNamePrefix",
+    #     template_name_prefix: "TemplateNamePrefix",
     #   })
     #
     # @example Response structure
@@ -2397,11 +3848,15 @@ module Aws::WellArchitected
     #   resp.share_invitation_summaries[0].shared_by #=> String
     #   resp.share_invitation_summaries[0].shared_with #=> String
     #   resp.share_invitation_summaries[0].permission_type #=> String, one of "READONLY", "CONTRIBUTOR"
-    #   resp.share_invitation_summaries[0].share_resource_type #=> String, one of "WORKLOAD", "LENS"
+    #   resp.share_invitation_summaries[0].share_resource_type #=> String, one of "WORKLOAD", "LENS", "PROFILE", "TEMPLATE"
     #   resp.share_invitation_summaries[0].workload_name #=> String
     #   resp.share_invitation_summaries[0].workload_id #=> String
     #   resp.share_invitation_summaries[0].lens_name #=> String
     #   resp.share_invitation_summaries[0].lens_arn #=> String
+    #   resp.share_invitation_summaries[0].profile_name #=> String
+    #   resp.share_invitation_summaries[0].profile_arn #=> String
+    #   resp.share_invitation_summaries[0].template_name #=> String
+    #   resp.share_invitation_summaries[0].template_arn #=> String
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/wellarchitected-2020-03-31/ListShareInvitations AWS API Documentation
@@ -2415,8 +3870,8 @@ module Aws::WellArchitected
 
     # List the tags for a resource.
     #
-    # <note markdown="1"> The WorkloadArn parameter can be either a workload ARN or a custom
-    # lens ARN.
+    # <note markdown="1"> The WorkloadArn parameter can be a workload ARN, a custom lens ARN, a
+    # profile ARN, or review template ARN.
     #
     #  </note>
     #
@@ -2447,15 +3902,14 @@ module Aws::WellArchitected
       req.send_request(options)
     end
 
-    # List the workload shares associated with the workload.
+    # List review template shares.
     #
-    # @option params [required, String] :workload_id
-    #   The ID assigned to the workload. This ID is unique within an Amazon
-    #   Web Services Region.
+    # @option params [required, String] :template_arn
+    #   The review template ARN.
     #
     # @option params [String] :shared_with_prefix
-    #   The Amazon Web Services account ID, IAM role, organization ID, or
-    #   organizational unit (OU) ID with which the workload is shared.
+    #   The Amazon Web Services account ID, organization ID, or organizational
+    #   unit (OU) ID with which the profile is shared.
     #
     # @option params [String] :next_token
     #   The token to use to retrieve the next set of results.
@@ -2464,7 +3918,63 @@ module Aws::WellArchitected
     #   The maximum number of results to return for this request.
     #
     # @option params [String] :status
-    #   The status of a workload share.
+    #   The status of the share request.
+    #
+    # @return [Types::ListTemplateSharesOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListTemplateSharesOutput#template_arn #template_arn} => String
+    #   * {Types::ListTemplateSharesOutput#template_share_summaries #template_share_summaries} => Array&lt;Types::TemplateShareSummary&gt;
+    #   * {Types::ListTemplateSharesOutput#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_template_shares({
+    #     template_arn: "TemplateArn", # required
+    #     shared_with_prefix: "SharedWithPrefix",
+    #     next_token: "NextToken",
+    #     max_results: 1,
+    #     status: "ACCEPTED", # accepts ACCEPTED, REJECTED, PENDING, REVOKED, EXPIRED, ASSOCIATING, ASSOCIATED, FAILED
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.template_arn #=> String
+    #   resp.template_share_summaries #=> Array
+    #   resp.template_share_summaries[0].share_id #=> String
+    #   resp.template_share_summaries[0].shared_with #=> String
+    #   resp.template_share_summaries[0].status #=> String, one of "ACCEPTED", "REJECTED", "PENDING", "REVOKED", "EXPIRED", "ASSOCIATING", "ASSOCIATED", "FAILED"
+    #   resp.template_share_summaries[0].status_message #=> String
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/wellarchitected-2020-03-31/ListTemplateShares AWS API Documentation
+    #
+    # @overload list_template_shares(params = {})
+    # @param [Hash] params ({})
+    def list_template_shares(params = {}, options = {})
+      req = build_request(:list_template_shares, params)
+      req.send_request(options)
+    end
+
+    # List the workload shares associated with the workload.
+    #
+    # @option params [required, String] :workload_id
+    #   The ID assigned to the workload. This ID is unique within an Amazon
+    #   Web Services Region.
+    #
+    # @option params [String] :shared_with_prefix
+    #   The Amazon Web Services account ID, organization ID, or organizational
+    #   unit (OU) ID with which the workload is shared.
+    #
+    # @option params [String] :next_token
+    #   The token to use to retrieve the next set of results.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return for this request.
+    #
+    # @option params [String] :status
+    #   The status of the share request.
     #
     # @return [Types::ListWorkloadSharesOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -2504,7 +4014,7 @@ module Aws::WellArchitected
       req.send_request(options)
     end
 
-    # List workloads. Paginated.
+    # Paginated list of workloads.
     #
     # @option params [String] :workload_name_prefix
     #   An optional string added to the beginning of each workload name
@@ -2544,6 +4054,11 @@ module Aws::WellArchitected
     #   resp.workload_summaries[0].risk_counts #=> Hash
     #   resp.workload_summaries[0].risk_counts["Risk"] #=> Integer
     #   resp.workload_summaries[0].improvement_status #=> String, one of "NOT_APPLICABLE", "NOT_STARTED", "IN_PROGRESS", "COMPLETE", "RISK_ACKNOWLEDGED"
+    #   resp.workload_summaries[0].profiles #=> Array
+    #   resp.workload_summaries[0].profiles[0].profile_arn #=> String
+    #   resp.workload_summaries[0].profiles[0].profile_version #=> String
+    #   resp.workload_summaries[0].prioritized_risk_counts #=> Hash
+    #   resp.workload_summaries[0].prioritized_risk_counts["Risk"] #=> Integer
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/wellarchitected-2020-03-31/ListWorkloads AWS API Documentation
@@ -2557,8 +4072,8 @@ module Aws::WellArchitected
 
     # Adds one or more tags to the specified resource.
     #
-    # <note markdown="1"> The WorkloadArn parameter can be either a workload ARN or a custom
-    # lens ARN.
+    # <note markdown="1"> The WorkloadArn parameter can be a workload ARN, a custom lens ARN, a
+    # profile ARN, or review template ARN.
     #
     #  </note>
     #
@@ -2590,8 +4105,8 @@ module Aws::WellArchitected
 
     # Deletes specified tags from a resource.
     #
-    # <note markdown="1"> The WorkloadArn parameter can be either a workload ARN or a custom
-    # lens ARN.
+    # <note markdown="1"> The WorkloadArn parameter can be a workload ARN, a custom lens ARN, a
+    # profile ARN, or review template ARN.
     #
     #  </note>
     #
@@ -2636,10 +4151,12 @@ module Aws::WellArchitected
     #
     #   For Amazon Web Services official lenses, this is either the lens
     #   alias, such as `serverless`, or the lens ARN, such as
-    #   `arn:aws:wellarchitected:us-west-2::lens/serverless`.
+    #   `arn:aws:wellarchitected:us-east-1::lens/serverless`. Note that some
+    #   operations (such as ExportLens and CreateLensShare) are not permitted
+    #   on Amazon Web Services official lenses.
     #
     #   For custom lenses, this is the lens ARN, such as
-    #   `arn:aws:wellarchitected:us-east-1:123456789012:lens/my-lens`.
+    #   `arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef`.
     #
     #   Each lens is identified by its LensSummary$LensAlias.
     #
@@ -2657,6 +4174,9 @@ module Aws::WellArchitected
     #
     # @option params [String] :notes
     #   The notes associated with the workload.
+    #
+    #   For a review template, these are the notes that will be associated
+    #   with the workload when the template is applied.
     #
     # @option params [Boolean] :is_applicable
     #   Defines whether this question is applicable to a lens review.
@@ -2726,6 +4246,8 @@ module Aws::WellArchitected
     #   resp.answer.risk #=> String, one of "UNANSWERED", "HIGH", "MEDIUM", "NONE", "NOT_APPLICABLE"
     #   resp.answer.notes #=> String
     #   resp.answer.reason #=> String, one of "OUT_OF_SCOPE", "BUSINESS_PRIORITIES", "ARCHITECTURE_CONSTRAINTS", "OTHER", "NONE"
+    #   resp.answer.jira_configuration.jira_issue_url #=> String
+    #   resp.answer.jira_configuration.last_synced_time #=> Time
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/wellarchitected-2020-03-31/UpdateAnswer AWS API Documentation
     #
@@ -2736,11 +4258,17 @@ module Aws::WellArchitected
       req.send_request(options)
     end
 
-    # Updates whether the Amazon Web Services account is opted into
-    # organization sharing features.
+    # Update whether the Amazon Web Services account is opted into
+    # organization sharing and discovery integration features.
     #
     # @option params [String] :organization_sharing_status
     #   The status of organization sharing settings.
+    #
+    # @option params [String] :discovery_integration_status
+    #   The status of discovery support settings.
+    #
+    # @option params [Types::AccountJiraConfigurationInput] :jira_configuration
+    #   The status of Jira integration settings.
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
@@ -2748,6 +4276,13 @@ module Aws::WellArchitected
     #
     #   resp = client.update_global_settings({
     #     organization_sharing_status: "ENABLED", # accepts ENABLED, DISABLED
+    #     discovery_integration_status: "ENABLED", # accepts ENABLED, DISABLED
+    #     jira_configuration: {
+    #       issue_management_status: "ENABLED", # accepts ENABLED, DISABLED
+    #       issue_management_type: "AUTO", # accepts AUTO, MANUAL
+    #       jira_project_key: "JiraProjectKey",
+    #       integration_status: "NOT_CONFIGURED", # accepts NOT_CONFIGURED
+    #     },
     #   })
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/wellarchitected-2020-03-31/UpdateGlobalSettings AWS API Documentation
@@ -2759,7 +4294,52 @@ module Aws::WellArchitected
       req.send_request(options)
     end
 
-    # Update lens review.
+    # Update integration features.
+    #
+    # @option params [required, String] :workload_id
+    #   The ID assigned to the workload. This ID is unique within an Amazon
+    #   Web Services Region.
+    #
+    # @option params [required, String] :client_request_token
+    #   A unique case-sensitive string used to ensure that this request is
+    #   idempotent (executes only once).
+    #
+    #   You should not reuse the same token for other requests. If you retry a
+    #   request with the same client request token and the same parameters
+    #   after the original request has completed successfully, the result of
+    #   the original request is returned.
+    #
+    #   This token is listed as required, however, if you do not specify it,
+    #   the Amazon Web Services SDKs automatically generate one for you. If
+    #   you are not using the Amazon Web Services SDK or the CLI, you must
+    #   provide this token or the request will fail.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @option params [required, String] :integrating_service
+    #   Which integrated service to update.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_integration({
+    #     workload_id: "WorkloadId", # required
+    #     client_request_token: "ClientRequestToken", # required
+    #     integrating_service: "JIRA", # required, accepts JIRA
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/wellarchitected-2020-03-31/UpdateIntegration AWS API Documentation
+    #
+    # @overload update_integration(params = {})
+    # @param [Hash] params ({})
+    def update_integration(params = {}, options = {})
+      req = build_request(:update_integration, params)
+      req.send_request(options)
+    end
+
+    # Update lens review for a particular workload.
     #
     # @option params [required, String] :workload_id
     #   The ID assigned to the workload. This ID is unique within an Amazon
@@ -2770,18 +4350,29 @@ module Aws::WellArchitected
     #
     #   For Amazon Web Services official lenses, this is either the lens
     #   alias, such as `serverless`, or the lens ARN, such as
-    #   `arn:aws:wellarchitected:us-west-2::lens/serverless`.
+    #   `arn:aws:wellarchitected:us-east-1::lens/serverless`. Note that some
+    #   operations (such as ExportLens and CreateLensShare) are not permitted
+    #   on Amazon Web Services official lenses.
     #
     #   For custom lenses, this is the lens ARN, such as
-    #   `arn:aws:wellarchitected:us-east-1:123456789012:lens/my-lens`.
+    #   `arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef`.
     #
     #   Each lens is identified by its LensSummary$LensAlias.
     #
     # @option params [String] :lens_notes
     #   The notes associated with the workload.
     #
+    #   For a review template, these are the notes that will be associated
+    #   with the workload when the template is applied.
+    #
     # @option params [Hash<String,String>] :pillar_notes
     #   List of pillar notes of a lens review in a workload.
+    #
+    #   For a review template, these are the notes that will be associated
+    #   with the workload when the template is applied.
+    #
+    # @option params [Types::JiraSelectedQuestionConfiguration] :jira_configuration
+    #   Configuration of the Jira integration.
     #
     # @return [Types::UpdateLensReviewOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -2796,6 +4387,14 @@ module Aws::WellArchitected
     #     lens_notes: "Notes",
     #     pillar_notes: {
     #       "PillarId" => "Notes",
+    #     },
+    #     jira_configuration: {
+    #       selected_pillars: [
+    #         {
+    #           pillar_id: "PillarId",
+    #           selected_question_ids: ["SelectedQuestionId"],
+    #         },
+    #       ],
     #     },
     #   })
     #
@@ -2813,11 +4412,22 @@ module Aws::WellArchitected
     #   resp.lens_review.pillar_review_summaries[0].notes #=> String
     #   resp.lens_review.pillar_review_summaries[0].risk_counts #=> Hash
     #   resp.lens_review.pillar_review_summaries[0].risk_counts["Risk"] #=> Integer
+    #   resp.lens_review.pillar_review_summaries[0].prioritized_risk_counts #=> Hash
+    #   resp.lens_review.pillar_review_summaries[0].prioritized_risk_counts["Risk"] #=> Integer
+    #   resp.lens_review.jira_configuration.selected_pillars #=> Array
+    #   resp.lens_review.jira_configuration.selected_pillars[0].pillar_id #=> String
+    #   resp.lens_review.jira_configuration.selected_pillars[0].selected_question_ids #=> Array
+    #   resp.lens_review.jira_configuration.selected_pillars[0].selected_question_ids[0] #=> String
     #   resp.lens_review.updated_at #=> Time
     #   resp.lens_review.notes #=> String
     #   resp.lens_review.risk_counts #=> Hash
     #   resp.lens_review.risk_counts["Risk"] #=> Integer
     #   resp.lens_review.next_token #=> String
+    #   resp.lens_review.profiles #=> Array
+    #   resp.lens_review.profiles[0].profile_arn #=> String
+    #   resp.lens_review.profiles[0].profile_version #=> String
+    #   resp.lens_review.prioritized_risk_counts #=> Hash
+    #   resp.lens_review.prioritized_risk_counts["Risk"] #=> Integer
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/wellarchitected-2020-03-31/UpdateLensReview AWS API Documentation
     #
@@ -2825,6 +4435,321 @@ module Aws::WellArchitected
     # @param [Hash] params ({})
     def update_lens_review(params = {}, options = {})
       req = build_request(:update_lens_review, params)
+      req.send_request(options)
+    end
+
+    # Update a profile.
+    #
+    # @option params [required, String] :profile_arn
+    #   The profile ARN.
+    #
+    # @option params [String] :profile_description
+    #   The profile description.
+    #
+    # @option params [Array<Types::ProfileQuestionUpdate>] :profile_questions
+    #   Profile questions.
+    #
+    # @return [Types::UpdateProfileOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateProfileOutput#profile #profile} => Types::Profile
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_profile({
+    #     profile_arn: "ProfileArn", # required
+    #     profile_description: "ProfileDescription",
+    #     profile_questions: [
+    #       {
+    #         question_id: "QuestionId",
+    #         selected_choice_ids: ["ChoiceId"],
+    #       },
+    #     ],
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.profile.profile_arn #=> String
+    #   resp.profile.profile_version #=> String
+    #   resp.profile.profile_name #=> String
+    #   resp.profile.profile_description #=> String
+    #   resp.profile.profile_questions #=> Array
+    #   resp.profile.profile_questions[0].question_id #=> String
+    #   resp.profile.profile_questions[0].question_title #=> String
+    #   resp.profile.profile_questions[0].question_description #=> String
+    #   resp.profile.profile_questions[0].question_choices #=> Array
+    #   resp.profile.profile_questions[0].question_choices[0].choice_id #=> String
+    #   resp.profile.profile_questions[0].question_choices[0].choice_title #=> String
+    #   resp.profile.profile_questions[0].question_choices[0].choice_description #=> String
+    #   resp.profile.profile_questions[0].selected_choice_ids #=> Array
+    #   resp.profile.profile_questions[0].selected_choice_ids[0] #=> String
+    #   resp.profile.profile_questions[0].min_selected_choices #=> Integer
+    #   resp.profile.profile_questions[0].max_selected_choices #=> Integer
+    #   resp.profile.owner #=> String
+    #   resp.profile.created_at #=> Time
+    #   resp.profile.updated_at #=> Time
+    #   resp.profile.share_invitation_id #=> String
+    #   resp.profile.tags #=> Hash
+    #   resp.profile.tags["TagKey"] #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/wellarchitected-2020-03-31/UpdateProfile AWS API Documentation
+    #
+    # @overload update_profile(params = {})
+    # @param [Hash] params ({})
+    def update_profile(params = {}, options = {})
+      req = build_request(:update_profile, params)
+      req.send_request(options)
+    end
+
+    # Update a review template.
+    #
+    # @option params [required, String] :template_arn
+    #   The review template ARN.
+    #
+    # @option params [String] :template_name
+    #   The review template name.
+    #
+    # @option params [String] :description
+    #   The review template description.
+    #
+    # @option params [String] :notes
+    #   The notes associated with the workload.
+    #
+    #   For a review template, these are the notes that will be associated
+    #   with the workload when the template is applied.
+    #
+    # @option params [Array<String>] :lenses_to_associate
+    #   A list of lens aliases or ARNs to apply to the review template.
+    #
+    # @option params [Array<String>] :lenses_to_disassociate
+    #   A list of lens aliases or ARNs to unapply to the review template. The
+    #   `wellarchitected` lens cannot be unapplied.
+    #
+    # @return [Types::UpdateReviewTemplateOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateReviewTemplateOutput#review_template #review_template} => Types::ReviewTemplate
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_review_template({
+    #     template_arn: "TemplateArn", # required
+    #     template_name: "TemplateName",
+    #     description: "TemplateDescription",
+    #     notes: "Notes",
+    #     lenses_to_associate: ["LensAlias"],
+    #     lenses_to_disassociate: ["LensAlias"],
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.review_template.description #=> String
+    #   resp.review_template.lenses #=> Array
+    #   resp.review_template.lenses[0] #=> String
+    #   resp.review_template.notes #=> String
+    #   resp.review_template.question_counts #=> Hash
+    #   resp.review_template.question_counts["Question"] #=> Integer
+    #   resp.review_template.owner #=> String
+    #   resp.review_template.updated_at #=> Time
+    #   resp.review_template.template_arn #=> String
+    #   resp.review_template.template_name #=> String
+    #   resp.review_template.tags #=> Hash
+    #   resp.review_template.tags["TagKey"] #=> String
+    #   resp.review_template.update_status #=> String, one of "CURRENT", "LENS_NOT_CURRENT"
+    #   resp.review_template.share_invitation_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/wellarchitected-2020-03-31/UpdateReviewTemplate AWS API Documentation
+    #
+    # @overload update_review_template(params = {})
+    # @param [Hash] params ({})
+    def update_review_template(params = {}, options = {})
+      req = build_request(:update_review_template, params)
+      req.send_request(options)
+    end
+
+    # Update a review template answer.
+    #
+    # @option params [required, String] :template_arn
+    #   The review template ARN.
+    #
+    # @option params [required, String] :lens_alias
+    #   The alias of the lens.
+    #
+    #   For Amazon Web Services official lenses, this is either the lens
+    #   alias, such as `serverless`, or the lens ARN, such as
+    #   `arn:aws:wellarchitected:us-east-1::lens/serverless`. Note that some
+    #   operations (such as ExportLens and CreateLensShare) are not permitted
+    #   on Amazon Web Services official lenses.
+    #
+    #   For custom lenses, this is the lens ARN, such as
+    #   `arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef`.
+    #
+    #   Each lens is identified by its LensSummary$LensAlias.
+    #
+    # @option params [required, String] :question_id
+    #   The ID of the question.
+    #
+    # @option params [Array<String>] :selected_choices
+    #   List of selected choice IDs in a question answer.
+    #
+    #   The values entered replace the previously selected choices.
+    #
+    # @option params [Hash<String,Types::ChoiceUpdate>] :choice_updates
+    #   A list of choices to be updated.
+    #
+    # @option params [String] :notes
+    #   The notes associated with the workload.
+    #
+    #   For a review template, these are the notes that will be associated
+    #   with the workload when the template is applied.
+    #
+    # @option params [Boolean] :is_applicable
+    #   Defines whether this question is applicable to a lens review.
+    #
+    # @option params [String] :reason
+    #   The update reason.
+    #
+    # @return [Types::UpdateReviewTemplateAnswerOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateReviewTemplateAnswerOutput#template_arn #template_arn} => String
+    #   * {Types::UpdateReviewTemplateAnswerOutput#lens_alias #lens_alias} => String
+    #   * {Types::UpdateReviewTemplateAnswerOutput#answer #answer} => Types::ReviewTemplateAnswer
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_review_template_answer({
+    #     template_arn: "TemplateArn", # required
+    #     lens_alias: "LensAlias", # required
+    #     question_id: "QuestionId", # required
+    #     selected_choices: ["ChoiceId"],
+    #     choice_updates: {
+    #       "ChoiceId" => {
+    #         status: "SELECTED", # required, accepts SELECTED, NOT_APPLICABLE, UNSELECTED
+    #         reason: "OUT_OF_SCOPE", # accepts OUT_OF_SCOPE, BUSINESS_PRIORITIES, ARCHITECTURE_CONSTRAINTS, OTHER, NONE
+    #         notes: "ChoiceNotes",
+    #       },
+    #     },
+    #     notes: "Notes",
+    #     is_applicable: false,
+    #     reason: "OUT_OF_SCOPE", # accepts OUT_OF_SCOPE, BUSINESS_PRIORITIES, ARCHITECTURE_CONSTRAINTS, OTHER, NONE
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.template_arn #=> String
+    #   resp.lens_alias #=> String
+    #   resp.answer.question_id #=> String
+    #   resp.answer.pillar_id #=> String
+    #   resp.answer.question_title #=> String
+    #   resp.answer.question_description #=> String
+    #   resp.answer.improvement_plan_url #=> String
+    #   resp.answer.helpful_resource_url #=> String
+    #   resp.answer.helpful_resource_display_text #=> String
+    #   resp.answer.choices #=> Array
+    #   resp.answer.choices[0].choice_id #=> String
+    #   resp.answer.choices[0].title #=> String
+    #   resp.answer.choices[0].description #=> String
+    #   resp.answer.choices[0].helpful_resource.display_text #=> String
+    #   resp.answer.choices[0].helpful_resource.url #=> String
+    #   resp.answer.choices[0].improvement_plan.display_text #=> String
+    #   resp.answer.choices[0].improvement_plan.url #=> String
+    #   resp.answer.choices[0].additional_resources #=> Array
+    #   resp.answer.choices[0].additional_resources[0].type #=> String, one of "HELPFUL_RESOURCE", "IMPROVEMENT_PLAN"
+    #   resp.answer.choices[0].additional_resources[0].content #=> Array
+    #   resp.answer.choices[0].additional_resources[0].content[0].display_text #=> String
+    #   resp.answer.choices[0].additional_resources[0].content[0].url #=> String
+    #   resp.answer.selected_choices #=> Array
+    #   resp.answer.selected_choices[0] #=> String
+    #   resp.answer.choice_answers #=> Array
+    #   resp.answer.choice_answers[0].choice_id #=> String
+    #   resp.answer.choice_answers[0].status #=> String, one of "SELECTED", "NOT_APPLICABLE", "UNSELECTED"
+    #   resp.answer.choice_answers[0].reason #=> String, one of "OUT_OF_SCOPE", "BUSINESS_PRIORITIES", "ARCHITECTURE_CONSTRAINTS", "OTHER", "NONE"
+    #   resp.answer.choice_answers[0].notes #=> String
+    #   resp.answer.is_applicable #=> Boolean
+    #   resp.answer.answer_status #=> String, one of "UNANSWERED", "ANSWERED"
+    #   resp.answer.notes #=> String
+    #   resp.answer.reason #=> String, one of "OUT_OF_SCOPE", "BUSINESS_PRIORITIES", "ARCHITECTURE_CONSTRAINTS", "OTHER", "NONE"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/wellarchitected-2020-03-31/UpdateReviewTemplateAnswer AWS API Documentation
+    #
+    # @overload update_review_template_answer(params = {})
+    # @param [Hash] params ({})
+    def update_review_template_answer(params = {}, options = {})
+      req = build_request(:update_review_template_answer, params)
+      req.send_request(options)
+    end
+
+    # Update a lens review associated with a review template.
+    #
+    # @option params [required, String] :template_arn
+    #   The review template ARN.
+    #
+    # @option params [required, String] :lens_alias
+    #   The alias of the lens.
+    #
+    #   For Amazon Web Services official lenses, this is either the lens
+    #   alias, such as `serverless`, or the lens ARN, such as
+    #   `arn:aws:wellarchitected:us-east-1::lens/serverless`. Note that some
+    #   operations (such as ExportLens and CreateLensShare) are not permitted
+    #   on Amazon Web Services official lenses.
+    #
+    #   For custom lenses, this is the lens ARN, such as
+    #   `arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef`.
+    #
+    #   Each lens is identified by its LensSummary$LensAlias.
+    #
+    # @option params [String] :lens_notes
+    #   The notes associated with the workload.
+    #
+    #   For a review template, these are the notes that will be associated
+    #   with the workload when the template is applied.
+    #
+    # @option params [Hash<String,String>] :pillar_notes
+    #   List of pillar notes of a lens review in a workload.
+    #
+    #   For a review template, these are the notes that will be associated
+    #   with the workload when the template is applied.
+    #
+    # @return [Types::UpdateReviewTemplateLensReviewOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateReviewTemplateLensReviewOutput#template_arn #template_arn} => String
+    #   * {Types::UpdateReviewTemplateLensReviewOutput#lens_review #lens_review} => Types::ReviewTemplateLensReview
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_review_template_lens_review({
+    #     template_arn: "TemplateArn", # required
+    #     lens_alias: "LensAlias", # required
+    #     lens_notes: "Notes",
+    #     pillar_notes: {
+    #       "PillarId" => "Notes",
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.template_arn #=> String
+    #   resp.lens_review.lens_alias #=> String
+    #   resp.lens_review.lens_arn #=> String
+    #   resp.lens_review.lens_version #=> String
+    #   resp.lens_review.lens_name #=> String
+    #   resp.lens_review.lens_status #=> String, one of "CURRENT", "NOT_CURRENT", "DEPRECATED", "DELETED", "UNSHARED"
+    #   resp.lens_review.pillar_review_summaries #=> Array
+    #   resp.lens_review.pillar_review_summaries[0].pillar_id #=> String
+    #   resp.lens_review.pillar_review_summaries[0].pillar_name #=> String
+    #   resp.lens_review.pillar_review_summaries[0].notes #=> String
+    #   resp.lens_review.pillar_review_summaries[0].question_counts #=> Hash
+    #   resp.lens_review.pillar_review_summaries[0].question_counts["Question"] #=> Integer
+    #   resp.lens_review.updated_at #=> Time
+    #   resp.lens_review.notes #=> String
+    #   resp.lens_review.question_counts #=> Hash
+    #   resp.lens_review.question_counts["Question"] #=> Integer
+    #   resp.lens_review.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/wellarchitected-2020-03-31/UpdateReviewTemplateLensReview AWS API Documentation
+    #
+    # @overload update_review_template_lens_review(params = {})
+    # @param [Hash] params ({})
+    def update_review_template_lens_review(params = {}, options = {})
+      req = build_request(:update_review_template_lens_review, params)
       req.send_request(options)
     end
 
@@ -2855,10 +4780,12 @@ module Aws::WellArchitected
     # @example Response structure
     #
     #   resp.share_invitation.share_invitation_id #=> String
-    #   resp.share_invitation.share_resource_type #=> String, one of "WORKLOAD", "LENS"
+    #   resp.share_invitation.share_resource_type #=> String, one of "WORKLOAD", "LENS", "PROFILE", "TEMPLATE"
     #   resp.share_invitation.workload_id #=> String
     #   resp.share_invitation.lens_alias #=> String
     #   resp.share_invitation.lens_arn #=> String
+    #   resp.share_invitation.profile_arn #=> String
+    #   resp.share_invitation.template_arn #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/wellarchitected-2020-03-31/UpdateShareInvitation AWS API Documentation
     #
@@ -2986,6 +4913,9 @@ module Aws::WellArchitected
     # @option params [String] :notes
     #   The notes associated with the workload.
     #
+    #   For a review template, these are the notes that will be associated
+    #   with the workload when the template is applied.
+    #
     # @option params [String] :improvement_status
     #   The improvement status for a workload.
     #
@@ -2995,6 +4925,9 @@ module Aws::WellArchitected
     #
     # @option params [Array<String>] :applications
     #   List of AppRegistry application ARNs to associate to the workload.
+    #
+    # @option params [Types::WorkloadJiraConfigurationInput] :jira_configuration
+    #   Configuration of the Jira integration.
     #
     # @return [Types::UpdateWorkloadOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -3020,8 +4953,14 @@ module Aws::WellArchitected
     #     improvement_status: "NOT_APPLICABLE", # accepts NOT_APPLICABLE, NOT_STARTED, IN_PROGRESS, COMPLETE, RISK_ACKNOWLEDGED
     #     discovery_config: {
     #       trusted_advisor_integration_status: "ENABLED", # accepts ENABLED, DISABLED
+    #       workload_resource_definition: ["WORKLOAD_METADATA"], # accepts WORKLOAD_METADATA, APP_REGISTRY
     #     },
     #     applications: ["ApplicationArn"],
+    #     jira_configuration: {
+    #       issue_management_status: "ENABLED", # accepts ENABLED, DISABLED, INHERIT
+    #       issue_management_type: "AUTO", # accepts AUTO, MANUAL
+    #       jira_project_key: "JiraProjectKey",
+    #     },
     #   })
     #
     # @example Response structure
@@ -3057,8 +4996,19 @@ module Aws::WellArchitected
     #   resp.workload.tags #=> Hash
     #   resp.workload.tags["TagKey"] #=> String
     #   resp.workload.discovery_config.trusted_advisor_integration_status #=> String, one of "ENABLED", "DISABLED"
+    #   resp.workload.discovery_config.workload_resource_definition #=> Array
+    #   resp.workload.discovery_config.workload_resource_definition[0] #=> String, one of "WORKLOAD_METADATA", "APP_REGISTRY"
     #   resp.workload.applications #=> Array
     #   resp.workload.applications[0] #=> String
+    #   resp.workload.profiles #=> Array
+    #   resp.workload.profiles[0].profile_arn #=> String
+    #   resp.workload.profiles[0].profile_version #=> String
+    #   resp.workload.prioritized_risk_counts #=> Hash
+    #   resp.workload.prioritized_risk_counts["Risk"] #=> Integer
+    #   resp.workload.jira_configuration.issue_management_status #=> String, one of "ENABLED", "DISABLED", "INHERIT"
+    #   resp.workload.jira_configuration.issue_management_type #=> String, one of "AUTO", "MANUAL"
+    #   resp.workload.jira_configuration.jira_project_key #=> String
+    #   resp.workload.jira_configuration.status_message #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/wellarchitected-2020-03-31/UpdateWorkload AWS API Documentation
     #
@@ -3072,14 +5022,14 @@ module Aws::WellArchitected
     # Update a workload share.
     #
     # @option params [required, String] :share_id
-    #   The ID associated with the workload share.
+    #   The ID associated with the share.
     #
     # @option params [required, String] :workload_id
     #   The ID assigned to the workload. This ID is unique within an Amazon
     #   Web Services Region.
     #
     # @option params [required, String] :permission_type
-    #   Permission granted on a workload share.
+    #   Permission granted on a share request.
     #
     # @return [Types::UpdateWorkloadShareOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -3114,7 +5064,7 @@ module Aws::WellArchitected
       req.send_request(options)
     end
 
-    # Upgrade lens review.
+    # Upgrade lens review for a particular workload.
     #
     # @option params [required, String] :workload_id
     #   The ID assigned to the workload. This ID is unique within an Amazon
@@ -3125,10 +5075,12 @@ module Aws::WellArchitected
     #
     #   For Amazon Web Services official lenses, this is either the lens
     #   alias, such as `serverless`, or the lens ARN, such as
-    #   `arn:aws:wellarchitected:us-west-2::lens/serverless`.
+    #   `arn:aws:wellarchitected:us-east-1::lens/serverless`. Note that some
+    #   operations (such as ExportLens and CreateLensShare) are not permitted
+    #   on Amazon Web Services official lenses.
     #
     #   For custom lenses, this is the lens ARN, such as
-    #   `arn:aws:wellarchitected:us-east-1:123456789012:lens/my-lens`.
+    #   `arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef`.
     #
     #   Each lens is identified by its LensSummary$LensAlias.
     #
@@ -3143,8 +5095,8 @@ module Aws::WellArchitected
     #
     #   You should not reuse the same token for other requests. If you retry a
     #   request with the same client request token and the same parameters
-    #   after it has completed successfully, the result of the original
-    #   request is returned.
+    #   after the original request has completed successfully, the result of
+    #   the original request is returned.
     #
     #   This token is listed as required, however, if you do not specify it,
     #   the Amazon Web Services SDKs automatically generate one for you. If
@@ -3171,20 +5123,128 @@ module Aws::WellArchitected
       req.send_request(options)
     end
 
+    # Upgrade a profile.
+    #
+    # @option params [required, String] :workload_id
+    #   The ID assigned to the workload. This ID is unique within an Amazon
+    #   Web Services Region.
+    #
+    # @option params [required, String] :profile_arn
+    #   The profile ARN.
+    #
+    # @option params [String] :milestone_name
+    #   The name of the milestone in a workload.
+    #
+    #   Milestone names must be unique within a workload.
+    #
+    # @option params [String] :client_request_token
+    #   A unique case-sensitive string used to ensure that this request is
+    #   idempotent (executes only once).
+    #
+    #   You should not reuse the same token for other requests. If you retry a
+    #   request with the same client request token and the same parameters
+    #   after the original request has completed successfully, the result of
+    #   the original request is returned.
+    #
+    #   This token is listed as required, however, if you do not specify it,
+    #   the Amazon Web Services SDKs automatically generate one for you. If
+    #   you are not using the Amazon Web Services SDK or the CLI, you must
+    #   provide this token or the request will fail.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.upgrade_profile_version({
+    #     workload_id: "WorkloadId", # required
+    #     profile_arn: "ProfileArn", # required
+    #     milestone_name: "MilestoneName",
+    #     client_request_token: "ClientRequestToken",
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/wellarchitected-2020-03-31/UpgradeProfileVersion AWS API Documentation
+    #
+    # @overload upgrade_profile_version(params = {})
+    # @param [Hash] params ({})
+    def upgrade_profile_version(params = {}, options = {})
+      req = build_request(:upgrade_profile_version, params)
+      req.send_request(options)
+    end
+
+    # Upgrade the lens review of a review template.
+    #
+    # @option params [required, String] :template_arn
+    #   The ARN of the review template.
+    #
+    # @option params [required, String] :lens_alias
+    #   The alias of the lens.
+    #
+    #   For Amazon Web Services official lenses, this is either the lens
+    #   alias, such as `serverless`, or the lens ARN, such as
+    #   `arn:aws:wellarchitected:us-east-1::lens/serverless`. Note that some
+    #   operations (such as ExportLens and CreateLensShare) are not permitted
+    #   on Amazon Web Services official lenses.
+    #
+    #   For custom lenses, this is the lens ARN, such as
+    #   `arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef`.
+    #
+    #   Each lens is identified by its LensSummary$LensAlias.
+    #
+    # @option params [String] :client_request_token
+    #   A unique case-sensitive string used to ensure that this request is
+    #   idempotent (executes only once).
+    #
+    #   You should not reuse the same token for other requests. If you retry a
+    #   request with the same client request token and the same parameters
+    #   after the original request has completed successfully, the result of
+    #   the original request is returned.
+    #
+    #   This token is listed as required, however, if you do not specify it,
+    #   the Amazon Web Services SDKs automatically generate one for you. If
+    #   you are not using the Amazon Web Services SDK or the CLI, you must
+    #   provide this token or the request will fail.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.upgrade_review_template_lens_review({
+    #     template_arn: "TemplateArn", # required
+    #     lens_alias: "LensAlias", # required
+    #     client_request_token: "ClientRequestToken",
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/wellarchitected-2020-03-31/UpgradeReviewTemplateLensReview AWS API Documentation
+    #
+    # @overload upgrade_review_template_lens_review(params = {})
+    # @param [Hash] params ({})
+    def upgrade_review_template_lens_review(params = {}, options = {})
+      req = build_request(:upgrade_review_template_lens_review, params)
+      req.send_request(options)
+    end
+
     # @!endgroup
 
     # @param params ({})
     # @api private
     def build_request(operation_name, params = {})
       handlers = @handlers.for(operation_name)
+      tracer = config.telemetry_provider.tracer_provider.tracer(
+        Aws::Telemetry.module_to_tracer_name('Aws::WellArchitected')
+      )
       context = Seahorse::Client::RequestContext.new(
         operation_name: operation_name,
         operation: config.api.operation(operation_name),
         client: self,
         params: params,
-        config: config)
+        config: config,
+        tracer: tracer
+      )
       context[:gem_name] = 'aws-sdk-wellarchitected'
-      context[:gem_version] = '1.20.0'
+      context[:gem_version] = '1.51.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

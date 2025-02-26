@@ -7,33 +7,34 @@
 #
 # WARNING ABOUT GENERATED CODE
 
-require 'seahorse/client/plugins/content_length.rb'
-require 'aws-sdk-core/plugins/credentials_configuration.rb'
-require 'aws-sdk-core/plugins/logging.rb'
-require 'aws-sdk-core/plugins/param_converter.rb'
-require 'aws-sdk-core/plugins/param_validator.rb'
-require 'aws-sdk-core/plugins/user_agent.rb'
-require 'aws-sdk-core/plugins/helpful_socket_errors.rb'
-require 'aws-sdk-core/plugins/retry_errors.rb'
-require 'aws-sdk-core/plugins/global_configuration.rb'
-require 'aws-sdk-core/plugins/regional_endpoint.rb'
-require 'aws-sdk-core/plugins/endpoint_discovery.rb'
-require 'aws-sdk-core/plugins/endpoint_pattern.rb'
-require 'aws-sdk-core/plugins/response_paging.rb'
-require 'aws-sdk-core/plugins/stub_responses.rb'
-require 'aws-sdk-core/plugins/idempotency_token.rb'
-require 'aws-sdk-core/plugins/jsonvalue_converter.rb'
-require 'aws-sdk-core/plugins/client_metrics_plugin.rb'
-require 'aws-sdk-core/plugins/client_metrics_send_plugin.rb'
-require 'aws-sdk-core/plugins/transfer_encoding.rb'
-require 'aws-sdk-core/plugins/http_checksum.rb'
-require 'aws-sdk-core/plugins/checksum_algorithm.rb'
-require 'aws-sdk-core/plugins/defaults_mode.rb'
-require 'aws-sdk-core/plugins/recursion_detection.rb'
-require 'aws-sdk-core/plugins/sign.rb'
-require 'aws-sdk-core/plugins/protocols/json_rpc.rb'
-
-Aws::Plugins::GlobalConfiguration.add_identifier(:servicecatalog)
+require 'seahorse/client/plugins/content_length'
+require 'aws-sdk-core/plugins/credentials_configuration'
+require 'aws-sdk-core/plugins/logging'
+require 'aws-sdk-core/plugins/param_converter'
+require 'aws-sdk-core/plugins/param_validator'
+require 'aws-sdk-core/plugins/user_agent'
+require 'aws-sdk-core/plugins/helpful_socket_errors'
+require 'aws-sdk-core/plugins/retry_errors'
+require 'aws-sdk-core/plugins/global_configuration'
+require 'aws-sdk-core/plugins/regional_endpoint'
+require 'aws-sdk-core/plugins/endpoint_discovery'
+require 'aws-sdk-core/plugins/endpoint_pattern'
+require 'aws-sdk-core/plugins/response_paging'
+require 'aws-sdk-core/plugins/stub_responses'
+require 'aws-sdk-core/plugins/idempotency_token'
+require 'aws-sdk-core/plugins/invocation_id'
+require 'aws-sdk-core/plugins/jsonvalue_converter'
+require 'aws-sdk-core/plugins/client_metrics_plugin'
+require 'aws-sdk-core/plugins/client_metrics_send_plugin'
+require 'aws-sdk-core/plugins/transfer_encoding'
+require 'aws-sdk-core/plugins/http_checksum'
+require 'aws-sdk-core/plugins/checksum_algorithm'
+require 'aws-sdk-core/plugins/request_compression'
+require 'aws-sdk-core/plugins/defaults_mode'
+require 'aws-sdk-core/plugins/recursion_detection'
+require 'aws-sdk-core/plugins/telemetry'
+require 'aws-sdk-core/plugins/sign'
+require 'aws-sdk-core/plugins/protocols/json_rpc'
 
 module Aws::ServiceCatalog
   # An API client for ServiceCatalog.  To construct a client, you need to configure a `:region` and `:credentials`.
@@ -71,20 +72,28 @@ module Aws::ServiceCatalog
     add_plugin(Aws::Plugins::ResponsePaging)
     add_plugin(Aws::Plugins::StubResponses)
     add_plugin(Aws::Plugins::IdempotencyToken)
+    add_plugin(Aws::Plugins::InvocationId)
     add_plugin(Aws::Plugins::JsonvalueConverter)
     add_plugin(Aws::Plugins::ClientMetricsPlugin)
     add_plugin(Aws::Plugins::ClientMetricsSendPlugin)
     add_plugin(Aws::Plugins::TransferEncoding)
     add_plugin(Aws::Plugins::HttpChecksum)
     add_plugin(Aws::Plugins::ChecksumAlgorithm)
+    add_plugin(Aws::Plugins::RequestCompression)
     add_plugin(Aws::Plugins::DefaultsMode)
     add_plugin(Aws::Plugins::RecursionDetection)
+    add_plugin(Aws::Plugins::Telemetry)
     add_plugin(Aws::Plugins::Sign)
     add_plugin(Aws::Plugins::Protocols::JsonRpc)
     add_plugin(Aws::ServiceCatalog::Plugins::Endpoints)
 
     # @overload initialize(options)
     #   @param [Hash] options
+    #
+    #   @option options [Array<Seahorse::Client::Plugin>] :plugins ([]])
+    #     A list of plugins to apply to the client. Each plugin is either a
+    #     class name or an instance of a plugin class.
+    #
     #   @option options [required, Aws::CredentialProvider] :credentials
     #     Your AWS credentials. This can be an instance of any one of the
     #     following classes:
@@ -119,13 +128,15 @@ module Aws::ServiceCatalog
     #     locations will be searched for credentials:
     #
     #     * `Aws.config[:credentials]`
-    #     * The `:access_key_id`, `:secret_access_key`, and `:session_token` options.
-    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']
+    #     * The `:access_key_id`, `:secret_access_key`, `:session_token`, and
+    #       `:account_id` options.
+    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'],
+    #       ENV['AWS_SESSION_TOKEN'], and ENV['AWS_ACCOUNT_ID']
     #     * `~/.aws/credentials`
     #     * `~/.aws/config`
     #     * EC2/ECS IMDS instance profile - When used by default, the timeouts
     #       are very aggressive. Construct and pass an instance of
-    #       `Aws::InstanceProfileCredentails` or `Aws::ECSCredentials` to
+    #       `Aws::InstanceProfileCredentials` or `Aws::ECSCredentials` to
     #       enable retries and extended timeouts. Instance profile credential
     #       fetching can be disabled by setting ENV['AWS_EC2_METADATA_DISABLED']
     #       to true.
@@ -143,6 +154,8 @@ module Aws::ServiceCatalog
     #     * `~/.aws/config`
     #
     #   @option options [String] :access_key_id
+    #
+    #   @option options [String] :account_id
     #
     #   @option options [Boolean] :active_endpoint_cache (false)
     #     When set to `true`, a thread polling for endpoints will be running in
@@ -190,10 +203,20 @@ module Aws::ServiceCatalog
     #     Set to true to disable SDK automatically adding host prefix
     #     to default service endpoint when available.
     #
-    #   @option options [String] :endpoint
-    #     The client endpoint is normally constructed from the `:region`
-    #     option. You should only configure an `:endpoint` when connecting
-    #     to test or custom endpoints. This should be a valid HTTP(S) URI.
+    #   @option options [Boolean] :disable_request_compression (false)
+    #     When set to 'true' the request body will not be compressed
+    #     for supported operations.
+    #
+    #   @option options [String, URI::HTTPS, URI::HTTP] :endpoint
+    #     Normally you should not configure the `:endpoint` option
+    #     directly. This is normally constructed from the `:region`
+    #     option. Configuring `:endpoint` is normally reserved for
+    #     connecting to test or custom endpoints. The endpoint should
+    #     be a URI formatted like:
+    #
+    #         'http://example.com'
+    #         'https://example.com'
+    #         'http://example.com:123'
     #
     #   @option options [Integer] :endpoint_cache_max_entries (1000)
     #     Used for the maximum size limit of the LRU cache storing endpoints data
@@ -209,6 +232,10 @@ module Aws::ServiceCatalog
     #
     #   @option options [Boolean] :endpoint_discovery (false)
     #     When set to `true`, endpoint discovery will be enabled for operations when available.
+    #
+    #   @option options [Boolean] :ignore_configured_endpoint_urls
+    #     Setting to true disables use of endpoint URLs provided via environment
+    #     variables and the shared configuration file.
     #
     #   @option options [Aws::Log::Formatter] :log_formatter (Aws::Log::Formatter.default)
     #     The log formatter.
@@ -229,6 +256,34 @@ module Aws::ServiceCatalog
     #   @option options [String] :profile ("default")
     #     Used when loading credentials from the shared credentials file
     #     at HOME/.aws/credentials.  When not specified, 'default' is used.
+    #
+    #   @option options [String] :request_checksum_calculation ("when_supported")
+    #     Determines when a checksum will be calculated for request payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, a checksum will be
+    #       calculated for all request payloads of operations modeled with the
+    #       `httpChecksum` trait where `requestChecksumRequired` is `true` and/or a
+    #       `requestAlgorithmMember` is modeled.
+    #     * `when_required` - When set, a checksum will only be calculated for
+    #       request payloads of operations modeled with the  `httpChecksum` trait where
+    #       `requestChecksumRequired` is `true` or where a `requestAlgorithmMember`
+    #       is modeled and supplied.
+    #
+    #   @option options [Integer] :request_min_compression_size_bytes (10240)
+    #     The minimum size in bytes that triggers compression for request
+    #     bodies. The value must be non-negative integer value between 0
+    #     and 10485780 bytes inclusive.
+    #
+    #   @option options [String] :response_checksum_validation ("when_supported")
+    #     Determines when checksum validation will be performed on response payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, checksum validation is performed on all
+    #       response payloads of operations modeled with the `httpChecksum` trait where
+    #       `responseAlgorithms` is modeled, except when no modeled checksum algorithms
+    #       are supported.
+    #     * `when_required` - When set, checksum validation is not performed on
+    #       response payloads of operations unless the checksum algorithm is supported and
+    #       the `requestValidationModeMember` member is set to `ENABLED`.
     #
     #   @option options [Proc] :retry_backoff
     #     A proc or lambda used for backoff. Defaults to 2**retries * retry_base_delay.
@@ -274,20 +329,31 @@ module Aws::ServiceCatalog
     #       throttling.  This is a provisional mode that may change behavior
     #       in the future.
     #
+    #   @option options [String] :sdk_ua_app_id
+    #     A unique and opaque application ID that is appended to the
+    #     User-Agent header as app/sdk_ua_app_id. It should have a
+    #     maximum length of 50. This variable is sourced from environment
+    #     variable AWS_SDK_UA_APP_ID or the shared config profile attribute sdk_ua_app_id.
     #
     #   @option options [String] :secret_access_key
     #
     #   @option options [String] :session_token
     #
+    #   @option options [Array] :sigv4a_signing_region_set
+    #     A list of regions that should be signed with SigV4a signing. When
+    #     not passed, a default `:sigv4a_signing_region_set` is searched for
+    #     in the following locations:
+    #
+    #     * `Aws.config[:sigv4a_signing_region_set]`
+    #     * `ENV['AWS_SIGV4A_SIGNING_REGION_SET']`
+    #     * `~/.aws/config`
+    #
     #   @option options [Boolean] :simple_json (false)
     #     Disables request parameter conversion, validation, and formatting.
-    #     Also disable response data type conversions. This option is useful
-    #     when you want to ensure the highest level of performance by
-    #     avoiding overhead of walking request parameters and response data
-    #     structures.
-    #
-    #     When `:simple_json` is enabled, the request parameters hash must
-    #     be formatted exactly as the DynamoDB API expects.
+    #     Also disables response data type conversions. The request parameters
+    #     hash must be formatted exactly as the API expects.This option is useful
+    #     when you want to ensure the highest level of performance by avoiding
+    #     overhead of walking request parameters and response data structures.
     #
     #   @option options [Boolean] :stub_responses (false)
     #     Causes the client to return stubbed responses. By default
@@ -297,6 +363,16 @@ module Aws::ServiceCatalog
     #
     #     ** Please note ** When response stubbing is enabled, no HTTP
     #     requests are made, and retries are disabled.
+    #
+    #   @option options [Aws::Telemetry::TelemetryProviderBase] :telemetry_provider (Aws::Telemetry::NoOpTelemetryProvider)
+    #     Allows you to provide a telemetry provider, which is used to
+    #     emit telemetry data. By default, uses `NoOpTelemetryProvider` which
+    #     will not record or emit any telemetry data. The SDK supports the
+    #     following telemetry providers:
+    #
+    #     * OpenTelemetry (OTel) - To use the OTel provider, install and require the
+    #     `opentelemetry-sdk` gem and then, pass in an instance of a
+    #     `Aws::Telemetry::OTelProvider` for telemetry provider.
     #
     #   @option options [Aws::TokenProvider] :token_provider
     #     A Bearer Token Provider. This can be an instance of any one of the
@@ -325,52 +401,75 @@ module Aws::ServiceCatalog
     #     sending the request.
     #
     #   @option options [Aws::ServiceCatalog::EndpointProvider] :endpoint_provider
-    #     The endpoint provider used to resolve endpoints. Any object that responds to `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to `Aws::ServiceCatalog::EndpointParameters`
+    #     The endpoint provider used to resolve endpoints. Any object that responds to
+    #     `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+    #     `Aws::ServiceCatalog::EndpointParameters`.
     #
-    #   @option options [URI::HTTP,String] :http_proxy A proxy to send
-    #     requests through.  Formatted like 'http://proxy.com:123'.
+    #   @option options [Float] :http_continue_timeout (1)
+    #     The number of seconds to wait for a 100-continue response before sending the
+    #     request body.  This option has no effect unless the request has "Expect"
+    #     header set to "100-continue".  Defaults to `nil` which  disables this
+    #     behaviour.  This value can safely be set per request on the session.
     #
-    #   @option options [Float] :http_open_timeout (15) The number of
-    #     seconds to wait when opening a HTTP session before raising a
-    #     `Timeout::Error`.
+    #   @option options [Float] :http_idle_timeout (5)
+    #     The number of seconds a connection is allowed to sit idle before it
+    #     is considered stale.  Stale connections are closed and removed from the
+    #     pool before making a request.
     #
-    #   @option options [Float] :http_read_timeout (60) The default
-    #     number of seconds to wait for response data.  This value can
-    #     safely be set per-request on the session.
+    #   @option options [Float] :http_open_timeout (15)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :http_idle_timeout (5) The number of
-    #     seconds a connection is allowed to sit idle before it is
-    #     considered stale.  Stale connections are closed and removed
-    #     from the pool before making a request.
+    #   @option options [URI::HTTP,String] :http_proxy
+    #     A proxy to send requests through.  Formatted like 'http://proxy.com:123'.
     #
-    #   @option options [Float] :http_continue_timeout (1) The number of
-    #     seconds to wait for a 100-continue response before sending the
-    #     request body.  This option has no effect unless the request has
-    #     "Expect" header set to "100-continue".  Defaults to `nil` which
-    #     disables this behaviour.  This value can safely be set per
-    #     request on the session.
+    #   @option options [Float] :http_read_timeout (60)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :ssl_timeout (nil) Sets the SSL timeout
-    #     in seconds.
+    #   @option options [Boolean] :http_wire_trace (false)
+    #     When `true`,  HTTP debug output will be sent to the `:logger`.
     #
-    #   @option options [Boolean] :http_wire_trace (false) When `true`,
-    #     HTTP debug output will be sent to the `:logger`.
+    #   @option options [Proc] :on_chunk_received
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the response body is received. It provides three arguments: the chunk,
+    #     the number of bytes received, and the total number of
+    #     bytes in the response (or nil if the server did not send a `content-length`).
     #
-    #   @option options [Boolean] :ssl_verify_peer (true) When `true`,
-    #     SSL peer certificates are verified when establishing a
-    #     connection.
+    #   @option options [Proc] :on_chunk_sent
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the request body is sent. It provides three arguments: the chunk,
+    #     the number of bytes read from the body, and the total number of
+    #     bytes in the body.
     #
-    #   @option options [String] :ssl_ca_bundle Full path to the SSL
-    #     certificate authority bundle file that should be used when
-    #     verifying peer certificates.  If you do not pass
-    #     `:ssl_ca_bundle` or `:ssl_ca_directory` the the system default
-    #     will be used if available.
+    #   @option options [Boolean] :raise_response_errors (true)
+    #     When `true`, response errors are raised.
     #
-    #   @option options [String] :ssl_ca_directory Full path of the
-    #     directory that contains the unbundled SSL certificate
+    #   @option options [String] :ssl_ca_bundle
+    #     Full path to the SSL certificate authority bundle file that should be used when
+    #     verifying peer certificates.  If you do not pass `:ssl_ca_bundle` or
+    #     `:ssl_ca_directory` the the system default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_directory
+    #     Full path of the directory that contains the unbundled SSL certificate
     #     authority files for verifying peer certificates.  If you do
-    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the
-    #     system default will be used if available.
+    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the system
+    #     default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_store
+    #     Sets the X509::Store to verify peer certificate.
+    #
+    #   @option options [OpenSSL::X509::Certificate] :ssl_cert
+    #     Sets a client certificate when creating http connections.
+    #
+    #   @option options [OpenSSL::PKey] :ssl_key
+    #     Sets a client key when creating http connections.
+    #
+    #   @option options [Float] :ssl_timeout
+    #     Sets the SSL timeout in seconds
+    #
+    #   @option options [Boolean] :ssl_verify_peer (true)
+    #     When `true`, SSL peer certificates are verified when establishing a connection.
     #
     def initialize(*args)
       super
@@ -382,8 +481,6 @@ module Aws::ServiceCatalog
     #
     # @option params [String] :accept_language
     #   The language code.
-    #
-    #   * `en` - English (default)
     #
     #   * `jp` - Japanese
     #
@@ -461,7 +558,7 @@ module Aws::ServiceCatalog
     # required.
     #
     # You can associate a maximum of 10 Principals with a portfolio using
-    # `PrincipalType` as `IAM_PATTERN`
+    # `PrincipalType` as `IAM_PATTERN`.
     #
     # <note markdown="1"> When you associate a principal with portfolio, a potential privilege
     # escalation path may occur when that portfolio is then shared with
@@ -480,8 +577,6 @@ module Aws::ServiceCatalog
     # @option params [String] :accept_language
     #   The language code.
     #
-    #   * `en` - English (default)
-    #
     #   * `jp` - Japanese
     #
     #   * `zh` - Chinese
@@ -490,17 +585,70 @@ module Aws::ServiceCatalog
     #   The portfolio identifier.
     #
     # @option params [required, String] :principal_arn
-    #   The ARN of the principal (IAM user, role, or group). This field allows
-    #   an ARN with no `accountID` if `PrincipalType` is `IAM_PATTERN`.
+    #   The ARN of the principal (user, role, or group). If the
+    #   `PrincipalType` is `IAM`, the supported value is a fully defined [IAM
+    #   Amazon Resource Name (ARN)][1]. If the `PrincipalType` is
+    #   `IAM_PATTERN`, the supported value is an `IAM` ARN *without an
+    #   AccountID* in the following format:
     #
-    #   You can associate multiple `IAM` patterns even if the account has no
-    #   principal with that name. This is useful in Principal Name Sharing if
-    #   you want to share a principal without creating it in the account that
-    #   owns the portfolio.
+    #   *arn:partition:iam:::resource-type/resource-id*
+    #
+    #   The ARN resource-id can be either:
+    #
+    #   * A fully formed resource-id. For example,
+    #     *arn:aws:iam:::role/resource-name* or
+    #     *arn:aws:iam:::role/resource-path/resource-name*
+    #
+    #   * A wildcard ARN. The wildcard ARN accepts `IAM_PATTERN` values with a
+    #     "*" or "?" in the resource-id segment of the ARN. For example
+    #     *arn:partition:service:::resource-type/resource-path/resource-name*.
+    #     The new symbols are exclusive to the **resource-path** and
+    #     **resource-name** and cannot replace the **resource-type** or other
+    #     ARN values.
+    #
+    #     The ARN path and principal name allow unlimited wildcard characters.
+    #
+    #   Examples of an **acceptable** wildcard ARN:
+    #
+    #   * arn:aws:iam:::role/ResourceName\_*
+    #
+    #   * arn:aws:iam:::role/*/ResourceName\_?
+    #
+    #   Examples of an **unacceptable** wildcard ARN:
+    #
+    #   * arn:aws:iam:::*/ResourceName
+    #
+    #   ^
+    #
+    #   You can associate multiple `IAM_PATTERN`s even if the account has no
+    #   principal with that name.
+    #
+    #   The "?" wildcard character matches zero or one of any character.
+    #   This is similar to ".?" in regular regex context. The "*"
+    #   wildcard character matches any number of any characters. This is
+    #   similar to ".*" in regular regex context.
+    #
+    #   In the IAM Principal ARN format
+    #   (*arn:partition:iam:::resource-type/resource-path/resource-name*),
+    #   valid resource-type values include **user/**, **group/**, or
+    #   **role/**. The "?" and "*" characters are allowed only after the
+    #   resource-type in the resource-id segment. You can use special
+    #   characters anywhere within the resource-id.
+    #
+    #   The "*" character also matches the "/" character, allowing paths
+    #   to be formed *within* the resource-id. For example,
+    #   *arn:aws:iam:::role/*****/ResourceName\_?* matches both
+    #   *arn:aws:iam:::role/pathA/pathB/ResourceName\_1* and
+    #   *arn:aws:iam:::role/pathA/ResourceName\_1*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-arns
     #
     # @option params [required, String] :principal_type
     #   The principal type. The supported value is `IAM` if you use a fully
-    #   defined ARN, or `IAM_PATTERN` if you use an ARN with no `accountID`.
+    #   defined Amazon Resource Name (ARN), or `IAM_PATTERN` if you use an ARN
+    #   with no `accountID`, with or without wildcard characters.
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
@@ -528,8 +676,6 @@ module Aws::ServiceCatalog
     #
     # @option params [String] :accept_language
     #   The language code.
-    #
-    #   * `en` - English (default)
     #
     #   * `jp` - Japanese
     #
@@ -579,11 +725,18 @@ module Aws::ServiceCatalog
     # @option params [String] :accept_language
     #   The language code.
     #
-    #   * `en` - English (default)
-    #
     #   * `jp` - Japanese
     #
     #   * `zh` - Chinese
+    #
+    # @option params [String] :idempotency_token
+    #   A unique identifier that you provide to ensure idempotency. If
+    #   multiple requests from the same Amazon Web Services account use the
+    #   same idempotency token, the same response is returned for each
+    #   repeated request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
@@ -594,6 +747,7 @@ module Aws::ServiceCatalog
     #     provisioning_artifact_id: "Id", # required
     #     service_action_id: "Id", # required
     #     accept_language: "AcceptLanguage",
+    #     idempotency_token: "IdempotencyToken",
     #   })
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/servicecatalog-2015-12-10/AssociateServiceActionWithProvisioningArtifact AWS API Documentation
@@ -641,8 +795,6 @@ module Aws::ServiceCatalog
     # @option params [String] :accept_language
     #   The language code.
     #
-    #   * `en` - English (default)
-    #
     #   * `jp` - Japanese
     #
     #   * `zh` - Chinese
@@ -670,7 +822,7 @@ module Aws::ServiceCatalog
     #   resp.failed_service_action_associations[0].service_action_id #=> String
     #   resp.failed_service_action_associations[0].product_id #=> String
     #   resp.failed_service_action_associations[0].provisioning_artifact_id #=> String
-    #   resp.failed_service_action_associations[0].error_code #=> String, one of "DUPLICATE_RESOURCE", "INTERNAL_FAILURE", "LIMIT_EXCEEDED", "RESOURCE_NOT_FOUND", "THROTTLING"
+    #   resp.failed_service_action_associations[0].error_code #=> String, one of "DUPLICATE_RESOURCE", "INTERNAL_FAILURE", "LIMIT_EXCEEDED", "RESOURCE_NOT_FOUND", "THROTTLING", "INVALID_PARAMETER"
     #   resp.failed_service_action_associations[0].error_message #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/servicecatalog-2015-12-10/BatchAssociateServiceActionWithProvisioningArtifact AWS API Documentation
@@ -691,8 +843,6 @@ module Aws::ServiceCatalog
     #
     # @option params [String] :accept_language
     #   The language code.
-    #
-    #   * `en` - English (default)
     #
     #   * `jp` - Japanese
     #
@@ -721,7 +871,7 @@ module Aws::ServiceCatalog
     #   resp.failed_service_action_associations[0].service_action_id #=> String
     #   resp.failed_service_action_associations[0].product_id #=> String
     #   resp.failed_service_action_associations[0].provisioning_artifact_id #=> String
-    #   resp.failed_service_action_associations[0].error_code #=> String, one of "DUPLICATE_RESOURCE", "INTERNAL_FAILURE", "LIMIT_EXCEEDED", "RESOURCE_NOT_FOUND", "THROTTLING"
+    #   resp.failed_service_action_associations[0].error_code #=> String, one of "DUPLICATE_RESOURCE", "INTERNAL_FAILURE", "LIMIT_EXCEEDED", "RESOURCE_NOT_FOUND", "THROTTLING", "INVALID_PARAMETER"
     #   resp.failed_service_action_associations[0].error_message #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/servicecatalog-2015-12-10/BatchDisassociateServiceActionFromProvisioningArtifact AWS API Documentation
@@ -746,8 +896,6 @@ module Aws::ServiceCatalog
     #
     # @option params [String] :accept_language
     #   The language code.
-    #
-    #   * `en` - English (default)
     #
     #   * `jp` - Japanese
     #
@@ -821,8 +969,6 @@ module Aws::ServiceCatalog
     # @option params [String] :accept_language
     #   The language code.
     #
-    #   * `en` - English (default)
-    #
     #   * `jp` - Japanese
     #
     #   * `zh` - Chinese
@@ -844,11 +990,11 @@ module Aws::ServiceCatalog
     #
     #     Specify the `RoleArn` property as follows:
     #
-    #     `\{"RoleArn" : "arn:aws:iam::123456789012:role/LaunchRole"\}`
+    #     `{"RoleArn" : "arn:aws:iam::123456789012:role/LaunchRole"}`
     #
     #     Specify the `LocalRoleName` property as follows:
     #
-    #     `\{"LocalRoleName": "SCBasicLaunchRole"\}`
+    #     `{"LocalRoleName": "SCBasicLaunchRole"}`
     #
     #     If you specify the `LocalRoleName` property, when an account uses
     #     the launch constraint, the IAM role with that name in the account
@@ -871,14 +1017,14 @@ module Aws::ServiceCatalog
     #
     #   : Specify the `NotificationArns` property as follows:
     #
-    #     `\{"NotificationArns" :
-    #     ["arn:aws:sns:us-east-1:123456789012:Topic"]\}`
+    #     `{"NotificationArns" :
+    #     ["arn:aws:sns:us-east-1:123456789012:Topic"]}`
     #
     #   RESOURCE\_UPDATE
     #
     #   : Specify the `TagUpdatesOnProvisionedProduct` property as follows:
     #
-    #     `\{"Version":"2.0","Properties":\{"TagUpdateOnProvisionedProduct":"String"\}\}`
+    #     `{"Version":"2.0","Properties":{"TagUpdateOnProvisionedProduct":"String"}}`
     #
     #     The `TagUpdatesOnProvisionedProduct` property accepts a string value
     #     of `ALLOWED` or `NOT_ALLOWED`.
@@ -887,9 +1033,9 @@ module Aws::ServiceCatalog
     #
     #   : Specify the `Parameters` property as follows:
     #
-    #     `\{"Version": "String", "Properties": \{"AccountList": [ "String" ],
+    #     `{"Version": "String", "Properties": {"AccountList": [ "String" ],
     #     "RegionList": [ "String" ], "AdminRole": "String", "ExecutionRole":
-    #     "String"\}\}`
+    #     "String"}}`
     #
     #     You cannot have both a `LAUNCH` and a `STACKSET` constraint.
     #
@@ -976,8 +1122,6 @@ module Aws::ServiceCatalog
     #
     # @option params [String] :accept_language
     #   The language code.
-    #
-    #   * `en` - English (default)
     #
     #   * `jp` - Japanese
     #
@@ -1082,8 +1226,6 @@ module Aws::ServiceCatalog
     # @option params [String] :accept_language
     #   The language code.
     #
-    #   * `en` - English (default)
-    #
     #   * `jp` - Japanese
     #
     #   * `zh` - Chinese
@@ -1107,14 +1249,19 @@ module Aws::ServiceCatalog
     #   share. If this flag is not provided, TagOptions sharing is disabled.
     #
     # @option params [Boolean] :share_principals
+    #   This parameter is only supported for portfolios with an
+    #   **OrganizationalNode** Type of `ORGANIZATION` or
+    #   `ORGANIZATIONAL_UNIT`.
+    #
     #   Enables or disables `Principal` sharing when creating the portfolio
-    #   share. If this flag is not provided, principal sharing is disabled.
+    #   share. If you do **not** provide this flag, principal sharing is
+    #   disabled.
     #
     #   When you enable Principal Name Sharing for a portfolio share, the
     #   share recipient account end users with a principal that matches any of
     #   the associated IAM patterns can provision products from the portfolio.
     #   Once shared, the share recipient can view associations of
-    #   `PrincipalType`\: `IAM_PATTERN` on their portfolio. You can create the
+    #   `PrincipalType`: `IAM_PATTERN` on their portfolio. You can create the
     #   principals in the recipient account before or after creating the
     #   share.
     #
@@ -1160,8 +1307,6 @@ module Aws::ServiceCatalog
     #
     # @option params [String] :accept_language
     #   The language code.
-    #
-    #   * `en` - English (default)
     #
     #   * `jp` - Japanese
     #
@@ -1234,7 +1379,7 @@ module Aws::ServiceCatalog
     #     support_description: "SupportDescription",
     #     support_email: "SupportEmail",
     #     support_url: "SupportUrl",
-    #     product_type: "CLOUD_FORMATION_TEMPLATE", # required, accepts CLOUD_FORMATION_TEMPLATE, MARKETPLACE
+    #     product_type: "CLOUD_FORMATION_TEMPLATE", # required, accepts CLOUD_FORMATION_TEMPLATE, MARKETPLACE, TERRAFORM_OPEN_SOURCE, TERRAFORM_CLOUD, EXTERNAL
     #     tags: [
     #       {
     #         key: "TagKey", # required
@@ -1247,7 +1392,7 @@ module Aws::ServiceCatalog
     #       info: {
     #         "ProvisioningArtifactInfoKey" => "ProvisioningArtifactInfoValue",
     #       },
-    #       type: "CLOUD_FORMATION_TEMPLATE", # accepts CLOUD_FORMATION_TEMPLATE, MARKETPLACE_AMI, MARKETPLACE_CAR
+    #       type: "CLOUD_FORMATION_TEMPLATE", # accepts CLOUD_FORMATION_TEMPLATE, MARKETPLACE_AMI, MARKETPLACE_CAR, TERRAFORM_OPEN_SOURCE, TERRAFORM_CLOUD, EXTERNAL
     #       disable_template_validation: false,
     #     },
     #     idempotency_token: "IdempotencyToken", # required
@@ -1271,7 +1416,7 @@ module Aws::ServiceCatalog
     #   resp.product_view_detail.product_view_summary.name #=> String
     #   resp.product_view_detail.product_view_summary.owner #=> String
     #   resp.product_view_detail.product_view_summary.short_description #=> String
-    #   resp.product_view_detail.product_view_summary.type #=> String, one of "CLOUD_FORMATION_TEMPLATE", "MARKETPLACE"
+    #   resp.product_view_detail.product_view_summary.type #=> String, one of "CLOUD_FORMATION_TEMPLATE", "MARKETPLACE", "TERRAFORM_OPEN_SOURCE", "TERRAFORM_CLOUD", "EXTERNAL"
     #   resp.product_view_detail.product_view_summary.distributor #=> String
     #   resp.product_view_detail.product_view_summary.has_default_path #=> Boolean
     #   resp.product_view_detail.product_view_summary.support_email #=> String
@@ -1293,7 +1438,7 @@ module Aws::ServiceCatalog
     #   resp.provisioning_artifact_detail.id #=> String
     #   resp.provisioning_artifact_detail.name #=> String
     #   resp.provisioning_artifact_detail.description #=> String
-    #   resp.provisioning_artifact_detail.type #=> String, one of "CLOUD_FORMATION_TEMPLATE", "MARKETPLACE_AMI", "MARKETPLACE_CAR"
+    #   resp.provisioning_artifact_detail.type #=> String, one of "CLOUD_FORMATION_TEMPLATE", "MARKETPLACE_AMI", "MARKETPLACE_CAR", "TERRAFORM_OPEN_SOURCE", "TERRAFORM_CLOUD", "EXTERNAL"
     #   resp.provisioning_artifact_detail.created_time #=> Time
     #   resp.provisioning_artifact_detail.active #=> Boolean
     #   resp.provisioning_artifact_detail.guidance #=> String, one of "DEFAULT", "DEPRECATED"
@@ -1327,8 +1472,6 @@ module Aws::ServiceCatalog
     #
     # @option params [String] :accept_language
     #   The language code.
-    #
-    #   * `en` - English (default)
     #
     #   * `jp` - Japanese
     #
@@ -1446,8 +1589,6 @@ module Aws::ServiceCatalog
     # @option params [String] :accept_language
     #   The language code.
     #
-    #   * `en` - English (default)
-    #
     #   * `jp` - Japanese
     #
     #   * `zh` - Chinese
@@ -1483,7 +1624,7 @@ module Aws::ServiceCatalog
     #       info: {
     #         "ProvisioningArtifactInfoKey" => "ProvisioningArtifactInfoValue",
     #       },
-    #       type: "CLOUD_FORMATION_TEMPLATE", # accepts CLOUD_FORMATION_TEMPLATE, MARKETPLACE_AMI, MARKETPLACE_CAR
+    #       type: "CLOUD_FORMATION_TEMPLATE", # accepts CLOUD_FORMATION_TEMPLATE, MARKETPLACE_AMI, MARKETPLACE_CAR, TERRAFORM_OPEN_SOURCE, TERRAFORM_CLOUD, EXTERNAL
     #       disable_template_validation: false,
     #     },
     #     idempotency_token: "IdempotencyToken", # required
@@ -1494,7 +1635,7 @@ module Aws::ServiceCatalog
     #   resp.provisioning_artifact_detail.id #=> String
     #   resp.provisioning_artifact_detail.name #=> String
     #   resp.provisioning_artifact_detail.description #=> String
-    #   resp.provisioning_artifact_detail.type #=> String, one of "CLOUD_FORMATION_TEMPLATE", "MARKETPLACE_AMI", "MARKETPLACE_CAR"
+    #   resp.provisioning_artifact_detail.type #=> String, one of "CLOUD_FORMATION_TEMPLATE", "MARKETPLACE_AMI", "MARKETPLACE_CAR", "TERRAFORM_OPEN_SOURCE", "TERRAFORM_CLOUD", "EXTERNAL"
     #   resp.provisioning_artifact_detail.created_time #=> Time
     #   resp.provisioning_artifact_detail.active #=> Boolean
     #   resp.provisioning_artifact_detail.guidance #=> String, one of "DEFAULT", "DEPRECATED"
@@ -1549,16 +1690,14 @@ module Aws::ServiceCatalog
     #
     #   : The list of parameters in JSON format.
     #
-    #     For example: `[\{"Name":"InstanceId","Type":"TARGET"\}]` or
-    #     `[\{"Name":"InstanceId","Type":"TEXT_VALUE"\}]`.
+    #     For example: `[{"Name":"InstanceId","Type":"TARGET"}]` or
+    #     `[{"Name":"InstanceId","Type":"TEXT_VALUE"}]`.
     #
     # @option params [String] :description
     #   The self-service action description.
     #
     # @option params [String] :accept_language
     #   The language code.
-    #
-    #   * `en` - English (default)
     #
     #   * `jp` - Japanese
     #
@@ -1650,8 +1789,6 @@ module Aws::ServiceCatalog
     # @option params [String] :accept_language
     #   The language code.
     #
-    #   * `en` - English (default)
-    #
     #   * `jp` - Japanese
     #
     #   * `zh` - Chinese
@@ -1686,8 +1823,6 @@ module Aws::ServiceCatalog
     #
     # @option params [String] :accept_language
     #   The language code.
-    #
-    #   * `en` - English (default)
     #
     #   * `jp` - Japanese
     #
@@ -1724,8 +1859,6 @@ module Aws::ServiceCatalog
     #
     # @option params [String] :accept_language
     #   The language code.
-    #
-    #   * `en` - English (default)
     #
     #   * `jp` - Japanese
     #
@@ -1779,8 +1912,6 @@ module Aws::ServiceCatalog
     # @option params [String] :accept_language
     #   The language code.
     #
-    #   * `en` - English (default)
-    #
     #   * `jp` - Japanese
     #
     #   * `zh` - Chinese
@@ -1810,8 +1941,6 @@ module Aws::ServiceCatalog
     #
     # @option params [String] :accept_language
     #   The language code.
-    #
-    #   * `en` - English (default)
     #
     #   * `jp` - Japanese
     #
@@ -1854,8 +1983,6 @@ module Aws::ServiceCatalog
     # @option params [String] :accept_language
     #   The language code.
     #
-    #   * `en` - English (default)
-    #
     #   * `jp` - Japanese
     #
     #   * `zh` - Chinese
@@ -1893,11 +2020,18 @@ module Aws::ServiceCatalog
     # @option params [String] :accept_language
     #   The language code.
     #
-    #   * `en` - English (default)
-    #
     #   * `jp` - Japanese
     #
     #   * `zh` - Chinese
+    #
+    # @option params [String] :idempotency_token
+    #   A unique identifier that you provide to ensure idempotency. If
+    #   multiple requests from the same Amazon Web Services account use the
+    #   same idempotency token, the same response is returned for each
+    #   repeated request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
@@ -1906,6 +2040,7 @@ module Aws::ServiceCatalog
     #   resp = client.delete_service_action({
     #     id: "Id", # required
     #     accept_language: "AcceptLanguage",
+    #     idempotency_token: "IdempotencyToken",
     #   })
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/servicecatalog-2015-12-10/DeleteServiceAction AWS API Documentation
@@ -1946,8 +2081,6 @@ module Aws::ServiceCatalog
     #
     # @option params [String] :accept_language
     #   The language code.
-    #
-    #   * `en` - English (default)
     #
     #   * `jp` - Japanese
     #
@@ -1994,8 +2127,6 @@ module Aws::ServiceCatalog
     # @option params [String] :accept_language
     #   The language code.
     #
-    #   * `en` - English (default)
-    #
     #   * `jp` - Japanese
     #
     #   * `zh` - Chinese
@@ -2038,8 +2169,6 @@ module Aws::ServiceCatalog
     #
     # @option params [String] :accept_language
     #   The language code.
-    #
-    #   * `en` - English (default)
     #
     #   * `jp` - Japanese
     #
@@ -2209,10 +2338,13 @@ module Aws::ServiceCatalog
 
     # Gets information about the specified product.
     #
+    # <note markdown="1"> Running this operation with administrator access results in a failure.
+    # DescribeProductAsAdmin should be used instead.
+    #
+    #  </note>
+    #
     # @option params [String] :accept_language
     #   The language code.
-    #
-    #   * `en` - English (default)
     #
     #   * `jp` - Japanese
     #
@@ -2246,7 +2378,7 @@ module Aws::ServiceCatalog
     #   resp.product_view_summary.name #=> String
     #   resp.product_view_summary.owner #=> String
     #   resp.product_view_summary.short_description #=> String
-    #   resp.product_view_summary.type #=> String, one of "CLOUD_FORMATION_TEMPLATE", "MARKETPLACE"
+    #   resp.product_view_summary.type #=> String, one of "CLOUD_FORMATION_TEMPLATE", "MARKETPLACE", "TERRAFORM_OPEN_SOURCE", "TERRAFORM_CLOUD", "EXTERNAL"
     #   resp.product_view_summary.distributor #=> String
     #   resp.product_view_summary.has_default_path #=> Boolean
     #   resp.product_view_summary.support_email #=> String
@@ -2278,8 +2410,6 @@ module Aws::ServiceCatalog
     #
     # @option params [String] :accept_language
     #   The language code.
-    #
-    #   * `en` - English (default)
     #
     #   * `jp` - Japanese
     #
@@ -2325,7 +2455,7 @@ module Aws::ServiceCatalog
     #   resp.product_view_detail.product_view_summary.name #=> String
     #   resp.product_view_detail.product_view_summary.owner #=> String
     #   resp.product_view_detail.product_view_summary.short_description #=> String
-    #   resp.product_view_detail.product_view_summary.type #=> String, one of "CLOUD_FORMATION_TEMPLATE", "MARKETPLACE"
+    #   resp.product_view_detail.product_view_summary.type #=> String, one of "CLOUD_FORMATION_TEMPLATE", "MARKETPLACE", "TERRAFORM_OPEN_SOURCE", "TERRAFORM_CLOUD", "EXTERNAL"
     #   resp.product_view_detail.product_view_summary.distributor #=> String
     #   resp.product_view_detail.product_view_summary.has_default_path #=> Boolean
     #   resp.product_view_detail.product_view_summary.support_email #=> String
@@ -2377,8 +2507,6 @@ module Aws::ServiceCatalog
     # @option params [String] :accept_language
     #   The language code.
     #
-    #   * `en` - English (default)
-    #
     #   * `jp` - Japanese
     #
     #   * `zh` - Chinese
@@ -2405,7 +2533,7 @@ module Aws::ServiceCatalog
     #   resp.product_view_summary.name #=> String
     #   resp.product_view_summary.owner #=> String
     #   resp.product_view_summary.short_description #=> String
-    #   resp.product_view_summary.type #=> String, one of "CLOUD_FORMATION_TEMPLATE", "MARKETPLACE"
+    #   resp.product_view_summary.type #=> String, one of "CLOUD_FORMATION_TEMPLATE", "MARKETPLACE", "TERRAFORM_OPEN_SOURCE", "TERRAFORM_CLOUD", "EXTERNAL"
     #   resp.product_view_summary.distributor #=> String
     #   resp.product_view_summary.has_default_path #=> Boolean
     #   resp.product_view_summary.support_email #=> String
@@ -2431,8 +2559,6 @@ module Aws::ServiceCatalog
     #
     # @option params [String] :accept_language
     #   The language code.
-    #
-    #   * `en` - English (default)
     #
     #   * `jp` - Japanese
     #
@@ -2497,8 +2623,6 @@ module Aws::ServiceCatalog
     #
     # @option params [String] :accept_language
     #   The language code.
-    #
-    #   * `en` - English (default)
     #
     #   * `jp` - Japanese
     #
@@ -2583,8 +2707,6 @@ module Aws::ServiceCatalog
     # @option params [String] :accept_language
     #   The language code.
     #
-    #   * `en` - English (default)
-    #
     #   * `jp` - Japanese
     #
     #   * `zh` - Chinese
@@ -2604,11 +2726,16 @@ module Aws::ServiceCatalog
     # @option params [Boolean] :verbose
     #   Indicates whether a verbose level of detail is enabled.
     #
+    # @option params [Boolean] :include_provisioning_artifact_parameters
+    #   Indicates if the API call response does or does not include additional
+    #   details about the provisioning parameters.
+    #
     # @return [Types::DescribeProvisioningArtifactOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::DescribeProvisioningArtifactOutput#provisioning_artifact_detail #provisioning_artifact_detail} => Types::ProvisioningArtifactDetail
     #   * {Types::DescribeProvisioningArtifactOutput#info #info} => Hash&lt;String,String&gt;
     #   * {Types::DescribeProvisioningArtifactOutput#status #status} => String
+    #   * {Types::DescribeProvisioningArtifactOutput#provisioning_artifact_parameters #provisioning_artifact_parameters} => Array&lt;Types::ProvisioningArtifactParameter&gt;
     #
     # @example Request syntax with placeholder values
     #
@@ -2619,6 +2746,7 @@ module Aws::ServiceCatalog
     #     provisioning_artifact_name: "ProvisioningArtifactName",
     #     product_name: "ProductViewName",
     #     verbose: false,
+    #     include_provisioning_artifact_parameters: false,
     #   })
     #
     # @example Response structure
@@ -2626,7 +2754,7 @@ module Aws::ServiceCatalog
     #   resp.provisioning_artifact_detail.id #=> String
     #   resp.provisioning_artifact_detail.name #=> String
     #   resp.provisioning_artifact_detail.description #=> String
-    #   resp.provisioning_artifact_detail.type #=> String, one of "CLOUD_FORMATION_TEMPLATE", "MARKETPLACE_AMI", "MARKETPLACE_CAR"
+    #   resp.provisioning_artifact_detail.type #=> String, one of "CLOUD_FORMATION_TEMPLATE", "MARKETPLACE_AMI", "MARKETPLACE_CAR", "TERRAFORM_OPEN_SOURCE", "TERRAFORM_CLOUD", "EXTERNAL"
     #   resp.provisioning_artifact_detail.created_time #=> Time
     #   resp.provisioning_artifact_detail.active #=> Boolean
     #   resp.provisioning_artifact_detail.guidance #=> String, one of "DEFAULT", "DEPRECATED"
@@ -2634,6 +2762,20 @@ module Aws::ServiceCatalog
     #   resp.info #=> Hash
     #   resp.info["ProvisioningArtifactInfoKey"] #=> String
     #   resp.status #=> String, one of "AVAILABLE", "CREATING", "FAILED"
+    #   resp.provisioning_artifact_parameters #=> Array
+    #   resp.provisioning_artifact_parameters[0].parameter_key #=> String
+    #   resp.provisioning_artifact_parameters[0].default_value #=> String
+    #   resp.provisioning_artifact_parameters[0].parameter_type #=> String
+    #   resp.provisioning_artifact_parameters[0].is_no_echo #=> Boolean
+    #   resp.provisioning_artifact_parameters[0].description #=> String
+    #   resp.provisioning_artifact_parameters[0].parameter_constraints.allowed_values #=> Array
+    #   resp.provisioning_artifact_parameters[0].parameter_constraints.allowed_values[0] #=> String
+    #   resp.provisioning_artifact_parameters[0].parameter_constraints.allowed_pattern #=> String
+    #   resp.provisioning_artifact_parameters[0].parameter_constraints.constraint_description #=> String
+    #   resp.provisioning_artifact_parameters[0].parameter_constraints.max_length #=> String
+    #   resp.provisioning_artifact_parameters[0].parameter_constraints.min_length #=> String
+    #   resp.provisioning_artifact_parameters[0].parameter_constraints.max_value #=> String
+    #   resp.provisioning_artifact_parameters[0].parameter_constraints.min_value #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/servicecatalog-2015-12-10/DescribeProvisioningArtifact AWS API Documentation
     #
@@ -2657,8 +2799,6 @@ module Aws::ServiceCatalog
     #
     # @option params [String] :accept_language
     #   The language code.
-    #
-    #   * `en` - English (default)
     #
     #   * `jp` - Japanese
     #
@@ -2775,8 +2915,6 @@ module Aws::ServiceCatalog
     # @option params [String] :accept_language
     #   The language code.
     #
-    #   * `en` - English (default)
-    #
     #   * `jp` - Japanese
     #
     #   * `zh` - Chinese
@@ -2850,8 +2988,6 @@ module Aws::ServiceCatalog
     # @option params [String] :accept_language
     #   The language code.
     #
-    #   * `en` - English (default)
-    #
     #   * `jp` - Japanese
     #
     #   * `zh` - Chinese
@@ -2897,8 +3033,6 @@ module Aws::ServiceCatalog
     #
     # @option params [String] :accept_language
     #   The language code.
-    #
-    #   * `en` - English (default)
     #
     #   * `jp` - Japanese
     #
@@ -3037,10 +3171,25 @@ module Aws::ServiceCatalog
     # will no longer be able to provision products in this portfolio using a
     # role matching the name of the associated principal.
     #
+    # For more information, review [associate-principal-with-portfolio][1]
+    # in the Amazon Web Services CLI Command Reference.
+    #
+    # <note markdown="1"> If you disassociate a principal from a portfolio, with PrincipalType
+    # as `IAM`, the same principal will still have access to the portfolio
+    # if it matches one of the associated principals of type `IAM_PATTERN`.
+    # To fully remove access for a principal, verify all the associated
+    # Principals of type `IAM_PATTERN`, and then ensure you disassociate any
+    # `IAM_PATTERN` principals that match the principal whose access you are
+    # removing.
+    #
+    #  </note>
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/cli/latest/reference/servicecatalog/associate-principal-with-portfolio.html#options
+    #
     # @option params [String] :accept_language
     #   The language code.
-    #
-    #   * `en` - English (default)
     #
     #   * `jp` - Japanese
     #
@@ -3050,12 +3199,14 @@ module Aws::ServiceCatalog
     #   The portfolio identifier.
     #
     # @option params [required, String] :principal_arn
-    #   The ARN of the principal (IAM user, role, or group). This field allows
-    #   an ARN with no `accountID` if `PrincipalType` is `IAM_PATTERN`.
+    #   The ARN of the principal (user, role, or group). This field allows an
+    #   ARN with no `accountID` with or without wildcard characters if
+    #   `PrincipalType` is `IAM_PATTERN`.
     #
     # @option params [String] :principal_type
     #   The supported value is `IAM` if you use a fully defined ARN, or
-    #   `IAM_PATTERN` if you use no `accountID`.
+    #   `IAM_PATTERN` if you specify an `IAM` ARN with no AccountId, with or
+    #   without wildcard characters.
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
@@ -3083,8 +3234,6 @@ module Aws::ServiceCatalog
     #
     # @option params [String] :accept_language
     #   The language code.
-    #
-    #   * `en` - English (default)
     #
     #   * `jp` - Japanese
     #
@@ -3131,11 +3280,18 @@ module Aws::ServiceCatalog
     # @option params [String] :accept_language
     #   The language code.
     #
-    #   * `en` - English (default)
-    #
     #   * `jp` - Japanese
     #
     #   * `zh` - Chinese
+    #
+    # @option params [String] :idempotency_token
+    #   A unique identifier that you provide to ensure idempotency. If
+    #   multiple requests from the same Amazon Web Services account use the
+    #   same idempotency token, the same response is returned for each
+    #   repeated request.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
@@ -3146,6 +3302,7 @@ module Aws::ServiceCatalog
     #     provisioning_artifact_id: "Id", # required
     #     service_action_id: "Id", # required
     #     accept_language: "AcceptLanguage",
+    #     idempotency_token: "IdempotencyToken",
     #   })
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/servicecatalog-2015-12-10/DisassociateServiceActionFromProvisioningArtifact AWS API Documentation
@@ -3223,8 +3380,6 @@ module Aws::ServiceCatalog
     # @option params [String] :accept_language
     #   The language code.
     #
-    #   * `en` - English (default)
-    #
     #   * `jp` - Japanese
     #
     #   * `zh` - Chinese
@@ -3298,8 +3453,6 @@ module Aws::ServiceCatalog
     #
     # @option params [String] :accept_language
     #   The language code.
-    #
-    #   * `en` - English (default)
     #
     #   * `jp` - Japanese
     #
@@ -3387,8 +3540,6 @@ module Aws::ServiceCatalog
     # @option params [String] :accept_language
     #   The language code.
     #
-    #   * `en` - English (default)
-    #
     #   * `jp` - Japanese
     #
     #   * `zh` - Chinese
@@ -3449,28 +3600,38 @@ module Aws::ServiceCatalog
 
     # Requests the import of a resource as an Service Catalog provisioned
     # product that is associated to an Service Catalog product and
-    # provisioning artifact. Once imported, all supported Service Catalog
-    # governance actions are supported on the provisioned product.
+    # provisioning artifact. Once imported, all supported governance actions
+    # are supported on the provisioned product.
     #
     # Resource import only supports CloudFormation stack ARNs.
-    # CloudFormation StackSets and non-root nested stacks are not supported.
+    # CloudFormation StackSets, and non-root nested stacks, are not
+    # supported.
     #
     # The CloudFormation stack must have one of the following statuses to be
     # imported: `CREATE_COMPLETE`, `UPDATE_COMPLETE`,
-    # `UPDATE_ROLLBACK_COMPLETE`, `IMPORT_COMPLETE`,
+    # `UPDATE_ROLLBACK_COMPLETE`, `IMPORT_COMPLETE`, and
     # `IMPORT_ROLLBACK_COMPLETE`.
     #
     # Import of the resource requires that the CloudFormation stack template
     # matches the associated Service Catalog product provisioning artifact.
     #
+    # <note markdown="1"> When you import an existing CloudFormation stack into a portfolio,
+    # Service Catalog does not apply the product's associated constraints
+    # during the import process. Service Catalog applies the constraints
+    # after you call `UpdateProvisionedProduct` for the provisioned product.
+    #
+    #  </note>
+    #
     # The user or role that performs this operation must have the
     # `cloudformation:GetTemplate` and `cloudformation:DescribeStacks` IAM
     # policy permissions.
     #
+    # You can only import one provisioned product at a time. The product's
+    # CloudFormation stack must have the `IMPORT_COMPLETE` status before you
+    # import another.
+    #
     # @option params [String] :accept_language
     #   The language code.
-    #
-    #   * `en` - English (default)
     #
     #   * `jp` - Japanese
     #
@@ -3552,8 +3713,6 @@ module Aws::ServiceCatalog
     # @option params [String] :accept_language
     #   The language code.
     #
-    #   * `en` - English (default)
-    #
     #   * `jp` - Japanese
     #
     #   * `zh` - Chinese
@@ -3619,8 +3778,6 @@ module Aws::ServiceCatalog
     # @option params [String] :accept_language
     #   The language code.
     #
-    #   * `en` - English (default)
-    #
     #   * `jp` - Japanese
     #
     #   * `zh` - Chinese
@@ -3670,8 +3827,6 @@ module Aws::ServiceCatalog
     #
     # @option params [String] :accept_language
     #   The language code.
-    #
-    #   * `en` - English (default)
     #
     #   * `jp` - Japanese
     #
@@ -3727,14 +3882,25 @@ module Aws::ServiceCatalog
       req.send_request(options)
     end
 
-    # Lists the paths to the specified product. A path is how the user has
-    # access to a specified product, and is necessary when provisioning a
-    # product. A path also determines the constraints put on the product.
+    # Lists the paths to the specified product. A path describes how the
+    # user gets access to a specified product and is necessary when
+    # provisioning a product. A path also determines the constraints that
+    # are put on a product. A path is dependent on a specific product,
+    # porfolio, and principal.
+    #
+    # <note markdown="1"> When provisioning a product that's been added to a portfolio, you
+    # must grant your user, group, or role access to the portfolio. For more
+    # information, see [Granting users access][1] in the *Service Catalog
+    # User Guide*.
+    #
+    #  </note>
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/servicecatalog/latest/adminguide/catalogs_portfolios_users.html
     #
     # @option params [String] :accept_language
     #   The language code.
-    #
-    #   * `en` - English (default)
     #
     #   * `jp` - Japanese
     #
@@ -3797,8 +3963,6 @@ module Aws::ServiceCatalog
     #
     # @option params [String] :accept_language
     #   The language code.
-    #
-    #   * `en` - English (default)
     #
     #   * `jp` - Japanese
     #
@@ -3867,8 +4031,6 @@ module Aws::ServiceCatalog
     # @option params [String] :accept_language
     #   The language code.
     #
-    #   * `en` - English (default)
-    #
     #   * `jp` - Japanese
     #
     #   * `zh` - Chinese
@@ -3925,8 +4087,6 @@ module Aws::ServiceCatalog
     # @option params [String] :accept_language
     #   The language code.
     #
-    #   * `en` - English (default)
-    #
     #   * `jp` - Japanese
     #
     #   * `zh` - Chinese
@@ -3977,8 +4137,6 @@ module Aws::ServiceCatalog
     #
     # @option params [String] :accept_language
     #   The language code.
-    #
-    #   * `en` - English (default)
     #
     #   * `jp` - Japanese
     #
@@ -4036,8 +4194,6 @@ module Aws::ServiceCatalog
     # @option params [String] :accept_language
     #   The language code.
     #
-    #   * `en` - English (default)
-    #
     #   * `jp` - Japanese
     #
     #   * `zh` - Chinese
@@ -4089,8 +4245,6 @@ module Aws::ServiceCatalog
     #
     # @option params [String] :accept_language
     #   The language code.
-    #
-    #   * `en` - English (default)
     #
     #   * `jp` - Japanese
     #
@@ -4153,8 +4307,6 @@ module Aws::ServiceCatalog
     # @option params [String] :accept_language
     #   The language code.
     #
-    #   * `en` - English (default)
-    #
     #   * `jp` - Japanese
     #
     #   * `zh` - Chinese
@@ -4180,7 +4332,7 @@ module Aws::ServiceCatalog
     #   resp.provisioning_artifact_details[0].id #=> String
     #   resp.provisioning_artifact_details[0].name #=> String
     #   resp.provisioning_artifact_details[0].description #=> String
-    #   resp.provisioning_artifact_details[0].type #=> String, one of "CLOUD_FORMATION_TEMPLATE", "MARKETPLACE_AMI", "MARKETPLACE_CAR"
+    #   resp.provisioning_artifact_details[0].type #=> String, one of "CLOUD_FORMATION_TEMPLATE", "MARKETPLACE_AMI", "MARKETPLACE_CAR", "TERRAFORM_OPEN_SOURCE", "TERRAFORM_CLOUD", "EXTERNAL"
     #   resp.provisioning_artifact_details[0].created_time #=> Time
     #   resp.provisioning_artifact_details[0].active #=> Boolean
     #   resp.provisioning_artifact_details[0].guidance #=> String, one of "DEFAULT", "DEPRECATED"
@@ -4212,8 +4364,6 @@ module Aws::ServiceCatalog
     # @option params [String] :accept_language
     #   The language code.
     #
-    #   * `en` - English (default)
-    #
     #   * `jp` - Japanese
     #
     #   * `zh` - Chinese
@@ -4242,7 +4392,7 @@ module Aws::ServiceCatalog
     #   resp.provisioning_artifact_views[0].product_view_summary.name #=> String
     #   resp.provisioning_artifact_views[0].product_view_summary.owner #=> String
     #   resp.provisioning_artifact_views[0].product_view_summary.short_description #=> String
-    #   resp.provisioning_artifact_views[0].product_view_summary.type #=> String, one of "CLOUD_FORMATION_TEMPLATE", "MARKETPLACE"
+    #   resp.provisioning_artifact_views[0].product_view_summary.type #=> String, one of "CLOUD_FORMATION_TEMPLATE", "MARKETPLACE", "TERRAFORM_OPEN_SOURCE", "TERRAFORM_CLOUD", "EXTERNAL"
     #   resp.provisioning_artifact_views[0].product_view_summary.distributor #=> String
     #   resp.provisioning_artifact_views[0].product_view_summary.has_default_path #=> Boolean
     #   resp.provisioning_artifact_views[0].product_view_summary.support_email #=> String
@@ -4268,8 +4418,6 @@ module Aws::ServiceCatalog
     #
     # @option params [String] :accept_language
     #   The language code.
-    #
-    #   * `en` - English (default)
     #
     #   * `jp` - Japanese
     #
@@ -4400,8 +4548,6 @@ module Aws::ServiceCatalog
     # @option params [String] :accept_language
     #   The language code.
     #
-    #   * `en` - English (default)
-    #
     #   * `jp` - Japanese
     #
     #   * `zh` - Chinese
@@ -4466,8 +4612,6 @@ module Aws::ServiceCatalog
     # @option params [String] :accept_language
     #   The language code.
     #
-    #   * `en` - English (default)
-    #
     #   * `jp` - Japanese
     #
     #   * `zh` - Chinese
@@ -4514,8 +4658,6 @@ module Aws::ServiceCatalog
     #
     # @option params [String] :accept_language
     #   The language code.
-    #
-    #   * `en` - English (default)
     #
     #   * `jp` - Japanese
     #
@@ -4613,22 +4755,192 @@ module Aws::ServiceCatalog
       req.send_request(options)
     end
 
+    # Notifies the result of the provisioning engine execution.
+    #
+    # @option params [required, String] :workflow_token
+    #   The encrypted contents of the provisioning engine execution payload
+    #   that Service Catalog sends after the Terraform product provisioning
+    #   workflow starts.
+    #
+    # @option params [required, String] :record_id
+    #   The identifier of the record.
+    #
+    # @option params [required, String] :status
+    #   The status of the provisioning engine execution.
+    #
+    # @option params [String] :failure_reason
+    #   The reason why the provisioning engine execution failed.
+    #
+    # @option params [Types::EngineWorkflowResourceIdentifier] :resource_identifier
+    #   The ID for the provisioned product resources that are part of a
+    #   resource group.
+    #
+    # @option params [Array<Types::RecordOutput>] :outputs
+    #   The output of the provisioning engine execution.
+    #
+    # @option params [required, String] :idempotency_token
+    #   The idempotency token that identifies the provisioning engine
+    #   execution.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.notify_provision_product_engine_workflow_result({
+    #     workflow_token: "EngineWorkflowToken", # required
+    #     record_id: "Id", # required
+    #     status: "SUCCEEDED", # required, accepts SUCCEEDED, FAILED
+    #     failure_reason: "EngineWorkflowFailureReason",
+    #     resource_identifier: {
+    #       unique_tag: {
+    #         key: "UniqueTagKey",
+    #         value: "UniqueTagValue",
+    #       },
+    #     },
+    #     outputs: [
+    #       {
+    #         output_key: "OutputKey",
+    #         output_value: "OutputValue",
+    #         description: "Description",
+    #       },
+    #     ],
+    #     idempotency_token: "IdempotencyToken", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/servicecatalog-2015-12-10/NotifyProvisionProductEngineWorkflowResult AWS API Documentation
+    #
+    # @overload notify_provision_product_engine_workflow_result(params = {})
+    # @param [Hash] params ({})
+    def notify_provision_product_engine_workflow_result(params = {}, options = {})
+      req = build_request(:notify_provision_product_engine_workflow_result, params)
+      req.send_request(options)
+    end
+
+    # Notifies the result of the terminate engine execution.
+    #
+    # @option params [required, String] :workflow_token
+    #   The encrypted contents of the terminate engine execution payload that
+    #   Service Catalog sends after the Terraform product terminate workflow
+    #   starts.
+    #
+    # @option params [required, String] :record_id
+    #   The identifier of the record.
+    #
+    # @option params [required, String] :status
+    #   The status of the terminate engine execution.
+    #
+    # @option params [String] :failure_reason
+    #   The reason why the terminate engine execution failed.
+    #
+    # @option params [required, String] :idempotency_token
+    #   The idempotency token that identifies the terminate engine execution.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.notify_terminate_provisioned_product_engine_workflow_result({
+    #     workflow_token: "EngineWorkflowToken", # required
+    #     record_id: "Id", # required
+    #     status: "SUCCEEDED", # required, accepts SUCCEEDED, FAILED
+    #     failure_reason: "EngineWorkflowFailureReason",
+    #     idempotency_token: "IdempotencyToken", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/servicecatalog-2015-12-10/NotifyTerminateProvisionedProductEngineWorkflowResult AWS API Documentation
+    #
+    # @overload notify_terminate_provisioned_product_engine_workflow_result(params = {})
+    # @param [Hash] params ({})
+    def notify_terminate_provisioned_product_engine_workflow_result(params = {}, options = {})
+      req = build_request(:notify_terminate_provisioned_product_engine_workflow_result, params)
+      req.send_request(options)
+    end
+
+    # Notifies the result of the update engine execution.
+    #
+    # @option params [required, String] :workflow_token
+    #   The encrypted contents of the update engine execution payload that
+    #   Service Catalog sends after the Terraform product update workflow
+    #   starts.
+    #
+    # @option params [required, String] :record_id
+    #   The identifier of the record.
+    #
+    # @option params [required, String] :status
+    #   The status of the update engine execution.
+    #
+    # @option params [String] :failure_reason
+    #   The reason why the update engine execution failed.
+    #
+    # @option params [Array<Types::RecordOutput>] :outputs
+    #   The output of the update engine execution.
+    #
+    # @option params [required, String] :idempotency_token
+    #   The idempotency token that identifies the update engine execution.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.notify_update_provisioned_product_engine_workflow_result({
+    #     workflow_token: "EngineWorkflowToken", # required
+    #     record_id: "Id", # required
+    #     status: "SUCCEEDED", # required, accepts SUCCEEDED, FAILED
+    #     failure_reason: "EngineWorkflowFailureReason",
+    #     outputs: [
+    #       {
+    #         output_key: "OutputKey",
+    #         output_value: "OutputValue",
+    #         description: "Description",
+    #       },
+    #     ],
+    #     idempotency_token: "IdempotencyToken", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/servicecatalog-2015-12-10/NotifyUpdateProvisionedProductEngineWorkflowResult AWS API Documentation
+    #
+    # @overload notify_update_provisioned_product_engine_workflow_result(params = {})
+    # @param [Hash] params ({})
+    def notify_update_provisioned_product_engine_workflow_result(params = {}, options = {})
+      req = build_request(:notify_update_provisioned_product_engine_workflow_result, params)
+      req.send_request(options)
+    end
+
     # Provisions the specified product.
     #
     # A provisioned product is a resourced instance of a product. For
-    # example, provisioning a product based on a CloudFormation template
-    # launches a CloudFormation stack and its underlying resources. You can
-    # check the status of this request using DescribeRecord.
+    # example, provisioning a product that's based on an CloudFormation
+    # template launches an CloudFormation stack and its underlying
+    # resources. You can check the status of this request using
+    # DescribeRecord.
     #
-    # If the request contains a tag key with an empty list of values, there
-    # is a tag conflict for that key. Do not include conflicted keys as
-    # tags, or this causes the error "Parameter validation failed: Missing
-    # required parameter in Tags\[*N*\]:*Value*".
+    # If the request contains a tag key with an empty list of values,
+    # there's a tag conflict for that key. Don't include conflicted keys
+    # as tags, or this will cause the error "Parameter validation failed:
+    # Missing required parameter in Tags\[*N*\]:*Value*".
+    #
+    # <note markdown="1"> When provisioning a product that's been added to a portfolio, you
+    # must grant your user, group, or role access to the portfolio. For more
+    # information, see [Granting users access][1] in the *Service Catalog
+    # User Guide*.
+    #
+    #  </note>
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/servicecatalog/latest/adminguide/catalogs_portfolios_users.html
     #
     # @option params [String] :accept_language
     #   The language code.
-    #
-    #   * `en` - English (default)
     #
     #   * `jp` - Japanese
     #
@@ -4759,8 +5071,6 @@ module Aws::ServiceCatalog
     # @option params [String] :accept_language
     #   The language code.
     #
-    #   * `en` - English (default)
-    #
     #   * `jp` - Japanese
     #
     #   * `zh` - Chinese
@@ -4808,8 +5118,6 @@ module Aws::ServiceCatalog
     #
     # @option params [String] :accept_language
     #   The language code.
-    #
-    #   * `en` - English (default)
     #
     #   * `jp` - Japanese
     #
@@ -4875,8 +5183,6 @@ module Aws::ServiceCatalog
     # @option params [String] :accept_language
     #   The language code.
     #
-    #   * `en` - English (default)
-    #
     #   * `jp` - Japanese
     #
     #   * `zh` - Chinese
@@ -4927,7 +5233,7 @@ module Aws::ServiceCatalog
     #   resp.product_view_summaries[0].name #=> String
     #   resp.product_view_summaries[0].owner #=> String
     #   resp.product_view_summaries[0].short_description #=> String
-    #   resp.product_view_summaries[0].type #=> String, one of "CLOUD_FORMATION_TEMPLATE", "MARKETPLACE"
+    #   resp.product_view_summaries[0].type #=> String, one of "CLOUD_FORMATION_TEMPLATE", "MARKETPLACE", "TERRAFORM_OPEN_SOURCE", "TERRAFORM_CLOUD", "EXTERNAL"
     #   resp.product_view_summaries[0].distributor #=> String
     #   resp.product_view_summaries[0].has_default_path #=> Boolean
     #   resp.product_view_summaries[0].support_email #=> String
@@ -4953,8 +5259,6 @@ module Aws::ServiceCatalog
     #
     # @option params [String] :accept_language
     #   The language code.
-    #
-    #   * `en` - English (default)
     #
     #   * `jp` - Japanese
     #
@@ -5013,7 +5317,7 @@ module Aws::ServiceCatalog
     #   resp.product_view_details[0].product_view_summary.name #=> String
     #   resp.product_view_details[0].product_view_summary.owner #=> String
     #   resp.product_view_details[0].product_view_summary.short_description #=> String
-    #   resp.product_view_details[0].product_view_summary.type #=> String, one of "CLOUD_FORMATION_TEMPLATE", "MARKETPLACE"
+    #   resp.product_view_details[0].product_view_summary.type #=> String, one of "CLOUD_FORMATION_TEMPLATE", "MARKETPLACE", "TERRAFORM_OPEN_SOURCE", "TERRAFORM_CLOUD", "EXTERNAL"
     #   resp.product_view_details[0].product_view_summary.distributor #=> String
     #   resp.product_view_details[0].product_view_summary.has_default_path #=> Boolean
     #   resp.product_view_details[0].product_view_summary.support_email #=> String
@@ -5046,20 +5350,8 @@ module Aws::ServiceCatalog
     # Gets information about the provisioned products that meet the
     # specified criteria.
     #
-    # <note markdown="1"> To ensure a complete list of provisioned products and remove duplicate
-    # products, use `sort-by createdTime`.
-    #
-    #  Here is a CLI example: ` `
-    #
-    #  `aws servicecatalog search-provisioned-products --sort-by createdTime
-    # `
-    #
-    #  </note>
-    #
     # @option params [String] :accept_language
     #   The language code.
-    #
-    #   * `en` - English (default)
     #
     #   * `jp` - Japanese
     #
@@ -5073,7 +5365,7 @@ module Aws::ServiceCatalog
     #
     #   When the key is `SearchQuery`, the searchable fields are `arn`,
     #   `createdTime`, `id`, `lastRecordId`, `idempotencyToken`, `name`,
-    #   `physicalId`, `productId`, `provisioningArtifact`, `type`, `status`,
+    #   `physicalId`, `productId`, `provisioningArtifactId`, `type`, `status`,
     #   `tags`, `userArn`, `userArnSession`, `lastProvisioningRecordId`,
     #   `lastSuccessfulProvisioningRecordId`, `productName`, and
     #   `provisioningArtifactName`.
@@ -5186,8 +5478,6 @@ module Aws::ServiceCatalog
     # @option params [String] :accept_language
     #   The language code.
     #
-    #   * `en` - English (default)
-    #
     #   * `jp` - Japanese
     #
     #   * `zh` - Chinese
@@ -5249,8 +5539,6 @@ module Aws::ServiceCatalog
     # @option params [String] :accept_language
     #   The language code.
     #
-    #   * `en` - English (default)
-    #
     #   * `jp` - Japanese
     #
     #   * `zh` - Chinese
@@ -5272,11 +5560,11 @@ module Aws::ServiceCatalog
     #
     #     Specify the `RoleArn` property as follows:
     #
-    #     `\{"RoleArn" : "arn:aws:iam::123456789012:role/LaunchRole"\}`
+    #     `{"RoleArn" : "arn:aws:iam::123456789012:role/LaunchRole"}`
     #
     #     Specify the `LocalRoleName` property as follows:
     #
-    #     `\{"LocalRoleName": "SCBasicLaunchRole"\}`
+    #     `{"LocalRoleName": "SCBasicLaunchRole"}`
     #
     #     If you specify the `LocalRoleName` property, when an account uses
     #     the launch constraint, the IAM role with that name in the account
@@ -5299,14 +5587,14 @@ module Aws::ServiceCatalog
     #
     #   : Specify the `NotificationArns` property as follows:
     #
-    #     `\{"NotificationArns" :
-    #     ["arn:aws:sns:us-east-1:123456789012:Topic"]\}`
+    #     `{"NotificationArns" :
+    #     ["arn:aws:sns:us-east-1:123456789012:Topic"]}`
     #
     #   RESOURCE\_UPDATE
     #
     #   : Specify the `TagUpdatesOnProvisionedProduct` property as follows:
     #
-    #     `\{"Version":"2.0","Properties":\{"TagUpdateOnProvisionedProduct":"String"\}\}`
+    #     `{"Version":"2.0","Properties":{"TagUpdateOnProvisionedProduct":"String"}}`
     #
     #     The `TagUpdatesOnProvisionedProduct` property accepts a string value
     #     of `ALLOWED` or `NOT_ALLOWED`.
@@ -5315,9 +5603,9 @@ module Aws::ServiceCatalog
     #
     #   : Specify the `Parameters` property as follows:
     #
-    #     `\{"Version": "String", "Properties": \{"AccountList": [ "String" ],
+    #     `{"Version": "String", "Properties": {"AccountList": [ "String" ],
     #     "RegionList": [ "String" ], "AdminRole": "String", "ExecutionRole":
-    #     "String"\}\}`
+    #     "String"}}`
     #
     #     You cannot have both a `LAUNCH` and a `STACKSET` constraint.
     #
@@ -5377,8 +5665,6 @@ module Aws::ServiceCatalog
     #
     # @option params [String] :accept_language
     #   The language code.
-    #
-    #   * `en` - English (default)
     #
     #   * `jp` - Japanese
     #
@@ -5452,7 +5738,7 @@ module Aws::ServiceCatalog
     # The portfolio share cannot be updated if the `CreatePortfolioShare`
     # operation is `IN_PROGRESS`, as the share is not available to recipient
     # entities. In this case, you must wait for the portfolio share to be
-    # COMPLETED.
+    # completed.
     #
     # You must provide the `accountId` or organization node in the input,
     # but not both.
@@ -5480,8 +5766,6 @@ module Aws::ServiceCatalog
     #
     # @option params [String] :accept_language
     #   The language code.
-    #
-    #   * `en` - English (default)
     #
     #   * `jp` - Japanese
     #
@@ -5546,8 +5830,6 @@ module Aws::ServiceCatalog
     #
     # @option params [String] :accept_language
     #   The language code.
-    #
-    #   * `en` - English (default)
     #
     #   * `jp` - Japanese
     #
@@ -5637,7 +5919,7 @@ module Aws::ServiceCatalog
     #   resp.product_view_detail.product_view_summary.name #=> String
     #   resp.product_view_detail.product_view_summary.owner #=> String
     #   resp.product_view_detail.product_view_summary.short_description #=> String
-    #   resp.product_view_detail.product_view_summary.type #=> String, one of "CLOUD_FORMATION_TEMPLATE", "MARKETPLACE"
+    #   resp.product_view_detail.product_view_summary.type #=> String, one of "CLOUD_FORMATION_TEMPLATE", "MARKETPLACE", "TERRAFORM_OPEN_SOURCE", "TERRAFORM_CLOUD", "EXTERNAL"
     #   resp.product_view_detail.product_view_summary.distributor #=> String
     #   resp.product_view_detail.product_view_summary.has_default_path #=> Boolean
     #   resp.product_view_detail.product_view_summary.support_email #=> String
@@ -5681,8 +5963,6 @@ module Aws::ServiceCatalog
     #
     # @option params [String] :accept_language
     #   The language code.
-    #
-    #   * `en` - English (default)
     #
     #   * `jp` - Japanese
     #
@@ -5815,8 +6095,6 @@ module Aws::ServiceCatalog
     # @option params [String] :accept_language
     #   The language code.
     #
-    #   * `en` - English (default)
-    #
     #   * `jp` - Japanese
     #
     #   * `zh` - Chinese
@@ -5835,10 +6113,9 @@ module Aws::ServiceCatalog
     #   `ExecuteProvisionedProductServiceAction`. Only a role ARN is valid. A
     #   user ARN is invalid.
     #
-    #   The `OWNER` key accepts IAM user ARNs, IAM role ARNs, and STS
-    #   assumed-role ARNs. The owner is the user that has permission to see,
-    #   update, terminate, and execute service actions in the provisioned
-    #   product.
+    #   The `OWNER` key accepts user ARNs, IAM role ARNs, and STS assumed-role
+    #   ARNs. The owner is the user that has permission to see, update,
+    #   terminate, and execute service actions in the provisioned product.
     #
     #   The administrator can change the owner of a provisioned product to
     #   another IAM or STS entity within the same account. Both end user
@@ -5908,8 +6185,6 @@ module Aws::ServiceCatalog
     # @option params [String] :accept_language
     #   The language code.
     #
-    #   * `en` - English (default)
-    #
     #   * `jp` - Japanese
     #
     #   * `zh` - Chinese
@@ -5967,7 +6242,7 @@ module Aws::ServiceCatalog
     #   resp.provisioning_artifact_detail.id #=> String
     #   resp.provisioning_artifact_detail.name #=> String
     #   resp.provisioning_artifact_detail.description #=> String
-    #   resp.provisioning_artifact_detail.type #=> String, one of "CLOUD_FORMATION_TEMPLATE", "MARKETPLACE_AMI", "MARKETPLACE_CAR"
+    #   resp.provisioning_artifact_detail.type #=> String, one of "CLOUD_FORMATION_TEMPLATE", "MARKETPLACE_AMI", "MARKETPLACE_CAR", "TERRAFORM_OPEN_SOURCE", "TERRAFORM_CLOUD", "EXTERNAL"
     #   resp.provisioning_artifact_detail.created_time #=> Time
     #   resp.provisioning_artifact_detail.active #=> Boolean
     #   resp.provisioning_artifact_detail.guidance #=> String, one of "DEFAULT", "DEPRECATED"
@@ -6001,8 +6276,6 @@ module Aws::ServiceCatalog
     #
     # @option params [String] :accept_language
     #   The language code.
-    #
-    #   * `en` - English (default)
     #
     #   * `jp` - Japanese
     #
@@ -6088,14 +6361,19 @@ module Aws::ServiceCatalog
     # @api private
     def build_request(operation_name, params = {})
       handlers = @handlers.for(operation_name)
+      tracer = config.telemetry_provider.tracer_provider.tracer(
+        Aws::Telemetry.module_to_tracer_name('Aws::ServiceCatalog')
+      )
       context = Seahorse::Client::RequestContext.new(
         operation_name: operation_name,
         operation: config.api.operation(operation_name),
         client: self,
         params: params,
-        config: config)
+        config: config,
+        tracer: tracer
+      )
       context[:gem_name] = 'aws-sdk-servicecatalog'
-      context[:gem_version] = '1.75.0'
+      context[:gem_version] = '1.110.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

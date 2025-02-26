@@ -32,11 +32,24 @@ module Aws::AuditManager
       :id,
       :email_address,
       :name)
-      SENSITIVE = []
+      SENSITIVE = [:email_address]
       include Aws::Structure
     end
 
     # An Amazon Web Service such as Amazon S3 or CloudTrail.
+    #
+    # For an example of how to find an Amazon Web Service name and how to
+    # define it in your assessment scope, see the following:
+    #
+    # * [Finding an Amazon Web Service name to use in your assessment
+    #   scope][1]
+    #
+    # * [Defining an Amazon Web Service name in your assessment scope][2]
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_GetServicesInScope.html#API_GetServicesInScope_Example_2
+    # [2]: https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_GetServicesInScope.html#API_GetServicesInScope_Example_3
     #
     # @!attribute [rw] service_name
     #   The name of the Amazon Web Service.
@@ -97,7 +110,7 @@ module Aws::AuditManager
       :metadata,
       :framework,
       :tags)
-      SENSITIVE = []
+      SENSITIVE = [:framework]
       include Aws::Structure
     end
 
@@ -152,7 +165,7 @@ module Aws::AuditManager
       :evidence_sources,
       :evidence_count,
       :assessment_report_evidence_count)
-      SENSITIVE = []
+      SENSITIVE = [:description]
       include Aws::Structure
     end
 
@@ -204,7 +217,7 @@ module Aws::AuditManager
       :delegations,
       :system_evidence_count,
       :manual_evidence_count)
-      SENSITIVE = []
+      SENSITIVE = [:roles, :delegations]
       include Aws::Structure
     end
 
@@ -408,7 +421,7 @@ module Aws::AuditManager
       :control_sets_count,
       :created_at,
       :last_updated_at)
-      SENSITIVE = []
+      SENSITIVE = [:compliance_type]
       include Aws::Structure
     end
 
@@ -495,7 +508,7 @@ module Aws::AuditManager
       :standard_controls_count,
       :custom_controls_count,
       :compliance_type)
-      SENSITIVE = []
+      SENSITIVE = [:compliance_type]
       include Aws::Structure
     end
 
@@ -562,7 +575,7 @@ module Aws::AuditManager
       :delegations,
       :creation_time,
       :last_updated)
-      SENSITIVE = []
+      SENSITIVE = [:name, :description, :compliance_type, :assessment_reports_destination, :scope, :roles, :delegations]
       include Aws::Structure
     end
 
@@ -613,7 +626,7 @@ module Aws::AuditManager
       :delegations,
       :creation_time,
       :last_updated)
-      SENSITIVE = []
+      SENSITIVE = [:name, :compliance_type, :roles, :delegations]
       include Aws::Structure
     end
 
@@ -671,7 +684,7 @@ module Aws::AuditManager
       :author,
       :status,
       :creation_time)
-      SENSITIVE = []
+      SENSITIVE = [:description, :assessment_name, :author]
       include Aws::Structure
     end
 
@@ -746,7 +759,7 @@ module Aws::AuditManager
       :author,
       :status,
       :creation_time)
-      SENSITIVE = []
+      SENSITIVE = [:description, :assessment_name, :author]
       include Aws::Structure
     end
 
@@ -758,7 +771,8 @@ module Aws::AuditManager
     #   @return [String]
     #
     # @!attribute [rw] destination
-    #   The destination of the assessment report.
+    #   The destination bucket where Audit Manager stores assessment
+    #   reports.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/auditmanager-2017-07-25/AssessmentReportsDestination AWS API Documentation
@@ -872,7 +886,7 @@ module Aws::AuditManager
     class BatchCreateDelegationByAssessmentRequest < Struct.new(
       :create_delegation_requests,
       :assessment_id)
-      SENSITIVE = []
+      SENSITIVE = [:create_delegation_requests]
       include Aws::Structure
     end
 
@@ -890,7 +904,7 @@ module Aws::AuditManager
     class BatchCreateDelegationByAssessmentResponse < Struct.new(
       :delegations,
       :errors)
-      SENSITIVE = []
+      SENSITIVE = [:delegations, :errors]
       include Aws::Structure
     end
 
@@ -948,7 +962,7 @@ module Aws::AuditManager
     #
     class BatchDeleteDelegationByAssessmentResponse < Struct.new(
       :errors)
-      SENSITIVE = []
+      SENSITIVE = [:errors]
       include Aws::Structure
     end
 
@@ -1085,7 +1099,7 @@ module Aws::AuditManager
     #   @return [Time]
     #
     # @!attribute [rw] created_by
-    #   The IAM user or role that performed the action.
+    #   The user or role that performed the action.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/auditmanager-2017-07-25/ChangeLog AWS API Documentation
@@ -1111,7 +1125,8 @@ module Aws::AuditManager
     #   @return [String]
     #
     # @!attribute [rw] type
-    #   The type of control, such as a custom control or a standard control.
+    #   Specifies whether the control is a standard control or a custom
+    #   control.
     #   @return [String]
     #
     # @!attribute [rw] name
@@ -1154,16 +1169,23 @@ module Aws::AuditManager
     #   @return [Time]
     #
     # @!attribute [rw] created_by
-    #   The IAM user or role that created the control.
+    #   The user or role that created the control.
     #   @return [String]
     #
     # @!attribute [rw] last_updated_by
-    #   The IAM user or role that most recently updated the control.
+    #   The user or role that most recently updated the control.
     #   @return [String]
     #
     # @!attribute [rw] tags
     #   The tags associated with the control.
     #   @return [Hash<String,String>]
+    #
+    # @!attribute [rw] state
+    #   The state of the control. The `END_OF_SUPPORT` state is applicable
+    #   to standard controls only. This state indicates that the standard
+    #   control can still be used to collect evidence, but Audit Manager is
+    #   no longer updating or maintaining that control.
+    #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/auditmanager-2017-07-25/Control AWS API Documentation
     #
@@ -1182,8 +1204,9 @@ module Aws::AuditManager
       :last_updated_at,
       :created_by,
       :last_updated_by,
-      :tags)
-      SENSITIVE = []
+      :tags,
+      :state)
+      SENSITIVE = [:description, :testing_information, :action_plan_title, :action_plan_instructions, :created_by, :last_updated_by]
       include Aws::Structure
     end
 
@@ -1208,7 +1231,7 @@ module Aws::AuditManager
       :author_name,
       :comment_body,
       :posted_date)
-      SENSITIVE = []
+      SENSITIVE = [:author_name, :comment_body]
       include Aws::Structure
     end
 
@@ -1222,7 +1245,15 @@ module Aws::AuditManager
     #   @return [String]
     #
     # @!attribute [rw] id
-    #   The unique identifier for the control domain.
+    #   The unique identifier for the control domain. Audit Manager supports
+    #   the control domains that are provided by Amazon Web Services Control
+    #   Catalog. For information about how to find a list of available
+    #   control domains, see [ `ListDomains` ][1] in the Amazon Web Services
+    #   Control Catalog API Reference.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/controlcatalog/latest/APIReference/API_ListDomains.html
     #   @return [String]
     #
     # @!attribute [rw] controls_count_by_noncompliant_evidence
@@ -1347,20 +1378,36 @@ module Aws::AuditManager
     #
     # @!attribute [rw] source_set_up_option
     #   The setup option for the data source. This option reflects if the
-    #   evidence collection is automated or manual.
+    #   evidence collection method is automated or manual. If you don’t
+    #   provide a value for `sourceSetUpOption`, Audit Manager automatically
+    #   infers and populates the correct value based on the `sourceType`
+    #   that you specify.
     #   @return [String]
     #
     # @!attribute [rw] source_type
-    #   Specifies one of the five data source types for evidence collection.
+    #   Specifies which type of data source is used to collect evidence.
+    #
+    #   * The source can be an individual data source type, such as
+    #     `AWS_Cloudtrail`, `AWS_Config`, `AWS_Security_Hub`,
+    #     `AWS_API_Call`, or `MANUAL`.
+    #
+    #   * The source can also be a managed grouping of data sources, such as
+    #     a `Core_Control` or a `Common_Control`.
     #   @return [String]
     #
     # @!attribute [rw] source_keyword
-    #   The keyword to search for in CloudTrail logs, Config rules, Security
-    #   Hub checks, and Amazon Web Services API names.
+    #   A keyword that relates to the control data source.
+    #
+    #   For manual evidence, this keyword indicates if the manual evidence
+    #   is a file or text.
+    #
+    #   For automated evidence, this keyword identifies a specific
+    #   CloudTrail event, Config rule, Security Hub control, or Amazon Web
+    #   Services API name.
     #
     #   To learn more about the supported keywords that you can use when
     #   mapping a control data source, see the following pages in the *Audit
-    #   Manager User Guide*\:
+    #   Manager User Guide*:
     #
     #   * [Config rules supported by Audit Manager][1]
     #
@@ -1372,14 +1419,15 @@ module Aws::AuditManager
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-ash.html
-    #   [2]: https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-config.html
+    #   [1]: https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-config.html
+    #   [2]: https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-ash.html
     #   [3]: https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-api.html
     #   [4]: https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-cloudtrail.html
     #   @return [Types::SourceKeyword]
     #
     # @!attribute [rw] source_frequency
-    #   The frequency of evidence collection for the control mapping source.
+    #   Specifies how often evidence is collected from the control mapping
+    #   source.
     #   @return [String]
     #
     # @!attribute [rw] troubleshooting_text
@@ -1397,7 +1445,7 @@ module Aws::AuditManager
       :source_keyword,
       :source_frequency,
       :troubleshooting_text)
-      SENSITIVE = []
+      SENSITIVE = [:troubleshooting_text]
       include Aws::Structure
     end
 
@@ -1532,7 +1580,7 @@ module Aws::AuditManager
       :compliance_type,
       :control_sets,
       :tags)
-      SENSITIVE = []
+      SENSITIVE = [:compliance_type]
       include Aws::Structure
     end
 
@@ -1594,7 +1642,7 @@ module Aws::AuditManager
       :description,
       :assessment_id,
       :query_statement)
-      SENSITIVE = []
+      SENSITIVE = [:description]
       include Aws::Structure
     end
 
@@ -1625,8 +1673,22 @@ module Aws::AuditManager
     #   @return [Types::AssessmentReportsDestination]
     #
     # @!attribute [rw] scope
-    #   The wrapper that contains the Amazon Web Services accounts and
-    #   services that are in scope for the assessment.
+    #   The wrapper that contains the Amazon Web Services accounts that are
+    #   in scope for the assessment.
+    #
+    #   <note markdown="1"> You no longer need to specify which Amazon Web Services are in scope
+    #   when you create or update an assessment. Audit Manager infers the
+    #   services in scope by examining your assessment controls and their
+    #   data sources, and then mapping this information to the relevant
+    #   Amazon Web Services.
+    #
+    #    If an underlying data source changes for your assessment, we
+    #   automatically update the services scope as needed to reflect the
+    #   correct Amazon Web Services. This ensures that your assessment
+    #   collects accurate and comprehensive evidence about all of the
+    #   relevant services in your AWS environment.
+    #
+    #    </note>
     #   @return [Types::Scope]
     #
     # @!attribute [rw] roles
@@ -1652,7 +1714,7 @@ module Aws::AuditManager
       :roles,
       :framework_id,
       :tags)
-      SENSITIVE = []
+      SENSITIVE = [:name, :description, :assessment_reports_destination, :scope, :roles]
       include Aws::Structure
     end
 
@@ -1670,8 +1732,8 @@ module Aws::AuditManager
       include Aws::Structure
     end
 
-    # The control mapping fields that represent the source for evidence
-    # collection, along with related parameters and metadata. This doesn't
+    # The mapping attributes that determine the evidence source for a given
+    # control, along with related parameters and metadata. This doesn't
     # contain `mappingID`.
     #
     # @!attribute [rw] source_name
@@ -1684,22 +1746,37 @@ module Aws::AuditManager
     #   @return [String]
     #
     # @!attribute [rw] source_set_up_option
-    #   The setup option for the data source, which reflects if the evidence
-    #   collection is automated or manual.
+    #   The setup option for the data source. This option reflects if the
+    #   evidence collection method is automated or manual. If you don’t
+    #   provide a value for `sourceSetUpOption`, Audit Manager automatically
+    #   infers and populates the correct value based on the `sourceType`
+    #   that you specify.
     #   @return [String]
     #
     # @!attribute [rw] source_type
-    #   Specifies one of the five types of data sources for evidence
-    #   collection.
+    #   Specifies which type of data source is used to collect evidence.
+    #
+    #   * The source can be an individual data source type, such as
+    #     `AWS_Cloudtrail`, `AWS_Config`, `AWS_Security_Hub`,
+    #     `AWS_API_Call`, or `MANUAL`.
+    #
+    #   * The source can also be a managed grouping of data sources, such as
+    #     a `Core_Control` or a `Common_Control`.
     #   @return [String]
     #
     # @!attribute [rw] source_keyword
-    #   The keyword to search for in CloudTrail logs, Config rules, Security
-    #   Hub checks, and Amazon Web Services API names.
+    #   A keyword that relates to the control data source.
+    #
+    #   For manual evidence, this keyword indicates if the manual evidence
+    #   is a file or text.
+    #
+    #   For automated evidence, this keyword identifies a specific
+    #   CloudTrail event, Config rule, Security Hub control, or Amazon Web
+    #   Services API name.
     #
     #   To learn more about the supported keywords that you can use when
     #   mapping a control data source, see the following pages in the *Audit
-    #   Manager User Guide*\:
+    #   Manager User Guide*:
     #
     #   * [Config rules supported by Audit Manager][1]
     #
@@ -1711,14 +1788,15 @@ module Aws::AuditManager
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-ash.html
-    #   [2]: https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-config.html
+    #   [1]: https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-config.html
+    #   [2]: https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-ash.html
     #   [3]: https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-api.html
     #   [4]: https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-cloudtrail.html
     #   @return [Types::SourceKeyword]
     #
     # @!attribute [rw] source_frequency
-    #   The frequency of evidence collection for the control mapping source.
+    #   Specifies how often evidence is collected from the control mapping
+    #   source.
     #   @return [String]
     #
     # @!attribute [rw] troubleshooting_text
@@ -1735,7 +1813,7 @@ module Aws::AuditManager
       :source_keyword,
       :source_frequency,
       :troubleshooting_text)
-      SENSITIVE = []
+      SENSITIVE = [:troubleshooting_text]
       include Aws::Structure
     end
 
@@ -1778,7 +1856,7 @@ module Aws::AuditManager
       :action_plan_instructions,
       :control_mapping_sources,
       :tags)
-      SENSITIVE = []
+      SENSITIVE = [:description, :testing_information, :action_plan_title, :action_plan_instructions]
       include Aws::Structure
     end
 
@@ -1829,6 +1907,26 @@ module Aws::AuditManager
       :control_set_id,
       :role_arn,
       :role_type)
+      SENSITIVE = [:comment]
+      include Aws::Structure
+    end
+
+    # The default s3 bucket where Audit Manager saves the files that you
+    # export from evidence finder.
+    #
+    # @!attribute [rw] destination_type
+    #   The destination type, such as Amazon S3.
+    #   @return [String]
+    #
+    # @!attribute [rw] destination
+    #   The destination bucket where Audit Manager stores exported files.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/auditmanager-2017-07-25/DefaultExportDestination AWS API Documentation
+    #
+    class DefaultExportDestination < Struct.new(
+      :destination_type,
+      :destination)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1887,7 +1985,7 @@ module Aws::AuditManager
     #   @return [String]
     #
     # @!attribute [rw] created_by
-    #   The IAM user or role that created the delegation.
+    #   The user or role that created the delegation.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/auditmanager-2017-07-25/Delegation AWS API Documentation
@@ -1904,7 +2002,7 @@ module Aws::AuditManager
       :control_set_id,
       :comment,
       :created_by)
-      SENSITIVE = []
+      SENSITIVE = [:assessment_name, :comment, :created_by]
       include Aws::Structure
     end
 
@@ -1948,7 +2046,7 @@ module Aws::AuditManager
       :role_arn,
       :creation_time,
       :control_set_name)
-      SENSITIVE = []
+      SENSITIVE = [:assessment_name]
       include Aws::Structure
     end
 
@@ -2184,8 +2282,8 @@ module Aws::AuditManager
     #   @return [Hash<String,String>]
     #
     # @!attribute [rw] iam_id
-    #   The unique identifier for the IAM user or role that's associated
-    #   with the evidence.
+    #   The unique identifier for the user or role that's associated with
+    #   the evidence.
     #   @return [String]
     #
     # @!attribute [rw] compliance_check
@@ -2378,13 +2476,13 @@ module Aws::AuditManager
     #   @return [String]
     #
     # @!attribute [rw] type
-    #   The framework type, such as a custom framework or a standard
+    #   Specifies whether the framework is a standard framework or a custom
     #   framework.
     #   @return [String]
     #
     # @!attribute [rw] compliance_type
-    #   The compliance type that the new custom framework supports, such as
-    #   CIS or HIPAA.
+    #   The compliance type that the framework supports, such as CIS or
+    #   HIPAA.
     #   @return [String]
     #
     # @!attribute [rw] description
@@ -2396,8 +2494,7 @@ module Aws::AuditManager
     #   @return [String]
     #
     # @!attribute [rw] control_sources
-    #   The sources that Audit Manager collects evidence from for the
-    #   control.
+    #   The control data sources where Audit Manager collects evidence from.
     #   @return [String]
     #
     # @!attribute [rw] control_sets
@@ -2413,11 +2510,11 @@ module Aws::AuditManager
     #   @return [Time]
     #
     # @!attribute [rw] created_by
-    #   The IAM user or role that created the framework.
+    #   The user or role that created the framework.
     #   @return [String]
     #
     # @!attribute [rw] last_updated_by
-    #   The IAM user or role that most recently updated the framework.
+    #   The user or role that most recently updated the framework.
     #   @return [String]
     #
     # @!attribute [rw] tags
@@ -2441,7 +2538,7 @@ module Aws::AuditManager
       :created_by,
       :last_updated_by,
       :tags)
-      SENSITIVE = []
+      SENSITIVE = [:compliance_type, :control_sets, :created_by, :last_updated_by]
       include Aws::Structure
     end
 
@@ -2471,7 +2568,7 @@ module Aws::AuditManager
       :description,
       :logo,
       :compliance_type)
-      SENSITIVE = []
+      SENSITIVE = [:name, :compliance_type]
       include Aws::Structure
     end
 
@@ -2643,7 +2740,7 @@ module Aws::AuditManager
     end
 
     # @!attribute [rw] control
-    #   The name of the control that the `GetControl` API returned.
+    #   The details of the control that the `GetControl` API returned.
     #   @return [Types::Control]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/auditmanager-2017-07-25/GetControlResponse AWS API Documentation
@@ -2736,6 +2833,42 @@ module Aws::AuditManager
     class GetEvidenceByEvidenceFolderResponse < Struct.new(
       :evidence,
       :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] file_name
+    #   The file that you want to upload. For a list of supported file
+    #   formats, see [Supported file types for manual evidence][1] in the
+    #   *Audit Manager User Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/audit-manager/latest/userguide/upload-evidence.html#supported-manual-evidence-files
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/auditmanager-2017-07-25/GetEvidenceFileUploadUrlRequest AWS API Documentation
+    #
+    class GetEvidenceFileUploadUrlRequest < Struct.new(
+      :file_name)
+      SENSITIVE = [:file_name]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] evidence_file_name
+    #   The name of the uploaded manual evidence file that the presigned URL
+    #   was generated for.
+    #   @return [String]
+    #
+    # @!attribute [rw] upload_url
+    #   The presigned URL that was generated.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/auditmanager-2017-07-25/GetEvidenceFileUploadUrlResponse AWS API Documentation
+    #
+    class GetEvidenceFileUploadUrlResponse < Struct.new(
+      :evidence_file_name,
+      :upload_url)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3196,6 +3329,15 @@ module Aws::AuditManager
 
     # @!attribute [rw] control_domain_id
     #   The unique identifier for the control domain.
+    #
+    #   Audit Manager supports the control domains that are provided by
+    #   Amazon Web Services Control Catalog. For information about how to
+    #   find a list of available control domains, see [ `ListDomains` ][1]
+    #   in the Amazon Web Services Control Catalog API Reference.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/controlcatalog/latest/APIReference/API_ListDomains.html
     #   @return [String]
     #
     # @!attribute [rw] assessment_id
@@ -3307,7 +3449,8 @@ module Aws::AuditManager
     end
 
     # @!attribute [rw] framework_metadata_list
-    #   The list of metadata objects for the framework.
+    #   A list of metadata that the `ListAssessmentFrameworks` API returns
+    #   for each framework.
     #   @return [Array<Types::AssessmentFrameworkMetadata>]
     #
     # @!attribute [rw] next_token
@@ -3383,7 +3526,8 @@ module Aws::AuditManager
     end
 
     # @!attribute [rw] assessment_metadata
-    #   The metadata that's associated with the assessment.
+    #   The metadata that the `ListAssessments` API returns for each
+    #   assessment.
     #   @return [Array<Types::AssessmentMetadataItem>]
     #
     # @!attribute [rw] next_token
@@ -3478,6 +3622,15 @@ module Aws::AuditManager
 
     # @!attribute [rw] control_domain_id
     #   The unique identifier for the control domain.
+    #
+    #   Audit Manager supports the control domains that are provided by
+    #   Amazon Web Services Control Catalog. For information about how to
+    #   find a list of available control domains, see [ `ListDomains` ][1]
+    #   in the Amazon Web Services Control Catalog API Reference.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/controlcatalog/latest/APIReference/API_ListDomains.html
     #   @return [String]
     #
     # @!attribute [rw] next_token
@@ -3518,7 +3671,7 @@ module Aws::AuditManager
     end
 
     # @!attribute [rw] control_type
-    #   The type of control, such as a standard control or a custom control.
+    #   A filter that narrows the list of controls to a specific type.
     #   @return [String]
     #
     # @!attribute [rw] next_token
@@ -3526,23 +3679,52 @@ module Aws::AuditManager
     #   @return [String]
     #
     # @!attribute [rw] max_results
-    #   Represents the maximum number of results on a page or for an API
-    #   request call.
+    #   The maximum number of results on a page or for an API request call.
     #   @return [Integer]
+    #
+    # @!attribute [rw] control_catalog_id
+    #   A filter that narrows the list of controls to a specific resource
+    #   from the Amazon Web Services Control Catalog.
+    #
+    #   To use this parameter, specify the ARN of the Control Catalog
+    #   resource. You can specify either a control domain, a control
+    #   objective, or a common control. For information about how to find
+    #   the ARNs for these resources, see [ `ListDomains` ][1], [
+    #   `ListObjectives` ][2], and [ `ListCommonControls` ][3].
+    #
+    #   <note markdown="1"> You can only filter by one Control Catalog resource at a time.
+    #   Specifying multiple resource ARNs isn’t currently supported. If you
+    #   want to filter by more than one ARN, we recommend that you run the
+    #   `ListControls` operation separately for each ARN.
+    #
+    #    </note>
+    #
+    #   Alternatively, specify `UNCATEGORIZED` to list controls that aren't
+    #   mapped to a Control Catalog resource. For example, this operation
+    #   might return a list of custom controls that don't belong to any
+    #   control domain or control objective.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/controlcatalog/latest/APIReference/API_ListDomains.html
+    #   [2]: https://docs.aws.amazon.com/controlcatalog/latest/APIReference/API_ListObjectives.html
+    #   [3]: https://docs.aws.amazon.com/controlcatalog/latest/APIReference/API_ListCommonControls.html
+    #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/auditmanager-2017-07-25/ListControlsRequest AWS API Documentation
     #
     class ListControlsRequest < Struct.new(
       :control_type,
       :next_token,
-      :max_results)
+      :max_results,
+      :control_catalog_id)
       SENSITIVE = []
       include Aws::Structure
     end
 
     # @!attribute [rw] control_metadata_list
-    #   The list of control metadata objects that the `ListControls` API
-    #   returned.
+    #   A list of metadata that the `ListControls` API returns for each
+    #   control.
     #   @return [Array<Types::ControlMetadata>]
     #
     # @!attribute [rw] next_token
@@ -3582,7 +3764,7 @@ module Aws::AuditManager
     end
 
     # @!attribute [rw] keywords
-    #   The list of keywords for the event mapping source.
+    #   The list of keywords for the control mapping source.
     #   @return [Array<String>]
     #
     # @!attribute [rw] next_token
@@ -3657,17 +3839,36 @@ module Aws::AuditManager
       include Aws::Structure
     end
 
-    # Evidence that's uploaded to Audit Manager manually.
+    # Evidence that's manually added to a control in Audit Manager.
+    # `manualEvidence` can be one of the following: `evidenceFileName`,
+    # `s3ResourcePath`, or `textResponse`.
     #
     # @!attribute [rw] s3_resource_path
-    #   The Amazon S3 URL that points to a manual evidence object.
+    #   The S3 URL of the object that's imported as manual evidence.
+    #   @return [String]
+    #
+    # @!attribute [rw] text_response
+    #   The plain text response that's entered and saved as manual
+    #   evidence.
+    #   @return [String]
+    #
+    # @!attribute [rw] evidence_file_name
+    #   The name of the file that's uploaded as manual evidence. This name
+    #   is populated using the `evidenceFileName` value from the [
+    #   `GetEvidenceFileUploadUrl` ][1] API response.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_GetEvidenceFileUploadUrl.html
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/auditmanager-2017-07-25/ManualEvidence AWS API Documentation
     #
     class ManualEvidence < Struct.new(
-      :s3_resource_path)
-      SENSITIVE = []
+      :s3_resource_path,
+      :text_response,
+      :evidence_file_name)
+      SENSITIVE = [:text_response, :evidence_file_name]
       include Aws::Structure
     end
 
@@ -3719,7 +3920,7 @@ module Aws::AuditManager
       :description,
       :event_time,
       :source)
-      SENSITIVE = []
+      SENSITIVE = [:assessment_name]
       include Aws::Structure
     end
 
@@ -3876,8 +4077,22 @@ module Aws::AuditManager
       include Aws::Structure
     end
 
-    # The wrapper that contains the Amazon Web Services accounts and
-    # services that are in scope for the assessment.
+    # The wrapper that contains the Amazon Web Services accounts that are in
+    # scope for the assessment.
+    #
+    # <note markdown="1"> You no longer need to specify which Amazon Web Services are in scope
+    # when you create or update an assessment. Audit Manager infers the
+    # services in scope by examining your assessment controls and their data
+    # sources, and then mapping this information to the relevant Amazon Web
+    # Services.
+    #
+    #  If an underlying data source changes for your assessment, we
+    # automatically update the services scope as needed to reflect the
+    # correct Amazon Web Services. This ensures that your assessment
+    # collects accurate and comprehensive evidence about all of the relevant
+    # services in your AWS environment.
+    #
+    #  </note>
     #
     # @!attribute [rw] aws_accounts
     #   The Amazon Web Services accounts that are included in the scope of
@@ -3887,6 +4102,10 @@ module Aws::AuditManager
     # @!attribute [rw] aws_services
     #   The Amazon Web Services services that are included in the scope of
     #   the assessment.
+    #
+    #   This API parameter is no longer supported. If you use this parameter
+    #   to specify one or more Amazon Web Services, Audit Manager ignores
+    #   this input. Instead, the value for `awsServices` will show as empty.
     #   @return [Array<Types::AWSService>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/auditmanager-2017-07-25/Scope AWS API Documentation
@@ -3894,7 +4113,7 @@ module Aws::AuditManager
     class Scope < Struct.new(
       :aws_accounts,
       :aws_services)
-      SENSITIVE = []
+      SENSITIVE = [:aws_accounts]
       include Aws::Structure
     end
 
@@ -3962,7 +4181,7 @@ module Aws::AuditManager
     #   @return [String]
     #
     # @!attribute [rw] default_assessment_reports_destination
-    #   The default storage destination for assessment reports.
+    #   The default S3 destination bucket for storing assessment reports.
     #   @return [Types::AssessmentReportsDestination]
     #
     # @!attribute [rw] default_process_owners
@@ -3983,6 +4202,11 @@ module Aws::AuditManager
     #   deregister Audit Manager.
     #   @return [Types::DeregistrationPolicy]
     #
+    # @!attribute [rw] default_export_destination
+    #   The default S3 destination bucket for storing evidence finder
+    #   exports.
+    #   @return [Types::DefaultExportDestination]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/auditmanager-2017-07-25/Settings AWS API Documentation
     #
     class Settings < Struct.new(
@@ -3992,17 +4216,24 @@ module Aws::AuditManager
       :default_process_owners,
       :kms_key,
       :evidence_finder_enablement,
-      :deregistration_policy)
-      SENSITIVE = []
+      :deregistration_policy,
+      :default_export_destination)
+      SENSITIVE = [:sns_topic, :default_assessment_reports_destination, :default_process_owners]
       include Aws::Structure
     end
 
-    # The keyword to search for in CloudTrail logs, Config rules, Security
-    # Hub checks, and Amazon Web Services API names.
+    # A keyword that relates to the control data source.
+    #
+    # For manual evidence, this keyword indicates if the manual evidence is
+    # a file or text.
+    #
+    # For automated evidence, this keyword identifies a specific CloudTrail
+    # event, Config rule, Security Hub control, or Amazon Web Services API
+    # name.
     #
     # To learn more about the supported keywords that you can use when
     # mapping a control data source, see the following pages in the *Audit
-    # Manager User Guide*\:
+    # Manager User Guide*:
     #
     # * [Config rules supported by Audit Manager][1]
     #
@@ -4014,13 +4245,32 @@ module Aws::AuditManager
     #
     #
     #
-    # [1]: https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-ash.html
-    # [2]: https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-config.html
+    # [1]: https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-config.html
+    # [2]: https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-ash.html
     # [3]: https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-api.html
     # [4]: https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-cloudtrail.html
     #
     # @!attribute [rw] keyword_input_type
     #   The input method for the keyword.
+    #
+    #   * `SELECT_FROM_LIST` is used when mapping a data source for
+    #     automated evidence.
+    #
+    #     * When `keywordInputType` is `SELECT_FROM_LIST`, a keyword must be
+    #       selected to collect automated evidence. For example, this
+    #       keyword can be a CloudTrail event name, a rule name for Config,
+    #       a Security Hub control, or the name of an Amazon Web Services
+    #       API call.
+    #
+    #     ^
+    #   * `UPLOAD_FILE` and `INPUT_TEXT` are only used when mapping a data
+    #     source for manual evidence.
+    #
+    #     * When `keywordInputType` is `UPLOAD_FILE`, a file must be
+    #       uploaded as manual evidence.
+    #
+    #     * When `keywordInputType` is `INPUT_TEXT`, text must be entered as
+    #       manual evidence.
     #   @return [String]
     #
     # @!attribute [rw] keyword_value
@@ -4034,34 +4284,78 @@ module Aws::AuditManager
     #
     #   * For [managed rules][1], you can use the rule identifier as the
     #     `keywordValue`. You can find the rule identifier from the [list of
-    #     Config managed rules][2].
+    #     Config managed rules][2]. For some rules, the rule identifier is
+    #     different from the rule name. For example, the rule name
+    #     `restricted-ssh` has the following rule identifier:
+    #     `INCOMING_SSH_DISABLED`. Make sure to use the rule identifier, not
+    #     the rule name.
+    #
+    #     Keyword example for managed rules:
     #
     #     * Managed rule name: [s3-bucket-acl-prohibited][3]
     #
-    #       `keywordValue`\: `S3_BUCKET_ACL_PROHIBITED`
-    #
+    #       `keywordValue`: `S3_BUCKET_ACL_PROHIBITED`
     #   * For [custom rules][4], you form the `keywordValue` by adding the
     #     `Custom_` prefix to the rule name. This prefix distinguishes the
-    #     rule from a managed rule.
+    #     custom rule from a managed rule.
+    #
+    #     Keyword example for custom rules:
     #
     #     * Custom rule name: my-custom-config-rule
     #
-    #       `keywordValue`\: `Custom_my-custom-config-rule`
-    #
+    #       `keywordValue`: `Custom_my-custom-config-rule`
     #   * For [service-linked rules][5], you form the `keywordValue` by
     #     adding the `Custom_` prefix to the rule name. In addition, you
     #     remove the suffix ID that appears at the end of the rule name.
     #
+    #     Keyword examples for service-linked rules:
+    #
     #     * Service-linked rule name:
     #       CustomRuleForAccount-conformance-pack-szsm1uv0w
     #
-    #       `keywordValue`\: `Custom_CustomRuleForAccount-conformance-pack`
+    #       `keywordValue`: `Custom_CustomRuleForAccount-conformance-pack`
     #
     #     * Service-linked rule name:
     #       OrgConfigRule-s3-bucket-versioning-enabled-dbgzf8ba
     #
-    #       `keywordValue`\:
+    #       `keywordValue`:
     #       `Custom_OrgConfigRule-s3-bucket-versioning-enabled`
+    #
+    #   The `keywordValue` is case sensitive. If you enter a value
+    #   incorrectly, Audit Manager might not recognize the data source
+    #   mapping. As a result, you might not successfully collect evidence
+    #   from that data source as intended.
+    #
+    #    Keep in mind the following requirements, depending on the data
+    #   source type that you're using.
+    #
+    #    1.  For Config:
+    #
+    #       * For managed rules, make sure that the `keywordValue` is the
+    #         rule identifier in `ALL_CAPS_WITH_UNDERSCORES`. For example,
+    #         `CLOUDWATCH_LOG_GROUP_ENCRYPTED`. For accuracy, we recommend
+    #         that you reference the list of [supported Config managed
+    #         rules][6].
+    #
+    #       * For custom rules, make sure that the `keywordValue` has the
+    #         `Custom_` prefix followed by the custom rule name. The format
+    #         of the custom rule name itself may vary. For accuracy, we
+    #         recommend that you visit the [Config console][7] to verify
+    #         your custom rule name.
+    #   2.  For Security Hub: The format varies for Security Hub control
+    #       names. For accuracy, we recommend that you reference the list of
+    #       [supported Security Hub controls][8].
+    #
+    #   3.  For Amazon Web Services API calls: Make sure that the
+    #       `keywordValue` is written as `serviceprefix_ActionName`. For
+    #       example, `iam_ListGroups`. For accuracy, we recommend that you
+    #       reference the list of [supported API calls][9].
+    #
+    #   4.  For CloudTrail: Make sure that the `keywordValue` is written as
+    #       `serviceprefix_ActionName`. For example,
+    #       `cloudtrail_StartLogging`. For accuracy, we recommend that you
+    #       review the Amazon Web Service prefix and action names in the
+    #       [Service Authorization Reference][10].
     #
     #
     #
@@ -4070,6 +4364,11 @@ module Aws::AuditManager
     #   [3]: https://docs.aws.amazon.com/config/latest/developerguide/s3-bucket-acl-prohibited.html
     #   [4]: https://docs.aws.amazon.com/config/latest/developerguide/evaluate-config_develop-rules.html
     #   [5]: https://docs.aws.amazon.com/config/latest/developerguide/service-linked-awsconfig-rules.html
+    #   [6]: https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-config.html
+    #   [7]: https://console.aws.amazon.com/config/
+    #   [8]: https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-ash.html
+    #   [9]: https://docs.aws.amazon.com/audit-manager/latest/userguide/control-data-sources-api.html
+    #   [10]: https://docs.aws.amazon.com/service-authorization/latest/reference/reference_policies_actions-resources-contextkeys.html
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/auditmanager-2017-07-25/SourceKeyword AWS API Documentation
@@ -4224,7 +4523,7 @@ module Aws::AuditManager
       :control_id,
       :control_status,
       :comment_body)
-      SENSITIVE = []
+      SENSITIVE = [:comment_body]
       include Aws::Structure
     end
 
@@ -4264,7 +4563,7 @@ module Aws::AuditManager
       :control_set_id,
       :status,
       :comment)
-      SENSITIVE = []
+      SENSITIVE = [:comment]
       include Aws::Structure
     end
 
@@ -4335,7 +4634,7 @@ module Aws::AuditManager
       :description,
       :compliance_type,
       :control_sets)
-      SENSITIVE = []
+      SENSITIVE = [:compliance_type]
       include Aws::Structure
     end
 
@@ -4421,7 +4720,7 @@ module Aws::AuditManager
       :scope,
       :assessment_reports_destination,
       :roles)
-      SENSITIVE = []
+      SENSITIVE = [:assessment_name, :assessment_description, :scope, :assessment_reports_destination, :roles]
       include Aws::Structure
     end
 
@@ -4507,7 +4806,7 @@ module Aws::AuditManager
       :action_plan_title,
       :action_plan_instructions,
       :control_mapping_sources)
-      SENSITIVE = []
+      SENSITIVE = [:description, :testing_information, :action_plan_title, :action_plan_instructions]
       include Aws::Structure
     end
 
@@ -4530,7 +4829,7 @@ module Aws::AuditManager
     #   @return [String]
     #
     # @!attribute [rw] default_assessment_reports_destination
-    #   The default storage destination for assessment reports.
+    #   The default S3 destination bucket for storing assessment reports.
     #   @return [Types::AssessmentReportsDestination]
     #
     # @!attribute [rw] default_process_owners
@@ -4563,6 +4862,11 @@ module Aws::AuditManager
     #   deregister Audit Manager.
     #   @return [Types::DeregistrationPolicy]
     #
+    # @!attribute [rw] default_export_destination
+    #   The default S3 destination bucket for storing evidence finder
+    #   exports.
+    #   @return [Types::DefaultExportDestination]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/auditmanager-2017-07-25/UpdateSettingsRequest AWS API Documentation
     #
     class UpdateSettingsRequest < Struct.new(
@@ -4571,8 +4875,9 @@ module Aws::AuditManager
       :default_process_owners,
       :kms_key,
       :evidence_finder_enabled,
-      :deregistration_policy)
-      SENSITIVE = []
+      :deregistration_policy,
+      :default_export_destination)
+      SENSITIVE = [:default_assessment_reports_destination, :default_process_owners]
       include Aws::Structure
     end
 
@@ -4681,3 +4986,4 @@ module Aws::AuditManager
 
   end
 end
+

@@ -7,8 +7,14 @@ module AwsSdkCodeGenerator
       # @option options [required, Service] :service
       # @option options [required, Hash] :endpoint_rules
       def initialize(options)
+        @assigned_variables = []
         @service = options.fetch(:service)
         @endpoint_rules = @service.endpoint_rules
+        # Used to collect metrics in the generated endpoint provider
+        @has_account_id_endpoint_mode =
+          @endpoint_rules['parameters'].find do |_, param|
+            param['builtIn'] == 'AWS::Auth::AccountIdEndpointMode'
+          end
 
         version = @endpoint_rules['version']
         return if version&.match(/^\d+\.\d+$/) # && version == '1.0'
@@ -28,10 +34,6 @@ module AwsSdkCodeGenerator
 
       def endpoint_rules_code
         res = StringIO.new
-        # map parameters first
-        @endpoint_rules["parameters"].each do |k,_v|
-          res << indent("#{underscore(k)} = parameters.#{underscore(k)}\n", 3)
-        end
 
         # map rules
         @endpoint_rules["rules"].each do |rule|
@@ -75,6 +77,10 @@ module AwsSdkCodeGenerator
         end
         if endpoint['properties']
           res << ", properties: #{templated_hash_to_s(endpoint['properties'])}"
+        end
+        if @has_account_id_endpoint_mode
+          account_id_endpoint = endpoint['url'].include?('{AccountId}')
+          res << ", metadata: { account_id_endpoint: #{account_id_endpoint} }"
         end
         res << ")\n"
         indent(res.string, levels)
@@ -155,6 +161,7 @@ module AwsSdkCodeGenerator
 
       def condition(condition)
         if condition['assign']
+          @assigned_variables << condition['assign']
           "(#{underscore(condition['assign'])} = #{fn(condition)})"
         else
           fn(condition)
@@ -164,7 +171,11 @@ module AwsSdkCodeGenerator
       def str(s)
         if s.is_a?(Hash)
           if s['ref']
-            underscore(s['ref'])
+            if @assigned_variables.include?(s['ref'])
+              underscore(s['ref'])
+            else
+              "parameters.#{underscore(s['ref'])}"
+            end
           elsif s['fn']
             fn(s)
           else
@@ -186,7 +197,12 @@ module AwsSdkCodeGenerator
 
       def template_replace(value)
         indexes = value.split("#")
-        res = underscore(indexes.shift)
+        variable = indexes.shift
+        res = if @assigned_variables.include?(variable)
+          underscore(variable)
+        else
+          "parameters.#{underscore(variable)}"
+        end
         res += indexes.map do |index|
           "['#{index}']"
         end.join("")
@@ -201,7 +217,11 @@ module AwsSdkCodeGenerator
       def fn_arg(arg)
         if arg.is_a?(Hash)
           if arg['ref']
-            underscore(arg['ref'])
+            if @assigned_variables.include?(arg['ref'])
+              underscore(arg['ref'])
+            else
+              "parameters.#{underscore(arg['ref'])}"
+            end
           elsif arg['fn']
             fn(arg)
           else

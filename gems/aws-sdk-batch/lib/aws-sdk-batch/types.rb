@@ -143,13 +143,84 @@ module Aws::Batch
     #   current status of the job attempt.
     #   @return [String]
     #
+    # @!attribute [rw] task_properties
+    #   The properties for a task definition that describes the container
+    #   and volume definitions of an Amazon ECS task.
+    #   @return [Array<Types::AttemptEcsTaskDetails>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/AttemptDetail AWS API Documentation
     #
     class AttemptDetail < Struct.new(
       :container,
       :started_at,
       :stopped_at,
-      :status_reason)
+      :status_reason,
+      :task_properties)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # An object that represents the details of a task.
+    #
+    # @!attribute [rw] container_instance_arn
+    #   The Amazon Resource Name (ARN) of the container instance that hosts
+    #   the task.
+    #   @return [String]
+    #
+    # @!attribute [rw] task_arn
+    #   The ARN of the Amazon ECS task.
+    #   @return [String]
+    #
+    # @!attribute [rw] containers
+    #   A list of containers that are included in the `taskProperties` list.
+    #   @return [Array<Types::AttemptTaskContainerDetails>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/AttemptEcsTaskDetails AWS API Documentation
+    #
+    class AttemptEcsTaskDetails < Struct.new(
+      :container_instance_arn,
+      :task_arn,
+      :containers)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # An object that represents the details of a container that's part of a
+    # job attempt.
+    #
+    # @!attribute [rw] exit_code
+    #   The exit code for the container’s attempt. A non-zero exit code is
+    #   considered failed.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] name
+    #   The name of a container.
+    #   @return [String]
+    #
+    # @!attribute [rw] reason
+    #   A short (255 max characters) string that's easy to understand and
+    #   provides additional details for a running or stopped container.
+    #   @return [String]
+    #
+    # @!attribute [rw] log_stream_name
+    #   The name of the Amazon CloudWatch Logs log stream that's associated
+    #   with the container. The log group for Batch jobs is
+    #   `/aws/batch/job`. Each container attempt receives a log stream name
+    #   when they reach the `RUNNING` status.
+    #   @return [String]
+    #
+    # @!attribute [rw] network_interfaces
+    #   The network interfaces that are associated with the job attempt.
+    #   @return [Array<Types::NetworkInterface>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/AttemptTaskContainerDetails AWS API Documentation
+    #
+    class AttemptTaskContainerDetails < Struct.new(
+      :exit_code,
+      :name,
+      :reason,
+      :log_stream_name,
+      :network_interfaces)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -163,8 +234,10 @@ module Aws::Batch
     # @!attribute [rw] reason
     #   A message to attach to the job that explains the reason for
     #   canceling it. This message is returned by future DescribeJobs
-    #   operations on the job. This message is also recorded in the Batch
-    #   activity logs.
+    #   operations on the job. It is also recorded in the Batch activity
+    #   logs.
+    #
+    #   This parameter has as limit of 1024 characters.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/CancelJobRequest AWS API Documentation
@@ -245,8 +318,24 @@ module Aws::Batch
     #   If the state is `DISABLED`, then the Batch scheduler doesn't
     #   attempt to place jobs within the environment. Jobs in a `STARTING`
     #   or `RUNNING` state continue to progress normally. Managed compute
-    #   environments in the `DISABLED` state don't scale out. However, they
-    #   scale in to `minvCpus` value after instances become idle.
+    #   environments in the `DISABLED` state don't scale out.
+    #
+    #   <note markdown="1"> Compute environments in a `DISABLED` state may continue to incur
+    #   billing charges. To prevent additional charges, turn off and then
+    #   delete the compute environment. For more information, see [State][1]
+    #   in the *Batch User Guide*.
+    #
+    #    </note>
+    #
+    #   When an instance is idle, the instance scales down to the `minvCpus`
+    #   value. However, the instance size doesn't change. For example,
+    #   consider a `c5.8xlarge` instance with a `minvCpus` value of `4` and
+    #   a `desiredvCpus` value of `36`. This instance doesn't scale down to
+    #   a `c5.large` instance.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/batch/latest/userguide/compute_environment_parameters.html#compute_environment_state
     #   @return [String]
     #
     # @!attribute [rw] status
@@ -305,6 +394,10 @@ module Aws::Batch
     #   Unique identifier for the compute environment.
     #   @return [String]
     #
+    # @!attribute [rw] context
+    #   Reserved.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/ComputeEnvironmentDetail AWS API Documentation
     #
     class ComputeEnvironmentDetail < Struct.new(
@@ -322,7 +415,8 @@ module Aws::Batch
       :update_policy,
       :eks_configuration,
       :container_orchestration_type,
-      :uuid)
+      :uuid,
+      :context)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -334,8 +428,8 @@ module Aws::Batch
     # job placement first. Compute environments must be in the `VALID` state
     # before you can associate them with a job queue. All of the compute
     # environments must be either EC2 (`EC2` or `SPOT`) or Fargate
-    # (`FARGATE` or `FARGATE_SPOT`); EC2 and Fargate compute environments
-    # can't be mixed.
+    # (`FARGATE` or `FARGATE_SPOT`); Amazon EC2 and Fargate compute
+    # environments can't be mixed.
     #
     # <note markdown="1"> All compute environments that are associated with a job queue must
     # share the same architecture. Batch doesn't support mixing compute
@@ -429,11 +523,20 @@ module Aws::Batch
     #     allocation strategy is only available for Spot Instance compute
     #     resources.
     #
-    #   With both `BEST_FIT_PROGRESSIVE` and `SPOT_CAPACITY_OPTIMIZED`
-    #   strategies using On-Demand or Spot Instances, and the `BEST_FIT`
-    #   strategy using Spot Instances, Batch might need to exceed `maxvCpus`
-    #   to meet your capacity requirements. In this event, Batch never
-    #   exceeds `maxvCpus` by more than a single instance.
+    #   SPOT\_PRICE\_CAPACITY\_OPTIMIZED
+    #
+    #   : The price and capacity optimized allocation strategy looks at both
+    #     price and capacity to select the Spot Instance pools that are the
+    #     least likely to be interrupted and have the lowest possible price.
+    #     This allocation strategy is only available for Spot Instance
+    #     compute resources.
+    #
+    #   With `BEST_FIT_PROGRESSIVE`,`SPOT_CAPACITY_OPTIMIZED` and
+    #   `SPOT_PRICE_CAPACITY_OPTIMIZED` (recommended) strategies using
+    #   On-Demand or Spot Instances, and the `BEST_FIT` strategy using Spot
+    #   Instances, Batch might need to exceed `maxvCpus` to meet your
+    #   capacity requirements. In this event, Batch never exceeds `maxvCpus`
+    #   by more than a single instance.
     #
     #
     #
@@ -443,7 +546,7 @@ module Aws::Batch
     #   @return [String]
     #
     # @!attribute [rw] minv_cpus
-    #   The minimum number of Amazon EC2 vCPUs that an environment should
+    #   The minimum number of vCPUs that a compute environment should
     #   maintain (even if the compute environment is `DISABLED`).
     #
     #   <note markdown="1"> This parameter isn't applicable to jobs that are running on Fargate
@@ -453,24 +556,22 @@ module Aws::Batch
     #   @return [Integer]
     #
     # @!attribute [rw] maxv_cpus
-    #   The maximum number of Amazon EC2 vCPUs that a compute environment
-    #   can reach.
+    #   The maximum number of vCPUs that a compute environment can support.
     #
-    #   <note markdown="1"> With both `BEST_FIT_PROGRESSIVE` and `SPOT_CAPACITY_OPTIMIZED`
-    #   allocation strategies using On-Demand or Spot Instances, and the
-    #   `BEST_FIT` strategy using Spot Instances, Batch might need to exceed
-    #   `maxvCpus` to meet your capacity requirements. In this event, Batch
-    #   never exceeds `maxvCpus` by more than a single instance. For
-    #   example, no more than a single instance from among those specified
-    #   in your compute environment is allocated.
+    #   <note markdown="1"> With `BEST_FIT_PROGRESSIVE`,`SPOT_CAPACITY_OPTIMIZED` and
+    #   `SPOT_PRICE_CAPACITY_OPTIMIZED` (recommended) strategies using
+    #   On-Demand or Spot Instances, and the `BEST_FIT` strategy using Spot
+    #   Instances, Batch might need to exceed `maxvCpus` to meet your
+    #   capacity requirements. In this event, Batch never exceeds `maxvCpus`
+    #   by more than a single instance.
     #
     #    </note>
     #   @return [Integer]
     #
     # @!attribute [rw] desiredv_cpus
-    #   The desired number of Amazon EC2 vCPUS in the compute environment.
-    #   Batch modifies this value between the minimum and maximum values
-    #   based on job queue demand.
+    #   The desired number of vCPUS in the compute environment. Batch
+    #   modifies this value between the minimum and maximum values based on
+    #   job queue demand.
     #
     #   <note markdown="1"> This parameter isn't applicable to jobs that are running on Fargate
     #   resources. Don't specify it.
@@ -581,7 +682,8 @@ module Aws::Batch
     #
     # @!attribute [rw] instance_role
     #   The Amazon ECS instance profile applied to Amazon EC2 instances in a
-    #   compute environment. You can specify the short name or full Amazon
+    #   compute environment. This parameter is required for Amazon EC2
+    #   instances types. You can specify the short name or full Amazon
     #   Resource Name (ARN) of an instance profile. For example, `
     #   ecsInstanceRole ` or
     #   `arn:aws:iam::<aws_account_id>:instance-profile/ecsInstanceRole `.
@@ -599,12 +701,12 @@ module Aws::Batch
     #   @return [String]
     #
     # @!attribute [rw] tags
-    #   Key-value pair tags to be applied to EC2 resources that are launched
-    #   in the compute environment. For Batch, these take the form of
-    #   `"String1": "String2"`, where `String1` is the tag key and `String2`
-    #   is the tag value-for example, `\{ "Name": "Batch Instance -
-    #   C4OnDemand" \}`. This is helpful for recognizing your Batch
-    #   instances in the Amazon EC2 console. Updating these tags requires an
+    #   Key-value pair tags to be applied to Amazon EC2 resources that are
+    #   launched in the compute environment. For Batch, these take the form
+    #   of `"String1": "String2"`, where `String1` is the tag key and
+    #   `String2` is the tag value-for example, `{ "Name": "Batch Instance -
+    #   C4OnDemand" }`. This is helpful for recognizing your Batch instances
+    #   in the Amazon EC2 console. Updating these tags requires an
     #   infrastructure update to the compute environment. For more
     #   information, see [Updating compute environments][1] in the *Batch
     #   User Guide*. These tags aren't seen when using the Batch
@@ -685,11 +787,11 @@ module Aws::Batch
     # @!attribute [rw] launch_template
     #   The launch template to use for your compute resources. Any other
     #   compute resource parameters that you specify in a
-    #   CreateComputeEnvironment API operation override the same parameters
-    #   in the launch template. You must specify either the launch template
-    #   ID or launch template name in the request, but not both. For more
-    #   information, see [Launch template support][1] in the *Batch User
-    #   Guide*.
+    #   [CreateComputeEnvironment][1] API operation override the same
+    #   parameters in the launch template. You must specify either the
+    #   launch template ID or launch template name in the request, but not
+    #   both. For more information, see [Launch template support][2] in the
+    #   *Batch User Guide*.
     #
     #   <note markdown="1"> This parameter isn't applicable to jobs that are running on Fargate
     #   resources. Don't specify it.
@@ -698,12 +800,13 @@ module Aws::Batch
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/batch/latest/userguide/launch-templates.html
+    #   [1]: https://docs.aws.amazon.com/batch/latest/APIReference/API_CreateComputeEnvironment.html
+    #   [2]: https://docs.aws.amazon.com/batch/latest/userguide/launch-templates.html
     #   @return [Types::LaunchTemplateSpecification]
     #
     # @!attribute [rw] ec2_configuration
     #   Provides information that's used to select Amazon Machine Images
-    #   (AMIs) for EC2 instances in the compute environment. If
+    #   (AMIs) for Amazon EC2 instances in the compute environment. If
     #   `Ec2Configuration` isn't specified, the default is `ECS_AL2`.
     #
     #   One or two values can be provided.
@@ -747,8 +850,8 @@ module Aws::Batch
     # [1]: https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html
     #
     # @!attribute [rw] minv_cpus
-    #   The minimum number of Amazon EC2 vCPUs that an environment should
-    #   maintain (even if the compute environment is `DISABLED`).
+    #   The minimum number of vCPUs that an environment should maintain
+    #   (even if the compute environment is `DISABLED`).
     #
     #   <note markdown="1"> This parameter isn't applicable to jobs that are running on Fargate
     #   resources. Don't specify it.
@@ -760,21 +863,20 @@ module Aws::Batch
     #   The maximum number of Amazon EC2 vCPUs that an environment can
     #   reach.
     #
-    #   <note markdown="1"> With both `BEST_FIT_PROGRESSIVE` and `SPOT_CAPACITY_OPTIMIZED`
-    #   allocation strategies using On-Demand or Spot Instances, and the
-    #   `BEST_FIT` strategy using Spot Instances, Batch might need to exceed
-    #   `maxvCpus` to meet your capacity requirements. In this event, Batch
-    #   never exceeds `maxvCpus` by more than a single instance. That is, no
-    #   more than a single instance from among those specified in your
-    #   compute environment.
+    #   <note markdown="1"> With `BEST_FIT_PROGRESSIVE`,`SPOT_CAPACITY_OPTIMIZED` and
+    #   `SPOT_PRICE_CAPACITY_OPTIMIZED` (recommended) strategies using
+    #   On-Demand or Spot Instances, and the `BEST_FIT` strategy using Spot
+    #   Instances, Batch might need to exceed `maxvCpus` to meet your
+    #   capacity requirements. In this event, Batch never exceeds `maxvCpus`
+    #   by more than a single instance.
     #
     #    </note>
     #   @return [Integer]
     #
     # @!attribute [rw] desiredv_cpus
-    #   The desired number of Amazon EC2 vCPUS in the compute environment.
-    #   Batch modifies this value between the minimum and maximum values
-    #   based on job queue demand.
+    #   The desired number of vCPUS in the compute environment. Batch
+    #   modifies this value between the minimum and maximum values based on
+    #   job queue demand.
     #
     #   <note markdown="1"> This parameter isn't applicable to jobs that are running on Fargate
     #   resources. Don't specify it.
@@ -786,16 +888,29 @@ module Aws::Batch
     #   compute environments using Amazon EKS clusters.
     #
     #    </note>
+    #
+    #   <note markdown="1"> When you update the `desiredvCpus` setting, the value must be
+    #   between the `minvCpus` and `maxvCpus` values.
+    #
+    #    Additionally, the updated `desiredvCpus` value must be greater than
+    #   or equal to the current `desiredvCpus` value. For more information,
+    #   see [Troubleshooting Batch][1] in the *Batch User Guide*.
+    #
+    #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/batch/latest/userguide/troubleshooting.html#error-desired-vcpus-update
     #   @return [Integer]
     #
     # @!attribute [rw] subnets
     #   The VPC subnets where the compute resources are launched. Fargate
     #   compute resources can contain up to 16 subnets. For Fargate compute
     #   resources, providing an empty list will be handled as if this
-    #   parameter wasn't specified and no change is made. For EC2 compute
-    #   resources, providing an empty list removes the VPC subnets from the
-    #   compute resource. For more information, see [VPCs and subnets][1] in
-    #   the *Amazon VPC User Guide*.
+    #   parameter wasn't specified and no change is made. For Amazon EC2
+    #   compute resources, providing an empty list removes the VPC subnets
+    #   from the compute resource. For more information, see [VPCs and
+    #   subnets][1] in the *Amazon VPC User Guide*.
     #
     #   When updating a compute environment, changing the VPC subnets
     #   requires an infrastructure update of the compute environment. For
@@ -828,13 +943,13 @@ module Aws::Batch
     #   Fargate compute resources, where it can contain up to 5 security
     #   groups. For Fargate compute resources, providing an empty list is
     #   handled as if this parameter wasn't specified and no change is
-    #   made. For EC2 compute resources, providing an empty list removes the
-    #   security groups from the compute resource.
+    #   made. For Amazon EC2 compute resources, providing an empty list
+    #   removes the security groups from the compute resource.
     #
-    #   When updating a compute environment, changing the EC2 security
-    #   groups requires an infrastructure update of the compute environment.
-    #   For more information, see [Updating compute environments][1] in the
-    #   *Batch User Guide*.
+    #   When updating a compute environment, changing the Amazon EC2
+    #   security groups requires an infrastructure update of the compute
+    #   environment. For more information, see [Updating compute
+    #   environments][1] in the *Batch User Guide*.
     #
     #
     #
@@ -876,11 +991,20 @@ module Aws::Batch
     #     allocation strategy is only available for Spot Instance compute
     #     resources.
     #
-    #   With both `BEST_FIT_PROGRESSIVE` and `SPOT_CAPACITY_OPTIMIZED`
-    #   strategies using On-Demand or Spot Instances, and the `BEST_FIT`
-    #   strategy using Spot Instances, Batch might need to exceed `maxvCpus`
-    #   to meet your capacity requirements. In this event, Batch never
-    #   exceeds `maxvCpus` by more than a single instance.
+    #   SPOT\_PRICE\_CAPACITY\_OPTIMIZED
+    #
+    #   : The price and capacity optimized allocation strategy looks at both
+    #     price and capacity to select the Spot Instance pools that are the
+    #     least likely to be interrupted and have the lowest possible price.
+    #     This allocation strategy is only available for Spot Instance
+    #     compute resources.
+    #
+    #   With `BEST_FIT_PROGRESSIVE`,`SPOT_CAPACITY_OPTIMIZED` and
+    #   `SPOT_PRICE_CAPACITY_OPTIMIZED` (recommended) strategies using
+    #   On-Demand or Spot Instances, and the `BEST_FIT` strategy using Spot
+    #   Instances, Batch might need to exceed `maxvCpus` to meet your
+    #   capacity requirements. In this event, Batch never exceeds `maxvCpus`
+    #   by more than a single instance.
     #
     #
     #
@@ -932,9 +1056,9 @@ module Aws::Batch
     #   instances with SSH. To remove the Amazon EC2 key pair, set this
     #   value to an empty string.
     #
-    #   When updating a compute environment, changing the EC2 key pair
-    #   requires an infrastructure update of the compute environment. For
-    #   more information, see [Updating compute environments][1] in the
+    #   When updating a compute environment, changing the Amazon EC2 key
+    #   pair requires an infrastructure update of the compute environment.
+    #   For more information, see [Updating compute environments][1] in the
     #   *Batch User Guide*.
     #
     #   <note markdown="1"> This parameter isn't applicable to jobs that are running on Fargate
@@ -949,9 +1073,9 @@ module Aws::Batch
     #
     # @!attribute [rw] instance_role
     #   The Amazon ECS instance profile applied to Amazon EC2 instances in a
-    #   compute environment. You can specify the short name or full Amazon
-    #   Resource Name (ARN) of an instance profile. For example, `
-    #   ecsInstanceRole ` or
+    #   compute environment. Required for Amazon EC2 instances. You can
+    #   specify the short name or full Amazon Resource Name (ARN) of an
+    #   instance profile. For example, ` ecsInstanceRole ` or
     #   `arn:aws:iam::<aws_account_id>:instance-profile/ecsInstanceRole `.
     #   For more information, see [Amazon ECS instance role][1] in the
     #   *Batch User Guide*.
@@ -973,13 +1097,13 @@ module Aws::Batch
     #   @return [String]
     #
     # @!attribute [rw] tags
-    #   Key-value pair tags to be applied to EC2 resources that are launched
-    #   in the compute environment. For Batch, these take the form of
-    #   `"String1": "String2"`, where `String1` is the tag key and `String2`
-    #   is the tag value-for example, `\{ "Name": "Batch Instance -
-    #   C4OnDemand" \}`. This is helpful for recognizing your Batch
-    #   instances in the Amazon EC2 console. These tags aren't seen when
-    #   using the Batch `ListTagsForResource` API operation.
+    #   Key-value pair tags to be applied to Amazon EC2 resources that are
+    #   launched in the compute environment. For Batch, these take the form
+    #   of `"String1": "String2"`, where `String1` is the tag key and
+    #   `String2` is the tag value-for example, `{ "Name": "Batch Instance -
+    #   C4OnDemand" }`. This is helpful for recognizing your Batch instances
+    #   in the Amazon EC2 console. These tags aren't seen when using the
+    #   Batch `ListTagsForResource` API operation.
     #
     #   When updating a compute environment, changing this setting requires
     #   an infrastructure update of the compute environment. For more
@@ -1077,14 +1201,15 @@ module Aws::Batch
     #
     # @!attribute [rw] ec2_configuration
     #   Provides information used to select Amazon Machine Images (AMIs) for
-    #   EC2 instances in the compute environment. If `Ec2Configuration`
-    #   isn't specified, the default is `ECS_AL2`.
+    #   Amazon EC2 instances in the compute environment. If
+    #   `Ec2Configuration` isn't specified, the default is `ECS_AL2`.
     #
     #   When updating a compute environment, changing this setting requires
     #   an infrastructure update of the compute environment. For more
     #   information, see [Updating compute environments][1] in the *Batch
-    #   User Guide*. To remove the EC2 configuration and any custom AMI ID
-    #   specified in `imageIdOverride`, set this value to an empty string.
+    #   User Guide*. To remove the Amazon EC2 configuration and any custom
+    #   AMI ID specified in `imageIdOverride`, set this value to an empty
+    #   string.
     #
     #   One or two values can be provided.
     #
@@ -1202,6 +1327,78 @@ module Aws::Batch
       include Aws::Structure
     end
 
+    # Contains a list of consumable resources required by a job.
+    #
+    # @!attribute [rw] consumable_resource_list
+    #   The list of consumable resources required by a job.
+    #   @return [Array<Types::ConsumableResourceRequirement>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/ConsumableResourceProperties AWS API Documentation
+    #
+    class ConsumableResourceProperties < Struct.new(
+      :consumable_resource_list)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Information about a consumable resource required to run a job.
+    #
+    # @!attribute [rw] consumable_resource
+    #   The name or ARN of the consumable resource.
+    #   @return [String]
+    #
+    # @!attribute [rw] quantity
+    #   The quantity of the consumable resource that is needed.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/ConsumableResourceRequirement AWS API Documentation
+    #
+    class ConsumableResourceRequirement < Struct.new(
+      :consumable_resource,
+      :quantity)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Current information about a consumable resource.
+    #
+    # @!attribute [rw] consumable_resource_arn
+    #   The Amazon Resource Name (ARN) of the consumable resource.
+    #   @return [String]
+    #
+    # @!attribute [rw] consumable_resource_name
+    #   The name of the consumable resource.
+    #   @return [String]
+    #
+    # @!attribute [rw] total_quantity
+    #   The total amount of the consumable resource that is available.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] in_use_quantity
+    #   The amount of the consumable resource that is currently in use.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] resource_type
+    #   Indicates whether the resource is available to be re-used after a
+    #   job completes. Can be one of:
+    #
+    #   * `REPLENISHABLE`
+    #
+    #   * `NON_REPLENISHABLE`
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/ConsumableResourceSummary AWS API Documentation
+    #
+    class ConsumableResourceSummary < Struct.new(
+      :consumable_resource_arn,
+      :consumable_resource_name,
+      :total_quantity,
+      :in_use_quantity,
+      :resource_type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # An object that represents the details of a container that's part of a
     # job.
     #
@@ -1211,8 +1408,8 @@ module Aws::Batch
     #
     # @!attribute [rw] vcpus
     #   The number of vCPUs reserved for the container. For jobs that run on
-    #   EC2 resources, you can specify the vCPU requirement for the job
-    #   using `resourceRequirements`, but you can't specify the vCPU
+    #   Amazon EC2 resources, you can specify the vCPU requirement for the
+    #   job using `resourceRequirements`, but you can't specify the vCPU
     #   requirements in both the `vcpus` and `resourceRequirements` object.
     #   This parameter maps to `CpuShares` in the [Create a container][1]
     #   section of the [Docker Remote API][2] and the `--cpu-shares` option
@@ -1235,7 +1432,7 @@ module Aws::Batch
     #   @return [Integer]
     #
     # @!attribute [rw] memory
-    #   For jobs running on EC2 resources that didn't specify memory
+    #   For jobs running on Amazon EC2 resources that didn't specify memory
     #   requirements using `resourceRequirements`, the number of MiB of
     #   memory reserved for the job. For other jobs, including all run on
     #   Fargate resources, see `resourceRequirements`.
@@ -1331,7 +1528,7 @@ module Aws::Batch
     #   @return [String]
     #
     # @!attribute [rw] exit_code
-    #   The exit code to return upon completion.
+    #   The exit code returned upon completion.
     #   @return [Integer]
     #
     # @!attribute [rw] reason
@@ -1398,7 +1595,7 @@ module Aws::Batch
     #   documentation.
     #
     #   <note markdown="1"> Batch currently supports a subset of the logging drivers available
-    #   to the Docker daemon (shown in the LogConfiguration data type).
+    #   to the Docker daemon (shown in the [LogConfiguration][5] data type).
     #   Additional log drivers might be available in future releases of the
     #   Amazon ECS container agent.
     #
@@ -1415,7 +1612,7 @@ module Aws::Batch
     #   `ECS_AVAILABLE_LOGGING_DRIVERS` environment variable before
     #   containers placed on that instance can use these log configuration
     #   options. For more information, see [Amazon ECS container agent
-    #   configuration][5] in the *Amazon Elastic Container Service Developer
+    #   configuration][6] in the *Amazon Elastic Container Service Developer
     #   Guide*.
     #
     #    </note>
@@ -1426,7 +1623,8 @@ module Aws::Batch
     #   [2]: https://docs.docker.com/engine/api/v1.23/
     #   [3]: https://docs.docker.com/engine/reference/run/
     #   [4]: https://docs.docker.com/engine/admin/logging/overview/
-    #   [5]: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-agent-config.html
+    #   [5]: https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-batch-jobdefinition-containerproperties-logconfiguration.html
+    #   [6]: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-agent-config.html
     #   @return [Types::LogConfiguration]
     #
     # @!attribute [rw] secrets
@@ -1440,15 +1638,30 @@ module Aws::Batch
     #
     # @!attribute [rw] network_configuration
     #   The network configuration for jobs that are running on Fargate
-    #   resources. Jobs that are running on EC2 resources must not specify
-    #   this parameter.
+    #   resources. Jobs that are running on Amazon EC2 resources must not
+    #   specify this parameter.
     #   @return [Types::NetworkConfiguration]
     #
     # @!attribute [rw] fargate_platform_configuration
     #   The platform configuration for jobs that are running on Fargate
-    #   resources. Jobs that are running on EC2 resources must not specify
-    #   this parameter.
+    #   resources. Jobs that are running on Amazon EC2 resources must not
+    #   specify this parameter.
     #   @return [Types::FargatePlatformConfiguration]
+    #
+    # @!attribute [rw] ephemeral_storage
+    #   The amount of ephemeral storage allocated for the task. This
+    #   parameter is used to expand the total amount of ephemeral storage
+    #   available, beyond the default amount, for tasks hosted on Fargate.
+    #   @return [Types::EphemeralStorage]
+    #
+    # @!attribute [rw] runtime_platform
+    #   An object that represents the compute environment architecture for
+    #   Batch jobs on Fargate.
+    #   @return [Types::RuntimePlatform]
+    #
+    # @!attribute [rw] repository_credentials
+    #   The private repository authentication credentials to use.
+    #   @return [Types::RepositoryCredentials]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/ContainerDetail AWS API Documentation
     #
@@ -1478,21 +1691,31 @@ module Aws::Batch
       :log_configuration,
       :secrets,
       :network_configuration,
-      :fargate_platform_configuration)
+      :fargate_platform_configuration,
+      :ephemeral_storage,
+      :runtime_platform,
+      :repository_credentials)
       SENSITIVE = []
       include Aws::Structure
     end
 
     # The overrides that should be sent to a container.
     #
+    # For information about using Batch overrides when you connect event
+    # sources to targets, see [BatchContainerOverrides][1].
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/eventbridge/latest/pipes-reference/API_BatchContainerOverrides.html
+    #
     # @!attribute [rw] vcpus
     #   This parameter is deprecated, use `resourceRequirements` to override
     #   the `vcpus` parameter that's set in the job definition. It's not
     #   supported for jobs running on Fargate resources. For jobs that run
-    #   on EC2 resources, it overrides the `vcpus` parameter set in the job
-    #   definition, but doesn't override any vCPU requirement specified in
-    #   the `resourceRequirements` structure in the job definition. To
-    #   override vCPU requirements that are specified in the
+    #   on Amazon EC2 resources, it overrides the `vcpus` parameter set in
+    #   the job definition, but doesn't override any vCPU requirement
+    #   specified in the `resourceRequirements` structure in the job
+    #   definition. To override vCPU requirements that are specified in the
     #   `resourceRequirements` structure in the job definition,
     #   `resourceRequirements` must be specified in the `SubmitJob` request,
     #   with `type` set to `VCPU` and `value` set to the new value. For more
@@ -1508,9 +1731,9 @@ module Aws::Batch
     #   This parameter is deprecated, use `resourceRequirements` to override
     #   the memory requirements specified in the job definition. It's not
     #   supported for jobs running on Fargate resources. For jobs that run
-    #   on EC2 resources, it overrides the `memory` parameter set in the job
-    #   definition, but doesn't override any memory requirement that's
-    #   specified in the `resourceRequirements` structure in the job
+    #   on Amazon EC2 resources, it overrides the `memory` parameter set in
+    #   the job definition, but doesn't override any memory requirement
+    #   that's specified in the `resourceRequirements` structure in the job
     #   definition. To override memory requirements that are specified in
     #   the `resourceRequirements` structure in the job definition,
     #   `resourceRequirements` must be specified in the `SubmitJob` request,
@@ -1526,6 +1749,10 @@ module Aws::Batch
     # @!attribute [rw] command
     #   The command to send to the container that overrides the default
     #   command from the Docker image or the job definition.
+    #
+    #   <note markdown="1"> This parameter can't contain an empty string.
+    #
+    #    </note>
     #   @return [Array<String>]
     #
     # @!attribute [rw] instance_type
@@ -1573,8 +1800,8 @@ module Aws::Batch
     # a job.
     #
     # @!attribute [rw] image
-    #   The image used to start a container. This string is passed directly
-    #   to the Docker daemon. Images in the Docker Hub registry are
+    #   Required. The image used to start a container. This string is passed
+    #   directly to the Docker daemon. Images in the Docker Hub registry are
     #   available by default. Other repositories are specified with `
     #   repository-url/image:tag `. It can be 255 characters long. It can
     #   contain uppercase and lowercase letters, numbers, hyphens (-),
@@ -1617,8 +1844,9 @@ module Aws::Batch
     # @!attribute [rw] vcpus
     #   This parameter is deprecated, use `resourceRequirements` to specify
     #   the vCPU requirements for the job definition. It's not supported
-    #   for jobs running on Fargate resources. For jobs running on EC2
-    #   resources, it specifies the number of vCPUs reserved for the job.
+    #   for jobs running on Fargate resources. For jobs running on Amazon
+    #   EC2 resources, it specifies the number of vCPUs reserved for the
+    #   job.
     #
     #   Each vCPU is equivalent to 1,024 CPU shares. This parameter maps to
     #   `CpuShares` in the [Create a container][1] section of the [Docker
@@ -1636,8 +1864,8 @@ module Aws::Batch
     # @!attribute [rw] memory
     #   This parameter is deprecated, use `resourceRequirements` to specify
     #   the memory requirements for the job definition. It's not supported
-    #   for jobs running on Fargate resources. For jobs that run on EC2
-    #   resources, it specifies the memory hard limit (in MiB) for a
+    #   for jobs running on Fargate resources. For jobs that run on Amazon
+    #   EC2 resources, it specifies the memory hard limit (in MiB) for a
     #   container. If your container attempts to exceed the specified
     #   number, it's terminated. You must specify at least 4 MiB of memory
     #   for a job using this parameter. The memory hard limit can be
@@ -1815,7 +2043,7 @@ module Aws::Batch
     #   drivers][4] in the Docker documentation.
     #
     #   <note markdown="1"> Batch currently supports a subset of the logging drivers available
-    #   to the Docker daemon (shown in the LogConfiguration data type).
+    #   to the Docker daemon (shown in the [LogConfiguration][5] data type).
     #
     #    </note>
     #
@@ -1830,7 +2058,7 @@ module Aws::Batch
     #   `ECS_AVAILABLE_LOGGING_DRIVERS` environment variable before
     #   containers placed on that instance can use these log configuration
     #   options. For more information, see [Amazon ECS container agent
-    #   configuration][5] in the *Amazon Elastic Container Service Developer
+    #   configuration][6] in the *Amazon Elastic Container Service Developer
     #   Guide*.
     #
     #    </note>
@@ -1841,7 +2069,8 @@ module Aws::Batch
     #   [2]: https://docs.docker.com/engine/api/v1.23/
     #   [3]: https://docs.docker.com/engine/reference/run/
     #   [4]: https://docs.docker.com/engine/admin/logging/overview/
-    #   [5]: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-agent-config.html
+    #   [5]: https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-batch-jobdefinition-containerproperties-logconfiguration.html
+    #   [6]: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-agent-config.html
     #   @return [Types::LogConfiguration]
     #
     # @!attribute [rw] secrets
@@ -1855,15 +2084,30 @@ module Aws::Batch
     #
     # @!attribute [rw] network_configuration
     #   The network configuration for jobs that are running on Fargate
-    #   resources. Jobs that are running on EC2 resources must not specify
-    #   this parameter.
+    #   resources. Jobs that are running on Amazon EC2 resources must not
+    #   specify this parameter.
     #   @return [Types::NetworkConfiguration]
     #
     # @!attribute [rw] fargate_platform_configuration
     #   The platform configuration for jobs that are running on Fargate
-    #   resources. Jobs that are running on EC2 resources must not specify
-    #   this parameter.
+    #   resources. Jobs that are running on Amazon EC2 resources must not
+    #   specify this parameter.
     #   @return [Types::FargatePlatformConfiguration]
+    #
+    # @!attribute [rw] ephemeral_storage
+    #   The amount of ephemeral storage to allocate for the task. This
+    #   parameter is used to expand the total amount of ephemeral storage
+    #   available, beyond the default amount, for tasks hosted on Fargate.
+    #   @return [Types::EphemeralStorage]
+    #
+    # @!attribute [rw] runtime_platform
+    #   An object that represents the compute environment architecture for
+    #   Batch jobs on Fargate.
+    #   @return [Types::RuntimePlatform]
+    #
+    # @!attribute [rw] repository_credentials
+    #   The private repository authentication credentials to use.
+    #   @return [Types::RepositoryCredentials]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/ContainerProperties AWS API Documentation
     #
@@ -1887,7 +2131,10 @@ module Aws::Batch
       :log_configuration,
       :secrets,
       :network_configuration,
-      :fargate_platform_configuration)
+      :fargate_platform_configuration,
+      :ephemeral_storage,
+      :runtime_platform,
+      :repository_credentials)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1944,8 +2191,24 @@ module Aws::Batch
     #   If the state is `DISABLED`, then the Batch scheduler doesn't
     #   attempt to place jobs within the environment. Jobs in a `STARTING`
     #   or `RUNNING` state continue to progress normally. Managed compute
-    #   environments in the `DISABLED` state don't scale out. However, they
-    #   scale in to `minvCpus` value after instances become idle.
+    #   environments in the `DISABLED` state don't scale out.
+    #
+    #   <note markdown="1"> Compute environments in a `DISABLED` state may continue to incur
+    #   billing charges. To prevent additional charges, turn off and then
+    #   delete the compute environment. For more information, see [State][1]
+    #   in the *Batch User Guide*.
+    #
+    #    </note>
+    #
+    #   When an instance is idle, the instance scales down to the `minvCpus`
+    #   value. However, the instance size doesn't change. For example,
+    #   consider a `c5.8xlarge` instance with a `minvCpus` value of `4` and
+    #   a `desiredvCpus` value of `36`. This instance doesn't scale down to
+    #   a `c5.large` instance.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/batch/latest/userguide/compute_environment_parameters.html#compute_environment_state
     #   @return [String]
     #
     # @!attribute [rw] unmanagedv_cpus
@@ -2028,6 +2291,10 @@ module Aws::Batch
     #   environment.
     #   @return [Types::EksConfiguration]
     #
+    # @!attribute [rw] context
+    #   Reserved.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/CreateComputeEnvironmentRequest AWS API Documentation
     #
     class CreateComputeEnvironmentRequest < Struct.new(
@@ -2038,7 +2305,8 @@ module Aws::Batch
       :compute_resources,
       :service_role,
       :tags,
-      :eks_configuration)
+      :eks_configuration,
+      :context)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2062,6 +2330,63 @@ module Aws::Batch
       include Aws::Structure
     end
 
+    # @!attribute [rw] consumable_resource_name
+    #   The name of the consumable resource. Must be unique.
+    #   @return [String]
+    #
+    # @!attribute [rw] total_quantity
+    #   The total amount of the consumable resource that is available. Must
+    #   be non-negative.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] resource_type
+    #   Indicates whether the resource is available to be re-used after a
+    #   job completes. Can be one of:
+    #
+    #   * `REPLENISHABLE` (default)
+    #
+    #   * `NON_REPLENISHABLE`
+    #   @return [String]
+    #
+    # @!attribute [rw] tags
+    #   The tags that you apply to the consumable resource to help you
+    #   categorize and organize your resources. Each tag consists of a key
+    #   and an optional value. For more information, see [Tagging your Batch
+    #   resources][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/batch/latest/userguide/using-tags.html
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/CreateConsumableResourceRequest AWS API Documentation
+    #
+    class CreateConsumableResourceRequest < Struct.new(
+      :consumable_resource_name,
+      :total_quantity,
+      :resource_type,
+      :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] consumable_resource_name
+    #   The name of the consumable resource.
+    #   @return [String]
+    #
+    # @!attribute [rw] consumable_resource_arn
+    #   The Amazon Resource Name (ARN) of the consumable resource.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/CreateConsumableResourceResponse AWS API Documentation
+    #
+    class CreateConsumableResourceResponse < Struct.new(
+      :consumable_resource_name,
+      :consumable_resource_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Contains the parameters for `CreateJobQueue`.
     #
     # @!attribute [rw] job_queue_name
@@ -2079,14 +2404,21 @@ module Aws::Batch
     #
     # @!attribute [rw] scheduling_policy_arn
     #   The Amazon Resource Name (ARN) of the fair share scheduling policy.
-    #   If this parameter is specified, the job queue uses a fair share
-    #   scheduling policy. If this parameter isn't specified, the job queue
-    #   uses a first in, first out (FIFO) scheduling policy. After a job
-    #   queue is created, you can replace but can't remove the fair share
-    #   scheduling policy. The format is
-    #   `aws:Partition:batch:Region:Account:scheduling-policy/Name `. An
-    #   example is
+    #   Job queues that don't have a scheduling policy are scheduled in a
+    #   first-in, first-out (FIFO) model. After a job queue has a scheduling
+    #   policy, it can be replaced but can't be removed.
+    #
+    #   The format is
+    #   `aws:Partition:batch:Region:Account:scheduling-policy/Name `.
+    #
+    #   An example is
     #   `aws:aws:batch:us-west-2:123456789012:scheduling-policy/MySchedulingPolicy`.
+    #
+    #   A job queue without a scheduling policy is scheduled as a FIFO job
+    #   queue and can't have a scheduling policy added. Jobs queues with a
+    #   scheduling policy can have a maximum of 500 active fair share
+    #   identifiers. When the limit has been reached, submissions of any
+    #   jobs that add a new fair share identifier fail.
     #   @return [String]
     #
     # @!attribute [rw] priority
@@ -2130,6 +2462,14 @@ module Aws::Batch
     #   [1]: https://docs.aws.amazon.com/batch/latest/userguide/using-tags.html
     #   @return [Hash<String,String>]
     #
+    # @!attribute [rw] job_state_time_limit_actions
+    #   The set of actions that Batch performs on jobs that remain at the
+    #   head of the job queue in the specified state longer than specified
+    #   times. Batch will perform each action after `maxTimeSeconds` has
+    #   passed. (**Note**: The minimum value for maxTimeSeconds is 600 (10
+    #   minutes) and its maximum value is 86,400 (24 hours).)
+    #   @return [Array<Types::JobStateTimeLimitAction>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/CreateJobQueueRequest AWS API Documentation
     #
     class CreateJobQueueRequest < Struct.new(
@@ -2138,7 +2478,8 @@ module Aws::Batch
       :scheduling_policy_arn,
       :priority,
       :compute_environment_order,
-      :tags)
+      :tags,
+      :job_state_time_limit_actions)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2236,6 +2577,22 @@ module Aws::Batch
     # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/DeleteComputeEnvironmentResponse AWS API Documentation
     #
     class DeleteComputeEnvironmentResponse < Aws::EmptyStructure; end
+
+    # @!attribute [rw] consumable_resource
+    #   The name or ARN of the consumable resource that will be deleted.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/DeleteConsumableResourceRequest AWS API Documentation
+    #
+    class DeleteConsumableResourceRequest < Struct.new(
+      :consumable_resource)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/DeleteConsumableResourceResponse AWS API Documentation
+    #
+    class DeleteConsumableResourceResponse < Aws::EmptyStructure; end
 
     # Contains the parameters for `DeleteJobQueue`.
     #
@@ -2357,14 +2714,89 @@ module Aws::Batch
       include Aws::Structure
     end
 
+    # @!attribute [rw] consumable_resource
+    #   The name or ARN of the consumable resource whose description will be
+    #   returned.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/DescribeConsumableResourceRequest AWS API Documentation
+    #
+    class DescribeConsumableResourceRequest < Struct.new(
+      :consumable_resource)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] consumable_resource_name
+    #   The name of the consumable resource.
+    #   @return [String]
+    #
+    # @!attribute [rw] consumable_resource_arn
+    #   The Amazon Resource Name (ARN) of the consumable resource.
+    #   @return [String]
+    #
+    # @!attribute [rw] total_quantity
+    #   The total amount of the consumable resource that is available.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] in_use_quantity
+    #   The amount of the consumable resource that is currently in use.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] available_quantity
+    #   The amount of the consumable resource that is currently available to
+    #   use.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] resource_type
+    #   Indicates whether the resource is available to be re-used after a
+    #   job completes. Can be one of:
+    #
+    #   * `REPLENISHABLE`
+    #
+    #   * `NON_REPLENISHABLE`
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The Unix timestamp (in milliseconds) for when the consumable
+    #   resource was created.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] tags
+    #   The tags that you apply to the consumable resource to help you
+    #   categorize and organize your resources. Each tag consists of a key
+    #   and an optional value. For more information, see [Tagging your Batch
+    #   resources][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/batch/latest/userguide/using-tags.html
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/DescribeConsumableResourceResponse AWS API Documentation
+    #
+    class DescribeConsumableResourceResponse < Struct.new(
+      :consumable_resource_name,
+      :consumable_resource_arn,
+      :total_quantity,
+      :in_use_quantity,
+      :available_quantity,
+      :resource_type,
+      :created_at,
+      :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Contains the parameters for `DescribeJobDefinitions`.
     #
     # @!attribute [rw] job_definitions
     #   A list of up to 100 job definitions. Each entry in the list can
     #   either be an ARN in the format
-    #   `arn:aws:batch:$\{Region\}:$\{Account\}:job-definition/$\{JobDefinitionName\}:$\{Revision\}`
+    #   `arn:aws:batch:${Region}:${Account}:job-definition/${JobDefinitionName}:${Revision}`
     #   or a short version using the form
-    #   `$\{JobDefinitionName\}:$\{Revision\}`.
+    #   `${JobDefinitionName}:${Revision}`. This parameter can't be used
+    #   with other parameters.
     #   @return [Array<String>]
     #
     # @!attribute [rw] max_results
@@ -2721,24 +3153,32 @@ module Aws::Batch
     #
     #     ECS\_AL2
     #
-    #     : [Amazon Linux 2][1]\: Default for all non-GPU instance families.
+    #     : [Amazon Linux 2][1]: Default for all non-GPU instance families.
     #
     #     ECS\_AL2\_NVIDIA
     #
-    #     : [Amazon Linux 2 (GPU)][2]\: Default for all GPU instance
-    #       families (for example `P4` and `G4`) and can be used for all non
-    #       Amazon Web Services Graviton-based instance types.
+    #     : [Amazon Linux 2 (GPU)][2]: Default for all GPU instance families
+    #       (for example `P4` and `G4`) and can be used for all non Amazon
+    #       Web Services Graviton-based instance types.
+    #
+    #     ECS\_AL2023
+    #
+    #     : [Amazon Linux 2023][3]: Batch supports Amazon Linux 2023.
+    #
+    #       <note markdown="1"> Amazon Linux 2023 does not support `A1` instances.
+    #
+    #        </note>
     #
     #     ECS\_AL1
     #
-    #     : [Amazon Linux][3]. Amazon Linux has reached the end-of-life of
+    #     : [Amazon Linux][4]. Amazon Linux has reached the end-of-life of
     #       standard support. For more information, see [Amazon Linux
-    #       AMI][4].
+    #       AMI][5].
     #
     #   EKS
     #
     #   : If the `imageIdOverride` parameter isn't specified, then a recent
-    #     [Amazon EKS-optimized Amazon Linux AMI][5] (`EKS_AL2`) is used. If
+    #     [Amazon EKS-optimized Amazon Linux AMI][6] (`EKS_AL2`) is used. If
     #     a new image type is specified in an update, but neither an
     #     `imageId` nor a `imageIdOverride` parameter is specified, then the
     #     latest Amazon EKS optimized AMI for that image type that Batch
@@ -2746,11 +3186,11 @@ module Aws::Batch
     #
     #     EKS\_AL2
     #
-    #     : [Amazon Linux 2][5]\: Default for all non-GPU instance families.
+    #     : [Amazon Linux 2][6]: Default for all non-GPU instance families.
     #
     #     EKS\_AL2\_NVIDIA
     #
-    #     : [Amazon Linux 2 (accelerated)][5]\: Default for all GPU instance
+    #     : [Amazon Linux 2 (accelerated)][6]: Default for all GPU instance
     #       families (for example, `P4` and `G4`) and can be used for all
     #       non Amazon Web Services Graviton-based instance types.
     #
@@ -2758,9 +3198,10 @@ module Aws::Batch
     #
     #   [1]: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#al2ami
     #   [2]: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#gpuami
-    #   [3]: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#alami
-    #   [4]: http://aws.amazon.com/amazon-linux-ami/
-    #   [5]: https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html
+    #   [3]: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html
+    #   [4]: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#alami
+    #   [5]: http://aws.amazon.com/amazon-linux-ami/
+    #   [6]: https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html
     #   @return [String]
     #
     # @!attribute [rw] image_id_override
@@ -2799,11 +3240,298 @@ module Aws::Batch
       include Aws::Structure
     end
 
+    # An object that contains the properties for the Amazon ECS resources of
+    # a job.
+    #
+    # @!attribute [rw] task_properties
+    #   An object that contains the properties for the Amazon ECS task
+    #   definition of a job.
+    #
+    #   <note markdown="1"> This object is currently limited to one task element. However, the
+    #   task element can run up to 10 containers.
+    #
+    #    </note>
+    #   @return [Array<Types::EcsTaskProperties>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/EcsProperties AWS API Documentation
+    #
+    class EcsProperties < Struct.new(
+      :task_properties)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # An object that contains the details for the Amazon ECS resources of a
+    # job.
+    #
+    # @!attribute [rw] task_properties
+    #   The properties for the Amazon ECS task definition of a job.
+    #   @return [Array<Types::EcsTaskDetails>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/EcsPropertiesDetail AWS API Documentation
+    #
+    class EcsPropertiesDetail < Struct.new(
+      :task_properties)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # An object that contains overrides for the Amazon ECS task definition
+    # of a job.
+    #
+    # @!attribute [rw] task_properties
+    #   The overrides for the Amazon ECS task definition of a job.
+    #
+    #   <note markdown="1"> This object is currently limited to one element.
+    #
+    #    </note>
+    #   @return [Array<Types::TaskPropertiesOverride>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/EcsPropertiesOverride AWS API Documentation
+    #
+    class EcsPropertiesOverride < Struct.new(
+      :task_properties)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The details of a task definition that describes the container and
+    # volume definitions of an Amazon ECS task.
+    #
+    # @!attribute [rw] containers
+    #   A list of containers that are included in the `taskProperties` list.
+    #   @return [Array<Types::TaskContainerDetails>]
+    #
+    # @!attribute [rw] container_instance_arn
+    #   The Amazon Resource Name (ARN) of the container instance that hosts
+    #   the task.
+    #   @return [String]
+    #
+    # @!attribute [rw] task_arn
+    #   The ARN of the Amazon ECS task.
+    #   @return [String]
+    #
+    # @!attribute [rw] ephemeral_storage
+    #   The amount of ephemeral storage allocated for the task.
+    #   @return [Types::EphemeralStorage]
+    #
+    # @!attribute [rw] execution_role_arn
+    #   The Amazon Resource Name (ARN) of the execution role that Batch can
+    #   assume. For more information, see [Batch execution IAM role][1] in
+    #   the *Batch User Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/batch/latest/userguide/execution-IAM-role.html
+    #   @return [String]
+    #
+    # @!attribute [rw] platform_version
+    #   The Fargate platform version where the jobs are running.
+    #   @return [String]
+    #
+    # @!attribute [rw] ipc_mode
+    #   The IPC resource namespace to use for the containers in the task.
+    #   @return [String]
+    #
+    # @!attribute [rw] task_role_arn
+    #   The Amazon Resource Name (ARN) of the IAM role that the container
+    #   can assume for Amazon Web Services permissions. For more
+    #   information, see [IAM roles for tasks][1] in the *Amazon Elastic
+    #   Container Service Developer Guide*.
+    #
+    #   <note markdown="1"> This is object is comparable to [ContainerProperties:jobRoleArn][2].
+    #
+    #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-iam-roles.html
+    #   [2]: https://docs.aws.amazon.com/batch/latest/APIReference/API_ContainerProperties.html
+    #   @return [String]
+    #
+    # @!attribute [rw] pid_mode
+    #   The process namespace to use for the containers in the task.
+    #   @return [String]
+    #
+    # @!attribute [rw] network_configuration
+    #   The network configuration for jobs that are running on Fargate
+    #   resources. Jobs that are running on Amazon EC2 resources must not
+    #   specify this parameter.
+    #   @return [Types::NetworkConfiguration]
+    #
+    # @!attribute [rw] runtime_platform
+    #   An object that represents the compute environment architecture for
+    #   Batch jobs on Fargate.
+    #   @return [Types::RuntimePlatform]
+    #
+    # @!attribute [rw] volumes
+    #   A list of data volumes used in a job.
+    #   @return [Array<Types::Volume>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/EcsTaskDetails AWS API Documentation
+    #
+    class EcsTaskDetails < Struct.new(
+      :containers,
+      :container_instance_arn,
+      :task_arn,
+      :ephemeral_storage,
+      :execution_role_arn,
+      :platform_version,
+      :ipc_mode,
+      :task_role_arn,
+      :pid_mode,
+      :network_configuration,
+      :runtime_platform,
+      :volumes)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The properties for a task definition that describes the container and
+    # volume definitions of an Amazon ECS task. You can specify which Docker
+    # images to use, the required resources, and other configurations
+    # related to launching the task definition through an Amazon ECS service
+    # or task.
+    #
+    # @!attribute [rw] containers
+    #   This object is a list of containers.
+    #   @return [Array<Types::TaskContainerProperties>]
+    #
+    # @!attribute [rw] ephemeral_storage
+    #   The amount of ephemeral storage to allocate for the task. This
+    #   parameter is used to expand the total amount of ephemeral storage
+    #   available, beyond the default amount, for tasks hosted on Fargate.
+    #   @return [Types::EphemeralStorage]
+    #
+    # @!attribute [rw] execution_role_arn
+    #   The Amazon Resource Name (ARN) of the execution role that Batch can
+    #   assume. For jobs that run on Fargate resources, you must provide an
+    #   execution role. For more information, see [Batch execution IAM
+    #   role][1] in the *Batch User Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/batch/latest/userguide/execution-IAM-role.html
+    #   @return [String]
+    #
+    # @!attribute [rw] platform_version
+    #   The Fargate platform version where the jobs are running. A platform
+    #   version is specified only for jobs that are running on Fargate
+    #   resources. If one isn't specified, the `LATEST` platform version is
+    #   used by default. This uses a recent, approved version of the Fargate
+    #   platform for compute resources. For more information, see [Fargate
+    #   platform versions][1] in the *Amazon Elastic Container Service
+    #   Developer Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/platform_versions.html
+    #   @return [String]
+    #
+    # @!attribute [rw] ipc_mode
+    #   The IPC resource namespace to use for the containers in the task.
+    #   The valid values are `host`, `task`, or `none`.
+    #
+    #   If `host` is specified, all containers within the tasks that
+    #   specified the `host` IPC mode on the same container instance share
+    #   the same IPC resources with the host Amazon EC2 instance.
+    #
+    #   If `task` is specified, all containers within the specified `task`
+    #   share the same IPC resources.
+    #
+    #   If `none` is specified, the IPC resources within the containers of a
+    #   task are private, and are not shared with other containers in a task
+    #   or on the container instance.
+    #
+    #   If no value is specified, then the IPC resource namespace sharing
+    #   depends on the Docker daemon setting on the container instance. For
+    #   more information, see [IPC settings][1] in the Docker run reference.
+    #
+    #
+    #
+    #   [1]: https://docs.docker.com/engine/reference/run/#ipc-settings---ipc
+    #   @return [String]
+    #
+    # @!attribute [rw] task_role_arn
+    #   The Amazon Resource Name (ARN) that's associated with the Amazon
+    #   ECS task.
+    #
+    #   <note markdown="1"> This is object is comparable to [ContainerProperties:jobRoleArn][1].
+    #
+    #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/batch/latest/APIReference/API_ContainerProperties.html
+    #   @return [String]
+    #
+    # @!attribute [rw] pid_mode
+    #   The process namespace to use for the containers in the task. The
+    #   valid values are `host` or `task`. For example, monitoring sidecars
+    #   might need `pidMode` to access information about other containers
+    #   running in the same task.
+    #
+    #   If `host` is specified, all containers within the tasks that
+    #   specified the `host` PID mode on the same container instance share
+    #   the process namespace with the host Amazon EC2 instance.
+    #
+    #   If `task` is specified, all containers within the specified task
+    #   share the same process namespace.
+    #
+    #   If no value is specified, the default is a private namespace for
+    #   each container. For more information, see [PID settings][1] in the
+    #   Docker run reference.
+    #
+    #
+    #
+    #   [1]: https://docs.docker.com/engine/reference/run/#pid-settings---pid
+    #   @return [String]
+    #
+    # @!attribute [rw] network_configuration
+    #   The network configuration for jobs that are running on Fargate
+    #   resources. Jobs that are running on Amazon EC2 resources must not
+    #   specify this parameter.
+    #   @return [Types::NetworkConfiguration]
+    #
+    # @!attribute [rw] runtime_platform
+    #   An object that represents the compute environment architecture for
+    #   Batch jobs on Fargate.
+    #   @return [Types::RuntimePlatform]
+    #
+    # @!attribute [rw] volumes
+    #   A list of volumes that are associated with the job.
+    #   @return [Array<Types::Volume>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/EcsTaskProperties AWS API Documentation
+    #
+    class EcsTaskProperties < Struct.new(
+      :containers,
+      :ephemeral_storage,
+      :execution_role_arn,
+      :platform_version,
+      :ipc_mode,
+      :task_role_arn,
+      :pid_mode,
+      :network_configuration,
+      :runtime_platform,
+      :volumes)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # An object that represents the details for an attempt for a job attempt
     # that an Amazon EKS container runs.
     #
+    # @!attribute [rw] name
+    #   The name of a container.
+    #   @return [String]
+    #
+    # @!attribute [rw] container_id
+    #   The ID for the container.
+    #   @return [String]
+    #
     # @!attribute [rw] exit_code
-    #   The exit code for the job attempt. A non-zero exit code is
+    #   The exit code returned for the job attempt. A non-zero exit code is
     #   considered failed.
     #   @return [Integer]
     #
@@ -2815,6 +3543,8 @@ module Aws::Batch
     # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/EksAttemptContainerDetail AWS API Documentation
     #
     class EksAttemptContainerDetail < Struct.new(
+      :name,
+      :container_id,
       :exit_code,
       :reason)
       SENSITIVE = []
@@ -2829,8 +3559,20 @@ module Aws::Batch
     #   attempt.
     #   @return [Array<Types::EksAttemptContainerDetail>]
     #
+    # @!attribute [rw] init_containers
+    #   The details for the init containers.
+    #   @return [Array<Types::EksAttemptContainerDetail>]
+    #
+    # @!attribute [rw] eks_cluster_arn
+    #   The Amazon Resource Name (ARN) of the Amazon EKS cluster.
+    #   @return [String]
+    #
     # @!attribute [rw] pod_name
     #   The name of the pod for this job attempt.
+    #   @return [String]
+    #
+    # @!attribute [rw] pod_namespace
+    #   The namespace of the Amazon EKS cluster that the pod exists in.
     #   @return [String]
     #
     # @!attribute [rw] node_name
@@ -2859,7 +3601,10 @@ module Aws::Batch
     #
     class EksAttemptDetail < Struct.new(
       :containers,
+      :init_containers,
+      :eks_cluster_arn,
       :pod_name,
+      :pod_namespace,
       :node_name,
       :started_at,
       :stopped_at,
@@ -2964,8 +3709,8 @@ module Aws::Batch
     #   `$`, and the resulting string isn't expanded. For example,
     #   `$$(VAR_NAME)` is passed as `$(VAR_NAME)` whether or not the
     #   `VAR_NAME` environment variable exists. For more information, see
-    #   [CMD][3] in the *Dockerfile reference* and [Define a command and
-    #   arguments for a pod][4] in the *Kubernetes documentation*.
+    #   [Dockerfile reference: CMD][3] and [Define a command and arguments
+    #   for a pod][4] in the *Kubernetes documentation*.
     #
     #
     #
@@ -3080,8 +3825,8 @@ module Aws::Batch
     #   `$` and the resulting string isn't expanded. For example,
     #   `$$(VAR_NAME)` is passed as `$(VAR_NAME)` whether or not the
     #   `VAR_NAME` environment variable exists. For more information, see
-    #   [CMD][3] in the *Dockerfile reference* and [Define a command and
-    #   arguments for a pod][4] in the *Kubernetes documentation*.
+    #   [Dockerfile reference: CMD][3] and [Define a command and arguments
+    #   for a pod][4] in the *Kubernetes documentation*.
     #
     #
     #
@@ -3112,7 +3857,7 @@ module Aws::Batch
     #   @return [Types::EksContainerResourceRequirements]
     #
     # @!attribute [rw] exit_code
-    #   The exit code for the job attempt. A non-zero exit code is
+    #   The exit code returned for the job attempt. A non-zero exit code is
     #   considered failed.
     #   @return [Integer]
     #
@@ -3180,7 +3925,16 @@ module Aws::Batch
     end
 
     # Object representing any Kubernetes overrides to a job definition
-    # that's used in a SubmitJob API operation.
+    # that's used in a [SubmitJob][1] API operation.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/batch/latest/APIReference/API_SubmitJob.html
+    #
+    # @!attribute [rw] name
+    #   A pointer to the container that you want to override. The name must
+    #   match a unique container name that you wish to override.
+    #   @return [String]
     #
     # @!attribute [rw] image
     #   The override of the Docker image that's used to start the
@@ -3195,9 +3949,9 @@ module Aws::Batch
     # @!attribute [rw] args
     #   The arguments to the entrypoint to send to the container that
     #   overrides the default arguments from the Docker image or the job
-    #   definition. For more information, see [CMD][1] in the *Dockerfile
-    #   reference* and [Define a command an arguments for a pod][2] in the
-    #   *Kubernetes documentation*.
+    #   definition. For more information, see [Dockerfile reference: CMD][1]
+    #   and [Define a command an arguments for a pod][2] in the *Kubernetes
+    #   documentation*.
     #
     #
     #
@@ -3232,6 +3986,7 @@ module Aws::Batch
     # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/EksContainerOverride AWS API Documentation
     #
     class EksContainerOverride < Struct.new(
+      :name,
       :image,
       :command,
       :args,
@@ -3393,6 +4148,12 @@ module Aws::Batch
     #   [1]: https://kubernetes.io/docs/concepts/security/pod-security-policy/#privileged
     #   @return [Boolean]
     #
+    # @!attribute [rw] allow_privilege_escalation
+    #   Whether or not a container or a Kubernetes pod is allowed to gain
+    #   more privileges than its parent process. The default value is
+    #   `false`.
+    #   @return [Boolean]
+    #
     # @!attribute [rw] read_only_root_filesystem
     #   When this parameter is `true`, the container is given read-only
     #   access to its root file system. The default value is `false`. This
@@ -3423,6 +4184,7 @@ module Aws::Batch
       :run_as_user,
       :run_as_group,
       :privileged,
+      :allow_privilege_escalation,
       :read_only_root_filesystem,
       :run_as_non_root)
       SENSITIVE = []
@@ -3446,6 +4208,10 @@ module Aws::Batch
     #   The path on the container where the volume is mounted.
     #   @return [String]
     #
+    # @!attribute [rw] sub_path
+    #   A sub-path inside the referenced volume instead of its root.
+    #   @return [String]
+    #
     # @!attribute [rw] read_only
     #   If this value is `true`, the container has read-only access to the
     #   volume. Otherwise, the container can write to the volume. The
@@ -3457,6 +4223,7 @@ module Aws::Batch
     class EksContainerVolumeMount < Struct.new(
       :name,
       :mount_path,
+      :sub_path,
       :read_only)
       SENSITIVE = []
       include Aws::Structure
@@ -3528,6 +4295,124 @@ module Aws::Batch
       include Aws::Structure
     end
 
+    # Describes and uniquely identifies Kubernetes resources. For example,
+    # the compute environment that a pod runs in or the `jobID` for a job
+    # running in the pod. For more information, see [ Understanding
+    # Kubernetes Objects][1] in the *Kubernetes documentation*.
+    #
+    #
+    #
+    # [1]: https://kubernetes.io/docs/concepts/overview/working-with-objects/kubernetes-objects/
+    #
+    # @!attribute [rw] labels
+    #   Key-value pairs used to identify, sort, and organize cube resources.
+    #   Can contain up to 63 uppercase letters, lowercase letters, numbers,
+    #   hyphens (-), and underscores (\_). Labels can be added or modified
+    #   at any time. Each resource can have multiple labels, but each key
+    #   must be unique for a given object.
+    #   @return [Hash<String,String>]
+    #
+    # @!attribute [rw] annotations
+    #   Key-value pairs used to attach arbitrary, non-identifying metadata
+    #   to Kubernetes objects. Valid annotation keys have two segments: an
+    #   optional prefix and a name, separated by a slash (/).
+    #
+    #   * The prefix is optional and must be 253 characters or less. If
+    #     specified, the prefix must be a DNS subdomain− a series of DNS
+    #     labels separated by dots (.), and it must end with a slash (/).
+    #
+    #   * The name segment is required and must be 63 characters or less. It
+    #     can include alphanumeric characters (\[a-z0-9A-Z\]), dashes (-),
+    #     underscores (\_), and dots (.), but must begin and end with an
+    #     alphanumeric character.
+    #
+    #   <note markdown="1"> Annotation values must be 255 characters or less.
+    #
+    #    </note>
+    #
+    #   Annotations can be added or modified at any time. Each resource can
+    #   have multiple annotations.
+    #   @return [Hash<String,String>]
+    #
+    # @!attribute [rw] namespace
+    #   The namespace of the Amazon EKS cluster. In Kubernetes, namespaces
+    #   provide a mechanism for isolating groups of resources within a
+    #   single cluster. Names of resources need to be unique within a
+    #   namespace, but not across namespaces. Batch places Batch Job pods in
+    #   this namespace. If this field is provided, the value can't be empty
+    #   or null. It must meet the following requirements:
+    #
+    #   * 1-63 characters long
+    #
+    #   * Can't be set to default
+    #
+    #   * Can't start with `kube`
+    #
+    #   * Must match the following regular expression:
+    #     `^[a-z0-9]([-a-z0-9]*[a-z0-9])?$`
+    #
+    #   For more information, see [Namespaces][1] in the *Kubernetes
+    #   documentation*. This namespace can be different from the
+    #   `kubernetesNamespace` set in the compute environment's
+    #   `EksConfiguration`, but must have identical role-based access
+    #   control (RBAC) roles as the compute environment's
+    #   `kubernetesNamespace`. For multi-node parallel jobs, the same value
+    #   must be provided across all the node ranges.
+    #
+    #
+    #
+    #   [1]: https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/EksMetadata AWS API Documentation
+    #
+    class EksMetadata < Struct.new(
+      :labels,
+      :annotations,
+      :namespace)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A `persistentVolumeClaim` volume is used to mount a
+    # [PersistentVolume][1] into a Pod. PersistentVolumeClaims are a way for
+    # users to "claim" durable storage without knowing the details of the
+    # particular cloud environment. See the information about
+    # [PersistentVolumes][1] in the *Kubernetes documentation*.
+    #
+    #
+    #
+    # [1]: https://kubernetes.io/docs/concepts/storage/persistent-volumes/
+    #
+    # @!attribute [rw] claim_name
+    #   The name of the `persistentVolumeClaim` bounded to a
+    #   `persistentVolume`. For more information, see [ Persistent Volume
+    #   Claims][1] in the *Kubernetes documentation*.
+    #
+    #
+    #
+    #   [1]: https://kubernetes.io/docs/concepts/storage/persistent-volumes/#persistentvolumeclaims
+    #   @return [String]
+    #
+    # @!attribute [rw] read_only
+    #   An optional boolean value indicating if the mount is read only.
+    #   Default is false. For more information, see [ Read Only Mounts][1]
+    #   in the *Kubernetes documentation*.
+    #
+    #
+    #
+    #   [1]: https://kubernetes.io/docs/concepts/storage/volumes/#read-only-mounts
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/EksPersistentVolumeClaim AWS API Documentation
+    #
+    class EksPersistentVolumeClaim < Struct.new(
+      :claim_name,
+      :read_only)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The properties for the pod.
     #
     # @!attribute [rw] service_account_name
@@ -3576,8 +4461,37 @@ module Aws::Batch
     #   [1]: https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/#pod-s-dns-policy
     #   @return [String]
     #
+    # @!attribute [rw] image_pull_secrets
+    #   References a Kubernetes secret resource. It holds a list of secrets.
+    #   These secrets help to gain access to pull an images from a private
+    #   registry.
+    #
+    #   `ImagePullSecret$name` is required when this object is used.
+    #   @return [Array<Types::ImagePullSecret>]
+    #
     # @!attribute [rw] containers
     #   The properties of the container that's used on the Amazon EKS pod.
+    #
+    #   <note markdown="1"> This object is limited to 10 elements.
+    #
+    #    </note>
+    #   @return [Array<Types::EksContainer>]
+    #
+    # @!attribute [rw] init_containers
+    #   These containers run before application containers, always runs to
+    #   completion, and must complete successfully before the next container
+    #   starts. These containers are registered with the Amazon EKS
+    #   Connector agent and persists the registration information in the
+    #   Kubernetes backend data store. For more information, see [Init
+    #   Containers][1] in the *Kubernetes documentation*.
+    #
+    #   <note markdown="1"> This object is limited to 10 elements.
+    #
+    #    </note>
+    #
+    #
+    #
+    #   [1]: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/
     #   @return [Array<Types::EksContainer>]
     #
     # @!attribute [rw] volumes
@@ -3585,14 +4499,38 @@ module Aws::Batch
     #   resources.
     #   @return [Array<Types::EksVolume>]
     #
+    # @!attribute [rw] metadata
+    #   Metadata about the Kubernetes pod. For more information, see
+    #   [Understanding Kubernetes Objects][1] in the *Kubernetes
+    #   documentation*.
+    #
+    #
+    #
+    #   [1]: https://kubernetes.io/docs/concepts/overview/working-with-objects/kubernetes-objects/
+    #   @return [Types::EksMetadata]
+    #
+    # @!attribute [rw] share_process_namespace
+    #   Indicates if the processes in a container are shared, or visible, to
+    #   other containers in the same pod. For more information, see [Share
+    #   Process Namespace between Containers in a Pod][1].
+    #
+    #
+    #
+    #   [1]: https://kubernetes.io/docs/tasks/configure-pod-container/share-process-namespace/
+    #   @return [Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/EksPodProperties AWS API Documentation
     #
     class EksPodProperties < Struct.new(
       :service_account_name,
       :host_network,
       :dns_policy,
+      :image_pull_secrets,
       :containers,
-      :volumes)
+      :init_containers,
+      :volumes,
+      :metadata,
+      :share_process_namespace)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3653,8 +4591,20 @@ module Aws::Batch
     #   [4]: https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/#pod-s-dns-policy
     #   @return [String]
     #
+    # @!attribute [rw] image_pull_secrets
+    #   Displays the reference pointer to the Kubernetes secret resource.
+    #   These secrets help to gain access to pull an images from a private
+    #   registry.
+    #   @return [Array<Types::ImagePullSecret>]
+    #
     # @!attribute [rw] containers
     #   The properties of the container that's used on the Amazon EKS pod.
+    #   @return [Array<Types::EksContainerDetail>]
+    #
+    # @!attribute [rw] init_containers
+    #   The container registered with the Amazon EKS Connector agent and
+    #   persists the registration information in the Kubernetes backend data
+    #   store.
     #   @return [Array<Types::EksContainerDetail>]
     #
     # @!attribute [rw] volumes
@@ -3670,16 +4620,41 @@ module Aws::Batch
     #   The name of the node for this job.
     #   @return [String]
     #
+    # @!attribute [rw] metadata
+    #   Describes and uniquely identifies Kubernetes resources. For example,
+    #   the compute environment that a pod runs in or the `jobID` for a job
+    #   running in the pod. For more information, see [Understanding
+    #   Kubernetes Objects][1] in the *Kubernetes documentation*.
+    #
+    #
+    #
+    #   [1]: https://kubernetes.io/docs/concepts/overview/working-with-objects/kubernetes-objects/
+    #   @return [Types::EksMetadata]
+    #
+    # @!attribute [rw] share_process_namespace
+    #   Indicates if the processes in a container are shared, or visible, to
+    #   other containers in the same pod. For more information, see [Share
+    #   Process Namespace between Containers in a Pod][1].
+    #
+    #
+    #
+    #   [1]: https://kubernetes.io/docs/tasks/configure-pod-container/share-process-namespace/
+    #   @return [Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/EksPodPropertiesDetail AWS API Documentation
     #
     class EksPodPropertiesDetail < Struct.new(
       :service_account_name,
       :host_network,
       :dns_policy,
+      :image_pull_secrets,
       :containers,
+      :init_containers,
       :volumes,
       :pod_name,
-      :node_name)
+      :node_name,
+      :metadata,
+      :share_process_namespace)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3691,10 +4666,31 @@ module Aws::Batch
     #   The overrides for the container that's used on the Amazon EKS pod.
     #   @return [Array<Types::EksContainerOverride>]
     #
+    # @!attribute [rw] init_containers
+    #   The overrides for the `initContainers` defined in the Amazon EKS
+    #   pod. These containers run before application containers, always runs
+    #   to completion, and must complete successfully before the next
+    #   container starts. These containers are registered with the Amazon
+    #   EKS Connector agent and persists the registration information in the
+    #   Kubernetes backend data store. For more information, see [Init
+    #   Containers][1] in the *Kubernetes documentation*.
+    #
+    #
+    #
+    #   [1]: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/
+    #   @return [Array<Types::EksContainerOverride>]
+    #
+    # @!attribute [rw] metadata
+    #   Metadata about the overrides for the container that's used on the
+    #   Amazon EKS pod.
+    #   @return [Types::EksMetadata]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/EksPodPropertiesOverride AWS API Documentation
     #
     class EksPodPropertiesOverride < Struct.new(
-      :containers)
+      :containers,
+      :init_containers,
+      :metadata)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3815,13 +4811,42 @@ module Aws::Batch
     #   [1]: https://kubernetes.io/docs/concepts/storage/volumes/#secret
     #   @return [Types::EksSecret]
     #
+    # @!attribute [rw] persistent_volume_claim
+    #   Specifies the configuration of a Kubernetes `persistentVolumeClaim`
+    #   bounded to a `persistentVolume`. For more information, see [
+    #   Persistent Volume Claims][1] in the *Kubernetes documentation*.
+    #
+    #
+    #
+    #   [1]: https://kubernetes.io/docs/concepts/storage/persistent-volumes/#persistentvolumeclaims
+    #   @return [Types::EksPersistentVolumeClaim]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/EksVolume AWS API Documentation
     #
     class EksVolume < Struct.new(
       :name,
       :host_path,
       :empty_dir,
-      :secret)
+      :secret,
+      :persistent_volume_claim)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The amount of ephemeral storage to allocate for the task. This
+    # parameter is used to expand the total amount of ephemeral storage
+    # available, beyond the default amount, for tasks hosted on Fargate.
+    #
+    # @!attribute [rw] size_in_gi_b
+    #   The total amount, in GiB, of ephemeral storage to set for the task.
+    #   The minimum supported value is `21` GiB and the maximum supported
+    #   value is `200` GiB.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/EphemeralStorage AWS API Documentation
+    #
+    class EphemeralStorage < Struct.new(
+      :size_in_gi_b)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3881,9 +4906,14 @@ module Aws::Batch
     # @!attribute [rw] share_decay_seconds
     #   The amount of time (in seconds) to use to calculate a fair share
     #   percentage for each fair share identifier in use. A value of zero
-    #   (0) indicates that only current usage is measured. The decay allows
-    #   for more recently run jobs to have more weight than jobs that ran
-    #   earlier. The maximum supported value is 604800 (1 week).
+    #   (0) indicates the default minimum time window (600 seconds). The
+    #   maximum supported value is 604800 (1 week).
+    #
+    #   The decay allows for more recently run jobs to have more weight than
+    #   jobs that ran earlier. Consider adjusting this number if you have
+    #   jobs that (on average) run longer than ten minutes, or a large
+    #   difference in job count or job run times between share identifiers,
+    #   and the allocation of resources doesn’t meet your needs.
     #   @return [Integer]
     #
     # @!attribute [rw] compute_reservation
@@ -3894,9 +4924,9 @@ module Aws::Batch
     #   where ` ActiveFairShares ` is the number of active fair share
     #   identifiers.
     #
-    #   For example, a `computeReservation` value of 50 indicates that
-    #   Batchreserves 50% of the maximum available vCPU if there's only one
-    #   fair share identifier. It reserves 25% if there are two fair share
+    #   For example, a `computeReservation` value of 50 indicates that Batch
+    #   reserves 50% of the maximum available vCPU if there's only one fair
+    #   share identifier. It reserves 25% if there are two fair share
     #   identifiers. It reserves 12.5% if there are three fair share
     #   identifiers. A `computeReservation` value of 25 indicates that Batch
     #   should reserve 25% of the maximum available vCPU if there's only
@@ -3923,7 +4953,7 @@ module Aws::Batch
     end
 
     # The platform configuration for jobs that are running on Fargate
-    # resources. Jobs that run on EC2 resources must not specify this
+    # resources. Jobs that run on Amazon EC2 resources must not specify this
     # parameter.
     #
     # @!attribute [rw] platform_version
@@ -3944,6 +4974,79 @@ module Aws::Batch
     #
     class FargatePlatformConfiguration < Struct.new(
       :platform_version)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains a list of the first 100 `RUNNABLE` jobs associated to a
+    # single job queue.
+    #
+    # @!attribute [rw] jobs
+    #   The Amazon Resource Names (ARNs) of the first 100 `RUNNABLE` jobs in
+    #   a named job queue. For first-in-first-out (FIFO) job queues, jobs
+    #   are ordered based on their submission time. For fair share
+    #   scheduling (FSS) job queues, jobs are ordered based on their job
+    #   priority and share usage.
+    #   @return [Array<Types::FrontOfQueueJobSummary>]
+    #
+    # @!attribute [rw] last_updated_at
+    #   The Unix timestamp (in milliseconds) for when each of the first 100
+    #   `RUNNABLE` jobs were last updated.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/FrontOfQueueDetail AWS API Documentation
+    #
+    class FrontOfQueueDetail < Struct.new(
+      :jobs,
+      :last_updated_at)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # An object that represents summary details for the first 100 `RUNNABLE`
+    # jobs in a job queue.
+    #
+    # @!attribute [rw] job_arn
+    #   The ARN for a job in a named job queue.
+    #   @return [String]
+    #
+    # @!attribute [rw] earliest_time_at_position
+    #   The Unix timestamp (in milliseconds) for when the job transitioned
+    #   to its current position in the job queue.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/FrontOfQueueJobSummary AWS API Documentation
+    #
+    class FrontOfQueueJobSummary < Struct.new(
+      :job_arn,
+      :earliest_time_at_position)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] job_queue
+    #   The job queue’s name or full queue Amazon Resource Name (ARN).
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/GetJobQueueSnapshotRequest AWS API Documentation
+    #
+    class GetJobQueueSnapshotRequest < Struct.new(
+      :job_queue)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] front_of_queue
+    #   The list of the first 100 `RUNNABLE` jobs in each job queue. For
+    #   first-in-first-out (FIFO) job queues, jobs are ordered based on
+    #   their submission time. For fair share scheduling (FSS) job queues,
+    #   jobs are ordered based on their job priority and share usage.
+    #   @return [Types::FrontOfQueueDetail]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/GetJobQueueSnapshotResponse AWS API Documentation
+    #
+    class GetJobQueueSnapshotResponse < Struct.new(
+      :front_of_queue)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3974,6 +5077,24 @@ module Aws::Batch
     #
     class Host < Struct.new(
       :source_path)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # References a Kubernetes secret resource. This name of the secret must
+    # start and end with an alphanumeric character, is required to be
+    # lowercase, can include periods (.) and hyphens (-), and can't contain
+    # more than 253 characters.
+    #
+    # @!attribute [rw] name
+    #   Provides a unique identifier for the `ImagePullSecret`. This object
+    #   is required when `EksPodProperties$imagePullSecrets` is used.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/ImagePullSecret AWS API Documentation
+    #
+    class ImagePullSecret < Struct.new(
+      :name)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4034,9 +5155,10 @@ module Aws::Batch
     #   @return [Types::RetryStrategy]
     #
     # @!attribute [rw] container_properties
-    #   An object with various properties specific to Amazon ECS based jobs.
-    #   Valid values are `containerProperties`, `eksProperties`, and
-    #   `nodeProperties`. Only one can be specified.
+    #   An object with properties specific to Amazon ECS-based jobs. When
+    #   `containerProperties` is used in the job definition, it can't be
+    #   used in addition to `eksProperties`, `ecsProperties`, or
+    #   `nodeProperties`.
     #   @return [Types::ContainerProperties]
     #
     # @!attribute [rw] timeout
@@ -4046,9 +5168,10 @@ module Aws::Batch
     #   @return [Types::JobTimeout]
     #
     # @!attribute [rw] node_properties
-    #   An object with various properties that are specific to multi-node
-    #   parallel jobs. Valid values are `containerProperties`,
-    #   `eksProperties`, and `nodeProperties`. Only one can be specified.
+    #   An object with properties that are specific to multi-node parallel
+    #   jobs. When `nodeProperties` is used in the job definition, it can't
+    #   be used in addition to `containerProperties`, `ecsProperties`, or
+    #   `eksProperties`.
     #
     #   <note markdown="1"> If the job runs on Fargate resources, don't specify
     #   `nodeProperties`. Use `containerProperties` instead.
@@ -4076,16 +5199,28 @@ module Aws::Batch
     #   resources specify `FARGATE`.
     #   @return [Array<String>]
     #
+    # @!attribute [rw] ecs_properties
+    #   An object that contains the properties for the Amazon ECS resources
+    #   of a job.When `ecsProperties` is used in the job definition, it
+    #   can't be used in addition to `containerProperties`,
+    #   `eksProperties`, or `nodeProperties`.
+    #   @return [Types::EcsProperties]
+    #
     # @!attribute [rw] eks_properties
-    #   An object with various properties that are specific to Amazon EKS
-    #   based jobs. Valid values are `containerProperties`, `eksProperties`,
-    #   and `nodeProperties`. Only one can be specified.
+    #   An object with properties that are specific to Amazon EKS-based
+    #   jobs. When `eksProperties` is used in the job definition, it can't
+    #   be used in addition to `containerProperties`, `ecsProperties`, or
+    #   `nodeProperties`.
     #   @return [Types::EksProperties]
     #
     # @!attribute [rw] container_orchestration_type
     #   The orchestration type of the compute environment. The valid values
     #   are `ECS` (default) or `EKS`.
     #   @return [String]
+    #
+    # @!attribute [rw] consumable_resource_properties
+    #   Contains a list of consumable resources required by the job.
+    #   @return [Types::ConsumableResourceProperties]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/JobDefinition AWS API Documentation
     #
@@ -4104,8 +5239,10 @@ module Aws::Batch
       :tags,
       :propagate_tags,
       :platform_capabilities,
+      :ecs_properties,
       :eks_properties,
-      :container_orchestration_type)
+      :container_orchestration_type,
+      :consumable_resource_properties)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4180,14 +5317,32 @@ module Aws::Batch
     # @!attribute [rw] status_reason
     #   A short, human-readable string to provide more details for the
     #   current status of the job.
+    #
+    #   * `CAPACITY:INSUFFICIENT_INSTANCE_CAPACITY` - All compute
+    #     environments have insufficient capacity to service the job.
+    #
+    #   * `MISCONFIGURATION:COMPUTE_ENVIRONMENT_MAX_RESOURCE` - All compute
+    #     environments have a `maxVcpu` setting that is smaller than the job
+    #     requirements.
+    #
+    #   * `MISCONFIGURATION:JOB_RESOURCE_REQUIREMENT` - All compute
+    #     environments have no connected instances that meet the job
+    #     requirements.
+    #
+    #   * `MISCONFIGURATION:SERVICE_ROLE_PERMISSIONS` - All compute
+    #     environments have problems with the service role permissions.
     #   @return [String]
     #
     # @!attribute [rw] created_at
     #   The Unix timestamp (in milliseconds) for when the job was created.
     #   For non-array jobs and parent array jobs, this is when the job
     #   entered the `SUBMITTED` state. This is specifically at the time
-    #   SubmitJob was called. For array child jobs, this is when the child
-    #   job was spawned by its parent and entered the `PENDING` state.
+    #   [SubmitJob][1] was called. For array child jobs, this is when the
+    #   child job was spawned by its parent and entered the `PENDING` state.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/batch/latest/APIReference/API_SubmitJob.html
     #   @return [Integer]
     #
     # @!attribute [rw] retry_strategy
@@ -4197,8 +5352,7 @@ module Aws::Batch
     # @!attribute [rw] started_at
     #   The Unix timestamp (in milliseconds) for when the job was started.
     #   More specifically, it's when the job transitioned from the
-    #   `STARTING` state to the `RUNNING` state. This parameter isn't
-    #   provided for child jobs of array jobs or multi-node parallel jobs.
+    #   `STARTING` state to the `RUNNING` state.
     #   @return [Integer]
     #
     # @!attribute [rw] stopped_at
@@ -4225,7 +5379,8 @@ module Aws::Batch
     #
     # @!attribute [rw] container
     #   An object that represents the details for the container that's
-    #   associated with the job.
+    #   associated with the job. If the details are for a multiple-container
+    #   job, this object will be empty.
     #   @return [Types::ContainerDetail]
     #
     # @!attribute [rw] node_details
@@ -4273,13 +5428,17 @@ module Aws::Batch
     #
     # @!attribute [rw] eks_properties
     #   An object with various properties that are specific to Amazon EKS
-    #   based jobs. Only one of `container`, `eksProperties`, or
-    #   `nodeDetails` is specified.
+    #   based jobs.
     #   @return [Types::EksPropertiesDetail]
     #
     # @!attribute [rw] eks_attempts
     #   A list of job attempts that are associated with this job.
     #   @return [Array<Types::EksAttemptDetail>]
+    #
+    # @!attribute [rw] ecs_properties
+    #   An object with properties that are specific to Amazon ECS-based
+    #   jobs.
+    #   @return [Types::EcsPropertiesDetail]
     #
     # @!attribute [rw] is_cancelled
     #   Indicates whether the job is canceled.
@@ -4288,6 +5447,10 @@ module Aws::Batch
     # @!attribute [rw] is_terminated
     #   Indicates whether the job is terminated.
     #   @return [Boolean]
+    #
+    # @!attribute [rw] consumable_resource_properties
+    #   Contains a list of consumable resources required by the job.
+    #   @return [Types::ConsumableResourceProperties]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/JobDetail AWS API Documentation
     #
@@ -4318,8 +5481,10 @@ module Aws::Batch
       :platform_capabilities,
       :eks_properties,
       :eks_attempts,
+      :ecs_properties,
       :is_cancelled,
-      :is_terminated)
+      :is_terminated,
+      :consumable_resource_properties)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4358,15 +5523,35 @@ module Aws::Batch
     #   @return [String]
     #
     # @!attribute [rw] priority
-    #   The priority of the job queue. Job queues with a higher priority (or
-    #   a higher integer value for the `priority` parameter) are evaluated
-    #   first when associated with the same compute environment. Priority is
-    #   determined in descending order. For example, a job queue with a
-    #   priority value of `10` is given scheduling preference over a job
-    #   queue with a priority value of `1`. All of the compute environments
-    #   must be either EC2 (`EC2` or `SPOT`) or Fargate (`FARGATE` or
-    #   `FARGATE_SPOT`). EC2 and Fargate compute environments can't be
-    #   mixed.
+    #   The priority of the job queue. Job queue priority determines the
+    #   order that job queues are evaluated when multiple queues dispatch
+    #   jobs within a shared compute environment. A higher value for
+    #   `priority` indicates a higher priority. Queues are evaluated in
+    #   cycles, in descending order by priority. For example, a job queue
+    #   with a priority value of `10` is evaluated before a queue with a
+    #   priority value of `1`. All of the compute environments must be
+    #   either Amazon EC2 (`EC2` or `SPOT`) or Fargate (`FARGATE` or
+    #   `FARGATE_SPOT`). Amazon EC2 and Fargate compute environments can't
+    #   be mixed.
+    #
+    #   <note markdown="1"> Job queue priority doesn't guarantee that a particular job executes
+    #   before a job in a lower priority queue. Jobs added to higher
+    #   priority queues during the queue evaluation cycle might not be
+    #   evaluated until the next cycle. A job is dispatched from a queue
+    #   only if resources are available when the queue is evaluated. If
+    #   there are insufficient resources available at that time, the cycle
+    #   proceeds to the next queue. This means that jobs added to higher
+    #   priority queues might have to wait for jobs in multiple lower
+    #   priority queues to complete before they are dispatched. You can use
+    #   job dependencies to control the order for jobs from queues with
+    #   different priorities. For more information, see [Job
+    #   Dependencies][1] in the *Batch User Guide*.
+    #
+    #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/batch/latest/userguide/job_dependencies.html
     #   @return [Integer]
     #
     # @!attribute [rw] compute_environment_order
@@ -4384,6 +5569,13 @@ module Aws::Batch
     #   [1]: https://docs.aws.amazon.com/batch/latest/userguide/using-tags.html
     #   @return [Hash<String,String>]
     #
+    # @!attribute [rw] job_state_time_limit_actions
+    #   The set of actions that Batch perform on jobs that remain at the
+    #   head of the job queue in the specified state longer than specified
+    #   times. Batch will perform each action after `maxTimeSeconds` has
+    #   passed.
+    #   @return [Array<Types::JobStateTimeLimitAction>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/JobQueueDetail AWS API Documentation
     #
     class JobQueueDetail < Struct.new(
@@ -4395,7 +5587,45 @@ module Aws::Batch
       :status_reason,
       :priority,
       :compute_environment_order,
-      :tags)
+      :tags,
+      :job_state_time_limit_actions)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Specifies an action that Batch will take after the job has remained at
+    # the head of the queue in the specified state for longer than the
+    # specified time.
+    #
+    # @!attribute [rw] reason
+    #   The reason to log for the action being taken.
+    #   @return [String]
+    #
+    # @!attribute [rw] state
+    #   The state of the job needed to trigger the action. The only
+    #   supported value is `RUNNABLE`.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_time_seconds
+    #   The approximate amount of time, in seconds, that must pass with the
+    #   job in the specified state before the action is taken. The minimum
+    #   value is 600 (10 minutes) and the maximum value is 86,400 (24
+    #   hours).
+    #   @return [Integer]
+    #
+    # @!attribute [rw] action
+    #   The action to take when a job is at the head of the job queue in the
+    #   specified state for the specified period of time. The only supported
+    #   value is `CANCEL`, which will cancel the job.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/JobStateTimeLimitAction AWS API Documentation
+    #
+    class JobStateTimeLimitAction < Struct.new(
+      :reason,
+      :state,
+      :max_time_seconds,
+      :action)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4417,9 +5647,13 @@ module Aws::Batch
     # @!attribute [rw] created_at
     #   The Unix timestamp (in milliseconds) for when the job was created.
     #   For non-array jobs and parent array jobs, this is when the job
-    #   entered the `SUBMITTED` state (at the time SubmitJob was called).
-    #   For array child jobs, this is when the child job was spawned by its
-    #   parent and entered the `PENDING` state.
+    #   entered the `SUBMITTED` state (at the time [SubmitJob][1] was
+    #   called). For array child jobs, this is when the child job was
+    #   spawned by its parent and entered the `PENDING` state.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/batch/latest/APIReference/API_SubmitJob.html
     #   @return [Integer]
     #
     # @!attribute [rw] status
@@ -4529,7 +5763,8 @@ module Aws::Batch
     end
 
     # A filter name and value pair that's used to return a more specific
-    # list of results from a `ListJobs` API operation.
+    # list of results from a `ListJobs` or `ListJobsByConsumableResource`
+    # API operation.
     #
     # @!attribute [rw] name
     #   The name of the filter. Filter names are case sensitive.
@@ -4571,17 +5806,17 @@ module Aws::Batch
     #   @return [String]
     #
     # @!attribute [rw] version
-    #   The version number of the launch template, `$Latest`, or `$Default`.
+    #   The version number of the launch template, `$Default`, or `$Latest`.
     #
-    #   If the value is `$Latest`, the latest version of the launch template
-    #   is used. If the value is `$Default`, the default version of the
-    #   launch template is used.
+    #   If the value is `$Default`, the default version of the launch
+    #   template is used. If the value is `$Latest`, the latest version of
+    #   the launch template is used.
     #
     #   If the AMI ID that's used in a compute environment is from the
     #   launch template, the AMI isn't changed when the compute environment
     #   is updated. It's only changed if the `updateToLatestImageVersion`
     #   parameter for the compute environment is set to `true`. During an
-    #   infrastructure update, if either `$Latest` or `$Default` is
+    #   infrastructure update, if either `$Default` or `$Latest` is
     #   specified, Batch re-evaluates the launch template version, and it
     #   might use a different version of the launch template. This is the
     #   case even if the launch template isn't specified in the update.
@@ -4590,19 +5825,156 @@ module Aws::Batch
     #   more information, see [Updating compute environments][1] in the
     #   *Batch User Guide*.
     #
-    #   Default: `$Default`.
+    #   Default: `$Default`
+    #
+    #   Latest: `$Latest`
     #
     #
     #
     #   [1]: https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html
     #   @return [String]
     #
+    # @!attribute [rw] overrides
+    #   A launch template to use in place of the default launch template.
+    #   You must specify either the launch template ID or launch template
+    #   name in the request, but not both.
+    #
+    #   You can specify up to ten (10) launch template overrides that are
+    #   associated to unique instance types or families for each compute
+    #   environment.
+    #
+    #   <note markdown="1"> To unset all override templates for a compute environment, you can
+    #   pass an empty array to the [UpdateComputeEnvironment.overrides][1]
+    #   parameter, or not include the `overrides` parameter when submitting
+    #   the `UpdateComputeEnvironment` API operation.
+    #
+    #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/batch/latest/APIReference/API_UpdateComputeEnvironment.html
+    #   @return [Array<Types::LaunchTemplateSpecificationOverride>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/LaunchTemplateSpecification AWS API Documentation
     #
     class LaunchTemplateSpecification < Struct.new(
       :launch_template_id,
       :launch_template_name,
-      :version)
+      :version,
+      :overrides)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # An object that represents a launch template to use in place of the
+    # default launch template. You must specify either the launch template
+    # ID or launch template name in the request, but not both.
+    #
+    # If security groups are specified using both the `securityGroupIds`
+    # parameter of `CreateComputeEnvironment` and the launch template, the
+    # values in the `securityGroupIds` parameter of
+    # `CreateComputeEnvironment` will be used.
+    #
+    # You can define up to ten (10) overrides for each compute environment.
+    #
+    # <note markdown="1"> This object isn't applicable to jobs that are running on Fargate
+    # resources.
+    #
+    #  </note>
+    #
+    # <note markdown="1"> To unset all override templates for a compute environment, you can
+    # pass an empty array to the [UpdateComputeEnvironment.overrides][1]
+    # parameter, or not include the `overrides` parameter when submitting
+    # the `UpdateComputeEnvironment` API operation.
+    #
+    #  </note>
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/batch/latest/APIReference/API_UpdateComputeEnvironment.html
+    #
+    # @!attribute [rw] launch_template_id
+    #   The ID of the launch template.
+    #
+    #   **Note:** If you specify the `launchTemplateId` you can't specify
+    #   the `launchTemplateName` as well.
+    #   @return [String]
+    #
+    # @!attribute [rw] launch_template_name
+    #   The name of the launch template.
+    #
+    #   **Note:** If you specify the `launchTemplateName` you can't specify
+    #   the `launchTemplateId` as well.
+    #   @return [String]
+    #
+    # @!attribute [rw] version
+    #   The version number of the launch template, `$Default`, or `$Latest`.
+    #
+    #   If the value is `$Default`, the default version of the launch
+    #   template is used. If the value is `$Latest`, the latest version of
+    #   the launch template is used.
+    #
+    #   If the AMI ID that's used in a compute environment is from the
+    #   launch template, the AMI isn't changed when the compute environment
+    #   is updated. It's only changed if the `updateToLatestImageVersion`
+    #   parameter for the compute environment is set to `true`. During an
+    #   infrastructure update, if either `$Default` or `$Latest` is
+    #   specified, Batch re-evaluates the launch template version, and it
+    #   might use a different version of the launch template. This is the
+    #   case even if the launch template isn't specified in the update.
+    #   When updating a compute environment, changing the launch template
+    #   requires an infrastructure update of the compute environment. For
+    #   more information, see [Updating compute environments][1] in the
+    #   *Batch User Guide*.
+    #
+    #   Default: `$Default`
+    #
+    #   Latest: `$Latest`
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html
+    #   @return [String]
+    #
+    # @!attribute [rw] target_instance_types
+    #   The instance type or family that this override launch template
+    #   should be applied to.
+    #
+    #   This parameter is required when defining a launch template override.
+    #
+    #   Information included in this parameter must meet the following
+    #   requirements:
+    #
+    #   * Must be a valid Amazon EC2 instance type or family.
+    #
+    #   * `optimal` isn't allowed.
+    #
+    #   * `targetInstanceTypes` can target only instance types and families
+    #     that are included within the [ `ComputeResource.instanceTypes`
+    #     ][1] set. `targetInstanceTypes` doesn't need to include all of
+    #     the instances from the `instanceType` set, but at least a subset.
+    #     For example, if `ComputeResource.instanceTypes` includes `[m5,
+    #     g5]`, `targetInstanceTypes` can include `[m5.2xlarge]` and
+    #     `[m5.large]` but not `[c5.large]`.
+    #
+    #   * `targetInstanceTypes` included within the same launch template
+    #     override or across launch template overrides can't overlap for
+    #     the same compute environment. For example, you can't define one
+    #     launch template override to target an instance family and another
+    #     define an instance type within this same family.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/batch/latest/APIReference/API_ComputeResource.html#Batch-Type-ComputeResource-instanceTypes
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/LaunchTemplateSpecificationOverride AWS API Documentation
+    #
+    class LaunchTemplateSpecificationOverride < Struct.new(
+      :launch_template_id,
+      :launch_template_name,
+      :version,
+      :target_instance_types)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4755,6 +6127,240 @@ module Aws::Batch
       include Aws::Structure
     end
 
+    # @!attribute [rw] filters
+    #   The filters to apply to the consumable resource list query. If used,
+    #   only those consumable resources that match the filter are listed.
+    #   Filter names and values can be:
+    #
+    #   * name: `CONSUMABLE_RESOURCE_NAME `
+    #
+    #     values: case-insensitive matches for the consumable resource name.
+    #     If a filter value ends with an asterisk (*), it matches any
+    #     consumable resource name that begins with the string before the
+    #     '*'.
+    #   @return [Array<Types::KeyValuesPair>]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results returned by `ListConsumableResources`
+    #   in paginated output. When this parameter is used,
+    #   `ListConsumableResources` only returns `maxResults` results in a
+    #   single page and a `nextToken` response element. The remaining
+    #   results of the initial request can be seen by sending another
+    #   `ListConsumableResources` request with the returned `nextToken`
+    #   value. This value can be between 1 and 100. If this parameter isn't
+    #   used, then `ListConsumableResources` returns up to 100 results and a
+    #   `nextToken` value if applicable.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   The `nextToken` value returned from a previous paginated
+    #   `ListConsumableResources` request where `maxResults` was used and
+    #   the results exceeded the value of that parameter. Pagination
+    #   continues from the end of the previous results that returned the
+    #   `nextToken` value. This value is `null` when there are no more
+    #   results to return.
+    #
+    #   <note markdown="1"> Treat this token as an opaque identifier that's only used to
+    #   retrieve the next items in a list and not for other programmatic
+    #   purposes.
+    #
+    #    </note>
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/ListConsumableResourcesRequest AWS API Documentation
+    #
+    class ListConsumableResourcesRequest < Struct.new(
+      :filters,
+      :max_results,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] consumable_resources
+    #   A list of consumable resources that match the request.
+    #   @return [Array<Types::ConsumableResourceSummary>]
+    #
+    # @!attribute [rw] next_token
+    #   The `nextToken` value to include in a future
+    #   `ListConsumableResources` request. When the results of a
+    #   `ListConsumableResources` request exceed `maxResults`, this value
+    #   can be used to retrieve the next page of results. This value is
+    #   `null` when there are no more results to return.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/ListConsumableResourcesResponse AWS API Documentation
+    #
+    class ListConsumableResourcesResponse < Struct.new(
+      :consumable_resources,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] consumable_resource
+    #   The name or ARN of the consumable resource.
+    #   @return [String]
+    #
+    # @!attribute [rw] filters
+    #   The filters to apply to the job list query. If used, only those jobs
+    #   requiring the specified consumable resource (`consumableResource`)
+    #   and that match the value of the filters are listed. The filter names
+    #   and values can be:
+    #
+    #   * name: `JOB_STATUS`
+    #
+    #     values: `SUBMITTED | PENDING | RUNNABLE | STARTING | RUNNING |
+    #     SUCCEEDED | FAILED`
+    #
+    #   * name: `JOB_NAME `
+    #
+    #     The values are case-insensitive matches for the job name. If a
+    #     filter value ends with an asterisk (*), it matches any job name
+    #     that begins with the string before the '*'.
+    #   @return [Array<Types::KeyValuesPair>]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results returned by
+    #   `ListJobsByConsumableResource` in paginated output. When this
+    #   parameter is used, `ListJobsByConsumableResource` only returns
+    #   `maxResults` results in a single page and a `nextToken` response
+    #   element. The remaining results of the initial request can be seen by
+    #   sending another `ListJobsByConsumableResource` request with the
+    #   returned `nextToken` value. This value can be between 1 and 100. If
+    #   this parameter isn't used, then `ListJobsByConsumableResource`
+    #   returns up to 100 results and a `nextToken` value if applicable.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   The `nextToken` value returned from a previous paginated
+    #   `ListJobsByConsumableResource` request where `maxResults` was used
+    #   and the results exceeded the value of that parameter. Pagination
+    #   continues from the end of the previous results that returned the
+    #   `nextToken` value. This value is `null` when there are no more
+    #   results to return.
+    #
+    #   <note markdown="1"> Treat this token as an opaque identifier that's only used to
+    #   retrieve the next items in a list and not for other programmatic
+    #   purposes.
+    #
+    #    </note>
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/ListJobsByConsumableResourceRequest AWS API Documentation
+    #
+    class ListJobsByConsumableResourceRequest < Struct.new(
+      :consumable_resource,
+      :filters,
+      :max_results,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] jobs
+    #   The list of jobs that require the specified consumable resources.
+    #   @return [Array<Types::ListJobsByConsumableResourceSummary>]
+    #
+    # @!attribute [rw] next_token
+    #   The `nextToken` value to include in a future
+    #   `ListJobsByConsumableResource` request. When the results of a
+    #   `ListJobsByConsumableResource` request exceed `maxResults`, this
+    #   value can be used to retrieve the next page of results. This value
+    #   is `null` when there are no more results to return.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/ListJobsByConsumableResourceResponse AWS API Documentation
+    #
+    class ListJobsByConsumableResourceResponse < Struct.new(
+      :jobs,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Current information about a consumable resource required by a job.
+    #
+    # @!attribute [rw] job_arn
+    #   The Amazon Resource Name (ARN) of the job.
+    #   @return [String]
+    #
+    # @!attribute [rw] job_queue_arn
+    #   The Amazon Resource Name (ARN) of the job queue.
+    #   @return [String]
+    #
+    # @!attribute [rw] job_name
+    #   The name of the job.
+    #   @return [String]
+    #
+    # @!attribute [rw] job_definition_arn
+    #   The Amazon Resource Name (ARN) of the job definition.
+    #   @return [String]
+    #
+    # @!attribute [rw] share_identifier
+    #   The fair-share scheduling policy identifier for the job.
+    #   @return [String]
+    #
+    # @!attribute [rw] job_status
+    #   The status of the job. Can be one of:
+    #
+    #   * `SUBMITTED`
+    #
+    #   * `PENDING`
+    #
+    #   * `RUNNABLE`
+    #
+    #   * `STARTING`
+    #
+    #   * `RUNNING`
+    #
+    #   * `SUCCEEDED`
+    #
+    #   * `FAILED`
+    #   @return [String]
+    #
+    # @!attribute [rw] quantity
+    #   The total amount of the consumable resource that is available.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] status_reason
+    #   A short, human-readable string to provide more details for the
+    #   current status of the job.
+    #   @return [String]
+    #
+    # @!attribute [rw] started_at
+    #   The Unix timestamp for when the job was started. More specifically,
+    #   it's when the job transitioned from the `STARTING` state to the
+    #   `RUNNING` state.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] created_at
+    #   The Unix timestamp (in milliseconds) for when the consumable
+    #   resource was created.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] consumable_resource_properties
+    #   Contains a list of consumable resources required by the job.
+    #   @return [Types::ConsumableResourceProperties]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/ListJobsByConsumableResourceSummary AWS API Documentation
+    #
+    class ListJobsByConsumableResourceSummary < Struct.new(
+      :job_arn,
+      :job_queue_arn,
+      :job_name,
+      :job_definition_arn,
+      :share_identifier,
+      :job_status,
+      :quantity,
+      :status_reason,
+      :started_at,
+      :created_at,
+      :consumable_resource_properties)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Contains the parameters for `ListJobs`.
     #
     # @!attribute [rw] job_queue
@@ -4781,14 +6387,24 @@ module Aws::Batch
     #   @return [String]
     #
     # @!attribute [rw] max_results
-    #   The maximum number of results returned by `ListJobs` in paginated
-    #   output. When this parameter is used, `ListJobs` only returns
+    #   The maximum number of results returned by `ListJobs` in a paginated
+    #   output. When this parameter is used, `ListJobs` returns up to
     #   `maxResults` results in a single page and a `nextToken` response
-    #   element. The remaining results of the initial request can be seen by
-    #   sending another `ListJobs` request with the returned `nextToken`
-    #   value. This value can be between 1 and 100. If this parameter isn't
-    #   used, then `ListJobs` returns up to 100 results and a `nextToken`
-    #   value if applicable.
+    #   element, if applicable. The remaining results of the initial request
+    #   can be seen by sending another `ListJobs` request with the returned
+    #   `nextToken` value.
+    #
+    #   The following outlines key parameters and limitations:
+    #
+    #   * The minimum value is 1.
+    #
+    #   * When `--job-status` is used, Batch returns up to 1000 values.
+    #
+    #   * When `--filters` is used, Batch returns up to 100 values.
+    #
+    #   * If neither parameter is used, then `ListJobs` returns up to 1000
+    #     results (jobs that are in the `RUNNING` status) and a `nextToken`
+    #     value, if applicable.
     #   @return [Integer]
     #
     # @!attribute [rw] next_token
@@ -4835,7 +6451,7 @@ module Aws::Batch
     #     version of the job definition that's used doesn't affect the
     #     sort order. When the `JOB_DEFINITION` filter is used and the ARN
     #     is used (which is in the form
-    #     `arn:$\{Partition\}:batch:$\{Region\}:$\{Account\}:job-definition/$\{JobDefinitionName\}:$\{Revision\}`),
+    #     `arn:${Partition}:batch:${Region}:${Account}:job-definition/${JobDefinitionName}:${Revision}`),
     #     the results include jobs that used the specified revision of the
     #     job definition. Asterisk (*) isn't supported when the ARN is
     #     used.
@@ -5100,7 +6716,7 @@ module Aws::Batch
     #
     #
     #
-    # [1]: https://docs.docker.com/engine/reference/api/docker_remote_api_v1.19/#create-a-container
+    # [1]: https://docs.docker.com/engine/api/v1.43/#tag/Container/operation/ContainerCreate
     #
     # @!attribute [rw] container_path
     #   The path on the container where the host volume is mounted.
@@ -5127,8 +6743,8 @@ module Aws::Batch
     end
 
     # The network configuration for jobs that are running on Fargate
-    # resources. Jobs that are running on EC2 resources must not specify
-    # this parameter.
+    # resources. Jobs that are running on Amazon EC2 resources must not
+    # specify this parameter.
     #
     # @!attribute [rw] assign_public_ip
     #   Indicates whether the job has a public IP address. For a job that's
@@ -5201,13 +6817,17 @@ module Aws::Batch
     end
 
     # An object that represents any node overrides to a job definition
-    # that's used in a SubmitJob API operation.
+    # that's used in a [SubmitJob][1] API operation.
     #
     # <note markdown="1"> This parameter isn't applicable to jobs that are running on Fargate
     # resources. Don't provide it for these jobs. Rather, use
     # `containerOverrides` instead.
     #
     #  </note>
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/batch/latest/APIReference/API_SubmitJob.html
     #
     # @!attribute [rw] num_nodes
     #   The number of nodes to use with a multi-node parallel job. This
@@ -5302,7 +6922,11 @@ module Aws::Batch
     end
 
     # The object that represents any node overrides to a job definition
-    # that's used in a SubmitJob API operation.
+    # that's used in a [SubmitJob][1] API operation.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/batch/latest/APIReference/API_SubmitJob.html
     #
     # @!attribute [rw] target_nodes
     #   The range of nodes, using node index values, that's used to
@@ -5317,17 +6941,41 @@ module Aws::Batch
     #   The overrides that are sent to a node range.
     #   @return [Types::ContainerOverrides]
     #
+    # @!attribute [rw] ecs_properties_override
+    #   An object that contains the properties that you want to replace for
+    #   the existing Amazon ECS resources of a job.
+    #   @return [Types::EcsPropertiesOverride]
+    #
+    # @!attribute [rw] instance_types
+    #   An object that contains the instance types that you want to replace
+    #   for the existing resources of a job.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] eks_properties_override
+    #   An object that contains the properties that you want to replace for
+    #   the existing Amazon EKS resources of a job.
+    #   @return [Types::EksPropertiesOverride]
+    #
+    # @!attribute [rw] consumable_resource_properties_override
+    #   An object that contains overrides for the consumable resources of a
+    #   job.
+    #   @return [Types::ConsumableResourceProperties]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/NodePropertyOverride AWS API Documentation
     #
     class NodePropertyOverride < Struct.new(
       :target_nodes,
-      :container_overrides)
+      :container_overrides,
+      :ecs_properties_override,
+      :instance_types,
+      :eks_properties_override,
+      :consumable_resource_properties_override)
       SENSITIVE = []
       include Aws::Structure
     end
 
-    # An object that represents the properties of the node range for a
-    # multi-node parallel job.
+    # This is an object that represents the properties of the node range for
+    # a multi-node parallel job.
     #
     # @!attribute [rw] target_nodes
     #   The range of nodes, using node index values. A range of `0:3`
@@ -5344,11 +6992,41 @@ module Aws::Batch
     #   The container details for the node range.
     #   @return [Types::ContainerProperties]
     #
+    # @!attribute [rw] instance_types
+    #   The instance types of the underlying host infrastructure of a
+    #   multi-node parallel job.
+    #
+    #   <note markdown="1"> This parameter isn't applicable to jobs that are running on Fargate
+    #   resources.
+    #
+    #    In addition, this list object is currently limited to one element.
+    #
+    #    </note>
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] ecs_properties
+    #   This is an object that represents the properties of the node range
+    #   for a multi-node parallel job.
+    #   @return [Types::EcsProperties]
+    #
+    # @!attribute [rw] eks_properties
+    #   This is an object that represents the properties of the node range
+    #   for a multi-node parallel job.
+    #   @return [Types::EksProperties]
+    #
+    # @!attribute [rw] consumable_resource_properties
+    #   Contains a list of consumable resources required by a job.
+    #   @return [Types::ConsumableResourceProperties]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/NodeRangeProperty AWS API Documentation
     #
     class NodeRangeProperty < Struct.new(
       :target_nodes,
-      :container)
+      :container,
+      :instance_types,
+      :ecs_properties,
+      :eks_properties,
+      :consumable_resource_properties)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5365,6 +7043,12 @@ module Aws::Batch
     #   The type of job definition. For more information about multi-node
     #   parallel jobs, see [Creating a multi-node parallel job
     #   definition][1] in the *Batch User Guide*.
+    #
+    #   * If the value is `container`, then one of the following is
+    #     required: `containerProperties`, `ecsProperties`, or
+    #     `eksProperties`.
+    #
+    #   * If the value is `multinode`, then `nodeProperties` is required.
     #
     #   <note markdown="1"> If the job is run on Fargate resources, then `multinode` isn't
     #   supported.
@@ -5394,11 +7078,11 @@ module Aws::Batch
     #   @return [Integer]
     #
     # @!attribute [rw] container_properties
-    #   An object with various properties specific to Amazon ECS based
-    #   single-node container-based jobs. If the job definition's `type`
-    #   parameter is `container`, then you must specify either
-    #   `containerProperties` or `nodeProperties`. This must not be
-    #   specified for Amazon EKS based job definitions.
+    #   An object with properties specific to Amazon ECS-based single-node
+    #   container-based jobs. If the job definition's `type` parameter is
+    #   `container`, then you must specify either `containerProperties` or
+    #   `nodeProperties`. This must not be specified for Amazon EKS-based
+    #   job definitions.
     #
     #   <note markdown="1"> If the job runs on Fargate resources, then you must not specify
     #   `nodeProperties`; use only `containerProperties`.
@@ -5407,12 +7091,10 @@ module Aws::Batch
     #   @return [Types::ContainerProperties]
     #
     # @!attribute [rw] node_properties
-    #   An object with various properties specific to multi-node parallel
-    #   jobs. If you specify node properties for a job, it becomes a
-    #   multi-node parallel job. For more information, see [Multi-node
-    #   Parallel Jobs][1] in the *Batch User Guide*. If the job
-    #   definition's `type` parameter is `container`, then you must specify
-    #   either `containerProperties` or `nodeProperties`.
+    #   An object with properties specific to multi-node parallel jobs. If
+    #   you specify node properties for a job, it becomes a multi-node
+    #   parallel job. For more information, see [Multi-node Parallel
+    #   Jobs][1] in the *Batch User Guide*.
     #
     #   <note markdown="1"> If the job runs on Fargate resources, then you must not specify
     #   `nodeProperties`; use `containerProperties` instead.
@@ -5488,10 +7170,20 @@ module Aws::Batch
     #   @return [Array<String>]
     #
     # @!attribute [rw] eks_properties
-    #   An object with various properties that are specific to Amazon EKS
-    #   based jobs. This must not be specified for Amazon ECS based job
+    #   An object with properties that are specific to Amazon EKS-based
+    #   jobs. This must not be specified for Amazon ECS based job
     #   definitions.
     #   @return [Types::EksProperties]
+    #
+    # @!attribute [rw] ecs_properties
+    #   An object with properties that are specific to Amazon ECS-based
+    #   jobs. This must not be specified for Amazon EKS-based job
+    #   definitions.
+    #   @return [Types::EcsProperties]
+    #
+    # @!attribute [rw] consumable_resource_properties
+    #   Contains a list of consumable resources required by the job.
+    #   @return [Types::ConsumableResourceProperties]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/RegisterJobDefinitionRequest AWS API Documentation
     #
@@ -5507,7 +7199,9 @@ module Aws::Batch
       :timeout,
       :tags,
       :platform_capabilities,
-      :eks_properties)
+      :eks_properties,
+      :ecs_properties,
+      :consumable_resource_properties)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5534,6 +7228,21 @@ module Aws::Batch
       include Aws::Structure
     end
 
+    # The repository credentials for private registry authentication.
+    #
+    # @!attribute [rw] credentials_parameter
+    #   The Amazon Resource Name (ARN) of the secret containing the private
+    #   repository credentials.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/RepositoryCredentials AWS API Documentation
+    #
+    class RepositoryCredentials < Struct.new(
+      :credentials_parameter)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The type and amount of a resource to assign to a container. The
     # supported resources include `GPU`, `MEMORY`, and `VCPU`.
     #
@@ -5556,16 +7265,17 @@ module Aws::Batch
     #   type="MEMORY"
     #
     #   : The memory hard limit (in MiB) present to the container. This
-    #     parameter is supported for jobs that are running on EC2 resources.
-    #     If your container attempts to exceed the memory specified, the
-    #     container is terminated. This parameter maps to `Memory` in the
-    #     [Create a container][1] section of the [Docker Remote API][2] and
-    #     the `--memory` option to [docker run][3]. You must specify at
-    #     least 4 MiB of memory for a job. This is required but can be
-    #     specified in several places for multi-node parallel (MNP) jobs. It
-    #     must be specified for each node at least once. This parameter maps
-    #     to `Memory` in the [Create a container][1] section of the [Docker
-    #     Remote API][2] and the `--memory` option to [docker run][3].
+    #     parameter is supported for jobs that are running on Amazon EC2
+    #     resources. If your container attempts to exceed the memory
+    #     specified, the container is terminated. This parameter maps to
+    #     `Memory` in the [Create a container][1] section of the [Docker
+    #     Remote API][2] and the `--memory` option to [docker run][3]. You
+    #     must specify at least 4 MiB of memory for a job. This is required
+    #     but can be specified in several places for multi-node parallel
+    #     (MNP) jobs. It must be specified for each node at least once. This
+    #     parameter maps to `Memory` in the [Create a container][1] section
+    #     of the [Docker Remote API][2] and the `--memory` option to [docker
+    #     run][3].
     #
     #     <note markdown="1"> If you're trying to maximize your resource utilization by
     #     providing your jobs as much memory as possible for a particular
@@ -5605,7 +7315,7 @@ module Aws::Batch
     #
     #     value = 8192
     #
-    #     : `VCPU` = 1, 2, 4, or 8
+    #     : `VCPU` = 1, 2, or 4
     #
     #     value = 9216, 10240, 11264, 12288, 13312, 14336, or 15360
     #
@@ -5640,10 +7350,10 @@ module Aws::Batch
     #   : The number of vCPUs reserved for the container. This parameter
     #     maps to `CpuShares` in the [Create a container][1] section of the
     #     [Docker Remote API][2] and the `--cpu-shares` option to [docker
-    #     run][3]. Each vCPU is equivalent to 1,024 CPU shares. For EC2
-    #     resources, you must specify at least one vCPU. This is required
-    #     but can be specified in several places; it must be specified for
-    #     each node at least once.
+    #     run][3]. Each vCPU is equivalent to 1,024 CPU shares. For Amazon
+    #     EC2 resources, you must specify at least one vCPU. This is
+    #     required but can be specified in several places; it must be
+    #     specified for each node at least once.
     #
     #     The default for the Fargate On-Demand vCPU resource count quota is
     #     6 vCPUs. For more information about Fargate quotas, see [Fargate
@@ -5736,6 +7446,66 @@ module Aws::Batch
     class RetryStrategy < Struct.new(
       :attempts,
       :evaluate_on_exit)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # An object that represents the compute environment architecture for
+    # Batch jobs on Fargate.
+    #
+    # @!attribute [rw] operating_system_family
+    #   The operating system for the compute environment. Valid values are:
+    #   `LINUX` (default), `WINDOWS_SERVER_2019_CORE`,
+    #   `WINDOWS_SERVER_2019_FULL`, `WINDOWS_SERVER_2022_CORE`, and
+    #   `WINDOWS_SERVER_2022_FULL`.
+    #
+    #   <note markdown="1"> The following parameters can’t be set for Windows containers:
+    #   `linuxParameters`, `privileged`, `user`, `ulimits`,
+    #   `readonlyRootFilesystem`, and `efsVolumeConfiguration`.
+    #
+    #    </note>
+    #
+    #   <note markdown="1"> The Batch Scheduler checks the compute environments that are
+    #   attached to the job queue before registering a task definition with
+    #   Fargate. In this scenario, the job queue is where the job is
+    #   submitted. If the job requires a Windows container and the first
+    #   compute environment is `LINUX`, the compute environment is skipped
+    #   and the next compute environment is checked until a Windows-based
+    #   compute environment is found.
+    #
+    #    </note>
+    #
+    #   <note markdown="1"> Fargate Spot is not supported for `ARM64` and Windows-based
+    #   containers on Fargate. A job queue will be blocked if a Fargate
+    #   `ARM64` or Windows job is submitted to a job queue with only Fargate
+    #   Spot compute environments. However, you can attach both `FARGATE`
+    #   and `FARGATE_SPOT` compute environments to the same job queue.
+    #
+    #    </note>
+    #   @return [String]
+    #
+    # @!attribute [rw] cpu_architecture
+    #   The vCPU architecture. The default value is `X86_64`. Valid values
+    #   are `X86_64` and `ARM64`.
+    #
+    #   <note markdown="1"> This parameter must be set to `X86_64` for Windows containers.
+    #
+    #    </note>
+    #
+    #   <note markdown="1"> Fargate Spot is not supported for `ARM64` and Windows-based
+    #   containers on Fargate. A job queue will be blocked if a Fargate
+    #   `ARM64` or Windows job is submitted to a job queue with only Fargate
+    #   Spot compute environments. However, you can attach both `FARGATE`
+    #   and `FARGATE_SPOT` compute environments to the same job queue.
+    #
+    #    </note>
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/RuntimePlatform AWS API Documentation
+    #
+    class RuntimePlatform < Struct.new(
+      :operating_system_family,
+      :cpu_architecture)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5905,17 +7675,20 @@ module Aws::Batch
     #   @return [String]
     #
     # @!attribute [rw] share_identifier
-    #   The share identifier for the job. If the job queue doesn't have a
-    #   scheduling policy, then this parameter must not be specified. If the
-    #   job queue has a scheduling policy, then this parameter must be
-    #   specified.
+    #   The share identifier for the job. Don't specify this parameter if
+    #   the job queue doesn't have a scheduling policy. If the job queue
+    #   has a scheduling policy, then this parameter must be specified.
+    #
+    #   This string is limited to 255 alphanumeric characters, and can be
+    #   followed by an asterisk (*).
     #   @return [String]
     #
     # @!attribute [rw] scheduling_priority_override
     #   The scheduling priority for the job. This only affects jobs in job
     #   queues with a fair share policy. Jobs with a higher scheduling
     #   priority are scheduled before jobs with a lower scheduling priority.
-    #   This overrides any scheduling priority in the job definition.
+    #   This overrides any scheduling priority in the job definition and
+    #   works only within a single share identifier.
     #
     #   The minimum supported value is 0 and the maximum supported value is
     #   9999.
@@ -5944,9 +7717,15 @@ module Aws::Batch
     #
     # @!attribute [rw] job_definition
     #   The job definition used by this job. This value can be one of
-    #   `name`, `name:revision`, or the Amazon Resource Name (ARN) for the
-    #   job definition. If `name` is specified without a revision then the
-    #   latest active revision is used.
+    #   `definition-name`, `definition-name:revision`, or the Amazon
+    #   Resource Name (ARN) for the job definition, with or without the
+    #   revision
+    #   (`arn:aws:batch:region:account:job-definition/definition-name:revision
+    #   `, or `arn:aws:batch:region:account:job-definition/definition-name
+    #   `).
+    #
+    #   If the revision is not specified, then the latest active revision is
+    #   used.
     #   @return [String]
     #
     # @!attribute [rw] parameters
@@ -5958,10 +7737,10 @@ module Aws::Batch
     #   @return [Hash<String,String>]
     #
     # @!attribute [rw] container_overrides
-    #   An object with various properties that override the defaults for the
-    #   job definition that specify the name of a container in the specified
-    #   job definition and the overrides it should receive. You can override
-    #   the default command for a container, which is specified in the job
+    #   An object with properties that override the defaults for the job
+    #   definition that specify the name of a container in the specified job
+    #   definition and the overrides it should receive. You can override the
+    #   default command for a container, which is specified in the job
     #   definition or the Docker image, with a `command` override. You can
     #   also override existing environment variables on a container or add
     #   new environment variables to it with an `environment` override.
@@ -6022,10 +7801,21 @@ module Aws::Batch
     #   @return [Hash<String,String>]
     #
     # @!attribute [rw] eks_properties_override
-    #   An object that can only be specified for jobs that are run on Amazon
-    #   EKS resources with various properties that override defaults for the
-    #   job definition.
+    #   An object, with properties that override defaults for the job
+    #   definition, can only be specified for jobs that are run on Amazon
+    #   EKS resources.
     #   @return [Types::EksPropertiesOverride]
+    #
+    # @!attribute [rw] ecs_properties_override
+    #   An object, with properties that override defaults for the job
+    #   definition, can only be specified for jobs that are run on Amazon
+    #   ECS resources.
+    #   @return [Types::EcsPropertiesOverride]
+    #
+    # @!attribute [rw] consumable_resource_properties_override
+    #   An object that contains overrides for the consumable resources of a
+    #   job.
+    #   @return [Types::ConsumableResourceProperties]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/SubmitJobRequest AWS API Documentation
     #
@@ -6044,7 +7834,9 @@ module Aws::Batch
       :propagate_tags,
       :timeout,
       :tags,
-      :eks_properties_override)
+      :eks_properties_override,
+      :ecs_properties_override,
+      :consumable_resource_properties_override)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -6105,6 +7897,734 @@ module Aws::Batch
     #
     class TagResourceResponse < Aws::EmptyStructure; end
 
+    # A list of containers that this task depends on.
+    #
+    # @!attribute [rw] container_name
+    #   A unique identifier for the container.
+    #   @return [String]
+    #
+    # @!attribute [rw] condition
+    #   The dependency condition of the container. The following are the
+    #   available conditions and their behavior:
+    #
+    #   * `START` - This condition emulates the behavior of links and
+    #     volumes today. It validates that a dependent container is started
+    #     before permitting other containers to start.
+    #
+    #   * `COMPLETE` - This condition validates that a dependent container
+    #     runs to completion (exits) before permitting other containers to
+    #     start. This can be useful for nonessential containers that run a
+    #     script and then exit. This condition can't be set on an essential
+    #     container.
+    #
+    #   * `SUCCESS` - This condition is the same as `COMPLETE`, but it also
+    #     requires that the container exits with a zero status. This
+    #     condition can't be set on an essential container.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/TaskContainerDependency AWS API Documentation
+    #
+    class TaskContainerDependency < Struct.new(
+      :container_name,
+      :condition)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The details for the container in this task attempt.
+    #
+    # @!attribute [rw] command
+    #   The command that's passed to the container. This parameter maps to
+    #   `Cmd` in the [Create a container][1] section of the [Docker Remote
+    #   API][2] and the `COMMAND` parameter to [docker run][3]. For more
+    #   information, see
+    #   [https://docs.docker.com/engine/reference/builder/#cmd][4].
+    #
+    #
+    #
+    #   [1]: https://docs.docker.com/engine/api/v1.23/#create-a-container
+    #   [2]: https://docs.docker.com/engine/api/v1.23/
+    #   [3]: https://docs.docker.com/engine/reference/run/
+    #   [4]: https://docs.docker.com/engine/reference/builder/#cmd
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] depends_on
+    #   A list of containers that this container depends on.
+    #   @return [Array<Types::TaskContainerDependency>]
+    #
+    # @!attribute [rw] environment
+    #   The environment variables to pass to a container. This parameter
+    #   maps to `Env` in the [Create a container][1] section of the [Docker
+    #   Remote API][2] and the `--env` option to [docker run][3].
+    #
+    #   We don't recommend using plaintext environment variables for
+    #   sensitive information, such as credential data.
+    #
+    #
+    #
+    #   [1]: https://docs.docker.com/engine/api/v1.23/#create-a-container
+    #   [2]: https://docs.docker.com/engine/api/v1.23/
+    #   [3]: https://docs.docker.com/engine/reference/run/
+    #   @return [Array<Types::KeyValuePair>]
+    #
+    # @!attribute [rw] essential
+    #   If the essential parameter of a container is marked as `true`, and
+    #   that container fails or stops for any reason, all other containers
+    #   that are part of the task are stopped. If the `essential` parameter
+    #   of a container is marked as false, its failure doesn't affect the
+    #   rest of the containers in a task. If this parameter is omitted, a
+    #   container is assumed to be essential.
+    #
+    #   All jobs must have at least one essential container. If you have an
+    #   application that's composed of multiple containers, group
+    #   containers that are used for a common purpose into components, and
+    #   separate the different components into multiple task definitions.
+    #   For more information, see [Application Architecture][1] in the
+    #   *Amazon Elastic Container Service Developer Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/application_architecture.html
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] image
+    #   The image used to start a container. This string is passed directly
+    #   to the Docker daemon. By default, images in the Docker Hub registry
+    #   are available. Other repositories are specified with either
+    #   `repository-url/image:tag` or `repository-url/image@digest`. Up to
+    #   255 letters (uppercase and lowercase), numbers, hyphens,
+    #   underscores, colons, periods, forward slashes, and number signs are
+    #   allowed. This parameter maps to `Image` in the [Create a
+    #   container][1] section of the [Docker Remote API][2] and the `IMAGE`
+    #   parameter of the [ *docker run* ][3].
+    #
+    #
+    #
+    #   [1]: https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate
+    #   [2]: https://docs.docker.com/engine/api/v1.35/
+    #   [3]: https://docs.docker.com/engine/reference/run/#security-configuration
+    #   @return [String]
+    #
+    # @!attribute [rw] linux_parameters
+    #   Linux-specific modifications that are applied to the container, such
+    #   as Linux kernel capabilities. For more information, see
+    #   [KernelCapabilities][1].
+    #
+    #   <note markdown="1"> This parameter is not supported for Windows containers.
+    #
+    #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_KernelCapabilities.html
+    #   @return [Types::LinuxParameters]
+    #
+    # @!attribute [rw] log_configuration
+    #   The log configuration specification for the container.
+    #
+    #   This parameter maps to `LogConfig` in the [Create a container][1]
+    #   section of the [Docker Remote API][2] and the `--log-driver` option
+    #   to [docker run][3].
+    #
+    #   By default, containers use the same logging driver that the Docker
+    #   daemon uses. However the container can use a different logging
+    #   driver than the Docker daemon by specifying a log driver with this
+    #   parameter in the container definition. To use a different logging
+    #   driver for a container, the log system must be configured properly
+    #   on the container instance (or on a different log server for remote
+    #   logging options). For more information about the options for
+    #   different supported log drivers, see [Configure logging drivers ][4]
+    #   in the *Docker documentation*.
+    #
+    #   <note markdown="1"> Amazon ECS currently supports a subset of the logging drivers
+    #   available to the Docker daemon (shown in the `LogConfiguration` data
+    #   type). Additional log drivers may be available in future releases of
+    #   the Amazon ECS container agent.
+    #
+    #    </note>
+    #
+    #   This parameter requires version 1.18 of the Docker Remote API or
+    #   greater on your container instance. To check the Docker Remote API
+    #   version on your container instance, log in to your container
+    #   instance and run the following command: sudo docker version
+    #   `--format '{{.Server.APIVersion}}'`
+    #
+    #   <note markdown="1"> The Amazon ECS container agent running on a container instance must
+    #   register the logging drivers available on that instance with the
+    #   `ECS_AVAILABLE_LOGGING_DRIVERS` environment variable before
+    #   containers placed on that instance can use these log configuration
+    #   options. For more information, see [Amazon ECS container agent
+    #   configuration][5] in the *Amazon Elastic Container Service Developer
+    #   Guide*.
+    #
+    #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate
+    #   [2]: https://docs.docker.com/engine/api/v1.35/
+    #   [3]: https://docs.docker.com/engine/reference/run/#security-configuration
+    #   [4]: https://docs.docker.com/engine/admin/logging/overview/
+    #   [5]: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-agent-config.html
+    #   @return [Types::LogConfiguration]
+    #
+    # @!attribute [rw] mount_points
+    #   The mount points for data volumes in your container.
+    #
+    #   This parameter maps to `Volumes` in the [Create a container][1]
+    #   section of the [Docker Remote API][2] and the [--volume]() option to
+    #   [docker run][3].
+    #
+    #   Windows containers can mount whole directories on the same drive as
+    #   `$env:ProgramData`. Windows containers can't mount directories on a
+    #   different drive, and mount point can't be across drives.
+    #
+    #
+    #
+    #   [1]: https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate
+    #   [2]: https://docs.docker.com/engine/api/v1.35/
+    #   [3]: https://docs.docker.com/engine/reference/run/#security-configuration
+    #   @return [Array<Types::MountPoint>]
+    #
+    # @!attribute [rw] name
+    #   The name of a container.
+    #   @return [String]
+    #
+    # @!attribute [rw] privileged
+    #   When this parameter is `true`, the container is given elevated
+    #   privileges on the host container instance (similar to the `root`
+    #   user). This parameter maps to `Privileged` in the [Create a
+    #   container][1] section of the [Docker Remote API][2] and the
+    #   `--privileged` option to [docker run][3].
+    #
+    #   <note markdown="1"> This parameter is not supported for Windows containers or tasks run
+    #   on Fargate.
+    #
+    #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate
+    #   [2]: https://docs.docker.com/engine/api/v1.35/
+    #   [3]: https://docs.docker.com/engine/reference/run/#security-configuration
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] readonly_root_filesystem
+    #   When this parameter is true, the container is given read-only access
+    #   to its root file system. This parameter maps to `ReadonlyRootfs` in
+    #   the [Create a container][1] section of the [Docker Remote API][2]
+    #   and the `--read-only` option to [docker run][3].
+    #
+    #   <note markdown="1"> This parameter is not supported for Windows containers.
+    #
+    #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate
+    #   [2]: https://docs.docker.com/engine/api/v1.35/
+    #   [3]: https://docs.docker.com/engine/reference/run/#security-configuration
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] repository_credentials
+    #   The private repository authentication credentials to use.
+    #   @return [Types::RepositoryCredentials]
+    #
+    # @!attribute [rw] resource_requirements
+    #   The type and amount of a resource to assign to a container. The only
+    #   supported resource is a GPU.
+    #   @return [Array<Types::ResourceRequirement>]
+    #
+    # @!attribute [rw] secrets
+    #   The secrets to pass to the container. For more information, see
+    #   [Specifying Sensitive Data][1] in the Amazon Elastic Container
+    #   Service Developer Guide.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/specifying-sensitive-data.html
+    #   @return [Array<Types::Secret>]
+    #
+    # @!attribute [rw] ulimits
+    #   A list of `ulimits` to set in the container. If a `ulimit` value is
+    #   specified in a task definition, it overrides the default values set
+    #   by Docker. This parameter maps to `Ulimits` in the [Create a
+    #   container][1] section of the [Docker Remote API][2] and the
+    #   `--ulimit` option to [docker run][3].
+    #
+    #   Amazon ECS tasks hosted on Fargate use the default resource limit
+    #   values set by the operating system with the exception of the nofile
+    #   resource limit parameter which Fargate overrides. The `nofile`
+    #   resource limit sets a restriction on the number of open files that a
+    #   container can use. The default `nofile` soft limit is `1024` and the
+    #   default hard limit is `65535`.
+    #
+    #   This parameter requires version 1.18 of the Docker Remote API or
+    #   greater on your container instance. To check the Docker Remote API
+    #   version on your container instance, log in to your container
+    #   instance and run the following command: sudo docker version
+    #   `--format '{{.Server.APIVersion}}'`
+    #
+    #   <note markdown="1"> This parameter is not supported for Windows containers.
+    #
+    #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate
+    #   [2]: https://docs.docker.com/engine/api/v1.35/
+    #   [3]: https://docs.docker.com/engine/reference/run/#security-configuration
+    #   @return [Array<Types::Ulimit>]
+    #
+    # @!attribute [rw] user
+    #   The user to use inside the container. This parameter maps to User in
+    #   the Create a container section of the Docker Remote API and the
+    #   --user option to docker run.
+    #
+    #   <note markdown="1"> When running tasks using the `host` network mode, don't run
+    #   containers using the `root user (UID 0)`. We recommend using a
+    #   non-root user for better security.
+    #
+    #    </note>
+    #
+    #   You can specify the `user` using the following formats. If
+    #   specifying a UID or GID, you must specify it as a positive integer.
+    #
+    #   * `user`
+    #
+    #   * `user:group`
+    #
+    #   * `uid`
+    #
+    #   * `uid:gid`
+    #
+    #   * `user:gi`
+    #
+    #   * `uid:group`
+    #
+    #   * ``
+    #
+    #   <note markdown="1"> This parameter is not supported for Windows containers.
+    #
+    #    </note>
+    #   @return [String]
+    #
+    # @!attribute [rw] exit_code
+    #   The exit code returned upon completion.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] reason
+    #   A short (255 max characters) human-readable string to provide
+    #   additional details for a running or stopped container.
+    #   @return [String]
+    #
+    # @!attribute [rw] log_stream_name
+    #   The name of the CloudWatch Logs log stream that's associated with
+    #   the container. The log group for Batch jobs is /aws/batch/job. Each
+    #   container attempt receives a log stream name when they reach the
+    #   `RUNNING` status.
+    #   @return [String]
+    #
+    # @!attribute [rw] network_interfaces
+    #   The network interfaces that are associated with the job.
+    #   @return [Array<Types::NetworkInterface>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/TaskContainerDetails AWS API Documentation
+    #
+    class TaskContainerDetails < Struct.new(
+      :command,
+      :depends_on,
+      :environment,
+      :essential,
+      :image,
+      :linux_parameters,
+      :log_configuration,
+      :mount_points,
+      :name,
+      :privileged,
+      :readonly_root_filesystem,
+      :repository_credentials,
+      :resource_requirements,
+      :secrets,
+      :ulimits,
+      :user,
+      :exit_code,
+      :reason,
+      :log_stream_name,
+      :network_interfaces)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The overrides that should be sent to a container.
+    #
+    # For information about using Batch overrides when you connect event
+    # sources to targets, see [BatchContainerOverrides][1].
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/eventbridge/latest/pipes-reference/API_BatchContainerOverrides.html
+    #
+    # @!attribute [rw] command
+    #   The command to send to the container that overrides the default
+    #   command from the Docker image or the job definition.
+    #
+    #   <note markdown="1"> This parameter can't contain an empty string.
+    #
+    #    </note>
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] environment
+    #   The environment variables to send to the container. You can add new
+    #   environment variables, which are added to the container at launch,
+    #   or you can override the existing environment variables from the
+    #   Docker image or the job definition.
+    #
+    #   <note markdown="1"> Environment variables cannot start with `AWS_BATCH`. This naming
+    #   convention is reserved for variables that Batch sets.
+    #
+    #    </note>
+    #   @return [Array<Types::KeyValuePair>]
+    #
+    # @!attribute [rw] name
+    #   A pointer to the container that you want to override. The
+    #   container's name provides a unique identifier for the container
+    #   being used.
+    #   @return [String]
+    #
+    # @!attribute [rw] resource_requirements
+    #   The type and amount of resources to assign to a container. This
+    #   overrides the settings in the job definition. The supported
+    #   resources include `GPU`, `MEMORY`, and `VCPU`.
+    #   @return [Array<Types::ResourceRequirement>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/TaskContainerOverrides AWS API Documentation
+    #
+    class TaskContainerOverrides < Struct.new(
+      :command,
+      :environment,
+      :name,
+      :resource_requirements)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Container properties are used for Amazon ECS-based job definitions.
+    # These properties to describe the container that's launched as part of
+    # a job.
+    #
+    # @!attribute [rw] command
+    #   The command that's passed to the container. This parameter maps to
+    #   `Cmd` in the [Create a container][1] section of the [Docker Remote
+    #   API][2] and the `COMMAND` parameter to [docker run][3]. For more
+    #   information, see [Dockerfile reference: CMD][4].
+    #
+    #
+    #
+    #   [1]: https://docs.docker.com/engine/api/v1.23/#create-a-container
+    #   [2]: https://docs.docker.com/engine/api/v1.23/
+    #   [3]: https://docs.docker.com/engine/reference/run/
+    #   [4]: https://docs.docker.com/engine/reference/builder/#cmd
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] depends_on
+    #   A list of containers that this container depends on.
+    #   @return [Array<Types::TaskContainerDependency>]
+    #
+    # @!attribute [rw] environment
+    #   The environment variables to pass to a container. This parameter
+    #   maps to Env in the [Create a container][1] section of the [Docker
+    #   Remote API][2] and the `--env` parameter to [docker run][3].
+    #
+    #   We don't recommend using plaintext environment variables for
+    #   sensitive information, such as credential data.
+    #
+    #   <note markdown="1"> Environment variables cannot start with `AWS_BATCH`. This naming
+    #   convention is reserved for variables that Batch sets.
+    #
+    #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.docker.com/engine/api/v1.23/#create-a-container
+    #   [2]: https://docs.docker.com/engine/api/v1.23/
+    #   [3]: https://docs.docker.com/engine/reference/run/
+    #   @return [Array<Types::KeyValuePair>]
+    #
+    # @!attribute [rw] essential
+    #   If the essential parameter of a container is marked as `true`, and
+    #   that container fails or stops for any reason, all other containers
+    #   that are part of the task are stopped. If the `essential` parameter
+    #   of a container is marked as false, its failure doesn't affect the
+    #   rest of the containers in a task. If this parameter is omitted, a
+    #   container is assumed to be essential.
+    #
+    #   All jobs must have at least one essential container. If you have an
+    #   application that's composed of multiple containers, group
+    #   containers that are used for a common purpose into components, and
+    #   separate the different components into multiple task definitions.
+    #   For more information, see [Application Architecture][1] in the
+    #   *Amazon Elastic Container Service Developer Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/application_architecture.html
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] image
+    #   The image used to start a container. This string is passed directly
+    #   to the Docker daemon. By default, images in the Docker Hub registry
+    #   are available. Other repositories are specified with either
+    #   `repository-url/image:tag` or `repository-url/image@digest`. Up to
+    #   255 letters (uppercase and lowercase), numbers, hyphens,
+    #   underscores, colons, periods, forward slashes, and number signs are
+    #   allowed. This parameter maps to `Image` in the [Create a
+    #   container][1] section of the [Docker Remote API][2] and the `IMAGE`
+    #   parameter of the [ *docker run* ][3].
+    #
+    #
+    #
+    #   [1]: https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate
+    #   [2]: https://docs.docker.com/engine/api/v1.35/
+    #   [3]: https://docs.docker.com/engine/reference/run/#security-configuration
+    #   @return [String]
+    #
+    # @!attribute [rw] linux_parameters
+    #   Linux-specific modifications that are applied to the container, such
+    #   as Linux kernel capabilities. For more information, see
+    #   [KernelCapabilities][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_KernelCapabilities.html
+    #   @return [Types::LinuxParameters]
+    #
+    # @!attribute [rw] log_configuration
+    #   The log configuration specification for the container.
+    #
+    #   This parameter maps to `LogConfig` in the [Create a container][1]
+    #   section of the [Docker Remote API][2] and the `--log-driver` option
+    #   to [docker run][3].
+    #
+    #   By default, containers use the same logging driver that the Docker
+    #   daemon uses. However the container can use a different logging
+    #   driver than the Docker daemon by specifying a log driver with this
+    #   parameter in the container definition. To use a different logging
+    #   driver for a container, the log system must be configured properly
+    #   on the container instance (or on a different log server for remote
+    #   logging options). For more information about the options for
+    #   different supported log drivers, see [Configure logging drivers ][4]
+    #   in the *Docker documentation*.
+    #
+    #   <note markdown="1"> Amazon ECS currently supports a subset of the logging drivers
+    #   available to the Docker daemon (shown in the `LogConfiguration` data
+    #   type). Additional log drivers may be available in future releases of
+    #   the Amazon ECS container agent.
+    #
+    #    </note>
+    #
+    #   This parameter requires version 1.18 of the Docker Remote API or
+    #   greater on your container instance. To check the Docker Remote API
+    #   version on your container instance, log in to your container
+    #   instance and run the following command: sudo docker version
+    #   `--format '{{.Server.APIVersion}}'`
+    #
+    #   <note markdown="1"> The Amazon ECS container agent running on a container instance must
+    #   register the logging drivers available on that instance with the
+    #   `ECS_AVAILABLE_LOGGING_DRIVERS` environment variable before
+    #   containers placed on that instance can use these log configuration
+    #   options. For more information, see [Amazon ECS container agent
+    #   configuration][5] in the *Amazon Elastic Container Service Developer
+    #   Guide*.
+    #
+    #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate
+    #   [2]: https://docs.docker.com/engine/api/v1.35/
+    #   [3]: https://docs.docker.com/engine/reference/run/#security-configuration
+    #   [4]: https://docs.docker.com/engine/admin/logging/overview/
+    #   [5]: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-agent-config.html
+    #   @return [Types::LogConfiguration]
+    #
+    # @!attribute [rw] mount_points
+    #   The mount points for data volumes in your container.
+    #
+    #   This parameter maps to `Volumes` in the [Create a container][1]
+    #   section of the [Docker Remote API][2] and the [--volume]() option to
+    #   [docker run][3].
+    #
+    #   Windows containers can mount whole directories on the same drive as
+    #   `$env:ProgramData`. Windows containers can't mount directories on a
+    #   different drive, and mount point can't be across drives.
+    #
+    #
+    #
+    #   [1]: https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate
+    #   [2]: https://docs.docker.com/engine/api/v1.35/
+    #   [3]: https://docs.docker.com/engine/reference/run/#security-configuration
+    #   @return [Array<Types::MountPoint>]
+    #
+    # @!attribute [rw] name
+    #   The name of a container. The name can be used as a unique identifier
+    #   to target your `dependsOn` and `Overrides` objects.
+    #   @return [String]
+    #
+    # @!attribute [rw] privileged
+    #   When this parameter is `true`, the container is given elevated
+    #   privileges on the host container instance (similar to the `root`
+    #   user). This parameter maps to `Privileged` in the [Create a
+    #   container][1] section of the [Docker Remote API][2] and the
+    #   `--privileged` option to [docker run][3].
+    #
+    #   <note markdown="1"> This parameter is not supported for Windows containers or tasks run
+    #   on Fargate.
+    #
+    #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate
+    #   [2]: https://docs.docker.com/engine/api/v1.35/
+    #   [3]: https://docs.docker.com/engine/reference/run/#security-configuration
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] readonly_root_filesystem
+    #   When this parameter is true, the container is given read-only access
+    #   to its root file system. This parameter maps to `ReadonlyRootfs` in
+    #   the [Create a container][1] section of the [Docker Remote API][2]
+    #   and the `--read-only` option to [docker run][3].
+    #
+    #   <note markdown="1"> This parameter is not supported for Windows containers.
+    #
+    #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate
+    #   [2]: https://docs.docker.com/engine/api/v1.35/
+    #   [3]: https://docs.docker.com/engine/reference/run/#security-configuration
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] repository_credentials
+    #   The private repository authentication credentials to use.
+    #   @return [Types::RepositoryCredentials]
+    #
+    # @!attribute [rw] resource_requirements
+    #   The type and amount of a resource to assign to a container. The only
+    #   supported resource is a GPU.
+    #   @return [Array<Types::ResourceRequirement>]
+    #
+    # @!attribute [rw] secrets
+    #   The secrets to pass to the container. For more information, see
+    #   [Specifying Sensitive Data][1] in the Amazon Elastic Container
+    #   Service Developer Guide.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/specifying-sensitive-data.html
+    #   @return [Array<Types::Secret>]
+    #
+    # @!attribute [rw] ulimits
+    #   A list of `ulimits` to set in the container. If a `ulimit` value is
+    #   specified in a task definition, it overrides the default values set
+    #   by Docker. This parameter maps to `Ulimits` in the [Create a
+    #   container][1] section of the [Docker Remote API][2] and the
+    #   `--ulimit` option to [docker run][3].
+    #
+    #   Amazon ECS tasks hosted on Fargate use the default resource limit
+    #   values set by the operating system with the exception of the nofile
+    #   resource limit parameter which Fargate overrides. The `nofile`
+    #   resource limit sets a restriction on the number of open files that a
+    #   container can use. The default `nofile` soft limit is `1024` and the
+    #   default hard limit is `65535`.
+    #
+    #   This parameter requires version 1.18 of the Docker Remote API or
+    #   greater on your container instance. To check the Docker Remote API
+    #   version on your container instance, log in to your container
+    #   instance and run the following command: sudo docker version
+    #   `--format '{{.Server.APIVersion}}'`
+    #
+    #   <note markdown="1"> This parameter is not supported for Windows containers.
+    #
+    #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate
+    #   [2]: https://docs.docker.com/engine/api/v1.35/
+    #   [3]: https://docs.docker.com/engine/reference/run/#security-configuration
+    #   @return [Array<Types::Ulimit>]
+    #
+    # @!attribute [rw] user
+    #   The user to use inside the container. This parameter maps to User in
+    #   the Create a container section of the Docker Remote API and the
+    #   --user option to docker run.
+    #
+    #   <note markdown="1"> When running tasks using the `host` network mode, don't run
+    #   containers using the `root user (UID 0)`. We recommend using a
+    #   non-root user for better security.
+    #
+    #    </note>
+    #
+    #   You can specify the `user` using the following formats. If
+    #   specifying a UID or GID, you must specify it as a positive integer.
+    #
+    #   * `user`
+    #
+    #   * `user:group`
+    #
+    #   * `uid`
+    #
+    #   * `uid:gid`
+    #
+    #   * `user:gi`
+    #
+    #   * `uid:group`
+    #
+    #   <note markdown="1"> This parameter is not supported for Windows containers.
+    #
+    #    </note>
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/TaskContainerProperties AWS API Documentation
+    #
+    class TaskContainerProperties < Struct.new(
+      :command,
+      :depends_on,
+      :environment,
+      :essential,
+      :image,
+      :linux_parameters,
+      :log_configuration,
+      :mount_points,
+      :name,
+      :privileged,
+      :readonly_root_filesystem,
+      :repository_credentials,
+      :resource_requirements,
+      :secrets,
+      :ulimits,
+      :user)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # An object that contains overrides for the task definition of a job.
+    #
+    # @!attribute [rw] containers
+    #   The overrides for the container definition of a job.
+    #   @return [Array<Types::TaskContainerOverrides>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/TaskPropertiesOverride AWS API Documentation
+    #
+    class TaskPropertiesOverride < Struct.new(
+      :containers)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Contains the parameters for `TerminateJob`.
     #
     # @!attribute [rw] job_id
@@ -6114,8 +8634,10 @@ module Aws::Batch
     # @!attribute [rw] reason
     #   A message to attach to the job that explains the reason for
     #   canceling it. This message is returned by future DescribeJobs
-    #   operations on the job. This message is also recorded in the Batch
-    #   activity logs.
+    #   operations on the job. It is also recorded in the Batch activity
+    #   logs.
+    #
+    #   This parameter has as limit of 1024 characters.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/TerminateJobRequest AWS API Documentation
@@ -6172,19 +8694,27 @@ module Aws::Batch
       include Aws::Structure
     end
 
-    # The `ulimit` settings to pass to the container.
+    # The `ulimit` settings to pass to the container. For more information,
+    # see [Ulimit][1].
     #
     # <note markdown="1"> This object isn't applicable to jobs that are running on Fargate
     # resources.
     #
     #  </note>
     #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_Ulimit.html
+    #
     # @!attribute [rw] hard_limit
     #   The hard limit for the `ulimit` type.
     #   @return [Integer]
     #
     # @!attribute [rw] name
-    #   The `type` of the `ulimit`.
+    #   The `type` of the `ulimit`. Valid values are: `core` \| `cpu` \|
+    #   `data` \| `fsize` \| `locks` \| `memlock` \| `msgqueue` \| `nice` \|
+    #   `nofile` \| `nproc` \| `rss` \| `rtprio` \| `rttime` \| `sigpending`
+    #   \| `stack`.
     #   @return [String]
     #
     # @!attribute [rw] soft_limit
@@ -6249,8 +8779,24 @@ module Aws::Batch
     #   If the state is `DISABLED`, then the Batch scheduler doesn't
     #   attempt to place jobs within the environment. Jobs in a `STARTING`
     #   or `RUNNING` state continue to progress normally. Managed compute
-    #   environments in the `DISABLED` state don't scale out. However, they
-    #   scale in to `minvCpus` value after instances become idle.
+    #   environments in the `DISABLED` state don't scale out.
+    #
+    #   <note markdown="1"> Compute environments in a `DISABLED` state may continue to incur
+    #   billing charges. To prevent additional charges, turn off and then
+    #   delete the compute environment. For more information, see [State][1]
+    #   in the *Batch User Guide*.
+    #
+    #    </note>
+    #
+    #   When an instance is idle, the instance scales down to the `minvCpus`
+    #   value. However, the instance size doesn't change. For example,
+    #   consider a `c5.8xlarge` instance with a `minvCpus` value of `4` and
+    #   a `desiredvCpus` value of `36`. This instance doesn't scale down to
+    #   a `c5.large` instance.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/batch/latest/userguide/compute_environment_parameters.html#compute_environment_state
     #   @return [String]
     #
     # @!attribute [rw] unmanagedv_cpus
@@ -6316,6 +8862,10 @@ module Aws::Batch
     #   [1]: https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html
     #   @return [Types::UpdatePolicy]
     #
+    # @!attribute [rw] context
+    #   Reserved.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/UpdateComputeEnvironmentRequest AWS API Documentation
     #
     class UpdateComputeEnvironmentRequest < Struct.new(
@@ -6324,7 +8874,8 @@ module Aws::Batch
       :unmanagedv_cpus,
       :compute_resources,
       :service_role,
-      :update_policy)
+      :update_policy,
+      :context)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -6344,6 +8895,81 @@ module Aws::Batch
     class UpdateComputeEnvironmentResponse < Struct.new(
       :compute_environment_name,
       :compute_environment_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] consumable_resource
+    #   The name or ARN of the consumable resource to be updated.
+    #   @return [String]
+    #
+    # @!attribute [rw] operation
+    #   Indicates how the quantity of the consumable resource will be
+    #   updated. Must be one of:
+    #
+    #   * `SET`
+    #
+    #     Sets the quantity of the resource to the value specified by the
+    #     `quantity` parameter.
+    #
+    #   * `ADD`
+    #
+    #     Increases the quantity of the resource by the value specified by
+    #     the `quantity` parameter.
+    #
+    #   * `REMOVE`
+    #
+    #     Reduces the quantity of the resource by the value specified by the
+    #     `quantity` parameter.
+    #   @return [String]
+    #
+    # @!attribute [rw] quantity
+    #   The change in the total quantity of the consumable resource. The
+    #   `operation` parameter determines whether the value specified here
+    #   will be the new total quantity, or the amount by which the total
+    #   quantity will be increased or reduced. Must be a non-negative value.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] client_token
+    #   If this parameter is specified and two update requests with
+    #   identical payloads and `clientToken`s are received, these requests
+    #   are considered the same request and the second request is rejected.
+    #   A `clientToken` is valid for 8 hours or until one hour after the
+    #   consumable resource is deleted, whichever is less.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/UpdateConsumableResourceRequest AWS API Documentation
+    #
+    class UpdateConsumableResourceRequest < Struct.new(
+      :consumable_resource,
+      :operation,
+      :quantity,
+      :client_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] consumable_resource_name
+    #   The name of the consumable resource to be updated.
+    #   @return [String]
+    #
+    # @!attribute [rw] consumable_resource_arn
+    #   The Amazon Resource Name (ARN) of the consumable resource.
+    #   @return [String]
+    #
+    # @!attribute [rw] total_quantity
+    #   The total amount of the consumable resource that is available.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/UpdateConsumableResourceResponse AWS API Documentation
+    #
+    class UpdateConsumableResourceResponse < Struct.new(
+      :consumable_resource_name,
+      :consumable_resource_arn,
+      :total_quantity)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -6399,6 +9025,14 @@ module Aws::Batch
     #    </note>
     #   @return [Array<Types::ComputeEnvironmentOrder>]
     #
+    # @!attribute [rw] job_state_time_limit_actions
+    #   The set of actions that Batch perform on jobs that remain at the
+    #   head of the job queue in the specified state longer than specified
+    #   times. Batch will perform each action after `maxTimeSeconds` has
+    #   passed. (**Note**: The minimum value for maxTimeSeconds is 600 (10
+    #   minutes) and its maximum value is 86,400 (24 hours).)
+    #   @return [Array<Types::JobStateTimeLimitAction>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/batch-2016-08-10/UpdateJobQueueRequest AWS API Documentation
     #
     class UpdateJobQueueRequest < Struct.new(
@@ -6406,7 +9040,8 @@ module Aws::Batch
       :state,
       :scheduling_policy_arn,
       :priority,
-      :compute_environment_order)
+      :compute_environment_order,
+      :job_state_time_limit_actions)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -6521,3 +9156,4 @@ module Aws::Batch
 
   end
 end
+

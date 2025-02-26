@@ -7,33 +7,34 @@
 #
 # WARNING ABOUT GENERATED CODE
 
-require 'seahorse/client/plugins/content_length.rb'
-require 'aws-sdk-core/plugins/credentials_configuration.rb'
-require 'aws-sdk-core/plugins/logging.rb'
-require 'aws-sdk-core/plugins/param_converter.rb'
-require 'aws-sdk-core/plugins/param_validator.rb'
-require 'aws-sdk-core/plugins/user_agent.rb'
-require 'aws-sdk-core/plugins/helpful_socket_errors.rb'
-require 'aws-sdk-core/plugins/retry_errors.rb'
-require 'aws-sdk-core/plugins/global_configuration.rb'
-require 'aws-sdk-core/plugins/regional_endpoint.rb'
-require 'aws-sdk-core/plugins/endpoint_discovery.rb'
-require 'aws-sdk-core/plugins/endpoint_pattern.rb'
-require 'aws-sdk-core/plugins/response_paging.rb'
-require 'aws-sdk-core/plugins/stub_responses.rb'
-require 'aws-sdk-core/plugins/idempotency_token.rb'
-require 'aws-sdk-core/plugins/jsonvalue_converter.rb'
-require 'aws-sdk-core/plugins/client_metrics_plugin.rb'
-require 'aws-sdk-core/plugins/client_metrics_send_plugin.rb'
-require 'aws-sdk-core/plugins/transfer_encoding.rb'
-require 'aws-sdk-core/plugins/http_checksum.rb'
-require 'aws-sdk-core/plugins/checksum_algorithm.rb'
-require 'aws-sdk-core/plugins/defaults_mode.rb'
-require 'aws-sdk-core/plugins/recursion_detection.rb'
-require 'aws-sdk-core/plugins/sign.rb'
-require 'aws-sdk-core/plugins/protocols/rest_json.rb'
-
-Aws::Plugins::GlobalConfiguration.add_identifier(:connectcases)
+require 'seahorse/client/plugins/content_length'
+require 'aws-sdk-core/plugins/credentials_configuration'
+require 'aws-sdk-core/plugins/logging'
+require 'aws-sdk-core/plugins/param_converter'
+require 'aws-sdk-core/plugins/param_validator'
+require 'aws-sdk-core/plugins/user_agent'
+require 'aws-sdk-core/plugins/helpful_socket_errors'
+require 'aws-sdk-core/plugins/retry_errors'
+require 'aws-sdk-core/plugins/global_configuration'
+require 'aws-sdk-core/plugins/regional_endpoint'
+require 'aws-sdk-core/plugins/endpoint_discovery'
+require 'aws-sdk-core/plugins/endpoint_pattern'
+require 'aws-sdk-core/plugins/response_paging'
+require 'aws-sdk-core/plugins/stub_responses'
+require 'aws-sdk-core/plugins/idempotency_token'
+require 'aws-sdk-core/plugins/invocation_id'
+require 'aws-sdk-core/plugins/jsonvalue_converter'
+require 'aws-sdk-core/plugins/client_metrics_plugin'
+require 'aws-sdk-core/plugins/client_metrics_send_plugin'
+require 'aws-sdk-core/plugins/transfer_encoding'
+require 'aws-sdk-core/plugins/http_checksum'
+require 'aws-sdk-core/plugins/checksum_algorithm'
+require 'aws-sdk-core/plugins/request_compression'
+require 'aws-sdk-core/plugins/defaults_mode'
+require 'aws-sdk-core/plugins/recursion_detection'
+require 'aws-sdk-core/plugins/telemetry'
+require 'aws-sdk-core/plugins/sign'
+require 'aws-sdk-core/plugins/protocols/rest_json'
 
 module Aws::ConnectCases
   # An API client for ConnectCases.  To construct a client, you need to configure a `:region` and `:credentials`.
@@ -71,20 +72,28 @@ module Aws::ConnectCases
     add_plugin(Aws::Plugins::ResponsePaging)
     add_plugin(Aws::Plugins::StubResponses)
     add_plugin(Aws::Plugins::IdempotencyToken)
+    add_plugin(Aws::Plugins::InvocationId)
     add_plugin(Aws::Plugins::JsonvalueConverter)
     add_plugin(Aws::Plugins::ClientMetricsPlugin)
     add_plugin(Aws::Plugins::ClientMetricsSendPlugin)
     add_plugin(Aws::Plugins::TransferEncoding)
     add_plugin(Aws::Plugins::HttpChecksum)
     add_plugin(Aws::Plugins::ChecksumAlgorithm)
+    add_plugin(Aws::Plugins::RequestCompression)
     add_plugin(Aws::Plugins::DefaultsMode)
     add_plugin(Aws::Plugins::RecursionDetection)
+    add_plugin(Aws::Plugins::Telemetry)
     add_plugin(Aws::Plugins::Sign)
     add_plugin(Aws::Plugins::Protocols::RestJson)
     add_plugin(Aws::ConnectCases::Plugins::Endpoints)
 
     # @overload initialize(options)
     #   @param [Hash] options
+    #
+    #   @option options [Array<Seahorse::Client::Plugin>] :plugins ([]])
+    #     A list of plugins to apply to the client. Each plugin is either a
+    #     class name or an instance of a plugin class.
+    #
     #   @option options [required, Aws::CredentialProvider] :credentials
     #     Your AWS credentials. This can be an instance of any one of the
     #     following classes:
@@ -119,13 +128,15 @@ module Aws::ConnectCases
     #     locations will be searched for credentials:
     #
     #     * `Aws.config[:credentials]`
-    #     * The `:access_key_id`, `:secret_access_key`, and `:session_token` options.
-    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']
+    #     * The `:access_key_id`, `:secret_access_key`, `:session_token`, and
+    #       `:account_id` options.
+    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'],
+    #       ENV['AWS_SESSION_TOKEN'], and ENV['AWS_ACCOUNT_ID']
     #     * `~/.aws/credentials`
     #     * `~/.aws/config`
     #     * EC2/ECS IMDS instance profile - When used by default, the timeouts
     #       are very aggressive. Construct and pass an instance of
-    #       `Aws::InstanceProfileCredentails` or `Aws::ECSCredentials` to
+    #       `Aws::InstanceProfileCredentials` or `Aws::ECSCredentials` to
     #       enable retries and extended timeouts. Instance profile credential
     #       fetching can be disabled by setting ENV['AWS_EC2_METADATA_DISABLED']
     #       to true.
@@ -143,6 +154,8 @@ module Aws::ConnectCases
     #     * `~/.aws/config`
     #
     #   @option options [String] :access_key_id
+    #
+    #   @option options [String] :account_id
     #
     #   @option options [Boolean] :active_endpoint_cache (false)
     #     When set to `true`, a thread polling for endpoints will be running in
@@ -190,10 +203,20 @@ module Aws::ConnectCases
     #     Set to true to disable SDK automatically adding host prefix
     #     to default service endpoint when available.
     #
-    #   @option options [String] :endpoint
-    #     The client endpoint is normally constructed from the `:region`
-    #     option. You should only configure an `:endpoint` when connecting
-    #     to test or custom endpoints. This should be a valid HTTP(S) URI.
+    #   @option options [Boolean] :disable_request_compression (false)
+    #     When set to 'true' the request body will not be compressed
+    #     for supported operations.
+    #
+    #   @option options [String, URI::HTTPS, URI::HTTP] :endpoint
+    #     Normally you should not configure the `:endpoint` option
+    #     directly. This is normally constructed from the `:region`
+    #     option. Configuring `:endpoint` is normally reserved for
+    #     connecting to test or custom endpoints. The endpoint should
+    #     be a URI formatted like:
+    #
+    #         'http://example.com'
+    #         'https://example.com'
+    #         'http://example.com:123'
     #
     #   @option options [Integer] :endpoint_cache_max_entries (1000)
     #     Used for the maximum size limit of the LRU cache storing endpoints data
@@ -209,6 +232,10 @@ module Aws::ConnectCases
     #
     #   @option options [Boolean] :endpoint_discovery (false)
     #     When set to `true`, endpoint discovery will be enabled for operations when available.
+    #
+    #   @option options [Boolean] :ignore_configured_endpoint_urls
+    #     Setting to true disables use of endpoint URLs provided via environment
+    #     variables and the shared configuration file.
     #
     #   @option options [Aws::Log::Formatter] :log_formatter (Aws::Log::Formatter.default)
     #     The log formatter.
@@ -229,6 +256,34 @@ module Aws::ConnectCases
     #   @option options [String] :profile ("default")
     #     Used when loading credentials from the shared credentials file
     #     at HOME/.aws/credentials.  When not specified, 'default' is used.
+    #
+    #   @option options [String] :request_checksum_calculation ("when_supported")
+    #     Determines when a checksum will be calculated for request payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, a checksum will be
+    #       calculated for all request payloads of operations modeled with the
+    #       `httpChecksum` trait where `requestChecksumRequired` is `true` and/or a
+    #       `requestAlgorithmMember` is modeled.
+    #     * `when_required` - When set, a checksum will only be calculated for
+    #       request payloads of operations modeled with the  `httpChecksum` trait where
+    #       `requestChecksumRequired` is `true` or where a `requestAlgorithmMember`
+    #       is modeled and supplied.
+    #
+    #   @option options [Integer] :request_min_compression_size_bytes (10240)
+    #     The minimum size in bytes that triggers compression for request
+    #     bodies. The value must be non-negative integer value between 0
+    #     and 10485780 bytes inclusive.
+    #
+    #   @option options [String] :response_checksum_validation ("when_supported")
+    #     Determines when checksum validation will be performed on response payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, checksum validation is performed on all
+    #       response payloads of operations modeled with the `httpChecksum` trait where
+    #       `responseAlgorithms` is modeled, except when no modeled checksum algorithms
+    #       are supported.
+    #     * `when_required` - When set, checksum validation is not performed on
+    #       response payloads of operations unless the checksum algorithm is supported and
+    #       the `requestValidationModeMember` member is set to `ENABLED`.
     #
     #   @option options [Proc] :retry_backoff
     #     A proc or lambda used for backoff. Defaults to 2**retries * retry_base_delay.
@@ -274,10 +329,24 @@ module Aws::ConnectCases
     #       throttling.  This is a provisional mode that may change behavior
     #       in the future.
     #
+    #   @option options [String] :sdk_ua_app_id
+    #     A unique and opaque application ID that is appended to the
+    #     User-Agent header as app/sdk_ua_app_id. It should have a
+    #     maximum length of 50. This variable is sourced from environment
+    #     variable AWS_SDK_UA_APP_ID or the shared config profile attribute sdk_ua_app_id.
     #
     #   @option options [String] :secret_access_key
     #
     #   @option options [String] :session_token
+    #
+    #   @option options [Array] :sigv4a_signing_region_set
+    #     A list of regions that should be signed with SigV4a signing. When
+    #     not passed, a default `:sigv4a_signing_region_set` is searched for
+    #     in the following locations:
+    #
+    #     * `Aws.config[:sigv4a_signing_region_set]`
+    #     * `ENV['AWS_SIGV4A_SIGNING_REGION_SET']`
+    #     * `~/.aws/config`
     #
     #   @option options [Boolean] :stub_responses (false)
     #     Causes the client to return stubbed responses. By default
@@ -287,6 +356,16 @@ module Aws::ConnectCases
     #
     #     ** Please note ** When response stubbing is enabled, no HTTP
     #     requests are made, and retries are disabled.
+    #
+    #   @option options [Aws::Telemetry::TelemetryProviderBase] :telemetry_provider (Aws::Telemetry::NoOpTelemetryProvider)
+    #     Allows you to provide a telemetry provider, which is used to
+    #     emit telemetry data. By default, uses `NoOpTelemetryProvider` which
+    #     will not record or emit any telemetry data. The SDK supports the
+    #     following telemetry providers:
+    #
+    #     * OpenTelemetry (OTel) - To use the OTel provider, install and require the
+    #     `opentelemetry-sdk` gem and then, pass in an instance of a
+    #     `Aws::Telemetry::OTelProvider` for telemetry provider.
     #
     #   @option options [Aws::TokenProvider] :token_provider
     #     A Bearer Token Provider. This can be an instance of any one of the
@@ -315,58 +394,150 @@ module Aws::ConnectCases
     #     sending the request.
     #
     #   @option options [Aws::ConnectCases::EndpointProvider] :endpoint_provider
-    #     The endpoint provider used to resolve endpoints. Any object that responds to `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to `Aws::ConnectCases::EndpointParameters`
+    #     The endpoint provider used to resolve endpoints. Any object that responds to
+    #     `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+    #     `Aws::ConnectCases::EndpointParameters`.
     #
-    #   @option options [URI::HTTP,String] :http_proxy A proxy to send
-    #     requests through.  Formatted like 'http://proxy.com:123'.
+    #   @option options [Float] :http_continue_timeout (1)
+    #     The number of seconds to wait for a 100-continue response before sending the
+    #     request body.  This option has no effect unless the request has "Expect"
+    #     header set to "100-continue".  Defaults to `nil` which  disables this
+    #     behaviour.  This value can safely be set per request on the session.
     #
-    #   @option options [Float] :http_open_timeout (15) The number of
-    #     seconds to wait when opening a HTTP session before raising a
-    #     `Timeout::Error`.
+    #   @option options [Float] :http_idle_timeout (5)
+    #     The number of seconds a connection is allowed to sit idle before it
+    #     is considered stale.  Stale connections are closed and removed from the
+    #     pool before making a request.
     #
-    #   @option options [Float] :http_read_timeout (60) The default
-    #     number of seconds to wait for response data.  This value can
-    #     safely be set per-request on the session.
+    #   @option options [Float] :http_open_timeout (15)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :http_idle_timeout (5) The number of
-    #     seconds a connection is allowed to sit idle before it is
-    #     considered stale.  Stale connections are closed and removed
-    #     from the pool before making a request.
+    #   @option options [URI::HTTP,String] :http_proxy
+    #     A proxy to send requests through.  Formatted like 'http://proxy.com:123'.
     #
-    #   @option options [Float] :http_continue_timeout (1) The number of
-    #     seconds to wait for a 100-continue response before sending the
-    #     request body.  This option has no effect unless the request has
-    #     "Expect" header set to "100-continue".  Defaults to `nil` which
-    #     disables this behaviour.  This value can safely be set per
-    #     request on the session.
+    #   @option options [Float] :http_read_timeout (60)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :ssl_timeout (nil) Sets the SSL timeout
-    #     in seconds.
+    #   @option options [Boolean] :http_wire_trace (false)
+    #     When `true`,  HTTP debug output will be sent to the `:logger`.
     #
-    #   @option options [Boolean] :http_wire_trace (false) When `true`,
-    #     HTTP debug output will be sent to the `:logger`.
+    #   @option options [Proc] :on_chunk_received
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the response body is received. It provides three arguments: the chunk,
+    #     the number of bytes received, and the total number of
+    #     bytes in the response (or nil if the server did not send a `content-length`).
     #
-    #   @option options [Boolean] :ssl_verify_peer (true) When `true`,
-    #     SSL peer certificates are verified when establishing a
-    #     connection.
+    #   @option options [Proc] :on_chunk_sent
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the request body is sent. It provides three arguments: the chunk,
+    #     the number of bytes read from the body, and the total number of
+    #     bytes in the body.
     #
-    #   @option options [String] :ssl_ca_bundle Full path to the SSL
-    #     certificate authority bundle file that should be used when
-    #     verifying peer certificates.  If you do not pass
-    #     `:ssl_ca_bundle` or `:ssl_ca_directory` the the system default
-    #     will be used if available.
+    #   @option options [Boolean] :raise_response_errors (true)
+    #     When `true`, response errors are raised.
     #
-    #   @option options [String] :ssl_ca_directory Full path of the
-    #     directory that contains the unbundled SSL certificate
+    #   @option options [String] :ssl_ca_bundle
+    #     Full path to the SSL certificate authority bundle file that should be used when
+    #     verifying peer certificates.  If you do not pass `:ssl_ca_bundle` or
+    #     `:ssl_ca_directory` the the system default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_directory
+    #     Full path of the directory that contains the unbundled SSL certificate
     #     authority files for verifying peer certificates.  If you do
-    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the
-    #     system default will be used if available.
+    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the system
+    #     default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_store
+    #     Sets the X509::Store to verify peer certificate.
+    #
+    #   @option options [OpenSSL::X509::Certificate] :ssl_cert
+    #     Sets a client certificate when creating http connections.
+    #
+    #   @option options [OpenSSL::PKey] :ssl_key
+    #     Sets a client key when creating http connections.
+    #
+    #   @option options [Float] :ssl_timeout
+    #     Sets the SSL timeout in seconds
+    #
+    #   @option options [Boolean] :ssl_verify_peer (true)
+    #     When `true`, SSL peer certificates are verified when establishing a connection.
     #
     def initialize(*args)
       super
     end
 
     # @!group API Operations
+
+    # Gets a batch of case rules. In the Amazon Connect admin website, case
+    # rules are known as *case field conditions*. For more information about
+    # case field conditions, see [Add case field conditions to a case
+    # template][1].
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html
+    #
+    # @option params [required, Array<Types::CaseRuleIdentifier>] :case_rules
+    #   List of case rule identifiers.
+    #
+    # @option params [required, String] :domain_id
+    #   Unique identifier of a Cases domain.
+    #
+    # @return [Types::BatchGetCaseRuleResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::BatchGetCaseRuleResponse#case_rules #case_rules} => Array&lt;Types::GetCaseRuleResponse&gt;
+    #   * {Types::BatchGetCaseRuleResponse#errors #errors} => Array&lt;Types::CaseRuleError&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.batch_get_case_rule({
+    #     case_rules: [ # required
+    #       {
+    #         id: "CaseRuleId", # required
+    #       },
+    #     ],
+    #     domain_id: "DomainId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.case_rules #=> Array
+    #   resp.case_rules[0].case_rule_arn #=> String
+    #   resp.case_rules[0].case_rule_id #=> String
+    #   resp.case_rules[0].created_time #=> Time
+    #   resp.case_rules[0].deleted #=> Boolean
+    #   resp.case_rules[0].description #=> String
+    #   resp.case_rules[0].last_modified_time #=> Time
+    #   resp.case_rules[0].name #=> String
+    #   resp.case_rules[0].rule.required.conditions #=> Array
+    #   resp.case_rules[0].rule.required.conditions[0].equal_to.operand_one.field_id #=> String
+    #   resp.case_rules[0].rule.required.conditions[0].equal_to.operand_two.boolean_value #=> Boolean
+    #   resp.case_rules[0].rule.required.conditions[0].equal_to.operand_two.double_value #=> Float
+    #   resp.case_rules[0].rule.required.conditions[0].equal_to.operand_two.string_value #=> String
+    #   resp.case_rules[0].rule.required.conditions[0].equal_to.result #=> Boolean
+    #   resp.case_rules[0].rule.required.conditions[0].not_equal_to.operand_one.field_id #=> String
+    #   resp.case_rules[0].rule.required.conditions[0].not_equal_to.operand_two.boolean_value #=> Boolean
+    #   resp.case_rules[0].rule.required.conditions[0].not_equal_to.operand_two.double_value #=> Float
+    #   resp.case_rules[0].rule.required.conditions[0].not_equal_to.operand_two.string_value #=> String
+    #   resp.case_rules[0].rule.required.conditions[0].not_equal_to.result #=> Boolean
+    #   resp.case_rules[0].rule.required.default_value #=> Boolean
+    #   resp.case_rules[0].tags #=> Hash
+    #   resp.case_rules[0].tags["String"] #=> String
+    #   resp.errors #=> Array
+    #   resp.errors[0].error_code #=> String
+    #   resp.errors[0].id #=> String
+    #   resp.errors[0].message #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/BatchGetCaseRule AWS API Documentation
+    #
+    # @overload batch_get_case_rule(params = {})
+    # @param [Hash] params ({})
+    def batch_get_case_rule(params = {}, options = {})
+      req = build_request(:batch_get_case_rule, params)
+      req.send_request(options)
+    end
 
     # Returns the description for the list of fields in the request
     # parameters.
@@ -400,14 +571,17 @@ module Aws::ConnectCases
     #   resp.errors[0].id #=> String
     #   resp.errors[0].message #=> String
     #   resp.fields #=> Array
+    #   resp.fields[0].created_time #=> Time
+    #   resp.fields[0].deleted #=> Boolean
     #   resp.fields[0].description #=> String
     #   resp.fields[0].field_arn #=> String
     #   resp.fields[0].field_id #=> String
+    #   resp.fields[0].last_modified_time #=> Time
     #   resp.fields[0].name #=> String
     #   resp.fields[0].namespace #=> String, one of "System", "Custom"
     #   resp.fields[0].tags #=> Hash
     #   resp.fields[0].tags["String"] #=> String
-    #   resp.fields[0].type #=> String, one of "Text", "Number", "Boolean", "DateTime", "SingleSelect"
+    #   resp.fields[0].type #=> String, one of "Text", "Number", "Boolean", "DateTime", "SingleSelect", "Url", "User"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/BatchGetField AWS API Documentation
     #
@@ -464,13 +638,23 @@ module Aws::ConnectCases
       req.send_request(options)
     end
 
+    # <note markdown="1"> If you provide a value for `PerformedBy.UserArn` you must also have
+    # [connect:DescribeUser][1] permission on the User ARN resource that you
+    # provide
+    #
+    #  </note>
+    #
     # Creates a case in the specified Cases domain. Case system and custom
     # fields are taken as an array id/value pairs with a declared data
     # types.
     #
-    # <note markdown="1"> `customer_id` is a required field when creating a case.
+    # The following fields are required when creating a case:
     #
-    #  </note>
+    #      <ul> <li> <p> <code>customer_id</code> - You must provide the full customer profile ARN in this format: <code>arn:aws:profile:your_AWS_Region:your_AWS_account ID:domains/your_profiles_domain_name/profiles/profile_ID</code> </p> </li> <li> <p> <code>title</code> </p> </li> </ul>
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribeUser.html
     #
     # @option params [String] :client_token
     #   A unique, case-sensitive identifier that you provide to ensure the
@@ -492,6 +676,9 @@ module Aws::ConnectCases
     #   An array of objects with field ID (matching ListFields/DescribeField)
     #   and value union data.
     #
+    # @option params [Types::UserUnion] :performed_by
+    #   Represents the identity of the person who performed the action.
+    #
     # @option params [required, String] :template_id
     #   A unique identifier of a template.
     #
@@ -511,10 +698,16 @@ module Aws::ConnectCases
     #         value: { # required
     #           boolean_value: false,
     #           double_value: 1.0,
+    #           empty_value: {
+    #           },
     #           string_value: "FieldValueUnionStringValueString",
+    #           user_arn_value: "String",
     #         },
     #       },
     #     ],
+    #     performed_by: {
+    #       user_arn: "UserArn",
+    #     },
     #     template_id: "TemplateId", # required
     #   })
     #
@@ -532,16 +725,106 @@ module Aws::ConnectCases
       req.send_request(options)
     end
 
+    # Creates a new case rule. In the Amazon Connect admin website, case
+    # rules are known as *case field conditions*. For more information about
+    # case field conditions, see [Add case field conditions to a case
+    # template][1].
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html
+    #
+    # @option params [String] :description
+    #   The description of a case rule.
+    #
+    # @option params [required, String] :domain_id
+    #   Unique identifier of a Cases domain.
+    #
+    # @option params [required, String] :name
+    #   Name of the case rule.
+    #
+    # @option params [required, Types::CaseRuleDetails] :rule
+    #   Represents what rule type should take place, under what conditions.
+    #
+    # @return [Types::CreateCaseRuleResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateCaseRuleResponse#case_rule_arn #case_rule_arn} => String
+    #   * {Types::CreateCaseRuleResponse#case_rule_id #case_rule_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_case_rule({
+    #     description: "CaseRuleDescription",
+    #     domain_id: "DomainId", # required
+    #     name: "CaseRuleName", # required
+    #     rule: { # required
+    #       required: {
+    #         conditions: [ # required
+    #           {
+    #             equal_to: {
+    #               operand_one: { # required
+    #                 field_id: "FieldId",
+    #               },
+    #               operand_two: { # required
+    #                 boolean_value: false,
+    #                 double_value: 1.0,
+    #                 empty_value: {
+    #                 },
+    #                 string_value: "OperandTwoStringValueString",
+    #               },
+    #               result: false, # required
+    #             },
+    #             not_equal_to: {
+    #               operand_one: { # required
+    #                 field_id: "FieldId",
+    #               },
+    #               operand_two: { # required
+    #                 boolean_value: false,
+    #                 double_value: 1.0,
+    #                 empty_value: {
+    #                 },
+    #                 string_value: "OperandTwoStringValueString",
+    #               },
+    #               result: false, # required
+    #             },
+    #           },
+    #         ],
+    #         default_value: false, # required
+    #       },
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.case_rule_arn #=> String
+    #   resp.case_rule_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/CreateCaseRule AWS API Documentation
+    #
+    # @overload create_case_rule(params = {})
+    # @param [Hash] params ({})
+    def create_case_rule(params = {}, options = {})
+      req = build_request(:create_case_rule, params)
+      req.send_request(options)
+    end
+
     # Creates a domain, which is a container for all case data, such as
     # cases, fields, templates and layouts. Each Amazon Connect instance can
     # be associated with only one Cases domain.
     #
-    # This will not associate your connect instance to Cases domain.
+    # <important markdown="1"> This will not associate your connect instance to Cases domain.
     # Instead, use the Amazon Connect [CreateIntegrationAssociation][1] API.
+    # You need specific IAM permissions to successfully associate the Cases
+    # domain. For more information, see [Onboard to Cases][2].
+    #
+    #       </important>
+    #
+    #  </important>
     #
     #
     #
     # [1]: https://docs.aws.amazon.com/connect/latest/APIReference/API_CreateIntegrationAssociation.html
+    # [2]: https://docs.aws.amazon.com/connect/latest/adminguide/required-permissions-iam-cases.html#onboard-cases-iam
     #
     # @option params [required, String] :name
     #   The name for your Cases domain. It must be unique for your Amazon Web
@@ -602,7 +885,7 @@ module Aws::ConnectCases
     #     description: "FieldDescription",
     #     domain_id: "DomainId", # required
     #     name: "FieldName", # required
-    #     type: "Text", # required, accepts Text, Number, Boolean, DateTime, SingleSelect
+    #     type: "Text", # required, accepts Text, Number, Boolean, DateTime, SingleSelect, Url, User
     #   })
     #
     # @example Response structure
@@ -703,13 +986,23 @@ module Aws::ConnectCases
     # Creates a related item (comments, tasks, and contacts) and associates
     # it with a case.
     #
-    # <note markdown="1"> A Related Item is a resource that is associated with a case. It may or
-    # may not have an external identifier linking it to an external resource
-    # (for example, a `contactArn`). All Related Items have their own
-    # internal identifier, the `relatedItemArn`. Examples of related items
-    # include `comments` and `contacts`.
+    # <note markdown="1"> * A Related Item is a resource that is associated with a case. It may
+    #   or may not have an external identifier linking it to an external
+    #   resource (for example, a `contactArn`). All Related Items have their
+    #   own internal identifier, the `relatedItemArn`. Examples of related
+    #   items include `comments` and `contacts`.
+    #
+    # * If you provide a value for `performedBy.userArn` you must also have
+    #   [DescribeUser][1] permission on the ARN of the user that you
+    #   provide.
+    #
+    # * The `type` field is reserved for internal use only.
     #
     #  </note>
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribeUser.html
     #
     # @option params [required, String] :case_id
     #   A unique identifier of the case.
@@ -719,6 +1012,9 @@ module Aws::ConnectCases
     #
     # @option params [required, String] :domain_id
     #   The unique identifier of the Cases domain.
+    #
+    # @option params [Types::UserUnion] :performed_by
+    #   Represents the creator of the related item.
     #
     # @option params [required, String] :type
     #   The type of a related item.
@@ -740,9 +1036,15 @@ module Aws::ConnectCases
     #       contact: {
     #         contact_arn: "ContactArn", # required
     #       },
+    #       file: {
+    #         file_arn: "FileArn", # required
+    #       },
     #     },
     #     domain_id: "DomainId", # required
-    #     type: "Contact", # required, accepts Contact, Comment
+    #     performed_by: {
+    #       user_arn: "UserArn",
+    #     },
+    #     type: "Contact", # required, accepts Contact, Comment, File
     #   })
     #
     # @example Response structure
@@ -768,6 +1070,23 @@ module Aws::ConnectCases
     # Inactive, as indicated by its status. Inactive templates cannot be
     # used to create cases.
     #
+    # Other template APIs are:
+    #
+    # * [DeleteTemplate][1]
+    #
+    # * [GetTemplate][2]
+    #
+    # * [ListTemplates][3]
+    #
+    # * [UpdateTemplate][4]
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_DeleteTemplate.html
+    # [2]: https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_GetTemplate.html
+    # [3]: https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_ListTemplates.html
+    # [4]: https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_UpdateTemplate.html
+    #
     # @option params [String] :description
     #   A brief description of the template.
     #
@@ -783,6 +1102,14 @@ module Aws::ConnectCases
     # @option params [Array<Types::RequiredField>] :required_fields
     #   A list of fields that must contain a value for a case to be
     #   successfully created with this template.
+    #
+    # @option params [Array<Types::TemplateRule>] :rules
+    #   A list of case rules (also known as [case field conditions][1]) on a
+    #   template.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html
     #
     # @option params [String] :status
     #   The status of the template.
@@ -806,6 +1133,12 @@ module Aws::ConnectCases
     #         field_id: "FieldId", # required
     #       },
     #     ],
+    #     rules: [
+    #       {
+    #         case_rule_id: "CaseRuleId", # required
+    #         field_id: "FieldId", # required
+    #       },
+    #     ],
     #     status: "Active", # accepts Active, Inactive
     #   })
     #
@@ -820,6 +1153,186 @@ module Aws::ConnectCases
     # @param [Hash] params ({})
     def create_template(params = {}, options = {})
       req = build_request(:create_template, params)
+      req.send_request(options)
+    end
+
+    # Deletes a case rule. In the Amazon Connect admin website, case rules
+    # are known as *case field conditions*. For more information about case
+    # field conditions, see [Add case field conditions to a case
+    # template][1].
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html
+    #
+    # @option params [required, String] :case_rule_id
+    #   Unique identifier of a case rule.
+    #
+    # @option params [required, String] :domain_id
+    #   Unique identifier of a Cases domain.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_case_rule({
+    #     case_rule_id: "CaseRuleId", # required
+    #     domain_id: "DomainId", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/DeleteCaseRule AWS API Documentation
+    #
+    # @overload delete_case_rule(params = {})
+    # @param [Hash] params ({})
+    def delete_case_rule(params = {}, options = {})
+      req = build_request(:delete_case_rule, params)
+      req.send_request(options)
+    end
+
+    # Deletes a Cases domain.
+    #
+    #      <note> <p>After deleting your domain you must disassociate the deleted domain from your Amazon Connect instance with another API call before being able to use Cases again with this Amazon Connect instance. See <a href="https://docs.aws.amazon.com/connect/latest/APIReference/API_DeleteIntegrationAssociation.html">DeleteIntegrationAssociation</a>.</p> </note>
+    #
+    # @option params [required, String] :domain_id
+    #   The unique identifier of the Cases domain.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_domain({
+    #     domain_id: "DomainId", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/DeleteDomain AWS API Documentation
+    #
+    # @overload delete_domain(params = {})
+    # @param [Hash] params ({})
+    def delete_domain(params = {}, options = {})
+      req = build_request(:delete_domain, params)
+      req.send_request(options)
+    end
+
+    # Deletes a field from a cases template. You can delete up to 100 fields
+    # per domain.
+    #
+    # After a field is deleted:
+    #
+    # * You can still retrieve the field by calling `BatchGetField`.
+    #
+    # * You cannot update a deleted field by calling `UpdateField`; it
+    #   throws a `ValidationException`.
+    #
+    # * Deleted fields are not included in the `ListFields` response.
+    #
+    # * Calling `CreateCase` with a deleted field throws a
+    #   `ValidationException` denoting which field IDs in the request have
+    #   been deleted.
+    #
+    # * Calling `GetCase` with a deleted field ID returns the deleted
+    #   field's value if one exists.
+    #
+    # * Calling `UpdateCase` with a deleted field ID throws a
+    #   `ValidationException` if the case does not already contain a value
+    #   for the deleted field. Otherwise it succeeds, allowing you to update
+    #   or remove (using `emptyValue: {}`) the field's value from the case.
+    #
+    # * `GetTemplate` does not return field IDs for deleted fields.
+    #
+    # * `GetLayout` does not return field IDs for deleted fields.
+    #
+    # * Calling `SearchCases` with the deleted field ID as a filter returns
+    #   any cases that have a value for the deleted field that matches the
+    #   filter criteria.
+    #
+    # * Calling `SearchCases` with a `searchTerm` value that matches a
+    #   deleted field's value on a case returns the case in the response.
+    #
+    # * Calling `BatchPutFieldOptions` with a deleted field ID throw a
+    #   `ValidationException`.
+    #
+    # * Calling `GetCaseEventConfiguration` does not return field IDs for
+    #   deleted fields.
+    #
+    # @option params [required, String] :domain_id
+    #   The unique identifier of the Cases domain.
+    #
+    # @option params [required, String] :field_id
+    #   Unique identifier of the field.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_field({
+    #     domain_id: "DomainId", # required
+    #     field_id: "FieldId", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/DeleteField AWS API Documentation
+    #
+    # @overload delete_field(params = {})
+    # @param [Hash] params ({})
+    def delete_field(params = {}, options = {})
+      req = build_request(:delete_field, params)
+      req.send_request(options)
+    end
+
+    # Deletes a layout from a cases template. You can delete up to 100
+    # layouts per domain.
+    #
+    #      <p>After a layout is deleted:</p> <ul> <li> <p>You can still retrieve the layout by calling <code>GetLayout</code>.</p> </li> <li> <p>You cannot update a deleted layout by calling <code>UpdateLayout</code>; it throws a <code>ValidationException</code>.</p> </li> <li> <p>Deleted layouts are not included in the <code>ListLayouts</code> response.</p> </li> </ul>
+    #
+    # @option params [required, String] :domain_id
+    #   The unique identifier of the Cases domain.
+    #
+    # @option params [required, String] :layout_id
+    #   The unique identifier of the layout.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_layout({
+    #     domain_id: "DomainId", # required
+    #     layout_id: "LayoutId", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/DeleteLayout AWS API Documentation
+    #
+    # @overload delete_layout(params = {})
+    # @param [Hash] params ({})
+    def delete_layout(params = {}, options = {})
+      req = build_request(:delete_layout, params)
+      req.send_request(options)
+    end
+
+    # Deletes a cases template. You can delete up to 100 templates per
+    # domain.
+    #
+    #      <p>After a cases template is deleted:</p> <ul> <li> <p>You can still retrieve the template by calling <code>GetTemplate</code>.</p> </li> <li> <p>You cannot update the template. </p> </li> <li> <p>You cannot create a case by using the deleted template.</p> </li> <li> <p>Deleted templates are not included in the <code>ListTemplates</code> response.</p> </li> </ul>
+    #
+    # @option params [required, String] :domain_id
+    #   The unique identifier of the Cases domain.
+    #
+    # @option params [required, String] :template_id
+    #   A unique identifier of a template.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_template({
+    #     domain_id: "DomainId", # required
+    #     template_id: "TemplateId", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/DeleteTemplate AWS API Documentation
+    #
+    # @overload delete_template(params = {})
+    # @param [Hash] params ({})
+    def delete_template(params = {}, options = {})
+      req = build_request(:delete_template, params)
       req.send_request(options)
     end
 
@@ -868,6 +1381,7 @@ module Aws::ConnectCases
     #   resp.fields[0].value.boolean_value #=> Boolean
     #   resp.fields[0].value.double_value #=> Float
     #   resp.fields[0].value.string_value #=> String
+    #   resp.fields[0].value.user_arn_value #=> String
     #   resp.next_token #=> String
     #   resp.tags #=> Hash
     #   resp.tags["String"] #=> String
@@ -879,6 +1393,70 @@ module Aws::ConnectCases
     # @param [Hash] params ({})
     def get_case(params = {}, options = {})
       req = build_request(:get_case, params)
+      req.send_request(options)
+    end
+
+    # Returns the audit history about a specific case if it exists.
+    #
+    # @option params [required, String] :case_id
+    #   A unique identifier of the case.
+    #
+    # @option params [required, String] :domain_id
+    #   The unique identifier of the Cases domain.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of audit events to return. The current maximum
+    #   supported value is 25. This is also the default when no other value is
+    #   provided.
+    #
+    # @option params [String] :next_token
+    #   The token for the next set of results. Use the value returned in the
+    #   previous response in the next request to retrieve the next set of
+    #   results.
+    #
+    # @return [Types::GetCaseAuditEventsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetCaseAuditEventsResponse#audit_events #audit_events} => Array&lt;Types::AuditEvent&gt;
+    #   * {Types::GetCaseAuditEventsResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_case_audit_events({
+    #     case_id: "CaseId", # required
+    #     domain_id: "DomainId", # required
+    #     max_results: 1,
+    #     next_token: "NextToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.audit_events #=> Array
+    #   resp.audit_events[0].event_id #=> String
+    #   resp.audit_events[0].fields #=> Array
+    #   resp.audit_events[0].fields[0].event_field_id #=> String
+    #   resp.audit_events[0].fields[0].new_value.boolean_value #=> Boolean
+    #   resp.audit_events[0].fields[0].new_value.double_value #=> Float
+    #   resp.audit_events[0].fields[0].new_value.string_value #=> String
+    #   resp.audit_events[0].fields[0].new_value.user_arn_value #=> String
+    #   resp.audit_events[0].fields[0].old_value.boolean_value #=> Boolean
+    #   resp.audit_events[0].fields[0].old_value.double_value #=> Float
+    #   resp.audit_events[0].fields[0].old_value.string_value #=> String
+    #   resp.audit_events[0].fields[0].old_value.user_arn_value #=> String
+    #   resp.audit_events[0].performed_by.iam_principal_arn #=> String
+    #   resp.audit_events[0].performed_by.user.user_arn #=> String
+    #   resp.audit_events[0].performed_time #=> Time
+    #   resp.audit_events[0].related_item_type #=> String, one of "Contact", "Comment", "File"
+    #   resp.audit_events[0].type #=> String, one of "Case.Created", "Case.Updated", "RelatedItem.Created"
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/GetCaseAuditEvents AWS API Documentation
+    #
+    # @overload get_case_audit_events(params = {})
+    # @param [Hash] params ({})
+    def get_case_audit_events(params = {}, options = {})
+      req = build_request(:get_case_audit_events, params)
       req.send_request(options)
     end
 
@@ -963,6 +1541,9 @@ module Aws::ConnectCases
     # @return [Types::GetLayoutResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::GetLayoutResponse#content #content} => Types::LayoutContent
+    #   * {Types::GetLayoutResponse#created_time #created_time} => Time
+    #   * {Types::GetLayoutResponse#deleted #deleted} => Boolean
+    #   * {Types::GetLayoutResponse#last_modified_time #last_modified_time} => Time
     #   * {Types::GetLayoutResponse#layout_arn #layout_arn} => String
     #   * {Types::GetLayoutResponse#layout_id #layout_id} => String
     #   * {Types::GetLayoutResponse#name #name} => String
@@ -985,6 +1566,9 @@ module Aws::ConnectCases
     #   resp.content.basic.top_panel.sections[0].field_group.fields #=> Array
     #   resp.content.basic.top_panel.sections[0].field_group.fields[0].id #=> String
     #   resp.content.basic.top_panel.sections[0].field_group.name #=> String
+    #   resp.created_time #=> Time
+    #   resp.deleted #=> Boolean
+    #   resp.last_modified_time #=> Time
     #   resp.layout_arn #=> String
     #   resp.layout_id #=> String
     #   resp.name #=> String
@@ -1000,7 +1584,23 @@ module Aws::ConnectCases
       req.send_request(options)
     end
 
-    # Returns the details for the requested template.
+    # Returns the details for the requested template. Other template APIs
+    # are:
+    #
+    # * [CreateTemplate][1]
+    #
+    # * [DeleteTemplate][2]
+    #
+    # * [ListTemplates][3]
+    #
+    # * [UpdateTemplate][4]
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_CreateTemplate.html
+    # [2]: https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_DeleteTemplate.html
+    # [3]: https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_ListTemplates.html
+    # [4]: https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_UpdateTemplate.html
     #
     # @option params [required, String] :domain_id
     #   The unique identifier of the Cases domain.
@@ -1010,10 +1610,14 @@ module Aws::ConnectCases
     #
     # @return [Types::GetTemplateResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
+    #   * {Types::GetTemplateResponse#created_time #created_time} => Time
+    #   * {Types::GetTemplateResponse#deleted #deleted} => Boolean
     #   * {Types::GetTemplateResponse#description #description} => String
+    #   * {Types::GetTemplateResponse#last_modified_time #last_modified_time} => Time
     #   * {Types::GetTemplateResponse#layout_configuration #layout_configuration} => Types::LayoutConfiguration
     #   * {Types::GetTemplateResponse#name #name} => String
     #   * {Types::GetTemplateResponse#required_fields #required_fields} => Array&lt;Types::RequiredField&gt;
+    #   * {Types::GetTemplateResponse#rules #rules} => Array&lt;Types::TemplateRule&gt;
     #   * {Types::GetTemplateResponse#status #status} => String
     #   * {Types::GetTemplateResponse#tags #tags} => Hash&lt;String,String&gt;
     #   * {Types::GetTemplateResponse#template_arn #template_arn} => String
@@ -1028,11 +1632,17 @@ module Aws::ConnectCases
     #
     # @example Response structure
     #
+    #   resp.created_time #=> Time
+    #   resp.deleted #=> Boolean
     #   resp.description #=> String
+    #   resp.last_modified_time #=> Time
     #   resp.layout_configuration.default_layout #=> String
     #   resp.name #=> String
     #   resp.required_fields #=> Array
     #   resp.required_fields[0].field_id #=> String
+    #   resp.rules #=> Array
+    #   resp.rules[0].case_rule_id #=> String
+    #   resp.rules[0].field_id #=> String
     #   resp.status #=> String, one of "Active", "Inactive"
     #   resp.tags #=> Hash
     #   resp.tags["String"] #=> String
@@ -1045,6 +1655,60 @@ module Aws::ConnectCases
     # @param [Hash] params ({})
     def get_template(params = {}, options = {})
       req = build_request(:get_template, params)
+      req.send_request(options)
+    end
+
+    # Lists all case rules in a Cases domain. In the Amazon Connect admin
+    # website, case rules are known as *case field conditions*. For more
+    # information about case field conditions, see [Add case field
+    # conditions to a case template][1].
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html
+    #
+    # @option params [required, String] :domain_id
+    #   Unique identifier of a Cases domain.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return per page.
+    #
+    # @option params [String] :next_token
+    #   The token for the next set of results. Use the value returned in the
+    #   previous response in the next request to retrieve the next set of
+    #   results.
+    #
+    # @return [Types::ListCaseRulesResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListCaseRulesResponse#case_rules #case_rules} => Array&lt;Types::CaseRuleSummary&gt;
+    #   * {Types::ListCaseRulesResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_case_rules({
+    #     domain_id: "DomainId", # required
+    #     max_results: 1,
+    #     next_token: "NextToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.case_rules #=> Array
+    #   resp.case_rules[0].case_rule_arn #=> String
+    #   resp.case_rules[0].case_rule_id #=> String
+    #   resp.case_rules[0].description #=> String
+    #   resp.case_rules[0].name #=> String
+    #   resp.case_rules[0].rule_type #=> String, one of "Required"
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/ListCaseRules AWS API Documentation
+    #
+    # @overload list_case_rules(params = {})
+    # @param [Hash] params ({})
+    def list_case_rules(params = {}, options = {})
+      req = build_request(:list_case_rules, params)
       req.send_request(options)
     end
 
@@ -1226,7 +1890,7 @@ module Aws::ConnectCases
     #   resp.fields[0].field_id #=> String
     #   resp.fields[0].name #=> String
     #   resp.fields[0].namespace #=> String, one of "System", "Custom"
-    #   resp.fields[0].type #=> String, one of "Text", "Number", "Boolean", "DateTime", "SingleSelect"
+    #   resp.fields[0].type #=> String, one of "Text", "Number", "Boolean", "DateTime", "SingleSelect", "Url", "User"
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/ListFields AWS API Documentation
@@ -1316,6 +1980,23 @@ module Aws::ConnectCases
     # Lists all of the templates in a Cases domain. Each list item is a
     # condensed summary object of the template.
     #
+    # Other template APIs are:
+    #
+    # * [CreateTemplate][1]
+    #
+    # * [DeleteTemplate][2]
+    #
+    # * [GetTemplate][3]
+    #
+    # * [UpdateTemplate][4]
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_CreateTemplate.html
+    # [2]: https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_DeleteTemplate.html
+    # [3]: https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_GetTemplate.html
+    # [4]: https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_UpdateTemplate.html
+    #
     # @option params [required, String] :domain_id
     #   The unique identifier of the Cases domain.
     #
@@ -1364,7 +2045,13 @@ module Aws::ConnectCases
       req.send_request(options)
     end
 
-    # API for adding case event publishing configuration
+    # Adds case event publishing configuration. For a complete list of
+    # fields you can add to the event message, see [Create case fields][1]
+    # in the *Amazon Connect Administrator Guide*
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/connect/latest/adminguide/case-fields.html
     #
     # @option params [required, String] :domain_id
     #   The unique identifier of the Cases domain.
@@ -1407,6 +2094,12 @@ module Aws::ConnectCases
 
     # Searches for cases within their associated Cases domain. Search
     # results are returned as a paginated list of abridged case documents.
+    #
+    # <note markdown="1"> For `customer_id` you must provide the full customer profile ARN in
+    # this format: ` arn:aws:profile:your AWS Region:your AWS account
+    # ID:domains/profiles domain name/profiles/profile ID`.
+    #
+    #  </note>
     #
     # @option params [required, String] :domain_id
     #   The unique identifier of the Cases domain.
@@ -1462,7 +2155,10 @@ module Aws::ConnectCases
     #           value: { # required
     #             boolean_value: false,
     #             double_value: 1.0,
+    #             empty_value: {
+    #             },
     #             string_value: "FieldValueUnionStringValueString",
+    #             user_arn_value: "String",
     #           },
     #         },
     #         equal_to: {
@@ -1470,7 +2166,10 @@ module Aws::ConnectCases
     #           value: { # required
     #             boolean_value: false,
     #             double_value: 1.0,
+    #             empty_value: {
+    #             },
     #             string_value: "FieldValueUnionStringValueString",
+    #             user_arn_value: "String",
     #           },
     #         },
     #         greater_than: {
@@ -1478,7 +2177,10 @@ module Aws::ConnectCases
     #           value: { # required
     #             boolean_value: false,
     #             double_value: 1.0,
+    #             empty_value: {
+    #             },
     #             string_value: "FieldValueUnionStringValueString",
+    #             user_arn_value: "String",
     #           },
     #         },
     #         greater_than_or_equal_to: {
@@ -1486,7 +2188,10 @@ module Aws::ConnectCases
     #           value: { # required
     #             boolean_value: false,
     #             double_value: 1.0,
+    #             empty_value: {
+    #             },
     #             string_value: "FieldValueUnionStringValueString",
+    #             user_arn_value: "String",
     #           },
     #         },
     #         less_than: {
@@ -1494,7 +2199,10 @@ module Aws::ConnectCases
     #           value: { # required
     #             boolean_value: false,
     #             double_value: 1.0,
+    #             empty_value: {
+    #             },
     #             string_value: "FieldValueUnionStringValueString",
+    #             user_arn_value: "String",
     #           },
     #         },
     #         less_than_or_equal_to: {
@@ -1502,13 +2210,21 @@ module Aws::ConnectCases
     #           value: { # required
     #             boolean_value: false,
     #             double_value: 1.0,
+    #             empty_value: {
+    #             },
     #             string_value: "FieldValueUnionStringValueString",
+    #             user_arn_value: "String",
     #           },
     #         },
     #       },
     #       not: {
     #         # recursive CaseFilter
     #       },
+    #       or_all: [
+    #         {
+    #           # recursive CaseFilter
+    #         },
+    #       ],
     #     },
     #     max_results: 1,
     #     next_token: "NextToken",
@@ -1530,6 +2246,7 @@ module Aws::ConnectCases
     #   resp.cases[0].fields[0].value.boolean_value #=> Boolean
     #   resp.cases[0].fields[0].value.double_value #=> Float
     #   resp.cases[0].fields[0].value.string_value #=> String
+    #   resp.cases[0].fields[0].value.user_arn_value #=> String
     #   resp.cases[0].tags #=> Hash
     #   resp.cases[0].tags["String"] #=> String
     #   resp.cases[0].template_id #=> String
@@ -1589,6 +2306,9 @@ module Aws::ConnectCases
     #           channel: ["Channel"],
     #           contact_arn: "ContactArn",
     #         },
+    #         file: {
+    #           file_arn: "FileArn",
+    #         },
     #       },
     #     ],
     #     max_results: 1,
@@ -1605,10 +2325,12 @@ module Aws::ConnectCases
     #   resp.related_items[0].content.contact.channel #=> String
     #   resp.related_items[0].content.contact.connected_to_system_time #=> Time
     #   resp.related_items[0].content.contact.contact_arn #=> String
+    #   resp.related_items[0].content.file.file_arn #=> String
+    #   resp.related_items[0].performed_by.user_arn #=> String
     #   resp.related_items[0].related_item_id #=> String
     #   resp.related_items[0].tags #=> Hash
     #   resp.related_items[0].tags["String"] #=> String
-    #   resp.related_items[0].type #=> String, one of "Contact", "Comment"
+    #   resp.related_items[0].type #=> String, one of "Contact", "Comment", "File"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/SearchRelatedItems AWS API Documentation
     #
@@ -1674,12 +2396,22 @@ module Aws::ConnectCases
       req.send_request(options)
     end
 
+    # <note markdown="1"> If you provide a value for `PerformedBy.UserArn` you must also have
+    # [connect:DescribeUser][1] permission on the User ARN resource that you
+    # provide
+    #
+    #  </note>
+    #
     # Updates the values of fields on a case. Fields to be updated are
     # received as an array of id/value pairs identical to the `CreateCase`
     # input .
     #
     # If the action is successful, the service sends back an HTTP 200
     # response with an empty HTTP body.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribeUser.html
     #
     # @option params [required, String] :case_id
     #   A unique identifier of the case.
@@ -1690,6 +2422,9 @@ module Aws::ConnectCases
     # @option params [required, Array<Types::FieldValue>] :fields
     #   An array of objects with `fieldId` (matching ListFields/DescribeField)
     #   and value union data, structured identical to `CreateCase`.
+    #
+    # @option params [Types::UserUnion] :performed_by
+    #   Represents the identity of the person who performed the action.
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
@@ -1704,10 +2439,16 @@ module Aws::ConnectCases
     #         value: { # required
     #           boolean_value: false,
     #           double_value: 1.0,
+    #           empty_value: {
+    #           },
     #           string_value: "FieldValueUnionStringValueString",
+    #           user_arn_value: "String",
     #         },
     #       },
     #     ],
+    #     performed_by: {
+    #       user_arn: "UserArn",
+    #     },
     #   })
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/UpdateCase AWS API Documentation
@@ -1716,6 +2457,85 @@ module Aws::ConnectCases
     # @param [Hash] params ({})
     def update_case(params = {}, options = {})
       req = build_request(:update_case, params)
+      req.send_request(options)
+    end
+
+    # Updates a case rule. In the Amazon Connect admin website, case rules
+    # are known as *case field conditions*. For more information about case
+    # field conditions, see [Add case field conditions to a case
+    # template][1].
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html
+    #
+    # @option params [required, String] :case_rule_id
+    #   Unique identifier of a case rule.
+    #
+    # @option params [String] :description
+    #   Description of a case rule.
+    #
+    # @option params [required, String] :domain_id
+    #   Unique identifier of a Cases domain.
+    #
+    # @option params [String] :name
+    #   Name of the case rule.
+    #
+    # @option params [Types::CaseRuleDetails] :rule
+    #   Represents what rule type should take place, under what conditions.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_case_rule({
+    #     case_rule_id: "CaseRuleId", # required
+    #     description: "CaseRuleDescription",
+    #     domain_id: "DomainId", # required
+    #     name: "CaseRuleName",
+    #     rule: {
+    #       required: {
+    #         conditions: [ # required
+    #           {
+    #             equal_to: {
+    #               operand_one: { # required
+    #                 field_id: "FieldId",
+    #               },
+    #               operand_two: { # required
+    #                 boolean_value: false,
+    #                 double_value: 1.0,
+    #                 empty_value: {
+    #                 },
+    #                 string_value: "OperandTwoStringValueString",
+    #               },
+    #               result: false, # required
+    #             },
+    #             not_equal_to: {
+    #               operand_one: { # required
+    #                 field_id: "FieldId",
+    #               },
+    #               operand_two: { # required
+    #                 boolean_value: false,
+    #                 double_value: 1.0,
+    #                 empty_value: {
+    #                 },
+    #                 string_value: "OperandTwoStringValueString",
+    #               },
+    #               result: false, # required
+    #             },
+    #           },
+    #         ],
+    #         default_value: false, # required
+    #       },
+    #     },
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/UpdateCaseRule AWS API Documentation
+    #
+    # @overload update_case_rule(params = {})
+    # @param [Hash] params ({})
+    def update_case_rule(params = {}, options = {})
+      req = build_request(:update_case_rule, params)
       req.send_request(options)
     end
 
@@ -1768,7 +2588,7 @@ module Aws::ConnectCases
     #
     # @option params [Types::LayoutContent] :content
     #   Information about which fields will be present in the layout, the
-    #   order of the fields, and a read-only attribute of the field.
+    #   order of the fields.
     #
     # @option params [required, String] :domain_id
     #   The unique identifier of the Cases domain.
@@ -1837,6 +2657,23 @@ module Aws::ConnectCases
     # given attribute, that attribute is ignored and its current value is
     # preserved.
     #
+    # Other template APIs are:
+    #
+    # * [CreateTemplate][1]
+    #
+    # * [DeleteTemplate][2]
+    #
+    # * [GetTemplate][3]
+    #
+    # * [ListTemplates][4]
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_CreateTemplate.html
+    # [2]: https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_DeleteTemplate.html
+    # [3]: https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_GetTemplate.html
+    # [4]: https://docs.aws.amazon.com/connect/latest/APIReference/API_connect-cases_ListTemplates.html
+    #
     # @option params [String] :description
     #   A brief description of the template.
     #
@@ -1852,6 +2689,14 @@ module Aws::ConnectCases
     # @option params [Array<Types::RequiredField>] :required_fields
     #   A list of fields that must contain a value for a case to be
     #   successfully created with this template.
+    #
+    # @option params [Array<Types::TemplateRule>] :rules
+    #   A list of case rules (also known as [case field conditions][1]) on a
+    #   template.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html
     #
     # @option params [String] :status
     #   The status of the template.
@@ -1875,6 +2720,12 @@ module Aws::ConnectCases
     #         field_id: "FieldId", # required
     #       },
     #     ],
+    #     rules: [
+    #       {
+    #         case_rule_id: "CaseRuleId", # required
+    #         field_id: "FieldId", # required
+    #       },
+    #     ],
     #     status: "Active", # accepts Active, Inactive
     #     template_id: "TemplateId", # required
     #   })
@@ -1894,14 +2745,19 @@ module Aws::ConnectCases
     # @api private
     def build_request(operation_name, params = {})
       handlers = @handlers.for(operation_name)
+      tracer = config.telemetry_provider.tracer_provider.tracer(
+        Aws::Telemetry.module_to_tracer_name('Aws::ConnectCases')
+      )
       context = Seahorse::Client::RequestContext.new(
         operation_name: operation_name,
         operation: config.api.operation(operation_name),
         client: self,
         params: params,
-        config: config)
+        config: config,
+        tracer: tracer
+      )
       context[:gem_name] = 'aws-sdk-connectcases'
-      context[:gem_version] = '1.3.0'
+      context[:gem_version] = '1.39.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

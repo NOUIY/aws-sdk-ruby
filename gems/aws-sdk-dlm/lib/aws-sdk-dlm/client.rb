@@ -7,33 +7,34 @@
 #
 # WARNING ABOUT GENERATED CODE
 
-require 'seahorse/client/plugins/content_length.rb'
-require 'aws-sdk-core/plugins/credentials_configuration.rb'
-require 'aws-sdk-core/plugins/logging.rb'
-require 'aws-sdk-core/plugins/param_converter.rb'
-require 'aws-sdk-core/plugins/param_validator.rb'
-require 'aws-sdk-core/plugins/user_agent.rb'
-require 'aws-sdk-core/plugins/helpful_socket_errors.rb'
-require 'aws-sdk-core/plugins/retry_errors.rb'
-require 'aws-sdk-core/plugins/global_configuration.rb'
-require 'aws-sdk-core/plugins/regional_endpoint.rb'
-require 'aws-sdk-core/plugins/endpoint_discovery.rb'
-require 'aws-sdk-core/plugins/endpoint_pattern.rb'
-require 'aws-sdk-core/plugins/response_paging.rb'
-require 'aws-sdk-core/plugins/stub_responses.rb'
-require 'aws-sdk-core/plugins/idempotency_token.rb'
-require 'aws-sdk-core/plugins/jsonvalue_converter.rb'
-require 'aws-sdk-core/plugins/client_metrics_plugin.rb'
-require 'aws-sdk-core/plugins/client_metrics_send_plugin.rb'
-require 'aws-sdk-core/plugins/transfer_encoding.rb'
-require 'aws-sdk-core/plugins/http_checksum.rb'
-require 'aws-sdk-core/plugins/checksum_algorithm.rb'
-require 'aws-sdk-core/plugins/defaults_mode.rb'
-require 'aws-sdk-core/plugins/recursion_detection.rb'
-require 'aws-sdk-core/plugins/sign.rb'
-require 'aws-sdk-core/plugins/protocols/rest_json.rb'
-
-Aws::Plugins::GlobalConfiguration.add_identifier(:dlm)
+require 'seahorse/client/plugins/content_length'
+require 'aws-sdk-core/plugins/credentials_configuration'
+require 'aws-sdk-core/plugins/logging'
+require 'aws-sdk-core/plugins/param_converter'
+require 'aws-sdk-core/plugins/param_validator'
+require 'aws-sdk-core/plugins/user_agent'
+require 'aws-sdk-core/plugins/helpful_socket_errors'
+require 'aws-sdk-core/plugins/retry_errors'
+require 'aws-sdk-core/plugins/global_configuration'
+require 'aws-sdk-core/plugins/regional_endpoint'
+require 'aws-sdk-core/plugins/endpoint_discovery'
+require 'aws-sdk-core/plugins/endpoint_pattern'
+require 'aws-sdk-core/plugins/response_paging'
+require 'aws-sdk-core/plugins/stub_responses'
+require 'aws-sdk-core/plugins/idempotency_token'
+require 'aws-sdk-core/plugins/invocation_id'
+require 'aws-sdk-core/plugins/jsonvalue_converter'
+require 'aws-sdk-core/plugins/client_metrics_plugin'
+require 'aws-sdk-core/plugins/client_metrics_send_plugin'
+require 'aws-sdk-core/plugins/transfer_encoding'
+require 'aws-sdk-core/plugins/http_checksum'
+require 'aws-sdk-core/plugins/checksum_algorithm'
+require 'aws-sdk-core/plugins/request_compression'
+require 'aws-sdk-core/plugins/defaults_mode'
+require 'aws-sdk-core/plugins/recursion_detection'
+require 'aws-sdk-core/plugins/telemetry'
+require 'aws-sdk-core/plugins/sign'
+require 'aws-sdk-core/plugins/protocols/rest_json'
 
 module Aws::DLM
   # An API client for DLM.  To construct a client, you need to configure a `:region` and `:credentials`.
@@ -71,20 +72,28 @@ module Aws::DLM
     add_plugin(Aws::Plugins::ResponsePaging)
     add_plugin(Aws::Plugins::StubResponses)
     add_plugin(Aws::Plugins::IdempotencyToken)
+    add_plugin(Aws::Plugins::InvocationId)
     add_plugin(Aws::Plugins::JsonvalueConverter)
     add_plugin(Aws::Plugins::ClientMetricsPlugin)
     add_plugin(Aws::Plugins::ClientMetricsSendPlugin)
     add_plugin(Aws::Plugins::TransferEncoding)
     add_plugin(Aws::Plugins::HttpChecksum)
     add_plugin(Aws::Plugins::ChecksumAlgorithm)
+    add_plugin(Aws::Plugins::RequestCompression)
     add_plugin(Aws::Plugins::DefaultsMode)
     add_plugin(Aws::Plugins::RecursionDetection)
+    add_plugin(Aws::Plugins::Telemetry)
     add_plugin(Aws::Plugins::Sign)
     add_plugin(Aws::Plugins::Protocols::RestJson)
     add_plugin(Aws::DLM::Plugins::Endpoints)
 
     # @overload initialize(options)
     #   @param [Hash] options
+    #
+    #   @option options [Array<Seahorse::Client::Plugin>] :plugins ([]])
+    #     A list of plugins to apply to the client. Each plugin is either a
+    #     class name or an instance of a plugin class.
+    #
     #   @option options [required, Aws::CredentialProvider] :credentials
     #     Your AWS credentials. This can be an instance of any one of the
     #     following classes:
@@ -119,13 +128,15 @@ module Aws::DLM
     #     locations will be searched for credentials:
     #
     #     * `Aws.config[:credentials]`
-    #     * The `:access_key_id`, `:secret_access_key`, and `:session_token` options.
-    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']
+    #     * The `:access_key_id`, `:secret_access_key`, `:session_token`, and
+    #       `:account_id` options.
+    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'],
+    #       ENV['AWS_SESSION_TOKEN'], and ENV['AWS_ACCOUNT_ID']
     #     * `~/.aws/credentials`
     #     * `~/.aws/config`
     #     * EC2/ECS IMDS instance profile - When used by default, the timeouts
     #       are very aggressive. Construct and pass an instance of
-    #       `Aws::InstanceProfileCredentails` or `Aws::ECSCredentials` to
+    #       `Aws::InstanceProfileCredentials` or `Aws::ECSCredentials` to
     #       enable retries and extended timeouts. Instance profile credential
     #       fetching can be disabled by setting ENV['AWS_EC2_METADATA_DISABLED']
     #       to true.
@@ -143,6 +154,8 @@ module Aws::DLM
     #     * `~/.aws/config`
     #
     #   @option options [String] :access_key_id
+    #
+    #   @option options [String] :account_id
     #
     #   @option options [Boolean] :active_endpoint_cache (false)
     #     When set to `true`, a thread polling for endpoints will be running in
@@ -190,10 +203,20 @@ module Aws::DLM
     #     Set to true to disable SDK automatically adding host prefix
     #     to default service endpoint when available.
     #
-    #   @option options [String] :endpoint
-    #     The client endpoint is normally constructed from the `:region`
-    #     option. You should only configure an `:endpoint` when connecting
-    #     to test or custom endpoints. This should be a valid HTTP(S) URI.
+    #   @option options [Boolean] :disable_request_compression (false)
+    #     When set to 'true' the request body will not be compressed
+    #     for supported operations.
+    #
+    #   @option options [String, URI::HTTPS, URI::HTTP] :endpoint
+    #     Normally you should not configure the `:endpoint` option
+    #     directly. This is normally constructed from the `:region`
+    #     option. Configuring `:endpoint` is normally reserved for
+    #     connecting to test or custom endpoints. The endpoint should
+    #     be a URI formatted like:
+    #
+    #         'http://example.com'
+    #         'https://example.com'
+    #         'http://example.com:123'
     #
     #   @option options [Integer] :endpoint_cache_max_entries (1000)
     #     Used for the maximum size limit of the LRU cache storing endpoints data
@@ -209,6 +232,10 @@ module Aws::DLM
     #
     #   @option options [Boolean] :endpoint_discovery (false)
     #     When set to `true`, endpoint discovery will be enabled for operations when available.
+    #
+    #   @option options [Boolean] :ignore_configured_endpoint_urls
+    #     Setting to true disables use of endpoint URLs provided via environment
+    #     variables and the shared configuration file.
     #
     #   @option options [Aws::Log::Formatter] :log_formatter (Aws::Log::Formatter.default)
     #     The log formatter.
@@ -229,6 +256,34 @@ module Aws::DLM
     #   @option options [String] :profile ("default")
     #     Used when loading credentials from the shared credentials file
     #     at HOME/.aws/credentials.  When not specified, 'default' is used.
+    #
+    #   @option options [String] :request_checksum_calculation ("when_supported")
+    #     Determines when a checksum will be calculated for request payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, a checksum will be
+    #       calculated for all request payloads of operations modeled with the
+    #       `httpChecksum` trait where `requestChecksumRequired` is `true` and/or a
+    #       `requestAlgorithmMember` is modeled.
+    #     * `when_required` - When set, a checksum will only be calculated for
+    #       request payloads of operations modeled with the  `httpChecksum` trait where
+    #       `requestChecksumRequired` is `true` or where a `requestAlgorithmMember`
+    #       is modeled and supplied.
+    #
+    #   @option options [Integer] :request_min_compression_size_bytes (10240)
+    #     The minimum size in bytes that triggers compression for request
+    #     bodies. The value must be non-negative integer value between 0
+    #     and 10485780 bytes inclusive.
+    #
+    #   @option options [String] :response_checksum_validation ("when_supported")
+    #     Determines when checksum validation will be performed on response payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, checksum validation is performed on all
+    #       response payloads of operations modeled with the `httpChecksum` trait where
+    #       `responseAlgorithms` is modeled, except when no modeled checksum algorithms
+    #       are supported.
+    #     * `when_required` - When set, checksum validation is not performed on
+    #       response payloads of operations unless the checksum algorithm is supported and
+    #       the `requestValidationModeMember` member is set to `ENABLED`.
     #
     #   @option options [Proc] :retry_backoff
     #     A proc or lambda used for backoff. Defaults to 2**retries * retry_base_delay.
@@ -274,10 +329,24 @@ module Aws::DLM
     #       throttling.  This is a provisional mode that may change behavior
     #       in the future.
     #
+    #   @option options [String] :sdk_ua_app_id
+    #     A unique and opaque application ID that is appended to the
+    #     User-Agent header as app/sdk_ua_app_id. It should have a
+    #     maximum length of 50. This variable is sourced from environment
+    #     variable AWS_SDK_UA_APP_ID or the shared config profile attribute sdk_ua_app_id.
     #
     #   @option options [String] :secret_access_key
     #
     #   @option options [String] :session_token
+    #
+    #   @option options [Array] :sigv4a_signing_region_set
+    #     A list of regions that should be signed with SigV4a signing. When
+    #     not passed, a default `:sigv4a_signing_region_set` is searched for
+    #     in the following locations:
+    #
+    #     * `Aws.config[:sigv4a_signing_region_set]`
+    #     * `ENV['AWS_SIGV4A_SIGNING_REGION_SET']`
+    #     * `~/.aws/config`
     #
     #   @option options [Boolean] :stub_responses (false)
     #     Causes the client to return stubbed responses. By default
@@ -287,6 +356,16 @@ module Aws::DLM
     #
     #     ** Please note ** When response stubbing is enabled, no HTTP
     #     requests are made, and retries are disabled.
+    #
+    #   @option options [Aws::Telemetry::TelemetryProviderBase] :telemetry_provider (Aws::Telemetry::NoOpTelemetryProvider)
+    #     Allows you to provide a telemetry provider, which is used to
+    #     emit telemetry data. By default, uses `NoOpTelemetryProvider` which
+    #     will not record or emit any telemetry data. The SDK supports the
+    #     following telemetry providers:
+    #
+    #     * OpenTelemetry (OTel) - To use the OTel provider, install and require the
+    #     `opentelemetry-sdk` gem and then, pass in an instance of a
+    #     `Aws::Telemetry::OTelProvider` for telemetry provider.
     #
     #   @option options [Aws::TokenProvider] :token_provider
     #     A Bearer Token Provider. This can be an instance of any one of the
@@ -315,52 +394,75 @@ module Aws::DLM
     #     sending the request.
     #
     #   @option options [Aws::DLM::EndpointProvider] :endpoint_provider
-    #     The endpoint provider used to resolve endpoints. Any object that responds to `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to `Aws::DLM::EndpointParameters`
+    #     The endpoint provider used to resolve endpoints. Any object that responds to
+    #     `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+    #     `Aws::DLM::EndpointParameters`.
     #
-    #   @option options [URI::HTTP,String] :http_proxy A proxy to send
-    #     requests through.  Formatted like 'http://proxy.com:123'.
+    #   @option options [Float] :http_continue_timeout (1)
+    #     The number of seconds to wait for a 100-continue response before sending the
+    #     request body.  This option has no effect unless the request has "Expect"
+    #     header set to "100-continue".  Defaults to `nil` which  disables this
+    #     behaviour.  This value can safely be set per request on the session.
     #
-    #   @option options [Float] :http_open_timeout (15) The number of
-    #     seconds to wait when opening a HTTP session before raising a
-    #     `Timeout::Error`.
+    #   @option options [Float] :http_idle_timeout (5)
+    #     The number of seconds a connection is allowed to sit idle before it
+    #     is considered stale.  Stale connections are closed and removed from the
+    #     pool before making a request.
     #
-    #   @option options [Float] :http_read_timeout (60) The default
-    #     number of seconds to wait for response data.  This value can
-    #     safely be set per-request on the session.
+    #   @option options [Float] :http_open_timeout (15)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :http_idle_timeout (5) The number of
-    #     seconds a connection is allowed to sit idle before it is
-    #     considered stale.  Stale connections are closed and removed
-    #     from the pool before making a request.
+    #   @option options [URI::HTTP,String] :http_proxy
+    #     A proxy to send requests through.  Formatted like 'http://proxy.com:123'.
     #
-    #   @option options [Float] :http_continue_timeout (1) The number of
-    #     seconds to wait for a 100-continue response before sending the
-    #     request body.  This option has no effect unless the request has
-    #     "Expect" header set to "100-continue".  Defaults to `nil` which
-    #     disables this behaviour.  This value can safely be set per
-    #     request on the session.
+    #   @option options [Float] :http_read_timeout (60)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :ssl_timeout (nil) Sets the SSL timeout
-    #     in seconds.
+    #   @option options [Boolean] :http_wire_trace (false)
+    #     When `true`,  HTTP debug output will be sent to the `:logger`.
     #
-    #   @option options [Boolean] :http_wire_trace (false) When `true`,
-    #     HTTP debug output will be sent to the `:logger`.
+    #   @option options [Proc] :on_chunk_received
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the response body is received. It provides three arguments: the chunk,
+    #     the number of bytes received, and the total number of
+    #     bytes in the response (or nil if the server did not send a `content-length`).
     #
-    #   @option options [Boolean] :ssl_verify_peer (true) When `true`,
-    #     SSL peer certificates are verified when establishing a
-    #     connection.
+    #   @option options [Proc] :on_chunk_sent
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the request body is sent. It provides three arguments: the chunk,
+    #     the number of bytes read from the body, and the total number of
+    #     bytes in the body.
     #
-    #   @option options [String] :ssl_ca_bundle Full path to the SSL
-    #     certificate authority bundle file that should be used when
-    #     verifying peer certificates.  If you do not pass
-    #     `:ssl_ca_bundle` or `:ssl_ca_directory` the the system default
-    #     will be used if available.
+    #   @option options [Boolean] :raise_response_errors (true)
+    #     When `true`, response errors are raised.
     #
-    #   @option options [String] :ssl_ca_directory Full path of the
-    #     directory that contains the unbundled SSL certificate
+    #   @option options [String] :ssl_ca_bundle
+    #     Full path to the SSL certificate authority bundle file that should be used when
+    #     verifying peer certificates.  If you do not pass `:ssl_ca_bundle` or
+    #     `:ssl_ca_directory` the the system default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_directory
+    #     Full path of the directory that contains the unbundled SSL certificate
     #     authority files for verifying peer certificates.  If you do
-    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the
-    #     system default will be used if available.
+    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the system
+    #     default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_store
+    #     Sets the X509::Store to verify peer certificate.
+    #
+    #   @option options [OpenSSL::X509::Certificate] :ssl_cert
+    #     Sets a client certificate when creating http connections.
+    #
+    #   @option options [OpenSSL::PKey] :ssl_key
+    #     Sets a client key when creating http connections.
+    #
+    #   @option options [Float] :ssl_timeout
+    #     Sets the SSL timeout in seconds
+    #
+    #   @option options [Boolean] :ssl_verify_peer (true)
+    #     When `true`, SSL peer certificates are verified when establishing a connection.
     #
     def initialize(*args)
       super
@@ -368,8 +470,28 @@ module Aws::DLM
 
     # @!group API Operations
 
-    # Creates a policy to manage the lifecycle of the specified Amazon Web
-    # Services resources. You can create up to 100 lifecycle policies.
+    # Creates an Amazon Data Lifecycle Manager lifecycle policy. Amazon Data
+    # Lifecycle Manager supports the following policy types:
+    #
+    # * Custom EBS snapshot policy
+    #
+    # * Custom EBS-backed AMI policy
+    #
+    # * Cross-account copy event policy
+    #
+    # * Default policy for EBS snapshots
+    #
+    # * Default policy for EBS-backed AMIs
+    #
+    # For more information, see [ Default policies vs custom policies][1].
+    #
+    # If you create a default policy, you can specify the request parameters
+    # either in the request body, or in the PolicyDetails request structure,
+    # but not both.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/policy-differences.html
     #
     # @option params [required, String] :execution_role_arn
     #   The Amazon Resource Name (ARN) of the IAM role used to run the
@@ -380,13 +502,89 @@ module Aws::DLM
     #   \_-\]+$ are supported.
     #
     # @option params [required, String] :state
-    #   The desired activation state of the lifecycle policy after creation.
+    #   The activation state of the lifecycle policy after creation.
     #
-    # @option params [required, Types::PolicyDetails] :policy_details
+    # @option params [Types::PolicyDetails] :policy_details
     #   The configuration details of the lifecycle policy.
+    #
+    #   If you create a default policy, you can specify the request parameters
+    #   either in the request body, or in the PolicyDetails request structure,
+    #   but not both.
     #
     # @option params [Hash<String,String>] :tags
     #   The tags to apply to the lifecycle policy during creation.
+    #
+    # @option params [String] :default_policy
+    #   **\[Default policies only\]** Specify the type of default policy to
+    #   create.
+    #
+    #   * To create a default policy for EBS snapshots, that creates snapshots
+    #     of all volumes in the Region that do not have recent backups,
+    #     specify `VOLUME`.
+    #
+    #   * To create a default policy for EBS-backed AMIs, that creates
+    #     EBS-backed AMIs from all instances in the Region that do not have
+    #     recent backups, specify `INSTANCE`.
+    #
+    # @option params [Integer] :create_interval
+    #   **\[Default policies only\]** Specifies how often the policy should
+    #   run and create snapshots or AMIs. The creation frequency can range
+    #   from 1 to 7 days. If you do not specify a value, the default is 1.
+    #
+    #   Default: 1
+    #
+    # @option params [Integer] :retain_interval
+    #   **\[Default policies only\]** Specifies how long the policy should
+    #   retain snapshots or AMIs before deleting them. The retention period
+    #   can range from 2 to 14 days, but it must be greater than the creation
+    #   frequency to ensure that the policy retains at least 1 snapshot or AMI
+    #   at any given time. If you do not specify a value, the default is 7.
+    #
+    #   Default: 7
+    #
+    # @option params [Boolean] :copy_tags
+    #   **\[Default policies only\]** Indicates whether the policy should copy
+    #   tags from the source resource to the snapshot or AMI. If you do not
+    #   specify a value, the default is `false`.
+    #
+    #   Default: false
+    #
+    # @option params [Boolean] :extend_deletion
+    #   **\[Default policies only\]** Defines the snapshot or AMI retention
+    #   behavior for the policy if the source volume or instance is deleted,
+    #   or if the policy enters the error, disabled, or deleted state.
+    #
+    #   By default (**ExtendDeletion=false**):
+    #
+    #   * If a source resource is deleted, Amazon Data Lifecycle Manager will
+    #     continue to delete previously created snapshots or AMIs, up to but
+    #     not including the last one, based on the specified retention period.
+    #     If you want Amazon Data Lifecycle Manager to delete all snapshots or
+    #     AMIs, including the last one, specify `true`.
+    #
+    #   * If a policy enters the error, disabled, or deleted state, Amazon
+    #     Data Lifecycle Manager stops deleting snapshots and AMIs. If you
+    #     want Amazon Data Lifecycle Manager to continue deleting snapshots or
+    #     AMIs, including the last one, if the policy enters one of these
+    #     states, specify `true`.
+    #
+    #   If you enable extended deletion (**ExtendDeletion=true**), you
+    #   override both default behaviors simultaneously.
+    #
+    #   If you do not specify a value, the default is `false`.
+    #
+    #   Default: false
+    #
+    # @option params [Array<Types::CrossRegionCopyTarget>] :cross_region_copy_targets
+    #   **\[Default policies only\]** Specifies destination Regions for
+    #   snapshot or AMI copies. You can specify up to 3 destination Regions.
+    #   If you do not want to create cross-Region copies, omit this parameter.
+    #
+    # @option params [Types::Exclusions] :exclusions
+    #   **\[Default policies only\]** Specifies exclusion parameters for
+    #   volumes or instances for which you do not want to create snapshots or
+    #   AMIs. The policy will not create snapshots or AMIs for target
+    #   resources that match any of the specified exclusion parameters.
     #
     # @return [Types::CreateLifecyclePolicyResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -398,10 +596,10 @@ module Aws::DLM
     #     execution_role_arn: "ExecutionRoleArn", # required
     #     description: "PolicyDescription", # required
     #     state: "ENABLED", # required, accepts ENABLED, DISABLED
-    #     policy_details: { # required
+    #     policy_details: {
     #       policy_type: "EBS_SNAPSHOT_MANAGEMENT", # accepts EBS_SNAPSHOT_MANAGEMENT, IMAGE_MANAGEMENT, EVENT_BASED_POLICY
     #       resource_types: ["VOLUME"], # accepts VOLUME, INSTANCE
-    #       resource_locations: ["CLOUD"], # accepts CLOUD, OUTPOST
+    #       resource_locations: ["CLOUD"], # accepts CLOUD, OUTPOST, LOCAL_ZONE
     #       target_tags: [
     #         {
     #           key: "String", # required
@@ -425,11 +623,21 @@ module Aws::DLM
     #             },
     #           ],
     #           create_rule: {
-    #             location: "CLOUD", # accepts CLOUD, OUTPOST_LOCAL
+    #             location: "CLOUD", # accepts CLOUD, OUTPOST_LOCAL, LOCAL_ZONE
     #             interval: 1,
     #             interval_unit: "HOURS", # accepts HOURS
     #             times: ["Time"],
     #             cron_expression: "CronExpression",
+    #             scripts: [
+    #               {
+    #                 stages: ["PRE"], # accepts PRE, POST
+    #                 execution_handler_service: "AWS_SYSTEMS_MANAGER", # accepts AWS_SYSTEMS_MANAGER
+    #                 execution_handler: "ExecutionHandler", # required
+    #                 execute_operation_on_script_failure: false,
+    #                 execution_timeout: 1,
+    #                 maximum_retry_count: 1,
+    #               },
+    #             ],
     #           },
     #           retain_rule: {
     #             count: 1,
@@ -518,9 +726,50 @@ module Aws::DLM
     #           ],
     #         },
     #       ],
+    #       policy_language: "SIMPLIFIED", # accepts SIMPLIFIED, STANDARD
+    #       resource_type: "VOLUME", # accepts VOLUME, INSTANCE
+    #       create_interval: 1,
+    #       retain_interval: 1,
+    #       copy_tags: false,
+    #       cross_region_copy_targets: [
+    #         {
+    #           target_region: "TargetRegion",
+    #         },
+    #       ],
+    #       extend_deletion: false,
+    #       exclusions: {
+    #         exclude_boot_volumes: false,
+    #         exclude_volume_types: ["VolumeTypeValues"],
+    #         exclude_tags: [
+    #           {
+    #             key: "String", # required
+    #             value: "String", # required
+    #           },
+    #         ],
+    #       },
     #     },
     #     tags: {
     #       "TagKey" => "TagValue",
+    #     },
+    #     default_policy: "VOLUME", # accepts VOLUME, INSTANCE
+    #     create_interval: 1,
+    #     retain_interval: 1,
+    #     copy_tags: false,
+    #     extend_deletion: false,
+    #     cross_region_copy_targets: [
+    #       {
+    #         target_region: "TargetRegion",
+    #       },
+    #     ],
+    #     exclusions: {
+    #       exclude_boot_volumes: false,
+    #       exclude_volume_types: ["VolumeTypeValues"],
+    #       exclude_tags: [
+    #         {
+    #           key: "String", # required
+    #           value: "String", # required
+    #         },
+    #       ],
     #     },
     #   })
     #
@@ -570,7 +819,12 @@ module Aws::DLM
     # Gets summary information about all or the specified data lifecycle
     # policies.
     #
-    # To get complete information about a policy, use GetLifecyclePolicy.
+    # To get complete information about a policy, use
+    # [GetLifecyclePolicy][1].
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/dlm/latest/APIReference/API_GetLifecyclePolicy.html
     #
     # @option params [Array<String>] :policy_ids
     #   The identifiers of the data lifecycle policies.
@@ -594,6 +848,16 @@ module Aws::DLM
     #   These user-defined tags are added in addition to the Amazon Web
     #   Services-added lifecycle tags.
     #
+    # @option params [String] :default_policy_type
+    #   **\[Default policies only\]** Specifies the type of default policy to
+    #   get. Specify one of the following:
+    #
+    #   * `VOLUME` - To get only the default policy for EBS snapshots
+    #
+    #   * `INSTANCE` - To get only the default policy for EBS-backed AMIs
+    #
+    #   * `ALL` - To get all default policies
+    #
     # @return [Types::GetLifecyclePoliciesResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::GetLifecyclePoliciesResponse#policies #policies} => Array&lt;Types::LifecyclePolicySummary&gt;
@@ -606,6 +870,7 @@ module Aws::DLM
     #     resource_types: ["VOLUME"], # accepts VOLUME, INSTANCE
     #     target_tags: ["TagFilter"],
     #     tags_to_add: ["TagFilter"],
+    #     default_policy_type: "VOLUME", # accepts VOLUME, INSTANCE, ALL
     #   })
     #
     # @example Response structure
@@ -617,6 +882,7 @@ module Aws::DLM
     #   resp.policies[0].tags #=> Hash
     #   resp.policies[0].tags["TagKey"] #=> String
     #   resp.policies[0].policy_type #=> String, one of "EBS_SNAPSHOT_MANAGEMENT", "IMAGE_MANAGEMENT", "EVENT_BASED_POLICY"
+    #   resp.policies[0].default_policy #=> Boolean
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/dlm-2018-01-12/GetLifecyclePolicies AWS API Documentation
     #
@@ -655,7 +921,7 @@ module Aws::DLM
     #   resp.policy.policy_details.resource_types #=> Array
     #   resp.policy.policy_details.resource_types[0] #=> String, one of "VOLUME", "INSTANCE"
     #   resp.policy.policy_details.resource_locations #=> Array
-    #   resp.policy.policy_details.resource_locations[0] #=> String, one of "CLOUD", "OUTPOST"
+    #   resp.policy.policy_details.resource_locations[0] #=> String, one of "CLOUD", "OUTPOST", "LOCAL_ZONE"
     #   resp.policy.policy_details.target_tags #=> Array
     #   resp.policy.policy_details.target_tags[0].key #=> String
     #   resp.policy.policy_details.target_tags[0].value #=> String
@@ -668,12 +934,20 @@ module Aws::DLM
     #   resp.policy.policy_details.schedules[0].variable_tags #=> Array
     #   resp.policy.policy_details.schedules[0].variable_tags[0].key #=> String
     #   resp.policy.policy_details.schedules[0].variable_tags[0].value #=> String
-    #   resp.policy.policy_details.schedules[0].create_rule.location #=> String, one of "CLOUD", "OUTPOST_LOCAL"
+    #   resp.policy.policy_details.schedules[0].create_rule.location #=> String, one of "CLOUD", "OUTPOST_LOCAL", "LOCAL_ZONE"
     #   resp.policy.policy_details.schedules[0].create_rule.interval #=> Integer
     #   resp.policy.policy_details.schedules[0].create_rule.interval_unit #=> String, one of "HOURS"
     #   resp.policy.policy_details.schedules[0].create_rule.times #=> Array
     #   resp.policy.policy_details.schedules[0].create_rule.times[0] #=> String
     #   resp.policy.policy_details.schedules[0].create_rule.cron_expression #=> String
+    #   resp.policy.policy_details.schedules[0].create_rule.scripts #=> Array
+    #   resp.policy.policy_details.schedules[0].create_rule.scripts[0].stages #=> Array
+    #   resp.policy.policy_details.schedules[0].create_rule.scripts[0].stages[0] #=> String, one of "PRE", "POST"
+    #   resp.policy.policy_details.schedules[0].create_rule.scripts[0].execution_handler_service #=> String, one of "AWS_SYSTEMS_MANAGER"
+    #   resp.policy.policy_details.schedules[0].create_rule.scripts[0].execution_handler #=> String
+    #   resp.policy.policy_details.schedules[0].create_rule.scripts[0].execute_operation_on_script_failure #=> Boolean
+    #   resp.policy.policy_details.schedules[0].create_rule.scripts[0].execution_timeout #=> Integer
+    #   resp.policy.policy_details.schedules[0].create_rule.scripts[0].maximum_retry_count #=> Integer
     #   resp.policy.policy_details.schedules[0].retain_rule.count #=> Integer
     #   resp.policy.policy_details.schedules[0].retain_rule.interval #=> Integer
     #   resp.policy.policy_details.schedules[0].retain_rule.interval_unit #=> String, one of "DAYS", "WEEKS", "MONTHS", "YEARS"
@@ -721,9 +995,24 @@ module Aws::DLM
     #   resp.policy.policy_details.actions[0].cross_region_copy[0].encryption_configuration.cmk_arn #=> String
     #   resp.policy.policy_details.actions[0].cross_region_copy[0].retain_rule.interval #=> Integer
     #   resp.policy.policy_details.actions[0].cross_region_copy[0].retain_rule.interval_unit #=> String, one of "DAYS", "WEEKS", "MONTHS", "YEARS"
+    #   resp.policy.policy_details.policy_language #=> String, one of "SIMPLIFIED", "STANDARD"
+    #   resp.policy.policy_details.resource_type #=> String, one of "VOLUME", "INSTANCE"
+    #   resp.policy.policy_details.create_interval #=> Integer
+    #   resp.policy.policy_details.retain_interval #=> Integer
+    #   resp.policy.policy_details.copy_tags #=> Boolean
+    #   resp.policy.policy_details.cross_region_copy_targets #=> Array
+    #   resp.policy.policy_details.cross_region_copy_targets[0].target_region #=> String
+    #   resp.policy.policy_details.extend_deletion #=> Boolean
+    #   resp.policy.policy_details.exclusions.exclude_boot_volumes #=> Boolean
+    #   resp.policy.policy_details.exclusions.exclude_volume_types #=> Array
+    #   resp.policy.policy_details.exclusions.exclude_volume_types[0] #=> String
+    #   resp.policy.policy_details.exclusions.exclude_tags #=> Array
+    #   resp.policy.policy_details.exclusions.exclude_tags[0].key #=> String
+    #   resp.policy.policy_details.exclusions.exclude_tags[0].value #=> String
     #   resp.policy.tags #=> Hash
     #   resp.policy.tags["TagKey"] #=> String
     #   resp.policy.policy_arn #=> String
+    #   resp.policy.default_policy #=> Boolean
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/dlm-2018-01-12/GetLifecyclePolicy AWS API Documentation
     #
@@ -843,6 +1132,57 @@ module Aws::DLM
     #   The configuration of the lifecycle policy. You cannot update the
     #   policy type or the resource type.
     #
+    # @option params [Integer] :create_interval
+    #   **\[Default policies only\]** Specifies how often the policy should
+    #   run and create snapshots or AMIs. The creation frequency can range
+    #   from 1 to 7 days.
+    #
+    # @option params [Integer] :retain_interval
+    #   **\[Default policies only\]** Specifies how long the policy should
+    #   retain snapshots or AMIs before deleting them. The retention period
+    #   can range from 2 to 14 days, but it must be greater than the creation
+    #   frequency to ensure that the policy retains at least 1 snapshot or AMI
+    #   at any given time.
+    #
+    # @option params [Boolean] :copy_tags
+    #   **\[Default policies only\]** Indicates whether the policy should copy
+    #   tags from the source resource to the snapshot or AMI.
+    #
+    # @option params [Boolean] :extend_deletion
+    #   **\[Default policies only\]** Defines the snapshot or AMI retention
+    #   behavior for the policy if the source volume or instance is deleted,
+    #   or if the policy enters the error, disabled, or deleted state.
+    #
+    #   By default (**ExtendDeletion=false**):
+    #
+    #   * If a source resource is deleted, Amazon Data Lifecycle Manager will
+    #     continue to delete previously created snapshots or AMIs, up to but
+    #     not including the last one, based on the specified retention period.
+    #     If you want Amazon Data Lifecycle Manager to delete all snapshots or
+    #     AMIs, including the last one, specify `true`.
+    #
+    #   * If a policy enters the error, disabled, or deleted state, Amazon
+    #     Data Lifecycle Manager stops deleting snapshots and AMIs. If you
+    #     want Amazon Data Lifecycle Manager to continue deleting snapshots or
+    #     AMIs, including the last one, if the policy enters one of these
+    #     states, specify `true`.
+    #
+    #   If you enable extended deletion (**ExtendDeletion=true**), you
+    #   override both default behaviors simultaneously.
+    #
+    #   Default: false
+    #
+    # @option params [Array<Types::CrossRegionCopyTarget>] :cross_region_copy_targets
+    #   **\[Default policies only\]** Specifies destination Regions for
+    #   snapshot or AMI copies. You can specify up to 3 destination Regions.
+    #   If you do not want to create cross-Region copies, omit this parameter.
+    #
+    # @option params [Types::Exclusions] :exclusions
+    #   **\[Default policies only\]** Specifies exclusion parameters for
+    #   volumes or instances for which you do not want to create snapshots or
+    #   AMIs. The policy will not create snapshots or AMIs for target
+    #   resources that match any of the specified exclusion parameters.
+    #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
     # @example Request syntax with placeholder values
@@ -855,7 +1195,7 @@ module Aws::DLM
     #     policy_details: {
     #       policy_type: "EBS_SNAPSHOT_MANAGEMENT", # accepts EBS_SNAPSHOT_MANAGEMENT, IMAGE_MANAGEMENT, EVENT_BASED_POLICY
     #       resource_types: ["VOLUME"], # accepts VOLUME, INSTANCE
-    #       resource_locations: ["CLOUD"], # accepts CLOUD, OUTPOST
+    #       resource_locations: ["CLOUD"], # accepts CLOUD, OUTPOST, LOCAL_ZONE
     #       target_tags: [
     #         {
     #           key: "String", # required
@@ -879,11 +1219,21 @@ module Aws::DLM
     #             },
     #           ],
     #           create_rule: {
-    #             location: "CLOUD", # accepts CLOUD, OUTPOST_LOCAL
+    #             location: "CLOUD", # accepts CLOUD, OUTPOST_LOCAL, LOCAL_ZONE
     #             interval: 1,
     #             interval_unit: "HOURS", # accepts HOURS
     #             times: ["Time"],
     #             cron_expression: "CronExpression",
+    #             scripts: [
+    #               {
+    #                 stages: ["PRE"], # accepts PRE, POST
+    #                 execution_handler_service: "AWS_SYSTEMS_MANAGER", # accepts AWS_SYSTEMS_MANAGER
+    #                 execution_handler: "ExecutionHandler", # required
+    #                 execute_operation_on_script_failure: false,
+    #                 execution_timeout: 1,
+    #                 maximum_retry_count: 1,
+    #               },
+    #             ],
     #           },
     #           retain_rule: {
     #             count: 1,
@@ -972,6 +1322,46 @@ module Aws::DLM
     #           ],
     #         },
     #       ],
+    #       policy_language: "SIMPLIFIED", # accepts SIMPLIFIED, STANDARD
+    #       resource_type: "VOLUME", # accepts VOLUME, INSTANCE
+    #       create_interval: 1,
+    #       retain_interval: 1,
+    #       copy_tags: false,
+    #       cross_region_copy_targets: [
+    #         {
+    #           target_region: "TargetRegion",
+    #         },
+    #       ],
+    #       extend_deletion: false,
+    #       exclusions: {
+    #         exclude_boot_volumes: false,
+    #         exclude_volume_types: ["VolumeTypeValues"],
+    #         exclude_tags: [
+    #           {
+    #             key: "String", # required
+    #             value: "String", # required
+    #           },
+    #         ],
+    #       },
+    #     },
+    #     create_interval: 1,
+    #     retain_interval: 1,
+    #     copy_tags: false,
+    #     extend_deletion: false,
+    #     cross_region_copy_targets: [
+    #       {
+    #         target_region: "TargetRegion",
+    #       },
+    #     ],
+    #     exclusions: {
+    #       exclude_boot_volumes: false,
+    #       exclude_volume_types: ["VolumeTypeValues"],
+    #       exclude_tags: [
+    #         {
+    #           key: "String", # required
+    #           value: "String", # required
+    #         },
+    #       ],
     #     },
     #   })
     #
@@ -990,14 +1380,19 @@ module Aws::DLM
     # @api private
     def build_request(operation_name, params = {})
       handlers = @handlers.for(operation_name)
+      tracer = config.telemetry_provider.tracer_provider.tracer(
+        Aws::Telemetry.module_to_tracer_name('Aws::DLM')
+      )
       context = Seahorse::Client::RequestContext.new(
         operation_name: operation_name,
         operation: config.api.operation(operation_name),
         client: self,
         params: params,
-        config: config)
+        config: config,
+        tracer: tracer
+      )
       context[:gem_name] = 'aws-sdk-dlm'
-      context[:gem_version] = '1.55.0'
+      context[:gem_version] = '1.86.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

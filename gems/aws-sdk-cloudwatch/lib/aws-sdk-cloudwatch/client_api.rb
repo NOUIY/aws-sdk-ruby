@@ -7,6 +7,7 @@
 #
 # WARNING ABOUT GENERATED CODE
 
+
 module Aws::CloudWatch
   # @api private
   module ClientApi
@@ -43,18 +44,18 @@ module Aws::CloudWatch
     ComparisonOperator = Shapes::StringShape.new(name: 'ComparisonOperator')
     CompositeAlarm = Shapes::StructureShape.new(name: 'CompositeAlarm')
     CompositeAlarms = Shapes::ListShape.new(name: 'CompositeAlarms')
-    ConcurrentModificationException = Shapes::StructureShape.new(name: 'ConcurrentModificationException')
+    ConcurrentModificationException = Shapes::StructureShape.new(name: 'ConcurrentModificationException', error: {"code"=>"ConcurrentModificationException", "httpStatusCode"=>429, "senderFault"=>true})
     Counts = Shapes::ListShape.new(name: 'Counts')
     DashboardArn = Shapes::StringShape.new(name: 'DashboardArn')
     DashboardBody = Shapes::StringShape.new(name: 'DashboardBody')
     DashboardEntries = Shapes::ListShape.new(name: 'DashboardEntries')
     DashboardEntry = Shapes::StructureShape.new(name: 'DashboardEntry')
     DashboardErrorMessage = Shapes::StringShape.new(name: 'DashboardErrorMessage')
-    DashboardInvalidInputError = Shapes::StructureShape.new(name: 'DashboardInvalidInputError')
+    DashboardInvalidInputError = Shapes::StructureShape.new(name: 'DashboardInvalidInputError', error: {"code"=>"InvalidParameterInput", "httpStatusCode"=>400, "senderFault"=>true})
     DashboardName = Shapes::StringShape.new(name: 'DashboardName')
     DashboardNamePrefix = Shapes::StringShape.new(name: 'DashboardNamePrefix')
     DashboardNames = Shapes::ListShape.new(name: 'DashboardNames')
-    DashboardNotFoundError = Shapes::StructureShape.new(name: 'DashboardNotFoundError')
+    DashboardNotFoundError = Shapes::StructureShape.new(name: 'DashboardNotFoundError', error: {"code"=>"ResourceNotFound", "httpStatusCode"=>404, "senderFault"=>true})
     DashboardValidationMessage = Shapes::StructureShape.new(name: 'DashboardValidationMessage')
     DashboardValidationMessages = Shapes::ListShape.new(name: 'DashboardValidationMessages')
     DataPath = Shapes::StringShape.new(name: 'DataPath')
@@ -95,6 +96,15 @@ module Aws::CloudWatch
     EnableAlarmActionsInput = Shapes::StructureShape.new(name: 'EnableAlarmActionsInput')
     EnableInsightRulesInput = Shapes::StructureShape.new(name: 'EnableInsightRulesInput')
     EnableInsightRulesOutput = Shapes::StructureShape.new(name: 'EnableInsightRulesOutput')
+    Entity = Shapes::StructureShape.new(name: 'Entity')
+    EntityAttributesMap = Shapes::MapShape.new(name: 'EntityAttributesMap')
+    EntityAttributesMapKeyString = Shapes::StringShape.new(name: 'EntityAttributesMapKeyString')
+    EntityAttributesMapValueString = Shapes::StringShape.new(name: 'EntityAttributesMapValueString')
+    EntityKeyAttributesMap = Shapes::MapShape.new(name: 'EntityKeyAttributesMap')
+    EntityKeyAttributesMapKeyString = Shapes::StringShape.new(name: 'EntityKeyAttributesMapKeyString')
+    EntityKeyAttributesMapValueString = Shapes::StringShape.new(name: 'EntityKeyAttributesMapValueString')
+    EntityMetricData = Shapes::StructureShape.new(name: 'EntityMetricData')
+    EntityMetricDataList = Shapes::ListShape.new(name: 'EntityMetricDataList')
     ErrorMessage = Shapes::StringShape.new(name: 'ErrorMessage')
     EvaluateLowSampleCountPercentile = Shapes::StringShape.new(name: 'EvaluateLowSampleCountPercentile')
     EvaluationPeriods = Shapes::IntegerShape.new(name: 'EvaluationPeriods')
@@ -151,15 +161,15 @@ module Aws::CloudWatch
     InsightRuleUnboundInteger = Shapes::IntegerShape.new(name: 'InsightRuleUnboundInteger')
     InsightRuleUnboundLong = Shapes::IntegerShape.new(name: 'InsightRuleUnboundLong')
     InsightRules = Shapes::ListShape.new(name: 'InsightRules')
-    InternalServiceFault = Shapes::StructureShape.new(name: 'InternalServiceFault')
-    InvalidFormatFault = Shapes::StructureShape.new(name: 'InvalidFormatFault')
-    InvalidNextToken = Shapes::StructureShape.new(name: 'InvalidNextToken')
-    InvalidParameterCombinationException = Shapes::StructureShape.new(name: 'InvalidParameterCombinationException')
-    InvalidParameterValueException = Shapes::StructureShape.new(name: 'InvalidParameterValueException')
+    InternalServiceFault = Shapes::StructureShape.new(name: 'InternalServiceFault', error: {"code"=>"InternalServiceError", "httpStatusCode"=>500})
+    InvalidFormatFault = Shapes::StructureShape.new(name: 'InvalidFormatFault', error: {"code"=>"InvalidFormat", "httpStatusCode"=>400, "senderFault"=>true})
+    InvalidNextToken = Shapes::StructureShape.new(name: 'InvalidNextToken', error: {"code"=>"InvalidNextToken", "httpStatusCode"=>400, "senderFault"=>true})
+    InvalidParameterCombinationException = Shapes::StructureShape.new(name: 'InvalidParameterCombinationException', error: {"code"=>"InvalidParameterCombination", "httpStatusCode"=>400, "senderFault"=>true})
+    InvalidParameterValueException = Shapes::StructureShape.new(name: 'InvalidParameterValueException', error: {"code"=>"InvalidParameterValue", "httpStatusCode"=>400, "senderFault"=>true})
     LabelOptions = Shapes::StructureShape.new(name: 'LabelOptions')
     LastModified = Shapes::TimestampShape.new(name: 'LastModified')
-    LimitExceededException = Shapes::StructureShape.new(name: 'LimitExceededException')
-    LimitExceededFault = Shapes::StructureShape.new(name: 'LimitExceededFault')
+    LimitExceededException = Shapes::StructureShape.new(name: 'LimitExceededException', error: {"code"=>"LimitExceededException", "httpStatusCode"=>400, "senderFault"=>true})
+    LimitExceededFault = Shapes::StructureShape.new(name: 'LimitExceededFault', error: {"code"=>"LimitExceeded", "httpStatusCode"=>400, "senderFault"=>true})
     ListDashboardsInput = Shapes::StructureShape.new(name: 'ListDashboardsInput')
     ListDashboardsOutput = Shapes::StructureShape.new(name: 'ListDashboardsOutput')
     ListManagedInsightRulesInput = Shapes::StructureShape.new(name: 'ListManagedInsightRulesInput')
@@ -185,6 +195,7 @@ module Aws::CloudWatch
     Metric = Shapes::StructureShape.new(name: 'Metric')
     MetricAlarm = Shapes::StructureShape.new(name: 'MetricAlarm')
     MetricAlarms = Shapes::ListShape.new(name: 'MetricAlarms')
+    MetricCharacteristics = Shapes::StructureShape.new(name: 'MetricCharacteristics')
     MetricData = Shapes::ListShape.new(name: 'MetricData')
     MetricDataQueries = Shapes::ListShape.new(name: 'MetricDataQueries')
     MetricDataQuery = Shapes::StructureShape.new(name: 'MetricDataQuery')
@@ -201,6 +212,7 @@ module Aws::CloudWatch
     MetricStreamEntries = Shapes::ListShape.new(name: 'MetricStreamEntries')
     MetricStreamEntry = Shapes::StructureShape.new(name: 'MetricStreamEntry')
     MetricStreamFilter = Shapes::StructureShape.new(name: 'MetricStreamFilter')
+    MetricStreamFilterMetricNames = Shapes::ListShape.new(name: 'MetricStreamFilterMetricNames')
     MetricStreamFilters = Shapes::ListShape.new(name: 'MetricStreamFilters')
     MetricStreamName = Shapes::StringShape.new(name: 'MetricStreamName')
     MetricStreamNames = Shapes::ListShape.new(name: 'MetricStreamNames')
@@ -215,13 +227,14 @@ module Aws::CloudWatch
     MetricWidget = Shapes::StringShape.new(name: 'MetricWidget')
     MetricWidgetImage = Shapes::BlobShape.new(name: 'MetricWidgetImage')
     Metrics = Shapes::ListShape.new(name: 'Metrics')
-    MissingRequiredParameterException = Shapes::StructureShape.new(name: 'MissingRequiredParameterException')
+    MissingRequiredParameterException = Shapes::StructureShape.new(name: 'MissingRequiredParameterException', error: {"code"=>"MissingParameter", "httpStatusCode"=>400, "senderFault"=>true})
     Namespace = Shapes::StringShape.new(name: 'Namespace')
     NextToken = Shapes::StringShape.new(name: 'NextToken')
     OutputFormat = Shapes::StringShape.new(name: 'OutputFormat')
     OwningAccounts = Shapes::ListShape.new(name: 'OwningAccounts')
     PartialFailure = Shapes::StructureShape.new(name: 'PartialFailure')
     Period = Shapes::IntegerShape.new(name: 'Period')
+    PeriodicSpikes = Shapes::BooleanShape.new(name: 'PeriodicSpikes')
     PutAnomalyDetectorInput = Shapes::StructureShape.new(name: 'PutAnomalyDetectorInput')
     PutAnomalyDetectorOutput = Shapes::StructureShape.new(name: 'PutAnomalyDetectorOutput')
     PutCompositeAlarmInput = Shapes::StructureShape.new(name: 'PutCompositeAlarmInput')
@@ -240,8 +253,8 @@ module Aws::CloudWatch
     ResourceId = Shapes::StringShape.new(name: 'ResourceId')
     ResourceList = Shapes::ListShape.new(name: 'ResourceList')
     ResourceName = Shapes::StringShape.new(name: 'ResourceName')
-    ResourceNotFound = Shapes::StructureShape.new(name: 'ResourceNotFound')
-    ResourceNotFoundException = Shapes::StructureShape.new(name: 'ResourceNotFoundException')
+    ResourceNotFound = Shapes::StructureShape.new(name: 'ResourceNotFound', error: {"code"=>"ResourceNotFound", "httpStatusCode"=>404, "senderFault"=>true})
+    ResourceNotFoundException = Shapes::StructureShape.new(name: 'ResourceNotFoundException', error: {"code"=>"ResourceNotFoundException", "httpStatusCode"=>404, "senderFault"=>true})
     ResourceType = Shapes::StringShape.new(name: 'ResourceType')
     ReturnData = Shapes::BooleanShape.new(name: 'ReturnData')
     ScanBy = Shapes::StringShape.new(name: 'ScanBy')
@@ -262,6 +275,7 @@ module Aws::CloudWatch
     StopMetricStreamsInput = Shapes::StructureShape.new(name: 'StopMetricStreamsInput')
     StopMetricStreamsOutput = Shapes::StructureShape.new(name: 'StopMetricStreamsOutput')
     StorageResolution = Shapes::IntegerShape.new(name: 'StorageResolution')
+    StrictEntityValidation = Shapes::BooleanShape.new(name: 'StrictEntityValidation')
     SuppressorPeriod = Shapes::IntegerShape.new(name: 'SuppressorPeriod')
     Tag = Shapes::StructureShape.new(name: 'Tag')
     TagKey = Shapes::StringShape.new(name: 'TagKey')
@@ -299,6 +313,7 @@ module Aws::CloudWatch
     AnomalyDetector.add_member(:stat, Shapes::ShapeRef.new(shape: AnomalyDetectorMetricStat, deprecated: true, location_name: "Stat", metadata: {"deprecatedMessage"=>"Use SingleMetricAnomalyDetector.Stat property."}))
     AnomalyDetector.add_member(:configuration, Shapes::ShapeRef.new(shape: AnomalyDetectorConfiguration, location_name: "Configuration"))
     AnomalyDetector.add_member(:state_value, Shapes::ShapeRef.new(shape: AnomalyDetectorStateValue, location_name: "StateValue"))
+    AnomalyDetector.add_member(:metric_characteristics, Shapes::ShapeRef.new(shape: MetricCharacteristics, location_name: "MetricCharacteristics"))
     AnomalyDetector.add_member(:single_metric_anomaly_detector, Shapes::ShapeRef.new(shape: SingleMetricAnomalyDetector, location_name: "SingleMetricAnomalyDetector"))
     AnomalyDetector.add_member(:metric_math_anomaly_detector, Shapes::ShapeRef.new(shape: MetricMathAnomalyDetector, location_name: "MetricMathAnomalyDetector"))
     AnomalyDetector.struct_class = Types::AnomalyDetector
@@ -502,6 +517,22 @@ module Aws::CloudWatch
 
     EnableInsightRulesOutput.add_member(:failures, Shapes::ShapeRef.new(shape: BatchFailures, location_name: "Failures"))
     EnableInsightRulesOutput.struct_class = Types::EnableInsightRulesOutput
+
+    Entity.add_member(:key_attributes, Shapes::ShapeRef.new(shape: EntityKeyAttributesMap, location_name: "KeyAttributes"))
+    Entity.add_member(:attributes, Shapes::ShapeRef.new(shape: EntityAttributesMap, location_name: "Attributes"))
+    Entity.struct_class = Types::Entity
+
+    EntityAttributesMap.key = Shapes::ShapeRef.new(shape: EntityAttributesMapKeyString)
+    EntityAttributesMap.value = Shapes::ShapeRef.new(shape: EntityAttributesMapValueString)
+
+    EntityKeyAttributesMap.key = Shapes::ShapeRef.new(shape: EntityKeyAttributesMapKeyString)
+    EntityKeyAttributesMap.value = Shapes::ShapeRef.new(shape: EntityKeyAttributesMapValueString)
+
+    EntityMetricData.add_member(:entity, Shapes::ShapeRef.new(shape: Entity, location_name: "Entity"))
+    EntityMetricData.add_member(:metric_data, Shapes::ShapeRef.new(shape: MetricData, location_name: "MetricData"))
+    EntityMetricData.struct_class = Types::EntityMetricData
+
+    EntityMetricDataList.member = Shapes::ShapeRef.new(shape: EntityMetricData)
 
     ExtendedStatistics.member = Shapes::ShapeRef.new(shape: ExtendedStatistic)
 
@@ -753,6 +784,9 @@ module Aws::CloudWatch
 
     MetricAlarms.member = Shapes::ShapeRef.new(shape: MetricAlarm)
 
+    MetricCharacteristics.add_member(:periodic_spikes, Shapes::ShapeRef.new(shape: PeriodicSpikes, location_name: "PeriodicSpikes"))
+    MetricCharacteristics.struct_class = Types::MetricCharacteristics
+
     MetricData.member = Shapes::ShapeRef.new(shape: MetricDatum)
 
     MetricDataQueries.member = Shapes::ShapeRef.new(shape: MetricDataQuery)
@@ -810,7 +844,10 @@ module Aws::CloudWatch
     MetricStreamEntry.struct_class = Types::MetricStreamEntry
 
     MetricStreamFilter.add_member(:namespace, Shapes::ShapeRef.new(shape: Namespace, location_name: "Namespace"))
+    MetricStreamFilter.add_member(:metric_names, Shapes::ShapeRef.new(shape: MetricStreamFilterMetricNames, location_name: "MetricNames"))
     MetricStreamFilter.struct_class = Types::MetricStreamFilter
+
+    MetricStreamFilterMetricNames.member = Shapes::ShapeRef.new(shape: MetricName)
 
     MetricStreamFilters.member = Shapes::ShapeRef.new(shape: MetricStreamFilter)
 
@@ -848,6 +885,7 @@ module Aws::CloudWatch
     PutAnomalyDetectorInput.add_member(:dimensions, Shapes::ShapeRef.new(shape: Dimensions, deprecated: true, location_name: "Dimensions", metadata: {"deprecatedMessage"=>"Use SingleMetricAnomalyDetector."}))
     PutAnomalyDetectorInput.add_member(:stat, Shapes::ShapeRef.new(shape: AnomalyDetectorMetricStat, deprecated: true, location_name: "Stat", metadata: {"deprecatedMessage"=>"Use SingleMetricAnomalyDetector."}))
     PutAnomalyDetectorInput.add_member(:configuration, Shapes::ShapeRef.new(shape: AnomalyDetectorConfiguration, location_name: "Configuration"))
+    PutAnomalyDetectorInput.add_member(:metric_characteristics, Shapes::ShapeRef.new(shape: MetricCharacteristics, location_name: "MetricCharacteristics"))
     PutAnomalyDetectorInput.add_member(:single_metric_anomaly_detector, Shapes::ShapeRef.new(shape: SingleMetricAnomalyDetector, location_name: "SingleMetricAnomalyDetector"))
     PutAnomalyDetectorInput.add_member(:metric_math_anomaly_detector, Shapes::ShapeRef.new(shape: MetricMathAnomalyDetector, location_name: "MetricMathAnomalyDetector"))
     PutAnomalyDetectorInput.struct_class = Types::PutAnomalyDetectorInput
@@ -913,7 +951,9 @@ module Aws::CloudWatch
     PutMetricAlarmInput.struct_class = Types::PutMetricAlarmInput
 
     PutMetricDataInput.add_member(:namespace, Shapes::ShapeRef.new(shape: Namespace, required: true, location_name: "Namespace"))
-    PutMetricDataInput.add_member(:metric_data, Shapes::ShapeRef.new(shape: MetricData, required: true, location_name: "MetricData"))
+    PutMetricDataInput.add_member(:metric_data, Shapes::ShapeRef.new(shape: MetricData, location_name: "MetricData"))
+    PutMetricDataInput.add_member(:entity_metric_data, Shapes::ShapeRef.new(shape: EntityMetricDataList, location_name: "EntityMetricData"))
+    PutMetricDataInput.add_member(:strict_entity_validation, Shapes::ShapeRef.new(shape: StrictEntityValidation, location_name: "StrictEntityValidation", metadata: {"box"=>true}))
     PutMetricDataInput.struct_class = Types::PutMetricDataInput
 
     PutMetricStreamInput.add_member(:name, Shapes::ShapeRef.new(shape: MetricStreamName, required: true, location_name: "Name"))
@@ -949,6 +989,7 @@ module Aws::CloudWatch
     SetAlarmStateInput.add_member(:state_reason_data, Shapes::ShapeRef.new(shape: StateReasonData, location_name: "StateReasonData"))
     SetAlarmStateInput.struct_class = Types::SetAlarmStateInput
 
+    SingleMetricAnomalyDetector.add_member(:account_id, Shapes::ShapeRef.new(shape: AccountId, location_name: "AccountId"))
     SingleMetricAnomalyDetector.add_member(:namespace, Shapes::ShapeRef.new(shape: Namespace, location_name: "Namespace"))
     SingleMetricAnomalyDetector.add_member(:metric_name, Shapes::ShapeRef.new(shape: MetricName, location_name: "MetricName"))
     SingleMetricAnomalyDetector.add_member(:dimensions, Shapes::ShapeRef.new(shape: Dimensions, location_name: "Dimensions"))
@@ -1005,8 +1046,10 @@ module Aws::CloudWatch
 
       api.metadata = {
         "apiVersion" => "2010-08-01",
+        "auth" => ["aws.auth#sigv4"],
         "endpointPrefix" => "monitoring",
         "protocol" => "query",
+        "protocols" => ["query"],
         "serviceAbbreviation" => "CloudWatch",
         "serviceFullName" => "Amazon CloudWatch",
         "serviceId" => "CloudWatch",
@@ -1389,6 +1432,9 @@ module Aws::CloudWatch
         o.name = "PutMetricData"
         o.http_method = "POST"
         o.http_request_uri = "/"
+        o.request_compression = {
+          "encodings" => ["gzip"],
+        }
         o.input = Shapes::ShapeRef.new(shape: PutMetricDataInput)
         o.output = Shapes::ShapeRef.new(shape: Shapes::StructureShape.new(struct_class: Aws::EmptyStructure))
         o.errors << Shapes::ShapeRef.new(shape: InvalidParameterValueException)

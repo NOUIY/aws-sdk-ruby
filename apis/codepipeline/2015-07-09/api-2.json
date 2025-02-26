@@ -5,12 +5,14 @@
     "endpointPrefix":"codepipeline",
     "jsonVersion":"1.1",
     "protocol":"json",
+    "protocols":["json"],
     "serviceAbbreviation":"CodePipeline",
     "serviceFullName":"AWS CodePipeline",
     "serviceId":"CodePipeline",
     "signatureVersion":"v4",
     "targetPrefix":"CodePipeline_20150709",
-    "uid":"codepipeline-2015-07-09"
+    "uid":"codepipeline-2015-07-09",
+    "auth":["aws.auth#sigv4"]
   },
   "operations":{
     "AcknowledgeJob":{
@@ -292,6 +294,34 @@
         {"shape":"InvalidNextTokenException"}
       ]
     },
+    "ListRuleExecutions":{
+      "name":"ListRuleExecutions",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"ListRuleExecutionsInput"},
+      "output":{"shape":"ListRuleExecutionsOutput"},
+      "errors":[
+        {"shape":"ValidationException"},
+        {"shape":"PipelineNotFoundException"},
+        {"shape":"InvalidNextTokenException"},
+        {"shape":"PipelineExecutionNotFoundException"}
+      ]
+    },
+    "ListRuleTypes":{
+      "name":"ListRuleTypes",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"ListRuleTypesInput"},
+      "output":{"shape":"ListRuleTypesOutput"},
+      "errors":[
+        {"shape":"ValidationException"},
+        {"shape":"InvalidNextTokenException"}
+      ]
+    },
     "ListTagsForResource":{
       "name":"ListTagsForResource",
       "http":{
@@ -318,6 +348,23 @@
       "errors":[
         {"shape":"ValidationException"},
         {"shape":"InvalidNextTokenException"}
+      ]
+    },
+    "OverrideStageCondition":{
+      "name":"OverrideStageCondition",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"OverrideStageConditionInput"},
+      "errors":[
+        {"shape":"ValidationException"},
+        {"shape":"ConflictException"},
+        {"shape":"PipelineNotFoundException"},
+        {"shape":"StageNotFoundException"},
+        {"shape":"ConditionNotOverridableException"},
+        {"shape":"NotLatestPipelineExecutionException"},
+        {"shape":"ConcurrentPipelineExecutionsLimitExceededException"}
       ]
     },
     "PollForJobs":{
@@ -358,7 +405,8 @@
         {"shape":"PipelineNotFoundException"},
         {"shape":"StageNotFoundException"},
         {"shape":"ActionNotFoundException"},
-        {"shape":"ValidationException"}
+        {"shape":"ValidationException"},
+        {"shape":"ConcurrentPipelineExecutionsLimitExceededException"}
       ]
     },
     "PutApprovalResult":{
@@ -479,7 +527,26 @@
         {"shape":"PipelineNotFoundException"},
         {"shape":"StageNotFoundException"},
         {"shape":"StageNotRetryableException"},
-        {"shape":"NotLatestPipelineExecutionException"}
+        {"shape":"NotLatestPipelineExecutionException"},
+        {"shape":"ConcurrentPipelineExecutionsLimitExceededException"}
+      ]
+    },
+    "RollbackStage":{
+      "name":"RollbackStage",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"RollbackStageInput"},
+      "output":{"shape":"RollbackStageOutput"},
+      "errors":[
+        {"shape":"ValidationException"},
+        {"shape":"ConflictException"},
+        {"shape":"PipelineNotFoundException"},
+        {"shape":"PipelineExecutionNotFoundException"},
+        {"shape":"PipelineExecutionOutdatedException"},
+        {"shape":"StageNotFoundException"},
+        {"shape":"UnableToRollbackStageException"}
       ]
     },
     "StartPipelineExecution":{
@@ -493,7 +560,8 @@
       "errors":[
         {"shape":"ValidationException"},
         {"shape":"ConflictException"},
-        {"shape":"PipelineNotFoundException"}
+        {"shape":"PipelineNotFoundException"},
+        {"shape":"ConcurrentPipelineExecutionsLimitExceededException"}
       ]
     },
     "StopPipelineExecution":{
@@ -648,7 +716,8 @@
         "Deploy",
         "Test",
         "Invoke",
-        "Approval"
+        "Approval",
+        "Compute"
       ]
     },
     "ActionConfiguration":{
@@ -727,11 +796,15 @@
         "actionTypeId":{"shape":"ActionTypeId"},
         "runOrder":{"shape":"ActionRunOrder"},
         "configuration":{"shape":"ActionConfigurationMap"},
+        "commands":{"shape":"CommandList"},
         "outputArtifacts":{"shape":"OutputArtifactList"},
         "inputArtifacts":{"shape":"InputArtifactList"},
+        "outputVariables":{"shape":"OutputVariableList"},
         "roleArn":{"shape":"RoleArn"},
         "region":{"shape":"AWSRegionName"},
-        "namespace":{"shape":"ActionNamespace"}
+        "namespace":{"shape":"ActionNamespace"},
+        "timeoutInMinutes":{"shape":"ActionTimeout"},
+        "environmentVariables":{"shape":"EnvironmentVariableList"}
       }
     },
     "ActionExecution":{
@@ -746,7 +819,8 @@
         "externalExecutionId":{"shape":"ExecutionId"},
         "externalExecutionUrl":{"shape":"Url"},
         "percentComplete":{"shape":"Percentage"},
-        "errorDetails":{"shape":"ErrorDetails"}
+        "errorDetails":{"shape":"ErrorDetails"},
+        "logStreamARN":{"shape":"LogStreamARN"}
       }
     },
     "ActionExecutionDetail":{
@@ -759,6 +833,7 @@
         "actionName":{"shape":"ActionName"},
         "startTime":{"shape":"Timestamp"},
         "lastUpdateTime":{"shape":"Timestamp"},
+        "updatedBy":{"shape":"LastUpdatedBy"},
         "status":{"shape":"ActionExecutionStatus"},
         "input":{"shape":"ActionExecutionInput"},
         "output":{"shape":"ActionExecutionOutput"}
@@ -771,7 +846,8 @@
     "ActionExecutionFilter":{
       "type":"structure",
       "members":{
-        "pipelineExecutionId":{"shape":"PipelineExecutionId"}
+        "pipelineExecutionId":{"shape":"PipelineExecutionId"},
+        "latestInPipelineExecution":{"shape":"LatestInPipelineExecutionFilter"}
       }
     },
     "ActionExecutionId":{"type":"string"},
@@ -800,7 +876,9 @@
       "members":{
         "externalExecutionId":{"shape":"ExternalExecutionId"},
         "externalExecutionSummary":{"shape":"ExternalExecutionSummary"},
-        "externalExecutionUrl":{"shape":"Url"}
+        "externalExecutionUrl":{"shape":"Url"},
+        "errorDetails":{"shape":"ErrorDetails"},
+        "logStreamARN":{"shape":"LogStreamARN"}
       }
     },
     "ActionExecutionStatus":{
@@ -876,6 +954,12 @@
     "ActionStateList":{
       "type":"list",
       "member":{"shape":"ActionState"}
+    },
+    "ActionTimeout":{
+      "type":"integer",
+      "box":true,
+      "max":86400,
+      "min":5
     },
     "ActionType":{
       "type":"structure",
@@ -1173,6 +1257,13 @@
       "type":"string",
       "enum":["S3"]
     },
+    "BeforeEntryConditions":{
+      "type":"structure",
+      "required":["conditions"],
+      "members":{
+        "conditions":{"shape":"ConditionList"}
+      }
+    },
     "BlockerDeclaration":{
       "type":"structure",
       "required":[
@@ -1210,12 +1301,88 @@
       "min":1
     },
     "Code":{"type":"string"},
+    "Command":{
+      "type":"string",
+      "max":1000,
+      "min":1
+    },
+    "CommandList":{
+      "type":"list",
+      "member":{"shape":"Command"},
+      "max":50,
+      "min":1
+    },
     "ConcurrentModificationException":{
       "type":"structure",
       "members":{
         "message":{"shape":"Message"}
       },
       "exception":true
+    },
+    "ConcurrentPipelineExecutionsLimitExceededException":{
+      "type":"structure",
+      "members":{
+        "message":{"shape":"Message"}
+      },
+      "exception":true
+    },
+    "Condition":{
+      "type":"structure",
+      "members":{
+        "result":{"shape":"Result"},
+        "rules":{"shape":"RuleDeclarationList"}
+      }
+    },
+    "ConditionExecution":{
+      "type":"structure",
+      "members":{
+        "status":{"shape":"ConditionExecutionStatus"},
+        "summary":{"shape":"ExecutionSummary"},
+        "lastStatusChange":{"shape":"Timestamp"}
+      }
+    },
+    "ConditionExecutionStatus":{
+      "type":"string",
+      "enum":[
+        "InProgress",
+        "Failed",
+        "Errored",
+        "Succeeded",
+        "Cancelled",
+        "Abandoned",
+        "Overridden"
+      ]
+    },
+    "ConditionList":{
+      "type":"list",
+      "member":{"shape":"Condition"},
+      "max":1,
+      "min":1
+    },
+    "ConditionNotOverridableException":{
+      "type":"structure",
+      "members":{
+        "message":{"shape":"String"}
+      },
+      "exception":true
+    },
+    "ConditionState":{
+      "type":"structure",
+      "members":{
+        "latestExecution":{"shape":"ConditionExecution"},
+        "ruleStates":{"shape":"RuleStateList"}
+      }
+    },
+    "ConditionStateList":{
+      "type":"list",
+      "member":{"shape":"ConditionState"}
+    },
+    "ConditionType":{
+      "type":"string",
+      "enum":[
+        "BEFORE_ENTRY",
+        "ON_SUCCESS"
+      ]
     },
     "ConflictException":{
       "type":"structure",
@@ -1395,6 +1562,35 @@
       "type":"string",
       "enum":["KMS"]
     },
+    "EnvironmentVariable":{
+      "type":"structure",
+      "required":[
+        "name",
+        "value"
+      ],
+      "members":{
+        "name":{"shape":"EnvironmentVariableName"},
+        "value":{"shape":"EnvironmentVariableValue"}
+      }
+    },
+    "EnvironmentVariableList":{
+      "type":"list",
+      "member":{"shape":"EnvironmentVariable"},
+      "max":10,
+      "min":1
+    },
+    "EnvironmentVariableName":{
+      "type":"string",
+      "max":128,
+      "min":1,
+      "pattern":"[A-Za-z0-9_]+"
+    },
+    "EnvironmentVariableValue":{
+      "type":"string",
+      "max":2000,
+      "min":1,
+      "pattern":".*"
+    },
     "ErrorDetails":{
       "type":"structure",
       "members":{
@@ -1415,6 +1611,14 @@
       "max":1500,
       "min":1
     },
+    "ExecutionMode":{
+      "type":"string",
+      "enum":[
+        "QUEUED",
+        "SUPERSEDED",
+        "PARALLEL"
+      ]
+    },
     "ExecutionSummary":{
       "type":"string",
       "max":2048,
@@ -1426,6 +1630,13 @@
         "triggerType":{"shape":"TriggerType"},
         "triggerDetail":{"shape":"TriggerDetail"}
       }
+    },
+    "ExecutionType":{
+      "type":"string",
+      "enum":[
+        "STANDARD",
+        "ROLLBACK"
+      ]
     },
     "ExecutorConfiguration":{
       "type":"structure",
@@ -1443,6 +1654,14 @@
     },
     "ExternalExecutionId":{"type":"string"},
     "ExternalExecutionSummary":{"type":"string"},
+    "FailureConditions":{
+      "type":"structure",
+      "members":{
+        "result":{"shape":"Result"},
+        "retryConfiguration":{"shape":"RetryConfiguration"},
+        "conditions":{"shape":"ConditionList"}
+      }
+    },
     "FailureDetails":{
       "type":"structure",
       "required":[
@@ -1465,6 +1684,17 @@
         "RevisionUnavailable",
         "SystemUnavailable"
       ]
+    },
+    "FilePath":{
+      "type":"string",
+      "max":128,
+      "min":1
+    },
+    "FilePathList":{
+      "type":"list",
+      "member":{"shape":"FilePath"},
+      "max":10,
+      "min":1
     },
     "GetActionTypeInput":{
       "type":"structure",
@@ -1565,6 +1795,113 @@
       "members":{
         "jobDetails":{"shape":"ThirdPartyJobDetails"}
       }
+    },
+    "GitBranchFilterCriteria":{
+      "type":"structure",
+      "members":{
+        "includes":{"shape":"GitBranchPatternList"},
+        "excludes":{"shape":"GitBranchPatternList"}
+      }
+    },
+    "GitBranchNamePattern":{
+      "type":"string",
+      "max":255,
+      "min":1,
+      "pattern":".*"
+    },
+    "GitBranchPatternList":{
+      "type":"list",
+      "member":{"shape":"GitBranchNamePattern"},
+      "max":8,
+      "min":1
+    },
+    "GitConfiguration":{
+      "type":"structure",
+      "required":["sourceActionName"],
+      "members":{
+        "sourceActionName":{"shape":"ActionName"},
+        "push":{"shape":"GitPushFilterList"},
+        "pullRequest":{"shape":"GitPullRequestFilterList"}
+      }
+    },
+    "GitFilePathFilterCriteria":{
+      "type":"structure",
+      "members":{
+        "includes":{"shape":"GitFilePathPatternList"},
+        "excludes":{"shape":"GitFilePathPatternList"}
+      }
+    },
+    "GitFilePathPattern":{
+      "type":"string",
+      "max":255,
+      "min":1,
+      "pattern":".*"
+    },
+    "GitFilePathPatternList":{
+      "type":"list",
+      "member":{"shape":"GitFilePathPattern"},
+      "max":8,
+      "min":1
+    },
+    "GitPullRequestEventType":{
+      "type":"string",
+      "enum":[
+        "OPEN",
+        "UPDATED",
+        "CLOSED"
+      ]
+    },
+    "GitPullRequestEventTypeList":{
+      "type":"list",
+      "member":{"shape":"GitPullRequestEventType"},
+      "max":3,
+      "min":1
+    },
+    "GitPullRequestFilter":{
+      "type":"structure",
+      "members":{
+        "events":{"shape":"GitPullRequestEventTypeList"},
+        "branches":{"shape":"GitBranchFilterCriteria"},
+        "filePaths":{"shape":"GitFilePathFilterCriteria"}
+      }
+    },
+    "GitPullRequestFilterList":{
+      "type":"list",
+      "member":{"shape":"GitPullRequestFilter"},
+      "max":3,
+      "min":1
+    },
+    "GitPushFilter":{
+      "type":"structure",
+      "members":{
+        "tags":{"shape":"GitTagFilterCriteria"},
+        "branches":{"shape":"GitBranchFilterCriteria"},
+        "filePaths":{"shape":"GitFilePathFilterCriteria"}
+      }
+    },
+    "GitPushFilterList":{
+      "type":"list",
+      "member":{"shape":"GitPushFilter"},
+      "max":3,
+      "min":1
+    },
+    "GitTagFilterCriteria":{
+      "type":"structure",
+      "members":{
+        "includes":{"shape":"GitTagPatternList"},
+        "excludes":{"shape":"GitTagPatternList"}
+      }
+    },
+    "GitTagNamePattern":{
+      "type":"string",
+      "max":255,
+      "min":1
+    },
+    "GitTagPatternList":{
+      "type":"list",
+      "member":{"shape":"GitTagNamePattern"},
+      "max":8,
+      "min":1
     },
     "InputArtifact":{
       "type":"structure",
@@ -1752,6 +2089,17 @@
     "LastChangedAt":{"type":"timestamp"},
     "LastChangedBy":{"type":"string"},
     "LastUpdatedBy":{"type":"string"},
+    "LatestInPipelineExecutionFilter":{
+      "type":"structure",
+      "required":[
+        "pipelineExecutionId",
+        "startTimeRange"
+      ],
+      "members":{
+        "pipelineExecutionId":{"shape":"PipelineExecutionId"},
+        "startTimeRange":{"shape":"StartTimeRange"}
+      }
+    },
     "LimitExceededException":{
       "type":"structure",
       "members":{
@@ -1797,6 +2145,7 @@
       "members":{
         "pipelineName":{"shape":"PipelineName"},
         "maxResults":{"shape":"MaxResults"},
+        "filter":{"shape":"PipelineExecutionFilter"},
         "nextToken":{"shape":"NextToken"}
       }
     },
@@ -1819,6 +2168,37 @@
       "members":{
         "pipelines":{"shape":"PipelineList"},
         "nextToken":{"shape":"NextToken"}
+      }
+    },
+    "ListRuleExecutionsInput":{
+      "type":"structure",
+      "required":["pipelineName"],
+      "members":{
+        "pipelineName":{"shape":"PipelineName"},
+        "filter":{"shape":"RuleExecutionFilter"},
+        "maxResults":{"shape":"MaxResults"},
+        "nextToken":{"shape":"NextToken"}
+      }
+    },
+    "ListRuleExecutionsOutput":{
+      "type":"structure",
+      "members":{
+        "ruleExecutionDetails":{"shape":"RuleExecutionDetailList"},
+        "nextToken":{"shape":"NextToken"}
+      }
+    },
+    "ListRuleTypesInput":{
+      "type":"structure",
+      "members":{
+        "ruleOwnerFilter":{"shape":"RuleOwner"},
+        "regionFilter":{"shape":"AWSRegionName"}
+      }
+    },
+    "ListRuleTypesOutput":{
+      "type":"structure",
+      "required":["ruleTypes"],
+      "members":{
+        "ruleTypes":{"shape":"RuleTypeList"}
       }
     },
     "ListTagsForResourceInput":{
@@ -1866,6 +2246,11 @@
         "webhooks":{"shape":"WebhookList"},
         "NextToken":{"shape":"NextToken"}
       }
+    },
+    "LogStreamARN":{
+      "type":"string",
+      "max":250,
+      "min":1
     },
     "MatchEquals":{
       "type":"string",
@@ -1931,12 +2316,24 @@
       "type":"structure",
       "required":["name"],
       "members":{
-        "name":{"shape":"ArtifactName"}
+        "name":{"shape":"ArtifactName"},
+        "files":{"shape":"FilePathList"}
       }
     },
     "OutputArtifactList":{
       "type":"list",
       "member":{"shape":"OutputArtifact"}
+    },
+    "OutputVariable":{
+      "type":"string",
+      "max":128,
+      "min":1
+    },
+    "OutputVariableList":{
+      "type":"list",
+      "member":{"shape":"OutputVariable"},
+      "max":15,
+      "min":1
     },
     "OutputVariablesKey":{
       "type":"string",
@@ -1955,6 +2352,21 @@
       "exception":true
     },
     "OutputVariablesValue":{"type":"string"},
+    "OverrideStageConditionInput":{
+      "type":"structure",
+      "required":[
+        "pipelineName",
+        "stageName",
+        "pipelineExecutionId",
+        "conditionType"
+      ],
+      "members":{
+        "pipelineName":{"shape":"PipelineName"},
+        "stageName":{"shape":"StageName"},
+        "pipelineExecutionId":{"shape":"PipelineExecutionId"},
+        "conditionType":{"shape":"ConditionType"}
+      }
+    },
     "Percentage":{
       "type":"integer",
       "max":100,
@@ -1987,7 +2399,11 @@
         "artifactStore":{"shape":"ArtifactStore"},
         "artifactStores":{"shape":"ArtifactStoreMap"},
         "stages":{"shape":"PipelineStageDeclarationList"},
-        "version":{"shape":"PipelineVersion"}
+        "version":{"shape":"PipelineVersion"},
+        "executionMode":{"shape":"ExecutionMode"},
+        "pipelineType":{"shape":"PipelineType"},
+        "variables":{"shape":"PipelineVariableDeclarationList"},
+        "triggers":{"shape":"PipelineTriggerDeclarationList"}
       }
     },
     "PipelineExecution":{
@@ -1998,7 +2414,18 @@
         "pipelineExecutionId":{"shape":"PipelineExecutionId"},
         "status":{"shape":"PipelineExecutionStatus"},
         "statusSummary":{"shape":"PipelineExecutionStatusSummary"},
-        "artifactRevisions":{"shape":"ArtifactRevisionList"}
+        "artifactRevisions":{"shape":"ArtifactRevisionList"},
+        "variables":{"shape":"ResolvedPipelineVariableList"},
+        "trigger":{"shape":"ExecutionTrigger"},
+        "executionMode":{"shape":"ExecutionMode"},
+        "executionType":{"shape":"ExecutionType"},
+        "rollbackMetadata":{"shape":"PipelineRollbackMetadata"}
+      }
+    },
+    "PipelineExecutionFilter":{
+      "type":"structure",
+      "members":{
+        "succeededInStage":{"shape":"SucceededInStageFilter"}
       }
     },
     "PipelineExecutionId":{
@@ -2012,6 +2439,13 @@
       "exception":true
     },
     "PipelineExecutionNotStoppableException":{
+      "type":"structure",
+      "members":{
+        "message":{"shape":"Message"}
+      },
+      "exception":true
+    },
+    "PipelineExecutionOutdatedException":{
       "type":"structure",
       "members":{
         "message":{"shape":"Message"}
@@ -2036,11 +2470,15 @@
       "members":{
         "pipelineExecutionId":{"shape":"PipelineExecutionId"},
         "status":{"shape":"PipelineExecutionStatus"},
+        "statusSummary":{"shape":"PipelineExecutionStatusSummary"},
         "startTime":{"shape":"Timestamp"},
         "lastUpdateTime":{"shape":"Timestamp"},
         "sourceRevisions":{"shape":"SourceRevisionList"},
         "trigger":{"shape":"ExecutionTrigger"},
-        "stopTrigger":{"shape":"StopExecutionTrigger"}
+        "stopTrigger":{"shape":"StopExecutionTrigger"},
+        "executionMode":{"shape":"ExecutionMode"},
+        "executionType":{"shape":"ExecutionType"},
+        "rollbackMetadata":{"shape":"PipelineRollbackMetadata"}
       }
     },
     "PipelineExecutionSummaryList":{
@@ -2056,7 +2494,8 @@
       "members":{
         "pipelineArn":{"shape":"PipelineArn"},
         "created":{"shape":"Timestamp"},
-        "updated":{"shape":"Timestamp"}
+        "updated":{"shape":"Timestamp"},
+        "pollingDisabledAt":{"shape":"Timestamp"}
       }
     },
     "PipelineName":{
@@ -2077,6 +2516,12 @@
       },
       "exception":true
     },
+    "PipelineRollbackMetadata":{
+      "type":"structure",
+      "members":{
+        "rollbackTargetPipelineExecutionId":{"shape":"PipelineExecutionId"}
+      }
+    },
     "PipelineStageDeclarationList":{
       "type":"list",
       "member":{"shape":"StageDeclaration"}
@@ -2086,9 +2531,87 @@
       "members":{
         "name":{"shape":"PipelineName"},
         "version":{"shape":"PipelineVersion"},
+        "pipelineType":{"shape":"PipelineType"},
+        "executionMode":{"shape":"ExecutionMode"},
         "created":{"shape":"Timestamp"},
         "updated":{"shape":"Timestamp"}
       }
+    },
+    "PipelineTriggerDeclaration":{
+      "type":"structure",
+      "required":[
+        "providerType",
+        "gitConfiguration"
+      ],
+      "members":{
+        "providerType":{"shape":"PipelineTriggerProviderType"},
+        "gitConfiguration":{"shape":"GitConfiguration"}
+      }
+    },
+    "PipelineTriggerDeclarationList":{
+      "type":"list",
+      "member":{"shape":"PipelineTriggerDeclaration"},
+      "max":50
+    },
+    "PipelineTriggerProviderType":{
+      "type":"string",
+      "enum":["CodeStarSourceConnection"]
+    },
+    "PipelineType":{
+      "type":"string",
+      "enum":[
+        "V1",
+        "V2"
+      ]
+    },
+    "PipelineVariable":{
+      "type":"structure",
+      "required":[
+        "name",
+        "value"
+      ],
+      "members":{
+        "name":{"shape":"PipelineVariableName"},
+        "value":{"shape":"PipelineVariableValue"}
+      }
+    },
+    "PipelineVariableDeclaration":{
+      "type":"structure",
+      "required":["name"],
+      "members":{
+        "name":{"shape":"PipelineVariableName"},
+        "defaultValue":{"shape":"PipelineVariableValue"},
+        "description":{"shape":"PipelineVariableDescription"}
+      }
+    },
+    "PipelineVariableDeclarationList":{
+      "type":"list",
+      "member":{"shape":"PipelineVariableDeclaration"},
+      "max":50
+    },
+    "PipelineVariableDescription":{
+      "type":"string",
+      "max":200,
+      "min":0,
+      "pattern":".*"
+    },
+    "PipelineVariableList":{
+      "type":"list",
+      "member":{"shape":"PipelineVariable"},
+      "max":50,
+      "min":1
+    },
+    "PipelineVariableName":{
+      "type":"string",
+      "max":128,
+      "min":1,
+      "pattern":"[A-Za-z0-9@\\-_]+"
+    },
+    "PipelineVariableValue":{
+      "type":"string",
+      "max":1000,
+      "min":1,
+      "pattern":".*"
     },
     "PipelineVersion":{
       "type":"integer",
@@ -2289,6 +2812,22 @@
       "key":{"shape":"String"},
       "value":{"shape":"String"}
     },
+    "ResolvedPipelineVariable":{
+      "type":"structure",
+      "members":{
+        "name":{"shape":"String"},
+        "resolvedValue":{"shape":"String"}
+      }
+    },
+    "ResolvedPipelineVariableList":{
+      "type":"list",
+      "member":{"shape":"ResolvedPipelineVariable"}
+    },
+    "ResolvedRuleConfigurationMap":{
+      "type":"map",
+      "key":{"shape":"String"},
+      "value":{"shape":"String"}
+    },
     "ResourceArn":{
       "type":"string",
       "pattern":"arn:aws(-[\\w]+)*:codepipeline:.+:[0-9]{12}:.+"
@@ -2298,6 +2837,25 @@
       "members":{
       },
       "exception":true
+    },
+    "Result":{
+      "type":"string",
+      "enum":[
+        "ROLLBACK",
+        "FAIL",
+        "RETRY",
+        "SKIP"
+      ]
+    },
+    "RetryAttempt":{
+      "type":"integer",
+      "min":1
+    },
+    "RetryConfiguration":{
+      "type":"structure",
+      "members":{
+        "retryMode":{"shape":"StageRetryMode"}
+      }
     },
     "RetryStageExecutionInput":{
       "type":"structure",
@@ -2320,6 +2878,21 @@
         "pipelineExecutionId":{"shape":"PipelineExecutionId"}
       }
     },
+    "RetryStageMetadata":{
+      "type":"structure",
+      "members":{
+        "autoStageRetryAttempt":{"shape":"RetryAttempt"},
+        "manualStageRetryAttempt":{"shape":"RetryAttempt"},
+        "latestRetryTrigger":{"shape":"RetryTrigger"}
+      }
+    },
+    "RetryTrigger":{
+      "type":"string",
+      "enum":[
+        "AutomatedStageRetry",
+        "ManualStageRetry"
+      ]
+    },
     "Revision":{
       "type":"string",
       "max":1500,
@@ -2339,6 +2912,276 @@
       "type":"string",
       "max":1024,
       "pattern":"arn:aws(-[\\w]+)*:iam::[0-9]{12}:role/.*"
+    },
+    "RollbackStageInput":{
+      "type":"structure",
+      "required":[
+        "pipelineName",
+        "stageName",
+        "targetPipelineExecutionId"
+      ],
+      "members":{
+        "pipelineName":{"shape":"PipelineName"},
+        "stageName":{"shape":"StageName"},
+        "targetPipelineExecutionId":{"shape":"PipelineExecutionId"}
+      }
+    },
+    "RollbackStageOutput":{
+      "type":"structure",
+      "required":["pipelineExecutionId"],
+      "members":{
+        "pipelineExecutionId":{"shape":"PipelineExecutionId"}
+      }
+    },
+    "RuleCategory":{
+      "type":"string",
+      "enum":["Rule"]
+    },
+    "RuleConfigurationKey":{
+      "type":"string",
+      "max":50,
+      "min":1
+    },
+    "RuleConfigurationMap":{
+      "type":"map",
+      "key":{"shape":"RuleConfigurationKey"},
+      "value":{"shape":"RuleConfigurationValue"},
+      "max":200,
+      "min":0
+    },
+    "RuleConfigurationProperty":{
+      "type":"structure",
+      "required":[
+        "name",
+        "required",
+        "key",
+        "secret"
+      ],
+      "members":{
+        "name":{"shape":"RuleConfigurationKey"},
+        "required":{"shape":"Boolean"},
+        "key":{"shape":"Boolean"},
+        "secret":{"shape":"Boolean"},
+        "queryable":{"shape":"Boolean"},
+        "description":{"shape":"Description"},
+        "type":{"shape":"RuleConfigurationPropertyType"}
+      }
+    },
+    "RuleConfigurationPropertyList":{
+      "type":"list",
+      "member":{"shape":"RuleConfigurationProperty"},
+      "max":10
+    },
+    "RuleConfigurationPropertyType":{
+      "type":"string",
+      "enum":[
+        "String",
+        "Number",
+        "Boolean"
+      ]
+    },
+    "RuleConfigurationValue":{
+      "type":"string",
+      "max":10000,
+      "min":1
+    },
+    "RuleDeclaration":{
+      "type":"structure",
+      "required":[
+        "name",
+        "ruleTypeId"
+      ],
+      "members":{
+        "name":{"shape":"RuleName"},
+        "ruleTypeId":{"shape":"RuleTypeId"},
+        "configuration":{"shape":"RuleConfigurationMap"},
+        "commands":{"shape":"CommandList"},
+        "inputArtifacts":{"shape":"InputArtifactList"},
+        "roleArn":{"shape":"RoleArn"},
+        "region":{"shape":"AWSRegionName"},
+        "timeoutInMinutes":{"shape":"RuleTimeout"}
+      }
+    },
+    "RuleDeclarationList":{
+      "type":"list",
+      "member":{"shape":"RuleDeclaration"},
+      "max":5,
+      "min":1
+    },
+    "RuleExecution":{
+      "type":"structure",
+      "members":{
+        "ruleExecutionId":{"shape":"RuleExecutionId"},
+        "status":{"shape":"RuleExecutionStatus"},
+        "summary":{"shape":"ExecutionSummary"},
+        "lastStatusChange":{"shape":"Timestamp"},
+        "token":{"shape":"RuleExecutionToken"},
+        "lastUpdatedBy":{"shape":"LastUpdatedBy"},
+        "externalExecutionId":{"shape":"ExecutionId"},
+        "externalExecutionUrl":{"shape":"Url"},
+        "errorDetails":{"shape":"ErrorDetails"}
+      }
+    },
+    "RuleExecutionDetail":{
+      "type":"structure",
+      "members":{
+        "pipelineExecutionId":{"shape":"PipelineExecutionId"},
+        "ruleExecutionId":{"shape":"RuleExecutionId"},
+        "pipelineVersion":{"shape":"PipelineVersion"},
+        "stageName":{"shape":"StageName"},
+        "ruleName":{"shape":"RuleName"},
+        "startTime":{"shape":"Timestamp"},
+        "lastUpdateTime":{"shape":"Timestamp"},
+        "updatedBy":{"shape":"LastUpdatedBy"},
+        "status":{"shape":"RuleExecutionStatus"},
+        "input":{"shape":"RuleExecutionInput"},
+        "output":{"shape":"RuleExecutionOutput"}
+      }
+    },
+    "RuleExecutionDetailList":{
+      "type":"list",
+      "member":{"shape":"RuleExecutionDetail"}
+    },
+    "RuleExecutionFilter":{
+      "type":"structure",
+      "members":{
+        "pipelineExecutionId":{"shape":"PipelineExecutionId"},
+        "latestInPipelineExecution":{"shape":"LatestInPipelineExecutionFilter"}
+      }
+    },
+    "RuleExecutionId":{
+      "type":"string",
+      "max":200,
+      "min":1
+    },
+    "RuleExecutionInput":{
+      "type":"structure",
+      "members":{
+        "ruleTypeId":{"shape":"RuleTypeId"},
+        "configuration":{"shape":"RuleConfigurationMap"},
+        "resolvedConfiguration":{"shape":"ResolvedRuleConfigurationMap"},
+        "roleArn":{"shape":"RoleArn"},
+        "region":{"shape":"AWSRegionName"},
+        "inputArtifacts":{"shape":"ArtifactDetailList"}
+      }
+    },
+    "RuleExecutionOutput":{
+      "type":"structure",
+      "members":{
+        "executionResult":{"shape":"RuleExecutionResult"}
+      }
+    },
+    "RuleExecutionResult":{
+      "type":"structure",
+      "members":{
+        "externalExecutionId":{"shape":"ExternalExecutionId"},
+        "externalExecutionSummary":{"shape":"ExternalExecutionSummary"},
+        "externalExecutionUrl":{"shape":"Url"},
+        "errorDetails":{"shape":"ErrorDetails"}
+      }
+    },
+    "RuleExecutionStatus":{
+      "type":"string",
+      "enum":[
+        "InProgress",
+        "Abandoned",
+        "Succeeded",
+        "Failed"
+      ]
+    },
+    "RuleExecutionToken":{
+      "type":"string",
+      "max":200,
+      "min":1,
+      "pattern":"[a-zA-Z0-9\\-\\.]+"
+    },
+    "RuleName":{
+      "type":"string",
+      "max":100,
+      "min":1,
+      "pattern":"[A-Za-z0-9.@\\-_]+"
+    },
+    "RuleOwner":{
+      "type":"string",
+      "enum":["AWS"]
+    },
+    "RuleProvider":{
+      "type":"string",
+      "max":35,
+      "min":1,
+      "pattern":"[0-9A-Za-z_-]+"
+    },
+    "RuleRevision":{
+      "type":"structure",
+      "required":[
+        "revisionId",
+        "revisionChangeId",
+        "created"
+      ],
+      "members":{
+        "revisionId":{"shape":"Revision"},
+        "revisionChangeId":{"shape":"RevisionChangeIdentifier"},
+        "created":{"shape":"Timestamp"}
+      }
+    },
+    "RuleState":{
+      "type":"structure",
+      "members":{
+        "ruleName":{"shape":"RuleName"},
+        "currentRevision":{"shape":"RuleRevision"},
+        "latestExecution":{"shape":"RuleExecution"},
+        "entityUrl":{"shape":"Url"},
+        "revisionUrl":{"shape":"Url"}
+      }
+    },
+    "RuleStateList":{
+      "type":"list",
+      "member":{"shape":"RuleState"}
+    },
+    "RuleTimeout":{
+      "type":"integer",
+      "box":true,
+      "max":86400,
+      "min":5
+    },
+    "RuleType":{
+      "type":"structure",
+      "required":[
+        "id",
+        "inputArtifactDetails"
+      ],
+      "members":{
+        "id":{"shape":"RuleTypeId"},
+        "settings":{"shape":"RuleTypeSettings"},
+        "ruleConfigurationProperties":{"shape":"RuleConfigurationPropertyList"},
+        "inputArtifactDetails":{"shape":"ArtifactDetails"}
+      }
+    },
+    "RuleTypeId":{
+      "type":"structure",
+      "required":[
+        "category",
+        "provider"
+      ],
+      "members":{
+        "category":{"shape":"RuleCategory"},
+        "owner":{"shape":"RuleOwner"},
+        "provider":{"shape":"RuleProvider"},
+        "version":{"shape":"Version"}
+      }
+    },
+    "RuleTypeList":{
+      "type":"list",
+      "member":{"shape":"RuleType"}
+    },
+    "RuleTypeSettings":{
+      "type":"structure",
+      "members":{
+        "thirdPartyConfigurationUrl":{"shape":"Url"},
+        "entityUrlTemplate":{"shape":"UrlTemplate"},
+        "executionUrlTemplate":{"shape":"UrlTemplate"},
+        "revisionUrlTemplate":{"shape":"UrlTemplate"}
+      }
     },
     "S3ArtifactLocation":{
       "type":"structure",
@@ -2397,6 +3240,34 @@
       "type":"list",
       "member":{"shape":"SourceRevision"}
     },
+    "SourceRevisionOverride":{
+      "type":"structure",
+      "required":[
+        "actionName",
+        "revisionType",
+        "revisionValue"
+      ],
+      "members":{
+        "actionName":{"shape":"ActionName"},
+        "revisionType":{"shape":"SourceRevisionType"},
+        "revisionValue":{"shape":"Revision"}
+      }
+    },
+    "SourceRevisionOverrideList":{
+      "type":"list",
+      "member":{"shape":"SourceRevisionOverride"},
+      "max":50,
+      "min":0
+    },
+    "SourceRevisionType":{
+      "type":"string",
+      "enum":[
+        "COMMIT_ID",
+        "IMAGE_DIGEST",
+        "S3_OBJECT_VERSION_ID",
+        "S3_OBJECT_KEY"
+      ]
+    },
     "StageActionDeclarationList":{
       "type":"list",
       "member":{"shape":"ActionDeclaration"}
@@ -2404,6 +3275,20 @@
     "StageBlockerDeclarationList":{
       "type":"list",
       "member":{"shape":"BlockerDeclaration"}
+    },
+    "StageConditionState":{
+      "type":"structure",
+      "members":{
+        "latestExecution":{"shape":"StageConditionsExecution"},
+        "conditionStates":{"shape":"ConditionStateList"}
+      }
+    },
+    "StageConditionsExecution":{
+      "type":"structure",
+      "members":{
+        "status":{"shape":"ConditionExecutionStatus"},
+        "summary":{"shape":"ExecutionSummary"}
+      }
     },
     "StageContext":{
       "type":"structure",
@@ -2420,7 +3305,10 @@
       "members":{
         "name":{"shape":"StageName"},
         "blockers":{"shape":"StageBlockerDeclarationList"},
-        "actions":{"shape":"StageActionDeclarationList"}
+        "actions":{"shape":"StageActionDeclarationList"},
+        "onFailure":{"shape":"FailureConditions"},
+        "onSuccess":{"shape":"SuccessConditions"},
+        "beforeEntry":{"shape":"BeforeEntryConditions"}
       }
     },
     "StageExecution":{
@@ -2431,8 +3319,13 @@
       ],
       "members":{
         "pipelineExecutionId":{"shape":"PipelineExecutionId"},
-        "status":{"shape":"StageExecutionStatus"}
+        "status":{"shape":"StageExecutionStatus"},
+        "type":{"shape":"ExecutionType"}
       }
+    },
+    "StageExecutionList":{
+      "type":"list",
+      "member":{"shape":"StageExecution"}
     },
     "StageExecutionStatus":{
       "type":"string",
@@ -2442,7 +3335,8 @@
         "Failed",
         "Stopped",
         "Stopping",
-        "Succeeded"
+        "Succeeded",
+        "Skipped"
       ]
     },
     "StageName":{
@@ -2465,16 +3359,24 @@
     },
     "StageRetryMode":{
       "type":"string",
-      "enum":["FAILED_ACTIONS"]
+      "enum":[
+        "FAILED_ACTIONS",
+        "ALL_ACTIONS"
+      ]
     },
     "StageState":{
       "type":"structure",
       "members":{
         "stageName":{"shape":"StageName"},
         "inboundExecution":{"shape":"StageExecution"},
+        "inboundExecutions":{"shape":"StageExecutionList"},
         "inboundTransitionState":{"shape":"TransitionState"},
         "actionStates":{"shape":"ActionStateList"},
-        "latestExecution":{"shape":"StageExecution"}
+        "latestExecution":{"shape":"StageExecution"},
+        "beforeEntryConditionState":{"shape":"StageConditionState"},
+        "onSuccessConditionState":{"shape":"StageConditionState"},
+        "onFailureConditionState":{"shape":"StageConditionState"},
+        "retryStageMetadata":{"shape":"RetryStageMetadata"}
       }
     },
     "StageStateList":{
@@ -2493,10 +3395,12 @@
       "required":["name"],
       "members":{
         "name":{"shape":"PipelineName"},
+        "variables":{"shape":"PipelineVariableList"},
         "clientRequestToken":{
           "shape":"ClientRequestToken",
           "idempotencyToken":true
-        }
+        },
+        "sourceRevisions":{"shape":"SourceRevisionOverrideList"}
       }
     },
     "StartPipelineExecutionOutput":{
@@ -2504,6 +3408,13 @@
       "members":{
         "pipelineExecutionId":{"shape":"PipelineExecutionId"}
       }
+    },
+    "StartTimeRange":{
+      "type":"string",
+      "enum":[
+        "Latest",
+        "All"
+      ]
     },
     "StopExecutionTrigger":{
       "type":"structure",
@@ -2535,6 +3446,19 @@
       "max":200
     },
     "String":{"type":"string"},
+    "SucceededInStageFilter":{
+      "type":"structure",
+      "members":{
+        "stageName":{"shape":"StageName"}
+      }
+    },
+    "SuccessConditions":{
+      "type":"structure",
+      "required":["conditions"],
+      "members":{
+        "conditions":{"shape":"ConditionList"}
+      }
+    },
     "Tag":{
       "type":"structure",
       "required":[
@@ -2648,8 +3572,18 @@
         "PollForSourceChanges",
         "Webhook",
         "CloudWatchEvent",
-        "PutActionRevision"
+        "PutActionRevision",
+        "WebhookV2",
+        "ManualRollback",
+        "AutomatedRollback"
       ]
+    },
+    "UnableToRollbackStageException":{
+      "type":"structure",
+      "members":{
+        "message":{"shape":"String"}
+      },
+      "exception":true
     },
     "UntagResourceInput":{
       "type":"structure",

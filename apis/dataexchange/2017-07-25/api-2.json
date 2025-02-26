@@ -2,9 +2,10 @@
   "version":"2.0",
   "metadata":{
     "apiVersion":"2017-07-25",
+    "auth":["aws.auth#sigv4"],
     "endpointPrefix":"dataexchange",
-    "jsonVersion":"1.1",
     "protocol":"rest-json",
+    "protocols":["rest-json"],
     "serviceFullName":"AWS Data Exchange",
     "serviceId":"DataExchange",
     "signatureVersion":"v4",
@@ -12,6 +13,24 @@
     "uid":"dataexchange-2017-07-25"
   },
   "operations":{
+    "AcceptDataGrant":{
+      "name":"AcceptDataGrant",
+      "http":{
+        "method":"POST",
+        "requestUri":"/v1/data-grants/{DataGrantArn}/accept",
+        "responseCode":200
+      },
+      "input":{"shape":"AcceptDataGrantRequest"},
+      "output":{"shape":"AcceptDataGrantResponse"},
+      "errors":[
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"AccessDeniedException"},
+        {"shape":"ConflictException"},
+        {"shape":"ValidationException"},
+        {"shape":"InternalServerException"}
+      ]
+    },
     "CancelJob":{
       "name":"CancelJob",
       "http":{
@@ -24,6 +43,24 @@
         {"shape":"ResourceNotFoundException"},
         {"shape":"ThrottlingException"},
         {"shape":"ConflictException"},
+        {"shape":"ValidationException"},
+        {"shape":"InternalServerException"}
+      ]
+    },
+    "CreateDataGrant":{
+      "name":"CreateDataGrant",
+      "http":{
+        "method":"POST",
+        "requestUri":"/v1/data-grants",
+        "responseCode":201
+      },
+      "input":{"shape":"CreateDataGrantRequest"},
+      "output":{"shape":"CreateDataGrantResponse"},
+      "errors":[
+        {"shape":"ServiceLimitExceededException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"AccessDeniedException"},
         {"shape":"ValidationException"},
         {"shape":"InternalServerException"}
       ]
@@ -114,6 +151,22 @@
         {"shape":"InternalServerException"}
       ]
     },
+    "DeleteDataGrant":{
+      "name":"DeleteDataGrant",
+      "http":{
+        "method":"DELETE",
+        "requestUri":"/v1/data-grants/{DataGrantId}",
+        "responseCode":204
+      },
+      "input":{"shape":"DeleteDataGrantRequest"},
+      "errors":[
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"AccessDeniedException"},
+        {"shape":"ValidationException"},
+        {"shape":"InternalServerException"}
+      ]
+    },
     "DeleteDataSet":{
       "name":"DeleteDataSet",
       "http":{
@@ -179,6 +232,23 @@
         {"shape":"InternalServerException"}
       ]
     },
+    "GetDataGrant":{
+      "name":"GetDataGrant",
+      "http":{
+        "method":"GET",
+        "requestUri":"/v1/data-grants/{DataGrantId}",
+        "responseCode":200
+      },
+      "input":{"shape":"GetDataGrantRequest"},
+      "output":{"shape":"GetDataGrantResponse"},
+      "errors":[
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"AccessDeniedException"},
+        {"shape":"ValidationException"},
+        {"shape":"InternalServerException"}
+      ]
+    },
     "GetDataSet":{
       "name":"GetDataSet",
       "http":{
@@ -227,6 +297,23 @@
         {"shape":"InternalServerException"}
       ]
     },
+    "GetReceivedDataGrant":{
+      "name":"GetReceivedDataGrant",
+      "http":{
+        "method":"GET",
+        "requestUri":"/v1/received-data-grants/{DataGrantArn}",
+        "responseCode":200
+      },
+      "input":{"shape":"GetReceivedDataGrantRequest"},
+      "output":{"shape":"GetReceivedDataGrantResponse"},
+      "errors":[
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"AccessDeniedException"},
+        {"shape":"ValidationException"},
+        {"shape":"InternalServerException"}
+      ]
+    },
     "GetRevision":{
       "name":"GetRevision",
       "http":{
@@ -239,6 +326,23 @@
       "errors":[
         {"shape":"ResourceNotFoundException"},
         {"shape":"ThrottlingException"},
+        {"shape":"ValidationException"},
+        {"shape":"InternalServerException"}
+      ]
+    },
+    "ListDataGrants":{
+      "name":"ListDataGrants",
+      "http":{
+        "method":"GET",
+        "requestUri":"/v1/data-grants",
+        "responseCode":200
+      },
+      "input":{"shape":"ListDataGrantsRequest"},
+      "output":{"shape":"ListDataGrantsResponse"},
+      "errors":[
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"AccessDeniedException"},
         {"shape":"ValidationException"},
         {"shape":"InternalServerException"}
       ]
@@ -307,6 +411,23 @@
         {"shape":"InternalServerException"}
       ]
     },
+    "ListReceivedDataGrants":{
+      "name":"ListReceivedDataGrants",
+      "http":{
+        "method":"GET",
+        "requestUri":"/v1/received-data-grants",
+        "responseCode":200
+      },
+      "input":{"shape":"ListReceivedDataGrantsRequest"},
+      "output":{"shape":"ListReceivedDataGrantsResponse"},
+      "errors":[
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"AccessDeniedException"},
+        {"shape":"ValidationException"},
+        {"shape":"InternalServerException"}
+      ]
+    },
     "ListRevisionAssets":{
       "name":"ListRevisionAssets",
       "http":{
@@ -368,6 +489,24 @@
         {"shape":"InternalServerException"}
       ],
       "endpoint":{"hostPrefix":"api-fulfill."}
+    },
+    "SendDataSetNotification":{
+      "name":"SendDataSetNotification",
+      "http":{
+        "method":"POST",
+        "requestUri":"/v1/data-sets/{DataSetId}/notification",
+        "responseCode":202
+      },
+      "input":{"shape":"SendDataSetNotificationRequest"},
+      "output":{"shape":"SendDataSetNotificationResponse"},
+      "errors":[
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"AccessDeniedException"},
+        {"shape":"ConflictException"},
+        {"shape":"ValidationException"},
+        {"shape":"InternalServerException"}
+      ]
     },
     "StartJob":{
       "name":"StartJob",
@@ -478,6 +617,57 @@
     }
   },
   "shapes":{
+    "AcceptDataGrantRequest":{
+      "type":"structure",
+      "required":["DataGrantArn"],
+      "members":{
+        "DataGrantArn":{
+          "shape":"DataGrantArn",
+          "location":"uri",
+          "locationName":"DataGrantArn"
+        }
+      }
+    },
+    "AcceptDataGrantResponse":{
+      "type":"structure",
+      "required":[
+        "Name",
+        "ReceiverPrincipal",
+        "AcceptanceState",
+        "GrantDistributionScope",
+        "DataSetId",
+        "Id",
+        "Arn",
+        "CreatedAt",
+        "UpdatedAt"
+      ],
+      "members":{
+        "Name":{"shape":"DataGrantName"},
+        "SenderPrincipal":{"shape":"SenderPrincipal"},
+        "ReceiverPrincipal":{"shape":"ReceiverPrincipal"},
+        "Description":{"shape":"DataGrantDescription"},
+        "AcceptanceState":{"shape":"DataGrantAcceptanceState"},
+        "AcceptedAt":{"shape":"Timestamp"},
+        "EndsAt":{"shape":"Timestamp"},
+        "GrantDistributionScope":{"shape":"GrantDistributionScope"},
+        "DataSetId":{"shape":"Id"},
+        "Id":{"shape":"Id"},
+        "Arn":{"shape":"Arn"},
+        "CreatedAt":{"shape":"Timestamp"},
+        "UpdatedAt":{"shape":"Timestamp"}
+      }
+    },
+    "AcceptanceStateFilterValue":{
+      "type":"string",
+      "enum":[
+        "PENDING_RECEIVER_ACCEPTANCE",
+        "ACCEPTED"
+      ]
+    },
+    "AcceptanceStateFilterValues":{
+      "type":"list",
+      "member":{"shape":"AcceptanceStateFilterValue"}
+    },
     "AccessDeniedException":{
       "type":"structure",
       "required":["Message"],
@@ -615,6 +805,12 @@
         }
       }
     },
+    "ClientToken":{
+      "type":"string",
+      "max":64,
+      "min":1,
+      "pattern":"[\\x21-\\x7E]{1,64}"
+    },
     "Code":{
       "type":"string",
       "enum":[
@@ -640,6 +836,57 @@
         "senderFault":true
       },
       "exception":true
+    },
+    "CreateDataGrantRequest":{
+      "type":"structure",
+      "required":[
+        "Name",
+        "GrantDistributionScope",
+        "ReceiverPrincipal",
+        "SourceDataSetId"
+      ],
+      "members":{
+        "Name":{"shape":"DataGrantName"},
+        "GrantDistributionScope":{"shape":"GrantDistributionScope"},
+        "ReceiverPrincipal":{"shape":"ReceiverPrincipal"},
+        "SourceDataSetId":{"shape":"Id"},
+        "EndsAt":{"shape":"Timestamp"},
+        "Description":{"shape":"Description"},
+        "Tags":{"shape":"MapOf__string"}
+      }
+    },
+    "CreateDataGrantResponse":{
+      "type":"structure",
+      "required":[
+        "Name",
+        "SenderPrincipal",
+        "ReceiverPrincipal",
+        "AcceptanceState",
+        "GrantDistributionScope",
+        "DataSetId",
+        "SourceDataSetId",
+        "Id",
+        "Arn",
+        "CreatedAt",
+        "UpdatedAt"
+      ],
+      "members":{
+        "Name":{"shape":"DataGrantName"},
+        "SenderPrincipal":{"shape":"SenderPrincipal"},
+        "ReceiverPrincipal":{"shape":"ReceiverPrincipal"},
+        "Description":{"shape":"DataGrantDescription"},
+        "AcceptanceState":{"shape":"DataGrantAcceptanceState"},
+        "AcceptedAt":{"shape":"Timestamp"},
+        "EndsAt":{"shape":"Timestamp"},
+        "GrantDistributionScope":{"shape":"GrantDistributionScope"},
+        "DataSetId":{"shape":"Id"},
+        "SourceDataSetId":{"shape":"Id"},
+        "Id":{"shape":"Id"},
+        "Arn":{"shape":"Arn"},
+        "CreatedAt":{"shape":"Timestamp"},
+        "UpdatedAt":{"shape":"Timestamp"},
+        "Tags":{"shape":"MapOf__string"}
+      }
     },
     "CreateDataSetRequest":{
       "type":"structure",
@@ -773,6 +1020,60 @@
         "RevisionId":{"shape":"Id"}
       }
     },
+    "DataGrantAcceptanceState":{
+      "type":"string",
+      "enum":[
+        "PENDING_RECEIVER_ACCEPTANCE",
+        "ACCEPTED"
+      ]
+    },
+    "DataGrantArn":{
+      "type":"string",
+      "pattern":"arn:aws:dataexchange:[\\-a-z0-9]*:(\\d{12}):data-grants\\/[a-zA-Z0-9]{30,40}"
+    },
+    "DataGrantDescription":{
+      "type":"string",
+      "max":16384,
+      "min":1
+    },
+    "DataGrantId":{
+      "type":"string",
+      "pattern":"[a-zA-Z0-9]{30,40}$|^arn:aws:dataexchange:[\\-a-z0-9]*:(\\d{12}):data-grants\\/[a-zA-Z0-9]{30,40}"
+    },
+    "DataGrantName":{
+      "type":"string",
+      "max":256,
+      "min":1
+    },
+    "DataGrantSummaryEntry":{
+      "type":"structure",
+      "required":[
+        "Name",
+        "SenderPrincipal",
+        "ReceiverPrincipal",
+        "AcceptanceState",
+        "DataSetId",
+        "SourceDataSetId",
+        "Id",
+        "Arn",
+        "CreatedAt",
+        "UpdatedAt"
+      ],
+      "members":{
+        "Name":{"shape":"DataGrantName"},
+        "SenderPrincipal":{"shape":"SenderPrincipal"},
+        "ReceiverPrincipal":{"shape":"ReceiverPrincipal"},
+        "AcceptanceState":{"shape":"DataGrantAcceptanceState"},
+        "AcceptedAt":{"shape":"Timestamp"},
+        "EndsAt":{"shape":"Timestamp"},
+        "DataSetId":{"shape":"Id"},
+        "SourceDataSetId":{"shape":"Id"},
+        "Id":{"shape":"Id"},
+        "Arn":{"shape":"Arn"},
+        "CreatedAt":{"shape":"Timestamp"},
+        "UpdatedAt":{"shape":"Timestamp"}
+      }
+    },
     "DataSetEntry":{
       "type":"structure",
       "required":[
@@ -796,6 +1097,12 @@
         "OriginDetails":{"shape":"OriginDetails"},
         "SourceId":{"shape":"Id"},
         "UpdatedAt":{"shape":"Timestamp"}
+      }
+    },
+    "DataUpdateRequestDetails":{
+      "type":"structure",
+      "members":{
+        "DataUpdatedAt":{"shape":"Timestamp"}
       }
     },
     "DatabaseLFTagPolicy":{
@@ -845,6 +1152,17 @@
         }
       }
     },
+    "DeleteDataGrantRequest":{
+      "type":"structure",
+      "required":["DataGrantId"],
+      "members":{
+        "DataGrantId":{
+          "shape":"DataGrantId",
+          "location":"uri",
+          "locationName":"DataGrantId"
+        }
+      }
+    },
     "DeleteDataSetRequest":{
       "type":"structure",
       "required":["DataSetId"],
@@ -884,6 +1202,13 @@
           "location":"uri",
           "locationName":"RevisionId"
         }
+      }
+    },
+    "DeprecationRequestDetails":{
+      "type":"structure",
+      "required":["DeprecationAt"],
+      "members":{
+        "DeprecationAt":{"shape":"Timestamp"}
       }
     },
     "Description":{"type":"string"},
@@ -1055,6 +1380,50 @@
         "UpdatedAt":{"shape":"Timestamp"}
       }
     },
+    "GetDataGrantRequest":{
+      "type":"structure",
+      "required":["DataGrantId"],
+      "members":{
+        "DataGrantId":{
+          "shape":"DataGrantId",
+          "location":"uri",
+          "locationName":"DataGrantId"
+        }
+      }
+    },
+    "GetDataGrantResponse":{
+      "type":"structure",
+      "required":[
+        "Name",
+        "SenderPrincipal",
+        "ReceiverPrincipal",
+        "AcceptanceState",
+        "GrantDistributionScope",
+        "DataSetId",
+        "SourceDataSetId",
+        "Id",
+        "Arn",
+        "CreatedAt",
+        "UpdatedAt"
+      ],
+      "members":{
+        "Name":{"shape":"DataGrantName"},
+        "SenderPrincipal":{"shape":"SenderPrincipal"},
+        "ReceiverPrincipal":{"shape":"ReceiverPrincipal"},
+        "Description":{"shape":"DataGrantDescription"},
+        "AcceptanceState":{"shape":"DataGrantAcceptanceState"},
+        "AcceptedAt":{"shape":"Timestamp"},
+        "EndsAt":{"shape":"Timestamp"},
+        "GrantDistributionScope":{"shape":"GrantDistributionScope"},
+        "DataSetId":{"shape":"Id"},
+        "SourceDataSetId":{"shape":"Id"},
+        "Id":{"shape":"Id"},
+        "Arn":{"shape":"Arn"},
+        "CreatedAt":{"shape":"Timestamp"},
+        "UpdatedAt":{"shape":"Timestamp"},
+        "Tags":{"shape":"MapOf__string"}
+      }
+    },
     "GetDataSetRequest":{
       "type":"structure",
       "required":["DataSetId"],
@@ -1128,6 +1497,46 @@
         "UpdatedAt":{"shape":"Timestamp"}
       }
     },
+    "GetReceivedDataGrantRequest":{
+      "type":"structure",
+      "required":["DataGrantArn"],
+      "members":{
+        "DataGrantArn":{
+          "shape":"DataGrantArn",
+          "location":"uri",
+          "locationName":"DataGrantArn"
+        }
+      }
+    },
+    "GetReceivedDataGrantResponse":{
+      "type":"structure",
+      "required":[
+        "Name",
+        "ReceiverPrincipal",
+        "AcceptanceState",
+        "GrantDistributionScope",
+        "DataSetId",
+        "Id",
+        "Arn",
+        "CreatedAt",
+        "UpdatedAt"
+      ],
+      "members":{
+        "Name":{"shape":"DataGrantName"},
+        "SenderPrincipal":{"shape":"SenderPrincipal"},
+        "ReceiverPrincipal":{"shape":"ReceiverPrincipal"},
+        "Description":{"shape":"DataGrantDescription"},
+        "AcceptanceState":{"shape":"DataGrantAcceptanceState"},
+        "AcceptedAt":{"shape":"Timestamp"},
+        "EndsAt":{"shape":"Timestamp"},
+        "GrantDistributionScope":{"shape":"GrantDistributionScope"},
+        "DataSetId":{"shape":"Id"},
+        "Id":{"shape":"Id"},
+        "Arn":{"shape":"Arn"},
+        "CreatedAt":{"shape":"Timestamp"},
+        "UpdatedAt":{"shape":"Timestamp"}
+      }
+    },
     "GetRevisionRequest":{
       "type":"structure",
       "required":[
@@ -1163,6 +1572,13 @@
         "Revoked":{"shape":"__boolean"},
         "RevokedAt":{"shape":"Timestamp"}
       }
+    },
+    "GrantDistributionScope":{
+      "type":"string",
+      "enum":[
+        "AWS_ORGANIZATION",
+        "NONE"
+      ]
     },
     "Id":{"type":"string"},
     "ImportAssetFromApiGatewayApiRequestDetails":{
@@ -1405,6 +1821,18 @@
         "DATA_SET"
       ]
     },
+    "KmsKeyArn":{
+      "type":"string",
+      "max":2048,
+      "min":1
+    },
+    "KmsKeyToGrant":{
+      "type":"structure",
+      "required":["KmsKeyArn"],
+      "members":{
+        "KmsKeyArn":{"shape":"KmsKeyArn"}
+      }
+    },
     "LFPermission":{
       "type":"string",
       "enum":[
@@ -1474,6 +1902,13 @@
       "type":"string",
       "enum":["LFTagPolicy"]
     },
+    "LakeFormationTagPolicyDetails":{
+      "type":"structure",
+      "members":{
+        "Database":{"shape":"__string"},
+        "Table":{"shape":"__string"}
+      }
+    },
     "LimitName":{
       "type":"string",
       "enum":[
@@ -1504,8 +1939,33 @@
         "Revisions per AWS Lake Formation data permission data set",
         "Revisions per Amazon S3 data access data set",
         "Amazon S3 data access assets per revision",
-        "Concurrent in progress jobs to create Amazon S3 data access assets from S3 buckets"
+        "Concurrent in progress jobs to create Amazon S3 data access assets from S3 buckets",
+        "Active and pending data grants",
+        "Pending data grants per consumer"
       ]
+    },
+    "ListDataGrantsRequest":{
+      "type":"structure",
+      "members":{
+        "MaxResults":{
+          "shape":"MaxResults",
+          "box":true,
+          "location":"querystring",
+          "locationName":"maxResults"
+        },
+        "NextToken":{
+          "shape":"__string",
+          "location":"querystring",
+          "locationName":"nextToken"
+        }
+      }
+    },
+    "ListDataGrantsResponse":{
+      "type":"structure",
+      "members":{
+        "DataGrantSummaries":{"shape":"ListOfDataGrantSummaryEntry"},
+        "NextToken":{"shape":"NextToken"}
+      }
     },
     "ListDataSetRevisionsRequest":{
       "type":"structure",
@@ -1633,6 +2093,10 @@
       "type":"list",
       "member":{"shape":"AssetSourceEntry"}
     },
+    "ListOfDataGrantSummaryEntry":{
+      "type":"list",
+      "member":{"shape":"DataGrantSummaryEntry"}
+    },
     "ListOfDataSetEntry":{
       "type":"list",
       "member":{"shape":"DataSetEntry"}
@@ -1653,6 +2117,12 @@
       "type":"list",
       "member":{"shape":"JobError"}
     },
+    "ListOfKmsKeysToGrant":{
+      "type":"list",
+      "member":{"shape":"KmsKeyToGrant"},
+      "max":10,
+      "min":1
+    },
     "ListOfLFPermissions":{
       "type":"list",
       "member":{"shape":"LFPermission"}
@@ -1665,9 +2135,21 @@
       "type":"list",
       "member":{"shape":"LFTag"}
     },
+    "ListOfLakeFormationTagPolicies":{
+      "type":"list",
+      "member":{"shape":"LakeFormationTagPolicyDetails"}
+    },
+    "ListOfReceivedDataGrantSummariesEntry":{
+      "type":"list",
+      "member":{"shape":"ReceivedDataGrantSummariesEntry"}
+    },
     "ListOfRedshiftDataShareAssetSourceEntry":{
       "type":"list",
       "member":{"shape":"RedshiftDataShareAssetSourceEntry"}
+    },
+    "ListOfRedshiftDataShares":{
+      "type":"list",
+      "member":{"shape":"RedshiftDataShareDetails"}
     },
     "ListOfRevisionDestinationEntry":{
       "type":"list",
@@ -1677,6 +2159,14 @@
       "type":"list",
       "member":{"shape":"RevisionEntry"}
     },
+    "ListOfS3DataAccesses":{
+      "type":"list",
+      "member":{"shape":"S3DataAccessDetails"}
+    },
+    "ListOfSchemaChangeDetails":{
+      "type":"list",
+      "member":{"shape":"SchemaChangeDetails"}
+    },
     "ListOfTableTagPolicyLFPermissions":{
       "type":"list",
       "member":{"shape":"TableTagPolicyLFPermission"}
@@ -1684,6 +2174,34 @@
     "ListOf__string":{
       "type":"list",
       "member":{"shape":"__string"}
+    },
+    "ListReceivedDataGrantsRequest":{
+      "type":"structure",
+      "members":{
+        "MaxResults":{
+          "shape":"MaxResults",
+          "box":true,
+          "location":"querystring",
+          "locationName":"maxResults"
+        },
+        "NextToken":{
+          "shape":"__string",
+          "location":"querystring",
+          "locationName":"nextToken"
+        },
+        "AcceptanceState":{
+          "shape":"AcceptanceStateFilterValues",
+          "location":"querystring",
+          "locationName":"acceptanceState"
+        }
+      }
+    },
+    "ListReceivedDataGrantsResponse":{
+      "type":"structure",
+      "members":{
+        "DataGrantSummaries":{"shape":"ListOfReceivedDataGrantSummariesEntry"},
+        "NextToken":{"shape":"NextToken"}
+      }
     },
     "ListRevisionAssetsRequest":{
       "type":"structure",
@@ -1748,11 +2266,28 @@
     },
     "MaxResults":{
       "type":"integer",
-      "max":25,
+      "max":200,
       "min":1
     },
     "Name":{"type":"string"},
     "NextToken":{"type":"string"},
+    "NotificationDetails":{
+      "type":"structure",
+      "members":{
+        "DataUpdate":{"shape":"DataUpdateRequestDetails"},
+        "Deprecation":{"shape":"DeprecationRequestDetails"},
+        "SchemaChange":{"shape":"SchemaChangeRequestDetails"}
+      }
+    },
+    "NotificationType":{
+      "type":"string",
+      "enum":[
+        "DATA_DELAY",
+        "DATA_UPDATE",
+        "DEPRECATION",
+        "SCHEMA_CHANGE"
+      ]
+    },
     "Origin":{
       "type":"string",
       "enum":[
@@ -1762,14 +2297,45 @@
     },
     "OriginDetails":{
       "type":"structure",
-      "required":["ProductId"],
       "members":{
-        "ProductId":{"shape":"__string"}
+        "ProductId":{"shape":"__string"},
+        "DataGrantId":{"shape":"__string"}
       }
     },
     "ProtocolType":{
       "type":"string",
       "enum":["REST"]
+    },
+    "ReceivedDataGrantSummariesEntry":{
+      "type":"structure",
+      "required":[
+        "Name",
+        "SenderPrincipal",
+        "ReceiverPrincipal",
+        "AcceptanceState",
+        "DataSetId",
+        "Id",
+        "Arn",
+        "CreatedAt",
+        "UpdatedAt"
+      ],
+      "members":{
+        "Name":{"shape":"DataGrantName"},
+        "SenderPrincipal":{"shape":"SenderPrincipal"},
+        "ReceiverPrincipal":{"shape":"ReceiverPrincipal"},
+        "AcceptanceState":{"shape":"DataGrantAcceptanceState"},
+        "AcceptedAt":{"shape":"Timestamp"},
+        "EndsAt":{"shape":"Timestamp"},
+        "DataSetId":{"shape":"Id"},
+        "Id":{"shape":"Id"},
+        "Arn":{"shape":"Arn"},
+        "CreatedAt":{"shape":"Timestamp"},
+        "UpdatedAt":{"shape":"Timestamp"}
+      }
+    },
+    "ReceiverPrincipal":{
+      "type":"string",
+      "pattern":"\\d{12}"
     },
     "RedshiftDataShareAsset":{
       "type":"structure",
@@ -1783,6 +2349,21 @@
       "required":["DataShareArn"],
       "members":{
         "DataShareArn":{"shape":"__string"}
+      }
+    },
+    "RedshiftDataShareDetails":{
+      "type":"structure",
+      "required":[
+        "Arn",
+        "Database"
+      ],
+      "members":{
+        "Arn":{"shape":"__string"},
+        "Database":{"shape":"__string"},
+        "Function":{"shape":"__string"},
+        "Table":{"shape":"__string"},
+        "Schema":{"shape":"__string"},
+        "View":{"shape":"__string"}
       }
     },
     "RequestDetails":{
@@ -1820,7 +2401,8 @@
         "REVISION",
         "ASSET",
         "JOB",
-        "EVENT_ACTION"
+        "EVENT_ACTION",
+        "DATA_GRANT"
       ]
     },
     "ResponseDetails":{
@@ -1928,7 +2510,8 @@
         "KeyPrefixes":{"shape":"ListOf__string"},
         "Keys":{"shape":"ListOf__string"},
         "S3AccessPointAlias":{"shape":"__string"},
-        "S3AccessPointArn":{"shape":"__string"}
+        "S3AccessPointArn":{"shape":"__string"},
+        "KmsKeysToGrant":{"shape":"ListOfKmsKeysToGrant"}
       }
     },
     "S3DataAccessAssetSourceEntry":{
@@ -1936,6 +2519,14 @@
       "required":["Bucket"],
       "members":{
         "Bucket":{"shape":"__string"},
+        "KeyPrefixes":{"shape":"ListOf__string"},
+        "Keys":{"shape":"ListOf__string"},
+        "KmsKeysToGrant":{"shape":"ListOfKmsKeysToGrant"}
+      }
+    },
+    "S3DataAccessDetails":{
+      "type":"structure",
+      "members":{
         "KeyPrefixes":{"shape":"ListOf__string"},
         "Keys":{"shape":"ListOf__string"}
       }
@@ -1945,6 +2536,42 @@
       "required":["Size"],
       "members":{
         "Size":{"shape":"__doubleMin0"}
+      }
+    },
+    "SchemaChangeDetails":{
+      "type":"structure",
+      "required":[
+        "Name",
+        "Type"
+      ],
+      "members":{
+        "Name":{"shape":"__string"},
+        "Type":{"shape":"SchemaChangeType"},
+        "Description":{"shape":"__string"}
+      }
+    },
+    "SchemaChangeRequestDetails":{
+      "type":"structure",
+      "required":["SchemaChangeAt"],
+      "members":{
+        "Changes":{"shape":"ListOfSchemaChangeDetails"},
+        "SchemaChangeAt":{"shape":"Timestamp"}
+      }
+    },
+    "SchemaChangeType":{
+      "type":"string",
+      "enum":[
+        "ADD",
+        "REMOVE",
+        "MODIFY"
+      ]
+    },
+    "ScopeDetails":{
+      "type":"structure",
+      "members":{
+        "LakeFormationTagPolicies":{"shape":"ListOfLakeFormationTagPolicies"},
+        "RedshiftDataShares":{"shape":"ListOfRedshiftDataShares"},
+        "S3DataAccesses":{"shape":"ListOfS3DataAccesses"}
       }
     },
     "SendApiAssetRequest":{
@@ -2004,6 +2631,37 @@
         }
       },
       "payload":"Body"
+    },
+    "SendDataSetNotificationRequest":{
+      "type":"structure",
+      "required":[
+        "DataSetId",
+        "Type"
+      ],
+      "members":{
+        "Scope":{"shape":"ScopeDetails"},
+        "ClientToken":{
+          "shape":"ClientToken",
+          "idempotencyToken":true
+        },
+        "Comment":{"shape":"__stringMin0Max4096"},
+        "DataSetId":{
+          "shape":"__string",
+          "location":"uri",
+          "locationName":"DataSetId"
+        },
+        "Details":{"shape":"NotificationDetails"},
+        "Type":{"shape":"NotificationType"}
+      }
+    },
+    "SendDataSetNotificationResponse":{
+      "type":"structure",
+      "members":{
+      }
+    },
+    "SenderPrincipal":{
+      "type":"string",
+      "pattern":"\\d{12}"
     },
     "ServerSideEncryptionTypes":{
       "type":"string",
@@ -2296,6 +2954,11 @@
     "__stringMin0Max16384":{
       "type":"string",
       "max":16384,
+      "min":0
+    },
+    "__stringMin0Max4096":{
+      "type":"string",
+      "max":4096,
       "min":0
     },
     "__stringMin10Max512":{

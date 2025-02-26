@@ -27,22 +27,41 @@ module Aws::IoTSiteWise
   # See {Seahorse::Client::RequestContext} for more information.
   #
   # ## Error Classes
+  # * {AccessDeniedException}
   # * {ConflictingOperationException}
   # * {InternalFailureException}
   # * {InvalidRequestException}
   # * {LimitExceededException}
+  # * {PreconditionFailedException}
+  # * {QueryTimeoutException}
   # * {ResourceAlreadyExistsException}
   # * {ResourceNotFoundException}
   # * {ServiceUnavailableException}
   # * {ThrottlingException}
   # * {TooManyTagsException}
   # * {UnauthorizedException}
+  # * {ValidationException}
   #
   # Additionally, error classes are dynamically generated for service errors based on the error code
   # if they are not defined above.
   module Errors
 
     extend Aws::Errors::DynamicErrors
+
+    class AccessDeniedException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::IoTSiteWise::Types::AccessDeniedException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+
+      # @return [String]
+      def message
+        @message || @data[:message]
+      end
+    end
 
     class ConflictingOperationException < ServiceError
 
@@ -104,6 +123,46 @@ module Aws::IoTSiteWise
       # @param [Seahorse::Client::RequestContext] context
       # @param [String] message
       # @param [Aws::IoTSiteWise::Types::LimitExceededException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+
+      # @return [String]
+      def message
+        @message || @data[:message]
+      end
+    end
+
+    class PreconditionFailedException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::IoTSiteWise::Types::PreconditionFailedException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+
+      # @return [String]
+      def message
+        @message || @data[:message]
+      end
+
+      # @return [String]
+      def resource_id
+        @data[:resource_id]
+      end
+
+      # @return [String]
+      def resource_arn
+        @data[:resource_arn]
+      end
+    end
+
+    class QueryTimeoutException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::IoTSiteWise::Types::QueryTimeoutException] data
       def initialize(context, message, data = Aws::EmptyStructure.new)
         super(context, message, data)
       end
@@ -209,6 +268,21 @@ module Aws::IoTSiteWise
       # @param [Seahorse::Client::RequestContext] context
       # @param [String] message
       # @param [Aws::IoTSiteWise::Types::UnauthorizedException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+
+      # @return [String]
+      def message
+        @message || @data[:message]
+      end
+    end
+
+    class ValidationException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::IoTSiteWise::Types::ValidationException] data
       def initialize(context, message, data = Aws::EmptyStructure.new)
         super(context, message, data)
       end

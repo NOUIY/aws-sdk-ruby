@@ -7,33 +7,34 @@
 #
 # WARNING ABOUT GENERATED CODE
 
-require 'seahorse/client/plugins/content_length.rb'
-require 'aws-sdk-core/plugins/credentials_configuration.rb'
-require 'aws-sdk-core/plugins/logging.rb'
-require 'aws-sdk-core/plugins/param_converter.rb'
-require 'aws-sdk-core/plugins/param_validator.rb'
-require 'aws-sdk-core/plugins/user_agent.rb'
-require 'aws-sdk-core/plugins/helpful_socket_errors.rb'
-require 'aws-sdk-core/plugins/retry_errors.rb'
-require 'aws-sdk-core/plugins/global_configuration.rb'
-require 'aws-sdk-core/plugins/regional_endpoint.rb'
-require 'aws-sdk-core/plugins/endpoint_discovery.rb'
-require 'aws-sdk-core/plugins/endpoint_pattern.rb'
-require 'aws-sdk-core/plugins/response_paging.rb'
-require 'aws-sdk-core/plugins/stub_responses.rb'
-require 'aws-sdk-core/plugins/idempotency_token.rb'
-require 'aws-sdk-core/plugins/jsonvalue_converter.rb'
-require 'aws-sdk-core/plugins/client_metrics_plugin.rb'
-require 'aws-sdk-core/plugins/client_metrics_send_plugin.rb'
-require 'aws-sdk-core/plugins/transfer_encoding.rb'
-require 'aws-sdk-core/plugins/http_checksum.rb'
-require 'aws-sdk-core/plugins/checksum_algorithm.rb'
-require 'aws-sdk-core/plugins/defaults_mode.rb'
-require 'aws-sdk-core/plugins/recursion_detection.rb'
-require 'aws-sdk-core/plugins/sign.rb'
-require 'aws-sdk-core/plugins/protocols/rest_json.rb'
-
-Aws::Plugins::GlobalConfiguration.add_identifier(:drs)
+require 'seahorse/client/plugins/content_length'
+require 'aws-sdk-core/plugins/credentials_configuration'
+require 'aws-sdk-core/plugins/logging'
+require 'aws-sdk-core/plugins/param_converter'
+require 'aws-sdk-core/plugins/param_validator'
+require 'aws-sdk-core/plugins/user_agent'
+require 'aws-sdk-core/plugins/helpful_socket_errors'
+require 'aws-sdk-core/plugins/retry_errors'
+require 'aws-sdk-core/plugins/global_configuration'
+require 'aws-sdk-core/plugins/regional_endpoint'
+require 'aws-sdk-core/plugins/endpoint_discovery'
+require 'aws-sdk-core/plugins/endpoint_pattern'
+require 'aws-sdk-core/plugins/response_paging'
+require 'aws-sdk-core/plugins/stub_responses'
+require 'aws-sdk-core/plugins/idempotency_token'
+require 'aws-sdk-core/plugins/invocation_id'
+require 'aws-sdk-core/plugins/jsonvalue_converter'
+require 'aws-sdk-core/plugins/client_metrics_plugin'
+require 'aws-sdk-core/plugins/client_metrics_send_plugin'
+require 'aws-sdk-core/plugins/transfer_encoding'
+require 'aws-sdk-core/plugins/http_checksum'
+require 'aws-sdk-core/plugins/checksum_algorithm'
+require 'aws-sdk-core/plugins/request_compression'
+require 'aws-sdk-core/plugins/defaults_mode'
+require 'aws-sdk-core/plugins/recursion_detection'
+require 'aws-sdk-core/plugins/telemetry'
+require 'aws-sdk-core/plugins/sign'
+require 'aws-sdk-core/plugins/protocols/rest_json'
 
 module Aws::Drs
   # An API client for Drs.  To construct a client, you need to configure a `:region` and `:credentials`.
@@ -71,20 +72,28 @@ module Aws::Drs
     add_plugin(Aws::Plugins::ResponsePaging)
     add_plugin(Aws::Plugins::StubResponses)
     add_plugin(Aws::Plugins::IdempotencyToken)
+    add_plugin(Aws::Plugins::InvocationId)
     add_plugin(Aws::Plugins::JsonvalueConverter)
     add_plugin(Aws::Plugins::ClientMetricsPlugin)
     add_plugin(Aws::Plugins::ClientMetricsSendPlugin)
     add_plugin(Aws::Plugins::TransferEncoding)
     add_plugin(Aws::Plugins::HttpChecksum)
     add_plugin(Aws::Plugins::ChecksumAlgorithm)
+    add_plugin(Aws::Plugins::RequestCompression)
     add_plugin(Aws::Plugins::DefaultsMode)
     add_plugin(Aws::Plugins::RecursionDetection)
+    add_plugin(Aws::Plugins::Telemetry)
     add_plugin(Aws::Plugins::Sign)
     add_plugin(Aws::Plugins::Protocols::RestJson)
     add_plugin(Aws::Drs::Plugins::Endpoints)
 
     # @overload initialize(options)
     #   @param [Hash] options
+    #
+    #   @option options [Array<Seahorse::Client::Plugin>] :plugins ([]])
+    #     A list of plugins to apply to the client. Each plugin is either a
+    #     class name or an instance of a plugin class.
+    #
     #   @option options [required, Aws::CredentialProvider] :credentials
     #     Your AWS credentials. This can be an instance of any one of the
     #     following classes:
@@ -119,13 +128,15 @@ module Aws::Drs
     #     locations will be searched for credentials:
     #
     #     * `Aws.config[:credentials]`
-    #     * The `:access_key_id`, `:secret_access_key`, and `:session_token` options.
-    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']
+    #     * The `:access_key_id`, `:secret_access_key`, `:session_token`, and
+    #       `:account_id` options.
+    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'],
+    #       ENV['AWS_SESSION_TOKEN'], and ENV['AWS_ACCOUNT_ID']
     #     * `~/.aws/credentials`
     #     * `~/.aws/config`
     #     * EC2/ECS IMDS instance profile - When used by default, the timeouts
     #       are very aggressive. Construct and pass an instance of
-    #       `Aws::InstanceProfileCredentails` or `Aws::ECSCredentials` to
+    #       `Aws::InstanceProfileCredentials` or `Aws::ECSCredentials` to
     #       enable retries and extended timeouts. Instance profile credential
     #       fetching can be disabled by setting ENV['AWS_EC2_METADATA_DISABLED']
     #       to true.
@@ -143,6 +154,8 @@ module Aws::Drs
     #     * `~/.aws/config`
     #
     #   @option options [String] :access_key_id
+    #
+    #   @option options [String] :account_id
     #
     #   @option options [Boolean] :active_endpoint_cache (false)
     #     When set to `true`, a thread polling for endpoints will be running in
@@ -190,10 +203,20 @@ module Aws::Drs
     #     Set to true to disable SDK automatically adding host prefix
     #     to default service endpoint when available.
     #
-    #   @option options [String] :endpoint
-    #     The client endpoint is normally constructed from the `:region`
-    #     option. You should only configure an `:endpoint` when connecting
-    #     to test or custom endpoints. This should be a valid HTTP(S) URI.
+    #   @option options [Boolean] :disable_request_compression (false)
+    #     When set to 'true' the request body will not be compressed
+    #     for supported operations.
+    #
+    #   @option options [String, URI::HTTPS, URI::HTTP] :endpoint
+    #     Normally you should not configure the `:endpoint` option
+    #     directly. This is normally constructed from the `:region`
+    #     option. Configuring `:endpoint` is normally reserved for
+    #     connecting to test or custom endpoints. The endpoint should
+    #     be a URI formatted like:
+    #
+    #         'http://example.com'
+    #         'https://example.com'
+    #         'http://example.com:123'
     #
     #   @option options [Integer] :endpoint_cache_max_entries (1000)
     #     Used for the maximum size limit of the LRU cache storing endpoints data
@@ -209,6 +232,10 @@ module Aws::Drs
     #
     #   @option options [Boolean] :endpoint_discovery (false)
     #     When set to `true`, endpoint discovery will be enabled for operations when available.
+    #
+    #   @option options [Boolean] :ignore_configured_endpoint_urls
+    #     Setting to true disables use of endpoint URLs provided via environment
+    #     variables and the shared configuration file.
     #
     #   @option options [Aws::Log::Formatter] :log_formatter (Aws::Log::Formatter.default)
     #     The log formatter.
@@ -229,6 +256,34 @@ module Aws::Drs
     #   @option options [String] :profile ("default")
     #     Used when loading credentials from the shared credentials file
     #     at HOME/.aws/credentials.  When not specified, 'default' is used.
+    #
+    #   @option options [String] :request_checksum_calculation ("when_supported")
+    #     Determines when a checksum will be calculated for request payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, a checksum will be
+    #       calculated for all request payloads of operations modeled with the
+    #       `httpChecksum` trait where `requestChecksumRequired` is `true` and/or a
+    #       `requestAlgorithmMember` is modeled.
+    #     * `when_required` - When set, a checksum will only be calculated for
+    #       request payloads of operations modeled with the  `httpChecksum` trait where
+    #       `requestChecksumRequired` is `true` or where a `requestAlgorithmMember`
+    #       is modeled and supplied.
+    #
+    #   @option options [Integer] :request_min_compression_size_bytes (10240)
+    #     The minimum size in bytes that triggers compression for request
+    #     bodies. The value must be non-negative integer value between 0
+    #     and 10485780 bytes inclusive.
+    #
+    #   @option options [String] :response_checksum_validation ("when_supported")
+    #     Determines when checksum validation will be performed on response payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, checksum validation is performed on all
+    #       response payloads of operations modeled with the `httpChecksum` trait where
+    #       `responseAlgorithms` is modeled, except when no modeled checksum algorithms
+    #       are supported.
+    #     * `when_required` - When set, checksum validation is not performed on
+    #       response payloads of operations unless the checksum algorithm is supported and
+    #       the `requestValidationModeMember` member is set to `ENABLED`.
     #
     #   @option options [Proc] :retry_backoff
     #     A proc or lambda used for backoff. Defaults to 2**retries * retry_base_delay.
@@ -274,10 +329,24 @@ module Aws::Drs
     #       throttling.  This is a provisional mode that may change behavior
     #       in the future.
     #
+    #   @option options [String] :sdk_ua_app_id
+    #     A unique and opaque application ID that is appended to the
+    #     User-Agent header as app/sdk_ua_app_id. It should have a
+    #     maximum length of 50. This variable is sourced from environment
+    #     variable AWS_SDK_UA_APP_ID or the shared config profile attribute sdk_ua_app_id.
     #
     #   @option options [String] :secret_access_key
     #
     #   @option options [String] :session_token
+    #
+    #   @option options [Array] :sigv4a_signing_region_set
+    #     A list of regions that should be signed with SigV4a signing. When
+    #     not passed, a default `:sigv4a_signing_region_set` is searched for
+    #     in the following locations:
+    #
+    #     * `Aws.config[:sigv4a_signing_region_set]`
+    #     * `ENV['AWS_SIGV4A_SIGNING_REGION_SET']`
+    #     * `~/.aws/config`
     #
     #   @option options [Boolean] :stub_responses (false)
     #     Causes the client to return stubbed responses. By default
@@ -287,6 +356,16 @@ module Aws::Drs
     #
     #     ** Please note ** When response stubbing is enabled, no HTTP
     #     requests are made, and retries are disabled.
+    #
+    #   @option options [Aws::Telemetry::TelemetryProviderBase] :telemetry_provider (Aws::Telemetry::NoOpTelemetryProvider)
+    #     Allows you to provide a telemetry provider, which is used to
+    #     emit telemetry data. By default, uses `NoOpTelemetryProvider` which
+    #     will not record or emit any telemetry data. The SDK supports the
+    #     following telemetry providers:
+    #
+    #     * OpenTelemetry (OTel) - To use the OTel provider, install and require the
+    #     `opentelemetry-sdk` gem and then, pass in an instance of a
+    #     `Aws::Telemetry::OTelProvider` for telemetry provider.
     #
     #   @option options [Aws::TokenProvider] :token_provider
     #     A Bearer Token Provider. This can be an instance of any one of the
@@ -315,58 +394,148 @@ module Aws::Drs
     #     sending the request.
     #
     #   @option options [Aws::Drs::EndpointProvider] :endpoint_provider
-    #     The endpoint provider used to resolve endpoints. Any object that responds to `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to `Aws::Drs::EndpointParameters`
+    #     The endpoint provider used to resolve endpoints. Any object that responds to
+    #     `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+    #     `Aws::Drs::EndpointParameters`.
     #
-    #   @option options [URI::HTTP,String] :http_proxy A proxy to send
-    #     requests through.  Formatted like 'http://proxy.com:123'.
+    #   @option options [Float] :http_continue_timeout (1)
+    #     The number of seconds to wait for a 100-continue response before sending the
+    #     request body.  This option has no effect unless the request has "Expect"
+    #     header set to "100-continue".  Defaults to `nil` which  disables this
+    #     behaviour.  This value can safely be set per request on the session.
     #
-    #   @option options [Float] :http_open_timeout (15) The number of
-    #     seconds to wait when opening a HTTP session before raising a
-    #     `Timeout::Error`.
+    #   @option options [Float] :http_idle_timeout (5)
+    #     The number of seconds a connection is allowed to sit idle before it
+    #     is considered stale.  Stale connections are closed and removed from the
+    #     pool before making a request.
     #
-    #   @option options [Float] :http_read_timeout (60) The default
-    #     number of seconds to wait for response data.  This value can
-    #     safely be set per-request on the session.
+    #   @option options [Float] :http_open_timeout (15)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :http_idle_timeout (5) The number of
-    #     seconds a connection is allowed to sit idle before it is
-    #     considered stale.  Stale connections are closed and removed
-    #     from the pool before making a request.
+    #   @option options [URI::HTTP,String] :http_proxy
+    #     A proxy to send requests through.  Formatted like 'http://proxy.com:123'.
     #
-    #   @option options [Float] :http_continue_timeout (1) The number of
-    #     seconds to wait for a 100-continue response before sending the
-    #     request body.  This option has no effect unless the request has
-    #     "Expect" header set to "100-continue".  Defaults to `nil` which
-    #     disables this behaviour.  This value can safely be set per
-    #     request on the session.
+    #   @option options [Float] :http_read_timeout (60)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :ssl_timeout (nil) Sets the SSL timeout
-    #     in seconds.
+    #   @option options [Boolean] :http_wire_trace (false)
+    #     When `true`,  HTTP debug output will be sent to the `:logger`.
     #
-    #   @option options [Boolean] :http_wire_trace (false) When `true`,
-    #     HTTP debug output will be sent to the `:logger`.
+    #   @option options [Proc] :on_chunk_received
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the response body is received. It provides three arguments: the chunk,
+    #     the number of bytes received, and the total number of
+    #     bytes in the response (or nil if the server did not send a `content-length`).
     #
-    #   @option options [Boolean] :ssl_verify_peer (true) When `true`,
-    #     SSL peer certificates are verified when establishing a
-    #     connection.
+    #   @option options [Proc] :on_chunk_sent
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the request body is sent. It provides three arguments: the chunk,
+    #     the number of bytes read from the body, and the total number of
+    #     bytes in the body.
     #
-    #   @option options [String] :ssl_ca_bundle Full path to the SSL
-    #     certificate authority bundle file that should be used when
-    #     verifying peer certificates.  If you do not pass
-    #     `:ssl_ca_bundle` or `:ssl_ca_directory` the the system default
-    #     will be used if available.
+    #   @option options [Boolean] :raise_response_errors (true)
+    #     When `true`, response errors are raised.
     #
-    #   @option options [String] :ssl_ca_directory Full path of the
-    #     directory that contains the unbundled SSL certificate
+    #   @option options [String] :ssl_ca_bundle
+    #     Full path to the SSL certificate authority bundle file that should be used when
+    #     verifying peer certificates.  If you do not pass `:ssl_ca_bundle` or
+    #     `:ssl_ca_directory` the the system default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_directory
+    #     Full path of the directory that contains the unbundled SSL certificate
     #     authority files for verifying peer certificates.  If you do
-    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the
-    #     system default will be used if available.
+    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the system
+    #     default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_store
+    #     Sets the X509::Store to verify peer certificate.
+    #
+    #   @option options [OpenSSL::X509::Certificate] :ssl_cert
+    #     Sets a client certificate when creating http connections.
+    #
+    #   @option options [OpenSSL::PKey] :ssl_key
+    #     Sets a client key when creating http connections.
+    #
+    #   @option options [Float] :ssl_timeout
+    #     Sets the SSL timeout in seconds
+    #
+    #   @option options [Boolean] :ssl_verify_peer (true)
+    #     When `true`, SSL peer certificates are verified when establishing a connection.
     #
     def initialize(*args)
       super
     end
 
     # @!group API Operations
+
+    # Associate a Source Network to an existing CloudFormation Stack and
+    # modify launch templates to use this network. Can be used for reverting
+    # to previously deployed CloudFormation stacks.
+    #
+    # @option params [required, String] :cfn_stack_name
+    #   CloudFormation template to associate with a Source Network.
+    #
+    # @option params [required, String] :source_network_id
+    #   The Source Network ID to associate with CloudFormation template.
+    #
+    # @return [Types::AssociateSourceNetworkStackResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::AssociateSourceNetworkStackResponse#job #job} => Types::Job
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.associate_source_network_stack({
+    #     cfn_stack_name: "CfnStackName", # required
+    #     source_network_id: "SourceNetworkID", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.job.arn #=> String
+    #   resp.job.creation_date_time #=> String
+    #   resp.job.end_date_time #=> String
+    #   resp.job.initiated_by #=> String, one of "START_RECOVERY", "START_DRILL", "FAILBACK", "DIAGNOSTIC", "TERMINATE_RECOVERY_INSTANCES", "TARGET_ACCOUNT", "CREATE_NETWORK_RECOVERY", "UPDATE_NETWORK_RECOVERY", "ASSOCIATE_NETWORK_RECOVERY"
+    #   resp.job.job_id #=> String
+    #   resp.job.participating_resources #=> Array
+    #   resp.job.participating_resources[0].launch_status #=> String, one of "PENDING", "IN_PROGRESS", "LAUNCHED", "FAILED", "TERMINATED"
+    #   resp.job.participating_resources[0].participating_resource_id.source_network_id #=> String
+    #   resp.job.participating_servers #=> Array
+    #   resp.job.participating_servers[0].launch_actions_status.runs #=> Array
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].action.action_code #=> String
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].action.action_id #=> String
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].action.action_version #=> String
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].action.active #=> Boolean
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].action.category #=> String, one of "MONITORING", "VALIDATION", "CONFIGURATION", "SECURITY", "OTHER"
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].action.description #=> String
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].action.name #=> String
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].action.optional #=> Boolean
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].action.order #=> Integer
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].action.parameters #=> Hash
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].action.parameters["LaunchActionParameterName"].type #=> String, one of "SSM_STORE", "DYNAMIC"
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].action.parameters["LaunchActionParameterName"].value #=> String
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].action.type #=> String, one of "SSM_AUTOMATION", "SSM_COMMAND"
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].failure_reason #=> String
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].run_id #=> String
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].status #=> String, one of "IN_PROGRESS", "SUCCEEDED", "FAILED"
+    #   resp.job.participating_servers[0].launch_actions_status.ssm_agent_discovery_datetime #=> String
+    #   resp.job.participating_servers[0].launch_status #=> String, one of "PENDING", "IN_PROGRESS", "LAUNCHED", "FAILED", "TERMINATED"
+    #   resp.job.participating_servers[0].recovery_instance_id #=> String
+    #   resp.job.participating_servers[0].source_server_id #=> String
+    #   resp.job.status #=> String, one of "PENDING", "STARTED", "COMPLETED"
+    #   resp.job.tags #=> Hash
+    #   resp.job.tags["TagKey"] #=> String
+    #   resp.job.type #=> String, one of "LAUNCH", "TERMINATE", "CREATE_CONVERTED_SNAPSHOT"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/drs-2020-02-26/AssociateSourceNetworkStack AWS API Documentation
+    #
+    # @overload associate_source_network_stack(params = {})
+    # @param [Hash] params ({})
+    def associate_source_network_stack(params = {}, options = {})
+      req = build_request(:associate_source_network_stack, params)
+      req.send_request(options)
+    end
 
     # Create an extended source server in the target Account based on the
     # source server in staging account.
@@ -393,6 +562,7 @@ module Aws::Drs
     #
     # @example Response structure
     #
+    #   resp.source_server.agent_version #=> String
     #   resp.source_server.arn #=> String
     #   resp.source_server.data_replication_info.data_replication_error.error #=> String, one of "AGENT_NOT_SEEN", "SNAPSHOTS_FAILURE", "NOT_CONVERGING", "UNSTABLE_NETWORK", "FAILED_TO_CREATE_SECURITY_GROUP", "FAILED_TO_LAUNCH_REPLICATION_SERVER", "FAILED_TO_BOOT_REPLICATION_SERVER", "FAILED_TO_AUTHENTICATE_WITH_SERVICE", "FAILED_TO_DOWNLOAD_REPLICATION_SOFTWARE", "FAILED_TO_CREATE_STAGING_DISKS", "FAILED_TO_ATTACH_STAGING_DISKS", "FAILED_TO_PAIR_REPLICATION_SERVER_WITH_AGENT", "FAILED_TO_CONNECT_AGENT_TO_REPLICATION_SERVER", "FAILED_TO_START_DATA_TRANSFER"
     #   resp.source_server.data_replication_info.data_replication_error.raw_error #=> String
@@ -410,6 +580,9 @@ module Aws::Drs
     #   resp.source_server.data_replication_info.replicated_disks[0].replicated_storage_bytes #=> Integer
     #   resp.source_server.data_replication_info.replicated_disks[0].rescanned_storage_bytes #=> Integer
     #   resp.source_server.data_replication_info.replicated_disks[0].total_storage_bytes #=> Integer
+    #   resp.source_server.data_replication_info.replicated_disks[0].volume_status #=> String, one of "REGULAR", "CONTAINS_MARKETPLACE_PRODUCT_CODES", "MISSING_VOLUME_ATTRIBUTES", "MISSING_VOLUME_ATTRIBUTES_AND_PRECHECK_UNAVAILABLE", "PENDING"
+    #   resp.source_server.data_replication_info.staging_availability_zone #=> String
+    #   resp.source_server.data_replication_info.staging_outpost_arn #=> String
     #   resp.source_server.last_launch_result #=> String, one of "NOT_STARTED", "PENDING", "SUCCEEDED", "FAILED"
     #   resp.source_server.life_cycle.added_to_service_date_time #=> String
     #   resp.source_server.life_cycle.elapsed_replication_duration #=> String
@@ -417,6 +590,7 @@ module Aws::Drs
     #   resp.source_server.life_cycle.last_launch.initiated.api_call_date_time #=> String
     #   resp.source_server.life_cycle.last_launch.initiated.job_id #=> String
     #   resp.source_server.life_cycle.last_launch.initiated.type #=> String, one of "RECOVERY", "DRILL"
+    #   resp.source_server.life_cycle.last_launch.status #=> String, one of "PENDING", "IN_PROGRESS", "LAUNCHED", "FAILED", "TERMINATED"
     #   resp.source_server.life_cycle.last_seen_by_service_date_time #=> String
     #   resp.source_server.recovery_instance_id #=> String
     #   resp.source_server.replication_direction #=> String, one of "FAILOVER", "FAILBACK"
@@ -424,6 +598,8 @@ module Aws::Drs
     #   resp.source_server.source_cloud_properties.origin_account_id #=> String
     #   resp.source_server.source_cloud_properties.origin_availability_zone #=> String
     #   resp.source_server.source_cloud_properties.origin_region #=> String
+    #   resp.source_server.source_cloud_properties.source_outpost_arn #=> String
+    #   resp.source_server.source_network_id #=> String
     #   resp.source_server.source_properties.cpus #=> Array
     #   resp.source_server.source_properties.cpus[0].cores #=> Integer
     #   resp.source_server.source_properties.cpus[0].model_name #=> String
@@ -443,6 +619,7 @@ module Aws::Drs
     #   resp.source_server.source_properties.os.full_string #=> String
     #   resp.source_server.source_properties.ram_bytes #=> Integer
     #   resp.source_server.source_properties.recommended_instance_type #=> String
+    #   resp.source_server.source_properties.supports_nitro_instances #=> Boolean
     #   resp.source_server.source_server_id #=> String
     #   resp.source_server.staging_area.error_message #=> String
     #   resp.source_server.staging_area.staging_account_id #=> String
@@ -460,11 +637,93 @@ module Aws::Drs
       req.send_request(options)
     end
 
+    # Creates a new Launch Configuration Template.
+    #
+    # @option params [Boolean] :copy_private_ip
+    #   Copy private IP.
+    #
+    # @option params [Boolean] :copy_tags
+    #   Copy tags.
+    #
+    # @option params [String] :export_bucket_arn
+    #   S3 bucket ARN to export Source Network templates.
+    #
+    # @option params [String] :launch_disposition
+    #   Launch disposition.
+    #
+    # @option params [Boolean] :launch_into_source_instance
+    #   DRS will set the 'launch into instance ID' of any source server when
+    #   performing a drill, recovery or failback to the previous region or
+    #   availability zone, using the instance ID of the source instance.
+    #
+    # @option params [Types::Licensing] :licensing
+    #   Licensing.
+    #
+    # @option params [Boolean] :post_launch_enabled
+    #   Whether we want to activate post-launch actions.
+    #
+    # @option params [Hash<String,String>] :tags
+    #   Request to associate tags during creation of a Launch Configuration
+    #   Template.
+    #
+    # @option params [String] :target_instance_type_right_sizing_method
+    #   Target instance type right-sizing method.
+    #
+    # @return [Types::CreateLaunchConfigurationTemplateResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateLaunchConfigurationTemplateResponse#launch_configuration_template #launch_configuration_template} => Types::LaunchConfigurationTemplate
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_launch_configuration_template({
+    #     copy_private_ip: false,
+    #     copy_tags: false,
+    #     export_bucket_arn: "ARN",
+    #     launch_disposition: "STOPPED", # accepts STOPPED, STARTED
+    #     launch_into_source_instance: false,
+    #     licensing: {
+    #       os_byol: false,
+    #     },
+    #     post_launch_enabled: false,
+    #     tags: {
+    #       "TagKey" => "TagValue",
+    #     },
+    #     target_instance_type_right_sizing_method: "NONE", # accepts NONE, BASIC, IN_AWS
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.launch_configuration_template.arn #=> String
+    #   resp.launch_configuration_template.copy_private_ip #=> Boolean
+    #   resp.launch_configuration_template.copy_tags #=> Boolean
+    #   resp.launch_configuration_template.export_bucket_arn #=> String
+    #   resp.launch_configuration_template.launch_configuration_template_id #=> String
+    #   resp.launch_configuration_template.launch_disposition #=> String, one of "STOPPED", "STARTED"
+    #   resp.launch_configuration_template.launch_into_source_instance #=> Boolean
+    #   resp.launch_configuration_template.licensing.os_byol #=> Boolean
+    #   resp.launch_configuration_template.post_launch_enabled #=> Boolean
+    #   resp.launch_configuration_template.tags #=> Hash
+    #   resp.launch_configuration_template.tags["TagKey"] #=> String
+    #   resp.launch_configuration_template.target_instance_type_right_sizing_method #=> String, one of "NONE", "BASIC", "IN_AWS"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/drs-2020-02-26/CreateLaunchConfigurationTemplate AWS API Documentation
+    #
+    # @overload create_launch_configuration_template(params = {})
+    # @param [Hash] params ({})
+    def create_launch_configuration_template(params = {}, options = {})
+      req = build_request(:create_launch_configuration_template, params)
+      req.send_request(options)
+    end
+
     # Creates a new ReplicationConfigurationTemplate.
     #
     # @option params [required, Boolean] :associate_default_security_group
     #   Whether to associate the default Elastic Disaster Recovery Security
     #   group with the Replication Configuration Template.
+    #
+    # @option params [Boolean] :auto_replicate_new_disks
+    #   Whether to allow the AWS replication agent to automatically replicate
+    #   newly added disks.
     #
     # @option params [required, Integer] :bandwidth_throttling
     #   Configure bandwidth throttling for the outbound data transfer rate of
@@ -515,6 +774,7 @@ module Aws::Drs
     #
     #   * {Types::ReplicationConfigurationTemplate#arn #arn} => String
     #   * {Types::ReplicationConfigurationTemplate#associate_default_security_group #associate_default_security_group} => Boolean
+    #   * {Types::ReplicationConfigurationTemplate#auto_replicate_new_disks #auto_replicate_new_disks} => Boolean
     #   * {Types::ReplicationConfigurationTemplate#bandwidth_throttling #bandwidth_throttling} => Integer
     #   * {Types::ReplicationConfigurationTemplate#create_public_ip #create_public_ip} => Boolean
     #   * {Types::ReplicationConfigurationTemplate#data_plane_routing #data_plane_routing} => String
@@ -534,11 +794,12 @@ module Aws::Drs
     #
     #   resp = client.create_replication_configuration_template({
     #     associate_default_security_group: false, # required
+    #     auto_replicate_new_disks: false,
     #     bandwidth_throttling: 1, # required
     #     create_public_ip: false, # required
     #     data_plane_routing: "PRIVATE_IP", # required, accepts PRIVATE_IP, PUBLIC_IP
     #     default_large_staging_disk_type: "GP2", # required, accepts GP2, GP3, ST1, AUTO
-    #     ebs_encryption: "DEFAULT", # required, accepts DEFAULT, CUSTOM
+    #     ebs_encryption: "DEFAULT", # required, accepts DEFAULT, CUSTOM, NONE
     #     ebs_encryption_key_arn: "ARN",
     #     pit_policy: [ # required
     #       {
@@ -565,11 +826,12 @@ module Aws::Drs
     #
     #   resp.arn #=> String
     #   resp.associate_default_security_group #=> Boolean
+    #   resp.auto_replicate_new_disks #=> Boolean
     #   resp.bandwidth_throttling #=> Integer
     #   resp.create_public_ip #=> Boolean
     #   resp.data_plane_routing #=> String, one of "PRIVATE_IP", "PUBLIC_IP"
     #   resp.default_large_staging_disk_type #=> String, one of "GP2", "GP3", "ST1", "AUTO"
-    #   resp.ebs_encryption #=> String, one of "DEFAULT", "CUSTOM"
+    #   resp.ebs_encryption #=> String, one of "DEFAULT", "CUSTOM", "NONE"
     #   resp.ebs_encryption_key_arn #=> String
     #   resp.pit_policy #=> Array
     #   resp.pit_policy[0].enabled #=> Boolean
@@ -597,6 +859,48 @@ module Aws::Drs
       req.send_request(options)
     end
 
+    # Create a new Source Network resource for a provided VPC ID.
+    #
+    # @option params [required, String] :origin_account_id
+    #   Account containing the VPC to protect.
+    #
+    # @option params [required, String] :origin_region
+    #   Region containing the VPC to protect.
+    #
+    # @option params [Hash<String,String>] :tags
+    #   A set of tags to be associated with the Source Network resource.
+    #
+    # @option params [required, String] :vpc_id
+    #   Which VPC ID to protect.
+    #
+    # @return [Types::CreateSourceNetworkResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateSourceNetworkResponse#source_network_id #source_network_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_source_network({
+    #     origin_account_id: "AccountID", # required
+    #     origin_region: "AwsRegion", # required
+    #     tags: {
+    #       "TagKey" => "TagValue",
+    #     },
+    #     vpc_id: "VpcID", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.source_network_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/drs-2020-02-26/CreateSourceNetwork AWS API Documentation
+    #
+    # @overload create_source_network(params = {})
+    # @param [Hash] params ({})
+    def create_source_network(params = {}, options = {})
+      req = build_request(:create_source_network, params)
+      req.send_request(options)
+    end
+
     # Deletes a single Job by ID.
     #
     # @option params [required, String] :job_id
@@ -616,6 +920,54 @@ module Aws::Drs
     # @param [Hash] params ({})
     def delete_job(params = {}, options = {})
       req = build_request(:delete_job, params)
+      req.send_request(options)
+    end
+
+    # Deletes a resource launch action.
+    #
+    # @option params [required, String] :action_id
+    #   Launch action Id.
+    #
+    # @option params [required, String] :resource_id
+    #   Launch configuration template Id or Source Server Id
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_launch_action({
+    #     action_id: "LaunchActionId", # required
+    #     resource_id: "LaunchActionResourceId", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/drs-2020-02-26/DeleteLaunchAction AWS API Documentation
+    #
+    # @overload delete_launch_action(params = {})
+    # @param [Hash] params ({})
+    def delete_launch_action(params = {}, options = {})
+      req = build_request(:delete_launch_action, params)
+      req.send_request(options)
+    end
+
+    # Deletes a single Launch Configuration Template by ID.
+    #
+    # @option params [required, String] :launch_configuration_template_id
+    #   The ID of the Launch Configuration Template to be deleted.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_launch_configuration_template({
+    #     launch_configuration_template_id: "LaunchConfigurationTemplateID", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/drs-2020-02-26/DeleteLaunchConfigurationTemplate AWS API Documentation
+    #
+    # @overload delete_launch_configuration_template(params = {})
+    # @param [Hash] params ({})
+    def delete_launch_configuration_template(params = {}, options = {})
+      req = build_request(:delete_launch_configuration_template, params)
       req.send_request(options)
     end
 
@@ -662,6 +1014,28 @@ module Aws::Drs
     # @param [Hash] params ({})
     def delete_replication_configuration_template(params = {}, options = {})
       req = build_request(:delete_replication_configuration_template, params)
+      req.send_request(options)
+    end
+
+    # Delete Source Network resource.
+    #
+    # @option params [required, String] :source_network_id
+    #   ID of the Source Network to delete.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_source_network({
+    #     source_network_id: "SourceNetworkID", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/drs-2020-02-26/DeleteSourceNetwork AWS API Documentation
+    #
+    # @overload delete_source_network(params = {})
+    # @param [Hash] params ({})
+    def delete_source_network(params = {}, options = {})
+      req = build_request(:delete_source_network, params)
       req.send_request(options)
     end
 
@@ -717,16 +1091,24 @@ module Aws::Drs
     # @example Response structure
     #
     #   resp.items #=> Array
-    #   resp.items[0].event #=> String, one of "JOB_START", "SERVER_SKIPPED", "CLEANUP_START", "CLEANUP_END", "CLEANUP_FAIL", "SNAPSHOT_START", "SNAPSHOT_END", "SNAPSHOT_FAIL", "USING_PREVIOUS_SNAPSHOT", "USING_PREVIOUS_SNAPSHOT_FAILED", "CONVERSION_START", "CONVERSION_END", "CONVERSION_FAIL", "LAUNCH_START", "LAUNCH_FAILED", "JOB_CANCEL", "JOB_END"
+    #   resp.items[0].event #=> String, one of "JOB_START", "SERVER_SKIPPED", "CLEANUP_START", "CLEANUP_END", "CLEANUP_FAIL", "SNAPSHOT_START", "SNAPSHOT_END", "SNAPSHOT_FAIL", "USING_PREVIOUS_SNAPSHOT", "USING_PREVIOUS_SNAPSHOT_FAILED", "CONVERSION_START", "CONVERSION_END", "CONVERSION_FAIL", "LAUNCH_START", "LAUNCH_FAILED", "JOB_CANCEL", "JOB_END", "DEPLOY_NETWORK_CONFIGURATION_START", "DEPLOY_NETWORK_CONFIGURATION_END", "DEPLOY_NETWORK_CONFIGURATION_FAILED", "UPDATE_NETWORK_CONFIGURATION_START", "UPDATE_NETWORK_CONFIGURATION_END", "UPDATE_NETWORK_CONFIGURATION_FAILED", "UPDATE_LAUNCH_TEMPLATE_START", "UPDATE_LAUNCH_TEMPLATE_END", "UPDATE_LAUNCH_TEMPLATE_FAILED", "NETWORK_RECOVERY_FAIL"
     #   resp.items[0].event_data.conversion_properties.data_timestamp #=> String
     #   resp.items[0].event_data.conversion_properties.force_uefi #=> Boolean
     #   resp.items[0].event_data.conversion_properties.root_volume_name #=> String
     #   resp.items[0].event_data.conversion_properties.volume_to_conversion_map #=> Hash
     #   resp.items[0].event_data.conversion_properties.volume_to_conversion_map["LargeBoundedString"] #=> Hash
-    #   resp.items[0].event_data.conversion_properties.volume_to_conversion_map["LargeBoundedString"]["ebsSnapshot"] #=> String
+    #   resp.items[0].event_data.conversion_properties.volume_to_conversion_map["LargeBoundedString"]["EbsSnapshot"] #=> String
+    #   resp.items[0].event_data.conversion_properties.volume_to_product_codes #=> Hash
+    #   resp.items[0].event_data.conversion_properties.volume_to_product_codes["LargeBoundedString"] #=> Array
+    #   resp.items[0].event_data.conversion_properties.volume_to_product_codes["LargeBoundedString"][0].product_code_id #=> String
+    #   resp.items[0].event_data.conversion_properties.volume_to_product_codes["LargeBoundedString"][0].product_code_mode #=> String, one of "ENABLED", "DISABLED"
     #   resp.items[0].event_data.conversion_properties.volume_to_volume_size #=> Hash
     #   resp.items[0].event_data.conversion_properties.volume_to_volume_size["LargeBoundedString"] #=> Integer
     #   resp.items[0].event_data.conversion_server_id #=> String
+    #   resp.items[0].event_data.event_resource_data.source_network_data.source_network_id #=> String
+    #   resp.items[0].event_data.event_resource_data.source_network_data.source_vpc #=> String
+    #   resp.items[0].event_data.event_resource_data.source_network_data.stack_name #=> String
+    #   resp.items[0].event_data.event_resource_data.source_network_data.target_vpc #=> String
     #   resp.items[0].event_data.raw_error #=> String
     #   resp.items[0].event_data.source_server_id #=> String
     #   resp.items[0].event_data.target_instance_id #=> String
@@ -784,9 +1166,30 @@ module Aws::Drs
     #   resp.items[0].arn #=> String
     #   resp.items[0].creation_date_time #=> String
     #   resp.items[0].end_date_time #=> String
-    #   resp.items[0].initiated_by #=> String, one of "START_RECOVERY", "START_DRILL", "FAILBACK", "DIAGNOSTIC", "TERMINATE_RECOVERY_INSTANCES", "TARGET_ACCOUNT"
+    #   resp.items[0].initiated_by #=> String, one of "START_RECOVERY", "START_DRILL", "FAILBACK", "DIAGNOSTIC", "TERMINATE_RECOVERY_INSTANCES", "TARGET_ACCOUNT", "CREATE_NETWORK_RECOVERY", "UPDATE_NETWORK_RECOVERY", "ASSOCIATE_NETWORK_RECOVERY"
     #   resp.items[0].job_id #=> String
+    #   resp.items[0].participating_resources #=> Array
+    #   resp.items[0].participating_resources[0].launch_status #=> String, one of "PENDING", "IN_PROGRESS", "LAUNCHED", "FAILED", "TERMINATED"
+    #   resp.items[0].participating_resources[0].participating_resource_id.source_network_id #=> String
     #   resp.items[0].participating_servers #=> Array
+    #   resp.items[0].participating_servers[0].launch_actions_status.runs #=> Array
+    #   resp.items[0].participating_servers[0].launch_actions_status.runs[0].action.action_code #=> String
+    #   resp.items[0].participating_servers[0].launch_actions_status.runs[0].action.action_id #=> String
+    #   resp.items[0].participating_servers[0].launch_actions_status.runs[0].action.action_version #=> String
+    #   resp.items[0].participating_servers[0].launch_actions_status.runs[0].action.active #=> Boolean
+    #   resp.items[0].participating_servers[0].launch_actions_status.runs[0].action.category #=> String, one of "MONITORING", "VALIDATION", "CONFIGURATION", "SECURITY", "OTHER"
+    #   resp.items[0].participating_servers[0].launch_actions_status.runs[0].action.description #=> String
+    #   resp.items[0].participating_servers[0].launch_actions_status.runs[0].action.name #=> String
+    #   resp.items[0].participating_servers[0].launch_actions_status.runs[0].action.optional #=> Boolean
+    #   resp.items[0].participating_servers[0].launch_actions_status.runs[0].action.order #=> Integer
+    #   resp.items[0].participating_servers[0].launch_actions_status.runs[0].action.parameters #=> Hash
+    #   resp.items[0].participating_servers[0].launch_actions_status.runs[0].action.parameters["LaunchActionParameterName"].type #=> String, one of "SSM_STORE", "DYNAMIC"
+    #   resp.items[0].participating_servers[0].launch_actions_status.runs[0].action.parameters["LaunchActionParameterName"].value #=> String
+    #   resp.items[0].participating_servers[0].launch_actions_status.runs[0].action.type #=> String, one of "SSM_AUTOMATION", "SSM_COMMAND"
+    #   resp.items[0].participating_servers[0].launch_actions_status.runs[0].failure_reason #=> String
+    #   resp.items[0].participating_servers[0].launch_actions_status.runs[0].run_id #=> String
+    #   resp.items[0].participating_servers[0].launch_actions_status.runs[0].status #=> String, one of "IN_PROGRESS", "SUCCEEDED", "FAILED"
+    #   resp.items[0].participating_servers[0].launch_actions_status.ssm_agent_discovery_datetime #=> String
     #   resp.items[0].participating_servers[0].launch_status #=> String, one of "PENDING", "IN_PROGRESS", "LAUNCHED", "FAILED", "TERMINATED"
     #   resp.items[0].participating_servers[0].recovery_instance_id #=> String
     #   resp.items[0].participating_servers[0].source_server_id #=> String
@@ -802,6 +1205,61 @@ module Aws::Drs
     # @param [Hash] params ({})
     def describe_jobs(params = {}, options = {})
       req = build_request(:describe_jobs, params)
+      req.send_request(options)
+    end
+
+    # Lists all Launch Configuration Templates, filtered by Launch
+    # Configuration Template IDs
+    #
+    # @option params [Array<String>] :launch_configuration_template_i_ds
+    #   Request to filter Launch Configuration Templates list by Launch
+    #   Configuration Template ID.
+    #
+    # @option params [Integer] :max_results
+    #   Maximum results to be returned in
+    #   DescribeLaunchConfigurationTemplates.
+    #
+    # @option params [String] :next_token
+    #   The token of the next Launch Configuration Template to retrieve.
+    #
+    # @return [Types::DescribeLaunchConfigurationTemplatesResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeLaunchConfigurationTemplatesResponse#items #items} => Array&lt;Types::LaunchConfigurationTemplate&gt;
+    #   * {Types::DescribeLaunchConfigurationTemplatesResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_launch_configuration_templates({
+    #     launch_configuration_template_i_ds: ["LaunchConfigurationTemplateID"],
+    #     max_results: 1,
+    #     next_token: "PaginationToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.items #=> Array
+    #   resp.items[0].arn #=> String
+    #   resp.items[0].copy_private_ip #=> Boolean
+    #   resp.items[0].copy_tags #=> Boolean
+    #   resp.items[0].export_bucket_arn #=> String
+    #   resp.items[0].launch_configuration_template_id #=> String
+    #   resp.items[0].launch_disposition #=> String, one of "STOPPED", "STARTED"
+    #   resp.items[0].launch_into_source_instance #=> Boolean
+    #   resp.items[0].licensing.os_byol #=> Boolean
+    #   resp.items[0].post_launch_enabled #=> Boolean
+    #   resp.items[0].tags #=> Hash
+    #   resp.items[0].tags["TagKey"] #=> String
+    #   resp.items[0].target_instance_type_right_sizing_method #=> String, one of "NONE", "BASIC", "IN_AWS"
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/drs-2020-02-26/DescribeLaunchConfigurationTemplates AWS API Documentation
+    #
+    # @overload describe_launch_configuration_templates(params = {})
+    # @param [Hash] params ({})
+    def describe_launch_configuration_templates(params = {}, options = {})
+      req = build_request(:describe_launch_configuration_templates, params)
       req.send_request(options)
     end
 
@@ -837,6 +1295,7 @@ module Aws::Drs
     # @example Response structure
     #
     #   resp.items #=> Array
+    #   resp.items[0].agent_version #=> String
     #   resp.items[0].arn #=> String
     #   resp.items[0].data_replication_info.data_replication_error.error #=> String, one of "AGENT_NOT_SEEN", "FAILBACK_CLIENT_NOT_SEEN", "NOT_CONVERGING", "UNSTABLE_NETWORK", "FAILED_TO_ESTABLISH_RECOVERY_INSTANCE_COMMUNICATION", "FAILED_TO_DOWNLOAD_REPLICATION_SOFTWARE_TO_FAILBACK_CLIENT", "FAILED_TO_CONFIGURE_REPLICATION_SOFTWARE", "FAILED_TO_PAIR_AGENT_WITH_REPLICATION_SOFTWARE", "FAILED_TO_ESTABLISH_AGENT_REPLICATOR_SOFTWARE_COMMUNICATION", "FAILED_GETTING_REPLICATION_STATE", "SNAPSHOTS_FAILURE", "FAILED_TO_CREATE_SECURITY_GROUP", "FAILED_TO_LAUNCH_REPLICATION_SERVER", "FAILED_TO_BOOT_REPLICATION_SERVER", "FAILED_TO_AUTHENTICATE_WITH_SERVICE", "FAILED_TO_DOWNLOAD_REPLICATION_SOFTWARE", "FAILED_TO_CREATE_STAGING_DISKS", "FAILED_TO_ATTACH_STAGING_DISKS", "FAILED_TO_PAIR_REPLICATION_SERVER_WITH_AGENT", "FAILED_TO_CONNECT_AGENT_TO_REPLICATION_SERVER", "FAILED_TO_START_DATA_TRANSFER"
     #   resp.items[0].data_replication_info.data_replication_error.raw_error #=> String
@@ -853,6 +1312,8 @@ module Aws::Drs
     #   resp.items[0].data_replication_info.replicated_disks[0].replicated_storage_bytes #=> Integer
     #   resp.items[0].data_replication_info.replicated_disks[0].rescanned_storage_bytes #=> Integer
     #   resp.items[0].data_replication_info.replicated_disks[0].total_storage_bytes #=> Integer
+    #   resp.items[0].data_replication_info.staging_availability_zone #=> String
+    #   resp.items[0].data_replication_info.staging_outpost_arn #=> String
     #   resp.items[0].ec2_instance_id #=> String
     #   resp.items[0].ec2_instance_state #=> String, one of "PENDING", "RUNNING", "STOPPING", "STOPPED", "SHUTTING-DOWN", "TERMINATED", "NOT_FOUND"
     #   resp.items[0].failback.agent_last_seen_by_service_date_time #=> String
@@ -867,6 +1328,7 @@ module Aws::Drs
     #   resp.items[0].failback.state #=> String, one of "FAILBACK_NOT_STARTED", "FAILBACK_IN_PROGRESS", "FAILBACK_READY_FOR_LAUNCH", "FAILBACK_COMPLETED", "FAILBACK_ERROR", "FAILBACK_NOT_READY_FOR_LAUNCH", "FAILBACK_LAUNCH_STATE_NOT_AVAILABLE"
     #   resp.items[0].is_drill #=> Boolean
     #   resp.items[0].job_id #=> String
+    #   resp.items[0].origin_availability_zone #=> String
     #   resp.items[0].origin_environment #=> String, one of "ON_PREMISES", "AWS"
     #   resp.items[0].point_in_time_snapshot_date_time #=> String
     #   resp.items[0].recovery_instance_id #=> String
@@ -889,6 +1351,7 @@ module Aws::Drs
     #   resp.items[0].recovery_instance_properties.network_interfaces[0].mac_address #=> String
     #   resp.items[0].recovery_instance_properties.os.full_string #=> String
     #   resp.items[0].recovery_instance_properties.ram_bytes #=> Integer
+    #   resp.items[0].source_outpost_arn #=> String
     #   resp.items[0].source_server_id #=> String
     #   resp.items[0].tags #=> Hash
     #   resp.items[0].tags["TagKey"] #=> String
@@ -993,11 +1456,12 @@ module Aws::Drs
     #   resp.items #=> Array
     #   resp.items[0].arn #=> String
     #   resp.items[0].associate_default_security_group #=> Boolean
+    #   resp.items[0].auto_replicate_new_disks #=> Boolean
     #   resp.items[0].bandwidth_throttling #=> Integer
     #   resp.items[0].create_public_ip #=> Boolean
     #   resp.items[0].data_plane_routing #=> String, one of "PRIVATE_IP", "PUBLIC_IP"
     #   resp.items[0].default_large_staging_disk_type #=> String, one of "GP2", "GP3", "ST1", "AUTO"
-    #   resp.items[0].ebs_encryption #=> String, one of "DEFAULT", "CUSTOM"
+    #   resp.items[0].ebs_encryption #=> String, one of "DEFAULT", "CUSTOM", "NONE"
     #   resp.items[0].ebs_encryption_key_arn #=> String
     #   resp.items[0].pit_policy #=> Array
     #   resp.items[0].pit_policy[0].enabled #=> Boolean
@@ -1023,6 +1487,64 @@ module Aws::Drs
     # @param [Hash] params ({})
     def describe_replication_configuration_templates(params = {}, options = {})
       req = build_request(:describe_replication_configuration_templates, params)
+      req.send_request(options)
+    end
+
+    # Lists all Source Networks or multiple Source Networks filtered by ID.
+    #
+    # @option params [Types::DescribeSourceNetworksRequestFilters] :filters
+    #   A set of filters by which to return Source Networks.
+    #
+    # @option params [Integer] :max_results
+    #   Maximum number of Source Networks to retrieve.
+    #
+    # @option params [String] :next_token
+    #   The token of the next Source Networks to retrieve.
+    #
+    # @return [Types::DescribeSourceNetworksResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeSourceNetworksResponse#items #items} => Array&lt;Types::SourceNetwork&gt;
+    #   * {Types::DescribeSourceNetworksResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_source_networks({
+    #     filters: {
+    #       origin_account_id: "AccountID",
+    #       origin_region: "AwsRegion",
+    #       source_network_i_ds: ["SourceNetworkID"],
+    #     },
+    #     max_results: 1,
+    #     next_token: "PaginationToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.items #=> Array
+    #   resp.items[0].arn #=> String
+    #   resp.items[0].cfn_stack_name #=> String
+    #   resp.items[0].last_recovery.api_call_date_time #=> Time
+    #   resp.items[0].last_recovery.job_id #=> String
+    #   resp.items[0].last_recovery.last_recovery_result #=> String, one of "NOT_STARTED", "IN_PROGRESS", "SUCCESS", "FAIL", "PARTIAL_SUCCESS", "ASSOCIATE_SUCCESS", "ASSOCIATE_FAIL"
+    #   resp.items[0].launched_vpc_id #=> String
+    #   resp.items[0].replication_status #=> String, one of "STOPPED", "IN_PROGRESS", "PROTECTED", "ERROR"
+    #   resp.items[0].replication_status_details #=> String
+    #   resp.items[0].source_account_id #=> String
+    #   resp.items[0].source_network_id #=> String
+    #   resp.items[0].source_region #=> String
+    #   resp.items[0].source_vpc_id #=> String
+    #   resp.items[0].tags #=> Hash
+    #   resp.items[0].tags["TagKey"] #=> String
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/drs-2020-02-26/DescribeSourceNetworks AWS API Documentation
+    #
+    # @overload describe_source_networks(params = {})
+    # @param [Hash] params ({})
+    def describe_source_networks(params = {}, options = {})
+      req = build_request(:describe_source_networks, params)
       req.send_request(options)
     end
 
@@ -1059,6 +1581,7 @@ module Aws::Drs
     # @example Response structure
     #
     #   resp.items #=> Array
+    #   resp.items[0].agent_version #=> String
     #   resp.items[0].arn #=> String
     #   resp.items[0].data_replication_info.data_replication_error.error #=> String, one of "AGENT_NOT_SEEN", "SNAPSHOTS_FAILURE", "NOT_CONVERGING", "UNSTABLE_NETWORK", "FAILED_TO_CREATE_SECURITY_GROUP", "FAILED_TO_LAUNCH_REPLICATION_SERVER", "FAILED_TO_BOOT_REPLICATION_SERVER", "FAILED_TO_AUTHENTICATE_WITH_SERVICE", "FAILED_TO_DOWNLOAD_REPLICATION_SOFTWARE", "FAILED_TO_CREATE_STAGING_DISKS", "FAILED_TO_ATTACH_STAGING_DISKS", "FAILED_TO_PAIR_REPLICATION_SERVER_WITH_AGENT", "FAILED_TO_CONNECT_AGENT_TO_REPLICATION_SERVER", "FAILED_TO_START_DATA_TRANSFER"
     #   resp.items[0].data_replication_info.data_replication_error.raw_error #=> String
@@ -1076,6 +1599,9 @@ module Aws::Drs
     #   resp.items[0].data_replication_info.replicated_disks[0].replicated_storage_bytes #=> Integer
     #   resp.items[0].data_replication_info.replicated_disks[0].rescanned_storage_bytes #=> Integer
     #   resp.items[0].data_replication_info.replicated_disks[0].total_storage_bytes #=> Integer
+    #   resp.items[0].data_replication_info.replicated_disks[0].volume_status #=> String, one of "REGULAR", "CONTAINS_MARKETPLACE_PRODUCT_CODES", "MISSING_VOLUME_ATTRIBUTES", "MISSING_VOLUME_ATTRIBUTES_AND_PRECHECK_UNAVAILABLE", "PENDING"
+    #   resp.items[0].data_replication_info.staging_availability_zone #=> String
+    #   resp.items[0].data_replication_info.staging_outpost_arn #=> String
     #   resp.items[0].last_launch_result #=> String, one of "NOT_STARTED", "PENDING", "SUCCEEDED", "FAILED"
     #   resp.items[0].life_cycle.added_to_service_date_time #=> String
     #   resp.items[0].life_cycle.elapsed_replication_duration #=> String
@@ -1083,6 +1609,7 @@ module Aws::Drs
     #   resp.items[0].life_cycle.last_launch.initiated.api_call_date_time #=> String
     #   resp.items[0].life_cycle.last_launch.initiated.job_id #=> String
     #   resp.items[0].life_cycle.last_launch.initiated.type #=> String, one of "RECOVERY", "DRILL"
+    #   resp.items[0].life_cycle.last_launch.status #=> String, one of "PENDING", "IN_PROGRESS", "LAUNCHED", "FAILED", "TERMINATED"
     #   resp.items[0].life_cycle.last_seen_by_service_date_time #=> String
     #   resp.items[0].recovery_instance_id #=> String
     #   resp.items[0].replication_direction #=> String, one of "FAILOVER", "FAILBACK"
@@ -1090,6 +1617,8 @@ module Aws::Drs
     #   resp.items[0].source_cloud_properties.origin_account_id #=> String
     #   resp.items[0].source_cloud_properties.origin_availability_zone #=> String
     #   resp.items[0].source_cloud_properties.origin_region #=> String
+    #   resp.items[0].source_cloud_properties.source_outpost_arn #=> String
+    #   resp.items[0].source_network_id #=> String
     #   resp.items[0].source_properties.cpus #=> Array
     #   resp.items[0].source_properties.cpus[0].cores #=> Integer
     #   resp.items[0].source_properties.cpus[0].model_name #=> String
@@ -1109,6 +1638,7 @@ module Aws::Drs
     #   resp.items[0].source_properties.os.full_string #=> String
     #   resp.items[0].source_properties.ram_bytes #=> Integer
     #   resp.items[0].source_properties.recommended_instance_type #=> String
+    #   resp.items[0].source_properties.supports_nitro_instances #=> Boolean
     #   resp.items[0].source_server_id #=> String
     #   resp.items[0].staging_area.error_message #=> String
     #   resp.items[0].staging_area.staging_account_id #=> String
@@ -1181,6 +1711,7 @@ module Aws::Drs
     #
     # @return [Types::SourceServer] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
+    #   * {Types::SourceServer#agent_version #agent_version} => String
     #   * {Types::SourceServer#arn #arn} => String
     #   * {Types::SourceServer#data_replication_info #data_replication_info} => Types::DataReplicationInfo
     #   * {Types::SourceServer#last_launch_result #last_launch_result} => String
@@ -1189,6 +1720,7 @@ module Aws::Drs
     #   * {Types::SourceServer#replication_direction #replication_direction} => String
     #   * {Types::SourceServer#reversed_direction_source_server_arn #reversed_direction_source_server_arn} => String
     #   * {Types::SourceServer#source_cloud_properties #source_cloud_properties} => Types::SourceCloudProperties
+    #   * {Types::SourceServer#source_network_id #source_network_id} => String
     #   * {Types::SourceServer#source_properties #source_properties} => Types::SourceProperties
     #   * {Types::SourceServer#source_server_id #source_server_id} => String
     #   * {Types::SourceServer#staging_area #staging_area} => Types::StagingArea
@@ -1202,6 +1734,7 @@ module Aws::Drs
     #
     # @example Response structure
     #
+    #   resp.agent_version #=> String
     #   resp.arn #=> String
     #   resp.data_replication_info.data_replication_error.error #=> String, one of "AGENT_NOT_SEEN", "SNAPSHOTS_FAILURE", "NOT_CONVERGING", "UNSTABLE_NETWORK", "FAILED_TO_CREATE_SECURITY_GROUP", "FAILED_TO_LAUNCH_REPLICATION_SERVER", "FAILED_TO_BOOT_REPLICATION_SERVER", "FAILED_TO_AUTHENTICATE_WITH_SERVICE", "FAILED_TO_DOWNLOAD_REPLICATION_SOFTWARE", "FAILED_TO_CREATE_STAGING_DISKS", "FAILED_TO_ATTACH_STAGING_DISKS", "FAILED_TO_PAIR_REPLICATION_SERVER_WITH_AGENT", "FAILED_TO_CONNECT_AGENT_TO_REPLICATION_SERVER", "FAILED_TO_START_DATA_TRANSFER"
     #   resp.data_replication_info.data_replication_error.raw_error #=> String
@@ -1219,6 +1752,9 @@ module Aws::Drs
     #   resp.data_replication_info.replicated_disks[0].replicated_storage_bytes #=> Integer
     #   resp.data_replication_info.replicated_disks[0].rescanned_storage_bytes #=> Integer
     #   resp.data_replication_info.replicated_disks[0].total_storage_bytes #=> Integer
+    #   resp.data_replication_info.replicated_disks[0].volume_status #=> String, one of "REGULAR", "CONTAINS_MARKETPLACE_PRODUCT_CODES", "MISSING_VOLUME_ATTRIBUTES", "MISSING_VOLUME_ATTRIBUTES_AND_PRECHECK_UNAVAILABLE", "PENDING"
+    #   resp.data_replication_info.staging_availability_zone #=> String
+    #   resp.data_replication_info.staging_outpost_arn #=> String
     #   resp.last_launch_result #=> String, one of "NOT_STARTED", "PENDING", "SUCCEEDED", "FAILED"
     #   resp.life_cycle.added_to_service_date_time #=> String
     #   resp.life_cycle.elapsed_replication_duration #=> String
@@ -1226,6 +1762,7 @@ module Aws::Drs
     #   resp.life_cycle.last_launch.initiated.api_call_date_time #=> String
     #   resp.life_cycle.last_launch.initiated.job_id #=> String
     #   resp.life_cycle.last_launch.initiated.type #=> String, one of "RECOVERY", "DRILL"
+    #   resp.life_cycle.last_launch.status #=> String, one of "PENDING", "IN_PROGRESS", "LAUNCHED", "FAILED", "TERMINATED"
     #   resp.life_cycle.last_seen_by_service_date_time #=> String
     #   resp.recovery_instance_id #=> String
     #   resp.replication_direction #=> String, one of "FAILOVER", "FAILBACK"
@@ -1233,6 +1770,8 @@ module Aws::Drs
     #   resp.source_cloud_properties.origin_account_id #=> String
     #   resp.source_cloud_properties.origin_availability_zone #=> String
     #   resp.source_cloud_properties.origin_region #=> String
+    #   resp.source_cloud_properties.source_outpost_arn #=> String
+    #   resp.source_network_id #=> String
     #   resp.source_properties.cpus #=> Array
     #   resp.source_properties.cpus[0].cores #=> Integer
     #   resp.source_properties.cpus[0].model_name #=> String
@@ -1252,6 +1791,7 @@ module Aws::Drs
     #   resp.source_properties.os.full_string #=> String
     #   resp.source_properties.ram_bytes #=> Integer
     #   resp.source_properties.recommended_instance_type #=> String
+    #   resp.source_properties.supports_nitro_instances #=> Boolean
     #   resp.source_server_id #=> String
     #   resp.staging_area.error_message #=> String
     #   resp.staging_area.staging_account_id #=> String
@@ -1266,6 +1806,35 @@ module Aws::Drs
     # @param [Hash] params ({})
     def disconnect_source_server(params = {}, options = {})
       req = build_request(:disconnect_source_server, params)
+      req.send_request(options)
+    end
+
+    # Export the Source Network CloudFormation template to an S3 bucket.
+    #
+    # @option params [required, String] :source_network_id
+    #   The Source Network ID to export its CloudFormation template to an S3
+    #   bucket.
+    #
+    # @return [Types::ExportSourceNetworkCfnTemplateResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ExportSourceNetworkCfnTemplateResponse#s3_destination_url #s3_destination_url} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.export_source_network_cfn_template({
+    #     source_network_id: "SourceNetworkID", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.s3_destination_url #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/drs-2020-02-26/ExportSourceNetworkCfnTemplate AWS API Documentation
+    #
+    # @overload export_source_network_cfn_template(params = {})
+    # @param [Hash] params ({})
+    def export_source_network_cfn_template(params = {}, options = {})
+      req = build_request(:export_source_network_cfn_template, params)
       req.send_request(options)
     end
 
@@ -1317,8 +1886,10 @@ module Aws::Drs
     #   * {Types::LaunchConfiguration#copy_tags #copy_tags} => Boolean
     #   * {Types::LaunchConfiguration#ec2_launch_template_id #ec2_launch_template_id} => String
     #   * {Types::LaunchConfiguration#launch_disposition #launch_disposition} => String
+    #   * {Types::LaunchConfiguration#launch_into_instance_properties #launch_into_instance_properties} => Types::LaunchIntoInstanceProperties
     #   * {Types::LaunchConfiguration#licensing #licensing} => Types::Licensing
     #   * {Types::LaunchConfiguration#name #name} => String
+    #   * {Types::LaunchConfiguration#post_launch_enabled #post_launch_enabled} => Boolean
     #   * {Types::LaunchConfiguration#source_server_id #source_server_id} => String
     #   * {Types::LaunchConfiguration#target_instance_type_right_sizing_method #target_instance_type_right_sizing_method} => String
     #
@@ -1334,10 +1905,12 @@ module Aws::Drs
     #   resp.copy_tags #=> Boolean
     #   resp.ec2_launch_template_id #=> String
     #   resp.launch_disposition #=> String, one of "STOPPED", "STARTED"
+    #   resp.launch_into_instance_properties.launch_into_ec2_instance_id #=> String
     #   resp.licensing.os_byol #=> Boolean
     #   resp.name #=> String
+    #   resp.post_launch_enabled #=> Boolean
     #   resp.source_server_id #=> String
-    #   resp.target_instance_type_right_sizing_method #=> String, one of "NONE", "BASIC"
+    #   resp.target_instance_type_right_sizing_method #=> String, one of "NONE", "BASIC", "IN_AWS"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/drs-2020-02-26/GetLaunchConfiguration AWS API Documentation
     #
@@ -1356,6 +1929,7 @@ module Aws::Drs
     # @return [Types::ReplicationConfiguration] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::ReplicationConfiguration#associate_default_security_group #associate_default_security_group} => Boolean
+    #   * {Types::ReplicationConfiguration#auto_replicate_new_disks #auto_replicate_new_disks} => Boolean
     #   * {Types::ReplicationConfiguration#bandwidth_throttling #bandwidth_throttling} => Integer
     #   * {Types::ReplicationConfiguration#create_public_ip #create_public_ip} => Boolean
     #   * {Types::ReplicationConfiguration#data_plane_routing #data_plane_routing} => String
@@ -1381,11 +1955,12 @@ module Aws::Drs
     # @example Response structure
     #
     #   resp.associate_default_security_group #=> Boolean
+    #   resp.auto_replicate_new_disks #=> Boolean
     #   resp.bandwidth_throttling #=> Integer
     #   resp.create_public_ip #=> Boolean
     #   resp.data_plane_routing #=> String, one of "PRIVATE_IP", "PUBLIC_IP"
     #   resp.default_large_staging_disk_type #=> String, one of "GP2", "GP3", "ST1", "AUTO"
-    #   resp.ebs_encryption #=> String, one of "DEFAULT", "CUSTOM"
+    #   resp.ebs_encryption #=> String, one of "DEFAULT", "CUSTOM", "NONE"
     #   resp.ebs_encryption_key_arn #=> String
     #   resp.name #=> String
     #   resp.pit_policy #=> Array
@@ -1480,6 +2055,66 @@ module Aws::Drs
       req.send_request(options)
     end
 
+    # Lists resource launch actions.
+    #
+    # @option params [Types::LaunchActionsRequestFilters] :filters
+    #   Filters to apply when listing resource launch actions.
+    #
+    # @option params [Integer] :max_results
+    #   Maximum amount of items to return when listing resource launch
+    #   actions.
+    #
+    # @option params [String] :next_token
+    #   Next token to use when listing resource launch actions.
+    #
+    # @option params [required, String] :resource_id
+    #   Launch configuration template Id or Source Server Id
+    #
+    # @return [Types::ListLaunchActionsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListLaunchActionsResponse#items #items} => Array&lt;Types::LaunchAction&gt;
+    #   * {Types::ListLaunchActionsResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_launch_actions({
+    #     filters: {
+    #       action_ids: ["LaunchActionId"],
+    #     },
+    #     max_results: 1,
+    #     next_token: "PaginationToken",
+    #     resource_id: "LaunchActionResourceId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.items #=> Array
+    #   resp.items[0].action_code #=> String
+    #   resp.items[0].action_id #=> String
+    #   resp.items[0].action_version #=> String
+    #   resp.items[0].active #=> Boolean
+    #   resp.items[0].category #=> String, one of "MONITORING", "VALIDATION", "CONFIGURATION", "SECURITY", "OTHER"
+    #   resp.items[0].description #=> String
+    #   resp.items[0].name #=> String
+    #   resp.items[0].optional #=> Boolean
+    #   resp.items[0].order #=> Integer
+    #   resp.items[0].parameters #=> Hash
+    #   resp.items[0].parameters["LaunchActionParameterName"].type #=> String, one of "SSM_STORE", "DYNAMIC"
+    #   resp.items[0].parameters["LaunchActionParameterName"].value #=> String
+    #   resp.items[0].type #=> String, one of "SSM_AUTOMATION", "SSM_COMMAND"
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/drs-2020-02-26/ListLaunchActions AWS API Documentation
+    #
+    # @overload list_launch_actions(params = {})
+    # @param [Hash] params ({})
+    def list_launch_actions(params = {}, options = {})
+      req = build_request(:list_launch_actions, params)
+      req.send_request(options)
+    end
+
     # Returns an array of staging accounts for existing extended source
     # servers.
     #
@@ -1547,16 +2182,115 @@ module Aws::Drs
       req.send_request(options)
     end
 
-    # Causes the data replication initiation sequence to begin immediately
-    # upon next Handshake for the specified Source Server ID, regardless of
-    # when the previous initiation started. This command will work only if
-    # the Source Server is stalled or is in a DISCONNECTED or STOPPED state.
+    # Puts a resource launch action.
+    #
+    # @option params [required, String] :action_code
+    #   Launch action code.
+    #
+    # @option params [required, String] :action_id
+    #   Launch action Id.
+    #
+    # @option params [required, String] :action_version
+    #   Launch action version.
+    #
+    # @option params [required, Boolean] :active
+    #   Whether the launch action is active.
+    #
+    # @option params [required, String] :category
+    #   Launch action category.
+    #
+    # @option params [required, String] :description
+    #   Launch action description.
+    #
+    # @option params [required, String] :name
+    #   Launch action name.
+    #
+    # @option params [required, Boolean] :optional
+    #   Whether the launch will not be marked as failed if this action fails.
+    #
+    # @option params [required, Integer] :order
+    #   Launch action order.
+    #
+    # @option params [Hash<String,Types::LaunchActionParameter>] :parameters
+    #   Launch action parameters.
+    #
+    # @option params [required, String] :resource_id
+    #   Launch configuration template Id or Source Server Id
+    #
+    # @return [Types::PutLaunchActionResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::PutLaunchActionResponse#action_code #action_code} => String
+    #   * {Types::PutLaunchActionResponse#action_id #action_id} => String
+    #   * {Types::PutLaunchActionResponse#action_version #action_version} => String
+    #   * {Types::PutLaunchActionResponse#active #active} => Boolean
+    #   * {Types::PutLaunchActionResponse#category #category} => String
+    #   * {Types::PutLaunchActionResponse#description #description} => String
+    #   * {Types::PutLaunchActionResponse#name #name} => String
+    #   * {Types::PutLaunchActionResponse#optional #optional} => Boolean
+    #   * {Types::PutLaunchActionResponse#order #order} => Integer
+    #   * {Types::PutLaunchActionResponse#parameters #parameters} => Hash&lt;String,Types::LaunchActionParameter&gt;
+    #   * {Types::PutLaunchActionResponse#resource_id #resource_id} => String
+    #   * {Types::PutLaunchActionResponse#type #type} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.put_launch_action({
+    #     action_code: "SsmDocumentName", # required
+    #     action_id: "LaunchActionId", # required
+    #     action_version: "LaunchActionVersion", # required
+    #     active: false, # required
+    #     category: "MONITORING", # required, accepts MONITORING, VALIDATION, CONFIGURATION, SECURITY, OTHER
+    #     description: "LaunchActionDescription", # required
+    #     name: "LaunchActionName", # required
+    #     optional: false, # required
+    #     order: 1, # required
+    #     parameters: {
+    #       "LaunchActionParameterName" => {
+    #         type: "SSM_STORE", # accepts SSM_STORE, DYNAMIC
+    #         value: "LaunchActionParameterValue",
+    #       },
+    #     },
+    #     resource_id: "LaunchActionResourceId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.action_code #=> String
+    #   resp.action_id #=> String
+    #   resp.action_version #=> String
+    #   resp.active #=> Boolean
+    #   resp.category #=> String, one of "MONITORING", "VALIDATION", "CONFIGURATION", "SECURITY", "OTHER"
+    #   resp.description #=> String
+    #   resp.name #=> String
+    #   resp.optional #=> Boolean
+    #   resp.order #=> Integer
+    #   resp.parameters #=> Hash
+    #   resp.parameters["LaunchActionParameterName"].type #=> String, one of "SSM_STORE", "DYNAMIC"
+    #   resp.parameters["LaunchActionParameterName"].value #=> String
+    #   resp.resource_id #=> String
+    #   resp.type #=> String, one of "SSM_AUTOMATION", "SSM_COMMAND"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/drs-2020-02-26/PutLaunchAction AWS API Documentation
+    #
+    # @overload put_launch_action(params = {})
+    # @param [Hash] params ({})
+    def put_launch_action(params = {}, options = {})
+      req = build_request(:put_launch_action, params)
+      req.send_request(options)
+    end
+
+    # WARNING: RetryDataReplication is deprecated. Causes the data
+    # replication initiation sequence to begin immediately upon next
+    # Handshake for the specified Source Server ID, regardless of when the
+    # previous initiation started. This command will work only if the Source
+    # Server is stalled or is in a DISCONNECTED or STOPPED state.
     #
     # @option params [required, String] :source_server_id
     #   The ID of the Source Server whose data replication should be retried.
     #
     # @return [Types::SourceServer] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
+    #   * {Types::SourceServer#agent_version #agent_version} => String
     #   * {Types::SourceServer#arn #arn} => String
     #   * {Types::SourceServer#data_replication_info #data_replication_info} => Types::DataReplicationInfo
     #   * {Types::SourceServer#last_launch_result #last_launch_result} => String
@@ -1565,6 +2299,7 @@ module Aws::Drs
     #   * {Types::SourceServer#replication_direction #replication_direction} => String
     #   * {Types::SourceServer#reversed_direction_source_server_arn #reversed_direction_source_server_arn} => String
     #   * {Types::SourceServer#source_cloud_properties #source_cloud_properties} => Types::SourceCloudProperties
+    #   * {Types::SourceServer#source_network_id #source_network_id} => String
     #   * {Types::SourceServer#source_properties #source_properties} => Types::SourceProperties
     #   * {Types::SourceServer#source_server_id #source_server_id} => String
     #   * {Types::SourceServer#staging_area #staging_area} => Types::StagingArea
@@ -1578,6 +2313,7 @@ module Aws::Drs
     #
     # @example Response structure
     #
+    #   resp.agent_version #=> String
     #   resp.arn #=> String
     #   resp.data_replication_info.data_replication_error.error #=> String, one of "AGENT_NOT_SEEN", "SNAPSHOTS_FAILURE", "NOT_CONVERGING", "UNSTABLE_NETWORK", "FAILED_TO_CREATE_SECURITY_GROUP", "FAILED_TO_LAUNCH_REPLICATION_SERVER", "FAILED_TO_BOOT_REPLICATION_SERVER", "FAILED_TO_AUTHENTICATE_WITH_SERVICE", "FAILED_TO_DOWNLOAD_REPLICATION_SOFTWARE", "FAILED_TO_CREATE_STAGING_DISKS", "FAILED_TO_ATTACH_STAGING_DISKS", "FAILED_TO_PAIR_REPLICATION_SERVER_WITH_AGENT", "FAILED_TO_CONNECT_AGENT_TO_REPLICATION_SERVER", "FAILED_TO_START_DATA_TRANSFER"
     #   resp.data_replication_info.data_replication_error.raw_error #=> String
@@ -1595,6 +2331,9 @@ module Aws::Drs
     #   resp.data_replication_info.replicated_disks[0].replicated_storage_bytes #=> Integer
     #   resp.data_replication_info.replicated_disks[0].rescanned_storage_bytes #=> Integer
     #   resp.data_replication_info.replicated_disks[0].total_storage_bytes #=> Integer
+    #   resp.data_replication_info.replicated_disks[0].volume_status #=> String, one of "REGULAR", "CONTAINS_MARKETPLACE_PRODUCT_CODES", "MISSING_VOLUME_ATTRIBUTES", "MISSING_VOLUME_ATTRIBUTES_AND_PRECHECK_UNAVAILABLE", "PENDING"
+    #   resp.data_replication_info.staging_availability_zone #=> String
+    #   resp.data_replication_info.staging_outpost_arn #=> String
     #   resp.last_launch_result #=> String, one of "NOT_STARTED", "PENDING", "SUCCEEDED", "FAILED"
     #   resp.life_cycle.added_to_service_date_time #=> String
     #   resp.life_cycle.elapsed_replication_duration #=> String
@@ -1602,6 +2341,7 @@ module Aws::Drs
     #   resp.life_cycle.last_launch.initiated.api_call_date_time #=> String
     #   resp.life_cycle.last_launch.initiated.job_id #=> String
     #   resp.life_cycle.last_launch.initiated.type #=> String, one of "RECOVERY", "DRILL"
+    #   resp.life_cycle.last_launch.status #=> String, one of "PENDING", "IN_PROGRESS", "LAUNCHED", "FAILED", "TERMINATED"
     #   resp.life_cycle.last_seen_by_service_date_time #=> String
     #   resp.recovery_instance_id #=> String
     #   resp.replication_direction #=> String, one of "FAILOVER", "FAILBACK"
@@ -1609,6 +2349,8 @@ module Aws::Drs
     #   resp.source_cloud_properties.origin_account_id #=> String
     #   resp.source_cloud_properties.origin_availability_zone #=> String
     #   resp.source_cloud_properties.origin_region #=> String
+    #   resp.source_cloud_properties.source_outpost_arn #=> String
+    #   resp.source_network_id #=> String
     #   resp.source_properties.cpus #=> Array
     #   resp.source_properties.cpus[0].cores #=> Integer
     #   resp.source_properties.cpus[0].model_name #=> String
@@ -1628,6 +2370,7 @@ module Aws::Drs
     #   resp.source_properties.os.full_string #=> String
     #   resp.source_properties.ram_bytes #=> Integer
     #   resp.source_properties.recommended_instance_type #=> String
+    #   resp.source_properties.supports_nitro_instances #=> Boolean
     #   resp.source_server_id #=> String
     #   resp.staging_area.error_message #=> String
     #   resp.staging_area.staging_account_id #=> String
@@ -1708,9 +2451,30 @@ module Aws::Drs
     #   resp.job.arn #=> String
     #   resp.job.creation_date_time #=> String
     #   resp.job.end_date_time #=> String
-    #   resp.job.initiated_by #=> String, one of "START_RECOVERY", "START_DRILL", "FAILBACK", "DIAGNOSTIC", "TERMINATE_RECOVERY_INSTANCES", "TARGET_ACCOUNT"
+    #   resp.job.initiated_by #=> String, one of "START_RECOVERY", "START_DRILL", "FAILBACK", "DIAGNOSTIC", "TERMINATE_RECOVERY_INSTANCES", "TARGET_ACCOUNT", "CREATE_NETWORK_RECOVERY", "UPDATE_NETWORK_RECOVERY", "ASSOCIATE_NETWORK_RECOVERY"
     #   resp.job.job_id #=> String
+    #   resp.job.participating_resources #=> Array
+    #   resp.job.participating_resources[0].launch_status #=> String, one of "PENDING", "IN_PROGRESS", "LAUNCHED", "FAILED", "TERMINATED"
+    #   resp.job.participating_resources[0].participating_resource_id.source_network_id #=> String
     #   resp.job.participating_servers #=> Array
+    #   resp.job.participating_servers[0].launch_actions_status.runs #=> Array
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].action.action_code #=> String
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].action.action_id #=> String
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].action.action_version #=> String
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].action.active #=> Boolean
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].action.category #=> String, one of "MONITORING", "VALIDATION", "CONFIGURATION", "SECURITY", "OTHER"
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].action.description #=> String
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].action.name #=> String
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].action.optional #=> Boolean
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].action.order #=> Integer
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].action.parameters #=> Hash
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].action.parameters["LaunchActionParameterName"].type #=> String, one of "SSM_STORE", "DYNAMIC"
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].action.parameters["LaunchActionParameterName"].value #=> String
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].action.type #=> String, one of "SSM_AUTOMATION", "SSM_COMMAND"
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].failure_reason #=> String
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].run_id #=> String
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].status #=> String, one of "IN_PROGRESS", "SUCCEEDED", "FAILED"
+    #   resp.job.participating_servers[0].launch_actions_status.ssm_agent_discovery_datetime #=> String
     #   resp.job.participating_servers[0].launch_status #=> String, one of "PENDING", "IN_PROGRESS", "LAUNCHED", "FAILED", "TERMINATED"
     #   resp.job.participating_servers[0].recovery_instance_id #=> String
     #   resp.job.participating_servers[0].source_server_id #=> String
@@ -1765,9 +2529,30 @@ module Aws::Drs
     #   resp.job.arn #=> String
     #   resp.job.creation_date_time #=> String
     #   resp.job.end_date_time #=> String
-    #   resp.job.initiated_by #=> String, one of "START_RECOVERY", "START_DRILL", "FAILBACK", "DIAGNOSTIC", "TERMINATE_RECOVERY_INSTANCES", "TARGET_ACCOUNT"
+    #   resp.job.initiated_by #=> String, one of "START_RECOVERY", "START_DRILL", "FAILBACK", "DIAGNOSTIC", "TERMINATE_RECOVERY_INSTANCES", "TARGET_ACCOUNT", "CREATE_NETWORK_RECOVERY", "UPDATE_NETWORK_RECOVERY", "ASSOCIATE_NETWORK_RECOVERY"
     #   resp.job.job_id #=> String
+    #   resp.job.participating_resources #=> Array
+    #   resp.job.participating_resources[0].launch_status #=> String, one of "PENDING", "IN_PROGRESS", "LAUNCHED", "FAILED", "TERMINATED"
+    #   resp.job.participating_resources[0].participating_resource_id.source_network_id #=> String
     #   resp.job.participating_servers #=> Array
+    #   resp.job.participating_servers[0].launch_actions_status.runs #=> Array
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].action.action_code #=> String
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].action.action_id #=> String
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].action.action_version #=> String
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].action.active #=> Boolean
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].action.category #=> String, one of "MONITORING", "VALIDATION", "CONFIGURATION", "SECURITY", "OTHER"
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].action.description #=> String
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].action.name #=> String
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].action.optional #=> Boolean
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].action.order #=> Integer
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].action.parameters #=> Hash
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].action.parameters["LaunchActionParameterName"].type #=> String, one of "SSM_STORE", "DYNAMIC"
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].action.parameters["LaunchActionParameterName"].value #=> String
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].action.type #=> String, one of "SSM_AUTOMATION", "SSM_COMMAND"
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].failure_reason #=> String
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].run_id #=> String
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].status #=> String, one of "IN_PROGRESS", "SUCCEEDED", "FAILED"
+    #   resp.job.participating_servers[0].launch_actions_status.ssm_agent_discovery_datetime #=> String
     #   resp.job.participating_servers[0].launch_status #=> String, one of "PENDING", "IN_PROGRESS", "LAUNCHED", "FAILED", "TERMINATED"
     #   resp.job.participating_servers[0].recovery_instance_id #=> String
     #   resp.job.participating_servers[0].source_server_id #=> String
@@ -1803,6 +2588,7 @@ module Aws::Drs
     #
     # @example Response structure
     #
+    #   resp.source_server.agent_version #=> String
     #   resp.source_server.arn #=> String
     #   resp.source_server.data_replication_info.data_replication_error.error #=> String, one of "AGENT_NOT_SEEN", "SNAPSHOTS_FAILURE", "NOT_CONVERGING", "UNSTABLE_NETWORK", "FAILED_TO_CREATE_SECURITY_GROUP", "FAILED_TO_LAUNCH_REPLICATION_SERVER", "FAILED_TO_BOOT_REPLICATION_SERVER", "FAILED_TO_AUTHENTICATE_WITH_SERVICE", "FAILED_TO_DOWNLOAD_REPLICATION_SOFTWARE", "FAILED_TO_CREATE_STAGING_DISKS", "FAILED_TO_ATTACH_STAGING_DISKS", "FAILED_TO_PAIR_REPLICATION_SERVER_WITH_AGENT", "FAILED_TO_CONNECT_AGENT_TO_REPLICATION_SERVER", "FAILED_TO_START_DATA_TRANSFER"
     #   resp.source_server.data_replication_info.data_replication_error.raw_error #=> String
@@ -1820,6 +2606,9 @@ module Aws::Drs
     #   resp.source_server.data_replication_info.replicated_disks[0].replicated_storage_bytes #=> Integer
     #   resp.source_server.data_replication_info.replicated_disks[0].rescanned_storage_bytes #=> Integer
     #   resp.source_server.data_replication_info.replicated_disks[0].total_storage_bytes #=> Integer
+    #   resp.source_server.data_replication_info.replicated_disks[0].volume_status #=> String, one of "REGULAR", "CONTAINS_MARKETPLACE_PRODUCT_CODES", "MISSING_VOLUME_ATTRIBUTES", "MISSING_VOLUME_ATTRIBUTES_AND_PRECHECK_UNAVAILABLE", "PENDING"
+    #   resp.source_server.data_replication_info.staging_availability_zone #=> String
+    #   resp.source_server.data_replication_info.staging_outpost_arn #=> String
     #   resp.source_server.last_launch_result #=> String, one of "NOT_STARTED", "PENDING", "SUCCEEDED", "FAILED"
     #   resp.source_server.life_cycle.added_to_service_date_time #=> String
     #   resp.source_server.life_cycle.elapsed_replication_duration #=> String
@@ -1827,6 +2616,7 @@ module Aws::Drs
     #   resp.source_server.life_cycle.last_launch.initiated.api_call_date_time #=> String
     #   resp.source_server.life_cycle.last_launch.initiated.job_id #=> String
     #   resp.source_server.life_cycle.last_launch.initiated.type #=> String, one of "RECOVERY", "DRILL"
+    #   resp.source_server.life_cycle.last_launch.status #=> String, one of "PENDING", "IN_PROGRESS", "LAUNCHED", "FAILED", "TERMINATED"
     #   resp.source_server.life_cycle.last_seen_by_service_date_time #=> String
     #   resp.source_server.recovery_instance_id #=> String
     #   resp.source_server.replication_direction #=> String, one of "FAILOVER", "FAILBACK"
@@ -1834,6 +2624,8 @@ module Aws::Drs
     #   resp.source_server.source_cloud_properties.origin_account_id #=> String
     #   resp.source_server.source_cloud_properties.origin_availability_zone #=> String
     #   resp.source_server.source_cloud_properties.origin_region #=> String
+    #   resp.source_server.source_cloud_properties.source_outpost_arn #=> String
+    #   resp.source_server.source_network_id #=> String
     #   resp.source_server.source_properties.cpus #=> Array
     #   resp.source_server.source_properties.cpus[0].cores #=> Integer
     #   resp.source_server.source_properties.cpus[0].model_name #=> String
@@ -1853,6 +2645,7 @@ module Aws::Drs
     #   resp.source_server.source_properties.os.full_string #=> String
     #   resp.source_server.source_properties.ram_bytes #=> Integer
     #   resp.source_server.source_properties.recommended_instance_type #=> String
+    #   resp.source_server.source_properties.supports_nitro_instances #=> Boolean
     #   resp.source_server.source_server_id #=> String
     #   resp.source_server.staging_area.error_message #=> String
     #   resp.source_server.staging_area.staging_account_id #=> String
@@ -1867,6 +2660,127 @@ module Aws::Drs
     # @param [Hash] params ({})
     def start_replication(params = {}, options = {})
       req = build_request(:start_replication, params)
+      req.send_request(options)
+    end
+
+    # Deploy VPC for the specified Source Network and modify launch
+    # templates to use this network. The VPC will be deployed using a
+    # dedicated CloudFormation stack.
+    #
+    # @option params [Boolean] :deploy_as_new
+    #   Don't update existing CloudFormation Stack, recover the network using
+    #   a new stack.
+    #
+    # @option params [required, Array<Types::StartSourceNetworkRecoveryRequestNetworkEntry>] :source_networks
+    #   The Source Networks that we want to start a Recovery Job for.
+    #
+    # @option params [Hash<String,String>] :tags
+    #   The tags to be associated with the Source Network recovery Job.
+    #
+    # @return [Types::StartSourceNetworkRecoveryResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::StartSourceNetworkRecoveryResponse#job #job} => Types::Job
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.start_source_network_recovery({
+    #     deploy_as_new: false,
+    #     source_networks: [ # required
+    #       {
+    #         cfn_stack_name: "CfnStackName",
+    #         source_network_id: "SourceNetworkID", # required
+    #       },
+    #     ],
+    #     tags: {
+    #       "TagKey" => "TagValue",
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.job.arn #=> String
+    #   resp.job.creation_date_time #=> String
+    #   resp.job.end_date_time #=> String
+    #   resp.job.initiated_by #=> String, one of "START_RECOVERY", "START_DRILL", "FAILBACK", "DIAGNOSTIC", "TERMINATE_RECOVERY_INSTANCES", "TARGET_ACCOUNT", "CREATE_NETWORK_RECOVERY", "UPDATE_NETWORK_RECOVERY", "ASSOCIATE_NETWORK_RECOVERY"
+    #   resp.job.job_id #=> String
+    #   resp.job.participating_resources #=> Array
+    #   resp.job.participating_resources[0].launch_status #=> String, one of "PENDING", "IN_PROGRESS", "LAUNCHED", "FAILED", "TERMINATED"
+    #   resp.job.participating_resources[0].participating_resource_id.source_network_id #=> String
+    #   resp.job.participating_servers #=> Array
+    #   resp.job.participating_servers[0].launch_actions_status.runs #=> Array
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].action.action_code #=> String
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].action.action_id #=> String
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].action.action_version #=> String
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].action.active #=> Boolean
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].action.category #=> String, one of "MONITORING", "VALIDATION", "CONFIGURATION", "SECURITY", "OTHER"
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].action.description #=> String
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].action.name #=> String
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].action.optional #=> Boolean
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].action.order #=> Integer
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].action.parameters #=> Hash
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].action.parameters["LaunchActionParameterName"].type #=> String, one of "SSM_STORE", "DYNAMIC"
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].action.parameters["LaunchActionParameterName"].value #=> String
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].action.type #=> String, one of "SSM_AUTOMATION", "SSM_COMMAND"
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].failure_reason #=> String
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].run_id #=> String
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].status #=> String, one of "IN_PROGRESS", "SUCCEEDED", "FAILED"
+    #   resp.job.participating_servers[0].launch_actions_status.ssm_agent_discovery_datetime #=> String
+    #   resp.job.participating_servers[0].launch_status #=> String, one of "PENDING", "IN_PROGRESS", "LAUNCHED", "FAILED", "TERMINATED"
+    #   resp.job.participating_servers[0].recovery_instance_id #=> String
+    #   resp.job.participating_servers[0].source_server_id #=> String
+    #   resp.job.status #=> String, one of "PENDING", "STARTED", "COMPLETED"
+    #   resp.job.tags #=> Hash
+    #   resp.job.tags["TagKey"] #=> String
+    #   resp.job.type #=> String, one of "LAUNCH", "TERMINATE", "CREATE_CONVERTED_SNAPSHOT"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/drs-2020-02-26/StartSourceNetworkRecovery AWS API Documentation
+    #
+    # @overload start_source_network_recovery(params = {})
+    # @param [Hash] params ({})
+    def start_source_network_recovery(params = {}, options = {})
+      req = build_request(:start_source_network_recovery, params)
+      req.send_request(options)
+    end
+
+    # Starts replication for a Source Network. This action would make the
+    # Source Network protected.
+    #
+    # @option params [required, String] :source_network_id
+    #   ID of the Source Network to replicate.
+    #
+    # @return [Types::StartSourceNetworkReplicationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::StartSourceNetworkReplicationResponse#source_network #source_network} => Types::SourceNetwork
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.start_source_network_replication({
+    #     source_network_id: "SourceNetworkID", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.source_network.arn #=> String
+    #   resp.source_network.cfn_stack_name #=> String
+    #   resp.source_network.last_recovery.api_call_date_time #=> Time
+    #   resp.source_network.last_recovery.job_id #=> String
+    #   resp.source_network.last_recovery.last_recovery_result #=> String, one of "NOT_STARTED", "IN_PROGRESS", "SUCCESS", "FAIL", "PARTIAL_SUCCESS", "ASSOCIATE_SUCCESS", "ASSOCIATE_FAIL"
+    #   resp.source_network.launched_vpc_id #=> String
+    #   resp.source_network.replication_status #=> String, one of "STOPPED", "IN_PROGRESS", "PROTECTED", "ERROR"
+    #   resp.source_network.replication_status_details #=> String
+    #   resp.source_network.source_account_id #=> String
+    #   resp.source_network.source_network_id #=> String
+    #   resp.source_network.source_region #=> String
+    #   resp.source_network.source_vpc_id #=> String
+    #   resp.source_network.tags #=> Hash
+    #   resp.source_network.tags["TagKey"] #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/drs-2020-02-26/StartSourceNetworkReplication AWS API Documentation
+    #
+    # @overload start_source_network_replication(params = {})
+    # @param [Hash] params ({})
+    def start_source_network_replication(params = {}, options = {})
+      req = build_request(:start_source_network_replication, params)
       req.send_request(options)
     end
 
@@ -1913,6 +2827,7 @@ module Aws::Drs
     #
     # @example Response structure
     #
+    #   resp.source_server.agent_version #=> String
     #   resp.source_server.arn #=> String
     #   resp.source_server.data_replication_info.data_replication_error.error #=> String, one of "AGENT_NOT_SEEN", "SNAPSHOTS_FAILURE", "NOT_CONVERGING", "UNSTABLE_NETWORK", "FAILED_TO_CREATE_SECURITY_GROUP", "FAILED_TO_LAUNCH_REPLICATION_SERVER", "FAILED_TO_BOOT_REPLICATION_SERVER", "FAILED_TO_AUTHENTICATE_WITH_SERVICE", "FAILED_TO_DOWNLOAD_REPLICATION_SOFTWARE", "FAILED_TO_CREATE_STAGING_DISKS", "FAILED_TO_ATTACH_STAGING_DISKS", "FAILED_TO_PAIR_REPLICATION_SERVER_WITH_AGENT", "FAILED_TO_CONNECT_AGENT_TO_REPLICATION_SERVER", "FAILED_TO_START_DATA_TRANSFER"
     #   resp.source_server.data_replication_info.data_replication_error.raw_error #=> String
@@ -1930,6 +2845,9 @@ module Aws::Drs
     #   resp.source_server.data_replication_info.replicated_disks[0].replicated_storage_bytes #=> Integer
     #   resp.source_server.data_replication_info.replicated_disks[0].rescanned_storage_bytes #=> Integer
     #   resp.source_server.data_replication_info.replicated_disks[0].total_storage_bytes #=> Integer
+    #   resp.source_server.data_replication_info.replicated_disks[0].volume_status #=> String, one of "REGULAR", "CONTAINS_MARKETPLACE_PRODUCT_CODES", "MISSING_VOLUME_ATTRIBUTES", "MISSING_VOLUME_ATTRIBUTES_AND_PRECHECK_UNAVAILABLE", "PENDING"
+    #   resp.source_server.data_replication_info.staging_availability_zone #=> String
+    #   resp.source_server.data_replication_info.staging_outpost_arn #=> String
     #   resp.source_server.last_launch_result #=> String, one of "NOT_STARTED", "PENDING", "SUCCEEDED", "FAILED"
     #   resp.source_server.life_cycle.added_to_service_date_time #=> String
     #   resp.source_server.life_cycle.elapsed_replication_duration #=> String
@@ -1937,6 +2855,7 @@ module Aws::Drs
     #   resp.source_server.life_cycle.last_launch.initiated.api_call_date_time #=> String
     #   resp.source_server.life_cycle.last_launch.initiated.job_id #=> String
     #   resp.source_server.life_cycle.last_launch.initiated.type #=> String, one of "RECOVERY", "DRILL"
+    #   resp.source_server.life_cycle.last_launch.status #=> String, one of "PENDING", "IN_PROGRESS", "LAUNCHED", "FAILED", "TERMINATED"
     #   resp.source_server.life_cycle.last_seen_by_service_date_time #=> String
     #   resp.source_server.recovery_instance_id #=> String
     #   resp.source_server.replication_direction #=> String, one of "FAILOVER", "FAILBACK"
@@ -1944,6 +2863,8 @@ module Aws::Drs
     #   resp.source_server.source_cloud_properties.origin_account_id #=> String
     #   resp.source_server.source_cloud_properties.origin_availability_zone #=> String
     #   resp.source_server.source_cloud_properties.origin_region #=> String
+    #   resp.source_server.source_cloud_properties.source_outpost_arn #=> String
+    #   resp.source_server.source_network_id #=> String
     #   resp.source_server.source_properties.cpus #=> Array
     #   resp.source_server.source_properties.cpus[0].cores #=> Integer
     #   resp.source_server.source_properties.cpus[0].model_name #=> String
@@ -1963,6 +2884,7 @@ module Aws::Drs
     #   resp.source_server.source_properties.os.full_string #=> String
     #   resp.source_server.source_properties.ram_bytes #=> Integer
     #   resp.source_server.source_properties.recommended_instance_type #=> String
+    #   resp.source_server.source_properties.supports_nitro_instances #=> Boolean
     #   resp.source_server.source_server_id #=> String
     #   resp.source_server.staging_area.error_message #=> String
     #   resp.source_server.staging_area.staging_account_id #=> String
@@ -1977,6 +2899,48 @@ module Aws::Drs
     # @param [Hash] params ({})
     def stop_replication(params = {}, options = {})
       req = build_request(:stop_replication, params)
+      req.send_request(options)
+    end
+
+    # Stops replication for a Source Network. This action would make the
+    # Source Network unprotected.
+    #
+    # @option params [required, String] :source_network_id
+    #   ID of the Source Network to stop replication.
+    #
+    # @return [Types::StopSourceNetworkReplicationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::StopSourceNetworkReplicationResponse#source_network #source_network} => Types::SourceNetwork
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.stop_source_network_replication({
+    #     source_network_id: "SourceNetworkID", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.source_network.arn #=> String
+    #   resp.source_network.cfn_stack_name #=> String
+    #   resp.source_network.last_recovery.api_call_date_time #=> Time
+    #   resp.source_network.last_recovery.job_id #=> String
+    #   resp.source_network.last_recovery.last_recovery_result #=> String, one of "NOT_STARTED", "IN_PROGRESS", "SUCCESS", "FAIL", "PARTIAL_SUCCESS", "ASSOCIATE_SUCCESS", "ASSOCIATE_FAIL"
+    #   resp.source_network.launched_vpc_id #=> String
+    #   resp.source_network.replication_status #=> String, one of "STOPPED", "IN_PROGRESS", "PROTECTED", "ERROR"
+    #   resp.source_network.replication_status_details #=> String
+    #   resp.source_network.source_account_id #=> String
+    #   resp.source_network.source_network_id #=> String
+    #   resp.source_network.source_region #=> String
+    #   resp.source_network.source_vpc_id #=> String
+    #   resp.source_network.tags #=> Hash
+    #   resp.source_network.tags["TagKey"] #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/drs-2020-02-26/StopSourceNetworkReplication AWS API Documentation
+    #
+    # @overload stop_source_network_replication(params = {})
+    # @param [Hash] params ({})
+    def stop_source_network_replication(params = {}, options = {})
+      req = build_request(:stop_source_network_replication, params)
       req.send_request(options)
     end
 
@@ -2034,9 +2998,30 @@ module Aws::Drs
     #   resp.job.arn #=> String
     #   resp.job.creation_date_time #=> String
     #   resp.job.end_date_time #=> String
-    #   resp.job.initiated_by #=> String, one of "START_RECOVERY", "START_DRILL", "FAILBACK", "DIAGNOSTIC", "TERMINATE_RECOVERY_INSTANCES", "TARGET_ACCOUNT"
+    #   resp.job.initiated_by #=> String, one of "START_RECOVERY", "START_DRILL", "FAILBACK", "DIAGNOSTIC", "TERMINATE_RECOVERY_INSTANCES", "TARGET_ACCOUNT", "CREATE_NETWORK_RECOVERY", "UPDATE_NETWORK_RECOVERY", "ASSOCIATE_NETWORK_RECOVERY"
     #   resp.job.job_id #=> String
+    #   resp.job.participating_resources #=> Array
+    #   resp.job.participating_resources[0].launch_status #=> String, one of "PENDING", "IN_PROGRESS", "LAUNCHED", "FAILED", "TERMINATED"
+    #   resp.job.participating_resources[0].participating_resource_id.source_network_id #=> String
     #   resp.job.participating_servers #=> Array
+    #   resp.job.participating_servers[0].launch_actions_status.runs #=> Array
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].action.action_code #=> String
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].action.action_id #=> String
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].action.action_version #=> String
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].action.active #=> Boolean
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].action.category #=> String, one of "MONITORING", "VALIDATION", "CONFIGURATION", "SECURITY", "OTHER"
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].action.description #=> String
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].action.name #=> String
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].action.optional #=> Boolean
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].action.order #=> Integer
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].action.parameters #=> Hash
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].action.parameters["LaunchActionParameterName"].type #=> String, one of "SSM_STORE", "DYNAMIC"
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].action.parameters["LaunchActionParameterName"].value #=> String
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].action.type #=> String, one of "SSM_AUTOMATION", "SSM_COMMAND"
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].failure_reason #=> String
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].run_id #=> String
+    #   resp.job.participating_servers[0].launch_actions_status.runs[0].status #=> String, one of "IN_PROGRESS", "SUCCEEDED", "FAILED"
+    #   resp.job.participating_servers[0].launch_actions_status.ssm_agent_discovery_datetime #=> String
     #   resp.job.participating_servers[0].launch_status #=> String, one of "PENDING", "IN_PROGRESS", "LAUNCHED", "FAILED", "TERMINATED"
     #   resp.job.participating_servers[0].recovery_instance_id #=> String
     #   resp.job.participating_servers[0].source_server_id #=> String
@@ -2132,11 +3117,17 @@ module Aws::Drs
     #   The state of the Recovery Instance in EC2 after the recovery
     #   operation.
     #
+    # @option params [Types::LaunchIntoInstanceProperties] :launch_into_instance_properties
+    #   Launch into existing instance properties.
+    #
     # @option params [Types::Licensing] :licensing
     #   The licensing configuration to be used for this launch configuration.
     #
     # @option params [String] :name
     #   The name of the launch configuration.
+    #
+    # @option params [Boolean] :post_launch_enabled
+    #   Whether we want to enable post-launch actions for the Source Server.
     #
     # @option params [required, String] :source_server_id
     #   The ID of the Source Server that we want to retrieve a Launch
@@ -2153,8 +3144,10 @@ module Aws::Drs
     #   * {Types::LaunchConfiguration#copy_tags #copy_tags} => Boolean
     #   * {Types::LaunchConfiguration#ec2_launch_template_id #ec2_launch_template_id} => String
     #   * {Types::LaunchConfiguration#launch_disposition #launch_disposition} => String
+    #   * {Types::LaunchConfiguration#launch_into_instance_properties #launch_into_instance_properties} => Types::LaunchIntoInstanceProperties
     #   * {Types::LaunchConfiguration#licensing #licensing} => Types::Licensing
     #   * {Types::LaunchConfiguration#name #name} => String
+    #   * {Types::LaunchConfiguration#post_launch_enabled #post_launch_enabled} => Boolean
     #   * {Types::LaunchConfiguration#source_server_id #source_server_id} => String
     #   * {Types::LaunchConfiguration#target_instance_type_right_sizing_method #target_instance_type_right_sizing_method} => String
     #
@@ -2164,12 +3157,16 @@ module Aws::Drs
     #     copy_private_ip: false,
     #     copy_tags: false,
     #     launch_disposition: "STOPPED", # accepts STOPPED, STARTED
+    #     launch_into_instance_properties: {
+    #       launch_into_ec2_instance_id: "EC2InstanceID",
+    #     },
     #     licensing: {
     #       os_byol: false,
     #     },
     #     name: "SmallBoundedString",
+    #     post_launch_enabled: false,
     #     source_server_id: "SourceServerID", # required
-    #     target_instance_type_right_sizing_method: "NONE", # accepts NONE, BASIC
+    #     target_instance_type_right_sizing_method: "NONE", # accepts NONE, BASIC, IN_AWS
     #   })
     #
     # @example Response structure
@@ -2178,10 +3175,12 @@ module Aws::Drs
     #   resp.copy_tags #=> Boolean
     #   resp.ec2_launch_template_id #=> String
     #   resp.launch_disposition #=> String, one of "STOPPED", "STARTED"
+    #   resp.launch_into_instance_properties.launch_into_ec2_instance_id #=> String
     #   resp.licensing.os_byol #=> Boolean
     #   resp.name #=> String
+    #   resp.post_launch_enabled #=> Boolean
     #   resp.source_server_id #=> String
-    #   resp.target_instance_type_right_sizing_method #=> String, one of "NONE", "BASIC"
+    #   resp.target_instance_type_right_sizing_method #=> String, one of "NONE", "BASIC", "IN_AWS"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/drs-2020-02-26/UpdateLaunchConfiguration AWS API Documentation
     #
@@ -2192,11 +3191,90 @@ module Aws::Drs
       req.send_request(options)
     end
 
+    # Updates an existing Launch Configuration Template by ID.
+    #
+    # @option params [Boolean] :copy_private_ip
+    #   Copy private IP.
+    #
+    # @option params [Boolean] :copy_tags
+    #   Copy tags.
+    #
+    # @option params [String] :export_bucket_arn
+    #   S3 bucket ARN to export Source Network templates.
+    #
+    # @option params [required, String] :launch_configuration_template_id
+    #   Launch Configuration Template ID.
+    #
+    # @option params [String] :launch_disposition
+    #   Launch disposition.
+    #
+    # @option params [Boolean] :launch_into_source_instance
+    #   DRS will set the 'launch into instance ID' of any source server when
+    #   performing a drill, recovery or failback to the previous region or
+    #   availability zone, using the instance ID of the source instance.
+    #
+    # @option params [Types::Licensing] :licensing
+    #   Licensing.
+    #
+    # @option params [Boolean] :post_launch_enabled
+    #   Whether we want to activate post-launch actions.
+    #
+    # @option params [String] :target_instance_type_right_sizing_method
+    #   Target instance type right-sizing method.
+    #
+    # @return [Types::UpdateLaunchConfigurationTemplateResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateLaunchConfigurationTemplateResponse#launch_configuration_template #launch_configuration_template} => Types::LaunchConfigurationTemplate
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_launch_configuration_template({
+    #     copy_private_ip: false,
+    #     copy_tags: false,
+    #     export_bucket_arn: "ARN",
+    #     launch_configuration_template_id: "LaunchConfigurationTemplateID", # required
+    #     launch_disposition: "STOPPED", # accepts STOPPED, STARTED
+    #     launch_into_source_instance: false,
+    #     licensing: {
+    #       os_byol: false,
+    #     },
+    #     post_launch_enabled: false,
+    #     target_instance_type_right_sizing_method: "NONE", # accepts NONE, BASIC, IN_AWS
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.launch_configuration_template.arn #=> String
+    #   resp.launch_configuration_template.copy_private_ip #=> Boolean
+    #   resp.launch_configuration_template.copy_tags #=> Boolean
+    #   resp.launch_configuration_template.export_bucket_arn #=> String
+    #   resp.launch_configuration_template.launch_configuration_template_id #=> String
+    #   resp.launch_configuration_template.launch_disposition #=> String, one of "STOPPED", "STARTED"
+    #   resp.launch_configuration_template.launch_into_source_instance #=> Boolean
+    #   resp.launch_configuration_template.licensing.os_byol #=> Boolean
+    #   resp.launch_configuration_template.post_launch_enabled #=> Boolean
+    #   resp.launch_configuration_template.tags #=> Hash
+    #   resp.launch_configuration_template.tags["TagKey"] #=> String
+    #   resp.launch_configuration_template.target_instance_type_right_sizing_method #=> String, one of "NONE", "BASIC", "IN_AWS"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/drs-2020-02-26/UpdateLaunchConfigurationTemplate AWS API Documentation
+    #
+    # @overload update_launch_configuration_template(params = {})
+    # @param [Hash] params ({})
+    def update_launch_configuration_template(params = {}, options = {})
+      req = build_request(:update_launch_configuration_template, params)
+      req.send_request(options)
+    end
+
     # Allows you to update a ReplicationConfiguration by Source Server ID.
     #
     # @option params [Boolean] :associate_default_security_group
     #   Whether to associate the default Elastic Disaster Recovery Security
     #   group with the Replication Configuration.
+    #
+    # @option params [Boolean] :auto_replicate_new_disks
+    #   Whether to allow the AWS replication agent to automatically replicate
+    #   newly added disks.
     #
     # @option params [Integer] :bandwidth_throttling
     #   Configure bandwidth throttling for the outbound data transfer rate of
@@ -2251,6 +3329,7 @@ module Aws::Drs
     # @return [Types::ReplicationConfiguration] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::ReplicationConfiguration#associate_default_security_group #associate_default_security_group} => Boolean
+    #   * {Types::ReplicationConfiguration#auto_replicate_new_disks #auto_replicate_new_disks} => Boolean
     #   * {Types::ReplicationConfiguration#bandwidth_throttling #bandwidth_throttling} => Integer
     #   * {Types::ReplicationConfiguration#create_public_ip #create_public_ip} => Boolean
     #   * {Types::ReplicationConfiguration#data_plane_routing #data_plane_routing} => String
@@ -2271,11 +3350,12 @@ module Aws::Drs
     #
     #   resp = client.update_replication_configuration({
     #     associate_default_security_group: false,
+    #     auto_replicate_new_disks: false,
     #     bandwidth_throttling: 1,
     #     create_public_ip: false,
     #     data_plane_routing: "PRIVATE_IP", # accepts PRIVATE_IP, PUBLIC_IP
     #     default_large_staging_disk_type: "GP2", # accepts GP2, GP3, ST1, AUTO
-    #     ebs_encryption: "DEFAULT", # accepts DEFAULT, CUSTOM
+    #     ebs_encryption: "DEFAULT", # accepts DEFAULT, CUSTOM, NONE
     #     ebs_encryption_key_arn: "ARN",
     #     name: "SmallBoundedString",
     #     pit_policy: [
@@ -2310,11 +3390,12 @@ module Aws::Drs
     # @example Response structure
     #
     #   resp.associate_default_security_group #=> Boolean
+    #   resp.auto_replicate_new_disks #=> Boolean
     #   resp.bandwidth_throttling #=> Integer
     #   resp.create_public_ip #=> Boolean
     #   resp.data_plane_routing #=> String, one of "PRIVATE_IP", "PUBLIC_IP"
     #   resp.default_large_staging_disk_type #=> String, one of "GP2", "GP3", "ST1", "AUTO"
-    #   resp.ebs_encryption #=> String, one of "DEFAULT", "CUSTOM"
+    #   resp.ebs_encryption #=> String, one of "DEFAULT", "CUSTOM", "NONE"
     #   resp.ebs_encryption_key_arn #=> String
     #   resp.name #=> String
     #   resp.pit_policy #=> Array
@@ -2356,6 +3437,10 @@ module Aws::Drs
     # @option params [Boolean] :associate_default_security_group
     #   Whether to associate the default Elastic Disaster Recovery Security
     #   group with the Replication Configuration Template.
+    #
+    # @option params [Boolean] :auto_replicate_new_disks
+    #   Whether to allow the AWS replication agent to automatically replicate
+    #   newly added disks.
     #
     # @option params [Integer] :bandwidth_throttling
     #   Configure bandwidth throttling for the outbound data transfer rate of
@@ -2405,6 +3490,7 @@ module Aws::Drs
     #
     #   * {Types::ReplicationConfigurationTemplate#arn #arn} => String
     #   * {Types::ReplicationConfigurationTemplate#associate_default_security_group #associate_default_security_group} => Boolean
+    #   * {Types::ReplicationConfigurationTemplate#auto_replicate_new_disks #auto_replicate_new_disks} => Boolean
     #   * {Types::ReplicationConfigurationTemplate#bandwidth_throttling #bandwidth_throttling} => Integer
     #   * {Types::ReplicationConfigurationTemplate#create_public_ip #create_public_ip} => Boolean
     #   * {Types::ReplicationConfigurationTemplate#data_plane_routing #data_plane_routing} => String
@@ -2425,11 +3511,12 @@ module Aws::Drs
     #   resp = client.update_replication_configuration_template({
     #     arn: "ARN",
     #     associate_default_security_group: false,
+    #     auto_replicate_new_disks: false,
     #     bandwidth_throttling: 1,
     #     create_public_ip: false,
     #     data_plane_routing: "PRIVATE_IP", # accepts PRIVATE_IP, PUBLIC_IP
     #     default_large_staging_disk_type: "GP2", # accepts GP2, GP3, ST1, AUTO
-    #     ebs_encryption: "DEFAULT", # accepts DEFAULT, CUSTOM
+    #     ebs_encryption: "DEFAULT", # accepts DEFAULT, CUSTOM, NONE
     #     ebs_encryption_key_arn: "ARN",
     #     pit_policy: [
     #       {
@@ -2454,11 +3541,12 @@ module Aws::Drs
     #
     #   resp.arn #=> String
     #   resp.associate_default_security_group #=> Boolean
+    #   resp.auto_replicate_new_disks #=> Boolean
     #   resp.bandwidth_throttling #=> Integer
     #   resp.create_public_ip #=> Boolean
     #   resp.data_plane_routing #=> String, one of "PRIVATE_IP", "PUBLIC_IP"
     #   resp.default_large_staging_disk_type #=> String, one of "GP2", "GP3", "ST1", "AUTO"
-    #   resp.ebs_encryption #=> String, one of "DEFAULT", "CUSTOM"
+    #   resp.ebs_encryption #=> String, one of "DEFAULT", "CUSTOM", "NONE"
     #   resp.ebs_encryption_key_arn #=> String
     #   resp.pit_policy #=> Array
     #   resp.pit_policy[0].enabled #=> Boolean
@@ -2492,14 +3580,19 @@ module Aws::Drs
     # @api private
     def build_request(operation_name, params = {})
       handlers = @handlers.for(operation_name)
+      tracer = config.telemetry_provider.tracer_provider.tracer(
+        Aws::Telemetry.module_to_tracer_name('Aws::Drs')
+      )
       context = Seahorse::Client::RequestContext.new(
         operation_name: operation_name,
         operation: config.api.operation(operation_name),
         client: self,
         params: params,
-        config: config)
+        config: config,
+        tracer: tracer
+      )
       context[:gem_name] = 'aws-sdk-drs'
-      context[:gem_version] = '1.10.0'
+      context[:gem_version] = '1.46.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

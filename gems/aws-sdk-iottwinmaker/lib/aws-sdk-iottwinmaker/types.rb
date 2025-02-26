@@ -84,7 +84,7 @@ module Aws::IoTTwinMaker
       include Aws::Structure
     end
 
-    # Information about pricing bundle.
+    # Information about the pricing bundle.
     #
     # @!attribute [rw] bundle_names
     #   The bundle names.
@@ -97,6 +97,46 @@ module Aws::IoTTwinMaker
     class BundleInformation < Struct.new(
       :bundle_names,
       :pricing_tier)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] metadata_transfer_job_id
+    #   The metadata transfer job Id.
+    #   @return [String]
+    #
+    class CancelMetadataTransferJobRequest < Struct.new(
+      :metadata_transfer_job_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] metadata_transfer_job_id
+    #   The metadata transfer job Id.
+    #   @return [String]
+    #
+    # @!attribute [rw] arn
+    #   The metadata transfer job ARN.
+    #   @return [String]
+    #
+    # @!attribute [rw] update_date_time
+    #   Used to update the DateTime property.
+    #   @return [Time]
+    #
+    # @!attribute [rw] status
+    #   The metadata transfer job's status.
+    #   @return [Types::MetadataTransferJobStatus]
+    #
+    # @!attribute [rw] progress
+    #   The metadata transfer job's progress.
+    #   @return [Types::MetadataTransferJobProgress]
+    #
+    class CancelMetadataTransferJobResponse < Struct.new(
+      :metadata_transfer_job_id,
+      :arn,
+      :update_date_time,
+      :status,
+      :progress)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -118,6 +158,8 @@ module Aws::IoTTwinMaker
       include Aws::Structure
     end
 
+    # The component property group request.
+    #
     # @!attribute [rw] group_type
     #   The group type.
     #   @return [String]
@@ -229,6 +271,22 @@ module Aws::IoTTwinMaker
     #   job.
     #   @return [String]
     #
+    # @!attribute [rw] are_all_properties_returned
+    #   This flag notes whether all properties of the component are returned
+    #   in the API response. The maximum number of properties returned is
+    #   800.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] composite_components
+    #   This lists objects that contain information about the
+    #   `compositeComponents`.
+    #   @return [Hash<String,Types::ComponentSummary>]
+    #
+    # @!attribute [rw] are_all_composite_components_returned
+    #   This flag notes whether all `compositeComponents` are returned in
+    #   the API response.
+    #   @return [Boolean]
+    #
     class ComponentResponse < Struct.new(
       :component_name,
       :description,
@@ -237,7 +295,59 @@ module Aws::IoTTwinMaker
       :defined_in,
       :properties,
       :property_groups,
-      :sync_source)
+      :sync_source,
+      :are_all_properties_returned,
+      :composite_components,
+      :are_all_composite_components_returned)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # An object that returns information about a component summary.
+    #
+    # @!attribute [rw] component_name
+    #   The name of the component.
+    #   @return [String]
+    #
+    # @!attribute [rw] component_type_id
+    #   The ID of the component type.
+    #   @return [String]
+    #
+    # @!attribute [rw] defined_in
+    #   The name of the property definition set in the request.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the component request.
+    #   @return [String]
+    #
+    # @!attribute [rw] property_groups
+    #   The property groups.
+    #   @return [Hash<String,Types::ComponentPropertyGroupResponse>]
+    #
+    # @!attribute [rw] status
+    #   The status of the component type.
+    #   @return [Types::Status]
+    #
+    # @!attribute [rw] sync_source
+    #   The `syncSource` of the sync job, if this entity was created by a
+    #   sync job.
+    #   @return [String]
+    #
+    # @!attribute [rw] component_path
+    #   This string specifies the path to the composite component, starting
+    #   from the top-level component.
+    #   @return [String]
+    #
+    class ComponentSummary < Struct.new(
+      :component_name,
+      :component_type_id,
+      :defined_in,
+      :description,
+      :property_groups,
+      :status,
+      :sync_source,
+      :component_path)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -312,6 +422,95 @@ module Aws::IoTTwinMaker
       :update_type,
       :description,
       :component_type_id,
+      :property_updates,
+      :property_group_updates)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # An object that sets information about the composite component update
+    # request.
+    #
+    # @!attribute [rw] description
+    #   The description of the component type.
+    #   @return [String]
+    #
+    # @!attribute [rw] properties
+    #   This is an object that maps strings to the properties to set in the
+    #   component type. Each string in the mapping must be unique to this
+    #   object.
+    #   @return [Hash<String,Types::PropertyRequest>]
+    #
+    # @!attribute [rw] property_groups
+    #   The property groups.
+    #   @return [Hash<String,Types::ComponentPropertyGroupRequest>]
+    #
+    class CompositeComponentRequest < Struct.new(
+      :description,
+      :properties,
+      :property_groups)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # An object that sets information about the composite component types of
+    # a component type.
+    #
+    # @!attribute [rw] component_type_id
+    #   This is the `componentTypeId` that the `compositeComponentType`
+    #   refers to.
+    #   @return [String]
+    #
+    class CompositeComponentTypeRequest < Struct.new(
+      :component_type_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # An object that returns information about the composite component types
+    # of a component type.
+    #
+    # @!attribute [rw] component_type_id
+    #   This is the `componentTypeId` that this `compositeComponentType`
+    #   refers to.
+    #   @return [String]
+    #
+    # @!attribute [rw] is_inherited
+    #   This boolean indicates whether this `compositeComponentType` is
+    #   inherited from its parent.
+    #   @return [Boolean]
+    #
+    class CompositeComponentTypeResponse < Struct.new(
+      :component_type_id,
+      :is_inherited)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # An object that sets information about the composite component update
+    # request.
+    #
+    # @!attribute [rw] update_type
+    #   The update type of the component update request.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the component type.
+    #   @return [String]
+    #
+    # @!attribute [rw] property_updates
+    #   An object that maps strings to the properties to set in the
+    #   component type update. Each string in the mapping must be unique to
+    #   this object.
+    #   @return [Hash<String,Types::PropertyRequest>]
+    #
+    # @!attribute [rw] property_group_updates
+    #   The property group updates.
+    #   @return [Hash<String,Types::ComponentPropertyGroupRequest>]
+    #
+    class CompositeComponentUpdateRequest < Struct.new(
+      :update_type,
+      :description,
       :property_updates,
       :property_group_updates)
       SENSITIVE = []
@@ -394,6 +593,12 @@ module Aws::IoTTwinMaker
     #   A friendly name for the component type.
     #   @return [String]
     #
+    # @!attribute [rw] composite_component_types
+    #   This is an object that maps strings to `compositeComponentTypes` of
+    #   the `componentType`. `CompositeComponentType` is referenced by
+    #   `componentTypeId`.
+    #   @return [Hash<String,Types::CompositeComponentTypeRequest>]
+    #
     class CreateComponentTypeRequest < Struct.new(
       :workspace_id,
       :is_singleton,
@@ -404,7 +609,8 @@ module Aws::IoTTwinMaker
       :functions,
       :tags,
       :property_groups,
-      :component_type_name)
+      :component_type_name,
+      :composite_component_types)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -450,6 +656,12 @@ module Aws::IoTTwinMaker
     #   string in the mapping must be unique to this object.
     #   @return [Hash<String,Types::ComponentRequest>]
     #
+    # @!attribute [rw] composite_components
+    #   This is an object that maps strings to `compositeComponent` updates
+    #   in the request. Each key of the map represents the `componentPath`
+    #   of the `compositeComponent`.
+    #   @return [Hash<String,Types::CompositeComponentRequest>]
+    #
     # @!attribute [rw] parent_entity_id
     #   The ID of the entity's parent entity.
     #   @return [String]
@@ -464,6 +676,7 @@ module Aws::IoTTwinMaker
       :entity_name,
       :description,
       :components,
+      :composite_components,
       :parent_entity_id,
       :tags)
       SENSITIVE = []
@@ -495,6 +708,56 @@ module Aws::IoTTwinMaker
       include Aws::Structure
     end
 
+    # @!attribute [rw] metadata_transfer_job_id
+    #   The metadata transfer job Id.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The metadata transfer job description.
+    #   @return [String]
+    #
+    # @!attribute [rw] sources
+    #   The metadata transfer job sources.
+    #   @return [Array<Types::SourceConfiguration>]
+    #
+    # @!attribute [rw] destination
+    #   The metadata transfer job destination.
+    #   @return [Types::DestinationConfiguration]
+    #
+    class CreateMetadataTransferJobRequest < Struct.new(
+      :metadata_transfer_job_id,
+      :description,
+      :sources,
+      :destination)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] metadata_transfer_job_id
+    #   The metadata transfer job Id.
+    #   @return [String]
+    #
+    # @!attribute [rw] arn
+    #   The metadata transfer job ARN.
+    #   @return [String]
+    #
+    # @!attribute [rw] creation_date_time
+    #   The The metadata transfer job creation DateTime property.
+    #   @return [Time]
+    #
+    # @!attribute [rw] status
+    #   The metadata transfer job response status.
+    #   @return [Types::MetadataTransferJobStatus]
+    #
+    class CreateMetadataTransferJobResponse < Struct.new(
+      :metadata_transfer_job_id,
+      :arn,
+      :creation_date_time,
+      :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] workspace_id
     #   The ID of the workspace that contains the scene.
     #   @return [String]
@@ -520,13 +783,18 @@ module Aws::IoTTwinMaker
     #   Metadata that you can use to manage the scene.
     #   @return [Hash<String,String>]
     #
+    # @!attribute [rw] scene_metadata
+    #   The request metadata.
+    #   @return [Hash<String,String>]
+    #
     class CreateSceneRequest < Struct.new(
       :workspace_id,
       :scene_id,
       :content_location,
       :description,
       :capabilities,
-      :tags)
+      :tags,
+      :scene_metadata)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -547,20 +815,20 @@ module Aws::IoTTwinMaker
     end
 
     # @!attribute [rw] workspace_id
-    #   The workspace Id.
+    #   The workspace ID.
     #   @return [String]
     #
     # @!attribute [rw] sync_source
     #   The sync source.
     #
-    #   <note markdown="1"> Currently the only supported syncSoucre is `SITEWISE `.
+    #   <note markdown="1"> Currently the only supported syncSoource is `SITEWISE `.
     #
     #    </note>
     #   @return [String]
     #
     # @!attribute [rw] sync_role
-    #   The SyncJob IAM role. This IAM role is used by the sync job to read
-    #   from the syncSource, and create, update or delete the corresponding
+    #   The SyncJob IAM role. This IAM role is used by the SyncJob to read
+    #   from the syncSource, and create, update, or delete the corresponding
     #   resources.
     #   @return [String]
     #
@@ -819,13 +1087,13 @@ module Aws::IoTTwinMaker
     class DeleteSceneResponse < Aws::EmptyStructure; end
 
     # @!attribute [rw] workspace_id
-    #   The workspace Id.
+    #   The workspace ID.
     #   @return [String]
     #
     # @!attribute [rw] sync_source
     #   The sync source.
     #
-    #   <note markdown="1"> Currently the only supported syncSoucre is `SITEWISE `.
+    #   <note markdown="1"> Currently the only supported syncSource is `SITEWISE `.
     #
     #    </note>
     #   @return [String]
@@ -857,12 +1125,50 @@ module Aws::IoTTwinMaker
       include Aws::Structure
     end
 
-    class DeleteWorkspaceResponse < Aws::EmptyStructure; end
+    # @!attribute [rw] message
+    #   The string that specifies the delete result for the workspace.
+    #   @return [String]
+    #
+    class DeleteWorkspaceResponse < Struct.new(
+      :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The \[link to action\] metadata transfer job destination
+    # configuration.
+    #
+    # @!attribute [rw] type
+    #   The destination type.
+    #   @return [String]
+    #
+    # @!attribute [rw] s3_configuration
+    #   The metadata transfer job S3 configuration. \[need to add S3
+    #   entity\]
+    #   @return [Types::S3DestinationConfiguration]
+    #
+    # @!attribute [rw] iot_twin_maker_configuration
+    #   The metadata transfer job Amazon Web Services IoT TwinMaker
+    #   configuration.
+    #   @return [Types::IotTwinMakerDestinationConfiguration]
+    #
+    class DestinationConfiguration < Struct.new(
+      :type,
+      :s3_configuration,
+      :iot_twin_maker_configuration)
+      SENSITIVE = []
+      include Aws::Structure
+    end
 
     # An object that uniquely identifies an entity property.
     #
     # @!attribute [rw] component_name
     #   The name of the component.
+    #   @return [String]
+    #
+    # @!attribute [rw] component_path
+    #   This string specifies the path to the composite component, starting
+    #   from the top-level component.
     #   @return [String]
     #
     # @!attribute [rw] external_id_property
@@ -880,6 +1186,7 @@ module Aws::IoTTwinMaker
     #
     class EntityPropertyReference < Struct.new(
       :component_name,
+      :component_path,
       :external_id_property,
       :entity_id,
       :property_name)
@@ -914,8 +1221,8 @@ module Aws::IoTTwinMaker
     #   @return [String]
     #
     # @!attribute [rw] has_child_entities
-    #   A Boolean value that specifies whether the entity has child entities
-    #   or not.
+    #   An **eventual** Boolean value that specifies whether the entity has
+    #   child entities or not.
     #   @return [Boolean]
     #
     # @!attribute [rw] creation_date_time
@@ -967,9 +1274,7 @@ module Aws::IoTTwinMaker
     #
     # @!attribute [rw] max_results
     #   The maximum number of results to return at one time. The default is
-    #   25.
-    #
-    #   Valid Range: Minimum value of 1. Maximum value of 250.
+    #   50.
     #   @return [Integer]
     #
     # @!attribute [rw] next_token
@@ -1001,6 +1306,84 @@ module Aws::IoTTwinMaker
       :column_descriptions,
       :rows,
       :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Filter by asset. \[TwinMaker asset\]
+    #
+    # @!attribute [rw] asset_id
+    #   Filter by asset Id.
+    #   @return [String]
+    #
+    # @!attribute [rw] asset_external_id
+    #   The external-Id property of an asset.
+    #   @return [String]
+    #
+    # @!attribute [rw] include_offspring
+    #   Includes sub-assets.\[need description hekp for this\]
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] include_asset_model
+    #   Boolean to include the asset model.
+    #   @return [Boolean]
+    #
+    class FilterByAsset < Struct.new(
+      :asset_id,
+      :asset_external_id,
+      :include_offspring,
+      :include_asset_model)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Filter by asset model.
+    #
+    # @!attribute [rw] asset_model_id
+    #   The asset model Id.
+    #   @return [String]
+    #
+    # @!attribute [rw] asset_model_external_id
+    #   The external-Id property of an asset model.
+    #   @return [String]
+    #
+    # @!attribute [rw] include_offspring
+    #   Include asset offspring. \[need desc.\]
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] include_assets
+    #   Bolean to include assets.
+    #   @return [Boolean]
+    #
+    class FilterByAssetModel < Struct.new(
+      :asset_model_id,
+      :asset_model_external_id,
+      :include_offspring,
+      :include_assets)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Filter by component type.
+    #
+    # @!attribute [rw] component_type_id
+    #   The component type Id.
+    #   @return [String]
+    #
+    class FilterByComponentType < Struct.new(
+      :component_type_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Vilter by entity.
+    #
+    # @!attribute [rw] entity_id
+    #   The entity Id.
+    #   @return [String]
+    #
+    class FilterByEntity < Struct.new(
+      :entity_id)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1136,13 +1519,19 @@ module Aws::IoTTwinMaker
     #   @return [Hash<String,Types::PropertyGroupResponse>]
     #
     # @!attribute [rw] sync_source
-    #   The syncSource of the sync job, if this entity was created by a sync
-    #   job.
+    #   The syncSource of the SyncJob, if this entity was created by a
+    #   SyncJob.
     #   @return [String]
     #
     # @!attribute [rw] component_type_name
     #   The component type name.
     #   @return [String]
+    #
+    # @!attribute [rw] composite_component_types
+    #   This is an object that maps strings to `compositeComponentTypes` of
+    #   the `componentType`. `CompositeComponentType` is referenced by
+    #   `componentTypeId`.
+    #   @return [Hash<String,Types::CompositeComponentTypeResponse>]
     #
     class GetComponentTypeResponse < Struct.new(
       :workspace_id,
@@ -1160,7 +1549,8 @@ module Aws::IoTTwinMaker
       :status,
       :property_groups,
       :sync_source,
-      :component_type_name)
+      :component_type_name,
+      :composite_component_types)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1231,6 +1621,11 @@ module Aws::IoTTwinMaker
     #   job.
     #   @return [String]
     #
+    # @!attribute [rw] are_all_components_returned
+    #   This flag notes whether all components are returned in the API
+    #   response. The maximum number of components returned is 30.
+    #   @return [Boolean]
+    #
     class GetEntityResponse < Struct.new(
       :entity_id,
       :entity_name,
@@ -1243,7 +1638,78 @@ module Aws::IoTTwinMaker
       :has_child_entities,
       :creation_date_time,
       :update_date_time,
-      :sync_source)
+      :sync_source,
+      :are_all_components_returned)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] metadata_transfer_job_id
+    #   The metadata transfer job Id.
+    #   @return [String]
+    #
+    class GetMetadataTransferJobRequest < Struct.new(
+      :metadata_transfer_job_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] metadata_transfer_job_id
+    #   The metadata transfer job Id.
+    #   @return [String]
+    #
+    # @!attribute [rw] arn
+    #   The metadata transfer job ARN.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The metadata transfer job description.
+    #   @return [String]
+    #
+    # @!attribute [rw] sources
+    #   The metadata transfer job's sources.
+    #   @return [Array<Types::SourceConfiguration>]
+    #
+    # @!attribute [rw] destination
+    #   The metadata transfer job's destination.
+    #   @return [Types::DestinationConfiguration]
+    #
+    # @!attribute [rw] metadata_transfer_job_role
+    #   The metadata transfer job's role.
+    #   @return [String]
+    #
+    # @!attribute [rw] report_url
+    #   The metadata transfer job's report URL.
+    #   @return [String]
+    #
+    # @!attribute [rw] creation_date_time
+    #   The metadata transfer job's creation DateTime property.
+    #   @return [Time]
+    #
+    # @!attribute [rw] update_date_time
+    #   The metadata transfer job's update DateTime property.
+    #   @return [Time]
+    #
+    # @!attribute [rw] status
+    #   The metadata transfer job's status.
+    #   @return [Types::MetadataTransferJobStatus]
+    #
+    # @!attribute [rw] progress
+    #   The metadata transfer job's progress.
+    #   @return [Types::MetadataTransferJobProgress]
+    #
+    class GetMetadataTransferJobResponse < Struct.new(
+      :metadata_transfer_job_id,
+      :arn,
+      :description,
+      :sources,
+      :destination,
+      :metadata_transfer_job_role,
+      :report_url,
+      :creation_date_time,
+      :update_date_time,
+      :status,
+      :progress)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1277,6 +1743,11 @@ module Aws::IoTTwinMaker
     #
     # @!attribute [rw] component_name
     #   The name of the component.
+    #   @return [String]
+    #
+    # @!attribute [rw] component_path
+    #   This string specifies the path to the composite component, starting
+    #   from the top-level component.
     #   @return [String]
     #
     # @!attribute [rw] component_type_id
@@ -1345,6 +1816,7 @@ module Aws::IoTTwinMaker
       :workspace_id,
       :entity_id,
       :component_name,
+      :component_path,
       :component_type_id,
       :selected_properties,
       :property_filters,
@@ -1380,6 +1852,11 @@ module Aws::IoTTwinMaker
     # @!attribute [rw] component_name
     #   The name of the component whose property values the operation
     #   returns.
+    #   @return [String]
+    #
+    # @!attribute [rw] component_path
+    #   This string specifies the path to the composite component, starting
+    #   from the top-level component.
     #   @return [String]
     #
     # @!attribute [rw] component_type_id
@@ -1420,6 +1897,7 @@ module Aws::IoTTwinMaker
     #
     class GetPropertyValueRequest < Struct.new(
       :component_name,
+      :component_path,
       :component_type_id,
       :entity_id,
       :selected_properties,
@@ -1502,6 +1980,18 @@ module Aws::IoTTwinMaker
     #   A list of capabilities that the scene uses to render.
     #   @return [Array<String>]
     #
+    # @!attribute [rw] scene_metadata
+    #   The response metadata.
+    #   @return [Hash<String,String>]
+    #
+    # @!attribute [rw] generated_scene_metadata
+    #   The generated scene metadata.
+    #   @return [Hash<String,String>]
+    #
+    # @!attribute [rw] error
+    #   The SceneResponse error.
+    #   @return [Types::SceneError]
+    #
     class GetSceneResponse < Struct.new(
       :workspace_id,
       :scene_id,
@@ -1510,21 +2000,24 @@ module Aws::IoTTwinMaker
       :creation_date_time,
       :update_date_time,
       :description,
-      :capabilities)
+      :capabilities,
+      :scene_metadata,
+      :generated_scene_metadata,
+      :error)
       SENSITIVE = []
       include Aws::Structure
     end
 
     # @!attribute [rw] sync_source
-    #   The sync soucre.
+    #   The sync source.
     #
-    #   <note markdown="1"> Currently the only supported syncSoucre is `SITEWISE `.
+    #   <note markdown="1"> Currently the only supported syncSource is `SITEWISE `.
     #
     #    </note>
     #   @return [String]
     #
     # @!attribute [rw] workspace_id
-    #   The workspace Id.
+    #   The workspace ID.
     #   @return [String]
     #
     class GetSyncJobRequest < Struct.new(
@@ -1545,7 +2038,7 @@ module Aws::IoTTwinMaker
     # @!attribute [rw] sync_source
     #   The sync soucre.
     #
-    #   <note markdown="1"> Currently the only supported syncSoucre is `SITEWISE `.
+    #   <note markdown="1"> Currently the only supported syncSource is `SITEWISE `.
     #
     #    </note>
     #   @return [String]
@@ -1600,6 +2093,10 @@ module Aws::IoTTwinMaker
     #   The description of the workspace.
     #   @return [String]
     #
+    # @!attribute [rw] linked_services
+    #   A list of services that are linked to the workspace.
+    #   @return [Array<String>]
+    #
     # @!attribute [rw] s3_location
     #   The ARN of the S3 bucket where resources associated with the
     #   workspace are stored.
@@ -1621,6 +2118,7 @@ module Aws::IoTTwinMaker
       :workspace_id,
       :arn,
       :description,
+      :linked_services,
       :s3_location,
       :role,
       :creation_date_time,
@@ -1655,6 +2153,104 @@ module Aws::IoTTwinMaker
       :interval_in_seconds)
       SENSITIVE = []
       include Aws::Structure
+    end
+
+    # The metadata transfer job AWS IoT SiteWise source configuration.
+    #
+    # @!attribute [rw] filters
+    #   The AWS IoT SiteWise soucre configuration filters.
+    #   @return [Array<Types::IotSiteWiseSourceConfigurationFilter>]
+    #
+    class IotSiteWiseSourceConfiguration < Struct.new(
+      :filters)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The AWS IoT SiteWise soucre configuration filter.\[need held with desc
+    # here\]
+    #
+    # @note IotSiteWiseSourceConfigurationFilter is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @note IotSiteWiseSourceConfigurationFilter is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of IotSiteWiseSourceConfigurationFilter corresponding to the set member.
+    #
+    # @!attribute [rw] filter_by_asset_model
+    #   Filter by asset model.
+    #   @return [Types::FilterByAssetModel]
+    #
+    # @!attribute [rw] filter_by_asset
+    #   Filter by asset.
+    #   @return [Types::FilterByAsset]
+    #
+    class IotSiteWiseSourceConfigurationFilter < Struct.new(
+      :filter_by_asset_model,
+      :filter_by_asset,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class FilterByAssetModel < IotSiteWiseSourceConfigurationFilter; end
+      class FilterByAsset < IotSiteWiseSourceConfigurationFilter; end
+      class Unknown < IotSiteWiseSourceConfigurationFilter; end
+    end
+
+    # The metadata transfer job AWS IoT TwinMaker destination configuration.
+    #
+    # @!attribute [rw] workspace
+    #   The IoT TwinMaker workspace.
+    #   @return [String]
+    #
+    class IotTwinMakerDestinationConfiguration < Struct.new(
+      :workspace)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The metadata transfer job AWS IoT TwinMaker source configuration.
+    #
+    # @!attribute [rw] workspace
+    #   The IoT TwinMaker workspace.
+    #   @return [String]
+    #
+    # @!attribute [rw] filters
+    #   The metadata transfer job AWS IoT TwinMaker source configuration
+    #   filters.
+    #   @return [Array<Types::IotTwinMakerSourceConfigurationFilter>]
+    #
+    class IotTwinMakerSourceConfiguration < Struct.new(
+      :workspace,
+      :filters)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The metadata transfer job AWS IoT TwinMaker source configuration
+    # filter.
+    #
+    # @note IotTwinMakerSourceConfigurationFilter is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @note IotTwinMakerSourceConfigurationFilter is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of IotTwinMakerSourceConfigurationFilter corresponding to the set member.
+    #
+    # @!attribute [rw] filter_by_component_type
+    #   Filter by component type.
+    #   @return [Types::FilterByComponentType]
+    #
+    # @!attribute [rw] filter_by_entity
+    #   Filter by entity.
+    #   @return [Types::FilterByEntity]
+    #
+    class IotTwinMakerSourceConfigurationFilter < Struct.new(
+      :filter_by_component_type,
+      :filter_by_entity,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class FilterByComponentType < IotTwinMakerSourceConfigurationFilter; end
+      class FilterByEntity < IotTwinMakerSourceConfigurationFilter; end
+      class Unknown < IotTwinMakerSourceConfigurationFilter; end
     end
 
     # The Lambda function.
@@ -1759,6 +2355,54 @@ module Aws::IoTTwinMaker
       include Aws::Structure
     end
 
+    # @!attribute [rw] workspace_id
+    #   The workspace ID.
+    #   @return [String]
+    #
+    # @!attribute [rw] entity_id
+    #   The ID for the entity whose metadata (component/properties) is
+    #   returned by the operation.
+    #   @return [String]
+    #
+    # @!attribute [rw] component_path
+    #   This string specifies the path to the composite component, starting
+    #   from the top-level component.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results returned at one time. The default is
+    #   25.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   The string that specifies the next page of results.
+    #   @return [String]
+    #
+    class ListComponentsRequest < Struct.new(
+      :workspace_id,
+      :entity_id,
+      :component_path,
+      :max_results,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] component_summaries
+    #   A list of objects that contain information about the components.
+    #   @return [Array<Types::ComponentSummary>]
+    #
+    # @!attribute [rw] next_token
+    #   The string that specifies the next page of component results.
+    #   @return [String]
+    #
+    class ListComponentsResponse < Struct.new(
+      :component_summaries,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # An object that filters items in a list of entities.
     #
     # @note ListEntitiesFilter is a union - when making an API calls you must set exactly one of the members.
@@ -1833,6 +2477,130 @@ module Aws::IoTTwinMaker
     #
     class ListEntitiesResponse < Struct.new(
       :entity_summaries,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The ListMetadataTransferJobs filter.
+    #
+    # @note ListMetadataTransferJobsFilter is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @!attribute [rw] workspace_id
+    #   The workspace Id.
+    #   @return [String]
+    #
+    # @!attribute [rw] state
+    #   The filter state.
+    #   @return [String]
+    #
+    class ListMetadataTransferJobsFilter < Struct.new(
+      :workspace_id,
+      :state,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class WorkspaceId < ListMetadataTransferJobsFilter; end
+      class State < ListMetadataTransferJobsFilter; end
+      class Unknown < ListMetadataTransferJobsFilter; end
+    end
+
+    # @!attribute [rw] source_type
+    #   The metadata transfer job's source type.
+    #   @return [String]
+    #
+    # @!attribute [rw] destination_type
+    #   The metadata transfer job's destination type.
+    #   @return [String]
+    #
+    # @!attribute [rw] filters
+    #   An object that filters metadata transfer jobs.
+    #   @return [Array<Types::ListMetadataTransferJobsFilter>]
+    #
+    # @!attribute [rw] next_token
+    #   The string that specifies the next page of results.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return at one time.
+    #   @return [Integer]
+    #
+    class ListMetadataTransferJobsRequest < Struct.new(
+      :source_type,
+      :destination_type,
+      :filters,
+      :next_token,
+      :max_results)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] metadata_transfer_job_summaries
+    #   The metadata transfer job summaries.
+    #   @return [Array<Types::MetadataTransferJobSummary>]
+    #
+    # @!attribute [rw] next_token
+    #   The string that specifies the next page of results.
+    #   @return [String]
+    #
+    class ListMetadataTransferJobsResponse < Struct.new(
+      :metadata_transfer_job_summaries,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] workspace_id
+    #   The workspace ID.
+    #   @return [String]
+    #
+    # @!attribute [rw] component_name
+    #   The name of the component whose properties are returned by the
+    #   operation.
+    #   @return [String]
+    #
+    # @!attribute [rw] component_path
+    #   This string specifies the path to the composite component, starting
+    #   from the top-level component.
+    #   @return [String]
+    #
+    # @!attribute [rw] entity_id
+    #   The ID for the entity whose metadata (component/properties) is
+    #   returned by the operation.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results returned at one time. The default is
+    #   25.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   The string that specifies the next page of results.
+    #   @return [String]
+    #
+    class ListPropertiesRequest < Struct.new(
+      :workspace_id,
+      :component_name,
+      :component_path,
+      :entity_id,
+      :max_results,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] property_summaries
+    #   A list of objects that contain information about the properties.
+    #   @return [Array<Types::PropertySummary>]
+    #
+    # @!attribute [rw] next_token
+    #   The string that specifies the next page of property results.
+    #   @return [String]
+    #
+    class ListPropertiesResponse < Struct.new(
+      :property_summaries,
       :next_token)
       SENSITIVE = []
       include Aws::Structure
@@ -1916,15 +2684,23 @@ module Aws::IoTTwinMaker
     #   @return [String]
     #
     # @!attribute [rw] sync_source
-    #   The sync soucre.
+    #   The sync source.
     #
-    #   <note markdown="1"> Currently the only supported syncSoucre is `SITEWISE `.
+    #   <note markdown="1"> Currently the only supported syncSource is `SITEWISE `.
     #
     #    </note>
     #   @return [String]
     #
     # @!attribute [rw] filters
     #   A list of objects that filter the request.
+    #
+    #   The following filter combinations are supported:
+    #
+    #   * Filter with state
+    #
+    #   * Filter with ResourceType and ResourceId
+    #
+    #   * Filter with ResourceType and ExternalId
     #   @return [Array<Types::SyncResourceFilter>]
     #
     # @!attribute [rw] max_results
@@ -2034,6 +2810,92 @@ module Aws::IoTTwinMaker
       include Aws::Structure
     end
 
+    # The metadata transfer job's progress.
+    #
+    # @!attribute [rw] total_count
+    #   The total count. \[of what\]
+    #   @return [Integer]
+    #
+    # @!attribute [rw] succeeded_count
+    #   The succeeded count.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] skipped_count
+    #   The skipped count.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] failed_count
+    #   The failed count.
+    #   @return [Integer]
+    #
+    class MetadataTransferJobProgress < Struct.new(
+      :total_count,
+      :succeeded_count,
+      :skipped_count,
+      :failed_count)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The metadata transfer job status.
+    #
+    # @!attribute [rw] state
+    #   The metadata transfer job state.
+    #   @return [String]
+    #
+    # @!attribute [rw] error
+    #   The metadata transfer job error.
+    #   @return [Types::ErrorDetails]
+    #
+    # @!attribute [rw] queued_position
+    #   The queued position.
+    #   @return [Integer]
+    #
+    class MetadataTransferJobStatus < Struct.new(
+      :state,
+      :error,
+      :queued_position)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The metadata transfer job summary.
+    #
+    # @!attribute [rw] metadata_transfer_job_id
+    #   The metadata transfer job summary Id.
+    #   @return [String]
+    #
+    # @!attribute [rw] arn
+    #   The metadata transfer job summary ARN.
+    #   @return [String]
+    #
+    # @!attribute [rw] creation_date_time
+    #   The metadata transfer job summary creation DateTime object.
+    #   @return [Time]
+    #
+    # @!attribute [rw] update_date_time
+    #   The metadata transfer job summary update DateTime object
+    #   @return [Time]
+    #
+    # @!attribute [rw] status
+    #   The metadata transfer job summary status.
+    #   @return [Types::MetadataTransferJobStatus]
+    #
+    # @!attribute [rw] progress
+    #   The metadata transfer job summary progess.
+    #   @return [Types::MetadataTransferJobProgress]
+    #
+    class MetadataTransferJobSummary < Struct.new(
+      :metadata_transfer_job_id,
+      :arn,
+      :creation_date_time,
+      :update_date_time,
+      :status,
+      :progress)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Filter criteria that orders the return output. It can be sorted in
     # ascending or descending order.
     #
@@ -2092,7 +2954,7 @@ module Aws::IoTTwinMaker
     #   @return [Time]
     #
     # @!attribute [rw] update_reason
-    #   The update reason, for changing a pricing plan.
+    #   The update reason for changing a pricing plan.
     #   @return [String]
     #
     class PricingPlan < Struct.new(
@@ -2292,7 +3154,7 @@ module Aws::IoTTwinMaker
     # The latest value of the property.
     #
     # @!attribute [rw] property_reference
-    #   An object that specifies information about a property.&gt;
+    #   An object that specifies information about a property.
     #   @return [Types::EntityPropertyReference]
     #
     # @!attribute [rw] property_value
@@ -2338,9 +3200,45 @@ module Aws::IoTTwinMaker
     #   The value of the property.
     #   @return [Types::DataValue]
     #
+    # @!attribute [rw] are_all_property_values_returned
+    #   This flag notes whether all values of a list or map type property
+    #   are returned in the API response. The maximum number of values per
+    #   property returned is 50.
+    #   @return [Boolean]
+    #
     class PropertyResponse < Struct.new(
       :definition,
-      :value)
+      :value,
+      :are_all_property_values_returned)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # This is an object that contains the information of a property.
+    #
+    # @!attribute [rw] definition
+    #   This is the schema for the property.
+    #   @return [Types::PropertyDefinitionResponse]
+    #
+    # @!attribute [rw] property_name
+    #   This is the name of the property.
+    #   @return [String]
+    #
+    # @!attribute [rw] value
+    #   This is the value for the property.
+    #   @return [Types::DataValue]
+    #
+    # @!attribute [rw] are_all_property_values_returned
+    #   This flag notes whether all values of a list or map type property
+    #   are returned in the API response. The maximum number of values per
+    #   property returned is 50.
+    #   @return [Boolean]
+    #
+    class PropertySummary < Struct.new(
+      :definition,
+      :property_name,
+      :value,
+      :are_all_property_values_returned)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2362,27 +3260,27 @@ module Aws::IoTTwinMaker
     #   The time for when the property value was recorded in ISO 8601
     #   format: *YYYY-MM-DDThh:mm:ss\[.SSSSSSSSS\]\[Z/±HH:mm\]*.
     #
-    #   * *\[YYYY\]*\: year
+    #   * *\[YYYY\]*: year
     #
-    #   * *\[MM\]*\: month
+    #   * *\[MM\]*: month
     #
-    #   * *\[DD\]*\: day
+    #   * *\[DD\]*: day
     #
-    #   * *\[hh\]*\: hour
+    #   * *\[hh\]*: hour
     #
-    #   * *\[mm\]*\: minute
+    #   * *\[mm\]*: minute
     #
-    #   * *\[ss\]*\: seconds
+    #   * *\[ss\]*: seconds
     #
-    #   * *\[.SSSSSSSSS\]*\: additional precision, where precedence is
+    #   * *\[.SSSSSSSSS\]*: additional precision, where precedence is
     #     maintained. For example: \[.573123\] is equal to 573123000
     #     nanoseconds.
     #
-    #   * *Z*\: default timezone UTC
+    #   * *Z*: default timezone UTC
     #
-    #   * *± HH:mm*\: time zone offset in Hours and Minutes.
+    #   * *± HH:mm*: time zone offset in Hours and Minutes.
     #
-    #   *Required sub-fields*\: YYYY-MM-DDThh:mm:ss and \[Z/±HH:mm\]
+    #   *Required sub-fields*: YYYY-MM-DDThh:mm:ss and \[Z/±HH:mm\]
     #   @return [String]
     #
     class PropertyValue < Struct.new(
@@ -2505,6 +3403,47 @@ module Aws::IoTTwinMaker
       include Aws::Structure
     end
 
+    # The S3 destination configuration.
+    #
+    # @!attribute [rw] location
+    #   The S3 destination configuration location.
+    #   @return [String]
+    #
+    class S3DestinationConfiguration < Struct.new(
+      :location)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The S3 destination source configuration.
+    #
+    # @!attribute [rw] location
+    #   The S3 destination source configuration location.
+    #   @return [String]
+    #
+    class S3SourceConfiguration < Struct.new(
+      :location)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The scene error.
+    #
+    # @!attribute [rw] code
+    #   The SceneError code.
+    #   @return [String]
+    #
+    # @!attribute [rw] message
+    #   The SceneError message.
+    #   @return [String]
+    #
+    class SceneError < Struct.new(
+      :code,
+      :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # An object that contains information about a scene.
     #
     # @!attribute [rw] scene_id
@@ -2550,6 +3489,33 @@ module Aws::IoTTwinMaker
     #
     class ServiceQuotaExceededException < Struct.new(
       :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The source configuration.
+    #
+    # @!attribute [rw] type
+    #   The source configuration type.
+    #   @return [String]
+    #
+    # @!attribute [rw] s3_configuration
+    #   The source configuration S3 configuration.
+    #   @return [Types::S3SourceConfiguration]
+    #
+    # @!attribute [rw] iot_site_wise_configuration
+    #   The source configuration IoT SiteWise configuration.
+    #   @return [Types::IotSiteWiseSourceConfiguration]
+    #
+    # @!attribute [rw] iot_twin_maker_configuration
+    #   The source configuration IoT TwinMaker configuration.
+    #   @return [Types::IotTwinMakerSourceConfiguration]
+    #
+    class SourceConfiguration < Struct.new(
+      :type,
+      :s3_configuration,
+      :iot_site_wise_configuration,
+      :iot_twin_maker_configuration)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2636,15 +3602,15 @@ module Aws::IoTTwinMaker
     #   @return [String]
     #
     # @!attribute [rw] resource_type
-    #   The sync resource filter resoucre type
+    #   The sync resource filter resource type
     #   @return [String]
     #
     # @!attribute [rw] resource_id
-    #   The sync resource filter resource Id.
+    #   The sync resource filter resource ID.
     #   @return [String]
     #
     # @!attribute [rw] external_id
-    #   The external Id.
+    #   The external ID.
     #   @return [String]
     #
     class SyncResourceFilter < Struct.new(
@@ -2688,11 +3654,11 @@ module Aws::IoTTwinMaker
     #   @return [String]
     #
     # @!attribute [rw] external_id
-    #   The external Id.
+    #   The external ID.
     #   @return [String]
     #
     # @!attribute [rw] resource_id
-    #   The resource Id.
+    #   The resource ID.
     #   @return [String]
     #
     # @!attribute [rw] status
@@ -2724,7 +3690,7 @@ module Aws::IoTTwinMaker
     #   You can filter the request using various logical operators and a
     #   key-value format. For example:
     #
-    #   `\{"key": "serverType", "value": "webServer"\}`
+    #   `{"key": "serverType", "value": "webServer"}`
     #   @return [Array<Types::PropertyFilter>]
     #
     class TabularConditions < Struct.new(
@@ -2825,12 +3791,18 @@ module Aws::IoTTwinMaker
     #   @return [Hash<String,Types::FunctionRequest>]
     #
     # @!attribute [rw] property_groups
-    #   The property groups
+    #   The property groups.
     #   @return [Hash<String,Types::PropertyGroupRequest>]
     #
     # @!attribute [rw] component_type_name
     #   The component type name.
     #   @return [String]
+    #
+    # @!attribute [rw] composite_component_types
+    #   This is an object that maps strings to `compositeComponentTypes` of
+    #   the `componentType`. `CompositeComponentType` is referenced by
+    #   `componentTypeId`.
+    #   @return [Hash<String,Types::CompositeComponentTypeRequest>]
     #
     class UpdateComponentTypeRequest < Struct.new(
       :workspace_id,
@@ -2841,7 +3813,8 @@ module Aws::IoTTwinMaker
       :extends_from,
       :functions,
       :property_groups,
-      :component_type_name)
+      :component_type_name,
+      :composite_component_types)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2892,6 +3865,12 @@ module Aws::IoTTwinMaker
     #   Each string in the mapping must be unique to this object.
     #   @return [Hash<String,Types::ComponentUpdateRequest>]
     #
+    # @!attribute [rw] composite_component_updates
+    #   This is an object that maps strings to `compositeComponent` updates
+    #   in the request. Each key of the map represents the `componentPath`
+    #   of the `compositeComponent`.
+    #   @return [Hash<String,Types::CompositeComponentUpdateRequest>]
+    #
     # @!attribute [rw] parent_entity_update
     #   An object that describes the update request for a parent entity.
     #   @return [Types::ParentEntityUpdateRequest]
@@ -2902,6 +3881,7 @@ module Aws::IoTTwinMaker
       :entity_name,
       :description,
       :component_updates,
+      :composite_component_updates,
       :parent_entity_update)
       SENSITIVE = []
       include Aws::Structure
@@ -2973,12 +3953,17 @@ module Aws::IoTTwinMaker
     #   A list of capabilities that the scene uses to render.
     #   @return [Array<String>]
     #
+    # @!attribute [rw] scene_metadata
+    #   The scene metadata.
+    #   @return [Hash<String,String>]
+    #
     class UpdateSceneRequest < Struct.new(
       :workspace_id,
       :scene_id,
       :content_location,
       :description,
-      :capabilities)
+      :capabilities,
+      :scene_metadata)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3005,10 +3990,16 @@ module Aws::IoTTwinMaker
     #   The ARN of the execution role associated with the workspace.
     #   @return [String]
     #
+    # @!attribute [rw] s3_location
+    #   The ARN of the S3 bucket where resources associated with the
+    #   workspace are stored.
+    #   @return [String]
+    #
     class UpdateWorkspaceRequest < Struct.new(
       :workspace_id,
       :description,
-      :role)
+      :role,
+      :s3_location)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3048,6 +4039,10 @@ module Aws::IoTTwinMaker
     #   The description of the workspace.
     #   @return [String]
     #
+    # @!attribute [rw] linked_services
+    #   A list of services that are linked to the workspace.
+    #   @return [Array<String>]
+    #
     # @!attribute [rw] creation_date_time
     #   The date and time when the workspace was created.
     #   @return [Time]
@@ -3060,6 +4055,7 @@ module Aws::IoTTwinMaker
       :workspace_id,
       :arn,
       :description,
+      :linked_services,
       :creation_date_time,
       :update_date_time)
       SENSITIVE = []
@@ -3068,3 +4064,4 @@ module Aws::IoTTwinMaker
 
   end
 end
+

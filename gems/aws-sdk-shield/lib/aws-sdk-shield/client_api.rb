@@ -7,6 +7,7 @@
 #
 # WARNING ABOUT GENERATED CODE
 
+
 module Aws::Shield
   # @api private
   module ClientApi
@@ -671,9 +672,11 @@ module Aws::Shield
 
       api.metadata = {
         "apiVersion" => "2016-06-02",
+        "auth" => ["aws.auth#sigv4"],
         "endpointPrefix" => "shield",
         "jsonVersion" => "1.1",
         "protocol" => "json",
+        "protocols" => ["json"],
         "serviceAbbreviation" => "AWS Shield",
         "serviceFullName" => "AWS Shield",
         "serviceId" => "Shield",

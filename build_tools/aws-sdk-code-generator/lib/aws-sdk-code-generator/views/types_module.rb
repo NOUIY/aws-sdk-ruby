@@ -28,14 +28,13 @@ module AwsSdkCodeGenerator
 
       # @return [Array<StructClass>]
       def structures
-        unless @service.protocol_settings.empty?
-          if @service.protocol_settings['h2'] == 'eventstream'
-            @service.api['shapes'].each do |_, shape|
-              if shape['eventstream']
-                # add event trait to all members if not exists
-                shape['members'].each do |name, ref|
-                  @service.api['shapes'][ref['shape']]['event'] = true
-                end
+        @service.api['shapes'].each do |_, shape|
+          if shape['eventstream']
+            # add internal exception_event ctrait to all exceptions
+            # exceptions will not have the event trait.
+            shape['members'].each do |name, ref|
+              if !!@service.api['shapes'][ref['shape']]['exception']
+                @service.api['shapes'][ref['shape']]['exceptionEvent'] = true
               end
             end
           end
@@ -81,19 +80,43 @@ module AwsSdkCodeGenerator
         end
       end
 
+      # @return [Array<String>]
+      def types_customizations
+        Dir.glob(File.join(Helper.gem_lib_path(gem_name), "#{gem_name}/customizations/types", '*.rb')).map do |file|
+          filename = File.basename(file, '.rb')
+          "#{gem_name}/customizations/types/#{filename}"
+        end
+      end
+
       private
+
+      def gem_name
+        "aws-sdk-#{module_name.split('::').last.downcase}"
+      end
 
       def struct_members(shape)
         return if shape['members'].nil?
         members = shape['members'].map do |member_name, member_ref|
+          member_target = @api['shapes'][member_ref['shape']]
           sensitive = !!(member_ref['sensitive'] ||
-            @api['shapes'][member_ref['shape']]['sensitive'])
+            member_target['sensitive'])
+
+          case member_target["type"]
+          when 'map'
+            key_shape = @api['shapes'][member_target['key']['shape']]
+            value_shape = @api['shapes'][member_target['value']['shape']]
+            sensitive ||= !!(key_shape['sensitive'] || value_shape['sensitive'])
+          when 'list'
+            list_member = @api['shapes'][member_target['member']['shape']]
+            sensitive ||= !!(list_member['sensitive'])
+          end
+
           StructMember.new(
             member_name: underscore(member_name),
             sensitive: sensitive
           )
         end
-        if shape['event']
+        if shape['event'] || shape['exceptionEvent']
           members << StructMember.new(member_name: 'event_type')
         end
         members
@@ -181,7 +204,7 @@ module AwsSdkCodeGenerator
 
       def see_also_tag(shape_name)
         uid = @api['metadata']['uid']
-        if @api['metadata']['protocol'] != 'api-gateway' && Crosslink.taggable?(uid)
+        if @service.protocol != 'api-gateway' && Crosslink.taggable?(uid)
           Crosslink.tag_string(uid, shape_name)
         end
       end

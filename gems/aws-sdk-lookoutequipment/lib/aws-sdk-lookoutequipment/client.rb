@@ -7,33 +7,34 @@
 #
 # WARNING ABOUT GENERATED CODE
 
-require 'seahorse/client/plugins/content_length.rb'
-require 'aws-sdk-core/plugins/credentials_configuration.rb'
-require 'aws-sdk-core/plugins/logging.rb'
-require 'aws-sdk-core/plugins/param_converter.rb'
-require 'aws-sdk-core/plugins/param_validator.rb'
-require 'aws-sdk-core/plugins/user_agent.rb'
-require 'aws-sdk-core/plugins/helpful_socket_errors.rb'
-require 'aws-sdk-core/plugins/retry_errors.rb'
-require 'aws-sdk-core/plugins/global_configuration.rb'
-require 'aws-sdk-core/plugins/regional_endpoint.rb'
-require 'aws-sdk-core/plugins/endpoint_discovery.rb'
-require 'aws-sdk-core/plugins/endpoint_pattern.rb'
-require 'aws-sdk-core/plugins/response_paging.rb'
-require 'aws-sdk-core/plugins/stub_responses.rb'
-require 'aws-sdk-core/plugins/idempotency_token.rb'
-require 'aws-sdk-core/plugins/jsonvalue_converter.rb'
-require 'aws-sdk-core/plugins/client_metrics_plugin.rb'
-require 'aws-sdk-core/plugins/client_metrics_send_plugin.rb'
-require 'aws-sdk-core/plugins/transfer_encoding.rb'
-require 'aws-sdk-core/plugins/http_checksum.rb'
-require 'aws-sdk-core/plugins/checksum_algorithm.rb'
-require 'aws-sdk-core/plugins/defaults_mode.rb'
-require 'aws-sdk-core/plugins/recursion_detection.rb'
-require 'aws-sdk-core/plugins/sign.rb'
-require 'aws-sdk-core/plugins/protocols/json_rpc.rb'
-
-Aws::Plugins::GlobalConfiguration.add_identifier(:lookoutequipment)
+require 'seahorse/client/plugins/content_length'
+require 'aws-sdk-core/plugins/credentials_configuration'
+require 'aws-sdk-core/plugins/logging'
+require 'aws-sdk-core/plugins/param_converter'
+require 'aws-sdk-core/plugins/param_validator'
+require 'aws-sdk-core/plugins/user_agent'
+require 'aws-sdk-core/plugins/helpful_socket_errors'
+require 'aws-sdk-core/plugins/retry_errors'
+require 'aws-sdk-core/plugins/global_configuration'
+require 'aws-sdk-core/plugins/regional_endpoint'
+require 'aws-sdk-core/plugins/endpoint_discovery'
+require 'aws-sdk-core/plugins/endpoint_pattern'
+require 'aws-sdk-core/plugins/response_paging'
+require 'aws-sdk-core/plugins/stub_responses'
+require 'aws-sdk-core/plugins/idempotency_token'
+require 'aws-sdk-core/plugins/invocation_id'
+require 'aws-sdk-core/plugins/jsonvalue_converter'
+require 'aws-sdk-core/plugins/client_metrics_plugin'
+require 'aws-sdk-core/plugins/client_metrics_send_plugin'
+require 'aws-sdk-core/plugins/transfer_encoding'
+require 'aws-sdk-core/plugins/http_checksum'
+require 'aws-sdk-core/plugins/checksum_algorithm'
+require 'aws-sdk-core/plugins/request_compression'
+require 'aws-sdk-core/plugins/defaults_mode'
+require 'aws-sdk-core/plugins/recursion_detection'
+require 'aws-sdk-core/plugins/telemetry'
+require 'aws-sdk-core/plugins/sign'
+require 'aws-sdk-core/plugins/protocols/json_rpc'
 
 module Aws::LookoutEquipment
   # An API client for LookoutEquipment.  To construct a client, you need to configure a `:region` and `:credentials`.
@@ -71,20 +72,28 @@ module Aws::LookoutEquipment
     add_plugin(Aws::Plugins::ResponsePaging)
     add_plugin(Aws::Plugins::StubResponses)
     add_plugin(Aws::Plugins::IdempotencyToken)
+    add_plugin(Aws::Plugins::InvocationId)
     add_plugin(Aws::Plugins::JsonvalueConverter)
     add_plugin(Aws::Plugins::ClientMetricsPlugin)
     add_plugin(Aws::Plugins::ClientMetricsSendPlugin)
     add_plugin(Aws::Plugins::TransferEncoding)
     add_plugin(Aws::Plugins::HttpChecksum)
     add_plugin(Aws::Plugins::ChecksumAlgorithm)
+    add_plugin(Aws::Plugins::RequestCompression)
     add_plugin(Aws::Plugins::DefaultsMode)
     add_plugin(Aws::Plugins::RecursionDetection)
+    add_plugin(Aws::Plugins::Telemetry)
     add_plugin(Aws::Plugins::Sign)
     add_plugin(Aws::Plugins::Protocols::JsonRpc)
     add_plugin(Aws::LookoutEquipment::Plugins::Endpoints)
 
     # @overload initialize(options)
     #   @param [Hash] options
+    #
+    #   @option options [Array<Seahorse::Client::Plugin>] :plugins ([]])
+    #     A list of plugins to apply to the client. Each plugin is either a
+    #     class name or an instance of a plugin class.
+    #
     #   @option options [required, Aws::CredentialProvider] :credentials
     #     Your AWS credentials. This can be an instance of any one of the
     #     following classes:
@@ -119,13 +128,15 @@ module Aws::LookoutEquipment
     #     locations will be searched for credentials:
     #
     #     * `Aws.config[:credentials]`
-    #     * The `:access_key_id`, `:secret_access_key`, and `:session_token` options.
-    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']
+    #     * The `:access_key_id`, `:secret_access_key`, `:session_token`, and
+    #       `:account_id` options.
+    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'],
+    #       ENV['AWS_SESSION_TOKEN'], and ENV['AWS_ACCOUNT_ID']
     #     * `~/.aws/credentials`
     #     * `~/.aws/config`
     #     * EC2/ECS IMDS instance profile - When used by default, the timeouts
     #       are very aggressive. Construct and pass an instance of
-    #       `Aws::InstanceProfileCredentails` or `Aws::ECSCredentials` to
+    #       `Aws::InstanceProfileCredentials` or `Aws::ECSCredentials` to
     #       enable retries and extended timeouts. Instance profile credential
     #       fetching can be disabled by setting ENV['AWS_EC2_METADATA_DISABLED']
     #       to true.
@@ -143,6 +154,8 @@ module Aws::LookoutEquipment
     #     * `~/.aws/config`
     #
     #   @option options [String] :access_key_id
+    #
+    #   @option options [String] :account_id
     #
     #   @option options [Boolean] :active_endpoint_cache (false)
     #     When set to `true`, a thread polling for endpoints will be running in
@@ -190,10 +203,20 @@ module Aws::LookoutEquipment
     #     Set to true to disable SDK automatically adding host prefix
     #     to default service endpoint when available.
     #
-    #   @option options [String] :endpoint
-    #     The client endpoint is normally constructed from the `:region`
-    #     option. You should only configure an `:endpoint` when connecting
-    #     to test or custom endpoints. This should be a valid HTTP(S) URI.
+    #   @option options [Boolean] :disable_request_compression (false)
+    #     When set to 'true' the request body will not be compressed
+    #     for supported operations.
+    #
+    #   @option options [String, URI::HTTPS, URI::HTTP] :endpoint
+    #     Normally you should not configure the `:endpoint` option
+    #     directly. This is normally constructed from the `:region`
+    #     option. Configuring `:endpoint` is normally reserved for
+    #     connecting to test or custom endpoints. The endpoint should
+    #     be a URI formatted like:
+    #
+    #         'http://example.com'
+    #         'https://example.com'
+    #         'http://example.com:123'
     #
     #   @option options [Integer] :endpoint_cache_max_entries (1000)
     #     Used for the maximum size limit of the LRU cache storing endpoints data
@@ -209,6 +232,10 @@ module Aws::LookoutEquipment
     #
     #   @option options [Boolean] :endpoint_discovery (false)
     #     When set to `true`, endpoint discovery will be enabled for operations when available.
+    #
+    #   @option options [Boolean] :ignore_configured_endpoint_urls
+    #     Setting to true disables use of endpoint URLs provided via environment
+    #     variables and the shared configuration file.
     #
     #   @option options [Aws::Log::Formatter] :log_formatter (Aws::Log::Formatter.default)
     #     The log formatter.
@@ -229,6 +256,34 @@ module Aws::LookoutEquipment
     #   @option options [String] :profile ("default")
     #     Used when loading credentials from the shared credentials file
     #     at HOME/.aws/credentials.  When not specified, 'default' is used.
+    #
+    #   @option options [String] :request_checksum_calculation ("when_supported")
+    #     Determines when a checksum will be calculated for request payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, a checksum will be
+    #       calculated for all request payloads of operations modeled with the
+    #       `httpChecksum` trait where `requestChecksumRequired` is `true` and/or a
+    #       `requestAlgorithmMember` is modeled.
+    #     * `when_required` - When set, a checksum will only be calculated for
+    #       request payloads of operations modeled with the  `httpChecksum` trait where
+    #       `requestChecksumRequired` is `true` or where a `requestAlgorithmMember`
+    #       is modeled and supplied.
+    #
+    #   @option options [Integer] :request_min_compression_size_bytes (10240)
+    #     The minimum size in bytes that triggers compression for request
+    #     bodies. The value must be non-negative integer value between 0
+    #     and 10485780 bytes inclusive.
+    #
+    #   @option options [String] :response_checksum_validation ("when_supported")
+    #     Determines when checksum validation will be performed on response payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, checksum validation is performed on all
+    #       response payloads of operations modeled with the `httpChecksum` trait where
+    #       `responseAlgorithms` is modeled, except when no modeled checksum algorithms
+    #       are supported.
+    #     * `when_required` - When set, checksum validation is not performed on
+    #       response payloads of operations unless the checksum algorithm is supported and
+    #       the `requestValidationModeMember` member is set to `ENABLED`.
     #
     #   @option options [Proc] :retry_backoff
     #     A proc or lambda used for backoff. Defaults to 2**retries * retry_base_delay.
@@ -274,20 +329,31 @@ module Aws::LookoutEquipment
     #       throttling.  This is a provisional mode that may change behavior
     #       in the future.
     #
+    #   @option options [String] :sdk_ua_app_id
+    #     A unique and opaque application ID that is appended to the
+    #     User-Agent header as app/sdk_ua_app_id. It should have a
+    #     maximum length of 50. This variable is sourced from environment
+    #     variable AWS_SDK_UA_APP_ID or the shared config profile attribute sdk_ua_app_id.
     #
     #   @option options [String] :secret_access_key
     #
     #   @option options [String] :session_token
     #
+    #   @option options [Array] :sigv4a_signing_region_set
+    #     A list of regions that should be signed with SigV4a signing. When
+    #     not passed, a default `:sigv4a_signing_region_set` is searched for
+    #     in the following locations:
+    #
+    #     * `Aws.config[:sigv4a_signing_region_set]`
+    #     * `ENV['AWS_SIGV4A_SIGNING_REGION_SET']`
+    #     * `~/.aws/config`
+    #
     #   @option options [Boolean] :simple_json (false)
     #     Disables request parameter conversion, validation, and formatting.
-    #     Also disable response data type conversions. This option is useful
-    #     when you want to ensure the highest level of performance by
-    #     avoiding overhead of walking request parameters and response data
-    #     structures.
-    #
-    #     When `:simple_json` is enabled, the request parameters hash must
-    #     be formatted exactly as the DynamoDB API expects.
+    #     Also disables response data type conversions. The request parameters
+    #     hash must be formatted exactly as the API expects.This option is useful
+    #     when you want to ensure the highest level of performance by avoiding
+    #     overhead of walking request parameters and response data structures.
     #
     #   @option options [Boolean] :stub_responses (false)
     #     Causes the client to return stubbed responses. By default
@@ -297,6 +363,16 @@ module Aws::LookoutEquipment
     #
     #     ** Please note ** When response stubbing is enabled, no HTTP
     #     requests are made, and retries are disabled.
+    #
+    #   @option options [Aws::Telemetry::TelemetryProviderBase] :telemetry_provider (Aws::Telemetry::NoOpTelemetryProvider)
+    #     Allows you to provide a telemetry provider, which is used to
+    #     emit telemetry data. By default, uses `NoOpTelemetryProvider` which
+    #     will not record or emit any telemetry data. The SDK supports the
+    #     following telemetry providers:
+    #
+    #     * OpenTelemetry (OTel) - To use the OTel provider, install and require the
+    #     `opentelemetry-sdk` gem and then, pass in an instance of a
+    #     `Aws::Telemetry::OTelProvider` for telemetry provider.
     #
     #   @option options [Aws::TokenProvider] :token_provider
     #     A Bearer Token Provider. This can be an instance of any one of the
@@ -325,52 +401,75 @@ module Aws::LookoutEquipment
     #     sending the request.
     #
     #   @option options [Aws::LookoutEquipment::EndpointProvider] :endpoint_provider
-    #     The endpoint provider used to resolve endpoints. Any object that responds to `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to `Aws::LookoutEquipment::EndpointParameters`
+    #     The endpoint provider used to resolve endpoints. Any object that responds to
+    #     `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+    #     `Aws::LookoutEquipment::EndpointParameters`.
     #
-    #   @option options [URI::HTTP,String] :http_proxy A proxy to send
-    #     requests through.  Formatted like 'http://proxy.com:123'.
+    #   @option options [Float] :http_continue_timeout (1)
+    #     The number of seconds to wait for a 100-continue response before sending the
+    #     request body.  This option has no effect unless the request has "Expect"
+    #     header set to "100-continue".  Defaults to `nil` which  disables this
+    #     behaviour.  This value can safely be set per request on the session.
     #
-    #   @option options [Float] :http_open_timeout (15) The number of
-    #     seconds to wait when opening a HTTP session before raising a
-    #     `Timeout::Error`.
+    #   @option options [Float] :http_idle_timeout (5)
+    #     The number of seconds a connection is allowed to sit idle before it
+    #     is considered stale.  Stale connections are closed and removed from the
+    #     pool before making a request.
     #
-    #   @option options [Float] :http_read_timeout (60) The default
-    #     number of seconds to wait for response data.  This value can
-    #     safely be set per-request on the session.
+    #   @option options [Float] :http_open_timeout (15)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :http_idle_timeout (5) The number of
-    #     seconds a connection is allowed to sit idle before it is
-    #     considered stale.  Stale connections are closed and removed
-    #     from the pool before making a request.
+    #   @option options [URI::HTTP,String] :http_proxy
+    #     A proxy to send requests through.  Formatted like 'http://proxy.com:123'.
     #
-    #   @option options [Float] :http_continue_timeout (1) The number of
-    #     seconds to wait for a 100-continue response before sending the
-    #     request body.  This option has no effect unless the request has
-    #     "Expect" header set to "100-continue".  Defaults to `nil` which
-    #     disables this behaviour.  This value can safely be set per
-    #     request on the session.
+    #   @option options [Float] :http_read_timeout (60)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :ssl_timeout (nil) Sets the SSL timeout
-    #     in seconds.
+    #   @option options [Boolean] :http_wire_trace (false)
+    #     When `true`,  HTTP debug output will be sent to the `:logger`.
     #
-    #   @option options [Boolean] :http_wire_trace (false) When `true`,
-    #     HTTP debug output will be sent to the `:logger`.
+    #   @option options [Proc] :on_chunk_received
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the response body is received. It provides three arguments: the chunk,
+    #     the number of bytes received, and the total number of
+    #     bytes in the response (or nil if the server did not send a `content-length`).
     #
-    #   @option options [Boolean] :ssl_verify_peer (true) When `true`,
-    #     SSL peer certificates are verified when establishing a
-    #     connection.
+    #   @option options [Proc] :on_chunk_sent
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the request body is sent. It provides three arguments: the chunk,
+    #     the number of bytes read from the body, and the total number of
+    #     bytes in the body.
     #
-    #   @option options [String] :ssl_ca_bundle Full path to the SSL
-    #     certificate authority bundle file that should be used when
-    #     verifying peer certificates.  If you do not pass
-    #     `:ssl_ca_bundle` or `:ssl_ca_directory` the the system default
-    #     will be used if available.
+    #   @option options [Boolean] :raise_response_errors (true)
+    #     When `true`, response errors are raised.
     #
-    #   @option options [String] :ssl_ca_directory Full path of the
-    #     directory that contains the unbundled SSL certificate
+    #   @option options [String] :ssl_ca_bundle
+    #     Full path to the SSL certificate authority bundle file that should be used when
+    #     verifying peer certificates.  If you do not pass `:ssl_ca_bundle` or
+    #     `:ssl_ca_directory` the the system default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_directory
+    #     Full path of the directory that contains the unbundled SSL certificate
     #     authority files for verifying peer certificates.  If you do
-    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the
-    #     system default will be used if available.
+    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the system
+    #     default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_store
+    #     Sets the X509::Store to verify peer certificate.
+    #
+    #   @option options [OpenSSL::X509::Certificate] :ssl_cert
+    #     Sets a client certificate when creating http connections.
+    #
+    #   @option options [OpenSSL::PKey] :ssl_key
+    #     Sets a client key when creating http connections.
+    #
+    #   @option options [Float] :ssl_timeout
+    #     Sets the SSL timeout in seconds
+    #
+    #   @option options [Boolean] :ssl_verify_peer (true)
+    #     When `true`, SSL peer certificates are verified when establishing a connection.
     #
     def initialize(*args)
       super
@@ -380,10 +479,9 @@ module Aws::LookoutEquipment
 
     # Creates a container for a collection of data being ingested for
     # analysis. The dataset contains the metadata describing where the data
-    # is and what the data actually looks like. In other words, it contains
-    # the location of the data source, the data schema, and other
-    # information. A dataset also contains any tags associated with the
-    # ingested data.
+    # is and what the data actually looks like. For example, it contains the
+    # location of the data source, the data schema, and other information. A
+    # dataset also contains any tags associated with the ingested data.
     #
     # @option params [required, String] :dataset_name
     #   The name of the dataset being created.
@@ -433,7 +531,7 @@ module Aws::LookoutEquipment
     #
     #   resp.dataset_name #=> String
     #   resp.dataset_arn #=> String
-    #   resp.status #=> String, one of "CREATED", "INGESTION_IN_PROGRESS", "ACTIVE"
+    #   resp.status #=> String, one of "CREATED", "INGESTION_IN_PROGRESS", "ACTIVE", "IMPORT_IN_PROGRESS"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/lookoutequipment-2020-12-15/CreateDataset AWS API Documentation
     #
@@ -453,8 +551,8 @@ module Aws::LookoutEquipment
     # output data.
     #
     # @option params [required, String] :model_name
-    #   The name of the previously trained ML model being used to create the
-    #   inference scheduler.
+    #   The name of the previously trained machine learning model being used
+    #   to create the inference scheduler.
     #
     # @option params [required, String] :inference_scheduler_name
     #   The name of the inference scheduler being created.
@@ -522,6 +620,7 @@ module Aws::LookoutEquipment
     #   * {Types::CreateInferenceSchedulerResponse#inference_scheduler_arn #inference_scheduler_arn} => String
     #   * {Types::CreateInferenceSchedulerResponse#inference_scheduler_name #inference_scheduler_name} => String
     #   * {Types::CreateInferenceSchedulerResponse#status #status} => String
+    #   * {Types::CreateInferenceSchedulerResponse#model_quality #model_quality} => String
     #
     # @example Request syntax with placeholder values
     #
@@ -564,6 +663,7 @@ module Aws::LookoutEquipment
     #   resp.inference_scheduler_arn #=> String
     #   resp.inference_scheduler_name #=> String
     #   resp.status #=> String, one of "PENDING", "RUNNING", "STOPPING", "STOPPED"
+    #   resp.model_quality #=> String, one of "QUALITY_THRESHOLD_MET", "CANNOT_DETERMINE_QUALITY", "POOR_QUALITY_DETECTED"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/lookoutequipment-2020-12-15/CreateInferenceScheduler AWS API Documentation
     #
@@ -708,7 +808,7 @@ module Aws::LookoutEquipment
       req.send_request(options)
     end
 
-    # Creates an ML model for data inference.
+    # Creates a machine learning model for data inference.
     #
     # A machine-learning (ML) model is a mathematical model that finds
     # patterns in your data. In Amazon Lookout for Equipment, the model
@@ -723,17 +823,17 @@ module Aws::LookoutEquipment
     # is used to evaluate the model's accuracy.
     #
     # @option params [required, String] :model_name
-    #   The name for the ML model to be created.
+    #   The name for the machine learning model to be created.
     #
     # @option params [required, String] :dataset_name
-    #   The name of the dataset for the ML model being created.
+    #   The name of the dataset for the machine learning model being created.
     #
     # @option params [Types::DatasetSchema] :dataset_schema
-    #   The data schema for the ML model being created.
+    #   The data schema for the machine learning model being created.
     #
     # @option params [Types::LabelsInputConfiguration] :labels_input_configuration
-    #   The input configuration for the labels being used for the ML model
-    #   that's being created.
+    #   The input configuration for the labels being used for the machine
+    #   learning model that's being created.
     #
     # @option params [required, String] :client_token
     #   A unique identifier for the request. If you do not set the client
@@ -744,23 +844,23 @@ module Aws::LookoutEquipment
     #
     # @option params [Time,DateTime,Date,Integer,String] :training_data_start_time
     #   Indicates the time reference in the dataset that should be used to
-    #   begin the subset of training data for the ML model.
+    #   begin the subset of training data for the machine learning model.
     #
     # @option params [Time,DateTime,Date,Integer,String] :training_data_end_time
     #   Indicates the time reference in the dataset that should be used to end
-    #   the subset of training data for the ML model.
+    #   the subset of training data for the machine learning model.
     #
     # @option params [Time,DateTime,Date,Integer,String] :evaluation_data_start_time
     #   Indicates the time reference in the dataset that should be used to
-    #   begin the subset of evaluation data for the ML model.
+    #   begin the subset of evaluation data for the machine learning model.
     #
     # @option params [Time,DateTime,Date,Integer,String] :evaluation_data_end_time
     #   Indicates the time reference in the dataset that should be used to end
-    #   the subset of evaluation data for the ML model.
+    #   the subset of evaluation data for the machine learning model.
     #
     # @option params [String] :role_arn
     #   The Amazon Resource Name (ARN) of a role with permission to access the
-    #   data source being used to create the ML model.
+    #   data source being used to create the machine learning model.
     #
     # @option params [Types::DataPreProcessingConfiguration] :data_pre_processing_configuration
     #   The configuration is the `TargetSamplingRate`, which is the sampling
@@ -779,12 +879,17 @@ module Aws::LookoutEquipment
     #   Amazon Lookout for Equipment.
     #
     # @option params [Array<Types::Tag>] :tags
-    #   Any tags associated with the ML model being created.
+    #   Any tags associated with the machine learning model being created.
     #
     # @option params [String] :off_condition
     #   Indicates that the asset associated with this sensor has been shut
     #   off. As long as this condition is met, Lookout for Equipment will not
     #   use data from this asset for training, evaluation, or inference.
+    #
+    # @option params [Types::ModelDiagnosticsOutputConfiguration] :model_diagnostics_output_configuration
+    #   The Amazon S3 location where you want Amazon Lookout for Equipment to
+    #   save the pointwise model diagnostics. You must also specify the
+    #   `RoleArn` request parameter.
     #
     # @return [Types::CreateModelResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -823,12 +928,19 @@ module Aws::LookoutEquipment
     #       },
     #     ],
     #     off_condition: "OffCondition",
+    #     model_diagnostics_output_configuration: {
+    #       s3_output_configuration: { # required
+    #         bucket: "S3Bucket", # required
+    #         prefix: "S3Prefix",
+    #       },
+    #       kms_key_id: "NameOrArn",
+    #     },
     #   })
     #
     # @example Response structure
     #
     #   resp.model_arn #=> String
-    #   resp.status #=> String, one of "IN_PROGRESS", "SUCCESS", "FAILED"
+    #   resp.status #=> String, one of "IN_PROGRESS", "SUCCESS", "FAILED", "IMPORT_IN_PROGRESS"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/lookoutequipment-2020-12-15/CreateModel AWS API Documentation
     #
@@ -836,6 +948,119 @@ module Aws::LookoutEquipment
     # @param [Hash] params ({})
     def create_model(params = {}, options = {})
       req = build_request(:create_model, params)
+      req.send_request(options)
+    end
+
+    # Creates a retraining scheduler on the specified model.
+    #
+    # @option params [required, String] :model_name
+    #   The name of the model to add the retraining scheduler to.
+    #
+    # @option params [Time,DateTime,Date,Integer,String] :retraining_start_date
+    #   The start date for the retraining scheduler. Lookout for Equipment
+    #   truncates the time you provide to the nearest UTC day.
+    #
+    # @option params [required, String] :retraining_frequency
+    #   This parameter uses the [ISO 8601][1] standard to set the frequency at
+    #   which you want retraining to occur in terms of Years, Months, and/or
+    #   Days (note: other parameters like Time are not currently supported).
+    #   The minimum value is 30 days (P30D) and the maximum value is 1 year
+    #   (P1Y). For example, the following values are valid:
+    #
+    #   * P3M15D – Every 3 months and 15 days
+    #
+    #   * P2M – Every 2 months
+    #
+    #   * P150D – Every 150 days
+    #
+    #
+    #
+    #   [1]: https://en.wikipedia.org/wiki/ISO_8601#Durations
+    #
+    # @option params [required, String] :lookback_window
+    #   The number of past days of data that will be used for retraining.
+    #
+    # @option params [String] :promote_mode
+    #   Indicates how the service will use new models. In `MANAGED` mode, new
+    #   models will automatically be used for inference if they have better
+    #   performance than the current model. In `MANUAL` mode, the new models
+    #   will not be used [until they are manually activated][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/lookout-for-equipment/latest/ug/versioning-model.html#model-activation
+    #
+    # @option params [required, String] :client_token
+    #   A unique identifier for the request. If you do not set the client
+    #   request token, Amazon Lookout for Equipment generates one.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @return [Types::CreateRetrainingSchedulerResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateRetrainingSchedulerResponse#model_name #model_name} => String
+    #   * {Types::CreateRetrainingSchedulerResponse#model_arn #model_arn} => String
+    #   * {Types::CreateRetrainingSchedulerResponse#status #status} => String
+    #
+    #
+    # @example Example: Creates a retraining scheduler with manual promote mode
+    #
+    #   resp = client.create_retraining_scheduler({
+    #     client_token: "sample-client-token", 
+    #     lookback_window: "P360D", 
+    #     model_name: "sample-model", 
+    #     promote_mode: "MANUAL", 
+    #     retraining_frequency: "P1M", 
+    #   })
+    #
+    #   resp.to_h outputs the following:
+    #   {
+    #     model_arn: "arn:aws:lookoutequipment:us-east-1:123456789012:model/sample-model/a1b2c3d4-5678-90ab-cdef-EXAMPLE11111", 
+    #     model_name: "sample-model", 
+    #     status: "PENDING", 
+    #   }
+    #
+    # @example Example: Creates a retraining scheduler with a specific start date
+    #
+    #   resp = client.create_retraining_scheduler({
+    #     client_token: "sample-client-token", 
+    #     lookback_window: "P360D", 
+    #     model_name: "sample-model", 
+    #     retraining_frequency: "P1M", 
+    #     retraining_start_date: Time.parse("2024-01-01T00:00:00Z"), 
+    #   })
+    #
+    #   resp.to_h outputs the following:
+    #   {
+    #     model_arn: "arn:aws:lookoutequipment:us-east-1:123456789012:model/sample-model/a1b2c3d4-5678-90ab-cdef-EXAMPLE11111", 
+    #     model_name: "sample-model", 
+    #     status: "PENDING", 
+    #   }
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_retraining_scheduler({
+    #     model_name: "ModelName", # required
+    #     retraining_start_date: Time.now,
+    #     retraining_frequency: "RetrainingFrequency", # required
+    #     lookback_window: "LookbackWindow", # required
+    #     promote_mode: "MANAGED", # accepts MANAGED, MANUAL
+    #     client_token: "IdempotenceToken", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.model_name #=> String
+    #   resp.model_arn #=> String
+    #   resp.status #=> String, one of "PENDING", "RUNNING", "STOPPING", "STOPPED"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/lookoutequipment-2020-12-15/CreateRetrainingScheduler AWS API Documentation
+    #
+    # @overload create_retraining_scheduler(params = {})
+    # @param [Hash] params ({})
+    def create_retraining_scheduler(params = {}, options = {})
+      req = build_request(:create_retraining_scheduler, params)
       req.send_request(options)
     end
 
@@ -866,8 +1091,8 @@ module Aws::LookoutEquipment
       req.send_request(options)
     end
 
-    # Deletes an inference scheduler that has been set up. Already processed
-    # output results are not affected.
+    # Deletes an inference scheduler that has been set up. Prior inference
+    # results will not be deleted.
     #
     # @option params [required, String] :inference_scheduler_name
     #   The name of the inference scheduler to be deleted.
@@ -941,12 +1166,12 @@ module Aws::LookoutEquipment
       req.send_request(options)
     end
 
-    # Deletes an ML model currently available for Amazon Lookout for
-    # Equipment. This will prevent it from being used with an inference
-    # scheduler, even one that is already set up.
+    # Deletes a machine learning model currently available for Amazon
+    # Lookout for Equipment. This will prevent it from being used with an
+    # inference scheduler, even one that is already set up.
     #
     # @option params [required, String] :model_name
-    #   The name of the ML model to be deleted.
+    #   The name of the machine learning model to be deleted.
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
@@ -962,6 +1187,59 @@ module Aws::LookoutEquipment
     # @param [Hash] params ({})
     def delete_model(params = {}, options = {})
       req = build_request(:delete_model, params)
+      req.send_request(options)
+    end
+
+    # Deletes the resource policy attached to the resource.
+    #
+    # @option params [required, String] :resource_arn
+    #   The Amazon Resource Name (ARN) of the resource for which the resource
+    #   policy should be deleted.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_resource_policy({
+    #     resource_arn: "ResourceArn", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/lookoutequipment-2020-12-15/DeleteResourcePolicy AWS API Documentation
+    #
+    # @overload delete_resource_policy(params = {})
+    # @param [Hash] params ({})
+    def delete_resource_policy(params = {}, options = {})
+      req = build_request(:delete_resource_policy, params)
+      req.send_request(options)
+    end
+
+    # Deletes a retraining scheduler from a model. The retraining scheduler
+    # must be in the `STOPPED` status.
+    #
+    # @option params [required, String] :model_name
+    #   The name of the model whose retraining scheduler you want to delete.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    #
+    # @example Example: Deletes a retraining scheduler
+    #
+    #   resp = client.delete_retraining_scheduler({
+    #     model_name: "sample-model", 
+    #   })
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_retraining_scheduler({
+    #     model_name: "ModelName", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/lookoutequipment-2020-12-15/DeleteRetrainingScheduler AWS API Documentation
+    #
+    # @overload delete_retraining_scheduler(params = {})
+    # @param [Hash] params ({})
+    def delete_retraining_scheduler(params = {}, options = {})
+      req = build_request(:delete_retraining_scheduler, params)
       req.send_request(options)
     end
 
@@ -986,6 +1264,7 @@ module Aws::LookoutEquipment
     #   * {Types::DescribeDataIngestionJobResponse#ingested_data_size #ingested_data_size} => Integer
     #   * {Types::DescribeDataIngestionJobResponse#data_start_time #data_start_time} => Time
     #   * {Types::DescribeDataIngestionJobResponse#data_end_time #data_end_time} => Time
+    #   * {Types::DescribeDataIngestionJobResponse#source_dataset_arn #source_dataset_arn} => String
     #
     # @example Request syntax with placeholder values
     #
@@ -1002,7 +1281,7 @@ module Aws::LookoutEquipment
     #   resp.ingestion_input_configuration.s3_input_configuration.key_pattern #=> String
     #   resp.role_arn #=> String
     #   resp.created_at #=> Time
-    #   resp.status #=> String, one of "IN_PROGRESS", "SUCCESS", "FAILED"
+    #   resp.status #=> String, one of "IN_PROGRESS", "SUCCESS", "FAILED", "IMPORT_IN_PROGRESS"
     #   resp.failed_reason #=> String
     #   resp.data_quality_summary.insufficient_sensor_data.missing_complete_sensor_data.affected_sensor_count #=> Integer
     #   resp.data_quality_summary.insufficient_sensor_data.sensors_with_short_date_range.affected_sensor_count #=> Integer
@@ -1021,6 +1300,7 @@ module Aws::LookoutEquipment
     #   resp.ingested_data_size #=> Integer
     #   resp.data_start_time #=> Time
     #   resp.data_end_time #=> Time
+    #   resp.source_dataset_arn #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/lookoutequipment-2020-12-15/DescribeDataIngestionJob AWS API Documentation
     #
@@ -1052,6 +1332,7 @@ module Aws::LookoutEquipment
     #   * {Types::DescribeDatasetResponse#role_arn #role_arn} => String
     #   * {Types::DescribeDatasetResponse#data_start_time #data_start_time} => Time
     #   * {Types::DescribeDatasetResponse#data_end_time #data_end_time} => Time
+    #   * {Types::DescribeDatasetResponse#source_dataset_arn #source_dataset_arn} => String
     #
     # @example Request syntax with placeholder values
     #
@@ -1065,7 +1346,7 @@ module Aws::LookoutEquipment
     #   resp.dataset_arn #=> String
     #   resp.created_at #=> Time
     #   resp.last_updated_at #=> Time
-    #   resp.status #=> String, one of "CREATED", "INGESTION_IN_PROGRESS", "ACTIVE"
+    #   resp.status #=> String, one of "CREATED", "INGESTION_IN_PROGRESS", "ACTIVE", "IMPORT_IN_PROGRESS"
     #   resp.schema #=> String
     #   resp.server_side_kms_key_id #=> String
     #   resp.ingestion_input_configuration.s3_input_configuration.bucket #=> String
@@ -1087,6 +1368,7 @@ module Aws::LookoutEquipment
     #   resp.role_arn #=> String
     #   resp.data_start_time #=> Time
     #   resp.data_end_time #=> Time
+    #   resp.source_dataset_arn #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/lookoutequipment-2020-12-15/DescribeDataset AWS API Documentation
     #
@@ -1245,12 +1527,12 @@ module Aws::LookoutEquipment
       req.send_request(options)
     end
 
-    # Provides a JSON containing the overall information about a specific ML
-    # model, including model name and ARN, dataset, training and evaluation
-    # information, status, and so on.
+    # Provides a JSON containing the overall information about a specific
+    # machine learning model, including model name and ARN, dataset,
+    # training and evaluation information, status, and so on.
     #
     # @option params [required, String] :model_name
-    #   The name of the ML model to be described.
+    #   The name of the machine learning model to be described.
     #
     # @return [Types::DescribeModelResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1275,6 +1557,27 @@ module Aws::LookoutEquipment
     #   * {Types::DescribeModelResponse#created_at #created_at} => Time
     #   * {Types::DescribeModelResponse#server_side_kms_key_id #server_side_kms_key_id} => String
     #   * {Types::DescribeModelResponse#off_condition #off_condition} => String
+    #   * {Types::DescribeModelResponse#source_model_version_arn #source_model_version_arn} => String
+    #   * {Types::DescribeModelResponse#import_job_start_time #import_job_start_time} => Time
+    #   * {Types::DescribeModelResponse#import_job_end_time #import_job_end_time} => Time
+    #   * {Types::DescribeModelResponse#active_model_version #active_model_version} => Integer
+    #   * {Types::DescribeModelResponse#active_model_version_arn #active_model_version_arn} => String
+    #   * {Types::DescribeModelResponse#model_version_activated_at #model_version_activated_at} => Time
+    #   * {Types::DescribeModelResponse#previous_active_model_version #previous_active_model_version} => Integer
+    #   * {Types::DescribeModelResponse#previous_active_model_version_arn #previous_active_model_version_arn} => String
+    #   * {Types::DescribeModelResponse#previous_model_version_activated_at #previous_model_version_activated_at} => Time
+    #   * {Types::DescribeModelResponse#prior_model_metrics #prior_model_metrics} => String
+    #   * {Types::DescribeModelResponse#latest_scheduled_retraining_failed_reason #latest_scheduled_retraining_failed_reason} => String
+    #   * {Types::DescribeModelResponse#latest_scheduled_retraining_status #latest_scheduled_retraining_status} => String
+    #   * {Types::DescribeModelResponse#latest_scheduled_retraining_model_version #latest_scheduled_retraining_model_version} => Integer
+    #   * {Types::DescribeModelResponse#latest_scheduled_retraining_start_time #latest_scheduled_retraining_start_time} => Time
+    #   * {Types::DescribeModelResponse#latest_scheduled_retraining_available_data_in_days #latest_scheduled_retraining_available_data_in_days} => Integer
+    #   * {Types::DescribeModelResponse#next_scheduled_retraining_start_date #next_scheduled_retraining_start_date} => Time
+    #   * {Types::DescribeModelResponse#accumulated_inference_data_start_time #accumulated_inference_data_start_time} => Time
+    #   * {Types::DescribeModelResponse#accumulated_inference_data_end_time #accumulated_inference_data_end_time} => Time
+    #   * {Types::DescribeModelResponse#retraining_scheduler_status #retraining_scheduler_status} => String
+    #   * {Types::DescribeModelResponse#model_diagnostics_output_configuration #model_diagnostics_output_configuration} => Types::ModelDiagnosticsOutputConfiguration
+    #   * {Types::DescribeModelResponse#model_quality #model_quality} => String
     #
     # @example Request syntax with placeholder values
     #
@@ -1298,7 +1601,7 @@ module Aws::LookoutEquipment
     #   resp.evaluation_data_end_time #=> Time
     #   resp.role_arn #=> String
     #   resp.data_pre_processing_configuration.target_sampling_rate #=> String, one of "PT1S", "PT5S", "PT10S", "PT15S", "PT30S", "PT1M", "PT5M", "PT10M", "PT15M", "PT30M", "PT1H"
-    #   resp.status #=> String, one of "IN_PROGRESS", "SUCCESS", "FAILED"
+    #   resp.status #=> String, one of "IN_PROGRESS", "SUCCESS", "FAILED", "IMPORT_IN_PROGRESS"
     #   resp.training_execution_start_time #=> Time
     #   resp.training_execution_end_time #=> Time
     #   resp.failed_reason #=> String
@@ -1307,6 +1610,29 @@ module Aws::LookoutEquipment
     #   resp.created_at #=> Time
     #   resp.server_side_kms_key_id #=> String
     #   resp.off_condition #=> String
+    #   resp.source_model_version_arn #=> String
+    #   resp.import_job_start_time #=> Time
+    #   resp.import_job_end_time #=> Time
+    #   resp.active_model_version #=> Integer
+    #   resp.active_model_version_arn #=> String
+    #   resp.model_version_activated_at #=> Time
+    #   resp.previous_active_model_version #=> Integer
+    #   resp.previous_active_model_version_arn #=> String
+    #   resp.previous_model_version_activated_at #=> Time
+    #   resp.prior_model_metrics #=> String
+    #   resp.latest_scheduled_retraining_failed_reason #=> String
+    #   resp.latest_scheduled_retraining_status #=> String, one of "IN_PROGRESS", "SUCCESS", "FAILED", "IMPORT_IN_PROGRESS", "CANCELED"
+    #   resp.latest_scheduled_retraining_model_version #=> Integer
+    #   resp.latest_scheduled_retraining_start_time #=> Time
+    #   resp.latest_scheduled_retraining_available_data_in_days #=> Integer
+    #   resp.next_scheduled_retraining_start_date #=> Time
+    #   resp.accumulated_inference_data_start_time #=> Time
+    #   resp.accumulated_inference_data_end_time #=> Time
+    #   resp.retraining_scheduler_status #=> String, one of "PENDING", "RUNNING", "STOPPING", "STOPPED"
+    #   resp.model_diagnostics_output_configuration.s3_output_configuration.bucket #=> String
+    #   resp.model_diagnostics_output_configuration.s3_output_configuration.prefix #=> String
+    #   resp.model_diagnostics_output_configuration.kms_key_id #=> String
+    #   resp.model_quality #=> String, one of "QUALITY_THRESHOLD_MET", "CANNOT_DETERMINE_QUALITY", "POOR_QUALITY_DETECTED"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/lookoutequipment-2020-12-15/DescribeModel AWS API Documentation
     #
@@ -1314,6 +1640,372 @@ module Aws::LookoutEquipment
     # @param [Hash] params ({})
     def describe_model(params = {}, options = {})
       req = build_request(:describe_model, params)
+      req.send_request(options)
+    end
+
+    # Retrieves information about a specific machine learning model version.
+    #
+    # @option params [required, String] :model_name
+    #   The name of the machine learning model that this version belongs to.
+    #
+    # @option params [required, Integer] :model_version
+    #   The version of the machine learning model.
+    #
+    # @return [Types::DescribeModelVersionResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeModelVersionResponse#model_name #model_name} => String
+    #   * {Types::DescribeModelVersionResponse#model_arn #model_arn} => String
+    #   * {Types::DescribeModelVersionResponse#model_version #model_version} => Integer
+    #   * {Types::DescribeModelVersionResponse#model_version_arn #model_version_arn} => String
+    #   * {Types::DescribeModelVersionResponse#status #status} => String
+    #   * {Types::DescribeModelVersionResponse#source_type #source_type} => String
+    #   * {Types::DescribeModelVersionResponse#dataset_name #dataset_name} => String
+    #   * {Types::DescribeModelVersionResponse#dataset_arn #dataset_arn} => String
+    #   * {Types::DescribeModelVersionResponse#schema #schema} => String
+    #   * {Types::DescribeModelVersionResponse#labels_input_configuration #labels_input_configuration} => Types::LabelsInputConfiguration
+    #   * {Types::DescribeModelVersionResponse#training_data_start_time #training_data_start_time} => Time
+    #   * {Types::DescribeModelVersionResponse#training_data_end_time #training_data_end_time} => Time
+    #   * {Types::DescribeModelVersionResponse#evaluation_data_start_time #evaluation_data_start_time} => Time
+    #   * {Types::DescribeModelVersionResponse#evaluation_data_end_time #evaluation_data_end_time} => Time
+    #   * {Types::DescribeModelVersionResponse#role_arn #role_arn} => String
+    #   * {Types::DescribeModelVersionResponse#data_pre_processing_configuration #data_pre_processing_configuration} => Types::DataPreProcessingConfiguration
+    #   * {Types::DescribeModelVersionResponse#training_execution_start_time #training_execution_start_time} => Time
+    #   * {Types::DescribeModelVersionResponse#training_execution_end_time #training_execution_end_time} => Time
+    #   * {Types::DescribeModelVersionResponse#failed_reason #failed_reason} => String
+    #   * {Types::DescribeModelVersionResponse#model_metrics #model_metrics} => String
+    #   * {Types::DescribeModelVersionResponse#last_updated_time #last_updated_time} => Time
+    #   * {Types::DescribeModelVersionResponse#created_at #created_at} => Time
+    #   * {Types::DescribeModelVersionResponse#server_side_kms_key_id #server_side_kms_key_id} => String
+    #   * {Types::DescribeModelVersionResponse#off_condition #off_condition} => String
+    #   * {Types::DescribeModelVersionResponse#source_model_version_arn #source_model_version_arn} => String
+    #   * {Types::DescribeModelVersionResponse#import_job_start_time #import_job_start_time} => Time
+    #   * {Types::DescribeModelVersionResponse#import_job_end_time #import_job_end_time} => Time
+    #   * {Types::DescribeModelVersionResponse#imported_data_size_in_bytes #imported_data_size_in_bytes} => Integer
+    #   * {Types::DescribeModelVersionResponse#prior_model_metrics #prior_model_metrics} => String
+    #   * {Types::DescribeModelVersionResponse#retraining_available_data_in_days #retraining_available_data_in_days} => Integer
+    #   * {Types::DescribeModelVersionResponse#auto_promotion_result #auto_promotion_result} => String
+    #   * {Types::DescribeModelVersionResponse#auto_promotion_result_reason #auto_promotion_result_reason} => String
+    #   * {Types::DescribeModelVersionResponse#model_diagnostics_output_configuration #model_diagnostics_output_configuration} => Types::ModelDiagnosticsOutputConfiguration
+    #   * {Types::DescribeModelVersionResponse#model_diagnostics_results_object #model_diagnostics_results_object} => Types::S3Object
+    #   * {Types::DescribeModelVersionResponse#model_quality #model_quality} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_model_version({
+    #     model_name: "ModelName", # required
+    #     model_version: 1, # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.model_name #=> String
+    #   resp.model_arn #=> String
+    #   resp.model_version #=> Integer
+    #   resp.model_version_arn #=> String
+    #   resp.status #=> String, one of "IN_PROGRESS", "SUCCESS", "FAILED", "IMPORT_IN_PROGRESS", "CANCELED"
+    #   resp.source_type #=> String, one of "TRAINING", "RETRAINING", "IMPORT"
+    #   resp.dataset_name #=> String
+    #   resp.dataset_arn #=> String
+    #   resp.schema #=> String
+    #   resp.labels_input_configuration.s3_input_configuration.bucket #=> String
+    #   resp.labels_input_configuration.s3_input_configuration.prefix #=> String
+    #   resp.labels_input_configuration.label_group_name #=> String
+    #   resp.training_data_start_time #=> Time
+    #   resp.training_data_end_time #=> Time
+    #   resp.evaluation_data_start_time #=> Time
+    #   resp.evaluation_data_end_time #=> Time
+    #   resp.role_arn #=> String
+    #   resp.data_pre_processing_configuration.target_sampling_rate #=> String, one of "PT1S", "PT5S", "PT10S", "PT15S", "PT30S", "PT1M", "PT5M", "PT10M", "PT15M", "PT30M", "PT1H"
+    #   resp.training_execution_start_time #=> Time
+    #   resp.training_execution_end_time #=> Time
+    #   resp.failed_reason #=> String
+    #   resp.model_metrics #=> String
+    #   resp.last_updated_time #=> Time
+    #   resp.created_at #=> Time
+    #   resp.server_side_kms_key_id #=> String
+    #   resp.off_condition #=> String
+    #   resp.source_model_version_arn #=> String
+    #   resp.import_job_start_time #=> Time
+    #   resp.import_job_end_time #=> Time
+    #   resp.imported_data_size_in_bytes #=> Integer
+    #   resp.prior_model_metrics #=> String
+    #   resp.retraining_available_data_in_days #=> Integer
+    #   resp.auto_promotion_result #=> String, one of "MODEL_PROMOTED", "MODEL_NOT_PROMOTED", "RETRAINING_INTERNAL_ERROR", "RETRAINING_CUSTOMER_ERROR", "RETRAINING_CANCELLED"
+    #   resp.auto_promotion_result_reason #=> String
+    #   resp.model_diagnostics_output_configuration.s3_output_configuration.bucket #=> String
+    #   resp.model_diagnostics_output_configuration.s3_output_configuration.prefix #=> String
+    #   resp.model_diagnostics_output_configuration.kms_key_id #=> String
+    #   resp.model_diagnostics_results_object.bucket #=> String
+    #   resp.model_diagnostics_results_object.key #=> String
+    #   resp.model_quality #=> String, one of "QUALITY_THRESHOLD_MET", "CANNOT_DETERMINE_QUALITY", "POOR_QUALITY_DETECTED"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/lookoutequipment-2020-12-15/DescribeModelVersion AWS API Documentation
+    #
+    # @overload describe_model_version(params = {})
+    # @param [Hash] params ({})
+    def describe_model_version(params = {}, options = {})
+      req = build_request(:describe_model_version, params)
+      req.send_request(options)
+    end
+
+    # Provides the details of a resource policy attached to a resource.
+    #
+    # @option params [required, String] :resource_arn
+    #   The Amazon Resource Name (ARN) of the resource that is associated with
+    #   the resource policy.
+    #
+    # @return [Types::DescribeResourcePolicyResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeResourcePolicyResponse#policy_revision_id #policy_revision_id} => String
+    #   * {Types::DescribeResourcePolicyResponse#resource_policy #resource_policy} => String
+    #   * {Types::DescribeResourcePolicyResponse#creation_time #creation_time} => Time
+    #   * {Types::DescribeResourcePolicyResponse#last_modified_time #last_modified_time} => Time
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_resource_policy({
+    #     resource_arn: "ResourceArn", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.policy_revision_id #=> String
+    #   resp.resource_policy #=> String
+    #   resp.creation_time #=> Time
+    #   resp.last_modified_time #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/lookoutequipment-2020-12-15/DescribeResourcePolicy AWS API Documentation
+    #
+    # @overload describe_resource_policy(params = {})
+    # @param [Hash] params ({})
+    def describe_resource_policy(params = {}, options = {})
+      req = build_request(:describe_resource_policy, params)
+      req.send_request(options)
+    end
+
+    # Provides a description of the retraining scheduler, including
+    # information such as the model name and retraining parameters.
+    #
+    # @option params [required, String] :model_name
+    #   The name of the model that the retraining scheduler is attached to.
+    #
+    # @return [Types::DescribeRetrainingSchedulerResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeRetrainingSchedulerResponse#model_name #model_name} => String
+    #   * {Types::DescribeRetrainingSchedulerResponse#model_arn #model_arn} => String
+    #   * {Types::DescribeRetrainingSchedulerResponse#retraining_start_date #retraining_start_date} => Time
+    #   * {Types::DescribeRetrainingSchedulerResponse#retraining_frequency #retraining_frequency} => String
+    #   * {Types::DescribeRetrainingSchedulerResponse#lookback_window #lookback_window} => String
+    #   * {Types::DescribeRetrainingSchedulerResponse#status #status} => String
+    #   * {Types::DescribeRetrainingSchedulerResponse#promote_mode #promote_mode} => String
+    #   * {Types::DescribeRetrainingSchedulerResponse#created_at #created_at} => Time
+    #   * {Types::DescribeRetrainingSchedulerResponse#updated_at #updated_at} => Time
+    #
+    #
+    # @example Example: Describes a retraining scheduler
+    #
+    #   resp = client.describe_retraining_scheduler({
+    #     model_name: "sample-model", 
+    #   })
+    #
+    #   resp.to_h outputs the following:
+    #   {
+    #     created_at: Time.parse("2023-10-01T15:00:00Z"), 
+    #     lookback_window: "P360D", 
+    #     model_arn: "arn:aws:lookoutequipment:us-east-1:123456789012:model/sample-model/a1b2c3d4-5678-90ab-cdef-EXAMPLE11111", 
+    #     model_name: "sample-model", 
+    #     promote_mode: "MANAGED", 
+    #     retraining_frequency: "P1M", 
+    #     retraining_start_date: Time.parse("2023-11-01T00:00:00Z"), 
+    #     status: "RUNNING", 
+    #     updated_at: Time.parse("2023-10-01T15:00:00Z"), 
+    #   }
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_retraining_scheduler({
+    #     model_name: "ModelName", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.model_name #=> String
+    #   resp.model_arn #=> String
+    #   resp.retraining_start_date #=> Time
+    #   resp.retraining_frequency #=> String
+    #   resp.lookback_window #=> String
+    #   resp.status #=> String, one of "PENDING", "RUNNING", "STOPPING", "STOPPED"
+    #   resp.promote_mode #=> String, one of "MANAGED", "MANUAL"
+    #   resp.created_at #=> Time
+    #   resp.updated_at #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/lookoutequipment-2020-12-15/DescribeRetrainingScheduler AWS API Documentation
+    #
+    # @overload describe_retraining_scheduler(params = {})
+    # @param [Hash] params ({})
+    def describe_retraining_scheduler(params = {}, options = {})
+      req = build_request(:describe_retraining_scheduler, params)
+      req.send_request(options)
+    end
+
+    # Imports a dataset.
+    #
+    # @option params [required, String] :source_dataset_arn
+    #   The Amazon Resource Name (ARN) of the dataset to import.
+    #
+    # @option params [String] :dataset_name
+    #   The name of the machine learning dataset to be created. If the dataset
+    #   already exists, Amazon Lookout for Equipment overwrites the existing
+    #   dataset. If you don't specify this field, it is filled with the name
+    #   of the source dataset.
+    #
+    # @option params [required, String] :client_token
+    #   A unique identifier for the request. If you do not set the client
+    #   request token, Amazon Lookout for Equipment generates one.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @option params [String] :server_side_kms_key_id
+    #   Provides the identifier of the KMS key key used to encrypt model data
+    #   by Amazon Lookout for Equipment.
+    #
+    # @option params [Array<Types::Tag>] :tags
+    #   Any tags associated with the dataset to be created.
+    #
+    # @return [Types::ImportDatasetResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ImportDatasetResponse#dataset_name #dataset_name} => String
+    #   * {Types::ImportDatasetResponse#dataset_arn #dataset_arn} => String
+    #   * {Types::ImportDatasetResponse#status #status} => String
+    #   * {Types::ImportDatasetResponse#job_id #job_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.import_dataset({
+    #     source_dataset_arn: "DatasetArn", # required
+    #     dataset_name: "DatasetName",
+    #     client_token: "IdempotenceToken", # required
+    #     server_side_kms_key_id: "NameOrArn",
+    #     tags: [
+    #       {
+    #         key: "TagKey", # required
+    #         value: "TagValue", # required
+    #       },
+    #     ],
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.dataset_name #=> String
+    #   resp.dataset_arn #=> String
+    #   resp.status #=> String, one of "CREATED", "INGESTION_IN_PROGRESS", "ACTIVE", "IMPORT_IN_PROGRESS"
+    #   resp.job_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/lookoutequipment-2020-12-15/ImportDataset AWS API Documentation
+    #
+    # @overload import_dataset(params = {})
+    # @param [Hash] params ({})
+    def import_dataset(params = {}, options = {})
+      req = build_request(:import_dataset, params)
+      req.send_request(options)
+    end
+
+    # Imports a model that has been trained successfully.
+    #
+    # @option params [required, String] :source_model_version_arn
+    #   The Amazon Resource Name (ARN) of the model version to import.
+    #
+    # @option params [String] :model_name
+    #   The name for the machine learning model to be created. If the model
+    #   already exists, Amazon Lookout for Equipment creates a new version. If
+    #   you do not specify this field, it is filled with the name of the
+    #   source model.
+    #
+    # @option params [required, String] :dataset_name
+    #   The name of the dataset for the machine learning model being imported.
+    #
+    # @option params [Types::LabelsInputConfiguration] :labels_input_configuration
+    #   Contains the configuration information for the S3 location being used
+    #   to hold label data.
+    #
+    # @option params [required, String] :client_token
+    #   A unique identifier for the request. If you do not set the client
+    #   request token, Amazon Lookout for Equipment generates one.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @option params [String] :role_arn
+    #   The Amazon Resource Name (ARN) of a role with permission to access the
+    #   data source being used to create the machine learning model.
+    #
+    # @option params [String] :server_side_kms_key_id
+    #   Provides the identifier of the KMS key key used to encrypt model data
+    #   by Amazon Lookout for Equipment.
+    #
+    # @option params [Array<Types::Tag>] :tags
+    #   The tags associated with the machine learning model to be created.
+    #
+    # @option params [String] :inference_data_import_strategy
+    #   Indicates how to import the accumulated inference data when a model
+    #   version is imported. The possible values are as follows:
+    #
+    #   * NO\_IMPORT – Don't import the data.
+    #
+    #   * ADD\_WHEN\_EMPTY – Only import the data from the source model if
+    #     there is no existing data in the target model.
+    #
+    #   * OVERWRITE – Import the data from the source model and overwrite the
+    #     existing data in the target model.
+    #
+    # @return [Types::ImportModelVersionResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ImportModelVersionResponse#model_name #model_name} => String
+    #   * {Types::ImportModelVersionResponse#model_arn #model_arn} => String
+    #   * {Types::ImportModelVersionResponse#model_version_arn #model_version_arn} => String
+    #   * {Types::ImportModelVersionResponse#model_version #model_version} => Integer
+    #   * {Types::ImportModelVersionResponse#status #status} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.import_model_version({
+    #     source_model_version_arn: "ModelVersionArn", # required
+    #     model_name: "ModelName",
+    #     dataset_name: "DatasetIdentifier", # required
+    #     labels_input_configuration: {
+    #       s3_input_configuration: {
+    #         bucket: "S3Bucket", # required
+    #         prefix: "S3Prefix",
+    #       },
+    #       label_group_name: "LabelGroupName",
+    #     },
+    #     client_token: "IdempotenceToken", # required
+    #     role_arn: "IamRoleArn",
+    #     server_side_kms_key_id: "NameOrArn",
+    #     tags: [
+    #       {
+    #         key: "TagKey", # required
+    #         value: "TagValue", # required
+    #       },
+    #     ],
+    #     inference_data_import_strategy: "NO_IMPORT", # accepts NO_IMPORT, ADD_WHEN_EMPTY, OVERWRITE
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.model_name #=> String
+    #   resp.model_arn #=> String
+    #   resp.model_version_arn #=> String
+    #   resp.model_version #=> Integer
+    #   resp.status #=> String, one of "IN_PROGRESS", "SUCCESS", "FAILED", "IMPORT_IN_PROGRESS", "CANCELED"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/lookoutequipment-2020-12-15/ImportModelVersion AWS API Documentation
+    #
+    # @overload import_model_version(params = {})
+    # @param [Hash] params ({})
+    def import_model_version(params = {}, options = {})
+      req = build_request(:import_model_version, params)
       req.send_request(options)
     end
 
@@ -1346,7 +2038,7 @@ module Aws::LookoutEquipment
     #     dataset_name: "DatasetName",
     #     next_token: "NextToken",
     #     max_results: 1,
-    #     status: "IN_PROGRESS", # accepts IN_PROGRESS, SUCCESS, FAILED
+    #     status: "IN_PROGRESS", # accepts IN_PROGRESS, SUCCESS, FAILED, IMPORT_IN_PROGRESS
     #   })
     #
     # @example Response structure
@@ -1359,7 +2051,7 @@ module Aws::LookoutEquipment
     #   resp.data_ingestion_job_summaries[0].ingestion_input_configuration.s3_input_configuration.bucket #=> String
     #   resp.data_ingestion_job_summaries[0].ingestion_input_configuration.s3_input_configuration.prefix #=> String
     #   resp.data_ingestion_job_summaries[0].ingestion_input_configuration.s3_input_configuration.key_pattern #=> String
-    #   resp.data_ingestion_job_summaries[0].status #=> String, one of "IN_PROGRESS", "SUCCESS", "FAILED"
+    #   resp.data_ingestion_job_summaries[0].status #=> String, one of "IN_PROGRESS", "SUCCESS", "FAILED", "IMPORT_IN_PROGRESS"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/lookoutequipment-2020-12-15/ListDataIngestionJobs AWS API Documentation
     #
@@ -1404,7 +2096,7 @@ module Aws::LookoutEquipment
     #   resp.dataset_summaries #=> Array
     #   resp.dataset_summaries[0].dataset_name #=> String
     #   resp.dataset_summaries[0].dataset_arn #=> String
-    #   resp.dataset_summaries[0].status #=> String, one of "CREATED", "INGESTION_IN_PROGRESS", "ACTIVE"
+    #   resp.dataset_summaries[0].status #=> String, one of "CREATED", "INGESTION_IN_PROGRESS", "ACTIVE", "IMPORT_IN_PROGRESS"
     #   resp.dataset_summaries[0].created_at #=> Time
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/lookoutequipment-2020-12-15/ListDatasets AWS API Documentation
@@ -1435,7 +2127,7 @@ module Aws::LookoutEquipment
     #
     # @option params [required, Time,DateTime,Date,Integer,String] :interval_end_time
     #   Returns all the inference events with an end start time equal to or
-    #   greater than less than the end time given
+    #   greater than less than the end time given.
     #
     # @return [Types::ListInferenceEventsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1540,6 +2232,8 @@ module Aws::LookoutEquipment
     #   resp.inference_execution_summaries[0].customer_result_object.key #=> String
     #   resp.inference_execution_summaries[0].status #=> String, one of "IN_PROGRESS", "SUCCESS", "FAILED"
     #   resp.inference_execution_summaries[0].failed_reason #=> String
+    #   resp.inference_execution_summaries[0].model_version #=> Integer
+    #   resp.inference_execution_summaries[0].model_version_arn #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/lookoutequipment-2020-12-15/ListInferenceExecutions AWS API Documentation
     #
@@ -1564,10 +2258,11 @@ module Aws::LookoutEquipment
     #   The beginning of the name of the inference schedulers to be listed.
     #
     # @option params [String] :model_name
-    #   The name of the ML model used by the inference scheduler to be listed.
+    #   The name of the machine learning model used by the inference scheduler
+    #   to be listed.
     #
     # @option params [String] :status
-    #   Specifies the current status of the inference schedulers to list.
+    #   Specifies the current status of the inference schedulers.
     #
     # @return [Types::ListInferenceSchedulersResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1656,7 +2351,7 @@ module Aws::LookoutEquipment
     # Provides a list of labels.
     #
     # @option params [required, String] :label_group_name
-    #   Retruns the name of the label group.
+    #   Returns the name of the label group.
     #
     # @option params [Time,DateTime,Date,Integer,String] :interval_start_time
     #   Returns all the labels with a end time equal to or later than the
@@ -1720,25 +2415,107 @@ module Aws::LookoutEquipment
       req.send_request(options)
     end
 
+    # Generates a list of all model versions for a given model, including
+    # the model version, model version ARN, and status. To list a subset of
+    # versions, use the `MaxModelVersion` and `MinModelVersion` fields.
+    #
+    # @option params [required, String] :model_name
+    #   Then name of the machine learning model for which the model versions
+    #   are to be listed.
+    #
+    # @option params [String] :next_token
+    #   If the total number of results exceeds the limit that the response can
+    #   display, the response returns an opaque pagination token indicating
+    #   where to continue the listing of machine learning model versions. Use
+    #   this token in the `NextToken` field in the request to list the next
+    #   page of results.
+    #
+    # @option params [Integer] :max_results
+    #   Specifies the maximum number of machine learning model versions to
+    #   list.
+    #
+    # @option params [String] :status
+    #   Filter the results based on the current status of the model version.
+    #
+    # @option params [String] :source_type
+    #   Filter the results based on the way the model version was generated.
+    #
+    # @option params [Time,DateTime,Date,Integer,String] :created_at_end_time
+    #   Filter results to return all the model versions created before this
+    #   time.
+    #
+    # @option params [Time,DateTime,Date,Integer,String] :created_at_start_time
+    #   Filter results to return all the model versions created after this
+    #   time.
+    #
+    # @option params [Integer] :max_model_version
+    #   Specifies the highest version of the model to return in the list.
+    #
+    # @option params [Integer] :min_model_version
+    #   Specifies the lowest version of the model to return in the list.
+    #
+    # @return [Types::ListModelVersionsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListModelVersionsResponse#next_token #next_token} => String
+    #   * {Types::ListModelVersionsResponse#model_version_summaries #model_version_summaries} => Array&lt;Types::ModelVersionSummary&gt;
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_model_versions({
+    #     model_name: "ModelName", # required
+    #     next_token: "NextToken",
+    #     max_results: 1,
+    #     status: "IN_PROGRESS", # accepts IN_PROGRESS, SUCCESS, FAILED, IMPORT_IN_PROGRESS, CANCELED
+    #     source_type: "TRAINING", # accepts TRAINING, RETRAINING, IMPORT
+    #     created_at_end_time: Time.now,
+    #     created_at_start_time: Time.now,
+    #     max_model_version: 1,
+    #     min_model_version: 1,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.next_token #=> String
+    #   resp.model_version_summaries #=> Array
+    #   resp.model_version_summaries[0].model_name #=> String
+    #   resp.model_version_summaries[0].model_arn #=> String
+    #   resp.model_version_summaries[0].model_version #=> Integer
+    #   resp.model_version_summaries[0].model_version_arn #=> String
+    #   resp.model_version_summaries[0].created_at #=> Time
+    #   resp.model_version_summaries[0].status #=> String, one of "IN_PROGRESS", "SUCCESS", "FAILED", "IMPORT_IN_PROGRESS", "CANCELED"
+    #   resp.model_version_summaries[0].source_type #=> String, one of "TRAINING", "RETRAINING", "IMPORT"
+    #   resp.model_version_summaries[0].model_quality #=> String, one of "QUALITY_THRESHOLD_MET", "CANNOT_DETERMINE_QUALITY", "POOR_QUALITY_DETECTED"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/lookoutequipment-2020-12-15/ListModelVersions AWS API Documentation
+    #
+    # @overload list_model_versions(params = {})
+    # @param [Hash] params ({})
+    def list_model_versions(params = {}, options = {})
+      req = build_request(:list_model_versions, params)
+      req.send_request(options)
+    end
+
     # Generates a list of all models in the account, including model name
     # and ARN, dataset, and status.
     #
     # @option params [String] :next_token
     #   An opaque pagination token indicating where to continue the listing of
-    #   ML models.
+    #   machine learning models.
     #
     # @option params [Integer] :max_results
-    #   Specifies the maximum number of ML models to list.
+    #   Specifies the maximum number of machine learning models to list.
     #
     # @option params [String] :status
-    #   The status of the ML model.
+    #   The status of the machine learning model.
     #
     # @option params [String] :model_name_begins_with
-    #   The beginning of the name of the ML models being listed.
+    #   The beginning of the name of the machine learning models being listed.
     #
     # @option params [String] :dataset_name_begins_with
-    #   The beginning of the name of the dataset of the ML models to be
-    #   listed.
+    #   The beginning of the name of the dataset of the machine learning
+    #   models to be listed.
     #
     # @return [Types::ListModelsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1752,7 +2529,7 @@ module Aws::LookoutEquipment
     #   resp = client.list_models({
     #     next_token: "NextToken",
     #     max_results: 1,
-    #     status: "IN_PROGRESS", # accepts IN_PROGRESS, SUCCESS, FAILED
+    #     status: "IN_PROGRESS", # accepts IN_PROGRESS, SUCCESS, FAILED, IMPORT_IN_PROGRESS
     #     model_name_begins_with: "ModelName",
     #     dataset_name_begins_with: "DatasetName",
     #   })
@@ -1765,8 +2542,19 @@ module Aws::LookoutEquipment
     #   resp.model_summaries[0].model_arn #=> String
     #   resp.model_summaries[0].dataset_name #=> String
     #   resp.model_summaries[0].dataset_arn #=> String
-    #   resp.model_summaries[0].status #=> String, one of "IN_PROGRESS", "SUCCESS", "FAILED"
+    #   resp.model_summaries[0].status #=> String, one of "IN_PROGRESS", "SUCCESS", "FAILED", "IMPORT_IN_PROGRESS"
     #   resp.model_summaries[0].created_at #=> Time
+    #   resp.model_summaries[0].active_model_version #=> Integer
+    #   resp.model_summaries[0].active_model_version_arn #=> String
+    #   resp.model_summaries[0].latest_scheduled_retraining_status #=> String, one of "IN_PROGRESS", "SUCCESS", "FAILED", "IMPORT_IN_PROGRESS", "CANCELED"
+    #   resp.model_summaries[0].latest_scheduled_retraining_model_version #=> Integer
+    #   resp.model_summaries[0].latest_scheduled_retraining_start_time #=> Time
+    #   resp.model_summaries[0].next_scheduled_retraining_start_date #=> Time
+    #   resp.model_summaries[0].retraining_scheduler_status #=> String, one of "PENDING", "RUNNING", "STOPPING", "STOPPED"
+    #   resp.model_summaries[0].model_diagnostics_output_configuration.s3_output_configuration.bucket #=> String
+    #   resp.model_summaries[0].model_diagnostics_output_configuration.s3_output_configuration.prefix #=> String
+    #   resp.model_summaries[0].model_diagnostics_output_configuration.kms_key_id #=> String
+    #   resp.model_summaries[0].model_quality #=> String, one of "QUALITY_THRESHOLD_MET", "CANNOT_DETERMINE_QUALITY", "POOR_QUALITY_DETECTED"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/lookoutequipment-2020-12-15/ListModels AWS API Documentation
     #
@@ -1774,6 +2562,98 @@ module Aws::LookoutEquipment
     # @param [Hash] params ({})
     def list_models(params = {}, options = {})
       req = build_request(:list_models, params)
+      req.send_request(options)
+    end
+
+    # Lists all retraining schedulers in your account, filtering by model
+    # name prefix and status.
+    #
+    # @option params [String] :model_name_begins_with
+    #   Specify this field to only list retraining schedulers whose machine
+    #   learning models begin with the value you specify.
+    #
+    # @option params [String] :status
+    #   Specify this field to only list retraining schedulers whose status
+    #   matches the value you specify.
+    #
+    # @option params [String] :next_token
+    #   If the number of results exceeds the maximum, a pagination token is
+    #   returned. Use the token in the request to show the next page of
+    #   retraining schedulers.
+    #
+    # @option params [Integer] :max_results
+    #   Specifies the maximum number of retraining schedulers to list.
+    #
+    # @return [Types::ListRetrainingSchedulersResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListRetrainingSchedulersResponse#retraining_scheduler_summaries #retraining_scheduler_summaries} => Array&lt;Types::RetrainingSchedulerSummary&gt;
+    #   * {Types::ListRetrainingSchedulersResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    #
+    # @example Example: Listing retraining schedulers
+    #
+    #   resp = client.list_retraining_schedulers({
+    #     max_results: 50, 
+    #   })
+    #
+    #   resp.to_h outputs the following:
+    #   {
+    #     retraining_scheduler_summaries: [
+    #       {
+    #         lookback_window: "P180D", 
+    #         model_arn: "arn:aws:lookoutequipment:us-east-1:123456789012:model/sample-model-1/a1b2c3d4-5678-90ab-cdef-EXAMPLE11111", 
+    #         model_name: "sample-model-1", 
+    #         retraining_frequency: "P1M", 
+    #         retraining_start_date: Time.parse("2023-06-01T00:00:00Z"), 
+    #         status: "RUNNING", 
+    #       }, 
+    #       {
+    #         lookback_window: "P180D", 
+    #         model_arn: "arn:aws:lookoutequipment:us-east-1:123456789012:model/sample-model-2/a1b2c3d4-5678-90ab-cdef-EXAMPLE22222", 
+    #         model_name: "sample-model-2", 
+    #         retraining_frequency: "P30D", 
+    #         retraining_start_date: Time.parse("2023-08-15T00:00:00Z"), 
+    #         status: "RUNNING", 
+    #       }, 
+    #       {
+    #         lookback_window: "P360D", 
+    #         model_arn: "arn:aws:lookoutequipment:us-east-1:123456789012:model/sample-model-3/a1b2c3d4-5678-90ab-cdef-EXAMPLE33333", 
+    #         model_name: "sample-model-3", 
+    #         retraining_frequency: "P1M", 
+    #         retraining_start_date: Time.parse("2023-09-01T00:00:00Z"), 
+    #         status: "STOPPED", 
+    #       }, 
+    #     ], 
+    #   }
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_retraining_schedulers({
+    #     model_name_begins_with: "ModelName",
+    #     status: "PENDING", # accepts PENDING, RUNNING, STOPPING, STOPPED
+    #     next_token: "NextToken",
+    #     max_results: 1,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.retraining_scheduler_summaries #=> Array
+    #   resp.retraining_scheduler_summaries[0].model_name #=> String
+    #   resp.retraining_scheduler_summaries[0].model_arn #=> String
+    #   resp.retraining_scheduler_summaries[0].status #=> String, one of "PENDING", "RUNNING", "STOPPING", "STOPPED"
+    #   resp.retraining_scheduler_summaries[0].retraining_start_date #=> Time
+    #   resp.retraining_scheduler_summaries[0].retraining_frequency #=> String
+    #   resp.retraining_scheduler_summaries[0].lookback_window #=> String
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/lookoutequipment-2020-12-15/ListRetrainingSchedulers AWS API Documentation
+    #
+    # @overload list_retraining_schedulers(params = {})
+    # @param [Hash] params ({})
+    def list_retraining_schedulers(params = {}, options = {})
+      req = build_request(:list_retraining_schedulers, params)
       req.send_request(options)
     end
 
@@ -1879,6 +2759,53 @@ module Aws::LookoutEquipment
       req.send_request(options)
     end
 
+    # Creates a resource control policy for a given resource.
+    #
+    # @option params [required, String] :resource_arn
+    #   The Amazon Resource Name (ARN) of the resource for which the policy is
+    #   being created.
+    #
+    # @option params [required, String] :resource_policy
+    #   The JSON-formatted resource policy to create.
+    #
+    # @option params [String] :policy_revision_id
+    #   A unique identifier for a revision of the resource policy.
+    #
+    # @option params [required, String] :client_token
+    #   A unique identifier for the request. If you do not set the client
+    #   request token, Amazon Lookout for Equipment generates one.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @return [Types::PutResourcePolicyResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::PutResourcePolicyResponse#resource_arn #resource_arn} => String
+    #   * {Types::PutResourcePolicyResponse#policy_revision_id #policy_revision_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.put_resource_policy({
+    #     resource_arn: "ResourceArn", # required
+    #     resource_policy: "Policy", # required
+    #     policy_revision_id: "PolicyRevisionId",
+    #     client_token: "IdempotenceToken", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.resource_arn #=> String
+    #   resp.policy_revision_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/lookoutequipment-2020-12-15/PutResourcePolicy AWS API Documentation
+    #
+    # @overload put_resource_policy(params = {})
+    # @param [Hash] params ({})
+    def put_resource_policy(params = {}, options = {})
+      req = build_request(:put_resource_policy, params)
+      req.send_request(options)
+    end
+
     # Starts a data ingestion job. Amazon Lookout for Equipment returns the
     # job status.
     #
@@ -1923,7 +2850,7 @@ module Aws::LookoutEquipment
     # @example Response structure
     #
     #   resp.job_id #=> String
-    #   resp.status #=> String, one of "IN_PROGRESS", "SUCCESS", "FAILED"
+    #   resp.status #=> String, one of "IN_PROGRESS", "SUCCESS", "FAILED", "IMPORT_IN_PROGRESS"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/lookoutequipment-2020-12-15/StartDataIngestionJob AWS API Documentation
     #
@@ -1970,6 +2897,52 @@ module Aws::LookoutEquipment
       req.send_request(options)
     end
 
+    # Starts a retraining scheduler.
+    #
+    # @option params [required, String] :model_name
+    #   The name of the model whose retraining scheduler you want to start.
+    #
+    # @return [Types::StartRetrainingSchedulerResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::StartRetrainingSchedulerResponse#model_name #model_name} => String
+    #   * {Types::StartRetrainingSchedulerResponse#model_arn #model_arn} => String
+    #   * {Types::StartRetrainingSchedulerResponse#status #status} => String
+    #
+    #
+    # @example Example: Starts a retraining scheduler
+    #
+    #   resp = client.start_retraining_scheduler({
+    #     model_name: "sample-model", 
+    #   })
+    #
+    #   resp.to_h outputs the following:
+    #   {
+    #     model_arn: "arn:aws:lookoutequipment:us-east-1:123456789012:model/sample-model/a1b2c3d4-5678-90ab-cdef-EXAMPLE11111", 
+    #     model_name: "sample-model", 
+    #     status: "PENDING", 
+    #   }
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.start_retraining_scheduler({
+    #     model_name: "ModelName", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.model_name #=> String
+    #   resp.model_arn #=> String
+    #   resp.status #=> String, one of "PENDING", "RUNNING", "STOPPING", "STOPPED"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/lookoutequipment-2020-12-15/StartRetrainingScheduler AWS API Documentation
+    #
+    # @overload start_retraining_scheduler(params = {})
+    # @param [Hash] params ({})
+    def start_retraining_scheduler(params = {}, options = {})
+      req = build_request(:start_retraining_scheduler, params)
+      req.send_request(options)
+    end
+
     # Stops an inference scheduler.
     #
     # @option params [required, String] :inference_scheduler_name
@@ -2003,6 +2976,52 @@ module Aws::LookoutEquipment
     # @param [Hash] params ({})
     def stop_inference_scheduler(params = {}, options = {})
       req = build_request(:stop_inference_scheduler, params)
+      req.send_request(options)
+    end
+
+    # Stops a retraining scheduler.
+    #
+    # @option params [required, String] :model_name
+    #   The name of the model whose retraining scheduler you want to stop.
+    #
+    # @return [Types::StopRetrainingSchedulerResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::StopRetrainingSchedulerResponse#model_name #model_name} => String
+    #   * {Types::StopRetrainingSchedulerResponse#model_arn #model_arn} => String
+    #   * {Types::StopRetrainingSchedulerResponse#status #status} => String
+    #
+    #
+    # @example Example: Stops a retraining scheduler
+    #
+    #   resp = client.stop_retraining_scheduler({
+    #     model_name: "sample-model", 
+    #   })
+    #
+    #   resp.to_h outputs the following:
+    #   {
+    #     model_arn: "arn:aws:lookoutequipment:us-east-1:123456789012:model/sample-model/a1b2c3d4-5678-90ab-cdef-EXAMPLE11111", 
+    #     model_name: "sample-model", 
+    #     status: "STOPPING", 
+    #   }
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.stop_retraining_scheduler({
+    #     model_name: "ModelName", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.model_name #=> String
+    #   resp.model_arn #=> String
+    #   resp.status #=> String, one of "PENDING", "RUNNING", "STOPPING", "STOPPED"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/lookoutequipment-2020-12-15/StopRetrainingScheduler AWS API Documentation
+    #
+    # @overload stop_retraining_scheduler(params = {})
+    # @param [Hash] params ({})
+    def stop_retraining_scheduler(params = {}, options = {})
+      req = build_request(:stop_retraining_scheduler, params)
       req.send_request(options)
     end
 
@@ -2069,6 +3088,50 @@ module Aws::LookoutEquipment
     # @param [Hash] params ({})
     def untag_resource(params = {}, options = {})
       req = build_request(:untag_resource, params)
+      req.send_request(options)
+    end
+
+    # Sets the active model version for a given machine learning model.
+    #
+    # @option params [required, String] :model_name
+    #   The name of the machine learning model for which the active model
+    #   version is being set.
+    #
+    # @option params [required, Integer] :model_version
+    #   The version of the machine learning model for which the active model
+    #   version is being set.
+    #
+    # @return [Types::UpdateActiveModelVersionResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateActiveModelVersionResponse#model_name #model_name} => String
+    #   * {Types::UpdateActiveModelVersionResponse#model_arn #model_arn} => String
+    #   * {Types::UpdateActiveModelVersionResponse#current_active_version #current_active_version} => Integer
+    #   * {Types::UpdateActiveModelVersionResponse#previous_active_version #previous_active_version} => Integer
+    #   * {Types::UpdateActiveModelVersionResponse#current_active_version_arn #current_active_version_arn} => String
+    #   * {Types::UpdateActiveModelVersionResponse#previous_active_version_arn #previous_active_version_arn} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_active_model_version({
+    #     model_name: "ModelName", # required
+    #     model_version: 1, # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.model_name #=> String
+    #   resp.model_arn #=> String
+    #   resp.current_active_version #=> Integer
+    #   resp.previous_active_version #=> Integer
+    #   resp.current_active_version_arn #=> String
+    #   resp.previous_active_version_arn #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/lookoutequipment-2020-12-15/UpdateActiveModelVersion AWS API Documentation
+    #
+    # @overload update_active_model_version(params = {})
+    # @param [Hash] params ({})
+    def update_active_model_version(params = {}, options = {})
+      req = build_request(:update_active_model_version, params)
       req.send_request(options)
     end
 
@@ -2177,20 +3240,153 @@ module Aws::LookoutEquipment
       req.send_request(options)
     end
 
+    # Updates a model in the account.
+    #
+    # @option params [required, String] :model_name
+    #   The name of the model to update.
+    #
+    # @option params [Types::LabelsInputConfiguration] :labels_input_configuration
+    #   Contains the configuration information for the S3 location being used
+    #   to hold label data.
+    #
+    # @option params [String] :role_arn
+    #   The ARN of the model to update.
+    #
+    # @option params [Types::ModelDiagnosticsOutputConfiguration] :model_diagnostics_output_configuration
+    #   The Amazon S3 location where you want Amazon Lookout for Equipment to
+    #   save the pointwise model diagnostics for the model. You must also
+    #   specify the `RoleArn` request parameter.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    #
+    # @example Example: Updates a model
+    #
+    #   resp = client.update_model({
+    #     labels_input_configuration: {
+    #       label_group_name: "sample-label-group", 
+    #     }, 
+    #     model_name: "sample-model", 
+    #   })
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_model({
+    #     model_name: "ModelName", # required
+    #     labels_input_configuration: {
+    #       s3_input_configuration: {
+    #         bucket: "S3Bucket", # required
+    #         prefix: "S3Prefix",
+    #       },
+    #       label_group_name: "LabelGroupName",
+    #     },
+    #     role_arn: "IamRoleArn",
+    #     model_diagnostics_output_configuration: {
+    #       s3_output_configuration: { # required
+    #         bucket: "S3Bucket", # required
+    #         prefix: "S3Prefix",
+    #       },
+    #       kms_key_id: "NameOrArn",
+    #     },
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/lookoutequipment-2020-12-15/UpdateModel AWS API Documentation
+    #
+    # @overload update_model(params = {})
+    # @param [Hash] params ({})
+    def update_model(params = {}, options = {})
+      req = build_request(:update_model, params)
+      req.send_request(options)
+    end
+
+    # Updates a retraining scheduler.
+    #
+    # @option params [required, String] :model_name
+    #   The name of the model whose retraining scheduler you want to update.
+    #
+    # @option params [Time,DateTime,Date,Integer,String] :retraining_start_date
+    #   The start date for the retraining scheduler. Lookout for Equipment
+    #   truncates the time you provide to the nearest UTC day.
+    #
+    # @option params [String] :retraining_frequency
+    #   This parameter uses the [ISO 8601][1] standard to set the frequency at
+    #   which you want retraining to occur in terms of Years, Months, and/or
+    #   Days (note: other parameters like Time are not currently supported).
+    #   The minimum value is 30 days (P30D) and the maximum value is 1 year
+    #   (P1Y). For example, the following values are valid:
+    #
+    #   * P3M15D – Every 3 months and 15 days
+    #
+    #   * P2M – Every 2 months
+    #
+    #   * P150D – Every 150 days
+    #
+    #
+    #
+    #   [1]: https://en.wikipedia.org/wiki/ISO_8601#Durations
+    #
+    # @option params [String] :lookback_window
+    #   The number of past days of data that will be used for retraining.
+    #
+    # @option params [String] :promote_mode
+    #   Indicates how the service will use new models. In `MANAGED` mode, new
+    #   models will automatically be used for inference if they have better
+    #   performance than the current model. In `MANUAL` mode, the new models
+    #   will not be used [until they are manually activated][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/lookout-for-equipment/latest/ug/versioning-model.html#model-activation
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    #
+    # @example Example: Updates a retraining scheduler
+    #
+    #   resp = client.update_retraining_scheduler({
+    #     model_name: "sample-model", 
+    #     retraining_frequency: "P1Y", 
+    #     retraining_start_date: Time.parse("2024-01-01T00:00:00Z"), 
+    #   })
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_retraining_scheduler({
+    #     model_name: "ModelName", # required
+    #     retraining_start_date: Time.now,
+    #     retraining_frequency: "RetrainingFrequency",
+    #     lookback_window: "LookbackWindow",
+    #     promote_mode: "MANAGED", # accepts MANAGED, MANUAL
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/lookoutequipment-2020-12-15/UpdateRetrainingScheduler AWS API Documentation
+    #
+    # @overload update_retraining_scheduler(params = {})
+    # @param [Hash] params ({})
+    def update_retraining_scheduler(params = {}, options = {})
+      req = build_request(:update_retraining_scheduler, params)
+      req.send_request(options)
+    end
+
     # @!endgroup
 
     # @param params ({})
     # @api private
     def build_request(operation_name, params = {})
       handlers = @handlers.for(operation_name)
+      tracer = config.telemetry_provider.tracer_provider.tracer(
+        Aws::Telemetry.module_to_tracer_name('Aws::LookoutEquipment')
+      )
       context = Seahorse::Client::RequestContext.new(
         operation_name: operation_name,
         operation: config.api.operation(operation_name),
         client: self,
         params: params,
-        config: config)
+        config: config,
+        tracer: tracer
+      )
       context[:gem_name] = 'aws-sdk-lookoutequipment'
-      context[:gem_version] = '1.16.0'
+      context[:gem_version] = '1.47.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

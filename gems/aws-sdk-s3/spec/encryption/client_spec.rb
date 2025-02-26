@@ -31,7 +31,7 @@ module Aws
         end
 
         describe 'configuration' do
-          it 'can be used with a Resource client' do
+          it 'can be used with a Resource client', rbs_test: :skip do
             resource = S3::Resource.new(client: client)
             expect(resource.client.config).to eq(api_client.config)
           end
@@ -149,7 +149,6 @@ module Aws
                   body: encrypted_body,
                   headers: {
                     'Content-Length' => '16',
-                    'Content-Md5' => 'l0B7VfMeJ/9UqZlxWo2uEw==',
                     # key is encrypted here with the master encryption key,
                     # then base64 encoded
                     'X-Amz-Meta-X-Amz-Key' => 'gX+a4JQYj7FP0y5TAAvxTz4e'\

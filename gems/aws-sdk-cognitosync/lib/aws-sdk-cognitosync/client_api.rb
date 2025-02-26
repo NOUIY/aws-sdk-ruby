@@ -7,6 +7,7 @@
 #
 # WARNING ABOUT GENERATED CODE
 
+
 module Aws::CognitoSync
   # @api private
   module ClientApi
@@ -358,9 +359,11 @@ module Aws::CognitoSync
 
       api.metadata = {
         "apiVersion" => "2014-06-30",
+        "auth" => ["aws.auth#sigv4"],
         "endpointPrefix" => "cognito-sync",
         "jsonVersion" => "1.1",
         "protocol" => "rest-json",
+        "protocols" => ["rest-json"],
         "serviceFullName" => "Amazon Cognito Sync",
         "serviceId" => "Cognito Sync",
         "signatureVersion" => "v4",

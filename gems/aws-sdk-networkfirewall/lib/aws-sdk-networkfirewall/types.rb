@@ -74,6 +74,158 @@ module Aws::NetworkFirewall
       include Aws::Structure
     end
 
+    # A report that captures key activity from the last 30 days of network
+    # traffic monitored by your firewall.
+    #
+    # You can generate up to one report per traffic type, per 30 day period.
+    # For example, when you successfully create an HTTP traffic report, you
+    # cannot create another HTTP traffic report until 30 days pass.
+    # Alternatively, if you generate a report that combines metrics on both
+    # HTTP and HTTPS traffic, you cannot create another report for either
+    # traffic type until 30 days pass.
+    #
+    # @!attribute [rw] analysis_report_id
+    #   The unique ID of the query that ran when you requested an analysis
+    #   report.
+    #   @return [String]
+    #
+    # @!attribute [rw] analysis_type
+    #   The type of traffic that will be used to generate a report.
+    #   @return [String]
+    #
+    # @!attribute [rw] report_time
+    #   The date and time the analysis report was ran.
+    #   @return [Time]
+    #
+    # @!attribute [rw] status
+    #   The status of the analysis report you specify. Statuses include
+    #   `RUNNING`, `COMPLETED`, or `FAILED`.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/network-firewall-2020-11-12/AnalysisReport AWS API Documentation
+    #
+    class AnalysisReport < Struct.new(
+      :analysis_report_id,
+      :analysis_type,
+      :report_time,
+      :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The analysis result for Network Firewall's stateless rule group
+    # analyzer. Every time you call CreateRuleGroup, UpdateRuleGroup, or
+    # DescribeRuleGroup on a stateless rule group, Network Firewall analyzes
+    # the stateless rule groups in your account and identifies the rules
+    # that might adversely effect your firewall's functionality. For
+    # example, if Network Firewall detects a rule that's routing traffic
+    # asymmetrically, which impacts the service's ability to properly
+    # process traffic, the service includes the rule in a list of analysis
+    # results.
+    #
+    # The `AnalysisResult` data type is not related to traffic analysis
+    # reports you generate using StartAnalysisReport. For information on
+    # traffic analysis report results, see AnalysisTypeReportResult.
+    #
+    # @!attribute [rw] identified_rule_ids
+    #   The priority number of the stateless rules identified in the
+    #   analysis.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] identified_type
+    #   The types of rule configurations that Network Firewall analyzes your
+    #   rule groups for. Network Firewall analyzes stateless rule groups for
+    #   the following types of rule configurations:
+    #
+    #   * `STATELESS_RULE_FORWARDING_ASYMMETRICALLY`
+    #
+    #     Cause: One or more stateless rules with the action `pass` or
+    #     `forward` are forwarding traffic asymmetrically. Specifically, the
+    #     rule's set of source IP addresses or their associated port
+    #     numbers, don't match the set of destination IP addresses or their
+    #     associated port numbers.
+    #
+    #     To mitigate: Make sure that there's an existing return path. For
+    #     example, if the rule allows traffic from source 10.1.0.0/24 to
+    #     destination 20.1.0.0/24, you should allow return traffic from
+    #     source 20.1.0.0/24 to destination 10.1.0.0/24.
+    #
+    #   * `STATELESS_RULE_CONTAINS_TCP_FLAGS`
+    #
+    #     Cause: At least one stateless rule with the action `pass`
+    #     or`forward` contains TCP flags that are inconsistent in the
+    #     forward and return directions.
+    #
+    #     To mitigate: Prevent asymmetric routing issues caused by TCP flags
+    #     by following these actions:
+    #
+    #     * Remove unnecessary TCP flag inspections from the rules.
+    #
+    #     * If you need to inspect TCP flags, check that the rules correctly
+    #       account for changes in TCP flags throughout the TCP connection
+    #       cycle, for example `SYN` and `ACK` flags used in a 3-way TCP
+    #       handshake.
+    #   @return [String]
+    #
+    # @!attribute [rw] analysis_detail
+    #   Provides analysis details for the identified rule.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/network-firewall-2020-11-12/AnalysisResult AWS API Documentation
+    #
+    class AnalysisResult < Struct.new(
+      :identified_rule_ids,
+      :identified_type,
+      :analysis_detail)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The results of a `COMPLETED` analysis report generated with
+    # StartAnalysisReport.
+    #
+    # For an example of traffic analysis report results, see the response
+    # syntax of GetAnalysisReportResults.
+    #
+    # @!attribute [rw] protocol
+    #   The type of traffic captured by the analysis report.
+    #   @return [String]
+    #
+    # @!attribute [rw] first_accessed
+    #   The date and time any domain was first accessed (within the last 30
+    #   day period).
+    #   @return [Time]
+    #
+    # @!attribute [rw] last_accessed
+    #   The date and time any domain was last accessed (within the last 30
+    #   day period).
+    #   @return [Time]
+    #
+    # @!attribute [rw] domain
+    #   The most frequently accessed domains.
+    #   @return [String]
+    #
+    # @!attribute [rw] hits
+    #   The number of attempts made to access a observed domain.
+    #   @return [Types::Hits]
+    #
+    # @!attribute [rw] unique_sources
+    #   The number of unique source IP addresses that connected to a domain.
+    #   @return [Types::UniqueSources]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/network-firewall-2020-11-12/AnalysisTypeReportResult AWS API Documentation
+    #
+    class AnalysisTypeReportResult < Struct.new(
+      :protocol,
+      :first_accessed,
+      :last_accessed,
+      :domain,
+      :hits,
+      :unique_sources)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] update_token
     #   An optional token that you can use for optimistic locking. Network
     #   Firewall returns a token to your requests that access the firewall.
@@ -286,12 +438,14 @@ module Aws::NetworkFirewall
     #
     # @!attribute [rw] status_message
     #   If Network Firewall fails to create or delete the firewall endpoint
-    #   in the subnet, it populates this with the reason for the failure and
-    #   how to resolve it. Depending on the error, it can take as many as 15
+    #   in the subnet, it populates this with the reason for the error or
+    #   failure and how to resolve it. A `FAILED` status indicates a
+    #   non-recoverable state, and a `ERROR` status indicates an issue that
+    #   you can fix. Depending on the error, it can take as many as 15
     #   minutes to populate this field. For more information about the
-    #   errors and solutions available for this field, see [Troubleshooting
-    #   firewall endpoint failures][1] in the *Network Firewall Developer
-    #   Guide*.
+    #   causes for failiure or errors and solutions available for this
+    #   field, see [Troubleshooting firewall endpoint failures][1] in the
+    #   *Network Firewall Developer Guide*.
     #
     #
     #
@@ -349,6 +503,55 @@ module Aws::NetworkFirewall
     #
     class CapacityUsageSummary < Struct.new(
       :cid_rs)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Defines the actions to take on the SSL/TLS connection if the
+    # certificate presented by the server in the connection has a revoked or
+    # unknown status.
+    #
+    # @!attribute [rw] revoked_status_action
+    #   Configures how Network Firewall processes traffic when it determines
+    #   that the certificate presented by the server in the SSL/TLS
+    #   connection has a revoked status.
+    #
+    #   * **PASS** - Allow the connection to continue, and pass subsequent
+    #     packets to the stateful engine for inspection.
+    #
+    #   * **DROP** - Network Firewall closes the connection and drops
+    #     subsequent packets for that connection.
+    #
+    #   * **REJECT** - Network Firewall sends a TCP reject packet back to
+    #     your client. The service closes the connection and drops
+    #     subsequent packets for that connection. `REJECT` is available only
+    #     for TCP traffic.
+    #   @return [String]
+    #
+    # @!attribute [rw] unknown_status_action
+    #   Configures how Network Firewall processes traffic when it determines
+    #   that the certificate presented by the server in the SSL/TLS
+    #   connection has an unknown status, or a status that cannot be
+    #   determined for any other reason, including when the service is
+    #   unable to connect to the OCSP and CRL endpoints for the certificate.
+    #
+    #   * **PASS** - Allow the connection to continue, and pass subsequent
+    #     packets to the stateful engine for inspection.
+    #
+    #   * **DROP** - Network Firewall closes the connection and drops
+    #     subsequent packets for that connection.
+    #
+    #   * **REJECT** - Network Firewall sends a TCP reject packet back to
+    #     your client. The service closes the connection and drops
+    #     subsequent packets for that connection. `REJECT` is available only
+    #     for TCP traffic.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/network-firewall-2020-11-12/CheckCertificateRevocationStatusActions AWS API Documentation
+    #
+    class CheckCertificateRevocationStatusActions < Struct.new(
+      :revoked_status_action,
+      :unknown_status_action)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -493,6 +696,11 @@ module Aws::NetworkFirewall
     #   firewall resources.
     #   @return [Types::EncryptionConfiguration]
     #
+    # @!attribute [rw] enabled_analysis_types
+    #   An optional setting indicating the specific traffic analysis types
+    #   to enable on the firewall.
+    #   @return [Array<String>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/network-firewall-2020-11-12/CreateFirewallRequest AWS API Documentation
     #
     class CreateFirewallRequest < Struct.new(
@@ -505,7 +713,8 @@ module Aws::NetworkFirewall
       :firewall_policy_change_protection,
       :description,
       :tags,
-      :encryption_configuration)
+      :encryption_configuration,
+      :enabled_analysis_types)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -653,6 +862,14 @@ module Aws::NetworkFirewall
     #   track of updates made to the originating rule group.
     #   @return [Types::SourceMetadata]
     #
+    # @!attribute [rw] analyze_rule_group
+    #   Indicates whether you want Network Firewall to analyze the stateless
+    #   rules in the rule group for rule behavior such as asymmetric
+    #   routing. If set to `TRUE`, Network Firewall runs the analysis and
+    #   then creates the rule group for you. To run the stateless rule group
+    #   analyzer without creating the rule group, set `DryRun` to `TRUE`.
+    #   @return [Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/network-firewall-2020-11-12/CreateRuleGroupRequest AWS API Documentation
     #
     class CreateRuleGroupRequest < Struct.new(
@@ -665,7 +882,8 @@ module Aws::NetworkFirewall
       :tags,
       :dry_run,
       :encryption_configuration,
-      :source_metadata)
+      :source_metadata,
+      :analyze_rule_group)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -695,6 +913,105 @@ module Aws::NetworkFirewall
     class CreateRuleGroupResponse < Struct.new(
       :update_token,
       :rule_group_response)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] tls_inspection_configuration_name
+    #   The descriptive name of the TLS inspection configuration. You can't
+    #   change the name of a TLS inspection configuration after you create
+    #   it.
+    #   @return [String]
+    #
+    # @!attribute [rw] tls_inspection_configuration
+    #   The object that defines a TLS inspection configuration. This, along
+    #   with TLSInspectionConfigurationResponse, define the TLS inspection
+    #   configuration. You can retrieve all objects for a TLS inspection
+    #   configuration by calling DescribeTLSInspectionConfiguration.
+    #
+    #   Network Firewall uses a TLS inspection configuration to decrypt
+    #   traffic. Network Firewall re-encrypts the traffic before sending it
+    #   to its destination.
+    #
+    #   To use a TLS inspection configuration, you add it to a new Network
+    #   Firewall firewall policy, then you apply the firewall policy to a
+    #   firewall. Network Firewall acts as a proxy service to decrypt and
+    #   inspect the traffic traveling through your firewalls. You can
+    #   reference a TLS inspection configuration from more than one firewall
+    #   policy, and you can use a firewall policy in more than one firewall.
+    #   For more information about using TLS inspection configurations, see
+    #   [Inspecting SSL/TLS traffic with TLS inspection configurations][1]
+    #   in the *Network Firewall Developer Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/network-firewall/latest/developerguide/tls-inspection.html
+    #   @return [Types::TLSInspectionConfiguration]
+    #
+    # @!attribute [rw] description
+    #   A description of the TLS inspection configuration.
+    #   @return [String]
+    #
+    # @!attribute [rw] tags
+    #   The key:value pairs to associate with the resource.
+    #   @return [Array<Types::Tag>]
+    #
+    # @!attribute [rw] encryption_configuration
+    #   A complex type that contains optional Amazon Web Services Key
+    #   Management Service (KMS) encryption settings for your Network
+    #   Firewall resources. Your data is encrypted by default with an Amazon
+    #   Web Services owned key that Amazon Web Services owns and manages for
+    #   you. You can use either the Amazon Web Services owned key, or
+    #   provide your own customer managed key. To learn more about KMS
+    #   encryption of your Network Firewall resources, see [Encryption at
+    #   rest with Amazon Web Services Key Managment Service][1] in the
+    #   *Network Firewall Developer Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/kms/latest/developerguide/kms-encryption-at-rest.html
+    #   @return [Types::EncryptionConfiguration]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/network-firewall-2020-11-12/CreateTLSInspectionConfigurationRequest AWS API Documentation
+    #
+    class CreateTLSInspectionConfigurationRequest < Struct.new(
+      :tls_inspection_configuration_name,
+      :tls_inspection_configuration,
+      :description,
+      :tags,
+      :encryption_configuration)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] update_token
+    #   A token used for optimistic locking. Network Firewall returns a
+    #   token to your requests that access the TLS inspection configuration.
+    #   The token marks the state of the TLS inspection configuration
+    #   resource at the time of the request.
+    #
+    #   To make changes to the TLS inspection configuration, you provide the
+    #   token in your request. Network Firewall uses the token to ensure
+    #   that the TLS inspection configuration hasn't changed since you last
+    #   retrieved it. If it has changed, the operation fails with an
+    #   `InvalidTokenException`. If this happens, retrieve the TLS
+    #   inspection configuration again to get a current copy of it with a
+    #   current token. Reapply your changes as needed, then try the
+    #   operation again using the new token.
+    #   @return [String]
+    #
+    # @!attribute [rw] tls_inspection_configuration_response
+    #   The high-level properties of a TLS inspection configuration. This,
+    #   along with the TLSInspectionConfiguration, define the TLS inspection
+    #   configuration. You can retrieve all objects for a TLS inspection
+    #   configuration by calling DescribeTLSInspectionConfiguration.
+    #   @return [Types::TLSInspectionConfigurationResponse]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/network-firewall-2020-11-12/CreateTLSInspectionConfigurationResponse AWS API Documentation
+    #
+    class CreateTLSInspectionConfigurationResponse < Struct.new(
+      :update_token,
+      :tls_inspection_configuration_response)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -883,6 +1200,44 @@ module Aws::NetworkFirewall
     #
     class DeleteRuleGroupResponse < Struct.new(
       :rule_group_response)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] tls_inspection_configuration_arn
+    #   The Amazon Resource Name (ARN) of the TLS inspection configuration.
+    #
+    #   You must specify the ARN or the name, and you can specify both.
+    #   @return [String]
+    #
+    # @!attribute [rw] tls_inspection_configuration_name
+    #   The descriptive name of the TLS inspection configuration. You can't
+    #   change the name of a TLS inspection configuration after you create
+    #   it.
+    #
+    #   You must specify the ARN or the name, and you can specify both.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/network-firewall-2020-11-12/DeleteTLSInspectionConfigurationRequest AWS API Documentation
+    #
+    class DeleteTLSInspectionConfigurationRequest < Struct.new(
+      :tls_inspection_configuration_arn,
+      :tls_inspection_configuration_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] tls_inspection_configuration_response
+    #   The high-level properties of a TLS inspection configuration. This,
+    #   along with the TLSInspectionConfiguration, define the TLS inspection
+    #   configuration. You can retrieve all objects for a TLS inspection
+    #   configuration by calling DescribeTLSInspectionConfiguration.
+    #   @return [Types::TLSInspectionConfigurationResponse]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/network-firewall-2020-11-12/DeleteTLSInspectionConfigurationResponse AWS API Documentation
+    #
+    class DeleteTLSInspectionConfigurationResponse < Struct.new(
+      :tls_inspection_configuration_response)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1194,12 +1549,19 @@ module Aws::NetworkFirewall
     #    </note>
     #   @return [String]
     #
+    # @!attribute [rw] analyze_rule_group
+    #   Indicates whether you want Network Firewall to analyze the stateless
+    #   rules in the rule group for rule behavior such as asymmetric
+    #   routing. If set to `TRUE`, Network Firewall runs the analysis.
+    #   @return [Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/network-firewall-2020-11-12/DescribeRuleGroupRequest AWS API Documentation
     #
     class DescribeRuleGroupRequest < Struct.new(
       :rule_group_name,
       :rule_group_arn,
-      :type)
+      :type,
+      :analyze_rule_group)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1246,6 +1608,87 @@ module Aws::NetworkFirewall
       :update_token,
       :rule_group,
       :rule_group_response)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] tls_inspection_configuration_arn
+    #   The Amazon Resource Name (ARN) of the TLS inspection configuration.
+    #
+    #   You must specify the ARN or the name, and you can specify both.
+    #   @return [String]
+    #
+    # @!attribute [rw] tls_inspection_configuration_name
+    #   The descriptive name of the TLS inspection configuration. You can't
+    #   change the name of a TLS inspection configuration after you create
+    #   it.
+    #
+    #   You must specify the ARN or the name, and you can specify both.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/network-firewall-2020-11-12/DescribeTLSInspectionConfigurationRequest AWS API Documentation
+    #
+    class DescribeTLSInspectionConfigurationRequest < Struct.new(
+      :tls_inspection_configuration_arn,
+      :tls_inspection_configuration_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] update_token
+    #   A token used for optimistic locking. Network Firewall returns a
+    #   token to your requests that access the TLS inspection configuration.
+    #   The token marks the state of the TLS inspection configuration
+    #   resource at the time of the request.
+    #
+    #   To make changes to the TLS inspection configuration, you provide the
+    #   token in your request. Network Firewall uses the token to ensure
+    #   that the TLS inspection configuration hasn't changed since you last
+    #   retrieved it. If it has changed, the operation fails with an
+    #   `InvalidTokenException`. If this happens, retrieve the TLS
+    #   inspection configuration again to get a current copy of it with a
+    #   current token. Reapply your changes as needed, then try the
+    #   operation again using the new token.
+    #   @return [String]
+    #
+    # @!attribute [rw] tls_inspection_configuration
+    #   The object that defines a TLS inspection configuration. This, along
+    #   with TLSInspectionConfigurationResponse, define the TLS inspection
+    #   configuration. You can retrieve all objects for a TLS inspection
+    #   configuration by calling DescribeTLSInspectionConfiguration.
+    #
+    #   Network Firewall uses a TLS inspection configuration to decrypt
+    #   traffic. Network Firewall re-encrypts the traffic before sending it
+    #   to its destination.
+    #
+    #   To use a TLS inspection configuration, you add it to a new Network
+    #   Firewall firewall policy, then you apply the firewall policy to a
+    #   firewall. Network Firewall acts as a proxy service to decrypt and
+    #   inspect the traffic traveling through your firewalls. You can
+    #   reference a TLS inspection configuration from more than one firewall
+    #   policy, and you can use a firewall policy in more than one firewall.
+    #   For more information about using TLS inspection configurations, see
+    #   [Inspecting SSL/TLS traffic with TLS inspection configurations][1]
+    #   in the *Network Firewall Developer Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/network-firewall/latest/developerguide/tls-inspection.html
+    #   @return [Types::TLSInspectionConfiguration]
+    #
+    # @!attribute [rw] tls_inspection_configuration_response
+    #   The high-level properties of a TLS inspection configuration. This,
+    #   along with the TLSInspectionConfiguration, define the TLS inspection
+    #   configuration. You can retrieve all objects for a TLS inspection
+    #   configuration by calling DescribeTLSInspectionConfiguration.
+    #   @return [Types::TLSInspectionConfigurationResponse]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/network-firewall-2020-11-12/DescribeTLSInspectionConfigurationResponse AWS API Documentation
+    #
+    class DescribeTLSInspectionConfigurationResponse < Struct.new(
+      :update_token,
+      :tls_inspection_configuration,
+      :tls_inspection_configuration_response)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1488,6 +1931,11 @@ module Aws::NetworkFirewall
     #   configuration settings for your firewall.
     #   @return [Types::EncryptionConfiguration]
     #
+    # @!attribute [rw] enabled_analysis_types
+    #   An optional setting indicating the specific traffic analysis types
+    #   to enable on the firewall.
+    #   @return [Array<String>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/network-firewall-2020-11-12/Firewall AWS API Documentation
     #
     class Firewall < Struct.new(
@@ -1502,7 +1950,8 @@ module Aws::NetworkFirewall
       :description,
       :firewall_id,
       :tags,
-      :encryption_configuration)
+      :encryption_configuration,
+      :enabled_analysis_types)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1618,6 +2067,15 @@ module Aws::NetworkFirewall
     #   settings.
     #   @return [Types::StatefulEngineOptions]
     #
+    # @!attribute [rw] tls_inspection_configuration_arn
+    #   The Amazon Resource Name (ARN) of the TLS inspection configuration.
+    #   @return [String]
+    #
+    # @!attribute [rw] policy_variables
+    #   Contains variables that you can use to override default Suricata
+    #   settings in your firewall policy.
+    #   @return [Types::PolicyVariables]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/network-firewall-2020-11-12/FirewallPolicy AWS API Documentation
     #
     class FirewallPolicy < Struct.new(
@@ -1627,7 +2085,9 @@ module Aws::NetworkFirewall
       :stateless_custom_actions,
       :stateful_rule_group_references,
       :stateful_default_actions,
-      :stateful_engine_options)
+      :stateful_engine_options,
+      :tls_inspection_configuration_arn,
+      :policy_variables)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1790,6 +2250,130 @@ module Aws::NetworkFirewall
       include Aws::Structure
     end
 
+    # Describes the amount of time that can pass without any traffic sent
+    # through the firewall before the firewall determines that the
+    # connection is idle and Network Firewall removes the flow entry from
+    # its flow table. Existing connections and flows are not impacted when
+    # you update this value. Only new connections after you update this
+    # value are impacted.
+    #
+    # @!attribute [rw] tcp_idle_timeout_seconds
+    #   The number of seconds that can pass without any TCP traffic sent
+    #   through the firewall before the firewall determines that the
+    #   connection is idle. After the idle timeout passes, data packets are
+    #   dropped, however, the next TCP SYN packet is considered a new flow
+    #   and is processed by the firewall. Clients or targets can use TCP
+    #   keepalive packets to reset the idle timeout.
+    #
+    #   You can define the `TcpIdleTimeoutSeconds` value to be between 60
+    #   and 6000 seconds. If no value is provided, it defaults to 350
+    #   seconds.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/network-firewall-2020-11-12/FlowTimeouts AWS API Documentation
+    #
+    class FlowTimeouts < Struct.new(
+      :tcp_idle_timeout_seconds)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] firewall_name
+    #   The descriptive name of the firewall. You can't change the name of
+    #   a firewall after you create it.
+    #
+    #   You must specify the ARN or the name, and you can specify both.
+    #   @return [String]
+    #
+    # @!attribute [rw] analysis_report_id
+    #   The unique ID of the query that ran when you requested an analysis
+    #   report.
+    #   @return [String]
+    #
+    # @!attribute [rw] firewall_arn
+    #   The Amazon Resource Name (ARN) of the firewall.
+    #
+    #   You must specify the ARN or the name, and you can specify both.
+    #   @return [String]
+    #
+    # @!attribute [rw] next_token
+    #   When you request a list of objects with a `MaxResults` setting, if
+    #   the number of objects that are still available for retrieval exceeds
+    #   the maximum you requested, Network Firewall returns a `NextToken`
+    #   value in the response. To retrieve the next batch of objects, use
+    #   the token returned from the prior request in your next request.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of objects that you want Network Firewall to
+    #   return for this request. If more objects are available, in the
+    #   response, Network Firewall provides a `NextToken` value that you can
+    #   use in a subsequent call to get the next batch of objects.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/network-firewall-2020-11-12/GetAnalysisReportResultsRequest AWS API Documentation
+    #
+    class GetAnalysisReportResultsRequest < Struct.new(
+      :firewall_name,
+      :analysis_report_id,
+      :firewall_arn,
+      :next_token,
+      :max_results)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] status
+    #   The status of the analysis report you specify. Statuses include
+    #   `RUNNING`, `COMPLETED`, or `FAILED`.
+    #   @return [String]
+    #
+    # @!attribute [rw] start_time
+    #   The date and time within the last 30 days from which to start
+    #   retrieving analysis data, in UTC format (for example,
+    #   `YYYY-MM-DDTHH:MM:SSZ`.
+    #   @return [Time]
+    #
+    # @!attribute [rw] end_time
+    #   The date and time, up to the current date, from which to stop
+    #   retrieving analysis data, in UTC format (for example,
+    #   `YYYY-MM-DDTHH:MM:SSZ`).
+    #   @return [Time]
+    #
+    # @!attribute [rw] report_time
+    #   The date and time the analysis report was ran.
+    #   @return [Time]
+    #
+    # @!attribute [rw] analysis_type
+    #   The type of traffic that will be used to generate a report.
+    #   @return [String]
+    #
+    # @!attribute [rw] next_token
+    #   When you request a list of objects with a `MaxResults` setting, if
+    #   the number of objects that are still available for retrieval exceeds
+    #   the maximum you requested, Network Firewall returns a `NextToken`
+    #   value in the response. To retrieve the next batch of objects, use
+    #   the token returned from the prior request in your next request.
+    #   @return [String]
+    #
+    # @!attribute [rw] analysis_report_results
+    #   Retrieves the results of a traffic analysis report.
+    #   @return [Array<Types::AnalysisTypeReportResult>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/network-firewall-2020-11-12/GetAnalysisReportResultsResponse AWS API Documentation
+    #
+    class GetAnalysisReportResultsResponse < Struct.new(
+      :status,
+      :start_time,
+      :end_time,
+      :report_time,
+      :analysis_type,
+      :next_token,
+      :analysis_report_results)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The basic rule criteria for Network Firewall to use to inspect packet
     # headers in stateful traffic flow inspection. Traffic flows that match
     # the criteria are a match for the corresponding StatefulRule.
@@ -1899,6 +2483,20 @@ module Aws::NetworkFirewall
       include Aws::Structure
     end
 
+    # Attempts made to a access domain.
+    #
+    # @!attribute [rw] count
+    #   The number of attempts made to access a domain.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/network-firewall-2020-11-12/Hits AWS API Documentation
+    #
+    class Hits < Struct.new(
+      :count)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # A list of IP addresses and address ranges, in CIDR notation. This is
     # part of a RuleVariables.
     #
@@ -1933,23 +2531,24 @@ module Aws::NetworkFirewall
 
     # Configures one or more IP set references for a Suricata-compatible
     # rule group. This is used in CreateRuleGroup or UpdateRuleGroup. An IP
-    # set reference is a rule variable that references a resource that you
+    # set reference is a rule variable that references resources that you
     # create and manage in another Amazon Web Services service, such as an
     # Amazon VPC prefix list. Network Firewall IP set references enable you
     # to dynamically update the contents of your rules. When you create,
-    # update, or delete the IP set you are referencing in your rule, Network
-    # Firewall automatically updates the rule's content with the changes.
-    # For more information about IP set references in Network Firewall, see
-    # [Using IP set references][1] in the *Network Firewall Developer
-    # Guide*.
+    # update, or delete the resource you are referencing in your rule,
+    # Network Firewall automatically updates the rule's content with the
+    # changes. For more information about IP set references in Network
+    # Firewall, see [Using IP set references][1] in the *Network Firewall
+    # Developer Guide*.
     #
-    # Network Firewall currently supports only [Amazon VPC prefix lists][2]
-    # as IP set references.
+    # Network Firewall currently supports [Amazon VPC prefix lists][2] and
+    # [resource groups][3] in IP set references.
     #
     #
     #
     # [1]: https://docs.aws.amazon.com/network-firewall/latest/developerguide/rule-groups-ip-set-references
     # [2]: https://docs.aws.amazon.com/vpc/latest/userguide/managed-prefix-lists.html
+    # [3]: https://docs.aws.amazon.com/network-firewall/latest/developerguide/rule-groups-ip-set-references.html#rule-groups-referencing-resource-groups
     #
     # @!attribute [rw] reference_arn
     #   The Amazon Resource Name (ARN) of the resource that you are
@@ -1978,7 +2577,7 @@ module Aws::NetworkFirewall
       include Aws::Structure
     end
 
-    # Your request is valid, but Network Firewall couldn’t perform the
+    # Your request is valid, but Network Firewall couldn't perform the
     # operation because of a system problem. Retry your request.
     #
     # @!attribute [rw] message
@@ -2064,6 +2663,67 @@ module Aws::NetworkFirewall
     #
     class LimitExceededException < Struct.new(
       :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] firewall_name
+    #   The descriptive name of the firewall. You can't change the name of
+    #   a firewall after you create it.
+    #
+    #   You must specify the ARN or the name, and you can specify both.
+    #   @return [String]
+    #
+    # @!attribute [rw] firewall_arn
+    #   The Amazon Resource Name (ARN) of the firewall.
+    #
+    #   You must specify the ARN or the name, and you can specify both.
+    #   @return [String]
+    #
+    # @!attribute [rw] next_token
+    #   When you request a list of objects with a `MaxResults` setting, if
+    #   the number of objects that are still available for retrieval exceeds
+    #   the maximum you requested, Network Firewall returns a `NextToken`
+    #   value in the response. To retrieve the next batch of objects, use
+    #   the token returned from the prior request in your next request.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of objects that you want Network Firewall to
+    #   return for this request. If more objects are available, in the
+    #   response, Network Firewall provides a `NextToken` value that you can
+    #   use in a subsequent call to get the next batch of objects.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/network-firewall-2020-11-12/ListAnalysisReportsRequest AWS API Documentation
+    #
+    class ListAnalysisReportsRequest < Struct.new(
+      :firewall_name,
+      :firewall_arn,
+      :next_token,
+      :max_results)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] analysis_reports
+    #   The `id` and `ReportTime` associated with a requested analysis
+    #   report. Does not provide the status of the analysis report.
+    #   @return [Array<Types::AnalysisReport>]
+    #
+    # @!attribute [rw] next_token
+    #   When you request a list of objects with a `MaxResults` setting, if
+    #   the number of objects that are still available for retrieval exceeds
+    #   the maximum you requested, Network Firewall returns a `NextToken`
+    #   value in the response. To retrieve the next batch of objects, use
+    #   the token returned from the prior request in your next request.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/network-firewall-2020-11-12/ListAnalysisReportsResponse AWS API Documentation
+    #
+    class ListAnalysisReportsResponse < Struct.new(
+      :analysis_reports,
+      :next_token)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2251,6 +2911,53 @@ module Aws::NetworkFirewall
     #   use in a subsequent call to get the next batch of objects.
     #   @return [Integer]
     #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/network-firewall-2020-11-12/ListTLSInspectionConfigurationsRequest AWS API Documentation
+    #
+    class ListTLSInspectionConfigurationsRequest < Struct.new(
+      :next_token,
+      :max_results)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] next_token
+    #   When you request a list of objects with a `MaxResults` setting, if
+    #   the number of objects that are still available for retrieval exceeds
+    #   the maximum you requested, Network Firewall returns a `NextToken`
+    #   value in the response. To retrieve the next batch of objects, use
+    #   the token returned from the prior request in your next request.
+    #   @return [String]
+    #
+    # @!attribute [rw] tls_inspection_configurations
+    #   The TLS inspection configuration metadata objects that you've
+    #   defined. Depending on your setting for max results and the number of
+    #   TLS inspection configurations, this might not be the full list.
+    #   @return [Array<Types::TLSInspectionConfigurationMetadata>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/network-firewall-2020-11-12/ListTLSInspectionConfigurationsResponse AWS API Documentation
+    #
+    class ListTLSInspectionConfigurationsResponse < Struct.new(
+      :next_token,
+      :tls_inspection_configurations)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] next_token
+    #   When you request a list of objects with a `MaxResults` setting, if
+    #   the number of objects that are still available for retrieval exceeds
+    #   the maximum you requested, Network Firewall returns a `NextToken`
+    #   value in the response. To retrieve the next batch of objects, use
+    #   the token returned from the prior request in your next request.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of objects that you want Network Firewall to
+    #   return for this request. If more objects are available, in the
+    #   response, Network Firewall provides a `NextToken` value that you can
+    #   use in a subsequent call to get the next batch of objects.
+    #   @return [Integer]
+    #
     # @!attribute [rw] resource_arn
     #   The Amazon Resource Name (ARN) of the resource.
     #   @return [String]
@@ -2288,25 +2995,40 @@ module Aws::NetworkFirewall
 
     # Defines where Network Firewall sends logs for the firewall for one log
     # type. This is used in LoggingConfiguration. You can send each type of
-    # log to an Amazon S3 bucket, a CloudWatch log group, or a Kinesis Data
-    # Firehose delivery stream.
+    # log to an Amazon S3 bucket, a CloudWatch log group, or a Firehose
+    # delivery stream.
     #
     # Network Firewall generates logs for stateful rule groups. You can save
-    # alert and flow log types. The stateful rules engine records flow logs
-    # for all network traffic that it receives. It records alert logs for
-    # traffic that matches stateful rules that have the rule action set to
-    # `DROP` or `ALERT`.
+    # alert, flow, and TLS log types.
     #
     # @!attribute [rw] log_type
-    #   The type of log to send. Alert logs report traffic that matches a
-    #   StatefulRule with an action setting that sends an alert log message.
-    #   Flow logs are standard network traffic flow logs.
+    #   The type of log to record. You can record the following types of
+    #   logs from your Network Firewall stateful engine.
+    #
+    #   * `ALERT` - Logs for traffic that matches your stateful rules and
+    #     that have an action that sends an alert. A stateful rule sends
+    #     alerts for the rule actions DROP, ALERT, and REJECT. For more
+    #     information, see StatefulRule.
+    #
+    #   * `FLOW` - Standard network traffic flow logs. The stateful rules
+    #     engine records flow logs for all network traffic that it receives.
+    #     Each flow log record captures the network flow for a specific
+    #     standard stateless rule group.
+    #
+    #   * `TLS` - Logs for events that are related to TLS inspection. For
+    #     more information, see [Inspecting SSL/TLS traffic with TLS
+    #     inspection configurations][1] in the *Network Firewall Developer
+    #     Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/network-firewall/latest/developerguide/tls-inspection-configurations.html
     #   @return [String]
     #
     # @!attribute [rw] log_destination_type
     #   The type of storage destination to send these logs to. You can send
-    #   logs to an Amazon S3 bucket, a CloudWatch log group, or a Kinesis
-    #   Data Firehose delivery stream.
+    #   logs to an Amazon S3 bucket, a CloudWatch log group, or a Firehose
+    #   delivery stream.
     #   @return [String]
     #
     # @!attribute [rw] log_destination
@@ -2315,25 +3037,24 @@ module Aws::NetworkFirewall
     #
     #   * For an Amazon S3 bucket, provide the name of the bucket, with key
     #     `bucketName`, and optionally provide a prefix, with key `prefix`.
-    #     The following example specifies an Amazon S3 bucket named
-    #     `DOC-EXAMPLE-BUCKET` and the prefix `alerts`\:
     #
-    #     `"LogDestination": \{ "bucketName": "DOC-EXAMPLE-BUCKET",
-    #     "prefix": "alerts" \}`
+    #     The following example specifies an Amazon S3 bucket named
+    #     `DOC-EXAMPLE-BUCKET` and the prefix `alerts`:
+    #
+    #     `"LogDestination": { "bucketName": "DOC-EXAMPLE-BUCKET", "prefix":
+    #     "alerts" }`
     #
     #   * For a CloudWatch log group, provide the name of the CloudWatch log
     #     group, with key `logGroup`. The following example specifies a log
-    #     group named `alert-log-group`\:
+    #     group named `alert-log-group`:
     #
-    #     `"LogDestination": \{ "logGroup": "alert-log-group" \}`
+    #     `"LogDestination": { "logGroup": "alert-log-group" }`
     #
-    #   * For a Kinesis Data Firehose delivery stream, provide the name of
-    #     the delivery stream, with key `deliveryStream`. The following
-    #     example specifies a delivery stream named
-    #     `alert-delivery-stream`\:
+    #   * For a Firehose delivery stream, provide the name of the delivery
+    #     stream, with key `deliveryStream`. The following example specifies
+    #     a delivery stream named `alert-delivery-stream`:
     #
-    #     `"LogDestination": \{ "deliveryStream": "alert-delivery-stream"
-    #     \}`
+    #     `"LogDestination": { "deliveryStream": "alert-delivery-stream" }`
     #   @return [Hash<String,String>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/network-firewall-2020-11-12/LogDestinationConfig AWS API Documentation
@@ -2460,6 +3181,26 @@ module Aws::NetworkFirewall
       include Aws::Structure
     end
 
+    # Contains variables that you can use to override default Suricata
+    # settings in your firewall policy.
+    #
+    # @!attribute [rw] rule_variables
+    #   The IPv4 or IPv6 addresses in CIDR notation to use for the Suricata
+    #   `HOME_NET` variable. If your firewall uses an inspection VPC, you
+    #   might want to override the `HOME_NET` variable with the CIDRs of
+    #   your home networks. If you don't override `HOME_NET` with your own
+    #   CIDRs, Network Firewall by default uses the CIDR of your inspection
+    #   VPC.
+    #   @return [Hash<String,Types::IPSet>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/network-firewall-2020-11-12/PolicyVariables AWS API Documentation
+    #
+    class PolicyVariables < Struct.new(
+      :rule_variables)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # A single port range specification. This is used for source and
     # destination port ranges in the stateless rule MatchAttributes,
     # `SourcePorts`, and `DestinationPorts` settings.
@@ -2533,10 +3274,6 @@ module Aws::NetworkFirewall
     #
     #   For a firewall policy resource, you can specify the following
     #   operations in the Actions section of the statement:
-    #
-    #   * network-firewall:CreateFirewall
-    #
-    #   * network-firewall:UpdateFirewall
     #
     #   * network-firewall:AssociateFirewallPolicy
     #
@@ -2690,7 +3427,12 @@ module Aws::NetworkFirewall
     #   Additional options governing how Network Firewall handles stateful
     #   rules. The policies where you use your stateful rule group must have
     #   stateful rule options settings that are compatible with these
-    #   settings.
+    #   settings. Some limitations apply; for more information, see [Strict
+    #   evaluation order][1] in the *Network Firewall Developer Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/network-firewall/latest/developerguide/suricata-limitations-caveats.html
     #   @return [Types::StatefulRuleOptions]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/network-firewall-2020-11-12/RuleGroup AWS API Documentation
@@ -2816,6 +3558,17 @@ module Aws::NetworkFirewall
     #   The last time that the rule group was changed.
     #   @return [Time]
     #
+    # @!attribute [rw] analysis_results
+    #   The list of analysis results for `AnalyzeRuleGroup`. If you set
+    #   `AnalyzeRuleGroup` to `TRUE` in CreateRuleGroup, UpdateRuleGroup, or
+    #   DescribeRuleGroup, Network Firewall analyzes the rule group and
+    #   identifies the rules that might adversely effect your firewall's
+    #   functionality. For example, if Network Firewall detects a rule
+    #   that's routing traffic asymmetrically, which impacts the service's
+    #   ability to properly process traffic, the service includes the rule
+    #   in the list of analysis results.
+    #   @return [Array<Types::AnalysisResult>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/network-firewall-2020-11-12/RuleGroupResponse AWS API Documentation
     #
     class RuleGroupResponse < Struct.new(
@@ -2832,7 +3585,8 @@ module Aws::NetworkFirewall
       :encryption_configuration,
       :source_metadata,
       :sns_topic,
-      :last_modified_time)
+      :last_modified_time,
+      :analysis_results)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2841,9 +3595,25 @@ module Aws::NetworkFirewall
     # StatefulRule configuration.
     #
     # @!attribute [rw] keyword
+    #   The keyword for the Suricata compatible rule option. You must
+    #   include a `sid` (signature ID), and can optionally include other
+    #   keywords. For information about Suricata compatible keywords, see
+    #   [Rule options][1] in the Suricata documentation.
+    #
+    #
+    #
+    #   [1]: https://suricata.readthedocs.io/en/suricata-7.0.3/rules/intro.html#rule-options
     #   @return [String]
     #
     # @!attribute [rw] settings
+    #   The settings of the Suricata compatible rule option. Rule options
+    #   have zero or more setting values, and the number of possible and
+    #   required settings depends on the `Keyword`. For more information
+    #   about the settings for specific options, see [Rule options][1].
+    #
+    #
+    #
+    #   [1]: https://suricata.readthedocs.io/en/suricata-7.0.3/rules/intro.html#rule-options
     #   @return [Array<String>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/network-firewall-2020-11-12/RuleOption AWS API Documentation
@@ -2880,14 +3650,18 @@ module Aws::NetworkFirewall
     # instance of this for either stateless rules or stateful rules.
     #
     # @!attribute [rw] rules_string
-    #   Stateful inspection criteria, provided in Suricata compatible
-    #   intrusion prevention system (IPS) rules. Suricata is an open-source
-    #   network IPS that includes a standard rule-based language for network
-    #   traffic inspection.
+    #   Stateful inspection criteria, provided in Suricata compatible rules.
+    #   Suricata is an open-source threat detection framework that includes
+    #   a standard rule-based language for network traffic inspection.
     #
     #   These rules contain the inspection criteria and the action to take
     #   for traffic that matches the criteria, so this type of rule group
     #   doesn't have a separate action setting.
+    #
+    #   <note markdown="1"> You can't use the `priority` keyword if the `RuleOrder` option in
+    #   StatefulRuleOptions is set to `STRICT_ORDER`.
+    #
+    #    </note>
     #   @return [String]
     #
     # @!attribute [rw] rules_source_list
@@ -2903,7 +3677,7 @@ module Aws::NetworkFirewall
     #
     #
     #
-    #   [1]: https://suricata.readthedocs.io/rules/intro.html#
+    #   [1]: https://suricata.readthedocs.io/en/suricata-7.0.3/rules/intro.html
     #   @return [Array<Types::StatefulRule>]
     #
     # @!attribute [rw] stateless_rules_and_custom_actions
@@ -2971,6 +3745,164 @@ module Aws::NetworkFirewall
       include Aws::Structure
     end
 
+    # Any Certificate Manager (ACM) Secure Sockets Layer/Transport Layer
+    # Security (SSL/TLS) server certificate that's associated with a
+    # ServerCertificateConfiguration. Used in a TLSInspectionConfiguration
+    # for inspection of inbound traffic to your firewall. You must request
+    # or import a SSL/TLS certificate into ACM for each domain Network
+    # Firewall needs to decrypt and inspect. Network Firewall uses the
+    # SSL/TLS certificates to decrypt specified inbound SSL/TLS traffic
+    # going to your firewall. For information about working with
+    # certificates in Certificate Manager, see [Request a public certificate
+    # ][1] or [Importing certificates][2] in the *Certificate Manager User
+    # Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/acm/latest/userguide/gs-acm-request-public.html
+    # [2]: https://docs.aws.amazon.com/acm/latest/userguide/import-certificate.html
+    #
+    # @!attribute [rw] resource_arn
+    #   The Amazon Resource Name (ARN) of the Certificate Manager SSL/TLS
+    #   server certificate that's used for inbound SSL/TLS inspection.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/network-firewall-2020-11-12/ServerCertificate AWS API Documentation
+    #
+    class ServerCertificate < Struct.new(
+      :resource_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Configures the Certificate Manager certificates and scope that Network
+    # Firewall uses to decrypt and re-encrypt traffic using a
+    # TLSInspectionConfiguration. You can configure `ServerCertificates` for
+    # inbound SSL/TLS inspection, a `CertificateAuthorityArn` for outbound
+    # SSL/TLS inspection, or both. For information about working with
+    # certificates for TLS inspection, see [ Using SSL/TLS server
+    # certficiates with TLS inspection configurations][1] in the *Network
+    # Firewall Developer Guide*.
+    #
+    # <note markdown="1"> If a server certificate that's associated with your
+    # TLSInspectionConfiguration is revoked, deleted, or expired it can
+    # result in client-side TLS errors.
+    #
+    #  </note>
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/network-firewall/latest/developerguide/tls-inspection-certificate-requirements.html
+    #
+    # @!attribute [rw] server_certificates
+    #   The list of server certificates to use for inbound SSL/TLS
+    #   inspection.
+    #   @return [Array<Types::ServerCertificate>]
+    #
+    # @!attribute [rw] scopes
+    #   A list of scopes.
+    #   @return [Array<Types::ServerCertificateScope>]
+    #
+    # @!attribute [rw] certificate_authority_arn
+    #   The Amazon Resource Name (ARN) of the imported certificate authority
+    #   (CA) certificate within Certificate Manager (ACM) to use for
+    #   outbound SSL/TLS inspection.
+    #
+    #   The following limitations apply:
+    #
+    #   * You can use CA certificates that you imported into ACM, but you
+    #     can't generate CA certificates with ACM.
+    #
+    #   * You can't use certificates issued by Private Certificate
+    #     Authority.
+    #
+    #   For more information about configuring certificates for outbound
+    #   inspection, see [Using SSL/TLS certificates with certificates with
+    #   TLS inspection configurations][1] in the *Network Firewall Developer
+    #   Guide*.
+    #
+    #   For information about working with certificates in ACM, see
+    #   [Importing certificates][2] in the *Certificate Manager User Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/network-firewall/latest/developerguide/tls-inspection-certificate-requirements.html
+    #   [2]: https://docs.aws.amazon.com/acm/latest/userguide/import-certificate.html
+    #   @return [String]
+    #
+    # @!attribute [rw] check_certificate_revocation_status
+    #   When enabled, Network Firewall checks if the server certificate
+    #   presented by the server in the SSL/TLS connection has a revoked or
+    #   unkown status. If the certificate has an unknown or revoked status,
+    #   you must specify the actions that Network Firewall takes on outbound
+    #   traffic. To check the certificate revocation status, you must also
+    #   specify a `CertificateAuthorityArn` in
+    #   ServerCertificateConfiguration.
+    #   @return [Types::CheckCertificateRevocationStatusActions]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/network-firewall-2020-11-12/ServerCertificateConfiguration AWS API Documentation
+    #
+    class ServerCertificateConfiguration < Struct.new(
+      :server_certificates,
+      :scopes,
+      :certificate_authority_arn,
+      :check_certificate_revocation_status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Settings that define the Secure Sockets Layer/Transport Layer Security
+    # (SSL/TLS) traffic that Network Firewall should decrypt for inspection
+    # by the stateful rule engine.
+    #
+    # @!attribute [rw] sources
+    #   The source IP addresses and address ranges to decrypt for
+    #   inspection, in CIDR notation. If not specified, this matches with
+    #   any source address.
+    #   @return [Array<Types::Address>]
+    #
+    # @!attribute [rw] destinations
+    #   The destination IP addresses and address ranges to decrypt for
+    #   inspection, in CIDR notation. If not specified, this matches with
+    #   any destination address.
+    #   @return [Array<Types::Address>]
+    #
+    # @!attribute [rw] source_ports
+    #   The source ports to decrypt for inspection, in Transmission Control
+    #   Protocol (TCP) format. If not specified, this matches with any
+    #   source port.
+    #
+    #   You can specify individual ports, for example `1994`, and you can
+    #   specify port ranges, such as `1990:1994`.
+    #   @return [Array<Types::PortRange>]
+    #
+    # @!attribute [rw] destination_ports
+    #   The destination ports to decrypt for inspection, in Transmission
+    #   Control Protocol (TCP) format. If not specified, this matches with
+    #   any destination port.
+    #
+    #   You can specify individual ports, for example `1994`, and you can
+    #   specify port ranges, such as `1990:1994`.
+    #   @return [Array<Types::PortRange>]
+    #
+    # @!attribute [rw] protocols
+    #   The protocols to decrypt for inspection, specified using each
+    #   protocol's assigned internet protocol number (IANA). Network
+    #   Firewall currently supports only TCP.
+    #   @return [Array<Integer>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/network-firewall-2020-11-12/ServerCertificateScope AWS API Documentation
+    #
+    class ServerCertificateScope < Struct.new(
+      :sources,
+      :destinations,
+      :source_ports,
+      :destination_ports,
+      :protocols)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # High-level information about the managed rule group that your own rule
     # group is copied from. You can use the the metadata to track version
     # updates made to the originating rule group. You can retrieve all
@@ -3004,16 +3936,62 @@ module Aws::NetworkFirewall
       include Aws::Structure
     end
 
+    # @!attribute [rw] firewall_name
+    #   The descriptive name of the firewall. You can't change the name of
+    #   a firewall after you create it.
+    #
+    #   You must specify the ARN or the name, and you can specify both.
+    #   @return [String]
+    #
+    # @!attribute [rw] firewall_arn
+    #   The Amazon Resource Name (ARN) of the firewall.
+    #
+    #   You must specify the ARN or the name, and you can specify both.
+    #   @return [String]
+    #
+    # @!attribute [rw] analysis_type
+    #   The type of traffic that will be used to generate a report.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/network-firewall-2020-11-12/StartAnalysisReportRequest AWS API Documentation
+    #
+    class StartAnalysisReportRequest < Struct.new(
+      :firewall_name,
+      :firewall_arn,
+      :analysis_type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] analysis_report_id
+    #   The unique ID of the query that ran when you requested an analysis
+    #   report.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/network-firewall-2020-11-12/StartAnalysisReportResponse AWS API Documentation
+    #
+    class StartAnalysisReportResponse < Struct.new(
+      :analysis_report_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Configuration settings for the handling of the stateful rule groups in
     # a firewall policy.
     #
     # @!attribute [rw] rule_order
     #   Indicates how to manage the order of stateful rule evaluation for
-    #   the policy. `DEFAULT_ACTION_ORDER` is the default behavior. Stateful
-    #   rules are provided to the rule engine as Suricata compatible
-    #   strings, and Suricata evaluates them based on certain settings. For
-    #   more information, see [Evaluation order for stateful rules][1] in
-    #   the *Network Firewall Developer Guide*.
+    #   the policy. `STRICT_ORDER` is the default and recommended option.
+    #   With `STRICT_ORDER`, provide your rules in the order that you want
+    #   them to be evaluated. You can then choose one or more default
+    #   actions for packets that don't match any rules. Choose
+    #   `STRICT_ORDER` to have the stateful rules engine determine the
+    #   evaluation order of your rules. The default action for this rule
+    #   order is `PASS`, followed by `DROP`, `REJECT`, and `ALERT` actions.
+    #   Stateful rules are provided to the rule engine as Suricata
+    #   compatible strings, and Suricata evaluates them based on your
+    #   settings. For more information, see [Evaluation order for stateful
+    #   rules][1] in the *Network Firewall Developer Guide*.
     #
     #
     #
@@ -3038,13 +4016,27 @@ module Aws::NetworkFirewall
     #     behavior is rule dependent—a TCP-layer rule using a
     #     `flow:stateless` rule would still match, as would the
     #     `aws:drop_strict` default action.
+    #
+    #   * `REJECT` - Network Firewall fails closed and drops all subsequent
+    #     traffic going to the firewall. Network Firewall also sends a TCP
+    #     reject packet back to your client so that the client can
+    #     immediately establish a new session. Network Firewall will have
+    #     context about the new session and will apply rules to the
+    #     subsequent traffic.
     #   @return [String]
+    #
+    # @!attribute [rw] flow_timeouts
+    #   Configures the amount of time that can pass without any traffic sent
+    #   through the firewall before the firewall determines that the
+    #   connection is idle.
+    #   @return [Types::FlowTimeouts]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/network-firewall-2020-11-12/StatefulEngineOptions AWS API Documentation
     #
     class StatefulEngineOptions < Struct.new(
       :rule_order,
-      :stream_exception_policy)
+      :stream_exception_policy,
+      :flow_timeouts)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3057,7 +4049,7 @@ module Aws::NetworkFirewall
     #
     #
     #
-    # [1]: https://suricata.readthedocs.io/rules/intro.html#
+    # [1]: https://suricata.readthedocs.io/en/suricata-7.0.3/rules/intro.html
     #
     # @!attribute [rw] action
     #   Defines what Network Firewall should do with the packets in a
@@ -3073,23 +4065,19 @@ module Aws::NetworkFirewall
     #     destination and sends an alert log message, if alert logging is
     #     configured in the Firewall LoggingConfiguration.
     #
-    #   * **ALERT** - Permits the packets to go to the intended destination
-    #     and sends an alert log message, if alert logging is configured in
-    #     the Firewall LoggingConfiguration.
+    #   * **ALERT** - Sends an alert log message, if alert logging is
+    #     configured in the Firewall LoggingConfiguration.
     #
     #     You can use this action to test a rule that you intend to use to
     #     drop traffic. You can enable the rule with `ALERT` action, verify
     #     in the logs that the rule is filtering as you want, then change
     #     the action to `DROP`.
     #
-    #   * **REJECT** - Drops TCP traffic that matches the conditions of the
+    #   * **REJECT** - Drops traffic that matches the conditions of the
     #     stateful rule, and sends a TCP reset packet back to sender of the
-    #     packet. A TCP reset packet is a packet with no payload and a `RST`
-    #     bit contained in the TCP header flags. Also sends an alert log
-    #     mesage if alert logging is configured in the Firewall
-    #     LoggingConfiguration.
-    #
-    #     `REJECT` isn't currently available for use with IMAP and FTP
+    #     packet. A TCP reset packet is a packet with no payload and an RST
+    #     bit contained in the TCP header flags. REJECT is available only
+    #     for TCP traffic. This option doesn't support FTP or IMAP
     #     protocols.
     #   @return [String]
     #
@@ -3376,6 +4364,143 @@ module Aws::NetworkFirewall
       include Aws::Structure
     end
 
+    # The object that defines a TLS inspection configuration. This, along
+    # with TLSInspectionConfigurationResponse, define the TLS inspection
+    # configuration. You can retrieve all objects for a TLS inspection
+    # configuration by calling DescribeTLSInspectionConfiguration.
+    #
+    # Network Firewall uses a TLS inspection configuration to decrypt
+    # traffic. Network Firewall re-encrypts the traffic before sending it to
+    # its destination.
+    #
+    # To use a TLS inspection configuration, you add it to a new Network
+    # Firewall firewall policy, then you apply the firewall policy to a
+    # firewall. Network Firewall acts as a proxy service to decrypt and
+    # inspect the traffic traveling through your firewalls. You can
+    # reference a TLS inspection configuration from more than one firewall
+    # policy, and you can use a firewall policy in more than one firewall.
+    # For more information about using TLS inspection configurations, see
+    # [Inspecting SSL/TLS traffic with TLS inspection configurations][1] in
+    # the *Network Firewall Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/network-firewall/latest/developerguide/tls-inspection.html
+    #
+    # @!attribute [rw] server_certificate_configurations
+    #   Lists the server certificate configurations that are associated with
+    #   the TLS configuration.
+    #   @return [Array<Types::ServerCertificateConfiguration>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/network-firewall-2020-11-12/TLSInspectionConfiguration AWS API Documentation
+    #
+    class TLSInspectionConfiguration < Struct.new(
+      :server_certificate_configurations)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # High-level information about a TLS inspection configuration, returned
+    # by `ListTLSInspectionConfigurations`. You can use the information
+    # provided in the metadata to retrieve and manage a TLS configuration.
+    #
+    # @!attribute [rw] name
+    #   The descriptive name of the TLS inspection configuration. You can't
+    #   change the name of a TLS inspection configuration after you create
+    #   it.
+    #   @return [String]
+    #
+    # @!attribute [rw] arn
+    #   The Amazon Resource Name (ARN) of the TLS inspection configuration.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/network-firewall-2020-11-12/TLSInspectionConfigurationMetadata AWS API Documentation
+    #
+    class TLSInspectionConfigurationMetadata < Struct.new(
+      :name,
+      :arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The high-level properties of a TLS inspection configuration. This,
+    # along with the `TLSInspectionConfiguration`, define the TLS inspection
+    # configuration. You can retrieve all objects for a TLS inspection
+    # configuration by calling `DescribeTLSInspectionConfiguration`.
+    #
+    # @!attribute [rw] tls_inspection_configuration_arn
+    #   The Amazon Resource Name (ARN) of the TLS inspection configuration.
+    #   @return [String]
+    #
+    # @!attribute [rw] tls_inspection_configuration_name
+    #   The descriptive name of the TLS inspection configuration. You can't
+    #   change the name of a TLS inspection configuration after you create
+    #   it.
+    #   @return [String]
+    #
+    # @!attribute [rw] tls_inspection_configuration_id
+    #   A unique identifier for the TLS inspection configuration. This ID is
+    #   returned in the responses to create and list commands. You provide
+    #   it to operations such as update and delete.
+    #   @return [String]
+    #
+    # @!attribute [rw] tls_inspection_configuration_status
+    #   Detailed information about the current status of a
+    #   TLSInspectionConfiguration. You can retrieve this for a TLS
+    #   inspection configuration by calling
+    #   DescribeTLSInspectionConfiguration and providing the TLS inspection
+    #   configuration name and ARN.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   A description of the TLS inspection configuration.
+    #   @return [String]
+    #
+    # @!attribute [rw] tags
+    #   The key:value pairs to associate with the resource.
+    #   @return [Array<Types::Tag>]
+    #
+    # @!attribute [rw] last_modified_time
+    #   The last time that the TLS inspection configuration was changed.
+    #   @return [Time]
+    #
+    # @!attribute [rw] number_of_associations
+    #   The number of firewall policies that use this TLS inspection
+    #   configuration.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] encryption_configuration
+    #   A complex type that contains the Amazon Web Services KMS encryption
+    #   configuration settings for your TLS inspection configuration.
+    #   @return [Types::EncryptionConfiguration]
+    #
+    # @!attribute [rw] certificates
+    #   A list of the certificates associated with the TLS inspection
+    #   configuration.
+    #   @return [Array<Types::TlsCertificateData>]
+    #
+    # @!attribute [rw] certificate_authority
+    #   Contains metadata about an Certificate Manager certificate.
+    #   @return [Types::TlsCertificateData]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/network-firewall-2020-11-12/TLSInspectionConfigurationResponse AWS API Documentation
+    #
+    class TLSInspectionConfigurationResponse < Struct.new(
+      :tls_inspection_configuration_arn,
+      :tls_inspection_configuration_name,
+      :tls_inspection_configuration_id,
+      :tls_inspection_configuration_status,
+      :description,
+      :tags,
+      :last_modified_time,
+      :number_of_associations,
+      :encryption_configuration,
+      :certificates,
+      :certificate_authority)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # A key:value pair associated with an Amazon Web Services resource. The
     # key:value pair can be anything you define. Typically, the tag key
     # represents a category (such as "environment") and the tag value
@@ -3437,6 +4562,50 @@ module Aws::NetworkFirewall
       include Aws::Structure
     end
 
+    # Contains metadata about an Certificate Manager certificate.
+    #
+    # @!attribute [rw] certificate_arn
+    #   The Amazon Resource Name (ARN) of the certificate.
+    #   @return [String]
+    #
+    # @!attribute [rw] certificate_serial
+    #   The serial number of the certificate.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status of the certificate.
+    #   @return [String]
+    #
+    # @!attribute [rw] status_message
+    #   Contains details about the certificate status, including information
+    #   about certificate errors.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/network-firewall-2020-11-12/TlsCertificateData AWS API Documentation
+    #
+    class TlsCertificateData < Struct.new(
+      :certificate_arn,
+      :certificate_serial,
+      :status,
+      :status_message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A unique source IP address that connected to a domain.
+    #
+    # @!attribute [rw] count
+    #   The number of unique source IP addresses that connected to a domain.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/network-firewall-2020-11-12/UniqueSources AWS API Documentation
+    #
+    class UniqueSources < Struct.new(
+      :count)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The operation you requested isn't supported by Network Firewall.
     #
     # @!attribute [rw] message
@@ -3469,6 +4638,104 @@ module Aws::NetworkFirewall
     # @see http://docs.aws.amazon.com/goto/WebAPI/network-firewall-2020-11-12/UntagResourceResponse AWS API Documentation
     #
     class UntagResourceResponse < Aws::EmptyStructure; end
+
+    # @!attribute [rw] enabled_analysis_types
+    #   An optional setting indicating the specific traffic analysis types
+    #   to enable on the firewall.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] firewall_arn
+    #   The Amazon Resource Name (ARN) of the firewall.
+    #
+    #   You must specify the ARN or the name, and you can specify both.
+    #   @return [String]
+    #
+    # @!attribute [rw] firewall_name
+    #   The descriptive name of the firewall. You can't change the name of
+    #   a firewall after you create it.
+    #
+    #   You must specify the ARN or the name, and you can specify both.
+    #   @return [String]
+    #
+    # @!attribute [rw] update_token
+    #   An optional token that you can use for optimistic locking. Network
+    #   Firewall returns a token to your requests that access the firewall.
+    #   The token marks the state of the firewall resource at the time of
+    #   the request.
+    #
+    #   To make an unconditional change to the firewall, omit the token in
+    #   your update request. Without the token, Network Firewall performs
+    #   your updates regardless of whether the firewall has changed since
+    #   you last retrieved it.
+    #
+    #   To make a conditional change to the firewall, provide the token in
+    #   your update request. Network Firewall uses the token to ensure that
+    #   the firewall hasn't changed since you last retrieved it. If it has
+    #   changed, the operation fails with an `InvalidTokenException`. If
+    #   this happens, retrieve the firewall again to get a current copy of
+    #   it with a new token. Reapply your changes as needed, then try the
+    #   operation again using the new token.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/network-firewall-2020-11-12/UpdateFirewallAnalysisSettingsRequest AWS API Documentation
+    #
+    class UpdateFirewallAnalysisSettingsRequest < Struct.new(
+      :enabled_analysis_types,
+      :firewall_arn,
+      :firewall_name,
+      :update_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] enabled_analysis_types
+    #   An optional setting indicating the specific traffic analysis types
+    #   to enable on the firewall.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] firewall_arn
+    #   The Amazon Resource Name (ARN) of the firewall.
+    #
+    #   You must specify the ARN or the name, and you can specify both.
+    #   @return [String]
+    #
+    # @!attribute [rw] firewall_name
+    #   The descriptive name of the firewall. You can't change the name of
+    #   a firewall after you create it.
+    #
+    #   You must specify the ARN or the name, and you can specify both.
+    #   @return [String]
+    #
+    # @!attribute [rw] update_token
+    #   An optional token that you can use for optimistic locking. Network
+    #   Firewall returns a token to your requests that access the firewall.
+    #   The token marks the state of the firewall resource at the time of
+    #   the request.
+    #
+    #   To make an unconditional change to the firewall, omit the token in
+    #   your update request. Without the token, Network Firewall performs
+    #   your updates regardless of whether the firewall has changed since
+    #   you last retrieved it.
+    #
+    #   To make a conditional change to the firewall, provide the token in
+    #   your update request. Network Firewall uses the token to ensure that
+    #   the firewall hasn't changed since you last retrieved it. If it has
+    #   changed, the operation fails with an `InvalidTokenException`. If
+    #   this happens, retrieve the firewall again to get a current copy of
+    #   it with a new token. Reapply your changes as needed, then try the
+    #   operation again using the new token.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/network-firewall-2020-11-12/UpdateFirewallAnalysisSettingsResponse AWS API Documentation
+    #
+    class UpdateFirewallAnalysisSettingsResponse < Struct.new(
+      :enabled_analysis_types,
+      :firewall_arn,
+      :firewall_name,
+      :update_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
 
     # @!attribute [rw] update_token
     #   An optional token that you can use for optimistic locking. Network
@@ -3903,7 +5170,10 @@ module Aws::NetworkFirewall
     #   @return [String]
     #
     # @!attribute [rw] firewall_policy
-    #   The updated firewall policy to use for the firewall.
+    #   The updated firewall policy to use for the firewall. You can't add
+    #   or remove a TLSInspectionConfiguration after you create a firewall
+    #   policy. However, you can replace an existing TLS inspection
+    #   configuration with another `TLSInspectionConfiguration`.
     #   @return [Types::FirewallPolicy]
     #
     # @!attribute [rw] description
@@ -4120,6 +5390,14 @@ module Aws::NetworkFirewall
     #   track of updates made to the originating rule group.
     #   @return [Types::SourceMetadata]
     #
+    # @!attribute [rw] analyze_rule_group
+    #   Indicates whether you want Network Firewall to analyze the stateless
+    #   rules in the rule group for rule behavior such as asymmetric
+    #   routing. If set to `TRUE`, Network Firewall runs the analysis and
+    #   then updates the rule group for you. To run the stateless rule group
+    #   analyzer without updating the rule group, set `DryRun` to `TRUE`.
+    #   @return [Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/network-firewall-2020-11-12/UpdateRuleGroupRequest AWS API Documentation
     #
     class UpdateRuleGroupRequest < Struct.new(
@@ -4132,7 +5410,8 @@ module Aws::NetworkFirewall
       :description,
       :dry_run,
       :encryption_configuration,
-      :source_metadata)
+      :source_metadata,
+      :analyze_rule_group)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4266,5 +5545,111 @@ module Aws::NetworkFirewall
       include Aws::Structure
     end
 
+    # @!attribute [rw] tls_inspection_configuration_arn
+    #   The Amazon Resource Name (ARN) of the TLS inspection configuration.
+    #   @return [String]
+    #
+    # @!attribute [rw] tls_inspection_configuration_name
+    #   The descriptive name of the TLS inspection configuration. You can't
+    #   change the name of a TLS inspection configuration after you create
+    #   it.
+    #   @return [String]
+    #
+    # @!attribute [rw] tls_inspection_configuration
+    #   The object that defines a TLS inspection configuration. This, along
+    #   with TLSInspectionConfigurationResponse, define the TLS inspection
+    #   configuration. You can retrieve all objects for a TLS inspection
+    #   configuration by calling DescribeTLSInspectionConfiguration.
+    #
+    #   Network Firewall uses a TLS inspection configuration to decrypt
+    #   traffic. Network Firewall re-encrypts the traffic before sending it
+    #   to its destination.
+    #
+    #   To use a TLS inspection configuration, you add it to a new Network
+    #   Firewall firewall policy, then you apply the firewall policy to a
+    #   firewall. Network Firewall acts as a proxy service to decrypt and
+    #   inspect the traffic traveling through your firewalls. You can
+    #   reference a TLS inspection configuration from more than one firewall
+    #   policy, and you can use a firewall policy in more than one firewall.
+    #   For more information about using TLS inspection configurations, see
+    #   [Inspecting SSL/TLS traffic with TLS inspection configurations][1]
+    #   in the *Network Firewall Developer Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/network-firewall/latest/developerguide/tls-inspection.html
+    #   @return [Types::TLSInspectionConfiguration]
+    #
+    # @!attribute [rw] description
+    #   A description of the TLS inspection configuration.
+    #   @return [String]
+    #
+    # @!attribute [rw] encryption_configuration
+    #   A complex type that contains the Amazon Web Services KMS encryption
+    #   configuration settings for your TLS inspection configuration.
+    #   @return [Types::EncryptionConfiguration]
+    #
+    # @!attribute [rw] update_token
+    #   A token used for optimistic locking. Network Firewall returns a
+    #   token to your requests that access the TLS inspection configuration.
+    #   The token marks the state of the TLS inspection configuration
+    #   resource at the time of the request.
+    #
+    #   To make changes to the TLS inspection configuration, you provide the
+    #   token in your request. Network Firewall uses the token to ensure
+    #   that the TLS inspection configuration hasn't changed since you last
+    #   retrieved it. If it has changed, the operation fails with an
+    #   `InvalidTokenException`. If this happens, retrieve the TLS
+    #   inspection configuration again to get a current copy of it with a
+    #   current token. Reapply your changes as needed, then try the
+    #   operation again using the new token.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/network-firewall-2020-11-12/UpdateTLSInspectionConfigurationRequest AWS API Documentation
+    #
+    class UpdateTLSInspectionConfigurationRequest < Struct.new(
+      :tls_inspection_configuration_arn,
+      :tls_inspection_configuration_name,
+      :tls_inspection_configuration,
+      :description,
+      :encryption_configuration,
+      :update_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] update_token
+    #   A token used for optimistic locking. Network Firewall returns a
+    #   token to your requests that access the TLS inspection configuration.
+    #   The token marks the state of the TLS inspection configuration
+    #   resource at the time of the request.
+    #
+    #   To make changes to the TLS inspection configuration, you provide the
+    #   token in your request. Network Firewall uses the token to ensure
+    #   that the TLS inspection configuration hasn't changed since you last
+    #   retrieved it. If it has changed, the operation fails with an
+    #   `InvalidTokenException`. If this happens, retrieve the TLS
+    #   inspection configuration again to get a current copy of it with a
+    #   current token. Reapply your changes as needed, then try the
+    #   operation again using the new token.
+    #   @return [String]
+    #
+    # @!attribute [rw] tls_inspection_configuration_response
+    #   The high-level properties of a TLS inspection configuration. This,
+    #   along with the TLSInspectionConfiguration, define the TLS inspection
+    #   configuration. You can retrieve all objects for a TLS inspection
+    #   configuration by calling DescribeTLSInspectionConfiguration.
+    #   @return [Types::TLSInspectionConfigurationResponse]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/network-firewall-2020-11-12/UpdateTLSInspectionConfigurationResponse AWS API Documentation
+    #
+    class UpdateTLSInspectionConfigurationResponse < Struct.new(
+      :update_token,
+      :tls_inspection_configuration_response)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
   end
 end
+

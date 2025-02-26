@@ -3,37 +3,46 @@
 source 'https://rubygems.org'
 
 gem 'rake', require: false
-
 # SDK feature dependencies
 gem 'aws-crt' if ENV['CRT']
+gem 'base64'
+gem 'bigdecimal'
 gem 'http-2'
 gem 'jmespath'
+if defined?(JRUBY_VERSION)
+  # get the latest jruby-openssl to support sigv4a
+  # see: https://github.com/jruby/jruby-openssl/issues/30
+  gem 'jruby-openssl'
+end
 
-# json and xml parsers
-gem 'json'
+# protocol parsers
+gem 'json', '>= 2.4.0' # due to load_file support
 gem 'nokogiri', '>= 1.6.8.1'
 gem 'oga'
 gem 'rexml'
-
-# These json and xml parsers do not have java gems
+# These protocol parsers do not have java gems
 unless defined?(JRUBY_VERSION)
   gem 'libxml-ruby'
   gem 'oj'
   gem 'ox'
 end
 
-group :test do
-  gem 'addressable'
-  gem 'cucumber'
-  gem 'webmock'
+group :benchmark do
+  gem 'memory_profiler'
 
-  gem 'multipart-post'
-  gem 'rspec'
+  # required for uploading report/putting metrics
+  gem 'aws-sdk-cloudwatch', require: false
+  gem 'aws-sdk-s3', require: false
+  gem 'aws-sdk-lambda', require: false
 end
 
 group :build do
   gem 'kramdown'
   gem 'mustache'
+end
+
+group :development do
+  gem 'rubocop', '1.28.0'
 end
 
 group :docs do
@@ -46,10 +55,19 @@ group :docs do
   gem 'yard-sitemap', '~> 1.0'
 end
 
+group :rbs do
+  gem 'rbs', platforms: :ruby
+end
+
 group :repl do
   gem 'pry'
 end
 
-group :development do
-  gem 'rubocop', '0.81.0'
+group :test do
+  gem 'addressable'
+  gem 'cucumber'
+  gem 'webmock'
+  gem 'multipart-post'
+  gem 'rspec'
+  gem 'opentelemetry-sdk'
 end

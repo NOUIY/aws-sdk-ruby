@@ -7,33 +7,34 @@
 #
 # WARNING ABOUT GENERATED CODE
 
-require 'seahorse/client/plugins/content_length.rb'
-require 'aws-sdk-core/plugins/credentials_configuration.rb'
-require 'aws-sdk-core/plugins/logging.rb'
-require 'aws-sdk-core/plugins/param_converter.rb'
-require 'aws-sdk-core/plugins/param_validator.rb'
-require 'aws-sdk-core/plugins/user_agent.rb'
-require 'aws-sdk-core/plugins/helpful_socket_errors.rb'
-require 'aws-sdk-core/plugins/retry_errors.rb'
-require 'aws-sdk-core/plugins/global_configuration.rb'
-require 'aws-sdk-core/plugins/regional_endpoint.rb'
-require 'aws-sdk-core/plugins/endpoint_discovery.rb'
-require 'aws-sdk-core/plugins/endpoint_pattern.rb'
-require 'aws-sdk-core/plugins/response_paging.rb'
-require 'aws-sdk-core/plugins/stub_responses.rb'
-require 'aws-sdk-core/plugins/idempotency_token.rb'
-require 'aws-sdk-core/plugins/jsonvalue_converter.rb'
-require 'aws-sdk-core/plugins/client_metrics_plugin.rb'
-require 'aws-sdk-core/plugins/client_metrics_send_plugin.rb'
-require 'aws-sdk-core/plugins/transfer_encoding.rb'
-require 'aws-sdk-core/plugins/http_checksum.rb'
-require 'aws-sdk-core/plugins/checksum_algorithm.rb'
-require 'aws-sdk-core/plugins/defaults_mode.rb'
-require 'aws-sdk-core/plugins/recursion_detection.rb'
-require 'aws-sdk-core/plugins/sign.rb'
-require 'aws-sdk-core/plugins/protocols/json_rpc.rb'
-
-Aws::Plugins::GlobalConfiguration.add_identifier(:timestreamquery)
+require 'seahorse/client/plugins/content_length'
+require 'aws-sdk-core/plugins/credentials_configuration'
+require 'aws-sdk-core/plugins/logging'
+require 'aws-sdk-core/plugins/param_converter'
+require 'aws-sdk-core/plugins/param_validator'
+require 'aws-sdk-core/plugins/user_agent'
+require 'aws-sdk-core/plugins/helpful_socket_errors'
+require 'aws-sdk-core/plugins/retry_errors'
+require 'aws-sdk-core/plugins/global_configuration'
+require 'aws-sdk-core/plugins/regional_endpoint'
+require 'aws-sdk-core/plugins/endpoint_discovery'
+require 'aws-sdk-core/plugins/endpoint_pattern'
+require 'aws-sdk-core/plugins/response_paging'
+require 'aws-sdk-core/plugins/stub_responses'
+require 'aws-sdk-core/plugins/idempotency_token'
+require 'aws-sdk-core/plugins/invocation_id'
+require 'aws-sdk-core/plugins/jsonvalue_converter'
+require 'aws-sdk-core/plugins/client_metrics_plugin'
+require 'aws-sdk-core/plugins/client_metrics_send_plugin'
+require 'aws-sdk-core/plugins/transfer_encoding'
+require 'aws-sdk-core/plugins/http_checksum'
+require 'aws-sdk-core/plugins/checksum_algorithm'
+require 'aws-sdk-core/plugins/request_compression'
+require 'aws-sdk-core/plugins/defaults_mode'
+require 'aws-sdk-core/plugins/recursion_detection'
+require 'aws-sdk-core/plugins/telemetry'
+require 'aws-sdk-core/plugins/sign'
+require 'aws-sdk-core/plugins/protocols/json_rpc'
 
 module Aws::TimestreamQuery
   # An API client for TimestreamQuery.  To construct a client, you need to configure a `:region` and `:credentials`.
@@ -71,20 +72,28 @@ module Aws::TimestreamQuery
     add_plugin(Aws::Plugins::ResponsePaging)
     add_plugin(Aws::Plugins::StubResponses)
     add_plugin(Aws::Plugins::IdempotencyToken)
+    add_plugin(Aws::Plugins::InvocationId)
     add_plugin(Aws::Plugins::JsonvalueConverter)
     add_plugin(Aws::Plugins::ClientMetricsPlugin)
     add_plugin(Aws::Plugins::ClientMetricsSendPlugin)
     add_plugin(Aws::Plugins::TransferEncoding)
     add_plugin(Aws::Plugins::HttpChecksum)
     add_plugin(Aws::Plugins::ChecksumAlgorithm)
+    add_plugin(Aws::Plugins::RequestCompression)
     add_plugin(Aws::Plugins::DefaultsMode)
     add_plugin(Aws::Plugins::RecursionDetection)
+    add_plugin(Aws::Plugins::Telemetry)
     add_plugin(Aws::Plugins::Sign)
     add_plugin(Aws::Plugins::Protocols::JsonRpc)
     add_plugin(Aws::TimestreamQuery::Plugins::Endpoints)
 
     # @overload initialize(options)
     #   @param [Hash] options
+    #
+    #   @option options [Array<Seahorse::Client::Plugin>] :plugins ([]])
+    #     A list of plugins to apply to the client. Each plugin is either a
+    #     class name or an instance of a plugin class.
+    #
     #   @option options [required, Aws::CredentialProvider] :credentials
     #     Your AWS credentials. This can be an instance of any one of the
     #     following classes:
@@ -119,13 +128,15 @@ module Aws::TimestreamQuery
     #     locations will be searched for credentials:
     #
     #     * `Aws.config[:credentials]`
-    #     * The `:access_key_id`, `:secret_access_key`, and `:session_token` options.
-    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']
+    #     * The `:access_key_id`, `:secret_access_key`, `:session_token`, and
+    #       `:account_id` options.
+    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'],
+    #       ENV['AWS_SESSION_TOKEN'], and ENV['AWS_ACCOUNT_ID']
     #     * `~/.aws/credentials`
     #     * `~/.aws/config`
     #     * EC2/ECS IMDS instance profile - When used by default, the timeouts
     #       are very aggressive. Construct and pass an instance of
-    #       `Aws::InstanceProfileCredentails` or `Aws::ECSCredentials` to
+    #       `Aws::InstanceProfileCredentials` or `Aws::ECSCredentials` to
     #       enable retries and extended timeouts. Instance profile credential
     #       fetching can be disabled by setting ENV['AWS_EC2_METADATA_DISABLED']
     #       to true.
@@ -143,6 +154,8 @@ module Aws::TimestreamQuery
     #     * `~/.aws/config`
     #
     #   @option options [String] :access_key_id
+    #
+    #   @option options [String] :account_id
     #
     #   @option options [Boolean] :active_endpoint_cache (false)
     #     When set to `true`, a thread polling for endpoints will be running in
@@ -190,10 +203,20 @@ module Aws::TimestreamQuery
     #     Set to true to disable SDK automatically adding host prefix
     #     to default service endpoint when available.
     #
-    #   @option options [String] :endpoint
-    #     The client endpoint is normally constructed from the `:region`
-    #     option. You should only configure an `:endpoint` when connecting
-    #     to test or custom endpoints. This should be a valid HTTP(S) URI.
+    #   @option options [Boolean] :disable_request_compression (false)
+    #     When set to 'true' the request body will not be compressed
+    #     for supported operations.
+    #
+    #   @option options [String, URI::HTTPS, URI::HTTP] :endpoint
+    #     Normally you should not configure the `:endpoint` option
+    #     directly. This is normally constructed from the `:region`
+    #     option. Configuring `:endpoint` is normally reserved for
+    #     connecting to test or custom endpoints. The endpoint should
+    #     be a URI formatted like:
+    #
+    #         'http://example.com'
+    #         'https://example.com'
+    #         'http://example.com:123'
     #
     #   @option options [Integer] :endpoint_cache_max_entries (1000)
     #     Used for the maximum size limit of the LRU cache storing endpoints data
@@ -209,6 +232,10 @@ module Aws::TimestreamQuery
     #
     #   @option options [Boolean] :endpoint_discovery (true)
     #     When set to `true`, endpoint discovery will be enabled for operations when available.
+    #
+    #   @option options [Boolean] :ignore_configured_endpoint_urls
+    #     Setting to true disables use of endpoint URLs provided via environment
+    #     variables and the shared configuration file.
     #
     #   @option options [Aws::Log::Formatter] :log_formatter (Aws::Log::Formatter.default)
     #     The log formatter.
@@ -229,6 +256,34 @@ module Aws::TimestreamQuery
     #   @option options [String] :profile ("default")
     #     Used when loading credentials from the shared credentials file
     #     at HOME/.aws/credentials.  When not specified, 'default' is used.
+    #
+    #   @option options [String] :request_checksum_calculation ("when_supported")
+    #     Determines when a checksum will be calculated for request payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, a checksum will be
+    #       calculated for all request payloads of operations modeled with the
+    #       `httpChecksum` trait where `requestChecksumRequired` is `true` and/or a
+    #       `requestAlgorithmMember` is modeled.
+    #     * `when_required` - When set, a checksum will only be calculated for
+    #       request payloads of operations modeled with the  `httpChecksum` trait where
+    #       `requestChecksumRequired` is `true` or where a `requestAlgorithmMember`
+    #       is modeled and supplied.
+    #
+    #   @option options [Integer] :request_min_compression_size_bytes (10240)
+    #     The minimum size in bytes that triggers compression for request
+    #     bodies. The value must be non-negative integer value between 0
+    #     and 10485780 bytes inclusive.
+    #
+    #   @option options [String] :response_checksum_validation ("when_supported")
+    #     Determines when checksum validation will be performed on response payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, checksum validation is performed on all
+    #       response payloads of operations modeled with the `httpChecksum` trait where
+    #       `responseAlgorithms` is modeled, except when no modeled checksum algorithms
+    #       are supported.
+    #     * `when_required` - When set, checksum validation is not performed on
+    #       response payloads of operations unless the checksum algorithm is supported and
+    #       the `requestValidationModeMember` member is set to `ENABLED`.
     #
     #   @option options [Proc] :retry_backoff
     #     A proc or lambda used for backoff. Defaults to 2**retries * retry_base_delay.
@@ -274,20 +329,31 @@ module Aws::TimestreamQuery
     #       throttling.  This is a provisional mode that may change behavior
     #       in the future.
     #
+    #   @option options [String] :sdk_ua_app_id
+    #     A unique and opaque application ID that is appended to the
+    #     User-Agent header as app/sdk_ua_app_id. It should have a
+    #     maximum length of 50. This variable is sourced from environment
+    #     variable AWS_SDK_UA_APP_ID or the shared config profile attribute sdk_ua_app_id.
     #
     #   @option options [String] :secret_access_key
     #
     #   @option options [String] :session_token
     #
+    #   @option options [Array] :sigv4a_signing_region_set
+    #     A list of regions that should be signed with SigV4a signing. When
+    #     not passed, a default `:sigv4a_signing_region_set` is searched for
+    #     in the following locations:
+    #
+    #     * `Aws.config[:sigv4a_signing_region_set]`
+    #     * `ENV['AWS_SIGV4A_SIGNING_REGION_SET']`
+    #     * `~/.aws/config`
+    #
     #   @option options [Boolean] :simple_json (false)
     #     Disables request parameter conversion, validation, and formatting.
-    #     Also disable response data type conversions. This option is useful
-    #     when you want to ensure the highest level of performance by
-    #     avoiding overhead of walking request parameters and response data
-    #     structures.
-    #
-    #     When `:simple_json` is enabled, the request parameters hash must
-    #     be formatted exactly as the DynamoDB API expects.
+    #     Also disables response data type conversions. The request parameters
+    #     hash must be formatted exactly as the API expects.This option is useful
+    #     when you want to ensure the highest level of performance by avoiding
+    #     overhead of walking request parameters and response data structures.
     #
     #   @option options [Boolean] :stub_responses (false)
     #     Causes the client to return stubbed responses. By default
@@ -297,6 +363,16 @@ module Aws::TimestreamQuery
     #
     #     ** Please note ** When response stubbing is enabled, no HTTP
     #     requests are made, and retries are disabled.
+    #
+    #   @option options [Aws::Telemetry::TelemetryProviderBase] :telemetry_provider (Aws::Telemetry::NoOpTelemetryProvider)
+    #     Allows you to provide a telemetry provider, which is used to
+    #     emit telemetry data. By default, uses `NoOpTelemetryProvider` which
+    #     will not record or emit any telemetry data. The SDK supports the
+    #     following telemetry providers:
+    #
+    #     * OpenTelemetry (OTel) - To use the OTel provider, install and require the
+    #     `opentelemetry-sdk` gem and then, pass in an instance of a
+    #     `Aws::Telemetry::OTelProvider` for telemetry provider.
     #
     #   @option options [Aws::TokenProvider] :token_provider
     #     A Bearer Token Provider. This can be an instance of any one of the
@@ -325,52 +401,75 @@ module Aws::TimestreamQuery
     #     sending the request.
     #
     #   @option options [Aws::TimestreamQuery::EndpointProvider] :endpoint_provider
-    #     The endpoint provider used to resolve endpoints. Any object that responds to `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to `Aws::TimestreamQuery::EndpointParameters`
+    #     The endpoint provider used to resolve endpoints. Any object that responds to
+    #     `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+    #     `Aws::TimestreamQuery::EndpointParameters`.
     #
-    #   @option options [URI::HTTP,String] :http_proxy A proxy to send
-    #     requests through.  Formatted like 'http://proxy.com:123'.
+    #   @option options [Float] :http_continue_timeout (1)
+    #     The number of seconds to wait for a 100-continue response before sending the
+    #     request body.  This option has no effect unless the request has "Expect"
+    #     header set to "100-continue".  Defaults to `nil` which  disables this
+    #     behaviour.  This value can safely be set per request on the session.
     #
-    #   @option options [Float] :http_open_timeout (15) The number of
-    #     seconds to wait when opening a HTTP session before raising a
-    #     `Timeout::Error`.
+    #   @option options [Float] :http_idle_timeout (5)
+    #     The number of seconds a connection is allowed to sit idle before it
+    #     is considered stale.  Stale connections are closed and removed from the
+    #     pool before making a request.
     #
-    #   @option options [Float] :http_read_timeout (60) The default
-    #     number of seconds to wait for response data.  This value can
-    #     safely be set per-request on the session.
+    #   @option options [Float] :http_open_timeout (15)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :http_idle_timeout (5) The number of
-    #     seconds a connection is allowed to sit idle before it is
-    #     considered stale.  Stale connections are closed and removed
-    #     from the pool before making a request.
+    #   @option options [URI::HTTP,String] :http_proxy
+    #     A proxy to send requests through.  Formatted like 'http://proxy.com:123'.
     #
-    #   @option options [Float] :http_continue_timeout (1) The number of
-    #     seconds to wait for a 100-continue response before sending the
-    #     request body.  This option has no effect unless the request has
-    #     "Expect" header set to "100-continue".  Defaults to `nil` which
-    #     disables this behaviour.  This value can safely be set per
-    #     request on the session.
+    #   @option options [Float] :http_read_timeout (60)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :ssl_timeout (nil) Sets the SSL timeout
-    #     in seconds.
+    #   @option options [Boolean] :http_wire_trace (false)
+    #     When `true`,  HTTP debug output will be sent to the `:logger`.
     #
-    #   @option options [Boolean] :http_wire_trace (false) When `true`,
-    #     HTTP debug output will be sent to the `:logger`.
+    #   @option options [Proc] :on_chunk_received
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the response body is received. It provides three arguments: the chunk,
+    #     the number of bytes received, and the total number of
+    #     bytes in the response (or nil if the server did not send a `content-length`).
     #
-    #   @option options [Boolean] :ssl_verify_peer (true) When `true`,
-    #     SSL peer certificates are verified when establishing a
-    #     connection.
+    #   @option options [Proc] :on_chunk_sent
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the request body is sent. It provides three arguments: the chunk,
+    #     the number of bytes read from the body, and the total number of
+    #     bytes in the body.
     #
-    #   @option options [String] :ssl_ca_bundle Full path to the SSL
-    #     certificate authority bundle file that should be used when
-    #     verifying peer certificates.  If you do not pass
-    #     `:ssl_ca_bundle` or `:ssl_ca_directory` the the system default
-    #     will be used if available.
+    #   @option options [Boolean] :raise_response_errors (true)
+    #     When `true`, response errors are raised.
     #
-    #   @option options [String] :ssl_ca_directory Full path of the
-    #     directory that contains the unbundled SSL certificate
+    #   @option options [String] :ssl_ca_bundle
+    #     Full path to the SSL certificate authority bundle file that should be used when
+    #     verifying peer certificates.  If you do not pass `:ssl_ca_bundle` or
+    #     `:ssl_ca_directory` the the system default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_directory
+    #     Full path of the directory that contains the unbundled SSL certificate
     #     authority files for verifying peer certificates.  If you do
-    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the
-    #     system default will be used if available.
+    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the system
+    #     default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_store
+    #     Sets the X509::Store to verify peer certificate.
+    #
+    #   @option options [OpenSSL::X509::Certificate] :ssl_cert
+    #     Sets a client certificate when creating http connections.
+    #
+    #   @option options [OpenSSL::PKey] :ssl_key
+    #     Sets a client key when creating http connections.
+    #
+    #   @option options [Float] :ssl_timeout
+    #     Sets the SSL timeout in seconds
+    #
+    #   @option options [Boolean] :ssl_verify_peer (true)
+    #     When `true`, SSL peer certificates are verified when establishing a connection.
     #
     def initialize(*args)
       super
@@ -594,6 +693,40 @@ module Aws::TimestreamQuery
       req.send_request(options)
     end
 
+    # Describes the settings for your account that include the query pricing
+    # model and the configured maximum TCUs the service can use for your
+    # query workload.
+    #
+    # You're charged only for the duration of compute units used for your
+    # workloads.
+    #
+    # @return [Types::DescribeAccountSettingsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeAccountSettingsResponse#max_query_tcu #max_query_tcu} => Integer
+    #   * {Types::DescribeAccountSettingsResponse#query_pricing_model #query_pricing_model} => String
+    #   * {Types::DescribeAccountSettingsResponse#query_compute #query_compute} => Types::QueryComputeResponse
+    #
+    # @example Response structure
+    #
+    #   resp.max_query_tcu #=> Integer
+    #   resp.query_pricing_model #=> String, one of "BYTES_SCANNED", "COMPUTE_UNITS"
+    #   resp.query_compute.compute_mode #=> String, one of "ON_DEMAND", "PROVISIONED"
+    #   resp.query_compute.provisioned_capacity.active_query_tcu #=> Integer
+    #   resp.query_compute.provisioned_capacity.notification_configuration.sns_configuration.topic_arn #=> String
+    #   resp.query_compute.provisioned_capacity.notification_configuration.role_arn #=> String
+    #   resp.query_compute.provisioned_capacity.last_update.target_query_tcu #=> Integer
+    #   resp.query_compute.provisioned_capacity.last_update.status #=> String, one of "PENDING", "FAILED", "SUCCEEDED"
+    #   resp.query_compute.provisioned_capacity.last_update.status_message #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/timestream-query-2018-11-01/DescribeAccountSettings AWS API Documentation
+    #
+    # @overload describe_account_settings(params = {})
+    # @param [Hash] params ({})
+    def describe_account_settings(params = {}, options = {})
+      req = build_request(:describe_account_settings, params)
+      req.send_request(options)
+    end
+
     # DescribeEndpoints returns a list of available endpoints to make
     # Timestream API calls against. This API is available through both Write
     # and Query.
@@ -601,7 +734,7 @@ module Aws::TimestreamQuery
     # Because the Timestream SDKs are designed to transparently work with
     # the service’s architecture, including the management and mapping of
     # the service endpoints, *it is not recommended that you use this API
-    # unless*\:
+    # unless*:
     #
     # * You are using [VPC endpoints (Amazon Web Services PrivateLink) with
     #   Timestream ][1]
@@ -696,8 +829,18 @@ module Aws::TimestreamQuery
     #   resp.scheduled_query.last_run_summary.execution_stats.execution_time_in_millis #=> Integer
     #   resp.scheduled_query.last_run_summary.execution_stats.data_writes #=> Integer
     #   resp.scheduled_query.last_run_summary.execution_stats.bytes_metered #=> Integer
+    #   resp.scheduled_query.last_run_summary.execution_stats.cumulative_bytes_scanned #=> Integer
     #   resp.scheduled_query.last_run_summary.execution_stats.records_ingested #=> Integer
     #   resp.scheduled_query.last_run_summary.execution_stats.query_result_rows #=> Integer
+    #   resp.scheduled_query.last_run_summary.query_insights_response.query_spatial_coverage.max.value #=> Float
+    #   resp.scheduled_query.last_run_summary.query_insights_response.query_spatial_coverage.max.table_arn #=> String
+    #   resp.scheduled_query.last_run_summary.query_insights_response.query_spatial_coverage.max.partition_key #=> Array
+    #   resp.scheduled_query.last_run_summary.query_insights_response.query_spatial_coverage.max.partition_key[0] #=> String
+    #   resp.scheduled_query.last_run_summary.query_insights_response.query_temporal_range.max.value #=> Integer
+    #   resp.scheduled_query.last_run_summary.query_insights_response.query_temporal_range.max.table_arn #=> String
+    #   resp.scheduled_query.last_run_summary.query_insights_response.query_table_count #=> Integer
+    #   resp.scheduled_query.last_run_summary.query_insights_response.output_rows #=> Integer
+    #   resp.scheduled_query.last_run_summary.query_insights_response.output_bytes #=> Integer
     #   resp.scheduled_query.last_run_summary.error_report_location.s3_report_location.bucket_name #=> String
     #   resp.scheduled_query.last_run_summary.error_report_location.s3_report_location.object_key #=> String
     #   resp.scheduled_query.last_run_summary.failure_reason #=> String
@@ -708,8 +851,18 @@ module Aws::TimestreamQuery
     #   resp.scheduled_query.recently_failed_runs[0].execution_stats.execution_time_in_millis #=> Integer
     #   resp.scheduled_query.recently_failed_runs[0].execution_stats.data_writes #=> Integer
     #   resp.scheduled_query.recently_failed_runs[0].execution_stats.bytes_metered #=> Integer
+    #   resp.scheduled_query.recently_failed_runs[0].execution_stats.cumulative_bytes_scanned #=> Integer
     #   resp.scheduled_query.recently_failed_runs[0].execution_stats.records_ingested #=> Integer
     #   resp.scheduled_query.recently_failed_runs[0].execution_stats.query_result_rows #=> Integer
+    #   resp.scheduled_query.recently_failed_runs[0].query_insights_response.query_spatial_coverage.max.value #=> Float
+    #   resp.scheduled_query.recently_failed_runs[0].query_insights_response.query_spatial_coverage.max.table_arn #=> String
+    #   resp.scheduled_query.recently_failed_runs[0].query_insights_response.query_spatial_coverage.max.partition_key #=> Array
+    #   resp.scheduled_query.recently_failed_runs[0].query_insights_response.query_spatial_coverage.max.partition_key[0] #=> String
+    #   resp.scheduled_query.recently_failed_runs[0].query_insights_response.query_temporal_range.max.value #=> Integer
+    #   resp.scheduled_query.recently_failed_runs[0].query_insights_response.query_temporal_range.max.table_arn #=> String
+    #   resp.scheduled_query.recently_failed_runs[0].query_insights_response.query_table_count #=> Integer
+    #   resp.scheduled_query.recently_failed_runs[0].query_insights_response.output_rows #=> Integer
+    #   resp.scheduled_query.recently_failed_runs[0].query_insights_response.output_bytes #=> Integer
     #   resp.scheduled_query.recently_failed_runs[0].error_report_location.s3_report_location.bucket_name #=> String
     #   resp.scheduled_query.recently_failed_runs[0].error_report_location.s3_report_location.object_key #=> String
     #   resp.scheduled_query.recently_failed_runs[0].failure_reason #=> String
@@ -725,6 +878,16 @@ module Aws::TimestreamQuery
 
     # You can use this API to run a scheduled query manually.
     #
+    # If you enabled `QueryInsights`, this API also returns insights and
+    # metrics related to the query that you executed as part of an Amazon
+    # SNS notification. `QueryInsights` helps with performance tuning of
+    # your query. For more information about `QueryInsights`, see [Using
+    # query insights to optimize queries in Amazon Timestream][1].
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/timestream/latest/developerguide/using-query-insights.html
+    #
     # @option params [required, String] :scheduled_query_arn
     #   ARN of the scheduled query.
     #
@@ -738,6 +901,13 @@ module Aws::TimestreamQuery
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.**
     #
+    # @option params [Types::ScheduledQueryInsights] :query_insights
+    #   Encapsulates settings for enabling `QueryInsights`.
+    #
+    #   Enabling `QueryInsights` returns insights and metrics as a part of the
+    #   Amazon SNS notification for the query that you executed. You can use
+    #   `QueryInsights` to tune your query performance and cost.
+    #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
     # @example Request syntax with placeholder values
@@ -746,6 +916,9 @@ module Aws::TimestreamQuery
     #     scheduled_query_arn: "AmazonResourceName", # required
     #     invocation_time: Time.now, # required
     #     client_token: "ClientToken",
+    #     query_insights: {
+    #       mode: "ENABLED_WITH_RATE_CONTROL", # required, accepts ENABLED_WITH_RATE_CONTROL, DISABLED
+    #     },
     #   })
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/timestream-query-2018-11-01/ExecuteScheduledQuery AWS API Documentation
@@ -855,8 +1028,7 @@ module Aws::TimestreamQuery
 
     # A synchronous operation that allows you to submit a query with
     # parameters to be stored by Timestream for later running. Timestream
-    # only supports using this operation with the
-    # `PrepareQueryRequest$ValidateOnly` set to `true`.
+    # only supports using this operation with `ValidateOnly` set to `true`.
     #
     # @option params [required, String] :query_string
     #   The Timestream query string that you want to use as a prepared
@@ -918,9 +1090,23 @@ module Aws::TimestreamQuery
     end
 
     # `Query` is a synchronous operation that enables you to run a query
-    # against your Amazon Timestream data. `Query` will time out after 60
-    # seconds. You must update the default timeout in the SDK to support a
-    # timeout of 60 seconds. See the [code sample][1] for details.
+    # against your Amazon Timestream data.
+    #
+    # If you enabled `QueryInsights`, this API also returns insights and
+    # metrics related to the query that you executed. `QueryInsights` helps
+    # with performance tuning of your query. For more information about
+    # `QueryInsights`, see [Using query insights to optimize queries in
+    # Amazon Timestream][1].
+    #
+    # <note markdown="1"> The maximum number of `Query` API requests you're allowed to make
+    # with `QueryInsights` enabled is 1 query per second (QPS). If you
+    # exceed this query rate, it might result in throttling.
+    #
+    #  </note>
+    #
+    # `Query` will time out after 60 seconds. You must update the default
+    # timeout in the SDK to support a timeout of 60 seconds. See the [code
+    # sample][2] for details.
     #
     # Your query request will fail in the following cases:
     #
@@ -943,7 +1129,8 @@ module Aws::TimestreamQuery
     #
     #
     #
-    # [1]: https://docs.aws.amazon.com/timestream/latest/developerguide/code-samples.run-query.html
+    # [1]: https://docs.aws.amazon.com/timestream/latest/developerguide/using-query-insights.html
+    # [2]: https://docs.aws.amazon.com/timestream/latest/developerguide/code-samples.run-query.html
     #
     # @option params [required, String] :query_string
     #   The query to be run by Timestream.
@@ -1026,6 +1213,13 @@ module Aws::TimestreamQuery
     #   limit. If `MaxRows` is not provided, Timestream will send the
     #   necessary number of rows to meet the 1 MB limit.
     #
+    # @option params [Types::QueryInsights] :query_insights
+    #   Encapsulates settings for enabling `QueryInsights`.
+    #
+    #   Enabling `QueryInsights` returns insights and metrics in addition to
+    #   query results for the query that you executed. You can use
+    #   `QueryInsights` to tune your query performance.
+    #
     # @return [Types::QueryResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::QueryResponse#query_id #query_id} => String
@@ -1033,6 +1227,7 @@ module Aws::TimestreamQuery
     #   * {Types::QueryResponse#rows #rows} => Array&lt;Types::Row&gt;
     #   * {Types::QueryResponse#column_info #column_info} => Array&lt;Types::ColumnInfo&gt;
     #   * {Types::QueryResponse#query_status #query_status} => Types::QueryStatus
+    #   * {Types::QueryResponse#query_insights_response #query_insights_response} => Types::QueryInsightsResponse
     #
     # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
     #
@@ -1043,6 +1238,9 @@ module Aws::TimestreamQuery
     #     client_token: "ClientRequestToken",
     #     next_token: "PaginationToken",
     #     max_rows: 1,
+    #     query_insights: {
+    #       mode: "ENABLED_WITH_RATE_CONTROL", # required, accepts ENABLED_WITH_RATE_CONTROL, DISABLED
+    #     },
     #   })
     #
     # @example Response structure
@@ -1067,6 +1265,18 @@ module Aws::TimestreamQuery
     #   resp.query_status.progress_percentage #=> Float
     #   resp.query_status.cumulative_bytes_scanned #=> Integer
     #   resp.query_status.cumulative_bytes_metered #=> Integer
+    #   resp.query_insights_response.query_spatial_coverage.max.value #=> Float
+    #   resp.query_insights_response.query_spatial_coverage.max.table_arn #=> String
+    #   resp.query_insights_response.query_spatial_coverage.max.partition_key #=> Array
+    #   resp.query_insights_response.query_spatial_coverage.max.partition_key[0] #=> String
+    #   resp.query_insights_response.query_temporal_range.max.value #=> Integer
+    #   resp.query_insights_response.query_temporal_range.max.table_arn #=> String
+    #   resp.query_insights_response.query_table_count #=> Integer
+    #   resp.query_insights_response.output_rows #=> Integer
+    #   resp.query_insights_response.output_bytes #=> Integer
+    #   resp.query_insights_response.unload_partition_count #=> Integer
+    #   resp.query_insights_response.unload_written_rows #=> Integer
+    #   resp.query_insights_response.unload_written_bytes #=> Integer
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/timestream-query-2018-11-01/Query AWS API Documentation
     #
@@ -1139,6 +1349,101 @@ module Aws::TimestreamQuery
       req.send_request(options)
     end
 
+    # Transitions your account to use TCUs for query pricing and modifies
+    # the maximum query compute units that you've configured. If you reduce
+    # the value of `MaxQueryTCU` to a desired configuration, the new value
+    # can take up to 24 hours to be effective.
+    #
+    # <note markdown="1"> After you've transitioned your account to use TCUs for query pricing,
+    # you can't transition to using bytes scanned for query pricing.
+    #
+    #  </note>
+    #
+    # @option params [Integer] :max_query_tcu
+    #   The maximum number of compute units the service will use at any point
+    #   in time to serve your queries. To run queries, you must set a minimum
+    #   capacity of 4 TCU. You can set the maximum number of TCU in multiples
+    #   of 4, for example, 4, 8, 16, 32, and so on. The maximum value
+    #   supported for `MaxQueryTCU` is 1000. To request an increase to this
+    #   soft limit, contact Amazon Web Services Support. For information about
+    #   the default quota for maxQueryTCU, see Default quotas. This
+    #   configuration is applicable only for on-demand usage of Timestream
+    #   Compute Units (TCUs).
+    #
+    #   The maximum value supported for `MaxQueryTCU` is 1000. To request an
+    #   increase to this soft limit, contact Amazon Web Services Support. For
+    #   information about the default quota for `maxQueryTCU`, see [Default
+    #   quotas][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/timestream/latest/developerguide/ts-limits.html#limits.default
+    #
+    # @option params [String] :query_pricing_model
+    #   The pricing model for queries in an account.
+    #
+    #   <note markdown="1"> The `QueryPricingModel` parameter is used by several Timestream
+    #   operations; however, the `UpdateAccountSettings` API operation
+    #   doesn't recognize any values other than `COMPUTE_UNITS`.
+    #
+    #    </note>
+    #
+    # @option params [Types::QueryComputeRequest] :query_compute
+    #   Modifies the query compute settings configured in your account,
+    #   including the query pricing model and provisioned Timestream Compute
+    #   Units (TCUs) in your account.
+    #
+    #   <note markdown="1"> This API is idempotent, meaning that making the same request multiple
+    #   times will have the same effect as making the request once.
+    #
+    #    </note>
+    #
+    # @return [Types::UpdateAccountSettingsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateAccountSettingsResponse#max_query_tcu #max_query_tcu} => Integer
+    #   * {Types::UpdateAccountSettingsResponse#query_pricing_model #query_pricing_model} => String
+    #   * {Types::UpdateAccountSettingsResponse#query_compute #query_compute} => Types::QueryComputeResponse
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_account_settings({
+    #     max_query_tcu: 1,
+    #     query_pricing_model: "BYTES_SCANNED", # accepts BYTES_SCANNED, COMPUTE_UNITS
+    #     query_compute: {
+    #       compute_mode: "ON_DEMAND", # accepts ON_DEMAND, PROVISIONED
+    #       provisioned_capacity: {
+    #         target_query_tcu: 1, # required
+    #         notification_configuration: {
+    #           sns_configuration: {
+    #             topic_arn: "AmazonResourceName", # required
+    #           },
+    #           role_arn: "AmazonResourceName", # required
+    #         },
+    #       },
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.max_query_tcu #=> Integer
+    #   resp.query_pricing_model #=> String, one of "BYTES_SCANNED", "COMPUTE_UNITS"
+    #   resp.query_compute.compute_mode #=> String, one of "ON_DEMAND", "PROVISIONED"
+    #   resp.query_compute.provisioned_capacity.active_query_tcu #=> Integer
+    #   resp.query_compute.provisioned_capacity.notification_configuration.sns_configuration.topic_arn #=> String
+    #   resp.query_compute.provisioned_capacity.notification_configuration.role_arn #=> String
+    #   resp.query_compute.provisioned_capacity.last_update.target_query_tcu #=> Integer
+    #   resp.query_compute.provisioned_capacity.last_update.status #=> String, one of "PENDING", "FAILED", "SUCCEEDED"
+    #   resp.query_compute.provisioned_capacity.last_update.status_message #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/timestream-query-2018-11-01/UpdateAccountSettings AWS API Documentation
+    #
+    # @overload update_account_settings(params = {})
+    # @param [Hash] params ({})
+    def update_account_settings(params = {}, options = {})
+      req = build_request(:update_account_settings, params)
+      req.send_request(options)
+    end
+
     # Update a scheduled query.
     #
     # @option params [required, String] :scheduled_query_arn
@@ -1171,14 +1476,19 @@ module Aws::TimestreamQuery
     # @api private
     def build_request(operation_name, params = {})
       handlers = @handlers.for(operation_name)
+      tracer = config.telemetry_provider.tracer_provider.tracer(
+        Aws::Telemetry.module_to_tracer_name('Aws::TimestreamQuery')
+      )
       context = Seahorse::Client::RequestContext.new(
         operation_name: operation_name,
         operation: config.api.operation(operation_name),
         client: self,
         params: params,
-        config: config)
+        config: config,
+        tracer: tracer
+      )
       context[:gem_name] = 'aws-sdk-timestreamquery'
-      context[:gem_version] = '1.18.0'
+      context[:gem_version] = '1.50.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

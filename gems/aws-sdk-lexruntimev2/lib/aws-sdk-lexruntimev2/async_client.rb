@@ -21,12 +21,14 @@ require 'aws-sdk-core/plugins/global_configuration.rb'
 require 'aws-sdk-core/plugins/regional_endpoint.rb'
 require 'aws-sdk-core/plugins/stub_responses.rb'
 require 'aws-sdk-core/plugins/idempotency_token.rb'
+require 'aws-sdk-core/plugins/invocation_id.rb'
 require 'aws-sdk-core/plugins/jsonvalue_converter.rb'
 require 'aws-sdk-core/plugins/http_checksum.rb'
 require 'aws-sdk-core/plugins/checksum_algorithm.rb'
+require 'aws-sdk-core/plugins/request_compression.rb'
 require 'aws-sdk-core/plugins/defaults_mode.rb'
 require 'aws-sdk-core/plugins/recursion_detection.rb'
-require 'aws-sdk-core/plugins/invocation_id.rb'
+require 'aws-sdk-core/plugins/telemetry.rb'
 require 'aws-sdk-core/plugins/sign.rb'
 require 'aws-sdk-core/plugins/protocols/rest_json.rb'
 require 'aws-sdk-core/plugins/event_stream_configuration.rb'
@@ -53,12 +55,14 @@ module Aws::LexRuntimeV2
     add_plugin(Aws::Plugins::RegionalEndpoint)
     add_plugin(Aws::Plugins::StubResponses)
     add_plugin(Aws::Plugins::IdempotencyToken)
+    add_plugin(Aws::Plugins::InvocationId)
     add_plugin(Aws::Plugins::JsonvalueConverter)
     add_plugin(Aws::Plugins::HttpChecksum)
     add_plugin(Aws::Plugins::ChecksumAlgorithm)
+    add_plugin(Aws::Plugins::RequestCompression)
     add_plugin(Aws::Plugins::DefaultsMode)
     add_plugin(Aws::Plugins::RecursionDetection)
-    add_plugin(Aws::Plugins::InvocationId)
+    add_plugin(Aws::Plugins::Telemetry)
     add_plugin(Aws::Plugins::Sign)
     add_plugin(Aws::Plugins::Protocols::RestJson)
     add_plugin(Aws::Plugins::EventStreamConfiguration)
@@ -98,13 +102,15 @@ module Aws::LexRuntimeV2
     #     locations will be searched for credentials:
     #
     #     * `Aws.config[:credentials]`
-    #     * The `:access_key_id`, `:secret_access_key`, and `:session_token` options.
-    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']
+    #     * The `:access_key_id`, `:secret_access_key`, `:session_token`, and
+    #       `:account_id` options.
+    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'],
+    #       ENV['AWS_SESSION_TOKEN'], and ENV['AWS_ACCOUNT_ID']
     #     * `~/.aws/credentials`
     #     * `~/.aws/config`
     #     * EC2/ECS IMDS instance profile - When used by default, the timeouts
     #       are very aggressive. Construct and pass an instance of
-    #       `Aws::InstanceProfileCredentails` or `Aws::ECSCredentials` to
+    #       `Aws::InstanceProfileCredentials` or `Aws::ECSCredentials` to
     #       enable retries and extended timeouts. Instance profile credential
     #       fetching can be disabled by setting ENV['AWS_EC2_METADATA_DISABLED']
     #       to true.
@@ -122,6 +128,8 @@ module Aws::LexRuntimeV2
     #     * `~/.aws/config`
     #
     #   @option options [String] :access_key_id
+    #
+    #   @option options [String] :account_id
     #
     #   @option options [Boolean] :adaptive_retry_wait_to_fill (true)
     #     Used only in `adaptive` retry mode.  When true, the request will sleep
@@ -141,13 +149,27 @@ module Aws::LexRuntimeV2
     #     See {Aws::DefaultsModeConfiguration} for a list of the
     #     accepted modes and the configuration defaults that are included.
     #
-    #   @option options [String] :endpoint
-    #     The client endpoint is normally constructed from the `:region`
-    #     option. You should only configure an `:endpoint` when connecting
-    #     to test or custom endpoints. This should be a valid HTTP(S) URI.
+    #   @option options [Boolean] :disable_request_compression (false)
+    #     When set to 'true' the request body will not be compressed
+    #     for supported operations.
+    #
+    #   @option options [String, URI::HTTPS, URI::HTTP] :endpoint
+    #     Normally you should not configure the `:endpoint` option
+    #     directly. This is normally constructed from the `:region`
+    #     option. Configuring `:endpoint` is normally reserved for
+    #     connecting to test or custom endpoints. The endpoint should
+    #     be a URI formatted like:
+    #
+    #         'http://example.com'
+    #         'https://example.com'
+    #         'http://example.com:123'
     #
     #   @option options [Proc] :event_stream_handler
     #     When an EventStream or Proc object is provided, it will be used as callback for each chunk of event stream response received along the way.
+    #
+    #   @option options [Boolean] :ignore_configured_endpoint_urls
+    #     Setting to true disables use of endpoint URLs provided via environment
+    #     variables and the shared configuration file.
     #
     #   @option options [Proc] :input_event_stream_handler
     #     When an EventStream or Proc object is provided, it can be used for sending events for the event stream.
@@ -174,6 +196,34 @@ module Aws::LexRuntimeV2
     #   @option options [String] :profile ("default")
     #     Used when loading credentials from the shared credentials file
     #     at HOME/.aws/credentials.  When not specified, 'default' is used.
+    #
+    #   @option options [String] :request_checksum_calculation ("when_supported")
+    #     Determines when a checksum will be calculated for request payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, a checksum will be
+    #       calculated for all request payloads of operations modeled with the
+    #       `httpChecksum` trait where `requestChecksumRequired` is `true` and/or a
+    #       `requestAlgorithmMember` is modeled.
+    #     * `when_required` - When set, a checksum will only be calculated for
+    #       request payloads of operations modeled with the  `httpChecksum` trait where
+    #       `requestChecksumRequired` is `true` or where a `requestAlgorithmMember`
+    #       is modeled and supplied.
+    #
+    #   @option options [Integer] :request_min_compression_size_bytes (10240)
+    #     The minimum size in bytes that triggers compression for request
+    #     bodies. The value must be non-negative integer value between 0
+    #     and 10485780 bytes inclusive.
+    #
+    #   @option options [String] :response_checksum_validation ("when_supported")
+    #     Determines when checksum validation will be performed on response payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, checksum validation is performed on all
+    #       response payloads of operations modeled with the `httpChecksum` trait where
+    #       `responseAlgorithms` is modeled, except when no modeled checksum algorithms
+    #       are supported.
+    #     * `when_required` - When set, checksum validation is not performed on
+    #       response payloads of operations unless the checksum algorithm is supported and
+    #       the `requestValidationModeMember` member is set to `ENABLED`.
     #
     #   @option options [Proc] :retry_backoff
     #     A proc or lambda used for backoff. Defaults to 2**retries * retry_base_delay.
@@ -219,10 +269,24 @@ module Aws::LexRuntimeV2
     #       throttling.  This is a provisional mode that may change behavior
     #       in the future.
     #
+    #   @option options [String] :sdk_ua_app_id
+    #     A unique and opaque application ID that is appended to the
+    #     User-Agent header as app/sdk_ua_app_id. It should have a
+    #     maximum length of 50. This variable is sourced from environment
+    #     variable AWS_SDK_UA_APP_ID or the shared config profile attribute sdk_ua_app_id.
     #
     #   @option options [String] :secret_access_key
     #
     #   @option options [String] :session_token
+    #
+    #   @option options [Array] :sigv4a_signing_region_set
+    #     A list of regions that should be signed with SigV4a signing. When
+    #     not passed, a default `:sigv4a_signing_region_set` is searched for
+    #     in the following locations:
+    #
+    #     * `Aws.config[:sigv4a_signing_region_set]`
+    #     * `ENV['AWS_SIGV4A_SIGNING_REGION_SET']`
+    #     * `~/.aws/config`
     #
     #   @option options [Boolean] :stub_responses (false)
     #     Causes the client to return stubbed responses. By default
@@ -232,6 +296,16 @@ module Aws::LexRuntimeV2
     #
     #     ** Please note ** When response stubbing is enabled, no HTTP
     #     requests are made, and retries are disabled.
+    #
+    #   @option options [Aws::Telemetry::TelemetryProviderBase] :telemetry_provider (Aws::Telemetry::NoOpTelemetryProvider)
+    #     Allows you to provide a telemetry provider, which is used to
+    #     emit telemetry data. By default, uses `NoOpTelemetryProvider` which
+    #     will not record or emit any telemetry data. The SDK supports the
+    #     following telemetry providers:
+    #
+    #     * OpenTelemetry (OTel) - To use the OTel provider, install and require the
+    #     `opentelemetry-sdk` gem and then, pass in an instance of a
+    #     `Aws::Telemetry::OTelProvider` for telemetry provider.
     #
     #   @option options [Aws::TokenProvider] :token_provider
     #     A Bearer Token Provider. This can be an instance of any one of the
@@ -260,7 +334,47 @@ module Aws::LexRuntimeV2
     #     sending the request.
     #
     #   @option options [Aws::LexRuntimeV2::EndpointProvider] :endpoint_provider
-    #     The endpoint provider used to resolve endpoints. Any object that responds to `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to `Aws::LexRuntimeV2::EndpointParameters`
+    #     The endpoint provider used to resolve endpoints. Any object that responds to
+    #     `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+    #     `Aws::LexRuntimeV2::EndpointParameters`.
+    #
+    #   @option options [Integer] :connection_read_timeout (60)
+    #     Connection read timeout in seconds, defaults to 60 sec.
+    #
+    #   @option options [Integer] :connection_timeout (60)
+    #     Connection timeout in seconds, defaults to 60 sec.
+    #
+    #   @option options [Boolean] :enable_alpn (false)
+    #     Set to `true` to enable ALPN in HTTP2 over TLS. Requires Openssl version >= 1.0.2.
+    #     Defaults to false. Note: not all service HTTP2 operations supports ALPN on server
+    #     side, please refer to service documentation.
+    #
+    #   @option options [Boolean] :http_wire_trace (false)
+    #     When `true`, HTTP2 debug output will be sent to the `:logger`.
+    #
+    #   @option options [Integer] :max_concurrent_streams (100)
+    #     Maximum concurrent streams used in HTTP2 connection, defaults to 100. Note that server may send back
+    #     :settings_max_concurrent_streams value which will take priority when initializing new streams.
+    #
+    #   @option options [Boolean] :raise_response_errors (true)
+    #     Defaults to `true`, raises errors if exist when #wait or #join! is called upon async response.
+    #
+    #   @option options [Integer] :read_chunk_size (1024)
+    #
+    #   @option options [String] :ssl_ca_bundle
+    #     Full path to the SSL certificate authority bundle file that should be used when
+    #     verifying peer certificates. If you do not pass `:ssl_ca_directory` or `:ssl_ca_bundle`
+    #     the system default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_directory
+    #     Full path of the directory that contains the unbundled SSL certificate authority
+    #     files for verifying peer certificates. If you do not pass `:ssl_ca_bundle` or
+    #     `:ssl_ca_directory` the system default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_store
+    #
+    #   @option options [Boolean] :ssl_verify_peer (true)
+    #     When `true`, SSL peer certificates are verified when establishing a connection.
     #
     def initialize(*args)
       unless Kernel.const_defined?("HTTP2")
@@ -348,19 +462,20 @@ module Aws::LexRuntimeV2
     #
     # @example Bi-directional EventStream Operation Example
     #
-    #   You can signal input events after initial request is
-    #   established, events will be sent to stream
-    #   immediately (once stream connection is established successfully).
+    #   You can signal input events after the initial request is established. Events
+    #   will be sent to the stream immediately once the stream connection is
+    #   established successfully.
     #
-    #   To signal events, you can call #signal methods from an Aws::LexRuntimeV2::EventStreams::StartConversationRequestEventStream object.
-    #   Make sure signal events before calling #wait or #join! at async response.
+    #   To signal events, you can call the #signal methods from an Aws::LexRuntimeV2::EventStreams::StartConversationRequestEventStream
+    #   object. You must signal events before calling #wait or #join! on the async response.
     #
     #     input_stream = Aws::LexRuntimeV2::EventStreams::StartConversationRequestEventStream.new
     #
-    #     async_resp = client.start_conversation( # params input,
+    #     async_resp = client.start_conversation(
+    #       # params input
     #       input_event_stream_handler: input_stream) do |out_stream|
     #
-    #       # register callbacks for events arrival
+    #       # register callbacks for events
     #       out_stream.on_playback_interruption_event_event do |event|
     #         event # => Aws::LexRuntimeV2::Types::PlaybackInterruptionEvent
     #       end
@@ -405,7 +520,7 @@ module Aws::LexRuntimeV2
     #       end
     #
     #     end
-    #     # => returns Aws::Seahorse::Client::AsyncResponse
+    #     # => Aws::Seahorse::Client::AsyncResponse
     #
     #     # signal events
     #     input_stream.signal_configuration_event_event( ... )
@@ -415,19 +530,19 @@ module Aws::LexRuntimeV2
     #     input_stream.signal_playback_completion_event_event( ... )
     #     input_stream.signal_disconnection_event_event( ... )
     #
-    #     # make sure signaling :end_stream in the end
+    #     # make sure to signal :end_stream at the end
     #     input_stream.signal_end_stream
     #
-    #     # wait until stream is closed before finalizing sync response
+    #     # wait until stream is closed before finalizing the sync response
     #     resp = async_resp.wait
-    #     # Or close stream and finalizing sync response immediately
+    #     # Or close the stream and finalize sync response immediately
     #     # resp = async_resp.join!
     #
-    #   Inorder to streamingly processing events received, you can also provide an Aws::LexRuntimeV2::EventStreams::StartConversationResponseEventStream
-    #   object to register callbacks before initializing request instead of processing from request block
+    #   You can also provide an Aws::LexRuntimeV2::EventStreams::StartConversationResponseEventStream object to register callbacks
+    #   before initializing the request instead of processing from the request block.
     #
     #     output_stream = Aws::LexRuntimeV2::EventStreams::StartConversationResponseEventStream.new
-    #     # register callbacks for events arrival
+    #     # register callbacks for output events
     #     output_stream.on_playback_interruption_event_event do |event|
     #       event # => Aws::LexRuntimeV2::Types::PlaybackInterruptionEvent
     #     end
@@ -479,15 +594,15 @@ module Aws::LexRuntimeV2
     #       # event.error_message => String
     #     end
     #
-    #     async_resp = client.start_conversation ( #params input,
+    #     async_resp = client.start_conversation (
+    #       # params input
     #       input_event_stream_handler: input_stream
     #       output_event_stream_handler: output_stream
     #     )
     #
-    #     resp = async_resp.wait!
+    #     resp = async_resp.join!
     #
-    #   Besides above usage patterns for process events when they arrive immediately, you can also
-    #   iterate through events after response complete.
+    #   You can also iterate through events after the response is complete.
     #
     #   Events are available at resp.response_event_stream # => Enumerator
     #
@@ -542,6 +657,7 @@ module Aws::LexRuntimeV2
     #   event.interpretations[0].intent.slots["NonEmptyString"].sub_slots #=> Types::Slots
     #   event.interpretations[0].intent.state #=> String, one of "Failed", "Fulfilled", "InProgress", "ReadyForFulfillment", "Waiting", "FulfillmentInProgress"
     #   event.interpretations[0].intent.confirmation_state #=> String, one of "Confirmed", "Denied", "None"
+    #   event.interpretations[0].interpretation_source #=> String, one of "Bedrock", "Lex"
     #   event.session_state.dialog_action.type #=> String, one of "Close", "ConfirmIntent", "Delegate", "ElicitIntent", "ElicitSlot", "None"
     #   event.session_state.dialog_action.slot_to_elicit #=> String
     #   event.session_state.dialog_action.slot_elicitation_style #=> String, one of "Default", "SpellByLetter", "SpellByWord"
@@ -659,15 +775,20 @@ module Aws::LexRuntimeV2
     # @api private
     def build_request(operation_name, params = {})
       handlers = @handlers.for(operation_name)
+      tracer = config.telemetry_provider.tracer_provider.tracer(
+        Aws::Telemetry.module_to_tracer_name('Aws::LexRuntimeV2')
+      )
       context = Seahorse::Client::RequestContext.new(
         operation_name: operation_name,
         operation: config.api.operation(operation_name),
         client: self,
         params: params,
         http_response: Seahorse::Client::Http::AsyncResponse.new,
-        config: config)
+        config: config,
+        tracer: tracer
+      )
       context[:gem_name] = 'aws-sdk-lexruntimev2'
-      context[:gem_version] = '1.19.0'
+      context[:gem_version] = '1.49.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

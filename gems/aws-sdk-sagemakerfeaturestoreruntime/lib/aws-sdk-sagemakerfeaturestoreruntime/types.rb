@@ -37,7 +37,7 @@ module Aws::SageMakerFeatureStoreRuntime
     #   @return [String]
     #
     # @!attribute [rw] error_code
-    #   The error code of an error that has occured when attempting to
+    #   The error code of an error that has occurred when attempting to
     #   retrieve a batch of Records. For more information on errors, see
     #   [Errors][1].
     #
@@ -47,7 +47,7 @@ module Aws::SageMakerFeatureStoreRuntime
     #   @return [String]
     #
     # @!attribute [rw] error_message
-    #   The error message of an error that has occured when attempting to
+    #   The error message of an error that has occurred when attempting to
     #   retrieve a record in the batch.
     #   @return [String]
     #
@@ -66,8 +66,8 @@ module Aws::SageMakerFeatureStoreRuntime
     # in a batch.
     #
     # @!attribute [rw] feature_group_name
-    #   A `FeatureGroupName` containing Records you are retrieving in a
-    #   batch.
+    #   The name or Amazon Resource Name (ARN) of the `FeatureGroup`
+    #   containing the records you are retrieving in a batch.
     #   @return [String]
     #
     # @!attribute [rw] record_identifiers_value_as_string
@@ -90,15 +90,22 @@ module Aws::SageMakerFeatureStoreRuntime
     end
 
     # @!attribute [rw] identifiers
-    #   A list of `FeatureGroup` names, with their corresponding
-    #   `RecordIdentifier` value, and Feature name that have been requested
-    #   to be retrieved in batch.
+    #   A list containing the name or Amazon Resource Name (ARN) of the
+    #   `FeatureGroup`, the list of names of `Feature`s to be retrieved, and
+    #   the corresponding `RecordIdentifier` values as strings.
     #   @return [Array<Types::BatchGetRecordIdentifier>]
+    #
+    # @!attribute [rw] expiration_time_response
+    #   Parameter to request `ExpiresAt` in response. If `Enabled`,
+    #   `BatchGetRecord` will return the value of `ExpiresAt`, if it is not
+    #   null. If `Disabled` and null, `BatchGetRecord` will return null.
+    #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-featurestore-runtime-2020-07-01/BatchGetRecordRequest AWS API Documentation
     #
     class BatchGetRecordRequest < Struct.new(
-      :identifiers)
+      :identifiers,
+      :expiration_time_response)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -127,32 +134,38 @@ module Aws::SageMakerFeatureStoreRuntime
       include Aws::Structure
     end
 
-    # The output of Records that have been retrieved in a batch.
+    # The output of records that have been retrieved in a batch.
     #
     # @!attribute [rw] feature_group_name
     #   The `FeatureGroupName` containing Records you retrieved in a batch.
     #   @return [String]
     #
     # @!attribute [rw] record_identifier_value_as_string
-    #   The value of the record identifer in string format.
+    #   The value of the record identifier in string format.
     #   @return [String]
     #
     # @!attribute [rw] record
     #   The `Record` retrieved.
     #   @return [Array<Types::FeatureValue>]
     #
+    # @!attribute [rw] expires_at
+    #   The `ExpiresAt` ISO string of the requested record.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-featurestore-runtime-2020-07-01/BatchGetRecordResultDetail AWS API Documentation
     #
     class BatchGetRecordResultDetail < Struct.new(
       :feature_group_name,
       :record_identifier_value_as_string,
-      :record)
+      :record,
+      :expires_at)
       SENSITIVE = []
       include Aws::Structure
     end
 
     # @!attribute [rw] feature_group_name
-    #   The name of the feature group to delete the record from.
+    #   The name or Amazon Resource Name (ARN) of the feature group to
+    #   delete the record from.
     #   @return [String]
     #
     # @!attribute [rw] record_identifier_value_as_string
@@ -171,13 +184,19 @@ module Aws::SageMakerFeatureStoreRuntime
     #   using for the `FeatureGroup`.
     #   @return [Array<String>]
     #
+    # @!attribute [rw] deletion_mode
+    #   The name of the deletion mode for deleting the record. By default,
+    #   the deletion mode is set to `SoftDelete`.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-featurestore-runtime-2020-07-01/DeleteRecordRequest AWS API Documentation
     #
     class DeleteRecordRequest < Struct.new(
       :feature_group_name,
       :record_identifier_value_as_string,
       :event_time,
-      :target_stores)
+      :target_stores,
+      :deletion_mode)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -189,23 +208,32 @@ module Aws::SageMakerFeatureStoreRuntime
     #   @return [String]
     #
     # @!attribute [rw] value_as_string
-    #   The value associated with a feature, in string format. Note that
-    #   features types can be String, Integral, or Fractional. This value
-    #   represents all three types as a string.
+    #   The value in string format associated with a feature. Used when your
+    #   `CollectionType` is `None`. Note that features types can be
+    #   `String`, `Integral`, or `Fractional`. This value represents all
+    #   three types as a string.
     #   @return [String]
+    #
+    # @!attribute [rw] value_as_string_list
+    #   The list of values in string format associated with a feature. Used
+    #   when your `CollectionType` is a `List`, `Set`, or `Vector`. Note
+    #   that features types can be `String`, `Integral`, or `Fractional`.
+    #   These values represents all three types as a string.
+    #   @return [Array<String>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-featurestore-runtime-2020-07-01/FeatureValue AWS API Documentation
     #
     class FeatureValue < Struct.new(
       :feature_name,
-      :value_as_string)
+      :value_as_string,
+      :value_as_string_list)
       SENSITIVE = []
       include Aws::Structure
     end
 
     # @!attribute [rw] feature_group_name
-    #   The name of the feature group from which you want to retrieve a
-    #   record.
+    #   The name or Amazon Resource Name (ARN) of the feature group from
+    #   which you want to retrieve a record.
     #   @return [String]
     #
     # @!attribute [rw] record_identifier_value_as_string
@@ -218,12 +246,19 @@ module Aws::SageMakerFeatureStoreRuntime
     #   latest value for all the Features are returned.
     #   @return [Array<String>]
     #
+    # @!attribute [rw] expiration_time_response
+    #   Parameter to request `ExpiresAt` in response. If `Enabled`,
+    #   `GetRecord` will return the value of `ExpiresAt`, if it is not null.
+    #   If `Disabled` and null, `GetRecord` will return null.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-featurestore-runtime-2020-07-01/GetRecordRequest AWS API Documentation
     #
     class GetRecordRequest < Struct.new(
       :feature_group_name,
       :record_identifier_value_as_string,
-      :feature_names)
+      :feature_names,
+      :expiration_time_response)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -232,10 +267,15 @@ module Aws::SageMakerFeatureStoreRuntime
     #   The record you requested. A list of `FeatureValues`.
     #   @return [Array<Types::FeatureValue>]
     #
+    # @!attribute [rw] expires_at
+    #   The `ExpiresAt` ISO string of the requested record.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-featurestore-runtime-2020-07-01/GetRecordResponse AWS API Documentation
     #
     class GetRecordResponse < Struct.new(
-      :record)
+      :record,
+      :expires_at)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -255,8 +295,8 @@ module Aws::SageMakerFeatureStoreRuntime
     end
 
     # @!attribute [rw] feature_group_name
-    #   The name of the feature group that you want to insert the record
-    #   into.
+    #   The name or Amazon Resource Name (ARN) of the feature group that you
+    #   want to insert the record into.
     #   @return [String]
     #
     # @!attribute [rw] record
@@ -277,12 +317,24 @@ module Aws::SageMakerFeatureStoreRuntime
     #   using for the `FeatureGroup`.
     #   @return [Array<String>]
     #
+    # @!attribute [rw] ttl_duration
+    #   Time to live duration, where the record is hard deleted after the
+    #   expiration time is reached; `ExpiresAt` = `EventTime` +
+    #   `TtlDuration`. For information on HardDelete, see the
+    #   [DeleteRecord][1] API in the Amazon SageMaker API Reference guide.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_feature_store_DeleteRecord.html
+    #   @return [Types::TtlDuration]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-featurestore-runtime-2020-07-01/PutRecordRequest AWS API Documentation
     #
     class PutRecordRequest < Struct.new(
       :feature_group_name,
       :record,
-      :target_stores)
+      :target_stores,
+      :ttl_duration)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -313,6 +365,32 @@ module Aws::SageMakerFeatureStoreRuntime
       include Aws::Structure
     end
 
+    # Time to live duration, where the record is hard deleted after the
+    # expiration time is reached; `ExpiresAt` = `EventTime` + `TtlDuration`.
+    # For information on HardDelete, see the [DeleteRecord][1] API in the
+    # Amazon SageMaker API Reference guide.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_feature_store_DeleteRecord.html
+    #
+    # @!attribute [rw] unit
+    #   `TtlDuration` time unit.
+    #   @return [String]
+    #
+    # @!attribute [rw] value
+    #   `TtlDuration` time value.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sagemaker-featurestore-runtime-2020-07-01/TtlDuration AWS API Documentation
+    #
+    class TtlDuration < Struct.new(
+      :unit,
+      :value)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # There was an error validating your request.
     #
     # @!attribute [rw] message
@@ -328,3 +406,4 @@ module Aws::SageMakerFeatureStoreRuntime
 
   end
 end
+

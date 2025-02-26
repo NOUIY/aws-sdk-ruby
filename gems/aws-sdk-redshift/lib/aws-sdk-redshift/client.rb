@@ -7,33 +7,34 @@
 #
 # WARNING ABOUT GENERATED CODE
 
-require 'seahorse/client/plugins/content_length.rb'
-require 'aws-sdk-core/plugins/credentials_configuration.rb'
-require 'aws-sdk-core/plugins/logging.rb'
-require 'aws-sdk-core/plugins/param_converter.rb'
-require 'aws-sdk-core/plugins/param_validator.rb'
-require 'aws-sdk-core/plugins/user_agent.rb'
-require 'aws-sdk-core/plugins/helpful_socket_errors.rb'
-require 'aws-sdk-core/plugins/retry_errors.rb'
-require 'aws-sdk-core/plugins/global_configuration.rb'
-require 'aws-sdk-core/plugins/regional_endpoint.rb'
-require 'aws-sdk-core/plugins/endpoint_discovery.rb'
-require 'aws-sdk-core/plugins/endpoint_pattern.rb'
-require 'aws-sdk-core/plugins/response_paging.rb'
-require 'aws-sdk-core/plugins/stub_responses.rb'
-require 'aws-sdk-core/plugins/idempotency_token.rb'
-require 'aws-sdk-core/plugins/jsonvalue_converter.rb'
-require 'aws-sdk-core/plugins/client_metrics_plugin.rb'
-require 'aws-sdk-core/plugins/client_metrics_send_plugin.rb'
-require 'aws-sdk-core/plugins/transfer_encoding.rb'
-require 'aws-sdk-core/plugins/http_checksum.rb'
-require 'aws-sdk-core/plugins/checksum_algorithm.rb'
-require 'aws-sdk-core/plugins/defaults_mode.rb'
-require 'aws-sdk-core/plugins/recursion_detection.rb'
-require 'aws-sdk-core/plugins/sign.rb'
-require 'aws-sdk-core/plugins/protocols/query.rb'
-
-Aws::Plugins::GlobalConfiguration.add_identifier(:redshift)
+require 'seahorse/client/plugins/content_length'
+require 'aws-sdk-core/plugins/credentials_configuration'
+require 'aws-sdk-core/plugins/logging'
+require 'aws-sdk-core/plugins/param_converter'
+require 'aws-sdk-core/plugins/param_validator'
+require 'aws-sdk-core/plugins/user_agent'
+require 'aws-sdk-core/plugins/helpful_socket_errors'
+require 'aws-sdk-core/plugins/retry_errors'
+require 'aws-sdk-core/plugins/global_configuration'
+require 'aws-sdk-core/plugins/regional_endpoint'
+require 'aws-sdk-core/plugins/endpoint_discovery'
+require 'aws-sdk-core/plugins/endpoint_pattern'
+require 'aws-sdk-core/plugins/response_paging'
+require 'aws-sdk-core/plugins/stub_responses'
+require 'aws-sdk-core/plugins/idempotency_token'
+require 'aws-sdk-core/plugins/invocation_id'
+require 'aws-sdk-core/plugins/jsonvalue_converter'
+require 'aws-sdk-core/plugins/client_metrics_plugin'
+require 'aws-sdk-core/plugins/client_metrics_send_plugin'
+require 'aws-sdk-core/plugins/transfer_encoding'
+require 'aws-sdk-core/plugins/http_checksum'
+require 'aws-sdk-core/plugins/checksum_algorithm'
+require 'aws-sdk-core/plugins/request_compression'
+require 'aws-sdk-core/plugins/defaults_mode'
+require 'aws-sdk-core/plugins/recursion_detection'
+require 'aws-sdk-core/plugins/telemetry'
+require 'aws-sdk-core/plugins/sign'
+require 'aws-sdk-core/plugins/protocols/query'
 
 module Aws::Redshift
   # An API client for Redshift.  To construct a client, you need to configure a `:region` and `:credentials`.
@@ -71,20 +72,28 @@ module Aws::Redshift
     add_plugin(Aws::Plugins::ResponsePaging)
     add_plugin(Aws::Plugins::StubResponses)
     add_plugin(Aws::Plugins::IdempotencyToken)
+    add_plugin(Aws::Plugins::InvocationId)
     add_plugin(Aws::Plugins::JsonvalueConverter)
     add_plugin(Aws::Plugins::ClientMetricsPlugin)
     add_plugin(Aws::Plugins::ClientMetricsSendPlugin)
     add_plugin(Aws::Plugins::TransferEncoding)
     add_plugin(Aws::Plugins::HttpChecksum)
     add_plugin(Aws::Plugins::ChecksumAlgorithm)
+    add_plugin(Aws::Plugins::RequestCompression)
     add_plugin(Aws::Plugins::DefaultsMode)
     add_plugin(Aws::Plugins::RecursionDetection)
+    add_plugin(Aws::Plugins::Telemetry)
     add_plugin(Aws::Plugins::Sign)
     add_plugin(Aws::Plugins::Protocols::Query)
     add_plugin(Aws::Redshift::Plugins::Endpoints)
 
     # @overload initialize(options)
     #   @param [Hash] options
+    #
+    #   @option options [Array<Seahorse::Client::Plugin>] :plugins ([]])
+    #     A list of plugins to apply to the client. Each plugin is either a
+    #     class name or an instance of a plugin class.
+    #
     #   @option options [required, Aws::CredentialProvider] :credentials
     #     Your AWS credentials. This can be an instance of any one of the
     #     following classes:
@@ -119,13 +128,15 @@ module Aws::Redshift
     #     locations will be searched for credentials:
     #
     #     * `Aws.config[:credentials]`
-    #     * The `:access_key_id`, `:secret_access_key`, and `:session_token` options.
-    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']
+    #     * The `:access_key_id`, `:secret_access_key`, `:session_token`, and
+    #       `:account_id` options.
+    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'],
+    #       ENV['AWS_SESSION_TOKEN'], and ENV['AWS_ACCOUNT_ID']
     #     * `~/.aws/credentials`
     #     * `~/.aws/config`
     #     * EC2/ECS IMDS instance profile - When used by default, the timeouts
     #       are very aggressive. Construct and pass an instance of
-    #       `Aws::InstanceProfileCredentails` or `Aws::ECSCredentials` to
+    #       `Aws::InstanceProfileCredentials` or `Aws::ECSCredentials` to
     #       enable retries and extended timeouts. Instance profile credential
     #       fetching can be disabled by setting ENV['AWS_EC2_METADATA_DISABLED']
     #       to true.
@@ -143,6 +154,8 @@ module Aws::Redshift
     #     * `~/.aws/config`
     #
     #   @option options [String] :access_key_id
+    #
+    #   @option options [String] :account_id
     #
     #   @option options [Boolean] :active_endpoint_cache (false)
     #     When set to `true`, a thread polling for endpoints will be running in
@@ -190,10 +203,20 @@ module Aws::Redshift
     #     Set to true to disable SDK automatically adding host prefix
     #     to default service endpoint when available.
     #
-    #   @option options [String] :endpoint
-    #     The client endpoint is normally constructed from the `:region`
-    #     option. You should only configure an `:endpoint` when connecting
-    #     to test or custom endpoints. This should be a valid HTTP(S) URI.
+    #   @option options [Boolean] :disable_request_compression (false)
+    #     When set to 'true' the request body will not be compressed
+    #     for supported operations.
+    #
+    #   @option options [String, URI::HTTPS, URI::HTTP] :endpoint
+    #     Normally you should not configure the `:endpoint` option
+    #     directly. This is normally constructed from the `:region`
+    #     option. Configuring `:endpoint` is normally reserved for
+    #     connecting to test or custom endpoints. The endpoint should
+    #     be a URI formatted like:
+    #
+    #         'http://example.com'
+    #         'https://example.com'
+    #         'http://example.com:123'
     #
     #   @option options [Integer] :endpoint_cache_max_entries (1000)
     #     Used for the maximum size limit of the LRU cache storing endpoints data
@@ -209,6 +232,10 @@ module Aws::Redshift
     #
     #   @option options [Boolean] :endpoint_discovery (false)
     #     When set to `true`, endpoint discovery will be enabled for operations when available.
+    #
+    #   @option options [Boolean] :ignore_configured_endpoint_urls
+    #     Setting to true disables use of endpoint URLs provided via environment
+    #     variables and the shared configuration file.
     #
     #   @option options [Aws::Log::Formatter] :log_formatter (Aws::Log::Formatter.default)
     #     The log formatter.
@@ -229,6 +256,34 @@ module Aws::Redshift
     #   @option options [String] :profile ("default")
     #     Used when loading credentials from the shared credentials file
     #     at HOME/.aws/credentials.  When not specified, 'default' is used.
+    #
+    #   @option options [String] :request_checksum_calculation ("when_supported")
+    #     Determines when a checksum will be calculated for request payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, a checksum will be
+    #       calculated for all request payloads of operations modeled with the
+    #       `httpChecksum` trait where `requestChecksumRequired` is `true` and/or a
+    #       `requestAlgorithmMember` is modeled.
+    #     * `when_required` - When set, a checksum will only be calculated for
+    #       request payloads of operations modeled with the  `httpChecksum` trait where
+    #       `requestChecksumRequired` is `true` or where a `requestAlgorithmMember`
+    #       is modeled and supplied.
+    #
+    #   @option options [Integer] :request_min_compression_size_bytes (10240)
+    #     The minimum size in bytes that triggers compression for request
+    #     bodies. The value must be non-negative integer value between 0
+    #     and 10485780 bytes inclusive.
+    #
+    #   @option options [String] :response_checksum_validation ("when_supported")
+    #     Determines when checksum validation will be performed on response payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, checksum validation is performed on all
+    #       response payloads of operations modeled with the `httpChecksum` trait where
+    #       `responseAlgorithms` is modeled, except when no modeled checksum algorithms
+    #       are supported.
+    #     * `when_required` - When set, checksum validation is not performed on
+    #       response payloads of operations unless the checksum algorithm is supported and
+    #       the `requestValidationModeMember` member is set to `ENABLED`.
     #
     #   @option options [Proc] :retry_backoff
     #     A proc or lambda used for backoff. Defaults to 2**retries * retry_base_delay.
@@ -274,10 +329,24 @@ module Aws::Redshift
     #       throttling.  This is a provisional mode that may change behavior
     #       in the future.
     #
+    #   @option options [String] :sdk_ua_app_id
+    #     A unique and opaque application ID that is appended to the
+    #     User-Agent header as app/sdk_ua_app_id. It should have a
+    #     maximum length of 50. This variable is sourced from environment
+    #     variable AWS_SDK_UA_APP_ID or the shared config profile attribute sdk_ua_app_id.
     #
     #   @option options [String] :secret_access_key
     #
     #   @option options [String] :session_token
+    #
+    #   @option options [Array] :sigv4a_signing_region_set
+    #     A list of regions that should be signed with SigV4a signing. When
+    #     not passed, a default `:sigv4a_signing_region_set` is searched for
+    #     in the following locations:
+    #
+    #     * `Aws.config[:sigv4a_signing_region_set]`
+    #     * `ENV['AWS_SIGV4A_SIGNING_REGION_SET']`
+    #     * `~/.aws/config`
     #
     #   @option options [Boolean] :stub_responses (false)
     #     Causes the client to return stubbed responses. By default
@@ -287,6 +356,16 @@ module Aws::Redshift
     #
     #     ** Please note ** When response stubbing is enabled, no HTTP
     #     requests are made, and retries are disabled.
+    #
+    #   @option options [Aws::Telemetry::TelemetryProviderBase] :telemetry_provider (Aws::Telemetry::NoOpTelemetryProvider)
+    #     Allows you to provide a telemetry provider, which is used to
+    #     emit telemetry data. By default, uses `NoOpTelemetryProvider` which
+    #     will not record or emit any telemetry data. The SDK supports the
+    #     following telemetry providers:
+    #
+    #     * OpenTelemetry (OTel) - To use the OTel provider, install and require the
+    #     `opentelemetry-sdk` gem and then, pass in an instance of a
+    #     `Aws::Telemetry::OTelProvider` for telemetry provider.
     #
     #   @option options [Aws::TokenProvider] :token_provider
     #     A Bearer Token Provider. This can be an instance of any one of the
@@ -315,52 +394,75 @@ module Aws::Redshift
     #     sending the request.
     #
     #   @option options [Aws::Redshift::EndpointProvider] :endpoint_provider
-    #     The endpoint provider used to resolve endpoints. Any object that responds to `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to `Aws::Redshift::EndpointParameters`
+    #     The endpoint provider used to resolve endpoints. Any object that responds to
+    #     `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+    #     `Aws::Redshift::EndpointParameters`.
     #
-    #   @option options [URI::HTTP,String] :http_proxy A proxy to send
-    #     requests through.  Formatted like 'http://proxy.com:123'.
+    #   @option options [Float] :http_continue_timeout (1)
+    #     The number of seconds to wait for a 100-continue response before sending the
+    #     request body.  This option has no effect unless the request has "Expect"
+    #     header set to "100-continue".  Defaults to `nil` which  disables this
+    #     behaviour.  This value can safely be set per request on the session.
     #
-    #   @option options [Float] :http_open_timeout (15) The number of
-    #     seconds to wait when opening a HTTP session before raising a
-    #     `Timeout::Error`.
+    #   @option options [Float] :http_idle_timeout (5)
+    #     The number of seconds a connection is allowed to sit idle before it
+    #     is considered stale.  Stale connections are closed and removed from the
+    #     pool before making a request.
     #
-    #   @option options [Float] :http_read_timeout (60) The default
-    #     number of seconds to wait for response data.  This value can
-    #     safely be set per-request on the session.
+    #   @option options [Float] :http_open_timeout (15)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :http_idle_timeout (5) The number of
-    #     seconds a connection is allowed to sit idle before it is
-    #     considered stale.  Stale connections are closed and removed
-    #     from the pool before making a request.
+    #   @option options [URI::HTTP,String] :http_proxy
+    #     A proxy to send requests through.  Formatted like 'http://proxy.com:123'.
     #
-    #   @option options [Float] :http_continue_timeout (1) The number of
-    #     seconds to wait for a 100-continue response before sending the
-    #     request body.  This option has no effect unless the request has
-    #     "Expect" header set to "100-continue".  Defaults to `nil` which
-    #     disables this behaviour.  This value can safely be set per
-    #     request on the session.
+    #   @option options [Float] :http_read_timeout (60)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :ssl_timeout (nil) Sets the SSL timeout
-    #     in seconds.
+    #   @option options [Boolean] :http_wire_trace (false)
+    #     When `true`,  HTTP debug output will be sent to the `:logger`.
     #
-    #   @option options [Boolean] :http_wire_trace (false) When `true`,
-    #     HTTP debug output will be sent to the `:logger`.
+    #   @option options [Proc] :on_chunk_received
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the response body is received. It provides three arguments: the chunk,
+    #     the number of bytes received, and the total number of
+    #     bytes in the response (or nil if the server did not send a `content-length`).
     #
-    #   @option options [Boolean] :ssl_verify_peer (true) When `true`,
-    #     SSL peer certificates are verified when establishing a
-    #     connection.
+    #   @option options [Proc] :on_chunk_sent
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the request body is sent. It provides three arguments: the chunk,
+    #     the number of bytes read from the body, and the total number of
+    #     bytes in the body.
     #
-    #   @option options [String] :ssl_ca_bundle Full path to the SSL
-    #     certificate authority bundle file that should be used when
-    #     verifying peer certificates.  If you do not pass
-    #     `:ssl_ca_bundle` or `:ssl_ca_directory` the the system default
-    #     will be used if available.
+    #   @option options [Boolean] :raise_response_errors (true)
+    #     When `true`, response errors are raised.
     #
-    #   @option options [String] :ssl_ca_directory Full path of the
-    #     directory that contains the unbundled SSL certificate
+    #   @option options [String] :ssl_ca_bundle
+    #     Full path to the SSL certificate authority bundle file that should be used when
+    #     verifying peer certificates.  If you do not pass `:ssl_ca_bundle` or
+    #     `:ssl_ca_directory` the the system default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_directory
+    #     Full path of the directory that contains the unbundled SSL certificate
     #     authority files for verifying peer certificates.  If you do
-    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the
-    #     system default will be used if available.
+    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the system
+    #     default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_store
+    #     Sets the X509::Store to verify peer certificate.
+    #
+    #   @option options [OpenSSL::X509::Certificate] :ssl_cert
+    #     Sets a client certificate when creating http connections.
+    #
+    #   @option options [OpenSSL::PKey] :ssl_key
+    #     Sets a client key when creating http connections.
+    #
+    #   @option options [Float] :ssl_timeout
+    #     Sets the SSL timeout in seconds
+    #
+    #   @option options [Boolean] :ssl_verify_peer (true)
+    #     When `true`, SSL peer certificates are verified when establishing a connection.
     #
     def initialize(*args)
       super
@@ -472,20 +574,23 @@ module Aws::Redshift
     #
     # @option params [required, String] :data_share_arn
     #   The Amazon Resource Name (ARN) of the datashare that the consumer is
-    #   to use with the account or the namespace.
+    #   to use.
     #
     # @option params [Boolean] :associate_entire_account
     #   A value that specifies whether the datashare is associated with the
     #   entire account.
     #
     # @option params [String] :consumer_arn
-    #   The Amazon Resource Name (ARN) of the consumer that is associated with
-    #   the datashare.
+    #   The Amazon Resource Name (ARN) of the consumer namespace associated
+    #   with the datashare.
     #
     # @option params [String] :consumer_region
     #   From a datashare consumer account, associates a datashare with all
     #   existing and future namespaces in the specified Amazon Web Services
     #   Region.
+    #
+    # @option params [Boolean] :allow_writes
+    #   If set to true, allows write operations for a datashare.
     #
     # @return [Types::DataShare] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -494,6 +599,7 @@ module Aws::Redshift
     #   * {Types::DataShare#allow_publicly_accessible_consumers #allow_publicly_accessible_consumers} => Boolean
     #   * {Types::DataShare#data_share_associations #data_share_associations} => Array&lt;Types::DataShareAssociation&gt;
     #   * {Types::DataShare#managed_by #managed_by} => String
+    #   * {Types::DataShare#data_share_type #data_share_type} => String
     #
     # @example Request syntax with placeholder values
     #
@@ -502,6 +608,7 @@ module Aws::Redshift
     #     associate_entire_account: false,
     #     consumer_arn: "String",
     #     consumer_region: "String",
+    #     allow_writes: false,
     #   })
     #
     # @example Response structure
@@ -515,7 +622,10 @@ module Aws::Redshift
     #   resp.data_share_associations[0].consumer_region #=> String
     #   resp.data_share_associations[0].created_date #=> Time
     #   resp.data_share_associations[0].status_change_date #=> Time
+    #   resp.data_share_associations[0].producer_allowed_writes #=> Boolean
+    #   resp.data_share_associations[0].consumer_accepted_writes #=> Boolean
     #   resp.managed_by #=> String
+    #   resp.data_share_type #=> String, one of "INTERNAL"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/AssociateDataShareConsumer AWS API Documentation
     #
@@ -618,13 +728,16 @@ module Aws::Redshift
     # correct access permissions.
     #
     # @option params [required, String] :data_share_arn
-    #   The Amazon Resource Name (ARN) of the datashare that producers are to
-    #   authorize sharing for.
+    #   The Amazon Resource Name (ARN) of the datashare namespace that
+    #   producers are to authorize sharing for.
     #
     # @option params [required, String] :consumer_identifier
     #   The identifier of the data consumer that is authorized to access the
     #   datashare. This identifier is an Amazon Web Services account ID or a
     #   keyword, such as ADX.
+    #
+    # @option params [Boolean] :allow_writes
+    #   If set to true, allows write operations for a datashare.
     #
     # @return [Types::DataShare] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -633,12 +746,14 @@ module Aws::Redshift
     #   * {Types::DataShare#allow_publicly_accessible_consumers #allow_publicly_accessible_consumers} => Boolean
     #   * {Types::DataShare#data_share_associations #data_share_associations} => Array&lt;Types::DataShareAssociation&gt;
     #   * {Types::DataShare#managed_by #managed_by} => String
+    #   * {Types::DataShare#data_share_type #data_share_type} => String
     #
     # @example Request syntax with placeholder values
     #
     #   resp = client.authorize_data_share({
     #     data_share_arn: "String", # required
     #     consumer_identifier: "String", # required
+    #     allow_writes: false,
     #   })
     #
     # @example Response structure
@@ -652,7 +767,10 @@ module Aws::Redshift
     #   resp.data_share_associations[0].consumer_region #=> String
     #   resp.data_share_associations[0].created_date #=> Time
     #   resp.data_share_associations[0].status_change_date #=> Time
+    #   resp.data_share_associations[0].producer_allowed_writes #=> Boolean
+    #   resp.data_share_associations[0].consumer_accepted_writes #=> Boolean
     #   resp.managed_by #=> String
+    #   resp.data_share_type #=> String, one of "INTERNAL"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/AuthorizeDataShare AWS API Documentation
     #
@@ -734,10 +852,16 @@ module Aws::Redshift
     #   The Amazon Resource Name (ARN) of the snapshot to authorize access to.
     #
     # @option params [String] :snapshot_cluster_identifier
-    #   The identifier of the cluster the snapshot was created from. This
-    #   parameter is required if your IAM user has a policy containing a
-    #   snapshot resource element that specifies anything other than * for
-    #   the cluster name.
+    #   The identifier of the cluster the snapshot was created from.
+    #
+    #   * *If the snapshot to access doesn't exist and the associated IAM
+    #     policy doesn't allow access to all (*) snapshots* - This parameter
+    #     is required. Otherwise, permissions aren't available to check if
+    #     the snapshot exists.
+    #
+    #   * *If the snapshot to access exists* - This parameter isn't required.
+    #     Redshift can retrieve the cluster identifier and use it to validate
+    #     snapshot authorization.
     #
     # @option params [required, String] :account_with_restore_access
     #   The identifier of the Amazon Web Services account authorized to
@@ -800,6 +924,9 @@ module Aws::Redshift
     #   resp.snapshot.manual_snapshot_retention_period #=> Integer
     #   resp.snapshot.manual_snapshot_remaining_days #=> Integer
     #   resp.snapshot.snapshot_retention_start_time #=> Time
+    #   resp.snapshot.master_password_secret_arn #=> String
+    #   resp.snapshot.master_password_secret_kms_key_id #=> String
+    #   resp.snapshot.snapshot_arn #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/AuthorizeSnapshotAccess AWS API Documentation
     #
@@ -1083,6 +1210,9 @@ module Aws::Redshift
     #   resp.snapshot.manual_snapshot_retention_period #=> Integer
     #   resp.snapshot.manual_snapshot_remaining_days #=> Integer
     #   resp.snapshot.snapshot_retention_start_time #=> Time
+    #   resp.snapshot.master_password_secret_arn #=> String
+    #   resp.snapshot.master_password_secret_kms_key_id #=> String
+    #   resp.snapshot.snapshot_arn #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CopyClusterSnapshot AWS API Documentation
     #
@@ -1137,9 +1267,28 @@ module Aws::Redshift
     # Redshift Clusters][1] in the *Amazon Redshift Cluster Management
     # Guide*.
     #
+    # VPC Block Public Access (BPA) enables you to block resources in VPCs
+    # and subnets that you own in a Region from reaching or being reached
+    # from the internet through internet gateways and egress-only internet
+    # gateways. If a subnet group for a provisioned cluster is in an account
+    # with VPC BPA turned on, the following capabilities are blocked:
+    #
+    # * Creating a public cluster
+    #
+    # * Restoring a public cluster
+    #
+    # * Modifying a private cluster to be public
+    #
+    # * Adding a subnet with VPC BPA turned on to the subnet group when
+    #   there's at least one public cluster within the group
+    #
+    # For more information about VPC BPA, see [Block public access to VPCs
+    # and subnets][2] in the *Amazon VPC User Guide*.
+    #
     #
     #
     # [1]: https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html
+    # [2]: https://docs.aws.amazon.com/vpc/latest/userguide/security-vpc-bpa.html
     #
     # @option params [String] :db_name
     #   The name of the first database to be created when the cluster is
@@ -1204,9 +1353,8 @@ module Aws::Redshift
     #   node types, go to [ Working with Clusters][1] in the *Amazon Redshift
     #   Cluster Management Guide*.
     #
-    #   Valid Values: `ds2.xlarge` \| `ds2.8xlarge` \| `dc1.large` \|
-    #   `dc1.8xlarge` \| `dc2.large` \| `dc2.8xlarge` \| `ra3.xlplus` \|
-    #   `ra3.4xlarge` \| `ra3.16xlarge`
+    #   Valid Values: `dc2.large` \| `dc2.8xlarge` \| `ra3.large` \|
+    #   `ra3.xlplus` \| `ra3.4xlarge` \| `ra3.16xlarge`
     #
     #
     #
@@ -1235,9 +1383,12 @@ module Aws::Redshift
     #
     #   [1]: https://docs.aws.amazon.com/redshift/latest/dg/r_pg_keywords.html
     #
-    # @option params [required, String] :master_user_password
+    # @option params [String] :master_user_password
     #   The password associated with the admin user account for the cluster
     #   that is being created.
+    #
+    #   You can't use `MasterUserPassword` if `ManageMasterPassword` is
+    #   `true`.
     #
     #   Constraints:
     #
@@ -1352,7 +1503,15 @@ module Aws::Redshift
     #
     #   Default: `5439`
     #
-    #   Valid Values: `1150-65535`
+    #   Valid Values:
+    #
+    #   * For clusters with ra3 nodes - Select a port within the ranges
+    #     `5431-5455` or `8191-8215`. (If you have an existing cluster with
+    #     ra3 nodes, it isn't required that you change the port to these
+    #     ranges.)
+    #
+    #   * For clusters with dc2 nodes - Select a port within the range
+    #     `1150-65535`.
     #
     # @option params [String] :cluster_version
     #   The version of the Amazon Redshift engine software that you want to
@@ -1399,10 +1558,13 @@ module Aws::Redshift
     # @option params [Boolean] :publicly_accessible
     #   If `true`, the cluster can be accessed from a public network.
     #
-    # @option params [Boolean] :encrypted
-    #   If `true`, the data in the cluster is encrypted at rest.
-    #
     #   Default: false
+    #
+    # @option params [Boolean] :encrypted
+    #   If `true`, the data in the cluster is encrypted at rest. If you set
+    #   the value on this parameter to `false`, the request will fail.
+    #
+    #   Default: true
     #
     # @option params [String] :hsm_client_certificate_identifier
     #   Specifies the name of the HSM client certificate the Amazon Redshift
@@ -1490,6 +1652,30 @@ module Aws::Redshift
     #   A flag that specifies whether to load sample data once the cluster is
     #   created.
     #
+    # @option params [Boolean] :manage_master_password
+    #   If `true`, Amazon Redshift uses Secrets Manager to manage this
+    #   cluster's admin credentials. You can't use `MasterUserPassword` if
+    #   `ManageMasterPassword` is true. If `ManageMasterPassword` is false or
+    #   not set, Amazon Redshift uses `MasterUserPassword` for the admin user
+    #   account's password.
+    #
+    # @option params [String] :master_password_secret_kms_key_id
+    #   The ID of the Key Management Service (KMS) key used to encrypt and
+    #   store the cluster's admin credentials secret. You can only use this
+    #   parameter if `ManageMasterPassword` is true.
+    #
+    # @option params [String] :ip_address_type
+    #   The IP address types that the cluster supports. Possible values are
+    #   `ipv4` and `dualstack`.
+    #
+    # @option params [Boolean] :multi_az
+    #   If true, Amazon Redshift will deploy the cluster in two Availability
+    #   Zones (AZ).
+    #
+    # @option params [String] :redshift_idc_application_arn
+    #   The Amazon resource name (ARN) of the Amazon Redshift IAM Identity
+    #   Center application.
+    #
     # @return [Types::CreateClusterResult] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreateClusterResult#cluster #cluster} => Types::Cluster
@@ -1502,7 +1688,7 @@ module Aws::Redshift
     #     cluster_type: "String",
     #     node_type: "String", # required
     #     master_username: "String", # required
-    #     master_user_password: "String", # required
+    #     master_user_password: "SensitiveString",
     #     cluster_security_groups: ["String"],
     #     vpc_security_group_ids: ["String"],
     #     cluster_subnet_group_name: "String",
@@ -1536,6 +1722,11 @@ module Aws::Redshift
     #     aqua_configuration_status: "enabled", # accepts enabled, disabled, auto
     #     default_iam_role_arn: "String",
     #     load_sample_data: "String",
+    #     manage_master_password: false,
+    #     master_password_secret_kms_key_id: "String",
+    #     ip_address_type: "String",
+    #     multi_az: false,
+    #     redshift_idc_application_arn: "String",
     #   })
     #
     # @example Response structure
@@ -1557,6 +1748,7 @@ module Aws::Redshift
     #   resp.cluster.endpoint.vpc_endpoints[0].network_interfaces[0].subnet_id #=> String
     #   resp.cluster.endpoint.vpc_endpoints[0].network_interfaces[0].private_ip_address #=> String
     #   resp.cluster.endpoint.vpc_endpoints[0].network_interfaces[0].availability_zone #=> String
+    #   resp.cluster.endpoint.vpc_endpoints[0].network_interfaces[0].ipv_6_address #=> String
     #   resp.cluster.cluster_create_time #=> Time
     #   resp.cluster.automated_snapshot_retention_period #=> Integer
     #   resp.cluster.manual_snapshot_retention_period #=> Integer
@@ -1658,6 +1850,18 @@ module Aws::Redshift
     #   resp.cluster.reserved_node_exchange_status.target_reserved_node_offering_id #=> String
     #   resp.cluster.reserved_node_exchange_status.target_reserved_node_type #=> String
     #   resp.cluster.reserved_node_exchange_status.target_reserved_node_count #=> Integer
+    #   resp.cluster.custom_domain_name #=> String
+    #   resp.cluster.custom_domain_certificate_arn #=> String
+    #   resp.cluster.custom_domain_certificate_expiry_date #=> Time
+    #   resp.cluster.master_password_secret_arn #=> String
+    #   resp.cluster.master_password_secret_kms_key_id #=> String
+    #   resp.cluster.ip_address_type #=> String
+    #   resp.cluster.multi_az #=> String
+    #   resp.cluster.multi_az_secondary.availability_zone #=> String
+    #   resp.cluster.multi_az_secondary.cluster_nodes #=> Array
+    #   resp.cluster.multi_az_secondary.cluster_nodes[0].node_role #=> String
+    #   resp.cluster.multi_az_secondary.cluster_nodes[0].private_ip_address #=> String
+    #   resp.cluster.multi_az_secondary.cluster_nodes[0].public_ip_address #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CreateCluster AWS API Documentation
     #
@@ -1937,6 +2141,9 @@ module Aws::Redshift
     #   resp.snapshot.manual_snapshot_retention_period #=> Integer
     #   resp.snapshot.manual_snapshot_remaining_days #=> Integer
     #   resp.snapshot.snapshot_retention_start_time #=> Time
+    #   resp.snapshot.master_password_secret_arn #=> String
+    #   resp.snapshot.master_password_secret_kms_key_id #=> String
+    #   resp.snapshot.snapshot_arn #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CreateClusterSnapshot AWS API Documentation
     #
@@ -2016,6 +2223,8 @@ module Aws::Redshift
     #   resp.cluster_subnet_group.tags #=> Array
     #   resp.cluster_subnet_group.tags[0].key #=> String
     #   resp.cluster_subnet_group.tags[0].value #=> String
+    #   resp.cluster_subnet_group.supported_cluster_ip_address_types #=> Array
+    #   resp.cluster_subnet_group.supported_cluster_ip_address_types[0] #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CreateClusterSubnetGroup AWS API Documentation
     #
@@ -2023,6 +2232,51 @@ module Aws::Redshift
     # @param [Hash] params ({})
     def create_cluster_subnet_group(params = {}, options = {})
       req = build_request(:create_cluster_subnet_group, params)
+      req.send_request(options)
+    end
+
+    # Used to create a custom domain name for a cluster. Properties include
+    # the custom domain name, the cluster the custom domain is associated
+    # with, and the certificate Amazon Resource Name (ARN).
+    #
+    # @option params [required, String] :custom_domain_name
+    #   The custom domain name for a custom domain association.
+    #
+    # @option params [required, String] :custom_domain_certificate_arn
+    #   The certificate Amazon Resource Name (ARN) for the custom domain name
+    #   association.
+    #
+    # @option params [required, String] :cluster_identifier
+    #   The cluster identifier that the custom domain is associated with.
+    #
+    # @return [Types::CreateCustomDomainAssociationResult] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateCustomDomainAssociationResult#custom_domain_name #custom_domain_name} => String
+    #   * {Types::CreateCustomDomainAssociationResult#custom_domain_certificate_arn #custom_domain_certificate_arn} => String
+    #   * {Types::CreateCustomDomainAssociationResult#cluster_identifier #cluster_identifier} => String
+    #   * {Types::CreateCustomDomainAssociationResult#custom_domain_cert_expiry_time #custom_domain_cert_expiry_time} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_custom_domain_association({
+    #     custom_domain_name: "CustomDomainNameString", # required
+    #     custom_domain_certificate_arn: "CustomDomainCertificateArnString", # required
+    #     cluster_identifier: "String", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.custom_domain_name #=> String
+    #   resp.custom_domain_certificate_arn #=> String
+    #   resp.cluster_identifier #=> String
+    #   resp.custom_domain_cert_expiry_time #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CreateCustomDomainAssociation AWS API Documentation
+    #
+    # @overload create_custom_domain_association(params = {})
+    # @param [Hash] params ({})
+    def create_custom_domain_association(params = {}, options = {})
+      req = build_request(:create_custom_domain_association, params)
       req.send_request(options)
     end
 
@@ -2094,6 +2348,7 @@ module Aws::Redshift
     #   resp.vpc_endpoint.network_interfaces[0].subnet_id #=> String
     #   resp.vpc_endpoint.network_interfaces[0].private_ip_address #=> String
     #   resp.vpc_endpoint.network_interfaces[0].availability_zone #=> String
+    #   resp.vpc_endpoint.network_interfaces[0].ipv_6_address #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CreateEndpointAccess AWS API Documentation
     #
@@ -2371,6 +2626,204 @@ module Aws::Redshift
     # @param [Hash] params ({})
     def create_hsm_configuration(params = {}, options = {})
       req = build_request(:create_hsm_configuration, params)
+      req.send_request(options)
+    end
+
+    # Creates a zero-ETL integration or S3 event integration with Amazon
+    # Redshift.
+    #
+    # @option params [required, String] :source_arn
+    #   The Amazon Resource Name (ARN) of the database to use as the source
+    #   for replication.
+    #
+    # @option params [required, String] :target_arn
+    #   The Amazon Resource Name (ARN) of the Amazon Redshift data warehouse
+    #   to use as the target for replication.
+    #
+    # @option params [required, String] :integration_name
+    #   The name of the integration.
+    #
+    # @option params [String] :kms_key_id
+    #   An Key Management Service (KMS) key identifier for the key to use to
+    #   encrypt the integration. If you don't specify an encryption key, the
+    #   default Amazon Web Services owned key is used.
+    #
+    # @option params [Array<Types::Tag>] :tag_list
+    #   A list of tags.
+    #
+    # @option params [Hash<String,String>] :additional_encryption_context
+    #   An optional set of non-secret key–value pairs that contains additional
+    #   contextual information about the data. For more information, see
+    #   [Encryption context][1] in the *Amazon Web Services Key Management
+    #   Service Developer Guide*.
+    #
+    #   You can only include this parameter if you specify the `KMSKeyId`
+    #   parameter.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context
+    #
+    # @option params [String] :description
+    #   A description of the integration.
+    #
+    # @return [Types::Integration] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::Integration#integration_arn #integration_arn} => String
+    #   * {Types::Integration#integration_name #integration_name} => String
+    #   * {Types::Integration#source_arn #source_arn} => String
+    #   * {Types::Integration#target_arn #target_arn} => String
+    #   * {Types::Integration#status #status} => String
+    #   * {Types::Integration#errors #errors} => Array&lt;Types::IntegrationError&gt;
+    #   * {Types::Integration#create_time #create_time} => Time
+    #   * {Types::Integration#description #description} => String
+    #   * {Types::Integration#kms_key_id #kms_key_id} => String
+    #   * {Types::Integration#additional_encryption_context #additional_encryption_context} => Hash&lt;String,String&gt;
+    #   * {Types::Integration#tags #tags} => Array&lt;Types::Tag&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_integration({
+    #     source_arn: "SourceArn", # required
+    #     target_arn: "TargetArn", # required
+    #     integration_name: "IntegrationName", # required
+    #     kms_key_id: "String",
+    #     tag_list: [
+    #       {
+    #         key: "String",
+    #         value: "String",
+    #       },
+    #     ],
+    #     additional_encryption_context: {
+    #       "String" => "String",
+    #     },
+    #     description: "IntegrationDescription",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.integration_arn #=> String
+    #   resp.integration_name #=> String
+    #   resp.source_arn #=> String
+    #   resp.target_arn #=> String
+    #   resp.status #=> String, one of "creating", "active", "modifying", "failed", "deleting", "syncing", "needs_attention"
+    #   resp.errors #=> Array
+    #   resp.errors[0].error_code #=> String
+    #   resp.errors[0].error_message #=> String
+    #   resp.create_time #=> Time
+    #   resp.description #=> String
+    #   resp.kms_key_id #=> String
+    #   resp.additional_encryption_context #=> Hash
+    #   resp.additional_encryption_context["String"] #=> String
+    #   resp.tags #=> Array
+    #   resp.tags[0].key #=> String
+    #   resp.tags[0].value #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CreateIntegration AWS API Documentation
+    #
+    # @overload create_integration(params = {})
+    # @param [Hash] params ({})
+    def create_integration(params = {}, options = {})
+      req = build_request(:create_integration, params)
+      req.send_request(options)
+    end
+
+    # Creates an Amazon Redshift application for use with IAM Identity
+    # Center.
+    #
+    # @option params [required, String] :idc_instance_arn
+    #   The Amazon resource name (ARN) of the IAM Identity Center instance
+    #   where Amazon Redshift creates a new managed application.
+    #
+    # @option params [required, String] :redshift_idc_application_name
+    #   The name of the Redshift application in IAM Identity Center.
+    #
+    # @option params [String] :identity_namespace
+    #   The namespace for the Amazon Redshift IAM Identity Center application
+    #   instance. It determines which managed application verifies the
+    #   connection token.
+    #
+    # @option params [required, String] :idc_display_name
+    #   The display name for the Amazon Redshift IAM Identity Center
+    #   application instance. It appears in the console.
+    #
+    # @option params [required, String] :iam_role_arn
+    #   The IAM role ARN for the Amazon Redshift IAM Identity Center
+    #   application instance. It has the required permissions to be assumed
+    #   and invoke the IDC Identity Center API.
+    #
+    # @option params [Array<Types::AuthorizedTokenIssuer>] :authorized_token_issuer_list
+    #   The token issuer list for the Amazon Redshift IAM Identity Center
+    #   application instance.
+    #
+    # @option params [Array<Types::ServiceIntegrationsUnion>] :service_integrations
+    #   A collection of service integrations for the Redshift IAM Identity
+    #   Center application.
+    #
+    # @return [Types::CreateRedshiftIdcApplicationResult] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateRedshiftIdcApplicationResult#redshift_idc_application #redshift_idc_application} => Types::RedshiftIdcApplication
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_redshift_idc_application({
+    #     idc_instance_arn: "String", # required
+    #     redshift_idc_application_name: "RedshiftIdcApplicationName", # required
+    #     identity_namespace: "IdentityNamespaceString",
+    #     idc_display_name: "IdcDisplayNameString", # required
+    #     iam_role_arn: "String", # required
+    #     authorized_token_issuer_list: [
+    #       {
+    #         trusted_token_issuer_arn: "String",
+    #         authorized_audiences_list: ["String"],
+    #       },
+    #     ],
+    #     service_integrations: [
+    #       {
+    #         lake_formation: [
+    #           {
+    #             lake_formation_query: {
+    #               authorization: "Enabled", # required, accepts Enabled, Disabled
+    #             },
+    #           },
+    #         ],
+    #         s3_access_grants: [
+    #           {
+    #             read_write_access: {
+    #               authorization: "Enabled", # required, accepts Enabled, Disabled
+    #             },
+    #           },
+    #         ],
+    #       },
+    #     ],
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.redshift_idc_application.idc_instance_arn #=> String
+    #   resp.redshift_idc_application.redshift_idc_application_name #=> String
+    #   resp.redshift_idc_application.redshift_idc_application_arn #=> String
+    #   resp.redshift_idc_application.identity_namespace #=> String
+    #   resp.redshift_idc_application.idc_display_name #=> String
+    #   resp.redshift_idc_application.iam_role_arn #=> String
+    #   resp.redshift_idc_application.idc_managed_application_arn #=> String
+    #   resp.redshift_idc_application.idc_onboard_status #=> String
+    #   resp.redshift_idc_application.authorized_token_issuer_list #=> Array
+    #   resp.redshift_idc_application.authorized_token_issuer_list[0].trusted_token_issuer_arn #=> String
+    #   resp.redshift_idc_application.authorized_token_issuer_list[0].authorized_audiences_list #=> Array
+    #   resp.redshift_idc_application.authorized_token_issuer_list[0].authorized_audiences_list[0] #=> String
+    #   resp.redshift_idc_application.service_integrations #=> Array
+    #   resp.redshift_idc_application.service_integrations[0].lake_formation #=> Array
+    #   resp.redshift_idc_application.service_integrations[0].lake_formation[0].lake_formation_query.authorization #=> String, one of "Enabled", "Disabled"
+    #   resp.redshift_idc_application.service_integrations[0].s3_access_grants #=> Array
+    #   resp.redshift_idc_application.service_integrations[0].s3_access_grants[0].read_write_access.authorization #=> String, one of "Enabled", "Disabled"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CreateRedshiftIdcApplication AWS API Documentation
+    #
+    # @overload create_redshift_idc_application(params = {})
+    # @param [Hash] params ({})
+    def create_redshift_idc_application(params = {}, options = {})
+      req = build_request(:create_redshift_idc_application, params)
       req.send_request(options)
     end
 
@@ -2762,7 +3215,7 @@ module Aws::Redshift
     # specified datashare.
     #
     # @option params [required, String] :data_share_arn
-    #   The Amazon Resource Name (ARN) of the datashare to remove
+    #   The namespace Amazon Resource Name (ARN) of the datashare to remove
     #   authorization from.
     #
     # @option params [required, String] :consumer_identifier
@@ -2777,6 +3230,7 @@ module Aws::Redshift
     #   * {Types::DataShare#allow_publicly_accessible_consumers #allow_publicly_accessible_consumers} => Boolean
     #   * {Types::DataShare#data_share_associations #data_share_associations} => Array&lt;Types::DataShareAssociation&gt;
     #   * {Types::DataShare#managed_by #managed_by} => String
+    #   * {Types::DataShare#data_share_type #data_share_type} => String
     #
     # @example Request syntax with placeholder values
     #
@@ -2796,7 +3250,10 @@ module Aws::Redshift
     #   resp.data_share_associations[0].consumer_region #=> String
     #   resp.data_share_associations[0].created_date #=> Time
     #   resp.data_share_associations[0].status_change_date #=> Time
+    #   resp.data_share_associations[0].producer_allowed_writes #=> Boolean
+    #   resp.data_share_associations[0].consumer_accepted_writes #=> Boolean
     #   resp.managed_by #=> String
+    #   resp.data_share_type #=> String, one of "INTERNAL"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DeauthorizeDataShare AWS API Documentation
     #
@@ -2937,6 +3394,7 @@ module Aws::Redshift
     #   resp.cluster.endpoint.vpc_endpoints[0].network_interfaces[0].subnet_id #=> String
     #   resp.cluster.endpoint.vpc_endpoints[0].network_interfaces[0].private_ip_address #=> String
     #   resp.cluster.endpoint.vpc_endpoints[0].network_interfaces[0].availability_zone #=> String
+    #   resp.cluster.endpoint.vpc_endpoints[0].network_interfaces[0].ipv_6_address #=> String
     #   resp.cluster.cluster_create_time #=> Time
     #   resp.cluster.automated_snapshot_retention_period #=> Integer
     #   resp.cluster.manual_snapshot_retention_period #=> Integer
@@ -3038,6 +3496,18 @@ module Aws::Redshift
     #   resp.cluster.reserved_node_exchange_status.target_reserved_node_offering_id #=> String
     #   resp.cluster.reserved_node_exchange_status.target_reserved_node_type #=> String
     #   resp.cluster.reserved_node_exchange_status.target_reserved_node_count #=> Integer
+    #   resp.cluster.custom_domain_name #=> String
+    #   resp.cluster.custom_domain_certificate_arn #=> String
+    #   resp.cluster.custom_domain_certificate_expiry_date #=> Time
+    #   resp.cluster.master_password_secret_arn #=> String
+    #   resp.cluster.master_password_secret_kms_key_id #=> String
+    #   resp.cluster.ip_address_type #=> String
+    #   resp.cluster.multi_az #=> String
+    #   resp.cluster.multi_az_secondary.availability_zone #=> String
+    #   resp.cluster.multi_az_secondary.cluster_nodes #=> Array
+    #   resp.cluster.multi_az_secondary.cluster_nodes[0].node_role #=> String
+    #   resp.cluster.multi_az_secondary.cluster_nodes[0].private_ip_address #=> String
+    #   resp.cluster.multi_az_secondary.cluster_nodes[0].public_ip_address #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DeleteCluster AWS API Documentation
     #
@@ -3193,6 +3663,9 @@ module Aws::Redshift
     #   resp.snapshot.manual_snapshot_retention_period #=> Integer
     #   resp.snapshot.manual_snapshot_remaining_days #=> Integer
     #   resp.snapshot.snapshot_retention_start_time #=> Time
+    #   resp.snapshot.master_password_secret_arn #=> String
+    #   resp.snapshot.master_password_secret_kms_key_id #=> String
+    #   resp.snapshot.snapshot_arn #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DeleteClusterSnapshot AWS API Documentation
     #
@@ -3222,6 +3695,34 @@ module Aws::Redshift
     # @param [Hash] params ({})
     def delete_cluster_subnet_group(params = {}, options = {})
       req = build_request(:delete_cluster_subnet_group, params)
+      req.send_request(options)
+    end
+
+    # Contains information about deleting a custom domain association for a
+    # cluster.
+    #
+    # @option params [required, String] :cluster_identifier
+    #   The identifier of the cluster to delete a custom domain association
+    #   for.
+    #
+    # @option params [required, String] :custom_domain_name
+    #   The custom domain name for the custom domain association.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_custom_domain_association({
+    #     cluster_identifier: "String", # required
+    #     custom_domain_name: "CustomDomainNameString", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DeleteCustomDomainAssociation AWS API Documentation
+    #
+    # @overload delete_custom_domain_association(params = {})
+    # @param [Hash] params ({})
+    def delete_custom_domain_association(params = {}, options = {})
+      req = build_request(:delete_custom_domain_association, params)
       req.send_request(options)
     end
 
@@ -3269,6 +3770,7 @@ module Aws::Redshift
     #   resp.vpc_endpoint.network_interfaces[0].subnet_id #=> String
     #   resp.vpc_endpoint.network_interfaces[0].private_ip_address #=> String
     #   resp.vpc_endpoint.network_interfaces[0].availability_zone #=> String
+    #   resp.vpc_endpoint.network_interfaces[0].ipv_6_address #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DeleteEndpointAccess AWS API Documentation
     #
@@ -3346,6 +3848,60 @@ module Aws::Redshift
       req.send_request(options)
     end
 
+    # Deletes a zero-ETL integration or S3 event integration with Amazon
+    # Redshift.
+    #
+    # @option params [required, String] :integration_arn
+    #   The unique identifier of the integration to delete.
+    #
+    # @return [Types::Integration] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::Integration#integration_arn #integration_arn} => String
+    #   * {Types::Integration#integration_name #integration_name} => String
+    #   * {Types::Integration#source_arn #source_arn} => String
+    #   * {Types::Integration#target_arn #target_arn} => String
+    #   * {Types::Integration#status #status} => String
+    #   * {Types::Integration#errors #errors} => Array&lt;Types::IntegrationError&gt;
+    #   * {Types::Integration#create_time #create_time} => Time
+    #   * {Types::Integration#description #description} => String
+    #   * {Types::Integration#kms_key_id #kms_key_id} => String
+    #   * {Types::Integration#additional_encryption_context #additional_encryption_context} => Hash&lt;String,String&gt;
+    #   * {Types::Integration#tags #tags} => Array&lt;Types::Tag&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_integration({
+    #     integration_arn: "IntegrationArn", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.integration_arn #=> String
+    #   resp.integration_name #=> String
+    #   resp.source_arn #=> String
+    #   resp.target_arn #=> String
+    #   resp.status #=> String, one of "creating", "active", "modifying", "failed", "deleting", "syncing", "needs_attention"
+    #   resp.errors #=> Array
+    #   resp.errors[0].error_code #=> String
+    #   resp.errors[0].error_message #=> String
+    #   resp.create_time #=> Time
+    #   resp.description #=> String
+    #   resp.kms_key_id #=> String
+    #   resp.additional_encryption_context #=> Hash
+    #   resp.additional_encryption_context["String"] #=> String
+    #   resp.tags #=> Array
+    #   resp.tags[0].key #=> String
+    #   resp.tags[0].value #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DeleteIntegration AWS API Documentation
+    #
+    # @overload delete_integration(params = {})
+    # @param [Hash] params ({})
+    def delete_integration(params = {}, options = {})
+      req = build_request(:delete_integration, params)
+      req.send_request(options)
+    end
+
     # Deletes a partner integration from a cluster. Data can still flow to
     # the cluster until the integration is deleted at the partner's
     # website.
@@ -3388,6 +3944,51 @@ module Aws::Redshift
     # @param [Hash] params ({})
     def delete_partner(params = {}, options = {})
       req = build_request(:delete_partner, params)
+      req.send_request(options)
+    end
+
+    # Deletes an Amazon Redshift IAM Identity Center application.
+    #
+    # @option params [required, String] :redshift_idc_application_arn
+    #   The ARN for a deleted Amazon Redshift IAM Identity Center application.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_redshift_idc_application({
+    #     redshift_idc_application_arn: "String", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DeleteRedshiftIdcApplication AWS API Documentation
+    #
+    # @overload delete_redshift_idc_application(params = {})
+    # @param [Hash] params ({})
+    def delete_redshift_idc_application(params = {}, options = {})
+      req = build_request(:delete_redshift_idc_application, params)
+      req.send_request(options)
+    end
+
+    # Deletes the resource policy for a specified resource.
+    #
+    # @option params [required, String] :resource_arn
+    #   The Amazon Resource Name (ARN) of the resource of which its resource
+    #   policy is deleted.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_resource_policy({
+    #     resource_arn: "String", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DeleteResourcePolicy AWS API Documentation
+    #
+    # @overload delete_resource_policy(params = {})
+    # @param [Hash] params ({})
+    def delete_resource_policy(params = {}, options = {})
+      req = build_request(:delete_resource_policy, params)
       req.send_request(options)
     end
 
@@ -3505,6 +4106,49 @@ module Aws::Redshift
     # @param [Hash] params ({})
     def delete_usage_limit(params = {}, options = {})
       req = build_request(:delete_usage_limit, params)
+      req.send_request(options)
+    end
+
+    # Deregisters a cluster or serverless namespace from the Amazon Web
+    # Services Glue Data Catalog.
+    #
+    # @option params [required, Types::NamespaceIdentifierUnion] :namespace_identifier
+    #   The unique identifier of the cluster or serverless namespace that you
+    #   want to deregister.
+    #
+    # @option params [required, Array<String>] :consumer_identifiers
+    #   An array containing the ID of the consumer account that you want to
+    #   deregister the cluster or serverless namespace from.
+    #
+    # @return [Types::DeregisterNamespaceOutputMessage] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DeregisterNamespaceOutputMessage#status #status} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.deregister_namespace({
+    #     namespace_identifier: { # required
+    #       serverless_identifier: {
+    #         namespace_identifier: "String", # required
+    #         workgroup_identifier: "String", # required
+    #       },
+    #       provisioned_identifier: {
+    #         cluster_identifier: "String", # required
+    #       },
+    #     },
+    #     consumer_identifiers: ["String"], # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.status #=> String, one of "Registering", "Deregistering"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DeregisterNamespace AWS API Documentation
+    #
+    # @overload deregister_namespace(params = {})
+    # @param [Hash] params ({})
+    def deregister_namespace(params = {}, options = {})
+      req = build_request(:deregister_namespace, params)
       req.send_request(options)
     end
 
@@ -4149,6 +4793,9 @@ module Aws::Redshift
     #   resp.snapshots[0].manual_snapshot_retention_period #=> Integer
     #   resp.snapshots[0].manual_snapshot_remaining_days #=> Integer
     #   resp.snapshots[0].snapshot_retention_start_time #=> Time
+    #   resp.snapshots[0].master_password_secret_arn #=> String
+    #   resp.snapshots[0].master_password_secret_kms_key_id #=> String
+    #   resp.snapshots[0].snapshot_arn #=> String
     #
     #
     # The following waiters are defined for this operation (see {Client#wait_until} for detailed usage):
@@ -4255,6 +4902,8 @@ module Aws::Redshift
     #   resp.cluster_subnet_groups[0].tags #=> Array
     #   resp.cluster_subnet_groups[0].tags[0].key #=> String
     #   resp.cluster_subnet_groups[0].tags[0].value #=> String
+    #   resp.cluster_subnet_groups[0].supported_cluster_ip_address_types #=> Array
+    #   resp.cluster_subnet_groups[0].supported_cluster_ip_address_types[0] #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeClusterSubnetGroups AWS API Documentation
     #
@@ -4503,6 +5152,7 @@ module Aws::Redshift
     #   resp.clusters[0].endpoint.vpc_endpoints[0].network_interfaces[0].subnet_id #=> String
     #   resp.clusters[0].endpoint.vpc_endpoints[0].network_interfaces[0].private_ip_address #=> String
     #   resp.clusters[0].endpoint.vpc_endpoints[0].network_interfaces[0].availability_zone #=> String
+    #   resp.clusters[0].endpoint.vpc_endpoints[0].network_interfaces[0].ipv_6_address #=> String
     #   resp.clusters[0].cluster_create_time #=> Time
     #   resp.clusters[0].automated_snapshot_retention_period #=> Integer
     #   resp.clusters[0].manual_snapshot_retention_period #=> Integer
@@ -4604,6 +5254,18 @@ module Aws::Redshift
     #   resp.clusters[0].reserved_node_exchange_status.target_reserved_node_offering_id #=> String
     #   resp.clusters[0].reserved_node_exchange_status.target_reserved_node_type #=> String
     #   resp.clusters[0].reserved_node_exchange_status.target_reserved_node_count #=> Integer
+    #   resp.clusters[0].custom_domain_name #=> String
+    #   resp.clusters[0].custom_domain_certificate_arn #=> String
+    #   resp.clusters[0].custom_domain_certificate_expiry_date #=> Time
+    #   resp.clusters[0].master_password_secret_arn #=> String
+    #   resp.clusters[0].master_password_secret_kms_key_id #=> String
+    #   resp.clusters[0].ip_address_type #=> String
+    #   resp.clusters[0].multi_az #=> String
+    #   resp.clusters[0].multi_az_secondary.availability_zone #=> String
+    #   resp.clusters[0].multi_az_secondary.cluster_nodes #=> Array
+    #   resp.clusters[0].multi_az_secondary.cluster_nodes[0].node_role #=> String
+    #   resp.clusters[0].multi_az_secondary.cluster_nodes[0].private_ip_address #=> String
+    #   resp.clusters[0].multi_az_secondary.cluster_nodes[0].public_ip_address #=> String
     #
     #
     # The following waiters are defined for this operation (see {Client#wait_until} for detailed usage):
@@ -4621,11 +5283,62 @@ module Aws::Redshift
       req.send_request(options)
     end
 
+    # Contains information about custom domain associations for a cluster.
+    #
+    # @option params [String] :custom_domain_name
+    #   The custom domain name for the custom domain association.
+    #
+    # @option params [String] :custom_domain_certificate_arn
+    #   The certificate Amazon Resource Name (ARN) for the custom domain
+    #   association.
+    #
+    # @option params [Integer] :max_records
+    #   The maximum records setting for the associated custom domain.
+    #
+    # @option params [String] :marker
+    #   The marker for the custom domain association.
+    #
+    # @return [Types::CustomDomainAssociationsMessage] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CustomDomainAssociationsMessage#marker #marker} => String
+    #   * {Types::CustomDomainAssociationsMessage#associations #associations} => Array&lt;Types::Association&gt;
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_custom_domain_associations({
+    #     custom_domain_name: "CustomDomainNameString",
+    #     custom_domain_certificate_arn: "CustomDomainCertificateArnString",
+    #     max_records: 1,
+    #     marker: "String",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.marker #=> String
+    #   resp.associations #=> Array
+    #   resp.associations[0].custom_domain_certificate_arn #=> String
+    #   resp.associations[0].custom_domain_certificate_expiry_date #=> Time
+    #   resp.associations[0].certificate_associations #=> Array
+    #   resp.associations[0].certificate_associations[0].custom_domain_name #=> String
+    #   resp.associations[0].certificate_associations[0].cluster_identifier #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeCustomDomainAssociations AWS API Documentation
+    #
+    # @overload describe_custom_domain_associations(params = {})
+    # @param [Hash] params ({})
+    def describe_custom_domain_associations(params = {}, options = {})
+      req = build_request(:describe_custom_domain_associations, params)
+      req.send_request(options)
+    end
+
     # Shows the status of any inbound or outbound datashares available in
     # the specified account.
     #
     # @option params [String] :data_share_arn
-    #   The identifier of the datashare to describe details of.
+    #   The Amazon resource name (ARN) of the datashare to describe details
+    #   of.
     #
     # @option params [Integer] :max_records
     #   The maximum number of response records to return in each call. If the
@@ -4670,7 +5383,10 @@ module Aws::Redshift
     #   resp.data_shares[0].data_share_associations[0].consumer_region #=> String
     #   resp.data_shares[0].data_share_associations[0].created_date #=> Time
     #   resp.data_shares[0].data_share_associations[0].status_change_date #=> Time
+    #   resp.data_shares[0].data_share_associations[0].producer_allowed_writes #=> Boolean
+    #   resp.data_shares[0].data_share_associations[0].consumer_accepted_writes #=> Boolean
     #   resp.data_shares[0].managed_by #=> String
+    #   resp.data_shares[0].data_share_type #=> String, one of "INTERNAL"
     #   resp.marker #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeDataShares AWS API Documentation
@@ -4686,8 +5402,8 @@ module Aws::Redshift
     # is a consumer account identifier.
     #
     # @option params [String] :consumer_arn
-    #   The Amazon Resource Name (ARN) of the consumer that returns in the
-    #   list of datashares.
+    #   The Amazon Resource Name (ARN) of the consumer namespace that returns
+    #   in the list of datashares.
     #
     # @option params [String] :status
     #   An identifier giving the status of a datashare in the consumer
@@ -4738,7 +5454,10 @@ module Aws::Redshift
     #   resp.data_shares[0].data_share_associations[0].consumer_region #=> String
     #   resp.data_shares[0].data_share_associations[0].created_date #=> Time
     #   resp.data_shares[0].data_share_associations[0].status_change_date #=> Time
+    #   resp.data_shares[0].data_share_associations[0].producer_allowed_writes #=> Boolean
+    #   resp.data_shares[0].data_share_associations[0].consumer_accepted_writes #=> Boolean
     #   resp.data_shares[0].managed_by #=> String
+    #   resp.data_shares[0].data_share_type #=> String, one of "INTERNAL"
     #   resp.marker #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeDataSharesForConsumer AWS API Documentation
@@ -4754,8 +5473,8 @@ module Aws::Redshift
     # is a producer account identifier.
     #
     # @option params [String] :producer_arn
-    #   The Amazon Resource Name (ARN) of the producer that returns in the
-    #   list of datashares.
+    #   The Amazon Resource Name (ARN) of the producer namespace that returns
+    #   in the list of datashares.
     #
     # @option params [String] :status
     #   An identifier giving the status of a datashare in the producer. If
@@ -4806,7 +5525,10 @@ module Aws::Redshift
     #   resp.data_shares[0].data_share_associations[0].consumer_region #=> String
     #   resp.data_shares[0].data_share_associations[0].created_date #=> Time
     #   resp.data_shares[0].data_share_associations[0].status_change_date #=> Time
+    #   resp.data_shares[0].data_share_associations[0].producer_allowed_writes #=> Boolean
+    #   resp.data_shares[0].data_share_associations[0].consumer_accepted_writes #=> Boolean
     #   resp.data_shares[0].managed_by #=> String
+    #   resp.data_shares[0].data_share_type #=> String, one of "INTERNAL"
     #   resp.marker #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeDataSharesForProducer AWS API Documentation
@@ -4955,6 +5677,7 @@ module Aws::Redshift
     #   resp.endpoint_access_list[0].vpc_endpoint.network_interfaces[0].subnet_id #=> String
     #   resp.endpoint_access_list[0].vpc_endpoint.network_interfaces[0].private_ip_address #=> String
     #   resp.endpoint_access_list[0].vpc_endpoint.network_interfaces[0].availability_zone #=> String
+    #   resp.endpoint_access_list[0].vpc_endpoint.network_interfaces[0].ipv_6_address #=> String
     #   resp.marker #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeEndpointAccess AWS API Documentation
@@ -5510,6 +6233,150 @@ module Aws::Redshift
       req.send_request(options)
     end
 
+    # Returns a list of inbound integrations.
+    #
+    # @option params [String] :integration_arn
+    #   The Amazon Resource Name (ARN) of the inbound integration.
+    #
+    # @option params [String] :target_arn
+    #   The Amazon Resource Name (ARN) of the target of an inbound
+    #   integration.
+    #
+    # @option params [Integer] :max_records
+    #   The maximum number of response records to return in each call. If the
+    #   number of remaining response records exceeds the specified
+    #   `MaxRecords` value, a value is returned in a `marker` field of the
+    #   response. You can retrieve the next set of records by retrying the
+    #   command with the returned marker value.
+    #
+    #   Default: `100`
+    #
+    #   Constraints: minimum 20, maximum 100.
+    #
+    # @option params [String] :marker
+    #   An optional parameter that specifies the starting point to return a
+    #   set of response records. When the results of a
+    #   DescribeInboundIntegrations request exceed the value specified in
+    #   `MaxRecords`, Amazon Web Services returns a value in the `Marker`
+    #   field of the response. You can retrieve the next set of response
+    #   records by providing the returned marker value in the `Marker`
+    #   parameter and retrying the request.
+    #
+    # @return [Types::InboundIntegrationsMessage] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::InboundIntegrationsMessage#marker #marker} => String
+    #   * {Types::InboundIntegrationsMessage#inbound_integrations #inbound_integrations} => Array&lt;Types::InboundIntegration&gt;
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_inbound_integrations({
+    #     integration_arn: "InboundIntegrationArn",
+    #     target_arn: "TargetArn",
+    #     max_records: 1,
+    #     marker: "String",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.marker #=> String
+    #   resp.inbound_integrations #=> Array
+    #   resp.inbound_integrations[0].integration_arn #=> String
+    #   resp.inbound_integrations[0].source_arn #=> String
+    #   resp.inbound_integrations[0].target_arn #=> String
+    #   resp.inbound_integrations[0].status #=> String, one of "creating", "active", "modifying", "failed", "deleting", "syncing", "needs_attention"
+    #   resp.inbound_integrations[0].errors #=> Array
+    #   resp.inbound_integrations[0].errors[0].error_code #=> String
+    #   resp.inbound_integrations[0].errors[0].error_message #=> String
+    #   resp.inbound_integrations[0].create_time #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeInboundIntegrations AWS API Documentation
+    #
+    # @overload describe_inbound_integrations(params = {})
+    # @param [Hash] params ({})
+    def describe_inbound_integrations(params = {}, options = {})
+      req = build_request(:describe_inbound_integrations, params)
+      req.send_request(options)
+    end
+
+    # Describes one or more zero-ETL or S3 event integrations with Amazon
+    # Redshift.
+    #
+    # @option params [String] :integration_arn
+    #   The unique identifier of the integration.
+    #
+    # @option params [Integer] :max_records
+    #   The maximum number of response records to return in each call. If the
+    #   number of remaining response records exceeds the specified
+    #   `MaxRecords` value, a value is returned in a `marker` field of the
+    #   response. You can retrieve the next set of records by retrying the
+    #   command with the returned marker value.
+    #
+    #   Default: `100`
+    #
+    #   Constraints: minimum 20, maximum 100.
+    #
+    # @option params [String] :marker
+    #   An optional pagination token provided by a previous
+    #   `DescribeIntegrations` request. If this parameter is specified, the
+    #   response includes only records beyond the marker, up to the value
+    #   specified by `MaxRecords`.
+    #
+    # @option params [Array<Types::DescribeIntegrationsFilter>] :filters
+    #   A filter that specifies one or more resources to return.
+    #
+    # @return [Types::IntegrationsMessage] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::IntegrationsMessage#marker #marker} => String
+    #   * {Types::IntegrationsMessage#integrations #integrations} => Array&lt;Types::Integration&gt;
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_integrations({
+    #     integration_arn: "IntegrationArn",
+    #     max_records: 1,
+    #     marker: "String",
+    #     filters: [
+    #       {
+    #         name: "integration-arn", # required, accepts integration-arn, source-arn, source-types, status
+    #         values: ["String"], # required
+    #       },
+    #     ],
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.marker #=> String
+    #   resp.integrations #=> Array
+    #   resp.integrations[0].integration_arn #=> String
+    #   resp.integrations[0].integration_name #=> String
+    #   resp.integrations[0].source_arn #=> String
+    #   resp.integrations[0].target_arn #=> String
+    #   resp.integrations[0].status #=> String, one of "creating", "active", "modifying", "failed", "deleting", "syncing", "needs_attention"
+    #   resp.integrations[0].errors #=> Array
+    #   resp.integrations[0].errors[0].error_code #=> String
+    #   resp.integrations[0].errors[0].error_message #=> String
+    #   resp.integrations[0].create_time #=> Time
+    #   resp.integrations[0].description #=> String
+    #   resp.integrations[0].kms_key_id #=> String
+    #   resp.integrations[0].additional_encryption_context #=> Hash
+    #   resp.integrations[0].additional_encryption_context["String"] #=> String
+    #   resp.integrations[0].tags #=> Array
+    #   resp.integrations[0].tags[0].key #=> String
+    #   resp.integrations[0].tags[0].value #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeIntegrations AWS API Documentation
+    #
+    # @overload describe_integrations(params = {})
+    # @param [Hash] params ({})
+    def describe_integrations(params = {}, options = {})
+      req = build_request(:describe_integrations, params)
+      req.send_request(options)
+    end
+
     # Describes whether information, such as queries and connection
     # attempts, is being logged for the specified Amazon Redshift cluster.
     #
@@ -5784,6 +6651,73 @@ module Aws::Redshift
     # @param [Hash] params ({})
     def describe_partners(params = {}, options = {})
       req = build_request(:describe_partners, params)
+      req.send_request(options)
+    end
+
+    # Lists the Amazon Redshift IAM Identity Center applications.
+    #
+    # @option params [String] :redshift_idc_application_arn
+    #   The ARN for the Redshift application that integrates with IAM Identity
+    #   Center.
+    #
+    # @option params [Integer] :max_records
+    #   The maximum number of response records to return in each call. If the
+    #   number of remaining response records exceeds the specified MaxRecords
+    #   value, a value is returned in a marker field of the response. You can
+    #   retrieve the next set of records by retrying the command with the
+    #   returned marker value.
+    #
+    # @option params [String] :marker
+    #   A value that indicates the starting point for the next set of response
+    #   records in a subsequent request. If a value is returned in a response,
+    #   you can retrieve the next set of records by providing this returned
+    #   marker value in the Marker parameter and retrying the command. If the
+    #   Marker field is empty, all response records have been retrieved for
+    #   the request.
+    #
+    # @return [Types::DescribeRedshiftIdcApplicationsResult] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeRedshiftIdcApplicationsResult#redshift_idc_applications #redshift_idc_applications} => Array&lt;Types::RedshiftIdcApplication&gt;
+    #   * {Types::DescribeRedshiftIdcApplicationsResult#marker #marker} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_redshift_idc_applications({
+    #     redshift_idc_application_arn: "String",
+    #     max_records: 1,
+    #     marker: "String",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.redshift_idc_applications #=> Array
+    #   resp.redshift_idc_applications[0].idc_instance_arn #=> String
+    #   resp.redshift_idc_applications[0].redshift_idc_application_name #=> String
+    #   resp.redshift_idc_applications[0].redshift_idc_application_arn #=> String
+    #   resp.redshift_idc_applications[0].identity_namespace #=> String
+    #   resp.redshift_idc_applications[0].idc_display_name #=> String
+    #   resp.redshift_idc_applications[0].iam_role_arn #=> String
+    #   resp.redshift_idc_applications[0].idc_managed_application_arn #=> String
+    #   resp.redshift_idc_applications[0].idc_onboard_status #=> String
+    #   resp.redshift_idc_applications[0].authorized_token_issuer_list #=> Array
+    #   resp.redshift_idc_applications[0].authorized_token_issuer_list[0].trusted_token_issuer_arn #=> String
+    #   resp.redshift_idc_applications[0].authorized_token_issuer_list[0].authorized_audiences_list #=> Array
+    #   resp.redshift_idc_applications[0].authorized_token_issuer_list[0].authorized_audiences_list[0] #=> String
+    #   resp.redshift_idc_applications[0].service_integrations #=> Array
+    #   resp.redshift_idc_applications[0].service_integrations[0].lake_formation #=> Array
+    #   resp.redshift_idc_applications[0].service_integrations[0].lake_formation[0].lake_formation_query.authorization #=> String, one of "Enabled", "Disabled"
+    #   resp.redshift_idc_applications[0].service_integrations[0].s3_access_grants #=> Array
+    #   resp.redshift_idc_applications[0].service_integrations[0].s3_access_grants[0].read_write_access.authorization #=> String, one of "Enabled", "Disabled"
+    #   resp.marker #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeRedshiftIdcApplications AWS API Documentation
+    #
+    # @overload describe_redshift_idc_applications(params = {})
+    # @param [Hash] params ({})
+    def describe_redshift_idc_applications(params = {}, options = {})
+      req = build_request(:describe_redshift_idc_applications, params)
       req.send_request(options)
     end
 
@@ -6435,7 +7369,7 @@ module Aws::Redshift
     # by specifying an ARN, or you can return all tags for a given type of
     # resource, such as clusters, snapshots, and so on.
     #
-    # The following are limitations for `DescribeTags`\:
+    # The following are limitations for `DescribeTags`:
     #
     # * You cannot specify an ARN and a resource-type value together in the
     #   same request.
@@ -6484,6 +7418,14 @@ module Aws::Redshift
     #   * Parameter group
     #
     #   * Snapshot copy grant
+    #
+    #   * Integration (zero-ETL integration or S3 event integration)
+    #
+    #     <note markdown="1"> To describe the tags associated with an `integration`, don't
+    #     specify `ResourceType`, instead specify the `ResourceName` of the
+    #     integration.
+    #
+    #      </note>
     #
     #   For more information about Amazon Redshift resource types and
     #   constructing ARNs, go to [Specifying Policy Elements: Actions,
@@ -6760,6 +7702,7 @@ module Aws::Redshift
     #   resp.cluster.endpoint.vpc_endpoints[0].network_interfaces[0].subnet_id #=> String
     #   resp.cluster.endpoint.vpc_endpoints[0].network_interfaces[0].private_ip_address #=> String
     #   resp.cluster.endpoint.vpc_endpoints[0].network_interfaces[0].availability_zone #=> String
+    #   resp.cluster.endpoint.vpc_endpoints[0].network_interfaces[0].ipv_6_address #=> String
     #   resp.cluster.cluster_create_time #=> Time
     #   resp.cluster.automated_snapshot_retention_period #=> Integer
     #   resp.cluster.manual_snapshot_retention_period #=> Integer
@@ -6861,6 +7804,18 @@ module Aws::Redshift
     #   resp.cluster.reserved_node_exchange_status.target_reserved_node_offering_id #=> String
     #   resp.cluster.reserved_node_exchange_status.target_reserved_node_type #=> String
     #   resp.cluster.reserved_node_exchange_status.target_reserved_node_count #=> Integer
+    #   resp.cluster.custom_domain_name #=> String
+    #   resp.cluster.custom_domain_certificate_arn #=> String
+    #   resp.cluster.custom_domain_certificate_expiry_date #=> Time
+    #   resp.cluster.master_password_secret_arn #=> String
+    #   resp.cluster.master_password_secret_kms_key_id #=> String
+    #   resp.cluster.ip_address_type #=> String
+    #   resp.cluster.multi_az #=> String
+    #   resp.cluster.multi_az_secondary.availability_zone #=> String
+    #   resp.cluster.multi_az_secondary.cluster_nodes #=> Array
+    #   resp.cluster.multi_az_secondary.cluster_nodes[0].node_role #=> String
+    #   resp.cluster.multi_az_secondary.cluster_nodes[0].private_ip_address #=> String
+    #   resp.cluster.multi_az_secondary.cluster_nodes[0].public_ip_address #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DisableSnapshotCopy AWS API Documentation
     #
@@ -6883,8 +7838,8 @@ module Aws::Redshift
     #   removed from the entire account.
     #
     # @option params [String] :consumer_arn
-    #   The Amazon Resource Name (ARN) of the consumer that association for
-    #   the datashare is removed from.
+    #   The Amazon Resource Name (ARN) of the consumer namespace that
+    #   association for the datashare is removed from.
     #
     # @option params [String] :consumer_region
     #   From a datashare consumer account, removes association of a datashare
@@ -6898,6 +7853,7 @@ module Aws::Redshift
     #   * {Types::DataShare#allow_publicly_accessible_consumers #allow_publicly_accessible_consumers} => Boolean
     #   * {Types::DataShare#data_share_associations #data_share_associations} => Array&lt;Types::DataShareAssociation&gt;
     #   * {Types::DataShare#managed_by #managed_by} => String
+    #   * {Types::DataShare#data_share_type #data_share_type} => String
     #
     # @example Request syntax with placeholder values
     #
@@ -6919,7 +7875,10 @@ module Aws::Redshift
     #   resp.data_share_associations[0].consumer_region #=> String
     #   resp.data_share_associations[0].created_date #=> Time
     #   resp.data_share_associations[0].status_change_date #=> Time
+    #   resp.data_share_associations[0].producer_allowed_writes #=> Boolean
+    #   resp.data_share_associations[0].consumer_accepted_writes #=> Boolean
     #   resp.managed_by #=> String
+    #   resp.data_share_type #=> String, one of "INTERNAL"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DisassociateDataShareConsumer AWS API Documentation
     #
@@ -6951,23 +7910,10 @@ module Aws::Redshift
     # @option params [String] :s3_key_prefix
     #   The prefix applied to the log file names.
     #
-    #   Constraints:
-    #
-    #   * Cannot exceed 512 characters
-    #
-    #   * Cannot contain spaces( ), double quotes ("), single quotes ('), a
-    #     backslash (\\), or control characters. The hexadecimal codes for
-    #     invalid characters are:
-    #
-    #     * x00 to x20
-    #
-    #     * x22
-    #
-    #     * x27
-    #
-    #     * x5c
-    #
-    #     * x7f or larger
+    #   Valid characters are any letter from any language, any whitespace
+    #   character, any numeric character, and the following characters:
+    #   underscore (`_`), period (`.`), colon (`:`), slash (`/`), equal (`=`),
+    #   plus (`+`), backslash (``), hyphen (`-`), at symbol (`@`).
     #
     # @option params [String] :log_destination_type
     #   The log destination type. An enum with possible values of `s3` and
@@ -6993,7 +7939,7 @@ module Aws::Redshift
     #   resp = client.enable_logging({
     #     cluster_identifier: "String", # required
     #     bucket_name: "String",
-    #     s3_key_prefix: "String",
+    #     s3_key_prefix: "S3KeyPrefixValue",
     #     log_destination_type: "s3", # accepts s3, cloudwatch
     #     log_exports: ["String"],
     #   })
@@ -7094,6 +8040,7 @@ module Aws::Redshift
     #   resp.cluster.endpoint.vpc_endpoints[0].network_interfaces[0].subnet_id #=> String
     #   resp.cluster.endpoint.vpc_endpoints[0].network_interfaces[0].private_ip_address #=> String
     #   resp.cluster.endpoint.vpc_endpoints[0].network_interfaces[0].availability_zone #=> String
+    #   resp.cluster.endpoint.vpc_endpoints[0].network_interfaces[0].ipv_6_address #=> String
     #   resp.cluster.cluster_create_time #=> Time
     #   resp.cluster.automated_snapshot_retention_period #=> Integer
     #   resp.cluster.manual_snapshot_retention_period #=> Integer
@@ -7195,6 +8142,18 @@ module Aws::Redshift
     #   resp.cluster.reserved_node_exchange_status.target_reserved_node_offering_id #=> String
     #   resp.cluster.reserved_node_exchange_status.target_reserved_node_type #=> String
     #   resp.cluster.reserved_node_exchange_status.target_reserved_node_count #=> Integer
+    #   resp.cluster.custom_domain_name #=> String
+    #   resp.cluster.custom_domain_certificate_arn #=> String
+    #   resp.cluster.custom_domain_certificate_expiry_date #=> Time
+    #   resp.cluster.master_password_secret_arn #=> String
+    #   resp.cluster.master_password_secret_kms_key_id #=> String
+    #   resp.cluster.ip_address_type #=> String
+    #   resp.cluster.multi_az #=> String
+    #   resp.cluster.multi_az_secondary.availability_zone #=> String
+    #   resp.cluster.multi_az_secondary.cluster_nodes #=> Array
+    #   resp.cluster.multi_az_secondary.cluster_nodes[0].node_role #=> String
+    #   resp.cluster.multi_az_secondary.cluster_nodes[0].private_ip_address #=> String
+    #   resp.cluster.multi_az_secondary.cluster_nodes[0].public_ip_address #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/EnableSnapshotCopy AWS API Documentation
     #
@@ -7202,6 +8161,166 @@ module Aws::Redshift
     # @param [Hash] params ({})
     def enable_snapshot_copy(params = {}, options = {})
       req = build_request(:enable_snapshot_copy, params)
+      req.send_request(options)
+    end
+
+    # Fails over the primary compute unit of the specified Multi-AZ cluster
+    # to another Availability Zone.
+    #
+    # @option params [required, String] :cluster_identifier
+    #   The unique identifier of the cluster for which the primary compute
+    #   unit will be failed over to another Availability Zone.
+    #
+    # @return [Types::FailoverPrimaryComputeResult] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::FailoverPrimaryComputeResult#cluster #cluster} => Types::Cluster
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.failover_primary_compute({
+    #     cluster_identifier: "String", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.cluster.cluster_identifier #=> String
+    #   resp.cluster.node_type #=> String
+    #   resp.cluster.cluster_status #=> String
+    #   resp.cluster.cluster_availability_status #=> String
+    #   resp.cluster.modify_status #=> String
+    #   resp.cluster.master_username #=> String
+    #   resp.cluster.db_name #=> String
+    #   resp.cluster.endpoint.address #=> String
+    #   resp.cluster.endpoint.port #=> Integer
+    #   resp.cluster.endpoint.vpc_endpoints #=> Array
+    #   resp.cluster.endpoint.vpc_endpoints[0].vpc_endpoint_id #=> String
+    #   resp.cluster.endpoint.vpc_endpoints[0].vpc_id #=> String
+    #   resp.cluster.endpoint.vpc_endpoints[0].network_interfaces #=> Array
+    #   resp.cluster.endpoint.vpc_endpoints[0].network_interfaces[0].network_interface_id #=> String
+    #   resp.cluster.endpoint.vpc_endpoints[0].network_interfaces[0].subnet_id #=> String
+    #   resp.cluster.endpoint.vpc_endpoints[0].network_interfaces[0].private_ip_address #=> String
+    #   resp.cluster.endpoint.vpc_endpoints[0].network_interfaces[0].availability_zone #=> String
+    #   resp.cluster.endpoint.vpc_endpoints[0].network_interfaces[0].ipv_6_address #=> String
+    #   resp.cluster.cluster_create_time #=> Time
+    #   resp.cluster.automated_snapshot_retention_period #=> Integer
+    #   resp.cluster.manual_snapshot_retention_period #=> Integer
+    #   resp.cluster.cluster_security_groups #=> Array
+    #   resp.cluster.cluster_security_groups[0].cluster_security_group_name #=> String
+    #   resp.cluster.cluster_security_groups[0].status #=> String
+    #   resp.cluster.vpc_security_groups #=> Array
+    #   resp.cluster.vpc_security_groups[0].vpc_security_group_id #=> String
+    #   resp.cluster.vpc_security_groups[0].status #=> String
+    #   resp.cluster.cluster_parameter_groups #=> Array
+    #   resp.cluster.cluster_parameter_groups[0].parameter_group_name #=> String
+    #   resp.cluster.cluster_parameter_groups[0].parameter_apply_status #=> String
+    #   resp.cluster.cluster_parameter_groups[0].cluster_parameter_status_list #=> Array
+    #   resp.cluster.cluster_parameter_groups[0].cluster_parameter_status_list[0].parameter_name #=> String
+    #   resp.cluster.cluster_parameter_groups[0].cluster_parameter_status_list[0].parameter_apply_status #=> String
+    #   resp.cluster.cluster_parameter_groups[0].cluster_parameter_status_list[0].parameter_apply_error_description #=> String
+    #   resp.cluster.cluster_subnet_group_name #=> String
+    #   resp.cluster.vpc_id #=> String
+    #   resp.cluster.availability_zone #=> String
+    #   resp.cluster.preferred_maintenance_window #=> String
+    #   resp.cluster.pending_modified_values.master_user_password #=> String
+    #   resp.cluster.pending_modified_values.node_type #=> String
+    #   resp.cluster.pending_modified_values.number_of_nodes #=> Integer
+    #   resp.cluster.pending_modified_values.cluster_type #=> String
+    #   resp.cluster.pending_modified_values.cluster_version #=> String
+    #   resp.cluster.pending_modified_values.automated_snapshot_retention_period #=> Integer
+    #   resp.cluster.pending_modified_values.cluster_identifier #=> String
+    #   resp.cluster.pending_modified_values.publicly_accessible #=> Boolean
+    #   resp.cluster.pending_modified_values.enhanced_vpc_routing #=> Boolean
+    #   resp.cluster.pending_modified_values.maintenance_track_name #=> String
+    #   resp.cluster.pending_modified_values.encryption_type #=> String
+    #   resp.cluster.cluster_version #=> String
+    #   resp.cluster.allow_version_upgrade #=> Boolean
+    #   resp.cluster.number_of_nodes #=> Integer
+    #   resp.cluster.publicly_accessible #=> Boolean
+    #   resp.cluster.encrypted #=> Boolean
+    #   resp.cluster.restore_status.status #=> String
+    #   resp.cluster.restore_status.current_restore_rate_in_mega_bytes_per_second #=> Float
+    #   resp.cluster.restore_status.snapshot_size_in_mega_bytes #=> Integer
+    #   resp.cluster.restore_status.progress_in_mega_bytes #=> Integer
+    #   resp.cluster.restore_status.elapsed_time_in_seconds #=> Integer
+    #   resp.cluster.restore_status.estimated_time_to_completion_in_seconds #=> Integer
+    #   resp.cluster.data_transfer_progress.status #=> String
+    #   resp.cluster.data_transfer_progress.current_rate_in_mega_bytes_per_second #=> Float
+    #   resp.cluster.data_transfer_progress.total_data_in_mega_bytes #=> Integer
+    #   resp.cluster.data_transfer_progress.data_transferred_in_mega_bytes #=> Integer
+    #   resp.cluster.data_transfer_progress.estimated_time_to_completion_in_seconds #=> Integer
+    #   resp.cluster.data_transfer_progress.elapsed_time_in_seconds #=> Integer
+    #   resp.cluster.hsm_status.hsm_client_certificate_identifier #=> String
+    #   resp.cluster.hsm_status.hsm_configuration_identifier #=> String
+    #   resp.cluster.hsm_status.status #=> String
+    #   resp.cluster.cluster_snapshot_copy_status.destination_region #=> String
+    #   resp.cluster.cluster_snapshot_copy_status.retention_period #=> Integer
+    #   resp.cluster.cluster_snapshot_copy_status.manual_snapshot_retention_period #=> Integer
+    #   resp.cluster.cluster_snapshot_copy_status.snapshot_copy_grant_name #=> String
+    #   resp.cluster.cluster_public_key #=> String
+    #   resp.cluster.cluster_nodes #=> Array
+    #   resp.cluster.cluster_nodes[0].node_role #=> String
+    #   resp.cluster.cluster_nodes[0].private_ip_address #=> String
+    #   resp.cluster.cluster_nodes[0].public_ip_address #=> String
+    #   resp.cluster.elastic_ip_status.elastic_ip #=> String
+    #   resp.cluster.elastic_ip_status.status #=> String
+    #   resp.cluster.cluster_revision_number #=> String
+    #   resp.cluster.tags #=> Array
+    #   resp.cluster.tags[0].key #=> String
+    #   resp.cluster.tags[0].value #=> String
+    #   resp.cluster.kms_key_id #=> String
+    #   resp.cluster.enhanced_vpc_routing #=> Boolean
+    #   resp.cluster.iam_roles #=> Array
+    #   resp.cluster.iam_roles[0].iam_role_arn #=> String
+    #   resp.cluster.iam_roles[0].apply_status #=> String
+    #   resp.cluster.pending_actions #=> Array
+    #   resp.cluster.pending_actions[0] #=> String
+    #   resp.cluster.maintenance_track_name #=> String
+    #   resp.cluster.elastic_resize_number_of_node_options #=> String
+    #   resp.cluster.deferred_maintenance_windows #=> Array
+    #   resp.cluster.deferred_maintenance_windows[0].defer_maintenance_identifier #=> String
+    #   resp.cluster.deferred_maintenance_windows[0].defer_maintenance_start_time #=> Time
+    #   resp.cluster.deferred_maintenance_windows[0].defer_maintenance_end_time #=> Time
+    #   resp.cluster.snapshot_schedule_identifier #=> String
+    #   resp.cluster.snapshot_schedule_state #=> String, one of "MODIFYING", "ACTIVE", "FAILED"
+    #   resp.cluster.expected_next_snapshot_schedule_time #=> Time
+    #   resp.cluster.expected_next_snapshot_schedule_time_status #=> String
+    #   resp.cluster.next_maintenance_window_start_time #=> Time
+    #   resp.cluster.resize_info.resize_type #=> String
+    #   resp.cluster.resize_info.allow_cancel_resize #=> Boolean
+    #   resp.cluster.availability_zone_relocation_status #=> String
+    #   resp.cluster.cluster_namespace_arn #=> String
+    #   resp.cluster.total_storage_capacity_in_mega_bytes #=> Integer
+    #   resp.cluster.aqua_configuration.aqua_status #=> String, one of "enabled", "disabled", "applying"
+    #   resp.cluster.aqua_configuration.aqua_configuration_status #=> String, one of "enabled", "disabled", "auto"
+    #   resp.cluster.default_iam_role_arn #=> String
+    #   resp.cluster.reserved_node_exchange_status.reserved_node_exchange_request_id #=> String
+    #   resp.cluster.reserved_node_exchange_status.status #=> String, one of "REQUESTED", "PENDING", "IN_PROGRESS", "RETRYING", "SUCCEEDED", "FAILED"
+    #   resp.cluster.reserved_node_exchange_status.request_time #=> Time
+    #   resp.cluster.reserved_node_exchange_status.source_reserved_node_id #=> String
+    #   resp.cluster.reserved_node_exchange_status.source_reserved_node_type #=> String
+    #   resp.cluster.reserved_node_exchange_status.source_reserved_node_count #=> Integer
+    #   resp.cluster.reserved_node_exchange_status.target_reserved_node_offering_id #=> String
+    #   resp.cluster.reserved_node_exchange_status.target_reserved_node_type #=> String
+    #   resp.cluster.reserved_node_exchange_status.target_reserved_node_count #=> Integer
+    #   resp.cluster.custom_domain_name #=> String
+    #   resp.cluster.custom_domain_certificate_arn #=> String
+    #   resp.cluster.custom_domain_certificate_expiry_date #=> Time
+    #   resp.cluster.master_password_secret_arn #=> String
+    #   resp.cluster.master_password_secret_kms_key_id #=> String
+    #   resp.cluster.ip_address_type #=> String
+    #   resp.cluster.multi_az #=> String
+    #   resp.cluster.multi_az_secondary.availability_zone #=> String
+    #   resp.cluster.multi_az_secondary.cluster_nodes #=> Array
+    #   resp.cluster.multi_az_secondary.cluster_nodes[0].node_role #=> String
+    #   resp.cluster.multi_az_secondary.cluster_nodes[0].private_ip_address #=> String
+    #   resp.cluster.multi_az_secondary.cluster_nodes[0].public_ip_address #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/FailoverPrimaryCompute AWS API Documentation
+    #
+    # @overload failover_primary_compute(params = {})
+    # @param [Hash] params ({})
+    def failover_primary_compute(params = {}, options = {})
+      req = build_request(:failover_primary_compute, params)
       req.send_request(options)
     end
 
@@ -7293,7 +8412,7 @@ module Aws::Redshift
     #
     #   [1]: http://docs.aws.amazon.com/redshift/latest/dg/r_pg_keywords.html
     #
-    # @option params [required, String] :cluster_identifier
+    # @option params [String] :cluster_identifier
     #   The unique identifier of the cluster that contains the database for
     #   which you are requesting credentials. This parameter is case
     #   sensitive.
@@ -7333,6 +8452,9 @@ module Aws::Redshift
     #
     #   [1]: http://docs.aws.amazon.com/redshift/latest/dg/r_pg_keywords.html
     #
+    # @option params [String] :custom_domain_name
+    #   The custom domain name for the cluster credentials.
+    #
     # @return [Types::ClusterCredentials] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::ClusterCredentials#db_user #db_user} => String
@@ -7344,10 +8466,11 @@ module Aws::Redshift
     #   resp = client.get_cluster_credentials({
     #     db_user: "String", # required
     #     db_name: "String",
-    #     cluster_identifier: "String", # required
+    #     cluster_identifier: "String",
     #     duration_seconds: 1,
     #     auto_create: false,
     #     db_groups: ["String"],
+    #     custom_domain_name: "String",
     #   })
     #
     # @example Response structure
@@ -7389,7 +8512,7 @@ module Aws::Redshift
     #   the resource `dbname` for the specified database name. If the database
     #   name is not specified, access to all databases is allowed.
     #
-    # @option params [required, String] :cluster_identifier
+    # @option params [String] :cluster_identifier
     #   The unique identifier of the cluster that contains the database for
     #   which you are requesting credentials.
     #
@@ -7397,6 +8520,9 @@ module Aws::Redshift
     #   The number of seconds until the returned temporary password expires.
     #
     #   Range: 900-3600. Default: 900.
+    #
+    # @option params [String] :custom_domain_name
+    #   The custom domain name for the IAM message cluster credentials.
     #
     # @return [Types::ClusterExtendedCredentials] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -7409,8 +8535,9 @@ module Aws::Redshift
     #
     #   resp = client.get_cluster_credentials_with_iam({
     #     db_name: "String",
-    #     cluster_identifier: "String", # required
+    #     cluster_identifier: "String",
     #     duration_seconds: 1,
+    #     custom_domain_name: "String",
     #   })
     #
     # @example Response structure
@@ -7575,6 +8702,116 @@ module Aws::Redshift
       req.send_request(options)
     end
 
+    # Get the resource policy for a specified resource.
+    #
+    # @option params [required, String] :resource_arn
+    #   The Amazon Resource Name (ARN) of the resource of which its resource
+    #   policy is fetched.
+    #
+    # @return [Types::GetResourcePolicyResult] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetResourcePolicyResult#resource_policy #resource_policy} => Types::ResourcePolicy
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_resource_policy({
+    #     resource_arn: "String", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.resource_policy.resource_arn #=> String
+    #   resp.resource_policy.policy #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/GetResourcePolicy AWS API Documentation
+    #
+    # @overload get_resource_policy(params = {})
+    # @param [Hash] params ({})
+    def get_resource_policy(params = {}, options = {})
+      req = build_request(:get_resource_policy, params)
+      req.send_request(options)
+    end
+
+    # List the Amazon Redshift Advisor recommendations for one or multiple
+    # Amazon Redshift clusters in an Amazon Web Services account.
+    #
+    # @option params [String] :cluster_identifier
+    #   The unique identifier of the Amazon Redshift cluster for which the
+    #   list of Advisor recommendations is returned. If the neither the
+    #   cluster identifier and the cluster namespace ARN parameters are
+    #   specified, then recommendations for all clusters in the account are
+    #   returned.
+    #
+    # @option params [String] :namespace_arn
+    #   The Amazon Redshift cluster namespace Amazon Resource Name (ARN) for
+    #   which the list of Advisor recommendations is returned. If the neither
+    #   the cluster identifier and the cluster namespace ARN parameters are
+    #   specified, then recommendations for all clusters in the account are
+    #   returned.
+    #
+    # @option params [Integer] :max_records
+    #   The maximum number of response records to return in each call. If the
+    #   number of remaining response records exceeds the specified MaxRecords
+    #   value, a value is returned in a marker field of the response. You can
+    #   retrieve the next set of records by retrying the command with the
+    #   returned marker value.
+    #
+    # @option params [String] :marker
+    #   A value that indicates the starting point for the next set of response
+    #   records in a subsequent request. If a value is returned in a response,
+    #   you can retrieve the next set of records by providing this returned
+    #   marker value in the Marker parameter and retrying the command. If the
+    #   Marker field is empty, all response records have been retrieved for
+    #   the request.
+    #
+    # @return [Types::ListRecommendationsResult] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListRecommendationsResult#recommendations #recommendations} => Array&lt;Types::Recommendation&gt;
+    #   * {Types::ListRecommendationsResult#marker #marker} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_recommendations({
+    #     cluster_identifier: "String",
+    #     namespace_arn: "String",
+    #     max_records: 1,
+    #     marker: "String",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.recommendations #=> Array
+    #   resp.recommendations[0].id #=> String
+    #   resp.recommendations[0].cluster_identifier #=> String
+    #   resp.recommendations[0].namespace_arn #=> String
+    #   resp.recommendations[0].created_at #=> Time
+    #   resp.recommendations[0].recommendation_type #=> String
+    #   resp.recommendations[0].title #=> String
+    #   resp.recommendations[0].description #=> String
+    #   resp.recommendations[0].observation #=> String
+    #   resp.recommendations[0].impact_ranking #=> String, one of "HIGH", "MEDIUM", "LOW"
+    #   resp.recommendations[0].recommendation_text #=> String
+    #   resp.recommendations[0].recommended_actions #=> Array
+    #   resp.recommendations[0].recommended_actions[0].text #=> String
+    #   resp.recommendations[0].recommended_actions[0].database #=> String
+    #   resp.recommendations[0].recommended_actions[0].command #=> String
+    #   resp.recommendations[0].recommended_actions[0].type #=> String, one of "SQL", "CLI"
+    #   resp.recommendations[0].reference_links #=> Array
+    #   resp.recommendations[0].reference_links[0].text #=> String
+    #   resp.recommendations[0].reference_links[0].link #=> String
+    #   resp.marker #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ListRecommendations AWS API Documentation
+    #
+    # @overload list_recommendations(params = {})
+    # @param [Hash] params ({})
+    def list_recommendations(params = {}, options = {})
+      req = build_request(:list_recommendations, params)
+      req.send_request(options)
+    end
+
     # This operation is retired. Calling this operation does not change AQUA
     # configuration. Amazon Redshift automatically determines whether to use
     # AQUA (Advanced Query Accelerator).
@@ -7662,9 +8899,28 @@ module Aws::Redshift
     # Redshift Clusters][1] in the *Amazon Redshift Cluster Management
     # Guide*.
     #
+    # VPC Block Public Access (BPA) enables you to block resources in VPCs
+    # and subnets that you own in a Region from reaching or being reached
+    # from the internet through internet gateways and egress-only internet
+    # gateways. If a subnet group for a provisioned cluster is in an account
+    # with VPC BPA turned on, the following capabilities are blocked:
+    #
+    # * Creating a public cluster
+    #
+    # * Restoring a public cluster
+    #
+    # * Modifying a private cluster to be public
+    #
+    # * Adding a subnet with VPC BPA turned on to the subnet group when
+    #   there's at least one public cluster within the group
+    #
+    # For more information about VPC BPA, see [Block public access to VPCs
+    # and subnets][2] in the *Amazon VPC User Guide*.
+    #
     #
     #
     # [1]: https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html
+    # [2]: https://docs.aws.amazon.com/vpc/latest/userguide/security-vpc-bpa.html
     #
     # @option params [required, String] :cluster_identifier
     #   The unique identifier of the cluster to be modified.
@@ -7691,9 +8947,8 @@ module Aws::Redshift
     #   in Amazon Redshift][1] in the *Amazon Redshift Cluster Management
     #   Guide*.
     #
-    #   Valid Values: `ds2.xlarge` \| `ds2.8xlarge` \| `dc1.large` \|
-    #   `dc1.8xlarge` \| `dc2.large` \| `dc2.8xlarge` \| `ra3.xlplus` \|
-    #   `ra3.4xlarge` \| `ra3.16xlarge`
+    #   Valid Values: `dc2.large` \| `dc2.8xlarge` \| `ra3.large` \|
+    #   `ra3.xlplus` \| `ra3.4xlarge` \| `ra3.16xlarge`
     #
     #
     #
@@ -7739,6 +8994,9 @@ module Aws::Redshift
     #   request and the completion of the request, the `MasterUserPassword`
     #   element exists in the `PendingModifiedValues` element of the operation
     #   response.
+    #
+    #   You can't use `MasterUserPassword` if `ManageMasterPassword` is
+    #   `true`.
     #
     #   <note markdown="1"> Operations never return the password, so this operation provides a way
     #   to regain access to the admin user account for a cluster if the
@@ -7870,6 +9128,8 @@ module Aws::Redshift
     #   If `true`, the cluster can be accessed from a public network. Only
     #   clusters in VPCs can be set to be publicly available.
     #
+    #   Default: false
+    #
     # @option params [String] :elastic_ip
     #   The Elastic IP (EIP) address for the cluster.
     #
@@ -7929,6 +9189,37 @@ module Aws::Redshift
     # @option params [Integer] :port
     #   The option to change the port of an Amazon Redshift cluster.
     #
+    #   Valid Values:
+    #
+    #   * For clusters with ra3 nodes - Select a port within the ranges
+    #     `5431-5455` or `8191-8215`. (If you have an existing cluster with
+    #     ra3 nodes, it isn't required that you change the port to these
+    #     ranges.)
+    #
+    #   * For clusters with dc2 nodes - Select a port within the range
+    #     `1150-65535`.
+    #
+    # @option params [Boolean] :manage_master_password
+    #   If `true`, Amazon Redshift uses Secrets Manager to manage this
+    #   cluster's admin credentials. You can't use `MasterUserPassword` if
+    #   `ManageMasterPassword` is true. If `ManageMasterPassword` is false or
+    #   not set, Amazon Redshift uses `MasterUserPassword` for the admin user
+    #   account's password.
+    #
+    # @option params [String] :master_password_secret_kms_key_id
+    #   The ID of the Key Management Service (KMS) key used to encrypt and
+    #   store the cluster's admin credentials secret. You can only use this
+    #   parameter if `ManageMasterPassword` is true.
+    #
+    # @option params [String] :ip_address_type
+    #   The IP address types that the cluster supports. Possible values are
+    #   `ipv4` and `dualstack`.
+    #
+    # @option params [Boolean] :multi_az
+    #   If true and the cluster is currently only deployed in a single
+    #   Availability Zone, the cluster will be modified to be deployed in two
+    #   Availability Zones.
+    #
     # @return [Types::ModifyClusterResult] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::ModifyClusterResult#cluster #cluster} => Types::Cluster
@@ -7942,7 +9233,7 @@ module Aws::Redshift
     #     number_of_nodes: 1,
     #     cluster_security_groups: ["String"],
     #     vpc_security_group_ids: ["String"],
-    #     master_user_password: "String",
+    #     master_user_password: "SensitiveString",
     #     cluster_parameter_group_name: "String",
     #     automated_snapshot_retention_period: 1,
     #     manual_snapshot_retention_period: 1,
@@ -7961,6 +9252,10 @@ module Aws::Redshift
     #     availability_zone_relocation: false,
     #     availability_zone: "String",
     #     port: 1,
+    #     manage_master_password: false,
+    #     master_password_secret_kms_key_id: "String",
+    #     ip_address_type: "String",
+    #     multi_az: false,
     #   })
     #
     # @example Response structure
@@ -7982,6 +9277,7 @@ module Aws::Redshift
     #   resp.cluster.endpoint.vpc_endpoints[0].network_interfaces[0].subnet_id #=> String
     #   resp.cluster.endpoint.vpc_endpoints[0].network_interfaces[0].private_ip_address #=> String
     #   resp.cluster.endpoint.vpc_endpoints[0].network_interfaces[0].availability_zone #=> String
+    #   resp.cluster.endpoint.vpc_endpoints[0].network_interfaces[0].ipv_6_address #=> String
     #   resp.cluster.cluster_create_time #=> Time
     #   resp.cluster.automated_snapshot_retention_period #=> Integer
     #   resp.cluster.manual_snapshot_retention_period #=> Integer
@@ -8083,6 +9379,18 @@ module Aws::Redshift
     #   resp.cluster.reserved_node_exchange_status.target_reserved_node_offering_id #=> String
     #   resp.cluster.reserved_node_exchange_status.target_reserved_node_type #=> String
     #   resp.cluster.reserved_node_exchange_status.target_reserved_node_count #=> Integer
+    #   resp.cluster.custom_domain_name #=> String
+    #   resp.cluster.custom_domain_certificate_arn #=> String
+    #   resp.cluster.custom_domain_certificate_expiry_date #=> Time
+    #   resp.cluster.master_password_secret_arn #=> String
+    #   resp.cluster.master_password_secret_kms_key_id #=> String
+    #   resp.cluster.ip_address_type #=> String
+    #   resp.cluster.multi_az #=> String
+    #   resp.cluster.multi_az_secondary.availability_zone #=> String
+    #   resp.cluster.multi_az_secondary.cluster_nodes #=> Array
+    #   resp.cluster.multi_az_secondary.cluster_nodes[0].node_role #=> String
+    #   resp.cluster.multi_az_secondary.cluster_nodes[0].private_ip_address #=> String
+    #   resp.cluster.multi_az_secondary.cluster_nodes[0].public_ip_address #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ModifyCluster AWS API Documentation
     #
@@ -8136,6 +9444,7 @@ module Aws::Redshift
     #   resp.cluster.endpoint.vpc_endpoints[0].network_interfaces[0].subnet_id #=> String
     #   resp.cluster.endpoint.vpc_endpoints[0].network_interfaces[0].private_ip_address #=> String
     #   resp.cluster.endpoint.vpc_endpoints[0].network_interfaces[0].availability_zone #=> String
+    #   resp.cluster.endpoint.vpc_endpoints[0].network_interfaces[0].ipv_6_address #=> String
     #   resp.cluster.cluster_create_time #=> Time
     #   resp.cluster.automated_snapshot_retention_period #=> Integer
     #   resp.cluster.manual_snapshot_retention_period #=> Integer
@@ -8237,6 +9546,18 @@ module Aws::Redshift
     #   resp.cluster.reserved_node_exchange_status.target_reserved_node_offering_id #=> String
     #   resp.cluster.reserved_node_exchange_status.target_reserved_node_type #=> String
     #   resp.cluster.reserved_node_exchange_status.target_reserved_node_count #=> Integer
+    #   resp.cluster.custom_domain_name #=> String
+    #   resp.cluster.custom_domain_certificate_arn #=> String
+    #   resp.cluster.custom_domain_certificate_expiry_date #=> Time
+    #   resp.cluster.master_password_secret_arn #=> String
+    #   resp.cluster.master_password_secret_kms_key_id #=> String
+    #   resp.cluster.ip_address_type #=> String
+    #   resp.cluster.multi_az #=> String
+    #   resp.cluster.multi_az_secondary.availability_zone #=> String
+    #   resp.cluster.multi_az_secondary.cluster_nodes #=> Array
+    #   resp.cluster.multi_az_secondary.cluster_nodes[0].node_role #=> String
+    #   resp.cluster.multi_az_secondary.cluster_nodes[0].private_ip_address #=> String
+    #   resp.cluster.multi_az_secondary.cluster_nodes[0].public_ip_address #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ModifyClusterDbRevision AWS API Documentation
     #
@@ -8306,6 +9627,7 @@ module Aws::Redshift
     #   resp.cluster.endpoint.vpc_endpoints[0].network_interfaces[0].subnet_id #=> String
     #   resp.cluster.endpoint.vpc_endpoints[0].network_interfaces[0].private_ip_address #=> String
     #   resp.cluster.endpoint.vpc_endpoints[0].network_interfaces[0].availability_zone #=> String
+    #   resp.cluster.endpoint.vpc_endpoints[0].network_interfaces[0].ipv_6_address #=> String
     #   resp.cluster.cluster_create_time #=> Time
     #   resp.cluster.automated_snapshot_retention_period #=> Integer
     #   resp.cluster.manual_snapshot_retention_period #=> Integer
@@ -8407,6 +9729,18 @@ module Aws::Redshift
     #   resp.cluster.reserved_node_exchange_status.target_reserved_node_offering_id #=> String
     #   resp.cluster.reserved_node_exchange_status.target_reserved_node_type #=> String
     #   resp.cluster.reserved_node_exchange_status.target_reserved_node_count #=> Integer
+    #   resp.cluster.custom_domain_name #=> String
+    #   resp.cluster.custom_domain_certificate_arn #=> String
+    #   resp.cluster.custom_domain_certificate_expiry_date #=> Time
+    #   resp.cluster.master_password_secret_arn #=> String
+    #   resp.cluster.master_password_secret_kms_key_id #=> String
+    #   resp.cluster.ip_address_type #=> String
+    #   resp.cluster.multi_az #=> String
+    #   resp.cluster.multi_az_secondary.availability_zone #=> String
+    #   resp.cluster.multi_az_secondary.cluster_nodes #=> Array
+    #   resp.cluster.multi_az_secondary.cluster_nodes[0].node_role #=> String
+    #   resp.cluster.multi_az_secondary.cluster_nodes[0].private_ip_address #=> String
+    #   resp.cluster.multi_az_secondary.cluster_nodes[0].public_ip_address #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ModifyClusterIamRoles AWS API Documentation
     #
@@ -8476,6 +9810,7 @@ module Aws::Redshift
     #   resp.cluster.endpoint.vpc_endpoints[0].network_interfaces[0].subnet_id #=> String
     #   resp.cluster.endpoint.vpc_endpoints[0].network_interfaces[0].private_ip_address #=> String
     #   resp.cluster.endpoint.vpc_endpoints[0].network_interfaces[0].availability_zone #=> String
+    #   resp.cluster.endpoint.vpc_endpoints[0].network_interfaces[0].ipv_6_address #=> String
     #   resp.cluster.cluster_create_time #=> Time
     #   resp.cluster.automated_snapshot_retention_period #=> Integer
     #   resp.cluster.manual_snapshot_retention_period #=> Integer
@@ -8577,6 +9912,18 @@ module Aws::Redshift
     #   resp.cluster.reserved_node_exchange_status.target_reserved_node_offering_id #=> String
     #   resp.cluster.reserved_node_exchange_status.target_reserved_node_type #=> String
     #   resp.cluster.reserved_node_exchange_status.target_reserved_node_count #=> Integer
+    #   resp.cluster.custom_domain_name #=> String
+    #   resp.cluster.custom_domain_certificate_arn #=> String
+    #   resp.cluster.custom_domain_certificate_expiry_date #=> Time
+    #   resp.cluster.master_password_secret_arn #=> String
+    #   resp.cluster.master_password_secret_kms_key_id #=> String
+    #   resp.cluster.ip_address_type #=> String
+    #   resp.cluster.multi_az #=> String
+    #   resp.cluster.multi_az_secondary.availability_zone #=> String
+    #   resp.cluster.multi_az_secondary.cluster_nodes #=> Array
+    #   resp.cluster.multi_az_secondary.cluster_nodes[0].node_role #=> String
+    #   resp.cluster.multi_az_secondary.cluster_nodes[0].private_ip_address #=> String
+    #   resp.cluster.multi_az_secondary.cluster_nodes[0].public_ip_address #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ModifyClusterMaintenance AWS API Documentation
     #
@@ -8724,6 +10071,9 @@ module Aws::Redshift
     #   resp.snapshot.manual_snapshot_retention_period #=> Integer
     #   resp.snapshot.manual_snapshot_remaining_days #=> Integer
     #   resp.snapshot.snapshot_retention_start_time #=> Time
+    #   resp.snapshot.master_password_secret_arn #=> String
+    #   resp.snapshot.master_password_secret_kms_key_id #=> String
+    #   resp.snapshot.snapshot_arn #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ModifyClusterSnapshot AWS API Documentation
     #
@@ -8771,6 +10121,28 @@ module Aws::Redshift
     # subnets. The operation replaces the existing list of subnets with the
     # new list of subnets.
     #
+    # VPC Block Public Access (BPA) enables you to block resources in VPCs
+    # and subnets that you own in a Region from reaching or being reached
+    # from the internet through internet gateways and egress-only internet
+    # gateways. If a subnet group for a provisioned cluster is in an account
+    # with VPC BPA turned on, the following capabilities are blocked:
+    #
+    # * Creating a public cluster
+    #
+    # * Restoring a public cluster
+    #
+    # * Modifying a private cluster to be public
+    #
+    # * Adding a subnet with VPC BPA turned on to the subnet group when
+    #   there's at least one public cluster within the group
+    #
+    # For more information about VPC BPA, see [Block public access to VPCs
+    # and subnets][1] in the *Amazon VPC User Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/vpc/latest/userguide/security-vpc-bpa.html
+    #
     # @option params [required, String] :cluster_subnet_group_name
     #   The name of the subnet group to be modified.
     #
@@ -8808,6 +10180,8 @@ module Aws::Redshift
     #   resp.cluster_subnet_group.tags #=> Array
     #   resp.cluster_subnet_group.tags[0].key #=> String
     #   resp.cluster_subnet_group.tags[0].value #=> String
+    #   resp.cluster_subnet_group.supported_cluster_ip_address_types #=> Array
+    #   resp.cluster_subnet_group.supported_cluster_ip_address_types[0] #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ModifyClusterSubnetGroup AWS API Documentation
     #
@@ -8815,6 +10189,50 @@ module Aws::Redshift
     # @param [Hash] params ({})
     def modify_cluster_subnet_group(params = {}, options = {})
       req = build_request(:modify_cluster_subnet_group, params)
+      req.send_request(options)
+    end
+
+    # Contains information for changing a custom domain association.
+    #
+    # @option params [required, String] :custom_domain_name
+    #   The custom domain name for a changed custom domain association.
+    #
+    # @option params [required, String] :custom_domain_certificate_arn
+    #   The certificate Amazon Resource Name (ARN) for the changed custom
+    #   domain association.
+    #
+    # @option params [required, String] :cluster_identifier
+    #   The identifier of the cluster to change a custom domain association
+    #   for.
+    #
+    # @return [Types::ModifyCustomDomainAssociationResult] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ModifyCustomDomainAssociationResult#custom_domain_name #custom_domain_name} => String
+    #   * {Types::ModifyCustomDomainAssociationResult#custom_domain_certificate_arn #custom_domain_certificate_arn} => String
+    #   * {Types::ModifyCustomDomainAssociationResult#cluster_identifier #cluster_identifier} => String
+    #   * {Types::ModifyCustomDomainAssociationResult#custom_domain_cert_expiry_time #custom_domain_cert_expiry_time} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.modify_custom_domain_association({
+    #     custom_domain_name: "CustomDomainNameString", # required
+    #     custom_domain_certificate_arn: "CustomDomainCertificateArnString", # required
+    #     cluster_identifier: "String", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.custom_domain_name #=> String
+    #   resp.custom_domain_certificate_arn #=> String
+    #   resp.cluster_identifier #=> String
+    #   resp.custom_domain_cert_expiry_time #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ModifyCustomDomainAssociation AWS API Documentation
+    #
+    # @overload modify_custom_domain_association(params = {})
+    # @param [Hash] params ({})
+    def modify_custom_domain_association(params = {}, options = {})
+      req = build_request(:modify_custom_domain_association, params)
       req.send_request(options)
     end
 
@@ -8867,6 +10285,7 @@ module Aws::Redshift
     #   resp.vpc_endpoint.network_interfaces[0].subnet_id #=> String
     #   resp.vpc_endpoint.network_interfaces[0].private_ip_address #=> String
     #   resp.vpc_endpoint.network_interfaces[0].availability_zone #=> String
+    #   resp.vpc_endpoint.network_interfaces[0].ipv_6_address #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ModifyEndpointAccess AWS API Documentation
     #
@@ -8965,6 +10384,161 @@ module Aws::Redshift
     # @param [Hash] params ({})
     def modify_event_subscription(params = {}, options = {})
       req = build_request(:modify_event_subscription, params)
+      req.send_request(options)
+    end
+
+    # Modifies a zero-ETL integration or S3 event integration with Amazon
+    # Redshift.
+    #
+    # @option params [required, String] :integration_arn
+    #   The unique identifier of the integration to modify.
+    #
+    # @option params [String] :description
+    #   A new description for the integration.
+    #
+    # @option params [String] :integration_name
+    #   A new name for the integration.
+    #
+    # @return [Types::Integration] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::Integration#integration_arn #integration_arn} => String
+    #   * {Types::Integration#integration_name #integration_name} => String
+    #   * {Types::Integration#source_arn #source_arn} => String
+    #   * {Types::Integration#target_arn #target_arn} => String
+    #   * {Types::Integration#status #status} => String
+    #   * {Types::Integration#errors #errors} => Array&lt;Types::IntegrationError&gt;
+    #   * {Types::Integration#create_time #create_time} => Time
+    #   * {Types::Integration#description #description} => String
+    #   * {Types::Integration#kms_key_id #kms_key_id} => String
+    #   * {Types::Integration#additional_encryption_context #additional_encryption_context} => Hash&lt;String,String&gt;
+    #   * {Types::Integration#tags #tags} => Array&lt;Types::Tag&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.modify_integration({
+    #     integration_arn: "IntegrationArn", # required
+    #     description: "IntegrationDescription",
+    #     integration_name: "IntegrationName",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.integration_arn #=> String
+    #   resp.integration_name #=> String
+    #   resp.source_arn #=> String
+    #   resp.target_arn #=> String
+    #   resp.status #=> String, one of "creating", "active", "modifying", "failed", "deleting", "syncing", "needs_attention"
+    #   resp.errors #=> Array
+    #   resp.errors[0].error_code #=> String
+    #   resp.errors[0].error_message #=> String
+    #   resp.create_time #=> Time
+    #   resp.description #=> String
+    #   resp.kms_key_id #=> String
+    #   resp.additional_encryption_context #=> Hash
+    #   resp.additional_encryption_context["String"] #=> String
+    #   resp.tags #=> Array
+    #   resp.tags[0].key #=> String
+    #   resp.tags[0].value #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ModifyIntegration AWS API Documentation
+    #
+    # @overload modify_integration(params = {})
+    # @param [Hash] params ({})
+    def modify_integration(params = {}, options = {})
+      req = build_request(:modify_integration, params)
+      req.send_request(options)
+    end
+
+    # Changes an existing Amazon Redshift IAM Identity Center application.
+    #
+    # @option params [required, String] :redshift_idc_application_arn
+    #   The ARN for the Redshift application that integrates with IAM Identity
+    #   Center.
+    #
+    # @option params [String] :identity_namespace
+    #   The namespace for the Amazon Redshift IAM Identity Center application
+    #   to change. It determines which managed application verifies the
+    #   connection token.
+    #
+    # @option params [String] :iam_role_arn
+    #   The IAM role ARN associated with the Amazon Redshift IAM Identity
+    #   Center application to change. It has the required permissions to be
+    #   assumed and invoke the IDC Identity Center API.
+    #
+    # @option params [String] :idc_display_name
+    #   The display name for the Amazon Redshift IAM Identity Center
+    #   application to change. It appears on the console.
+    #
+    # @option params [Array<Types::AuthorizedTokenIssuer>] :authorized_token_issuer_list
+    #   The authorized token issuer list for the Amazon Redshift IAM Identity
+    #   Center application to change.
+    #
+    # @option params [Array<Types::ServiceIntegrationsUnion>] :service_integrations
+    #   A collection of service integrations associated with the application.
+    #
+    # @return [Types::ModifyRedshiftIdcApplicationResult] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ModifyRedshiftIdcApplicationResult#redshift_idc_application #redshift_idc_application} => Types::RedshiftIdcApplication
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.modify_redshift_idc_application({
+    #     redshift_idc_application_arn: "String", # required
+    #     identity_namespace: "IdentityNamespaceString",
+    #     iam_role_arn: "String",
+    #     idc_display_name: "IdcDisplayNameString",
+    #     authorized_token_issuer_list: [
+    #       {
+    #         trusted_token_issuer_arn: "String",
+    #         authorized_audiences_list: ["String"],
+    #       },
+    #     ],
+    #     service_integrations: [
+    #       {
+    #         lake_formation: [
+    #           {
+    #             lake_formation_query: {
+    #               authorization: "Enabled", # required, accepts Enabled, Disabled
+    #             },
+    #           },
+    #         ],
+    #         s3_access_grants: [
+    #           {
+    #             read_write_access: {
+    #               authorization: "Enabled", # required, accepts Enabled, Disabled
+    #             },
+    #           },
+    #         ],
+    #       },
+    #     ],
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.redshift_idc_application.idc_instance_arn #=> String
+    #   resp.redshift_idc_application.redshift_idc_application_name #=> String
+    #   resp.redshift_idc_application.redshift_idc_application_arn #=> String
+    #   resp.redshift_idc_application.identity_namespace #=> String
+    #   resp.redshift_idc_application.idc_display_name #=> String
+    #   resp.redshift_idc_application.iam_role_arn #=> String
+    #   resp.redshift_idc_application.idc_managed_application_arn #=> String
+    #   resp.redshift_idc_application.idc_onboard_status #=> String
+    #   resp.redshift_idc_application.authorized_token_issuer_list #=> Array
+    #   resp.redshift_idc_application.authorized_token_issuer_list[0].trusted_token_issuer_arn #=> String
+    #   resp.redshift_idc_application.authorized_token_issuer_list[0].authorized_audiences_list #=> Array
+    #   resp.redshift_idc_application.authorized_token_issuer_list[0].authorized_audiences_list[0] #=> String
+    #   resp.redshift_idc_application.service_integrations #=> Array
+    #   resp.redshift_idc_application.service_integrations[0].lake_formation #=> Array
+    #   resp.redshift_idc_application.service_integrations[0].lake_formation[0].lake_formation_query.authorization #=> String, one of "Enabled", "Disabled"
+    #   resp.redshift_idc_application.service_integrations[0].s3_access_grants #=> Array
+    #   resp.redshift_idc_application.service_integrations[0].s3_access_grants[0].read_write_access.authorization #=> String, one of "Enabled", "Disabled"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ModifyRedshiftIdcApplication AWS API Documentation
+    #
+    # @overload modify_redshift_idc_application(params = {})
+    # @param [Hash] params ({})
+    def modify_redshift_idc_application(params = {}, options = {})
+      req = build_request(:modify_redshift_idc_application, params)
       req.send_request(options)
     end
 
@@ -9150,6 +10724,7 @@ module Aws::Redshift
     #   resp.cluster.endpoint.vpc_endpoints[0].network_interfaces[0].subnet_id #=> String
     #   resp.cluster.endpoint.vpc_endpoints[0].network_interfaces[0].private_ip_address #=> String
     #   resp.cluster.endpoint.vpc_endpoints[0].network_interfaces[0].availability_zone #=> String
+    #   resp.cluster.endpoint.vpc_endpoints[0].network_interfaces[0].ipv_6_address #=> String
     #   resp.cluster.cluster_create_time #=> Time
     #   resp.cluster.automated_snapshot_retention_period #=> Integer
     #   resp.cluster.manual_snapshot_retention_period #=> Integer
@@ -9251,6 +10826,18 @@ module Aws::Redshift
     #   resp.cluster.reserved_node_exchange_status.target_reserved_node_offering_id #=> String
     #   resp.cluster.reserved_node_exchange_status.target_reserved_node_type #=> String
     #   resp.cluster.reserved_node_exchange_status.target_reserved_node_count #=> Integer
+    #   resp.cluster.custom_domain_name #=> String
+    #   resp.cluster.custom_domain_certificate_arn #=> String
+    #   resp.cluster.custom_domain_certificate_expiry_date #=> Time
+    #   resp.cluster.master_password_secret_arn #=> String
+    #   resp.cluster.master_password_secret_kms_key_id #=> String
+    #   resp.cluster.ip_address_type #=> String
+    #   resp.cluster.multi_az #=> String
+    #   resp.cluster.multi_az_secondary.availability_zone #=> String
+    #   resp.cluster.multi_az_secondary.cluster_nodes #=> Array
+    #   resp.cluster.multi_az_secondary.cluster_nodes[0].node_role #=> String
+    #   resp.cluster.multi_az_secondary.cluster_nodes[0].private_ip_address #=> String
+    #   resp.cluster.multi_az_secondary.cluster_nodes[0].public_ip_address #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ModifySnapshotCopyRetentionPeriod AWS API Documentation
     #
@@ -9403,6 +10990,7 @@ module Aws::Redshift
     #   resp.cluster.endpoint.vpc_endpoints[0].network_interfaces[0].subnet_id #=> String
     #   resp.cluster.endpoint.vpc_endpoints[0].network_interfaces[0].private_ip_address #=> String
     #   resp.cluster.endpoint.vpc_endpoints[0].network_interfaces[0].availability_zone #=> String
+    #   resp.cluster.endpoint.vpc_endpoints[0].network_interfaces[0].ipv_6_address #=> String
     #   resp.cluster.cluster_create_time #=> Time
     #   resp.cluster.automated_snapshot_retention_period #=> Integer
     #   resp.cluster.manual_snapshot_retention_period #=> Integer
@@ -9504,6 +11092,18 @@ module Aws::Redshift
     #   resp.cluster.reserved_node_exchange_status.target_reserved_node_offering_id #=> String
     #   resp.cluster.reserved_node_exchange_status.target_reserved_node_type #=> String
     #   resp.cluster.reserved_node_exchange_status.target_reserved_node_count #=> Integer
+    #   resp.cluster.custom_domain_name #=> String
+    #   resp.cluster.custom_domain_certificate_arn #=> String
+    #   resp.cluster.custom_domain_certificate_expiry_date #=> Time
+    #   resp.cluster.master_password_secret_arn #=> String
+    #   resp.cluster.master_password_secret_kms_key_id #=> String
+    #   resp.cluster.ip_address_type #=> String
+    #   resp.cluster.multi_az #=> String
+    #   resp.cluster.multi_az_secondary.availability_zone #=> String
+    #   resp.cluster.multi_az_secondary.cluster_nodes #=> Array
+    #   resp.cluster.multi_az_secondary.cluster_nodes[0].node_role #=> String
+    #   resp.cluster.multi_az_secondary.cluster_nodes[0].private_ip_address #=> String
+    #   resp.cluster.multi_az_secondary.cluster_nodes[0].public_ip_address #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/PauseCluster AWS API Documentation
     #
@@ -9575,6 +11175,40 @@ module Aws::Redshift
       req.send_request(options)
     end
 
+    # Updates the resource policy for a specified resource.
+    #
+    # @option params [required, String] :resource_arn
+    #   The Amazon Resource Name (ARN) of the resource of which its resource
+    #   policy is updated.
+    #
+    # @option params [required, String] :policy
+    #   The content of the resource policy being updated.
+    #
+    # @return [Types::PutResourcePolicyResult] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::PutResourcePolicyResult#resource_policy #resource_policy} => Types::ResourcePolicy
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.put_resource_policy({
+    #     resource_arn: "String", # required
+    #     policy: "String", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.resource_policy.resource_arn #=> String
+    #   resp.resource_policy.policy #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/PutResourcePolicy AWS API Documentation
+    #
+    # @overload put_resource_policy(params = {})
+    # @param [Hash] params ({})
+    def put_resource_policy(params = {}, options = {})
+      req = build_request(:put_resource_policy, params)
+      req.send_request(options)
+    end
+
     # Reboots a cluster. This action is taken as soon as possible. It
     # results in a momentary outage to the cluster, during which the cluster
     # status is set to `rebooting`. A cluster event is created when the
@@ -9619,6 +11253,7 @@ module Aws::Redshift
     #   resp.cluster.endpoint.vpc_endpoints[0].network_interfaces[0].subnet_id #=> String
     #   resp.cluster.endpoint.vpc_endpoints[0].network_interfaces[0].private_ip_address #=> String
     #   resp.cluster.endpoint.vpc_endpoints[0].network_interfaces[0].availability_zone #=> String
+    #   resp.cluster.endpoint.vpc_endpoints[0].network_interfaces[0].ipv_6_address #=> String
     #   resp.cluster.cluster_create_time #=> Time
     #   resp.cluster.automated_snapshot_retention_period #=> Integer
     #   resp.cluster.manual_snapshot_retention_period #=> Integer
@@ -9720,6 +11355,18 @@ module Aws::Redshift
     #   resp.cluster.reserved_node_exchange_status.target_reserved_node_offering_id #=> String
     #   resp.cluster.reserved_node_exchange_status.target_reserved_node_type #=> String
     #   resp.cluster.reserved_node_exchange_status.target_reserved_node_count #=> Integer
+    #   resp.cluster.custom_domain_name #=> String
+    #   resp.cluster.custom_domain_certificate_arn #=> String
+    #   resp.cluster.custom_domain_certificate_expiry_date #=> Time
+    #   resp.cluster.master_password_secret_arn #=> String
+    #   resp.cluster.master_password_secret_kms_key_id #=> String
+    #   resp.cluster.ip_address_type #=> String
+    #   resp.cluster.multi_az #=> String
+    #   resp.cluster.multi_az_secondary.availability_zone #=> String
+    #   resp.cluster.multi_az_secondary.cluster_nodes #=> Array
+    #   resp.cluster.multi_az_secondary.cluster_nodes[0].node_role #=> String
+    #   resp.cluster.multi_az_secondary.cluster_nodes[0].private_ip_address #=> String
+    #   resp.cluster.multi_az_secondary.cluster_nodes[0].public_ip_address #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/RebootCluster AWS API Documentation
     #
@@ -9727,6 +11374,49 @@ module Aws::Redshift
     # @param [Hash] params ({})
     def reboot_cluster(params = {}, options = {})
       req = build_request(:reboot_cluster, params)
+      req.send_request(options)
+    end
+
+    # Registers a cluster or serverless namespace to the Amazon Web Services
+    # Glue Data Catalog.
+    #
+    # @option params [required, Types::NamespaceIdentifierUnion] :namespace_identifier
+    #   The unique identifier of the cluster or serverless namespace that you
+    #   want to register.
+    #
+    # @option params [required, Array<String>] :consumer_identifiers
+    #   An array containing the ID of the consumer account that you want to
+    #   register the namespace to.
+    #
+    # @return [Types::RegisterNamespaceOutputMessage] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::RegisterNamespaceOutputMessage#status #status} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.register_namespace({
+    #     namespace_identifier: { # required
+    #       serverless_identifier: {
+    #         namespace_identifier: "String", # required
+    #         workgroup_identifier: "String", # required
+    #       },
+    #       provisioned_identifier: {
+    #         cluster_identifier: "String", # required
+    #       },
+    #     },
+    #     consumer_identifiers: ["String"], # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.status #=> String, one of "Registering", "Deregistering"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/RegisterNamespace AWS API Documentation
+    #
+    # @overload register_namespace(params = {})
+    # @param [Hash] params ({})
+    def register_namespace(params = {}, options = {})
+      req = build_request(:register_namespace, params)
       req.send_request(options)
     end
 
@@ -9742,6 +11432,7 @@ module Aws::Redshift
     #   * {Types::DataShare#allow_publicly_accessible_consumers #allow_publicly_accessible_consumers} => Boolean
     #   * {Types::DataShare#data_share_associations #data_share_associations} => Array&lt;Types::DataShareAssociation&gt;
     #   * {Types::DataShare#managed_by #managed_by} => String
+    #   * {Types::DataShare#data_share_type #data_share_type} => String
     #
     # @example Request syntax with placeholder values
     #
@@ -9760,7 +11451,10 @@ module Aws::Redshift
     #   resp.data_share_associations[0].consumer_region #=> String
     #   resp.data_share_associations[0].created_date #=> Time
     #   resp.data_share_associations[0].status_change_date #=> Time
+    #   resp.data_share_associations[0].producer_allowed_writes #=> Boolean
+    #   resp.data_share_associations[0].consumer_accepted_writes #=> Boolean
     #   resp.managed_by #=> String
+    #   resp.data_share_type #=> String, one of "INTERNAL"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/RejectDataShare AWS API Documentation
     #
@@ -9842,24 +11536,17 @@ module Aws::Redshift
     #
     # * You can only resize clusters of the following types:
     #
-    #   * dc1.large (if your cluster is in a VPC)
-    #
-    #   * dc1.8xlarge (if your cluster is in a VPC)
-    #
     #   * dc2.large
     #
     #   * dc2.8xlarge
     #
-    #   * ds2.xlarge
-    #
-    #   * ds2.8xlarge
+    #   * ra3.large
     #
     #   * ra3.xlplus
     #
     #   * ra3.4xlarge
     #
     #   * ra3.16xlarge
-    #
     # * The type of nodes that you add must match the node type for the
     #   cluster.
     #
@@ -9923,6 +11610,7 @@ module Aws::Redshift
     #   resp.cluster.endpoint.vpc_endpoints[0].network_interfaces[0].subnet_id #=> String
     #   resp.cluster.endpoint.vpc_endpoints[0].network_interfaces[0].private_ip_address #=> String
     #   resp.cluster.endpoint.vpc_endpoints[0].network_interfaces[0].availability_zone #=> String
+    #   resp.cluster.endpoint.vpc_endpoints[0].network_interfaces[0].ipv_6_address #=> String
     #   resp.cluster.cluster_create_time #=> Time
     #   resp.cluster.automated_snapshot_retention_period #=> Integer
     #   resp.cluster.manual_snapshot_retention_period #=> Integer
@@ -10024,6 +11712,18 @@ module Aws::Redshift
     #   resp.cluster.reserved_node_exchange_status.target_reserved_node_offering_id #=> String
     #   resp.cluster.reserved_node_exchange_status.target_reserved_node_type #=> String
     #   resp.cluster.reserved_node_exchange_status.target_reserved_node_count #=> Integer
+    #   resp.cluster.custom_domain_name #=> String
+    #   resp.cluster.custom_domain_certificate_arn #=> String
+    #   resp.cluster.custom_domain_certificate_expiry_date #=> Time
+    #   resp.cluster.master_password_secret_arn #=> String
+    #   resp.cluster.master_password_secret_kms_key_id #=> String
+    #   resp.cluster.ip_address_type #=> String
+    #   resp.cluster.multi_az #=> String
+    #   resp.cluster.multi_az_secondary.availability_zone #=> String
+    #   resp.cluster.multi_az_secondary.cluster_nodes #=> Array
+    #   resp.cluster.multi_az_secondary.cluster_nodes[0].node_role #=> String
+    #   resp.cluster.multi_az_secondary.cluster_nodes[0].private_ip_address #=> String
+    #   resp.cluster.multi_az_secondary.cluster_nodes[0].public_ip_address #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ResizeCluster AWS API Documentation
     #
@@ -10047,13 +11747,32 @@ module Aws::Redshift
     # If you restore a cluster into a VPC, you must provide a cluster subnet
     # group where you want the cluster restored.
     #
+    # VPC Block Public Access (BPA) enables you to block resources in VPCs
+    # and subnets that you own in a Region from reaching or being reached
+    # from the internet through internet gateways and egress-only internet
+    # gateways. If a subnet group for a provisioned cluster is in an account
+    # with VPC BPA turned on, the following capabilities are blocked:
+    #
+    # * Creating a public cluster
+    #
+    # * Restoring a public cluster
+    #
+    # * Modifying a private cluster to be public
+    #
+    # * Adding a subnet with VPC BPA turned on to the subnet group when
+    #   there's at least one public cluster within the group
+    #
+    # For more information about VPC BPA, see [Block public access to VPCs
+    # and subnets][1] in the *Amazon VPC User Guide*.
+    #
     # For more information about working with snapshots, go to [Amazon
-    # Redshift Snapshots][1] in the *Amazon Redshift Cluster Management
+    # Redshift Snapshots][2] in the *Amazon Redshift Cluster Management
     # Guide*.
     #
     #
     #
-    # [1]: https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-snapshots.html
+    # [1]: https://docs.aws.amazon.com/vpc/latest/userguide/security-vpc-bpa.html
+    # [2]: https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-snapshots.html
     #
     # @option params [required, String] :cluster_identifier
     #   The identifier of the cluster that will be created from restoring the
@@ -10095,7 +11814,9 @@ module Aws::Redshift
     #
     #   Default: The same port as the original cluster.
     #
-    #   Constraints: Must be between `1115` and `65535`.
+    #   Valid values: For clusters with DC2 nodes, must be within the range
+    #   `1150`-`65535`. For clusters with ra3 nodes, must be within the ranges
+    #   `5431`-`5455` or `8191`-`8215`.
     #
     # @option params [String] :availability_zone
     #   The Amazon EC2 Availability Zone in which to restore the cluster.
@@ -10120,6 +11841,8 @@ module Aws::Redshift
     #
     # @option params [Boolean] :publicly_accessible
     #   If `true`, the cluster can be accessed from a public network.
+    #
+    #   Default: false
     #
     # @option params [String] :owner_account
     #   The Amazon Web Services account used to create or copy the snapshot.
@@ -10227,18 +11950,11 @@ module Aws::Redshift
     # @option params [String] :node_type
     #   The node type that the restored cluster will be provisioned with.
     #
-    #   Default: The node type of the cluster from which the snapshot was
-    #   taken. You can modify this if you are using any DS node type. In that
-    #   case, you can choose to restore into another DS node type of the same
-    #   size. For example, you can restore ds1.8xlarge into ds2.8xlarge, or
-    #   ds1.xlarge into ds2.xlarge. If you have a DC instance type, you must
-    #   restore into that same instance type and size. In other words, you can
-    #   only restore a dc1.large instance type into another dc1.large instance
-    #   type or dc2.large instance type. You can't restore dc1.8xlarge to
-    #   dc2.8xlarge. First restore to a dc1.8xlarge cluster, then resize to a
-    #   dc2.8large cluster. For more information about node types, see [ About
-    #   Clusters and Nodes][1] in the *Amazon Redshift Cluster Management
-    #   Guide*.
+    #   If you have a DC instance type, you must restore into that same
+    #   instance type and size. In other words, you can only restore a
+    #   dc2.large node type into another dc2 type. For more information about
+    #   node types, see [ About Clusters and Nodes][1] in the *Amazon Redshift
+    #   Cluster Management Guide*.
     #
     #
     #
@@ -10315,6 +12031,25 @@ module Aws::Redshift
     #   encrypted with Key Management Service (KMS) and a customer managed
     #   key.
     #
+    # @option params [Boolean] :manage_master_password
+    #   If `true`, Amazon Redshift uses Secrets Manager to manage the restored
+    #   cluster's admin credentials. If `ManageMasterPassword` is false or
+    #   not set, Amazon Redshift uses the admin credentials the cluster had at
+    #   the time the snapshot was taken.
+    #
+    # @option params [String] :master_password_secret_kms_key_id
+    #   The ID of the Key Management Service (KMS) key used to encrypt and
+    #   store the cluster's admin credentials secret. You can only use this
+    #   parameter if `ManageMasterPassword` is true.
+    #
+    # @option params [String] :ip_address_type
+    #   The IP address type for the cluster. Possible values are `ipv4` and
+    #   `dualstack`.
+    #
+    # @option params [Boolean] :multi_az
+    #   If true, the snapshot will be restored to a cluster deployed in two
+    #   Availability Zones.
+    #
     # @return [Types::RestoreFromClusterSnapshotResult] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::RestoreFromClusterSnapshotResult#cluster #cluster} => Types::Cluster
@@ -10355,6 +12090,10 @@ module Aws::Redshift
     #     reserved_node_id: "String",
     #     target_reserved_node_offering_id: "String",
     #     encrypted: false,
+    #     manage_master_password: false,
+    #     master_password_secret_kms_key_id: "String",
+    #     ip_address_type: "String",
+    #     multi_az: false,
     #   })
     #
     # @example Response structure
@@ -10376,6 +12115,7 @@ module Aws::Redshift
     #   resp.cluster.endpoint.vpc_endpoints[0].network_interfaces[0].subnet_id #=> String
     #   resp.cluster.endpoint.vpc_endpoints[0].network_interfaces[0].private_ip_address #=> String
     #   resp.cluster.endpoint.vpc_endpoints[0].network_interfaces[0].availability_zone #=> String
+    #   resp.cluster.endpoint.vpc_endpoints[0].network_interfaces[0].ipv_6_address #=> String
     #   resp.cluster.cluster_create_time #=> Time
     #   resp.cluster.automated_snapshot_retention_period #=> Integer
     #   resp.cluster.manual_snapshot_retention_period #=> Integer
@@ -10477,6 +12217,18 @@ module Aws::Redshift
     #   resp.cluster.reserved_node_exchange_status.target_reserved_node_offering_id #=> String
     #   resp.cluster.reserved_node_exchange_status.target_reserved_node_type #=> String
     #   resp.cluster.reserved_node_exchange_status.target_reserved_node_count #=> Integer
+    #   resp.cluster.custom_domain_name #=> String
+    #   resp.cluster.custom_domain_certificate_arn #=> String
+    #   resp.cluster.custom_domain_certificate_expiry_date #=> Time
+    #   resp.cluster.master_password_secret_arn #=> String
+    #   resp.cluster.master_password_secret_kms_key_id #=> String
+    #   resp.cluster.ip_address_type #=> String
+    #   resp.cluster.multi_az #=> String
+    #   resp.cluster.multi_az_secondary.availability_zone #=> String
+    #   resp.cluster.multi_az_secondary.cluster_nodes #=> Array
+    #   resp.cluster.multi_az_secondary.cluster_nodes[0].node_role #=> String
+    #   resp.cluster.multi_az_secondary.cluster_nodes[0].private_ip_address #=> String
+    #   resp.cluster.multi_az_secondary.cluster_nodes[0].public_ip_address #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/RestoreFromClusterSnapshot AWS API Documentation
     #
@@ -10621,6 +12373,7 @@ module Aws::Redshift
     #   resp.cluster.endpoint.vpc_endpoints[0].network_interfaces[0].subnet_id #=> String
     #   resp.cluster.endpoint.vpc_endpoints[0].network_interfaces[0].private_ip_address #=> String
     #   resp.cluster.endpoint.vpc_endpoints[0].network_interfaces[0].availability_zone #=> String
+    #   resp.cluster.endpoint.vpc_endpoints[0].network_interfaces[0].ipv_6_address #=> String
     #   resp.cluster.cluster_create_time #=> Time
     #   resp.cluster.automated_snapshot_retention_period #=> Integer
     #   resp.cluster.manual_snapshot_retention_period #=> Integer
@@ -10722,6 +12475,18 @@ module Aws::Redshift
     #   resp.cluster.reserved_node_exchange_status.target_reserved_node_offering_id #=> String
     #   resp.cluster.reserved_node_exchange_status.target_reserved_node_type #=> String
     #   resp.cluster.reserved_node_exchange_status.target_reserved_node_count #=> Integer
+    #   resp.cluster.custom_domain_name #=> String
+    #   resp.cluster.custom_domain_certificate_arn #=> String
+    #   resp.cluster.custom_domain_certificate_expiry_date #=> Time
+    #   resp.cluster.master_password_secret_arn #=> String
+    #   resp.cluster.master_password_secret_kms_key_id #=> String
+    #   resp.cluster.ip_address_type #=> String
+    #   resp.cluster.multi_az #=> String
+    #   resp.cluster.multi_az_secondary.availability_zone #=> String
+    #   resp.cluster.multi_az_secondary.cluster_nodes #=> Array
+    #   resp.cluster.multi_az_secondary.cluster_nodes[0].node_role #=> String
+    #   resp.cluster.multi_az_secondary.cluster_nodes[0].private_ip_address #=> String
+    #   resp.cluster.multi_az_secondary.cluster_nodes[0].public_ip_address #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ResumeCluster AWS API Documentation
     #
@@ -10952,6 +12717,9 @@ module Aws::Redshift
     #   resp.snapshot.manual_snapshot_retention_period #=> Integer
     #   resp.snapshot.manual_snapshot_remaining_days #=> Integer
     #   resp.snapshot.snapshot_retention_start_time #=> Time
+    #   resp.snapshot.master_password_secret_arn #=> String
+    #   resp.snapshot.master_password_secret_kms_key_id #=> String
+    #   resp.snapshot.snapshot_arn #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/RevokeSnapshotAccess AWS API Documentation
     #
@@ -11000,6 +12768,7 @@ module Aws::Redshift
     #   resp.cluster.endpoint.vpc_endpoints[0].network_interfaces[0].subnet_id #=> String
     #   resp.cluster.endpoint.vpc_endpoints[0].network_interfaces[0].private_ip_address #=> String
     #   resp.cluster.endpoint.vpc_endpoints[0].network_interfaces[0].availability_zone #=> String
+    #   resp.cluster.endpoint.vpc_endpoints[0].network_interfaces[0].ipv_6_address #=> String
     #   resp.cluster.cluster_create_time #=> Time
     #   resp.cluster.automated_snapshot_retention_period #=> Integer
     #   resp.cluster.manual_snapshot_retention_period #=> Integer
@@ -11101,6 +12870,18 @@ module Aws::Redshift
     #   resp.cluster.reserved_node_exchange_status.target_reserved_node_offering_id #=> String
     #   resp.cluster.reserved_node_exchange_status.target_reserved_node_type #=> String
     #   resp.cluster.reserved_node_exchange_status.target_reserved_node_count #=> Integer
+    #   resp.cluster.custom_domain_name #=> String
+    #   resp.cluster.custom_domain_certificate_arn #=> String
+    #   resp.cluster.custom_domain_certificate_expiry_date #=> Time
+    #   resp.cluster.master_password_secret_arn #=> String
+    #   resp.cluster.master_password_secret_kms_key_id #=> String
+    #   resp.cluster.ip_address_type #=> String
+    #   resp.cluster.multi_az #=> String
+    #   resp.cluster.multi_az_secondary.availability_zone #=> String
+    #   resp.cluster.multi_az_secondary.cluster_nodes #=> Array
+    #   resp.cluster.multi_az_secondary.cluster_nodes[0].node_role #=> String
+    #   resp.cluster.multi_az_secondary.cluster_nodes[0].private_ip_address #=> String
+    #   resp.cluster.multi_az_secondary.cluster_nodes[0].public_ip_address #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/RotateEncryptionKey AWS API Documentation
     #
@@ -11169,14 +12950,19 @@ module Aws::Redshift
     # @api private
     def build_request(operation_name, params = {})
       handlers = @handlers.for(operation_name)
+      tracer = config.telemetry_provider.tracer_provider.tracer(
+        Aws::Telemetry.module_to_tracer_name('Aws::Redshift')
+      )
       context = Seahorse::Client::RequestContext.new(
         operation_name: operation_name,
         operation: config.api.operation(operation_name),
         client: self,
         params: params,
-        config: config)
+        config: config,
+        tracer: tracer
+      )
       context[:gem_name] = 'aws-sdk-redshift'
-      context[:gem_version] = '1.90.0'
+      context[:gem_version] = '1.137.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

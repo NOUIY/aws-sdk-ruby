@@ -78,6 +78,18 @@
       "output_token": "nextMarker",
       "result_key": "certificates"
     },
+    "ListCommandExecutions": {
+      "input_token": "nextToken",
+      "limit_key": "maxResults",
+      "output_token": "nextToken",
+      "result_key": "commandExecutions"
+    },
+    "ListCommands": {
+      "input_token": "nextToken",
+      "limit_key": "maxResults",
+      "output_token": "nextToken",
+      "result_key": "commands"
+    },
     "ListCustomMetrics": {
       "input_token": "nextToken",
       "limit_key": "maxResults",
@@ -144,6 +156,12 @@
       "output_token": "nextToken",
       "result_key": "jobs"
     },
+    "ListManagedJobTemplates": {
+      "input_token": "nextToken",
+      "limit_key": "maxResults",
+      "output_token": "nextToken",
+      "result_key": "managedJobTemplates"
+    },
     "ListMetricValues": {
       "input_token": "nextToken",
       "limit_key": "maxResults",
@@ -167,6 +185,18 @@
       "limit_key": "pageSize",
       "output_token": "nextMarker",
       "result_key": "outgoingCertificates"
+    },
+    "ListPackageVersions": {
+      "input_token": "nextToken",
+      "limit_key": "maxResults",
+      "output_token": "nextToken",
+      "result_key": "packageVersionSummaries"
+    },
+    "ListPackages": {
+      "input_token": "nextToken",
+      "limit_key": "maxResults",
+      "output_token": "nextToken",
+      "result_key": "packageSummaries"
     },
     "ListPolicies": {
       "input_token": "marker",
@@ -192,6 +222,12 @@
       "output_token": "nextToken",
       "result_key": "things"
     },
+    "ListPrincipalThingsV2": {
+      "input_token": "nextToken",
+      "limit_key": "maxResults",
+      "output_token": "nextToken",
+      "result_key": "principalThingObjects"
+    },
     "ListProvisioningTemplateVersions": {
       "input_token": "nextToken",
       "limit_key": "maxResults",
@@ -204,11 +240,23 @@
       "output_token": "nextToken",
       "result_key": "templates"
     },
+    "ListRelatedResourcesForAuditFinding": {
+      "input_token": "nextToken",
+      "limit_key": "maxResults",
+      "output_token": "nextToken",
+      "result_key": "relatedResources"
+    },
     "ListRoleAliases": {
       "input_token": "marker",
       "limit_key": "pageSize",
       "output_token": "nextMarker",
       "result_key": "roleAliases"
+    },
+    "ListSbomValidationResults": {
+      "input_token": "nextToken",
+      "limit_key": "maxResults",
+      "output_token": "nextToken",
+      "result_key": "validationResultSummaries"
     },
     "ListScheduledAudits": {
       "input_token": "nextToken",
@@ -268,6 +316,12 @@
       "limit_key": "maxResults",
       "output_token": "nextToken",
       "result_key": "principals"
+    },
+    "ListThingPrincipalsV2": {
+      "input_token": "nextToken",
+      "limit_key": "maxResults",
+      "output_token": "nextToken",
+      "result_key": "thingPrincipalObjects"
     },
     "ListThingRegistrationTaskReports": {
       "input_token": "nextToken",

@@ -7,6 +7,7 @@
 #
 # WARNING ABOUT GENERATED CODE
 
+
 module Aws::DataSync
   # @api private
   module ClientApi
@@ -14,17 +15,31 @@ module Aws::DataSync
     include Seahorse::Model
 
     ActivationKey = Shapes::StringShape.new(name: 'ActivationKey')
+    AddStorageSystemRequest = Shapes::StructureShape.new(name: 'AddStorageSystemRequest')
+    AddStorageSystemResponse = Shapes::StructureShape.new(name: 'AddStorageSystemResponse')
     AgentArn = Shapes::StringShape.new(name: 'AgentArn')
     AgentArnList = Shapes::ListShape.new(name: 'AgentArnList')
     AgentList = Shapes::ListShape.new(name: 'AgentList')
     AgentListEntry = Shapes::StructureShape.new(name: 'AgentListEntry')
     AgentStatus = Shapes::StringShape.new(name: 'AgentStatus')
+    AgentVersion = Shapes::StringShape.new(name: 'AgentVersion')
     Atime = Shapes::StringShape.new(name: 'Atime')
+    AzureAccessTier = Shapes::StringShape.new(name: 'AzureAccessTier')
+    AzureBlobAuthenticationType = Shapes::StringShape.new(name: 'AzureBlobAuthenticationType')
+    AzureBlobContainerUrl = Shapes::StringShape.new(name: 'AzureBlobContainerUrl')
+    AzureBlobSasConfiguration = Shapes::StructureShape.new(name: 'AzureBlobSasConfiguration')
+    AzureBlobSasToken = Shapes::StringShape.new(name: 'AzureBlobSasToken')
+    AzureBlobSubdirectory = Shapes::StringShape.new(name: 'AzureBlobSubdirectory')
+    AzureBlobType = Shapes::StringShape.new(name: 'AzureBlobType')
     BytesPerSecond = Shapes::IntegerShape.new(name: 'BytesPerSecond')
     CancelTaskExecutionRequest = Shapes::StructureShape.new(name: 'CancelTaskExecutionRequest')
     CancelTaskExecutionResponse = Shapes::StructureShape.new(name: 'CancelTaskExecutionResponse')
+    Capacity = Shapes::StructureShape.new(name: 'Capacity')
+    CollectionDurationMinutes = Shapes::IntegerShape.new(name: 'CollectionDurationMinutes')
     CreateAgentRequest = Shapes::StructureShape.new(name: 'CreateAgentRequest')
     CreateAgentResponse = Shapes::StructureShape.new(name: 'CreateAgentResponse')
+    CreateLocationAzureBlobRequest = Shapes::StructureShape.new(name: 'CreateLocationAzureBlobRequest')
+    CreateLocationAzureBlobResponse = Shapes::StructureShape.new(name: 'CreateLocationAzureBlobResponse')
     CreateLocationEfsRequest = Shapes::StructureShape.new(name: 'CreateLocationEfsRequest')
     CreateLocationEfsResponse = Shapes::StructureShape.new(name: 'CreateLocationEfsResponse')
     CreateLocationFsxLustreRequest = Shapes::StructureShape.new(name: 'CreateLocationFsxLustreRequest')
@@ -47,6 +62,7 @@ module Aws::DataSync
     CreateLocationSmbResponse = Shapes::StructureShape.new(name: 'CreateLocationSmbResponse')
     CreateTaskRequest = Shapes::StructureShape.new(name: 'CreateTaskRequest')
     CreateTaskResponse = Shapes::StructureShape.new(name: 'CreateTaskResponse')
+    Credentials = Shapes::StructureShape.new(name: 'Credentials')
     DeleteAgentRequest = Shapes::StructureShape.new(name: 'DeleteAgentRequest')
     DeleteAgentResponse = Shapes::StructureShape.new(name: 'DeleteAgentResponse')
     DeleteLocationRequest = Shapes::StructureShape.new(name: 'DeleteLocationRequest')
@@ -55,6 +71,10 @@ module Aws::DataSync
     DeleteTaskResponse = Shapes::StructureShape.new(name: 'DeleteTaskResponse')
     DescribeAgentRequest = Shapes::StructureShape.new(name: 'DescribeAgentRequest')
     DescribeAgentResponse = Shapes::StructureShape.new(name: 'DescribeAgentResponse')
+    DescribeDiscoveryJobRequest = Shapes::StructureShape.new(name: 'DescribeDiscoveryJobRequest')
+    DescribeDiscoveryJobResponse = Shapes::StructureShape.new(name: 'DescribeDiscoveryJobResponse')
+    DescribeLocationAzureBlobRequest = Shapes::StructureShape.new(name: 'DescribeLocationAzureBlobRequest')
+    DescribeLocationAzureBlobResponse = Shapes::StructureShape.new(name: 'DescribeLocationAzureBlobResponse')
     DescribeLocationEfsRequest = Shapes::StructureShape.new(name: 'DescribeLocationEfsRequest')
     DescribeLocationEfsResponse = Shapes::StructureShape.new(name: 'DescribeLocationEfsResponse')
     DescribeLocationFsxLustreRequest = Shapes::StructureShape.new(name: 'DescribeLocationFsxLustreRequest')
@@ -75,11 +95,32 @@ module Aws::DataSync
     DescribeLocationS3Response = Shapes::StructureShape.new(name: 'DescribeLocationS3Response')
     DescribeLocationSmbRequest = Shapes::StructureShape.new(name: 'DescribeLocationSmbRequest')
     DescribeLocationSmbResponse = Shapes::StructureShape.new(name: 'DescribeLocationSmbResponse')
+    DescribeStorageSystemRequest = Shapes::StructureShape.new(name: 'DescribeStorageSystemRequest')
+    DescribeStorageSystemResourceMetricsRequest = Shapes::StructureShape.new(name: 'DescribeStorageSystemResourceMetricsRequest')
+    DescribeStorageSystemResourceMetricsResponse = Shapes::StructureShape.new(name: 'DescribeStorageSystemResourceMetricsResponse')
+    DescribeStorageSystemResourcesRequest = Shapes::StructureShape.new(name: 'DescribeStorageSystemResourcesRequest')
+    DescribeStorageSystemResourcesResponse = Shapes::StructureShape.new(name: 'DescribeStorageSystemResourcesResponse')
+    DescribeStorageSystemResponse = Shapes::StructureShape.new(name: 'DescribeStorageSystemResponse')
     DescribeTaskExecutionRequest = Shapes::StructureShape.new(name: 'DescribeTaskExecutionRequest')
     DescribeTaskExecutionResponse = Shapes::StructureShape.new(name: 'DescribeTaskExecutionResponse')
     DescribeTaskRequest = Shapes::StructureShape.new(name: 'DescribeTaskRequest')
     DescribeTaskResponse = Shapes::StructureShape.new(name: 'DescribeTaskResponse')
     DestinationNetworkInterfaceArns = Shapes::ListShape.new(name: 'DestinationNetworkInterfaceArns')
+    DiscoveryAgentArnList = Shapes::ListShape.new(name: 'DiscoveryAgentArnList')
+    DiscoveryJobArn = Shapes::StringShape.new(name: 'DiscoveryJobArn')
+    DiscoveryJobList = Shapes::ListShape.new(name: 'DiscoveryJobList')
+    DiscoveryJobListEntry = Shapes::StructureShape.new(name: 'DiscoveryJobListEntry')
+    DiscoveryJobStatus = Shapes::StringShape.new(name: 'DiscoveryJobStatus')
+    DiscoveryMaxResults = Shapes::IntegerShape.new(name: 'DiscoveryMaxResults')
+    DiscoveryNextToken = Shapes::StringShape.new(name: 'DiscoveryNextToken')
+    DiscoveryResourceFilter = Shapes::StringShape.new(name: 'DiscoveryResourceFilter')
+    DiscoveryResourceType = Shapes::StringShape.new(name: 'DiscoveryResourceType')
+    DiscoveryServerConfiguration = Shapes::StructureShape.new(name: 'DiscoveryServerConfiguration')
+    DiscoveryServerHostname = Shapes::StringShape.new(name: 'DiscoveryServerHostname')
+    DiscoveryServerPort = Shapes::IntegerShape.new(name: 'DiscoveryServerPort')
+    DiscoverySystemType = Shapes::StringShape.new(name: 'DiscoverySystemType')
+    DiscoveryTime = Shapes::TimestampShape.new(name: 'DiscoveryTime')
+    DnsIpList = Shapes::ListShape.new(name: 'DnsIpList')
     Duration = Shapes::IntegerShape.new(name: 'Duration')
     Ec2Config = Shapes::StructureShape.new(name: 'Ec2Config')
     Ec2SecurityGroupArn = Shapes::StringShape.new(name: 'Ec2SecurityGroupArn')
@@ -89,10 +130,13 @@ module Aws::DataSync
     EfsFilesystemArn = Shapes::StringShape.new(name: 'EfsFilesystemArn')
     EfsInTransitEncryption = Shapes::StringShape.new(name: 'EfsInTransitEncryption')
     EfsSubdirectory = Shapes::StringShape.new(name: 'EfsSubdirectory')
+    EnabledProtocols = Shapes::ListShape.new(name: 'EnabledProtocols')
     Endpoint = Shapes::StringShape.new(name: 'Endpoint')
     EndpointType = Shapes::StringShape.new(name: 'EndpointType')
+    ErrorMessage = Shapes::StringShape.new(name: 'ErrorMessage')
     FilterAttributeValue = Shapes::StringShape.new(name: 'FilterAttributeValue')
     FilterList = Shapes::ListShape.new(name: 'FilterList')
+    FilterMembers = Shapes::ListShape.new(name: 'FilterMembers')
     FilterRule = Shapes::StructureShape.new(name: 'FilterRule')
     FilterType = Shapes::StringShape.new(name: 'FilterType')
     FilterValue = Shapes::StringShape.new(name: 'FilterValue')
@@ -104,7 +148,11 @@ module Aws::DataSync
     FsxProtocol = Shapes::StructureShape.new(name: 'FsxProtocol')
     FsxProtocolNfs = Shapes::StructureShape.new(name: 'FsxProtocolNfs')
     FsxProtocolSmb = Shapes::StructureShape.new(name: 'FsxProtocolSmb')
+    FsxUpdateProtocol = Shapes::StructureShape.new(name: 'FsxUpdateProtocol')
+    FsxUpdateProtocolSmb = Shapes::StructureShape.new(name: 'FsxUpdateProtocolSmb')
     FsxWindowsSubdirectory = Shapes::StringShape.new(name: 'FsxWindowsSubdirectory')
+    GenerateRecommendationsRequest = Shapes::StructureShape.new(name: 'GenerateRecommendationsRequest')
+    GenerateRecommendationsResponse = Shapes::StructureShape.new(name: 'GenerateRecommendationsResponse')
     Gid = Shapes::StringShape.new(name: 'Gid')
     HdfsAuthenticationType = Shapes::StringShape.new(name: 'HdfsAuthenticationType')
     HdfsBlockSize = Shapes::IntegerShape.new(name: 'HdfsBlockSize')
@@ -117,6 +165,7 @@ module Aws::DataSync
     HdfsServerPort = Shapes::IntegerShape.new(name: 'HdfsServerPort')
     HdfsSubdirectory = Shapes::StringShape.new(name: 'HdfsSubdirectory')
     HdfsUser = Shapes::StringShape.new(name: 'HdfsUser')
+    IOPS = Shapes::StructureShape.new(name: 'IOPS')
     IamRoleArn = Shapes::StringShape.new(name: 'IamRoleArn')
     InputTagList = Shapes::ListShape.new(name: 'InputTagList')
     InternalException = Shapes::StructureShape.new(name: 'InternalException')
@@ -125,10 +174,15 @@ module Aws::DataSync
     KerberosKrb5ConfFile = Shapes::BlobShape.new(name: 'KerberosKrb5ConfFile')
     KerberosPrincipal = Shapes::StringShape.new(name: 'KerberosPrincipal')
     KmsKeyProviderUri = Shapes::StringShape.new(name: 'KmsKeyProviderUri')
+    Latency = Shapes::StructureShape.new(name: 'Latency')
     ListAgentsRequest = Shapes::StructureShape.new(name: 'ListAgentsRequest')
     ListAgentsResponse = Shapes::StructureShape.new(name: 'ListAgentsResponse')
+    ListDiscoveryJobsRequest = Shapes::StructureShape.new(name: 'ListDiscoveryJobsRequest')
+    ListDiscoveryJobsResponse = Shapes::StructureShape.new(name: 'ListDiscoveryJobsResponse')
     ListLocationsRequest = Shapes::StructureShape.new(name: 'ListLocationsRequest')
     ListLocationsResponse = Shapes::StructureShape.new(name: 'ListLocationsResponse')
+    ListStorageSystemsRequest = Shapes::StructureShape.new(name: 'ListStorageSystemsRequest')
+    ListStorageSystemsResponse = Shapes::StructureShape.new(name: 'ListStorageSystemsResponse')
     ListTagsForResourceRequest = Shapes::StructureShape.new(name: 'ListTagsForResourceRequest')
     ListTagsForResourceResponse = Shapes::StructureShape.new(name: 'ListTagsForResourceResponse')
     ListTaskExecutionsRequest = Shapes::StructureShape.new(name: 'ListTaskExecutionsRequest')
@@ -144,13 +198,27 @@ module Aws::DataSync
     LocationUri = Shapes::StringShape.new(name: 'LocationUri')
     LogGroupArn = Shapes::StringShape.new(name: 'LogGroupArn')
     LogLevel = Shapes::StringShape.new(name: 'LogLevel')
+    ManifestAction = Shapes::StringShape.new(name: 'ManifestAction')
+    ManifestConfig = Shapes::StructureShape.new(name: 'ManifestConfig')
+    ManifestFormat = Shapes::StringShape.new(name: 'ManifestFormat')
+    MaxP95Performance = Shapes::StructureShape.new(name: 'MaxP95Performance')
     MaxResults = Shapes::IntegerShape.new(name: 'MaxResults')
+    Metrics = Shapes::ListShape.new(name: 'Metrics')
     Mtime = Shapes::StringShape.new(name: 'Mtime')
+    Name = Shapes::StringShape.new(name: 'Name')
+    NetAppONTAPCluster = Shapes::StructureShape.new(name: 'NetAppONTAPCluster')
+    NetAppONTAPClusters = Shapes::ListShape.new(name: 'NetAppONTAPClusters')
+    NetAppONTAPSVM = Shapes::StructureShape.new(name: 'NetAppONTAPSVM')
+    NetAppONTAPSVMs = Shapes::ListShape.new(name: 'NetAppONTAPSVMs')
+    NetAppONTAPVolume = Shapes::StructureShape.new(name: 'NetAppONTAPVolume')
+    NetAppONTAPVolumes = Shapes::ListShape.new(name: 'NetAppONTAPVolumes')
     NetworkInterfaceArn = Shapes::StringShape.new(name: 'NetworkInterfaceArn')
     NextToken = Shapes::StringShape.new(name: 'NextToken')
     NfsMountOptions = Shapes::StructureShape.new(name: 'NfsMountOptions')
     NfsSubdirectory = Shapes::StringShape.new(name: 'NfsSubdirectory')
     NfsVersion = Shapes::StringShape.new(name: 'NfsVersion')
+    NonNegativeDouble = Shapes::FloatShape.new(name: 'NonNegativeDouble')
+    NonNegativeLong = Shapes::IntegerShape.new(name: 'NonNegativeLong')
     ObjectStorageAccessKey = Shapes::StringShape.new(name: 'ObjectStorageAccessKey')
     ObjectStorageBucketName = Shapes::StringShape.new(name: 'ObjectStorageBucketName')
     ObjectStorageCertificate = Shapes::BlobShape.new(name: 'ObjectStorageCertificate')
@@ -158,25 +226,59 @@ module Aws::DataSync
     ObjectStorageServerPort = Shapes::IntegerShape.new(name: 'ObjectStorageServerPort')
     ObjectStorageServerProtocol = Shapes::StringShape.new(name: 'ObjectStorageServerProtocol')
     ObjectTags = Shapes::StringShape.new(name: 'ObjectTags')
+    ObjectVersionIds = Shapes::StringShape.new(name: 'ObjectVersionIds')
     OnPremConfig = Shapes::StructureShape.new(name: 'OnPremConfig')
     Operator = Shapes::StringShape.new(name: 'Operator')
     Options = Shapes::StructureShape.new(name: 'Options')
     OutputTagList = Shapes::ListShape.new(name: 'OutputTagList')
     OverwriteMode = Shapes::StringShape.new(name: 'OverwriteMode')
+    P95Metrics = Shapes::StructureShape.new(name: 'P95Metrics')
     PLSecurityGroupArnList = Shapes::ListShape.new(name: 'PLSecurityGroupArnList')
     PLSubnetArnList = Shapes::ListShape.new(name: 'PLSubnetArnList')
     PhaseStatus = Shapes::StringShape.new(name: 'PhaseStatus')
+    Platform = Shapes::StructureShape.new(name: 'Platform')
     PosixPermissions = Shapes::StringShape.new(name: 'PosixPermissions')
     PreserveDeletedFiles = Shapes::StringShape.new(name: 'PreserveDeletedFiles')
     PreserveDevices = Shapes::StringShape.new(name: 'PreserveDevices')
     PrivateLinkConfig = Shapes::StructureShape.new(name: 'PrivateLinkConfig')
+    PtolemyBoolean = Shapes::BooleanShape.new(name: 'PtolemyBoolean')
+    PtolemyPassword = Shapes::StringShape.new(name: 'PtolemyPassword')
+    PtolemyString = Shapes::StringShape.new(name: 'PtolemyString')
+    PtolemyUUID = Shapes::StringShape.new(name: 'PtolemyUUID')
+    PtolemyUsername = Shapes::StringShape.new(name: 'PtolemyUsername')
     QopConfiguration = Shapes::StructureShape.new(name: 'QopConfiguration')
+    Recommendation = Shapes::StructureShape.new(name: 'Recommendation')
+    RecommendationStatus = Shapes::StringShape.new(name: 'RecommendationStatus')
+    Recommendations = Shapes::ListShape.new(name: 'Recommendations')
+    RecommendationsConfigMap = Shapes::MapShape.new(name: 'RecommendationsConfigMap')
+    RemoveStorageSystemRequest = Shapes::StructureShape.new(name: 'RemoveStorageSystemRequest')
+    RemoveStorageSystemResponse = Shapes::StructureShape.new(name: 'RemoveStorageSystemResponse')
+    ReportDestination = Shapes::StructureShape.new(name: 'ReportDestination')
+    ReportDestinationS3 = Shapes::StructureShape.new(name: 'ReportDestinationS3')
+    ReportLevel = Shapes::StringShape.new(name: 'ReportLevel')
+    ReportOutputType = Shapes::StringShape.new(name: 'ReportOutputType')
+    ReportOverride = Shapes::StructureShape.new(name: 'ReportOverride')
+    ReportOverrides = Shapes::StructureShape.new(name: 'ReportOverrides')
+    ReportResult = Shapes::StructureShape.new(name: 'ReportResult')
+    ResourceDetails = Shapes::StructureShape.new(name: 'ResourceDetails')
+    ResourceFilters = Shapes::MapShape.new(name: 'ResourceFilters')
+    ResourceId = Shapes::StringShape.new(name: 'ResourceId')
+    ResourceIds = Shapes::ListShape.new(name: 'ResourceIds')
+    ResourceMetrics = Shapes::StructureShape.new(name: 'ResourceMetrics')
     S3BucketArn = Shapes::StringShape.new(name: 'S3BucketArn')
     S3Config = Shapes::StructureShape.new(name: 'S3Config')
+    S3ManifestConfig = Shapes::StructureShape.new(name: 'S3ManifestConfig')
+    S3ObjectVersionId = Shapes::StringShape.new(name: 'S3ObjectVersionId')
     S3StorageClass = Shapes::StringShape.new(name: 'S3StorageClass')
     S3Subdirectory = Shapes::StringShape.new(name: 'S3Subdirectory')
+    ScheduleDisabledBy = Shapes::StringShape.new(name: 'ScheduleDisabledBy')
+    ScheduleDisabledReason = Shapes::StringShape.new(name: 'ScheduleDisabledReason')
     ScheduleExpressionCron = Shapes::StringShape.new(name: 'ScheduleExpressionCron')
+    ScheduleStatus = Shapes::StringShape.new(name: 'ScheduleStatus')
+    SecretsManagerArn = Shapes::StringShape.new(name: 'SecretsManagerArn')
     ServerHostname = Shapes::StringShape.new(name: 'ServerHostname')
+    ServerIpAddress = Shapes::StringShape.new(name: 'ServerIpAddress')
+    SmbAuthenticationType = Shapes::StringShape.new(name: 'SmbAuthenticationType')
     SmbDomain = Shapes::StringShape.new(name: 'SmbDomain')
     SmbMountOptions = Shapes::StructureShape.new(name: 'SmbMountOptions')
     SmbPassword = Shapes::StringShape.new(name: 'SmbPassword')
@@ -184,9 +286,18 @@ module Aws::DataSync
     SmbSubdirectory = Shapes::StringShape.new(name: 'SmbSubdirectory')
     SmbUser = Shapes::StringShape.new(name: 'SmbUser')
     SmbVersion = Shapes::StringShape.new(name: 'SmbVersion')
+    SourceManifestConfig = Shapes::StructureShape.new(name: 'SourceManifestConfig')
     SourceNetworkInterfaceArns = Shapes::ListShape.new(name: 'SourceNetworkInterfaceArns')
+    StartDiscoveryJobRequest = Shapes::StructureShape.new(name: 'StartDiscoveryJobRequest')
+    StartDiscoveryJobResponse = Shapes::StructureShape.new(name: 'StartDiscoveryJobResponse')
     StartTaskExecutionRequest = Shapes::StructureShape.new(name: 'StartTaskExecutionRequest')
     StartTaskExecutionResponse = Shapes::StructureShape.new(name: 'StartTaskExecutionResponse')
+    StopDiscoveryJobRequest = Shapes::StructureShape.new(name: 'StopDiscoveryJobRequest')
+    StopDiscoveryJobResponse = Shapes::StructureShape.new(name: 'StopDiscoveryJobResponse')
+    StorageSystemArn = Shapes::StringShape.new(name: 'StorageSystemArn')
+    StorageSystemConnectivityStatus = Shapes::StringShape.new(name: 'StorageSystemConnectivityStatus')
+    StorageSystemList = Shapes::ListShape.new(name: 'StorageSystemList')
+    StorageSystemListEntry = Shapes::StructureShape.new(name: 'StorageSystemListEntry')
     StorageVirtualMachineArn = Shapes::StringShape.new(name: 'StorageVirtualMachineArn')
     TagKey = Shapes::StringShape.new(name: 'TagKey')
     TagKeyList = Shapes::ListShape.new(name: 'TagKeyList')
@@ -197,6 +308,8 @@ module Aws::DataSync
     TaggableResourceArn = Shapes::StringShape.new(name: 'TaggableResourceArn')
     TaskArn = Shapes::StringShape.new(name: 'TaskArn')
     TaskExecutionArn = Shapes::StringShape.new(name: 'TaskExecutionArn')
+    TaskExecutionFilesFailedDetail = Shapes::StructureShape.new(name: 'TaskExecutionFilesFailedDetail')
+    TaskExecutionFilesListedDetail = Shapes::StructureShape.new(name: 'TaskExecutionFilesListedDetail')
     TaskExecutionList = Shapes::ListShape.new(name: 'TaskExecutionList')
     TaskExecutionListEntry = Shapes::StructureShape.new(name: 'TaskExecutionListEntry')
     TaskExecutionResultDetail = Shapes::StructureShape.new(name: 'TaskExecutionResultDetail')
@@ -206,32 +319,71 @@ module Aws::DataSync
     TaskFilters = Shapes::ListShape.new(name: 'TaskFilters')
     TaskList = Shapes::ListShape.new(name: 'TaskList')
     TaskListEntry = Shapes::StructureShape.new(name: 'TaskListEntry')
+    TaskMode = Shapes::StringShape.new(name: 'TaskMode')
     TaskQueueing = Shapes::StringShape.new(name: 'TaskQueueing')
+    TaskReportConfig = Shapes::StructureShape.new(name: 'TaskReportConfig')
     TaskSchedule = Shapes::StructureShape.new(name: 'TaskSchedule')
+    TaskScheduleDetails = Shapes::StructureShape.new(name: 'TaskScheduleDetails')
     TaskStatus = Shapes::StringShape.new(name: 'TaskStatus')
+    Throughput = Shapes::StructureShape.new(name: 'Throughput')
     Time = Shapes::TimestampShape.new(name: 'Time')
+    Timestamp = Shapes::TimestampShape.new(name: 'Timestamp')
     TransferMode = Shapes::StringShape.new(name: 'TransferMode')
     Uid = Shapes::StringShape.new(name: 'Uid')
     UntagResourceRequest = Shapes::StructureShape.new(name: 'UntagResourceRequest')
     UntagResourceResponse = Shapes::StructureShape.new(name: 'UntagResourceResponse')
     UpdateAgentRequest = Shapes::StructureShape.new(name: 'UpdateAgentRequest')
     UpdateAgentResponse = Shapes::StructureShape.new(name: 'UpdateAgentResponse')
+    UpdateDiscoveryJobRequest = Shapes::StructureShape.new(name: 'UpdateDiscoveryJobRequest')
+    UpdateDiscoveryJobResponse = Shapes::StructureShape.new(name: 'UpdateDiscoveryJobResponse')
+    UpdateLocationAzureBlobRequest = Shapes::StructureShape.new(name: 'UpdateLocationAzureBlobRequest')
+    UpdateLocationAzureBlobResponse = Shapes::StructureShape.new(name: 'UpdateLocationAzureBlobResponse')
+    UpdateLocationEfsRequest = Shapes::StructureShape.new(name: 'UpdateLocationEfsRequest')
+    UpdateLocationEfsResponse = Shapes::StructureShape.new(name: 'UpdateLocationEfsResponse')
+    UpdateLocationFsxLustreRequest = Shapes::StructureShape.new(name: 'UpdateLocationFsxLustreRequest')
+    UpdateLocationFsxLustreResponse = Shapes::StructureShape.new(name: 'UpdateLocationFsxLustreResponse')
+    UpdateLocationFsxOntapRequest = Shapes::StructureShape.new(name: 'UpdateLocationFsxOntapRequest')
+    UpdateLocationFsxOntapResponse = Shapes::StructureShape.new(name: 'UpdateLocationFsxOntapResponse')
+    UpdateLocationFsxOpenZfsRequest = Shapes::StructureShape.new(name: 'UpdateLocationFsxOpenZfsRequest')
+    UpdateLocationFsxOpenZfsResponse = Shapes::StructureShape.new(name: 'UpdateLocationFsxOpenZfsResponse')
+    UpdateLocationFsxWindowsRequest = Shapes::StructureShape.new(name: 'UpdateLocationFsxWindowsRequest')
+    UpdateLocationFsxWindowsResponse = Shapes::StructureShape.new(name: 'UpdateLocationFsxWindowsResponse')
     UpdateLocationHdfsRequest = Shapes::StructureShape.new(name: 'UpdateLocationHdfsRequest')
     UpdateLocationHdfsResponse = Shapes::StructureShape.new(name: 'UpdateLocationHdfsResponse')
     UpdateLocationNfsRequest = Shapes::StructureShape.new(name: 'UpdateLocationNfsRequest')
     UpdateLocationNfsResponse = Shapes::StructureShape.new(name: 'UpdateLocationNfsResponse')
     UpdateLocationObjectStorageRequest = Shapes::StructureShape.new(name: 'UpdateLocationObjectStorageRequest')
     UpdateLocationObjectStorageResponse = Shapes::StructureShape.new(name: 'UpdateLocationObjectStorageResponse')
+    UpdateLocationS3Request = Shapes::StructureShape.new(name: 'UpdateLocationS3Request')
+    UpdateLocationS3Response = Shapes::StructureShape.new(name: 'UpdateLocationS3Response')
     UpdateLocationSmbRequest = Shapes::StructureShape.new(name: 'UpdateLocationSmbRequest')
     UpdateLocationSmbResponse = Shapes::StructureShape.new(name: 'UpdateLocationSmbResponse')
+    UpdateSmbDomain = Shapes::StringShape.new(name: 'UpdateSmbDomain')
+    UpdateStorageSystemRequest = Shapes::StructureShape.new(name: 'UpdateStorageSystemRequest')
+    UpdateStorageSystemResponse = Shapes::StructureShape.new(name: 'UpdateStorageSystemResponse')
     UpdateTaskExecutionRequest = Shapes::StructureShape.new(name: 'UpdateTaskExecutionRequest')
     UpdateTaskExecutionResponse = Shapes::StructureShape.new(name: 'UpdateTaskExecutionResponse')
     UpdateTaskRequest = Shapes::StructureShape.new(name: 'UpdateTaskRequest')
     UpdateTaskResponse = Shapes::StructureShape.new(name: 'UpdateTaskResponse')
+    UpdatedEfsAccessPointArn = Shapes::StringShape.new(name: 'UpdatedEfsAccessPointArn')
+    UpdatedEfsIamRoleArn = Shapes::StringShape.new(name: 'UpdatedEfsIamRoleArn')
     VerifyMode = Shapes::StringShape.new(name: 'VerifyMode')
     VpcEndpointId = Shapes::StringShape.new(name: 'VpcEndpointId')
     long = Shapes::IntegerShape.new(name: 'long')
     string = Shapes::StringShape.new(name: 'string')
+
+    AddStorageSystemRequest.add_member(:server_configuration, Shapes::ShapeRef.new(shape: DiscoveryServerConfiguration, required: true, location_name: "ServerConfiguration"))
+    AddStorageSystemRequest.add_member(:system_type, Shapes::ShapeRef.new(shape: DiscoverySystemType, required: true, location_name: "SystemType"))
+    AddStorageSystemRequest.add_member(:agent_arns, Shapes::ShapeRef.new(shape: DiscoveryAgentArnList, required: true, location_name: "AgentArns"))
+    AddStorageSystemRequest.add_member(:cloud_watch_log_group_arn, Shapes::ShapeRef.new(shape: LogGroupArn, location_name: "CloudWatchLogGroupArn"))
+    AddStorageSystemRequest.add_member(:tags, Shapes::ShapeRef.new(shape: InputTagList, location_name: "Tags"))
+    AddStorageSystemRequest.add_member(:name, Shapes::ShapeRef.new(shape: Name, location_name: "Name"))
+    AddStorageSystemRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: PtolemyUUID, required: true, location_name: "ClientToken", metadata: {"idempotencyToken"=>true}))
+    AddStorageSystemRequest.add_member(:credentials, Shapes::ShapeRef.new(shape: Credentials, required: true, location_name: "Credentials"))
+    AddStorageSystemRequest.struct_class = Types::AddStorageSystemRequest
+
+    AddStorageSystemResponse.add_member(:storage_system_arn, Shapes::ShapeRef.new(shape: StorageSystemArn, required: true, location_name: "StorageSystemArn"))
+    AddStorageSystemResponse.struct_class = Types::AddStorageSystemResponse
 
     AgentArnList.member = Shapes::ShapeRef.new(shape: AgentArn)
 
@@ -240,12 +392,22 @@ module Aws::DataSync
     AgentListEntry.add_member(:agent_arn, Shapes::ShapeRef.new(shape: AgentArn, location_name: "AgentArn"))
     AgentListEntry.add_member(:name, Shapes::ShapeRef.new(shape: TagValue, location_name: "Name"))
     AgentListEntry.add_member(:status, Shapes::ShapeRef.new(shape: AgentStatus, location_name: "Status"))
+    AgentListEntry.add_member(:platform, Shapes::ShapeRef.new(shape: Platform, location_name: "Platform"))
     AgentListEntry.struct_class = Types::AgentListEntry
+
+    AzureBlobSasConfiguration.add_member(:token, Shapes::ShapeRef.new(shape: AzureBlobSasToken, required: true, location_name: "Token"))
+    AzureBlobSasConfiguration.struct_class = Types::AzureBlobSasConfiguration
 
     CancelTaskExecutionRequest.add_member(:task_execution_arn, Shapes::ShapeRef.new(shape: TaskExecutionArn, required: true, location_name: "TaskExecutionArn"))
     CancelTaskExecutionRequest.struct_class = Types::CancelTaskExecutionRequest
 
     CancelTaskExecutionResponse.struct_class = Types::CancelTaskExecutionResponse
+
+    Capacity.add_member(:used, Shapes::ShapeRef.new(shape: NonNegativeLong, location_name: "Used"))
+    Capacity.add_member(:provisioned, Shapes::ShapeRef.new(shape: NonNegativeLong, location_name: "Provisioned"))
+    Capacity.add_member(:logical_used, Shapes::ShapeRef.new(shape: NonNegativeLong, location_name: "LogicalUsed"))
+    Capacity.add_member(:cluster_cloud_storage_used, Shapes::ShapeRef.new(shape: NonNegativeLong, location_name: "ClusterCloudStorageUsed"))
+    Capacity.struct_class = Types::Capacity
 
     CreateAgentRequest.add_member(:activation_key, Shapes::ShapeRef.new(shape: ActivationKey, required: true, location_name: "ActivationKey"))
     CreateAgentRequest.add_member(:agent_name, Shapes::ShapeRef.new(shape: TagValue, location_name: "AgentName"))
@@ -257,6 +419,19 @@ module Aws::DataSync
 
     CreateAgentResponse.add_member(:agent_arn, Shapes::ShapeRef.new(shape: AgentArn, location_name: "AgentArn"))
     CreateAgentResponse.struct_class = Types::CreateAgentResponse
+
+    CreateLocationAzureBlobRequest.add_member(:container_url, Shapes::ShapeRef.new(shape: AzureBlobContainerUrl, required: true, location_name: "ContainerUrl"))
+    CreateLocationAzureBlobRequest.add_member(:authentication_type, Shapes::ShapeRef.new(shape: AzureBlobAuthenticationType, required: true, location_name: "AuthenticationType"))
+    CreateLocationAzureBlobRequest.add_member(:sas_configuration, Shapes::ShapeRef.new(shape: AzureBlobSasConfiguration, location_name: "SasConfiguration"))
+    CreateLocationAzureBlobRequest.add_member(:blob_type, Shapes::ShapeRef.new(shape: AzureBlobType, location_name: "BlobType"))
+    CreateLocationAzureBlobRequest.add_member(:access_tier, Shapes::ShapeRef.new(shape: AzureAccessTier, location_name: "AccessTier"))
+    CreateLocationAzureBlobRequest.add_member(:subdirectory, Shapes::ShapeRef.new(shape: AzureBlobSubdirectory, location_name: "Subdirectory"))
+    CreateLocationAzureBlobRequest.add_member(:agent_arns, Shapes::ShapeRef.new(shape: AgentArnList, required: true, location_name: "AgentArns"))
+    CreateLocationAzureBlobRequest.add_member(:tags, Shapes::ShapeRef.new(shape: InputTagList, location_name: "Tags"))
+    CreateLocationAzureBlobRequest.struct_class = Types::CreateLocationAzureBlobRequest
+
+    CreateLocationAzureBlobResponse.add_member(:location_arn, Shapes::ShapeRef.new(shape: LocationArn, location_name: "LocationArn"))
+    CreateLocationAzureBlobResponse.struct_class = Types::CreateLocationAzureBlobResponse
 
     CreateLocationEfsRequest.add_member(:subdirectory, Shapes::ShapeRef.new(shape: EfsSubdirectory, location_name: "Subdirectory"))
     CreateLocationEfsRequest.add_member(:efs_filesystem_arn, Shapes::ShapeRef.new(shape: EfsFilesystemArn, required: true, location_name: "EfsFilesystemArn"))
@@ -367,12 +542,17 @@ module Aws::DataSync
 
     CreateLocationSmbRequest.add_member(:subdirectory, Shapes::ShapeRef.new(shape: SmbSubdirectory, required: true, location_name: "Subdirectory"))
     CreateLocationSmbRequest.add_member(:server_hostname, Shapes::ShapeRef.new(shape: ServerHostname, required: true, location_name: "ServerHostname"))
-    CreateLocationSmbRequest.add_member(:user, Shapes::ShapeRef.new(shape: SmbUser, required: true, location_name: "User"))
+    CreateLocationSmbRequest.add_member(:user, Shapes::ShapeRef.new(shape: SmbUser, location_name: "User"))
     CreateLocationSmbRequest.add_member(:domain, Shapes::ShapeRef.new(shape: SmbDomain, location_name: "Domain"))
-    CreateLocationSmbRequest.add_member(:password, Shapes::ShapeRef.new(shape: SmbPassword, required: true, location_name: "Password"))
+    CreateLocationSmbRequest.add_member(:password, Shapes::ShapeRef.new(shape: SmbPassword, location_name: "Password"))
     CreateLocationSmbRequest.add_member(:agent_arns, Shapes::ShapeRef.new(shape: AgentArnList, required: true, location_name: "AgentArns"))
     CreateLocationSmbRequest.add_member(:mount_options, Shapes::ShapeRef.new(shape: SmbMountOptions, location_name: "MountOptions"))
     CreateLocationSmbRequest.add_member(:tags, Shapes::ShapeRef.new(shape: InputTagList, location_name: "Tags"))
+    CreateLocationSmbRequest.add_member(:authentication_type, Shapes::ShapeRef.new(shape: SmbAuthenticationType, location_name: "AuthenticationType"))
+    CreateLocationSmbRequest.add_member(:dns_ip_addresses, Shapes::ShapeRef.new(shape: DnsIpList, location_name: "DnsIpAddresses"))
+    CreateLocationSmbRequest.add_member(:kerberos_principal, Shapes::ShapeRef.new(shape: KerberosPrincipal, location_name: "KerberosPrincipal"))
+    CreateLocationSmbRequest.add_member(:kerberos_keytab, Shapes::ShapeRef.new(shape: KerberosKeytabFile, location_name: "KerberosKeytab"))
+    CreateLocationSmbRequest.add_member(:kerberos_krb_5_conf, Shapes::ShapeRef.new(shape: KerberosKrb5ConfFile, location_name: "KerberosKrb5Conf"))
     CreateLocationSmbRequest.struct_class = Types::CreateLocationSmbRequest
 
     CreateLocationSmbResponse.add_member(:location_arn, Shapes::ShapeRef.new(shape: LocationArn, location_name: "LocationArn"))
@@ -387,10 +567,17 @@ module Aws::DataSync
     CreateTaskRequest.add_member(:schedule, Shapes::ShapeRef.new(shape: TaskSchedule, location_name: "Schedule"))
     CreateTaskRequest.add_member(:tags, Shapes::ShapeRef.new(shape: InputTagList, location_name: "Tags"))
     CreateTaskRequest.add_member(:includes, Shapes::ShapeRef.new(shape: FilterList, location_name: "Includes"))
+    CreateTaskRequest.add_member(:manifest_config, Shapes::ShapeRef.new(shape: ManifestConfig, location_name: "ManifestConfig"))
+    CreateTaskRequest.add_member(:task_report_config, Shapes::ShapeRef.new(shape: TaskReportConfig, location_name: "TaskReportConfig"))
+    CreateTaskRequest.add_member(:task_mode, Shapes::ShapeRef.new(shape: TaskMode, location_name: "TaskMode"))
     CreateTaskRequest.struct_class = Types::CreateTaskRequest
 
     CreateTaskResponse.add_member(:task_arn, Shapes::ShapeRef.new(shape: TaskArn, location_name: "TaskArn"))
     CreateTaskResponse.struct_class = Types::CreateTaskResponse
+
+    Credentials.add_member(:username, Shapes::ShapeRef.new(shape: PtolemyUsername, required: true, location_name: "Username"))
+    Credentials.add_member(:password, Shapes::ShapeRef.new(shape: PtolemyPassword, required: true, location_name: "Password"))
+    Credentials.struct_class = Types::Credentials
 
     DeleteAgentRequest.add_member(:agent_arn, Shapes::ShapeRef.new(shape: AgentArn, required: true, location_name: "AgentArn"))
     DeleteAgentRequest.struct_class = Types::DeleteAgentRequest
@@ -417,7 +604,31 @@ module Aws::DataSync
     DescribeAgentResponse.add_member(:creation_time, Shapes::ShapeRef.new(shape: Time, location_name: "CreationTime"))
     DescribeAgentResponse.add_member(:endpoint_type, Shapes::ShapeRef.new(shape: EndpointType, location_name: "EndpointType"))
     DescribeAgentResponse.add_member(:private_link_config, Shapes::ShapeRef.new(shape: PrivateLinkConfig, location_name: "PrivateLinkConfig"))
+    DescribeAgentResponse.add_member(:platform, Shapes::ShapeRef.new(shape: Platform, location_name: "Platform"))
     DescribeAgentResponse.struct_class = Types::DescribeAgentResponse
+
+    DescribeDiscoveryJobRequest.add_member(:discovery_job_arn, Shapes::ShapeRef.new(shape: DiscoveryJobArn, required: true, location_name: "DiscoveryJobArn"))
+    DescribeDiscoveryJobRequest.struct_class = Types::DescribeDiscoveryJobRequest
+
+    DescribeDiscoveryJobResponse.add_member(:storage_system_arn, Shapes::ShapeRef.new(shape: StorageSystemArn, location_name: "StorageSystemArn"))
+    DescribeDiscoveryJobResponse.add_member(:discovery_job_arn, Shapes::ShapeRef.new(shape: DiscoveryJobArn, location_name: "DiscoveryJobArn"))
+    DescribeDiscoveryJobResponse.add_member(:collection_duration_minutes, Shapes::ShapeRef.new(shape: CollectionDurationMinutes, location_name: "CollectionDurationMinutes"))
+    DescribeDiscoveryJobResponse.add_member(:status, Shapes::ShapeRef.new(shape: DiscoveryJobStatus, location_name: "Status"))
+    DescribeDiscoveryJobResponse.add_member(:job_start_time, Shapes::ShapeRef.new(shape: DiscoveryTime, location_name: "JobStartTime"))
+    DescribeDiscoveryJobResponse.add_member(:job_end_time, Shapes::ShapeRef.new(shape: DiscoveryTime, location_name: "JobEndTime"))
+    DescribeDiscoveryJobResponse.struct_class = Types::DescribeDiscoveryJobResponse
+
+    DescribeLocationAzureBlobRequest.add_member(:location_arn, Shapes::ShapeRef.new(shape: LocationArn, required: true, location_name: "LocationArn"))
+    DescribeLocationAzureBlobRequest.struct_class = Types::DescribeLocationAzureBlobRequest
+
+    DescribeLocationAzureBlobResponse.add_member(:location_arn, Shapes::ShapeRef.new(shape: LocationArn, location_name: "LocationArn"))
+    DescribeLocationAzureBlobResponse.add_member(:location_uri, Shapes::ShapeRef.new(shape: LocationUri, location_name: "LocationUri"))
+    DescribeLocationAzureBlobResponse.add_member(:authentication_type, Shapes::ShapeRef.new(shape: AzureBlobAuthenticationType, location_name: "AuthenticationType"))
+    DescribeLocationAzureBlobResponse.add_member(:blob_type, Shapes::ShapeRef.new(shape: AzureBlobType, location_name: "BlobType"))
+    DescribeLocationAzureBlobResponse.add_member(:access_tier, Shapes::ShapeRef.new(shape: AzureAccessTier, location_name: "AccessTier"))
+    DescribeLocationAzureBlobResponse.add_member(:agent_arns, Shapes::ShapeRef.new(shape: AgentArnList, location_name: "AgentArns"))
+    DescribeLocationAzureBlobResponse.add_member(:creation_time, Shapes::ShapeRef.new(shape: Time, location_name: "CreationTime"))
+    DescribeLocationAzureBlobResponse.struct_class = Types::DescribeLocationAzureBlobResponse
 
     DescribeLocationEfsRequest.add_member(:location_arn, Shapes::ShapeRef.new(shape: LocationArn, required: true, location_name: "LocationArn"))
     DescribeLocationEfsRequest.struct_class = Types::DescribeLocationEfsRequest
@@ -534,7 +745,50 @@ module Aws::DataSync
     DescribeLocationSmbResponse.add_member(:domain, Shapes::ShapeRef.new(shape: SmbDomain, location_name: "Domain"))
     DescribeLocationSmbResponse.add_member(:mount_options, Shapes::ShapeRef.new(shape: SmbMountOptions, location_name: "MountOptions"))
     DescribeLocationSmbResponse.add_member(:creation_time, Shapes::ShapeRef.new(shape: Time, location_name: "CreationTime"))
+    DescribeLocationSmbResponse.add_member(:dns_ip_addresses, Shapes::ShapeRef.new(shape: DnsIpList, location_name: "DnsIpAddresses"))
+    DescribeLocationSmbResponse.add_member(:kerberos_principal, Shapes::ShapeRef.new(shape: KerberosPrincipal, location_name: "KerberosPrincipal"))
+    DescribeLocationSmbResponse.add_member(:authentication_type, Shapes::ShapeRef.new(shape: SmbAuthenticationType, location_name: "AuthenticationType"))
     DescribeLocationSmbResponse.struct_class = Types::DescribeLocationSmbResponse
+
+    DescribeStorageSystemRequest.add_member(:storage_system_arn, Shapes::ShapeRef.new(shape: StorageSystemArn, required: true, location_name: "StorageSystemArn"))
+    DescribeStorageSystemRequest.struct_class = Types::DescribeStorageSystemRequest
+
+    DescribeStorageSystemResourceMetricsRequest.add_member(:discovery_job_arn, Shapes::ShapeRef.new(shape: DiscoveryJobArn, required: true, location_name: "DiscoveryJobArn"))
+    DescribeStorageSystemResourceMetricsRequest.add_member(:resource_type, Shapes::ShapeRef.new(shape: DiscoveryResourceType, required: true, location_name: "ResourceType"))
+    DescribeStorageSystemResourceMetricsRequest.add_member(:resource_id, Shapes::ShapeRef.new(shape: ResourceId, required: true, location_name: "ResourceId"))
+    DescribeStorageSystemResourceMetricsRequest.add_member(:start_time, Shapes::ShapeRef.new(shape: DiscoveryTime, location_name: "StartTime"))
+    DescribeStorageSystemResourceMetricsRequest.add_member(:end_time, Shapes::ShapeRef.new(shape: DiscoveryTime, location_name: "EndTime"))
+    DescribeStorageSystemResourceMetricsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: DiscoveryMaxResults, location_name: "MaxResults"))
+    DescribeStorageSystemResourceMetricsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: DiscoveryNextToken, location_name: "NextToken"))
+    DescribeStorageSystemResourceMetricsRequest.struct_class = Types::DescribeStorageSystemResourceMetricsRequest
+
+    DescribeStorageSystemResourceMetricsResponse.add_member(:metrics, Shapes::ShapeRef.new(shape: Metrics, location_name: "Metrics"))
+    DescribeStorageSystemResourceMetricsResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: DiscoveryNextToken, location_name: "NextToken"))
+    DescribeStorageSystemResourceMetricsResponse.struct_class = Types::DescribeStorageSystemResourceMetricsResponse
+
+    DescribeStorageSystemResourcesRequest.add_member(:discovery_job_arn, Shapes::ShapeRef.new(shape: DiscoveryJobArn, required: true, location_name: "DiscoveryJobArn"))
+    DescribeStorageSystemResourcesRequest.add_member(:resource_type, Shapes::ShapeRef.new(shape: DiscoveryResourceType, required: true, location_name: "ResourceType"))
+    DescribeStorageSystemResourcesRequest.add_member(:resource_ids, Shapes::ShapeRef.new(shape: ResourceIds, location_name: "ResourceIds"))
+    DescribeStorageSystemResourcesRequest.add_member(:filter, Shapes::ShapeRef.new(shape: ResourceFilters, location_name: "Filter"))
+    DescribeStorageSystemResourcesRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: DiscoveryMaxResults, location_name: "MaxResults"))
+    DescribeStorageSystemResourcesRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: DiscoveryNextToken, location_name: "NextToken"))
+    DescribeStorageSystemResourcesRequest.struct_class = Types::DescribeStorageSystemResourcesRequest
+
+    DescribeStorageSystemResourcesResponse.add_member(:resource_details, Shapes::ShapeRef.new(shape: ResourceDetails, location_name: "ResourceDetails"))
+    DescribeStorageSystemResourcesResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: DiscoveryNextToken, location_name: "NextToken"))
+    DescribeStorageSystemResourcesResponse.struct_class = Types::DescribeStorageSystemResourcesResponse
+
+    DescribeStorageSystemResponse.add_member(:storage_system_arn, Shapes::ShapeRef.new(shape: StorageSystemArn, location_name: "StorageSystemArn"))
+    DescribeStorageSystemResponse.add_member(:server_configuration, Shapes::ShapeRef.new(shape: DiscoveryServerConfiguration, location_name: "ServerConfiguration"))
+    DescribeStorageSystemResponse.add_member(:system_type, Shapes::ShapeRef.new(shape: DiscoverySystemType, location_name: "SystemType"))
+    DescribeStorageSystemResponse.add_member(:agent_arns, Shapes::ShapeRef.new(shape: DiscoveryAgentArnList, location_name: "AgentArns"))
+    DescribeStorageSystemResponse.add_member(:name, Shapes::ShapeRef.new(shape: Name, location_name: "Name"))
+    DescribeStorageSystemResponse.add_member(:error_message, Shapes::ShapeRef.new(shape: ErrorMessage, location_name: "ErrorMessage"))
+    DescribeStorageSystemResponse.add_member(:connectivity_status, Shapes::ShapeRef.new(shape: StorageSystemConnectivityStatus, location_name: "ConnectivityStatus"))
+    DescribeStorageSystemResponse.add_member(:cloud_watch_log_group_arn, Shapes::ShapeRef.new(shape: LogGroupArn, location_name: "CloudWatchLogGroupArn"))
+    DescribeStorageSystemResponse.add_member(:creation_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "CreationTime"))
+    DescribeStorageSystemResponse.add_member(:secrets_manager_arn, Shapes::ShapeRef.new(shape: SecretsManagerArn, location_name: "SecretsManagerArn"))
+    DescribeStorageSystemResponse.struct_class = Types::DescribeStorageSystemResponse
 
     DescribeTaskExecutionRequest.add_member(:task_execution_arn, Shapes::ShapeRef.new(shape: TaskExecutionArn, required: true, location_name: "TaskExecutionArn"))
     DescribeTaskExecutionRequest.struct_class = Types::DescribeTaskExecutionRequest
@@ -544,14 +798,25 @@ module Aws::DataSync
     DescribeTaskExecutionResponse.add_member(:options, Shapes::ShapeRef.new(shape: Options, location_name: "Options"))
     DescribeTaskExecutionResponse.add_member(:excludes, Shapes::ShapeRef.new(shape: FilterList, location_name: "Excludes"))
     DescribeTaskExecutionResponse.add_member(:includes, Shapes::ShapeRef.new(shape: FilterList, location_name: "Includes"))
+    DescribeTaskExecutionResponse.add_member(:manifest_config, Shapes::ShapeRef.new(shape: ManifestConfig, location_name: "ManifestConfig"))
     DescribeTaskExecutionResponse.add_member(:start_time, Shapes::ShapeRef.new(shape: Time, location_name: "StartTime"))
     DescribeTaskExecutionResponse.add_member(:estimated_files_to_transfer, Shapes::ShapeRef.new(shape: long, location_name: "EstimatedFilesToTransfer"))
     DescribeTaskExecutionResponse.add_member(:estimated_bytes_to_transfer, Shapes::ShapeRef.new(shape: long, location_name: "EstimatedBytesToTransfer"))
     DescribeTaskExecutionResponse.add_member(:files_transferred, Shapes::ShapeRef.new(shape: long, location_name: "FilesTransferred"))
     DescribeTaskExecutionResponse.add_member(:bytes_written, Shapes::ShapeRef.new(shape: long, location_name: "BytesWritten"))
     DescribeTaskExecutionResponse.add_member(:bytes_transferred, Shapes::ShapeRef.new(shape: long, location_name: "BytesTransferred"))
-    DescribeTaskExecutionResponse.add_member(:result, Shapes::ShapeRef.new(shape: TaskExecutionResultDetail, location_name: "Result"))
     DescribeTaskExecutionResponse.add_member(:bytes_compressed, Shapes::ShapeRef.new(shape: long, location_name: "BytesCompressed"))
+    DescribeTaskExecutionResponse.add_member(:result, Shapes::ShapeRef.new(shape: TaskExecutionResultDetail, location_name: "Result"))
+    DescribeTaskExecutionResponse.add_member(:task_report_config, Shapes::ShapeRef.new(shape: TaskReportConfig, location_name: "TaskReportConfig"))
+    DescribeTaskExecutionResponse.add_member(:files_deleted, Shapes::ShapeRef.new(shape: long, location_name: "FilesDeleted"))
+    DescribeTaskExecutionResponse.add_member(:files_skipped, Shapes::ShapeRef.new(shape: long, location_name: "FilesSkipped"))
+    DescribeTaskExecutionResponse.add_member(:files_verified, Shapes::ShapeRef.new(shape: long, location_name: "FilesVerified"))
+    DescribeTaskExecutionResponse.add_member(:report_result, Shapes::ShapeRef.new(shape: ReportResult, location_name: "ReportResult"))
+    DescribeTaskExecutionResponse.add_member(:estimated_files_to_delete, Shapes::ShapeRef.new(shape: long, location_name: "EstimatedFilesToDelete"))
+    DescribeTaskExecutionResponse.add_member(:task_mode, Shapes::ShapeRef.new(shape: TaskMode, location_name: "TaskMode"))
+    DescribeTaskExecutionResponse.add_member(:files_prepared, Shapes::ShapeRef.new(shape: long, location_name: "FilesPrepared"))
+    DescribeTaskExecutionResponse.add_member(:files_listed, Shapes::ShapeRef.new(shape: TaskExecutionFilesListedDetail, location_name: "FilesListed"))
+    DescribeTaskExecutionResponse.add_member(:files_failed, Shapes::ShapeRef.new(shape: TaskExecutionFilesFailedDetail, location_name: "FilesFailed"))
     DescribeTaskExecutionResponse.struct_class = Types::DescribeTaskExecutionResponse
 
     DescribeTaskRequest.add_member(:task_arn, Shapes::ShapeRef.new(shape: TaskArn, required: true, location_name: "TaskArn"))
@@ -573,9 +838,27 @@ module Aws::DataSync
     DescribeTaskResponse.add_member(:error_detail, Shapes::ShapeRef.new(shape: string, location_name: "ErrorDetail"))
     DescribeTaskResponse.add_member(:creation_time, Shapes::ShapeRef.new(shape: Time, location_name: "CreationTime"))
     DescribeTaskResponse.add_member(:includes, Shapes::ShapeRef.new(shape: FilterList, location_name: "Includes"))
+    DescribeTaskResponse.add_member(:manifest_config, Shapes::ShapeRef.new(shape: ManifestConfig, location_name: "ManifestConfig"))
+    DescribeTaskResponse.add_member(:task_report_config, Shapes::ShapeRef.new(shape: TaskReportConfig, location_name: "TaskReportConfig"))
+    DescribeTaskResponse.add_member(:schedule_details, Shapes::ShapeRef.new(shape: TaskScheduleDetails, location_name: "ScheduleDetails"))
+    DescribeTaskResponse.add_member(:task_mode, Shapes::ShapeRef.new(shape: TaskMode, location_name: "TaskMode"))
     DescribeTaskResponse.struct_class = Types::DescribeTaskResponse
 
     DestinationNetworkInterfaceArns.member = Shapes::ShapeRef.new(shape: NetworkInterfaceArn)
+
+    DiscoveryAgentArnList.member = Shapes::ShapeRef.new(shape: AgentArn)
+
+    DiscoveryJobList.member = Shapes::ShapeRef.new(shape: DiscoveryJobListEntry)
+
+    DiscoveryJobListEntry.add_member(:discovery_job_arn, Shapes::ShapeRef.new(shape: DiscoveryJobArn, location_name: "DiscoveryJobArn"))
+    DiscoveryJobListEntry.add_member(:status, Shapes::ShapeRef.new(shape: DiscoveryJobStatus, location_name: "Status"))
+    DiscoveryJobListEntry.struct_class = Types::DiscoveryJobListEntry
+
+    DiscoveryServerConfiguration.add_member(:server_hostname, Shapes::ShapeRef.new(shape: DiscoveryServerHostname, required: true, location_name: "ServerHostname"))
+    DiscoveryServerConfiguration.add_member(:server_port, Shapes::ShapeRef.new(shape: DiscoveryServerPort, location_name: "ServerPort"))
+    DiscoveryServerConfiguration.struct_class = Types::DiscoveryServerConfiguration
+
+    DnsIpList.member = Shapes::ShapeRef.new(shape: ServerIpAddress)
 
     Ec2Config.add_member(:subnet_arn, Shapes::ShapeRef.new(shape: Ec2SubnetArn, required: true, location_name: "SubnetArn"))
     Ec2Config.add_member(:security_group_arns, Shapes::ShapeRef.new(shape: Ec2SecurityGroupArnList, required: true, location_name: "SecurityGroupArns"))
@@ -583,7 +866,11 @@ module Aws::DataSync
 
     Ec2SecurityGroupArnList.member = Shapes::ShapeRef.new(shape: Ec2SecurityGroupArn)
 
+    EnabledProtocols.member = Shapes::ShapeRef.new(shape: PtolemyString)
+
     FilterList.member = Shapes::ShapeRef.new(shape: FilterRule)
+
+    FilterMembers.member = Shapes::ShapeRef.new(shape: PtolemyString)
 
     FilterRule.add_member(:filter_type, Shapes::ShapeRef.new(shape: FilterType, location_name: "FilterType"))
     FilterRule.add_member(:value, Shapes::ShapeRef.new(shape: FilterValue, location_name: "Value"))
@@ -604,11 +891,34 @@ module Aws::DataSync
     FsxProtocolSmb.add_member(:user, Shapes::ShapeRef.new(shape: SmbUser, required: true, location_name: "User"))
     FsxProtocolSmb.struct_class = Types::FsxProtocolSmb
 
+    FsxUpdateProtocol.add_member(:nfs, Shapes::ShapeRef.new(shape: FsxProtocolNfs, location_name: "NFS"))
+    FsxUpdateProtocol.add_member(:smb, Shapes::ShapeRef.new(shape: FsxUpdateProtocolSmb, location_name: "SMB"))
+    FsxUpdateProtocol.struct_class = Types::FsxUpdateProtocol
+
+    FsxUpdateProtocolSmb.add_member(:domain, Shapes::ShapeRef.new(shape: UpdateSmbDomain, location_name: "Domain"))
+    FsxUpdateProtocolSmb.add_member(:mount_options, Shapes::ShapeRef.new(shape: SmbMountOptions, location_name: "MountOptions"))
+    FsxUpdateProtocolSmb.add_member(:password, Shapes::ShapeRef.new(shape: SmbPassword, location_name: "Password"))
+    FsxUpdateProtocolSmb.add_member(:user, Shapes::ShapeRef.new(shape: SmbUser, location_name: "User"))
+    FsxUpdateProtocolSmb.struct_class = Types::FsxUpdateProtocolSmb
+
+    GenerateRecommendationsRequest.add_member(:discovery_job_arn, Shapes::ShapeRef.new(shape: DiscoveryJobArn, required: true, location_name: "DiscoveryJobArn"))
+    GenerateRecommendationsRequest.add_member(:resource_ids, Shapes::ShapeRef.new(shape: ResourceIds, required: true, location_name: "ResourceIds"))
+    GenerateRecommendationsRequest.add_member(:resource_type, Shapes::ShapeRef.new(shape: DiscoveryResourceType, required: true, location_name: "ResourceType"))
+    GenerateRecommendationsRequest.struct_class = Types::GenerateRecommendationsRequest
+
+    GenerateRecommendationsResponse.struct_class = Types::GenerateRecommendationsResponse
+
     HdfsNameNode.add_member(:hostname, Shapes::ShapeRef.new(shape: HdfsServerHostname, required: true, location_name: "Hostname"))
     HdfsNameNode.add_member(:port, Shapes::ShapeRef.new(shape: HdfsServerPort, required: true, location_name: "Port"))
     HdfsNameNode.struct_class = Types::HdfsNameNode
 
     HdfsNameNodeList.member = Shapes::ShapeRef.new(shape: HdfsNameNode)
+
+    IOPS.add_member(:read, Shapes::ShapeRef.new(shape: NonNegativeDouble, location_name: "Read"))
+    IOPS.add_member(:write, Shapes::ShapeRef.new(shape: NonNegativeDouble, location_name: "Write"))
+    IOPS.add_member(:other, Shapes::ShapeRef.new(shape: NonNegativeDouble, location_name: "Other"))
+    IOPS.add_member(:total, Shapes::ShapeRef.new(shape: NonNegativeDouble, location_name: "Total"))
+    IOPS.struct_class = Types::IOPS
 
     InputTagList.member = Shapes::ShapeRef.new(shape: TagListEntry)
 
@@ -621,6 +931,11 @@ module Aws::DataSync
     InvalidRequestException.add_member(:datasync_error_code, Shapes::ShapeRef.new(shape: string, location_name: "datasyncErrorCode"))
     InvalidRequestException.struct_class = Types::InvalidRequestException
 
+    Latency.add_member(:read, Shapes::ShapeRef.new(shape: NonNegativeDouble, location_name: "Read"))
+    Latency.add_member(:write, Shapes::ShapeRef.new(shape: NonNegativeDouble, location_name: "Write"))
+    Latency.add_member(:other, Shapes::ShapeRef.new(shape: NonNegativeDouble, location_name: "Other"))
+    Latency.struct_class = Types::Latency
+
     ListAgentsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location_name: "MaxResults"))
     ListAgentsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "NextToken"))
     ListAgentsRequest.struct_class = Types::ListAgentsRequest
@@ -628,6 +943,15 @@ module Aws::DataSync
     ListAgentsResponse.add_member(:agents, Shapes::ShapeRef.new(shape: AgentList, location_name: "Agents"))
     ListAgentsResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "NextToken"))
     ListAgentsResponse.struct_class = Types::ListAgentsResponse
+
+    ListDiscoveryJobsRequest.add_member(:storage_system_arn, Shapes::ShapeRef.new(shape: StorageSystemArn, location_name: "StorageSystemArn"))
+    ListDiscoveryJobsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: DiscoveryMaxResults, location_name: "MaxResults"))
+    ListDiscoveryJobsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: DiscoveryNextToken, location_name: "NextToken"))
+    ListDiscoveryJobsRequest.struct_class = Types::ListDiscoveryJobsRequest
+
+    ListDiscoveryJobsResponse.add_member(:discovery_jobs, Shapes::ShapeRef.new(shape: DiscoveryJobList, location_name: "DiscoveryJobs"))
+    ListDiscoveryJobsResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: DiscoveryNextToken, location_name: "NextToken"))
+    ListDiscoveryJobsResponse.struct_class = Types::ListDiscoveryJobsResponse
 
     ListLocationsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location_name: "MaxResults"))
     ListLocationsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "NextToken"))
@@ -637,6 +961,14 @@ module Aws::DataSync
     ListLocationsResponse.add_member(:locations, Shapes::ShapeRef.new(shape: LocationList, location_name: "Locations"))
     ListLocationsResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "NextToken"))
     ListLocationsResponse.struct_class = Types::ListLocationsResponse
+
+    ListStorageSystemsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: DiscoveryMaxResults, location_name: "MaxResults"))
+    ListStorageSystemsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: DiscoveryNextToken, location_name: "NextToken"))
+    ListStorageSystemsRequest.struct_class = Types::ListStorageSystemsRequest
+
+    ListStorageSystemsResponse.add_member(:storage_systems, Shapes::ShapeRef.new(shape: StorageSystemList, location_name: "StorageSystems"))
+    ListStorageSystemsResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: DiscoveryNextToken, location_name: "NextToken"))
+    ListStorageSystemsResponse.struct_class = Types::ListStorageSystemsResponse
 
     ListTagsForResourceRequest.add_member(:resource_arn, Shapes::ShapeRef.new(shape: TaggableResourceArn, required: true, location_name: "ResourceArn"))
     ListTagsForResourceRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location_name: "MaxResults"))
@@ -678,6 +1010,79 @@ module Aws::DataSync
     LocationListEntry.add_member(:location_uri, Shapes::ShapeRef.new(shape: LocationUri, location_name: "LocationUri"))
     LocationListEntry.struct_class = Types::LocationListEntry
 
+    ManifestConfig.add_member(:action, Shapes::ShapeRef.new(shape: ManifestAction, location_name: "Action"))
+    ManifestConfig.add_member(:format, Shapes::ShapeRef.new(shape: ManifestFormat, location_name: "Format"))
+    ManifestConfig.add_member(:source, Shapes::ShapeRef.new(shape: SourceManifestConfig, location_name: "Source"))
+    ManifestConfig.struct_class = Types::ManifestConfig
+
+    MaxP95Performance.add_member(:iops_read, Shapes::ShapeRef.new(shape: NonNegativeDouble, location_name: "IopsRead"))
+    MaxP95Performance.add_member(:iops_write, Shapes::ShapeRef.new(shape: NonNegativeDouble, location_name: "IopsWrite"))
+    MaxP95Performance.add_member(:iops_other, Shapes::ShapeRef.new(shape: NonNegativeDouble, location_name: "IopsOther"))
+    MaxP95Performance.add_member(:iops_total, Shapes::ShapeRef.new(shape: NonNegativeDouble, location_name: "IopsTotal"))
+    MaxP95Performance.add_member(:throughput_read, Shapes::ShapeRef.new(shape: NonNegativeDouble, location_name: "ThroughputRead"))
+    MaxP95Performance.add_member(:throughput_write, Shapes::ShapeRef.new(shape: NonNegativeDouble, location_name: "ThroughputWrite"))
+    MaxP95Performance.add_member(:throughput_other, Shapes::ShapeRef.new(shape: NonNegativeDouble, location_name: "ThroughputOther"))
+    MaxP95Performance.add_member(:throughput_total, Shapes::ShapeRef.new(shape: NonNegativeDouble, location_name: "ThroughputTotal"))
+    MaxP95Performance.add_member(:latency_read, Shapes::ShapeRef.new(shape: NonNegativeDouble, location_name: "LatencyRead"))
+    MaxP95Performance.add_member(:latency_write, Shapes::ShapeRef.new(shape: NonNegativeDouble, location_name: "LatencyWrite"))
+    MaxP95Performance.add_member(:latency_other, Shapes::ShapeRef.new(shape: NonNegativeDouble, location_name: "LatencyOther"))
+    MaxP95Performance.struct_class = Types::MaxP95Performance
+
+    Metrics.member = Shapes::ShapeRef.new(shape: ResourceMetrics)
+
+    NetAppONTAPCluster.add_member(:cifs_share_count, Shapes::ShapeRef.new(shape: NonNegativeLong, location_name: "CifsShareCount"))
+    NetAppONTAPCluster.add_member(:nfs_exported_volumes, Shapes::ShapeRef.new(shape: NonNegativeLong, location_name: "NfsExportedVolumes"))
+    NetAppONTAPCluster.add_member(:resource_id, Shapes::ShapeRef.new(shape: PtolemyUUID, location_name: "ResourceId"))
+    NetAppONTAPCluster.add_member(:cluster_name, Shapes::ShapeRef.new(shape: PtolemyString, location_name: "ClusterName"))
+    NetAppONTAPCluster.add_member(:max_p95_performance, Shapes::ShapeRef.new(shape: MaxP95Performance, location_name: "MaxP95Performance"))
+    NetAppONTAPCluster.add_member(:cluster_block_storage_size, Shapes::ShapeRef.new(shape: NonNegativeLong, location_name: "ClusterBlockStorageSize"))
+    NetAppONTAPCluster.add_member(:cluster_block_storage_used, Shapes::ShapeRef.new(shape: NonNegativeLong, location_name: "ClusterBlockStorageUsed"))
+    NetAppONTAPCluster.add_member(:cluster_block_storage_logical_used, Shapes::ShapeRef.new(shape: NonNegativeLong, location_name: "ClusterBlockStorageLogicalUsed"))
+    NetAppONTAPCluster.add_member(:recommendations, Shapes::ShapeRef.new(shape: Recommendations, location_name: "Recommendations"))
+    NetAppONTAPCluster.add_member(:recommendation_status, Shapes::ShapeRef.new(shape: RecommendationStatus, location_name: "RecommendationStatus"))
+    NetAppONTAPCluster.add_member(:lun_count, Shapes::ShapeRef.new(shape: NonNegativeLong, location_name: "LunCount"))
+    NetAppONTAPCluster.add_member(:cluster_cloud_storage_used, Shapes::ShapeRef.new(shape: NonNegativeLong, location_name: "ClusterCloudStorageUsed"))
+    NetAppONTAPCluster.struct_class = Types::NetAppONTAPCluster
+
+    NetAppONTAPClusters.member = Shapes::ShapeRef.new(shape: NetAppONTAPCluster)
+
+    NetAppONTAPSVM.add_member(:cluster_uuid, Shapes::ShapeRef.new(shape: PtolemyUUID, location_name: "ClusterUuid"))
+    NetAppONTAPSVM.add_member(:resource_id, Shapes::ShapeRef.new(shape: PtolemyUUID, location_name: "ResourceId"))
+    NetAppONTAPSVM.add_member(:svm_name, Shapes::ShapeRef.new(shape: PtolemyString, location_name: "SvmName"))
+    NetAppONTAPSVM.add_member(:cifs_share_count, Shapes::ShapeRef.new(shape: NonNegativeLong, location_name: "CifsShareCount"))
+    NetAppONTAPSVM.add_member(:enabled_protocols, Shapes::ShapeRef.new(shape: EnabledProtocols, location_name: "EnabledProtocols"))
+    NetAppONTAPSVM.add_member(:total_capacity_used, Shapes::ShapeRef.new(shape: NonNegativeLong, location_name: "TotalCapacityUsed"))
+    NetAppONTAPSVM.add_member(:total_capacity_provisioned, Shapes::ShapeRef.new(shape: NonNegativeLong, location_name: "TotalCapacityProvisioned"))
+    NetAppONTAPSVM.add_member(:total_logical_capacity_used, Shapes::ShapeRef.new(shape: NonNegativeLong, location_name: "TotalLogicalCapacityUsed"))
+    NetAppONTAPSVM.add_member(:max_p95_performance, Shapes::ShapeRef.new(shape: MaxP95Performance, location_name: "MaxP95Performance"))
+    NetAppONTAPSVM.add_member(:recommendations, Shapes::ShapeRef.new(shape: Recommendations, location_name: "Recommendations"))
+    NetAppONTAPSVM.add_member(:nfs_exported_volumes, Shapes::ShapeRef.new(shape: NonNegativeLong, location_name: "NfsExportedVolumes"))
+    NetAppONTAPSVM.add_member(:recommendation_status, Shapes::ShapeRef.new(shape: RecommendationStatus, location_name: "RecommendationStatus"))
+    NetAppONTAPSVM.add_member(:total_snapshot_capacity_used, Shapes::ShapeRef.new(shape: NonNegativeLong, location_name: "TotalSnapshotCapacityUsed"))
+    NetAppONTAPSVM.add_member(:lun_count, Shapes::ShapeRef.new(shape: NonNegativeLong, location_name: "LunCount"))
+    NetAppONTAPSVM.struct_class = Types::NetAppONTAPSVM
+
+    NetAppONTAPSVMs.member = Shapes::ShapeRef.new(shape: NetAppONTAPSVM)
+
+    NetAppONTAPVolume.add_member(:volume_name, Shapes::ShapeRef.new(shape: PtolemyString, location_name: "VolumeName"))
+    NetAppONTAPVolume.add_member(:resource_id, Shapes::ShapeRef.new(shape: PtolemyUUID, location_name: "ResourceId"))
+    NetAppONTAPVolume.add_member(:cifs_share_count, Shapes::ShapeRef.new(shape: NonNegativeLong, location_name: "CifsShareCount"))
+    NetAppONTAPVolume.add_member(:security_style, Shapes::ShapeRef.new(shape: PtolemyString, location_name: "SecurityStyle"))
+    NetAppONTAPVolume.add_member(:svm_uuid, Shapes::ShapeRef.new(shape: PtolemyUUID, location_name: "SvmUuid"))
+    NetAppONTAPVolume.add_member(:svm_name, Shapes::ShapeRef.new(shape: PtolemyString, location_name: "SvmName"))
+    NetAppONTAPVolume.add_member(:capacity_used, Shapes::ShapeRef.new(shape: NonNegativeLong, location_name: "CapacityUsed"))
+    NetAppONTAPVolume.add_member(:capacity_provisioned, Shapes::ShapeRef.new(shape: NonNegativeLong, location_name: "CapacityProvisioned"))
+    NetAppONTAPVolume.add_member(:logical_capacity_used, Shapes::ShapeRef.new(shape: NonNegativeLong, location_name: "LogicalCapacityUsed"))
+    NetAppONTAPVolume.add_member(:nfs_exported, Shapes::ShapeRef.new(shape: PtolemyBoolean, location_name: "NfsExported"))
+    NetAppONTAPVolume.add_member(:snapshot_capacity_used, Shapes::ShapeRef.new(shape: NonNegativeLong, location_name: "SnapshotCapacityUsed"))
+    NetAppONTAPVolume.add_member(:max_p95_performance, Shapes::ShapeRef.new(shape: MaxP95Performance, location_name: "MaxP95Performance"))
+    NetAppONTAPVolume.add_member(:recommendations, Shapes::ShapeRef.new(shape: Recommendations, location_name: "Recommendations"))
+    NetAppONTAPVolume.add_member(:recommendation_status, Shapes::ShapeRef.new(shape: RecommendationStatus, location_name: "RecommendationStatus"))
+    NetAppONTAPVolume.add_member(:lun_count, Shapes::ShapeRef.new(shape: NonNegativeLong, location_name: "LunCount"))
+    NetAppONTAPVolume.struct_class = Types::NetAppONTAPVolume
+
+    NetAppONTAPVolumes.member = Shapes::ShapeRef.new(shape: NetAppONTAPVolume)
+
     NfsMountOptions.add_member(:version, Shapes::ShapeRef.new(shape: NfsVersion, location_name: "Version"))
     NfsMountOptions.struct_class = Types::NfsMountOptions
 
@@ -703,9 +1108,17 @@ module Aws::DataSync
 
     OutputTagList.member = Shapes::ShapeRef.new(shape: TagListEntry)
 
+    P95Metrics.add_member(:iops, Shapes::ShapeRef.new(shape: IOPS, location_name: "IOPS"))
+    P95Metrics.add_member(:throughput, Shapes::ShapeRef.new(shape: Throughput, location_name: "Throughput"))
+    P95Metrics.add_member(:latency, Shapes::ShapeRef.new(shape: Latency, location_name: "Latency"))
+    P95Metrics.struct_class = Types::P95Metrics
+
     PLSecurityGroupArnList.member = Shapes::ShapeRef.new(shape: Ec2SecurityGroupArn)
 
     PLSubnetArnList.member = Shapes::ShapeRef.new(shape: Ec2SubnetArn)
+
+    Platform.add_member(:version, Shapes::ShapeRef.new(shape: AgentVersion, location_name: "Version"))
+    Platform.struct_class = Types::Platform
 
     PrivateLinkConfig.add_member(:vpc_endpoint_id, Shapes::ShapeRef.new(shape: VpcEndpointId, location_name: "VpcEndpointId"))
     PrivateLinkConfig.add_member(:private_link_endpoint, Shapes::ShapeRef.new(shape: Endpoint, location_name: "PrivateLinkEndpoint"))
@@ -717,23 +1130,108 @@ module Aws::DataSync
     QopConfiguration.add_member(:data_transfer_protection, Shapes::ShapeRef.new(shape: HdfsDataTransferProtection, location_name: "DataTransferProtection"))
     QopConfiguration.struct_class = Types::QopConfiguration
 
+    Recommendation.add_member(:storage_type, Shapes::ShapeRef.new(shape: PtolemyString, location_name: "StorageType"))
+    Recommendation.add_member(:storage_configuration, Shapes::ShapeRef.new(shape: RecommendationsConfigMap, location_name: "StorageConfiguration"))
+    Recommendation.add_member(:estimated_monthly_storage_cost, Shapes::ShapeRef.new(shape: PtolemyString, location_name: "EstimatedMonthlyStorageCost"))
+    Recommendation.struct_class = Types::Recommendation
+
+    Recommendations.member = Shapes::ShapeRef.new(shape: Recommendation)
+
+    RecommendationsConfigMap.key = Shapes::ShapeRef.new(shape: PtolemyString)
+    RecommendationsConfigMap.value = Shapes::ShapeRef.new(shape: PtolemyString)
+
+    RemoveStorageSystemRequest.add_member(:storage_system_arn, Shapes::ShapeRef.new(shape: StorageSystemArn, required: true, location_name: "StorageSystemArn"))
+    RemoveStorageSystemRequest.struct_class = Types::RemoveStorageSystemRequest
+
+    RemoveStorageSystemResponse.struct_class = Types::RemoveStorageSystemResponse
+
+    ReportDestination.add_member(:s3, Shapes::ShapeRef.new(shape: ReportDestinationS3, location_name: "S3"))
+    ReportDestination.struct_class = Types::ReportDestination
+
+    ReportDestinationS3.add_member(:subdirectory, Shapes::ShapeRef.new(shape: S3Subdirectory, location_name: "Subdirectory"))
+    ReportDestinationS3.add_member(:s3_bucket_arn, Shapes::ShapeRef.new(shape: S3BucketArn, required: true, location_name: "S3BucketArn"))
+    ReportDestinationS3.add_member(:bucket_access_role_arn, Shapes::ShapeRef.new(shape: IamRoleArn, required: true, location_name: "BucketAccessRoleArn"))
+    ReportDestinationS3.struct_class = Types::ReportDestinationS3
+
+    ReportOverride.add_member(:report_level, Shapes::ShapeRef.new(shape: ReportLevel, location_name: "ReportLevel"))
+    ReportOverride.struct_class = Types::ReportOverride
+
+    ReportOverrides.add_member(:transferred, Shapes::ShapeRef.new(shape: ReportOverride, location_name: "Transferred"))
+    ReportOverrides.add_member(:verified, Shapes::ShapeRef.new(shape: ReportOverride, location_name: "Verified"))
+    ReportOverrides.add_member(:deleted, Shapes::ShapeRef.new(shape: ReportOverride, location_name: "Deleted"))
+    ReportOverrides.add_member(:skipped, Shapes::ShapeRef.new(shape: ReportOverride, location_name: "Skipped"))
+    ReportOverrides.struct_class = Types::ReportOverrides
+
+    ReportResult.add_member(:status, Shapes::ShapeRef.new(shape: PhaseStatus, location_name: "Status"))
+    ReportResult.add_member(:error_code, Shapes::ShapeRef.new(shape: string, location_name: "ErrorCode"))
+    ReportResult.add_member(:error_detail, Shapes::ShapeRef.new(shape: string, location_name: "ErrorDetail"))
+    ReportResult.struct_class = Types::ReportResult
+
+    ResourceDetails.add_member(:net_app_ontapsv_ms, Shapes::ShapeRef.new(shape: NetAppONTAPSVMs, location_name: "NetAppONTAPSVMs"))
+    ResourceDetails.add_member(:net_app_ontap_volumes, Shapes::ShapeRef.new(shape: NetAppONTAPVolumes, location_name: "NetAppONTAPVolumes"))
+    ResourceDetails.add_member(:net_app_ontap_clusters, Shapes::ShapeRef.new(shape: NetAppONTAPClusters, location_name: "NetAppONTAPClusters"))
+    ResourceDetails.struct_class = Types::ResourceDetails
+
+    ResourceFilters.key = Shapes::ShapeRef.new(shape: DiscoveryResourceFilter)
+    ResourceFilters.value = Shapes::ShapeRef.new(shape: FilterMembers)
+
+    ResourceIds.member = Shapes::ShapeRef.new(shape: ResourceId)
+
+    ResourceMetrics.add_member(:timestamp, Shapes::ShapeRef.new(shape: Timestamp, location_name: "Timestamp"))
+    ResourceMetrics.add_member(:p95_metrics, Shapes::ShapeRef.new(shape: P95Metrics, location_name: "P95Metrics"))
+    ResourceMetrics.add_member(:capacity, Shapes::ShapeRef.new(shape: Capacity, location_name: "Capacity"))
+    ResourceMetrics.add_member(:resource_id, Shapes::ShapeRef.new(shape: ResourceId, location_name: "ResourceId"))
+    ResourceMetrics.add_member(:resource_type, Shapes::ShapeRef.new(shape: DiscoveryResourceType, location_name: "ResourceType"))
+    ResourceMetrics.struct_class = Types::ResourceMetrics
+
     S3Config.add_member(:bucket_access_role_arn, Shapes::ShapeRef.new(shape: IamRoleArn, required: true, location_name: "BucketAccessRoleArn"))
     S3Config.struct_class = Types::S3Config
+
+    S3ManifestConfig.add_member(:manifest_object_path, Shapes::ShapeRef.new(shape: S3Subdirectory, required: true, location_name: "ManifestObjectPath"))
+    S3ManifestConfig.add_member(:bucket_access_role_arn, Shapes::ShapeRef.new(shape: IamRoleArn, required: true, location_name: "BucketAccessRoleArn"))
+    S3ManifestConfig.add_member(:s3_bucket_arn, Shapes::ShapeRef.new(shape: S3BucketArn, required: true, location_name: "S3BucketArn"))
+    S3ManifestConfig.add_member(:manifest_object_version_id, Shapes::ShapeRef.new(shape: S3ObjectVersionId, location_name: "ManifestObjectVersionId"))
+    S3ManifestConfig.struct_class = Types::S3ManifestConfig
 
     SmbMountOptions.add_member(:version, Shapes::ShapeRef.new(shape: SmbVersion, location_name: "Version"))
     SmbMountOptions.struct_class = Types::SmbMountOptions
 
+    SourceManifestConfig.add_member(:s3, Shapes::ShapeRef.new(shape: S3ManifestConfig, required: true, location_name: "S3"))
+    SourceManifestConfig.struct_class = Types::SourceManifestConfig
+
     SourceNetworkInterfaceArns.member = Shapes::ShapeRef.new(shape: NetworkInterfaceArn)
+
+    StartDiscoveryJobRequest.add_member(:storage_system_arn, Shapes::ShapeRef.new(shape: StorageSystemArn, required: true, location_name: "StorageSystemArn"))
+    StartDiscoveryJobRequest.add_member(:collection_duration_minutes, Shapes::ShapeRef.new(shape: CollectionDurationMinutes, required: true, location_name: "CollectionDurationMinutes"))
+    StartDiscoveryJobRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: PtolemyUUID, required: true, location_name: "ClientToken", metadata: {"idempotencyToken"=>true}))
+    StartDiscoveryJobRequest.add_member(:tags, Shapes::ShapeRef.new(shape: InputTagList, location_name: "Tags"))
+    StartDiscoveryJobRequest.struct_class = Types::StartDiscoveryJobRequest
+
+    StartDiscoveryJobResponse.add_member(:discovery_job_arn, Shapes::ShapeRef.new(shape: DiscoveryJobArn, location_name: "DiscoveryJobArn"))
+    StartDiscoveryJobResponse.struct_class = Types::StartDiscoveryJobResponse
 
     StartTaskExecutionRequest.add_member(:task_arn, Shapes::ShapeRef.new(shape: TaskArn, required: true, location_name: "TaskArn"))
     StartTaskExecutionRequest.add_member(:override_options, Shapes::ShapeRef.new(shape: Options, location_name: "OverrideOptions"))
     StartTaskExecutionRequest.add_member(:includes, Shapes::ShapeRef.new(shape: FilterList, location_name: "Includes"))
     StartTaskExecutionRequest.add_member(:excludes, Shapes::ShapeRef.new(shape: FilterList, location_name: "Excludes"))
+    StartTaskExecutionRequest.add_member(:manifest_config, Shapes::ShapeRef.new(shape: ManifestConfig, location_name: "ManifestConfig"))
+    StartTaskExecutionRequest.add_member(:task_report_config, Shapes::ShapeRef.new(shape: TaskReportConfig, location_name: "TaskReportConfig"))
     StartTaskExecutionRequest.add_member(:tags, Shapes::ShapeRef.new(shape: InputTagList, location_name: "Tags"))
     StartTaskExecutionRequest.struct_class = Types::StartTaskExecutionRequest
 
     StartTaskExecutionResponse.add_member(:task_execution_arn, Shapes::ShapeRef.new(shape: TaskExecutionArn, location_name: "TaskExecutionArn"))
     StartTaskExecutionResponse.struct_class = Types::StartTaskExecutionResponse
+
+    StopDiscoveryJobRequest.add_member(:discovery_job_arn, Shapes::ShapeRef.new(shape: DiscoveryJobArn, required: true, location_name: "DiscoveryJobArn"))
+    StopDiscoveryJobRequest.struct_class = Types::StopDiscoveryJobRequest
+
+    StopDiscoveryJobResponse.struct_class = Types::StopDiscoveryJobResponse
+
+    StorageSystemList.member = Shapes::ShapeRef.new(shape: StorageSystemListEntry)
+
+    StorageSystemListEntry.add_member(:storage_system_arn, Shapes::ShapeRef.new(shape: StorageSystemArn, location_name: "StorageSystemArn"))
+    StorageSystemListEntry.add_member(:name, Shapes::ShapeRef.new(shape: Name, location_name: "Name"))
+    StorageSystemListEntry.struct_class = Types::StorageSystemListEntry
 
     TagKeyList.member = Shapes::ShapeRef.new(shape: TagKey)
 
@@ -747,10 +1245,21 @@ module Aws::DataSync
 
     TagResourceResponse.struct_class = Types::TagResourceResponse
 
+    TaskExecutionFilesFailedDetail.add_member(:prepare, Shapes::ShapeRef.new(shape: long, location_name: "Prepare"))
+    TaskExecutionFilesFailedDetail.add_member(:transfer, Shapes::ShapeRef.new(shape: long, location_name: "Transfer"))
+    TaskExecutionFilesFailedDetail.add_member(:verify, Shapes::ShapeRef.new(shape: long, location_name: "Verify"))
+    TaskExecutionFilesFailedDetail.add_member(:delete, Shapes::ShapeRef.new(shape: long, location_name: "Delete"))
+    TaskExecutionFilesFailedDetail.struct_class = Types::TaskExecutionFilesFailedDetail
+
+    TaskExecutionFilesListedDetail.add_member(:at_source, Shapes::ShapeRef.new(shape: long, location_name: "AtSource"))
+    TaskExecutionFilesListedDetail.add_member(:at_destination_for_delete, Shapes::ShapeRef.new(shape: long, location_name: "AtDestinationForDelete"))
+    TaskExecutionFilesListedDetail.struct_class = Types::TaskExecutionFilesListedDetail
+
     TaskExecutionList.member = Shapes::ShapeRef.new(shape: TaskExecutionListEntry)
 
     TaskExecutionListEntry.add_member(:task_execution_arn, Shapes::ShapeRef.new(shape: TaskExecutionArn, location_name: "TaskExecutionArn"))
     TaskExecutionListEntry.add_member(:status, Shapes::ShapeRef.new(shape: TaskExecutionStatus, location_name: "Status"))
+    TaskExecutionListEntry.add_member(:task_mode, Shapes::ShapeRef.new(shape: TaskMode, location_name: "TaskMode"))
     TaskExecutionListEntry.struct_class = Types::TaskExecutionListEntry
 
     TaskExecutionResultDetail.add_member(:prepare_duration, Shapes::ShapeRef.new(shape: Duration, location_name: "PrepareDuration"))
@@ -776,10 +1285,30 @@ module Aws::DataSync
     TaskListEntry.add_member(:task_arn, Shapes::ShapeRef.new(shape: TaskArn, location_name: "TaskArn"))
     TaskListEntry.add_member(:status, Shapes::ShapeRef.new(shape: TaskStatus, location_name: "Status"))
     TaskListEntry.add_member(:name, Shapes::ShapeRef.new(shape: TagValue, location_name: "Name"))
+    TaskListEntry.add_member(:task_mode, Shapes::ShapeRef.new(shape: TaskMode, location_name: "TaskMode"))
     TaskListEntry.struct_class = Types::TaskListEntry
 
+    TaskReportConfig.add_member(:destination, Shapes::ShapeRef.new(shape: ReportDestination, location_name: "Destination"))
+    TaskReportConfig.add_member(:output_type, Shapes::ShapeRef.new(shape: ReportOutputType, location_name: "OutputType"))
+    TaskReportConfig.add_member(:report_level, Shapes::ShapeRef.new(shape: ReportLevel, location_name: "ReportLevel"))
+    TaskReportConfig.add_member(:object_version_ids, Shapes::ShapeRef.new(shape: ObjectVersionIds, location_name: "ObjectVersionIds"))
+    TaskReportConfig.add_member(:overrides, Shapes::ShapeRef.new(shape: ReportOverrides, location_name: "Overrides"))
+    TaskReportConfig.struct_class = Types::TaskReportConfig
+
     TaskSchedule.add_member(:schedule_expression, Shapes::ShapeRef.new(shape: ScheduleExpressionCron, required: true, location_name: "ScheduleExpression"))
+    TaskSchedule.add_member(:status, Shapes::ShapeRef.new(shape: ScheduleStatus, location_name: "Status"))
     TaskSchedule.struct_class = Types::TaskSchedule
+
+    TaskScheduleDetails.add_member(:status_update_time, Shapes::ShapeRef.new(shape: Time, location_name: "StatusUpdateTime"))
+    TaskScheduleDetails.add_member(:disabled_reason, Shapes::ShapeRef.new(shape: ScheduleDisabledReason, location_name: "DisabledReason"))
+    TaskScheduleDetails.add_member(:disabled_by, Shapes::ShapeRef.new(shape: ScheduleDisabledBy, location_name: "DisabledBy"))
+    TaskScheduleDetails.struct_class = Types::TaskScheduleDetails
+
+    Throughput.add_member(:read, Shapes::ShapeRef.new(shape: NonNegativeDouble, location_name: "Read"))
+    Throughput.add_member(:write, Shapes::ShapeRef.new(shape: NonNegativeDouble, location_name: "Write"))
+    Throughput.add_member(:other, Shapes::ShapeRef.new(shape: NonNegativeDouble, location_name: "Other"))
+    Throughput.add_member(:total, Shapes::ShapeRef.new(shape: NonNegativeDouble, location_name: "Total"))
+    Throughput.struct_class = Types::Throughput
 
     UntagResourceRequest.add_member(:resource_arn, Shapes::ShapeRef.new(shape: TaggableResourceArn, required: true, location_name: "ResourceArn"))
     UntagResourceRequest.add_member(:keys, Shapes::ShapeRef.new(shape: TagKeyList, required: true, location_name: "Keys"))
@@ -792,6 +1321,61 @@ module Aws::DataSync
     UpdateAgentRequest.struct_class = Types::UpdateAgentRequest
 
     UpdateAgentResponse.struct_class = Types::UpdateAgentResponse
+
+    UpdateDiscoveryJobRequest.add_member(:discovery_job_arn, Shapes::ShapeRef.new(shape: DiscoveryJobArn, required: true, location_name: "DiscoveryJobArn"))
+    UpdateDiscoveryJobRequest.add_member(:collection_duration_minutes, Shapes::ShapeRef.new(shape: CollectionDurationMinutes, required: true, location_name: "CollectionDurationMinutes"))
+    UpdateDiscoveryJobRequest.struct_class = Types::UpdateDiscoveryJobRequest
+
+    UpdateDiscoveryJobResponse.struct_class = Types::UpdateDiscoveryJobResponse
+
+    UpdateLocationAzureBlobRequest.add_member(:location_arn, Shapes::ShapeRef.new(shape: LocationArn, required: true, location_name: "LocationArn"))
+    UpdateLocationAzureBlobRequest.add_member(:subdirectory, Shapes::ShapeRef.new(shape: AzureBlobSubdirectory, location_name: "Subdirectory"))
+    UpdateLocationAzureBlobRequest.add_member(:authentication_type, Shapes::ShapeRef.new(shape: AzureBlobAuthenticationType, location_name: "AuthenticationType"))
+    UpdateLocationAzureBlobRequest.add_member(:sas_configuration, Shapes::ShapeRef.new(shape: AzureBlobSasConfiguration, location_name: "SasConfiguration"))
+    UpdateLocationAzureBlobRequest.add_member(:blob_type, Shapes::ShapeRef.new(shape: AzureBlobType, location_name: "BlobType"))
+    UpdateLocationAzureBlobRequest.add_member(:access_tier, Shapes::ShapeRef.new(shape: AzureAccessTier, location_name: "AccessTier"))
+    UpdateLocationAzureBlobRequest.add_member(:agent_arns, Shapes::ShapeRef.new(shape: AgentArnList, location_name: "AgentArns"))
+    UpdateLocationAzureBlobRequest.struct_class = Types::UpdateLocationAzureBlobRequest
+
+    UpdateLocationAzureBlobResponse.struct_class = Types::UpdateLocationAzureBlobResponse
+
+    UpdateLocationEfsRequest.add_member(:location_arn, Shapes::ShapeRef.new(shape: LocationArn, required: true, location_name: "LocationArn"))
+    UpdateLocationEfsRequest.add_member(:subdirectory, Shapes::ShapeRef.new(shape: EfsSubdirectory, location_name: "Subdirectory"))
+    UpdateLocationEfsRequest.add_member(:access_point_arn, Shapes::ShapeRef.new(shape: UpdatedEfsAccessPointArn, location_name: "AccessPointArn"))
+    UpdateLocationEfsRequest.add_member(:file_system_access_role_arn, Shapes::ShapeRef.new(shape: UpdatedEfsIamRoleArn, location_name: "FileSystemAccessRoleArn"))
+    UpdateLocationEfsRequest.add_member(:in_transit_encryption, Shapes::ShapeRef.new(shape: EfsInTransitEncryption, location_name: "InTransitEncryption"))
+    UpdateLocationEfsRequest.struct_class = Types::UpdateLocationEfsRequest
+
+    UpdateLocationEfsResponse.struct_class = Types::UpdateLocationEfsResponse
+
+    UpdateLocationFsxLustreRequest.add_member(:location_arn, Shapes::ShapeRef.new(shape: LocationArn, required: true, location_name: "LocationArn"))
+    UpdateLocationFsxLustreRequest.add_member(:subdirectory, Shapes::ShapeRef.new(shape: SmbSubdirectory, location_name: "Subdirectory"))
+    UpdateLocationFsxLustreRequest.struct_class = Types::UpdateLocationFsxLustreRequest
+
+    UpdateLocationFsxLustreResponse.struct_class = Types::UpdateLocationFsxLustreResponse
+
+    UpdateLocationFsxOntapRequest.add_member(:location_arn, Shapes::ShapeRef.new(shape: LocationArn, required: true, location_name: "LocationArn"))
+    UpdateLocationFsxOntapRequest.add_member(:protocol, Shapes::ShapeRef.new(shape: FsxUpdateProtocol, location_name: "Protocol"))
+    UpdateLocationFsxOntapRequest.add_member(:subdirectory, Shapes::ShapeRef.new(shape: FsxOntapSubdirectory, location_name: "Subdirectory"))
+    UpdateLocationFsxOntapRequest.struct_class = Types::UpdateLocationFsxOntapRequest
+
+    UpdateLocationFsxOntapResponse.struct_class = Types::UpdateLocationFsxOntapResponse
+
+    UpdateLocationFsxOpenZfsRequest.add_member(:location_arn, Shapes::ShapeRef.new(shape: LocationArn, required: true, location_name: "LocationArn"))
+    UpdateLocationFsxOpenZfsRequest.add_member(:protocol, Shapes::ShapeRef.new(shape: FsxProtocol, location_name: "Protocol"))
+    UpdateLocationFsxOpenZfsRequest.add_member(:subdirectory, Shapes::ShapeRef.new(shape: SmbSubdirectory, location_name: "Subdirectory"))
+    UpdateLocationFsxOpenZfsRequest.struct_class = Types::UpdateLocationFsxOpenZfsRequest
+
+    UpdateLocationFsxOpenZfsResponse.struct_class = Types::UpdateLocationFsxOpenZfsResponse
+
+    UpdateLocationFsxWindowsRequest.add_member(:location_arn, Shapes::ShapeRef.new(shape: LocationArn, required: true, location_name: "LocationArn"))
+    UpdateLocationFsxWindowsRequest.add_member(:subdirectory, Shapes::ShapeRef.new(shape: FsxWindowsSubdirectory, location_name: "Subdirectory"))
+    UpdateLocationFsxWindowsRequest.add_member(:domain, Shapes::ShapeRef.new(shape: UpdateSmbDomain, location_name: "Domain"))
+    UpdateLocationFsxWindowsRequest.add_member(:user, Shapes::ShapeRef.new(shape: SmbUser, location_name: "User"))
+    UpdateLocationFsxWindowsRequest.add_member(:password, Shapes::ShapeRef.new(shape: SmbPassword, location_name: "Password"))
+    UpdateLocationFsxWindowsRequest.struct_class = Types::UpdateLocationFsxWindowsRequest
+
+    UpdateLocationFsxWindowsResponse.struct_class = Types::UpdateLocationFsxWindowsResponse
 
     UpdateLocationHdfsRequest.add_member(:location_arn, Shapes::ShapeRef.new(shape: LocationArn, required: true, location_name: "LocationArn"))
     UpdateLocationHdfsRequest.add_member(:subdirectory, Shapes::ShapeRef.new(shape: HdfsSubdirectory, location_name: "Subdirectory"))
@@ -830,6 +1414,14 @@ module Aws::DataSync
 
     UpdateLocationObjectStorageResponse.struct_class = Types::UpdateLocationObjectStorageResponse
 
+    UpdateLocationS3Request.add_member(:location_arn, Shapes::ShapeRef.new(shape: LocationArn, required: true, location_name: "LocationArn"))
+    UpdateLocationS3Request.add_member(:subdirectory, Shapes::ShapeRef.new(shape: S3Subdirectory, location_name: "Subdirectory"))
+    UpdateLocationS3Request.add_member(:s3_storage_class, Shapes::ShapeRef.new(shape: S3StorageClass, location_name: "S3StorageClass"))
+    UpdateLocationS3Request.add_member(:s3_config, Shapes::ShapeRef.new(shape: S3Config, location_name: "S3Config"))
+    UpdateLocationS3Request.struct_class = Types::UpdateLocationS3Request
+
+    UpdateLocationS3Response.struct_class = Types::UpdateLocationS3Response
+
     UpdateLocationSmbRequest.add_member(:location_arn, Shapes::ShapeRef.new(shape: LocationArn, required: true, location_name: "LocationArn"))
     UpdateLocationSmbRequest.add_member(:subdirectory, Shapes::ShapeRef.new(shape: SmbSubdirectory, location_name: "Subdirectory"))
     UpdateLocationSmbRequest.add_member(:user, Shapes::ShapeRef.new(shape: SmbUser, location_name: "User"))
@@ -837,9 +1429,24 @@ module Aws::DataSync
     UpdateLocationSmbRequest.add_member(:password, Shapes::ShapeRef.new(shape: SmbPassword, location_name: "Password"))
     UpdateLocationSmbRequest.add_member(:agent_arns, Shapes::ShapeRef.new(shape: AgentArnList, location_name: "AgentArns"))
     UpdateLocationSmbRequest.add_member(:mount_options, Shapes::ShapeRef.new(shape: SmbMountOptions, location_name: "MountOptions"))
+    UpdateLocationSmbRequest.add_member(:authentication_type, Shapes::ShapeRef.new(shape: SmbAuthenticationType, location_name: "AuthenticationType"))
+    UpdateLocationSmbRequest.add_member(:dns_ip_addresses, Shapes::ShapeRef.new(shape: DnsIpList, location_name: "DnsIpAddresses"))
+    UpdateLocationSmbRequest.add_member(:kerberos_principal, Shapes::ShapeRef.new(shape: KerberosPrincipal, location_name: "KerberosPrincipal"))
+    UpdateLocationSmbRequest.add_member(:kerberos_keytab, Shapes::ShapeRef.new(shape: KerberosKeytabFile, location_name: "KerberosKeytab"))
+    UpdateLocationSmbRequest.add_member(:kerberos_krb_5_conf, Shapes::ShapeRef.new(shape: KerberosKrb5ConfFile, location_name: "KerberosKrb5Conf"))
     UpdateLocationSmbRequest.struct_class = Types::UpdateLocationSmbRequest
 
     UpdateLocationSmbResponse.struct_class = Types::UpdateLocationSmbResponse
+
+    UpdateStorageSystemRequest.add_member(:storage_system_arn, Shapes::ShapeRef.new(shape: StorageSystemArn, required: true, location_name: "StorageSystemArn"))
+    UpdateStorageSystemRequest.add_member(:server_configuration, Shapes::ShapeRef.new(shape: DiscoveryServerConfiguration, location_name: "ServerConfiguration"))
+    UpdateStorageSystemRequest.add_member(:agent_arns, Shapes::ShapeRef.new(shape: DiscoveryAgentArnList, location_name: "AgentArns"))
+    UpdateStorageSystemRequest.add_member(:name, Shapes::ShapeRef.new(shape: Name, location_name: "Name"))
+    UpdateStorageSystemRequest.add_member(:cloud_watch_log_group_arn, Shapes::ShapeRef.new(shape: LogGroupArn, location_name: "CloudWatchLogGroupArn"))
+    UpdateStorageSystemRequest.add_member(:credentials, Shapes::ShapeRef.new(shape: Credentials, location_name: "Credentials"))
+    UpdateStorageSystemRequest.struct_class = Types::UpdateStorageSystemRequest
+
+    UpdateStorageSystemResponse.struct_class = Types::UpdateStorageSystemResponse
 
     UpdateTaskExecutionRequest.add_member(:task_execution_arn, Shapes::ShapeRef.new(shape: TaskExecutionArn, required: true, location_name: "TaskExecutionArn"))
     UpdateTaskExecutionRequest.add_member(:options, Shapes::ShapeRef.new(shape: Options, required: true, location_name: "Options"))
@@ -854,6 +1461,8 @@ module Aws::DataSync
     UpdateTaskRequest.add_member(:name, Shapes::ShapeRef.new(shape: TagValue, location_name: "Name"))
     UpdateTaskRequest.add_member(:cloud_watch_log_group_arn, Shapes::ShapeRef.new(shape: LogGroupArn, location_name: "CloudWatchLogGroupArn"))
     UpdateTaskRequest.add_member(:includes, Shapes::ShapeRef.new(shape: FilterList, location_name: "Includes"))
+    UpdateTaskRequest.add_member(:manifest_config, Shapes::ShapeRef.new(shape: ManifestConfig, location_name: "ManifestConfig"))
+    UpdateTaskRequest.add_member(:task_report_config, Shapes::ShapeRef.new(shape: TaskReportConfig, location_name: "TaskReportConfig"))
     UpdateTaskRequest.struct_class = Types::UpdateTaskRequest
 
     UpdateTaskResponse.struct_class = Types::UpdateTaskResponse
@@ -866,9 +1475,11 @@ module Aws::DataSync
 
       api.metadata = {
         "apiVersion" => "2018-11-09",
+        "auth" => ["aws.auth#sigv4"],
         "endpointPrefix" => "datasync",
         "jsonVersion" => "1.1",
         "protocol" => "json",
+        "protocols" => ["json"],
         "serviceAbbreviation" => "DataSync",
         "serviceFullName" => "AWS DataSync",
         "serviceId" => "DataSync",
@@ -877,6 +1488,19 @@ module Aws::DataSync
         "targetPrefix" => "FmrsService",
         "uid" => "datasync-2018-11-09",
       }
+
+      api.add_operation(:add_storage_system, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "AddStorageSystem"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.endpoint_pattern = {
+          "hostPrefix" => "discovery-",
+        }
+        o.input = Shapes::ShapeRef.new(shape: AddStorageSystemRequest)
+        o.output = Shapes::ShapeRef.new(shape: AddStorageSystemResponse)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalException)
+      end)
 
       api.add_operation(:cancel_task_execution, Seahorse::Model::Operation.new.tap do |o|
         o.name = "CancelTaskExecution"
@@ -894,6 +1518,16 @@ module Aws::DataSync
         o.http_request_uri = "/"
         o.input = Shapes::ShapeRef.new(shape: CreateAgentRequest)
         o.output = Shapes::ShapeRef.new(shape: CreateAgentResponse)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalException)
+      end)
+
+      api.add_operation(:create_location_azure_blob, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "CreateLocationAzureBlob"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: CreateLocationAzureBlobRequest)
+        o.output = Shapes::ShapeRef.new(shape: CreateLocationAzureBlobResponse)
         o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
         o.errors << Shapes::ShapeRef.new(shape: InternalException)
       end)
@@ -1048,6 +1682,29 @@ module Aws::DataSync
         o.errors << Shapes::ShapeRef.new(shape: InternalException)
       end)
 
+      api.add_operation(:describe_discovery_job, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DescribeDiscoveryJob"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.endpoint_pattern = {
+          "hostPrefix" => "discovery-",
+        }
+        o.input = Shapes::ShapeRef.new(shape: DescribeDiscoveryJobRequest)
+        o.output = Shapes::ShapeRef.new(shape: DescribeDiscoveryJobResponse)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalException)
+      end)
+
+      api.add_operation(:describe_location_azure_blob, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DescribeLocationAzureBlob"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: DescribeLocationAzureBlobRequest)
+        o.output = Shapes::ShapeRef.new(shape: DescribeLocationAzureBlobResponse)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalException)
+      end)
+
       api.add_operation(:describe_location_efs, Seahorse::Model::Operation.new.tap do |o|
         o.name = "DescribeLocationEfs"
         o.http_method = "POST"
@@ -1148,6 +1805,57 @@ module Aws::DataSync
         o.errors << Shapes::ShapeRef.new(shape: InternalException)
       end)
 
+      api.add_operation(:describe_storage_system, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DescribeStorageSystem"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.endpoint_pattern = {
+          "hostPrefix" => "discovery-",
+        }
+        o.input = Shapes::ShapeRef.new(shape: DescribeStorageSystemRequest)
+        o.output = Shapes::ShapeRef.new(shape: DescribeStorageSystemResponse)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalException)
+      end)
+
+      api.add_operation(:describe_storage_system_resource_metrics, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DescribeStorageSystemResourceMetrics"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.endpoint_pattern = {
+          "hostPrefix" => "discovery-",
+        }
+        o.input = Shapes::ShapeRef.new(shape: DescribeStorageSystemResourceMetricsRequest)
+        o.output = Shapes::ShapeRef.new(shape: DescribeStorageSystemResourceMetricsResponse)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalException)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
+      end)
+
+      api.add_operation(:describe_storage_system_resources, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DescribeStorageSystemResources"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.endpoint_pattern = {
+          "hostPrefix" => "discovery-",
+        }
+        o.input = Shapes::ShapeRef.new(shape: DescribeStorageSystemResourcesRequest)
+        o.output = Shapes::ShapeRef.new(shape: DescribeStorageSystemResourcesResponse)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalException)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
+      end)
+
       api.add_operation(:describe_task, Seahorse::Model::Operation.new.tap do |o|
         o.name = "DescribeTask"
         o.http_method = "POST"
@@ -1168,6 +1876,19 @@ module Aws::DataSync
         o.errors << Shapes::ShapeRef.new(shape: InternalException)
       end)
 
+      api.add_operation(:generate_recommendations, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "GenerateRecommendations"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.endpoint_pattern = {
+          "hostPrefix" => "discovery-",
+        }
+        o.input = Shapes::ShapeRef.new(shape: GenerateRecommendationsRequest)
+        o.output = Shapes::ShapeRef.new(shape: GenerateRecommendationsResponse)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalException)
+      end)
+
       api.add_operation(:list_agents, Seahorse::Model::Operation.new.tap do |o|
         o.name = "ListAgents"
         o.http_method = "POST"
@@ -1184,12 +1905,50 @@ module Aws::DataSync
         )
       end)
 
+      api.add_operation(:list_discovery_jobs, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListDiscoveryJobs"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.endpoint_pattern = {
+          "hostPrefix" => "discovery-",
+        }
+        o.input = Shapes::ShapeRef.new(shape: ListDiscoveryJobsRequest)
+        o.output = Shapes::ShapeRef.new(shape: ListDiscoveryJobsResponse)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalException)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
+      end)
+
       api.add_operation(:list_locations, Seahorse::Model::Operation.new.tap do |o|
         o.name = "ListLocations"
         o.http_method = "POST"
         o.http_request_uri = "/"
         o.input = Shapes::ShapeRef.new(shape: ListLocationsRequest)
         o.output = Shapes::ShapeRef.new(shape: ListLocationsResponse)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalException)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
+      end)
+
+      api.add_operation(:list_storage_systems, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListStorageSystems"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.endpoint_pattern = {
+          "hostPrefix" => "discovery-",
+        }
+        o.input = Shapes::ShapeRef.new(shape: ListStorageSystemsRequest)
+        o.output = Shapes::ShapeRef.new(shape: ListStorageSystemsResponse)
         o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
         o.errors << Shapes::ShapeRef.new(shape: InternalException)
         o[:pager] = Aws::Pager.new(
@@ -1248,12 +2007,51 @@ module Aws::DataSync
         )
       end)
 
+      api.add_operation(:remove_storage_system, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "RemoveStorageSystem"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.endpoint_pattern = {
+          "hostPrefix" => "discovery-",
+        }
+        o.input = Shapes::ShapeRef.new(shape: RemoveStorageSystemRequest)
+        o.output = Shapes::ShapeRef.new(shape: RemoveStorageSystemResponse)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalException)
+      end)
+
+      api.add_operation(:start_discovery_job, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "StartDiscoveryJob"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.endpoint_pattern = {
+          "hostPrefix" => "discovery-",
+        }
+        o.input = Shapes::ShapeRef.new(shape: StartDiscoveryJobRequest)
+        o.output = Shapes::ShapeRef.new(shape: StartDiscoveryJobResponse)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalException)
+      end)
+
       api.add_operation(:start_task_execution, Seahorse::Model::Operation.new.tap do |o|
         o.name = "StartTaskExecution"
         o.http_method = "POST"
         o.http_request_uri = "/"
         o.input = Shapes::ShapeRef.new(shape: StartTaskExecutionRequest)
         o.output = Shapes::ShapeRef.new(shape: StartTaskExecutionResponse)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalException)
+      end)
+
+      api.add_operation(:stop_discovery_job, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "StopDiscoveryJob"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.endpoint_pattern = {
+          "hostPrefix" => "discovery-",
+        }
+        o.input = Shapes::ShapeRef.new(shape: StopDiscoveryJobRequest)
+        o.output = Shapes::ShapeRef.new(shape: StopDiscoveryJobResponse)
         o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
         o.errors << Shapes::ShapeRef.new(shape: InternalException)
       end)
@@ -1288,6 +2086,79 @@ module Aws::DataSync
         o.errors << Shapes::ShapeRef.new(shape: InternalException)
       end)
 
+      api.add_operation(:update_discovery_job, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "UpdateDiscoveryJob"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.endpoint_pattern = {
+          "hostPrefix" => "discovery-",
+        }
+        o.input = Shapes::ShapeRef.new(shape: UpdateDiscoveryJobRequest)
+        o.output = Shapes::ShapeRef.new(shape: UpdateDiscoveryJobResponse)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalException)
+      end)
+
+      api.add_operation(:update_location_azure_blob, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "UpdateLocationAzureBlob"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: UpdateLocationAzureBlobRequest)
+        o.output = Shapes::ShapeRef.new(shape: UpdateLocationAzureBlobResponse)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalException)
+      end)
+
+      api.add_operation(:update_location_efs, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "UpdateLocationEfs"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: UpdateLocationEfsRequest)
+        o.output = Shapes::ShapeRef.new(shape: UpdateLocationEfsResponse)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalException)
+      end)
+
+      api.add_operation(:update_location_fsx_lustre, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "UpdateLocationFsxLustre"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: UpdateLocationFsxLustreRequest)
+        o.output = Shapes::ShapeRef.new(shape: UpdateLocationFsxLustreResponse)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalException)
+      end)
+
+      api.add_operation(:update_location_fsx_ontap, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "UpdateLocationFsxOntap"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: UpdateLocationFsxOntapRequest)
+        o.output = Shapes::ShapeRef.new(shape: UpdateLocationFsxOntapResponse)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalException)
+      end)
+
+      api.add_operation(:update_location_fsx_open_zfs, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "UpdateLocationFsxOpenZfs"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: UpdateLocationFsxOpenZfsRequest)
+        o.output = Shapes::ShapeRef.new(shape: UpdateLocationFsxOpenZfsResponse)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalException)
+      end)
+
+      api.add_operation(:update_location_fsx_windows, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "UpdateLocationFsxWindows"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: UpdateLocationFsxWindowsRequest)
+        o.output = Shapes::ShapeRef.new(shape: UpdateLocationFsxWindowsResponse)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalException)
+      end)
+
       api.add_operation(:update_location_hdfs, Seahorse::Model::Operation.new.tap do |o|
         o.name = "UpdateLocationHdfs"
         o.http_method = "POST"
@@ -1318,12 +2189,35 @@ module Aws::DataSync
         o.errors << Shapes::ShapeRef.new(shape: InternalException)
       end)
 
+      api.add_operation(:update_location_s3, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "UpdateLocationS3"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: UpdateLocationS3Request)
+        o.output = Shapes::ShapeRef.new(shape: UpdateLocationS3Response)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalException)
+      end)
+
       api.add_operation(:update_location_smb, Seahorse::Model::Operation.new.tap do |o|
         o.name = "UpdateLocationSmb"
         o.http_method = "POST"
         o.http_request_uri = "/"
         o.input = Shapes::ShapeRef.new(shape: UpdateLocationSmbRequest)
         o.output = Shapes::ShapeRef.new(shape: UpdateLocationSmbResponse)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalException)
+      end)
+
+      api.add_operation(:update_storage_system, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "UpdateStorageSystem"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.endpoint_pattern = {
+          "hostPrefix" => "discovery-",
+        }
+        o.input = Shapes::ShapeRef.new(shape: UpdateStorageSystemRequest)
+        o.output = Shapes::ShapeRef.new(shape: UpdateStorageSystemResponse)
         o.errors << Shapes::ShapeRef.new(shape: InvalidRequestException)
         o.errors << Shapes::ShapeRef.new(shape: InternalException)
       end)

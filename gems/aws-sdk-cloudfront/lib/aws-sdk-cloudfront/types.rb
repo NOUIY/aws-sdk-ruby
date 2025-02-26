@@ -59,9 +59,8 @@ module Aws::CloudFront
     #
     # @!attribute [rw] enabled
     #   This field is `true` if any of the Amazon Web Services accounts in
-    #   the list have active CloudFront key pairs that CloudFront can use to
-    #   verify the signatures of signed URLs and signed cookies. If not,
-    #   this field is `false`.
+    #   the list are configured as trusted signers. If not, this field is
+    #   `false`.
     #   @return [Boolean]
     #
     # @!attribute [rw] quantity
@@ -212,6 +211,147 @@ module Aws::CloudFront
       include Aws::Structure
     end
 
+    # An Anycast static IP list. For more information, see [Request Anycast
+    # static IPs to use for allowlisting][1] in the *Amazon CloudFront
+    # Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/request-static-ips.html
+    #
+    # @!attribute [rw] id
+    #   The ID of the Anycast static IP list.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the Anycast static IP list.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status of the Anycast static IP list. Valid values: `Deployed`,
+    #   `Deploying`, or `Failed`.
+    #   @return [String]
+    #
+    # @!attribute [rw] arn
+    #   The Amazon Resource Name (ARN) of the Anycast static IP list.
+    #   @return [String]
+    #
+    # @!attribute [rw] anycast_ips
+    #   The static IP addresses that are allocated to the Anycast static IP
+    #   list.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] ip_count
+    #   The number of IP addresses in the Anycast static IP list.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] last_modified_time
+    #   The last time the Anycast static IP list was modified.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cloudfront-2020-05-31/AnycastIpList AWS API Documentation
+    #
+    class AnycastIpList < Struct.new(
+      :id,
+      :name,
+      :status,
+      :arn,
+      :anycast_ips,
+      :ip_count,
+      :last_modified_time)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The Anycast static IP list collection.
+    #
+    # @!attribute [rw] items
+    #   Items in the Anycast static IP list collection. Each item is of the
+    #   AnycastIpListSummary structure type.
+    #   @return [Array<Types::AnycastIpListSummary>]
+    #
+    # @!attribute [rw] marker
+    #   Use this field when paginating results to indicate where to begin in
+    #   your list. The response includes items in the list that occur after
+    #   the marker. To get the next page of the list, set this field's
+    #   value to the value of `NextMarker` from the current page's
+    #   response.
+    #   @return [String]
+    #
+    # @!attribute [rw] next_marker
+    #   Indicates the next page of the Anycast static IP list collection. To
+    #   get the next page of the list, use this value in the `Marker` field
+    #   of your request.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_items
+    #   The maximum number of Anycast static IP list collections that you
+    #   want returned in the response.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] is_truncated
+    #   If there are more items in the list collection than are in this
+    #   response, this value is `true`.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] quantity
+    #   The quantity of Anycast static IP lists in the collection.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cloudfront-2020-05-31/AnycastIpListCollection AWS API Documentation
+    #
+    class AnycastIpListCollection < Struct.new(
+      :items,
+      :marker,
+      :next_marker,
+      :max_items,
+      :is_truncated,
+      :quantity)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # An abbreviated version of the AnycastIpList structure. Omits the
+    # allocated static IP addresses (AnycastIpList$AnycastIps).
+    #
+    # @!attribute [rw] id
+    #   The ID of the Anycast static IP list.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the Anycast static IP list.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The deployment status of the Anycast static IP list. Valid values:
+    #   Deployed, Deploying, or Failed.
+    #   @return [String]
+    #
+    # @!attribute [rw] arn
+    #   The Amazon Resource Name (ARN) of the Anycast static IP list.
+    #   @return [String]
+    #
+    # @!attribute [rw] ip_count
+    #   The number of IP addresses in the Anycast static IP list.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] last_modified_time
+    #   The last time the Anycast static IP list was modified.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cloudfront-2020-05-31/AnycastIpListSummary AWS API Documentation
+    #
+    class AnycastIpListSummary < Struct.new(
+      :id,
+      :name,
+      :status,
+      :arn,
+      :ip_count,
+      :last_modified_time)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] target_distribution_id
     #   The ID of the distribution that you're associating the alias with.
     #   @return [String]
@@ -270,8 +410,9 @@ module Aws::CloudFront
     # *Amazon CloudFront Developer Guide*.
     #
     # If you don't want to specify any cache behaviors, include only an
-    # empty `CacheBehaviors` element. Don't include an empty
-    # `CacheBehavior` element because this is invalid.
+    # empty `CacheBehaviors` element. Don't specify an empty individual
+    # `CacheBehavior` element, because this is invalid. For more
+    # information, see [CacheBehaviors][2].
     #
     # To delete all cache behaviors in an existing distribution, update the
     # distribution configuration and include only an empty `CacheBehaviors`
@@ -282,12 +423,13 @@ module Aws::CloudFront
     # you want to include in the updated distribution.
     #
     # For more information about cache behaviors, see [Cache Behavior
-    # Settings][2] in the *Amazon CloudFront Developer Guide*.
+    # Settings][3] in the *Amazon CloudFront Developer Guide*.
     #
     #
     #
     # [1]: https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html
-    # [2]: https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-web-values-specify.html#DownloadDistValuesCacheBehavior
+    # [2]: https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_CacheBehaviors.html
+    # [3]: https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-web-values-specify.html#DownloadDistValuesCacheBehavior
     #
     # @!attribute [rw] path_pattern
     #   The pattern (for example, `images/*.jpg`) that specifies which
@@ -362,14 +504,14 @@ module Aws::CloudFront
     #   specified by `TargetOriginId` when a request matches the path
     #   pattern in `PathPattern`. You can specify the following options:
     #
-    #   * `allow-all`\: Viewers can use HTTP or HTTPS.
+    #   * `allow-all`: Viewers can use HTTP or HTTPS.
     #
-    #   * `redirect-to-https`\: If a viewer submits an HTTP request,
+    #   * `redirect-to-https`: If a viewer submits an HTTP request,
     #     CloudFront returns an HTTP status code of 301 (Moved Permanently)
     #     to the viewer along with the HTTPS URL. The viewer then resubmits
     #     the request using the new URL.
     #
-    #   * `https-only`\: If a viewer sends an HTTP request, CloudFront
+    #   * `https-only`: If a viewer sends an HTTP request, CloudFront
     #     returns an HTTP status code of 403 (Forbidden).
     #
     #   For more information about requiring the HTTPS protocol, see
@@ -491,6 +633,10 @@ module Aws::CloudFront
     #   The identifier for a response headers policy.
     #   @return [String]
     #
+    # @!attribute [rw] grpc_config
+    #   The gRPC configuration for your cache behavior.
+    #   @return [Types::GrpcConfig]
+    #
     # @!attribute [rw] forwarded_values
     #   This field is deprecated. We recommend that you use a cache policy
     #   or an origin request policy instead of this field. For more
@@ -607,6 +753,7 @@ module Aws::CloudFront
       :cache_policy_id,
       :origin_request_policy_id,
       :response_headers_policy_id,
+      :grpc_config,
       :forwarded_values,
       :min_ttl,
       :default_ttl,
@@ -649,11 +796,11 @@ module Aws::CloudFront
     #   want objects to stay in the CloudFront cache.
     #
     # The headers, cookies, and query strings that are included in the cache
-    # key are automatically included in requests that CloudFront sends to
-    # the origin. CloudFront sends a request when it can't find a valid
-    # object in its cache that matches the request's cache key. If you want
-    # to send values to the origin but *not* include them in the cache key,
-    # use `OriginRequestPolicy`.
+    # key are also included in requests that CloudFront sends to the origin.
+    # CloudFront sends a request when it can't find a valid object in its
+    # cache that matches the request's cache key. If you want to send
+    # values to the origin but *not* include them in the cache key, use
+    # `OriginRequestPolicy`.
     #
     # @!attribute [rw] id
     #   The unique identifier for the cache policy.
@@ -705,11 +852,11 @@ module Aws::CloudFront
     #   want objects to stay in the CloudFront cache.
     #
     # The headers, cookies, and query strings that are included in the cache
-    # key are automatically included in requests that CloudFront sends to
-    # the origin. CloudFront sends a request when it can't find a valid
-    # object in its cache that matches the request's cache key. If you want
-    # to send values to the origin but *not* include them in the cache key,
-    # use `OriginRequestPolicy`.
+    # key are also included in requests that CloudFront sends to the origin.
+    # CloudFront sends a request when it can't find a valid object in its
+    # cache that matches the request's cache key. If you want to send
+    # values to the origin but *not* include them in the cache key, use
+    # `OriginRequestPolicy`.
     #
     # @!attribute [rw] comment
     #   A comment to describe the cache policy. The comment cannot be longer
@@ -772,8 +919,8 @@ module Aws::CloudFront
     #
     # @!attribute [rw] parameters_in_cache_key_and_forwarded_to_origin
     #   The HTTP headers, cookies, and URL query strings to include in the
-    #   cache key. The values included in the cache key are automatically
-    #   included in requests that CloudFront sends to the origin.
+    #   cache key. The values included in the cache key are also included in
+    #   requests that CloudFront sends to the origin.
     #   @return [Types::ParametersInCacheKeyAndForwardedToOrigin]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cloudfront-2020-05-31/CachePolicyConfig AWS API Documentation
@@ -790,33 +937,30 @@ module Aws::CloudFront
     end
 
     # An object that determines whether any cookies in viewer requests (and
-    # if so, which cookies) are included in the cache key and automatically
-    # included in requests that CloudFront sends to the origin.
+    # if so, which cookies) are included in the cache key and in requests
+    # that CloudFront sends to the origin.
     #
     # @!attribute [rw] cookie_behavior
     #   Determines whether any cookies in viewer requests are included in
-    #   the cache key and automatically included in requests that CloudFront
-    #   sends to the origin. Valid values are:
+    #   the cache key and in requests that CloudFront sends to the origin.
+    #   Valid values are:
     #
-    #   * `none` – Cookies in viewer requests are not included in the cache
-    #     key and are not automatically included in requests that CloudFront
-    #     sends to the origin. Even when this field is set to `none`, any
-    #     cookies that are listed in an `OriginRequestPolicy` *are* included
-    #     in origin requests.
+    #   * `none` – No cookies in viewer requests are included in the cache
+    #     key or in requests that CloudFront sends to the origin. Even when
+    #     this field is set to `none`, any cookies that are listed in an
+    #     `OriginRequestPolicy` *are* included in origin requests.
     #
-    #   * `whitelist` – The cookies in viewer requests that are listed in
-    #     the `CookieNames` type are included in the cache key and
-    #     automatically included in requests that CloudFront sends to the
-    #     origin.
+    #   * `whitelist` – Only the cookies in viewer requests that are listed
+    #     in the `CookieNames` type are included in the cache key and in
+    #     requests that CloudFront sends to the origin.
     #
-    #   * `allExcept` – All cookies in viewer requests that are <i>
-    #     <b>not</b> </i> listed in the `CookieNames` type are included in
-    #     the cache key and automatically included in requests that
-    #     CloudFront sends to the origin.
+    #   * `allExcept` – All cookies in viewer requests are included in the
+    #     cache key and in requests that CloudFront sends to the origin, <i>
+    #     <b>except</b> </i> for those that are listed in the `CookieNames`
+    #     type, which are not included.
     #
     #   * `all` – All cookies in viewer requests are included in the cache
-    #     key and are automatically included in requests that CloudFront
-    #     sends to the origin.
+    #     key and in requests that CloudFront sends to the origin.
     #   @return [String]
     #
     # @!attribute [rw] cookies
@@ -833,23 +977,22 @@ module Aws::CloudFront
     end
 
     # An object that determines whether any HTTP headers (and if so, which
-    # headers) are included in the cache key and automatically included in
-    # requests that CloudFront sends to the origin.
+    # headers) are included in the cache key and in requests that CloudFront
+    # sends to the origin.
     #
     # @!attribute [rw] header_behavior
     #   Determines whether any HTTP headers are included in the cache key
-    #   and automatically included in requests that CloudFront sends to the
-    #   origin. Valid values are:
+    #   and in requests that CloudFront sends to the origin. Valid values
+    #   are:
     #
-    #   * `none` – HTTP headers are not included in the cache key and are
-    #     not automatically included in requests that CloudFront sends to
-    #     the origin. Even when this field is set to `none`, any headers
-    #     that are listed in an `OriginRequestPolicy` *are* included in
-    #     origin requests.
+    #   * `none` – No HTTP headers are included in the cache key or in
+    #     requests that CloudFront sends to the origin. Even when this field
+    #     is set to `none`, any headers that are listed in an
+    #     `OriginRequestPolicy` *are* included in origin requests.
     #
-    #   * `whitelist` – The HTTP headers that are listed in the `Headers`
-    #     type are included in the cache key and are automatically included
-    #     in requests that CloudFront sends to the origin.
+    #   * `whitelist` – Only the HTTP headers that are listed in the
+    #     `Headers` type are included in the cache key and in requests that
+    #     CloudFront sends to the origin.
     #   @return [String]
     #
     # @!attribute [rw] headers
@@ -913,44 +1056,41 @@ module Aws::CloudFront
 
     # An object that determines whether any URL query strings in viewer
     # requests (and if so, which query strings) are included in the cache
-    # key and automatically included in requests that CloudFront sends to
-    # the origin.
+    # key and in requests that CloudFront sends to the origin.
     #
     # @!attribute [rw] query_string_behavior
     #   Determines whether any URL query strings in viewer requests are
-    #   included in the cache key and automatically included in requests
-    #   that CloudFront sends to the origin. Valid values are:
+    #   included in the cache key and in requests that CloudFront sends to
+    #   the origin. Valid values are:
     #
-    #   * `none` – Query strings in viewer requests are not included in the
-    #     cache key and are not automatically included in requests that
-    #     CloudFront sends to the origin. Even when this field is set to
-    #     `none`, any query strings that are listed in an
-    #     `OriginRequestPolicy` *are* included in origin requests.
+    #   * `none` – No query strings in viewer requests are included in the
+    #     cache key or in requests that CloudFront sends to the origin. Even
+    #     when this field is set to `none`, any query strings that are
+    #     listed in an `OriginRequestPolicy` *are* included in origin
+    #     requests.
     #
-    #   * `whitelist` – The query strings in viewer requests that are listed
-    #     in the `QueryStringNames` type are included in the cache key and
-    #     automatically included in requests that CloudFront sends to the
-    #     origin.
+    #   * `whitelist` – Only the query strings in viewer requests that are
+    #     listed in the `QueryStringNames` type are included in the cache
+    #     key and in requests that CloudFront sends to the origin.
     #
-    #   * `allExcept` – All query strings in viewer requests that are <i>
-    #     <b>not</b> </i> listed in the `QueryStringNames` type are included
-    #     in the cache key and automatically included in requests that
-    #     CloudFront sends to the origin.
+    #   * `allExcept` – All query strings in viewer requests are included in
+    #     the cache key and in requests that CloudFront sends to the origin,
+    #     <i> <b>except</b> </i> those that are listed in the
+    #     `QueryStringNames` type, which are not included.
     #
     #   * `all` – All query strings in viewer requests are included in the
-    #     cache key and are automatically included in requests that
-    #     CloudFront sends to the origin.
+    #     cache key and in requests that CloudFront sends to the origin.
     #   @return [String]
     #
     # @!attribute [rw] query_strings
     #   Contains the specific query strings in viewer requests that either
     #   <i> <b>are</b> </i> or <i> <b>are not</b> </i> included in the cache
-    #   key and automatically included in requests that CloudFront sends to
-    #   the origin. The behavior depends on whether the
-    #   `QueryStringBehavior` field in the `CachePolicyQueryStringsConfig`
-    #   type is set to `whitelist` (the listed query strings <i> <b>are</b>
-    #   </i> included) or `allExcept` (the listed query strings <i> <b>are
-    #   not</b> </i> included, but all other query strings are).
+    #   key and in requests that CloudFront sends to the origin. The
+    #   behavior depends on whether the `QueryStringBehavior` field in the
+    #   `CachePolicyQueryStringsConfig` type is set to `whitelist` (the
+    #   listed query strings <i> <b>are</b> </i> included) or `allExcept`
+    #   (the listed query strings <i> <b>are not</b> </i> included, but all
+    #   other query strings are).
     #   @return [Types::QueryStringNames]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cloudfront-2020-05-31/CachePolicyQueryStringsConfig AWS API Documentation
@@ -1004,7 +1144,9 @@ module Aws::CloudFront
     #
     # @!attribute [rw] items
     #   A complex type that contains the HTTP methods that you want
-    #   CloudFront to cache responses to.
+    #   CloudFront to cache responses to. Valid values for `CachedMethods`
+    #   include `GET`, `HEAD`, and `OPTIONS`, depending on which caching
+    #   option you choose. For more information, see the preceding section.
     #   @return [Array<String>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cloudfront-2020-05-31/CachedMethods AWS API Documentation
@@ -1024,6 +1166,32 @@ module Aws::CloudFront
     # @see http://docs.aws.amazon.com/goto/WebAPI/cloudfront-2020-05-31/CannotChangeImmutablePublicKeyFields AWS API Documentation
     #
     class CannotChangeImmutablePublicKeyFields < Struct.new(
+      :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The entity cannot be deleted while it is in use.
+    #
+    # @!attribute [rw] message
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cloudfront-2020-05-31/CannotDeleteEntityWhileInUse AWS API Documentation
+    #
+    class CannotDeleteEntityWhileInUse < Struct.new(
+      :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The entity cannot be updated while it is in use.
+    #
+    # @!attribute [rw] message
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cloudfront-2020-05-31/CannotUpdateEntityWhileInUse AWS API Documentation
+    #
+    class CannotUpdateEntityWhileInUse < Struct.new(
       :message)
       SENSITIVE = []
       include Aws::Structure
@@ -1507,7 +1675,9 @@ module Aws::CloudFront
     #
     # @!attribute [rw] weight
     #   The percentage of traffic to send to a staging distribution,
-    #   expressed as a decimal number between 0 and .15.
+    #   expressed as a decimal number between 0 and 0.15. For example, a
+    #   value of 0.10 means 10% of traffic is sent to the staging
+    #   distribution.
     #   @return [Float]
     #
     # @!attribute [rw] session_stickiness_config
@@ -1660,13 +1830,23 @@ module Aws::CloudFront
     #   if you accidentally resubmit an identical request.
     #   @return [String]
     #
+    # @!attribute [rw] enabled
+    #   A Boolean flag to specify the state of the staging distribution when
+    #   it's created. When you set this value to `True`, the staging
+    #   distribution is enabled. When you set this value to `False`, the
+    #   staging distribution is disabled.
+    #
+    #   If you omit this field, the default value is `True`.
+    #   @return [Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cloudfront-2020-05-31/CopyDistributionRequest AWS API Documentation
     #
     class CopyDistributionRequest < Struct.new(
       :primary_distribution_id,
       :staging,
       :if_match,
-      :caller_reference)
+      :caller_reference,
+      :enabled)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1691,6 +1871,48 @@ module Aws::CloudFront
     class CopyDistributionResult < Struct.new(
       :distribution,
       :location,
+      :etag)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] name
+    #   Name of the Anycast static IP list.
+    #   @return [String]
+    #
+    # @!attribute [rw] ip_count
+    #   The number of static IP addresses that are allocated to the Anycast
+    #   static IP list.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] tags
+    #   A complex type that contains zero or more `Tag` elements.
+    #   @return [Types::Tags]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cloudfront-2020-05-31/CreateAnycastIpListRequest AWS API Documentation
+    #
+    class CreateAnycastIpListRequest < Struct.new(
+      :name,
+      :ip_count,
+      :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] anycast_ip_list
+    #   A response structure that includes the version identifier (ETag) and
+    #   the created AnycastIpList structure.
+    #   @return [Types::AnycastIpList]
+    #
+    # @!attribute [rw] etag
+    #   The version identifier for the current version of the Anycast static
+    #   IP list.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cloudfront-2020-05-31/CreateAnycastIpListResult AWS API Documentation
+    #
+    class CreateAnycastIpListResult < Struct.new(
+      :anycast_ip_list,
       :etag)
       SENSITIVE = []
       include Aws::Structure
@@ -2089,6 +2311,52 @@ module Aws::CloudFront
       include Aws::Structure
     end
 
+    # @!attribute [rw] name
+    #   The name of the key value store. The minimum length is 1 character
+    #   and the maximum length is 64 characters.
+    #   @return [String]
+    #
+    # @!attribute [rw] comment
+    #   The comment of the key value store.
+    #   @return [String]
+    #
+    # @!attribute [rw] import_source
+    #   The S3 bucket that provides the source for the import. The source
+    #   must be in a valid JSON format.
+    #   @return [Types::ImportSource]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cloudfront-2020-05-31/CreateKeyValueStoreRequest AWS API Documentation
+    #
+    class CreateKeyValueStoreRequest < Struct.new(
+      :name,
+      :comment,
+      :import_source)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] key_value_store
+    #   The resulting key value store.
+    #   @return [Types::KeyValueStore]
+    #
+    # @!attribute [rw] etag
+    #   The `ETag` in the resulting key value store.
+    #   @return [String]
+    #
+    # @!attribute [rw] location
+    #   The location of the resulting key value store.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cloudfront-2020-05-31/CreateKeyValueStoreResult AWS API Documentation
+    #
+    class CreateKeyValueStoreResult < Struct.new(
+      :key_value_store,
+      :etag,
+      :location)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] distribution_id
     #   The ID of the distribution that you are enabling metrics for.
     #   @return [String]
@@ -2246,10 +2514,10 @@ module Aws::CloudFront
     #   @return [String]
     #
     # @!attribute [rw] sampling_rate
-    #   The sampling rate for this real-time log configuration. The sampling
-    #   rate determines the percentage of viewer requests that are
-    #   represented in the real-time log data. You must provide an integer
-    #   between 1 and 100, inclusive.
+    #   The sampling rate for this real-time log configuration. You can
+    #   specify a whole number between 1 and 100 (inclusive) to determine
+    #   the percentage of viewer requests that are represented in the
+    #   real-time log data.
     #   @return [Integer]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cloudfront-2020-05-31/CreateRealtimeLogConfigRequest AWS API Documentation
@@ -2383,6 +2651,45 @@ module Aws::CloudFront
     #
     class CreateStreamingDistributionWithTagsResult < Struct.new(
       :streaming_distribution,
+      :location,
+      :etag)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] vpc_origin_endpoint_config
+    #   The VPC origin endpoint configuration.
+    #   @return [Types::VpcOriginEndpointConfig]
+    #
+    # @!attribute [rw] tags
+    #   A complex type that contains zero or more `Tag` elements.
+    #   @return [Types::Tags]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cloudfront-2020-05-31/CreateVpcOriginRequest AWS API Documentation
+    #
+    class CreateVpcOriginRequest < Struct.new(
+      :vpc_origin_endpoint_config,
+      :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] vpc_origin
+    #   The VPC origin.
+    #   @return [Types::VpcOrigin]
+    #
+    # @!attribute [rw] location
+    #   The VPC origin location.
+    #   @return [String]
+    #
+    # @!attribute [rw] etag
+    #   The VPC origin ETag.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cloudfront-2020-05-31/CreateVpcOriginResult AWS API Documentation
+    #
+    class CreateVpcOriginResult < Struct.new(
+      :vpc_origin,
       :location,
       :etag)
       SENSITIVE = []
@@ -2532,7 +2839,7 @@ module Aws::CloudFront
     #   @return [Integer]
     #
     # @!attribute [rw] items
-    #   **Optional**\: A list that contains one `OriginCustomHeader` element
+    #   **Optional**: A list that contains one `OriginCustomHeader` element
     #   for each custom header that you want CloudFront to forward to the
     #   origin. If Quantity is `0`, omit `Items`.
     #   @return [Array<Types::OriginCustomHeader>]
@@ -2597,8 +2904,8 @@ module Aws::CloudFront
     #   minimum timeout is 1 second, the maximum is 60 seconds, and the
     #   default (if you don't specify otherwise) is 30 seconds.
     #
-    #   For more information, see [Origin Response Timeout][1] in the
-    #   *Amazon CloudFront Developer Guide*.
+    #   For more information, see [Response timeout (custom origins
+    #   only)][1] in the *Amazon CloudFront Developer Guide*.
     #
     #
     #
@@ -2611,8 +2918,8 @@ module Aws::CloudFront
     #   seconds, and the default (if you don't specify otherwise) is 5
     #   seconds.
     #
-    #   For more information, see [Origin Keep-alive Timeout][1] in the
-    #   *Amazon CloudFront Developer Guide*.
+    #   For more information, see [Keep-alive timeout (custom origins
+    #   only)][1] in the *Amazon CloudFront Developer Guide*.
     #
     #
     #
@@ -2685,14 +2992,14 @@ module Aws::CloudFront
     #   specified by `TargetOriginId` when a request matches the path
     #   pattern in `PathPattern`. You can specify the following options:
     #
-    #   * `allow-all`\: Viewers can use HTTP or HTTPS.
+    #   * `allow-all`: Viewers can use HTTP or HTTPS.
     #
-    #   * `redirect-to-https`\: If a viewer submits an HTTP request,
+    #   * `redirect-to-https`: If a viewer submits an HTTP request,
     #     CloudFront returns an HTTP status code of 301 (Moved Permanently)
     #     to the viewer along with the HTTPS URL. The viewer then resubmits
     #     the request using the new URL.
     #
-    #   * `https-only`\: If a viewer sends an HTTP request, CloudFront
+    #   * `https-only`: If a viewer sends an HTTP request, CloudFront
     #     returns an HTTP status code of 403 (Forbidden).
     #
     #   For more information about requiring the HTTPS protocol, see
@@ -2763,8 +3070,8 @@ module Aws::CloudFront
     #
     # @!attribute [rw] function_associations
     #   A list of CloudFront functions that are associated with this cache
-    #   behavior. CloudFront functions must be published to the `LIVE` stage
-    #   to associate them with a cache behavior.
+    #   behavior. Your functions must be published to the `LIVE` stage to
+    #   associate them with a cache behavior.
     #   @return [Types::FunctionAssociations]
     #
     # @!attribute [rw] field_level_encryption_id
@@ -2813,6 +3120,10 @@ module Aws::CloudFront
     # @!attribute [rw] response_headers_policy_id
     #   The identifier for a response headers policy.
     #   @return [String]
+    #
+    # @!attribute [rw] grpc_config
+    #   The gRPC configuration for your cache behavior.
+    #   @return [Types::GrpcConfig]
     #
     # @!attribute [rw] forwarded_values
     #   This field is deprecated. We recommend that you use a cache policy
@@ -2929,10 +3240,29 @@ module Aws::CloudFront
       :cache_policy_id,
       :origin_request_policy_id,
       :response_headers_policy_id,
+      :grpc_config,
       :forwarded_values,
       :min_ttl,
       :default_ttl,
       :max_ttl)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] id
+    #   The ID of the Anycast static IP list.
+    #   @return [String]
+    #
+    # @!attribute [rw] if_match
+    #   The current version (`ETag` value) of the Anycast static IP list
+    #   that you are deleting.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cloudfront-2020-05-31/DeleteAnycastIpListRequest AWS API Documentation
+    #
+    class DeleteAnycastIpListRequest < Struct.new(
+      :id,
+      :if_match)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3132,6 +3462,23 @@ module Aws::CloudFront
       include Aws::Structure
     end
 
+    # @!attribute [rw] name
+    #   The name of the key value store.
+    #   @return [String]
+    #
+    # @!attribute [rw] if_match
+    #   The key value store to delete, if a match occurs.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cloudfront-2020-05-31/DeleteKeyValueStoreRequest AWS API Documentation
+    #
+    class DeleteKeyValueStoreRequest < Struct.new(
+      :name,
+      :if_match)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] distribution_id
     #   The ID of the distribution that you are disabling metrics for.
     #   @return [String]
@@ -3269,6 +3616,41 @@ module Aws::CloudFront
       include Aws::Structure
     end
 
+    # @!attribute [rw] id
+    #   The VPC origin ID.
+    #   @return [String]
+    #
+    # @!attribute [rw] if_match
+    #   The version identifier of the VPC origin to delete. This is the
+    #   `ETag` value returned in the response to GetVpcOrigin.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cloudfront-2020-05-31/DeleteVpcOriginRequest AWS API Documentation
+    #
+    class DeleteVpcOriginRequest < Struct.new(
+      :id,
+      :if_match)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] vpc_origin
+    #   The VPC origin.
+    #   @return [Types::VpcOrigin]
+    #
+    # @!attribute [rw] etag
+    #   The VPC origin ETag.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cloudfront-2020-05-31/DeleteVpcOriginResult AWS API Documentation
+    #
+    class DeleteVpcOriginResult < Struct.new(
+      :vpc_origin,
+      :etag)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] name
     #   The name of the function that you are getting information about.
     #   @return [String]
@@ -3300,6 +3682,35 @@ module Aws::CloudFront
     #
     class DescribeFunctionResult < Struct.new(
       :function_summary,
+      :etag)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] name
+    #   The name of the key value store.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cloudfront-2020-05-31/DescribeKeyValueStoreRequest AWS API Documentation
+    #
+    class DescribeKeyValueStoreRequest < Struct.new(
+      :name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] key_value_store
+    #   The resulting key value store.
+    #   @return [Types::KeyValueStore]
+    #
+    # @!attribute [rw] etag
+    #   The `ETag` of the resulting key value store.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cloudfront-2020-05-31/DescribeKeyValueStoreResult AWS API Documentation
+    #
+    class DescribeKeyValueStoreResult < Struct.new(
+      :key_value_store,
       :etag)
       SENSITIVE = []
       include Aws::Structure
@@ -3421,16 +3832,20 @@ module Aws::CloudFront
     #   @return [Types::Aliases]
     #
     # @!attribute [rw] default_root_object
-    #   The object that you want CloudFront to request from your origin (for
-    #   example, `index.html`) when a viewer requests the root URL for your
-    #   distribution (`https://www.example.com`) instead of an object in
-    #   your distribution
-    #   (`https://www.example.com/product-description.html`). Specifying a
-    #   default root object avoids exposing the contents of your
-    #   distribution.
+    #   When a viewer requests the root URL for your distribution, the
+    #   default root object is the object that you want CloudFront to
+    #   request from your origin. For example, if your root URL is
+    #   `https://www.example.com`, you can specify CloudFront to return the
+    #   `index.html` file as the default root object. You can specify a
+    #   default root object so that viewers see a specific file or object,
+    #   instead of another object in your distribution (for example,
+    #   `https://www.example.com/product-description.html`). A default root
+    #   object avoids exposing the contents of your distribution.
     #
-    #   Specify only the object name, for example, `index.html`. Don't add
-    #   a `/` before the object name.
+    #   You can specify the object name or a path to the object name (for
+    #   example, `index.html` or `exampleFolderName/index.html`). Your
+    #   string can't begin with a forward slash (`/`). Only specify the
+    #   object name or the path to the object.
     #
     #   If you don't want to specify a default root object when you create
     #   a distribution, include an empty `DefaultRootObject` element.
@@ -3442,8 +3857,8 @@ module Aws::CloudFront
     #   To replace the default root object, update the distribution
     #   configuration and specify the new object.
     #
-    #   For more information about the default root object, see [Creating a
-    #   Default Root Object][1] in the *Amazon CloudFront Developer Guide*.
+    #   For more information about the default root object, see [Specify a
+    #   default root object][1] in the *Amazon CloudFront Developer Guide*.
     #
     #
     #
@@ -3549,9 +3964,9 @@ module Aws::CloudFront
     #   A unique identifier that specifies the WAF web ACL, if any, to
     #   associate with this distribution. To specify a web ACL created using
     #   the latest version of WAF, use the ACL ARN, for example
-    #   `arn:aws:wafv2:us-east-1:123456789012:global/webacl/ExampleWebACL/473e64fd-f30b-4765-81a0-62ad96dd167a`.
+    #   `arn:aws:wafv2:us-east-1:123456789012:global/webacl/ExampleWebACL/a1b2c3d4-5678-90ab-cdef-EXAMPLE11111`.
     #   To specify a web ACL created using WAF Classic, use the ACL ID, for
-    #   example `473e64fd-f30b-4765-81a0-62ad96dd167a`.
+    #   example `a1b2c3d4-5678-90ab-cdef-EXAMPLE11111`.
     #
     #   WAF is a web application firewall that lets you monitor the HTTP and
     #   HTTPS requests that are forwarded to CloudFront, and lets you
@@ -3569,8 +3984,8 @@ module Aws::CloudFront
     #   @return [String]
     #
     # @!attribute [rw] http_version
-    #   (Optional) Specify the maximum HTTP version(s) that you want viewers
-    #   to use to communicate with CloudFront. The default value for new web
+    #   (Optional) Specify the HTTP version(s) that you want viewers to use
+    #   to communicate with CloudFront. The default value for new web
     #   distributions is `http2`. Viewers that don't support HTTP/2
     #   automatically use an earlier HTTP version.
     #
@@ -3646,6 +4061,11 @@ module Aws::CloudFront
     #   value is `false`, this is not a staging distribution.
     #   @return [Boolean]
     #
+    # @!attribute [rw] anycast_ip_list_id
+    #   ID of the Anycast static IP list that is associated with the
+    #   distribution.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cloudfront-2020-05-31/DistributionConfig AWS API Documentation
     #
     class DistributionConfig < Struct.new(
@@ -3667,7 +4087,8 @@ module Aws::CloudFront
       :http_version,
       :is_ipv6_enabled,
       :continuous_deployment_policy_id,
-      :staging)
+      :staging,
+      :anycast_ip_list_id)
       SENSITIVE = [:comment]
       include Aws::Structure
     end
@@ -3912,8 +4333,15 @@ module Aws::CloudFront
     #   @return [Array<Types::AliasICPRecordal>]
     #
     # @!attribute [rw] staging
-    #   Whether the primary distribution has a staging distribution enabled.
+    #   A Boolean that indicates whether this is a staging distribution.
+    #   When this value is `true`, this is a staging distribution. When this
+    #   value is `false`, this is not a staging distribution.
     #   @return [Boolean]
+    #
+    # @!attribute [rw] anycast_ip_list_id
+    #   ID of the Anycast static IP list that is associated with the
+    #   distribution.
+    #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cloudfront-2020-05-31/DistributionSummary AWS API Documentation
     #
@@ -3938,7 +4366,8 @@ module Aws::CloudFront
       :http_version,
       :is_ipv6_enabled,
       :alias_icp_recordals,
-      :staging)
+      :staging,
+      :anycast_ip_list_id)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4017,6 +4446,58 @@ module Aws::CloudFront
     class EndPoint < Struct.new(
       :stream_type,
       :kinesis_stream_config)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The entity already exists. You must provide a unique entity.
+    #
+    # @!attribute [rw] message
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cloudfront-2020-05-31/EntityAlreadyExists AWS API Documentation
+    #
+    class EntityAlreadyExists < Struct.new(
+      :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The entity limit has been exceeded.
+    #
+    # @!attribute [rw] message
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cloudfront-2020-05-31/EntityLimitExceeded AWS API Documentation
+    #
+    class EntityLimitExceeded < Struct.new(
+      :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The entity was not found.
+    #
+    # @!attribute [rw] message
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cloudfront-2020-05-31/EntityNotFound AWS API Documentation
+    #
+    class EntityNotFound < Struct.new(
+      :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The entity size limit was exceeded.
+    #
+    # @!attribute [rw] message
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cloudfront-2020-05-31/EntitySizeLimitExceeded AWS API Documentation
+    #
+    class EntitySizeLimitExceeded < Struct.new(
+      :message)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4110,7 +4591,7 @@ module Aws::CloudFront
       include Aws::Structure
     end
 
-    # List of field-level encrpytion configurations.
+    # List of field-level encryption configurations.
     #
     # @!attribute [rw] next_marker
     #   If there are more elements to be listed, this element is present and
@@ -4279,8 +4760,8 @@ module Aws::CloudFront
     #   @return [String]
     #
     # @!attribute [rw] last_modified_time
-    #   The time when the the field-level encryption profile summary was
-    #   last updated.
+    #   The time when the field-level encryption profile summary was last
+    #   updated.
     #   @return [Time]
     #
     # @!attribute [rw] name
@@ -4559,7 +5040,7 @@ module Aws::CloudFront
     end
 
     # A list of CloudFront functions that are associated with a cache
-    # behavior in a CloudFront distribution. CloudFront functions must be
+    # behavior in a CloudFront distribution. Your functions must be
     # published to the `LIVE` stage to associate them with a cache behavior.
     #
     # @!attribute [rw] quantity
@@ -4568,8 +5049,8 @@ module Aws::CloudFront
     #
     # @!attribute [rw] items
     #   The CloudFront functions that are associated with a cache behavior
-    #   in a CloudFront distribution. CloudFront functions must be published
-    #   to the `LIVE` stage to associate them with a cache behavior.
+    #   in a CloudFront distribution. Your functions must be published to
+    #   the `LIVE` stage to associate them with a cache behavior.
     #   @return [Array<Types::FunctionAssociation>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cloudfront-2020-05-31/FunctionAssociations AWS API Documentation
@@ -4588,15 +5069,19 @@ module Aws::CloudFront
     #   @return [String]
     #
     # @!attribute [rw] runtime
-    #   The function's runtime environment. The only valid value is
-    #   `cloudfront-js-1.0`.
+    #   The function's runtime environment version.
     #   @return [String]
+    #
+    # @!attribute [rw] key_value_store_associations
+    #   The configuration for the key value store associations.
+    #   @return [Types::KeyValueStoreAssociations]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cloudfront-2020-05-31/FunctionConfig AWS API Documentation
     #
     class FunctionConfig < Struct.new(
       :comment,
-      :runtime)
+      :runtime,
+      :key_value_store_associations)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4739,13 +5224,13 @@ module Aws::CloudFront
     #   The method that you want to use to restrict distribution of your
     #   content by country:
     #
-    #   * `none`\: No geo restriction is enabled, meaning access to content
+    #   * `none`: No geo restriction is enabled, meaning access to content
     #     is not restricted by client geo location.
     #
-    #   * `blacklist`\: The `Location` elements specify the countries in
+    #   * `blacklist`: The `Location` elements specify the countries in
     #     which you don't want CloudFront to distribute your content.
     #
-    #   * `whitelist`\: The `Location` elements specify the countries in
+    #   * `whitelist`: The `Location` elements specify the countries in
     #     which you want CloudFront to distribute your content.
     #   @return [String]
     #
@@ -4777,6 +5262,36 @@ module Aws::CloudFront
       :restriction_type,
       :quantity,
       :items)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] id
+    #   The ID of the Anycast static IP list.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cloudfront-2020-05-31/GetAnycastIpListRequest AWS API Documentation
+    #
+    class GetAnycastIpListRequest < Struct.new(
+      :id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] anycast_ip_list
+    #   The Anycast static IP list details.
+    #   @return [Types::AnycastIpList]
+    #
+    # @!attribute [rw] etag
+    #   The version identifier for the current version of the Anycast static
+    #   IP list.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cloudfront-2020-05-31/GetAnycastIpListResult AWS API Documentation
+    #
+    class GetAnycastIpListResult < Struct.new(
+      :anycast_ip_list,
+      :etag)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5698,6 +6213,64 @@ module Aws::CloudFront
       include Aws::Structure
     end
 
+    # @!attribute [rw] id
+    #   The VPC origin ID.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cloudfront-2020-05-31/GetVpcOriginRequest AWS API Documentation
+    #
+    class GetVpcOriginRequest < Struct.new(
+      :id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] vpc_origin
+    #   The VPC origin.
+    #   @return [Types::VpcOrigin]
+    #
+    # @!attribute [rw] etag
+    #   The VPC origin ETag.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cloudfront-2020-05-31/GetVpcOriginResult AWS API Documentation
+    #
+    class GetVpcOriginResult < Struct.new(
+      :vpc_origin,
+      :etag)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Amazon CloudFront supports gRPC, an open-source remote procedure call
+    # (RPC) framework built on HTTP/2. gRPC offers bi-directional streaming
+    # and binary protocol that buffers payloads, making it suitable for
+    # applications that require low latency communications.
+    #
+    # To enable your distribution to handle gRPC requests, you must include
+    # HTTP/2 as one of the supported `HTTP` versions and allow `HTTP`
+    # methods, including `POST`.
+    #
+    # For more information, see [Using gRPC with CloudFront
+    # distributions][1] in the *Amazon CloudFront Developer Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-using-grpc.html
+    #
+    # @!attribute [rw] enabled
+    #   Enables your CloudFront distribution to receive gRPC requests and to
+    #   proxy them directly to your origins.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cloudfront-2020-05-31/GrpcConfig AWS API Documentation
+    #
+    class GrpcConfig < Struct.new(
+      :enabled)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Contains a list of HTTP header names.
     #
     # @!attribute [rw] quantity
@@ -5717,7 +6290,7 @@ module Aws::CloudFront
       include Aws::Structure
     end
 
-    # You cannot delete a managed policy.
+    # Deletion is not allowed for this entity.
     #
     # @!attribute [rw] message
     #   @return [String]
@@ -5767,6 +6340,26 @@ module Aws::CloudFront
     #
     class IllegalUpdate < Struct.new(
       :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The import source for the key value store.
+    #
+    # @!attribute [rw] source_type
+    #   The source type of the import source for the key value store.
+    #   @return [String]
+    #
+    # @!attribute [rw] source_arn
+    #   The Amazon Resource Name (ARN) of the import source for the key
+    #   value store.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cloudfront-2020-05-31/ImportSource AWS API Documentation
+    #
+    class ImportSource < Struct.new(
+      :source_type,
+      :source_arn)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -6451,6 +7044,110 @@ module Aws::CloudFront
       include Aws::Structure
     end
 
+    # The key value store. Use this to separate data from function code,
+    # allowing you to update data without having to publish a new version of
+    # a function. The key value store holds keys and their corresponding
+    # values.
+    #
+    # @!attribute [rw] name
+    #   The name of the key value store.
+    #   @return [String]
+    #
+    # @!attribute [rw] id
+    #   The unique Id for the key value store.
+    #   @return [String]
+    #
+    # @!attribute [rw] comment
+    #   A comment for the key value store.
+    #   @return [String]
+    #
+    # @!attribute [rw] arn
+    #   The Amazon Resource Name (ARN) of the key value store.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status of the key value store.
+    #   @return [String]
+    #
+    # @!attribute [rw] last_modified_time
+    #   The last-modified time of the key value store.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cloudfront-2020-05-31/KeyValueStore AWS API Documentation
+    #
+    class KeyValueStore < Struct.new(
+      :name,
+      :id,
+      :comment,
+      :arn,
+      :status,
+      :last_modified_time)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The key value store association.
+    #
+    # @!attribute [rw] key_value_store_arn
+    #   The Amazon Resource Name (ARN) of the key value store association.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cloudfront-2020-05-31/KeyValueStoreAssociation AWS API Documentation
+    #
+    class KeyValueStoreAssociation < Struct.new(
+      :key_value_store_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The key value store associations.
+    #
+    # @!attribute [rw] quantity
+    #   The quantity of key value store associations.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] items
+    #   The items of the key value store association.
+    #   @return [Array<Types::KeyValueStoreAssociation>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cloudfront-2020-05-31/KeyValueStoreAssociations AWS API Documentation
+    #
+    class KeyValueStoreAssociations < Struct.new(
+      :quantity,
+      :items)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The key value store list.
+    #
+    # @!attribute [rw] next_marker
+    #   The next marker associated with the key value store list.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_items
+    #   The maximum number of items in the key value store list.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] quantity
+    #   The quantity of the key value store list.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] items
+    #   The items of the key value store list.
+    #   @return [Array<Types::KeyValueStore>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cloudfront-2020-05-31/KeyValueStoreList AWS API Documentation
+    #
+    class KeyValueStoreList < Struct.new(
+      :next_marker,
+      :max_items,
+      :quantity,
+      :items)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Contains information about the Amazon Kinesis data stream where you
     # are sending real-time log data.
     #
@@ -6492,21 +7189,21 @@ module Aws::CloudFront
     #   Specifies the event type that triggers a Lambda@Edge function
     #   invocation. You can specify the following values:
     #
-    #   * `viewer-request`\: The function executes when CloudFront receives
-    #     a request from a viewer and before it checks to see whether the
+    #   * `viewer-request`: The function executes when CloudFront receives a
+    #     request from a viewer and before it checks to see whether the
     #     requested object is in the edge cache.
     #
-    #   * `origin-request`\: The function executes only when CloudFront
-    #     sends a request to your origin. When the requested object is in
-    #     the edge cache, the function doesn't execute.
-    #
-    #   * `origin-response`\: The function executes after CloudFront
-    #     receives a response from the origin and before it caches the
-    #     object in the response. When the requested object is in the edge
+    #   * `origin-request`: The function executes only when CloudFront sends
+    #     a request to your origin. When the requested object is in the edge
     #     cache, the function doesn't execute.
     #
-    #   * `viewer-response`\: The function executes before CloudFront
-    #     returns the requested object to the viewer. The function executes
+    #   * `origin-response`: The function executes after CloudFront receives
+    #     a response from the origin and before it caches the object in the
+    #     response. When the requested object is in the edge cache, the
+    #     function doesn't execute.
+    #
+    #   * `viewer-response`: The function executes before CloudFront returns
+    #     the requested object to the viewer. The function executes
     #     regardless of whether the object was already in the edge cache.
     #
     #     If the origin returns an HTTP status code other than HTTP 200
@@ -6554,7 +7251,7 @@ module Aws::CloudFront
     #   @return [Integer]
     #
     # @!attribute [rw] items
-    #   **Optional**\: A complex type that contains
+    #   **Optional**: A complex type that contains
     #   `LambdaFunctionAssociation` items for this cache behavior. If
     #   `Quantity` is `0`, you can omit `Items`.
     #   @return [Array<Types::LambdaFunctionAssociation>]
@@ -6564,6 +7261,40 @@ module Aws::CloudFront
     class LambdaFunctionAssociations < Struct.new(
       :quantity,
       :items)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] marker
+    #   Use this field when paginating results to indicate where to begin in
+    #   your list. The response includes items in the list that occur after
+    #   the marker. To get the next page of the list, set this field's
+    #   value to the value of `NextMarker` from the current page's
+    #   response.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_items
+    #   The maximum number of Anycast static IP lists that you want returned
+    #   in the response.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cloudfront-2020-05-31/ListAnycastIpListsRequest AWS API Documentation
+    #
+    class ListAnycastIpListsRequest < Struct.new(
+      :marker,
+      :max_items)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] anycast_ip_lists
+    #   Root level tag for the `AnycastIpLists` parameters.
+    #   @return [Types::AnycastIpListCollection]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cloudfront-2020-05-31/ListAnycastIpListsResult AWS API Documentation
+    #
+    class ListAnycastIpListsResult < Struct.new(
+      :anycast_ip_lists)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -6727,6 +7458,45 @@ module Aws::CloudFront
     #
     class ListContinuousDeploymentPoliciesResult < Struct.new(
       :continuous_deployment_policy_list)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] marker
+    #   Use this field when paginating results to indicate where to begin in
+    #   your list. The response includes items in the list that occur after
+    #   the marker. To get the next page of the list, set this field's
+    #   value to the value of `NextMarker` from the current page's
+    #   response.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_items
+    #   The maximum number of distributions that you want returned in the
+    #   response.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] anycast_ip_list_id
+    #   The ID of the Anycast static IP list.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cloudfront-2020-05-31/ListDistributionsByAnycastIpListIdRequest AWS API Documentation
+    #
+    class ListDistributionsByAnycastIpListIdRequest < Struct.new(
+      :marker,
+      :max_items,
+      :anycast_ip_list_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] distribution_list
+    #   A distribution list.
+    #   @return [Types::DistributionList]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cloudfront-2020-05-31/ListDistributionsByAnycastIpListIdResult AWS API Documentation
+    #
+    class ListDistributionsByAnycastIpListIdResult < Struct.new(
+      :distribution_list)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -6936,6 +7706,40 @@ module Aws::CloudFront
       include Aws::Structure
     end
 
+    # @!attribute [rw] marker
+    #   The marker associated with the VPC origin distributions list.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_items
+    #   The maximum number of items included in the list.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] vpc_origin_id
+    #   The VPC origin ID.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cloudfront-2020-05-31/ListDistributionsByVpcOriginIdRequest AWS API Documentation
+    #
+    class ListDistributionsByVpcOriginIdRequest < Struct.new(
+      :marker,
+      :max_items,
+      :vpc_origin_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] distribution_id_list
+    #   A list of distribution IDs.
+    #   @return [Types::DistributionIdList]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cloudfront-2020-05-31/ListDistributionsByVpcOriginIdResult AWS API Documentation
+    #
+    class ListDistributionsByVpcOriginIdResult < Struct.new(
+      :distribution_id_list)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The request to list distributions that are associated with a specified
     # WAF web ACL.
     #
@@ -6959,6 +7763,12 @@ module Aws::CloudFront
     #   distributions. If you specify "null" for the ID, the request
     #   returns a list of the distributions that aren't associated with a
     #   web ACL.
+    #
+    #   For WAFV2, this is the ARN of the web ACL, such as
+    #   `arn:aws:wafv2:us-east-1:123456789012:global/webacl/ExampleWebACL/a1b2c3d4-5678-90ab-cdef-EXAMPLE11111`.
+    #
+    #   For WAF Classic, this is the ID of the web ACL, such as
+    #   `a1b2c3d4-5678-90ab-cdef-EXAMPLE11111`.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cloudfront-2020-05-31/ListDistributionsByWebACLIdRequest AWS API Documentation
@@ -7209,6 +8019,40 @@ module Aws::CloudFront
     #
     class ListKeyGroupsResult < Struct.new(
       :key_group_list)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] marker
+    #   The marker associated with the key value stores list.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_items
+    #   The maximum number of items in the key value stores list.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] status
+    #   The status of the request for the key value stores list.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cloudfront-2020-05-31/ListKeyValueStoresRequest AWS API Documentation
+    #
+    class ListKeyValueStoresRequest < Struct.new(
+      :marker,
+      :max_items,
+      :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] key_value_store_list
+    #   The resulting key value stores list.
+    #   @return [Types::KeyValueStoreList]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cloudfront-2020-05-31/ListKeyValueStoresResult AWS API Documentation
+    #
+    class ListKeyValueStoresResult < Struct.new(
+      :key_value_store_list)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -7469,8 +8313,52 @@ module Aws::CloudFront
       include Aws::Structure
     end
 
-    # A complex type that controls whether access logs are written for the
+    # @!attribute [rw] marker
+    #   The marker associated with the VPC origins list.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_items
+    #   The maximum number of items included in the list.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cloudfront-2020-05-31/ListVpcOriginsRequest AWS API Documentation
+    #
+    class ListVpcOriginsRequest < Struct.new(
+      :marker,
+      :max_items)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] vpc_origin_list
+    #   List of VPC origins.
+    #   @return [Types::VpcOriginList]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cloudfront-2020-05-31/ListVpcOriginsResult AWS API Documentation
+    #
+    class ListVpcOriginsResult < Struct.new(
+      :vpc_origin_list)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A complex type that specifies whether access logs are written for the
     # distribution.
+    #
+    # <note markdown="1"> If you already enabled standard logging (legacy) and you want to
+    # enable standard logging (v2) to send your access logs to Amazon S3, we
+    # recommend that you specify a *different* Amazon S3 bucket or use a
+    # *separate path* in the same bucket (for example, use a log prefix or
+    # partitioning). This helps you keep track of which log files are
+    # associated with which logging subscription and prevents log files from
+    # overwriting each other. For more information, see [Standard logging
+    # (access logs)][1] in the *Amazon CloudFront Developer Guide*.
+    #
+    #  </note>
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/AccessLogs.html
     #
     # @!attribute [rw] enabled
     #   Specifies whether you want CloudFront to save access logs to an
@@ -7478,8 +8366,8 @@ module Aws::CloudFront
     #   create a distribution or if you want to disable logging for an
     #   existing distribution, specify `false` for `Enabled`, and specify
     #   empty `Bucket` and `Prefix` elements. If you specify `false` for
-    #   `Enabled` but you specify values for `Bucket`, `prefix`, and
-    #   `IncludeCookies`, the values are automatically deleted.
+    #   `Enabled` but you specify values for `Bucket` and `prefix`, the
+    #   values are automatically deleted.
     #   @return [Boolean]
     #
     # @!attribute [rw] include_cookies
@@ -7494,7 +8382,7 @@ module Aws::CloudFront
     #
     # @!attribute [rw] bucket
     #   The Amazon S3 bucket to store the access logs in, for example,
-    #   `myawslogbucket.s3.amazonaws.com`.
+    #   `amzn-s3-demo-bucket.s3.amazonaws.com`.
     #   @return [String]
     #
     # @!attribute [rw] prefix
@@ -7790,6 +8678,8 @@ module Aws::CloudFront
     # * Use `S3OriginConfig` to specify an Amazon S3 bucket that is not
     #   configured with static website hosting.
     #
+    # * Use `VpcOriginConfig` to specify a VPC origin.
+    #
     # * Use `CustomOriginConfig` to specify all other kinds of origins,
     #   including:
     #
@@ -7797,9 +8687,9 @@ module Aws::CloudFront
     #
     #   * An Elastic Load Balancing load balancer
     #
-    #   * An AWS Elemental MediaPackage endpoint
+    #   * An Elemental MediaPackage endpoint
     #
-    #   * An AWS Elemental MediaStore container
+    #   * An Elemental MediaStore container
     #
     #   * Any other HTTP server, running on an Amazon EC2 instance or any
     #     other kind of host
@@ -7872,6 +8762,10 @@ module Aws::CloudFront
     #   type instead.
     #   @return [Types::CustomOriginConfig]
     #
+    # @!attribute [rw] vpc_origin_config
+    #   The VPC origin configuration.
+    #   @return [Types::VpcOriginConfig]
+    #
     # @!attribute [rw] connection_attempts
     #   The number of times that CloudFront attempts to connect to the
     #   origin. The minimum number is 1, the maximum is 3, and the default
@@ -7937,6 +8831,7 @@ module Aws::CloudFront
       :custom_headers,
       :s3_origin_config,
       :custom_origin_config,
+      :vpc_origin_config,
       :connection_attempts,
       :connection_timeout,
       :origin_shield,
@@ -7980,7 +8875,8 @@ module Aws::CloudFront
     # A CloudFront origin access control configuration.
     #
     # @!attribute [rw] name
-    #   A name to identify the origin access control.
+    #   A name to identify the origin access control. You can specify up to
+    #   64 characters.
     #   @return [String]
     #
     # @!attribute [rw] description
@@ -8177,13 +9073,17 @@ module Aws::CloudFront
       include Aws::Structure
     end
 
-    # An origin group includes two origins (a primary origin and a second
+    # An origin group includes two origins (a primary origin and a secondary
     # origin to failover to) and a failover criteria that you specify. You
     # create an origin group to support origin failover in CloudFront. When
-    # you create or update a distribution, you can specifiy the origin group
+    # you create or update a distribution, you can specify the origin group
     # instead of a single origin, and CloudFront will failover from the
-    # primary origin to the second origin under the failover conditions that
-    # you've chosen.
+    # primary origin to the secondary origin under the failover conditions
+    # that you've chosen.
+    #
+    # Optionally, you can choose selection criteria for your origin group to
+    # specify how your origins are selected when your distribution routes
+    # viewer requests.
     #
     # @!attribute [rw] id
     #   The origin group's ID.
@@ -8199,12 +9099,23 @@ module Aws::CloudFront
     #   origin group.
     #   @return [Types::OriginGroupMembers]
     #
+    # @!attribute [rw] selection_criteria
+    #   The selection criteria for the origin group. For more information,
+    #   see [Create an origin group][1] in the *Amazon CloudFront Developer
+    #   Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/high_availability_origin_failover.html#concept_origin_groups.creating
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cloudfront-2020-05-31/OriginGroup AWS API Documentation
     #
     class OriginGroup < Struct.new(
       :id,
       :failover_criteria,
-      :members)
+      :members,
+      :selection_criteria)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -8403,17 +9314,22 @@ module Aws::CloudFront
     #   Determines whether cookies in viewer requests are included in
     #   requests that CloudFront sends to the origin. Valid values are:
     #
-    #   * `none` – Cookies in viewer requests are not included in requests
+    #   * `none` – No cookies in viewer requests are included in requests
     #     that CloudFront sends to the origin. Even when this field is set
     #     to `none`, any cookies that are listed in a `CachePolicy` *are*
     #     included in origin requests.
     #
-    #   * `whitelist` – The cookies in viewer requests that are listed in
-    #     the `CookieNames` type are included in requests that CloudFront
+    #   * `whitelist` – Only the cookies in viewer requests that are listed
+    #     in the `CookieNames` type are included in requests that CloudFront
     #     sends to the origin.
     #
     #   * `all` – All cookies in viewer requests are included in requests
     #     that CloudFront sends to the origin.
+    #
+    #   * `allExcept` – All cookies in viewer requests are included in
+    #     requests that CloudFront sends to the origin, <i> <b>except</b>
+    #     </i> for those listed in the `CookieNames` type, which are not
+    #     included.
     #   @return [String]
     #
     # @!attribute [rw] cookies
@@ -8436,13 +9352,14 @@ module Aws::CloudFront
     #   Determines whether any HTTP headers are included in requests that
     #   CloudFront sends to the origin. Valid values are:
     #
-    #   * `none` – HTTP headers are not included in requests that CloudFront
-    #     sends to the origin. Even when this field is set to `none`, any
-    #     headers that are listed in a `CachePolicy` *are* included in
-    #     origin requests.
+    #   * `none` – No HTTP headers in viewer requests are included in
+    #     requests that CloudFront sends to the origin. Even when this field
+    #     is set to `none`, any headers that are listed in a `CachePolicy`
+    #     *are* included in origin requests.
     #
-    #   * `whitelist` – The HTTP headers that are listed in the `Headers`
-    #     type are included in requests that CloudFront sends to the origin.
+    #   * `whitelist` – Only the HTTP headers that are listed in the
+    #     `Headers` type are included in requests that CloudFront sends to
+    #     the origin.
     #
     #   * `allViewer` – All HTTP headers in viewer requests are included in
     #     requests that CloudFront sends to the origin.
@@ -8451,6 +9368,11 @@ module Aws::CloudFront
     #     requests and the additional CloudFront headers that are listed in
     #     the `Headers` type are included in requests that CloudFront sends
     #     to the origin. The additional headers are added by CloudFront.
+    #
+    #   * `allExcept` – All HTTP headers in viewer requests are included in
+    #     requests that CloudFront sends to the origin, <i> <b>except</b>
+    #     </i> for those listed in the `Headers` type, which are not
+    #     included.
     #   @return [String]
     #
     # @!attribute [rw] headers
@@ -8522,22 +9444,33 @@ module Aws::CloudFront
     #   included in requests that CloudFront sends to the origin. Valid
     #   values are:
     #
-    #   * `none` – Query strings in viewer requests are not included in
+    #   * `none` – No query strings in viewer requests are included in
     #     requests that CloudFront sends to the origin. Even when this field
     #     is set to `none`, any query strings that are listed in a
     #     `CachePolicy` *are* included in origin requests.
     #
-    #   * `whitelist` – The query strings in viewer requests that are listed
-    #     in the `QueryStringNames` type are included in requests that
-    #     CloudFront sends to the origin.
+    #   * `whitelist` – Only the query strings in viewer requests that are
+    #     listed in the `QueryStringNames` type are included in requests
+    #     that CloudFront sends to the origin.
     #
     #   * `all` – All query strings in viewer requests are included in
     #     requests that CloudFront sends to the origin.
+    #
+    #   * `allExcept` – All query strings in viewer requests are included in
+    #     requests that CloudFront sends to the origin, <i> <b>except</b>
+    #     </i> for those listed in the `QueryStringNames` type, which are
+    #     not included.
     #   @return [String]
     #
     # @!attribute [rw] query_strings
-    #   Contains a list of the query strings in viewer requests that are
-    #   included in requests that CloudFront sends to the origin.
+    #   Contains the specific query strings in viewer requests that either
+    #   <i> <b>are</b> </i> or <i> <b>are not</b> </i> included in requests
+    #   that CloudFront sends to the origin. The behavior depends on whether
+    #   the `QueryStringBehavior` field in the
+    #   `OriginRequestPolicyQueryStringsConfig` type is set to `whitelist`
+    #   (the listed query strings <i> <b>are</b> </i> included) or
+    #   `allExcept` (the listed query strings <i> <b>are not</b> </i>
+    #   included, but all other query strings are).
     #   @return [Types::QueryStringNames]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cloudfront-2020-05-31/OriginRequestPolicyQueryStringsConfig AWS API Documentation
@@ -8666,10 +9599,10 @@ module Aws::CloudFront
     # cache that it can return to the viewer.
     #
     # The headers, cookies, and query strings that are included in the cache
-    # key are automatically included in requests that CloudFront sends to
-    # the origin. CloudFront sends a request when it can't find an object
-    # in its cache that matches the request's cache key. If you want to
-    # send values to the origin but *not* include them in the cache key, use
+    # key are also included in requests that CloudFront sends to the origin.
+    # CloudFront sends a request when it can't find an object in its cache
+    # that matches the request's cache key. If you want to send values to
+    # the origin but *not* include them in the cache key, use
     # `OriginRequestPolicy`.
     #
     # @!attribute [rw] enable_accept_encoding_gzip
@@ -8752,22 +9685,20 @@ module Aws::CloudFront
     #
     # @!attribute [rw] headers_config
     #   An object that determines whether any HTTP headers (and if so, which
-    #   headers) are included in the cache key and automatically included in
-    #   requests that CloudFront sends to the origin.
+    #   headers) are included in the cache key and in requests that
+    #   CloudFront sends to the origin.
     #   @return [Types::CachePolicyHeadersConfig]
     #
     # @!attribute [rw] cookies_config
     #   An object that determines whether any cookies in viewer requests
-    #   (and if so, which cookies) are included in the cache key and
-    #   automatically included in requests that CloudFront sends to the
-    #   origin.
+    #   (and if so, which cookies) are included in the cache key and in
+    #   requests that CloudFront sends to the origin.
     #   @return [Types::CachePolicyCookiesConfig]
     #
     # @!attribute [rw] query_strings_config
     #   An object that determines whether any URL query strings in viewer
     #   requests (and if so, which query strings) are included in the cache
-    #   key and automatically included in requests that CloudFront sends to
-    #   the origin.
+    #   key and in requests that CloudFront sends to the origin.
     #   @return [Types::CachePolicyQueryStringsConfig]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cloudfront-2020-05-31/ParametersInCacheKeyAndForwardedToOrigin AWS API Documentation
@@ -10029,12 +10960,14 @@ module Aws::CloudFront
     #   value.
     #
     #   For more information about the `Strict-Transport-Security` HTTP
-    #   response header, see [Strict-Transport-Security][1] in the MDN Web
+    #   response header, see [Security headers][1] in the *Amazon CloudFront
+    #   Developer Guide* and [Strict-Transport-Security][2] in the MDN Web
     #   Docs.
     #
     #
     #
-    #   [1]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security
+    #   [1]: https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/understanding-response-headers-policies.html#understanding-response-headers-policies-security
+    #   [2]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security
     #   @return [Types::ResponseHeadersPolicyStrictTransportSecurity]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cloudfront-2020-05-31/ResponseHeadersPolicySecurityHeadersConfig AWS API Documentation
@@ -10293,14 +11226,21 @@ module Aws::CloudFront
     # a website endpoint, use the `CustomOriginConfig` element instead.
     #
     # @!attribute [rw] origin_access_identity
+    #   <note markdown="1"> If you're using origin access control (OAC) instead of origin
+    #   access identity, specify an empty `OriginAccessIdentity` element.
+    #   For more information, see [Restricting access to an Amazon Web
+    #   Services][1] in the *Amazon CloudFront Developer Guide*.
+    #
+    #    </note>
+    #
     #   The CloudFront origin access identity to associate with the origin.
     #   Use an origin access identity to configure the origin so that
     #   viewers can *only* access objects in an Amazon S3 bucket through
     #   CloudFront. The format of the value is:
     #
-    #   origin-access-identity/cloudfront/*ID-of-origin-access-identity*
+    #   `origin-access-identity/cloudfront/ID-of-origin-access-identity`
     #
-    #   where ` ID-of-origin-access-identity ` is the value that CloudFront
+    #   The ` ID-of-origin-access-identity ` is the value that CloudFront
     #   returned in the `ID` element when you created the origin access
     #   identity.
     #
@@ -10316,12 +11256,13 @@ module Aws::CloudFront
     #   configuration and specify the new origin access identity.
     #
     #   For more information about the origin access identity, see [Serving
-    #   Private Content through CloudFront][1] in the *Amazon CloudFront
+    #   Private Content through CloudFront][2] in the *Amazon CloudFront
     #   Developer Guide*.
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PrivateContent.html
+    #   [1]: https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-content-restricting-access-to-origin.html
+    #   [2]: https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PrivateContent.html
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cloudfront-2020-05-31/S3OriginConfig AWS API Documentation
@@ -10351,7 +11292,7 @@ module Aws::CloudFront
     #   being part of the same session. Allowed values are 300–3600 seconds
     #   (5–60 minutes).
     #
-    #   The value must be less than or equal to `IdleTTL`.
+    #   The value must be greater than or equal to `IdleTTL`.
     #   @return [Integer]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cloudfront-2020-05-31/SessionStickinessConfig AWS API Documentation
@@ -10788,7 +11729,7 @@ module Aws::CloudFront
     #
     # @!attribute [rw] bucket
     #   The Amazon S3 bucket to store the access logs in, for example,
-    #   `myawslogbucket.s3.amazonaws.com`.
+    #   `amzn-s3-demo-bucket.s3.amazonaws.com`.
     #   @return [String]
     #
     # @!attribute [rw] prefix
@@ -11937,9 +12878,9 @@ module Aws::CloudFront
     # can use to verify the signatures of signed URLs and signed cookies.
     #
     # @!attribute [rw] enabled
-    #   This field is `true` if any of the Amazon Web Services accounts have
-    #   public keys that CloudFront can use to verify the signatures of
-    #   signed URLs and signed cookies. If not, this field is `false`.
+    #   This field is `true` if any of the Amazon Web Services accounts in
+    #   the list are configured as trusted signers. If not, this field is
+    #   `false`.
     #   @return [Boolean]
     #
     # @!attribute [rw] quantity
@@ -12388,6 +13329,45 @@ module Aws::CloudFront
       include Aws::Structure
     end
 
+    # @!attribute [rw] name
+    #   The name of the key value store to update.
+    #   @return [String]
+    #
+    # @!attribute [rw] comment
+    #   The comment of the key value store to update.
+    #   @return [String]
+    #
+    # @!attribute [rw] if_match
+    #   The key value store to update, if a match occurs.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cloudfront-2020-05-31/UpdateKeyValueStoreRequest AWS API Documentation
+    #
+    class UpdateKeyValueStoreRequest < Struct.new(
+      :name,
+      :comment,
+      :if_match)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] key_value_store
+    #   The resulting key value store to update.
+    #   @return [Types::KeyValueStore]
+    #
+    # @!attribute [rw] etag
+    #   The `ETag` of the resulting key value store.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cloudfront-2020-05-31/UpdateKeyValueStoreResult AWS API Documentation
+    #
+    class UpdateKeyValueStoreResult < Struct.new(
+      :key_value_store,
+      :etag)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] origin_access_control_config
     #   An origin access control.
     #   @return [Types::OriginAccessControlConfig]
@@ -12658,6 +13638,45 @@ module Aws::CloudFront
       include Aws::Structure
     end
 
+    # @!attribute [rw] vpc_origin_endpoint_config
+    #   The VPC origin endpoint configuration.
+    #   @return [Types::VpcOriginEndpointConfig]
+    #
+    # @!attribute [rw] id
+    #   The VPC origin ID.
+    #   @return [String]
+    #
+    # @!attribute [rw] if_match
+    #   The VPC origin to update, if a match occurs.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cloudfront-2020-05-31/UpdateVpcOriginRequest AWS API Documentation
+    #
+    class UpdateVpcOriginRequest < Struct.new(
+      :vpc_origin_endpoint_config,
+      :id,
+      :if_match)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] vpc_origin
+    #   The VPC origin.
+    #   @return [Types::VpcOrigin]
+    #
+    # @!attribute [rw] etag
+    #   The VPC origin ETag.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cloudfront-2020-05-31/UpdateVpcOriginResult AWS API Documentation
+    #
+    class UpdateVpcOriginResult < Struct.new(
+      :vpc_origin,
+      :etag)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # A complex type that determines the distribution's SSL/TLS
     # configuration for communicating with viewers.
     #
@@ -12683,7 +13702,6 @@ module Aws::CloudFront
     #     don't support SNI, set `SSLSupportMethod` to `vip`. This is not
     #     recommended, and results in additional monthly charges from
     #     CloudFront.
-    #
     # * The minimum SSL/TLS protocol version that the distribution can use
     #   to communicate with viewers. To specify a minimum version, choose a
     #   value for `MinimumProtocolVersion`. For more information, see
@@ -12778,8 +13796,8 @@ module Aws::CloudFront
     #   * `static-ip` - Do not specify this value unless your distribution
     #     has been enabled for this feature by the CloudFront team. If you
     #     have a use case that requires static IP addresses for a
-    #     distribution, contact CloudFront through the [Amazon Web Services
-    #     Support Center][2].
+    #     distribution, contact CloudFront through the [Amazon Web
+    #     ServicesSupport Center][2].
     #
     #   If the distribution uses the CloudFront domain name such as
     #   `d111111abcdef8.cloudfront.net`, don't set a value for this field.
@@ -12860,5 +13878,219 @@ module Aws::CloudFront
       include Aws::Structure
     end
 
+    # An Amazon CloudFront VPC origin.
+    #
+    # @!attribute [rw] id
+    #   The VPC origin ID.
+    #   @return [String]
+    #
+    # @!attribute [rw] arn
+    #   The VPC origin ARN.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The VPC origin status.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_time
+    #   The VPC origin created time.
+    #   @return [Time]
+    #
+    # @!attribute [rw] last_modified_time
+    #   The VPC origin last modified time.
+    #   @return [Time]
+    #
+    # @!attribute [rw] vpc_origin_endpoint_config
+    #   The VPC origin endpoint configuration.
+    #   @return [Types::VpcOriginEndpointConfig]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cloudfront-2020-05-31/VpcOrigin AWS API Documentation
+    #
+    class VpcOrigin < Struct.new(
+      :id,
+      :arn,
+      :status,
+      :created_time,
+      :last_modified_time,
+      :vpc_origin_endpoint_config)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # An Amazon CloudFront VPC origin configuration.
+    #
+    # @!attribute [rw] vpc_origin_id
+    #   The VPC origin ID.
+    #   @return [String]
+    #
+    # @!attribute [rw] origin_read_timeout
+    #   Specifies how long, in seconds, CloudFront waits for a response from
+    #   the origin. This is also known as the *origin response timeout*. The
+    #   minimum timeout is 1 second, the maximum is 60 seconds, and the
+    #   default (if you don't specify otherwise) is 30 seconds.
+    #
+    #   For more information, see [Response timeout (custom origins
+    #   only)][1] in the *Amazon CloudFront Developer Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-web-values-specify.html#DownloadDistValuesOriginResponseTimeout
+    #   @return [Integer]
+    #
+    # @!attribute [rw] origin_keepalive_timeout
+    #   Specifies how long, in seconds, CloudFront persists its connection
+    #   to the origin. The minimum timeout is 1 second, the maximum is 60
+    #   seconds, and the default (if you don't specify otherwise) is 5
+    #   seconds.
+    #
+    #   For more information, see [Keep-alive timeout (custom origins
+    #   only)][1] in the *Amazon CloudFront Developer Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-web-values-specify.html#DownloadDistValuesOriginKeepaliveTimeout
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cloudfront-2020-05-31/VpcOriginConfig AWS API Documentation
+    #
+    class VpcOriginConfig < Struct.new(
+      :vpc_origin_id,
+      :origin_read_timeout,
+      :origin_keepalive_timeout)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # An Amazon CloudFront VPC origin endpoint configuration.
+    #
+    # @!attribute [rw] name
+    #   The name of the CloudFront VPC origin endpoint configuration.
+    #   @return [String]
+    #
+    # @!attribute [rw] arn
+    #   The ARN of the CloudFront VPC origin endpoint configuration.
+    #   @return [String]
+    #
+    # @!attribute [rw] http_port
+    #   The HTTP port for the CloudFront VPC origin endpoint configuration.
+    #   The default value is `80`.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] https_port
+    #   The HTTPS port of the CloudFront VPC origin endpoint configuration.
+    #   The default value is `443`.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] origin_protocol_policy
+    #   The origin protocol policy for the CloudFront VPC origin endpoint
+    #   configuration.
+    #   @return [String]
+    #
+    # @!attribute [rw] origin_ssl_protocols
+    #   A complex type that contains information about the SSL/TLS protocols
+    #   that CloudFront can use when establishing an HTTPS connection with
+    #   your origin.
+    #   @return [Types::OriginSslProtocols]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cloudfront-2020-05-31/VpcOriginEndpointConfig AWS API Documentation
+    #
+    class VpcOriginEndpointConfig < Struct.new(
+      :name,
+      :arn,
+      :http_port,
+      :https_port,
+      :origin_protocol_policy,
+      :origin_ssl_protocols)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A list of CloudFront VPC origins.
+    #
+    # @!attribute [rw] marker
+    #   The marker associated with the VPC origins list.
+    #   @return [String]
+    #
+    # @!attribute [rw] next_marker
+    #   The next marker associated with the VPC origins list.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_items
+    #   The maximum number of items included in the list.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] is_truncated
+    #   A flag that indicates whether more VPC origins remain to be listed.
+    #   If your results were truncated, you can make a follow-up pagination
+    #   request using the `Marker` request parameter to retrieve more VPC
+    #   origins in the list.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] quantity
+    #   The number of VPC origins in the list.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] items
+    #   The items of the VPC origins list.
+    #   @return [Array<Types::VpcOriginSummary>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cloudfront-2020-05-31/VpcOriginList AWS API Documentation
+    #
+    class VpcOriginList < Struct.new(
+      :marker,
+      :next_marker,
+      :max_items,
+      :is_truncated,
+      :quantity,
+      :items)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A summary of the CloudFront VPC origin.
+    #
+    # @!attribute [rw] id
+    #   The VPC origin summary ID.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The VPC origin summary name.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The VPC origin summary status.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_time
+    #   The VPC origin summary created time.
+    #   @return [Time]
+    #
+    # @!attribute [rw] last_modified_time
+    #   The VPC origin summary last modified time.
+    #   @return [Time]
+    #
+    # @!attribute [rw] arn
+    #   The VPC origin summary ARN.
+    #   @return [String]
+    #
+    # @!attribute [rw] origin_endpoint_arn
+    #   The VPC origin summary origin endpoint ARN.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cloudfront-2020-05-31/VpcOriginSummary AWS API Documentation
+    #
+    class VpcOriginSummary < Struct.new(
+      :id,
+      :name,
+      :status,
+      :created_time,
+      :last_modified_time,
+      :arn,
+      :origin_endpoint_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
   end
 end
+

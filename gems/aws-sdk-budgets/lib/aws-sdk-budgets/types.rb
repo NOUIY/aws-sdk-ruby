@@ -32,7 +32,7 @@ module Aws::Budgets
     #
     # @!attribute [rw] budget_name
     #   A string that represents the budget name. The ":" and "\\"
-    #   characters aren't allowed.
+    #   characters, and the "/action/" substring, aren't allowed.
     #   @return [String]
     #
     # @!attribute [rw] notification_type
@@ -182,7 +182,8 @@ module Aws::Budgets
     #
     # @!attribute [rw] budget_name
     #   The name of a budget. The name must be unique within an account. The
-    #   `:` and `` characters aren't allowed in `BudgetName`.
+    #   `:` and `` characters, and the "/action/" substring, aren't
+    #   allowed in `BudgetName`.
     #   @return [String]
     #
     # @!attribute [rw] budget_limit
@@ -238,8 +239,8 @@ module Aws::Budgets
     #   @return [Hash<String,Types::Spend>]
     #
     # @!attribute [rw] cost_filters
-    #   The cost filters, such as `Region`, `Service`, `member account`,
-    #   `Tag`, or `Cost Category`, that are applied to a budget.
+    #   The cost filters, such as `Region`, `Service`, `LinkedAccount`,
+    #   `Tag`, or `CostCategory`, that are applied to a budget.
     #
     #   Amazon Web Services Budgets supports the following services as a
     #   `Service` filter for RI budgets:
@@ -332,7 +333,7 @@ module Aws::Budgets
     #
     # @!attribute [rw] budget_name
     #   A string that represents the budget name. The ":" and "\\"
-    #   characters aren't allowed.
+    #   characters, and the "/action/" substring, aren't allowed.
     #   @return [String]
     #
     class BudgetNotificationsForAccount < Struct.new(
@@ -347,7 +348,7 @@ module Aws::Budgets
     #
     # @!attribute [rw] budget_name
     #   A string that represents the budget name. The ":" and "\\"
-    #   characters aren't allowed.
+    #   characters, and the "/action/" substring, aren't allowed.
     #   @return [String]
     #
     # @!attribute [rw] budget_type
@@ -531,7 +532,7 @@ module Aws::Budgets
     #
     # @!attribute [rw] budget_name
     #   A string that represents the budget name. The ":" and "\\"
-    #   characters aren't allowed.
+    #   characters, and the "/action/" substring, aren't allowed.
     #   @return [String]
     #
     # @!attribute [rw] notification_type
@@ -565,6 +566,12 @@ module Aws::Budgets
     #   A list of subscribers.
     #   @return [Array<Types::Subscriber>]
     #
+    # @!attribute [rw] resource_tags
+    #   An optional list of tags to associate with the specified budget
+    #   action. Each tag consists of a key and a value, and each key must be
+    #   unique for the resource.
+    #   @return [Array<Types::ResourceTag>]
+    #
     class CreateBudgetActionRequest < Struct.new(
       :account_id,
       :budget_name,
@@ -574,7 +581,8 @@ module Aws::Budgets
       :definition,
       :execution_role_arn,
       :approval_model,
-      :subscribers)
+      :subscribers,
+      :resource_tags)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -585,7 +593,7 @@ module Aws::Budgets
     #
     # @!attribute [rw] budget_name
     #   A string that represents the budget name. The ":" and "\\"
-    #   characters aren't allowed.
+    #   characters, and the "/action/" substring, aren't allowed.
     #   @return [String]
     #
     # @!attribute [rw] action_id
@@ -619,10 +627,17 @@ module Aws::Budgets
     #   Web Services creates the notifications and subscribers for you.
     #   @return [Array<Types::NotificationWithSubscribers>]
     #
+    # @!attribute [rw] resource_tags
+    #   An optional list of tags to associate with the specified budget.
+    #   Each tag consists of a key and a value, and each key must be unique
+    #   for the resource.
+    #   @return [Array<Types::ResourceTag>]
+    #
     class CreateBudgetRequest < Struct.new(
       :account_id,
       :budget,
-      :notifications_with_subscribers)
+      :notifications_with_subscribers,
+      :resource_tags)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -741,7 +756,7 @@ module Aws::Budgets
     #
     # @!attribute [rw] budget_name
     #   A string that represents the budget name. The ":" and "\\"
-    #   characters aren't allowed.
+    #   characters, and the "/action/" substring, aren't allowed.
     #   @return [String]
     #
     # @!attribute [rw] action_id
@@ -763,7 +778,7 @@ module Aws::Budgets
     #
     # @!attribute [rw] budget_name
     #   A string that represents the budget name. The ":" and "\\"
-    #   characters aren't allowed.
+    #   characters, and the "/action/" substring, aren't allowed.
     #   @return [String]
     #
     # @!attribute [rw] action
@@ -865,7 +880,7 @@ module Aws::Budgets
     #
     # @!attribute [rw] budget_name
     #   A string that represents the budget name. The ":" and "\\"
-    #   characters aren't allowed.
+    #   characters, and the "/action/" substring, aren't allowed.
     #   @return [String]
     #
     # @!attribute [rw] action_id
@@ -920,7 +935,7 @@ module Aws::Budgets
     #
     # @!attribute [rw] budget_name
     #   A string that represents the budget name. The ":" and "\\"
-    #   characters aren't allowed.
+    #   characters, and the "/action/" substring, aren't allowed.
     #   @return [String]
     #
     # @!attribute [rw] action_id
@@ -942,7 +957,7 @@ module Aws::Budgets
     #
     # @!attribute [rw] budget_name
     #   A string that represents the budget name. The ":" and "\\"
-    #   characters aren't allowed.
+    #   characters, and the "/action/" substring, aren't allowed.
     #   @return [String]
     #
     # @!attribute [rw] action
@@ -999,7 +1014,7 @@ module Aws::Budgets
     #
     # @!attribute [rw] budget_name
     #   A string that represents the budget name. The ":" and "\\"
-    #   characters aren't allowed.
+    #   characters, and the "/action/" substring, aren't allowed.
     #   @return [String]
     #
     # @!attribute [rw] max_results
@@ -1040,8 +1055,8 @@ module Aws::Budgets
     #   @return [String]
     #
     # @!attribute [rw] max_results
-    #   An integer that shows how many budget name entries a paginated
-    #   response contains.
+    #   An integer that represents how many budgets a paginated response
+    #   contains. The default is 50.
     #   @return [Integer]
     #
     # @!attribute [rw] next_token
@@ -1077,7 +1092,7 @@ module Aws::Budgets
     #
     # @!attribute [rw] budget_name
     #   A string that represents the budget name. The ":" and "\\"
-    #   characters aren't allowed.
+    #   characters, and the "/action/" substring, aren't allowed.
     #   @return [String]
     #
     # @!attribute [rw] time_period
@@ -1158,13 +1173,13 @@ module Aws::Budgets
     # Request of DescribeBudgets
     #
     # @!attribute [rw] account_id
-    #   The `accountId` that is associated with the budgets that you want
-    #   descriptions of.
+    #   The `accountId` that is associated with the budgets that you want to
+    #   describe.
     #   @return [String]
     #
     # @!attribute [rw] max_results
-    #   An optional integer that represents how many entries a paginated
-    #   response contains. The maximum is 100.
+    #   An integer that represents how many budgets a paginated response
+    #   contains. The default is 100.
     #   @return [Integer]
     #
     # @!attribute [rw] next_token
@@ -1211,7 +1226,7 @@ module Aws::Budgets
     #
     # @!attribute [rw] max_results
     #   An optional integer that represents how many entries a paginated
-    #   response contains. The maximum is 100.
+    #   response contains.
     #   @return [Integer]
     #
     # @!attribute [rw] next_token
@@ -1263,7 +1278,7 @@ module Aws::Budgets
     #
     # @!attribute [rw] max_results
     #   An optional integer that represents how many entries a paginated
-    #   response contains. The maximum is 100.
+    #   response contains.
     #   @return [Integer]
     #
     # @!attribute [rw] next_token
@@ -1318,7 +1333,7 @@ module Aws::Budgets
     #
     # @!attribute [rw] budget_name
     #   A string that represents the budget name. The ":" and "\\"
-    #   characters aren't allowed.
+    #   characters, and the "/action/" substring, aren't allowed.
     #   @return [String]
     #
     # @!attribute [rw] action_id
@@ -1345,7 +1360,7 @@ module Aws::Budgets
     #
     # @!attribute [rw] budget_name
     #   A string that represents the budget name. The ":" and "\\"
-    #   characters aren't allowed.
+    #   characters, and the "/action/" substring, aren't allowed.
     #   @return [String]
     #
     # @!attribute [rw] action_id
@@ -1484,6 +1499,26 @@ module Aws::Budgets
       include Aws::Structure
     end
 
+    # @!attribute [rw] resource_arn
+    #   The unique identifier for the resource.
+    #   @return [String]
+    #
+    class ListTagsForResourceRequest < Struct.new(
+      :resource_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] resource_tags
+    #   The tags associated with the resource.
+    #   @return [Array<Types::ResourceTag>]
+    #
+    class ListTagsForResourceResponse < Struct.new(
+      :resource_tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # We can’t locate the resource that you specified.
     #
     # @!attribute [rw] message
@@ -1591,6 +1626,23 @@ module Aws::Budgets
       include Aws::Structure
     end
 
+    # The tag structure that contains a tag key and value.
+    #
+    # @!attribute [rw] key
+    #   The key that's associated with the tag.
+    #   @return [String]
+    #
+    # @!attribute [rw] value
+    #   The value that's associated with the tag.
+    #   @return [String]
+    #
+    class ResourceTag < Struct.new(
+      :key,
+      :value)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The service control policies (SCP) action definition details.
     #
     # @!attribute [rw] policy_id
@@ -1608,14 +1660,34 @@ module Aws::Budgets
       include Aws::Structure
     end
 
+    # You've reached the limit on the number of tags you can associate with
+    # a resource.
+    #
+    # @!attribute [rw] message
+    #   The error message the exception carries.
+    #   @return [String]
+    #
+    class ServiceQuotaExceededException < Struct.new(
+      :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The amount of cost or usage that's measured for a budget.
     #
-    # For example, a `Spend` for `3 GB` of S3 usage has the following
+    # *Cost example:* A `Spend` for `3 USD` of costs has the following
     # parameters:
     #
     # * An `Amount` of `3`
     #
-    # * A `unit` of `GB`
+    # * A `Unit` of `USD`
+    #
+    # *Usage example:* A `Spend` for `3 GB` of S3 usage has the following
+    # parameters:
+    #
+    # * An `Amount` of `3`
+    #
+    # * A `Unit` of `GB`
     #
     # @!attribute [rw] amount
     #   The cost or usage amount that's associated with a budget forecast,
@@ -1624,7 +1696,7 @@ module Aws::Budgets
     #
     # @!attribute [rw] unit
     #   The unit of measurement that's used for the budget forecast, actual
-    #   spend, or budget threshold, such as USD or GBP.
+    #   spend, or budget threshold.
     #   @return [String]
     #
     class Spend < Struct.new(
@@ -1686,6 +1758,23 @@ module Aws::Budgets
       include Aws::Structure
     end
 
+    # @!attribute [rw] resource_arn
+    #   The unique identifier for the resource.
+    #   @return [String]
+    #
+    # @!attribute [rw] resource_tags
+    #   The tags associated with the resource.
+    #   @return [Array<Types::ResourceTag>]
+    #
+    class TagResourceRequest < Struct.new(
+      :resource_arn,
+      :resource_tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    class TagResourceResponse < Aws::EmptyStructure; end
+
     # The number of API requests has exceeded the maximum allowed API
     # request throttling limit for the account.
     #
@@ -1735,13 +1824,30 @@ module Aws::Budgets
       include Aws::Structure
     end
 
+    # @!attribute [rw] resource_arn
+    #   The unique identifier for the resource.
+    #   @return [String]
+    #
+    # @!attribute [rw] resource_tag_keys
+    #   The key that's associated with the tag.
+    #   @return [Array<String>]
+    #
+    class UntagResourceRequest < Struct.new(
+      :resource_arn,
+      :resource_tag_keys)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    class UntagResourceResponse < Aws::EmptyStructure; end
+
     # @!attribute [rw] account_id
     #   The account ID of the user. It's a 12-digit number.
     #   @return [String]
     #
     # @!attribute [rw] budget_name
     #   A string that represents the budget name. The ":" and "\\"
-    #   characters aren't allowed.
+    #   characters, and the "/action/" substring, aren't allowed.
     #   @return [String]
     #
     # @!attribute [rw] action_id
@@ -1794,7 +1900,7 @@ module Aws::Budgets
     #
     # @!attribute [rw] budget_name
     #   A string that represents the budget name. The ":" and "\\"
-    #   characters aren't allowed.
+    #   characters, and the "/action/" substring, aren't allowed.
     #   @return [String]
     #
     # @!attribute [rw] old_action
@@ -1909,3 +2015,4 @@ module Aws::Budgets
 
   end
 end
+

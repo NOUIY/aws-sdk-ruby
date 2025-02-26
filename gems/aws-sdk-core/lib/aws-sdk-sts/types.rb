@@ -26,10 +26,21 @@ module Aws::STS
     #   that use the temporary security credentials will expose the role
     #   session name to the external account in their CloudTrail logs.
     #
+    #   For security purposes, administrators can view this field in
+    #   [CloudTrail logs][1] to help identify who performed an action in
+    #   Amazon Web Services. Your administrator might require that you
+    #   specify your user name as the session name when you assume the role.
+    #   For more information, see [ `sts:RoleSessionName` ][2].
+    #
     #   The regex used to validate this parameter is a string of characters
     #   consisting of upper- and lower-case alphanumeric characters with no
     #   spaces. You can also include underscores or any of the following
     #   characters: =,.@-
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-integration.html#cloudtrail-integration_signin-tempcreds
+    #   [2]: https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_iam-condition-keys.html#ck_rolesessionname
     #   @return [String]
     #
     # @!attribute [rw] policy_arns
@@ -101,6 +112,9 @@ module Aws::STS
     #
     #    </note>
     #
+    #   For more information about role session permissions, see [Session
+    #   policies][1].
+    #
     #
     #
     #   [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#policies_session
@@ -125,8 +139,7 @@ module Aws::STS
     #   However, if you assume a role using role chaining and provide a
     #   `DurationSeconds` parameter value greater than one hour, the
     #   operation fails. To learn how to view the maximum value for your
-    #   role, see [View the Maximum Session Duration Setting for a Role][1]
-    #   in the *IAM User Guide*.
+    #   role, see [Update the maximum session duration for a role][1].
     #
     #   By default, the value is set to `3600` seconds.
     #
@@ -142,7 +155,7 @@ module Aws::STS
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use.html#id_roles_use_view-role-max-session
+    #   [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_update-role-settings.html#id_roles_update-session-duration
     #   [2]: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_enable-console-custom-url.html
     #   @return [Integer]
     #
@@ -199,9 +212,8 @@ module Aws::STS
     #   passes to subsequent sessions in a role chain. For more information,
     #   see [Chaining Roles with Session Tags][1] in the *IAM User Guide*.
     #
-    #   This parameter is optional. When you set session tags as transitive,
-    #   the session policy and session tags packed binary limit is not
-    #   affected.
+    #   This parameter is optional. The transitive status of a session tag
+    #   does not impact its packed binary size.
     #
     #   If you choose not to specify a transitive tag key, then no tags are
     #   passed from this session to any subsequent sessions.
@@ -263,29 +275,45 @@ module Aws::STS
     #
     # @!attribute [rw] source_identity
     #   The source identity specified by the principal that is calling the
-    #   `AssumeRole` operation.
+    #   `AssumeRole` operation. The source identity value persists across
+    #   [chained role][1] sessions.
     #
     #   You can require users to specify a source identity when they assume
-    #   a role. You do this by using the `sts:SourceIdentity` condition key
-    #   in a role trust policy. You can use source identity information in
-    #   CloudTrail logs to determine who took actions with a role. You can
-    #   use the `aws:SourceIdentity` condition key to further control access
-    #   to Amazon Web Services resources based on the value of source
-    #   identity. For more information about using source identity, see
-    #   [Monitor and control actions taken with assumed roles][1] in the
-    #   *IAM User Guide*.
+    #   a role. You do this by using the [ `sts:SourceIdentity` ][2]
+    #   condition key in a role trust policy. You can use source identity
+    #   information in CloudTrail logs to determine who took actions with a
+    #   role. You can use the `aws:SourceIdentity` condition key to further
+    #   control access to Amazon Web Services resources based on the value
+    #   of source identity. For more information about using source
+    #   identity, see [Monitor and control actions taken with assumed
+    #   roles][3] in the *IAM User Guide*.
     #
     #   The regex used to validate this parameter is a string of characters
     #   consisting of upper- and lower-case alphanumeric characters with no
     #   spaces. You can also include underscores or any of the following
-    #   characters: =,.@-. You cannot use a value that begins with the text
+    #   characters: +=,.@-. You cannot use a value that begins with the text
     #   `aws:`. This prefix is reserved for Amazon Web Services internal
     #   use.
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_control-access_monitor.html
+    #   [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html#iam-term-role-chaining
+    #   [2]: https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_condition-keys.html#condition-keys-sourceidentity
+    #   [3]: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_control-access_monitor.html
     #   @return [String]
+    #
+    # @!attribute [rw] provided_contexts
+    #   A list of previously acquired trusted context assertions in the
+    #   format of a JSON array. The trusted context assertion is signed and
+    #   encrypted by Amazon Web Services STS.
+    #
+    #   The following is an example of a `ProvidedContext` value that
+    #   includes a single trusted context assertion and the ARN of the
+    #   context provider from which the trusted context assertion was
+    #   generated.
+    #
+    #   `[{"ProviderArn":"arn:aws:iam::aws:contextProvider/IdentityCenter","ContextAssertion":"trusted-context-assertion"}]`
+    #   @return [Array<Types::ProvidedContext>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/AssumeRoleRequest AWS API Documentation
     #
@@ -300,7 +328,8 @@ module Aws::STS
       :external_id,
       :serial_number,
       :token_code,
-      :source_identity)
+      :source_identity,
+      :provided_contexts)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -451,6 +480,9 @@ module Aws::STS
     #   include the tab (\\u0009), linefeed (\\u000A), and carriage return
     #   (\\u000D) characters.
     #
+    #   For more information about role session permissions, see [Session
+    #   policies][1].
+    #
     #   <note markdown="1"> An Amazon Web Services conversion compresses the passed inline
     #   session policy, managed policy ARNs, and session tags into a packed
     #   binary format that has a separate limit. Your request can fail for
@@ -508,7 +540,7 @@ module Aws::STS
       :policy_arns,
       :policy,
       :duration_seconds)
-      SENSITIVE = []
+      SENSITIVE = [:saml_assertion]
       include Aws::Structure
     end
 
@@ -576,7 +608,7 @@ module Aws::STS
     #     in IAM.
     #
     #   The combination of `NameQualifier` and `Subject` can be used to
-    #   uniquely identify a federated user.
+    #   uniquely identify a user.
     #
     #   The following pseudocode shows how the hash value is calculated:
     #
@@ -586,6 +618,8 @@ module Aws::STS
     #
     # @!attribute [rw] source_identity
     #   The value in the `SourceIdentity` attribute in the SAML assertion.
+    #   The source identity value persists across [chained role][1]
+    #   sessions.
     #
     #   You can require users to set a source identity value when they
     #   assume a role. You do this by using the `sts:SourceIdentity`
@@ -593,12 +627,12 @@ module Aws::STS
     #   taken with the role are associated with that user. After the source
     #   identity is set, the value cannot be changed. It is present in the
     #   request for all actions that are taken by the role and persists
-    #   across [chained role][1] sessions. You can configure your SAML
+    #   across [chained role][2] sessions. You can configure your SAML
     #   identity provider to use an attribute associated with your users,
     #   like user name or email, as the source identity when calling
     #   `AssumeRoleWithSAML`. You do this by adding an attribute to the SAML
     #   assertion. For more information about using source identity, see
-    #   [Monitor and control actions taken with assumed roles][2] in the
+    #   [Monitor and control actions taken with assumed roles][3] in the
     #   *IAM User Guide*.
     #
     #   The regex used to validate this parameter is a string of characters
@@ -608,8 +642,9 @@ module Aws::STS
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts#iam-term-role-chaining
-    #   [2]: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_control-access_monitor.html
+    #   [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html#iam-term-role-chaining
+    #   [2]: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html#id_roles_terms-and-concepts
+    #   [3]: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_control-access_monitor.html
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/AssumeRoleWithSAMLResponse AWS API Documentation
@@ -631,6 +666,24 @@ module Aws::STS
     # @!attribute [rw] role_arn
     #   The Amazon Resource Name (ARN) of the role that the caller is
     #   assuming.
+    #
+    #   <note markdown="1"> Additional considerations apply to Amazon Cognito identity pools
+    #   that assume [cross-account IAM roles][1]. The trust policies of
+    #   these roles must accept the `cognito-identity.amazonaws.com` service
+    #   principal and must contain the `cognito-identity.amazonaws.com:aud`
+    #   condition key to restrict role assumption to users from your
+    #   intended identity pools. A policy that trusts Amazon Cognito
+    #   identity pools without this condition creates a risk that a user
+    #   from an unintended identity pool can assume the role. For more
+    #   information, see [ Trust policies for IAM roles in Basic (Classic)
+    #   authentication ][2] in the *Amazon Cognito Developer Guide*.
+    #
+    #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies-cross-account-resource-access.html
+    #   [2]: https://docs.aws.amazon.com/cognito/latest/developerguide/iam-roles.html#trust-policies
     #   @return [String]
     #
     # @!attribute [rw] role_session_name
@@ -641,10 +694,21 @@ module Aws::STS
     #   session name is included as part of the ARN and assumed role ID in
     #   the `AssumedRoleUser` response element.
     #
+    #   For security purposes, administrators can view this field in
+    #   [CloudTrail logs][1] to help identify who performed an action in
+    #   Amazon Web Services. Your administrator might require that you
+    #   specify your user name as the session name when you assume the role.
+    #   For more information, see [ `sts:RoleSessionName` ][2].
+    #
     #   The regex used to validate this parameter is a string of characters
     #   consisting of upper- and lower-case alphanumeric characters with no
     #   spaces. You can also include underscores or any of the following
     #   characters: =,.@-
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/cloudtrail-integration.html#cloudtrail-integration_signin-tempcreds
+    #   [2]: https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_iam-condition-keys.html#ck_rolesessionname
     #   @return [String]
     #
     # @!attribute [rw] web_identity_token
@@ -652,7 +716,10 @@ module Aws::STS
     #   provided by the identity provider. Your application must get this
     #   token by authenticating the user who is using your application with
     #   a web identity provider before the application makes an
-    #   `AssumeRoleWithWebIdentity` call.
+    #   `AssumeRoleWithWebIdentity` call. Timestamps in the token must be
+    #   formatted as either an integer or a long integer. Tokens must be
+    #   signed using either RSA keys (RS256, RS384, or RS512) or ECDSA keys
+    #   (ES256, ES384, or ES512).
     #   @return [String]
     #
     # @!attribute [rw] provider_id
@@ -726,6 +793,9 @@ module Aws::STS
     #   include the tab (\\u0009), linefeed (\\u000A), and carriage return
     #   (\\u000D) characters.
     #
+    #   For more information about role session permissions, see [Session
+    #   policies][1].
+    #
     #   <note markdown="1"> An Amazon Web Services conversion compresses the passed inline
     #   session policy, managed policy ARNs, and session tags into a packed
     #   binary format that has a separate limit. Your request can fail for
@@ -780,7 +850,7 @@ module Aws::STS
       :policy_arns,
       :policy,
       :duration_seconds)
-      SENSITIVE = []
+      SENSITIVE = [:web_identity_token]
       include Aws::Structure
     end
 
@@ -866,7 +936,7 @@ module Aws::STS
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts#iam-term-role-chaining
+    #   [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html#id_roles_terms-and-concepts
     #   [2]: https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-using-tokens-with-identity-providers.html
     #   [3]: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_control-access_monitor.html
     #   @return [String]
@@ -880,6 +950,92 @@ module Aws::STS
       :packed_policy_size,
       :provider,
       :audience,
+      :source_identity)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] target_principal
+    #   The member account principal ARN or account ID.
+    #   @return [String]
+    #
+    # @!attribute [rw] task_policy_arn
+    #   The identity based policy that scopes the session to the privileged
+    #   tasks that can be performed. You can use one of following Amazon Web
+    #   Services managed policies to scope root session actions.
+    #
+    #   * [IAMAuditRootUserCredentials][1]
+    #
+    #   * [IAMCreateRootUserPassword][2]
+    #
+    #   * [IAMDeleteRootUserCredentials][3]
+    #
+    #   * [S3UnlockBucketPolicy][4]
+    #
+    #   * [SQSUnlockQueuePolicy][5]
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/security-iam-awsmanpol.html#security-iam-awsmanpol-IAMAuditRootUserCredentials
+    #   [2]: https://docs.aws.amazon.com/IAM/latest/UserGuide/security-iam-awsmanpol.html#security-iam-awsmanpol-IAMCreateRootUserPassword
+    #   [3]: https://docs.aws.amazon.com/IAM/latest/UserGuide/security-iam-awsmanpol.html#security-iam-awsmanpol-IAMDeleteRootUserCredentials
+    #   [4]: https://docs.aws.amazon.com/IAM/latest/UserGuide/security-iam-awsmanpol.html#security-iam-awsmanpol-S3UnlockBucketPolicy
+    #   [5]: https://docs.aws.amazon.com/IAM/latest/UserGuide/security-iam-awsmanpol.html#security-iam-awsmanpol-SQSUnlockQueuePolicy
+    #   @return [Types::PolicyDescriptorType]
+    #
+    # @!attribute [rw] duration_seconds
+    #   The duration, in seconds, of the privileged session. The value can
+    #   range from 0 seconds up to the maximum session duration of 900
+    #   seconds (15 minutes). If you specify a value higher than this
+    #   setting, the operation fails.
+    #
+    #   By default, the value is set to `900` seconds.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/AssumeRootRequest AWS API Documentation
+    #
+    class AssumeRootRequest < Struct.new(
+      :target_principal,
+      :task_policy_arn,
+      :duration_seconds)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] credentials
+    #   The temporary security credentials, which include an access key ID,
+    #   a secret access key, and a security token.
+    #
+    #   <note markdown="1"> The size of the security token that STS API operations return is not
+    #   fixed. We strongly recommend that you make no assumptions about the
+    #   maximum size.
+    #
+    #    </note>
+    #   @return [Types::Credentials]
+    #
+    # @!attribute [rw] source_identity
+    #   The source identity specified by the principal that is calling the
+    #   `AssumeRoot` operation.
+    #
+    #   You can use the `aws:SourceIdentity` condition key to control access
+    #   based on the value of source identity. For more information about
+    #   using source identity, see [Monitor and control actions taken with
+    #   assumed roles][1] in the *IAM User Guide*.
+    #
+    #   The regex used to validate this parameter is a string of characters
+    #   consisting of upper- and lower-case alphanumeric characters with no
+    #   spaces. You can also include underscores or any of the following
+    #   characters: =,.@-
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_control-access_monitor.html
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/AssumeRootResponse AWS API Documentation
+    #
+    class AssumeRootResponse < Struct.new(
+      :credentials,
       :source_identity)
       SENSITIVE = []
       include Aws::Structure
@@ -941,7 +1097,7 @@ module Aws::STS
       :secret_access_key,
       :session_token,
       :expiration)
-      SENSITIVE = []
+      SENSITIVE = [:secret_access_key]
       include Aws::Structure
     end
 
@@ -1200,11 +1356,10 @@ module Aws::STS
     #   The duration, in seconds, that the session should last. Acceptable
     #   durations for federation sessions range from 900 seconds (15
     #   minutes) to 129,600 seconds (36 hours), with 43,200 seconds (12
-    #   hours) as the default. Sessions obtained using Amazon Web Services
-    #   account root user credentials are restricted to a maximum of 3,600
-    #   seconds (one hour). If the specified duration is longer than one
-    #   hour, the session obtained by using root user credentials defaults
-    #   to one hour.
+    #   hours) as the default. Sessions obtained using root user credentials
+    #   are restricted to a maximum of 3,600 seconds (one hour). If the
+    #   specified duration is longer than one hour, the session obtained by
+    #   using root user credentials defaults to one hour.
     #   @return [Integer]
     #
     # @!attribute [rw] tags
@@ -1405,7 +1560,8 @@ module Aws::STS
 
     # The error returned if the message passed to
     # `DecodeAuthorizationMessage` was invalid. This can happen if the token
-    # contains invalid characters, such as linebreaks.
+    # contains invalid characters, such as line breaks, or if the message
+    # has expired.
     #
     # @!attribute [rw] message
     #   @return [String]
@@ -1498,11 +1654,35 @@ module Aws::STS
       include Aws::Structure
     end
 
+    # Contains information about the provided context. This includes the
+    # signed and encrypted trusted context assertion and the context
+    # provider ARN from which the trusted context assertion was generated.
+    #
+    # @!attribute [rw] provider_arn
+    #   The context provider ARN from which the trusted context assertion
+    #   was generated.
+    #   @return [String]
+    #
+    # @!attribute [rw] context_assertion
+    #   The signed and encrypted trusted context assertion generated by the
+    #   context provider. The trusted context assertion is signed and
+    #   encrypted by Amazon Web Services STS.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sts-2011-06-15/ProvidedContext AWS API Documentation
+    #
+    class ProvidedContext < Struct.new(
+      :provider_arn,
+      :context_assertion)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # STS is not activated in the requested region for the account that is
     # being asked to generate credentials. The account administrator must
     # use the IAM console to activate STS in that region. For more
-    # information, see [Activating and Deactivating Amazon Web Services STS
-    # in an Amazon Web Services Region][1] in the *IAM User Guide*.
+    # information, see [Activating and Deactivating STS in an Amazon Web
+    # Services Region][1] in the *IAM User Guide*.
     #
     #
     #
@@ -1564,3 +1744,4 @@ module Aws::STS
 
   end
 end
+

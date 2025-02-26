@@ -1,6 +1,356 @@
 Unreleased Changes
 ------------------
 
+1.180.0 (2025-02-19)
+------------------
+
+* Feature - This is a documentation only release for Amazon ECS that supports the CPU task limit increase.
+
+1.179.0 (2025-02-18)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.178.0 (2025-02-13)
+------------------
+
+* Feature - This is a documentation only release to support migrating Amazon ECS service ARNs to the long ARN format.
+
+1.177.0 (2025-02-06)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.176.0 (2025-01-16)
+------------------
+
+* Feature - The release addresses Amazon ECS documentation tickets.
+
+1.175.0 (2025-01-15)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.174.0 (2025-01-03)
+------------------
+
+* Feature - Adding SDK reference examples for Amazon ECS operations.
+
+1.173.0 (2024-12-17)
+------------------
+
+* Feature - Added support for enableFaultInjection task definition parameter which can be used to enable Fault Injection feature on ECS tasks.
+
+1.172.0 (2024-12-09)
+------------------
+
+* Feature - This is a documentation only update to address various tickets for Amazon ECS.
+
+1.171.0 (2024-12-02)
+------------------
+
+* Feature - This release adds support for Container Insights with Enhanced Observability for Amazon ECS.
+
+1.170.0 (2024-11-20)
+------------------
+
+* Feature - This release adds support for the Availability Zone rebalancing feature on Amazon ECS.
+
+1.169.0 (2024-11-19)
+------------------
+
+* Feature - This release introduces support for configuring the version consistency feature for individual containers defined within a task definition. The configuration allows to specify whether ECS should resolve the container image tag specified in the container definition to an image digest.
+
+1.168.0 (2024-11-18)
+------------------
+
+* Feature - This release adds support for adding VPC Lattice configurations in ECS CreateService/UpdateService APIs. The configuration allows for associating VPC Lattice target groups with ECS Services.
+
+1.167.0 (2024-11-06)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.166.0 (2024-10-30)
+------------------
+
+* Feature - This release supports service deployments and service revisions which provide a comprehensive view of your Amazon ECS service history.
+
+1.165.0 (2024-10-24)
+------------------
+
+* Feature - This release adds support for EBS volumes attached to Amazon ECS Windows tasks running on EC2 instances.
+
+1.164.0 (2024-10-18)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.163.0 (2024-10-17)
+------------------
+
+* Feature - This is an Amazon ECS documentation only update to address tickets.
+
+1.162.0 (2024-10-10)
+------------------
+
+* Feature - This is a documentation only release that updates to documentation to let customers know that Amazon Elastic Inference is no longer available.
+
+1.161.0 (2024-09-24)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.160.0 (2024-09-23)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.159.0 (2024-09-20)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.158.0 (2024-09-17)
+------------------
+
+* Feature - This is a documentation only release to address various tickets.
+
+1.157.0 (2024-09-11)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.156.0 (2024-09-10)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.155.0 (2024-09-03)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.154.0 (2024-08-20)
+------------------
+
+* Feature - Documentation only release to address various tickets
+
+1.153.0 (2024-08-15)
+------------------
+
+* Feature - This release introduces a new ContainerDefinition configuration to support the customer-managed keys for ECS container restart feature.
+
+1.152.0 (2024-08-02)
+------------------
+
+* Feature - Add v2 smoke tests and smithy smokeTests trait for SDK testing.
+
+1.151.0 (2024-07-02)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.150.0 (2024-06-25)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.149.0 (2024-06-24)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.148.0 (2024-06-05)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.147.0 (2024-05-13)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.146.0 (2024-04-25)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.145.0 (2024-04-02)
+------------------
+
+* Feature - Documentation only update for Amazon ECS.
+
+1.144.0 (2024-03-26)
+------------------
+
+* Feature - This is a documentation update for Amazon ECS.
+
+1.143.0 (2024-03-25)
+------------------
+
+* Feature - Documentation only update for Amazon ECS.
+
+1.142.0 (2024-02-09)
+------------------
+
+* Feature - Documentation only update for Amazon ECS.
+
+1.141.0 (2024-02-06)
+------------------
+
+* Feature - This release is a documentation only update to address customer issues.
+
+1.140.0 (2024-01-26)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.139.0 (2024-01-24)
+------------------
+
+* Feature - Documentation updates for Amazon ECS.
+
+1.138.0 (2024-01-22)
+------------------
+
+* Feature - This release adds support for Transport Layer Security (TLS) and Configurable Timeout to ECS Service Connect. TLS facilitates privacy and data security for inter-service communications, while Configurable Timeout allows customized per-request timeout and idle timeout for Service Connect services.
+
+1.137.0 (2024-01-11)
+------------------
+
+* Feature - This release adds support for adding an ElasticBlockStorage volume configurations in ECS RunTask/StartTask/CreateService/UpdateService APIs. The configuration allows for attaching EBS volumes to ECS Tasks.
+
+1.136.0 (2024-01-04)
+------------------
+
+* Feature - This release adds support for managed instance draining which facilitates graceful termination of Amazon ECS instances.
+
+1.135.0 (2023-11-28)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.134.0 (2023-11-27)
+------------------
+
+* Feature - Adds a new 'type' property to the Setting structure. Adds a new AccountSetting - guardDutyActivate for ECS.
+
+1.133.0 (2023-11-22)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.132.0 (2023-11-13)
+------------------
+
+* Feature - Adds a Client Token parameter to the ECS RunTask API. The Client Token parameter allows for idempotent RunTask requests.
+
+1.131.0 (2023-10-17)
+------------------
+
+* Feature - Documentation only updates to address Amazon ECS tickets.
+
+1.130.0 (2023-09-27)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.129.0 (2023-09-05)
+------------------
+
+* Feature - Documentation only update for Amazon ECS.
+
+1.128.0 (2023-08-31)
+------------------
+
+* Feature - This release adds support for an account-level setting that you can use to configure the number of days for AWS Fargate task retirement.
+
+1.127.0 (2023-08-04)
+------------------
+
+* Feature - This is a documentation update to address various tickets.
+
+1.126.0 (2023-07-11)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.125.0 (2023-07-06)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.124.0 (2023-06-30)
+------------------
+
+* Feature - Added new field  "credentialspecs" to the ecs task definition to support gMSA of windows/linux in both domainless and domain-joined mode
+
+1.123.0 (2023-06-28)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.122.0 (2023-06-19)
+------------------
+
+* Feature - Documentation only update to address various tickets.
+
+1.121.0 (2023-06-15)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.120.0 (2023-05-31)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.119.0 (2023-05-18)
+------------------
+
+* Feature - Documentation only release to address various tickets.
+
+1.118.0 (2023-05-04)
+------------------
+
+* Feature - Documentation update for new error type NamespaceNotFoundException for CreateCluster and UpdateCluster
+
+1.117.0 (2023-05-02)
+------------------
+
+* Feature - Documentation only update to address Amazon ECS tickets.
+
+1.116.0 (2023-04-21)
+------------------
+
+* Feature - Documentation update to address various Amazon ECS tickets.
+
+1.115.0 (2023-04-19)
+------------------
+
+* Feature - This release supports the Account Setting "TagResourceAuthorization" that allows for enhanced Tagging security controls.
+
+1.114.0 (2023-04-14)
+------------------
+
+* Feature - This release supports  ephemeral storage for AWS Fargate Windows containers.
+
+1.113.0 (2023-04-10)
+------------------
+
+* Feature - This release adds support for enabling FIPS compliance on Amazon ECS Fargate tasks
+
+1.112.0 (2023-04-05)
+------------------
+
+* Feature - This is a document only updated to add information about Amazon Elastic Inference (EI).
+
+1.111.0 (2023-02-23)
+------------------
+
+* Feature - This release supports deleting Amazon ECS task definitions that are in the INACTIVE state.
+
 1.110.0 (2023-01-18)
 ------------------
 

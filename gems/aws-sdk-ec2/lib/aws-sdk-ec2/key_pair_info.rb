@@ -41,33 +41,6 @@ module Aws::EC2
       data[:key_pair_id]
     end
 
-    # If you used CreateKeyPair to create the key pair:
-    #
-    # * For RSA key pairs, the key fingerprint is the SHA-1 digest of the
-    #   DER encoded private key.
-    #
-    # * For ED25519 key pairs, the key fingerprint is the base64-encoded
-    #   SHA-256 digest, which is the default for OpenSSH, starting with
-    #   [OpenSSH 6.8][1].
-    #
-    # If you used ImportKeyPair to provide Amazon Web Services the public
-    # key:
-    #
-    # * For RSA key pairs, the key fingerprint is the MD5 public key
-    #   fingerprint as specified in section 4 of RFC4716.
-    #
-    # * For ED25519 key pairs, the key fingerprint is the base64-encoded
-    #   SHA-256 digest, which is the default for OpenSSH, starting with
-    #   [OpenSSH 6.8][1].
-    #
-    #
-    #
-    # [1]: http://www.openssh.com/txt/release-6.8
-    # @return [String]
-    def key_fingerprint
-      data[:key_fingerprint]
-    end
-
     # The type of key pair.
     # @return [String]
     def key_type
@@ -102,6 +75,33 @@ module Aws::EC2
       data[:create_time]
     end
 
+    # If you used CreateKeyPair to create the key pair:
+    #
+    # * For RSA key pairs, the key fingerprint is the SHA-1 digest of the
+    #   DER encoded private key.
+    #
+    # * For ED25519 key pairs, the key fingerprint is the base64-encoded
+    #   SHA-256 digest, which is the default for OpenSSH, starting with
+    #   [OpenSSH 6.8][1].
+    #
+    # If you used ImportKeyPair to provide Amazon Web Services the public
+    # key:
+    #
+    # * For RSA key pairs, the key fingerprint is the MD5 public key
+    #   fingerprint as specified in section 4 of RFC4716.
+    #
+    # * For ED25519 key pairs, the key fingerprint is the base64-encoded
+    #   SHA-256 digest, which is the default for OpenSSH, starting with
+    #   [OpenSSH 6.8][1].
+    #
+    #
+    #
+    # [1]: http://www.openssh.com/txt/release-6.8
+    # @return [String]
+    def key_fingerprint
+      data[:key_fingerprint]
+    end
+
     # @!endgroup
 
     # @return [Client]
@@ -116,7 +116,9 @@ module Aws::EC2
     #
     # @return [self]
     def load
-      resp = @client.describe_key_pairs(key_names: [@name])
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.describe_key_pairs(key_names: [@name])
+      end
       @data = resp.key_pairs[0]
       self
     end
@@ -231,7 +233,9 @@ module Aws::EC2
           :retry
         end
       end
-      Aws::Waiters::Waiter.new(options).wait({})
+      Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        Aws::Waiters::Waiter.new(options).wait({})
+      end
     end
 
     # @!group Actions
@@ -250,10 +254,12 @@ module Aws::EC2
     #   without actually making the request, and provides an error response.
     #   If you have the required permissions, the error response is
     #   `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
-    # @return [EmptyStructure]
+    # @return [Types::DeleteKeyPairResult]
     def delete(options = {})
       options = options.merge(key_name: @name)
-      resp = @client.delete_key_pair(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.delete_key_pair(options)
+      end
       resp.data
     end
 

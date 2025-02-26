@@ -14,34 +14,48 @@ module Aws::PrometheusService
       option(
         :endpoint_provider,
         doc_type: 'Aws::PrometheusService::EndpointProvider',
-        docstring: 'The endpoint provider used to resolve endpoints. Any '\
-                   'object that responds to `#resolve_endpoint(parameters)` '\
-                   'where `parameters` is a Struct similar to '\
-                   '`Aws::PrometheusService::EndpointParameters`'
-      ) do |cfg|
+        rbs_type: 'untyped',
+        docstring: <<~DOCS) do |_cfg|
+The endpoint provider used to resolve endpoints. Any object that responds to
+`#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+`Aws::PrometheusService::EndpointParameters`.
+        DOCS
         Aws::PrometheusService::EndpointProvider.new
       end
 
       # @api private
       class Handler < Seahorse::Client::Handler
         def call(context)
-          # If endpoint was discovered, do not resolve or apply the endpoint.
           unless context[:discovered_endpoint]
-            params = parameters_for_operation(context)
+            params = Aws::PrometheusService::Endpoints.parameters_for_operation(context)
             endpoint = context.config.endpoint_provider.resolve_endpoint(params)
 
             context.http_request.endpoint = endpoint.url
             apply_endpoint_headers(context, endpoint.headers)
+
+            context[:endpoint_params] = params
+            context[:endpoint_properties] = endpoint.properties
           end
 
-          context[:endpoint_params] = params
           context[:auth_scheme] =
             Aws::Endpoints.resolve_auth_scheme(context, endpoint)
 
-          @handler.call(context)
+          with_metrics(context) { @handler.call(context) }
         end
 
         private
+
+        def with_metrics(context, &block)
+          metrics = []
+          metrics << 'ENDPOINT_OVERRIDE' unless context.config.regional_endpoint
+          if context[:auth_scheme] && context[:auth_scheme]['name'] == 'sigv4a'
+            metrics << 'SIGV4A_SIGNING'
+          end
+          if context.config.credentials&.credentials&.account_id
+            metrics << 'RESOLVED_ACCOUNT_ID'
+          end
+          Aws::Plugins::UserAgent.metric(*metrics, &block)
+        end
 
         def apply_endpoint_headers(context, headers)
           headers.each do |key, values|
@@ -51,53 +65,6 @@ module Aws::PrometheusService
               .join(',')
 
             context.http_request.headers[key] = value
-          end
-        end
-
-        def parameters_for_operation(context)
-          case context.operation_name
-          when :create_alert_manager_definition
-            Aws::PrometheusService::Endpoints::CreateAlertManagerDefinition.build(context)
-          when :create_logging_configuration
-            Aws::PrometheusService::Endpoints::CreateLoggingConfiguration.build(context)
-          when :create_rule_groups_namespace
-            Aws::PrometheusService::Endpoints::CreateRuleGroupsNamespace.build(context)
-          when :create_workspace
-            Aws::PrometheusService::Endpoints::CreateWorkspace.build(context)
-          when :delete_alert_manager_definition
-            Aws::PrometheusService::Endpoints::DeleteAlertManagerDefinition.build(context)
-          when :delete_logging_configuration
-            Aws::PrometheusService::Endpoints::DeleteLoggingConfiguration.build(context)
-          when :delete_rule_groups_namespace
-            Aws::PrometheusService::Endpoints::DeleteRuleGroupsNamespace.build(context)
-          when :delete_workspace
-            Aws::PrometheusService::Endpoints::DeleteWorkspace.build(context)
-          when :describe_alert_manager_definition
-            Aws::PrometheusService::Endpoints::DescribeAlertManagerDefinition.build(context)
-          when :describe_logging_configuration
-            Aws::PrometheusService::Endpoints::DescribeLoggingConfiguration.build(context)
-          when :describe_rule_groups_namespace
-            Aws::PrometheusService::Endpoints::DescribeRuleGroupsNamespace.build(context)
-          when :describe_workspace
-            Aws::PrometheusService::Endpoints::DescribeWorkspace.build(context)
-          when :list_rule_groups_namespaces
-            Aws::PrometheusService::Endpoints::ListRuleGroupsNamespaces.build(context)
-          when :list_tags_for_resource
-            Aws::PrometheusService::Endpoints::ListTagsForResource.build(context)
-          when :list_workspaces
-            Aws::PrometheusService::Endpoints::ListWorkspaces.build(context)
-          when :put_alert_manager_definition
-            Aws::PrometheusService::Endpoints::PutAlertManagerDefinition.build(context)
-          when :put_rule_groups_namespace
-            Aws::PrometheusService::Endpoints::PutRuleGroupsNamespace.build(context)
-          when :tag_resource
-            Aws::PrometheusService::Endpoints::TagResource.build(context)
-          when :untag_resource
-            Aws::PrometheusService::Endpoints::UntagResource.build(context)
-          when :update_logging_configuration
-            Aws::PrometheusService::Endpoints::UpdateLoggingConfiguration.build(context)
-          when :update_workspace_alias
-            Aws::PrometheusService::Endpoints::UpdateWorkspaceAlias.build(context)
           end
         end
       end

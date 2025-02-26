@@ -7,6 +7,7 @@
 #
 # WARNING ABOUT GENERATED CODE
 
+
 module Aws::CloudSearchDomain
   # @api private
   module ClientApi
@@ -198,10 +199,13 @@ module Aws::CloudSearchDomain
 
       api.metadata = {
         "apiVersion" => "2013-01-01",
+        "auth" => ["aws.auth#sigv4"],
         "endpointPrefix" => "cloudsearchdomain",
         "jsonVersion" => "1.1",
         "protocol" => "rest-json",
+        "protocols" => ["rest-json"],
         "serviceFullName" => "Amazon CloudSearch Domain",
+        "serviceId" => "CloudSearch Domain",
         "signatureVersion" => "v4",
         "signingName" => "cloudsearch",
         "uid" => "cloudsearchdomain-2013-01-01",

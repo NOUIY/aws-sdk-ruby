@@ -12,7 +12,7 @@ module Aws
     class ServiceError < RuntimeError
 
       # @param [Seahorse::Client::RequestContext] context
-      # @param [String] message
+      # @param [String, nil] message
       # @param [Aws::Structure] data
       def initialize(context, message, data = Aws::EmptyStructure.new)
         @code = self.class.code
@@ -30,11 +30,11 @@ module Aws
       attr_reader :context
 
       # @return [Aws::Structure]
-      attr_reader :data
+      attr_accessor :data
 
       class << self
 
-        # @return [String]
+        # @return [String, nil]
         attr_accessor :code
 
       end
@@ -232,6 +232,15 @@ module Aws
       def initialize(*args)
         msg = 'No region was provided. Configure the `:region` option or '\
           "export the region name to ENV['AWS_REGION']"
+        super(msg)
+      end
+    end
+
+    # Raised when a client is constructed and the sigv4a region set is invalid.
+    # It is invalid when it is empty and/or contains empty strings.
+    class InvalidRegionSetError < ArgumentError
+      def initialize(*args)
+        msg = 'The provided sigv4a region set was empty or invalid.'
         super(msg)
       end
     end

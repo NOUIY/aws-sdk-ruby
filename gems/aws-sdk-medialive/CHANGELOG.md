@@ -1,6 +1,256 @@
 Unreleased Changes
 ------------------
 
+1.146.0 (2025-02-18)
+------------------
+
+* Feature - Adds support for creating CloudWatchAlarmTemplates for AWS Elemental MediaTailor Playback Configuration resources.
+
+1.145.0 (2025-02-12)
+------------------
+
+* Feature - Adds a RequestId parameter to all MediaLive Workflow Monitor create operations.  The RequestId parameter allows idempotent operations.
+
+1.144.0 (2025-02-06)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.143.0 (2025-01-22)
+------------------
+
+* Feature - AWS Elemental MediaLive adds a new feature, ID3 segment tagging, in CMAF Ingest output groups. It allows customers to insert ID3 tags into every output segment, controlled by a newly added channel schedule action Id3SegmentTagging.
+
+1.142.0 (2025-01-15)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.141.0 (2024-12-19)
+------------------
+
+* Feature - MediaLive is releasing ListVersions api
+
+1.140.0 (2024-12-16)
+------------------
+
+* Feature - AWS Elemental MediaLive adds three new features: MediaPackage v2 endpoint support for live stream delivery, KLV metadata passthrough in CMAF Ingest output groups, and Metadata Name Modifier in CMAF Ingest output groups for customizing metadata track names in output streams.
+
+1.139.0 (2024-12-09)
+------------------
+
+* Feature - H265 outputs now support disabling the deblocking filter.
+
+1.138.0 (2024-11-06)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.137.0 (2024-10-18)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.136.0 (2024-09-24)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.135.0 (2024-09-23)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.134.0 (2024-09-20)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.133.0 (2024-09-19)
+------------------
+
+* Feature - Adds Bandwidth Reduction Filtering for HD AVC and HEVC encodes, multiplex container settings.
+
+1.132.0 (2024-09-16)
+------------------
+
+* Feature - Removing the ON_PREMISE enum from the input settings field.
+
+1.131.0 (2024-09-11)
+------------------
+
+* Feature - Adds AV1 Codec support, SRT ouputs, and MediaLive Anywhere support.
+
+1.130.0 (2024-09-10)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.129.0 (2024-09-03)
+------------------
+
+* Feature - Added MinQP as a Rate Control option for H264 and H265 encodes.
+
+1.128.0 (2024-08-12)
+------------------
+
+* Feature - AWS Elemental MediaLive now supports now supports editing the PID values for a Multiplex.
+
+1.127.0 (2024-07-18)
+------------------
+
+* Feature - AWS Elemental MediaLive now supports the SRT protocol via the new SRT Caller input type.
+
+1.126.0 (2024-07-02)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.125.0 (2024-06-25)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.124.0 (2024-06-24)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.123.0 (2024-06-05)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.122.0 (2024-05-13)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.121.0 (2024-05-06)
+------------------
+
+* Feature - AWS Elemental MediaLive now supports configuring how SCTE 35 passthrough triggers segment breaks in HLS and MediaPackage output groups. Previously, messages triggered breaks in all these output groups. The new option is to trigger segment breaks only in groups that have SCTE 35 passthrough enabled.
+
+1.120.0 (2024-04-25)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.119.0 (2024-04-11)
+------------------
+
+* Feature - AWS Elemental MediaLive introduces workflow monitor, a new feature that enables the visualization and monitoring of your media workflows. Create signal maps of your existing workflows and monitor them by creating notification and monitoring template groups.
+
+1.118.0 (2024-04-03)
+------------------
+
+* Feature - Cmaf Ingest outputs are now supported in Media Live
+
+1.117.0 (2024-03-25)
+------------------
+
+* Feature - Exposing TileMedia H265 options
+
+1.116.0 (2024-02-21)
+------------------
+
+* Feature - MediaLive now supports the ability to restart pipelines in a running channel.
+
+1.115.0 (2024-01-26)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.114.0 (2023-12-21)
+------------------
+
+* Feature - MediaLive now supports the ability to configure the audio that an AWS Elemental Link UHD device produces, when the device is configured as the source for a flow in AWS Elemental MediaConnect.
+
+1.113.0 (2023-12-04)
+------------------
+
+* Feature - Adds support for custom color correction on channels using 3D LUT files.
+
+1.112.0 (2023-11-28)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.111.0 (2023-11-22)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.110.0 (2023-11-17)
+------------------
+
+* Feature - MediaLive has now added support for per-output static image overlay.
+
+1.109.0 (2023-09-27)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.108.0 (2023-09-11)
+------------------
+
+* Feature - AWS Elemental Link now supports attaching a Link UHD device to a MediaConnect flow.
+
+1.107.0 (2023-09-06)
+------------------
+
+* Feature - Adds advanced Output Locking options for Epoch Locking: Custom Epoch and Jam Sync Time
+
+1.106.0 (2023-08-24)
+------------------
+
+* Feature - MediaLive now supports passthrough of KLV data to a HLS output group with a TS container. MediaLive now supports setting an attenuation mode for AC3 audio when the coding mode is 3/2 LFE. MediaLive now supports specifying whether to include filler NAL units in RTMP output group settings.
+
+1.105.0 (2023-08-01)
+------------------
+
+* Feature - AWS Elemental Link devices now report their Availability Zone. Link devices now support the ability to change their Availability Zone.
+
+1.104.0 (2023-07-11)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.103.0 (2023-07-07)
+------------------
+
+* Feature - This release enables the use of Thumbnails in AWS Elemental MediaLive.
+
+1.102.0 (2023-07-06)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.101.0 (2023-06-28)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.100.0 (2023-06-15)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.99.0 (2023-05-31)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.98.0 (2023-03-27)
+------------------
+
+* Feature - AWS Elemental MediaLive now supports ID3 tag insertion for audio only HLS output groups. AWS Elemental Link devices now support tagging.
+
+1.97.0 (2023-03-03)
+------------------
+
+* Feature - AWS Elemental MediaLive adds support for Nielsen watermark timezones.
+
 1.96.0 (2023-01-19)
 ------------------
 

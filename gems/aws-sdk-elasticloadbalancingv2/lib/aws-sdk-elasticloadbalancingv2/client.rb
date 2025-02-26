@@ -7,33 +7,34 @@
 #
 # WARNING ABOUT GENERATED CODE
 
-require 'seahorse/client/plugins/content_length.rb'
-require 'aws-sdk-core/plugins/credentials_configuration.rb'
-require 'aws-sdk-core/plugins/logging.rb'
-require 'aws-sdk-core/plugins/param_converter.rb'
-require 'aws-sdk-core/plugins/param_validator.rb'
-require 'aws-sdk-core/plugins/user_agent.rb'
-require 'aws-sdk-core/plugins/helpful_socket_errors.rb'
-require 'aws-sdk-core/plugins/retry_errors.rb'
-require 'aws-sdk-core/plugins/global_configuration.rb'
-require 'aws-sdk-core/plugins/regional_endpoint.rb'
-require 'aws-sdk-core/plugins/endpoint_discovery.rb'
-require 'aws-sdk-core/plugins/endpoint_pattern.rb'
-require 'aws-sdk-core/plugins/response_paging.rb'
-require 'aws-sdk-core/plugins/stub_responses.rb'
-require 'aws-sdk-core/plugins/idempotency_token.rb'
-require 'aws-sdk-core/plugins/jsonvalue_converter.rb'
-require 'aws-sdk-core/plugins/client_metrics_plugin.rb'
-require 'aws-sdk-core/plugins/client_metrics_send_plugin.rb'
-require 'aws-sdk-core/plugins/transfer_encoding.rb'
-require 'aws-sdk-core/plugins/http_checksum.rb'
-require 'aws-sdk-core/plugins/checksum_algorithm.rb'
-require 'aws-sdk-core/plugins/defaults_mode.rb'
-require 'aws-sdk-core/plugins/recursion_detection.rb'
-require 'aws-sdk-core/plugins/sign.rb'
-require 'aws-sdk-core/plugins/protocols/query.rb'
-
-Aws::Plugins::GlobalConfiguration.add_identifier(:elasticloadbalancingv2)
+require 'seahorse/client/plugins/content_length'
+require 'aws-sdk-core/plugins/credentials_configuration'
+require 'aws-sdk-core/plugins/logging'
+require 'aws-sdk-core/plugins/param_converter'
+require 'aws-sdk-core/plugins/param_validator'
+require 'aws-sdk-core/plugins/user_agent'
+require 'aws-sdk-core/plugins/helpful_socket_errors'
+require 'aws-sdk-core/plugins/retry_errors'
+require 'aws-sdk-core/plugins/global_configuration'
+require 'aws-sdk-core/plugins/regional_endpoint'
+require 'aws-sdk-core/plugins/endpoint_discovery'
+require 'aws-sdk-core/plugins/endpoint_pattern'
+require 'aws-sdk-core/plugins/response_paging'
+require 'aws-sdk-core/plugins/stub_responses'
+require 'aws-sdk-core/plugins/idempotency_token'
+require 'aws-sdk-core/plugins/invocation_id'
+require 'aws-sdk-core/plugins/jsonvalue_converter'
+require 'aws-sdk-core/plugins/client_metrics_plugin'
+require 'aws-sdk-core/plugins/client_metrics_send_plugin'
+require 'aws-sdk-core/plugins/transfer_encoding'
+require 'aws-sdk-core/plugins/http_checksum'
+require 'aws-sdk-core/plugins/checksum_algorithm'
+require 'aws-sdk-core/plugins/request_compression'
+require 'aws-sdk-core/plugins/defaults_mode'
+require 'aws-sdk-core/plugins/recursion_detection'
+require 'aws-sdk-core/plugins/telemetry'
+require 'aws-sdk-core/plugins/sign'
+require 'aws-sdk-core/plugins/protocols/query'
 
 module Aws::ElasticLoadBalancingV2
   # An API client for ElasticLoadBalancingV2.  To construct a client, you need to configure a `:region` and `:credentials`.
@@ -71,20 +72,28 @@ module Aws::ElasticLoadBalancingV2
     add_plugin(Aws::Plugins::ResponsePaging)
     add_plugin(Aws::Plugins::StubResponses)
     add_plugin(Aws::Plugins::IdempotencyToken)
+    add_plugin(Aws::Plugins::InvocationId)
     add_plugin(Aws::Plugins::JsonvalueConverter)
     add_plugin(Aws::Plugins::ClientMetricsPlugin)
     add_plugin(Aws::Plugins::ClientMetricsSendPlugin)
     add_plugin(Aws::Plugins::TransferEncoding)
     add_plugin(Aws::Plugins::HttpChecksum)
     add_plugin(Aws::Plugins::ChecksumAlgorithm)
+    add_plugin(Aws::Plugins::RequestCompression)
     add_plugin(Aws::Plugins::DefaultsMode)
     add_plugin(Aws::Plugins::RecursionDetection)
+    add_plugin(Aws::Plugins::Telemetry)
     add_plugin(Aws::Plugins::Sign)
     add_plugin(Aws::Plugins::Protocols::Query)
     add_plugin(Aws::ElasticLoadBalancingV2::Plugins::Endpoints)
 
     # @overload initialize(options)
     #   @param [Hash] options
+    #
+    #   @option options [Array<Seahorse::Client::Plugin>] :plugins ([]])
+    #     A list of plugins to apply to the client. Each plugin is either a
+    #     class name or an instance of a plugin class.
+    #
     #   @option options [required, Aws::CredentialProvider] :credentials
     #     Your AWS credentials. This can be an instance of any one of the
     #     following classes:
@@ -119,13 +128,15 @@ module Aws::ElasticLoadBalancingV2
     #     locations will be searched for credentials:
     #
     #     * `Aws.config[:credentials]`
-    #     * The `:access_key_id`, `:secret_access_key`, and `:session_token` options.
-    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']
+    #     * The `:access_key_id`, `:secret_access_key`, `:session_token`, and
+    #       `:account_id` options.
+    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'],
+    #       ENV['AWS_SESSION_TOKEN'], and ENV['AWS_ACCOUNT_ID']
     #     * `~/.aws/credentials`
     #     * `~/.aws/config`
     #     * EC2/ECS IMDS instance profile - When used by default, the timeouts
     #       are very aggressive. Construct and pass an instance of
-    #       `Aws::InstanceProfileCredentails` or `Aws::ECSCredentials` to
+    #       `Aws::InstanceProfileCredentials` or `Aws::ECSCredentials` to
     #       enable retries and extended timeouts. Instance profile credential
     #       fetching can be disabled by setting ENV['AWS_EC2_METADATA_DISABLED']
     #       to true.
@@ -143,6 +154,8 @@ module Aws::ElasticLoadBalancingV2
     #     * `~/.aws/config`
     #
     #   @option options [String] :access_key_id
+    #
+    #   @option options [String] :account_id
     #
     #   @option options [Boolean] :active_endpoint_cache (false)
     #     When set to `true`, a thread polling for endpoints will be running in
@@ -190,10 +203,20 @@ module Aws::ElasticLoadBalancingV2
     #     Set to true to disable SDK automatically adding host prefix
     #     to default service endpoint when available.
     #
-    #   @option options [String] :endpoint
-    #     The client endpoint is normally constructed from the `:region`
-    #     option. You should only configure an `:endpoint` when connecting
-    #     to test or custom endpoints. This should be a valid HTTP(S) URI.
+    #   @option options [Boolean] :disable_request_compression (false)
+    #     When set to 'true' the request body will not be compressed
+    #     for supported operations.
+    #
+    #   @option options [String, URI::HTTPS, URI::HTTP] :endpoint
+    #     Normally you should not configure the `:endpoint` option
+    #     directly. This is normally constructed from the `:region`
+    #     option. Configuring `:endpoint` is normally reserved for
+    #     connecting to test or custom endpoints. The endpoint should
+    #     be a URI formatted like:
+    #
+    #         'http://example.com'
+    #         'https://example.com'
+    #         'http://example.com:123'
     #
     #   @option options [Integer] :endpoint_cache_max_entries (1000)
     #     Used for the maximum size limit of the LRU cache storing endpoints data
@@ -209,6 +232,10 @@ module Aws::ElasticLoadBalancingV2
     #
     #   @option options [Boolean] :endpoint_discovery (false)
     #     When set to `true`, endpoint discovery will be enabled for operations when available.
+    #
+    #   @option options [Boolean] :ignore_configured_endpoint_urls
+    #     Setting to true disables use of endpoint URLs provided via environment
+    #     variables and the shared configuration file.
     #
     #   @option options [Aws::Log::Formatter] :log_formatter (Aws::Log::Formatter.default)
     #     The log formatter.
@@ -229,6 +256,34 @@ module Aws::ElasticLoadBalancingV2
     #   @option options [String] :profile ("default")
     #     Used when loading credentials from the shared credentials file
     #     at HOME/.aws/credentials.  When not specified, 'default' is used.
+    #
+    #   @option options [String] :request_checksum_calculation ("when_supported")
+    #     Determines when a checksum will be calculated for request payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, a checksum will be
+    #       calculated for all request payloads of operations modeled with the
+    #       `httpChecksum` trait where `requestChecksumRequired` is `true` and/or a
+    #       `requestAlgorithmMember` is modeled.
+    #     * `when_required` - When set, a checksum will only be calculated for
+    #       request payloads of operations modeled with the  `httpChecksum` trait where
+    #       `requestChecksumRequired` is `true` or where a `requestAlgorithmMember`
+    #       is modeled and supplied.
+    #
+    #   @option options [Integer] :request_min_compression_size_bytes (10240)
+    #     The minimum size in bytes that triggers compression for request
+    #     bodies. The value must be non-negative integer value between 0
+    #     and 10485780 bytes inclusive.
+    #
+    #   @option options [String] :response_checksum_validation ("when_supported")
+    #     Determines when checksum validation will be performed on response payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, checksum validation is performed on all
+    #       response payloads of operations modeled with the `httpChecksum` trait where
+    #       `responseAlgorithms` is modeled, except when no modeled checksum algorithms
+    #       are supported.
+    #     * `when_required` - When set, checksum validation is not performed on
+    #       response payloads of operations unless the checksum algorithm is supported and
+    #       the `requestValidationModeMember` member is set to `ENABLED`.
     #
     #   @option options [Proc] :retry_backoff
     #     A proc or lambda used for backoff. Defaults to 2**retries * retry_base_delay.
@@ -274,10 +329,24 @@ module Aws::ElasticLoadBalancingV2
     #       throttling.  This is a provisional mode that may change behavior
     #       in the future.
     #
+    #   @option options [String] :sdk_ua_app_id
+    #     A unique and opaque application ID that is appended to the
+    #     User-Agent header as app/sdk_ua_app_id. It should have a
+    #     maximum length of 50. This variable is sourced from environment
+    #     variable AWS_SDK_UA_APP_ID or the shared config profile attribute sdk_ua_app_id.
     #
     #   @option options [String] :secret_access_key
     #
     #   @option options [String] :session_token
+    #
+    #   @option options [Array] :sigv4a_signing_region_set
+    #     A list of regions that should be signed with SigV4a signing. When
+    #     not passed, a default `:sigv4a_signing_region_set` is searched for
+    #     in the following locations:
+    #
+    #     * `Aws.config[:sigv4a_signing_region_set]`
+    #     * `ENV['AWS_SIGV4A_SIGNING_REGION_SET']`
+    #     * `~/.aws/config`
     #
     #   @option options [Boolean] :stub_responses (false)
     #     Causes the client to return stubbed responses. By default
@@ -287,6 +356,16 @@ module Aws::ElasticLoadBalancingV2
     #
     #     ** Please note ** When response stubbing is enabled, no HTTP
     #     requests are made, and retries are disabled.
+    #
+    #   @option options [Aws::Telemetry::TelemetryProviderBase] :telemetry_provider (Aws::Telemetry::NoOpTelemetryProvider)
+    #     Allows you to provide a telemetry provider, which is used to
+    #     emit telemetry data. By default, uses `NoOpTelemetryProvider` which
+    #     will not record or emit any telemetry data. The SDK supports the
+    #     following telemetry providers:
+    #
+    #     * OpenTelemetry (OTel) - To use the OTel provider, install and require the
+    #     `opentelemetry-sdk` gem and then, pass in an instance of a
+    #     `Aws::Telemetry::OTelProvider` for telemetry provider.
     #
     #   @option options [Aws::TokenProvider] :token_provider
     #     A Bearer Token Provider. This can be an instance of any one of the
@@ -315,52 +394,75 @@ module Aws::ElasticLoadBalancingV2
     #     sending the request.
     #
     #   @option options [Aws::ElasticLoadBalancingV2::EndpointProvider] :endpoint_provider
-    #     The endpoint provider used to resolve endpoints. Any object that responds to `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to `Aws::ElasticLoadBalancingV2::EndpointParameters`
+    #     The endpoint provider used to resolve endpoints. Any object that responds to
+    #     `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+    #     `Aws::ElasticLoadBalancingV2::EndpointParameters`.
     #
-    #   @option options [URI::HTTP,String] :http_proxy A proxy to send
-    #     requests through.  Formatted like 'http://proxy.com:123'.
+    #   @option options [Float] :http_continue_timeout (1)
+    #     The number of seconds to wait for a 100-continue response before sending the
+    #     request body.  This option has no effect unless the request has "Expect"
+    #     header set to "100-continue".  Defaults to `nil` which  disables this
+    #     behaviour.  This value can safely be set per request on the session.
     #
-    #   @option options [Float] :http_open_timeout (15) The number of
-    #     seconds to wait when opening a HTTP session before raising a
-    #     `Timeout::Error`.
+    #   @option options [Float] :http_idle_timeout (5)
+    #     The number of seconds a connection is allowed to sit idle before it
+    #     is considered stale.  Stale connections are closed and removed from the
+    #     pool before making a request.
     #
-    #   @option options [Float] :http_read_timeout (60) The default
-    #     number of seconds to wait for response data.  This value can
-    #     safely be set per-request on the session.
+    #   @option options [Float] :http_open_timeout (15)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :http_idle_timeout (5) The number of
-    #     seconds a connection is allowed to sit idle before it is
-    #     considered stale.  Stale connections are closed and removed
-    #     from the pool before making a request.
+    #   @option options [URI::HTTP,String] :http_proxy
+    #     A proxy to send requests through.  Formatted like 'http://proxy.com:123'.
     #
-    #   @option options [Float] :http_continue_timeout (1) The number of
-    #     seconds to wait for a 100-continue response before sending the
-    #     request body.  This option has no effect unless the request has
-    #     "Expect" header set to "100-continue".  Defaults to `nil` which
-    #     disables this behaviour.  This value can safely be set per
-    #     request on the session.
+    #   @option options [Float] :http_read_timeout (60)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :ssl_timeout (nil) Sets the SSL timeout
-    #     in seconds.
+    #   @option options [Boolean] :http_wire_trace (false)
+    #     When `true`,  HTTP debug output will be sent to the `:logger`.
     #
-    #   @option options [Boolean] :http_wire_trace (false) When `true`,
-    #     HTTP debug output will be sent to the `:logger`.
+    #   @option options [Proc] :on_chunk_received
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the response body is received. It provides three arguments: the chunk,
+    #     the number of bytes received, and the total number of
+    #     bytes in the response (or nil if the server did not send a `content-length`).
     #
-    #   @option options [Boolean] :ssl_verify_peer (true) When `true`,
-    #     SSL peer certificates are verified when establishing a
-    #     connection.
+    #   @option options [Proc] :on_chunk_sent
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the request body is sent. It provides three arguments: the chunk,
+    #     the number of bytes read from the body, and the total number of
+    #     bytes in the body.
     #
-    #   @option options [String] :ssl_ca_bundle Full path to the SSL
-    #     certificate authority bundle file that should be used when
-    #     verifying peer certificates.  If you do not pass
-    #     `:ssl_ca_bundle` or `:ssl_ca_directory` the the system default
-    #     will be used if available.
+    #   @option options [Boolean] :raise_response_errors (true)
+    #     When `true`, response errors are raised.
     #
-    #   @option options [String] :ssl_ca_directory Full path of the
-    #     directory that contains the unbundled SSL certificate
+    #   @option options [String] :ssl_ca_bundle
+    #     Full path to the SSL certificate authority bundle file that should be used when
+    #     verifying peer certificates.  If you do not pass `:ssl_ca_bundle` or
+    #     `:ssl_ca_directory` the the system default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_directory
+    #     Full path of the directory that contains the unbundled SSL certificate
     #     authority files for verifying peer certificates.  If you do
-    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the
-    #     system default will be used if available.
+    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the system
+    #     default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_store
+    #     Sets the X509::Store to verify peer certificate.
+    #
+    #   @option options [OpenSSL::X509::Certificate] :ssl_cert
+    #     Sets a client certificate when creating http connections.
+    #
+    #   @option options [OpenSSL::PKey] :ssl_key
+    #     Sets a client key when creating http connections.
+    #
+    #   @option options [Float] :ssl_timeout
+    #     Sets the SSL timeout in seconds
+    #
+    #   @option options [Boolean] :ssl_verify_peer (true)
+    #     When `true`, SSL peer certificates are verified when establishing a connection.
     #
     def initialize(*args)
       super
@@ -423,8 +525,8 @@ module Aws::ElasticLoadBalancingV2
 
     # Adds the specified tags to the specified Elastic Load Balancing
     # resource. You can tag your Application Load Balancers, Network Load
-    # Balancers, Gateway Load Balancers, target groups, listeners, and
-    # rules.
+    # Balancers, Gateway Load Balancers, target groups, trust stores,
+    # listeners, and rules.
     #
     # Each tag consists of a key and an optional value. If a resource
     # already has a tag with the same key, `AddTags` updates its value.
@@ -479,6 +581,49 @@ module Aws::ElasticLoadBalancingV2
       req.send_request(options)
     end
 
+    # Adds the specified revocation file to the specified trust store.
+    #
+    # @option params [required, String] :trust_store_arn
+    #   The Amazon Resource Name (ARN) of the trust store.
+    #
+    # @option params [Array<Types::RevocationContent>] :revocation_contents
+    #   The revocation file to add.
+    #
+    # @return [Types::AddTrustStoreRevocationsOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::AddTrustStoreRevocationsOutput#trust_store_revocations #trust_store_revocations} => Array&lt;Types::TrustStoreRevocation&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.add_trust_store_revocations({
+    #     trust_store_arn: "TrustStoreArn", # required
+    #     revocation_contents: [
+    #       {
+    #         s3_bucket: "S3Bucket",
+    #         s3_key: "S3Key",
+    #         s3_object_version: "S3ObjectVersion",
+    #         revocation_type: "CRL", # accepts CRL
+    #       },
+    #     ],
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.trust_store_revocations #=> Array
+    #   resp.trust_store_revocations[0].trust_store_arn #=> String
+    #   resp.trust_store_revocations[0].revocation_id #=> Integer
+    #   resp.trust_store_revocations[0].revocation_type #=> String, one of "CRL"
+    #   resp.trust_store_revocations[0].number_of_revoked_entries #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/AddTrustStoreRevocations AWS API Documentation
+    #
+    # @overload add_trust_store_revocations(params = {})
+    # @param [Hash] params ({})
+    def add_trust_store_revocations(params = {}, options = {})
+      req = build_request(:add_trust_store_revocations, params)
+      req.send_request(options)
+    end
+
     # Creates a listener for the specified Application Load Balancer,
     # Network Load Balancer, or Gateway Load Balancer.
     #
@@ -508,11 +653,11 @@ module Aws::ElasticLoadBalancingV2
     #   Application Load Balancers, the supported protocols are HTTP and
     #   HTTPS. For Network Load Balancers, the supported protocols are TCP,
     #   TLS, UDP, and TCP\_UDP. You can’t specify the UDP or TCP\_UDP protocol
-    #   if dual-stack mode is enabled. You cannot specify a protocol for a
+    #   if dual-stack mode is enabled. You can't specify a protocol for a
     #   Gateway Load Balancer.
     #
     # @option params [Integer] :port
-    #   The port on which the load balancer is listening. You cannot specify a
+    #   The port on which the load balancer is listening. You can't specify a
     #   port for a Gateway Load Balancer.
     #
     # @option params [String] :ssl_policy
@@ -560,6 +705,9 @@ module Aws::ElasticLoadBalancingV2
     #
     # @option params [Array<Types::Tag>] :tags
     #   The tags to assign to the listener.
+    #
+    # @option params [Types::MutualAuthenticationAttributes] :mutual_authentication
+    #   The mutual authentication configuration information.
     #
     # @return [Types::CreateListenerOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -730,6 +878,13 @@ module Aws::ElasticLoadBalancingV2
     #         value: "TagValue",
     #       },
     #     ],
+    #     mutual_authentication: {
+    #       mode: "Mode",
+    #       trust_store_arn: "TrustStoreArn",
+    #       ignore_client_certificate_expiry: false,
+    #       trust_store_association_status: "active", # accepts active, removed
+    #       advertise_trust_store_ca_names: "on", # accepts on, off
+    #     },
     #   })
     #
     # @example Response structure
@@ -785,6 +940,11 @@ module Aws::ElasticLoadBalancingV2
     #   resp.listeners[0].default_actions[0].forward_config.target_group_stickiness_config.duration_seconds #=> Integer
     #   resp.listeners[0].alpn_policy #=> Array
     #   resp.listeners[0].alpn_policy[0] #=> String
+    #   resp.listeners[0].mutual_authentication.mode #=> String
+    #   resp.listeners[0].mutual_authentication.trust_store_arn #=> String
+    #   resp.listeners[0].mutual_authentication.ignore_client_certificate_expiry #=> Boolean
+    #   resp.listeners[0].mutual_authentication.trust_store_association_status #=> String, one of "active", "removed"
+    #   resp.listeners[0].mutual_authentication.advertise_trust_store_ca_names #=> String, one of "on", "off"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/CreateListener AWS API Documentation
     #
@@ -825,7 +985,7 @@ module Aws::ElasticLoadBalancingV2
     #   "internal-".
     #
     # @option params [Array<String>] :subnets
-    #   The IDs of the public subnets. You can specify only one subnet per
+    #   The IDs of the subnets. You can specify only one subnet per
     #   Availability Zone. You must specify either subnets or subnet mappings,
     #   but not both. To specify an Elastic IP address, specify subnet
     #   mappings instead of subnets.
@@ -839,19 +999,16 @@ module Aws::ElasticLoadBalancingV2
     #   \[Application Load Balancers on Local Zones\] You can specify subnets
     #   from one or more Local Zones.
     #
-    #   \[Network Load Balancers\] You can specify subnets from one or more
-    #   Availability Zones.
-    #
-    #   \[Gateway Load Balancers\] You can specify subnets from one or more
-    #   Availability Zones.
+    #   \[Network Load Balancers and Gateway Load Balancers\] You can specify
+    #   subnets from one or more Availability Zones.
     #
     # @option params [Array<Types::SubnetMapping>] :subnet_mappings
-    #   The IDs of the public subnets. You can specify only one subnet per
+    #   The IDs of the subnets. You can specify only one subnet per
     #   Availability Zone. You must specify either subnets or subnet mappings,
     #   but not both.
     #
     #   \[Application Load Balancers\] You must specify subnets from at least
-    #   two Availability Zones. You cannot specify Elastic IP addresses for
+    #   two Availability Zones. You can't specify Elastic IP addresses for
     #   your subnets.
     #
     #   \[Application Load Balancers on Outposts\] You must specify one
@@ -869,12 +1026,12 @@ module Aws::ElasticLoadBalancingV2
     #   subnet.
     #
     #   \[Gateway Load Balancers\] You can specify subnets from one or more
-    #   Availability Zones. You cannot specify Elastic IP addresses for your
+    #   Availability Zones. You can't specify Elastic IP addresses for your
     #   subnets.
     #
     # @option params [Array<String>] :security_groups
-    #   \[Application Load Balancers\] The IDs of the security groups for the
-    #   load balancer.
+    #   \[Application Load Balancers and Network Load Balancers\] The IDs of
+    #   the security groups for the load balancer.
     #
     # @option params [String] :scheme
     #   The nodes of an Internet-facing load balancer have public IP
@@ -891,7 +1048,7 @@ module Aws::ElasticLoadBalancingV2
     #
     #   The default is an Internet-facing load balancer.
     #
-    #   You cannot specify a scheme for a Gateway Load Balancer.
+    #   You can't specify a scheme for a Gateway Load Balancer.
     #
     # @option params [Array<Types::Tag>] :tags
     #   The tags to assign to the load balancer.
@@ -900,13 +1057,25 @@ module Aws::ElasticLoadBalancingV2
     #   The type of load balancer. The default is `application`.
     #
     # @option params [String] :ip_address_type
-    #   The type of IP addresses used by the subnets for your load balancer.
-    #   The possible values are `ipv4` (for IPv4 addresses) and `dualstack`
-    #   (for IPv4 and IPv6 addresses).
+    #   The IP address type. Internal load balancers must use `ipv4`.
+    #
+    #   \[Application Load Balancers\] The possible values are `ipv4` (IPv4
+    #   addresses), `dualstack` (IPv4 and IPv6 addresses), and
+    #   `dualstack-without-public-ipv4` (public IPv6 addresses and private
+    #   IPv4 and IPv6 addresses).
+    #
+    #   \[Network Load Balancers and Gateway Load Balancers\] The possible
+    #   values are `ipv4` (IPv4 addresses) and `dualstack` (IPv4 and IPv6
+    #   addresses).
     #
     # @option params [String] :customer_owned_ipv_4_pool
     #   \[Application Load Balancers on Outposts\] The ID of the
     #   customer-owned address pool (CoIP pool).
+    #
+    # @option params [String] :enable_prefix_for_ipv_6_source_nat
+    #   \[Network Load Balancers with UDP listeners\] Indicates whether to use
+    #   an IPv6 prefix from each subnet for source NAT. The IP address type
+    #   must be `dualstack`. The default value is `off`.
     #
     # @return [Types::CreateLoadBalancerOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1015,6 +1184,7 @@ module Aws::ElasticLoadBalancingV2
     #         allocation_id: "AllocationId",
     #         private_i_pv_4_address: "PrivateIPv4Address",
     #         i_pv_6_address: "IPv6Address",
+    #         source_nat_ipv_6_prefix: "SourceNatIpv6Prefix",
     #       },
     #     ],
     #     security_groups: ["SecurityGroupId"],
@@ -1026,8 +1196,9 @@ module Aws::ElasticLoadBalancingV2
     #       },
     #     ],
     #     type: "application", # accepts application, network, gateway
-    #     ip_address_type: "ipv4", # accepts ipv4, dualstack
+    #     ip_address_type: "ipv4", # accepts ipv4, dualstack, dualstack-without-public-ipv4
     #     customer_owned_ipv_4_pool: "CustomerOwnedIpv4Pool",
+    #     enable_prefix_for_ipv_6_source_nat: "on", # accepts on, off
     #   })
     #
     # @example Response structure
@@ -1052,10 +1223,14 @@ module Aws::ElasticLoadBalancingV2
     #   resp.load_balancers[0].availability_zones[0].load_balancer_addresses[0].allocation_id #=> String
     #   resp.load_balancers[0].availability_zones[0].load_balancer_addresses[0].private_i_pv_4_address #=> String
     #   resp.load_balancers[0].availability_zones[0].load_balancer_addresses[0].i_pv_6_address #=> String
+    #   resp.load_balancers[0].availability_zones[0].source_nat_ipv_6_prefixes #=> Array
+    #   resp.load_balancers[0].availability_zones[0].source_nat_ipv_6_prefixes[0] #=> String
     #   resp.load_balancers[0].security_groups #=> Array
     #   resp.load_balancers[0].security_groups[0] #=> String
-    #   resp.load_balancers[0].ip_address_type #=> String, one of "ipv4", "dualstack"
+    #   resp.load_balancers[0].ip_address_type #=> String, one of "ipv4", "dualstack", "dualstack-without-public-ipv4"
     #   resp.load_balancers[0].customer_owned_ipv_4_pool #=> String
+    #   resp.load_balancers[0].enforce_security_group_inbound_rules_on_private_link_traffic #=> String
+    #   resp.load_balancers[0].enable_prefix_for_ipv_6_source_nat #=> String, one of "on", "off"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/CreateLoadBalancer AWS API Documentation
     #
@@ -1399,7 +1574,7 @@ module Aws::ElasticLoadBalancingV2
     #   Indicates whether health checks are enabled. If the target type is
     #   `lambda`, health checks are disabled by default but can be enabled. If
     #   the target type is `instance`, `ip`, or `alb`, health checks are
-    #   always enabled and cannot be disabled.
+    #   always enabled and can't be disabled.
     #
     # @option params [String] :health_check_path
     #   \[HTTP/HTTPS health checks\] The destination for health checks on the
@@ -1469,9 +1644,7 @@ module Aws::ElasticLoadBalancingV2
     #   The tags to assign to the target group.
     #
     # @option params [String] :ip_address_type
-    #   The type of IP address used for this target group. The possible values
-    #   are `ipv4` and `ipv6`. This is an optional parameter. If not
-    #   specified, the IP address type defaults to `ipv4`.
+    #   The IP address type. The default value is `ipv4`.
     #
     # @return [Types::CreateTargetGroupOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1573,6 +1746,64 @@ module Aws::ElasticLoadBalancingV2
     # @param [Hash] params ({})
     def create_target_group(params = {}, options = {})
       req = build_request(:create_target_group, params)
+      req.send_request(options)
+    end
+
+    # Creates a trust store.
+    #
+    # @option params [required, String] :name
+    #   The name of the trust store.
+    #
+    #   This name must be unique per region and can't be changed after
+    #   creation.
+    #
+    # @option params [required, String] :ca_certificates_bundle_s3_bucket
+    #   The Amazon S3 bucket for the ca certificates bundle.
+    #
+    # @option params [required, String] :ca_certificates_bundle_s3_key
+    #   The Amazon S3 path for the ca certificates bundle.
+    #
+    # @option params [String] :ca_certificates_bundle_s3_object_version
+    #   The Amazon S3 object version for the ca certificates bundle. If
+    #   undefined the current version is used.
+    #
+    # @option params [Array<Types::Tag>] :tags
+    #   The tags to assign to the trust store.
+    #
+    # @return [Types::CreateTrustStoreOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateTrustStoreOutput#trust_stores #trust_stores} => Array&lt;Types::TrustStore&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_trust_store({
+    #     name: "TrustStoreName", # required
+    #     ca_certificates_bundle_s3_bucket: "S3Bucket", # required
+    #     ca_certificates_bundle_s3_key: "S3Key", # required
+    #     ca_certificates_bundle_s3_object_version: "S3ObjectVersion",
+    #     tags: [
+    #       {
+    #         key: "TagKey", # required
+    #         value: "TagValue",
+    #       },
+    #     ],
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.trust_stores #=> Array
+    #   resp.trust_stores[0].name #=> String
+    #   resp.trust_stores[0].trust_store_arn #=> String
+    #   resp.trust_stores[0].status #=> String, one of "ACTIVE", "CREATING"
+    #   resp.trust_stores[0].number_of_ca_certificates #=> Integer
+    #   resp.trust_stores[0].total_revoked_entries #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/CreateTrustStore AWS API Documentation
+    #
+    # @overload create_trust_store(params = {})
+    # @param [Hash] params ({})
+    def create_trust_store(params = {}, options = {})
+      req = build_request(:create_trust_store, params)
       req.send_request(options)
     end
 
@@ -1685,6 +1916,42 @@ module Aws::ElasticLoadBalancingV2
       req.send_request(options)
     end
 
+    # Deletes a shared trust store association.
+    #
+    # @option params [required, String] :trust_store_arn
+    #   The Amazon Resource Name (ARN) of the trust store.
+    #
+    # @option params [required, String] :resource_arn
+    #   The Amazon Resource Name (ARN) of the resource.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    #
+    # @example Example: Delete a shared trust store association
+    #
+    #   # This example deletes the association between the specified trust store and the specified load balancer.
+    #
+    #   resp = client.delete_shared_trust_store_association({
+    #     resource_arn: "arn:aws:elasticloadbalancing:us-east-1:123456789012:loadbalancer/app/my-load-balancer/80233fa81d678c2c", 
+    #     trust_store_arn: "arn:aws:elasticloadbalancing:us-east-1:123456789012:truststore/my-trust-store/73e2d6bc24d8a063", 
+    #   })
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_shared_trust_store_association({
+    #     trust_store_arn: "TrustStoreArn", # required
+    #     resource_arn: "ResourceArn", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/DeleteSharedTrustStoreAssociation AWS API Documentation
+    #
+    # @overload delete_shared_trust_store_association(params = {})
+    # @param [Hash] params ({})
+    def delete_shared_trust_store_association(params = {}, options = {})
+      req = build_request(:delete_shared_trust_store_association, params)
+      req.send_request(options)
+    end
+
     # Deletes the specified target group.
     #
     # You can delete a target group if it is not referenced by any actions.
@@ -1722,9 +1989,57 @@ module Aws::ElasticLoadBalancingV2
       req.send_request(options)
     end
 
+    # Deletes a trust store.
+    #
+    # @option params [required, String] :trust_store_arn
+    #   The Amazon Resource Name (ARN) of the trust store.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_trust_store({
+    #     trust_store_arn: "TrustStoreArn", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/DeleteTrustStore AWS API Documentation
+    #
+    # @overload delete_trust_store(params = {})
+    # @param [Hash] params ({})
+    def delete_trust_store(params = {}, options = {})
+      req = build_request(:delete_trust_store, params)
+      req.send_request(options)
+    end
+
     # Deregisters the specified targets from the specified target group.
     # After the targets are deregistered, they no longer receive traffic
     # from the load balancer.
+    #
+    # The load balancer stops sending requests to targets that are
+    # deregistering, but uses connection draining to ensure that in-flight
+    # traffic completes on the existing connections. This deregistration
+    # delay is configured by default but can be updated for each target
+    # group.
+    #
+    # For more information, see the following:
+    #
+    # * [ Deregistration delay][1] in the *Application Load Balancers User
+    #   Guide*
+    #
+    # * [ Deregistration delay][2] in the *Network Load Balancers User
+    #   Guide*
+    #
+    # * [ Deregistration delay][3] in the *Gateway Load Balancers User
+    #   Guide*
+    #
+    # Note: If the specified target does not exist, the action returns
+    # successfully.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-target-groups.html#deregistration-delay
+    # [2]: https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-target-groups.html#deregistration-delay
+    # [3]: https://docs.aws.amazon.com/elasticloadbalancing/latest/gateway/target-groups.html#deregistration-delay
     #
     # @option params [required, String] :target_group_arn
     #   The Amazon Resource Name (ARN) of the target group.
@@ -1824,6 +2139,88 @@ module Aws::ElasticLoadBalancingV2
       req.send_request(options)
     end
 
+    # Describes the capacity reservation status for the specified load
+    # balancer.
+    #
+    # @option params [required, String] :load_balancer_arn
+    #   The Amazon Resource Name (ARN) of the load balancer.
+    #
+    # @return [Types::DescribeCapacityReservationOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeCapacityReservationOutput#last_modified_time #last_modified_time} => Time
+    #   * {Types::DescribeCapacityReservationOutput#decrease_requests_remaining #decrease_requests_remaining} => Integer
+    #   * {Types::DescribeCapacityReservationOutput#minimum_load_balancer_capacity #minimum_load_balancer_capacity} => Types::MinimumLoadBalancerCapacity
+    #   * {Types::DescribeCapacityReservationOutput#capacity_reservation_state #capacity_reservation_state} => Array&lt;Types::ZonalCapacityReservationState&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_capacity_reservation({
+    #     load_balancer_arn: "LoadBalancerArn", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.last_modified_time #=> Time
+    #   resp.decrease_requests_remaining #=> Integer
+    #   resp.minimum_load_balancer_capacity.capacity_units #=> Integer
+    #   resp.capacity_reservation_state #=> Array
+    #   resp.capacity_reservation_state[0].state.code #=> String, one of "provisioned", "pending", "rebalancing", "failed"
+    #   resp.capacity_reservation_state[0].state.reason #=> String
+    #   resp.capacity_reservation_state[0].availability_zone #=> String
+    #   resp.capacity_reservation_state[0].effective_capacity_units #=> Float
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/DescribeCapacityReservation AWS API Documentation
+    #
+    # @overload describe_capacity_reservation(params = {})
+    # @param [Hash] params ({})
+    def describe_capacity_reservation(params = {}, options = {})
+      req = build_request(:describe_capacity_reservation, params)
+      req.send_request(options)
+    end
+
+    # Describes the attributes for the specified listener.
+    #
+    # @option params [required, String] :listener_arn
+    #   The Amazon Resource Name (ARN) of the listener.
+    #
+    # @return [Types::DescribeListenerAttributesOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeListenerAttributesOutput#attributes #attributes} => Array&lt;Types::ListenerAttribute&gt;
+    #
+    #
+    # @example Example: Describe listener attributes
+    #
+    #   # This example describes the attributes of the specified listener.
+    #
+    #   resp = client.describe_listener_attributes({
+    #     listener_arn: "aws:elasticloadbalancing:us-east-1:123456789012:listener/net/my-listener/73e2d6bc24d8a067/d5dc06411fa5bcea", 
+    #   })
+    #
+    #   resp.to_h outputs the following:
+    #   {
+    #   }
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_listener_attributes({
+    #     listener_arn: "ListenerArn", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.attributes #=> Array
+    #   resp.attributes[0].key #=> String
+    #   resp.attributes[0].value #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/DescribeListenerAttributes AWS API Documentation
+    #
+    # @overload describe_listener_attributes(params = {})
+    # @param [Hash] params ({})
+    def describe_listener_attributes(params = {}, options = {})
+      req = build_request(:describe_listener_attributes, params)
+      req.send_request(options)
+    end
+
     # Describes the default certificate and the certificate list for the
     # specified HTTPS or TLS listener.
     #
@@ -1854,6 +2251,8 @@ module Aws::ElasticLoadBalancingV2
     #
     #   * {Types::DescribeListenerCertificatesOutput#certificates #certificates} => Array&lt;Types::Certificate&gt;
     #   * {Types::DescribeListenerCertificatesOutput#next_marker #next_marker} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
     #
     # @example Request syntax with placeholder values
     #
@@ -1995,6 +2394,11 @@ module Aws::ElasticLoadBalancingV2
     #   resp.listeners[0].default_actions[0].forward_config.target_group_stickiness_config.duration_seconds #=> Integer
     #   resp.listeners[0].alpn_policy #=> Array
     #   resp.listeners[0].alpn_policy[0] #=> String
+    #   resp.listeners[0].mutual_authentication.mode #=> String
+    #   resp.listeners[0].mutual_authentication.trust_store_arn #=> String
+    #   resp.listeners[0].mutual_authentication.ignore_client_certificate_expiry #=> Boolean
+    #   resp.listeners[0].mutual_authentication.trust_store_association_status #=> String, one of "active", "removed"
+    #   resp.listeners[0].mutual_authentication.advertise_trust_store_ca_names #=> String, one of "on", "off"
     #   resp.next_marker #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/DescribeListeners AWS API Documentation
@@ -2184,10 +2588,14 @@ module Aws::ElasticLoadBalancingV2
     #   resp.load_balancers[0].availability_zones[0].load_balancer_addresses[0].allocation_id #=> String
     #   resp.load_balancers[0].availability_zones[0].load_balancer_addresses[0].private_i_pv_4_address #=> String
     #   resp.load_balancers[0].availability_zones[0].load_balancer_addresses[0].i_pv_6_address #=> String
+    #   resp.load_balancers[0].availability_zones[0].source_nat_ipv_6_prefixes #=> Array
+    #   resp.load_balancers[0].availability_zones[0].source_nat_ipv_6_prefixes[0] #=> String
     #   resp.load_balancers[0].security_groups #=> Array
     #   resp.load_balancers[0].security_groups[0] #=> String
-    #   resp.load_balancers[0].ip_address_type #=> String, one of "ipv4", "dualstack"
+    #   resp.load_balancers[0].ip_address_type #=> String, one of "ipv4", "dualstack", "dualstack-without-public-ipv4"
     #   resp.load_balancers[0].customer_owned_ipv_4_pool #=> String
+    #   resp.load_balancers[0].enforce_security_group_inbound_rules_on_private_link_traffic #=> String
+    #   resp.load_balancers[0].enable_prefix_for_ipv_6_source_nat #=> String, one of "on", "off"
     #   resp.next_marker #=> String
     #
     #
@@ -2226,6 +2634,8 @@ module Aws::ElasticLoadBalancingV2
     #
     #   * {Types::DescribeRulesOutput#rules #rules} => Array&lt;Types::Rule&gt;
     #   * {Types::DescribeRulesOutput#next_marker #next_marker} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
     #
     #
     # @example Example: To describe a rule
@@ -2772,6 +3182,9 @@ module Aws::ElasticLoadBalancingV2
     # @option params [Array<Types::TargetDescription>] :targets
     #   The targets.
     #
+    # @option params [Array<String>] :include
+    #   Used to include anomaly detection information.
+    #
     # @return [Types::DescribeTargetHealthOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::DescribeTargetHealthOutput#target_health_descriptions #target_health_descriptions} => Array&lt;Types::TargetHealthDescription&gt;
@@ -2854,6 +3267,7 @@ module Aws::ElasticLoadBalancingV2
     #         availability_zone: "ZoneName",
     #       },
     #     ],
+    #     include: ["AnomalyDetection"], # accepts AnomalyDetection, All
     #   })
     #
     # @example Response structure
@@ -2863,9 +3277,14 @@ module Aws::ElasticLoadBalancingV2
     #   resp.target_health_descriptions[0].target.port #=> Integer
     #   resp.target_health_descriptions[0].target.availability_zone #=> String
     #   resp.target_health_descriptions[0].health_check_port #=> String
-    #   resp.target_health_descriptions[0].target_health.state #=> String, one of "initial", "healthy", "unhealthy", "unused", "draining", "unavailable"
+    #   resp.target_health_descriptions[0].target_health.state #=> String, one of "initial", "healthy", "unhealthy", "unhealthy.draining", "unused", "draining", "unavailable"
     #   resp.target_health_descriptions[0].target_health.reason #=> String, one of "Elb.RegistrationInProgress", "Elb.InitialHealthChecking", "Target.ResponseCodeMismatch", "Target.Timeout", "Target.FailedHealthChecks", "Target.NotRegistered", "Target.NotInUse", "Target.DeregistrationInProgress", "Target.InvalidState", "Target.IpUnusable", "Target.HealthCheckDisabled", "Elb.InternalError"
     #   resp.target_health_descriptions[0].target_health.description #=> String
+    #   resp.target_health_descriptions[0].anomaly_detection.result #=> String, one of "anomalous", "normal"
+    #   resp.target_health_descriptions[0].anomaly_detection.mitigation_in_effect #=> String, one of "yes", "no"
+    #   resp.target_health_descriptions[0].administrative_override.state #=> String, one of "unknown", "no_override", "zonal_shift_active", "zonal_shift_delegated_to_dns"
+    #   resp.target_health_descriptions[0].administrative_override.reason #=> String, one of "AdministrativeOverride.Unknown", "AdministrativeOverride.NoOverride", "AdministrativeOverride.ZonalShiftActive", "AdministrativeOverride.ZonalShiftDelegatedToDns"
+    #   resp.target_health_descriptions[0].administrative_override.description #=> String
     #
     #
     # The following waiters are defined for this operation (see {Client#wait_until} for detailed usage):
@@ -2879,6 +3298,302 @@ module Aws::ElasticLoadBalancingV2
     # @param [Hash] params ({})
     def describe_target_health(params = {}, options = {})
       req = build_request(:describe_target_health, params)
+      req.send_request(options)
+    end
+
+    # Describes all resources associated with the specified trust store.
+    #
+    # @option params [required, String] :trust_store_arn
+    #   The Amazon Resource Name (ARN) of the trust store.
+    #
+    # @option params [String] :marker
+    #   The marker for the next set of results. (You received this marker from
+    #   a previous call.)
+    #
+    # @option params [Integer] :page_size
+    #   The maximum number of results to return with this call.
+    #
+    # @return [Types::DescribeTrustStoreAssociationsOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeTrustStoreAssociationsOutput#trust_store_associations #trust_store_associations} => Array&lt;Types::TrustStoreAssociation&gt;
+    #   * {Types::DescribeTrustStoreAssociationsOutput#next_marker #next_marker} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_trust_store_associations({
+    #     trust_store_arn: "TrustStoreArn", # required
+    #     marker: "Marker",
+    #     page_size: 1,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.trust_store_associations #=> Array
+    #   resp.trust_store_associations[0].resource_arn #=> String
+    #   resp.next_marker #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/DescribeTrustStoreAssociations AWS API Documentation
+    #
+    # @overload describe_trust_store_associations(params = {})
+    # @param [Hash] params ({})
+    def describe_trust_store_associations(params = {}, options = {})
+      req = build_request(:describe_trust_store_associations, params)
+      req.send_request(options)
+    end
+
+    # Describes the revocation files in use by the specified trust store or
+    # revocation files.
+    #
+    # @option params [required, String] :trust_store_arn
+    #   The Amazon Resource Name (ARN) of the trust store.
+    #
+    # @option params [Array<Integer>] :revocation_ids
+    #   The revocation IDs of the revocation files you want to describe.
+    #
+    # @option params [String] :marker
+    #   The marker for the next set of results. (You received this marker from
+    #   a previous call.)
+    #
+    # @option params [Integer] :page_size
+    #   The maximum number of results to return with this call.
+    #
+    # @return [Types::DescribeTrustStoreRevocationsOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeTrustStoreRevocationsOutput#trust_store_revocations #trust_store_revocations} => Array&lt;Types::DescribeTrustStoreRevocation&gt;
+    #   * {Types::DescribeTrustStoreRevocationsOutput#next_marker #next_marker} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_trust_store_revocations({
+    #     trust_store_arn: "TrustStoreArn", # required
+    #     revocation_ids: [1],
+    #     marker: "Marker",
+    #     page_size: 1,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.trust_store_revocations #=> Array
+    #   resp.trust_store_revocations[0].trust_store_arn #=> String
+    #   resp.trust_store_revocations[0].revocation_id #=> Integer
+    #   resp.trust_store_revocations[0].revocation_type #=> String, one of "CRL"
+    #   resp.trust_store_revocations[0].number_of_revoked_entries #=> Integer
+    #   resp.next_marker #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/DescribeTrustStoreRevocations AWS API Documentation
+    #
+    # @overload describe_trust_store_revocations(params = {})
+    # @param [Hash] params ({})
+    def describe_trust_store_revocations(params = {}, options = {})
+      req = build_request(:describe_trust_store_revocations, params)
+      req.send_request(options)
+    end
+
+    # Describes all trust stores for the specified account.
+    #
+    # @option params [Array<String>] :trust_store_arns
+    #   The Amazon Resource Name (ARN) of the trust store.
+    #
+    # @option params [Array<String>] :names
+    #   The names of the trust stores.
+    #
+    # @option params [String] :marker
+    #   The marker for the next set of results. (You received this marker from
+    #   a previous call.)
+    #
+    # @option params [Integer] :page_size
+    #   The maximum number of results to return with this call.
+    #
+    # @return [Types::DescribeTrustStoresOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeTrustStoresOutput#trust_stores #trust_stores} => Array&lt;Types::TrustStore&gt;
+    #   * {Types::DescribeTrustStoresOutput#next_marker #next_marker} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_trust_stores({
+    #     trust_store_arns: ["TrustStoreArn"],
+    #     names: ["TrustStoreName"],
+    #     marker: "Marker",
+    #     page_size: 1,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.trust_stores #=> Array
+    #   resp.trust_stores[0].name #=> String
+    #   resp.trust_stores[0].trust_store_arn #=> String
+    #   resp.trust_stores[0].status #=> String, one of "ACTIVE", "CREATING"
+    #   resp.trust_stores[0].number_of_ca_certificates #=> Integer
+    #   resp.trust_stores[0].total_revoked_entries #=> Integer
+    #   resp.next_marker #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/DescribeTrustStores AWS API Documentation
+    #
+    # @overload describe_trust_stores(params = {})
+    # @param [Hash] params ({})
+    def describe_trust_stores(params = {}, options = {})
+      req = build_request(:describe_trust_stores, params)
+      req.send_request(options)
+    end
+
+    # Retrieves the resource policy for a specified resource.
+    #
+    # @option params [required, String] :resource_arn
+    #   The Amazon Resource Name (ARN) of the resource.
+    #
+    # @return [Types::GetResourcePolicyOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetResourcePolicyOutput#policy #policy} => String
+    #
+    #
+    # @example Example: Retrieve a resource policy
+    #
+    #   # This example retrieves the resource policy for the specified trust store.
+    #
+    #   resp = client.get_resource_policy({
+    #     resource_arn: "arn:aws:elasticloadbalancing:us-east-1:123456789012:truststore/my-trust-store/73e2d6bc24d8a067", 
+    #   })
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_resource_policy({
+    #     resource_arn: "ResourceArn", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.policy #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/GetResourcePolicy AWS API Documentation
+    #
+    # @overload get_resource_policy(params = {})
+    # @param [Hash] params ({})
+    def get_resource_policy(params = {}, options = {})
+      req = build_request(:get_resource_policy, params)
+      req.send_request(options)
+    end
+
+    # Retrieves the ca certificate bundle.
+    #
+    # This action returns a pre-signed S3 URI which is active for ten
+    # minutes.
+    #
+    # @option params [required, String] :trust_store_arn
+    #   The Amazon Resource Name (ARN) of the trust store.
+    #
+    # @return [Types::GetTrustStoreCaCertificatesBundleOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetTrustStoreCaCertificatesBundleOutput#location #location} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_trust_store_ca_certificates_bundle({
+    #     trust_store_arn: "TrustStoreArn", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.location #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/GetTrustStoreCaCertificatesBundle AWS API Documentation
+    #
+    # @overload get_trust_store_ca_certificates_bundle(params = {})
+    # @param [Hash] params ({})
+    def get_trust_store_ca_certificates_bundle(params = {}, options = {})
+      req = build_request(:get_trust_store_ca_certificates_bundle, params)
+      req.send_request(options)
+    end
+
+    # Retrieves the specified revocation file.
+    #
+    # This action returns a pre-signed S3 URI which is active for ten
+    # minutes.
+    #
+    # @option params [required, String] :trust_store_arn
+    #   The Amazon Resource Name (ARN) of the trust store.
+    #
+    # @option params [required, Integer] :revocation_id
+    #   The revocation ID of the revocation file.
+    #
+    # @return [Types::GetTrustStoreRevocationContentOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetTrustStoreRevocationContentOutput#location #location} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_trust_store_revocation_content({
+    #     trust_store_arn: "TrustStoreArn", # required
+    #     revocation_id: 1, # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.location #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/GetTrustStoreRevocationContent AWS API Documentation
+    #
+    # @overload get_trust_store_revocation_content(params = {})
+    # @param [Hash] params ({})
+    def get_trust_store_revocation_content(params = {}, options = {})
+      req = build_request(:get_trust_store_revocation_content, params)
+      req.send_request(options)
+    end
+
+    # Modifies the capacity reservation of the specified load balancer.
+    #
+    # When modifying capacity reservation, you must include at least one
+    # `MinimumLoadBalancerCapacity` or `ResetCapacityReservation`.
+    #
+    # @option params [required, String] :load_balancer_arn
+    #   The Amazon Resource Name (ARN) of the load balancer.
+    #
+    # @option params [Types::MinimumLoadBalancerCapacity] :minimum_load_balancer_capacity
+    #   The minimum load balancer capacity reserved.
+    #
+    # @option params [Boolean] :reset_capacity_reservation
+    #   Resets the capacity reservation.
+    #
+    # @return [Types::ModifyCapacityReservationOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ModifyCapacityReservationOutput#last_modified_time #last_modified_time} => Time
+    #   * {Types::ModifyCapacityReservationOutput#decrease_requests_remaining #decrease_requests_remaining} => Integer
+    #   * {Types::ModifyCapacityReservationOutput#minimum_load_balancer_capacity #minimum_load_balancer_capacity} => Types::MinimumLoadBalancerCapacity
+    #   * {Types::ModifyCapacityReservationOutput#capacity_reservation_state #capacity_reservation_state} => Array&lt;Types::ZonalCapacityReservationState&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.modify_capacity_reservation({
+    #     load_balancer_arn: "LoadBalancerArn", # required
+    #     minimum_load_balancer_capacity: {
+    #       capacity_units: 1,
+    #     },
+    #     reset_capacity_reservation: false,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.last_modified_time #=> Time
+    #   resp.decrease_requests_remaining #=> Integer
+    #   resp.minimum_load_balancer_capacity.capacity_units #=> Integer
+    #   resp.capacity_reservation_state #=> Array
+    #   resp.capacity_reservation_state[0].state.code #=> String, one of "provisioned", "pending", "rebalancing", "failed"
+    #   resp.capacity_reservation_state[0].state.reason #=> String
+    #   resp.capacity_reservation_state[0].availability_zone #=> String
+    #   resp.capacity_reservation_state[0].effective_capacity_units #=> Float
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/ModifyCapacityReservation AWS API Documentation
+    #
+    # @overload modify_capacity_reservation(params = {})
+    # @param [Hash] params ({})
+    def modify_capacity_reservation(params = {}, options = {})
+      req = build_request(:modify_capacity_reservation, params)
       req.send_request(options)
     end
 
@@ -2899,7 +3614,7 @@ module Aws::ElasticLoadBalancingV2
     #   The Amazon Resource Name (ARN) of the listener.
     #
     # @option params [Integer] :port
-    #   The port for connections from clients to the load balancer. You cannot
+    #   The port for connections from clients to the load balancer. You can't
     #   specify a port for a Gateway Load Balancer.
     #
     # @option params [String] :protocol
@@ -2907,7 +3622,7 @@ module Aws::ElasticLoadBalancingV2
     #   Application Load Balancers support the HTTP and HTTPS protocols.
     #   Network Load Balancers support the TCP, TLS, UDP, and TCP\_UDP
     #   protocols. You can’t change the protocol to UDP or TCP\_UDP if
-    #   dual-stack mode is enabled. You cannot specify a protocol for a
+    #   dual-stack mode is enabled. You can't specify a protocol for a
     #   Gateway Load Balancer.
     #
     # @option params [String] :ssl_policy
@@ -2952,6 +3667,9 @@ module Aws::ElasticLoadBalancingV2
     #
     #
     #   [1]: https://docs.aws.amazon.com/elasticloadbalancing/latest/network/create-tls-listener.html#alpn-policies
+    #
+    # @option params [Types::MutualAuthenticationAttributes] :mutual_authentication
+    #   The mutual authentication configuration information.
     #
     # @return [Types::ModifyListenerOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -3101,6 +3819,13 @@ module Aws::ElasticLoadBalancingV2
     #       },
     #     ],
     #     alpn_policy: ["AlpnPolicyValue"],
+    #     mutual_authentication: {
+    #       mode: "Mode",
+    #       trust_store_arn: "TrustStoreArn",
+    #       ignore_client_certificate_expiry: false,
+    #       trust_store_association_status: "active", # accepts active, removed
+    #       advertise_trust_store_ca_names: "on", # accepts on, off
+    #     },
     #   })
     #
     # @example Response structure
@@ -3156,6 +3881,11 @@ module Aws::ElasticLoadBalancingV2
     #   resp.listeners[0].default_actions[0].forward_config.target_group_stickiness_config.duration_seconds #=> Integer
     #   resp.listeners[0].alpn_policy #=> Array
     #   resp.listeners[0].alpn_policy[0] #=> String
+    #   resp.listeners[0].mutual_authentication.mode #=> String
+    #   resp.listeners[0].mutual_authentication.trust_store_arn #=> String
+    #   resp.listeners[0].mutual_authentication.ignore_client_certificate_expiry #=> Boolean
+    #   resp.listeners[0].mutual_authentication.trust_store_association_status #=> String, one of "active", "removed"
+    #   resp.listeners[0].mutual_authentication.advertise_trust_store_ca_names #=> String, one of "on", "off"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/ModifyListener AWS API Documentation
     #
@@ -3163,6 +3893,45 @@ module Aws::ElasticLoadBalancingV2
     # @param [Hash] params ({})
     def modify_listener(params = {}, options = {})
       req = build_request(:modify_listener, params)
+      req.send_request(options)
+    end
+
+    # Modifies the specified attributes of the specified listener.
+    #
+    # @option params [required, String] :listener_arn
+    #   The Amazon Resource Name (ARN) of the listener.
+    #
+    # @option params [required, Array<Types::ListenerAttribute>] :attributes
+    #   The listener attributes.
+    #
+    # @return [Types::ModifyListenerAttributesOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ModifyListenerAttributesOutput#attributes #attributes} => Array&lt;Types::ListenerAttribute&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.modify_listener_attributes({
+    #     listener_arn: "ListenerArn", # required
+    #     attributes: [ # required
+    #       {
+    #         key: "ListenerAttributeKey",
+    #         value: "ListenerAttributeValue",
+    #       },
+    #     ],
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.attributes #=> Array
+    #   resp.attributes[0].key #=> String
+    #   resp.attributes[0].value #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/ModifyListenerAttributes AWS API Documentation
+    #
+    # @overload modify_listener_attributes(params = {})
+    # @param [Hash] params ({})
+    def modify_listener_attributes(params = {}, options = {})
+      req = build_request(:modify_listener_attributes, params)
       req.send_request(options)
     end
 
@@ -3727,7 +4496,7 @@ module Aws::ElasticLoadBalancingV2
     #   The Amazon Resource Name (ARN) of the target group.
     #
     # @option params [required, Array<Types::TargetGroupAttribute>] :attributes
-    #   The attributes.
+    #   The target group attributes.
     #
     # @return [Types::ModifyTargetGroupAttributesOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -3797,6 +4566,52 @@ module Aws::ElasticLoadBalancingV2
       req.send_request(options)
     end
 
+    # Update the ca certificate bundle for the specified trust store.
+    #
+    # @option params [required, String] :trust_store_arn
+    #   The Amazon Resource Name (ARN) of the trust store.
+    #
+    # @option params [required, String] :ca_certificates_bundle_s3_bucket
+    #   The Amazon S3 bucket for the ca certificates bundle.
+    #
+    # @option params [required, String] :ca_certificates_bundle_s3_key
+    #   The Amazon S3 path for the ca certificates bundle.
+    #
+    # @option params [String] :ca_certificates_bundle_s3_object_version
+    #   The Amazon S3 object version for the ca certificates bundle. If
+    #   undefined the current version is used.
+    #
+    # @return [Types::ModifyTrustStoreOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ModifyTrustStoreOutput#trust_stores #trust_stores} => Array&lt;Types::TrustStore&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.modify_trust_store({
+    #     trust_store_arn: "TrustStoreArn", # required
+    #     ca_certificates_bundle_s3_bucket: "S3Bucket", # required
+    #     ca_certificates_bundle_s3_key: "S3Key", # required
+    #     ca_certificates_bundle_s3_object_version: "S3ObjectVersion",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.trust_stores #=> Array
+    #   resp.trust_stores[0].name #=> String
+    #   resp.trust_stores[0].trust_store_arn #=> String
+    #   resp.trust_stores[0].status #=> String, one of "ACTIVE", "CREATING"
+    #   resp.trust_stores[0].number_of_ca_certificates #=> Integer
+    #   resp.trust_stores[0].total_revoked_entries #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/ModifyTrustStore AWS API Documentation
+    #
+    # @overload modify_trust_store(params = {})
+    # @param [Hash] params ({})
+    def modify_trust_store(params = {}, options = {})
+      req = build_request(:modify_trust_store, params)
+      req.send_request(options)
+    end
+
     # Registers the specified targets with the specified target group.
     #
     # If the target is an EC2 instance, it must be in the `running` state
@@ -3808,7 +4623,7 @@ module Aws::ElasticLoadBalancingV2
     # register each EC2 instance or IP address with the same target group
     # multiple times using different ports.
     #
-    # With a Network Load Balancer, you cannot register instances by
+    # With a Network Load Balancer, you can't register instances by
     # instance ID if they have the following instance types: C1, CC1, CC2,
     # CG1, CG2, CR1, CS1, G1, G2, HI1, HS1, M1, M2, M3, and T1. You can
     # register instances of these types by IP address.
@@ -3957,6 +4772,32 @@ module Aws::ElasticLoadBalancingV2
       req.send_request(options)
     end
 
+    # Removes the specified revocation file from the specified trust store.
+    #
+    # @option params [required, String] :trust_store_arn
+    #   The Amazon Resource Name (ARN) of the trust store.
+    #
+    # @option params [required, Array<Integer>] :revocation_ids
+    #   The revocation IDs of the revocation files you want to remove.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.remove_trust_store_revocations({
+    #     trust_store_arn: "TrustStoreArn", # required
+    #     revocation_ids: [1], # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/RemoveTrustStoreRevocations AWS API Documentation
+    #
+    # @overload remove_trust_store_revocations(params = {})
+    # @param [Hash] params ({})
+    def remove_trust_store_revocations(params = {}, options = {})
+      req = build_request(:remove_trust_store_revocations, params)
+      req.send_request(options)
+    end
+
     # Sets the type of IP addresses used by the subnets of the specified
     # load balancer.
     #
@@ -3964,10 +4805,21 @@ module Aws::ElasticLoadBalancingV2
     #   The Amazon Resource Name (ARN) of the load balancer.
     #
     # @option params [required, String] :ip_address_type
-    #   The IP address type. The possible values are `ipv4` (for IPv4
-    #   addresses) and `dualstack` (for IPv4 and IPv6 addresses). You can’t
-    #   specify `dualstack` for a load balancer with a UDP or TCP\_UDP
-    #   listener.
+    #   The IP address type. Internal load balancers must use `ipv4`.
+    #
+    #   \[Application Load Balancers\] The possible values are `ipv4` (IPv4
+    #   addresses), `dualstack` (IPv4 and IPv6 addresses), and
+    #   `dualstack-without-public-ipv4` (public IPv6 addresses and private
+    #   IPv4 and IPv6 addresses).
+    #
+    #   Application Load Balancer authentication supports IPv4 addresses only
+    #   when connecting to an Identity Provider (IdP) or Amazon Cognito
+    #   endpoint. Without a public IPv4 address the load balancer can't
+    #   complete the authentication process, resulting in HTTP 500 errors.
+    #
+    #   \[Network Load Balancers and Gateway Load Balancers\] The possible
+    #   values are `ipv4` (IPv4 addresses) and `dualstack` (IPv4 and IPv6
+    #   addresses).
     #
     # @return [Types::SetIpAddressTypeOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -3977,12 +4829,12 @@ module Aws::ElasticLoadBalancingV2
     #
     #   resp = client.set_ip_address_type({
     #     load_balancer_arn: "LoadBalancerArn", # required
-    #     ip_address_type: "ipv4", # required, accepts ipv4, dualstack
+    #     ip_address_type: "ipv4", # required, accepts ipv4, dualstack, dualstack-without-public-ipv4
     #   })
     #
     # @example Response structure
     #
-    #   resp.ip_address_type #=> String, one of "ipv4", "dualstack"
+    #   resp.ip_address_type #=> String, one of "ipv4", "dualstack", "dualstack-without-public-ipv4"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/SetIpAddressType AWS API Documentation
     #
@@ -4131,11 +4983,14 @@ module Aws::ElasticLoadBalancingV2
     end
 
     # Associates the specified security groups with the specified
-    # Application Load Balancer. The specified security groups override the
-    # previously associated security groups.
+    # Application Load Balancer or Network Load Balancer. The specified
+    # security groups override the previously associated security groups.
     #
-    # You can't specify a security group for a Network Load Balancer or
-    # Gateway Load Balancer.
+    # You can't perform this operation on a Network Load Balancer unless
+    # you specified a security group for the load balancer when you created
+    # it.
+    #
+    # You can't associate a security group with a Gateway Load Balancer.
     #
     # @option params [required, String] :load_balancer_arn
     #   The Amazon Resource Name (ARN) of the load balancer.
@@ -4143,9 +4998,15 @@ module Aws::ElasticLoadBalancingV2
     # @option params [required, Array<String>] :security_groups
     #   The IDs of the security groups.
     #
+    # @option params [String] :enforce_security_group_inbound_rules_on_private_link_traffic
+    #   Indicates whether to evaluate inbound security group rules for traffic
+    #   sent to a Network Load Balancer through Amazon Web Services
+    #   PrivateLink. The default is `on`.
+    #
     # @return [Types::SetSecurityGroupsOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::SetSecurityGroupsOutput#security_group_ids #security_group_ids} => Array&lt;String&gt;
+    #   * {Types::SetSecurityGroupsOutput#enforce_security_group_inbound_rules_on_private_link_traffic #enforce_security_group_inbound_rules_on_private_link_traffic} => String
     #
     #
     # @example Example: To associate a security group with a load balancer
@@ -4171,12 +5032,14 @@ module Aws::ElasticLoadBalancingV2
     #   resp = client.set_security_groups({
     #     load_balancer_arn: "LoadBalancerArn", # required
     #     security_groups: ["SecurityGroupId"], # required
+    #     enforce_security_group_inbound_rules_on_private_link_traffic: "on", # accepts on, off
     #   })
     #
     # @example Response structure
     #
     #   resp.security_group_ids #=> Array
     #   resp.security_group_ids[0] #=> String
+    #   resp.enforce_security_group_inbound_rules_on_private_link_traffic #=> String, one of "on", "off"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/SetSecurityGroups AWS API Documentation
     #
@@ -4188,12 +5051,13 @@ module Aws::ElasticLoadBalancingV2
     end
 
     # Enables the Availability Zones for the specified public subnets for
-    # the specified Application Load Balancer or Network Load Balancer. The
-    # specified subnets replace the previously enabled subnets.
+    # the specified Application Load Balancer, Network Load Balancer or
+    # Gateway Load Balancer. The specified subnets replace the previously
+    # enabled subnets.
     #
-    # When you specify subnets for a Network Load Balancer, you must include
-    # all subnets that were enabled previously, with their existing
-    # configurations, plus any additional subnets.
+    # When you specify subnets for a Network Load Balancer, or Gateway Load
+    # Balancer you must include all subnets that were enabled previously,
+    # with their existing configurations, plus any additional subnets.
     #
     # @option params [required, String] :load_balancer_arn
     #   The Amazon Resource Name (ARN) of the load balancer.
@@ -4211,15 +5075,15 @@ module Aws::ElasticLoadBalancingV2
     #   \[Application Load Balancers on Local Zones\] You can specify subnets
     #   from one or more Local Zones.
     #
-    #   \[Network Load Balancers\] You can specify subnets from one or more
-    #   Availability Zones.
+    #   \[Network Load Balancers and Gateway Load Balancers\] You can specify
+    #   subnets from one or more Availability Zones.
     #
     # @option params [Array<Types::SubnetMapping>] :subnet_mappings
     #   The IDs of the public subnets. You can specify only one subnet per
     #   Availability Zone. You must specify either subnets or subnet mappings.
     #
     #   \[Application Load Balancers\] You must specify subnets from at least
-    #   two Availability Zones. You cannot specify Elastic IP addresses for
+    #   two Availability Zones. You can't specify Elastic IP addresses for
     #   your subnets.
     #
     #   \[Application Load Balancers on Outposts\] You must specify one
@@ -4236,17 +5100,31 @@ module Aws::ElasticLoadBalancingV2
     #   internet-facing load balancer, you can specify one IPv6 address per
     #   subnet.
     #
+    #   \[Gateway Load Balancers\] You can specify subnets from one or more
+    #   Availability Zones.
+    #
     # @option params [String] :ip_address_type
-    #   \[Network Load Balancers\] The type of IP addresses used by the
-    #   subnets for your load balancer. The possible values are `ipv4` (for
-    #   IPv4 addresses) and `dualstack` (for IPv4 and IPv6 addresses). You
-    #   can’t specify `dualstack` for a load balancer with a UDP or TCP\_UDP
-    #   listener. .
+    #   The IP address type.
+    #
+    #   \[Application Load Balancers\] The possible values are `ipv4` (IPv4
+    #   addresses), `dualstack` (IPv4 and IPv6 addresses), and
+    #   `dualstack-without-public-ipv4` (public IPv6 addresses and private
+    #   IPv4 and IPv6 addresses).
+    #
+    #   \[Network Load Balancers and Gateway Load Balancers\] The possible
+    #   values are `ipv4` (IPv4 addresses) and `dualstack` (IPv4 and IPv6
+    #   addresses).
+    #
+    # @option params [String] :enable_prefix_for_ipv_6_source_nat
+    #   \[Network Load Balancers with UDP listeners\] Indicates whether to use
+    #   an IPv6 prefix from each subnet for source NAT. The IP address type
+    #   must be `dualstack`. The default value is `off`.
     #
     # @return [Types::SetSubnetsOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::SetSubnetsOutput#availability_zones #availability_zones} => Array&lt;Types::AvailabilityZone&gt;
     #   * {Types::SetSubnetsOutput#ip_address_type #ip_address_type} => String
+    #   * {Types::SetSubnetsOutput#enable_prefix_for_ipv_6_source_nat #enable_prefix_for_ipv_6_source_nat} => String
     #
     #
     # @example Example: To enable Availability Zones for a load balancer
@@ -4286,9 +5164,11 @@ module Aws::ElasticLoadBalancingV2
     #         allocation_id: "AllocationId",
     #         private_i_pv_4_address: "PrivateIPv4Address",
     #         i_pv_6_address: "IPv6Address",
+    #         source_nat_ipv_6_prefix: "SourceNatIpv6Prefix",
     #       },
     #     ],
-    #     ip_address_type: "ipv4", # accepts ipv4, dualstack
+    #     ip_address_type: "ipv4", # accepts ipv4, dualstack, dualstack-without-public-ipv4
+    #     enable_prefix_for_ipv_6_source_nat: "on", # accepts on, off
     #   })
     #
     # @example Response structure
@@ -4302,7 +5182,10 @@ module Aws::ElasticLoadBalancingV2
     #   resp.availability_zones[0].load_balancer_addresses[0].allocation_id #=> String
     #   resp.availability_zones[0].load_balancer_addresses[0].private_i_pv_4_address #=> String
     #   resp.availability_zones[0].load_balancer_addresses[0].i_pv_6_address #=> String
-    #   resp.ip_address_type #=> String, one of "ipv4", "dualstack"
+    #   resp.availability_zones[0].source_nat_ipv_6_prefixes #=> Array
+    #   resp.availability_zones[0].source_nat_ipv_6_prefixes[0] #=> String
+    #   resp.ip_address_type #=> String, one of "ipv4", "dualstack", "dualstack-without-public-ipv4"
+    #   resp.enable_prefix_for_ipv_6_source_nat #=> String, one of "on", "off"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/elasticloadbalancingv2-2015-12-01/SetSubnets AWS API Documentation
     #
@@ -4319,14 +5202,19 @@ module Aws::ElasticLoadBalancingV2
     # @api private
     def build_request(operation_name, params = {})
       handlers = @handlers.for(operation_name)
+      tracer = config.telemetry_provider.tracer_provider.tracer(
+        Aws::Telemetry.module_to_tracer_name('Aws::ElasticLoadBalancingV2')
+      )
       context = Seahorse::Client::RequestContext.new(
         operation_name: operation_name,
         operation: config.api.operation(operation_name),
         client: self,
         params: params,
-        config: config)
+        config: config,
+        tracer: tracer
+      )
       context[:gem_name] = 'aws-sdk-elasticloadbalancingv2'
-      context[:gem_version] = '1.84.0'
+      context[:gem_version] = '1.128.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

@@ -131,55 +131,94 @@ module Aws
         context 'large objects' do
           it 'uses multipart APIs for objects >= 100MB' do
             client.stub_responses(:create_multipart_upload, upload_id: 'id')
-            client.stub_responses(:upload_part, etag: 'etag')
+            client.stub_responses(:upload_part, etag: 'etag', checksum_crc32: 'checksum')
             expect(client).to receive(:complete_multipart_upload).with(
               bucket: 'bucket',
               key: 'key',
               upload_id: 'id',
               multipart_upload: {
                 parts: [
-                  { etag: 'etag', part_number: 1 },
-                  { etag: 'etag', part_number: 2 },
-                  { etag: 'etag', part_number: 3 },
-                  { etag: 'etag', part_number: 4 },
-                  { etag: 'etag', part_number: 5 },
-                  { etag: 'etag', part_number: 6 },
-                  { etag: 'etag', part_number: 7 },
-                  { etag: 'etag', part_number: 8 },
-                  { etag: 'etag', part_number: 9 },
-                  { etag: 'etag', part_number: 10 },
-                  { etag: 'etag', part_number: 11 },
-                  { etag: 'etag', part_number: 12 },
-                  { etag: 'etag', part_number: 13 },
-                  { etag: 'etag', part_number: 14 },
-                  { etag: 'etag', part_number: 15 },
-                  { etag: 'etag', part_number: 16 },
-                  { etag: 'etag', part_number: 17 },
-                  { etag: 'etag', part_number: 18 },
-                  { etag: 'etag', part_number: 19 },
-                  { etag: 'etag', part_number: 20 },
-                  { etag: 'etag', part_number: 21 },
-                  { etag: 'etag', part_number: 22 },
-                  { etag: 'etag', part_number: 23 },
-                  { etag: 'etag', part_number: 24 }
+                  { checksum_crc32: 'checksum', etag: 'etag', part_number: 1 },
+                  { checksum_crc32: 'checksum', etag: 'etag', part_number: 2 },
+                  { checksum_crc32: 'checksum', etag: 'etag', part_number: 3 },
+                  { checksum_crc32: 'checksum', etag: 'etag', part_number: 4 },
+                  { checksum_crc32: 'checksum', etag: 'etag', part_number: 5 },
+                  { checksum_crc32: 'checksum', etag: 'etag', part_number: 6 },
+                  { checksum_crc32: 'checksum', etag: 'etag', part_number: 7 },
+                  { checksum_crc32: 'checksum', etag: 'etag', part_number: 8 },
+                  { checksum_crc32: 'checksum', etag: 'etag', part_number: 9 },
+                  { checksum_crc32: 'checksum', etag: 'etag', part_number: 10 },
+                  { checksum_crc32: 'checksum', etag: 'etag', part_number: 11 },
+                  { checksum_crc32: 'checksum', etag: 'etag', part_number: 12 },
+                  { checksum_crc32: 'checksum', etag: 'etag', part_number: 13 },
+                  { checksum_crc32: 'checksum', etag: 'etag', part_number: 14 },
+                  { checksum_crc32: 'checksum', etag: 'etag', part_number: 15 },
+                  { checksum_crc32: 'checksum', etag: 'etag', part_number: 16 },
+                  { checksum_crc32: 'checksum', etag: 'etag', part_number: 17 },
+                  { checksum_crc32: 'checksum', etag: 'etag', part_number: 18 },
+                  { checksum_crc32: 'checksum', etag: 'etag', part_number: 19 },
+                  { checksum_crc32: 'checksum', etag: 'etag', part_number: 20 },
+                  { checksum_crc32: 'checksum', etag: 'etag', part_number: 21 },
+                  { checksum_crc32: 'checksum', etag: 'etag', part_number: 22 },
+                  { checksum_crc32: 'checksum', etag: 'etag', part_number: 23 },
+                  { checksum_crc32: 'checksum', etag: 'etag', part_number: 24 }
                 ]
               }
             )
             object.upload_file(one_hundred_seventeen_meg_file, content_type: 'text/plain')
           end
 
+          it 'allows for full object checksums' do
+            expect(client).to receive(:create_multipart_upload)
+              .with({bucket: 'bucket', key: 'key', checksum_algorithm: 'CRC32',
+                    checksum_type: 'FULL_OBJECT', content_type: 'text/plain'})
+              .and_call_original
+            expect(client).to receive(:upload_part)
+              .with(hash_not_including(checksum_crc32: anything)).exactly(24).times
+              .and_call_original
+            expect(client).to receive(:complete_multipart_upload)
+              .with(hash_including(checksum_type: 'FULL_OBJECT', checksum_crc32: 'checksum'))
+              .and_call_original
+            client.stub_responses(:create_multipart_upload, upload_id: 'id')
+            client.stub_responses(:upload_part, etag: 'etag', checksum_crc32: 'part')
+
+            object.upload_file(one_hundred_seventeen_meg_file, content_type: 'text/plain', checksum_crc32: 'checksum')
+          end
+
           it 'reports progress for multipart uploads' do
+            thread = double(value: nil)
+            allow(Thread).to receive(:new).and_yield.and_return(thread)
+
             client.stub_responses(:create_multipart_upload, upload_id: 'id')
             client.stub_responses(:complete_multipart_upload)
             expect(client).to receive(:upload_part).exactly(24).times do |args|
               args[:on_chunk_sent].call(args[:body], args[:body].size, args[:body].size)
-              double(etag: 'etag')
+              double(
+                context: double(params: { checksum_algorithm: 'crc32' }),
+                checksum_crc32: 'checksum',
+                etag: 'etag'
+              )
             end
             callback = proc do |bytes, totals|
               expect(bytes.size).to eq(24)
               expect(totals.size).to eq(24)
             end
             object.upload_file(one_hundred_seventeen_meg_file, content_type: 'text/plain', progress_callback: callback)
+          end
+
+          it 'defaults to THREAD_COUNT without the thread_count option' do
+            expect(Thread).to receive(:new).exactly(S3::MultipartFileUploader::THREAD_COUNT).times.and_return(double(value: nil))
+            client.stub_responses(:create_multipart_upload, upload_id: 'id')
+            client.stub_responses(:complete_multipart_upload)
+            object.upload_file(one_hundred_seventeen_meg_file)
+          end
+
+          it 'respects the thread_count option' do
+            custom_thread_count = 20
+            expect(Thread).to receive(:new).exactly(custom_thread_count).times.and_return(double(value: nil))
+            client.stub_responses(:create_multipart_upload, upload_id: 'id')
+            client.stub_responses(:complete_multipart_upload)
+            object.upload_file(one_hundred_seventeen_meg_file, thread_count: custom_thread_count)
           end
 
           it 'raises an error if the multipart threshold is too small' do
@@ -214,6 +253,10 @@ module Aws
           end
 
           it 'reports when it is unable to abort a failed multipart upload' do
+            allow(Thread).to receive(:new) do |_, &block|
+              double(value: block.call)
+            end
+
             client.stub_responses(
               :upload_part,
               [
@@ -229,7 +272,7 @@ module Aws
             )
             expect { object.upload_file(one_hundred_seventeen_meg_file) }.to raise_error(
               S3::MultipartUploadError,
-              'failed to abort multipart upload: network-error'
+              /failed to abort multipart upload: network-error. Multipart upload failed: part failed/
             )
           end
         end

@@ -7,33 +7,34 @@
 #
 # WARNING ABOUT GENERATED CODE
 
-require 'seahorse/client/plugins/content_length.rb'
-require 'aws-sdk-core/plugins/credentials_configuration.rb'
-require 'aws-sdk-core/plugins/logging.rb'
-require 'aws-sdk-core/plugins/param_converter.rb'
-require 'aws-sdk-core/plugins/param_validator.rb'
-require 'aws-sdk-core/plugins/user_agent.rb'
-require 'aws-sdk-core/plugins/helpful_socket_errors.rb'
-require 'aws-sdk-core/plugins/retry_errors.rb'
-require 'aws-sdk-core/plugins/global_configuration.rb'
-require 'aws-sdk-core/plugins/regional_endpoint.rb'
-require 'aws-sdk-core/plugins/endpoint_discovery.rb'
-require 'aws-sdk-core/plugins/endpoint_pattern.rb'
-require 'aws-sdk-core/plugins/response_paging.rb'
-require 'aws-sdk-core/plugins/stub_responses.rb'
-require 'aws-sdk-core/plugins/idempotency_token.rb'
-require 'aws-sdk-core/plugins/jsonvalue_converter.rb'
-require 'aws-sdk-core/plugins/client_metrics_plugin.rb'
-require 'aws-sdk-core/plugins/client_metrics_send_plugin.rb'
-require 'aws-sdk-core/plugins/transfer_encoding.rb'
-require 'aws-sdk-core/plugins/http_checksum.rb'
-require 'aws-sdk-core/plugins/checksum_algorithm.rb'
-require 'aws-sdk-core/plugins/defaults_mode.rb'
-require 'aws-sdk-core/plugins/recursion_detection.rb'
-require 'aws-sdk-core/plugins/sign.rb'
-require 'aws-sdk-core/plugins/protocols/rest_json.rb'
-
-Aws::Plugins::GlobalConfiguration.add_identifier(:opensearchservice)
+require 'seahorse/client/plugins/content_length'
+require 'aws-sdk-core/plugins/credentials_configuration'
+require 'aws-sdk-core/plugins/logging'
+require 'aws-sdk-core/plugins/param_converter'
+require 'aws-sdk-core/plugins/param_validator'
+require 'aws-sdk-core/plugins/user_agent'
+require 'aws-sdk-core/plugins/helpful_socket_errors'
+require 'aws-sdk-core/plugins/retry_errors'
+require 'aws-sdk-core/plugins/global_configuration'
+require 'aws-sdk-core/plugins/regional_endpoint'
+require 'aws-sdk-core/plugins/endpoint_discovery'
+require 'aws-sdk-core/plugins/endpoint_pattern'
+require 'aws-sdk-core/plugins/response_paging'
+require 'aws-sdk-core/plugins/stub_responses'
+require 'aws-sdk-core/plugins/idempotency_token'
+require 'aws-sdk-core/plugins/invocation_id'
+require 'aws-sdk-core/plugins/jsonvalue_converter'
+require 'aws-sdk-core/plugins/client_metrics_plugin'
+require 'aws-sdk-core/plugins/client_metrics_send_plugin'
+require 'aws-sdk-core/plugins/transfer_encoding'
+require 'aws-sdk-core/plugins/http_checksum'
+require 'aws-sdk-core/plugins/checksum_algorithm'
+require 'aws-sdk-core/plugins/request_compression'
+require 'aws-sdk-core/plugins/defaults_mode'
+require 'aws-sdk-core/plugins/recursion_detection'
+require 'aws-sdk-core/plugins/telemetry'
+require 'aws-sdk-core/plugins/sign'
+require 'aws-sdk-core/plugins/protocols/rest_json'
 
 module Aws::OpenSearchService
   # An API client for OpenSearchService.  To construct a client, you need to configure a `:region` and `:credentials`.
@@ -71,20 +72,28 @@ module Aws::OpenSearchService
     add_plugin(Aws::Plugins::ResponsePaging)
     add_plugin(Aws::Plugins::StubResponses)
     add_plugin(Aws::Plugins::IdempotencyToken)
+    add_plugin(Aws::Plugins::InvocationId)
     add_plugin(Aws::Plugins::JsonvalueConverter)
     add_plugin(Aws::Plugins::ClientMetricsPlugin)
     add_plugin(Aws::Plugins::ClientMetricsSendPlugin)
     add_plugin(Aws::Plugins::TransferEncoding)
     add_plugin(Aws::Plugins::HttpChecksum)
     add_plugin(Aws::Plugins::ChecksumAlgorithm)
+    add_plugin(Aws::Plugins::RequestCompression)
     add_plugin(Aws::Plugins::DefaultsMode)
     add_plugin(Aws::Plugins::RecursionDetection)
+    add_plugin(Aws::Plugins::Telemetry)
     add_plugin(Aws::Plugins::Sign)
     add_plugin(Aws::Plugins::Protocols::RestJson)
     add_plugin(Aws::OpenSearchService::Plugins::Endpoints)
 
     # @overload initialize(options)
     #   @param [Hash] options
+    #
+    #   @option options [Array<Seahorse::Client::Plugin>] :plugins ([]])
+    #     A list of plugins to apply to the client. Each plugin is either a
+    #     class name or an instance of a plugin class.
+    #
     #   @option options [required, Aws::CredentialProvider] :credentials
     #     Your AWS credentials. This can be an instance of any one of the
     #     following classes:
@@ -119,13 +128,15 @@ module Aws::OpenSearchService
     #     locations will be searched for credentials:
     #
     #     * `Aws.config[:credentials]`
-    #     * The `:access_key_id`, `:secret_access_key`, and `:session_token` options.
-    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']
+    #     * The `:access_key_id`, `:secret_access_key`, `:session_token`, and
+    #       `:account_id` options.
+    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'],
+    #       ENV['AWS_SESSION_TOKEN'], and ENV['AWS_ACCOUNT_ID']
     #     * `~/.aws/credentials`
     #     * `~/.aws/config`
     #     * EC2/ECS IMDS instance profile - When used by default, the timeouts
     #       are very aggressive. Construct and pass an instance of
-    #       `Aws::InstanceProfileCredentails` or `Aws::ECSCredentials` to
+    #       `Aws::InstanceProfileCredentials` or `Aws::ECSCredentials` to
     #       enable retries and extended timeouts. Instance profile credential
     #       fetching can be disabled by setting ENV['AWS_EC2_METADATA_DISABLED']
     #       to true.
@@ -143,6 +154,8 @@ module Aws::OpenSearchService
     #     * `~/.aws/config`
     #
     #   @option options [String] :access_key_id
+    #
+    #   @option options [String] :account_id
     #
     #   @option options [Boolean] :active_endpoint_cache (false)
     #     When set to `true`, a thread polling for endpoints will be running in
@@ -190,10 +203,20 @@ module Aws::OpenSearchService
     #     Set to true to disable SDK automatically adding host prefix
     #     to default service endpoint when available.
     #
-    #   @option options [String] :endpoint
-    #     The client endpoint is normally constructed from the `:region`
-    #     option. You should only configure an `:endpoint` when connecting
-    #     to test or custom endpoints. This should be a valid HTTP(S) URI.
+    #   @option options [Boolean] :disable_request_compression (false)
+    #     When set to 'true' the request body will not be compressed
+    #     for supported operations.
+    #
+    #   @option options [String, URI::HTTPS, URI::HTTP] :endpoint
+    #     Normally you should not configure the `:endpoint` option
+    #     directly. This is normally constructed from the `:region`
+    #     option. Configuring `:endpoint` is normally reserved for
+    #     connecting to test or custom endpoints. The endpoint should
+    #     be a URI formatted like:
+    #
+    #         'http://example.com'
+    #         'https://example.com'
+    #         'http://example.com:123'
     #
     #   @option options [Integer] :endpoint_cache_max_entries (1000)
     #     Used for the maximum size limit of the LRU cache storing endpoints data
@@ -209,6 +232,10 @@ module Aws::OpenSearchService
     #
     #   @option options [Boolean] :endpoint_discovery (false)
     #     When set to `true`, endpoint discovery will be enabled for operations when available.
+    #
+    #   @option options [Boolean] :ignore_configured_endpoint_urls
+    #     Setting to true disables use of endpoint URLs provided via environment
+    #     variables and the shared configuration file.
     #
     #   @option options [Aws::Log::Formatter] :log_formatter (Aws::Log::Formatter.default)
     #     The log formatter.
@@ -229,6 +256,34 @@ module Aws::OpenSearchService
     #   @option options [String] :profile ("default")
     #     Used when loading credentials from the shared credentials file
     #     at HOME/.aws/credentials.  When not specified, 'default' is used.
+    #
+    #   @option options [String] :request_checksum_calculation ("when_supported")
+    #     Determines when a checksum will be calculated for request payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, a checksum will be
+    #       calculated for all request payloads of operations modeled with the
+    #       `httpChecksum` trait where `requestChecksumRequired` is `true` and/or a
+    #       `requestAlgorithmMember` is modeled.
+    #     * `when_required` - When set, a checksum will only be calculated for
+    #       request payloads of operations modeled with the  `httpChecksum` trait where
+    #       `requestChecksumRequired` is `true` or where a `requestAlgorithmMember`
+    #       is modeled and supplied.
+    #
+    #   @option options [Integer] :request_min_compression_size_bytes (10240)
+    #     The minimum size in bytes that triggers compression for request
+    #     bodies. The value must be non-negative integer value between 0
+    #     and 10485780 bytes inclusive.
+    #
+    #   @option options [String] :response_checksum_validation ("when_supported")
+    #     Determines when checksum validation will be performed on response payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, checksum validation is performed on all
+    #       response payloads of operations modeled with the `httpChecksum` trait where
+    #       `responseAlgorithms` is modeled, except when no modeled checksum algorithms
+    #       are supported.
+    #     * `when_required` - When set, checksum validation is not performed on
+    #       response payloads of operations unless the checksum algorithm is supported and
+    #       the `requestValidationModeMember` member is set to `ENABLED`.
     #
     #   @option options [Proc] :retry_backoff
     #     A proc or lambda used for backoff. Defaults to 2**retries * retry_base_delay.
@@ -274,10 +329,24 @@ module Aws::OpenSearchService
     #       throttling.  This is a provisional mode that may change behavior
     #       in the future.
     #
+    #   @option options [String] :sdk_ua_app_id
+    #     A unique and opaque application ID that is appended to the
+    #     User-Agent header as app/sdk_ua_app_id. It should have a
+    #     maximum length of 50. This variable is sourced from environment
+    #     variable AWS_SDK_UA_APP_ID or the shared config profile attribute sdk_ua_app_id.
     #
     #   @option options [String] :secret_access_key
     #
     #   @option options [String] :session_token
+    #
+    #   @option options [Array] :sigv4a_signing_region_set
+    #     A list of regions that should be signed with SigV4a signing. When
+    #     not passed, a default `:sigv4a_signing_region_set` is searched for
+    #     in the following locations:
+    #
+    #     * `Aws.config[:sigv4a_signing_region_set]`
+    #     * `ENV['AWS_SIGV4A_SIGNING_REGION_SET']`
+    #     * `~/.aws/config`
     #
     #   @option options [Boolean] :stub_responses (false)
     #     Causes the client to return stubbed responses. By default
@@ -287,6 +356,16 @@ module Aws::OpenSearchService
     #
     #     ** Please note ** When response stubbing is enabled, no HTTP
     #     requests are made, and retries are disabled.
+    #
+    #   @option options [Aws::Telemetry::TelemetryProviderBase] :telemetry_provider (Aws::Telemetry::NoOpTelemetryProvider)
+    #     Allows you to provide a telemetry provider, which is used to
+    #     emit telemetry data. By default, uses `NoOpTelemetryProvider` which
+    #     will not record or emit any telemetry data. The SDK supports the
+    #     following telemetry providers:
+    #
+    #     * OpenTelemetry (OTel) - To use the OTel provider, install and require the
+    #     `opentelemetry-sdk` gem and then, pass in an instance of a
+    #     `Aws::Telemetry::OTelProvider` for telemetry provider.
     #
     #   @option options [Aws::TokenProvider] :token_provider
     #     A Bearer Token Provider. This can be an instance of any one of the
@@ -315,52 +394,75 @@ module Aws::OpenSearchService
     #     sending the request.
     #
     #   @option options [Aws::OpenSearchService::EndpointProvider] :endpoint_provider
-    #     The endpoint provider used to resolve endpoints. Any object that responds to `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to `Aws::OpenSearchService::EndpointParameters`
+    #     The endpoint provider used to resolve endpoints. Any object that responds to
+    #     `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+    #     `Aws::OpenSearchService::EndpointParameters`.
     #
-    #   @option options [URI::HTTP,String] :http_proxy A proxy to send
-    #     requests through.  Formatted like 'http://proxy.com:123'.
+    #   @option options [Float] :http_continue_timeout (1)
+    #     The number of seconds to wait for a 100-continue response before sending the
+    #     request body.  This option has no effect unless the request has "Expect"
+    #     header set to "100-continue".  Defaults to `nil` which  disables this
+    #     behaviour.  This value can safely be set per request on the session.
     #
-    #   @option options [Float] :http_open_timeout (15) The number of
-    #     seconds to wait when opening a HTTP session before raising a
-    #     `Timeout::Error`.
+    #   @option options [Float] :http_idle_timeout (5)
+    #     The number of seconds a connection is allowed to sit idle before it
+    #     is considered stale.  Stale connections are closed and removed from the
+    #     pool before making a request.
     #
-    #   @option options [Float] :http_read_timeout (60) The default
-    #     number of seconds to wait for response data.  This value can
-    #     safely be set per-request on the session.
+    #   @option options [Float] :http_open_timeout (15)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :http_idle_timeout (5) The number of
-    #     seconds a connection is allowed to sit idle before it is
-    #     considered stale.  Stale connections are closed and removed
-    #     from the pool before making a request.
+    #   @option options [URI::HTTP,String] :http_proxy
+    #     A proxy to send requests through.  Formatted like 'http://proxy.com:123'.
     #
-    #   @option options [Float] :http_continue_timeout (1) The number of
-    #     seconds to wait for a 100-continue response before sending the
-    #     request body.  This option has no effect unless the request has
-    #     "Expect" header set to "100-continue".  Defaults to `nil` which
-    #     disables this behaviour.  This value can safely be set per
-    #     request on the session.
+    #   @option options [Float] :http_read_timeout (60)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :ssl_timeout (nil) Sets the SSL timeout
-    #     in seconds.
+    #   @option options [Boolean] :http_wire_trace (false)
+    #     When `true`,  HTTP debug output will be sent to the `:logger`.
     #
-    #   @option options [Boolean] :http_wire_trace (false) When `true`,
-    #     HTTP debug output will be sent to the `:logger`.
+    #   @option options [Proc] :on_chunk_received
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the response body is received. It provides three arguments: the chunk,
+    #     the number of bytes received, and the total number of
+    #     bytes in the response (or nil if the server did not send a `content-length`).
     #
-    #   @option options [Boolean] :ssl_verify_peer (true) When `true`,
-    #     SSL peer certificates are verified when establishing a
-    #     connection.
+    #   @option options [Proc] :on_chunk_sent
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the request body is sent. It provides three arguments: the chunk,
+    #     the number of bytes read from the body, and the total number of
+    #     bytes in the body.
     #
-    #   @option options [String] :ssl_ca_bundle Full path to the SSL
-    #     certificate authority bundle file that should be used when
-    #     verifying peer certificates.  If you do not pass
-    #     `:ssl_ca_bundle` or `:ssl_ca_directory` the the system default
-    #     will be used if available.
+    #   @option options [Boolean] :raise_response_errors (true)
+    #     When `true`, response errors are raised.
     #
-    #   @option options [String] :ssl_ca_directory Full path of the
-    #     directory that contains the unbundled SSL certificate
+    #   @option options [String] :ssl_ca_bundle
+    #     Full path to the SSL certificate authority bundle file that should be used when
+    #     verifying peer certificates.  If you do not pass `:ssl_ca_bundle` or
+    #     `:ssl_ca_directory` the the system default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_directory
+    #     Full path of the directory that contains the unbundled SSL certificate
     #     authority files for verifying peer certificates.  If you do
-    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the
-    #     system default will be used if available.
+    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the system
+    #     default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_store
+    #     Sets the X509::Store to verify peer certificate.
+    #
+    #   @option options [OpenSSL::X509::Certificate] :ssl_cert
+    #     Sets a client certificate when creating http connections.
+    #
+    #   @option options [OpenSSL::PKey] :ssl_key
+    #     Sets a client key when creating http connections.
+    #
+    #   @option options [Float] :ssl_timeout
+    #     Sets the SSL timeout in seconds
+    #
+    #   @option options [Boolean] :ssl_verify_peer (true)
+    #     When `true`, SSL peer certificates are verified when establishing a connection.
     #
     def initialize(*args)
       super
@@ -412,18 +514,131 @@ module Aws::OpenSearchService
       req.send_request(options)
     end
 
-    # Attaches tags to an existing Amazon OpenSearch Service domain. Tags
-    # are a set of case-sensitive key-value pairs. A domain can have up to
-    # 10 tags. For more information, see [Tagging Amazon OpenSearch Service
-    # domains][1].
+    # Creates a new direct-query data source to the specified domain. For
+    # more information, see [Creating Amazon OpenSearch Service data source
+    # integrations with Amazon S3][1].
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/opensearch-service/latest/developerguide/direct-query-s3-creating.html
+    #
+    # @option params [required, String] :domain_name
+    #   The name of the domain to add the data source to.
+    #
+    # @option params [required, String] :name
+    #   A name for the data source.
+    #
+    # @option params [required, Types::DataSourceType] :data_source_type
+    #   The type of data source.
+    #
+    # @option params [String] :description
+    #   A description of the data source.
+    #
+    # @return [Types::AddDataSourceResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::AddDataSourceResponse#message #message} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.add_data_source({
+    #     domain_name: "DomainName", # required
+    #     name: "DataSourceName", # required
+    #     data_source_type: { # required
+    #       s3_glue_data_catalog: {
+    #         role_arn: "RoleArn",
+    #       },
+    #     },
+    #     description: "DataSourceDescription",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.message #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/AddDataSource AWS API Documentation
+    #
+    # @overload add_data_source(params = {})
+    # @param [Hash] params ({})
+    def add_data_source(params = {}, options = {})
+      req = build_request(:add_data_source, params)
+      req.send_request(options)
+    end
+
+    # Adds a new data source in Amazon OpenSearch Service so that you can
+    # perform direct queries on external data.
+    #
+    # @option params [required, String] :data_source_name
+    #   A unique, user-defined label to identify the data source within your
+    #   OpenSearch Service environment.
+    #
+    # @option params [required, Types::DirectQueryDataSourceType] :data_source_type
+    #   The supported Amazon Web Services service that you want to use as the
+    #   source for direct queries in OpenSearch Service.
+    #
+    # @option params [String] :description
+    #   An optional text field for providing additional context and details
+    #   about the data source.
+    #
+    # @option params [required, Array<String>] :open_search_arns
+    #   A list of Amazon Resource Names (ARNs) for the OpenSearch collections
+    #   that are associated with the direct query data source.
+    #
+    # @option params [Array<Types::Tag>] :tag_list
+    #   A list of tags attached to a domain.
+    #
+    # @return [Types::AddDirectQueryDataSourceResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::AddDirectQueryDataSourceResponse#data_source_arn #data_source_arn} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.add_direct_query_data_source({
+    #     data_source_name: "DirectQueryDataSourceName", # required
+    #     data_source_type: { # required
+    #       cloud_watch_log: {
+    #         role_arn: "DirectQueryDataSourceRoleArn", # required
+    #       },
+    #       security_lake: {
+    #         role_arn: "DirectQueryDataSourceRoleArn", # required
+    #       },
+    #     },
+    #     description: "DirectQueryDataSourceDescription",
+    #     open_search_arns: ["ARN"], # required
+    #     tag_list: [
+    #       {
+    #         key: "TagKey", # required
+    #         value: "TagValue", # required
+    #       },
+    #     ],
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.data_source_arn #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/AddDirectQueryDataSource AWS API Documentation
+    #
+    # @overload add_direct_query_data_source(params = {})
+    # @param [Hash] params ({})
+    def add_direct_query_data_source(params = {}, options = {})
+      req = build_request(:add_direct_query_data_source, params)
+      req.send_request(options)
+    end
+
+    # Attaches tags to an existing Amazon OpenSearch Service domain, data
+    # source, or application.
+    #
+    # Tags are a set of case-sensitive key-value pairs. A domain, data
+    # source, or application can have up to 10 tags. For more information,
+    # see [Tagging Amazon OpenSearch Service resources][1].
     #
     #
     #
     # [1]: https://docs.aws.amazon.com/opensearch-service/latest/developerguide/managedomains-awsresourcetagging.html
     #
     # @option params [required, String] :arn
-    #   Amazon Resource Name (ARN) for the OpenSearch Service domain to which
-    #   you want to attach resource tags.
+    #   Amazon Resource Name (ARN) for the OpenSearch Service domain, data
+    #   source, or application to which you want to attach resource tags.
     #
     # @option params [required, Array<Types::Tag>] :tag_list
     #   List of resource tags.
@@ -466,6 +681,14 @@ module Aws::OpenSearchService
     # @option params [required, String] :domain_name
     #   Name of the domain to associate the package with.
     #
+    # @option params [Array<String>] :prerequisite_package_id_list
+    #   A list of package IDs that must be associated with the domain before
+    #   the package specified in the request can be associated.
+    #
+    # @option params [Types::PackageAssociationConfiguration] :association_configuration
+    #   The configuration for associating a package with an Amazon OpenSearch
+    #   Service domain.
+    #
     # @return [Types::AssociatePackageResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::AssociatePackageResponse#domain_package_details #domain_package_details} => Types::DomainPackageDetails
@@ -475,20 +698,31 @@ module Aws::OpenSearchService
     #   resp = client.associate_package({
     #     package_id: "PackageID", # required
     #     domain_name: "DomainName", # required
+    #     prerequisite_package_id_list: ["PackageID"],
+    #     association_configuration: {
+    #       key_store_access_option: {
+    #         key_access_role_arn: "RoleArn",
+    #         key_store_access_enabled: false, # required
+    #       },
+    #     },
     #   })
     #
     # @example Response structure
     #
     #   resp.domain_package_details.package_id #=> String
     #   resp.domain_package_details.package_name #=> String
-    #   resp.domain_package_details.package_type #=> String, one of "TXT-DICTIONARY"
+    #   resp.domain_package_details.package_type #=> String, one of "TXT-DICTIONARY", "ZIP-PLUGIN", "PACKAGE-LICENSE", "PACKAGE-CONFIG"
     #   resp.domain_package_details.last_updated #=> Time
     #   resp.domain_package_details.domain_name #=> String
     #   resp.domain_package_details.domain_package_status #=> String, one of "ASSOCIATING", "ASSOCIATION_FAILED", "ACTIVE", "DISSOCIATING", "DISSOCIATION_FAILED"
     #   resp.domain_package_details.package_version #=> String
+    #   resp.domain_package_details.prerequisite_package_id_list #=> Array
+    #   resp.domain_package_details.prerequisite_package_id_list[0] #=> String
     #   resp.domain_package_details.reference_path #=> String
     #   resp.domain_package_details.error_details.error_type #=> String
     #   resp.domain_package_details.error_details.error_message #=> String
+    #   resp.domain_package_details.association_configuration.key_store_access_option.key_access_role_arn #=> String
+    #   resp.domain_package_details.association_configuration.key_store_access_option.key_store_access_enabled #=> Boolean
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/AssociatePackage AWS API Documentation
     #
@@ -499,14 +733,78 @@ module Aws::OpenSearchService
       req.send_request(options)
     end
 
+    # Operation in the Amazon OpenSearch Service API for associating
+    # multiple packages with a domain simultaneously.
+    #
+    # @option params [required, Array<Types::PackageDetailsForAssociation>] :package_list
+    #   A list of packages and their prerequisites to be associated with a
+    #   domain.
+    #
+    # @option params [required, String] :domain_name
+    #   The name of an OpenSearch Service domain. Domain names are unique
+    #   across the domains owned by an account within an Amazon Web Services
+    #   Region.
+    #
+    # @return [Types::AssociatePackagesResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::AssociatePackagesResponse#domain_package_details_list #domain_package_details_list} => Array&lt;Types::DomainPackageDetails&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.associate_packages({
+    #     package_list: [ # required
+    #       {
+    #         package_id: "PackageID", # required
+    #         prerequisite_package_id_list: ["PackageID"],
+    #         association_configuration: {
+    #           key_store_access_option: {
+    #             key_access_role_arn: "RoleArn",
+    #             key_store_access_enabled: false, # required
+    #           },
+    #         },
+    #       },
+    #     ],
+    #     domain_name: "DomainName", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.domain_package_details_list #=> Array
+    #   resp.domain_package_details_list[0].package_id #=> String
+    #   resp.domain_package_details_list[0].package_name #=> String
+    #   resp.domain_package_details_list[0].package_type #=> String, one of "TXT-DICTIONARY", "ZIP-PLUGIN", "PACKAGE-LICENSE", "PACKAGE-CONFIG"
+    #   resp.domain_package_details_list[0].last_updated #=> Time
+    #   resp.domain_package_details_list[0].domain_name #=> String
+    #   resp.domain_package_details_list[0].domain_package_status #=> String, one of "ASSOCIATING", "ASSOCIATION_FAILED", "ACTIVE", "DISSOCIATING", "DISSOCIATION_FAILED"
+    #   resp.domain_package_details_list[0].package_version #=> String
+    #   resp.domain_package_details_list[0].prerequisite_package_id_list #=> Array
+    #   resp.domain_package_details_list[0].prerequisite_package_id_list[0] #=> String
+    #   resp.domain_package_details_list[0].reference_path #=> String
+    #   resp.domain_package_details_list[0].error_details.error_type #=> String
+    #   resp.domain_package_details_list[0].error_details.error_message #=> String
+    #   resp.domain_package_details_list[0].association_configuration.key_store_access_option.key_access_role_arn #=> String
+    #   resp.domain_package_details_list[0].association_configuration.key_store_access_option.key_store_access_enabled #=> Boolean
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/AssociatePackages AWS API Documentation
+    #
+    # @overload associate_packages(params = {})
+    # @param [Hash] params ({})
+    def associate_packages(params = {}, options = {})
+      req = build_request(:associate_packages, params)
+      req.send_request(options)
+    end
+
     # Provides access to an Amazon OpenSearch Service domain through the use
     # of an interface VPC endpoint.
     #
     # @option params [required, String] :domain_name
     #   The name of the OpenSearch Service domain to provide access to.
     #
-    # @option params [required, String] :account
+    # @option params [String] :account
     #   The Amazon Web Services account ID to grant access to.
+    #
+    # @option params [String] :service
+    #   The Amazon Web Services service SP to grant access to.
     #
     # @return [Types::AuthorizeVpcEndpointAccessResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -516,7 +814,8 @@ module Aws::OpenSearchService
     #
     #   resp = client.authorize_vpc_endpoint_access({
     #     domain_name: "DomainName", # required
-    #     account: "AWSAccount", # required
+    #     account: "AWSAccount",
+    #     service: "application.opensearchservice.amazonaws.com", # accepts application.opensearchservice.amazonaws.com
     #   })
     #
     # @example Response structure
@@ -530,6 +829,50 @@ module Aws::OpenSearchService
     # @param [Hash] params ({})
     def authorize_vpc_endpoint_access(params = {}, options = {})
       req = build_request(:authorize_vpc_endpoint_access, params)
+      req.send_request(options)
+    end
+
+    # Cancels a pending configuration change on an Amazon OpenSearch Service
+    # domain.
+    #
+    # @option params [required, String] :domain_name
+    #   The name of an OpenSearch Service domain. Domain names are unique
+    #   across the domains owned by an account within an Amazon Web Services
+    #   Region.
+    #
+    # @option params [Boolean] :dry_run
+    #   When set to `True`, returns the list of change IDs and properties that
+    #   will be cancelled without actually cancelling the change.
+    #
+    # @return [Types::CancelDomainConfigChangeResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CancelDomainConfigChangeResponse#cancelled_change_ids #cancelled_change_ids} => Array&lt;String&gt;
+    #   * {Types::CancelDomainConfigChangeResponse#cancelled_change_properties #cancelled_change_properties} => Array&lt;Types::CancelledChangeProperty&gt;
+    #   * {Types::CancelDomainConfigChangeResponse#dry_run #dry_run} => Boolean
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.cancel_domain_config_change({
+    #     domain_name: "DomainName", # required
+    #     dry_run: false,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.cancelled_change_ids #=> Array
+    #   resp.cancelled_change_ids[0] #=> String
+    #   resp.cancelled_change_properties #=> Array
+    #   resp.cancelled_change_properties[0].property_name #=> String
+    #   resp.cancelled_change_properties[0].cancelled_value #=> String
+    #   resp.cancelled_change_properties[0].active_value #=> String
+    #   resp.dry_run #=> Boolean
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/CancelDomainConfigChange AWS API Documentation
+    #
+    # @overload cancel_domain_config_change(params = {})
+    # @param [Hash] params ({})
+    def cancel_domain_config_change(params = {}, options = {})
+      req = build_request(:cancel_domain_config_change, params)
       req.send_request(options)
     end
 
@@ -577,6 +920,103 @@ module Aws::OpenSearchService
       req.send_request(options)
     end
 
+    # Creates an OpenSearch Application.
+    #
+    # @option params [String] :client_token
+    #   A unique client idempotency token. It will be auto generated if not
+    #   provided.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @option params [required, String] :name
+    #   Name of the OpenSearch Appication to create. Application names are
+    #   unique across the applications owned by an account within an Amazon
+    #   Web Services Region.
+    #
+    # @option params [Array<Types::DataSource>] :data_sources
+    #   Data sources to be associated with the OpenSearch Application.
+    #
+    # @option params [Types::IamIdentityCenterOptionsInput] :iam_identity_center_options
+    #   Settings of IAM Identity Center for the OpenSearch Application.
+    #
+    # @option params [Array<Types::AppConfig>] :app_configs
+    #   Configurations of the OpenSearch Application, inlcuding admin
+    #   configuration.
+    #
+    # @option params [Array<Types::Tag>] :tag_list
+    #   A list of tags attached to a domain.
+    #
+    # @return [Types::CreateApplicationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateApplicationResponse#id #id} => String
+    #   * {Types::CreateApplicationResponse#name #name} => String
+    #   * {Types::CreateApplicationResponse#arn #arn} => String
+    #   * {Types::CreateApplicationResponse#data_sources #data_sources} => Array&lt;Types::DataSource&gt;
+    #   * {Types::CreateApplicationResponse#iam_identity_center_options #iam_identity_center_options} => Types::IamIdentityCenterOptions
+    #   * {Types::CreateApplicationResponse#app_configs #app_configs} => Array&lt;Types::AppConfig&gt;
+    #   * {Types::CreateApplicationResponse#tag_list #tag_list} => Array&lt;Types::Tag&gt;
+    #   * {Types::CreateApplicationResponse#created_at #created_at} => Time
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_application({
+    #     client_token: "ClientToken",
+    #     name: "ApplicationName", # required
+    #     data_sources: [
+    #       {
+    #         data_source_arn: "ARN",
+    #         data_source_description: "DataSourceDescription",
+    #       },
+    #     ],
+    #     iam_identity_center_options: {
+    #       enabled: false,
+    #       iam_identity_center_instance_arn: "ARN",
+    #       iam_role_for_identity_center_application_arn: "RoleArn",
+    #     },
+    #     app_configs: [
+    #       {
+    #         key: "opensearchDashboards.dashboardAdmin.users", # accepts opensearchDashboards.dashboardAdmin.users, opensearchDashboards.dashboardAdmin.groups
+    #         value: "AppConfigValue",
+    #       },
+    #     ],
+    #     tag_list: [
+    #       {
+    #         key: "TagKey", # required
+    #         value: "TagValue", # required
+    #       },
+    #     ],
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.id #=> String
+    #   resp.name #=> String
+    #   resp.arn #=> String
+    #   resp.data_sources #=> Array
+    #   resp.data_sources[0].data_source_arn #=> String
+    #   resp.data_sources[0].data_source_description #=> String
+    #   resp.iam_identity_center_options.enabled #=> Boolean
+    #   resp.iam_identity_center_options.iam_identity_center_instance_arn #=> String
+    #   resp.iam_identity_center_options.iam_role_for_identity_center_application_arn #=> String
+    #   resp.iam_identity_center_options.iam_identity_center_application_arn #=> String
+    #   resp.app_configs #=> Array
+    #   resp.app_configs[0].key #=> String, one of "opensearchDashboards.dashboardAdmin.users", "opensearchDashboards.dashboardAdmin.groups"
+    #   resp.app_configs[0].value #=> String
+    #   resp.tag_list #=> Array
+    #   resp.tag_list[0].key #=> String
+    #   resp.tag_list[0].value #=> String
+    #   resp.created_at #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/CreateApplication AWS API Documentation
+    #
+    # @overload create_application(params = {})
+    # @param [Hash] params ({})
+    def create_application(params = {}, options = {})
+      req = build_request(:create_application, params)
+      req.send_request(options)
+    end
+
     # Creates an Amazon OpenSearch Service domain. For more information, see
     # [Creating and managing Amazon OpenSearch Service domains][1].
     #
@@ -609,6 +1049,12 @@ module Aws::OpenSearchService
     # @option params [String] :access_policies
     #   Identity and Access Management (IAM) policy document specifying the
     #   access policies for the new domain.
+    #
+    # @option params [String] :ip_address_type
+    #   Specify either dual stack or IPv4 as your IP address type. Dual stack
+    #   allows you to share domain resources across IPv4 and IPv6 address
+    #   types, and is the recommended option. If you set your IP address type
+    #   to dual stack, you can't change your address type later.
     #
     # @option params [Types::SnapshotOptions] :snapshot_options
     #   DEPRECATED. Container for the parameters required to configure
@@ -673,7 +1119,7 @@ module Aws::OpenSearchService
     #   [1]: https://docs.aws.amazon.com/opensearch-service/latest/developerguide/createupdatedomains.html#createdomain-configure-advanced-options
     #
     # @option params [Hash<String,Types::LogPublishingOption>] :log_publishing_options
-    #   Key-value pairs to configure slow log publishing.
+    #   Key-value pairs to configure log publishing.
     #
     # @option params [Types::DomainEndpointOptions] :domain_endpoint_options
     #   Additional options for the domain endpoint, such as whether to require
@@ -682,11 +1128,28 @@ module Aws::OpenSearchService
     # @option params [Types::AdvancedSecurityOptionsInput] :advanced_security_options
     #   Options for fine-grained access control.
     #
+    # @option params [Types::IdentityCenterOptionsInput] :identity_center_options
+    #   Options for IAM Identity Center Option control for the domain.
+    #
     # @option params [Array<Types::Tag>] :tag_list
     #   List of tags to add to the domain upon creation.
     #
     # @option params [Types::AutoTuneOptionsInput] :auto_tune_options
     #   Options for Auto-Tune.
+    #
+    # @option params [Types::OffPeakWindowOptions] :off_peak_window_options
+    #   Specifies a daily 10-hour time block during which OpenSearch Service
+    #   can perform configuration changes on the domain, including service
+    #   software updates and Auto-Tune enhancements that require a blue/green
+    #   deployment. If no options are specified, the default start time of
+    #   10:00 P.M. local time (for the Region that the domain is created in)
+    #   is used.
+    #
+    # @option params [Types::SoftwareUpdateOptions] :software_update_options
+    #   Software update options for the domain.
+    #
+    # @option params [Types::AIMLOptionsInput] :aiml_options
+    #   Options for all machine learning features for the specified domain.
     #
     # @return [Types::CreateDomainResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -698,14 +1161,14 @@ module Aws::OpenSearchService
     #     domain_name: "DomainName", # required
     #     engine_version: "VersionString",
     #     cluster_config: {
-    #       instance_type: "m3.medium.search", # accepts m3.medium.search, m3.large.search, m3.xlarge.search, m3.2xlarge.search, m4.large.search, m4.xlarge.search, m4.2xlarge.search, m4.4xlarge.search, m4.10xlarge.search, m5.large.search, m5.xlarge.search, m5.2xlarge.search, m5.4xlarge.search, m5.12xlarge.search, m5.24xlarge.search, r5.large.search, r5.xlarge.search, r5.2xlarge.search, r5.4xlarge.search, r5.12xlarge.search, r5.24xlarge.search, c5.large.search, c5.xlarge.search, c5.2xlarge.search, c5.4xlarge.search, c5.9xlarge.search, c5.18xlarge.search, t3.nano.search, t3.micro.search, t3.small.search, t3.medium.search, t3.large.search, t3.xlarge.search, t3.2xlarge.search, ultrawarm1.medium.search, ultrawarm1.large.search, ultrawarm1.xlarge.search, t2.micro.search, t2.small.search, t2.medium.search, r3.large.search, r3.xlarge.search, r3.2xlarge.search, r3.4xlarge.search, r3.8xlarge.search, i2.xlarge.search, i2.2xlarge.search, d2.xlarge.search, d2.2xlarge.search, d2.4xlarge.search, d2.8xlarge.search, c4.large.search, c4.xlarge.search, c4.2xlarge.search, c4.4xlarge.search, c4.8xlarge.search, r4.large.search, r4.xlarge.search, r4.2xlarge.search, r4.4xlarge.search, r4.8xlarge.search, r4.16xlarge.search, i3.large.search, i3.xlarge.search, i3.2xlarge.search, i3.4xlarge.search, i3.8xlarge.search, i3.16xlarge.search, r6g.large.search, r6g.xlarge.search, r6g.2xlarge.search, r6g.4xlarge.search, r6g.8xlarge.search, r6g.12xlarge.search, m6g.large.search, m6g.xlarge.search, m6g.2xlarge.search, m6g.4xlarge.search, m6g.8xlarge.search, m6g.12xlarge.search, c6g.large.search, c6g.xlarge.search, c6g.2xlarge.search, c6g.4xlarge.search, c6g.8xlarge.search, c6g.12xlarge.search, r6gd.large.search, r6gd.xlarge.search, r6gd.2xlarge.search, r6gd.4xlarge.search, r6gd.8xlarge.search, r6gd.12xlarge.search, r6gd.16xlarge.search, t4g.small.search, t4g.medium.search
+    #       instance_type: "m3.medium.search", # accepts m3.medium.search, m3.large.search, m3.xlarge.search, m3.2xlarge.search, m4.large.search, m4.xlarge.search, m4.2xlarge.search, m4.4xlarge.search, m4.10xlarge.search, m5.large.search, m5.xlarge.search, m5.2xlarge.search, m5.4xlarge.search, m5.12xlarge.search, m5.24xlarge.search, r5.large.search, r5.xlarge.search, r5.2xlarge.search, r5.4xlarge.search, r5.12xlarge.search, r5.24xlarge.search, c5.large.search, c5.xlarge.search, c5.2xlarge.search, c5.4xlarge.search, c5.9xlarge.search, c5.18xlarge.search, t3.nano.search, t3.micro.search, t3.small.search, t3.medium.search, t3.large.search, t3.xlarge.search, t3.2xlarge.search, or1.medium.search, or1.large.search, or1.xlarge.search, or1.2xlarge.search, or1.4xlarge.search, or1.8xlarge.search, or1.12xlarge.search, or1.16xlarge.search, ultrawarm1.medium.search, ultrawarm1.large.search, ultrawarm1.xlarge.search, t2.micro.search, t2.small.search, t2.medium.search, r3.large.search, r3.xlarge.search, r3.2xlarge.search, r3.4xlarge.search, r3.8xlarge.search, i2.xlarge.search, i2.2xlarge.search, d2.xlarge.search, d2.2xlarge.search, d2.4xlarge.search, d2.8xlarge.search, c4.large.search, c4.xlarge.search, c4.2xlarge.search, c4.4xlarge.search, c4.8xlarge.search, r4.large.search, r4.xlarge.search, r4.2xlarge.search, r4.4xlarge.search, r4.8xlarge.search, r4.16xlarge.search, i3.large.search, i3.xlarge.search, i3.2xlarge.search, i3.4xlarge.search, i3.8xlarge.search, i3.16xlarge.search, r6g.large.search, r6g.xlarge.search, r6g.2xlarge.search, r6g.4xlarge.search, r6g.8xlarge.search, r6g.12xlarge.search, m6g.large.search, m6g.xlarge.search, m6g.2xlarge.search, m6g.4xlarge.search, m6g.8xlarge.search, m6g.12xlarge.search, c6g.large.search, c6g.xlarge.search, c6g.2xlarge.search, c6g.4xlarge.search, c6g.8xlarge.search, c6g.12xlarge.search, r6gd.large.search, r6gd.xlarge.search, r6gd.2xlarge.search, r6gd.4xlarge.search, r6gd.8xlarge.search, r6gd.12xlarge.search, r6gd.16xlarge.search, t4g.small.search, t4g.medium.search
     #       instance_count: 1,
     #       dedicated_master_enabled: false,
     #       zone_awareness_enabled: false,
     #       zone_awareness_config: {
     #         availability_zone_count: 1,
     #       },
-    #       dedicated_master_type: "m3.medium.search", # accepts m3.medium.search, m3.large.search, m3.xlarge.search, m3.2xlarge.search, m4.large.search, m4.xlarge.search, m4.2xlarge.search, m4.4xlarge.search, m4.10xlarge.search, m5.large.search, m5.xlarge.search, m5.2xlarge.search, m5.4xlarge.search, m5.12xlarge.search, m5.24xlarge.search, r5.large.search, r5.xlarge.search, r5.2xlarge.search, r5.4xlarge.search, r5.12xlarge.search, r5.24xlarge.search, c5.large.search, c5.xlarge.search, c5.2xlarge.search, c5.4xlarge.search, c5.9xlarge.search, c5.18xlarge.search, t3.nano.search, t3.micro.search, t3.small.search, t3.medium.search, t3.large.search, t3.xlarge.search, t3.2xlarge.search, ultrawarm1.medium.search, ultrawarm1.large.search, ultrawarm1.xlarge.search, t2.micro.search, t2.small.search, t2.medium.search, r3.large.search, r3.xlarge.search, r3.2xlarge.search, r3.4xlarge.search, r3.8xlarge.search, i2.xlarge.search, i2.2xlarge.search, d2.xlarge.search, d2.2xlarge.search, d2.4xlarge.search, d2.8xlarge.search, c4.large.search, c4.xlarge.search, c4.2xlarge.search, c4.4xlarge.search, c4.8xlarge.search, r4.large.search, r4.xlarge.search, r4.2xlarge.search, r4.4xlarge.search, r4.8xlarge.search, r4.16xlarge.search, i3.large.search, i3.xlarge.search, i3.2xlarge.search, i3.4xlarge.search, i3.8xlarge.search, i3.16xlarge.search, r6g.large.search, r6g.xlarge.search, r6g.2xlarge.search, r6g.4xlarge.search, r6g.8xlarge.search, r6g.12xlarge.search, m6g.large.search, m6g.xlarge.search, m6g.2xlarge.search, m6g.4xlarge.search, m6g.8xlarge.search, m6g.12xlarge.search, c6g.large.search, c6g.xlarge.search, c6g.2xlarge.search, c6g.4xlarge.search, c6g.8xlarge.search, c6g.12xlarge.search, r6gd.large.search, r6gd.xlarge.search, r6gd.2xlarge.search, r6gd.4xlarge.search, r6gd.8xlarge.search, r6gd.12xlarge.search, r6gd.16xlarge.search, t4g.small.search, t4g.medium.search
+    #       dedicated_master_type: "m3.medium.search", # accepts m3.medium.search, m3.large.search, m3.xlarge.search, m3.2xlarge.search, m4.large.search, m4.xlarge.search, m4.2xlarge.search, m4.4xlarge.search, m4.10xlarge.search, m5.large.search, m5.xlarge.search, m5.2xlarge.search, m5.4xlarge.search, m5.12xlarge.search, m5.24xlarge.search, r5.large.search, r5.xlarge.search, r5.2xlarge.search, r5.4xlarge.search, r5.12xlarge.search, r5.24xlarge.search, c5.large.search, c5.xlarge.search, c5.2xlarge.search, c5.4xlarge.search, c5.9xlarge.search, c5.18xlarge.search, t3.nano.search, t3.micro.search, t3.small.search, t3.medium.search, t3.large.search, t3.xlarge.search, t3.2xlarge.search, or1.medium.search, or1.large.search, or1.xlarge.search, or1.2xlarge.search, or1.4xlarge.search, or1.8xlarge.search, or1.12xlarge.search, or1.16xlarge.search, ultrawarm1.medium.search, ultrawarm1.large.search, ultrawarm1.xlarge.search, t2.micro.search, t2.small.search, t2.medium.search, r3.large.search, r3.xlarge.search, r3.2xlarge.search, r3.4xlarge.search, r3.8xlarge.search, i2.xlarge.search, i2.2xlarge.search, d2.xlarge.search, d2.2xlarge.search, d2.4xlarge.search, d2.8xlarge.search, c4.large.search, c4.xlarge.search, c4.2xlarge.search, c4.4xlarge.search, c4.8xlarge.search, r4.large.search, r4.xlarge.search, r4.2xlarge.search, r4.4xlarge.search, r4.8xlarge.search, r4.16xlarge.search, i3.large.search, i3.xlarge.search, i3.2xlarge.search, i3.4xlarge.search, i3.8xlarge.search, i3.16xlarge.search, r6g.large.search, r6g.xlarge.search, r6g.2xlarge.search, r6g.4xlarge.search, r6g.8xlarge.search, r6g.12xlarge.search, m6g.large.search, m6g.xlarge.search, m6g.2xlarge.search, m6g.4xlarge.search, m6g.8xlarge.search, m6g.12xlarge.search, c6g.large.search, c6g.xlarge.search, c6g.2xlarge.search, c6g.4xlarge.search, c6g.8xlarge.search, c6g.12xlarge.search, r6gd.large.search, r6gd.xlarge.search, r6gd.2xlarge.search, r6gd.4xlarge.search, r6gd.8xlarge.search, r6gd.12xlarge.search, r6gd.16xlarge.search, t4g.small.search, t4g.medium.search
     #       dedicated_master_count: 1,
     #       warm_enabled: false,
     #       warm_type: "ultrawarm1.medium.search", # accepts ultrawarm1.medium.search, ultrawarm1.large.search, ultrawarm1.xlarge.search
@@ -713,6 +1176,17 @@ module Aws::OpenSearchService
     #       cold_storage_options: {
     #         enabled: false, # required
     #       },
+    #       multi_az_with_standby_enabled: false,
+    #       node_options: [
+    #         {
+    #           node_type: "coordinator", # accepts coordinator
+    #           node_config: {
+    #             enabled: false,
+    #             type: "m3.medium.search", # accepts m3.medium.search, m3.large.search, m3.xlarge.search, m3.2xlarge.search, m4.large.search, m4.xlarge.search, m4.2xlarge.search, m4.4xlarge.search, m4.10xlarge.search, m5.large.search, m5.xlarge.search, m5.2xlarge.search, m5.4xlarge.search, m5.12xlarge.search, m5.24xlarge.search, r5.large.search, r5.xlarge.search, r5.2xlarge.search, r5.4xlarge.search, r5.12xlarge.search, r5.24xlarge.search, c5.large.search, c5.xlarge.search, c5.2xlarge.search, c5.4xlarge.search, c5.9xlarge.search, c5.18xlarge.search, t3.nano.search, t3.micro.search, t3.small.search, t3.medium.search, t3.large.search, t3.xlarge.search, t3.2xlarge.search, or1.medium.search, or1.large.search, or1.xlarge.search, or1.2xlarge.search, or1.4xlarge.search, or1.8xlarge.search, or1.12xlarge.search, or1.16xlarge.search, ultrawarm1.medium.search, ultrawarm1.large.search, ultrawarm1.xlarge.search, t2.micro.search, t2.small.search, t2.medium.search, r3.large.search, r3.xlarge.search, r3.2xlarge.search, r3.4xlarge.search, r3.8xlarge.search, i2.xlarge.search, i2.2xlarge.search, d2.xlarge.search, d2.2xlarge.search, d2.4xlarge.search, d2.8xlarge.search, c4.large.search, c4.xlarge.search, c4.2xlarge.search, c4.4xlarge.search, c4.8xlarge.search, r4.large.search, r4.xlarge.search, r4.2xlarge.search, r4.4xlarge.search, r4.8xlarge.search, r4.16xlarge.search, i3.large.search, i3.xlarge.search, i3.2xlarge.search, i3.4xlarge.search, i3.8xlarge.search, i3.16xlarge.search, r6g.large.search, r6g.xlarge.search, r6g.2xlarge.search, r6g.4xlarge.search, r6g.8xlarge.search, r6g.12xlarge.search, m6g.large.search, m6g.xlarge.search, m6g.2xlarge.search, m6g.4xlarge.search, m6g.8xlarge.search, m6g.12xlarge.search, c6g.large.search, c6g.xlarge.search, c6g.2xlarge.search, c6g.4xlarge.search, c6g.8xlarge.search, c6g.12xlarge.search, r6gd.large.search, r6gd.xlarge.search, r6gd.2xlarge.search, r6gd.4xlarge.search, r6gd.8xlarge.search, r6gd.12xlarge.search, r6gd.16xlarge.search, t4g.small.search, t4g.medium.search
+    #             count: 1,
+    #           },
+    #         },
+    #       ],
     #     },
     #     ebs_options: {
     #       ebs_enabled: false,
@@ -722,6 +1196,7 @@ module Aws::OpenSearchService
     #       throughput: 1,
     #     },
     #     access_policies: "PolicyDocument",
+    #     ip_address_type: "ipv4", # accepts ipv4, dualstack
     #     snapshot_options: {
     #       automated_snapshot_start_hour: 1,
     #     },
@@ -753,7 +1228,7 @@ module Aws::OpenSearchService
     #     },
     #     domain_endpoint_options: {
     #       enforce_https: false,
-    #       tls_security_policy: "Policy-Min-TLS-1-0-2019-07", # accepts Policy-Min-TLS-1-0-2019-07, Policy-Min-TLS-1-2-2019-07
+    #       tls_security_policy: "Policy-Min-TLS-1-0-2019-07", # accepts Policy-Min-TLS-1-0-2019-07, Policy-Min-TLS-1-2-2019-07, Policy-Min-TLS-1-2-PFS-2023-10
     #       custom_endpoint_enabled: false,
     #       custom_endpoint: "DomainNameFqdn",
     #       custom_endpoint_certificate_arn: "ARN",
@@ -778,7 +1253,19 @@ module Aws::OpenSearchService
     #         roles_key: "String",
     #         session_timeout_minutes: 1,
     #       },
+    #       jwt_options: {
+    #         enabled: false,
+    #         subject_key: "SubjectKey",
+    #         roles_key: "RolesKey",
+    #         public_key: "String",
+    #       },
     #       anonymous_auth_enabled: false,
+    #     },
+    #     identity_center_options: {
+    #       enabled_api_access: false,
+    #       identity_center_instance_arn: "IdentityCenterInstanceARN",
+    #       subject_key: "UserName", # accepts UserName, UserId, Email
+    #       roles_key: "GroupName", # accepts GroupName, GroupId
     #     },
     #     tag_list: [
     #       {
@@ -798,6 +1285,24 @@ module Aws::OpenSearchService
     #           cron_expression_for_recurrence: "String",
     #         },
     #       ],
+    #       use_off_peak_window: false,
+    #     },
+    #     off_peak_window_options: {
+    #       enabled: false,
+    #       off_peak_window: {
+    #         window_start_time: {
+    #           hours: 1, # required
+    #           minutes: 1, # required
+    #         },
+    #       },
+    #     },
+    #     software_update_options: {
+    #       auto_software_update_enabled: false,
+    #     },
+    #     aiml_options: {
+    #       natural_language_query_generation_options: {
+    #         desired_state: "ENABLED", # accepts ENABLED, DISABLED
+    #       },
     #     },
     #   })
     #
@@ -809,28 +1314,37 @@ module Aws::OpenSearchService
     #   resp.domain_status.created #=> Boolean
     #   resp.domain_status.deleted #=> Boolean
     #   resp.domain_status.endpoint #=> String
+    #   resp.domain_status.endpoint_v2 #=> String
     #   resp.domain_status.endpoints #=> Hash
     #   resp.domain_status.endpoints["String"] #=> String
+    #   resp.domain_status.domain_endpoint_v2_hosted_zone_id #=> String
     #   resp.domain_status.processing #=> Boolean
     #   resp.domain_status.upgrade_processing #=> Boolean
     #   resp.domain_status.engine_version #=> String
-    #   resp.domain_status.cluster_config.instance_type #=> String, one of "m3.medium.search", "m3.large.search", "m3.xlarge.search", "m3.2xlarge.search", "m4.large.search", "m4.xlarge.search", "m4.2xlarge.search", "m4.4xlarge.search", "m4.10xlarge.search", "m5.large.search", "m5.xlarge.search", "m5.2xlarge.search", "m5.4xlarge.search", "m5.12xlarge.search", "m5.24xlarge.search", "r5.large.search", "r5.xlarge.search", "r5.2xlarge.search", "r5.4xlarge.search", "r5.12xlarge.search", "r5.24xlarge.search", "c5.large.search", "c5.xlarge.search", "c5.2xlarge.search", "c5.4xlarge.search", "c5.9xlarge.search", "c5.18xlarge.search", "t3.nano.search", "t3.micro.search", "t3.small.search", "t3.medium.search", "t3.large.search", "t3.xlarge.search", "t3.2xlarge.search", "ultrawarm1.medium.search", "ultrawarm1.large.search", "ultrawarm1.xlarge.search", "t2.micro.search", "t2.small.search", "t2.medium.search", "r3.large.search", "r3.xlarge.search", "r3.2xlarge.search", "r3.4xlarge.search", "r3.8xlarge.search", "i2.xlarge.search", "i2.2xlarge.search", "d2.xlarge.search", "d2.2xlarge.search", "d2.4xlarge.search", "d2.8xlarge.search", "c4.large.search", "c4.xlarge.search", "c4.2xlarge.search", "c4.4xlarge.search", "c4.8xlarge.search", "r4.large.search", "r4.xlarge.search", "r4.2xlarge.search", "r4.4xlarge.search", "r4.8xlarge.search", "r4.16xlarge.search", "i3.large.search", "i3.xlarge.search", "i3.2xlarge.search", "i3.4xlarge.search", "i3.8xlarge.search", "i3.16xlarge.search", "r6g.large.search", "r6g.xlarge.search", "r6g.2xlarge.search", "r6g.4xlarge.search", "r6g.8xlarge.search", "r6g.12xlarge.search", "m6g.large.search", "m6g.xlarge.search", "m6g.2xlarge.search", "m6g.4xlarge.search", "m6g.8xlarge.search", "m6g.12xlarge.search", "c6g.large.search", "c6g.xlarge.search", "c6g.2xlarge.search", "c6g.4xlarge.search", "c6g.8xlarge.search", "c6g.12xlarge.search", "r6gd.large.search", "r6gd.xlarge.search", "r6gd.2xlarge.search", "r6gd.4xlarge.search", "r6gd.8xlarge.search", "r6gd.12xlarge.search", "r6gd.16xlarge.search", "t4g.small.search", "t4g.medium.search"
+    #   resp.domain_status.cluster_config.instance_type #=> String, one of "m3.medium.search", "m3.large.search", "m3.xlarge.search", "m3.2xlarge.search", "m4.large.search", "m4.xlarge.search", "m4.2xlarge.search", "m4.4xlarge.search", "m4.10xlarge.search", "m5.large.search", "m5.xlarge.search", "m5.2xlarge.search", "m5.4xlarge.search", "m5.12xlarge.search", "m5.24xlarge.search", "r5.large.search", "r5.xlarge.search", "r5.2xlarge.search", "r5.4xlarge.search", "r5.12xlarge.search", "r5.24xlarge.search", "c5.large.search", "c5.xlarge.search", "c5.2xlarge.search", "c5.4xlarge.search", "c5.9xlarge.search", "c5.18xlarge.search", "t3.nano.search", "t3.micro.search", "t3.small.search", "t3.medium.search", "t3.large.search", "t3.xlarge.search", "t3.2xlarge.search", "or1.medium.search", "or1.large.search", "or1.xlarge.search", "or1.2xlarge.search", "or1.4xlarge.search", "or1.8xlarge.search", "or1.12xlarge.search", "or1.16xlarge.search", "ultrawarm1.medium.search", "ultrawarm1.large.search", "ultrawarm1.xlarge.search", "t2.micro.search", "t2.small.search", "t2.medium.search", "r3.large.search", "r3.xlarge.search", "r3.2xlarge.search", "r3.4xlarge.search", "r3.8xlarge.search", "i2.xlarge.search", "i2.2xlarge.search", "d2.xlarge.search", "d2.2xlarge.search", "d2.4xlarge.search", "d2.8xlarge.search", "c4.large.search", "c4.xlarge.search", "c4.2xlarge.search", "c4.4xlarge.search", "c4.8xlarge.search", "r4.large.search", "r4.xlarge.search", "r4.2xlarge.search", "r4.4xlarge.search", "r4.8xlarge.search", "r4.16xlarge.search", "i3.large.search", "i3.xlarge.search", "i3.2xlarge.search", "i3.4xlarge.search", "i3.8xlarge.search", "i3.16xlarge.search", "r6g.large.search", "r6g.xlarge.search", "r6g.2xlarge.search", "r6g.4xlarge.search", "r6g.8xlarge.search", "r6g.12xlarge.search", "m6g.large.search", "m6g.xlarge.search", "m6g.2xlarge.search", "m6g.4xlarge.search", "m6g.8xlarge.search", "m6g.12xlarge.search", "c6g.large.search", "c6g.xlarge.search", "c6g.2xlarge.search", "c6g.4xlarge.search", "c6g.8xlarge.search", "c6g.12xlarge.search", "r6gd.large.search", "r6gd.xlarge.search", "r6gd.2xlarge.search", "r6gd.4xlarge.search", "r6gd.8xlarge.search", "r6gd.12xlarge.search", "r6gd.16xlarge.search", "t4g.small.search", "t4g.medium.search"
     #   resp.domain_status.cluster_config.instance_count #=> Integer
     #   resp.domain_status.cluster_config.dedicated_master_enabled #=> Boolean
     #   resp.domain_status.cluster_config.zone_awareness_enabled #=> Boolean
     #   resp.domain_status.cluster_config.zone_awareness_config.availability_zone_count #=> Integer
-    #   resp.domain_status.cluster_config.dedicated_master_type #=> String, one of "m3.medium.search", "m3.large.search", "m3.xlarge.search", "m3.2xlarge.search", "m4.large.search", "m4.xlarge.search", "m4.2xlarge.search", "m4.4xlarge.search", "m4.10xlarge.search", "m5.large.search", "m5.xlarge.search", "m5.2xlarge.search", "m5.4xlarge.search", "m5.12xlarge.search", "m5.24xlarge.search", "r5.large.search", "r5.xlarge.search", "r5.2xlarge.search", "r5.4xlarge.search", "r5.12xlarge.search", "r5.24xlarge.search", "c5.large.search", "c5.xlarge.search", "c5.2xlarge.search", "c5.4xlarge.search", "c5.9xlarge.search", "c5.18xlarge.search", "t3.nano.search", "t3.micro.search", "t3.small.search", "t3.medium.search", "t3.large.search", "t3.xlarge.search", "t3.2xlarge.search", "ultrawarm1.medium.search", "ultrawarm1.large.search", "ultrawarm1.xlarge.search", "t2.micro.search", "t2.small.search", "t2.medium.search", "r3.large.search", "r3.xlarge.search", "r3.2xlarge.search", "r3.4xlarge.search", "r3.8xlarge.search", "i2.xlarge.search", "i2.2xlarge.search", "d2.xlarge.search", "d2.2xlarge.search", "d2.4xlarge.search", "d2.8xlarge.search", "c4.large.search", "c4.xlarge.search", "c4.2xlarge.search", "c4.4xlarge.search", "c4.8xlarge.search", "r4.large.search", "r4.xlarge.search", "r4.2xlarge.search", "r4.4xlarge.search", "r4.8xlarge.search", "r4.16xlarge.search", "i3.large.search", "i3.xlarge.search", "i3.2xlarge.search", "i3.4xlarge.search", "i3.8xlarge.search", "i3.16xlarge.search", "r6g.large.search", "r6g.xlarge.search", "r6g.2xlarge.search", "r6g.4xlarge.search", "r6g.8xlarge.search", "r6g.12xlarge.search", "m6g.large.search", "m6g.xlarge.search", "m6g.2xlarge.search", "m6g.4xlarge.search", "m6g.8xlarge.search", "m6g.12xlarge.search", "c6g.large.search", "c6g.xlarge.search", "c6g.2xlarge.search", "c6g.4xlarge.search", "c6g.8xlarge.search", "c6g.12xlarge.search", "r6gd.large.search", "r6gd.xlarge.search", "r6gd.2xlarge.search", "r6gd.4xlarge.search", "r6gd.8xlarge.search", "r6gd.12xlarge.search", "r6gd.16xlarge.search", "t4g.small.search", "t4g.medium.search"
+    #   resp.domain_status.cluster_config.dedicated_master_type #=> String, one of "m3.medium.search", "m3.large.search", "m3.xlarge.search", "m3.2xlarge.search", "m4.large.search", "m4.xlarge.search", "m4.2xlarge.search", "m4.4xlarge.search", "m4.10xlarge.search", "m5.large.search", "m5.xlarge.search", "m5.2xlarge.search", "m5.4xlarge.search", "m5.12xlarge.search", "m5.24xlarge.search", "r5.large.search", "r5.xlarge.search", "r5.2xlarge.search", "r5.4xlarge.search", "r5.12xlarge.search", "r5.24xlarge.search", "c5.large.search", "c5.xlarge.search", "c5.2xlarge.search", "c5.4xlarge.search", "c5.9xlarge.search", "c5.18xlarge.search", "t3.nano.search", "t3.micro.search", "t3.small.search", "t3.medium.search", "t3.large.search", "t3.xlarge.search", "t3.2xlarge.search", "or1.medium.search", "or1.large.search", "or1.xlarge.search", "or1.2xlarge.search", "or1.4xlarge.search", "or1.8xlarge.search", "or1.12xlarge.search", "or1.16xlarge.search", "ultrawarm1.medium.search", "ultrawarm1.large.search", "ultrawarm1.xlarge.search", "t2.micro.search", "t2.small.search", "t2.medium.search", "r3.large.search", "r3.xlarge.search", "r3.2xlarge.search", "r3.4xlarge.search", "r3.8xlarge.search", "i2.xlarge.search", "i2.2xlarge.search", "d2.xlarge.search", "d2.2xlarge.search", "d2.4xlarge.search", "d2.8xlarge.search", "c4.large.search", "c4.xlarge.search", "c4.2xlarge.search", "c4.4xlarge.search", "c4.8xlarge.search", "r4.large.search", "r4.xlarge.search", "r4.2xlarge.search", "r4.4xlarge.search", "r4.8xlarge.search", "r4.16xlarge.search", "i3.large.search", "i3.xlarge.search", "i3.2xlarge.search", "i3.4xlarge.search", "i3.8xlarge.search", "i3.16xlarge.search", "r6g.large.search", "r6g.xlarge.search", "r6g.2xlarge.search", "r6g.4xlarge.search", "r6g.8xlarge.search", "r6g.12xlarge.search", "m6g.large.search", "m6g.xlarge.search", "m6g.2xlarge.search", "m6g.4xlarge.search", "m6g.8xlarge.search", "m6g.12xlarge.search", "c6g.large.search", "c6g.xlarge.search", "c6g.2xlarge.search", "c6g.4xlarge.search", "c6g.8xlarge.search", "c6g.12xlarge.search", "r6gd.large.search", "r6gd.xlarge.search", "r6gd.2xlarge.search", "r6gd.4xlarge.search", "r6gd.8xlarge.search", "r6gd.12xlarge.search", "r6gd.16xlarge.search", "t4g.small.search", "t4g.medium.search"
     #   resp.domain_status.cluster_config.dedicated_master_count #=> Integer
     #   resp.domain_status.cluster_config.warm_enabled #=> Boolean
     #   resp.domain_status.cluster_config.warm_type #=> String, one of "ultrawarm1.medium.search", "ultrawarm1.large.search", "ultrawarm1.xlarge.search"
     #   resp.domain_status.cluster_config.warm_count #=> Integer
     #   resp.domain_status.cluster_config.cold_storage_options.enabled #=> Boolean
+    #   resp.domain_status.cluster_config.multi_az_with_standby_enabled #=> Boolean
+    #   resp.domain_status.cluster_config.node_options #=> Array
+    #   resp.domain_status.cluster_config.node_options[0].node_type #=> String, one of "coordinator"
+    #   resp.domain_status.cluster_config.node_options[0].node_config.enabled #=> Boolean
+    #   resp.domain_status.cluster_config.node_options[0].node_config.type #=> String, one of "m3.medium.search", "m3.large.search", "m3.xlarge.search", "m3.2xlarge.search", "m4.large.search", "m4.xlarge.search", "m4.2xlarge.search", "m4.4xlarge.search", "m4.10xlarge.search", "m5.large.search", "m5.xlarge.search", "m5.2xlarge.search", "m5.4xlarge.search", "m5.12xlarge.search", "m5.24xlarge.search", "r5.large.search", "r5.xlarge.search", "r5.2xlarge.search", "r5.4xlarge.search", "r5.12xlarge.search", "r5.24xlarge.search", "c5.large.search", "c5.xlarge.search", "c5.2xlarge.search", "c5.4xlarge.search", "c5.9xlarge.search", "c5.18xlarge.search", "t3.nano.search", "t3.micro.search", "t3.small.search", "t3.medium.search", "t3.large.search", "t3.xlarge.search", "t3.2xlarge.search", "or1.medium.search", "or1.large.search", "or1.xlarge.search", "or1.2xlarge.search", "or1.4xlarge.search", "or1.8xlarge.search", "or1.12xlarge.search", "or1.16xlarge.search", "ultrawarm1.medium.search", "ultrawarm1.large.search", "ultrawarm1.xlarge.search", "t2.micro.search", "t2.small.search", "t2.medium.search", "r3.large.search", "r3.xlarge.search", "r3.2xlarge.search", "r3.4xlarge.search", "r3.8xlarge.search", "i2.xlarge.search", "i2.2xlarge.search", "d2.xlarge.search", "d2.2xlarge.search", "d2.4xlarge.search", "d2.8xlarge.search", "c4.large.search", "c4.xlarge.search", "c4.2xlarge.search", "c4.4xlarge.search", "c4.8xlarge.search", "r4.large.search", "r4.xlarge.search", "r4.2xlarge.search", "r4.4xlarge.search", "r4.8xlarge.search", "r4.16xlarge.search", "i3.large.search", "i3.xlarge.search", "i3.2xlarge.search", "i3.4xlarge.search", "i3.8xlarge.search", "i3.16xlarge.search", "r6g.large.search", "r6g.xlarge.search", "r6g.2xlarge.search", "r6g.4xlarge.search", "r6g.8xlarge.search", "r6g.12xlarge.search", "m6g.large.search", "m6g.xlarge.search", "m6g.2xlarge.search", "m6g.4xlarge.search", "m6g.8xlarge.search", "m6g.12xlarge.search", "c6g.large.search", "c6g.xlarge.search", "c6g.2xlarge.search", "c6g.4xlarge.search", "c6g.8xlarge.search", "c6g.12xlarge.search", "r6gd.large.search", "r6gd.xlarge.search", "r6gd.2xlarge.search", "r6gd.4xlarge.search", "r6gd.8xlarge.search", "r6gd.12xlarge.search", "r6gd.16xlarge.search", "t4g.small.search", "t4g.medium.search"
+    #   resp.domain_status.cluster_config.node_options[0].node_config.count #=> Integer
     #   resp.domain_status.ebs_options.ebs_enabled #=> Boolean
     #   resp.domain_status.ebs_options.volume_type #=> String, one of "standard", "gp2", "io1", "gp3"
     #   resp.domain_status.ebs_options.volume_size #=> Integer
     #   resp.domain_status.ebs_options.iops #=> Integer
     #   resp.domain_status.ebs_options.throughput #=> Integer
     #   resp.domain_status.access_policies #=> String
+    #   resp.domain_status.ip_address_type #=> String, one of "ipv4", "dualstack"
     #   resp.domain_status.snapshot_options.automated_snapshot_start_hour #=> Integer
     #   resp.domain_status.vpc_options.vpc_id #=> String
     #   resp.domain_status.vpc_options.subnet_ids #=> Array
@@ -860,7 +1374,7 @@ module Aws::OpenSearchService
     #   resp.domain_status.service_software_options.automated_update_date #=> Time
     #   resp.domain_status.service_software_options.optional_deployment #=> Boolean
     #   resp.domain_status.domain_endpoint_options.enforce_https #=> Boolean
-    #   resp.domain_status.domain_endpoint_options.tls_security_policy #=> String, one of "Policy-Min-TLS-1-0-2019-07", "Policy-Min-TLS-1-2-2019-07"
+    #   resp.domain_status.domain_endpoint_options.tls_security_policy #=> String, one of "Policy-Min-TLS-1-0-2019-07", "Policy-Min-TLS-1-2-2019-07", "Policy-Min-TLS-1-2-PFS-2023-10"
     #   resp.domain_status.domain_endpoint_options.custom_endpoint_enabled #=> Boolean
     #   resp.domain_status.domain_endpoint_options.custom_endpoint #=> String
     #   resp.domain_status.domain_endpoint_options.custom_endpoint_certificate_arn #=> String
@@ -872,12 +1386,39 @@ module Aws::OpenSearchService
     #   resp.domain_status.advanced_security_options.saml_options.subject_key #=> String
     #   resp.domain_status.advanced_security_options.saml_options.roles_key #=> String
     #   resp.domain_status.advanced_security_options.saml_options.session_timeout_minutes #=> Integer
+    #   resp.domain_status.advanced_security_options.jwt_options.enabled #=> Boolean
+    #   resp.domain_status.advanced_security_options.jwt_options.subject_key #=> String
+    #   resp.domain_status.advanced_security_options.jwt_options.roles_key #=> String
+    #   resp.domain_status.advanced_security_options.jwt_options.public_key #=> String
     #   resp.domain_status.advanced_security_options.anonymous_auth_disable_date #=> Time
     #   resp.domain_status.advanced_security_options.anonymous_auth_enabled #=> Boolean
+    #   resp.domain_status.identity_center_options.enabled_api_access #=> Boolean
+    #   resp.domain_status.identity_center_options.identity_center_instance_arn #=> String
+    #   resp.domain_status.identity_center_options.subject_key #=> String, one of "UserName", "UserId", "Email"
+    #   resp.domain_status.identity_center_options.roles_key #=> String, one of "GroupName", "GroupId"
+    #   resp.domain_status.identity_center_options.identity_center_application_arn #=> String
+    #   resp.domain_status.identity_center_options.identity_store_id #=> String
     #   resp.domain_status.auto_tune_options.state #=> String, one of "ENABLED", "DISABLED", "ENABLE_IN_PROGRESS", "DISABLE_IN_PROGRESS", "DISABLED_AND_ROLLBACK_SCHEDULED", "DISABLED_AND_ROLLBACK_IN_PROGRESS", "DISABLED_AND_ROLLBACK_COMPLETE", "DISABLED_AND_ROLLBACK_ERROR", "ERROR"
     #   resp.domain_status.auto_tune_options.error_message #=> String
+    #   resp.domain_status.auto_tune_options.use_off_peak_window #=> Boolean
     #   resp.domain_status.change_progress_details.change_id #=> String
     #   resp.domain_status.change_progress_details.message #=> String
+    #   resp.domain_status.change_progress_details.config_change_status #=> String, one of "Pending", "Initializing", "Validating", "ValidationFailed", "ApplyingChanges", "Completed", "PendingUserInput", "Cancelled"
+    #   resp.domain_status.change_progress_details.initiated_by #=> String, one of "CUSTOMER", "SERVICE"
+    #   resp.domain_status.change_progress_details.start_time #=> Time
+    #   resp.domain_status.change_progress_details.last_updated_time #=> Time
+    #   resp.domain_status.off_peak_window_options.enabled #=> Boolean
+    #   resp.domain_status.off_peak_window_options.off_peak_window.window_start_time.hours #=> Integer
+    #   resp.domain_status.off_peak_window_options.off_peak_window.window_start_time.minutes #=> Integer
+    #   resp.domain_status.software_update_options.auto_software_update_enabled #=> Boolean
+    #   resp.domain_status.domain_processing_status #=> String, one of "Creating", "Active", "Modifying", "UpgradingEngineVersion", "UpdatingServiceSoftware", "Isolated", "Deleting"
+    #   resp.domain_status.modifying_properties #=> Array
+    #   resp.domain_status.modifying_properties[0].name #=> String
+    #   resp.domain_status.modifying_properties[0].active_value #=> String
+    #   resp.domain_status.modifying_properties[0].pending_value #=> String
+    #   resp.domain_status.modifying_properties[0].value_type #=> String, one of "PLAIN_TEXT", "STRINGIFIED_JSON"
+    #   resp.domain_status.aiml_options.natural_language_query_generation_options.desired_state #=> String, one of "ENABLED", "DISABLED"
+    #   resp.domain_status.aiml_options.natural_language_query_generation_options.current_state #=> String, one of "NOT_ENABLED", "ENABLE_COMPLETE", "ENABLE_IN_PROGRESS", "ENABLE_FAILED", "DISABLE_COMPLETE", "DISABLE_IN_PROGRESS", "DISABLE_FAILED"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/CreateDomain AWS API Documentation
     #
@@ -909,6 +1450,9 @@ module Aws::OpenSearchService
     # @option params [String] :connection_mode
     #   The connection mode.
     #
+    # @option params [Types::ConnectionProperties] :connection_properties
+    #   The `ConnectionProperties` for the outbound connection.
+    #
     # @return [Types::CreateOutboundConnectionResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreateOutboundConnectionResponse#local_domain_info #local_domain_info} => Types::DomainInformationContainer
@@ -938,6 +1482,12 @@ module Aws::OpenSearchService
     #     },
     #     connection_alias: "ConnectionAlias", # required
     #     connection_mode: "DIRECT", # accepts DIRECT, VPC_ENDPOINT
+    #     connection_properties: {
+    #       endpoint: "Endpoint",
+    #       cross_cluster_search: {
+    #         skip_unavailable: "ENABLED", # accepts ENABLED, DISABLED
+    #       },
+    #     },
     #   })
     #
     # @example Response structure
@@ -954,6 +1504,7 @@ module Aws::OpenSearchService
     #   resp.connection_id #=> String
     #   resp.connection_mode #=> String, one of "DIRECT", "VPC_ENDPOINT"
     #   resp.connection_properties.endpoint #=> String
+    #   resp.connection_properties.cross_cluster_search.skip_unavailable #=> String, one of "ENABLED", "DISABLED"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/CreateOutboundConnection AWS API Documentation
     #
@@ -976,13 +1527,28 @@ module Aws::OpenSearchService
     #   Unique name for the package.
     #
     # @option params [required, String] :package_type
-    #   Type of package.
+    #   The type of package.
     #
     # @option params [String] :package_description
     #   Description of the package.
     #
     # @option params [required, Types::PackageSource] :package_source
     #   The Amazon S3 location from which to import the package.
+    #
+    # @option params [Types::PackageConfiguration] :package_configuration
+    #   The configuration parameters for the package being created.
+    #
+    # @option params [String] :engine_version
+    #   The version of the Amazon OpenSearch Service engine for which is
+    #   compatible with the package. This can only be specified for package
+    #   type `ZIP-PLUGIN`
+    #
+    # @option params [Types::PackageVendingOptions] :package_vending_options
+    #   The vending options for the package being created. They determine if
+    #   the package can be vended to other users.
+    #
+    # @option params [Types::PackageEncryptionOptions] :package_encryption_options
+    #   The encryption parameters for the package being created.
     #
     # @return [Types::CreatePackageResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -992,11 +1558,25 @@ module Aws::OpenSearchService
     #
     #   resp = client.create_package({
     #     package_name: "PackageName", # required
-    #     package_type: "TXT-DICTIONARY", # required, accepts TXT-DICTIONARY
+    #     package_type: "TXT-DICTIONARY", # required, accepts TXT-DICTIONARY, ZIP-PLUGIN, PACKAGE-LICENSE, PACKAGE-CONFIG
     #     package_description: "PackageDescription",
     #     package_source: { # required
     #       s3_bucket_name: "S3BucketName",
     #       s3_key: "S3Key",
+    #     },
+    #     package_configuration: {
+    #       license_requirement: "REQUIRED", # required, accepts REQUIRED, OPTIONAL, NONE
+    #       license_filepath: "LicenseFilepath",
+    #       configuration_requirement: "REQUIRED", # required, accepts REQUIRED, OPTIONAL, NONE
+    #       requires_restart_for_configuration_update: false,
+    #     },
+    #     engine_version: "EngineVersion",
+    #     package_vending_options: {
+    #       vending_enabled: false, # required
+    #     },
+    #     package_encryption_options: {
+    #       kms_key_identifier: "KmsKeyId",
+    #       encryption_enabled: false, # required
     #     },
     #   })
     #
@@ -1004,7 +1584,7 @@ module Aws::OpenSearchService
     #
     #   resp.package_details.package_id #=> String
     #   resp.package_details.package_name #=> String
-    #   resp.package_details.package_type #=> String, one of "TXT-DICTIONARY"
+    #   resp.package_details.package_type #=> String, one of "TXT-DICTIONARY", "ZIP-PLUGIN", "PACKAGE-LICENSE", "PACKAGE-CONFIG"
     #   resp.package_details.package_description #=> String
     #   resp.package_details.package_status #=> String, one of "COPYING", "COPY_FAILED", "VALIDATING", "VALIDATION_FAILED", "AVAILABLE", "DELETING", "DELETED", "DELETE_FAILED"
     #   resp.package_details.created_at #=> Time
@@ -1012,6 +1592,22 @@ module Aws::OpenSearchService
     #   resp.package_details.available_package_version #=> String
     #   resp.package_details.error_details.error_type #=> String
     #   resp.package_details.error_details.error_message #=> String
+    #   resp.package_details.engine_version #=> String
+    #   resp.package_details.available_plugin_properties.name #=> String
+    #   resp.package_details.available_plugin_properties.description #=> String
+    #   resp.package_details.available_plugin_properties.version #=> String
+    #   resp.package_details.available_plugin_properties.class_name #=> String
+    #   resp.package_details.available_plugin_properties.uncompressed_size_in_bytes #=> Integer
+    #   resp.package_details.available_package_configuration.license_requirement #=> String, one of "REQUIRED", "OPTIONAL", "NONE"
+    #   resp.package_details.available_package_configuration.license_filepath #=> String
+    #   resp.package_details.available_package_configuration.configuration_requirement #=> String, one of "REQUIRED", "OPTIONAL", "NONE"
+    #   resp.package_details.available_package_configuration.requires_restart_for_configuration_update #=> Boolean
+    #   resp.package_details.allow_listed_user_list #=> Array
+    #   resp.package_details.allow_listed_user_list[0] #=> String
+    #   resp.package_details.package_owner #=> String
+    #   resp.package_details.package_vending_options.vending_enabled #=> Boolean
+    #   resp.package_details.package_encryption_options.kms_key_identifier #=> String
+    #   resp.package_details.package_encryption_options.encryption_enabled #=> Boolean
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/CreatePackage AWS API Documentation
     #
@@ -1074,6 +1670,90 @@ module Aws::OpenSearchService
       req.send_request(options)
     end
 
+    # Deletes an existing OpenSearch Application.
+    #
+    # @option params [required, String] :id
+    #   Unique identifier for the OpenSearch Application that you want to
+    #   delete.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_application({
+    #     id: "Id", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/DeleteApplication AWS API Documentation
+    #
+    # @overload delete_application(params = {})
+    # @param [Hash] params ({})
+    def delete_application(params = {}, options = {})
+      req = build_request(:delete_application, params)
+      req.send_request(options)
+    end
+
+    # Deletes a direct-query data source. For more information, see
+    # [Deleting an Amazon OpenSearch Service data source with Amazon S3][1].
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/opensearch-service/latest/developerguide/direct-query-s3-delete.html
+    #
+    # @option params [required, String] :domain_name
+    #   The name of the domain.
+    #
+    # @option params [required, String] :name
+    #   The name of the data source to delete.
+    #
+    # @return [Types::DeleteDataSourceResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DeleteDataSourceResponse#message #message} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_data_source({
+    #     domain_name: "DomainName", # required
+    #     name: "DataSourceName", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.message #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/DeleteDataSource AWS API Documentation
+    #
+    # @overload delete_data_source(params = {})
+    # @param [Hash] params ({})
+    def delete_data_source(params = {}, options = {})
+      req = build_request(:delete_data_source, params)
+      req.send_request(options)
+    end
+
+    # Deletes a previously configured direct query data source from Amazon
+    # OpenSearch Service.
+    #
+    # @option params [required, String] :data_source_name
+    #   A unique, user-defined label to identify the data source within your
+    #   OpenSearch Service environment.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_direct_query_data_source({
+    #     data_source_name: "DirectQueryDataSourceName", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/DeleteDirectQueryDataSource AWS API Documentation
+    #
+    # @overload delete_direct_query_data_source(params = {})
+    # @param [Hash] params ({})
+    def delete_direct_query_data_source(params = {}, options = {})
+      req = build_request(:delete_direct_query_data_source, params)
+      req.send_request(options)
+    end
+
     # Deletes an Amazon OpenSearch Service domain and all of its data. You
     # can't recover a domain after you delete it.
     #
@@ -1098,28 +1778,37 @@ module Aws::OpenSearchService
     #   resp.domain_status.created #=> Boolean
     #   resp.domain_status.deleted #=> Boolean
     #   resp.domain_status.endpoint #=> String
+    #   resp.domain_status.endpoint_v2 #=> String
     #   resp.domain_status.endpoints #=> Hash
     #   resp.domain_status.endpoints["String"] #=> String
+    #   resp.domain_status.domain_endpoint_v2_hosted_zone_id #=> String
     #   resp.domain_status.processing #=> Boolean
     #   resp.domain_status.upgrade_processing #=> Boolean
     #   resp.domain_status.engine_version #=> String
-    #   resp.domain_status.cluster_config.instance_type #=> String, one of "m3.medium.search", "m3.large.search", "m3.xlarge.search", "m3.2xlarge.search", "m4.large.search", "m4.xlarge.search", "m4.2xlarge.search", "m4.4xlarge.search", "m4.10xlarge.search", "m5.large.search", "m5.xlarge.search", "m5.2xlarge.search", "m5.4xlarge.search", "m5.12xlarge.search", "m5.24xlarge.search", "r5.large.search", "r5.xlarge.search", "r5.2xlarge.search", "r5.4xlarge.search", "r5.12xlarge.search", "r5.24xlarge.search", "c5.large.search", "c5.xlarge.search", "c5.2xlarge.search", "c5.4xlarge.search", "c5.9xlarge.search", "c5.18xlarge.search", "t3.nano.search", "t3.micro.search", "t3.small.search", "t3.medium.search", "t3.large.search", "t3.xlarge.search", "t3.2xlarge.search", "ultrawarm1.medium.search", "ultrawarm1.large.search", "ultrawarm1.xlarge.search", "t2.micro.search", "t2.small.search", "t2.medium.search", "r3.large.search", "r3.xlarge.search", "r3.2xlarge.search", "r3.4xlarge.search", "r3.8xlarge.search", "i2.xlarge.search", "i2.2xlarge.search", "d2.xlarge.search", "d2.2xlarge.search", "d2.4xlarge.search", "d2.8xlarge.search", "c4.large.search", "c4.xlarge.search", "c4.2xlarge.search", "c4.4xlarge.search", "c4.8xlarge.search", "r4.large.search", "r4.xlarge.search", "r4.2xlarge.search", "r4.4xlarge.search", "r4.8xlarge.search", "r4.16xlarge.search", "i3.large.search", "i3.xlarge.search", "i3.2xlarge.search", "i3.4xlarge.search", "i3.8xlarge.search", "i3.16xlarge.search", "r6g.large.search", "r6g.xlarge.search", "r6g.2xlarge.search", "r6g.4xlarge.search", "r6g.8xlarge.search", "r6g.12xlarge.search", "m6g.large.search", "m6g.xlarge.search", "m6g.2xlarge.search", "m6g.4xlarge.search", "m6g.8xlarge.search", "m6g.12xlarge.search", "c6g.large.search", "c6g.xlarge.search", "c6g.2xlarge.search", "c6g.4xlarge.search", "c6g.8xlarge.search", "c6g.12xlarge.search", "r6gd.large.search", "r6gd.xlarge.search", "r6gd.2xlarge.search", "r6gd.4xlarge.search", "r6gd.8xlarge.search", "r6gd.12xlarge.search", "r6gd.16xlarge.search", "t4g.small.search", "t4g.medium.search"
+    #   resp.domain_status.cluster_config.instance_type #=> String, one of "m3.medium.search", "m3.large.search", "m3.xlarge.search", "m3.2xlarge.search", "m4.large.search", "m4.xlarge.search", "m4.2xlarge.search", "m4.4xlarge.search", "m4.10xlarge.search", "m5.large.search", "m5.xlarge.search", "m5.2xlarge.search", "m5.4xlarge.search", "m5.12xlarge.search", "m5.24xlarge.search", "r5.large.search", "r5.xlarge.search", "r5.2xlarge.search", "r5.4xlarge.search", "r5.12xlarge.search", "r5.24xlarge.search", "c5.large.search", "c5.xlarge.search", "c5.2xlarge.search", "c5.4xlarge.search", "c5.9xlarge.search", "c5.18xlarge.search", "t3.nano.search", "t3.micro.search", "t3.small.search", "t3.medium.search", "t3.large.search", "t3.xlarge.search", "t3.2xlarge.search", "or1.medium.search", "or1.large.search", "or1.xlarge.search", "or1.2xlarge.search", "or1.4xlarge.search", "or1.8xlarge.search", "or1.12xlarge.search", "or1.16xlarge.search", "ultrawarm1.medium.search", "ultrawarm1.large.search", "ultrawarm1.xlarge.search", "t2.micro.search", "t2.small.search", "t2.medium.search", "r3.large.search", "r3.xlarge.search", "r3.2xlarge.search", "r3.4xlarge.search", "r3.8xlarge.search", "i2.xlarge.search", "i2.2xlarge.search", "d2.xlarge.search", "d2.2xlarge.search", "d2.4xlarge.search", "d2.8xlarge.search", "c4.large.search", "c4.xlarge.search", "c4.2xlarge.search", "c4.4xlarge.search", "c4.8xlarge.search", "r4.large.search", "r4.xlarge.search", "r4.2xlarge.search", "r4.4xlarge.search", "r4.8xlarge.search", "r4.16xlarge.search", "i3.large.search", "i3.xlarge.search", "i3.2xlarge.search", "i3.4xlarge.search", "i3.8xlarge.search", "i3.16xlarge.search", "r6g.large.search", "r6g.xlarge.search", "r6g.2xlarge.search", "r6g.4xlarge.search", "r6g.8xlarge.search", "r6g.12xlarge.search", "m6g.large.search", "m6g.xlarge.search", "m6g.2xlarge.search", "m6g.4xlarge.search", "m6g.8xlarge.search", "m6g.12xlarge.search", "c6g.large.search", "c6g.xlarge.search", "c6g.2xlarge.search", "c6g.4xlarge.search", "c6g.8xlarge.search", "c6g.12xlarge.search", "r6gd.large.search", "r6gd.xlarge.search", "r6gd.2xlarge.search", "r6gd.4xlarge.search", "r6gd.8xlarge.search", "r6gd.12xlarge.search", "r6gd.16xlarge.search", "t4g.small.search", "t4g.medium.search"
     #   resp.domain_status.cluster_config.instance_count #=> Integer
     #   resp.domain_status.cluster_config.dedicated_master_enabled #=> Boolean
     #   resp.domain_status.cluster_config.zone_awareness_enabled #=> Boolean
     #   resp.domain_status.cluster_config.zone_awareness_config.availability_zone_count #=> Integer
-    #   resp.domain_status.cluster_config.dedicated_master_type #=> String, one of "m3.medium.search", "m3.large.search", "m3.xlarge.search", "m3.2xlarge.search", "m4.large.search", "m4.xlarge.search", "m4.2xlarge.search", "m4.4xlarge.search", "m4.10xlarge.search", "m5.large.search", "m5.xlarge.search", "m5.2xlarge.search", "m5.4xlarge.search", "m5.12xlarge.search", "m5.24xlarge.search", "r5.large.search", "r5.xlarge.search", "r5.2xlarge.search", "r5.4xlarge.search", "r5.12xlarge.search", "r5.24xlarge.search", "c5.large.search", "c5.xlarge.search", "c5.2xlarge.search", "c5.4xlarge.search", "c5.9xlarge.search", "c5.18xlarge.search", "t3.nano.search", "t3.micro.search", "t3.small.search", "t3.medium.search", "t3.large.search", "t3.xlarge.search", "t3.2xlarge.search", "ultrawarm1.medium.search", "ultrawarm1.large.search", "ultrawarm1.xlarge.search", "t2.micro.search", "t2.small.search", "t2.medium.search", "r3.large.search", "r3.xlarge.search", "r3.2xlarge.search", "r3.4xlarge.search", "r3.8xlarge.search", "i2.xlarge.search", "i2.2xlarge.search", "d2.xlarge.search", "d2.2xlarge.search", "d2.4xlarge.search", "d2.8xlarge.search", "c4.large.search", "c4.xlarge.search", "c4.2xlarge.search", "c4.4xlarge.search", "c4.8xlarge.search", "r4.large.search", "r4.xlarge.search", "r4.2xlarge.search", "r4.4xlarge.search", "r4.8xlarge.search", "r4.16xlarge.search", "i3.large.search", "i3.xlarge.search", "i3.2xlarge.search", "i3.4xlarge.search", "i3.8xlarge.search", "i3.16xlarge.search", "r6g.large.search", "r6g.xlarge.search", "r6g.2xlarge.search", "r6g.4xlarge.search", "r6g.8xlarge.search", "r6g.12xlarge.search", "m6g.large.search", "m6g.xlarge.search", "m6g.2xlarge.search", "m6g.4xlarge.search", "m6g.8xlarge.search", "m6g.12xlarge.search", "c6g.large.search", "c6g.xlarge.search", "c6g.2xlarge.search", "c6g.4xlarge.search", "c6g.8xlarge.search", "c6g.12xlarge.search", "r6gd.large.search", "r6gd.xlarge.search", "r6gd.2xlarge.search", "r6gd.4xlarge.search", "r6gd.8xlarge.search", "r6gd.12xlarge.search", "r6gd.16xlarge.search", "t4g.small.search", "t4g.medium.search"
+    #   resp.domain_status.cluster_config.dedicated_master_type #=> String, one of "m3.medium.search", "m3.large.search", "m3.xlarge.search", "m3.2xlarge.search", "m4.large.search", "m4.xlarge.search", "m4.2xlarge.search", "m4.4xlarge.search", "m4.10xlarge.search", "m5.large.search", "m5.xlarge.search", "m5.2xlarge.search", "m5.4xlarge.search", "m5.12xlarge.search", "m5.24xlarge.search", "r5.large.search", "r5.xlarge.search", "r5.2xlarge.search", "r5.4xlarge.search", "r5.12xlarge.search", "r5.24xlarge.search", "c5.large.search", "c5.xlarge.search", "c5.2xlarge.search", "c5.4xlarge.search", "c5.9xlarge.search", "c5.18xlarge.search", "t3.nano.search", "t3.micro.search", "t3.small.search", "t3.medium.search", "t3.large.search", "t3.xlarge.search", "t3.2xlarge.search", "or1.medium.search", "or1.large.search", "or1.xlarge.search", "or1.2xlarge.search", "or1.4xlarge.search", "or1.8xlarge.search", "or1.12xlarge.search", "or1.16xlarge.search", "ultrawarm1.medium.search", "ultrawarm1.large.search", "ultrawarm1.xlarge.search", "t2.micro.search", "t2.small.search", "t2.medium.search", "r3.large.search", "r3.xlarge.search", "r3.2xlarge.search", "r3.4xlarge.search", "r3.8xlarge.search", "i2.xlarge.search", "i2.2xlarge.search", "d2.xlarge.search", "d2.2xlarge.search", "d2.4xlarge.search", "d2.8xlarge.search", "c4.large.search", "c4.xlarge.search", "c4.2xlarge.search", "c4.4xlarge.search", "c4.8xlarge.search", "r4.large.search", "r4.xlarge.search", "r4.2xlarge.search", "r4.4xlarge.search", "r4.8xlarge.search", "r4.16xlarge.search", "i3.large.search", "i3.xlarge.search", "i3.2xlarge.search", "i3.4xlarge.search", "i3.8xlarge.search", "i3.16xlarge.search", "r6g.large.search", "r6g.xlarge.search", "r6g.2xlarge.search", "r6g.4xlarge.search", "r6g.8xlarge.search", "r6g.12xlarge.search", "m6g.large.search", "m6g.xlarge.search", "m6g.2xlarge.search", "m6g.4xlarge.search", "m6g.8xlarge.search", "m6g.12xlarge.search", "c6g.large.search", "c6g.xlarge.search", "c6g.2xlarge.search", "c6g.4xlarge.search", "c6g.8xlarge.search", "c6g.12xlarge.search", "r6gd.large.search", "r6gd.xlarge.search", "r6gd.2xlarge.search", "r6gd.4xlarge.search", "r6gd.8xlarge.search", "r6gd.12xlarge.search", "r6gd.16xlarge.search", "t4g.small.search", "t4g.medium.search"
     #   resp.domain_status.cluster_config.dedicated_master_count #=> Integer
     #   resp.domain_status.cluster_config.warm_enabled #=> Boolean
     #   resp.domain_status.cluster_config.warm_type #=> String, one of "ultrawarm1.medium.search", "ultrawarm1.large.search", "ultrawarm1.xlarge.search"
     #   resp.domain_status.cluster_config.warm_count #=> Integer
     #   resp.domain_status.cluster_config.cold_storage_options.enabled #=> Boolean
+    #   resp.domain_status.cluster_config.multi_az_with_standby_enabled #=> Boolean
+    #   resp.domain_status.cluster_config.node_options #=> Array
+    #   resp.domain_status.cluster_config.node_options[0].node_type #=> String, one of "coordinator"
+    #   resp.domain_status.cluster_config.node_options[0].node_config.enabled #=> Boolean
+    #   resp.domain_status.cluster_config.node_options[0].node_config.type #=> String, one of "m3.medium.search", "m3.large.search", "m3.xlarge.search", "m3.2xlarge.search", "m4.large.search", "m4.xlarge.search", "m4.2xlarge.search", "m4.4xlarge.search", "m4.10xlarge.search", "m5.large.search", "m5.xlarge.search", "m5.2xlarge.search", "m5.4xlarge.search", "m5.12xlarge.search", "m5.24xlarge.search", "r5.large.search", "r5.xlarge.search", "r5.2xlarge.search", "r5.4xlarge.search", "r5.12xlarge.search", "r5.24xlarge.search", "c5.large.search", "c5.xlarge.search", "c5.2xlarge.search", "c5.4xlarge.search", "c5.9xlarge.search", "c5.18xlarge.search", "t3.nano.search", "t3.micro.search", "t3.small.search", "t3.medium.search", "t3.large.search", "t3.xlarge.search", "t3.2xlarge.search", "or1.medium.search", "or1.large.search", "or1.xlarge.search", "or1.2xlarge.search", "or1.4xlarge.search", "or1.8xlarge.search", "or1.12xlarge.search", "or1.16xlarge.search", "ultrawarm1.medium.search", "ultrawarm1.large.search", "ultrawarm1.xlarge.search", "t2.micro.search", "t2.small.search", "t2.medium.search", "r3.large.search", "r3.xlarge.search", "r3.2xlarge.search", "r3.4xlarge.search", "r3.8xlarge.search", "i2.xlarge.search", "i2.2xlarge.search", "d2.xlarge.search", "d2.2xlarge.search", "d2.4xlarge.search", "d2.8xlarge.search", "c4.large.search", "c4.xlarge.search", "c4.2xlarge.search", "c4.4xlarge.search", "c4.8xlarge.search", "r4.large.search", "r4.xlarge.search", "r4.2xlarge.search", "r4.4xlarge.search", "r4.8xlarge.search", "r4.16xlarge.search", "i3.large.search", "i3.xlarge.search", "i3.2xlarge.search", "i3.4xlarge.search", "i3.8xlarge.search", "i3.16xlarge.search", "r6g.large.search", "r6g.xlarge.search", "r6g.2xlarge.search", "r6g.4xlarge.search", "r6g.8xlarge.search", "r6g.12xlarge.search", "m6g.large.search", "m6g.xlarge.search", "m6g.2xlarge.search", "m6g.4xlarge.search", "m6g.8xlarge.search", "m6g.12xlarge.search", "c6g.large.search", "c6g.xlarge.search", "c6g.2xlarge.search", "c6g.4xlarge.search", "c6g.8xlarge.search", "c6g.12xlarge.search", "r6gd.large.search", "r6gd.xlarge.search", "r6gd.2xlarge.search", "r6gd.4xlarge.search", "r6gd.8xlarge.search", "r6gd.12xlarge.search", "r6gd.16xlarge.search", "t4g.small.search", "t4g.medium.search"
+    #   resp.domain_status.cluster_config.node_options[0].node_config.count #=> Integer
     #   resp.domain_status.ebs_options.ebs_enabled #=> Boolean
     #   resp.domain_status.ebs_options.volume_type #=> String, one of "standard", "gp2", "io1", "gp3"
     #   resp.domain_status.ebs_options.volume_size #=> Integer
     #   resp.domain_status.ebs_options.iops #=> Integer
     #   resp.domain_status.ebs_options.throughput #=> Integer
     #   resp.domain_status.access_policies #=> String
+    #   resp.domain_status.ip_address_type #=> String, one of "ipv4", "dualstack"
     #   resp.domain_status.snapshot_options.automated_snapshot_start_hour #=> Integer
     #   resp.domain_status.vpc_options.vpc_id #=> String
     #   resp.domain_status.vpc_options.subnet_ids #=> Array
@@ -1149,7 +1838,7 @@ module Aws::OpenSearchService
     #   resp.domain_status.service_software_options.automated_update_date #=> Time
     #   resp.domain_status.service_software_options.optional_deployment #=> Boolean
     #   resp.domain_status.domain_endpoint_options.enforce_https #=> Boolean
-    #   resp.domain_status.domain_endpoint_options.tls_security_policy #=> String, one of "Policy-Min-TLS-1-0-2019-07", "Policy-Min-TLS-1-2-2019-07"
+    #   resp.domain_status.domain_endpoint_options.tls_security_policy #=> String, one of "Policy-Min-TLS-1-0-2019-07", "Policy-Min-TLS-1-2-2019-07", "Policy-Min-TLS-1-2-PFS-2023-10"
     #   resp.domain_status.domain_endpoint_options.custom_endpoint_enabled #=> Boolean
     #   resp.domain_status.domain_endpoint_options.custom_endpoint #=> String
     #   resp.domain_status.domain_endpoint_options.custom_endpoint_certificate_arn #=> String
@@ -1161,12 +1850,39 @@ module Aws::OpenSearchService
     #   resp.domain_status.advanced_security_options.saml_options.subject_key #=> String
     #   resp.domain_status.advanced_security_options.saml_options.roles_key #=> String
     #   resp.domain_status.advanced_security_options.saml_options.session_timeout_minutes #=> Integer
+    #   resp.domain_status.advanced_security_options.jwt_options.enabled #=> Boolean
+    #   resp.domain_status.advanced_security_options.jwt_options.subject_key #=> String
+    #   resp.domain_status.advanced_security_options.jwt_options.roles_key #=> String
+    #   resp.domain_status.advanced_security_options.jwt_options.public_key #=> String
     #   resp.domain_status.advanced_security_options.anonymous_auth_disable_date #=> Time
     #   resp.domain_status.advanced_security_options.anonymous_auth_enabled #=> Boolean
+    #   resp.domain_status.identity_center_options.enabled_api_access #=> Boolean
+    #   resp.domain_status.identity_center_options.identity_center_instance_arn #=> String
+    #   resp.domain_status.identity_center_options.subject_key #=> String, one of "UserName", "UserId", "Email"
+    #   resp.domain_status.identity_center_options.roles_key #=> String, one of "GroupName", "GroupId"
+    #   resp.domain_status.identity_center_options.identity_center_application_arn #=> String
+    #   resp.domain_status.identity_center_options.identity_store_id #=> String
     #   resp.domain_status.auto_tune_options.state #=> String, one of "ENABLED", "DISABLED", "ENABLE_IN_PROGRESS", "DISABLE_IN_PROGRESS", "DISABLED_AND_ROLLBACK_SCHEDULED", "DISABLED_AND_ROLLBACK_IN_PROGRESS", "DISABLED_AND_ROLLBACK_COMPLETE", "DISABLED_AND_ROLLBACK_ERROR", "ERROR"
     #   resp.domain_status.auto_tune_options.error_message #=> String
+    #   resp.domain_status.auto_tune_options.use_off_peak_window #=> Boolean
     #   resp.domain_status.change_progress_details.change_id #=> String
     #   resp.domain_status.change_progress_details.message #=> String
+    #   resp.domain_status.change_progress_details.config_change_status #=> String, one of "Pending", "Initializing", "Validating", "ValidationFailed", "ApplyingChanges", "Completed", "PendingUserInput", "Cancelled"
+    #   resp.domain_status.change_progress_details.initiated_by #=> String, one of "CUSTOMER", "SERVICE"
+    #   resp.domain_status.change_progress_details.start_time #=> Time
+    #   resp.domain_status.change_progress_details.last_updated_time #=> Time
+    #   resp.domain_status.off_peak_window_options.enabled #=> Boolean
+    #   resp.domain_status.off_peak_window_options.off_peak_window.window_start_time.hours #=> Integer
+    #   resp.domain_status.off_peak_window_options.off_peak_window.window_start_time.minutes #=> Integer
+    #   resp.domain_status.software_update_options.auto_software_update_enabled #=> Boolean
+    #   resp.domain_status.domain_processing_status #=> String, one of "Creating", "Active", "Modifying", "UpgradingEngineVersion", "UpdatingServiceSoftware", "Isolated", "Deleting"
+    #   resp.domain_status.modifying_properties #=> Array
+    #   resp.domain_status.modifying_properties[0].name #=> String
+    #   resp.domain_status.modifying_properties[0].active_value #=> String
+    #   resp.domain_status.modifying_properties[0].pending_value #=> String
+    #   resp.domain_status.modifying_properties[0].value_type #=> String, one of "PLAIN_TEXT", "STRINGIFIED_JSON"
+    #   resp.domain_status.aiml_options.natural_language_query_generation_options.desired_state #=> String, one of "ENABLED", "DISABLED"
+    #   resp.domain_status.aiml_options.natural_language_query_generation_options.current_state #=> String, one of "NOT_ENABLED", "ENABLE_COMPLETE", "ENABLE_IN_PROGRESS", "ENABLE_FAILED", "DISABLE_COMPLETE", "DISABLE_IN_PROGRESS", "DISABLE_FAILED"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/DeleteDomain AWS API Documentation
     #
@@ -1257,6 +1973,7 @@ module Aws::OpenSearchService
     #   resp.connection.connection_status.message #=> String
     #   resp.connection.connection_mode #=> String, one of "DIRECT", "VPC_ENDPOINT"
     #   resp.connection.connection_properties.endpoint #=> String
+    #   resp.connection.connection_properties.cross_cluster_search.skip_unavailable #=> String, one of "ENABLED", "DISABLED"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/DeleteOutboundConnection AWS API Documentation
     #
@@ -1292,7 +2009,7 @@ module Aws::OpenSearchService
     #
     #   resp.package_details.package_id #=> String
     #   resp.package_details.package_name #=> String
-    #   resp.package_details.package_type #=> String, one of "TXT-DICTIONARY"
+    #   resp.package_details.package_type #=> String, one of "TXT-DICTIONARY", "ZIP-PLUGIN", "PACKAGE-LICENSE", "PACKAGE-CONFIG"
     #   resp.package_details.package_description #=> String
     #   resp.package_details.package_status #=> String, one of "COPYING", "COPY_FAILED", "VALIDATING", "VALIDATION_FAILED", "AVAILABLE", "DELETING", "DELETED", "DELETE_FAILED"
     #   resp.package_details.created_at #=> Time
@@ -1300,6 +2017,22 @@ module Aws::OpenSearchService
     #   resp.package_details.available_package_version #=> String
     #   resp.package_details.error_details.error_type #=> String
     #   resp.package_details.error_details.error_message #=> String
+    #   resp.package_details.engine_version #=> String
+    #   resp.package_details.available_plugin_properties.name #=> String
+    #   resp.package_details.available_plugin_properties.description #=> String
+    #   resp.package_details.available_plugin_properties.version #=> String
+    #   resp.package_details.available_plugin_properties.class_name #=> String
+    #   resp.package_details.available_plugin_properties.uncompressed_size_in_bytes #=> Integer
+    #   resp.package_details.available_package_configuration.license_requirement #=> String, one of "REQUIRED", "OPTIONAL", "NONE"
+    #   resp.package_details.available_package_configuration.license_filepath #=> String
+    #   resp.package_details.available_package_configuration.configuration_requirement #=> String, one of "REQUIRED", "OPTIONAL", "NONE"
+    #   resp.package_details.available_package_configuration.requires_restart_for_configuration_update #=> Boolean
+    #   resp.package_details.allow_listed_user_list #=> Array
+    #   resp.package_details.allow_listed_user_list[0] #=> String
+    #   resp.package_details.package_owner #=> String
+    #   resp.package_details.package_vending_options.vending_enabled #=> Boolean
+    #   resp.package_details.package_encryption_options.kms_key_identifier #=> String
+    #   resp.package_details.package_encryption_options.encryption_enabled #=> Boolean
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/DeletePackage AWS API Documentation
     #
@@ -1366,28 +2099,37 @@ module Aws::OpenSearchService
     #   resp.domain_status.created #=> Boolean
     #   resp.domain_status.deleted #=> Boolean
     #   resp.domain_status.endpoint #=> String
+    #   resp.domain_status.endpoint_v2 #=> String
     #   resp.domain_status.endpoints #=> Hash
     #   resp.domain_status.endpoints["String"] #=> String
+    #   resp.domain_status.domain_endpoint_v2_hosted_zone_id #=> String
     #   resp.domain_status.processing #=> Boolean
     #   resp.domain_status.upgrade_processing #=> Boolean
     #   resp.domain_status.engine_version #=> String
-    #   resp.domain_status.cluster_config.instance_type #=> String, one of "m3.medium.search", "m3.large.search", "m3.xlarge.search", "m3.2xlarge.search", "m4.large.search", "m4.xlarge.search", "m4.2xlarge.search", "m4.4xlarge.search", "m4.10xlarge.search", "m5.large.search", "m5.xlarge.search", "m5.2xlarge.search", "m5.4xlarge.search", "m5.12xlarge.search", "m5.24xlarge.search", "r5.large.search", "r5.xlarge.search", "r5.2xlarge.search", "r5.4xlarge.search", "r5.12xlarge.search", "r5.24xlarge.search", "c5.large.search", "c5.xlarge.search", "c5.2xlarge.search", "c5.4xlarge.search", "c5.9xlarge.search", "c5.18xlarge.search", "t3.nano.search", "t3.micro.search", "t3.small.search", "t3.medium.search", "t3.large.search", "t3.xlarge.search", "t3.2xlarge.search", "ultrawarm1.medium.search", "ultrawarm1.large.search", "ultrawarm1.xlarge.search", "t2.micro.search", "t2.small.search", "t2.medium.search", "r3.large.search", "r3.xlarge.search", "r3.2xlarge.search", "r3.4xlarge.search", "r3.8xlarge.search", "i2.xlarge.search", "i2.2xlarge.search", "d2.xlarge.search", "d2.2xlarge.search", "d2.4xlarge.search", "d2.8xlarge.search", "c4.large.search", "c4.xlarge.search", "c4.2xlarge.search", "c4.4xlarge.search", "c4.8xlarge.search", "r4.large.search", "r4.xlarge.search", "r4.2xlarge.search", "r4.4xlarge.search", "r4.8xlarge.search", "r4.16xlarge.search", "i3.large.search", "i3.xlarge.search", "i3.2xlarge.search", "i3.4xlarge.search", "i3.8xlarge.search", "i3.16xlarge.search", "r6g.large.search", "r6g.xlarge.search", "r6g.2xlarge.search", "r6g.4xlarge.search", "r6g.8xlarge.search", "r6g.12xlarge.search", "m6g.large.search", "m6g.xlarge.search", "m6g.2xlarge.search", "m6g.4xlarge.search", "m6g.8xlarge.search", "m6g.12xlarge.search", "c6g.large.search", "c6g.xlarge.search", "c6g.2xlarge.search", "c6g.4xlarge.search", "c6g.8xlarge.search", "c6g.12xlarge.search", "r6gd.large.search", "r6gd.xlarge.search", "r6gd.2xlarge.search", "r6gd.4xlarge.search", "r6gd.8xlarge.search", "r6gd.12xlarge.search", "r6gd.16xlarge.search", "t4g.small.search", "t4g.medium.search"
+    #   resp.domain_status.cluster_config.instance_type #=> String, one of "m3.medium.search", "m3.large.search", "m3.xlarge.search", "m3.2xlarge.search", "m4.large.search", "m4.xlarge.search", "m4.2xlarge.search", "m4.4xlarge.search", "m4.10xlarge.search", "m5.large.search", "m5.xlarge.search", "m5.2xlarge.search", "m5.4xlarge.search", "m5.12xlarge.search", "m5.24xlarge.search", "r5.large.search", "r5.xlarge.search", "r5.2xlarge.search", "r5.4xlarge.search", "r5.12xlarge.search", "r5.24xlarge.search", "c5.large.search", "c5.xlarge.search", "c5.2xlarge.search", "c5.4xlarge.search", "c5.9xlarge.search", "c5.18xlarge.search", "t3.nano.search", "t3.micro.search", "t3.small.search", "t3.medium.search", "t3.large.search", "t3.xlarge.search", "t3.2xlarge.search", "or1.medium.search", "or1.large.search", "or1.xlarge.search", "or1.2xlarge.search", "or1.4xlarge.search", "or1.8xlarge.search", "or1.12xlarge.search", "or1.16xlarge.search", "ultrawarm1.medium.search", "ultrawarm1.large.search", "ultrawarm1.xlarge.search", "t2.micro.search", "t2.small.search", "t2.medium.search", "r3.large.search", "r3.xlarge.search", "r3.2xlarge.search", "r3.4xlarge.search", "r3.8xlarge.search", "i2.xlarge.search", "i2.2xlarge.search", "d2.xlarge.search", "d2.2xlarge.search", "d2.4xlarge.search", "d2.8xlarge.search", "c4.large.search", "c4.xlarge.search", "c4.2xlarge.search", "c4.4xlarge.search", "c4.8xlarge.search", "r4.large.search", "r4.xlarge.search", "r4.2xlarge.search", "r4.4xlarge.search", "r4.8xlarge.search", "r4.16xlarge.search", "i3.large.search", "i3.xlarge.search", "i3.2xlarge.search", "i3.4xlarge.search", "i3.8xlarge.search", "i3.16xlarge.search", "r6g.large.search", "r6g.xlarge.search", "r6g.2xlarge.search", "r6g.4xlarge.search", "r6g.8xlarge.search", "r6g.12xlarge.search", "m6g.large.search", "m6g.xlarge.search", "m6g.2xlarge.search", "m6g.4xlarge.search", "m6g.8xlarge.search", "m6g.12xlarge.search", "c6g.large.search", "c6g.xlarge.search", "c6g.2xlarge.search", "c6g.4xlarge.search", "c6g.8xlarge.search", "c6g.12xlarge.search", "r6gd.large.search", "r6gd.xlarge.search", "r6gd.2xlarge.search", "r6gd.4xlarge.search", "r6gd.8xlarge.search", "r6gd.12xlarge.search", "r6gd.16xlarge.search", "t4g.small.search", "t4g.medium.search"
     #   resp.domain_status.cluster_config.instance_count #=> Integer
     #   resp.domain_status.cluster_config.dedicated_master_enabled #=> Boolean
     #   resp.domain_status.cluster_config.zone_awareness_enabled #=> Boolean
     #   resp.domain_status.cluster_config.zone_awareness_config.availability_zone_count #=> Integer
-    #   resp.domain_status.cluster_config.dedicated_master_type #=> String, one of "m3.medium.search", "m3.large.search", "m3.xlarge.search", "m3.2xlarge.search", "m4.large.search", "m4.xlarge.search", "m4.2xlarge.search", "m4.4xlarge.search", "m4.10xlarge.search", "m5.large.search", "m5.xlarge.search", "m5.2xlarge.search", "m5.4xlarge.search", "m5.12xlarge.search", "m5.24xlarge.search", "r5.large.search", "r5.xlarge.search", "r5.2xlarge.search", "r5.4xlarge.search", "r5.12xlarge.search", "r5.24xlarge.search", "c5.large.search", "c5.xlarge.search", "c5.2xlarge.search", "c5.4xlarge.search", "c5.9xlarge.search", "c5.18xlarge.search", "t3.nano.search", "t3.micro.search", "t3.small.search", "t3.medium.search", "t3.large.search", "t3.xlarge.search", "t3.2xlarge.search", "ultrawarm1.medium.search", "ultrawarm1.large.search", "ultrawarm1.xlarge.search", "t2.micro.search", "t2.small.search", "t2.medium.search", "r3.large.search", "r3.xlarge.search", "r3.2xlarge.search", "r3.4xlarge.search", "r3.8xlarge.search", "i2.xlarge.search", "i2.2xlarge.search", "d2.xlarge.search", "d2.2xlarge.search", "d2.4xlarge.search", "d2.8xlarge.search", "c4.large.search", "c4.xlarge.search", "c4.2xlarge.search", "c4.4xlarge.search", "c4.8xlarge.search", "r4.large.search", "r4.xlarge.search", "r4.2xlarge.search", "r4.4xlarge.search", "r4.8xlarge.search", "r4.16xlarge.search", "i3.large.search", "i3.xlarge.search", "i3.2xlarge.search", "i3.4xlarge.search", "i3.8xlarge.search", "i3.16xlarge.search", "r6g.large.search", "r6g.xlarge.search", "r6g.2xlarge.search", "r6g.4xlarge.search", "r6g.8xlarge.search", "r6g.12xlarge.search", "m6g.large.search", "m6g.xlarge.search", "m6g.2xlarge.search", "m6g.4xlarge.search", "m6g.8xlarge.search", "m6g.12xlarge.search", "c6g.large.search", "c6g.xlarge.search", "c6g.2xlarge.search", "c6g.4xlarge.search", "c6g.8xlarge.search", "c6g.12xlarge.search", "r6gd.large.search", "r6gd.xlarge.search", "r6gd.2xlarge.search", "r6gd.4xlarge.search", "r6gd.8xlarge.search", "r6gd.12xlarge.search", "r6gd.16xlarge.search", "t4g.small.search", "t4g.medium.search"
+    #   resp.domain_status.cluster_config.dedicated_master_type #=> String, one of "m3.medium.search", "m3.large.search", "m3.xlarge.search", "m3.2xlarge.search", "m4.large.search", "m4.xlarge.search", "m4.2xlarge.search", "m4.4xlarge.search", "m4.10xlarge.search", "m5.large.search", "m5.xlarge.search", "m5.2xlarge.search", "m5.4xlarge.search", "m5.12xlarge.search", "m5.24xlarge.search", "r5.large.search", "r5.xlarge.search", "r5.2xlarge.search", "r5.4xlarge.search", "r5.12xlarge.search", "r5.24xlarge.search", "c5.large.search", "c5.xlarge.search", "c5.2xlarge.search", "c5.4xlarge.search", "c5.9xlarge.search", "c5.18xlarge.search", "t3.nano.search", "t3.micro.search", "t3.small.search", "t3.medium.search", "t3.large.search", "t3.xlarge.search", "t3.2xlarge.search", "or1.medium.search", "or1.large.search", "or1.xlarge.search", "or1.2xlarge.search", "or1.4xlarge.search", "or1.8xlarge.search", "or1.12xlarge.search", "or1.16xlarge.search", "ultrawarm1.medium.search", "ultrawarm1.large.search", "ultrawarm1.xlarge.search", "t2.micro.search", "t2.small.search", "t2.medium.search", "r3.large.search", "r3.xlarge.search", "r3.2xlarge.search", "r3.4xlarge.search", "r3.8xlarge.search", "i2.xlarge.search", "i2.2xlarge.search", "d2.xlarge.search", "d2.2xlarge.search", "d2.4xlarge.search", "d2.8xlarge.search", "c4.large.search", "c4.xlarge.search", "c4.2xlarge.search", "c4.4xlarge.search", "c4.8xlarge.search", "r4.large.search", "r4.xlarge.search", "r4.2xlarge.search", "r4.4xlarge.search", "r4.8xlarge.search", "r4.16xlarge.search", "i3.large.search", "i3.xlarge.search", "i3.2xlarge.search", "i3.4xlarge.search", "i3.8xlarge.search", "i3.16xlarge.search", "r6g.large.search", "r6g.xlarge.search", "r6g.2xlarge.search", "r6g.4xlarge.search", "r6g.8xlarge.search", "r6g.12xlarge.search", "m6g.large.search", "m6g.xlarge.search", "m6g.2xlarge.search", "m6g.4xlarge.search", "m6g.8xlarge.search", "m6g.12xlarge.search", "c6g.large.search", "c6g.xlarge.search", "c6g.2xlarge.search", "c6g.4xlarge.search", "c6g.8xlarge.search", "c6g.12xlarge.search", "r6gd.large.search", "r6gd.xlarge.search", "r6gd.2xlarge.search", "r6gd.4xlarge.search", "r6gd.8xlarge.search", "r6gd.12xlarge.search", "r6gd.16xlarge.search", "t4g.small.search", "t4g.medium.search"
     #   resp.domain_status.cluster_config.dedicated_master_count #=> Integer
     #   resp.domain_status.cluster_config.warm_enabled #=> Boolean
     #   resp.domain_status.cluster_config.warm_type #=> String, one of "ultrawarm1.medium.search", "ultrawarm1.large.search", "ultrawarm1.xlarge.search"
     #   resp.domain_status.cluster_config.warm_count #=> Integer
     #   resp.domain_status.cluster_config.cold_storage_options.enabled #=> Boolean
+    #   resp.domain_status.cluster_config.multi_az_with_standby_enabled #=> Boolean
+    #   resp.domain_status.cluster_config.node_options #=> Array
+    #   resp.domain_status.cluster_config.node_options[0].node_type #=> String, one of "coordinator"
+    #   resp.domain_status.cluster_config.node_options[0].node_config.enabled #=> Boolean
+    #   resp.domain_status.cluster_config.node_options[0].node_config.type #=> String, one of "m3.medium.search", "m3.large.search", "m3.xlarge.search", "m3.2xlarge.search", "m4.large.search", "m4.xlarge.search", "m4.2xlarge.search", "m4.4xlarge.search", "m4.10xlarge.search", "m5.large.search", "m5.xlarge.search", "m5.2xlarge.search", "m5.4xlarge.search", "m5.12xlarge.search", "m5.24xlarge.search", "r5.large.search", "r5.xlarge.search", "r5.2xlarge.search", "r5.4xlarge.search", "r5.12xlarge.search", "r5.24xlarge.search", "c5.large.search", "c5.xlarge.search", "c5.2xlarge.search", "c5.4xlarge.search", "c5.9xlarge.search", "c5.18xlarge.search", "t3.nano.search", "t3.micro.search", "t3.small.search", "t3.medium.search", "t3.large.search", "t3.xlarge.search", "t3.2xlarge.search", "or1.medium.search", "or1.large.search", "or1.xlarge.search", "or1.2xlarge.search", "or1.4xlarge.search", "or1.8xlarge.search", "or1.12xlarge.search", "or1.16xlarge.search", "ultrawarm1.medium.search", "ultrawarm1.large.search", "ultrawarm1.xlarge.search", "t2.micro.search", "t2.small.search", "t2.medium.search", "r3.large.search", "r3.xlarge.search", "r3.2xlarge.search", "r3.4xlarge.search", "r3.8xlarge.search", "i2.xlarge.search", "i2.2xlarge.search", "d2.xlarge.search", "d2.2xlarge.search", "d2.4xlarge.search", "d2.8xlarge.search", "c4.large.search", "c4.xlarge.search", "c4.2xlarge.search", "c4.4xlarge.search", "c4.8xlarge.search", "r4.large.search", "r4.xlarge.search", "r4.2xlarge.search", "r4.4xlarge.search", "r4.8xlarge.search", "r4.16xlarge.search", "i3.large.search", "i3.xlarge.search", "i3.2xlarge.search", "i3.4xlarge.search", "i3.8xlarge.search", "i3.16xlarge.search", "r6g.large.search", "r6g.xlarge.search", "r6g.2xlarge.search", "r6g.4xlarge.search", "r6g.8xlarge.search", "r6g.12xlarge.search", "m6g.large.search", "m6g.xlarge.search", "m6g.2xlarge.search", "m6g.4xlarge.search", "m6g.8xlarge.search", "m6g.12xlarge.search", "c6g.large.search", "c6g.xlarge.search", "c6g.2xlarge.search", "c6g.4xlarge.search", "c6g.8xlarge.search", "c6g.12xlarge.search", "r6gd.large.search", "r6gd.xlarge.search", "r6gd.2xlarge.search", "r6gd.4xlarge.search", "r6gd.8xlarge.search", "r6gd.12xlarge.search", "r6gd.16xlarge.search", "t4g.small.search", "t4g.medium.search"
+    #   resp.domain_status.cluster_config.node_options[0].node_config.count #=> Integer
     #   resp.domain_status.ebs_options.ebs_enabled #=> Boolean
     #   resp.domain_status.ebs_options.volume_type #=> String, one of "standard", "gp2", "io1", "gp3"
     #   resp.domain_status.ebs_options.volume_size #=> Integer
     #   resp.domain_status.ebs_options.iops #=> Integer
     #   resp.domain_status.ebs_options.throughput #=> Integer
     #   resp.domain_status.access_policies #=> String
+    #   resp.domain_status.ip_address_type #=> String, one of "ipv4", "dualstack"
     #   resp.domain_status.snapshot_options.automated_snapshot_start_hour #=> Integer
     #   resp.domain_status.vpc_options.vpc_id #=> String
     #   resp.domain_status.vpc_options.subnet_ids #=> Array
@@ -1417,7 +2159,7 @@ module Aws::OpenSearchService
     #   resp.domain_status.service_software_options.automated_update_date #=> Time
     #   resp.domain_status.service_software_options.optional_deployment #=> Boolean
     #   resp.domain_status.domain_endpoint_options.enforce_https #=> Boolean
-    #   resp.domain_status.domain_endpoint_options.tls_security_policy #=> String, one of "Policy-Min-TLS-1-0-2019-07", "Policy-Min-TLS-1-2-2019-07"
+    #   resp.domain_status.domain_endpoint_options.tls_security_policy #=> String, one of "Policy-Min-TLS-1-0-2019-07", "Policy-Min-TLS-1-2-2019-07", "Policy-Min-TLS-1-2-PFS-2023-10"
     #   resp.domain_status.domain_endpoint_options.custom_endpoint_enabled #=> Boolean
     #   resp.domain_status.domain_endpoint_options.custom_endpoint #=> String
     #   resp.domain_status.domain_endpoint_options.custom_endpoint_certificate_arn #=> String
@@ -1429,12 +2171,39 @@ module Aws::OpenSearchService
     #   resp.domain_status.advanced_security_options.saml_options.subject_key #=> String
     #   resp.domain_status.advanced_security_options.saml_options.roles_key #=> String
     #   resp.domain_status.advanced_security_options.saml_options.session_timeout_minutes #=> Integer
+    #   resp.domain_status.advanced_security_options.jwt_options.enabled #=> Boolean
+    #   resp.domain_status.advanced_security_options.jwt_options.subject_key #=> String
+    #   resp.domain_status.advanced_security_options.jwt_options.roles_key #=> String
+    #   resp.domain_status.advanced_security_options.jwt_options.public_key #=> String
     #   resp.domain_status.advanced_security_options.anonymous_auth_disable_date #=> Time
     #   resp.domain_status.advanced_security_options.anonymous_auth_enabled #=> Boolean
+    #   resp.domain_status.identity_center_options.enabled_api_access #=> Boolean
+    #   resp.domain_status.identity_center_options.identity_center_instance_arn #=> String
+    #   resp.domain_status.identity_center_options.subject_key #=> String, one of "UserName", "UserId", "Email"
+    #   resp.domain_status.identity_center_options.roles_key #=> String, one of "GroupName", "GroupId"
+    #   resp.domain_status.identity_center_options.identity_center_application_arn #=> String
+    #   resp.domain_status.identity_center_options.identity_store_id #=> String
     #   resp.domain_status.auto_tune_options.state #=> String, one of "ENABLED", "DISABLED", "ENABLE_IN_PROGRESS", "DISABLE_IN_PROGRESS", "DISABLED_AND_ROLLBACK_SCHEDULED", "DISABLED_AND_ROLLBACK_IN_PROGRESS", "DISABLED_AND_ROLLBACK_COMPLETE", "DISABLED_AND_ROLLBACK_ERROR", "ERROR"
     #   resp.domain_status.auto_tune_options.error_message #=> String
+    #   resp.domain_status.auto_tune_options.use_off_peak_window #=> Boolean
     #   resp.domain_status.change_progress_details.change_id #=> String
     #   resp.domain_status.change_progress_details.message #=> String
+    #   resp.domain_status.change_progress_details.config_change_status #=> String, one of "Pending", "Initializing", "Validating", "ValidationFailed", "ApplyingChanges", "Completed", "PendingUserInput", "Cancelled"
+    #   resp.domain_status.change_progress_details.initiated_by #=> String, one of "CUSTOMER", "SERVICE"
+    #   resp.domain_status.change_progress_details.start_time #=> Time
+    #   resp.domain_status.change_progress_details.last_updated_time #=> Time
+    #   resp.domain_status.off_peak_window_options.enabled #=> Boolean
+    #   resp.domain_status.off_peak_window_options.off_peak_window.window_start_time.hours #=> Integer
+    #   resp.domain_status.off_peak_window_options.off_peak_window.window_start_time.minutes #=> Integer
+    #   resp.domain_status.software_update_options.auto_software_update_enabled #=> Boolean
+    #   resp.domain_status.domain_processing_status #=> String, one of "Creating", "Active", "Modifying", "UpgradingEngineVersion", "UpdatingServiceSoftware", "Isolated", "Deleting"
+    #   resp.domain_status.modifying_properties #=> Array
+    #   resp.domain_status.modifying_properties[0].name #=> String
+    #   resp.domain_status.modifying_properties[0].active_value #=> String
+    #   resp.domain_status.modifying_properties[0].pending_value #=> String
+    #   resp.domain_status.modifying_properties[0].value_type #=> String, one of "PLAIN_TEXT", "STRINGIFIED_JSON"
+    #   resp.domain_status.aiml_options.natural_language_query_generation_options.desired_state #=> String, one of "ENABLED", "DISABLED"
+    #   resp.domain_status.aiml_options.natural_language_query_generation_options.current_state #=> String, one of "NOT_ENABLED", "ENABLE_COMPLETE", "ENABLE_IN_PROGRESS", "ENABLE_FAILED", "DISABLE_COMPLETE", "DISABLE_IN_PROGRESS", "DISABLE_FAILED"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/DescribeDomain AWS API Documentation
     #
@@ -1542,6 +2311,9 @@ module Aws::OpenSearchService
     #   resp.change_progress_status.change_progress_stages[0].status #=> String
     #   resp.change_progress_status.change_progress_stages[0].description #=> String
     #   resp.change_progress_status.change_progress_stages[0].last_updated #=> Time
+    #   resp.change_progress_status.last_updated_time #=> Time
+    #   resp.change_progress_status.config_change_status #=> String, one of "Pending", "Initializing", "Validating", "ValidationFailed", "ApplyingChanges", "Completed", "PendingUserInput", "Cancelled"
+    #   resp.change_progress_status.initiated_by #=> String, one of "CUSTOMER", "SERVICE"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/DescribeDomainChangeProgress AWS API Documentation
     #
@@ -1576,17 +2348,23 @@ module Aws::OpenSearchService
     #   resp.domain_config.engine_version.status.update_version #=> Integer
     #   resp.domain_config.engine_version.status.state #=> String, one of "RequiresIndexDocuments", "Processing", "Active"
     #   resp.domain_config.engine_version.status.pending_deletion #=> Boolean
-    #   resp.domain_config.cluster_config.options.instance_type #=> String, one of "m3.medium.search", "m3.large.search", "m3.xlarge.search", "m3.2xlarge.search", "m4.large.search", "m4.xlarge.search", "m4.2xlarge.search", "m4.4xlarge.search", "m4.10xlarge.search", "m5.large.search", "m5.xlarge.search", "m5.2xlarge.search", "m5.4xlarge.search", "m5.12xlarge.search", "m5.24xlarge.search", "r5.large.search", "r5.xlarge.search", "r5.2xlarge.search", "r5.4xlarge.search", "r5.12xlarge.search", "r5.24xlarge.search", "c5.large.search", "c5.xlarge.search", "c5.2xlarge.search", "c5.4xlarge.search", "c5.9xlarge.search", "c5.18xlarge.search", "t3.nano.search", "t3.micro.search", "t3.small.search", "t3.medium.search", "t3.large.search", "t3.xlarge.search", "t3.2xlarge.search", "ultrawarm1.medium.search", "ultrawarm1.large.search", "ultrawarm1.xlarge.search", "t2.micro.search", "t2.small.search", "t2.medium.search", "r3.large.search", "r3.xlarge.search", "r3.2xlarge.search", "r3.4xlarge.search", "r3.8xlarge.search", "i2.xlarge.search", "i2.2xlarge.search", "d2.xlarge.search", "d2.2xlarge.search", "d2.4xlarge.search", "d2.8xlarge.search", "c4.large.search", "c4.xlarge.search", "c4.2xlarge.search", "c4.4xlarge.search", "c4.8xlarge.search", "r4.large.search", "r4.xlarge.search", "r4.2xlarge.search", "r4.4xlarge.search", "r4.8xlarge.search", "r4.16xlarge.search", "i3.large.search", "i3.xlarge.search", "i3.2xlarge.search", "i3.4xlarge.search", "i3.8xlarge.search", "i3.16xlarge.search", "r6g.large.search", "r6g.xlarge.search", "r6g.2xlarge.search", "r6g.4xlarge.search", "r6g.8xlarge.search", "r6g.12xlarge.search", "m6g.large.search", "m6g.xlarge.search", "m6g.2xlarge.search", "m6g.4xlarge.search", "m6g.8xlarge.search", "m6g.12xlarge.search", "c6g.large.search", "c6g.xlarge.search", "c6g.2xlarge.search", "c6g.4xlarge.search", "c6g.8xlarge.search", "c6g.12xlarge.search", "r6gd.large.search", "r6gd.xlarge.search", "r6gd.2xlarge.search", "r6gd.4xlarge.search", "r6gd.8xlarge.search", "r6gd.12xlarge.search", "r6gd.16xlarge.search", "t4g.small.search", "t4g.medium.search"
+    #   resp.domain_config.cluster_config.options.instance_type #=> String, one of "m3.medium.search", "m3.large.search", "m3.xlarge.search", "m3.2xlarge.search", "m4.large.search", "m4.xlarge.search", "m4.2xlarge.search", "m4.4xlarge.search", "m4.10xlarge.search", "m5.large.search", "m5.xlarge.search", "m5.2xlarge.search", "m5.4xlarge.search", "m5.12xlarge.search", "m5.24xlarge.search", "r5.large.search", "r5.xlarge.search", "r5.2xlarge.search", "r5.4xlarge.search", "r5.12xlarge.search", "r5.24xlarge.search", "c5.large.search", "c5.xlarge.search", "c5.2xlarge.search", "c5.4xlarge.search", "c5.9xlarge.search", "c5.18xlarge.search", "t3.nano.search", "t3.micro.search", "t3.small.search", "t3.medium.search", "t3.large.search", "t3.xlarge.search", "t3.2xlarge.search", "or1.medium.search", "or1.large.search", "or1.xlarge.search", "or1.2xlarge.search", "or1.4xlarge.search", "or1.8xlarge.search", "or1.12xlarge.search", "or1.16xlarge.search", "ultrawarm1.medium.search", "ultrawarm1.large.search", "ultrawarm1.xlarge.search", "t2.micro.search", "t2.small.search", "t2.medium.search", "r3.large.search", "r3.xlarge.search", "r3.2xlarge.search", "r3.4xlarge.search", "r3.8xlarge.search", "i2.xlarge.search", "i2.2xlarge.search", "d2.xlarge.search", "d2.2xlarge.search", "d2.4xlarge.search", "d2.8xlarge.search", "c4.large.search", "c4.xlarge.search", "c4.2xlarge.search", "c4.4xlarge.search", "c4.8xlarge.search", "r4.large.search", "r4.xlarge.search", "r4.2xlarge.search", "r4.4xlarge.search", "r4.8xlarge.search", "r4.16xlarge.search", "i3.large.search", "i3.xlarge.search", "i3.2xlarge.search", "i3.4xlarge.search", "i3.8xlarge.search", "i3.16xlarge.search", "r6g.large.search", "r6g.xlarge.search", "r6g.2xlarge.search", "r6g.4xlarge.search", "r6g.8xlarge.search", "r6g.12xlarge.search", "m6g.large.search", "m6g.xlarge.search", "m6g.2xlarge.search", "m6g.4xlarge.search", "m6g.8xlarge.search", "m6g.12xlarge.search", "c6g.large.search", "c6g.xlarge.search", "c6g.2xlarge.search", "c6g.4xlarge.search", "c6g.8xlarge.search", "c6g.12xlarge.search", "r6gd.large.search", "r6gd.xlarge.search", "r6gd.2xlarge.search", "r6gd.4xlarge.search", "r6gd.8xlarge.search", "r6gd.12xlarge.search", "r6gd.16xlarge.search", "t4g.small.search", "t4g.medium.search"
     #   resp.domain_config.cluster_config.options.instance_count #=> Integer
     #   resp.domain_config.cluster_config.options.dedicated_master_enabled #=> Boolean
     #   resp.domain_config.cluster_config.options.zone_awareness_enabled #=> Boolean
     #   resp.domain_config.cluster_config.options.zone_awareness_config.availability_zone_count #=> Integer
-    #   resp.domain_config.cluster_config.options.dedicated_master_type #=> String, one of "m3.medium.search", "m3.large.search", "m3.xlarge.search", "m3.2xlarge.search", "m4.large.search", "m4.xlarge.search", "m4.2xlarge.search", "m4.4xlarge.search", "m4.10xlarge.search", "m5.large.search", "m5.xlarge.search", "m5.2xlarge.search", "m5.4xlarge.search", "m5.12xlarge.search", "m5.24xlarge.search", "r5.large.search", "r5.xlarge.search", "r5.2xlarge.search", "r5.4xlarge.search", "r5.12xlarge.search", "r5.24xlarge.search", "c5.large.search", "c5.xlarge.search", "c5.2xlarge.search", "c5.4xlarge.search", "c5.9xlarge.search", "c5.18xlarge.search", "t3.nano.search", "t3.micro.search", "t3.small.search", "t3.medium.search", "t3.large.search", "t3.xlarge.search", "t3.2xlarge.search", "ultrawarm1.medium.search", "ultrawarm1.large.search", "ultrawarm1.xlarge.search", "t2.micro.search", "t2.small.search", "t2.medium.search", "r3.large.search", "r3.xlarge.search", "r3.2xlarge.search", "r3.4xlarge.search", "r3.8xlarge.search", "i2.xlarge.search", "i2.2xlarge.search", "d2.xlarge.search", "d2.2xlarge.search", "d2.4xlarge.search", "d2.8xlarge.search", "c4.large.search", "c4.xlarge.search", "c4.2xlarge.search", "c4.4xlarge.search", "c4.8xlarge.search", "r4.large.search", "r4.xlarge.search", "r4.2xlarge.search", "r4.4xlarge.search", "r4.8xlarge.search", "r4.16xlarge.search", "i3.large.search", "i3.xlarge.search", "i3.2xlarge.search", "i3.4xlarge.search", "i3.8xlarge.search", "i3.16xlarge.search", "r6g.large.search", "r6g.xlarge.search", "r6g.2xlarge.search", "r6g.4xlarge.search", "r6g.8xlarge.search", "r6g.12xlarge.search", "m6g.large.search", "m6g.xlarge.search", "m6g.2xlarge.search", "m6g.4xlarge.search", "m6g.8xlarge.search", "m6g.12xlarge.search", "c6g.large.search", "c6g.xlarge.search", "c6g.2xlarge.search", "c6g.4xlarge.search", "c6g.8xlarge.search", "c6g.12xlarge.search", "r6gd.large.search", "r6gd.xlarge.search", "r6gd.2xlarge.search", "r6gd.4xlarge.search", "r6gd.8xlarge.search", "r6gd.12xlarge.search", "r6gd.16xlarge.search", "t4g.small.search", "t4g.medium.search"
+    #   resp.domain_config.cluster_config.options.dedicated_master_type #=> String, one of "m3.medium.search", "m3.large.search", "m3.xlarge.search", "m3.2xlarge.search", "m4.large.search", "m4.xlarge.search", "m4.2xlarge.search", "m4.4xlarge.search", "m4.10xlarge.search", "m5.large.search", "m5.xlarge.search", "m5.2xlarge.search", "m5.4xlarge.search", "m5.12xlarge.search", "m5.24xlarge.search", "r5.large.search", "r5.xlarge.search", "r5.2xlarge.search", "r5.4xlarge.search", "r5.12xlarge.search", "r5.24xlarge.search", "c5.large.search", "c5.xlarge.search", "c5.2xlarge.search", "c5.4xlarge.search", "c5.9xlarge.search", "c5.18xlarge.search", "t3.nano.search", "t3.micro.search", "t3.small.search", "t3.medium.search", "t3.large.search", "t3.xlarge.search", "t3.2xlarge.search", "or1.medium.search", "or1.large.search", "or1.xlarge.search", "or1.2xlarge.search", "or1.4xlarge.search", "or1.8xlarge.search", "or1.12xlarge.search", "or1.16xlarge.search", "ultrawarm1.medium.search", "ultrawarm1.large.search", "ultrawarm1.xlarge.search", "t2.micro.search", "t2.small.search", "t2.medium.search", "r3.large.search", "r3.xlarge.search", "r3.2xlarge.search", "r3.4xlarge.search", "r3.8xlarge.search", "i2.xlarge.search", "i2.2xlarge.search", "d2.xlarge.search", "d2.2xlarge.search", "d2.4xlarge.search", "d2.8xlarge.search", "c4.large.search", "c4.xlarge.search", "c4.2xlarge.search", "c4.4xlarge.search", "c4.8xlarge.search", "r4.large.search", "r4.xlarge.search", "r4.2xlarge.search", "r4.4xlarge.search", "r4.8xlarge.search", "r4.16xlarge.search", "i3.large.search", "i3.xlarge.search", "i3.2xlarge.search", "i3.4xlarge.search", "i3.8xlarge.search", "i3.16xlarge.search", "r6g.large.search", "r6g.xlarge.search", "r6g.2xlarge.search", "r6g.4xlarge.search", "r6g.8xlarge.search", "r6g.12xlarge.search", "m6g.large.search", "m6g.xlarge.search", "m6g.2xlarge.search", "m6g.4xlarge.search", "m6g.8xlarge.search", "m6g.12xlarge.search", "c6g.large.search", "c6g.xlarge.search", "c6g.2xlarge.search", "c6g.4xlarge.search", "c6g.8xlarge.search", "c6g.12xlarge.search", "r6gd.large.search", "r6gd.xlarge.search", "r6gd.2xlarge.search", "r6gd.4xlarge.search", "r6gd.8xlarge.search", "r6gd.12xlarge.search", "r6gd.16xlarge.search", "t4g.small.search", "t4g.medium.search"
     #   resp.domain_config.cluster_config.options.dedicated_master_count #=> Integer
     #   resp.domain_config.cluster_config.options.warm_enabled #=> Boolean
     #   resp.domain_config.cluster_config.options.warm_type #=> String, one of "ultrawarm1.medium.search", "ultrawarm1.large.search", "ultrawarm1.xlarge.search"
     #   resp.domain_config.cluster_config.options.warm_count #=> Integer
     #   resp.domain_config.cluster_config.options.cold_storage_options.enabled #=> Boolean
+    #   resp.domain_config.cluster_config.options.multi_az_with_standby_enabled #=> Boolean
+    #   resp.domain_config.cluster_config.options.node_options #=> Array
+    #   resp.domain_config.cluster_config.options.node_options[0].node_type #=> String, one of "coordinator"
+    #   resp.domain_config.cluster_config.options.node_options[0].node_config.enabled #=> Boolean
+    #   resp.domain_config.cluster_config.options.node_options[0].node_config.type #=> String, one of "m3.medium.search", "m3.large.search", "m3.xlarge.search", "m3.2xlarge.search", "m4.large.search", "m4.xlarge.search", "m4.2xlarge.search", "m4.4xlarge.search", "m4.10xlarge.search", "m5.large.search", "m5.xlarge.search", "m5.2xlarge.search", "m5.4xlarge.search", "m5.12xlarge.search", "m5.24xlarge.search", "r5.large.search", "r5.xlarge.search", "r5.2xlarge.search", "r5.4xlarge.search", "r5.12xlarge.search", "r5.24xlarge.search", "c5.large.search", "c5.xlarge.search", "c5.2xlarge.search", "c5.4xlarge.search", "c5.9xlarge.search", "c5.18xlarge.search", "t3.nano.search", "t3.micro.search", "t3.small.search", "t3.medium.search", "t3.large.search", "t3.xlarge.search", "t3.2xlarge.search", "or1.medium.search", "or1.large.search", "or1.xlarge.search", "or1.2xlarge.search", "or1.4xlarge.search", "or1.8xlarge.search", "or1.12xlarge.search", "or1.16xlarge.search", "ultrawarm1.medium.search", "ultrawarm1.large.search", "ultrawarm1.xlarge.search", "t2.micro.search", "t2.small.search", "t2.medium.search", "r3.large.search", "r3.xlarge.search", "r3.2xlarge.search", "r3.4xlarge.search", "r3.8xlarge.search", "i2.xlarge.search", "i2.2xlarge.search", "d2.xlarge.search", "d2.2xlarge.search", "d2.4xlarge.search", "d2.8xlarge.search", "c4.large.search", "c4.xlarge.search", "c4.2xlarge.search", "c4.4xlarge.search", "c4.8xlarge.search", "r4.large.search", "r4.xlarge.search", "r4.2xlarge.search", "r4.4xlarge.search", "r4.8xlarge.search", "r4.16xlarge.search", "i3.large.search", "i3.xlarge.search", "i3.2xlarge.search", "i3.4xlarge.search", "i3.8xlarge.search", "i3.16xlarge.search", "r6g.large.search", "r6g.xlarge.search", "r6g.2xlarge.search", "r6g.4xlarge.search", "r6g.8xlarge.search", "r6g.12xlarge.search", "m6g.large.search", "m6g.xlarge.search", "m6g.2xlarge.search", "m6g.4xlarge.search", "m6g.8xlarge.search", "m6g.12xlarge.search", "c6g.large.search", "c6g.xlarge.search", "c6g.2xlarge.search", "c6g.4xlarge.search", "c6g.8xlarge.search", "c6g.12xlarge.search", "r6gd.large.search", "r6gd.xlarge.search", "r6gd.2xlarge.search", "r6gd.4xlarge.search", "r6gd.8xlarge.search", "r6gd.12xlarge.search", "r6gd.16xlarge.search", "t4g.small.search", "t4g.medium.search"
+    #   resp.domain_config.cluster_config.options.node_options[0].node_config.count #=> Integer
     #   resp.domain_config.cluster_config.status.creation_date #=> Time
     #   resp.domain_config.cluster_config.status.update_date #=> Time
     #   resp.domain_config.cluster_config.status.update_version #=> Integer
@@ -1608,6 +2386,12 @@ module Aws::OpenSearchService
     #   resp.domain_config.access_policies.status.update_version #=> Integer
     #   resp.domain_config.access_policies.status.state #=> String, one of "RequiresIndexDocuments", "Processing", "Active"
     #   resp.domain_config.access_policies.status.pending_deletion #=> Boolean
+    #   resp.domain_config.ip_address_type.options #=> String, one of "ipv4", "dualstack"
+    #   resp.domain_config.ip_address_type.status.creation_date #=> Time
+    #   resp.domain_config.ip_address_type.status.update_date #=> Time
+    #   resp.domain_config.ip_address_type.status.update_version #=> Integer
+    #   resp.domain_config.ip_address_type.status.state #=> String, one of "RequiresIndexDocuments", "Processing", "Active"
+    #   resp.domain_config.ip_address_type.status.pending_deletion #=> Boolean
     #   resp.domain_config.snapshot_options.options.automated_snapshot_start_hour #=> Integer
     #   resp.domain_config.snapshot_options.status.creation_date #=> Time
     #   resp.domain_config.snapshot_options.status.update_date #=> Time
@@ -1664,7 +2448,7 @@ module Aws::OpenSearchService
     #   resp.domain_config.log_publishing_options.status.state #=> String, one of "RequiresIndexDocuments", "Processing", "Active"
     #   resp.domain_config.log_publishing_options.status.pending_deletion #=> Boolean
     #   resp.domain_config.domain_endpoint_options.options.enforce_https #=> Boolean
-    #   resp.domain_config.domain_endpoint_options.options.tls_security_policy #=> String, one of "Policy-Min-TLS-1-0-2019-07", "Policy-Min-TLS-1-2-2019-07"
+    #   resp.domain_config.domain_endpoint_options.options.tls_security_policy #=> String, one of "Policy-Min-TLS-1-0-2019-07", "Policy-Min-TLS-1-2-2019-07", "Policy-Min-TLS-1-2-PFS-2023-10"
     #   resp.domain_config.domain_endpoint_options.options.custom_endpoint_enabled #=> Boolean
     #   resp.domain_config.domain_endpoint_options.options.custom_endpoint #=> String
     #   resp.domain_config.domain_endpoint_options.options.custom_endpoint_certificate_arn #=> String
@@ -1681,6 +2465,10 @@ module Aws::OpenSearchService
     #   resp.domain_config.advanced_security_options.options.saml_options.subject_key #=> String
     #   resp.domain_config.advanced_security_options.options.saml_options.roles_key #=> String
     #   resp.domain_config.advanced_security_options.options.saml_options.session_timeout_minutes #=> Integer
+    #   resp.domain_config.advanced_security_options.options.jwt_options.enabled #=> Boolean
+    #   resp.domain_config.advanced_security_options.options.jwt_options.subject_key #=> String
+    #   resp.domain_config.advanced_security_options.options.jwt_options.roles_key #=> String
+    #   resp.domain_config.advanced_security_options.options.jwt_options.public_key #=> String
     #   resp.domain_config.advanced_security_options.options.anonymous_auth_disable_date #=> Time
     #   resp.domain_config.advanced_security_options.options.anonymous_auth_enabled #=> Boolean
     #   resp.domain_config.advanced_security_options.status.creation_date #=> Time
@@ -1688,6 +2476,17 @@ module Aws::OpenSearchService
     #   resp.domain_config.advanced_security_options.status.update_version #=> Integer
     #   resp.domain_config.advanced_security_options.status.state #=> String, one of "RequiresIndexDocuments", "Processing", "Active"
     #   resp.domain_config.advanced_security_options.status.pending_deletion #=> Boolean
+    #   resp.domain_config.identity_center_options.options.enabled_api_access #=> Boolean
+    #   resp.domain_config.identity_center_options.options.identity_center_instance_arn #=> String
+    #   resp.domain_config.identity_center_options.options.subject_key #=> String, one of "UserName", "UserId", "Email"
+    #   resp.domain_config.identity_center_options.options.roles_key #=> String, one of "GroupName", "GroupId"
+    #   resp.domain_config.identity_center_options.options.identity_center_application_arn #=> String
+    #   resp.domain_config.identity_center_options.options.identity_store_id #=> String
+    #   resp.domain_config.identity_center_options.status.creation_date #=> Time
+    #   resp.domain_config.identity_center_options.status.update_date #=> Time
+    #   resp.domain_config.identity_center_options.status.update_version #=> Integer
+    #   resp.domain_config.identity_center_options.status.state #=> String, one of "RequiresIndexDocuments", "Processing", "Active"
+    #   resp.domain_config.identity_center_options.status.pending_deletion #=> Boolean
     #   resp.domain_config.auto_tune_options.options.desired_state #=> String, one of "ENABLED", "DISABLED"
     #   resp.domain_config.auto_tune_options.options.rollback_on_disable #=> String, one of "NO_ROLLBACK", "DEFAULT_ROLLBACK"
     #   resp.domain_config.auto_tune_options.options.maintenance_schedules #=> Array
@@ -1695,6 +2494,7 @@ module Aws::OpenSearchService
     #   resp.domain_config.auto_tune_options.options.maintenance_schedules[0].duration.value #=> Integer
     #   resp.domain_config.auto_tune_options.options.maintenance_schedules[0].duration.unit #=> String, one of "HOURS"
     #   resp.domain_config.auto_tune_options.options.maintenance_schedules[0].cron_expression_for_recurrence #=> String
+    #   resp.domain_config.auto_tune_options.options.use_off_peak_window #=> Boolean
     #   resp.domain_config.auto_tune_options.status.creation_date #=> Time
     #   resp.domain_config.auto_tune_options.status.update_date #=> Time
     #   resp.domain_config.auto_tune_options.status.update_version #=> Integer
@@ -1703,6 +2503,36 @@ module Aws::OpenSearchService
     #   resp.domain_config.auto_tune_options.status.pending_deletion #=> Boolean
     #   resp.domain_config.change_progress_details.change_id #=> String
     #   resp.domain_config.change_progress_details.message #=> String
+    #   resp.domain_config.change_progress_details.config_change_status #=> String, one of "Pending", "Initializing", "Validating", "ValidationFailed", "ApplyingChanges", "Completed", "PendingUserInput", "Cancelled"
+    #   resp.domain_config.change_progress_details.initiated_by #=> String, one of "CUSTOMER", "SERVICE"
+    #   resp.domain_config.change_progress_details.start_time #=> Time
+    #   resp.domain_config.change_progress_details.last_updated_time #=> Time
+    #   resp.domain_config.off_peak_window_options.options.enabled #=> Boolean
+    #   resp.domain_config.off_peak_window_options.options.off_peak_window.window_start_time.hours #=> Integer
+    #   resp.domain_config.off_peak_window_options.options.off_peak_window.window_start_time.minutes #=> Integer
+    #   resp.domain_config.off_peak_window_options.status.creation_date #=> Time
+    #   resp.domain_config.off_peak_window_options.status.update_date #=> Time
+    #   resp.domain_config.off_peak_window_options.status.update_version #=> Integer
+    #   resp.domain_config.off_peak_window_options.status.state #=> String, one of "RequiresIndexDocuments", "Processing", "Active"
+    #   resp.domain_config.off_peak_window_options.status.pending_deletion #=> Boolean
+    #   resp.domain_config.software_update_options.options.auto_software_update_enabled #=> Boolean
+    #   resp.domain_config.software_update_options.status.creation_date #=> Time
+    #   resp.domain_config.software_update_options.status.update_date #=> Time
+    #   resp.domain_config.software_update_options.status.update_version #=> Integer
+    #   resp.domain_config.software_update_options.status.state #=> String, one of "RequiresIndexDocuments", "Processing", "Active"
+    #   resp.domain_config.software_update_options.status.pending_deletion #=> Boolean
+    #   resp.domain_config.modifying_properties #=> Array
+    #   resp.domain_config.modifying_properties[0].name #=> String
+    #   resp.domain_config.modifying_properties[0].active_value #=> String
+    #   resp.domain_config.modifying_properties[0].pending_value #=> String
+    #   resp.domain_config.modifying_properties[0].value_type #=> String, one of "PLAIN_TEXT", "STRINGIFIED_JSON"
+    #   resp.domain_config.aiml_options.options.natural_language_query_generation_options.desired_state #=> String, one of "ENABLED", "DISABLED"
+    #   resp.domain_config.aiml_options.options.natural_language_query_generation_options.current_state #=> String, one of "NOT_ENABLED", "ENABLE_COMPLETE", "ENABLE_IN_PROGRESS", "ENABLE_FAILED", "DISABLE_COMPLETE", "DISABLE_IN_PROGRESS", "DISABLE_FAILED"
+    #   resp.domain_config.aiml_options.status.creation_date #=> Time
+    #   resp.domain_config.aiml_options.status.update_date #=> Time
+    #   resp.domain_config.aiml_options.status.update_version #=> Integer
+    #   resp.domain_config.aiml_options.status.state #=> String, one of "RequiresIndexDocuments", "Processing", "Active"
+    #   resp.domain_config.aiml_options.status.pending_deletion #=> Boolean
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/DescribeDomainConfig AWS API Documentation
     #
@@ -1713,13 +2543,111 @@ module Aws::OpenSearchService
       req.send_request(options)
     end
 
+    # Returns information about domain and node health, the standby
+    # Availability Zone, number of nodes per Availability Zone, and shard
+    # count per node.
+    #
+    # @option params [required, String] :domain_name
+    #   The name of the domain.
+    #
+    # @return [Types::DescribeDomainHealthResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeDomainHealthResponse#domain_state #domain_state} => String
+    #   * {Types::DescribeDomainHealthResponse#availability_zone_count #availability_zone_count} => String
+    #   * {Types::DescribeDomainHealthResponse#active_availability_zone_count #active_availability_zone_count} => String
+    #   * {Types::DescribeDomainHealthResponse#stand_by_availability_zone_count #stand_by_availability_zone_count} => String
+    #   * {Types::DescribeDomainHealthResponse#data_node_count #data_node_count} => String
+    #   * {Types::DescribeDomainHealthResponse#dedicated_master #dedicated_master} => Boolean
+    #   * {Types::DescribeDomainHealthResponse#master_eligible_node_count #master_eligible_node_count} => String
+    #   * {Types::DescribeDomainHealthResponse#warm_node_count #warm_node_count} => String
+    #   * {Types::DescribeDomainHealthResponse#master_node #master_node} => String
+    #   * {Types::DescribeDomainHealthResponse#cluster_health #cluster_health} => String
+    #   * {Types::DescribeDomainHealthResponse#total_shards #total_shards} => String
+    #   * {Types::DescribeDomainHealthResponse#total_un_assigned_shards #total_un_assigned_shards} => String
+    #   * {Types::DescribeDomainHealthResponse#environment_information #environment_information} => Array&lt;Types::EnvironmentInfo&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_domain_health({
+    #     domain_name: "DomainName", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.domain_state #=> String, one of "Active", "Processing", "NotAvailable"
+    #   resp.availability_zone_count #=> String
+    #   resp.active_availability_zone_count #=> String
+    #   resp.stand_by_availability_zone_count #=> String
+    #   resp.data_node_count #=> String
+    #   resp.dedicated_master #=> Boolean
+    #   resp.master_eligible_node_count #=> String
+    #   resp.warm_node_count #=> String
+    #   resp.master_node #=> String, one of "Available", "UnAvailable"
+    #   resp.cluster_health #=> String, one of "Red", "Yellow", "Green", "NotAvailable"
+    #   resp.total_shards #=> String
+    #   resp.total_un_assigned_shards #=> String
+    #   resp.environment_information #=> Array
+    #   resp.environment_information[0].availability_zone_information #=> Array
+    #   resp.environment_information[0].availability_zone_information[0].availability_zone_name #=> String
+    #   resp.environment_information[0].availability_zone_information[0].zone_status #=> String, one of "Active", "StandBy", "NotAvailable"
+    #   resp.environment_information[0].availability_zone_information[0].configured_data_node_count #=> String
+    #   resp.environment_information[0].availability_zone_information[0].available_data_node_count #=> String
+    #   resp.environment_information[0].availability_zone_information[0].total_shards #=> String
+    #   resp.environment_information[0].availability_zone_information[0].total_un_assigned_shards #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/DescribeDomainHealth AWS API Documentation
+    #
+    # @overload describe_domain_health(params = {})
+    # @param [Hash] params ({})
+    def describe_domain_health(params = {}, options = {})
+      req = build_request(:describe_domain_health, params)
+      req.send_request(options)
+    end
+
+    # Returns information about domain and nodes, including data nodes,
+    # master nodes, ultrawarm nodes, Availability Zone(s), standby nodes,
+    # node configurations, and node states.
+    #
+    # @option params [required, String] :domain_name
+    #   The name of the domain.
+    #
+    # @return [Types::DescribeDomainNodesResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeDomainNodesResponse#domain_nodes_status_list #domain_nodes_status_list} => Array&lt;Types::DomainNodesStatus&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_domain_nodes({
+    #     domain_name: "DomainName", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.domain_nodes_status_list #=> Array
+    #   resp.domain_nodes_status_list[0].node_id #=> String
+    #   resp.domain_nodes_status_list[0].node_type #=> String, one of "Data", "Ultrawarm", "Master"
+    #   resp.domain_nodes_status_list[0].availability_zone #=> String
+    #   resp.domain_nodes_status_list[0].instance_type #=> String, one of "m3.medium.search", "m3.large.search", "m3.xlarge.search", "m3.2xlarge.search", "m4.large.search", "m4.xlarge.search", "m4.2xlarge.search", "m4.4xlarge.search", "m4.10xlarge.search", "m5.large.search", "m5.xlarge.search", "m5.2xlarge.search", "m5.4xlarge.search", "m5.12xlarge.search", "m5.24xlarge.search", "r5.large.search", "r5.xlarge.search", "r5.2xlarge.search", "r5.4xlarge.search", "r5.12xlarge.search", "r5.24xlarge.search", "c5.large.search", "c5.xlarge.search", "c5.2xlarge.search", "c5.4xlarge.search", "c5.9xlarge.search", "c5.18xlarge.search", "t3.nano.search", "t3.micro.search", "t3.small.search", "t3.medium.search", "t3.large.search", "t3.xlarge.search", "t3.2xlarge.search", "or1.medium.search", "or1.large.search", "or1.xlarge.search", "or1.2xlarge.search", "or1.4xlarge.search", "or1.8xlarge.search", "or1.12xlarge.search", "or1.16xlarge.search", "ultrawarm1.medium.search", "ultrawarm1.large.search", "ultrawarm1.xlarge.search", "t2.micro.search", "t2.small.search", "t2.medium.search", "r3.large.search", "r3.xlarge.search", "r3.2xlarge.search", "r3.4xlarge.search", "r3.8xlarge.search", "i2.xlarge.search", "i2.2xlarge.search", "d2.xlarge.search", "d2.2xlarge.search", "d2.4xlarge.search", "d2.8xlarge.search", "c4.large.search", "c4.xlarge.search", "c4.2xlarge.search", "c4.4xlarge.search", "c4.8xlarge.search", "r4.large.search", "r4.xlarge.search", "r4.2xlarge.search", "r4.4xlarge.search", "r4.8xlarge.search", "r4.16xlarge.search", "i3.large.search", "i3.xlarge.search", "i3.2xlarge.search", "i3.4xlarge.search", "i3.8xlarge.search", "i3.16xlarge.search", "r6g.large.search", "r6g.xlarge.search", "r6g.2xlarge.search", "r6g.4xlarge.search", "r6g.8xlarge.search", "r6g.12xlarge.search", "m6g.large.search", "m6g.xlarge.search", "m6g.2xlarge.search", "m6g.4xlarge.search", "m6g.8xlarge.search", "m6g.12xlarge.search", "c6g.large.search", "c6g.xlarge.search", "c6g.2xlarge.search", "c6g.4xlarge.search", "c6g.8xlarge.search", "c6g.12xlarge.search", "r6gd.large.search", "r6gd.xlarge.search", "r6gd.2xlarge.search", "r6gd.4xlarge.search", "r6gd.8xlarge.search", "r6gd.12xlarge.search", "r6gd.16xlarge.search", "t4g.small.search", "t4g.medium.search"
+    #   resp.domain_nodes_status_list[0].node_status #=> String, one of "Active", "StandBy", "NotAvailable"
+    #   resp.domain_nodes_status_list[0].storage_type #=> String
+    #   resp.domain_nodes_status_list[0].storage_volume_type #=> String, one of "standard", "gp2", "io1", "gp3"
+    #   resp.domain_nodes_status_list[0].storage_size #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/DescribeDomainNodes AWS API Documentation
+    #
+    # @overload describe_domain_nodes(params = {})
+    # @param [Hash] params ({})
+    def describe_domain_nodes(params = {}, options = {})
+      req = build_request(:describe_domain_nodes, params)
+      req.send_request(options)
+    end
+
     # Returns domain configuration information about the specified Amazon
     # OpenSearch Service domains.
     #
     # @option params [required, Array<String>] :domain_names
     #   Array of OpenSearch Service domain names that you want information
-    #   about. If you don't specify any domains, OpenSearch Service returns
-    #   information about all domains owned by the account.
+    #   about. You must specify at least one domain name.
     #
     # @return [Types::DescribeDomainsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1740,28 +2668,37 @@ module Aws::OpenSearchService
     #   resp.domain_status_list[0].created #=> Boolean
     #   resp.domain_status_list[0].deleted #=> Boolean
     #   resp.domain_status_list[0].endpoint #=> String
+    #   resp.domain_status_list[0].endpoint_v2 #=> String
     #   resp.domain_status_list[0].endpoints #=> Hash
     #   resp.domain_status_list[0].endpoints["String"] #=> String
+    #   resp.domain_status_list[0].domain_endpoint_v2_hosted_zone_id #=> String
     #   resp.domain_status_list[0].processing #=> Boolean
     #   resp.domain_status_list[0].upgrade_processing #=> Boolean
     #   resp.domain_status_list[0].engine_version #=> String
-    #   resp.domain_status_list[0].cluster_config.instance_type #=> String, one of "m3.medium.search", "m3.large.search", "m3.xlarge.search", "m3.2xlarge.search", "m4.large.search", "m4.xlarge.search", "m4.2xlarge.search", "m4.4xlarge.search", "m4.10xlarge.search", "m5.large.search", "m5.xlarge.search", "m5.2xlarge.search", "m5.4xlarge.search", "m5.12xlarge.search", "m5.24xlarge.search", "r5.large.search", "r5.xlarge.search", "r5.2xlarge.search", "r5.4xlarge.search", "r5.12xlarge.search", "r5.24xlarge.search", "c5.large.search", "c5.xlarge.search", "c5.2xlarge.search", "c5.4xlarge.search", "c5.9xlarge.search", "c5.18xlarge.search", "t3.nano.search", "t3.micro.search", "t3.small.search", "t3.medium.search", "t3.large.search", "t3.xlarge.search", "t3.2xlarge.search", "ultrawarm1.medium.search", "ultrawarm1.large.search", "ultrawarm1.xlarge.search", "t2.micro.search", "t2.small.search", "t2.medium.search", "r3.large.search", "r3.xlarge.search", "r3.2xlarge.search", "r3.4xlarge.search", "r3.8xlarge.search", "i2.xlarge.search", "i2.2xlarge.search", "d2.xlarge.search", "d2.2xlarge.search", "d2.4xlarge.search", "d2.8xlarge.search", "c4.large.search", "c4.xlarge.search", "c4.2xlarge.search", "c4.4xlarge.search", "c4.8xlarge.search", "r4.large.search", "r4.xlarge.search", "r4.2xlarge.search", "r4.4xlarge.search", "r4.8xlarge.search", "r4.16xlarge.search", "i3.large.search", "i3.xlarge.search", "i3.2xlarge.search", "i3.4xlarge.search", "i3.8xlarge.search", "i3.16xlarge.search", "r6g.large.search", "r6g.xlarge.search", "r6g.2xlarge.search", "r6g.4xlarge.search", "r6g.8xlarge.search", "r6g.12xlarge.search", "m6g.large.search", "m6g.xlarge.search", "m6g.2xlarge.search", "m6g.4xlarge.search", "m6g.8xlarge.search", "m6g.12xlarge.search", "c6g.large.search", "c6g.xlarge.search", "c6g.2xlarge.search", "c6g.4xlarge.search", "c6g.8xlarge.search", "c6g.12xlarge.search", "r6gd.large.search", "r6gd.xlarge.search", "r6gd.2xlarge.search", "r6gd.4xlarge.search", "r6gd.8xlarge.search", "r6gd.12xlarge.search", "r6gd.16xlarge.search", "t4g.small.search", "t4g.medium.search"
+    #   resp.domain_status_list[0].cluster_config.instance_type #=> String, one of "m3.medium.search", "m3.large.search", "m3.xlarge.search", "m3.2xlarge.search", "m4.large.search", "m4.xlarge.search", "m4.2xlarge.search", "m4.4xlarge.search", "m4.10xlarge.search", "m5.large.search", "m5.xlarge.search", "m5.2xlarge.search", "m5.4xlarge.search", "m5.12xlarge.search", "m5.24xlarge.search", "r5.large.search", "r5.xlarge.search", "r5.2xlarge.search", "r5.4xlarge.search", "r5.12xlarge.search", "r5.24xlarge.search", "c5.large.search", "c5.xlarge.search", "c5.2xlarge.search", "c5.4xlarge.search", "c5.9xlarge.search", "c5.18xlarge.search", "t3.nano.search", "t3.micro.search", "t3.small.search", "t3.medium.search", "t3.large.search", "t3.xlarge.search", "t3.2xlarge.search", "or1.medium.search", "or1.large.search", "or1.xlarge.search", "or1.2xlarge.search", "or1.4xlarge.search", "or1.8xlarge.search", "or1.12xlarge.search", "or1.16xlarge.search", "ultrawarm1.medium.search", "ultrawarm1.large.search", "ultrawarm1.xlarge.search", "t2.micro.search", "t2.small.search", "t2.medium.search", "r3.large.search", "r3.xlarge.search", "r3.2xlarge.search", "r3.4xlarge.search", "r3.8xlarge.search", "i2.xlarge.search", "i2.2xlarge.search", "d2.xlarge.search", "d2.2xlarge.search", "d2.4xlarge.search", "d2.8xlarge.search", "c4.large.search", "c4.xlarge.search", "c4.2xlarge.search", "c4.4xlarge.search", "c4.8xlarge.search", "r4.large.search", "r4.xlarge.search", "r4.2xlarge.search", "r4.4xlarge.search", "r4.8xlarge.search", "r4.16xlarge.search", "i3.large.search", "i3.xlarge.search", "i3.2xlarge.search", "i3.4xlarge.search", "i3.8xlarge.search", "i3.16xlarge.search", "r6g.large.search", "r6g.xlarge.search", "r6g.2xlarge.search", "r6g.4xlarge.search", "r6g.8xlarge.search", "r6g.12xlarge.search", "m6g.large.search", "m6g.xlarge.search", "m6g.2xlarge.search", "m6g.4xlarge.search", "m6g.8xlarge.search", "m6g.12xlarge.search", "c6g.large.search", "c6g.xlarge.search", "c6g.2xlarge.search", "c6g.4xlarge.search", "c6g.8xlarge.search", "c6g.12xlarge.search", "r6gd.large.search", "r6gd.xlarge.search", "r6gd.2xlarge.search", "r6gd.4xlarge.search", "r6gd.8xlarge.search", "r6gd.12xlarge.search", "r6gd.16xlarge.search", "t4g.small.search", "t4g.medium.search"
     #   resp.domain_status_list[0].cluster_config.instance_count #=> Integer
     #   resp.domain_status_list[0].cluster_config.dedicated_master_enabled #=> Boolean
     #   resp.domain_status_list[0].cluster_config.zone_awareness_enabled #=> Boolean
     #   resp.domain_status_list[0].cluster_config.zone_awareness_config.availability_zone_count #=> Integer
-    #   resp.domain_status_list[0].cluster_config.dedicated_master_type #=> String, one of "m3.medium.search", "m3.large.search", "m3.xlarge.search", "m3.2xlarge.search", "m4.large.search", "m4.xlarge.search", "m4.2xlarge.search", "m4.4xlarge.search", "m4.10xlarge.search", "m5.large.search", "m5.xlarge.search", "m5.2xlarge.search", "m5.4xlarge.search", "m5.12xlarge.search", "m5.24xlarge.search", "r5.large.search", "r5.xlarge.search", "r5.2xlarge.search", "r5.4xlarge.search", "r5.12xlarge.search", "r5.24xlarge.search", "c5.large.search", "c5.xlarge.search", "c5.2xlarge.search", "c5.4xlarge.search", "c5.9xlarge.search", "c5.18xlarge.search", "t3.nano.search", "t3.micro.search", "t3.small.search", "t3.medium.search", "t3.large.search", "t3.xlarge.search", "t3.2xlarge.search", "ultrawarm1.medium.search", "ultrawarm1.large.search", "ultrawarm1.xlarge.search", "t2.micro.search", "t2.small.search", "t2.medium.search", "r3.large.search", "r3.xlarge.search", "r3.2xlarge.search", "r3.4xlarge.search", "r3.8xlarge.search", "i2.xlarge.search", "i2.2xlarge.search", "d2.xlarge.search", "d2.2xlarge.search", "d2.4xlarge.search", "d2.8xlarge.search", "c4.large.search", "c4.xlarge.search", "c4.2xlarge.search", "c4.4xlarge.search", "c4.8xlarge.search", "r4.large.search", "r4.xlarge.search", "r4.2xlarge.search", "r4.4xlarge.search", "r4.8xlarge.search", "r4.16xlarge.search", "i3.large.search", "i3.xlarge.search", "i3.2xlarge.search", "i3.4xlarge.search", "i3.8xlarge.search", "i3.16xlarge.search", "r6g.large.search", "r6g.xlarge.search", "r6g.2xlarge.search", "r6g.4xlarge.search", "r6g.8xlarge.search", "r6g.12xlarge.search", "m6g.large.search", "m6g.xlarge.search", "m6g.2xlarge.search", "m6g.4xlarge.search", "m6g.8xlarge.search", "m6g.12xlarge.search", "c6g.large.search", "c6g.xlarge.search", "c6g.2xlarge.search", "c6g.4xlarge.search", "c6g.8xlarge.search", "c6g.12xlarge.search", "r6gd.large.search", "r6gd.xlarge.search", "r6gd.2xlarge.search", "r6gd.4xlarge.search", "r6gd.8xlarge.search", "r6gd.12xlarge.search", "r6gd.16xlarge.search", "t4g.small.search", "t4g.medium.search"
+    #   resp.domain_status_list[0].cluster_config.dedicated_master_type #=> String, one of "m3.medium.search", "m3.large.search", "m3.xlarge.search", "m3.2xlarge.search", "m4.large.search", "m4.xlarge.search", "m4.2xlarge.search", "m4.4xlarge.search", "m4.10xlarge.search", "m5.large.search", "m5.xlarge.search", "m5.2xlarge.search", "m5.4xlarge.search", "m5.12xlarge.search", "m5.24xlarge.search", "r5.large.search", "r5.xlarge.search", "r5.2xlarge.search", "r5.4xlarge.search", "r5.12xlarge.search", "r5.24xlarge.search", "c5.large.search", "c5.xlarge.search", "c5.2xlarge.search", "c5.4xlarge.search", "c5.9xlarge.search", "c5.18xlarge.search", "t3.nano.search", "t3.micro.search", "t3.small.search", "t3.medium.search", "t3.large.search", "t3.xlarge.search", "t3.2xlarge.search", "or1.medium.search", "or1.large.search", "or1.xlarge.search", "or1.2xlarge.search", "or1.4xlarge.search", "or1.8xlarge.search", "or1.12xlarge.search", "or1.16xlarge.search", "ultrawarm1.medium.search", "ultrawarm1.large.search", "ultrawarm1.xlarge.search", "t2.micro.search", "t2.small.search", "t2.medium.search", "r3.large.search", "r3.xlarge.search", "r3.2xlarge.search", "r3.4xlarge.search", "r3.8xlarge.search", "i2.xlarge.search", "i2.2xlarge.search", "d2.xlarge.search", "d2.2xlarge.search", "d2.4xlarge.search", "d2.8xlarge.search", "c4.large.search", "c4.xlarge.search", "c4.2xlarge.search", "c4.4xlarge.search", "c4.8xlarge.search", "r4.large.search", "r4.xlarge.search", "r4.2xlarge.search", "r4.4xlarge.search", "r4.8xlarge.search", "r4.16xlarge.search", "i3.large.search", "i3.xlarge.search", "i3.2xlarge.search", "i3.4xlarge.search", "i3.8xlarge.search", "i3.16xlarge.search", "r6g.large.search", "r6g.xlarge.search", "r6g.2xlarge.search", "r6g.4xlarge.search", "r6g.8xlarge.search", "r6g.12xlarge.search", "m6g.large.search", "m6g.xlarge.search", "m6g.2xlarge.search", "m6g.4xlarge.search", "m6g.8xlarge.search", "m6g.12xlarge.search", "c6g.large.search", "c6g.xlarge.search", "c6g.2xlarge.search", "c6g.4xlarge.search", "c6g.8xlarge.search", "c6g.12xlarge.search", "r6gd.large.search", "r6gd.xlarge.search", "r6gd.2xlarge.search", "r6gd.4xlarge.search", "r6gd.8xlarge.search", "r6gd.12xlarge.search", "r6gd.16xlarge.search", "t4g.small.search", "t4g.medium.search"
     #   resp.domain_status_list[0].cluster_config.dedicated_master_count #=> Integer
     #   resp.domain_status_list[0].cluster_config.warm_enabled #=> Boolean
     #   resp.domain_status_list[0].cluster_config.warm_type #=> String, one of "ultrawarm1.medium.search", "ultrawarm1.large.search", "ultrawarm1.xlarge.search"
     #   resp.domain_status_list[0].cluster_config.warm_count #=> Integer
     #   resp.domain_status_list[0].cluster_config.cold_storage_options.enabled #=> Boolean
+    #   resp.domain_status_list[0].cluster_config.multi_az_with_standby_enabled #=> Boolean
+    #   resp.domain_status_list[0].cluster_config.node_options #=> Array
+    #   resp.domain_status_list[0].cluster_config.node_options[0].node_type #=> String, one of "coordinator"
+    #   resp.domain_status_list[0].cluster_config.node_options[0].node_config.enabled #=> Boolean
+    #   resp.domain_status_list[0].cluster_config.node_options[0].node_config.type #=> String, one of "m3.medium.search", "m3.large.search", "m3.xlarge.search", "m3.2xlarge.search", "m4.large.search", "m4.xlarge.search", "m4.2xlarge.search", "m4.4xlarge.search", "m4.10xlarge.search", "m5.large.search", "m5.xlarge.search", "m5.2xlarge.search", "m5.4xlarge.search", "m5.12xlarge.search", "m5.24xlarge.search", "r5.large.search", "r5.xlarge.search", "r5.2xlarge.search", "r5.4xlarge.search", "r5.12xlarge.search", "r5.24xlarge.search", "c5.large.search", "c5.xlarge.search", "c5.2xlarge.search", "c5.4xlarge.search", "c5.9xlarge.search", "c5.18xlarge.search", "t3.nano.search", "t3.micro.search", "t3.small.search", "t3.medium.search", "t3.large.search", "t3.xlarge.search", "t3.2xlarge.search", "or1.medium.search", "or1.large.search", "or1.xlarge.search", "or1.2xlarge.search", "or1.4xlarge.search", "or1.8xlarge.search", "or1.12xlarge.search", "or1.16xlarge.search", "ultrawarm1.medium.search", "ultrawarm1.large.search", "ultrawarm1.xlarge.search", "t2.micro.search", "t2.small.search", "t2.medium.search", "r3.large.search", "r3.xlarge.search", "r3.2xlarge.search", "r3.4xlarge.search", "r3.8xlarge.search", "i2.xlarge.search", "i2.2xlarge.search", "d2.xlarge.search", "d2.2xlarge.search", "d2.4xlarge.search", "d2.8xlarge.search", "c4.large.search", "c4.xlarge.search", "c4.2xlarge.search", "c4.4xlarge.search", "c4.8xlarge.search", "r4.large.search", "r4.xlarge.search", "r4.2xlarge.search", "r4.4xlarge.search", "r4.8xlarge.search", "r4.16xlarge.search", "i3.large.search", "i3.xlarge.search", "i3.2xlarge.search", "i3.4xlarge.search", "i3.8xlarge.search", "i3.16xlarge.search", "r6g.large.search", "r6g.xlarge.search", "r6g.2xlarge.search", "r6g.4xlarge.search", "r6g.8xlarge.search", "r6g.12xlarge.search", "m6g.large.search", "m6g.xlarge.search", "m6g.2xlarge.search", "m6g.4xlarge.search", "m6g.8xlarge.search", "m6g.12xlarge.search", "c6g.large.search", "c6g.xlarge.search", "c6g.2xlarge.search", "c6g.4xlarge.search", "c6g.8xlarge.search", "c6g.12xlarge.search", "r6gd.large.search", "r6gd.xlarge.search", "r6gd.2xlarge.search", "r6gd.4xlarge.search", "r6gd.8xlarge.search", "r6gd.12xlarge.search", "r6gd.16xlarge.search", "t4g.small.search", "t4g.medium.search"
+    #   resp.domain_status_list[0].cluster_config.node_options[0].node_config.count #=> Integer
     #   resp.domain_status_list[0].ebs_options.ebs_enabled #=> Boolean
     #   resp.domain_status_list[0].ebs_options.volume_type #=> String, one of "standard", "gp2", "io1", "gp3"
     #   resp.domain_status_list[0].ebs_options.volume_size #=> Integer
     #   resp.domain_status_list[0].ebs_options.iops #=> Integer
     #   resp.domain_status_list[0].ebs_options.throughput #=> Integer
     #   resp.domain_status_list[0].access_policies #=> String
+    #   resp.domain_status_list[0].ip_address_type #=> String, one of "ipv4", "dualstack"
     #   resp.domain_status_list[0].snapshot_options.automated_snapshot_start_hour #=> Integer
     #   resp.domain_status_list[0].vpc_options.vpc_id #=> String
     #   resp.domain_status_list[0].vpc_options.subnet_ids #=> Array
@@ -1791,7 +2728,7 @@ module Aws::OpenSearchService
     #   resp.domain_status_list[0].service_software_options.automated_update_date #=> Time
     #   resp.domain_status_list[0].service_software_options.optional_deployment #=> Boolean
     #   resp.domain_status_list[0].domain_endpoint_options.enforce_https #=> Boolean
-    #   resp.domain_status_list[0].domain_endpoint_options.tls_security_policy #=> String, one of "Policy-Min-TLS-1-0-2019-07", "Policy-Min-TLS-1-2-2019-07"
+    #   resp.domain_status_list[0].domain_endpoint_options.tls_security_policy #=> String, one of "Policy-Min-TLS-1-0-2019-07", "Policy-Min-TLS-1-2-2019-07", "Policy-Min-TLS-1-2-PFS-2023-10"
     #   resp.domain_status_list[0].domain_endpoint_options.custom_endpoint_enabled #=> Boolean
     #   resp.domain_status_list[0].domain_endpoint_options.custom_endpoint #=> String
     #   resp.domain_status_list[0].domain_endpoint_options.custom_endpoint_certificate_arn #=> String
@@ -1803,12 +2740,39 @@ module Aws::OpenSearchService
     #   resp.domain_status_list[0].advanced_security_options.saml_options.subject_key #=> String
     #   resp.domain_status_list[0].advanced_security_options.saml_options.roles_key #=> String
     #   resp.domain_status_list[0].advanced_security_options.saml_options.session_timeout_minutes #=> Integer
+    #   resp.domain_status_list[0].advanced_security_options.jwt_options.enabled #=> Boolean
+    #   resp.domain_status_list[0].advanced_security_options.jwt_options.subject_key #=> String
+    #   resp.domain_status_list[0].advanced_security_options.jwt_options.roles_key #=> String
+    #   resp.domain_status_list[0].advanced_security_options.jwt_options.public_key #=> String
     #   resp.domain_status_list[0].advanced_security_options.anonymous_auth_disable_date #=> Time
     #   resp.domain_status_list[0].advanced_security_options.anonymous_auth_enabled #=> Boolean
+    #   resp.domain_status_list[0].identity_center_options.enabled_api_access #=> Boolean
+    #   resp.domain_status_list[0].identity_center_options.identity_center_instance_arn #=> String
+    #   resp.domain_status_list[0].identity_center_options.subject_key #=> String, one of "UserName", "UserId", "Email"
+    #   resp.domain_status_list[0].identity_center_options.roles_key #=> String, one of "GroupName", "GroupId"
+    #   resp.domain_status_list[0].identity_center_options.identity_center_application_arn #=> String
+    #   resp.domain_status_list[0].identity_center_options.identity_store_id #=> String
     #   resp.domain_status_list[0].auto_tune_options.state #=> String, one of "ENABLED", "DISABLED", "ENABLE_IN_PROGRESS", "DISABLE_IN_PROGRESS", "DISABLED_AND_ROLLBACK_SCHEDULED", "DISABLED_AND_ROLLBACK_IN_PROGRESS", "DISABLED_AND_ROLLBACK_COMPLETE", "DISABLED_AND_ROLLBACK_ERROR", "ERROR"
     #   resp.domain_status_list[0].auto_tune_options.error_message #=> String
+    #   resp.domain_status_list[0].auto_tune_options.use_off_peak_window #=> Boolean
     #   resp.domain_status_list[0].change_progress_details.change_id #=> String
     #   resp.domain_status_list[0].change_progress_details.message #=> String
+    #   resp.domain_status_list[0].change_progress_details.config_change_status #=> String, one of "Pending", "Initializing", "Validating", "ValidationFailed", "ApplyingChanges", "Completed", "PendingUserInput", "Cancelled"
+    #   resp.domain_status_list[0].change_progress_details.initiated_by #=> String, one of "CUSTOMER", "SERVICE"
+    #   resp.domain_status_list[0].change_progress_details.start_time #=> Time
+    #   resp.domain_status_list[0].change_progress_details.last_updated_time #=> Time
+    #   resp.domain_status_list[0].off_peak_window_options.enabled #=> Boolean
+    #   resp.domain_status_list[0].off_peak_window_options.off_peak_window.window_start_time.hours #=> Integer
+    #   resp.domain_status_list[0].off_peak_window_options.off_peak_window.window_start_time.minutes #=> Integer
+    #   resp.domain_status_list[0].software_update_options.auto_software_update_enabled #=> Boolean
+    #   resp.domain_status_list[0].domain_processing_status #=> String, one of "Creating", "Active", "Modifying", "UpgradingEngineVersion", "UpdatingServiceSoftware", "Isolated", "Deleting"
+    #   resp.domain_status_list[0].modifying_properties #=> Array
+    #   resp.domain_status_list[0].modifying_properties[0].name #=> String
+    #   resp.domain_status_list[0].modifying_properties[0].active_value #=> String
+    #   resp.domain_status_list[0].modifying_properties[0].pending_value #=> String
+    #   resp.domain_status_list[0].modifying_properties[0].value_type #=> String, one of "PLAIN_TEXT", "STRINGIFIED_JSON"
+    #   resp.domain_status_list[0].aiml_options.natural_language_query_generation_options.desired_state #=> String, one of "ENABLED", "DISABLED"
+    #   resp.domain_status_list[0].aiml_options.natural_language_query_generation_options.current_state #=> String, one of "NOT_ENABLED", "ENABLE_COMPLETE", "ENABLE_IN_PROGRESS", "ENABLE_FAILED", "DISABLE_COMPLETE", "DISABLE_IN_PROGRESS", "DISABLE_FAILED"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/DescribeDomains AWS API Documentation
     #
@@ -1867,28 +2831,37 @@ module Aws::OpenSearchService
     #   resp.dry_run_config.created #=> Boolean
     #   resp.dry_run_config.deleted #=> Boolean
     #   resp.dry_run_config.endpoint #=> String
+    #   resp.dry_run_config.endpoint_v2 #=> String
     #   resp.dry_run_config.endpoints #=> Hash
     #   resp.dry_run_config.endpoints["String"] #=> String
+    #   resp.dry_run_config.domain_endpoint_v2_hosted_zone_id #=> String
     #   resp.dry_run_config.processing #=> Boolean
     #   resp.dry_run_config.upgrade_processing #=> Boolean
     #   resp.dry_run_config.engine_version #=> String
-    #   resp.dry_run_config.cluster_config.instance_type #=> String, one of "m3.medium.search", "m3.large.search", "m3.xlarge.search", "m3.2xlarge.search", "m4.large.search", "m4.xlarge.search", "m4.2xlarge.search", "m4.4xlarge.search", "m4.10xlarge.search", "m5.large.search", "m5.xlarge.search", "m5.2xlarge.search", "m5.4xlarge.search", "m5.12xlarge.search", "m5.24xlarge.search", "r5.large.search", "r5.xlarge.search", "r5.2xlarge.search", "r5.4xlarge.search", "r5.12xlarge.search", "r5.24xlarge.search", "c5.large.search", "c5.xlarge.search", "c5.2xlarge.search", "c5.4xlarge.search", "c5.9xlarge.search", "c5.18xlarge.search", "t3.nano.search", "t3.micro.search", "t3.small.search", "t3.medium.search", "t3.large.search", "t3.xlarge.search", "t3.2xlarge.search", "ultrawarm1.medium.search", "ultrawarm1.large.search", "ultrawarm1.xlarge.search", "t2.micro.search", "t2.small.search", "t2.medium.search", "r3.large.search", "r3.xlarge.search", "r3.2xlarge.search", "r3.4xlarge.search", "r3.8xlarge.search", "i2.xlarge.search", "i2.2xlarge.search", "d2.xlarge.search", "d2.2xlarge.search", "d2.4xlarge.search", "d2.8xlarge.search", "c4.large.search", "c4.xlarge.search", "c4.2xlarge.search", "c4.4xlarge.search", "c4.8xlarge.search", "r4.large.search", "r4.xlarge.search", "r4.2xlarge.search", "r4.4xlarge.search", "r4.8xlarge.search", "r4.16xlarge.search", "i3.large.search", "i3.xlarge.search", "i3.2xlarge.search", "i3.4xlarge.search", "i3.8xlarge.search", "i3.16xlarge.search", "r6g.large.search", "r6g.xlarge.search", "r6g.2xlarge.search", "r6g.4xlarge.search", "r6g.8xlarge.search", "r6g.12xlarge.search", "m6g.large.search", "m6g.xlarge.search", "m6g.2xlarge.search", "m6g.4xlarge.search", "m6g.8xlarge.search", "m6g.12xlarge.search", "c6g.large.search", "c6g.xlarge.search", "c6g.2xlarge.search", "c6g.4xlarge.search", "c6g.8xlarge.search", "c6g.12xlarge.search", "r6gd.large.search", "r6gd.xlarge.search", "r6gd.2xlarge.search", "r6gd.4xlarge.search", "r6gd.8xlarge.search", "r6gd.12xlarge.search", "r6gd.16xlarge.search", "t4g.small.search", "t4g.medium.search"
+    #   resp.dry_run_config.cluster_config.instance_type #=> String, one of "m3.medium.search", "m3.large.search", "m3.xlarge.search", "m3.2xlarge.search", "m4.large.search", "m4.xlarge.search", "m4.2xlarge.search", "m4.4xlarge.search", "m4.10xlarge.search", "m5.large.search", "m5.xlarge.search", "m5.2xlarge.search", "m5.4xlarge.search", "m5.12xlarge.search", "m5.24xlarge.search", "r5.large.search", "r5.xlarge.search", "r5.2xlarge.search", "r5.4xlarge.search", "r5.12xlarge.search", "r5.24xlarge.search", "c5.large.search", "c5.xlarge.search", "c5.2xlarge.search", "c5.4xlarge.search", "c5.9xlarge.search", "c5.18xlarge.search", "t3.nano.search", "t3.micro.search", "t3.small.search", "t3.medium.search", "t3.large.search", "t3.xlarge.search", "t3.2xlarge.search", "or1.medium.search", "or1.large.search", "or1.xlarge.search", "or1.2xlarge.search", "or1.4xlarge.search", "or1.8xlarge.search", "or1.12xlarge.search", "or1.16xlarge.search", "ultrawarm1.medium.search", "ultrawarm1.large.search", "ultrawarm1.xlarge.search", "t2.micro.search", "t2.small.search", "t2.medium.search", "r3.large.search", "r3.xlarge.search", "r3.2xlarge.search", "r3.4xlarge.search", "r3.8xlarge.search", "i2.xlarge.search", "i2.2xlarge.search", "d2.xlarge.search", "d2.2xlarge.search", "d2.4xlarge.search", "d2.8xlarge.search", "c4.large.search", "c4.xlarge.search", "c4.2xlarge.search", "c4.4xlarge.search", "c4.8xlarge.search", "r4.large.search", "r4.xlarge.search", "r4.2xlarge.search", "r4.4xlarge.search", "r4.8xlarge.search", "r4.16xlarge.search", "i3.large.search", "i3.xlarge.search", "i3.2xlarge.search", "i3.4xlarge.search", "i3.8xlarge.search", "i3.16xlarge.search", "r6g.large.search", "r6g.xlarge.search", "r6g.2xlarge.search", "r6g.4xlarge.search", "r6g.8xlarge.search", "r6g.12xlarge.search", "m6g.large.search", "m6g.xlarge.search", "m6g.2xlarge.search", "m6g.4xlarge.search", "m6g.8xlarge.search", "m6g.12xlarge.search", "c6g.large.search", "c6g.xlarge.search", "c6g.2xlarge.search", "c6g.4xlarge.search", "c6g.8xlarge.search", "c6g.12xlarge.search", "r6gd.large.search", "r6gd.xlarge.search", "r6gd.2xlarge.search", "r6gd.4xlarge.search", "r6gd.8xlarge.search", "r6gd.12xlarge.search", "r6gd.16xlarge.search", "t4g.small.search", "t4g.medium.search"
     #   resp.dry_run_config.cluster_config.instance_count #=> Integer
     #   resp.dry_run_config.cluster_config.dedicated_master_enabled #=> Boolean
     #   resp.dry_run_config.cluster_config.zone_awareness_enabled #=> Boolean
     #   resp.dry_run_config.cluster_config.zone_awareness_config.availability_zone_count #=> Integer
-    #   resp.dry_run_config.cluster_config.dedicated_master_type #=> String, one of "m3.medium.search", "m3.large.search", "m3.xlarge.search", "m3.2xlarge.search", "m4.large.search", "m4.xlarge.search", "m4.2xlarge.search", "m4.4xlarge.search", "m4.10xlarge.search", "m5.large.search", "m5.xlarge.search", "m5.2xlarge.search", "m5.4xlarge.search", "m5.12xlarge.search", "m5.24xlarge.search", "r5.large.search", "r5.xlarge.search", "r5.2xlarge.search", "r5.4xlarge.search", "r5.12xlarge.search", "r5.24xlarge.search", "c5.large.search", "c5.xlarge.search", "c5.2xlarge.search", "c5.4xlarge.search", "c5.9xlarge.search", "c5.18xlarge.search", "t3.nano.search", "t3.micro.search", "t3.small.search", "t3.medium.search", "t3.large.search", "t3.xlarge.search", "t3.2xlarge.search", "ultrawarm1.medium.search", "ultrawarm1.large.search", "ultrawarm1.xlarge.search", "t2.micro.search", "t2.small.search", "t2.medium.search", "r3.large.search", "r3.xlarge.search", "r3.2xlarge.search", "r3.4xlarge.search", "r3.8xlarge.search", "i2.xlarge.search", "i2.2xlarge.search", "d2.xlarge.search", "d2.2xlarge.search", "d2.4xlarge.search", "d2.8xlarge.search", "c4.large.search", "c4.xlarge.search", "c4.2xlarge.search", "c4.4xlarge.search", "c4.8xlarge.search", "r4.large.search", "r4.xlarge.search", "r4.2xlarge.search", "r4.4xlarge.search", "r4.8xlarge.search", "r4.16xlarge.search", "i3.large.search", "i3.xlarge.search", "i3.2xlarge.search", "i3.4xlarge.search", "i3.8xlarge.search", "i3.16xlarge.search", "r6g.large.search", "r6g.xlarge.search", "r6g.2xlarge.search", "r6g.4xlarge.search", "r6g.8xlarge.search", "r6g.12xlarge.search", "m6g.large.search", "m6g.xlarge.search", "m6g.2xlarge.search", "m6g.4xlarge.search", "m6g.8xlarge.search", "m6g.12xlarge.search", "c6g.large.search", "c6g.xlarge.search", "c6g.2xlarge.search", "c6g.4xlarge.search", "c6g.8xlarge.search", "c6g.12xlarge.search", "r6gd.large.search", "r6gd.xlarge.search", "r6gd.2xlarge.search", "r6gd.4xlarge.search", "r6gd.8xlarge.search", "r6gd.12xlarge.search", "r6gd.16xlarge.search", "t4g.small.search", "t4g.medium.search"
+    #   resp.dry_run_config.cluster_config.dedicated_master_type #=> String, one of "m3.medium.search", "m3.large.search", "m3.xlarge.search", "m3.2xlarge.search", "m4.large.search", "m4.xlarge.search", "m4.2xlarge.search", "m4.4xlarge.search", "m4.10xlarge.search", "m5.large.search", "m5.xlarge.search", "m5.2xlarge.search", "m5.4xlarge.search", "m5.12xlarge.search", "m5.24xlarge.search", "r5.large.search", "r5.xlarge.search", "r5.2xlarge.search", "r5.4xlarge.search", "r5.12xlarge.search", "r5.24xlarge.search", "c5.large.search", "c5.xlarge.search", "c5.2xlarge.search", "c5.4xlarge.search", "c5.9xlarge.search", "c5.18xlarge.search", "t3.nano.search", "t3.micro.search", "t3.small.search", "t3.medium.search", "t3.large.search", "t3.xlarge.search", "t3.2xlarge.search", "or1.medium.search", "or1.large.search", "or1.xlarge.search", "or1.2xlarge.search", "or1.4xlarge.search", "or1.8xlarge.search", "or1.12xlarge.search", "or1.16xlarge.search", "ultrawarm1.medium.search", "ultrawarm1.large.search", "ultrawarm1.xlarge.search", "t2.micro.search", "t2.small.search", "t2.medium.search", "r3.large.search", "r3.xlarge.search", "r3.2xlarge.search", "r3.4xlarge.search", "r3.8xlarge.search", "i2.xlarge.search", "i2.2xlarge.search", "d2.xlarge.search", "d2.2xlarge.search", "d2.4xlarge.search", "d2.8xlarge.search", "c4.large.search", "c4.xlarge.search", "c4.2xlarge.search", "c4.4xlarge.search", "c4.8xlarge.search", "r4.large.search", "r4.xlarge.search", "r4.2xlarge.search", "r4.4xlarge.search", "r4.8xlarge.search", "r4.16xlarge.search", "i3.large.search", "i3.xlarge.search", "i3.2xlarge.search", "i3.4xlarge.search", "i3.8xlarge.search", "i3.16xlarge.search", "r6g.large.search", "r6g.xlarge.search", "r6g.2xlarge.search", "r6g.4xlarge.search", "r6g.8xlarge.search", "r6g.12xlarge.search", "m6g.large.search", "m6g.xlarge.search", "m6g.2xlarge.search", "m6g.4xlarge.search", "m6g.8xlarge.search", "m6g.12xlarge.search", "c6g.large.search", "c6g.xlarge.search", "c6g.2xlarge.search", "c6g.4xlarge.search", "c6g.8xlarge.search", "c6g.12xlarge.search", "r6gd.large.search", "r6gd.xlarge.search", "r6gd.2xlarge.search", "r6gd.4xlarge.search", "r6gd.8xlarge.search", "r6gd.12xlarge.search", "r6gd.16xlarge.search", "t4g.small.search", "t4g.medium.search"
     #   resp.dry_run_config.cluster_config.dedicated_master_count #=> Integer
     #   resp.dry_run_config.cluster_config.warm_enabled #=> Boolean
     #   resp.dry_run_config.cluster_config.warm_type #=> String, one of "ultrawarm1.medium.search", "ultrawarm1.large.search", "ultrawarm1.xlarge.search"
     #   resp.dry_run_config.cluster_config.warm_count #=> Integer
     #   resp.dry_run_config.cluster_config.cold_storage_options.enabled #=> Boolean
+    #   resp.dry_run_config.cluster_config.multi_az_with_standby_enabled #=> Boolean
+    #   resp.dry_run_config.cluster_config.node_options #=> Array
+    #   resp.dry_run_config.cluster_config.node_options[0].node_type #=> String, one of "coordinator"
+    #   resp.dry_run_config.cluster_config.node_options[0].node_config.enabled #=> Boolean
+    #   resp.dry_run_config.cluster_config.node_options[0].node_config.type #=> String, one of "m3.medium.search", "m3.large.search", "m3.xlarge.search", "m3.2xlarge.search", "m4.large.search", "m4.xlarge.search", "m4.2xlarge.search", "m4.4xlarge.search", "m4.10xlarge.search", "m5.large.search", "m5.xlarge.search", "m5.2xlarge.search", "m5.4xlarge.search", "m5.12xlarge.search", "m5.24xlarge.search", "r5.large.search", "r5.xlarge.search", "r5.2xlarge.search", "r5.4xlarge.search", "r5.12xlarge.search", "r5.24xlarge.search", "c5.large.search", "c5.xlarge.search", "c5.2xlarge.search", "c5.4xlarge.search", "c5.9xlarge.search", "c5.18xlarge.search", "t3.nano.search", "t3.micro.search", "t3.small.search", "t3.medium.search", "t3.large.search", "t3.xlarge.search", "t3.2xlarge.search", "or1.medium.search", "or1.large.search", "or1.xlarge.search", "or1.2xlarge.search", "or1.4xlarge.search", "or1.8xlarge.search", "or1.12xlarge.search", "or1.16xlarge.search", "ultrawarm1.medium.search", "ultrawarm1.large.search", "ultrawarm1.xlarge.search", "t2.micro.search", "t2.small.search", "t2.medium.search", "r3.large.search", "r3.xlarge.search", "r3.2xlarge.search", "r3.4xlarge.search", "r3.8xlarge.search", "i2.xlarge.search", "i2.2xlarge.search", "d2.xlarge.search", "d2.2xlarge.search", "d2.4xlarge.search", "d2.8xlarge.search", "c4.large.search", "c4.xlarge.search", "c4.2xlarge.search", "c4.4xlarge.search", "c4.8xlarge.search", "r4.large.search", "r4.xlarge.search", "r4.2xlarge.search", "r4.4xlarge.search", "r4.8xlarge.search", "r4.16xlarge.search", "i3.large.search", "i3.xlarge.search", "i3.2xlarge.search", "i3.4xlarge.search", "i3.8xlarge.search", "i3.16xlarge.search", "r6g.large.search", "r6g.xlarge.search", "r6g.2xlarge.search", "r6g.4xlarge.search", "r6g.8xlarge.search", "r6g.12xlarge.search", "m6g.large.search", "m6g.xlarge.search", "m6g.2xlarge.search", "m6g.4xlarge.search", "m6g.8xlarge.search", "m6g.12xlarge.search", "c6g.large.search", "c6g.xlarge.search", "c6g.2xlarge.search", "c6g.4xlarge.search", "c6g.8xlarge.search", "c6g.12xlarge.search", "r6gd.large.search", "r6gd.xlarge.search", "r6gd.2xlarge.search", "r6gd.4xlarge.search", "r6gd.8xlarge.search", "r6gd.12xlarge.search", "r6gd.16xlarge.search", "t4g.small.search", "t4g.medium.search"
+    #   resp.dry_run_config.cluster_config.node_options[0].node_config.count #=> Integer
     #   resp.dry_run_config.ebs_options.ebs_enabled #=> Boolean
     #   resp.dry_run_config.ebs_options.volume_type #=> String, one of "standard", "gp2", "io1", "gp3"
     #   resp.dry_run_config.ebs_options.volume_size #=> Integer
     #   resp.dry_run_config.ebs_options.iops #=> Integer
     #   resp.dry_run_config.ebs_options.throughput #=> Integer
     #   resp.dry_run_config.access_policies #=> String
+    #   resp.dry_run_config.ip_address_type #=> String, one of "ipv4", "dualstack"
     #   resp.dry_run_config.snapshot_options.automated_snapshot_start_hour #=> Integer
     #   resp.dry_run_config.vpc_options.vpc_id #=> String
     #   resp.dry_run_config.vpc_options.subnet_ids #=> Array
@@ -1918,7 +2891,7 @@ module Aws::OpenSearchService
     #   resp.dry_run_config.service_software_options.automated_update_date #=> Time
     #   resp.dry_run_config.service_software_options.optional_deployment #=> Boolean
     #   resp.dry_run_config.domain_endpoint_options.enforce_https #=> Boolean
-    #   resp.dry_run_config.domain_endpoint_options.tls_security_policy #=> String, one of "Policy-Min-TLS-1-0-2019-07", "Policy-Min-TLS-1-2-2019-07"
+    #   resp.dry_run_config.domain_endpoint_options.tls_security_policy #=> String, one of "Policy-Min-TLS-1-0-2019-07", "Policy-Min-TLS-1-2-2019-07", "Policy-Min-TLS-1-2-PFS-2023-10"
     #   resp.dry_run_config.domain_endpoint_options.custom_endpoint_enabled #=> Boolean
     #   resp.dry_run_config.domain_endpoint_options.custom_endpoint #=> String
     #   resp.dry_run_config.domain_endpoint_options.custom_endpoint_certificate_arn #=> String
@@ -1930,12 +2903,39 @@ module Aws::OpenSearchService
     #   resp.dry_run_config.advanced_security_options.saml_options.subject_key #=> String
     #   resp.dry_run_config.advanced_security_options.saml_options.roles_key #=> String
     #   resp.dry_run_config.advanced_security_options.saml_options.session_timeout_minutes #=> Integer
+    #   resp.dry_run_config.advanced_security_options.jwt_options.enabled #=> Boolean
+    #   resp.dry_run_config.advanced_security_options.jwt_options.subject_key #=> String
+    #   resp.dry_run_config.advanced_security_options.jwt_options.roles_key #=> String
+    #   resp.dry_run_config.advanced_security_options.jwt_options.public_key #=> String
     #   resp.dry_run_config.advanced_security_options.anonymous_auth_disable_date #=> Time
     #   resp.dry_run_config.advanced_security_options.anonymous_auth_enabled #=> Boolean
+    #   resp.dry_run_config.identity_center_options.enabled_api_access #=> Boolean
+    #   resp.dry_run_config.identity_center_options.identity_center_instance_arn #=> String
+    #   resp.dry_run_config.identity_center_options.subject_key #=> String, one of "UserName", "UserId", "Email"
+    #   resp.dry_run_config.identity_center_options.roles_key #=> String, one of "GroupName", "GroupId"
+    #   resp.dry_run_config.identity_center_options.identity_center_application_arn #=> String
+    #   resp.dry_run_config.identity_center_options.identity_store_id #=> String
     #   resp.dry_run_config.auto_tune_options.state #=> String, one of "ENABLED", "DISABLED", "ENABLE_IN_PROGRESS", "DISABLE_IN_PROGRESS", "DISABLED_AND_ROLLBACK_SCHEDULED", "DISABLED_AND_ROLLBACK_IN_PROGRESS", "DISABLED_AND_ROLLBACK_COMPLETE", "DISABLED_AND_ROLLBACK_ERROR", "ERROR"
     #   resp.dry_run_config.auto_tune_options.error_message #=> String
+    #   resp.dry_run_config.auto_tune_options.use_off_peak_window #=> Boolean
     #   resp.dry_run_config.change_progress_details.change_id #=> String
     #   resp.dry_run_config.change_progress_details.message #=> String
+    #   resp.dry_run_config.change_progress_details.config_change_status #=> String, one of "Pending", "Initializing", "Validating", "ValidationFailed", "ApplyingChanges", "Completed", "PendingUserInput", "Cancelled"
+    #   resp.dry_run_config.change_progress_details.initiated_by #=> String, one of "CUSTOMER", "SERVICE"
+    #   resp.dry_run_config.change_progress_details.start_time #=> Time
+    #   resp.dry_run_config.change_progress_details.last_updated_time #=> Time
+    #   resp.dry_run_config.off_peak_window_options.enabled #=> Boolean
+    #   resp.dry_run_config.off_peak_window_options.off_peak_window.window_start_time.hours #=> Integer
+    #   resp.dry_run_config.off_peak_window_options.off_peak_window.window_start_time.minutes #=> Integer
+    #   resp.dry_run_config.software_update_options.auto_software_update_enabled #=> Boolean
+    #   resp.dry_run_config.domain_processing_status #=> String, one of "Creating", "Active", "Modifying", "UpgradingEngineVersion", "UpdatingServiceSoftware", "Isolated", "Deleting"
+    #   resp.dry_run_config.modifying_properties #=> Array
+    #   resp.dry_run_config.modifying_properties[0].name #=> String
+    #   resp.dry_run_config.modifying_properties[0].active_value #=> String
+    #   resp.dry_run_config.modifying_properties[0].pending_value #=> String
+    #   resp.dry_run_config.modifying_properties[0].value_type #=> String, one of "PLAIN_TEXT", "STRINGIFIED_JSON"
+    #   resp.dry_run_config.aiml_options.natural_language_query_generation_options.desired_state #=> String, one of "ENABLED", "DISABLED"
+    #   resp.dry_run_config.aiml_options.natural_language_query_generation_options.current_state #=> String, one of "NOT_ENABLED", "ENABLE_COMPLETE", "ENABLE_IN_PROGRESS", "ENABLE_FAILED", "DISABLE_COMPLETE", "DISABLE_IN_PROGRESS", "DISABLE_FAILED"
     #   resp.dry_run_results.deployment_type #=> String
     #   resp.dry_run_results.message #=> String
     #
@@ -2039,7 +3039,7 @@ module Aws::OpenSearchService
     #
     #   resp = client.describe_instance_type_limits({
     #     domain_name: "DomainName",
-    #     instance_type: "m3.medium.search", # required, accepts m3.medium.search, m3.large.search, m3.xlarge.search, m3.2xlarge.search, m4.large.search, m4.xlarge.search, m4.2xlarge.search, m4.4xlarge.search, m4.10xlarge.search, m5.large.search, m5.xlarge.search, m5.2xlarge.search, m5.4xlarge.search, m5.12xlarge.search, m5.24xlarge.search, r5.large.search, r5.xlarge.search, r5.2xlarge.search, r5.4xlarge.search, r5.12xlarge.search, r5.24xlarge.search, c5.large.search, c5.xlarge.search, c5.2xlarge.search, c5.4xlarge.search, c5.9xlarge.search, c5.18xlarge.search, t3.nano.search, t3.micro.search, t3.small.search, t3.medium.search, t3.large.search, t3.xlarge.search, t3.2xlarge.search, ultrawarm1.medium.search, ultrawarm1.large.search, ultrawarm1.xlarge.search, t2.micro.search, t2.small.search, t2.medium.search, r3.large.search, r3.xlarge.search, r3.2xlarge.search, r3.4xlarge.search, r3.8xlarge.search, i2.xlarge.search, i2.2xlarge.search, d2.xlarge.search, d2.2xlarge.search, d2.4xlarge.search, d2.8xlarge.search, c4.large.search, c4.xlarge.search, c4.2xlarge.search, c4.4xlarge.search, c4.8xlarge.search, r4.large.search, r4.xlarge.search, r4.2xlarge.search, r4.4xlarge.search, r4.8xlarge.search, r4.16xlarge.search, i3.large.search, i3.xlarge.search, i3.2xlarge.search, i3.4xlarge.search, i3.8xlarge.search, i3.16xlarge.search, r6g.large.search, r6g.xlarge.search, r6g.2xlarge.search, r6g.4xlarge.search, r6g.8xlarge.search, r6g.12xlarge.search, m6g.large.search, m6g.xlarge.search, m6g.2xlarge.search, m6g.4xlarge.search, m6g.8xlarge.search, m6g.12xlarge.search, c6g.large.search, c6g.xlarge.search, c6g.2xlarge.search, c6g.4xlarge.search, c6g.8xlarge.search, c6g.12xlarge.search, r6gd.large.search, r6gd.xlarge.search, r6gd.2xlarge.search, r6gd.4xlarge.search, r6gd.8xlarge.search, r6gd.12xlarge.search, r6gd.16xlarge.search, t4g.small.search, t4g.medium.search
+    #     instance_type: "m3.medium.search", # required, accepts m3.medium.search, m3.large.search, m3.xlarge.search, m3.2xlarge.search, m4.large.search, m4.xlarge.search, m4.2xlarge.search, m4.4xlarge.search, m4.10xlarge.search, m5.large.search, m5.xlarge.search, m5.2xlarge.search, m5.4xlarge.search, m5.12xlarge.search, m5.24xlarge.search, r5.large.search, r5.xlarge.search, r5.2xlarge.search, r5.4xlarge.search, r5.12xlarge.search, r5.24xlarge.search, c5.large.search, c5.xlarge.search, c5.2xlarge.search, c5.4xlarge.search, c5.9xlarge.search, c5.18xlarge.search, t3.nano.search, t3.micro.search, t3.small.search, t3.medium.search, t3.large.search, t3.xlarge.search, t3.2xlarge.search, or1.medium.search, or1.large.search, or1.xlarge.search, or1.2xlarge.search, or1.4xlarge.search, or1.8xlarge.search, or1.12xlarge.search, or1.16xlarge.search, ultrawarm1.medium.search, ultrawarm1.large.search, ultrawarm1.xlarge.search, t2.micro.search, t2.small.search, t2.medium.search, r3.large.search, r3.xlarge.search, r3.2xlarge.search, r3.4xlarge.search, r3.8xlarge.search, i2.xlarge.search, i2.2xlarge.search, d2.xlarge.search, d2.2xlarge.search, d2.4xlarge.search, d2.8xlarge.search, c4.large.search, c4.xlarge.search, c4.2xlarge.search, c4.4xlarge.search, c4.8xlarge.search, r4.large.search, r4.xlarge.search, r4.2xlarge.search, r4.4xlarge.search, r4.8xlarge.search, r4.16xlarge.search, i3.large.search, i3.xlarge.search, i3.2xlarge.search, i3.4xlarge.search, i3.8xlarge.search, i3.16xlarge.search, r6g.large.search, r6g.xlarge.search, r6g.2xlarge.search, r6g.4xlarge.search, r6g.8xlarge.search, r6g.12xlarge.search, m6g.large.search, m6g.xlarge.search, m6g.2xlarge.search, m6g.4xlarge.search, m6g.8xlarge.search, m6g.12xlarge.search, c6g.large.search, c6g.xlarge.search, c6g.2xlarge.search, c6g.4xlarge.search, c6g.8xlarge.search, c6g.12xlarge.search, r6gd.large.search, r6gd.xlarge.search, r6gd.2xlarge.search, r6gd.4xlarge.search, r6gd.8xlarge.search, r6gd.12xlarge.search, r6gd.16xlarge.search, t4g.small.search, t4g.medium.search
     #     engine_version: "VersionString", # required
     #   })
     #
@@ -2125,6 +3125,7 @@ module Aws::OpenSearchService
     #   resp.connections[0].connection_status.message #=> String
     #   resp.connections[0].connection_mode #=> String, one of "DIRECT", "VPC_ENDPOINT"
     #   resp.connections[0].connection_properties.endpoint #=> String
+    #   resp.connections[0].connection_properties.cross_cluster_search.skip_unavailable #=> String, one of "ENABLED", "DISABLED"
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/DescribeOutboundConnections AWS API Documentation
@@ -2169,7 +3170,7 @@ module Aws::OpenSearchService
     #   resp = client.describe_packages({
     #     filters: [
     #       {
-    #         name: "PackageID", # accepts PackageID, PackageName, PackageStatus
+    #         name: "PackageID", # accepts PackageID, PackageName, PackageStatus, PackageType, EngineVersion, PackageOwner
     #         value: ["DescribePackagesFilterValue"],
     #       },
     #     ],
@@ -2182,7 +3183,7 @@ module Aws::OpenSearchService
     #   resp.package_details_list #=> Array
     #   resp.package_details_list[0].package_id #=> String
     #   resp.package_details_list[0].package_name #=> String
-    #   resp.package_details_list[0].package_type #=> String, one of "TXT-DICTIONARY"
+    #   resp.package_details_list[0].package_type #=> String, one of "TXT-DICTIONARY", "ZIP-PLUGIN", "PACKAGE-LICENSE", "PACKAGE-CONFIG"
     #   resp.package_details_list[0].package_description #=> String
     #   resp.package_details_list[0].package_status #=> String, one of "COPYING", "COPY_FAILED", "VALIDATING", "VALIDATION_FAILED", "AVAILABLE", "DELETING", "DELETED", "DELETE_FAILED"
     #   resp.package_details_list[0].created_at #=> Time
@@ -2190,6 +3191,22 @@ module Aws::OpenSearchService
     #   resp.package_details_list[0].available_package_version #=> String
     #   resp.package_details_list[0].error_details.error_type #=> String
     #   resp.package_details_list[0].error_details.error_message #=> String
+    #   resp.package_details_list[0].engine_version #=> String
+    #   resp.package_details_list[0].available_plugin_properties.name #=> String
+    #   resp.package_details_list[0].available_plugin_properties.description #=> String
+    #   resp.package_details_list[0].available_plugin_properties.version #=> String
+    #   resp.package_details_list[0].available_plugin_properties.class_name #=> String
+    #   resp.package_details_list[0].available_plugin_properties.uncompressed_size_in_bytes #=> Integer
+    #   resp.package_details_list[0].available_package_configuration.license_requirement #=> String, one of "REQUIRED", "OPTIONAL", "NONE"
+    #   resp.package_details_list[0].available_package_configuration.license_filepath #=> String
+    #   resp.package_details_list[0].available_package_configuration.configuration_requirement #=> String, one of "REQUIRED", "OPTIONAL", "NONE"
+    #   resp.package_details_list[0].available_package_configuration.requires_restart_for_configuration_update #=> Boolean
+    #   resp.package_details_list[0].allow_listed_user_list #=> Array
+    #   resp.package_details_list[0].allow_listed_user_list[0] #=> String
+    #   resp.package_details_list[0].package_owner #=> String
+    #   resp.package_details_list[0].package_vending_options.vending_enabled #=> Boolean
+    #   resp.package_details_list[0].package_encryption_options.kms_key_identifier #=> String
+    #   resp.package_details_list[0].package_encryption_options.encryption_enabled #=> Boolean
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/DescribePackages AWS API Documentation
@@ -2244,7 +3261,7 @@ module Aws::OpenSearchService
     #   resp.next_token #=> String
     #   resp.reserved_instance_offerings #=> Array
     #   resp.reserved_instance_offerings[0].reserved_instance_offering_id #=> String
-    #   resp.reserved_instance_offerings[0].instance_type #=> String, one of "m3.medium.search", "m3.large.search", "m3.xlarge.search", "m3.2xlarge.search", "m4.large.search", "m4.xlarge.search", "m4.2xlarge.search", "m4.4xlarge.search", "m4.10xlarge.search", "m5.large.search", "m5.xlarge.search", "m5.2xlarge.search", "m5.4xlarge.search", "m5.12xlarge.search", "m5.24xlarge.search", "r5.large.search", "r5.xlarge.search", "r5.2xlarge.search", "r5.4xlarge.search", "r5.12xlarge.search", "r5.24xlarge.search", "c5.large.search", "c5.xlarge.search", "c5.2xlarge.search", "c5.4xlarge.search", "c5.9xlarge.search", "c5.18xlarge.search", "t3.nano.search", "t3.micro.search", "t3.small.search", "t3.medium.search", "t3.large.search", "t3.xlarge.search", "t3.2xlarge.search", "ultrawarm1.medium.search", "ultrawarm1.large.search", "ultrawarm1.xlarge.search", "t2.micro.search", "t2.small.search", "t2.medium.search", "r3.large.search", "r3.xlarge.search", "r3.2xlarge.search", "r3.4xlarge.search", "r3.8xlarge.search", "i2.xlarge.search", "i2.2xlarge.search", "d2.xlarge.search", "d2.2xlarge.search", "d2.4xlarge.search", "d2.8xlarge.search", "c4.large.search", "c4.xlarge.search", "c4.2xlarge.search", "c4.4xlarge.search", "c4.8xlarge.search", "r4.large.search", "r4.xlarge.search", "r4.2xlarge.search", "r4.4xlarge.search", "r4.8xlarge.search", "r4.16xlarge.search", "i3.large.search", "i3.xlarge.search", "i3.2xlarge.search", "i3.4xlarge.search", "i3.8xlarge.search", "i3.16xlarge.search", "r6g.large.search", "r6g.xlarge.search", "r6g.2xlarge.search", "r6g.4xlarge.search", "r6g.8xlarge.search", "r6g.12xlarge.search", "m6g.large.search", "m6g.xlarge.search", "m6g.2xlarge.search", "m6g.4xlarge.search", "m6g.8xlarge.search", "m6g.12xlarge.search", "c6g.large.search", "c6g.xlarge.search", "c6g.2xlarge.search", "c6g.4xlarge.search", "c6g.8xlarge.search", "c6g.12xlarge.search", "r6gd.large.search", "r6gd.xlarge.search", "r6gd.2xlarge.search", "r6gd.4xlarge.search", "r6gd.8xlarge.search", "r6gd.12xlarge.search", "r6gd.16xlarge.search", "t4g.small.search", "t4g.medium.search"
+    #   resp.reserved_instance_offerings[0].instance_type #=> String, one of "m3.medium.search", "m3.large.search", "m3.xlarge.search", "m3.2xlarge.search", "m4.large.search", "m4.xlarge.search", "m4.2xlarge.search", "m4.4xlarge.search", "m4.10xlarge.search", "m5.large.search", "m5.xlarge.search", "m5.2xlarge.search", "m5.4xlarge.search", "m5.12xlarge.search", "m5.24xlarge.search", "r5.large.search", "r5.xlarge.search", "r5.2xlarge.search", "r5.4xlarge.search", "r5.12xlarge.search", "r5.24xlarge.search", "c5.large.search", "c5.xlarge.search", "c5.2xlarge.search", "c5.4xlarge.search", "c5.9xlarge.search", "c5.18xlarge.search", "t3.nano.search", "t3.micro.search", "t3.small.search", "t3.medium.search", "t3.large.search", "t3.xlarge.search", "t3.2xlarge.search", "or1.medium.search", "or1.large.search", "or1.xlarge.search", "or1.2xlarge.search", "or1.4xlarge.search", "or1.8xlarge.search", "or1.12xlarge.search", "or1.16xlarge.search", "ultrawarm1.medium.search", "ultrawarm1.large.search", "ultrawarm1.xlarge.search", "t2.micro.search", "t2.small.search", "t2.medium.search", "r3.large.search", "r3.xlarge.search", "r3.2xlarge.search", "r3.4xlarge.search", "r3.8xlarge.search", "i2.xlarge.search", "i2.2xlarge.search", "d2.xlarge.search", "d2.2xlarge.search", "d2.4xlarge.search", "d2.8xlarge.search", "c4.large.search", "c4.xlarge.search", "c4.2xlarge.search", "c4.4xlarge.search", "c4.8xlarge.search", "r4.large.search", "r4.xlarge.search", "r4.2xlarge.search", "r4.4xlarge.search", "r4.8xlarge.search", "r4.16xlarge.search", "i3.large.search", "i3.xlarge.search", "i3.2xlarge.search", "i3.4xlarge.search", "i3.8xlarge.search", "i3.16xlarge.search", "r6g.large.search", "r6g.xlarge.search", "r6g.2xlarge.search", "r6g.4xlarge.search", "r6g.8xlarge.search", "r6g.12xlarge.search", "m6g.large.search", "m6g.xlarge.search", "m6g.2xlarge.search", "m6g.4xlarge.search", "m6g.8xlarge.search", "m6g.12xlarge.search", "c6g.large.search", "c6g.xlarge.search", "c6g.2xlarge.search", "c6g.4xlarge.search", "c6g.8xlarge.search", "c6g.12xlarge.search", "r6gd.large.search", "r6gd.xlarge.search", "r6gd.2xlarge.search", "r6gd.4xlarge.search", "r6gd.8xlarge.search", "r6gd.12xlarge.search", "r6gd.16xlarge.search", "t4g.small.search", "t4g.medium.search"
     #   resp.reserved_instance_offerings[0].duration #=> Integer
     #   resp.reserved_instance_offerings[0].fixed_price #=> Float
     #   resp.reserved_instance_offerings[0].usage_price #=> Float
@@ -2309,7 +3326,7 @@ module Aws::OpenSearchService
     #   resp.reserved_instances[0].reserved_instance_id #=> String
     #   resp.reserved_instances[0].billing_subscription_id #=> Integer
     #   resp.reserved_instances[0].reserved_instance_offering_id #=> String
-    #   resp.reserved_instances[0].instance_type #=> String, one of "m3.medium.search", "m3.large.search", "m3.xlarge.search", "m3.2xlarge.search", "m4.large.search", "m4.xlarge.search", "m4.2xlarge.search", "m4.4xlarge.search", "m4.10xlarge.search", "m5.large.search", "m5.xlarge.search", "m5.2xlarge.search", "m5.4xlarge.search", "m5.12xlarge.search", "m5.24xlarge.search", "r5.large.search", "r5.xlarge.search", "r5.2xlarge.search", "r5.4xlarge.search", "r5.12xlarge.search", "r5.24xlarge.search", "c5.large.search", "c5.xlarge.search", "c5.2xlarge.search", "c5.4xlarge.search", "c5.9xlarge.search", "c5.18xlarge.search", "t3.nano.search", "t3.micro.search", "t3.small.search", "t3.medium.search", "t3.large.search", "t3.xlarge.search", "t3.2xlarge.search", "ultrawarm1.medium.search", "ultrawarm1.large.search", "ultrawarm1.xlarge.search", "t2.micro.search", "t2.small.search", "t2.medium.search", "r3.large.search", "r3.xlarge.search", "r3.2xlarge.search", "r3.4xlarge.search", "r3.8xlarge.search", "i2.xlarge.search", "i2.2xlarge.search", "d2.xlarge.search", "d2.2xlarge.search", "d2.4xlarge.search", "d2.8xlarge.search", "c4.large.search", "c4.xlarge.search", "c4.2xlarge.search", "c4.4xlarge.search", "c4.8xlarge.search", "r4.large.search", "r4.xlarge.search", "r4.2xlarge.search", "r4.4xlarge.search", "r4.8xlarge.search", "r4.16xlarge.search", "i3.large.search", "i3.xlarge.search", "i3.2xlarge.search", "i3.4xlarge.search", "i3.8xlarge.search", "i3.16xlarge.search", "r6g.large.search", "r6g.xlarge.search", "r6g.2xlarge.search", "r6g.4xlarge.search", "r6g.8xlarge.search", "r6g.12xlarge.search", "m6g.large.search", "m6g.xlarge.search", "m6g.2xlarge.search", "m6g.4xlarge.search", "m6g.8xlarge.search", "m6g.12xlarge.search", "c6g.large.search", "c6g.xlarge.search", "c6g.2xlarge.search", "c6g.4xlarge.search", "c6g.8xlarge.search", "c6g.12xlarge.search", "r6gd.large.search", "r6gd.xlarge.search", "r6gd.2xlarge.search", "r6gd.4xlarge.search", "r6gd.8xlarge.search", "r6gd.12xlarge.search", "r6gd.16xlarge.search", "t4g.small.search", "t4g.medium.search"
+    #   resp.reserved_instances[0].instance_type #=> String, one of "m3.medium.search", "m3.large.search", "m3.xlarge.search", "m3.2xlarge.search", "m4.large.search", "m4.xlarge.search", "m4.2xlarge.search", "m4.4xlarge.search", "m4.10xlarge.search", "m5.large.search", "m5.xlarge.search", "m5.2xlarge.search", "m5.4xlarge.search", "m5.12xlarge.search", "m5.24xlarge.search", "r5.large.search", "r5.xlarge.search", "r5.2xlarge.search", "r5.4xlarge.search", "r5.12xlarge.search", "r5.24xlarge.search", "c5.large.search", "c5.xlarge.search", "c5.2xlarge.search", "c5.4xlarge.search", "c5.9xlarge.search", "c5.18xlarge.search", "t3.nano.search", "t3.micro.search", "t3.small.search", "t3.medium.search", "t3.large.search", "t3.xlarge.search", "t3.2xlarge.search", "or1.medium.search", "or1.large.search", "or1.xlarge.search", "or1.2xlarge.search", "or1.4xlarge.search", "or1.8xlarge.search", "or1.12xlarge.search", "or1.16xlarge.search", "ultrawarm1.medium.search", "ultrawarm1.large.search", "ultrawarm1.xlarge.search", "t2.micro.search", "t2.small.search", "t2.medium.search", "r3.large.search", "r3.xlarge.search", "r3.2xlarge.search", "r3.4xlarge.search", "r3.8xlarge.search", "i2.xlarge.search", "i2.2xlarge.search", "d2.xlarge.search", "d2.2xlarge.search", "d2.4xlarge.search", "d2.8xlarge.search", "c4.large.search", "c4.xlarge.search", "c4.2xlarge.search", "c4.4xlarge.search", "c4.8xlarge.search", "r4.large.search", "r4.xlarge.search", "r4.2xlarge.search", "r4.4xlarge.search", "r4.8xlarge.search", "r4.16xlarge.search", "i3.large.search", "i3.xlarge.search", "i3.2xlarge.search", "i3.4xlarge.search", "i3.8xlarge.search", "i3.16xlarge.search", "r6g.large.search", "r6g.xlarge.search", "r6g.2xlarge.search", "r6g.4xlarge.search", "r6g.8xlarge.search", "r6g.12xlarge.search", "m6g.large.search", "m6g.xlarge.search", "m6g.2xlarge.search", "m6g.4xlarge.search", "m6g.8xlarge.search", "m6g.12xlarge.search", "c6g.large.search", "c6g.xlarge.search", "c6g.2xlarge.search", "c6g.4xlarge.search", "c6g.8xlarge.search", "c6g.12xlarge.search", "r6gd.large.search", "r6gd.xlarge.search", "r6gd.2xlarge.search", "r6gd.4xlarge.search", "r6gd.8xlarge.search", "r6gd.12xlarge.search", "r6gd.16xlarge.search", "t4g.small.search", "t4g.medium.search"
     #   resp.reserved_instances[0].start_time #=> Time
     #   resp.reserved_instances[0].duration #=> Integer
     #   resp.reserved_instances[0].fixed_price #=> Float
@@ -2408,14 +3425,18 @@ module Aws::OpenSearchService
     #
     #   resp.domain_package_details.package_id #=> String
     #   resp.domain_package_details.package_name #=> String
-    #   resp.domain_package_details.package_type #=> String, one of "TXT-DICTIONARY"
+    #   resp.domain_package_details.package_type #=> String, one of "TXT-DICTIONARY", "ZIP-PLUGIN", "PACKAGE-LICENSE", "PACKAGE-CONFIG"
     #   resp.domain_package_details.last_updated #=> Time
     #   resp.domain_package_details.domain_name #=> String
     #   resp.domain_package_details.domain_package_status #=> String, one of "ASSOCIATING", "ASSOCIATION_FAILED", "ACTIVE", "DISSOCIATING", "DISSOCIATION_FAILED"
     #   resp.domain_package_details.package_version #=> String
+    #   resp.domain_package_details.prerequisite_package_id_list #=> Array
+    #   resp.domain_package_details.prerequisite_package_id_list[0] #=> String
     #   resp.domain_package_details.reference_path #=> String
     #   resp.domain_package_details.error_details.error_type #=> String
     #   resp.domain_package_details.error_details.error_message #=> String
+    #   resp.domain_package_details.association_configuration.key_store_access_option.key_access_role_arn #=> String
+    #   resp.domain_package_details.association_configuration.key_store_access_option.key_store_access_enabled #=> Boolean
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/DissociatePackage AWS API Documentation
     #
@@ -2423,6 +3444,108 @@ module Aws::OpenSearchService
     # @param [Hash] params ({})
     def dissociate_package(params = {}, options = {})
       req = build_request(:dissociate_package, params)
+      req.send_request(options)
+    end
+
+    # Dissociates multiple packages from a domain simulatneously.
+    #
+    # @option params [required, Array<String>] :package_list
+    #   A list of package IDs to be dissociated from a domain.
+    #
+    # @option params [required, String] :domain_name
+    #   The name of an OpenSearch Service domain. Domain names are unique
+    #   across the domains owned by an account within an Amazon Web Services
+    #   Region.
+    #
+    # @return [Types::DissociatePackagesResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DissociatePackagesResponse#domain_package_details_list #domain_package_details_list} => Array&lt;Types::DomainPackageDetails&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.dissociate_packages({
+    #     package_list: ["PackageID"], # required
+    #     domain_name: "DomainName", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.domain_package_details_list #=> Array
+    #   resp.domain_package_details_list[0].package_id #=> String
+    #   resp.domain_package_details_list[0].package_name #=> String
+    #   resp.domain_package_details_list[0].package_type #=> String, one of "TXT-DICTIONARY", "ZIP-PLUGIN", "PACKAGE-LICENSE", "PACKAGE-CONFIG"
+    #   resp.domain_package_details_list[0].last_updated #=> Time
+    #   resp.domain_package_details_list[0].domain_name #=> String
+    #   resp.domain_package_details_list[0].domain_package_status #=> String, one of "ASSOCIATING", "ASSOCIATION_FAILED", "ACTIVE", "DISSOCIATING", "DISSOCIATION_FAILED"
+    #   resp.domain_package_details_list[0].package_version #=> String
+    #   resp.domain_package_details_list[0].prerequisite_package_id_list #=> Array
+    #   resp.domain_package_details_list[0].prerequisite_package_id_list[0] #=> String
+    #   resp.domain_package_details_list[0].reference_path #=> String
+    #   resp.domain_package_details_list[0].error_details.error_type #=> String
+    #   resp.domain_package_details_list[0].error_details.error_message #=> String
+    #   resp.domain_package_details_list[0].association_configuration.key_store_access_option.key_access_role_arn #=> String
+    #   resp.domain_package_details_list[0].association_configuration.key_store_access_option.key_store_access_enabled #=> Boolean
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/DissociatePackages AWS API Documentation
+    #
+    # @overload dissociate_packages(params = {})
+    # @param [Hash] params ({})
+    def dissociate_packages(params = {}, options = {})
+      req = build_request(:dissociate_packages, params)
+      req.send_request(options)
+    end
+
+    # Check the configuration and status of an existing OpenSearch
+    # Application.
+    #
+    # @option params [required, String] :id
+    #   Unique identifier of the checked OpenSearch Application.
+    #
+    # @return [Types::GetApplicationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetApplicationResponse#id #id} => String
+    #   * {Types::GetApplicationResponse#arn #arn} => String
+    #   * {Types::GetApplicationResponse#name #name} => String
+    #   * {Types::GetApplicationResponse#endpoint #endpoint} => String
+    #   * {Types::GetApplicationResponse#status #status} => String
+    #   * {Types::GetApplicationResponse#iam_identity_center_options #iam_identity_center_options} => Types::IamIdentityCenterOptions
+    #   * {Types::GetApplicationResponse#data_sources #data_sources} => Array&lt;Types::DataSource&gt;
+    #   * {Types::GetApplicationResponse#app_configs #app_configs} => Array&lt;Types::AppConfig&gt;
+    #   * {Types::GetApplicationResponse#created_at #created_at} => Time
+    #   * {Types::GetApplicationResponse#last_updated_at #last_updated_at} => Time
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_application({
+    #     id: "Id", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.id #=> String
+    #   resp.arn #=> String
+    #   resp.name #=> String
+    #   resp.endpoint #=> String
+    #   resp.status #=> String, one of "CREATING", "UPDATING", "DELETING", "ACTIVE", "FAILED"
+    #   resp.iam_identity_center_options.enabled #=> Boolean
+    #   resp.iam_identity_center_options.iam_identity_center_instance_arn #=> String
+    #   resp.iam_identity_center_options.iam_role_for_identity_center_application_arn #=> String
+    #   resp.iam_identity_center_options.iam_identity_center_application_arn #=> String
+    #   resp.data_sources #=> Array
+    #   resp.data_sources[0].data_source_arn #=> String
+    #   resp.data_sources[0].data_source_description #=> String
+    #   resp.app_configs #=> Array
+    #   resp.app_configs[0].key #=> String, one of "opensearchDashboards.dashboardAdmin.users", "opensearchDashboards.dashboardAdmin.groups"
+    #   resp.app_configs[0].value #=> String
+    #   resp.created_at #=> Time
+    #   resp.last_updated_at #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/GetApplication AWS API Documentation
+    #
+    # @overload get_application(params = {})
+    # @param [Hash] params ({})
+    def get_application(params = {}, options = {})
+      req = build_request(:get_application, params)
       req.send_request(options)
     end
 
@@ -2459,8 +3582,129 @@ module Aws::OpenSearchService
       req.send_request(options)
     end
 
+    # Retrieves information about a direct query data source.
+    #
+    # @option params [required, String] :domain_name
+    #   The name of the domain.
+    #
+    # @option params [required, String] :name
+    #   The name of the data source to get information about.
+    #
+    # @return [Types::GetDataSourceResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetDataSourceResponse#data_source_type #data_source_type} => Types::DataSourceType
+    #   * {Types::GetDataSourceResponse#name #name} => String
+    #   * {Types::GetDataSourceResponse#description #description} => String
+    #   * {Types::GetDataSourceResponse#status #status} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_data_source({
+    #     domain_name: "DomainName", # required
+    #     name: "DataSourceName", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.data_source_type.s3_glue_data_catalog.role_arn #=> String
+    #   resp.name #=> String
+    #   resp.description #=> String
+    #   resp.status #=> String, one of "ACTIVE", "DISABLED"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/GetDataSource AWS API Documentation
+    #
+    # @overload get_data_source(params = {})
+    # @param [Hash] params ({})
+    def get_data_source(params = {}, options = {})
+      req = build_request(:get_data_source, params)
+      req.send_request(options)
+    end
+
+    # Returns detailed configuration information for a specific direct query
+    # data source in Amazon OpenSearch Service.
+    #
+    # @option params [required, String] :data_source_name
+    #   A unique, user-defined label that identifies the data source within
+    #   your OpenSearch Service environment.
+    #
+    # @return [Types::GetDirectQueryDataSourceResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetDirectQueryDataSourceResponse#data_source_name #data_source_name} => String
+    #   * {Types::GetDirectQueryDataSourceResponse#data_source_type #data_source_type} => Types::DirectQueryDataSourceType
+    #   * {Types::GetDirectQueryDataSourceResponse#description #description} => String
+    #   * {Types::GetDirectQueryDataSourceResponse#open_search_arns #open_search_arns} => Array&lt;String&gt;
+    #   * {Types::GetDirectQueryDataSourceResponse#data_source_arn #data_source_arn} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_direct_query_data_source({
+    #     data_source_name: "DirectQueryDataSourceName", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.data_source_name #=> String
+    #   resp.data_source_type.cloud_watch_log.role_arn #=> String
+    #   resp.data_source_type.security_lake.role_arn #=> String
+    #   resp.description #=> String
+    #   resp.open_search_arns #=> Array
+    #   resp.open_search_arns[0] #=> String
+    #   resp.data_source_arn #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/GetDirectQueryDataSource AWS API Documentation
+    #
+    # @overload get_direct_query_data_source(params = {})
+    # @param [Hash] params ({})
+    def get_direct_query_data_source(params = {}, options = {})
+      req = build_request(:get_direct_query_data_source, params)
+      req.send_request(options)
+    end
+
+    # The status of the maintenance action.
+    #
+    # @option params [required, String] :domain_name
+    #   The name of the domain.
+    #
+    # @option params [required, String] :maintenance_id
+    #   The request ID of the maintenance action.
+    #
+    # @return [Types::GetDomainMaintenanceStatusResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetDomainMaintenanceStatusResponse#status #status} => String
+    #   * {Types::GetDomainMaintenanceStatusResponse#status_message #status_message} => String
+    #   * {Types::GetDomainMaintenanceStatusResponse#node_id #node_id} => String
+    #   * {Types::GetDomainMaintenanceStatusResponse#action #action} => String
+    #   * {Types::GetDomainMaintenanceStatusResponse#created_at #created_at} => Time
+    #   * {Types::GetDomainMaintenanceStatusResponse#updated_at #updated_at} => Time
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_domain_maintenance_status({
+    #     domain_name: "DomainName", # required
+    #     maintenance_id: "RequestId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.status #=> String, one of "PENDING", "IN_PROGRESS", "COMPLETED", "FAILED", "TIMED_OUT"
+    #   resp.status_message #=> String
+    #   resp.node_id #=> String
+    #   resp.action #=> String, one of "REBOOT_NODE", "RESTART_SEARCH_PROCESS", "RESTART_DASHBOARD"
+    #   resp.created_at #=> Time
+    #   resp.updated_at #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/GetDomainMaintenanceStatus AWS API Documentation
+    #
+    # @overload get_domain_maintenance_status(params = {})
+    # @param [Hash] params ({})
+    def get_domain_maintenance_status(params = {}, options = {})
+      req = build_request(:get_domain_maintenance_status, params)
+      req.send_request(options)
+    end
+
     # Returns a list of Amazon OpenSearch Service package versions, along
-    # with their creation time and commit message. For more information, see
+    # with their creation time, commit message, and plugin properties (if
+    # the package is a zip plugin package). For more information, see
     # [Custom packages for Amazon OpenSearch Service][1].
     #
     #
@@ -2503,6 +3747,15 @@ module Aws::OpenSearchService
     #   resp.package_version_history_list[0].package_version #=> String
     #   resp.package_version_history_list[0].commit_message #=> String
     #   resp.package_version_history_list[0].created_at #=> Time
+    #   resp.package_version_history_list[0].plugin_properties.name #=> String
+    #   resp.package_version_history_list[0].plugin_properties.description #=> String
+    #   resp.package_version_history_list[0].plugin_properties.version #=> String
+    #   resp.package_version_history_list[0].plugin_properties.class_name #=> String
+    #   resp.package_version_history_list[0].plugin_properties.uncompressed_size_in_bytes #=> Integer
+    #   resp.package_version_history_list[0].package_configuration.license_requirement #=> String, one of "REQUIRED", "OPTIONAL", "NONE"
+    #   resp.package_version_history_list[0].package_configuration.license_filepath #=> String
+    #   resp.package_version_history_list[0].package_configuration.configuration_requirement #=> String, one of "REQUIRED", "OPTIONAL", "NONE"
+    #   resp.package_version_history_list[0].package_configuration.requires_restart_for_configuration_update #=> Boolean
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/GetPackageVersionHistory AWS API Documentation
@@ -2601,6 +3854,199 @@ module Aws::OpenSearchService
       req.send_request(options)
     end
 
+    # List all OpenSearch Applications under your account.
+    #
+    # @option params [String] :next_token
+    #   When `nextToken` is returned, there are more results available. The
+    #   value of `nextToken` is a unique pagination token for each page. Send
+    #   the request again using the returned token to retrieve the next page.
+    #
+    # @option params [Array<String>] :statuses
+    #   OpenSearch Application Status can be used as filters for the listing
+    #   request. Possible values are `CREATING`, `UPDATING`, `DELETING`,
+    #   `FAILED`, `ACTIVE`, and `DELETED`.
+    #
+    # @option params [Integer] :max_results
+    #   An optional parameter that specifies the maximum number of results to
+    #   return for a given request.
+    #
+    # @return [Types::ListApplicationsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListApplicationsResponse#application_summaries #application_summaries} => Array&lt;Types::ApplicationSummary&gt;
+    #   * {Types::ListApplicationsResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_applications({
+    #     next_token: "NextToken",
+    #     statuses: ["CREATING"], # accepts CREATING, UPDATING, DELETING, ACTIVE, FAILED
+    #     max_results: 1,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.application_summaries #=> Array
+    #   resp.application_summaries[0].id #=> String
+    #   resp.application_summaries[0].arn #=> String
+    #   resp.application_summaries[0].name #=> String
+    #   resp.application_summaries[0].endpoint #=> String
+    #   resp.application_summaries[0].status #=> String, one of "CREATING", "UPDATING", "DELETING", "ACTIVE", "FAILED"
+    #   resp.application_summaries[0].created_at #=> Time
+    #   resp.application_summaries[0].last_updated_at #=> Time
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/ListApplications AWS API Documentation
+    #
+    # @overload list_applications(params = {})
+    # @param [Hash] params ({})
+    def list_applications(params = {}, options = {})
+      req = build_request(:list_applications, params)
+      req.send_request(options)
+    end
+
+    # Lists direct-query data sources for a specific domain. For more
+    # information, see For more information, see [Working with Amazon
+    # OpenSearch Service direct queries with Amazon S3][1].
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/opensearch-service/latest/developerguide/direct-query-s3.html
+    #
+    # @option params [required, String] :domain_name
+    #   The name of the domain.
+    #
+    # @return [Types::ListDataSourcesResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListDataSourcesResponse#data_sources #data_sources} => Array&lt;Types::DataSourceDetails&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_data_sources({
+    #     domain_name: "DomainName", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.data_sources #=> Array
+    #   resp.data_sources[0].data_source_type.s3_glue_data_catalog.role_arn #=> String
+    #   resp.data_sources[0].name #=> String
+    #   resp.data_sources[0].description #=> String
+    #   resp.data_sources[0].status #=> String, one of "ACTIVE", "DISABLED"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/ListDataSources AWS API Documentation
+    #
+    # @overload list_data_sources(params = {})
+    # @param [Hash] params ({})
+    def list_data_sources(params = {}, options = {})
+      req = build_request(:list_data_sources, params)
+      req.send_request(options)
+    end
+
+    # Lists an inventory of all the direct query data sources that you have
+    # configured within Amazon OpenSearch Service.
+    #
+    # @option params [String] :next_token
+    #   When `nextToken` is returned, there are more results available. The
+    #   value of `nextToken` is a unique pagination token for each page. Send
+    #   the request again using the returned token to retrieve the next page.
+    #
+    # @return [Types::ListDirectQueryDataSourcesResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListDirectQueryDataSourcesResponse#next_token #next_token} => String
+    #   * {Types::ListDirectQueryDataSourcesResponse#direct_query_data_sources #direct_query_data_sources} => Array&lt;Types::DirectQueryDataSource&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_direct_query_data_sources({
+    #     next_token: "NextToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.next_token #=> String
+    #   resp.direct_query_data_sources #=> Array
+    #   resp.direct_query_data_sources[0].data_source_name #=> String
+    #   resp.direct_query_data_sources[0].data_source_type.cloud_watch_log.role_arn #=> String
+    #   resp.direct_query_data_sources[0].data_source_type.security_lake.role_arn #=> String
+    #   resp.direct_query_data_sources[0].description #=> String
+    #   resp.direct_query_data_sources[0].open_search_arns #=> Array
+    #   resp.direct_query_data_sources[0].open_search_arns[0] #=> String
+    #   resp.direct_query_data_sources[0].data_source_arn #=> String
+    #   resp.direct_query_data_sources[0].tag_list #=> Array
+    #   resp.direct_query_data_sources[0].tag_list[0].key #=> String
+    #   resp.direct_query_data_sources[0].tag_list[0].value #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/ListDirectQueryDataSources AWS API Documentation
+    #
+    # @overload list_direct_query_data_sources(params = {})
+    # @param [Hash] params ({})
+    def list_direct_query_data_sources(params = {}, options = {})
+      req = build_request(:list_direct_query_data_sources, params)
+      req.send_request(options)
+    end
+
+    # A list of maintenance actions for the domain.
+    #
+    # @option params [required, String] :domain_name
+    #   The name of the domain.
+    #
+    # @option params [String] :action
+    #   The name of the action.
+    #
+    # @option params [String] :status
+    #   The status of the action.
+    #
+    # @option params [Integer] :max_results
+    #   An optional parameter that specifies the maximum number of results to
+    #   return. You can use `nextToken` to get the next page of results.
+    #
+    # @option params [String] :next_token
+    #   If your initial `ListDomainMaintenances` operation returns a
+    #   `nextToken`, include the returned `nextToken` in subsequent
+    #   `ListDomainMaintenances` operations, which returns results in the next
+    #   page.
+    #
+    # @return [Types::ListDomainMaintenancesResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListDomainMaintenancesResponse#domain_maintenances #domain_maintenances} => Array&lt;Types::DomainMaintenanceDetails&gt;
+    #   * {Types::ListDomainMaintenancesResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_domain_maintenances({
+    #     domain_name: "DomainName", # required
+    #     action: "REBOOT_NODE", # accepts REBOOT_NODE, RESTART_SEARCH_PROCESS, RESTART_DASHBOARD
+    #     status: "PENDING", # accepts PENDING, IN_PROGRESS, COMPLETED, FAILED, TIMED_OUT
+    #     max_results: 1,
+    #     next_token: "NextToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.domain_maintenances #=> Array
+    #   resp.domain_maintenances[0].maintenance_id #=> String
+    #   resp.domain_maintenances[0].domain_name #=> String
+    #   resp.domain_maintenances[0].action #=> String, one of "REBOOT_NODE", "RESTART_SEARCH_PROCESS", "RESTART_DASHBOARD"
+    #   resp.domain_maintenances[0].node_id #=> String
+    #   resp.domain_maintenances[0].status #=> String, one of "PENDING", "IN_PROGRESS", "COMPLETED", "FAILED", "TIMED_OUT"
+    #   resp.domain_maintenances[0].status_message #=> String
+    #   resp.domain_maintenances[0].created_at #=> Time
+    #   resp.domain_maintenances[0].updated_at #=> Time
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/ListDomainMaintenances AWS API Documentation
+    #
+    # @overload list_domain_maintenances(params = {})
+    # @param [Hash] params ({})
+    def list_domain_maintenances(params = {}, options = {})
+      req = build_request(:list_domain_maintenances, params)
+      req.send_request(options)
+    end
+
     # Returns the names of all Amazon OpenSearch Service domains owned by
     # the current user in the active Region.
     #
@@ -2674,14 +4120,18 @@ module Aws::OpenSearchService
     #   resp.domain_package_details_list #=> Array
     #   resp.domain_package_details_list[0].package_id #=> String
     #   resp.domain_package_details_list[0].package_name #=> String
-    #   resp.domain_package_details_list[0].package_type #=> String, one of "TXT-DICTIONARY"
+    #   resp.domain_package_details_list[0].package_type #=> String, one of "TXT-DICTIONARY", "ZIP-PLUGIN", "PACKAGE-LICENSE", "PACKAGE-CONFIG"
     #   resp.domain_package_details_list[0].last_updated #=> Time
     #   resp.domain_package_details_list[0].domain_name #=> String
     #   resp.domain_package_details_list[0].domain_package_status #=> String, one of "ASSOCIATING", "ASSOCIATION_FAILED", "ACTIVE", "DISSOCIATING", "DISSOCIATION_FAILED"
     #   resp.domain_package_details_list[0].package_version #=> String
+    #   resp.domain_package_details_list[0].prerequisite_package_id_list #=> Array
+    #   resp.domain_package_details_list[0].prerequisite_package_id_list[0] #=> String
     #   resp.domain_package_details_list[0].reference_path #=> String
     #   resp.domain_package_details_list[0].error_details.error_type #=> String
     #   resp.domain_package_details_list[0].error_details.error_message #=> String
+    #   resp.domain_package_details_list[0].association_configuration.key_store_access_option.key_access_role_arn #=> String
+    #   resp.domain_package_details_list[0].association_configuration.key_store_access_option.key_store_access_enabled #=> Boolean
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/ListDomainsForPackage AWS API Documentation
@@ -2697,12 +4147,12 @@ module Aws::OpenSearchService
     # or Elasticsearch version.
     #
     # @option params [required, String] :engine_version
-    #   Version of OpenSearch or Elasticsearch, in the format
+    #   The version of OpenSearch or Elasticsearch, in the format
     #   Elasticsearch\_X.Y or OpenSearch\_X.Y. Defaults to the latest version
     #   of OpenSearch.
     #
     # @option params [String] :domain_name
-    #   Name of the domain to list instance type details for.
+    #   The name of the domain.
     #
     # @option params [Integer] :max_results
     #   An optional parameter that specifies the maximum number of results to
@@ -2713,6 +4163,14 @@ module Aws::OpenSearchService
     #   `nextToken`, you can include the returned `nextToken` in subsequent
     #   `ListInstanceTypeDetails` operations, which returns results in the
     #   next page.
+    #
+    # @option params [Boolean] :retrieve_a_zs
+    #   An optional parameter that specifies the Availability Zones for the
+    #   domain.
+    #
+    # @option params [String] :instance_type
+    #   An optional parameter that lists information for a given instance
+    #   type.
     #
     # @return [Types::ListInstanceTypeDetailsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -2728,12 +4186,14 @@ module Aws::OpenSearchService
     #     domain_name: "DomainName",
     #     max_results: 1,
     #     next_token: "NextToken",
+    #     retrieve_a_zs: false,
+    #     instance_type: "InstanceTypeString",
     #   })
     #
     # @example Response structure
     #
     #   resp.instance_type_details #=> Array
-    #   resp.instance_type_details[0].instance_type #=> String, one of "m3.medium.search", "m3.large.search", "m3.xlarge.search", "m3.2xlarge.search", "m4.large.search", "m4.xlarge.search", "m4.2xlarge.search", "m4.4xlarge.search", "m4.10xlarge.search", "m5.large.search", "m5.xlarge.search", "m5.2xlarge.search", "m5.4xlarge.search", "m5.12xlarge.search", "m5.24xlarge.search", "r5.large.search", "r5.xlarge.search", "r5.2xlarge.search", "r5.4xlarge.search", "r5.12xlarge.search", "r5.24xlarge.search", "c5.large.search", "c5.xlarge.search", "c5.2xlarge.search", "c5.4xlarge.search", "c5.9xlarge.search", "c5.18xlarge.search", "t3.nano.search", "t3.micro.search", "t3.small.search", "t3.medium.search", "t3.large.search", "t3.xlarge.search", "t3.2xlarge.search", "ultrawarm1.medium.search", "ultrawarm1.large.search", "ultrawarm1.xlarge.search", "t2.micro.search", "t2.small.search", "t2.medium.search", "r3.large.search", "r3.xlarge.search", "r3.2xlarge.search", "r3.4xlarge.search", "r3.8xlarge.search", "i2.xlarge.search", "i2.2xlarge.search", "d2.xlarge.search", "d2.2xlarge.search", "d2.4xlarge.search", "d2.8xlarge.search", "c4.large.search", "c4.xlarge.search", "c4.2xlarge.search", "c4.4xlarge.search", "c4.8xlarge.search", "r4.large.search", "r4.xlarge.search", "r4.2xlarge.search", "r4.4xlarge.search", "r4.8xlarge.search", "r4.16xlarge.search", "i3.large.search", "i3.xlarge.search", "i3.2xlarge.search", "i3.4xlarge.search", "i3.8xlarge.search", "i3.16xlarge.search", "r6g.large.search", "r6g.xlarge.search", "r6g.2xlarge.search", "r6g.4xlarge.search", "r6g.8xlarge.search", "r6g.12xlarge.search", "m6g.large.search", "m6g.xlarge.search", "m6g.2xlarge.search", "m6g.4xlarge.search", "m6g.8xlarge.search", "m6g.12xlarge.search", "c6g.large.search", "c6g.xlarge.search", "c6g.2xlarge.search", "c6g.4xlarge.search", "c6g.8xlarge.search", "c6g.12xlarge.search", "r6gd.large.search", "r6gd.xlarge.search", "r6gd.2xlarge.search", "r6gd.4xlarge.search", "r6gd.8xlarge.search", "r6gd.12xlarge.search", "r6gd.16xlarge.search", "t4g.small.search", "t4g.medium.search"
+    #   resp.instance_type_details[0].instance_type #=> String, one of "m3.medium.search", "m3.large.search", "m3.xlarge.search", "m3.2xlarge.search", "m4.large.search", "m4.xlarge.search", "m4.2xlarge.search", "m4.4xlarge.search", "m4.10xlarge.search", "m5.large.search", "m5.xlarge.search", "m5.2xlarge.search", "m5.4xlarge.search", "m5.12xlarge.search", "m5.24xlarge.search", "r5.large.search", "r5.xlarge.search", "r5.2xlarge.search", "r5.4xlarge.search", "r5.12xlarge.search", "r5.24xlarge.search", "c5.large.search", "c5.xlarge.search", "c5.2xlarge.search", "c5.4xlarge.search", "c5.9xlarge.search", "c5.18xlarge.search", "t3.nano.search", "t3.micro.search", "t3.small.search", "t3.medium.search", "t3.large.search", "t3.xlarge.search", "t3.2xlarge.search", "or1.medium.search", "or1.large.search", "or1.xlarge.search", "or1.2xlarge.search", "or1.4xlarge.search", "or1.8xlarge.search", "or1.12xlarge.search", "or1.16xlarge.search", "ultrawarm1.medium.search", "ultrawarm1.large.search", "ultrawarm1.xlarge.search", "t2.micro.search", "t2.small.search", "t2.medium.search", "r3.large.search", "r3.xlarge.search", "r3.2xlarge.search", "r3.4xlarge.search", "r3.8xlarge.search", "i2.xlarge.search", "i2.2xlarge.search", "d2.xlarge.search", "d2.2xlarge.search", "d2.4xlarge.search", "d2.8xlarge.search", "c4.large.search", "c4.xlarge.search", "c4.2xlarge.search", "c4.4xlarge.search", "c4.8xlarge.search", "r4.large.search", "r4.xlarge.search", "r4.2xlarge.search", "r4.4xlarge.search", "r4.8xlarge.search", "r4.16xlarge.search", "i3.large.search", "i3.xlarge.search", "i3.2xlarge.search", "i3.4xlarge.search", "i3.8xlarge.search", "i3.16xlarge.search", "r6g.large.search", "r6g.xlarge.search", "r6g.2xlarge.search", "r6g.4xlarge.search", "r6g.8xlarge.search", "r6g.12xlarge.search", "m6g.large.search", "m6g.xlarge.search", "m6g.2xlarge.search", "m6g.4xlarge.search", "m6g.8xlarge.search", "m6g.12xlarge.search", "c6g.large.search", "c6g.xlarge.search", "c6g.2xlarge.search", "c6g.4xlarge.search", "c6g.8xlarge.search", "c6g.12xlarge.search", "r6gd.large.search", "r6gd.xlarge.search", "r6gd.2xlarge.search", "r6gd.4xlarge.search", "r6gd.8xlarge.search", "r6gd.12xlarge.search", "r6gd.16xlarge.search", "t4g.small.search", "t4g.medium.search"
     #   resp.instance_type_details[0].encryption_enabled #=> Boolean
     #   resp.instance_type_details[0].cognito_enabled #=> Boolean
     #   resp.instance_type_details[0].app_logs_enabled #=> Boolean
@@ -2741,6 +4201,8 @@ module Aws::OpenSearchService
     #   resp.instance_type_details[0].warm_enabled #=> Boolean
     #   resp.instance_type_details[0].instance_role #=> Array
     #   resp.instance_type_details[0].instance_role[0] #=> String
+    #   resp.instance_type_details[0].availability_zones #=> Array
+    #   resp.instance_type_details[0].availability_zones[0] #=> String
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/ListInstanceTypeDetails AWS API Documentation
@@ -2793,14 +4255,18 @@ module Aws::OpenSearchService
     #   resp.domain_package_details_list #=> Array
     #   resp.domain_package_details_list[0].package_id #=> String
     #   resp.domain_package_details_list[0].package_name #=> String
-    #   resp.domain_package_details_list[0].package_type #=> String, one of "TXT-DICTIONARY"
+    #   resp.domain_package_details_list[0].package_type #=> String, one of "TXT-DICTIONARY", "ZIP-PLUGIN", "PACKAGE-LICENSE", "PACKAGE-CONFIG"
     #   resp.domain_package_details_list[0].last_updated #=> Time
     #   resp.domain_package_details_list[0].domain_name #=> String
     #   resp.domain_package_details_list[0].domain_package_status #=> String, one of "ASSOCIATING", "ASSOCIATION_FAILED", "ACTIVE", "DISSOCIATING", "DISSOCIATION_FAILED"
     #   resp.domain_package_details_list[0].package_version #=> String
+    #   resp.domain_package_details_list[0].prerequisite_package_id_list #=> Array
+    #   resp.domain_package_details_list[0].prerequisite_package_id_list[0] #=> String
     #   resp.domain_package_details_list[0].reference_path #=> String
     #   resp.domain_package_details_list[0].error_details.error_type #=> String
     #   resp.domain_package_details_list[0].error_details.error_message #=> String
+    #   resp.domain_package_details_list[0].association_configuration.key_store_access_option.key_access_role_arn #=> String
+    #   resp.domain_package_details_list[0].association_configuration.key_store_access_option.key_store_access_enabled #=> Boolean
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/ListPackagesForDomain AWS API Documentation
@@ -2812,15 +4278,77 @@ module Aws::OpenSearchService
       req.send_request(options)
     end
 
-    # Returns all resource tags for an Amazon OpenSearch Service domain. For
-    # more information, see [Tagging Amazon OpenSearch Service domains][1].
+    # Retrieves a list of configuration changes that are scheduled for a
+    # domain. These changes can be [service software updates][1] or
+    # [blue/green Auto-Tune enhancements][2].
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/opensearch-service/latest/developerguide/service-software.html
+    # [2]: https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html#auto-tune-types
+    #
+    # @option params [required, String] :domain_name
+    #   The name of the domain.
+    #
+    # @option params [Integer] :max_results
+    #   An optional parameter that specifies the maximum number of results to
+    #   return. You can use `nextToken` to get the next page of results.
+    #
+    # @option params [String] :next_token
+    #   If your initial `ListScheduledActions` operation returns a
+    #   `nextToken`, you can include the returned `nextToken` in subsequent
+    #   `ListScheduledActions` operations, which returns results in the next
+    #   page.
+    #
+    # @return [Types::ListScheduledActionsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListScheduledActionsResponse#scheduled_actions #scheduled_actions} => Array&lt;Types::ScheduledAction&gt;
+    #   * {Types::ListScheduledActionsResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_scheduled_actions({
+    #     domain_name: "DomainName", # required
+    #     max_results: 1,
+    #     next_token: "NextToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.scheduled_actions #=> Array
+    #   resp.scheduled_actions[0].id #=> String
+    #   resp.scheduled_actions[0].type #=> String, one of "SERVICE_SOFTWARE_UPDATE", "JVM_HEAP_SIZE_TUNING", "JVM_YOUNG_GEN_TUNING"
+    #   resp.scheduled_actions[0].severity #=> String, one of "HIGH", "MEDIUM", "LOW"
+    #   resp.scheduled_actions[0].scheduled_time #=> Integer
+    #   resp.scheduled_actions[0].description #=> String
+    #   resp.scheduled_actions[0].scheduled_by #=> String, one of "CUSTOMER", "SYSTEM"
+    #   resp.scheduled_actions[0].status #=> String, one of "PENDING_UPDATE", "IN_PROGRESS", "FAILED", "COMPLETED", "NOT_ELIGIBLE", "ELIGIBLE"
+    #   resp.scheduled_actions[0].mandatory #=> Boolean
+    #   resp.scheduled_actions[0].cancellable #=> Boolean
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/ListScheduledActions AWS API Documentation
+    #
+    # @overload list_scheduled_actions(params = {})
+    # @param [Hash] params ({})
+    def list_scheduled_actions(params = {}, options = {})
+      req = build_request(:list_scheduled_actions, params)
+      req.send_request(options)
+    end
+
+    # Returns all resource tags for an Amazon OpenSearch Service domain,
+    # data source, or application. For more information, see [Tagging Amazon
+    # OpenSearch Service resources][1].
     #
     #
     #
     # [1]: https://docs.aws.amazon.com/opensearch-service/latest/developerguide/managedomains-awsresourcetagging.html
     #
     # @option params [required, String] :arn
-    #   Amazon Resource Name (ARN) for the domain to view tags for.
+    #   Amazon Resource Name (ARN) for the domain, data source, or application
+    #   to view tags for.
     #
     # @return [Types::ListTagsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -3086,19 +4614,20 @@ module Aws::OpenSearchService
     end
 
     # Removes the specified set of tags from an Amazon OpenSearch Service
-    # domain. For more information, see [ Tagging Amazon OpenSearch Service
-    # domains][1].
+    # domain, data source, or application. For more information, see [
+    # Tagging Amazon OpenSearch Service resources][1].
     #
     #
     #
     # [1]: https://docs.aws.amazon.com/opensearch-service/latest/developerguide/managedomains.html#managedomains-awsresorcetagging
     #
     # @option params [required, String] :arn
-    #   The Amazon Resource Name (ARN) of the domain from which you want to
-    #   delete the specified tags.
+    #   The Amazon Resource Name (ARN) of the domain, data source, or
+    #   application from which you want to delete the specified tags.
     #
     # @option params [required, Array<String>] :tag_keys
-    #   The list of tag keys to remove from the domain.
+    #   The list of tag keys to remove from the domain, data source, or
+    #   application.
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
@@ -3124,8 +4653,11 @@ module Aws::OpenSearchService
     # @option params [required, String] :domain_name
     #   The name of the OpenSearch Service domain.
     #
-    # @option params [required, String] :account
+    # @option params [String] :account
     #   The account ID to revoke access from.
+    #
+    # @option params [String] :service
+    #   The service SP to revoke access from.
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
@@ -3133,7 +4665,8 @@ module Aws::OpenSearchService
     #
     #   resp = client.revoke_vpc_endpoint_access({
     #     domain_name: "DomainName", # required
-    #     account: "AWSAccount", # required
+    #     account: "AWSAccount",
+    #     service: "application.opensearchservice.amazonaws.com", # accepts application.opensearchservice.amazonaws.com
     #   })
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/RevokeVpcEndpointAccess AWS API Documentation
@@ -3142,6 +4675,44 @@ module Aws::OpenSearchService
     # @param [Hash] params ({})
     def revoke_vpc_endpoint_access(params = {}, options = {})
       req = build_request(:revoke_vpc_endpoint_access, params)
+      req.send_request(options)
+    end
+
+    # Starts the node maintenance process on the data node. These processes
+    # can include a node reboot, an Opensearch or Elasticsearch process
+    # restart, or a Dashboard or Kibana restart.
+    #
+    # @option params [required, String] :domain_name
+    #   The name of the domain.
+    #
+    # @option params [required, String] :action
+    #   The name of the action.
+    #
+    # @option params [String] :node_id
+    #   The ID of the data node.
+    #
+    # @return [Types::StartDomainMaintenanceResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::StartDomainMaintenanceResponse#maintenance_id #maintenance_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.start_domain_maintenance({
+    #     domain_name: "DomainName", # required
+    #     action: "REBOOT_NODE", # required, accepts REBOOT_NODE, RESTART_SEARCH_PROCESS, RESTART_DASHBOARD
+    #     node_id: "NodeId",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.maintenance_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/StartDomainMaintenance AWS API Documentation
+    #
+    # @overload start_domain_maintenance(params = {})
+    # @param [Hash] params ({})
+    def start_domain_maintenance(params = {}, options = {})
+      req = build_request(:start_domain_maintenance, params)
       req.send_request(options)
     end
 
@@ -3157,6 +4728,29 @@ module Aws::OpenSearchService
     #   The name of the domain that you want to update to the latest service
     #   software.
     #
+    # @option params [String] :schedule_at
+    #   When to start the service software update.
+    #
+    #   * `NOW` - Immediately schedules the update to happen in the current
+    #     hour if there's capacity available.
+    #
+    #   * `TIMESTAMP` - Lets you specify a custom date and time to apply the
+    #     update. If you specify this value, you must also provide a value for
+    #     `DesiredStartTime`.
+    #
+    #   * `OFF_PEAK_WINDOW` - Marks the update to be picked up during an
+    #     upcoming off-peak window. There's no guarantee that the update will
+    #     happen during the next immediate window. Depending on capacity, it
+    #     might happen in subsequent days.
+    #
+    #   Default: `NOW` if you don't specify a value for `DesiredStartTime`,
+    #   and `TIMESTAMP` if you do.
+    #
+    # @option params [Integer] :desired_start_time
+    #   The Epoch timestamp when you want the service software update to
+    #   start. You only need to specify this parameter if you set `ScheduleAt`
+    #   to `TIMESTAMP`.
+    #
     # @return [Types::StartServiceSoftwareUpdateResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::StartServiceSoftwareUpdateResponse#service_software_options #service_software_options} => Types::ServiceSoftwareOptions
@@ -3165,6 +4759,8 @@ module Aws::OpenSearchService
     #
     #   resp = client.start_service_software_update({
     #     domain_name: "DomainName", # required
+    #     schedule_at: "NOW", # accepts NOW, TIMESTAMP, OFF_PEAK_WINDOW
+    #     desired_start_time: 1,
     #   })
     #
     # @example Response structure
@@ -3184,6 +4780,179 @@ module Aws::OpenSearchService
     # @param [Hash] params ({})
     def start_service_software_update(params = {}, options = {})
       req = build_request(:start_service_software_update, params)
+      req.send_request(options)
+    end
+
+    # Update the OpenSearch Application.
+    #
+    # @option params [required, String] :id
+    #   Unique identifier of the OpenSearch Application to be updated.
+    #
+    # @option params [Array<Types::DataSource>] :data_sources
+    #   Data sources to be associated with the OpenSearch Application.
+    #
+    # @option params [Array<Types::AppConfig>] :app_configs
+    #   Configurations to be changed for the OpenSearch Application.
+    #
+    # @return [Types::UpdateApplicationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateApplicationResponse#id #id} => String
+    #   * {Types::UpdateApplicationResponse#name #name} => String
+    #   * {Types::UpdateApplicationResponse#arn #arn} => String
+    #   * {Types::UpdateApplicationResponse#data_sources #data_sources} => Array&lt;Types::DataSource&gt;
+    #   * {Types::UpdateApplicationResponse#iam_identity_center_options #iam_identity_center_options} => Types::IamIdentityCenterOptions
+    #   * {Types::UpdateApplicationResponse#app_configs #app_configs} => Array&lt;Types::AppConfig&gt;
+    #   * {Types::UpdateApplicationResponse#created_at #created_at} => Time
+    #   * {Types::UpdateApplicationResponse#last_updated_at #last_updated_at} => Time
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_application({
+    #     id: "Id", # required
+    #     data_sources: [
+    #       {
+    #         data_source_arn: "ARN",
+    #         data_source_description: "DataSourceDescription",
+    #       },
+    #     ],
+    #     app_configs: [
+    #       {
+    #         key: "opensearchDashboards.dashboardAdmin.users", # accepts opensearchDashboards.dashboardAdmin.users, opensearchDashboards.dashboardAdmin.groups
+    #         value: "AppConfigValue",
+    #       },
+    #     ],
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.id #=> String
+    #   resp.name #=> String
+    #   resp.arn #=> String
+    #   resp.data_sources #=> Array
+    #   resp.data_sources[0].data_source_arn #=> String
+    #   resp.data_sources[0].data_source_description #=> String
+    #   resp.iam_identity_center_options.enabled #=> Boolean
+    #   resp.iam_identity_center_options.iam_identity_center_instance_arn #=> String
+    #   resp.iam_identity_center_options.iam_role_for_identity_center_application_arn #=> String
+    #   resp.iam_identity_center_options.iam_identity_center_application_arn #=> String
+    #   resp.app_configs #=> Array
+    #   resp.app_configs[0].key #=> String, one of "opensearchDashboards.dashboardAdmin.users", "opensearchDashboards.dashboardAdmin.groups"
+    #   resp.app_configs[0].value #=> String
+    #   resp.created_at #=> Time
+    #   resp.last_updated_at #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/UpdateApplication AWS API Documentation
+    #
+    # @overload update_application(params = {})
+    # @param [Hash] params ({})
+    def update_application(params = {}, options = {})
+      req = build_request(:update_application, params)
+      req.send_request(options)
+    end
+
+    # Updates a direct-query data source. For more information, see [Working
+    # with Amazon OpenSearch Service data source integrations with Amazon
+    # S3][1].
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/opensearch-service/latest/developerguide/direct-query-s3-creating.html
+    #
+    # @option params [required, String] :domain_name
+    #   The name of the domain.
+    #
+    # @option params [required, String] :name
+    #   The name of the data source to modify.
+    #
+    # @option params [required, Types::DataSourceType] :data_source_type
+    #   The type of data source.
+    #
+    # @option params [String] :description
+    #   A new description of the data source.
+    #
+    # @option params [String] :status
+    #   The status of the data source update.
+    #
+    # @return [Types::UpdateDataSourceResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateDataSourceResponse#message #message} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_data_source({
+    #     domain_name: "DomainName", # required
+    #     name: "DataSourceName", # required
+    #     data_source_type: { # required
+    #       s3_glue_data_catalog: {
+    #         role_arn: "RoleArn",
+    #       },
+    #     },
+    #     description: "DataSourceDescription",
+    #     status: "ACTIVE", # accepts ACTIVE, DISABLED
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.message #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/UpdateDataSource AWS API Documentation
+    #
+    # @overload update_data_source(params = {})
+    # @param [Hash] params ({})
+    def update_data_source(params = {}, options = {})
+      req = build_request(:update_data_source, params)
+      req.send_request(options)
+    end
+
+    # Updates the configuration or properties of an existing direct query
+    # data source in Amazon OpenSearch Service.
+    #
+    # @option params [required, String] :data_source_name
+    #   A unique, user-defined label to identify the data source within your
+    #   OpenSearch Service environment.
+    #
+    # @option params [required, Types::DirectQueryDataSourceType] :data_source_type
+    #   The supported Amazon Web Services service that you want to use as the
+    #   source for direct queries in OpenSearch Service.
+    #
+    # @option params [String] :description
+    #   An optional text field for providing additional context and details
+    #   about the data source.
+    #
+    # @option params [required, Array<String>] :open_search_arns
+    #   A list of Amazon Resource Names (ARNs) for the OpenSearch collections
+    #   that are associated with the direct query data source.
+    #
+    # @return [Types::UpdateDirectQueryDataSourceResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateDirectQueryDataSourceResponse#data_source_arn #data_source_arn} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_direct_query_data_source({
+    #     data_source_name: "DirectQueryDataSourceName", # required
+    #     data_source_type: { # required
+    #       cloud_watch_log: {
+    #         role_arn: "DirectQueryDataSourceRoleArn", # required
+    #       },
+    #       security_lake: {
+    #         role_arn: "DirectQueryDataSourceRoleArn", # required
+    #       },
+    #     },
+    #     description: "DirectQueryDataSourceDescription",
+    #     open_search_arns: ["ARN"], # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.data_source_arn #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/UpdateDirectQueryDataSource AWS API Documentation
+    #
+    # @overload update_direct_query_data_source(params = {})
+    # @param [Hash] params ({})
+    def update_direct_query_data_source(params = {}, options = {})
+      req = build_request(:update_direct_query_data_source, params)
       req.send_request(options)
     end
 
@@ -3239,12 +5008,6 @@ module Aws::OpenSearchService
     #     with more than the permitted number of clauses result in a
     #     `TooManyClauses` error.
     #
-    #   * `"override_main_response_version": "true" | "false"` - Note the use
-    #     of a string rather than a boolean. Specifies whether the domain
-    #     reports its version as 7.10 to allow Elasticsearch OSS clients and
-    #     plugins to continue working with it. Default is false when creating
-    #     a domain and true when upgrading a domain.
-    #
     #   For more information, see [Advanced cluster parameters][1].
     #
     #
@@ -3255,8 +5018,14 @@ module Aws::OpenSearchService
     #   Identity and Access Management (IAM) access policy as a JSON-formatted
     #   string.
     #
+    # @option params [String] :ip_address_type
+    #   Specify either dual stack or IPv4 as your IP address type. Dual stack
+    #   allows you to share domain resources across IPv4 and IPv6 address
+    #   types, and is the recommended option. If your IP address type is
+    #   currently set to dual stack, you can't change it.
+    #
     # @option params [Hash<String,Types::LogPublishingOption>] :log_publishing_options
-    #   Options to publish OpenSearch lots to Amazon CloudWatch Logs.
+    #   Options to publish OpenSearch logs to Amazon CloudWatch Logs.
     #
     # @option params [Types::EncryptionAtRestOptions] :encryption_at_rest_options
     #   Encryption at rest options for the domain.
@@ -3266,10 +5035,13 @@ module Aws::OpenSearchService
     #   HTTPS for all traffic.
     #
     # @option params [Types::NodeToNodeEncryptionOptions] :node_to_node_encryption_options
-    #   Node-To-Node Encryption options for the domain.
+    #   Node-to-node encryption options for the domain.
     #
     # @option params [Types::AdvancedSecurityOptionsInput] :advanced_security_options
     #   Options for fine-grained access control.
+    #
+    # @option params [Types::IdentityCenterOptionsInput] :identity_center_options
+    #   Container for IAM Identity Center Options settings.
     #
     # @option params [Types::AutoTuneOptions] :auto_tune_options
     #   Options for Auto-Tune.
@@ -3293,6 +5065,15 @@ module Aws::OpenSearchService
     #
     #   [1]: https://docs.aws.amazon.com/opensearch-service/latest/developerguide/managedomains-configuration-changes#validation-check
     #
+    # @option params [Types::OffPeakWindowOptions] :off_peak_window_options
+    #   Off-peak window options for the domain.
+    #
+    # @option params [Types::SoftwareUpdateOptions] :software_update_options
+    #   Service software update options for the domain.
+    #
+    # @option params [Types::AIMLOptionsInput] :aiml_options
+    #   Options for all machine learning features for the specified domain.
+    #
     # @return [Types::UpdateDomainConfigResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::UpdateDomainConfigResponse#domain_config #domain_config} => Types::DomainConfig
@@ -3304,14 +5085,14 @@ module Aws::OpenSearchService
     #   resp = client.update_domain_config({
     #     domain_name: "DomainName", # required
     #     cluster_config: {
-    #       instance_type: "m3.medium.search", # accepts m3.medium.search, m3.large.search, m3.xlarge.search, m3.2xlarge.search, m4.large.search, m4.xlarge.search, m4.2xlarge.search, m4.4xlarge.search, m4.10xlarge.search, m5.large.search, m5.xlarge.search, m5.2xlarge.search, m5.4xlarge.search, m5.12xlarge.search, m5.24xlarge.search, r5.large.search, r5.xlarge.search, r5.2xlarge.search, r5.4xlarge.search, r5.12xlarge.search, r5.24xlarge.search, c5.large.search, c5.xlarge.search, c5.2xlarge.search, c5.4xlarge.search, c5.9xlarge.search, c5.18xlarge.search, t3.nano.search, t3.micro.search, t3.small.search, t3.medium.search, t3.large.search, t3.xlarge.search, t3.2xlarge.search, ultrawarm1.medium.search, ultrawarm1.large.search, ultrawarm1.xlarge.search, t2.micro.search, t2.small.search, t2.medium.search, r3.large.search, r3.xlarge.search, r3.2xlarge.search, r3.4xlarge.search, r3.8xlarge.search, i2.xlarge.search, i2.2xlarge.search, d2.xlarge.search, d2.2xlarge.search, d2.4xlarge.search, d2.8xlarge.search, c4.large.search, c4.xlarge.search, c4.2xlarge.search, c4.4xlarge.search, c4.8xlarge.search, r4.large.search, r4.xlarge.search, r4.2xlarge.search, r4.4xlarge.search, r4.8xlarge.search, r4.16xlarge.search, i3.large.search, i3.xlarge.search, i3.2xlarge.search, i3.4xlarge.search, i3.8xlarge.search, i3.16xlarge.search, r6g.large.search, r6g.xlarge.search, r6g.2xlarge.search, r6g.4xlarge.search, r6g.8xlarge.search, r6g.12xlarge.search, m6g.large.search, m6g.xlarge.search, m6g.2xlarge.search, m6g.4xlarge.search, m6g.8xlarge.search, m6g.12xlarge.search, c6g.large.search, c6g.xlarge.search, c6g.2xlarge.search, c6g.4xlarge.search, c6g.8xlarge.search, c6g.12xlarge.search, r6gd.large.search, r6gd.xlarge.search, r6gd.2xlarge.search, r6gd.4xlarge.search, r6gd.8xlarge.search, r6gd.12xlarge.search, r6gd.16xlarge.search, t4g.small.search, t4g.medium.search
+    #       instance_type: "m3.medium.search", # accepts m3.medium.search, m3.large.search, m3.xlarge.search, m3.2xlarge.search, m4.large.search, m4.xlarge.search, m4.2xlarge.search, m4.4xlarge.search, m4.10xlarge.search, m5.large.search, m5.xlarge.search, m5.2xlarge.search, m5.4xlarge.search, m5.12xlarge.search, m5.24xlarge.search, r5.large.search, r5.xlarge.search, r5.2xlarge.search, r5.4xlarge.search, r5.12xlarge.search, r5.24xlarge.search, c5.large.search, c5.xlarge.search, c5.2xlarge.search, c5.4xlarge.search, c5.9xlarge.search, c5.18xlarge.search, t3.nano.search, t3.micro.search, t3.small.search, t3.medium.search, t3.large.search, t3.xlarge.search, t3.2xlarge.search, or1.medium.search, or1.large.search, or1.xlarge.search, or1.2xlarge.search, or1.4xlarge.search, or1.8xlarge.search, or1.12xlarge.search, or1.16xlarge.search, ultrawarm1.medium.search, ultrawarm1.large.search, ultrawarm1.xlarge.search, t2.micro.search, t2.small.search, t2.medium.search, r3.large.search, r3.xlarge.search, r3.2xlarge.search, r3.4xlarge.search, r3.8xlarge.search, i2.xlarge.search, i2.2xlarge.search, d2.xlarge.search, d2.2xlarge.search, d2.4xlarge.search, d2.8xlarge.search, c4.large.search, c4.xlarge.search, c4.2xlarge.search, c4.4xlarge.search, c4.8xlarge.search, r4.large.search, r4.xlarge.search, r4.2xlarge.search, r4.4xlarge.search, r4.8xlarge.search, r4.16xlarge.search, i3.large.search, i3.xlarge.search, i3.2xlarge.search, i3.4xlarge.search, i3.8xlarge.search, i3.16xlarge.search, r6g.large.search, r6g.xlarge.search, r6g.2xlarge.search, r6g.4xlarge.search, r6g.8xlarge.search, r6g.12xlarge.search, m6g.large.search, m6g.xlarge.search, m6g.2xlarge.search, m6g.4xlarge.search, m6g.8xlarge.search, m6g.12xlarge.search, c6g.large.search, c6g.xlarge.search, c6g.2xlarge.search, c6g.4xlarge.search, c6g.8xlarge.search, c6g.12xlarge.search, r6gd.large.search, r6gd.xlarge.search, r6gd.2xlarge.search, r6gd.4xlarge.search, r6gd.8xlarge.search, r6gd.12xlarge.search, r6gd.16xlarge.search, t4g.small.search, t4g.medium.search
     #       instance_count: 1,
     #       dedicated_master_enabled: false,
     #       zone_awareness_enabled: false,
     #       zone_awareness_config: {
     #         availability_zone_count: 1,
     #       },
-    #       dedicated_master_type: "m3.medium.search", # accepts m3.medium.search, m3.large.search, m3.xlarge.search, m3.2xlarge.search, m4.large.search, m4.xlarge.search, m4.2xlarge.search, m4.4xlarge.search, m4.10xlarge.search, m5.large.search, m5.xlarge.search, m5.2xlarge.search, m5.4xlarge.search, m5.12xlarge.search, m5.24xlarge.search, r5.large.search, r5.xlarge.search, r5.2xlarge.search, r5.4xlarge.search, r5.12xlarge.search, r5.24xlarge.search, c5.large.search, c5.xlarge.search, c5.2xlarge.search, c5.4xlarge.search, c5.9xlarge.search, c5.18xlarge.search, t3.nano.search, t3.micro.search, t3.small.search, t3.medium.search, t3.large.search, t3.xlarge.search, t3.2xlarge.search, ultrawarm1.medium.search, ultrawarm1.large.search, ultrawarm1.xlarge.search, t2.micro.search, t2.small.search, t2.medium.search, r3.large.search, r3.xlarge.search, r3.2xlarge.search, r3.4xlarge.search, r3.8xlarge.search, i2.xlarge.search, i2.2xlarge.search, d2.xlarge.search, d2.2xlarge.search, d2.4xlarge.search, d2.8xlarge.search, c4.large.search, c4.xlarge.search, c4.2xlarge.search, c4.4xlarge.search, c4.8xlarge.search, r4.large.search, r4.xlarge.search, r4.2xlarge.search, r4.4xlarge.search, r4.8xlarge.search, r4.16xlarge.search, i3.large.search, i3.xlarge.search, i3.2xlarge.search, i3.4xlarge.search, i3.8xlarge.search, i3.16xlarge.search, r6g.large.search, r6g.xlarge.search, r6g.2xlarge.search, r6g.4xlarge.search, r6g.8xlarge.search, r6g.12xlarge.search, m6g.large.search, m6g.xlarge.search, m6g.2xlarge.search, m6g.4xlarge.search, m6g.8xlarge.search, m6g.12xlarge.search, c6g.large.search, c6g.xlarge.search, c6g.2xlarge.search, c6g.4xlarge.search, c6g.8xlarge.search, c6g.12xlarge.search, r6gd.large.search, r6gd.xlarge.search, r6gd.2xlarge.search, r6gd.4xlarge.search, r6gd.8xlarge.search, r6gd.12xlarge.search, r6gd.16xlarge.search, t4g.small.search, t4g.medium.search
+    #       dedicated_master_type: "m3.medium.search", # accepts m3.medium.search, m3.large.search, m3.xlarge.search, m3.2xlarge.search, m4.large.search, m4.xlarge.search, m4.2xlarge.search, m4.4xlarge.search, m4.10xlarge.search, m5.large.search, m5.xlarge.search, m5.2xlarge.search, m5.4xlarge.search, m5.12xlarge.search, m5.24xlarge.search, r5.large.search, r5.xlarge.search, r5.2xlarge.search, r5.4xlarge.search, r5.12xlarge.search, r5.24xlarge.search, c5.large.search, c5.xlarge.search, c5.2xlarge.search, c5.4xlarge.search, c5.9xlarge.search, c5.18xlarge.search, t3.nano.search, t3.micro.search, t3.small.search, t3.medium.search, t3.large.search, t3.xlarge.search, t3.2xlarge.search, or1.medium.search, or1.large.search, or1.xlarge.search, or1.2xlarge.search, or1.4xlarge.search, or1.8xlarge.search, or1.12xlarge.search, or1.16xlarge.search, ultrawarm1.medium.search, ultrawarm1.large.search, ultrawarm1.xlarge.search, t2.micro.search, t2.small.search, t2.medium.search, r3.large.search, r3.xlarge.search, r3.2xlarge.search, r3.4xlarge.search, r3.8xlarge.search, i2.xlarge.search, i2.2xlarge.search, d2.xlarge.search, d2.2xlarge.search, d2.4xlarge.search, d2.8xlarge.search, c4.large.search, c4.xlarge.search, c4.2xlarge.search, c4.4xlarge.search, c4.8xlarge.search, r4.large.search, r4.xlarge.search, r4.2xlarge.search, r4.4xlarge.search, r4.8xlarge.search, r4.16xlarge.search, i3.large.search, i3.xlarge.search, i3.2xlarge.search, i3.4xlarge.search, i3.8xlarge.search, i3.16xlarge.search, r6g.large.search, r6g.xlarge.search, r6g.2xlarge.search, r6g.4xlarge.search, r6g.8xlarge.search, r6g.12xlarge.search, m6g.large.search, m6g.xlarge.search, m6g.2xlarge.search, m6g.4xlarge.search, m6g.8xlarge.search, m6g.12xlarge.search, c6g.large.search, c6g.xlarge.search, c6g.2xlarge.search, c6g.4xlarge.search, c6g.8xlarge.search, c6g.12xlarge.search, r6gd.large.search, r6gd.xlarge.search, r6gd.2xlarge.search, r6gd.4xlarge.search, r6gd.8xlarge.search, r6gd.12xlarge.search, r6gd.16xlarge.search, t4g.small.search, t4g.medium.search
     #       dedicated_master_count: 1,
     #       warm_enabled: false,
     #       warm_type: "ultrawarm1.medium.search", # accepts ultrawarm1.medium.search, ultrawarm1.large.search, ultrawarm1.xlarge.search
@@ -3319,6 +5100,17 @@ module Aws::OpenSearchService
     #       cold_storage_options: {
     #         enabled: false, # required
     #       },
+    #       multi_az_with_standby_enabled: false,
+    #       node_options: [
+    #         {
+    #           node_type: "coordinator", # accepts coordinator
+    #           node_config: {
+    #             enabled: false,
+    #             type: "m3.medium.search", # accepts m3.medium.search, m3.large.search, m3.xlarge.search, m3.2xlarge.search, m4.large.search, m4.xlarge.search, m4.2xlarge.search, m4.4xlarge.search, m4.10xlarge.search, m5.large.search, m5.xlarge.search, m5.2xlarge.search, m5.4xlarge.search, m5.12xlarge.search, m5.24xlarge.search, r5.large.search, r5.xlarge.search, r5.2xlarge.search, r5.4xlarge.search, r5.12xlarge.search, r5.24xlarge.search, c5.large.search, c5.xlarge.search, c5.2xlarge.search, c5.4xlarge.search, c5.9xlarge.search, c5.18xlarge.search, t3.nano.search, t3.micro.search, t3.small.search, t3.medium.search, t3.large.search, t3.xlarge.search, t3.2xlarge.search, or1.medium.search, or1.large.search, or1.xlarge.search, or1.2xlarge.search, or1.4xlarge.search, or1.8xlarge.search, or1.12xlarge.search, or1.16xlarge.search, ultrawarm1.medium.search, ultrawarm1.large.search, ultrawarm1.xlarge.search, t2.micro.search, t2.small.search, t2.medium.search, r3.large.search, r3.xlarge.search, r3.2xlarge.search, r3.4xlarge.search, r3.8xlarge.search, i2.xlarge.search, i2.2xlarge.search, d2.xlarge.search, d2.2xlarge.search, d2.4xlarge.search, d2.8xlarge.search, c4.large.search, c4.xlarge.search, c4.2xlarge.search, c4.4xlarge.search, c4.8xlarge.search, r4.large.search, r4.xlarge.search, r4.2xlarge.search, r4.4xlarge.search, r4.8xlarge.search, r4.16xlarge.search, i3.large.search, i3.xlarge.search, i3.2xlarge.search, i3.4xlarge.search, i3.8xlarge.search, i3.16xlarge.search, r6g.large.search, r6g.xlarge.search, r6g.2xlarge.search, r6g.4xlarge.search, r6g.8xlarge.search, r6g.12xlarge.search, m6g.large.search, m6g.xlarge.search, m6g.2xlarge.search, m6g.4xlarge.search, m6g.8xlarge.search, m6g.12xlarge.search, c6g.large.search, c6g.xlarge.search, c6g.2xlarge.search, c6g.4xlarge.search, c6g.8xlarge.search, c6g.12xlarge.search, r6gd.large.search, r6gd.xlarge.search, r6gd.2xlarge.search, r6gd.4xlarge.search, r6gd.8xlarge.search, r6gd.12xlarge.search, r6gd.16xlarge.search, t4g.small.search, t4g.medium.search
+    #             count: 1,
+    #           },
+    #         },
+    #       ],
     #     },
     #     ebs_options: {
     #       ebs_enabled: false,
@@ -3344,6 +5136,7 @@ module Aws::OpenSearchService
     #       "String" => "String",
     #     },
     #     access_policies: "PolicyDocument",
+    #     ip_address_type: "ipv4", # accepts ipv4, dualstack
     #     log_publishing_options: {
     #       "INDEX_SLOW_LOGS" => {
     #         cloud_watch_logs_log_group_arn: "CloudWatchLogsLogGroupArn",
@@ -3356,7 +5149,7 @@ module Aws::OpenSearchService
     #     },
     #     domain_endpoint_options: {
     #       enforce_https: false,
-    #       tls_security_policy: "Policy-Min-TLS-1-0-2019-07", # accepts Policy-Min-TLS-1-0-2019-07, Policy-Min-TLS-1-2-2019-07
+    #       tls_security_policy: "Policy-Min-TLS-1-0-2019-07", # accepts Policy-Min-TLS-1-0-2019-07, Policy-Min-TLS-1-2-2019-07, Policy-Min-TLS-1-2-PFS-2023-10
     #       custom_endpoint_enabled: false,
     #       custom_endpoint: "DomainNameFqdn",
     #       custom_endpoint_certificate_arn: "ARN",
@@ -3384,7 +5177,19 @@ module Aws::OpenSearchService
     #         roles_key: "String",
     #         session_timeout_minutes: 1,
     #       },
+    #       jwt_options: {
+    #         enabled: false,
+    #         subject_key: "SubjectKey",
+    #         roles_key: "RolesKey",
+    #         public_key: "String",
+    #       },
     #       anonymous_auth_enabled: false,
+    #     },
+    #     identity_center_options: {
+    #       enabled_api_access: false,
+    #       identity_center_instance_arn: "IdentityCenterInstanceARN",
+    #       subject_key: "UserName", # accepts UserName, UserId, Email
+    #       roles_key: "GroupName", # accepts GroupName, GroupId
     #     },
     #     auto_tune_options: {
     #       desired_state: "ENABLED", # accepts ENABLED, DISABLED
@@ -3399,9 +5204,27 @@ module Aws::OpenSearchService
     #           cron_expression_for_recurrence: "String",
     #         },
     #       ],
+    #       use_off_peak_window: false,
     #     },
     #     dry_run: false,
     #     dry_run_mode: "Basic", # accepts Basic, Verbose
+    #     off_peak_window_options: {
+    #       enabled: false,
+    #       off_peak_window: {
+    #         window_start_time: {
+    #           hours: 1, # required
+    #           minutes: 1, # required
+    #         },
+    #       },
+    #     },
+    #     software_update_options: {
+    #       auto_software_update_enabled: false,
+    #     },
+    #     aiml_options: {
+    #       natural_language_query_generation_options: {
+    #         desired_state: "ENABLED", # accepts ENABLED, DISABLED
+    #       },
+    #     },
     #   })
     #
     # @example Response structure
@@ -3412,17 +5235,23 @@ module Aws::OpenSearchService
     #   resp.domain_config.engine_version.status.update_version #=> Integer
     #   resp.domain_config.engine_version.status.state #=> String, one of "RequiresIndexDocuments", "Processing", "Active"
     #   resp.domain_config.engine_version.status.pending_deletion #=> Boolean
-    #   resp.domain_config.cluster_config.options.instance_type #=> String, one of "m3.medium.search", "m3.large.search", "m3.xlarge.search", "m3.2xlarge.search", "m4.large.search", "m4.xlarge.search", "m4.2xlarge.search", "m4.4xlarge.search", "m4.10xlarge.search", "m5.large.search", "m5.xlarge.search", "m5.2xlarge.search", "m5.4xlarge.search", "m5.12xlarge.search", "m5.24xlarge.search", "r5.large.search", "r5.xlarge.search", "r5.2xlarge.search", "r5.4xlarge.search", "r5.12xlarge.search", "r5.24xlarge.search", "c5.large.search", "c5.xlarge.search", "c5.2xlarge.search", "c5.4xlarge.search", "c5.9xlarge.search", "c5.18xlarge.search", "t3.nano.search", "t3.micro.search", "t3.small.search", "t3.medium.search", "t3.large.search", "t3.xlarge.search", "t3.2xlarge.search", "ultrawarm1.medium.search", "ultrawarm1.large.search", "ultrawarm1.xlarge.search", "t2.micro.search", "t2.small.search", "t2.medium.search", "r3.large.search", "r3.xlarge.search", "r3.2xlarge.search", "r3.4xlarge.search", "r3.8xlarge.search", "i2.xlarge.search", "i2.2xlarge.search", "d2.xlarge.search", "d2.2xlarge.search", "d2.4xlarge.search", "d2.8xlarge.search", "c4.large.search", "c4.xlarge.search", "c4.2xlarge.search", "c4.4xlarge.search", "c4.8xlarge.search", "r4.large.search", "r4.xlarge.search", "r4.2xlarge.search", "r4.4xlarge.search", "r4.8xlarge.search", "r4.16xlarge.search", "i3.large.search", "i3.xlarge.search", "i3.2xlarge.search", "i3.4xlarge.search", "i3.8xlarge.search", "i3.16xlarge.search", "r6g.large.search", "r6g.xlarge.search", "r6g.2xlarge.search", "r6g.4xlarge.search", "r6g.8xlarge.search", "r6g.12xlarge.search", "m6g.large.search", "m6g.xlarge.search", "m6g.2xlarge.search", "m6g.4xlarge.search", "m6g.8xlarge.search", "m6g.12xlarge.search", "c6g.large.search", "c6g.xlarge.search", "c6g.2xlarge.search", "c6g.4xlarge.search", "c6g.8xlarge.search", "c6g.12xlarge.search", "r6gd.large.search", "r6gd.xlarge.search", "r6gd.2xlarge.search", "r6gd.4xlarge.search", "r6gd.8xlarge.search", "r6gd.12xlarge.search", "r6gd.16xlarge.search", "t4g.small.search", "t4g.medium.search"
+    #   resp.domain_config.cluster_config.options.instance_type #=> String, one of "m3.medium.search", "m3.large.search", "m3.xlarge.search", "m3.2xlarge.search", "m4.large.search", "m4.xlarge.search", "m4.2xlarge.search", "m4.4xlarge.search", "m4.10xlarge.search", "m5.large.search", "m5.xlarge.search", "m5.2xlarge.search", "m5.4xlarge.search", "m5.12xlarge.search", "m5.24xlarge.search", "r5.large.search", "r5.xlarge.search", "r5.2xlarge.search", "r5.4xlarge.search", "r5.12xlarge.search", "r5.24xlarge.search", "c5.large.search", "c5.xlarge.search", "c5.2xlarge.search", "c5.4xlarge.search", "c5.9xlarge.search", "c5.18xlarge.search", "t3.nano.search", "t3.micro.search", "t3.small.search", "t3.medium.search", "t3.large.search", "t3.xlarge.search", "t3.2xlarge.search", "or1.medium.search", "or1.large.search", "or1.xlarge.search", "or1.2xlarge.search", "or1.4xlarge.search", "or1.8xlarge.search", "or1.12xlarge.search", "or1.16xlarge.search", "ultrawarm1.medium.search", "ultrawarm1.large.search", "ultrawarm1.xlarge.search", "t2.micro.search", "t2.small.search", "t2.medium.search", "r3.large.search", "r3.xlarge.search", "r3.2xlarge.search", "r3.4xlarge.search", "r3.8xlarge.search", "i2.xlarge.search", "i2.2xlarge.search", "d2.xlarge.search", "d2.2xlarge.search", "d2.4xlarge.search", "d2.8xlarge.search", "c4.large.search", "c4.xlarge.search", "c4.2xlarge.search", "c4.4xlarge.search", "c4.8xlarge.search", "r4.large.search", "r4.xlarge.search", "r4.2xlarge.search", "r4.4xlarge.search", "r4.8xlarge.search", "r4.16xlarge.search", "i3.large.search", "i3.xlarge.search", "i3.2xlarge.search", "i3.4xlarge.search", "i3.8xlarge.search", "i3.16xlarge.search", "r6g.large.search", "r6g.xlarge.search", "r6g.2xlarge.search", "r6g.4xlarge.search", "r6g.8xlarge.search", "r6g.12xlarge.search", "m6g.large.search", "m6g.xlarge.search", "m6g.2xlarge.search", "m6g.4xlarge.search", "m6g.8xlarge.search", "m6g.12xlarge.search", "c6g.large.search", "c6g.xlarge.search", "c6g.2xlarge.search", "c6g.4xlarge.search", "c6g.8xlarge.search", "c6g.12xlarge.search", "r6gd.large.search", "r6gd.xlarge.search", "r6gd.2xlarge.search", "r6gd.4xlarge.search", "r6gd.8xlarge.search", "r6gd.12xlarge.search", "r6gd.16xlarge.search", "t4g.small.search", "t4g.medium.search"
     #   resp.domain_config.cluster_config.options.instance_count #=> Integer
     #   resp.domain_config.cluster_config.options.dedicated_master_enabled #=> Boolean
     #   resp.domain_config.cluster_config.options.zone_awareness_enabled #=> Boolean
     #   resp.domain_config.cluster_config.options.zone_awareness_config.availability_zone_count #=> Integer
-    #   resp.domain_config.cluster_config.options.dedicated_master_type #=> String, one of "m3.medium.search", "m3.large.search", "m3.xlarge.search", "m3.2xlarge.search", "m4.large.search", "m4.xlarge.search", "m4.2xlarge.search", "m4.4xlarge.search", "m4.10xlarge.search", "m5.large.search", "m5.xlarge.search", "m5.2xlarge.search", "m5.4xlarge.search", "m5.12xlarge.search", "m5.24xlarge.search", "r5.large.search", "r5.xlarge.search", "r5.2xlarge.search", "r5.4xlarge.search", "r5.12xlarge.search", "r5.24xlarge.search", "c5.large.search", "c5.xlarge.search", "c5.2xlarge.search", "c5.4xlarge.search", "c5.9xlarge.search", "c5.18xlarge.search", "t3.nano.search", "t3.micro.search", "t3.small.search", "t3.medium.search", "t3.large.search", "t3.xlarge.search", "t3.2xlarge.search", "ultrawarm1.medium.search", "ultrawarm1.large.search", "ultrawarm1.xlarge.search", "t2.micro.search", "t2.small.search", "t2.medium.search", "r3.large.search", "r3.xlarge.search", "r3.2xlarge.search", "r3.4xlarge.search", "r3.8xlarge.search", "i2.xlarge.search", "i2.2xlarge.search", "d2.xlarge.search", "d2.2xlarge.search", "d2.4xlarge.search", "d2.8xlarge.search", "c4.large.search", "c4.xlarge.search", "c4.2xlarge.search", "c4.4xlarge.search", "c4.8xlarge.search", "r4.large.search", "r4.xlarge.search", "r4.2xlarge.search", "r4.4xlarge.search", "r4.8xlarge.search", "r4.16xlarge.search", "i3.large.search", "i3.xlarge.search", "i3.2xlarge.search", "i3.4xlarge.search", "i3.8xlarge.search", "i3.16xlarge.search", "r6g.large.search", "r6g.xlarge.search", "r6g.2xlarge.search", "r6g.4xlarge.search", "r6g.8xlarge.search", "r6g.12xlarge.search", "m6g.large.search", "m6g.xlarge.search", "m6g.2xlarge.search", "m6g.4xlarge.search", "m6g.8xlarge.search", "m6g.12xlarge.search", "c6g.large.search", "c6g.xlarge.search", "c6g.2xlarge.search", "c6g.4xlarge.search", "c6g.8xlarge.search", "c6g.12xlarge.search", "r6gd.large.search", "r6gd.xlarge.search", "r6gd.2xlarge.search", "r6gd.4xlarge.search", "r6gd.8xlarge.search", "r6gd.12xlarge.search", "r6gd.16xlarge.search", "t4g.small.search", "t4g.medium.search"
+    #   resp.domain_config.cluster_config.options.dedicated_master_type #=> String, one of "m3.medium.search", "m3.large.search", "m3.xlarge.search", "m3.2xlarge.search", "m4.large.search", "m4.xlarge.search", "m4.2xlarge.search", "m4.4xlarge.search", "m4.10xlarge.search", "m5.large.search", "m5.xlarge.search", "m5.2xlarge.search", "m5.4xlarge.search", "m5.12xlarge.search", "m5.24xlarge.search", "r5.large.search", "r5.xlarge.search", "r5.2xlarge.search", "r5.4xlarge.search", "r5.12xlarge.search", "r5.24xlarge.search", "c5.large.search", "c5.xlarge.search", "c5.2xlarge.search", "c5.4xlarge.search", "c5.9xlarge.search", "c5.18xlarge.search", "t3.nano.search", "t3.micro.search", "t3.small.search", "t3.medium.search", "t3.large.search", "t3.xlarge.search", "t3.2xlarge.search", "or1.medium.search", "or1.large.search", "or1.xlarge.search", "or1.2xlarge.search", "or1.4xlarge.search", "or1.8xlarge.search", "or1.12xlarge.search", "or1.16xlarge.search", "ultrawarm1.medium.search", "ultrawarm1.large.search", "ultrawarm1.xlarge.search", "t2.micro.search", "t2.small.search", "t2.medium.search", "r3.large.search", "r3.xlarge.search", "r3.2xlarge.search", "r3.4xlarge.search", "r3.8xlarge.search", "i2.xlarge.search", "i2.2xlarge.search", "d2.xlarge.search", "d2.2xlarge.search", "d2.4xlarge.search", "d2.8xlarge.search", "c4.large.search", "c4.xlarge.search", "c4.2xlarge.search", "c4.4xlarge.search", "c4.8xlarge.search", "r4.large.search", "r4.xlarge.search", "r4.2xlarge.search", "r4.4xlarge.search", "r4.8xlarge.search", "r4.16xlarge.search", "i3.large.search", "i3.xlarge.search", "i3.2xlarge.search", "i3.4xlarge.search", "i3.8xlarge.search", "i3.16xlarge.search", "r6g.large.search", "r6g.xlarge.search", "r6g.2xlarge.search", "r6g.4xlarge.search", "r6g.8xlarge.search", "r6g.12xlarge.search", "m6g.large.search", "m6g.xlarge.search", "m6g.2xlarge.search", "m6g.4xlarge.search", "m6g.8xlarge.search", "m6g.12xlarge.search", "c6g.large.search", "c6g.xlarge.search", "c6g.2xlarge.search", "c6g.4xlarge.search", "c6g.8xlarge.search", "c6g.12xlarge.search", "r6gd.large.search", "r6gd.xlarge.search", "r6gd.2xlarge.search", "r6gd.4xlarge.search", "r6gd.8xlarge.search", "r6gd.12xlarge.search", "r6gd.16xlarge.search", "t4g.small.search", "t4g.medium.search"
     #   resp.domain_config.cluster_config.options.dedicated_master_count #=> Integer
     #   resp.domain_config.cluster_config.options.warm_enabled #=> Boolean
     #   resp.domain_config.cluster_config.options.warm_type #=> String, one of "ultrawarm1.medium.search", "ultrawarm1.large.search", "ultrawarm1.xlarge.search"
     #   resp.domain_config.cluster_config.options.warm_count #=> Integer
     #   resp.domain_config.cluster_config.options.cold_storage_options.enabled #=> Boolean
+    #   resp.domain_config.cluster_config.options.multi_az_with_standby_enabled #=> Boolean
+    #   resp.domain_config.cluster_config.options.node_options #=> Array
+    #   resp.domain_config.cluster_config.options.node_options[0].node_type #=> String, one of "coordinator"
+    #   resp.domain_config.cluster_config.options.node_options[0].node_config.enabled #=> Boolean
+    #   resp.domain_config.cluster_config.options.node_options[0].node_config.type #=> String, one of "m3.medium.search", "m3.large.search", "m3.xlarge.search", "m3.2xlarge.search", "m4.large.search", "m4.xlarge.search", "m4.2xlarge.search", "m4.4xlarge.search", "m4.10xlarge.search", "m5.large.search", "m5.xlarge.search", "m5.2xlarge.search", "m5.4xlarge.search", "m5.12xlarge.search", "m5.24xlarge.search", "r5.large.search", "r5.xlarge.search", "r5.2xlarge.search", "r5.4xlarge.search", "r5.12xlarge.search", "r5.24xlarge.search", "c5.large.search", "c5.xlarge.search", "c5.2xlarge.search", "c5.4xlarge.search", "c5.9xlarge.search", "c5.18xlarge.search", "t3.nano.search", "t3.micro.search", "t3.small.search", "t3.medium.search", "t3.large.search", "t3.xlarge.search", "t3.2xlarge.search", "or1.medium.search", "or1.large.search", "or1.xlarge.search", "or1.2xlarge.search", "or1.4xlarge.search", "or1.8xlarge.search", "or1.12xlarge.search", "or1.16xlarge.search", "ultrawarm1.medium.search", "ultrawarm1.large.search", "ultrawarm1.xlarge.search", "t2.micro.search", "t2.small.search", "t2.medium.search", "r3.large.search", "r3.xlarge.search", "r3.2xlarge.search", "r3.4xlarge.search", "r3.8xlarge.search", "i2.xlarge.search", "i2.2xlarge.search", "d2.xlarge.search", "d2.2xlarge.search", "d2.4xlarge.search", "d2.8xlarge.search", "c4.large.search", "c4.xlarge.search", "c4.2xlarge.search", "c4.4xlarge.search", "c4.8xlarge.search", "r4.large.search", "r4.xlarge.search", "r4.2xlarge.search", "r4.4xlarge.search", "r4.8xlarge.search", "r4.16xlarge.search", "i3.large.search", "i3.xlarge.search", "i3.2xlarge.search", "i3.4xlarge.search", "i3.8xlarge.search", "i3.16xlarge.search", "r6g.large.search", "r6g.xlarge.search", "r6g.2xlarge.search", "r6g.4xlarge.search", "r6g.8xlarge.search", "r6g.12xlarge.search", "m6g.large.search", "m6g.xlarge.search", "m6g.2xlarge.search", "m6g.4xlarge.search", "m6g.8xlarge.search", "m6g.12xlarge.search", "c6g.large.search", "c6g.xlarge.search", "c6g.2xlarge.search", "c6g.4xlarge.search", "c6g.8xlarge.search", "c6g.12xlarge.search", "r6gd.large.search", "r6gd.xlarge.search", "r6gd.2xlarge.search", "r6gd.4xlarge.search", "r6gd.8xlarge.search", "r6gd.12xlarge.search", "r6gd.16xlarge.search", "t4g.small.search", "t4g.medium.search"
+    #   resp.domain_config.cluster_config.options.node_options[0].node_config.count #=> Integer
     #   resp.domain_config.cluster_config.status.creation_date #=> Time
     #   resp.domain_config.cluster_config.status.update_date #=> Time
     #   resp.domain_config.cluster_config.status.update_version #=> Integer
@@ -3444,6 +5273,12 @@ module Aws::OpenSearchService
     #   resp.domain_config.access_policies.status.update_version #=> Integer
     #   resp.domain_config.access_policies.status.state #=> String, one of "RequiresIndexDocuments", "Processing", "Active"
     #   resp.domain_config.access_policies.status.pending_deletion #=> Boolean
+    #   resp.domain_config.ip_address_type.options #=> String, one of "ipv4", "dualstack"
+    #   resp.domain_config.ip_address_type.status.creation_date #=> Time
+    #   resp.domain_config.ip_address_type.status.update_date #=> Time
+    #   resp.domain_config.ip_address_type.status.update_version #=> Integer
+    #   resp.domain_config.ip_address_type.status.state #=> String, one of "RequiresIndexDocuments", "Processing", "Active"
+    #   resp.domain_config.ip_address_type.status.pending_deletion #=> Boolean
     #   resp.domain_config.snapshot_options.options.automated_snapshot_start_hour #=> Integer
     #   resp.domain_config.snapshot_options.status.creation_date #=> Time
     #   resp.domain_config.snapshot_options.status.update_date #=> Time
@@ -3500,7 +5335,7 @@ module Aws::OpenSearchService
     #   resp.domain_config.log_publishing_options.status.state #=> String, one of "RequiresIndexDocuments", "Processing", "Active"
     #   resp.domain_config.log_publishing_options.status.pending_deletion #=> Boolean
     #   resp.domain_config.domain_endpoint_options.options.enforce_https #=> Boolean
-    #   resp.domain_config.domain_endpoint_options.options.tls_security_policy #=> String, one of "Policy-Min-TLS-1-0-2019-07", "Policy-Min-TLS-1-2-2019-07"
+    #   resp.domain_config.domain_endpoint_options.options.tls_security_policy #=> String, one of "Policy-Min-TLS-1-0-2019-07", "Policy-Min-TLS-1-2-2019-07", "Policy-Min-TLS-1-2-PFS-2023-10"
     #   resp.domain_config.domain_endpoint_options.options.custom_endpoint_enabled #=> Boolean
     #   resp.domain_config.domain_endpoint_options.options.custom_endpoint #=> String
     #   resp.domain_config.domain_endpoint_options.options.custom_endpoint_certificate_arn #=> String
@@ -3517,6 +5352,10 @@ module Aws::OpenSearchService
     #   resp.domain_config.advanced_security_options.options.saml_options.subject_key #=> String
     #   resp.domain_config.advanced_security_options.options.saml_options.roles_key #=> String
     #   resp.domain_config.advanced_security_options.options.saml_options.session_timeout_minutes #=> Integer
+    #   resp.domain_config.advanced_security_options.options.jwt_options.enabled #=> Boolean
+    #   resp.domain_config.advanced_security_options.options.jwt_options.subject_key #=> String
+    #   resp.domain_config.advanced_security_options.options.jwt_options.roles_key #=> String
+    #   resp.domain_config.advanced_security_options.options.jwt_options.public_key #=> String
     #   resp.domain_config.advanced_security_options.options.anonymous_auth_disable_date #=> Time
     #   resp.domain_config.advanced_security_options.options.anonymous_auth_enabled #=> Boolean
     #   resp.domain_config.advanced_security_options.status.creation_date #=> Time
@@ -3524,6 +5363,17 @@ module Aws::OpenSearchService
     #   resp.domain_config.advanced_security_options.status.update_version #=> Integer
     #   resp.domain_config.advanced_security_options.status.state #=> String, one of "RequiresIndexDocuments", "Processing", "Active"
     #   resp.domain_config.advanced_security_options.status.pending_deletion #=> Boolean
+    #   resp.domain_config.identity_center_options.options.enabled_api_access #=> Boolean
+    #   resp.domain_config.identity_center_options.options.identity_center_instance_arn #=> String
+    #   resp.domain_config.identity_center_options.options.subject_key #=> String, one of "UserName", "UserId", "Email"
+    #   resp.domain_config.identity_center_options.options.roles_key #=> String, one of "GroupName", "GroupId"
+    #   resp.domain_config.identity_center_options.options.identity_center_application_arn #=> String
+    #   resp.domain_config.identity_center_options.options.identity_store_id #=> String
+    #   resp.domain_config.identity_center_options.status.creation_date #=> Time
+    #   resp.domain_config.identity_center_options.status.update_date #=> Time
+    #   resp.domain_config.identity_center_options.status.update_version #=> Integer
+    #   resp.domain_config.identity_center_options.status.state #=> String, one of "RequiresIndexDocuments", "Processing", "Active"
+    #   resp.domain_config.identity_center_options.status.pending_deletion #=> Boolean
     #   resp.domain_config.auto_tune_options.options.desired_state #=> String, one of "ENABLED", "DISABLED"
     #   resp.domain_config.auto_tune_options.options.rollback_on_disable #=> String, one of "NO_ROLLBACK", "DEFAULT_ROLLBACK"
     #   resp.domain_config.auto_tune_options.options.maintenance_schedules #=> Array
@@ -3531,6 +5381,7 @@ module Aws::OpenSearchService
     #   resp.domain_config.auto_tune_options.options.maintenance_schedules[0].duration.value #=> Integer
     #   resp.domain_config.auto_tune_options.options.maintenance_schedules[0].duration.unit #=> String, one of "HOURS"
     #   resp.domain_config.auto_tune_options.options.maintenance_schedules[0].cron_expression_for_recurrence #=> String
+    #   resp.domain_config.auto_tune_options.options.use_off_peak_window #=> Boolean
     #   resp.domain_config.auto_tune_options.status.creation_date #=> Time
     #   resp.domain_config.auto_tune_options.status.update_date #=> Time
     #   resp.domain_config.auto_tune_options.status.update_version #=> Integer
@@ -3539,6 +5390,36 @@ module Aws::OpenSearchService
     #   resp.domain_config.auto_tune_options.status.pending_deletion #=> Boolean
     #   resp.domain_config.change_progress_details.change_id #=> String
     #   resp.domain_config.change_progress_details.message #=> String
+    #   resp.domain_config.change_progress_details.config_change_status #=> String, one of "Pending", "Initializing", "Validating", "ValidationFailed", "ApplyingChanges", "Completed", "PendingUserInput", "Cancelled"
+    #   resp.domain_config.change_progress_details.initiated_by #=> String, one of "CUSTOMER", "SERVICE"
+    #   resp.domain_config.change_progress_details.start_time #=> Time
+    #   resp.domain_config.change_progress_details.last_updated_time #=> Time
+    #   resp.domain_config.off_peak_window_options.options.enabled #=> Boolean
+    #   resp.domain_config.off_peak_window_options.options.off_peak_window.window_start_time.hours #=> Integer
+    #   resp.domain_config.off_peak_window_options.options.off_peak_window.window_start_time.minutes #=> Integer
+    #   resp.domain_config.off_peak_window_options.status.creation_date #=> Time
+    #   resp.domain_config.off_peak_window_options.status.update_date #=> Time
+    #   resp.domain_config.off_peak_window_options.status.update_version #=> Integer
+    #   resp.domain_config.off_peak_window_options.status.state #=> String, one of "RequiresIndexDocuments", "Processing", "Active"
+    #   resp.domain_config.off_peak_window_options.status.pending_deletion #=> Boolean
+    #   resp.domain_config.software_update_options.options.auto_software_update_enabled #=> Boolean
+    #   resp.domain_config.software_update_options.status.creation_date #=> Time
+    #   resp.domain_config.software_update_options.status.update_date #=> Time
+    #   resp.domain_config.software_update_options.status.update_version #=> Integer
+    #   resp.domain_config.software_update_options.status.state #=> String, one of "RequiresIndexDocuments", "Processing", "Active"
+    #   resp.domain_config.software_update_options.status.pending_deletion #=> Boolean
+    #   resp.domain_config.modifying_properties #=> Array
+    #   resp.domain_config.modifying_properties[0].name #=> String
+    #   resp.domain_config.modifying_properties[0].active_value #=> String
+    #   resp.domain_config.modifying_properties[0].pending_value #=> String
+    #   resp.domain_config.modifying_properties[0].value_type #=> String, one of "PLAIN_TEXT", "STRINGIFIED_JSON"
+    #   resp.domain_config.aiml_options.options.natural_language_query_generation_options.desired_state #=> String, one of "ENABLED", "DISABLED"
+    #   resp.domain_config.aiml_options.options.natural_language_query_generation_options.current_state #=> String, one of "NOT_ENABLED", "ENABLE_COMPLETE", "ENABLE_IN_PROGRESS", "ENABLE_FAILED", "DISABLE_COMPLETE", "DISABLE_IN_PROGRESS", "DISABLE_FAILED"
+    #   resp.domain_config.aiml_options.status.creation_date #=> Time
+    #   resp.domain_config.aiml_options.status.update_date #=> Time
+    #   resp.domain_config.aiml_options.status.update_version #=> Integer
+    #   resp.domain_config.aiml_options.status.state #=> String, one of "RequiresIndexDocuments", "Processing", "Active"
+    #   resp.domain_config.aiml_options.status.pending_deletion #=> Boolean
     #   resp.dry_run_results.deployment_type #=> String
     #   resp.dry_run_results.message #=> String
     #   resp.dry_run_progress_status.dry_run_id #=> String
@@ -3579,6 +5460,12 @@ module Aws::OpenSearchService
     #   Commit message for the updated file, which is shown as part of
     #   `GetPackageVersionHistoryResponse`.
     #
+    # @option params [Types::PackageConfiguration] :package_configuration
+    #   The updated configuration details for a package.
+    #
+    # @option params [Types::PackageEncryptionOptions] :package_encryption_options
+    #   Encryption options for a package.
+    #
     # @return [Types::UpdatePackageResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::UpdatePackageResponse#package_details #package_details} => Types::PackageDetails
@@ -3593,13 +5480,23 @@ module Aws::OpenSearchService
     #     },
     #     package_description: "PackageDescription",
     #     commit_message: "CommitMessage",
+    #     package_configuration: {
+    #       license_requirement: "REQUIRED", # required, accepts REQUIRED, OPTIONAL, NONE
+    #       license_filepath: "LicenseFilepath",
+    #       configuration_requirement: "REQUIRED", # required, accepts REQUIRED, OPTIONAL, NONE
+    #       requires_restart_for_configuration_update: false,
+    #     },
+    #     package_encryption_options: {
+    #       kms_key_identifier: "KmsKeyId",
+    #       encryption_enabled: false, # required
+    #     },
     #   })
     #
     # @example Response structure
     #
     #   resp.package_details.package_id #=> String
     #   resp.package_details.package_name #=> String
-    #   resp.package_details.package_type #=> String, one of "TXT-DICTIONARY"
+    #   resp.package_details.package_type #=> String, one of "TXT-DICTIONARY", "ZIP-PLUGIN", "PACKAGE-LICENSE", "PACKAGE-CONFIG"
     #   resp.package_details.package_description #=> String
     #   resp.package_details.package_status #=> String, one of "COPYING", "COPY_FAILED", "VALIDATING", "VALIDATION_FAILED", "AVAILABLE", "DELETING", "DELETED", "DELETE_FAILED"
     #   resp.package_details.created_at #=> Time
@@ -3607,6 +5504,22 @@ module Aws::OpenSearchService
     #   resp.package_details.available_package_version #=> String
     #   resp.package_details.error_details.error_type #=> String
     #   resp.package_details.error_details.error_message #=> String
+    #   resp.package_details.engine_version #=> String
+    #   resp.package_details.available_plugin_properties.name #=> String
+    #   resp.package_details.available_plugin_properties.description #=> String
+    #   resp.package_details.available_plugin_properties.version #=> String
+    #   resp.package_details.available_plugin_properties.class_name #=> String
+    #   resp.package_details.available_plugin_properties.uncompressed_size_in_bytes #=> Integer
+    #   resp.package_details.available_package_configuration.license_requirement #=> String, one of "REQUIRED", "OPTIONAL", "NONE"
+    #   resp.package_details.available_package_configuration.license_filepath #=> String
+    #   resp.package_details.available_package_configuration.configuration_requirement #=> String, one of "REQUIRED", "OPTIONAL", "NONE"
+    #   resp.package_details.available_package_configuration.requires_restart_for_configuration_update #=> Boolean
+    #   resp.package_details.allow_listed_user_list #=> Array
+    #   resp.package_details.allow_listed_user_list[0] #=> String
+    #   resp.package_details.package_owner #=> String
+    #   resp.package_details.package_vending_options.vending_enabled #=> Boolean
+    #   resp.package_details.package_encryption_options.kms_key_identifier #=> String
+    #   resp.package_details.package_encryption_options.encryption_enabled #=> Boolean
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/UpdatePackage AWS API Documentation
     #
@@ -3614,6 +5527,133 @@ module Aws::OpenSearchService
     # @param [Hash] params ({})
     def update_package(params = {}, options = {})
       req = build_request(:update_package, params)
+      req.send_request(options)
+    end
+
+    # Updates the scope of a package. Scope of the package defines users who
+    # can view and associate a package.
+    #
+    # @option params [required, String] :package_id
+    #   ID of the package whose scope is being updated.
+    #
+    # @option params [required, String] :operation
+    #   The operation to perform on the package scope (e.g.,
+    #   add/remove/override users).
+    #
+    # @option params [required, Array<String>] :package_user_list
+    #   List of users to be added or removed from the package scope.
+    #
+    # @return [Types::UpdatePackageScopeResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdatePackageScopeResponse#package_id #package_id} => String
+    #   * {Types::UpdatePackageScopeResponse#operation #operation} => String
+    #   * {Types::UpdatePackageScopeResponse#package_user_list #package_user_list} => Array&lt;String&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_package_scope({
+    #     package_id: "PackageID", # required
+    #     operation: "ADD", # required, accepts ADD, OVERRIDE, REMOVE
+    #     package_user_list: ["PackageUser"], # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.package_id #=> String
+    #   resp.operation #=> String, one of "ADD", "OVERRIDE", "REMOVE"
+    #   resp.package_user_list #=> Array
+    #   resp.package_user_list[0] #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/UpdatePackageScope AWS API Documentation
+    #
+    # @overload update_package_scope(params = {})
+    # @param [Hash] params ({})
+    def update_package_scope(params = {}, options = {})
+      req = build_request(:update_package_scope, params)
+      req.send_request(options)
+    end
+
+    # Reschedules a planned domain configuration change for a later time.
+    # This change can be a scheduled [service software update][1] or a
+    # [blue/green Auto-Tune enhancement][2].
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/opensearch-service/latest/developerguide/service-software.html
+    # [2]: https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html#auto-tune-types
+    #
+    # @option params [required, String] :domain_name
+    #   The name of the domain to reschedule an action for.
+    #
+    # @option params [required, String] :action_id
+    #   The unique identifier of the action to reschedule. To retrieve this
+    #   ID, send a [ListScheduledActions][1] request.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/opensearch-service/latest/APIReference/API_ListScheduledActions.html
+    #
+    # @option params [required, String] :action_type
+    #   The type of action to reschedule. Can be one of
+    #   `SERVICE_SOFTWARE_UPDATE`, `JVM_HEAP_SIZE_TUNING`, or
+    #   `JVM_YOUNG_GEN_TUNING`. To retrieve this value, send a
+    #   [ListScheduledActions][1] request.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/opensearch-service/latest/APIReference/API_ListScheduledActions.html
+    #
+    # @option params [required, String] :schedule_at
+    #   When to schedule the action.
+    #
+    #   * `NOW` - Immediately schedules the update to happen in the current
+    #     hour if there's capacity available.
+    #
+    #   * `TIMESTAMP` - Lets you specify a custom date and time to apply the
+    #     update. If you specify this value, you must also provide a value for
+    #     `DesiredStartTime`.
+    #
+    #   * `OFF_PEAK_WINDOW` - Marks the action to be picked up during an
+    #     upcoming off-peak window. There's no guarantee that the change will
+    #     be implemented during the next immediate window. Depending on
+    #     capacity, it might happen in subsequent days.
+    #
+    # @option params [Integer] :desired_start_time
+    #   The time to implement the change, in Coordinated Universal Time (UTC).
+    #   Only specify this parameter if you set `ScheduleAt` to `TIMESTAMP`.
+    #
+    # @return [Types::UpdateScheduledActionResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateScheduledActionResponse#scheduled_action #scheduled_action} => Types::ScheduledAction
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_scheduled_action({
+    #     domain_name: "DomainName", # required
+    #     action_id: "String", # required
+    #     action_type: "SERVICE_SOFTWARE_UPDATE", # required, accepts SERVICE_SOFTWARE_UPDATE, JVM_HEAP_SIZE_TUNING, JVM_YOUNG_GEN_TUNING
+    #     schedule_at: "NOW", # required, accepts NOW, TIMESTAMP, OFF_PEAK_WINDOW
+    #     desired_start_time: 1,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.scheduled_action.id #=> String
+    #   resp.scheduled_action.type #=> String, one of "SERVICE_SOFTWARE_UPDATE", "JVM_HEAP_SIZE_TUNING", "JVM_YOUNG_GEN_TUNING"
+    #   resp.scheduled_action.severity #=> String, one of "HIGH", "MEDIUM", "LOW"
+    #   resp.scheduled_action.scheduled_time #=> Integer
+    #   resp.scheduled_action.description #=> String
+    #   resp.scheduled_action.scheduled_by #=> String, one of "CUSTOMER", "SYSTEM"
+    #   resp.scheduled_action.status #=> String, one of "PENDING_UPDATE", "IN_PROGRESS", "FAILED", "COMPLETED", "NOT_ELIGIBLE", "ELIGIBLE"
+    #   resp.scheduled_action.mandatory #=> Boolean
+    #   resp.scheduled_action.cancellable #=> Boolean
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/UpdateScheduledAction AWS API Documentation
+    #
+    # @overload update_scheduled_action(params = {})
+    # @param [Hash] params ({})
+    def update_scheduled_action(params = {}, options = {})
+      req = build_request(:update_scheduled_action, params)
       req.send_request(options)
     end
 
@@ -3715,6 +5755,10 @@ module Aws::OpenSearchService
     #   resp.advanced_options["String"] #=> String
     #   resp.change_progress_details.change_id #=> String
     #   resp.change_progress_details.message #=> String
+    #   resp.change_progress_details.config_change_status #=> String, one of "Pending", "Initializing", "Validating", "ValidationFailed", "ApplyingChanges", "Completed", "PendingUserInput", "Cancelled"
+    #   resp.change_progress_details.initiated_by #=> String, one of "CUSTOMER", "SERVICE"
+    #   resp.change_progress_details.start_time #=> Time
+    #   resp.change_progress_details.last_updated_time #=> Time
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/opensearch-2021-01-01/UpgradeDomain AWS API Documentation
     #
@@ -3731,14 +5775,19 @@ module Aws::OpenSearchService
     # @api private
     def build_request(operation_name, params = {})
       handlers = @handlers.for(operation_name)
+      tracer = config.telemetry_provider.tracer_provider.tracer(
+        Aws::Telemetry.module_to_tracer_name('Aws::OpenSearchService')
+      )
       context = Seahorse::Client::RequestContext.new(
         operation_name: operation_name,
         operation: config.api.operation(operation_name),
         client: self,
         params: params,
-        config: config)
+        config: config,
+        tracer: tracer
+      )
       context[:gem_name] = 'aws-sdk-opensearchservice'
-      context[:gem_version] = '1.16.0'
+      context[:gem_version] = '1.65.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

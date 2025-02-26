@@ -11,16 +11,7 @@
 require 'aws-sdk-core'
 require 'aws-sigv4'
 
-require_relative 'aws-sdk-pi/types'
-require_relative 'aws-sdk-pi/client_api'
-require_relative 'aws-sdk-pi/plugins/endpoints.rb'
-require_relative 'aws-sdk-pi/client'
-require_relative 'aws-sdk-pi/errors'
-require_relative 'aws-sdk-pi/resource'
-require_relative 'aws-sdk-pi/endpoint_parameters'
-require_relative 'aws-sdk-pi/endpoint_provider'
-require_relative 'aws-sdk-pi/endpoints'
-require_relative 'aws-sdk-pi/customizations'
+Aws::Plugins::GlobalConfiguration.add_identifier(:pi)
 
 # This module provides support for AWS Performance Insights. This module is available in the
 # `aws-sdk-pi` gem.
@@ -32,7 +23,7 @@ require_relative 'aws-sdk-pi/customizations'
 # structure.
 #
 #     pi = Aws::PI::Client.new
-#     resp = pi.describe_dimension_keys(params)
+#     resp = pi.create_performance_analysis_report(params)
 #
 # See {Client} for more information.
 #
@@ -51,7 +42,20 @@ require_relative 'aws-sdk-pi/customizations'
 #
 # @!group service
 module Aws::PI
+  autoload :Types, 'aws-sdk-pi/types'
+  autoload :ClientApi, 'aws-sdk-pi/client_api'
+  module Plugins
+    autoload :Endpoints, 'aws-sdk-pi/plugins/endpoints.rb'
+  end
+  autoload :Client, 'aws-sdk-pi/client'
+  autoload :Errors, 'aws-sdk-pi/errors'
+  autoload :Resource, 'aws-sdk-pi/resource'
+  autoload :EndpointParameters, 'aws-sdk-pi/endpoint_parameters'
+  autoload :EndpointProvider, 'aws-sdk-pi/endpoint_provider'
+  autoload :Endpoints, 'aws-sdk-pi/endpoints'
 
-  GEM_VERSION = '1.42.0'
+  GEM_VERSION = '1.77.0'
 
 end
+
+require_relative 'aws-sdk-pi/customizations'

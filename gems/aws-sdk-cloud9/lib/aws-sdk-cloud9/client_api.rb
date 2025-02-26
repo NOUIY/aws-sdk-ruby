@@ -7,6 +7,7 @@
 #
 # WARNING ABOUT GENERATED CODE
 
+
 module Aws::Cloud9
   # @api private
   module ClientApi
@@ -96,7 +97,7 @@ module Aws::Cloud9
     CreateEnvironmentEC2Request.add_member(:client_request_token, Shapes::ShapeRef.new(shape: ClientRequestToken, location_name: "clientRequestToken"))
     CreateEnvironmentEC2Request.add_member(:instance_type, Shapes::ShapeRef.new(shape: InstanceType, required: true, location_name: "instanceType"))
     CreateEnvironmentEC2Request.add_member(:subnet_id, Shapes::ShapeRef.new(shape: SubnetId, location_name: "subnetId"))
-    CreateEnvironmentEC2Request.add_member(:image_id, Shapes::ShapeRef.new(shape: ImageId, location_name: "imageId"))
+    CreateEnvironmentEC2Request.add_member(:image_id, Shapes::ShapeRef.new(shape: ImageId, required: true, location_name: "imageId"))
     CreateEnvironmentEC2Request.add_member(:automatic_stop_time_minutes, Shapes::ShapeRef.new(shape: AutomaticStopTimeMinutes, location_name: "automaticStopTimeMinutes"))
     CreateEnvironmentEC2Request.add_member(:owner_arn, Shapes::ShapeRef.new(shape: UserArn, location_name: "ownerArn"))
     CreateEnvironmentEC2Request.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "tags"))
@@ -249,9 +250,11 @@ module Aws::Cloud9
 
       api.metadata = {
         "apiVersion" => "2017-09-23",
+        "auth" => ["aws.auth#sigv4"],
         "endpointPrefix" => "cloud9",
         "jsonVersion" => "1.1",
         "protocol" => "json",
+        "protocols" => ["json"],
         "serviceFullName" => "AWS Cloud9",
         "serviceId" => "Cloud9",
         "signatureVersion" => "v4",

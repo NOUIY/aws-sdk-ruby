@@ -7,6 +7,7 @@
 #
 # WARNING ABOUT GENERATED CODE
 
+
 module Aws::RecycleBin
   # @api private
   module ClientApi
@@ -21,6 +22,7 @@ module Aws::RecycleBin
     DeleteRuleResponse = Shapes::StructureShape.new(name: 'DeleteRuleResponse')
     Description = Shapes::StringShape.new(name: 'Description')
     ErrorMessage = Shapes::StringShape.new(name: 'ErrorMessage')
+    ExcludeResourceTags = Shapes::ListShape.new(name: 'ExcludeResourceTags')
     GetRuleRequest = Shapes::StructureShape.new(name: 'GetRuleRequest')
     GetRuleResponse = Shapes::StructureShape.new(name: 'GetRuleResponse')
     InternalServerException = Shapes::StructureShape.new(name: 'InternalServerException')
@@ -81,6 +83,7 @@ module Aws::RecycleBin
     CreateRuleRequest.add_member(:resource_type, Shapes::ShapeRef.new(shape: ResourceType, required: true, location_name: "ResourceType"))
     CreateRuleRequest.add_member(:resource_tags, Shapes::ShapeRef.new(shape: ResourceTags, location_name: "ResourceTags"))
     CreateRuleRequest.add_member(:lock_configuration, Shapes::ShapeRef.new(shape: LockConfiguration, location_name: "LockConfiguration"))
+    CreateRuleRequest.add_member(:exclude_resource_tags, Shapes::ShapeRef.new(shape: ExcludeResourceTags, location_name: "ExcludeResourceTags"))
     CreateRuleRequest.struct_class = Types::CreateRuleRequest
 
     CreateRuleResponse.add_member(:identifier, Shapes::ShapeRef.new(shape: RuleIdentifier, location_name: "Identifier"))
@@ -92,12 +95,16 @@ module Aws::RecycleBin
     CreateRuleResponse.add_member(:status, Shapes::ShapeRef.new(shape: RuleStatus, location_name: "Status"))
     CreateRuleResponse.add_member(:lock_configuration, Shapes::ShapeRef.new(shape: LockConfiguration, location_name: "LockConfiguration"))
     CreateRuleResponse.add_member(:lock_state, Shapes::ShapeRef.new(shape: LockState, location_name: "LockState"))
+    CreateRuleResponse.add_member(:rule_arn, Shapes::ShapeRef.new(shape: RuleArn, location_name: "RuleArn"))
+    CreateRuleResponse.add_member(:exclude_resource_tags, Shapes::ShapeRef.new(shape: ExcludeResourceTags, location_name: "ExcludeResourceTags"))
     CreateRuleResponse.struct_class = Types::CreateRuleResponse
 
     DeleteRuleRequest.add_member(:identifier, Shapes::ShapeRef.new(shape: RuleIdentifier, required: true, location: "uri", location_name: "identifier"))
     DeleteRuleRequest.struct_class = Types::DeleteRuleRequest
 
     DeleteRuleResponse.struct_class = Types::DeleteRuleResponse
+
+    ExcludeResourceTags.member = Shapes::ShapeRef.new(shape: ResourceTag)
 
     GetRuleRequest.add_member(:identifier, Shapes::ShapeRef.new(shape: RuleIdentifier, required: true, location: "uri", location_name: "identifier"))
     GetRuleRequest.struct_class = Types::GetRuleRequest
@@ -111,6 +118,8 @@ module Aws::RecycleBin
     GetRuleResponse.add_member(:lock_configuration, Shapes::ShapeRef.new(shape: LockConfiguration, location_name: "LockConfiguration"))
     GetRuleResponse.add_member(:lock_state, Shapes::ShapeRef.new(shape: LockState, location_name: "LockState"))
     GetRuleResponse.add_member(:lock_end_time, Shapes::ShapeRef.new(shape: TimeStamp, location_name: "LockEndTime"))
+    GetRuleResponse.add_member(:rule_arn, Shapes::ShapeRef.new(shape: RuleArn, location_name: "RuleArn"))
+    GetRuleResponse.add_member(:exclude_resource_tags, Shapes::ShapeRef.new(shape: ExcludeResourceTags, location_name: "ExcludeResourceTags"))
     GetRuleResponse.struct_class = Types::GetRuleResponse
 
     InternalServerException.add_member(:message, Shapes::ShapeRef.new(shape: ErrorMessage, location_name: "Message"))
@@ -121,6 +130,7 @@ module Aws::RecycleBin
     ListRulesRequest.add_member(:resource_type, Shapes::ShapeRef.new(shape: ResourceType, required: true, location_name: "ResourceType"))
     ListRulesRequest.add_member(:resource_tags, Shapes::ShapeRef.new(shape: ResourceTags, location_name: "ResourceTags"))
     ListRulesRequest.add_member(:lock_state, Shapes::ShapeRef.new(shape: LockState, location_name: "LockState"))
+    ListRulesRequest.add_member(:exclude_resource_tags, Shapes::ShapeRef.new(shape: ExcludeResourceTags, location_name: "ExcludeResourceTags"))
     ListRulesRequest.struct_class = Types::ListRulesRequest
 
     ListRulesResponse.add_member(:rules, Shapes::ShapeRef.new(shape: RuleSummaryList, location_name: "Rules"))
@@ -148,6 +158,8 @@ module Aws::RecycleBin
     LockRuleResponse.add_member(:status, Shapes::ShapeRef.new(shape: RuleStatus, location_name: "Status"))
     LockRuleResponse.add_member(:lock_configuration, Shapes::ShapeRef.new(shape: LockConfiguration, location_name: "LockConfiguration"))
     LockRuleResponse.add_member(:lock_state, Shapes::ShapeRef.new(shape: LockState, location_name: "LockState"))
+    LockRuleResponse.add_member(:rule_arn, Shapes::ShapeRef.new(shape: RuleArn, location_name: "RuleArn"))
+    LockRuleResponse.add_member(:exclude_resource_tags, Shapes::ShapeRef.new(shape: ExcludeResourceTags, location_name: "ExcludeResourceTags"))
     LockRuleResponse.struct_class = Types::LockRuleResponse
 
     ResourceNotFoundException.add_member(:message, Shapes::ShapeRef.new(shape: ErrorMessage, location_name: "Message"))
@@ -168,6 +180,7 @@ module Aws::RecycleBin
     RuleSummary.add_member(:description, Shapes::ShapeRef.new(shape: Description, location_name: "Description"))
     RuleSummary.add_member(:retention_period, Shapes::ShapeRef.new(shape: RetentionPeriod, location_name: "RetentionPeriod"))
     RuleSummary.add_member(:lock_state, Shapes::ShapeRef.new(shape: LockState, location_name: "LockState"))
+    RuleSummary.add_member(:rule_arn, Shapes::ShapeRef.new(shape: RuleArn, location_name: "RuleArn"))
     RuleSummary.struct_class = Types::RuleSummary
 
     RuleSummaryList.member = Shapes::ShapeRef.new(shape: RuleSummary)
@@ -206,6 +219,8 @@ module Aws::RecycleBin
     UnlockRuleResponse.add_member(:lock_configuration, Shapes::ShapeRef.new(shape: LockConfiguration, location_name: "LockConfiguration"))
     UnlockRuleResponse.add_member(:lock_state, Shapes::ShapeRef.new(shape: LockState, location_name: "LockState"))
     UnlockRuleResponse.add_member(:lock_end_time, Shapes::ShapeRef.new(shape: TimeStamp, location_name: "LockEndTime"))
+    UnlockRuleResponse.add_member(:rule_arn, Shapes::ShapeRef.new(shape: RuleArn, location_name: "RuleArn"))
+    UnlockRuleResponse.add_member(:exclude_resource_tags, Shapes::ShapeRef.new(shape: ExcludeResourceTags, location_name: "ExcludeResourceTags"))
     UnlockRuleResponse.struct_class = Types::UnlockRuleResponse
 
     UntagResourceRequest.add_member(:resource_arn, Shapes::ShapeRef.new(shape: RuleArn, required: true, location: "uri", location_name: "resourceArn"))
@@ -219,6 +234,7 @@ module Aws::RecycleBin
     UpdateRuleRequest.add_member(:description, Shapes::ShapeRef.new(shape: Description, location_name: "Description"))
     UpdateRuleRequest.add_member(:resource_type, Shapes::ShapeRef.new(shape: ResourceType, location_name: "ResourceType"))
     UpdateRuleRequest.add_member(:resource_tags, Shapes::ShapeRef.new(shape: ResourceTags, location_name: "ResourceTags"))
+    UpdateRuleRequest.add_member(:exclude_resource_tags, Shapes::ShapeRef.new(shape: ExcludeResourceTags, location_name: "ExcludeResourceTags"))
     UpdateRuleRequest.struct_class = Types::UpdateRuleRequest
 
     UpdateRuleResponse.add_member(:identifier, Shapes::ShapeRef.new(shape: RuleIdentifier, location_name: "Identifier"))
@@ -229,6 +245,8 @@ module Aws::RecycleBin
     UpdateRuleResponse.add_member(:status, Shapes::ShapeRef.new(shape: RuleStatus, location_name: "Status"))
     UpdateRuleResponse.add_member(:lock_state, Shapes::ShapeRef.new(shape: LockState, location_name: "LockState"))
     UpdateRuleResponse.add_member(:lock_end_time, Shapes::ShapeRef.new(shape: TimeStamp, location_name: "LockEndTime"))
+    UpdateRuleResponse.add_member(:rule_arn, Shapes::ShapeRef.new(shape: RuleArn, location_name: "RuleArn"))
+    UpdateRuleResponse.add_member(:exclude_resource_tags, Shapes::ShapeRef.new(shape: ExcludeResourceTags, location_name: "ExcludeResourceTags"))
     UpdateRuleResponse.struct_class = Types::UpdateRuleResponse
 
     ValidationException.add_member(:message, Shapes::ShapeRef.new(shape: ErrorMessage, location_name: "Message"))
@@ -243,9 +261,11 @@ module Aws::RecycleBin
 
       api.metadata = {
         "apiVersion" => "2021-06-15",
+        "auth" => ["aws.auth#sigv4"],
         "endpointPrefix" => "rbin",
         "jsonVersion" => "1.1",
         "protocol" => "rest-json",
+        "protocols" => ["rest-json"],
         "serviceFullName" => "Amazon Recycle Bin",
         "serviceId" => "rbin",
         "signatureVersion" => "v4",
@@ -371,6 +391,7 @@ module Aws::RecycleBin
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
       end)
     end
 

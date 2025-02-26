@@ -7,6 +7,7 @@
 #
 # WARNING ABOUT GENERATED CODE
 
+
 module Aws::StorageGateway
   # @api private
   module ClientApi
@@ -37,6 +38,7 @@ module Aws::StorageGateway
     AutomaticTapeCreationPolicyInfos = Shapes::ListShape.new(name: 'AutomaticTapeCreationPolicyInfos')
     AutomaticTapeCreationRule = Shapes::StructureShape.new(name: 'AutomaticTapeCreationRule')
     AutomaticTapeCreationRules = Shapes::ListShape.new(name: 'AutomaticTapeCreationRules')
+    AutomaticUpdatePolicy = Shapes::StringShape.new(name: 'AutomaticUpdatePolicy')
     AvailabilityMonitorTestStatus = Shapes::StringShape.new(name: 'AvailabilityMonitorTestStatus')
     BandwidthDownloadRateLimit = Shapes::IntegerShape.new(name: 'BandwidthDownloadRateLimit')
     BandwidthRateLimitInterval = Shapes::StructureShape.new(name: 'BandwidthRateLimitInterval')
@@ -45,11 +47,23 @@ module Aws::StorageGateway
     BandwidthUploadRateLimit = Shapes::IntegerShape.new(name: 'BandwidthUploadRateLimit')
     Boolean = Shapes::BooleanShape.new(name: 'Boolean')
     CacheAttributes = Shapes::StructureShape.new(name: 'CacheAttributes')
+    CacheReportARN = Shapes::StringShape.new(name: 'CacheReportARN')
+    CacheReportFilter = Shapes::StructureShape.new(name: 'CacheReportFilter')
+    CacheReportFilterList = Shapes::ListShape.new(name: 'CacheReportFilterList')
+    CacheReportFilterName = Shapes::StringShape.new(name: 'CacheReportFilterName')
+    CacheReportFilterValue = Shapes::StringShape.new(name: 'CacheReportFilterValue')
+    CacheReportFilterValues = Shapes::ListShape.new(name: 'CacheReportFilterValues')
+    CacheReportInfo = Shapes::StructureShape.new(name: 'CacheReportInfo')
+    CacheReportList = Shapes::ListShape.new(name: 'CacheReportList')
+    CacheReportName = Shapes::StringShape.new(name: 'CacheReportName')
+    CacheReportStatus = Shapes::StringShape.new(name: 'CacheReportStatus')
     CacheStaleTimeoutInSeconds = Shapes::IntegerShape.new(name: 'CacheStaleTimeoutInSeconds')
     CachediSCSIVolume = Shapes::StructureShape.new(name: 'CachediSCSIVolume')
     CachediSCSIVolumes = Shapes::ListShape.new(name: 'CachediSCSIVolumes')
     CancelArchivalInput = Shapes::StructureShape.new(name: 'CancelArchivalInput')
     CancelArchivalOutput = Shapes::StructureShape.new(name: 'CancelArchivalOutput')
+    CancelCacheReportInput = Shapes::StructureShape.new(name: 'CancelCacheReportInput')
+    CancelCacheReportOutput = Shapes::StructureShape.new(name: 'CancelCacheReportOutput')
     CancelRetrievalInput = Shapes::StructureShape.new(name: 'CancelRetrievalInput')
     CancelRetrievalOutput = Shapes::StructureShape.new(name: 'CancelRetrievalOutput')
     CaseSensitivity = Shapes::StringShape.new(name: 'CaseSensitivity')
@@ -85,6 +99,8 @@ module Aws::StorageGateway
     DeleteAutomaticTapeCreationPolicyOutput = Shapes::StructureShape.new(name: 'DeleteAutomaticTapeCreationPolicyOutput')
     DeleteBandwidthRateLimitInput = Shapes::StructureShape.new(name: 'DeleteBandwidthRateLimitInput')
     DeleteBandwidthRateLimitOutput = Shapes::StructureShape.new(name: 'DeleteBandwidthRateLimitOutput')
+    DeleteCacheReportInput = Shapes::StructureShape.new(name: 'DeleteCacheReportInput')
+    DeleteCacheReportOutput = Shapes::StructureShape.new(name: 'DeleteCacheReportOutput')
     DeleteChapCredentialsInput = Shapes::StructureShape.new(name: 'DeleteChapCredentialsInput')
     DeleteChapCredentialsOutput = Shapes::StructureShape.new(name: 'DeleteChapCredentialsOutput')
     DeleteFileShareInput = Shapes::StructureShape.new(name: 'DeleteFileShareInput')
@@ -110,6 +126,8 @@ module Aws::StorageGateway
     DescribeBandwidthRateLimitScheduleOutput = Shapes::StructureShape.new(name: 'DescribeBandwidthRateLimitScheduleOutput')
     DescribeCacheInput = Shapes::StructureShape.new(name: 'DescribeCacheInput')
     DescribeCacheOutput = Shapes::StructureShape.new(name: 'DescribeCacheOutput')
+    DescribeCacheReportInput = Shapes::StructureShape.new(name: 'DescribeCacheReportInput')
+    DescribeCacheReportOutput = Shapes::StructureShape.new(name: 'DescribeCacheReportOutput')
     DescribeCachediSCSIVolumesInput = Shapes::StructureShape.new(name: 'DescribeCachediSCSIVolumesInput')
     DescribeCachediSCSIVolumesOutput = Shapes::StructureShape.new(name: 'DescribeCachediSCSIVolumesOutput')
     DescribeChapCredentialsInput = Shapes::StructureShape.new(name: 'DescribeChapCredentialsInput')
@@ -164,6 +182,7 @@ module Aws::StorageGateway
     DoubleObject = Shapes::FloatShape.new(name: 'DoubleObject')
     Ec2InstanceId = Shapes::StringShape.new(name: 'Ec2InstanceId')
     Ec2InstanceRegion = Shapes::StringShape.new(name: 'Ec2InstanceRegion')
+    EncryptionType = Shapes::StringShape.new(name: 'EncryptionType')
     EndpointNetworkConfiguration = Shapes::StructureShape.new(name: 'EndpointNetworkConfiguration')
     EndpointType = Shapes::StringShape.new(name: 'EndpointType')
     ErrorCode = Shapes::StringShape.new(name: 'ErrorCode')
@@ -220,6 +239,8 @@ module Aws::StorageGateway
     LastSoftwareUpdate = Shapes::StringShape.new(name: 'LastSoftwareUpdate')
     ListAutomaticTapeCreationPoliciesInput = Shapes::StructureShape.new(name: 'ListAutomaticTapeCreationPoliciesInput')
     ListAutomaticTapeCreationPoliciesOutput = Shapes::StructureShape.new(name: 'ListAutomaticTapeCreationPoliciesOutput')
+    ListCacheReportsInput = Shapes::StructureShape.new(name: 'ListCacheReportsInput')
+    ListCacheReportsOutput = Shapes::StructureShape.new(name: 'ListCacheReportsOutput')
     ListFileSharesInput = Shapes::StructureShape.new(name: 'ListFileSharesInput')
     ListFileSharesOutput = Shapes::StructureShape.new(name: 'ListFileSharesOutput')
     ListFileSystemAssociationsInput = Shapes::StructureShape.new(name: 'ListFileSystemAssociationsInput')
@@ -276,6 +297,7 @@ module Aws::StorageGateway
     RegionId = Shapes::StringShape.new(name: 'RegionId')
     RemoveTagsFromResourceInput = Shapes::StructureShape.new(name: 'RemoveTagsFromResourceInput')
     RemoveTagsFromResourceOutput = Shapes::StructureShape.new(name: 'RemoveTagsFromResourceOutput')
+    ReportCompletionPercent = Shapes::IntegerShape.new(name: 'ReportCompletionPercent')
     ResetCacheInput = Shapes::StructureShape.new(name: 'ResetCacheInput')
     ResetCacheOutput = Shapes::StructureShape.new(name: 'ResetCacheOutput')
     ResourceARN = Shapes::StringShape.new(name: 'ResourceARN')
@@ -300,10 +322,14 @@ module Aws::StorageGateway
     ShutdownGatewayOutput = Shapes::StructureShape.new(name: 'ShutdownGatewayOutput')
     SnapshotDescription = Shapes::StringShape.new(name: 'SnapshotDescription')
     SnapshotId = Shapes::StringShape.new(name: 'SnapshotId')
+    SoftwareUpdatePreferences = Shapes::StructureShape.new(name: 'SoftwareUpdatePreferences')
     SoftwareUpdatesEndDate = Shapes::StringShape.new(name: 'SoftwareUpdatesEndDate')
+    SoftwareVersion = Shapes::StringShape.new(name: 'SoftwareVersion')
     Squash = Shapes::StringShape.new(name: 'Squash')
     StartAvailabilityMonitorTestInput = Shapes::StructureShape.new(name: 'StartAvailabilityMonitorTestInput')
     StartAvailabilityMonitorTestOutput = Shapes::StructureShape.new(name: 'StartAvailabilityMonitorTestOutput')
+    StartCacheReportInput = Shapes::StructureShape.new(name: 'StartCacheReportInput')
+    StartCacheReportOutput = Shapes::StructureShape.new(name: 'StartCacheReportOutput')
     StartGatewayInput = Shapes::StructureShape.new(name: 'StartGatewayInput')
     StartGatewayOutput = Shapes::StructureShape.new(name: 'StartGatewayOutput')
     StorageClass = Shapes::StringShape.new(name: 'StorageClass')
@@ -500,6 +526,30 @@ module Aws::StorageGateway
     CacheAttributes.add_member(:cache_stale_timeout_in_seconds, Shapes::ShapeRef.new(shape: CacheStaleTimeoutInSeconds, location_name: "CacheStaleTimeoutInSeconds"))
     CacheAttributes.struct_class = Types::CacheAttributes
 
+    CacheReportFilter.add_member(:name, Shapes::ShapeRef.new(shape: CacheReportFilterName, required: true, location_name: "Name"))
+    CacheReportFilter.add_member(:values, Shapes::ShapeRef.new(shape: CacheReportFilterValues, required: true, location_name: "Values"))
+    CacheReportFilter.struct_class = Types::CacheReportFilter
+
+    CacheReportFilterList.member = Shapes::ShapeRef.new(shape: CacheReportFilter)
+
+    CacheReportFilterValues.member = Shapes::ShapeRef.new(shape: CacheReportFilterValue)
+
+    CacheReportInfo.add_member(:cache_report_arn, Shapes::ShapeRef.new(shape: CacheReportARN, location_name: "CacheReportARN"))
+    CacheReportInfo.add_member(:cache_report_status, Shapes::ShapeRef.new(shape: CacheReportStatus, location_name: "CacheReportStatus"))
+    CacheReportInfo.add_member(:report_completion_percent, Shapes::ShapeRef.new(shape: ReportCompletionPercent, location_name: "ReportCompletionPercent"))
+    CacheReportInfo.add_member(:end_time, Shapes::ShapeRef.new(shape: Time, location_name: "EndTime"))
+    CacheReportInfo.add_member(:role, Shapes::ShapeRef.new(shape: Role, location_name: "Role"))
+    CacheReportInfo.add_member(:file_share_arn, Shapes::ShapeRef.new(shape: FileShareARN, location_name: "FileShareARN"))
+    CacheReportInfo.add_member(:location_arn, Shapes::ShapeRef.new(shape: LocationARN, location_name: "LocationARN"))
+    CacheReportInfo.add_member(:start_time, Shapes::ShapeRef.new(shape: Time, location_name: "StartTime"))
+    CacheReportInfo.add_member(:inclusion_filters, Shapes::ShapeRef.new(shape: CacheReportFilterList, location_name: "InclusionFilters"))
+    CacheReportInfo.add_member(:exclusion_filters, Shapes::ShapeRef.new(shape: CacheReportFilterList, location_name: "ExclusionFilters"))
+    CacheReportInfo.add_member(:report_name, Shapes::ShapeRef.new(shape: CacheReportName, location_name: "ReportName"))
+    CacheReportInfo.add_member(:tags, Shapes::ShapeRef.new(shape: Tags, location_name: "Tags"))
+    CacheReportInfo.struct_class = Types::CacheReportInfo
+
+    CacheReportList.member = Shapes::ShapeRef.new(shape: CacheReportInfo)
+
     CachediSCSIVolume.add_member(:volume_arn, Shapes::ShapeRef.new(shape: VolumeARN, location_name: "VolumeARN"))
     CachediSCSIVolume.add_member(:volume_id, Shapes::ShapeRef.new(shape: VolumeId, location_name: "VolumeId"))
     CachediSCSIVolume.add_member(:volume_type, Shapes::ShapeRef.new(shape: VolumeType, location_name: "VolumeType"))
@@ -523,6 +573,12 @@ module Aws::StorageGateway
 
     CancelArchivalOutput.add_member(:tape_arn, Shapes::ShapeRef.new(shape: TapeARN, location_name: "TapeARN"))
     CancelArchivalOutput.struct_class = Types::CancelArchivalOutput
+
+    CancelCacheReportInput.add_member(:cache_report_arn, Shapes::ShapeRef.new(shape: CacheReportARN, required: true, location_name: "CacheReportARN"))
+    CancelCacheReportInput.struct_class = Types::CancelCacheReportInput
+
+    CancelCacheReportOutput.add_member(:cache_report_arn, Shapes::ShapeRef.new(shape: CacheReportARN, location_name: "CacheReportARN"))
+    CancelCacheReportOutput.struct_class = Types::CancelCacheReportOutput
 
     CancelRetrievalInput.add_member(:gateway_arn, Shapes::ShapeRef.new(shape: GatewayARN, required: true, location_name: "GatewayARN"))
     CancelRetrievalInput.add_member(:tape_arn, Shapes::ShapeRef.new(shape: TapeARN, required: true, location_name: "TapeARN"))
@@ -558,7 +614,8 @@ module Aws::StorageGateway
     CreateNFSFileShareInput.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, required: true, location_name: "ClientToken"))
     CreateNFSFileShareInput.add_member(:nfs_file_share_defaults, Shapes::ShapeRef.new(shape: NFSFileShareDefaults, location_name: "NFSFileShareDefaults"))
     CreateNFSFileShareInput.add_member(:gateway_arn, Shapes::ShapeRef.new(shape: GatewayARN, required: true, location_name: "GatewayARN"))
-    CreateNFSFileShareInput.add_member(:kms_encrypted, Shapes::ShapeRef.new(shape: Boolean, location_name: "KMSEncrypted"))
+    CreateNFSFileShareInput.add_member(:encryption_type, Shapes::ShapeRef.new(shape: EncryptionType, location_name: "EncryptionType"))
+    CreateNFSFileShareInput.add_member(:kms_encrypted, Shapes::ShapeRef.new(shape: Boolean, deprecated: true, location_name: "KMSEncrypted", metadata: {"deprecatedMessage"=>"KMSEncrypted is deprecated, use EncryptionType instead."}))
     CreateNFSFileShareInput.add_member(:kms_key, Shapes::ShapeRef.new(shape: KMSKey, location_name: "KMSKey"))
     CreateNFSFileShareInput.add_member(:role, Shapes::ShapeRef.new(shape: Role, required: true, location_name: "Role"))
     CreateNFSFileShareInput.add_member(:location_arn, Shapes::ShapeRef.new(shape: LocationARN, required: true, location_name: "LocationARN"))
@@ -583,7 +640,8 @@ module Aws::StorageGateway
 
     CreateSMBFileShareInput.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, required: true, location_name: "ClientToken"))
     CreateSMBFileShareInput.add_member(:gateway_arn, Shapes::ShapeRef.new(shape: GatewayARN, required: true, location_name: "GatewayARN"))
-    CreateSMBFileShareInput.add_member(:kms_encrypted, Shapes::ShapeRef.new(shape: Boolean, location_name: "KMSEncrypted"))
+    CreateSMBFileShareInput.add_member(:encryption_type, Shapes::ShapeRef.new(shape: EncryptionType, location_name: "EncryptionType"))
+    CreateSMBFileShareInput.add_member(:kms_encrypted, Shapes::ShapeRef.new(shape: Boolean, deprecated: true, location_name: "KMSEncrypted", metadata: {"deprecatedMessage"=>"KMSEncrypted is deprecated, use EncryptionType instead."}))
     CreateSMBFileShareInput.add_member(:kms_key, Shapes::ShapeRef.new(shape: KMSKey, location_name: "KMSKey"))
     CreateSMBFileShareInput.add_member(:role, Shapes::ShapeRef.new(shape: Role, required: true, location_name: "Role"))
     CreateSMBFileShareInput.add_member(:location_arn, Shapes::ShapeRef.new(shape: LocationARN, required: true, location_name: "LocationARN"))
@@ -700,6 +758,12 @@ module Aws::StorageGateway
     DeleteBandwidthRateLimitOutput.add_member(:gateway_arn, Shapes::ShapeRef.new(shape: GatewayARN, location_name: "GatewayARN"))
     DeleteBandwidthRateLimitOutput.struct_class = Types::DeleteBandwidthRateLimitOutput
 
+    DeleteCacheReportInput.add_member(:cache_report_arn, Shapes::ShapeRef.new(shape: CacheReportARN, required: true, location_name: "CacheReportARN"))
+    DeleteCacheReportInput.struct_class = Types::DeleteCacheReportInput
+
+    DeleteCacheReportOutput.add_member(:cache_report_arn, Shapes::ShapeRef.new(shape: CacheReportARN, location_name: "CacheReportARN"))
+    DeleteCacheReportOutput.struct_class = Types::DeleteCacheReportOutput
+
     DeleteChapCredentialsInput.add_member(:target_arn, Shapes::ShapeRef.new(shape: TargetARN, required: true, location_name: "TargetARN"))
     DeleteChapCredentialsInput.add_member(:initiator_name, Shapes::ShapeRef.new(shape: IqnName, required: true, location_name: "InitiatorName"))
     DeleteChapCredentialsInput.struct_class = Types::DeleteChapCredentialsInput
@@ -789,6 +853,12 @@ module Aws::StorageGateway
     DescribeCacheOutput.add_member(:cache_miss_percentage, Shapes::ShapeRef.new(shape: double, location_name: "CacheMissPercentage"))
     DescribeCacheOutput.struct_class = Types::DescribeCacheOutput
 
+    DescribeCacheReportInput.add_member(:cache_report_arn, Shapes::ShapeRef.new(shape: CacheReportARN, required: true, location_name: "CacheReportARN"))
+    DescribeCacheReportInput.struct_class = Types::DescribeCacheReportInput
+
+    DescribeCacheReportOutput.add_member(:cache_report_info, Shapes::ShapeRef.new(shape: CacheReportInfo, location_name: "CacheReportInfo"))
+    DescribeCacheReportOutput.struct_class = Types::DescribeCacheReportOutput
+
     DescribeCachediSCSIVolumesInput.add_member(:volume_arns, Shapes::ShapeRef.new(shape: VolumeARNs, required: true, location_name: "VolumeARNs"))
     DescribeCachediSCSIVolumesInput.struct_class = Types::DescribeCachediSCSIVolumesInput
 
@@ -831,6 +901,7 @@ module Aws::StorageGateway
     DescribeGatewayInformationOutput.add_member(:gateway_capacity, Shapes::ShapeRef.new(shape: GatewayCapacity, location_name: "GatewayCapacity"))
     DescribeGatewayInformationOutput.add_member(:supported_gateway_capacities, Shapes::ShapeRef.new(shape: SupportedGatewayCapacities, location_name: "SupportedGatewayCapacities"))
     DescribeGatewayInformationOutput.add_member(:host_environment_id, Shapes::ShapeRef.new(shape: HostEnvironmentId, location_name: "HostEnvironmentId"))
+    DescribeGatewayInformationOutput.add_member(:software_version, Shapes::ShapeRef.new(shape: SoftwareVersion, location_name: "SoftwareVersion"))
     DescribeGatewayInformationOutput.struct_class = Types::DescribeGatewayInformationOutput
 
     DescribeMaintenanceStartTimeInput.add_member(:gateway_arn, Shapes::ShapeRef.new(shape: GatewayARN, required: true, location_name: "GatewayARN"))
@@ -842,6 +913,7 @@ module Aws::StorageGateway
     DescribeMaintenanceStartTimeOutput.add_member(:day_of_week, Shapes::ShapeRef.new(shape: DayOfWeek, location_name: "DayOfWeek"))
     DescribeMaintenanceStartTimeOutput.add_member(:day_of_month, Shapes::ShapeRef.new(shape: DayOfMonth, location_name: "DayOfMonth"))
     DescribeMaintenanceStartTimeOutput.add_member(:timezone, Shapes::ShapeRef.new(shape: GatewayTimezone, location_name: "Timezone"))
+    DescribeMaintenanceStartTimeOutput.add_member(:software_update_preferences, Shapes::ShapeRef.new(shape: SoftwareUpdatePreferences, location_name: "SoftwareUpdatePreferences"))
     DescribeMaintenanceStartTimeOutput.struct_class = Types::DescribeMaintenanceStartTimeOutput
 
     DescribeNFSFileSharesInput.add_member(:file_share_arn_list, Shapes::ShapeRef.new(shape: FileShareARNList, required: true, location_name: "FileShareARNList"))
@@ -1040,6 +1112,8 @@ module Aws::StorageGateway
     GatewayInfo.add_member(:ec2_instance_region, Shapes::ShapeRef.new(shape: Ec2InstanceRegion, location_name: "Ec2InstanceRegion"))
     GatewayInfo.add_member(:host_environment, Shapes::ShapeRef.new(shape: HostEnvironment, location_name: "HostEnvironment"))
     GatewayInfo.add_member(:host_environment_id, Shapes::ShapeRef.new(shape: HostEnvironmentId, location_name: "HostEnvironmentId"))
+    GatewayInfo.add_member(:deprecation_date, Shapes::ShapeRef.new(shape: DeprecationDate, location_name: "DeprecationDate"))
+    GatewayInfo.add_member(:software_version, Shapes::ShapeRef.new(shape: SoftwareVersion, location_name: "SoftwareVersion"))
     GatewayInfo.struct_class = Types::GatewayInfo
 
     GatewayNetworkInterfaces.member = Shapes::ShapeRef.new(shape: NetworkInterface)
@@ -1078,6 +1152,13 @@ module Aws::StorageGateway
 
     ListAutomaticTapeCreationPoliciesOutput.add_member(:automatic_tape_creation_policy_infos, Shapes::ShapeRef.new(shape: AutomaticTapeCreationPolicyInfos, location_name: "AutomaticTapeCreationPolicyInfos"))
     ListAutomaticTapeCreationPoliciesOutput.struct_class = Types::ListAutomaticTapeCreationPoliciesOutput
+
+    ListCacheReportsInput.add_member(:marker, Shapes::ShapeRef.new(shape: Marker, location_name: "Marker"))
+    ListCacheReportsInput.struct_class = Types::ListCacheReportsInput
+
+    ListCacheReportsOutput.add_member(:cache_report_list, Shapes::ShapeRef.new(shape: CacheReportList, location_name: "CacheReportList"))
+    ListCacheReportsOutput.add_member(:marker, Shapes::ShapeRef.new(shape: Marker, location_name: "Marker"))
+    ListCacheReportsOutput.struct_class = Types::ListCacheReportsOutput
 
     ListFileSharesInput.add_member(:gateway_arn, Shapes::ShapeRef.new(shape: GatewayARN, location_name: "GatewayARN"))
     ListFileSharesInput.add_member(:limit, Shapes::ShapeRef.new(shape: PositiveIntObject, location_name: "Limit"))
@@ -1176,7 +1257,8 @@ module Aws::StorageGateway
     NFSFileShareInfo.add_member(:file_share_id, Shapes::ShapeRef.new(shape: FileShareId, location_name: "FileShareId"))
     NFSFileShareInfo.add_member(:file_share_status, Shapes::ShapeRef.new(shape: FileShareStatus, location_name: "FileShareStatus"))
     NFSFileShareInfo.add_member(:gateway_arn, Shapes::ShapeRef.new(shape: GatewayARN, location_name: "GatewayARN"))
-    NFSFileShareInfo.add_member(:kms_encrypted, Shapes::ShapeRef.new(shape: boolean, location_name: "KMSEncrypted"))
+    NFSFileShareInfo.add_member(:encryption_type, Shapes::ShapeRef.new(shape: EncryptionType, location_name: "EncryptionType"))
+    NFSFileShareInfo.add_member(:kms_encrypted, Shapes::ShapeRef.new(shape: boolean, deprecated: true, location_name: "KMSEncrypted", metadata: {"deprecatedMessage"=>"KMSEncrypted is deprecated, use EncryptionType instead."}))
     NFSFileShareInfo.add_member(:kms_key, Shapes::ShapeRef.new(shape: KMSKey, location_name: "KMSKey"))
     NFSFileShareInfo.add_member(:path, Shapes::ShapeRef.new(shape: Path, location_name: "Path"))
     NFSFileShareInfo.add_member(:role, Shapes::ShapeRef.new(shape: Role, location_name: "Role"))
@@ -1263,7 +1345,8 @@ module Aws::StorageGateway
     SMBFileShareInfo.add_member(:file_share_id, Shapes::ShapeRef.new(shape: FileShareId, location_name: "FileShareId"))
     SMBFileShareInfo.add_member(:file_share_status, Shapes::ShapeRef.new(shape: FileShareStatus, location_name: "FileShareStatus"))
     SMBFileShareInfo.add_member(:gateway_arn, Shapes::ShapeRef.new(shape: GatewayARN, location_name: "GatewayARN"))
-    SMBFileShareInfo.add_member(:kms_encrypted, Shapes::ShapeRef.new(shape: boolean, location_name: "KMSEncrypted"))
+    SMBFileShareInfo.add_member(:encryption_type, Shapes::ShapeRef.new(shape: EncryptionType, location_name: "EncryptionType"))
+    SMBFileShareInfo.add_member(:kms_encrypted, Shapes::ShapeRef.new(shape: boolean, deprecated: true, location_name: "KMSEncrypted", metadata: {"deprecatedMessage"=>"KMSEncrypted is deprecated, use EncryptionType instead."}))
     SMBFileShareInfo.add_member(:kms_key, Shapes::ShapeRef.new(shape: KMSKey, location_name: "KMSKey"))
     SMBFileShareInfo.add_member(:path, Shapes::ShapeRef.new(shape: Path, location_name: "Path"))
     SMBFileShareInfo.add_member(:role, Shapes::ShapeRef.new(shape: Role, location_name: "Role"))
@@ -1319,11 +1402,28 @@ module Aws::StorageGateway
     ShutdownGatewayOutput.add_member(:gateway_arn, Shapes::ShapeRef.new(shape: GatewayARN, location_name: "GatewayARN"))
     ShutdownGatewayOutput.struct_class = Types::ShutdownGatewayOutput
 
+    SoftwareUpdatePreferences.add_member(:automatic_update_policy, Shapes::ShapeRef.new(shape: AutomaticUpdatePolicy, location_name: "AutomaticUpdatePolicy"))
+    SoftwareUpdatePreferences.struct_class = Types::SoftwareUpdatePreferences
+
     StartAvailabilityMonitorTestInput.add_member(:gateway_arn, Shapes::ShapeRef.new(shape: GatewayARN, required: true, location_name: "GatewayARN"))
     StartAvailabilityMonitorTestInput.struct_class = Types::StartAvailabilityMonitorTestInput
 
     StartAvailabilityMonitorTestOutput.add_member(:gateway_arn, Shapes::ShapeRef.new(shape: GatewayARN, location_name: "GatewayARN"))
     StartAvailabilityMonitorTestOutput.struct_class = Types::StartAvailabilityMonitorTestOutput
+
+    StartCacheReportInput.add_member(:file_share_arn, Shapes::ShapeRef.new(shape: FileShareARN, required: true, location_name: "FileShareARN"))
+    StartCacheReportInput.add_member(:role, Shapes::ShapeRef.new(shape: Role, required: true, location_name: "Role"))
+    StartCacheReportInput.add_member(:location_arn, Shapes::ShapeRef.new(shape: LocationARN, required: true, location_name: "LocationARN"))
+    StartCacheReportInput.add_member(:bucket_region, Shapes::ShapeRef.new(shape: RegionId, required: true, location_name: "BucketRegion"))
+    StartCacheReportInput.add_member(:vpc_endpoint_dns_name, Shapes::ShapeRef.new(shape: DNSHostName, location_name: "VPCEndpointDNSName"))
+    StartCacheReportInput.add_member(:inclusion_filters, Shapes::ShapeRef.new(shape: CacheReportFilterList, location_name: "InclusionFilters"))
+    StartCacheReportInput.add_member(:exclusion_filters, Shapes::ShapeRef.new(shape: CacheReportFilterList, location_name: "ExclusionFilters"))
+    StartCacheReportInput.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, required: true, location_name: "ClientToken"))
+    StartCacheReportInput.add_member(:tags, Shapes::ShapeRef.new(shape: Tags, location_name: "Tags"))
+    StartCacheReportInput.struct_class = Types::StartCacheReportInput
+
+    StartCacheReportOutput.add_member(:cache_report_arn, Shapes::ShapeRef.new(shape: CacheReportARN, location_name: "CacheReportARN"))
+    StartCacheReportOutput.struct_class = Types::StartCacheReportOutput
 
     StartGatewayInput.add_member(:gateway_arn, Shapes::ShapeRef.new(shape: GatewayARN, required: true, location_name: "GatewayARN"))
     StartGatewayInput.struct_class = Types::StartGatewayInput
@@ -1480,17 +1580,19 @@ module Aws::StorageGateway
     UpdateGatewaySoftwareNowOutput.struct_class = Types::UpdateGatewaySoftwareNowOutput
 
     UpdateMaintenanceStartTimeInput.add_member(:gateway_arn, Shapes::ShapeRef.new(shape: GatewayARN, required: true, location_name: "GatewayARN"))
-    UpdateMaintenanceStartTimeInput.add_member(:hour_of_day, Shapes::ShapeRef.new(shape: HourOfDay, required: true, location_name: "HourOfDay"))
-    UpdateMaintenanceStartTimeInput.add_member(:minute_of_hour, Shapes::ShapeRef.new(shape: MinuteOfHour, required: true, location_name: "MinuteOfHour"))
+    UpdateMaintenanceStartTimeInput.add_member(:hour_of_day, Shapes::ShapeRef.new(shape: HourOfDay, location_name: "HourOfDay"))
+    UpdateMaintenanceStartTimeInput.add_member(:minute_of_hour, Shapes::ShapeRef.new(shape: MinuteOfHour, location_name: "MinuteOfHour"))
     UpdateMaintenanceStartTimeInput.add_member(:day_of_week, Shapes::ShapeRef.new(shape: DayOfWeek, location_name: "DayOfWeek"))
     UpdateMaintenanceStartTimeInput.add_member(:day_of_month, Shapes::ShapeRef.new(shape: DayOfMonth, location_name: "DayOfMonth"))
+    UpdateMaintenanceStartTimeInput.add_member(:software_update_preferences, Shapes::ShapeRef.new(shape: SoftwareUpdatePreferences, location_name: "SoftwareUpdatePreferences"))
     UpdateMaintenanceStartTimeInput.struct_class = Types::UpdateMaintenanceStartTimeInput
 
     UpdateMaintenanceStartTimeOutput.add_member(:gateway_arn, Shapes::ShapeRef.new(shape: GatewayARN, location_name: "GatewayARN"))
     UpdateMaintenanceStartTimeOutput.struct_class = Types::UpdateMaintenanceStartTimeOutput
 
     UpdateNFSFileShareInput.add_member(:file_share_arn, Shapes::ShapeRef.new(shape: FileShareARN, required: true, location_name: "FileShareARN"))
-    UpdateNFSFileShareInput.add_member(:kms_encrypted, Shapes::ShapeRef.new(shape: Boolean, location_name: "KMSEncrypted"))
+    UpdateNFSFileShareInput.add_member(:encryption_type, Shapes::ShapeRef.new(shape: EncryptionType, location_name: "EncryptionType"))
+    UpdateNFSFileShareInput.add_member(:kms_encrypted, Shapes::ShapeRef.new(shape: Boolean, deprecated: true, location_name: "KMSEncrypted", metadata: {"deprecatedMessage"=>"KMSEncrypted is deprecated, use EncryptionType instead."}))
     UpdateNFSFileShareInput.add_member(:kms_key, Shapes::ShapeRef.new(shape: KMSKey, location_name: "KMSKey"))
     UpdateNFSFileShareInput.add_member(:nfs_file_share_defaults, Shapes::ShapeRef.new(shape: NFSFileShareDefaults, location_name: "NFSFileShareDefaults"))
     UpdateNFSFileShareInput.add_member(:default_storage_class, Shapes::ShapeRef.new(shape: StorageClass, location_name: "DefaultStorageClass"))
@@ -1510,7 +1612,8 @@ module Aws::StorageGateway
     UpdateNFSFileShareOutput.struct_class = Types::UpdateNFSFileShareOutput
 
     UpdateSMBFileShareInput.add_member(:file_share_arn, Shapes::ShapeRef.new(shape: FileShareARN, required: true, location_name: "FileShareARN"))
-    UpdateSMBFileShareInput.add_member(:kms_encrypted, Shapes::ShapeRef.new(shape: Boolean, location_name: "KMSEncrypted"))
+    UpdateSMBFileShareInput.add_member(:encryption_type, Shapes::ShapeRef.new(shape: EncryptionType, location_name: "EncryptionType"))
+    UpdateSMBFileShareInput.add_member(:kms_encrypted, Shapes::ShapeRef.new(shape: Boolean, deprecated: true, location_name: "KMSEncrypted", metadata: {"deprecatedMessage"=>"KMSEncrypted is deprecated, use EncryptionType instead."}))
     UpdateSMBFileShareInput.add_member(:kms_key, Shapes::ShapeRef.new(shape: KMSKey, location_name: "KMSKey"))
     UpdateSMBFileShareInput.add_member(:default_storage_class, Shapes::ShapeRef.new(shape: StorageClass, location_name: "DefaultStorageClass"))
     UpdateSMBFileShareInput.add_member(:object_acl, Shapes::ShapeRef.new(shape: ObjectACL, location_name: "ObjectACL"))
@@ -1623,9 +1726,11 @@ module Aws::StorageGateway
 
       api.metadata = {
         "apiVersion" => "2013-06-30",
+        "auth" => ["aws.auth#sigv4"],
         "endpointPrefix" => "storagegateway",
         "jsonVersion" => "1.1",
         "protocol" => "json",
+        "protocols" => ["json"],
         "serviceFullName" => "AWS Storage Gateway",
         "serviceId" => "Storage Gateway",
         "signatureVersion" => "v4",
@@ -1719,6 +1824,16 @@ module Aws::StorageGateway
         o.http_request_uri = "/"
         o.input = Shapes::ShapeRef.new(shape: CancelArchivalInput)
         o.output = Shapes::ShapeRef.new(shape: CancelArchivalOutput)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidGatewayRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerError)
+      end)
+
+      api.add_operation(:cancel_cache_report, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "CancelCacheReport"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: CancelCacheReportInput)
+        o.output = Shapes::ShapeRef.new(shape: CancelCacheReportOutput)
         o.errors << Shapes::ShapeRef.new(shape: InvalidGatewayRequestException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerError)
       end)
@@ -1845,6 +1960,16 @@ module Aws::StorageGateway
         o.errors << Shapes::ShapeRef.new(shape: InternalServerError)
       end)
 
+      api.add_operation(:delete_cache_report, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DeleteCacheReport"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: DeleteCacheReportInput)
+        o.output = Shapes::ShapeRef.new(shape: DeleteCacheReportOutput)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidGatewayRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerError)
+      end)
+
       api.add_operation(:delete_chap_credentials, Seahorse::Model::Operation.new.tap do |o|
         o.name = "DeleteChapCredentials"
         o.http_method = "POST"
@@ -1961,6 +2086,16 @@ module Aws::StorageGateway
         o.http_request_uri = "/"
         o.input = Shapes::ShapeRef.new(shape: DescribeCacheInput)
         o.output = Shapes::ShapeRef.new(shape: DescribeCacheOutput)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidGatewayRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerError)
+      end)
+
+      api.add_operation(:describe_cache_report, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DescribeCacheReport"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: DescribeCacheReportInput)
+        o.output = Shapes::ShapeRef.new(shape: DescribeCacheReportOutput)
         o.errors << Shapes::ShapeRef.new(shape: InvalidGatewayRequestException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerError)
       end)
@@ -2195,6 +2330,16 @@ module Aws::StorageGateway
         o.http_request_uri = "/"
         o.input = Shapes::ShapeRef.new(shape: ListAutomaticTapeCreationPoliciesInput)
         o.output = Shapes::ShapeRef.new(shape: ListAutomaticTapeCreationPoliciesOutput)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidGatewayRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerError)
+      end)
+
+      api.add_operation(:list_cache_reports, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListCacheReports"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: ListCacheReportsInput)
+        o.output = Shapes::ShapeRef.new(shape: ListCacheReportsOutput)
         o.errors << Shapes::ShapeRef.new(shape: InvalidGatewayRequestException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerError)
       end)
@@ -2437,6 +2582,16 @@ module Aws::StorageGateway
         o.http_request_uri = "/"
         o.input = Shapes::ShapeRef.new(shape: StartAvailabilityMonitorTestInput)
         o.output = Shapes::ShapeRef.new(shape: StartAvailabilityMonitorTestOutput)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidGatewayRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerError)
+      end)
+
+      api.add_operation(:start_cache_report, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "StartCacheReport"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: StartCacheReportInput)
+        o.output = Shapes::ShapeRef.new(shape: StartCacheReportOutput)
         o.errors << Shapes::ShapeRef.new(shape: InvalidGatewayRequestException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerError)
       end)

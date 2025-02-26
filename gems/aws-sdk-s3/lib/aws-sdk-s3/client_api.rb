@@ -7,6 +7,7 @@
 #
 # WARNING ABOUT GENERATED CODE
 
+
 module Aws::S3
   # @api private
   module ClientApi
@@ -22,6 +23,8 @@ module Aws::S3
     AcceptRanges = Shapes::StringShape.new(name: 'AcceptRanges')
     AccessControlPolicy = Shapes::StructureShape.new(name: 'AccessControlPolicy')
     AccessControlTranslation = Shapes::StructureShape.new(name: 'AccessControlTranslation')
+    AccessKeyIdValue = Shapes::StringShape.new(name: 'AccessKeyIdValue')
+    AccessPointAlias = Shapes::BooleanShape.new(name: 'AccessPointAlias')
     AccessPointArn = Shapes::StringShape.new(name: 'AccessPointArn')
     AccountId = Shapes::StringShape.new(name: 'AccountId')
     AllowQuotedRecordDelimiter = Shapes::BooleanShape.new(name: 'AllowQuotedRecordDelimiter')
@@ -46,12 +49,16 @@ module Aws::S3
     BucketAlreadyExists = Shapes::StructureShape.new(name: 'BucketAlreadyExists')
     BucketAlreadyOwnedByYou = Shapes::StructureShape.new(name: 'BucketAlreadyOwnedByYou')
     BucketCannedACL = Shapes::StringShape.new(name: 'BucketCannedACL')
+    BucketInfo = Shapes::StructureShape.new(name: 'BucketInfo')
     BucketKeyEnabled = Shapes::BooleanShape.new(name: 'BucketKeyEnabled')
     BucketLifecycleConfiguration = Shapes::StructureShape.new(name: 'BucketLifecycleConfiguration')
     BucketLocationConstraint = Shapes::StringShape.new(name: 'BucketLocationConstraint')
+    BucketLocationName = Shapes::StringShape.new(name: 'BucketLocationName')
     BucketLoggingStatus = Shapes::StructureShape.new(name: 'BucketLoggingStatus')
     BucketLogsPermission = Shapes::StringShape.new(name: 'BucketLogsPermission')
     BucketName = Shapes::StringShape.new(name: 'BucketName')
+    BucketRegion = Shapes::StringShape.new(name: 'BucketRegion')
+    BucketType = Shapes::StringShape.new(name: 'BucketType')
     BucketVersioningStatus = Shapes::StringShape.new(name: 'BucketVersioningStatus')
     Buckets = Shapes::ListShape.new(name: 'Buckets')
     BypassGovernanceRetention = Shapes::BooleanShape.new(name: 'BypassGovernanceRetention')
@@ -69,9 +76,11 @@ module Aws::S3
     ChecksumAlgorithmList = Shapes::ListShape.new(name: 'ChecksumAlgorithmList', flattened: true)
     ChecksumCRC32 = Shapes::StringShape.new(name: 'ChecksumCRC32')
     ChecksumCRC32C = Shapes::StringShape.new(name: 'ChecksumCRC32C')
+    ChecksumCRC64NVME = Shapes::StringShape.new(name: 'ChecksumCRC64NVME')
     ChecksumMode = Shapes::StringShape.new(name: 'ChecksumMode')
     ChecksumSHA1 = Shapes::StringShape.new(name: 'ChecksumSHA1')
     ChecksumSHA256 = Shapes::StringShape.new(name: 'ChecksumSHA256')
+    ChecksumType = Shapes::StringShape.new(name: 'ChecksumType')
     CloudFunction = Shapes::StringShape.new(name: 'CloudFunction')
     CloudFunctionConfiguration = Shapes::StructureShape.new(name: 'CloudFunctionConfiguration')
     CloudFunctionInvocationRole = Shapes::StringShape.new(name: 'CloudFunctionInvocationRole')
@@ -110,11 +119,15 @@ module Aws::S3
     CopySourceSSECustomerKeyMD5 = Shapes::StringShape.new(name: 'CopySourceSSECustomerKeyMD5')
     CopySourceVersionId = Shapes::StringShape.new(name: 'CopySourceVersionId')
     CreateBucketConfiguration = Shapes::StructureShape.new(name: 'CreateBucketConfiguration')
+    CreateBucketMetadataTableConfigurationRequest = Shapes::StructureShape.new(name: 'CreateBucketMetadataTableConfigurationRequest')
     CreateBucketOutput = Shapes::StructureShape.new(name: 'CreateBucketOutput')
     CreateBucketRequest = Shapes::StructureShape.new(name: 'CreateBucketRequest')
     CreateMultipartUploadOutput = Shapes::StructureShape.new(name: 'CreateMultipartUploadOutput')
     CreateMultipartUploadRequest = Shapes::StructureShape.new(name: 'CreateMultipartUploadRequest')
+    CreateSessionOutput = Shapes::StructureShape.new(name: 'CreateSessionOutput')
+    CreateSessionRequest = Shapes::StructureShape.new(name: 'CreateSessionRequest')
     CreationDate = Shapes::TimestampShape.new(name: 'CreationDate')
+    DataRedundancy = Shapes::StringShape.new(name: 'DataRedundancy')
     Date = Shapes::TimestampShape.new(name: 'Date', timestampFormat: "iso8601")
     Days = Shapes::IntegerShape.new(name: 'Days')
     DaysAfterInitiation = Shapes::IntegerShape.new(name: 'DaysAfterInitiation')
@@ -126,6 +139,7 @@ module Aws::S3
     DeleteBucketIntelligentTieringConfigurationRequest = Shapes::StructureShape.new(name: 'DeleteBucketIntelligentTieringConfigurationRequest')
     DeleteBucketInventoryConfigurationRequest = Shapes::StructureShape.new(name: 'DeleteBucketInventoryConfigurationRequest')
     DeleteBucketLifecycleRequest = Shapes::StructureShape.new(name: 'DeleteBucketLifecycleRequest')
+    DeleteBucketMetadataTableConfigurationRequest = Shapes::StructureShape.new(name: 'DeleteBucketMetadataTableConfigurationRequest')
     DeleteBucketMetricsConfigurationRequest = Shapes::StructureShape.new(name: 'DeleteBucketMetricsConfigurationRequest')
     DeleteBucketOwnershipControlsRequest = Shapes::StructureShape.new(name: 'DeleteBucketOwnershipControlsRequest')
     DeleteBucketPolicyRequest = Shapes::StructureShape.new(name: 'DeleteBucketPolicyRequest')
@@ -151,6 +165,7 @@ module Aws::S3
     Delimiter = Shapes::StringShape.new(name: 'Delimiter')
     Description = Shapes::StringShape.new(name: 'Description')
     Destination = Shapes::StructureShape.new(name: 'Destination')
+    DirectoryBucketToken = Shapes::StringShape.new(name: 'DirectoryBucketToken')
     DisplayName = Shapes::StringShape.new(name: 'DisplayName')
     ETag = Shapes::StringShape.new(name: 'ETag')
     EmailAddress = Shapes::StringShape.new(name: 'EmailAddress')
@@ -158,10 +173,12 @@ module Aws::S3
     EncodingType = Shapes::StringShape.new(name: 'EncodingType')
     Encryption = Shapes::StructureShape.new(name: 'Encryption')
     EncryptionConfiguration = Shapes::StructureShape.new(name: 'EncryptionConfiguration')
+    EncryptionTypeMismatch = Shapes::StructureShape.new(name: 'EncryptionTypeMismatch')
     End = Shapes::IntegerShape.new(name: 'End')
     EndEvent = Shapes::StructureShape.new(name: 'EndEvent')
     Error = Shapes::StructureShape.new(name: 'Error')
     ErrorCode = Shapes::StringShape.new(name: 'ErrorCode')
+    ErrorDetails = Shapes::StructureShape.new(name: 'ErrorDetails')
     ErrorDocument = Shapes::StructureShape.new(name: 'ErrorDocument')
     ErrorMessage = Shapes::StringShape.new(name: 'ErrorMessage')
     Errors = Shapes::ListShape.new(name: 'Errors', flattened: true)
@@ -208,6 +225,9 @@ module Aws::S3
     GetBucketLocationRequest = Shapes::StructureShape.new(name: 'GetBucketLocationRequest')
     GetBucketLoggingOutput = Shapes::StructureShape.new(name: 'GetBucketLoggingOutput')
     GetBucketLoggingRequest = Shapes::StructureShape.new(name: 'GetBucketLoggingRequest')
+    GetBucketMetadataTableConfigurationOutput = Shapes::StructureShape.new(name: 'GetBucketMetadataTableConfigurationOutput')
+    GetBucketMetadataTableConfigurationRequest = Shapes::StructureShape.new(name: 'GetBucketMetadataTableConfigurationRequest')
+    GetBucketMetadataTableConfigurationResult = Shapes::StructureShape.new(name: 'GetBucketMetadataTableConfigurationResult')
     GetBucketMetricsConfigurationOutput = Shapes::StructureShape.new(name: 'GetBucketMetricsConfigurationOutput')
     GetBucketMetricsConfigurationRequest = Shapes::StructureShape.new(name: 'GetBucketMetricsConfigurationRequest')
     GetBucketNotificationConfigurationRequest = Shapes::StructureShape.new(name: 'GetBucketNotificationConfigurationRequest')
@@ -256,6 +276,7 @@ module Aws::S3
     GrantWriteACP = Shapes::StringShape.new(name: 'GrantWriteACP')
     Grantee = Shapes::StructureShape.new(name: 'Grantee', xmlNamespace: {"prefix"=>"xsi", "uri"=>"http://www.w3.org/2001/XMLSchema-instance"})
     Grants = Shapes::ListShape.new(name: 'Grants')
+    HeadBucketOutput = Shapes::StructureShape.new(name: 'HeadBucketOutput')
     HeadBucketRequest = Shapes::StructureShape.new(name: 'HeadBucketRequest')
     HeadObjectOutput = Shapes::StructureShape.new(name: 'HeadObjectOutput')
     HeadObjectRequest = Shapes::StructureShape.new(name: 'HeadObjectRequest')
@@ -264,6 +285,9 @@ module Aws::S3
     HttpRedirectCode = Shapes::StringShape.new(name: 'HttpRedirectCode')
     ID = Shapes::StringShape.new(name: 'ID')
     IfMatch = Shapes::StringShape.new(name: 'IfMatch')
+    IfMatchInitiatedTime = Shapes::TimestampShape.new(name: 'IfMatchInitiatedTime', timestampFormat: "rfc822")
+    IfMatchLastModifiedTime = Shapes::TimestampShape.new(name: 'IfMatchLastModifiedTime', timestampFormat: "rfc822")
+    IfMatchSize = Shapes::IntegerShape.new(name: 'IfMatchSize')
     IfModifiedSince = Shapes::TimestampShape.new(name: 'IfModifiedSince')
     IfNoneMatch = Shapes::StringShape.new(name: 'IfNoneMatch')
     IfUnmodifiedSince = Shapes::TimestampShape.new(name: 'IfUnmodifiedSince')
@@ -280,6 +304,8 @@ module Aws::S3
     IntelligentTieringId = Shapes::StringShape.new(name: 'IntelligentTieringId')
     IntelligentTieringStatus = Shapes::StringShape.new(name: 'IntelligentTieringStatus')
     InvalidObjectState = Shapes::StructureShape.new(name: 'InvalidObjectState')
+    InvalidRequest = Shapes::StructureShape.new(name: 'InvalidRequest')
+    InvalidWriteOffset = Shapes::StructureShape.new(name: 'InvalidWriteOffset')
     InventoryConfiguration = Shapes::StructureShape.new(name: 'InventoryConfiguration')
     InventoryConfigurationList = Shapes::ListShape.new(name: 'InventoryConfigurationList', flattened: true)
     InventoryDestination = Shapes::StructureShape.new(name: 'InventoryDestination')
@@ -296,6 +322,7 @@ module Aws::S3
     IsEnabled = Shapes::BooleanShape.new(name: 'IsEnabled')
     IsLatest = Shapes::BooleanShape.new(name: 'IsLatest')
     IsPublic = Shapes::BooleanShape.new(name: 'IsPublic')
+    IsRestoreInProgress = Shapes::BooleanShape.new(name: 'IsRestoreInProgress')
     IsTruncated = Shapes::BooleanShape.new(name: 'IsTruncated')
     JSONInput = Shapes::StructureShape.new(name: 'JSONInput')
     JSONOutput = Shapes::StructureShape.new(name: 'JSONOutput')
@@ -308,6 +335,7 @@ module Aws::S3
     LambdaFunctionConfiguration = Shapes::StructureShape.new(name: 'LambdaFunctionConfiguration')
     LambdaFunctionConfigurationList = Shapes::ListShape.new(name: 'LambdaFunctionConfigurationList', flattened: true)
     LastModified = Shapes::TimestampShape.new(name: 'LastModified')
+    LastModifiedTime = Shapes::TimestampShape.new(name: 'LastModifiedTime', timestampFormat: "rfc822")
     LifecycleConfiguration = Shapes::StructureShape.new(name: 'LifecycleConfiguration')
     LifecycleExpiration = Shapes::StructureShape.new(name: 'LifecycleExpiration')
     LifecycleRule = Shapes::StructureShape.new(name: 'LifecycleRule')
@@ -323,6 +351,9 @@ module Aws::S3
     ListBucketMetricsConfigurationsOutput = Shapes::StructureShape.new(name: 'ListBucketMetricsConfigurationsOutput')
     ListBucketMetricsConfigurationsRequest = Shapes::StructureShape.new(name: 'ListBucketMetricsConfigurationsRequest')
     ListBucketsOutput = Shapes::StructureShape.new(name: 'ListBucketsOutput')
+    ListBucketsRequest = Shapes::StructureShape.new(name: 'ListBucketsRequest')
+    ListDirectoryBucketsOutput = Shapes::StructureShape.new(name: 'ListDirectoryBucketsOutput')
+    ListDirectoryBucketsRequest = Shapes::StructureShape.new(name: 'ListDirectoryBucketsRequest')
     ListMultipartUploadsOutput = Shapes::StructureShape.new(name: 'ListMultipartUploadsOutput')
     ListMultipartUploadsRequest = Shapes::StructureShape.new(name: 'ListMultipartUploadsRequest')
     ListObjectVersionsOutput = Shapes::StructureShape.new(name: 'ListObjectVersionsOutput')
@@ -334,13 +365,18 @@ module Aws::S3
     ListPartsOutput = Shapes::StructureShape.new(name: 'ListPartsOutput')
     ListPartsRequest = Shapes::StructureShape.new(name: 'ListPartsRequest')
     Location = Shapes::StringShape.new(name: 'Location')
+    LocationInfo = Shapes::StructureShape.new(name: 'LocationInfo')
+    LocationNameAsString = Shapes::StringShape.new(name: 'LocationNameAsString')
     LocationPrefix = Shapes::StringShape.new(name: 'LocationPrefix')
+    LocationType = Shapes::StringShape.new(name: 'LocationType')
     LoggingEnabled = Shapes::StructureShape.new(name: 'LoggingEnabled')
     MFA = Shapes::StringShape.new(name: 'MFA')
     MFADelete = Shapes::StringShape.new(name: 'MFADelete')
     MFADeleteStatus = Shapes::StringShape.new(name: 'MFADeleteStatus')
     Marker = Shapes::StringShape.new(name: 'Marker')
     MaxAgeSeconds = Shapes::IntegerShape.new(name: 'MaxAgeSeconds')
+    MaxBuckets = Shapes::IntegerShape.new(name: 'MaxBuckets')
+    MaxDirectoryBuckets = Shapes::IntegerShape.new(name: 'MaxDirectoryBuckets')
     MaxKeys = Shapes::IntegerShape.new(name: 'MaxKeys')
     MaxParts = Shapes::IntegerShape.new(name: 'MaxParts')
     MaxUploads = Shapes::IntegerShape.new(name: 'MaxUploads')
@@ -349,6 +385,9 @@ module Aws::S3
     MetadataDirective = Shapes::StringShape.new(name: 'MetadataDirective')
     MetadataEntry = Shapes::StructureShape.new(name: 'MetadataEntry')
     MetadataKey = Shapes::StringShape.new(name: 'MetadataKey')
+    MetadataTableConfiguration = Shapes::StructureShape.new(name: 'MetadataTableConfiguration')
+    MetadataTableConfigurationResult = Shapes::StructureShape.new(name: 'MetadataTableConfigurationResult')
+    MetadataTableStatus = Shapes::StringShape.new(name: 'MetadataTableStatus')
     MetadataValue = Shapes::StringShape.new(name: 'MetadataValue')
     Metrics = Shapes::StructureShape.new(name: 'Metrics')
     MetricsAndOperator = Shapes::StructureShape.new(name: 'MetricsAndOperator')
@@ -359,6 +398,7 @@ module Aws::S3
     MetricsStatus = Shapes::StringShape.new(name: 'MetricsStatus')
     Minutes = Shapes::IntegerShape.new(name: 'Minutes')
     MissingMeta = Shapes::IntegerShape.new(name: 'MissingMeta')
+    MpuObjectSize = Shapes::IntegerShape.new(name: 'MpuObjectSize')
     MultipartUpload = Shapes::StructureShape.new(name: 'MultipartUpload')
     MultipartUploadId = Shapes::StringShape.new(name: 'MultipartUploadId')
     MultipartUploadList = Shapes::ListShape.new(name: 'MultipartUploadList', flattened: true)
@@ -409,6 +449,8 @@ module Aws::S3
     ObjectVersionId = Shapes::StringShape.new(name: 'ObjectVersionId')
     ObjectVersionList = Shapes::ListShape.new(name: 'ObjectVersionList', flattened: true)
     ObjectVersionStorageClass = Shapes::StringShape.new(name: 'ObjectVersionStorageClass')
+    OptionalObjectAttributes = Shapes::StringShape.new(name: 'OptionalObjectAttributes')
+    OptionalObjectAttributesList = Shapes::ListShape.new(name: 'OptionalObjectAttributesList')
     OutputLocation = Shapes::StructureShape.new(name: 'OutputLocation')
     OutputSerialization = Shapes::StructureShape.new(name: 'OutputSerialization')
     Owner = Shapes::StructureShape.new(name: 'Owner')
@@ -420,6 +462,8 @@ module Aws::S3
     Part = Shapes::StructureShape.new(name: 'Part')
     PartNumber = Shapes::IntegerShape.new(name: 'PartNumber')
     PartNumberMarker = Shapes::IntegerShape.new(name: 'PartNumberMarker')
+    PartitionDateSource = Shapes::StringShape.new(name: 'PartitionDateSource')
+    PartitionedPrefix = Shapes::StructureShape.new(name: 'PartitionedPrefix', locationName: "PartitionedPrefix")
     Parts = Shapes::ListShape.new(name: 'Parts', flattened: true)
     PartsCount = Shapes::IntegerShape.new(name: 'PartsCount')
     PartsList = Shapes::ListShape.new(name: 'PartsList', flattened: true)
@@ -440,6 +484,7 @@ module Aws::S3
     PutBucketEncryptionRequest = Shapes::StructureShape.new(name: 'PutBucketEncryptionRequest')
     PutBucketIntelligentTieringConfigurationRequest = Shapes::StructureShape.new(name: 'PutBucketIntelligentTieringConfigurationRequest')
     PutBucketInventoryConfigurationRequest = Shapes::StructureShape.new(name: 'PutBucketInventoryConfigurationRequest')
+    PutBucketLifecycleConfigurationOutput = Shapes::StructureShape.new(name: 'PutBucketLifecycleConfigurationOutput')
     PutBucketLifecycleConfigurationRequest = Shapes::StructureShape.new(name: 'PutBucketLifecycleConfigurationRequest')
     PutBucketLifecycleRequest = Shapes::StructureShape.new(name: 'PutBucketLifecycleRequest')
     PutBucketLoggingRequest = Shapes::StructureShape.new(name: 'PutBucketLoggingRequest')
@@ -479,6 +524,7 @@ module Aws::S3
     RecordsEvent = Shapes::StructureShape.new(name: 'RecordsEvent')
     Redirect = Shapes::StructureShape.new(name: 'Redirect')
     RedirectAllRequestsTo = Shapes::StructureShape.new(name: 'RedirectAllRequestsTo')
+    Region = Shapes::StringShape.new(name: 'Region')
     ReplaceKeyPrefixWith = Shapes::StringShape.new(name: 'ReplaceKeyPrefixWith')
     ReplaceKeyWith = Shapes::StringShape.new(name: 'ReplaceKeyWith')
     ReplicaKmsKeyID = Shapes::StringShape.new(name: 'ReplicaKmsKeyID')
@@ -507,11 +553,13 @@ module Aws::S3
     ResponseContentType = Shapes::StringShape.new(name: 'ResponseContentType')
     ResponseExpires = Shapes::TimestampShape.new(name: 'ResponseExpires', timestampFormat: "rfc822")
     Restore = Shapes::StringShape.new(name: 'Restore')
+    RestoreExpiryDate = Shapes::TimestampShape.new(name: 'RestoreExpiryDate')
     RestoreObjectOutput = Shapes::StructureShape.new(name: 'RestoreObjectOutput')
     RestoreObjectRequest = Shapes::StructureShape.new(name: 'RestoreObjectRequest')
     RestoreOutputPath = Shapes::StringShape.new(name: 'RestoreOutputPath')
     RestoreRequest = Shapes::StructureShape.new(name: 'RestoreRequest')
     RestoreRequestType = Shapes::StringShape.new(name: 'RestoreRequestType')
+    RestoreStatus = Shapes::StructureShape.new(name: 'RestoreStatus')
     Role = Shapes::StringShape.new(name: 'Role')
     RoutingRule = Shapes::StructureShape.new(name: 'RoutingRule')
     RoutingRules = Shapes::ListShape.new(name: 'RoutingRules')
@@ -519,13 +567,19 @@ module Aws::S3
     Rules = Shapes::ListShape.new(name: 'Rules', flattened: true)
     S3KeyFilter = Shapes::StructureShape.new(name: 'S3KeyFilter')
     S3Location = Shapes::StructureShape.new(name: 'S3Location')
+    S3TablesArn = Shapes::StringShape.new(name: 'S3TablesArn')
+    S3TablesBucketArn = Shapes::StringShape.new(name: 'S3TablesBucketArn')
+    S3TablesDestination = Shapes::StructureShape.new(name: 'S3TablesDestination')
+    S3TablesDestinationResult = Shapes::StructureShape.new(name: 'S3TablesDestinationResult')
+    S3TablesName = Shapes::StringShape.new(name: 'S3TablesName')
+    S3TablesNamespace = Shapes::StringShape.new(name: 'S3TablesNamespace')
     SSECustomerAlgorithm = Shapes::StringShape.new(name: 'SSECustomerAlgorithm')
     SSECustomerKey = Shapes::StringShape.new(name: 'SSECustomerKey')
     SSECustomerKeyMD5 = Shapes::StringShape.new(name: 'SSECustomerKeyMD5')
-    SSEKMS = Shapes::StructureShape.new(name: 'SSEKMS')
+    SSEKMS = Shapes::StructureShape.new(name: 'SSEKMS', locationName: "SSE-KMS")
     SSEKMSEncryptionContext = Shapes::StringShape.new(name: 'SSEKMSEncryptionContext')
     SSEKMSKeyId = Shapes::StringShape.new(name: 'SSEKMSKeyId')
-    SSES3 = Shapes::StructureShape.new(name: 'SSES3')
+    SSES3 = Shapes::StructureShape.new(name: 'SSES3', locationName: "SSE-S3")
     ScanRange = Shapes::StructureShape.new(name: 'ScanRange')
     SelectObjectContentEventStream = Shapes::StructureShape.new(name: 'SelectObjectContentEventStream')
     SelectObjectContentOutput = Shapes::StructureShape.new(name: 'SelectObjectContentOutput')
@@ -536,7 +590,12 @@ module Aws::S3
     ServerSideEncryptionConfiguration = Shapes::StructureShape.new(name: 'ServerSideEncryptionConfiguration')
     ServerSideEncryptionRule = Shapes::StructureShape.new(name: 'ServerSideEncryptionRule')
     ServerSideEncryptionRules = Shapes::ListShape.new(name: 'ServerSideEncryptionRules', flattened: true)
+    SessionCredentialValue = Shapes::StringShape.new(name: 'SessionCredentialValue')
+    SessionCredentials = Shapes::StructureShape.new(name: 'SessionCredentials')
+    SessionExpiration = Shapes::TimestampShape.new(name: 'SessionExpiration')
+    SessionMode = Shapes::StringShape.new(name: 'SessionMode')
     Setting = Shapes::BooleanShape.new(name: 'Setting')
+    SimplePrefix = Shapes::StructureShape.new(name: 'SimplePrefix', locationName: "SimplePrefix")
     Size = Shapes::IntegerShape.new(name: 'Size')
     SkipValidation = Shapes::BooleanShape.new(name: 'SkipValidation')
     SourceSelectionCriteria = Shapes::StructureShape.new(name: 'SourceSelectionCriteria')
@@ -560,16 +619,19 @@ module Aws::S3
     TargetBucket = Shapes::StringShape.new(name: 'TargetBucket')
     TargetGrant = Shapes::StructureShape.new(name: 'TargetGrant')
     TargetGrants = Shapes::ListShape.new(name: 'TargetGrants')
+    TargetObjectKeyFormat = Shapes::StructureShape.new(name: 'TargetObjectKeyFormat')
     TargetPrefix = Shapes::StringShape.new(name: 'TargetPrefix')
     Tier = Shapes::StringShape.new(name: 'Tier')
     Tiering = Shapes::StructureShape.new(name: 'Tiering')
     TieringList = Shapes::ListShape.new(name: 'TieringList', flattened: true)
     Token = Shapes::StringShape.new(name: 'Token')
+    TooManyParts = Shapes::StructureShape.new(name: 'TooManyParts')
     TopicArn = Shapes::StringShape.new(name: 'TopicArn')
     TopicConfiguration = Shapes::StructureShape.new(name: 'TopicConfiguration')
     TopicConfigurationDeprecated = Shapes::StructureShape.new(name: 'TopicConfigurationDeprecated')
     TopicConfigurationList = Shapes::ListShape.new(name: 'TopicConfigurationList', flattened: true)
     Transition = Shapes::StructureShape.new(name: 'Transition')
+    TransitionDefaultMinimumObjectSize = Shapes::StringShape.new(name: 'TransitionDefaultMinimumObjectSize')
     TransitionList = Shapes::ListShape.new(name: 'TransitionList', flattened: true)
     TransitionStorageClass = Shapes::StringShape.new(name: 'TransitionStorageClass')
     Type = Shapes::StringShape.new(name: 'Type')
@@ -587,6 +649,7 @@ module Aws::S3
     WebsiteConfiguration = Shapes::StructureShape.new(name: 'WebsiteConfiguration')
     WebsiteRedirectLocation = Shapes::StringShape.new(name: 'WebsiteRedirectLocation')
     WriteGetObjectResponseRequest = Shapes::StructureShape.new(name: 'WriteGetObjectResponseRequest')
+    WriteOffsetBytes = Shapes::IntegerShape.new(name: 'WriteOffsetBytes')
     Years = Shapes::IntegerShape.new(name: 'Years')
 
     AbortIncompleteMultipartUpload.add_member(:days_after_initiation, Shapes::ShapeRef.new(shape: DaysAfterInitiation, location_name: "DaysAfterInitiation"))
@@ -596,10 +659,11 @@ module Aws::S3
     AbortMultipartUploadOutput.struct_class = Types::AbortMultipartUploadOutput
 
     AbortMultipartUploadRequest.add_member(:bucket, Shapes::ShapeRef.new(shape: BucketName, required: true, location: "uri", location_name: "Bucket", metadata: {"contextParam"=>{"name"=>"Bucket"}}))
-    AbortMultipartUploadRequest.add_member(:key, Shapes::ShapeRef.new(shape: ObjectKey, required: true, location: "uri", location_name: "Key"))
+    AbortMultipartUploadRequest.add_member(:key, Shapes::ShapeRef.new(shape: ObjectKey, required: true, location: "uri", location_name: "Key", metadata: {"contextParam"=>{"name"=>"Key"}}))
     AbortMultipartUploadRequest.add_member(:upload_id, Shapes::ShapeRef.new(shape: MultipartUploadId, required: true, location: "querystring", location_name: "uploadId"))
     AbortMultipartUploadRequest.add_member(:request_payer, Shapes::ShapeRef.new(shape: RequestPayer, location: "header", location_name: "x-amz-request-payer"))
     AbortMultipartUploadRequest.add_member(:expected_bucket_owner, Shapes::ShapeRef.new(shape: AccountId, location: "header", location_name: "x-amz-expected-bucket-owner"))
+    AbortMultipartUploadRequest.add_member(:if_match_initiated_time, Shapes::ShapeRef.new(shape: IfMatchInitiatedTime, location: "header", location_name: "x-amz-if-match-initiated-time"))
     AbortMultipartUploadRequest.struct_class = Types::AbortMultipartUploadRequest
 
     AccelerateConfiguration.add_member(:status, Shapes::ShapeRef.new(shape: BucketAccelerateStatus, location_name: "Status"))
@@ -645,11 +709,16 @@ module Aws::S3
 
     Bucket.add_member(:name, Shapes::ShapeRef.new(shape: BucketName, location_name: "Name"))
     Bucket.add_member(:creation_date, Shapes::ShapeRef.new(shape: CreationDate, location_name: "CreationDate"))
+    Bucket.add_member(:bucket_region, Shapes::ShapeRef.new(shape: BucketRegion, location_name: "BucketRegion"))
     Bucket.struct_class = Types::Bucket
 
     BucketAlreadyExists.struct_class = Types::BucketAlreadyExists
 
     BucketAlreadyOwnedByYou.struct_class = Types::BucketAlreadyOwnedByYou
+
+    BucketInfo.add_member(:data_redundancy, Shapes::ShapeRef.new(shape: DataRedundancy, location_name: "DataRedundancy"))
+    BucketInfo.add_member(:type, Shapes::ShapeRef.new(shape: BucketType, location_name: "Type"))
+    BucketInfo.struct_class = Types::BucketInfo
 
     BucketLifecycleConfiguration.add_member(:rules, Shapes::ShapeRef.new(shape: LifecycleRules, required: true, location_name: "Rule"))
     BucketLifecycleConfiguration.struct_class = Types::BucketLifecycleConfiguration
@@ -690,8 +759,10 @@ module Aws::S3
 
     Checksum.add_member(:checksum_crc32, Shapes::ShapeRef.new(shape: ChecksumCRC32, location_name: "ChecksumCRC32"))
     Checksum.add_member(:checksum_crc32c, Shapes::ShapeRef.new(shape: ChecksumCRC32C, location_name: "ChecksumCRC32C"))
+    Checksum.add_member(:checksum_crc64nvme, Shapes::ShapeRef.new(shape: ChecksumCRC64NVME, location_name: "ChecksumCRC64NVME"))
     Checksum.add_member(:checksum_sha1, Shapes::ShapeRef.new(shape: ChecksumSHA1, location_name: "ChecksumSHA1"))
     Checksum.add_member(:checksum_sha256, Shapes::ShapeRef.new(shape: ChecksumSHA256, location_name: "ChecksumSHA256"))
+    Checksum.add_member(:checksum_type, Shapes::ShapeRef.new(shape: ChecksumType, location_name: "ChecksumType"))
     Checksum.struct_class = Types::Checksum
 
     ChecksumAlgorithmList.member = Shapes::ShapeRef.new(shape: ChecksumAlgorithm)
@@ -715,8 +786,10 @@ module Aws::S3
     CompleteMultipartUploadOutput.add_member(:etag, Shapes::ShapeRef.new(shape: ETag, location_name: "ETag"))
     CompleteMultipartUploadOutput.add_member(:checksum_crc32, Shapes::ShapeRef.new(shape: ChecksumCRC32, location_name: "ChecksumCRC32"))
     CompleteMultipartUploadOutput.add_member(:checksum_crc32c, Shapes::ShapeRef.new(shape: ChecksumCRC32C, location_name: "ChecksumCRC32C"))
+    CompleteMultipartUploadOutput.add_member(:checksum_crc64nvme, Shapes::ShapeRef.new(shape: ChecksumCRC64NVME, location_name: "ChecksumCRC64NVME"))
     CompleteMultipartUploadOutput.add_member(:checksum_sha1, Shapes::ShapeRef.new(shape: ChecksumSHA1, location_name: "ChecksumSHA1"))
     CompleteMultipartUploadOutput.add_member(:checksum_sha256, Shapes::ShapeRef.new(shape: ChecksumSHA256, location_name: "ChecksumSHA256"))
+    CompleteMultipartUploadOutput.add_member(:checksum_type, Shapes::ShapeRef.new(shape: ChecksumType, location_name: "ChecksumType"))
     CompleteMultipartUploadOutput.add_member(:server_side_encryption, Shapes::ShapeRef.new(shape: ServerSideEncryption, location: "header", location_name: "x-amz-server-side-encryption"))
     CompleteMultipartUploadOutput.add_member(:version_id, Shapes::ShapeRef.new(shape: ObjectVersionId, location: "header", location_name: "x-amz-version-id"))
     CompleteMultipartUploadOutput.add_member(:ssekms_key_id, Shapes::ShapeRef.new(shape: SSEKMSKeyId, location: "header", location_name: "x-amz-server-side-encryption-aws-kms-key-id"))
@@ -725,15 +798,20 @@ module Aws::S3
     CompleteMultipartUploadOutput.struct_class = Types::CompleteMultipartUploadOutput
 
     CompleteMultipartUploadRequest.add_member(:bucket, Shapes::ShapeRef.new(shape: BucketName, required: true, location: "uri", location_name: "Bucket", metadata: {"contextParam"=>{"name"=>"Bucket"}}))
-    CompleteMultipartUploadRequest.add_member(:key, Shapes::ShapeRef.new(shape: ObjectKey, required: true, location: "uri", location_name: "Key"))
+    CompleteMultipartUploadRequest.add_member(:key, Shapes::ShapeRef.new(shape: ObjectKey, required: true, location: "uri", location_name: "Key", metadata: {"contextParam"=>{"name"=>"Key"}}))
     CompleteMultipartUploadRequest.add_member(:multipart_upload, Shapes::ShapeRef.new(shape: CompletedMultipartUpload, location_name: "CompleteMultipartUpload", metadata: {"xmlNamespace"=>{"uri"=>"http://s3.amazonaws.com/doc/2006-03-01/"}}))
     CompleteMultipartUploadRequest.add_member(:upload_id, Shapes::ShapeRef.new(shape: MultipartUploadId, required: true, location: "querystring", location_name: "uploadId"))
     CompleteMultipartUploadRequest.add_member(:checksum_crc32, Shapes::ShapeRef.new(shape: ChecksumCRC32, location: "header", location_name: "x-amz-checksum-crc32"))
     CompleteMultipartUploadRequest.add_member(:checksum_crc32c, Shapes::ShapeRef.new(shape: ChecksumCRC32C, location: "header", location_name: "x-amz-checksum-crc32c"))
+    CompleteMultipartUploadRequest.add_member(:checksum_crc64nvme, Shapes::ShapeRef.new(shape: ChecksumCRC64NVME, location: "header", location_name: "x-amz-checksum-crc64nvme"))
     CompleteMultipartUploadRequest.add_member(:checksum_sha1, Shapes::ShapeRef.new(shape: ChecksumSHA1, location: "header", location_name: "x-amz-checksum-sha1"))
     CompleteMultipartUploadRequest.add_member(:checksum_sha256, Shapes::ShapeRef.new(shape: ChecksumSHA256, location: "header", location_name: "x-amz-checksum-sha256"))
+    CompleteMultipartUploadRequest.add_member(:checksum_type, Shapes::ShapeRef.new(shape: ChecksumType, location: "header", location_name: "x-amz-checksum-type"))
+    CompleteMultipartUploadRequest.add_member(:mpu_object_size, Shapes::ShapeRef.new(shape: MpuObjectSize, location: "header", location_name: "x-amz-mp-object-size"))
     CompleteMultipartUploadRequest.add_member(:request_payer, Shapes::ShapeRef.new(shape: RequestPayer, location: "header", location_name: "x-amz-request-payer"))
     CompleteMultipartUploadRequest.add_member(:expected_bucket_owner, Shapes::ShapeRef.new(shape: AccountId, location: "header", location_name: "x-amz-expected-bucket-owner"))
+    CompleteMultipartUploadRequest.add_member(:if_match, Shapes::ShapeRef.new(shape: IfMatch, location: "header", location_name: "If-Match"))
+    CompleteMultipartUploadRequest.add_member(:if_none_match, Shapes::ShapeRef.new(shape: IfNoneMatch, location: "header", location_name: "If-None-Match"))
     CompleteMultipartUploadRequest.add_member(:sse_customer_algorithm, Shapes::ShapeRef.new(shape: SSECustomerAlgorithm, location: "header", location_name: "x-amz-server-side-encryption-customer-algorithm"))
     CompleteMultipartUploadRequest.add_member(:sse_customer_key, Shapes::ShapeRef.new(shape: SSECustomerKey, location: "header", location_name: "x-amz-server-side-encryption-customer-key"))
     CompleteMultipartUploadRequest.add_member(:sse_customer_key_md5, Shapes::ShapeRef.new(shape: SSECustomerKeyMD5, location: "header", location_name: "x-amz-server-side-encryption-customer-key-MD5"))
@@ -747,6 +825,7 @@ module Aws::S3
     CompletedPart.add_member(:etag, Shapes::ShapeRef.new(shape: ETag, location_name: "ETag"))
     CompletedPart.add_member(:checksum_crc32, Shapes::ShapeRef.new(shape: ChecksumCRC32, location_name: "ChecksumCRC32"))
     CompletedPart.add_member(:checksum_crc32c, Shapes::ShapeRef.new(shape: ChecksumCRC32C, location_name: "ChecksumCRC32C"))
+    CompletedPart.add_member(:checksum_crc64nvme, Shapes::ShapeRef.new(shape: ChecksumCRC64NVME, location_name: "ChecksumCRC64NVME"))
     CompletedPart.add_member(:checksum_sha1, Shapes::ShapeRef.new(shape: ChecksumSHA1, location_name: "ChecksumSHA1"))
     CompletedPart.add_member(:checksum_sha256, Shapes::ShapeRef.new(shape: ChecksumSHA256, location_name: "ChecksumSHA256"))
     CompletedPart.add_member(:part_number, Shapes::ShapeRef.new(shape: PartNumber, location_name: "PartNumber"))
@@ -783,7 +862,7 @@ module Aws::S3
     CopyObjectRequest.add_member(:content_encoding, Shapes::ShapeRef.new(shape: ContentEncoding, location: "header", location_name: "Content-Encoding"))
     CopyObjectRequest.add_member(:content_language, Shapes::ShapeRef.new(shape: ContentLanguage, location: "header", location_name: "Content-Language"))
     CopyObjectRequest.add_member(:content_type, Shapes::ShapeRef.new(shape: ContentType, location: "header", location_name: "Content-Type"))
-    CopyObjectRequest.add_member(:copy_source, Shapes::ShapeRef.new(shape: CopySource, required: true, location: "header", location_name: "x-amz-copy-source"))
+    CopyObjectRequest.add_member(:copy_source, Shapes::ShapeRef.new(shape: CopySource, required: true, location: "header", location_name: "x-amz-copy-source", metadata: {"contextParam"=>{"name"=>"CopySource"}}))
     CopyObjectRequest.add_member(:copy_source_if_match, Shapes::ShapeRef.new(shape: CopySourceIfMatch, location: "header", location_name: "x-amz-copy-source-if-match"))
     CopyObjectRequest.add_member(:copy_source_if_modified_since, Shapes::ShapeRef.new(shape: CopySourceIfModifiedSince, location: "header", location_name: "x-amz-copy-source-if-modified-since"))
     CopyObjectRequest.add_member(:copy_source_if_none_match, Shapes::ShapeRef.new(shape: CopySourceIfNoneMatch, location: "header", location_name: "x-amz-copy-source-if-none-match"))
@@ -793,7 +872,7 @@ module Aws::S3
     CopyObjectRequest.add_member(:grant_read, Shapes::ShapeRef.new(shape: GrantRead, location: "header", location_name: "x-amz-grant-read"))
     CopyObjectRequest.add_member(:grant_read_acp, Shapes::ShapeRef.new(shape: GrantReadACP, location: "header", location_name: "x-amz-grant-read-acp"))
     CopyObjectRequest.add_member(:grant_write_acp, Shapes::ShapeRef.new(shape: GrantWriteACP, location: "header", location_name: "x-amz-grant-write-acp"))
-    CopyObjectRequest.add_member(:key, Shapes::ShapeRef.new(shape: ObjectKey, required: true, location: "uri", location_name: "Key"))
+    CopyObjectRequest.add_member(:key, Shapes::ShapeRef.new(shape: ObjectKey, required: true, location: "uri", location_name: "Key", metadata: {"contextParam"=>{"name"=>"Key"}}))
     CopyObjectRequest.add_member(:metadata, Shapes::ShapeRef.new(shape: Metadata, location: "headers", location_name: "x-amz-meta-"))
     CopyObjectRequest.add_member(:metadata_directive, Shapes::ShapeRef.new(shape: MetadataDirective, location: "header", location_name: "x-amz-metadata-directive"))
     CopyObjectRequest.add_member(:tagging_directive, Shapes::ShapeRef.new(shape: TaggingDirective, location: "header", location_name: "x-amz-tagging-directive"))
@@ -820,8 +899,10 @@ module Aws::S3
 
     CopyObjectResult.add_member(:etag, Shapes::ShapeRef.new(shape: ETag, location_name: "ETag"))
     CopyObjectResult.add_member(:last_modified, Shapes::ShapeRef.new(shape: LastModified, location_name: "LastModified"))
+    CopyObjectResult.add_member(:checksum_type, Shapes::ShapeRef.new(shape: ChecksumType, location_name: "ChecksumType"))
     CopyObjectResult.add_member(:checksum_crc32, Shapes::ShapeRef.new(shape: ChecksumCRC32, location_name: "ChecksumCRC32"))
     CopyObjectResult.add_member(:checksum_crc32c, Shapes::ShapeRef.new(shape: ChecksumCRC32C, location_name: "ChecksumCRC32C"))
+    CopyObjectResult.add_member(:checksum_crc64nvme, Shapes::ShapeRef.new(shape: ChecksumCRC64NVME, location_name: "ChecksumCRC64NVME"))
     CopyObjectResult.add_member(:checksum_sha1, Shapes::ShapeRef.new(shape: ChecksumSHA1, location_name: "ChecksumSHA1"))
     CopyObjectResult.add_member(:checksum_sha256, Shapes::ShapeRef.new(shape: ChecksumSHA256, location_name: "ChecksumSHA256"))
     CopyObjectResult.struct_class = Types::CopyObjectResult
@@ -830,12 +911,24 @@ module Aws::S3
     CopyPartResult.add_member(:last_modified, Shapes::ShapeRef.new(shape: LastModified, location_name: "LastModified"))
     CopyPartResult.add_member(:checksum_crc32, Shapes::ShapeRef.new(shape: ChecksumCRC32, location_name: "ChecksumCRC32"))
     CopyPartResult.add_member(:checksum_crc32c, Shapes::ShapeRef.new(shape: ChecksumCRC32C, location_name: "ChecksumCRC32C"))
+    CopyPartResult.add_member(:checksum_crc64nvme, Shapes::ShapeRef.new(shape: ChecksumCRC64NVME, location_name: "ChecksumCRC64NVME"))
     CopyPartResult.add_member(:checksum_sha1, Shapes::ShapeRef.new(shape: ChecksumSHA1, location_name: "ChecksumSHA1"))
     CopyPartResult.add_member(:checksum_sha256, Shapes::ShapeRef.new(shape: ChecksumSHA256, location_name: "ChecksumSHA256"))
     CopyPartResult.struct_class = Types::CopyPartResult
 
     CreateBucketConfiguration.add_member(:location_constraint, Shapes::ShapeRef.new(shape: BucketLocationConstraint, location_name: "LocationConstraint"))
+    CreateBucketConfiguration.add_member(:location, Shapes::ShapeRef.new(shape: LocationInfo, location_name: "Location"))
+    CreateBucketConfiguration.add_member(:bucket, Shapes::ShapeRef.new(shape: BucketInfo, location_name: "Bucket"))
     CreateBucketConfiguration.struct_class = Types::CreateBucketConfiguration
+
+    CreateBucketMetadataTableConfigurationRequest.add_member(:bucket, Shapes::ShapeRef.new(shape: BucketName, required: true, location: "uri", location_name: "Bucket", metadata: {"contextParam"=>{"name"=>"Bucket"}}))
+    CreateBucketMetadataTableConfigurationRequest.add_member(:content_md5, Shapes::ShapeRef.new(shape: ContentMD5, location: "header", location_name: "Content-MD5"))
+    CreateBucketMetadataTableConfigurationRequest.add_member(:checksum_algorithm, Shapes::ShapeRef.new(shape: ChecksumAlgorithm, location: "header", location_name: "x-amz-sdk-checksum-algorithm"))
+    CreateBucketMetadataTableConfigurationRequest.add_member(:metadata_table_configuration, Shapes::ShapeRef.new(shape: MetadataTableConfiguration, required: true, location_name: "MetadataTableConfiguration", metadata: {"xmlNamespace"=>{"uri"=>"http://s3.amazonaws.com/doc/2006-03-01/"}}))
+    CreateBucketMetadataTableConfigurationRequest.add_member(:expected_bucket_owner, Shapes::ShapeRef.new(shape: AccountId, location: "header", location_name: "x-amz-expected-bucket-owner"))
+    CreateBucketMetadataTableConfigurationRequest.struct_class = Types::CreateBucketMetadataTableConfigurationRequest
+    CreateBucketMetadataTableConfigurationRequest[:payload] = :metadata_table_configuration
+    CreateBucketMetadataTableConfigurationRequest[:payload_member] = CreateBucketMetadataTableConfigurationRequest.member(:metadata_table_configuration)
 
     CreateBucketOutput.add_member(:location, Shapes::ShapeRef.new(shape: Location, location: "header", location_name: "Location"))
     CreateBucketOutput.struct_class = Types::CreateBucketOutput
@@ -867,6 +960,7 @@ module Aws::S3
     CreateMultipartUploadOutput.add_member(:bucket_key_enabled, Shapes::ShapeRef.new(shape: BucketKeyEnabled, location: "header", location_name: "x-amz-server-side-encryption-bucket-key-enabled"))
     CreateMultipartUploadOutput.add_member(:request_charged, Shapes::ShapeRef.new(shape: RequestCharged, location: "header", location_name: "x-amz-request-charged"))
     CreateMultipartUploadOutput.add_member(:checksum_algorithm, Shapes::ShapeRef.new(shape: ChecksumAlgorithm, location: "header", location_name: "x-amz-checksum-algorithm"))
+    CreateMultipartUploadOutput.add_member(:checksum_type, Shapes::ShapeRef.new(shape: ChecksumType, location: "header", location_name: "x-amz-checksum-type"))
     CreateMultipartUploadOutput.struct_class = Types::CreateMultipartUploadOutput
 
     CreateMultipartUploadRequest.add_member(:acl, Shapes::ShapeRef.new(shape: ObjectCannedACL, location: "header", location_name: "x-amz-acl"))
@@ -881,7 +975,7 @@ module Aws::S3
     CreateMultipartUploadRequest.add_member(:grant_read, Shapes::ShapeRef.new(shape: GrantRead, location: "header", location_name: "x-amz-grant-read"))
     CreateMultipartUploadRequest.add_member(:grant_read_acp, Shapes::ShapeRef.new(shape: GrantReadACP, location: "header", location_name: "x-amz-grant-read-acp"))
     CreateMultipartUploadRequest.add_member(:grant_write_acp, Shapes::ShapeRef.new(shape: GrantWriteACP, location: "header", location_name: "x-amz-grant-write-acp"))
-    CreateMultipartUploadRequest.add_member(:key, Shapes::ShapeRef.new(shape: ObjectKey, required: true, location: "uri", location_name: "Key"))
+    CreateMultipartUploadRequest.add_member(:key, Shapes::ShapeRef.new(shape: ObjectKey, required: true, location: "uri", location_name: "Key", metadata: {"contextParam"=>{"name"=>"Key"}}))
     CreateMultipartUploadRequest.add_member(:metadata, Shapes::ShapeRef.new(shape: Metadata, location: "headers", location_name: "x-amz-meta-"))
     CreateMultipartUploadRequest.add_member(:server_side_encryption, Shapes::ShapeRef.new(shape: ServerSideEncryption, location: "header", location_name: "x-amz-server-side-encryption"))
     CreateMultipartUploadRequest.add_member(:storage_class, Shapes::ShapeRef.new(shape: StorageClass, location: "header", location_name: "x-amz-storage-class"))
@@ -899,7 +993,23 @@ module Aws::S3
     CreateMultipartUploadRequest.add_member(:object_lock_legal_hold_status, Shapes::ShapeRef.new(shape: ObjectLockLegalHoldStatus, location: "header", location_name: "x-amz-object-lock-legal-hold"))
     CreateMultipartUploadRequest.add_member(:expected_bucket_owner, Shapes::ShapeRef.new(shape: AccountId, location: "header", location_name: "x-amz-expected-bucket-owner"))
     CreateMultipartUploadRequest.add_member(:checksum_algorithm, Shapes::ShapeRef.new(shape: ChecksumAlgorithm, location: "header", location_name: "x-amz-checksum-algorithm"))
+    CreateMultipartUploadRequest.add_member(:checksum_type, Shapes::ShapeRef.new(shape: ChecksumType, location: "header", location_name: "x-amz-checksum-type"))
     CreateMultipartUploadRequest.struct_class = Types::CreateMultipartUploadRequest
+
+    CreateSessionOutput.add_member(:server_side_encryption, Shapes::ShapeRef.new(shape: ServerSideEncryption, location: "header", location_name: "x-amz-server-side-encryption"))
+    CreateSessionOutput.add_member(:ssekms_key_id, Shapes::ShapeRef.new(shape: SSEKMSKeyId, location: "header", location_name: "x-amz-server-side-encryption-aws-kms-key-id"))
+    CreateSessionOutput.add_member(:ssekms_encryption_context, Shapes::ShapeRef.new(shape: SSEKMSEncryptionContext, location: "header", location_name: "x-amz-server-side-encryption-context"))
+    CreateSessionOutput.add_member(:bucket_key_enabled, Shapes::ShapeRef.new(shape: BucketKeyEnabled, location: "header", location_name: "x-amz-server-side-encryption-bucket-key-enabled"))
+    CreateSessionOutput.add_member(:credentials, Shapes::ShapeRef.new(shape: SessionCredentials, required: true, location_name: "Credentials"))
+    CreateSessionOutput.struct_class = Types::CreateSessionOutput
+
+    CreateSessionRequest.add_member(:session_mode, Shapes::ShapeRef.new(shape: SessionMode, location: "header", location_name: "x-amz-create-session-mode"))
+    CreateSessionRequest.add_member(:bucket, Shapes::ShapeRef.new(shape: BucketName, required: true, location: "uri", location_name: "Bucket", metadata: {"contextParam"=>{"name"=>"Bucket"}}))
+    CreateSessionRequest.add_member(:server_side_encryption, Shapes::ShapeRef.new(shape: ServerSideEncryption, location: "header", location_name: "x-amz-server-side-encryption"))
+    CreateSessionRequest.add_member(:ssekms_key_id, Shapes::ShapeRef.new(shape: SSEKMSKeyId, location: "header", location_name: "x-amz-server-side-encryption-aws-kms-key-id"))
+    CreateSessionRequest.add_member(:ssekms_encryption_context, Shapes::ShapeRef.new(shape: SSEKMSEncryptionContext, location: "header", location_name: "x-amz-server-side-encryption-context"))
+    CreateSessionRequest.add_member(:bucket_key_enabled, Shapes::ShapeRef.new(shape: BucketKeyEnabled, location: "header", location_name: "x-amz-server-side-encryption-bucket-key-enabled"))
+    CreateSessionRequest.struct_class = Types::CreateSessionRequest
 
     DefaultRetention.add_member(:mode, Shapes::ShapeRef.new(shape: ObjectLockRetentionMode, location_name: "Mode"))
     DefaultRetention.add_member(:days, Shapes::ShapeRef.new(shape: Days, location_name: "Days"))
@@ -935,6 +1045,10 @@ module Aws::S3
     DeleteBucketLifecycleRequest.add_member(:bucket, Shapes::ShapeRef.new(shape: BucketName, required: true, location: "uri", location_name: "Bucket", metadata: {"contextParam"=>{"name"=>"Bucket"}}))
     DeleteBucketLifecycleRequest.add_member(:expected_bucket_owner, Shapes::ShapeRef.new(shape: AccountId, location: "header", location_name: "x-amz-expected-bucket-owner"))
     DeleteBucketLifecycleRequest.struct_class = Types::DeleteBucketLifecycleRequest
+
+    DeleteBucketMetadataTableConfigurationRequest.add_member(:bucket, Shapes::ShapeRef.new(shape: BucketName, required: true, location: "uri", location_name: "Bucket", metadata: {"contextParam"=>{"name"=>"Bucket"}}))
+    DeleteBucketMetadataTableConfigurationRequest.add_member(:expected_bucket_owner, Shapes::ShapeRef.new(shape: AccountId, location: "header", location_name: "x-amz-expected-bucket-owner"))
+    DeleteBucketMetadataTableConfigurationRequest.struct_class = Types::DeleteBucketMetadataTableConfigurationRequest
 
     DeleteBucketMetricsConfigurationRequest.add_member(:bucket, Shapes::ShapeRef.new(shape: BucketName, required: true, location: "uri", location_name: "Bucket", metadata: {"contextParam"=>{"name"=>"Bucket"}}))
     DeleteBucketMetricsConfigurationRequest.add_member(:id, Shapes::ShapeRef.new(shape: MetricsId, required: true, location: "querystring", location_name: "id"))
@@ -983,12 +1097,15 @@ module Aws::S3
     DeleteObjectOutput.struct_class = Types::DeleteObjectOutput
 
     DeleteObjectRequest.add_member(:bucket, Shapes::ShapeRef.new(shape: BucketName, required: true, location: "uri", location_name: "Bucket", metadata: {"contextParam"=>{"name"=>"Bucket"}}))
-    DeleteObjectRequest.add_member(:key, Shapes::ShapeRef.new(shape: ObjectKey, required: true, location: "uri", location_name: "Key"))
+    DeleteObjectRequest.add_member(:key, Shapes::ShapeRef.new(shape: ObjectKey, required: true, location: "uri", location_name: "Key", metadata: {"contextParam"=>{"name"=>"Key"}}))
     DeleteObjectRequest.add_member(:mfa, Shapes::ShapeRef.new(shape: MFA, location: "header", location_name: "x-amz-mfa"))
     DeleteObjectRequest.add_member(:version_id, Shapes::ShapeRef.new(shape: ObjectVersionId, location: "querystring", location_name: "versionId"))
     DeleteObjectRequest.add_member(:request_payer, Shapes::ShapeRef.new(shape: RequestPayer, location: "header", location_name: "x-amz-request-payer"))
     DeleteObjectRequest.add_member(:bypass_governance_retention, Shapes::ShapeRef.new(shape: BypassGovernanceRetention, location: "header", location_name: "x-amz-bypass-governance-retention"))
     DeleteObjectRequest.add_member(:expected_bucket_owner, Shapes::ShapeRef.new(shape: AccountId, location: "header", location_name: "x-amz-expected-bucket-owner"))
+    DeleteObjectRequest.add_member(:if_match, Shapes::ShapeRef.new(shape: IfMatch, location: "header", location_name: "If-Match"))
+    DeleteObjectRequest.add_member(:if_match_last_modified_time, Shapes::ShapeRef.new(shape: IfMatchLastModifiedTime, location: "header", location_name: "x-amz-if-match-last-modified-time"))
+    DeleteObjectRequest.add_member(:if_match_size, Shapes::ShapeRef.new(shape: IfMatchSize, location: "header", location_name: "x-amz-if-match-size"))
     DeleteObjectRequest.struct_class = Types::DeleteObjectRequest
 
     DeleteObjectTaggingOutput.add_member(:version_id, Shapes::ShapeRef.new(shape: ObjectVersionId, location: "header", location_name: "x-amz-version-id"))
@@ -1045,6 +1162,8 @@ module Aws::S3
     EncryptionConfiguration.add_member(:replica_kms_key_id, Shapes::ShapeRef.new(shape: ReplicaKmsKeyID, location_name: "ReplicaKmsKeyID"))
     EncryptionConfiguration.struct_class = Types::EncryptionConfiguration
 
+    EncryptionTypeMismatch.struct_class = Types::EncryptionTypeMismatch
+
     EndEvent.struct_class = Types::EndEvent
 
     Error.add_member(:key, Shapes::ShapeRef.new(shape: ObjectKey, location_name: "Key"))
@@ -1052,6 +1171,10 @@ module Aws::S3
     Error.add_member(:code, Shapes::ShapeRef.new(shape: Code, location_name: "Code"))
     Error.add_member(:message, Shapes::ShapeRef.new(shape: Message, location_name: "Message"))
     Error.struct_class = Types::Error
+
+    ErrorDetails.add_member(:error_code, Shapes::ShapeRef.new(shape: ErrorCode, location_name: "ErrorCode"))
+    ErrorDetails.add_member(:error_message, Shapes::ShapeRef.new(shape: ErrorMessage, location_name: "ErrorMessage"))
+    ErrorDetails.struct_class = Types::ErrorDetails
 
     ErrorDocument.add_member(:key, Shapes::ShapeRef.new(shape: ObjectKey, required: true, location_name: "Key"))
     ErrorDocument.struct_class = Types::ErrorDocument
@@ -1074,10 +1197,12 @@ module Aws::S3
     FilterRuleList.member = Shapes::ShapeRef.new(shape: FilterRule)
 
     GetBucketAccelerateConfigurationOutput.add_member(:status, Shapes::ShapeRef.new(shape: BucketAccelerateStatus, location_name: "Status"))
+    GetBucketAccelerateConfigurationOutput.add_member(:request_charged, Shapes::ShapeRef.new(shape: RequestCharged, location: "header", location_name: "x-amz-request-charged"))
     GetBucketAccelerateConfigurationOutput.struct_class = Types::GetBucketAccelerateConfigurationOutput
 
     GetBucketAccelerateConfigurationRequest.add_member(:bucket, Shapes::ShapeRef.new(shape: BucketName, required: true, location: "uri", location_name: "Bucket", metadata: {"contextParam"=>{"name"=>"Bucket"}}))
     GetBucketAccelerateConfigurationRequest.add_member(:expected_bucket_owner, Shapes::ShapeRef.new(shape: AccountId, location: "header", location_name: "x-amz-expected-bucket-owner"))
+    GetBucketAccelerateConfigurationRequest.add_member(:request_payer, Shapes::ShapeRef.new(shape: RequestPayer, location: "header", location_name: "x-amz-request-payer"))
     GetBucketAccelerateConfigurationRequest.struct_class = Types::GetBucketAccelerateConfigurationRequest
 
     GetBucketAclOutput.add_member(:owner, Shapes::ShapeRef.new(shape: Owner, location_name: "Owner"))
@@ -1134,6 +1259,7 @@ module Aws::S3
     GetBucketInventoryConfigurationRequest.struct_class = Types::GetBucketInventoryConfigurationRequest
 
     GetBucketLifecycleConfigurationOutput.add_member(:rules, Shapes::ShapeRef.new(shape: LifecycleRules, location_name: "Rule"))
+    GetBucketLifecycleConfigurationOutput.add_member(:transition_default_minimum_object_size, Shapes::ShapeRef.new(shape: TransitionDefaultMinimumObjectSize, location: "header", location_name: "x-amz-transition-default-minimum-object-size"))
     GetBucketLifecycleConfigurationOutput.struct_class = Types::GetBucketLifecycleConfigurationOutput
 
     GetBucketLifecycleConfigurationRequest.add_member(:bucket, Shapes::ShapeRef.new(shape: BucketName, required: true, location: "uri", location_name: "Bucket", metadata: {"contextParam"=>{"name"=>"Bucket"}}))
@@ -1160,6 +1286,20 @@ module Aws::S3
     GetBucketLoggingRequest.add_member(:bucket, Shapes::ShapeRef.new(shape: BucketName, required: true, location: "uri", location_name: "Bucket", metadata: {"contextParam"=>{"name"=>"Bucket"}}))
     GetBucketLoggingRequest.add_member(:expected_bucket_owner, Shapes::ShapeRef.new(shape: AccountId, location: "header", location_name: "x-amz-expected-bucket-owner"))
     GetBucketLoggingRequest.struct_class = Types::GetBucketLoggingRequest
+
+    GetBucketMetadataTableConfigurationOutput.add_member(:get_bucket_metadata_table_configuration_result, Shapes::ShapeRef.new(shape: GetBucketMetadataTableConfigurationResult, location_name: "GetBucketMetadataTableConfigurationResult"))
+    GetBucketMetadataTableConfigurationOutput.struct_class = Types::GetBucketMetadataTableConfigurationOutput
+    GetBucketMetadataTableConfigurationOutput[:payload] = :get_bucket_metadata_table_configuration_result
+    GetBucketMetadataTableConfigurationOutput[:payload_member] = GetBucketMetadataTableConfigurationOutput.member(:get_bucket_metadata_table_configuration_result)
+
+    GetBucketMetadataTableConfigurationRequest.add_member(:bucket, Shapes::ShapeRef.new(shape: BucketName, required: true, location: "uri", location_name: "Bucket", metadata: {"contextParam"=>{"name"=>"Bucket"}}))
+    GetBucketMetadataTableConfigurationRequest.add_member(:expected_bucket_owner, Shapes::ShapeRef.new(shape: AccountId, location: "header", location_name: "x-amz-expected-bucket-owner"))
+    GetBucketMetadataTableConfigurationRequest.struct_class = Types::GetBucketMetadataTableConfigurationRequest
+
+    GetBucketMetadataTableConfigurationResult.add_member(:metadata_table_configuration_result, Shapes::ShapeRef.new(shape: MetadataTableConfigurationResult, required: true, location_name: "MetadataTableConfigurationResult"))
+    GetBucketMetadataTableConfigurationResult.add_member(:status, Shapes::ShapeRef.new(shape: MetadataTableStatus, required: true, location_name: "Status"))
+    GetBucketMetadataTableConfigurationResult.add_member(:error, Shapes::ShapeRef.new(shape: ErrorDetails, location_name: "Error"))
+    GetBucketMetadataTableConfigurationResult.struct_class = Types::GetBucketMetadataTableConfigurationResult
 
     GetBucketMetricsConfigurationOutput.add_member(:metrics_configuration, Shapes::ShapeRef.new(shape: MetricsConfiguration, location_name: "MetricsConfiguration"))
     GetBucketMetricsConfigurationOutput.struct_class = Types::GetBucketMetricsConfigurationOutput
@@ -1249,7 +1389,7 @@ module Aws::S3
     GetObjectAclOutput.struct_class = Types::GetObjectAclOutput
 
     GetObjectAclRequest.add_member(:bucket, Shapes::ShapeRef.new(shape: BucketName, required: true, location: "uri", location_name: "Bucket", metadata: {"contextParam"=>{"name"=>"Bucket"}}))
-    GetObjectAclRequest.add_member(:key, Shapes::ShapeRef.new(shape: ObjectKey, required: true, location: "uri", location_name: "Key"))
+    GetObjectAclRequest.add_member(:key, Shapes::ShapeRef.new(shape: ObjectKey, required: true, location: "uri", location_name: "Key", metadata: {"contextParam"=>{"name"=>"Key"}}))
     GetObjectAclRequest.add_member(:version_id, Shapes::ShapeRef.new(shape: ObjectVersionId, location: "querystring", location_name: "versionId"))
     GetObjectAclRequest.add_member(:request_payer, Shapes::ShapeRef.new(shape: RequestPayer, location: "header", location_name: "x-amz-request-payer"))
     GetObjectAclRequest.add_member(:expected_bucket_owner, Shapes::ShapeRef.new(shape: AccountId, location: "header", location_name: "x-amz-expected-bucket-owner"))
@@ -1318,8 +1458,10 @@ module Aws::S3
     GetObjectOutput.add_member(:etag, Shapes::ShapeRef.new(shape: ETag, location: "header", location_name: "ETag"))
     GetObjectOutput.add_member(:checksum_crc32, Shapes::ShapeRef.new(shape: ChecksumCRC32, location: "header", location_name: "x-amz-checksum-crc32"))
     GetObjectOutput.add_member(:checksum_crc32c, Shapes::ShapeRef.new(shape: ChecksumCRC32C, location: "header", location_name: "x-amz-checksum-crc32c"))
+    GetObjectOutput.add_member(:checksum_crc64nvme, Shapes::ShapeRef.new(shape: ChecksumCRC64NVME, location: "header", location_name: "x-amz-checksum-crc64nvme"))
     GetObjectOutput.add_member(:checksum_sha1, Shapes::ShapeRef.new(shape: ChecksumSHA1, location: "header", location_name: "x-amz-checksum-sha1"))
     GetObjectOutput.add_member(:checksum_sha256, Shapes::ShapeRef.new(shape: ChecksumSHA256, location: "header", location_name: "x-amz-checksum-sha256"))
+    GetObjectOutput.add_member(:checksum_type, Shapes::ShapeRef.new(shape: ChecksumType, location: "header", location_name: "x-amz-checksum-type"))
     GetObjectOutput.add_member(:missing_meta, Shapes::ShapeRef.new(shape: MissingMeta, location: "header", location_name: "x-amz-missing-meta"))
     GetObjectOutput.add_member(:version_id, Shapes::ShapeRef.new(shape: ObjectVersionId, location: "header", location_name: "x-amz-version-id"))
     GetObjectOutput.add_member(:cache_control, Shapes::ShapeRef.new(shape: CacheControl, location: "header", location_name: "Cache-Control"))
@@ -1354,7 +1496,7 @@ module Aws::S3
     GetObjectRequest.add_member(:if_modified_since, Shapes::ShapeRef.new(shape: IfModifiedSince, location: "header", location_name: "If-Modified-Since"))
     GetObjectRequest.add_member(:if_none_match, Shapes::ShapeRef.new(shape: IfNoneMatch, location: "header", location_name: "If-None-Match"))
     GetObjectRequest.add_member(:if_unmodified_since, Shapes::ShapeRef.new(shape: IfUnmodifiedSince, location: "header", location_name: "If-Unmodified-Since"))
-    GetObjectRequest.add_member(:key, Shapes::ShapeRef.new(shape: ObjectKey, required: true, location: "uri", location_name: "Key"))
+    GetObjectRequest.add_member(:key, Shapes::ShapeRef.new(shape: ObjectKey, required: true, location: "uri", location_name: "Key", metadata: {"contextParam"=>{"name"=>"Key"}}))
     GetObjectRequest.add_member(:range, Shapes::ShapeRef.new(shape: Range, location: "header", location_name: "Range"))
     GetObjectRequest.add_member(:response_cache_control, Shapes::ShapeRef.new(shape: ResponseCacheControl, location: "querystring", location_name: "response-cache-control"))
     GetObjectRequest.add_member(:response_content_disposition, Shapes::ShapeRef.new(shape: ResponseContentDisposition, location: "querystring", location_name: "response-content-disposition"))
@@ -1432,6 +1574,12 @@ module Aws::S3
 
     Grants.member = Shapes::ShapeRef.new(shape: Grant, location_name: "Grant")
 
+    HeadBucketOutput.add_member(:bucket_location_type, Shapes::ShapeRef.new(shape: LocationType, location: "header", location_name: "x-amz-bucket-location-type"))
+    HeadBucketOutput.add_member(:bucket_location_name, Shapes::ShapeRef.new(shape: BucketLocationName, location: "header", location_name: "x-amz-bucket-location-name"))
+    HeadBucketOutput.add_member(:bucket_region, Shapes::ShapeRef.new(shape: Region, location: "header", location_name: "x-amz-bucket-region"))
+    HeadBucketOutput.add_member(:access_point_alias, Shapes::ShapeRef.new(shape: AccessPointAlias, location: "header", location_name: "x-amz-access-point-alias"))
+    HeadBucketOutput.struct_class = Types::HeadBucketOutput
+
     HeadBucketRequest.add_member(:bucket, Shapes::ShapeRef.new(shape: BucketName, required: true, location: "uri", location_name: "Bucket", metadata: {"contextParam"=>{"name"=>"Bucket"}}))
     HeadBucketRequest.add_member(:expected_bucket_owner, Shapes::ShapeRef.new(shape: AccountId, location: "header", location_name: "x-amz-expected-bucket-owner"))
     HeadBucketRequest.struct_class = Types::HeadBucketRequest
@@ -1445,8 +1593,10 @@ module Aws::S3
     HeadObjectOutput.add_member(:content_length, Shapes::ShapeRef.new(shape: ContentLength, location: "header", location_name: "Content-Length"))
     HeadObjectOutput.add_member(:checksum_crc32, Shapes::ShapeRef.new(shape: ChecksumCRC32, location: "header", location_name: "x-amz-checksum-crc32"))
     HeadObjectOutput.add_member(:checksum_crc32c, Shapes::ShapeRef.new(shape: ChecksumCRC32C, location: "header", location_name: "x-amz-checksum-crc32c"))
+    HeadObjectOutput.add_member(:checksum_crc64nvme, Shapes::ShapeRef.new(shape: ChecksumCRC64NVME, location: "header", location_name: "x-amz-checksum-crc64nvme"))
     HeadObjectOutput.add_member(:checksum_sha1, Shapes::ShapeRef.new(shape: ChecksumSHA1, location: "header", location_name: "x-amz-checksum-sha1"))
     HeadObjectOutput.add_member(:checksum_sha256, Shapes::ShapeRef.new(shape: ChecksumSHA256, location: "header", location_name: "x-amz-checksum-sha256"))
+    HeadObjectOutput.add_member(:checksum_type, Shapes::ShapeRef.new(shape: ChecksumType, location: "header", location_name: "x-amz-checksum-type"))
     HeadObjectOutput.add_member(:etag, Shapes::ShapeRef.new(shape: ETag, location: "header", location_name: "ETag"))
     HeadObjectOutput.add_member(:missing_meta, Shapes::ShapeRef.new(shape: MissingMeta, location: "header", location_name: "x-amz-missing-meta"))
     HeadObjectOutput.add_member(:version_id, Shapes::ShapeRef.new(shape: ObjectVersionId, location: "header", location_name: "x-amz-version-id"))
@@ -1455,6 +1605,7 @@ module Aws::S3
     HeadObjectOutput.add_member(:content_encoding, Shapes::ShapeRef.new(shape: ContentEncoding, location: "header", location_name: "Content-Encoding"))
     HeadObjectOutput.add_member(:content_language, Shapes::ShapeRef.new(shape: ContentLanguage, location: "header", location_name: "Content-Language"))
     HeadObjectOutput.add_member(:content_type, Shapes::ShapeRef.new(shape: ContentType, location: "header", location_name: "Content-Type"))
+    HeadObjectOutput.add_member(:content_range, Shapes::ShapeRef.new(shape: ContentRange, location: "header", location_name: "Content-Range"))
     HeadObjectOutput.add_member(:expires, Shapes::ShapeRef.new(shape: Expires, location: "header", location_name: "Expires"))
     HeadObjectOutput.add_member(:expires_string, Shapes::ShapeRef.new(shape: ExpiresString, location: "header", location_name: "Expires"))
     HeadObjectOutput.add_member(:website_redirect_location, Shapes::ShapeRef.new(shape: WebsiteRedirectLocation, location: "header", location_name: "x-amz-website-redirect-location"))
@@ -1478,8 +1629,14 @@ module Aws::S3
     HeadObjectRequest.add_member(:if_modified_since, Shapes::ShapeRef.new(shape: IfModifiedSince, location: "header", location_name: "If-Modified-Since"))
     HeadObjectRequest.add_member(:if_none_match, Shapes::ShapeRef.new(shape: IfNoneMatch, location: "header", location_name: "If-None-Match"))
     HeadObjectRequest.add_member(:if_unmodified_since, Shapes::ShapeRef.new(shape: IfUnmodifiedSince, location: "header", location_name: "If-Unmodified-Since"))
-    HeadObjectRequest.add_member(:key, Shapes::ShapeRef.new(shape: ObjectKey, required: true, location: "uri", location_name: "Key"))
+    HeadObjectRequest.add_member(:key, Shapes::ShapeRef.new(shape: ObjectKey, required: true, location: "uri", location_name: "Key", metadata: {"contextParam"=>{"name"=>"Key"}}))
     HeadObjectRequest.add_member(:range, Shapes::ShapeRef.new(shape: Range, location: "header", location_name: "Range"))
+    HeadObjectRequest.add_member(:response_cache_control, Shapes::ShapeRef.new(shape: ResponseCacheControl, location: "querystring", location_name: "response-cache-control"))
+    HeadObjectRequest.add_member(:response_content_disposition, Shapes::ShapeRef.new(shape: ResponseContentDisposition, location: "querystring", location_name: "response-content-disposition"))
+    HeadObjectRequest.add_member(:response_content_encoding, Shapes::ShapeRef.new(shape: ResponseContentEncoding, location: "querystring", location_name: "response-content-encoding"))
+    HeadObjectRequest.add_member(:response_content_language, Shapes::ShapeRef.new(shape: ResponseContentLanguage, location: "querystring", location_name: "response-content-language"))
+    HeadObjectRequest.add_member(:response_content_type, Shapes::ShapeRef.new(shape: ResponseContentType, location: "querystring", location_name: "response-content-type"))
+    HeadObjectRequest.add_member(:response_expires, Shapes::ShapeRef.new(shape: ResponseExpires, location: "querystring", location_name: "response-expires"))
     HeadObjectRequest.add_member(:version_id, Shapes::ShapeRef.new(shape: ObjectVersionId, location: "querystring", location_name: "versionId"))
     HeadObjectRequest.add_member(:sse_customer_algorithm, Shapes::ShapeRef.new(shape: SSECustomerAlgorithm, location: "header", location_name: "x-amz-server-side-encryption-customer-algorithm"))
     HeadObjectRequest.add_member(:sse_customer_key, Shapes::ShapeRef.new(shape: SSECustomerKey, location: "header", location_name: "x-amz-server-side-encryption-customer-key"))
@@ -1523,6 +1680,10 @@ module Aws::S3
     InvalidObjectState.add_member(:storage_class, Shapes::ShapeRef.new(shape: StorageClass, location_name: "StorageClass"))
     InvalidObjectState.add_member(:access_tier, Shapes::ShapeRef.new(shape: IntelligentTieringAccessTier, location_name: "AccessTier"))
     InvalidObjectState.struct_class = Types::InvalidObjectState
+
+    InvalidRequest.struct_class = Types::InvalidRequest
+
+    InvalidWriteOffset.struct_class = Types::InvalidWriteOffset
 
     InventoryConfiguration.add_member(:destination, Shapes::ShapeRef.new(shape: InventoryDestination, required: true, location_name: "Destination"))
     InventoryConfiguration.add_member(:is_enabled, Shapes::ShapeRef.new(shape: IsEnabled, required: true, location_name: "IsEnabled"))
@@ -1650,7 +1811,23 @@ module Aws::S3
 
     ListBucketsOutput.add_member(:buckets, Shapes::ShapeRef.new(shape: Buckets, location_name: "Buckets"))
     ListBucketsOutput.add_member(:owner, Shapes::ShapeRef.new(shape: Owner, location_name: "Owner"))
+    ListBucketsOutput.add_member(:continuation_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "ContinuationToken"))
+    ListBucketsOutput.add_member(:prefix, Shapes::ShapeRef.new(shape: Prefix, location_name: "Prefix"))
     ListBucketsOutput.struct_class = Types::ListBucketsOutput
+
+    ListBucketsRequest.add_member(:max_buckets, Shapes::ShapeRef.new(shape: MaxBuckets, location: "querystring", location_name: "max-buckets"))
+    ListBucketsRequest.add_member(:continuation_token, Shapes::ShapeRef.new(shape: Token, location: "querystring", location_name: "continuation-token"))
+    ListBucketsRequest.add_member(:prefix, Shapes::ShapeRef.new(shape: Prefix, location: "querystring", location_name: "prefix"))
+    ListBucketsRequest.add_member(:bucket_region, Shapes::ShapeRef.new(shape: BucketRegion, location: "querystring", location_name: "bucket-region"))
+    ListBucketsRequest.struct_class = Types::ListBucketsRequest
+
+    ListDirectoryBucketsOutput.add_member(:buckets, Shapes::ShapeRef.new(shape: Buckets, location_name: "Buckets"))
+    ListDirectoryBucketsOutput.add_member(:continuation_token, Shapes::ShapeRef.new(shape: DirectoryBucketToken, location_name: "ContinuationToken"))
+    ListDirectoryBucketsOutput.struct_class = Types::ListDirectoryBucketsOutput
+
+    ListDirectoryBucketsRequest.add_member(:continuation_token, Shapes::ShapeRef.new(shape: DirectoryBucketToken, location: "querystring", location_name: "continuation-token"))
+    ListDirectoryBucketsRequest.add_member(:max_directory_buckets, Shapes::ShapeRef.new(shape: MaxDirectoryBuckets, location: "querystring", location_name: "max-directory-buckets"))
+    ListDirectoryBucketsRequest.struct_class = Types::ListDirectoryBucketsRequest
 
     ListMultipartUploadsOutput.add_member(:bucket, Shapes::ShapeRef.new(shape: BucketName, location_name: "Bucket"))
     ListMultipartUploadsOutput.add_member(:key_marker, Shapes::ShapeRef.new(shape: KeyMarker, location_name: "KeyMarker"))
@@ -1664,6 +1841,7 @@ module Aws::S3
     ListMultipartUploadsOutput.add_member(:uploads, Shapes::ShapeRef.new(shape: MultipartUploadList, location_name: "Upload"))
     ListMultipartUploadsOutput.add_member(:common_prefixes, Shapes::ShapeRef.new(shape: CommonPrefixList, location_name: "CommonPrefixes"))
     ListMultipartUploadsOutput.add_member(:encoding_type, Shapes::ShapeRef.new(shape: EncodingType, location_name: "EncodingType"))
+    ListMultipartUploadsOutput.add_member(:request_charged, Shapes::ShapeRef.new(shape: RequestCharged, location: "header", location_name: "x-amz-request-charged"))
     ListMultipartUploadsOutput.struct_class = Types::ListMultipartUploadsOutput
 
     ListMultipartUploadsRequest.add_member(:bucket, Shapes::ShapeRef.new(shape: BucketName, required: true, location: "uri", location_name: "Bucket", metadata: {"contextParam"=>{"name"=>"Bucket"}}))
@@ -1671,9 +1849,10 @@ module Aws::S3
     ListMultipartUploadsRequest.add_member(:encoding_type, Shapes::ShapeRef.new(shape: EncodingType, location: "querystring", location_name: "encoding-type"))
     ListMultipartUploadsRequest.add_member(:key_marker, Shapes::ShapeRef.new(shape: KeyMarker, location: "querystring", location_name: "key-marker"))
     ListMultipartUploadsRequest.add_member(:max_uploads, Shapes::ShapeRef.new(shape: MaxUploads, location: "querystring", location_name: "max-uploads"))
-    ListMultipartUploadsRequest.add_member(:prefix, Shapes::ShapeRef.new(shape: Prefix, location: "querystring", location_name: "prefix"))
+    ListMultipartUploadsRequest.add_member(:prefix, Shapes::ShapeRef.new(shape: Prefix, location: "querystring", location_name: "prefix", metadata: {"contextParam"=>{"name"=>"Prefix"}}))
     ListMultipartUploadsRequest.add_member(:upload_id_marker, Shapes::ShapeRef.new(shape: UploadIdMarker, location: "querystring", location_name: "upload-id-marker"))
     ListMultipartUploadsRequest.add_member(:expected_bucket_owner, Shapes::ShapeRef.new(shape: AccountId, location: "header", location_name: "x-amz-expected-bucket-owner"))
+    ListMultipartUploadsRequest.add_member(:request_payer, Shapes::ShapeRef.new(shape: RequestPayer, location: "header", location_name: "x-amz-request-payer"))
     ListMultipartUploadsRequest.struct_class = Types::ListMultipartUploadsRequest
 
     ListObjectVersionsOutput.add_member(:is_truncated, Shapes::ShapeRef.new(shape: IsTruncated, location_name: "IsTruncated"))
@@ -1689,6 +1868,7 @@ module Aws::S3
     ListObjectVersionsOutput.add_member(:max_keys, Shapes::ShapeRef.new(shape: MaxKeys, location_name: "MaxKeys"))
     ListObjectVersionsOutput.add_member(:common_prefixes, Shapes::ShapeRef.new(shape: CommonPrefixList, location_name: "CommonPrefixes"))
     ListObjectVersionsOutput.add_member(:encoding_type, Shapes::ShapeRef.new(shape: EncodingType, location_name: "EncodingType"))
+    ListObjectVersionsOutput.add_member(:request_charged, Shapes::ShapeRef.new(shape: RequestCharged, location: "header", location_name: "x-amz-request-charged"))
     ListObjectVersionsOutput.struct_class = Types::ListObjectVersionsOutput
 
     ListObjectVersionsRequest.add_member(:bucket, Shapes::ShapeRef.new(shape: BucketName, required: true, location: "uri", location_name: "Bucket", metadata: {"contextParam"=>{"name"=>"Bucket"}}))
@@ -1696,9 +1876,11 @@ module Aws::S3
     ListObjectVersionsRequest.add_member(:encoding_type, Shapes::ShapeRef.new(shape: EncodingType, location: "querystring", location_name: "encoding-type"))
     ListObjectVersionsRequest.add_member(:key_marker, Shapes::ShapeRef.new(shape: KeyMarker, location: "querystring", location_name: "key-marker"))
     ListObjectVersionsRequest.add_member(:max_keys, Shapes::ShapeRef.new(shape: MaxKeys, location: "querystring", location_name: "max-keys"))
-    ListObjectVersionsRequest.add_member(:prefix, Shapes::ShapeRef.new(shape: Prefix, location: "querystring", location_name: "prefix"))
+    ListObjectVersionsRequest.add_member(:prefix, Shapes::ShapeRef.new(shape: Prefix, location: "querystring", location_name: "prefix", metadata: {"contextParam"=>{"name"=>"Prefix"}}))
     ListObjectVersionsRequest.add_member(:version_id_marker, Shapes::ShapeRef.new(shape: VersionIdMarker, location: "querystring", location_name: "version-id-marker"))
     ListObjectVersionsRequest.add_member(:expected_bucket_owner, Shapes::ShapeRef.new(shape: AccountId, location: "header", location_name: "x-amz-expected-bucket-owner"))
+    ListObjectVersionsRequest.add_member(:request_payer, Shapes::ShapeRef.new(shape: RequestPayer, location: "header", location_name: "x-amz-request-payer"))
+    ListObjectVersionsRequest.add_member(:optional_object_attributes, Shapes::ShapeRef.new(shape: OptionalObjectAttributesList, location: "header", location_name: "x-amz-optional-object-attributes"))
     ListObjectVersionsRequest.struct_class = Types::ListObjectVersionsRequest
 
     ListObjectsOutput.add_member(:is_truncated, Shapes::ShapeRef.new(shape: IsTruncated, location_name: "IsTruncated"))
@@ -1711,6 +1893,7 @@ module Aws::S3
     ListObjectsOutput.add_member(:max_keys, Shapes::ShapeRef.new(shape: MaxKeys, location_name: "MaxKeys"))
     ListObjectsOutput.add_member(:common_prefixes, Shapes::ShapeRef.new(shape: CommonPrefixList, location_name: "CommonPrefixes"))
     ListObjectsOutput.add_member(:encoding_type, Shapes::ShapeRef.new(shape: EncodingType, location_name: "EncodingType"))
+    ListObjectsOutput.add_member(:request_charged, Shapes::ShapeRef.new(shape: RequestCharged, location: "header", location_name: "x-amz-request-charged"))
     ListObjectsOutput.struct_class = Types::ListObjectsOutput
 
     ListObjectsRequest.add_member(:bucket, Shapes::ShapeRef.new(shape: BucketName, required: true, location: "uri", location_name: "Bucket", metadata: {"contextParam"=>{"name"=>"Bucket"}}))
@@ -1718,9 +1901,10 @@ module Aws::S3
     ListObjectsRequest.add_member(:encoding_type, Shapes::ShapeRef.new(shape: EncodingType, location: "querystring", location_name: "encoding-type"))
     ListObjectsRequest.add_member(:marker, Shapes::ShapeRef.new(shape: Marker, location: "querystring", location_name: "marker"))
     ListObjectsRequest.add_member(:max_keys, Shapes::ShapeRef.new(shape: MaxKeys, location: "querystring", location_name: "max-keys"))
-    ListObjectsRequest.add_member(:prefix, Shapes::ShapeRef.new(shape: Prefix, location: "querystring", location_name: "prefix"))
+    ListObjectsRequest.add_member(:prefix, Shapes::ShapeRef.new(shape: Prefix, location: "querystring", location_name: "prefix", metadata: {"contextParam"=>{"name"=>"Prefix"}}))
     ListObjectsRequest.add_member(:request_payer, Shapes::ShapeRef.new(shape: RequestPayer, location: "header", location_name: "x-amz-request-payer"))
     ListObjectsRequest.add_member(:expected_bucket_owner, Shapes::ShapeRef.new(shape: AccountId, location: "header", location_name: "x-amz-expected-bucket-owner"))
+    ListObjectsRequest.add_member(:optional_object_attributes, Shapes::ShapeRef.new(shape: OptionalObjectAttributesList, location: "header", location_name: "x-amz-optional-object-attributes"))
     ListObjectsRequest.struct_class = Types::ListObjectsRequest
 
     ListObjectsV2Output.add_member(:is_truncated, Shapes::ShapeRef.new(shape: IsTruncated, location_name: "IsTruncated"))
@@ -1735,18 +1919,20 @@ module Aws::S3
     ListObjectsV2Output.add_member(:continuation_token, Shapes::ShapeRef.new(shape: Token, location_name: "ContinuationToken"))
     ListObjectsV2Output.add_member(:next_continuation_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "NextContinuationToken"))
     ListObjectsV2Output.add_member(:start_after, Shapes::ShapeRef.new(shape: StartAfter, location_name: "StartAfter"))
+    ListObjectsV2Output.add_member(:request_charged, Shapes::ShapeRef.new(shape: RequestCharged, location: "header", location_name: "x-amz-request-charged"))
     ListObjectsV2Output.struct_class = Types::ListObjectsV2Output
 
     ListObjectsV2Request.add_member(:bucket, Shapes::ShapeRef.new(shape: BucketName, required: true, location: "uri", location_name: "Bucket", metadata: {"contextParam"=>{"name"=>"Bucket"}}))
     ListObjectsV2Request.add_member(:delimiter, Shapes::ShapeRef.new(shape: Delimiter, location: "querystring", location_name: "delimiter"))
     ListObjectsV2Request.add_member(:encoding_type, Shapes::ShapeRef.new(shape: EncodingType, location: "querystring", location_name: "encoding-type"))
     ListObjectsV2Request.add_member(:max_keys, Shapes::ShapeRef.new(shape: MaxKeys, location: "querystring", location_name: "max-keys"))
-    ListObjectsV2Request.add_member(:prefix, Shapes::ShapeRef.new(shape: Prefix, location: "querystring", location_name: "prefix"))
+    ListObjectsV2Request.add_member(:prefix, Shapes::ShapeRef.new(shape: Prefix, location: "querystring", location_name: "prefix", metadata: {"contextParam"=>{"name"=>"Prefix"}}))
     ListObjectsV2Request.add_member(:continuation_token, Shapes::ShapeRef.new(shape: Token, location: "querystring", location_name: "continuation-token"))
     ListObjectsV2Request.add_member(:fetch_owner, Shapes::ShapeRef.new(shape: FetchOwner, location: "querystring", location_name: "fetch-owner"))
     ListObjectsV2Request.add_member(:start_after, Shapes::ShapeRef.new(shape: StartAfter, location: "querystring", location_name: "start-after"))
     ListObjectsV2Request.add_member(:request_payer, Shapes::ShapeRef.new(shape: RequestPayer, location: "header", location_name: "x-amz-request-payer"))
     ListObjectsV2Request.add_member(:expected_bucket_owner, Shapes::ShapeRef.new(shape: AccountId, location: "header", location_name: "x-amz-expected-bucket-owner"))
+    ListObjectsV2Request.add_member(:optional_object_attributes, Shapes::ShapeRef.new(shape: OptionalObjectAttributesList, location: "header", location_name: "x-amz-optional-object-attributes"))
     ListObjectsV2Request.struct_class = Types::ListObjectsV2Request
 
     ListPartsOutput.add_member(:abort_date, Shapes::ShapeRef.new(shape: AbortDate, location: "header", location_name: "x-amz-abort-date"))
@@ -1764,10 +1950,11 @@ module Aws::S3
     ListPartsOutput.add_member(:storage_class, Shapes::ShapeRef.new(shape: StorageClass, location_name: "StorageClass"))
     ListPartsOutput.add_member(:request_charged, Shapes::ShapeRef.new(shape: RequestCharged, location: "header", location_name: "x-amz-request-charged"))
     ListPartsOutput.add_member(:checksum_algorithm, Shapes::ShapeRef.new(shape: ChecksumAlgorithm, location_name: "ChecksumAlgorithm"))
+    ListPartsOutput.add_member(:checksum_type, Shapes::ShapeRef.new(shape: ChecksumType, location_name: "ChecksumType"))
     ListPartsOutput.struct_class = Types::ListPartsOutput
 
     ListPartsRequest.add_member(:bucket, Shapes::ShapeRef.new(shape: BucketName, required: true, location: "uri", location_name: "Bucket", metadata: {"contextParam"=>{"name"=>"Bucket"}}))
-    ListPartsRequest.add_member(:key, Shapes::ShapeRef.new(shape: ObjectKey, required: true, location: "uri", location_name: "Key"))
+    ListPartsRequest.add_member(:key, Shapes::ShapeRef.new(shape: ObjectKey, required: true, location: "uri", location_name: "Key", metadata: {"contextParam"=>{"name"=>"Key"}}))
     ListPartsRequest.add_member(:max_parts, Shapes::ShapeRef.new(shape: MaxParts, location: "querystring", location_name: "max-parts"))
     ListPartsRequest.add_member(:part_number_marker, Shapes::ShapeRef.new(shape: PartNumberMarker, location: "querystring", location_name: "part-number-marker"))
     ListPartsRequest.add_member(:upload_id, Shapes::ShapeRef.new(shape: MultipartUploadId, required: true, location: "querystring", location_name: "uploadId"))
@@ -1778,9 +1965,14 @@ module Aws::S3
     ListPartsRequest.add_member(:sse_customer_key_md5, Shapes::ShapeRef.new(shape: SSECustomerKeyMD5, location: "header", location_name: "x-amz-server-side-encryption-customer-key-MD5"))
     ListPartsRequest.struct_class = Types::ListPartsRequest
 
+    LocationInfo.add_member(:type, Shapes::ShapeRef.new(shape: LocationType, location_name: "Type"))
+    LocationInfo.add_member(:name, Shapes::ShapeRef.new(shape: LocationNameAsString, location_name: "Name"))
+    LocationInfo.struct_class = Types::LocationInfo
+
     LoggingEnabled.add_member(:target_bucket, Shapes::ShapeRef.new(shape: TargetBucket, required: true, location_name: "TargetBucket"))
     LoggingEnabled.add_member(:target_grants, Shapes::ShapeRef.new(shape: TargetGrants, location_name: "TargetGrants"))
     LoggingEnabled.add_member(:target_prefix, Shapes::ShapeRef.new(shape: TargetPrefix, required: true, location_name: "TargetPrefix"))
+    LoggingEnabled.add_member(:target_object_key_format, Shapes::ShapeRef.new(shape: TargetObjectKeyFormat, location_name: "TargetObjectKeyFormat"))
     LoggingEnabled.struct_class = Types::LoggingEnabled
 
     Metadata.key = Shapes::ShapeRef.new(shape: MetadataKey)
@@ -1789,6 +1981,12 @@ module Aws::S3
     MetadataEntry.add_member(:name, Shapes::ShapeRef.new(shape: MetadataKey, location_name: "Name"))
     MetadataEntry.add_member(:value, Shapes::ShapeRef.new(shape: MetadataValue, location_name: "Value"))
     MetadataEntry.struct_class = Types::MetadataEntry
+
+    MetadataTableConfiguration.add_member(:s3_tables_destination, Shapes::ShapeRef.new(shape: S3TablesDestination, required: true, location_name: "S3TablesDestination"))
+    MetadataTableConfiguration.struct_class = Types::MetadataTableConfiguration
+
+    MetadataTableConfigurationResult.add_member(:s3_tables_destination_result, Shapes::ShapeRef.new(shape: S3TablesDestinationResult, required: true, location_name: "S3TablesDestinationResult"))
+    MetadataTableConfigurationResult.struct_class = Types::MetadataTableConfigurationResult
 
     Metrics.add_member(:status, Shapes::ShapeRef.new(shape: MetricsStatus, required: true, location_name: "Status"))
     Metrics.add_member(:event_threshold, Shapes::ShapeRef.new(shape: ReplicationTimeValue, location_name: "EventThreshold"))
@@ -1818,6 +2016,7 @@ module Aws::S3
     MultipartUpload.add_member(:owner, Shapes::ShapeRef.new(shape: Owner, location_name: "Owner"))
     MultipartUpload.add_member(:initiator, Shapes::ShapeRef.new(shape: Initiator, location_name: "Initiator"))
     MultipartUpload.add_member(:checksum_algorithm, Shapes::ShapeRef.new(shape: ChecksumAlgorithm, location_name: "ChecksumAlgorithm"))
+    MultipartUpload.add_member(:checksum_type, Shapes::ShapeRef.new(shape: ChecksumType, location_name: "ChecksumType"))
     MultipartUpload.struct_class = Types::MultipartUpload
 
     MultipartUploadList.member = Shapes::ShapeRef.new(shape: MultipartUpload)
@@ -1857,9 +2056,11 @@ module Aws::S3
     Object.add_member(:last_modified, Shapes::ShapeRef.new(shape: LastModified, location_name: "LastModified"))
     Object.add_member(:etag, Shapes::ShapeRef.new(shape: ETag, location_name: "ETag"))
     Object.add_member(:checksum_algorithm, Shapes::ShapeRef.new(shape: ChecksumAlgorithmList, location_name: "ChecksumAlgorithm"))
+    Object.add_member(:checksum_type, Shapes::ShapeRef.new(shape: ChecksumType, location_name: "ChecksumType"))
     Object.add_member(:size, Shapes::ShapeRef.new(shape: Size, location_name: "Size"))
     Object.add_member(:storage_class, Shapes::ShapeRef.new(shape: ObjectStorageClass, location_name: "StorageClass"))
     Object.add_member(:owner, Shapes::ShapeRef.new(shape: Owner, location_name: "Owner"))
+    Object.add_member(:restore_status, Shapes::ShapeRef.new(shape: RestoreStatus, location_name: "RestoreStatus"))
     Object.struct_class = Types::Object
 
     ObjectAlreadyInActiveTierError.struct_class = Types::ObjectAlreadyInActiveTierError
@@ -1868,6 +2069,9 @@ module Aws::S3
 
     ObjectIdentifier.add_member(:key, Shapes::ShapeRef.new(shape: ObjectKey, required: true, location_name: "Key"))
     ObjectIdentifier.add_member(:version_id, Shapes::ShapeRef.new(shape: ObjectVersionId, location_name: "VersionId"))
+    ObjectIdentifier.add_member(:etag, Shapes::ShapeRef.new(shape: ETag, location_name: "ETag"))
+    ObjectIdentifier.add_member(:last_modified_time, Shapes::ShapeRef.new(shape: LastModifiedTime, location_name: "LastModifiedTime"))
+    ObjectIdentifier.add_member(:size, Shapes::ShapeRef.new(shape: Size, location_name: "Size"))
     ObjectIdentifier.struct_class = Types::ObjectIdentifier
 
     ObjectIdentifierList.member = Shapes::ShapeRef.new(shape: ObjectIdentifier)
@@ -1894,12 +2098,14 @@ module Aws::S3
     ObjectPart.add_member(:size, Shapes::ShapeRef.new(shape: Size, location_name: "Size"))
     ObjectPart.add_member(:checksum_crc32, Shapes::ShapeRef.new(shape: ChecksumCRC32, location_name: "ChecksumCRC32"))
     ObjectPart.add_member(:checksum_crc32c, Shapes::ShapeRef.new(shape: ChecksumCRC32C, location_name: "ChecksumCRC32C"))
+    ObjectPart.add_member(:checksum_crc64nvme, Shapes::ShapeRef.new(shape: ChecksumCRC64NVME, location_name: "ChecksumCRC64NVME"))
     ObjectPart.add_member(:checksum_sha1, Shapes::ShapeRef.new(shape: ChecksumSHA1, location_name: "ChecksumSHA1"))
     ObjectPart.add_member(:checksum_sha256, Shapes::ShapeRef.new(shape: ChecksumSHA256, location_name: "ChecksumSHA256"))
     ObjectPart.struct_class = Types::ObjectPart
 
     ObjectVersion.add_member(:etag, Shapes::ShapeRef.new(shape: ETag, location_name: "ETag"))
     ObjectVersion.add_member(:checksum_algorithm, Shapes::ShapeRef.new(shape: ChecksumAlgorithmList, location_name: "ChecksumAlgorithm"))
+    ObjectVersion.add_member(:checksum_type, Shapes::ShapeRef.new(shape: ChecksumType, location_name: "ChecksumType"))
     ObjectVersion.add_member(:size, Shapes::ShapeRef.new(shape: Size, location_name: "Size"))
     ObjectVersion.add_member(:storage_class, Shapes::ShapeRef.new(shape: ObjectVersionStorageClass, location_name: "StorageClass"))
     ObjectVersion.add_member(:key, Shapes::ShapeRef.new(shape: ObjectKey, location_name: "Key"))
@@ -1907,9 +2113,12 @@ module Aws::S3
     ObjectVersion.add_member(:is_latest, Shapes::ShapeRef.new(shape: IsLatest, location_name: "IsLatest"))
     ObjectVersion.add_member(:last_modified, Shapes::ShapeRef.new(shape: LastModified, location_name: "LastModified"))
     ObjectVersion.add_member(:owner, Shapes::ShapeRef.new(shape: Owner, location_name: "Owner"))
+    ObjectVersion.add_member(:restore_status, Shapes::ShapeRef.new(shape: RestoreStatus, location_name: "RestoreStatus"))
     ObjectVersion.struct_class = Types::ObjectVersion
 
     ObjectVersionList.member = Shapes::ShapeRef.new(shape: ObjectVersion)
+
+    OptionalObjectAttributesList.member = Shapes::ShapeRef.new(shape: OptionalObjectAttributes)
 
     OutputLocation.add_member(:s3, Shapes::ShapeRef.new(shape: S3Location, location_name: "S3"))
     OutputLocation.struct_class = Types::OutputLocation
@@ -1938,9 +2147,13 @@ module Aws::S3
     Part.add_member(:size, Shapes::ShapeRef.new(shape: Size, location_name: "Size"))
     Part.add_member(:checksum_crc32, Shapes::ShapeRef.new(shape: ChecksumCRC32, location_name: "ChecksumCRC32"))
     Part.add_member(:checksum_crc32c, Shapes::ShapeRef.new(shape: ChecksumCRC32C, location_name: "ChecksumCRC32C"))
+    Part.add_member(:checksum_crc64nvme, Shapes::ShapeRef.new(shape: ChecksumCRC64NVME, location_name: "ChecksumCRC64NVME"))
     Part.add_member(:checksum_sha1, Shapes::ShapeRef.new(shape: ChecksumSHA1, location_name: "ChecksumSHA1"))
     Part.add_member(:checksum_sha256, Shapes::ShapeRef.new(shape: ChecksumSHA256, location_name: "ChecksumSHA256"))
     Part.struct_class = Types::Part
+
+    PartitionedPrefix.add_member(:partition_date_source, Shapes::ShapeRef.new(shape: PartitionDateSource, location_name: "PartitionDateSource"))
+    PartitionedPrefix.struct_class = Types::PartitionedPrefix
 
     Parts.member = Shapes::ShapeRef.new(shape: Part)
 
@@ -2027,10 +2240,14 @@ module Aws::S3
     PutBucketInventoryConfigurationRequest[:payload] = :inventory_configuration
     PutBucketInventoryConfigurationRequest[:payload_member] = PutBucketInventoryConfigurationRequest.member(:inventory_configuration)
 
+    PutBucketLifecycleConfigurationOutput.add_member(:transition_default_minimum_object_size, Shapes::ShapeRef.new(shape: TransitionDefaultMinimumObjectSize, location: "header", location_name: "x-amz-transition-default-minimum-object-size"))
+    PutBucketLifecycleConfigurationOutput.struct_class = Types::PutBucketLifecycleConfigurationOutput
+
     PutBucketLifecycleConfigurationRequest.add_member(:bucket, Shapes::ShapeRef.new(shape: BucketName, required: true, location: "uri", location_name: "Bucket", metadata: {"contextParam"=>{"name"=>"Bucket"}}))
     PutBucketLifecycleConfigurationRequest.add_member(:checksum_algorithm, Shapes::ShapeRef.new(shape: ChecksumAlgorithm, location: "header", location_name: "x-amz-sdk-checksum-algorithm"))
     PutBucketLifecycleConfigurationRequest.add_member(:lifecycle_configuration, Shapes::ShapeRef.new(shape: BucketLifecycleConfiguration, location_name: "LifecycleConfiguration", metadata: {"xmlNamespace"=>{"uri"=>"http://s3.amazonaws.com/doc/2006-03-01/"}}))
     PutBucketLifecycleConfigurationRequest.add_member(:expected_bucket_owner, Shapes::ShapeRef.new(shape: AccountId, location: "header", location_name: "x-amz-expected-bucket-owner"))
+    PutBucketLifecycleConfigurationRequest.add_member(:transition_default_minimum_object_size, Shapes::ShapeRef.new(shape: TransitionDefaultMinimumObjectSize, location: "header", location_name: "x-amz-transition-default-minimum-object-size"))
     PutBucketLifecycleConfigurationRequest.struct_class = Types::PutBucketLifecycleConfigurationRequest
     PutBucketLifecycleConfigurationRequest[:payload] = :lifecycle_configuration
     PutBucketLifecycleConfigurationRequest[:payload_member] = PutBucketLifecycleConfigurationRequest.member(:lifecycle_configuration)
@@ -2156,7 +2373,7 @@ module Aws::S3
     PutObjectAclRequest.add_member(:grant_read_acp, Shapes::ShapeRef.new(shape: GrantReadACP, location: "header", location_name: "x-amz-grant-read-acp"))
     PutObjectAclRequest.add_member(:grant_write, Shapes::ShapeRef.new(shape: GrantWrite, location: "header", location_name: "x-amz-grant-write"))
     PutObjectAclRequest.add_member(:grant_write_acp, Shapes::ShapeRef.new(shape: GrantWriteACP, location: "header", location_name: "x-amz-grant-write-acp"))
-    PutObjectAclRequest.add_member(:key, Shapes::ShapeRef.new(shape: ObjectKey, required: true, location: "uri", location_name: "Key"))
+    PutObjectAclRequest.add_member(:key, Shapes::ShapeRef.new(shape: ObjectKey, required: true, location: "uri", location_name: "Key", metadata: {"contextParam"=>{"name"=>"Key"}}))
     PutObjectAclRequest.add_member(:request_payer, Shapes::ShapeRef.new(shape: RequestPayer, location: "header", location_name: "x-amz-request-payer"))
     PutObjectAclRequest.add_member(:version_id, Shapes::ShapeRef.new(shape: ObjectVersionId, location: "querystring", location_name: "versionId"))
     PutObjectAclRequest.add_member(:expected_bucket_owner, Shapes::ShapeRef.new(shape: AccountId, location: "header", location_name: "x-amz-expected-bucket-owner"))
@@ -2197,8 +2414,10 @@ module Aws::S3
     PutObjectOutput.add_member(:etag, Shapes::ShapeRef.new(shape: ETag, location: "header", location_name: "ETag"))
     PutObjectOutput.add_member(:checksum_crc32, Shapes::ShapeRef.new(shape: ChecksumCRC32, location: "header", location_name: "x-amz-checksum-crc32"))
     PutObjectOutput.add_member(:checksum_crc32c, Shapes::ShapeRef.new(shape: ChecksumCRC32C, location: "header", location_name: "x-amz-checksum-crc32c"))
+    PutObjectOutput.add_member(:checksum_crc64nvme, Shapes::ShapeRef.new(shape: ChecksumCRC64NVME, location: "header", location_name: "x-amz-checksum-crc64nvme"))
     PutObjectOutput.add_member(:checksum_sha1, Shapes::ShapeRef.new(shape: ChecksumSHA1, location: "header", location_name: "x-amz-checksum-sha1"))
     PutObjectOutput.add_member(:checksum_sha256, Shapes::ShapeRef.new(shape: ChecksumSHA256, location: "header", location_name: "x-amz-checksum-sha256"))
+    PutObjectOutput.add_member(:checksum_type, Shapes::ShapeRef.new(shape: ChecksumType, location: "header", location_name: "x-amz-checksum-type"))
     PutObjectOutput.add_member(:server_side_encryption, Shapes::ShapeRef.new(shape: ServerSideEncryption, location: "header", location_name: "x-amz-server-side-encryption"))
     PutObjectOutput.add_member(:version_id, Shapes::ShapeRef.new(shape: ObjectVersionId, location: "header", location_name: "x-amz-version-id"))
     PutObjectOutput.add_member(:sse_customer_algorithm, Shapes::ShapeRef.new(shape: SSECustomerAlgorithm, location: "header", location_name: "x-amz-server-side-encryption-customer-algorithm"))
@@ -2206,6 +2425,7 @@ module Aws::S3
     PutObjectOutput.add_member(:ssekms_key_id, Shapes::ShapeRef.new(shape: SSEKMSKeyId, location: "header", location_name: "x-amz-server-side-encryption-aws-kms-key-id"))
     PutObjectOutput.add_member(:ssekms_encryption_context, Shapes::ShapeRef.new(shape: SSEKMSEncryptionContext, location: "header", location_name: "x-amz-server-side-encryption-context"))
     PutObjectOutput.add_member(:bucket_key_enabled, Shapes::ShapeRef.new(shape: BucketKeyEnabled, location: "header", location_name: "x-amz-server-side-encryption-bucket-key-enabled"))
+    PutObjectOutput.add_member(:size, Shapes::ShapeRef.new(shape: Size, location: "header", location_name: "x-amz-object-size"))
     PutObjectOutput.add_member(:request_charged, Shapes::ShapeRef.new(shape: RequestCharged, location: "header", location_name: "x-amz-request-charged"))
     PutObjectOutput.struct_class = Types::PutObjectOutput
 
@@ -2222,14 +2442,18 @@ module Aws::S3
     PutObjectRequest.add_member(:checksum_algorithm, Shapes::ShapeRef.new(shape: ChecksumAlgorithm, location: "header", location_name: "x-amz-sdk-checksum-algorithm"))
     PutObjectRequest.add_member(:checksum_crc32, Shapes::ShapeRef.new(shape: ChecksumCRC32, location: "header", location_name: "x-amz-checksum-crc32"))
     PutObjectRequest.add_member(:checksum_crc32c, Shapes::ShapeRef.new(shape: ChecksumCRC32C, location: "header", location_name: "x-amz-checksum-crc32c"))
+    PutObjectRequest.add_member(:checksum_crc64nvme, Shapes::ShapeRef.new(shape: ChecksumCRC64NVME, location: "header", location_name: "x-amz-checksum-crc64nvme"))
     PutObjectRequest.add_member(:checksum_sha1, Shapes::ShapeRef.new(shape: ChecksumSHA1, location: "header", location_name: "x-amz-checksum-sha1"))
     PutObjectRequest.add_member(:checksum_sha256, Shapes::ShapeRef.new(shape: ChecksumSHA256, location: "header", location_name: "x-amz-checksum-sha256"))
     PutObjectRequest.add_member(:expires, Shapes::ShapeRef.new(shape: Expires, location: "header", location_name: "Expires"))
+    PutObjectRequest.add_member(:if_match, Shapes::ShapeRef.new(shape: IfMatch, location: "header", location_name: "If-Match"))
+    PutObjectRequest.add_member(:if_none_match, Shapes::ShapeRef.new(shape: IfNoneMatch, location: "header", location_name: "If-None-Match"))
     PutObjectRequest.add_member(:grant_full_control, Shapes::ShapeRef.new(shape: GrantFullControl, location: "header", location_name: "x-amz-grant-full-control"))
     PutObjectRequest.add_member(:grant_read, Shapes::ShapeRef.new(shape: GrantRead, location: "header", location_name: "x-amz-grant-read"))
     PutObjectRequest.add_member(:grant_read_acp, Shapes::ShapeRef.new(shape: GrantReadACP, location: "header", location_name: "x-amz-grant-read-acp"))
     PutObjectRequest.add_member(:grant_write_acp, Shapes::ShapeRef.new(shape: GrantWriteACP, location: "header", location_name: "x-amz-grant-write-acp"))
-    PutObjectRequest.add_member(:key, Shapes::ShapeRef.new(shape: ObjectKey, required: true, location: "uri", location_name: "Key"))
+    PutObjectRequest.add_member(:key, Shapes::ShapeRef.new(shape: ObjectKey, required: true, location: "uri", location_name: "Key", metadata: {"contextParam"=>{"name"=>"Key"}}))
+    PutObjectRequest.add_member(:write_offset_bytes, Shapes::ShapeRef.new(shape: WriteOffsetBytes, location: "header", location_name: "x-amz-write-offset-bytes"))
     PutObjectRequest.add_member(:metadata, Shapes::ShapeRef.new(shape: Metadata, location: "headers", location_name: "x-amz-meta-"))
     PutObjectRequest.add_member(:server_side_encryption, Shapes::ShapeRef.new(shape: ServerSideEncryption, location: "header", location_name: "x-amz-server-side-encryption"))
     PutObjectRequest.add_member(:storage_class, Shapes::ShapeRef.new(shape: StorageClass, location: "header", location_name: "x-amz-storage-class"))
@@ -2384,6 +2608,10 @@ module Aws::S3
     RestoreRequest.add_member(:output_location, Shapes::ShapeRef.new(shape: OutputLocation, location_name: "OutputLocation"))
     RestoreRequest.struct_class = Types::RestoreRequest
 
+    RestoreStatus.add_member(:is_restore_in_progress, Shapes::ShapeRef.new(shape: IsRestoreInProgress, location_name: "IsRestoreInProgress"))
+    RestoreStatus.add_member(:restore_expiry_date, Shapes::ShapeRef.new(shape: RestoreExpiryDate, location_name: "RestoreExpiryDate"))
+    RestoreStatus.struct_class = Types::RestoreStatus
+
     RoutingRule.add_member(:condition, Shapes::ShapeRef.new(shape: Condition, location_name: "Condition"))
     RoutingRule.add_member(:redirect, Shapes::ShapeRef.new(shape: Redirect, required: true, location_name: "Redirect"))
     RoutingRule.struct_class = Types::RoutingRule
@@ -2414,6 +2642,16 @@ module Aws::S3
     S3Location.add_member(:user_metadata, Shapes::ShapeRef.new(shape: UserMetadata, location_name: "UserMetadata"))
     S3Location.add_member(:storage_class, Shapes::ShapeRef.new(shape: StorageClass, location_name: "StorageClass"))
     S3Location.struct_class = Types::S3Location
+
+    S3TablesDestination.add_member(:table_bucket_arn, Shapes::ShapeRef.new(shape: S3TablesBucketArn, required: true, location_name: "TableBucketArn"))
+    S3TablesDestination.add_member(:table_name, Shapes::ShapeRef.new(shape: S3TablesName, required: true, location_name: "TableName"))
+    S3TablesDestination.struct_class = Types::S3TablesDestination
+
+    S3TablesDestinationResult.add_member(:table_bucket_arn, Shapes::ShapeRef.new(shape: S3TablesBucketArn, required: true, location_name: "TableBucketArn"))
+    S3TablesDestinationResult.add_member(:table_name, Shapes::ShapeRef.new(shape: S3TablesName, required: true, location_name: "TableName"))
+    S3TablesDestinationResult.add_member(:table_arn, Shapes::ShapeRef.new(shape: S3TablesArn, required: true, location_name: "TableArn"))
+    S3TablesDestinationResult.add_member(:table_namespace, Shapes::ShapeRef.new(shape: S3TablesNamespace, required: true, location_name: "TableNamespace"))
+    S3TablesDestinationResult.struct_class = Types::S3TablesDestinationResult
 
     SSEKMS.add_member(:key_id, Shapes::ShapeRef.new(shape: SSEKMSKeyId, required: true, location_name: "KeyId"))
     SSEKMS.struct_class = Types::SSEKMS
@@ -2469,6 +2707,14 @@ module Aws::S3
 
     ServerSideEncryptionRules.member = Shapes::ShapeRef.new(shape: ServerSideEncryptionRule)
 
+    SessionCredentials.add_member(:access_key_id, Shapes::ShapeRef.new(shape: AccessKeyIdValue, required: true, location_name: "AccessKeyId"))
+    SessionCredentials.add_member(:secret_access_key, Shapes::ShapeRef.new(shape: SessionCredentialValue, required: true, location_name: "SecretAccessKey"))
+    SessionCredentials.add_member(:session_token, Shapes::ShapeRef.new(shape: SessionCredentialValue, required: true, location_name: "SessionToken"))
+    SessionCredentials.add_member(:expiration, Shapes::ShapeRef.new(shape: SessionExpiration, required: true, location_name: "Expiration"))
+    SessionCredentials.struct_class = Types::SessionCredentials
+
+    SimplePrefix.struct_class = Types::SimplePrefix
+
     SourceSelectionCriteria.add_member(:sse_kms_encrypted_objects, Shapes::ShapeRef.new(shape: SseKmsEncryptedObjects, location_name: "SseKmsEncryptedObjects"))
     SourceSelectionCriteria.add_member(:replica_modifications, Shapes::ShapeRef.new(shape: ReplicaModifications, location_name: "ReplicaModifications"))
     SourceSelectionCriteria.struct_class = Types::SourceSelectionCriteria
@@ -2506,11 +2752,17 @@ module Aws::S3
 
     TargetGrants.member = Shapes::ShapeRef.new(shape: TargetGrant, location_name: "Grant")
 
+    TargetObjectKeyFormat.add_member(:simple_prefix, Shapes::ShapeRef.new(shape: SimplePrefix, location_name: "SimplePrefix"))
+    TargetObjectKeyFormat.add_member(:partitioned_prefix, Shapes::ShapeRef.new(shape: PartitionedPrefix, location_name: "PartitionedPrefix"))
+    TargetObjectKeyFormat.struct_class = Types::TargetObjectKeyFormat
+
     Tiering.add_member(:days, Shapes::ShapeRef.new(shape: IntelligentTieringDays, required: true, location_name: "Days"))
     Tiering.add_member(:access_tier, Shapes::ShapeRef.new(shape: IntelligentTieringAccessTier, required: true, location_name: "AccessTier"))
     Tiering.struct_class = Types::Tiering
 
     TieringList.member = Shapes::ShapeRef.new(shape: Tiering)
+
+    TooManyParts.struct_class = Types::TooManyParts
 
     TopicConfiguration.add_member(:id, Shapes::ShapeRef.new(shape: NotificationId, location_name: "Id"))
     TopicConfiguration.add_member(:topic_arn, Shapes::ShapeRef.new(shape: TopicArn, required: true, location_name: "Topic"))
@@ -2570,6 +2822,7 @@ module Aws::S3
     UploadPartOutput.add_member(:etag, Shapes::ShapeRef.new(shape: ETag, location: "header", location_name: "ETag"))
     UploadPartOutput.add_member(:checksum_crc32, Shapes::ShapeRef.new(shape: ChecksumCRC32, location: "header", location_name: "x-amz-checksum-crc32"))
     UploadPartOutput.add_member(:checksum_crc32c, Shapes::ShapeRef.new(shape: ChecksumCRC32C, location: "header", location_name: "x-amz-checksum-crc32c"))
+    UploadPartOutput.add_member(:checksum_crc64nvme, Shapes::ShapeRef.new(shape: ChecksumCRC64NVME, location: "header", location_name: "x-amz-checksum-crc64nvme"))
     UploadPartOutput.add_member(:checksum_sha1, Shapes::ShapeRef.new(shape: ChecksumSHA1, location: "header", location_name: "x-amz-checksum-sha1"))
     UploadPartOutput.add_member(:checksum_sha256, Shapes::ShapeRef.new(shape: ChecksumSHA256, location: "header", location_name: "x-amz-checksum-sha256"))
     UploadPartOutput.add_member(:sse_customer_algorithm, Shapes::ShapeRef.new(shape: SSECustomerAlgorithm, location: "header", location_name: "x-amz-server-side-encryption-customer-algorithm"))
@@ -2586,9 +2839,10 @@ module Aws::S3
     UploadPartRequest.add_member(:checksum_algorithm, Shapes::ShapeRef.new(shape: ChecksumAlgorithm, location: "header", location_name: "x-amz-sdk-checksum-algorithm"))
     UploadPartRequest.add_member(:checksum_crc32, Shapes::ShapeRef.new(shape: ChecksumCRC32, location: "header", location_name: "x-amz-checksum-crc32"))
     UploadPartRequest.add_member(:checksum_crc32c, Shapes::ShapeRef.new(shape: ChecksumCRC32C, location: "header", location_name: "x-amz-checksum-crc32c"))
+    UploadPartRequest.add_member(:checksum_crc64nvme, Shapes::ShapeRef.new(shape: ChecksumCRC64NVME, location: "header", location_name: "x-amz-checksum-crc64nvme"))
     UploadPartRequest.add_member(:checksum_sha1, Shapes::ShapeRef.new(shape: ChecksumSHA1, location: "header", location_name: "x-amz-checksum-sha1"))
     UploadPartRequest.add_member(:checksum_sha256, Shapes::ShapeRef.new(shape: ChecksumSHA256, location: "header", location_name: "x-amz-checksum-sha256"))
-    UploadPartRequest.add_member(:key, Shapes::ShapeRef.new(shape: ObjectKey, required: true, location: "uri", location_name: "Key"))
+    UploadPartRequest.add_member(:key, Shapes::ShapeRef.new(shape: ObjectKey, required: true, location: "uri", location_name: "Key", metadata: {"contextParam"=>{"name"=>"Key"}}))
     UploadPartRequest.add_member(:part_number, Shapes::ShapeRef.new(shape: PartNumber, required: true, location: "querystring", location_name: "partNumber"))
     UploadPartRequest.add_member(:upload_id, Shapes::ShapeRef.new(shape: MultipartUploadId, required: true, location: "querystring", location_name: "uploadId"))
     UploadPartRequest.add_member(:sse_customer_algorithm, Shapes::ShapeRef.new(shape: SSECustomerAlgorithm, location: "header", location_name: "x-amz-server-side-encryption-customer-algorithm"))
@@ -2628,6 +2882,7 @@ module Aws::S3
     WriteGetObjectResponseRequest.add_member(:content_type, Shapes::ShapeRef.new(shape: ContentType, location: "header", location_name: "x-amz-fwd-header-Content-Type"))
     WriteGetObjectResponseRequest.add_member(:checksum_crc32, Shapes::ShapeRef.new(shape: ChecksumCRC32, location: "header", location_name: "x-amz-fwd-header-x-amz-checksum-crc32"))
     WriteGetObjectResponseRequest.add_member(:checksum_crc32c, Shapes::ShapeRef.new(shape: ChecksumCRC32C, location: "header", location_name: "x-amz-fwd-header-x-amz-checksum-crc32c"))
+    WriteGetObjectResponseRequest.add_member(:checksum_crc64nvme, Shapes::ShapeRef.new(shape: ChecksumCRC64NVME, location: "header", location_name: "x-amz-fwd-header-x-amz-checksum-crc64nvme"))
     WriteGetObjectResponseRequest.add_member(:checksum_sha1, Shapes::ShapeRef.new(shape: ChecksumSHA1, location: "header", location_name: "x-amz-fwd-header-x-amz-checksum-sha1"))
     WriteGetObjectResponseRequest.add_member(:checksum_sha256, Shapes::ShapeRef.new(shape: ChecksumSHA256, location: "header", location_name: "x-amz-fwd-header-x-amz-checksum-sha256"))
     WriteGetObjectResponseRequest.add_member(:delete_marker, Shapes::ShapeRef.new(shape: DeleteMarker, location: "header", location_name: "x-amz-fwd-header-x-amz-delete-marker"))
@@ -2664,10 +2919,12 @@ module Aws::S3
 
       api.metadata = {
         "apiVersion" => "2006-03-01",
+        "auth" => ["aws.auth#sigv4"],
         "checksumFormat" => "md5",
         "endpointPrefix" => "s3",
         "globalEndpoint" => "s3.amazonaws.com",
         "protocol" => "rest-xml",
+        "protocols" => ["rest-xml"],
         "serviceAbbreviation" => "Amazon S3",
         "serviceFullName" => "Amazon Simple Storage Service",
         "serviceId" => "S3",
@@ -2710,12 +2967,37 @@ module Aws::S3
         o.errors << Shapes::ShapeRef.new(shape: BucketAlreadyOwnedByYou)
       end)
 
+      api.add_operation(:create_bucket_metadata_table_configuration, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "CreateBucketMetadataTableConfiguration"
+        o.http_method = "POST"
+        o.http_request_uri = "/?metadataTable"
+        o.http_checksum = {
+          "requestAlgorithmMember" => "checksum_algorithm",
+          "requestChecksumRequired" => true,
+        }
+        o.http_checksum = {
+          "requestAlgorithmMember" => "checksum_algorithm",
+          "requestChecksumRequired" => true,
+        }
+        o.input = Shapes::ShapeRef.new(shape: CreateBucketMetadataTableConfigurationRequest)
+        o.output = Shapes::ShapeRef.new(shape: Shapes::StructureShape.new(struct_class: Aws::EmptyStructure))
+      end)
+
       api.add_operation(:create_multipart_upload, Seahorse::Model::Operation.new.tap do |o|
         o.name = "CreateMultipartUpload"
         o.http_method = "POST"
         o.http_request_uri = "/{Key+}?uploads"
         o.input = Shapes::ShapeRef.new(shape: CreateMultipartUploadRequest)
         o.output = Shapes::ShapeRef.new(shape: CreateMultipartUploadOutput)
+      end)
+
+      api.add_operation(:create_session, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "CreateSession"
+        o.http_method = "GET"
+        o.http_request_uri = "/?session"
+        o.input = Shapes::ShapeRef.new(shape: CreateSessionRequest)
+        o.output = Shapes::ShapeRef.new(shape: CreateSessionOutput)
+        o.errors << Shapes::ShapeRef.new(shape: NoSuchBucket)
       end)
 
       api.add_operation(:delete_bucket, Seahorse::Model::Operation.new.tap do |o|
@@ -2771,6 +3053,14 @@ module Aws::S3
         o.http_method = "DELETE"
         o.http_request_uri = "/?lifecycle"
         o.input = Shapes::ShapeRef.new(shape: DeleteBucketLifecycleRequest)
+        o.output = Shapes::ShapeRef.new(shape: Shapes::StructureShape.new(struct_class: Aws::EmptyStructure))
+      end)
+
+      api.add_operation(:delete_bucket_metadata_table_configuration, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DeleteBucketMetadataTableConfiguration"
+        o.http_method = "DELETE"
+        o.http_request_uri = "/?metadataTable"
+        o.input = Shapes::ShapeRef.new(shape: DeleteBucketMetadataTableConfigurationRequest)
         o.output = Shapes::ShapeRef.new(shape: Shapes::StructureShape.new(struct_class: Aws::EmptyStructure))
       end)
 
@@ -2951,6 +3241,14 @@ module Aws::S3
         o.output = Shapes::ShapeRef.new(shape: GetBucketLoggingOutput)
       end)
 
+      api.add_operation(:get_bucket_metadata_table_configuration, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "GetBucketMetadataTableConfiguration"
+        o.http_method = "GET"
+        o.http_request_uri = "/?metadataTable"
+        o.input = Shapes::ShapeRef.new(shape: GetBucketMetadataTableConfigurationRequest)
+        o.output = Shapes::ShapeRef.new(shape: GetBucketMetadataTableConfigurationOutput)
+      end)
+
       api.add_operation(:get_bucket_metrics_configuration, Seahorse::Model::Operation.new.tap do |o|
         o.name = "GetBucketMetricsConfiguration"
         o.http_method = "GET"
@@ -3046,11 +3344,11 @@ module Aws::S3
         o.http_request_uri = "/{Key+}"
         o.http_checksum = {
           "requestValidationModeMember" => "checksum_mode",
-          "responseAlgorithms" => ["CRC32", "CRC32C", "SHA256", "SHA1"],
+          "responseAlgorithms" => ["CRC64NVME", "CRC32", "CRC32C", "SHA256", "SHA1"],
         }
         o.http_checksum = {
           "requestValidationModeMember" => "checksum_mode",
-          "responseAlgorithms" => ["CRC32", "CRC32C", "SHA256", "SHA1"],
+          "responseAlgorithms" => ["CRC64NVME", "CRC32", "CRC32C", "SHA256", "SHA1"],
         }
         o.input = Shapes::ShapeRef.new(shape: GetObjectRequest)
         o.output = Shapes::ShapeRef.new(shape: GetObjectOutput)
@@ -3129,7 +3427,7 @@ module Aws::S3
         o.http_method = "HEAD"
         o.http_request_uri = "/"
         o.input = Shapes::ShapeRef.new(shape: HeadBucketRequest)
-        o.output = Shapes::ShapeRef.new(shape: Shapes::StructureShape.new(struct_class: Aws::EmptyStructure))
+        o.output = Shapes::ShapeRef.new(shape: HeadBucketOutput)
         o.errors << Shapes::ShapeRef.new(shape: NoSuchBucket)
       end)
 
@@ -3178,8 +3476,28 @@ module Aws::S3
         o.name = "ListBuckets"
         o.http_method = "GET"
         o.http_request_uri = "/"
-        o.input = Shapes::ShapeRef.new(shape: Shapes::StructureShape.new(struct_class: Aws::EmptyStructure))
+        o.input = Shapes::ShapeRef.new(shape: ListBucketsRequest)
         o.output = Shapes::ShapeRef.new(shape: ListBucketsOutput)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_buckets",
+          tokens: {
+            "continuation_token" => "continuation_token"
+          }
+        )
+      end)
+
+      api.add_operation(:list_directory_buckets, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListDirectoryBuckets"
+        o.http_method = "GET"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: ListDirectoryBucketsRequest)
+        o.output = Shapes::ShapeRef.new(shape: ListDirectoryBucketsOutput)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_directory_buckets",
+          tokens: {
+            "continuation_token" => "continuation_token"
+          }
+        )
       end)
 
       api.add_operation(:list_multipart_uploads, Seahorse::Model::Operation.new.tap do |o|
@@ -3378,7 +3696,7 @@ module Aws::S3
           "requestChecksumRequired" => true,
         }
         o.input = Shapes::ShapeRef.new(shape: PutBucketLifecycleConfigurationRequest)
-        o.output = Shapes::ShapeRef.new(shape: Shapes::StructureShape.new(struct_class: Aws::EmptyStructure))
+        o.output = Shapes::ShapeRef.new(shape: PutBucketLifecycleConfigurationOutput)
       end)
 
       api.add_operation(:put_bucket_logging, Seahorse::Model::Operation.new.tap do |o|
@@ -3551,6 +3869,10 @@ module Aws::S3
         }
         o.input = Shapes::ShapeRef.new(shape: PutObjectRequest)
         o.output = Shapes::ShapeRef.new(shape: PutObjectOutput)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidRequest)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidWriteOffset)
+        o.errors << Shapes::ShapeRef.new(shape: TooManyParts)
+        o.errors << Shapes::ShapeRef.new(shape: EncryptionTypeMismatch)
       end)
 
       api.add_operation(:put_object_acl, Seahorse::Model::Operation.new.tap do |o|
@@ -3709,6 +4031,7 @@ module Aws::S3
         o.http_method = "POST"
         o.http_request_uri = "/WriteGetObjectResponse"
         o['authtype'] = "v4-unsigned-body"
+        o['unsignedPayload'] = true
         o.endpoint_pattern = {
           "hostPrefix" => "{RequestRoute}.",
         }

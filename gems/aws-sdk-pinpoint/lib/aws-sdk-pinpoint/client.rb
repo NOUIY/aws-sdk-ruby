@@ -7,33 +7,34 @@
 #
 # WARNING ABOUT GENERATED CODE
 
-require 'seahorse/client/plugins/content_length.rb'
-require 'aws-sdk-core/plugins/credentials_configuration.rb'
-require 'aws-sdk-core/plugins/logging.rb'
-require 'aws-sdk-core/plugins/param_converter.rb'
-require 'aws-sdk-core/plugins/param_validator.rb'
-require 'aws-sdk-core/plugins/user_agent.rb'
-require 'aws-sdk-core/plugins/helpful_socket_errors.rb'
-require 'aws-sdk-core/plugins/retry_errors.rb'
-require 'aws-sdk-core/plugins/global_configuration.rb'
-require 'aws-sdk-core/plugins/regional_endpoint.rb'
-require 'aws-sdk-core/plugins/endpoint_discovery.rb'
-require 'aws-sdk-core/plugins/endpoint_pattern.rb'
-require 'aws-sdk-core/plugins/response_paging.rb'
-require 'aws-sdk-core/plugins/stub_responses.rb'
-require 'aws-sdk-core/plugins/idempotency_token.rb'
-require 'aws-sdk-core/plugins/jsonvalue_converter.rb'
-require 'aws-sdk-core/plugins/client_metrics_plugin.rb'
-require 'aws-sdk-core/plugins/client_metrics_send_plugin.rb'
-require 'aws-sdk-core/plugins/transfer_encoding.rb'
-require 'aws-sdk-core/plugins/http_checksum.rb'
-require 'aws-sdk-core/plugins/checksum_algorithm.rb'
-require 'aws-sdk-core/plugins/defaults_mode.rb'
-require 'aws-sdk-core/plugins/recursion_detection.rb'
-require 'aws-sdk-core/plugins/sign.rb'
-require 'aws-sdk-core/plugins/protocols/rest_json.rb'
-
-Aws::Plugins::GlobalConfiguration.add_identifier(:pinpoint)
+require 'seahorse/client/plugins/content_length'
+require 'aws-sdk-core/plugins/credentials_configuration'
+require 'aws-sdk-core/plugins/logging'
+require 'aws-sdk-core/plugins/param_converter'
+require 'aws-sdk-core/plugins/param_validator'
+require 'aws-sdk-core/plugins/user_agent'
+require 'aws-sdk-core/plugins/helpful_socket_errors'
+require 'aws-sdk-core/plugins/retry_errors'
+require 'aws-sdk-core/plugins/global_configuration'
+require 'aws-sdk-core/plugins/regional_endpoint'
+require 'aws-sdk-core/plugins/endpoint_discovery'
+require 'aws-sdk-core/plugins/endpoint_pattern'
+require 'aws-sdk-core/plugins/response_paging'
+require 'aws-sdk-core/plugins/stub_responses'
+require 'aws-sdk-core/plugins/idempotency_token'
+require 'aws-sdk-core/plugins/invocation_id'
+require 'aws-sdk-core/plugins/jsonvalue_converter'
+require 'aws-sdk-core/plugins/client_metrics_plugin'
+require 'aws-sdk-core/plugins/client_metrics_send_plugin'
+require 'aws-sdk-core/plugins/transfer_encoding'
+require 'aws-sdk-core/plugins/http_checksum'
+require 'aws-sdk-core/plugins/checksum_algorithm'
+require 'aws-sdk-core/plugins/request_compression'
+require 'aws-sdk-core/plugins/defaults_mode'
+require 'aws-sdk-core/plugins/recursion_detection'
+require 'aws-sdk-core/plugins/telemetry'
+require 'aws-sdk-core/plugins/sign'
+require 'aws-sdk-core/plugins/protocols/rest_json'
 
 module Aws::Pinpoint
   # An API client for Pinpoint.  To construct a client, you need to configure a `:region` and `:credentials`.
@@ -71,20 +72,28 @@ module Aws::Pinpoint
     add_plugin(Aws::Plugins::ResponsePaging)
     add_plugin(Aws::Plugins::StubResponses)
     add_plugin(Aws::Plugins::IdempotencyToken)
+    add_plugin(Aws::Plugins::InvocationId)
     add_plugin(Aws::Plugins::JsonvalueConverter)
     add_plugin(Aws::Plugins::ClientMetricsPlugin)
     add_plugin(Aws::Plugins::ClientMetricsSendPlugin)
     add_plugin(Aws::Plugins::TransferEncoding)
     add_plugin(Aws::Plugins::HttpChecksum)
     add_plugin(Aws::Plugins::ChecksumAlgorithm)
+    add_plugin(Aws::Plugins::RequestCompression)
     add_plugin(Aws::Plugins::DefaultsMode)
     add_plugin(Aws::Plugins::RecursionDetection)
+    add_plugin(Aws::Plugins::Telemetry)
     add_plugin(Aws::Plugins::Sign)
     add_plugin(Aws::Plugins::Protocols::RestJson)
     add_plugin(Aws::Pinpoint::Plugins::Endpoints)
 
     # @overload initialize(options)
     #   @param [Hash] options
+    #
+    #   @option options [Array<Seahorse::Client::Plugin>] :plugins ([]])
+    #     A list of plugins to apply to the client. Each plugin is either a
+    #     class name or an instance of a plugin class.
+    #
     #   @option options [required, Aws::CredentialProvider] :credentials
     #     Your AWS credentials. This can be an instance of any one of the
     #     following classes:
@@ -119,13 +128,15 @@ module Aws::Pinpoint
     #     locations will be searched for credentials:
     #
     #     * `Aws.config[:credentials]`
-    #     * The `:access_key_id`, `:secret_access_key`, and `:session_token` options.
-    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']
+    #     * The `:access_key_id`, `:secret_access_key`, `:session_token`, and
+    #       `:account_id` options.
+    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'],
+    #       ENV['AWS_SESSION_TOKEN'], and ENV['AWS_ACCOUNT_ID']
     #     * `~/.aws/credentials`
     #     * `~/.aws/config`
     #     * EC2/ECS IMDS instance profile - When used by default, the timeouts
     #       are very aggressive. Construct and pass an instance of
-    #       `Aws::InstanceProfileCredentails` or `Aws::ECSCredentials` to
+    #       `Aws::InstanceProfileCredentials` or `Aws::ECSCredentials` to
     #       enable retries and extended timeouts. Instance profile credential
     #       fetching can be disabled by setting ENV['AWS_EC2_METADATA_DISABLED']
     #       to true.
@@ -143,6 +154,8 @@ module Aws::Pinpoint
     #     * `~/.aws/config`
     #
     #   @option options [String] :access_key_id
+    #
+    #   @option options [String] :account_id
     #
     #   @option options [Boolean] :active_endpoint_cache (false)
     #     When set to `true`, a thread polling for endpoints will be running in
@@ -190,10 +203,20 @@ module Aws::Pinpoint
     #     Set to true to disable SDK automatically adding host prefix
     #     to default service endpoint when available.
     #
-    #   @option options [String] :endpoint
-    #     The client endpoint is normally constructed from the `:region`
-    #     option. You should only configure an `:endpoint` when connecting
-    #     to test or custom endpoints. This should be a valid HTTP(S) URI.
+    #   @option options [Boolean] :disable_request_compression (false)
+    #     When set to 'true' the request body will not be compressed
+    #     for supported operations.
+    #
+    #   @option options [String, URI::HTTPS, URI::HTTP] :endpoint
+    #     Normally you should not configure the `:endpoint` option
+    #     directly. This is normally constructed from the `:region`
+    #     option. Configuring `:endpoint` is normally reserved for
+    #     connecting to test or custom endpoints. The endpoint should
+    #     be a URI formatted like:
+    #
+    #         'http://example.com'
+    #         'https://example.com'
+    #         'http://example.com:123'
     #
     #   @option options [Integer] :endpoint_cache_max_entries (1000)
     #     Used for the maximum size limit of the LRU cache storing endpoints data
@@ -209,6 +232,10 @@ module Aws::Pinpoint
     #
     #   @option options [Boolean] :endpoint_discovery (false)
     #     When set to `true`, endpoint discovery will be enabled for operations when available.
+    #
+    #   @option options [Boolean] :ignore_configured_endpoint_urls
+    #     Setting to true disables use of endpoint URLs provided via environment
+    #     variables and the shared configuration file.
     #
     #   @option options [Aws::Log::Formatter] :log_formatter (Aws::Log::Formatter.default)
     #     The log formatter.
@@ -229,6 +256,34 @@ module Aws::Pinpoint
     #   @option options [String] :profile ("default")
     #     Used when loading credentials from the shared credentials file
     #     at HOME/.aws/credentials.  When not specified, 'default' is used.
+    #
+    #   @option options [String] :request_checksum_calculation ("when_supported")
+    #     Determines when a checksum will be calculated for request payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, a checksum will be
+    #       calculated for all request payloads of operations modeled with the
+    #       `httpChecksum` trait where `requestChecksumRequired` is `true` and/or a
+    #       `requestAlgorithmMember` is modeled.
+    #     * `when_required` - When set, a checksum will only be calculated for
+    #       request payloads of operations modeled with the  `httpChecksum` trait where
+    #       `requestChecksumRequired` is `true` or where a `requestAlgorithmMember`
+    #       is modeled and supplied.
+    #
+    #   @option options [Integer] :request_min_compression_size_bytes (10240)
+    #     The minimum size in bytes that triggers compression for request
+    #     bodies. The value must be non-negative integer value between 0
+    #     and 10485780 bytes inclusive.
+    #
+    #   @option options [String] :response_checksum_validation ("when_supported")
+    #     Determines when checksum validation will be performed on response payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, checksum validation is performed on all
+    #       response payloads of operations modeled with the `httpChecksum` trait where
+    #       `responseAlgorithms` is modeled, except when no modeled checksum algorithms
+    #       are supported.
+    #     * `when_required` - When set, checksum validation is not performed on
+    #       response payloads of operations unless the checksum algorithm is supported and
+    #       the `requestValidationModeMember` member is set to `ENABLED`.
     #
     #   @option options [Proc] :retry_backoff
     #     A proc or lambda used for backoff. Defaults to 2**retries * retry_base_delay.
@@ -274,10 +329,24 @@ module Aws::Pinpoint
     #       throttling.  This is a provisional mode that may change behavior
     #       in the future.
     #
+    #   @option options [String] :sdk_ua_app_id
+    #     A unique and opaque application ID that is appended to the
+    #     User-Agent header as app/sdk_ua_app_id. It should have a
+    #     maximum length of 50. This variable is sourced from environment
+    #     variable AWS_SDK_UA_APP_ID or the shared config profile attribute sdk_ua_app_id.
     #
     #   @option options [String] :secret_access_key
     #
     #   @option options [String] :session_token
+    #
+    #   @option options [Array] :sigv4a_signing_region_set
+    #     A list of regions that should be signed with SigV4a signing. When
+    #     not passed, a default `:sigv4a_signing_region_set` is searched for
+    #     in the following locations:
+    #
+    #     * `Aws.config[:sigv4a_signing_region_set]`
+    #     * `ENV['AWS_SIGV4A_SIGNING_REGION_SET']`
+    #     * `~/.aws/config`
     #
     #   @option options [Boolean] :stub_responses (false)
     #     Causes the client to return stubbed responses. By default
@@ -287,6 +356,16 @@ module Aws::Pinpoint
     #
     #     ** Please note ** When response stubbing is enabled, no HTTP
     #     requests are made, and retries are disabled.
+    #
+    #   @option options [Aws::Telemetry::TelemetryProviderBase] :telemetry_provider (Aws::Telemetry::NoOpTelemetryProvider)
+    #     Allows you to provide a telemetry provider, which is used to
+    #     emit telemetry data. By default, uses `NoOpTelemetryProvider` which
+    #     will not record or emit any telemetry data. The SDK supports the
+    #     following telemetry providers:
+    #
+    #     * OpenTelemetry (OTel) - To use the OTel provider, install and require the
+    #     `opentelemetry-sdk` gem and then, pass in an instance of a
+    #     `Aws::Telemetry::OTelProvider` for telemetry provider.
     #
     #   @option options [Aws::TokenProvider] :token_provider
     #     A Bearer Token Provider. This can be an instance of any one of the
@@ -315,52 +394,75 @@ module Aws::Pinpoint
     #     sending the request.
     #
     #   @option options [Aws::Pinpoint::EndpointProvider] :endpoint_provider
-    #     The endpoint provider used to resolve endpoints. Any object that responds to `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to `Aws::Pinpoint::EndpointParameters`
+    #     The endpoint provider used to resolve endpoints. Any object that responds to
+    #     `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+    #     `Aws::Pinpoint::EndpointParameters`.
     #
-    #   @option options [URI::HTTP,String] :http_proxy A proxy to send
-    #     requests through.  Formatted like 'http://proxy.com:123'.
+    #   @option options [Float] :http_continue_timeout (1)
+    #     The number of seconds to wait for a 100-continue response before sending the
+    #     request body.  This option has no effect unless the request has "Expect"
+    #     header set to "100-continue".  Defaults to `nil` which  disables this
+    #     behaviour.  This value can safely be set per request on the session.
     #
-    #   @option options [Float] :http_open_timeout (15) The number of
-    #     seconds to wait when opening a HTTP session before raising a
-    #     `Timeout::Error`.
+    #   @option options [Float] :http_idle_timeout (5)
+    #     The number of seconds a connection is allowed to sit idle before it
+    #     is considered stale.  Stale connections are closed and removed from the
+    #     pool before making a request.
     #
-    #   @option options [Float] :http_read_timeout (60) The default
-    #     number of seconds to wait for response data.  This value can
-    #     safely be set per-request on the session.
+    #   @option options [Float] :http_open_timeout (15)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :http_idle_timeout (5) The number of
-    #     seconds a connection is allowed to sit idle before it is
-    #     considered stale.  Stale connections are closed and removed
-    #     from the pool before making a request.
+    #   @option options [URI::HTTP,String] :http_proxy
+    #     A proxy to send requests through.  Formatted like 'http://proxy.com:123'.
     #
-    #   @option options [Float] :http_continue_timeout (1) The number of
-    #     seconds to wait for a 100-continue response before sending the
-    #     request body.  This option has no effect unless the request has
-    #     "Expect" header set to "100-continue".  Defaults to `nil` which
-    #     disables this behaviour.  This value can safely be set per
-    #     request on the session.
+    #   @option options [Float] :http_read_timeout (60)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :ssl_timeout (nil) Sets the SSL timeout
-    #     in seconds.
+    #   @option options [Boolean] :http_wire_trace (false)
+    #     When `true`,  HTTP debug output will be sent to the `:logger`.
     #
-    #   @option options [Boolean] :http_wire_trace (false) When `true`,
-    #     HTTP debug output will be sent to the `:logger`.
+    #   @option options [Proc] :on_chunk_received
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the response body is received. It provides three arguments: the chunk,
+    #     the number of bytes received, and the total number of
+    #     bytes in the response (or nil if the server did not send a `content-length`).
     #
-    #   @option options [Boolean] :ssl_verify_peer (true) When `true`,
-    #     SSL peer certificates are verified when establishing a
-    #     connection.
+    #   @option options [Proc] :on_chunk_sent
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the request body is sent. It provides three arguments: the chunk,
+    #     the number of bytes read from the body, and the total number of
+    #     bytes in the body.
     #
-    #   @option options [String] :ssl_ca_bundle Full path to the SSL
-    #     certificate authority bundle file that should be used when
-    #     verifying peer certificates.  If you do not pass
-    #     `:ssl_ca_bundle` or `:ssl_ca_directory` the the system default
-    #     will be used if available.
+    #   @option options [Boolean] :raise_response_errors (true)
+    #     When `true`, response errors are raised.
     #
-    #   @option options [String] :ssl_ca_directory Full path of the
-    #     directory that contains the unbundled SSL certificate
+    #   @option options [String] :ssl_ca_bundle
+    #     Full path to the SSL certificate authority bundle file that should be used when
+    #     verifying peer certificates.  If you do not pass `:ssl_ca_bundle` or
+    #     `:ssl_ca_directory` the the system default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_directory
+    #     Full path of the directory that contains the unbundled SSL certificate
     #     authority files for verifying peer certificates.  If you do
-    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the
-    #     system default will be used if available.
+    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the system
+    #     default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_store
+    #     Sets the X509::Store to verify peer certificate.
+    #
+    #   @option options [OpenSSL::X509::Certificate] :ssl_cert
+    #     Sets a client certificate when creating http connections.
+    #
+    #   @option options [OpenSSL::PKey] :ssl_key
+    #     Sets a client key when creating http connections.
+    #
+    #   @option options [Float] :ssl_timeout
+    #     Sets the SSL timeout in seconds
+    #
+    #   @option options [Boolean] :ssl_verify_peer (true)
+    #     When `true`, SSL peer certificates are verified when establishing a connection.
     #
     def initialize(*args)
       super
@@ -493,6 +595,12 @@ module Aws::Pinpoint
     #             email_message: {
     #               body: "__string",
     #               from_address: "__string",
+    #               headers: [
+    #                 {
+    #                   name: "__string",
+    #                   value: "__string",
+    #                 },
+    #               ],
     #               html_body: "__string",
     #               title: "__string",
     #             },
@@ -636,6 +744,10 @@ module Aws::Pinpoint
     #               name: "__string",
     #               version: "__string",
     #             },
+    #             in_app_template: {
+    #               name: "__string",
+    #               version: "__string",
+    #             },
     #           },
     #           treatment_description: "__string",
     #           treatment_name: "__string",
@@ -723,6 +835,12 @@ module Aws::Pinpoint
     #         email_message: {
     #           body: "__string",
     #           from_address: "__string",
+    #           headers: [
+    #             {
+    #               name: "__string",
+    #               value: "__string",
+    #             },
+    #           ],
     #           html_body: "__string",
     #           title: "__string",
     #         },
@@ -871,6 +989,10 @@ module Aws::Pinpoint
     #           name: "__string",
     #           version: "__string",
     #         },
+    #         in_app_template: {
+    #           name: "__string",
+    #           version: "__string",
+    #         },
     #       },
     #       treatment_description: "__string",
     #       treatment_name: "__string",
@@ -936,6 +1058,9 @@ module Aws::Pinpoint
     #   resp.campaign_response.additional_treatments[0].message_configuration.default_message.url #=> String
     #   resp.campaign_response.additional_treatments[0].message_configuration.email_message.body #=> String
     #   resp.campaign_response.additional_treatments[0].message_configuration.email_message.from_address #=> String
+    #   resp.campaign_response.additional_treatments[0].message_configuration.email_message.headers #=> Array
+    #   resp.campaign_response.additional_treatments[0].message_configuration.email_message.headers[0].name #=> String
+    #   resp.campaign_response.additional_treatments[0].message_configuration.email_message.headers[0].value #=> String
     #   resp.campaign_response.additional_treatments[0].message_configuration.email_message.html_body #=> String
     #   resp.campaign_response.additional_treatments[0].message_configuration.email_message.title #=> String
     #   resp.campaign_response.additional_treatments[0].message_configuration.gcm_message.action #=> String, one of "OPEN_APP", "DEEP_LINK", "URL"
@@ -1021,6 +1146,8 @@ module Aws::Pinpoint
     #   resp.campaign_response.additional_treatments[0].template_configuration.sms_template.version #=> String
     #   resp.campaign_response.additional_treatments[0].template_configuration.voice_template.name #=> String
     #   resp.campaign_response.additional_treatments[0].template_configuration.voice_template.version #=> String
+    #   resp.campaign_response.additional_treatments[0].template_configuration.in_app_template.name #=> String
+    #   resp.campaign_response.additional_treatments[0].template_configuration.in_app_template.version #=> String
     #   resp.campaign_response.additional_treatments[0].treatment_description #=> String
     #   resp.campaign_response.additional_treatments[0].treatment_name #=> String
     #   resp.campaign_response.application_id #=> String
@@ -1094,6 +1221,9 @@ module Aws::Pinpoint
     #   resp.campaign_response.message_configuration.default_message.url #=> String
     #   resp.campaign_response.message_configuration.email_message.body #=> String
     #   resp.campaign_response.message_configuration.email_message.from_address #=> String
+    #   resp.campaign_response.message_configuration.email_message.headers #=> Array
+    #   resp.campaign_response.message_configuration.email_message.headers[0].name #=> String
+    #   resp.campaign_response.message_configuration.email_message.headers[0].value #=> String
     #   resp.campaign_response.message_configuration.email_message.html_body #=> String
     #   resp.campaign_response.message_configuration.email_message.title #=> String
     #   resp.campaign_response.message_configuration.gcm_message.action #=> String, one of "OPEN_APP", "DEEP_LINK", "URL"
@@ -1183,6 +1313,8 @@ module Aws::Pinpoint
     #   resp.campaign_response.template_configuration.sms_template.version #=> String
     #   resp.campaign_response.template_configuration.voice_template.name #=> String
     #   resp.campaign_response.template_configuration.voice_template.version #=> String
+    #   resp.campaign_response.template_configuration.in_app_template.name #=> String
+    #   resp.campaign_response.template_configuration.in_app_template.version #=> String
     #   resp.campaign_response.treatment_description #=> String
     #   resp.campaign_response.treatment_name #=> String
     #   resp.campaign_response.version #=> Integer
@@ -1218,6 +1350,12 @@ module Aws::Pinpoint
     #       html_part: "__string",
     #       recommender_id: "__string",
     #       subject: "__string",
+    #       headers: [
+    #         {
+    #           name: "__string",
+    #           value: "__string",
+    #         },
+    #       ],
     #       tags: {
     #         "__string" => "__string",
     #       },
@@ -1754,6 +1892,11 @@ module Aws::Pinpoint
     #         endpoint_reentry_cap: 1,
     #         messages_per_second: 1,
     #         endpoint_reentry_interval: "__string",
+    #         timeframe_cap: {
+    #           cap: 1,
+    #           days: 1,
+    #         },
+    #         total_cap: 1,
     #       },
     #       local_time: false,
     #       name: "__string", # required
@@ -1885,6 +2028,7 @@ module Aws::Pinpoint
     #           },
     #         ],
     #       },
+    #       timezone_estimation_methods: ["PHONE_NUMBER"], # accepts PHONE_NUMBER, POSTAL_CODE
     #     },
     #   })
     #
@@ -2041,6 +2185,9 @@ module Aws::Pinpoint
     #   resp.journey_response.limits.endpoint_reentry_cap #=> Integer
     #   resp.journey_response.limits.messages_per_second #=> Integer
     #   resp.journey_response.limits.endpoint_reentry_interval #=> String
+    #   resp.journey_response.limits.timeframe_cap.cap #=> Integer
+    #   resp.journey_response.limits.timeframe_cap.days #=> Integer
+    #   resp.journey_response.limits.total_cap #=> Integer
     #   resp.journey_response.local_time #=> Boolean
     #   resp.journey_response.name #=> String
     #   resp.journey_response.quiet_time.end #=> String
@@ -2112,6 +2259,8 @@ module Aws::Pinpoint
     #   resp.journey_response.closed_days.custom[0].name #=> String
     #   resp.journey_response.closed_days.custom[0].start_date_time #=> String
     #   resp.journey_response.closed_days.custom[0].end_date_time #=> String
+    #   resp.journey_response.timezone_estimation_methods #=> Array
+    #   resp.journey_response.timezone_estimation_methods[0] #=> String, one of "PHONE_NUMBER", "POSTAL_CODE"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/CreateJourney AWS API Documentation
     #
@@ -2976,6 +3125,9 @@ module Aws::Pinpoint
     #   resp.campaign_response.additional_treatments[0].message_configuration.default_message.url #=> String
     #   resp.campaign_response.additional_treatments[0].message_configuration.email_message.body #=> String
     #   resp.campaign_response.additional_treatments[0].message_configuration.email_message.from_address #=> String
+    #   resp.campaign_response.additional_treatments[0].message_configuration.email_message.headers #=> Array
+    #   resp.campaign_response.additional_treatments[0].message_configuration.email_message.headers[0].name #=> String
+    #   resp.campaign_response.additional_treatments[0].message_configuration.email_message.headers[0].value #=> String
     #   resp.campaign_response.additional_treatments[0].message_configuration.email_message.html_body #=> String
     #   resp.campaign_response.additional_treatments[0].message_configuration.email_message.title #=> String
     #   resp.campaign_response.additional_treatments[0].message_configuration.gcm_message.action #=> String, one of "OPEN_APP", "DEEP_LINK", "URL"
@@ -3061,6 +3213,8 @@ module Aws::Pinpoint
     #   resp.campaign_response.additional_treatments[0].template_configuration.sms_template.version #=> String
     #   resp.campaign_response.additional_treatments[0].template_configuration.voice_template.name #=> String
     #   resp.campaign_response.additional_treatments[0].template_configuration.voice_template.version #=> String
+    #   resp.campaign_response.additional_treatments[0].template_configuration.in_app_template.name #=> String
+    #   resp.campaign_response.additional_treatments[0].template_configuration.in_app_template.version #=> String
     #   resp.campaign_response.additional_treatments[0].treatment_description #=> String
     #   resp.campaign_response.additional_treatments[0].treatment_name #=> String
     #   resp.campaign_response.application_id #=> String
@@ -3134,6 +3288,9 @@ module Aws::Pinpoint
     #   resp.campaign_response.message_configuration.default_message.url #=> String
     #   resp.campaign_response.message_configuration.email_message.body #=> String
     #   resp.campaign_response.message_configuration.email_message.from_address #=> String
+    #   resp.campaign_response.message_configuration.email_message.headers #=> Array
+    #   resp.campaign_response.message_configuration.email_message.headers[0].name #=> String
+    #   resp.campaign_response.message_configuration.email_message.headers[0].value #=> String
     #   resp.campaign_response.message_configuration.email_message.html_body #=> String
     #   resp.campaign_response.message_configuration.email_message.title #=> String
     #   resp.campaign_response.message_configuration.gcm_message.action #=> String, one of "OPEN_APP", "DEEP_LINK", "URL"
@@ -3223,6 +3380,8 @@ module Aws::Pinpoint
     #   resp.campaign_response.template_configuration.sms_template.version #=> String
     #   resp.campaign_response.template_configuration.voice_template.name #=> String
     #   resp.campaign_response.template_configuration.voice_template.version #=> String
+    #   resp.campaign_response.template_configuration.in_app_template.name #=> String
+    #   resp.campaign_response.template_configuration.in_app_template.version #=> String
     #   resp.campaign_response.treatment_description #=> String
     #   resp.campaign_response.treatment_name #=> String
     #   resp.campaign_response.version #=> Integer
@@ -3268,6 +3427,7 @@ module Aws::Pinpoint
     #   resp.email_channel_response.messages_per_second #=> Integer
     #   resp.email_channel_response.platform #=> String
     #   resp.email_channel_response.role_arn #=> String
+    #   resp.email_channel_response.orchestration_sending_role_arn #=> String
     #   resp.email_channel_response.version #=> Integer
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/DeleteEmailChannel AWS API Documentation
@@ -3425,8 +3585,10 @@ module Aws::Pinpoint
     #   resp.gcm_channel_response.application_id #=> String
     #   resp.gcm_channel_response.creation_date #=> String
     #   resp.gcm_channel_response.credential #=> String
+    #   resp.gcm_channel_response.default_authentication_method #=> String
     #   resp.gcm_channel_response.enabled #=> Boolean
     #   resp.gcm_channel_response.has_credential #=> Boolean
+    #   resp.gcm_channel_response.has_fcm_service_credentials #=> Boolean
     #   resp.gcm_channel_response.id #=> String
     #   resp.gcm_channel_response.is_archived #=> Boolean
     #   resp.gcm_channel_response.last_modified_by #=> String
@@ -3645,6 +3807,9 @@ module Aws::Pinpoint
     #   resp.journey_response.limits.endpoint_reentry_cap #=> Integer
     #   resp.journey_response.limits.messages_per_second #=> Integer
     #   resp.journey_response.limits.endpoint_reentry_interval #=> String
+    #   resp.journey_response.limits.timeframe_cap.cap #=> Integer
+    #   resp.journey_response.limits.timeframe_cap.days #=> Integer
+    #   resp.journey_response.limits.total_cap #=> Integer
     #   resp.journey_response.local_time #=> Boolean
     #   resp.journey_response.name #=> String
     #   resp.journey_response.quiet_time.end #=> String
@@ -3716,6 +3881,8 @@ module Aws::Pinpoint
     #   resp.journey_response.closed_days.custom[0].name #=> String
     #   resp.journey_response.closed_days.custom[0].start_date_time #=> String
     #   resp.journey_response.closed_days.custom[0].end_date_time #=> String
+    #   resp.journey_response.timezone_estimation_methods #=> Array
+    #   resp.journey_response.timezone_estimation_methods[0] #=> String, one of "PHONE_NUMBER", "POSTAL_CODE"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/DeleteJourney AWS API Documentation
     #
@@ -4439,6 +4606,10 @@ module Aws::Pinpoint
     #   resp.application_settings_resource.limits.session #=> Integer
     #   resp.application_settings_resource.quiet_time.end #=> String
     #   resp.application_settings_resource.quiet_time.start #=> String
+    #   resp.application_settings_resource.journey_limits.daily_cap #=> Integer
+    #   resp.application_settings_resource.journey_limits.timeframe_cap.cap #=> Integer
+    #   resp.application_settings_resource.journey_limits.timeframe_cap.days #=> Integer
+    #   resp.application_settings_resource.journey_limits.total_cap #=> Integer
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/GetApplicationSettings AWS API Documentation
     #
@@ -4601,6 +4772,9 @@ module Aws::Pinpoint
     #   resp.campaign_response.additional_treatments[0].message_configuration.default_message.url #=> String
     #   resp.campaign_response.additional_treatments[0].message_configuration.email_message.body #=> String
     #   resp.campaign_response.additional_treatments[0].message_configuration.email_message.from_address #=> String
+    #   resp.campaign_response.additional_treatments[0].message_configuration.email_message.headers #=> Array
+    #   resp.campaign_response.additional_treatments[0].message_configuration.email_message.headers[0].name #=> String
+    #   resp.campaign_response.additional_treatments[0].message_configuration.email_message.headers[0].value #=> String
     #   resp.campaign_response.additional_treatments[0].message_configuration.email_message.html_body #=> String
     #   resp.campaign_response.additional_treatments[0].message_configuration.email_message.title #=> String
     #   resp.campaign_response.additional_treatments[0].message_configuration.gcm_message.action #=> String, one of "OPEN_APP", "DEEP_LINK", "URL"
@@ -4686,6 +4860,8 @@ module Aws::Pinpoint
     #   resp.campaign_response.additional_treatments[0].template_configuration.sms_template.version #=> String
     #   resp.campaign_response.additional_treatments[0].template_configuration.voice_template.name #=> String
     #   resp.campaign_response.additional_treatments[0].template_configuration.voice_template.version #=> String
+    #   resp.campaign_response.additional_treatments[0].template_configuration.in_app_template.name #=> String
+    #   resp.campaign_response.additional_treatments[0].template_configuration.in_app_template.version #=> String
     #   resp.campaign_response.additional_treatments[0].treatment_description #=> String
     #   resp.campaign_response.additional_treatments[0].treatment_name #=> String
     #   resp.campaign_response.application_id #=> String
@@ -4759,6 +4935,9 @@ module Aws::Pinpoint
     #   resp.campaign_response.message_configuration.default_message.url #=> String
     #   resp.campaign_response.message_configuration.email_message.body #=> String
     #   resp.campaign_response.message_configuration.email_message.from_address #=> String
+    #   resp.campaign_response.message_configuration.email_message.headers #=> Array
+    #   resp.campaign_response.message_configuration.email_message.headers[0].name #=> String
+    #   resp.campaign_response.message_configuration.email_message.headers[0].value #=> String
     #   resp.campaign_response.message_configuration.email_message.html_body #=> String
     #   resp.campaign_response.message_configuration.email_message.title #=> String
     #   resp.campaign_response.message_configuration.gcm_message.action #=> String, one of "OPEN_APP", "DEEP_LINK", "URL"
@@ -4848,6 +5027,8 @@ module Aws::Pinpoint
     #   resp.campaign_response.template_configuration.sms_template.version #=> String
     #   resp.campaign_response.template_configuration.voice_template.name #=> String
     #   resp.campaign_response.template_configuration.voice_template.version #=> String
+    #   resp.campaign_response.template_configuration.in_app_template.name #=> String
+    #   resp.campaign_response.template_configuration.in_app_template.version #=> String
     #   resp.campaign_response.treatment_description #=> String
     #   resp.campaign_response.treatment_name #=> String
     #   resp.campaign_response.version #=> Integer
@@ -4901,6 +5082,8 @@ module Aws::Pinpoint
     #   resp.activities_response.item[0].timezones_total_count #=> Integer
     #   resp.activities_response.item[0].total_endpoint_count #=> Integer
     #   resp.activities_response.item[0].treatment_id #=> String
+    #   resp.activities_response.item[0].execution_metrics #=> Hash
+    #   resp.activities_response.item[0].execution_metrics["__string"] #=> String
     #   resp.activities_response.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/GetCampaignActivities AWS API Documentation
@@ -5051,6 +5234,9 @@ module Aws::Pinpoint
     #   resp.campaign_response.additional_treatments[0].message_configuration.default_message.url #=> String
     #   resp.campaign_response.additional_treatments[0].message_configuration.email_message.body #=> String
     #   resp.campaign_response.additional_treatments[0].message_configuration.email_message.from_address #=> String
+    #   resp.campaign_response.additional_treatments[0].message_configuration.email_message.headers #=> Array
+    #   resp.campaign_response.additional_treatments[0].message_configuration.email_message.headers[0].name #=> String
+    #   resp.campaign_response.additional_treatments[0].message_configuration.email_message.headers[0].value #=> String
     #   resp.campaign_response.additional_treatments[0].message_configuration.email_message.html_body #=> String
     #   resp.campaign_response.additional_treatments[0].message_configuration.email_message.title #=> String
     #   resp.campaign_response.additional_treatments[0].message_configuration.gcm_message.action #=> String, one of "OPEN_APP", "DEEP_LINK", "URL"
@@ -5136,6 +5322,8 @@ module Aws::Pinpoint
     #   resp.campaign_response.additional_treatments[0].template_configuration.sms_template.version #=> String
     #   resp.campaign_response.additional_treatments[0].template_configuration.voice_template.name #=> String
     #   resp.campaign_response.additional_treatments[0].template_configuration.voice_template.version #=> String
+    #   resp.campaign_response.additional_treatments[0].template_configuration.in_app_template.name #=> String
+    #   resp.campaign_response.additional_treatments[0].template_configuration.in_app_template.version #=> String
     #   resp.campaign_response.additional_treatments[0].treatment_description #=> String
     #   resp.campaign_response.additional_treatments[0].treatment_name #=> String
     #   resp.campaign_response.application_id #=> String
@@ -5209,6 +5397,9 @@ module Aws::Pinpoint
     #   resp.campaign_response.message_configuration.default_message.url #=> String
     #   resp.campaign_response.message_configuration.email_message.body #=> String
     #   resp.campaign_response.message_configuration.email_message.from_address #=> String
+    #   resp.campaign_response.message_configuration.email_message.headers #=> Array
+    #   resp.campaign_response.message_configuration.email_message.headers[0].name #=> String
+    #   resp.campaign_response.message_configuration.email_message.headers[0].value #=> String
     #   resp.campaign_response.message_configuration.email_message.html_body #=> String
     #   resp.campaign_response.message_configuration.email_message.title #=> String
     #   resp.campaign_response.message_configuration.gcm_message.action #=> String, one of "OPEN_APP", "DEEP_LINK", "URL"
@@ -5298,6 +5489,8 @@ module Aws::Pinpoint
     #   resp.campaign_response.template_configuration.sms_template.version #=> String
     #   resp.campaign_response.template_configuration.voice_template.name #=> String
     #   resp.campaign_response.template_configuration.voice_template.version #=> String
+    #   resp.campaign_response.template_configuration.in_app_template.name #=> String
+    #   resp.campaign_response.template_configuration.in_app_template.version #=> String
     #   resp.campaign_response.treatment_description #=> String
     #   resp.campaign_response.treatment_name #=> String
     #   resp.campaign_response.version #=> Integer
@@ -5395,6 +5588,9 @@ module Aws::Pinpoint
     #   resp.campaigns_response.item[0].additional_treatments[0].message_configuration.default_message.url #=> String
     #   resp.campaigns_response.item[0].additional_treatments[0].message_configuration.email_message.body #=> String
     #   resp.campaigns_response.item[0].additional_treatments[0].message_configuration.email_message.from_address #=> String
+    #   resp.campaigns_response.item[0].additional_treatments[0].message_configuration.email_message.headers #=> Array
+    #   resp.campaigns_response.item[0].additional_treatments[0].message_configuration.email_message.headers[0].name #=> String
+    #   resp.campaigns_response.item[0].additional_treatments[0].message_configuration.email_message.headers[0].value #=> String
     #   resp.campaigns_response.item[0].additional_treatments[0].message_configuration.email_message.html_body #=> String
     #   resp.campaigns_response.item[0].additional_treatments[0].message_configuration.email_message.title #=> String
     #   resp.campaigns_response.item[0].additional_treatments[0].message_configuration.gcm_message.action #=> String, one of "OPEN_APP", "DEEP_LINK", "URL"
@@ -5480,6 +5676,8 @@ module Aws::Pinpoint
     #   resp.campaigns_response.item[0].additional_treatments[0].template_configuration.sms_template.version #=> String
     #   resp.campaigns_response.item[0].additional_treatments[0].template_configuration.voice_template.name #=> String
     #   resp.campaigns_response.item[0].additional_treatments[0].template_configuration.voice_template.version #=> String
+    #   resp.campaigns_response.item[0].additional_treatments[0].template_configuration.in_app_template.name #=> String
+    #   resp.campaigns_response.item[0].additional_treatments[0].template_configuration.in_app_template.version #=> String
     #   resp.campaigns_response.item[0].additional_treatments[0].treatment_description #=> String
     #   resp.campaigns_response.item[0].additional_treatments[0].treatment_name #=> String
     #   resp.campaigns_response.item[0].application_id #=> String
@@ -5553,6 +5751,9 @@ module Aws::Pinpoint
     #   resp.campaigns_response.item[0].message_configuration.default_message.url #=> String
     #   resp.campaigns_response.item[0].message_configuration.email_message.body #=> String
     #   resp.campaigns_response.item[0].message_configuration.email_message.from_address #=> String
+    #   resp.campaigns_response.item[0].message_configuration.email_message.headers #=> Array
+    #   resp.campaigns_response.item[0].message_configuration.email_message.headers[0].name #=> String
+    #   resp.campaigns_response.item[0].message_configuration.email_message.headers[0].value #=> String
     #   resp.campaigns_response.item[0].message_configuration.email_message.html_body #=> String
     #   resp.campaigns_response.item[0].message_configuration.email_message.title #=> String
     #   resp.campaigns_response.item[0].message_configuration.gcm_message.action #=> String, one of "OPEN_APP", "DEEP_LINK", "URL"
@@ -5642,6 +5843,8 @@ module Aws::Pinpoint
     #   resp.campaigns_response.item[0].template_configuration.sms_template.version #=> String
     #   resp.campaigns_response.item[0].template_configuration.voice_template.name #=> String
     #   resp.campaigns_response.item[0].template_configuration.voice_template.version #=> String
+    #   resp.campaigns_response.item[0].template_configuration.in_app_template.name #=> String
+    #   resp.campaigns_response.item[0].template_configuration.in_app_template.version #=> String
     #   resp.campaigns_response.item[0].treatment_description #=> String
     #   resp.campaigns_response.item[0].treatment_name #=> String
     #   resp.campaigns_response.item[0].version #=> Integer
@@ -5738,6 +5941,9 @@ module Aws::Pinpoint
     #   resp.campaigns_response.item[0].additional_treatments[0].message_configuration.default_message.url #=> String
     #   resp.campaigns_response.item[0].additional_treatments[0].message_configuration.email_message.body #=> String
     #   resp.campaigns_response.item[0].additional_treatments[0].message_configuration.email_message.from_address #=> String
+    #   resp.campaigns_response.item[0].additional_treatments[0].message_configuration.email_message.headers #=> Array
+    #   resp.campaigns_response.item[0].additional_treatments[0].message_configuration.email_message.headers[0].name #=> String
+    #   resp.campaigns_response.item[0].additional_treatments[0].message_configuration.email_message.headers[0].value #=> String
     #   resp.campaigns_response.item[0].additional_treatments[0].message_configuration.email_message.html_body #=> String
     #   resp.campaigns_response.item[0].additional_treatments[0].message_configuration.email_message.title #=> String
     #   resp.campaigns_response.item[0].additional_treatments[0].message_configuration.gcm_message.action #=> String, one of "OPEN_APP", "DEEP_LINK", "URL"
@@ -5823,6 +6029,8 @@ module Aws::Pinpoint
     #   resp.campaigns_response.item[0].additional_treatments[0].template_configuration.sms_template.version #=> String
     #   resp.campaigns_response.item[0].additional_treatments[0].template_configuration.voice_template.name #=> String
     #   resp.campaigns_response.item[0].additional_treatments[0].template_configuration.voice_template.version #=> String
+    #   resp.campaigns_response.item[0].additional_treatments[0].template_configuration.in_app_template.name #=> String
+    #   resp.campaigns_response.item[0].additional_treatments[0].template_configuration.in_app_template.version #=> String
     #   resp.campaigns_response.item[0].additional_treatments[0].treatment_description #=> String
     #   resp.campaigns_response.item[0].additional_treatments[0].treatment_name #=> String
     #   resp.campaigns_response.item[0].application_id #=> String
@@ -5896,6 +6104,9 @@ module Aws::Pinpoint
     #   resp.campaigns_response.item[0].message_configuration.default_message.url #=> String
     #   resp.campaigns_response.item[0].message_configuration.email_message.body #=> String
     #   resp.campaigns_response.item[0].message_configuration.email_message.from_address #=> String
+    #   resp.campaigns_response.item[0].message_configuration.email_message.headers #=> Array
+    #   resp.campaigns_response.item[0].message_configuration.email_message.headers[0].name #=> String
+    #   resp.campaigns_response.item[0].message_configuration.email_message.headers[0].value #=> String
     #   resp.campaigns_response.item[0].message_configuration.email_message.html_body #=> String
     #   resp.campaigns_response.item[0].message_configuration.email_message.title #=> String
     #   resp.campaigns_response.item[0].message_configuration.gcm_message.action #=> String, one of "OPEN_APP", "DEEP_LINK", "URL"
@@ -5985,6 +6196,8 @@ module Aws::Pinpoint
     #   resp.campaigns_response.item[0].template_configuration.sms_template.version #=> String
     #   resp.campaigns_response.item[0].template_configuration.voice_template.name #=> String
     #   resp.campaigns_response.item[0].template_configuration.voice_template.version #=> String
+    #   resp.campaigns_response.item[0].template_configuration.in_app_template.name #=> String
+    #   resp.campaigns_response.item[0].template_configuration.in_app_template.version #=> String
     #   resp.campaigns_response.item[0].treatment_description #=> String
     #   resp.campaigns_response.item[0].treatment_name #=> String
     #   resp.campaigns_response.item[0].version #=> Integer
@@ -6068,6 +6281,7 @@ module Aws::Pinpoint
     #   resp.email_channel_response.messages_per_second #=> Integer
     #   resp.email_channel_response.platform #=> String
     #   resp.email_channel_response.role_arn #=> String
+    #   resp.email_channel_response.orchestration_sending_role_arn #=> String
     #   resp.email_channel_response.version #=> Integer
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/GetEmailChannel AWS API Documentation
@@ -6106,6 +6320,9 @@ module Aws::Pinpoint
     #   resp.email_template_response.last_modified_date #=> String
     #   resp.email_template_response.recommender_id #=> String
     #   resp.email_template_response.subject #=> String
+    #   resp.email_template_response.headers #=> Array
+    #   resp.email_template_response.headers[0].name #=> String
+    #   resp.email_template_response.headers[0].value #=> String
     #   resp.email_template_response.tags #=> Hash
     #   resp.email_template_response.tags["__string"] #=> String
     #   resp.email_template_response.template_description #=> String
@@ -6338,8 +6555,10 @@ module Aws::Pinpoint
     #   resp.gcm_channel_response.application_id #=> String
     #   resp.gcm_channel_response.creation_date #=> String
     #   resp.gcm_channel_response.credential #=> String
+    #   resp.gcm_channel_response.default_authentication_method #=> String
     #   resp.gcm_channel_response.enabled #=> Boolean
     #   resp.gcm_channel_response.has_credential #=> Boolean
+    #   resp.gcm_channel_response.has_fcm_service_credentials #=> Boolean
     #   resp.gcm_channel_response.id #=> String
     #   resp.gcm_channel_response.is_archived #=> Boolean
     #   resp.gcm_channel_response.last_modified_by #=> String
@@ -6795,6 +7014,9 @@ module Aws::Pinpoint
     #   resp.journey_response.limits.endpoint_reentry_cap #=> Integer
     #   resp.journey_response.limits.messages_per_second #=> Integer
     #   resp.journey_response.limits.endpoint_reentry_interval #=> String
+    #   resp.journey_response.limits.timeframe_cap.cap #=> Integer
+    #   resp.journey_response.limits.timeframe_cap.days #=> Integer
+    #   resp.journey_response.limits.total_cap #=> Integer
     #   resp.journey_response.local_time #=> Boolean
     #   resp.journey_response.name #=> String
     #   resp.journey_response.quiet_time.end #=> String
@@ -6866,6 +7088,8 @@ module Aws::Pinpoint
     #   resp.journey_response.closed_days.custom[0].name #=> String
     #   resp.journey_response.closed_days.custom[0].start_date_time #=> String
     #   resp.journey_response.closed_days.custom[0].end_date_time #=> String
+    #   resp.journey_response.timezone_estimation_methods #=> Array
+    #   resp.journey_response.timezone_estimation_methods[0] #=> String, one of "PHONE_NUMBER", "POSTAL_CODE"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/GetJourney AWS API Documentation
     #
@@ -7020,6 +7244,225 @@ module Aws::Pinpoint
     # @param [Hash] params ({})
     def get_journey_execution_metrics(params = {}, options = {})
       req = build_request(:get_journey_execution_metrics, params)
+      req.send_request(options)
+    end
+
+    # Retrieves (queries) pre-aggregated data for a standard run execution
+    # metric that applies to a journey activity.
+    #
+    # @option params [required, String] :application_id
+    #
+    # @option params [required, String] :journey_activity_id
+    #
+    # @option params [required, String] :journey_id
+    #
+    # @option params [String] :next_token
+    #
+    # @option params [String] :page_size
+    #
+    # @option params [required, String] :run_id
+    #
+    # @return [Types::GetJourneyRunExecutionActivityMetricsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetJourneyRunExecutionActivityMetricsResponse#journey_run_execution_activity_metrics_response #journey_run_execution_activity_metrics_response} => Types::JourneyRunExecutionActivityMetricsResponse
+    #
+    #
+    # @example Example: To get the activity execution metrics for a journey run
+    #
+    #   # The following example gets activity execution metrics for a single run of a journey.
+    #
+    #   resp = client.get_journey_run_execution_activity_metrics({
+    #     application_id: "11111111112222222222333333333344", 
+    #     journey_id: "aaaaaaaaaabbbbbbbbbbccccccccccdd", 
+    #     run_id: "99999999998888888888777777777766", 
+    #     journey_activity_id: "AAAAAAAAAA", 
+    #   })
+    #
+    #   resp.to_h outputs the following:
+    #   {
+    #     journey_run_execution_activity_metrics_response: {
+    #       application_id: "11111111112222222222333333333344", 
+    #       journey_id: "aaaaaaaaaabbbbbbbbbbccccccccccdd", 
+    #       run_id: "99999999998888888888777777777766", 
+    #       journey_activity_id: "AAAAAAAAAA", 
+    #       activity_type: "EMAIL", 
+    #       last_evaluated_time: "2000-01-01T00:00:05.000Z", 
+    #       metrics: {
+    #         "SUCCESS" => "1", 
+    #       }, 
+    #     }, 
+    #   }
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_journey_run_execution_activity_metrics({
+    #     application_id: "__string", # required
+    #     journey_activity_id: "__string", # required
+    #     journey_id: "__string", # required
+    #     next_token: "__string",
+    #     page_size: "__string",
+    #     run_id: "__string", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.journey_run_execution_activity_metrics_response.activity_type #=> String
+    #   resp.journey_run_execution_activity_metrics_response.application_id #=> String
+    #   resp.journey_run_execution_activity_metrics_response.journey_activity_id #=> String
+    #   resp.journey_run_execution_activity_metrics_response.journey_id #=> String
+    #   resp.journey_run_execution_activity_metrics_response.last_evaluated_time #=> String
+    #   resp.journey_run_execution_activity_metrics_response.metrics #=> Hash
+    #   resp.journey_run_execution_activity_metrics_response.metrics["__string"] #=> String
+    #   resp.journey_run_execution_activity_metrics_response.run_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/GetJourneyRunExecutionActivityMetrics AWS API Documentation
+    #
+    # @overload get_journey_run_execution_activity_metrics(params = {})
+    # @param [Hash] params ({})
+    def get_journey_run_execution_activity_metrics(params = {}, options = {})
+      req = build_request(:get_journey_run_execution_activity_metrics, params)
+      req.send_request(options)
+    end
+
+    # Retrieves (queries) pre-aggregated data for a standard run execution
+    # metric that applies to a journey.
+    #
+    # @option params [required, String] :application_id
+    #
+    # @option params [required, String] :journey_id
+    #
+    # @option params [String] :next_token
+    #
+    # @option params [String] :page_size
+    #
+    # @option params [required, String] :run_id
+    #
+    # @return [Types::GetJourneyRunExecutionMetricsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetJourneyRunExecutionMetricsResponse#journey_run_execution_metrics_response #journey_run_execution_metrics_response} => Types::JourneyRunExecutionMetricsResponse
+    #
+    #
+    # @example Example: To get the execution metrics for a journey run
+    #
+    #   # The following example gets execution metrics for a single run of a journey.
+    #
+    #   resp = client.get_journey_run_execution_metrics({
+    #     application_id: "11111111112222222222333333333344", 
+    #     journey_id: "aaaaaaaaaabbbbbbbbbbccccccccccdd", 
+    #     run_id: "99999999998888888888777777777766", 
+    #   })
+    #
+    #   resp.to_h outputs the following:
+    #   {
+    #     journey_run_execution_metrics_response: {
+    #       application_id: "11111111112222222222333333333344", 
+    #       journey_id: "aaaaaaaaaabbbbbbbbbbccccccccccdd", 
+    #       run_id: "99999999998888888888777777777766", 
+    #       last_evaluated_time: "2000-01-01T00:00:05.000Z", 
+    #       metrics: {
+    #         "ENDPOINT_PRODUCED" => "1", 
+    #         "ENDPOINT_ENTERED" => "1", 
+    #         "ENDPOINT_LEFT" => "1", 
+    #       }, 
+    #     }, 
+    #   }
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_journey_run_execution_metrics({
+    #     application_id: "__string", # required
+    #     journey_id: "__string", # required
+    #     next_token: "__string",
+    #     page_size: "__string",
+    #     run_id: "__string", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.journey_run_execution_metrics_response.application_id #=> String
+    #   resp.journey_run_execution_metrics_response.journey_id #=> String
+    #   resp.journey_run_execution_metrics_response.last_evaluated_time #=> String
+    #   resp.journey_run_execution_metrics_response.metrics #=> Hash
+    #   resp.journey_run_execution_metrics_response.metrics["__string"] #=> String
+    #   resp.journey_run_execution_metrics_response.run_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/GetJourneyRunExecutionMetrics AWS API Documentation
+    #
+    # @overload get_journey_run_execution_metrics(params = {})
+    # @param [Hash] params ({})
+    def get_journey_run_execution_metrics(params = {}, options = {})
+      req = build_request(:get_journey_run_execution_metrics, params)
+      req.send_request(options)
+    end
+
+    # Provides information about the runs of a journey.
+    #
+    # @option params [required, String] :application_id
+    #
+    # @option params [required, String] :journey_id
+    #
+    # @option params [String] :page_size
+    #
+    # @option params [String] :token
+    #
+    # @return [Types::GetJourneyRunsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetJourneyRunsResponse#journey_runs_response #journey_runs_response} => Types::JourneyRunsResponse
+    #
+    #
+    # @example Example: To get the runs of a journey
+    #
+    #   # The following example gets the runs of a journey.
+    #
+    #   resp = client.get_journey_runs({
+    #     application_id: "11111111112222222222333333333344", 
+    #     journey_id: "aaaaaaaaaabbbbbbbbbbccccccccccdd", 
+    #   })
+    #
+    #   resp.to_h outputs the following:
+    #   {
+    #     journey_runs_response: {
+    #       item: [
+    #         {
+    #           run_id: "99999999998888888888777777777766", 
+    #           creation_time: "2000-01-01T00:00:00.000Z", 
+    #           last_update_time: "2000-01-01T00:00:05.000Z", 
+    #           status: "COMPLETED", 
+    #         }, 
+    #         {
+    #           run_id: "ffffffffffeeeeeeeeeeddddddddddcc", 
+    #           creation_time: "2000-01-01T00:00:10.000Z", 
+    #           last_update_time: "2000-01-01T00:00:10.000Z", 
+    #           status: "SCHEDULED", 
+    #         }, 
+    #       ], 
+    #     }, 
+    #   }
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_journey_runs({
+    #     application_id: "__string", # required
+    #     journey_id: "__string", # required
+    #     page_size: "__string",
+    #     token: "__string",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.journey_runs_response.item #=> Array
+    #   resp.journey_runs_response.item[0].creation_time #=> String
+    #   resp.journey_runs_response.item[0].last_update_time #=> String
+    #   resp.journey_runs_response.item[0].run_id #=> String
+    #   resp.journey_runs_response.item[0].status #=> String, one of "SCHEDULED", "RUNNING", "COMPLETED", "CANCELLED"
+    #   resp.journey_runs_response.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/GetJourneyRuns AWS API Documentation
+    #
+    # @overload get_journey_runs(params = {})
+    # @param [Hash] params ({})
+    def get_journey_runs(params = {}, options = {})
+      req = build_request(:get_journey_runs, params)
       req.send_request(options)
     end
 
@@ -8239,6 +8682,9 @@ module Aws::Pinpoint
     #   resp.journeys_response.item[0].limits.endpoint_reentry_cap #=> Integer
     #   resp.journeys_response.item[0].limits.messages_per_second #=> Integer
     #   resp.journeys_response.item[0].limits.endpoint_reentry_interval #=> String
+    #   resp.journeys_response.item[0].limits.timeframe_cap.cap #=> Integer
+    #   resp.journeys_response.item[0].limits.timeframe_cap.days #=> Integer
+    #   resp.journeys_response.item[0].limits.total_cap #=> Integer
     #   resp.journeys_response.item[0].local_time #=> Boolean
     #   resp.journeys_response.item[0].name #=> String
     #   resp.journeys_response.item[0].quiet_time.end #=> String
@@ -8310,6 +8756,8 @@ module Aws::Pinpoint
     #   resp.journeys_response.item[0].closed_days.custom[0].name #=> String
     #   resp.journeys_response.item[0].closed_days.custom[0].start_date_time #=> String
     #   resp.journeys_response.item[0].closed_days.custom[0].end_date_time #=> String
+    #   resp.journeys_response.item[0].timezone_estimation_methods #=> Array
+    #   resp.journeys_response.item[0].timezone_estimation_methods[0] #=> String, one of "PHONE_NUMBER", "POSTAL_CODE"
     #   resp.journeys_response.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/ListJourneys AWS API Documentation
@@ -8634,8 +9082,10 @@ module Aws::Pinpoint
       req.send_request(options)
     end
 
-    # Removes one or more attributes, of the same attribute type, from all
-    # the endpoints that are associated with an application.
+    # Removes one or more custom attributes, of the same attribute type,
+    # from the application. Existing endpoints still have the attributes but
+    # Amazon Pinpoint will stop capturing new or changed values for these
+    # attributes.
     #
     # @option params [required, String] :application_id
     #
@@ -8828,6 +9278,12 @@ module Aws::Pinpoint
     #               charset: "__string",
     #               data: "__string",
     #             },
+    #             headers: [
+    #               {
+    #                 name: "__string",
+    #                 value: "__string",
+    #               },
+    #             ],
     #           },
     #           substitutions: {
     #             "__string" => ["__string"],
@@ -8843,6 +9299,7 @@ module Aws::Pinpoint
     #           icon_reference: "__string",
     #           image_icon_url: "__string",
     #           image_url: "__string",
+    #           preferred_authentication_method: "__string",
     #           priority: "__string",
     #           raw_content: "__string",
     #           restricted_package_name: "__string",
@@ -8893,6 +9350,10 @@ module Aws::Pinpoint
     #           version: "__string",
     #         },
     #         voice_template: {
+    #           name: "__string",
+    #           version: "__string",
+    #         },
+    #         in_app_template: {
     #           name: "__string",
     #           version: "__string",
     #         },
@@ -9112,6 +9573,12 @@ module Aws::Pinpoint
     #               charset: "__string",
     #               data: "__string",
     #             },
+    #             headers: [
+    #               {
+    #                 name: "__string",
+    #                 value: "__string",
+    #               },
+    #             ],
     #           },
     #           substitutions: {
     #             "__string" => ["__string"],
@@ -9127,6 +9594,7 @@ module Aws::Pinpoint
     #           icon_reference: "__string",
     #           image_icon_url: "__string",
     #           image_url: "__string",
+    #           preferred_authentication_method: "__string",
     #           priority: "__string",
     #           raw_content: "__string",
     #           restricted_package_name: "__string",
@@ -9177,6 +9645,10 @@ module Aws::Pinpoint
     #           version: "__string",
     #         },
     #         voice_template: {
+    #           name: "__string",
+    #           version: "__string",
+    #         },
+    #         in_app_template: {
     #           name: "__string",
     #           version: "__string",
     #         },
@@ -9568,6 +10040,14 @@ module Aws::Pinpoint
     #         end: "__string",
     #         start: "__string",
     #       },
+    #       journey_limits: {
+    #         daily_cap: 1,
+    #         timeframe_cap: {
+    #           cap: 1,
+    #           days: 1,
+    #         },
+    #         total_cap: 1,
+    #       },
     #     },
     #   })
     #
@@ -9585,6 +10065,10 @@ module Aws::Pinpoint
     #   resp.application_settings_resource.limits.session #=> Integer
     #   resp.application_settings_resource.quiet_time.end #=> String
     #   resp.application_settings_resource.quiet_time.start #=> String
+    #   resp.application_settings_resource.journey_limits.daily_cap #=> Integer
+    #   resp.application_settings_resource.journey_limits.timeframe_cap.cap #=> Integer
+    #   resp.application_settings_resource.journey_limits.timeframe_cap.days #=> Integer
+    #   resp.application_settings_resource.journey_limits.total_cap #=> Integer
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/UpdateApplicationSettings AWS API Documentation
     #
@@ -9730,6 +10214,12 @@ module Aws::Pinpoint
     #             email_message: {
     #               body: "__string",
     #               from_address: "__string",
+    #               headers: [
+    #                 {
+    #                   name: "__string",
+    #                   value: "__string",
+    #                 },
+    #               ],
     #               html_body: "__string",
     #               title: "__string",
     #             },
@@ -9873,6 +10363,10 @@ module Aws::Pinpoint
     #               name: "__string",
     #               version: "__string",
     #             },
+    #             in_app_template: {
+    #               name: "__string",
+    #               version: "__string",
+    #             },
     #           },
     #           treatment_description: "__string",
     #           treatment_name: "__string",
@@ -9960,6 +10454,12 @@ module Aws::Pinpoint
     #         email_message: {
     #           body: "__string",
     #           from_address: "__string",
+    #           headers: [
+    #             {
+    #               name: "__string",
+    #               value: "__string",
+    #             },
+    #           ],
     #           html_body: "__string",
     #           title: "__string",
     #         },
@@ -10108,6 +10608,10 @@ module Aws::Pinpoint
     #           name: "__string",
     #           version: "__string",
     #         },
+    #         in_app_template: {
+    #           name: "__string",
+    #           version: "__string",
+    #         },
     #       },
     #       treatment_description: "__string",
     #       treatment_name: "__string",
@@ -10173,6 +10677,9 @@ module Aws::Pinpoint
     #   resp.campaign_response.additional_treatments[0].message_configuration.default_message.url #=> String
     #   resp.campaign_response.additional_treatments[0].message_configuration.email_message.body #=> String
     #   resp.campaign_response.additional_treatments[0].message_configuration.email_message.from_address #=> String
+    #   resp.campaign_response.additional_treatments[0].message_configuration.email_message.headers #=> Array
+    #   resp.campaign_response.additional_treatments[0].message_configuration.email_message.headers[0].name #=> String
+    #   resp.campaign_response.additional_treatments[0].message_configuration.email_message.headers[0].value #=> String
     #   resp.campaign_response.additional_treatments[0].message_configuration.email_message.html_body #=> String
     #   resp.campaign_response.additional_treatments[0].message_configuration.email_message.title #=> String
     #   resp.campaign_response.additional_treatments[0].message_configuration.gcm_message.action #=> String, one of "OPEN_APP", "DEEP_LINK", "URL"
@@ -10258,6 +10765,8 @@ module Aws::Pinpoint
     #   resp.campaign_response.additional_treatments[0].template_configuration.sms_template.version #=> String
     #   resp.campaign_response.additional_treatments[0].template_configuration.voice_template.name #=> String
     #   resp.campaign_response.additional_treatments[0].template_configuration.voice_template.version #=> String
+    #   resp.campaign_response.additional_treatments[0].template_configuration.in_app_template.name #=> String
+    #   resp.campaign_response.additional_treatments[0].template_configuration.in_app_template.version #=> String
     #   resp.campaign_response.additional_treatments[0].treatment_description #=> String
     #   resp.campaign_response.additional_treatments[0].treatment_name #=> String
     #   resp.campaign_response.application_id #=> String
@@ -10331,6 +10840,9 @@ module Aws::Pinpoint
     #   resp.campaign_response.message_configuration.default_message.url #=> String
     #   resp.campaign_response.message_configuration.email_message.body #=> String
     #   resp.campaign_response.message_configuration.email_message.from_address #=> String
+    #   resp.campaign_response.message_configuration.email_message.headers #=> Array
+    #   resp.campaign_response.message_configuration.email_message.headers[0].name #=> String
+    #   resp.campaign_response.message_configuration.email_message.headers[0].value #=> String
     #   resp.campaign_response.message_configuration.email_message.html_body #=> String
     #   resp.campaign_response.message_configuration.email_message.title #=> String
     #   resp.campaign_response.message_configuration.gcm_message.action #=> String, one of "OPEN_APP", "DEEP_LINK", "URL"
@@ -10420,6 +10932,8 @@ module Aws::Pinpoint
     #   resp.campaign_response.template_configuration.sms_template.version #=> String
     #   resp.campaign_response.template_configuration.voice_template.name #=> String
     #   resp.campaign_response.template_configuration.voice_template.version #=> String
+    #   resp.campaign_response.template_configuration.in_app_template.name #=> String
+    #   resp.campaign_response.template_configuration.in_app_template.version #=> String
     #   resp.campaign_response.treatment_description #=> String
     #   resp.campaign_response.treatment_name #=> String
     #   resp.campaign_response.version #=> Integer
@@ -10457,6 +10971,7 @@ module Aws::Pinpoint
     #       from_address: "__string", # required
     #       identity: "__string", # required
     #       role_arn: "__string",
+    #       orchestration_sending_role_arn: "__string",
     #     },
     #   })
     #
@@ -10476,6 +10991,7 @@ module Aws::Pinpoint
     #   resp.email_channel_response.messages_per_second #=> Integer
     #   resp.email_channel_response.platform #=> String
     #   resp.email_channel_response.role_arn #=> String
+    #   resp.email_channel_response.orchestration_sending_role_arn #=> String
     #   resp.email_channel_response.version #=> Integer
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/UpdateEmailChannel AWS API Documentation
@@ -10513,6 +11029,12 @@ module Aws::Pinpoint
     #       html_part: "__string",
     #       recommender_id: "__string",
     #       subject: "__string",
+    #       headers: [
+    #         {
+    #           name: "__string",
+    #           value: "__string",
+    #         },
+    #       ],
     #       tags: {
     #         "__string" => "__string",
     #       },
@@ -10714,8 +11236,10 @@ module Aws::Pinpoint
     #   resp = client.update_gcm_channel({
     #     application_id: "__string", # required
     #     gcm_channel_request: { # required
-    #       api_key: "__string", # required
+    #       api_key: "__string",
+    #       default_authentication_method: "__string",
     #       enabled: false,
+    #       service_json: "__string",
     #     },
     #   })
     #
@@ -10724,8 +11248,10 @@ module Aws::Pinpoint
     #   resp.gcm_channel_response.application_id #=> String
     #   resp.gcm_channel_response.creation_date #=> String
     #   resp.gcm_channel_response.credential #=> String
+    #   resp.gcm_channel_response.default_authentication_method #=> String
     #   resp.gcm_channel_response.enabled #=> Boolean
     #   resp.gcm_channel_response.has_credential #=> Boolean
+    #   resp.gcm_channel_response.has_fcm_service_credentials #=> Boolean
     #   resp.gcm_channel_response.id #=> String
     #   resp.gcm_channel_response.is_archived #=> Boolean
     #   resp.gcm_channel_response.last_modified_by #=> String
@@ -11148,6 +11674,11 @@ module Aws::Pinpoint
     #         endpoint_reentry_cap: 1,
     #         messages_per_second: 1,
     #         endpoint_reentry_interval: "__string",
+    #         timeframe_cap: {
+    #           cap: 1,
+    #           days: 1,
+    #         },
+    #         total_cap: 1,
     #       },
     #       local_time: false,
     #       name: "__string", # required
@@ -11279,6 +11810,7 @@ module Aws::Pinpoint
     #           },
     #         ],
     #       },
+    #       timezone_estimation_methods: ["PHONE_NUMBER"], # accepts PHONE_NUMBER, POSTAL_CODE
     #     },
     #   })
     #
@@ -11435,6 +11967,9 @@ module Aws::Pinpoint
     #   resp.journey_response.limits.endpoint_reentry_cap #=> Integer
     #   resp.journey_response.limits.messages_per_second #=> Integer
     #   resp.journey_response.limits.endpoint_reentry_interval #=> String
+    #   resp.journey_response.limits.timeframe_cap.cap #=> Integer
+    #   resp.journey_response.limits.timeframe_cap.days #=> Integer
+    #   resp.journey_response.limits.total_cap #=> Integer
     #   resp.journey_response.local_time #=> Boolean
     #   resp.journey_response.name #=> String
     #   resp.journey_response.quiet_time.end #=> String
@@ -11506,6 +12041,8 @@ module Aws::Pinpoint
     #   resp.journey_response.closed_days.custom[0].name #=> String
     #   resp.journey_response.closed_days.custom[0].start_date_time #=> String
     #   resp.journey_response.closed_days.custom[0].end_date_time #=> String
+    #   resp.journey_response.timezone_estimation_methods #=> Array
+    #   resp.journey_response.timezone_estimation_methods[0] #=> String, one of "PHONE_NUMBER", "POSTAL_CODE"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/UpdateJourney AWS API Documentation
     #
@@ -11692,6 +12229,9 @@ module Aws::Pinpoint
     #   resp.journey_response.limits.endpoint_reentry_cap #=> Integer
     #   resp.journey_response.limits.messages_per_second #=> Integer
     #   resp.journey_response.limits.endpoint_reentry_interval #=> String
+    #   resp.journey_response.limits.timeframe_cap.cap #=> Integer
+    #   resp.journey_response.limits.timeframe_cap.days #=> Integer
+    #   resp.journey_response.limits.total_cap #=> Integer
     #   resp.journey_response.local_time #=> Boolean
     #   resp.journey_response.name #=> String
     #   resp.journey_response.quiet_time.end #=> String
@@ -11763,6 +12303,8 @@ module Aws::Pinpoint
     #   resp.journey_response.closed_days.custom[0].name #=> String
     #   resp.journey_response.closed_days.custom[0].start_date_time #=> String
     #   resp.journey_response.closed_days.custom[0].end_date_time #=> String
+    #   resp.journey_response.timezone_estimation_methods #=> Array
+    #   resp.journey_response.timezone_estimation_methods[0] #=> String, one of "PHONE_NUMBER", "POSTAL_CODE"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/UpdateJourneyState AWS API Documentation
     #
@@ -12484,14 +13026,19 @@ module Aws::Pinpoint
     # @api private
     def build_request(operation_name, params = {})
       handlers = @handlers.for(operation_name)
+      tracer = config.telemetry_provider.tracer_provider.tracer(
+        Aws::Telemetry.module_to_tracer_name('Aws::Pinpoint')
+      )
       context = Seahorse::Client::RequestContext.new(
         operation_name: operation_name,
         operation: config.api.operation(operation_name),
         client: self,
         params: params,
-        config: config)
+        config: config,
+        tracer: tracer
+      )
       context[:gem_name] = 'aws-sdk-pinpoint'
-      context[:gem_version] = '1.70.0'
+      context[:gem_version] = '1.106.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

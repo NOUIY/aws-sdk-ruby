@@ -49,7 +49,8 @@ module Aws
       #   before the presigned URL expires. Defaults to 15 minutes. As signature
       #   version 4 has a maximum expiry time of one week for presigned URLs,
       #   attempts to set this value to greater than one week (604800) will
-      #   raise an exception.
+      #   raise an exception. The min value of this option and the credentials
+      #   expiration time is used in the presigned URL.
       #
       # @option params [Time] :time (Time.now) The starting time for when the
       #   presigned url becomes active.
@@ -96,7 +97,8 @@ module Aws
       #   before the presigned URL expires. Defaults to 15 minutes. As signature
       #   version 4 has a maximum expiry time of one week for presigned URLs,
       #   attempts to set this value to greater than one week (604800) will
-      #   raise an exception.
+      #   raise an exception. The min value of this option and the credentials
+      #   expiration time is used in the presigned URL.
       #
       # @option params [Time] :time (Time.now) The starting time for when the
       #   presigned url becomes active.
@@ -191,13 +193,14 @@ module Aws
         req, expires_in, secure, time, unsigned_headers, hoist = true
       )
         x_amz_headers = {}
-
         http_req = req.context.http_request
-
-        req.handlers.remove(Aws::S3::Plugins::S3Signer::LegacyHandler)
-        req.handlers.remove(Aws::Plugins::Sign::Handler)
         req.handlers.remove(Seahorse::Client::Plugins::ContentLength::Handler)
-
+        req.handlers.remove(Aws::Rest::ContentTypeHandler)
+        req.handlers.remove(Aws::Plugins::ChecksumAlgorithm::OptionHandler)
+        req.handlers.remove(Aws::Plugins::ChecksumAlgorithm::ChecksumHandler)
+        req.handlers.remove(Aws::Plugins::InvocationId::Handler)
+        req.handlers.remove(Aws::Plugins::Sign::Handler)
+        req.handlers.remove(Aws::S3::Plugins::S3Signer::LegacyHandler)
         req.handle(step: :send) do |context|
           # if an endpoint was not provided, force secure or insecure
           if context.config.regional_endpoint
@@ -230,10 +233,11 @@ module Aws
                    end
           signer = Aws::Sigv4::Signer.new(
             service: auth_scheme['signingName'] || 's3',
-            region: region || context.config.region,
-            credentials_provider: context.config.credentials,
+            region: context[:sigv4_region] || region || context.config.region,
+            credentials_provider: context[:sigv4_credentials] || context.config.credentials,
             signing_algorithm: scheme_name.to_sym,
             uri_escape_path: !!!auth_scheme['disableDoubleEncoding'],
+            normalize_path: !!!auth_scheme['disableNormalizePath'],
             unsigned_headers: unsigned_headers,
             apply_checksum_header: false
           )

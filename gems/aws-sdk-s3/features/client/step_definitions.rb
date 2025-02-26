@@ -34,8 +34,12 @@ def create_bucket(options = {})
       location_constraint: @client.config.region
     }
   end
+
+  options[:object_ownership] ||= 'ObjectWriter'
+
   @client.create_bucket(options)
   @client.wait_until(:bucket_exists, bucket: @bucket_name)
+  @client.delete_public_access_block(bucket: @bucket_name)
   @created_buckets << @bucket_name
 end
 
@@ -460,10 +464,6 @@ When(/^I select it with query "([^"]*)" with handler and block$/) do |query|
 end
 
 When(/I have access to an MRAP bucket and CRT/) do
-  unless Aws::Sigv4::Signer.use_crt?
-    pending("CRT is not available")
-  end
-
   begin
     @client.head_bucket(bucket: 'ruby-sdk-integtest-mrap-bucket')
   rescue

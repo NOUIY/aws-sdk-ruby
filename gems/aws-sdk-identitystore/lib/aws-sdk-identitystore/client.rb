@@ -7,33 +7,34 @@
 #
 # WARNING ABOUT GENERATED CODE
 
-require 'seahorse/client/plugins/content_length.rb'
-require 'aws-sdk-core/plugins/credentials_configuration.rb'
-require 'aws-sdk-core/plugins/logging.rb'
-require 'aws-sdk-core/plugins/param_converter.rb'
-require 'aws-sdk-core/plugins/param_validator.rb'
-require 'aws-sdk-core/plugins/user_agent.rb'
-require 'aws-sdk-core/plugins/helpful_socket_errors.rb'
-require 'aws-sdk-core/plugins/retry_errors.rb'
-require 'aws-sdk-core/plugins/global_configuration.rb'
-require 'aws-sdk-core/plugins/regional_endpoint.rb'
-require 'aws-sdk-core/plugins/endpoint_discovery.rb'
-require 'aws-sdk-core/plugins/endpoint_pattern.rb'
-require 'aws-sdk-core/plugins/response_paging.rb'
-require 'aws-sdk-core/plugins/stub_responses.rb'
-require 'aws-sdk-core/plugins/idempotency_token.rb'
-require 'aws-sdk-core/plugins/jsonvalue_converter.rb'
-require 'aws-sdk-core/plugins/client_metrics_plugin.rb'
-require 'aws-sdk-core/plugins/client_metrics_send_plugin.rb'
-require 'aws-sdk-core/plugins/transfer_encoding.rb'
-require 'aws-sdk-core/plugins/http_checksum.rb'
-require 'aws-sdk-core/plugins/checksum_algorithm.rb'
-require 'aws-sdk-core/plugins/defaults_mode.rb'
-require 'aws-sdk-core/plugins/recursion_detection.rb'
-require 'aws-sdk-core/plugins/sign.rb'
-require 'aws-sdk-core/plugins/protocols/json_rpc.rb'
-
-Aws::Plugins::GlobalConfiguration.add_identifier(:identitystore)
+require 'seahorse/client/plugins/content_length'
+require 'aws-sdk-core/plugins/credentials_configuration'
+require 'aws-sdk-core/plugins/logging'
+require 'aws-sdk-core/plugins/param_converter'
+require 'aws-sdk-core/plugins/param_validator'
+require 'aws-sdk-core/plugins/user_agent'
+require 'aws-sdk-core/plugins/helpful_socket_errors'
+require 'aws-sdk-core/plugins/retry_errors'
+require 'aws-sdk-core/plugins/global_configuration'
+require 'aws-sdk-core/plugins/regional_endpoint'
+require 'aws-sdk-core/plugins/endpoint_discovery'
+require 'aws-sdk-core/plugins/endpoint_pattern'
+require 'aws-sdk-core/plugins/response_paging'
+require 'aws-sdk-core/plugins/stub_responses'
+require 'aws-sdk-core/plugins/idempotency_token'
+require 'aws-sdk-core/plugins/invocation_id'
+require 'aws-sdk-core/plugins/jsonvalue_converter'
+require 'aws-sdk-core/plugins/client_metrics_plugin'
+require 'aws-sdk-core/plugins/client_metrics_send_plugin'
+require 'aws-sdk-core/plugins/transfer_encoding'
+require 'aws-sdk-core/plugins/http_checksum'
+require 'aws-sdk-core/plugins/checksum_algorithm'
+require 'aws-sdk-core/plugins/request_compression'
+require 'aws-sdk-core/plugins/defaults_mode'
+require 'aws-sdk-core/plugins/recursion_detection'
+require 'aws-sdk-core/plugins/telemetry'
+require 'aws-sdk-core/plugins/sign'
+require 'aws-sdk-core/plugins/protocols/json_rpc'
 
 module Aws::IdentityStore
   # An API client for IdentityStore.  To construct a client, you need to configure a `:region` and `:credentials`.
@@ -71,20 +72,28 @@ module Aws::IdentityStore
     add_plugin(Aws::Plugins::ResponsePaging)
     add_plugin(Aws::Plugins::StubResponses)
     add_plugin(Aws::Plugins::IdempotencyToken)
+    add_plugin(Aws::Plugins::InvocationId)
     add_plugin(Aws::Plugins::JsonvalueConverter)
     add_plugin(Aws::Plugins::ClientMetricsPlugin)
     add_plugin(Aws::Plugins::ClientMetricsSendPlugin)
     add_plugin(Aws::Plugins::TransferEncoding)
     add_plugin(Aws::Plugins::HttpChecksum)
     add_plugin(Aws::Plugins::ChecksumAlgorithm)
+    add_plugin(Aws::Plugins::RequestCompression)
     add_plugin(Aws::Plugins::DefaultsMode)
     add_plugin(Aws::Plugins::RecursionDetection)
+    add_plugin(Aws::Plugins::Telemetry)
     add_plugin(Aws::Plugins::Sign)
     add_plugin(Aws::Plugins::Protocols::JsonRpc)
     add_plugin(Aws::IdentityStore::Plugins::Endpoints)
 
     # @overload initialize(options)
     #   @param [Hash] options
+    #
+    #   @option options [Array<Seahorse::Client::Plugin>] :plugins ([]])
+    #     A list of plugins to apply to the client. Each plugin is either a
+    #     class name or an instance of a plugin class.
+    #
     #   @option options [required, Aws::CredentialProvider] :credentials
     #     Your AWS credentials. This can be an instance of any one of the
     #     following classes:
@@ -119,13 +128,15 @@ module Aws::IdentityStore
     #     locations will be searched for credentials:
     #
     #     * `Aws.config[:credentials]`
-    #     * The `:access_key_id`, `:secret_access_key`, and `:session_token` options.
-    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']
+    #     * The `:access_key_id`, `:secret_access_key`, `:session_token`, and
+    #       `:account_id` options.
+    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'],
+    #       ENV['AWS_SESSION_TOKEN'], and ENV['AWS_ACCOUNT_ID']
     #     * `~/.aws/credentials`
     #     * `~/.aws/config`
     #     * EC2/ECS IMDS instance profile - When used by default, the timeouts
     #       are very aggressive. Construct and pass an instance of
-    #       `Aws::InstanceProfileCredentails` or `Aws::ECSCredentials` to
+    #       `Aws::InstanceProfileCredentials` or `Aws::ECSCredentials` to
     #       enable retries and extended timeouts. Instance profile credential
     #       fetching can be disabled by setting ENV['AWS_EC2_METADATA_DISABLED']
     #       to true.
@@ -143,6 +154,8 @@ module Aws::IdentityStore
     #     * `~/.aws/config`
     #
     #   @option options [String] :access_key_id
+    #
+    #   @option options [String] :account_id
     #
     #   @option options [Boolean] :active_endpoint_cache (false)
     #     When set to `true`, a thread polling for endpoints will be running in
@@ -190,10 +203,20 @@ module Aws::IdentityStore
     #     Set to true to disable SDK automatically adding host prefix
     #     to default service endpoint when available.
     #
-    #   @option options [String] :endpoint
-    #     The client endpoint is normally constructed from the `:region`
-    #     option. You should only configure an `:endpoint` when connecting
-    #     to test or custom endpoints. This should be a valid HTTP(S) URI.
+    #   @option options [Boolean] :disable_request_compression (false)
+    #     When set to 'true' the request body will not be compressed
+    #     for supported operations.
+    #
+    #   @option options [String, URI::HTTPS, URI::HTTP] :endpoint
+    #     Normally you should not configure the `:endpoint` option
+    #     directly. This is normally constructed from the `:region`
+    #     option. Configuring `:endpoint` is normally reserved for
+    #     connecting to test or custom endpoints. The endpoint should
+    #     be a URI formatted like:
+    #
+    #         'http://example.com'
+    #         'https://example.com'
+    #         'http://example.com:123'
     #
     #   @option options [Integer] :endpoint_cache_max_entries (1000)
     #     Used for the maximum size limit of the LRU cache storing endpoints data
@@ -209,6 +232,10 @@ module Aws::IdentityStore
     #
     #   @option options [Boolean] :endpoint_discovery (false)
     #     When set to `true`, endpoint discovery will be enabled for operations when available.
+    #
+    #   @option options [Boolean] :ignore_configured_endpoint_urls
+    #     Setting to true disables use of endpoint URLs provided via environment
+    #     variables and the shared configuration file.
     #
     #   @option options [Aws::Log::Formatter] :log_formatter (Aws::Log::Formatter.default)
     #     The log formatter.
@@ -229,6 +256,34 @@ module Aws::IdentityStore
     #   @option options [String] :profile ("default")
     #     Used when loading credentials from the shared credentials file
     #     at HOME/.aws/credentials.  When not specified, 'default' is used.
+    #
+    #   @option options [String] :request_checksum_calculation ("when_supported")
+    #     Determines when a checksum will be calculated for request payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, a checksum will be
+    #       calculated for all request payloads of operations modeled with the
+    #       `httpChecksum` trait where `requestChecksumRequired` is `true` and/or a
+    #       `requestAlgorithmMember` is modeled.
+    #     * `when_required` - When set, a checksum will only be calculated for
+    #       request payloads of operations modeled with the  `httpChecksum` trait where
+    #       `requestChecksumRequired` is `true` or where a `requestAlgorithmMember`
+    #       is modeled and supplied.
+    #
+    #   @option options [Integer] :request_min_compression_size_bytes (10240)
+    #     The minimum size in bytes that triggers compression for request
+    #     bodies. The value must be non-negative integer value between 0
+    #     and 10485780 bytes inclusive.
+    #
+    #   @option options [String] :response_checksum_validation ("when_supported")
+    #     Determines when checksum validation will be performed on response payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, checksum validation is performed on all
+    #       response payloads of operations modeled with the `httpChecksum` trait where
+    #       `responseAlgorithms` is modeled, except when no modeled checksum algorithms
+    #       are supported.
+    #     * `when_required` - When set, checksum validation is not performed on
+    #       response payloads of operations unless the checksum algorithm is supported and
+    #       the `requestValidationModeMember` member is set to `ENABLED`.
     #
     #   @option options [Proc] :retry_backoff
     #     A proc or lambda used for backoff. Defaults to 2**retries * retry_base_delay.
@@ -274,20 +329,31 @@ module Aws::IdentityStore
     #       throttling.  This is a provisional mode that may change behavior
     #       in the future.
     #
+    #   @option options [String] :sdk_ua_app_id
+    #     A unique and opaque application ID that is appended to the
+    #     User-Agent header as app/sdk_ua_app_id. It should have a
+    #     maximum length of 50. This variable is sourced from environment
+    #     variable AWS_SDK_UA_APP_ID or the shared config profile attribute sdk_ua_app_id.
     #
     #   @option options [String] :secret_access_key
     #
     #   @option options [String] :session_token
     #
+    #   @option options [Array] :sigv4a_signing_region_set
+    #     A list of regions that should be signed with SigV4a signing. When
+    #     not passed, a default `:sigv4a_signing_region_set` is searched for
+    #     in the following locations:
+    #
+    #     * `Aws.config[:sigv4a_signing_region_set]`
+    #     * `ENV['AWS_SIGV4A_SIGNING_REGION_SET']`
+    #     * `~/.aws/config`
+    #
     #   @option options [Boolean] :simple_json (false)
     #     Disables request parameter conversion, validation, and formatting.
-    #     Also disable response data type conversions. This option is useful
-    #     when you want to ensure the highest level of performance by
-    #     avoiding overhead of walking request parameters and response data
-    #     structures.
-    #
-    #     When `:simple_json` is enabled, the request parameters hash must
-    #     be formatted exactly as the DynamoDB API expects.
+    #     Also disables response data type conversions. The request parameters
+    #     hash must be formatted exactly as the API expects.This option is useful
+    #     when you want to ensure the highest level of performance by avoiding
+    #     overhead of walking request parameters and response data structures.
     #
     #   @option options [Boolean] :stub_responses (false)
     #     Causes the client to return stubbed responses. By default
@@ -297,6 +363,16 @@ module Aws::IdentityStore
     #
     #     ** Please note ** When response stubbing is enabled, no HTTP
     #     requests are made, and retries are disabled.
+    #
+    #   @option options [Aws::Telemetry::TelemetryProviderBase] :telemetry_provider (Aws::Telemetry::NoOpTelemetryProvider)
+    #     Allows you to provide a telemetry provider, which is used to
+    #     emit telemetry data. By default, uses `NoOpTelemetryProvider` which
+    #     will not record or emit any telemetry data. The SDK supports the
+    #     following telemetry providers:
+    #
+    #     * OpenTelemetry (OTel) - To use the OTel provider, install and require the
+    #     `opentelemetry-sdk` gem and then, pass in an instance of a
+    #     `Aws::Telemetry::OTelProvider` for telemetry provider.
     #
     #   @option options [Aws::TokenProvider] :token_provider
     #     A Bearer Token Provider. This can be an instance of any one of the
@@ -325,52 +401,75 @@ module Aws::IdentityStore
     #     sending the request.
     #
     #   @option options [Aws::IdentityStore::EndpointProvider] :endpoint_provider
-    #     The endpoint provider used to resolve endpoints. Any object that responds to `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to `Aws::IdentityStore::EndpointParameters`
+    #     The endpoint provider used to resolve endpoints. Any object that responds to
+    #     `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+    #     `Aws::IdentityStore::EndpointParameters`.
     #
-    #   @option options [URI::HTTP,String] :http_proxy A proxy to send
-    #     requests through.  Formatted like 'http://proxy.com:123'.
+    #   @option options [Float] :http_continue_timeout (1)
+    #     The number of seconds to wait for a 100-continue response before sending the
+    #     request body.  This option has no effect unless the request has "Expect"
+    #     header set to "100-continue".  Defaults to `nil` which  disables this
+    #     behaviour.  This value can safely be set per request on the session.
     #
-    #   @option options [Float] :http_open_timeout (15) The number of
-    #     seconds to wait when opening a HTTP session before raising a
-    #     `Timeout::Error`.
+    #   @option options [Float] :http_idle_timeout (5)
+    #     The number of seconds a connection is allowed to sit idle before it
+    #     is considered stale.  Stale connections are closed and removed from the
+    #     pool before making a request.
     #
-    #   @option options [Float] :http_read_timeout (60) The default
-    #     number of seconds to wait for response data.  This value can
-    #     safely be set per-request on the session.
+    #   @option options [Float] :http_open_timeout (15)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :http_idle_timeout (5) The number of
-    #     seconds a connection is allowed to sit idle before it is
-    #     considered stale.  Stale connections are closed and removed
-    #     from the pool before making a request.
+    #   @option options [URI::HTTP,String] :http_proxy
+    #     A proxy to send requests through.  Formatted like 'http://proxy.com:123'.
     #
-    #   @option options [Float] :http_continue_timeout (1) The number of
-    #     seconds to wait for a 100-continue response before sending the
-    #     request body.  This option has no effect unless the request has
-    #     "Expect" header set to "100-continue".  Defaults to `nil` which
-    #     disables this behaviour.  This value can safely be set per
-    #     request on the session.
+    #   @option options [Float] :http_read_timeout (60)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :ssl_timeout (nil) Sets the SSL timeout
-    #     in seconds.
+    #   @option options [Boolean] :http_wire_trace (false)
+    #     When `true`,  HTTP debug output will be sent to the `:logger`.
     #
-    #   @option options [Boolean] :http_wire_trace (false) When `true`,
-    #     HTTP debug output will be sent to the `:logger`.
+    #   @option options [Proc] :on_chunk_received
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the response body is received. It provides three arguments: the chunk,
+    #     the number of bytes received, and the total number of
+    #     bytes in the response (or nil if the server did not send a `content-length`).
     #
-    #   @option options [Boolean] :ssl_verify_peer (true) When `true`,
-    #     SSL peer certificates are verified when establishing a
-    #     connection.
+    #   @option options [Proc] :on_chunk_sent
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the request body is sent. It provides three arguments: the chunk,
+    #     the number of bytes read from the body, and the total number of
+    #     bytes in the body.
     #
-    #   @option options [String] :ssl_ca_bundle Full path to the SSL
-    #     certificate authority bundle file that should be used when
-    #     verifying peer certificates.  If you do not pass
-    #     `:ssl_ca_bundle` or `:ssl_ca_directory` the the system default
-    #     will be used if available.
+    #   @option options [Boolean] :raise_response_errors (true)
+    #     When `true`, response errors are raised.
     #
-    #   @option options [String] :ssl_ca_directory Full path of the
-    #     directory that contains the unbundled SSL certificate
+    #   @option options [String] :ssl_ca_bundle
+    #     Full path to the SSL certificate authority bundle file that should be used when
+    #     verifying peer certificates.  If you do not pass `:ssl_ca_bundle` or
+    #     `:ssl_ca_directory` the the system default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_directory
+    #     Full path of the directory that contains the unbundled SSL certificate
     #     authority files for verifying peer certificates.  If you do
-    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the
-    #     system default will be used if available.
+    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the system
+    #     default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_store
+    #     Sets the X509::Store to verify peer certificate.
+    #
+    #   @option options [OpenSSL::X509::Certificate] :ssl_cert
+    #     Sets a client certificate when creating http connections.
+    #
+    #   @option options [OpenSSL::PKey] :ssl_key
+    #     Sets a client key when creating http connections.
+    #
+    #   @option options [Float] :ssl_timeout
+    #     Sets the SSL timeout in seconds
+    #
+    #   @option options [Boolean] :ssl_verify_peer (true)
+    #     When `true`, SSL peer certificates are verified when establishing a connection.
     #
     def initialize(*args)
       super
@@ -385,7 +484,9 @@ module Aws::IdentityStore
     #
     # @option params [String] :display_name
     #   A string containing the name of the group. This value is commonly
-    #   displayed when the group is referenced.
+    #   displayed when the group is referenced. `Administrator` and
+    #   `AWSAdministrators` are reserved names and can't be used for users or
+    #   groups.
     #
     # @option params [String] :description
     #   A string containing the description of the group.
@@ -461,7 +562,7 @@ module Aws::IdentityStore
       req.send_request(options)
     end
 
-    # Creates a new user within the specified identity store.
+    # Creates a user within the specified identity store.
     #
     # @option params [required, String] :identity_store_id
     #   The globally unique identifier for the identity store.
@@ -471,13 +572,14 @@ module Aws::IdentityStore
     #   characters. This value can consist of letters, accented characters,
     #   symbols, numbers, and punctuation. This value is specified at the time
     #   the user is created and stored as an attribute of the user object in
-    #   the identity store.
+    #   the identity store. `Administrator` and `AWSAdministrators` are
+    #   reserved names and can't be used for users or groups.
     #
     # @option params [Types::Name] :name
-    #   An object containing the user's name.
+    #   An object containing the name of the user.
     #
     # @option params [String] :display_name
-    #   A string containing the user's name. This value is typically
+    #   A string containing the name of the user. This value is typically
     #   formatted for display when the user is referenced. For example, "John
     #   Doe."
     #
@@ -485,7 +587,7 @@ module Aws::IdentityStore
     #   A string containing an alternate name for the user.
     #
     # @option params [String] :profile_url
-    #   A string containing a URL that may be associated with the user.
+    #   A string containing a URL that might be associated with the user.
     #
     # @option params [Array<Types::Email>] :emails
     #   A list of `Email` objects containing email addresses associated with
@@ -500,22 +602,22 @@ module Aws::IdentityStore
     #   with the user.
     #
     # @option params [String] :user_type
-    #   A string indicating the user's type. Possible values depend on each
-    #   customer's specific needs, so they are left unspecified.
+    #   A string indicating the type of user. Possible values are left
+    #   unspecified. The value can vary based on your specific use case.
     #
     # @option params [String] :title
-    #   A string containing the user's title. Possible values are left
-    #   unspecified given that they depend on each customer's specific needs.
+    #   A string containing the title of the user. Possible values are left
+    #   unspecified. The value can vary based on your specific use case.
     #
     # @option params [String] :preferred_language
     #   A string containing the preferred language of the user. For example,
     #   "American English" or "en-us."
     #
     # @option params [String] :locale
-    #   A string containing the user's geographical region or location.
+    #   A string containing the geographical region or location of the user.
     #
     # @option params [String] :timezone
-    #   A string containing the user's time zone.
+    #   A string containing the time zone of the user.
     #
     # @return [Types::CreateUserResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -666,6 +768,16 @@ module Aws::IdentityStore
     # Retrieves the group metadata and attributes from `GroupId` in an
     # identity store.
     #
+    # <note markdown="1"> If you have administrator access to a member account, you can use this
+    # API from the member account. Read about [member accounts][1] in the
+    # *Organizations User Guide*.
+    #
+    #  </note>
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html
+    #
     # @option params [required, String] :identity_store_id
     #   The globally unique identifier for the identity store, such as
     #   `d-1234567890`. In this example, `d-` is a fixed prefix, and
@@ -713,6 +825,16 @@ module Aws::IdentityStore
     # Retrieves membership metadata and attributes from `MembershipId` in an
     # identity store.
     #
+    # <note markdown="1"> If you have administrator access to a member account, you can use this
+    # API from the member account. Read about [member accounts][1] in the
+    # *Organizations User Guide*.
+    #
+    #  </note>
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html
+    #
     # @option params [required, String] :identity_store_id
     #   The globally unique identifier for the identity store.
     #
@@ -751,6 +873,16 @@ module Aws::IdentityStore
 
     # Retrieves the user metadata and attributes from the `UserId` in an
     # identity store.
+    #
+    # <note markdown="1"> If you have administrator access to a member account, you can use this
+    # API from the member account. Read about [member accounts][1] in the
+    # *Organizations User Guide*.
+    #
+    #  </note>
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html
     #
     # @option params [required, String] :identity_store_id
     #   The globally unique identifier for the identity store, such as
@@ -839,6 +971,16 @@ module Aws::IdentityStore
 
     # Retrieves `GroupId` in an identity store.
     #
+    # <note markdown="1"> If you have administrator access to a member account, you can use this
+    # API from the member account. Read about [member accounts][1] in the
+    # *Organizations User Guide*.
+    #
+    #  </note>
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html
+    #
     # @option params [required, String] :identity_store_id
     #   The globally unique identifier for the identity store.
     #
@@ -846,7 +988,8 @@ module Aws::IdentityStore
     #   A unique identifier for a user or group that is not the primary
     #   identifier. This value can be an identifier from an external identity
     #   provider (IdP) that is associated with the user, the group, or a
-    #   unique attribute. For example, a unique `GroupDisplayName`.
+    #   unique attribute. For the unique attribute, the only valid path is
+    #   `displayName`.
     #
     # @return [Types::GetGroupIdResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -884,6 +1027,16 @@ module Aws::IdentityStore
     end
 
     # Retrieves the `MembershipId` in an identity store.
+    #
+    # <note markdown="1"> If you have administrator access to a member account, you can use this
+    # API from the member account. Read about [member accounts][1] in the
+    # *Organizations User Guide*.
+    #
+    #  </note>
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html
     #
     # @option params [required, String] :identity_store_id
     #   The globally unique identifier for the identity store.
@@ -927,6 +1080,16 @@ module Aws::IdentityStore
 
     # Retrieves the `UserId` in an identity store.
     #
+    # <note markdown="1"> If you have administrator access to a member account, you can use this
+    # API from the member account. Read about [member accounts][1] in the
+    # *Organizations User Guide*.
+    #
+    #  </note>
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html
+    #
     # @option params [required, String] :identity_store_id
     #   The globally unique identifier for the identity store.
     #
@@ -934,7 +1097,8 @@ module Aws::IdentityStore
     #   A unique identifier for a user or group that is not the primary
     #   identifier. This value can be an identifier from an external identity
     #   provider (IdP) that is associated with the user, the group, or a
-    #   unique attribute. For example, a unique `UserDisplayName`.
+    #   unique attribute. For the unique attribute, the only valid paths are
+    #   `userName` and `emails.value`.
     #
     # @return [Types::GetUserIdResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -973,6 +1137,16 @@ module Aws::IdentityStore
 
     # Checks the user's membership in all requested groups and returns if
     # the member exists in all queried groups.
+    #
+    # <note markdown="1"> If you have administrator access to a member account, you can use this
+    # API from the member account. Read about [member accounts][1] in the
+    # *Organizations User Guide*.
+    #
+    #  </note>
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html
     #
     # @option params [required, String] :identity_store_id
     #   The globally unique identifier for the identity store.
@@ -1016,6 +1190,16 @@ module Aws::IdentityStore
     # For the specified group in the specified identity store, returns the
     # list of all `GroupMembership` objects and returns results in paginated
     # form.
+    #
+    # <note markdown="1"> If you have administrator access to a member account, you can use this
+    # API from the member account. Read about [member accounts][1] in the
+    # *Organizations User Guide*.
+    #
+    #  </note>
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html
     #
     # @option params [required, String] :identity_store_id
     #   The globally unique identifier for the identity store.
@@ -1073,6 +1257,16 @@ module Aws::IdentityStore
     # For the specified member in the specified identity store, returns the
     # list of all `GroupMembership` objects and returns results in paginated
     # form.
+    #
+    # <note markdown="1"> If you have administrator access to a member account, you can use this
+    # API from the member account. Read about [member accounts][1] in the
+    # *Organizations User Guide*.
+    #
+    #  </note>
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html
     #
     # @option params [required, String] :identity_store_id
     #   The globally unique identifier for the identity store.
@@ -1135,6 +1329,16 @@ module Aws::IdentityStore
     # Lists all groups in the identity store. Returns a paginated list of
     # complete `Group` objects. Filtering for a `Group` by the `DisplayName`
     # attribute is deprecated. Instead, use the `GetGroupId` API action.
+    #
+    # <note markdown="1"> If you have administrator access to a member account, you can use this
+    # API from the member account. Read about [member accounts][1] in the
+    # *Organizations User Guide*.
+    #
+    #  </note>
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html
     #
     # @option params [required, String] :identity_store_id
     #   The globally unique identifier for the identity store, such as
@@ -1205,6 +1409,16 @@ module Aws::IdentityStore
     # Lists all users in the identity store. Returns a paginated list of
     # complete `User` objects. Filtering for a `User` by the `UserName`
     # attribute is deprecated. Instead, use the `GetUserId` API action.
+    #
+    # <note markdown="1"> If you have administrator access to a member account, you can use this
+    # API from the member account. Read about [member accounts][1] in the
+    # *Organizations User Guide*.
+    #
+    #  </note>
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html
     #
     # @option params [required, String] :identity_store_id
     #   The globally unique identifier for the identity store, such as
@@ -1382,14 +1596,19 @@ module Aws::IdentityStore
     # @api private
     def build_request(operation_name, params = {})
       handlers = @handlers.for(operation_name)
+      tracer = config.telemetry_provider.tracer_provider.tracer(
+        Aws::Telemetry.module_to_tracer_name('Aws::IdentityStore')
+      )
       context = Seahorse::Client::RequestContext.new(
         operation_name: operation_name,
         operation: config.api.operation(operation_name),
         client: self,
         params: params,
-        config: config)
+        config: config,
+        tracer: tracer
+      )
       context[:gem_name] = 'aws-sdk-identitystore'
-      context[:gem_version] = '1.23.0'
+      context[:gem_version] = '1.50.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

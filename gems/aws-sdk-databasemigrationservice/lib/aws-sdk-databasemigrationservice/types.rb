@@ -84,7 +84,8 @@ module Aws::DatabaseMigrationService
     # @!attribute [rw] apply_action
     #   The pending maintenance action to apply to this resource.
     #
-    #   Valid values: `os-upgrade`, `system-update`, `db-upgrade`
+    #   Valid values: `os-upgrade`, `system-update`, `db-upgrade`,
+    #   `os-patch`
     #   @return [String]
     #
     # @!attribute [rw] opt_in_type
@@ -149,6 +150,59 @@ module Aws::DatabaseMigrationService
       include Aws::Structure
     end
 
+    # Provides information about the errors that occurred during the
+    # analysis of the source database.
+    #
+    # @!attribute [rw] database_id
+    #   The identifier of the source database.
+    #   @return [String]
+    #
+    # @!attribute [rw] message
+    #   The information about the error.
+    #   @return [String]
+    #
+    # @!attribute [rw] code
+    #   The code of an error that occurred during the analysis of the source
+    #   database.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/BatchStartRecommendationsErrorEntry AWS API Documentation
+    #
+    class BatchStartRecommendationsErrorEntry < Struct.new(
+      :database_id,
+      :message,
+      :code)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] data
+    #   Provides information about source databases to analyze. After this
+    #   analysis, Fleet Advisor recommends target engines for each source
+    #   database.
+    #   @return [Array<Types::StartRecommendationsRequestEntry>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/BatchStartRecommendationsRequest AWS API Documentation
+    #
+    class BatchStartRecommendationsRequest < Struct.new(
+      :data)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] error_entries
+    #   A list with error details about the analysis of each source
+    #   database.
+    #   @return [Array<Types::BatchStartRecommendationsErrorEntry>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/BatchStartRecommendationsResponse AWS API Documentation
+    #
+    class BatchStartRecommendationsResponse < Struct.new(
+      :error_entries)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] replication_task_assessment_run_arn
     #   Amazon Resource Name (ARN) of the premigration assessment run to be
     #   canceled.
@@ -195,7 +249,7 @@ module Aws::DatabaseMigrationService
     #
     # @!attribute [rw] certificate_wallet
     #   The location of an imported Oracle Wallet certificate for use with
-    #   SSL. Example: `filebase64("$\{path.root\}/rds-ca-2019-root.sso")`
+    #   SSL. Example: `filebase64("${path.root}/rds-ca-2019-root.sso")`
     #   @return [String]
     #
     # @!attribute [rw] certificate_arn
@@ -383,6 +437,106 @@ module Aws::DatabaseMigrationService
       include Aws::Structure
     end
 
+    # Configuration parameters for provisioning an DMS Serverless
+    # replication.
+    #
+    # @!attribute [rw] availability_zone
+    #   The Availability Zone where the DMS Serverless replication using
+    #   this configuration will run. The default value is a random,
+    #   system-chosen Availability Zone in the configuration's Amazon Web
+    #   Services Region, for example, `"us-west-2"`. You can't set this
+    #   parameter if the `MultiAZ` parameter is set to `true`.
+    #   @return [String]
+    #
+    # @!attribute [rw] dns_name_servers
+    #   A list of custom DNS name servers supported for the DMS Serverless
+    #   replication to access your source or target database. This list
+    #   overrides the default name servers supported by the DMS Serverless
+    #   replication. You can specify a comma-separated list of internet
+    #   addresses for up to four DNS name servers. For example:
+    #   `"1.1.1.1,2.2.2.2,3.3.3.3,4.4.4.4"`
+    #   @return [String]
+    #
+    # @!attribute [rw] kms_key_id
+    #   An Key Management Service (KMS) key Amazon Resource Name (ARN) that
+    #   is used to encrypt the data during DMS Serverless replication.
+    #
+    #   If you don't specify a value for the `KmsKeyId` parameter, DMS uses
+    #   your default encryption key.
+    #
+    #   KMS creates the default encryption key for your Amazon Web Services
+    #   account. Your Amazon Web Services account has a different default
+    #   encryption key for each Amazon Web Services Region.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_capacity_units
+    #   Specifies the maximum value of the DMS capacity units (DCUs) for
+    #   which a given DMS Serverless replication can be provisioned. A
+    #   single DCU is 2GB of RAM, with 1 DCU as the minimum value allowed.
+    #   The list of valid DCU values includes 1, 2, 4, 8, 16, 32, 64, 128,
+    #   192, 256, and 384. So, the maximum value that you can specify for
+    #   DMS Serverless is 384. The `MaxCapacityUnits` parameter is the only
+    #   DCU parameter you are required to specify.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] min_capacity_units
+    #   Specifies the minimum value of the DMS capacity units (DCUs) for
+    #   which a given DMS Serverless replication can be provisioned. A
+    #   single DCU is 2GB of RAM, with 1 DCU as the minimum value allowed.
+    #   The list of valid DCU values includes 1, 2, 4, 8, 16, 32, 64, 128,
+    #   192, 256, and 384. So, the minimum DCU value that you can specify
+    #   for DMS Serverless is 1. If you don't set this value, DMS sets this
+    #   parameter to the minimum DCU value allowed, 1. If there is no
+    #   current source activity, DMS scales down your replication until it
+    #   reaches the value specified in `MinCapacityUnits`.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] multi_az
+    #   Specifies whether the DMS Serverless replication is a Multi-AZ
+    #   deployment. You can't set the `AvailabilityZone` parameter if the
+    #   `MultiAZ` parameter is set to `true`.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] preferred_maintenance_window
+    #   The weekly time range during which system maintenance can occur for
+    #   the DMS Serverless replication, in Universal Coordinated Time (UTC).
+    #   The format is `ddd:hh24:mi-ddd:hh24:mi`.
+    #
+    #   The default is a 30-minute window selected at random from an 8-hour
+    #   block of time per Amazon Web Services Region. This maintenance
+    #   occurs on a random day of the week. Valid values for days of the
+    #   week include `Mon`, `Tue`, `Wed`, `Thu`, `Fri`, `Sat`, and `Sun`.
+    #
+    #   Constraints include a minimum 30-minute window.
+    #   @return [String]
+    #
+    # @!attribute [rw] replication_subnet_group_id
+    #   Specifies a subnet group identifier to associate with the DMS
+    #   Serverless replication.
+    #   @return [String]
+    #
+    # @!attribute [rw] vpc_security_group_ids
+    #   Specifies the virtual private cloud (VPC) security group to use with
+    #   the DMS Serverless replication. The VPC security group must work
+    #   with the VPC containing the replication.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/ComputeConfig AWS API Documentation
+    #
+    class ComputeConfig < Struct.new(
+      :availability_zone,
+      :dns_name_servers,
+      :kms_key_id,
+      :max_capacity_units,
+      :min_capacity_units,
+      :multi_az,
+      :preferred_maintenance_window,
+      :replication_subnet_group_id,
+      :vpc_security_group_ids)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Status of the connection between an endpoint and a replication
     # instance, including Amazon Resource Names (ARNs) and the last error
     # message issued.
@@ -436,6 +590,135 @@ module Aws::DatabaseMigrationService
       include Aws::Structure
     end
 
+    # @!attribute [rw] data_migration_name
+    #   A user-friendly name for the data migration. Data migration names
+    #   have the following constraints:
+    #
+    #   * Must begin with a letter, and can only contain ASCII letters,
+    #     digits, and hyphens.
+    #
+    #   * Can't end with a hyphen or contain two consecutive hyphens.
+    #
+    #   * Length must be from 1 to 255 characters.
+    #   @return [String]
+    #
+    # @!attribute [rw] migration_project_identifier
+    #   An identifier for the migration project.
+    #   @return [String]
+    #
+    # @!attribute [rw] data_migration_type
+    #   Specifies if the data migration is full-load only, change data
+    #   capture (CDC) only, or full-load and CDC.
+    #   @return [String]
+    #
+    # @!attribute [rw] service_access_role_arn
+    #   The Amazon Resource Name (ARN) for the service access role that you
+    #   want to use to create the data migration.
+    #   @return [String]
+    #
+    # @!attribute [rw] enable_cloudwatch_logs
+    #   Specifies whether to enable CloudWatch logs for the data migration.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] source_data_settings
+    #   Specifies information about the source data provider.
+    #   @return [Array<Types::SourceDataSetting>]
+    #
+    # @!attribute [rw] target_data_settings
+    #   Specifies information about the target data provider.
+    #   @return [Array<Types::TargetDataSetting>]
+    #
+    # @!attribute [rw] number_of_jobs
+    #   The number of parallel jobs that trigger parallel threads to unload
+    #   the tables from the source, and then load them to the target.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] tags
+    #   One or more tags to be assigned to the data migration.
+    #   @return [Array<Types::Tag>]
+    #
+    # @!attribute [rw] selection_rules
+    #   An optional JSON string specifying what tables, views, and schemas
+    #   to include or exclude from the migration.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/CreateDataMigrationMessage AWS API Documentation
+    #
+    class CreateDataMigrationMessage < Struct.new(
+      :data_migration_name,
+      :migration_project_identifier,
+      :data_migration_type,
+      :service_access_role_arn,
+      :enable_cloudwatch_logs,
+      :source_data_settings,
+      :target_data_settings,
+      :number_of_jobs,
+      :tags,
+      :selection_rules)
+      SENSITIVE = [:selection_rules]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] data_migration
+    #   Information about the created data migration.
+    #   @return [Types::DataMigration]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/CreateDataMigrationResponse AWS API Documentation
+    #
+    class CreateDataMigrationResponse < Struct.new(
+      :data_migration)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] data_provider_name
+    #   A user-friendly name for the data provider.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   A user-friendly description of the data provider.
+    #   @return [String]
+    #
+    # @!attribute [rw] engine
+    #   The type of database engine for the data provider. Valid values
+    #   include `"aurora"`, `"aurora-postgresql"`, `"mysql"`, `"oracle"`,
+    #   `"postgres"`, `"sqlserver"`, `redshift`, `mariadb`, `mongodb`,
+    #   `db2`, `db2-zos` and `docdb`. A value of `"aurora"` represents
+    #   Amazon Aurora MySQL-Compatible Edition.
+    #   @return [String]
+    #
+    # @!attribute [rw] settings
+    #   The settings in JSON format for a data provider.
+    #   @return [Types::DataProviderSettings]
+    #
+    # @!attribute [rw] tags
+    #   One or more tags to be assigned to the data provider.
+    #   @return [Array<Types::Tag>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/CreateDataProviderMessage AWS API Documentation
+    #
+    class CreateDataProviderMessage < Struct.new(
+      :data_provider_name,
+      :description,
+      :engine,
+      :settings,
+      :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] data_provider
+    #   The data provider that was created.
+    #   @return [Types::DataProvider]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/CreateDataProviderResponse AWS API Documentation
+    #
+    class CreateDataProviderResponse < Struct.new(
+      :data_provider)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] endpoint_identifier
     #   The database endpoint identifier. Identifiers must begin with a
     #   letter and must contain only ASCII letters, digits, and hyphens.
@@ -452,8 +735,10 @@ module Aws::DatabaseMigrationService
     #   `"mariadb"`, `"aurora"`, `"aurora-postgresql"`, `"opensearch"`,
     #   `"redshift"`, `"s3"`, `"db2"`, `"db2-zos"`, `"azuredb"`, `"sybase"`,
     #   `"dynamodb"`, `"mongodb"`, `"kinesis"`, `"kafka"`,
-    #   `"elasticsearch"`, `"docdb"`, `"sqlserver"`, `"neptune"`, and
-    #   `"babelfish"`.
+    #   `"elasticsearch"`, `"docdb"`, `"sqlserver"`, `"neptune"`,
+    #   `"babelfish"`, `redshift-serverless`, `aurora-serverless`,
+    #   `aurora-postgresql-serverless`, `gcp-mysql`,
+    #   `azure-sql-managed-instance`, `redis`, `dms-transfer`.
     #   @return [String]
     #
     # @!attribute [rw] username
@@ -563,8 +848,8 @@ module Aws::DatabaseMigrationService
     #   Shorthand syntax for these settings is as follows:
     #   `ServiceAccessRoleArn=string,BucketName=string`
     #
-    #   JSON syntax for these settings is as follows: `\{
-    #   "ServiceAccessRoleArn": "string", "BucketName": "string", \} `
+    #   JSON syntax for these settings is as follows: `{
+    #   "ServiceAccessRoleArn": "string", "BucketName": "string", } `
     #   @return [Types::DmsTransferSettings]
     #
     # @!attribute [rw] mongo_db_settings
@@ -730,6 +1015,10 @@ module Aws::DatabaseMigrationService
     #   Settings in JSON format for the source GCP MySQL endpoint.
     #   @return [Types::GcpMySQLSettings]
     #
+    # @!attribute [rw] timestream_settings
+    #   Settings in JSON format for the target Amazon Timestream endpoint.
+    #   @return [Types::TimestreamSettings]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/CreateEndpointMessage AWS API Documentation
     #
     class CreateEndpointMessage < Struct.new(
@@ -766,7 +1055,8 @@ module Aws::DatabaseMigrationService
       :resource_identifier,
       :doc_db_settings,
       :redis_settings,
-      :gcp_my_sql_settings)
+      :gcp_my_sql_settings,
+      :timestream_settings)
       SENSITIVE = [:password]
       include Aws::Structure
     end
@@ -924,6 +1214,282 @@ module Aws::DatabaseMigrationService
       include Aws::Structure
     end
 
+    # @!attribute [rw] availability_zone
+    #   The Availability Zone where the instance profile will be created.
+    #   The default value is a random, system-chosen Availability Zone in
+    #   the Amazon Web Services Region where your data provider is created,
+    #   for examplem `us-east-1d`.
+    #   @return [String]
+    #
+    # @!attribute [rw] kms_key_arn
+    #   The Amazon Resource Name (ARN) of the KMS key that is used to
+    #   encrypt the connection parameters for the instance profile.
+    #
+    #   If you don't specify a value for the `KmsKeyArn` parameter, then
+    #   DMS uses your default encryption key.
+    #
+    #   KMS creates the default encryption key for your Amazon Web Services
+    #   account. Your Amazon Web Services account has a different default
+    #   encryption key for each Amazon Web Services Region.
+    #   @return [String]
+    #
+    # @!attribute [rw] publicly_accessible
+    #   Specifies the accessibility options for the instance profile. A
+    #   value of `true` represents an instance profile with a public IP
+    #   address. A value of `false` represents an instance profile with a
+    #   private IP address. The default value is `true`.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] tags
+    #   One or more tags to be assigned to the instance profile.
+    #   @return [Array<Types::Tag>]
+    #
+    # @!attribute [rw] network_type
+    #   Specifies the network type for the instance profile. A value of
+    #   `IPV4` represents an instance profile with IPv4 network type and
+    #   only supports IPv4 addressing. A value of `IPV6` represents an
+    #   instance profile with IPv6 network type and only supports IPv6
+    #   addressing. A value of `DUAL` represents an instance profile with
+    #   dual network type that supports IPv4 and IPv6 addressing.
+    #   @return [String]
+    #
+    # @!attribute [rw] instance_profile_name
+    #   A user-friendly name for the instance profile.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   A user-friendly description of the instance profile.
+    #   @return [String]
+    #
+    # @!attribute [rw] subnet_group_identifier
+    #   A subnet group to associate with the instance profile.
+    #   @return [String]
+    #
+    # @!attribute [rw] vpc_security_groups
+    #   Specifies the VPC security group names to be used with the instance
+    #   profile. The VPC security group must work with the VPC containing
+    #   the instance profile.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/CreateInstanceProfileMessage AWS API Documentation
+    #
+    class CreateInstanceProfileMessage < Struct.new(
+      :availability_zone,
+      :kms_key_arn,
+      :publicly_accessible,
+      :tags,
+      :network_type,
+      :instance_profile_name,
+      :description,
+      :subnet_group_identifier,
+      :vpc_security_groups)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] instance_profile
+    #   The instance profile that was created.
+    #   @return [Types::InstanceProfile]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/CreateInstanceProfileResponse AWS API Documentation
+    #
+    class CreateInstanceProfileResponse < Struct.new(
+      :instance_profile)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] migration_project_name
+    #   A user-friendly name for the migration project.
+    #   @return [String]
+    #
+    # @!attribute [rw] source_data_provider_descriptors
+    #   Information about the source data provider, including the name, ARN,
+    #   and Secrets Manager parameters.
+    #   @return [Array<Types::DataProviderDescriptorDefinition>]
+    #
+    # @!attribute [rw] target_data_provider_descriptors
+    #   Information about the target data provider, including the name, ARN,
+    #   and Amazon Web Services Secrets Manager parameters.
+    #   @return [Array<Types::DataProviderDescriptorDefinition>]
+    #
+    # @!attribute [rw] instance_profile_identifier
+    #   The identifier of the associated instance profile. Identifiers must
+    #   begin with a letter and must contain only ASCII letters, digits, and
+    #   hyphens. They can't end with a hyphen, or contain two consecutive
+    #   hyphens.
+    #   @return [String]
+    #
+    # @!attribute [rw] transformation_rules
+    #   The settings in JSON format for migration rules. Migration rules
+    #   make it possible for you to change the object names according to the
+    #   rules that you specify. For example, you can change an object name
+    #   to lowercase or uppercase, add or remove a prefix or suffix, or
+    #   rename objects.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   A user-friendly description of the migration project.
+    #   @return [String]
+    #
+    # @!attribute [rw] tags
+    #   One or more tags to be assigned to the migration project.
+    #   @return [Array<Types::Tag>]
+    #
+    # @!attribute [rw] schema_conversion_application_attributes
+    #   The schema conversion application attributes, including the Amazon
+    #   S3 bucket name and Amazon S3 role ARN.
+    #   @return [Types::SCApplicationAttributes]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/CreateMigrationProjectMessage AWS API Documentation
+    #
+    class CreateMigrationProjectMessage < Struct.new(
+      :migration_project_name,
+      :source_data_provider_descriptors,
+      :target_data_provider_descriptors,
+      :instance_profile_identifier,
+      :transformation_rules,
+      :description,
+      :tags,
+      :schema_conversion_application_attributes)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] migration_project
+    #   The migration project that was created.
+    #   @return [Types::MigrationProject]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/CreateMigrationProjectResponse AWS API Documentation
+    #
+    class CreateMigrationProjectResponse < Struct.new(
+      :migration_project)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] replication_config_identifier
+    #   A unique identifier that you want to use to create a
+    #   `ReplicationConfigArn` that is returned as part of the output from
+    #   this action. You can then pass this output `ReplicationConfigArn` as
+    #   the value of the `ReplicationConfigArn` option for other actions to
+    #   identify both DMS Serverless replications and replication
+    #   configurations that you want those actions to operate on. For some
+    #   actions, you can also use either this unique identifier or a
+    #   corresponding ARN in action filters to identify the specific
+    #   replication and replication configuration to operate on.
+    #   @return [String]
+    #
+    # @!attribute [rw] source_endpoint_arn
+    #   The Amazon Resource Name (ARN) of the source endpoint for this DMS
+    #   Serverless replication configuration.
+    #   @return [String]
+    #
+    # @!attribute [rw] target_endpoint_arn
+    #   The Amazon Resource Name (ARN) of the target endpoint for this DMS
+    #   serverless replication configuration.
+    #   @return [String]
+    #
+    # @!attribute [rw] compute_config
+    #   Configuration parameters for provisioning an DMS Serverless
+    #   replication.
+    #   @return [Types::ComputeConfig]
+    #
+    # @!attribute [rw] replication_type
+    #   The type of DMS Serverless replication to provision using this
+    #   replication configuration.
+    #
+    #   Possible values:
+    #
+    #   * `"full-load"`
+    #
+    #   * `"cdc"`
+    #
+    #   * `"full-load-and-cdc"`
+    #   @return [String]
+    #
+    # @!attribute [rw] table_mappings
+    #   JSON table mappings for DMS Serverless replications that are
+    #   provisioned using this replication configuration. For more
+    #   information, see [ Specifying table selection and transformations
+    #   rules using JSON][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Tasks.CustomizingTasks.TableMapping.SelectionTransformation.html
+    #   @return [String]
+    #
+    # @!attribute [rw] replication_settings
+    #   Optional JSON settings for DMS Serverless replications that are
+    #   provisioned using this replication configuration. For example, see [
+    #   Change processing tuning settings][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Tasks.CustomizingTasks.TaskSettings.ChangeProcessingTuning.html
+    #   @return [String]
+    #
+    # @!attribute [rw] supplemental_settings
+    #   Optional JSON settings for specifying supplemental data. For more
+    #   information, see [ Specifying supplemental data for task
+    #   settings][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Tasks.TaskData.html
+    #   @return [String]
+    #
+    # @!attribute [rw] resource_identifier
+    #   Optional unique value or name that you set for a given resource that
+    #   can be used to construct an Amazon Resource Name (ARN) for that
+    #   resource. For more information, see [ Fine-grained access control
+    #   using resource names and tags][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Security.html#CHAP_Security.FineGrainedAccess
+    #   @return [String]
+    #
+    # @!attribute [rw] tags
+    #   One or more optional tags associated with resources used by the DMS
+    #   Serverless replication. For more information, see [ Tagging
+    #   resources in Database Migration Service][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Tagging.html
+    #   @return [Array<Types::Tag>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/CreateReplicationConfigMessage AWS API Documentation
+    #
+    class CreateReplicationConfigMessage < Struct.new(
+      :replication_config_identifier,
+      :source_endpoint_arn,
+      :target_endpoint_arn,
+      :compute_config,
+      :replication_type,
+      :table_mappings,
+      :replication_settings,
+      :supplemental_settings,
+      :resource_identifier,
+      :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] replication_config
+    #   Configuration parameters returned from the DMS Serverless
+    #   replication after it is created.
+    #   @return [Types::ReplicationConfig]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/CreateReplicationConfigResponse AWS API Documentation
+    #
+    class CreateReplicationConfigResponse < Struct.new(
+      :replication_config)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] replication_instance_identifier
     #   The replication instance identifier. This parameter is stored as a
     #   lowercase string.
@@ -951,12 +1517,14 @@ module Aws::DatabaseMigrationService
     #   `"dms.c4.large"`.
     #
     #   For more information on the settings and capacities for the
-    #   available replication instance classes, see [ Selecting the right
-    #   DMS replication instance for your migration][1].
+    #   available replication instance classes, see [ Choosing the right DMS
+    #   replication instance][1]; and, [Selecting the best size for a
+    #   replication instance][2].
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/dms/latest/userguide/CHAP_ReplicationInstance.html#CHAP_ReplicationInstance.InDepth
+    #   [1]: https://docs.aws.amazon.com/dms/latest/userguide/CHAP_ReplicationInstance.Types.html
+    #   [2]: https://docs.aws.amazon.com/dms/latest/userguide/CHAP_BestPractices.SizingReplicationInstance.html
     #   @return [String]
     #
     # @!attribute [rw] vpc_security_group_ids
@@ -969,7 +1537,7 @@ module Aws::DatabaseMigrationService
     #   The Availability Zone where the replication instance will be
     #   created. The default value is a random, system-chosen Availability
     #   Zone in the endpoint's Amazon Web Services Region, for example:
-    #   `us-east-1d`
+    #   `us-east-1d`.
     #   @return [String]
     #
     # @!attribute [rw] replication_subnet_group_identifier
@@ -1065,6 +1633,11 @@ module Aws::DatabaseMigrationService
     #   addressing. IPv6 only is not yet supported.
     #   @return [String]
     #
+    # @!attribute [rw] kerberos_authentication_settings
+    #   Specifies the settings required for kerberos authentication when
+    #   creating the replication instance.
+    #   @return [Types::KerberosAuthenticationSettings]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/CreateReplicationInstanceMessage AWS API Documentation
     #
     class CreateReplicationInstanceMessage < Struct.new(
@@ -1083,7 +1656,8 @@ module Aws::DatabaseMigrationService
       :publicly_accessible,
       :dns_name_servers,
       :resource_identifier,
-      :network_type)
+      :network_type,
+      :kerberos_authentication_settings)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1105,7 +1679,7 @@ module Aws::DatabaseMigrationService
     #   lowercase string.
     #
     #   Constraints: Must contain no more than 255 alphanumeric characters,
-    #   periods, spaces, underscores, or hyphens. Must not be "default".
+    #   periods, underscores, or hyphens. Must not be "default".
     #
     #   Example: `mySubnetgroup`
     #   @return [String]
@@ -1115,7 +1689,7 @@ module Aws::DatabaseMigrationService
     #   @return [String]
     #
     # @!attribute [rw] subnet_ids
-    #   One or more subnet IDs to be assigned to the subnet group.
+    #   Two or more subnet IDs to be assigned to the subnet group.
     #   @return [Array<String>]
     #
     # @!attribute [rw] tags
@@ -1241,8 +1815,8 @@ module Aws::DatabaseMigrationService
     #   Server time example: --cdc-stop-position
     #   “server\_time:2018-02-09T12:12:12”
     #
-    #   Commit time example: --cdc-stop-position “commit\_time:
-    #   2018-02-09T12:12:12 “
+    #   Commit time example: --cdc-stop-position
+    #   “commit\_time:2018-02-09T12:12:12“
     #   @return [String]
     #
     # @!attribute [rw] tags
@@ -1304,6 +1878,373 @@ module Aws::DatabaseMigrationService
       :replication_task)
       SENSITIVE = []
       include Aws::Structure
+    end
+
+    # This object provides information about a DMS data migration.
+    #
+    # @!attribute [rw] data_migration_name
+    #   The user-friendly name for the data migration.
+    #   @return [String]
+    #
+    # @!attribute [rw] data_migration_arn
+    #   The Amazon Resource Name (ARN) that identifies this replication.
+    #   @return [String]
+    #
+    # @!attribute [rw] data_migration_create_time
+    #   The UTC time when DMS created the data migration.
+    #   @return [Time]
+    #
+    # @!attribute [rw] data_migration_start_time
+    #   The UTC time when DMS started the data migration.
+    #   @return [Time]
+    #
+    # @!attribute [rw] data_migration_end_time
+    #   The UTC time when data migration ended.
+    #   @return [Time]
+    #
+    # @!attribute [rw] service_access_role_arn
+    #   The IAM role that the data migration uses to access Amazon Web
+    #   Services resources.
+    #   @return [String]
+    #
+    # @!attribute [rw] migration_project_arn
+    #   The Amazon Resource Name (ARN) of the data migration's associated
+    #   migration project.
+    #   @return [String]
+    #
+    # @!attribute [rw] data_migration_type
+    #   Specifies whether the data migration is full-load only, change data
+    #   capture (CDC) only, or full-load and CDC.
+    #   @return [String]
+    #
+    # @!attribute [rw] data_migration_settings
+    #   Specifies CloudWatch settings and selection rules for the data
+    #   migration.
+    #   @return [Types::DataMigrationSettings]
+    #
+    # @!attribute [rw] source_data_settings
+    #   Specifies information about the data migration's source data
+    #   provider.
+    #   @return [Array<Types::SourceDataSetting>]
+    #
+    # @!attribute [rw] target_data_settings
+    #   Specifies information about the data migration's target data
+    #   provider.
+    #   @return [Array<Types::TargetDataSetting>]
+    #
+    # @!attribute [rw] data_migration_statistics
+    #   Provides information about the data migration's run, including
+    #   start and stop time, latency, and data migration progress.
+    #   @return [Types::DataMigrationStatistics]
+    #
+    # @!attribute [rw] data_migration_status
+    #   The current status of the data migration.
+    #   @return [String]
+    #
+    # @!attribute [rw] public_ip_addresses
+    #   The IP addresses of the endpoints for the data migration.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] data_migration_cidr_blocks
+    #   The CIDR blocks of the endpoints for the data migration.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] last_failure_message
+    #   Information about the data migration's most recent error or
+    #   failure.
+    #   @return [String]
+    #
+    # @!attribute [rw] stop_reason
+    #   The reason the data migration last stopped.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/DataMigration AWS API Documentation
+    #
+    class DataMigration < Struct.new(
+      :data_migration_name,
+      :data_migration_arn,
+      :data_migration_create_time,
+      :data_migration_start_time,
+      :data_migration_end_time,
+      :service_access_role_arn,
+      :migration_project_arn,
+      :data_migration_type,
+      :data_migration_settings,
+      :source_data_settings,
+      :target_data_settings,
+      :data_migration_statistics,
+      :data_migration_status,
+      :public_ip_addresses,
+      :data_migration_cidr_blocks,
+      :last_failure_message,
+      :stop_reason)
+      SENSITIVE = [:public_ip_addresses]
+      include Aws::Structure
+    end
+
+    # Options for configuring a data migration, including whether to enable
+    # CloudWatch logs, and the selection rules to use to include or exclude
+    # database objects from the migration.
+    #
+    # @!attribute [rw] number_of_jobs
+    #   The number of parallel jobs that trigger parallel threads to unload
+    #   the tables from the source, and then load them to the target.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] cloudwatch_logs_enabled
+    #   Whether to enable CloudWatch logging for the data migration.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] selection_rules
+    #   A JSON-formatted string that defines what objects to include and
+    #   exclude from the migration.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/DataMigrationSettings AWS API Documentation
+    #
+    class DataMigrationSettings < Struct.new(
+      :number_of_jobs,
+      :cloudwatch_logs_enabled,
+      :selection_rules)
+      SENSITIVE = [:selection_rules]
+      include Aws::Structure
+    end
+
+    # Information about the data migration run, including start and stop
+    # time, latency, and migration progress.
+    #
+    # @!attribute [rw] tables_loaded
+    #   The number of tables loaded in the current data migration run.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] elapsed_time_millis
+    #   The elapsed duration of the data migration run.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] tables_loading
+    #   The data migration's table loading progress.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] full_load_percentage
+    #   The data migration's progress in the full-load migration phase.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] cdc_latency
+    #   The current latency of the change data capture (CDC) operation.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] tables_queued
+    #   The number of tables that are waiting for processing.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] tables_errored
+    #   The number of tables that DMS failed to process.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] start_time
+    #   The time when the migration started.
+    #   @return [Time]
+    #
+    # @!attribute [rw] stop_time
+    #   The time when the migration stopped or failed.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/DataMigrationStatistics AWS API Documentation
+    #
+    class DataMigrationStatistics < Struct.new(
+      :tables_loaded,
+      :elapsed_time_millis,
+      :tables_loading,
+      :full_load_percentage,
+      :cdc_latency,
+      :tables_queued,
+      :tables_errored,
+      :start_time,
+      :stop_time)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Provides information that defines a data provider.
+    #
+    # @!attribute [rw] data_provider_name
+    #   The name of the data provider.
+    #   @return [String]
+    #
+    # @!attribute [rw] data_provider_arn
+    #   The Amazon Resource Name (ARN) string that uniquely identifies the
+    #   data provider.
+    #   @return [String]
+    #
+    # @!attribute [rw] data_provider_creation_time
+    #   The time the data provider was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] description
+    #   A description of the data provider. Descriptions can have up to 31
+    #   characters. A description can contain only ASCII letters, digits,
+    #   and hyphens ('-'). Also, it can't end with a hyphen or contain
+    #   two consecutive hyphens, and can only begin with a letter.
+    #   @return [String]
+    #
+    # @!attribute [rw] engine
+    #   The type of database engine for the data provider. Valid values
+    #   include `"aurora"`, `"aurora-postgresql"`, `"mysql"`, `"oracle"`,
+    #   `"postgres"`, `"sqlserver"`, `redshift`, `mariadb`, `mongodb`,
+    #   `db2`, `db2-zos` and `docdb`. A value of `"aurora"` represents
+    #   Amazon Aurora MySQL-Compatible Edition.
+    #   @return [String]
+    #
+    # @!attribute [rw] settings
+    #   The settings in JSON format for a data provider.
+    #   @return [Types::DataProviderSettings]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/DataProvider AWS API Documentation
+    #
+    class DataProvider < Struct.new(
+      :data_provider_name,
+      :data_provider_arn,
+      :data_provider_creation_time,
+      :description,
+      :engine,
+      :settings)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Information about a data provider.
+    #
+    # @!attribute [rw] secrets_manager_secret_id
+    #   The identifier of the Amazon Web Services Secrets Manager Secret
+    #   used to store access credentials for the data provider.
+    #   @return [String]
+    #
+    # @!attribute [rw] secrets_manager_access_role_arn
+    #   The ARN of the role used to access Amazon Web Services Secrets
+    #   Manager.
+    #   @return [String]
+    #
+    # @!attribute [rw] data_provider_name
+    #   The user-friendly name of the data provider.
+    #   @return [String]
+    #
+    # @!attribute [rw] data_provider_arn
+    #   The Amazon Resource Name (ARN) of the data provider.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/DataProviderDescriptor AWS API Documentation
+    #
+    class DataProviderDescriptor < Struct.new(
+      :secrets_manager_secret_id,
+      :secrets_manager_access_role_arn,
+      :data_provider_name,
+      :data_provider_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Information about a data provider.
+    #
+    # @!attribute [rw] data_provider_identifier
+    #   The name or Amazon Resource Name (ARN) of the data provider.
+    #   @return [String]
+    #
+    # @!attribute [rw] secrets_manager_secret_id
+    #   The identifier of the Amazon Web Services Secrets Manager Secret
+    #   used to store access credentials for the data provider.
+    #   @return [String]
+    #
+    # @!attribute [rw] secrets_manager_access_role_arn
+    #   The ARN of the role used to access Amazon Web Services Secrets
+    #   Manager.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/DataProviderDescriptorDefinition AWS API Documentation
+    #
+    class DataProviderDescriptorDefinition < Struct.new(
+      :data_provider_identifier,
+      :secrets_manager_secret_id,
+      :secrets_manager_access_role_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Provides information that defines a data provider.
+    #
+    # @note DataProviderSettings is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @note DataProviderSettings is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of DataProviderSettings corresponding to the set member.
+    #
+    # @!attribute [rw] redshift_settings
+    #   Provides information that defines an Amazon Redshift data provider.
+    #   @return [Types::RedshiftDataProviderSettings]
+    #
+    # @!attribute [rw] postgre_sql_settings
+    #   Provides information that defines a PostgreSQL data provider.
+    #   @return [Types::PostgreSqlDataProviderSettings]
+    #
+    # @!attribute [rw] my_sql_settings
+    #   Provides information that defines a MySQL data provider.
+    #   @return [Types::MySqlDataProviderSettings]
+    #
+    # @!attribute [rw] oracle_settings
+    #   Provides information that defines an Oracle data provider.
+    #   @return [Types::OracleDataProviderSettings]
+    #
+    # @!attribute [rw] microsoft_sql_server_settings
+    #   Provides information that defines a Microsoft SQL Server data
+    #   provider.
+    #   @return [Types::MicrosoftSqlServerDataProviderSettings]
+    #
+    # @!attribute [rw] doc_db_settings
+    #   Provides information that defines a DocumentDB data provider.
+    #   @return [Types::DocDbDataProviderSettings]
+    #
+    # @!attribute [rw] maria_db_settings
+    #   Provides information that defines a MariaDB data provider.
+    #   @return [Types::MariaDbDataProviderSettings]
+    #
+    # @!attribute [rw] ibm_db_2_luw_settings
+    #   Provides information that defines an IBM DB2 LUW data provider.
+    #   @return [Types::IbmDb2LuwDataProviderSettings]
+    #
+    # @!attribute [rw] ibm_db_2z_os_settings
+    #   Provides information that defines an IBM DB2 for z/OS data provider.
+    #   @return [Types::IbmDb2zOsDataProviderSettings]
+    #
+    # @!attribute [rw] mongo_db_settings
+    #   Provides information that defines a MongoDB data provider.
+    #   @return [Types::MongoDbDataProviderSettings]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/DataProviderSettings AWS API Documentation
+    #
+    class DataProviderSettings < Struct.new(
+      :redshift_settings,
+      :postgre_sql_settings,
+      :my_sql_settings,
+      :oracle_settings,
+      :microsoft_sql_server_settings,
+      :doc_db_settings,
+      :maria_db_settings,
+      :ibm_db_2_luw_settings,
+      :ibm_db_2z_os_settings,
+      :mongo_db_settings,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class RedshiftSettings < DataProviderSettings; end
+      class PostgreSqlSettings < DataProviderSettings; end
+      class MySqlSettings < DataProviderSettings; end
+      class OracleSettings < DataProviderSettings; end
+      class MicrosoftSqlServerSettings < DataProviderSettings; end
+      class DocDbSettings < DataProviderSettings; end
+      class MariaDbSettings < DataProviderSettings; end
+      class IbmDb2LuwSettings < DataProviderSettings; end
+      class IbmDb2zOsSettings < DataProviderSettings; end
+      class MongoDbSettings < DataProviderSettings; end
+      class Unknown < DataProviderSettings; end
     end
 
     # Describes an inventory database instance for a Fleet Advisor
@@ -1432,6 +2373,20 @@ module Aws::DatabaseMigrationService
       include Aws::Structure
     end
 
+    # Provides error information about a schema conversion operation.
+    #
+    # @!attribute [rw] message
+    #   The error message.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/DefaultErrorDetails AWS API Documentation
+    #
+    class DefaultErrorDetails < Struct.new(
+      :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] certificate_arn
     #   The Amazon Resource Name (ARN) of the certificate.
     #   @return [String]
@@ -1494,6 +2449,54 @@ module Aws::DatabaseMigrationService
     #
     class DeleteConnectionResponse < Struct.new(
       :connection)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] data_migration_identifier
+    #   The identifier (name or ARN) of the data migration to delete.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/DeleteDataMigrationMessage AWS API Documentation
+    #
+    class DeleteDataMigrationMessage < Struct.new(
+      :data_migration_identifier)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] data_migration
+    #   The deleted data migration.
+    #   @return [Types::DataMigration]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/DeleteDataMigrationResponse AWS API Documentation
+    #
+    class DeleteDataMigrationResponse < Struct.new(
+      :data_migration)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] data_provider_identifier
+    #   The identifier of the data provider to delete.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/DeleteDataProviderMessage AWS API Documentation
+    #
+    class DeleteDataProviderMessage < Struct.new(
+      :data_provider_identifier)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] data_provider
+    #   The data provider that was deleted.
+    #   @return [Types::DataProvider]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/DeleteDataProviderResponse AWS API Documentation
+    #
+    class DeleteDataProviderResponse < Struct.new(
+      :data_provider)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1567,6 +2570,80 @@ module Aws::DatabaseMigrationService
     #
     class DeleteFleetAdvisorDatabasesResponse < Struct.new(
       :database_ids)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] instance_profile_identifier
+    #   The identifier of the instance profile to delete.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/DeleteInstanceProfileMessage AWS API Documentation
+    #
+    class DeleteInstanceProfileMessage < Struct.new(
+      :instance_profile_identifier)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] instance_profile
+    #   The instance profile that was deleted.
+    #   @return [Types::InstanceProfile]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/DeleteInstanceProfileResponse AWS API Documentation
+    #
+    class DeleteInstanceProfileResponse < Struct.new(
+      :instance_profile)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] migration_project_identifier
+    #   The name or Amazon Resource Name (ARN) of the migration project to
+    #   delete.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/DeleteMigrationProjectMessage AWS API Documentation
+    #
+    class DeleteMigrationProjectMessage < Struct.new(
+      :migration_project_identifier)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] migration_project
+    #   The migration project that was deleted.
+    #   @return [Types::MigrationProject]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/DeleteMigrationProjectResponse AWS API Documentation
+    #
+    class DeleteMigrationProjectResponse < Struct.new(
+      :migration_project)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] replication_config_arn
+    #   The replication config to delete.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/DeleteReplicationConfigMessage AWS API Documentation
+    #
+    class DeleteReplicationConfigMessage < Struct.new(
+      :replication_config_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] replication_config
+    #   Configuration parameters returned for the DMS Serverless replication
+    #   after it is deleted.
+    #   @return [Types::ReplicationConfig]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/DeleteReplicationConfigResponse AWS API Documentation
+    #
+    class DeleteReplicationConfigResponse < Struct.new(
+      :replication_config)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1708,6 +2785,11 @@ module Aws::DatabaseMigrationService
     #   list of individual assessments.
     #   @return [String]
     #
+    # @!attribute [rw] replication_config_arn
+    #   Amazon Resource Name (ARN) of a serverless replication on which you
+    #   want to base the default list of individual assessments.
+    #   @return [String]
+    #
     # @!attribute [rw] source_engine_name
     #   Name of a database engine that the specified replication instance
     #   supports as a source.
@@ -1741,6 +2823,7 @@ module Aws::DatabaseMigrationService
     class DescribeApplicableIndividualAssessmentsMessage < Struct.new(
       :replication_task_arn,
       :replication_instance_arn,
+      :replication_config_arn,
       :source_engine_name,
       :target_engine_name,
       :migration_type,
@@ -1880,8 +2963,163 @@ module Aws::DatabaseMigrationService
       include Aws::Structure
     end
 
+    # @!attribute [rw] migration_project_identifier
+    #   The name or Amazon Resource Name (ARN) for the schema conversion
+    #   project to describe.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/DescribeConversionConfigurationMessage AWS API Documentation
+    #
+    class DescribeConversionConfigurationMessage < Struct.new(
+      :migration_project_identifier)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] migration_project_identifier
+    #   The name or Amazon Resource Name (ARN) for the schema conversion
+    #   project.
+    #   @return [String]
+    #
+    # @!attribute [rw] conversion_configuration
+    #   The configuration parameters for the schema conversion project.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/DescribeConversionConfigurationResponse AWS API Documentation
+    #
+    class DescribeConversionConfigurationResponse < Struct.new(
+      :migration_project_identifier,
+      :conversion_configuration)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] filters
+    #   Filters applied to the data migrations.
+    #   @return [Array<Types::Filter>]
+    #
+    # @!attribute [rw] max_records
+    #   The maximum number of records to include in the response. If more
+    #   records exist than the specified `MaxRecords` value, a pagination
+    #   token called a marker is included in the response so that the
+    #   remaining results can be retrieved.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] marker
+    #   An optional pagination token provided by a previous request. If this
+    #   parameter is specified, the response includes only records beyond
+    #   the marker, up to the value specified by `MaxRecords`.
+    #   @return [String]
+    #
+    # @!attribute [rw] without_settings
+    #   An option to set to avoid returning information about settings. Use
+    #   this to reduce overhead when setting information is too large. To
+    #   use this option, choose `true`; otherwise, choose `false` (the
+    #   default).
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] without_statistics
+    #   An option to set to avoid returning information about statistics.
+    #   Use this to reduce overhead when statistics information is too
+    #   large. To use this option, choose `true`; otherwise, choose `false`
+    #   (the default).
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/DescribeDataMigrationsMessage AWS API Documentation
+    #
+    class DescribeDataMigrationsMessage < Struct.new(
+      :filters,
+      :max_records,
+      :marker,
+      :without_settings,
+      :without_statistics)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] data_migrations
+    #   Returns information about the data migrations used in the project.
+    #   @return [Array<Types::DataMigration>]
+    #
+    # @!attribute [rw] marker
+    #   An optional pagination token provided by a previous request. If this
+    #   parameter is specified, the response includes only records beyond
+    #   the marker, up to the value specified by `MaxRecords`.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/DescribeDataMigrationsResponse AWS API Documentation
+    #
+    class DescribeDataMigrationsResponse < Struct.new(
+      :data_migrations,
+      :marker)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] filters
+    #   Filters applied to the data providers described in the form of
+    #   key-value pairs.
+    #
+    #   Valid filter names and values: data-provider-identifier, data
+    #   provider arn or name
+    #   @return [Array<Types::Filter>]
+    #
+    # @!attribute [rw] max_records
+    #   The maximum number of records to include in the response. If more
+    #   records exist than the specified `MaxRecords` value, DMS includes a
+    #   pagination token in the response so that you can retrieve the
+    #   remaining results.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] marker
+    #   Specifies the unique pagination token that makes it possible to
+    #   display the next page of results. If this parameter is specified,
+    #   the response includes only records beyond the marker, up to the
+    #   value specified by `MaxRecords`.
+    #
+    #   If `Marker` is returned by a previous response, there are more
+    #   results available. The value of `Marker` is a unique pagination
+    #   token for each page. To retrieve the next page, make the call again
+    #   using the returned token and keeping all other arguments unchanged.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/DescribeDataProvidersMessage AWS API Documentation
+    #
+    class DescribeDataProvidersMessage < Struct.new(
+      :filters,
+      :max_records,
+      :marker)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] marker
+    #   Specifies the unique pagination token that makes it possible to
+    #   display the next page of results. If this parameter is specified,
+    #   the response includes only records beyond the marker, up to the
+    #   value specified by `MaxRecords`.
+    #
+    #   If `Marker` is returned by a previous response, there are more
+    #   results available. The value of `Marker` is a unique pagination
+    #   token for each page. To retrieve the next page, make the call again
+    #   using the returned token and keeping all other arguments unchanged.
+    #   @return [String]
+    #
+    # @!attribute [rw] data_providers
+    #   A description of data providers.
+    #   @return [Array<Types::DataProvider>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/DescribeDataProvidersResponse AWS API Documentation
+    #
+    class DescribeDataProvidersResponse < Struct.new(
+      :marker,
+      :data_providers)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] engine_name
-    #   The databse engine used for your source or target endpoint.
+    #   The database engine used for your source or target endpoint.
     #   @return [String]
     #
     # @!attribute [rw] max_records
@@ -2028,6 +3266,48 @@ module Aws::DatabaseMigrationService
     class DescribeEndpointsResponse < Struct.new(
       :marker,
       :endpoints)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] max_records
+    #   The maximum number of records to include in the response. If more
+    #   records exist than the specified `MaxRecords` value, a pagination
+    #   token called a marker is included in the response so that the
+    #   remaining results can be retrieved.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] marker
+    #   An optional pagination token provided by a previous request. If this
+    #   parameter is specified, the response includes only records beyond
+    #   the marker, up to the value specified by `MaxRecords`.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/DescribeEngineVersionsMessage AWS API Documentation
+    #
+    class DescribeEngineVersionsMessage < Struct.new(
+      :max_records,
+      :marker)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] engine_versions
+    #   Returned `EngineVersion` objects that describe the replication
+    #   instance engine versions used in the project.
+    #   @return [Array<Types::EngineVersion>]
+    #
+    # @!attribute [rw] marker
+    #   An optional pagination token provided by a previous request. If this
+    #   parameter is specified, the response includes only records beyond
+    #   the marker, up to the value specified by `MaxRecords`.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/DescribeEngineVersionsResponse AWS API Documentation
+    #
+    class DescribeEngineVersionsResponse < Struct.new(
+      :engine_versions,
+      :marker)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2199,6 +3479,71 @@ module Aws::DatabaseMigrationService
     class DescribeEventsResponse < Struct.new(
       :marker,
       :events)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] migration_project_identifier
+    #   The name or Amazon Resource Name (ARN) for the migration project.
+    #   @return [String]
+    #
+    # @!attribute [rw] filters
+    #   Filters applied to the extension pack associations described in the
+    #   form of key-value pairs.
+    #   @return [Array<Types::Filter>]
+    #
+    # @!attribute [rw] marker
+    #   Specifies the unique pagination token that makes it possible to
+    #   display the next page of results. If this parameter is specified,
+    #   the response includes only records beyond the marker, up to the
+    #   value specified by `MaxRecords`.
+    #
+    #   If `Marker` is returned by a previous response, there are more
+    #   results available. The value of `Marker` is a unique pagination
+    #   token for each page. To retrieve the next page, make the call again
+    #   using the returned token and keeping all other arguments unchanged.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_records
+    #   The maximum number of records to include in the response. If more
+    #   records exist than the specified `MaxRecords` value, DMS includes a
+    #   pagination token in the response so that you can retrieve the
+    #   remaining results.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/DescribeExtensionPackAssociationsMessage AWS API Documentation
+    #
+    class DescribeExtensionPackAssociationsMessage < Struct.new(
+      :migration_project_identifier,
+      :filters,
+      :marker,
+      :max_records)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] marker
+    #   Specifies the unique pagination token that makes it possible to
+    #   display the next page of results. If this parameter is specified,
+    #   the response includes only records beyond the marker, up to the
+    #   value specified by `MaxRecords`.
+    #
+    #   If `Marker` is returned by a previous response, there are more
+    #   results available. The value of `Marker` is a unique pagination
+    #   token for each page. To retrieve the next page, make the call again
+    #   using the returned token and keeping all other arguments unchanged.
+    #   @return [String]
+    #
+    # @!attribute [rw] requests
+    #   A paginated list of extension pack associations for the specified
+    #   migration project.
+    #   @return [Array<Types::SchemaConversionRequest>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/DescribeExtensionPackAssociationsResponse AWS API Documentation
+    #
+    class DescribeExtensionPackAssociationsResponse < Struct.new(
+      :marker,
+      :requests)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2485,6 +3830,453 @@ module Aws::DatabaseMigrationService
       include Aws::Structure
     end
 
+    # @!attribute [rw] filters
+    #   Filters applied to the instance profiles described in the form of
+    #   key-value pairs.
+    #
+    #   Valid filter names and values: instance-profile-identifier, instance
+    #   profile arn or name
+    #   @return [Array<Types::Filter>]
+    #
+    # @!attribute [rw] max_records
+    #   The maximum number of records to include in the response. If more
+    #   records exist than the specified `MaxRecords` value, DMS includes a
+    #   pagination token in the response so that you can retrieve the
+    #   remaining results.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] marker
+    #   Specifies the unique pagination token that makes it possible to
+    #   display the next page of results. If this parameter is specified,
+    #   the response includes only records beyond the marker, up to the
+    #   value specified by `MaxRecords`.
+    #
+    #   If `Marker` is returned by a previous response, there are more
+    #   results available. The value of `Marker` is a unique pagination
+    #   token for each page. To retrieve the next page, make the call again
+    #   using the returned token and keeping all other arguments unchanged.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/DescribeInstanceProfilesMessage AWS API Documentation
+    #
+    class DescribeInstanceProfilesMessage < Struct.new(
+      :filters,
+      :max_records,
+      :marker)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] marker
+    #   Specifies the unique pagination token that makes it possible to
+    #   display the next page of results. If this parameter is specified,
+    #   the response includes only records beyond the marker, up to the
+    #   value specified by `MaxRecords`.
+    #
+    #   If `Marker` is returned by a previous response, there are more
+    #   results available. The value of `Marker` is a unique pagination
+    #   token for each page. To retrieve the next page, make the call again
+    #   using the returned token and keeping all other arguments unchanged.
+    #   @return [String]
+    #
+    # @!attribute [rw] instance_profiles
+    #   A description of instance profiles.
+    #   @return [Array<Types::InstanceProfile>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/DescribeInstanceProfilesResponse AWS API Documentation
+    #
+    class DescribeInstanceProfilesResponse < Struct.new(
+      :marker,
+      :instance_profiles)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] migration_project_identifier
+    #   The name or Amazon Resource Name (ARN) of the migration project.
+    #   @return [String]
+    #
+    # @!attribute [rw] filters
+    #   Filters applied to the metadata model assessments described in the
+    #   form of key-value pairs.
+    #   @return [Array<Types::Filter>]
+    #
+    # @!attribute [rw] marker
+    #   Specifies the unique pagination token that makes it possible to
+    #   display the next page of results. If this parameter is specified,
+    #   the response includes only records beyond the marker, up to the
+    #   value specified by `MaxRecords`.
+    #
+    #   If `Marker` is returned by a previous response, there are more
+    #   results available. The value of `Marker` is a unique pagination
+    #   token for each page. To retrieve the next page, make the call again
+    #   using the returned token and keeping all other arguments unchanged.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_records
+    #   The maximum number of records to include in the response. If more
+    #   records exist than the specified `MaxRecords` value, DMS includes a
+    #   pagination token in the response so that you can retrieve the
+    #   remaining results.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/DescribeMetadataModelAssessmentsMessage AWS API Documentation
+    #
+    class DescribeMetadataModelAssessmentsMessage < Struct.new(
+      :migration_project_identifier,
+      :filters,
+      :marker,
+      :max_records)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] marker
+    #   Specifies the unique pagination token that makes it possible to
+    #   display the next page of results. If this parameter is specified,
+    #   the response includes only records beyond the marker, up to the
+    #   value specified by `MaxRecords`.
+    #
+    #   If `Marker` is returned by a previous response, there are more
+    #   results available. The value of `Marker` is a unique pagination
+    #   token for each page. To retrieve the next page, make the call again
+    #   using the returned token and keeping all other arguments unchanged.
+    #   @return [String]
+    #
+    # @!attribute [rw] requests
+    #   A paginated list of metadata model assessments for the specified
+    #   migration project.
+    #   @return [Array<Types::SchemaConversionRequest>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/DescribeMetadataModelAssessmentsResponse AWS API Documentation
+    #
+    class DescribeMetadataModelAssessmentsResponse < Struct.new(
+      :marker,
+      :requests)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] migration_project_identifier
+    #   The migration project name or Amazon Resource Name (ARN).
+    #   @return [String]
+    #
+    # @!attribute [rw] filters
+    #   Filters applied to the metadata model conversions described in the
+    #   form of key-value pairs.
+    #   @return [Array<Types::Filter>]
+    #
+    # @!attribute [rw] marker
+    #   Specifies the unique pagination token that makes it possible to
+    #   display the next page of results. If this parameter is specified,
+    #   the response includes only records beyond the marker, up to the
+    #   value specified by `MaxRecords`.
+    #
+    #   If `Marker` is returned by a previous response, there are more
+    #   results available. The value of `Marker` is a unique pagination
+    #   token for each page. To retrieve the next page, make the call again
+    #   using the returned token and keeping all other arguments unchanged.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_records
+    #   The maximum number of records to include in the response. If more
+    #   records exist than the specified `MaxRecords` value, DMS includes a
+    #   pagination token in the response so that you can retrieve the
+    #   remaining results.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/DescribeMetadataModelConversionsMessage AWS API Documentation
+    #
+    class DescribeMetadataModelConversionsMessage < Struct.new(
+      :migration_project_identifier,
+      :filters,
+      :marker,
+      :max_records)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] marker
+    #   Specifies the unique pagination token that makes it possible to
+    #   display the next page of results. If this parameter is specified,
+    #   the response includes only records beyond the marker, up to the
+    #   value specified by `MaxRecords`.
+    #
+    #   If `Marker` is returned by a previous response, there are more
+    #   results available. The value of `Marker` is a unique pagination
+    #   token for each page. To retrieve the next page, make the call again
+    #   using the returned token and keeping all other arguments unchanged.
+    #   @return [String]
+    #
+    # @!attribute [rw] requests
+    #   A paginated list of metadata model conversions.
+    #   @return [Array<Types::SchemaConversionRequest>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/DescribeMetadataModelConversionsResponse AWS API Documentation
+    #
+    class DescribeMetadataModelConversionsResponse < Struct.new(
+      :marker,
+      :requests)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] migration_project_identifier
+    #   The migration project name or Amazon Resource Name (ARN).
+    #   @return [String]
+    #
+    # @!attribute [rw] filters
+    #   Filters applied to the metadata model exports described in the form
+    #   of key-value pairs.
+    #   @return [Array<Types::Filter>]
+    #
+    # @!attribute [rw] marker
+    #   Specifies the unique pagination token that makes it possible to
+    #   display the next page of results. If this parameter is specified,
+    #   the response includes only records beyond the marker, up to the
+    #   value specified by `MaxRecords`.
+    #
+    #   If `Marker` is returned by a previous response, there are more
+    #   results available. The value of `Marker` is a unique pagination
+    #   token for each page. To retrieve the next page, make the call again
+    #   using the returned token and keeping all other arguments unchanged.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_records
+    #   The maximum number of records to include in the response. If more
+    #   records exist than the specified `MaxRecords` value, DMS includes a
+    #   pagination token in the response so that you can retrieve the
+    #   remaining results.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/DescribeMetadataModelExportsAsScriptMessage AWS API Documentation
+    #
+    class DescribeMetadataModelExportsAsScriptMessage < Struct.new(
+      :migration_project_identifier,
+      :filters,
+      :marker,
+      :max_records)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] marker
+    #   Specifies the unique pagination token that makes it possible to
+    #   display the next page of results. If this parameter is specified,
+    #   the response includes only records beyond the marker, up to the
+    #   value specified by `MaxRecords`.
+    #
+    #   If `Marker` is returned by a previous response, there are more
+    #   results available. The value of `Marker` is a unique pagination
+    #   token for each page. To retrieve the next page, make the call again
+    #   using the returned token and keeping all other arguments unchanged.
+    #   @return [String]
+    #
+    # @!attribute [rw] requests
+    #   A paginated list of metadata model exports.
+    #   @return [Array<Types::SchemaConversionRequest>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/DescribeMetadataModelExportsAsScriptResponse AWS API Documentation
+    #
+    class DescribeMetadataModelExportsAsScriptResponse < Struct.new(
+      :marker,
+      :requests)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] migration_project_identifier
+    #   The migration project name or Amazon Resource Name (ARN).
+    #   @return [String]
+    #
+    # @!attribute [rw] filters
+    #   Filters applied to the metadata model exports described in the form
+    #   of key-value pairs.
+    #   @return [Array<Types::Filter>]
+    #
+    # @!attribute [rw] marker
+    #   Specifies the unique pagination token that makes it possible to
+    #   display the next page of results. If this parameter is specified,
+    #   the response includes only records beyond the marker, up to the
+    #   value specified by `MaxRecords`.
+    #
+    #   If `Marker` is returned by a previous response, there are more
+    #   results available. The value of `Marker` is a unique pagination
+    #   token for each page. To retrieve the next page, make the call again
+    #   using the returned token and keeping all other arguments unchanged.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_records
+    #   The maximum number of records to include in the response. If more
+    #   records exist than the specified `MaxRecords` value, DMS includes a
+    #   pagination token in the response so that you can retrieve the
+    #   remaining results.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/DescribeMetadataModelExportsToTargetMessage AWS API Documentation
+    #
+    class DescribeMetadataModelExportsToTargetMessage < Struct.new(
+      :migration_project_identifier,
+      :filters,
+      :marker,
+      :max_records)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] marker
+    #   Specifies the unique pagination token that makes it possible to
+    #   display the next page of results. If this parameter is specified,
+    #   the response includes only records beyond the marker, up to the
+    #   value specified by `MaxRecords`.
+    #
+    #   If `Marker` is returned by a previous response, there are more
+    #   results available. The value of `Marker` is a unique pagination
+    #   token for each page. To retrieve the next page, make the call again
+    #   using the returned token and keeping all other arguments unchanged.
+    #   @return [String]
+    #
+    # @!attribute [rw] requests
+    #   A paginated list of metadata model exports.
+    #   @return [Array<Types::SchemaConversionRequest>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/DescribeMetadataModelExportsToTargetResponse AWS API Documentation
+    #
+    class DescribeMetadataModelExportsToTargetResponse < Struct.new(
+      :marker,
+      :requests)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] migration_project_identifier
+    #   The migration project name or Amazon Resource Name (ARN).
+    #   @return [String]
+    #
+    # @!attribute [rw] filters
+    #   Filters applied to the metadata model imports described in the form
+    #   of key-value pairs.
+    #   @return [Array<Types::Filter>]
+    #
+    # @!attribute [rw] marker
+    #   Specifies the unique pagination token that makes it possible to
+    #   display the next page of results. If this parameter is specified,
+    #   the response includes only records beyond the marker, up to the
+    #   value specified by `MaxRecords`.
+    #
+    #   If `Marker` is returned by a previous response, there are more
+    #   results available. The value of `Marker` is a unique pagination
+    #   token for each page. To retrieve the next page, make the call again
+    #   using the returned token and keeping all other arguments unchanged.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_records
+    #   A paginated list of metadata model imports.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/DescribeMetadataModelImportsMessage AWS API Documentation
+    #
+    class DescribeMetadataModelImportsMessage < Struct.new(
+      :migration_project_identifier,
+      :filters,
+      :marker,
+      :max_records)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] marker
+    #   Specifies the unique pagination token that makes it possible to
+    #   display the next page of results. If this parameter is specified,
+    #   the response includes only records beyond the marker, up to the
+    #   value specified by `MaxRecords`.
+    #
+    #   If `Marker` is returned by a previous response, there are more
+    #   results available. The value of `Marker` is a unique pagination
+    #   token for each page. To retrieve the next page, make the call again
+    #   using the returned token and keeping all other arguments unchanged.
+    #   @return [String]
+    #
+    # @!attribute [rw] requests
+    #   A paginated list of metadata model imports.
+    #   @return [Array<Types::SchemaConversionRequest>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/DescribeMetadataModelImportsResponse AWS API Documentation
+    #
+    class DescribeMetadataModelImportsResponse < Struct.new(
+      :marker,
+      :requests)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] filters
+    #   Filters applied to the migration projects described in the form of
+    #   key-value pairs.
+    #
+    #   Valid filter names and values:
+    #
+    #   * instance-profile-identifier, instance profile arn or name
+    #
+    #   * data-provider-identifier, data provider arn or name
+    #
+    #   * migration-project-identifier, migration project arn or name
+    #   @return [Array<Types::Filter>]
+    #
+    # @!attribute [rw] max_records
+    #   The maximum number of records to include in the response. If more
+    #   records exist than the specified `MaxRecords` value, DMS includes a
+    #   pagination token in the response so that you can retrieve the
+    #   remaining results.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] marker
+    #   Specifies the unique pagination token that makes it possible to
+    #   display the next page of results. If this parameter is specified,
+    #   the response includes only records beyond the marker, up to the
+    #   value specified by `MaxRecords`.
+    #
+    #   If `Marker` is returned by a previous response, there are more
+    #   results available. The value of `Marker` is a unique pagination
+    #   token for each page. To retrieve the next page, make the call again
+    #   using the returned token and keeping all other arguments unchanged.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/DescribeMigrationProjectsMessage AWS API Documentation
+    #
+    class DescribeMigrationProjectsMessage < Struct.new(
+      :filters,
+      :max_records,
+      :marker)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] marker
+    #   Specifies the unique pagination token that makes it possible to
+    #   display the next page of results. If this parameter is specified,
+    #   the response includes only records beyond the marker, up to the
+    #   value specified by `MaxRecords`.
+    #
+    #   If `Marker` is returned by a previous response, there are more
+    #   results available. The value of `Marker` is a unique pagination
+    #   token for each page. To retrieve the next page, make the call again
+    #   using the returned token and keeping all other arguments unchanged.
+    #   @return [String]
+    #
+    # @!attribute [rw] migration_projects
+    #   A description of migration projects.
+    #   @return [Array<Types::MigrationProject>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/DescribeMigrationProjectsResponse AWS API Documentation
+    #
+    class DescribeMigrationProjectsResponse < Struct.new(
+      :marker,
+      :migration_projects)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] max_records
     #   The maximum number of records to include in the response. If more
     #   records exist than the specified `MaxRecords` value, a pagination
@@ -2584,6 +4376,118 @@ module Aws::DatabaseMigrationService
       include Aws::Structure
     end
 
+    # @!attribute [rw] filters
+    #   Filters applied to the limitations described in the form of
+    #   key-value pairs.
+    #   @return [Array<Types::Filter>]
+    #
+    # @!attribute [rw] max_records
+    #   The maximum number of records to include in the response. If more
+    #   records exist than the specified `MaxRecords` value, Fleet Advisor
+    #   includes a pagination token in the response so that you can retrieve
+    #   the remaining results.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   Specifies the unique pagination token that makes it possible to
+    #   display the next page of results. If this parameter is specified,
+    #   the response includes only records beyond the marker, up to the
+    #   value specified by `MaxRecords`.
+    #
+    #   If `NextToken` is returned by a previous response, there are more
+    #   results available. The value of `NextToken` is a unique pagination
+    #   token for each page. Make the call again using the returned token to
+    #   retrieve the next page. Keep all other arguments unchanged.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/DescribeRecommendationLimitationsRequest AWS API Documentation
+    #
+    class DescribeRecommendationLimitationsRequest < Struct.new(
+      :filters,
+      :max_records,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] next_token
+    #   The unique pagination token returned for you to pass to a subsequent
+    #   request. Fleet Advisor returns this token when the number of records
+    #   in the response is greater than the `MaxRecords` value. To retrieve
+    #   the next page, make the call again using the returned token and
+    #   keeping all other arguments unchanged.
+    #   @return [String]
+    #
+    # @!attribute [rw] limitations
+    #   The list of limitations for recommendations of target Amazon Web
+    #   Services engines.
+    #   @return [Array<Types::Limitation>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/DescribeRecommendationLimitationsResponse AWS API Documentation
+    #
+    class DescribeRecommendationLimitationsResponse < Struct.new(
+      :next_token,
+      :limitations)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] filters
+    #   Filters applied to the target engine recommendations described in
+    #   the form of key-value pairs.
+    #   @return [Array<Types::Filter>]
+    #
+    # @!attribute [rw] max_records
+    #   The maximum number of records to include in the response. If more
+    #   records exist than the specified `MaxRecords` value, Fleet Advisor
+    #   includes a pagination token in the response so that you can retrieve
+    #   the remaining results.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   Specifies the unique pagination token that makes it possible to
+    #   display the next page of results. If this parameter is specified,
+    #   the response includes only records beyond the marker, up to the
+    #   value specified by `MaxRecords`.
+    #
+    #   If `NextToken` is returned by a previous response, there are more
+    #   results available. The value of `NextToken` is a unique pagination
+    #   token for each page. Make the call again using the returned token to
+    #   retrieve the next page. Keep all other arguments unchanged.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/DescribeRecommendationsRequest AWS API Documentation
+    #
+    class DescribeRecommendationsRequest < Struct.new(
+      :filters,
+      :max_records,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] next_token
+    #   The unique pagination token returned for you to pass to a subsequent
+    #   request. Fleet Advisor returns this token when the number of records
+    #   in the response is greater than the `MaxRecords` value. To retrieve
+    #   the next page, make the call again using the returned token and
+    #   keeping all other arguments unchanged.
+    #   @return [String]
+    #
+    # @!attribute [rw] recommendations
+    #   The list of recommendations of target engines that Fleet Advisor
+    #   created for the source database.
+    #   @return [Array<Types::Recommendation>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/DescribeRecommendationsResponse AWS API Documentation
+    #
+    class DescribeRecommendationsResponse < Struct.new(
+      :next_token,
+      :recommendations)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] endpoint_arn
     #   The Amazon Resource Name (ARN) string that uniquely identifies the
     #   endpoint.
@@ -2605,6 +4509,53 @@ module Aws::DatabaseMigrationService
     #
     class DescribeRefreshSchemasStatusResponse < Struct.new(
       :refresh_schemas_status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] filters
+    #   Filters applied to the replication configs.
+    #   @return [Array<Types::Filter>]
+    #
+    # @!attribute [rw] max_records
+    #   The maximum number of records to include in the response. If more
+    #   records exist than the specified `MaxRecords` value, a pagination
+    #   token called a marker is included in the response so that the
+    #   remaining results can be retrieved.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] marker
+    #   An optional pagination token provided by a previous request. If this
+    #   parameter is specified, the response includes only records beyond
+    #   the marker, up to the value specified by `MaxRecords`.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/DescribeReplicationConfigsMessage AWS API Documentation
+    #
+    class DescribeReplicationConfigsMessage < Struct.new(
+      :filters,
+      :max_records,
+      :marker)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] marker
+    #   An optional pagination token provided by a previous request. If this
+    #   parameter is specified, the response includes only records beyond
+    #   the marker, up to the value specified by `MaxRecords`.
+    #   @return [String]
+    #
+    # @!attribute [rw] replication_configs
+    #   Returned configuration parameters that describe each provisioned DMS
+    #   Serverless replication.
+    #   @return [Array<Types::ReplicationConfig>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/DescribeReplicationConfigsResponse AWS API Documentation
+    #
+    class DescribeReplicationConfigsResponse < Struct.new(
+      :marker,
+      :replication_configs)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2768,6 +4719,63 @@ module Aws::DatabaseMigrationService
     class DescribeReplicationSubnetGroupsResponse < Struct.new(
       :marker,
       :replication_subnet_groups)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] replication_config_arn
+    #   The replication config to describe.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_records
+    #   The maximum number of records to include in the response. If more
+    #   records exist than the specified `MaxRecords` value, a pagination
+    #   token called a marker is included in the response so that the
+    #   remaining results can be retrieved.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] marker
+    #   An optional pagination token provided by a previous request. If this
+    #   parameter is specified, the response includes only records beyond
+    #   the marker, up to the value specified by `MaxRecords`.
+    #   @return [String]
+    #
+    # @!attribute [rw] filters
+    #   Filters applied to the replication table statistics.
+    #   @return [Array<Types::Filter>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/DescribeReplicationTableStatisticsMessage AWS API Documentation
+    #
+    class DescribeReplicationTableStatisticsMessage < Struct.new(
+      :replication_config_arn,
+      :max_records,
+      :marker,
+      :filters)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] replication_config_arn
+    #   The Amazon Resource Name of the replication config.
+    #   @return [String]
+    #
+    # @!attribute [rw] marker
+    #   An optional pagination token provided by a previous request. If this
+    #   parameter is specified, the response includes only records beyond
+    #   the marker, up to the value specified by `MaxRecords`.
+    #   @return [String]
+    #
+    # @!attribute [rw] replication_table_statistics
+    #   Returns table statistics on the replication, including table name,
+    #   rows inserted, rows updated, and rows deleted.
+    #   @return [Array<Types::TableStatistics>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/DescribeReplicationTableStatisticsResponse AWS API Documentation
+    #
+    class DescribeReplicationTableStatisticsResponse < Struct.new(
+      :replication_config_arn,
+      :marker,
+      :replication_table_statistics)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2993,6 +5001,52 @@ module Aws::DatabaseMigrationService
       include Aws::Structure
     end
 
+    # @!attribute [rw] filters
+    #   Filters applied to the replications.
+    #   @return [Array<Types::Filter>]
+    #
+    # @!attribute [rw] max_records
+    #   The maximum number of records to include in the response. If more
+    #   records exist than the specified `MaxRecords` value, a pagination
+    #   token called a marker is included in the response so that the
+    #   remaining results can be retrieved.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] marker
+    #   An optional pagination token provided by a previous request. If this
+    #   parameter is specified, the response includes only records beyond
+    #   the marker, up to the value specified by `MaxRecords`.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/DescribeReplicationsMessage AWS API Documentation
+    #
+    class DescribeReplicationsMessage < Struct.new(
+      :filters,
+      :max_records,
+      :marker)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] marker
+    #   An optional pagination token provided by a previous request. If this
+    #   parameter is specified, the response includes only records beyond
+    #   the marker, up to the value specified by `MaxRecords`.
+    #   @return [String]
+    #
+    # @!attribute [rw] replications
+    #   The replication descriptions.
+    #   @return [Array<Types::Replication>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/DescribeReplicationsResponse AWS API Documentation
+    #
+    class DescribeReplicationsResponse < Struct.new(
+      :marker,
+      :replications)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] endpoint_arn
     #   The Amazon Resource Name (ARN) string that uniquely identifies the
     #   endpoint.
@@ -3129,6 +5183,42 @@ module Aws::DatabaseMigrationService
       include Aws::Structure
     end
 
+    # Provides information that defines a DocumentDB data provider.
+    #
+    # @!attribute [rw] server_name
+    #   The name of the source DocumentDB server.
+    #   @return [String]
+    #
+    # @!attribute [rw] port
+    #   The port value for the DocumentDB data provider.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] database_name
+    #   The database name on the DocumentDB data provider.
+    #   @return [String]
+    #
+    # @!attribute [rw] ssl_mode
+    #   The SSL mode used to connect to the DocumentDB data provider. The
+    #   default value is `none`.
+    #   @return [String]
+    #
+    # @!attribute [rw] certificate_arn
+    #   The Amazon Resource Name (ARN) of the certificate used for SSL
+    #   connection.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/DocDbDataProviderSettings AWS API Documentation
+    #
+    class DocDbDataProviderSettings < Struct.new(
+      :server_name,
+      :port,
+      :database_name,
+      :ssl_mode,
+      :certificate_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Provides information that defines a DocumentDB endpoint.
     #
     # @!attribute [rw] username
@@ -3214,6 +5304,24 @@ module Aws::DatabaseMigrationService
     #   connection details.
     #   @return [String]
     #
+    # @!attribute [rw] use_update_look_up
+    #   If `true`, DMS retrieves the entire document from the DocumentDB
+    #   source during migration. This may cause a migration failure if the
+    #   server response exceeds bandwidth limits. To fetch only updates and
+    #   deletes during migration, set this parameter to `false`.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] replicate_shard_collections
+    #   If `true`, DMS replicates data to shard collections. DMS only uses
+    #   this setting if the target endpoint is a DocumentDB elastic cluster.
+    #
+    #   When this setting is `true`, note the following:
+    #
+    #   * You must set `TargetTablePrepMode` to `nothing`.
+    #
+    #   * DMS automatically sets `useUpdateLookup` to `false`.
+    #   @return [Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/DocDbSettings AWS API Documentation
     #
     class DocDbSettings < Struct.new(
@@ -3227,7 +5335,9 @@ module Aws::DatabaseMigrationService
       :docs_to_investigate,
       :kms_key_id,
       :secrets_manager_access_role_arn,
-      :secrets_manager_secret_id)
+      :secrets_manager_secret_id,
+      :use_update_look_up,
+      :replicate_shard_collections)
       SENSITIVE = [:password]
       include Aws::Structure
     end
@@ -3319,9 +5429,10 @@ module Aws::DatabaseMigrationService
     #   The database engine name. Valid values, depending on the
     #   EndpointType, include `"mysql"`, `"oracle"`, `"postgres"`,
     #   `"mariadb"`, `"aurora"`, `"aurora-postgresql"`, `"redshift"`,
-    #   `"s3"`, `"db2"`, `"db2-zos"`, `"azuredb"`, `"sybase"`, `"dynamodb"`,
-    #   `"mongodb"`, `"kinesis"`, `"kafka"`, `"elasticsearch"`,
-    #   `"documentdb"`, `"sqlserver"`, `"neptune"`, and `"babelfish"`.
+    #   `"redshift-serverless"`, `"s3"`, `"db2"`, `"db2-zos"`, `"azuredb"`,
+    #   `"sybase"`, `"dynamodb"`, `"mongodb"`, `"kinesis"`, `"kafka"`,
+    #   `"elasticsearch"`, `"documentdb"`, `"sqlserver"`, `"neptune"`, and
+    #   `"babelfish"`.
     #   @return [String]
     #
     # @!attribute [rw] engine_display_name
@@ -3484,6 +5595,11 @@ module Aws::DatabaseMigrationService
     #   Settings in JSON format for the source GCP MySQL endpoint.
     #   @return [Types::GcpMySQLSettings]
     #
+    # @!attribute [rw] timestream_settings
+    #   The settings for the Amazon Timestream target endpoint. For more
+    #   information, see the `TimestreamSettings` structure.
+    #   @return [Types::TimestreamSettings]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/Endpoint AWS API Documentation
     #
     class Endpoint < Struct.new(
@@ -3521,7 +5637,8 @@ module Aws::DatabaseMigrationService
       :ibm_db_2_settings,
       :doc_db_settings,
       :redis_settings,
-      :gcp_my_sql_settings)
+      :gcp_my_sql_settings,
+      :timestream_settings)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3580,6 +5697,83 @@ module Aws::DatabaseMigrationService
       :default_value)
       SENSITIVE = []
       include Aws::Structure
+    end
+
+    # Provides information about a replication instance version.
+    #
+    # @!attribute [rw] version
+    #   The version number of the replication instance.
+    #   @return [String]
+    #
+    # @!attribute [rw] lifecycle
+    #   The lifecycle status of the replication instance version. Valid
+    #   values are `DEPRECATED`, `DEFAULT_VERSION`, and `ACTIVE`.
+    #   @return [String]
+    #
+    # @!attribute [rw] release_status
+    #   The release status of the replication instance version.
+    #   @return [String]
+    #
+    # @!attribute [rw] launch_date
+    #   The date when the replication instance version became publicly
+    #   available.
+    #   @return [Time]
+    #
+    # @!attribute [rw] auto_upgrade_date
+    #   The date when the replication instance will be automatically
+    #   upgraded. This setting only applies if the `auto-minor-version`
+    #   setting is enabled.
+    #   @return [Time]
+    #
+    # @!attribute [rw] deprecation_date
+    #   The date when the replication instance version will be deprecated
+    #   and can no longer be requested.
+    #   @return [Time]
+    #
+    # @!attribute [rw] force_upgrade_date
+    #   The date when the replication instance will have a version upgrade
+    #   forced.
+    #   @return [Time]
+    #
+    # @!attribute [rw] available_upgrades
+    #   The list of valid replication instance versions that you can upgrade
+    #   to.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/EngineVersion AWS API Documentation
+    #
+    class EngineVersion < Struct.new(
+      :version,
+      :lifecycle,
+      :release_status,
+      :launch_date,
+      :auto_upgrade_date,
+      :deprecation_date,
+      :force_upgrade_date,
+      :available_upgrades)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Provides error information about a project.
+    #
+    # @note ErrorDetails is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of ErrorDetails corresponding to the set member.
+    #
+    # @!attribute [rw] default_error_details
+    #   Error information about a project.
+    #   @return [Types::DefaultErrorDetails]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/ErrorDetails AWS API Documentation
+    #
+    class ErrorDetails < Struct.new(
+      :default_error_details,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class DefaultErrorDetails < ErrorDetails; end
+      class Unknown < ErrorDetails; end
     end
 
     # Describes an identifiable significant activity that affects a
@@ -3718,6 +5912,106 @@ module Aws::DatabaseMigrationService
       include Aws::Structure
     end
 
+    # @!attribute [rw] migration_project_identifier
+    #   The migration project name or Amazon Resource Name (ARN).
+    #   @return [String]
+    #
+    # @!attribute [rw] selection_rules
+    #   A value that specifies the database objects to assess.
+    #   @return [String]
+    #
+    # @!attribute [rw] file_name
+    #   The name of the assessment file to create in your Amazon S3 bucket.
+    #   @return [String]
+    #
+    # @!attribute [rw] assessment_report_types
+    #   The file format of the assessment file.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/ExportMetadataModelAssessmentMessage AWS API Documentation
+    #
+    class ExportMetadataModelAssessmentMessage < Struct.new(
+      :migration_project_identifier,
+      :selection_rules,
+      :file_name,
+      :assessment_report_types)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] pdf_report
+    #   The Amazon S3 details for an assessment exported in PDF format.
+    #   @return [Types::ExportMetadataModelAssessmentResultEntry]
+    #
+    # @!attribute [rw] csv_report
+    #   The Amazon S3 details for an assessment exported in CSV format.
+    #   @return [Types::ExportMetadataModelAssessmentResultEntry]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/ExportMetadataModelAssessmentResponse AWS API Documentation
+    #
+    class ExportMetadataModelAssessmentResponse < Struct.new(
+      :pdf_report,
+      :csv_report)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Provides information about an exported metadata model assessment.
+    #
+    # @!attribute [rw] s3_object_key
+    #   The object key for the object containing the exported metadata model
+    #   assessment.
+    #   @return [String]
+    #
+    # @!attribute [rw] object_url
+    #   The URL for the object containing the exported metadata model
+    #   assessment.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/ExportMetadataModelAssessmentResultEntry AWS API Documentation
+    #
+    class ExportMetadataModelAssessmentResultEntry < Struct.new(
+      :s3_object_key,
+      :object_url)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Provides information about a metadata model assessment exported to
+    # SQL.
+    #
+    # @!attribute [rw] s3_object_key
+    #   The Amazon S3 object key for the object containing the exported
+    #   metadata model assessment.
+    #   @return [String]
+    #
+    # @!attribute [rw] object_url
+    #   The URL for the object containing the exported metadata model
+    #   assessment.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/ExportSqlDetails AWS API Documentation
+    #
+    class ExportSqlDetails < Struct.new(
+      :s3_object_key,
+      :object_url)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A dependency threw an exception.
+    #
+    # @!attribute [rw] message
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/FailedDependencyFault AWS API Documentation
+    #
+    class FailedDependencyFault < Struct.new(
+      :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Identifies the name and value of a filter object. This filter is used
     # to limit the number and type of DMS objects that are returned for a
     # particular `Describe*` call or similar operation. Filters are used as
@@ -3820,10 +6114,10 @@ module Aws::DatabaseMigrationService
     #   @return [String]
     #
     # @!attribute [rw] clean_source_metadata_on_mismatch
-    #   Adjusts the behavior of DMS when migrating from an SQL Server source
-    #   database that is hosted as part of an Always On availability group
-    #   cluster. If you need DMS to poll all the nodes in the Always On
-    #   cluster for transaction backups, set this attribute to `false`.
+    #   Cleans and recreates table metadata information on the replication
+    #   instance when a mismatch occurs. For example, in a situation where
+    #   running an alter DDL on the table could result in different
+    #   information about the table cached in the replication instance.
     #   @return [Boolean]
     #
     # @!attribute [rw] database_name
@@ -3877,10 +6171,11 @@ module Aws::DatabaseMigrationService
     #   @return [String]
     #
     # @!attribute [rw] port
+    #   Endpoint TCP port.
     #   @return [Integer]
     #
     # @!attribute [rw] server_name
-    #   Endpoint TCP port.
+    #   The MySQL host name.
     #   @return [String]
     #
     # @!attribute [rw] server_timezone
@@ -4015,6 +6310,31 @@ module Aws::DatabaseMigrationService
     #   details.
     #   @return [String]
     #
+    # @!attribute [rw] load_timeout
+    #   The amount of time (in milliseconds) before DMS times out operations
+    #   performed by DMS on the Db2 target. The default value is 1200 (20
+    #   minutes).
+    #   @return [Integer]
+    #
+    # @!attribute [rw] write_buffer_size
+    #   The size (in KB) of the in-memory file write buffer used when
+    #   generating .csv files on the local disk on the DMS replication
+    #   instance. The default value is 1024 (1 MB).
+    #   @return [Integer]
+    #
+    # @!attribute [rw] max_file_size
+    #   Specifies the maximum size (in KB) of .csv files used to transfer
+    #   data to Db2 LUW.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] keep_csv_files
+    #   If true, DMS saves any .csv files to the Db2 LUW target that were
+    #   used to replicate data. DMS uses these files for analysis and
+    #   troubleshooting.
+    #
+    #   The default value is false.
+    #   @return [Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/IBMDb2Settings AWS API Documentation
     #
     class IBMDb2Settings < Struct.new(
@@ -4027,8 +6347,84 @@ module Aws::DatabaseMigrationService
       :max_k_bytes_per_read,
       :username,
       :secrets_manager_access_role_arn,
-      :secrets_manager_secret_id)
+      :secrets_manager_secret_id,
+      :load_timeout,
+      :write_buffer_size,
+      :max_file_size,
+      :keep_csv_files)
       SENSITIVE = [:password]
+      include Aws::Structure
+    end
+
+    # Provides information about an IBM DB2 LUW data provider.
+    #
+    # @!attribute [rw] server_name
+    #   The name of the DB2 LUW server.
+    #   @return [String]
+    #
+    # @!attribute [rw] port
+    #   The port value for the DB2 LUW data provider.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] database_name
+    #   The database name on the DB2 LUW data provider.
+    #   @return [String]
+    #
+    # @!attribute [rw] ssl_mode
+    #   The SSL mode used to connect to the DB2 LUW data provider. The
+    #   default value is `none`. Valid Values: `none` and `verify-ca`.
+    #   @return [String]
+    #
+    # @!attribute [rw] certificate_arn
+    #   The Amazon Resource Name (ARN) of the certificate used for SSL
+    #   connection.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/IbmDb2LuwDataProviderSettings AWS API Documentation
+    #
+    class IbmDb2LuwDataProviderSettings < Struct.new(
+      :server_name,
+      :port,
+      :database_name,
+      :ssl_mode,
+      :certificate_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Provides information about an IBM DB2 for z/OS data provider.
+    #
+    # @!attribute [rw] server_name
+    #   The name of the DB2 for z/OS server.
+    #   @return [String]
+    #
+    # @!attribute [rw] port
+    #   The port value for the DB2 for z/OS data provider.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] database_name
+    #   The database name on the DB2 for z/OS data provider.
+    #   @return [String]
+    #
+    # @!attribute [rw] ssl_mode
+    #   The SSL mode used to connect to the DB2 for z/OS data provider. The
+    #   default value is `none`. Valid Values: `none` and `verify-ca`.
+    #   @return [String]
+    #
+    # @!attribute [rw] certificate_arn
+    #   The Amazon Resource Name (ARN) of the certificate used for SSL
+    #   connection.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/IbmDb2zOsDataProviderSettings AWS API Documentation
+    #
+    class IbmDb2zOsDataProviderSettings < Struct.new(
+      :server_name,
+      :port,
+      :database_name,
+      :ssl_mode,
+      :certificate_arn)
+      SENSITIVE = []
       include Aws::Structure
     end
 
@@ -4048,7 +6444,7 @@ module Aws::DatabaseMigrationService
     #   SSL. Provide the name of a `.sso` file using the `fileb://` prefix.
     #   You can't provide the certificate inline.
     #
-    #   Example: `filebase64("$\{path.root\}/rds-ca-2019-root.sso")`
+    #   Example: `filebase64("${path.root}/rds-ca-2019-root.sso")`
     #   @return [String]
     #
     # @!attribute [rw] tags
@@ -4074,6 +6470,88 @@ module Aws::DatabaseMigrationService
     #
     class ImportCertificateResponse < Struct.new(
       :certificate)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Provides information that defines an instance profile.
+    #
+    # @!attribute [rw] instance_profile_arn
+    #   The Amazon Resource Name (ARN) string that uniquely identifies the
+    #   instance profile.
+    #   @return [String]
+    #
+    # @!attribute [rw] availability_zone
+    #   The Availability Zone where the instance profile runs.
+    #   @return [String]
+    #
+    # @!attribute [rw] kms_key_arn
+    #   The Amazon Resource Name (ARN) of the KMS key that is used to
+    #   encrypt the connection parameters for the instance profile.
+    #
+    #   If you don't specify a value for the `KmsKeyArn` parameter, then
+    #   DMS uses your default encryption key.
+    #
+    #   KMS creates the default encryption key for your Amazon Web Services
+    #   account. Your Amazon Web Services account has a different default
+    #   encryption key for each Amazon Web Services Region.
+    #   @return [String]
+    #
+    # @!attribute [rw] publicly_accessible
+    #   Specifies the accessibility options for the instance profile. A
+    #   value of `true` represents an instance profile with a public IP
+    #   address. A value of `false` represents an instance profile with a
+    #   private IP address. The default value is `true`.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] network_type
+    #   Specifies the network type for the instance profile. A value of
+    #   `IPV4` represents an instance profile with IPv4 network type and
+    #   only supports IPv4 addressing. A value of `IPV6` represents an
+    #   instance profile with IPv6 network type and only supports IPv6
+    #   addressing. A value of `DUAL` represents an instance profile with
+    #   dual network type that supports IPv4 and IPv6 addressing.
+    #   @return [String]
+    #
+    # @!attribute [rw] instance_profile_name
+    #   The user-friendly name for the instance profile.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   A description of the instance profile. Descriptions can have up to
+    #   31 characters. A description can contain only ASCII letters, digits,
+    #   and hyphens ('-'). Also, it can't end with a hyphen or contain
+    #   two consecutive hyphens, and can only begin with a letter.
+    #   @return [String]
+    #
+    # @!attribute [rw] instance_profile_creation_time
+    #   The time the instance profile was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] subnet_group_identifier
+    #   The identifier of the subnet group that is associated with the
+    #   instance profile.
+    #   @return [String]
+    #
+    # @!attribute [rw] vpc_security_groups
+    #   The VPC security groups that are used with the instance profile. The
+    #   VPC security group must work with the VPC containing the instance
+    #   profile.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/InstanceProfile AWS API Documentation
+    #
+    class InstanceProfile < Struct.new(
+      :instance_profile_arn,
+      :availability_zone,
+      :kms_key_arn,
+      :publicly_accessible,
+      :network_type,
+      :instance_profile_name,
+      :description,
+      :instance_profile_creation_time,
+      :subnet_group_identifier,
+      :vpc_security_groups)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4131,7 +6609,7 @@ module Aws::DatabaseMigrationService
       include Aws::Structure
     end
 
-    # The subnet provided is invalid.
+    # The subnet provided isn't valid.
     #
     # @!attribute [rw] message
     #   @return [String]
@@ -4380,6 +6858,22 @@ module Aws::DatabaseMigrationService
     #   columns without adding the '0x' prefix.
     #   @return [Boolean]
     #
+    # @!attribute [rw] sasl_mechanism
+    #   For SASL/SSL authentication, DMS supports the `SCRAM-SHA-512`
+    #   mechanism by default. DMS versions 3.5.0 and later also support the
+    #   `PLAIN` mechanism. To use the `PLAIN` mechanism, set this parameter
+    #   to `PLAIN.`
+    #   @return [String]
+    #
+    # @!attribute [rw] ssl_endpoint_identification_algorithm
+    #   Sets hostname verification for the certificate. This setting is
+    #   supported in DMS version 3.5.1 and later.
+    #   @return [String]
+    #
+    # @!attribute [rw] use_large_integer_value
+    #   Specifies using the large integer value with Kafka.
+    #   @return [Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/KafkaSettings AWS API Documentation
     #
     class KafkaSettings < Struct.new(
@@ -4400,8 +6894,40 @@ module Aws::DatabaseMigrationService
       :ssl_ca_certificate_arn,
       :sasl_username,
       :sasl_password,
-      :no_hex_prefix)
+      :no_hex_prefix,
+      :sasl_mechanism,
+      :ssl_endpoint_identification_algorithm,
+      :use_large_integer_value)
       SENSITIVE = [:ssl_client_key_password, :sasl_password]
+      include Aws::Structure
+    end
+
+    # Specifies the settings required for kerberos authentication when
+    # creating the replication instance.
+    #
+    # @!attribute [rw] key_cache_secret_id
+    #   Specifies the ID of the secret that stores the key cache file
+    #   required for kerberos authentication.
+    #   @return [String]
+    #
+    # @!attribute [rw] key_cache_secret_iam_arn
+    #   Specifies the Amazon Resource Name (ARN) of the IAM role that grants
+    #   Amazon Web Services DMS access to the secret containing key cache
+    #   file for the kerberos authentication.
+    #   @return [String]
+    #
+    # @!attribute [rw] krb_5_file_contents
+    #   Specifies the contents of krb5 configuration file required for
+    #   kerberos authentication.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/KerberosAuthenticationSettings AWS API Documentation
+    #
+    class KerberosAuthenticationSettings < Struct.new(
+      :key_cache_secret_id,
+      :key_cache_secret_iam_arn,
+      :krb_5_file_contents)
+      SENSITIVE = []
       include Aws::Structure
     end
 
@@ -4477,6 +7003,10 @@ module Aws::DatabaseMigrationService
     #   type columns without adding the '0x' prefix.
     #   @return [Boolean]
     #
+    # @!attribute [rw] use_large_integer_value
+    #   Specifies using the large integer value with Kinesis.
+    #   @return [Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/KinesisSettings AWS API Documentation
     #
     class KinesisSettings < Struct.new(
@@ -4489,7 +7019,63 @@ module Aws::DatabaseMigrationService
       :include_table_alter_operations,
       :include_control_details,
       :include_null_and_empty,
-      :no_hex_prefix)
+      :no_hex_prefix,
+      :use_large_integer_value)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Provides information about the limitations of target Amazon Web
+    # Services engines.
+    #
+    # Your source database might include features that the target Amazon Web
+    # Services engine doesn't support. Fleet Advisor lists these features
+    # as limitations. You should consider these limitations during database
+    # migration. For each limitation, Fleet Advisor recommends an action
+    # that you can take to address or avoid this limitation.
+    #
+    # @!attribute [rw] database_id
+    #   The identifier of the source database.
+    #   @return [String]
+    #
+    # @!attribute [rw] engine_name
+    #   The name of the target engine that Fleet Advisor should use in the
+    #   target engine recommendation. Valid values include
+    #   `"rds-aurora-mysql"`, `"rds-aurora-postgresql"`, `"rds-mysql"`,
+    #   `"rds-oracle"`, `"rds-sql-server"`, and `"rds-postgresql"`.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the limitation. Describes unsupported database features,
+    #   migration action items, and other limitations.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   A description of the limitation. Provides additional information
+    #   about the limitation, and includes recommended actions that you can
+    #   take to address or avoid this limitation.
+    #   @return [String]
+    #
+    # @!attribute [rw] impact
+    #   The impact of the limitation. You can use this parameter to
+    #   prioritize limitations that you want to address. Valid values
+    #   include `"Blocker"`, `"High"`, `"Medium"`, and `"Low"`.
+    #   @return [String]
+    #
+    # @!attribute [rw] type
+    #   The type of the limitation, such as action required, upgrade
+    #   required, and limited feature.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/Limitation AWS API Documentation
+    #
+    class Limitation < Struct.new(
+      :database_id,
+      :engine_name,
+      :name,
+      :description,
+      :impact,
+      :type)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4525,6 +7111,37 @@ module Aws::DatabaseMigrationService
     #
     class ListTagsForResourceResponse < Struct.new(
       :tag_list)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Provides information that defines a MariaDB data provider.
+    #
+    # @!attribute [rw] server_name
+    #   The name of the MariaDB server.
+    #   @return [String]
+    #
+    # @!attribute [rw] port
+    #   The port value for the MariaDB data provider
+    #   @return [Integer]
+    #
+    # @!attribute [rw] ssl_mode
+    #   The SSL mode used to connect to the MariaDB data provider. The
+    #   default value is `none`.
+    #   @return [String]
+    #
+    # @!attribute [rw] certificate_arn
+    #   The Amazon Resource Name (ARN) of the certificate used for SSL
+    #   connection.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/MariaDbDataProviderSettings AWS API Documentation
+    #
+    class MariaDbDataProviderSettings < Struct.new(
+      :server_name,
+      :port,
+      :ssl_mode,
+      :certificate_arn)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4583,7 +7200,7 @@ module Aws::DatabaseMigrationService
     #   truncated. If you need Microsoft Replication to be enabled in your
     #   database, then you must choose this method.
     #
-    #   *Exclusively use sp\_repldone within a single task*\: When this
+    #   *Exclusively use sp\_repldone within a single task*: When this
     #   method is used, DMS reads the changes and then uses sp\_repldone to
     #   mark the TLOG transactions as ready for truncation. Although this
     #   method doesn't involve any transactional activities, it can only be
@@ -4594,7 +7211,13 @@ module Aws::DatabaseMigrationService
     #   @return [String]
     #
     # @!attribute [rw] server_name
-    #   Fully qualified domain name of the endpoint.
+    #   Fully qualified domain name of the endpoint. For an Amazon RDS SQL
+    #   Server instance, this is the output of [DescribeDBInstances][1], in
+    #   the ` Endpoint.Address` field.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_DescribeDBInstances.html
     #   @return [String]
     #
     # @!attribute [rw] username
@@ -4645,10 +7268,24 @@ module Aws::DatabaseMigrationService
     #   @return [String]
     #
     # @!attribute [rw] trim_space_in_char
-    #   Use the `TrimSpaceInChar` source endpoint setting to trim data on
-    #   CHAR and NCHAR data types during migration. The default value is
+    #   Use the `TrimSpaceInChar` source endpoint setting to right-trim data
+    #   on CHAR and NCHAR data types during migration. Setting
+    #   `TrimSpaceInChar` does not left-trim data. The default value is
     #   `true`.
     #   @return [Boolean]
+    #
+    # @!attribute [rw] tlog_access_mode
+    #   Indicates the mode used to fetch CDC data.
+    #   @return [String]
+    #
+    # @!attribute [rw] force_lob_lookup
+    #   Forces LOB lookup on inline LOB.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] authentication_method
+    #   Specifies the authentication method to be used with Microsoft SQL
+    #   Server.
+    #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/MicrosoftSQLServerSettings AWS API Documentation
     #
@@ -4667,8 +7304,277 @@ module Aws::DatabaseMigrationService
       :use_third_party_backup_device,
       :secrets_manager_access_role_arn,
       :secrets_manager_secret_id,
-      :trim_space_in_char)
+      :trim_space_in_char,
+      :tlog_access_mode,
+      :force_lob_lookup,
+      :authentication_method)
       SENSITIVE = [:password]
+      include Aws::Structure
+    end
+
+    # Provides information that defines a Microsoft SQL Server data
+    # provider.
+    #
+    # @!attribute [rw] server_name
+    #   The name of the Microsoft SQL Server server.
+    #   @return [String]
+    #
+    # @!attribute [rw] port
+    #   The port value for the Microsoft SQL Server data provider.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] database_name
+    #   The database name on the Microsoft SQL Server data provider.
+    #   @return [String]
+    #
+    # @!attribute [rw] ssl_mode
+    #   The SSL mode used to connect to the Microsoft SQL Server data
+    #   provider. The default value is `none`.
+    #   @return [String]
+    #
+    # @!attribute [rw] certificate_arn
+    #   The Amazon Resource Name (ARN) of the certificate used for SSL
+    #   connection.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/MicrosoftSqlServerDataProviderSettings AWS API Documentation
+    #
+    class MicrosoftSqlServerDataProviderSettings < Struct.new(
+      :server_name,
+      :port,
+      :database_name,
+      :ssl_mode,
+      :certificate_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Provides information that defines a migration project.
+    #
+    # @!attribute [rw] migration_project_name
+    #   The name of the migration project.
+    #   @return [String]
+    #
+    # @!attribute [rw] migration_project_arn
+    #   The ARN string that uniquely identifies the migration project.
+    #   @return [String]
+    #
+    # @!attribute [rw] migration_project_creation_time
+    #   The time when the migration project was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] source_data_provider_descriptors
+    #   Information about the source data provider, including the name or
+    #   ARN, and Secrets Manager parameters.
+    #   @return [Array<Types::DataProviderDescriptor>]
+    #
+    # @!attribute [rw] target_data_provider_descriptors
+    #   Information about the target data provider, including the name or
+    #   ARN, and Secrets Manager parameters.
+    #   @return [Array<Types::DataProviderDescriptor>]
+    #
+    # @!attribute [rw] instance_profile_arn
+    #   The Amazon Resource Name (ARN) of the instance profile for your
+    #   migration project.
+    #   @return [String]
+    #
+    # @!attribute [rw] instance_profile_name
+    #   The name of the associated instance profile.
+    #   @return [String]
+    #
+    # @!attribute [rw] transformation_rules
+    #   The settings in JSON format for migration rules. Migration rules
+    #   make it possible for you to change the object names according to the
+    #   rules that you specify. For example, you can change an object name
+    #   to lowercase or uppercase, add or remove a prefix or suffix, or
+    #   rename objects.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   A user-friendly description of the migration project.
+    #   @return [String]
+    #
+    # @!attribute [rw] schema_conversion_application_attributes
+    #   The schema conversion application attributes, including the Amazon
+    #   S3 bucket name and Amazon S3 role ARN.
+    #   @return [Types::SCApplicationAttributes]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/MigrationProject AWS API Documentation
+    #
+    class MigrationProject < Struct.new(
+      :migration_project_name,
+      :migration_project_arn,
+      :migration_project_creation_time,
+      :source_data_provider_descriptors,
+      :target_data_provider_descriptors,
+      :instance_profile_arn,
+      :instance_profile_name,
+      :transformation_rules,
+      :description,
+      :schema_conversion_application_attributes)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] migration_project_identifier
+    #   The migration project name or Amazon Resource Name (ARN).
+    #   @return [String]
+    #
+    # @!attribute [rw] conversion_configuration
+    #   The new conversion configuration.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/ModifyConversionConfigurationMessage AWS API Documentation
+    #
+    class ModifyConversionConfigurationMessage < Struct.new(
+      :migration_project_identifier,
+      :conversion_configuration)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] migration_project_identifier
+    #   The name or Amazon Resource Name (ARN) of the modified
+    #   configuration.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/ModifyConversionConfigurationResponse AWS API Documentation
+    #
+    class ModifyConversionConfigurationResponse < Struct.new(
+      :migration_project_identifier)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] data_migration_identifier
+    #   The identifier (name or ARN) of the data migration to modify.
+    #   @return [String]
+    #
+    # @!attribute [rw] data_migration_name
+    #   The new name for the data migration.
+    #   @return [String]
+    #
+    # @!attribute [rw] enable_cloudwatch_logs
+    #   Whether to enable Cloudwatch logs for the data migration.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] service_access_role_arn
+    #   The new service access role ARN for the data migration.
+    #   @return [String]
+    #
+    # @!attribute [rw] data_migration_type
+    #   The new migration type for the data migration.
+    #   @return [String]
+    #
+    # @!attribute [rw] source_data_settings
+    #   The new information about the source data provider for the data
+    #   migration.
+    #   @return [Array<Types::SourceDataSetting>]
+    #
+    # @!attribute [rw] target_data_settings
+    #   The new information about the target data provider for the data
+    #   migration.
+    #   @return [Array<Types::TargetDataSetting>]
+    #
+    # @!attribute [rw] number_of_jobs
+    #   The number of parallel jobs that trigger parallel threads to unload
+    #   the tables from the source, and then load them to the target.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] selection_rules
+    #   A JSON-formatted string that defines what objects to include and
+    #   exclude from the migration.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/ModifyDataMigrationMessage AWS API Documentation
+    #
+    class ModifyDataMigrationMessage < Struct.new(
+      :data_migration_identifier,
+      :data_migration_name,
+      :enable_cloudwatch_logs,
+      :service_access_role_arn,
+      :data_migration_type,
+      :source_data_settings,
+      :target_data_settings,
+      :number_of_jobs,
+      :selection_rules)
+      SENSITIVE = [:selection_rules]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] data_migration
+    #   Information about the modified data migration.
+    #   @return [Types::DataMigration]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/ModifyDataMigrationResponse AWS API Documentation
+    #
+    class ModifyDataMigrationResponse < Struct.new(
+      :data_migration)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] data_provider_identifier
+    #   The identifier of the data provider. Identifiers must begin with a
+    #   letter and must contain only ASCII letters, digits, and hyphens.
+    #   They can't end with a hyphen, or contain two consecutive hyphens.
+    #   @return [String]
+    #
+    # @!attribute [rw] data_provider_name
+    #   The name of the data provider.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   A user-friendly description of the data provider.
+    #   @return [String]
+    #
+    # @!attribute [rw] engine
+    #   The type of database engine for the data provider. Valid values
+    #   include `"aurora"`, `"aurora-postgresql"`, `"mysql"`, `"oracle"`,
+    #   `"postgres"`, `"sqlserver"`, `redshift`, `mariadb`, `mongodb`,
+    #   `db2`, `db2-zos` and `docdb`. A value of `"aurora"` represents
+    #   Amazon Aurora MySQL-Compatible Edition.
+    #   @return [String]
+    #
+    # @!attribute [rw] exact_settings
+    #   If this attribute is Y, the current call to `ModifyDataProvider`
+    #   replaces all existing data provider settings with the exact settings
+    #   that you specify in this call. If this attribute is N, the current
+    #   call to `ModifyDataProvider` does two things:
+    #
+    #   * It replaces any data provider settings that already exist with new
+    #     values, for settings with the same names.
+    #
+    #   * It creates new data provider settings that you specify in the
+    #     call, for settings with different names.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] settings
+    #   The settings in JSON format for a data provider.
+    #   @return [Types::DataProviderSettings]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/ModifyDataProviderMessage AWS API Documentation
+    #
+    class ModifyDataProviderMessage < Struct.new(
+      :data_provider_identifier,
+      :data_provider_name,
+      :description,
+      :engine,
+      :exact_settings,
+      :settings)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] data_provider
+    #   The data provider that was modified.
+    #   @return [Types::DataProvider]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/ModifyDataProviderResponse AWS API Documentation
+    #
+    class ModifyDataProviderResponse < Struct.new(
+      :data_provider)
+      SENSITIVE = []
       include Aws::Structure
     end
 
@@ -4778,8 +7684,8 @@ module Aws::DatabaseMigrationService
     #   Shorthand syntax for these settings is as follows:
     #   `ServiceAccessRoleArn=string ,BucketName=string`
     #
-    #   JSON syntax for these settings is as follows: `\{
-    #   "ServiceAccessRoleArn": "string", "BucketName": "string"\} `
+    #   JSON syntax for these settings is as follows: `{
+    #   "ServiceAccessRoleArn": "string", "BucketName": "string"} `
     #   @return [Types::DmsTransferSettings]
     #
     # @!attribute [rw] mongo_db_settings
@@ -4948,21 +7854,25 @@ module Aws::DatabaseMigrationService
     #     settings with different names.
     #
     #   For example, if you call `create-endpoint ... --endpoint-settings
-    #   '\{"a":1\}' ...`, the endpoint has the following endpoint settings:
-    #   `'\{"a":1\}'`. If you then call `modify-endpoint ...
-    #   --endpoint-settings '\{"b":2\}' ...` for the same endpoint, the
-    #   endpoint has the following settings: `'\{"a":1,"b":2\}'`.
+    #   '{"a":1}' ...`, the endpoint has the following endpoint settings:
+    #   `'{"a":1}'`. If you then call `modify-endpoint ...
+    #   --endpoint-settings '{"b":2}' ...` for the same endpoint, the
+    #   endpoint has the following settings: `'{"a":1,"b":2}'`.
     #
     #   However, suppose that you follow this with a call to
-    #   `modify-endpoint ... --endpoint-settings '\{"b":2\}'
-    #   --exact-settings ...` for that same endpoint again. Then the
-    #   endpoint has the following settings: `'\{"b":2\}'`. All existing
-    #   settings are replaced with the exact settings that you specify.
+    #   `modify-endpoint ... --endpoint-settings '{"b":2}' --exact-settings
+    #   ...` for that same endpoint again. Then the endpoint has the
+    #   following settings: `'{"b":2}'`. All existing settings are replaced
+    #   with the exact settings that you specify.
     #   @return [Boolean]
     #
     # @!attribute [rw] gcp_my_sql_settings
     #   Settings in JSON format for the source GCP MySQL endpoint.
     #   @return [Types::GcpMySQLSettings]
+    #
+    # @!attribute [rw] timestream_settings
+    #   Settings in JSON format for the target Amazon Timestream endpoint.
+    #   @return [Types::TimestreamSettings]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/ModifyEndpointMessage AWS API Documentation
     #
@@ -4999,7 +7909,8 @@ module Aws::DatabaseMigrationService
       :doc_db_settings,
       :redis_settings,
       :exact_settings,
-      :gcp_my_sql_settings)
+      :gcp_my_sql_settings,
+      :timestream_settings)
       SENSITIVE = [:password]
       include Aws::Structure
     end
@@ -5063,6 +7974,226 @@ module Aws::DatabaseMigrationService
     #
     class ModifyEventSubscriptionResponse < Struct.new(
       :event_subscription)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] instance_profile_identifier
+    #   The identifier of the instance profile. Identifiers must begin with
+    #   a letter and must contain only ASCII letters, digits, and hyphens.
+    #   They can't end with a hyphen, or contain two consecutive hyphens.
+    #   @return [String]
+    #
+    # @!attribute [rw] availability_zone
+    #   The Availability Zone where the instance profile runs.
+    #   @return [String]
+    #
+    # @!attribute [rw] kms_key_arn
+    #   The Amazon Resource Name (ARN) of the KMS key that is used to
+    #   encrypt the connection parameters for the instance profile.
+    #
+    #   If you don't specify a value for the `KmsKeyArn` parameter, then
+    #   DMS uses your default encryption key.
+    #
+    #   KMS creates the default encryption key for your Amazon Web Services
+    #   account. Your Amazon Web Services account has a different default
+    #   encryption key for each Amazon Web Services Region.
+    #   @return [String]
+    #
+    # @!attribute [rw] publicly_accessible
+    #   Specifies the accessibility options for the instance profile. A
+    #   value of `true` represents an instance profile with a public IP
+    #   address. A value of `false` represents an instance profile with a
+    #   private IP address. The default value is `true`.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] network_type
+    #   Specifies the network type for the instance profile. A value of
+    #   `IPV4` represents an instance profile with IPv4 network type and
+    #   only supports IPv4 addressing. A value of `IPV6` represents an
+    #   instance profile with IPv6 network type and only supports IPv6
+    #   addressing. A value of `DUAL` represents an instance profile with
+    #   dual network type that supports IPv4 and IPv6 addressing.
+    #   @return [String]
+    #
+    # @!attribute [rw] instance_profile_name
+    #   A user-friendly name for the instance profile.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   A user-friendly description for the instance profile.
+    #   @return [String]
+    #
+    # @!attribute [rw] subnet_group_identifier
+    #   A subnet group to associate with the instance profile.
+    #   @return [String]
+    #
+    # @!attribute [rw] vpc_security_groups
+    #   Specifies the VPC security groups to be used with the instance
+    #   profile. The VPC security group must work with the VPC containing
+    #   the instance profile.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/ModifyInstanceProfileMessage AWS API Documentation
+    #
+    class ModifyInstanceProfileMessage < Struct.new(
+      :instance_profile_identifier,
+      :availability_zone,
+      :kms_key_arn,
+      :publicly_accessible,
+      :network_type,
+      :instance_profile_name,
+      :description,
+      :subnet_group_identifier,
+      :vpc_security_groups)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] instance_profile
+    #   The instance profile that was modified.
+    #   @return [Types::InstanceProfile]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/ModifyInstanceProfileResponse AWS API Documentation
+    #
+    class ModifyInstanceProfileResponse < Struct.new(
+      :instance_profile)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] migration_project_identifier
+    #   The identifier of the migration project. Identifiers must begin with
+    #   a letter and must contain only ASCII letters, digits, and hyphens.
+    #   They can't end with a hyphen, or contain two consecutive hyphens.
+    #   @return [String]
+    #
+    # @!attribute [rw] migration_project_name
+    #   A user-friendly name for the migration project.
+    #   @return [String]
+    #
+    # @!attribute [rw] source_data_provider_descriptors
+    #   Information about the source data provider, including the name, ARN,
+    #   and Amazon Web Services Secrets Manager parameters.
+    #   @return [Array<Types::DataProviderDescriptorDefinition>]
+    #
+    # @!attribute [rw] target_data_provider_descriptors
+    #   Information about the target data provider, including the name, ARN,
+    #   and Amazon Web Services Secrets Manager parameters.
+    #   @return [Array<Types::DataProviderDescriptorDefinition>]
+    #
+    # @!attribute [rw] instance_profile_identifier
+    #   The name or Amazon Resource Name (ARN) for the instance profile.
+    #   @return [String]
+    #
+    # @!attribute [rw] transformation_rules
+    #   The settings in JSON format for migration rules. Migration rules
+    #   make it possible for you to change the object names according to the
+    #   rules that you specify. For example, you can change an object name
+    #   to lowercase or uppercase, add or remove a prefix or suffix, or
+    #   rename objects.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   A user-friendly description of the migration project.
+    #   @return [String]
+    #
+    # @!attribute [rw] schema_conversion_application_attributes
+    #   The schema conversion application attributes, including the Amazon
+    #   S3 bucket name and Amazon S3 role ARN.
+    #   @return [Types::SCApplicationAttributes]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/ModifyMigrationProjectMessage AWS API Documentation
+    #
+    class ModifyMigrationProjectMessage < Struct.new(
+      :migration_project_identifier,
+      :migration_project_name,
+      :source_data_provider_descriptors,
+      :target_data_provider_descriptors,
+      :instance_profile_identifier,
+      :transformation_rules,
+      :description,
+      :schema_conversion_application_attributes)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] migration_project
+    #   The migration project that was modified.
+    #   @return [Types::MigrationProject]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/ModifyMigrationProjectResponse AWS API Documentation
+    #
+    class ModifyMigrationProjectResponse < Struct.new(
+      :migration_project)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] replication_config_arn
+    #   The Amazon Resource Name of the replication to modify.
+    #   @return [String]
+    #
+    # @!attribute [rw] replication_config_identifier
+    #   The new replication config to apply to the replication.
+    #   @return [String]
+    #
+    # @!attribute [rw] replication_type
+    #   The type of replication.
+    #   @return [String]
+    #
+    # @!attribute [rw] table_mappings
+    #   Table mappings specified in the replication.
+    #   @return [String]
+    #
+    # @!attribute [rw] replication_settings
+    #   The settings for the replication.
+    #   @return [String]
+    #
+    # @!attribute [rw] supplemental_settings
+    #   Additional settings for the replication.
+    #   @return [String]
+    #
+    # @!attribute [rw] compute_config
+    #   Configuration parameters for provisioning an DMS Serverless
+    #   replication.
+    #   @return [Types::ComputeConfig]
+    #
+    # @!attribute [rw] source_endpoint_arn
+    #   The Amazon Resource Name (ARN) of the source endpoint for this DMS
+    #   serverless replication configuration.
+    #   @return [String]
+    #
+    # @!attribute [rw] target_endpoint_arn
+    #   The Amazon Resource Name (ARN) of the target endpoint for this DMS
+    #   serverless replication configuration.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/ModifyReplicationConfigMessage AWS API Documentation
+    #
+    class ModifyReplicationConfigMessage < Struct.new(
+      :replication_config_arn,
+      :replication_config_identifier,
+      :replication_type,
+      :table_mappings,
+      :replication_settings,
+      :supplemental_settings,
+      :compute_config,
+      :source_endpoint_arn,
+      :target_endpoint_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] replication_config
+    #   Information about the serverless replication config that was
+    #   modified.
+    #   @return [Types::ReplicationConfig]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/ModifyReplicationConfigResponse AWS API Documentation
+    #
+    class ModifyReplicationConfigResponse < Struct.new(
+      :replication_config)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5170,6 +8301,11 @@ module Aws::DatabaseMigrationService
     #   addressing. IPv6 only is not yet supported.
     #   @return [String]
     #
+    # @!attribute [rw] kerberos_authentication_settings
+    #   Specifies the settings required for kerberos authentication when
+    #   modifying a replication instance.
+    #   @return [Types::KerberosAuthenticationSettings]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/ModifyReplicationInstanceMessage AWS API Documentation
     #
     class ModifyReplicationInstanceMessage < Struct.new(
@@ -5184,7 +8320,8 @@ module Aws::DatabaseMigrationService
       :allow_major_version_upgrade,
       :auto_minor_version_upgrade,
       :replication_instance_identifier,
-      :network_type)
+      :network_type,
+      :kerberos_authentication_settings)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5313,8 +8450,8 @@ module Aws::DatabaseMigrationService
     #   Server time example: --cdc-stop-position
     #   “server\_time:2018-02-09T12:12:12”
     #
-    #   Commit time example: --cdc-stop-position “commit\_time:
-    #   2018-02-09T12:12:12 “
+    #   Commit time example: --cdc-stop-position
+    #   “commit\_time:2018-02-09T12:12:12“
     #   @return [String]
     #
     # @!attribute [rw] task_data
@@ -5356,6 +8493,62 @@ module Aws::DatabaseMigrationService
       include Aws::Structure
     end
 
+    # Provides information that defines a MongoDB data provider.
+    #
+    # @!attribute [rw] server_name
+    #   The name of the MongoDB server.
+    #   @return [String]
+    #
+    # @!attribute [rw] port
+    #   The port value for the MongoDB data provider.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] database_name
+    #   The database name on the MongoDB data provider.
+    #   @return [String]
+    #
+    # @!attribute [rw] ssl_mode
+    #   The SSL mode used to connect to the MongoDB data provider. The
+    #   default value is `none`.
+    #   @return [String]
+    #
+    # @!attribute [rw] certificate_arn
+    #   The Amazon Resource Name (ARN) of the certificate used for SSL
+    #   connection.
+    #   @return [String]
+    #
+    # @!attribute [rw] auth_type
+    #   The authentication type for the database connection. Valid values
+    #   are PASSWORD or NO.
+    #   @return [String]
+    #
+    # @!attribute [rw] auth_source
+    #   The MongoDB database name. This setting isn't used when `AuthType`
+    #   is set to `"no"`.
+    #
+    #   The default is `"admin"`.
+    #   @return [String]
+    #
+    # @!attribute [rw] auth_mechanism
+    #   The authentication method for connecting to the data provider. Valid
+    #   values are DEFAULT, MONGODB\_CR, or SCRAM\_SHA\_1.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/MongoDbDataProviderSettings AWS API Documentation
+    #
+    class MongoDbDataProviderSettings < Struct.new(
+      :server_name,
+      :port,
+      :database_name,
+      :ssl_mode,
+      :certificate_arn,
+      :auth_type,
+      :auth_source,
+      :auth_mechanism)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Provides information that defines a MongoDB endpoint.
     #
     # @!attribute [rw] username
@@ -5368,7 +8561,9 @@ module Aws::DatabaseMigrationService
     #   @return [String]
     #
     # @!attribute [rw] server_name
-    #   The name of the server on the MongoDB source endpoint.
+    #   The name of the server on the MongoDB source endpoint. For MongoDB
+    #   Atlas, provide the server name for any of the servers in the
+    #   replication set.
     #   @return [String]
     #
     # @!attribute [rw] port
@@ -5466,6 +8661,24 @@ module Aws::DatabaseMigrationService
     #   details.
     #   @return [String]
     #
+    # @!attribute [rw] use_update_look_up
+    #   If `true`, DMS retrieves the entire document from the MongoDB source
+    #   during migration. This may cause a migration failure if the server
+    #   response exceeds bandwidth limits. To fetch only updates and deletes
+    #   during migration, set this parameter to `false`.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] replicate_shard_collections
+    #   If `true`, DMS replicates data to shard collections. DMS only uses
+    #   this setting if the target endpoint is a DocumentDB elastic cluster.
+    #
+    #   When this setting is `true`, note the following:
+    #
+    #   * You must set `TargetTablePrepMode` to `nothing`.
+    #
+    #   * DMS automatically sets `useUpdateLookup` to `false`.
+    #   @return [Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/MongoDbSettings AWS API Documentation
     #
     class MongoDbSettings < Struct.new(
@@ -5482,7 +8695,9 @@ module Aws::DatabaseMigrationService
       :auth_source,
       :kms_key_id,
       :secrets_manager_access_role_arn,
-      :secrets_manager_secret_id)
+      :secrets_manager_secret_id,
+      :use_update_look_up,
+      :replicate_shard_collections)
       SENSITIVE = [:password]
       include Aws::Structure
     end
@@ -5529,10 +8744,10 @@ module Aws::DatabaseMigrationService
     #   @return [String]
     #
     # @!attribute [rw] clean_source_metadata_on_mismatch
-    #   Adjusts the behavior of DMS when migrating from an SQL Server source
-    #   database that is hosted as part of an Always On availability group
-    #   cluster. If you need DMS to poll all the nodes in the Always On
-    #   cluster for transaction backups, set this attribute to `false`.
+    #   Cleans and recreates table metadata information on the replication
+    #   instance when a mismatch occurs. For example, in a situation where
+    #   running an alter DDL on the table could result in different
+    #   information about the table cached in the replication instance.
     #   @return [Boolean]
     #
     # @!attribute [rw] database_name
@@ -5592,7 +8807,18 @@ module Aws::DatabaseMigrationService
     #   @return [Integer]
     #
     # @!attribute [rw] server_name
-    #   Fully qualified domain name of the endpoint.
+    #   The host name of the endpoint database.
+    #
+    #   For an Amazon RDS MySQL instance, this is the output of
+    #   [DescribeDBInstances][1], in the ` Endpoint.Address` field.
+    #
+    #   For an Aurora MySQL instance, this is the output of
+    #   [DescribeDBClusters][2], in the `Endpoint` field.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_DescribeDBInstances.html
+    #   [2]: https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_DescribeDBClusters.html
     #   @return [String]
     #
     # @!attribute [rw] server_timezone
@@ -5638,6 +8864,11 @@ module Aws::DatabaseMigrationService
     #   details.
     #   @return [String]
     #
+    # @!attribute [rw] execute_timeout
+    #   Sets the client statement timeout (in seconds) for a MySQL source
+    #   endpoint.
+    #   @return [Integer]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/MySQLSettings AWS API Documentation
     #
     class MySQLSettings < Struct.new(
@@ -5654,8 +8885,40 @@ module Aws::DatabaseMigrationService
       :server_timezone,
       :username,
       :secrets_manager_access_role_arn,
-      :secrets_manager_secret_id)
+      :secrets_manager_secret_id,
+      :execute_timeout)
       SENSITIVE = [:password]
+      include Aws::Structure
+    end
+
+    # Provides information that defines a MySQL data provider.
+    #
+    # @!attribute [rw] server_name
+    #   The name of the MySQL server.
+    #   @return [String]
+    #
+    # @!attribute [rw] port
+    #   The port value for the MySQL data provider.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] ssl_mode
+    #   The SSL mode used to connect to the MySQL data provider. The default
+    #   value is `none`.
+    #   @return [String]
+    #
+    # @!attribute [rw] certificate_arn
+    #   The Amazon Resource Name (ARN) of the certificate used for SSL
+    #   connection.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/MySqlDataProviderSettings AWS API Documentation
+    #
+    class MySqlDataProviderSettings < Struct.new(
+      :server_name,
+      :port,
+      :ssl_mode,
+      :certificate_arn)
+      SENSITIVE = []
       include Aws::Structure
     end
 
@@ -5722,6 +8985,84 @@ module Aws::DatabaseMigrationService
       :max_file_size,
       :max_retry_count,
       :iam_auth_enabled)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Provides information that defines an Oracle data provider.
+    #
+    # @!attribute [rw] server_name
+    #   The name of the Oracle server.
+    #   @return [String]
+    #
+    # @!attribute [rw] port
+    #   The port value for the Oracle data provider.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] database_name
+    #   The database name on the Oracle data provider.
+    #   @return [String]
+    #
+    # @!attribute [rw] ssl_mode
+    #   The SSL mode used to connect to the Oracle data provider. The
+    #   default value is `none`.
+    #   @return [String]
+    #
+    # @!attribute [rw] certificate_arn
+    #   The Amazon Resource Name (ARN) of the certificate used for SSL
+    #   connection.
+    #   @return [String]
+    #
+    # @!attribute [rw] asm_server
+    #   The address of your Oracle Automatic Storage Management (ASM)
+    #   server. You can set this value from the `asm_server` value. You set
+    #   `asm_server` as part of the extra connection attribute string to
+    #   access an Oracle server with Binary Reader that uses ASM. For more
+    #   information, see [Configuration for change data capture (CDC) on an
+    #   Oracle source database][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.Oracle.html#dms/latest/userguide/CHAP_Source.Oracle.html#CHAP_Source.Oracle.CDC.Configuration
+    #   @return [String]
+    #
+    # @!attribute [rw] secrets_manager_oracle_asm_secret_id
+    #   The identifier of the secret in Secrets Manager that contains the
+    #   Oracle ASM connection details.
+    #
+    #   Required only if your data provider uses the Oracle ASM server.
+    #   @return [String]
+    #
+    # @!attribute [rw] secrets_manager_oracle_asm_access_role_arn
+    #   The ARN of the IAM role that provides access to the secret in
+    #   Secrets Manager that contains the Oracle ASM connection details.
+    #   @return [String]
+    #
+    # @!attribute [rw] secrets_manager_security_db_encryption_secret_id
+    #   The identifier of the secret in Secrets Manager that contains the
+    #   transparent data encryption (TDE) password. DMS requires this
+    #   password to access Oracle redo logs encrypted by TDE using Binary
+    #   Reader.
+    #   @return [String]
+    #
+    # @!attribute [rw] secrets_manager_security_db_encryption_access_role_arn
+    #   The ARN of the IAM role that provides access to the secret in
+    #   Secrets Manager that contains the TDE password.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/OracleDataProviderSettings AWS API Documentation
+    #
+    class OracleDataProviderSettings < Struct.new(
+      :server_name,
+      :port,
+      :database_name,
+      :ssl_mode,
+      :certificate_arn,
+      :asm_server,
+      :secrets_manager_oracle_asm_secret_id,
+      :secrets_manager_oracle_asm_access_role_arn,
+      :secrets_manager_security_db_encryption_secret_id,
+      :secrets_manager_security_db_encryption_access_role_arn)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5864,8 +9205,8 @@ module Aws::DatabaseMigrationService
     #   @return [Boolean]
     #
     # @!attribute [rw] archived_logs_only
-    #   When this field is set to `Y`, DMS only accesses the archived redo
-    #   logs. If the archived redo logs are stored on Automatic Storage
+    #   When this field is set to `True`, DMS only accesses the archived
+    #   redo logs. If the archived redo logs are stored on Automatic Storage
     #   Management (ASM) only, the DMS user account needs to be granted ASM
     #   privileges.
     #   @return [Boolean]
@@ -6000,6 +9341,13 @@ module Aws::DatabaseMigrationService
     #
     # @!attribute [rw] server_name
     #   Fully qualified domain name of the endpoint.
+    #
+    #   For an Amazon RDS Oracle instance, this is the output of
+    #   [DescribeDBInstances][1], in the ` Endpoint.Address` field.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_DescribeDBInstances.html
     #   @return [String]
     #
     # @!attribute [rw] spatial_data_option_to_geo_json_function_name
@@ -6027,12 +9375,12 @@ module Aws::DatabaseMigrationService
     #   @return [String]
     #
     # @!attribute [rw] use_b_file
-    #   Set this attribute to Y to capture change data using the Binary
-    #   Reader utility. Set `UseLogminerReader` to N to set this attribute
-    #   to Y. To use Binary Reader with Amazon RDS for Oracle as the source,
-    #   you set additional attributes. For more information about using this
-    #   setting with Oracle Automatic Storage Management (ASM), see [ Using
-    #   Oracle LogMiner or DMS Binary Reader for CDC][1].
+    #   Set this attribute to True to capture change data using the Binary
+    #   Reader utility. Set `UseLogminerReader` to False to set this
+    #   attribute to True. To use Binary Reader with Amazon RDS for Oracle
+    #   as the source, you set additional attributes. For more information
+    #   about using this setting with Oracle Automatic Storage Management
+    #   (ASM), see [ Using Oracle LogMiner or DMS Binary Reader for CDC][1].
     #
     #
     #
@@ -6040,17 +9388,17 @@ module Aws::DatabaseMigrationService
     #   @return [Boolean]
     #
     # @!attribute [rw] use_direct_path_full_load
-    #   Set this attribute to Y to have DMS use a direct path full load.
+    #   Set this attribute to True to have DMS use a direct path full load.
     #   Specify this value to use the direct path protocol in the Oracle
     #   Call Interface (OCI). By using this OCI protocol, you can bulk-load
     #   Oracle target tables during a full load.
     #   @return [Boolean]
     #
     # @!attribute [rw] use_logminer_reader
-    #   Set this attribute to Y to capture change data using the Oracle
-    #   LogMiner utility (the default). Set this attribute to N if you want
-    #   to access the redo logs as a binary file. When you set
-    #   `UseLogminerReader` to N, also set `UseBfile` to Y. For more
+    #   Set this attribute to True to capture change data using the Oracle
+    #   LogMiner utility (the default). Set this attribute to False if you
+    #   want to access the redo logs as a binary file. When you set
+    #   `UseLogminerReader` to False, also set `UseBfile` to True. For more
     #   information on this setting and using Oracle ASM, see [ Using Oracle
     #   LogMiner or DMS Binary Reader for CDC][1] in the *DMS User Guide*.
     #
@@ -6101,8 +9449,8 @@ module Aws::DatabaseMigrationService
     #   <note markdown="1"> You can specify one of two sets of values for these permissions. You
     #   can specify the values for this setting and
     #   `SecretsManagerOracleAsmSecretId`. Or you can specify clear-text
-    #   values for `AsmUserName`, `AsmPassword`, and `AsmServerName`. You
-    #   can't specify both. For more information on creating this
+    #   values for `AsmUser`, `AsmPassword`, and `AsmServerName`. You can't
+    #   specify both. For more information on creating this
     #   `SecretsManagerOracleAsmSecret` and the
     #   `SecretsManagerOracleAsmAccessRoleArn` and
     #   `SecretsManagerOracleAsmSecretId` required to access it, see [Using
@@ -6128,6 +9476,27 @@ module Aws::DatabaseMigrationService
     #   CHAR and NCHAR data types during migration. The default value is
     #   `true`.
     #   @return [Boolean]
+    #
+    # @!attribute [rw] convert_timestamp_with_zone_to_utc
+    #   When true, converts timestamps with the `timezone` datatype to their
+    #   UTC value.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] open_transaction_window
+    #   The timeframe in minutes to check for open transactions for a
+    #   CDC-only task.
+    #
+    #   You can specify an integer value between 0 (the default) and 240
+    #   (the maximum).
+    #
+    #   <note markdown="1"> This parameter is only valid in DMS version 3.5.0 and later.
+    #
+    #    </note>
+    #   @return [Integer]
+    #
+    # @!attribute [rw] authentication_method
+    #   Specifies the authentication method to be used with Oracle.
+    #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/OracleSettings AWS API Documentation
     #
@@ -6172,7 +9541,10 @@ module Aws::DatabaseMigrationService
       :secrets_manager_secret_id,
       :secrets_manager_oracle_asm_access_role_arn,
       :secrets_manager_oracle_asm_secret_id,
-      :trim_space_in_char)
+      :trim_space_in_char,
+      :convert_timestamp_with_zone_to_utc,
+      :open_transaction_window,
+      :authentication_method)
       SENSITIVE = [:asm_password, :password, :security_db_encryption]
       include Aws::Structure
     end
@@ -6325,6 +9697,8 @@ module Aws::DatabaseMigrationService
     #   PostgreSQL database when the task starts. You can later remove these
     #   artifacts.
     #
+    #   The default value is `true`.
+    #
     #   If this value is set to `N`, you don't have to create tables or
     #   triggers on the source database.
     #   @return [Boolean]
@@ -6332,6 +9706,8 @@ module Aws::DatabaseMigrationService
     # @!attribute [rw] max_file_size
     #   Specifies the maximum size (in KB) of any .csv file used to transfer
     #   data to PostgreSQL.
+    #
+    #   The default value is 32,768 KB (32 MB).
     #
     #   Example: `maxFileSize=512`
     #   @return [Integer]
@@ -6343,6 +9719,8 @@ module Aws::DatabaseMigrationService
     # @!attribute [rw] ddl_artifacts_schema
     #   The schema in which the operational DDL database artifacts are
     #   created.
+    #
+    #   The default value is `public`.
     #
     #   Example: `ddlArtifactsSchema=xyzddlschema;`
     #   @return [String]
@@ -6358,6 +9736,8 @@ module Aws::DatabaseMigrationService
     #   When set to `true`, this value causes a task to fail if the actual
     #   size of a LOB column is greater than the specified `LobMaxSize`.
     #
+    #   The default value is `false`.
+    #
     #   If task is set to Limited LOB mode and this option is set to true,
     #   the task fails instead of truncating the LOB data.
     #   @return [Boolean]
@@ -6368,14 +9748,20 @@ module Aws::DatabaseMigrationService
     #   slots from holding onto old WAL logs, which can result in storage
     #   full situations on the source. This heartbeat keeps `restart_lsn`
     #   moving and prevents storage full scenarios.
+    #
+    #   The default value is `false`.
     #   @return [Boolean]
     #
     # @!attribute [rw] heartbeat_schema
     #   Sets the schema in which the heartbeat artifacts are created.
+    #
+    #   The default value is `public`.
     #   @return [String]
     #
     # @!attribute [rw] heartbeat_frequency
     #   Sets the WAL heartbeat frequency (in minutes).
+    #
+    #   The default value is 5 minutes.
     #   @return [Integer]
     #
     # @!attribute [rw] password
@@ -6387,7 +9773,18 @@ module Aws::DatabaseMigrationService
     #   @return [Integer]
     #
     # @!attribute [rw] server_name
-    #   Fully qualified domain name of the endpoint.
+    #   The host name of the endpoint database.
+    #
+    #   For an Amazon RDS PostgreSQL instance, this is the output of
+    #   [DescribeDBInstances][1], in the ` Endpoint.Address` field.
+    #
+    #   For an Aurora PostgreSQL instance, this is the output of
+    #   [DescribeDBClusters][2], in the `Endpoint` field.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_DescribeDBInstances.html
+    #   [2]: https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_DescribeDBClusters.html
     #   @return [String]
     #
     # @!attribute [rw] username
@@ -6407,21 +9804,23 @@ module Aws::DatabaseMigrationService
     #   `CdcStartPosition` setting, DMS raises an error.
     #
     #   For more information about setting the `CdcStartPosition` request
-    #   parameter, see [Determining a CDC native start
-    #   point](dms/latest/userguide/CHAP_Task.CDC.html#CHAP_Task.CDC.StartPoint.Native)
-    #   in the *Database Migration Service User Guide*. For more information
-    #   about using `CdcStartPosition`, see [CreateReplicationTask][1],
-    #   [StartReplicationTask][2], and [ModifyReplicationTask][3].
+    #   parameter, see [Determining a CDC native start point][1] in the
+    #   *Database Migration Service User Guide*. For more information about
+    #   using `CdcStartPosition`, see [CreateReplicationTask][2],
+    #   [StartReplicationTask][3], and [ModifyReplicationTask][4].
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/dms/latest/APIReference/API_CreateReplicationTask.html
-    #   [2]: https://docs.aws.amazon.com/dms/latest/APIReference/API_StartReplicationTask.html
-    #   [3]: https://docs.aws.amazon.com/dms/latest/APIReference/API_ModifyReplicationTask.html
+    #   [1]: https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Task.CDC.html#CHAP_Task.CDC.StartPoint.Native
+    #   [2]: https://docs.aws.amazon.com/dms/latest/APIReference/API_CreateReplicationTask.html
+    #   [3]: https://docs.aws.amazon.com/dms/latest/APIReference/API_StartReplicationTask.html
+    #   [4]: https://docs.aws.amazon.com/dms/latest/APIReference/API_ModifyReplicationTask.html
     #   @return [String]
     #
     # @!attribute [rw] plugin_name
     #   Specifies the plugin to use to create a replication slot.
+    #
+    #   The default value is `pglogical`.
     #   @return [String]
     #
     # @!attribute [rw] secrets_manager_access_role_arn
@@ -6461,6 +9860,48 @@ module Aws::DatabaseMigrationService
     #   `true`.
     #   @return [Boolean]
     #
+    # @!attribute [rw] map_boolean_as_boolean
+    #   When true, lets PostgreSQL migrate the boolean type as boolean. By
+    #   default, PostgreSQL migrates booleans as `varchar(5)`. You must set
+    #   this setting on both the source and target endpoints for it to take
+    #   effect.
+    #
+    #   The default value is `false`.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] map_jsonb_as_clob
+    #   When true, DMS migrates JSONB values as CLOB.
+    #
+    #   The default value is `false`.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] map_long_varchar_as
+    #   Sets what datatype to map LONG values as.
+    #
+    #   The default value is `wstring`.
+    #   @return [String]
+    #
+    # @!attribute [rw] database_mode
+    #   Specifies the default behavior of the replication's handling of
+    #   PostgreSQL- compatible endpoints that require some additional
+    #   configuration, such as Babelfish endpoints.
+    #   @return [String]
+    #
+    # @!attribute [rw] babelfish_database_name
+    #   The Babelfish for Aurora PostgreSQL database name for the endpoint.
+    #   @return [String]
+    #
+    # @!attribute [rw] disable_unicode_source_filter
+    #   Disables the Unicode source filter with PostgreSQL, for values
+    #   passed into the Selection rule filter on Source Endpoint column
+    #   values. By default DMS performs source filter comparisons using a
+    #   Unicode string which can cause look ups to ignore the indexes in the
+    #   text columns and slow down migrations.
+    #
+    #   Unicode support should only be disabled when using a selection rule
+    #   filter is on a text column in the Source database that is indexed.
+    #   @return [Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/PostgreSQLSettings AWS API Documentation
     #
     class PostgreSQLSettings < Struct.new(
@@ -6482,8 +9923,340 @@ module Aws::DatabaseMigrationService
       :plugin_name,
       :secrets_manager_access_role_arn,
       :secrets_manager_secret_id,
-      :trim_space_in_char)
+      :trim_space_in_char,
+      :map_boolean_as_boolean,
+      :map_jsonb_as_clob,
+      :map_long_varchar_as,
+      :database_mode,
+      :babelfish_database_name,
+      :disable_unicode_source_filter)
       SENSITIVE = [:password]
+      include Aws::Structure
+    end
+
+    # Provides information that defines a PostgreSQL data provider.
+    #
+    # @!attribute [rw] server_name
+    #   The name of the PostgreSQL server.
+    #   @return [String]
+    #
+    # @!attribute [rw] port
+    #   The port value for the PostgreSQL data provider.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] database_name
+    #   The database name on the PostgreSQL data provider.
+    #   @return [String]
+    #
+    # @!attribute [rw] ssl_mode
+    #   The SSL mode used to connect to the PostgreSQL data provider. The
+    #   default value is `none`.
+    #   @return [String]
+    #
+    # @!attribute [rw] certificate_arn
+    #   The Amazon Resource Name (ARN) of the certificate used for SSL
+    #   connection.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/PostgreSqlDataProviderSettings AWS API Documentation
+    #
+    class PostgreSqlDataProviderSettings < Struct.new(
+      :server_name,
+      :port,
+      :database_name,
+      :ssl_mode,
+      :certificate_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The results returned in `describe-replications` to display the results
+    # of the premigration assessment from the replication configuration.
+    #
+    # @!attribute [rw] premigration_assessment_run_arn
+    #   The Amazon Resource Name (ARN) of this assessment run.
+    #   @return [String]
+    #
+    # @!attribute [rw] fail_on_assessment_failure
+    #   A configurable setting you can set to `true` (the defualt setting)
+    #   or `false`. Use this setting to to stop the replication from
+    #   starting automatically if the assessment fails. This can help you
+    #   evaluate the issue that is preventing the replication from running
+    #   successfully.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] status
+    #   This describes the assessment run status. The status can be one of
+    #   the following values:
+    #
+    #   * `cancelling`: The assessment run was canceled.
+    #
+    #   * `deleting`: The assessment run was deleted.
+    #
+    #   * `failed`: At least one individual assessment completed with a
+    #     failed status.
+    #
+    #   * `error-provisioning`: An internal error occurred while resources
+    #     were provisioned (during the `provisioning` status).
+    #
+    #   * `error-executing` An internal error occurred while individual
+    #     assessments ran (during the `running` status).
+    #
+    #   * `invalid state`: The assessment run is in an unknown state.
+    #
+    #   * `passed`: All individual assessments have completed and none have
+    #     a failed status.
+    #
+    #   * `provisioning`: The resources required to run individual
+    #     assessments are being provisioned.
+    #
+    #   * `running`: Individual assessments are being run.
+    #
+    #   * `starting`: The assessment run is starting, but resources are not
+    #     yet being provisioned for individual assessments.
+    #
+    #   * `warning`: At least one individual assessment completed with a
+    #     warning status.
+    #   @return [String]
+    #
+    # @!attribute [rw] premigration_assessment_run_creation_date
+    #   The date which the assessment run was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] assessment_progress
+    #   The progress values reported by the `AssessmentProgress` response
+    #   element.
+    #   @return [Types::ReplicationTaskAssessmentRunProgress]
+    #
+    # @!attribute [rw] last_failure_message
+    #   The last message generated by an individual assessment failure.
+    #   @return [String]
+    #
+    # @!attribute [rw] result_location_bucket
+    #   The Amazon S3 bucket that Database Migration Service Serverless
+    #   created to store the results of this assessment run.
+    #   @return [String]
+    #
+    # @!attribute [rw] result_location_folder
+    #   The folder within an Amazon S3 bucket where you want Database
+    #   Migration Service to store the results of this assessment run.
+    #   @return [String]
+    #
+    # @!attribute [rw] result_encryption_mode
+    #   The supported values are `SSE_KMS` and `SSE_S3`. If these values are
+    #   not provided, then the files are not encrypted at rest. For more
+    #   information, see [Creating Amazon Web Services KMS keys to encrypt
+    #   Amazon S3 target objects][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.S3.html#CHAP_Target.S3.KMSKeys
+    #   @return [String]
+    #
+    # @!attribute [rw] result_kms_key_arn
+    #   The ARN of a custom KMS encryption key that you specify when you set
+    #   `ResultEncryptionMode` to `SSE_KMS`.
+    #   @return [String]
+    #
+    # @!attribute [rw] result_statistic
+    #   The object containing the result statistics for a completed
+    #   assessment run.
+    #   @return [Types::ReplicationTaskAssessmentRunResultStatistic]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/PremigrationAssessmentStatus AWS API Documentation
+    #
+    class PremigrationAssessmentStatus < Struct.new(
+      :premigration_assessment_run_arn,
+      :fail_on_assessment_failure,
+      :status,
+      :premigration_assessment_run_creation_date,
+      :assessment_progress,
+      :last_failure_message,
+      :result_location_bucket,
+      :result_location_folder,
+      :result_encryption_mode,
+      :result_kms_key_arn,
+      :result_statistic)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Information about provisioning resources for an DMS serverless
+    # replication.
+    #
+    # @!attribute [rw] provision_state
+    #   The current provisioning state
+    #   @return [String]
+    #
+    # @!attribute [rw] provisioned_capacity_units
+    #   The number of capacity units the replication is using.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] date_provisioned
+    #   The timestamp when DMS provisioned replication resources.
+    #   @return [Time]
+    #
+    # @!attribute [rw] is_new_provisioning_available
+    #   Whether the new provisioning is available to the replication.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] date_new_provisioning_data_available
+    #   The timestamp when provisioning became available.
+    #   @return [Time]
+    #
+    # @!attribute [rw] reason_for_new_provisioning_data
+    #   A message describing the reason that DMS provisioned new resources
+    #   for the serverless replication.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/ProvisionData AWS API Documentation
+    #
+    class ProvisionData < Struct.new(
+      :provision_state,
+      :provisioned_capacity_units,
+      :date_provisioned,
+      :is_new_provisioning_available,
+      :date_new_provisioning_data_available,
+      :reason_for_new_provisioning_data)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Provides information that describes the configuration of the
+    # recommended target engine on Amazon RDS.
+    #
+    # @!attribute [rw] engine_edition
+    #   Describes the recommended target Amazon RDS engine edition.
+    #   @return [String]
+    #
+    # @!attribute [rw] instance_type
+    #   Describes the recommended target Amazon RDS instance type.
+    #   @return [String]
+    #
+    # @!attribute [rw] instance_vcpu
+    #   Describes the number of virtual CPUs (vCPU) on the recommended
+    #   Amazon RDS DB instance that meets your requirements.
+    #   @return [Float]
+    #
+    # @!attribute [rw] instance_memory
+    #   Describes the memory on the recommended Amazon RDS DB instance that
+    #   meets your requirements.
+    #   @return [Float]
+    #
+    # @!attribute [rw] storage_type
+    #   Describes the storage type of the recommended Amazon RDS DB instance
+    #   that meets your requirements.
+    #
+    #   Amazon RDS provides three storage types: General Purpose SSD (also
+    #   known as gp2 and gp3), Provisioned IOPS SSD (also known as io1), and
+    #   magnetic (also known as standard).
+    #   @return [String]
+    #
+    # @!attribute [rw] storage_size
+    #   Describes the storage size of the recommended Amazon RDS DB instance
+    #   that meets your requirements.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] storage_iops
+    #   Describes the number of I/O operations completed each second (IOPS)
+    #   on the recommended Amazon RDS DB instance that meets your
+    #   requirements.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] deployment_option
+    #   Describes the deployment option for the recommended Amazon RDS DB
+    #   instance. The deployment options include Multi-AZ and Single-AZ
+    #   deployments. Valid values include `"MULTI_AZ"` and `"SINGLE_AZ"`.
+    #   @return [String]
+    #
+    # @!attribute [rw] engine_version
+    #   Describes the recommended target Amazon RDS engine version.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/RdsConfiguration AWS API Documentation
+    #
+    class RdsConfiguration < Struct.new(
+      :engine_edition,
+      :instance_type,
+      :instance_vcpu,
+      :instance_memory,
+      :storage_type,
+      :storage_size,
+      :storage_iops,
+      :deployment_option,
+      :engine_version)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Provides information that describes a recommendation of a target
+    # engine on Amazon RDS.
+    #
+    # @!attribute [rw] requirements_to_target
+    #   Supplemental information about the requirements to the recommended
+    #   target database on Amazon RDS.
+    #   @return [Types::RdsRequirements]
+    #
+    # @!attribute [rw] target_configuration
+    #   Supplemental information about the configuration of the recommended
+    #   target database on Amazon RDS.
+    #   @return [Types::RdsConfiguration]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/RdsRecommendation AWS API Documentation
+    #
+    class RdsRecommendation < Struct.new(
+      :requirements_to_target,
+      :target_configuration)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Provides information that describes the requirements to the target
+    # engine on Amazon RDS.
+    #
+    # @!attribute [rw] engine_edition
+    #   The required target Amazon RDS engine edition.
+    #   @return [String]
+    #
+    # @!attribute [rw] instance_vcpu
+    #   The required number of virtual CPUs (vCPU) on the Amazon RDS DB
+    #   instance.
+    #   @return [Float]
+    #
+    # @!attribute [rw] instance_memory
+    #   The required memory on the Amazon RDS DB instance.
+    #   @return [Float]
+    #
+    # @!attribute [rw] storage_size
+    #   The required Amazon RDS DB instance storage size.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] storage_iops
+    #   The required number of I/O operations completed each second (IOPS)
+    #   on your Amazon RDS DB instance.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] deployment_option
+    #   The required deployment option for the Amazon RDS DB instance. Valid
+    #   values include `"MULTI_AZ"` for Multi-AZ deployments and
+    #   `"SINGLE_AZ"` for Single-AZ deployments.
+    #   @return [String]
+    #
+    # @!attribute [rw] engine_version
+    #   The required target Amazon RDS engine version.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/RdsRequirements AWS API Documentation
+    #
+    class RdsRequirements < Struct.new(
+      :engine_edition,
+      :instance_vcpu,
+      :instance_memory,
+      :storage_size,
+      :storage_iops,
+      :deployment_option,
+      :engine_version)
+      SENSITIVE = []
       include Aws::Structure
     end
 
@@ -6525,6 +10298,111 @@ module Aws::DatabaseMigrationService
     #
     class RebootReplicationInstanceResponse < Struct.new(
       :replication_instance)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Provides information that describes a recommendation of a target
+    # engine.
+    #
+    # A *recommendation* is a set of possible Amazon Web Services target
+    # engines that you can choose to migrate your source on-premises
+    # database. In this set, Fleet Advisor suggests a single target engine
+    # as the right sized migration destination. To determine this rightsized
+    # migration destination, Fleet Advisor uses the inventory metadata and
+    # metrics from data collector. You can use recommendations before the
+    # start of migration to save costs and reduce risks.
+    #
+    # With recommendations, you can explore different target options and
+    # compare metrics, so you can make an informed decision when you choose
+    # the migration target.
+    #
+    # @!attribute [rw] database_id
+    #   The identifier of the source database for which Fleet Advisor
+    #   provided this recommendation.
+    #   @return [String]
+    #
+    # @!attribute [rw] engine_name
+    #   The name of the target engine. Valid values include
+    #   `"rds-aurora-mysql"`, `"rds-aurora-postgresql"`, `"rds-mysql"`,
+    #   `"rds-oracle"`, `"rds-sql-server"`, and `"rds-postgresql"`.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_date
+    #   The date when Fleet Advisor created the target engine
+    #   recommendation.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status of the target engine recommendation. Valid values include
+    #   `"alternate"`, `"in-progress"`, `"not-viable"`, and `"recommended"`.
+    #   @return [String]
+    #
+    # @!attribute [rw] preferred
+    #   Indicates that this target is the rightsized migration destination.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] settings
+    #   The settings in JSON format for the preferred target engine
+    #   parameters. These parameters include capacity, resource utilization,
+    #   and the usage type (production, development, or testing).
+    #   @return [Types::RecommendationSettings]
+    #
+    # @!attribute [rw] data
+    #   The recommendation of a target engine for the specified source
+    #   database.
+    #   @return [Types::RecommendationData]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/Recommendation AWS API Documentation
+    #
+    class Recommendation < Struct.new(
+      :database_id,
+      :engine_name,
+      :created_date,
+      :status,
+      :preferred,
+      :settings,
+      :data)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Provides information about the target engine for the specified source
+    # database.
+    #
+    # @!attribute [rw] rds_engine
+    #   The recommendation of a target Amazon RDS database engine.
+    #   @return [Types::RdsRecommendation]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/RecommendationData AWS API Documentation
+    #
+    class RecommendationData < Struct.new(
+      :rds_engine)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Provides information about the required target engine settings.
+    #
+    # @!attribute [rw] instance_sizing_type
+    #   The size of your target instance. Fleet Advisor calculates this
+    #   value based on your data collection type, such as total capacity and
+    #   resource utilization. Valid values include `"total-capacity"` and
+    #   `"utilization"`.
+    #   @return [String]
+    #
+    # @!attribute [rw] workload_type
+    #   The deployment option for your target engine. For production
+    #   databases, Fleet Advisor chooses Multi-AZ deployment. For
+    #   development or test databases, Fleet Advisor chooses Single-AZ
+    #   deployment. Valid values include `"development"` and `"production"`.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/RecommendationSettings AWS API Documentation
+    #
+    class RecommendationSettings < Struct.new(
+      :instance_sizing_type,
+      :workload_type)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -6586,6 +10464,30 @@ module Aws::DatabaseMigrationService
       :auth_password,
       :ssl_ca_certificate_arn)
       SENSITIVE = [:auth_password]
+      include Aws::Structure
+    end
+
+    # Provides information that defines an Amazon Redshift data provider.
+    #
+    # @!attribute [rw] server_name
+    #   The name of the Amazon Redshift server.
+    #   @return [String]
+    #
+    # @!attribute [rw] port
+    #   The port value for the Amazon Redshift data provider.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] database_name
+    #   The database name on the Amazon Redshift data provider.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/RedshiftDataProviderSettings AWS API Documentation
+    #
+    class RedshiftDataProviderSettings < Struct.new(
+      :server_name,
+      :port,
+      :database_name)
+      SENSITIVE = []
       include Aws::Structure
     end
 
@@ -6835,6 +10737,13 @@ module Aws::DatabaseMigrationService
     #   connection details.
     #   @return [String]
     #
+    # @!attribute [rw] map_boolean_as_boolean
+    #   When true, lets Redshift migrate the boolean type as boolean. By
+    #   default, Redshift migrates booleans as `varchar(1)`. You must set
+    #   this setting on both the source and target endpoints for it to take
+    #   effect.
+    #   @return [Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/RedshiftSettings AWS API Documentation
     #
     class RedshiftSettings < Struct.new(
@@ -6867,7 +10776,8 @@ module Aws::DatabaseMigrationService
       :username,
       :write_buffer_size,
       :secrets_manager_access_role_arn,
-      :secrets_manager_secret_id)
+      :secrets_manager_secret_id,
+      :map_boolean_as_boolean)
       SENSITIVE = [:password]
       include Aws::Structure
     end
@@ -6938,6 +10848,45 @@ module Aws::DatabaseMigrationService
       include Aws::Structure
     end
 
+    # @!attribute [rw] replication_config_arn
+    #   The Amazon Resource Name of the replication config for which to
+    #   reload tables.
+    #   @return [String]
+    #
+    # @!attribute [rw] tables_to_reload
+    #   The list of tables to reload.
+    #   @return [Array<Types::TableToReload>]
+    #
+    # @!attribute [rw] reload_option
+    #   Options for reload. Specify `data-reload` to reload the data and
+    #   re-validate it if validation is enabled. Specify `validate-only` to
+    #   re-validate the table. This option applies only when validation is
+    #   enabled for the replication.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/ReloadReplicationTablesMessage AWS API Documentation
+    #
+    class ReloadReplicationTablesMessage < Struct.new(
+      :replication_config_arn,
+      :tables_to_reload,
+      :reload_option)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] replication_config_arn
+    #   The Amazon Resource Name of the replication config for which to
+    #   reload tables.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/ReloadReplicationTablesResponse AWS API Documentation
+    #
+    class ReloadReplicationTablesResponse < Struct.new(
+      :replication_config_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] replication_task_arn
     #   The Amazon Resource Name (ARN) of the replication task.
     #   @return [String]
@@ -7002,6 +10951,238 @@ module Aws::DatabaseMigrationService
     # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/RemoveTagsFromResourceResponse AWS API Documentation
     #
     class RemoveTagsFromResourceResponse < Aws::EmptyStructure; end
+
+    # Provides information that describes a serverless replication created
+    # by the `CreateReplication` operation.
+    #
+    # @!attribute [rw] replication_config_identifier
+    #   The identifier for the `ReplicationConfig` associated with the
+    #   replication.
+    #   @return [String]
+    #
+    # @!attribute [rw] replication_config_arn
+    #   The Amazon Resource Name for the `ReplicationConfig` associated with
+    #   the replication.
+    #   @return [String]
+    #
+    # @!attribute [rw] source_endpoint_arn
+    #   The Amazon Resource Name for an existing `Endpoint` the serverless
+    #   replication uses for its data source.
+    #   @return [String]
+    #
+    # @!attribute [rw] target_endpoint_arn
+    #   The Amazon Resource Name for an existing `Endpoint` the serverless
+    #   replication uses for its data target.
+    #   @return [String]
+    #
+    # @!attribute [rw] replication_type
+    #   The type of the serverless replication.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the serverless replication.
+    #   @return [String]
+    #
+    # @!attribute [rw] provision_data
+    #   Information about provisioning resources for an DMS serverless
+    #   replication.
+    #   @return [Types::ProvisionData]
+    #
+    # @!attribute [rw] premigration_assessment_statuses
+    #   The status output of premigration assessment in
+    #   describe-replications.
+    #   @return [Array<Types::PremigrationAssessmentStatus>]
+    #
+    # @!attribute [rw] stop_reason
+    #   The reason the replication task was stopped. This response parameter
+    #   can return one of the following values:
+    #
+    #   * `"Stop Reason NORMAL"`
+    #
+    #   * `"Stop Reason RECOVERABLE_ERROR"`
+    #
+    #   * `"Stop Reason FATAL_ERROR"`
+    #
+    #   * `"Stop Reason FULL_LOAD_ONLY_FINISHED"`
+    #
+    #   * `"Stop Reason STOPPED_AFTER_FULL_LOAD"` – Full load completed,
+    #     with cached changes not applied
+    #
+    #   * `"Stop Reason STOPPED_AFTER_CACHED_EVENTS"` – Full load completed,
+    #     with cached changes applied
+    #
+    #   * `"Stop Reason EXPRESS_LICENSE_LIMITS_REACHED"`
+    #
+    #   * `"Stop Reason STOPPED_AFTER_DDL_APPLY"` – User-defined stop task
+    #     after DDL applied
+    #
+    #   * `"Stop Reason STOPPED_DUE_TO_LOW_MEMORY"`
+    #
+    #   * `"Stop Reason STOPPED_DUE_TO_LOW_DISK"`
+    #
+    #   * `"Stop Reason STOPPED_AT_SERVER_TIME"` – User-defined server time
+    #     for stopping task
+    #
+    #   * `"Stop Reason STOPPED_AT_COMMIT_TIME"` – User-defined commit time
+    #     for stopping task
+    #
+    #   * `"Stop Reason RECONFIGURATION_RESTART"`
+    #
+    #   * `"Stop Reason RECYCLE_TASK"`
+    #   @return [String]
+    #
+    # @!attribute [rw] failure_messages
+    #   Error and other information about why a serverless replication
+    #   failed.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] replication_stats
+    #   This object provides a collection of statistics about a serverless
+    #   replication.
+    #   @return [Types::ReplicationStats]
+    #
+    # @!attribute [rw] start_replication_type
+    #   The type of replication to start.
+    #   @return [String]
+    #
+    # @!attribute [rw] cdc_start_time
+    #   Indicates the start time for a change data capture (CDC) operation.
+    #   Use either `CdcStartTime` or `CdcStartPosition` to specify when you
+    #   want a CDC operation to start. Specifying both values results in an
+    #   error.
+    #   @return [Time]
+    #
+    # @!attribute [rw] cdc_start_position
+    #   Indicates the start time for a change data capture (CDC) operation.
+    #   Use either `CdcStartTime` or `CdcStartPosition` to specify when you
+    #   want a CDC operation to start. Specifying both values results in an
+    #   error.
+    #   @return [String]
+    #
+    # @!attribute [rw] cdc_stop_position
+    #   Indicates when you want a change data capture (CDC) operation to
+    #   stop. The value can be either server time or commit time.
+    #   @return [String]
+    #
+    # @!attribute [rw] recovery_checkpoint
+    #   Indicates the last checkpoint that occurred during a change data
+    #   capture (CDC) operation. You can provide this value to the
+    #   `CdcStartPosition` parameter to start a CDC operation that begins at
+    #   that checkpoint.
+    #   @return [String]
+    #
+    # @!attribute [rw] replication_create_time
+    #   The time the serverless replication was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] replication_update_time
+    #   The time the serverless replication was updated.
+    #   @return [Time]
+    #
+    # @!attribute [rw] replication_last_stop_time
+    #   The timestamp when replication was last stopped.
+    #   @return [Time]
+    #
+    # @!attribute [rw] replication_deprovision_time
+    #   The timestamp when DMS will deprovision the replication.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/Replication AWS API Documentation
+    #
+    class Replication < Struct.new(
+      :replication_config_identifier,
+      :replication_config_arn,
+      :source_endpoint_arn,
+      :target_endpoint_arn,
+      :replication_type,
+      :status,
+      :provision_data,
+      :premigration_assessment_statuses,
+      :stop_reason,
+      :failure_messages,
+      :replication_stats,
+      :start_replication_type,
+      :cdc_start_time,
+      :cdc_start_position,
+      :cdc_stop_position,
+      :recovery_checkpoint,
+      :replication_create_time,
+      :replication_update_time,
+      :replication_last_stop_time,
+      :replication_deprovision_time)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # This object provides configuration information about a serverless
+    # replication.
+    #
+    # @!attribute [rw] replication_config_identifier
+    #   The identifier for the `ReplicationConfig` associated with the
+    #   replication.
+    #   @return [String]
+    #
+    # @!attribute [rw] replication_config_arn
+    #   The Amazon Resource Name (ARN) of this DMS Serverless replication
+    #   configuration.
+    #   @return [String]
+    #
+    # @!attribute [rw] source_endpoint_arn
+    #   The Amazon Resource Name (ARN) of the source endpoint for this DMS
+    #   serverless replication configuration.
+    #   @return [String]
+    #
+    # @!attribute [rw] target_endpoint_arn
+    #   The Amazon Resource Name (ARN) of the target endpoint for this DMS
+    #   serverless replication configuration.
+    #   @return [String]
+    #
+    # @!attribute [rw] replication_type
+    #   The type of the replication.
+    #   @return [String]
+    #
+    # @!attribute [rw] compute_config
+    #   Configuration parameters for provisioning an DMS serverless
+    #   replication.
+    #   @return [Types::ComputeConfig]
+    #
+    # @!attribute [rw] replication_settings
+    #   Configuration parameters for an DMS serverless replication.
+    #   @return [String]
+    #
+    # @!attribute [rw] supplemental_settings
+    #   Additional parameters for an DMS serverless replication.
+    #   @return [String]
+    #
+    # @!attribute [rw] table_mappings
+    #   Table mappings specified in the replication.
+    #   @return [String]
+    #
+    # @!attribute [rw] replication_config_create_time
+    #   The time the serverless replication config was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] replication_config_update_time
+    #   The time the serverless replication config was updated.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/ReplicationConfig AWS API Documentation
+    #
+    class ReplicationConfig < Struct.new(
+      :replication_config_identifier,
+      :replication_config_arn,
+      :source_endpoint_arn,
+      :target_endpoint_arn,
+      :replication_type,
+      :compute_config,
+      :replication_settings,
+      :supplemental_settings,
+      :table_mappings,
+      :replication_config_create_time,
+      :replication_config_update_time)
+      SENSITIVE = []
+      include Aws::Structure
+    end
 
     # Provides information that defines a replication instance.
     #
@@ -7183,6 +11364,11 @@ module Aws::DatabaseMigrationService
     #   addressing. IPv6 only is not yet supported.
     #   @return [String]
     #
+    # @!attribute [rw] kerberos_authentication_settings
+    #   Specifies the settings required for kerberos authentication when
+    #   replicating an instance.
+    #   @return [Types::KerberosAuthenticationSettings]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/ReplicationInstance AWS API Documentation
     #
     class ReplicationInstance < Struct.new(
@@ -7210,7 +11396,8 @@ module Aws::DatabaseMigrationService
       :secondary_availability_zone,
       :free_until,
       :dns_name_servers,
-      :network_type)
+      :network_type,
+      :kerberos_authentication_settings)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -7289,6 +11476,72 @@ module Aws::DatabaseMigrationService
       :multi_az,
       :engine_version,
       :network_type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # This object provides a collection of statistics about a serverless
+    # replication.
+    #
+    # @!attribute [rw] full_load_progress_percent
+    #   The percent complete for the full load serverless replication.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] elapsed_time_millis
+    #   The elapsed time of the replication, in milliseconds.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] tables_loaded
+    #   The number of tables loaded for this replication.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] tables_loading
+    #   The number of tables currently loading for this replication.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] tables_queued
+    #   The number of tables queued for this replication.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] tables_errored
+    #   The number of errors that have occured for this replication.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] fresh_start_date
+    #   The date the replication was started either with a fresh start or a
+    #   target reload.
+    #   @return [Time]
+    #
+    # @!attribute [rw] start_date
+    #   The date the replication is scheduled to start.
+    #   @return [Time]
+    #
+    # @!attribute [rw] stop_date
+    #   The date the replication was stopped.
+    #   @return [Time]
+    #
+    # @!attribute [rw] full_load_start_date
+    #   The date the replication full load was started.
+    #   @return [Time]
+    #
+    # @!attribute [rw] full_load_finish_date
+    #   The date the replication full load was finished.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/ReplicationStats AWS API Documentation
+    #
+    class ReplicationStats < Struct.new(
+      :full_load_progress_percent,
+      :elapsed_time_millis,
+      :tables_loaded,
+      :tables_loading,
+      :tables_queued,
+      :tables_errored,
+      :fresh_start_date,
+      :start_date,
+      :stop_date,
+      :full_load_start_date,
+      :full_load_finish_date)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -7468,13 +11721,16 @@ module Aws::DatabaseMigrationService
     #   The reason the replication task was stopped. This response parameter
     #   can return one of the following values:
     #
-    #   * `"Stop Reason NORMAL"`
+    #   * `"Stop Reason NORMAL"` – The task completed successfully with no
+    #     additional information returned.
     #
     #   * `"Stop Reason RECOVERABLE_ERROR"`
     #
     #   * `"Stop Reason FATAL_ERROR"`
     #
-    #   * `"Stop Reason FULL_LOAD_ONLY_FINISHED"`
+    #   * `"Stop Reason FULL_LOAD_ONLY_FINISHED"` – The task completed the
+    #     full load phase. DMS applied cached changes if you set
+    #     `StopTaskCachedChangesApplied` to `true`.
     #
     #   * `"Stop Reason STOPPED_AFTER_FULL_LOAD"` – Full load completed,
     #     with cached changes not applied
@@ -7533,8 +11789,8 @@ module Aws::DatabaseMigrationService
     #   Server time example: --cdc-stop-position
     #   “server\_time:2018-02-09T12:12:12”
     #
-    #   Commit time example: --cdc-stop-position “commit\_time:
-    #   2018-02-09T12:12:12 “
+    #   Commit time example: --cdc-stop-position
+    #   “commit\_time:2018-02-09T12:12:12“
     #   @return [String]
     #
     # @!attribute [rw] recovery_checkpoint
@@ -7650,7 +11906,7 @@ module Aws::DatabaseMigrationService
       :assessment_results_file,
       :assessment_results,
       :s3_object_url)
-      SENSITIVE = []
+      SENSITIVE = [:s3_object_url]
       include Aws::Structure
     end
 
@@ -7702,6 +11958,9 @@ module Aws::DatabaseMigrationService
     #
     #   * `"starting"` – The assessment run is starting, but resources are
     #     not yet being provisioned for individual assessments.
+    #
+    #   * `"warning"` – At least one individual assessment completed with a
+    #     `warning` status.
     #   @return [String]
     #
     # @!attribute [rw] replication_task_assessment_run_creation_date
@@ -7747,6 +12006,17 @@ module Aws::DatabaseMigrationService
     #   Unique name of the assessment run.
     #   @return [String]
     #
+    # @!attribute [rw] is_latest_task_assessment_run
+    #   Indicates that the following PreflightAssessmentRun is the latest
+    #   for the ReplicationTask. The status is either true or false.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] result_statistic
+    #   Result statistics for a completed assessment run, showing aggregated
+    #   statistics of IndividualAssessments for how many assessments were
+    #   passed, failed, or encountered issues such as errors or warnings.
+    #   @return [Types::ReplicationTaskAssessmentRunResultStatistic]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/ReplicationTaskAssessmentRun AWS API Documentation
     #
     class ReplicationTaskAssessmentRun < Struct.new(
@@ -7761,7 +12031,9 @@ module Aws::DatabaseMigrationService
       :result_location_folder,
       :result_encryption_mode,
       :result_kms_key_arn,
-      :assessment_run_name)
+      :assessment_run_name,
+      :is_latest_task_assessment_run,
+      :result_statistic)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -7783,6 +12055,46 @@ module Aws::DatabaseMigrationService
     class ReplicationTaskAssessmentRunProgress < Struct.new(
       :individual_assessment_count,
       :individual_assessment_completed_count)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The object containing the result statistics for a completed assessment
+    # run.
+    #
+    # @!attribute [rw] passed
+    #   The number of individual assessments that successfully passed all
+    #   checks in the assessment run.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] failed
+    #   The number of individual assessments that failed to meet the
+    #   criteria defined in the assessment run.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] error
+    #   The number of individual assessments that encountered a critical
+    #   error and could not complete properly.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] warning
+    #   Indicates that the recent completed AssessmentRun triggered a
+    #   warning.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] cancelled
+    #   The number of individual assessments that were cancelled during the
+    #   assessment run.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/ReplicationTaskAssessmentRunResultStatistic AWS API Documentation
+    #
+    class ReplicationTaskAssessmentRunResultStatistic < Struct.new(
+      :passed,
+      :failed,
+      :error,
+      :warning,
+      :cancelled)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -8121,10 +12433,10 @@ module Aws::DatabaseMigrationService
     #   The format of the data that you want to use for output. You can
     #   choose one of the following:
     #
-    #   * `csv`\: This is a row-based file format with comma-separated
+    #   * `csv` : This is a row-based file format with comma-separated
     #     values (.csv).
     #
-    #   * `parquet`\: Apache Parquet (.parquet) is a columnar storage file
+    #   * `parquet` : Apache Parquet (.parquet) is a columnar storage file
     #     format that features efficient compression and provides faster
     #     query response.
     #   @return [String]
@@ -8184,11 +12496,14 @@ module Aws::DatabaseMigrationService
     #
     # @!attribute [rw] include_op_for_full_load
     #   A value that enables a full load to write INSERT operations to the
-    #   comma-separated value (.csv) output files only to indicate how the
-    #   rows were added to the source database.
+    #   comma-separated value (.csv) or .parquet output files only to
+    #   indicate how the rows were added to the source database.
     #
     #   <note markdown="1"> DMS supports the `IncludeOpForFullLoad` parameter in versions 3.1.4
     #   and later.
+    #
+    #    DMS supports the use of the .parquet files with the
+    #   `IncludeOpForFullLoad` parameter in versions 3.4.7 and later.
     #
     #    </note>
     #
@@ -8319,15 +12634,17 @@ module Aws::DatabaseMigrationService
     #   UPDATEs from the source database are migrated to the .csv or
     #   .parquet file.
     #
-    #   For .csv file format only, how these INSERTs and UPDATEs are
-    #   recorded depends on the value of the `IncludeOpForFullLoad`
-    #   parameter. If `IncludeOpForFullLoad` is set to `true`, the first
-    #   field of every CDC record is set to either `I` or `U` to indicate
-    #   INSERT and UPDATE operations at the source. But if
-    #   `IncludeOpForFullLoad` is set to `false`, CDC records are written
-    #   without an indication of INSERT or UPDATE operations at the source.
-    #   For more information about how these settings work together, see
-    #   [Indicating Source DB Operations in Migrated S3 Data][1] in the
+    #   DMS supports the use of the .parquet files in versions 3.4.7 and
+    #   later.
+    #
+    #   How these INSERTs and UPDATEs are recorded depends on the value of
+    #   the `IncludeOpForFullLoad` parameter. If `IncludeOpForFullLoad` is
+    #   set to `true`, the first field of every CDC record is set to either
+    #   `I` or `U` to indicate INSERT and UPDATE operations at the source.
+    #   But if `IncludeOpForFullLoad` is set to `false`, CDC records are
+    #   written without an indication of INSERT or UPDATE operations at the
+    #   source. For more information about how these settings work together,
+    #   see [Indicating Source DB Operations in Migrated S3 Data][1] in the
     #   *Database Migration Service User Guide.*.
     #
     #   <note markdown="1"> DMS supports the use of the `CdcInsertsAndUpdates` parameter in
@@ -8518,7 +12835,7 @@ module Aws::DatabaseMigrationService
     #   An optional parameter that specifies how DMS treats null values.
     #   While handling the null value, you can use this parameter to pass a
     #   user-defined string as null when writing to the target. For example,
-    #   when target columns are not nullable, you can use this option to
+    #   when target columns are nullable, you can use this option to
     #   differentiate between the empty string value and the null value. So,
     #   if you set this parameter value to the empty string ("" or ''),
     #   DMS treats the empty string as the null value instead of `NULL`.
@@ -8571,10 +12888,10 @@ module Aws::DatabaseMigrationService
     #   this parameter when `DatePartitionedEnabled` is set to `true`, as
     #   shown in the following example.
     #
-    #   `s3-settings='\{"DatePartitionEnabled": true,
+    #   `s3-settings='{"DatePartitionEnabled": true,
     #   "DatePartitionSequence": "YYYYMMDDHH", "DatePartitionDelimiter":
     #   "SLASH", "DatePartitionTimezone":"Asia/Seoul", "BucketName":
-    #   "dms-nattarat-test"\}'`
+    #   "dms-nattarat-test"}'`
     #   @return [String]
     #
     # @!attribute [rw] add_trailing_padding_character
@@ -8586,13 +12903,17 @@ module Aws::DatabaseMigrationService
     #   To specify a bucket owner and prevent sniping, you can use the
     #   `ExpectedBucketOwner` endpoint setting.
     #
-    #   Example: `--s3-settings='\{"ExpectedBucketOwner":
-    #   "AWS_Account_ID"\}'`
+    #   Example: `--s3-settings='{"ExpectedBucketOwner": "AWS_Account_ID"}'`
     #
     #   When you make a request to test a connection or perform a migration,
     #   S3 checks the account ID of the bucket owner against the specified
     #   parameter.
     #   @return [String]
+    #
+    # @!attribute [rw] glue_catalog_generation
+    #   When true, allows Glue to catalog your S3 bucket. Creating an Glue
+    #   catalog lets you use Athena to query your data.
+    #   @return [Boolean]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/S3Settings AWS API Documentation
     #
@@ -8636,7 +12957,29 @@ module Aws::DatabaseMigrationService
       :rfc_4180,
       :date_partition_timezone,
       :add_trailing_padding_character,
-      :expected_bucket_owner)
+      :expected_bucket_owner,
+      :glue_catalog_generation)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Provides information that defines a schema conversion application.
+    #
+    # @!attribute [rw] s3_bucket_path
+    #   The path for the Amazon S3 bucket that the application uses for
+    #   exporting assessment reports.
+    #   @return [String]
+    #
+    # @!attribute [rw] s3_bucket_role_arn
+    #   The ARN for the role the application uses to access its Amazon S3
+    #   bucket.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/SCApplicationAttributes AWS API Documentation
+    #
+    class SCApplicationAttributes < Struct.new(
+      :s3_bucket_path,
+      :s3_bucket_role_arn)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -8663,6 +13006,41 @@ module Aws::DatabaseMigrationService
     #
     class SNSNoAuthorizationFault < Struct.new(
       :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Provides information about a schema conversion action.
+    #
+    # @!attribute [rw] status
+    #   The schema conversion action status.
+    #   @return [String]
+    #
+    # @!attribute [rw] request_identifier
+    #   The identifier for the schema conversion action.
+    #   @return [String]
+    #
+    # @!attribute [rw] migration_project_arn
+    #   The migration project ARN.
+    #   @return [String]
+    #
+    # @!attribute [rw] error
+    #   Provides error information about a project.
+    #   @return [Types::ErrorDetails]
+    #
+    # @!attribute [rw] export_sql_details
+    #   Provides information about a metadata model assessment exported to
+    #   SQL.
+    #   @return [Types::ExportSqlDetails]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/SchemaConversionRequest AWS API Documentation
+    #
+    class SchemaConversionRequest < Struct.new(
+      :status,
+      :request_identifier,
+      :migration_project_arn,
+      :error,
+      :export_sql_details)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -8785,6 +13163,423 @@ module Aws::DatabaseMigrationService
       include Aws::Structure
     end
 
+    # Defines settings for a source data provider for a data migration.
+    #
+    # @!attribute [rw] cdc_start_position
+    #   The change data capture (CDC) start position for the source data
+    #   provider.
+    #   @return [String]
+    #
+    # @!attribute [rw] cdc_start_time
+    #   The change data capture (CDC) start time for the source data
+    #   provider.
+    #   @return [Time]
+    #
+    # @!attribute [rw] cdc_stop_time
+    #   The change data capture (CDC) stop time for the source data
+    #   provider.
+    #   @return [Time]
+    #
+    # @!attribute [rw] slot_name
+    #   The name of the replication slot on the source data provider. This
+    #   attribute is only valid for a PostgreSQL or Aurora PostgreSQL
+    #   source.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/SourceDataSetting AWS API Documentation
+    #
+    class SourceDataSetting < Struct.new(
+      :cdc_start_position,
+      :cdc_start_time,
+      :cdc_stop_time,
+      :slot_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] data_migration_identifier
+    #   The identifier (name or ARN) of the data migration to start.
+    #   @return [String]
+    #
+    # @!attribute [rw] start_type
+    #   Specifies the start type for the data migration. Valid values
+    #   include `start-replication`, `reload-target`, and
+    #   `resume-processing`.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/StartDataMigrationMessage AWS API Documentation
+    #
+    class StartDataMigrationMessage < Struct.new(
+      :data_migration_identifier,
+      :start_type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] data_migration
+    #   The data migration that DMS started.
+    #   @return [Types::DataMigration]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/StartDataMigrationResponse AWS API Documentation
+    #
+    class StartDataMigrationResponse < Struct.new(
+      :data_migration)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] migration_project_identifier
+    #   The migration project name or Amazon Resource Name (ARN).
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/StartExtensionPackAssociationMessage AWS API Documentation
+    #
+    class StartExtensionPackAssociationMessage < Struct.new(
+      :migration_project_identifier)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] request_identifier
+    #   The identifier for the request operation.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/StartExtensionPackAssociationResponse AWS API Documentation
+    #
+    class StartExtensionPackAssociationResponse < Struct.new(
+      :request_identifier)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] migration_project_identifier
+    #   The migration project name or Amazon Resource Name (ARN).
+    #   @return [String]
+    #
+    # @!attribute [rw] selection_rules
+    #   A value that specifies the database objects to assess.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/StartMetadataModelAssessmentMessage AWS API Documentation
+    #
+    class StartMetadataModelAssessmentMessage < Struct.new(
+      :migration_project_identifier,
+      :selection_rules)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] request_identifier
+    #   The identifier for the assessment operation.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/StartMetadataModelAssessmentResponse AWS API Documentation
+    #
+    class StartMetadataModelAssessmentResponse < Struct.new(
+      :request_identifier)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] migration_project_identifier
+    #   The migration project name or Amazon Resource Name (ARN).
+    #   @return [String]
+    #
+    # @!attribute [rw] selection_rules
+    #   A value that specifies the database objects to convert.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/StartMetadataModelConversionMessage AWS API Documentation
+    #
+    class StartMetadataModelConversionMessage < Struct.new(
+      :migration_project_identifier,
+      :selection_rules)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] request_identifier
+    #   The identifier for the conversion operation.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/StartMetadataModelConversionResponse AWS API Documentation
+    #
+    class StartMetadataModelConversionResponse < Struct.new(
+      :request_identifier)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] migration_project_identifier
+    #   The migration project name or Amazon Resource Name (ARN).
+    #   @return [String]
+    #
+    # @!attribute [rw] selection_rules
+    #   A value that specifies the database objects to export.
+    #   @return [String]
+    #
+    # @!attribute [rw] origin
+    #   Whether to export the metadata model from the source or the target.
+    #   @return [String]
+    #
+    # @!attribute [rw] file_name
+    #   The name of the model file to create in the Amazon S3 bucket.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/StartMetadataModelExportAsScriptMessage AWS API Documentation
+    #
+    class StartMetadataModelExportAsScriptMessage < Struct.new(
+      :migration_project_identifier,
+      :selection_rules,
+      :origin,
+      :file_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] request_identifier
+    #   The identifier for the export operation.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/StartMetadataModelExportAsScriptResponse AWS API Documentation
+    #
+    class StartMetadataModelExportAsScriptResponse < Struct.new(
+      :request_identifier)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] migration_project_identifier
+    #   The migration project name or Amazon Resource Name (ARN).
+    #   @return [String]
+    #
+    # @!attribute [rw] selection_rules
+    #   A value that specifies the database objects to export.
+    #   @return [String]
+    #
+    # @!attribute [rw] overwrite_extension_pack
+    #   Whether to overwrite the migration project extension pack. An
+    #   extension pack is an add-on module that emulates functions present
+    #   in a source database that are required when converting objects to
+    #   the target database.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/StartMetadataModelExportToTargetMessage AWS API Documentation
+    #
+    class StartMetadataModelExportToTargetMessage < Struct.new(
+      :migration_project_identifier,
+      :selection_rules,
+      :overwrite_extension_pack)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] request_identifier
+    #   The identifier for the export operation.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/StartMetadataModelExportToTargetResponse AWS API Documentation
+    #
+    class StartMetadataModelExportToTargetResponse < Struct.new(
+      :request_identifier)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] migration_project_identifier
+    #   The migration project name or Amazon Resource Name (ARN).
+    #   @return [String]
+    #
+    # @!attribute [rw] selection_rules
+    #   A value that specifies the database objects to import.
+    #   @return [String]
+    #
+    # @!attribute [rw] origin
+    #   Whether to load metadata to the source or target database.
+    #   @return [String]
+    #
+    # @!attribute [rw] refresh
+    #   If `true`, DMS loads metadata for the specified objects from the
+    #   source database.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/StartMetadataModelImportMessage AWS API Documentation
+    #
+    class StartMetadataModelImportMessage < Struct.new(
+      :migration_project_identifier,
+      :selection_rules,
+      :origin,
+      :refresh)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] request_identifier
+    #   The identifier for the import operation.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/StartMetadataModelImportResponse AWS API Documentation
+    #
+    class StartMetadataModelImportResponse < Struct.new(
+      :request_identifier)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] database_id
+    #   The identifier of the source database to analyze and provide
+    #   recommendations for.
+    #   @return [String]
+    #
+    # @!attribute [rw] settings
+    #   The settings in JSON format that Fleet Advisor uses to determine
+    #   target engine recommendations. These parameters include target
+    #   instance sizing and availability and durability settings. For target
+    #   instance sizing, Fleet Advisor supports the following two options:
+    #   total capacity and resource utilization. For availability and
+    #   durability, Fleet Advisor supports the following two options:
+    #   production (Multi-AZ deployments) and Dev/Test (Single-AZ
+    #   deployments).
+    #   @return [Types::RecommendationSettings]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/StartRecommendationsRequest AWS API Documentation
+    #
+    class StartRecommendationsRequest < Struct.new(
+      :database_id,
+      :settings)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Provides information about the source database to analyze and provide
+    # target recommendations according to the specified requirements.
+    #
+    # @!attribute [rw] database_id
+    #   The identifier of the source database.
+    #   @return [String]
+    #
+    # @!attribute [rw] settings
+    #   The required target engine settings.
+    #   @return [Types::RecommendationSettings]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/StartRecommendationsRequestEntry AWS API Documentation
+    #
+    class StartRecommendationsRequestEntry < Struct.new(
+      :database_id,
+      :settings)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] replication_config_arn
+    #   The Amazon Resource Name of the replication for which to start
+    #   replication.
+    #   @return [String]
+    #
+    # @!attribute [rw] start_replication_type
+    #   The replication type.
+    #
+    #   When the replication type is `full-load` or `full-load-and-cdc`, the
+    #   only valid value for the first run of the replication is
+    #   `start-replication`. This option will start the replication.
+    #
+    #   You can also use ReloadTables to reload specific tables that failed
+    #   during replication instead of restarting the replication.
+    #
+    #   The `resume-processing` option isn't applicable for a full-load
+    #   replication, because you can't resume partially loaded tables
+    #   during the full load phase.
+    #
+    #   For a `full-load-and-cdc` replication, DMS migrates table data, and
+    #   then applies data changes that occur on the source. To load all the
+    #   tables again, and start capturing source changes, use
+    #   `reload-target`. Otherwise use `resume-processing`, to replicate the
+    #   changes from the last stop position.
+    #   @return [String]
+    #
+    # @!attribute [rw] premigration_assessment_settings
+    #   User-defined settings for the premigration assessment. The possible
+    #   values are:
+    #
+    #   * `ResultLocationFinder`: The folder within an Amazon Amazon S3
+    #     bucket where you want DMS to store the results of this assessment
+    #     run.
+    #
+    #   * `ResultEncryptionMode`: The supported values are `SSE_KMS` and
+    #     `SSE_S3`. If these values are not provided, then the files are not
+    #     encrypted at rest. For more information, see [Creating Amazon Web
+    #     Services KMS keys to encrypt Amazon Amazon S3 target objects][1].
+    #
+    #   * `ResultKmsKeyArn`: The ARN of a customer KMS encryption key that
+    #     you specify when you set `ResultEncryptionMode` to `SSE_KMS`.
+    #
+    #   * `IncludeOnly`: A space-separated list of names for specific
+    #     individual assessments that you want to include. These names come
+    #     from the default list of individual assessments that Database
+    #     Migration Service supports for the associated migration.
+    #
+    #   * `Exclude`: A space-separated list of names for specific individual
+    #     assessments that you want to exclude. These names come from the
+    #     default list of individual assessments that Database Migration
+    #     Service supports for the associated migration.
+    #
+    #   * `FailOnAssessmentFailure`: A configurable setting you can set to
+    #     `true` (the default setting) or `false`. Use this setting to to
+    #     stop the replication from starting automatically if the assessment
+    #     fails. This can help you evaluate the issue that is preventing the
+    #     replication from running successfully.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Target.S3.html#CHAP_Target.S3.KMSKeys
+    #   @return [String]
+    #
+    # @!attribute [rw] cdc_start_time
+    #   Indicates the start time for a change data capture (CDC) operation.
+    #   Use either `CdcStartTime` or `CdcStartPosition` to specify when you
+    #   want a CDC operation to start. Specifying both values results in an
+    #   error.
+    #   @return [Time]
+    #
+    # @!attribute [rw] cdc_start_position
+    #   Indicates when you want a change data capture (CDC) operation to
+    #   start. Use either `CdcStartPosition` or `CdcStartTime` to specify
+    #   when you want a CDC operation to start. Specifying both values
+    #   results in an error.
+    #
+    #   The value can be in date, checkpoint, or LSN/SCN format.
+    #   @return [String]
+    #
+    # @!attribute [rw] cdc_stop_position
+    #   Indicates when you want a change data capture (CDC) operation to
+    #   stop. The value can be either server time or commit time.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/StartReplicationMessage AWS API Documentation
+    #
+    class StartReplicationMessage < Struct.new(
+      :replication_config_arn,
+      :start_replication_type,
+      :premigration_assessment_settings,
+      :cdc_start_time,
+      :cdc_start_position,
+      :cdc_stop_position)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] replication
+    #   The replication that DMS started.
+    #   @return [Types::Replication]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/StartReplicationResponse AWS API Documentation
+    #
+    class StartReplicationResponse < Struct.new(
+      :replication)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] replication_task_arn
     #   The Amazon Resource Name (ARN) of the replication task.
     #   @return [String]
@@ -8886,6 +13681,11 @@ module Aws::DatabaseMigrationService
     #    </note>
     #   @return [Array<String>]
     #
+    # @!attribute [rw] tags
+    #   One or more tags to be assigned to the premigration assessment run
+    #   that you want to start.
+    #   @return [Array<Types::Tag>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/StartReplicationTaskAssessmentRunMessage AWS API Documentation
     #
     class StartReplicationTaskAssessmentRunMessage < Struct.new(
@@ -8897,7 +13697,8 @@ module Aws::DatabaseMigrationService
       :result_kms_key_arn,
       :assessment_run_name,
       :include_only,
-      :exclude)
+      :exclude,
+      :tags)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -8924,13 +13725,20 @@ module Aws::DatabaseMigrationService
     #
     #   When the migration type is `full-load` or `full-load-and-cdc`, the
     #   only valid value for the first run of the task is
-    #   `start-replication`. You use `reload-target` to restart the task and
-    #   `resume-processing` to resume the task.
+    #   `start-replication`. This option will start the migration.
     #
-    #   When the migration type is `cdc`, you use `start-replication` to
-    #   start or restart the task, and `resume-processing` to resume the
-    #   task. `reload-target` is not a valid value for a task with migration
-    #   type of `cdc`.
+    #   You can also use ReloadTables to reload specific tables that failed
+    #   during migration instead of restarting the task.
+    #
+    #   The `resume-processing` option isn't applicable for a full-load
+    #   task, because you can't resume partially loaded tables during the
+    #   full load phase.
+    #
+    #   For a `full-load-and-cdc` task, DMS migrates table data, and then
+    #   applies data changes that occur on the source. To load all the
+    #   tables again, and start capturing source changes, use
+    #   `reload-target`. Otherwise use `resume-processing`, to replicate the
+    #   changes from the last stop position.
     #   @return [String]
     #
     # @!attribute [rw] cdc_start_time
@@ -8978,8 +13786,8 @@ module Aws::DatabaseMigrationService
     #   Server time example: --cdc-stop-position
     #   “server\_time:2018-02-09T12:12:12”
     #
-    #   Commit time example: --cdc-stop-position “commit\_time:
-    #   2018-02-09T12:12:12 “
+    #   Commit time example: --cdc-stop-position
+    #   “commit\_time:2018-02-09T12:12:12“
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/StartReplicationTaskMessage AWS API Documentation
@@ -9002,6 +13810,54 @@ module Aws::DatabaseMigrationService
     #
     class StartReplicationTaskResponse < Struct.new(
       :replication_task)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] data_migration_identifier
+    #   The identifier (name or ARN) of the data migration to stop.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/StopDataMigrationMessage AWS API Documentation
+    #
+    class StopDataMigrationMessage < Struct.new(
+      :data_migration_identifier)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] data_migration
+    #   The data migration that DMS stopped.
+    #   @return [Types::DataMigration]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/StopDataMigrationResponse AWS API Documentation
+    #
+    class StopDataMigrationResponse < Struct.new(
+      :data_migration)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] replication_config_arn
+    #   The Amazon Resource Name of the replication to stop.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/StopReplicationMessage AWS API Documentation
+    #
+    class StopReplicationMessage < Struct.new(
+      :replication_config_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] replication
+    #   The replication that DMS stopped.
+    #   @return [Types::Replication]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/StopReplicationResponse AWS API Documentation
+    #
+    class StopReplicationResponse < Struct.new(
+      :replication)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -9398,7 +14254,7 @@ module Aws::DatabaseMigrationService
     #   "dms:". The string can only contain only the set of Unicode
     #   letters, digits, white-space, '\_', '.', '/', '=', '+',
     #   '-' (Java regular expressions:
-    #   "^(\[\\\\p\\\{L\\}\\\\p\\\{Z\\}\\\\p\\\{N\\}\_.:/=+\\\\-\]*)$").
+    #   "^(\[\\\\p\{L}\\\\p\{Z}\\\\p\{N}\_.:/=+\\\\-\]*)$").
     #   @return [String]
     #
     # @!attribute [rw] value
@@ -9407,7 +14263,7 @@ module Aws::DatabaseMigrationService
     #   "aws:" or "dms:". The string can only contain only the set of
     #   Unicode letters, digits, white-space, '\_', '.', '/', '=',
     #   '+', '-' (Java regular expressions:
-    #   "^(\[\\\\p\\\{L\\}\\\\p\\\{Z\\}\\\\p\\\{N\\}\_.:/=+\\\\-\]*)$").
+    #   "^(\[\\\\p\{L}\\\\p\{Z}\\\\p\{N}\_.:/=+\\\\-\]*)$").
     #   @return [String]
     #
     # @!attribute [rw] resource_arn
@@ -9421,6 +14277,23 @@ module Aws::DatabaseMigrationService
       :key,
       :value,
       :resource_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Defines settings for a target data provider for a data migration.
+    #
+    # @!attribute [rw] table_preparation_mode
+    #   This setting determines how DMS handles the target tables before
+    #   starting a data migration, either by leaving them untouched,
+    #   dropping and recreating them, or truncating the existing data in the
+    #   target tables.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/TargetDataSetting AWS API Documentation
+    #
+    class TargetDataSetting < Struct.new(
+      :table_preparation_mode)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -9455,11 +14328,72 @@ module Aws::DatabaseMigrationService
       include Aws::Structure
     end
 
+    # Provides information that defines an Amazon Timestream endpoint.
+    #
+    # @!attribute [rw] database_name
+    #   Database name for the endpoint.
+    #   @return [String]
+    #
+    # @!attribute [rw] memory_duration
+    #   Set this attribute to specify the length of time to store all of the
+    #   tables in memory that are migrated into Amazon Timestream from the
+    #   source database. Time is measured in units of hours. When Timestream
+    #   data comes in, it first resides in memory for the specified
+    #   duration, which allows quick access to it.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] magnetic_duration
+    #   Set this attribute to specify the default magnetic duration applied
+    #   to the Amazon Timestream tables in days. This is the number of days
+    #   that records remain in magnetic store before being discarded. For
+    #   more information, see [Storage][1] in the [Amazon Timestream
+    #   Developer Guide][2].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/timestream/latest/developerguide/storage.html
+    #   [2]: https://docs.aws.amazon.com/timestream/latest/developerguide/
+    #   @return [Integer]
+    #
+    # @!attribute [rw] cdc_inserts_and_updates
+    #   Set this attribute to `true` to specify that DMS only applies
+    #   inserts and updates, and not deletes. Amazon Timestream does not
+    #   allow deleting records, so if this value is `false`, DMS nulls out
+    #   the corresponding record in the Timestream database rather than
+    #   deleting it.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] enable_magnetic_store_writes
+    #   Set this attribute to `true` to enable memory store writes. When
+    #   this value is `false`, DMS does not write records that are older in
+    #   days than the value specified in `MagneticDuration`, because Amazon
+    #   Timestream does not allow memory writes by default. For more
+    #   information, see [Storage][1] in the [Amazon Timestream Developer
+    #   Guide][2].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/timestream/latest/developerguide/storage.html
+    #   [2]: https://docs.aws.amazon.com/timestream/latest/developerguide/
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/dms-2016-01-01/TimestreamSettings AWS API Documentation
+    #
+    class TimestreamSettings < Struct.new(
+      :database_name,
+      :memory_duration,
+      :magnetic_duration,
+      :cdc_inserts_and_updates,
+      :enable_magnetic_store_writes)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] force_move
     #   When set to true, this operation migrates DMS subscriptions for
     #   Amazon SNS notifications no matter what your replication instance
     #   version is. If not set or set to false, this operation runs only
-    #   when all your replication instances are from DMS version 3.4.6 or
+    #   when all your replication instances are from DMS version 3.4.5 or
     #   higher.
     #   @return [Boolean]
     #
@@ -9519,3 +14453,4 @@ module Aws::DatabaseMigrationService
 
   end
 end
+

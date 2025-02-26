@@ -212,7 +212,8 @@ module Aws::KinesisVideoArchivedMedia
     #   @return [Time]
     #
     # @!attribute [rw] server_timestamp
-    #   The timestamp from the AWS server corresponding to the fragment.
+    #   The timestamp from the Amazon Web Services server corresponding to
+    #   the fragment.
     #   @return [Time]
     #
     # @!attribute [rw] fragment_length_in_milliseconds
@@ -340,7 +341,7 @@ module Aws::KinesisVideoArchivedMedia
     #
     #   Features of the three types of sessions include the following:
     #
-    #   * <b> <code>LIVE</code> </b>\: For sessions of this type, the
+    #   * <b> <code>LIVE</code> </b>: For sessions of this type, the
     #     MPEG-DASH manifest is continually updated with the latest
     #     fragments as they become available. We recommend that the media
     #     player retrieve a new manifest on a one-second interval. When this
@@ -361,7 +362,7 @@ module Aws::KinesisVideoArchivedMedia
     #
     #      </note>
     #
-    #   * <b> <code>LIVE_REPLAY</code> </b>\: For sessions of this type, the
+    #   * <b> <code>LIVE_REPLAY</code> </b>: For sessions of this type, the
     #     MPEG-DASH manifest is updated similarly to how it is updated for
     #     `LIVE` mode except that it starts by including fragments from a
     #     given start time. Instead of fragments being added as they are
@@ -375,7 +376,7 @@ module Aws::KinesisVideoArchivedMedia
     #     without being limited by the 1,000 fragment limit in the
     #     `ON_DEMAND` mode.
     #
-    #   * <b> <code>ON_DEMAND</code> </b>\: For sessions of this type, the
+    #   * <b> <code>ON_DEMAND</code> </b>: For sessions of this type, the
     #     MPEG-DASH manifest contains all the fragments for the session, up
     #     to the number that is specified in `MaxManifestFragmentResults`.
     #     The manifest must be retrieved only once for each session. When
@@ -522,7 +523,7 @@ module Aws::KinesisVideoArchivedMedia
     #
     #   Features of the three types of sessions include the following:
     #
-    #   * <b> <code>LIVE</code> </b>\: For sessions of this type, the HLS
+    #   * <b> <code>LIVE</code> </b>: For sessions of this type, the HLS
     #     media playlist is continually updated with the latest fragments as
     #     they become available. We recommend that the media player retrieve
     #     a new playlist on a one-second interval. When this type of session
@@ -542,7 +543,7 @@ module Aws::KinesisVideoArchivedMedia
     #
     #      </note>
     #
-    #   * <b> <code>LIVE_REPLAY</code> </b>\: For sessions of this type, the
+    #   * <b> <code>LIVE_REPLAY</code> </b>: For sessions of this type, the
     #     HLS media playlist is updated similarly to how it is updated for
     #     `LIVE` mode except that it starts by including fragments from a
     #     given start time. Instead of fragments being added as they are
@@ -556,7 +557,7 @@ module Aws::KinesisVideoArchivedMedia
     #     previously archived media without being limited by the 1,000
     #     fragment limit in the `ON_DEMAND` mode.
     #
-    #   * <b> <code>ON_DEMAND</code> </b>\: For sessions of this type, the
+    #   * <b> <code>ON_DEMAND</code> </b>: For sessions of this type, the
     #     HLS media playlist contains all the fragments for the session, up
     #     to the number that is specified in
     #     `MaxMediaPlaylistFragmentResults`. The playlist must be retrieved
@@ -621,15 +622,15 @@ module Aws::KinesisVideoArchivedMedia
     #
     #   The following modes are supported:
     #
-    #   * `ALWAYS`\: a discontinuity marker is placed between every fragment
+    #   * `ALWAYS`: a discontinuity marker is placed between every fragment
     #     in the HLS media playlist. It is recommended to use a value of
     #     `ALWAYS` if the fragment timestamps are not accurate.
     #
-    #   * `NEVER`\: no discontinuity markers are placed anywhere. It is
+    #   * `NEVER`: no discontinuity markers are placed anywhere. It is
     #     recommended to use a value of `NEVER` to ensure the media player
     #     timeline most accurately maps to the producer timestamps.
     #
-    #   * `ON_DISCONTINUITY`\: a discontinuity marker is placed between
+    #   * `ON_DISCONTINUITY`: a discontinuity marker is placed between
     #     fragments that have a gap or overlap of more than 50 milliseconds.
     #     For most playback scenarios, it is recommended to use a value of
     #     `ON_DISCONTINUITY` so that the media player timeline is only reset
@@ -744,20 +745,18 @@ module Aws::KinesisVideoArchivedMedia
     #   @return [Time]
     #
     # @!attribute [rw] end_timestamp
-    #   The end timestamp for the range of images to be generated.
+    #   The end timestamp for the range of images to be generated. If the
+    #   time range between `StartTimestamp` and `EndTimestamp` is more than
+    #   300 seconds above `StartTimestamp`, you will receive an
+    #   `IllegalArgumentException`.
     #   @return [Time]
     #
     # @!attribute [rw] sampling_interval
     #   The time interval in milliseconds (ms) at which the images need to
     #   be generated from the stream. The minimum value that can be provided
-    #   is 3000 ms. If the timestamp range is less than the sampling
-    #   interval, the Image from the `startTimestamp` will be returned if
-    #   available.
-    #
-    #   <note markdown="1"> The minimum value of 3000 ms is a soft limit. If needed, a lower
-    #   sampling frequency can be requested.
-    #
-    #    </note>
+    #   is 200 ms (5 images per second). If the timestamp range is less than
+    #   the sampling interval, the image from the `startTimestamp` will be
+    #   returned if available.
     #   @return [Integer]
     #
     # @!attribute [rw] format
@@ -799,8 +798,9 @@ module Aws::KinesisVideoArchivedMedia
     # @!attribute [rw] max_results
     #   The maximum number of images to be returned by the API.
     #
-    #   <note markdown="1"> The default limit is 100 images per API response. The additional
-    #   results will be paginated.
+    #   <note markdown="1"> The default limit is 25 images per API response. Providing a
+    #   `MaxResults` greater than this value will result in a page size of
+    #   25. Any additional results will be paginated.
     #
     #    </note>
     #   @return [Integer]
@@ -903,7 +903,7 @@ module Aws::KinesisVideoArchivedMedia
     #     that threw the exception
     #
     #   * AWS\_KINESISVIDEO\_EXCEPTION\_ERROR\_CODE - The integer code of
-    #     the exception
+    #     the
     #
     #   * AWS\_KINESISVIDEO\_EXCEPTION\_MESSAGE - A text description of the
     #     exception
@@ -1127,6 +1127,10 @@ module Aws::KinesisVideoArchivedMedia
     # @!attribute [rw] fragment_selector
     #   Describes the timestamp range and timestamp origin for the range of
     #   fragments to return.
+    #
+    #   <note markdown="1"> This is only required when the `NextToken` isn't passed in the API.
+    #
+    #    </note>
     #   @return [Types::FragmentSelector]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/kinesis-video-archived-media-2017-09-30/ListFragmentsInput AWS API Documentation
@@ -1176,8 +1180,8 @@ module Aws::KinesisVideoArchivedMedia
       include Aws::Structure
     end
 
-    # A streaming session was requested for a stream that does not retain
-    # data (that is, has a `DataRetentionInHours` of 0).
+    # `GetImages` was requested for a stream that does not retain data (that
+    # is, has a `DataRetentionInHours` of 0).
     #
     # @!attribute [rw] message
     #   @return [String]
@@ -1204,8 +1208,8 @@ module Aws::KinesisVideoArchivedMedia
       include Aws::Structure
     end
 
-    # `GetMedia` throws this error when Kinesis Video Streams can't find
-    # the stream that you specified.
+    # `GetImages` will throw this error when Kinesis Video Streams can't
+    # find the stream that you specified.
     #
     # `GetHLSStreamingSessionURL` and `GetDASHStreamingSessionURL` throw
     # this error if a session with a `PlaybackMode` of `ON_DEMAND` or
@@ -1265,3 +1269,4 @@ module Aws::KinesisVideoArchivedMedia
 
   end
 end
+

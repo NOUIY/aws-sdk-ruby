@@ -2,9 +2,10 @@
   "version":"2.0",
   "metadata":{
     "apiVersion":"2018-08-01",
+    "auth":["aws.auth#sigv4"],
     "endpointPrefix":"rds-data",
-    "jsonVersion":"1.1",
     "protocol":"rest-json",
+    "protocols":["rest-json"],
     "serviceFullName":"AWS RDS DataService",
     "serviceId":"RDS Data",
     "signatureVersion":"v4",
@@ -22,12 +23,21 @@
       "input":{"shape":"BatchExecuteStatementRequest"},
       "output":{"shape":"BatchExecuteStatementResponse"},
       "errors":[
+        {"shape":"SecretsErrorException"},
+        {"shape":"HttpEndpointNotEnabledException"},
+        {"shape":"DatabaseErrorException"},
+        {"shape":"DatabaseResumingException"},
+        {"shape":"DatabaseUnavailableException"},
+        {"shape":"TransactionNotFoundException"},
+        {"shape":"InvalidSecretException"},
+        {"shape":"InvalidResourceStateException"},
+        {"shape":"ServiceUnavailableError"},
+        {"shape":"ForbiddenException"},
+        {"shape":"DatabaseNotFoundException"},
         {"shape":"AccessDeniedException"},
         {"shape":"BadRequestException"},
         {"shape":"StatementTimeoutException"},
-        {"shape":"InternalServerErrorException"},
-        {"shape":"ForbiddenException"},
-        {"shape":"ServiceUnavailableError"}
+        {"shape":"InternalServerErrorException"}
       ]
     },
     "BeginTransaction":{
@@ -40,12 +50,21 @@
       "input":{"shape":"BeginTransactionRequest"},
       "output":{"shape":"BeginTransactionResponse"},
       "errors":[
+        {"shape":"SecretsErrorException"},
+        {"shape":"HttpEndpointNotEnabledException"},
+        {"shape":"DatabaseErrorException"},
+        {"shape":"DatabaseResumingException"},
+        {"shape":"DatabaseUnavailableException"},
+        {"shape":"TransactionNotFoundException"},
+        {"shape":"InvalidSecretException"},
+        {"shape":"InvalidResourceStateException"},
+        {"shape":"ServiceUnavailableError"},
+        {"shape":"ForbiddenException"},
+        {"shape":"DatabaseNotFoundException"},
         {"shape":"AccessDeniedException"},
         {"shape":"BadRequestException"},
         {"shape":"StatementTimeoutException"},
-        {"shape":"InternalServerErrorException"},
-        {"shape":"ForbiddenException"},
-        {"shape":"ServiceUnavailableError"}
+        {"shape":"InternalServerErrorException"}
       ]
     },
     "CommitTransaction":{
@@ -58,12 +77,20 @@
       "input":{"shape":"CommitTransactionRequest"},
       "output":{"shape":"CommitTransactionResponse"},
       "errors":[
+        {"shape":"SecretsErrorException"},
+        {"shape":"HttpEndpointNotEnabledException"},
+        {"shape":"DatabaseErrorException"},
+        {"shape":"DatabaseUnavailableException"},
+        {"shape":"TransactionNotFoundException"},
+        {"shape":"InvalidSecretException"},
+        {"shape":"InvalidResourceStateException"},
+        {"shape":"ServiceUnavailableError"},
+        {"shape":"ForbiddenException"},
+        {"shape":"DatabaseNotFoundException"},
         {"shape":"AccessDeniedException"},
         {"shape":"BadRequestException"},
         {"shape":"StatementTimeoutException"},
         {"shape":"InternalServerErrorException"},
-        {"shape":"ForbiddenException"},
-        {"shape":"ServiceUnavailableError"},
         {"shape":"NotFoundException"}
       ]
     },
@@ -84,7 +111,8 @@
         {"shape":"ServiceUnavailableError"}
       ],
       "deprecated":true,
-      "deprecatedMessage":"The ExecuteSql API is deprecated, please use the ExecuteStatement API."
+      "deprecatedMessage":"The ExecuteSql API is deprecated, please use the ExecuteStatement API.",
+      "deprecatedSince":"2019-03-21"
     },
     "ExecuteStatement":{
       "name":"ExecuteStatement",
@@ -96,12 +124,22 @@
       "input":{"shape":"ExecuteStatementRequest"},
       "output":{"shape":"ExecuteStatementResponse"},
       "errors":[
+        {"shape":"SecretsErrorException"},
+        {"shape":"HttpEndpointNotEnabledException"},
+        {"shape":"DatabaseErrorException"},
+        {"shape":"DatabaseResumingException"},
+        {"shape":"DatabaseUnavailableException"},
+        {"shape":"TransactionNotFoundException"},
+        {"shape":"InvalidSecretException"},
+        {"shape":"InvalidResourceStateException"},
+        {"shape":"ServiceUnavailableError"},
+        {"shape":"ForbiddenException"},
+        {"shape":"DatabaseNotFoundException"},
         {"shape":"AccessDeniedException"},
         {"shape":"BadRequestException"},
         {"shape":"StatementTimeoutException"},
         {"shape":"InternalServerErrorException"},
-        {"shape":"ForbiddenException"},
-        {"shape":"ServiceUnavailableError"}
+        {"shape":"UnsupportedResultException"}
       ]
     },
     "RollbackTransaction":{
@@ -114,12 +152,20 @@
       "input":{"shape":"RollbackTransactionRequest"},
       "output":{"shape":"RollbackTransactionResponse"},
       "errors":[
+        {"shape":"SecretsErrorException"},
+        {"shape":"HttpEndpointNotEnabledException"},
+        {"shape":"DatabaseErrorException"},
+        {"shape":"DatabaseUnavailableException"},
+        {"shape":"TransactionNotFoundException"},
+        {"shape":"InvalidSecretException"},
+        {"shape":"InvalidResourceStateException"},
+        {"shape":"ServiceUnavailableError"},
+        {"shape":"ForbiddenException"},
+        {"shape":"DatabaseNotFoundException"},
         {"shape":"AccessDeniedException"},
         {"shape":"BadRequestException"},
         {"shape":"StatementTimeoutException"},
         {"shape":"InternalServerErrorException"},
-        {"shape":"ForbiddenException"},
-        {"shape":"ServiceUnavailableError"},
         {"shape":"NotFoundException"}
       ]
     }
@@ -277,6 +323,47 @@
         "transactionStatus":{"shape":"TransactionStatus"}
       }
     },
+    "DatabaseErrorException":{
+      "type":"structure",
+      "members":{
+        "message":{"shape":"ErrorMessage"}
+      },
+      "error":{
+        "httpStatusCode":400,
+        "senderFault":true
+      },
+      "exception":true
+    },
+    "DatabaseNotFoundException":{
+      "type":"structure",
+      "members":{
+        "message":{"shape":"ErrorMessage"}
+      },
+      "error":{
+        "httpStatusCode":404,
+        "senderFault":true
+      },
+      "exception":true
+    },
+    "DatabaseResumingException":{
+      "type":"structure",
+      "members":{
+        "message":{"shape":"ErrorMessage"}
+      },
+      "error":{
+        "httpStatusCode":400,
+        "senderFault":true
+      },
+      "exception":true
+    },
+    "DatabaseUnavailableException":{
+      "type":"structure",
+      "members":{
+      },
+      "error":{"httpStatusCode":504},
+      "exception":true,
+      "fault":true
+    },
     "DbName":{
       "type":"string",
       "max":64,
@@ -349,22 +436,10 @@
     "Field":{
       "type":"structure",
       "members":{
-        "isNull":{
-          "shape":"BoxedBoolean",
-          "box":true
-        },
-        "booleanValue":{
-          "shape":"BoxedBoolean",
-          "box":true
-        },
-        "longValue":{
-          "shape":"BoxedLong",
-          "box":true
-        },
-        "doubleValue":{
-          "shape":"BoxedDouble",
-          "box":true
-        },
+        "isNull":{"shape":"BoxedBoolean"},
+        "booleanValue":{"shape":"BoxedBoolean"},
+        "longValue":{"shape":"BoxedLong"},
+        "doubleValue":{"shape":"BoxedDouble"},
         "stringValue":{"shape":"String"},
         "blobValue":{"shape":"Blob"},
         "arrayValue":{"shape":"ArrayValue"}
@@ -387,6 +462,17 @@
       "exception":true
     },
     "FormattedSqlRecords":{"type":"string"},
+    "HttpEndpointNotEnabledException":{
+      "type":"structure",
+      "members":{
+        "message":{"shape":"ErrorMessage"}
+      },
+      "error":{
+        "httpStatusCode":400,
+        "senderFault":true
+      },
+      "exception":true
+    },
     "Id":{
       "type":"string",
       "max":192,
@@ -400,6 +486,28 @@
       "error":{"httpStatusCode":500},
       "exception":true,
       "fault":true
+    },
+    "InvalidResourceStateException":{
+      "type":"structure",
+      "members":{
+        "message":{"shape":"ErrorMessage"}
+      },
+      "error":{
+        "httpStatusCode":400,
+        "senderFault":true
+      },
+      "exception":true
+    },
+    "InvalidSecretException":{
+      "type":"structure",
+      "members":{
+        "message":{"shape":"ErrorMessage"}
+      },
+      "error":{
+        "httpStatusCode":400,
+        "senderFault":true
+      },
+      "exception":true
     },
     "Long":{"type":"long"},
     "LongArray":{
@@ -491,6 +599,17 @@
       "type":"list",
       "member":{"shape":"Value"}
     },
+    "SecretsErrorException":{
+      "type":"structure",
+      "members":{
+        "message":{"shape":"ErrorMessage"}
+      },
+      "error":{
+        "httpStatusCode":400,
+        "senderFault":true
+      },
+      "exception":true
+    },
     "ServiceUnavailableError":{
       "type":"structure",
       "members":{
@@ -558,6 +677,17 @@
         "attributes":{"shape":"ArrayValueList"}
       }
     },
+    "TransactionNotFoundException":{
+      "type":"structure",
+      "members":{
+        "message":{"shape":"ErrorMessage"}
+      },
+      "error":{
+        "httpStatusCode":404,
+        "senderFault":true
+      },
+      "exception":true
+    },
     "TransactionStatus":{
       "type":"string",
       "max":128,
@@ -574,6 +704,17 @@
         "DECIMAL"
       ]
     },
+    "UnsupportedResultException":{
+      "type":"structure",
+      "members":{
+        "message":{"shape":"ErrorMessage"}
+      },
+      "error":{
+        "httpStatusCode":400,
+        "senderFault":true
+      },
+      "exception":true
+    },
     "UpdateResult":{
       "type":"structure",
       "members":{
@@ -587,30 +728,12 @@
     "Value":{
       "type":"structure",
       "members":{
-        "isNull":{
-          "shape":"BoxedBoolean",
-          "box":true
-        },
-        "bitValue":{
-          "shape":"BoxedBoolean",
-          "box":true
-        },
-        "bigIntValue":{
-          "shape":"BoxedLong",
-          "box":true
-        },
-        "intValue":{
-          "shape":"BoxedInteger",
-          "box":true
-        },
-        "doubleValue":{
-          "shape":"BoxedDouble",
-          "box":true
-        },
-        "realValue":{
-          "shape":"BoxedFloat",
-          "box":true
-        },
+        "isNull":{"shape":"BoxedBoolean"},
+        "bitValue":{"shape":"BoxedBoolean"},
+        "bigIntValue":{"shape":"BoxedLong"},
+        "intValue":{"shape":"BoxedInteger"},
+        "doubleValue":{"shape":"BoxedDouble"},
+        "realValue":{"shape":"BoxedFloat"},
         "stringValue":{"shape":"String"},
         "blobValue":{"shape":"Blob"},
         "arrayValues":{"shape":"ArrayValueList"},

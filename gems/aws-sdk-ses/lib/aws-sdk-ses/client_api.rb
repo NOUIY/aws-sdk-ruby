@@ -7,17 +7,18 @@
 #
 # WARNING ABOUT GENERATED CODE
 
+
 module Aws::SES
   # @api private
   module ClientApi
 
     include Seahorse::Model
 
-    AccountSendingPausedException = Shapes::StructureShape.new(name: 'AccountSendingPausedException')
+    AccountSendingPausedException = Shapes::StructureShape.new(name: 'AccountSendingPausedException', error: {"code"=>"AccountSendingPausedException", "httpStatusCode"=>400, "senderFault"=>true})
     AddHeaderAction = Shapes::StructureShape.new(name: 'AddHeaderAction')
     Address = Shapes::StringShape.new(name: 'Address')
     AddressList = Shapes::ListShape.new(name: 'AddressList')
-    AlreadyExistsException = Shapes::StructureShape.new(name: 'AlreadyExistsException')
+    AlreadyExistsException = Shapes::StructureShape.new(name: 'AlreadyExistsException', error: {"code"=>"AlreadyExists", "httpStatusCode"=>400, "senderFault"=>true})
     AmazonResourceName = Shapes::StringShape.new(name: 'AmazonResourceName')
     ArrivalDate = Shapes::TimestampShape.new(name: 'ArrivalDate')
     BehaviorOnMXFailure = Shapes::StringShape.new(name: 'BehaviorOnMXFailure')
@@ -34,7 +35,7 @@ module Aws::SES
     BulkEmailDestinationStatus = Shapes::StructureShape.new(name: 'BulkEmailDestinationStatus')
     BulkEmailDestinationStatusList = Shapes::ListShape.new(name: 'BulkEmailDestinationStatusList')
     BulkEmailStatus = Shapes::StringShape.new(name: 'BulkEmailStatus')
-    CannotDeleteException = Shapes::StructureShape.new(name: 'CannotDeleteException')
+    CannotDeleteException = Shapes::StructureShape.new(name: 'CannotDeleteException', error: {"code"=>"CannotDelete", "httpStatusCode"=>400, "senderFault"=>true})
     Charset = Shapes::StringShape.new(name: 'Charset')
     Cidr = Shapes::StringShape.new(name: 'Cidr')
     CloneReceiptRuleSetRequest = Shapes::StructureShape.new(name: 'CloneReceiptRuleSetRequest')
@@ -43,13 +44,15 @@ module Aws::SES
     CloudWatchDimensionConfiguration = Shapes::StructureShape.new(name: 'CloudWatchDimensionConfiguration')
     CloudWatchDimensionConfigurations = Shapes::ListShape.new(name: 'CloudWatchDimensionConfigurations')
     ConfigurationSet = Shapes::StructureShape.new(name: 'ConfigurationSet')
-    ConfigurationSetAlreadyExistsException = Shapes::StructureShape.new(name: 'ConfigurationSetAlreadyExistsException')
+    ConfigurationSetAlreadyExistsException = Shapes::StructureShape.new(name: 'ConfigurationSetAlreadyExistsException', error: {"code"=>"ConfigurationSetAlreadyExists", "httpStatusCode"=>400, "senderFault"=>true})
     ConfigurationSetAttribute = Shapes::StringShape.new(name: 'ConfigurationSetAttribute')
     ConfigurationSetAttributeList = Shapes::ListShape.new(name: 'ConfigurationSetAttributeList')
-    ConfigurationSetDoesNotExistException = Shapes::StructureShape.new(name: 'ConfigurationSetDoesNotExistException')
+    ConfigurationSetDoesNotExistException = Shapes::StructureShape.new(name: 'ConfigurationSetDoesNotExistException', error: {"code"=>"ConfigurationSetDoesNotExist", "httpStatusCode"=>400, "senderFault"=>true})
     ConfigurationSetName = Shapes::StringShape.new(name: 'ConfigurationSetName')
-    ConfigurationSetSendingPausedException = Shapes::StructureShape.new(name: 'ConfigurationSetSendingPausedException')
+    ConfigurationSetSendingPausedException = Shapes::StructureShape.new(name: 'ConfigurationSetSendingPausedException', error: {"code"=>"ConfigurationSetSendingPausedException", "httpStatusCode"=>400, "senderFault"=>true})
     ConfigurationSets = Shapes::ListShape.new(name: 'ConfigurationSets')
+    ConnectAction = Shapes::StructureShape.new(name: 'ConnectAction')
+    ConnectInstanceArn = Shapes::StringShape.new(name: 'ConnectInstanceArn')
     Content = Shapes::StructureShape.new(name: 'Content')
     Counter = Shapes::IntegerShape.new(name: 'Counter')
     CreateConfigurationSetEventDestinationRequest = Shapes::StructureShape.new(name: 'CreateConfigurationSetEventDestinationRequest')
@@ -69,10 +72,10 @@ module Aws::SES
     CreateTemplateResponse = Shapes::StructureShape.new(name: 'CreateTemplateResponse')
     CustomMailFromStatus = Shapes::StringShape.new(name: 'CustomMailFromStatus')
     CustomRedirectDomain = Shapes::StringShape.new(name: 'CustomRedirectDomain')
-    CustomVerificationEmailInvalidContentException = Shapes::StructureShape.new(name: 'CustomVerificationEmailInvalidContentException')
+    CustomVerificationEmailInvalidContentException = Shapes::StructureShape.new(name: 'CustomVerificationEmailInvalidContentException', error: {"code"=>"CustomVerificationEmailInvalidContent", "httpStatusCode"=>400, "senderFault"=>true})
     CustomVerificationEmailTemplate = Shapes::StructureShape.new(name: 'CustomVerificationEmailTemplate')
-    CustomVerificationEmailTemplateAlreadyExistsException = Shapes::StructureShape.new(name: 'CustomVerificationEmailTemplateAlreadyExistsException')
-    CustomVerificationEmailTemplateDoesNotExistException = Shapes::StructureShape.new(name: 'CustomVerificationEmailTemplateDoesNotExistException')
+    CustomVerificationEmailTemplateAlreadyExistsException = Shapes::StructureShape.new(name: 'CustomVerificationEmailTemplateAlreadyExistsException', error: {"code"=>"CustomVerificationEmailTemplateAlreadyExists", "httpStatusCode"=>400, "senderFault"=>true})
+    CustomVerificationEmailTemplateDoesNotExistException = Shapes::StructureShape.new(name: 'CustomVerificationEmailTemplateDoesNotExistException', error: {"code"=>"CustomVerificationEmailTemplateDoesNotExist", "httpStatusCode"=>400, "senderFault"=>true})
     CustomVerificationEmailTemplates = Shapes::ListShape.new(name: 'CustomVerificationEmailTemplates')
     DefaultDimensionValue = Shapes::StringShape.new(name: 'DefaultDimensionValue')
     DeleteConfigurationSetEventDestinationRequest = Shapes::StructureShape.new(name: 'DeleteConfigurationSetEventDestinationRequest')
@@ -115,8 +118,8 @@ module Aws::SES
     Enabled = Shapes::BooleanShape.new(name: 'Enabled')
     Error = Shapes::StringShape.new(name: 'Error')
     EventDestination = Shapes::StructureShape.new(name: 'EventDestination')
-    EventDestinationAlreadyExistsException = Shapes::StructureShape.new(name: 'EventDestinationAlreadyExistsException')
-    EventDestinationDoesNotExistException = Shapes::StructureShape.new(name: 'EventDestinationDoesNotExistException')
+    EventDestinationAlreadyExistsException = Shapes::StructureShape.new(name: 'EventDestinationAlreadyExistsException', error: {"code"=>"EventDestinationAlreadyExists", "httpStatusCode"=>400, "senderFault"=>true})
+    EventDestinationDoesNotExistException = Shapes::StructureShape.new(name: 'EventDestinationDoesNotExistException', error: {"code"=>"EventDestinationDoesNotExist", "httpStatusCode"=>400, "senderFault"=>true})
     EventDestinationName = Shapes::StringShape.new(name: 'EventDestinationName')
     EventDestinations = Shapes::ListShape.new(name: 'EventDestinations')
     EventType = Shapes::StringShape.new(name: 'EventType')
@@ -128,7 +131,7 @@ module Aws::SES
     ExtensionFieldValue = Shapes::StringShape.new(name: 'ExtensionFieldValue')
     FailureRedirectionURL = Shapes::StringShape.new(name: 'FailureRedirectionURL')
     FromAddress = Shapes::StringShape.new(name: 'FromAddress')
-    FromEmailAddressNotVerifiedException = Shapes::StructureShape.new(name: 'FromEmailAddressNotVerifiedException')
+    FromEmailAddressNotVerifiedException = Shapes::StructureShape.new(name: 'FromEmailAddressNotVerifiedException', error: {"code"=>"FromEmailAddressNotVerified", "httpStatusCode"=>400, "senderFault"=>true})
     GetAccountSendingEnabledResponse = Shapes::StructureShape.new(name: 'GetAccountSendingEnabledResponse')
     GetCustomVerificationEmailTemplateRequest = Shapes::StructureShape.new(name: 'GetCustomVerificationEmailTemplateRequest')
     GetCustomVerificationEmailTemplateResponse = Shapes::StructureShape.new(name: 'GetCustomVerificationEmailTemplateResponse')
@@ -149,6 +152,7 @@ module Aws::SES
     HeaderName = Shapes::StringShape.new(name: 'HeaderName')
     HeaderValue = Shapes::StringShape.new(name: 'HeaderValue')
     HtmlPart = Shapes::StringShape.new(name: 'HtmlPart')
+    IAMRoleARN = Shapes::StringShape.new(name: 'IAMRoleARN')
     Identity = Shapes::StringShape.new(name: 'Identity')
     IdentityDkimAttributes = Shapes::StructureShape.new(name: 'IdentityDkimAttributes')
     IdentityList = Shapes::ListShape.new(name: 'IdentityList')
@@ -156,24 +160,24 @@ module Aws::SES
     IdentityNotificationAttributes = Shapes::StructureShape.new(name: 'IdentityNotificationAttributes')
     IdentityType = Shapes::StringShape.new(name: 'IdentityType')
     IdentityVerificationAttributes = Shapes::StructureShape.new(name: 'IdentityVerificationAttributes')
-    InvalidCloudWatchDestinationException = Shapes::StructureShape.new(name: 'InvalidCloudWatchDestinationException')
-    InvalidConfigurationSetException = Shapes::StructureShape.new(name: 'InvalidConfigurationSetException')
-    InvalidDeliveryOptionsException = Shapes::StructureShape.new(name: 'InvalidDeliveryOptionsException')
-    InvalidFirehoseDestinationException = Shapes::StructureShape.new(name: 'InvalidFirehoseDestinationException')
-    InvalidLambdaFunctionException = Shapes::StructureShape.new(name: 'InvalidLambdaFunctionException')
-    InvalidPolicyException = Shapes::StructureShape.new(name: 'InvalidPolicyException')
-    InvalidRenderingParameterException = Shapes::StructureShape.new(name: 'InvalidRenderingParameterException')
-    InvalidS3ConfigurationException = Shapes::StructureShape.new(name: 'InvalidS3ConfigurationException')
-    InvalidSNSDestinationException = Shapes::StructureShape.new(name: 'InvalidSNSDestinationException')
-    InvalidSnsTopicException = Shapes::StructureShape.new(name: 'InvalidSnsTopicException')
-    InvalidTemplateException = Shapes::StructureShape.new(name: 'InvalidTemplateException')
-    InvalidTrackingOptionsException = Shapes::StructureShape.new(name: 'InvalidTrackingOptionsException')
+    InvalidCloudWatchDestinationException = Shapes::StructureShape.new(name: 'InvalidCloudWatchDestinationException', error: {"code"=>"InvalidCloudWatchDestination", "httpStatusCode"=>400, "senderFault"=>true})
+    InvalidConfigurationSetException = Shapes::StructureShape.new(name: 'InvalidConfigurationSetException', error: {"code"=>"InvalidConfigurationSet", "httpStatusCode"=>400, "senderFault"=>true})
+    InvalidDeliveryOptionsException = Shapes::StructureShape.new(name: 'InvalidDeliveryOptionsException', error: {"code"=>"InvalidDeliveryOptions", "httpStatusCode"=>400, "senderFault"=>true})
+    InvalidFirehoseDestinationException = Shapes::StructureShape.new(name: 'InvalidFirehoseDestinationException', error: {"code"=>"InvalidFirehoseDestination", "httpStatusCode"=>400, "senderFault"=>true})
+    InvalidLambdaFunctionException = Shapes::StructureShape.new(name: 'InvalidLambdaFunctionException', error: {"code"=>"InvalidLambdaFunction", "httpStatusCode"=>400, "senderFault"=>true})
+    InvalidPolicyException = Shapes::StructureShape.new(name: 'InvalidPolicyException', error: {"code"=>"InvalidPolicy", "httpStatusCode"=>400, "senderFault"=>true})
+    InvalidRenderingParameterException = Shapes::StructureShape.new(name: 'InvalidRenderingParameterException', error: {"code"=>"InvalidRenderingParameter", "httpStatusCode"=>400, "senderFault"=>true})
+    InvalidS3ConfigurationException = Shapes::StructureShape.new(name: 'InvalidS3ConfigurationException', error: {"code"=>"InvalidS3Configuration", "httpStatusCode"=>400, "senderFault"=>true})
+    InvalidSNSDestinationException = Shapes::StructureShape.new(name: 'InvalidSNSDestinationException', error: {"code"=>"InvalidSNSDestination", "httpStatusCode"=>400, "senderFault"=>true})
+    InvalidSnsTopicException = Shapes::StructureShape.new(name: 'InvalidSnsTopicException', error: {"code"=>"InvalidSnsTopic", "httpStatusCode"=>400, "senderFault"=>true})
+    InvalidTemplateException = Shapes::StructureShape.new(name: 'InvalidTemplateException', error: {"code"=>"InvalidTemplate", "httpStatusCode"=>400, "senderFault"=>true})
+    InvalidTrackingOptionsException = Shapes::StructureShape.new(name: 'InvalidTrackingOptionsException', error: {"code"=>"InvalidTrackingOptions", "httpStatusCode"=>400, "senderFault"=>true})
     InvocationType = Shapes::StringShape.new(name: 'InvocationType')
     KinesisFirehoseDestination = Shapes::StructureShape.new(name: 'KinesisFirehoseDestination')
     LambdaAction = Shapes::StructureShape.new(name: 'LambdaAction')
     LastAttemptDate = Shapes::TimestampShape.new(name: 'LastAttemptDate')
     LastFreshStart = Shapes::TimestampShape.new(name: 'LastFreshStart')
-    LimitExceededException = Shapes::StructureShape.new(name: 'LimitExceededException')
+    LimitExceededException = Shapes::StructureShape.new(name: 'LimitExceededException', error: {"code"=>"LimitExceeded", "httpStatusCode"=>400, "senderFault"=>true})
     ListConfigurationSetsRequest = Shapes::StructureShape.new(name: 'ListConfigurationSetsRequest')
     ListConfigurationSetsResponse = Shapes::StructureShape.new(name: 'ListConfigurationSetsResponse')
     ListCustomVerificationEmailTemplatesRequest = Shapes::StructureShape.new(name: 'ListCustomVerificationEmailTemplatesRequest')
@@ -191,7 +195,7 @@ module Aws::SES
     ListVerifiedEmailAddressesResponse = Shapes::StructureShape.new(name: 'ListVerifiedEmailAddressesResponse')
     MailFromDomainAttributes = Shapes::MapShape.new(name: 'MailFromDomainAttributes')
     MailFromDomainName = Shapes::StringShape.new(name: 'MailFromDomainName')
-    MailFromDomainNotVerifiedException = Shapes::StructureShape.new(name: 'MailFromDomainNotVerifiedException')
+    MailFromDomainNotVerifiedException = Shapes::StructureShape.new(name: 'MailFromDomainNotVerifiedException', error: {"code"=>"MailFromDomainNotVerifiedException", "httpStatusCode"=>400, "senderFault"=>true})
     Max24HourSend = Shapes::FloatShape.new(name: 'Max24HourSend')
     MaxItems = Shapes::IntegerShape.new(name: 'MaxItems')
     MaxResults = Shapes::IntegerShape.new(name: 'MaxResults')
@@ -200,12 +204,12 @@ module Aws::SES
     MessageData = Shapes::StringShape.new(name: 'MessageData')
     MessageDsn = Shapes::StructureShape.new(name: 'MessageDsn')
     MessageId = Shapes::StringShape.new(name: 'MessageId')
-    MessageRejected = Shapes::StructureShape.new(name: 'MessageRejected')
+    MessageRejected = Shapes::StructureShape.new(name: 'MessageRejected', error: {"code"=>"MessageRejected", "httpStatusCode"=>400, "senderFault"=>true})
     MessageTag = Shapes::StructureShape.new(name: 'MessageTag')
     MessageTagList = Shapes::ListShape.new(name: 'MessageTagList')
     MessageTagName = Shapes::StringShape.new(name: 'MessageTagName')
     MessageTagValue = Shapes::StringShape.new(name: 'MessageTagValue')
-    MissingRenderingAttributeException = Shapes::StructureShape.new(name: 'MissingRenderingAttributeException')
+    MissingRenderingAttributeException = Shapes::StructureShape.new(name: 'MissingRenderingAttributeException', error: {"code"=>"MissingRenderingAttribute", "httpStatusCode"=>400, "senderFault"=>true})
     NextToken = Shapes::StringShape.new(name: 'NextToken')
     NotificationAttributes = Shapes::MapShape.new(name: 'NotificationAttributes')
     NotificationTopic = Shapes::StringShape.new(name: 'NotificationTopic')
@@ -214,7 +218,7 @@ module Aws::SES
     PolicyMap = Shapes::MapShape.new(name: 'PolicyMap')
     PolicyName = Shapes::StringShape.new(name: 'PolicyName')
     PolicyNameList = Shapes::ListShape.new(name: 'PolicyNameList')
-    ProductionAccessNotGrantedException = Shapes::StructureShape.new(name: 'ProductionAccessNotGrantedException')
+    ProductionAccessNotGrantedException = Shapes::StructureShape.new(name: 'ProductionAccessNotGrantedException', error: {"code"=>"ProductionAccessNotGranted", "httpStatusCode"=>400, "senderFault"=>true})
     PutConfigurationSetDeliveryOptionsRequest = Shapes::StructureShape.new(name: 'PutConfigurationSetDeliveryOptionsRequest')
     PutConfigurationSetDeliveryOptionsResponse = Shapes::StructureShape.new(name: 'PutConfigurationSetDeliveryOptionsResponse')
     PutIdentityPolicyRequest = Shapes::StructureShape.new(name: 'PutIdentityPolicyRequest')
@@ -244,9 +248,9 @@ module Aws::SES
     ReorderReceiptRuleSetResponse = Shapes::StructureShape.new(name: 'ReorderReceiptRuleSetResponse')
     ReportingMta = Shapes::StringShape.new(name: 'ReportingMta')
     ReputationOptions = Shapes::StructureShape.new(name: 'ReputationOptions')
-    RuleDoesNotExistException = Shapes::StructureShape.new(name: 'RuleDoesNotExistException')
+    RuleDoesNotExistException = Shapes::StructureShape.new(name: 'RuleDoesNotExistException', error: {"code"=>"RuleDoesNotExist", "httpStatusCode"=>400, "senderFault"=>true})
     RuleOrRuleSetName = Shapes::StringShape.new(name: 'RuleOrRuleSetName')
-    RuleSetDoesNotExistException = Shapes::StructureShape.new(name: 'RuleSetDoesNotExistException')
+    RuleSetDoesNotExistException = Shapes::StructureShape.new(name: 'RuleSetDoesNotExistException', error: {"code"=>"RuleSetDoesNotExist", "httpStatusCode"=>400, "senderFault"=>true})
     S3Action = Shapes::StructureShape.new(name: 'S3Action')
     S3BucketName = Shapes::StringShape.new(name: 'S3BucketName')
     S3KeyPrefix = Shapes::StringShape.new(name: 'S3KeyPrefix')
@@ -290,7 +294,7 @@ module Aws::SES
     Template = Shapes::StructureShape.new(name: 'Template')
     TemplateContent = Shapes::StringShape.new(name: 'TemplateContent')
     TemplateData = Shapes::StringShape.new(name: 'TemplateData')
-    TemplateDoesNotExistException = Shapes::StructureShape.new(name: 'TemplateDoesNotExistException')
+    TemplateDoesNotExistException = Shapes::StructureShape.new(name: 'TemplateDoesNotExistException', error: {"code"=>"TemplateDoesNotExist", "httpStatusCode"=>400, "senderFault"=>true})
     TemplateMetadata = Shapes::StructureShape.new(name: 'TemplateMetadata')
     TemplateMetadataList = Shapes::ListShape.new(name: 'TemplateMetadataList')
     TemplateName = Shapes::StringShape.new(name: 'TemplateName')
@@ -300,8 +304,8 @@ module Aws::SES
     Timestamp = Shapes::TimestampShape.new(name: 'Timestamp')
     TlsPolicy = Shapes::StringShape.new(name: 'TlsPolicy')
     TrackingOptions = Shapes::StructureShape.new(name: 'TrackingOptions')
-    TrackingOptionsAlreadyExistsException = Shapes::StructureShape.new(name: 'TrackingOptionsAlreadyExistsException')
-    TrackingOptionsDoesNotExistException = Shapes::StructureShape.new(name: 'TrackingOptionsDoesNotExistException')
+    TrackingOptionsAlreadyExistsException = Shapes::StructureShape.new(name: 'TrackingOptionsAlreadyExistsException', error: {"code"=>"TrackingOptionsAlreadyExistsException", "httpStatusCode"=>400, "senderFault"=>true})
+    TrackingOptionsDoesNotExistException = Shapes::StructureShape.new(name: 'TrackingOptionsDoesNotExistException', error: {"code"=>"TrackingOptionsDoesNotExistException", "httpStatusCode"=>400, "senderFault"=>true})
     UpdateAccountSendingEnabledRequest = Shapes::StructureShape.new(name: 'UpdateAccountSendingEnabledRequest')
     UpdateConfigurationSetEventDestinationRequest = Shapes::StructureShape.new(name: 'UpdateConfigurationSetEventDestinationRequest')
     UpdateConfigurationSetEventDestinationResponse = Shapes::StructureShape.new(name: 'UpdateConfigurationSetEventDestinationResponse')
@@ -405,6 +409,10 @@ module Aws::SES
     ConfigurationSetSendingPausedException.struct_class = Types::ConfigurationSetSendingPausedException
 
     ConfigurationSets.member = Shapes::ShapeRef.new(shape: ConfigurationSet)
+
+    ConnectAction.add_member(:instance_arn, Shapes::ShapeRef.new(shape: ConnectInstanceArn, required: true, location_name: "InstanceARN"))
+    ConnectAction.add_member(:iam_role_arn, Shapes::ShapeRef.new(shape: IAMRoleARN, required: true, location_name: "IAMRoleARN"))
+    ConnectAction.struct_class = Types::ConnectAction
 
     Content.add_member(:data, Shapes::ShapeRef.new(shape: MessageData, required: true, location_name: "Data"))
     Content.add_member(:charset, Shapes::ShapeRef.new(shape: Charset, location_name: "Charset"))
@@ -841,6 +849,7 @@ module Aws::SES
     ReceiptAction.add_member(:stop_action, Shapes::ShapeRef.new(shape: StopAction, location_name: "StopAction"))
     ReceiptAction.add_member(:add_header_action, Shapes::ShapeRef.new(shape: AddHeaderAction, location_name: "AddHeaderAction"))
     ReceiptAction.add_member(:sns_action, Shapes::ShapeRef.new(shape: SNSAction, location_name: "SNSAction"))
+    ReceiptAction.add_member(:connect_action, Shapes::ShapeRef.new(shape: ConnectAction, location_name: "ConnectAction"))
     ReceiptAction.struct_class = Types::ReceiptAction
 
     ReceiptActionsList.member = Shapes::ShapeRef.new(shape: ReceiptAction)
@@ -905,6 +914,7 @@ module Aws::SES
     S3Action.add_member(:bucket_name, Shapes::ShapeRef.new(shape: S3BucketName, required: true, location_name: "BucketName"))
     S3Action.add_member(:object_key_prefix, Shapes::ShapeRef.new(shape: S3KeyPrefix, location_name: "ObjectKeyPrefix"))
     S3Action.add_member(:kms_key_arn, Shapes::ShapeRef.new(shape: AmazonResourceName, location_name: "KmsKeyArn"))
+    S3Action.add_member(:iam_role_arn, Shapes::ShapeRef.new(shape: IAMRoleARN, location_name: "IamRoleArn"))
     S3Action.struct_class = Types::S3Action
 
     SNSAction.add_member(:topic_arn, Shapes::ShapeRef.new(shape: AmazonResourceName, required: true, location_name: "TopicArn"))
@@ -934,7 +944,7 @@ module Aws::SES
     SendBulkTemplatedEmailRequest.add_member(:default_tags, Shapes::ShapeRef.new(shape: MessageTagList, location_name: "DefaultTags"))
     SendBulkTemplatedEmailRequest.add_member(:template, Shapes::ShapeRef.new(shape: TemplateName, required: true, location_name: "Template"))
     SendBulkTemplatedEmailRequest.add_member(:template_arn, Shapes::ShapeRef.new(shape: AmazonResourceName, location_name: "TemplateArn"))
-    SendBulkTemplatedEmailRequest.add_member(:default_template_data, Shapes::ShapeRef.new(shape: TemplateData, location_name: "DefaultTemplateData"))
+    SendBulkTemplatedEmailRequest.add_member(:default_template_data, Shapes::ShapeRef.new(shape: TemplateData, required: true, location_name: "DefaultTemplateData"))
     SendBulkTemplatedEmailRequest.add_member(:destinations, Shapes::ShapeRef.new(shape: BulkEmailDestinationList, required: true, location_name: "Destinations"))
     SendBulkTemplatedEmailRequest.struct_class = Types::SendBulkTemplatedEmailRequest
 
@@ -1160,8 +1170,10 @@ module Aws::SES
 
       api.metadata = {
         "apiVersion" => "2010-12-01",
+        "auth" => ["aws.auth#sigv4"],
         "endpointPrefix" => "email",
         "protocol" => "query",
+        "protocols" => ["query"],
         "serviceAbbreviation" => "Amazon SES",
         "serviceFullName" => "Amazon Simple Email Service",
         "serviceId" => "SES",

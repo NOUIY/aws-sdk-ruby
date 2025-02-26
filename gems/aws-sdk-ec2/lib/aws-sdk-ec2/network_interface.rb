@@ -47,6 +47,19 @@ module Aws::EC2
       data[:availability_zone]
     end
 
+    # A security group connection tracking configuration that enables you to
+    # set the timeout for connection tracking on an Elastic network
+    # interface. For more information, see [Connection tracking timeouts][1]
+    # in the *Amazon EC2 User Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/security-group-connection-tracking.html#connection-tracking-timeouts
+    # @return [Types::ConnectionTrackingConfiguration]
+    def connection_tracking_configuration
+      data[:connection_tracking_configuration]
+    end
+
     # A description.
     # @return [String]
     def description
@@ -188,6 +201,12 @@ module Aws::EC2
       data[:ipv_6_address]
     end
 
+    # The service provider that manages the network interface.
+    # @return [Types::OperatorResponse]
+    def operator
+      data[:operator]
+    end
+
     # @!endgroup
 
     # @return [Client]
@@ -202,7 +221,9 @@ module Aws::EC2
     #
     # @return [self]
     def load
-      resp = @client.describe_network_interfaces(network_interface_ids: [@id])
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.describe_network_interfaces(network_interface_ids: [@id])
+      end
       @data = resp.network_interfaces[0]
       self
     end
@@ -317,7 +338,9 @@ module Aws::EC2
           :retry
         end
       end
-      Aws::Waiters::Waiter.new(options).wait({})
+      Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        Aws::Waiters::Waiter.new(options).wait({})
+      end
     end
 
     # @!group Actions
@@ -325,17 +348,20 @@ module Aws::EC2
     # @example Request syntax with placeholder values
     #
     #   network_interface.assign_private_ip_addresses({
-    #     allow_reassignment: false,
-    #     private_ip_addresses: ["String"],
-    #     secondary_private_ip_address_count: 1,
     #     ipv_4_prefixes: ["String"],
     #     ipv_4_prefix_count: 1,
+    #     private_ip_addresses: ["String"],
+    #     secondary_private_ip_address_count: 1,
+    #     allow_reassignment: false,
     #   })
     # @param [Hash] options ({})
-    # @option options [Boolean] :allow_reassignment
-    #   Indicates whether to allow an IP address that is already assigned to
-    #   another network interface or instance to be reassigned to the
-    #   specified network interface.
+    # @option options [Array<String>] :ipv_4_prefixes
+    #   One or more IPv4 prefixes assigned to the network interface. You
+    #   can't use this option if you use the `Ipv4PrefixCount` option.
+    # @option options [Integer] :ipv_4_prefix_count
+    #   The number of IPv4 prefixes that Amazon Web Services automatically
+    #   assigns to the network interface. You can't use this option if you
+    #   use the `Ipv4 Prefixes` option.
     # @option options [Array<String>] :private_ip_addresses
     #   The IP addresses to be assigned as a secondary private IP address to
     #   the network interface. You can't specify this parameter when also
@@ -347,26 +373,22 @@ module Aws::EC2
     #   The number of secondary IP addresses to assign to the network
     #   interface. You can't specify this parameter when also specifying
     #   private IP addresses.
-    # @option options [Array<String>] :ipv_4_prefixes
-    #   One or more IPv4 prefixes assigned to the network interface. You
-    #   cannot use this option if you use the `Ipv4PrefixCount` option.
-    # @option options [Integer] :ipv_4_prefix_count
-    #   The number of IPv4 prefixes that Amazon Web Services automatically
-    #   assigns to the network interface. You cannot use this option if you
-    #   use the `Ipv4 Prefixes` option.
+    # @option options [Boolean] :allow_reassignment
+    #   Indicates whether to allow an IP address that is already assigned to
+    #   another network interface or instance to be reassigned to the
+    #   specified network interface.
     # @return [Types::AssignPrivateIpAddressesResult]
     def assign_private_ip_addresses(options = {})
       options = options.merge(network_interface_id: @id)
-      resp = @client.assign_private_ip_addresses(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.assign_private_ip_addresses(options)
+      end
       resp.data
     end
 
     # @example Request syntax with placeholder values
     #
     #   network_interface.attach({
-    #     device_index: 1, # required
-    #     dry_run: false,
-    #     instance_id: "InstanceId", # required
     #     network_card_index: 1,
     #     ena_srd_specification: {
     #       ena_srd_enabled: false,
@@ -374,17 +396,11 @@ module Aws::EC2
     #         ena_srd_udp_enabled: false,
     #       },
     #     },
+    #     dry_run: false,
+    #     instance_id: "InstanceId", # required
+    #     device_index: 1, # required
     #   })
     # @param [Hash] options ({})
-    # @option options [required, Integer] :device_index
-    #   The index of the device for the network interface attachment.
-    # @option options [Boolean] :dry_run
-    #   Checks whether you have the required permissions for the action,
-    #   without actually making the request, and provides an error response.
-    #   If you have the required permissions, the error response is
-    #   `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
-    # @option options [required, String] :instance_id
-    #   The ID of the instance.
     # @option options [Integer] :network_card_index
     #   The index of the network card. Some instance types support multiple
     #   network cards. The primary network interface must be assigned to
@@ -392,10 +408,21 @@ module Aws::EC2
     # @option options [Types::EnaSrdSpecification] :ena_srd_specification
     #   Configures ENA Express for the network interface that this action
     #   attaches to the instance.
+    # @option options [Boolean] :dry_run
+    #   Checks whether you have the required permissions for the action,
+    #   without actually making the request, and provides an error response.
+    #   If you have the required permissions, the error response is
+    #   `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
+    # @option options [required, String] :instance_id
+    #   The ID of the instance.
+    # @option options [required, Integer] :device_index
+    #   The index of the device for the network interface attachment.
     # @return [Types::AttachNetworkInterfaceResult]
     def attach(options = {})
       options = options.merge(network_interface_id: @id)
-      resp = @client.attach_network_interface(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.attach_network_interface(options)
+      end
       resp.data
     end
 
@@ -424,7 +451,9 @@ module Aws::EC2
     def create_tags(options = {})
       batch = []
       options = Aws::Util.deep_merge(options, resources: [@id])
-      resp = @client.create_tags(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.create_tags(options)
+      end
       options[:tags].each do |t|
         batch << Tag.new(
           resource_id: @id,
@@ -469,7 +498,9 @@ module Aws::EC2
     def delete_tags(options = {})
       batch = []
       options = Aws::Util.deep_merge(options, resources: [@id])
-      resp = @client.delete_tags(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.delete_tags(options)
+      end
       options[:tags].each do |t|
         batch << Tag.new(
           resource_id: @id,
@@ -495,28 +526,32 @@ module Aws::EC2
     # @return [EmptyStructure]
     def delete(options = {})
       options = options.merge(network_interface_id: @id)
-      resp = @client.delete_network_interface(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.delete_network_interface(options)
+      end
       resp.data
     end
 
     # @example Request syntax with placeholder values
     #
     #   network_interface.describe_attribute({
-    #     attribute: "description", # accepts description, groupSet, sourceDestCheck, attachment
     #     dry_run: false,
+    #     attribute: "description", # accepts description, groupSet, sourceDestCheck, attachment, associatePublicIpAddress
     #   })
     # @param [Hash] options ({})
-    # @option options [String] :attribute
-    #   The attribute of the network interface. This parameter is required.
     # @option options [Boolean] :dry_run
     #   Checks whether you have the required permissions for the action,
     #   without actually making the request, and provides an error response.
     #   If you have the required permissions, the error response is
     #   `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
+    # @option options [String] :attribute
+    #   The attribute of the network interface. This parameter is required.
     # @return [Types::DescribeNetworkInterfaceAttributeResult]
     def describe_attribute(options = {})
       options = options.merge(network_interface_id: @id)
-      resp = @client.describe_network_interface_attribute(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.describe_network_interface_attribute(options)
+      end
       resp.data
     end
 
@@ -557,47 +592,72 @@ module Aws::EC2
     # @return [EmptyStructure]
     def detach(options = {})
       options = options.merge(attachment_id: data[:attachment][:attachment_id])
-      resp = @client.detach_network_interface(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.detach_network_interface(options)
+      end
       resp.data
     end
 
     # @example Request syntax with placeholder values
     #
     #   network_interface.modify_attribute({
-    #     attachment: {
-    #       attachment_id: "NetworkInterfaceAttachmentId",
-    #       delete_on_termination: false,
-    #     },
-    #     description: "value", # value <Hash,Array,String,Numeric,Boolean,IO,Set,nil>
-    #     dry_run: false,
-    #     groups: ["SecurityGroupId"],
-    #     source_dest_check: {
-    #       value: false,
-    #     },
     #     ena_srd_specification: {
     #       ena_srd_enabled: false,
     #       ena_srd_udp_specification: {
     #         ena_srd_udp_enabled: false,
     #       },
     #     },
+    #     enable_primary_ipv_6: false,
+    #     connection_tracking_specification: {
+    #       tcp_established_timeout: 1,
+    #       udp_stream_timeout: 1,
+    #       udp_timeout: 1,
+    #     },
+    #     associate_public_ip_address: false,
+    #     dry_run: false,
+    #     description: "value", # value <Hash,Array,String,Numeric,Boolean,IO,Set,nil>
+    #     source_dest_check: {
+    #       value: false,
+    #     },
+    #     groups: ["SecurityGroupId"],
+    #     attachment: {
+    #       attachment_id: "NetworkInterfaceAttachmentId",
+    #       delete_on_termination: false,
+    #     },
     #   })
     # @param [Hash] options ({})
-    # @option options [Types::NetworkInterfaceAttachmentChanges] :attachment
-    #   Information about the interface attachment. If modifying the `delete
-    #   on termination` attribute, you must specify the ID of the interface
-    #   attachment.
-    # @option options [Types::AttributeValue] :description
-    #   A description for the network interface.
+    # @option options [Types::EnaSrdSpecification] :ena_srd_specification
+    #   Updates the ENA Express configuration for the network interface that’s
+    #   attached to the instance.
+    # @option options [Boolean] :enable_primary_ipv_6
+    #   If you’re modifying a network interface in a dual-stack or IPv6-only
+    #   subnet, you have the option to assign a primary IPv6 IP address. A
+    #   primary IPv6 address is an IPv6 GUA address associated with an ENI
+    #   that you have enabled to use a primary IPv6 address. Use this option
+    #   if the instance that this ENI will be attached to relies on its IPv6
+    #   address not changing. Amazon Web Services will automatically assign an
+    #   IPv6 address associated with the ENI attached to your instance to be
+    #   the primary IPv6 address. Once you enable an IPv6 GUA address to be a
+    #   primary IPv6, you cannot disable it. When you enable an IPv6 GUA
+    #   address to be a primary IPv6, the first IPv6 GUA will be made the
+    #   primary IPv6 address until the instance is terminated or the network
+    #   interface is detached. If you have multiple IPv6 addresses associated
+    #   with an ENI attached to your instance and you enable a primary IPv6
+    #   address, the first IPv6 GUA address associated with the ENI becomes
+    #   the primary IPv6 address.
+    # @option options [Types::ConnectionTrackingSpecificationRequest] :connection_tracking_specification
+    #   A connection tracking specification.
+    # @option options [Boolean] :associate_public_ip_address
+    #   Indicates whether to assign a public IPv4 address to a network
+    #   interface. This option can be enabled for any network interface but
+    #   will only apply to the primary network interface (eth0).
     # @option options [Boolean] :dry_run
     #   Checks whether you have the required permissions for the action,
     #   without actually making the request, and provides an error response.
     #   If you have the required permissions, the error response is
     #   `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
-    # @option options [Array<String>] :groups
-    #   Changes the security groups for the network interface. The new set of
-    #   groups you specify replaces the current set. You must specify at least
-    #   one group, even if it's just the default security group in the VPC.
-    #   You must specify the ID of the security group, not the name.
+    # @option options [Types::AttributeValue] :description
+    #   A description for the network interface.
     # @option options [Types::AttributeBooleanValue] :source_dest_check
     #   Enable or disable source/destination checks, which ensure that the
     #   instance is either the source or the destination of any traffic that
@@ -605,13 +665,21 @@ module Aws::EC2
     #   enabled; otherwise, they are disabled. The default value is `true`.
     #   You must disable source/destination checks if the instance runs
     #   services such as network address translation, routing, or firewalls.
-    # @option options [Types::EnaSrdSpecification] :ena_srd_specification
-    #   Updates the ENA Express configuration for the network interface that’s
-    #   attached to the instance.
+    # @option options [Array<String>] :groups
+    #   Changes the security groups for the network interface. The new set of
+    #   groups you specify replaces the current set. You must specify at least
+    #   one group, even if it's just the default security group in the VPC.
+    #   You must specify the ID of the security group, not the name.
+    # @option options [Types::NetworkInterfaceAttachmentChanges] :attachment
+    #   Information about the interface attachment. If modifying the `delete
+    #   on termination` attribute, you must specify the ID of the interface
+    #   attachment.
     # @return [EmptyStructure]
     def modify_attribute(options = {})
       options = options.merge(network_interface_id: @id)
-      resp = @client.modify_network_interface_attribute(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.modify_network_interface_attribute(options)
+      end
       resp.data
     end
 
@@ -632,27 +700,31 @@ module Aws::EC2
     # @return [EmptyStructure]
     def reset_attribute(options = {})
       options = options.merge(network_interface_id: @id)
-      resp = @client.reset_network_interface_attribute(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.reset_network_interface_attribute(options)
+      end
       resp.data
     end
 
     # @example Request syntax with placeholder values
     #
     #   network_interface.unassign_private_ip_addresses({
-    #     private_ip_addresses: ["String"],
     #     ipv_4_prefixes: ["String"],
+    #     private_ip_addresses: ["String"],
     #   })
     # @param [Hash] options ({})
+    # @option options [Array<String>] :ipv_4_prefixes
+    #   The IPv4 prefixes to unassign from the network interface.
     # @option options [Array<String>] :private_ip_addresses
     #   The secondary private IP addresses to unassign from the network
     #   interface. You can specify this option multiple times to unassign more
     #   than one IP address.
-    # @option options [Array<String>] :ipv_4_prefixes
-    #   The IPv4 prefixes to unassign from the network interface.
     # @return [EmptyStructure]
     def unassign_private_ip_addresses(options = {})
       options = options.merge(network_interface_id: @id)
-      resp = @client.unassign_private_ip_addresses(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.unassign_private_ip_addresses(options)
+      end
       resp.data
     end
 

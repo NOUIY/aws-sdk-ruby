@@ -7,6 +7,7 @@
 #
 # WARNING ABOUT GENERATED CODE
 
+
 module Aws::MediaPackage
   # @api private
   module ClientApi
@@ -89,6 +90,7 @@ module Aws::MediaPackage
     RotateIngestEndpointCredentialsResponse = Shapes::StructureShape.new(name: 'RotateIngestEndpointCredentialsResponse')
     S3Destination = Shapes::StructureShape.new(name: 'S3Destination')
     SegmentTemplateFormat = Shapes::StringShape.new(name: 'SegmentTemplateFormat')
+    SensitiveString = Shapes::StringShape.new(name: 'SensitiveString')
     ServiceUnavailableException = Shapes::StructureShape.new(name: 'ServiceUnavailableException')
     SpekeKeyProvider = Shapes::StructureShape.new(name: 'SpekeKeyProvider')
     Status = Shapes::StringShape.new(name: 'Status')
@@ -129,6 +131,7 @@ module Aws::MediaPackage
     Authorization.struct_class = Types::Authorization
 
     Channel.add_member(:arn, Shapes::ShapeRef.new(shape: __string, location_name: "arn"))
+    Channel.add_member(:created_at, Shapes::ShapeRef.new(shape: __string, location_name: "createdAt"))
     Channel.add_member(:description, Shapes::ShapeRef.new(shape: __string, location_name: "description"))
     Channel.add_member(:egress_access_logs, Shapes::ShapeRef.new(shape: EgressAccessLogs, location_name: "egressAccessLogs"))
     Channel.add_member(:hls_ingest, Shapes::ShapeRef.new(shape: HlsIngest, location_name: "hlsIngest"))
@@ -179,6 +182,7 @@ module Aws::MediaPackage
     ConfigureLogsRequest.struct_class = Types::ConfigureLogsRequest
 
     ConfigureLogsResponse.add_member(:arn, Shapes::ShapeRef.new(shape: __string, location_name: "arn"))
+    ConfigureLogsResponse.add_member(:created_at, Shapes::ShapeRef.new(shape: __string, location_name: "createdAt"))
     ConfigureLogsResponse.add_member(:description, Shapes::ShapeRef.new(shape: __string, location_name: "description"))
     ConfigureLogsResponse.add_member(:egress_access_logs, Shapes::ShapeRef.new(shape: EgressAccessLogs, location_name: "egressAccessLogs"))
     ConfigureLogsResponse.add_member(:hls_ingest, Shapes::ShapeRef.new(shape: HlsIngest, location_name: "hlsIngest"))
@@ -193,6 +197,7 @@ module Aws::MediaPackage
     CreateChannelRequest.struct_class = Types::CreateChannelRequest
 
     CreateChannelResponse.add_member(:arn, Shapes::ShapeRef.new(shape: __string, location_name: "arn"))
+    CreateChannelResponse.add_member(:created_at, Shapes::ShapeRef.new(shape: __string, location_name: "createdAt"))
     CreateChannelResponse.add_member(:description, Shapes::ShapeRef.new(shape: __string, location_name: "description"))
     CreateChannelResponse.add_member(:egress_access_logs, Shapes::ShapeRef.new(shape: EgressAccessLogs, location_name: "egressAccessLogs"))
     CreateChannelResponse.add_member(:hls_ingest, Shapes::ShapeRef.new(shape: HlsIngest, location_name: "hlsIngest"))
@@ -239,6 +244,7 @@ module Aws::MediaPackage
     CreateOriginEndpointResponse.add_member(:authorization, Shapes::ShapeRef.new(shape: Authorization, location_name: "authorization"))
     CreateOriginEndpointResponse.add_member(:channel_id, Shapes::ShapeRef.new(shape: __string, location_name: "channelId"))
     CreateOriginEndpointResponse.add_member(:cmaf_package, Shapes::ShapeRef.new(shape: CmafPackage, location_name: "cmafPackage"))
+    CreateOriginEndpointResponse.add_member(:created_at, Shapes::ShapeRef.new(shape: __string, location_name: "createdAt"))
     CreateOriginEndpointResponse.add_member(:dash_package, Shapes::ShapeRef.new(shape: DashPackage, location_name: "dashPackage"))
     CreateOriginEndpointResponse.add_member(:description, Shapes::ShapeRef.new(shape: __string, location_name: "description"))
     CreateOriginEndpointResponse.add_member(:hls_package, Shapes::ShapeRef.new(shape: HlsPackage, location_name: "hlsPackage"))
@@ -289,6 +295,7 @@ module Aws::MediaPackage
     DescribeChannelRequest.struct_class = Types::DescribeChannelRequest
 
     DescribeChannelResponse.add_member(:arn, Shapes::ShapeRef.new(shape: __string, location_name: "arn"))
+    DescribeChannelResponse.add_member(:created_at, Shapes::ShapeRef.new(shape: __string, location_name: "createdAt"))
     DescribeChannelResponse.add_member(:description, Shapes::ShapeRef.new(shape: __string, location_name: "description"))
     DescribeChannelResponse.add_member(:egress_access_logs, Shapes::ShapeRef.new(shape: EgressAccessLogs, location_name: "egressAccessLogs"))
     DescribeChannelResponse.add_member(:hls_ingest, Shapes::ShapeRef.new(shape: HlsIngest, location_name: "hlsIngest"))
@@ -318,6 +325,7 @@ module Aws::MediaPackage
     DescribeOriginEndpointResponse.add_member(:authorization, Shapes::ShapeRef.new(shape: Authorization, location_name: "authorization"))
     DescribeOriginEndpointResponse.add_member(:channel_id, Shapes::ShapeRef.new(shape: __string, location_name: "channelId"))
     DescribeOriginEndpointResponse.add_member(:cmaf_package, Shapes::ShapeRef.new(shape: CmafPackage, location_name: "cmafPackage"))
+    DescribeOriginEndpointResponse.add_member(:created_at, Shapes::ShapeRef.new(shape: __string, location_name: "createdAt"))
     DescribeOriginEndpointResponse.add_member(:dash_package, Shapes::ShapeRef.new(shape: DashPackage, location_name: "dashPackage"))
     DescribeOriginEndpointResponse.add_member(:description, Shapes::ShapeRef.new(shape: __string, location_name: "description"))
     DescribeOriginEndpointResponse.add_member(:hls_package, Shapes::ShapeRef.new(shape: HlsPackage, location_name: "hlsPackage"))
@@ -410,9 +418,9 @@ module Aws::MediaPackage
     HlsPackage.struct_class = Types::HlsPackage
 
     IngestEndpoint.add_member(:id, Shapes::ShapeRef.new(shape: __string, location_name: "id"))
-    IngestEndpoint.add_member(:password, Shapes::ShapeRef.new(shape: __string, location_name: "password"))
+    IngestEndpoint.add_member(:password, Shapes::ShapeRef.new(shape: SensitiveString, location_name: "password"))
     IngestEndpoint.add_member(:url, Shapes::ShapeRef.new(shape: __string, location_name: "url"))
-    IngestEndpoint.add_member(:username, Shapes::ShapeRef.new(shape: __string, location_name: "username"))
+    IngestEndpoint.add_member(:username, Shapes::ShapeRef.new(shape: SensitiveString, location_name: "username"))
     IngestEndpoint.struct_class = Types::IngestEndpoint
 
     IngressAccessLogs.add_member(:log_group_name, Shapes::ShapeRef.new(shape: __string, location_name: "logGroupName"))
@@ -470,6 +478,7 @@ module Aws::MediaPackage
     OriginEndpoint.add_member(:authorization, Shapes::ShapeRef.new(shape: Authorization, location_name: "authorization"))
     OriginEndpoint.add_member(:channel_id, Shapes::ShapeRef.new(shape: __string, location_name: "channelId"))
     OriginEndpoint.add_member(:cmaf_package, Shapes::ShapeRef.new(shape: CmafPackage, location_name: "cmafPackage"))
+    OriginEndpoint.add_member(:created_at, Shapes::ShapeRef.new(shape: __string, location_name: "createdAt"))
     OriginEndpoint.add_member(:dash_package, Shapes::ShapeRef.new(shape: DashPackage, location_name: "dashPackage"))
     OriginEndpoint.add_member(:description, Shapes::ShapeRef.new(shape: __string, location_name: "description"))
     OriginEndpoint.add_member(:hls_package, Shapes::ShapeRef.new(shape: HlsPackage, location_name: "hlsPackage"))
@@ -521,6 +530,7 @@ module Aws::MediaPackage
     RotateChannelCredentialsRequest.struct_class = Types::RotateChannelCredentialsRequest
 
     RotateChannelCredentialsResponse.add_member(:arn, Shapes::ShapeRef.new(shape: __string, location_name: "arn"))
+    RotateChannelCredentialsResponse.add_member(:created_at, Shapes::ShapeRef.new(shape: __string, location_name: "createdAt"))
     RotateChannelCredentialsResponse.add_member(:description, Shapes::ShapeRef.new(shape: __string, location_name: "description"))
     RotateChannelCredentialsResponse.add_member(:egress_access_logs, Shapes::ShapeRef.new(shape: EgressAccessLogs, location_name: "egressAccessLogs"))
     RotateChannelCredentialsResponse.add_member(:hls_ingest, Shapes::ShapeRef.new(shape: HlsIngest, location_name: "hlsIngest"))
@@ -534,6 +544,7 @@ module Aws::MediaPackage
     RotateIngestEndpointCredentialsRequest.struct_class = Types::RotateIngestEndpointCredentialsRequest
 
     RotateIngestEndpointCredentialsResponse.add_member(:arn, Shapes::ShapeRef.new(shape: __string, location_name: "arn"))
+    RotateIngestEndpointCredentialsResponse.add_member(:created_at, Shapes::ShapeRef.new(shape: __string, location_name: "createdAt"))
     RotateIngestEndpointCredentialsResponse.add_member(:description, Shapes::ShapeRef.new(shape: __string, location_name: "description"))
     RotateIngestEndpointCredentialsResponse.add_member(:egress_access_logs, Shapes::ShapeRef.new(shape: EgressAccessLogs, location_name: "egressAccessLogs"))
     RotateIngestEndpointCredentialsResponse.add_member(:hls_ingest, Shapes::ShapeRef.new(shape: HlsIngest, location_name: "hlsIngest"))
@@ -588,6 +599,7 @@ module Aws::MediaPackage
     UpdateChannelRequest.struct_class = Types::UpdateChannelRequest
 
     UpdateChannelResponse.add_member(:arn, Shapes::ShapeRef.new(shape: __string, location_name: "arn"))
+    UpdateChannelResponse.add_member(:created_at, Shapes::ShapeRef.new(shape: __string, location_name: "createdAt"))
     UpdateChannelResponse.add_member(:description, Shapes::ShapeRef.new(shape: __string, location_name: "description"))
     UpdateChannelResponse.add_member(:egress_access_logs, Shapes::ShapeRef.new(shape: EgressAccessLogs, location_name: "egressAccessLogs"))
     UpdateChannelResponse.add_member(:hls_ingest, Shapes::ShapeRef.new(shape: HlsIngest, location_name: "hlsIngest"))
@@ -614,6 +626,7 @@ module Aws::MediaPackage
     UpdateOriginEndpointResponse.add_member(:authorization, Shapes::ShapeRef.new(shape: Authorization, location_name: "authorization"))
     UpdateOriginEndpointResponse.add_member(:channel_id, Shapes::ShapeRef.new(shape: __string, location_name: "channelId"))
     UpdateOriginEndpointResponse.add_member(:cmaf_package, Shapes::ShapeRef.new(shape: CmafPackage, location_name: "cmafPackage"))
+    UpdateOriginEndpointResponse.add_member(:created_at, Shapes::ShapeRef.new(shape: __string, location_name: "createdAt"))
     UpdateOriginEndpointResponse.add_member(:dash_package, Shapes::ShapeRef.new(shape: DashPackage, location_name: "dashPackage"))
     UpdateOriginEndpointResponse.add_member(:description, Shapes::ShapeRef.new(shape: __string, location_name: "description"))
     UpdateOriginEndpointResponse.add_member(:hls_package, Shapes::ShapeRef.new(shape: HlsPackage, location_name: "hlsPackage"))

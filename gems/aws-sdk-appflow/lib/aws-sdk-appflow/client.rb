@@ -7,33 +7,34 @@
 #
 # WARNING ABOUT GENERATED CODE
 
-require 'seahorse/client/plugins/content_length.rb'
-require 'aws-sdk-core/plugins/credentials_configuration.rb'
-require 'aws-sdk-core/plugins/logging.rb'
-require 'aws-sdk-core/plugins/param_converter.rb'
-require 'aws-sdk-core/plugins/param_validator.rb'
-require 'aws-sdk-core/plugins/user_agent.rb'
-require 'aws-sdk-core/plugins/helpful_socket_errors.rb'
-require 'aws-sdk-core/plugins/retry_errors.rb'
-require 'aws-sdk-core/plugins/global_configuration.rb'
-require 'aws-sdk-core/plugins/regional_endpoint.rb'
-require 'aws-sdk-core/plugins/endpoint_discovery.rb'
-require 'aws-sdk-core/plugins/endpoint_pattern.rb'
-require 'aws-sdk-core/plugins/response_paging.rb'
-require 'aws-sdk-core/plugins/stub_responses.rb'
-require 'aws-sdk-core/plugins/idempotency_token.rb'
-require 'aws-sdk-core/plugins/jsonvalue_converter.rb'
-require 'aws-sdk-core/plugins/client_metrics_plugin.rb'
-require 'aws-sdk-core/plugins/client_metrics_send_plugin.rb'
-require 'aws-sdk-core/plugins/transfer_encoding.rb'
-require 'aws-sdk-core/plugins/http_checksum.rb'
-require 'aws-sdk-core/plugins/checksum_algorithm.rb'
-require 'aws-sdk-core/plugins/defaults_mode.rb'
-require 'aws-sdk-core/plugins/recursion_detection.rb'
-require 'aws-sdk-core/plugins/sign.rb'
-require 'aws-sdk-core/plugins/protocols/rest_json.rb'
-
-Aws::Plugins::GlobalConfiguration.add_identifier(:appflow)
+require 'seahorse/client/plugins/content_length'
+require 'aws-sdk-core/plugins/credentials_configuration'
+require 'aws-sdk-core/plugins/logging'
+require 'aws-sdk-core/plugins/param_converter'
+require 'aws-sdk-core/plugins/param_validator'
+require 'aws-sdk-core/plugins/user_agent'
+require 'aws-sdk-core/plugins/helpful_socket_errors'
+require 'aws-sdk-core/plugins/retry_errors'
+require 'aws-sdk-core/plugins/global_configuration'
+require 'aws-sdk-core/plugins/regional_endpoint'
+require 'aws-sdk-core/plugins/endpoint_discovery'
+require 'aws-sdk-core/plugins/endpoint_pattern'
+require 'aws-sdk-core/plugins/response_paging'
+require 'aws-sdk-core/plugins/stub_responses'
+require 'aws-sdk-core/plugins/idempotency_token'
+require 'aws-sdk-core/plugins/invocation_id'
+require 'aws-sdk-core/plugins/jsonvalue_converter'
+require 'aws-sdk-core/plugins/client_metrics_plugin'
+require 'aws-sdk-core/plugins/client_metrics_send_plugin'
+require 'aws-sdk-core/plugins/transfer_encoding'
+require 'aws-sdk-core/plugins/http_checksum'
+require 'aws-sdk-core/plugins/checksum_algorithm'
+require 'aws-sdk-core/plugins/request_compression'
+require 'aws-sdk-core/plugins/defaults_mode'
+require 'aws-sdk-core/plugins/recursion_detection'
+require 'aws-sdk-core/plugins/telemetry'
+require 'aws-sdk-core/plugins/sign'
+require 'aws-sdk-core/plugins/protocols/rest_json'
 
 module Aws::Appflow
   # An API client for Appflow.  To construct a client, you need to configure a `:region` and `:credentials`.
@@ -71,20 +72,28 @@ module Aws::Appflow
     add_plugin(Aws::Plugins::ResponsePaging)
     add_plugin(Aws::Plugins::StubResponses)
     add_plugin(Aws::Plugins::IdempotencyToken)
+    add_plugin(Aws::Plugins::InvocationId)
     add_plugin(Aws::Plugins::JsonvalueConverter)
     add_plugin(Aws::Plugins::ClientMetricsPlugin)
     add_plugin(Aws::Plugins::ClientMetricsSendPlugin)
     add_plugin(Aws::Plugins::TransferEncoding)
     add_plugin(Aws::Plugins::HttpChecksum)
     add_plugin(Aws::Plugins::ChecksumAlgorithm)
+    add_plugin(Aws::Plugins::RequestCompression)
     add_plugin(Aws::Plugins::DefaultsMode)
     add_plugin(Aws::Plugins::RecursionDetection)
+    add_plugin(Aws::Plugins::Telemetry)
     add_plugin(Aws::Plugins::Sign)
     add_plugin(Aws::Plugins::Protocols::RestJson)
     add_plugin(Aws::Appflow::Plugins::Endpoints)
 
     # @overload initialize(options)
     #   @param [Hash] options
+    #
+    #   @option options [Array<Seahorse::Client::Plugin>] :plugins ([]])
+    #     A list of plugins to apply to the client. Each plugin is either a
+    #     class name or an instance of a plugin class.
+    #
     #   @option options [required, Aws::CredentialProvider] :credentials
     #     Your AWS credentials. This can be an instance of any one of the
     #     following classes:
@@ -119,13 +128,15 @@ module Aws::Appflow
     #     locations will be searched for credentials:
     #
     #     * `Aws.config[:credentials]`
-    #     * The `:access_key_id`, `:secret_access_key`, and `:session_token` options.
-    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']
+    #     * The `:access_key_id`, `:secret_access_key`, `:session_token`, and
+    #       `:account_id` options.
+    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'],
+    #       ENV['AWS_SESSION_TOKEN'], and ENV['AWS_ACCOUNT_ID']
     #     * `~/.aws/credentials`
     #     * `~/.aws/config`
     #     * EC2/ECS IMDS instance profile - When used by default, the timeouts
     #       are very aggressive. Construct and pass an instance of
-    #       `Aws::InstanceProfileCredentails` or `Aws::ECSCredentials` to
+    #       `Aws::InstanceProfileCredentials` or `Aws::ECSCredentials` to
     #       enable retries and extended timeouts. Instance profile credential
     #       fetching can be disabled by setting ENV['AWS_EC2_METADATA_DISABLED']
     #       to true.
@@ -143,6 +154,8 @@ module Aws::Appflow
     #     * `~/.aws/config`
     #
     #   @option options [String] :access_key_id
+    #
+    #   @option options [String] :account_id
     #
     #   @option options [Boolean] :active_endpoint_cache (false)
     #     When set to `true`, a thread polling for endpoints will be running in
@@ -190,10 +203,20 @@ module Aws::Appflow
     #     Set to true to disable SDK automatically adding host prefix
     #     to default service endpoint when available.
     #
-    #   @option options [String] :endpoint
-    #     The client endpoint is normally constructed from the `:region`
-    #     option. You should only configure an `:endpoint` when connecting
-    #     to test or custom endpoints. This should be a valid HTTP(S) URI.
+    #   @option options [Boolean] :disable_request_compression (false)
+    #     When set to 'true' the request body will not be compressed
+    #     for supported operations.
+    #
+    #   @option options [String, URI::HTTPS, URI::HTTP] :endpoint
+    #     Normally you should not configure the `:endpoint` option
+    #     directly. This is normally constructed from the `:region`
+    #     option. Configuring `:endpoint` is normally reserved for
+    #     connecting to test or custom endpoints. The endpoint should
+    #     be a URI formatted like:
+    #
+    #         'http://example.com'
+    #         'https://example.com'
+    #         'http://example.com:123'
     #
     #   @option options [Integer] :endpoint_cache_max_entries (1000)
     #     Used for the maximum size limit of the LRU cache storing endpoints data
@@ -209,6 +232,10 @@ module Aws::Appflow
     #
     #   @option options [Boolean] :endpoint_discovery (false)
     #     When set to `true`, endpoint discovery will be enabled for operations when available.
+    #
+    #   @option options [Boolean] :ignore_configured_endpoint_urls
+    #     Setting to true disables use of endpoint URLs provided via environment
+    #     variables and the shared configuration file.
     #
     #   @option options [Aws::Log::Formatter] :log_formatter (Aws::Log::Formatter.default)
     #     The log formatter.
@@ -229,6 +256,34 @@ module Aws::Appflow
     #   @option options [String] :profile ("default")
     #     Used when loading credentials from the shared credentials file
     #     at HOME/.aws/credentials.  When not specified, 'default' is used.
+    #
+    #   @option options [String] :request_checksum_calculation ("when_supported")
+    #     Determines when a checksum will be calculated for request payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, a checksum will be
+    #       calculated for all request payloads of operations modeled with the
+    #       `httpChecksum` trait where `requestChecksumRequired` is `true` and/or a
+    #       `requestAlgorithmMember` is modeled.
+    #     * `when_required` - When set, a checksum will only be calculated for
+    #       request payloads of operations modeled with the  `httpChecksum` trait where
+    #       `requestChecksumRequired` is `true` or where a `requestAlgorithmMember`
+    #       is modeled and supplied.
+    #
+    #   @option options [Integer] :request_min_compression_size_bytes (10240)
+    #     The minimum size in bytes that triggers compression for request
+    #     bodies. The value must be non-negative integer value between 0
+    #     and 10485780 bytes inclusive.
+    #
+    #   @option options [String] :response_checksum_validation ("when_supported")
+    #     Determines when checksum validation will be performed on response payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, checksum validation is performed on all
+    #       response payloads of operations modeled with the `httpChecksum` trait where
+    #       `responseAlgorithms` is modeled, except when no modeled checksum algorithms
+    #       are supported.
+    #     * `when_required` - When set, checksum validation is not performed on
+    #       response payloads of operations unless the checksum algorithm is supported and
+    #       the `requestValidationModeMember` member is set to `ENABLED`.
     #
     #   @option options [Proc] :retry_backoff
     #     A proc or lambda used for backoff. Defaults to 2**retries * retry_base_delay.
@@ -274,10 +329,24 @@ module Aws::Appflow
     #       throttling.  This is a provisional mode that may change behavior
     #       in the future.
     #
+    #   @option options [String] :sdk_ua_app_id
+    #     A unique and opaque application ID that is appended to the
+    #     User-Agent header as app/sdk_ua_app_id. It should have a
+    #     maximum length of 50. This variable is sourced from environment
+    #     variable AWS_SDK_UA_APP_ID or the shared config profile attribute sdk_ua_app_id.
     #
     #   @option options [String] :secret_access_key
     #
     #   @option options [String] :session_token
+    #
+    #   @option options [Array] :sigv4a_signing_region_set
+    #     A list of regions that should be signed with SigV4a signing. When
+    #     not passed, a default `:sigv4a_signing_region_set` is searched for
+    #     in the following locations:
+    #
+    #     * `Aws.config[:sigv4a_signing_region_set]`
+    #     * `ENV['AWS_SIGV4A_SIGNING_REGION_SET']`
+    #     * `~/.aws/config`
     #
     #   @option options [Boolean] :stub_responses (false)
     #     Causes the client to return stubbed responses. By default
@@ -287,6 +356,16 @@ module Aws::Appflow
     #
     #     ** Please note ** When response stubbing is enabled, no HTTP
     #     requests are made, and retries are disabled.
+    #
+    #   @option options [Aws::Telemetry::TelemetryProviderBase] :telemetry_provider (Aws::Telemetry::NoOpTelemetryProvider)
+    #     Allows you to provide a telemetry provider, which is used to
+    #     emit telemetry data. By default, uses `NoOpTelemetryProvider` which
+    #     will not record or emit any telemetry data. The SDK supports the
+    #     following telemetry providers:
+    #
+    #     * OpenTelemetry (OTel) - To use the OTel provider, install and require the
+    #     `opentelemetry-sdk` gem and then, pass in an instance of a
+    #     `Aws::Telemetry::OTelProvider` for telemetry provider.
     #
     #   @option options [Aws::TokenProvider] :token_provider
     #     A Bearer Token Provider. This can be an instance of any one of the
@@ -315,58 +394,148 @@ module Aws::Appflow
     #     sending the request.
     #
     #   @option options [Aws::Appflow::EndpointProvider] :endpoint_provider
-    #     The endpoint provider used to resolve endpoints. Any object that responds to `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to `Aws::Appflow::EndpointParameters`
+    #     The endpoint provider used to resolve endpoints. Any object that responds to
+    #     `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+    #     `Aws::Appflow::EndpointParameters`.
     #
-    #   @option options [URI::HTTP,String] :http_proxy A proxy to send
-    #     requests through.  Formatted like 'http://proxy.com:123'.
+    #   @option options [Float] :http_continue_timeout (1)
+    #     The number of seconds to wait for a 100-continue response before sending the
+    #     request body.  This option has no effect unless the request has "Expect"
+    #     header set to "100-continue".  Defaults to `nil` which  disables this
+    #     behaviour.  This value can safely be set per request on the session.
     #
-    #   @option options [Float] :http_open_timeout (15) The number of
-    #     seconds to wait when opening a HTTP session before raising a
-    #     `Timeout::Error`.
+    #   @option options [Float] :http_idle_timeout (5)
+    #     The number of seconds a connection is allowed to sit idle before it
+    #     is considered stale.  Stale connections are closed and removed from the
+    #     pool before making a request.
     #
-    #   @option options [Float] :http_read_timeout (60) The default
-    #     number of seconds to wait for response data.  This value can
-    #     safely be set per-request on the session.
+    #   @option options [Float] :http_open_timeout (15)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :http_idle_timeout (5) The number of
-    #     seconds a connection is allowed to sit idle before it is
-    #     considered stale.  Stale connections are closed and removed
-    #     from the pool before making a request.
+    #   @option options [URI::HTTP,String] :http_proxy
+    #     A proxy to send requests through.  Formatted like 'http://proxy.com:123'.
     #
-    #   @option options [Float] :http_continue_timeout (1) The number of
-    #     seconds to wait for a 100-continue response before sending the
-    #     request body.  This option has no effect unless the request has
-    #     "Expect" header set to "100-continue".  Defaults to `nil` which
-    #     disables this behaviour.  This value can safely be set per
-    #     request on the session.
+    #   @option options [Float] :http_read_timeout (60)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :ssl_timeout (nil) Sets the SSL timeout
-    #     in seconds.
+    #   @option options [Boolean] :http_wire_trace (false)
+    #     When `true`,  HTTP debug output will be sent to the `:logger`.
     #
-    #   @option options [Boolean] :http_wire_trace (false) When `true`,
-    #     HTTP debug output will be sent to the `:logger`.
+    #   @option options [Proc] :on_chunk_received
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the response body is received. It provides three arguments: the chunk,
+    #     the number of bytes received, and the total number of
+    #     bytes in the response (or nil if the server did not send a `content-length`).
     #
-    #   @option options [Boolean] :ssl_verify_peer (true) When `true`,
-    #     SSL peer certificates are verified when establishing a
-    #     connection.
+    #   @option options [Proc] :on_chunk_sent
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the request body is sent. It provides three arguments: the chunk,
+    #     the number of bytes read from the body, and the total number of
+    #     bytes in the body.
     #
-    #   @option options [String] :ssl_ca_bundle Full path to the SSL
-    #     certificate authority bundle file that should be used when
-    #     verifying peer certificates.  If you do not pass
-    #     `:ssl_ca_bundle` or `:ssl_ca_directory` the the system default
-    #     will be used if available.
+    #   @option options [Boolean] :raise_response_errors (true)
+    #     When `true`, response errors are raised.
     #
-    #   @option options [String] :ssl_ca_directory Full path of the
-    #     directory that contains the unbundled SSL certificate
+    #   @option options [String] :ssl_ca_bundle
+    #     Full path to the SSL certificate authority bundle file that should be used when
+    #     verifying peer certificates.  If you do not pass `:ssl_ca_bundle` or
+    #     `:ssl_ca_directory` the the system default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_directory
+    #     Full path of the directory that contains the unbundled SSL certificate
     #     authority files for verifying peer certificates.  If you do
-    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the
-    #     system default will be used if available.
+    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the system
+    #     default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_store
+    #     Sets the X509::Store to verify peer certificate.
+    #
+    #   @option options [OpenSSL::X509::Certificate] :ssl_cert
+    #     Sets a client certificate when creating http connections.
+    #
+    #   @option options [OpenSSL::PKey] :ssl_key
+    #     Sets a client key when creating http connections.
+    #
+    #   @option options [Float] :ssl_timeout
+    #     Sets the SSL timeout in seconds
+    #
+    #   @option options [Boolean] :ssl_verify_peer (true)
+    #     When `true`, SSL peer certificates are verified when establishing a connection.
     #
     def initialize(*args)
       super
     end
 
     # @!group API Operations
+
+    # Cancels active runs for a flow.
+    #
+    # You can cancel all of the active runs for a flow, or you can cancel
+    # specific runs by providing their IDs.
+    #
+    # You can cancel a flow run only when the run is in progress. You can't
+    # cancel a run that has already completed or failed. You also can't
+    # cancel a run that's scheduled to occur but hasn't started yet. To
+    # prevent a scheduled run, you can deactivate the flow with the
+    # `StopFlow` action.
+    #
+    # You cannot resume a run after you cancel it.
+    #
+    # When you send your request, the status for each run becomes
+    # `CancelStarted`. When the cancellation completes, the status becomes
+    # `Canceled`.
+    #
+    # <note markdown="1"> When you cancel a run, you still incur charges for any data that the
+    # run already processed before the cancellation. If the run had already
+    # written some data to the flow destination, then that data remains in
+    # the destination. If you configured the flow to use a batch API (such
+    # as the Salesforce Bulk API 2.0), then the run will finish reading or
+    # writing its entire batch of data after the cancellation. For these
+    # operations, the data processing charges for Amazon AppFlow apply. For
+    # the pricing information, see [Amazon AppFlow pricing][1].
+    #
+    #  </note>
+    #
+    #
+    #
+    # [1]: http://aws.amazon.com/appflow/pricing/
+    #
+    # @option params [required, String] :flow_name
+    #   The name of a flow with active runs that you want to cancel.
+    #
+    # @option params [Array<String>] :execution_ids
+    #   The ID of each active run to cancel. These runs must belong to the
+    #   flow you specify in your request.
+    #
+    #   If you omit this parameter, your request ends all active runs that
+    #   belong to the flow.
+    #
+    # @return [Types::CancelFlowExecutionsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CancelFlowExecutionsResponse#invalid_executions #invalid_executions} => Array&lt;String&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.cancel_flow_executions({
+    #     flow_name: "FlowName", # required
+    #     execution_ids: ["ExecutionId"],
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.invalid_executions #=> Array
+    #   resp.invalid_executions[0] #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/appflow-2020-08-23/CancelFlowExecutions AWS API Documentation
+    #
+    # @overload cancel_flow_executions(params = {})
+    # @param [Hash] params ({})
+    def cancel_flow_executions(params = {}, options = {})
+      req = build_request(:cancel_flow_executions, params)
+      req.send_request(options)
+    end
 
     # Creates a new connector profile associated with your Amazon Web
     # Services account. There is a soft quota of 100 connector profiles per
@@ -402,6 +571,26 @@ module Aws::Appflow
     #
     # @option params [required, Types::ConnectorProfileConfig] :connector_profile_config
     #   Defines the connector-specific configuration and credentials.
+    #
+    # @option params [String] :client_token
+    #   The `clientToken` parameter is an idempotency token. It ensures that
+    #   your `CreateConnectorProfile` request completes only once. You choose
+    #   the value to pass. For example, if you don't receive a response from
+    #   your request, you can safely retry the request with the same
+    #   `clientToken` parameter value.
+    #
+    #   If you omit a `clientToken` value, the Amazon Web Services SDK that
+    #   you are using inserts a value for you. This way, the SDK can safely
+    #   retry requests multiple times after a network error. You must provide
+    #   your own value for other use cases.
+    #
+    #   If you specify input parameters that differ from your first request,
+    #   an error occurs. If you use a different value for `clientToken`,
+    #   Amazon AppFlow considers it a new call to `CreateConnectorProfile`.
+    #   The token is active for 8 hours.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
     #
     # @return [Types::CreateConnectorProfileResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -449,6 +638,7 @@ module Aws::Appflow
     #         salesforce: {
     #           instance_url: "InstanceUrl",
     #           is_sandbox_environment: false,
+    #           use_private_link_for_metadata_and_authorization: false,
     #         },
     #         service_now: {
     #           instance_url: "InstanceUrl", # required
@@ -487,6 +677,7 @@ module Aws::Appflow
     #             auth_code_url: "AuthCodeUrl", # required
     #             o_auth_scopes: ["OAuthScope"], # required
     #           },
+    #           disable_sso: false,
     #         },
     #         custom_connector: {
     #           profile_properties: {
@@ -494,7 +685,7 @@ module Aws::Appflow
     #           },
     #           o_auth_2_properties: {
     #             token_url: "TokenUrl", # required
-    #             o_auth_2_grant_type: "CLIENT_CREDENTIALS", # required, accepts CLIENT_CREDENTIALS, AUTHORIZATION_CODE
+    #             o_auth_2_grant_type: "CLIENT_CREDENTIALS", # required, accepts CLIENT_CREDENTIALS, AUTHORIZATION_CODE, JWT_BEARER
     #             token_url_custom_properties: {
     #               "CustomPropertyKey" => "CustomPropertyValue",
     #             },
@@ -563,10 +754,22 @@ module Aws::Appflow
     #             redirect_uri: "RedirectUri",
     #           },
     #           client_credentials_arn: "ClientCredentialsArn",
+    #           o_auth_2_grant_type: "CLIENT_CREDENTIALS", # accepts CLIENT_CREDENTIALS, AUTHORIZATION_CODE, JWT_BEARER
+    #           jwt_token: "JwtToken",
     #         },
     #         service_now: {
-    #           username: "Username", # required
-    #           password: "Password", # required
+    #           username: "Username",
+    #           password: "Password",
+    #           o_auth_2_credentials: {
+    #             client_id: "ClientId",
+    #             client_secret: "ClientSecret",
+    #             access_token: "AccessToken",
+    #             refresh_token: "RefreshToken",
+    #             o_auth_request: {
+    #               auth_code: "AuthCode",
+    #               redirect_uri: "RedirectUri",
+    #             },
+    #           },
     #         },
     #         singular: {
     #           api_key: "ApiKey", # required
@@ -654,6 +857,7 @@ module Aws::Appflow
     #         },
     #       },
     #     },
+    #     client_token: "ClientToken",
     #   })
     #
     # @example Response structure
@@ -712,6 +916,26 @@ module Aws::Appflow
     #   the data that's transferred by the associated flow. When Amazon
     #   AppFlow catalogs the data from a flow, it stores metadata in a data
     #   catalog.
+    #
+    # @option params [String] :client_token
+    #   The `clientToken` parameter is an idempotency token. It ensures that
+    #   your `CreateFlow` request completes only once. You choose the value to
+    #   pass. For example, if you don't receive a response from your request,
+    #   you can safely retry the request with the same `clientToken` parameter
+    #   value.
+    #
+    #   If you omit a `clientToken` value, the Amazon Web Services SDK that
+    #   you are using inserts a value for you. This way, the SDK can safely
+    #   retry requests multiple times after a network error. You must provide
+    #   your own value for other use cases.
+    #
+    #   If you specify input parameters that differ from your first request,
+    #   an error occurs. If you use a different value for `clientToken`,
+    #   Amazon AppFlow considers it a new call to `CreateFlow`. The token is
+    #   active for 8 hours.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
     #
     # @return [Types::CreateFlowResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -799,11 +1023,21 @@ module Aws::Appflow
     #         },
     #         sapo_data: {
     #           object_path: "Object",
+    #           parallelism_config: {
+    #             max_parallelism: 1, # required
+    #           },
+    #           pagination_config: {
+    #             max_page_size: 1, # required
+    #           },
     #         },
     #         custom_connector: {
     #           entity_name: "EntityName", # required
     #           custom_properties: {
     #             "CustomPropertyKey" => "CustomPropertyValue",
+    #           },
+    #           data_transfer_api: {
+    #             name: "DataTransferApiTypeName",
+    #             type: "SYNC", # accepts SYNC, ASYNC, AUTOMATIC
     #           },
     #         },
     #         pardot: {
@@ -993,6 +1227,7 @@ module Aws::Appflow
     #         table_prefix: "GlueDataCatalogTablePrefix", # required
     #       },
     #     },
+    #     client_token: "ClientToken",
     #   })
     #
     # @example Response structure
@@ -1109,6 +1344,8 @@ module Aws::Appflow
     #   resp.connector_configuration.connector_metadata.salesforce.o_auth_scopes[0] #=> String
     #   resp.connector_configuration.connector_metadata.salesforce.data_transfer_apis #=> Array
     #   resp.connector_configuration.connector_metadata.salesforce.data_transfer_apis[0] #=> String, one of "AUTOMATIC", "BULKV2", "REST_SYNC"
+    #   resp.connector_configuration.connector_metadata.salesforce.oauth2_grant_types_supported #=> Array
+    #   resp.connector_configuration.connector_metadata.salesforce.oauth2_grant_types_supported[0] #=> String, one of "CLIENT_CREDENTIALS", "AUTHORIZATION_CODE", "JWT_BEARER"
     #   resp.connector_configuration.connector_metadata.slack.o_auth_scopes #=> Array
     #   resp.connector_configuration.connector_metadata.slack.o_auth_scopes[0] #=> String
     #   resp.connector_configuration.connector_metadata.snowflake.supported_regions #=> Array
@@ -1137,7 +1374,7 @@ module Aws::Appflow
     #   resp.connector_configuration.authentication_config.o_auth_2_defaults.auth_code_urls #=> Array
     #   resp.connector_configuration.authentication_config.o_auth_2_defaults.auth_code_urls[0] #=> String
     #   resp.connector_configuration.authentication_config.o_auth_2_defaults.oauth2_grant_types_supported #=> Array
-    #   resp.connector_configuration.authentication_config.o_auth_2_defaults.oauth2_grant_types_supported[0] #=> String, one of "CLIENT_CREDENTIALS", "AUTHORIZATION_CODE"
+    #   resp.connector_configuration.authentication_config.o_auth_2_defaults.oauth2_grant_types_supported[0] #=> String, one of "CLIENT_CREDENTIALS", "AUTHORIZATION_CODE", "JWT_BEARER"
     #   resp.connector_configuration.authentication_config.o_auth_2_defaults.oauth2_custom_properties #=> Array
     #   resp.connector_configuration.authentication_config.o_auth_2_defaults.oauth2_custom_properties[0].key #=> String
     #   resp.connector_configuration.authentication_config.o_auth_2_defaults.oauth2_custom_properties[0].is_required #=> Boolean
@@ -1177,6 +1414,11 @@ module Aws::Appflow
     #   resp.connector_configuration.logo_url #=> String
     #   resp.connector_configuration.registered_at #=> Time
     #   resp.connector_configuration.registered_by #=> String
+    #   resp.connector_configuration.supported_data_transfer_types #=> Array
+    #   resp.connector_configuration.supported_data_transfer_types[0] #=> String, one of "RECORD", "FILE"
+    #   resp.connector_configuration.supported_data_transfer_apis #=> Array
+    #   resp.connector_configuration.supported_data_transfer_apis[0].name #=> String
+    #   resp.connector_configuration.supported_data_transfer_apis[0].type #=> String, one of "SYNC", "ASYNC", "AUTOMATIC"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/appflow-2020-08-23/DescribeConnector AWS API Documentation
     #
@@ -1329,6 +1571,7 @@ module Aws::Appflow
     #   resp.connector_profile_details[0].connector_profile_properties.redshift.database_name #=> String
     #   resp.connector_profile_details[0].connector_profile_properties.salesforce.instance_url #=> String
     #   resp.connector_profile_details[0].connector_profile_properties.salesforce.is_sandbox_environment #=> Boolean
+    #   resp.connector_profile_details[0].connector_profile_properties.salesforce.use_private_link_for_metadata_and_authorization #=> Boolean
     #   resp.connector_profile_details[0].connector_profile_properties.service_now.instance_url #=> String
     #   resp.connector_profile_details[0].connector_profile_properties.slack.instance_url #=> String
     #   resp.connector_profile_details[0].connector_profile_properties.snowflake.warehouse #=> String
@@ -1350,10 +1593,11 @@ module Aws::Appflow
     #   resp.connector_profile_details[0].connector_profile_properties.sapo_data.o_auth_properties.auth_code_url #=> String
     #   resp.connector_profile_details[0].connector_profile_properties.sapo_data.o_auth_properties.o_auth_scopes #=> Array
     #   resp.connector_profile_details[0].connector_profile_properties.sapo_data.o_auth_properties.o_auth_scopes[0] #=> String
+    #   resp.connector_profile_details[0].connector_profile_properties.sapo_data.disable_sso #=> Boolean
     #   resp.connector_profile_details[0].connector_profile_properties.custom_connector.profile_properties #=> Hash
     #   resp.connector_profile_details[0].connector_profile_properties.custom_connector.profile_properties["ProfilePropertyKey"] #=> String
     #   resp.connector_profile_details[0].connector_profile_properties.custom_connector.o_auth_2_properties.token_url #=> String
-    #   resp.connector_profile_details[0].connector_profile_properties.custom_connector.o_auth_2_properties.o_auth_2_grant_type #=> String, one of "CLIENT_CREDENTIALS", "AUTHORIZATION_CODE"
+    #   resp.connector_profile_details[0].connector_profile_properties.custom_connector.o_auth_2_properties.o_auth_2_grant_type #=> String, one of "CLIENT_CREDENTIALS", "AUTHORIZATION_CODE", "JWT_BEARER"
     #   resp.connector_profile_details[0].connector_profile_properties.custom_connector.o_auth_2_properties.token_url_custom_properties #=> Hash
     #   resp.connector_profile_details[0].connector_profile_properties.custom_connector.o_auth_2_properties.token_url_custom_properties["CustomPropertyKey"] #=> String
     #   resp.connector_profile_details[0].connector_profile_properties.pardot.instance_url #=> String
@@ -1428,6 +1672,8 @@ module Aws::Appflow
     #   resp.connector_configurations["ConnectorType"].connector_metadata.salesforce.o_auth_scopes[0] #=> String
     #   resp.connector_configurations["ConnectorType"].connector_metadata.salesforce.data_transfer_apis #=> Array
     #   resp.connector_configurations["ConnectorType"].connector_metadata.salesforce.data_transfer_apis[0] #=> String, one of "AUTOMATIC", "BULKV2", "REST_SYNC"
+    #   resp.connector_configurations["ConnectorType"].connector_metadata.salesforce.oauth2_grant_types_supported #=> Array
+    #   resp.connector_configurations["ConnectorType"].connector_metadata.salesforce.oauth2_grant_types_supported[0] #=> String, one of "CLIENT_CREDENTIALS", "AUTHORIZATION_CODE", "JWT_BEARER"
     #   resp.connector_configurations["ConnectorType"].connector_metadata.slack.o_auth_scopes #=> Array
     #   resp.connector_configurations["ConnectorType"].connector_metadata.slack.o_auth_scopes[0] #=> String
     #   resp.connector_configurations["ConnectorType"].connector_metadata.snowflake.supported_regions #=> Array
@@ -1456,7 +1702,7 @@ module Aws::Appflow
     #   resp.connector_configurations["ConnectorType"].authentication_config.o_auth_2_defaults.auth_code_urls #=> Array
     #   resp.connector_configurations["ConnectorType"].authentication_config.o_auth_2_defaults.auth_code_urls[0] #=> String
     #   resp.connector_configurations["ConnectorType"].authentication_config.o_auth_2_defaults.oauth2_grant_types_supported #=> Array
-    #   resp.connector_configurations["ConnectorType"].authentication_config.o_auth_2_defaults.oauth2_grant_types_supported[0] #=> String, one of "CLIENT_CREDENTIALS", "AUTHORIZATION_CODE"
+    #   resp.connector_configurations["ConnectorType"].authentication_config.o_auth_2_defaults.oauth2_grant_types_supported[0] #=> String, one of "CLIENT_CREDENTIALS", "AUTHORIZATION_CODE", "JWT_BEARER"
     #   resp.connector_configurations["ConnectorType"].authentication_config.o_auth_2_defaults.oauth2_custom_properties #=> Array
     #   resp.connector_configurations["ConnectorType"].authentication_config.o_auth_2_defaults.oauth2_custom_properties[0].key #=> String
     #   resp.connector_configurations["ConnectorType"].authentication_config.o_auth_2_defaults.oauth2_custom_properties[0].is_required #=> Boolean
@@ -1496,6 +1742,11 @@ module Aws::Appflow
     #   resp.connector_configurations["ConnectorType"].logo_url #=> String
     #   resp.connector_configurations["ConnectorType"].registered_at #=> Time
     #   resp.connector_configurations["ConnectorType"].registered_by #=> String
+    #   resp.connector_configurations["ConnectorType"].supported_data_transfer_types #=> Array
+    #   resp.connector_configurations["ConnectorType"].supported_data_transfer_types[0] #=> String, one of "RECORD", "FILE"
+    #   resp.connector_configurations["ConnectorType"].supported_data_transfer_apis #=> Array
+    #   resp.connector_configurations["ConnectorType"].supported_data_transfer_apis[0].name #=> String
+    #   resp.connector_configurations["ConnectorType"].supported_data_transfer_apis[0].type #=> String, one of "SYNC", "ASYNC", "AUTOMATIC"
     #   resp.connectors #=> Array
     #   resp.connectors[0].connector_description #=> String
     #   resp.connectors[0].connector_name #=> String
@@ -1509,6 +1760,8 @@ module Aws::Appflow
     #   resp.connectors[0].connector_provisioning_type #=> String, one of "LAMBDA"
     #   resp.connectors[0].connector_modes #=> Array
     #   resp.connectors[0].connector_modes[0] #=> String
+    #   resp.connectors[0].supported_data_transfer_types #=> Array
+    #   resp.connectors[0].supported_data_transfer_types[0] #=> String, one of "RECORD", "FILE"
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/appflow-2020-08-23/DescribeConnectors AWS API Documentation
@@ -1589,9 +1842,13 @@ module Aws::Appflow
     #   resp.source_flow_config.source_connector_properties.veeva.include_all_versions #=> Boolean
     #   resp.source_flow_config.source_connector_properties.zendesk.object #=> String
     #   resp.source_flow_config.source_connector_properties.sapo_data.object_path #=> String
+    #   resp.source_flow_config.source_connector_properties.sapo_data.parallelism_config.max_parallelism #=> Integer
+    #   resp.source_flow_config.source_connector_properties.sapo_data.pagination_config.max_page_size #=> Integer
     #   resp.source_flow_config.source_connector_properties.custom_connector.entity_name #=> String
     #   resp.source_flow_config.source_connector_properties.custom_connector.custom_properties #=> Hash
     #   resp.source_flow_config.source_connector_properties.custom_connector.custom_properties["CustomPropertyKey"] #=> String
+    #   resp.source_flow_config.source_connector_properties.custom_connector.data_transfer_api.name #=> String
+    #   resp.source_flow_config.source_connector_properties.custom_connector.data_transfer_api.type #=> String, one of "SYNC", "ASYNC", "AUTOMATIC"
     #   resp.source_flow_config.source_connector_properties.pardot.object #=> String
     #   resp.source_flow_config.incremental_pull_config.datetime_type_field_name #=> String
     #   resp.destination_flow_config_list #=> Array
@@ -1678,7 +1935,7 @@ module Aws::Appflow
     #   resp.destination_flow_config_list[0].destination_connector_properties.sapo_data.write_operation_type #=> String, one of "INSERT", "UPSERT", "UPDATE", "DELETE"
     #   resp.last_run_execution_details.most_recent_execution_message #=> String
     #   resp.last_run_execution_details.most_recent_execution_time #=> Time
-    #   resp.last_run_execution_details.most_recent_execution_status #=> String, one of "InProgress", "Successful", "Error"
+    #   resp.last_run_execution_details.most_recent_execution_status #=> String, one of "InProgress", "Successful", "Error", "CancelStarted", "Canceled"
     #   resp.trigger_config.trigger_type #=> String, one of "Scheduled", "Event", "OnDemand"
     #   resp.trigger_config.trigger_properties.scheduled.schedule_expression #=> String
     #   resp.trigger_config.trigger_properties.scheduled.data_pull_mode #=> String, one of "Incremental", "Complete"
@@ -1726,10 +1983,10 @@ module Aws::Appflow
     #   resp.last_run_metadata_catalog_details[0].table_name #=> String
     #   resp.last_run_metadata_catalog_details[0].table_registration_output.message #=> String
     #   resp.last_run_metadata_catalog_details[0].table_registration_output.result #=> String
-    #   resp.last_run_metadata_catalog_details[0].table_registration_output.status #=> String, one of "InProgress", "Successful", "Error"
+    #   resp.last_run_metadata_catalog_details[0].table_registration_output.status #=> String, one of "InProgress", "Successful", "Error", "CancelStarted", "Canceled"
     #   resp.last_run_metadata_catalog_details[0].partition_registration_output.message #=> String
     #   resp.last_run_metadata_catalog_details[0].partition_registration_output.result #=> String
-    #   resp.last_run_metadata_catalog_details[0].partition_registration_output.status #=> String, one of "InProgress", "Successful", "Error"
+    #   resp.last_run_metadata_catalog_details[0].partition_registration_output.status #=> String, one of "InProgress", "Successful", "Error", "CancelStarted", "Canceled"
     #   resp.schema_version #=> Integer
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/appflow-2020-08-23/DescribeFlow AWS API Documentation
@@ -1774,12 +2031,14 @@ module Aws::Appflow
     #
     #   resp.flow_executions #=> Array
     #   resp.flow_executions[0].execution_id #=> String
-    #   resp.flow_executions[0].execution_status #=> String, one of "InProgress", "Successful", "Error"
+    #   resp.flow_executions[0].execution_status #=> String, one of "InProgress", "Successful", "Error", "CancelStarted", "Canceled"
     #   resp.flow_executions[0].execution_result.error_info.put_failures_count #=> Integer
     #   resp.flow_executions[0].execution_result.error_info.execution_message #=> String
     #   resp.flow_executions[0].execution_result.bytes_processed #=> Integer
     #   resp.flow_executions[0].execution_result.bytes_written #=> Integer
     #   resp.flow_executions[0].execution_result.records_processed #=> Integer
+    #   resp.flow_executions[0].execution_result.num_parallel_processes #=> Integer
+    #   resp.flow_executions[0].execution_result.max_page_size #=> Integer
     #   resp.flow_executions[0].started_at #=> Time
     #   resp.flow_executions[0].last_updated_at #=> Time
     #   resp.flow_executions[0].data_pull_start_time #=> Time
@@ -1789,10 +2048,10 @@ module Aws::Appflow
     #   resp.flow_executions[0].metadata_catalog_details[0].table_name #=> String
     #   resp.flow_executions[0].metadata_catalog_details[0].table_registration_output.message #=> String
     #   resp.flow_executions[0].metadata_catalog_details[0].table_registration_output.result #=> String
-    #   resp.flow_executions[0].metadata_catalog_details[0].table_registration_output.status #=> String, one of "InProgress", "Successful", "Error"
+    #   resp.flow_executions[0].metadata_catalog_details[0].table_registration_output.status #=> String, one of "InProgress", "Successful", "Error", "CancelStarted", "Canceled"
     #   resp.flow_executions[0].metadata_catalog_details[0].partition_registration_output.message #=> String
     #   resp.flow_executions[0].metadata_catalog_details[0].partition_registration_output.result #=> String
-    #   resp.flow_executions[0].metadata_catalog_details[0].partition_registration_output.status #=> String, one of "InProgress", "Successful", "Error"
+    #   resp.flow_executions[0].metadata_catalog_details[0].partition_registration_output.status #=> String, one of "InProgress", "Successful", "Error", "CancelStarted", "Canceled"
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/appflow-2020-08-23/DescribeFlowExecutionRecords AWS API Documentation
@@ -1912,6 +2171,8 @@ module Aws::Appflow
     #   resp.connectors[0].connector_provisioning_type #=> String, one of "LAMBDA"
     #   resp.connectors[0].connector_modes #=> Array
     #   resp.connectors[0].connector_modes[0] #=> String
+    #   resp.connectors[0].supported_data_transfer_types #=> Array
+    #   resp.connectors[0].supported_data_transfer_types[0] #=> String, one of "RECORD", "FILE"
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/appflow-2020-08-23/ListConnectors AWS API Documentation
@@ -1966,7 +2227,7 @@ module Aws::Appflow
     #   resp.flows[0].tags["TagKey"] #=> String
     #   resp.flows[0].last_run_execution_details.most_recent_execution_message #=> String
     #   resp.flows[0].last_run_execution_details.most_recent_execution_time #=> Time
-    #   resp.flows[0].last_run_execution_details.most_recent_execution_status #=> String, one of "InProgress", "Successful", "Error"
+    #   resp.flows[0].last_run_execution_details.most_recent_execution_status #=> String, one of "InProgress", "Successful", "Error", "CancelStarted", "Canceled"
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/appflow-2020-08-23/ListFlows AWS API Documentation
@@ -2026,6 +2287,26 @@ module Aws::Appflow
     #   The provisioning type of the connector. Currently the only supported
     #   value is LAMBDA.
     #
+    # @option params [String] :client_token
+    #   The `clientToken` parameter is an idempotency token. It ensures that
+    #   your `RegisterConnector` request completes only once. You choose the
+    #   value to pass. For example, if you don't receive a response from your
+    #   request, you can safely retry the request with the same `clientToken`
+    #   parameter value.
+    #
+    #   If you omit a `clientToken` value, the Amazon Web Services SDK that
+    #   you are using inserts a value for you. This way, the SDK can safely
+    #   retry requests multiple times after a network error. You must provide
+    #   your own value for other use cases.
+    #
+    #   If you specify input parameters that differ from your first request,
+    #   an error occurs. If you use a different value for `clientToken`,
+    #   Amazon AppFlow considers it a new call to `RegisterConnector`. The
+    #   token is active for 8 hours.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
     # @return [Types::RegisterConnectorResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::RegisterConnectorResponse#connector_arn #connector_arn} => String
@@ -2041,6 +2322,7 @@ module Aws::Appflow
     #         lambda_arn: "ARN", # required
     #       },
     #     },
+    #     client_token: "ClientToken",
     #   })
     #
     # @example Response structure
@@ -2056,6 +2338,96 @@ module Aws::Appflow
       req.send_request(options)
     end
 
+    # Resets metadata about your connector entities that Amazon AppFlow
+    # stored in its cache. Use this action when you want Amazon AppFlow to
+    # return the latest information about the data that you have in a source
+    # application.
+    #
+    # Amazon AppFlow returns metadata about your entities when you use the
+    # ListConnectorEntities or DescribeConnectorEntities actions. Following
+    # these actions, Amazon AppFlow caches the metadata to reduce the number
+    # of API requests that it must send to the source application. Amazon
+    # AppFlow automatically resets the cache once every hour, but you can
+    # use this action when you want to get the latest metadata right away.
+    #
+    # @option params [String] :connector_profile_name
+    #   The name of the connector profile that you want to reset cached
+    #   metadata for.
+    #
+    #   You can omit this parameter if you're resetting the cache for any of
+    #   the following connectors: Amazon Connect, Amazon EventBridge, Amazon
+    #   Lookout for Metrics, Amazon S3, or Upsolver. If you're resetting the
+    #   cache for any other connector, you must include this parameter in your
+    #   request.
+    #
+    # @option params [String] :connector_type
+    #   The type of connector to reset cached metadata for.
+    #
+    #   You must include this parameter in your request if you're resetting
+    #   the cache for any of the following connectors: Amazon Connect, Amazon
+    #   EventBridge, Amazon Lookout for Metrics, Amazon S3, or Upsolver. If
+    #   you're resetting the cache for any other connector, you can omit this
+    #   parameter from your request.
+    #
+    # @option params [String] :connector_entity_name
+    #   Use this parameter if you want to reset cached metadata about the
+    #   details for an individual entity.
+    #
+    #   If you don't include this parameter in your request, Amazon AppFlow
+    #   only resets cached metadata about entity names, not entity details.
+    #
+    # @option params [String] :entities_path
+    #   Use this parameter only if you’re resetting the cached metadata about
+    #   a nested entity. Only some connectors support nested entities. A
+    #   nested entity is one that has another entity as a parent. To use this
+    #   parameter, specify the name of the parent entity.
+    #
+    #   To look up the parent-child relationship of entities, you can send a
+    #   ListConnectorEntities request that omits the entitiesPath parameter.
+    #   Amazon AppFlow will return a list of top-level entities. For each one,
+    #   it indicates whether the entity has nested entities. Then, in a
+    #   subsequent ListConnectorEntities request, you can specify a parent
+    #   entity name for the entitiesPath parameter. Amazon AppFlow will return
+    #   a list of the child entities for that parent.
+    #
+    # @option params [String] :api_version
+    #   The API version that you specified in the connector profile that
+    #   you’re resetting cached metadata for. You must use this parameter only
+    #   if the connector supports multiple API versions or if the connector
+    #   type is CustomConnector.
+    #
+    #   To look up how many versions a connector supports, use the
+    #   DescribeConnectors action. In the response, find the value that Amazon
+    #   AppFlow returns for the connectorVersion parameter.
+    #
+    #   To look up the connector type, use the DescribeConnectorProfiles
+    #   action. In the response, find the value that Amazon AppFlow returns
+    #   for the connectorType parameter.
+    #
+    #   To look up the API version that you specified in a connector profile,
+    #   use the DescribeConnectorProfiles action.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.reset_connector_metadata_cache({
+    #     connector_profile_name: "ConnectorProfileName",
+    #     connector_type: "Salesforce", # accepts Salesforce, Singular, Slack, Redshift, S3, Marketo, Googleanalytics, Zendesk, Servicenow, Datadog, Trendmicro, Snowflake, Dynatrace, Infornexus, Amplitude, Veeva, EventBridge, LookoutMetrics, Upsolver, Honeycode, CustomerProfiles, SAPOData, CustomConnector, Pardot
+    #     connector_entity_name: "EntityName",
+    #     entities_path: "EntitiesPath",
+    #     api_version: "ApiVersion",
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/appflow-2020-08-23/ResetConnectorMetadataCache AWS API Documentation
+    #
+    # @overload reset_connector_metadata_cache(params = {})
+    # @param [Hash] params ({})
+    def reset_connector_metadata_cache(params = {}, options = {})
+      req = build_request(:reset_connector_metadata_cache, params)
+      req.send_request(options)
+    end
+
     # Activates an existing flow. For on-demand flows, this operation runs
     # the flow immediately. For schedule and event-triggered flows, this
     # operation activates the flow.
@@ -2063,6 +2435,31 @@ module Aws::Appflow
     # @option params [required, String] :flow_name
     #   The specified name of the flow. Spaces are not allowed. Use
     #   underscores (\_) or hyphens (-) only.
+    #
+    # @option params [String] :client_token
+    #   The `clientToken` parameter is an idempotency token. It ensures that
+    #   your `StartFlow` request completes only once. You choose the value to
+    #   pass. For example, if you don't receive a response from your request,
+    #   you can safely retry the request with the same `clientToken` parameter
+    #   value.
+    #
+    #   If you omit a `clientToken` value, the Amazon Web Services SDK that
+    #   you are using inserts a value for you. This way, the SDK can safely
+    #   retry requests multiple times after a network error. You must provide
+    #   your own value for other use cases.
+    #
+    #   If you specify input parameters that differ from your first request,
+    #   an error occurs for flows that run on a schedule or based on an event.
+    #   However, the error doesn't occur for flows that run on demand. You
+    #   set the conditions that initiate your flow for the `triggerConfig`
+    #   parameter.
+    #
+    #   If you use a different value for `clientToken`, Amazon AppFlow
+    #   considers it a new call to `StartFlow`. The token is active for 8
+    #   hours.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
     #
     # @return [Types::StartFlowResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -2074,6 +2471,7 @@ module Aws::Appflow
     #
     #   resp = client.start_flow({
     #     flow_name: "FlowName", # required
+    #     client_token: "ClientToken",
     #   })
     #
     # @example Response structure
@@ -2221,6 +2619,26 @@ module Aws::Appflow
     # @option params [required, Types::ConnectorProfileConfig] :connector_profile_config
     #   Defines the connector-specific profile configuration and credentials.
     #
+    # @option params [String] :client_token
+    #   The `clientToken` parameter is an idempotency token. It ensures that
+    #   your `UpdateConnectorProfile` request completes only once. You choose
+    #   the value to pass. For example, if you don't receive a response from
+    #   your request, you can safely retry the request with the same
+    #   `clientToken` parameter value.
+    #
+    #   If you omit a `clientToken` value, the Amazon Web Services SDK that
+    #   you are using inserts a value for you. This way, the SDK can safely
+    #   retry requests multiple times after a network error. You must provide
+    #   your own value for other use cases.
+    #
+    #   If you specify input parameters that differ from your first request,
+    #   an error occurs. If you use a different value for `clientToken`,
+    #   Amazon AppFlow considers it a new call to `UpdateConnectorProfile`.
+    #   The token is active for 8 hours.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
     # @return [Types::UpdateConnectorProfileResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::UpdateConnectorProfileResponse#connector_profile_arn #connector_profile_arn} => String
@@ -2264,6 +2682,7 @@ module Aws::Appflow
     #         salesforce: {
     #           instance_url: "InstanceUrl",
     #           is_sandbox_environment: false,
+    #           use_private_link_for_metadata_and_authorization: false,
     #         },
     #         service_now: {
     #           instance_url: "InstanceUrl", # required
@@ -2302,6 +2721,7 @@ module Aws::Appflow
     #             auth_code_url: "AuthCodeUrl", # required
     #             o_auth_scopes: ["OAuthScope"], # required
     #           },
+    #           disable_sso: false,
     #         },
     #         custom_connector: {
     #           profile_properties: {
@@ -2309,7 +2729,7 @@ module Aws::Appflow
     #           },
     #           o_auth_2_properties: {
     #             token_url: "TokenUrl", # required
-    #             o_auth_2_grant_type: "CLIENT_CREDENTIALS", # required, accepts CLIENT_CREDENTIALS, AUTHORIZATION_CODE
+    #             o_auth_2_grant_type: "CLIENT_CREDENTIALS", # required, accepts CLIENT_CREDENTIALS, AUTHORIZATION_CODE, JWT_BEARER
     #             token_url_custom_properties: {
     #               "CustomPropertyKey" => "CustomPropertyValue",
     #             },
@@ -2378,10 +2798,22 @@ module Aws::Appflow
     #             redirect_uri: "RedirectUri",
     #           },
     #           client_credentials_arn: "ClientCredentialsArn",
+    #           o_auth_2_grant_type: "CLIENT_CREDENTIALS", # accepts CLIENT_CREDENTIALS, AUTHORIZATION_CODE, JWT_BEARER
+    #           jwt_token: "JwtToken",
     #         },
     #         service_now: {
-    #           username: "Username", # required
-    #           password: "Password", # required
+    #           username: "Username",
+    #           password: "Password",
+    #           o_auth_2_credentials: {
+    #             client_id: "ClientId",
+    #             client_secret: "ClientSecret",
+    #             access_token: "AccessToken",
+    #             refresh_token: "RefreshToken",
+    #             o_auth_request: {
+    #               auth_code: "AuthCode",
+    #               redirect_uri: "RedirectUri",
+    #             },
+    #           },
     #         },
     #         singular: {
     #           api_key: "ApiKey", # required
@@ -2469,6 +2901,7 @@ module Aws::Appflow
     #         },
     #       },
     #     },
+    #     client_token: "ClientToken",
     #   })
     #
     # @example Response structure
@@ -2503,6 +2936,26 @@ module Aws::Appflow
     #   Contains information about the configuration of the connector being
     #   registered.
     #
+    # @option params [String] :client_token
+    #   The `clientToken` parameter is an idempotency token. It ensures that
+    #   your `UpdateConnectorRegistration` request completes only once. You
+    #   choose the value to pass. For example, if you don't receive a
+    #   response from your request, you can safely retry the request with the
+    #   same `clientToken` parameter value.
+    #
+    #   If you omit a `clientToken` value, the Amazon Web Services SDK that
+    #   you are using inserts a value for you. This way, the SDK can safely
+    #   retry requests multiple times after a network error. You must provide
+    #   your own value for other use cases.
+    #
+    #   If you specify input parameters that differ from your first request,
+    #   an error occurs. If you use a different value for `clientToken`,
+    #   Amazon AppFlow considers it a new call to
+    #   `UpdateConnectorRegistration`. The token is active for 8 hours.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
     # @return [Types::UpdateConnectorRegistrationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::UpdateConnectorRegistrationResponse#connector_arn #connector_arn} => String
@@ -2517,6 +2970,7 @@ module Aws::Appflow
     #         lambda_arn: "ARN", # required
     #       },
     #     },
+    #     client_token: "ClientToken",
     #   })
     #
     # @example Response structure
@@ -2561,6 +3015,26 @@ module Aws::Appflow
     #   the data that's transferred by the associated flow. When Amazon
     #   AppFlow catalogs the data from a flow, it stores metadata in a data
     #   catalog.
+    #
+    # @option params [String] :client_token
+    #   The `clientToken` parameter is an idempotency token. It ensures that
+    #   your `UpdateFlow` request completes only once. You choose the value to
+    #   pass. For example, if you don't receive a response from your request,
+    #   you can safely retry the request with the same `clientToken` parameter
+    #   value.
+    #
+    #   If you omit a `clientToken` value, the Amazon Web Services SDK that
+    #   you are using inserts a value for you. This way, the SDK can safely
+    #   retry requests multiple times after a network error. You must provide
+    #   your own value for other use cases.
+    #
+    #   If you specify input parameters that differ from your first request,
+    #   an error occurs. If you use a different value for `clientToken`,
+    #   Amazon AppFlow considers it a new call to `UpdateFlow`. The token is
+    #   active for 8 hours.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
     #
     # @return [Types::UpdateFlowResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -2646,11 +3120,21 @@ module Aws::Appflow
     #         },
     #         sapo_data: {
     #           object_path: "Object",
+    #           parallelism_config: {
+    #             max_parallelism: 1, # required
+    #           },
+    #           pagination_config: {
+    #             max_page_size: 1, # required
+    #           },
     #         },
     #         custom_connector: {
     #           entity_name: "EntityName", # required
     #           custom_properties: {
     #             "CustomPropertyKey" => "CustomPropertyValue",
+    #           },
+    #           data_transfer_api: {
+    #             name: "DataTransferApiTypeName",
+    #             type: "SYNC", # accepts SYNC, ASYNC, AUTOMATIC
     #           },
     #         },
     #         pardot: {
@@ -2837,6 +3321,7 @@ module Aws::Appflow
     #         table_prefix: "GlueDataCatalogTablePrefix", # required
     #       },
     #     },
+    #     client_token: "ClientToken",
     #   })
     #
     # @example Response structure
@@ -2858,14 +3343,19 @@ module Aws::Appflow
     # @api private
     def build_request(operation_name, params = {})
       handlers = @handlers.for(operation_name)
+      tracer = config.telemetry_provider.tracer_provider.tracer(
+        Aws::Telemetry.module_to_tracer_name('Aws::Appflow')
+      )
       context = Seahorse::Client::RequestContext.new(
         operation_name: operation_name,
         operation: config.api.operation(operation_name),
         client: self,
         params: params,
-        config: config)
+        config: config,
+        tracer: tracer
+      )
       context[:gem_name] = 'aws-sdk-appflow'
-      context[:gem_version] = '1.35.0'
+      context[:gem_version] = '1.73.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

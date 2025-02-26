@@ -5,13 +5,15 @@
     "endpointPrefix":"query.timestream",
     "jsonVersion":"1.0",
     "protocol":"json",
+    "protocols":["json"],
     "serviceAbbreviation":"Timestream Query",
     "serviceFullName":"Amazon Timestream Query",
     "serviceId":"Timestream Query",
     "signatureVersion":"v4",
     "signingName":"timestream",
     "targetPrefix":"Timestream_20181101",
-    "uid":"timestream-query-2018-11-01"
+    "uid":"timestream-query-2018-11-01",
+    "auth":["aws.auth#sigv4"]
   },
   "operations":{
     "CancelQuery":{
@@ -69,6 +71,22 @@
       ],
       "endpointdiscovery":{"required":true},
       "idempotent":true
+    },
+    "DescribeAccountSettings":{
+      "name":"DescribeAccountSettings",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"DescribeAccountSettingsRequest"},
+      "output":{"shape":"DescribeAccountSettingsResponse"},
+      "errors":[
+        {"shape":"AccessDeniedException"},
+        {"shape":"InternalServerException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"InvalidEndpointException"}
+      ],
+      "endpointdiscovery":{"required":true}
     },
     "DescribeEndpoints":{
       "name":"DescribeEndpoints",
@@ -225,6 +243,24 @@
       ],
       "endpointdiscovery":{"required":true}
     },
+    "UpdateAccountSettings":{
+      "name":"UpdateAccountSettings",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"UpdateAccountSettingsRequest"},
+      "output":{"shape":"UpdateAccountSettingsResponse"},
+      "errors":[
+        {"shape":"AccessDeniedException"},
+        {"shape":"InternalServerException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"ValidationException"},
+        {"shape":"InvalidEndpointException"}
+      ],
+      "endpointdiscovery":{"required":true},
+      "idempotent":true
+    },
     "UpdateScheduledQuery":{
       "name":"UpdateScheduledQuery",
       "http":{
@@ -251,6 +287,14 @@
       },
       "exception":true,
       "synthetic":true
+    },
+    "AccountSettingsNotificationConfiguration":{
+      "type":"structure",
+      "required":["RoleArn"],
+      "members":{
+        "SnsConfiguration":{"shape":"SnsConfiguration"},
+        "RoleArn":{"shape":"AmazonResourceName"}
+      }
     },
     "AmazonResourceName":{
       "type":"string",
@@ -293,6 +337,13 @@
     "ColumnInfoList":{
       "type":"list",
       "member":{"shape":"ColumnInfo"}
+    },
+    "ComputeMode":{
+      "type":"string",
+      "enum":[
+        "ON_DEMAND",
+        "PROVISIONED"
+      ]
     },
     "ConflictException":{
       "type":"structure",
@@ -353,6 +404,19 @@
       "required":["ScheduledQueryArn"],
       "members":{
         "ScheduledQueryArn":{"shape":"AmazonResourceName"}
+      }
+    },
+    "DescribeAccountSettingsRequest":{
+      "type":"structure",
+      "members":{
+      }
+    },
+    "DescribeAccountSettingsResponse":{
+      "type":"structure",
+      "members":{
+        "MaxQueryTCU":{"shape":"MaxQueryCapacity"},
+        "QueryPricingModel":{"shape":"QueryPricingModel"},
+        "QueryCompute":{"shape":"QueryComputeResponse"}
       }
     },
     "DescribeEndpointsRequest":{
@@ -442,7 +506,8 @@
         "ClientToken":{
           "shape":"ClientToken",
           "idempotencyToken":true
-        }
+        },
+        "QueryInsights":{"shape":"ScheduledQueryInsights"}
       }
     },
     "ExecutionStats":{
@@ -451,6 +516,7 @@
         "ExecutionTimeInMillis":{"shape":"Long"},
         "DataWrites":{"shape":"Long"},
         "BytesMetered":{"shape":"Long"},
+        "CumulativeBytesScanned":{"shape":"Long"},
         "RecordsIngested":{"shape":"Long"},
         "QueryResultRows":{"shape":"Long"}
       }
@@ -468,6 +534,22 @@
         "Message":{"shape":"ErrorMessage"}
       },
       "exception":true
+    },
+    "LastUpdate":{
+      "type":"structure",
+      "members":{
+        "TargetQueryTCU":{"shape":"QueryTCU"},
+        "Status":{"shape":"LastUpdateStatus"},
+        "StatusMessage":{"shape":"String"}
+      }
+    },
+    "LastUpdateStatus":{
+      "type":"string",
+      "enum":[
+        "PENDING",
+        "FAILED",
+        "SUCCEEDED"
+      ]
     },
     "ListScheduledQueriesRequest":{
       "type":"structure",
@@ -502,6 +584,7 @@
       }
     },
     "Long":{"type":"long"},
+    "MaxQueryCapacity":{"type":"integer"},
     "MaxQueryResults":{
       "type":"integer",
       "box":true,
@@ -604,6 +687,11 @@
       "type":"list",
       "member":{"shape":"ParameterMapping"}
     },
+    "PartitionKey":{"type":"string"},
+    "PartitionKeyList":{
+      "type":"list",
+      "member":{"shape":"PartitionKey"}
+    },
     "PrepareQueryRequest":{
       "type":"structure",
       "required":["QueryString"],
@@ -625,6 +713,36 @@
         "Parameters":{"shape":"ParameterMappingList"}
       }
     },
+    "ProvisionedCapacityRequest":{
+      "type":"structure",
+      "required":["TargetQueryTCU"],
+      "members":{
+        "TargetQueryTCU":{"shape":"QueryTCU"},
+        "NotificationConfiguration":{"shape":"AccountSettingsNotificationConfiguration"}
+      }
+    },
+    "ProvisionedCapacityResponse":{
+      "type":"structure",
+      "members":{
+        "ActiveQueryTCU":{"shape":"QueryTCU"},
+        "NotificationConfiguration":{"shape":"AccountSettingsNotificationConfiguration"},
+        "LastUpdate":{"shape":"LastUpdate"}
+      }
+    },
+    "QueryComputeRequest":{
+      "type":"structure",
+      "members":{
+        "ComputeMode":{"shape":"ComputeMode"},
+        "ProvisionedCapacity":{"shape":"ProvisionedCapacityRequest"}
+      }
+    },
+    "QueryComputeResponse":{
+      "type":"structure",
+      "members":{
+        "ComputeMode":{"shape":"ComputeMode"},
+        "ProvisionedCapacity":{"shape":"ProvisionedCapacityResponse"}
+      }
+    },
     "QueryExecutionException":{
       "type":"structure",
       "members":{
@@ -638,6 +756,58 @@
       "min":1,
       "pattern":"[a-zA-Z0-9]+"
     },
+    "QueryInsights":{
+      "type":"structure",
+      "required":["Mode"],
+      "members":{
+        "Mode":{"shape":"QueryInsightsMode"}
+      }
+    },
+    "QueryInsightsMode":{
+      "type":"string",
+      "enum":[
+        "ENABLED_WITH_RATE_CONTROL",
+        "DISABLED"
+      ]
+    },
+    "QueryInsightsResponse":{
+      "type":"structure",
+      "members":{
+        "QuerySpatialCoverage":{"shape":"QuerySpatialCoverage"},
+        "QueryTemporalRange":{"shape":"QueryTemporalRange"},
+        "QueryTableCount":{
+          "shape":"Long",
+          "box":true
+        },
+        "OutputRows":{
+          "shape":"Long",
+          "box":true
+        },
+        "OutputBytes":{
+          "shape":"Long",
+          "box":true
+        },
+        "UnloadPartitionCount":{
+          "shape":"Long",
+          "box":true
+        },
+        "UnloadWrittenRows":{
+          "shape":"Long",
+          "box":true
+        },
+        "UnloadWrittenBytes":{
+          "shape":"Long",
+          "box":true
+        }
+      }
+    },
+    "QueryPricingModel":{
+      "type":"string",
+      "enum":[
+        "BYTES_SCANNED",
+        "COMPUTE_UNITS"
+      ]
+    },
     "QueryRequest":{
       "type":"structure",
       "required":["QueryString"],
@@ -648,7 +818,8 @@
           "idempotencyToken":true
         },
         "NextToken":{"shape":"PaginationToken"},
-        "MaxRows":{"shape":"MaxQueryResults"}
+        "MaxRows":{"shape":"MaxQueryResults"},
+        "QueryInsights":{"shape":"QueryInsights"}
       }
     },
     "QueryResponse":{
@@ -663,7 +834,22 @@
         "NextToken":{"shape":"PaginationToken"},
         "Rows":{"shape":"RowList"},
         "ColumnInfo":{"shape":"ColumnInfoList"},
-        "QueryStatus":{"shape":"QueryStatus"}
+        "QueryStatus":{"shape":"QueryStatus"},
+        "QueryInsightsResponse":{"shape":"QueryInsightsResponse"}
+      }
+    },
+    "QuerySpatialCoverage":{
+      "type":"structure",
+      "members":{
+        "Max":{"shape":"QuerySpatialCoverageMax"}
+      }
+    },
+    "QuerySpatialCoverageMax":{
+      "type":"structure",
+      "members":{
+        "Value":{"shape":"Double"},
+        "TableArn":{"shape":"AmazonResourceName"},
+        "PartitionKey":{"shape":"PartitionKeyList"}
       }
     },
     "QueryStatus":{
@@ -679,6 +865,20 @@
       "max":262144,
       "min":1,
       "sensitive":true
+    },
+    "QueryTCU":{"type":"integer"},
+    "QueryTemporalRange":{
+      "type":"structure",
+      "members":{
+        "Max":{"shape":"QueryTemporalRangeMax"}
+      }
+    },
+    "QueryTemporalRangeMax":{
+      "type":"structure",
+      "members":{
+        "Value":{"shape":"Long"},
+        "TableArn":{"shape":"AmazonResourceName"}
+      }
     },
     "ResourceName":{"type":"string"},
     "ResourceNotFoundException":{
@@ -822,6 +1022,39 @@
         "RecentlyFailedRuns":{"shape":"ScheduledQueryRunSummaryList"}
       }
     },
+    "ScheduledQueryInsights":{
+      "type":"structure",
+      "required":["Mode"],
+      "members":{
+        "Mode":{"shape":"ScheduledQueryInsightsMode"}
+      }
+    },
+    "ScheduledQueryInsightsMode":{
+      "type":"string",
+      "enum":[
+        "ENABLED_WITH_RATE_CONTROL",
+        "DISABLED"
+      ]
+    },
+    "ScheduledQueryInsightsResponse":{
+      "type":"structure",
+      "members":{
+        "QuerySpatialCoverage":{"shape":"QuerySpatialCoverage"},
+        "QueryTemporalRange":{"shape":"QueryTemporalRange"},
+        "QueryTableCount":{
+          "shape":"Long",
+          "box":true
+        },
+        "OutputRows":{
+          "shape":"Long",
+          "box":true
+        },
+        "OutputBytes":{
+          "shape":"Long",
+          "box":true
+        }
+      }
+    },
     "ScheduledQueryList":{
       "type":"list",
       "member":{"shape":"ScheduledQuery"}
@@ -830,7 +1063,7 @@
       "type":"string",
       "max":64,
       "min":1,
-      "pattern":"[a-zA-Z0-9_.-]+"
+      "pattern":"[a-zA-Z0-9|!\\-_*'\\(\\)]([a-zA-Z0-9]|[!\\-_*'\\(\\)\\/.])+"
     },
     "ScheduledQueryRunStatus":{
       "type":"string",
@@ -848,6 +1081,7 @@
         "TriggerTime":{"shape":"Time"},
         "RunStatus":{"shape":"ScheduledQueryRunStatus"},
         "ExecutionStats":{"shape":"ExecutionStats"},
+        "QueryInsightsResponse":{"shape":"ScheduledQueryInsightsResponse"},
         "ErrorReportLocation":{"shape":"ErrorReportLocation"},
         "FailureReason":{"shape":"ErrorMessage"}
       }
@@ -1033,6 +1267,22 @@
     "UntagResourceResponse":{
       "type":"structure",
       "members":{
+      }
+    },
+    "UpdateAccountSettingsRequest":{
+      "type":"structure",
+      "members":{
+        "MaxQueryTCU":{"shape":"MaxQueryCapacity"},
+        "QueryPricingModel":{"shape":"QueryPricingModel"},
+        "QueryCompute":{"shape":"QueryComputeRequest"}
+      }
+    },
+    "UpdateAccountSettingsResponse":{
+      "type":"structure",
+      "members":{
+        "MaxQueryTCU":{"shape":"MaxQueryCapacity"},
+        "QueryPricingModel":{"shape":"QueryPricingModel"},
+        "QueryCompute":{"shape":"QueryComputeResponse"}
       }
     },
     "UpdateScheduledQueryRequest":{

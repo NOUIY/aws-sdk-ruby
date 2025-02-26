@@ -38,6 +38,7 @@ describe 'Plugins Interface:' do
       it 'uses endpoint provider with params to resolve endpoint' do
         expect_any_instance_of(EndpointsPlugin::EndpointProvider)
           .to receive(:resolve_endpoint)
+          .at_least(:once)
           .with(an_instance_of(EndpointsPlugin::EndpointParameters))
           .and_call_original
         client.operation
@@ -71,12 +72,13 @@ describe 'Plugins Interface:' do
 
       it 'maps built ins' do
         expect(EndpointsBuiltIns::EndpointParameters).to receive(:new)
-          .with(
+          .with({
             region: region,
             endpoint: endpoint,
             use_fips: true,
-            use_dual_stack: true
-          ).and_call_original
+            use_dual_stack: true,
+            account_id_endpoint_mode: 'preferred'
+          }).and_call_original
 
         client.operation
       end
@@ -93,6 +95,25 @@ describe 'Plugins Interface:' do
         expect(params.use_fips).to eq(false)
         expect(params.endpoint).to be_nil
       end
+
+      describe 'account id endpoint mode option' do
+        it 'is configured to use preferred by default' do
+          expect(client.config.account_id_endpoint_mode).to eq 'preferred'
+        end
+
+        it 'can be configured using shared config' do
+          allow_any_instance_of(Aws::SharedConfig)
+            .to receive(:account_id_endpoint_mode).and_return('disabled')
+          expect(client.config.account_id_endpoint_mode).to eq 'disabled'
+        end
+
+        it 'can be configured using ENV with precedence over shared config' do
+          allow_any_instance_of(Aws::SharedConfig)
+            .to receive(:account_id_endpoint_mode).and_return('disabled')
+          ENV['AWS_ACCOUNT_ID_ENDPOINT_MODE'] = 'required'
+          expect(client.config.account_id_endpoint_mode).to eq 'required'
+        end
+      end
     end
 
     context 'Param Precedence' do
@@ -102,6 +123,10 @@ describe 'Plugins Interface:' do
 
       let(:client) do
         EndpointsPrecedence::Client.new(stub_responses: true, region: 'config')
+      end
+
+      before(:each) do
+        client # force client initialization before testing resolution to account for config.endpoint
       end
 
       # Most to least
@@ -146,9 +171,124 @@ describe 'Plugins Interface:' do
       it 'defaults to nil' do
         client = EndpointsPrecedence::Client.new(stub_responses: true)
         expect(EndpointsPrecedence::EndpointParameters).to receive(:new)
-           .with(hash_including(nothing: nil)).and_call_original
+           .with(hash_including(client_context_param: nil)).and_call_original
         client.operation
       end
+    end
+
+    context 'String Array Parameters' do
+      before(:all) do
+        SpecHelper.generate_service(['EndpointsStringArray'], multiple_files: false)
+      end
+
+      let(:client) do
+        EndpointsStringArray::Client.new(
+          stub_responses: true,
+        )
+      end
+
+      let(:provider) do
+        EndpointsStringArray::EndpointProvider.new
+      end
+
+      context 'Default array values used' do
+        let(:expected) do
+          {"endpoint"=>{"url"=>"https://example.com/defaultValue1"}}
+        end
+
+        it 'produces the expected output from the EndpointProvider' do
+          params = EndpointsStringArray::EndpointParameters.new(**{})
+          endpoint = provider.resolve_endpoint(params)
+          expect(endpoint.url).to eq(expected['endpoint']['url'])
+          expect(endpoint.headers).to eq(expected['endpoint']['headers'] || {})
+          expect(endpoint.properties).to eq(expected['endpoint']['properties'] || {})
+        end
+
+        it 'produces the correct output from the client when calling no_bindings_operation' do
+          resp = client.no_bindings_operation
+          expected_uri = URI.parse(expected['endpoint']['url'])
+          expect(resp.context.http_request.endpoint.to_s).to include(expected_uri.host)
+          expect(resp.context.http_request.endpoint.to_s).to include(expected_uri.scheme)
+          expect(resp.context.http_request.endpoint.to_s).to include(expected_uri.path)
+        end
+      end
+
+      context 'Empty array' do
+        let(:expected) do
+          {"error"=>"no array values set"}
+        end
+
+        it 'produces the expected output from the EndpointProvider' do
+          params = EndpointsStringArray::EndpointParameters.new(**{:string_array_param=>[]})
+          expect do
+            provider.resolve_endpoint(params)
+          end.to raise_error(ArgumentError, expected['error'])
+        end
+
+        it 'produces the correct output from the client when calling empty_static_context_operation' do
+          expect do
+            client.empty_static_context_operation
+          end.to raise_error(ArgumentError, expected['error'])
+        end
+      end
+
+      context 'Static value' do
+        let(:expected) do
+          {"endpoint"=>{"url"=>"https://example.com/staticValue1"}}
+        end
+
+        it 'produces the expected output from the EndpointProvider' do
+          params = EndpointsStringArray::EndpointParameters.new(**{:string_array_param=>["staticValue1"]})
+          endpoint = provider.resolve_endpoint(params)
+          expect(endpoint.url).to eq(expected['endpoint']['url'])
+          expect(endpoint.headers).to eq(expected['endpoint']['headers'] || {})
+          expect(endpoint.properties).to eq(expected['endpoint']['properties'] || {})
+        end
+
+        it 'produces the correct output from the client when calling static_context_operation' do
+          resp = client.static_context_operation
+          expected_uri = URI.parse(expected['endpoint']['url'])
+          expect(resp.context.http_request.endpoint.to_s).to include(expected_uri.host)
+          expect(resp.context.http_request.endpoint.to_s).to include(expected_uri.scheme)
+          expect(resp.context.http_request.endpoint.to_s).to include(expected_uri.path)
+        end
+      end
+
+      context 'bound value from input' do
+        let(:expected) do
+          {"endpoint"=>{"url"=>"https://example.com/key1"}}
+        end
+
+        it 'produces the expected output from the EndpointProvider' do
+          params = EndpointsStringArray::EndpointParameters.new(**{:string_array_param=>["key1"]})
+          endpoint = provider.resolve_endpoint(params)
+          expect(endpoint.url).to eq(expected['endpoint']['url'])
+          expect(endpoint.headers).to eq(expected['endpoint']['headers'] || {})
+          expect(endpoint.properties).to eq(expected['endpoint']['properties'] || {})
+        end
+
+        it 'produces the correct output from the client when calling list_of_objects_operation' do
+          resp = client.list_of_objects_operation(
+            nested: {:list_of_objects=>[{:key=>"key1"}]},
+          )
+          expected_uri = URI.parse(expected['endpoint']['url'])
+          expect(resp.context.http_request.endpoint.to_s).to include(expected_uri.host)
+          expect(resp.context.http_request.endpoint.to_s).to include(expected_uri.scheme)
+          expect(resp.context.http_request.endpoint.to_s).to include(expected_uri.path)
+        end
+
+        it 'produces the correct output from the client when calling map_operation' do
+          resp = client.map_operation(
+            map: {:key1=>"value1"},
+          )
+          expected_uri = URI.parse(expected['endpoint']['url'])
+          expect(resp.context.http_request.endpoint.to_s).to include(expected_uri.host)
+          expect(resp.context.http_request.endpoint.to_s).to include(expected_uri.scheme)
+          expect(resp.context.http_request.endpoint.to_s).to include(expected_uri.path)
+        end
+      end
+
+
     end
 
   end

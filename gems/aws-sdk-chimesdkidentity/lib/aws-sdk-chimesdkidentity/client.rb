@@ -7,33 +7,34 @@
 #
 # WARNING ABOUT GENERATED CODE
 
-require 'seahorse/client/plugins/content_length.rb'
-require 'aws-sdk-core/plugins/credentials_configuration.rb'
-require 'aws-sdk-core/plugins/logging.rb'
-require 'aws-sdk-core/plugins/param_converter.rb'
-require 'aws-sdk-core/plugins/param_validator.rb'
-require 'aws-sdk-core/plugins/user_agent.rb'
-require 'aws-sdk-core/plugins/helpful_socket_errors.rb'
-require 'aws-sdk-core/plugins/retry_errors.rb'
-require 'aws-sdk-core/plugins/global_configuration.rb'
-require 'aws-sdk-core/plugins/regional_endpoint.rb'
-require 'aws-sdk-core/plugins/endpoint_discovery.rb'
-require 'aws-sdk-core/plugins/endpoint_pattern.rb'
-require 'aws-sdk-core/plugins/response_paging.rb'
-require 'aws-sdk-core/plugins/stub_responses.rb'
-require 'aws-sdk-core/plugins/idempotency_token.rb'
-require 'aws-sdk-core/plugins/jsonvalue_converter.rb'
-require 'aws-sdk-core/plugins/client_metrics_plugin.rb'
-require 'aws-sdk-core/plugins/client_metrics_send_plugin.rb'
-require 'aws-sdk-core/plugins/transfer_encoding.rb'
-require 'aws-sdk-core/plugins/http_checksum.rb'
-require 'aws-sdk-core/plugins/checksum_algorithm.rb'
-require 'aws-sdk-core/plugins/defaults_mode.rb'
-require 'aws-sdk-core/plugins/recursion_detection.rb'
-require 'aws-sdk-core/plugins/sign.rb'
-require 'aws-sdk-core/plugins/protocols/rest_json.rb'
-
-Aws::Plugins::GlobalConfiguration.add_identifier(:chimesdkidentity)
+require 'seahorse/client/plugins/content_length'
+require 'aws-sdk-core/plugins/credentials_configuration'
+require 'aws-sdk-core/plugins/logging'
+require 'aws-sdk-core/plugins/param_converter'
+require 'aws-sdk-core/plugins/param_validator'
+require 'aws-sdk-core/plugins/user_agent'
+require 'aws-sdk-core/plugins/helpful_socket_errors'
+require 'aws-sdk-core/plugins/retry_errors'
+require 'aws-sdk-core/plugins/global_configuration'
+require 'aws-sdk-core/plugins/regional_endpoint'
+require 'aws-sdk-core/plugins/endpoint_discovery'
+require 'aws-sdk-core/plugins/endpoint_pattern'
+require 'aws-sdk-core/plugins/response_paging'
+require 'aws-sdk-core/plugins/stub_responses'
+require 'aws-sdk-core/plugins/idempotency_token'
+require 'aws-sdk-core/plugins/invocation_id'
+require 'aws-sdk-core/plugins/jsonvalue_converter'
+require 'aws-sdk-core/plugins/client_metrics_plugin'
+require 'aws-sdk-core/plugins/client_metrics_send_plugin'
+require 'aws-sdk-core/plugins/transfer_encoding'
+require 'aws-sdk-core/plugins/http_checksum'
+require 'aws-sdk-core/plugins/checksum_algorithm'
+require 'aws-sdk-core/plugins/request_compression'
+require 'aws-sdk-core/plugins/defaults_mode'
+require 'aws-sdk-core/plugins/recursion_detection'
+require 'aws-sdk-core/plugins/telemetry'
+require 'aws-sdk-core/plugins/sign'
+require 'aws-sdk-core/plugins/protocols/rest_json'
 
 module Aws::ChimeSDKIdentity
   # An API client for ChimeSDKIdentity.  To construct a client, you need to configure a `:region` and `:credentials`.
@@ -71,20 +72,28 @@ module Aws::ChimeSDKIdentity
     add_plugin(Aws::Plugins::ResponsePaging)
     add_plugin(Aws::Plugins::StubResponses)
     add_plugin(Aws::Plugins::IdempotencyToken)
+    add_plugin(Aws::Plugins::InvocationId)
     add_plugin(Aws::Plugins::JsonvalueConverter)
     add_plugin(Aws::Plugins::ClientMetricsPlugin)
     add_plugin(Aws::Plugins::ClientMetricsSendPlugin)
     add_plugin(Aws::Plugins::TransferEncoding)
     add_plugin(Aws::Plugins::HttpChecksum)
     add_plugin(Aws::Plugins::ChecksumAlgorithm)
+    add_plugin(Aws::Plugins::RequestCompression)
     add_plugin(Aws::Plugins::DefaultsMode)
     add_plugin(Aws::Plugins::RecursionDetection)
+    add_plugin(Aws::Plugins::Telemetry)
     add_plugin(Aws::Plugins::Sign)
     add_plugin(Aws::Plugins::Protocols::RestJson)
     add_plugin(Aws::ChimeSDKIdentity::Plugins::Endpoints)
 
     # @overload initialize(options)
     #   @param [Hash] options
+    #
+    #   @option options [Array<Seahorse::Client::Plugin>] :plugins ([]])
+    #     A list of plugins to apply to the client. Each plugin is either a
+    #     class name or an instance of a plugin class.
+    #
     #   @option options [required, Aws::CredentialProvider] :credentials
     #     Your AWS credentials. This can be an instance of any one of the
     #     following classes:
@@ -119,13 +128,15 @@ module Aws::ChimeSDKIdentity
     #     locations will be searched for credentials:
     #
     #     * `Aws.config[:credentials]`
-    #     * The `:access_key_id`, `:secret_access_key`, and `:session_token` options.
-    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']
+    #     * The `:access_key_id`, `:secret_access_key`, `:session_token`, and
+    #       `:account_id` options.
+    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'],
+    #       ENV['AWS_SESSION_TOKEN'], and ENV['AWS_ACCOUNT_ID']
     #     * `~/.aws/credentials`
     #     * `~/.aws/config`
     #     * EC2/ECS IMDS instance profile - When used by default, the timeouts
     #       are very aggressive. Construct and pass an instance of
-    #       `Aws::InstanceProfileCredentails` or `Aws::ECSCredentials` to
+    #       `Aws::InstanceProfileCredentials` or `Aws::ECSCredentials` to
     #       enable retries and extended timeouts. Instance profile credential
     #       fetching can be disabled by setting ENV['AWS_EC2_METADATA_DISABLED']
     #       to true.
@@ -143,6 +154,8 @@ module Aws::ChimeSDKIdentity
     #     * `~/.aws/config`
     #
     #   @option options [String] :access_key_id
+    #
+    #   @option options [String] :account_id
     #
     #   @option options [Boolean] :active_endpoint_cache (false)
     #     When set to `true`, a thread polling for endpoints will be running in
@@ -190,10 +203,20 @@ module Aws::ChimeSDKIdentity
     #     Set to true to disable SDK automatically adding host prefix
     #     to default service endpoint when available.
     #
-    #   @option options [String] :endpoint
-    #     The client endpoint is normally constructed from the `:region`
-    #     option. You should only configure an `:endpoint` when connecting
-    #     to test or custom endpoints. This should be a valid HTTP(S) URI.
+    #   @option options [Boolean] :disable_request_compression (false)
+    #     When set to 'true' the request body will not be compressed
+    #     for supported operations.
+    #
+    #   @option options [String, URI::HTTPS, URI::HTTP] :endpoint
+    #     Normally you should not configure the `:endpoint` option
+    #     directly. This is normally constructed from the `:region`
+    #     option. Configuring `:endpoint` is normally reserved for
+    #     connecting to test or custom endpoints. The endpoint should
+    #     be a URI formatted like:
+    #
+    #         'http://example.com'
+    #         'https://example.com'
+    #         'http://example.com:123'
     #
     #   @option options [Integer] :endpoint_cache_max_entries (1000)
     #     Used for the maximum size limit of the LRU cache storing endpoints data
@@ -209,6 +232,10 @@ module Aws::ChimeSDKIdentity
     #
     #   @option options [Boolean] :endpoint_discovery (false)
     #     When set to `true`, endpoint discovery will be enabled for operations when available.
+    #
+    #   @option options [Boolean] :ignore_configured_endpoint_urls
+    #     Setting to true disables use of endpoint URLs provided via environment
+    #     variables and the shared configuration file.
     #
     #   @option options [Aws::Log::Formatter] :log_formatter (Aws::Log::Formatter.default)
     #     The log formatter.
@@ -229,6 +256,34 @@ module Aws::ChimeSDKIdentity
     #   @option options [String] :profile ("default")
     #     Used when loading credentials from the shared credentials file
     #     at HOME/.aws/credentials.  When not specified, 'default' is used.
+    #
+    #   @option options [String] :request_checksum_calculation ("when_supported")
+    #     Determines when a checksum will be calculated for request payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, a checksum will be
+    #       calculated for all request payloads of operations modeled with the
+    #       `httpChecksum` trait where `requestChecksumRequired` is `true` and/or a
+    #       `requestAlgorithmMember` is modeled.
+    #     * `when_required` - When set, a checksum will only be calculated for
+    #       request payloads of operations modeled with the  `httpChecksum` trait where
+    #       `requestChecksumRequired` is `true` or where a `requestAlgorithmMember`
+    #       is modeled and supplied.
+    #
+    #   @option options [Integer] :request_min_compression_size_bytes (10240)
+    #     The minimum size in bytes that triggers compression for request
+    #     bodies. The value must be non-negative integer value between 0
+    #     and 10485780 bytes inclusive.
+    #
+    #   @option options [String] :response_checksum_validation ("when_supported")
+    #     Determines when checksum validation will be performed on response payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, checksum validation is performed on all
+    #       response payloads of operations modeled with the `httpChecksum` trait where
+    #       `responseAlgorithms` is modeled, except when no modeled checksum algorithms
+    #       are supported.
+    #     * `when_required` - When set, checksum validation is not performed on
+    #       response payloads of operations unless the checksum algorithm is supported and
+    #       the `requestValidationModeMember` member is set to `ENABLED`.
     #
     #   @option options [Proc] :retry_backoff
     #     A proc or lambda used for backoff. Defaults to 2**retries * retry_base_delay.
@@ -274,10 +329,24 @@ module Aws::ChimeSDKIdentity
     #       throttling.  This is a provisional mode that may change behavior
     #       in the future.
     #
+    #   @option options [String] :sdk_ua_app_id
+    #     A unique and opaque application ID that is appended to the
+    #     User-Agent header as app/sdk_ua_app_id. It should have a
+    #     maximum length of 50. This variable is sourced from environment
+    #     variable AWS_SDK_UA_APP_ID or the shared config profile attribute sdk_ua_app_id.
     #
     #   @option options [String] :secret_access_key
     #
     #   @option options [String] :session_token
+    #
+    #   @option options [Array] :sigv4a_signing_region_set
+    #     A list of regions that should be signed with SigV4a signing. When
+    #     not passed, a default `:sigv4a_signing_region_set` is searched for
+    #     in the following locations:
+    #
+    #     * `Aws.config[:sigv4a_signing_region_set]`
+    #     * `ENV['AWS_SIGV4A_SIGNING_REGION_SET']`
+    #     * `~/.aws/config`
     #
     #   @option options [Boolean] :stub_responses (false)
     #     Causes the client to return stubbed responses. By default
@@ -287,6 +356,16 @@ module Aws::ChimeSDKIdentity
     #
     #     ** Please note ** When response stubbing is enabled, no HTTP
     #     requests are made, and retries are disabled.
+    #
+    #   @option options [Aws::Telemetry::TelemetryProviderBase] :telemetry_provider (Aws::Telemetry::NoOpTelemetryProvider)
+    #     Allows you to provide a telemetry provider, which is used to
+    #     emit telemetry data. By default, uses `NoOpTelemetryProvider` which
+    #     will not record or emit any telemetry data. The SDK supports the
+    #     following telemetry providers:
+    #
+    #     * OpenTelemetry (OTel) - To use the OTel provider, install and require the
+    #     `opentelemetry-sdk` gem and then, pass in an instance of a
+    #     `Aws::Telemetry::OTelProvider` for telemetry provider.
     #
     #   @option options [Aws::TokenProvider] :token_provider
     #     A Bearer Token Provider. This can be an instance of any one of the
@@ -315,52 +394,75 @@ module Aws::ChimeSDKIdentity
     #     sending the request.
     #
     #   @option options [Aws::ChimeSDKIdentity::EndpointProvider] :endpoint_provider
-    #     The endpoint provider used to resolve endpoints. Any object that responds to `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to `Aws::ChimeSDKIdentity::EndpointParameters`
+    #     The endpoint provider used to resolve endpoints. Any object that responds to
+    #     `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+    #     `Aws::ChimeSDKIdentity::EndpointParameters`.
     #
-    #   @option options [URI::HTTP,String] :http_proxy A proxy to send
-    #     requests through.  Formatted like 'http://proxy.com:123'.
+    #   @option options [Float] :http_continue_timeout (1)
+    #     The number of seconds to wait for a 100-continue response before sending the
+    #     request body.  This option has no effect unless the request has "Expect"
+    #     header set to "100-continue".  Defaults to `nil` which  disables this
+    #     behaviour.  This value can safely be set per request on the session.
     #
-    #   @option options [Float] :http_open_timeout (15) The number of
-    #     seconds to wait when opening a HTTP session before raising a
-    #     `Timeout::Error`.
+    #   @option options [Float] :http_idle_timeout (5)
+    #     The number of seconds a connection is allowed to sit idle before it
+    #     is considered stale.  Stale connections are closed and removed from the
+    #     pool before making a request.
     #
-    #   @option options [Float] :http_read_timeout (60) The default
-    #     number of seconds to wait for response data.  This value can
-    #     safely be set per-request on the session.
+    #   @option options [Float] :http_open_timeout (15)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :http_idle_timeout (5) The number of
-    #     seconds a connection is allowed to sit idle before it is
-    #     considered stale.  Stale connections are closed and removed
-    #     from the pool before making a request.
+    #   @option options [URI::HTTP,String] :http_proxy
+    #     A proxy to send requests through.  Formatted like 'http://proxy.com:123'.
     #
-    #   @option options [Float] :http_continue_timeout (1) The number of
-    #     seconds to wait for a 100-continue response before sending the
-    #     request body.  This option has no effect unless the request has
-    #     "Expect" header set to "100-continue".  Defaults to `nil` which
-    #     disables this behaviour.  This value can safely be set per
-    #     request on the session.
+    #   @option options [Float] :http_read_timeout (60)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :ssl_timeout (nil) Sets the SSL timeout
-    #     in seconds.
+    #   @option options [Boolean] :http_wire_trace (false)
+    #     When `true`,  HTTP debug output will be sent to the `:logger`.
     #
-    #   @option options [Boolean] :http_wire_trace (false) When `true`,
-    #     HTTP debug output will be sent to the `:logger`.
+    #   @option options [Proc] :on_chunk_received
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the response body is received. It provides three arguments: the chunk,
+    #     the number of bytes received, and the total number of
+    #     bytes in the response (or nil if the server did not send a `content-length`).
     #
-    #   @option options [Boolean] :ssl_verify_peer (true) When `true`,
-    #     SSL peer certificates are verified when establishing a
-    #     connection.
+    #   @option options [Proc] :on_chunk_sent
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the request body is sent. It provides three arguments: the chunk,
+    #     the number of bytes read from the body, and the total number of
+    #     bytes in the body.
     #
-    #   @option options [String] :ssl_ca_bundle Full path to the SSL
-    #     certificate authority bundle file that should be used when
-    #     verifying peer certificates.  If you do not pass
-    #     `:ssl_ca_bundle` or `:ssl_ca_directory` the the system default
-    #     will be used if available.
+    #   @option options [Boolean] :raise_response_errors (true)
+    #     When `true`, response errors are raised.
     #
-    #   @option options [String] :ssl_ca_directory Full path of the
-    #     directory that contains the unbundled SSL certificate
+    #   @option options [String] :ssl_ca_bundle
+    #     Full path to the SSL certificate authority bundle file that should be used when
+    #     verifying peer certificates.  If you do not pass `:ssl_ca_bundle` or
+    #     `:ssl_ca_directory` the the system default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_directory
+    #     Full path of the directory that contains the unbundled SSL certificate
     #     authority files for verifying peer certificates.  If you do
-    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the
-    #     system default will be used if available.
+    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the system
+    #     default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_store
+    #     Sets the X509::Store to verify peer certificate.
+    #
+    #   @option options [OpenSSL::X509::Certificate] :ssl_cert
+    #     Sets a client certificate when creating http connections.
+    #
+    #   @option options [OpenSSL::PKey] :ssl_key
+    #     Sets a client key when creating http connections.
+    #
+    #   @option options [Float] :ssl_timeout
+    #     Sets the SSL timeout in seconds
+    #
+    #   @option options [Boolean] :ssl_verify_peer (true)
+    #     When `true`, SSL peer certificates are verified when establishing a connection.
     #
     def initialize(*args)
       super
@@ -382,13 +484,14 @@ module Aws::ChimeSDKIdentity
     #   The metadata of the `AppInstance`. Limited to a 1KB string in UTF-8.
     #
     # @option params [required, String] :client_request_token
-    #   The `ClientRequestToken` of the `AppInstance`.
+    #   The unique ID of the request. Use different tokens to create different
+    #   `AppInstances`.
     #
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.**
     #
     # @option params [Array<Types::Tag>] :tags
-    #   Tags assigned to the `AppInstanceUser`.
+    #   Tags assigned to the `AppInstance`.
     #
     # @return [Types::CreateAppInstanceResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -421,15 +524,16 @@ module Aws::ChimeSDKIdentity
       req.send_request(options)
     end
 
-    # Promotes an `AppInstanceUser` to an `AppInstanceAdmin`. The promoted
-    # user can perform the following actions.
+    # Promotes an `AppInstanceUser` or `AppInstanceBot` to an
+    # `AppInstanceAdmin`. The promoted entity can perform the following
+    # actions.
     #
     # * `ChannelModerator` actions across all channels in the `AppInstance`.
     #
     # * `DeleteChannelMessage` actions.
     #
-    # Only an `AppInstanceUser` can be promoted to an `AppInstanceAdmin`
-    # role.
+    # Only an `AppInstanceUser` and `AppInstanceBot` can be promoted to an
+    # `AppInstanceAdmin` role.
     #
     # @option params [required, String] :app_instance_admin_arn
     #   The ARN of the administrator of the current `AppInstance`.
@@ -464,6 +568,75 @@ module Aws::ChimeSDKIdentity
       req.send_request(options)
     end
 
+    # Creates a bot under an Amazon Chime `AppInstance`. The request
+    # consists of a unique `Configuration` and `Name` for that bot.
+    #
+    # @option params [required, String] :app_instance_arn
+    #   The ARN of the `AppInstance` request.
+    #
+    # @option params [String] :name
+    #   The user's name.
+    #
+    # @option params [String] :metadata
+    #   The request metadata. Limited to a 1KB string in UTF-8.
+    #
+    # @option params [required, String] :client_request_token
+    #   The unique ID for the client making the request. Use different tokens
+    #   for different `AppInstanceBots`.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @option params [Array<Types::Tag>] :tags
+    #   The tags assigned to the `AppInstanceBot`.
+    #
+    # @option params [required, Types::Configuration] :configuration
+    #   Configuration information about the Amazon Lex V2 V2 bot.
+    #
+    # @return [Types::CreateAppInstanceBotResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateAppInstanceBotResponse#app_instance_bot_arn #app_instance_bot_arn} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_app_instance_bot({
+    #     app_instance_arn: "ChimeArn", # required
+    #     name: "ResourceName",
+    #     metadata: "Metadata",
+    #     client_request_token: "ClientRequestToken", # required
+    #     tags: [
+    #       {
+    #         key: "TagKey", # required
+    #         value: "TagValue", # required
+    #       },
+    #     ],
+    #     configuration: { # required
+    #       lex: { # required
+    #         responds_to: "STANDARD_MESSAGES", # accepts STANDARD_MESSAGES
+    #         invoked_by: {
+    #           standard_messages: "AUTO", # required, accepts AUTO, ALL, MENTIONS, NONE
+    #           targeted_messages: "ALL", # required, accepts ALL, NONE
+    #         },
+    #         lex_bot_alias_arn: "LexBotAliasArn", # required
+    #         locale_id: "String", # required
+    #         welcome_intent: "LexIntentName",
+    #       },
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.app_instance_bot_arn #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-identity-2021-04-20/CreateAppInstanceBot AWS API Documentation
+    #
+    # @overload create_app_instance_bot(params = {})
+    # @param [Hash] params ({})
+    def create_app_instance_bot(params = {}, options = {})
+      req = build_request(:create_app_instance_bot, params)
+      req.send_request(options)
+    end
+
     # Creates a user under an Amazon Chime `AppInstance`. The request
     # consists of a unique `appInstanceUserId` and `Name` for that user.
     #
@@ -480,13 +653,18 @@ module Aws::ChimeSDKIdentity
     #   The request's metadata. Limited to a 1KB string in UTF-8.
     #
     # @option params [required, String] :client_request_token
-    #   The token assigned to the user requesting an `AppInstance`.
+    #   The unique ID of the request. Use different tokens to request
+    #   additional `AppInstances`.
     #
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.**
     #
     # @option params [Array<Types::Tag>] :tags
     #   Tags assigned to the `AppInstanceUser`.
+    #
+    # @option params [Types::ExpirationSettings] :expiration_settings
+    #   Settings that control the interval after which the `AppInstanceUser`
+    #   is automatically deleted.
     #
     # @return [Types::CreateAppInstanceUserResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -506,6 +684,10 @@ module Aws::ChimeSDKIdentity
     #         value: "TagValue", # required
     #       },
     #     ],
+    #     expiration_settings: {
+    #       expiration_days: 1, # required
+    #       expiration_criterion: "CREATED_TIMESTAMP", # required, accepts CREATED_TIMESTAMP
+    #     },
     #   })
     #
     # @example Response structure
@@ -543,8 +725,8 @@ module Aws::ChimeSDKIdentity
       req.send_request(options)
     end
 
-    # Demotes an `AppInstanceAdmin` to an `AppInstanceUser`. This action
-    # does not delete the user.
+    # Demotes an `AppInstanceAdmin` to an `AppInstanceUser` or
+    # `AppInstanceBot`. This action does not delete the user.
     #
     # @option params [required, String] :app_instance_admin_arn
     #   The ARN of the `AppInstance`'s administrator.
@@ -567,6 +749,28 @@ module Aws::ChimeSDKIdentity
     # @param [Hash] params ({})
     def delete_app_instance_admin(params = {}, options = {})
       req = build_request(:delete_app_instance_admin, params)
+      req.send_request(options)
+    end
+
+    # Deletes an `AppInstanceBot`.
+    #
+    # @option params [required, String] :app_instance_bot_arn
+    #   The ARN of the `AppInstanceBot` being deleted.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_app_instance_bot({
+    #     app_instance_bot_arn: "ChimeArn", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-identity-2021-04-20/DeleteAppInstanceBot AWS API Documentation
+    #
+    # @overload delete_app_instance_bot(params = {})
+    # @param [Hash] params ({})
+    def delete_app_instance_bot(params = {}, options = {})
+      req = build_request(:delete_app_instance_bot, params)
       req.send_request(options)
     end
 
@@ -605,8 +809,8 @@ module Aws::ChimeSDKIdentity
     # @example Request syntax with placeholder values
     #
     #   resp = client.deregister_app_instance_user_endpoint({
-    #     app_instance_user_arn: "SensitiveChimeArn", # required
-    #     endpoint_id: "SensitiveString64", # required
+    #     app_instance_user_arn: "ChimeArn", # required
+    #     endpoint_id: "String64", # required
     #   })
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-identity-2021-04-20/DeregisterAppInstanceUserEndpoint AWS API Documentation
@@ -685,6 +889,44 @@ module Aws::ChimeSDKIdentity
       req.send_request(options)
     end
 
+    # The `AppInstanceBot's` information.
+    #
+    # @option params [required, String] :app_instance_bot_arn
+    #   The ARN of the `AppInstanceBot`.
+    #
+    # @return [Types::DescribeAppInstanceBotResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeAppInstanceBotResponse#app_instance_bot #app_instance_bot} => Types::AppInstanceBot
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_app_instance_bot({
+    #     app_instance_bot_arn: "ChimeArn", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.app_instance_bot.app_instance_bot_arn #=> String
+    #   resp.app_instance_bot.name #=> String
+    #   resp.app_instance_bot.configuration.lex.responds_to #=> String, one of "STANDARD_MESSAGES"
+    #   resp.app_instance_bot.configuration.lex.invoked_by.standard_messages #=> String, one of "AUTO", "ALL", "MENTIONS", "NONE"
+    #   resp.app_instance_bot.configuration.lex.invoked_by.targeted_messages #=> String, one of "ALL", "NONE"
+    #   resp.app_instance_bot.configuration.lex.lex_bot_alias_arn #=> String
+    #   resp.app_instance_bot.configuration.lex.locale_id #=> String
+    #   resp.app_instance_bot.configuration.lex.welcome_intent #=> String
+    #   resp.app_instance_bot.created_timestamp #=> Time
+    #   resp.app_instance_bot.last_updated_timestamp #=> Time
+    #   resp.app_instance_bot.metadata #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-identity-2021-04-20/DescribeAppInstanceBot AWS API Documentation
+    #
+    # @overload describe_app_instance_bot(params = {})
+    # @param [Hash] params ({})
+    def describe_app_instance_bot(params = {}, options = {})
+      req = build_request(:describe_app_instance_bot, params)
+      req.send_request(options)
+    end
+
     # Returns the full details of an `AppInstanceUser`.
     #
     # @option params [required, String] :app_instance_user_arn
@@ -707,6 +949,8 @@ module Aws::ChimeSDKIdentity
     #   resp.app_instance_user.metadata #=> String
     #   resp.app_instance_user.created_timestamp #=> Time
     #   resp.app_instance_user.last_updated_timestamp #=> Time
+    #   resp.app_instance_user.expiration_settings.expiration_days #=> Integer
+    #   resp.app_instance_user.expiration_settings.expiration_criterion #=> String, one of "CREATED_TIMESTAMP"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-identity-2021-04-20/DescribeAppInstanceUser AWS API Documentation
     #
@@ -732,8 +976,8 @@ module Aws::ChimeSDKIdentity
     # @example Request syntax with placeholder values
     #
     #   resp = client.describe_app_instance_user_endpoint({
-    #     app_instance_user_arn: "SensitiveString1600", # required
-    #     endpoint_id: "SensitiveString64", # required
+    #     app_instance_user_arn: "String1600", # required
+    #     endpoint_id: "String64", # required
     #   })
     #
     # @example Response structure
@@ -832,6 +1076,52 @@ module Aws::ChimeSDKIdentity
     # @param [Hash] params ({})
     def list_app_instance_admins(params = {}, options = {})
       req = build_request(:list_app_instance_admins, params)
+      req.send_request(options)
+    end
+
+    # Lists all `AppInstanceBots` created under a single `AppInstance`.
+    #
+    # @option params [required, String] :app_instance_arn
+    #   The ARN of the `AppInstance`.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of requests to return.
+    #
+    # @option params [String] :next_token
+    #   The token passed by previous API calls until all requested bots are
+    #   returned.
+    #
+    # @return [Types::ListAppInstanceBotsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListAppInstanceBotsResponse#app_instance_arn #app_instance_arn} => String
+    #   * {Types::ListAppInstanceBotsResponse#app_instance_bots #app_instance_bots} => Array&lt;Types::AppInstanceBotSummary&gt;
+    #   * {Types::ListAppInstanceBotsResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_app_instance_bots({
+    #     app_instance_arn: "ChimeArn", # required
+    #     max_results: 1,
+    #     next_token: "NextToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.app_instance_arn #=> String
+    #   resp.app_instance_bots #=> Array
+    #   resp.app_instance_bots[0].app_instance_bot_arn #=> String
+    #   resp.app_instance_bots[0].name #=> String
+    #   resp.app_instance_bots[0].metadata #=> String
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-identity-2021-04-20/ListAppInstanceBots AWS API Documentation
+    #
+    # @overload list_app_instance_bots(params = {})
+    # @param [Hash] params ({})
+    def list_app_instance_bots(params = {}, options = {})
+      req = build_request(:list_app_instance_bots, params)
       req.send_request(options)
     end
 
@@ -1040,6 +1330,55 @@ module Aws::ChimeSDKIdentity
       req.send_request(options)
     end
 
+    # Sets the number of days before the `AppInstanceUser` is automatically
+    # deleted.
+    #
+    # <note markdown="1"> A background process deletes expired `AppInstanceUsers` within 6 hours
+    # of expiration. Actual deletion times may vary.
+    #
+    #  Expired `AppInstanceUsers` that have not yet been deleted appear as
+    # active, and you can update their expiration settings. The system
+    # honors the new settings.
+    #
+    #  </note>
+    #
+    # @option params [required, String] :app_instance_user_arn
+    #   The ARN of the `AppInstanceUser`.
+    #
+    # @option params [Types::ExpirationSettings] :expiration_settings
+    #   Settings that control the interval after which an `AppInstanceUser` is
+    #   automatically deleted.
+    #
+    # @return [Types::PutAppInstanceUserExpirationSettingsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::PutAppInstanceUserExpirationSettingsResponse#app_instance_user_arn #app_instance_user_arn} => String
+    #   * {Types::PutAppInstanceUserExpirationSettingsResponse#expiration_settings #expiration_settings} => Types::ExpirationSettings
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.put_app_instance_user_expiration_settings({
+    #     app_instance_user_arn: "ChimeArn", # required
+    #     expiration_settings: {
+    #       expiration_days: 1, # required
+    #       expiration_criterion: "CREATED_TIMESTAMP", # required, accepts CREATED_TIMESTAMP
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.app_instance_user_arn #=> String
+    #   resp.expiration_settings.expiration_days #=> Integer
+    #   resp.expiration_settings.expiration_criterion #=> String, one of "CREATED_TIMESTAMP"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-identity-2021-04-20/PutAppInstanceUserExpirationSettings AWS API Documentation
+    #
+    # @overload put_app_instance_user_expiration_settings(params = {})
+    # @param [Hash] params ({})
+    def put_app_instance_user_expiration_settings(params = {}, options = {})
+      req = build_request(:put_app_instance_user_expiration_settings, params)
+      req.send_request(options)
+    end
+
     # Registers an endpoint under an Amazon Chime `AppInstanceUser`. The
     # endpoint receives messages for a user. For push notifications, the
     # endpoint is a mobile device used to receive mobile push notifications
@@ -1054,12 +1393,12 @@ module Aws::ChimeSDKIdentity
     # @option params [required, String] :type
     #   The type of the `AppInstanceUserEndpoint`. Supported types:
     #
-    #   * `APNS`\: The mobile notification service for an Apple device.
+    #   * `APNS`: The mobile notification service for an Apple device.
     #
-    #   * `APNS_SANDBOX`\: The sandbox environment of the mobile notification
+    #   * `APNS_SANDBOX`: The sandbox environment of the mobile notification
     #     service for an Apple device.
     #
-    #   * `GCM`\: The mobile notification service for an Android device.
+    #   * `GCM`: The mobile notification service for an Android device.
     #
     #   Populate the `ResourceArn` value of each type as `PinpointAppArn`.
     #
@@ -1070,7 +1409,8 @@ module Aws::ChimeSDKIdentity
     #   The attributes of an `Endpoint`.
     #
     # @option params [required, String] :client_request_token
-    #   The idempotency token for each client request.
+    #   The unique ID assigned to the request. Use different tokens to
+    #   register other endpoints.
     #
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.**
@@ -1091,7 +1431,7 @@ module Aws::ChimeSDKIdentity
     #     app_instance_user_arn: "SensitiveChimeArn", # required
     #     name: "SensitiveString1600",
     #     type: "APNS", # required, accepts APNS, APNS_SANDBOX, GCM
-    #     resource_arn: "SensitiveChimeArn", # required
+    #     resource_arn: "ChimeArn", # required
     #     endpoint_attributes: { # required
     #       device_token: "NonEmptySensitiveString1600", # required
     #       voip_device_token: "NonEmptySensitiveString1600",
@@ -1209,6 +1549,57 @@ module Aws::ChimeSDKIdentity
       req.send_request(options)
     end
 
+    # Updates the name and metadata of an `AppInstanceBot`.
+    #
+    # @option params [required, String] :app_instance_bot_arn
+    #   The ARN of the `AppInstanceBot`.
+    #
+    # @option params [required, String] :name
+    #   The name of the `AppInstanceBot`.
+    #
+    # @option params [required, String] :metadata
+    #   The metadata of the `AppInstanceBot`.
+    #
+    # @option params [Types::Configuration] :configuration
+    #   The configuration for the bot update.
+    #
+    # @return [Types::UpdateAppInstanceBotResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateAppInstanceBotResponse#app_instance_bot_arn #app_instance_bot_arn} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_app_instance_bot({
+    #     app_instance_bot_arn: "ChimeArn", # required
+    #     name: "ResourceName", # required
+    #     metadata: "Metadata", # required
+    #     configuration: {
+    #       lex: { # required
+    #         responds_to: "STANDARD_MESSAGES", # accepts STANDARD_MESSAGES
+    #         invoked_by: {
+    #           standard_messages: "AUTO", # required, accepts AUTO, ALL, MENTIONS, NONE
+    #           targeted_messages: "ALL", # required, accepts ALL, NONE
+    #         },
+    #         lex_bot_alias_arn: "LexBotAliasArn", # required
+    #         locale_id: "String", # required
+    #         welcome_intent: "LexIntentName",
+    #       },
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.app_instance_bot_arn #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/chime-sdk-identity-2021-04-20/UpdateAppInstanceBot AWS API Documentation
+    #
+    # @overload update_app_instance_bot(params = {})
+    # @param [Hash] params ({})
+    def update_app_instance_bot(params = {}, options = {})
+      req = build_request(:update_app_instance_bot, params)
+      req.send_request(options)
+    end
+
     # Updates the details of an `AppInstanceUser`. You can update names and
     # metadata.
     #
@@ -1271,8 +1662,8 @@ module Aws::ChimeSDKIdentity
     # @example Request syntax with placeholder values
     #
     #   resp = client.update_app_instance_user_endpoint({
-    #     app_instance_user_arn: "SensitiveChimeArn", # required
-    #     endpoint_id: "SensitiveString64", # required
+    #     app_instance_user_arn: "ChimeArn", # required
+    #     endpoint_id: "String64", # required
     #     name: "SensitiveString1600",
     #     allow_messages: "ALL", # accepts ALL, NONE
     #   })
@@ -1297,14 +1688,19 @@ module Aws::ChimeSDKIdentity
     # @api private
     def build_request(operation_name, params = {})
       handlers = @handlers.for(operation_name)
+      tracer = config.telemetry_provider.tracer_provider.tracer(
+        Aws::Telemetry.module_to_tracer_name('Aws::ChimeSDKIdentity')
+      )
       context = Seahorse::Client::RequestContext.new(
         operation_name: operation_name,
         operation: config.api.operation(operation_name),
         client: self,
         params: params,
-        config: config)
+        config: config,
+        tracer: tracer
+      )
       context[:gem_name] = 'aws-sdk-chimesdkidentity'
-      context[:gem_version] = '1.11.0'
+      context[:gem_version] = '1.40.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

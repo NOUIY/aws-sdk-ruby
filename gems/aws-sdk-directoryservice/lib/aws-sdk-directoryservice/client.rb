@@ -7,33 +7,34 @@
 #
 # WARNING ABOUT GENERATED CODE
 
-require 'seahorse/client/plugins/content_length.rb'
-require 'aws-sdk-core/plugins/credentials_configuration.rb'
-require 'aws-sdk-core/plugins/logging.rb'
-require 'aws-sdk-core/plugins/param_converter.rb'
-require 'aws-sdk-core/plugins/param_validator.rb'
-require 'aws-sdk-core/plugins/user_agent.rb'
-require 'aws-sdk-core/plugins/helpful_socket_errors.rb'
-require 'aws-sdk-core/plugins/retry_errors.rb'
-require 'aws-sdk-core/plugins/global_configuration.rb'
-require 'aws-sdk-core/plugins/regional_endpoint.rb'
-require 'aws-sdk-core/plugins/endpoint_discovery.rb'
-require 'aws-sdk-core/plugins/endpoint_pattern.rb'
-require 'aws-sdk-core/plugins/response_paging.rb'
-require 'aws-sdk-core/plugins/stub_responses.rb'
-require 'aws-sdk-core/plugins/idempotency_token.rb'
-require 'aws-sdk-core/plugins/jsonvalue_converter.rb'
-require 'aws-sdk-core/plugins/client_metrics_plugin.rb'
-require 'aws-sdk-core/plugins/client_metrics_send_plugin.rb'
-require 'aws-sdk-core/plugins/transfer_encoding.rb'
-require 'aws-sdk-core/plugins/http_checksum.rb'
-require 'aws-sdk-core/plugins/checksum_algorithm.rb'
-require 'aws-sdk-core/plugins/defaults_mode.rb'
-require 'aws-sdk-core/plugins/recursion_detection.rb'
-require 'aws-sdk-core/plugins/sign.rb'
-require 'aws-sdk-core/plugins/protocols/json_rpc.rb'
-
-Aws::Plugins::GlobalConfiguration.add_identifier(:directoryservice)
+require 'seahorse/client/plugins/content_length'
+require 'aws-sdk-core/plugins/credentials_configuration'
+require 'aws-sdk-core/plugins/logging'
+require 'aws-sdk-core/plugins/param_converter'
+require 'aws-sdk-core/plugins/param_validator'
+require 'aws-sdk-core/plugins/user_agent'
+require 'aws-sdk-core/plugins/helpful_socket_errors'
+require 'aws-sdk-core/plugins/retry_errors'
+require 'aws-sdk-core/plugins/global_configuration'
+require 'aws-sdk-core/plugins/regional_endpoint'
+require 'aws-sdk-core/plugins/endpoint_discovery'
+require 'aws-sdk-core/plugins/endpoint_pattern'
+require 'aws-sdk-core/plugins/response_paging'
+require 'aws-sdk-core/plugins/stub_responses'
+require 'aws-sdk-core/plugins/idempotency_token'
+require 'aws-sdk-core/plugins/invocation_id'
+require 'aws-sdk-core/plugins/jsonvalue_converter'
+require 'aws-sdk-core/plugins/client_metrics_plugin'
+require 'aws-sdk-core/plugins/client_metrics_send_plugin'
+require 'aws-sdk-core/plugins/transfer_encoding'
+require 'aws-sdk-core/plugins/http_checksum'
+require 'aws-sdk-core/plugins/checksum_algorithm'
+require 'aws-sdk-core/plugins/request_compression'
+require 'aws-sdk-core/plugins/defaults_mode'
+require 'aws-sdk-core/plugins/recursion_detection'
+require 'aws-sdk-core/plugins/telemetry'
+require 'aws-sdk-core/plugins/sign'
+require 'aws-sdk-core/plugins/protocols/json_rpc'
 
 module Aws::DirectoryService
   # An API client for DirectoryService.  To construct a client, you need to configure a `:region` and `:credentials`.
@@ -71,20 +72,28 @@ module Aws::DirectoryService
     add_plugin(Aws::Plugins::ResponsePaging)
     add_plugin(Aws::Plugins::StubResponses)
     add_plugin(Aws::Plugins::IdempotencyToken)
+    add_plugin(Aws::Plugins::InvocationId)
     add_plugin(Aws::Plugins::JsonvalueConverter)
     add_plugin(Aws::Plugins::ClientMetricsPlugin)
     add_plugin(Aws::Plugins::ClientMetricsSendPlugin)
     add_plugin(Aws::Plugins::TransferEncoding)
     add_plugin(Aws::Plugins::HttpChecksum)
     add_plugin(Aws::Plugins::ChecksumAlgorithm)
+    add_plugin(Aws::Plugins::RequestCompression)
     add_plugin(Aws::Plugins::DefaultsMode)
     add_plugin(Aws::Plugins::RecursionDetection)
+    add_plugin(Aws::Plugins::Telemetry)
     add_plugin(Aws::Plugins::Sign)
     add_plugin(Aws::Plugins::Protocols::JsonRpc)
     add_plugin(Aws::DirectoryService::Plugins::Endpoints)
 
     # @overload initialize(options)
     #   @param [Hash] options
+    #
+    #   @option options [Array<Seahorse::Client::Plugin>] :plugins ([]])
+    #     A list of plugins to apply to the client. Each plugin is either a
+    #     class name or an instance of a plugin class.
+    #
     #   @option options [required, Aws::CredentialProvider] :credentials
     #     Your AWS credentials. This can be an instance of any one of the
     #     following classes:
@@ -119,13 +128,15 @@ module Aws::DirectoryService
     #     locations will be searched for credentials:
     #
     #     * `Aws.config[:credentials]`
-    #     * The `:access_key_id`, `:secret_access_key`, and `:session_token` options.
-    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']
+    #     * The `:access_key_id`, `:secret_access_key`, `:session_token`, and
+    #       `:account_id` options.
+    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'],
+    #       ENV['AWS_SESSION_TOKEN'], and ENV['AWS_ACCOUNT_ID']
     #     * `~/.aws/credentials`
     #     * `~/.aws/config`
     #     * EC2/ECS IMDS instance profile - When used by default, the timeouts
     #       are very aggressive. Construct and pass an instance of
-    #       `Aws::InstanceProfileCredentails` or `Aws::ECSCredentials` to
+    #       `Aws::InstanceProfileCredentials` or `Aws::ECSCredentials` to
     #       enable retries and extended timeouts. Instance profile credential
     #       fetching can be disabled by setting ENV['AWS_EC2_METADATA_DISABLED']
     #       to true.
@@ -143,6 +154,8 @@ module Aws::DirectoryService
     #     * `~/.aws/config`
     #
     #   @option options [String] :access_key_id
+    #
+    #   @option options [String] :account_id
     #
     #   @option options [Boolean] :active_endpoint_cache (false)
     #     When set to `true`, a thread polling for endpoints will be running in
@@ -190,10 +203,20 @@ module Aws::DirectoryService
     #     Set to true to disable SDK automatically adding host prefix
     #     to default service endpoint when available.
     #
-    #   @option options [String] :endpoint
-    #     The client endpoint is normally constructed from the `:region`
-    #     option. You should only configure an `:endpoint` when connecting
-    #     to test or custom endpoints. This should be a valid HTTP(S) URI.
+    #   @option options [Boolean] :disable_request_compression (false)
+    #     When set to 'true' the request body will not be compressed
+    #     for supported operations.
+    #
+    #   @option options [String, URI::HTTPS, URI::HTTP] :endpoint
+    #     Normally you should not configure the `:endpoint` option
+    #     directly. This is normally constructed from the `:region`
+    #     option. Configuring `:endpoint` is normally reserved for
+    #     connecting to test or custom endpoints. The endpoint should
+    #     be a URI formatted like:
+    #
+    #         'http://example.com'
+    #         'https://example.com'
+    #         'http://example.com:123'
     #
     #   @option options [Integer] :endpoint_cache_max_entries (1000)
     #     Used for the maximum size limit of the LRU cache storing endpoints data
@@ -209,6 +232,10 @@ module Aws::DirectoryService
     #
     #   @option options [Boolean] :endpoint_discovery (false)
     #     When set to `true`, endpoint discovery will be enabled for operations when available.
+    #
+    #   @option options [Boolean] :ignore_configured_endpoint_urls
+    #     Setting to true disables use of endpoint URLs provided via environment
+    #     variables and the shared configuration file.
     #
     #   @option options [Aws::Log::Formatter] :log_formatter (Aws::Log::Formatter.default)
     #     The log formatter.
@@ -229,6 +256,34 @@ module Aws::DirectoryService
     #   @option options [String] :profile ("default")
     #     Used when loading credentials from the shared credentials file
     #     at HOME/.aws/credentials.  When not specified, 'default' is used.
+    #
+    #   @option options [String] :request_checksum_calculation ("when_supported")
+    #     Determines when a checksum will be calculated for request payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, a checksum will be
+    #       calculated for all request payloads of operations modeled with the
+    #       `httpChecksum` trait where `requestChecksumRequired` is `true` and/or a
+    #       `requestAlgorithmMember` is modeled.
+    #     * `when_required` - When set, a checksum will only be calculated for
+    #       request payloads of operations modeled with the  `httpChecksum` trait where
+    #       `requestChecksumRequired` is `true` or where a `requestAlgorithmMember`
+    #       is modeled and supplied.
+    #
+    #   @option options [Integer] :request_min_compression_size_bytes (10240)
+    #     The minimum size in bytes that triggers compression for request
+    #     bodies. The value must be non-negative integer value between 0
+    #     and 10485780 bytes inclusive.
+    #
+    #   @option options [String] :response_checksum_validation ("when_supported")
+    #     Determines when checksum validation will be performed on response payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, checksum validation is performed on all
+    #       response payloads of operations modeled with the `httpChecksum` trait where
+    #       `responseAlgorithms` is modeled, except when no modeled checksum algorithms
+    #       are supported.
+    #     * `when_required` - When set, checksum validation is not performed on
+    #       response payloads of operations unless the checksum algorithm is supported and
+    #       the `requestValidationModeMember` member is set to `ENABLED`.
     #
     #   @option options [Proc] :retry_backoff
     #     A proc or lambda used for backoff. Defaults to 2**retries * retry_base_delay.
@@ -274,20 +329,31 @@ module Aws::DirectoryService
     #       throttling.  This is a provisional mode that may change behavior
     #       in the future.
     #
+    #   @option options [String] :sdk_ua_app_id
+    #     A unique and opaque application ID that is appended to the
+    #     User-Agent header as app/sdk_ua_app_id. It should have a
+    #     maximum length of 50. This variable is sourced from environment
+    #     variable AWS_SDK_UA_APP_ID or the shared config profile attribute sdk_ua_app_id.
     #
     #   @option options [String] :secret_access_key
     #
     #   @option options [String] :session_token
     #
+    #   @option options [Array] :sigv4a_signing_region_set
+    #     A list of regions that should be signed with SigV4a signing. When
+    #     not passed, a default `:sigv4a_signing_region_set` is searched for
+    #     in the following locations:
+    #
+    #     * `Aws.config[:sigv4a_signing_region_set]`
+    #     * `ENV['AWS_SIGV4A_SIGNING_REGION_SET']`
+    #     * `~/.aws/config`
+    #
     #   @option options [Boolean] :simple_json (false)
     #     Disables request parameter conversion, validation, and formatting.
-    #     Also disable response data type conversions. This option is useful
-    #     when you want to ensure the highest level of performance by
-    #     avoiding overhead of walking request parameters and response data
-    #     structures.
-    #
-    #     When `:simple_json` is enabled, the request parameters hash must
-    #     be formatted exactly as the DynamoDB API expects.
+    #     Also disables response data type conversions. The request parameters
+    #     hash must be formatted exactly as the API expects.This option is useful
+    #     when you want to ensure the highest level of performance by avoiding
+    #     overhead of walking request parameters and response data structures.
     #
     #   @option options [Boolean] :stub_responses (false)
     #     Causes the client to return stubbed responses. By default
@@ -297,6 +363,16 @@ module Aws::DirectoryService
     #
     #     ** Please note ** When response stubbing is enabled, no HTTP
     #     requests are made, and retries are disabled.
+    #
+    #   @option options [Aws::Telemetry::TelemetryProviderBase] :telemetry_provider (Aws::Telemetry::NoOpTelemetryProvider)
+    #     Allows you to provide a telemetry provider, which is used to
+    #     emit telemetry data. By default, uses `NoOpTelemetryProvider` which
+    #     will not record or emit any telemetry data. The SDK supports the
+    #     following telemetry providers:
+    #
+    #     * OpenTelemetry (OTel) - To use the OTel provider, install and require the
+    #     `opentelemetry-sdk` gem and then, pass in an instance of a
+    #     `Aws::Telemetry::OTelProvider` for telemetry provider.
     #
     #   @option options [Aws::TokenProvider] :token_provider
     #     A Bearer Token Provider. This can be an instance of any one of the
@@ -325,52 +401,75 @@ module Aws::DirectoryService
     #     sending the request.
     #
     #   @option options [Aws::DirectoryService::EndpointProvider] :endpoint_provider
-    #     The endpoint provider used to resolve endpoints. Any object that responds to `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to `Aws::DirectoryService::EndpointParameters`
+    #     The endpoint provider used to resolve endpoints. Any object that responds to
+    #     `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+    #     `Aws::DirectoryService::EndpointParameters`.
     #
-    #   @option options [URI::HTTP,String] :http_proxy A proxy to send
-    #     requests through.  Formatted like 'http://proxy.com:123'.
+    #   @option options [Float] :http_continue_timeout (1)
+    #     The number of seconds to wait for a 100-continue response before sending the
+    #     request body.  This option has no effect unless the request has "Expect"
+    #     header set to "100-continue".  Defaults to `nil` which  disables this
+    #     behaviour.  This value can safely be set per request on the session.
     #
-    #   @option options [Float] :http_open_timeout (15) The number of
-    #     seconds to wait when opening a HTTP session before raising a
-    #     `Timeout::Error`.
+    #   @option options [Float] :http_idle_timeout (5)
+    #     The number of seconds a connection is allowed to sit idle before it
+    #     is considered stale.  Stale connections are closed and removed from the
+    #     pool before making a request.
     #
-    #   @option options [Float] :http_read_timeout (60) The default
-    #     number of seconds to wait for response data.  This value can
-    #     safely be set per-request on the session.
+    #   @option options [Float] :http_open_timeout (15)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :http_idle_timeout (5) The number of
-    #     seconds a connection is allowed to sit idle before it is
-    #     considered stale.  Stale connections are closed and removed
-    #     from the pool before making a request.
+    #   @option options [URI::HTTP,String] :http_proxy
+    #     A proxy to send requests through.  Formatted like 'http://proxy.com:123'.
     #
-    #   @option options [Float] :http_continue_timeout (1) The number of
-    #     seconds to wait for a 100-continue response before sending the
-    #     request body.  This option has no effect unless the request has
-    #     "Expect" header set to "100-continue".  Defaults to `nil` which
-    #     disables this behaviour.  This value can safely be set per
-    #     request on the session.
+    #   @option options [Float] :http_read_timeout (60)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :ssl_timeout (nil) Sets the SSL timeout
-    #     in seconds.
+    #   @option options [Boolean] :http_wire_trace (false)
+    #     When `true`,  HTTP debug output will be sent to the `:logger`.
     #
-    #   @option options [Boolean] :http_wire_trace (false) When `true`,
-    #     HTTP debug output will be sent to the `:logger`.
+    #   @option options [Proc] :on_chunk_received
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the response body is received. It provides three arguments: the chunk,
+    #     the number of bytes received, and the total number of
+    #     bytes in the response (or nil if the server did not send a `content-length`).
     #
-    #   @option options [Boolean] :ssl_verify_peer (true) When `true`,
-    #     SSL peer certificates are verified when establishing a
-    #     connection.
+    #   @option options [Proc] :on_chunk_sent
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the request body is sent. It provides three arguments: the chunk,
+    #     the number of bytes read from the body, and the total number of
+    #     bytes in the body.
     #
-    #   @option options [String] :ssl_ca_bundle Full path to the SSL
-    #     certificate authority bundle file that should be used when
-    #     verifying peer certificates.  If you do not pass
-    #     `:ssl_ca_bundle` or `:ssl_ca_directory` the the system default
-    #     will be used if available.
+    #   @option options [Boolean] :raise_response_errors (true)
+    #     When `true`, response errors are raised.
     #
-    #   @option options [String] :ssl_ca_directory Full path of the
-    #     directory that contains the unbundled SSL certificate
+    #   @option options [String] :ssl_ca_bundle
+    #     Full path to the SSL certificate authority bundle file that should be used when
+    #     verifying peer certificates.  If you do not pass `:ssl_ca_bundle` or
+    #     `:ssl_ca_directory` the the system default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_directory
+    #     Full path of the directory that contains the unbundled SSL certificate
     #     authority files for verifying peer certificates.  If you do
-    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the
-    #     system default will be used if available.
+    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the system
+    #     default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_store
+    #     Sets the X509::Store to verify peer certificate.
+    #
+    #   @option options [OpenSSL::X509::Certificate] :ssl_cert
+    #     Sets a client certificate when creating http connections.
+    #
+    #   @option options [OpenSSL::PKey] :ssl_key
+    #     Sets a client key when creating http connections.
+    #
+    #   @option options [Float] :ssl_timeout
+    #     Sets the SSL timeout in seconds
+    #
+    #   @option options [Boolean] :ssl_verify_peer (true)
+    #     When `true`, SSL peer certificates are verified when establishing a connection.
     #
     def initialize(*args)
       super
@@ -449,41 +548,56 @@ module Aws::DirectoryService
     #
     #   Inbound:
     #
-    #   * Type: Custom UDP Rule, Protocol: UDP, Range: 88, Source: 0.0.0.0/0
+    #   * Type: Custom UDP Rule, Protocol: UDP, Range: 88, Source: Managed
+    #     Microsoft AD VPC IPv4 CIDR
     #
-    #   * Type: Custom UDP Rule, Protocol: UDP, Range: 123, Source: 0.0.0.0/0
+    #   * Type: Custom UDP Rule, Protocol: UDP, Range: 123, Source: Managed
+    #     Microsoft AD VPC IPv4 CIDR
     #
-    #   * Type: Custom UDP Rule, Protocol: UDP, Range: 138, Source: 0.0.0.0/0
+    #   * Type: Custom UDP Rule, Protocol: UDP, Range: 138, Source: Managed
+    #     Microsoft AD VPC IPv4 CIDR
     #
-    #   * Type: Custom UDP Rule, Protocol: UDP, Range: 389, Source: 0.0.0.0/0
+    #   * Type: Custom UDP Rule, Protocol: UDP, Range: 389, Source: Managed
+    #     Microsoft AD VPC IPv4 CIDR
     #
-    #   * Type: Custom UDP Rule, Protocol: UDP, Range: 464, Source: 0.0.0.0/0
+    #   * Type: Custom UDP Rule, Protocol: UDP, Range: 464, Source: Managed
+    #     Microsoft AD VPC IPv4 CIDR
     #
-    #   * Type: Custom UDP Rule, Protocol: UDP, Range: 445, Source: 0.0.0.0/0
+    #   * Type: Custom UDP Rule, Protocol: UDP, Range: 445, Source: Managed
+    #     Microsoft AD VPC IPv4 CIDR
     #
-    #   * Type: Custom TCP Rule, Protocol: TCP, Range: 88, Source: 0.0.0.0/0
+    #   * Type: Custom TCP Rule, Protocol: TCP, Range: 88, Source: Managed
+    #     Microsoft AD VPC IPv4 CIDR
     #
-    #   * Type: Custom TCP Rule, Protocol: TCP, Range: 135, Source: 0.0.0.0/0
+    #   * Type: Custom TCP Rule, Protocol: TCP, Range: 135, Source: Managed
+    #     Microsoft AD VPC IPv4 CIDR
     #
-    #   * Type: Custom TCP Rule, Protocol: TCP, Range: 445, Source: 0.0.0.0/0
+    #   * Type: Custom TCP Rule, Protocol: TCP, Range: 445, Source: Managed
+    #     Microsoft AD VPC IPv4 CIDR
     #
-    #   * Type: Custom TCP Rule, Protocol: TCP, Range: 464, Source: 0.0.0.0/0
+    #   * Type: Custom TCP Rule, Protocol: TCP, Range: 464, Source: Managed
+    #     Microsoft AD VPC IPv4 CIDR
     #
-    #   * Type: Custom TCP Rule, Protocol: TCP, Range: 636, Source: 0.0.0.0/0
+    #   * Type: Custom TCP Rule, Protocol: TCP, Range: 636, Source: Managed
+    #     Microsoft AD VPC IPv4 CIDR
     #
     #   * Type: Custom TCP Rule, Protocol: TCP, Range: 1024-65535, Source:
-    #     0.0.0.0/0
+    #     Managed Microsoft AD VPC IPv4 CIDR
     #
     #   * Type: Custom TCP Rule, Protocol: TCP, Range: 3268-33269, Source:
-    #     0.0.0.0/0
+    #     Managed Microsoft AD VPC IPv4 CIDR
     #
-    #   * Type: DNS (UDP), Protocol: UDP, Range: 53, Source: 0.0.0.0/0
+    #   * Type: DNS (UDP), Protocol: UDP, Range: 53, Source: Managed Microsoft
+    #     AD VPC IPv4 CIDR
     #
-    #   * Type: DNS (TCP), Protocol: TCP, Range: 53, Source: 0.0.0.0/0
+    #   * Type: DNS (TCP), Protocol: TCP, Range: 53, Source: Managed Microsoft
+    #     AD VPC IPv4 CIDR
     #
-    #   * Type: LDAP, Protocol: TCP, Range: 389, Source: 0.0.0.0/0
+    #   * Type: LDAP, Protocol: TCP, Range: 389, Source: Managed Microsoft AD
+    #     VPC IPv4 CIDR
     #
-    #   * Type: All ICMP, Protocol: All, Range: N/A, Source: 0.0.0.0/0
+    #   * Type: All ICMP, Protocol: All, Range: N/A, Source: Managed Microsoft
+    #     AD VPC IPv4 CIDR
     #
     #
     #
@@ -865,7 +979,7 @@ module Aws::DirectoryService
     #   The regex pattern for this string is made up of the following
     #   conditions:
     #
-    #   * Length (?=^.\\\{8,64\\}$) – Must be between 8 and 64 characters
+    #   * Length (?=^.\{8,64}$) – Must be between 8 and 64 characters
     #
     #   ^
     #
@@ -1115,8 +1229,8 @@ module Aws::DirectoryService
     #   which to create the trust relationship.
     #
     # @option params [required, String] :trust_password
-    #   The trust password. The must be the same password that was used when
-    #   creating the trust relationship on the external domain.
+    #   The trust password. The trust password must be the same password that
+    #   was used when creating the trust relationship on the external domain.
     #
     # @option params [required, String] :trust_direction
     #   The direction of the trust relationship.
@@ -1564,7 +1678,7 @@ module Aws::DirectoryService
     #   resp.directory_descriptions[0].description #=> String
     #   resp.directory_descriptions[0].dns_ip_addrs #=> Array
     #   resp.directory_descriptions[0].dns_ip_addrs[0] #=> String
-    #   resp.directory_descriptions[0].stage #=> String, one of "Requested", "Creating", "Created", "Active", "Inoperable", "Impaired", "Restoring", "RestoreFailed", "Deleting", "Deleted", "Failed"
+    #   resp.directory_descriptions[0].stage #=> String, one of "Requested", "Creating", "Created", "Active", "Inoperable", "Impaired", "Restoring", "RestoreFailed", "Deleting", "Deleted", "Failed", "Updating"
     #   resp.directory_descriptions[0].share_status #=> String, one of "Shared", "PendingAcceptance", "Rejected", "Rejecting", "RejectFailed", "Sharing", "ShareFailed", "Deleted", "Deleting"
     #   resp.directory_descriptions[0].share_method #=> String, one of "ORGANIZATIONS", "HANDSHAKE"
     #   resp.directory_descriptions[0].share_notes #=> String
@@ -1634,6 +1748,35 @@ module Aws::DirectoryService
       req.send_request(options)
     end
 
+    # Obtains status of directory data access enablement through the
+    # Directory Service Data API for the specified directory.
+    #
+    # @option params [required, String] :directory_id
+    #   The directory identifier.
+    #
+    # @return [Types::DescribeDirectoryDataAccessResult] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeDirectoryDataAccessResult#data_access_status #data_access_status} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_directory_data_access({
+    #     directory_id: "DirectoryId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.data_access_status #=> String, one of "Disabled", "Disabling", "Enabled", "Enabling", "Failed"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/DescribeDirectoryDataAccess AWS API Documentation
+    #
+    # @overload describe_directory_data_access(params = {})
+    # @param [Hash] params ({})
+    def describe_directory_data_access(params = {}, options = {})
+      req = build_request(:describe_directory_data_access, params)
+      req.send_request(options)
+    end
+
     # Provides information about any domain controllers in your directory.
     #
     # @option params [required, String] :directory_id
@@ -1676,7 +1819,7 @@ module Aws::DirectoryService
     #   resp.domain_controllers[0].vpc_id #=> String
     #   resp.domain_controllers[0].subnet_id #=> String
     #   resp.domain_controllers[0].availability_zone #=> String
-    #   resp.domain_controllers[0].status #=> String, one of "Creating", "Active", "Impaired", "Restoring", "Deleting", "Deleted", "Failed"
+    #   resp.domain_controllers[0].status #=> String, one of "Creating", "Active", "Impaired", "Restoring", "Deleting", "Deleted", "Failed", "Updating"
     #   resp.domain_controllers[0].status_reason #=> String
     #   resp.domain_controllers[0].launch_time #=> Time
     #   resp.domain_controllers[0].status_last_updated_date_time #=> Time
@@ -1820,7 +1963,7 @@ module Aws::DirectoryService
     #   resp.regions_description[0].directory_id #=> String
     #   resp.regions_description[0].region_name #=> String
     #   resp.regions_description[0].region_type #=> String, one of "Primary", "Additional"
-    #   resp.regions_description[0].status #=> String, one of "Requested", "Creating", "Created", "Active", "Inoperable", "Impaired", "Restoring", "RestoreFailed", "Deleting", "Deleted", "Failed"
+    #   resp.regions_description[0].status #=> String, one of "Requested", "Creating", "Created", "Active", "Inoperable", "Impaired", "Restoring", "RestoreFailed", "Deleting", "Deleted", "Failed", "Updating"
     #   resp.regions_description[0].vpc_settings.vpc_id #=> String
     #   resp.regions_description[0].vpc_settings.subnet_ids #=> Array
     #   resp.regions_description[0].vpc_settings.subnet_ids[0] #=> String
@@ -1882,6 +2025,7 @@ module Aws::DirectoryService
     #   resp.setting_entries[0].request_status_message #=> String
     #   resp.setting_entries[0].last_updated_date_time #=> Time
     #   resp.setting_entries[0].last_requested_date_time #=> Time
+    #   resp.setting_entries[0].data_type #=> String
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/DescribeSettings AWS API Documentation
@@ -2137,8 +2281,8 @@ module Aws::DirectoryService
     #   The identifier of the directory
     #
     # @option params [required, String] :type
-    #   The type of client authentication to disable. Currently, only the
-    #   parameter, `SmartCard` is supported.
+    #   The type of client authentication to disable. Currently the only
+    #   parameter `"SmartCard"` is supported.
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
@@ -2155,6 +2299,29 @@ module Aws::DirectoryService
     # @param [Hash] params ({})
     def disable_client_authentication(params = {}, options = {})
       req = build_request(:disable_client_authentication, params)
+      req.send_request(options)
+    end
+
+    # Deactivates access to directory data via the Directory Service Data
+    # API for the specified directory.
+    #
+    # @option params [required, String] :directory_id
+    #   The directory identifier.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.disable_directory_data_access({
+    #     directory_id: "DirectoryId", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/DisableDirectoryDataAccess AWS API Documentation
+    #
+    # @overload disable_directory_data_access(params = {})
+    # @param [Hash] params ({})
+    def disable_directory_data_access(params = {}, options = {})
+      req = build_request(:disable_directory_data_access, params)
       req.send_request(options)
     end
 
@@ -2276,6 +2443,29 @@ module Aws::DirectoryService
     # @param [Hash] params ({})
     def enable_client_authentication(params = {}, options = {})
       req = build_request(:enable_client_authentication, params)
+      req.send_request(options)
+    end
+
+    # Enables access to directory data via the Directory Service Data API
+    # for the specified directory.
+    #
+    # @option params [required, String] :directory_id
+    #   The directory identifier.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.enable_directory_data_access({
+    #     directory_id: "DirectoryId", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ds-2015-04-16/EnableDirectoryDataAccess AWS API Documentation
+    #
+    # @overload enable_directory_data_access(params = {})
+    # @param [Hash] params ({})
+    def enable_directory_data_access(params = {}, options = {})
+      req = build_request(:enable_directory_data_access, params)
       req.send_request(options)
     end
 
@@ -2871,7 +3061,8 @@ module Aws::DirectoryService
     end
 
     # Resets the password for any user in your Managed Microsoft AD or
-    # Simple AD directory.
+    # Simple AD directory. Disabled users will become enabled and can be
+    # authenticated following the API call.
     #
     # You can reset the password for any user in your directory with the
     # following exceptions:
@@ -3359,14 +3550,19 @@ module Aws::DirectoryService
     # @api private
     def build_request(operation_name, params = {})
       handlers = @handlers.for(operation_name)
+      tracer = config.telemetry_provider.tracer_provider.tracer(
+        Aws::Telemetry.module_to_tracer_name('Aws::DirectoryService')
+      )
       context = Seahorse::Client::RequestContext.new(
         operation_name: operation_name,
         operation: config.api.operation(operation_name),
         client: self,
         params: params,
-        config: config)
+        config: config,
+        tracer: tracer
+      )
       context[:gem_name] = 'aws-sdk-directoryservice'
-      context[:gem_version] = '1.53.0'
+      context[:gem_version] = '1.82.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

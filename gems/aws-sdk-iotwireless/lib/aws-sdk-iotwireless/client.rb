@@ -7,33 +7,34 @@
 #
 # WARNING ABOUT GENERATED CODE
 
-require 'seahorse/client/plugins/content_length.rb'
-require 'aws-sdk-core/plugins/credentials_configuration.rb'
-require 'aws-sdk-core/plugins/logging.rb'
-require 'aws-sdk-core/plugins/param_converter.rb'
-require 'aws-sdk-core/plugins/param_validator.rb'
-require 'aws-sdk-core/plugins/user_agent.rb'
-require 'aws-sdk-core/plugins/helpful_socket_errors.rb'
-require 'aws-sdk-core/plugins/retry_errors.rb'
-require 'aws-sdk-core/plugins/global_configuration.rb'
-require 'aws-sdk-core/plugins/regional_endpoint.rb'
-require 'aws-sdk-core/plugins/endpoint_discovery.rb'
-require 'aws-sdk-core/plugins/endpoint_pattern.rb'
-require 'aws-sdk-core/plugins/response_paging.rb'
-require 'aws-sdk-core/plugins/stub_responses.rb'
-require 'aws-sdk-core/plugins/idempotency_token.rb'
-require 'aws-sdk-core/plugins/jsonvalue_converter.rb'
-require 'aws-sdk-core/plugins/client_metrics_plugin.rb'
-require 'aws-sdk-core/plugins/client_metrics_send_plugin.rb'
-require 'aws-sdk-core/plugins/transfer_encoding.rb'
-require 'aws-sdk-core/plugins/http_checksum.rb'
-require 'aws-sdk-core/plugins/checksum_algorithm.rb'
-require 'aws-sdk-core/plugins/defaults_mode.rb'
-require 'aws-sdk-core/plugins/recursion_detection.rb'
-require 'aws-sdk-core/plugins/sign.rb'
-require 'aws-sdk-core/plugins/protocols/rest_json.rb'
-
-Aws::Plugins::GlobalConfiguration.add_identifier(:iotwireless)
+require 'seahorse/client/plugins/content_length'
+require 'aws-sdk-core/plugins/credentials_configuration'
+require 'aws-sdk-core/plugins/logging'
+require 'aws-sdk-core/plugins/param_converter'
+require 'aws-sdk-core/plugins/param_validator'
+require 'aws-sdk-core/plugins/user_agent'
+require 'aws-sdk-core/plugins/helpful_socket_errors'
+require 'aws-sdk-core/plugins/retry_errors'
+require 'aws-sdk-core/plugins/global_configuration'
+require 'aws-sdk-core/plugins/regional_endpoint'
+require 'aws-sdk-core/plugins/endpoint_discovery'
+require 'aws-sdk-core/plugins/endpoint_pattern'
+require 'aws-sdk-core/plugins/response_paging'
+require 'aws-sdk-core/plugins/stub_responses'
+require 'aws-sdk-core/plugins/idempotency_token'
+require 'aws-sdk-core/plugins/invocation_id'
+require 'aws-sdk-core/plugins/jsonvalue_converter'
+require 'aws-sdk-core/plugins/client_metrics_plugin'
+require 'aws-sdk-core/plugins/client_metrics_send_plugin'
+require 'aws-sdk-core/plugins/transfer_encoding'
+require 'aws-sdk-core/plugins/http_checksum'
+require 'aws-sdk-core/plugins/checksum_algorithm'
+require 'aws-sdk-core/plugins/request_compression'
+require 'aws-sdk-core/plugins/defaults_mode'
+require 'aws-sdk-core/plugins/recursion_detection'
+require 'aws-sdk-core/plugins/telemetry'
+require 'aws-sdk-core/plugins/sign'
+require 'aws-sdk-core/plugins/protocols/rest_json'
 
 module Aws::IoTWireless
   # An API client for IoTWireless.  To construct a client, you need to configure a `:region` and `:credentials`.
@@ -71,20 +72,28 @@ module Aws::IoTWireless
     add_plugin(Aws::Plugins::ResponsePaging)
     add_plugin(Aws::Plugins::StubResponses)
     add_plugin(Aws::Plugins::IdempotencyToken)
+    add_plugin(Aws::Plugins::InvocationId)
     add_plugin(Aws::Plugins::JsonvalueConverter)
     add_plugin(Aws::Plugins::ClientMetricsPlugin)
     add_plugin(Aws::Plugins::ClientMetricsSendPlugin)
     add_plugin(Aws::Plugins::TransferEncoding)
     add_plugin(Aws::Plugins::HttpChecksum)
     add_plugin(Aws::Plugins::ChecksumAlgorithm)
+    add_plugin(Aws::Plugins::RequestCompression)
     add_plugin(Aws::Plugins::DefaultsMode)
     add_plugin(Aws::Plugins::RecursionDetection)
+    add_plugin(Aws::Plugins::Telemetry)
     add_plugin(Aws::Plugins::Sign)
     add_plugin(Aws::Plugins::Protocols::RestJson)
     add_plugin(Aws::IoTWireless::Plugins::Endpoints)
 
     # @overload initialize(options)
     #   @param [Hash] options
+    #
+    #   @option options [Array<Seahorse::Client::Plugin>] :plugins ([]])
+    #     A list of plugins to apply to the client. Each plugin is either a
+    #     class name or an instance of a plugin class.
+    #
     #   @option options [required, Aws::CredentialProvider] :credentials
     #     Your AWS credentials. This can be an instance of any one of the
     #     following classes:
@@ -119,13 +128,15 @@ module Aws::IoTWireless
     #     locations will be searched for credentials:
     #
     #     * `Aws.config[:credentials]`
-    #     * The `:access_key_id`, `:secret_access_key`, and `:session_token` options.
-    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']
+    #     * The `:access_key_id`, `:secret_access_key`, `:session_token`, and
+    #       `:account_id` options.
+    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'],
+    #       ENV['AWS_SESSION_TOKEN'], and ENV['AWS_ACCOUNT_ID']
     #     * `~/.aws/credentials`
     #     * `~/.aws/config`
     #     * EC2/ECS IMDS instance profile - When used by default, the timeouts
     #       are very aggressive. Construct and pass an instance of
-    #       `Aws::InstanceProfileCredentails` or `Aws::ECSCredentials` to
+    #       `Aws::InstanceProfileCredentials` or `Aws::ECSCredentials` to
     #       enable retries and extended timeouts. Instance profile credential
     #       fetching can be disabled by setting ENV['AWS_EC2_METADATA_DISABLED']
     #       to true.
@@ -143,6 +154,8 @@ module Aws::IoTWireless
     #     * `~/.aws/config`
     #
     #   @option options [String] :access_key_id
+    #
+    #   @option options [String] :account_id
     #
     #   @option options [Boolean] :active_endpoint_cache (false)
     #     When set to `true`, a thread polling for endpoints will be running in
@@ -190,10 +203,20 @@ module Aws::IoTWireless
     #     Set to true to disable SDK automatically adding host prefix
     #     to default service endpoint when available.
     #
-    #   @option options [String] :endpoint
-    #     The client endpoint is normally constructed from the `:region`
-    #     option. You should only configure an `:endpoint` when connecting
-    #     to test or custom endpoints. This should be a valid HTTP(S) URI.
+    #   @option options [Boolean] :disable_request_compression (false)
+    #     When set to 'true' the request body will not be compressed
+    #     for supported operations.
+    #
+    #   @option options [String, URI::HTTPS, URI::HTTP] :endpoint
+    #     Normally you should not configure the `:endpoint` option
+    #     directly. This is normally constructed from the `:region`
+    #     option. Configuring `:endpoint` is normally reserved for
+    #     connecting to test or custom endpoints. The endpoint should
+    #     be a URI formatted like:
+    #
+    #         'http://example.com'
+    #         'https://example.com'
+    #         'http://example.com:123'
     #
     #   @option options [Integer] :endpoint_cache_max_entries (1000)
     #     Used for the maximum size limit of the LRU cache storing endpoints data
@@ -209,6 +232,10 @@ module Aws::IoTWireless
     #
     #   @option options [Boolean] :endpoint_discovery (false)
     #     When set to `true`, endpoint discovery will be enabled for operations when available.
+    #
+    #   @option options [Boolean] :ignore_configured_endpoint_urls
+    #     Setting to true disables use of endpoint URLs provided via environment
+    #     variables and the shared configuration file.
     #
     #   @option options [Aws::Log::Formatter] :log_formatter (Aws::Log::Formatter.default)
     #     The log formatter.
@@ -229,6 +256,34 @@ module Aws::IoTWireless
     #   @option options [String] :profile ("default")
     #     Used when loading credentials from the shared credentials file
     #     at HOME/.aws/credentials.  When not specified, 'default' is used.
+    #
+    #   @option options [String] :request_checksum_calculation ("when_supported")
+    #     Determines when a checksum will be calculated for request payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, a checksum will be
+    #       calculated for all request payloads of operations modeled with the
+    #       `httpChecksum` trait where `requestChecksumRequired` is `true` and/or a
+    #       `requestAlgorithmMember` is modeled.
+    #     * `when_required` - When set, a checksum will only be calculated for
+    #       request payloads of operations modeled with the  `httpChecksum` trait where
+    #       `requestChecksumRequired` is `true` or where a `requestAlgorithmMember`
+    #       is modeled and supplied.
+    #
+    #   @option options [Integer] :request_min_compression_size_bytes (10240)
+    #     The minimum size in bytes that triggers compression for request
+    #     bodies. The value must be non-negative integer value between 0
+    #     and 10485780 bytes inclusive.
+    #
+    #   @option options [String] :response_checksum_validation ("when_supported")
+    #     Determines when checksum validation will be performed on response payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, checksum validation is performed on all
+    #       response payloads of operations modeled with the `httpChecksum` trait where
+    #       `responseAlgorithms` is modeled, except when no modeled checksum algorithms
+    #       are supported.
+    #     * `when_required` - When set, checksum validation is not performed on
+    #       response payloads of operations unless the checksum algorithm is supported and
+    #       the `requestValidationModeMember` member is set to `ENABLED`.
     #
     #   @option options [Proc] :retry_backoff
     #     A proc or lambda used for backoff. Defaults to 2**retries * retry_base_delay.
@@ -274,10 +329,24 @@ module Aws::IoTWireless
     #       throttling.  This is a provisional mode that may change behavior
     #       in the future.
     #
+    #   @option options [String] :sdk_ua_app_id
+    #     A unique and opaque application ID that is appended to the
+    #     User-Agent header as app/sdk_ua_app_id. It should have a
+    #     maximum length of 50. This variable is sourced from environment
+    #     variable AWS_SDK_UA_APP_ID or the shared config profile attribute sdk_ua_app_id.
     #
     #   @option options [String] :secret_access_key
     #
     #   @option options [String] :session_token
+    #
+    #   @option options [Array] :sigv4a_signing_region_set
+    #     A list of regions that should be signed with SigV4a signing. When
+    #     not passed, a default `:sigv4a_signing_region_set` is searched for
+    #     in the following locations:
+    #
+    #     * `Aws.config[:sigv4a_signing_region_set]`
+    #     * `ENV['AWS_SIGV4A_SIGNING_REGION_SET']`
+    #     * `~/.aws/config`
     #
     #   @option options [Boolean] :stub_responses (false)
     #     Causes the client to return stubbed responses. By default
@@ -287,6 +356,16 @@ module Aws::IoTWireless
     #
     #     ** Please note ** When response stubbing is enabled, no HTTP
     #     requests are made, and retries are disabled.
+    #
+    #   @option options [Aws::Telemetry::TelemetryProviderBase] :telemetry_provider (Aws::Telemetry::NoOpTelemetryProvider)
+    #     Allows you to provide a telemetry provider, which is used to
+    #     emit telemetry data. By default, uses `NoOpTelemetryProvider` which
+    #     will not record or emit any telemetry data. The SDK supports the
+    #     following telemetry providers:
+    #
+    #     * OpenTelemetry (OTel) - To use the OTel provider, install and require the
+    #     `opentelemetry-sdk` gem and then, pass in an instance of a
+    #     `Aws::Telemetry::OTelProvider` for telemetry provider.
     #
     #   @option options [Aws::TokenProvider] :token_provider
     #     A Bearer Token Provider. This can be an instance of any one of the
@@ -315,52 +394,75 @@ module Aws::IoTWireless
     #     sending the request.
     #
     #   @option options [Aws::IoTWireless::EndpointProvider] :endpoint_provider
-    #     The endpoint provider used to resolve endpoints. Any object that responds to `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to `Aws::IoTWireless::EndpointParameters`
+    #     The endpoint provider used to resolve endpoints. Any object that responds to
+    #     `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+    #     `Aws::IoTWireless::EndpointParameters`.
     #
-    #   @option options [URI::HTTP,String] :http_proxy A proxy to send
-    #     requests through.  Formatted like 'http://proxy.com:123'.
+    #   @option options [Float] :http_continue_timeout (1)
+    #     The number of seconds to wait for a 100-continue response before sending the
+    #     request body.  This option has no effect unless the request has "Expect"
+    #     header set to "100-continue".  Defaults to `nil` which  disables this
+    #     behaviour.  This value can safely be set per request on the session.
     #
-    #   @option options [Float] :http_open_timeout (15) The number of
-    #     seconds to wait when opening a HTTP session before raising a
-    #     `Timeout::Error`.
+    #   @option options [Float] :http_idle_timeout (5)
+    #     The number of seconds a connection is allowed to sit idle before it
+    #     is considered stale.  Stale connections are closed and removed from the
+    #     pool before making a request.
     #
-    #   @option options [Float] :http_read_timeout (60) The default
-    #     number of seconds to wait for response data.  This value can
-    #     safely be set per-request on the session.
+    #   @option options [Float] :http_open_timeout (15)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :http_idle_timeout (5) The number of
-    #     seconds a connection is allowed to sit idle before it is
-    #     considered stale.  Stale connections are closed and removed
-    #     from the pool before making a request.
+    #   @option options [URI::HTTP,String] :http_proxy
+    #     A proxy to send requests through.  Formatted like 'http://proxy.com:123'.
     #
-    #   @option options [Float] :http_continue_timeout (1) The number of
-    #     seconds to wait for a 100-continue response before sending the
-    #     request body.  This option has no effect unless the request has
-    #     "Expect" header set to "100-continue".  Defaults to `nil` which
-    #     disables this behaviour.  This value can safely be set per
-    #     request on the session.
+    #   @option options [Float] :http_read_timeout (60)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :ssl_timeout (nil) Sets the SSL timeout
-    #     in seconds.
+    #   @option options [Boolean] :http_wire_trace (false)
+    #     When `true`,  HTTP debug output will be sent to the `:logger`.
     #
-    #   @option options [Boolean] :http_wire_trace (false) When `true`,
-    #     HTTP debug output will be sent to the `:logger`.
+    #   @option options [Proc] :on_chunk_received
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the response body is received. It provides three arguments: the chunk,
+    #     the number of bytes received, and the total number of
+    #     bytes in the response (or nil if the server did not send a `content-length`).
     #
-    #   @option options [Boolean] :ssl_verify_peer (true) When `true`,
-    #     SSL peer certificates are verified when establishing a
-    #     connection.
+    #   @option options [Proc] :on_chunk_sent
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the request body is sent. It provides three arguments: the chunk,
+    #     the number of bytes read from the body, and the total number of
+    #     bytes in the body.
     #
-    #   @option options [String] :ssl_ca_bundle Full path to the SSL
-    #     certificate authority bundle file that should be used when
-    #     verifying peer certificates.  If you do not pass
-    #     `:ssl_ca_bundle` or `:ssl_ca_directory` the the system default
-    #     will be used if available.
+    #   @option options [Boolean] :raise_response_errors (true)
+    #     When `true`, response errors are raised.
     #
-    #   @option options [String] :ssl_ca_directory Full path of the
-    #     directory that contains the unbundled SSL certificate
+    #   @option options [String] :ssl_ca_bundle
+    #     Full path to the SSL certificate authority bundle file that should be used when
+    #     verifying peer certificates.  If you do not pass `:ssl_ca_bundle` or
+    #     `:ssl_ca_directory` the the system default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_directory
+    #     Full path of the directory that contains the unbundled SSL certificate
     #     authority files for verifying peer certificates.  If you do
-    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the
-    #     system default will be used if available.
+    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the system
+    #     default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_store
+    #     Sets the X509::Store to verify peer certificate.
+    #
+    #   @option options [OpenSSL::X509::Certificate] :ssl_cert
+    #     Sets a client certificate when creating http connections.
+    #
+    #   @option options [OpenSSL::PKey] :ssl_key
+    #     Sets a client key when creating http connections.
+    #
+    #   @option options [Float] :ssl_timeout
+    #     Sets the SSL timeout in seconds
+    #
+    #   @option options [Boolean] :ssl_verify_peer (true)
+    #     When `true`, SSL peer certificates are verified when establishing a connection.
     #
     def initialize(*args)
       super
@@ -374,13 +476,22 @@ module Aws::IoTWireless
     #   The Sidewalk account credentials.
     #
     # @option params [String] :client_request_token
-    #   Each resource must have a unique client request token. If you try to
-    #   create a new resource with the same token as a resource that already
-    #   exists, an exception occurs. If you omit this value, AWS SDKs will
-    #   automatically generate a unique client request.
+    #   Each resource must have a unique client request token. The client
+    #   token is used to implement idempotency. It ensures that the request
+    #   completes no more than one time. If you retry a request with the same
+    #   token and the same parameters, the request will complete successfully.
+    #   However, if you try to create a new resource using the same token but
+    #   different parameters, an HTTP 409 conflict occurs. If you omit this
+    #   value, AWS SDKs will automatically generate a unique client request.
+    #   For more information about idempotency, see [Ensuring idempotency in
+    #   Amazon EC2 API requests][1].
     #
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.**
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html
     #
     # @option params [Array<Types::Tag>] :tags
     #   The tags to attach to the specified resource. Tags are metadata that
@@ -613,13 +724,22 @@ module Aws::IoTWireless
     #   can use to manage a resource.
     #
     # @option params [String] :client_request_token
-    #   Each resource must have a unique client request token. If you try to
-    #   create a new resource with the same token as a resource that already
-    #   exists, an exception occurs. If you omit this value, AWS SDKs will
-    #   automatically generate a unique client request.
+    #   Each resource must have a unique client request token. The client
+    #   token is used to implement idempotency. It ensures that the request
+    #   completes no more than one time. If you retry a request with the same
+    #   token and the same parameters, the request will complete successfully.
+    #   However, if you try to create a new resource using the same token but
+    #   different parameters, an HTTP 409 conflict occurs. If you omit this
+    #   value, AWS SDKs will automatically generate a unique client request.
+    #   For more information about idempotency, see [Ensuring idempotency in
+    #   Amazon EC2 API requests][1].
     #
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.**
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html
     #
     # @return [Types::CreateDestinationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -668,13 +788,26 @@ module Aws::IoTWireless
     #   you can use to manage a resource.
     #
     # @option params [String] :client_request_token
-    #   Each resource must have a unique client request token. If you try to
-    #   create a new resource with the same token as a resource that already
-    #   exists, an exception occurs. If you omit this value, AWS SDKs will
-    #   automatically generate a unique client request.
+    #   Each resource must have a unique client request token. The client
+    #   token is used to implement idempotency. It ensures that the request
+    #   completes no more than one time. If you retry a request with the same
+    #   token and the same parameters, the request will complete successfully.
+    #   However, if you try to create a new resource using the same token but
+    #   different parameters, an HTTP 409 conflict occurs. If you omit this
+    #   value, AWS SDKs will automatically generate a unique client request.
+    #   For more information about idempotency, see [Ensuring idempotency in
+    #   Amazon EC2 API requests][1].
     #
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.**
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html
+    #
+    # @option params [Types::SidewalkCreateDeviceProfile] :sidewalk
+    #   The Sidewalk-related information for creating the Sidewalk device
+    #   profile.
     #
     # @return [Types::CreateDeviceProfileResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -713,6 +846,8 @@ module Aws::IoTWireless
     #       },
     #     ],
     #     client_request_token: "ClientRequestToken",
+    #     sidewalk: {
+    #     },
     #   })
     #
     # @example Response structure
@@ -736,13 +871,22 @@ module Aws::IoTWireless
     #   The description of the new resource.
     #
     # @option params [String] :client_request_token
-    #   Each resource must have a unique client request token. If you try to
-    #   create a new resource with the same token as a resource that already
-    #   exists, an exception occurs. If you omit this value, AWS SDKs will
-    #   automatically generate a unique client request.
+    #   Each resource must have a unique client request token. The client
+    #   token is used to implement idempotency. It ensures that the request
+    #   completes no more than one time. If you retry a request with the same
+    #   token and the same parameters, the request will complete successfully.
+    #   However, if you try to create a new resource using the same token but
+    #   different parameters, an HTTP 409 conflict occurs. If you omit this
+    #   value, AWS SDKs will automatically generate a unique client request.
+    #   For more information about idempotency, see [Ensuring idempotency in
+    #   Amazon EC2 API requests][1].
     #
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.**
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html
     #
     # @option params [Types::LoRaWANFuotaTask] :lo_ra_wan
     #   The LoRaWAN information used with a FUOTA task.
@@ -758,6 +902,32 @@ module Aws::IoTWireless
     #   The tag to attach to the specified resource. Tags are metadata that
     #   you can use to manage a resource.
     #
+    # @option params [Integer] :redundancy_percent
+    #   The percentage of the added fragments that are redundant. For example,
+    #   if the size of the firmware image file is 100 bytes and the fragment
+    #   size is 10 bytes, with `RedundancyPercent` set to 50(%), the final
+    #   number of encoded fragments is (100 / 10) + (100 / 10 * 50%) = 15.
+    #
+    # @option params [Integer] :fragment_size_bytes
+    #   The size of each fragment in bytes. This parameter is supported only
+    #   for FUOTA tasks with multicast groups.
+    #
+    # @option params [Integer] :fragment_interval_ms
+    #   The interval for sending fragments in milliseconds, rounded to the
+    #   nearest second.
+    #
+    #   <note markdown="1"> This interval only determines the timing for when the Cloud sends down
+    #   the fragments to yor device. There can be a delay for when your device
+    #   will receive these fragments. This delay depends on the device's
+    #   class and the communication delay with the cloud.
+    #
+    #    </note>
+    #
+    # @option params [String] :descriptor
+    #   The Descriptor specifies some metadata about the File being
+    #   transferred using FUOTA e.g. the software version. It is sent
+    #   transparently to the device. It is a binary field encoded in base64
+    #
     # @return [Types::CreateFuotaTaskResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreateFuotaTaskResponse#arn #arn} => String
@@ -770,7 +940,7 @@ module Aws::IoTWireless
     #     description: "Description",
     #     client_request_token: "ClientRequestToken",
     #     lo_ra_wan: {
-    #       rf_region: "EU868", # accepts EU868, US915, AU915, AS923-1
+    #       rf_region: "EU868", # accepts EU868, US915, AU915, AS923-1, AS923-2, AS923-3, AS923-4, EU433, CN470, CN779, RU864, KR920, IN865
     #     },
     #     firmware_update_image: "FirmwareUpdateImage", # required
     #     firmware_update_role: "FirmwareUpdateRole", # required
@@ -780,6 +950,10 @@ module Aws::IoTWireless
     #         value: "TagValue", # required
     #       },
     #     ],
+    #     redundancy_percent: 1,
+    #     fragment_size_bytes: 1,
+    #     fragment_interval_ms: 1,
+    #     descriptor: "FileDescriptor",
     #   })
     #
     # @example Response structure
@@ -803,13 +977,22 @@ module Aws::IoTWireless
     #   The description of the multicast group.
     #
     # @option params [String] :client_request_token
-    #   Each resource must have a unique client request token. If you try to
-    #   create a new resource with the same token as a resource that already
-    #   exists, an exception occurs. If you omit this value, AWS SDKs will
-    #   automatically generate a unique client request.
+    #   Each resource must have a unique client request token. The client
+    #   token is used to implement idempotency. It ensures that the request
+    #   completes no more than one time. If you retry a request with the same
+    #   token and the same parameters, the request will complete successfully.
+    #   However, if you try to create a new resource using the same token but
+    #   different parameters, an HTTP 409 conflict occurs. If you omit this
+    #   value, AWS SDKs will automatically generate a unique client request.
+    #   For more information about idempotency, see [Ensuring idempotency in
+    #   Amazon EC2 API requests][1].
     #
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.**
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html
     #
     # @option params [required, Types::LoRaWANMulticast] :lo_ra_wan
     #   The LoRaWAN information that is to be used with the multicast group.
@@ -830,8 +1013,12 @@ module Aws::IoTWireless
     #     description: "Description",
     #     client_request_token: "ClientRequestToken",
     #     lo_ra_wan: { # required
-    #       rf_region: "EU868", # accepts EU868, US915, AU915, AS923-1
+    #       rf_region: "EU868", # accepts EU868, US915, AU915, AS923-1, AS923-2, AS923-3, AS923-4, EU433, CN470, CN779, RU864, KR920, IN865
     #       dl_class: "ClassB", # accepts ClassB, ClassC
+    #       participating_gateways: {
+    #         gateway_list: ["WirelessGatewayId"],
+    #         transmission_interval: 1,
+    #       },
     #     },
     #     tags: [
     #       {
@@ -859,7 +1046,8 @@ module Aws::IoTWireless
     #   Name of the network analyzer configuration.
     #
     # @option params [Types::TraceContent] :trace_content
-    #   Trace content for your wireless gateway and wireless device resources.
+    #   Trace content for your wireless devices, gateways, and multicast
+    #   groups.
     #
     # @option params [Array<String>] :wireless_devices
     #   Wireless device resources to add to the network analyzer
@@ -879,13 +1067,27 @@ module Aws::IoTWireless
     #   you can use to manage a resource.
     #
     # @option params [String] :client_request_token
-    #   Each resource must have a unique client request token. If you try to
-    #   create a new resource with the same token as a resource that already
-    #   exists, an exception occurs. If you omit this value, AWS SDKs will
-    #   automatically generate a unique client request.
+    #   Each resource must have a unique client request token. The client
+    #   token is used to implement idempotency. It ensures that the request
+    #   completes no more than one time. If you retry a request with the same
+    #   token and the same parameters, the request will complete successfully.
+    #   However, if you try to create a new resource using the same token but
+    #   different parameters, an HTTP 409 conflict occurs. If you omit this
+    #   value, AWS SDKs will automatically generate a unique client request.
+    #   For more information about idempotency, see [Ensuring idempotency in
+    #   Amazon EC2 API requests][1].
     #
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.**
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html
+    #
+    # @option params [Array<String>] :multicast_groups
+    #   Multicast Group resources to add to the network analyzer
+    #   configruation. Provide the `MulticastGroupId` of the resource to add
+    #   in the input array.
     #
     # @return [Types::CreateNetworkAnalyzerConfigurationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -899,6 +1101,7 @@ module Aws::IoTWireless
     #     trace_content: {
     #       wireless_device_frame_info: "ENABLED", # accepts ENABLED, DISABLED
     #       log_level: "INFO", # accepts INFO, ERROR, DISABLED
+    #       multicast_frame_info: "ENABLED", # accepts ENABLED, DISABLED
     #     },
     #     wireless_devices: ["WirelessDeviceId"],
     #     wireless_gateways: ["WirelessGatewayId"],
@@ -910,6 +1113,7 @@ module Aws::IoTWireless
     #       },
     #     ],
     #     client_request_token: "ClientRequestToken",
+    #     multicast_groups: ["MulticastGroupId"],
     #   })
     #
     # @example Response structure
@@ -937,13 +1141,22 @@ module Aws::IoTWireless
     #   you can use to manage a resource.
     #
     # @option params [String] :client_request_token
-    #   Each resource must have a unique client request token. If you try to
-    #   create a new resource with the same token as a resource that already
-    #   exists, an exception occurs. If you omit this value, AWS SDKs will
-    #   automatically generate a unique client request.
+    #   Each resource must have a unique client request token. The client
+    #   token is used to implement idempotency. It ensures that the request
+    #   completes no more than one time. If you retry a request with the same
+    #   token and the same parameters, the request will complete successfully.
+    #   However, if you try to create a new resource using the same token but
+    #   different parameters, an HTTP 409 conflict occurs. If you omit this
+    #   value, AWS SDKs will automatically generate a unique client request.
+    #   For more information about idempotency, see [Ensuring idempotency in
+    #   Amazon EC2 API requests][1].
     #
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.**
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html
     #
     # @return [Types::CreateServiceProfileResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -958,6 +1171,8 @@ module Aws::IoTWireless
     #       add_gw_metadata: false,
     #       dr_min: 1,
     #       dr_max: 1,
+    #       pr_allowed: false,
+    #       ra_allowed: false,
     #     },
     #     tags: [
     #       {
@@ -995,13 +1210,22 @@ module Aws::IoTWireless
     #   The name of the destination to assign to the new wireless device.
     #
     # @option params [String] :client_request_token
-    #   Each resource must have a unique client request token. If you try to
-    #   create a new resource with the same token as a resource that already
-    #   exists, an exception occurs. If you omit this value, AWS SDKs will
-    #   automatically generate a unique client request.
+    #   Each resource must have a unique client request token. The client
+    #   token is used to implement idempotency. It ensures that the request
+    #   completes no more than one time. If you retry a request with the same
+    #   token and the same parameters, the request will complete successfully.
+    #   However, if you try to create a new resource using the same token but
+    #   different parameters, an HTTP 409 conflict occurs. If you omit this
+    #   value, AWS SDKs will automatically generate a unique client request.
+    #   For more information about idempotency, see [Ensuring idempotency in
+    #   Amazon EC2 API requests][1].
     #
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.**
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html
     #
     # @option params [Types::LoRaWANDevice] :lo_ra_wan
     #   The device configuration information to use to create the wireless
@@ -1014,6 +1238,10 @@ module Aws::IoTWireless
     # @option params [String] :positioning
     #   FPort values for the GNSS, stream, and ClockSync functions of the
     #   positioning information.
+    #
+    # @option params [Types::SidewalkCreateWirelessDevice] :sidewalk
+    #   The device configuration information to use to create the Sidewalk
+    #   device.
     #
     # @return [Types::CreateWirelessDeviceResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1040,6 +1268,7 @@ module Aws::IoTWireless
     #       otaa_v1_0_x: {
     #         app_key: "AppKey",
     #         app_eui: "AppEui",
+    #         join_eui: "JoinEui",
     #         gen_app_key: "GenAppKey",
     #       },
     #       abp_v1_1: {
@@ -1085,6 +1314,9 @@ module Aws::IoTWireless
     #       },
     #     ],
     #     positioning: "Enabled", # accepts Enabled, Disabled
+    #     sidewalk: {
+    #       device_profile_id: "DeviceProfileId",
+    #     },
     #   })
     #
     # @example Response structure
@@ -1101,6 +1333,19 @@ module Aws::IoTWireless
 
     # Provisions a wireless gateway.
     #
+    # <note markdown="1"> When provisioning a wireless gateway, you might run into duplication
+    # errors for the following reasons.
+    #
+    #  * If you specify a `GatewayEui` value that already exists.
+    #
+    # * If you used a `ClientRequestToken` with the same parameters within
+    #   the last 10 minutes.
+    #
+    #  To avoid this error, make sure that you use unique identifiers and
+    # parameters for each request within the specified time period.
+    #
+    #  </note>
+    #
     # @option params [String] :name
     #   The name of the new resource.
     #
@@ -1116,13 +1361,22 @@ module Aws::IoTWireless
     #   you can use to manage a resource.
     #
     # @option params [String] :client_request_token
-    #   Each resource must have a unique client request token. If you try to
-    #   create a new resource with the same token as a resource that already
-    #   exists, an exception occurs. If you omit this value, AWS SDKs will
-    #   automatically generate a unique client request.
+    #   Each resource must have a unique client request token. The client
+    #   token is used to implement idempotency. It ensures that the request
+    #   completes no more than one time. If you retry a request with the same
+    #   token and the same parameters, the request will complete successfully.
+    #   However, if you try to create a new resource using the same token but
+    #   different parameters, an HTTP 409 conflict occurs. If you omit this
+    #   value, AWS SDKs will automatically generate a unique client request.
+    #   For more information about idempotency, see [Ensuring idempotency in
+    #   Amazon EC2 API requests][1].
     #
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.**
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html
     #
     # @return [Types::CreateWirelessGatewayResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1146,6 +1400,7 @@ module Aws::IoTWireless
     #         data_rate: 1,
     #         frequencies: [1],
     #       },
+    #       max_eirp: 1.0,
     #     },
     #     tags: [
     #       {
@@ -1214,13 +1469,22 @@ module Aws::IoTWireless
     #   Information about the gateways to update.
     #
     # @option params [String] :client_request_token
-    #   Each resource must have a unique client request token. If you try to
-    #   create a new resource with the same token as a resource that already
-    #   exists, an exception occurs. If you omit this value, AWS SDKs will
-    #   automatically generate a unique client request.
+    #   Each resource must have a unique client request token. The client
+    #   token is used to implement idempotency. It ensures that the request
+    #   completes no more than one time. If you retry a request with the same
+    #   token and the same parameters, the request will complete successfully.
+    #   However, if you try to create a new resource using the same token but
+    #   different parameters, an HTTP 409 conflict occurs. If you omit this
+    #   value, AWS SDKs will automatically generate a unique client request.
+    #   For more information about idempotency, see [Ensuring idempotency in
+    #   Amazon EC2 API requests][1].
     #
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.**
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html
     #
     # @option params [Array<Types::Tag>] :tags
     #   The tags to attach to the specified resource. Tags are metadata that
@@ -1446,7 +1710,40 @@ module Aws::IoTWireless
       req.send_request(options)
     end
 
+    # Delete an import task.
+    #
+    # @option params [required, String] :id
+    #   The unique identifier of the import task to be deleted.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_wireless_device_import_task({
+    #     id: "ImportTaskId", # required
+    #   })
+    #
+    # @overload delete_wireless_device_import_task(params = {})
+    # @param [Hash] params ({})
+    def delete_wireless_device_import_task(params = {}, options = {})
+      req = build_request(:delete_wireless_device_import_task, params)
+      req.send_request(options)
+    end
+
     # Deletes a wireless gateway.
+    #
+    # <note markdown="1"> When deleting a wireless gateway, you might run into duplication
+    # errors for the following reasons.
+    #
+    #  * If you specify a `GatewayEui` value that already exists.
+    #
+    # * If you used a `ClientRequestToken` with the same parameters within
+    #   the last 10 minutes.
+    #
+    #  To avoid this error, make sure that you use unique identifiers and
+    # parameters for each request within the specified time period.
+    #
+    #  </note>
     #
     # @option params [required, String] :id
     #   The ID of the resource to delete.
@@ -1504,6 +1801,32 @@ module Aws::IoTWireless
     # @param [Hash] params ({})
     def delete_wireless_gateway_task_definition(params = {}, options = {})
       req = build_request(:delete_wireless_gateway_task_definition, params)
+      req.send_request(options)
+    end
+
+    # Deregister a wireless device from AWS IoT Wireless.
+    #
+    # @option params [required, String] :identifier
+    #   The identifier of the wireless device to deregister from AWS IoT
+    #   Wireless.
+    #
+    # @option params [String] :wireless_device_type
+    #   The type of wireless device to deregister from AWS IoT Wireless, which
+    #   can be `LoRaWAN` or `Sidewalk`.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.deregister_wireless_device({
+    #     identifier: "Identifier", # required
+    #     wireless_device_type: "Sidewalk", # accepts Sidewalk, LoRaWAN
+    #   })
+    #
+    # @overload deregister_wireless_device(params = {})
+    # @param [Hash] params ({})
+    def deregister_wireless_device(params = {}, options = {})
+      req = build_request(:deregister_wireless_device, params)
       req.send_request(options)
     end
 
@@ -1713,6 +2036,7 @@ module Aws::IoTWireless
     #   * {Types::GetDeviceProfileResponse#name #name} => String
     #   * {Types::GetDeviceProfileResponse#id #id} => String
     #   * {Types::GetDeviceProfileResponse#lo_ra_wan #lo_ra_wan} => Types::LoRaWANDeviceProfile
+    #   * {Types::GetDeviceProfileResponse#sidewalk #sidewalk} => Types::SidewalkGetDeviceProfile
     #
     # @example Request syntax with placeholder values
     #
@@ -1745,6 +2069,14 @@ module Aws::IoTWireless
     #   resp.lo_ra_wan.rf_region #=> String
     #   resp.lo_ra_wan.supports_join #=> Boolean
     #   resp.lo_ra_wan.supports_32_bit_f_cnt #=> Boolean
+    #   resp.sidewalk.application_server_public_key #=> String
+    #   resp.sidewalk.qualification_status #=> Boolean
+    #   resp.sidewalk.dak_certificate_metadata #=> Array
+    #   resp.sidewalk.dak_certificate_metadata[0].certificate_id #=> String
+    #   resp.sidewalk.dak_certificate_metadata[0].max_allowed_signature #=> Integer
+    #   resp.sidewalk.dak_certificate_metadata[0].factory_support #=> Boolean
+    #   resp.sidewalk.dak_certificate_metadata[0].ap_id #=> String
+    #   resp.sidewalk.dak_certificate_metadata[0].device_type_id #=> String
     #
     # @overload get_device_profile(params = {})
     # @param [Hash] params ({})
@@ -1794,6 +2126,10 @@ module Aws::IoTWireless
     #   * {Types::GetFuotaTaskResponse#firmware_update_image #firmware_update_image} => String
     #   * {Types::GetFuotaTaskResponse#firmware_update_role #firmware_update_role} => String
     #   * {Types::GetFuotaTaskResponse#created_at #created_at} => Time
+    #   * {Types::GetFuotaTaskResponse#redundancy_percent #redundancy_percent} => Integer
+    #   * {Types::GetFuotaTaskResponse#fragment_size_bytes #fragment_size_bytes} => Integer
+    #   * {Types::GetFuotaTaskResponse#fragment_interval_ms #fragment_interval_ms} => Integer
+    #   * {Types::GetFuotaTaskResponse#descriptor #descriptor} => String
     #
     # @example Request syntax with placeholder values
     #
@@ -1813,6 +2149,10 @@ module Aws::IoTWireless
     #   resp.firmware_update_image #=> String
     #   resp.firmware_update_role #=> String
     #   resp.created_at #=> Time
+    #   resp.redundancy_percent #=> Integer
+    #   resp.fragment_size_bytes #=> Integer
+    #   resp.fragment_interval_ms #=> Integer
+    #   resp.descriptor #=> String
     #
     # @overload get_fuota_task(params = {})
     # @param [Hash] params ({})
@@ -1830,6 +2170,7 @@ module Aws::IoTWireless
     #   * {Types::GetLogLevelsByResourceTypesResponse#default_log_level #default_log_level} => String
     #   * {Types::GetLogLevelsByResourceTypesResponse#wireless_gateway_log_options #wireless_gateway_log_options} => Array&lt;Types::WirelessGatewayLogOption&gt;
     #   * {Types::GetLogLevelsByResourceTypesResponse#wireless_device_log_options #wireless_device_log_options} => Array&lt;Types::WirelessDeviceLogOption&gt;
+    #   * {Types::GetLogLevelsByResourceTypesResponse#fuota_task_log_options #fuota_task_log_options} => Array&lt;Types::FuotaTaskLogOption&gt;
     #
     # @example Response structure
     #
@@ -1846,11 +2187,94 @@ module Aws::IoTWireless
     #   resp.wireless_device_log_options[0].events #=> Array
     #   resp.wireless_device_log_options[0].events[0].event #=> String, one of "Join", "Rejoin", "Uplink_Data", "Downlink_Data", "Registration"
     #   resp.wireless_device_log_options[0].events[0].log_level #=> String, one of "INFO", "ERROR", "DISABLED"
+    #   resp.fuota_task_log_options #=> Array
+    #   resp.fuota_task_log_options[0].type #=> String, one of "LoRaWAN"
+    #   resp.fuota_task_log_options[0].log_level #=> String, one of "INFO", "ERROR", "DISABLED"
+    #   resp.fuota_task_log_options[0].events #=> Array
+    #   resp.fuota_task_log_options[0].events[0].event #=> String, one of "Fuota"
+    #   resp.fuota_task_log_options[0].events[0].log_level #=> String, one of "INFO", "ERROR", "DISABLED"
     #
     # @overload get_log_levels_by_resource_types(params = {})
     # @param [Hash] params ({})
     def get_log_levels_by_resource_types(params = {}, options = {})
       req = build_request(:get_log_levels_by_resource_types, params)
+      req.send_request(options)
+    end
+
+    # Get the metric configuration status for this AWS account.
+    #
+    # @return [Types::GetMetricConfigurationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetMetricConfigurationResponse#summary_metric #summary_metric} => Types::SummaryMetricConfiguration
+    #
+    # @example Response structure
+    #
+    #   resp.summary_metric.status #=> String, one of "Enabled", "Disabled"
+    #
+    # @overload get_metric_configuration(params = {})
+    # @param [Hash] params ({})
+    def get_metric_configuration(params = {}, options = {})
+      req = build_request(:get_metric_configuration, params)
+      req.send_request(options)
+    end
+
+    # Get the summary metrics for this AWS account.
+    #
+    # @option params [Array<Types::SummaryMetricQuery>] :summary_metric_queries
+    #   The list of queries to retrieve the summary metrics.
+    #
+    # @return [Types::GetMetricsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetMetricsResponse#summary_metric_query_results #summary_metric_query_results} => Array&lt;Types::SummaryMetricQueryResult&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_metrics({
+    #     summary_metric_queries: [
+    #       {
+    #         query_id: "MetricQueryId",
+    #         metric_name: "DeviceRSSI", # accepts DeviceRSSI, DeviceSNR, DeviceRoamingRSSI, DeviceRoamingSNR, DeviceUplinkCount, DeviceDownlinkCount, DeviceUplinkLostCount, DeviceUplinkLostRate, DeviceJoinRequestCount, DeviceJoinAcceptCount, DeviceRoamingUplinkCount, DeviceRoamingDownlinkCount, GatewayUpTime, GatewayDownTime, GatewayRSSI, GatewaySNR, GatewayUplinkCount, GatewayDownlinkCount, GatewayJoinRequestCount, GatewayJoinAcceptCount, AwsAccountUplinkCount, AwsAccountDownlinkCount, AwsAccountUplinkLostCount, AwsAccountUplinkLostRate, AwsAccountJoinRequestCount, AwsAccountJoinAcceptCount, AwsAccountRoamingUplinkCount, AwsAccountRoamingDownlinkCount, AwsAccountDeviceCount, AwsAccountGatewayCount, AwsAccountActiveDeviceCount, AwsAccountActiveGatewayCount
+    #         dimensions: [
+    #           {
+    #             name: "DeviceId", # accepts DeviceId, GatewayId
+    #             value: "DimensionValue",
+    #           },
+    #         ],
+    #         aggregation_period: "OneHour", # accepts OneHour, OneDay, OneWeek
+    #         start_timestamp: Time.now,
+    #         end_timestamp: Time.now,
+    #       },
+    #     ],
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.summary_metric_query_results #=> Array
+    #   resp.summary_metric_query_results[0].query_id #=> String
+    #   resp.summary_metric_query_results[0].query_status #=> String, one of "Succeeded", "Failed"
+    #   resp.summary_metric_query_results[0].error #=> String
+    #   resp.summary_metric_query_results[0].metric_name #=> String, one of "DeviceRSSI", "DeviceSNR", "DeviceRoamingRSSI", "DeviceRoamingSNR", "DeviceUplinkCount", "DeviceDownlinkCount", "DeviceUplinkLostCount", "DeviceUplinkLostRate", "DeviceJoinRequestCount", "DeviceJoinAcceptCount", "DeviceRoamingUplinkCount", "DeviceRoamingDownlinkCount", "GatewayUpTime", "GatewayDownTime", "GatewayRSSI", "GatewaySNR", "GatewayUplinkCount", "GatewayDownlinkCount", "GatewayJoinRequestCount", "GatewayJoinAcceptCount", "AwsAccountUplinkCount", "AwsAccountDownlinkCount", "AwsAccountUplinkLostCount", "AwsAccountUplinkLostRate", "AwsAccountJoinRequestCount", "AwsAccountJoinAcceptCount", "AwsAccountRoamingUplinkCount", "AwsAccountRoamingDownlinkCount", "AwsAccountDeviceCount", "AwsAccountGatewayCount", "AwsAccountActiveDeviceCount", "AwsAccountActiveGatewayCount"
+    #   resp.summary_metric_query_results[0].dimensions #=> Array
+    #   resp.summary_metric_query_results[0].dimensions[0].name #=> String, one of "DeviceId", "GatewayId"
+    #   resp.summary_metric_query_results[0].dimensions[0].value #=> String
+    #   resp.summary_metric_query_results[0].aggregation_period #=> String, one of "OneHour", "OneDay", "OneWeek"
+    #   resp.summary_metric_query_results[0].start_timestamp #=> Time
+    #   resp.summary_metric_query_results[0].end_timestamp #=> Time
+    #   resp.summary_metric_query_results[0].timestamps #=> Array
+    #   resp.summary_metric_query_results[0].timestamps[0] #=> Time
+    #   resp.summary_metric_query_results[0].values #=> Array
+    #   resp.summary_metric_query_results[0].values[0].min #=> Float
+    #   resp.summary_metric_query_results[0].values[0].max #=> Float
+    #   resp.summary_metric_query_results[0].values[0].sum #=> Float
+    #   resp.summary_metric_query_results[0].values[0].avg #=> Float
+    #   resp.summary_metric_query_results[0].values[0].std #=> Float
+    #   resp.summary_metric_query_results[0].values[0].p90 #=> Float
+    #   resp.summary_metric_query_results[0].unit #=> String
+    #
+    # @overload get_metrics(params = {})
+    # @param [Hash] params ({})
+    def get_metrics(params = {}, options = {})
+      req = build_request(:get_metrics, params)
       req.send_request(options)
     end
 
@@ -1882,10 +2306,13 @@ module Aws::IoTWireless
     #   resp.name #=> String
     #   resp.description #=> String
     #   resp.status #=> String
-    #   resp.lo_ra_wan.rf_region #=> String, one of "EU868", "US915", "AU915", "AS923-1"
+    #   resp.lo_ra_wan.rf_region #=> String, one of "EU868", "US915", "AU915", "AS923-1", "AS923-2", "AS923-3", "AS923-4", "EU433", "CN470", "CN779", "RU864", "KR920", "IN865"
     #   resp.lo_ra_wan.dl_class #=> String, one of "ClassB", "ClassC"
     #   resp.lo_ra_wan.number_of_devices_requested #=> Integer
     #   resp.lo_ra_wan.number_of_devices_in_group #=> Integer
+    #   resp.lo_ra_wan.participating_gateways.gateway_list #=> Array
+    #   resp.lo_ra_wan.participating_gateways.gateway_list[0] #=> String
+    #   resp.lo_ra_wan.participating_gateways.transmission_interval #=> Integer
     #   resp.created_at #=> Time
     #
     # @overload get_multicast_group(params = {})
@@ -1916,6 +2343,7 @@ module Aws::IoTWireless
     #   resp.lo_ra_wan.dl_freq #=> Integer
     #   resp.lo_ra_wan.session_start_time #=> Time
     #   resp.lo_ra_wan.session_timeout #=> Integer
+    #   resp.lo_ra_wan.ping_slot_period #=> Integer
     #
     # @overload get_multicast_group_session(params = {})
     # @param [Hash] params ({})
@@ -1937,6 +2365,7 @@ module Aws::IoTWireless
     #   * {Types::GetNetworkAnalyzerConfigurationResponse#description #description} => String
     #   * {Types::GetNetworkAnalyzerConfigurationResponse#arn #arn} => String
     #   * {Types::GetNetworkAnalyzerConfigurationResponse#name #name} => String
+    #   * {Types::GetNetworkAnalyzerConfigurationResponse#multicast_groups #multicast_groups} => Array&lt;String&gt;
     #
     # @example Request syntax with placeholder values
     #
@@ -1948,6 +2377,7 @@ module Aws::IoTWireless
     #
     #   resp.trace_content.wireless_device_frame_info #=> String, one of "ENABLED", "DISABLED"
     #   resp.trace_content.log_level #=> String, one of "INFO", "ERROR", "DISABLED"
+    #   resp.trace_content.multicast_frame_info #=> String, one of "ENABLED", "DISABLED"
     #   resp.wireless_devices #=> Array
     #   resp.wireless_devices[0] #=> String
     #   resp.wireless_gateways #=> Array
@@ -1955,6 +2385,8 @@ module Aws::IoTWireless
     #   resp.description #=> String
     #   resp.arn #=> String
     #   resp.name #=> String
+    #   resp.multicast_groups #=> Array
+    #   resp.multicast_groups[0] #=> String
     #
     # @overload get_network_analyzer_configuration(params = {})
     # @param [Hash] params ({})
@@ -2118,7 +2550,7 @@ module Aws::IoTWireless
     #
     # @option params [Time,DateTime,Date,Integer,String] :timestamp
     #   Optional information that specifies the time when the position
-    #   information will be resolved. It uses the UNIX timestamp format. If
+    #   information will be resolved. It uses the Unix timestamp format. If
     #   not specified, the time at which the request was received will be
     #   used.
     #
@@ -2307,7 +2739,7 @@ module Aws::IoTWireless
     #
     #   resp = client.get_resource_event_configuration({
     #     identifier: "Identifier", # required
-    #     identifier_type: "PartnerAccountId", # required, accepts PartnerAccountId, DevEui, GatewayEui, WirelessDeviceId, WirelessGatewayId
+    #     identifier_type: "PartnerAccountId", # required, accepts PartnerAccountId, DevEui, FuotaTaskId, GatewayEui, WirelessDeviceId, WirelessGatewayId
     #     partner_type: "Sidewalk", # accepts Sidewalk
     #   })
     #
@@ -2332,8 +2764,8 @@ module Aws::IoTWireless
     end
 
     # Fetches the log-level override, if any, for a given resource-ID and
-    # resource-type. It can be used for a wireless device or a wireless
-    # gateway.
+    # resource-type. It can be used for a wireless device, wireless gateway
+    # or fuota task.
     #
     # @option params [required, String] :resource_identifier
     #   The identifier of the resource. For a Wireless Device, it is the
@@ -2341,8 +2773,8 @@ module Aws::IoTWireless
     #   ID.
     #
     # @option params [required, String] :resource_type
-    #   The type of the resource, which can be `WirelessDevice` or
-    #   `WirelessGateway`.
+    #   The type of the resource, which can be `WirelessDevice`,
+    #   `WirelessGateway` or `FuotaTask`.
     #
     # @return [Types::GetResourceLogLevelResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -2367,7 +2799,7 @@ module Aws::IoTWireless
     end
 
     # Get the position information for a given wireless device or a wireless
-    # gateway resource. The postion information uses the [ World Geodetic
+    # gateway resource. The position information uses the [ World Geodetic
     # System (WGS84)][1].
     #
     #
@@ -2376,8 +2808,8 @@ module Aws::IoTWireless
     #
     # @option params [required, String] :resource_identifier
     #   The identifier of the resource for which position information is
-    #   retrieved. It can be the wireless device ID or the wireless gateway ID
-    #   depending on the resource type.
+    #   retrieved. It can be the wireless device ID or the wireless gateway
+    #   ID, depending on the resource type.
     #
     # @option params [required, String] :resource_type
     #   The type of resource for which position information is retrieved,
@@ -2536,6 +2968,7 @@ module Aws::IoTWireless
     #   resp.lo_ra_wan.otaa_v1_1.join_eui #=> String
     #   resp.lo_ra_wan.otaa_v1_0_x.app_key #=> String
     #   resp.lo_ra_wan.otaa_v1_0_x.app_eui #=> String
+    #   resp.lo_ra_wan.otaa_v1_0_x.join_eui #=> String
     #   resp.lo_ra_wan.otaa_v1_0_x.gen_app_key #=> String
     #   resp.lo_ra_wan.abp_v1_1.dev_addr #=> String
     #   resp.lo_ra_wan.abp_v1_1.session_keys.f_nwk_s_int_key #=> String
@@ -2563,12 +2996,67 @@ module Aws::IoTWireless
     #   resp.sidewalk.device_certificates #=> Array
     #   resp.sidewalk.device_certificates[0].signing_alg #=> String, one of "Ed25519", "P256r1"
     #   resp.sidewalk.device_certificates[0].value #=> String
+    #   resp.sidewalk.private_keys #=> Array
+    #   resp.sidewalk.private_keys[0].signing_alg #=> String, one of "Ed25519", "P256r1"
+    #   resp.sidewalk.private_keys[0].value #=> String
+    #   resp.sidewalk.device_profile_id #=> String
+    #   resp.sidewalk.certificate_id #=> String
+    #   resp.sidewalk.status #=> String, one of "PROVISIONED", "REGISTERED", "ACTIVATED", "UNKNOWN"
     #   resp.positioning #=> String, one of "Enabled", "Disabled"
     #
     # @overload get_wireless_device(params = {})
     # @param [Hash] params ({})
     def get_wireless_device(params = {}, options = {})
       req = build_request(:get_wireless_device, params)
+      req.send_request(options)
+    end
+
+    # Get information about an import task and count of device onboarding
+    # summary information for the import task.
+    #
+    # @option params [required, String] :id
+    #   The identifier of the import task for which information is requested.
+    #
+    # @return [Types::GetWirelessDeviceImportTaskResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetWirelessDeviceImportTaskResponse#id #id} => String
+    #   * {Types::GetWirelessDeviceImportTaskResponse#arn #arn} => String
+    #   * {Types::GetWirelessDeviceImportTaskResponse#destination_name #destination_name} => String
+    #   * {Types::GetWirelessDeviceImportTaskResponse#sidewalk #sidewalk} => Types::SidewalkGetStartImportInfo
+    #   * {Types::GetWirelessDeviceImportTaskResponse#creation_time #creation_time} => Time
+    #   * {Types::GetWirelessDeviceImportTaskResponse#status #status} => String
+    #   * {Types::GetWirelessDeviceImportTaskResponse#status_reason #status_reason} => String
+    #   * {Types::GetWirelessDeviceImportTaskResponse#initialized_imported_device_count #initialized_imported_device_count} => Integer
+    #   * {Types::GetWirelessDeviceImportTaskResponse#pending_imported_device_count #pending_imported_device_count} => Integer
+    #   * {Types::GetWirelessDeviceImportTaskResponse#onboarded_imported_device_count #onboarded_imported_device_count} => Integer
+    #   * {Types::GetWirelessDeviceImportTaskResponse#failed_imported_device_count #failed_imported_device_count} => Integer
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_wireless_device_import_task({
+    #     id: "ImportTaskId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.id #=> String
+    #   resp.arn #=> String
+    #   resp.destination_name #=> String
+    #   resp.sidewalk.device_creation_file_list #=> Array
+    #   resp.sidewalk.device_creation_file_list[0] #=> String
+    #   resp.sidewalk.role #=> String
+    #   resp.creation_time #=> Time
+    #   resp.status #=> String, one of "INITIALIZING", "INITIALIZED", "PENDING", "COMPLETE", "FAILED", "DELETING"
+    #   resp.status_reason #=> String
+    #   resp.initialized_imported_device_count #=> Integer
+    #   resp.pending_imported_device_count #=> Integer
+    #   resp.onboarded_imported_device_count #=> Integer
+    #   resp.failed_imported_device_count #=> Integer
+    #
+    # @overload get_wireless_device_import_task(params = {})
+    # @param [Hash] params ({})
+    def get_wireless_device_import_task(params = {}, options = {})
+      req = build_request(:get_wireless_device_import_task, params)
       req.send_request(options)
     end
 
@@ -2603,6 +3091,13 @@ module Aws::IoTWireless
     #   resp.lo_ra_wan.gateways[0].gateway_eui #=> String
     #   resp.lo_ra_wan.gateways[0].snr #=> Float
     #   resp.lo_ra_wan.gateways[0].rssi #=> Float
+    #   resp.lo_ra_wan.public_gateways #=> Array
+    #   resp.lo_ra_wan.public_gateways[0].provider_net_id #=> String
+    #   resp.lo_ra_wan.public_gateways[0].id #=> String
+    #   resp.lo_ra_wan.public_gateways[0].rssi #=> Float
+    #   resp.lo_ra_wan.public_gateways[0].snr #=> Float
+    #   resp.lo_ra_wan.public_gateways[0].rf_region #=> String
+    #   resp.lo_ra_wan.public_gateways[0].dl_allowed #=> Boolean
     #   resp.sidewalk.rssi #=> Integer
     #   resp.sidewalk.battery_level #=> String, one of "normal", "low", "critical"
     #   resp.sidewalk.event #=> String, one of "discovered", "lost", "ack", "nack", "passthrough"
@@ -2657,6 +3152,7 @@ module Aws::IoTWireless
     #   resp.lo_ra_wan.beaconing.data_rate #=> Integer
     #   resp.lo_ra_wan.beaconing.frequencies #=> Array
     #   resp.lo_ra_wan.beaconing.frequencies[0] #=> Integer
+    #   resp.lo_ra_wan.max_eirp #=> Float
     #   resp.arn #=> String
     #   resp.thing_name #=> String
     #   resp.thing_arn #=> String
@@ -2883,6 +3379,10 @@ module Aws::IoTWireless
     # @option params [Integer] :max_results
     #   The maximum number of results to return in this operation.
     #
+    # @option params [String] :device_profile_type
+    #   A filter to list only device profiles that use this type, which can be
+    #   `LoRaWAN` or `Sidewalk`.
+    #
     # @return [Types::ListDeviceProfilesResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::ListDeviceProfilesResponse#next_token #next_token} => String
@@ -2895,6 +3395,7 @@ module Aws::IoTWireless
     #   resp = client.list_device_profiles({
     #     next_token: "NextToken",
     #     max_results: 1,
+    #     device_profile_type: "Sidewalk", # accepts Sidewalk, LoRaWAN
     #   })
     #
     # @example Response structure
@@ -2909,6 +3410,56 @@ module Aws::IoTWireless
     # @param [Hash] params ({})
     def list_device_profiles(params = {}, options = {})
       req = build_request(:list_device_profiles, params)
+      req.send_request(options)
+    end
+
+    # List the Sidewalk devices in an import task and their onboarding
+    # status.
+    #
+    # @option params [required, String] :id
+    #   The identifier of the import task for which wireless devices are
+    #   listed.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return in this operation.
+    #
+    # @option params [String] :next_token
+    #   To retrieve the next set of results, the `nextToken` value from a
+    #   previous response; otherwise `null` to receive the first set of
+    #   results.
+    #
+    # @option params [String] :status
+    #   The status of the devices in the import task.
+    #
+    # @return [Types::ListDevicesForWirelessDeviceImportTaskResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListDevicesForWirelessDeviceImportTaskResponse#next_token #next_token} => String
+    #   * {Types::ListDevicesForWirelessDeviceImportTaskResponse#destination_name #destination_name} => String
+    #   * {Types::ListDevicesForWirelessDeviceImportTaskResponse#imported_wireless_device_list #imported_wireless_device_list} => Array&lt;Types::ImportedWirelessDevice&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_devices_for_wireless_device_import_task({
+    #     id: "ImportTaskId", # required
+    #     max_results: 1,
+    #     next_token: "NextToken",
+    #     status: "INITIALIZED", # accepts INITIALIZED, PENDING, ONBOARDED, FAILED
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.next_token #=> String
+    #   resp.destination_name #=> String
+    #   resp.imported_wireless_device_list #=> Array
+    #   resp.imported_wireless_device_list[0].sidewalk.sidewalk_manufacturing_sn #=> String
+    #   resp.imported_wireless_device_list[0].sidewalk.onboarding_status #=> String, one of "INITIALIZED", "PENDING", "ONBOARDED", "FAILED"
+    #   resp.imported_wireless_device_list[0].sidewalk.onboarding_status_reason #=> String
+    #   resp.imported_wireless_device_list[0].sidewalk.last_update_time #=> Time
+    #
+    # @overload list_devices_for_wireless_device_import_task(params = {})
+    # @param [Hash] params ({})
+    def list_devices_for_wireless_device_import_task(params = {}, options = {})
+      req = build_request(:list_devices_for_wireless_device_import_task, params)
       req.send_request(options)
     end
 
@@ -2934,7 +3485,7 @@ module Aws::IoTWireless
     # @example Request syntax with placeholder values
     #
     #   resp = client.list_event_configurations({
-    #     resource_type: "SidewalkAccount", # required, accepts SidewalkAccount, WirelessDevice, WirelessGateway
+    #     resource_type: "FuotaTask", # required, accepts FuotaTask, SidewalkAccount, WirelessDevice, WirelessGateway
     #     max_results: 1,
     #     next_token: "NextToken",
     #   })
@@ -2944,7 +3495,7 @@ module Aws::IoTWireless
     #   resp.next_token #=> String
     #   resp.event_configurations_list #=> Array
     #   resp.event_configurations_list[0].identifier #=> String
-    #   resp.event_configurations_list[0].identifier_type #=> String, one of "PartnerAccountId", "DevEui", "GatewayEui", "WirelessDeviceId", "WirelessGatewayId"
+    #   resp.event_configurations_list[0].identifier_type #=> String, one of "PartnerAccountId", "DevEui", "FuotaTaskId", "GatewayEui", "WirelessDeviceId", "WirelessGatewayId"
     #   resp.event_configurations_list[0].partner_type #=> String, one of "Sidewalk"
     #   resp.event_configurations_list[0].events.device_registration_state.sidewalk.amazon_id_event_topic #=> String, one of "Enabled", "Disabled"
     #   resp.event_configurations_list[0].events.device_registration_state.wireless_device_id_event_topic #=> String, one of "Enabled", "Disabled"
@@ -3335,6 +3886,53 @@ module Aws::IoTWireless
       req.send_request(options)
     end
 
+    # List wireless devices that have been added to an import task.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return in this operation.
+    #
+    # @option params [String] :next_token
+    #   To retrieve the next set of results, the `nextToken` value from a
+    #   previous response; otherwise `null` to receive the first set of
+    #   results.
+    #
+    # @return [Types::ListWirelessDeviceImportTasksResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListWirelessDeviceImportTasksResponse#next_token #next_token} => String
+    #   * {Types::ListWirelessDeviceImportTasksResponse#wireless_device_import_task_list #wireless_device_import_task_list} => Array&lt;Types::WirelessDeviceImportTask&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_wireless_device_import_tasks({
+    #     max_results: 1,
+    #     next_token: "NextToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.next_token #=> String
+    #   resp.wireless_device_import_task_list #=> Array
+    #   resp.wireless_device_import_task_list[0].id #=> String
+    #   resp.wireless_device_import_task_list[0].arn #=> String
+    #   resp.wireless_device_import_task_list[0].destination_name #=> String
+    #   resp.wireless_device_import_task_list[0].sidewalk.device_creation_file_list #=> Array
+    #   resp.wireless_device_import_task_list[0].sidewalk.device_creation_file_list[0] #=> String
+    #   resp.wireless_device_import_task_list[0].sidewalk.role #=> String
+    #   resp.wireless_device_import_task_list[0].creation_time #=> Time
+    #   resp.wireless_device_import_task_list[0].status #=> String, one of "INITIALIZING", "INITIALIZED", "PENDING", "COMPLETE", "FAILED", "DELETING"
+    #   resp.wireless_device_import_task_list[0].status_reason #=> String
+    #   resp.wireless_device_import_task_list[0].initialized_imported_device_count #=> Integer
+    #   resp.wireless_device_import_task_list[0].pending_imported_device_count #=> Integer
+    #   resp.wireless_device_import_task_list[0].onboarded_imported_device_count #=> Integer
+    #   resp.wireless_device_import_task_list[0].failed_imported_device_count #=> Integer
+    #
+    # @overload list_wireless_device_import_tasks(params = {})
+    # @param [Hash] params ({})
+    def list_wireless_device_import_tasks(params = {}, options = {})
+      req = build_request(:list_wireless_device_import_tasks, params)
+      req.send_request(options)
+    end
+
     # Lists the wireless devices registered to your AWS account.
     #
     # @option params [Integer] :max_results
@@ -3403,7 +4001,9 @@ module Aws::IoTWireless
     #   resp.wireless_device_list[0].sidewalk.device_certificates #=> Array
     #   resp.wireless_device_list[0].sidewalk.device_certificates[0].signing_alg #=> String, one of "Ed25519", "P256r1"
     #   resp.wireless_device_list[0].sidewalk.device_certificates[0].value #=> String
-    #   resp.wireless_device_list[0].fuota_device_status #=> String, one of "Initial", "Package_Not_Supported", "FragAlgo_unsupported", "Not_enough_memory", "FragIndex_unsupported", "Wrong_descriptor", "SessionCnt_replay", "MissingFrag", "MemoryError", "MICError", "Successful"
+    #   resp.wireless_device_list[0].sidewalk.device_profile_id #=> String
+    #   resp.wireless_device_list[0].sidewalk.status #=> String, one of "PROVISIONED", "REGISTERED", "ACTIVATED", "UNKNOWN"
+    #   resp.wireless_device_list[0].fuota_device_status #=> String, one of "Initial", "Package_Not_Supported", "FragAlgo_unsupported", "Not_enough_memory", "FragIndex_unsupported", "Wrong_descriptor", "SessionCnt_replay", "MissingFrag", "MemoryError", "MICError", "Successful", "Device_exist_in_conflict_fuota_task"
     #   resp.wireless_device_list[0].multicast_device_status #=> String
     #   resp.wireless_device_list[0].mc_group_id #=> Integer
     #
@@ -3506,6 +4106,7 @@ module Aws::IoTWireless
     #   resp.wireless_gateway_list[0].lo_ra_wan.beaconing.data_rate #=> Integer
     #   resp.wireless_gateway_list[0].lo_ra_wan.beaconing.frequencies #=> Array
     #   resp.wireless_gateway_list[0].lo_ra_wan.beaconing.frequencies[0] #=> Integer
+    #   resp.wireless_gateway_list[0].lo_ra_wan.max_eirp #=> Float
     #   resp.wireless_gateway_list[0].last_uplink_received_at #=> String
     #
     # @overload list_wireless_gateways(params = {})
@@ -3574,8 +4175,8 @@ module Aws::IoTWireless
     #   ID.
     #
     # @option params [required, String] :resource_type
-    #   The type of the resource, which can be `WirelessDevice` or
-    #   `WirelessGateway`.
+    #   The type of the resource, which can be `WirelessDevice`,
+    #   `WirelessGateway`, or `FuotaTask`.
     #
     # @option params [required, String] :log_level
     #   The log level for a log message. The log levels can be disabled, or
@@ -3599,8 +4200,8 @@ module Aws::IoTWireless
       req.send_request(options)
     end
 
-    # Removes the log-level overrides for all resources; both wireless
-    # devices and wireless gateways.
+    # Removes the log-level overrides for all resources; wireless devices,
+    # wireless gateways, and fuota tasks.
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
@@ -3612,8 +4213,8 @@ module Aws::IoTWireless
     end
 
     # Removes the log-level override, if any, for a specific resource-ID and
-    # resource-type. It can be used for a wireless device or a wireless
-    # gateway.
+    # resource-type. It can be used for a wireless device, a wireless
+    # gateway, or a fuota task.
     #
     # @option params [required, String] :resource_identifier
     #   The identifier of the resource. For a Wireless Device, it is the
@@ -3621,8 +4222,8 @@ module Aws::IoTWireless
     #   ID.
     #
     # @option params [required, String] :resource_type
-    #   The type of the resource, which can be `WirelessDevice` or
-    #   `WirelessGateway`.
+    #   The type of the resource, which can be `WirelessDevice`,
+    #   `WirelessGateway`, or `FuotaTask`.
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
@@ -3853,6 +4454,7 @@ module Aws::IoTWireless
     #       dl_freq: 1,
     #       session_start_time: Time.now,
     #       session_timeout: 1,
+    #       ping_slot_period: 1,
     #     },
     #   })
     #
@@ -3860,6 +4462,145 @@ module Aws::IoTWireless
     # @param [Hash] params ({})
     def start_multicast_group_session(params = {}, options = {})
       req = build_request(:start_multicast_group_session, params)
+      req.send_request(options)
+    end
+
+    # Start import task for a single wireless device.
+    #
+    # @option params [required, String] :destination_name
+    #   The name of the Sidewalk destination that describes the IoT rule to
+    #   route messages from the device in the import task that will be
+    #   onboarded to AWS IoT Wireless.
+    #
+    # @option params [String] :client_request_token
+    #   Each resource must have a unique client request token. The client
+    #   token is used to implement idempotency. It ensures that the request
+    #   completes no more than one time. If you retry a request with the same
+    #   token and the same parameters, the request will complete successfully.
+    #   However, if you try to create a new resource using the same token but
+    #   different parameters, an HTTP 409 conflict occurs. If you omit this
+    #   value, AWS SDKs will automatically generate a unique client request.
+    #   For more information about idempotency, see [Ensuring idempotency in
+    #   Amazon EC2 API requests][1].
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html
+    #
+    # @option params [String] :device_name
+    #   The name of the wireless device for which an import task is being
+    #   started.
+    #
+    # @option params [Array<Types::Tag>] :tags
+    #   The tag to attach to the specified resource. Tags are metadata that
+    #   you can use to manage a resource.
+    #
+    # @option params [required, Types::SidewalkSingleStartImportInfo] :sidewalk
+    #   The Sidewalk-related parameters for importing a single wireless
+    #   device.
+    #
+    # @return [Types::StartSingleWirelessDeviceImportTaskResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::StartSingleWirelessDeviceImportTaskResponse#id #id} => String
+    #   * {Types::StartSingleWirelessDeviceImportTaskResponse#arn #arn} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.start_single_wireless_device_import_task({
+    #     destination_name: "DestinationName", # required
+    #     client_request_token: "ClientRequestToken",
+    #     device_name: "DeviceName",
+    #     tags: [
+    #       {
+    #         key: "TagKey", # required
+    #         value: "TagValue", # required
+    #       },
+    #     ],
+    #     sidewalk: { # required
+    #       sidewalk_manufacturing_sn: "SidewalkManufacturingSn",
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.id #=> String
+    #   resp.arn #=> String
+    #
+    # @overload start_single_wireless_device_import_task(params = {})
+    # @param [Hash] params ({})
+    def start_single_wireless_device_import_task(params = {}, options = {})
+      req = build_request(:start_single_wireless_device_import_task, params)
+      req.send_request(options)
+    end
+
+    # Start import task for provisioning Sidewalk devices in bulk using an
+    # S3 CSV file.
+    #
+    # @option params [required, String] :destination_name
+    #   The name of the Sidewalk destination that describes the IoT rule to
+    #   route messages from the devices in the import task that are onboarded
+    #   to AWS IoT Wireless.
+    #
+    # @option params [String] :client_request_token
+    #   Each resource must have a unique client request token. The client
+    #   token is used to implement idempotency. It ensures that the request
+    #   completes no more than one time. If you retry a request with the same
+    #   token and the same parameters, the request will complete successfully.
+    #   However, if you try to create a new resource using the same token but
+    #   different parameters, an HTTP 409 conflict occurs. If you omit this
+    #   value, AWS SDKs will automatically generate a unique client request.
+    #   For more information about idempotency, see [Ensuring idempotency in
+    #   Amazon EC2 API requests][1].
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html
+    #
+    # @option params [Array<Types::Tag>] :tags
+    #   The tag to attach to the specified resource. Tags are metadata that
+    #   you can use to manage a resource.
+    #
+    # @option params [required, Types::SidewalkStartImportInfo] :sidewalk
+    #   The Sidewalk-related parameters for importing wireless devices that
+    #   need to be provisioned in bulk.
+    #
+    # @return [Types::StartWirelessDeviceImportTaskResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::StartWirelessDeviceImportTaskResponse#id #id} => String
+    #   * {Types::StartWirelessDeviceImportTaskResponse#arn #arn} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.start_wireless_device_import_task({
+    #     destination_name: "DestinationName", # required
+    #     client_request_token: "ClientRequestToken",
+    #     tags: [
+    #       {
+    #         key: "TagKey", # required
+    #         value: "TagValue", # required
+    #       },
+    #     ],
+    #     sidewalk: { # required
+    #       device_creation_file: "DeviceCreationFile",
+    #       role: "Role",
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.id #=> String
+    #   resp.arn #=> String
+    #
+    # @overload start_wireless_device_import_task(params = {})
+    # @param [Hash] params ({})
+    def start_wireless_device_import_task(params = {}, options = {})
+      req = build_request(:start_wireless_device_import_task, params)
       req.send_request(options)
     end
 
@@ -4062,6 +4803,32 @@ module Aws::IoTWireless
     # @option params [String] :firmware_update_role
     #   The firmware update role that is to be used with a FUOTA task.
     #
+    # @option params [Integer] :redundancy_percent
+    #   The percentage of the added fragments that are redundant. For example,
+    #   if the size of the firmware image file is 100 bytes and the fragment
+    #   size is 10 bytes, with `RedundancyPercent` set to 50(%), the final
+    #   number of encoded fragments is (100 / 10) + (100 / 10 * 50%) = 15.
+    #
+    # @option params [Integer] :fragment_size_bytes
+    #   The size of each fragment in bytes. This parameter is supported only
+    #   for FUOTA tasks with multicast groups.
+    #
+    # @option params [Integer] :fragment_interval_ms
+    #   The interval for sending fragments in milliseconds, rounded to the
+    #   nearest second.
+    #
+    #   <note markdown="1"> This interval only determines the timing for when the Cloud sends down
+    #   the fragments to yor device. There can be a delay for when your device
+    #   will receive these fragments. This delay depends on the device's
+    #   class and the communication delay with the cloud.
+    #
+    #    </note>
+    #
+    # @option params [String] :descriptor
+    #   The Descriptor specifies some metadata about the File being
+    #   transferred using FUOTA e.g. the software version. It is sent
+    #   transparently to the device. It is a binary field encoded in base64
+    #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
     # @example Request syntax with placeholder values
@@ -4071,10 +4838,14 @@ module Aws::IoTWireless
     #     name: "FuotaTaskName",
     #     description: "Description",
     #     lo_ra_wan: {
-    #       rf_region: "EU868", # accepts EU868, US915, AU915, AS923-1
+    #       rf_region: "EU868", # accepts EU868, US915, AU915, AS923-1, AS923-2, AS923-3, AS923-4, EU433, CN470, CN779, RU864, KR920, IN865
     #     },
     #     firmware_update_image: "FirmwareUpdateImage",
     #     firmware_update_role: "FirmwareUpdateRole",
+    #     redundancy_percent: 1,
+    #     fragment_size_bytes: 1,
+    #     fragment_interval_ms: 1,
+    #     descriptor: "FileDescriptor",
     #   })
     #
     # @overload update_fuota_task(params = {})
@@ -4094,6 +4865,9 @@ module Aws::IoTWireless
     #   set to `ERROR` to display less verbose logs containing only error
     #   information, or to `INFO` for more detailed logs.
     #
+    # @option params [Array<Types::FuotaTaskLogOption>] :fuota_task_log_options
+    #   The list of fuota task log options.
+    #
     # @option params [Array<Types::WirelessDeviceLogOption>] :wireless_device_log_options
     #   The list of wireless device log options.
     #
@@ -4106,6 +4880,18 @@ module Aws::IoTWireless
     #
     #   resp = client.update_log_levels_by_resource_types({
     #     default_log_level: "INFO", # accepts INFO, ERROR, DISABLED
+    #     fuota_task_log_options: [
+    #       {
+    #         type: "LoRaWAN", # required, accepts LoRaWAN
+    #         log_level: "INFO", # required, accepts INFO, ERROR, DISABLED
+    #         events: [
+    #           {
+    #             event: "Fuota", # required, accepts Fuota
+    #             log_level: "INFO", # required, accepts INFO, ERROR, DISABLED
+    #           },
+    #         ],
+    #       },
+    #     ],
     #     wireless_device_log_options: [
     #       {
     #         type: "Sidewalk", # required, accepts Sidewalk, LoRaWAN
@@ -4139,6 +4925,28 @@ module Aws::IoTWireless
       req.send_request(options)
     end
 
+    # Update the summary metric configuration.
+    #
+    # @option params [Types::SummaryMetricConfiguration] :summary_metric
+    #   The value to be used to set summary metric configuration.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_metric_configuration({
+    #     summary_metric: {
+    #       status: "Enabled", # accepts Enabled, Disabled
+    #     },
+    #   })
+    #
+    # @overload update_metric_configuration(params = {})
+    # @param [Hash] params ({})
+    def update_metric_configuration(params = {}, options = {})
+      req = build_request(:update_metric_configuration, params)
+      req.send_request(options)
+    end
+
     # Updates properties of a multicast group session.
     #
     # @option params [required, String] :id
@@ -4162,8 +4970,12 @@ module Aws::IoTWireless
     #     name: "MulticastGroupName",
     #     description: "Description",
     #     lo_ra_wan: {
-    #       rf_region: "EU868", # accepts EU868, US915, AU915, AS923-1
+    #       rf_region: "EU868", # accepts EU868, US915, AU915, AS923-1, AS923-2, AS923-3, AS923-4, EU433, CN470, CN779, RU864, KR920, IN865
     #       dl_class: "ClassB", # accepts ClassB, ClassC
+    #       participating_gateways: {
+    #         gateway_list: ["WirelessGatewayId"],
+    #         transmission_interval: 1,
+    #       },
     #     },
     #   })
     #
@@ -4180,7 +4992,8 @@ module Aws::IoTWireless
     #   Name of the network analyzer configuration.
     #
     # @option params [Types::TraceContent] :trace_content
-    #   Trace content for your wireless gateway and wireless device resources.
+    #   Trace content for your wireless devices, gateways, and multicast
+    #   groups.
     #
     # @option params [Array<String>] :wireless_devices_to_add
     #   Wireless device resources to add to the network analyzer
@@ -4205,6 +5018,16 @@ module Aws::IoTWireless
     # @option params [String] :description
     #   The description of the new resource.
     #
+    # @option params [Array<String>] :multicast_groups_to_add
+    #   Multicast group resources to add to the network analyzer
+    #   configuration. Provide the `MulticastGroupId` of the resource to add
+    #   in the input array.
+    #
+    # @option params [Array<String>] :multicast_groups_to_remove
+    #   Multicast group resources to remove from the network analyzer
+    #   configuration. Provide the `MulticastGroupId` of the resources to
+    #   remove in the input array.
+    #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
     # @example Request syntax with placeholder values
@@ -4214,12 +5037,15 @@ module Aws::IoTWireless
     #     trace_content: {
     #       wireless_device_frame_info: "ENABLED", # accepts ENABLED, DISABLED
     #       log_level: "INFO", # accepts INFO, ERROR, DISABLED
+    #       multicast_frame_info: "ENABLED", # accepts ENABLED, DISABLED
     #     },
     #     wireless_devices_to_add: ["WirelessDeviceId"],
     #     wireless_devices_to_remove: ["WirelessDeviceId"],
     #     wireless_gateways_to_add: ["WirelessGatewayId"],
     #     wireless_gateways_to_remove: ["WirelessGatewayId"],
     #     description: "Description",
+    #     multicast_groups_to_add: ["MulticastGroupId"],
+    #     multicast_groups_to_remove: ["MulticastGroupId"],
     #   })
     #
     # @overload update_network_analyzer_configuration(params = {})
@@ -4329,7 +5155,7 @@ module Aws::IoTWireless
     #
     #   resp = client.update_resource_event_configuration({
     #     identifier: "Identifier", # required
-    #     identifier_type: "PartnerAccountId", # required, accepts PartnerAccountId, DevEui, GatewayEui, WirelessDeviceId, WirelessGatewayId
+    #     identifier_type: "PartnerAccountId", # required, accepts PartnerAccountId, DevEui, FuotaTaskId, GatewayEui, WirelessDeviceId, WirelessGatewayId
     #     partner_type: "Sidewalk", # accepts Sidewalk
     #     device_registration_state: {
     #       sidewalk: {
@@ -4371,7 +5197,7 @@ module Aws::IoTWireless
     end
 
     # Update the position information of a given wireless device or a
-    # wireless gateway resource. The postion coordinates are based on the [
+    # wireless gateway resource. The position coordinates are based on the [
     # World Geodetic System (WGS84)][1].
     #
     #
@@ -4380,7 +5206,7 @@ module Aws::IoTWireless
     #
     # @option params [required, String] :resource_identifier
     #   The identifier of the resource for which position information is
-    #   updated. It can be the wireless device ID or the wireless gateway ID
+    #   updated. It can be the wireless device ID or the wireless gateway ID,
     #   depending on the resource type.
     #
     # @option params [required, String] :resource_type
@@ -4478,6 +5304,32 @@ module Aws::IoTWireless
       req.send_request(options)
     end
 
+    # Update an import task to add more devices to the task.
+    #
+    # @option params [required, String] :id
+    #   The identifier of the import task to be updated.
+    #
+    # @option params [required, Types::SidewalkUpdateImportInfo] :sidewalk
+    #   The Sidewalk-related parameters of the import task to be updated.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_wireless_device_import_task({
+    #     id: "ImportTaskId", # required
+    #     sidewalk: { # required
+    #       device_creation_file: "DeviceCreationFile",
+    #     },
+    #   })
+    #
+    # @overload update_wireless_device_import_task(params = {})
+    # @param [Hash] params ({})
+    def update_wireless_device_import_task(params = {}, options = {})
+      req = build_request(:update_wireless_device_import_task, params)
+      req.send_request(options)
+    end
+
     # Updates properties of a wireless gateway.
     #
     # @option params [required, String] :id
@@ -4496,6 +5348,9 @@ module Aws::IoTWireless
     #   A list of NetId values that are used by LoRa gateways to filter the
     #   uplink frames.
     #
+    # @option params [Float] :max_eirp
+    #   The MaxEIRP value.
+    #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
     # @example Request syntax with placeholder values
@@ -4508,6 +5363,7 @@ module Aws::IoTWireless
     #       ["JoinEui"],
     #     ],
     #     net_id_filters: ["NetId"],
+    #     max_eirp: 1.0,
     #   })
     #
     # @overload update_wireless_gateway(params = {})
@@ -4523,14 +5379,19 @@ module Aws::IoTWireless
     # @api private
     def build_request(operation_name, params = {})
       handlers = @handlers.for(operation_name)
+      tracer = config.telemetry_provider.tracer_provider.tracer(
+        Aws::Telemetry.module_to_tracer_name('Aws::IoTWireless')
+      )
       context = Seahorse::Client::RequestContext.new(
         operation_name: operation_name,
         operation: config.api.operation(operation_name),
         client: self,
         params: params,
-        config: config)
+        config: config,
+        tracer: tracer
+      )
       context[:gem_name] = 'aws-sdk-iotwireless'
-      context[:gem_version] = '1.29.0'
+      context[:gem_version] = '1.64.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

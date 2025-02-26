@@ -167,6 +167,26 @@ module Aws
       token
     end
 
+    # Source a custom configured endpoint from the shared configuration file
+    #
+    # @param [Hash] opts
+    # @option opts [String] :profile
+    # @option opts [String] :service_id
+    def configured_endpoint(opts = {})
+      # services section is only allowed in the shared config file (not credentials)
+      profile = opts[:profile] || @profile_name
+      service_id = opts[:service_id]&.gsub(" ", "_")&.downcase
+      if @parsed_config && (prof_config = @parsed_config[profile])
+        services_section_name = prof_config['services']
+        if (services_config = @parsed_config["services #{services_section_name}"]) &&
+          (service_config = services_config[service_id])
+          return service_config['endpoint_url'] if service_config['endpoint_url']
+        end
+        return prof_config['endpoint_url']
+      end
+      nil
+    end
+
     # Add an accessor method (similar to attr_reader) to return a configuration value
     # Uses the get_config_value below to control where
     # values are loaded from
@@ -178,6 +198,8 @@ module Aws
 
     config_reader(
       :region,
+      :account_id_endpoint_mode,
+      :sigv4a_signing_region_set,
       :ca_bundle,
       :credential_process,
       :endpoint_discovery_enabled,
@@ -185,10 +207,13 @@ module Aws
       :use_fips_endpoint,
       :ec2_metadata_service_endpoint,
       :ec2_metadata_service_endpoint_mode,
+      :ec2_metadata_v1_disabled,
       :max_attempts,
       :retry_mode,
       :adaptive_retry_wait_to_fill,
       :correct_clock_skew,
+      :request_checksum_calculation,
+      :response_checksum_validation,
       :csm_client_id,
       :csm_enabled,
       :csm_host,
@@ -197,7 +222,12 @@ module Aws
       :s3_use_arn_region,
       :s3_us_east_1_regional_endpoint,
       :s3_disable_multiregion_access_points,
-      :defaults_mode
+      :s3_disable_express_session_auth,
+      :defaults_mode,
+      :sdk_ua_app_id,
+      :disable_request_compression,
+      :request_min_compression_size_bytes,
+      :ignore_configured_endpoint_urls
     )
 
     private
@@ -312,7 +342,7 @@ module Aws
       if @parsed_config
         credential_process ||= @parsed_config.fetch(profile, {})['credential_process']
       end
-      ProcessCredentials.new(credential_process) if credential_process
+      ProcessCredentials.new([credential_process]) if credential_process
     end
 
     def credentials_from_shared(profile, _opts)
@@ -335,12 +365,8 @@ module Aws
          !(prof_config.keys & SSO_CREDENTIAL_PROFILE_KEYS).empty?
 
         if sso_session_name = prof_config['sso_session']
-          sso_session = cfg["sso-session #{sso_session_name}"]
-          unless sso_session
-            raise ArgumentError,
-                  "sso-session #{sso_session_name} must be defined in the config file. " \
-                    "Referenced by profile #{profile}"
-          end
+          sso_session = sso_session(cfg, profile, sso_session_name)
+
           sso_region = sso_session['sso_region']
           sso_start_url = sso_session['sso_start_url']
 
@@ -365,7 +391,7 @@ module Aws
           sso_role_name: prof_config['sso_role_name'],
           sso_session: prof_config['sso_session'],
           sso_region: sso_region,
-          sso_start_url: prof_config['sso_start_url']
+          sso_start_url: sso_start_url
           )
       end
     end
@@ -378,16 +404,7 @@ module Aws
         !(prof_config.keys & SSO_TOKEN_PROFILE_KEYS).empty?
 
         sso_session_name = prof_config['sso_session']
-        sso_session = cfg["sso-session #{sso_session_name}"]
-        unless sso_session
-          raise ArgumentError,
-                "sso-session #{sso_session_name} must be defined in the config file." \
-                  "Referenced by profile #{profile}"
-        end
-
-        unless sso_session['sso_region']
-          raise ArgumentError, "sso-session #{sso_session_name} missing required parameter: sso_region"
-        end
+        sso_session = sso_session(cfg, profile, sso_session_name)
 
         SSOTokenProvider.new(
           sso_session: sso_session_name,
@@ -400,7 +417,8 @@ module Aws
       creds = Credentials.new(
         prof_config['aws_access_key_id'],
         prof_config['aws_secret_access_key'],
-        prof_config['aws_session_token']
+        prof_config['aws_session_token'],
+        account_id: prof_config['aws_account_id']
       )
       creds if creds.set?
     end
@@ -444,6 +462,23 @@ module Aws
       ret ||= ENV['AWS_PROFILE']
       ret ||= 'default'
       ret
+    end
+
+    def sso_session(cfg, profile, sso_session_name)
+      # aws sso-configure may add quotes around sso session names with whitespace
+      sso_session = cfg["sso-session #{sso_session_name}"] || cfg["sso-session '#{sso_session_name}'"]
+
+      unless sso_session
+        raise ArgumentError,
+          "sso-session #{sso_session_name} must be defined in the config file. " \
+                    "Referenced by profile #{profile}"
+      end
+
+      unless sso_session['sso_region']
+        raise ArgumentError, "sso-session #{sso_session_name} missing required parameter: sso_region"
+      end
+
+      sso_session
     end
   end
 end

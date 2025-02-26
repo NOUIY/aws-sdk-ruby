@@ -9,77 +9,12 @@
 
 
 module Aws::MediaStoreData
+  # @api private
   module Endpoints
 
-    class DeleteObject
-      def self.build(context)
-        unless context.config.regional_endpoint
-          endpoint = context.config.endpoint.to_s
-        end
-        Aws::MediaStoreData::EndpointParameters.new(
-          region: context.config.region,
-          use_dual_stack: context.config.use_dualstack_endpoint,
-          use_fips: context.config.use_fips_endpoint,
-          endpoint: endpoint,
-        )
-      end
-    end
 
-    class DescribeObject
-      def self.build(context)
-        unless context.config.regional_endpoint
-          endpoint = context.config.endpoint.to_s
-        end
-        Aws::MediaStoreData::EndpointParameters.new(
-          region: context.config.region,
-          use_dual_stack: context.config.use_dualstack_endpoint,
-          use_fips: context.config.use_fips_endpoint,
-          endpoint: endpoint,
-        )
-      end
+    def self.parameters_for_operation(context)
+      Aws::MediaStoreData::EndpointParameters.create(context.config)
     end
-
-    class GetObject
-      def self.build(context)
-        unless context.config.regional_endpoint
-          endpoint = context.config.endpoint.to_s
-        end
-        Aws::MediaStoreData::EndpointParameters.new(
-          region: context.config.region,
-          use_dual_stack: context.config.use_dualstack_endpoint,
-          use_fips: context.config.use_fips_endpoint,
-          endpoint: endpoint,
-        )
-      end
-    end
-
-    class ListItems
-      def self.build(context)
-        unless context.config.regional_endpoint
-          endpoint = context.config.endpoint.to_s
-        end
-        Aws::MediaStoreData::EndpointParameters.new(
-          region: context.config.region,
-          use_dual_stack: context.config.use_dualstack_endpoint,
-          use_fips: context.config.use_fips_endpoint,
-          endpoint: endpoint,
-        )
-      end
-    end
-
-    class PutObject
-      def self.build(context)
-        unless context.config.regional_endpoint
-          endpoint = context.config.endpoint.to_s
-        end
-        Aws::MediaStoreData::EndpointParameters.new(
-          region: context.config.region,
-          use_dual_stack: context.config.use_dualstack_endpoint,
-          use_fips: context.config.use_fips_endpoint,
-          endpoint: endpoint,
-        )
-      end
-    end
-
   end
 end

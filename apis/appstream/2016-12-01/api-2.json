@@ -5,14 +5,32 @@
     "endpointPrefix":"appstream2",
     "jsonVersion":"1.1",
     "protocol":"json",
+    "protocols":["json"],
     "serviceFullName":"Amazon AppStream",
     "serviceId":"AppStream",
     "signatureVersion":"v4",
     "signingName":"appstream",
     "targetPrefix":"PhotonAdminProxyService",
-    "uid":"appstream-2016-12-01"
+    "uid":"appstream-2016-12-01",
+    "auth":["aws.auth#sigv4"]
   },
   "operations":{
+    "AssociateAppBlockBuilderAppBlock":{
+      "name":"AssociateAppBlockBuilderAppBlock",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"AssociateAppBlockBuilderAppBlockRequest"},
+      "output":{"shape":"AssociateAppBlockBuilderAppBlockResult"},
+      "errors":[
+        {"shape":"ConcurrentModificationException"},
+        {"shape":"LimitExceededException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"InvalidParameterCombinationException"},
+        {"shape":"OperationNotPermittedException"}
+      ]
+    },
     "AssociateApplicationFleet":{
       "name":"AssociateApplicationFleet",
       "http":{
@@ -118,6 +136,40 @@
         {"shape":"LimitExceededException"},
         {"shape":"OperationNotPermittedException"},
         {"shape":"ResourceAlreadyExistsException"}
+      ]
+    },
+    "CreateAppBlockBuilder":{
+      "name":"CreateAppBlockBuilder",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"CreateAppBlockBuilderRequest"},
+      "output":{"shape":"CreateAppBlockBuilderResult"},
+      "errors":[
+        {"shape":"LimitExceededException"},
+        {"shape":"RequestLimitExceededException"},
+        {"shape":"InvalidAccountStatusException"},
+        {"shape":"InvalidRoleException"},
+        {"shape":"ConcurrentModificationException"},
+        {"shape":"OperationNotPermittedException"},
+        {"shape":"ResourceAlreadyExistsException"},
+        {"shape":"ResourceNotAvailableException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"InvalidParameterCombinationException"}
+      ]
+    },
+    "CreateAppBlockBuilderStreamingURL":{
+      "name":"CreateAppBlockBuilderStreamingURL",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"CreateAppBlockBuilderStreamingURLRequest"},
+      "output":{"shape":"CreateAppBlockBuilderStreamingURLResult"},
+      "errors":[
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"OperationNotPermittedException"}
       ]
     },
     "CreateApplication":{
@@ -240,7 +292,8 @@
         {"shape":"ConcurrentModificationException"},
         {"shape":"InvalidRoleException"},
         {"shape":"ResourceNotFoundException"},
-        {"shape":"InvalidParameterCombinationException"}
+        {"shape":"InvalidParameterCombinationException"},
+        {"shape":"OperationNotPermittedException"}
       ]
     },
     "CreateStreamingURL":{
@@ -256,6 +309,23 @@
         {"shape":"ResourceNotAvailableException"},
         {"shape":"OperationNotPermittedException"},
         {"shape":"InvalidParameterCombinationException"}
+      ]
+    },
+    "CreateThemeForStack":{
+      "name":"CreateThemeForStack",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"CreateThemeForStackRequest"},
+      "output":{"shape":"CreateThemeForStackResult"},
+      "errors":[
+        {"shape":"ConcurrentModificationException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ResourceAlreadyExistsException"},
+        {"shape":"LimitExceededException"},
+        {"shape":"InvalidAccountStatusException"},
+        {"shape":"OperationNotPermittedException"}
       ]
     },
     "CreateUpdatedImage":{
@@ -315,6 +385,21 @@
       "input":{"shape":"DeleteAppBlockRequest"},
       "output":{"shape":"DeleteAppBlockResult"},
       "errors":[
+        {"shape":"ConcurrentModificationException"},
+        {"shape":"ResourceInUseException"},
+        {"shape":"ResourceNotFoundException"}
+      ]
+    },
+    "DeleteAppBlockBuilder":{
+      "name":"DeleteAppBlockBuilder",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"DeleteAppBlockBuilderRequest"},
+      "output":{"shape":"DeleteAppBlockBuilderResult"},
+      "errors":[
+        {"shape":"OperationNotPermittedException"},
         {"shape":"ConcurrentModificationException"},
         {"shape":"ResourceInUseException"},
         {"shape":"ResourceNotFoundException"}
@@ -435,6 +520,20 @@
         {"shape":"ConcurrentModificationException"}
       ]
     },
+    "DeleteThemeForStack":{
+      "name":"DeleteThemeForStack",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"DeleteThemeForStackRequest"},
+      "output":{"shape":"DeleteThemeForStackResult"},
+      "errors":[
+        {"shape":"ConcurrentModificationException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"OperationNotPermittedException"}
+      ]
+    },
     "DeleteUsageReportSubscription":{
       "name":"DeleteUsageReportSubscription",
       "http":{
@@ -457,6 +556,32 @@
       "input":{"shape":"DeleteUserRequest"},
       "output":{"shape":"DeleteUserResult"},
       "errors":[
+        {"shape":"ResourceNotFoundException"}
+      ]
+    },
+    "DescribeAppBlockBuilderAppBlockAssociations":{
+      "name":"DescribeAppBlockBuilderAppBlockAssociations",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"DescribeAppBlockBuilderAppBlockAssociationsRequest"},
+      "output":{"shape":"DescribeAppBlockBuilderAppBlockAssociationsResult"},
+      "errors":[
+        {"shape":"InvalidParameterCombinationException"},
+        {"shape":"OperationNotPermittedException"}
+      ]
+    },
+    "DescribeAppBlockBuilders":{
+      "name":"DescribeAppBlockBuilders",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"DescribeAppBlockBuildersRequest"},
+      "output":{"shape":"DescribeAppBlockBuildersResult"},
+      "errors":[
+        {"shape":"OperationNotPermittedException"},
         {"shape":"ResourceNotFoundException"}
       ]
     },
@@ -598,6 +723,19 @@
         {"shape":"ResourceNotFoundException"}
       ]
     },
+    "DescribeThemeForStack":{
+      "name":"DescribeThemeForStack",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"DescribeThemeForStackRequest"},
+      "output":{"shape":"DescribeThemeForStackResult"},
+      "errors":[
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"OperationNotPermittedException"}
+      ]
+    },
     "DescribeUsageReportSubscriptions":{
       "name":"DescribeUsageReportSubscriptions",
       "http":{
@@ -647,6 +785,21 @@
       "input":{"shape":"DisableUserRequest"},
       "output":{"shape":"DisableUserResult"},
       "errors":[
+        {"shape":"ResourceNotFoundException"}
+      ]
+    },
+    "DisassociateAppBlockBuilderAppBlock":{
+      "name":"DisassociateAppBlockBuilderAppBlock",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"DisassociateAppBlockBuilderAppBlockRequest"},
+      "output":{"shape":"DisassociateAppBlockBuilderAppBlockResult"},
+      "errors":[
+        {"shape":"ConcurrentModificationException"},
+        {"shape":"InvalidParameterCombinationException"},
+        {"shape":"OperationNotPermittedException"},
         {"shape":"ResourceNotFoundException"}
       ]
     },
@@ -760,6 +913,24 @@
         {"shape":"ResourceNotFoundException"}
       ]
     },
+    "StartAppBlockBuilder":{
+      "name":"StartAppBlockBuilder",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"StartAppBlockBuilderRequest"},
+      "output":{"shape":"StartAppBlockBuilderResult"},
+      "errors":[
+        {"shape":"ConcurrentModificationException"},
+        {"shape":"InvalidAccountStatusException"},
+        {"shape":"LimitExceededException"},
+        {"shape":"OperationNotPermittedException"},
+        {"shape":"RequestLimitExceededException"},
+        {"shape":"ResourceNotAvailableException"},
+        {"shape":"ResourceNotFoundException"}
+      ]
+    },
     "StartFleet":{
       "name":"StartFleet",
       "http":{
@@ -793,6 +964,20 @@
         {"shape":"ConcurrentModificationException"},
         {"shape":"InvalidAccountStatusException"},
         {"shape":"IncompatibleImageException"}
+      ]
+    },
+    "StopAppBlockBuilder":{
+      "name":"StopAppBlockBuilder",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"StopAppBlockBuilderRequest"},
+      "output":{"shape":"StopAppBlockBuilderResult"},
+      "errors":[
+        {"shape":"ConcurrentModificationException"},
+        {"shape":"OperationNotPermittedException"},
+        {"shape":"ResourceNotFoundException"}
       ]
     },
     "StopFleet":{
@@ -848,6 +1033,27 @@
         {"shape":"ResourceNotFoundException"}
       ]
     },
+    "UpdateAppBlockBuilder":{
+      "name":"UpdateAppBlockBuilder",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"UpdateAppBlockBuilderRequest"},
+      "output":{"shape":"UpdateAppBlockBuilderResult"},
+      "errors":[
+        {"shape":"ConcurrentModificationException"},
+        {"shape":"InvalidAccountStatusException"},
+        {"shape":"InvalidParameterCombinationException"},
+        {"shape":"InvalidRoleException"},
+        {"shape":"LimitExceededException"},
+        {"shape":"OperationNotPermittedException"},
+        {"shape":"RequestLimitExceededException"},
+        {"shape":"ResourceInUseException"},
+        {"shape":"ResourceNotAvailableException"},
+        {"shape":"ResourceNotFoundException"}
+      ]
+    },
     "UpdateApplication":{
       "name":"UpdateApplication",
       "http":{
@@ -875,7 +1081,8 @@
         {"shape":"ResourceNotFoundException"},
         {"shape":"ConcurrentModificationException"},
         {"shape":"OperationNotPermittedException"},
-        {"shape":"InvalidRoleException"}
+        {"shape":"InvalidRoleException"},
+        {"shape":"IncompatibleImageException"}
       ]
     },
     "UpdateEntitlement":{
@@ -948,6 +1155,23 @@
         {"shape":"OperationNotPermittedException"},
         {"shape":"ConcurrentModificationException"}
       ]
+    },
+    "UpdateThemeForStack":{
+      "name":"UpdateThemeForStack",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"UpdateThemeForStackRequest"},
+      "output":{"shape":"UpdateThemeForStackResult"},
+      "errors":[
+        {"shape":"ConcurrentModificationException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"LimitExceededException"},
+        {"shape":"InvalidAccountStatusException"},
+        {"shape":"InvalidParameterCombinationException"},
+        {"shape":"OperationNotPermittedException"}
+      ]
     }
   },
   "shapes":{
@@ -989,15 +1213,15 @@
         "FILE_DOWNLOAD",
         "PRINTING_TO_LOCAL_DEVICE",
         "DOMAIN_PASSWORD_SIGNIN",
-        "DOMAIN_SMART_CARD_SIGNIN"
+        "DOMAIN_SMART_CARD_SIGNIN",
+        "AUTO_TIME_ZONE_REDIRECTION"
       ]
     },
     "AppBlock":{
       "type":"structure",
       "required":[
         "Name",
-        "Arn",
-        "SetupScriptDetails"
+        "Arn"
       ],
       "members":{
         "Name":{"shape":"String"},
@@ -1006,8 +1230,103 @@
         "DisplayName":{"shape":"String"},
         "SourceS3Location":{"shape":"S3Location"},
         "SetupScriptDetails":{"shape":"ScriptDetails"},
-        "CreatedTime":{"shape":"Timestamp"}
+        "CreatedTime":{"shape":"Timestamp"},
+        "PostSetupScriptDetails":{"shape":"ScriptDetails"},
+        "PackagingType":{"shape":"PackagingType"},
+        "State":{"shape":"AppBlockState"},
+        "AppBlockErrors":{"shape":"ErrorDetailsList"}
       }
+    },
+    "AppBlockBuilder":{
+      "type":"structure",
+      "required":[
+        "Arn",
+        "Name",
+        "Platform",
+        "InstanceType",
+        "VpcConfig",
+        "State"
+      ],
+      "members":{
+        "Arn":{"shape":"Arn"},
+        "Name":{"shape":"String"},
+        "DisplayName":{"shape":"String"},
+        "Description":{"shape":"String"},
+        "Platform":{"shape":"AppBlockBuilderPlatformType"},
+        "InstanceType":{"shape":"String"},
+        "EnableDefaultInternetAccess":{"shape":"BooleanObject"},
+        "IamRoleArn":{"shape":"Arn"},
+        "VpcConfig":{"shape":"VpcConfig"},
+        "State":{"shape":"AppBlockBuilderState"},
+        "CreatedTime":{"shape":"Timestamp"},
+        "AppBlockBuilderErrors":{"shape":"ResourceErrors"},
+        "StateChangeReason":{"shape":"AppBlockBuilderStateChangeReason"},
+        "AccessEndpoints":{"shape":"AccessEndpointList"}
+      }
+    },
+    "AppBlockBuilderAppBlockAssociation":{
+      "type":"structure",
+      "required":[
+        "AppBlockArn",
+        "AppBlockBuilderName"
+      ],
+      "members":{
+        "AppBlockArn":{"shape":"Arn"},
+        "AppBlockBuilderName":{"shape":"Name"}
+      }
+    },
+    "AppBlockBuilderAppBlockAssociationsList":{
+      "type":"list",
+      "member":{"shape":"AppBlockBuilderAppBlockAssociation"},
+      "max":25,
+      "min":1
+    },
+    "AppBlockBuilderAttribute":{
+      "type":"string",
+      "enum":[
+        "IAM_ROLE_ARN",
+        "ACCESS_ENDPOINTS",
+        "VPC_CONFIGURATION_SECURITY_GROUP_IDS"
+      ]
+    },
+    "AppBlockBuilderAttributes":{
+      "type":"list",
+      "member":{"shape":"AppBlockBuilderAttribute"}
+    },
+    "AppBlockBuilderList":{
+      "type":"list",
+      "member":{"shape":"AppBlockBuilder"}
+    },
+    "AppBlockBuilderPlatformType":{
+      "type":"string",
+      "enum":["WINDOWS_SERVER_2019"]
+    },
+    "AppBlockBuilderState":{
+      "type":"string",
+      "enum":[
+        "STARTING",
+        "RUNNING",
+        "STOPPING",
+        "STOPPED"
+      ]
+    },
+    "AppBlockBuilderStateChangeReason":{
+      "type":"structure",
+      "members":{
+        "Code":{"shape":"AppBlockBuilderStateChangeReasonCode"},
+        "Message":{"shape":"String"}
+      }
+    },
+    "AppBlockBuilderStateChangeReasonCode":{
+      "type":"string",
+      "enum":["INTERNAL_ERROR"]
+    },
+    "AppBlockState":{
+      "type":"string",
+      "enum":[
+        "INACTIVE",
+        "ACTIVE"
+      ]
     },
     "AppBlocks":{
       "type":"list",
@@ -1101,6 +1420,23 @@
     "ArnList":{
       "type":"list",
       "member":{"shape":"Arn"}
+    },
+    "AssociateAppBlockBuilderAppBlockRequest":{
+      "type":"structure",
+      "required":[
+        "AppBlockArn",
+        "AppBlockBuilderName"
+      ],
+      "members":{
+        "AppBlockArn":{"shape":"Arn"},
+        "AppBlockBuilderName":{"shape":"Name"}
+      }
+    },
+    "AssociateAppBlockBuilderAppBlockResult":{
+      "type":"structure",
+      "members":{
+        "AppBlockBuilderAppBlockAssociation":{"shape":"AppBlockBuilderAppBlockAssociation"}
+      }
     },
     "AssociateApplicationFleetRequest":{
       "type":"structure",
@@ -1217,9 +1553,9 @@
     },
     "ComputeCapacity":{
       "type":"structure",
-      "required":["DesiredInstances"],
       "members":{
-        "DesiredInstances":{"shape":"Integer"}
+        "DesiredInstances":{"shape":"Integer"},
+        "DesiredSessions":{"shape":"Integer"}
       }
     },
     "ComputeCapacityStatus":{
@@ -1229,7 +1565,11 @@
         "Desired":{"shape":"Integer"},
         "Running":{"shape":"Integer"},
         "InUse":{"shape":"Integer"},
-        "Available":{"shape":"Integer"}
+        "Available":{"shape":"Integer"},
+        "DesiredUserSessions":{"shape":"Integer"},
+        "AvailableUserSessions":{"shape":"Integer"},
+        "ActiveUserSessions":{"shape":"Integer"},
+        "ActualUserSessions":{"shape":"Integer"}
       }
     },
     "ConcurrentModificationException":{
@@ -1259,12 +1599,53 @@
         "DestinationImageName":{"shape":"Name"}
       }
     },
+    "CreateAppBlockBuilderRequest":{
+      "type":"structure",
+      "required":[
+        "Name",
+        "Platform",
+        "InstanceType",
+        "VpcConfig"
+      ],
+      "members":{
+        "Name":{"shape":"Name"},
+        "Description":{"shape":"Description"},
+        "DisplayName":{"shape":"DisplayName"},
+        "Tags":{"shape":"Tags"},
+        "Platform":{"shape":"AppBlockBuilderPlatformType"},
+        "InstanceType":{"shape":"String"},
+        "VpcConfig":{"shape":"VpcConfig"},
+        "EnableDefaultInternetAccess":{"shape":"BooleanObject"},
+        "IamRoleArn":{"shape":"Arn"},
+        "AccessEndpoints":{"shape":"AccessEndpointList"}
+      }
+    },
+    "CreateAppBlockBuilderResult":{
+      "type":"structure",
+      "members":{
+        "AppBlockBuilder":{"shape":"AppBlockBuilder"}
+      }
+    },
+    "CreateAppBlockBuilderStreamingURLRequest":{
+      "type":"structure",
+      "required":["AppBlockBuilderName"],
+      "members":{
+        "AppBlockBuilderName":{"shape":"Name"},
+        "Validity":{"shape":"Long"}
+      }
+    },
+    "CreateAppBlockBuilderStreamingURLResult":{
+      "type":"structure",
+      "members":{
+        "StreamingURL":{"shape":"String"},
+        "Expires":{"shape":"Timestamp"}
+      }
+    },
     "CreateAppBlockRequest":{
       "type":"structure",
       "required":[
         "Name",
-        "SourceS3Location",
-        "SetupScriptDetails"
+        "SourceS3Location"
       ],
       "members":{
         "Name":{"shape":"Name"},
@@ -1272,7 +1653,9 @@
         "DisplayName":{"shape":"DisplayName"},
         "SourceS3Location":{"shape":"S3Location"},
         "SetupScriptDetails":{"shape":"ScriptDetails"},
-        "Tags":{"shape":"Tags"}
+        "Tags":{"shape":"Tags"},
+        "PostSetupScriptDetails":{"shape":"ScriptDetails"},
+        "PackagingType":{"shape":"PackagingType"}
       }
     },
     "CreateAppBlockResult":{
@@ -1360,7 +1743,7 @@
       ],
       "members":{
         "Name":{"shape":"Name"},
-        "ImageName":{"shape":"String"},
+        "ImageName":{"shape":"Name"},
         "ImageArn":{"shape":"Arn"},
         "InstanceType":{"shape":"String"},
         "FleetType":{"shape":"FleetType"},
@@ -1379,7 +1762,8 @@
         "Platform":{"shape":"PlatformType"},
         "MaxConcurrentSessions":{"shape":"Integer"},
         "UsbDeviceFilterStrings":{"shape":"UsbDeviceFilterStrings"},
-        "SessionScriptS3Location":{"shape":"S3Location"}
+        "SessionScriptS3Location":{"shape":"S3Location"},
+        "MaxSessionsPerInstance":{"shape":"Integer"}
       }
     },
     "CreateFleetResult":{
@@ -1478,6 +1862,30 @@
         "Expires":{"shape":"Timestamp"}
       }
     },
+    "CreateThemeForStackRequest":{
+      "type":"structure",
+      "required":[
+        "StackName",
+        "TitleText",
+        "ThemeStyling",
+        "OrganizationLogoS3Location",
+        "FaviconS3Location"
+      ],
+      "members":{
+        "StackName":{"shape":"Name"},
+        "FooterLinks":{"shape":"ThemeFooterLinks"},
+        "TitleText":{"shape":"ThemeTitleText"},
+        "ThemeStyling":{"shape":"ThemeStyling"},
+        "OrganizationLogoS3Location":{"shape":"S3Location"},
+        "FaviconS3Location":{"shape":"S3Location"}
+      }
+    },
+    "CreateThemeForStackResult":{
+      "type":"structure",
+      "members":{
+        "Theme":{"shape":"Theme"}
+      }
+    },
     "CreateUpdatedImageRequest":{
       "type":"structure",
       "required":[
@@ -1527,6 +1935,18 @@
       }
     },
     "CreateUserResult":{
+      "type":"structure",
+      "members":{
+      }
+    },
+    "DeleteAppBlockBuilderRequest":{
+      "type":"structure",
+      "required":["Name"],
+      "members":{
+        "Name":{"shape":"Name"}
+      }
+    },
+    "DeleteAppBlockBuilderResult":{
       "type":"structure",
       "members":{
       }
@@ -1649,6 +2069,18 @@
       "members":{
       }
     },
+    "DeleteThemeForStackRequest":{
+      "type":"structure",
+      "required":["StackName"],
+      "members":{
+        "StackName":{"shape":"Name"}
+      }
+    },
+    "DeleteThemeForStackResult":{
+      "type":"structure",
+      "members":{
+      }
+    },
     "DeleteUsageReportSubscriptionRequest":{
       "type":"structure",
       "members":{
@@ -1673,6 +2105,37 @@
     "DeleteUserResult":{
       "type":"structure",
       "members":{
+      }
+    },
+    "DescribeAppBlockBuilderAppBlockAssociationsRequest":{
+      "type":"structure",
+      "members":{
+        "AppBlockArn":{"shape":"Arn"},
+        "AppBlockBuilderName":{"shape":"Name"},
+        "MaxResults":{"shape":"Integer"},
+        "NextToken":{"shape":"String"}
+      }
+    },
+    "DescribeAppBlockBuilderAppBlockAssociationsResult":{
+      "type":"structure",
+      "members":{
+        "AppBlockBuilderAppBlockAssociations":{"shape":"AppBlockBuilderAppBlockAssociationsList"},
+        "NextToken":{"shape":"String"}
+      }
+    },
+    "DescribeAppBlockBuildersRequest":{
+      "type":"structure",
+      "members":{
+        "Names":{"shape":"StringList"},
+        "NextToken":{"shape":"String"},
+        "MaxResults":{"shape":"Integer"}
+      }
+    },
+    "DescribeAppBlockBuildersResult":{
+      "type":"structure",
+      "members":{
+        "AppBlockBuilders":{"shape":"AppBlockBuilderList"},
+        "NextToken":{"shape":"String"}
       }
     },
     "DescribeAppBlocksRequest":{
@@ -1830,12 +2293,13 @@
         "FleetName"
       ],
       "members":{
-        "StackName":{"shape":"String"},
-        "FleetName":{"shape":"String"},
+        "StackName":{"shape":"Name"},
+        "FleetName":{"shape":"Name"},
         "UserId":{"shape":"UserId"},
         "NextToken":{"shape":"String"},
         "Limit":{"shape":"Integer"},
-        "AuthenticationType":{"shape":"AuthenticationType"}
+        "AuthenticationType":{"shape":"AuthenticationType"},
+        "InstanceId":{"shape":"String"}
       }
     },
     "DescribeSessionsResult":{
@@ -1857,6 +2321,19 @@
       "members":{
         "Stacks":{"shape":"StackList"},
         "NextToken":{"shape":"String"}
+      }
+    },
+    "DescribeThemeForStackRequest":{
+      "type":"structure",
+      "required":["StackName"],
+      "members":{
+        "StackName":{"shape":"Name"}
+      }
+    },
+    "DescribeThemeForStackResult":{
+      "type":"structure",
+      "members":{
+        "Theme":{"shape":"Theme"}
       }
     },
     "DescribeUsageReportSubscriptionsRequest":{
@@ -1946,6 +2423,22 @@
       "members":{
       }
     },
+    "DisassociateAppBlockBuilderAppBlockRequest":{
+      "type":"structure",
+      "required":[
+        "AppBlockArn",
+        "AppBlockBuilderName"
+      ],
+      "members":{
+        "AppBlockArn":{"shape":"Arn"},
+        "AppBlockBuilderName":{"shape":"Name"}
+      }
+    },
+    "DisassociateAppBlockBuilderAppBlockResult":{
+      "type":"structure",
+      "members":{
+      }
+    },
     "DisassociateApplicationFleetRequest":{
       "type":"structure",
       "required":[
@@ -2016,6 +2509,13 @@
       "type":"list",
       "member":{"shape":"Domain"},
       "max":50
+    },
+    "DynamicAppProvidersEnabled":{
+      "type":"string",
+      "enum":[
+        "ENABLED",
+        "DISABLED"
+      ]
     },
     "EmbedHostDomain":{
       "type":"string",
@@ -2107,6 +2607,17 @@
       },
       "exception":true
     },
+    "ErrorDetails":{
+      "type":"structure",
+      "members":{
+        "ErrorCode":{"shape":"String"},
+        "ErrorMessage":{"shape":"String"}
+      }
+    },
+    "ErrorDetailsList":{
+      "type":"list",
+      "member":{"shape":"ErrorDetails"}
+    },
     "ErrorMessage":{"type":"string"},
     "ExpireSessionRequest":{
       "type":"structure",
@@ -2157,7 +2668,8 @@
         "Platform":{"shape":"PlatformType"},
         "MaxConcurrentSessions":{"shape":"Integer"},
         "UsbDeviceFilterStrings":{"shape":"UsbDeviceFilterStrings"},
-        "SessionScriptS3Location":{"shape":"S3Location"}
+        "SessionScriptS3Location":{"shape":"S3Location"},
+        "MaxSessionsPerInstance":{"shape":"Integer"}
       }
     },
     "FleetAttribute":{
@@ -2168,7 +2680,8 @@
         "DOMAIN_JOIN_INFO",
         "IAM_ROLE_ARN",
         "USB_DEVICE_FILTER_STRINGS",
-        "SESSION_SCRIPT_S3_LOCATION"
+        "SESSION_SCRIPT_S3_LOCATION",
+        "MAX_SESSIONS_PER_INSTANCE"
       ]
     },
     "FleetAttributes":{
@@ -2262,7 +2775,11 @@
         "PublicBaseImageReleasedDate":{"shape":"Timestamp"},
         "AppstreamAgentVersion":{"shape":"AppstreamAgentVersion"},
         "ImagePermissions":{"shape":"ImagePermissions"},
-        "ImageErrors":{"shape":"ResourceErrors"}
+        "ImageErrors":{"shape":"ResourceErrors"},
+        "LatestAppstreamAgentVersion":{"shape":"LatestAppstreamAgentVersion"},
+        "SupportedInstanceFamilies":{"shape":"StringList"},
+        "DynamicAppProvidersEnabled":{"shape":"DynamicAppProvidersEnabled"},
+        "ImageSharedWithOthers":{"shape":"ImageSharedWithOthers"}
       }
     },
     "ImageBuilder":{
@@ -2286,7 +2803,8 @@
         "NetworkAccessConfiguration":{"shape":"NetworkAccessConfiguration"},
         "ImageBuilderErrors":{"shape":"ResourceErrors"},
         "AppstreamAgentVersion":{"shape":"AppstreamAgentVersion"},
-        "AccessEndpoints":{"shape":"AccessEndpointList"}
+        "AccessEndpoints":{"shape":"AccessEndpointList"},
+        "LatestAppstreamAgentVersion":{"shape":"LatestAppstreamAgentVersion"}
       }
     },
     "ImageBuilderList":{
@@ -2333,6 +2851,13 @@
         "allowFleet":{"shape":"BooleanObject"},
         "allowImageBuilder":{"shape":"BooleanObject"}
       }
+    },
+    "ImageSharedWithOthers":{
+      "type":"string",
+      "enum":[
+        "TRUE",
+        "FALSE"
+      ]
     },
     "ImageState":{
       "type":"string",
@@ -2400,6 +2925,13 @@
     "LastReportGenerationExecutionErrors":{
       "type":"list",
       "member":{"shape":"LastReportGenerationExecutionError"}
+    },
+    "LatestAppstreamAgentVersion":{
+      "type":"string",
+      "enum":[
+        "TRUE",
+        "FALSE"
+      ]
     },
     "LimitExceededException":{
       "type":"structure",
@@ -2516,6 +3048,13 @@
       "type":"list",
       "member":{"shape":"OrganizationalUnitDistinguishedName"}
     },
+    "PackagingType":{
+      "type":"string",
+      "enum":[
+        "CUSTOM",
+        "APPSTREAM2"
+      ]
+    },
     "Permission":{
       "type":"string",
       "enum":[
@@ -2529,7 +3068,10 @@
         "WINDOWS",
         "WINDOWS_SERVER_2016",
         "WINDOWS_SERVER_2019",
-        "AMAZON_LINUX2"
+        "WINDOWS_SERVER_2022",
+        "AMAZON_LINUX2",
+        "RHEL8",
+        "ROCKY_LINUX8"
       ]
     },
     "Platforms":{
@@ -2618,10 +3160,7 @@
     },
     "S3Location":{
       "type":"structure",
-      "required":[
-        "S3Bucket",
-        "S3Key"
-      ],
+      "required":["S3Bucket"],
       "members":{
         "S3Bucket":{"shape":"S3Bucket"},
         "S3Key":{"shape":"S3Key"}
@@ -2676,7 +3215,8 @@
         "StartTime":{"shape":"Timestamp"},
         "MaxExpirationTime":{"shape":"Timestamp"},
         "AuthenticationType":{"shape":"AuthenticationType"},
-        "NetworkAccessConfiguration":{"shape":"NetworkAccessConfiguration"}
+        "NetworkAccessConfiguration":{"shape":"NetworkAccessConfiguration"},
+        "InstanceId":{"shape":"String"}
       }
     },
     "SessionConnectionState":{
@@ -2780,6 +3320,19 @@
       "type":"list",
       "member":{"shape":"Stack"}
     },
+    "StartAppBlockBuilderRequest":{
+      "type":"structure",
+      "required":["Name"],
+      "members":{
+        "Name":{"shape":"Name"}
+      }
+    },
+    "StartAppBlockBuilderResult":{
+      "type":"structure",
+      "members":{
+        "AppBlockBuilder":{"shape":"AppBlockBuilder"}
+      }
+    },
     "StartFleetRequest":{
       "type":"structure",
       "required":["Name"],
@@ -2804,6 +3357,19 @@
       "type":"structure",
       "members":{
         "ImageBuilder":{"shape":"ImageBuilder"}
+      }
+    },
+    "StopAppBlockBuilderRequest":{
+      "type":"structure",
+      "required":["Name"],
+      "members":{
+        "Name":{"shape":"Name"}
+      }
+    },
+    "StopAppBlockBuilderResult":{
+      "type":"structure",
+      "members":{
+        "AppBlockBuilder":{"shape":"AppBlockBuilder"}
       }
     },
     "StopFleetRequest":{
@@ -2837,7 +3403,8 @@
       "members":{
         "ConnectorType":{"shape":"StorageConnectorType"},
         "ResourceIdentifier":{"shape":"ResourceIdentifier"},
-        "Domains":{"shape":"DomainList"}
+        "Domains":{"shape":"DomainList"},
+        "DomainsRequireAdminConsent":{"shape":"DomainList"}
       }
     },
     "StorageConnectorList":{
@@ -2924,6 +3491,71 @@
       "max":50,
       "min":1
     },
+    "Theme":{
+      "type":"structure",
+      "members":{
+        "StackName":{"shape":"Name"},
+        "State":{"shape":"ThemeState"},
+        "ThemeTitleText":{"shape":"ThemeTitleText"},
+        "ThemeStyling":{"shape":"ThemeStyling"},
+        "ThemeFooterLinks":{"shape":"ThemeFooterLinks"},
+        "ThemeOrganizationLogoURL":{"shape":"String"},
+        "ThemeFaviconURL":{"shape":"String"},
+        "CreatedTime":{"shape":"Timestamp"}
+      }
+    },
+    "ThemeAttribute":{
+      "type":"string",
+      "enum":["FOOTER_LINKS"]
+    },
+    "ThemeAttributes":{
+      "type":"list",
+      "member":{"shape":"ThemeAttribute"}
+    },
+    "ThemeFooterLink":{
+      "type":"structure",
+      "members":{
+        "DisplayName":{"shape":"ThemeFooterLinkDisplayName"},
+        "FooterLinkURL":{"shape":"ThemeFooterLinkURL"}
+      }
+    },
+    "ThemeFooterLinkDisplayName":{
+      "type":"string",
+      "max":300,
+      "min":1,
+      "pattern":"^[-@./#&+\\w\\s]*$"
+    },
+    "ThemeFooterLinkURL":{
+      "type":"string",
+      "max":1000,
+      "min":1
+    },
+    "ThemeFooterLinks":{
+      "type":"list",
+      "member":{"shape":"ThemeFooterLink"}
+    },
+    "ThemeState":{
+      "type":"string",
+      "enum":[
+        "ENABLED",
+        "DISABLED"
+      ]
+    },
+    "ThemeStyling":{
+      "type":"string",
+      "enum":[
+        "LIGHT_BLUE",
+        "BLUE",
+        "PINK",
+        "RED"
+      ]
+    },
+    "ThemeTitleText":{
+      "type":"string",
+      "max":300,
+      "min":1,
+      "pattern":"^[-@./#&+\\w\\s]*$"
+    },
     "Timestamp":{"type":"timestamp"},
     "UntagResourceRequest":{
       "type":"structure",
@@ -2939,6 +3571,28 @@
     "UntagResourceResponse":{
       "type":"structure",
       "members":{
+      }
+    },
+    "UpdateAppBlockBuilderRequest":{
+      "type":"structure",
+      "required":["Name"],
+      "members":{
+        "Name":{"shape":"Name"},
+        "Description":{"shape":"Description"},
+        "DisplayName":{"shape":"DisplayName"},
+        "Platform":{"shape":"PlatformType"},
+        "InstanceType":{"shape":"String"},
+        "VpcConfig":{"shape":"VpcConfig"},
+        "EnableDefaultInternetAccess":{"shape":"BooleanObject"},
+        "IamRoleArn":{"shape":"Arn"},
+        "AccessEndpoints":{"shape":"AccessEndpointList"},
+        "AttributesToDelete":{"shape":"AppBlockBuilderAttributes"}
+      }
+    },
+    "UpdateAppBlockBuilderResult":{
+      "type":"structure",
+      "members":{
+        "AppBlockBuilder":{"shape":"AppBlockBuilder"}
       }
     },
     "UpdateApplicationRequest":{
@@ -3003,7 +3657,7 @@
       "members":{
         "ImageName":{"shape":"String"},
         "ImageArn":{"shape":"Arn"},
-        "Name":{"shape":"String"},
+        "Name":{"shape":"Name"},
         "InstanceType":{"shape":"String"},
         "ComputeCapacity":{"shape":"ComputeCapacity"},
         "VpcConfig":{"shape":"VpcConfig"},
@@ -3024,7 +3678,8 @@
         "Platform":{"shape":"PlatformType"},
         "MaxConcurrentSessions":{"shape":"Integer"},
         "UsbDeviceFilterStrings":{"shape":"UsbDeviceFilterStrings"},
-        "SessionScriptS3Location":{"shape":"S3Location"}
+        "SessionScriptS3Location":{"shape":"S3Location"},
+        "MaxSessionsPerInstance":{"shape":"Integer"}
       }
     },
     "UpdateFleetResult":{
@@ -3077,6 +3732,26 @@
       "type":"structure",
       "members":{
         "Stack":{"shape":"Stack"}
+      }
+    },
+    "UpdateThemeForStackRequest":{
+      "type":"structure",
+      "required":["StackName"],
+      "members":{
+        "StackName":{"shape":"Name"},
+        "FooterLinks":{"shape":"ThemeFooterLinks"},
+        "TitleText":{"shape":"ThemeTitleText"},
+        "ThemeStyling":{"shape":"ThemeStyling"},
+        "OrganizationLogoS3Location":{"shape":"S3Location"},
+        "FaviconS3Location":{"shape":"S3Location"},
+        "State":{"shape":"ThemeState"},
+        "AttributesToDelete":{"shape":"ThemeAttributes"}
+      }
+    },
+    "UpdateThemeForStackResult":{
+      "type":"structure",
+      "members":{
+        "Theme":{"shape":"Theme"}
       }
     },
     "UsageReportExecutionErrorCode":{
@@ -3151,7 +3826,8 @@
       ],
       "members":{
         "Action":{"shape":"Action"},
-        "Permission":{"shape":"Permission"}
+        "Permission":{"shape":"Permission"},
+        "MaximumLength":{"shape":"Integer"}
       }
     },
     "UserSettingList":{

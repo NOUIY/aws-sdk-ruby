@@ -7,6 +7,7 @@
 #
 # WARNING ABOUT GENERATED CODE
 
+
 module Aws::Route53RecoveryControlConfig
   # @api private
   module ClientApi
@@ -46,6 +47,8 @@ module Aws::Route53RecoveryControlConfig
     DescribeSafetyRuleResponse = Shapes::StructureShape.new(name: 'DescribeSafetyRuleResponse')
     GatingRule = Shapes::StructureShape.new(name: 'GatingRule')
     GatingRuleUpdate = Shapes::StructureShape.new(name: 'GatingRuleUpdate')
+    GetResourcePolicyRequest = Shapes::StructureShape.new(name: 'GetResourcePolicyRequest')
+    GetResourcePolicyResponse = Shapes::StructureShape.new(name: 'GetResourcePolicyResponse')
     InternalServerException = Shapes::StructureShape.new(name: 'InternalServerException')
     ListAssociatedRoute53HealthChecksRequest = Shapes::StructureShape.new(name: 'ListAssociatedRoute53HealthChecksRequest')
     ListAssociatedRoute53HealthChecksResponse = Shapes::StructureShape.new(name: 'ListAssociatedRoute53HealthChecksResponse')
@@ -94,9 +97,11 @@ module Aws::Route53RecoveryControlConfig
     __listOf__stringMin1Max256PatternAZaZ09 = Shapes::ListShape.new(name: '__listOf__stringMin1Max256PatternAZaZ09')
     __long = Shapes::IntegerShape.new(name: '__long')
     __mapOf__stringMin0Max256PatternS = Shapes::MapShape.new(name: '__mapOf__stringMin0Max256PatternS')
+    __policy = Shapes::StringShape.new(name: '__policy')
     __string = Shapes::StringShape.new(name: '__string')
     __stringMax36PatternS = Shapes::StringShape.new(name: '__stringMax36PatternS')
     __stringMin0Max256PatternS = Shapes::StringShape.new(name: '__stringMin0Max256PatternS')
+    __stringMin12Max12PatternD12 = Shapes::StringShape.new(name: '__stringMin12Max12PatternD12')
     __stringMin1Max128PatternAZaZ09 = Shapes::StringShape.new(name: '__stringMin1Max128PatternAZaZ09')
     __stringMin1Max256PatternAZaZ09 = Shapes::StringShape.new(name: '__stringMin1Max256PatternAZaZ09')
     __stringMin1Max32PatternS = Shapes::StringShape.new(name: '__stringMin1Max32PatternS')
@@ -115,6 +120,7 @@ module Aws::Route53RecoveryControlConfig
     AssertionRule.add_member(:safety_rule_arn, Shapes::ShapeRef.new(shape: __stringMin1Max256PatternAZaZ09, required: true, location_name: "SafetyRuleArn"))
     AssertionRule.add_member(:status, Shapes::ShapeRef.new(shape: Status, required: true, location_name: "Status"))
     AssertionRule.add_member(:wait_period_ms, Shapes::ShapeRef.new(shape: __integer, required: true, location_name: "WaitPeriodMs"))
+    AssertionRule.add_member(:owner, Shapes::ShapeRef.new(shape: __stringMin12Max12PatternD12, location_name: "Owner"))
     AssertionRule.struct_class = Types::AssertionRule
 
     AssertionRuleUpdate.add_member(:name, Shapes::ShapeRef.new(shape: __stringMin1Max64PatternS, required: true, location_name: "Name"))
@@ -126,6 +132,7 @@ module Aws::Route53RecoveryControlConfig
     Cluster.add_member(:cluster_endpoints, Shapes::ShapeRef.new(shape: __listOfClusterEndpoint, location_name: "ClusterEndpoints"))
     Cluster.add_member(:name, Shapes::ShapeRef.new(shape: __stringMin1Max64PatternS, location_name: "Name"))
     Cluster.add_member(:status, Shapes::ShapeRef.new(shape: Status, location_name: "Status"))
+    Cluster.add_member(:owner, Shapes::ShapeRef.new(shape: __stringMin12Max12PatternD12, location_name: "Owner"))
     Cluster.struct_class = Types::Cluster
 
     ClusterEndpoint.add_member(:endpoint, Shapes::ShapeRef.new(shape: __stringMin1Max128PatternAZaZ09, location_name: "Endpoint"))
@@ -141,6 +148,7 @@ module Aws::Route53RecoveryControlConfig
     ControlPanel.add_member(:name, Shapes::ShapeRef.new(shape: __stringMin1Max64PatternS, location_name: "Name"))
     ControlPanel.add_member(:routing_control_count, Shapes::ShapeRef.new(shape: __integer, location_name: "RoutingControlCount"))
     ControlPanel.add_member(:status, Shapes::ShapeRef.new(shape: Status, location_name: "Status"))
+    ControlPanel.add_member(:owner, Shapes::ShapeRef.new(shape: __stringMin12Max12PatternD12, location_name: "Owner"))
     ControlPanel.struct_class = Types::ControlPanel
 
     CreateClusterRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: __stringMin1Max64PatternS, location_name: "ClientToken", metadata: {"idempotencyToken"=>true}))
@@ -232,12 +240,19 @@ module Aws::Route53RecoveryControlConfig
     GatingRule.add_member(:status, Shapes::ShapeRef.new(shape: Status, required: true, location_name: "Status"))
     GatingRule.add_member(:target_controls, Shapes::ShapeRef.new(shape: __listOf__stringMin1Max256PatternAZaZ09, required: true, location_name: "TargetControls"))
     GatingRule.add_member(:wait_period_ms, Shapes::ShapeRef.new(shape: __integer, required: true, location_name: "WaitPeriodMs"))
+    GatingRule.add_member(:owner, Shapes::ShapeRef.new(shape: __stringMin12Max12PatternD12, location_name: "Owner"))
     GatingRule.struct_class = Types::GatingRule
 
     GatingRuleUpdate.add_member(:name, Shapes::ShapeRef.new(shape: __stringMin1Max64PatternS, required: true, location_name: "Name"))
     GatingRuleUpdate.add_member(:safety_rule_arn, Shapes::ShapeRef.new(shape: __stringMin1Max256PatternAZaZ09, required: true, location_name: "SafetyRuleArn"))
     GatingRuleUpdate.add_member(:wait_period_ms, Shapes::ShapeRef.new(shape: __integer, required: true, location_name: "WaitPeriodMs"))
     GatingRuleUpdate.struct_class = Types::GatingRuleUpdate
+
+    GetResourcePolicyRequest.add_member(:resource_arn, Shapes::ShapeRef.new(shape: __string, required: true, location: "uri", location_name: "ResourceArn"))
+    GetResourcePolicyRequest.struct_class = Types::GetResourcePolicyRequest
+
+    GetResourcePolicyResponse.add_member(:policy, Shapes::ShapeRef.new(shape: __policy, location_name: "Policy"))
+    GetResourcePolicyResponse.struct_class = Types::GetResourcePolicyResponse
 
     InternalServerException.add_member(:message, Shapes::ShapeRef.new(shape: __string, required: true, location_name: "message"))
     InternalServerException.struct_class = Types::InternalServerException
@@ -314,6 +329,7 @@ module Aws::Route53RecoveryControlConfig
     RoutingControl.add_member(:name, Shapes::ShapeRef.new(shape: __stringMin1Max64PatternS, location_name: "Name"))
     RoutingControl.add_member(:routing_control_arn, Shapes::ShapeRef.new(shape: __stringMin1Max256PatternAZaZ09, location_name: "RoutingControlArn"))
     RoutingControl.add_member(:status, Shapes::ShapeRef.new(shape: Status, location_name: "Status"))
+    RoutingControl.add_member(:owner, Shapes::ShapeRef.new(shape: __stringMin12Max12PatternD12, location_name: "Owner"))
     RoutingControl.struct_class = Types::RoutingControl
 
     Rule.add_member(:assertion, Shapes::ShapeRef.new(shape: AssertionRule, location_name: "ASSERTION"))
@@ -563,6 +579,16 @@ module Aws::Route53RecoveryControlConfig
         o.output = Shapes::ShapeRef.new(shape: DescribeSafetyRuleResponse)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+      end)
+
+      api.add_operation(:get_resource_policy, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "GetResourcePolicy"
+        o.http_method = "GET"
+        o.http_request_uri = "/resourcePolicy/{ResourceArn}"
+        o.input = Shapes::ShapeRef.new(shape: GetResourcePolicyRequest)
+        o.output = Shapes::ShapeRef.new(shape: GetResourcePolicyResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
       end)
 
       api.add_operation(:list_associated_route_53_health_checks, Seahorse::Model::Operation.new.tap do |o|

@@ -7,6 +7,7 @@
 #
 # WARNING ABOUT GENERATED CODE
 
+
 module Aws::MainframeModernization
   # @api private
   module ClientApi
@@ -25,6 +26,7 @@ module Aws::MainframeModernization
     ApplicationVersionSummaryList = Shapes::ListShape.new(name: 'ApplicationVersionSummaryList')
     Arn = Shapes::StringShape.new(name: 'Arn')
     ArnList = Shapes::ListShape.new(name: 'ArnList')
+    AuthSecretsManagerArn = Shapes::StringShape.new(name: 'AuthSecretsManagerArn')
     BatchJobDefinition = Shapes::UnionShape.new(name: 'BatchJobDefinition')
     BatchJobDefinitions = Shapes::ListShape.new(name: 'BatchJobDefinitions')
     BatchJobExecutionStatus = Shapes::StringShape.new(name: 'BatchJobExecutionStatus')
@@ -32,6 +34,7 @@ module Aws::MainframeModernization
     BatchJobExecutionSummaryList = Shapes::ListShape.new(name: 'BatchJobExecutionSummaryList')
     BatchJobIdentifier = Shapes::UnionShape.new(name: 'BatchJobIdentifier')
     BatchJobParametersMap = Shapes::MapShape.new(name: 'BatchJobParametersMap')
+    BatchJobStepList = Shapes::ListShape.new(name: 'BatchJobStepList')
     BatchJobType = Shapes::StringShape.new(name: 'BatchJobType')
     BatchParamKey = Shapes::StringShape.new(name: 'BatchParamKey')
     BatchParamValue = Shapes::StringShape.new(name: 'BatchParamValue')
@@ -39,6 +42,7 @@ module Aws::MainframeModernization
     CancelBatchJobExecutionRequest = Shapes::StructureShape.new(name: 'CancelBatchJobExecutionRequest')
     CancelBatchJobExecutionResponse = Shapes::StructureShape.new(name: 'CancelBatchJobExecutionResponse')
     CapacityValue = Shapes::IntegerShape.new(name: 'CapacityValue')
+    ClientToken = Shapes::StringShape.new(name: 'ClientToken')
     ConflictException = Shapes::StructureShape.new(name: 'ConflictException')
     CreateApplicationRequest = Shapes::StructureShape.new(name: 'CreateApplicationRequest')
     CreateApplicationResponse = Shapes::StructureShape.new(name: 'CreateApplicationResponse')
@@ -82,6 +86,7 @@ module Aws::MainframeModernization
     EnvironmentLifecycle = Shapes::StringShape.new(name: 'EnvironmentLifecycle')
     EnvironmentSummary = Shapes::StructureShape.new(name: 'EnvironmentSummary')
     EnvironmentSummaryList = Shapes::ListShape.new(name: 'EnvironmentSummaryList')
+    ExecutionTimeoutException = Shapes::StructureShape.new(name: 'ExecutionTimeoutException')
     ExternalLocation = Shapes::UnionShape.new(name: 'ExternalLocation')
     FileBatchJobDefinition = Shapes::StructureShape.new(name: 'FileBatchJobDefinition')
     FileBatchJobIdentifier = Shapes::StructureShape.new(name: 'FileBatchJobIdentifier')
@@ -102,11 +107,15 @@ module Aws::MainframeModernization
     GetDeploymentResponse = Shapes::StructureShape.new(name: 'GetDeploymentResponse')
     GetEnvironmentRequest = Shapes::StructureShape.new(name: 'GetEnvironmentRequest')
     GetEnvironmentResponse = Shapes::StructureShape.new(name: 'GetEnvironmentResponse')
+    GetSignedBluinsightsUrlResponse = Shapes::StructureShape.new(name: 'GetSignedBluinsightsUrlResponse')
     HighAvailabilityConfig = Shapes::StructureShape.new(name: 'HighAvailabilityConfig')
     Identifier = Shapes::StringShape.new(name: 'Identifier')
     IdentifierList = Shapes::ListShape.new(name: 'IdentifierList')
     Integer = Shapes::IntegerShape.new(name: 'Integer')
     InternalServerException = Shapes::StructureShape.new(name: 'InternalServerException')
+    JobIdentifier = Shapes::UnionShape.new(name: 'JobIdentifier')
+    JobStep = Shapes::StructureShape.new(name: 'JobStep')
+    JobStepRestartMarker = Shapes::StructureShape.new(name: 'JobStepRestartMarker')
     ListApplicationVersionsRequest = Shapes::StructureShape.new(name: 'ListApplicationVersionsRequest')
     ListApplicationVersionsResponse = Shapes::StructureShape.new(name: 'ListApplicationVersionsResponse')
     ListApplicationsRequest = Shapes::StructureShape.new(name: 'ListApplicationsRequest')
@@ -115,6 +124,8 @@ module Aws::MainframeModernization
     ListBatchJobDefinitionsResponse = Shapes::StructureShape.new(name: 'ListBatchJobDefinitionsResponse')
     ListBatchJobExecutionsRequest = Shapes::StructureShape.new(name: 'ListBatchJobExecutionsRequest')
     ListBatchJobExecutionsResponse = Shapes::StructureShape.new(name: 'ListBatchJobExecutionsResponse')
+    ListBatchJobRestartPointsRequest = Shapes::StructureShape.new(name: 'ListBatchJobRestartPointsRequest')
+    ListBatchJobRestartPointsResponse = Shapes::StructureShape.new(name: 'ListBatchJobRestartPointsResponse')
     ListDataSetImportHistoryRequest = Shapes::StructureShape.new(name: 'ListDataSetImportHistoryRequest')
     ListDataSetImportHistoryResponse = Shapes::StructureShape.new(name: 'ListDataSetImportHistoryResponse')
     ListDataSetsRequest = Shapes::StructureShape.new(name: 'ListDataSetsRequest')
@@ -130,17 +141,26 @@ module Aws::MainframeModernization
     LogGroupIdentifier = Shapes::StringShape.new(name: 'LogGroupIdentifier')
     LogGroupSummaries = Shapes::ListShape.new(name: 'LogGroupSummaries')
     LogGroupSummary = Shapes::StructureShape.new(name: 'LogGroupSummary')
+    Long = Shapes::IntegerShape.new(name: 'Long')
     MaintenanceSchedule = Shapes::StructureShape.new(name: 'MaintenanceSchedule')
     MaxResults = Shapes::IntegerShape.new(name: 'MaxResults')
+    NetworkType = Shapes::StringShape.new(name: 'NetworkType')
     NextToken = Shapes::StringShape.new(name: 'NextToken')
     PendingMaintenance = Shapes::StructureShape.new(name: 'PendingMaintenance')
+    PoAttributes = Shapes::StructureShape.new(name: 'PoAttributes')
+    PoDetailAttributes = Shapes::StructureShape.new(name: 'PoDetailAttributes')
     PortList = Shapes::ListShape.new(name: 'PortList')
     PrimaryKey = Shapes::StructureShape.new(name: 'PrimaryKey')
+    PsAttributes = Shapes::StructureShape.new(name: 'PsAttributes')
+    PsDetailAttributes = Shapes::StructureShape.new(name: 'PsDetailAttributes')
     RecordLength = Shapes::StructureShape.new(name: 'RecordLength')
     ResourceNotFoundException = Shapes::StructureShape.new(name: 'ResourceNotFoundException')
+    RestartBatchJobIdentifier = Shapes::StructureShape.new(name: 'RestartBatchJobIdentifier')
+    S3BatchJobIdentifier = Shapes::StructureShape.new(name: 'S3BatchJobIdentifier')
     ScriptBatchJobDefinition = Shapes::StructureShape.new(name: 'ScriptBatchJobDefinition')
     ScriptBatchJobIdentifier = Shapes::StructureShape.new(name: 'ScriptBatchJobIdentifier')
     ServiceQuotaExceededException = Shapes::StructureShape.new(name: 'ServiceQuotaExceededException')
+    ServiceUnavailableException = Shapes::StructureShape.new(name: 'ServiceUnavailableException')
     StartApplicationRequest = Shapes::StructureShape.new(name: 'StartApplicationRequest')
     StartApplicationResponse = Shapes::StructureShape.new(name: 'StartApplicationResponse')
     StartBatchJobRequest = Shapes::StructureShape.new(name: 'StartBatchJobRequest')
@@ -154,6 +174,7 @@ module Aws::MainframeModernization
     String20 = Shapes::StringShape.new(name: 'String20')
     String200 = Shapes::StringShape.new(name: 'String200')
     String2000 = Shapes::StringShape.new(name: 'String2000')
+    String20List = Shapes::ListShape.new(name: 'String20List')
     String50 = Shapes::StringShape.new(name: 'String50')
     String50List = Shapes::ListShape.new(name: 'String50List')
     StringFree65000 = Shapes::StringShape.new(name: 'StringFree65000')
@@ -200,6 +221,7 @@ module Aws::MainframeModernization
     ApplicationSummary.add_member(:environment_id, Shapes::ShapeRef.new(shape: Identifier, location_name: "environmentId"))
     ApplicationSummary.add_member(:last_start_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "lastStartTime"))
     ApplicationSummary.add_member(:name, Shapes::ShapeRef.new(shape: EntityName, required: true, location_name: "name"))
+    ApplicationSummary.add_member(:role_arn, Shapes::ShapeRef.new(shape: Arn, location_name: "roleArn"))
     ApplicationSummary.add_member(:status, Shapes::ShapeRef.new(shape: ApplicationLifecycle, required: true, location_name: "status"))
     ApplicationSummary.add_member(:version_status, Shapes::ShapeRef.new(shape: ApplicationVersionLifecycle, location_name: "versionStatus"))
     ApplicationSummary.struct_class = Types::ApplicationSummary
@@ -241,9 +263,13 @@ module Aws::MainframeModernization
     BatchJobExecutionSummaryList.member = Shapes::ShapeRef.new(shape: BatchJobExecutionSummary)
 
     BatchJobIdentifier.add_member(:file_batch_job_identifier, Shapes::ShapeRef.new(shape: FileBatchJobIdentifier, location_name: "fileBatchJobIdentifier"))
+    BatchJobIdentifier.add_member(:restart_batch_job_identifier, Shapes::ShapeRef.new(shape: RestartBatchJobIdentifier, location_name: "restartBatchJobIdentifier"))
+    BatchJobIdentifier.add_member(:s3_batch_job_identifier, Shapes::ShapeRef.new(shape: S3BatchJobIdentifier, location_name: "s3BatchJobIdentifier"))
     BatchJobIdentifier.add_member(:script_batch_job_identifier, Shapes::ShapeRef.new(shape: ScriptBatchJobIdentifier, location_name: "scriptBatchJobIdentifier"))
     BatchJobIdentifier.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
     BatchJobIdentifier.add_member_subclass(:file_batch_job_identifier, Types::BatchJobIdentifier::FileBatchJobIdentifier)
+    BatchJobIdentifier.add_member_subclass(:restart_batch_job_identifier, Types::BatchJobIdentifier::RestartBatchJobIdentifier)
+    BatchJobIdentifier.add_member_subclass(:s3_batch_job_identifier, Types::BatchJobIdentifier::S3BatchJobIdentifier)
     BatchJobIdentifier.add_member_subclass(:script_batch_job_identifier, Types::BatchJobIdentifier::ScriptBatchJobIdentifier)
     BatchJobIdentifier.add_member_subclass(:unknown, Types::BatchJobIdentifier::Unknown)
     BatchJobIdentifier.struct_class = Types::BatchJobIdentifier
@@ -251,7 +277,10 @@ module Aws::MainframeModernization
     BatchJobParametersMap.key = Shapes::ShapeRef.new(shape: BatchParamKey)
     BatchJobParametersMap.value = Shapes::ShapeRef.new(shape: BatchParamValue)
 
+    BatchJobStepList.member = Shapes::ShapeRef.new(shape: JobStep)
+
     CancelBatchJobExecutionRequest.add_member(:application_id, Shapes::ShapeRef.new(shape: Identifier, required: true, location: "uri", location_name: "applicationId"))
+    CancelBatchJobExecutionRequest.add_member(:auth_secrets_manager_arn, Shapes::ShapeRef.new(shape: AuthSecretsManagerArn, location_name: "authSecretsManagerArn"))
     CancelBatchJobExecutionRequest.add_member(:execution_id, Shapes::ShapeRef.new(shape: Identifier, required: true, location: "uri", location_name: "executionId"))
     CancelBatchJobExecutionRequest.struct_class = Types::CancelBatchJobExecutionRequest
 
@@ -262,12 +291,13 @@ module Aws::MainframeModernization
     ConflictException.add_member(:resource_type, Shapes::ShapeRef.new(shape: String, location_name: "resourceType"))
     ConflictException.struct_class = Types::ConflictException
 
-    CreateApplicationRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: String, location_name: "clientToken", metadata: {"idempotencyToken"=>true}))
+    CreateApplicationRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "clientToken", metadata: {"idempotencyToken"=>true}))
     CreateApplicationRequest.add_member(:definition, Shapes::ShapeRef.new(shape: Definition, required: true, location_name: "definition"))
     CreateApplicationRequest.add_member(:description, Shapes::ShapeRef.new(shape: EntityDescription, location_name: "description"))
     CreateApplicationRequest.add_member(:engine_type, Shapes::ShapeRef.new(shape: EngineType, required: true, location_name: "engineType"))
     CreateApplicationRequest.add_member(:kms_key_id, Shapes::ShapeRef.new(shape: String, location_name: "kmsKeyId"))
     CreateApplicationRequest.add_member(:name, Shapes::ShapeRef.new(shape: EntityName, required: true, location_name: "name"))
+    CreateApplicationRequest.add_member(:role_arn, Shapes::ShapeRef.new(shape: Arn, location_name: "roleArn"))
     CreateApplicationRequest.add_member(:tags, Shapes::ShapeRef.new(shape: TagMap, location_name: "tags"))
     CreateApplicationRequest.struct_class = Types::CreateApplicationRequest
 
@@ -277,7 +307,7 @@ module Aws::MainframeModernization
     CreateApplicationResponse.struct_class = Types::CreateApplicationResponse
 
     CreateDataSetImportTaskRequest.add_member(:application_id, Shapes::ShapeRef.new(shape: Identifier, required: true, location: "uri", location_name: "applicationId"))
-    CreateDataSetImportTaskRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: String, location_name: "clientToken", metadata: {"idempotencyToken"=>true}))
+    CreateDataSetImportTaskRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "clientToken", metadata: {"idempotencyToken"=>true}))
     CreateDataSetImportTaskRequest.add_member(:import_config, Shapes::ShapeRef.new(shape: DataSetImportConfig, required: true, location_name: "importConfig"))
     CreateDataSetImportTaskRequest.struct_class = Types::CreateDataSetImportTaskRequest
 
@@ -286,14 +316,14 @@ module Aws::MainframeModernization
 
     CreateDeploymentRequest.add_member(:application_id, Shapes::ShapeRef.new(shape: Identifier, required: true, location: "uri", location_name: "applicationId"))
     CreateDeploymentRequest.add_member(:application_version, Shapes::ShapeRef.new(shape: Version, required: true, location_name: "applicationVersion"))
-    CreateDeploymentRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: String, location_name: "clientToken", metadata: {"idempotencyToken"=>true}))
+    CreateDeploymentRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "clientToken", metadata: {"idempotencyToken"=>true}))
     CreateDeploymentRequest.add_member(:environment_id, Shapes::ShapeRef.new(shape: Identifier, required: true, location_name: "environmentId"))
     CreateDeploymentRequest.struct_class = Types::CreateDeploymentRequest
 
     CreateDeploymentResponse.add_member(:deployment_id, Shapes::ShapeRef.new(shape: Identifier, required: true, location_name: "deploymentId"))
     CreateDeploymentResponse.struct_class = Types::CreateDeploymentResponse
 
-    CreateEnvironmentRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: String, location_name: "clientToken", metadata: {"idempotencyToken"=>true}))
+    CreateEnvironmentRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "clientToken", metadata: {"idempotencyToken"=>true}))
     CreateEnvironmentRequest.add_member(:description, Shapes::ShapeRef.new(shape: EntityDescription, location_name: "description"))
     CreateEnvironmentRequest.add_member(:engine_type, Shapes::ShapeRef.new(shape: EngineType, required: true, location_name: "engineType"))
     CreateEnvironmentRequest.add_member(:engine_version, Shapes::ShapeRef.new(shape: EngineVersion, location_name: "engineVersion"))
@@ -301,6 +331,7 @@ module Aws::MainframeModernization
     CreateEnvironmentRequest.add_member(:instance_type, Shapes::ShapeRef.new(shape: String20, required: true, location_name: "instanceType"))
     CreateEnvironmentRequest.add_member(:kms_key_id, Shapes::ShapeRef.new(shape: String, location_name: "kmsKeyId"))
     CreateEnvironmentRequest.add_member(:name, Shapes::ShapeRef.new(shape: EntityName, required: true, location_name: "name"))
+    CreateEnvironmentRequest.add_member(:network_type, Shapes::ShapeRef.new(shape: NetworkType, location_name: "networkType"))
     CreateEnvironmentRequest.add_member(:preferred_maintenance_window, Shapes::ShapeRef.new(shape: String50, location_name: "preferredMaintenanceWindow"))
     CreateEnvironmentRequest.add_member(:publicly_accessible, Shapes::ShapeRef.new(shape: Boolean, location_name: "publiclyAccessible"))
     CreateEnvironmentRequest.add_member(:security_group_ids, Shapes::ShapeRef.new(shape: String50List, location_name: "securityGroupIds"))
@@ -341,6 +372,7 @@ module Aws::MainframeModernization
     DataSetImportSummary.struct_class = Types::DataSetImportSummary
 
     DataSetImportTask.add_member(:status, Shapes::ShapeRef.new(shape: DataSetTaskLifecycle, required: true, location_name: "status"))
+    DataSetImportTask.add_member(:status_reason, Shapes::ShapeRef.new(shape: String, location_name: "statusReason"))
     DataSetImportTask.add_member(:summary, Shapes::ShapeRef.new(shape: DataSetImportSummary, required: true, location_name: "summary"))
     DataSetImportTask.add_member(:task_id, Shapes::ShapeRef.new(shape: Identifier, required: true, location_name: "taskId"))
     DataSetImportTask.struct_class = Types::DataSetImportTask
@@ -358,17 +390,25 @@ module Aws::MainframeModernization
     DataSetsSummaryList.member = Shapes::ShapeRef.new(shape: DataSetSummary)
 
     DatasetDetailOrgAttributes.add_member(:gdg, Shapes::ShapeRef.new(shape: GdgDetailAttributes, location_name: "gdg"))
+    DatasetDetailOrgAttributes.add_member(:po, Shapes::ShapeRef.new(shape: PoDetailAttributes, location_name: "po"))
+    DatasetDetailOrgAttributes.add_member(:ps, Shapes::ShapeRef.new(shape: PsDetailAttributes, location_name: "ps"))
     DatasetDetailOrgAttributes.add_member(:vsam, Shapes::ShapeRef.new(shape: VsamDetailAttributes, location_name: "vsam"))
     DatasetDetailOrgAttributes.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
     DatasetDetailOrgAttributes.add_member_subclass(:gdg, Types::DatasetDetailOrgAttributes::Gdg)
+    DatasetDetailOrgAttributes.add_member_subclass(:po, Types::DatasetDetailOrgAttributes::Po)
+    DatasetDetailOrgAttributes.add_member_subclass(:ps, Types::DatasetDetailOrgAttributes::Ps)
     DatasetDetailOrgAttributes.add_member_subclass(:vsam, Types::DatasetDetailOrgAttributes::Vsam)
     DatasetDetailOrgAttributes.add_member_subclass(:unknown, Types::DatasetDetailOrgAttributes::Unknown)
     DatasetDetailOrgAttributes.struct_class = Types::DatasetDetailOrgAttributes
 
     DatasetOrgAttributes.add_member(:gdg, Shapes::ShapeRef.new(shape: GdgAttributes, location_name: "gdg"))
+    DatasetOrgAttributes.add_member(:po, Shapes::ShapeRef.new(shape: PoAttributes, location_name: "po"))
+    DatasetOrgAttributes.add_member(:ps, Shapes::ShapeRef.new(shape: PsAttributes, location_name: "ps"))
     DatasetOrgAttributes.add_member(:vsam, Shapes::ShapeRef.new(shape: VsamAttributes, location_name: "vsam"))
     DatasetOrgAttributes.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
     DatasetOrgAttributes.add_member_subclass(:gdg, Types::DatasetOrgAttributes::Gdg)
+    DatasetOrgAttributes.add_member_subclass(:po, Types::DatasetOrgAttributes::Po)
+    DatasetOrgAttributes.add_member_subclass(:ps, Types::DatasetOrgAttributes::Ps)
     DatasetOrgAttributes.add_member_subclass(:vsam, Types::DatasetOrgAttributes::Vsam)
     DatasetOrgAttributes.add_member_subclass(:unknown, Types::DatasetOrgAttributes::Unknown)
     DatasetOrgAttributes.struct_class = Types::DatasetOrgAttributes
@@ -432,10 +472,14 @@ module Aws::MainframeModernization
     EnvironmentSummary.add_member(:environment_id, Shapes::ShapeRef.new(shape: Identifier, required: true, location_name: "environmentId"))
     EnvironmentSummary.add_member(:instance_type, Shapes::ShapeRef.new(shape: String20, required: true, location_name: "instanceType"))
     EnvironmentSummary.add_member(:name, Shapes::ShapeRef.new(shape: EntityName, required: true, location_name: "name"))
+    EnvironmentSummary.add_member(:network_type, Shapes::ShapeRef.new(shape: NetworkType, location_name: "networkType"))
     EnvironmentSummary.add_member(:status, Shapes::ShapeRef.new(shape: EnvironmentLifecycle, required: true, location_name: "status"))
     EnvironmentSummary.struct_class = Types::EnvironmentSummary
 
     EnvironmentSummaryList.member = Shapes::ShapeRef.new(shape: EnvironmentSummary)
+
+    ExecutionTimeoutException.add_member(:message, Shapes::ShapeRef.new(shape: String, required: true, location_name: "message"))
+    ExecutionTimeoutException.struct_class = Types::ExecutionTimeoutException
 
     ExternalLocation.add_member(:s3_location, Shapes::ShapeRef.new(shape: String2000, location_name: "s3Location"))
     ExternalLocation.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
@@ -481,6 +525,7 @@ module Aws::MainframeModernization
     GetApplicationResponse.add_member(:load_balancer_dns_name, Shapes::ShapeRef.new(shape: String100, location_name: "loadBalancerDnsName"))
     GetApplicationResponse.add_member(:log_groups, Shapes::ShapeRef.new(shape: LogGroupSummaries, location_name: "logGroups"))
     GetApplicationResponse.add_member(:name, Shapes::ShapeRef.new(shape: EntityName, required: true, location_name: "name"))
+    GetApplicationResponse.add_member(:role_arn, Shapes::ShapeRef.new(shape: Arn, location_name: "roleArn"))
     GetApplicationResponse.add_member(:status, Shapes::ShapeRef.new(shape: ApplicationLifecycle, required: true, location_name: "status"))
     GetApplicationResponse.add_member(:status_reason, Shapes::ShapeRef.new(shape: String, location_name: "statusReason"))
     GetApplicationResponse.add_member(:tags, Shapes::ShapeRef.new(shape: TagMap, location_name: "tags"))
@@ -510,6 +555,7 @@ module Aws::MainframeModernization
     GetBatchJobExecutionResponse.add_member(:execution_id, Shapes::ShapeRef.new(shape: Identifier, required: true, location_name: "executionId"))
     GetBatchJobExecutionResponse.add_member(:job_id, Shapes::ShapeRef.new(shape: String100, location_name: "jobId"))
     GetBatchJobExecutionResponse.add_member(:job_name, Shapes::ShapeRef.new(shape: String100, location_name: "jobName"))
+    GetBatchJobExecutionResponse.add_member(:job_step_restart_marker, Shapes::ShapeRef.new(shape: JobStepRestartMarker, location_name: "jobStepRestartMarker"))
     GetBatchJobExecutionResponse.add_member(:job_type, Shapes::ShapeRef.new(shape: BatchJobType, location_name: "jobType"))
     GetBatchJobExecutionResponse.add_member(:job_user, Shapes::ShapeRef.new(shape: String100, location_name: "jobUser"))
     GetBatchJobExecutionResponse.add_member(:return_code, Shapes::ShapeRef.new(shape: String, location_name: "returnCode"))
@@ -526,6 +572,7 @@ module Aws::MainframeModernization
     GetDataSetDetailsResponse.add_member(:creation_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "creationTime"))
     GetDataSetDetailsResponse.add_member(:data_set_name, Shapes::ShapeRef.new(shape: String200, required: true, location_name: "dataSetName"))
     GetDataSetDetailsResponse.add_member(:data_set_org, Shapes::ShapeRef.new(shape: DatasetDetailOrgAttributes, location_name: "dataSetOrg"))
+    GetDataSetDetailsResponse.add_member(:file_size, Shapes::ShapeRef.new(shape: Long, location_name: "fileSize"))
     GetDataSetDetailsResponse.add_member(:last_referenced_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "lastReferencedTime"))
     GetDataSetDetailsResponse.add_member(:last_updated_time, Shapes::ShapeRef.new(shape: Timestamp, location_name: "lastUpdatedTime"))
     GetDataSetDetailsResponse.add_member(:location, Shapes::ShapeRef.new(shape: String2000, location_name: "location"))
@@ -569,6 +616,7 @@ module Aws::MainframeModernization
     GetEnvironmentResponse.add_member(:kms_key_id, Shapes::ShapeRef.new(shape: String, location_name: "kmsKeyId"))
     GetEnvironmentResponse.add_member(:load_balancer_arn, Shapes::ShapeRef.new(shape: String, location_name: "loadBalancerArn"))
     GetEnvironmentResponse.add_member(:name, Shapes::ShapeRef.new(shape: EntityName, required: true, location_name: "name"))
+    GetEnvironmentResponse.add_member(:network_type, Shapes::ShapeRef.new(shape: NetworkType, location_name: "networkType"))
     GetEnvironmentResponse.add_member(:pending_maintenance, Shapes::ShapeRef.new(shape: PendingMaintenance, location_name: "pendingMaintenance"))
     GetEnvironmentResponse.add_member(:preferred_maintenance_window, Shapes::ShapeRef.new(shape: String50, location_name: "preferredMaintenanceWindow"))
     GetEnvironmentResponse.add_member(:publicly_accessible, Shapes::ShapeRef.new(shape: Boolean, location_name: "publiclyAccessible"))
@@ -581,6 +629,9 @@ module Aws::MainframeModernization
     GetEnvironmentResponse.add_member(:vpc_id, Shapes::ShapeRef.new(shape: String50, required: true, location_name: "vpcId"))
     GetEnvironmentResponse.struct_class = Types::GetEnvironmentResponse
 
+    GetSignedBluinsightsUrlResponse.add_member(:signed_bi_url, Shapes::ShapeRef.new(shape: String, required: true, location_name: "signedBiUrl"))
+    GetSignedBluinsightsUrlResponse.struct_class = Types::GetSignedBluinsightsUrlResponse
+
     HighAvailabilityConfig.add_member(:desired_capacity, Shapes::ShapeRef.new(shape: CapacityValue, required: true, location_name: "desiredCapacity"))
     HighAvailabilityConfig.struct_class = Types::HighAvailabilityConfig
 
@@ -589,6 +640,28 @@ module Aws::MainframeModernization
     InternalServerException.add_member(:message, Shapes::ShapeRef.new(shape: String, required: true, location_name: "message"))
     InternalServerException.add_member(:retry_after_seconds, Shapes::ShapeRef.new(shape: Integer, location: "header", location_name: "Retry-After"))
     InternalServerException.struct_class = Types::InternalServerException
+
+    JobIdentifier.add_member(:file_name, Shapes::ShapeRef.new(shape: String, location_name: "fileName"))
+    JobIdentifier.add_member(:script_name, Shapes::ShapeRef.new(shape: String, location_name: "scriptName"))
+    JobIdentifier.add_member(:unknown, Shapes::ShapeRef.new(shape: nil, location_name: 'unknown'))
+    JobIdentifier.add_member_subclass(:file_name, Types::JobIdentifier::FileName)
+    JobIdentifier.add_member_subclass(:script_name, Types::JobIdentifier::ScriptName)
+    JobIdentifier.add_member_subclass(:unknown, Types::JobIdentifier::Unknown)
+    JobIdentifier.struct_class = Types::JobIdentifier
+
+    JobStep.add_member(:proc_step_name, Shapes::ShapeRef.new(shape: String, location_name: "procStepName"))
+    JobStep.add_member(:proc_step_number, Shapes::ShapeRef.new(shape: Integer, location_name: "procStepNumber"))
+    JobStep.add_member(:step_cond_code, Shapes::ShapeRef.new(shape: String, location_name: "stepCondCode"))
+    JobStep.add_member(:step_name, Shapes::ShapeRef.new(shape: String, location_name: "stepName"))
+    JobStep.add_member(:step_number, Shapes::ShapeRef.new(shape: Integer, location_name: "stepNumber"))
+    JobStep.add_member(:step_restartable, Shapes::ShapeRef.new(shape: Boolean, location_name: "stepRestartable"))
+    JobStep.struct_class = Types::JobStep
+
+    JobStepRestartMarker.add_member(:from_proc_step, Shapes::ShapeRef.new(shape: String, location_name: "fromProcStep"))
+    JobStepRestartMarker.add_member(:from_step, Shapes::ShapeRef.new(shape: String, required: true, location_name: "fromStep"))
+    JobStepRestartMarker.add_member(:to_proc_step, Shapes::ShapeRef.new(shape: String, location_name: "toProcStep"))
+    JobStepRestartMarker.add_member(:to_step, Shapes::ShapeRef.new(shape: String, location_name: "toStep"))
+    JobStepRestartMarker.struct_class = Types::JobStepRestartMarker
 
     ListApplicationVersionsRequest.add_member(:application_id, Shapes::ShapeRef.new(shape: Identifier, required: true, location: "uri", location_name: "applicationId"))
     ListApplicationVersionsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location: "querystring", location_name: "maxResults"))
@@ -633,6 +706,14 @@ module Aws::MainframeModernization
     ListBatchJobExecutionsResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
     ListBatchJobExecutionsResponse.struct_class = Types::ListBatchJobExecutionsResponse
 
+    ListBatchJobRestartPointsRequest.add_member(:application_id, Shapes::ShapeRef.new(shape: Identifier, required: true, location: "uri", location_name: "applicationId"))
+    ListBatchJobRestartPointsRequest.add_member(:auth_secrets_manager_arn, Shapes::ShapeRef.new(shape: AuthSecretsManagerArn, location: "querystring", location_name: "authSecretsManagerArn"))
+    ListBatchJobRestartPointsRequest.add_member(:execution_id, Shapes::ShapeRef.new(shape: Identifier, required: true, location: "uri", location_name: "executionId"))
+    ListBatchJobRestartPointsRequest.struct_class = Types::ListBatchJobRestartPointsRequest
+
+    ListBatchJobRestartPointsResponse.add_member(:batch_job_steps, Shapes::ShapeRef.new(shape: BatchJobStepList, location_name: "batchJobSteps"))
+    ListBatchJobRestartPointsResponse.struct_class = Types::ListBatchJobRestartPointsResponse
+
     ListDataSetImportHistoryRequest.add_member(:application_id, Shapes::ShapeRef.new(shape: Identifier, required: true, location: "uri", location_name: "applicationId"))
     ListDataSetImportHistoryRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location: "querystring", location_name: "maxResults"))
     ListDataSetImportHistoryRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location: "querystring", location_name: "nextToken"))
@@ -644,6 +725,7 @@ module Aws::MainframeModernization
 
     ListDataSetsRequest.add_member(:application_id, Shapes::ShapeRef.new(shape: Identifier, required: true, location: "uri", location_name: "applicationId"))
     ListDataSetsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location: "querystring", location_name: "maxResults"))
+    ListDataSetsRequest.add_member(:name_filter, Shapes::ShapeRef.new(shape: String200, location: "querystring", location_name: "nameFilter"))
     ListDataSetsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location: "querystring", location_name: "nextToken"))
     ListDataSetsRequest.add_member(:prefix, Shapes::ShapeRef.new(shape: String200, location: "querystring", location_name: "prefix"))
     ListDataSetsRequest.struct_class = Types::ListDataSetsRequest
@@ -700,12 +782,29 @@ module Aws::MainframeModernization
     PendingMaintenance.add_member(:schedule, Shapes::ShapeRef.new(shape: MaintenanceSchedule, location_name: "schedule"))
     PendingMaintenance.struct_class = Types::PendingMaintenance
 
+    PoAttributes.add_member(:encoding, Shapes::ShapeRef.new(shape: String, location_name: "encoding"))
+    PoAttributes.add_member(:format, Shapes::ShapeRef.new(shape: String, required: true, location_name: "format"))
+    PoAttributes.add_member(:member_file_extensions, Shapes::ShapeRef.new(shape: String20List, required: true, location_name: "memberFileExtensions"))
+    PoAttributes.struct_class = Types::PoAttributes
+
+    PoDetailAttributes.add_member(:encoding, Shapes::ShapeRef.new(shape: String, required: true, location_name: "encoding"))
+    PoDetailAttributes.add_member(:format, Shapes::ShapeRef.new(shape: String, required: true, location_name: "format"))
+    PoDetailAttributes.struct_class = Types::PoDetailAttributes
+
     PortList.member = Shapes::ShapeRef.new(shape: Integer)
 
     PrimaryKey.add_member(:length, Shapes::ShapeRef.new(shape: Integer, required: true, location_name: "length"))
     PrimaryKey.add_member(:name, Shapes::ShapeRef.new(shape: String, location_name: "name"))
     PrimaryKey.add_member(:offset, Shapes::ShapeRef.new(shape: Integer, required: true, location_name: "offset"))
     PrimaryKey.struct_class = Types::PrimaryKey
+
+    PsAttributes.add_member(:encoding, Shapes::ShapeRef.new(shape: String, location_name: "encoding"))
+    PsAttributes.add_member(:format, Shapes::ShapeRef.new(shape: String, required: true, location_name: "format"))
+    PsAttributes.struct_class = Types::PsAttributes
+
+    PsDetailAttributes.add_member(:encoding, Shapes::ShapeRef.new(shape: String, required: true, location_name: "encoding"))
+    PsDetailAttributes.add_member(:format, Shapes::ShapeRef.new(shape: String, required: true, location_name: "format"))
+    PsDetailAttributes.struct_class = Types::PsDetailAttributes
 
     RecordLength.add_member(:max, Shapes::ShapeRef.new(shape: Integer, required: true, location_name: "max"))
     RecordLength.add_member(:min, Shapes::ShapeRef.new(shape: Integer, required: true, location_name: "min"))
@@ -715,6 +814,15 @@ module Aws::MainframeModernization
     ResourceNotFoundException.add_member(:resource_id, Shapes::ShapeRef.new(shape: String, location_name: "resourceId"))
     ResourceNotFoundException.add_member(:resource_type, Shapes::ShapeRef.new(shape: String, location_name: "resourceType"))
     ResourceNotFoundException.struct_class = Types::ResourceNotFoundException
+
+    RestartBatchJobIdentifier.add_member(:execution_id, Shapes::ShapeRef.new(shape: Identifier, required: true, location_name: "executionId"))
+    RestartBatchJobIdentifier.add_member(:job_step_restart_marker, Shapes::ShapeRef.new(shape: JobStepRestartMarker, required: true, location_name: "jobStepRestartMarker"))
+    RestartBatchJobIdentifier.struct_class = Types::RestartBatchJobIdentifier
+
+    S3BatchJobIdentifier.add_member(:bucket, Shapes::ShapeRef.new(shape: String, required: true, location_name: "bucket"))
+    S3BatchJobIdentifier.add_member(:identifier, Shapes::ShapeRef.new(shape: JobIdentifier, required: true, location_name: "identifier"))
+    S3BatchJobIdentifier.add_member(:key_prefix, Shapes::ShapeRef.new(shape: String, location_name: "keyPrefix"))
+    S3BatchJobIdentifier.struct_class = Types::S3BatchJobIdentifier
 
     ScriptBatchJobDefinition.add_member(:script_name, Shapes::ShapeRef.new(shape: String, required: true, location_name: "scriptName"))
     ScriptBatchJobDefinition.struct_class = Types::ScriptBatchJobDefinition
@@ -729,12 +837,16 @@ module Aws::MainframeModernization
     ServiceQuotaExceededException.add_member(:service_code, Shapes::ShapeRef.new(shape: String, location_name: "serviceCode"))
     ServiceQuotaExceededException.struct_class = Types::ServiceQuotaExceededException
 
+    ServiceUnavailableException.add_member(:message, Shapes::ShapeRef.new(shape: String, required: true, location_name: "message"))
+    ServiceUnavailableException.struct_class = Types::ServiceUnavailableException
+
     StartApplicationRequest.add_member(:application_id, Shapes::ShapeRef.new(shape: Identifier, required: true, location: "uri", location_name: "applicationId"))
     StartApplicationRequest.struct_class = Types::StartApplicationRequest
 
     StartApplicationResponse.struct_class = Types::StartApplicationResponse
 
     StartBatchJobRequest.add_member(:application_id, Shapes::ShapeRef.new(shape: Identifier, required: true, location: "uri", location_name: "applicationId"))
+    StartBatchJobRequest.add_member(:auth_secrets_manager_arn, Shapes::ShapeRef.new(shape: AuthSecretsManagerArn, location_name: "authSecretsManagerArn"))
     StartBatchJobRequest.add_member(:batch_job_identifier, Shapes::ShapeRef.new(shape: BatchJobIdentifier, required: true, location_name: "batchJobIdentifier"))
     StartBatchJobRequest.add_member(:job_params, Shapes::ShapeRef.new(shape: BatchJobParametersMap, location_name: "jobParams"))
     StartBatchJobRequest.struct_class = Types::StartBatchJobRequest
@@ -757,6 +869,8 @@ module Aws::MainframeModernization
     StorageConfiguration.struct_class = Types::StorageConfiguration
 
     StorageConfigurationList.member = Shapes::ShapeRef.new(shape: StorageConfiguration)
+
+    String20List.member = Shapes::ShapeRef.new(shape: String20)
 
     String50List.member = Shapes::ShapeRef.new(shape: String50)
 
@@ -796,6 +910,7 @@ module Aws::MainframeModernization
     UpdateEnvironmentRequest.add_member(:desired_capacity, Shapes::ShapeRef.new(shape: CapacityValue, location_name: "desiredCapacity"))
     UpdateEnvironmentRequest.add_member(:engine_version, Shapes::ShapeRef.new(shape: EngineVersion, location_name: "engineVersion"))
     UpdateEnvironmentRequest.add_member(:environment_id, Shapes::ShapeRef.new(shape: Identifier, required: true, location: "uri", location_name: "environmentId"))
+    UpdateEnvironmentRequest.add_member(:force_update, Shapes::ShapeRef.new(shape: Boolean, location_name: "forceUpdate"))
     UpdateEnvironmentRequest.add_member(:instance_type, Shapes::ShapeRef.new(shape: String20, location_name: "instanceType"))
     UpdateEnvironmentRequest.add_member(:preferred_maintenance_window, Shapes::ShapeRef.new(shape: String, location_name: "preferredMaintenanceWindow"))
     UpdateEnvironmentRequest.struct_class = Types::UpdateEnvironmentRequest
@@ -837,9 +952,11 @@ module Aws::MainframeModernization
 
       api.metadata = {
         "apiVersion" => "2021-04-28",
+        "auth" => ["aws.auth#sigv4"],
         "endpointPrefix" => "m2",
         "jsonVersion" => "1.1",
         "protocol" => "rest-json",
+        "protocols" => ["rest-json"],
         "serviceFullName" => "AWSMainframeModernization",
         "serviceId" => "m2",
         "signatureVersion" => "v4",
@@ -853,12 +970,12 @@ module Aws::MainframeModernization
         o.http_request_uri = "/applications/{applicationId}/batch-job-executions/{executionId}/cancel"
         o.input = Shapes::ShapeRef.new(shape: CancelBatchJobExecutionRequest)
         o.output = Shapes::ShapeRef.new(shape: CancelBatchJobExecutionResponse)
-        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
-        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
-        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
-        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
-        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
       end)
 
       api.add_operation(:create_application, Seahorse::Model::Operation.new.tap do |o|
@@ -867,12 +984,12 @@ module Aws::MainframeModernization
         o.http_request_uri = "/applications"
         o.input = Shapes::ShapeRef.new(shape: CreateApplicationRequest)
         o.output = Shapes::ShapeRef.new(shape: CreateApplicationResponse)
-        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
-        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
-        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
-        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
       end)
 
       api.add_operation(:create_data_set_import_task, Seahorse::Model::Operation.new.tap do |o|
@@ -881,13 +998,13 @@ module Aws::MainframeModernization
         o.http_request_uri = "/applications/{applicationId}/dataset-import-task"
         o.input = Shapes::ShapeRef.new(shape: CreateDataSetImportTaskRequest)
         o.output = Shapes::ShapeRef.new(shape: CreateDataSetImportTaskResponse)
-        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
-        o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
-        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
-        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
-        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
-        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
       end)
 
       api.add_operation(:create_deployment, Seahorse::Model::Operation.new.tap do |o|
@@ -896,13 +1013,13 @@ module Aws::MainframeModernization
         o.http_request_uri = "/applications/{applicationId}/deployments"
         o.input = Shapes::ShapeRef.new(shape: CreateDeploymentRequest)
         o.output = Shapes::ShapeRef.new(shape: CreateDeploymentResponse)
-        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
-        o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
-        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
-        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
-        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
-        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
       end)
 
       api.add_operation(:create_environment, Seahorse::Model::Operation.new.tap do |o|
@@ -911,12 +1028,12 @@ module Aws::MainframeModernization
         o.http_request_uri = "/environments"
         o.input = Shapes::ShapeRef.new(shape: CreateEnvironmentRequest)
         o.output = Shapes::ShapeRef.new(shape: CreateEnvironmentResponse)
-        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
-        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
-        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
-        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
       end)
 
       api.add_operation(:delete_application, Seahorse::Model::Operation.new.tap do |o|
@@ -925,11 +1042,11 @@ module Aws::MainframeModernization
         o.http_request_uri = "/applications/{applicationId}"
         o.input = Shapes::ShapeRef.new(shape: DeleteApplicationRequest)
         o.output = Shapes::ShapeRef.new(shape: DeleteApplicationResponse)
-        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
-        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
-        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
-        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
       end)
 
       api.add_operation(:delete_application_from_environment, Seahorse::Model::Operation.new.tap do |o|
@@ -938,12 +1055,12 @@ module Aws::MainframeModernization
         o.http_request_uri = "/applications/{applicationId}/environment/{environmentId}"
         o.input = Shapes::ShapeRef.new(shape: DeleteApplicationFromEnvironmentRequest)
         o.output = Shapes::ShapeRef.new(shape: DeleteApplicationFromEnvironmentResponse)
-        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
-        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
-        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
-        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
-        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
       end)
 
       api.add_operation(:delete_environment, Seahorse::Model::Operation.new.tap do |o|
@@ -952,11 +1069,11 @@ module Aws::MainframeModernization
         o.http_request_uri = "/environments/{environmentId}"
         o.input = Shapes::ShapeRef.new(shape: DeleteEnvironmentRequest)
         o.output = Shapes::ShapeRef.new(shape: DeleteEnvironmentResponse)
-        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
-        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
-        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
-        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
       end)
 
       api.add_operation(:get_application, Seahorse::Model::Operation.new.tap do |o|
@@ -965,11 +1082,11 @@ module Aws::MainframeModernization
         o.http_request_uri = "/applications/{applicationId}"
         o.input = Shapes::ShapeRef.new(shape: GetApplicationRequest)
         o.output = Shapes::ShapeRef.new(shape: GetApplicationResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
-        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
-        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
-        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
       end)
 
       api.add_operation(:get_application_version, Seahorse::Model::Operation.new.tap do |o|
@@ -978,11 +1095,11 @@ module Aws::MainframeModernization
         o.http_request_uri = "/applications/{applicationId}/versions/{applicationVersion}"
         o.input = Shapes::ShapeRef.new(shape: GetApplicationVersionRequest)
         o.output = Shapes::ShapeRef.new(shape: GetApplicationVersionResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
-        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
-        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
-        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
       end)
 
       api.add_operation(:get_batch_job_execution, Seahorse::Model::Operation.new.tap do |o|
@@ -991,11 +1108,11 @@ module Aws::MainframeModernization
         o.http_request_uri = "/applications/{applicationId}/batch-job-executions/{executionId}"
         o.input = Shapes::ShapeRef.new(shape: GetBatchJobExecutionRequest)
         o.output = Shapes::ShapeRef.new(shape: GetBatchJobExecutionResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
-        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
-        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
-        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
       end)
 
       api.add_operation(:get_data_set_details, Seahorse::Model::Operation.new.tap do |o|
@@ -1004,11 +1121,14 @@ module Aws::MainframeModernization
         o.http_request_uri = "/applications/{applicationId}/datasets/{dataSetName}"
         o.input = Shapes::ShapeRef.new(shape: GetDataSetDetailsRequest)
         o.output = Shapes::ShapeRef.new(shape: GetDataSetDetailsResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ExecutionTimeoutException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceUnavailableException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
-        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
-        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
-        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
       end)
 
       api.add_operation(:get_data_set_import_task, Seahorse::Model::Operation.new.tap do |o|
@@ -1017,11 +1137,11 @@ module Aws::MainframeModernization
         o.http_request_uri = "/applications/{applicationId}/dataset-import-tasks/{taskId}"
         o.input = Shapes::ShapeRef.new(shape: GetDataSetImportTaskRequest)
         o.output = Shapes::ShapeRef.new(shape: GetDataSetImportTaskResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
-        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
-        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
-        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
       end)
 
       api.add_operation(:get_deployment, Seahorse::Model::Operation.new.tap do |o|
@@ -1030,11 +1150,11 @@ module Aws::MainframeModernization
         o.http_request_uri = "/applications/{applicationId}/deployments/{deploymentId}"
         o.input = Shapes::ShapeRef.new(shape: GetDeploymentRequest)
         o.output = Shapes::ShapeRef.new(shape: GetDeploymentResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
-        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
-        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
-        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
       end)
 
       api.add_operation(:get_environment, Seahorse::Model::Operation.new.tap do |o|
@@ -1043,11 +1163,22 @@ module Aws::MainframeModernization
         o.http_request_uri = "/environments/{environmentId}"
         o.input = Shapes::ShapeRef.new(shape: GetEnvironmentRequest)
         o.output = Shapes::ShapeRef.new(shape: GetEnvironmentResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
-        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+      end)
+
+      api.add_operation(:get_signed_bluinsights_url, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "GetSignedBluinsightsUrl"
+        o.http_method = "GET"
+        o.http_request_uri = "/signed-bi-url"
+        o.input = Shapes::ShapeRef.new(shape: Shapes::StructureShape.new(struct_class: Aws::EmptyStructure))
+        o.output = Shapes::ShapeRef.new(shape: GetSignedBluinsightsUrlResponse)
         o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
-        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
       end)
 
       api.add_operation(:list_application_versions, Seahorse::Model::Operation.new.tap do |o|
@@ -1056,11 +1187,11 @@ module Aws::MainframeModernization
         o.http_request_uri = "/applications/{applicationId}/versions"
         o.input = Shapes::ShapeRef.new(shape: ListApplicationVersionsRequest)
         o.output = Shapes::ShapeRef.new(shape: ListApplicationVersionsResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
-        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
-        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
-        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o[:pager] = Aws::Pager.new(
           limit_key: "max_results",
           tokens: {
@@ -1075,10 +1206,10 @@ module Aws::MainframeModernization
         o.http_request_uri = "/applications"
         o.input = Shapes::ShapeRef.new(shape: ListApplicationsRequest)
         o.output = Shapes::ShapeRef.new(shape: ListApplicationsResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
-        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
-        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o[:pager] = Aws::Pager.new(
           limit_key: "max_results",
           tokens: {
@@ -1093,11 +1224,11 @@ module Aws::MainframeModernization
         o.http_request_uri = "/applications/{applicationId}/batch-job-definitions"
         o.input = Shapes::ShapeRef.new(shape: ListBatchJobDefinitionsRequest)
         o.output = Shapes::ShapeRef.new(shape: ListBatchJobDefinitionsResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
-        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
-        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
-        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o[:pager] = Aws::Pager.new(
           limit_key: "max_results",
           tokens: {
@@ -1112,11 +1243,11 @@ module Aws::MainframeModernization
         o.http_request_uri = "/applications/{applicationId}/batch-job-executions"
         o.input = Shapes::ShapeRef.new(shape: ListBatchJobExecutionsRequest)
         o.output = Shapes::ShapeRef.new(shape: ListBatchJobExecutionsResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
-        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
-        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
-        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o[:pager] = Aws::Pager.new(
           limit_key: "max_results",
           tokens: {
@@ -1125,17 +1256,31 @@ module Aws::MainframeModernization
         )
       end)
 
+      api.add_operation(:list_batch_job_restart_points, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListBatchJobRestartPoints"
+        o.http_method = "GET"
+        o.http_request_uri = "/applications/{applicationId}/batch-job-executions/{executionId}/steps"
+        o.input = Shapes::ShapeRef.new(shape: ListBatchJobRestartPointsRequest)
+        o.output = Shapes::ShapeRef.new(shape: ListBatchJobRestartPointsResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+      end)
+
       api.add_operation(:list_data_set_import_history, Seahorse::Model::Operation.new.tap do |o|
         o.name = "ListDataSetImportHistory"
         o.http_method = "GET"
         o.http_request_uri = "/applications/{applicationId}/dataset-import-tasks"
         o.input = Shapes::ShapeRef.new(shape: ListDataSetImportHistoryRequest)
         o.output = Shapes::ShapeRef.new(shape: ListDataSetImportHistoryResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
-        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
-        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
-        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o[:pager] = Aws::Pager.new(
           limit_key: "max_results",
           tokens: {
@@ -1150,11 +1295,14 @@ module Aws::MainframeModernization
         o.http_request_uri = "/applications/{applicationId}/datasets"
         o.input = Shapes::ShapeRef.new(shape: ListDataSetsRequest)
         o.output = Shapes::ShapeRef.new(shape: ListDataSetsResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ExecutionTimeoutException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceUnavailableException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
-        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
-        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
-        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o[:pager] = Aws::Pager.new(
           limit_key: "max_results",
           tokens: {
@@ -1169,11 +1317,11 @@ module Aws::MainframeModernization
         o.http_request_uri = "/applications/{applicationId}/deployments"
         o.input = Shapes::ShapeRef.new(shape: ListDeploymentsRequest)
         o.output = Shapes::ShapeRef.new(shape: ListDeploymentsResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
-        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
-        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
-        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o[:pager] = Aws::Pager.new(
           limit_key: "max_results",
           tokens: {
@@ -1188,10 +1336,10 @@ module Aws::MainframeModernization
         o.http_request_uri = "/engine-versions"
         o.input = Shapes::ShapeRef.new(shape: ListEngineVersionsRequest)
         o.output = Shapes::ShapeRef.new(shape: ListEngineVersionsResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
-        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
-        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o[:pager] = Aws::Pager.new(
           limit_key: "max_results",
           tokens: {
@@ -1206,10 +1354,10 @@ module Aws::MainframeModernization
         o.http_request_uri = "/environments"
         o.input = Shapes::ShapeRef.new(shape: ListEnvironmentsRequest)
         o.output = Shapes::ShapeRef.new(shape: ListEnvironmentsResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
-        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
-        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o[:pager] = Aws::Pager.new(
           limit_key: "max_results",
           tokens: {
@@ -1224,11 +1372,11 @@ module Aws::MainframeModernization
         o.http_request_uri = "/tags/{resourceArn}"
         o.input = Shapes::ShapeRef.new(shape: ListTagsForResourceRequest)
         o.output = Shapes::ShapeRef.new(shape: ListTagsForResourceResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
-        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
-        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
-        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
       end)
 
       api.add_operation(:start_application, Seahorse::Model::Operation.new.tap do |o|
@@ -1237,12 +1385,12 @@ module Aws::MainframeModernization
         o.http_request_uri = "/applications/{applicationId}/start"
         o.input = Shapes::ShapeRef.new(shape: StartApplicationRequest)
         o.output = Shapes::ShapeRef.new(shape: StartApplicationResponse)
-        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
-        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
-        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
-        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
-        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
       end)
 
       api.add_operation(:start_batch_job, Seahorse::Model::Operation.new.tap do |o|
@@ -1251,12 +1399,12 @@ module Aws::MainframeModernization
         o.http_request_uri = "/applications/{applicationId}/batch-job"
         o.input = Shapes::ShapeRef.new(shape: StartBatchJobRequest)
         o.output = Shapes::ShapeRef.new(shape: StartBatchJobResponse)
-        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
-        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
-        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
-        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
-        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
       end)
 
       api.add_operation(:stop_application, Seahorse::Model::Operation.new.tap do |o|
@@ -1265,12 +1413,12 @@ module Aws::MainframeModernization
         o.http_request_uri = "/applications/{applicationId}/stop"
         o.input = Shapes::ShapeRef.new(shape: StopApplicationRequest)
         o.output = Shapes::ShapeRef.new(shape: StopApplicationResponse)
-        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
-        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
-        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
-        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
-        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
       end)
 
       api.add_operation(:tag_resource, Seahorse::Model::Operation.new.tap do |o|
@@ -1279,12 +1427,12 @@ module Aws::MainframeModernization
         o.http_request_uri = "/tags/{resourceArn}"
         o.input = Shapes::ShapeRef.new(shape: TagResourceRequest)
         o.output = Shapes::ShapeRef.new(shape: TagResourceResponse)
-        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
-        o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
-        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
-        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
-        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
       end)
 
       api.add_operation(:untag_resource, Seahorse::Model::Operation.new.tap do |o|
@@ -1293,11 +1441,11 @@ module Aws::MainframeModernization
         o.http_request_uri = "/tags/{resourceArn}"
         o.input = Shapes::ShapeRef.new(shape: UntagResourceRequest)
         o.output = Shapes::ShapeRef.new(shape: UntagResourceResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
-        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
-        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
-        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
       end)
 
       api.add_operation(:update_application, Seahorse::Model::Operation.new.tap do |o|
@@ -1306,12 +1454,12 @@ module Aws::MainframeModernization
         o.http_request_uri = "/applications/{applicationId}"
         o.input = Shapes::ShapeRef.new(shape: UpdateApplicationRequest)
         o.output = Shapes::ShapeRef.new(shape: UpdateApplicationResponse)
-        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
-        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
-        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
-        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
-        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
       end)
 
       api.add_operation(:update_environment, Seahorse::Model::Operation.new.tap do |o|
@@ -1320,13 +1468,13 @@ module Aws::MainframeModernization
         o.http_request_uri = "/environments/{environmentId}"
         o.input = Shapes::ShapeRef.new(shape: UpdateEnvironmentRequest)
         o.output = Shapes::ShapeRef.new(shape: UpdateEnvironmentResponse)
-        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
-        o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
-        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
-        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
-        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
-        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
       end)
     end
 

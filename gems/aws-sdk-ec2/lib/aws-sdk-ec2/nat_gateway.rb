@@ -91,12 +91,11 @@ module Aws::EC2
     end
 
     # Reserved. If you need to sustain traffic greater than the [documented
-    # limits][1], contact us through the [Support Center][2].
+    # limits][1], contact Amazon Web Services Support.
     #
     #
     #
-    # [1]: https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html
-    # [2]: https://console.aws.amazon.com/support/home?
+    # [1]: https://docs.aws.amazon.com/vpc/latest/userguide/amazon-vpc-limits.html#vpc-limits-gateways
     # @return [Types::ProvisionedBandwidth]
     def provisioned_bandwidth
       data[:provisioned_bandwidth]
@@ -104,20 +103,20 @@ module Aws::EC2
 
     # The state of the NAT gateway.
     #
-    # * `pending`\: The NAT gateway is being created and is not ready to
+    # * `pending`: The NAT gateway is being created and is not ready to
     #   process traffic.
     #
-    # * `failed`\: The NAT gateway could not be created. Check the
+    # * `failed`: The NAT gateway could not be created. Check the
     #   `failureCode` and `failureMessage` fields for the reason.
     #
-    # * `available`\: The NAT gateway is able to process traffic. This
-    #   status remains until you delete the NAT gateway, and does not
-    #   indicate the health of the NAT gateway.
+    # * `available`: The NAT gateway is able to process traffic. This status
+    #   remains until you delete the NAT gateway, and does not indicate the
+    #   health of the NAT gateway.
     #
-    # * `deleting`\: The NAT gateway is in the process of being terminated
+    # * `deleting`: The NAT gateway is in the process of being terminated
     #   and may still be processing traffic.
     #
-    # * `deleted`\: The NAT gateway has been terminated and is no longer
+    # * `deleted`: The NAT gateway has been terminated and is no longer
     #   processing traffic.
     # @return [String]
     def state
@@ -163,7 +162,9 @@ module Aws::EC2
     #
     # @return [self]
     def load
-      resp = @client.describe_nat_gateways(nat_gateway_ids: [@id])
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.describe_nat_gateways(nat_gateway_ids: [@id])
+      end
       @data = resp.nat_gateways[0]
       self
     end
@@ -278,7 +279,9 @@ module Aws::EC2
           :retry
         end
       end
-      Aws::Waiters::Waiter.new(options).wait({})
+      Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        Aws::Waiters::Waiter.new(options).wait({})
+      end
     end
 
     # @!group Actions
@@ -308,7 +311,9 @@ module Aws::EC2
     def create_tags(options = {})
       batch = []
       options = Aws::Util.deep_merge(options, resources: [@id])
-      resp = @client.create_tags(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.create_tags(options)
+      end
       options[:tags].each do |t|
         batch << Tag.new(
           resource_id: @id,
@@ -353,7 +358,9 @@ module Aws::EC2
     def delete_tags(options = {})
       batch = []
       options = Aws::Util.deep_merge(options, resources: [@id])
-      resp = @client.delete_tags(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.delete_tags(options)
+      end
       options[:tags].each do |t|
         batch << Tag.new(
           resource_id: @id,
@@ -379,7 +386,9 @@ module Aws::EC2
     # @return [Types::DeleteNatGatewayResult]
     def delete(options = {})
       options = options.merge(nat_gateway_id: @id)
-      resp = @client.delete_nat_gateway(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.delete_nat_gateway(options)
+      end
       resp.data
     end
 

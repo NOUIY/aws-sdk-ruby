@@ -14,34 +14,48 @@ module Aws::States
       option(
         :endpoint_provider,
         doc_type: 'Aws::States::EndpointProvider',
-        docstring: 'The endpoint provider used to resolve endpoints. Any '\
-                   'object that responds to `#resolve_endpoint(parameters)` '\
-                   'where `parameters` is a Struct similar to '\
-                   '`Aws::States::EndpointParameters`'
-      ) do |cfg|
+        rbs_type: 'untyped',
+        docstring: <<~DOCS) do |_cfg|
+The endpoint provider used to resolve endpoints. Any object that responds to
+`#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+`Aws::States::EndpointParameters`.
+        DOCS
         Aws::States::EndpointProvider.new
       end
 
       # @api private
       class Handler < Seahorse::Client::Handler
         def call(context)
-          # If endpoint was discovered, do not resolve or apply the endpoint.
           unless context[:discovered_endpoint]
-            params = parameters_for_operation(context)
+            params = Aws::States::Endpoints.parameters_for_operation(context)
             endpoint = context.config.endpoint_provider.resolve_endpoint(params)
 
             context.http_request.endpoint = endpoint.url
             apply_endpoint_headers(context, endpoint.headers)
+
+            context[:endpoint_params] = params
+            context[:endpoint_properties] = endpoint.properties
           end
 
-          context[:endpoint_params] = params
           context[:auth_scheme] =
             Aws::Endpoints.resolve_auth_scheme(context, endpoint)
 
-          @handler.call(context)
+          with_metrics(context) { @handler.call(context) }
         end
 
         private
+
+        def with_metrics(context, &block)
+          metrics = []
+          metrics << 'ENDPOINT_OVERRIDE' unless context.config.regional_endpoint
+          if context[:auth_scheme] && context[:auth_scheme]['name'] == 'sigv4a'
+            metrics << 'SIGV4A_SIGNING'
+          end
+          if context.config.credentials&.credentials&.account_id
+            metrics << 'RESOLVED_ACCOUNT_ID'
+          end
+          Aws::Plugins::UserAgent.metric(*metrics, &block)
+        end
 
         def apply_endpoint_headers(context, headers)
           headers.each do |key, values|
@@ -51,63 +65,6 @@ module Aws::States
               .join(',')
 
             context.http_request.headers[key] = value
-          end
-        end
-
-        def parameters_for_operation(context)
-          case context.operation_name
-          when :create_activity
-            Aws::States::Endpoints::CreateActivity.build(context)
-          when :create_state_machine
-            Aws::States::Endpoints::CreateStateMachine.build(context)
-          when :delete_activity
-            Aws::States::Endpoints::DeleteActivity.build(context)
-          when :delete_state_machine
-            Aws::States::Endpoints::DeleteStateMachine.build(context)
-          when :describe_activity
-            Aws::States::Endpoints::DescribeActivity.build(context)
-          when :describe_execution
-            Aws::States::Endpoints::DescribeExecution.build(context)
-          when :describe_map_run
-            Aws::States::Endpoints::DescribeMapRun.build(context)
-          when :describe_state_machine
-            Aws::States::Endpoints::DescribeStateMachine.build(context)
-          when :describe_state_machine_for_execution
-            Aws::States::Endpoints::DescribeStateMachineForExecution.build(context)
-          when :get_activity_task
-            Aws::States::Endpoints::GetActivityTask.build(context)
-          when :get_execution_history
-            Aws::States::Endpoints::GetExecutionHistory.build(context)
-          when :list_activities
-            Aws::States::Endpoints::ListActivities.build(context)
-          when :list_executions
-            Aws::States::Endpoints::ListExecutions.build(context)
-          when :list_map_runs
-            Aws::States::Endpoints::ListMapRuns.build(context)
-          when :list_state_machines
-            Aws::States::Endpoints::ListStateMachines.build(context)
-          when :list_tags_for_resource
-            Aws::States::Endpoints::ListTagsForResource.build(context)
-          when :send_task_failure
-            Aws::States::Endpoints::SendTaskFailure.build(context)
-          when :send_task_heartbeat
-            Aws::States::Endpoints::SendTaskHeartbeat.build(context)
-          when :send_task_success
-            Aws::States::Endpoints::SendTaskSuccess.build(context)
-          when :start_execution
-            Aws::States::Endpoints::StartExecution.build(context)
-          when :start_sync_execution
-            Aws::States::Endpoints::StartSyncExecution.build(context)
-          when :stop_execution
-            Aws::States::Endpoints::StopExecution.build(context)
-          when :tag_resource
-            Aws::States::Endpoints::TagResource.build(context)
-          when :untag_resource
-            Aws::States::Endpoints::UntagResource.build(context)
-          when :update_map_run
-            Aws::States::Endpoints::UpdateMapRun.build(context)
-          when :update_state_machine
-            Aws::States::Endpoints::UpdateStateMachine.build(context)
           end
         end
       end

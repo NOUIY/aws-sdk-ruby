@@ -12,6 +12,10 @@ module Aws::GroundStation
 
     # Detailed information about the agent.
     #
+    # @!attribute [rw] agent_cpu_cores
+    #   List of CPU cores reserved for the agent.
+    #   @return [Array<Integer>]
+    #
     # @!attribute [rw] agent_version
     #   Current agent version.
     #   @return [String]
@@ -29,12 +33,18 @@ module Aws::GroundStation
     #   @return [String]
     #
     # @!attribute [rw] reserved_cpu_cores
-    #   Number of Cpu cores reserved for agent.
+    #   <note markdown="1"> This field should not be used. Use agentCpuCores instead.
+    #
+    #    </note>
+    #
+    #   List of CPU cores reserved for processes other than the agent
+    #   running on the EC2 instance.
     #   @return [Array<Integer>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/groundstation-2019-05-23/AgentDetails AWS API Documentation
     #
     class AgentDetails < Struct.new(
+      :agent_cpu_cores,
       :agent_version,
       :component_versions,
       :instance_id,
@@ -480,6 +490,30 @@ module Aws::GroundStation
     #   Tags assigned to a contact.
     #   @return [Hash<String,String>]
     #
+    # @!attribute [rw] visibility_end_time
+    #   Projected time in UTC your satellite will set below the [receive
+    #   mask][1]. This time is based on the satellite's current active
+    #   ephemeris for future contacts and the ephemeris that was active
+    #   during contact execution for completed contacts. *This field is not
+    #   present for contacts with a `SCHEDULING` or `SCHEDULED` status.*
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/ground-station/latest/ug/site-masks.html
+    #   @return [Time]
+    #
+    # @!attribute [rw] visibility_start_time
+    #   Projected time in UTC your satellite will rise above the [receive
+    #   mask][1]. This time is based on the satellite's current active
+    #   ephemeris for future contacts and the ephemeris that was active
+    #   during contact execution for completed contacts. *This field is not
+    #   present for contacts with a `SCHEDULING` or `SCHEDULED` status.*
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/ground-station/latest/ug/site-masks.html
+    #   @return [Time]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/groundstation-2019-05-23/ContactData AWS API Documentation
     #
     class ContactData < Struct.new(
@@ -495,7 +529,9 @@ module Aws::GroundStation
       :region,
       :satellite_arn,
       :start_time,
-      :tags)
+      :tags,
+      :visibility_end_time,
+      :visibility_start_time)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -535,15 +571,19 @@ module Aws::GroundStation
     end
 
     # @!attribute [rw] contact_post_pass_duration_seconds
-    #   Amount of time, in seconds, after a contact ends for the contact to
-    #   remain in a `POSTPASS` state. A CloudWatch event is emitted when the
-    #   contact enters and exits the `POSTPASS` state.
+    #   Amount of time, in seconds, after a contact ends that the Ground
+    #   Station Dataflow Endpoint Group will be in a `POSTPASS` state. A
+    #   Ground Station Dataflow Endpoint Group State Change event will be
+    #   emitted when the Dataflow Endpoint Group enters and exits the
+    #   `POSTPASS` state.
     #   @return [Integer]
     #
     # @!attribute [rw] contact_pre_pass_duration_seconds
-    #   Amount of time, in seconds, prior to contact start for the contact
-    #   to remain in a `PREPASS` state. A CloudWatch event is emitted when
-    #   the contact enters and exits the `PREPASS` state.
+    #   Amount of time, in seconds, before a contact starts that the Ground
+    #   Station Dataflow Endpoint Group will be in a `PREPASS` state. A
+    #   Ground Station Dataflow Endpoint Group State Change event will be
+    #   emitted when the Dataflow Endpoint Group enters and exits the
+    #   `PREPASS` state.
     #   @return [Integer]
     #
     # @!attribute [rw] endpoint_details
@@ -626,12 +666,13 @@ module Aws::GroundStation
 
     # @!attribute [rw] contact_post_pass_duration_seconds
     #   Amount of time after a contact ends that you’d like to receive a
-    #   CloudWatch event indicating the pass has finished.
+    #   Ground Station Contact State Change event indicating the pass has
+    #   finished.
     #   @return [Integer]
     #
     # @!attribute [rw] contact_pre_pass_duration_seconds
-    #   Amount of time prior to contact start you’d like to receive a
-    #   CloudWatch event indicating an upcoming pass.
+    #   Amount of time prior to contact start you’d like to receive a Ground
+    #   Station Contact State Change event indicating an upcoming pass.
     #   @return [Integer]
     #
     # @!attribute [rw] dataflow_edges
@@ -954,6 +995,28 @@ module Aws::GroundStation
     #   Tags assigned to a contact.
     #   @return [Hash<String,String>]
     #
+    # @!attribute [rw] visibility_end_time
+    #   Projected time in UTC your satellite will set below the [receive
+    #   mask][1]. This time is based on the satellite's current active
+    #   ephemeris for future contacts and the ephemeris that was active
+    #   during contact execution for completed contacts.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/ground-station/latest/ug/site-masks.html
+    #   @return [Time]
+    #
+    # @!attribute [rw] visibility_start_time
+    #   Projected time in UTC your satellite will rise above the [receive
+    #   mask][1]. This time is based on the satellite's current active
+    #   ephemeris for future contacts and the ephemeris that was active
+    #   during contact execution for completed contacts.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/ground-station/latest/ug/site-masks.html
+    #   @return [Time]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/groundstation-2019-05-23/DescribeContactResponse AWS API Documentation
     #
     class DescribeContactResponse < Struct.new(
@@ -970,7 +1033,9 @@ module Aws::GroundStation
       :region,
       :satellite_arn,
       :start_time,
-      :tags)
+      :tags,
+      :visibility_end_time,
+      :visibility_start_time)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1154,6 +1219,16 @@ module Aws::GroundStation
     #   A dataflow endpoint.
     #   @return [Types::DataflowEndpoint]
     #
+    # @!attribute [rw] health_reasons
+    #   Health reasons for a dataflow endpoint. This field is ignored when
+    #   calling `CreateDataflowEndpointGroup`.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] health_status
+    #   A dataflow endpoint health status. This field is ignored when
+    #   calling `CreateDataflowEndpointGroup`.
+    #   @return [String]
+    #
     # @!attribute [rw] security_details
     #   Endpoint security details including a list of subnets, a list of
     #   security groups and a role to connect streams to instances.
@@ -1164,6 +1239,8 @@ module Aws::GroundStation
     class EndpointDetails < Struct.new(
       :aws_ground_station_agent_endpoint,
       :endpoint,
+      :health_reasons,
+      :health_status,
       :security_details)
       SENSITIVE = []
       include Aws::Structure
@@ -1175,6 +1252,17 @@ module Aws::GroundStation
     #
     # @!attribute [rw] oem
     #   Ephemeris data in Orbit Ephemeris Message (OEM) format.
+    #
+    #   AWS Ground Station processes OEM Customer Provided Ephemerides
+    #   according to the [CCSDS standard][1] with some extra restrictions.
+    #   OEM files should be in KVN format. For more detail about the OEM
+    #   format that AWS Ground Station supports, see [OEM ephemeris
+    #   format][2] in the AWS Ground Station user guide.
+    #
+    #
+    #
+    #   [1]: https://public.ccsds.org/Pubs/502x0b3e1.pdf
+    #   [2]: https://docs.aws.amazon.com/ground-station/latest/ug/providing-custom-ephemeris-data.html#oem-ephemeris-format
     #   @return [Types::OEMEphemeris]
     #
     # @!attribute [rw] tle
@@ -1486,15 +1574,19 @@ module Aws::GroundStation
     end
 
     # @!attribute [rw] contact_post_pass_duration_seconds
-    #   Amount of time, in seconds, after a contact ends for the contact to
-    #   remain in a `POSTPASS` state. A CloudWatch event is emitted when the
-    #   contact enters and exits the `POSTPASS` state.
+    #   Amount of time, in seconds, after a contact ends that the Ground
+    #   Station Dataflow Endpoint Group will be in a `POSTPASS` state. A
+    #   Ground Station Dataflow Endpoint Group State Change event will be
+    #   emitted when the Dataflow Endpoint Group enters and exits the
+    #   `POSTPASS` state.
     #   @return [Integer]
     #
     # @!attribute [rw] contact_pre_pass_duration_seconds
-    #   Amount of time, in seconds, prior to contact start for the contact
-    #   to remain in a `PREPASS` state. A CloudWatch event is emitted when
-    #   the contact enters and exits the `PREPASS` state.
+    #   Amount of time, in seconds, before a contact starts that the Ground
+    #   Station Dataflow Endpoint Group will be in a `PREPASS` state. A
+    #   Ground Station Dataflow Endpoint Group State Change event will be
+    #   emitted when the Dataflow Endpoint Group enters and exits the
+    #   `PREPASS` state.
     #   @return [Integer]
     #
     # @!attribute [rw] dataflow_endpoint_group_arn
@@ -1779,6 +1871,10 @@ module Aws::GroundStation
     #   KMS Alias Arn.
     #   @return [String]
     #
+    # @!attribute [rw] kms_alias_name
+    #   KMS Alias Name.
+    #   @return [String]
+    #
     # @!attribute [rw] kms_key_arn
     #   KMS Key Arn.
     #   @return [String]
@@ -1787,6 +1883,7 @@ module Aws::GroundStation
     #
     class KmsKey < Struct.new(
       :kms_alias_arn,
+      :kms_alias_name,
       :kms_key_arn,
       :unknown)
       SENSITIVE = []
@@ -1794,6 +1891,7 @@ module Aws::GroundStation
       include Aws::Structure::Union
 
       class KmsAliasArn < KmsKey; end
+      class KmsAliasName < KmsKey; end
       class KmsKeyArn < KmsKey; end
       class Unknown < KmsKey; end
     end
@@ -2176,6 +2274,17 @@ module Aws::GroundStation
 
     # Ephemeris data in Orbit Ephemeris Message (OEM) format.
     #
+    # AWS Ground Station processes OEM Customer Provided Ephemerides
+    # according to the [CCSDS standard][1] with some extra restrictions. OEM
+    # files should be in KVN format. For more detail about the OEM format
+    # that AWS Ground Station supports, see [OEM ephemeris format][2] in the
+    # AWS Ground Station user guide.
+    #
+    #
+    #
+    # [1]: https://public.ccsds.org/Pubs/502x0b3e1.pdf
+    # [2]: https://docs.aws.amazon.com/ground-station/latest/ug/providing-custom-ephemeris-data.html#oem-ephemeris-format
+    #
     # @!attribute [rw] oem_data
     #   The data for an OEM ephemeris, supplied directly in the request
     #   rather than through an S3 object.
@@ -2239,7 +2348,7 @@ module Aws::GroundStation
     #   @return [Types::AgentDetails]
     #
     # @!attribute [rw] discovery_data
-    #   Data for associating and agent with the capabilities it is managing.
+    #   Data for associating an agent with the capabilities it is managing.
     #   @return [Types::DiscoveryData]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/groundstation-2019-05-23/RegisterAgentRequest AWS API Documentation
@@ -2766,12 +2875,14 @@ module Aws::GroundStation
 
     # @!attribute [rw] contact_post_pass_duration_seconds
     #   Amount of time after a contact ends that you’d like to receive a
-    #   CloudWatch event indicating the pass has finished.
+    #   Ground Station Contact State Change event indicating the pass has
+    #   finished.
     #   @return [Integer]
     #
     # @!attribute [rw] contact_pre_pass_duration_seconds
     #   Amount of time after a contact ends that you’d like to receive a
-    #   CloudWatch event indicating the pass has finished.
+    #   Ground Station Contact State Change event indicating the pass has
+    #   finished.
     #   @return [Integer]
     #
     # @!attribute [rw] dataflow_edges
@@ -2868,3 +2979,4 @@ module Aws::GroundStation
 
   end
 end
+

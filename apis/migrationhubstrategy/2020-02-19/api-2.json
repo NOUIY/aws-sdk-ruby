@@ -173,6 +173,22 @@
         {"shape":"InternalServerException"}
       ]
     },
+    "ListAnalyzableServers":{
+      "name":"ListAnalyzableServers",
+      "http":{
+        "method":"POST",
+        "requestUri":"/list-analyzable-servers",
+        "responseCode":200
+      },
+      "input":{"shape":"ListAnalyzableServersRequest"},
+      "output":{"shape":"ListAnalyzableServersResponse"},
+      "errors":[
+        {"shape":"AccessDeniedException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"ValidationException"},
+        {"shape":"InternalServerException"}
+      ]
+    },
     "ListApplicationComponents":{
       "name":"ListApplicationComponents",
       "http":{
@@ -366,6 +382,58 @@
       },
       "exception":true
     },
+    "AnalysisStatusUnion":{
+      "type":"structure",
+      "members":{
+        "runtimeAnalysisStatus":{"shape":"RuntimeAnalysisStatus"},
+        "srcCodeOrDbAnalysisStatus":{"shape":"SrcCodeOrDbAnalysisStatus"}
+      },
+      "union":true
+    },
+    "AnalysisType":{
+      "type":"string",
+      "enum":[
+        "SOURCE_CODE_ANALYSIS",
+        "DATABASE_ANALYSIS",
+        "RUNTIME_ANALYSIS",
+        "BINARY_ANALYSIS"
+      ]
+    },
+    "AnalyzableServerSummary":{
+      "type":"structure",
+      "members":{
+        "hostname":{"shape":"String"},
+        "ipAddress":{"shape":"String"},
+        "source":{"shape":"String"},
+        "vmId":{"shape":"String"}
+      }
+    },
+    "AnalyzableServerSummaryList":{
+      "type":"list",
+      "member":{"shape":"AnalyzableServerSummary"}
+    },
+    "AnalyzerNameUnion":{
+      "type":"structure",
+      "members":{
+        "binaryAnalyzerName":{"shape":"BinaryAnalyzerName"},
+        "runTimeAnalyzerName":{"shape":"RunTimeAnalyzerName"},
+        "sourceCodeAnalyzerName":{"shape":"SourceCodeAnalyzerName"}
+      },
+      "union":true
+    },
+    "AntipatternReportResult":{
+      "type":"structure",
+      "members":{
+        "analyzerName":{"shape":"AnalyzerNameUnion"},
+        "antiPatternReportS3Object":{"shape":"S3Object"},
+        "antipatternReportStatus":{"shape":"AntipatternReportStatus"},
+        "antipatternReportStatusMessage":{"shape":"StatusMessage"}
+      }
+    },
+    "AntipatternReportResultList":{
+      "type":"list",
+      "member":{"shape":"AntipatternReportResult"}
+    },
     "AntipatternReportStatus":{
       "type":"string",
       "enum":[
@@ -458,6 +526,7 @@
         "osVersion":{"shape":"String"},
         "recommendationSet":{"shape":"RecommendationSet"},
         "resourceSubType":{"shape":"ResourceSubType"},
+        "resultList":{"shape":"ResultList"},
         "runtimeStatus":{"shape":"RuntimeAnalysisStatus"},
         "runtimeStatusMessage":{"shape":"StatusMessage"},
         "sourceCodeRepositories":{"shape":"SourceCodeRepositories"},
@@ -513,6 +582,14 @@
       "members":{
         "managementPreference":{"shape":"ManagementPreference"}
       }
+    },
+    "AssessmentDataSourceType":{
+      "type":"string",
+      "enum":[
+        "StrategyRecommendationsApplicationDataCollector",
+        "ManualImport",
+        "ApplicationDiscoveryService"
+      ]
     },
     "AssessmentStatus":{
       "type":"string",
@@ -618,6 +695,13 @@
       "max":1,
       "min":1
     },
+    "BinaryAnalyzerName":{
+      "type":"string",
+      "enum":[
+        "DLL_ANALYZER",
+        "BYTECODE_ANALYZER"
+      ]
+    },
     "Boolean":{
       "type":"boolean",
       "box":true
@@ -709,7 +793,9 @@
       "type":"string",
       "enum":[
         "ApplicationDiscoveryService",
-        "MPA"
+        "MPA",
+        "Import",
+        "StrategyRecommendationsApplicationDataCollector"
       ]
     },
     "DatabaseConfigDetail":{
@@ -947,7 +1033,10 @@
     },
     "GroupName":{
       "type":"string",
-      "enum":["ExternalId"]
+      "enum":[
+        "ExternalId",
+        "ExternalSourceType"
+      ]
     },
     "Heterogeneous":{
       "type":"structure",
@@ -1065,6 +1154,21 @@
       "error":{"httpStatusCode":500},
       "exception":true,
       "fault":true
+    },
+    "ListAnalyzableServersRequest":{
+      "type":"structure",
+      "members":{
+        "maxResults":{"shape":"MaxResult"},
+        "nextToken":{"shape":"NextToken"},
+        "sort":{"shape":"SortOrder"}
+      }
+    },
+    "ListAnalyzableServersResponse":{
+      "type":"structure",
+      "members":{
+        "analyzableServers":{"shape":"AnalyzableServerSummaryList"},
+        "nextToken":{"shape":"NextToken"}
+      }
     },
     "ListAntipatternSeveritySummary":{
       "type":"list",
@@ -1407,6 +1511,29 @@
         "DatabaseProcess"
       ]
     },
+    "Result":{
+      "type":"structure",
+      "members":{
+        "analysisStatus":{"shape":"AnalysisStatusUnion"},
+        "analysisType":{"shape":"AnalysisType"},
+        "antipatternReportResultList":{"shape":"AntipatternReportResultList"},
+        "statusMessage":{"shape":"StatusMessage"}
+      }
+    },
+    "ResultList":{
+      "type":"list",
+      "member":{"shape":"Result"}
+    },
+    "RunTimeAnalyzerName":{
+      "type":"string",
+      "enum":[
+        "A2C_ANALYZER",
+        "REHOST_ANALYZER",
+        "EMP_PA_ANALYZER",
+        "DATABASE_ANALYZER",
+        "SCT_ANALYZER"
+      ]
+    },
     "RunTimeAssessmentStatus":{
       "type":"string",
       "enum":[
@@ -1621,6 +1748,15 @@
         "versionControl":{"shape":"VersionControl"}
       }
     },
+    "SourceCodeAnalyzerName":{
+      "type":"string",
+      "enum":[
+        "CSHARP_ANALYZER",
+        "JAVA_ANALYZER",
+        "BYTECODE_ANALYZER",
+        "PORTING_ASSISTANT"
+      ]
+    },
     "SourceCodeList":{
       "type":"list",
       "member":{"shape":"SourceCode"}
@@ -1659,6 +1795,7 @@
     "StartAssessmentRequest":{
       "type":"structure",
       "members":{
+        "assessmentDataSourceType":{"shape":"AssessmentDataSourceType"},
         "assessmentTargets":{"shape":"AssessmentTargets"},
         "s3bucketForAnalysisData":{"shape":"StartAssessmentRequestS3bucketForAnalysisDataString"},
         "s3bucketForReportData":{"shape":"StartAssessmentRequestS3bucketForReportDataString"}

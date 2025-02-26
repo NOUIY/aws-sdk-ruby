@@ -67,33 +67,42 @@ module Aws::Cloud9
     #   specify a valid AMI alias or a valid Amazon EC2 Systems Manager
     #   (SSM) path.
     #
-    #   The default Amazon Linux AMI is currently used if the parameter
-    #   isn't explicitly assigned a value in the request.
     #
-    #   In the future the parameter for Amazon Linux will no longer be
-    #   available when you specify an AMI for your instance. Amazon Linux 2
-    #   will then become the default AMI, which is used to launch your
-    #   instance if no parameter is explicitly defined.
+    #
+    #   We recommend using Amazon Linux 2023 as the AMI to create your
+    #   environment as it is fully supported.
+    #
+    #   From December 16, 2024, Ubuntu 18.04 will be removed from the list
+    #   of available `imageIds` for Cloud9. This change is necessary as
+    #   Ubuntu 18.04 has ended standard support on May 31, 2023. This change
+    #   will only affect direct API consumers, and not Cloud9 console users.
+    #
+    #   Since Ubuntu 18.04 has ended standard support as of May 31, 2023, we
+    #   recommend you choose Ubuntu 22.04.
     #
     #   <b>AMI aliases </b>
     #
-    #   * <b>Amazon Linux (default): <code>amazonlinux-1-x86_64</code> </b>
-    #
     #   * Amazon Linux 2: `amazonlinux-2-x86_64`
+    #
+    #   * Amazon Linux 2023 (recommended): `amazonlinux-2023-x86_64`
     #
     #   * Ubuntu 18.04: `ubuntu-18.04-x86_64`
     #
-    #   **SSM paths**
+    #   * Ubuntu 22.04: `ubuntu-22.04-x86_64`
     #
-    #   * <b>Amazon Linux (default):
-    #     <code>resolve:ssm:/aws/service/cloud9/amis/amazonlinux-1-x86_64</code>
-    #     </b>
+    #   **SSM paths**
     #
     #   * Amazon Linux 2:
     #     `resolve:ssm:/aws/service/cloud9/amis/amazonlinux-2-x86_64`
     #
+    #   * Amazon Linux 2023 (recommended):
+    #     `resolve:ssm:/aws/service/cloud9/amis/amazonlinux-2023-x86_64`
+    #
     #   * Ubuntu 18.04:
     #     `resolve:ssm:/aws/service/cloud9/amis/ubuntu-18.04-x86_64`
+    #
+    #   * Ubuntu 22.04:
+    #     `resolve:ssm:/aws/service/cloud9/amis/ubuntu-22.04-x86_64`
     #   @return [String]
     #
     # @!attribute [rw] automatic_stop_time_minutes
@@ -176,9 +185,9 @@ module Aws::Cloud9
     #   The type of environment member permissions you want to associate
     #   with this environment member. Available values include:
     #
-    #   * `read-only`\: Has read-only access to the environment.
+    #   * `read-only`: Has read-only access to the environment.
     #
-    #   * `read-write`\: Has read-write access to the environment.
+    #   * `read-write`: Has read-write access to the environment.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cloud9-2017-09-23/CreateEnvironmentMembershipRequest AWS API Documentation
@@ -256,11 +265,11 @@ module Aws::Cloud9
     #   The type of environment member permissions to get information about.
     #   Available values include:
     #
-    #   * `owner`\: Owns the environment.
+    #   * `owner`: Owns the environment.
     #
-    #   * `read-only`\: Has read-only access to the environment.
+    #   * `read-only`: Has read-only access to the environment.
     #
-    #   * `read-write`\: Has read-write access to the environment.
+    #   * `read-write`: Has read-write access to the environment.
     #
     #   If no value is specified, information about all environment members
     #   are returned.
@@ -327,19 +336,19 @@ module Aws::Cloud9
     # @!attribute [rw] status
     #   The status of the environment. Available values include:
     #
-    #   * `connecting`\: The environment is connecting.
+    #   * `connecting`: The environment is connecting.
     #
-    #   * `creating`\: The environment is being created.
+    #   * `creating`: The environment is being created.
     #
-    #   * `deleting`\: The environment is being deleted.
+    #   * `deleting`: The environment is being deleted.
     #
-    #   * `error`\: The environment is in an error state.
+    #   * `error`: The environment is in an error state.
     #
-    #   * `ready`\: The environment is ready.
+    #   * `ready`: The environment is ready.
     #
-    #   * `stopped`\: The environment is stopped.
+    #   * `stopped`: The environment is stopped.
     #
-    #   * `stopping`\: The environment is stopping.
+    #   * `stopping`: The environment is stopping.
     #   @return [String]
     #
     # @!attribute [rw] message
@@ -396,10 +405,10 @@ module Aws::Cloud9
     # @!attribute [rw] type
     #   The type of environment. Valid values include the following:
     #
-    #   * `ec2`\: An Amazon Elastic Compute Cloud (Amazon EC2) instance
+    #   * `ec2`: An Amazon Elastic Compute Cloud (Amazon EC2) instance
     #     connects to the environment.
     #
-    #   * `ssh`\: Your own server connects to the environment.
+    #   * `ssh`: Your own server connects to the environment.
     #   @return [String]
     #
     # @!attribute [rw] connection_type
@@ -466,15 +475,15 @@ module Aws::Cloud9
     # @!attribute [rw] status
     #   The current creation or deletion lifecycle state of the environment.
     #
-    #   * `CREATING`\: The environment is in the process of being created.
+    #   * `CREATING`: The environment is in the process of being created.
     #
-    #   * `CREATED`\: The environment was successfully created.
+    #   * `CREATED`: The environment was successfully created.
     #
-    #   * `CREATE_FAILED`\: The environment failed to be created.
+    #   * `CREATE_FAILED`: The environment failed to be created.
     #
-    #   * `DELETING`\: The environment is in the process of being deleted.
+    #   * `DELETING`: The environment is in the process of being deleted.
     #
-    #   * `DELETE_FAILED`\: The environment failed to delete.
+    #   * `DELETE_FAILED`: The environment failed to delete.
     #   @return [String]
     #
     # @!attribute [rw] reason
@@ -504,11 +513,11 @@ module Aws::Cloud9
     #   The type of environment member permissions associated with this
     #   environment member. Available values include:
     #
-    #   * `owner`\: Owns the environment.
+    #   * `owner`: Owns the environment.
     #
-    #   * `read-only`\: Has read-only access to the environment.
+    #   * `read-only`: Has read-only access to the environment.
     #
-    #   * `read-write`\: Has read-write access to the environment.
+    #   * `read-write`: Has read-write access to the environment.
     #   @return [String]
     #
     # @!attribute [rw] user_id
@@ -722,9 +731,9 @@ module Aws::Cloud9
     #   The replacement type of environment member permissions you want to
     #   associate with this environment member. Available values include:
     #
-    #   * `read-only`\: Has read-only access to the environment.
+    #   * `read-only`: Has read-only access to the environment.
     #
-    #   * `read-write`\: Has read-write access to the environment.
+    #   * `read-write`: Has read-write access to the environment.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cloud9-2017-09-23/UpdateEnvironmentMembershipRequest AWS API Documentation
@@ -796,3 +805,4 @@ module Aws::Cloud9
 
   end
 end
+

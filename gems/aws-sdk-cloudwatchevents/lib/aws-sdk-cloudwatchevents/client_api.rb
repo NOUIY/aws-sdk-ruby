@@ -7,6 +7,7 @@
 #
 # WARNING ABOUT GENERATED CODE
 
+
 module Aws::CloudWatchEvents
   # @api private
   module ClientApi
@@ -34,6 +35,7 @@ module Aws::CloudWatchEvents
     Arn = Shapes::StringShape.new(name: 'Arn')
     AssignPublicIp = Shapes::StringShape.new(name: 'AssignPublicIp')
     AuthHeaderParameters = Shapes::StringShape.new(name: 'AuthHeaderParameters')
+    AuthHeaderParametersSensitive = Shapes::StringShape.new(name: 'AuthHeaderParametersSensitive')
     AwsVpcConfiguration = Shapes::StructureShape.new(name: 'AwsVpcConfiguration')
     BatchArrayProperties = Shapes::StructureShape.new(name: 'BatchArrayProperties')
     BatchParameters = Shapes::StructureShape.new(name: 'BatchParameters')
@@ -138,6 +140,7 @@ module Aws::CloudWatchEvents
     HeaderKey = Shapes::StringShape.new(name: 'HeaderKey')
     HeaderParametersMap = Shapes::MapShape.new(name: 'HeaderParametersMap')
     HeaderValue = Shapes::StringShape.new(name: 'HeaderValue')
+    HeaderValueSensitive = Shapes::StringShape.new(name: 'HeaderValueSensitive')
     HttpParameters = Shapes::StructureShape.new(name: 'HttpParameters')
     HttpsEndpoint = Shapes::StringShape.new(name: 'HttpsEndpoint')
     IllegalStatusException = Shapes::StructureShape.new(name: 'IllegalStatusException')
@@ -227,6 +230,7 @@ module Aws::CloudWatchEvents
     QueryStringKey = Shapes::StringShape.new(name: 'QueryStringKey')
     QueryStringParametersMap = Shapes::MapShape.new(name: 'QueryStringParametersMap')
     QueryStringValue = Shapes::StringShape.new(name: 'QueryStringValue')
+    QueryStringValueSensitive = Shapes::StringShape.new(name: 'QueryStringValueSensitive')
     RedshiftDataParameters = Shapes::StructureShape.new(name: 'RedshiftDataParameters')
     RedshiftSecretManagerArn = Shapes::StringShape.new(name: 'RedshiftSecretManagerArn')
     ReferenceId = Shapes::StringShape.new(name: 'ReferenceId')
@@ -270,6 +274,7 @@ module Aws::CloudWatchEvents
     SageMakerPipelineParameters = Shapes::StructureShape.new(name: 'SageMakerPipelineParameters')
     ScheduleExpression = Shapes::StringShape.new(name: 'ScheduleExpression')
     SecretsManagerSecretArn = Shapes::StringShape.new(name: 'SecretsManagerSecretArn')
+    SensitiveString = Shapes::StringShape.new(name: 'SensitiveString')
     Sql = Shapes::StringShape.new(name: 'Sql')
     SqsParameters = Shapes::StructureShape.new(name: 'SqsParameters')
     StartReplayRequest = Shapes::StructureShape.new(name: 'StartReplayRequest')
@@ -403,14 +408,14 @@ module Aws::CloudWatchEvents
     ConnectionBasicAuthResponseParameters.struct_class = Types::ConnectionBasicAuthResponseParameters
 
     ConnectionBodyParameter.add_member(:key, Shapes::ShapeRef.new(shape: String, location_name: "Key"))
-    ConnectionBodyParameter.add_member(:value, Shapes::ShapeRef.new(shape: String, location_name: "Value"))
+    ConnectionBodyParameter.add_member(:value, Shapes::ShapeRef.new(shape: SensitiveString, location_name: "Value"))
     ConnectionBodyParameter.add_member(:is_value_secret, Shapes::ShapeRef.new(shape: Boolean, location_name: "IsValueSecret"))
     ConnectionBodyParameter.struct_class = Types::ConnectionBodyParameter
 
     ConnectionBodyParametersList.member = Shapes::ShapeRef.new(shape: ConnectionBodyParameter)
 
     ConnectionHeaderParameter.add_member(:key, Shapes::ShapeRef.new(shape: HeaderKey, location_name: "Key"))
-    ConnectionHeaderParameter.add_member(:value, Shapes::ShapeRef.new(shape: HeaderValue, location_name: "Value"))
+    ConnectionHeaderParameter.add_member(:value, Shapes::ShapeRef.new(shape: HeaderValueSensitive, location_name: "Value"))
     ConnectionHeaderParameter.add_member(:is_value_secret, Shapes::ShapeRef.new(shape: Boolean, location_name: "IsValueSecret"))
     ConnectionHeaderParameter.struct_class = Types::ConnectionHeaderParameter
 
@@ -431,7 +436,7 @@ module Aws::CloudWatchEvents
     ConnectionOAuthResponseParameters.struct_class = Types::ConnectionOAuthResponseParameters
 
     ConnectionQueryStringParameter.add_member(:key, Shapes::ShapeRef.new(shape: QueryStringKey, location_name: "Key"))
-    ConnectionQueryStringParameter.add_member(:value, Shapes::ShapeRef.new(shape: QueryStringValue, location_name: "Value"))
+    ConnectionQueryStringParameter.add_member(:value, Shapes::ShapeRef.new(shape: QueryStringValueSensitive, location_name: "Value"))
     ConnectionQueryStringParameter.add_member(:is_value_secret, Shapes::ShapeRef.new(shape: Boolean, location_name: "IsValueSecret"))
     ConnectionQueryStringParameter.struct_class = Types::ConnectionQueryStringParameter
 
@@ -467,7 +472,7 @@ module Aws::CloudWatchEvents
     CreateArchiveResponse.struct_class = Types::CreateArchiveResponse
 
     CreateConnectionApiKeyAuthRequestParameters.add_member(:api_key_name, Shapes::ShapeRef.new(shape: AuthHeaderParameters, required: true, location_name: "ApiKeyName"))
-    CreateConnectionApiKeyAuthRequestParameters.add_member(:api_key_value, Shapes::ShapeRef.new(shape: AuthHeaderParameters, required: true, location_name: "ApiKeyValue"))
+    CreateConnectionApiKeyAuthRequestParameters.add_member(:api_key_value, Shapes::ShapeRef.new(shape: AuthHeaderParametersSensitive, required: true, location_name: "ApiKeyValue"))
     CreateConnectionApiKeyAuthRequestParameters.struct_class = Types::CreateConnectionApiKeyAuthRequestParameters
 
     CreateConnectionAuthRequestParameters.add_member(:basic_auth_parameters, Shapes::ShapeRef.new(shape: CreateConnectionBasicAuthRequestParameters, location_name: "BasicAuthParameters"))
@@ -477,11 +482,11 @@ module Aws::CloudWatchEvents
     CreateConnectionAuthRequestParameters.struct_class = Types::CreateConnectionAuthRequestParameters
 
     CreateConnectionBasicAuthRequestParameters.add_member(:username, Shapes::ShapeRef.new(shape: AuthHeaderParameters, required: true, location_name: "Username"))
-    CreateConnectionBasicAuthRequestParameters.add_member(:password, Shapes::ShapeRef.new(shape: AuthHeaderParameters, required: true, location_name: "Password"))
+    CreateConnectionBasicAuthRequestParameters.add_member(:password, Shapes::ShapeRef.new(shape: AuthHeaderParametersSensitive, required: true, location_name: "Password"))
     CreateConnectionBasicAuthRequestParameters.struct_class = Types::CreateConnectionBasicAuthRequestParameters
 
     CreateConnectionOAuthClientRequestParameters.add_member(:client_id, Shapes::ShapeRef.new(shape: AuthHeaderParameters, required: true, location_name: "ClientID"))
-    CreateConnectionOAuthClientRequestParameters.add_member(:client_secret, Shapes::ShapeRef.new(shape: AuthHeaderParameters, required: true, location_name: "ClientSecret"))
+    CreateConnectionOAuthClientRequestParameters.add_member(:client_secret, Shapes::ShapeRef.new(shape: AuthHeaderParametersSensitive, required: true, location_name: "ClientSecret"))
     CreateConnectionOAuthClientRequestParameters.struct_class = Types::CreateConnectionOAuthClientRequestParameters
 
     CreateConnectionOAuthRequestParameters.add_member(:client_parameters, Shapes::ShapeRef.new(shape: CreateConnectionOAuthClientRequestParameters, required: true, location_name: "ClientParameters"))
@@ -1168,7 +1173,7 @@ module Aws::CloudWatchEvents
     UpdateArchiveResponse.struct_class = Types::UpdateArchiveResponse
 
     UpdateConnectionApiKeyAuthRequestParameters.add_member(:api_key_name, Shapes::ShapeRef.new(shape: AuthHeaderParameters, location_name: "ApiKeyName"))
-    UpdateConnectionApiKeyAuthRequestParameters.add_member(:api_key_value, Shapes::ShapeRef.new(shape: AuthHeaderParameters, location_name: "ApiKeyValue"))
+    UpdateConnectionApiKeyAuthRequestParameters.add_member(:api_key_value, Shapes::ShapeRef.new(shape: AuthHeaderParametersSensitive, location_name: "ApiKeyValue"))
     UpdateConnectionApiKeyAuthRequestParameters.struct_class = Types::UpdateConnectionApiKeyAuthRequestParameters
 
     UpdateConnectionAuthRequestParameters.add_member(:basic_auth_parameters, Shapes::ShapeRef.new(shape: UpdateConnectionBasicAuthRequestParameters, location_name: "BasicAuthParameters"))
@@ -1178,11 +1183,11 @@ module Aws::CloudWatchEvents
     UpdateConnectionAuthRequestParameters.struct_class = Types::UpdateConnectionAuthRequestParameters
 
     UpdateConnectionBasicAuthRequestParameters.add_member(:username, Shapes::ShapeRef.new(shape: AuthHeaderParameters, location_name: "Username"))
-    UpdateConnectionBasicAuthRequestParameters.add_member(:password, Shapes::ShapeRef.new(shape: AuthHeaderParameters, location_name: "Password"))
+    UpdateConnectionBasicAuthRequestParameters.add_member(:password, Shapes::ShapeRef.new(shape: AuthHeaderParametersSensitive, location_name: "Password"))
     UpdateConnectionBasicAuthRequestParameters.struct_class = Types::UpdateConnectionBasicAuthRequestParameters
 
     UpdateConnectionOAuthClientRequestParameters.add_member(:client_id, Shapes::ShapeRef.new(shape: AuthHeaderParameters, location_name: "ClientID"))
-    UpdateConnectionOAuthClientRequestParameters.add_member(:client_secret, Shapes::ShapeRef.new(shape: AuthHeaderParameters, location_name: "ClientSecret"))
+    UpdateConnectionOAuthClientRequestParameters.add_member(:client_secret, Shapes::ShapeRef.new(shape: AuthHeaderParametersSensitive, location_name: "ClientSecret"))
     UpdateConnectionOAuthClientRequestParameters.struct_class = Types::UpdateConnectionOAuthClientRequestParameters
 
     UpdateConnectionOAuthRequestParameters.add_member(:client_parameters, Shapes::ShapeRef.new(shape: UpdateConnectionOAuthClientRequestParameters, location_name: "ClientParameters"))
@@ -1212,9 +1217,11 @@ module Aws::CloudWatchEvents
 
       api.metadata = {
         "apiVersion" => "2015-10-07",
+        "auth" => ["aws.auth#sigv4"],
         "endpointPrefix" => "events",
         "jsonVersion" => "1.1",
         "protocol" => "json",
+        "protocols" => ["json"],
         "serviceFullName" => "Amazon CloudWatch Events",
         "serviceId" => "CloudWatch Events",
         "signatureVersion" => "v4",

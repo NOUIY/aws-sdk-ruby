@@ -7,18 +7,21 @@
 #
 # WARNING ABOUT GENERATED CODE
 
+
 module Aws::Kafka
   # @api private
   module ClientApi
 
     include Seahorse::Model
 
+    AmazonMskCluster = Shapes::StructureShape.new(name: 'AmazonMskCluster')
     BadRequestException = Shapes::StructureShape.new(name: 'BadRequestException')
     BatchAssociateScramSecretRequest = Shapes::StructureShape.new(name: 'BatchAssociateScramSecretRequest')
     BatchAssociateScramSecretResponse = Shapes::StructureShape.new(name: 'BatchAssociateScramSecretResponse')
     BatchDisassociateScramSecretRequest = Shapes::StructureShape.new(name: 'BatchDisassociateScramSecretRequest')
     BatchDisassociateScramSecretResponse = Shapes::StructureShape.new(name: 'BatchDisassociateScramSecretResponse')
     BrokerAZDistribution = Shapes::StringShape.new(name: 'BrokerAZDistribution')
+    BrokerCountUpdateInfo = Shapes::StructureShape.new(name: 'BrokerCountUpdateInfo')
     BrokerEBSVolumeInfo = Shapes::StructureShape.new(name: 'BrokerEBSVolumeInfo')
     BrokerLogs = Shapes::StructureShape.new(name: 'BrokerLogs')
     BrokerNodeGroupInfo = Shapes::StructureShape.new(name: 'BrokerNodeGroupInfo')
@@ -26,12 +29,17 @@ module Aws::Kafka
     BrokerSoftwareInfo = Shapes::StructureShape.new(name: 'BrokerSoftwareInfo')
     ClientAuthentication = Shapes::StructureShape.new(name: 'ClientAuthentication')
     ClientBroker = Shapes::StringShape.new(name: 'ClientBroker')
+    ClientVpcConnection = Shapes::StructureShape.new(name: 'ClientVpcConnection')
     CloudWatchLogs = Shapes::StructureShape.new(name: 'CloudWatchLogs')
     Cluster = Shapes::StructureShape.new(name: 'Cluster')
     ClusterInfo = Shapes::StructureShape.new(name: 'ClusterInfo')
     ClusterOperationInfo = Shapes::StructureShape.new(name: 'ClusterOperationInfo')
     ClusterOperationStep = Shapes::StructureShape.new(name: 'ClusterOperationStep')
     ClusterOperationStepInfo = Shapes::StructureShape.new(name: 'ClusterOperationStepInfo')
+    ClusterOperationV2 = Shapes::StructureShape.new(name: 'ClusterOperationV2')
+    ClusterOperationV2Provisioned = Shapes::StructureShape.new(name: 'ClusterOperationV2Provisioned')
+    ClusterOperationV2Serverless = Shapes::StructureShape.new(name: 'ClusterOperationV2Serverless')
+    ClusterOperationV2Summary = Shapes::StructureShape.new(name: 'ClusterOperationV2Summary')
     ClusterState = Shapes::StringShape.new(name: 'ClusterState')
     ClusterType = Shapes::StringShape.new(name: 'ClusterType')
     CompatibleKafkaVersion = Shapes::StructureShape.new(name: 'CompatibleKafkaVersion')
@@ -41,18 +49,34 @@ module Aws::Kafka
     ConfigurationState = Shapes::StringShape.new(name: 'ConfigurationState')
     ConflictException = Shapes::StructureShape.new(name: 'ConflictException')
     ConnectivityInfo = Shapes::StructureShape.new(name: 'ConnectivityInfo')
+    ConsumerGroupReplication = Shapes::StructureShape.new(name: 'ConsumerGroupReplication')
+    ConsumerGroupReplicationUpdate = Shapes::StructureShape.new(name: 'ConsumerGroupReplicationUpdate')
+    ControllerNodeInfo = Shapes::StructureShape.new(name: 'ControllerNodeInfo')
     CreateClusterRequest = Shapes::StructureShape.new(name: 'CreateClusterRequest')
     CreateClusterResponse = Shapes::StructureShape.new(name: 'CreateClusterResponse')
     CreateClusterV2Request = Shapes::StructureShape.new(name: 'CreateClusterV2Request')
     CreateClusterV2Response = Shapes::StructureShape.new(name: 'CreateClusterV2Response')
     CreateConfigurationRequest = Shapes::StructureShape.new(name: 'CreateConfigurationRequest')
     CreateConfigurationResponse = Shapes::StructureShape.new(name: 'CreateConfigurationResponse')
+    CreateReplicatorRequest = Shapes::StructureShape.new(name: 'CreateReplicatorRequest')
+    CreateReplicatorResponse = Shapes::StructureShape.new(name: 'CreateReplicatorResponse')
+    CreateVpcConnectionRequest = Shapes::StructureShape.new(name: 'CreateVpcConnectionRequest')
+    CreateVpcConnectionResponse = Shapes::StructureShape.new(name: 'CreateVpcConnectionResponse')
+    CustomerActionStatus = Shapes::StringShape.new(name: 'CustomerActionStatus')
+    DeleteClusterPolicyRequest = Shapes::StructureShape.new(name: 'DeleteClusterPolicyRequest')
+    DeleteClusterPolicyResponse = Shapes::StructureShape.new(name: 'DeleteClusterPolicyResponse')
     DeleteClusterRequest = Shapes::StructureShape.new(name: 'DeleteClusterRequest')
     DeleteClusterResponse = Shapes::StructureShape.new(name: 'DeleteClusterResponse')
     DeleteConfigurationRequest = Shapes::StructureShape.new(name: 'DeleteConfigurationRequest')
     DeleteConfigurationResponse = Shapes::StructureShape.new(name: 'DeleteConfigurationResponse')
+    DeleteReplicatorRequest = Shapes::StructureShape.new(name: 'DeleteReplicatorRequest')
+    DeleteReplicatorResponse = Shapes::StructureShape.new(name: 'DeleteReplicatorResponse')
+    DeleteVpcConnectionRequest = Shapes::StructureShape.new(name: 'DeleteVpcConnectionRequest')
+    DeleteVpcConnectionResponse = Shapes::StructureShape.new(name: 'DeleteVpcConnectionResponse')
     DescribeClusterOperationRequest = Shapes::StructureShape.new(name: 'DescribeClusterOperationRequest')
     DescribeClusterOperationResponse = Shapes::StructureShape.new(name: 'DescribeClusterOperationResponse')
+    DescribeClusterOperationV2Request = Shapes::StructureShape.new(name: 'DescribeClusterOperationV2Request')
+    DescribeClusterOperationV2Response = Shapes::StructureShape.new(name: 'DescribeClusterOperationV2Response')
     DescribeClusterRequest = Shapes::StructureShape.new(name: 'DescribeClusterRequest')
     DescribeClusterResponse = Shapes::StructureShape.new(name: 'DescribeClusterResponse')
     DescribeClusterV2Request = Shapes::StructureShape.new(name: 'DescribeClusterV2Request')
@@ -61,6 +85,10 @@ module Aws::Kafka
     DescribeConfigurationResponse = Shapes::StructureShape.new(name: 'DescribeConfigurationResponse')
     DescribeConfigurationRevisionRequest = Shapes::StructureShape.new(name: 'DescribeConfigurationRevisionRequest')
     DescribeConfigurationRevisionResponse = Shapes::StructureShape.new(name: 'DescribeConfigurationRevisionResponse')
+    DescribeReplicatorRequest = Shapes::StructureShape.new(name: 'DescribeReplicatorRequest')
+    DescribeReplicatorResponse = Shapes::StructureShape.new(name: 'DescribeReplicatorResponse')
+    DescribeVpcConnectionRequest = Shapes::StructureShape.new(name: 'DescribeVpcConnectionRequest')
+    DescribeVpcConnectionResponse = Shapes::StructureShape.new(name: 'DescribeVpcConnectionResponse')
     EBSStorageInfo = Shapes::StructureShape.new(name: 'EBSStorageInfo')
     EncryptionAtRest = Shapes::StructureShape.new(name: 'EncryptionAtRest')
     EncryptionInTransit = Shapes::StructureShape.new(name: 'EncryptionInTransit')
@@ -72,16 +100,26 @@ module Aws::Kafka
     ForbiddenException = Shapes::StructureShape.new(name: 'ForbiddenException')
     GetBootstrapBrokersRequest = Shapes::StructureShape.new(name: 'GetBootstrapBrokersRequest')
     GetBootstrapBrokersResponse = Shapes::StructureShape.new(name: 'GetBootstrapBrokersResponse')
+    GetClusterPolicyRequest = Shapes::StructureShape.new(name: 'GetClusterPolicyRequest')
+    GetClusterPolicyResponse = Shapes::StructureShape.new(name: 'GetClusterPolicyResponse')
     GetCompatibleKafkaVersionsRequest = Shapes::StructureShape.new(name: 'GetCompatibleKafkaVersionsRequest')
     GetCompatibleKafkaVersionsResponse = Shapes::StructureShape.new(name: 'GetCompatibleKafkaVersionsResponse')
     Iam = Shapes::StructureShape.new(name: 'Iam')
     InternalServerErrorException = Shapes::StructureShape.new(name: 'InternalServerErrorException')
     JmxExporter = Shapes::StructureShape.new(name: 'JmxExporter')
     JmxExporterInfo = Shapes::StructureShape.new(name: 'JmxExporterInfo')
+    KafkaCluster = Shapes::StructureShape.new(name: 'KafkaCluster')
+    KafkaClusterClientVpcConfig = Shapes::StructureShape.new(name: 'KafkaClusterClientVpcConfig')
+    KafkaClusterDescription = Shapes::StructureShape.new(name: 'KafkaClusterDescription')
+    KafkaClusterSummary = Shapes::StructureShape.new(name: 'KafkaClusterSummary')
     KafkaVersion = Shapes::StructureShape.new(name: 'KafkaVersion')
     KafkaVersionStatus = Shapes::StringShape.new(name: 'KafkaVersionStatus')
+    ListClientVpcConnectionsRequest = Shapes::StructureShape.new(name: 'ListClientVpcConnectionsRequest')
+    ListClientVpcConnectionsResponse = Shapes::StructureShape.new(name: 'ListClientVpcConnectionsResponse')
     ListClusterOperationsRequest = Shapes::StructureShape.new(name: 'ListClusterOperationsRequest')
     ListClusterOperationsResponse = Shapes::StructureShape.new(name: 'ListClusterOperationsResponse')
+    ListClusterOperationsV2Request = Shapes::StructureShape.new(name: 'ListClusterOperationsV2Request')
+    ListClusterOperationsV2Response = Shapes::StructureShape.new(name: 'ListClusterOperationsV2Response')
     ListClustersRequest = Shapes::StructureShape.new(name: 'ListClustersRequest')
     ListClustersResponse = Shapes::StructureShape.new(name: 'ListClustersResponse')
     ListClustersV2Request = Shapes::StructureShape.new(name: 'ListClustersV2Request')
@@ -94,10 +132,14 @@ module Aws::Kafka
     ListKafkaVersionsResponse = Shapes::StructureShape.new(name: 'ListKafkaVersionsResponse')
     ListNodesRequest = Shapes::StructureShape.new(name: 'ListNodesRequest')
     ListNodesResponse = Shapes::StructureShape.new(name: 'ListNodesResponse')
+    ListReplicatorsRequest = Shapes::StructureShape.new(name: 'ListReplicatorsRequest')
+    ListReplicatorsResponse = Shapes::StructureShape.new(name: 'ListReplicatorsResponse')
     ListScramSecretsRequest = Shapes::StructureShape.new(name: 'ListScramSecretsRequest')
     ListScramSecretsResponse = Shapes::StructureShape.new(name: 'ListScramSecretsResponse')
     ListTagsForResourceRequest = Shapes::StructureShape.new(name: 'ListTagsForResourceRequest')
     ListTagsForResourceResponse = Shapes::StructureShape.new(name: 'ListTagsForResourceResponse')
+    ListVpcConnectionsRequest = Shapes::StructureShape.new(name: 'ListVpcConnectionsRequest')
+    ListVpcConnectionsResponse = Shapes::StructureShape.new(name: 'ListVpcConnectionsResponse')
     LoggingInfo = Shapes::StructureShape.new(name: 'LoggingInfo')
     MaxResults = Shapes::IntegerShape.new(name: 'MaxResults')
     MutableClusterInfo = Shapes::StructureShape.new(name: 'MutableClusterInfo')
@@ -114,8 +156,22 @@ module Aws::Kafka
     ProvisionedRequest = Shapes::StructureShape.new(name: 'ProvisionedRequest')
     ProvisionedThroughput = Shapes::StructureShape.new(name: 'ProvisionedThroughput')
     PublicAccess = Shapes::StructureShape.new(name: 'PublicAccess')
+    PutClusterPolicyRequest = Shapes::StructureShape.new(name: 'PutClusterPolicyRequest')
+    PutClusterPolicyResponse = Shapes::StructureShape.new(name: 'PutClusterPolicyResponse')
     RebootBrokerRequest = Shapes::StructureShape.new(name: 'RebootBrokerRequest')
     RebootBrokerResponse = Shapes::StructureShape.new(name: 'RebootBrokerResponse')
+    RejectClientVpcConnectionRequest = Shapes::StructureShape.new(name: 'RejectClientVpcConnectionRequest')
+    RejectClientVpcConnectionResponse = Shapes::StructureShape.new(name: 'RejectClientVpcConnectionResponse')
+    ReplicationInfo = Shapes::StructureShape.new(name: 'ReplicationInfo')
+    ReplicationInfoDescription = Shapes::StructureShape.new(name: 'ReplicationInfoDescription')
+    ReplicationInfoSummary = Shapes::StructureShape.new(name: 'ReplicationInfoSummary')
+    ReplicationStartingPosition = Shapes::StructureShape.new(name: 'ReplicationStartingPosition')
+    ReplicationStartingPositionType = Shapes::StringShape.new(name: 'ReplicationStartingPositionType')
+    ReplicationStateInfo = Shapes::StructureShape.new(name: 'ReplicationStateInfo')
+    ReplicationTopicNameConfiguration = Shapes::StructureShape.new(name: 'ReplicationTopicNameConfiguration')
+    ReplicationTopicNameConfigurationType = Shapes::StringShape.new(name: 'ReplicationTopicNameConfigurationType')
+    ReplicatorState = Shapes::StringShape.new(name: 'ReplicatorState')
+    ReplicatorSummary = Shapes::StructureShape.new(name: 'ReplicatorSummary')
     S3 = Shapes::StructureShape.new(name: 'S3')
     Sasl = Shapes::StructureShape.new(name: 'Sasl')
     Scram = Shapes::StructureShape.new(name: 'Scram')
@@ -128,8 +184,11 @@ module Aws::Kafka
     StorageInfo = Shapes::StructureShape.new(name: 'StorageInfo')
     StorageMode = Shapes::StringShape.new(name: 'StorageMode')
     TagResourceRequest = Shapes::StructureShape.new(name: 'TagResourceRequest')
+    TargetCompressionType = Shapes::StringShape.new(name: 'TargetCompressionType')
     Tls = Shapes::StructureShape.new(name: 'Tls')
     TooManyRequestsException = Shapes::StructureShape.new(name: 'TooManyRequestsException')
+    TopicReplication = Shapes::StructureShape.new(name: 'TopicReplication')
+    TopicReplicationUpdate = Shapes::StructureShape.new(name: 'TopicReplicationUpdate')
     Unauthenticated = Shapes::StructureShape.new(name: 'Unauthenticated')
     UnauthorizedException = Shapes::StructureShape.new(name: 'UnauthorizedException')
     UnprocessedScramSecret = Shapes::StructureShape.new(name: 'UnprocessedScramSecret')
@@ -150,11 +209,25 @@ module Aws::Kafka
     UpdateConnectivityResponse = Shapes::StructureShape.new(name: 'UpdateConnectivityResponse')
     UpdateMonitoringRequest = Shapes::StructureShape.new(name: 'UpdateMonitoringRequest')
     UpdateMonitoringResponse = Shapes::StructureShape.new(name: 'UpdateMonitoringResponse')
+    UpdateReplicationInfoRequest = Shapes::StructureShape.new(name: 'UpdateReplicationInfoRequest')
+    UpdateReplicationInfoResponse = Shapes::StructureShape.new(name: 'UpdateReplicationInfoResponse')
     UpdateSecurityRequest = Shapes::StructureShape.new(name: 'UpdateSecurityRequest')
     UpdateSecurityResponse = Shapes::StructureShape.new(name: 'UpdateSecurityResponse')
     UpdateStorageRequest = Shapes::StructureShape.new(name: 'UpdateStorageRequest')
     UpdateStorageResponse = Shapes::StructureShape.new(name: 'UpdateStorageResponse')
+    UserIdentity = Shapes::StructureShape.new(name: 'UserIdentity')
+    UserIdentityType = Shapes::StringShape.new(name: 'UserIdentityType')
     VpcConfig = Shapes::StructureShape.new(name: 'VpcConfig')
+    VpcConnection = Shapes::StructureShape.new(name: 'VpcConnection')
+    VpcConnectionInfo = Shapes::StructureShape.new(name: 'VpcConnectionInfo')
+    VpcConnectionInfoServerless = Shapes::StructureShape.new(name: 'VpcConnectionInfoServerless')
+    VpcConnectionState = Shapes::StringShape.new(name: 'VpcConnectionState')
+    VpcConnectivity = Shapes::StructureShape.new(name: 'VpcConnectivity')
+    VpcConnectivityClientAuthentication = Shapes::StructureShape.new(name: 'VpcConnectivityClientAuthentication')
+    VpcConnectivityIam = Shapes::StructureShape.new(name: 'VpcConnectivityIam')
+    VpcConnectivitySasl = Shapes::StructureShape.new(name: 'VpcConnectivitySasl')
+    VpcConnectivityScram = Shapes::StructureShape.new(name: 'VpcConnectivityScram')
+    VpcConnectivityTls = Shapes::StructureShape.new(name: 'VpcConnectivityTls')
     ZookeeperNodeInfo = Shapes::StructureShape.new(name: 'ZookeeperNodeInfo')
     __blob = Shapes::BlobShape.new(name: '__blob')
     __boolean = Shapes::BooleanShape.new(name: '__boolean')
@@ -163,25 +236,46 @@ module Aws::Kafka
     __integerMin1Max15 = Shapes::IntegerShape.new(name: '__integerMin1Max15')
     __integerMin1Max16384 = Shapes::IntegerShape.new(name: '__integerMin1Max16384')
     __listOfBrokerEBSVolumeInfo = Shapes::ListShape.new(name: '__listOfBrokerEBSVolumeInfo')
+    __listOfClientVpcConnection = Shapes::ListShape.new(name: '__listOfClientVpcConnection')
     __listOfCluster = Shapes::ListShape.new(name: '__listOfCluster')
     __listOfClusterInfo = Shapes::ListShape.new(name: '__listOfClusterInfo')
     __listOfClusterOperationInfo = Shapes::ListShape.new(name: '__listOfClusterOperationInfo')
     __listOfClusterOperationStep = Shapes::ListShape.new(name: '__listOfClusterOperationStep')
+    __listOfClusterOperationV2Summary = Shapes::ListShape.new(name: '__listOfClusterOperationV2Summary')
     __listOfCompatibleKafkaVersion = Shapes::ListShape.new(name: '__listOfCompatibleKafkaVersion')
     __listOfConfiguration = Shapes::ListShape.new(name: '__listOfConfiguration')
     __listOfConfigurationRevision = Shapes::ListShape.new(name: '__listOfConfigurationRevision')
+    __listOfKafkaCluster = Shapes::ListShape.new(name: '__listOfKafkaCluster')
+    __listOfKafkaClusterDescription = Shapes::ListShape.new(name: '__listOfKafkaClusterDescription')
+    __listOfKafkaClusterSummary = Shapes::ListShape.new(name: '__listOfKafkaClusterSummary')
     __listOfKafkaVersion = Shapes::ListShape.new(name: '__listOfKafkaVersion')
     __listOfNodeInfo = Shapes::ListShape.new(name: '__listOfNodeInfo')
+    __listOfReplicationInfo = Shapes::ListShape.new(name: '__listOfReplicationInfo')
+    __listOfReplicationInfoDescription = Shapes::ListShape.new(name: '__listOfReplicationInfoDescription')
+    __listOfReplicationInfoSummary = Shapes::ListShape.new(name: '__listOfReplicationInfoSummary')
+    __listOfReplicatorSummary = Shapes::ListShape.new(name: '__listOfReplicatorSummary')
     __listOfUnprocessedScramSecret = Shapes::ListShape.new(name: '__listOfUnprocessedScramSecret')
     __listOfVpcConfig = Shapes::ListShape.new(name: '__listOfVpcConfig')
+    __listOfVpcConnection = Shapes::ListShape.new(name: '__listOfVpcConnection')
+    __listOf__double = Shapes::ListShape.new(name: '__listOf__double')
     __listOf__string = Shapes::ListShape.new(name: '__listOf__string')
+    __listOf__stringMax249 = Shapes::ListShape.new(name: '__listOf__stringMax249')
+    __listOf__stringMax256 = Shapes::ListShape.new(name: '__listOf__stringMax256')
     __long = Shapes::IntegerShape.new(name: '__long')
     __mapOf__string = Shapes::MapShape.new(name: '__mapOf__string')
     __string = Shapes::StringShape.new(name: '__string')
+    __stringMax1024 = Shapes::StringShape.new(name: '__stringMax1024')
+    __stringMax249 = Shapes::StringShape.new(name: '__stringMax249')
+    __stringMax256 = Shapes::StringShape.new(name: '__stringMax256')
     __stringMin1Max128 = Shapes::StringShape.new(name: '__stringMin1Max128')
+    __stringMin1Max128Pattern09AZaZ09AZaZ0 = Shapes::StringShape.new(name: '__stringMin1Max128Pattern09AZaZ09AZaZ0')
     __stringMin1Max64 = Shapes::StringShape.new(name: '__stringMin1Max64')
     __stringMin5Max32 = Shapes::StringShape.new(name: '__stringMin5Max32')
     __timestampIso8601 = Shapes::TimestampShape.new(name: '__timestampIso8601', timestampFormat: "iso8601")
+    __timestampUnix = Shapes::TimestampShape.new(name: '__timestampUnix', timestampFormat: "unixTimestamp")
+
+    AmazonMskCluster.add_member(:msk_cluster_arn, Shapes::ShapeRef.new(shape: __string, required: true, location_name: "mskClusterArn"))
+    AmazonMskCluster.struct_class = Types::AmazonMskCluster
 
     BadRequestException.add_member(:invalid_parameter, Shapes::ShapeRef.new(shape: __string, location_name: "invalidParameter"))
     BadRequestException.add_member(:message, Shapes::ShapeRef.new(shape: __string, location_name: "message"))
@@ -203,6 +297,10 @@ module Aws::Kafka
     BatchDisassociateScramSecretResponse.add_member(:unprocessed_scram_secrets, Shapes::ShapeRef.new(shape: __listOfUnprocessedScramSecret, location_name: "unprocessedScramSecrets"))
     BatchDisassociateScramSecretResponse.struct_class = Types::BatchDisassociateScramSecretResponse
 
+    BrokerCountUpdateInfo.add_member(:created_broker_ids, Shapes::ShapeRef.new(shape: __listOf__double, location_name: "createdBrokerIds"))
+    BrokerCountUpdateInfo.add_member(:deleted_broker_ids, Shapes::ShapeRef.new(shape: __listOf__double, location_name: "deletedBrokerIds"))
+    BrokerCountUpdateInfo.struct_class = Types::BrokerCountUpdateInfo
+
     BrokerEBSVolumeInfo.add_member(:kafka_broker_node_id, Shapes::ShapeRef.new(shape: __string, required: true, location_name: "kafkaBrokerNodeId"))
     BrokerEBSVolumeInfo.add_member(:provisioned_throughput, Shapes::ShapeRef.new(shape: ProvisionedThroughput, location_name: "provisionedThroughput"))
     BrokerEBSVolumeInfo.add_member(:volume_size_gb, Shapes::ShapeRef.new(shape: __integer, location_name: "volumeSizeGB"))
@@ -219,6 +317,7 @@ module Aws::Kafka
     BrokerNodeGroupInfo.add_member(:security_groups, Shapes::ShapeRef.new(shape: __listOf__string, location_name: "securityGroups"))
     BrokerNodeGroupInfo.add_member(:storage_info, Shapes::ShapeRef.new(shape: StorageInfo, location_name: "storageInfo"))
     BrokerNodeGroupInfo.add_member(:connectivity_info, Shapes::ShapeRef.new(shape: ConnectivityInfo, location_name: "connectivityInfo"))
+    BrokerNodeGroupInfo.add_member(:zone_ids, Shapes::ShapeRef.new(shape: __listOf__string, location_name: "zoneIds"))
     BrokerNodeGroupInfo.struct_class = Types::BrokerNodeGroupInfo
 
     BrokerNodeInfo.add_member(:attached_eni_id, Shapes::ShapeRef.new(shape: __string, location_name: "attachedENIId"))
@@ -238,6 +337,13 @@ module Aws::Kafka
     ClientAuthentication.add_member(:tls, Shapes::ShapeRef.new(shape: Tls, location_name: "tls"))
     ClientAuthentication.add_member(:unauthenticated, Shapes::ShapeRef.new(shape: Unauthenticated, location_name: "unauthenticated"))
     ClientAuthentication.struct_class = Types::ClientAuthentication
+
+    ClientVpcConnection.add_member(:authentication, Shapes::ShapeRef.new(shape: __string, location_name: "authentication"))
+    ClientVpcConnection.add_member(:creation_time, Shapes::ShapeRef.new(shape: __timestampIso8601, location_name: "creationTime"))
+    ClientVpcConnection.add_member(:state, Shapes::ShapeRef.new(shape: VpcConnectionState, location_name: "state"))
+    ClientVpcConnection.add_member(:vpc_connection_arn, Shapes::ShapeRef.new(shape: __string, required: true, location_name: "vpcConnectionArn"))
+    ClientVpcConnection.add_member(:owner, Shapes::ShapeRef.new(shape: __string, location_name: "owner"))
+    ClientVpcConnection.struct_class = Types::ClientVpcConnection
 
     CloudWatchLogs.add_member(:enabled, Shapes::ShapeRef.new(shape: __boolean, required: true, location_name: "enabled"))
     CloudWatchLogs.add_member(:log_group, Shapes::ShapeRef.new(shape: __string, location_name: "logGroup"))
@@ -275,6 +381,7 @@ module Aws::Kafka
     ClusterInfo.add_member(:zookeeper_connect_string, Shapes::ShapeRef.new(shape: __string, location_name: "zookeeperConnectString"))
     ClusterInfo.add_member(:zookeeper_connect_string_tls, Shapes::ShapeRef.new(shape: __string, location_name: "zookeeperConnectStringTls"))
     ClusterInfo.add_member(:storage_mode, Shapes::ShapeRef.new(shape: StorageMode, location_name: "storageMode"))
+    ClusterInfo.add_member(:customer_action_status, Shapes::ShapeRef.new(shape: CustomerActionStatus, location_name: "customerActionStatus"))
     ClusterInfo.struct_class = Types::ClusterInfo
 
     ClusterOperationInfo.add_member(:client_request_id, Shapes::ShapeRef.new(shape: __string, location_name: "clientRequestId"))
@@ -288,6 +395,7 @@ module Aws::Kafka
     ClusterOperationInfo.add_member(:operation_type, Shapes::ShapeRef.new(shape: __string, location_name: "operationType"))
     ClusterOperationInfo.add_member(:source_cluster_info, Shapes::ShapeRef.new(shape: MutableClusterInfo, location_name: "sourceClusterInfo"))
     ClusterOperationInfo.add_member(:target_cluster_info, Shapes::ShapeRef.new(shape: MutableClusterInfo, location_name: "targetClusterInfo"))
+    ClusterOperationInfo.add_member(:vpc_connection_info, Shapes::ShapeRef.new(shape: VpcConnectionInfo, location_name: "vpcConnectionInfo"))
     ClusterOperationInfo.struct_class = Types::ClusterOperationInfo
 
     ClusterOperationStep.add_member(:step_info, Shapes::ShapeRef.new(shape: ClusterOperationStepInfo, location_name: "stepInfo"))
@@ -296,6 +404,35 @@ module Aws::Kafka
 
     ClusterOperationStepInfo.add_member(:step_status, Shapes::ShapeRef.new(shape: __string, location_name: "stepStatus"))
     ClusterOperationStepInfo.struct_class = Types::ClusterOperationStepInfo
+
+    ClusterOperationV2.add_member(:cluster_arn, Shapes::ShapeRef.new(shape: __string, location_name: "clusterArn"))
+    ClusterOperationV2.add_member(:cluster_type, Shapes::ShapeRef.new(shape: ClusterType, location_name: "clusterType"))
+    ClusterOperationV2.add_member(:start_time, Shapes::ShapeRef.new(shape: __timestampIso8601, location_name: "startTime"))
+    ClusterOperationV2.add_member(:end_time, Shapes::ShapeRef.new(shape: __timestampIso8601, location_name: "endTime"))
+    ClusterOperationV2.add_member(:operation_arn, Shapes::ShapeRef.new(shape: __string, location_name: "operationArn"))
+    ClusterOperationV2.add_member(:operation_state, Shapes::ShapeRef.new(shape: __string, location_name: "operationState"))
+    ClusterOperationV2.add_member(:operation_type, Shapes::ShapeRef.new(shape: __string, location_name: "operationType"))
+    ClusterOperationV2.add_member(:provisioned, Shapes::ShapeRef.new(shape: ClusterOperationV2Provisioned, location_name: "provisioned"))
+    ClusterOperationV2.add_member(:serverless, Shapes::ShapeRef.new(shape: ClusterOperationV2Serverless, location_name: "serverless"))
+    ClusterOperationV2.struct_class = Types::ClusterOperationV2
+
+    ClusterOperationV2Provisioned.add_member(:operation_steps, Shapes::ShapeRef.new(shape: __listOfClusterOperationStep, location_name: "operationSteps"))
+    ClusterOperationV2Provisioned.add_member(:source_cluster_info, Shapes::ShapeRef.new(shape: MutableClusterInfo, location_name: "sourceClusterInfo"))
+    ClusterOperationV2Provisioned.add_member(:target_cluster_info, Shapes::ShapeRef.new(shape: MutableClusterInfo, location_name: "targetClusterInfo"))
+    ClusterOperationV2Provisioned.add_member(:vpc_connection_info, Shapes::ShapeRef.new(shape: VpcConnectionInfo, location_name: "vpcConnectionInfo"))
+    ClusterOperationV2Provisioned.struct_class = Types::ClusterOperationV2Provisioned
+
+    ClusterOperationV2Serverless.add_member(:vpc_connection_info, Shapes::ShapeRef.new(shape: VpcConnectionInfoServerless, location_name: "vpcConnectionInfo"))
+    ClusterOperationV2Serverless.struct_class = Types::ClusterOperationV2Serverless
+
+    ClusterOperationV2Summary.add_member(:cluster_arn, Shapes::ShapeRef.new(shape: __string, location_name: "clusterArn"))
+    ClusterOperationV2Summary.add_member(:cluster_type, Shapes::ShapeRef.new(shape: ClusterType, location_name: "clusterType"))
+    ClusterOperationV2Summary.add_member(:start_time, Shapes::ShapeRef.new(shape: __timestampIso8601, location_name: "startTime"))
+    ClusterOperationV2Summary.add_member(:end_time, Shapes::ShapeRef.new(shape: __timestampIso8601, location_name: "endTime"))
+    ClusterOperationV2Summary.add_member(:operation_arn, Shapes::ShapeRef.new(shape: __string, location_name: "operationArn"))
+    ClusterOperationV2Summary.add_member(:operation_state, Shapes::ShapeRef.new(shape: __string, location_name: "operationState"))
+    ClusterOperationV2Summary.add_member(:operation_type, Shapes::ShapeRef.new(shape: __string, location_name: "operationType"))
+    ClusterOperationV2Summary.struct_class = Types::ClusterOperationV2Summary
 
     CompatibleKafkaVersion.add_member(:source_version, Shapes::ShapeRef.new(shape: __string, location_name: "sourceVersion"))
     CompatibleKafkaVersion.add_member(:target_versions, Shapes::ShapeRef.new(shape: __listOf__string, location_name: "targetVersions"))
@@ -324,7 +461,23 @@ module Aws::Kafka
     ConflictException.struct_class = Types::ConflictException
 
     ConnectivityInfo.add_member(:public_access, Shapes::ShapeRef.new(shape: PublicAccess, location_name: "publicAccess"))
+    ConnectivityInfo.add_member(:vpc_connectivity, Shapes::ShapeRef.new(shape: VpcConnectivity, location_name: "vpcConnectivity"))
     ConnectivityInfo.struct_class = Types::ConnectivityInfo
+
+    ConsumerGroupReplication.add_member(:consumer_groups_to_exclude, Shapes::ShapeRef.new(shape: __listOf__stringMax256, location_name: "consumerGroupsToExclude"))
+    ConsumerGroupReplication.add_member(:consumer_groups_to_replicate, Shapes::ShapeRef.new(shape: __listOf__stringMax256, required: true, location_name: "consumerGroupsToReplicate"))
+    ConsumerGroupReplication.add_member(:detect_and_copy_new_consumer_groups, Shapes::ShapeRef.new(shape: __boolean, location_name: "detectAndCopyNewConsumerGroups"))
+    ConsumerGroupReplication.add_member(:synchronise_consumer_group_offsets, Shapes::ShapeRef.new(shape: __boolean, location_name: "synchroniseConsumerGroupOffsets"))
+    ConsumerGroupReplication.struct_class = Types::ConsumerGroupReplication
+
+    ConsumerGroupReplicationUpdate.add_member(:consumer_groups_to_exclude, Shapes::ShapeRef.new(shape: __listOf__stringMax256, required: true, location_name: "consumerGroupsToExclude"))
+    ConsumerGroupReplicationUpdate.add_member(:consumer_groups_to_replicate, Shapes::ShapeRef.new(shape: __listOf__stringMax256, required: true, location_name: "consumerGroupsToReplicate"))
+    ConsumerGroupReplicationUpdate.add_member(:detect_and_copy_new_consumer_groups, Shapes::ShapeRef.new(shape: __boolean, required: true, location_name: "detectAndCopyNewConsumerGroups"))
+    ConsumerGroupReplicationUpdate.add_member(:synchronise_consumer_group_offsets, Shapes::ShapeRef.new(shape: __boolean, required: true, location_name: "synchroniseConsumerGroupOffsets"))
+    ConsumerGroupReplicationUpdate.struct_class = Types::ConsumerGroupReplicationUpdate
+
+    ControllerNodeInfo.add_member(:endpoints, Shapes::ShapeRef.new(shape: __listOf__string, location_name: "endpoints"))
+    ControllerNodeInfo.struct_class = Types::ControllerNodeInfo
 
     CreateClusterRequest.add_member(:broker_node_group_info, Shapes::ShapeRef.new(shape: BrokerNodeGroupInfo, required: true, location_name: "brokerNodeGroupInfo"))
     CreateClusterRequest.add_member(:client_authentication, Shapes::ShapeRef.new(shape: ClientAuthentication, location_name: "clientAuthentication"))
@@ -370,6 +523,42 @@ module Aws::Kafka
     CreateConfigurationResponse.add_member(:state, Shapes::ShapeRef.new(shape: ConfigurationState, location_name: "state"))
     CreateConfigurationResponse.struct_class = Types::CreateConfigurationResponse
 
+    CreateReplicatorRequest.add_member(:description, Shapes::ShapeRef.new(shape: __stringMax1024, location_name: "description"))
+    CreateReplicatorRequest.add_member(:kafka_clusters, Shapes::ShapeRef.new(shape: __listOfKafkaCluster, required: true, location_name: "kafkaClusters"))
+    CreateReplicatorRequest.add_member(:replication_info_list, Shapes::ShapeRef.new(shape: __listOfReplicationInfo, required: true, location_name: "replicationInfoList"))
+    CreateReplicatorRequest.add_member(:replicator_name, Shapes::ShapeRef.new(shape: __stringMin1Max128Pattern09AZaZ09AZaZ0, required: true, location_name: "replicatorName"))
+    CreateReplicatorRequest.add_member(:service_execution_role_arn, Shapes::ShapeRef.new(shape: __string, required: true, location_name: "serviceExecutionRoleArn"))
+    CreateReplicatorRequest.add_member(:tags, Shapes::ShapeRef.new(shape: __mapOf__string, location_name: "tags"))
+    CreateReplicatorRequest.struct_class = Types::CreateReplicatorRequest
+
+    CreateReplicatorResponse.add_member(:replicator_arn, Shapes::ShapeRef.new(shape: __string, location_name: "replicatorArn"))
+    CreateReplicatorResponse.add_member(:replicator_name, Shapes::ShapeRef.new(shape: __string, location_name: "replicatorName"))
+    CreateReplicatorResponse.add_member(:replicator_state, Shapes::ShapeRef.new(shape: ReplicatorState, location_name: "replicatorState"))
+    CreateReplicatorResponse.struct_class = Types::CreateReplicatorResponse
+
+    CreateVpcConnectionRequest.add_member(:target_cluster_arn, Shapes::ShapeRef.new(shape: __string, required: true, location_name: "targetClusterArn"))
+    CreateVpcConnectionRequest.add_member(:authentication, Shapes::ShapeRef.new(shape: __string, required: true, location_name: "authentication"))
+    CreateVpcConnectionRequest.add_member(:vpc_id, Shapes::ShapeRef.new(shape: __string, required: true, location_name: "vpcId"))
+    CreateVpcConnectionRequest.add_member(:client_subnets, Shapes::ShapeRef.new(shape: __listOf__string, required: true, location_name: "clientSubnets"))
+    CreateVpcConnectionRequest.add_member(:security_groups, Shapes::ShapeRef.new(shape: __listOf__string, required: true, location_name: "securityGroups"))
+    CreateVpcConnectionRequest.add_member(:tags, Shapes::ShapeRef.new(shape: __mapOf__string, location_name: "tags"))
+    CreateVpcConnectionRequest.struct_class = Types::CreateVpcConnectionRequest
+
+    CreateVpcConnectionResponse.add_member(:vpc_connection_arn, Shapes::ShapeRef.new(shape: __string, location_name: "vpcConnectionArn"))
+    CreateVpcConnectionResponse.add_member(:state, Shapes::ShapeRef.new(shape: VpcConnectionState, location_name: "state"))
+    CreateVpcConnectionResponse.add_member(:authentication, Shapes::ShapeRef.new(shape: __string, location_name: "authentication"))
+    CreateVpcConnectionResponse.add_member(:vpc_id, Shapes::ShapeRef.new(shape: __string, location_name: "vpcId"))
+    CreateVpcConnectionResponse.add_member(:client_subnets, Shapes::ShapeRef.new(shape: __listOf__string, location_name: "clientSubnets"))
+    CreateVpcConnectionResponse.add_member(:security_groups, Shapes::ShapeRef.new(shape: __listOf__string, location_name: "securityGroups"))
+    CreateVpcConnectionResponse.add_member(:creation_time, Shapes::ShapeRef.new(shape: __timestampIso8601, location_name: "creationTime"))
+    CreateVpcConnectionResponse.add_member(:tags, Shapes::ShapeRef.new(shape: __mapOf__string, location_name: "tags"))
+    CreateVpcConnectionResponse.struct_class = Types::CreateVpcConnectionResponse
+
+    DeleteClusterPolicyRequest.add_member(:cluster_arn, Shapes::ShapeRef.new(shape: __string, required: true, location: "uri", location_name: "clusterArn"))
+    DeleteClusterPolicyRequest.struct_class = Types::DeleteClusterPolicyRequest
+
+    DeleteClusterPolicyResponse.struct_class = Types::DeleteClusterPolicyResponse
+
     DeleteClusterRequest.add_member(:cluster_arn, Shapes::ShapeRef.new(shape: __string, required: true, location: "uri", location_name: "clusterArn"))
     DeleteClusterRequest.add_member(:current_version, Shapes::ShapeRef.new(shape: __string, location: "querystring", location_name: "currentVersion"))
     DeleteClusterRequest.struct_class = Types::DeleteClusterRequest
@@ -385,11 +574,32 @@ module Aws::Kafka
     DeleteConfigurationResponse.add_member(:state, Shapes::ShapeRef.new(shape: ConfigurationState, location_name: "state"))
     DeleteConfigurationResponse.struct_class = Types::DeleteConfigurationResponse
 
+    DeleteReplicatorRequest.add_member(:current_version, Shapes::ShapeRef.new(shape: __string, location: "querystring", location_name: "currentVersion"))
+    DeleteReplicatorRequest.add_member(:replicator_arn, Shapes::ShapeRef.new(shape: __string, required: true, location: "uri", location_name: "replicatorArn"))
+    DeleteReplicatorRequest.struct_class = Types::DeleteReplicatorRequest
+
+    DeleteReplicatorResponse.add_member(:replicator_arn, Shapes::ShapeRef.new(shape: __string, location_name: "replicatorArn"))
+    DeleteReplicatorResponse.add_member(:replicator_state, Shapes::ShapeRef.new(shape: ReplicatorState, location_name: "replicatorState"))
+    DeleteReplicatorResponse.struct_class = Types::DeleteReplicatorResponse
+
+    DeleteVpcConnectionRequest.add_member(:arn, Shapes::ShapeRef.new(shape: __string, required: true, location: "uri", location_name: "arn"))
+    DeleteVpcConnectionRequest.struct_class = Types::DeleteVpcConnectionRequest
+
+    DeleteVpcConnectionResponse.add_member(:vpc_connection_arn, Shapes::ShapeRef.new(shape: __string, location_name: "vpcConnectionArn"))
+    DeleteVpcConnectionResponse.add_member(:state, Shapes::ShapeRef.new(shape: VpcConnectionState, location_name: "state"))
+    DeleteVpcConnectionResponse.struct_class = Types::DeleteVpcConnectionResponse
+
     DescribeClusterOperationRequest.add_member(:cluster_operation_arn, Shapes::ShapeRef.new(shape: __string, required: true, location: "uri", location_name: "clusterOperationArn"))
     DescribeClusterOperationRequest.struct_class = Types::DescribeClusterOperationRequest
 
     DescribeClusterOperationResponse.add_member(:cluster_operation_info, Shapes::ShapeRef.new(shape: ClusterOperationInfo, location_name: "clusterOperationInfo"))
     DescribeClusterOperationResponse.struct_class = Types::DescribeClusterOperationResponse
+
+    DescribeClusterOperationV2Request.add_member(:cluster_operation_arn, Shapes::ShapeRef.new(shape: __string, required: true, location: "uri", location_name: "clusterOperationArn"))
+    DescribeClusterOperationV2Request.struct_class = Types::DescribeClusterOperationV2Request
+
+    DescribeClusterOperationV2Response.add_member(:cluster_operation_info, Shapes::ShapeRef.new(shape: ClusterOperationV2, location_name: "clusterOperationInfo"))
+    DescribeClusterOperationV2Response.struct_class = Types::DescribeClusterOperationV2Response
 
     DescribeClusterRequest.add_member(:cluster_arn, Shapes::ShapeRef.new(shape: __string, required: true, location: "uri", location_name: "clusterArn"))
     DescribeClusterRequest.struct_class = Types::DescribeClusterRequest
@@ -425,6 +635,38 @@ module Aws::Kafka
     DescribeConfigurationRevisionResponse.add_member(:revision, Shapes::ShapeRef.new(shape: __long, location_name: "revision"))
     DescribeConfigurationRevisionResponse.add_member(:server_properties, Shapes::ShapeRef.new(shape: __blob, location_name: "serverProperties"))
     DescribeConfigurationRevisionResponse.struct_class = Types::DescribeConfigurationRevisionResponse
+
+    DescribeReplicatorRequest.add_member(:replicator_arn, Shapes::ShapeRef.new(shape: __string, required: true, location: "uri", location_name: "replicatorArn"))
+    DescribeReplicatorRequest.struct_class = Types::DescribeReplicatorRequest
+
+    DescribeReplicatorResponse.add_member(:creation_time, Shapes::ShapeRef.new(shape: __timestampIso8601, location_name: "creationTime"))
+    DescribeReplicatorResponse.add_member(:current_version, Shapes::ShapeRef.new(shape: __string, location_name: "currentVersion"))
+    DescribeReplicatorResponse.add_member(:is_replicator_reference, Shapes::ShapeRef.new(shape: __boolean, location_name: "isReplicatorReference"))
+    DescribeReplicatorResponse.add_member(:kafka_clusters, Shapes::ShapeRef.new(shape: __listOfKafkaClusterDescription, location_name: "kafkaClusters"))
+    DescribeReplicatorResponse.add_member(:replication_info_list, Shapes::ShapeRef.new(shape: __listOfReplicationInfoDescription, location_name: "replicationInfoList"))
+    DescribeReplicatorResponse.add_member(:replicator_arn, Shapes::ShapeRef.new(shape: __string, location_name: "replicatorArn"))
+    DescribeReplicatorResponse.add_member(:replicator_description, Shapes::ShapeRef.new(shape: __string, location_name: "replicatorDescription"))
+    DescribeReplicatorResponse.add_member(:replicator_name, Shapes::ShapeRef.new(shape: __string, location_name: "replicatorName"))
+    DescribeReplicatorResponse.add_member(:replicator_resource_arn, Shapes::ShapeRef.new(shape: __string, location_name: "replicatorResourceArn"))
+    DescribeReplicatorResponse.add_member(:replicator_state, Shapes::ShapeRef.new(shape: ReplicatorState, location_name: "replicatorState"))
+    DescribeReplicatorResponse.add_member(:service_execution_role_arn, Shapes::ShapeRef.new(shape: __string, location_name: "serviceExecutionRoleArn"))
+    DescribeReplicatorResponse.add_member(:state_info, Shapes::ShapeRef.new(shape: ReplicationStateInfo, location_name: "stateInfo"))
+    DescribeReplicatorResponse.add_member(:tags, Shapes::ShapeRef.new(shape: __mapOf__string, location_name: "tags"))
+    DescribeReplicatorResponse.struct_class = Types::DescribeReplicatorResponse
+
+    DescribeVpcConnectionRequest.add_member(:arn, Shapes::ShapeRef.new(shape: __string, required: true, location: "uri", location_name: "arn"))
+    DescribeVpcConnectionRequest.struct_class = Types::DescribeVpcConnectionRequest
+
+    DescribeVpcConnectionResponse.add_member(:vpc_connection_arn, Shapes::ShapeRef.new(shape: __string, location_name: "vpcConnectionArn"))
+    DescribeVpcConnectionResponse.add_member(:target_cluster_arn, Shapes::ShapeRef.new(shape: __string, location_name: "targetClusterArn"))
+    DescribeVpcConnectionResponse.add_member(:state, Shapes::ShapeRef.new(shape: VpcConnectionState, location_name: "state"))
+    DescribeVpcConnectionResponse.add_member(:authentication, Shapes::ShapeRef.new(shape: __string, location_name: "authentication"))
+    DescribeVpcConnectionResponse.add_member(:vpc_id, Shapes::ShapeRef.new(shape: __string, location_name: "vpcId"))
+    DescribeVpcConnectionResponse.add_member(:subnets, Shapes::ShapeRef.new(shape: __listOf__string, location_name: "subnets"))
+    DescribeVpcConnectionResponse.add_member(:security_groups, Shapes::ShapeRef.new(shape: __listOf__string, location_name: "securityGroups"))
+    DescribeVpcConnectionResponse.add_member(:creation_time, Shapes::ShapeRef.new(shape: __timestampIso8601, location_name: "creationTime"))
+    DescribeVpcConnectionResponse.add_member(:tags, Shapes::ShapeRef.new(shape: __mapOf__string, location_name: "tags"))
+    DescribeVpcConnectionResponse.struct_class = Types::DescribeVpcConnectionResponse
 
     EBSStorageInfo.add_member(:provisioned_throughput, Shapes::ShapeRef.new(shape: ProvisionedThroughput, location_name: "provisionedThroughput"))
     EBSStorageInfo.add_member(:volume_size, Shapes::ShapeRef.new(shape: __integerMin1Max16384, location_name: "volumeSize"))
@@ -467,7 +709,17 @@ module Aws::Kafka
     GetBootstrapBrokersResponse.add_member(:bootstrap_broker_string_tls, Shapes::ShapeRef.new(shape: __string, location_name: "bootstrapBrokerStringTls"))
     GetBootstrapBrokersResponse.add_member(:bootstrap_broker_string_sasl_scram, Shapes::ShapeRef.new(shape: __string, location_name: "bootstrapBrokerStringSaslScram"))
     GetBootstrapBrokersResponse.add_member(:bootstrap_broker_string_sasl_iam, Shapes::ShapeRef.new(shape: __string, location_name: "bootstrapBrokerStringSaslIam"))
+    GetBootstrapBrokersResponse.add_member(:bootstrap_broker_string_vpc_connectivity_tls, Shapes::ShapeRef.new(shape: __string, location_name: "bootstrapBrokerStringVpcConnectivityTls"))
+    GetBootstrapBrokersResponse.add_member(:bootstrap_broker_string_vpc_connectivity_sasl_scram, Shapes::ShapeRef.new(shape: __string, location_name: "bootstrapBrokerStringVpcConnectivitySaslScram"))
+    GetBootstrapBrokersResponse.add_member(:bootstrap_broker_string_vpc_connectivity_sasl_iam, Shapes::ShapeRef.new(shape: __string, location_name: "bootstrapBrokerStringVpcConnectivitySaslIam"))
     GetBootstrapBrokersResponse.struct_class = Types::GetBootstrapBrokersResponse
+
+    GetClusterPolicyRequest.add_member(:cluster_arn, Shapes::ShapeRef.new(shape: __string, required: true, location: "uri", location_name: "clusterArn"))
+    GetClusterPolicyRequest.struct_class = Types::GetClusterPolicyRequest
+
+    GetClusterPolicyResponse.add_member(:current_version, Shapes::ShapeRef.new(shape: __string, location_name: "currentVersion"))
+    GetClusterPolicyResponse.add_member(:policy, Shapes::ShapeRef.new(shape: __string, location_name: "policy"))
+    GetClusterPolicyResponse.struct_class = Types::GetClusterPolicyResponse
 
     GetCompatibleKafkaVersionsRequest.add_member(:cluster_arn, Shapes::ShapeRef.new(shape: __string, location: "querystring", location_name: "clusterArn"))
     GetCompatibleKafkaVersionsRequest.struct_class = Types::GetCompatibleKafkaVersionsRequest
@@ -488,9 +740,35 @@ module Aws::Kafka
     JmxExporterInfo.add_member(:enabled_in_broker, Shapes::ShapeRef.new(shape: __boolean, required: true, location_name: "enabledInBroker"))
     JmxExporterInfo.struct_class = Types::JmxExporterInfo
 
+    KafkaCluster.add_member(:amazon_msk_cluster, Shapes::ShapeRef.new(shape: AmazonMskCluster, required: true, location_name: "amazonMskCluster"))
+    KafkaCluster.add_member(:vpc_config, Shapes::ShapeRef.new(shape: KafkaClusterClientVpcConfig, required: true, location_name: "vpcConfig"))
+    KafkaCluster.struct_class = Types::KafkaCluster
+
+    KafkaClusterClientVpcConfig.add_member(:security_group_ids, Shapes::ShapeRef.new(shape: __listOf__string, location_name: "securityGroupIds"))
+    KafkaClusterClientVpcConfig.add_member(:subnet_ids, Shapes::ShapeRef.new(shape: __listOf__string, required: true, location_name: "subnetIds"))
+    KafkaClusterClientVpcConfig.struct_class = Types::KafkaClusterClientVpcConfig
+
+    KafkaClusterDescription.add_member(:amazon_msk_cluster, Shapes::ShapeRef.new(shape: AmazonMskCluster, location_name: "amazonMskCluster"))
+    KafkaClusterDescription.add_member(:kafka_cluster_alias, Shapes::ShapeRef.new(shape: __string, location_name: "kafkaClusterAlias"))
+    KafkaClusterDescription.add_member(:vpc_config, Shapes::ShapeRef.new(shape: KafkaClusterClientVpcConfig, location_name: "vpcConfig"))
+    KafkaClusterDescription.struct_class = Types::KafkaClusterDescription
+
+    KafkaClusterSummary.add_member(:amazon_msk_cluster, Shapes::ShapeRef.new(shape: AmazonMskCluster, location_name: "amazonMskCluster"))
+    KafkaClusterSummary.add_member(:kafka_cluster_alias, Shapes::ShapeRef.new(shape: __string, location_name: "kafkaClusterAlias"))
+    KafkaClusterSummary.struct_class = Types::KafkaClusterSummary
+
     KafkaVersion.add_member(:version, Shapes::ShapeRef.new(shape: __string, location_name: "version"))
     KafkaVersion.add_member(:status, Shapes::ShapeRef.new(shape: KafkaVersionStatus, location_name: "status"))
     KafkaVersion.struct_class = Types::KafkaVersion
+
+    ListClientVpcConnectionsRequest.add_member(:cluster_arn, Shapes::ShapeRef.new(shape: __string, required: true, location: "uri", location_name: "clusterArn"))
+    ListClientVpcConnectionsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location: "querystring", location_name: "maxResults"))
+    ListClientVpcConnectionsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: __string, location: "querystring", location_name: "nextToken"))
+    ListClientVpcConnectionsRequest.struct_class = Types::ListClientVpcConnectionsRequest
+
+    ListClientVpcConnectionsResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: __string, location_name: "nextToken"))
+    ListClientVpcConnectionsResponse.add_member(:client_vpc_connections, Shapes::ShapeRef.new(shape: __listOfClientVpcConnection, location_name: "clientVpcConnections"))
+    ListClientVpcConnectionsResponse.struct_class = Types::ListClientVpcConnectionsResponse
 
     ListClusterOperationsRequest.add_member(:cluster_arn, Shapes::ShapeRef.new(shape: __string, required: true, location: "uri", location_name: "clusterArn"))
     ListClusterOperationsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location: "querystring", location_name: "maxResults"))
@@ -500,6 +778,15 @@ module Aws::Kafka
     ListClusterOperationsResponse.add_member(:cluster_operation_info_list, Shapes::ShapeRef.new(shape: __listOfClusterOperationInfo, location_name: "clusterOperationInfoList"))
     ListClusterOperationsResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: __string, location_name: "nextToken"))
     ListClusterOperationsResponse.struct_class = Types::ListClusterOperationsResponse
+
+    ListClusterOperationsV2Request.add_member(:cluster_arn, Shapes::ShapeRef.new(shape: __string, required: true, location: "uri", location_name: "clusterArn"))
+    ListClusterOperationsV2Request.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location: "querystring", location_name: "maxResults"))
+    ListClusterOperationsV2Request.add_member(:next_token, Shapes::ShapeRef.new(shape: __string, location: "querystring", location_name: "nextToken"))
+    ListClusterOperationsV2Request.struct_class = Types::ListClusterOperationsV2Request
+
+    ListClusterOperationsV2Response.add_member(:cluster_operation_info_list, Shapes::ShapeRef.new(shape: __listOfClusterOperationV2Summary, location_name: "clusterOperationInfoList"))
+    ListClusterOperationsV2Response.add_member(:next_token, Shapes::ShapeRef.new(shape: __string, location_name: "nextToken"))
+    ListClusterOperationsV2Response.struct_class = Types::ListClusterOperationsV2Response
 
     ListClustersRequest.add_member(:cluster_name_filter, Shapes::ShapeRef.new(shape: __string, location: "querystring", location_name: "clusterNameFilter"))
     ListClustersRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location: "querystring", location_name: "maxResults"))
@@ -554,6 +841,15 @@ module Aws::Kafka
     ListNodesResponse.add_member(:node_info_list, Shapes::ShapeRef.new(shape: __listOfNodeInfo, location_name: "nodeInfoList"))
     ListNodesResponse.struct_class = Types::ListNodesResponse
 
+    ListReplicatorsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location: "querystring", location_name: "maxResults"))
+    ListReplicatorsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: __string, location: "querystring", location_name: "nextToken"))
+    ListReplicatorsRequest.add_member(:replicator_name_filter, Shapes::ShapeRef.new(shape: __string, location: "querystring", location_name: "replicatorNameFilter"))
+    ListReplicatorsRequest.struct_class = Types::ListReplicatorsRequest
+
+    ListReplicatorsResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: __string, location_name: "nextToken"))
+    ListReplicatorsResponse.add_member(:replicators, Shapes::ShapeRef.new(shape: __listOfReplicatorSummary, location_name: "replicators"))
+    ListReplicatorsResponse.struct_class = Types::ListReplicatorsResponse
+
     ListScramSecretsRequest.add_member(:cluster_arn, Shapes::ShapeRef.new(shape: __string, required: true, location: "uri", location_name: "clusterArn"))
     ListScramSecretsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location: "querystring", location_name: "maxResults"))
     ListScramSecretsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: __string, location: "querystring", location_name: "nextToken"))
@@ -568,6 +864,14 @@ module Aws::Kafka
 
     ListTagsForResourceResponse.add_member(:tags, Shapes::ShapeRef.new(shape: __mapOf__string, location_name: "tags"))
     ListTagsForResourceResponse.struct_class = Types::ListTagsForResourceResponse
+
+    ListVpcConnectionsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location: "querystring", location_name: "maxResults"))
+    ListVpcConnectionsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: __string, location: "querystring", location_name: "nextToken"))
+    ListVpcConnectionsRequest.struct_class = Types::ListVpcConnectionsRequest
+
+    ListVpcConnectionsResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: __string, location_name: "nextToken"))
+    ListVpcConnectionsResponse.add_member(:vpc_connections, Shapes::ShapeRef.new(shape: __listOfVpcConnection, location_name: "vpcConnections"))
+    ListVpcConnectionsResponse.struct_class = Types::ListVpcConnectionsResponse
 
     LoggingInfo.add_member(:broker_logs, Shapes::ShapeRef.new(shape: BrokerLogs, required: true, location_name: "brokerLogs"))
     LoggingInfo.struct_class = Types::LoggingInfo
@@ -584,6 +888,7 @@ module Aws::Kafka
     MutableClusterInfo.add_member(:encryption_info, Shapes::ShapeRef.new(shape: EncryptionInfo, location_name: "encryptionInfo"))
     MutableClusterInfo.add_member(:connectivity_info, Shapes::ShapeRef.new(shape: ConnectivityInfo, location_name: "connectivityInfo"))
     MutableClusterInfo.add_member(:storage_mode, Shapes::ShapeRef.new(shape: StorageMode, location_name: "storageMode"))
+    MutableClusterInfo.add_member(:broker_count_update_info, Shapes::ShapeRef.new(shape: BrokerCountUpdateInfo, location_name: "brokerCountUpdateInfo"))
     MutableClusterInfo.struct_class = Types::MutableClusterInfo
 
     NodeExporter.add_member(:enabled_in_broker, Shapes::ShapeRef.new(shape: __boolean, required: true, location_name: "enabledInBroker"))
@@ -594,6 +899,7 @@ module Aws::Kafka
 
     NodeInfo.add_member(:added_to_cluster_time, Shapes::ShapeRef.new(shape: __string, location_name: "addedToClusterTime"))
     NodeInfo.add_member(:broker_node_info, Shapes::ShapeRef.new(shape: BrokerNodeInfo, location_name: "brokerNodeInfo"))
+    NodeInfo.add_member(:controller_node_info, Shapes::ShapeRef.new(shape: ControllerNodeInfo, location_name: "controllerNodeInfo"))
     NodeInfo.add_member(:instance_type, Shapes::ShapeRef.new(shape: __string, location_name: "instanceType"))
     NodeInfo.add_member(:node_arn, Shapes::ShapeRef.new(shape: __string, location_name: "nodeARN"))
     NodeInfo.add_member(:node_type, Shapes::ShapeRef.new(shape: NodeType, location_name: "nodeType"))
@@ -629,6 +935,7 @@ module Aws::Kafka
     Provisioned.add_member(:zookeeper_connect_string, Shapes::ShapeRef.new(shape: __string, location_name: "zookeeperConnectString"))
     Provisioned.add_member(:zookeeper_connect_string_tls, Shapes::ShapeRef.new(shape: __string, location_name: "zookeeperConnectStringTls"))
     Provisioned.add_member(:storage_mode, Shapes::ShapeRef.new(shape: StorageMode, location_name: "storageMode"))
+    Provisioned.add_member(:customer_action_status, Shapes::ShapeRef.new(shape: CustomerActionStatus, location_name: "customerActionStatus"))
     Provisioned.struct_class = Types::Provisioned
 
     ProvisionedRequest.add_member(:broker_node_group_info, Shapes::ShapeRef.new(shape: BrokerNodeGroupInfo, required: true, location_name: "brokerNodeGroupInfo"))
@@ -650,6 +957,14 @@ module Aws::Kafka
     PublicAccess.add_member(:type, Shapes::ShapeRef.new(shape: __string, location_name: "type"))
     PublicAccess.struct_class = Types::PublicAccess
 
+    PutClusterPolicyRequest.add_member(:cluster_arn, Shapes::ShapeRef.new(shape: __string, required: true, location: "uri", location_name: "clusterArn"))
+    PutClusterPolicyRequest.add_member(:current_version, Shapes::ShapeRef.new(shape: __string, location_name: "currentVersion"))
+    PutClusterPolicyRequest.add_member(:policy, Shapes::ShapeRef.new(shape: __string, required: true, location_name: "policy"))
+    PutClusterPolicyRequest.struct_class = Types::PutClusterPolicyRequest
+
+    PutClusterPolicyResponse.add_member(:current_version, Shapes::ShapeRef.new(shape: __string, location_name: "currentVersion"))
+    PutClusterPolicyResponse.struct_class = Types::PutClusterPolicyResponse
+
     RebootBrokerRequest.add_member(:broker_ids, Shapes::ShapeRef.new(shape: __listOf__string, required: true, location_name: "brokerIds"))
     RebootBrokerRequest.add_member(:cluster_arn, Shapes::ShapeRef.new(shape: __string, required: true, location: "uri", location_name: "clusterArn"))
     RebootBrokerRequest.struct_class = Types::RebootBrokerRequest
@@ -657,6 +972,51 @@ module Aws::Kafka
     RebootBrokerResponse.add_member(:cluster_arn, Shapes::ShapeRef.new(shape: __string, location_name: "clusterArn"))
     RebootBrokerResponse.add_member(:cluster_operation_arn, Shapes::ShapeRef.new(shape: __string, location_name: "clusterOperationArn"))
     RebootBrokerResponse.struct_class = Types::RebootBrokerResponse
+
+    RejectClientVpcConnectionRequest.add_member(:cluster_arn, Shapes::ShapeRef.new(shape: __string, required: true, location: "uri", location_name: "clusterArn"))
+    RejectClientVpcConnectionRequest.add_member(:vpc_connection_arn, Shapes::ShapeRef.new(shape: __string, required: true, location_name: "vpcConnectionArn"))
+    RejectClientVpcConnectionRequest.struct_class = Types::RejectClientVpcConnectionRequest
+
+    RejectClientVpcConnectionResponse.struct_class = Types::RejectClientVpcConnectionResponse
+
+    ReplicationInfo.add_member(:consumer_group_replication, Shapes::ShapeRef.new(shape: ConsumerGroupReplication, required: true, location_name: "consumerGroupReplication"))
+    ReplicationInfo.add_member(:source_kafka_cluster_arn, Shapes::ShapeRef.new(shape: __string, required: true, location_name: "sourceKafkaClusterArn"))
+    ReplicationInfo.add_member(:target_compression_type, Shapes::ShapeRef.new(shape: TargetCompressionType, required: true, location_name: "targetCompressionType"))
+    ReplicationInfo.add_member(:target_kafka_cluster_arn, Shapes::ShapeRef.new(shape: __string, required: true, location_name: "targetKafkaClusterArn"))
+    ReplicationInfo.add_member(:topic_replication, Shapes::ShapeRef.new(shape: TopicReplication, required: true, location_name: "topicReplication"))
+    ReplicationInfo.struct_class = Types::ReplicationInfo
+
+    ReplicationInfoDescription.add_member(:consumer_group_replication, Shapes::ShapeRef.new(shape: ConsumerGroupReplication, location_name: "consumerGroupReplication"))
+    ReplicationInfoDescription.add_member(:source_kafka_cluster_alias, Shapes::ShapeRef.new(shape: __string, location_name: "sourceKafkaClusterAlias"))
+    ReplicationInfoDescription.add_member(:target_compression_type, Shapes::ShapeRef.new(shape: TargetCompressionType, location_name: "targetCompressionType"))
+    ReplicationInfoDescription.add_member(:target_kafka_cluster_alias, Shapes::ShapeRef.new(shape: __string, location_name: "targetKafkaClusterAlias"))
+    ReplicationInfoDescription.add_member(:topic_replication, Shapes::ShapeRef.new(shape: TopicReplication, location_name: "topicReplication"))
+    ReplicationInfoDescription.struct_class = Types::ReplicationInfoDescription
+
+    ReplicationInfoSummary.add_member(:source_kafka_cluster_alias, Shapes::ShapeRef.new(shape: __string, location_name: "sourceKafkaClusterAlias"))
+    ReplicationInfoSummary.add_member(:target_kafka_cluster_alias, Shapes::ShapeRef.new(shape: __string, location_name: "targetKafkaClusterAlias"))
+    ReplicationInfoSummary.struct_class = Types::ReplicationInfoSummary
+
+    ReplicationStartingPosition.add_member(:type, Shapes::ShapeRef.new(shape: ReplicationStartingPositionType, location_name: "type"))
+    ReplicationStartingPosition.struct_class = Types::ReplicationStartingPosition
+
+    ReplicationStateInfo.add_member(:code, Shapes::ShapeRef.new(shape: __string, location_name: "code"))
+    ReplicationStateInfo.add_member(:message, Shapes::ShapeRef.new(shape: __string, location_name: "message"))
+    ReplicationStateInfo.struct_class = Types::ReplicationStateInfo
+
+    ReplicationTopicNameConfiguration.add_member(:type, Shapes::ShapeRef.new(shape: ReplicationTopicNameConfigurationType, location_name: "type"))
+    ReplicationTopicNameConfiguration.struct_class = Types::ReplicationTopicNameConfiguration
+
+    ReplicatorSummary.add_member(:creation_time, Shapes::ShapeRef.new(shape: __timestampIso8601, location_name: "creationTime"))
+    ReplicatorSummary.add_member(:current_version, Shapes::ShapeRef.new(shape: __string, location_name: "currentVersion"))
+    ReplicatorSummary.add_member(:is_replicator_reference, Shapes::ShapeRef.new(shape: __boolean, location_name: "isReplicatorReference"))
+    ReplicatorSummary.add_member(:kafka_clusters_summary, Shapes::ShapeRef.new(shape: __listOfKafkaClusterSummary, location_name: "kafkaClustersSummary"))
+    ReplicatorSummary.add_member(:replication_info_summary_list, Shapes::ShapeRef.new(shape: __listOfReplicationInfoSummary, location_name: "replicationInfoSummaryList"))
+    ReplicatorSummary.add_member(:replicator_arn, Shapes::ShapeRef.new(shape: __string, location_name: "replicatorArn"))
+    ReplicatorSummary.add_member(:replicator_name, Shapes::ShapeRef.new(shape: __string, location_name: "replicatorName"))
+    ReplicatorSummary.add_member(:replicator_resource_arn, Shapes::ShapeRef.new(shape: __string, location_name: "replicatorResourceArn"))
+    ReplicatorSummary.add_member(:replicator_state, Shapes::ShapeRef.new(shape: ReplicatorState, location_name: "replicatorState"))
+    ReplicatorSummary.struct_class = Types::ReplicatorSummary
 
     S3.add_member(:bucket, Shapes::ShapeRef.new(shape: __string, location_name: "bucket"))
     S3.add_member(:enabled, Shapes::ShapeRef.new(shape: __boolean, required: true, location_name: "enabled"))
@@ -706,6 +1066,22 @@ module Aws::Kafka
     TooManyRequestsException.add_member(:invalid_parameter, Shapes::ShapeRef.new(shape: __string, location_name: "invalidParameter"))
     TooManyRequestsException.add_member(:message, Shapes::ShapeRef.new(shape: __string, location_name: "message"))
     TooManyRequestsException.struct_class = Types::TooManyRequestsException
+
+    TopicReplication.add_member(:copy_access_control_lists_for_topics, Shapes::ShapeRef.new(shape: __boolean, location_name: "copyAccessControlListsForTopics"))
+    TopicReplication.add_member(:copy_topic_configurations, Shapes::ShapeRef.new(shape: __boolean, location_name: "copyTopicConfigurations"))
+    TopicReplication.add_member(:detect_and_copy_new_topics, Shapes::ShapeRef.new(shape: __boolean, location_name: "detectAndCopyNewTopics"))
+    TopicReplication.add_member(:starting_position, Shapes::ShapeRef.new(shape: ReplicationStartingPosition, location_name: "startingPosition"))
+    TopicReplication.add_member(:topic_name_configuration, Shapes::ShapeRef.new(shape: ReplicationTopicNameConfiguration, location_name: "topicNameConfiguration"))
+    TopicReplication.add_member(:topics_to_exclude, Shapes::ShapeRef.new(shape: __listOf__stringMax249, location_name: "topicsToExclude"))
+    TopicReplication.add_member(:topics_to_replicate, Shapes::ShapeRef.new(shape: __listOf__stringMax249, required: true, location_name: "topicsToReplicate"))
+    TopicReplication.struct_class = Types::TopicReplication
+
+    TopicReplicationUpdate.add_member(:copy_access_control_lists_for_topics, Shapes::ShapeRef.new(shape: __boolean, required: true, location_name: "copyAccessControlListsForTopics"))
+    TopicReplicationUpdate.add_member(:copy_topic_configurations, Shapes::ShapeRef.new(shape: __boolean, required: true, location_name: "copyTopicConfigurations"))
+    TopicReplicationUpdate.add_member(:detect_and_copy_new_topics, Shapes::ShapeRef.new(shape: __boolean, required: true, location_name: "detectAndCopyNewTopics"))
+    TopicReplicationUpdate.add_member(:topics_to_exclude, Shapes::ShapeRef.new(shape: __listOf__stringMax249, required: true, location_name: "topicsToExclude"))
+    TopicReplicationUpdate.add_member(:topics_to_replicate, Shapes::ShapeRef.new(shape: __listOf__stringMax249, required: true, location_name: "topicsToReplicate"))
+    TopicReplicationUpdate.struct_class = Types::TopicReplicationUpdate
 
     Unauthenticated.add_member(:enabled, Shapes::ShapeRef.new(shape: __boolean, location_name: "enabled"))
     Unauthenticated.struct_class = Types::Unauthenticated
@@ -798,6 +1174,18 @@ module Aws::Kafka
     UpdateMonitoringResponse.add_member(:cluster_operation_arn, Shapes::ShapeRef.new(shape: __string, location_name: "clusterOperationArn"))
     UpdateMonitoringResponse.struct_class = Types::UpdateMonitoringResponse
 
+    UpdateReplicationInfoRequest.add_member(:consumer_group_replication, Shapes::ShapeRef.new(shape: ConsumerGroupReplicationUpdate, location_name: "consumerGroupReplication"))
+    UpdateReplicationInfoRequest.add_member(:current_version, Shapes::ShapeRef.new(shape: __string, required: true, location_name: "currentVersion"))
+    UpdateReplicationInfoRequest.add_member(:replicator_arn, Shapes::ShapeRef.new(shape: __string, required: true, location: "uri", location_name: "replicatorArn"))
+    UpdateReplicationInfoRequest.add_member(:source_kafka_cluster_arn, Shapes::ShapeRef.new(shape: __string, required: true, location_name: "sourceKafkaClusterArn"))
+    UpdateReplicationInfoRequest.add_member(:target_kafka_cluster_arn, Shapes::ShapeRef.new(shape: __string, required: true, location_name: "targetKafkaClusterArn"))
+    UpdateReplicationInfoRequest.add_member(:topic_replication, Shapes::ShapeRef.new(shape: TopicReplicationUpdate, location_name: "topicReplication"))
+    UpdateReplicationInfoRequest.struct_class = Types::UpdateReplicationInfoRequest
+
+    UpdateReplicationInfoResponse.add_member(:replicator_arn, Shapes::ShapeRef.new(shape: __string, location_name: "replicatorArn"))
+    UpdateReplicationInfoResponse.add_member(:replicator_state, Shapes::ShapeRef.new(shape: ReplicatorState, location_name: "replicatorState"))
+    UpdateReplicationInfoResponse.struct_class = Types::UpdateReplicationInfoResponse
+
     UpdateSecurityRequest.add_member(:client_authentication, Shapes::ShapeRef.new(shape: ClientAuthentication, location_name: "clientAuthentication"))
     UpdateSecurityRequest.add_member(:cluster_arn, Shapes::ShapeRef.new(shape: __string, required: true, location: "uri", location_name: "clusterArn"))
     UpdateSecurityRequest.add_member(:current_version, Shapes::ShapeRef.new(shape: __string, required: true, location_name: "currentVersion"))
@@ -819,9 +1207,53 @@ module Aws::Kafka
     UpdateStorageResponse.add_member(:cluster_operation_arn, Shapes::ShapeRef.new(shape: __string, location_name: "clusterOperationArn"))
     UpdateStorageResponse.struct_class = Types::UpdateStorageResponse
 
+    UserIdentity.add_member(:type, Shapes::ShapeRef.new(shape: UserIdentityType, location_name: "type"))
+    UserIdentity.add_member(:principal_id, Shapes::ShapeRef.new(shape: __string, location_name: "principalId"))
+    UserIdentity.struct_class = Types::UserIdentity
+
     VpcConfig.add_member(:subnet_ids, Shapes::ShapeRef.new(shape: __listOf__string, required: true, location_name: "subnetIds"))
     VpcConfig.add_member(:security_group_ids, Shapes::ShapeRef.new(shape: __listOf__string, location_name: "securityGroupIds"))
     VpcConfig.struct_class = Types::VpcConfig
+
+    VpcConnection.add_member(:vpc_connection_arn, Shapes::ShapeRef.new(shape: __string, required: true, location_name: "vpcConnectionArn"))
+    VpcConnection.add_member(:target_cluster_arn, Shapes::ShapeRef.new(shape: __string, required: true, location_name: "targetClusterArn"))
+    VpcConnection.add_member(:creation_time, Shapes::ShapeRef.new(shape: __timestampIso8601, location_name: "creationTime"))
+    VpcConnection.add_member(:authentication, Shapes::ShapeRef.new(shape: __string, location_name: "authentication"))
+    VpcConnection.add_member(:vpc_id, Shapes::ShapeRef.new(shape: __string, location_name: "vpcId"))
+    VpcConnection.add_member(:state, Shapes::ShapeRef.new(shape: VpcConnectionState, location_name: "state"))
+    VpcConnection.struct_class = Types::VpcConnection
+
+    VpcConnectionInfo.add_member(:vpc_connection_arn, Shapes::ShapeRef.new(shape: __string, location_name: "vpcConnectionArn"))
+    VpcConnectionInfo.add_member(:owner, Shapes::ShapeRef.new(shape: __string, location_name: "owner"))
+    VpcConnectionInfo.add_member(:user_identity, Shapes::ShapeRef.new(shape: UserIdentity, location_name: "userIdentity"))
+    VpcConnectionInfo.add_member(:creation_time, Shapes::ShapeRef.new(shape: __timestampIso8601, location_name: "creationTime"))
+    VpcConnectionInfo.struct_class = Types::VpcConnectionInfo
+
+    VpcConnectionInfoServerless.add_member(:creation_time, Shapes::ShapeRef.new(shape: __timestampIso8601, location_name: "creationTime"))
+    VpcConnectionInfoServerless.add_member(:owner, Shapes::ShapeRef.new(shape: __string, location_name: "owner"))
+    VpcConnectionInfoServerless.add_member(:user_identity, Shapes::ShapeRef.new(shape: UserIdentity, location_name: "userIdentity"))
+    VpcConnectionInfoServerless.add_member(:vpc_connection_arn, Shapes::ShapeRef.new(shape: __string, location_name: "vpcConnectionArn"))
+    VpcConnectionInfoServerless.struct_class = Types::VpcConnectionInfoServerless
+
+    VpcConnectivity.add_member(:client_authentication, Shapes::ShapeRef.new(shape: VpcConnectivityClientAuthentication, location_name: "clientAuthentication"))
+    VpcConnectivity.struct_class = Types::VpcConnectivity
+
+    VpcConnectivityClientAuthentication.add_member(:sasl, Shapes::ShapeRef.new(shape: VpcConnectivitySasl, location_name: "sasl"))
+    VpcConnectivityClientAuthentication.add_member(:tls, Shapes::ShapeRef.new(shape: VpcConnectivityTls, location_name: "tls"))
+    VpcConnectivityClientAuthentication.struct_class = Types::VpcConnectivityClientAuthentication
+
+    VpcConnectivityIam.add_member(:enabled, Shapes::ShapeRef.new(shape: __boolean, location_name: "enabled"))
+    VpcConnectivityIam.struct_class = Types::VpcConnectivityIam
+
+    VpcConnectivitySasl.add_member(:scram, Shapes::ShapeRef.new(shape: VpcConnectivityScram, location_name: "scram"))
+    VpcConnectivitySasl.add_member(:iam, Shapes::ShapeRef.new(shape: VpcConnectivityIam, location_name: "iam"))
+    VpcConnectivitySasl.struct_class = Types::VpcConnectivitySasl
+
+    VpcConnectivityScram.add_member(:enabled, Shapes::ShapeRef.new(shape: __boolean, location_name: "enabled"))
+    VpcConnectivityScram.struct_class = Types::VpcConnectivityScram
+
+    VpcConnectivityTls.add_member(:enabled, Shapes::ShapeRef.new(shape: __boolean, location_name: "enabled"))
+    VpcConnectivityTls.struct_class = Types::VpcConnectivityTls
 
     ZookeeperNodeInfo.add_member(:attached_eni_id, Shapes::ShapeRef.new(shape: __string, location_name: "attachedENIId"))
     ZookeeperNodeInfo.add_member(:client_vpc_ip_address, Shapes::ShapeRef.new(shape: __string, location_name: "clientVpcIpAddress"))
@@ -832,6 +1264,8 @@ module Aws::Kafka
 
     __listOfBrokerEBSVolumeInfo.member = Shapes::ShapeRef.new(shape: BrokerEBSVolumeInfo)
 
+    __listOfClientVpcConnection.member = Shapes::ShapeRef.new(shape: ClientVpcConnection)
+
     __listOfCluster.member = Shapes::ShapeRef.new(shape: Cluster)
 
     __listOfClusterInfo.member = Shapes::ShapeRef.new(shape: ClusterInfo)
@@ -840,21 +1274,45 @@ module Aws::Kafka
 
     __listOfClusterOperationStep.member = Shapes::ShapeRef.new(shape: ClusterOperationStep)
 
+    __listOfClusterOperationV2Summary.member = Shapes::ShapeRef.new(shape: ClusterOperationV2Summary)
+
     __listOfCompatibleKafkaVersion.member = Shapes::ShapeRef.new(shape: CompatibleKafkaVersion)
 
     __listOfConfiguration.member = Shapes::ShapeRef.new(shape: Configuration)
 
     __listOfConfigurationRevision.member = Shapes::ShapeRef.new(shape: ConfigurationRevision)
 
+    __listOfKafkaCluster.member = Shapes::ShapeRef.new(shape: KafkaCluster)
+
+    __listOfKafkaClusterDescription.member = Shapes::ShapeRef.new(shape: KafkaClusterDescription)
+
+    __listOfKafkaClusterSummary.member = Shapes::ShapeRef.new(shape: KafkaClusterSummary)
+
     __listOfKafkaVersion.member = Shapes::ShapeRef.new(shape: KafkaVersion)
 
     __listOfNodeInfo.member = Shapes::ShapeRef.new(shape: NodeInfo)
+
+    __listOfReplicationInfo.member = Shapes::ShapeRef.new(shape: ReplicationInfo)
+
+    __listOfReplicationInfoDescription.member = Shapes::ShapeRef.new(shape: ReplicationInfoDescription)
+
+    __listOfReplicationInfoSummary.member = Shapes::ShapeRef.new(shape: ReplicationInfoSummary)
+
+    __listOfReplicatorSummary.member = Shapes::ShapeRef.new(shape: ReplicatorSummary)
 
     __listOfUnprocessedScramSecret.member = Shapes::ShapeRef.new(shape: UnprocessedScramSecret)
 
     __listOfVpcConfig.member = Shapes::ShapeRef.new(shape: VpcConfig)
 
+    __listOfVpcConnection.member = Shapes::ShapeRef.new(shape: VpcConnection)
+
+    __listOf__double.member = Shapes::ShapeRef.new(shape: __double)
+
     __listOf__string.member = Shapes::ShapeRef.new(shape: __string)
+
+    __listOf__stringMax249.member = Shapes::ShapeRef.new(shape: __stringMax249)
+
+    __listOf__stringMax256.member = Shapes::ShapeRef.new(shape: __stringMax256)
 
     __mapOf__string.key = Shapes::ShapeRef.new(shape: __string)
     __mapOf__string.value = Shapes::ShapeRef.new(shape: __string)
@@ -867,6 +1325,7 @@ module Aws::Kafka
 
       api.metadata = {
         "apiVersion" => "2018-11-14",
+        "auth" => ["aws.auth#sigv4"],
         "endpointPrefix" => "kafka",
         "jsonVersion" => "1.1",
         "protocol" => "rest-json",
@@ -938,6 +1397,37 @@ module Aws::Kafka
         o.errors << Shapes::ShapeRef.new(shape: ConflictException)
       end)
 
+      api.add_operation(:create_replicator, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "CreateReplicator"
+        o.http_method = "POST"
+        o.http_request_uri = "/replication/v1/replicators"
+        o.input = Shapes::ShapeRef.new(shape: CreateReplicatorRequest)
+        o.output = Shapes::ShapeRef.new(shape: CreateReplicatorResponse)
+        o.errors << Shapes::ShapeRef.new(shape: BadRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: UnauthorizedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerErrorException)
+        o.errors << Shapes::ShapeRef.new(shape: ForbiddenException)
+        o.errors << Shapes::ShapeRef.new(shape: NotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceUnavailableException)
+        o.errors << Shapes::ShapeRef.new(shape: TooManyRequestsException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+      end)
+
+      api.add_operation(:create_vpc_connection, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "CreateVpcConnection"
+        o.http_method = "POST"
+        o.http_request_uri = "/v1/vpc-connection"
+        o.input = Shapes::ShapeRef.new(shape: CreateVpcConnectionRequest)
+        o.output = Shapes::ShapeRef.new(shape: CreateVpcConnectionResponse)
+        o.errors << Shapes::ShapeRef.new(shape: BadRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerErrorException)
+        o.errors << Shapes::ShapeRef.new(shape: UnauthorizedException)
+        o.errors << Shapes::ShapeRef.new(shape: ForbiddenException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceUnavailableException)
+        o.errors << Shapes::ShapeRef.new(shape: TooManyRequestsException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+      end)
+
       api.add_operation(:delete_cluster, Seahorse::Model::Operation.new.tap do |o|
         o.name = "DeleteCluster"
         o.http_method = "DELETE"
@@ -956,6 +1446,33 @@ module Aws::Kafka
         o.http_request_uri = "/v1/configurations/{arn}"
         o.input = Shapes::ShapeRef.new(shape: DeleteConfigurationRequest)
         o.output = Shapes::ShapeRef.new(shape: DeleteConfigurationResponse)
+        o.errors << Shapes::ShapeRef.new(shape: NotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: BadRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerErrorException)
+        o.errors << Shapes::ShapeRef.new(shape: ForbiddenException)
+      end)
+
+      api.add_operation(:delete_replicator, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DeleteReplicator"
+        o.http_method = "DELETE"
+        o.http_request_uri = "/replication/v1/replicators/{replicatorArn}"
+        o.input = Shapes::ShapeRef.new(shape: DeleteReplicatorRequest)
+        o.output = Shapes::ShapeRef.new(shape: DeleteReplicatorResponse)
+        o.errors << Shapes::ShapeRef.new(shape: BadRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: UnauthorizedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerErrorException)
+        o.errors << Shapes::ShapeRef.new(shape: ForbiddenException)
+        o.errors << Shapes::ShapeRef.new(shape: NotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceUnavailableException)
+        o.errors << Shapes::ShapeRef.new(shape: TooManyRequestsException)
+      end)
+
+      api.add_operation(:delete_vpc_connection, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DeleteVpcConnection"
+        o.http_method = "DELETE"
+        o.http_request_uri = "/v1/vpc-connection/{arn}"
+        o.input = Shapes::ShapeRef.new(shape: DeleteVpcConnectionRequest)
+        o.output = Shapes::ShapeRef.new(shape: DeleteVpcConnectionResponse)
         o.errors << Shapes::ShapeRef.new(shape: NotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: BadRequestException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerErrorException)
@@ -1001,6 +1518,21 @@ module Aws::Kafka
         o.errors << Shapes::ShapeRef.new(shape: ForbiddenException)
       end)
 
+      api.add_operation(:describe_cluster_operation_v2, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DescribeClusterOperationV2"
+        o.http_method = "GET"
+        o.http_request_uri = "/api/v2/operations/{clusterOperationArn}"
+        o.input = Shapes::ShapeRef.new(shape: DescribeClusterOperationV2Request)
+        o.output = Shapes::ShapeRef.new(shape: DescribeClusterOperationV2Response)
+        o.errors << Shapes::ShapeRef.new(shape: BadRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: UnauthorizedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerErrorException)
+        o.errors << Shapes::ShapeRef.new(shape: ForbiddenException)
+        o.errors << Shapes::ShapeRef.new(shape: NotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceUnavailableException)
+        o.errors << Shapes::ShapeRef.new(shape: TooManyRequestsException)
+      end)
+
       api.add_operation(:describe_configuration, Seahorse::Model::Operation.new.tap do |o|
         o.name = "DescribeConfiguration"
         o.http_method = "GET"
@@ -1021,6 +1553,35 @@ module Aws::Kafka
         o.http_request_uri = "/v1/configurations/{arn}/revisions/{revision}"
         o.input = Shapes::ShapeRef.new(shape: DescribeConfigurationRevisionRequest)
         o.output = Shapes::ShapeRef.new(shape: DescribeConfigurationRevisionResponse)
+        o.errors << Shapes::ShapeRef.new(shape: BadRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: UnauthorizedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerErrorException)
+        o.errors << Shapes::ShapeRef.new(shape: ForbiddenException)
+        o.errors << Shapes::ShapeRef.new(shape: NotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceUnavailableException)
+      end)
+
+      api.add_operation(:describe_replicator, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DescribeReplicator"
+        o.http_method = "GET"
+        o.http_request_uri = "/replication/v1/replicators/{replicatorArn}"
+        o.input = Shapes::ShapeRef.new(shape: DescribeReplicatorRequest)
+        o.output = Shapes::ShapeRef.new(shape: DescribeReplicatorResponse)
+        o.errors << Shapes::ShapeRef.new(shape: BadRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: UnauthorizedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerErrorException)
+        o.errors << Shapes::ShapeRef.new(shape: ForbiddenException)
+        o.errors << Shapes::ShapeRef.new(shape: NotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceUnavailableException)
+        o.errors << Shapes::ShapeRef.new(shape: TooManyRequestsException)
+      end)
+
+      api.add_operation(:describe_vpc_connection, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DescribeVpcConnection"
+        o.http_method = "GET"
+        o.http_request_uri = "/v1/vpc-connection/{arn}"
+        o.input = Shapes::ShapeRef.new(shape: DescribeVpcConnectionRequest)
+        o.output = Shapes::ShapeRef.new(shape: DescribeVpcConnectionResponse)
         o.errors << Shapes::ShapeRef.new(shape: BadRequestException)
         o.errors << Shapes::ShapeRef.new(shape: UnauthorizedException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerErrorException)
@@ -1082,6 +1643,27 @@ module Aws::Kafka
         o.errors << Shapes::ShapeRef.new(shape: InternalServerErrorException)
         o.errors << Shapes::ShapeRef.new(shape: UnauthorizedException)
         o.errors << Shapes::ShapeRef.new(shape: ForbiddenException)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
+      end)
+
+      api.add_operation(:list_cluster_operations_v2, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListClusterOperationsV2"
+        o.http_method = "GET"
+        o.http_request_uri = "/api/v2/clusters/{clusterArn}/operations"
+        o.input = Shapes::ShapeRef.new(shape: ListClusterOperationsV2Request)
+        o.output = Shapes::ShapeRef.new(shape: ListClusterOperationsV2Response)
+        o.errors << Shapes::ShapeRef.new(shape: BadRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: UnauthorizedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerErrorException)
+        o.errors << Shapes::ShapeRef.new(shape: ForbiddenException)
+        o.errors << Shapes::ShapeRef.new(shape: NotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceUnavailableException)
+        o.errors << Shapes::ShapeRef.new(shape: TooManyRequestsException)
         o[:pager] = Aws::Pager.new(
           limit_key: "max_results",
           tokens: {
@@ -1201,6 +1783,27 @@ module Aws::Kafka
         )
       end)
 
+      api.add_operation(:list_replicators, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListReplicators"
+        o.http_method = "GET"
+        o.http_request_uri = "/replication/v1/replicators"
+        o.input = Shapes::ShapeRef.new(shape: ListReplicatorsRequest)
+        o.output = Shapes::ShapeRef.new(shape: ListReplicatorsResponse)
+        o.errors << Shapes::ShapeRef.new(shape: BadRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: UnauthorizedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerErrorException)
+        o.errors << Shapes::ShapeRef.new(shape: ForbiddenException)
+        o.errors << Shapes::ShapeRef.new(shape: NotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceUnavailableException)
+        o.errors << Shapes::ShapeRef.new(shape: TooManyRequestsException)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
+      end)
+
       api.add_operation(:list_scram_secrets, Seahorse::Model::Operation.new.tap do |o|
         o.name = "ListScramSecrets"
         o.http_method = "GET"
@@ -1231,6 +1834,96 @@ module Aws::Kafka
         o.errors << Shapes::ShapeRef.new(shape: NotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: BadRequestException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerErrorException)
+      end)
+
+      api.add_operation(:list_client_vpc_connections, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListClientVpcConnections"
+        o.http_method = "GET"
+        o.http_request_uri = "/v1/clusters/{clusterArn}/client-vpc-connections"
+        o.input = Shapes::ShapeRef.new(shape: ListClientVpcConnectionsRequest)
+        o.output = Shapes::ShapeRef.new(shape: ListClientVpcConnectionsResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceUnavailableException)
+        o.errors << Shapes::ShapeRef.new(shape: BadRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: UnauthorizedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerErrorException)
+        o.errors << Shapes::ShapeRef.new(shape: ForbiddenException)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
+      end)
+
+      api.add_operation(:list_vpc_connections, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ListVpcConnections"
+        o.http_method = "GET"
+        o.http_request_uri = "/v1/vpc-connections"
+        o.input = Shapes::ShapeRef.new(shape: ListVpcConnectionsRequest)
+        o.output = Shapes::ShapeRef.new(shape: ListVpcConnectionsResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceUnavailableException)
+        o.errors << Shapes::ShapeRef.new(shape: BadRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: UnauthorizedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerErrorException)
+        o.errors << Shapes::ShapeRef.new(shape: ForbiddenException)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
+      end)
+
+      api.add_operation(:reject_client_vpc_connection, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "RejectClientVpcConnection"
+        o.http_method = "PUT"
+        o.http_request_uri = "/v1/clusters/{clusterArn}/client-vpc-connection"
+        o.input = Shapes::ShapeRef.new(shape: RejectClientVpcConnectionRequest)
+        o.output = Shapes::ShapeRef.new(shape: RejectClientVpcConnectionResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceUnavailableException)
+        o.errors << Shapes::ShapeRef.new(shape: BadRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: UnauthorizedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerErrorException)
+        o.errors << Shapes::ShapeRef.new(shape: ForbiddenException)
+      end)
+
+      api.add_operation(:delete_cluster_policy, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DeleteClusterPolicy"
+        o.http_method = "DELETE"
+        o.http_request_uri = "/v1/clusters/{clusterArn}/policy"
+        o.input = Shapes::ShapeRef.new(shape: DeleteClusterPolicyRequest)
+        o.output = Shapes::ShapeRef.new(shape: DeleteClusterPolicyResponse)
+        o.errors << Shapes::ShapeRef.new(shape: NotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: BadRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: UnauthorizedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerErrorException)
+        o.errors << Shapes::ShapeRef.new(shape: ForbiddenException)
+      end)
+
+      api.add_operation(:get_cluster_policy, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "GetClusterPolicy"
+        o.http_method = "GET"
+        o.http_request_uri = "/v1/clusters/{clusterArn}/policy"
+        o.input = Shapes::ShapeRef.new(shape: GetClusterPolicyRequest)
+        o.output = Shapes::ShapeRef.new(shape: GetClusterPolicyResponse)
+        o.errors << Shapes::ShapeRef.new(shape: NotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: BadRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: UnauthorizedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerErrorException)
+        o.errors << Shapes::ShapeRef.new(shape: ForbiddenException)
+      end)
+
+      api.add_operation(:put_cluster_policy, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "PutClusterPolicy"
+        o.http_method = "PUT"
+        o.http_request_uri = "/v1/clusters/{clusterArn}/policy"
+        o.input = Shapes::ShapeRef.new(shape: PutClusterPolicyRequest)
+        o.output = Shapes::ShapeRef.new(shape: PutClusterPolicyResponse)
+        o.errors << Shapes::ShapeRef.new(shape: NotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: BadRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: UnauthorizedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerErrorException)
+        o.errors << Shapes::ShapeRef.new(shape: ForbiddenException)
       end)
 
       api.add_operation(:reboot_broker, Seahorse::Model::Operation.new.tap do |o|
@@ -1379,6 +2072,21 @@ module Aws::Kafka
         o.errors << Shapes::ShapeRef.new(shape: UnauthorizedException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerErrorException)
         o.errors << Shapes::ShapeRef.new(shape: ForbiddenException)
+      end)
+
+      api.add_operation(:update_replication_info, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "UpdateReplicationInfo"
+        o.http_method = "PUT"
+        o.http_request_uri = "/replication/v1/replicators/{replicatorArn}/replication-info"
+        o.input = Shapes::ShapeRef.new(shape: UpdateReplicationInfoRequest)
+        o.output = Shapes::ShapeRef.new(shape: UpdateReplicationInfoResponse)
+        o.errors << Shapes::ShapeRef.new(shape: BadRequestException)
+        o.errors << Shapes::ShapeRef.new(shape: UnauthorizedException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerErrorException)
+        o.errors << Shapes::ShapeRef.new(shape: ForbiddenException)
+        o.errors << Shapes::ShapeRef.new(shape: NotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceUnavailableException)
+        o.errors << Shapes::ShapeRef.new(shape: TooManyRequestsException)
       end)
 
       api.add_operation(:update_security, Seahorse::Model::Operation.new.tap do |o|

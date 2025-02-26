@@ -48,12 +48,10 @@ module AwsSdkCodeGenerator
             @operation_inputs = operation_inputs.map do |operation_inputs_test|
               OperationInputsTest.new(
                 service: @service,
-                operation_name: Underscore.underscore(
-                  operation_inputs_test['operationName']
-                ),
-                operation_params: operation_inputs_test['operationParams'] || [],
-                built_in_params: operation_inputs_test['builtInParams'] || [],
-                client_params: operation_inputs_test['clientParams'] || []
+                operation_name: operation_inputs_test['operationName'],
+                operation_params: operation_inputs_test['operationParams'] || {},
+                built_in_params: operation_inputs_test['builtInParams'] || {},
+                client_params: operation_inputs_test['clientParams'] || {}
               )
             end
           end
@@ -90,6 +88,10 @@ module AwsSdkCodeGenerator
               !@expect['endpoint']['properties']['authSchemes'].empty?
           end
 
+          def s3_express_auth?
+            expect_auth? && expected_auth['name'] == 'sigv4-s3express'
+          end
+
           def expected_headers
             @expect['endpoint']['headers'].map { |k,v| Param.new(k, v.join(",")) }
           end
@@ -106,20 +108,31 @@ module AwsSdkCodeGenerator
 
           def initialize(options)
             @service = options[:service]
-            @operation_name = options[:operation_name]
+            @api = @service.api
+            @operation_name = Underscore.underscore(options[:operation_name])
+            input_shape_name = @api['operations'][options[:operation_name]]['input']['shape']
+            input = @api['shapes'][input_shape_name]
             @operation_params = options[:operation_params].map do |k,v|
-              Param.new(Underscore.underscore(k), transform_operation_values(v))
-            end
+              next if input['members'][k].nil?
+
+              member_shape = @api['shapes'][input['members'][k]['shape']]
+              Param.new(Underscore.underscore(k), transform_operation_values(v, member_shape))
+            end.compact
             @client_params = options[:client_params].map do |k,v|
               Param.new(Underscore.underscore(k), v)
             end
-
             @client_params += options[:built_in_params].map do |k,v|
               built_in_to_param(k, v)
             end
-            # the expected default of UseGlobalEndpoint does not match the SDK's default value
-            if @service.identifier == 's3' && !options[:built_in_params].include?('AWS::S3::UseGlobalEndpoint')
+            # the expected default of UseGlobalEndpoint in rules
+            # does not match the Ruby SDK's default value
+            if @service.identifier == 's3' &&
+               !options[:built_in_params].include?('AWS::S3::UseGlobalEndpoint')
               @client_params << built_in_to_param('AWS::S3::UseGlobalEndpoint', false)
+            end
+
+            if @service.identifier == 'dynamodb'
+              @client_params << Param.new(:simple_attributes, false, true)
             end
           end
 
@@ -133,14 +146,21 @@ module AwsSdkCodeGenerator
           attr_reader :client_params
 
           private
-          def transform_operation_values(value)
-            case value
-            when Hash
+          def transform_operation_values(value, ref)
+            case ref['type']
+            when 'structure', 'union'
               value.each_with_object({}) do |(k, v), o|
-                o[Underscore.underscore(k)] = transform_operation_values(v)
+                member_shape = @api['shapes'][ref['members'][k]['shape']]
+                o[Underscore.underscore(k).to_sym] = transform_operation_values(v, member_shape)
               end
-            when Array
-              value.map { |v| transform_operation_values(v) }
+            when 'list'
+              member_shape = @api['shapes'][ref['member']['shape']]
+              value.map { |v| transform_operation_values(v, member_shape) }
+            when 'map'
+              member_shape = @api['shapes'][ref['value']['shape']]
+              value.each_with_object({}) do |(k, v), o|
+                o[k] = transform_operation_values(v, member_shape)
+              end
             else
               value
             end
@@ -154,6 +174,14 @@ module AwsSdkCodeGenerator
               Param.new('use_fips_endpoint', value)
             when 'AWS::UseDualStack'
               Param.new('use_dualstack_endpoint', value)
+            when 'AWS::Auth::AccountId'
+              Param.new(
+                'credentials',
+                "Aws::Credentials.new('stubbed-akid', 'stubbed-secret', account_id: '#{value}')",
+                true
+              )
+            when 'AWS::Auth::AccountIdEndpointMode'
+              Param.new('account_id_endpoint_mode', value)
             when 'AWS::STS::UseGlobalEndpoint'
               Param.new('sts_regional_endpoints', value ? 'legacy' : 'regional')
             when 'AWS::S3::UseGlobalEndpoint'
@@ -162,9 +190,7 @@ module AwsSdkCodeGenerator
               Param.new('use_accelerate_endpoint', value)
             when 'AWS::S3::ForcePathStyle'
               Param.new('force_path_style', value)
-            when 'AWS::S3::UseArnRegion'
-              Param.new('s3_use_arn_region', value)
-            when 'AWS::S3Control::UseArnRegion'
+            when 'AWS::S3::UseArnRegion', 'AWS::S3Control::UseArnRegion'
               Param.new('s3_use_arn_region', value)
             when 'AWS::S3::DisableMultiRegionAccessPoints'
               Param.new('s3_disable_multiregion_access_points', value)
@@ -177,14 +203,16 @@ module AwsSdkCodeGenerator
         end
 
         class Param
-          def initialize(param, value)
+          def initialize(param, value, literal = false)
             @param = param
             @value = value
+            @literal = literal
           end
+
           attr_accessor :param
 
           def value
-            if @value.is_a? String
+            if @value.is_a?(String) && !@literal
               "'#{@value}'"
             else
               @value

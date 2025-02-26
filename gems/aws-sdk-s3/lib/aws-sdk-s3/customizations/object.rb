@@ -46,6 +46,14 @@ module Aws
       #   different region. You do not need to specify this option
       #   if you have provided a `:source_client` or a `:content_length`.
       #
+      # @option options [Boolean] :use_source_parts (false) Only used when
+      #   `:multipart_copy` is `true`. Use part sizes defined on the source
+      #   object if any exist. If copying or moving an object that
+      #   is already multipart, this does not re-part the object, instead
+      #   re-using the part definitions on the original. That means the etag
+      #   and any checksums will not change. This is especially useful if the
+      #   source object has parts with varied sizes.
+      #
       # @example Basic object copy
       #
       #   bucket = Aws::S3::Bucket.new('target-bucket')
@@ -68,11 +76,13 @@ module Aws
       # @see #copy_to
       #
       def copy_from(source, options = {})
-        if Hash === source && source[:copy_source]
-          # for backwards compatibility
-          @client.copy_object(source.merge(bucket: bucket_name, key: key))
-        else
-          ObjectCopier.new(self, options).copy_from(source, options)
+        Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+          if Hash === source && source[:copy_source]
+            # for backwards compatibility
+            @client.copy_object(source.merge(bucket: bucket_name, key: key))
+          else
+            ObjectCopier.new(self, options).copy_from(source, options)
+          end
         end
       end
 
@@ -109,7 +119,9 @@ module Aws
       #   object.copy_to('src-bucket/src-key', multipart_copy: true)
       #
       def copy_to(target, options = {})
-        ObjectCopier.new(self, options).copy_to(target, options)
+        Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+          ObjectCopier.new(self, options).copy_to(target, options)
+        end
       end
 
       # Copies and deletes the current object. The object will only be deleted
@@ -341,6 +353,10 @@ module Aws
       #     obj.upload_stream do |write_stream|
       #       IO.copy_stream(STDIN, write_stream)
       #     end
+      # @param [Hash] options
+      #   Additional options for {Client#create_multipart_upload},
+      #   {Client#complete_multipart_upload},
+      #   and {Client#upload_part} can be provided.
       #
       # @option options [Integer] :thread_count (10) The number of parallel
       #   multipart uploads
@@ -363,6 +379,9 @@ module Aws
       # @return [Boolean] Returns `true` when the object is uploaded
       #   without any errors.
       #
+      # @see Client#create_multipart_upload
+      # @see Client#complete_multipart_upload
+      # @see Client#upload_part
       def upload_stream(options = {}, &block)
         uploading_options = options.dup
         uploader = MultipartStreamUploader.new(
@@ -371,10 +390,12 @@ module Aws
           tempfile: uploading_options.delete(:tempfile),
           part_size: uploading_options.delete(:part_size)
         )
-        uploader.upload(
-          uploading_options.merge(bucket: bucket_name, key: key),
-          &block
-        )
+        Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+          uploader.upload(
+            uploading_options.merge(bucket: bucket_name, key: key),
+            &block
+          )
+        end
         true
       end
 
@@ -413,6 +434,13 @@ module Aws
       #   using an open Tempfile, rewind it before uploading or else the object
       #   will be empty.
       #
+      # @param [Hash] options
+      #   Additional options for {Client#put_object}
+      #   when file sizes below the multipart threshold. For files larger than
+      #   the multipart threshold, options for {Client#create_multipart_upload},
+      #   {Client#complete_multipart_upload},
+      #   and {Client#upload_part} can be provided.
+      #
       # @option options [Integer] :multipart_threshold (104857600) Files larger
       #   than or equal to `:multipart_threshold` are uploaded using the S3
       #   multipart APIs.
@@ -434,16 +462,23 @@ module Aws
       #
       # @return [Boolean] Returns `true` when the object is uploaded
       #   without any errors.
+      #
+      # @see Client#put_object
+      # @see Client#create_multipart_upload
+      # @see Client#complete_multipart_upload
+      # @see Client#upload_part
       def upload_file(source, options = {})
         uploading_options = options.dup
         uploader = FileUploader.new(
           multipart_threshold: uploading_options.delete(:multipart_threshold),
           client: client
         )
-        response = uploader.upload(
-          source,
-          uploading_options.merge(bucket: bucket_name, key: key)
-        )
+        response = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+          uploader.upload(
+            source,
+            uploading_options.merge(bucket: bucket_name, key: key)
+          )
+        end
         yield response if block_given?
         true
       end
@@ -459,7 +494,20 @@ module Aws
       #     # and the parts are downloaded in parallel
       #     obj.download_file('/path/to/very_large_file')
       #
+      # You can provide a callback to monitor progress of the download:
+      #
+      #     # bytes and part_sizes are each an array with 1 entry per part
+      #     # part_sizes may not be known until the first bytes are retrieved
+      #     progress = Proc.new do |bytes, part_sizes, file_size|
+      #       puts bytes.map.with_index { |b, i| "Part #{i+1}: #{b} / #{part_sizes[i]}"}.join(' ') + "Total: #{100.0 * bytes.sum / file_size}%" }
+      #     end
+      #     obj.download_file('/path/to/file', progress_callback: progress)
+      #
       # @param [String] destination Where to download the file to.
+      #
+      # @param [Hash] options
+      #   Additional options for {Client#get_object} and #{Client#head_object}
+      #   may be provided.
       #
       # @option options [String] mode `auto`, `single_request`, `get_range`
       #  `single_request` mode forces only 1 GET request is made in download,
@@ -476,15 +524,46 @@ module Aws
       #   retrieve the object. For more about object versioning, see:
       #   https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectVersioning.html
       #
+      # @option options [String] checksum_mode (ENABLED) When `ENABLED` and
+      #   the object has a stored checksum, it will be used to validate the
+      #   download and will raise an `Aws::Errors::ChecksumError` if
+      #   checksum validation fails. You may provide a `on_checksum_validated`
+      #   callback if you need to verify that validation occurred and which
+      #   algorithm was used.  To disable checksum validation, set
+      #   `checksum_mode` to "DISABLED".
+      #
+      # @option options [Callable] on_checksum_validated Called each time a
+      #   request's checksum is validated with the checksum algorithm and the
+      #   response.  For multipart downloads, this will be called for each
+      #   part that is downloaded and validated.
+      #
+      # @option options [Proc] :progress_callback
+      #   A Proc that will be called when each chunk of the download is received.
+      #   It will be invoked with [bytes_read], [part_sizes], file_size.
+      #   When the object is downloaded as parts (rather than by ranges), the
+      #   part_sizes will not be known ahead of time and will be nil in the
+      #   callback until the first bytes in the part are received.
+      #
       # @return [Boolean] Returns `true` when the file is downloaded without
       #   any errors.
+      #
+      # @see Client#get_object
+      # @see Client#head_object
       def download_file(destination, options = {})
         downloader = FileDownloader.new(client: client)
-        downloader.download(
-          destination,
-          options.merge(bucket: bucket_name, key: key)
-        )
+        Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+          downloader.download(
+            destination,
+            options.merge(bucket: bucket_name, key: key)
+          )
+        end
         true
+      end
+
+      class Collection < Aws::Resources::Collection
+        alias_method :delete, :batch_delete!
+        extend Aws::Deprecations
+        deprecated :delete, use: :batch_delete!
       end
     end
   end

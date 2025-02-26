@@ -7,33 +7,34 @@
 #
 # WARNING ABOUT GENERATED CODE
 
-require 'seahorse/client/plugins/content_length.rb'
-require 'aws-sdk-core/plugins/credentials_configuration.rb'
-require 'aws-sdk-core/plugins/logging.rb'
-require 'aws-sdk-core/plugins/param_converter.rb'
-require 'aws-sdk-core/plugins/param_validator.rb'
-require 'aws-sdk-core/plugins/user_agent.rb'
-require 'aws-sdk-core/plugins/helpful_socket_errors.rb'
-require 'aws-sdk-core/plugins/retry_errors.rb'
-require 'aws-sdk-core/plugins/global_configuration.rb'
-require 'aws-sdk-core/plugins/regional_endpoint.rb'
-require 'aws-sdk-core/plugins/endpoint_discovery.rb'
-require 'aws-sdk-core/plugins/endpoint_pattern.rb'
-require 'aws-sdk-core/plugins/response_paging.rb'
-require 'aws-sdk-core/plugins/stub_responses.rb'
-require 'aws-sdk-core/plugins/idempotency_token.rb'
-require 'aws-sdk-core/plugins/jsonvalue_converter.rb'
-require 'aws-sdk-core/plugins/client_metrics_plugin.rb'
-require 'aws-sdk-core/plugins/client_metrics_send_plugin.rb'
-require 'aws-sdk-core/plugins/transfer_encoding.rb'
-require 'aws-sdk-core/plugins/http_checksum.rb'
-require 'aws-sdk-core/plugins/checksum_algorithm.rb'
-require 'aws-sdk-core/plugins/defaults_mode.rb'
-require 'aws-sdk-core/plugins/recursion_detection.rb'
-require 'aws-sdk-core/plugins/sign.rb'
-require 'aws-sdk-core/plugins/protocols/json_rpc.rb'
-
-Aws::Plugins::GlobalConfiguration.add_identifier(:codedeploy)
+require 'seahorse/client/plugins/content_length'
+require 'aws-sdk-core/plugins/credentials_configuration'
+require 'aws-sdk-core/plugins/logging'
+require 'aws-sdk-core/plugins/param_converter'
+require 'aws-sdk-core/plugins/param_validator'
+require 'aws-sdk-core/plugins/user_agent'
+require 'aws-sdk-core/plugins/helpful_socket_errors'
+require 'aws-sdk-core/plugins/retry_errors'
+require 'aws-sdk-core/plugins/global_configuration'
+require 'aws-sdk-core/plugins/regional_endpoint'
+require 'aws-sdk-core/plugins/endpoint_discovery'
+require 'aws-sdk-core/plugins/endpoint_pattern'
+require 'aws-sdk-core/plugins/response_paging'
+require 'aws-sdk-core/plugins/stub_responses'
+require 'aws-sdk-core/plugins/idempotency_token'
+require 'aws-sdk-core/plugins/invocation_id'
+require 'aws-sdk-core/plugins/jsonvalue_converter'
+require 'aws-sdk-core/plugins/client_metrics_plugin'
+require 'aws-sdk-core/plugins/client_metrics_send_plugin'
+require 'aws-sdk-core/plugins/transfer_encoding'
+require 'aws-sdk-core/plugins/http_checksum'
+require 'aws-sdk-core/plugins/checksum_algorithm'
+require 'aws-sdk-core/plugins/request_compression'
+require 'aws-sdk-core/plugins/defaults_mode'
+require 'aws-sdk-core/plugins/recursion_detection'
+require 'aws-sdk-core/plugins/telemetry'
+require 'aws-sdk-core/plugins/sign'
+require 'aws-sdk-core/plugins/protocols/json_rpc'
 
 module Aws::CodeDeploy
   # An API client for CodeDeploy.  To construct a client, you need to configure a `:region` and `:credentials`.
@@ -71,20 +72,28 @@ module Aws::CodeDeploy
     add_plugin(Aws::Plugins::ResponsePaging)
     add_plugin(Aws::Plugins::StubResponses)
     add_plugin(Aws::Plugins::IdempotencyToken)
+    add_plugin(Aws::Plugins::InvocationId)
     add_plugin(Aws::Plugins::JsonvalueConverter)
     add_plugin(Aws::Plugins::ClientMetricsPlugin)
     add_plugin(Aws::Plugins::ClientMetricsSendPlugin)
     add_plugin(Aws::Plugins::TransferEncoding)
     add_plugin(Aws::Plugins::HttpChecksum)
     add_plugin(Aws::Plugins::ChecksumAlgorithm)
+    add_plugin(Aws::Plugins::RequestCompression)
     add_plugin(Aws::Plugins::DefaultsMode)
     add_plugin(Aws::Plugins::RecursionDetection)
+    add_plugin(Aws::Plugins::Telemetry)
     add_plugin(Aws::Plugins::Sign)
     add_plugin(Aws::Plugins::Protocols::JsonRpc)
     add_plugin(Aws::CodeDeploy::Plugins::Endpoints)
 
     # @overload initialize(options)
     #   @param [Hash] options
+    #
+    #   @option options [Array<Seahorse::Client::Plugin>] :plugins ([]])
+    #     A list of plugins to apply to the client. Each plugin is either a
+    #     class name or an instance of a plugin class.
+    #
     #   @option options [required, Aws::CredentialProvider] :credentials
     #     Your AWS credentials. This can be an instance of any one of the
     #     following classes:
@@ -119,13 +128,15 @@ module Aws::CodeDeploy
     #     locations will be searched for credentials:
     #
     #     * `Aws.config[:credentials]`
-    #     * The `:access_key_id`, `:secret_access_key`, and `:session_token` options.
-    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']
+    #     * The `:access_key_id`, `:secret_access_key`, `:session_token`, and
+    #       `:account_id` options.
+    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'],
+    #       ENV['AWS_SESSION_TOKEN'], and ENV['AWS_ACCOUNT_ID']
     #     * `~/.aws/credentials`
     #     * `~/.aws/config`
     #     * EC2/ECS IMDS instance profile - When used by default, the timeouts
     #       are very aggressive. Construct and pass an instance of
-    #       `Aws::InstanceProfileCredentails` or `Aws::ECSCredentials` to
+    #       `Aws::InstanceProfileCredentials` or `Aws::ECSCredentials` to
     #       enable retries and extended timeouts. Instance profile credential
     #       fetching can be disabled by setting ENV['AWS_EC2_METADATA_DISABLED']
     #       to true.
@@ -143,6 +154,8 @@ module Aws::CodeDeploy
     #     * `~/.aws/config`
     #
     #   @option options [String] :access_key_id
+    #
+    #   @option options [String] :account_id
     #
     #   @option options [Boolean] :active_endpoint_cache (false)
     #     When set to `true`, a thread polling for endpoints will be running in
@@ -190,10 +203,20 @@ module Aws::CodeDeploy
     #     Set to true to disable SDK automatically adding host prefix
     #     to default service endpoint when available.
     #
-    #   @option options [String] :endpoint
-    #     The client endpoint is normally constructed from the `:region`
-    #     option. You should only configure an `:endpoint` when connecting
-    #     to test or custom endpoints. This should be a valid HTTP(S) URI.
+    #   @option options [Boolean] :disable_request_compression (false)
+    #     When set to 'true' the request body will not be compressed
+    #     for supported operations.
+    #
+    #   @option options [String, URI::HTTPS, URI::HTTP] :endpoint
+    #     Normally you should not configure the `:endpoint` option
+    #     directly. This is normally constructed from the `:region`
+    #     option. Configuring `:endpoint` is normally reserved for
+    #     connecting to test or custom endpoints. The endpoint should
+    #     be a URI formatted like:
+    #
+    #         'http://example.com'
+    #         'https://example.com'
+    #         'http://example.com:123'
     #
     #   @option options [Integer] :endpoint_cache_max_entries (1000)
     #     Used for the maximum size limit of the LRU cache storing endpoints data
@@ -209,6 +232,10 @@ module Aws::CodeDeploy
     #
     #   @option options [Boolean] :endpoint_discovery (false)
     #     When set to `true`, endpoint discovery will be enabled for operations when available.
+    #
+    #   @option options [Boolean] :ignore_configured_endpoint_urls
+    #     Setting to true disables use of endpoint URLs provided via environment
+    #     variables and the shared configuration file.
     #
     #   @option options [Aws::Log::Formatter] :log_formatter (Aws::Log::Formatter.default)
     #     The log formatter.
@@ -229,6 +256,34 @@ module Aws::CodeDeploy
     #   @option options [String] :profile ("default")
     #     Used when loading credentials from the shared credentials file
     #     at HOME/.aws/credentials.  When not specified, 'default' is used.
+    #
+    #   @option options [String] :request_checksum_calculation ("when_supported")
+    #     Determines when a checksum will be calculated for request payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, a checksum will be
+    #       calculated for all request payloads of operations modeled with the
+    #       `httpChecksum` trait where `requestChecksumRequired` is `true` and/or a
+    #       `requestAlgorithmMember` is modeled.
+    #     * `when_required` - When set, a checksum will only be calculated for
+    #       request payloads of operations modeled with the  `httpChecksum` trait where
+    #       `requestChecksumRequired` is `true` or where a `requestAlgorithmMember`
+    #       is modeled and supplied.
+    #
+    #   @option options [Integer] :request_min_compression_size_bytes (10240)
+    #     The minimum size in bytes that triggers compression for request
+    #     bodies. The value must be non-negative integer value between 0
+    #     and 10485780 bytes inclusive.
+    #
+    #   @option options [String] :response_checksum_validation ("when_supported")
+    #     Determines when checksum validation will be performed on response payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, checksum validation is performed on all
+    #       response payloads of operations modeled with the `httpChecksum` trait where
+    #       `responseAlgorithms` is modeled, except when no modeled checksum algorithms
+    #       are supported.
+    #     * `when_required` - When set, checksum validation is not performed on
+    #       response payloads of operations unless the checksum algorithm is supported and
+    #       the `requestValidationModeMember` member is set to `ENABLED`.
     #
     #   @option options [Proc] :retry_backoff
     #     A proc or lambda used for backoff. Defaults to 2**retries * retry_base_delay.
@@ -274,20 +329,31 @@ module Aws::CodeDeploy
     #       throttling.  This is a provisional mode that may change behavior
     #       in the future.
     #
+    #   @option options [String] :sdk_ua_app_id
+    #     A unique and opaque application ID that is appended to the
+    #     User-Agent header as app/sdk_ua_app_id. It should have a
+    #     maximum length of 50. This variable is sourced from environment
+    #     variable AWS_SDK_UA_APP_ID or the shared config profile attribute sdk_ua_app_id.
     #
     #   @option options [String] :secret_access_key
     #
     #   @option options [String] :session_token
     #
+    #   @option options [Array] :sigv4a_signing_region_set
+    #     A list of regions that should be signed with SigV4a signing. When
+    #     not passed, a default `:sigv4a_signing_region_set` is searched for
+    #     in the following locations:
+    #
+    #     * `Aws.config[:sigv4a_signing_region_set]`
+    #     * `ENV['AWS_SIGV4A_SIGNING_REGION_SET']`
+    #     * `~/.aws/config`
+    #
     #   @option options [Boolean] :simple_json (false)
     #     Disables request parameter conversion, validation, and formatting.
-    #     Also disable response data type conversions. This option is useful
-    #     when you want to ensure the highest level of performance by
-    #     avoiding overhead of walking request parameters and response data
-    #     structures.
-    #
-    #     When `:simple_json` is enabled, the request parameters hash must
-    #     be formatted exactly as the DynamoDB API expects.
+    #     Also disables response data type conversions. The request parameters
+    #     hash must be formatted exactly as the API expects.This option is useful
+    #     when you want to ensure the highest level of performance by avoiding
+    #     overhead of walking request parameters and response data structures.
     #
     #   @option options [Boolean] :stub_responses (false)
     #     Causes the client to return stubbed responses. By default
@@ -297,6 +363,16 @@ module Aws::CodeDeploy
     #
     #     ** Please note ** When response stubbing is enabled, no HTTP
     #     requests are made, and retries are disabled.
+    #
+    #   @option options [Aws::Telemetry::TelemetryProviderBase] :telemetry_provider (Aws::Telemetry::NoOpTelemetryProvider)
+    #     Allows you to provide a telemetry provider, which is used to
+    #     emit telemetry data. By default, uses `NoOpTelemetryProvider` which
+    #     will not record or emit any telemetry data. The SDK supports the
+    #     following telemetry providers:
+    #
+    #     * OpenTelemetry (OTel) - To use the OTel provider, install and require the
+    #     `opentelemetry-sdk` gem and then, pass in an instance of a
+    #     `Aws::Telemetry::OTelProvider` for telemetry provider.
     #
     #   @option options [Aws::TokenProvider] :token_provider
     #     A Bearer Token Provider. This can be an instance of any one of the
@@ -325,52 +401,75 @@ module Aws::CodeDeploy
     #     sending the request.
     #
     #   @option options [Aws::CodeDeploy::EndpointProvider] :endpoint_provider
-    #     The endpoint provider used to resolve endpoints. Any object that responds to `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to `Aws::CodeDeploy::EndpointParameters`
+    #     The endpoint provider used to resolve endpoints. Any object that responds to
+    #     `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+    #     `Aws::CodeDeploy::EndpointParameters`.
     #
-    #   @option options [URI::HTTP,String] :http_proxy A proxy to send
-    #     requests through.  Formatted like 'http://proxy.com:123'.
+    #   @option options [Float] :http_continue_timeout (1)
+    #     The number of seconds to wait for a 100-continue response before sending the
+    #     request body.  This option has no effect unless the request has "Expect"
+    #     header set to "100-continue".  Defaults to `nil` which  disables this
+    #     behaviour.  This value can safely be set per request on the session.
     #
-    #   @option options [Float] :http_open_timeout (15) The number of
-    #     seconds to wait when opening a HTTP session before raising a
-    #     `Timeout::Error`.
+    #   @option options [Float] :http_idle_timeout (5)
+    #     The number of seconds a connection is allowed to sit idle before it
+    #     is considered stale.  Stale connections are closed and removed from the
+    #     pool before making a request.
     #
-    #   @option options [Float] :http_read_timeout (60) The default
-    #     number of seconds to wait for response data.  This value can
-    #     safely be set per-request on the session.
+    #   @option options [Float] :http_open_timeout (15)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :http_idle_timeout (5) The number of
-    #     seconds a connection is allowed to sit idle before it is
-    #     considered stale.  Stale connections are closed and removed
-    #     from the pool before making a request.
+    #   @option options [URI::HTTP,String] :http_proxy
+    #     A proxy to send requests through.  Formatted like 'http://proxy.com:123'.
     #
-    #   @option options [Float] :http_continue_timeout (1) The number of
-    #     seconds to wait for a 100-continue response before sending the
-    #     request body.  This option has no effect unless the request has
-    #     "Expect" header set to "100-continue".  Defaults to `nil` which
-    #     disables this behaviour.  This value can safely be set per
-    #     request on the session.
+    #   @option options [Float] :http_read_timeout (60)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :ssl_timeout (nil) Sets the SSL timeout
-    #     in seconds.
+    #   @option options [Boolean] :http_wire_trace (false)
+    #     When `true`,  HTTP debug output will be sent to the `:logger`.
     #
-    #   @option options [Boolean] :http_wire_trace (false) When `true`,
-    #     HTTP debug output will be sent to the `:logger`.
+    #   @option options [Proc] :on_chunk_received
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the response body is received. It provides three arguments: the chunk,
+    #     the number of bytes received, and the total number of
+    #     bytes in the response (or nil if the server did not send a `content-length`).
     #
-    #   @option options [Boolean] :ssl_verify_peer (true) When `true`,
-    #     SSL peer certificates are verified when establishing a
-    #     connection.
+    #   @option options [Proc] :on_chunk_sent
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the request body is sent. It provides three arguments: the chunk,
+    #     the number of bytes read from the body, and the total number of
+    #     bytes in the body.
     #
-    #   @option options [String] :ssl_ca_bundle Full path to the SSL
-    #     certificate authority bundle file that should be used when
-    #     verifying peer certificates.  If you do not pass
-    #     `:ssl_ca_bundle` or `:ssl_ca_directory` the the system default
-    #     will be used if available.
+    #   @option options [Boolean] :raise_response_errors (true)
+    #     When `true`, response errors are raised.
     #
-    #   @option options [String] :ssl_ca_directory Full path of the
-    #     directory that contains the unbundled SSL certificate
+    #   @option options [String] :ssl_ca_bundle
+    #     Full path to the SSL certificate authority bundle file that should be used when
+    #     verifying peer certificates.  If you do not pass `:ssl_ca_bundle` or
+    #     `:ssl_ca_directory` the the system default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_directory
+    #     Full path of the directory that contains the unbundled SSL certificate
     #     authority files for verifying peer certificates.  If you do
-    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the
-    #     system default will be used if available.
+    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the system
+    #     default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_store
+    #     Sets the X509::Store to verify peer certificate.
+    #
+    #   @option options [OpenSSL::X509::Certificate] :ssl_cert
+    #     Sets a client certificate when creating http connections.
+    #
+    #   @option options [OpenSSL::PKey] :ssl_key
+    #     Sets a client key when creating http connections.
+    #
+    #   @option options [Float] :ssl_timeout
+    #     Sets the SSL timeout in seconds
+    #
+    #   @option options [Boolean] :ssl_verify_peer (true)
+    #     When `true`, SSL peer certificates are verified when establishing a connection.
     #
     def initialize(*args)
       super
@@ -533,7 +632,7 @@ module Aws::CodeDeploy
     #
     # @option params [required, String] :application_name
     #   The name of an CodeDeploy application associated with the applicable
-    #   IAM or Amazon Web Services account.
+    #   user or Amazon Web Services account.
     #
     # @option params [required, Array<String>] :deployment_group_names
     #   The names of the deployment groups.
@@ -568,6 +667,7 @@ module Aws::CodeDeploy
     #   resp.deployment_groups_info[0].auto_scaling_groups #=> Array
     #   resp.deployment_groups_info[0].auto_scaling_groups[0].name #=> String
     #   resp.deployment_groups_info[0].auto_scaling_groups[0].hook #=> String
+    #   resp.deployment_groups_info[0].auto_scaling_groups[0].termination_hook #=> String
     #   resp.deployment_groups_info[0].service_role_arn #=> String
     #   resp.deployment_groups_info[0].target_revision.revision_type #=> String, one of "S3", "GitHub", "String", "AppSpecContent"
     #   resp.deployment_groups_info[0].target_revision.s3_location.bucket #=> String
@@ -634,6 +734,7 @@ module Aws::CodeDeploy
     #   resp.deployment_groups_info[0].ecs_services #=> Array
     #   resp.deployment_groups_info[0].ecs_services[0].service_name #=> String
     #   resp.deployment_groups_info[0].ecs_services[0].cluster_name #=> String
+    #   resp.deployment_groups_info[0].termination_hook_enabled #=> Boolean
     #   resp.error_message #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/BatchGetDeploymentGroups AWS API Documentation
@@ -711,19 +812,19 @@ module Aws::CodeDeploy
     # The type of targets returned depends on the deployment's compute
     # platform or deployment method:
     #
-    # * **EC2/On-premises**\: Information about Amazon EC2 instance targets.
+    # * **EC2/On-premises**: Information about Amazon EC2 instance targets.
     #
-    # * **Lambda**\: Information about Lambda functions targets.
+    # * **Lambda**: Information about Lambda functions targets.
     #
-    # * **Amazon ECS**\: Information about Amazon ECS service targets.
+    # * **Amazon ECS**: Information about Amazon ECS service targets.
     #
-    # * **CloudFormation**\: Information about targets of blue/green
+    # * **CloudFormation**: Information about targets of blue/green
     #   deployments initiated by a CloudFormation stack update.
     #
-    # @option params [String] :deployment_id
+    # @option params [required, String] :deployment_id
     #   The unique ID of a deployment.
     #
-    # @option params [Array<String>] :target_ids
+    # @option params [required, Array<String>] :target_ids
     #   The unique IDs of the deployment targets. The compute platform of the
     #   deployment determines the type of the targets and their formats. The
     #   maximum number of deployment target IDs you can specify is 25.
@@ -752,8 +853,8 @@ module Aws::CodeDeploy
     # @example Request syntax with placeholder values
     #
     #   resp = client.batch_get_deployment_targets({
-    #     deployment_id: "DeploymentId",
-    #     target_ids: ["TargetId"],
+    #     deployment_id: "DeploymentId", # required
+    #     target_ids: ["TargetId"], # required
     #   })
     #
     # @example Response structure
@@ -903,7 +1004,7 @@ module Aws::CodeDeploy
     #   resp.deployments_info[0].deployment_overview.skipped #=> Integer
     #   resp.deployments_info[0].deployment_overview.ready #=> Integer
     #   resp.deployments_info[0].description #=> String
-    #   resp.deployments_info[0].creator #=> String, one of "user", "autoscaling", "codeDeployRollback", "CodeDeploy", "CodeDeployAutoUpdate", "CloudFormation", "CloudFormationRollback"
+    #   resp.deployments_info[0].creator #=> String, one of "user", "autoscaling", "codeDeployRollback", "CodeDeploy", "CodeDeployAutoUpdate", "CloudFormation", "CloudFormationRollback", "autoscalingTermination"
     #   resp.deployments_info[0].ignore_application_stop_failures #=> Boolean
     #   resp.deployments_info[0].auto_rollback_configuration.enabled #=> Boolean
     #   resp.deployments_info[0].auto_rollback_configuration.events #=> Array
@@ -1043,7 +1144,7 @@ module Aws::CodeDeploy
     #
     # @option params [required, String] :application_name
     #   The name of the application. This name must be unique with the
-    #   applicable IAM or Amazon Web Services account.
+    #   applicable user or Amazon Web Services account.
     #
     # @option params [String] :compute_platform
     #   The destination platform type for the deployment (`Lambda`, `Server`,
@@ -1088,7 +1189,7 @@ module Aws::CodeDeploy
     # group.
     #
     # @option params [required, String] :application_name
-    #   The name of an CodeDeploy application associated with the IAM user or
+    #   The name of an CodeDeploy application associated with the user or
     #   Amazon Web Services account.
     #
     # @option params [String] :deployment_group_name
@@ -1098,7 +1199,7 @@ module Aws::CodeDeploy
     #   The type and location of the revision to deploy.
     #
     # @option params [String] :deployment_config_name
-    #   The name of a deployment configuration associated with the IAM user or
+    #   The name of a deployment configuration associated with the user or
     #   Amazon Web Services account.
     #
     #   If not specified, the value configured in the deployment group is used
@@ -1303,6 +1404,19 @@ module Aws::CodeDeploy
     #   The destination platform type for the deployment (`Lambda`, `Server`,
     #   or `ECS`).
     #
+    # @option params [Types::ZonalConfig] :zonal_config
+    #   Configure the `ZonalConfig` object if you want CodeDeploy to deploy
+    #   your application to one [Availability Zone][1] at a time, within an
+    #   Amazon Web Services Region.
+    #
+    #   For more information about the zonal configuration feature, see [zonal
+    #   configuration][2] in the *CodeDeploy User Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html#concepts-availability-zones
+    #   [2]: https://docs.aws.amazon.com/codedeploy/latest/userguide/deployment-configurations-create.html#zonal-config
+    #
     # @return [Types::CreateDeploymentConfigOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreateDeploymentConfigOutput#deployment_config_id #deployment_config_id} => String
@@ -1327,6 +1441,14 @@ module Aws::CodeDeploy
     #       },
     #     },
     #     compute_platform: "Server", # accepts Server, Lambda, ECS
+    #     zonal_config: {
+    #       first_zone_monitor_duration_in_seconds: 1,
+    #       monitor_duration_in_seconds: 1,
+    #       minimum_healthy_hosts_per_zone: {
+    #         type: "HOST_COUNT", # accepts HOST_COUNT, FLEET_PERCENT
+    #         value: 1,
+    #       },
+    #     },
     #   })
     #
     # @example Response structure
@@ -1346,7 +1468,7 @@ module Aws::CodeDeploy
     # deployed.
     #
     # @option params [required, String] :application_name
-    #   The name of an CodeDeploy application associated with the IAM user or
+    #   The name of an CodeDeploy application associated with the user or
     #   Amazon Web Services account.
     #
     # @option params [required, String] :deployment_group_name
@@ -1451,6 +1573,29 @@ module Aws::CodeDeploy
     #   The metadata that you apply to CodeDeploy deployment groups to help
     #   you organize and categorize them. Each tag consists of a key and an
     #   optional value, both of which you define.
+    #
+    # @option params [Boolean] :termination_hook_enabled
+    #   This parameter only applies if you are using CodeDeploy with Amazon
+    #   EC2 Auto Scaling. For more information, see [Integrating CodeDeploy
+    #   with Amazon EC2 Auto Scaling][1] in the *CodeDeploy User Guide*.
+    #
+    #   Set `terminationHookEnabled` to `true` to have CodeDeploy install a
+    #   termination hook into your Auto Scaling group when you create a
+    #   deployment group. When this hook is installed, CodeDeploy will perform
+    #   termination deployments.
+    #
+    #   For information about termination deployments, see [Enabling
+    #   termination deployments during Auto Scaling scale-in events][2] in the
+    #   *CodeDeploy User Guide*.
+    #
+    #   For more information about Auto Scaling scale-in events, see the
+    #   [Scale in][3] topic in the *Amazon EC2 Auto Scaling User Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/codedeploy/latest/userguide/integrations-aws-auto-scaling.html
+    #   [2]: https://docs.aws.amazon.com/codedeploy/latest/userguide/integrations-aws-auto-scaling.html#integrations-aws-auto-scaling-behaviors-hook-enable
+    #   [3]: https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-lifecycle.html#as-lifecycle-scale-in
     #
     # @return [Types::CreateDeploymentGroupOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1577,6 +1722,7 @@ module Aws::CodeDeploy
     #         value: "Value",
     #       },
     #     ],
+    #     termination_hook_enabled: false,
     #   })
     #
     # @example Response structure
@@ -1595,7 +1741,7 @@ module Aws::CodeDeploy
     # Deletes an application.
     #
     # @option params [required, String] :application_name
-    #   The name of an CodeDeploy application associated with the IAM user or
+    #   The name of an CodeDeploy application associated with the user or
     #   Amazon Web Services account.
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
@@ -1623,7 +1769,7 @@ module Aws::CodeDeploy
     #  </note>
     #
     # @option params [required, String] :deployment_config_name
-    #   The name of a deployment configuration associated with the IAM user or
+    #   The name of a deployment configuration associated with the user or
     #   Amazon Web Services account.
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
@@ -1646,7 +1792,7 @@ module Aws::CodeDeploy
     # Deletes a deployment group.
     #
     # @option params [required, String] :application_name
-    #   The name of an CodeDeploy application associated with the IAM user or
+    #   The name of an CodeDeploy application associated with the user or
     #   Amazon Web Services account.
     #
     # @option params [required, String] :deployment_group_name
@@ -1668,6 +1814,7 @@ module Aws::CodeDeploy
     #   resp.hooks_not_cleaned_up #=> Array
     #   resp.hooks_not_cleaned_up[0].name #=> String
     #   resp.hooks_not_cleaned_up[0].hook #=> String
+    #   resp.hooks_not_cleaned_up[0].termination_hook #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/DeleteDeploymentGroup AWS API Documentation
     #
@@ -1706,7 +1853,15 @@ module Aws::CodeDeploy
       req.send_request(options)
     end
 
-    # Deletes resources linked to an external ID.
+    # Deletes resources linked to an external ID. This action only applies
+    # if you have configured blue/green deployments through CloudFormation.
+    #
+    # <note markdown="1"> It is not necessary to call this action directly. CloudFormation calls
+    # it on your behalf when it needs to delete stack resources. This action
+    # is offered publicly in case you need to delete resources to comply
+    # with General Data Protection Regulation (GDPR) requirements.
+    #
+    #  </note>
     #
     # @option params [String] :external_id
     #   The unique ID of an external resource (for example, a CloudFormation
@@ -1754,7 +1909,7 @@ module Aws::CodeDeploy
     # Gets information about an application.
     #
     # @option params [required, String] :application_name
-    #   The name of an CodeDeploy application associated with the IAM user or
+    #   The name of an CodeDeploy application associated with the user or
     #   Amazon Web Services account.
     #
     # @return [Types::GetApplicationOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
@@ -1869,8 +2024,8 @@ module Aws::CodeDeploy
     #  </note>
     #
     # @option params [required, String] :deployment_id
-    #   The unique ID of a deployment associated with the IAM user or Amazon
-    #   Web Services account.
+    #   The unique ID of a deployment associated with the user or Amazon Web
+    #   Services account.
     #
     # @return [Types::GetDeploymentOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1925,7 +2080,7 @@ module Aws::CodeDeploy
     #   resp.deployment_info.deployment_overview.skipped #=> Integer
     #   resp.deployment_info.deployment_overview.ready #=> Integer
     #   resp.deployment_info.description #=> String
-    #   resp.deployment_info.creator #=> String, one of "user", "autoscaling", "codeDeployRollback", "CodeDeploy", "CodeDeployAutoUpdate", "CloudFormation", "CloudFormationRollback"
+    #   resp.deployment_info.creator #=> String, one of "user", "autoscaling", "codeDeployRollback", "CodeDeploy", "CodeDeployAutoUpdate", "CloudFormation", "CloudFormationRollback", "autoscalingTermination"
     #   resp.deployment_info.ignore_application_stop_failures #=> Boolean
     #   resp.deployment_info.auto_rollback_configuration.enabled #=> Boolean
     #   resp.deployment_info.auto_rollback_configuration.events #=> Array
@@ -1995,7 +2150,7 @@ module Aws::CodeDeploy
     # Gets information about a deployment configuration.
     #
     # @option params [required, String] :deployment_config_name
-    #   The name of a deployment configuration associated with the IAM user or
+    #   The name of a deployment configuration associated with the user or
     #   Amazon Web Services account.
     #
     # @return [Types::GetDeploymentConfigOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
@@ -2021,6 +2176,10 @@ module Aws::CodeDeploy
     #   resp.deployment_config_info.traffic_routing_config.time_based_canary.canary_interval #=> Integer
     #   resp.deployment_config_info.traffic_routing_config.time_based_linear.linear_percentage #=> Integer
     #   resp.deployment_config_info.traffic_routing_config.time_based_linear.linear_interval #=> Integer
+    #   resp.deployment_config_info.zonal_config.first_zone_monitor_duration_in_seconds #=> Integer
+    #   resp.deployment_config_info.zonal_config.monitor_duration_in_seconds #=> Integer
+    #   resp.deployment_config_info.zonal_config.minimum_healthy_hosts_per_zone.type #=> String, one of "HOST_COUNT", "FLEET_PERCENT"
+    #   resp.deployment_config_info.zonal_config.minimum_healthy_hosts_per_zone.value #=> Integer
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/GetDeploymentConfig AWS API Documentation
     #
@@ -2034,7 +2193,7 @@ module Aws::CodeDeploy
     # Gets information about a deployment group.
     #
     # @option params [required, String] :application_name
-    #   The name of an CodeDeploy application associated with the IAM user or
+    #   The name of an CodeDeploy application associated with the user or
     #   Amazon Web Services account.
     #
     # @option params [required, String] :deployment_group_name
@@ -2068,6 +2227,7 @@ module Aws::CodeDeploy
     #   resp.deployment_group_info.auto_scaling_groups #=> Array
     #   resp.deployment_group_info.auto_scaling_groups[0].name #=> String
     #   resp.deployment_group_info.auto_scaling_groups[0].hook #=> String
+    #   resp.deployment_group_info.auto_scaling_groups[0].termination_hook #=> String
     #   resp.deployment_group_info.service_role_arn #=> String
     #   resp.deployment_group_info.target_revision.revision_type #=> String, one of "S3", "GitHub", "String", "AppSpecContent"
     #   resp.deployment_group_info.target_revision.s3_location.bucket #=> String
@@ -2134,6 +2294,7 @@ module Aws::CodeDeploy
     #   resp.deployment_group_info.ecs_services #=> Array
     #   resp.deployment_group_info.ecs_services[0].service_name #=> String
     #   resp.deployment_group_info.ecs_services[0].cluster_name #=> String
+    #   resp.deployment_group_info.termination_hook_enabled #=> Boolean
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/GetDeploymentGroup AWS API Documentation
     #
@@ -2191,10 +2352,10 @@ module Aws::CodeDeploy
 
     # Returns information about a deployment target.
     #
-    # @option params [String] :deployment_id
+    # @option params [required, String] :deployment_id
     #   The unique ID of a deployment.
     #
-    # @option params [String] :target_id
+    # @option params [required, String] :target_id
     #   The unique ID of a deployment target.
     #
     # @return [Types::GetDeploymentTargetOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
@@ -2204,8 +2365,8 @@ module Aws::CodeDeploy
     # @example Request syntax with placeholder values
     #
     #   resp = client.get_deployment_target({
-    #     deployment_id: "DeploymentId",
-    #     target_id: "TargetId",
+    #     deployment_id: "DeploymentId", # required
+    #     target_id: "TargetId", # required
     #   })
     #
     # @example Response structure
@@ -2332,19 +2493,19 @@ module Aws::CodeDeploy
     # Lists information about revisions for an application.
     #
     # @option params [required, String] :application_name
-    #   The name of an CodeDeploy application associated with the IAM user or
+    #   The name of an CodeDeploy application associated with the user or
     #   Amazon Web Services account.
     #
     # @option params [String] :sort_by
     #   The column name to use to sort the list results:
     #
-    #   * `registerTime`\: Sort by the time the revisions were registered with
+    #   * `registerTime`: Sort by the time the revisions were registered with
     #     CodeDeploy.
     #
-    #   * `firstUsedTime`\: Sort by the time the revisions were first used in
-    #     a deployment.
+    #   * `firstUsedTime`: Sort by the time the revisions were first used in a
+    #     deployment.
     #
-    #   * `lastUsedTime`\: Sort by the time the revisions were last used in a
+    #   * `lastUsedTime`: Sort by the time the revisions were last used in a
     #     deployment.
     #
     #   If not specified or set to null, the results are returned in an
@@ -2353,9 +2514,9 @@ module Aws::CodeDeploy
     # @option params [String] :sort_order
     #   The order in which to sort the list results:
     #
-    #   * `ascending`\: ascending order.
+    #   * `ascending`: ascending order.
     #
-    #   * `descending`\: descending order.
+    #   * `descending`: descending order.
     #
     #   If not specified, the results are sorted in ascending order.
     #
@@ -2374,13 +2535,13 @@ module Aws::CodeDeploy
     #   Whether to list revisions based on whether the revision is the target
     #   revision of a deployment group:
     #
-    #   * `include`\: List revisions that are target revisions of a deployment
+    #   * `include`: List revisions that are target revisions of a deployment
     #     group.
     #
-    #   * `exclude`\: Do not list revisions that are target revisions of a
+    #   * `exclude`: Do not list revisions that are target revisions of a
     #     deployment group.
     #
-    #   * `ignore`\: List all revisions.
+    #   * `ignore`: List all revisions.
     #
     # @option params [String] :next_token
     #   An identifier returned from the previous `ListApplicationRevisions`
@@ -2432,8 +2593,8 @@ module Aws::CodeDeploy
       req.send_request(options)
     end
 
-    # Lists the applications registered with the IAM user or Amazon Web
-    # Services account.
+    # Lists the applications registered with the user or Amazon Web Services
+    # account.
     #
     # @option params [String] :next_token
     #   An identifier returned from the previous list applications call. It
@@ -2467,7 +2628,7 @@ module Aws::CodeDeploy
       req.send_request(options)
     end
 
-    # Lists the deployment configurations with the IAM user or Amazon Web
+    # Lists the deployment configurations with the user or Amazon Web
     # Services account.
     #
     # @option params [String] :next_token
@@ -2503,11 +2664,11 @@ module Aws::CodeDeploy
       req.send_request(options)
     end
 
-    # Lists the deployment groups for an application registered with the IAM
-    # user or Amazon Web Services account.
+    # Lists the deployment groups for an application registered with the
+    # Amazon Web Services user or Amazon Web Services account.
     #
     # @option params [required, String] :application_name
-    #   The name of an CodeDeploy application associated with the IAM user or
+    #   The name of an CodeDeploy application associated with the user or
     #   Amazon Web Services account.
     #
     # @option params [String] :next_token
@@ -2553,8 +2714,8 @@ module Aws::CodeDeploy
     #
     #  </note>
     #
-    # Lists the instance for a deployment associated with the IAM user or
-    # Amazon Web Services account.
+    # Lists the instance for a deployment associated with the user or Amazon
+    # Web Services account.
     #
     # @option params [required, String] :deployment_id
     #   The unique ID of a deployment.
@@ -2567,18 +2728,18 @@ module Aws::CodeDeploy
     # @option params [Array<String>] :instance_status_filter
     #   A subset of instances to list by status:
     #
-    #   * `Pending`\: Include those instances with pending deployments.
+    #   * `Pending`: Include those instances with pending deployments.
     #
-    #   * `InProgress`\: Include those instances where deployments are still
-    #     in progress.
+    #   * `InProgress`: Include those instances where deployments are still in
+    #     progress.
     #
-    #   * `Succeeded`\: Include those instances with successful deployments.
+    #   * `Succeeded`: Include those instances with successful deployments.
     #
-    #   * `Failed`\: Include those instances with failed deployments.
+    #   * `Failed`: Include those instances with failed deployments.
     #
-    #   * `Skipped`\: Include those instances with skipped deployments.
+    #   * `Skipped`: Include those instances with skipped deployments.
     #
-    #   * `Unknown`\: Include those instances with deployments in an unknown
+    #   * `Unknown`: Include those instances with deployments in an unknown
     #     state.
     #
     # @option params [Array<String>] :instance_type_filter
@@ -2620,7 +2781,7 @@ module Aws::CodeDeploy
 
     # Returns an array of target IDs that are associated a deployment.
     #
-    # @option params [String] :deployment_id
+    # @option params [required, String] :deployment_id
     #   The unique ID of a deployment.
     #
     # @option params [String] :next_token
@@ -2646,7 +2807,7 @@ module Aws::CodeDeploy
     # @example Request syntax with placeholder values
     #
     #   resp = client.list_deployment_targets({
-    #     deployment_id: "DeploymentId",
+    #     deployment_id: "DeploymentId", # required
     #     next_token: "NextToken",
     #     target_filters: {
     #       "TargetStatus" => ["FilterValue"],
@@ -2669,10 +2830,10 @@ module Aws::CodeDeploy
     end
 
     # Lists the deployments in a deployment group for an application
-    # registered with the IAM user or Amazon Web Services account.
+    # registered with the user or Amazon Web Services account.
     #
     # @option params [String] :application_name
-    #   The name of an CodeDeploy application associated with the IAM user or
+    #   The name of an CodeDeploy application associated with the user or
     #   Amazon Web Services account.
     #
     #   <note markdown="1"> If `applicationName` is specified, then `deploymentGroupName` must be
@@ -2697,18 +2858,18 @@ module Aws::CodeDeploy
     # @option params [Array<String>] :include_only_statuses
     #   A subset of deployments to list by status:
     #
-    #   * `Created`\: Include created deployments in the resulting list.
+    #   * `Created`: Include created deployments in the resulting list.
     #
-    #   * `Queued`\: Include queued deployments in the resulting list.
+    #   * `Queued`: Include queued deployments in the resulting list.
     #
-    #   * `In Progress`\: Include in-progress deployments in the resulting
+    #   * `In Progress`: Include in-progress deployments in the resulting
     #     list.
     #
-    #   * `Succeeded`\: Include successful deployments in the resulting list.
+    #   * `Succeeded`: Include successful deployments in the resulting list.
     #
-    #   * `Failed`\: Include failed deployments in the resulting list.
+    #   * `Failed`: Include failed deployments in the resulting list.
     #
-    #   * `Stopped`\: Include stopped deployments in the resulting list.
+    #   * `Stopped`: Include stopped deployments in the resulting list.
     #
     # @option params [Types::TimeRange] :create_time_range
     #   A time range (start and end) for returning a subset of the list of
@@ -2796,10 +2957,10 @@ module Aws::CodeDeploy
     # @option params [String] :registration_status
     #   The registration status of the on-premises instances:
     #
-    #   * `Deregistered`\: Include deregistered on-premises instances in the
+    #   * `Deregistered`: Include deregistered on-premises instances in the
     #     resulting list.
     #
-    #   * `Registered`\: Include registered on-premises instances in the
+    #   * `Registered`: Include registered on-premises instances in the
     #     resulting list.
     #
     # @option params [Array<Types::TagFilter>] :tag_filters
@@ -2945,7 +3106,7 @@ module Aws::CodeDeploy
     # Registers with CodeDeploy a revision for the specified application.
     #
     # @option params [required, String] :application_name
-    #   The name of an CodeDeploy application associated with the IAM user or
+    #   The name of an CodeDeploy application associated with the user or
     #   Amazon Web Services account.
     #
     # @option params [String] :description
@@ -3009,7 +3170,7 @@ module Aws::CodeDeploy
     #   The ARN of the IAM session to associate with the on-premises instance.
     #
     # @option params [String] :iam_user_arn
-    #   The ARN of the IAM user to associate with the on-premises instance.
+    #   The ARN of the user to associate with the on-premises instance.
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
@@ -3254,7 +3415,7 @@ module Aws::CodeDeploy
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/https:/docs.aws.amazon.com/codedeploy/latest/userguide/troubleshooting-auto-scaling.html#troubleshooting-auto-scaling-heartbeat
+    #   [1]: https://docs.aws.amazon.com/codedeploy/latest/userguide/troubleshooting-auto-scaling.html#troubleshooting-auto-scaling-heartbeat
     #
     # @option params [String] :service_role_arn
     #   A replacement ARN for the service role, if you want to change it.
@@ -3316,6 +3477,29 @@ module Aws::CodeDeploy
     #   Information about an on-premises instance tag set. The deployment
     #   group includes only on-premises instances identified by all the tag
     #   groups.
+    #
+    # @option params [Boolean] :termination_hook_enabled
+    #   This parameter only applies if you are using CodeDeploy with Amazon
+    #   EC2 Auto Scaling. For more information, see [Integrating CodeDeploy
+    #   with Amazon EC2 Auto Scaling][1] in the *CodeDeploy User Guide*.
+    #
+    #   Set `terminationHookEnabled` to `true` to have CodeDeploy install a
+    #   termination hook into your Auto Scaling group when you update a
+    #   deployment group. When this hook is installed, CodeDeploy will perform
+    #   termination deployments.
+    #
+    #   For information about termination deployments, see [Enabling
+    #   termination deployments during Auto Scaling scale-in events][2] in the
+    #   *CodeDeploy User Guide*.
+    #
+    #   For more information about Auto Scaling scale-in events, see the
+    #   [Scale in][3] topic in the *Amazon EC2 Auto Scaling User Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/codedeploy/latest/userguide/integrations-aws-auto-scaling.html
+    #   [2]: https://docs.aws.amazon.com/codedeploy/latest/userguide/integrations-aws-auto-scaling.html#integrations-aws-auto-scaling-behaviors-hook-enable
+    #   [3]: https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-lifecycle.html#as-lifecycle-scale-in
     #
     # @return [Types::UpdateDeploymentGroupOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -3437,6 +3621,7 @@ module Aws::CodeDeploy
     #         ],
     #       ],
     #     },
+    #     termination_hook_enabled: false,
     #   })
     #
     # @example Response structure
@@ -3444,6 +3629,7 @@ module Aws::CodeDeploy
     #   resp.hooks_not_cleaned_up #=> Array
     #   resp.hooks_not_cleaned_up[0].name #=> String
     #   resp.hooks_not_cleaned_up[0].hook #=> String
+    #   resp.hooks_not_cleaned_up[0].termination_hook #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/codedeploy-2014-10-06/UpdateDeploymentGroup AWS API Documentation
     #
@@ -3460,14 +3646,19 @@ module Aws::CodeDeploy
     # @api private
     def build_request(operation_name, params = {})
       handlers = @handlers.for(operation_name)
+      tracer = config.telemetry_provider.tracer_provider.tracer(
+        Aws::Telemetry.module_to_tracer_name('Aws::CodeDeploy')
+      )
       context = Seahorse::Client::RequestContext.new(
         operation_name: operation_name,
         operation: config.api.operation(operation_name),
         client: self,
         params: params,
-        config: config)
+        config: config,
+        tracer: tracer
+      )
       context[:gem_name] = 'aws-sdk-codedeploy'
-      context[:gem_version] = '1.52.0'
+      context[:gem_version] = '1.82.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

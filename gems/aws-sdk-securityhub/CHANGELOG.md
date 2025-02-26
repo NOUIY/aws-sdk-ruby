@@ -1,6 +1,271 @@
 Unreleased Changes
 ------------------
 
+1.129.0 (2025-02-18)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.128.0 (2025-02-06)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.127.0 (2025-01-15)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.126.0 (2024-12-26)
+------------------
+
+* Feature - Documentation updates for AWS Security Hub
+
+1.125.0 (2024-12-02)
+------------------
+
+* Feature - Add new Multi Domain Correlation findings.
+
+1.124.0 (2024-11-18)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.123.0 (2024-11-06)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.122.0 (2024-10-18)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.121.0 (2024-09-27)
+------------------
+
+* Feature - Documentation updates for AWS Security Hub
+
+1.120.0 (2024-09-24)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.119.0 (2024-09-23)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.118.0 (2024-09-20)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.117.0 (2024-09-11)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.116.0 (2024-09-10)
+------------------
+
+* Feature - Documentation update for Security Hub
+
+1.115.0 (2024-09-03)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.114.0 (2024-08-21)
+------------------
+
+* Feature - Security Hub documentation and definition updates
+
+1.113.0 (2024-07-02)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.112.0 (2024-06-25)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.111.0 (2024-06-24)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.110.0 (2024-06-20)
+------------------
+
+* Feature - Documentation updates for Security Hub
+
+1.109.0 (2024-06-05)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.108.0 (2024-05-29)
+------------------
+
+* Feature - Add ROOT type for TargetType model
+
+1.107.0 (2024-05-15)
+------------------
+
+* Feature - Documentation-only update for AWS Security Hub
+
+1.106.0 (2024-05-13)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.105.0 (2024-05-01)
+------------------
+
+* Feature - Updated CreateMembers API request with limits.
+
+1.104.0 (2024-04-25)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.103.0 (2024-04-02)
+------------------
+
+* Feature - Documentation updates for AWS Security Hub
+
+1.102.0 (2024-03-22)
+------------------
+
+* Feature - Added new resource detail object to ASFF, including resource for LastKnownExploitAt
+
+1.101.0 (2024-01-26)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.100.0 (2024-01-16)
+------------------
+
+* Feature - Documentation updates for AWS Security Hub
+
+1.99.0 (2023-12-11)
+------------------
+
+* Feature - Added new resource detail objects to ASFF, including resources for AwsDynamoDbTable, AwsEc2ClientVpnEndpoint, AwsMskCluster, AwsS3AccessPoint, AwsS3Bucket
+
+1.98.0 (2023-11-28)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.97.0 (2023-11-27)
+------------------
+
+* Feature - Adds and updates APIs to support central configuration. This feature allows the Security Hub delegated administrator to configure Security Hub for their entire AWS Org across multiple regions from a home Region. With this release, findings also include account name and application metadata.
+
+1.96.0 (2023-11-27)
+------------------
+
+* Feature - Adds and updates APIs to support customizable security controls. This feature allows Security Hub customers to provide custom parameters for security controls. With this release, findings for controls that support custom parameters will include the parameters used to generate the findings.
+
+1.95.0 (2023-11-22)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.94.0 (2023-10-05)
+------------------
+
+* Feature - Added new resource detail objects to ASFF, including resources for AwsEventsEventbus, AwsEventsEndpoint, AwsDmsEndpoint, AwsDmsReplicationTask, AwsDmsReplicationInstance, AwsRoute53HostedZone, and AwsMskCluster
+
+1.93.0 (2023-09-27)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.92.0 (2023-09-07)
+------------------
+
+* Feature - Documentation updates for AWS Security Hub
+
+1.91.0 (2023-08-18)
+------------------
+
+* Feature - Added Inspector Lambda code Vulnerability section to ASFF, including GeneratorDetails, EpssScore, ExploitAvailable, and CodeVulnerabilities.
+
+1.90.0 (2023-07-25)
+------------------
+
+* Feature - Add support for CONTAINS and NOT_CONTAINS comparison operators for Automation Rules string filters and map filters
+
+1.89.0 (2023-07-11)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.88.0 (2023-07-06)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.87.0 (2023-07-05)
+------------------
+
+* Feature - Documentation updates for AWS Security Hub
+
+1.86.0 (2023-06-28)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.85.0 (2023-06-15)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.84.0 (2023-06-13)
+------------------
+
+* Feature - Add support for Security Hub Automation Rules
+
+1.83.0 (2023-05-31)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.82.0 (2023-05-30)
+------------------
+
+* Feature - Added new resource detail objects to ASFF, including resources for AwsGuardDutyDetector, AwsAmazonMqBroker, AwsEventSchemasRegistry, AwsAppSyncGraphQlApi and AwsStepFunctionStateMachine.
+
+1.81.0 (2023-05-04)
+------------------
+
+* Feature - Add support for Finding History.
+
+1.80.0 (2023-04-19)
+------------------
+
+* Feature - Update that adds SDK code examples for Security Hub
+
+1.79.0 (2023-03-27)
+------------------
+
+* Feature - Added new resource detail objects to ASFF, including resources for AwsEksCluster, AWSS3Bucket, AwsEc2RouteTable and AwsEC2Instance.
+
+1.78.0 (2023-02-24)
+------------------
+
+* Feature - New Security Hub APIs and updates to existing APIs that help you consolidate control findings and enable and disable controls across all supported standards
+
+1.77.0 (2023-02-21)
+------------------
+
+* Feature - Documentation updates for AWS Security Hub
+
 1.76.0 (2023-01-31)
 ------------------
 

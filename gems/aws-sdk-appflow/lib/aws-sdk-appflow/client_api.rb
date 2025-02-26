@@ -7,6 +7,7 @@
 #
 # WARNING ABOUT GENERATED CODE
 
+
 module Aws::Appflow
   # @api private
   module ClientApi
@@ -46,11 +47,14 @@ module Aws::Appflow
     BucketName = Shapes::StringShape.new(name: 'BucketName')
     BucketPrefix = Shapes::StringShape.new(name: 'BucketPrefix')
     BusinessUnitId = Shapes::StringShape.new(name: 'BusinessUnitId')
+    CancelFlowExecutionsRequest = Shapes::StructureShape.new(name: 'CancelFlowExecutionsRequest')
+    CancelFlowExecutionsResponse = Shapes::StructureShape.new(name: 'CancelFlowExecutionsResponse')
     CatalogType = Shapes::StringShape.new(name: 'CatalogType')
     ClientCredentialsArn = Shapes::StringShape.new(name: 'ClientCredentialsArn')
     ClientId = Shapes::StringShape.new(name: 'ClientId')
     ClientNumber = Shapes::StringShape.new(name: 'ClientNumber')
     ClientSecret = Shapes::StringShape.new(name: 'ClientSecret')
+    ClientToken = Shapes::StringShape.new(name: 'ClientToken')
     ClusterIdentifier = Shapes::StringShape.new(name: 'ClusterIdentifier')
     ConflictException = Shapes::StructureShape.new(name: 'ConflictException')
     ConnectionMode = Shapes::StringShape.new(name: 'ConnectionMode')
@@ -117,6 +121,9 @@ module Aws::Appflow
     CustomerProfilesMetadata = Shapes::StructureShape.new(name: 'CustomerProfilesMetadata')
     DataApiRoleArn = Shapes::StringShape.new(name: 'DataApiRoleArn')
     DataPullMode = Shapes::StringShape.new(name: 'DataPullMode')
+    DataTransferApi = Shapes::StructureShape.new(name: 'DataTransferApi')
+    DataTransferApiType = Shapes::StringShape.new(name: 'DataTransferApiType')
+    DataTransferApiTypeName = Shapes::StringShape.new(name: 'DataTransferApiTypeName')
     DatabaseName = Shapes::StringShape.new(name: 'DatabaseName')
     DatabaseUrl = Shapes::StringShape.new(name: 'DatabaseUrl')
     DatadogConnectorOperator = Shapes::StringShape.new(name: 'DatadogConnectorOperator')
@@ -165,6 +172,7 @@ module Aws::Appflow
     EventBridgeMetadata = Shapes::StructureShape.new(name: 'EventBridgeMetadata')
     ExecutionDetails = Shapes::StructureShape.new(name: 'ExecutionDetails')
     ExecutionId = Shapes::StringShape.new(name: 'ExecutionId')
+    ExecutionIds = Shapes::ListShape.new(name: 'ExecutionIds')
     ExecutionMessage = Shapes::StringShape.new(name: 'ExecutionMessage')
     ExecutionRecord = Shapes::StructureShape.new(name: 'ExecutionRecord')
     ExecutionResult = Shapes::StructureShape.new(name: 'ExecutionResult')
@@ -207,6 +215,7 @@ module Aws::Appflow
     InstanceUrl = Shapes::StringShape.new(name: 'InstanceUrl')
     InternalServerException = Shapes::StructureShape.new(name: 'InternalServerException')
     JavaBoolean = Shapes::BooleanShape.new(name: 'JavaBoolean')
+    JwtToken = Shapes::StringShape.new(name: 'JwtToken')
     KMSArn = Shapes::StringShape.new(name: 'KMSArn')
     Key = Shapes::StringShape.new(name: 'Key')
     Label = Shapes::StringShape.new(name: 'Label')
@@ -288,6 +297,8 @@ module Aws::Appflow
     RegisterConnectorResponse = Shapes::StructureShape.new(name: 'RegisterConnectorResponse')
     RegisteredBy = Shapes::StringShape.new(name: 'RegisteredBy')
     RegistrationOutput = Shapes::StructureShape.new(name: 'RegistrationOutput')
+    ResetConnectorMetadataCacheRequest = Shapes::StructureShape.new(name: 'ResetConnectorMetadataCacheRequest')
+    ResetConnectorMetadataCacheResponse = Shapes::StructureShape.new(name: 'ResetConnectorMetadataCacheResponse')
     ResourceNotFoundException = Shapes::StructureShape.new(name: 'ResourceNotFoundException')
     RoleArn = Shapes::StringShape.new(name: 'RoleArn')
     S3ConnectorOperator = Shapes::StringShape.new(name: 'S3ConnectorOperator')
@@ -301,7 +312,11 @@ module Aws::Appflow
     SAPODataConnectorProfileCredentials = Shapes::StructureShape.new(name: 'SAPODataConnectorProfileCredentials')
     SAPODataConnectorProfileProperties = Shapes::StructureShape.new(name: 'SAPODataConnectorProfileProperties')
     SAPODataDestinationProperties = Shapes::StructureShape.new(name: 'SAPODataDestinationProperties')
+    SAPODataMaxPageSize = Shapes::IntegerShape.new(name: 'SAPODataMaxPageSize')
+    SAPODataMaxParallelism = Shapes::IntegerShape.new(name: 'SAPODataMaxParallelism')
     SAPODataMetadata = Shapes::StructureShape.new(name: 'SAPODataMetadata')
+    SAPODataPaginationConfig = Shapes::StructureShape.new(name: 'SAPODataPaginationConfig')
+    SAPODataParallelismConfig = Shapes::StructureShape.new(name: 'SAPODataParallelismConfig')
     SAPODataSourceProperties = Shapes::StructureShape.new(name: 'SAPODataSourceProperties')
     SalesforceConnectorOperator = Shapes::StringShape.new(name: 'SalesforceConnectorOperator')
     SalesforceConnectorProfileCredentials = Shapes::StructureShape.new(name: 'SalesforceConnectorProfileCredentials')
@@ -350,6 +365,9 @@ module Aws::Appflow
     SuccessResponseHandlingConfig = Shapes::StructureShape.new(name: 'SuccessResponseHandlingConfig')
     SupportedApiVersion = Shapes::StringShape.new(name: 'SupportedApiVersion')
     SupportedApiVersionList = Shapes::ListShape.new(name: 'SupportedApiVersionList')
+    SupportedDataTransferApis = Shapes::ListShape.new(name: 'SupportedDataTransferApis')
+    SupportedDataTransferType = Shapes::StringShape.new(name: 'SupportedDataTransferType')
+    SupportedDataTransferTypeList = Shapes::ListShape.new(name: 'SupportedDataTransferTypeList')
     SupportedFieldTypeDetails = Shapes::StructureShape.new(name: 'SupportedFieldTypeDetails')
     SupportedOperatorList = Shapes::ListShape.new(name: 'SupportedOperatorList')
     SupportedValueList = Shapes::ListShape.new(name: 'SupportedValueList')
@@ -458,6 +476,13 @@ module Aws::Appflow
     BasicAuthCredentials.add_member(:password, Shapes::ShapeRef.new(shape: Password, required: true, location_name: "password"))
     BasicAuthCredentials.struct_class = Types::BasicAuthCredentials
 
+    CancelFlowExecutionsRequest.add_member(:flow_name, Shapes::ShapeRef.new(shape: FlowName, required: true, location_name: "flowName"))
+    CancelFlowExecutionsRequest.add_member(:execution_ids, Shapes::ShapeRef.new(shape: ExecutionIds, location_name: "executionIds"))
+    CancelFlowExecutionsRequest.struct_class = Types::CancelFlowExecutionsRequest
+
+    CancelFlowExecutionsResponse.add_member(:invalid_executions, Shapes::ShapeRef.new(shape: ExecutionIds, location_name: "invalidExecutions"))
+    CancelFlowExecutionsResponse.struct_class = Types::CancelFlowExecutionsResponse
+
     ConflictException.add_member(:message, Shapes::ShapeRef.new(shape: ErrorMessage, location_name: "message"))
     ConflictException.struct_class = Types::ConflictException
 
@@ -490,6 +515,8 @@ module Aws::Appflow
     ConnectorConfiguration.add_member(:logo_url, Shapes::ShapeRef.new(shape: LogoURL, location_name: "logoURL"))
     ConnectorConfiguration.add_member(:registered_at, Shapes::ShapeRef.new(shape: Date, location_name: "registeredAt"))
     ConnectorConfiguration.add_member(:registered_by, Shapes::ShapeRef.new(shape: RegisteredBy, location_name: "registeredBy"))
+    ConnectorConfiguration.add_member(:supported_data_transfer_types, Shapes::ShapeRef.new(shape: SupportedDataTransferTypeList, location_name: "supportedDataTransferTypes"))
+    ConnectorConfiguration.add_member(:supported_data_transfer_apis, Shapes::ShapeRef.new(shape: SupportedDataTransferApis, location_name: "supportedDataTransferApis"))
     ConnectorConfiguration.struct_class = Types::ConnectorConfiguration
 
     ConnectorConfigurationsMap.key = Shapes::ShapeRef.new(shape: ConnectorType)
@@ -506,6 +533,7 @@ module Aws::Appflow
     ConnectorDetail.add_member(:registered_by, Shapes::ShapeRef.new(shape: RegisteredBy, location_name: "registeredBy"))
     ConnectorDetail.add_member(:connector_provisioning_type, Shapes::ShapeRef.new(shape: ConnectorProvisioningType, location_name: "connectorProvisioningType"))
     ConnectorDetail.add_member(:connector_modes, Shapes::ShapeRef.new(shape: ConnectorModeList, location_name: "connectorModes"))
+    ConnectorDetail.add_member(:supported_data_transfer_types, Shapes::ShapeRef.new(shape: SupportedDataTransferTypeList, location_name: "supportedDataTransferTypes"))
     ConnectorDetail.struct_class = Types::ConnectorDetail
 
     ConnectorEntity.add_member(:name, Shapes::ShapeRef.new(shape: Name, required: true, location_name: "name"))
@@ -675,6 +703,7 @@ module Aws::Appflow
     CreateConnectorProfileRequest.add_member(:connector_label, Shapes::ShapeRef.new(shape: ConnectorLabel, location_name: "connectorLabel"))
     CreateConnectorProfileRequest.add_member(:connection_mode, Shapes::ShapeRef.new(shape: ConnectionMode, required: true, location_name: "connectionMode"))
     CreateConnectorProfileRequest.add_member(:connector_profile_config, Shapes::ShapeRef.new(shape: ConnectorProfileConfig, required: true, location_name: "connectorProfileConfig"))
+    CreateConnectorProfileRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "clientToken", metadata: {"idempotencyToken"=>true}))
     CreateConnectorProfileRequest.struct_class = Types::CreateConnectorProfileRequest
 
     CreateConnectorProfileResponse.add_member(:connector_profile_arn, Shapes::ShapeRef.new(shape: ConnectorProfileArn, location_name: "connectorProfileArn"))
@@ -689,6 +718,7 @@ module Aws::Appflow
     CreateFlowRequest.add_member(:tasks, Shapes::ShapeRef.new(shape: Tasks, required: true, location_name: "tasks"))
     CreateFlowRequest.add_member(:tags, Shapes::ShapeRef.new(shape: TagMap, location_name: "tags"))
     CreateFlowRequest.add_member(:metadata_catalog_config, Shapes::ShapeRef.new(shape: MetadataCatalogConfig, location_name: "metadataCatalogConfig"))
+    CreateFlowRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "clientToken", metadata: {"idempotencyToken"=>true}))
     CreateFlowRequest.struct_class = Types::CreateFlowRequest
 
     CreateFlowResponse.add_member(:flow_arn, Shapes::ShapeRef.new(shape: FlowArn, location_name: "flowArn"))
@@ -728,6 +758,7 @@ module Aws::Appflow
 
     CustomConnectorSourceProperties.add_member(:entity_name, Shapes::ShapeRef.new(shape: EntityName, required: true, location_name: "entityName"))
     CustomConnectorSourceProperties.add_member(:custom_properties, Shapes::ShapeRef.new(shape: CustomProperties, location_name: "customProperties"))
+    CustomConnectorSourceProperties.add_member(:data_transfer_api, Shapes::ShapeRef.new(shape: DataTransferApi, location_name: "dataTransferApi"))
     CustomConnectorSourceProperties.struct_class = Types::CustomConnectorSourceProperties
 
     CustomProperties.key = Shapes::ShapeRef.new(shape: CustomPropertyKey)
@@ -738,6 +769,10 @@ module Aws::Appflow
     CustomerProfilesDestinationProperties.struct_class = Types::CustomerProfilesDestinationProperties
 
     CustomerProfilesMetadata.struct_class = Types::CustomerProfilesMetadata
+
+    DataTransferApi.add_member(:name, Shapes::ShapeRef.new(shape: DataTransferApiTypeName, location_name: "Name"))
+    DataTransferApi.add_member(:type, Shapes::ShapeRef.new(shape: DataTransferApiType, location_name: "Type"))
+    DataTransferApi.struct_class = Types::DataTransferApi
 
     DatadogConnectorProfileCredentials.add_member(:api_key, Shapes::ShapeRef.new(shape: ApiKey, required: true, location_name: "apiKey"))
     DatadogConnectorProfileCredentials.add_member(:application_key, Shapes::ShapeRef.new(shape: ApplicationKey, required: true, location_name: "applicationKey"))
@@ -895,6 +930,8 @@ module Aws::Appflow
     ExecutionDetails.add_member(:most_recent_execution_status, Shapes::ShapeRef.new(shape: ExecutionStatus, location_name: "mostRecentExecutionStatus"))
     ExecutionDetails.struct_class = Types::ExecutionDetails
 
+    ExecutionIds.member = Shapes::ShapeRef.new(shape: ExecutionId)
+
     ExecutionRecord.add_member(:execution_id, Shapes::ShapeRef.new(shape: ExecutionId, location_name: "executionId"))
     ExecutionRecord.add_member(:execution_status, Shapes::ShapeRef.new(shape: ExecutionStatus, location_name: "executionStatus"))
     ExecutionRecord.add_member(:execution_result, Shapes::ShapeRef.new(shape: ExecutionResult, location_name: "executionResult"))
@@ -909,6 +946,8 @@ module Aws::Appflow
     ExecutionResult.add_member(:bytes_processed, Shapes::ShapeRef.new(shape: Long, location_name: "bytesProcessed"))
     ExecutionResult.add_member(:bytes_written, Shapes::ShapeRef.new(shape: Long, location_name: "bytesWritten"))
     ExecutionResult.add_member(:records_processed, Shapes::ShapeRef.new(shape: Long, location_name: "recordsProcessed"))
+    ExecutionResult.add_member(:num_parallel_processes, Shapes::ShapeRef.new(shape: Long, location_name: "numParallelProcesses"))
+    ExecutionResult.add_member(:max_page_size, Shapes::ShapeRef.new(shape: Long, location_name: "maxPageSize"))
     ExecutionResult.struct_class = Types::ExecutionResult
 
     FieldTypeDetails.add_member(:field_type, Shapes::ShapeRef.new(shape: FieldType, required: true, location_name: "fieldType"))
@@ -1177,6 +1216,7 @@ module Aws::Appflow
     RegisterConnectorRequest.add_member(:description, Shapes::ShapeRef.new(shape: Description, location_name: "description"))
     RegisterConnectorRequest.add_member(:connector_provisioning_type, Shapes::ShapeRef.new(shape: ConnectorProvisioningType, location_name: "connectorProvisioningType"))
     RegisterConnectorRequest.add_member(:connector_provisioning_config, Shapes::ShapeRef.new(shape: ConnectorProvisioningConfig, location_name: "connectorProvisioningConfig"))
+    RegisterConnectorRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "clientToken", metadata: {"idempotencyToken"=>true}))
     RegisterConnectorRequest.struct_class = Types::RegisterConnectorRequest
 
     RegisterConnectorResponse.add_member(:connector_arn, Shapes::ShapeRef.new(shape: ARN, location_name: "connectorArn"))
@@ -1186,6 +1226,15 @@ module Aws::Appflow
     RegistrationOutput.add_member(:result, Shapes::ShapeRef.new(shape: String, location_name: "result"))
     RegistrationOutput.add_member(:status, Shapes::ShapeRef.new(shape: ExecutionStatus, location_name: "status"))
     RegistrationOutput.struct_class = Types::RegistrationOutput
+
+    ResetConnectorMetadataCacheRequest.add_member(:connector_profile_name, Shapes::ShapeRef.new(shape: ConnectorProfileName, location_name: "connectorProfileName"))
+    ResetConnectorMetadataCacheRequest.add_member(:connector_type, Shapes::ShapeRef.new(shape: ConnectorType, location_name: "connectorType"))
+    ResetConnectorMetadataCacheRequest.add_member(:connector_entity_name, Shapes::ShapeRef.new(shape: EntityName, location_name: "connectorEntityName"))
+    ResetConnectorMetadataCacheRequest.add_member(:entities_path, Shapes::ShapeRef.new(shape: EntitiesPath, location_name: "entitiesPath"))
+    ResetConnectorMetadataCacheRequest.add_member(:api_version, Shapes::ShapeRef.new(shape: ApiVersion, location_name: "apiVersion"))
+    ResetConnectorMetadataCacheRequest.struct_class = Types::ResetConnectorMetadataCacheRequest
+
+    ResetConnectorMetadataCacheResponse.struct_class = Types::ResetConnectorMetadataCacheResponse
 
     ResourceNotFoundException.add_member(:message, Shapes::ShapeRef.new(shape: ErrorMessage, location_name: "message"))
     ResourceNotFoundException.struct_class = Types::ResourceNotFoundException
@@ -1222,6 +1271,7 @@ module Aws::Appflow
     SAPODataConnectorProfileProperties.add_member(:logon_language, Shapes::ShapeRef.new(shape: LogonLanguage, location_name: "logonLanguage"))
     SAPODataConnectorProfileProperties.add_member(:private_link_service_name, Shapes::ShapeRef.new(shape: PrivateLinkServiceName, location_name: "privateLinkServiceName"))
     SAPODataConnectorProfileProperties.add_member(:o_auth_properties, Shapes::ShapeRef.new(shape: OAuthProperties, location_name: "oAuthProperties"))
+    SAPODataConnectorProfileProperties.add_member(:disable_sso, Shapes::ShapeRef.new(shape: Boolean, location_name: "disableSSO"))
     SAPODataConnectorProfileProperties.struct_class = Types::SAPODataConnectorProfileProperties
 
     SAPODataDestinationProperties.add_member(:object_path, Shapes::ShapeRef.new(shape: Object, required: true, location_name: "objectPath"))
@@ -1233,17 +1283,28 @@ module Aws::Appflow
 
     SAPODataMetadata.struct_class = Types::SAPODataMetadata
 
+    SAPODataPaginationConfig.add_member(:max_page_size, Shapes::ShapeRef.new(shape: SAPODataMaxPageSize, required: true, location_name: "maxPageSize", metadata: {"box"=>true}))
+    SAPODataPaginationConfig.struct_class = Types::SAPODataPaginationConfig
+
+    SAPODataParallelismConfig.add_member(:max_parallelism, Shapes::ShapeRef.new(shape: SAPODataMaxParallelism, required: true, location_name: "maxParallelism", metadata: {"box"=>true}))
+    SAPODataParallelismConfig.struct_class = Types::SAPODataParallelismConfig
+
     SAPODataSourceProperties.add_member(:object_path, Shapes::ShapeRef.new(shape: Object, location_name: "objectPath"))
+    SAPODataSourceProperties.add_member(:parallelism_config, Shapes::ShapeRef.new(shape: SAPODataParallelismConfig, location_name: "parallelismConfig"))
+    SAPODataSourceProperties.add_member(:pagination_config, Shapes::ShapeRef.new(shape: SAPODataPaginationConfig, location_name: "paginationConfig"))
     SAPODataSourceProperties.struct_class = Types::SAPODataSourceProperties
 
     SalesforceConnectorProfileCredentials.add_member(:access_token, Shapes::ShapeRef.new(shape: AccessToken, location_name: "accessToken"))
     SalesforceConnectorProfileCredentials.add_member(:refresh_token, Shapes::ShapeRef.new(shape: RefreshToken, location_name: "refreshToken"))
     SalesforceConnectorProfileCredentials.add_member(:o_auth_request, Shapes::ShapeRef.new(shape: ConnectorOAuthRequest, location_name: "oAuthRequest"))
     SalesforceConnectorProfileCredentials.add_member(:client_credentials_arn, Shapes::ShapeRef.new(shape: ClientCredentialsArn, location_name: "clientCredentialsArn"))
+    SalesforceConnectorProfileCredentials.add_member(:o_auth_2_grant_type, Shapes::ShapeRef.new(shape: OAuth2GrantType, location_name: "oAuth2GrantType"))
+    SalesforceConnectorProfileCredentials.add_member(:jwt_token, Shapes::ShapeRef.new(shape: JwtToken, location_name: "jwtToken"))
     SalesforceConnectorProfileCredentials.struct_class = Types::SalesforceConnectorProfileCredentials
 
     SalesforceConnectorProfileProperties.add_member(:instance_url, Shapes::ShapeRef.new(shape: InstanceUrl, location_name: "instanceUrl"))
     SalesforceConnectorProfileProperties.add_member(:is_sandbox_environment, Shapes::ShapeRef.new(shape: Boolean, location_name: "isSandboxEnvironment"))
+    SalesforceConnectorProfileProperties.add_member(:use_private_link_for_metadata_and_authorization, Shapes::ShapeRef.new(shape: Boolean, location_name: "usePrivateLinkForMetadataAndAuthorization"))
     SalesforceConnectorProfileProperties.struct_class = Types::SalesforceConnectorProfileProperties
 
     SalesforceDataTransferApiList.member = Shapes::ShapeRef.new(shape: SalesforceDataTransferApi)
@@ -1257,6 +1318,7 @@ module Aws::Appflow
 
     SalesforceMetadata.add_member(:o_auth_scopes, Shapes::ShapeRef.new(shape: OAuthScopeList, location_name: "oAuthScopes"))
     SalesforceMetadata.add_member(:data_transfer_apis, Shapes::ShapeRef.new(shape: SalesforceDataTransferApiList, location_name: "dataTransferApis"))
+    SalesforceMetadata.add_member(:oauth2_grant_types_supported, Shapes::ShapeRef.new(shape: OAuth2GrantTypeSupportedList, location_name: "oauth2GrantTypesSupported"))
     SalesforceMetadata.struct_class = Types::SalesforceMetadata
 
     SalesforceSourceProperties.add_member(:object, Shapes::ShapeRef.new(shape: Object, required: true, location_name: "object"))
@@ -1277,8 +1339,9 @@ module Aws::Appflow
 
     SchedulingFrequencyTypeList.member = Shapes::ShapeRef.new(shape: ScheduleFrequencyType)
 
-    ServiceNowConnectorProfileCredentials.add_member(:username, Shapes::ShapeRef.new(shape: Username, required: true, location_name: "username"))
-    ServiceNowConnectorProfileCredentials.add_member(:password, Shapes::ShapeRef.new(shape: Password, required: true, location_name: "password"))
+    ServiceNowConnectorProfileCredentials.add_member(:username, Shapes::ShapeRef.new(shape: Username, location_name: "username"))
+    ServiceNowConnectorProfileCredentials.add_member(:password, Shapes::ShapeRef.new(shape: Password, location_name: "password"))
+    ServiceNowConnectorProfileCredentials.add_member(:o_auth_2_credentials, Shapes::ShapeRef.new(shape: OAuth2Credentials, location_name: "oAuth2Credentials"))
     ServiceNowConnectorProfileCredentials.struct_class = Types::ServiceNowConnectorProfileCredentials
 
     ServiceNowConnectorProfileProperties.add_member(:instance_url, Shapes::ShapeRef.new(shape: InstanceUrl, required: true, location_name: "instanceUrl"))
@@ -1373,6 +1436,7 @@ module Aws::Appflow
     SourceFlowConfig.struct_class = Types::SourceFlowConfig
 
     StartFlowRequest.add_member(:flow_name, Shapes::ShapeRef.new(shape: FlowName, required: true, location_name: "flowName"))
+    StartFlowRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "clientToken", metadata: {"idempotencyToken"=>true}))
     StartFlowRequest.struct_class = Types::StartFlowRequest
 
     StartFlowResponse.add_member(:flow_arn, Shapes::ShapeRef.new(shape: FlowArn, location_name: "flowArn"))
@@ -1392,6 +1456,10 @@ module Aws::Appflow
     SuccessResponseHandlingConfig.struct_class = Types::SuccessResponseHandlingConfig
 
     SupportedApiVersionList.member = Shapes::ShapeRef.new(shape: SupportedApiVersion)
+
+    SupportedDataTransferApis.member = Shapes::ShapeRef.new(shape: DataTransferApi)
+
+    SupportedDataTransferTypeList.member = Shapes::ShapeRef.new(shape: SupportedDataTransferType)
 
     SupportedFieldTypeDetails.add_member(:v1, Shapes::ShapeRef.new(shape: FieldTypeDetails, required: true, location_name: "v1"))
     SupportedFieldTypeDetails.struct_class = Types::SupportedFieldTypeDetails
@@ -1470,6 +1538,7 @@ module Aws::Appflow
     UpdateConnectorProfileRequest.add_member(:connector_profile_name, Shapes::ShapeRef.new(shape: ConnectorProfileName, required: true, location_name: "connectorProfileName"))
     UpdateConnectorProfileRequest.add_member(:connection_mode, Shapes::ShapeRef.new(shape: ConnectionMode, required: true, location_name: "connectionMode"))
     UpdateConnectorProfileRequest.add_member(:connector_profile_config, Shapes::ShapeRef.new(shape: ConnectorProfileConfig, required: true, location_name: "connectorProfileConfig"))
+    UpdateConnectorProfileRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "clientToken", metadata: {"idempotencyToken"=>true}))
     UpdateConnectorProfileRequest.struct_class = Types::UpdateConnectorProfileRequest
 
     UpdateConnectorProfileResponse.add_member(:connector_profile_arn, Shapes::ShapeRef.new(shape: ConnectorProfileArn, location_name: "connectorProfileArn"))
@@ -1478,6 +1547,7 @@ module Aws::Appflow
     UpdateConnectorRegistrationRequest.add_member(:connector_label, Shapes::ShapeRef.new(shape: ConnectorLabel, required: true, location_name: "connectorLabel"))
     UpdateConnectorRegistrationRequest.add_member(:description, Shapes::ShapeRef.new(shape: Description, location_name: "description"))
     UpdateConnectorRegistrationRequest.add_member(:connector_provisioning_config, Shapes::ShapeRef.new(shape: ConnectorProvisioningConfig, location_name: "connectorProvisioningConfig"))
+    UpdateConnectorRegistrationRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "clientToken", metadata: {"idempotencyToken"=>true}))
     UpdateConnectorRegistrationRequest.struct_class = Types::UpdateConnectorRegistrationRequest
 
     UpdateConnectorRegistrationResponse.add_member(:connector_arn, Shapes::ShapeRef.new(shape: ARN, location_name: "connectorArn"))
@@ -1490,6 +1560,7 @@ module Aws::Appflow
     UpdateFlowRequest.add_member(:destination_flow_config_list, Shapes::ShapeRef.new(shape: DestinationFlowConfigList, required: true, location_name: "destinationFlowConfigList"))
     UpdateFlowRequest.add_member(:tasks, Shapes::ShapeRef.new(shape: Tasks, required: true, location_name: "tasks"))
     UpdateFlowRequest.add_member(:metadata_catalog_config, Shapes::ShapeRef.new(shape: MetadataCatalogConfig, location_name: "metadataCatalogConfig"))
+    UpdateFlowRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "clientToken", metadata: {"idempotencyToken"=>true}))
     UpdateFlowRequest.struct_class = Types::UpdateFlowRequest
 
     UpdateFlowResponse.add_member(:flow_status, Shapes::ShapeRef.new(shape: FlowStatus, location_name: "flowStatus"))
@@ -1555,15 +1626,30 @@ module Aws::Appflow
 
       api.metadata = {
         "apiVersion" => "2020-08-23",
+        "auth" => ["aws.auth#sigv4"],
         "endpointPrefix" => "appflow",
         "jsonVersion" => "1.1",
         "protocol" => "rest-json",
+        "protocols" => ["rest-json"],
         "serviceFullName" => "Amazon Appflow",
         "serviceId" => "Appflow",
         "signatureVersion" => "v4",
         "signingName" => "appflow",
         "uid" => "appflow-2020-08-23",
       }
+
+      api.add_operation(:cancel_flow_executions, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "CancelFlowExecutions"
+        o.http_method = "POST"
+        o.http_request_uri = "/cancel-flow-executions"
+        o.input = Shapes::ShapeRef.new(shape: CancelFlowExecutionsRequest)
+        o.output = Shapes::ShapeRef.new(shape: CancelFlowExecutionsResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+      end)
 
       api.add_operation(:create_connector_profile, Seahorse::Model::Operation.new.tap do |o|
         o.name = "CreateConnectorProfile"
@@ -1591,6 +1677,7 @@ module Aws::Appflow
         o.errors << Shapes::ShapeRef.new(shape: ConflictException)
         o.errors << Shapes::ShapeRef.new(shape: ConnectorAuthenticationException)
         o.errors << Shapes::ShapeRef.new(shape: ConnectorServerException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
       end)
 
       api.add_operation(:delete_connector_profile, Seahorse::Model::Operation.new.tap do |o|
@@ -1771,6 +1858,18 @@ module Aws::Appflow
         o.errors << Shapes::ShapeRef.new(shape: ConnectorAuthenticationException)
       end)
 
+      api.add_operation(:reset_connector_metadata_cache, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ResetConnectorMetadataCache"
+        o.http_method = "POST"
+        o.http_request_uri = "/reset-connector-metadata-cache"
+        o.input = Shapes::ShapeRef.new(shape: ResetConnectorMetadataCacheRequest)
+        o.output = Shapes::ShapeRef.new(shape: ResetConnectorMetadataCacheResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+      end)
+
       api.add_operation(:start_flow, Seahorse::Model::Operation.new.tap do |o|
         o.name = "StartFlow"
         o.http_method = "POST"
@@ -1871,6 +1970,7 @@ module Aws::Appflow
         o.errors << Shapes::ShapeRef.new(shape: ConnectorAuthenticationException)
         o.errors << Shapes::ShapeRef.new(shape: ConnectorServerException)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
       end)
     end
 

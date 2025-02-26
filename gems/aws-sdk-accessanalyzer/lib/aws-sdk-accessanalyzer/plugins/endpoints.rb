@@ -14,34 +14,48 @@ module Aws::AccessAnalyzer
       option(
         :endpoint_provider,
         doc_type: 'Aws::AccessAnalyzer::EndpointProvider',
-        docstring: 'The endpoint provider used to resolve endpoints. Any '\
-                   'object that responds to `#resolve_endpoint(parameters)` '\
-                   'where `parameters` is a Struct similar to '\
-                   '`Aws::AccessAnalyzer::EndpointParameters`'
-      ) do |cfg|
+        rbs_type: 'untyped',
+        docstring: <<~DOCS) do |_cfg|
+The endpoint provider used to resolve endpoints. Any object that responds to
+`#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+`Aws::AccessAnalyzer::EndpointParameters`.
+        DOCS
         Aws::AccessAnalyzer::EndpointProvider.new
       end
 
       # @api private
       class Handler < Seahorse::Client::Handler
         def call(context)
-          # If endpoint was discovered, do not resolve or apply the endpoint.
           unless context[:discovered_endpoint]
-            params = parameters_for_operation(context)
+            params = Aws::AccessAnalyzer::Endpoints.parameters_for_operation(context)
             endpoint = context.config.endpoint_provider.resolve_endpoint(params)
 
             context.http_request.endpoint = endpoint.url
             apply_endpoint_headers(context, endpoint.headers)
+
+            context[:endpoint_params] = params
+            context[:endpoint_properties] = endpoint.properties
           end
 
-          context[:endpoint_params] = params
           context[:auth_scheme] =
             Aws::Endpoints.resolve_auth_scheme(context, endpoint)
 
-          @handler.call(context)
+          with_metrics(context) { @handler.call(context) }
         end
 
         private
+
+        def with_metrics(context, &block)
+          metrics = []
+          metrics << 'ENDPOINT_OVERRIDE' unless context.config.regional_endpoint
+          if context[:auth_scheme] && context[:auth_scheme]['name'] == 'sigv4a'
+            metrics << 'SIGV4A_SIGNING'
+          end
+          if context.config.credentials&.credentials&.account_id
+            metrics << 'RESOLVED_ACCOUNT_ID'
+          end
+          Aws::Plugins::UserAgent.metric(*metrics, &block)
+        end
 
         def apply_endpoint_headers(context, headers)
           headers.each do |key, values|
@@ -51,67 +65,6 @@ module Aws::AccessAnalyzer
               .join(',')
 
             context.http_request.headers[key] = value
-          end
-        end
-
-        def parameters_for_operation(context)
-          case context.operation_name
-          when :apply_archive_rule
-            Aws::AccessAnalyzer::Endpoints::ApplyArchiveRule.build(context)
-          when :cancel_policy_generation
-            Aws::AccessAnalyzer::Endpoints::CancelPolicyGeneration.build(context)
-          when :create_access_preview
-            Aws::AccessAnalyzer::Endpoints::CreateAccessPreview.build(context)
-          when :create_analyzer
-            Aws::AccessAnalyzer::Endpoints::CreateAnalyzer.build(context)
-          when :create_archive_rule
-            Aws::AccessAnalyzer::Endpoints::CreateArchiveRule.build(context)
-          when :delete_analyzer
-            Aws::AccessAnalyzer::Endpoints::DeleteAnalyzer.build(context)
-          when :delete_archive_rule
-            Aws::AccessAnalyzer::Endpoints::DeleteArchiveRule.build(context)
-          when :get_access_preview
-            Aws::AccessAnalyzer::Endpoints::GetAccessPreview.build(context)
-          when :get_analyzed_resource
-            Aws::AccessAnalyzer::Endpoints::GetAnalyzedResource.build(context)
-          when :get_analyzer
-            Aws::AccessAnalyzer::Endpoints::GetAnalyzer.build(context)
-          when :get_archive_rule
-            Aws::AccessAnalyzer::Endpoints::GetArchiveRule.build(context)
-          when :get_finding
-            Aws::AccessAnalyzer::Endpoints::GetFinding.build(context)
-          when :get_generated_policy
-            Aws::AccessAnalyzer::Endpoints::GetGeneratedPolicy.build(context)
-          when :list_access_preview_findings
-            Aws::AccessAnalyzer::Endpoints::ListAccessPreviewFindings.build(context)
-          when :list_access_previews
-            Aws::AccessAnalyzer::Endpoints::ListAccessPreviews.build(context)
-          when :list_analyzed_resources
-            Aws::AccessAnalyzer::Endpoints::ListAnalyzedResources.build(context)
-          when :list_analyzers
-            Aws::AccessAnalyzer::Endpoints::ListAnalyzers.build(context)
-          when :list_archive_rules
-            Aws::AccessAnalyzer::Endpoints::ListArchiveRules.build(context)
-          when :list_findings
-            Aws::AccessAnalyzer::Endpoints::ListFindings.build(context)
-          when :list_policy_generations
-            Aws::AccessAnalyzer::Endpoints::ListPolicyGenerations.build(context)
-          when :list_tags_for_resource
-            Aws::AccessAnalyzer::Endpoints::ListTagsForResource.build(context)
-          when :start_policy_generation
-            Aws::AccessAnalyzer::Endpoints::StartPolicyGeneration.build(context)
-          when :start_resource_scan
-            Aws::AccessAnalyzer::Endpoints::StartResourceScan.build(context)
-          when :tag_resource
-            Aws::AccessAnalyzer::Endpoints::TagResource.build(context)
-          when :untag_resource
-            Aws::AccessAnalyzer::Endpoints::UntagResource.build(context)
-          when :update_archive_rule
-            Aws::AccessAnalyzer::Endpoints::UpdateArchiveRule.build(context)
-          when :update_findings
-            Aws::AccessAnalyzer::Endpoints::UpdateFindings.build(context)
-          when :validate_policy
-            Aws::AccessAnalyzer::Endpoints::ValidatePolicy.build(context)
           end
         end
       end

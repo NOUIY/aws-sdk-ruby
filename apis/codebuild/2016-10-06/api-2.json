@@ -5,11 +5,13 @@
     "endpointPrefix":"codebuild",
     "jsonVersion":"1.1",
     "protocol":"json",
+    "protocols":["json"],
     "serviceFullName":"AWS CodeBuild",
     "serviceId":"CodeBuild",
     "signatureVersion":"v4",
     "targetPrefix":"CodeBuild_20161006",
-    "uid":"codebuild-2016-10-06"
+    "uid":"codebuild-2016-10-06",
+    "auth":["aws.auth#sigv4"]
   },
   "operations":{
     "BatchDeleteBuilds":{
@@ -48,6 +50,18 @@
         {"shape":"InvalidInputException"}
       ]
     },
+    "BatchGetFleets":{
+      "name":"BatchGetFleets",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"BatchGetFleetsInput"},
+      "output":{"shape":"BatchGetFleetsOutput"},
+      "errors":[
+        {"shape":"InvalidInputException"}
+      ]
+    },
     "BatchGetProjects":{
       "name":"BatchGetProjects",
       "http":{
@@ -82,6 +96,20 @@
       "output":{"shape":"BatchGetReportsOutput"},
       "errors":[
         {"shape":"InvalidInputException"}
+      ]
+    },
+    "CreateFleet":{
+      "name":"CreateFleet",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"CreateFleetInput"},
+      "output":{"shape":"CreateFleetOutput"},
+      "errors":[
+        {"shape":"InvalidInputException"},
+        {"shape":"ResourceAlreadyExistsException"},
+        {"shape":"AccountLimitExceededException"}
       ]
     },
     "CreateProject":{
@@ -135,6 +163,18 @@
       },
       "input":{"shape":"DeleteBuildBatchInput"},
       "output":{"shape":"DeleteBuildBatchOutput"},
+      "errors":[
+        {"shape":"InvalidInputException"}
+      ]
+    },
+    "DeleteFleet":{
+      "name":"DeleteFleet",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"DeleteFleetInput"},
+      "output":{"shape":"DeleteFleetOutput"},
       "errors":[
         {"shape":"InvalidInputException"}
       ]
@@ -351,6 +391,18 @@
       "input":{"shape":"ListCuratedEnvironmentImagesInput"},
       "output":{"shape":"ListCuratedEnvironmentImagesOutput"}
     },
+    "ListFleets":{
+      "name":"ListFleets",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"ListFleetsInput"},
+      "output":{"shape":"ListFleetsOutput"},
+      "errors":[
+        {"shape":"InvalidInputException"}
+      ]
+    },
     "ListProjects":{
       "name":"ListProjects",
       "http":{
@@ -529,6 +581,20 @@
         {"shape":"ResourceNotFoundException"}
       ]
     },
+    "UpdateFleet":{
+      "name":"UpdateFleet",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"UpdateFleetInput"},
+      "output":{"shape":"UpdateFleetOutput"},
+      "errors":[
+        {"shape":"InvalidInputException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"AccountLimitExceededException"}
+      ]
+    },
     "UpdateProject":{
       "name":"UpdateProject",
       "http":{
@@ -617,8 +683,19 @@
       "enum":[
         "OAUTH",
         "BASIC_AUTH",
-        "PERSONAL_ACCESS_TOKEN"
+        "PERSONAL_ACCESS_TOKEN",
+        "CODECONNECTIONS",
+        "SECRETS_MANAGER"
       ]
+    },
+    "AutoRetryConfig":{
+      "type":"structure",
+      "members":{
+        "autoRetryLimit":{"shape":"WrapperInt"},
+        "autoRetryNumber":{"shape":"WrapperInt"},
+        "nextAutoRetry":{"shape":"String"},
+        "previousAutoRetry":{"shape":"String"}
+      }
     },
     "BatchDeleteBuildsInput":{
       "type":"structure",
@@ -660,6 +737,20 @@
       "members":{
         "builds":{"shape":"Builds"},
         "buildsNotFound":{"shape":"BuildIds"}
+      }
+    },
+    "BatchGetFleetsInput":{
+      "type":"structure",
+      "required":["names"],
+      "members":{
+        "names":{"shape":"FleetNames"}
+      }
+    },
+    "BatchGetFleetsOutput":{
+      "type":"structure",
+      "members":{
+        "fleets":{"shape":"Fleets"},
+        "fleetsNotFound":{"shape":"FleetNames"}
       }
     },
     "BatchGetProjectsInput":{
@@ -715,7 +806,8 @@
       "type":"structure",
       "members":{
         "maximumBuildsAllowed":{"shape":"WrapperInt"},
-        "computeTypesAllowed":{"shape":"ComputeTypesAllowed"}
+        "computeTypesAllowed":{"shape":"ComputeTypesAllowed"},
+        "fleetsAllowed":{"shape":"FleetsAllowed"}
       }
     },
     "Boolean":{"type":"boolean"},
@@ -761,7 +853,8 @@
         "reportArns":{"shape":"BuildReportArns"},
         "fileSystemLocations":{"shape":"ProjectFileSystemLocations"},
         "debugSession":{"shape":"DebugSession"},
-        "buildBatchArn":{"shape":"String"}
+        "buildBatchArn":{"shape":"String"},
+        "autoRetryConfig":{"shape":"AutoRetryConfig"}
       }
     },
     "BuildArtifacts":{
@@ -814,7 +907,8 @@
         "fileSystemLocations":{"shape":"ProjectFileSystemLocations"},
         "buildBatchConfig":{"shape":"ProjectBuildBatchConfig"},
         "buildGroups":{"shape":"BuildGroups"},
-        "debugSessionEnabled":{"shape":"WrapperBoolean"}
+        "debugSessionEnabled":{"shape":"WrapperBoolean"},
+        "reportArns":{"shape":"BuildReportArns"}
       }
     },
     "BuildBatchFilter":{
@@ -945,6 +1039,11 @@
         "secondaryArtifacts":{"shape":"ResolvedSecondaryArtifacts"}
       }
     },
+    "BuildTimeOut":{
+      "type":"integer",
+      "max":2160,
+      "min":5
+    },
     "Builds":{
       "type":"list",
       "member":{"shape":"Build"}
@@ -1008,18 +1107,63 @@
       "type":"list",
       "member":{"shape":"CodeCoverage"}
     },
+    "ComputeConfiguration":{
+      "type":"structure",
+      "members":{
+        "vCpu":{"shape":"WrapperLong"},
+        "memory":{"shape":"WrapperLong"},
+        "disk":{"shape":"WrapperLong"},
+        "machineType":{"shape":"MachineType"}
+      }
+    },
     "ComputeType":{
       "type":"string",
       "enum":[
         "BUILD_GENERAL1_SMALL",
         "BUILD_GENERAL1_MEDIUM",
         "BUILD_GENERAL1_LARGE",
-        "BUILD_GENERAL1_2XLARGE"
+        "BUILD_GENERAL1_XLARGE",
+        "BUILD_GENERAL1_2XLARGE",
+        "BUILD_LAMBDA_1GB",
+        "BUILD_LAMBDA_2GB",
+        "BUILD_LAMBDA_4GB",
+        "BUILD_LAMBDA_8GB",
+        "BUILD_LAMBDA_10GB",
+        "ATTRIBUTE_BASED_COMPUTE"
       ]
     },
     "ComputeTypesAllowed":{
       "type":"list",
       "member":{"shape":"NonEmptyString"}
+    },
+    "CreateFleetInput":{
+      "type":"structure",
+      "required":[
+        "name",
+        "baseCapacity",
+        "environmentType",
+        "computeType"
+      ],
+      "members":{
+        "name":{"shape":"FleetName"},
+        "baseCapacity":{"shape":"FleetCapacity"},
+        "environmentType":{"shape":"EnvironmentType"},
+        "computeType":{"shape":"ComputeType"},
+        "computeConfiguration":{"shape":"ComputeConfiguration"},
+        "scalingConfiguration":{"shape":"ScalingConfigurationInput"},
+        "overflowBehavior":{"shape":"FleetOverflowBehavior"},
+        "vpcConfig":{"shape":"VpcConfig"},
+        "proxyConfiguration":{"shape":"ProxyConfiguration"},
+        "imageId":{"shape":"NonEmptyString"},
+        "fleetServiceRole":{"shape":"NonEmptyString"},
+        "tags":{"shape":"TagList"}
+      }
+    },
+    "CreateFleetOutput":{
+      "type":"structure",
+      "members":{
+        "fleet":{"shape":"Fleet"}
+      }
     },
     "CreateProjectInput":{
       "type":"structure",
@@ -1042,7 +1186,7 @@
         "cache":{"shape":"ProjectCache"},
         "environment":{"shape":"ProjectEnvironment"},
         "serviceRole":{"shape":"NonEmptyString"},
-        "timeoutInMinutes":{"shape":"TimeOut"},
+        "timeoutInMinutes":{"shape":"BuildTimeOut"},
         "queuedTimeoutInMinutes":{"shape":"TimeOut"},
         "encryptionKey":{"shape":"NonEmptyString"},
         "tags":{"shape":"TagList"},
@@ -1051,7 +1195,8 @@
         "logsConfig":{"shape":"LogsConfig"},
         "fileSystemLocations":{"shape":"ProjectFileSystemLocations"},
         "buildBatchConfig":{"shape":"ProjectBuildBatchConfig"},
-        "concurrentBuildLimit":{"shape":"WrapperInt"}
+        "concurrentBuildLimit":{"shape":"WrapperInt"},
+        "autoRetryLimit":{"shape":"WrapperInt"}
       }
     },
     "CreateProjectOutput":{
@@ -1087,7 +1232,9 @@
         "projectName":{"shape":"ProjectName"},
         "branchFilter":{"shape":"String"},
         "filterGroups":{"shape":"FilterGroups"},
-        "buildType":{"shape":"WebhookBuildType"}
+        "buildType":{"shape":"WebhookBuildType"},
+        "manualCreation":{"shape":"WrapperBoolean"},
+        "scopeConfiguration":{"shape":"ScopeConfiguration"}
       }
     },
     "CreateWebhookOutput":{
@@ -1120,6 +1267,18 @@
         "statusCode":{"shape":"String"},
         "buildsDeleted":{"shape":"BuildIds"},
         "buildsNotDeleted":{"shape":"BuildsNotDeleted"}
+      }
+    },
+    "DeleteFleetInput":{
+      "type":"structure",
+      "required":["arn"],
+      "members":{
+        "arn":{"shape":"NonEmptyString"}
+      }
+    },
+    "DeleteFleetOutput":{
+      "type":"structure",
+      "members":{
       }
     },
     "DeleteProjectInput":{
@@ -1274,7 +1433,13 @@
         "LINUX_CONTAINER",
         "LINUX_GPU_CONTAINER",
         "ARM_CONTAINER",
-        "WINDOWS_SERVER_2019_CONTAINER"
+        "WINDOWS_SERVER_2019_CONTAINER",
+        "LINUX_LAMBDA_CONTAINER",
+        "ARM_LAMBDA_CONTAINER",
+        "LINUX_EC2",
+        "ARM_EC2",
+        "WINDOWS_EC2",
+        "MAC_ARM"
       ]
     },
     "EnvironmentVariable":{
@@ -1323,6 +1488,159 @@
     "FilterGroups":{
       "type":"list",
       "member":{"shape":"FilterGroup"}
+    },
+    "Fleet":{
+      "type":"structure",
+      "members":{
+        "arn":{"shape":"NonEmptyString"},
+        "name":{"shape":"FleetName"},
+        "id":{"shape":"NonEmptyString"},
+        "created":{"shape":"Timestamp"},
+        "lastModified":{"shape":"Timestamp"},
+        "status":{"shape":"FleetStatus"},
+        "baseCapacity":{"shape":"FleetCapacity"},
+        "environmentType":{"shape":"EnvironmentType"},
+        "computeType":{"shape":"ComputeType"},
+        "computeConfiguration":{"shape":"ComputeConfiguration"},
+        "scalingConfiguration":{"shape":"ScalingConfigurationOutput"},
+        "overflowBehavior":{"shape":"FleetOverflowBehavior"},
+        "vpcConfig":{"shape":"VpcConfig"},
+        "proxyConfiguration":{"shape":"ProxyConfiguration"},
+        "imageId":{"shape":"NonEmptyString"},
+        "fleetServiceRole":{"shape":"NonEmptyString"},
+        "tags":{"shape":"TagList"}
+      }
+    },
+    "FleetArns":{
+      "type":"list",
+      "member":{"shape":"NonEmptyString"},
+      "max":100,
+      "min":1
+    },
+    "FleetCapacity":{
+      "type":"integer",
+      "min":1
+    },
+    "FleetContextCode":{
+      "type":"string",
+      "enum":[
+        "CREATE_FAILED",
+        "UPDATE_FAILED",
+        "ACTION_REQUIRED",
+        "PENDING_DELETION",
+        "INSUFFICIENT_CAPACITY"
+      ]
+    },
+    "FleetName":{
+      "type":"string",
+      "max":128,
+      "min":2,
+      "pattern":"[A-Za-z0-9][A-Za-z0-9\\-_]{1,127}"
+    },
+    "FleetNames":{
+      "type":"list",
+      "member":{"shape":"NonEmptyString"},
+      "max":100,
+      "min":1
+    },
+    "FleetOverflowBehavior":{
+      "type":"string",
+      "enum":[
+        "QUEUE",
+        "ON_DEMAND"
+      ]
+    },
+    "FleetProxyRule":{
+      "type":"structure",
+      "required":[
+        "type",
+        "effect",
+        "entities"
+      ],
+      "members":{
+        "type":{"shape":"FleetProxyRuleType"},
+        "effect":{"shape":"FleetProxyRuleEffectType"},
+        "entities":{"shape":"FleetProxyRuleEntities"}
+      }
+    },
+    "FleetProxyRuleBehavior":{
+      "type":"string",
+      "enum":[
+        "ALLOW_ALL",
+        "DENY_ALL"
+      ]
+    },
+    "FleetProxyRuleEffectType":{
+      "type":"string",
+      "enum":[
+        "ALLOW",
+        "DENY"
+      ]
+    },
+    "FleetProxyRuleEntities":{
+      "type":"list",
+      "member":{"shape":"String"},
+      "max":100,
+      "min":1
+    },
+    "FleetProxyRuleType":{
+      "type":"string",
+      "enum":[
+        "DOMAIN",
+        "IP"
+      ]
+    },
+    "FleetProxyRules":{
+      "type":"list",
+      "member":{"shape":"FleetProxyRule"},
+      "max":100
+    },
+    "FleetScalingMetricType":{
+      "type":"string",
+      "enum":["FLEET_UTILIZATION_RATE"]
+    },
+    "FleetScalingType":{
+      "type":"string",
+      "enum":["TARGET_TRACKING_SCALING"]
+    },
+    "FleetSortByType":{
+      "type":"string",
+      "enum":[
+        "NAME",
+        "CREATED_TIME",
+        "LAST_MODIFIED_TIME"
+      ]
+    },
+    "FleetStatus":{
+      "type":"structure",
+      "members":{
+        "statusCode":{"shape":"FleetStatusCode"},
+        "context":{"shape":"FleetContextCode"},
+        "message":{"shape":"String"}
+      }
+    },
+    "FleetStatusCode":{
+      "type":"string",
+      "enum":[
+        "CREATING",
+        "UPDATING",
+        "ROTATING",
+        "PENDING_DELETION",
+        "DELETING",
+        "CREATE_FAILED",
+        "UPDATE_ROLLBACK_FAILED",
+        "ACTIVE"
+      ]
+    },
+    "Fleets":{
+      "type":"list",
+      "member":{"shape":"Fleet"},
+      "max":100,
+      "min":1
+    },
+    "FleetsAllowed":{
+      "type":"list",
+      "member":{"shape":"NonEmptyString"}
     },
     "GetReportGroupTrendInput":{
       "type":"structure",
@@ -1516,6 +1834,22 @@
         "platforms":{"shape":"EnvironmentPlatforms"}
       }
     },
+    "ListFleetsInput":{
+      "type":"structure",
+      "members":{
+        "nextToken":{"shape":"SensitiveString"},
+        "maxResults":{"shape":"PageSize"},
+        "sortOrder":{"shape":"SortOrderType"},
+        "sortBy":{"shape":"FleetSortByType"}
+      }
+    },
+    "ListFleetsOutput":{
+      "type":"structure",
+      "members":{
+        "nextToken":{"shape":"String"},
+        "fleets":{"shape":"FleetArns"}
+      }
+    },
     "ListProjectsInput":{
       "type":"structure",
       "members":{
@@ -1651,6 +1985,13 @@
         "s3Logs":{"shape":"S3LogsConfig"}
       }
     },
+    "MachineType":{
+      "type":"string",
+      "enum":[
+        "GENERAL",
+        "NVME"
+      ]
+    },
     "NetworkInterface":{
       "type":"structure",
       "members":{
@@ -1717,7 +2058,7 @@
         "cache":{"shape":"ProjectCache"},
         "environment":{"shape":"ProjectEnvironment"},
         "serviceRole":{"shape":"NonEmptyString"},
-        "timeoutInMinutes":{"shape":"TimeOut"},
+        "timeoutInMinutes":{"shape":"BuildTimeOut"},
         "queuedTimeoutInMinutes":{"shape":"TimeOut"},
         "encryptionKey":{"shape":"NonEmptyString"},
         "tags":{"shape":"TagList"},
@@ -1732,7 +2073,8 @@
         "concurrentBuildLimit":{"shape":"WrapperInt"},
         "projectVisibility":{"shape":"ProjectVisibilityType"},
         "publicProjectAlias":{"shape":"NonEmptyString"},
-        "resourceAccessRole":{"shape":"NonEmptyString"}
+        "resourceAccessRole":{"shape":"NonEmptyString"},
+        "autoRetryLimit":{"shape":"WrapperInt"}
       }
     },
     "ProjectArns":{
@@ -1809,6 +2151,8 @@
         "type":{"shape":"EnvironmentType"},
         "image":{"shape":"NonEmptyString"},
         "computeType":{"shape":"ComputeType"},
+        "computeConfiguration":{"shape":"ComputeConfiguration"},
+        "fleet":{"shape":"ProjectFleet"},
         "environmentVariables":{"shape":"EnvironmentVariables"},
         "privilegedMode":{"shape":"WrapperBoolean"},
         "certificate":{"shape":"String"},
@@ -1830,11 +2174,17 @@
       "type":"list",
       "member":{"shape":"ProjectFileSystemLocation"}
     },
+    "ProjectFleet":{
+      "type":"structure",
+      "members":{
+        "fleetArn":{"shape":"String"}
+      }
+    },
     "ProjectName":{
       "type":"string",
-      "max":255,
+      "max":150,
       "min":2,
-      "pattern":"[A-Za-z0-9][A-Za-z0-9\\-_]{1,254}"
+      "pattern":"[A-Za-z0-9][A-Za-z0-9\\-_]{1,149}"
     },
     "ProjectNames":{
       "type":"list",
@@ -1899,6 +2249,13 @@
     "Projects":{
       "type":"list",
       "member":{"shape":"Project"}
+    },
+    "ProxyConfiguration":{
+      "type":"structure",
+      "members":{
+        "defaultBehavior":{"shape":"FleetProxyRuleBehavior"},
+        "orderedProxyRules":{"shape":"FleetProxyRules"}
+      }
     },
     "PutResourcePolicyInput":{
       "type":"structure",
@@ -2170,6 +2527,35 @@
         "encryptionDisabled":{"shape":"WrapperBoolean"}
       }
     },
+    "ScalingConfigurationInput":{
+      "type":"structure",
+      "members":{
+        "scalingType":{"shape":"FleetScalingType"},
+        "targetTrackingScalingConfigs":{"shape":"TargetTrackingScalingConfigurations"},
+        "maxCapacity":{"shape":"FleetCapacity"}
+      }
+    },
+    "ScalingConfigurationOutput":{
+      "type":"structure",
+      "members":{
+        "scalingType":{"shape":"FleetScalingType"},
+        "targetTrackingScalingConfigs":{"shape":"TargetTrackingScalingConfigurations"},
+        "maxCapacity":{"shape":"FleetCapacity"},
+        "desiredCapacity":{"shape":"FleetCapacity"}
+      }
+    },
+    "ScopeConfiguration":{
+      "type":"structure",
+      "required":[
+        "name",
+        "scope"
+      ],
+      "members":{
+        "name":{"shape":"String"},
+        "domain":{"shape":"String"},
+        "scope":{"shape":"WebhookScopeType"}
+      }
+    },
     "SecurityGroupIds":{
       "type":"list",
       "member":{"shape":"NonEmptyString"},
@@ -2180,12 +2566,18 @@
       "min":1,
       "sensitive":true
     },
+    "SensitiveString":{
+      "type":"string",
+      "sensitive":true
+    },
     "ServerType":{
       "type":"string",
       "enum":[
         "GITHUB",
         "BITBUCKET",
-        "GITHUB_ENTERPRISE"
+        "GITHUB_ENTERPRISE",
+        "GITLAB",
+        "GITLAB_SELF_MANAGED"
       ]
     },
     "SharedResourceSortByType":{
@@ -2212,14 +2604,19 @@
     },
     "SourceAuthType":{
       "type":"string",
-      "enum":["OAUTH"]
+      "enum":[
+        "OAUTH",
+        "CODECONNECTIONS",
+        "SECRETS_MANAGER"
+      ]
     },
     "SourceCredentialsInfo":{
       "type":"structure",
       "members":{
         "arn":{"shape":"NonEmptyString"},
         "serverType":{"shape":"ServerType"},
-        "authType":{"shape":"AuthType"}
+        "authType":{"shape":"AuthType"},
+        "resource":{"shape":"String"}
       }
     },
     "SourceCredentialsInfos":{
@@ -2232,6 +2629,8 @@
         "CODECOMMIT",
         "CODEPIPELINE",
         "GITHUB",
+        "GITLAB",
+        "GITLAB_SELF_MANAGED",
         "S3",
         "BITBUCKET",
         "GITHUB_ENTERPRISE",
@@ -2264,7 +2663,7 @@
         "cacheOverride":{"shape":"ProjectCache"},
         "serviceRoleOverride":{"shape":"NonEmptyString"},
         "privilegedModeOverride":{"shape":"WrapperBoolean"},
-        "buildTimeoutInMinutesOverride":{"shape":"TimeOut"},
+        "buildTimeoutInMinutesOverride":{"shape":"BuildTimeOut"},
         "queuedTimeoutInMinutesOverride":{"shape":"TimeOut"},
         "encryptionKeyOverride":{"shape":"NonEmptyString"},
         "idempotencyToken":{"shape":"String"},
@@ -2308,14 +2707,16 @@
         "cacheOverride":{"shape":"ProjectCache"},
         "serviceRoleOverride":{"shape":"NonEmptyString"},
         "privilegedModeOverride":{"shape":"WrapperBoolean"},
-        "timeoutInMinutesOverride":{"shape":"TimeOut"},
+        "timeoutInMinutesOverride":{"shape":"BuildTimeOut"},
         "queuedTimeoutInMinutesOverride":{"shape":"TimeOut"},
         "encryptionKeyOverride":{"shape":"NonEmptyString"},
         "idempotencyToken":{"shape":"String"},
         "logsConfigOverride":{"shape":"LogsConfig"},
         "registryCredentialOverride":{"shape":"RegistryCredential"},
         "imagePullCredentialsTypeOverride":{"shape":"ImagePullCredentialsType"},
-        "debugSessionEnabled":{"shape":"WrapperBoolean"}
+        "debugSessionEnabled":{"shape":"WrapperBoolean"},
+        "fleetOverride":{"shape":"ProjectFleet"},
+        "autoRetryLimitOverride":{"shape":"WrapperInt"}
       }
     },
     "StartBuildOutput":{
@@ -2380,6 +2781,17 @@
       "max":50,
       "min":0
     },
+    "TargetTrackingScalingConfiguration":{
+      "type":"structure",
+      "members":{
+        "metricType":{"shape":"FleetScalingMetricType"},
+        "targetValue":{"shape":"WrapperDouble"}
+      }
+    },
+    "TargetTrackingScalingConfigurations":{
+      "type":"list",
+      "member":{"shape":"TargetTrackingScalingConfiguration"}
+    },
     "TestCase":{
       "type":"structure",
       "members":{
@@ -2390,7 +2802,8 @@
         "status":{"shape":"String"},
         "durationInNanoSeconds":{"shape":"WrapperLong"},
         "message":{"shape":"String"},
-        "expired":{"shape":"Timestamp"}
+        "expired":{"shape":"Timestamp"},
+        "testSuiteName":{"shape":"String"}
       }
     },
     "TestCaseFilter":{
@@ -2423,6 +2836,30 @@
       "min":5
     },
     "Timestamp":{"type":"timestamp"},
+    "UpdateFleetInput":{
+      "type":"structure",
+      "required":["arn"],
+      "members":{
+        "arn":{"shape":"NonEmptyString"},
+        "baseCapacity":{"shape":"FleetCapacity"},
+        "environmentType":{"shape":"EnvironmentType"},
+        "computeType":{"shape":"ComputeType"},
+        "computeConfiguration":{"shape":"ComputeConfiguration"},
+        "scalingConfiguration":{"shape":"ScalingConfigurationInput"},
+        "overflowBehavior":{"shape":"FleetOverflowBehavior"},
+        "vpcConfig":{"shape":"VpcConfig"},
+        "proxyConfiguration":{"shape":"ProxyConfiguration"},
+        "imageId":{"shape":"NonEmptyString"},
+        "fleetServiceRole":{"shape":"NonEmptyString"},
+        "tags":{"shape":"TagList"}
+      }
+    },
+    "UpdateFleetOutput":{
+      "type":"structure",
+      "members":{
+        "fleet":{"shape":"Fleet"}
+      }
+    },
     "UpdateProjectInput":{
       "type":"structure",
       "required":["name"],
@@ -2438,7 +2875,7 @@
         "cache":{"shape":"ProjectCache"},
         "environment":{"shape":"ProjectEnvironment"},
         "serviceRole":{"shape":"NonEmptyString"},
-        "timeoutInMinutes":{"shape":"TimeOut"},
+        "timeoutInMinutes":{"shape":"BuildTimeOut"},
         "queuedTimeoutInMinutes":{"shape":"TimeOut"},
         "encryptionKey":{"shape":"NonEmptyString"},
         "tags":{"shape":"TagList"},
@@ -2447,7 +2884,8 @@
         "logsConfig":{"shape":"LogsConfig"},
         "fileSystemLocations":{"shape":"ProjectFileSystemLocations"},
         "buildBatchConfig":{"shape":"ProjectBuildBatchConfig"},
-        "concurrentBuildLimit":{"shape":"WrapperInt"}
+        "concurrentBuildLimit":{"shape":"WrapperInt"},
+        "autoRetryLimit":{"shape":"WrapperInt"}
       }
     },
     "UpdateProjectOutput":{
@@ -2531,14 +2969,19 @@
         "branchFilter":{"shape":"String"},
         "filterGroups":{"shape":"FilterGroups"},
         "buildType":{"shape":"WebhookBuildType"},
-        "lastModifiedSecret":{"shape":"Timestamp"}
+        "manualCreation":{"shape":"WrapperBoolean"},
+        "lastModifiedSecret":{"shape":"Timestamp"},
+        "scopeConfiguration":{"shape":"ScopeConfiguration"},
+        "status":{"shape":"WebhookStatus"},
+        "statusMessage":{"shape":"String"}
       }
     },
     "WebhookBuildType":{
       "type":"string",
       "enum":[
         "BUILD",
-        "BUILD_BATCH"
+        "BUILD_BATCH",
+        "RUNNER_BUILDKITE_BUILD"
       ]
     },
     "WebhookFilter":{
@@ -2561,10 +3004,32 @@
         "HEAD_REF",
         "ACTOR_ACCOUNT_ID",
         "FILE_PATH",
-        "COMMIT_MESSAGE"
+        "COMMIT_MESSAGE",
+        "WORKFLOW_NAME",
+        "TAG_NAME",
+        "RELEASE_NAME",
+        "REPOSITORY_NAME"
+      ]
+    },
+    "WebhookScopeType":{
+      "type":"string",
+      "enum":[
+        "GITHUB_ORGANIZATION",
+        "GITHUB_GLOBAL",
+        "GITLAB_GROUP"
+      ]
+    },
+    "WebhookStatus":{
+      "type":"string",
+      "enum":[
+        "CREATING",
+        "CREATE_FAILED",
+        "ACTIVE",
+        "DELETING"
       ]
     },
     "WrapperBoolean":{"type":"boolean"},
+    "WrapperDouble":{"type":"double"},
     "WrapperInt":{"type":"integer"},
     "WrapperLong":{"type":"long"}
   }

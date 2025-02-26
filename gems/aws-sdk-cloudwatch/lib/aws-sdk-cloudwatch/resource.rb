@@ -67,7 +67,15 @@ module Aws::CloudWatch
     # @option options [Array<String>] :alarm_types
     #   Use this parameter to specify whether you want the operation to return
     #   metric alarms or composite alarms. If you omit this parameter, only
-    #   metric alarms are returned.
+    #   metric alarms are returned, even if composite alarms exist in the
+    #   account.
+    #
+    #   For example, if you omit this parameter or specify `MetricAlarms`, the
+    #   operation returns only a list of metric alarms. It does not return any
+    #   composite alarms, even if composite alarms exist in the account.
+    #
+    #   If you specify `CompositeAlarms`, the operation returns only a list of
+    #   composite alarms, and does not return any metric alarms.
     # @option options [String] :children_of_alarm_name
     #   If you use this parameter and specify the name of a composite alarm,
     #   the operation returns information about the "children" alarms of the
@@ -117,7 +125,9 @@ module Aws::CloudWatch
     # @return [Alarm::Collection]
     def alarms(options = {})
       batches = Enumerator.new do |y|
-        resp = @client.describe_alarms(options)
+        resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+          @client.describe_alarms(options)
+        end
         resp.each_page do |page|
           batch = []
           page.data.metric_alarms.each do |m|
@@ -165,7 +175,15 @@ module Aws::CloudWatch
     # @option options [Array<String>] :alarm_types
     #   Use this parameter to specify whether you want the operation to return
     #   metric alarms or composite alarms. If you omit this parameter, only
-    #   metric alarms are returned.
+    #   metric alarms are returned, even if composite alarms exist in the
+    #   account.
+    #
+    #   For example, if you omit this parameter or specify `MetricAlarms`, the
+    #   operation returns only a list of metric alarms. It does not return any
+    #   composite alarms, even if composite alarms exist in the account.
+    #
+    #   If you specify `CompositeAlarms`, the operation returns only a list of
+    #   composite alarms, and does not return any metric alarms.
     # @option options [String] :children_of_alarm_name
     #   If you use this parameter and specify the name of a composite alarm,
     #   the operation returns information about the "children" alarms of the
@@ -215,7 +233,9 @@ module Aws::CloudWatch
     # @return [CompositeAlarm::Collection]
     def composite_alarms(options = {})
       batches = Enumerator.new do |y|
-        resp = @client.describe_alarms(options)
+        resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+          @client.describe_alarms(options)
+        end
         resp.each_page do |page|
           batch = []
           page.data.composite_alarms.each do |c|
@@ -274,7 +294,7 @@ module Aws::CloudWatch
     #
     #   The results that are returned are an approximation of the value you
     #   specify. There is a low probability that the returned results include
-    #   metrics with last published data as much as 40 minutes more than the
+    #   metrics with last published data as much as 50 minutes more than the
     #   specified time interval.
     # @option options [Boolean] :include_linked_accounts
     #   If you are using this operation in a monitoring account, specify
@@ -289,7 +309,9 @@ module Aws::CloudWatch
     # @return [Metric::Collection]
     def metrics(options = {})
       batches = Enumerator.new do |y|
-        resp = @client.list_metrics(options)
+        resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+          @client.list_metrics(options)
+        end
         resp.each_page do |page|
           batch = []
           page.data.metrics.each do |m|

@@ -23,6 +23,141 @@ module Aws::ConnectCases
       include Aws::Structure
     end
 
+    # Represents the content of a particular audit event.
+    #
+    # @!attribute [rw] event_id
+    #   Unique identifier of a case audit history event.
+    #   @return [String]
+    #
+    # @!attribute [rw] fields
+    #   A list of Case Audit History event fields.
+    #   @return [Array<Types::AuditEventField>]
+    #
+    # @!attribute [rw] performed_by
+    #   Information of the user which performed the audit.
+    #   @return [Types::AuditEventPerformedBy]
+    #
+    # @!attribute [rw] performed_time
+    #   Time at which an Audit History event took place.
+    #   @return [Time]
+    #
+    # @!attribute [rw] related_item_type
+    #   The Type of the related item.
+    #   @return [String]
+    #
+    # @!attribute [rw] type
+    #   The Type of an audit history event.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/AuditEvent AWS API Documentation
+    #
+    class AuditEvent < Struct.new(
+      :event_id,
+      :fields,
+      :performed_by,
+      :performed_time,
+      :related_item_type,
+      :type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Fields for audit event.
+    #
+    # @!attribute [rw] event_field_id
+    #   Unique identifier of field in an Audit History entry.
+    #   @return [String]
+    #
+    # @!attribute [rw] new_value
+    #   Union of potential field value types.
+    #   @return [Types::AuditEventFieldValueUnion]
+    #
+    # @!attribute [rw] old_value
+    #   Union of potential field value types.
+    #   @return [Types::AuditEventFieldValueUnion]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/AuditEventField AWS API Documentation
+    #
+    class AuditEventField < Struct.new(
+      :event_field_id,
+      :new_value,
+      :old_value)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Object to store union of Field values.
+    #
+    # @note AuditEventFieldValueUnion is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of AuditEventFieldValueUnion corresponding to the set member.
+    #
+    # @!attribute [rw] boolean_value
+    #   Can be either null, or have a Boolean value type. Only one value can
+    #   be provided.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] double_value
+    #   Can be either null, or have a Double value type. Only one value can
+    #   be provided.
+    #   @return [Float]
+    #
+    # @!attribute [rw] empty_value
+    #   An empty value. You cannot set `EmptyFieldValue` on a field that is
+    #   required on a case template.
+    #
+    #   This structure will never have any data members. It signifies an
+    #   empty value on a case field.
+    #   @return [Types::EmptyFieldValue]
+    #
+    # @!attribute [rw] string_value
+    #   Can be either null, or have a String value type. Only one value can
+    #   be provided.
+    #   @return [String]
+    #
+    # @!attribute [rw] user_arn_value
+    #   Can be either null, or have a String value type formatted as an ARN.
+    #   Only one value can be provided.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/AuditEventFieldValueUnion AWS API Documentation
+    #
+    class AuditEventFieldValueUnion < Struct.new(
+      :boolean_value,
+      :double_value,
+      :empty_value,
+      :string_value,
+      :user_arn_value,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class BooleanValue < AuditEventFieldValueUnion; end
+      class DoubleValue < AuditEventFieldValueUnion; end
+      class EmptyValue < AuditEventFieldValueUnion; end
+      class StringValue < AuditEventFieldValueUnion; end
+      class UserArnValue < AuditEventFieldValueUnion; end
+      class Unknown < AuditEventFieldValueUnion; end
+    end
+
+    # Information of the user which performed the audit.
+    #
+    # @!attribute [rw] iam_principal_arn
+    #   Unique identifier of an IAM role.
+    #   @return [String]
+    #
+    # @!attribute [rw] user
+    #   Represents the identity of the person who performed the action.
+    #   @return [Types::UserUnion]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/AuditEventPerformedBy AWS API Documentation
+    #
+    class AuditEventPerformedBy < Struct.new(
+      :iam_principal_arn,
+      :user)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Content specific to `BasicLayout` type. It configures fields in the
     # top panel and More Info tab of agent application.
     #
@@ -39,6 +174,40 @@ module Aws::ConnectCases
     class BasicLayout < Struct.new(
       :more_info,
       :top_panel)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] case_rules
+    #   List of case rule identifiers.
+    #   @return [Array<Types::CaseRuleIdentifier>]
+    #
+    # @!attribute [rw] domain_id
+    #   Unique identifier of a Cases domain.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/BatchGetCaseRuleRequest AWS API Documentation
+    #
+    class BatchGetCaseRuleRequest < Struct.new(
+      :case_rules,
+      :domain_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] case_rules
+    #   List of detailed case rule information.
+    #   @return [Array<Types::GetCaseRuleResponse>]
+    #
+    # @!attribute [rw] errors
+    #   List of case rule errors.
+    #   @return [Array<Types::CaseRuleError>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/BatchGetCaseRuleResponse AWS API Documentation
+    #
+    class BatchGetCaseRuleResponse < Struct.new(
+      :case_rules,
+      :errors)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -111,6 +280,73 @@ module Aws::ConnectCases
       include Aws::Structure
     end
 
+    # Boolean condition for a rule. In the Amazon Connect admin website,
+    # case rules are known as *case field conditions*. For more information
+    # about case field conditions, see [Add case field conditions to a case
+    # template][1].
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html
+    #
+    # @note BooleanCondition is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @note BooleanCondition is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of BooleanCondition corresponding to the set member.
+    #
+    # @!attribute [rw] equal_to
+    #   Tests that operandOne is equal to operandTwo.
+    #   @return [Types::BooleanOperands]
+    #
+    # @!attribute [rw] not_equal_to
+    #   Tests that operandOne is not equal to operandTwo.
+    #   @return [Types::BooleanOperands]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/BooleanCondition AWS API Documentation
+    #
+    class BooleanCondition < Struct.new(
+      :equal_to,
+      :not_equal_to,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class EqualTo < BooleanCondition; end
+      class NotEqualTo < BooleanCondition; end
+      class Unknown < BooleanCondition; end
+    end
+
+    # Boolean operands for a condition. In the Amazon Connect admin website,
+    # case rules are known as *case field conditions*. For more information
+    # about case field conditions, see [Add case field conditions to a case
+    # template][1].
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html
+    #
+    # @!attribute [rw] operand_one
+    #   Represents the left hand operand in the condition.
+    #   @return [Types::OperandOne]
+    #
+    # @!attribute [rw] operand_two
+    #   Represents the right hand operand in the condition.
+    #   @return [Types::OperandTwo]
+    #
+    # @!attribute [rw] result
+    #   The value of the outer rule if the condition evaluates to true.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/BooleanOperands AWS API Documentation
+    #
+    class BooleanOperands < Struct.new(
+      :operand_one,
+      :operand_two,
+      :result)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Details of what case data is published through the case event stream.
     #
     # @!attribute [rw] fields
@@ -141,12 +377,17 @@ module Aws::ConnectCases
     #   A filter for cases. Only one value can be provided.
     #   @return [Types::CaseFilter]
     #
+    # @!attribute [rw] or_all
+    #   Provides "or all" filtering.
+    #   @return [Array<Types::CaseFilter>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/CaseFilter AWS API Documentation
     #
     class CaseFilter < Struct.new(
       :and_all,
       :field,
       :not,
+      :or_all,
       :unknown)
       SENSITIVE = []
       include Aws::Structure
@@ -155,7 +396,124 @@ module Aws::ConnectCases
       class AndAll < CaseFilter; end
       class Field < CaseFilter; end
       class Not < CaseFilter; end
+      class OrAll < CaseFilter; end
       class Unknown < CaseFilter; end
+    end
+
+    # Represents what rule type should take place, under what conditions. In
+    # the Amazon Connect admin website, case rules are known as *case field
+    # conditions*. For more information about case field conditions, see
+    # [Add case field conditions to a case template][1].
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html
+    #
+    # @note CaseRuleDetails is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @note CaseRuleDetails is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of CaseRuleDetails corresponding to the set member.
+    #
+    # @!attribute [rw] required
+    #   Required rule type, used to indicate whether a field is required.
+    #   @return [Types::RequiredCaseRule]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/CaseRuleDetails AWS API Documentation
+    #
+    class CaseRuleDetails < Struct.new(
+      :required,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class Required < CaseRuleDetails; end
+      class Unknown < CaseRuleDetails; end
+    end
+
+    # Error for batch describe case rules API failure. In the Amazon Connect
+    # admin website, case rules are known as *case field conditions*. For
+    # more information about case field conditions, see [Add case field
+    # conditions to a case template][1].
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html
+    #
+    # @!attribute [rw] error_code
+    #   Error code from getting a case rule.
+    #   @return [String]
+    #
+    # @!attribute [rw] id
+    #   The case rule identifier that caused the error.
+    #   @return [String]
+    #
+    # @!attribute [rw] message
+    #   Error message from getting a case rule.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/CaseRuleError AWS API Documentation
+    #
+    class CaseRuleError < Struct.new(
+      :error_code,
+      :id,
+      :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Object containing case rule identifier information.
+    #
+    # @!attribute [rw] id
+    #   Unique identifier of a case rule.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/CaseRuleIdentifier AWS API Documentation
+    #
+    class CaseRuleIdentifier < Struct.new(
+      :id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Summary information of this case rule. In the Amazon Connect admin
+    # website, case rules are known as *case field conditions*. For more
+    # information about case field conditions, see [Add case field
+    # conditions to a case template][1].
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html
+    #
+    # @!attribute [rw] case_rule_arn
+    #   The Amazon Resource Name (ARN) of the case rule.
+    #   @return [String]
+    #
+    # @!attribute [rw] case_rule_id
+    #   Unique identifier of a case rule.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   Description of a case rule.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   Name of the case rule.
+    #   @return [String]
+    #
+    # @!attribute [rw] rule_type
+    #   Possible types for a rule.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/CaseRuleSummary AWS API Documentation
+    #
+    class CaseRuleSummary < Struct.new(
+      :case_rule_arn,
+      :case_rule_id,
+      :description,
+      :name,
+      :rule_type)
+      SENSITIVE = []
+      include Aws::Structure
     end
 
     # Case summary information.
@@ -302,6 +660,10 @@ module Aws::ConnectCases
     #   ListFields/DescribeField) and value union data.
     #   @return [Array<Types::FieldValue>]
     #
+    # @!attribute [rw] performed_by
+    #   Represents the identity of the person who performed the action.
+    #   @return [Types::UserUnion]
+    #
     # @!attribute [rw] template_id
     #   A unique identifier of a template.
     #   @return [String]
@@ -312,6 +674,7 @@ module Aws::ConnectCases
       :client_token,
       :domain_id,
       :fields,
+      :performed_by,
       :template_id)
       SENSITIVE = []
       include Aws::Structure
@@ -330,6 +693,50 @@ module Aws::ConnectCases
     class CreateCaseResponse < Struct.new(
       :case_arn,
       :case_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] description
+    #   The description of a case rule.
+    #   @return [String]
+    #
+    # @!attribute [rw] domain_id
+    #   Unique identifier of a Cases domain.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   Name of the case rule.
+    #   @return [String]
+    #
+    # @!attribute [rw] rule
+    #   Represents what rule type should take place, under what conditions.
+    #   @return [Types::CaseRuleDetails]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/CreateCaseRuleRequest AWS API Documentation
+    #
+    class CreateCaseRuleRequest < Struct.new(
+      :description,
+      :domain_id,
+      :name,
+      :rule)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] case_rule_arn
+    #   The Amazon Resource Name (ARN) of a case rule.
+    #   @return [String]
+    #
+    # @!attribute [rw] case_rule_id
+    #   Unique identifier of a case rule.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/CreateCaseRuleResponse AWS API Documentation
+    #
+    class CreateCaseRuleResponse < Struct.new(
+      :case_rule_arn,
+      :case_rule_id)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -466,6 +873,10 @@ module Aws::ConnectCases
     #   The unique identifier of the Cases domain.
     #   @return [String]
     #
+    # @!attribute [rw] performed_by
+    #   Represents the creator of the related item.
+    #   @return [Types::UserUnion]
+    #
     # @!attribute [rw] type
     #   The type of a related item.
     #   @return [String]
@@ -476,6 +887,7 @@ module Aws::ConnectCases
       :case_id,
       :content,
       :domain_id,
+      :performed_by,
       :type)
       SENSITIVE = []
       include Aws::Structure
@@ -519,6 +931,15 @@ module Aws::ConnectCases
     #   successfully created with this template.
     #   @return [Array<Types::RequiredField>]
     #
+    # @!attribute [rw] rules
+    #   A list of case rules (also known as [case field conditions][1]) on a
+    #   template.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html
+    #   @return [Array<Types::TemplateRule>]
+    #
     # @!attribute [rw] status
     #   The status of the template.
     #   @return [String]
@@ -531,6 +952,7 @@ module Aws::ConnectCases
       :layout_configuration,
       :name,
       :required_fields,
+      :rules,
       :status)
       SENSITIVE = []
       include Aws::Structure
@@ -552,6 +974,106 @@ module Aws::ConnectCases
       SENSITIVE = []
       include Aws::Structure
     end
+
+    # @!attribute [rw] case_rule_id
+    #   Unique identifier of a case rule.
+    #   @return [String]
+    #
+    # @!attribute [rw] domain_id
+    #   Unique identifier of a Cases domain.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/DeleteCaseRuleRequest AWS API Documentation
+    #
+    class DeleteCaseRuleRequest < Struct.new(
+      :case_rule_id,
+      :domain_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/DeleteCaseRuleResponse AWS API Documentation
+    #
+    class DeleteCaseRuleResponse < Aws::EmptyStructure; end
+
+    # @!attribute [rw] domain_id
+    #   The unique identifier of the Cases domain.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/DeleteDomainRequest AWS API Documentation
+    #
+    class DeleteDomainRequest < Struct.new(
+      :domain_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/DeleteDomainResponse AWS API Documentation
+    #
+    class DeleteDomainResponse < Aws::EmptyStructure; end
+
+    # @!attribute [rw] domain_id
+    #   The unique identifier of the Cases domain.
+    #   @return [String]
+    #
+    # @!attribute [rw] field_id
+    #   Unique identifier of the field.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/DeleteFieldRequest AWS API Documentation
+    #
+    class DeleteFieldRequest < Struct.new(
+      :domain_id,
+      :field_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/DeleteFieldResponse AWS API Documentation
+    #
+    class DeleteFieldResponse < Aws::EmptyStructure; end
+
+    # @!attribute [rw] domain_id
+    #   The unique identifier of the Cases domain.
+    #   @return [String]
+    #
+    # @!attribute [rw] layout_id
+    #   The unique identifier of the layout.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/DeleteLayoutRequest AWS API Documentation
+    #
+    class DeleteLayoutRequest < Struct.new(
+      :domain_id,
+      :layout_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/DeleteLayoutResponse AWS API Documentation
+    #
+    class DeleteLayoutResponse < Aws::EmptyStructure; end
+
+    # @!attribute [rw] domain_id
+    #   The unique identifier of the Cases domain.
+    #   @return [String]
+    #
+    # @!attribute [rw] template_id
+    #   A unique identifier of a template.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/DeleteTemplateRequest AWS API Documentation
+    #
+    class DeleteTemplateRequest < Struct.new(
+      :domain_id,
+      :template_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/DeleteTemplateResponse AWS API Documentation
+    #
+    class DeleteTemplateResponse < Aws::EmptyStructure; end
 
     # Object for the summarized details of the domain.
     #
@@ -576,6 +1098,33 @@ module Aws::ConnectCases
       SENSITIVE = []
       include Aws::Structure
     end
+
+    # An empty value. You cannot set `EmptyFieldValue` on a field that is
+    # required on a case template.
+    #
+    # This structure will never have any data members. It signifies an empty
+    # value on a case field.
+    #
+    # @api private
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/EmptyFieldValue AWS API Documentation
+    #
+    class EmptyFieldValue < Aws::EmptyStructure; end
+
+    # Represents an empty operand value. In the Amazon Connect admin
+    # website, case rules are known as *case field conditions*. For more
+    # information about case field conditions, see [Add case field
+    # conditions to a case template][1].
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html
+    #
+    # @api private
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/EmptyOperandValue AWS API Documentation
+    #
+    class EmptyOperandValue < Aws::EmptyStructure; end
 
     # Configuration to enable EventBridge case event delivery and determine
     # what data is delivered.
@@ -847,6 +1396,11 @@ module Aws::ConnectCases
 
     # Object to store union of Field values.
     #
+    # <note markdown="1"> The `Summary` system field accepts 3000 characters while all other
+    # fields accept 500 characters.
+    #
+    #  </note>
+    #
     # @note FieldValueUnion is a union - when making an API calls you must set exactly one of the members.
     #
     # @note FieldValueUnion is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of FieldValueUnion corresponding to the set member.
@@ -861,8 +1415,16 @@ module Aws::ConnectCases
     #   value can be provided.
     #   @return [Float]
     #
+    # @!attribute [rw] empty_value
+    #   An empty value.
+    #   @return [Types::EmptyFieldValue]
+    #
     # @!attribute [rw] string_value
     #   String value type.
+    #   @return [String]
+    #
+    # @!attribute [rw] user_arn_value
+    #   Represents the user that performed the audit.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/FieldValueUnion AWS API Documentation
@@ -870,7 +1432,9 @@ module Aws::ConnectCases
     class FieldValueUnion < Struct.new(
       :boolean_value,
       :double_value,
+      :empty_value,
       :string_value,
+      :user_arn_value,
       :unknown)
       SENSITIVE = []
       include Aws::Structure
@@ -878,8 +1442,88 @@ module Aws::ConnectCases
 
       class BooleanValue < FieldValueUnion; end
       class DoubleValue < FieldValueUnion; end
+      class EmptyValue < FieldValueUnion; end
       class StringValue < FieldValueUnion; end
+      class UserArnValue < FieldValueUnion; end
       class Unknown < FieldValueUnion; end
+    end
+
+    # An object that represents a content of an Amazon Connect file object.
+    #
+    # @!attribute [rw] file_arn
+    #   The Amazon Resource Name (ARN) of a File in Amazon Connect.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/FileContent AWS API Documentation
+    #
+    class FileContent < Struct.new(
+      :file_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A filter for related items of type `File`.
+    #
+    # @!attribute [rw] file_arn
+    #   The Amazon Resource Name (ARN) of the file.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/FileFilter AWS API Documentation
+    #
+    class FileFilter < Struct.new(
+      :file_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] case_id
+    #   A unique identifier of the case.
+    #   @return [String]
+    #
+    # @!attribute [rw] domain_id
+    #   The unique identifier of the Cases domain.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of audit events to return. The current maximum
+    #   supported value is 25. This is also the default when no other value
+    #   is provided.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   The token for the next set of results. Use the value returned in the
+    #   previous response in the next request to retrieve the next set of
+    #   results.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/GetCaseAuditEventsRequest AWS API Documentation
+    #
+    class GetCaseAuditEventsRequest < Struct.new(
+      :case_id,
+      :domain_id,
+      :max_results,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] audit_events
+    #   A list of case audits where each represents a particular edit of the
+    #   case.
+    #   @return [Array<Types::AuditEvent>]
+    #
+    # @!attribute [rw] next_token
+    #   The token for the next set of results. This is null if there are no
+    #   more results to return.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/GetCaseAuditEventsResponse AWS API Documentation
+    #
+    class GetCaseAuditEventsResponse < Struct.new(
+      :audit_events,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
     end
 
     # @!attribute [rw] domain_id
@@ -965,6 +1609,68 @@ module Aws::ConnectCases
       include Aws::Structure
     end
 
+    # Detailed case rule information. In the Amazon Connect admin website,
+    # case rules are known as *case field conditions*. For more information
+    # about case field conditions, see [Add case field conditions to a case
+    # template][1].
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html
+    #
+    # @!attribute [rw] case_rule_arn
+    #   The Amazon Resource Name (ARN) of the case rule.
+    #   @return [String]
+    #
+    # @!attribute [rw] case_rule_id
+    #   Unique identifier of a case rule.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_time
+    #   Timestamp when the resource was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] deleted
+    #   Indicates whether the resource has been deleted.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] description
+    #   Description of a case rule.
+    #   @return [String]
+    #
+    # @!attribute [rw] last_modified_time
+    #   Timestamp when the resource was created or last modified.
+    #   @return [Time]
+    #
+    # @!attribute [rw] name
+    #   Name of the case rule.
+    #   @return [String]
+    #
+    # @!attribute [rw] rule
+    #   Represents what rule type should take place, under what conditions.
+    #   @return [Types::CaseRuleDetails]
+    #
+    # @!attribute [rw] tags
+    #   A map of of key-value pairs that represent tags on a resource. Tags
+    #   are used to organize, track, or control access for this resource.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/GetCaseRuleResponse AWS API Documentation
+    #
+    class GetCaseRuleResponse < Struct.new(
+      :case_rule_arn,
+      :case_rule_id,
+      :created_time,
+      :deleted,
+      :description,
+      :last_modified_time,
+      :name,
+      :rule,
+      :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] domain_id
     #   The unique identifier of the Cases domain.
     #   @return [String]
@@ -1017,6 +1723,14 @@ module Aws::ConnectCases
 
     # Object to store detailed field information.
     #
+    # @!attribute [rw] created_time
+    #   Timestamp at which the resource was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] deleted
+    #   Denotes whether or not the resource has been deleted.
+    #   @return [Boolean]
+    #
     # @!attribute [rw] description
     #   Description of the field.
     #   @return [String]
@@ -1028,6 +1742,10 @@ module Aws::ConnectCases
     # @!attribute [rw] field_id
     #   Unique identifier of the field.
     #   @return [String]
+    #
+    # @!attribute [rw] last_modified_time
+    #   Timestamp at which the resource was created or last modified.
+    #   @return [Time]
     #
     # @!attribute [rw] name
     #   Name of the field.
@@ -1049,9 +1767,12 @@ module Aws::ConnectCases
     # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/GetFieldResponse AWS API Documentation
     #
     class GetFieldResponse < Struct.new(
+      :created_time,
+      :deleted,
       :description,
       :field_arn,
       :field_id,
+      :last_modified_time,
       :name,
       :namespace,
       :tags,
@@ -1082,6 +1803,18 @@ module Aws::ConnectCases
     #   order of the fields, and read-only attribute of the field.
     #   @return [Types::LayoutContent]
     #
+    # @!attribute [rw] created_time
+    #   Timestamp at which the resource was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] deleted
+    #   Denotes whether or not the resource has been deleted.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] last_modified_time
+    #   Timestamp at which the resource was created or last modified.
+    #   @return [Time]
+    #
     # @!attribute [rw] layout_arn
     #   The Amazon Resource Name (ARN) of the newly created layout.
     #   @return [String]
@@ -1103,6 +1836,9 @@ module Aws::ConnectCases
     #
     class GetLayoutResponse < Struct.new(
       :content,
+      :created_time,
+      :deleted,
+      :last_modified_time,
       :layout_arn,
       :layout_id,
       :name,
@@ -1128,9 +1864,21 @@ module Aws::ConnectCases
       include Aws::Structure
     end
 
+    # @!attribute [rw] created_time
+    #   Timestamp at which the resource was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] deleted
+    #   Denotes whether or not the resource has been deleted.
+    #   @return [Boolean]
+    #
     # @!attribute [rw] description
     #   A brief description of the template.
     #   @return [String]
+    #
+    # @!attribute [rw] last_modified_time
+    #   Timestamp at which the resource was created or last modified.
+    #   @return [Time]
     #
     # @!attribute [rw] layout_configuration
     #   Configuration of layouts associated to the template.
@@ -1144,6 +1892,15 @@ module Aws::ConnectCases
     #   A list of fields that must contain a value for a case to be
     #   successfully created with this template.
     #   @return [Array<Types::RequiredField>]
+    #
+    # @!attribute [rw] rules
+    #   A list of case rules (also known as [case field conditions][1]) on a
+    #   template.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html
+    #   @return [Array<Types::TemplateRule>]
     #
     # @!attribute [rw] status
     #   The status of the template.
@@ -1165,10 +1922,14 @@ module Aws::ConnectCases
     # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/GetTemplateResponse AWS API Documentation
     #
     class GetTemplateResponse < Struct.new(
+      :created_time,
+      :deleted,
       :description,
+      :last_modified_time,
       :layout_configuration,
       :name,
       :required_fields,
+      :rules,
       :status,
       :tags,
       :template_arn,
@@ -1270,6 +2031,48 @@ module Aws::ConnectCases
       :layout_arn,
       :layout_id,
       :name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] domain_id
+    #   Unique identifier of a Cases domain.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return per page.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   The token for the next set of results. Use the value returned in the
+    #   previous response in the next request to retrieve the next set of
+    #   results.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/ListCaseRulesRequest AWS API Documentation
+    #
+    class ListCaseRulesRequest < Struct.new(
+      :domain_id,
+      :max_results,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] case_rules
+    #   A list of field summary objects.
+    #   @return [Array<Types::CaseRuleSummary>]
+    #
+    # @!attribute [rw] next_token
+    #   The token for the next set of results. This is null if there are no
+    #   more results to return.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/ListCaseRulesResponse AWS API Documentation
+    #
+    class ListCaseRulesResponse < Struct.new(
+      :case_rules,
+      :next_token)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1566,6 +2369,84 @@ module Aws::ConnectCases
       include Aws::Structure
     end
 
+    # Represents the left hand operand in the condition. In the Amazon
+    # Connect admin website, case rules are known as *case field
+    # conditions*. For more information about case field conditions, see
+    # [Add case field conditions to a case template][1].
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html
+    #
+    # @note OperandOne is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @note OperandOne is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of OperandOne corresponding to the set member.
+    #
+    # @!attribute [rw] field_id
+    #   The field ID that this operand should take the value of.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/OperandOne AWS API Documentation
+    #
+    class OperandOne < Struct.new(
+      :field_id,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class FieldId < OperandOne; end
+      class Unknown < OperandOne; end
+    end
+
+    # Represents the right hand operand in the condition. In the Amazon
+    # Connect admin website, case rules are known as *case field
+    # conditions*. For more information about case field conditions, see
+    # [Add case field conditions to a case template][1].
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html
+    #
+    # @note OperandTwo is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @note OperandTwo is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of OperandTwo corresponding to the set member.
+    #
+    # @!attribute [rw] boolean_value
+    #   Boolean value type.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] double_value
+    #   Double value type.
+    #   @return [Float]
+    #
+    # @!attribute [rw] empty_value
+    #   Empty value type.
+    #   @return [Types::EmptyOperandValue]
+    #
+    # @!attribute [rw] string_value
+    #   String value type.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/OperandTwo AWS API Documentation
+    #
+    class OperandTwo < Struct.new(
+      :boolean_value,
+      :double_value,
+      :empty_value,
+      :string_value,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class BooleanValue < OperandTwo; end
+      class DoubleValue < OperandTwo; end
+      class EmptyValue < OperandTwo; end
+      class StringValue < OperandTwo; end
+      class Unknown < OperandTwo; end
+    end
+
     # @!attribute [rw] domain_id
     #   The unique identifier of the Cases domain.
     #   @return [String]
@@ -1600,11 +2481,16 @@ module Aws::ConnectCases
     #   Represents the content of a contact to be returned to agents.
     #   @return [Types::ContactContent]
     #
+    # @!attribute [rw] file
+    #   Represents the content of a File to be returned to agents.
+    #   @return [Types::FileContent]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/RelatedItemContent AWS API Documentation
     #
     class RelatedItemContent < Struct.new(
       :comment,
       :contact,
+      :file,
       :unknown)
       SENSITIVE = []
       include Aws::Structure
@@ -1612,6 +2498,7 @@ module Aws::ConnectCases
 
       class Comment < RelatedItemContent; end
       class Contact < RelatedItemContent; end
+      class File < RelatedItemContent; end
       class Unknown < RelatedItemContent; end
     end
 
@@ -1644,11 +2531,16 @@ module Aws::ConnectCases
     #   field.
     #   @return [Types::Contact]
     #
+    # @!attribute [rw] file
+    #   A file of related items.
+    #   @return [Types::FileContent]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/RelatedItemInputContent AWS API Documentation
     #
     class RelatedItemInputContent < Struct.new(
       :comment,
       :contact,
+      :file,
       :unknown)
       SENSITIVE = []
       include Aws::Structure
@@ -1656,6 +2548,7 @@ module Aws::ConnectCases
 
       class Comment < RelatedItemInputContent; end
       class Contact < RelatedItemInputContent; end
+      class File < RelatedItemInputContent; end
       class Unknown < RelatedItemInputContent; end
     end
 
@@ -1672,11 +2565,16 @@ module Aws::ConnectCases
     #   A filter for related items of type `Contact`.
     #   @return [Types::ContactFilter]
     #
+    # @!attribute [rw] file
+    #   A filter for related items of this type of `File`.
+    #   @return [Types::FileFilter]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/RelatedItemTypeFilter AWS API Documentation
     #
     class RelatedItemTypeFilter < Struct.new(
       :comment,
       :contact,
+      :file,
       :unknown)
       SENSITIVE = []
       include Aws::Structure
@@ -1684,7 +2582,36 @@ module Aws::ConnectCases
 
       class Comment < RelatedItemTypeFilter; end
       class Contact < RelatedItemTypeFilter; end
+      class File < RelatedItemTypeFilter; end
       class Unknown < RelatedItemTypeFilter; end
+    end
+
+    # Required rule type, used to indicate whether a field is required. In
+    # the Amazon Connect admin website, case rules are known as *case field
+    # conditions*. For more information about case field conditions, see
+    # [Add case field conditions to a case template][1].
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html
+    #
+    # @!attribute [rw] conditions
+    #   List of conditions for the required rule; the first condition to
+    #   evaluate to true dictates the value of the rule.
+    #   @return [Array<Types::BooleanCondition>]
+    #
+    # @!attribute [rw] default_value
+    #   The value of the rule (that is, whether the field is required)
+    #   should none of the conditions evaluate to true.
+    #   @return [Boolean]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/RequiredCaseRule AWS API Documentation
+    #
+    class RequiredCaseRule < Struct.new(
+      :conditions,
+      :default_value)
+      SENSITIVE = []
+      include Aws::Structure
     end
 
     # List of fields that must have a value provided to create a case.
@@ -1886,6 +2813,10 @@ module Aws::ConnectCases
     #   Represents the content of a particular type of related item.
     #   @return [Types::RelatedItemContent]
     #
+    # @!attribute [rw] performed_by
+    #   Represents the creator of the related item.
+    #   @return [Types::UserUnion]
+    #
     # @!attribute [rw] related_item_id
     #   Unique identifier of a related item.
     #   @return [String]
@@ -1904,6 +2835,7 @@ module Aws::ConnectCases
     class SearchRelatedItemsResponseItem < Struct.new(
       :association_time,
       :content,
+      :performed_by,
       :related_item_id,
       :tags,
       :type)
@@ -1990,6 +2922,32 @@ module Aws::ConnectCases
       include Aws::Structure
     end
 
+    # An association representing a case rule acting upon a field. In the
+    # Amazon Connect admin website, case rules are known as *case field
+    # conditions*. For more information about case field conditions, see
+    # [Add case field conditions to a case template][1].
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html
+    #
+    # @!attribute [rw] case_rule_id
+    #   Unique identifier of a case rule.
+    #   @return [String]
+    #
+    # @!attribute [rw] field_id
+    #   Unique identifier of a field.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/TemplateRule AWS API Documentation
+    #
+    class TemplateRule < Struct.new(
+      :case_rule_id,
+      :field_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Template summary information.
     #
     # @!attribute [rw] name
@@ -2064,12 +3022,17 @@ module Aws::ConnectCases
     #   to `CreateCase`.
     #   @return [Array<Types::FieldValue>]
     #
+    # @!attribute [rw] performed_by
+    #   Represents the identity of the person who performed the action.
+    #   @return [Types::UserUnion]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/UpdateCaseRequest AWS API Documentation
     #
     class UpdateCaseRequest < Struct.new(
       :case_id,
       :domain_id,
-      :fields)
+      :fields,
+      :performed_by)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2077,6 +3040,42 @@ module Aws::ConnectCases
     # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/UpdateCaseResponse AWS API Documentation
     #
     class UpdateCaseResponse < Aws::EmptyStructure; end
+
+    # @!attribute [rw] case_rule_id
+    #   Unique identifier of a case rule.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   Description of a case rule.
+    #   @return [String]
+    #
+    # @!attribute [rw] domain_id
+    #   Unique identifier of a Cases domain.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   Name of the case rule.
+    #   @return [String]
+    #
+    # @!attribute [rw] rule
+    #   Represents what rule type should take place, under what conditions.
+    #   @return [Types::CaseRuleDetails]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/UpdateCaseRuleRequest AWS API Documentation
+    #
+    class UpdateCaseRuleRequest < Struct.new(
+      :case_rule_id,
+      :description,
+      :domain_id,
+      :name,
+      :rule)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/UpdateCaseRuleResponse AWS API Documentation
+    #
+    class UpdateCaseRuleResponse < Aws::EmptyStructure; end
 
     # @!attribute [rw] description
     #   The description of a field.
@@ -2111,7 +3110,7 @@ module Aws::ConnectCases
 
     # @!attribute [rw] content
     #   Information about which fields will be present in the layout, the
-    #   order of the fields, and a read-only attribute of the field.
+    #   order of the fields.
     #   @return [Types::LayoutContent]
     #
     # @!attribute [rw] domain_id
@@ -2162,6 +3161,15 @@ module Aws::ConnectCases
     #   successfully created with this template.
     #   @return [Array<Types::RequiredField>]
     #
+    # @!attribute [rw] rules
+    #   A list of case rules (also known as [case field conditions][1]) on a
+    #   template.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/connect/latest/adminguide/case-field-conditions.html
+    #   @return [Array<Types::TemplateRule>]
+    #
     # @!attribute [rw] status
     #   The status of the template.
     #   @return [String]
@@ -2178,6 +3186,7 @@ module Aws::ConnectCases
       :layout_configuration,
       :name,
       :required_fields,
+      :rules,
       :status,
       :template_id)
       SENSITIVE = []
@@ -2187,6 +3196,29 @@ module Aws::ConnectCases
     # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/UpdateTemplateResponse AWS API Documentation
     #
     class UpdateTemplateResponse < Aws::EmptyStructure; end
+
+    # Represents the identity of the person who performed the action.
+    #
+    # @note UserUnion is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @note UserUnion is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of UserUnion corresponding to the set member.
+    #
+    # @!attribute [rw] user_arn
+    #   Represents the Amazon Connect ARN of the user.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/connectcases-2022-10-03/UserUnion AWS API Documentation
+    #
+    class UserUnion < Struct.new(
+      :user_arn,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class UserArn < UserUnion; end
+      class Unknown < UserUnion; end
+    end
 
     # The request isn't valid. Check the syntax and try again.
     #
@@ -2203,3 +3235,4 @@ module Aws::ConnectCases
 
   end
 end
+

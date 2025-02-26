@@ -21,12 +21,14 @@ require 'aws-sdk-core/plugins/global_configuration.rb'
 require 'aws-sdk-core/plugins/regional_endpoint.rb'
 require 'aws-sdk-core/plugins/stub_responses.rb'
 require 'aws-sdk-core/plugins/idempotency_token.rb'
+require 'aws-sdk-core/plugins/invocation_id.rb'
 require 'aws-sdk-core/plugins/jsonvalue_converter.rb'
 require 'aws-sdk-core/plugins/http_checksum.rb'
 require 'aws-sdk-core/plugins/checksum_algorithm.rb'
+require 'aws-sdk-core/plugins/request_compression.rb'
 require 'aws-sdk-core/plugins/defaults_mode.rb'
 require 'aws-sdk-core/plugins/recursion_detection.rb'
-require 'aws-sdk-core/plugins/invocation_id.rb'
+require 'aws-sdk-core/plugins/telemetry.rb'
 require 'aws-sdk-core/plugins/sign.rb'
 require 'aws-sdk-core/plugins/protocols/json_rpc.rb'
 require 'aws-sdk-core/plugins/event_stream_configuration.rb'
@@ -53,12 +55,14 @@ module Aws::Kinesis
     add_plugin(Aws::Plugins::RegionalEndpoint)
     add_plugin(Aws::Plugins::StubResponses)
     add_plugin(Aws::Plugins::IdempotencyToken)
+    add_plugin(Aws::Plugins::InvocationId)
     add_plugin(Aws::Plugins::JsonvalueConverter)
     add_plugin(Aws::Plugins::HttpChecksum)
     add_plugin(Aws::Plugins::ChecksumAlgorithm)
+    add_plugin(Aws::Plugins::RequestCompression)
     add_plugin(Aws::Plugins::DefaultsMode)
     add_plugin(Aws::Plugins::RecursionDetection)
-    add_plugin(Aws::Plugins::InvocationId)
+    add_plugin(Aws::Plugins::Telemetry)
     add_plugin(Aws::Plugins::Sign)
     add_plugin(Aws::Plugins::Protocols::JsonRpc)
     add_plugin(Aws::Plugins::EventStreamConfiguration)
@@ -98,13 +102,15 @@ module Aws::Kinesis
     #     locations will be searched for credentials:
     #
     #     * `Aws.config[:credentials]`
-    #     * The `:access_key_id`, `:secret_access_key`, and `:session_token` options.
-    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']
+    #     * The `:access_key_id`, `:secret_access_key`, `:session_token`, and
+    #       `:account_id` options.
+    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'],
+    #       ENV['AWS_SESSION_TOKEN'], and ENV['AWS_ACCOUNT_ID']
     #     * `~/.aws/credentials`
     #     * `~/.aws/config`
     #     * EC2/ECS IMDS instance profile - When used by default, the timeouts
     #       are very aggressive. Construct and pass an instance of
-    #       `Aws::InstanceProfileCredentails` or `Aws::ECSCredentials` to
+    #       `Aws::InstanceProfileCredentials` or `Aws::ECSCredentials` to
     #       enable retries and extended timeouts. Instance profile credential
     #       fetching can be disabled by setting ENV['AWS_EC2_METADATA_DISABLED']
     #       to true.
@@ -122,6 +128,8 @@ module Aws::Kinesis
     #     * `~/.aws/config`
     #
     #   @option options [String] :access_key_id
+    #
+    #   @option options [String] :account_id
     #
     #   @option options [Boolean] :adaptive_retry_wait_to_fill (true)
     #     Used only in `adaptive` retry mode.  When true, the request will sleep
@@ -141,13 +149,27 @@ module Aws::Kinesis
     #     See {Aws::DefaultsModeConfiguration} for a list of the
     #     accepted modes and the configuration defaults that are included.
     #
-    #   @option options [String] :endpoint
-    #     The client endpoint is normally constructed from the `:region`
-    #     option. You should only configure an `:endpoint` when connecting
-    #     to test or custom endpoints. This should be a valid HTTP(S) URI.
+    #   @option options [Boolean] :disable_request_compression (false)
+    #     When set to 'true' the request body will not be compressed
+    #     for supported operations.
+    #
+    #   @option options [String, URI::HTTPS, URI::HTTP] :endpoint
+    #     Normally you should not configure the `:endpoint` option
+    #     directly. This is normally constructed from the `:region`
+    #     option. Configuring `:endpoint` is normally reserved for
+    #     connecting to test or custom endpoints. The endpoint should
+    #     be a URI formatted like:
+    #
+    #         'http://example.com'
+    #         'https://example.com'
+    #         'http://example.com:123'
     #
     #   @option options [Proc] :event_stream_handler
     #     When an EventStream or Proc object is provided, it will be used as callback for each chunk of event stream response received along the way.
+    #
+    #   @option options [Boolean] :ignore_configured_endpoint_urls
+    #     Setting to true disables use of endpoint URLs provided via environment
+    #     variables and the shared configuration file.
     #
     #   @option options [Proc] :input_event_stream_handler
     #     When an EventStream or Proc object is provided, it can be used for sending events for the event stream.
@@ -174,6 +196,34 @@ module Aws::Kinesis
     #   @option options [String] :profile ("default")
     #     Used when loading credentials from the shared credentials file
     #     at HOME/.aws/credentials.  When not specified, 'default' is used.
+    #
+    #   @option options [String] :request_checksum_calculation ("when_supported")
+    #     Determines when a checksum will be calculated for request payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, a checksum will be
+    #       calculated for all request payloads of operations modeled with the
+    #       `httpChecksum` trait where `requestChecksumRequired` is `true` and/or a
+    #       `requestAlgorithmMember` is modeled.
+    #     * `when_required` - When set, a checksum will only be calculated for
+    #       request payloads of operations modeled with the  `httpChecksum` trait where
+    #       `requestChecksumRequired` is `true` or where a `requestAlgorithmMember`
+    #       is modeled and supplied.
+    #
+    #   @option options [Integer] :request_min_compression_size_bytes (10240)
+    #     The minimum size in bytes that triggers compression for request
+    #     bodies. The value must be non-negative integer value between 0
+    #     and 10485780 bytes inclusive.
+    #
+    #   @option options [String] :response_checksum_validation ("when_supported")
+    #     Determines when checksum validation will be performed on response payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, checksum validation is performed on all
+    #       response payloads of operations modeled with the `httpChecksum` trait where
+    #       `responseAlgorithms` is modeled, except when no modeled checksum algorithms
+    #       are supported.
+    #     * `when_required` - When set, checksum validation is not performed on
+    #       response payloads of operations unless the checksum algorithm is supported and
+    #       the `requestValidationModeMember` member is set to `ENABLED`.
     #
     #   @option options [Proc] :retry_backoff
     #     A proc or lambda used for backoff. Defaults to 2**retries * retry_base_delay.
@@ -219,20 +269,31 @@ module Aws::Kinesis
     #       throttling.  This is a provisional mode that may change behavior
     #       in the future.
     #
+    #   @option options [String] :sdk_ua_app_id
+    #     A unique and opaque application ID that is appended to the
+    #     User-Agent header as app/sdk_ua_app_id. It should have a
+    #     maximum length of 50. This variable is sourced from environment
+    #     variable AWS_SDK_UA_APP_ID or the shared config profile attribute sdk_ua_app_id.
     #
     #   @option options [String] :secret_access_key
     #
     #   @option options [String] :session_token
     #
+    #   @option options [Array] :sigv4a_signing_region_set
+    #     A list of regions that should be signed with SigV4a signing. When
+    #     not passed, a default `:sigv4a_signing_region_set` is searched for
+    #     in the following locations:
+    #
+    #     * `Aws.config[:sigv4a_signing_region_set]`
+    #     * `ENV['AWS_SIGV4A_SIGNING_REGION_SET']`
+    #     * `~/.aws/config`
+    #
     #   @option options [Boolean] :simple_json (false)
     #     Disables request parameter conversion, validation, and formatting.
-    #     Also disable response data type conversions. This option is useful
-    #     when you want to ensure the highest level of performance by
-    #     avoiding overhead of walking request parameters and response data
-    #     structures.
-    #
-    #     When `:simple_json` is enabled, the request parameters hash must
-    #     be formatted exactly as the DynamoDB API expects.
+    #     Also disables response data type conversions. The request parameters
+    #     hash must be formatted exactly as the API expects.This option is useful
+    #     when you want to ensure the highest level of performance by avoiding
+    #     overhead of walking request parameters and response data structures.
     #
     #   @option options [Boolean] :stub_responses (false)
     #     Causes the client to return stubbed responses. By default
@@ -242,6 +303,16 @@ module Aws::Kinesis
     #
     #     ** Please note ** When response stubbing is enabled, no HTTP
     #     requests are made, and retries are disabled.
+    #
+    #   @option options [Aws::Telemetry::TelemetryProviderBase] :telemetry_provider (Aws::Telemetry::NoOpTelemetryProvider)
+    #     Allows you to provide a telemetry provider, which is used to
+    #     emit telemetry data. By default, uses `NoOpTelemetryProvider` which
+    #     will not record or emit any telemetry data. The SDK supports the
+    #     following telemetry providers:
+    #
+    #     * OpenTelemetry (OTel) - To use the OTel provider, install and require the
+    #     `opentelemetry-sdk` gem and then, pass in an instance of a
+    #     `Aws::Telemetry::OTelProvider` for telemetry provider.
     #
     #   @option options [Aws::TokenProvider] :token_provider
     #     A Bearer Token Provider. This can be an instance of any one of the
@@ -270,7 +341,47 @@ module Aws::Kinesis
     #     sending the request.
     #
     #   @option options [Aws::Kinesis::EndpointProvider] :endpoint_provider
-    #     The endpoint provider used to resolve endpoints. Any object that responds to `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to `Aws::Kinesis::EndpointParameters`
+    #     The endpoint provider used to resolve endpoints. Any object that responds to
+    #     `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+    #     `Aws::Kinesis::EndpointParameters`.
+    #
+    #   @option options [Integer] :connection_read_timeout (60)
+    #     Connection read timeout in seconds, defaults to 60 sec.
+    #
+    #   @option options [Integer] :connection_timeout (60)
+    #     Connection timeout in seconds, defaults to 60 sec.
+    #
+    #   @option options [Boolean] :enable_alpn (false)
+    #     Set to `true` to enable ALPN in HTTP2 over TLS. Requires Openssl version >= 1.0.2.
+    #     Defaults to false. Note: not all service HTTP2 operations supports ALPN on server
+    #     side, please refer to service documentation.
+    #
+    #   @option options [Boolean] :http_wire_trace (false)
+    #     When `true`, HTTP2 debug output will be sent to the `:logger`.
+    #
+    #   @option options [Integer] :max_concurrent_streams (100)
+    #     Maximum concurrent streams used in HTTP2 connection, defaults to 100. Note that server may send back
+    #     :settings_max_concurrent_streams value which will take priority when initializing new streams.
+    #
+    #   @option options [Boolean] :raise_response_errors (true)
+    #     Defaults to `true`, raises errors if exist when #wait or #join! is called upon async response.
+    #
+    #   @option options [Integer] :read_chunk_size (1024)
+    #
+    #   @option options [String] :ssl_ca_bundle
+    #     Full path to the SSL certificate authority bundle file that should be used when
+    #     verifying peer certificates. If you do not pass `:ssl_ca_directory` or `:ssl_ca_bundle`
+    #     the system default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_directory
+    #     Full path of the directory that contains the unbundled SSL certificate authority
+    #     files for verifying peer certificates. If you do not pass `:ssl_ca_bundle` or
+    #     `:ssl_ca_directory` the system default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_store
+    #
+    #   @option options [Boolean] :ssl_verify_peer (true)
+    #     When `true`, SSL peer certificates are verified when establishing a connection.
     #
     def initialize(*args)
       unless Kernel.const_defined?("HTTP2")
@@ -309,9 +420,12 @@ module Aws::Kinesis
     # subscription and the previous connection expires or fails with a
     # `ResourceInUseException`.
     #
-    # For an example of how to use this operations, see [Enhanced Fan-Out
-    # Using the Kinesis Data Streams
-    # API](/streams/latest/dev/building-enhanced-consumers-api.html).
+    # For an example of how to use this operation, see [Enhanced Fan-Out
+    # Using the Kinesis Data Streams API][1].
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/streams/latest/dev/building-enhanced-consumers-api.html
     #
     # @option params [required, String] :consumer_arn
     #   For this parameter, use the value you obtained when you called
@@ -331,22 +445,22 @@ module Aws::Kinesis
     #
     # @example EventStream Operation Example
     #
-    #   You can process event once it arrives immediately, or wait until
-    #   full response complete and iterate through eventstream enumerator.
+    #   You can process the event once it arrives immediately, or wait until the
+    #   full response is complete and iterate through the eventstream enumerator.
     #
     #   To interact with event immediately, you need to register #subscribe_to_shard
-    #   with callbacks, callbacks can be register for specifc events or for all events,
-    #   callback for errors in the event stream is also available for register.
+    #   with callbacks. Callbacks can be registered for specific events or for all
+    #   events, including error events.
     #
-    #   Callbacks can be passed in by `:event_stream_handler` option or within block
-    #   statement attached to #subscribe_to_shard call directly. Hybrid pattern of both
-    #   is also supported.
+    #   Callbacks can be passed into the `:event_stream_handler` option or within a
+    #   block statement attached to the #subscribe_to_shard call directly. Hybrid
+    #   pattern of both is also supported.
     #
-    #   `:event_stream_handler` option takes in either Proc object or
+    #   `:event_stream_handler` option takes in either a Proc object or
     #   Aws::Kinesis::EventStreams::SubscribeToShardEventStream object.
     #
-    #   Usage pattern a): callbacks with a block attached to #subscribe_to_shard
-    #     Example for registering callbacks for all event types and error event
+    #   Usage pattern a): Callbacks with a block attached to #subscribe_to_shard
+    #     Example for registering callbacks for all event types and an error event
     #
     #     client.subscribe_to_shard( # params input# ) do |stream|
     #       stream.on_error_event do |event|
@@ -366,9 +480,9 @@ module Aws::Kinesis
     #
     #     end
     #
-    #   Usage pattern b): pass in `:event_stream_handler` for #subscribe_to_shard
+    #   Usage pattern b): Pass in `:event_stream_handler` for #subscribe_to_shard
     #
-    #     1) create a Aws::Kinesis::EventStreams::SubscribeToShardEventStream object
+    #     1) Create a Aws::Kinesis::EventStreams::SubscribeToShardEventStream object
     #     Example for registering callbacks with specific events
     #
     #       handler = Aws::Kinesis::EventStreams::SubscribeToShardEventStream.new
@@ -405,7 +519,7 @@ module Aws::Kinesis
     #
     #     client.subscribe_to_shard( # params input #, event_stream_handler: handler)
     #
-    #     2) use a Ruby Proc object
+    #     2) Use a Ruby Proc object
     #     Example for registering callbacks with specific events
     #
     #     handler = Proc.new do |stream|
@@ -443,7 +557,7 @@ module Aws::Kinesis
     #
     #     client.subscribe_to_shard( # params input #, event_stream_handler: handler)
     #
-    #   Usage pattern c): hybird pattern of a) and b)
+    #   Usage pattern c): Hybrid pattern of a) and b)
     #
     #       handler = Aws::Kinesis::EventStreams::SubscribeToShardEventStream.new
     #       handler.on_subscribe_to_shard_event_event do |event|
@@ -488,8 +602,7 @@ module Aws::Kinesis
     #       end
     #     end
     #
-    #   Besides above usage patterns for process events when they arrive immediately, you can also
-    #   iterate through events after response complete.
+    #   You can also iterate through events after the response complete.
     #
     #   Events are available at resp.event_stream # => Enumerator
     #   For parameter input example, please refer to following request syntax
@@ -587,15 +700,20 @@ module Aws::Kinesis
     # @api private
     def build_request(operation_name, params = {})
       handlers = @handlers.for(operation_name)
+      tracer = config.telemetry_provider.tracer_provider.tracer(
+        Aws::Telemetry.module_to_tracer_name('Aws::Kinesis')
+      )
       context = Seahorse::Client::RequestContext.new(
         operation_name: operation_name,
         operation: config.api.operation(operation_name),
         client: self,
         params: params,
         http_response: Seahorse::Client::Http::AsyncResponse.new,
-        config: config)
+        config: config,
+        tracer: tracer
+      )
       context[:gem_name] = 'aws-sdk-kinesis'
-      context[:gem_version] = '1.45.0'
+      context[:gem_version] = '1.74.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

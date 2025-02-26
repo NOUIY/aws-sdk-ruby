@@ -11,16 +11,7 @@
 require 'aws-sdk-core'
 require 'aws-sigv4'
 
-require_relative 'aws-sdk-cloudwatchlogs/types'
-require_relative 'aws-sdk-cloudwatchlogs/client_api'
-require_relative 'aws-sdk-cloudwatchlogs/plugins/endpoints.rb'
-require_relative 'aws-sdk-cloudwatchlogs/client'
-require_relative 'aws-sdk-cloudwatchlogs/errors'
-require_relative 'aws-sdk-cloudwatchlogs/resource'
-require_relative 'aws-sdk-cloudwatchlogs/endpoint_parameters'
-require_relative 'aws-sdk-cloudwatchlogs/endpoint_provider'
-require_relative 'aws-sdk-cloudwatchlogs/endpoints'
-require_relative 'aws-sdk-cloudwatchlogs/customizations'
+Aws::Plugins::GlobalConfiguration.add_identifier(:cloudwatchlogs)
 
 # This module provides support for Amazon CloudWatch Logs. This module is available in the
 # `aws-sdk-cloudwatchlogs` gem.
@@ -51,7 +42,21 @@ require_relative 'aws-sdk-cloudwatchlogs/customizations'
 #
 # @!group service
 module Aws::CloudWatchLogs
+  autoload :Types, 'aws-sdk-cloudwatchlogs/types'
+  autoload :ClientApi, 'aws-sdk-cloudwatchlogs/client_api'
+  module Plugins
+    autoload :Endpoints, 'aws-sdk-cloudwatchlogs/plugins/endpoints.rb'
+  end
+  autoload :Client, 'aws-sdk-cloudwatchlogs/client'
+  autoload :Errors, 'aws-sdk-cloudwatchlogs/errors'
+  autoload :Resource, 'aws-sdk-cloudwatchlogs/resource'
+  autoload :EndpointParameters, 'aws-sdk-cloudwatchlogs/endpoint_parameters'
+  autoload :EndpointProvider, 'aws-sdk-cloudwatchlogs/endpoint_provider'
+  autoload :Endpoints, 'aws-sdk-cloudwatchlogs/endpoints'
+  autoload :EventStreams, 'aws-sdk-cloudwatchlogs/event_streams'
 
-  GEM_VERSION = '1.62.0'
+  GEM_VERSION = '1.109.0'
 
 end
+
+require_relative 'aws-sdk-cloudwatchlogs/customizations'

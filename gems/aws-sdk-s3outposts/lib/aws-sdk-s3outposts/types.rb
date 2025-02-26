@@ -165,6 +165,11 @@ module Aws::S3Outposts
     #   endpoint.
     #   @return [String]
     #
+    # @!attribute [rw] failed_reason
+    #   The failure reason, if any, for a create or delete endpoint
+    #   operation.
+    #   @return [Types::FailedReason]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/s3outposts-2017-07-25/Endpoint AWS API Documentation
     #
     class Endpoint < Struct.new(
@@ -178,7 +183,28 @@ module Aws::S3Outposts
       :subnet_id,
       :security_group_id,
       :access_type,
-      :customer_owned_ipv_4_pool)
+      :customer_owned_ipv_4_pool,
+      :failed_reason)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The failure reason, if any, for a create or delete endpoint operation.
+    #
+    # @!attribute [rw] error_code
+    #   The failure code, if any, for a create or delete endpoint operation.
+    #   @return [String]
+    #
+    # @!attribute [rw] message
+    #   Additional error details describing the endpoint failure and
+    #   recommended action.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/s3outposts-2017-07-25/FailedReason AWS API Documentation
+    #
+    class FailedReason < Struct.new(
+      :error_code,
+      :message)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -229,6 +255,53 @@ module Aws::S3Outposts
     #
     class ListEndpointsResult < Struct.new(
       :endpoints,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] next_token
+    #   When you can get additional results from the `ListOutpostsWithS3`
+    #   call, a `NextToken` parameter is returned in the output. You can
+    #   then pass in a subsequent command to the `NextToken` parameter to
+    #   continue listing additional Outposts.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of Outposts to return. The limit is 100.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/s3outposts-2017-07-25/ListOutpostsWithS3Request AWS API Documentation
+    #
+    class ListOutpostsWithS3Request < Struct.new(
+      :next_token,
+      :max_results)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] outposts
+    #   Returns the list of Outposts that have the following
+    #   characteristics:
+    #
+    #   * outposts that have S3 provisioned
+    #
+    #   * outposts that are `Active` (not pending any provisioning nor
+    #     decommissioned)
+    #
+    #   * outposts to which the the calling Amazon Web Services account has
+    #     access
+    #   @return [Array<Types::Outpost>]
+    #
+    # @!attribute [rw] next_token
+    #   Returns a token that you can use to call `ListOutpostsWithS3` again
+    #   and receive additional results, if there are any.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/s3outposts-2017-07-25/ListOutpostsWithS3Result AWS API Documentation
+    #
+    class ListOutpostsWithS3Result < Struct.new(
+      :outposts,
       :next_token)
       SENSITIVE = []
       include Aws::Structure
@@ -294,6 +367,56 @@ module Aws::S3Outposts
       include Aws::Structure
     end
 
+    # Contains the details for the Outpost object.
+    #
+    # @!attribute [rw] outpost_arn
+    #   Specifies the unique Amazon Resource Name (ARN) for the outpost.
+    #   @return [String]
+    #
+    # @!attribute [rw] s3_outpost_arn
+    #   Specifies the unique S3 on Outposts ARN for use with Resource Access
+    #   Manager (RAM).
+    #   @return [String]
+    #
+    # @!attribute [rw] outpost_id
+    #   Specifies the unique identifier for the outpost.
+    #   @return [String]
+    #
+    # @!attribute [rw] owner_id
+    #   Returns the Amazon Web Services account ID of the outpost owner.
+    #   Useful for comparing owned versus shared outposts.
+    #   @return [String]
+    #
+    # @!attribute [rw] capacity_in_bytes
+    #   The Amazon S3 capacity of the outpost in bytes.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/s3outposts-2017-07-25/Outpost AWS API Documentation
+    #
+    class Outpost < Struct.new(
+      :outpost_arn,
+      :s3_outpost_arn,
+      :outpost_id,
+      :owner_id,
+      :capacity_in_bytes)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The service link connection to your Outposts home Region is down.
+    # Check your connection and try again.
+    #
+    # @!attribute [rw] message
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/s3outposts-2017-07-25/OutpostOfflineException AWS API Documentation
+    #
+    class OutpostOfflineException < Struct.new(
+      :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The requested resource was not found.
     #
     # @!attribute [rw] message
@@ -302,6 +425,19 @@ module Aws::S3Outposts
     # @see http://docs.aws.amazon.com/goto/WebAPI/s3outposts-2017-07-25/ResourceNotFoundException AWS API Documentation
     #
     class ResourceNotFoundException < Struct.new(
+      :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The request was denied due to request throttling.
+    #
+    # @!attribute [rw] message
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/s3outposts-2017-07-25/ThrottlingException AWS API Documentation
+    #
+    class ThrottlingException < Struct.new(
       :message)
       SENSITIVE = []
       include Aws::Structure
@@ -322,3 +458,4 @@ module Aws::S3Outposts
 
   end
 end
+

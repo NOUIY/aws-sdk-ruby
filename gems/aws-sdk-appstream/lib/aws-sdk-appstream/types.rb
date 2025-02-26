@@ -69,11 +69,39 @@ module Aws::AppStream
     #
     # @!attribute [rw] setup_script_details
     #   The setup script details of the app block.
+    #
+    #   This only applies to app blocks with PackagingType `CUSTOM`.
     #   @return [Types::ScriptDetails]
     #
     # @!attribute [rw] created_time
     #   The created time of the app block.
     #   @return [Time]
+    #
+    # @!attribute [rw] post_setup_script_details
+    #   The post setup script details of the app block.
+    #
+    #   This only applies to app blocks with PackagingType `APPSTREAM2`.
+    #   @return [Types::ScriptDetails]
+    #
+    # @!attribute [rw] packaging_type
+    #   The packaging type of the app block.
+    #   @return [String]
+    #
+    # @!attribute [rw] state
+    #   The state of the app block.
+    #
+    #   An app block with AppStream 2.0 packaging will be in the `INACTIVE`
+    #   state if no application package (VHD) is assigned to it. After an
+    #   application package (VHD) is created by an app block builder for an
+    #   app block, it becomes `ACTIVE`.
+    #
+    #   Custom app blocks are always in the `ACTIVE` state and no action is
+    #   required to use them.
+    #   @return [String]
+    #
+    # @!attribute [rw] app_block_errors
+    #   The errors of the app block.
+    #   @return [Array<Types::ErrorDetails>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/AppBlock AWS API Documentation
     #
@@ -84,7 +112,134 @@ module Aws::AppStream
       :display_name,
       :source_s3_location,
       :setup_script_details,
-      :created_time)
+      :created_time,
+      :post_setup_script_details,
+      :packaging_type,
+      :state,
+      :app_block_errors)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Describes an app block builder.
+    #
+    # @!attribute [rw] arn
+    #   The ARN of the app block builder.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the app block builder.
+    #   @return [String]
+    #
+    # @!attribute [rw] display_name
+    #   The display name of the app block builder.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the app block builder.
+    #   @return [String]
+    #
+    # @!attribute [rw] platform
+    #   The platform of the app block builder.
+    #
+    #   `WINDOWS_SERVER_2019` is the only valid value.
+    #   @return [String]
+    #
+    # @!attribute [rw] instance_type
+    #   The instance type of the app block builder.
+    #   @return [String]
+    #
+    # @!attribute [rw] enable_default_internet_access
+    #   Indicates whether default internet access is enabled for the app
+    #   block builder.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] iam_role_arn
+    #   The ARN of the IAM role that is applied to the app block builder.
+    #   @return [String]
+    #
+    # @!attribute [rw] vpc_config
+    #   The VPC configuration for the app block builder.
+    #   @return [Types::VpcConfig]
+    #
+    # @!attribute [rw] state
+    #   The state of the app block builder.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_time
+    #   The creation time of the app block builder.
+    #   @return [Time]
+    #
+    # @!attribute [rw] app_block_builder_errors
+    #   The app block builder errors.
+    #   @return [Array<Types::ResourceError>]
+    #
+    # @!attribute [rw] state_change_reason
+    #   The state change reason.
+    #   @return [Types::AppBlockBuilderStateChangeReason]
+    #
+    # @!attribute [rw] access_endpoints
+    #   The list of interface VPC endpoint (interface endpoint) objects.
+    #   Administrators can connect to the app block builder only through the
+    #   specified endpoints.
+    #   @return [Array<Types::AccessEndpoint>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/AppBlockBuilder AWS API Documentation
+    #
+    class AppBlockBuilder < Struct.new(
+      :arn,
+      :name,
+      :display_name,
+      :description,
+      :platform,
+      :instance_type,
+      :enable_default_internet_access,
+      :iam_role_arn,
+      :vpc_config,
+      :state,
+      :created_time,
+      :app_block_builder_errors,
+      :state_change_reason,
+      :access_endpoints)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Describes an association between an app block builder and app block.
+    #
+    # @!attribute [rw] app_block_arn
+    #   The ARN of the app block.
+    #   @return [String]
+    #
+    # @!attribute [rw] app_block_builder_name
+    #   The name of the app block builder.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/AppBlockBuilderAppBlockAssociation AWS API Documentation
+    #
+    class AppBlockBuilderAppBlockAssociation < Struct.new(
+      :app_block_arn,
+      :app_block_builder_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Describes the reason why the last app block builder state change
+    # occurred.
+    #
+    # @!attribute [rw] code
+    #   The state change reason code.
+    #   @return [String]
+    #
+    # @!attribute [rw] message
+    #   The state change reason message.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/AppBlockBuilderStateChangeReason AWS API Documentation
+    #
+    class AppBlockBuilderStateChangeReason < Struct.new(
+      :code,
+      :message)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -241,6 +396,35 @@ module Aws::AppStream
       :enabled,
       :settings_group,
       :s3_bucket_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] app_block_arn
+    #   The ARN of the app block.
+    #   @return [String]
+    #
+    # @!attribute [rw] app_block_builder_name
+    #   The name of the app block builder.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/AssociateAppBlockBuilderAppBlockRequest AWS API Documentation
+    #
+    class AssociateAppBlockBuilderAppBlockRequest < Struct.new(
+      :app_block_arn,
+      :app_block_builder_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] app_block_builder_app_block_association
+    #   The list of app block builders associated with app blocks.
+    #   @return [Types::AppBlockBuilderAppBlockAssociation]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/AssociateAppBlockBuilderAppBlockResult AWS API Documentation
+    #
+    class AssociateAppBlockBuilderAppBlockResult < Struct.new(
+      :app_block_builder_app_block_association)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -405,10 +589,20 @@ module Aws::AppStream
     #   The desired number of streaming instances.
     #   @return [Integer]
     #
+    # @!attribute [rw] desired_sessions
+    #   The desired number of user sessions for a multi-session fleet. This
+    #   is not allowed for single-session fleets.
+    #
+    #   When you create a fleet, you must set either the DesiredSessions or
+    #   DesiredInstances attribute, based on the type of fleet you create.
+    #   You can’t define both attributes or leave both attributes blank.
+    #   @return [Integer]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/ComputeCapacity AWS API Documentation
     #
     class ComputeCapacity < Struct.new(
-      :desired_instances)
+      :desired_instances,
+      :desired_sessions)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -433,13 +627,53 @@ module Aws::AppStream
     #   stream sessions.
     #   @return [Integer]
     #
+    # @!attribute [rw] desired_user_sessions
+    #   The total number of sessions slots that are either running or
+    #   pending. This represents the total number of concurrent streaming
+    #   sessions your fleet can support in a steady state.
+    #
+    #   DesiredUserSessionCapacity = ActualUserSessionCapacity +
+    #   PendingUserSessionCapacity
+    #
+    #   This only applies to multi-session fleets.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] available_user_sessions
+    #   The number of idle session slots currently available for user
+    #   sessions.
+    #
+    #   AvailableUserSessionCapacity = ActualUserSessionCapacity -
+    #   ActiveUserSessions
+    #
+    #   This only applies to multi-session fleets.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] active_user_sessions
+    #   The number of user sessions currently being used for streaming
+    #   sessions. This only applies to multi-session fleets.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] actual_user_sessions
+    #   The total number of session slots that are available for streaming
+    #   or are currently streaming.
+    #
+    #   ActualUserSessionCapacity = AvailableUserSessionCapacity +
+    #   ActiveUserSessions
+    #
+    #   This only applies to multi-session fleets.
+    #   @return [Integer]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/ComputeCapacityStatus AWS API Documentation
     #
     class ComputeCapacityStatus < Struct.new(
       :desired,
       :running,
       :in_use,
-      :available)
+      :available,
+      :desired_user_sessions,
+      :available_user_sessions,
+      :active_user_sessions,
+      :actual_user_sessions)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -502,6 +736,160 @@ module Aws::AppStream
     end
 
     # @!attribute [rw] name
+    #   The unique name for the app block builder.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the app block builder.
+    #   @return [String]
+    #
+    # @!attribute [rw] display_name
+    #   The display name of the app block builder.
+    #   @return [String]
+    #
+    # @!attribute [rw] tags
+    #   The tags to associate with the app block builder. A tag is a
+    #   key-value pair, and the value is optional. For example,
+    #   Environment=Test. If you do not specify a value, Environment=.
+    #
+    #   If you do not specify a value, the value is set to an empty string.
+    #
+    #   Generally allowed characters are: letters, numbers, and spaces
+    #   representable in UTF-8, and the following special characters:
+    #
+    #   \_ . : / = + \\ - @
+    #
+    #   For more information, see [Tagging Your Resources][1] in the *Amazon
+    #   AppStream 2.0 Administration Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/appstream2/latest/developerguide/tagging-basic.html
+    #   @return [Hash<String,String>]
+    #
+    # @!attribute [rw] platform
+    #   The platform of the app block builder.
+    #
+    #   `WINDOWS_SERVER_2019` is the only valid value.
+    #   @return [String]
+    #
+    # @!attribute [rw] instance_type
+    #   The instance type to use when launching the app block builder. The
+    #   following instance types are available:
+    #
+    #   * stream.standard.small
+    #
+    #   * stream.standard.medium
+    #
+    #   * stream.standard.large
+    #
+    #   * stream.standard.xlarge
+    #
+    #   * stream.standard.2xlarge
+    #   @return [String]
+    #
+    # @!attribute [rw] vpc_config
+    #   The VPC configuration for the app block builder.
+    #
+    #   App block builders require that you specify at least two subnets in
+    #   different availability zones.
+    #   @return [Types::VpcConfig]
+    #
+    # @!attribute [rw] enable_default_internet_access
+    #   Enables or disables default internet access for the app block
+    #   builder.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] iam_role_arn
+    #   The Amazon Resource Name (ARN) of the IAM role to apply to the app
+    #   block builder. To assume a role, the app block builder calls the AWS
+    #   Security Token Service (STS) `AssumeRole` API operation and passes
+    #   the ARN of the role to use. The operation creates a new session with
+    #   temporary credentials. AppStream 2.0 retrieves the temporary
+    #   credentials and creates the **appstream\_machine\_role** credential
+    #   profile on the instance.
+    #
+    #   For more information, see [Using an IAM Role to Grant Permissions to
+    #   Applications and Scripts Running on AppStream 2.0 Streaming
+    #   Instances][1] in the *Amazon AppStream 2.0 Administration Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/appstream2/latest/developerguide/using-iam-roles-to-grant-permissions-to-applications-scripts-streaming-instances.html
+    #   @return [String]
+    #
+    # @!attribute [rw] access_endpoints
+    #   The list of interface VPC endpoint (interface endpoint) objects.
+    #   Administrators can connect to the app block builder only through the
+    #   specified endpoints.
+    #   @return [Array<Types::AccessEndpoint>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/CreateAppBlockBuilderRequest AWS API Documentation
+    #
+    class CreateAppBlockBuilderRequest < Struct.new(
+      :name,
+      :description,
+      :display_name,
+      :tags,
+      :platform,
+      :instance_type,
+      :vpc_config,
+      :enable_default_internet_access,
+      :iam_role_arn,
+      :access_endpoints)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] app_block_builder
+    #   Describes an app block builder.
+    #   @return [Types::AppBlockBuilder]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/CreateAppBlockBuilderResult AWS API Documentation
+    #
+    class CreateAppBlockBuilderResult < Struct.new(
+      :app_block_builder)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] app_block_builder_name
+    #   The name of the app block builder.
+    #   @return [String]
+    #
+    # @!attribute [rw] validity
+    #   The time that the streaming URL will be valid, in seconds. Specify a
+    #   value between 1 and 604800 seconds. The default is 3600 seconds.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/CreateAppBlockBuilderStreamingURLRequest AWS API Documentation
+    #
+    class CreateAppBlockBuilderStreamingURLRequest < Struct.new(
+      :app_block_builder_name,
+      :validity)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] streaming_url
+    #   The URL to start the streaming session.
+    #   @return [String]
+    #
+    # @!attribute [rw] expires
+    #   The elapsed time, in seconds after the Unix epoch, when this URL
+    #   expires.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/CreateAppBlockBuilderStreamingURLResult AWS API Documentation
+    #
+    class CreateAppBlockBuilderStreamingURLResult < Struct.new(
+      :streaming_url,
+      :expires)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] name
     #   The name of the app block.
     #   @return [String]
     #
@@ -519,12 +907,22 @@ module Aws::AppStream
     #   @return [Types::S3Location]
     #
     # @!attribute [rw] setup_script_details
-    #   The setup script details of the app block.
+    #   The setup script details of the app block. This must be provided for
+    #   the `CUSTOM` PackagingType.
     #   @return [Types::ScriptDetails]
     #
     # @!attribute [rw] tags
     #   The tags assigned to the app block.
     #   @return [Hash<String,String>]
+    #
+    # @!attribute [rw] post_setup_script_details
+    #   The post setup script details of the app block. This can only be
+    #   provided for the `APPSTREAM2` PackagingType.
+    #   @return [Types::ScriptDetails]
+    #
+    # @!attribute [rw] packaging_type
+    #   The packaging type of the app block.
+    #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/CreateAppBlockRequest AWS API Documentation
     #
@@ -534,7 +932,9 @@ module Aws::AppStream
       :display_name,
       :source_s3_location,
       :setup_script_details,
-      :tags)
+      :tags,
+      :post_setup_script_details,
+      :packaging_type)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -804,6 +1204,20 @@ module Aws::AppStream
     #
     #   * stream.graphics.g4dn.16xlarge
     #
+    #   * stream.graphics.g5.xlarge
+    #
+    #   * stream.graphics.g5.2xlarge
+    #
+    #   * stream.graphics.g5.4xlarge
+    #
+    #   * stream.graphics.g5.8xlarge
+    #
+    #   * stream.graphics.g5.12xlarge
+    #
+    #   * stream.graphics.g5.16xlarge
+    #
+    #   * stream.graphics.g5.24xlarge
+    #
     #   * stream.graphics-pro.4xlarge
     #
     #   * stream.graphics-pro.8xlarge
@@ -860,7 +1274,7 @@ module Aws::AppStream
     #   this time elapses, the instance is terminated and replaced by a new
     #   instance.
     #
-    #   Specify a value between 600 and 360000.
+    #   Specify a value between 600 and 432000.
     #   @return [Integer]
     #
     # @!attribute [rw] disconnect_timeout_in_seconds
@@ -870,7 +1284,7 @@ module Aws::AppStream
     #   interval, they are connected to their previous session. Otherwise,
     #   they are connected to a new session with a new streaming instance.
     #
-    #   Specify a value between 60 and 360000.
+    #   Specify a value between 60 and 36000.
     #   @return [Integer]
     #
     # @!attribute [rw] description
@@ -926,7 +1340,7 @@ module Aws::AppStream
     #   elapses, they are disconnected.
     #
     #   To prevent users from being disconnected due to inactivity, specify
-    #   a value of 0. Otherwise, specify a value between 60 and 3600. The
+    #   a value of 0. Otherwise, specify a value between 60 and 36000. The
     #   default value is 0.
     #
     #   <note markdown="1"> If you enable this feature, we recommend that you specify a value
@@ -990,6 +1404,11 @@ module Aws::AppStream
     #   only applies to Elastic fleets.
     #   @return [Types::S3Location]
     #
+    # @!attribute [rw] max_sessions_per_instance
+    #   The maximum number of user sessions on an instance. This only
+    #   applies to multi-session fleets.
+    #   @return [Integer]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/CreateFleetRequest AWS API Documentation
     #
     class CreateFleetRequest < Struct.new(
@@ -1013,7 +1432,8 @@ module Aws::AppStream
       :platform,
       :max_concurrent_sessions,
       :usb_device_filter_strings,
-      :session_script_s3_location)
+      :session_script_s3_location,
+      :max_sessions_per_instance)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1426,6 +1846,65 @@ module Aws::AppStream
       include Aws::Structure
     end
 
+    # @!attribute [rw] stack_name
+    #   The name of the stack for the theme.
+    #   @return [String]
+    #
+    # @!attribute [rw] footer_links
+    #   The links that are displayed in the footer of the streaming
+    #   application catalog page. These links are helpful resources for
+    #   users, such as the organization's IT support and product marketing
+    #   sites.
+    #   @return [Array<Types::ThemeFooterLink>]
+    #
+    # @!attribute [rw] title_text
+    #   The title that is displayed at the top of the browser tab during
+    #   users' application streaming sessions.
+    #   @return [String]
+    #
+    # @!attribute [rw] theme_styling
+    #   The color theme that is applied to website links, text, and buttons.
+    #   These colors are also applied as accents in the background for the
+    #   streaming application catalog page.
+    #   @return [String]
+    #
+    # @!attribute [rw] organization_logo_s3_location
+    #   The organization logo that appears on the streaming application
+    #   catalog page.
+    #   @return [Types::S3Location]
+    #
+    # @!attribute [rw] favicon_s3_location
+    #   The S3 location of the favicon. The favicon enables users to
+    #   recognize their application streaming site in a browser full of tabs
+    #   or bookmarks. It is displayed at the top of the browser tab for the
+    #   application streaming site during users' streaming sessions.
+    #   @return [Types::S3Location]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/CreateThemeForStackRequest AWS API Documentation
+    #
+    class CreateThemeForStackRequest < Struct.new(
+      :stack_name,
+      :footer_links,
+      :title_text,
+      :theme_styling,
+      :organization_logo_s3_location,
+      :favicon_s3_location)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] theme
+    #   The theme object that contains the metadata of the custom branding.
+    #   @return [Types::Theme]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/CreateThemeForStackResult AWS API Documentation
+    #
+    class CreateThemeForStackResult < Struct.new(
+      :theme)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] existing_image_name
     #   The name of the image to update.
     #   @return [String]
@@ -1586,6 +2065,22 @@ module Aws::AppStream
     # @see http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/CreateUserResult AWS API Documentation
     #
     class CreateUserResult < Aws::EmptyStructure; end
+
+    # @!attribute [rw] name
+    #   The name of the app block builder.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/DeleteAppBlockBuilderRequest AWS API Documentation
+    #
+    class DeleteAppBlockBuilderRequest < Struct.new(
+      :name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/DeleteAppBlockBuilderResult AWS API Documentation
+    #
+    class DeleteAppBlockBuilderResult < Aws::EmptyStructure; end
 
     # @!attribute [rw] name
     #   The name of the app block.
@@ -1758,6 +2253,22 @@ module Aws::AppStream
     #
     class DeleteStackResult < Aws::EmptyStructure; end
 
+    # @!attribute [rw] stack_name
+    #   The name of the stack for the theme.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/DeleteThemeForStackRequest AWS API Documentation
+    #
+    class DeleteThemeForStackRequest < Struct.new(
+      :stack_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/DeleteThemeForStackResult AWS API Documentation
+    #
+    class DeleteThemeForStackResult < Aws::EmptyStructure; end
+
     # @api private
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/DeleteUsageReportSubscriptionRequest AWS API Documentation
@@ -1792,6 +2303,93 @@ module Aws::AppStream
     # @see http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/DeleteUserResult AWS API Documentation
     #
     class DeleteUserResult < Aws::EmptyStructure; end
+
+    # @!attribute [rw] app_block_arn
+    #   The ARN of the app block.
+    #   @return [String]
+    #
+    # @!attribute [rw] app_block_builder_name
+    #   The name of the app block builder.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum size of each page of results.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   The pagination token used to retrieve the next page of results for
+    #   this operation.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/DescribeAppBlockBuilderAppBlockAssociationsRequest AWS API Documentation
+    #
+    class DescribeAppBlockBuilderAppBlockAssociationsRequest < Struct.new(
+      :app_block_arn,
+      :app_block_builder_name,
+      :max_results,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] app_block_builder_app_block_associations
+    #   This list of app block builders associated with app blocks.
+    #   @return [Array<Types::AppBlockBuilderAppBlockAssociation>]
+    #
+    # @!attribute [rw] next_token
+    #   The pagination token used to retrieve the next page of results for
+    #   this operation.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/DescribeAppBlockBuilderAppBlockAssociationsResult AWS API Documentation
+    #
+    class DescribeAppBlockBuilderAppBlockAssociationsResult < Struct.new(
+      :app_block_builder_app_block_associations,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] names
+    #   The names of the app block builders.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] next_token
+    #   The pagination token used to retrieve the next page of results for
+    #   this operation.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum size of each page of results. The maximum value is 25.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/DescribeAppBlockBuildersRequest AWS API Documentation
+    #
+    class DescribeAppBlockBuildersRequest < Struct.new(
+      :names,
+      :next_token,
+      :max_results)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] app_block_builders
+    #   The list that describes one or more app block builders.
+    #   @return [Array<Types::AppBlockBuilder>]
+    #
+    # @!attribute [rw] next_token
+    #   The pagination token used to retrieve the next page of results for
+    #   this operation.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/DescribeAppBlockBuildersResult AWS API Documentation
+    #
+    class DescribeAppBlockBuildersResult < Struct.new(
+      :app_block_builders,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
 
     # @!attribute [rw] arns
     #   The ARNs of the app blocks.
@@ -2220,6 +2818,10 @@ module Aws::AppStream
     #   default is to authenticate users using a streaming URL.
     #   @return [String]
     #
+    # @!attribute [rw] instance_id
+    #   The identifier for the instance hosting the session.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/DescribeSessionsRequest AWS API Documentation
     #
     class DescribeSessionsRequest < Struct.new(
@@ -2228,7 +2830,8 @@ module Aws::AppStream
       :user_id,
       :next_token,
       :limit,
-      :authentication_type)
+      :authentication_type,
+      :instance_id)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2283,6 +2886,30 @@ module Aws::AppStream
     class DescribeStacksResult < Struct.new(
       :stacks,
       :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] stack_name
+    #   The name of the stack for the theme.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/DescribeThemeForStackRequest AWS API Documentation
+    #
+    class DescribeThemeForStackRequest < Struct.new(
+      :stack_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] theme
+    #   The theme object that contains the metadata of the custom branding.
+    #   @return [Types::Theme]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/DescribeThemeForStackResult AWS API Documentation
+    #
+    class DescribeThemeForStackResult < Struct.new(
+      :theme)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2492,6 +3119,27 @@ module Aws::AppStream
     # @see http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/DisableUserResult AWS API Documentation
     #
     class DisableUserResult < Aws::EmptyStructure; end
+
+    # @!attribute [rw] app_block_arn
+    #   The ARN of the app block.
+    #   @return [String]
+    #
+    # @!attribute [rw] app_block_builder_name
+    #   The name of the app block builder.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/DisassociateAppBlockBuilderAppBlockRequest AWS API Documentation
+    #
+    class DisassociateAppBlockBuilderAppBlockRequest < Struct.new(
+      :app_block_arn,
+      :app_block_builder_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/DisassociateAppBlockBuilderAppBlockResult AWS API Documentation
+    #
+    class DisassociateAppBlockBuilderAppBlockResult < Aws::EmptyStructure; end
 
     # @!attribute [rw] fleet_name
     #   The name of the fleet.
@@ -2745,6 +3393,25 @@ module Aws::AppStream
       include Aws::Structure
     end
 
+    # The error details.
+    #
+    # @!attribute [rw] error_code
+    #   The error code.
+    #   @return [String]
+    #
+    # @!attribute [rw] error_message
+    #   The error message.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/ErrorDetails AWS API Documentation
+    #
+    class ErrorDetails < Struct.new(
+      :error_code,
+      :error_message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] session_id
     #   The identifier of the streaming session.
     #   @return [String]
@@ -2897,7 +3564,7 @@ module Aws::AppStream
     #   interval, they are connected to their previous session. Otherwise,
     #   they are connected to a new session with a new streaming instance.
     #
-    #   Specify a value between 60 and 360000.
+    #   Specify a value between 60 and 36000.
     #   @return [Integer]
     #
     # @!attribute [rw] state
@@ -2940,7 +3607,7 @@ module Aws::AppStream
     #   elapses, they are disconnected.
     #
     #   To prevent users from being disconnected due to inactivity, specify
-    #   a value of 0. Otherwise, specify a value between 60 and 3600. The
+    #   a value of 0. Otherwise, specify a value between 60 and 36000. The
     #   default value is 0.
     #
     #   <note markdown="1"> If you enable this feature, we recommend that you specify a value
@@ -2999,6 +3666,11 @@ module Aws::AppStream
     #   only applies to Elastic fleets.
     #   @return [Types::S3Location]
     #
+    # @!attribute [rw] max_sessions_per_instance
+    #   The maximum number of user sessions on an instance. This only
+    #   applies to multi-session fleets.
+    #   @return [Integer]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/Fleet AWS API Documentation
     #
     class Fleet < Struct.new(
@@ -3025,7 +3697,8 @@ module Aws::AppStream
       :platform,
       :max_concurrent_sessions,
       :usb_device_filter_strings,
-      :session_script_s3_location)
+      :session_script_s3_location,
+      :max_sessions_per_instance)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3127,6 +3800,42 @@ module Aws::AppStream
     #   created.
     #   @return [Array<Types::ResourceError>]
     #
+    # @!attribute [rw] latest_appstream_agent_version
+    #   Indicates whether the image is using the latest AppStream 2.0 agent
+    #   version or not.
+    #   @return [String]
+    #
+    # @!attribute [rw] supported_instance_families
+    #   The supported instances families that determine which image a
+    #   customer can use when the customer launches a fleet or image
+    #   builder. The following instances families are supported:
+    #
+    #   * General Purpose
+    #
+    #   * Compute Optimized
+    #
+    #   * Memory Optimized
+    #
+    #   * Graphics
+    #
+    #   * Graphics Design
+    #
+    #   * Graphics Pro
+    #
+    #   * Graphics G4
+    #
+    #   * Graphics G5
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] dynamic_app_providers_enabled
+    #   Indicates whether dynamic app providers are enabled within an
+    #   AppStream 2.0 image or not.
+    #   @return [String]
+    #
+    # @!attribute [rw] image_shared_with_others
+    #   Indicates whether the image is shared with another account ID.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/Image AWS API Documentation
     #
     class Image < Struct.new(
@@ -3146,7 +3855,11 @@ module Aws::AppStream
       :public_base_image_released_date,
       :appstream_agent_version,
       :image_permissions,
-      :image_errors)
+      :image_errors,
+      :latest_appstream_agent_version,
+      :supported_instance_families,
+      :dynamic_app_providers_enabled,
+      :image_shared_with_others)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3311,6 +4024,11 @@ module Aws::AppStream
     #   specified endpoints.
     #   @return [Array<Types::AccessEndpoint>]
     #
+    # @!attribute [rw] latest_appstream_agent_version
+    #   Indicates whether the image builder is using the latest AppStream
+    #   2.0 agent version or not.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/ImageBuilder AWS API Documentation
     #
     class ImageBuilder < Struct.new(
@@ -3331,7 +4049,8 @@ module Aws::AppStream
       :network_access_configuration,
       :image_builder_errors,
       :appstream_agent_version,
-      :access_endpoints)
+      :access_endpoints,
+      :latest_appstream_agent_version)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3769,6 +4488,23 @@ module Aws::AppStream
     #
     # @!attribute [rw] s3_key
     #   The S3 key of the S3 object.
+    #
+    #   This is required when used for the following:
+    #
+    #   * IconS3Location (Actions: CreateApplication and UpdateApplication)
+    #
+    #   * SessionScriptS3Location (Actions: CreateFleet and UpdateFleet)
+    #
+    #   * ScriptDetails (Actions: CreateAppBlock)
+    #
+    #   * SourceS3Location when creating an app block with `CUSTOM`
+    #     PackagingType (Actions: CreateAppBlock)
+    #
+    #   * SourceS3Location when creating an app block with `APPSTREAM2`
+    #     PackagingType, and using an existing application package (VHD
+    #     file). In this case, `S3Key` refers to the VHD file. If a new
+    #     application package is required, then `S3Key` is not required.
+    #     (Actions: CreateAppBlock)
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/S3Location AWS API Documentation
@@ -3883,6 +4619,10 @@ module Aws::AppStream
     #   The network details for the streaming session.
     #   @return [Types::NetworkAccessConfiguration]
     #
+    # @!attribute [rw] instance_id
+    #   The identifier for the instance hosting the session.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/Session AWS API Documentation
     #
     class Session < Struct.new(
@@ -3895,7 +4635,8 @@ module Aws::AppStream
       :start_time,
       :max_expiration_time,
       :authentication_type,
-      :network_access_configuration)
+      :network_access_configuration,
+      :instance_id)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4030,6 +4771,30 @@ module Aws::AppStream
     end
 
     # @!attribute [rw] name
+    #   The name of the app block builder.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/StartAppBlockBuilderRequest AWS API Documentation
+    #
+    class StartAppBlockBuilderRequest < Struct.new(
+      :name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] app_block_builder
+    #   Describes an app block builder.
+    #   @return [Types::AppBlockBuilder]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/StartAppBlockBuilderResult AWS API Documentation
+    #
+    class StartAppBlockBuilderResult < Struct.new(
+      :app_block_builder)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] name
     #   The name of the fleet.
     #   @return [String]
     #
@@ -4072,6 +4837,30 @@ module Aws::AppStream
     #
     class StartImageBuilderResult < Struct.new(
       :image_builder)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] name
+    #   The name of the app block builder.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/StopAppBlockBuilderRequest AWS API Documentation
+    #
+    class StopAppBlockBuilderRequest < Struct.new(
+      :name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] app_block_builder
+    #   Describes an app block builder.
+    #   @return [Types::AppBlockBuilder]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/StopAppBlockBuilderResult AWS API Documentation
+    #
+    class StopAppBlockBuilderResult < Struct.new(
+      :app_block_builder)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4130,12 +4919,19 @@ module Aws::AppStream
     #   The names of the domains for the account.
     #   @return [Array<String>]
     #
+    # @!attribute [rw] domains_require_admin_consent
+    #   The OneDrive for Business domains where you require admin consent
+    #   when users try to link their OneDrive account to AppStream 2.0. The
+    #   attribute can only be specified when ConnectorType=ONE\_DRIVE.
+    #   @return [Array<String>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/StorageConnector AWS API Documentation
     #
     class StorageConnector < Struct.new(
       :connector_type,
       :resource_identifier,
-      :domains)
+      :domains,
+      :domains_require_admin_consent)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4186,6 +4982,77 @@ module Aws::AppStream
     #
     class TagResourceResponse < Aws::EmptyStructure; end
 
+    # The custom branding theme, which might include a custom logo, website
+    # links, and other branding to display to users.
+    #
+    # @!attribute [rw] stack_name
+    #   The stack that has the custom branding theme.
+    #   @return [String]
+    #
+    # @!attribute [rw] state
+    #   The state of the theme.
+    #   @return [String]
+    #
+    # @!attribute [rw] theme_title_text
+    #   The browser tab page title.
+    #   @return [String]
+    #
+    # @!attribute [rw] theme_styling
+    #   The color that is used for the website links, text, buttons, and
+    #   catalog page background.
+    #   @return [String]
+    #
+    # @!attribute [rw] theme_footer_links
+    #   The website links that display in the catalog page footer.
+    #   @return [Array<Types::ThemeFooterLink>]
+    #
+    # @!attribute [rw] theme_organization_logo_url
+    #   The URL of the logo that displays in the catalog page header.
+    #   @return [String]
+    #
+    # @!attribute [rw] theme_favicon_url
+    #   The URL of the icon that displays at the top of a user's browser
+    #   tab during streaming sessions.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_time
+    #   The time the theme was created.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/Theme AWS API Documentation
+    #
+    class Theme < Struct.new(
+      :stack_name,
+      :state,
+      :theme_title_text,
+      :theme_styling,
+      :theme_footer_links,
+      :theme_organization_logo_url,
+      :theme_favicon_url,
+      :created_time)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The website links that display in the catalog page footer.
+    #
+    # @!attribute [rw] display_name
+    #   The name of the websites that display in the catalog page footer.
+    #   @return [String]
+    #
+    # @!attribute [rw] footer_link_url
+    #   The URL of the websites that display in the catalog page footer.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/ThemeFooterLink AWS API Documentation
+    #
+    class ThemeFooterLink < Struct.new(
+      :display_name,
+      :footer_link_url)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] resource_arn
     #   The Amazon Resource Name (ARN) of the resource.
     #   @return [String]
@@ -4206,6 +5073,108 @@ module Aws::AppStream
     # @see http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/UntagResourceResponse AWS API Documentation
     #
     class UntagResourceResponse < Aws::EmptyStructure; end
+
+    # @!attribute [rw] name
+    #   The unique name for the app block builder.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the app block builder.
+    #   @return [String]
+    #
+    # @!attribute [rw] display_name
+    #   The display name of the app block builder.
+    #   @return [String]
+    #
+    # @!attribute [rw] platform
+    #   The platform of the app block builder.
+    #
+    #   `WINDOWS_SERVER_2019` is the only valid value.
+    #   @return [String]
+    #
+    # @!attribute [rw] instance_type
+    #   The instance type to use when launching the app block builder. The
+    #   following instance types are available:
+    #
+    #   * stream.standard.small
+    #
+    #   * stream.standard.medium
+    #
+    #   * stream.standard.large
+    #
+    #   * stream.standard.xlarge
+    #
+    #   * stream.standard.2xlarge
+    #   @return [String]
+    #
+    # @!attribute [rw] vpc_config
+    #   The VPC configuration for the app block builder.
+    #
+    #   App block builders require that you specify at least two subnets in
+    #   different availability zones.
+    #   @return [Types::VpcConfig]
+    #
+    # @!attribute [rw] enable_default_internet_access
+    #   Enables or disables default internet access for the app block
+    #   builder.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] iam_role_arn
+    #   The Amazon Resource Name (ARN) of the IAM role to apply to the app
+    #   block builder. To assume a role, the app block builder calls the AWS
+    #   Security Token Service (STS) `AssumeRole` API operation and passes
+    #   the ARN of the role to use. The operation creates a new session with
+    #   temporary credentials. AppStream 2.0 retrieves the temporary
+    #   credentials and creates the **appstream\_machine\_role** credential
+    #   profile on the instance.
+    #
+    #   For more information, see [Using an IAM Role to Grant Permissions to
+    #   Applications and Scripts Running on AppStream 2.0 Streaming
+    #   Instances][1] in the *Amazon AppStream 2.0 Administration Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/appstream2/latest/developerguide/using-iam-roles-to-grant-permissions-to-applications-scripts-streaming-instances.html
+    #   @return [String]
+    #
+    # @!attribute [rw] access_endpoints
+    #   The list of interface VPC endpoint (interface endpoint) objects.
+    #   Administrators can connect to the app block builder only through the
+    #   specified endpoints.
+    #   @return [Array<Types::AccessEndpoint>]
+    #
+    # @!attribute [rw] attributes_to_delete
+    #   The attributes to delete from the app block builder.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/UpdateAppBlockBuilderRequest AWS API Documentation
+    #
+    class UpdateAppBlockBuilderRequest < Struct.new(
+      :name,
+      :description,
+      :display_name,
+      :platform,
+      :instance_type,
+      :vpc_config,
+      :enable_default_internet_access,
+      :iam_role_arn,
+      :access_endpoints,
+      :attributes_to_delete)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] app_block_builder
+    #   Describes an app block builder.
+    #   @return [Types::AppBlockBuilder]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/UpdateAppBlockBuilderResult AWS API Documentation
+    #
+    class UpdateAppBlockBuilderResult < Struct.new(
+      :app_block_builder)
+      SENSITIVE = []
+      include Aws::Structure
+    end
 
     # @!attribute [rw] name
     #   The name of the application. This name is visible to users when
@@ -4486,7 +5455,7 @@ module Aws::AppStream
     #   this time elapses, the instance is terminated and replaced by a new
     #   instance.
     #
-    #   Specify a value between 600 and 360000.
+    #   Specify a value between 600 and 432000.
     #   @return [Integer]
     #
     # @!attribute [rw] disconnect_timeout_in_seconds
@@ -4496,7 +5465,7 @@ module Aws::AppStream
     #   interval, they are connected to their previous session. Otherwise,
     #   they are connected to a new session with a new streaming instance.
     #
-    #   Specify a value between 60 and 360000.
+    #   Specify a value between 60 and 36000.
     #   @return [Integer]
     #
     # @!attribute [rw] delete_vpc_config
@@ -4535,7 +5504,7 @@ module Aws::AppStream
     #   elapses, they are disconnected.
     #
     #   To prevent users from being disconnected due to inactivity, specify
-    #   a value of 0. Otherwise, specify a value between 60 and 3600. The
+    #   a value of 0. Otherwise, specify a value between 60 and 36000. The
     #   default value is 0.
     #
     #   <note markdown="1"> If you enable this feature, we recommend that you specify a value
@@ -4602,6 +5571,11 @@ module Aws::AppStream
     #   only applies to Elastic fleets.
     #   @return [Types::S3Location]
     #
+    # @!attribute [rw] max_sessions_per_instance
+    #   The maximum number of user sessions on an instance. This only
+    #   applies to multi-session fleets.
+    #   @return [Integer]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/UpdateFleetRequest AWS API Documentation
     #
     class UpdateFleetRequest < Struct.new(
@@ -4625,7 +5599,8 @@ module Aws::AppStream
       :platform,
       :max_concurrent_sessions,
       :usb_device_filter_strings,
-      :session_script_s3_location)
+      :session_script_s3_location,
+      :max_sessions_per_instance)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4766,6 +5741,76 @@ module Aws::AppStream
       include Aws::Structure
     end
 
+    # @!attribute [rw] stack_name
+    #   The name of the stack for the theme.
+    #   @return [String]
+    #
+    # @!attribute [rw] footer_links
+    #   The links that are displayed in the footer of the streaming
+    #   application catalog page. These links are helpful resources for
+    #   users, such as the organization's IT support and product marketing
+    #   sites.
+    #   @return [Array<Types::ThemeFooterLink>]
+    #
+    # @!attribute [rw] title_text
+    #   The title that is displayed at the top of the browser tab during
+    #   users' application streaming sessions.
+    #   @return [String]
+    #
+    # @!attribute [rw] theme_styling
+    #   The color theme that is applied to website links, text, and buttons.
+    #   These colors are also applied as accents in the background for the
+    #   streaming application catalog page.
+    #   @return [String]
+    #
+    # @!attribute [rw] organization_logo_s3_location
+    #   The organization logo that appears on the streaming application
+    #   catalog page.
+    #   @return [Types::S3Location]
+    #
+    # @!attribute [rw] favicon_s3_location
+    #   The S3 location of the favicon. The favicon enables users to
+    #   recognize their application streaming site in a browser full of tabs
+    #   or bookmarks. It is displayed at the top of the browser tab for the
+    #   application streaming site during users' streaming sessions.
+    #   @return [Types::S3Location]
+    #
+    # @!attribute [rw] state
+    #   Specifies whether custom branding should be applied to catalog page
+    #   or not.
+    #   @return [String]
+    #
+    # @!attribute [rw] attributes_to_delete
+    #   The attributes to delete.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/UpdateThemeForStackRequest AWS API Documentation
+    #
+    class UpdateThemeForStackRequest < Struct.new(
+      :stack_name,
+      :footer_links,
+      :title_text,
+      :theme_styling,
+      :organization_logo_s3_location,
+      :favicon_s3_location,
+      :state,
+      :attributes_to_delete)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] theme
+    #   The theme object that contains the metadata of the custom branding.
+    #   @return [Types::Theme]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/UpdateThemeForStackResult AWS API Documentation
+    #
+    class UpdateThemeForStackResult < Struct.new(
+      :theme)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Describes information about the usage report subscription.
     #
     # @!attribute [rw] s3_bucket_name
@@ -4880,11 +5925,28 @@ module Aws::AppStream
     #   Indicates whether the action is enabled or disabled.
     #   @return [String]
     #
+    # @!attribute [rw] maximum_length
+    #   Specifies the number of characters that can be copied by end users
+    #   from the local device to the remote session, and to the local device
+    #   from the remote session.
+    #
+    #   This can be specified only for the
+    #   `CLIPBOARD_COPY_FROM_LOCAL_DEVICE` and
+    #   `CLIPBOARD_COPY_TO_LOCAL_DEVICE` actions.
+    #
+    #   This defaults to 20,971,520 (20 MB) when unspecified and the
+    #   permission is `ENABLED`. This can't be specified when the
+    #   permission is `DISABLED`.
+    #
+    #   The value can be between 1 and 20,971,520 (20 MB).
+    #   @return [Integer]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/appstream-2016-12-01/UserSetting AWS API Documentation
     #
     class UserSetting < Struct.new(
       :action,
-      :permission)
+      :permission,
+      :maximum_length)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4975,3 +6037,4 @@ module Aws::AppStream
 
   end
 end
+

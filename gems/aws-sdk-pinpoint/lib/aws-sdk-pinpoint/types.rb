@@ -1257,6 +1257,17 @@ module Aws::Pinpoint
     #   for A/B testing of a campaign.
     #   @return [String]
     #
+    # @!attribute [rw] execution_metrics
+    #   A JSON object that contains metrics relating to the campaign
+    #   execution for this campaign activity. For information about the
+    #   structure and contents of the results, see [Standard Amazon Pinpoint
+    #   analytics metrics][1] in the *Amazon Pinpoint Developer Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com//pinpoint/latest/developerguide/analytics-standard-metrics.html
+    #   @return [Hash<String,String>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/ActivityResponse AWS API Documentation
     #
     class ActivityResponse < Struct.new(
@@ -1272,7 +1283,8 @@ module Aws::Pinpoint
       :timezones_completed_count,
       :timezones_total_count,
       :total_endpoint_count,
-      :treatment_id)
+      :treatment_id,
+      :execution_metrics)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1509,6 +1521,37 @@ module Aws::Pinpoint
       include Aws::Structure
     end
 
+    # The default sending limits for journeys in the application. To
+    # override these limits and define custom limits for a specific journey,
+    # use the Journey resource.
+    #
+    # @!attribute [rw] daily_cap
+    #   The daily number of messages that an endpoint can receive from all
+    #   journeys. The maximum value is 100. If set to 0, this limit will not
+    #   apply.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] timeframe_cap
+    #   The default maximum number of messages that can be sent to an
+    #   endpoint during the specified timeframe for all journeys.
+    #   @return [Types::JourneyTimeframeCap]
+    #
+    # @!attribute [rw] total_cap
+    #   The default maximum number of messages that a single journey can
+    #   sent to a single endpoint. The maximum value is 100. If set to 0,
+    #   this limit will not apply.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/ApplicationSettingsJourneyLimits AWS API Documentation
+    #
+    class ApplicationSettingsJourneyLimits < Struct.new(
+      :daily_cap,
+      :timeframe_cap,
+      :total_cap)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Provides information about an application, including the default
     # settings for an application.
     #
@@ -1555,6 +1598,12 @@ module Aws::Pinpoint
     #   enabled.
     #   @return [Types::QuietTime]
     #
+    # @!attribute [rw] journey_limits
+    #   The default sending limits for journeys in the application. These
+    #   limits apply to each journey for the application but can be
+    #   overridden, on a per journey basis, with the JourneyLimits resource.
+    #   @return [Types::ApplicationSettingsJourneyLimits]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/ApplicationSettingsResource AWS API Documentation
     #
     class ApplicationSettingsResource < Struct.new(
@@ -1562,7 +1611,8 @@ module Aws::Pinpoint
       :campaign_hook,
       :last_modified_date,
       :limits,
-      :quiet_time)
+      :quiet_time,
+      :journey_limits)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1999,6 +2049,15 @@ module Aws::Pinpoint
     #   application.
     #   @return [String]
     #
+    # @!attribute [rw] headers
+    #   The list of [MessageHeaders][1] for the email. You can have up to 15
+    #   MessageHeaders for each email.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/pinpoint/latest/apireference/apps-application-id-campaigns-campaign-id.html#apps-application-id-campaigns-campaign-id-model-messageheader
+    #   @return [Array<Types::MessageHeader>]
+    #
     # @!attribute [rw] html_body
     #   The body of the email, in HTML format, for recipients whose email
     #   clients render HTML content.
@@ -2013,6 +2072,7 @@ module Aws::Pinpoint
     class CampaignEmailMessage < Struct.new(
       :body,
       :from_address,
+      :headers,
       :html_body,
       :title)
       SENSITIVE = []
@@ -2132,7 +2192,7 @@ module Aws::Pinpoint
     #   The maximum number of messages that a campaign can send each second.
     #   For an application, this value specifies the default limit for the
     #   number of messages that campaigns can send each second. The minimum
-    #   value is 50. The maximum value is 20,000.
+    #   value is 1. The maximum value is 20,000.
     #   @return [Integer]
     #
     # @!attribute [rw] total
@@ -4092,6 +4152,11 @@ module Aws::Pinpoint
     #   data for the channel.
     #   @return [String]
     #
+    # @!attribute [rw] orchestration_sending_role_arn
+    #   The ARN of an IAM role for Amazon Pinpoint to use to send email from
+    #   your campaigns or journeys through Amazon SES.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/EmailChannelRequest AWS API Documentation
     #
     class EmailChannelRequest < Struct.new(
@@ -4099,7 +4164,8 @@ module Aws::Pinpoint
       :enabled,
       :from_address,
       :identity,
-      :role_arn)
+      :role_arn,
+      :orchestration_sending_role_arn)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4180,6 +4246,11 @@ module Aws::Pinpoint
     #   channel.
     #   @return [String]
     #
+    # @!attribute [rw] orchestration_sending_role_arn
+    #   The ARN of an IAM role for Amazon Pinpoint to use to send email from
+    #   your campaigns or journeys through Amazon SES.
+    #   @return [String]
+    #
     # @!attribute [rw] version
     #   The current version of the email channel.
     #   @return [Integer]
@@ -4201,6 +4272,7 @@ module Aws::Pinpoint
       :messages_per_second,
       :platform,
       :role_arn,
+      :orchestration_sending_role_arn,
       :version)
       SENSITIVE = []
       include Aws::Structure
@@ -4335,10 +4407,35 @@ module Aws::Pinpoint
     #   on the message template.
     #   @return [String]
     #
+    # @!attribute [rw] headers
+    #   The list of [MessageHeaders][1] for the email. You can have up to 15
+    #   Headers.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/pinpoint/latest/apireference/templates-template-name-email.html#templates-template-name-email-model-messageheader
+    #   @return [Array<Types::MessageHeader>]
+    #
     # @!attribute [rw] tags
-    #   A string-to-string map of key-value pairs that defines the tags to
-    #   associate with the message template. Each tag consists of a required
-    #   tag key and an associated tag value.
+    #   <note markdown="1">As of **22-05-2023** tags has been deprecated for update operations.
+    #   After this date any value in tags is not processed and an error code
+    #   is not returned. To manage tags we recommend using either [Tags][1]
+    #   in the *API Reference for Amazon Pinpoint*,
+    #   [resourcegroupstaggingapi][2] commands in the *AWS Command Line
+    #   Interface Documentation* or [resourcegroupstaggingapi][3] in the
+    #   *AWS SDK*.
+    #
+    #   </note>
+    #
+    #   (Deprecated) A string-to-string map of key-value pairs that defines
+    #   the tags to associate with the message template. Each tag consists
+    #   of a required tag key and an associated tag value.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/pinpoint/latest/apireference/tags-resource-arn.html
+    #   [2]: https://docs.aws.amazon.com/cli/latest/reference/resourcegroupstaggingapi/index.html
+    #   [3]: https://sdk.amazonaws.com/java/api/latest/software/amazon/awssdk/services/resourcegroupstaggingapi/package-summary.html
     #   @return [Hash<String,String>]
     #
     # @!attribute [rw] template_description
@@ -4360,6 +4457,7 @@ module Aws::Pinpoint
       :html_part,
       :recommender_id,
       :subject,
+      :headers,
       :tags,
       :template_description,
       :text_part)
@@ -4407,6 +4505,9 @@ module Aws::Pinpoint
     #   based on the message template.
     #   @return [String]
     #
+    # @!attribute [rw] headers
+    #   @return [Array<Types::MessageHeader>]
+    #
     # @!attribute [rw] tags
     #   A string-to-string map of key-value pairs that identifies the tags
     #   that are associated with the message template. Each tag consists of
@@ -4447,6 +4548,7 @@ module Aws::Pinpoint
       :last_modified_date,
       :recommender_id,
       :subject,
+      :headers,
       :tags,
       :template_description,
       :template_name,
@@ -4515,7 +4617,8 @@ module Aws::Pinpoint
     #   @return [String]
     #
     # @!attribute [rw] id
-    #   The unique identifier for the endpoint in the context of the batch.
+    #   The case insensitive unique identifier for the endpoint in the
+    #   context of the batch. The identifier can't contain `$`, `{` or `}`.
     #   @return [String]
     #
     # @!attribute [rw] location
@@ -4732,8 +4835,6 @@ module Aws::Pinpoint
     #
     #   * THROTTLED - Amazon Pinpoint throttled the operation to send the
     #     message to the endpoint.
-    #
-    #   * TIMEOUT - The message couldn't be sent within the timeout period.
     #
     #   * UNKNOWN\_FAILURE - An unknown error occurred.
     #   @return [String]
@@ -5291,10 +5392,10 @@ module Aws::Pinpoint
     #   to.
     #
     #   For a Kinesis data stream, the ARN format is:
-    #   arn:aws:kinesis:*region*\:*account-id*\:stream/*stream\_name*
+    #   arn:aws:kinesis:*region*:*account-id*:stream/*stream\_name*
     #
     #   For a Kinesis Data Firehose delivery stream, the ARN format is:
-    #   arn:aws:firehose:*region*\:*account-id*\:deliverystream/*stream\_name*
+    #   arn:aws:firehose:*region*:*account-id*:deliverystream/*stream\_name*
     #   @return [String]
     #
     # @!attribute [rw] external_id
@@ -5612,15 +5713,32 @@ module Aws::Pinpoint
     #   that you received from Google to communicate with Google services.
     #   @return [String]
     #
+    # @!attribute [rw] default_authentication_method
+    #   The default authentication method used for GCM. Values are either
+    #   "TOKEN" or "KEY". Defaults to "KEY".
+    #   @return [String]
+    #
     # @!attribute [rw] enabled
     #   Specifies whether to enable the GCM channel for the application.
     #   @return [Boolean]
+    #
+    # @!attribute [rw] service_json
+    #   The contents of the JSON file provided by Google during registration
+    #   in order to generate an access token for authentication. For more
+    #   information see [Migrate from legacy FCM APIs to HTTP v1][1].
+    #
+    #
+    #
+    #   [1]: https://firebase.google.com/docs/cloud-messaging/migrate-v1
+    #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/GCMChannelRequest AWS API Documentation
     #
     class GCMChannelRequest < Struct.new(
       :api_key,
-      :enabled)
+      :default_authentication_method,
+      :enabled,
+      :service_json)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5644,6 +5762,11 @@ module Aws::Pinpoint
     #   that you received from Google to communicate with Google services.
     #   @return [String]
     #
+    # @!attribute [rw] default_authentication_method
+    #   The default authentication method used for GCM. Values are either
+    #   "TOKEN" or "KEY". Defaults to "KEY".
+    #   @return [String]
+    #
     # @!attribute [rw] enabled
     #   Specifies whether the GCM channel is enabled for the application.
     #   @return [Boolean]
@@ -5651,6 +5774,11 @@ module Aws::Pinpoint
     # @!attribute [rw] has_credential
     #   (Not used) This property is retained only for backward
     #   compatibility.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] has_fcm_service_credentials
+    #   Returns true if the JSON file provided by Google during registration
+    #   process was used in the **ServiceJson** field of the request.
     #   @return [Boolean]
     #
     # @!attribute [rw] id
@@ -5685,8 +5813,10 @@ module Aws::Pinpoint
       :application_id,
       :creation_date,
       :credential,
+      :default_authentication_method,
       :enabled,
       :has_credential,
+      :has_fcm_service_credentials,
       :id,
       :is_archived,
       :last_modified_by,
@@ -5750,6 +5880,12 @@ module Aws::Pinpoint
     #
     # @!attribute [rw] image_url
     #   The URL of an image to display in the push notification.
+    #   @return [String]
+    #
+    # @!attribute [rw] preferred_authentication_method
+    #   The preferred authentication method, with valid values "KEY" or
+    #   "TOKEN". If a value isn't provided then the
+    #   **DefaultAuthenticationMethod** is used.
     #   @return [String]
     #
     # @!attribute [rw] priority
@@ -5838,6 +5974,7 @@ module Aws::Pinpoint
       :icon_reference,
       :image_icon_url,
       :image_url,
+      :preferred_authentication_method,
       :priority,
       :raw_content,
       :restricted_package_name,
@@ -6863,6 +7000,127 @@ module Aws::Pinpoint
       include Aws::Structure
     end
 
+    # @!attribute [rw] application_id
+    #   @return [String]
+    #
+    # @!attribute [rw] journey_activity_id
+    #   @return [String]
+    #
+    # @!attribute [rw] journey_id
+    #   @return [String]
+    #
+    # @!attribute [rw] next_token
+    #   @return [String]
+    #
+    # @!attribute [rw] page_size
+    #   @return [String]
+    #
+    # @!attribute [rw] run_id
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/GetJourneyRunExecutionActivityMetricsRequest AWS API Documentation
+    #
+    class GetJourneyRunExecutionActivityMetricsRequest < Struct.new(
+      :application_id,
+      :journey_activity_id,
+      :journey_id,
+      :next_token,
+      :page_size,
+      :run_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] journey_run_execution_activity_metrics_response
+    #   Provides the results of a query that retrieved the data for a
+    #   standard execution metric that applies to a journey activity for a
+    #   particular journey run, and provides information about that query.
+    #   @return [Types::JourneyRunExecutionActivityMetricsResponse]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/GetJourneyRunExecutionActivityMetricsResponse AWS API Documentation
+    #
+    class GetJourneyRunExecutionActivityMetricsResponse < Struct.new(
+      :journey_run_execution_activity_metrics_response)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] application_id
+    #   @return [String]
+    #
+    # @!attribute [rw] journey_id
+    #   @return [String]
+    #
+    # @!attribute [rw] next_token
+    #   @return [String]
+    #
+    # @!attribute [rw] page_size
+    #   @return [String]
+    #
+    # @!attribute [rw] run_id
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/GetJourneyRunExecutionMetricsRequest AWS API Documentation
+    #
+    class GetJourneyRunExecutionMetricsRequest < Struct.new(
+      :application_id,
+      :journey_id,
+      :next_token,
+      :page_size,
+      :run_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] journey_run_execution_metrics_response
+    #   Provides the results of a query that retrieved the data for a
+    #   standard execution metric that applies to a journey run, and
+    #   provides information about that query.
+    #   @return [Types::JourneyRunExecutionMetricsResponse]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/GetJourneyRunExecutionMetricsResponse AWS API Documentation
+    #
+    class GetJourneyRunExecutionMetricsResponse < Struct.new(
+      :journey_run_execution_metrics_response)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] application_id
+    #   @return [String]
+    #
+    # @!attribute [rw] journey_id
+    #   @return [String]
+    #
+    # @!attribute [rw] page_size
+    #   @return [String]
+    #
+    # @!attribute [rw] token
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/GetJourneyRunsRequest AWS API Documentation
+    #
+    class GetJourneyRunsRequest < Struct.new(
+      :application_id,
+      :journey_id,
+      :page_size,
+      :token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] journey_runs_response
+    #   Provides information from all runs of a journey.
+    #   @return [Types::JourneyRunsResponse]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/GetJourneyRunsResponse AWS API Documentation
+    #
+    class GetJourneyRunsResponse < Struct.new(
+      :journey_runs_response)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] template_name
     #   @return [String]
     #
@@ -7822,9 +8080,25 @@ module Aws::Pinpoint
     #   @return [String]
     #
     # @!attribute [rw] tags
-    #   A string-to-string map of key-value pairs that defines the tags to
-    #   associate with the message template. Each tag consists of a required
-    #   tag key and an associated tag value.
+    #   <note markdown="1">As of **22-05-2023** tags has been deprecated for update operations.
+    #   After this date any value in tags is not processed and an error code
+    #   is not returned. To manage tags we recommend using either [Tags][1]
+    #   in the *API Reference for Amazon Pinpoint*,
+    #   [resourcegroupstaggingapi][2] commands in the *AWS Command Line
+    #   Interface Documentation* or [resourcegroupstaggingapi][3] in the
+    #   *AWS SDK*.
+    #
+    #   </note>
+    #
+    #   (Deprecated) A string-to-string map of key-value pairs that defines
+    #   the tags to associate with the message template. Each tag consists
+    #   of a required tag key and an associated tag value.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/pinpoint/latest/apireference/tags-resource-arn.html
+    #   [2]: https://docs.aws.amazon.com/cli/latest/reference/resourcegroupstaggingapi/index.html
+    #   [3]: https://sdk.amazonaws.com/java/api/latest/software/amazon/awssdk/services/resourcegroupstaggingapi/package-summary.html
     #   @return [Hash<String,String>]
     #
     # @!attribute [rw] template_description
@@ -7884,7 +8158,8 @@ module Aws::Pinpoint
     #   @return [String]
     #
     # @!attribute [rw] template_type
-    #   The type of the template.
+    #   The type of channel that the message template is designed for. For
+    #   an in-app message template, this value is INAPP.
     #   @return [String]
     #
     # @!attribute [rw] version
@@ -8054,25 +8329,25 @@ module Aws::Pinpoint
     #   The type of activity that the metric applies to. Possible values
     #   are:
     #
-    #   * CONDITIONAL\_SPLIT - For a yes/no split activity, which is an
+    #   * CONDITIONAL\_SPLIT – For a yes/no split activity, which is an
     #     activity that sends participants down one of two paths in a
     #     journey.
     #
-    #   * HOLDOUT - For a holdout activity, which is an activity that stops
+    #   * HOLDOUT – For a holdout activity, which is an activity that stops
     #     a journey for a specified percentage of participants.
     #
-    #   * MESSAGE - For an email activity, which is an activity that sends
+    #   * MESSAGE – For an email activity, which is an activity that sends
     #     an email message to participants.
     #
-    #   * MULTI\_CONDITIONAL\_SPLIT - For a multivariate split activity,
+    #   * MULTI\_CONDITIONAL\_SPLIT – For a multivariate split activity,
     #     which is an activity that sends participants down one of as many
     #     as five paths in a journey.
     #
-    #   * RANDOM\_SPLIT - For a random split activity, which is an activity
+    #   * RANDOM\_SPLIT – For a random split activity, which is an activity
     #     that sends specified percentages of participants down one of as
     #     many as five paths in a journey.
     #
-    #   * WAIT - For a wait activity, which is an activity that waits for a
+    #   * WAIT – For a wait activity, which is an activity that waits for a
     #     certain amount of time or until a specific date and time before
     #     moving participants to the next activity in a journey.
     #   @return [String]
@@ -8179,7 +8454,20 @@ module Aws::Pinpoint
     #   @return [Integer]
     #
     # @!attribute [rw] endpoint_reentry_interval
+    #   Minimum time that must pass before an endpoint can re-enter a given
+    #   journey.
     #   @return [String]
+    #
+    # @!attribute [rw] timeframe_cap
+    #   The number of messages that an endpoint can receive during the
+    #   specified timeframe.
+    #   @return [Types::JourneyTimeframeCap]
+    #
+    # @!attribute [rw] total_cap
+    #   The maximum number of messages a journey can sent to a single
+    #   endpoint. The maximum value is 100. If set to 0, this limit will not
+    #   apply.
+    #   @return [Integer]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/JourneyLimits AWS API Documentation
     #
@@ -8187,7 +8475,9 @@ module Aws::Pinpoint
       :daily_cap,
       :endpoint_reentry_cap,
       :messages_per_second,
-      :endpoint_reentry_interval)
+      :endpoint_reentry_interval,
+      :timeframe_cap,
+      :total_cap)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -8199,7 +8489,7 @@ module Aws::Pinpoint
     #   The number of seconds that the push notification service should keep
     #   the message, if the service is unable to deliver the notification
     #   the first time. This value is converted to an expiration value when
-    #   it's sent to a push-notification service. If this value is 0, the
+    #   it's sent to a push notification service. If this value is 0, the
     #   service treats the notification as if it expires immediately and the
     #   service doesn't store or try to deliver the notification again.
     #
@@ -8354,9 +8644,13 @@ module Aws::Pinpoint
     #   @return [Hash<String,String>]
     #
     # @!attribute [rw] wait_for_quiet_time
+    #   Indicates whether endpoints in quiet hours should enter a wait
+    #   activity until quiet hours have elapsed.
     #   @return [Boolean]
     #
     # @!attribute [rw] refresh_on_segment_update
+    #   Indicates whether the journey participants should be refreshed when
+    #   a segment is updated.
     #   @return [Boolean]
     #
     # @!attribute [rw] journey_channel_settings
@@ -8364,20 +8658,42 @@ module Aws::Pinpoint
     #   @return [Types::JourneyChannelSettings]
     #
     # @!attribute [rw] sending_schedule
-    #   Indicates if journey have Advance Quiet Time (OpenHours and
-    #   ClosedDays). This flag should be set to true in order to allow
-    #   (OpenHours and ClosedDays)
+    #   Indicates if journey has Advance Quiet Time enabled. This flag
+    #   should be set to true in order to allow using OpenHours and
+    #   ClosedDays.
     #   @return [Boolean]
     #
     # @!attribute [rw] open_hours
-    #   The time when journey allow to send messages. QuietTime should be
+    #   The time when a journey can send messages. QuietTime should be
     #   configured first and SendingSchedule should be set to true.
     #   @return [Types::OpenHours]
     #
     # @!attribute [rw] closed_days
-    #   The time when journey will stop sending messages. QuietTime should
-    #   be configured first and SendingSchedule should be set to true.
+    #   The time when a journey will not send messages. QuietTime should be
+    #   configured first and SendingSchedule should be set to true.
     #   @return [Types::ClosedDays]
+    #
+    # @!attribute [rw] timezone_estimation_methods
+    #   An array of time zone estimation methods, if any, to use for
+    #   determining an [Endpoints][1] time zone if the Endpoint does not
+    #   have a value for the Demographic.Timezone attribute.
+    #
+    #   * PHONE\_NUMBER - A time zone is determined based on the
+    #     Endpoint.Address and Endpoint.Location.Country.
+    #
+    #   * POSTAL\_CODE - A time zone is determined based on the
+    #     Endpoint.Location.PostalCode and Endpoint.Location.Country.
+    #
+    #     <note markdown="1">POSTAL\_CODE detection is only supported in the United States,
+    #     United Kingdom, Australia, New Zealand, Canada, France, Italy,
+    #     Spain, Germany and in regions where Amazon Pinpoint is available.
+    #
+    #     </note>
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/pinpoint/latest/apireference/apps-application-id-endpoints-endpoint-id.html
+    #   @return [Array<String>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/JourneyResponse AWS API Documentation
     #
@@ -8402,7 +8718,185 @@ module Aws::Pinpoint
       :journey_channel_settings,
       :sending_schedule,
       :open_hours,
-      :closed_days)
+      :closed_days,
+      :timezone_estimation_methods)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Provides the results of a query that retrieved the data for a standard
+    # execution metric that applies to a journey activity for a particular
+    # journey run, and provides information about that query.
+    #
+    # @!attribute [rw] activity_type
+    #   The type of activity that the metric applies to. Possible values
+    #   are:
+    #
+    #   * CONDITIONAL\_SPLIT – For a yes/no split activity, which is an
+    #     activity that sends participants down one of two paths in a
+    #     journey.
+    #
+    #   * HOLDOUT – For a holdout activity, which is an activity that stops
+    #     a journey for a specified percentage of participants.
+    #
+    #   * MESSAGE – For an email activity, which is an activity that sends
+    #     an email message to participants.
+    #
+    #   * MULTI\_CONDITIONAL\_SPLIT – For a multivariate split activity,
+    #     which is an activity that sends participants down one of as many
+    #     as five paths in a journey.
+    #
+    #   * RANDOM\_SPLIT – For a random split activity, which is an activity
+    #     that sends specified percentages of participants down one of as
+    #     many as five paths in a journey.
+    #
+    #   * WAIT – For a wait activity, which is an activity that waits for a
+    #     certain amount of time or until a specific date and time before
+    #     moving participants to the next activity in a journey.
+    #   @return [String]
+    #
+    # @!attribute [rw] application_id
+    #   The unique identifier for the application that the metric applies
+    #   to.
+    #   @return [String]
+    #
+    # @!attribute [rw] journey_activity_id
+    #   The unique identifier for the activity that the metric applies to.
+    #   @return [String]
+    #
+    # @!attribute [rw] journey_id
+    #   The unique identifier for the journey that the metric applies to.
+    #   @return [String]
+    #
+    # @!attribute [rw] last_evaluated_time
+    #   The date and time, in ISO 8601 format, when Amazon Pinpoint last
+    #   evaluated the execution status of the activity for this journey run
+    #   and updated the data for the metric.
+    #   @return [String]
+    #
+    # @!attribute [rw] metrics
+    #   A JSON object that contains the results of the query. For
+    #   information about the structure and contents of the results, see see
+    #   [Standard Amazon Pinpoint analytics metrics][1] in the *Amazon
+    #   Pinpoint Developer Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com//pinpoint/latest/developerguide/analytics-standard-metrics.html
+    #   @return [Hash<String,String>]
+    #
+    # @!attribute [rw] run_id
+    #   The unique identifier for the journey run that the metric applies
+    #   to.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/JourneyRunExecutionActivityMetricsResponse AWS API Documentation
+    #
+    class JourneyRunExecutionActivityMetricsResponse < Struct.new(
+      :activity_type,
+      :application_id,
+      :journey_activity_id,
+      :journey_id,
+      :last_evaluated_time,
+      :metrics,
+      :run_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Provides the results of a query that retrieved the data for a standard
+    # execution metric that applies to a journey run, and provides
+    # information about that query.
+    #
+    # @!attribute [rw] application_id
+    #   The unique identifier for the application that the metric applies
+    #   to.
+    #   @return [String]
+    #
+    # @!attribute [rw] journey_id
+    #   The unique identifier for the journey that the metric applies to.
+    #   @return [String]
+    #
+    # @!attribute [rw] last_evaluated_time
+    #   The date and time, in ISO 8601 format, when Amazon Pinpoint last
+    #   evaluated the journey run and updated the data for the metric.
+    #   @return [String]
+    #
+    # @!attribute [rw] metrics
+    #   A JSON object that contains the results of the query. For
+    #   information about the structure and contents of the results, see the
+    #   [Standard Amazon Pinpoint analytics metrics][1] in the *Amazon
+    #   Pinpoint Developer Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com//pinpoint/latest/developerguide/analytics-standard-metrics.html
+    #   @return [Hash<String,String>]
+    #
+    # @!attribute [rw] run_id
+    #   The unique identifier for the journey run that the metric applies
+    #   to.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/JourneyRunExecutionMetricsResponse AWS API Documentation
+    #
+    class JourneyRunExecutionMetricsResponse < Struct.new(
+      :application_id,
+      :journey_id,
+      :last_evaluated_time,
+      :metrics,
+      :run_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Provides information from a specified run of a journey.
+    #
+    # @!attribute [rw] creation_time
+    #   The time when the journey run was created or scheduled, in ISO 8601
+    #   format.
+    #   @return [String]
+    #
+    # @!attribute [rw] last_update_time
+    #   The last time the journey run was updated, in ISO 8601 format..
+    #   @return [String]
+    #
+    # @!attribute [rw] run_id
+    #   The unique identifier for the run.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the journey run.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/JourneyRunResponse AWS API Documentation
+    #
+    class JourneyRunResponse < Struct.new(
+      :creation_time,
+      :last_update_time,
+      :run_id,
+      :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Provides information from all runs of a journey.
+    #
+    # @!attribute [rw] item
+    #   An array of responses, one for each run of the journey
+    #   @return [Array<Types::JourneyRunResponse>]
+    #
+    # @!attribute [rw] next_token
+    #   The string to use in a subsequent request to get the next page of
+    #   results in a paginated response. This value is null if there are no
+    #   additional pages.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/JourneyRunsResponse AWS API Documentation
+    #
+    class JourneyRunsResponse < Struct.new(
+      :item,
+      :next_token)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -8522,6 +9016,29 @@ module Aws::Pinpoint
     #
     class JourneyStateRequest < Struct.new(
       :state)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The number of messages that can be sent to an endpoint during the
+    # specified timeframe for all journeys.
+    #
+    # @!attribute [rw] cap
+    #   The maximum number of messages that all journeys can send to an
+    #   endpoint during the specified timeframe. The maximum value is 100.
+    #   If set to 0, this limit will not apply.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] days
+    #   The length of the timeframe in days. The maximum value is 30. If set
+    #   to 0, this limit will not apply.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/JourneyTimeframeCap AWS API Documentation
+    #
+    class JourneyTimeframeCap < Struct.new(
+      :cap,
+      :days)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -9015,8 +9532,6 @@ module Aws::Pinpoint
     #
     #   * THROTTLED - Amazon Pinpoint throttled the operation to send the
     #     message to the endpoint address.
-    #
-    #   * TIMEOUT - The message couldn't be sent within the timeout period.
     #
     #   * UNKNOWN\_FAILURE - An unknown error occurred.
     #   @return [String]
@@ -9535,9 +10050,25 @@ module Aws::Pinpoint
     #   @return [String]
     #
     # @!attribute [rw] tags
-    #   A string-to-string map of key-value pairs that defines the tags to
-    #   associate with the message template. Each tag consists of a required
-    #   tag key and an associated tag value.
+    #   <note markdown="1">As of **22-05-2023** tags has been deprecated for update operations.
+    #   After this date any value in tags is not processed and an error code
+    #   is not returned. To manage tags we recommend using either [Tags][1]
+    #   in the *API Reference for Amazon Pinpoint*,
+    #   [resourcegroupstaggingapi][2] commands in the *AWS Command Line
+    #   Interface Documentation* or [resourcegroupstaggingapi][3] in the
+    #   *AWS SDK*.
+    #
+    #   </note>
+    #
+    #   (Deprecated) A string-to-string map of key-value pairs that defines
+    #   the tags to associate with the message template. Each tag consists
+    #   of a required tag key and an associated tag value.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/pinpoint/latest/apireference/tags-resource-arn.html
+    #   [2]: https://docs.aws.amazon.com/cli/latest/reference/resourcegroupstaggingapi/index.html
+    #   [3]: https://sdk.amazonaws.com/java/api/latest/software/amazon/awssdk/services/resourcegroupstaggingapi/package-summary.html
     #   @return [Hash<String,String>]
     #
     # @!attribute [rw] template_description
@@ -10305,9 +10836,25 @@ module Aws::Pinpoint
     #   @return [String]
     #
     # @!attribute [rw] tags
-    #   A string-to-string map of key-value pairs that defines the tags to
-    #   associate with the message template. Each tag consists of a required
-    #   tag key and an associated tag value.
+    #   <note markdown="1">As of **22-05-2023** tags has been deprecated for update operations.
+    #   After this date any value in tags is not processed and an error code
+    #   is not returned. To manage tags we recommend using either [Tags][1]
+    #   in the *API Reference for Amazon Pinpoint*,
+    #   [resourcegroupstaggingapi][2] commands in the *AWS Command Line
+    #   Interface Documentation* or [resourcegroupstaggingapi][3] in the
+    #   *AWS SDK*.
+    #
+    #   </note>
+    #
+    #   (Deprecated) A string-to-string map of key-value pairs that defines
+    #   the tags to associate with the message template. Each tag consists
+    #   of a required tag key and an associated tag value.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/pinpoint/latest/apireference/tags-resource-arn.html
+    #   [2]: https://docs.aws.amazon.com/cli/latest/reference/resourcegroupstaggingapi/index.html
+    #   [3]: https://sdk.amazonaws.com/java/api/latest/software/amazon/awssdk/services/resourcegroupstaggingapi/package-summary.html
     #   @return [Hash<String,String>]
     #
     # @!attribute [rw] template_description
@@ -11194,12 +11741,42 @@ module Aws::Pinpoint
     #   such as mobile devices.
     #   @return [Types::SimpleEmailPart]
     #
+    # @!attribute [rw] headers
+    #   List of Headers for the email.
+    #   @return [Array<Types::MessageHeader>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/SimpleEmail AWS API Documentation
     #
     class SimpleEmail < Struct.new(
       :html_part,
       :subject,
-      :text_part)
+      :text_part,
+      :headers)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains the name and value pair of an email header to add to your
+    # email. You can have up to 15 MessageHeaders. A header can contain
+    # information such as the sender, receiver, route, or timestamp.
+    #
+    # @!attribute [rw] name
+    #   The name of the message header. The header name can contain up to
+    #   126 characters.
+    #   @return [String]
+    #
+    # @!attribute [rw] value
+    #   The value of the message header. The header value can contain up to
+    #   870 characters, including the length of any rendered attributes. For
+    #   example if you add the \{CreationDate} attribute, it renders as
+    #   YYYY-MM-DDTHH:MM:SS.SSSZ and is 24 characters in length.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/MessageHeader AWS API Documentation
+    #
+    class MessageHeader < Struct.new(
+      :name,
+      :value)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -11368,13 +11945,19 @@ module Aws::Pinpoint
     #   supported for campaigns.
     #   @return [Types::Template]
     #
+    # @!attribute [rw] in_app_template
+    #   The InApp template to use for the message. The InApp template object
+    #   is not supported for SendMessages.
+    #   @return [Types::Template]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/TemplateConfiguration AWS API Documentation
     #
     class TemplateConfiguration < Struct.new(
       :email_template,
       :push_template,
       :sms_template,
-      :voice_template)
+      :voice_template,
+      :in_app_template)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -11458,7 +12041,7 @@ module Aws::Pinpoint
     #
     # @!attribute [rw] template_type
     #   The type of channel that the message template is designed for.
-    #   Possible values are: EMAIL, PUSH, SMS, and VOICE.
+    #   Possible values are: EMAIL, PUSH, SMS, INAPP, and VOICE.
     #   @return [String]
     #
     # @!attribute [rw] version
@@ -11512,7 +12095,7 @@ module Aws::Pinpoint
     #
     # @!attribute [rw] template_type
     #   The type of channel that the message template is designed for.
-    #   Possible values are: EMAIL, PUSH, SMS, and VOICE.
+    #   Possible values are: EMAIL, PUSH, SMS, INAPP, and VOICE.
     #   @return [String]
     #
     # @!attribute [rw] version
@@ -12837,9 +13420,25 @@ module Aws::Pinpoint
     #   @return [String]
     #
     # @!attribute [rw] tags
-    #   A string-to-string map of key-value pairs that defines the tags to
-    #   associate with the message template. Each tag consists of a required
-    #   tag key and an associated tag value.
+    #   <note markdown="1">As of **22-05-2023** tags has been deprecated for update operations.
+    #   After this date any value in tags is not processed and an error code
+    #   is not returned. To manage tags we recommend using either [Tags][1]
+    #   in the *API Reference for Amazon Pinpoint*,
+    #   [resourcegroupstaggingapi][2] commands in the *AWS Command Line
+    #   Interface Documentation* or [resourcegroupstaggingapi][3] in the
+    #   *AWS SDK*.
+    #
+    #   </note>
+    #
+    #   (Deprecated) A string-to-string map of key-value pairs that defines
+    #   the tags to associate with the message template. Each tag consists
+    #   of a required tag key and an associated tag value.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/pinpoint/latest/apireference/tags-resource-arn.html
+    #   [2]: https://docs.aws.amazon.com/cli/latest/reference/resourcegroupstaggingapi/index.html
+    #   [3]: https://sdk.amazonaws.com/java/api/latest/software/amazon/awssdk/services/resourcegroupstaggingapi/package-summary.html
     #   @return [Hash<String,String>]
     #
     # @!attribute [rw] template_description
@@ -13076,13 +13675,20 @@ module Aws::Pinpoint
     #   campaign or journey.
     #   @return [Types::QuietTime]
     #
+    # @!attribute [rw] journey_limits
+    #   The default sending limits for journeys in the application. These
+    #   limits apply to each journey for the application but can be
+    #   overridden, on a per journey basis, with the JourneyLimits resource.
+    #   @return [Types::ApplicationSettingsJourneyLimits]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/WriteApplicationSettingsRequest AWS API Documentation
     #
     class WriteApplicationSettingsRequest < Struct.new(
       :campaign_hook,
       :cloud_watch_metrics_enabled,
       :limits,
-      :quiet_time)
+      :quiet_time,
+      :journey_limits)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -13147,9 +13753,25 @@ module Aws::Pinpoint
     #   @return [Integer]
     #
     # @!attribute [rw] tags
-    #   A string-to-string map of key-value pairs that defines the tags to
-    #   associate with the campaign. Each tag consists of a required tag key
-    #   and an associated tag value.
+    #   <note markdown="1">As of **22-05-2023** tags has been deprecated for update operations.
+    #   After this date any value in tags is not processed and an error code
+    #   is not returned. To manage tags we recommend using either [Tags][1]
+    #   in the *API Reference for Amazon Pinpoint*,
+    #   [resourcegroupstaggingapi][2] commands in the *AWS Command Line
+    #   Interface Documentation* or [resourcegroupstaggingapi][3] in the
+    #   *AWS SDK*.
+    #
+    #   </note>
+    #
+    #   (Deprecated) A string-to-string map of key-value pairs that defines
+    #   the tags to associate with the campaign. Each tag consists of a
+    #   required tag key and an associated tag value.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/pinpoint/latest/apireference/tags-resource-arn.html
+    #   [2]: https://docs.aws.amazon.com/cli/latest/reference/resourcegroupstaggingapi/index.html
+    #   [3]: https://sdk.amazonaws.com/java/api/latest/software/amazon/awssdk/services/resourcegroupstaggingapi/package-summary.html
     #   @return [Hash<String,String>]
     #
     # @!attribute [rw] template_configuration
@@ -13206,10 +13828,10 @@ module Aws::Pinpoint
     #   publish event data to.
     #
     #   For a Kinesis data stream, the ARN format is:
-    #   arn:aws:kinesis:*region*\:*account-id*\:stream/*stream\_name*
+    #   arn:aws:kinesis:*region*:*account-id*:stream/*stream\_name*
     #
     #   For a Kinesis Data Firehose delivery stream, the ARN format is:
-    #   arn:aws:firehose:*region*\:*account-id*\:deliverystream/*stream\_name*
+    #   arn:aws:firehose:*region*:*account-id*:deliverystream/*stream\_name*
     #   @return [String]
     #
     # @!attribute [rw] role_arn
@@ -13322,9 +13944,13 @@ module Aws::Pinpoint
     #   @return [String]
     #
     # @!attribute [rw] wait_for_quiet_time
+    #   Indicates whether endpoints in quiet hours should enter a wait
+    #   activity until quiet hours have elapsed.
     #   @return [Boolean]
     #
     # @!attribute [rw] refresh_on_segment_update
+    #   Indicates whether the journey participants should be refreshed when
+    #   a segment is updated.
     #   @return [Boolean]
     #
     # @!attribute [rw] journey_channel_settings
@@ -13333,9 +13959,9 @@ module Aws::Pinpoint
     #   @return [Types::JourneyChannelSettings]
     #
     # @!attribute [rw] sending_schedule
-    #   Indicates if journey have Advance Quiet Time (OpenHours and
-    #   ClosedDays). This flag should be set to true in order to allow
-    #   (OpenHours and ClosedDays)
+    #   Indicates if journey has Advance Quiet Time enabled. This flag
+    #   should be set to true in order to allow using OpenHours and
+    #   ClosedDays.
     #   @return [Boolean]
     #
     # @!attribute [rw] open_hours
@@ -13347,6 +13973,28 @@ module Aws::Pinpoint
     #   The time when journey will stop sending messages. QuietTime should
     #   be configured first and SendingSchedule should be set to true.
     #   @return [Types::ClosedDays]
+    #
+    # @!attribute [rw] timezone_estimation_methods
+    #   An array of time zone estimation methods, if any, to use for
+    #   determining an [Endpoints][1] time zone if the Endpoint does not
+    #   have a value for the Demographic.Timezone attribute.
+    #
+    #   * PHONE\_NUMBER - A time zone is determined based on the
+    #     Endpoint.Address and Endpoint.Location.Country.
+    #
+    #   * POSTAL\_CODE - A time zone is determined based on the
+    #     Endpoint.Location.PostalCode and Endpoint.Location.Country.
+    #
+    #     <note markdown="1">POSTAL\_CODE detection is only supported in the United States,
+    #     United Kingdom, Australia, New Zealand, Canada, France, Italy,
+    #     Spain, Germany and in regions where Amazon Pinpoint is available.
+    #
+    #     </note>
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/pinpoint/latest/apireference/apps-application-id-endpoints-endpoint-id.html
+    #   @return [Array<String>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/WriteJourneyRequest AWS API Documentation
     #
@@ -13368,7 +14016,8 @@ module Aws::Pinpoint
       :journey_channel_settings,
       :sending_schedule,
       :open_hours,
-      :closed_days)
+      :closed_days,
+      :timezone_estimation_methods)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -13393,9 +14042,25 @@ module Aws::Pinpoint
     #   @return [Types::SegmentGroupList]
     #
     # @!attribute [rw] tags
-    #   A string-to-string map of key-value pairs that defines the tags to
-    #   associate with the segment. Each tag consists of a required tag key
-    #   and an associated tag value.
+    #   <note markdown="1">As of **22-05-2023** tags has been deprecated for update operations.
+    #   After this date any value in tags is not processed and an error code
+    #   is not returned. To manage tags we recommend using either [Tags][1]
+    #   in the *API Reference for Amazon Pinpoint*,
+    #   [resourcegroupstaggingapi][2] commands in the *AWS Command Line
+    #   Interface Documentation* or [resourcegroupstaggingapi][3] in the
+    #   *AWS SDK*.
+    #
+    #   </note>
+    #
+    #   (Deprecated) A string-to-string map of key-value pairs that defines
+    #   the tags to associate with the segment. Each tag consists of a
+    #   required tag key and an associated tag value.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/pinpoint/latest/apireference/tags-resource-arn.html
+    #   [2]: https://docs.aws.amazon.com/cli/latest/reference/resourcegroupstaggingapi/index.html
+    #   [3]: https://sdk.amazonaws.com/java/api/latest/software/amazon/awssdk/services/resourcegroupstaggingapi/package-summary.html
     #   @return [Hash<String,String>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/WriteSegmentRequest AWS API Documentation
@@ -13458,14 +14123,16 @@ module Aws::Pinpoint
       include Aws::Structure
     end
 
-    # Open Hour Rules.
+    # Specifies the start and end time for OpenHours.
     #
     # @!attribute [rw] start_time
-    #   Local start time in ISO 8601 format.
+    #   The start of the scheduled time, in ISO 8601 format, when the
+    #   channel can send messages.
     #   @return [String]
     #
     # @!attribute [rw] end_time
-    #   Local start time in ISO 8601 format.
+    #   The end of the scheduled time, in ISO 8601 format, when the channel
+    #   can't send messages.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/OpenHoursRule AWS API Documentation
@@ -13477,8 +14144,7 @@ module Aws::Pinpoint
       include Aws::Structure
     end
 
-    # The time when journey allow to send messages. QuietTime should be
-    # configured first and SendingSchedule should be set to true.
+    # Specifies the times when message are allowed to be sent to endpoints.
     #
     # @!attribute [rw] email
     #   Rules for Email Channel.
@@ -13512,18 +14178,18 @@ module Aws::Pinpoint
       include Aws::Structure
     end
 
-    # Closed Days Rule. Part of Journey sending schedule.
+    # Specifies the rule settings for when messages can't be sent.
     #
     # @!attribute [rw] name
-    #   Name of the rule.
+    #   The name of the closed day rule.
     #   @return [String]
     #
     # @!attribute [rw] start_date_time
-    #   Start Datetime in ISO 8601 format.
+    #   Start DateTime ISO 8601 format
     #   @return [String]
     #
     # @!attribute [rw] end_date_time
-    #   End Datetime in ISO 8601 format.
+    #   End DateTime ISO 8601 format
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/pinpoint-2016-12-01/ClosedDaysRule AWS API Documentation
@@ -13536,7 +14202,8 @@ module Aws::Pinpoint
       include Aws::Structure
     end
 
-    # The time when journey will stop sending messages.
+    # The time when a journey will not send messages. QuietTime should be
+    # configured first and SendingSchedule should be set to true.
     #
     # @!attribute [rw] email
     #   Rules for a Channel.
@@ -13572,3 +14239,4 @@ module Aws::Pinpoint
 
   end
 end
+

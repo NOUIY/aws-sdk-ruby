@@ -55,11 +55,15 @@ module Aws::Ivschat
       include Aws::Structure
     end
 
-    # @!attribute [rw] attributes
-    #   Application-provided attributes to encode into the token and attach
-    #   to a chat session. Map keys and values can contain UTF-8 encoded
-    #   text. The maximum length of this field is 1 KB total.
-    #   @return [Hash<String,String>]
+    # @!attribute [rw] room_identifier
+    #   Identifier of the room that the client is trying to access.
+    #   Currently this must be an ARN.
+    #   @return [String]
+    #
+    # @!attribute [rw] user_id
+    #   Application-provided ID that uniquely identifies the user associated
+    #   with this token. This can be any UTF-8 encoded text.
+    #   @return [String]
     #
     # @!attribute [rw] capabilities
     #   Set of capabilities that the user is allowed to perform in the room.
@@ -67,38 +71,29 @@ module Aws::Ivschat
     #   included in all requests).
     #   @return [Array<String>]
     #
-    # @!attribute [rw] room_identifier
-    #   Identifier of the room that the client is trying to access.
-    #   Currently this must be an ARN.
-    #   @return [String]
-    #
     # @!attribute [rw] session_duration_in_minutes
     #   Session duration (in minutes), after which the session expires.
     #   Default: 60 (1 hour).
     #   @return [Integer]
     #
-    # @!attribute [rw] user_id
-    #   Application-provided ID that uniquely identifies the user associated
-    #   with this token. This can be any UTF-8 encoded text.
-    #   @return [String]
+    # @!attribute [rw] attributes
+    #   Application-provided attributes to encode into the token and attach
+    #   to a chat session. Map keys and values can contain UTF-8 encoded
+    #   text. The maximum length of this field is 1 KB total.
+    #   @return [Hash<String,String>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivschat-2020-07-14/CreateChatTokenRequest AWS API Documentation
     #
     class CreateChatTokenRequest < Struct.new(
-      :attributes,
-      :capabilities,
       :room_identifier,
+      :user_id,
+      :capabilities,
       :session_duration_in_minutes,
-      :user_id)
-      SENSITIVE = []
+      :attributes)
+      SENSITIVE = [:user_id, :attributes]
       include Aws::Structure
     end
 
-    # @!attribute [rw] session_expiration_time
-    #   Time after which an end user's session is no longer valid. This is
-    #   an ISO 8601 timestamp; *note that this is returned as a string*.
-    #   @return [Time]
-    #
     # @!attribute [rw] token
     #   The issued client token, encrypted.
     #   @return [String]
@@ -109,16 +104,25 @@ module Aws::Ivschat
     #   returned as a string*.
     #   @return [Time]
     #
+    # @!attribute [rw] session_expiration_time
+    #   Time after which an end user's session is no longer valid. This is
+    #   an ISO 8601 timestamp; *note that this is returned as a string*.
+    #   @return [Time]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivschat-2020-07-14/CreateChatTokenResponse AWS API Documentation
     #
     class CreateChatTokenResponse < Struct.new(
-      :session_expiration_time,
       :token,
-      :token_expiration_time)
-      SENSITIVE = []
+      :token_expiration_time,
+      :session_expiration_time)
+      SENSITIVE = [:token]
       include Aws::Structure
     end
 
+    # @!attribute [rw] name
+    #   Logging-configuration name. The value does not need to be unique.
+    #   @return [String]
+    #
     # @!attribute [rw] destination_configuration
     #   A complex type that contains a destination configuration for where
     #   chat content will be logged. There can be only one type of
@@ -126,27 +130,24 @@ module Aws::Ivschat
     #   `destinationConfiguration`.
     #   @return [Types::DestinationConfiguration]
     #
-    # @!attribute [rw] name
-    #   Logging-configuration name. The value does not need to be unique.
-    #   @return [String]
-    #
     # @!attribute [rw] tags
     #   Tags to attach to the resource. Array of maps, each of the form
-    #   `string:string (key:value)`. See [Tagging AWS Resources][1] for
+    #   `string:string (key:value)`. See [Best practices and strategies][1]
+    #   in *Tagging Amazon Web Services Resources and Tag Editor* for
     #   details, including restrictions that apply to tags and "Tag naming
     #   limits and requirements"; Amazon IVS Chat has no constraints on
     #   tags beyond what is documented there.
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html
+    #   [1]: https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html
     #   @return [Hash<String,String>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivschat-2020-07-14/CreateLoggingConfigurationRequest AWS API Documentation
     #
     class CreateLoggingConfigurationRequest < Struct.new(
-      :destination_configuration,
       :name,
+      :destination_configuration,
       :tags)
       SENSITIVE = []
       include Aws::Structure
@@ -156,10 +157,25 @@ module Aws::Ivschat
     #   Logging-configuration ARN, assigned by the system.
     #   @return [String]
     #
+    # @!attribute [rw] id
+    #   Logging-configuration ID, generated by the system. This is a
+    #   relative identifier, the part of the ARN that uniquely identifies
+    #   the logging configuration.
+    #   @return [String]
+    #
     # @!attribute [rw] create_time
     #   Time when the logging configuration was created. This is an ISO 8601
     #   timestamp; *note that this is returned as a string*.
     #   @return [Time]
+    #
+    # @!attribute [rw] update_time
+    #   Time of the logging configuration’s last update. This is an ISO 8601
+    #   timestamp; *note that this is returned as a string*.
+    #   @return [Time]
+    #
+    # @!attribute [rw] name
+    #   Logging-configuration name, from the request (if specified).
+    #   @return [String]
     #
     # @!attribute [rw] destination_configuration
     #   A complex type that contains a destination configuration for where
@@ -167,16 +183,6 @@ module Aws::Ivschat
     #   type of destination (`cloudWatchLogs`, `firehose`, or `s3`) in a
     #   `destinationConfiguration`.
     #   @return [Types::DestinationConfiguration]
-    #
-    # @!attribute [rw] id
-    #   Logging-configuration ID, generated by the system. This is a
-    #   relative identifier, the part of the ARN that uniquely identifies
-    #   the logging configuration.
-    #   @return [String]
-    #
-    # @!attribute [rw] name
-    #   Logging-configuration name, from the request (if specified).
-    #   @return [String]
     #
     # @!attribute [rw] state
     #   The state of the logging configuration. When the state is `ACTIVE`,
@@ -188,29 +194,29 @@ module Aws::Ivschat
     #   Array of maps, each of the form `string:string (key:value)`.
     #   @return [Hash<String,String>]
     #
-    # @!attribute [rw] update_time
-    #   Time of the logging configuration’s last update. This is an ISO 8601
-    #   timestamp; *note that this is returned as a string*.
-    #   @return [Time]
-    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivschat-2020-07-14/CreateLoggingConfigurationResponse AWS API Documentation
     #
     class CreateLoggingConfigurationResponse < Struct.new(
       :arn,
-      :create_time,
-      :destination_configuration,
       :id,
+      :create_time,
+      :update_time,
       :name,
+      :destination_configuration,
       :state,
-      :tags,
-      :update_time)
+      :tags)
       SENSITIVE = []
       include Aws::Structure
     end
 
-    # @!attribute [rw] logging_configuration_identifiers
-    #   Array of logging-configuration identifiers attached to the room.
-    #   @return [Array<String>]
+    # @!attribute [rw] name
+    #   Room name. The value does not need to be unique.
+    #   @return [String]
+    #
+    # @!attribute [rw] maximum_message_rate_per_second
+    #   Maximum number of messages per second that can be sent to the room
+    #   (by all clients). Default: 10.
+    #   @return [Integer]
     #
     # @!attribute [rw] maximum_message_length
     #   Maximum number of characters in a single message. Messages are
@@ -218,40 +224,36 @@ module Aws::Ivschat
     #   rune/code-point count, not number of bytes. Default: 500.
     #   @return [Integer]
     #
-    # @!attribute [rw] maximum_message_rate_per_second
-    #   Maximum number of messages per second that can be sent to the room
-    #   (by all clients). Default: 10.
-    #   @return [Integer]
-    #
     # @!attribute [rw] message_review_handler
     #   Configuration information for optional review of messages.
     #   @return [Types::MessageReviewHandler]
     #
-    # @!attribute [rw] name
-    #   Room name. The value does not need to be unique.
-    #   @return [String]
-    #
     # @!attribute [rw] tags
     #   Tags to attach to the resource. Array of maps, each of the form
-    #   `string:string (key:value)`. See [Tagging AWS Resources][1] for
+    #   `string:string (key:value)`. See [Best practices and strategies][1]
+    #   in *Tagging Amazon Web Services Resources and Tag Editor* for
     #   details, including restrictions that apply to tags and "Tag naming
     #   limits and requirements"; Amazon IVS Chat has no constraints beyond
     #   what is documented there.
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html
+    #   [1]: https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html
     #   @return [Hash<String,String>]
+    #
+    # @!attribute [rw] logging_configuration_identifiers
+    #   Array of logging-configuration identifiers attached to the room.
+    #   @return [Array<String>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivschat-2020-07-14/CreateRoomRequest AWS API Documentation
     #
     class CreateRoomRequest < Struct.new(
-      :logging_configuration_identifiers,
-      :maximum_message_length,
-      :maximum_message_rate_per_second,
-      :message_review_handler,
       :name,
-      :tags)
+      :maximum_message_rate_per_second,
+      :maximum_message_length,
+      :message_review_handler,
+      :tags,
+      :logging_configuration_identifiers)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -260,61 +262,61 @@ module Aws::Ivschat
     #   Room ARN, assigned by the system.
     #   @return [String]
     #
-    # @!attribute [rw] create_time
-    #   Time when the room was created. This is an ISO 8601 timestamp; *note
-    #   that this is returned as a string*.
-    #   @return [Time]
-    #
     # @!attribute [rw] id
     #   Room ID, generated by the system. This is a relative identifier, the
     #   part of the ARN that uniquely identifies the room.
     #   @return [String]
     #
-    # @!attribute [rw] logging_configuration_identifiers
-    #   Array of logging configurations attached to the room, from the
-    #   request (if specified).
-    #   @return [Array<String>]
-    #
-    # @!attribute [rw] maximum_message_length
-    #   Maximum number of characters in a single message, from the request
-    #   (if specified).
-    #   @return [Integer]
-    #
-    # @!attribute [rw] maximum_message_rate_per_second
-    #   Maximum number of messages per second that can be sent to the room
-    #   (by all clients), from the request (if specified).
-    #   @return [Integer]
-    #
-    # @!attribute [rw] message_review_handler
-    #   Configuration information for optional review of messages.
-    #   @return [Types::MessageReviewHandler]
-    #
     # @!attribute [rw] name
     #   Room name, from the request (if specified).
     #   @return [String]
     #
-    # @!attribute [rw] tags
-    #   Tags attached to the resource, from the request (if specified).
-    #   @return [Hash<String,String>]
+    # @!attribute [rw] create_time
+    #   Time when the room was created. This is an ISO 8601 timestamp; *note
+    #   that this is returned as a string*.
+    #   @return [Time]
     #
     # @!attribute [rw] update_time
     #   Time of the room’s last update. This is an ISO 8601 timestamp; *note
     #   that this is returned as a string*.
     #   @return [Time]
     #
+    # @!attribute [rw] maximum_message_rate_per_second
+    #   Maximum number of messages per second that can be sent to the room
+    #   (by all clients), from the request (if specified).
+    #   @return [Integer]
+    #
+    # @!attribute [rw] maximum_message_length
+    #   Maximum number of characters in a single message, from the request
+    #   (if specified).
+    #   @return [Integer]
+    #
+    # @!attribute [rw] message_review_handler
+    #   Configuration information for optional review of messages.
+    #   @return [Types::MessageReviewHandler]
+    #
+    # @!attribute [rw] tags
+    #   Tags attached to the resource, from the request (if specified).
+    #   @return [Hash<String,String>]
+    #
+    # @!attribute [rw] logging_configuration_identifiers
+    #   Array of logging configurations attached to the room, from the
+    #   request (if specified).
+    #   @return [Array<String>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivschat-2020-07-14/CreateRoomResponse AWS API Documentation
     #
     class CreateRoomResponse < Struct.new(
       :arn,
-      :create_time,
       :id,
-      :logging_configuration_identifiers,
-      :maximum_message_length,
-      :maximum_message_rate_per_second,
-      :message_review_handler,
       :name,
+      :create_time,
+      :update_time,
+      :maximum_message_rate_per_second,
+      :maximum_message_length,
+      :message_review_handler,
       :tags,
-      :update_time)
+      :logging_configuration_identifiers)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -331,6 +333,11 @@ module Aws::Ivschat
       include Aws::Structure
     end
 
+    # @!attribute [rw] room_identifier
+    #   Identifier of the room where the message should be deleted.
+    #   Currently this must be an ARN.
+    #   @return [String]
+    #
     # @!attribute [rw] id
     #   ID of the message to be deleted. This is the `Id` field in the
     #   received message (see [ Message (Subscribe)][1] in the Chat
@@ -345,17 +352,12 @@ module Aws::Ivschat
     #   Reason for deleting the message.
     #   @return [String]
     #
-    # @!attribute [rw] room_identifier
-    #   Identifier of the room where the message should be deleted.
-    #   Currently this must be an ARN.
-    #   @return [String]
-    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivschat-2020-07-14/DeleteMessageRequest AWS API Documentation
     #
     class DeleteMessageRequest < Struct.new(
+      :room_identifier,
       :id,
-      :reason,
-      :room_identifier)
+      :reason)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -393,6 +395,11 @@ module Aws::Ivschat
     #
     # @note DestinationConfiguration is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of DestinationConfiguration corresponding to the set member.
     #
+    # @!attribute [rw] s3
+    #   An Amazon S3 destination configuration where chat activity will be
+    #   logged.
+    #   @return [Types::S3DestinationConfiguration]
+    #
     # @!attribute [rw] cloud_watch_logs
     #   An Amazon CloudWatch Logs destination configuration where chat
     #   activity will be logged.
@@ -403,32 +410,23 @@ module Aws::Ivschat
     #   activity will be logged.
     #   @return [Types::FirehoseDestinationConfiguration]
     #
-    # @!attribute [rw] s3
-    #   An Amazon S3 destination configuration where chat activity will be
-    #   logged.
-    #   @return [Types::S3DestinationConfiguration]
-    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivschat-2020-07-14/DestinationConfiguration AWS API Documentation
     #
     class DestinationConfiguration < Struct.new(
+      :s3,
       :cloud_watch_logs,
       :firehose,
-      :s3,
       :unknown)
       SENSITIVE = []
       include Aws::Structure
       include Aws::Structure::Union
 
+      class S3 < DestinationConfiguration; end
       class CloudWatchLogs < DestinationConfiguration; end
       class Firehose < DestinationConfiguration; end
-      class S3 < DestinationConfiguration; end
       class Unknown < DestinationConfiguration; end
     end
 
-    # @!attribute [rw] reason
-    #   Reason for disconnecting the user.
-    #   @return [String]
-    #
     # @!attribute [rw] room_identifier
     #   Identifier of the room from which the user's clients should be
     #   disconnected. Currently this must be an ARN.
@@ -438,13 +436,17 @@ module Aws::Ivschat
     #   ID of the user (connection) to disconnect from the room.
     #   @return [String]
     #
+    # @!attribute [rw] reason
+    #   Reason for disconnecting the user.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivschat-2020-07-14/DisconnectUserRequest AWS API Documentation
     #
     class DisconnectUserRequest < Struct.new(
-      :reason,
       :room_identifier,
-      :user_id)
-      SENSITIVE = []
+      :user_id,
+      :reason)
+      SENSITIVE = [:user_id]
       include Aws::Structure
     end
 
@@ -484,10 +486,25 @@ module Aws::Ivschat
     #   ARN).
     #   @return [String]
     #
+    # @!attribute [rw] id
+    #   Logging-configuration ID, generated by the system. This is a
+    #   relative identifier, the part of the ARN that uniquely identifies
+    #   the logging configuration.
+    #   @return [String]
+    #
     # @!attribute [rw] create_time
     #   Time when the logging configuration was created. This is an ISO 8601
     #   timestamp; *note that this is returned as a string*.
     #   @return [Time]
+    #
+    # @!attribute [rw] update_time
+    #   Time of the logging configuration’s last update. This is an ISO 8601
+    #   timestamp; *note that this is returned as a string*.
+    #   @return [Time]
+    #
+    # @!attribute [rw] name
+    #   Logging-configuration name. This value does not need to be unique.
+    #   @return [String]
     #
     # @!attribute [rw] destination_configuration
     #   A complex type that contains a destination configuration for where
@@ -495,16 +512,6 @@ module Aws::Ivschat
     #   (`cloudWatchLogs`, `firehose`, or `s3`) in a
     #   `destinationConfiguration`.
     #   @return [Types::DestinationConfiguration]
-    #
-    # @!attribute [rw] id
-    #   Logging-configuration ID, generated by the system. This is a
-    #   relative identifier, the part of the ARN that uniquely identifies
-    #   the logging configuration.
-    #   @return [String]
-    #
-    # @!attribute [rw] name
-    #   Logging-configuration name. This value does not need to be unique.
-    #   @return [String]
     #
     # @!attribute [rw] state
     #   The state of the logging configuration. When the state is `ACTIVE`,
@@ -516,22 +523,17 @@ module Aws::Ivschat
     #   `string:string (key:value)`.
     #   @return [Hash<String,String>]
     #
-    # @!attribute [rw] update_time
-    #   Time of the logging configuration’s last update. This is an ISO 8601
-    #   timestamp; *note that this is returned as a string*.
-    #   @return [Time]
-    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivschat-2020-07-14/GetLoggingConfigurationResponse AWS API Documentation
     #
     class GetLoggingConfigurationResponse < Struct.new(
       :arn,
-      :create_time,
-      :destination_configuration,
       :id,
+      :create_time,
+      :update_time,
       :name,
+      :destination_configuration,
       :state,
-      :tags,
-      :update_time)
+      :tags)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -553,19 +555,29 @@ module Aws::Ivschat
     #   Room ARN, from the request (if `identifier` was an ARN).
     #   @return [String]
     #
-    # @!attribute [rw] create_time
-    #   Time when the room was created. This is an ISO 8601 timestamp; *note
-    #   that this is returned as a string*.
-    #   @return [Time]
-    #
     # @!attribute [rw] id
     #   Room ID, generated by the system. This is a relative identifier, the
     #   part of the ARN that uniquely identifies the room.
     #   @return [String]
     #
-    # @!attribute [rw] logging_configuration_identifiers
-    #   Array of logging configurations attached to the room.
-    #   @return [Array<String>]
+    # @!attribute [rw] name
+    #   Room name. The value does not need to be unique.
+    #   @return [String]
+    #
+    # @!attribute [rw] create_time
+    #   Time when the room was created. This is an ISO 8601 timestamp; *note
+    #   that this is returned as a string*.
+    #   @return [Time]
+    #
+    # @!attribute [rw] update_time
+    #   Time of the room’s last update. This is an ISO 8601 timestamp; *note
+    #   that this is returned as a string*.
+    #   @return [Time]
+    #
+    # @!attribute [rw] maximum_message_rate_per_second
+    #   Maximum number of messages per second that can be sent to the room
+    #   (by all clients). Default: 10.
+    #   @return [Integer]
     #
     # @!attribute [rw] maximum_message_length
     #   Maximum number of characters in a single message. Messages are
@@ -573,42 +585,32 @@ module Aws::Ivschat
     #   rune/code-point count, not number of bytes. Default: 500.
     #   @return [Integer]
     #
-    # @!attribute [rw] maximum_message_rate_per_second
-    #   Maximum number of messages per second that can be sent to the room
-    #   (by all clients). Default: 10.
-    #   @return [Integer]
-    #
     # @!attribute [rw] message_review_handler
     #   Configuration information for optional review of messages.
     #   @return [Types::MessageReviewHandler]
-    #
-    # @!attribute [rw] name
-    #   Room name. The value does not need to be unique.
-    #   @return [String]
     #
     # @!attribute [rw] tags
     #   Tags attached to the resource. Array of maps, each of the form
     #   `string:string (key:value)`.
     #   @return [Hash<String,String>]
     #
-    # @!attribute [rw] update_time
-    #   Time of the room’s last update. This is an ISO 8601 timestamp; *note
-    #   that this is returned as a string*.
-    #   @return [Time]
+    # @!attribute [rw] logging_configuration_identifiers
+    #   Array of logging configurations attached to the room.
+    #   @return [Array<String>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivschat-2020-07-14/GetRoomResponse AWS API Documentation
     #
     class GetRoomResponse < Struct.new(
       :arn,
-      :create_time,
       :id,
-      :logging_configuration_identifiers,
-      :maximum_message_length,
-      :maximum_message_rate_per_second,
-      :message_review_handler,
       :name,
+      :create_time,
+      :update_time,
+      :maximum_message_rate_per_second,
+      :maximum_message_length,
+      :message_review_handler,
       :tags,
-      :update_time)
+      :logging_configuration_identifiers)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -624,20 +626,20 @@ module Aws::Ivschat
       include Aws::Structure
     end
 
-    # @!attribute [rw] max_results
-    #   Maximum number of logging configurations to return. Default: 50.
-    #   @return [Integer]
-    #
     # @!attribute [rw] next_token
     #   The first logging configurations to retrieve. This is used for
     #   pagination; see the `nextToken` response field.
     #   @return [String]
     #
+    # @!attribute [rw] max_results
+    #   Maximum number of logging configurations to return. Default: 50.
+    #   @return [Integer]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivschat-2020-07-14/ListLoggingConfigurationsRequest AWS API Documentation
     #
     class ListLoggingConfigurationsRequest < Struct.new(
-      :max_results,
-      :next_token)
+      :next_token,
+      :max_results)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -662,8 +664,13 @@ module Aws::Ivschat
       include Aws::Structure
     end
 
-    # @!attribute [rw] logging_configuration_identifier
-    #   Logging-configuration identifier.
+    # @!attribute [rw] name
+    #   Filters the list to match the specified room name.
+    #   @return [String]
+    #
+    # @!attribute [rw] next_token
+    #   The first room to retrieve. This is used for pagination; see the
+    #   `nextToken` response field.
     #   @return [String]
     #
     # @!attribute [rw] max_results
@@ -674,41 +681,36 @@ module Aws::Ivschat
     #   Filters the list to match the specified message review handler URI.
     #   @return [String]
     #
-    # @!attribute [rw] name
-    #   Filters the list to match the specified room name.
-    #   @return [String]
-    #
-    # @!attribute [rw] next_token
-    #   The first room to retrieve. This is used for pagination; see the
-    #   `nextToken` response field.
+    # @!attribute [rw] logging_configuration_identifier
+    #   Logging-configuration identifier.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivschat-2020-07-14/ListRoomsRequest AWS API Documentation
     #
     class ListRoomsRequest < Struct.new(
-      :logging_configuration_identifier,
+      :name,
+      :next_token,
       :max_results,
       :message_review_handler_uri,
-      :name,
-      :next_token)
+      :logging_configuration_identifier)
       SENSITIVE = []
       include Aws::Structure
     end
 
+    # @!attribute [rw] rooms
+    #   List of the matching rooms (summary information only).
+    #   @return [Array<Types::RoomSummary>]
+    #
     # @!attribute [rw] next_token
     #   If there are more rooms than `maxResults`, use `nextToken` in the
     #   request to get the next set.
     #   @return [String]
     #
-    # @!attribute [rw] rooms
-    #   List of the matching rooms (summary information only).
-    #   @return [Array<Types::RoomSummary>]
-    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivschat-2020-07-14/ListRoomsResponse AWS API Documentation
     #
     class ListRoomsResponse < Struct.new(
-      :next_token,
-      :rooms)
+      :rooms,
+      :next_token)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -745,25 +747,30 @@ module Aws::Ivschat
     #   Logging-configuration ARN.
     #   @return [String]
     #
-    # @!attribute [rw] create_time
-    #   Time when the logging configuration was created. This is an ISO 8601
-    #   timestamp; *note that this is returned as a string*.
-    #   @return [Time]
-    #
-    # @!attribute [rw] destination_configuration
-    #   A complex type that contains a destination configuration for where
-    #   chat content will be logged.
-    #   @return [Types::DestinationConfiguration]
-    #
     # @!attribute [rw] id
     #   Logging-configuration ID, generated by the system. This is a
     #   relative identifier, the part of the ARN that uniquely identifies
     #   the room.
     #   @return [String]
     #
+    # @!attribute [rw] create_time
+    #   Time when the logging configuration was created. This is an ISO 8601
+    #   timestamp; *note that this is returned as a string*.
+    #   @return [Time]
+    #
+    # @!attribute [rw] update_time
+    #   Time of the logging configuration’s last update. This is an ISO 8601
+    #   timestamp; *note that this is returned as a string*.
+    #   @return [Time]
+    #
     # @!attribute [rw] name
     #   Logging-configuration name. The value does not need to be unique.
     #   @return [String]
+    #
+    # @!attribute [rw] destination_configuration
+    #   A complex type that contains a destination configuration for where
+    #   chat content will be logged.
+    #   @return [Types::DestinationConfiguration]
     #
     # @!attribute [rw] state
     #   The state of the logging configuration. When this is `ACTIVE`, the
@@ -772,37 +779,38 @@ module Aws::Ivschat
     #
     # @!attribute [rw] tags
     #   Tags to attach to the resource. Array of maps, each of the form
-    #   `string:string (key:value)`. See [Tagging AWS Resources][1] for
+    #   `string:string (key:value)`. See [Best practices and strategies][1]
+    #   in *Tagging Amazon Web Services Resources and Tag Editor* for
     #   details, including restrictions that apply to tags and "Tag naming
     #   limits and requirements"; Amazon IVS Chat has no constraints on
     #   tags beyond what is documented there.
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html
+    #   [1]: https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html
     #   @return [Hash<String,String>]
-    #
-    # @!attribute [rw] update_time
-    #   Time of the logging configuration’s last update. This is an ISO 8601
-    #   timestamp; *note that this is returned as a string*.
-    #   @return [Time]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivschat-2020-07-14/LoggingConfigurationSummary AWS API Documentation
     #
     class LoggingConfigurationSummary < Struct.new(
       :arn,
-      :create_time,
-      :destination_configuration,
       :id,
+      :create_time,
+      :update_time,
       :name,
+      :destination_configuration,
       :state,
-      :tags,
-      :update_time)
+      :tags)
       SENSITIVE = []
       include Aws::Structure
     end
 
     # Configuration information for optional message review.
+    #
+    # @!attribute [rw] uri
+    #   Identifier of the message review handler. Currently this must be an
+    #   ARN of a lambda function.
+    #   @return [String]
     #
     # @!attribute [rw] fallback_result
     #   Specifies the fallback behavior (whether the message is allowed or
@@ -817,16 +825,11 @@ module Aws::Ivschat
     #   [1]: https://docs.aws.amazon.com/ivs/latest/userguide/service-quotas.html
     #   @return [String]
     #
-    # @!attribute [rw] uri
-    #   Identifier of the message review handler. Currently this must be an
-    #   ARN of a lambda function.
-    #   @return [String]
-    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivschat-2020-07-14/MessageReviewHandler AWS API Documentation
     #
     class MessageReviewHandler < Struct.new(
-      :fallback_result,
-      :uri)
+      :uri,
+      :fallback_result)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -867,56 +870,57 @@ module Aws::Ivschat
     #   Room ARN.
     #   @return [String]
     #
-    # @!attribute [rw] create_time
-    #   Time when the room was created. This is an ISO 8601 timestamp; *note
-    #   that this is returned as a string*.
-    #   @return [Time]
-    #
     # @!attribute [rw] id
     #   Room ID, generated by the system. This is a relative identifier, the
     #   part of the ARN that uniquely identifies the room.
     #   @return [String]
     #
-    # @!attribute [rw] logging_configuration_identifiers
-    #   List of logging-configuration identifiers attached to the room.
-    #   @return [Array<String>]
+    # @!attribute [rw] name
+    #   Room name. The value does not need to be unique.
+    #   @return [String]
     #
     # @!attribute [rw] message_review_handler
     #   Configuration information for optional review of messages.
     #   @return [Types::MessageReviewHandler]
     #
-    # @!attribute [rw] name
-    #   Room name. The value does not need to be unique.
-    #   @return [String]
-    #
-    # @!attribute [rw] tags
-    #   Tags attached to the resource. Array of maps, each of the form
-    #   `string:string (key:value)`. See [Tagging AWS Resources][1] for
-    #   details, including restrictions that apply to tags and "Tag naming
-    #   limits and requirements"; Amazon IVS Chat has no constraints beyond
-    #   what is documented there.
-    #
-    #
-    #
-    #   [1]: https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html
-    #   @return [Hash<String,String>]
+    # @!attribute [rw] create_time
+    #   Time when the room was created. This is an ISO 8601 timestamp; *note
+    #   that this is returned as a string*.
+    #   @return [Time]
     #
     # @!attribute [rw] update_time
     #   Time of the room’s last update. This is an ISO 8601 timestamp; *note
     #   that this is returned as a string*.
     #   @return [Time]
     #
+    # @!attribute [rw] tags
+    #   Tags attached to the resource. Array of maps, each of the form
+    #   `string:string (key:value)`. See [Best practices and strategies][1]
+    #   in *Tagging Amazon Web Services Resources and Tag Editor* for
+    #   details, including restrictions that apply to tags and "Tag naming
+    #   limits and requirements"; Amazon IVS Chat has no constraints beyond
+    #   what is documented there.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html
+    #   @return [Hash<String,String>]
+    #
+    # @!attribute [rw] logging_configuration_identifiers
+    #   List of logging-configuration identifiers attached to the room.
+    #   @return [Array<String>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivschat-2020-07-14/RoomSummary AWS API Documentation
     #
     class RoomSummary < Struct.new(
       :arn,
-      :create_time,
       :id,
-      :logging_configuration_identifiers,
-      :message_review_handler,
       :name,
+      :message_review_handler,
+      :create_time,
+      :update_time,
       :tags,
-      :update_time)
+      :logging_configuration_identifiers)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -935,26 +939,26 @@ module Aws::Ivschat
       include Aws::Structure
     end
 
-    # @!attribute [rw] attributes
-    #   Application-defined metadata to attach to the event sent to clients.
-    #   The maximum length of the metadata is 1 KB total.
-    #   @return [Hash<String,String>]
-    #
-    # @!attribute [rw] event_name
-    #   Application-defined name of the event to send to clients.
-    #   @return [String]
-    #
     # @!attribute [rw] room_identifier
     #   Identifier of the room to which the event will be sent. Currently
     #   this must be an ARN.
     #   @return [String]
     #
+    # @!attribute [rw] event_name
+    #   Application-defined name of the event to send to clients.
+    #   @return [String]
+    #
+    # @!attribute [rw] attributes
+    #   Application-defined metadata to attach to the event sent to clients.
+    #   The maximum length of the metadata is 1 KB total.
+    #   @return [Hash<String,String>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivschat-2020-07-14/SendEventRequest AWS API Documentation
     #
     class SendEventRequest < Struct.new(
-      :attributes,
+      :room_identifier,
       :event_name,
-      :room_identifier)
+      :attributes)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -973,9 +977,6 @@ module Aws::Ivschat
       include Aws::Structure
     end
 
-    # @!attribute [rw] limit
-    #   @return [Integer]
-    #
     # @!attribute [rw] message
     #   @return [String]
     #
@@ -985,13 +986,16 @@ module Aws::Ivschat
     # @!attribute [rw] resource_type
     #   @return [String]
     #
+    # @!attribute [rw] limit
+    #   @return [Integer]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivschat-2020-07-14/ServiceQuotaExceededException AWS API Documentation
     #
     class ServiceQuotaExceededException < Struct.new(
-      :limit,
       :message,
       :resource_id,
-      :resource_type)
+      :resource_type,
+      :limit)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1002,14 +1006,15 @@ module Aws::Ivschat
     #
     # @!attribute [rw] tags
     #   Array of tags to be added or updated. Array of maps, each of the
-    #   form `string:string (key:value)`. See [Tagging AWS Resources][1] for
-    #   details, including restrictions that apply to tags and "Tag naming
-    #   limits and requirements"; Amazon IVS Chat has no constraints beyond
-    #   what is documented there.
+    #   form `string:string (key:value)`. See [Best practices and
+    #   strategies][1] in *Tagging Amazon Web Services Resources and Tag
+    #   Editor* for details, including restrictions that apply to tags and
+    #   "Tag naming limits and requirements"; Amazon IVS Chat has no
+    #   constraints beyond what is documented there.
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html
+    #   [1]: https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html
     #   @return [Hash<String,String>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivschat-2020-07-14/TagResourceRequest AWS API Documentation
@@ -1025,9 +1030,6 @@ module Aws::Ivschat
     #
     class TagResourceResponse < Aws::EmptyStructure; end
 
-    # @!attribute [rw] limit
-    #   @return [Integer]
-    #
     # @!attribute [rw] message
     #   @return [String]
     #
@@ -1037,13 +1039,16 @@ module Aws::Ivschat
     # @!attribute [rw] resource_type
     #   @return [String]
     #
+    # @!attribute [rw] limit
+    #   @return [Integer]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivschat-2020-07-14/ThrottlingException AWS API Documentation
     #
     class ThrottlingException < Struct.new(
-      :limit,
       :message,
       :resource_id,
-      :resource_type)
+      :resource_type,
+      :limit)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1054,14 +1059,15 @@ module Aws::Ivschat
     #
     # @!attribute [rw] tag_keys
     #   Array of tags to be removed. Array of maps, each of the form
-    #   `string:string (key:value)`. See [Tagging AWS Resources][1] for
+    #   `string:string (key:value)`. See [Best practices and strategies][1]
+    #   in *Tagging Amazon Web Services Resources and Tag Editor* for
     #   details, including restrictions that apply to tags and "Tag naming
     #   limits and requirements"; Amazon IVS Chat has no constraints beyond
     #   what is documented there.
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html
+    #   [1]: https://docs.aws.amazon.com/tag-editor/latest/userguide/best-practices-and-strats.html
     #   @return [Array<String>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivschat-2020-07-14/UntagResourceRequest AWS API Documentation
@@ -1077,13 +1083,6 @@ module Aws::Ivschat
     #
     class UntagResourceResponse < Aws::EmptyStructure; end
 
-    # @!attribute [rw] destination_configuration
-    #   A complex type that contains a destination configuration for where
-    #   chat content will be logged. There can be only one type of
-    #   destination (`cloudWatchLogs`, `firehose`, or `s3`) in a
-    #   `destinationConfiguration`.
-    #   @return [Types::DestinationConfiguration]
-    #
     # @!attribute [rw] identifier
     #   Identifier of the logging configuration to be updated.
     #   @return [String]
@@ -1092,12 +1091,19 @@ module Aws::Ivschat
     #   Logging-configuration name. The value does not need to be unique.
     #   @return [String]
     #
+    # @!attribute [rw] destination_configuration
+    #   A complex type that contains a destination configuration for where
+    #   chat content will be logged. There can be only one type of
+    #   destination (`cloudWatchLogs`, `firehose`, or `s3`) in a
+    #   `destinationConfiguration`.
+    #   @return [Types::DestinationConfiguration]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivschat-2020-07-14/UpdateLoggingConfigurationRequest AWS API Documentation
     #
     class UpdateLoggingConfigurationRequest < Struct.new(
-      :destination_configuration,
       :identifier,
-      :name)
+      :name,
+      :destination_configuration)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1107,10 +1113,25 @@ module Aws::Ivschat
     #   ARN).
     #   @return [String]
     #
+    # @!attribute [rw] id
+    #   Logging-configuration ID, generated by the system. This is a
+    #   relative identifier, the part of the ARN that uniquely identifies
+    #   the room.
+    #   @return [String]
+    #
     # @!attribute [rw] create_time
     #   Time when the logging configuration was created. This is an ISO 8601
     #   timestamp; *note that this is returned as a string*.
     #   @return [Time]
+    #
+    # @!attribute [rw] update_time
+    #   Time of the logging configuration’s last update. This is an ISO 8601
+    #   timestamp; *note that this is returned as a string*.
+    #   @return [Time]
+    #
+    # @!attribute [rw] name
+    #   Logging-configuration name, from the request (if specified).
+    #   @return [String]
     #
     # @!attribute [rw] destination_configuration
     #   A complex type that contains a destination configuration for where
@@ -1118,16 +1139,6 @@ module Aws::Ivschat
     #   type of destination (`cloudWatchLogs`, `firehose`, or `s3`) in a
     #   `destinationConfiguration`.
     #   @return [Types::DestinationConfiguration]
-    #
-    # @!attribute [rw] id
-    #   Logging-configuration ID, generated by the system. This is a
-    #   relative identifier, the part of the ARN that uniquely identifies
-    #   the room.
-    #   @return [String]
-    #
-    # @!attribute [rw] name
-    #   Logging-configuration name, from the request (if specified).
-    #   @return [String]
     #
     # @!attribute [rw] state
     #   The state of the logging configuration. When the state is `ACTIVE`,
@@ -1139,22 +1150,17 @@ module Aws::Ivschat
     #   `string:string (key:value)`.
     #   @return [Hash<String,String>]
     #
-    # @!attribute [rw] update_time
-    #   Time of the logging configuration’s last update. This is an ISO 8601
-    #   timestamp; *note that this is returned as a string*.
-    #   @return [Time]
-    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivschat-2020-07-14/UpdateLoggingConfigurationResponse AWS API Documentation
     #
     class UpdateLoggingConfigurationResponse < Struct.new(
       :arn,
-      :create_time,
-      :destination_configuration,
       :id,
+      :create_time,
+      :update_time,
       :name,
+      :destination_configuration,
       :state,
-      :tags,
-      :update_time)
+      :tags)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1163,19 +1169,19 @@ module Aws::Ivschat
     #   Identifier of the room to be updated. Currently this must be an ARN.
     #   @return [String]
     #
-    # @!attribute [rw] logging_configuration_identifiers
-    #   Array of logging-configuration identifiers attached to the room.
-    #   @return [Array<String>]
+    # @!attribute [rw] name
+    #   Room name. The value does not need to be unique.
+    #   @return [String]
+    #
+    # @!attribute [rw] maximum_message_rate_per_second
+    #   Maximum number of messages per second that can be sent to the room
+    #   (by all clients). Default: 10.
+    #   @return [Integer]
     #
     # @!attribute [rw] maximum_message_length
     #   The maximum number of characters in a single message. Messages are
     #   expected to be UTF-8 encoded and this limit applies specifically to
     #   rune/code-point count, not number of bytes. Default: 500.
-    #   @return [Integer]
-    #
-    # @!attribute [rw] maximum_message_rate_per_second
-    #   Maximum number of messages per second that can be sent to the room
-    #   (by all clients). Default: 10.
     #   @return [Integer]
     #
     # @!attribute [rw] message_review_handler
@@ -1184,19 +1190,19 @@ module Aws::Ivschat
     #   the specified room.
     #   @return [Types::MessageReviewHandler]
     #
-    # @!attribute [rw] name
-    #   Room name. The value does not need to be unique.
-    #   @return [String]
+    # @!attribute [rw] logging_configuration_identifiers
+    #   Array of logging-configuration identifiers attached to the room.
+    #   @return [Array<String>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivschat-2020-07-14/UpdateRoomRequest AWS API Documentation
     #
     class UpdateRoomRequest < Struct.new(
       :identifier,
-      :logging_configuration_identifiers,
-      :maximum_message_length,
+      :name,
       :maximum_message_rate_per_second,
+      :maximum_message_length,
       :message_review_handler,
-      :name)
+      :logging_configuration_identifiers)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1205,103 +1211,104 @@ module Aws::Ivschat
     #   Room ARN, from the request (if `identifier` was an ARN).
     #   @return [String]
     #
-    # @!attribute [rw] create_time
-    #   Time when the room was created. This is an ISO 8601 timestamp; *note
-    #   that this is returned as a string*.
-    #   @return [Time]
-    #
     # @!attribute [rw] id
     #   Room ID, generated by the system. This is a relative identifier, the
     #   part of the ARN that uniquely identifies the room.
     #   @return [String]
     #
-    # @!attribute [rw] logging_configuration_identifiers
-    #   Array of logging configurations attached to the room, from the
-    #   request (if specified).
-    #   @return [Array<String>]
-    #
-    # @!attribute [rw] maximum_message_length
-    #   Maximum number of characters in a single message, from the request
-    #   (if specified).
-    #   @return [Integer]
-    #
-    # @!attribute [rw] maximum_message_rate_per_second
-    #   Maximum number of messages per second that can be sent to the room
-    #   (by all clients), from the request (if specified).
-    #   @return [Integer]
-    #
-    # @!attribute [rw] message_review_handler
-    #   Configuration information for optional review of messages.
-    #   @return [Types::MessageReviewHandler]
-    #
     # @!attribute [rw] name
     #   Room name, from the request (if specified).
     #   @return [String]
     #
-    # @!attribute [rw] tags
-    #   Tags attached to the resource. Array of maps, each of the form
-    #   `string:string (key:value)`.
-    #   @return [Hash<String,String>]
+    # @!attribute [rw] create_time
+    #   Time when the room was created. This is an ISO 8601 timestamp; *note
+    #   that this is returned as a string*.
+    #   @return [Time]
     #
     # @!attribute [rw] update_time
     #   Time of the room’s last update. This is an ISO 8601 timestamp; *note
     #   that this is returned as a string*.
     #   @return [Time]
     #
+    # @!attribute [rw] maximum_message_rate_per_second
+    #   Maximum number of messages per second that can be sent to the room
+    #   (by all clients), from the request (if specified).
+    #   @return [Integer]
+    #
+    # @!attribute [rw] maximum_message_length
+    #   Maximum number of characters in a single message, from the request
+    #   (if specified).
+    #   @return [Integer]
+    #
+    # @!attribute [rw] message_review_handler
+    #   Configuration information for optional review of messages.
+    #   @return [Types::MessageReviewHandler]
+    #
+    # @!attribute [rw] tags
+    #   Tags attached to the resource. Array of maps, each of the form
+    #   `string:string (key:value)`.
+    #   @return [Hash<String,String>]
+    #
+    # @!attribute [rw] logging_configuration_identifiers
+    #   Array of logging configurations attached to the room, from the
+    #   request (if specified).
+    #   @return [Array<String>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivschat-2020-07-14/UpdateRoomResponse AWS API Documentation
     #
     class UpdateRoomResponse < Struct.new(
       :arn,
-      :create_time,
       :id,
-      :logging_configuration_identifiers,
-      :maximum_message_length,
-      :maximum_message_rate_per_second,
-      :message_review_handler,
       :name,
+      :create_time,
+      :update_time,
+      :maximum_message_rate_per_second,
+      :maximum_message_length,
+      :message_review_handler,
       :tags,
-      :update_time)
+      :logging_configuration_identifiers)
       SENSITIVE = []
       include Aws::Structure
     end
 
-    # @!attribute [rw] field_list
-    #   @return [Array<Types::ValidationExceptionField>]
-    #
     # @!attribute [rw] message
     #   @return [String]
     #
     # @!attribute [rw] reason
     #   @return [String]
     #
+    # @!attribute [rw] field_list
+    #   @return [Array<Types::ValidationExceptionField>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivschat-2020-07-14/ValidationException AWS API Documentation
     #
     class ValidationException < Struct.new(
-      :field_list,
       :message,
-      :reason)
+      :reason,
+      :field_list)
       SENSITIVE = []
       include Aws::Structure
     end
 
     # This object is used in the ValidationException error.
     #
-    # @!attribute [rw] message
-    #   Explanation of the reason for the validation error.
-    #   @return [String]
-    #
     # @!attribute [rw] name
     #   Name of the field which failed validation.
+    #   @return [String]
+    #
+    # @!attribute [rw] message
+    #   Explanation of the reason for the validation error.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ivschat-2020-07-14/ValidationExceptionField AWS API Documentation
     #
     class ValidationExceptionField < Struct.new(
-      :message,
-      :name)
+      :name,
+      :message)
       SENSITIVE = []
       include Aws::Structure
     end
 
   end
 end
+

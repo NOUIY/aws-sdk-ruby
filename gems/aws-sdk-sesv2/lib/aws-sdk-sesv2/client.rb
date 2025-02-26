@@ -7,33 +7,34 @@
 #
 # WARNING ABOUT GENERATED CODE
 
-require 'seahorse/client/plugins/content_length.rb'
-require 'aws-sdk-core/plugins/credentials_configuration.rb'
-require 'aws-sdk-core/plugins/logging.rb'
-require 'aws-sdk-core/plugins/param_converter.rb'
-require 'aws-sdk-core/plugins/param_validator.rb'
-require 'aws-sdk-core/plugins/user_agent.rb'
-require 'aws-sdk-core/plugins/helpful_socket_errors.rb'
-require 'aws-sdk-core/plugins/retry_errors.rb'
-require 'aws-sdk-core/plugins/global_configuration.rb'
-require 'aws-sdk-core/plugins/regional_endpoint.rb'
-require 'aws-sdk-core/plugins/endpoint_discovery.rb'
-require 'aws-sdk-core/plugins/endpoint_pattern.rb'
-require 'aws-sdk-core/plugins/response_paging.rb'
-require 'aws-sdk-core/plugins/stub_responses.rb'
-require 'aws-sdk-core/plugins/idempotency_token.rb'
-require 'aws-sdk-core/plugins/jsonvalue_converter.rb'
-require 'aws-sdk-core/plugins/client_metrics_plugin.rb'
-require 'aws-sdk-core/plugins/client_metrics_send_plugin.rb'
-require 'aws-sdk-core/plugins/transfer_encoding.rb'
-require 'aws-sdk-core/plugins/http_checksum.rb'
-require 'aws-sdk-core/plugins/checksum_algorithm.rb'
-require 'aws-sdk-core/plugins/defaults_mode.rb'
-require 'aws-sdk-core/plugins/recursion_detection.rb'
-require 'aws-sdk-core/plugins/sign.rb'
-require 'aws-sdk-core/plugins/protocols/rest_json.rb'
-
-Aws::Plugins::GlobalConfiguration.add_identifier(:sesv2)
+require 'seahorse/client/plugins/content_length'
+require 'aws-sdk-core/plugins/credentials_configuration'
+require 'aws-sdk-core/plugins/logging'
+require 'aws-sdk-core/plugins/param_converter'
+require 'aws-sdk-core/plugins/param_validator'
+require 'aws-sdk-core/plugins/user_agent'
+require 'aws-sdk-core/plugins/helpful_socket_errors'
+require 'aws-sdk-core/plugins/retry_errors'
+require 'aws-sdk-core/plugins/global_configuration'
+require 'aws-sdk-core/plugins/regional_endpoint'
+require 'aws-sdk-core/plugins/endpoint_discovery'
+require 'aws-sdk-core/plugins/endpoint_pattern'
+require 'aws-sdk-core/plugins/response_paging'
+require 'aws-sdk-core/plugins/stub_responses'
+require 'aws-sdk-core/plugins/idempotency_token'
+require 'aws-sdk-core/plugins/invocation_id'
+require 'aws-sdk-core/plugins/jsonvalue_converter'
+require 'aws-sdk-core/plugins/client_metrics_plugin'
+require 'aws-sdk-core/plugins/client_metrics_send_plugin'
+require 'aws-sdk-core/plugins/transfer_encoding'
+require 'aws-sdk-core/plugins/http_checksum'
+require 'aws-sdk-core/plugins/checksum_algorithm'
+require 'aws-sdk-core/plugins/request_compression'
+require 'aws-sdk-core/plugins/defaults_mode'
+require 'aws-sdk-core/plugins/recursion_detection'
+require 'aws-sdk-core/plugins/telemetry'
+require 'aws-sdk-core/plugins/sign'
+require 'aws-sdk-core/plugins/protocols/rest_json'
 
 module Aws::SESV2
   # An API client for SESV2.  To construct a client, you need to configure a `:region` and `:credentials`.
@@ -71,20 +72,28 @@ module Aws::SESV2
     add_plugin(Aws::Plugins::ResponsePaging)
     add_plugin(Aws::Plugins::StubResponses)
     add_plugin(Aws::Plugins::IdempotencyToken)
+    add_plugin(Aws::Plugins::InvocationId)
     add_plugin(Aws::Plugins::JsonvalueConverter)
     add_plugin(Aws::Plugins::ClientMetricsPlugin)
     add_plugin(Aws::Plugins::ClientMetricsSendPlugin)
     add_plugin(Aws::Plugins::TransferEncoding)
     add_plugin(Aws::Plugins::HttpChecksum)
     add_plugin(Aws::Plugins::ChecksumAlgorithm)
+    add_plugin(Aws::Plugins::RequestCompression)
     add_plugin(Aws::Plugins::DefaultsMode)
     add_plugin(Aws::Plugins::RecursionDetection)
+    add_plugin(Aws::Plugins::Telemetry)
     add_plugin(Aws::Plugins::Sign)
     add_plugin(Aws::Plugins::Protocols::RestJson)
     add_plugin(Aws::SESV2::Plugins::Endpoints)
 
     # @overload initialize(options)
     #   @param [Hash] options
+    #
+    #   @option options [Array<Seahorse::Client::Plugin>] :plugins ([]])
+    #     A list of plugins to apply to the client. Each plugin is either a
+    #     class name or an instance of a plugin class.
+    #
     #   @option options [required, Aws::CredentialProvider] :credentials
     #     Your AWS credentials. This can be an instance of any one of the
     #     following classes:
@@ -119,13 +128,15 @@ module Aws::SESV2
     #     locations will be searched for credentials:
     #
     #     * `Aws.config[:credentials]`
-    #     * The `:access_key_id`, `:secret_access_key`, and `:session_token` options.
-    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']
+    #     * The `:access_key_id`, `:secret_access_key`, `:session_token`, and
+    #       `:account_id` options.
+    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'],
+    #       ENV['AWS_SESSION_TOKEN'], and ENV['AWS_ACCOUNT_ID']
     #     * `~/.aws/credentials`
     #     * `~/.aws/config`
     #     * EC2/ECS IMDS instance profile - When used by default, the timeouts
     #       are very aggressive. Construct and pass an instance of
-    #       `Aws::InstanceProfileCredentails` or `Aws::ECSCredentials` to
+    #       `Aws::InstanceProfileCredentials` or `Aws::ECSCredentials` to
     #       enable retries and extended timeouts. Instance profile credential
     #       fetching can be disabled by setting ENV['AWS_EC2_METADATA_DISABLED']
     #       to true.
@@ -143,6 +154,8 @@ module Aws::SESV2
     #     * `~/.aws/config`
     #
     #   @option options [String] :access_key_id
+    #
+    #   @option options [String] :account_id
     #
     #   @option options [Boolean] :active_endpoint_cache (false)
     #     When set to `true`, a thread polling for endpoints will be running in
@@ -190,10 +203,20 @@ module Aws::SESV2
     #     Set to true to disable SDK automatically adding host prefix
     #     to default service endpoint when available.
     #
-    #   @option options [String] :endpoint
-    #     The client endpoint is normally constructed from the `:region`
-    #     option. You should only configure an `:endpoint` when connecting
-    #     to test or custom endpoints. This should be a valid HTTP(S) URI.
+    #   @option options [Boolean] :disable_request_compression (false)
+    #     When set to 'true' the request body will not be compressed
+    #     for supported operations.
+    #
+    #   @option options [String, URI::HTTPS, URI::HTTP] :endpoint
+    #     Normally you should not configure the `:endpoint` option
+    #     directly. This is normally constructed from the `:region`
+    #     option. Configuring `:endpoint` is normally reserved for
+    #     connecting to test or custom endpoints. The endpoint should
+    #     be a URI formatted like:
+    #
+    #         'http://example.com'
+    #         'https://example.com'
+    #         'http://example.com:123'
     #
     #   @option options [Integer] :endpoint_cache_max_entries (1000)
     #     Used for the maximum size limit of the LRU cache storing endpoints data
@@ -209,6 +232,10 @@ module Aws::SESV2
     #
     #   @option options [Boolean] :endpoint_discovery (false)
     #     When set to `true`, endpoint discovery will be enabled for operations when available.
+    #
+    #   @option options [Boolean] :ignore_configured_endpoint_urls
+    #     Setting to true disables use of endpoint URLs provided via environment
+    #     variables and the shared configuration file.
     #
     #   @option options [Aws::Log::Formatter] :log_formatter (Aws::Log::Formatter.default)
     #     The log formatter.
@@ -229,6 +256,34 @@ module Aws::SESV2
     #   @option options [String] :profile ("default")
     #     Used when loading credentials from the shared credentials file
     #     at HOME/.aws/credentials.  When not specified, 'default' is used.
+    #
+    #   @option options [String] :request_checksum_calculation ("when_supported")
+    #     Determines when a checksum will be calculated for request payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, a checksum will be
+    #       calculated for all request payloads of operations modeled with the
+    #       `httpChecksum` trait where `requestChecksumRequired` is `true` and/or a
+    #       `requestAlgorithmMember` is modeled.
+    #     * `when_required` - When set, a checksum will only be calculated for
+    #       request payloads of operations modeled with the  `httpChecksum` trait where
+    #       `requestChecksumRequired` is `true` or where a `requestAlgorithmMember`
+    #       is modeled and supplied.
+    #
+    #   @option options [Integer] :request_min_compression_size_bytes (10240)
+    #     The minimum size in bytes that triggers compression for request
+    #     bodies. The value must be non-negative integer value between 0
+    #     and 10485780 bytes inclusive.
+    #
+    #   @option options [String] :response_checksum_validation ("when_supported")
+    #     Determines when checksum validation will be performed on response payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, checksum validation is performed on all
+    #       response payloads of operations modeled with the `httpChecksum` trait where
+    #       `responseAlgorithms` is modeled, except when no modeled checksum algorithms
+    #       are supported.
+    #     * `when_required` - When set, checksum validation is not performed on
+    #       response payloads of operations unless the checksum algorithm is supported and
+    #       the `requestValidationModeMember` member is set to `ENABLED`.
     #
     #   @option options [Proc] :retry_backoff
     #     A proc or lambda used for backoff. Defaults to 2**retries * retry_base_delay.
@@ -274,10 +329,24 @@ module Aws::SESV2
     #       throttling.  This is a provisional mode that may change behavior
     #       in the future.
     #
+    #   @option options [String] :sdk_ua_app_id
+    #     A unique and opaque application ID that is appended to the
+    #     User-Agent header as app/sdk_ua_app_id. It should have a
+    #     maximum length of 50. This variable is sourced from environment
+    #     variable AWS_SDK_UA_APP_ID or the shared config profile attribute sdk_ua_app_id.
     #
     #   @option options [String] :secret_access_key
     #
     #   @option options [String] :session_token
+    #
+    #   @option options [Array] :sigv4a_signing_region_set
+    #     A list of regions that should be signed with SigV4a signing. When
+    #     not passed, a default `:sigv4a_signing_region_set` is searched for
+    #     in the following locations:
+    #
+    #     * `Aws.config[:sigv4a_signing_region_set]`
+    #     * `ENV['AWS_SIGV4A_SIGNING_REGION_SET']`
+    #     * `~/.aws/config`
     #
     #   @option options [Boolean] :stub_responses (false)
     #     Causes the client to return stubbed responses. By default
@@ -287,6 +356,16 @@ module Aws::SESV2
     #
     #     ** Please note ** When response stubbing is enabled, no HTTP
     #     requests are made, and retries are disabled.
+    #
+    #   @option options [Aws::Telemetry::TelemetryProviderBase] :telemetry_provider (Aws::Telemetry::NoOpTelemetryProvider)
+    #     Allows you to provide a telemetry provider, which is used to
+    #     emit telemetry data. By default, uses `NoOpTelemetryProvider` which
+    #     will not record or emit any telemetry data. The SDK supports the
+    #     following telemetry providers:
+    #
+    #     * OpenTelemetry (OTel) - To use the OTel provider, install and require the
+    #     `opentelemetry-sdk` gem and then, pass in an instance of a
+    #     `Aws::Telemetry::OTelProvider` for telemetry provider.
     #
     #   @option options [Aws::TokenProvider] :token_provider
     #     A Bearer Token Provider. This can be an instance of any one of the
@@ -315,52 +394,75 @@ module Aws::SESV2
     #     sending the request.
     #
     #   @option options [Aws::SESV2::EndpointProvider] :endpoint_provider
-    #     The endpoint provider used to resolve endpoints. Any object that responds to `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to `Aws::SESV2::EndpointParameters`
+    #     The endpoint provider used to resolve endpoints. Any object that responds to
+    #     `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+    #     `Aws::SESV2::EndpointParameters`.
     #
-    #   @option options [URI::HTTP,String] :http_proxy A proxy to send
-    #     requests through.  Formatted like 'http://proxy.com:123'.
+    #   @option options [Float] :http_continue_timeout (1)
+    #     The number of seconds to wait for a 100-continue response before sending the
+    #     request body.  This option has no effect unless the request has "Expect"
+    #     header set to "100-continue".  Defaults to `nil` which  disables this
+    #     behaviour.  This value can safely be set per request on the session.
     #
-    #   @option options [Float] :http_open_timeout (15) The number of
-    #     seconds to wait when opening a HTTP session before raising a
-    #     `Timeout::Error`.
+    #   @option options [Float] :http_idle_timeout (5)
+    #     The number of seconds a connection is allowed to sit idle before it
+    #     is considered stale.  Stale connections are closed and removed from the
+    #     pool before making a request.
     #
-    #   @option options [Float] :http_read_timeout (60) The default
-    #     number of seconds to wait for response data.  This value can
-    #     safely be set per-request on the session.
+    #   @option options [Float] :http_open_timeout (15)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :http_idle_timeout (5) The number of
-    #     seconds a connection is allowed to sit idle before it is
-    #     considered stale.  Stale connections are closed and removed
-    #     from the pool before making a request.
+    #   @option options [URI::HTTP,String] :http_proxy
+    #     A proxy to send requests through.  Formatted like 'http://proxy.com:123'.
     #
-    #   @option options [Float] :http_continue_timeout (1) The number of
-    #     seconds to wait for a 100-continue response before sending the
-    #     request body.  This option has no effect unless the request has
-    #     "Expect" header set to "100-continue".  Defaults to `nil` which
-    #     disables this behaviour.  This value can safely be set per
-    #     request on the session.
+    #   @option options [Float] :http_read_timeout (60)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :ssl_timeout (nil) Sets the SSL timeout
-    #     in seconds.
+    #   @option options [Boolean] :http_wire_trace (false)
+    #     When `true`,  HTTP debug output will be sent to the `:logger`.
     #
-    #   @option options [Boolean] :http_wire_trace (false) When `true`,
-    #     HTTP debug output will be sent to the `:logger`.
+    #   @option options [Proc] :on_chunk_received
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the response body is received. It provides three arguments: the chunk,
+    #     the number of bytes received, and the total number of
+    #     bytes in the response (or nil if the server did not send a `content-length`).
     #
-    #   @option options [Boolean] :ssl_verify_peer (true) When `true`,
-    #     SSL peer certificates are verified when establishing a
-    #     connection.
+    #   @option options [Proc] :on_chunk_sent
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the request body is sent. It provides three arguments: the chunk,
+    #     the number of bytes read from the body, and the total number of
+    #     bytes in the body.
     #
-    #   @option options [String] :ssl_ca_bundle Full path to the SSL
-    #     certificate authority bundle file that should be used when
-    #     verifying peer certificates.  If you do not pass
-    #     `:ssl_ca_bundle` or `:ssl_ca_directory` the the system default
-    #     will be used if available.
+    #   @option options [Boolean] :raise_response_errors (true)
+    #     When `true`, response errors are raised.
     #
-    #   @option options [String] :ssl_ca_directory Full path of the
-    #     directory that contains the unbundled SSL certificate
+    #   @option options [String] :ssl_ca_bundle
+    #     Full path to the SSL certificate authority bundle file that should be used when
+    #     verifying peer certificates.  If you do not pass `:ssl_ca_bundle` or
+    #     `:ssl_ca_directory` the the system default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_directory
+    #     Full path of the directory that contains the unbundled SSL certificate
     #     authority files for verifying peer certificates.  If you do
-    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the
-    #     system default will be used if available.
+    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the system
+    #     default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_store
+    #     Sets the X509::Store to verify peer certificate.
+    #
+    #   @option options [OpenSSL::X509::Certificate] :ssl_cert
+    #     Sets a client certificate when creating http connections.
+    #
+    #   @option options [OpenSSL::PKey] :ssl_key
+    #     Sets a client key when creating http connections.
+    #
+    #   @option options [Float] :ssl_timeout
+    #     Sets the SSL timeout in seconds
+    #
+    #   @option options [Boolean] :ssl_verify_peer (true)
+    #     When `true`, SSL peer certificates are verified when establishing a connection.
     #
     def initialize(*args)
       super
@@ -421,6 +523,37 @@ module Aws::SESV2
       req.send_request(options)
     end
 
+    # Cancels an export job.
+    #
+    # @option params [required, String] :job_id
+    #   The export job ID.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    #
+    # @example Example: Cancel export job
+    #
+    #   # Cancels the export job with ID ef28cf62-9d8e-4b60-9283-b09816c99a99
+    #
+    #   resp = client.cancel_export_job({
+    #     job_id: "ef28cf62-9d8e-4b60-9283-b09816c99a99", 
+    #   })
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.cancel_export_job({
+    #     job_id: "JobId", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sesv2-2019-09-27/CancelExportJob AWS API Documentation
+    #
+    # @overload cancel_export_job(params = {})
+    # @param [Hash] params ({})
+    def cancel_export_job(params = {}, options = {})
+      req = build_request(:cancel_export_job, params)
+      req.send_request(options)
+    end
+
     # Create a configuration set. *Configuration sets* are groups of rules
     # that you can apply to the emails that you send. You apply a
     # configuration set to an email by specifying the name of the
@@ -461,6 +594,10 @@ module Aws::SESV2
     #   An object that defines the VDM options for emails that you send using
     #   the configuration set.
     #
+    # @option params [Types::ArchivingOptions] :archiving_options
+    #   An object that defines the MailManager archiving options for emails
+    #   that you send using the configuration set.
+    #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
     # @example Request syntax with placeholder values
@@ -469,10 +606,12 @@ module Aws::SESV2
     #     configuration_set_name: "ConfigurationSetName", # required
     #     tracking_options: {
     #       custom_redirect_domain: "CustomRedirectDomain", # required
+    #       https_policy: "REQUIRE", # accepts REQUIRE, REQUIRE_OPEN_ONLY, OPTIONAL
     #     },
     #     delivery_options: {
     #       tls_policy: "REQUIRE", # accepts REQUIRE, OPTIONAL
     #       sending_pool_name: "PoolName",
+    #       max_delivery_seconds: 1,
     #     },
     #     reputation_options: {
     #       reputation_metrics_enabled: false,
@@ -498,6 +637,9 @@ module Aws::SESV2
     #         optimized_shared_delivery: "ENABLED", # accepts ENABLED, DISABLED
     #       },
     #     },
+    #     archiving_options: {
+    #       archive_arn: "ArchiveArn",
+    #     },
     #   })
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/sesv2-2019-09-27/CreateConfigurationSet AWS API Documentation
@@ -512,10 +654,8 @@ module Aws::SESV2
     # Create an event destination. *Events* include message sends,
     # deliveries, opens, clicks, bounces, and complaints. *Event
     # destinations* are places that you can send information about these
-    # events to. For example, you can send event data to Amazon SNS to
-    # receive notifications when you receive bounces or complaints, or you
-    # can use Amazon Kinesis Data Firehose to stream data to Amazon S3 for
-    # long-term storage.
+    # events to. For example, you can send event data to Amazon EventBridge
+    # and associate a rule to send the event to the specified target.
     #
     # A single configuration set can include more than one event
     # destination.
@@ -555,6 +695,9 @@ module Aws::SESV2
     #       },
     #       sns_destination: {
     #         topic_arn: "AmazonResourceName", # required
+    #       },
+    #       event_bridge_destination: {
+    #         event_bus_arn: "AmazonResourceName", # required
     #       },
     #       pinpoint_destination: {
     #         application_arn: "AmazonResourceName",
@@ -817,6 +960,12 @@ module Aws::SESV2
     #             charset: "Charset",
     #           },
     #         },
+    #         headers: [
+    #           {
+    #             name: "MessageHeaderName", # required
+    #             value: "MessageHeaderValue", # required
+    #           },
+    #         ],
     #       },
     #       raw: {
     #         data: "data", # required
@@ -824,7 +973,18 @@ module Aws::SESV2
     #       template: {
     #         template_name: "EmailTemplateName",
     #         template_arn: "AmazonResourceName",
+    #         template_content: {
+    #           subject: "EmailTemplateSubject",
+    #           text: "EmailTemplateText",
+    #           html: "EmailTemplateHtml",
+    #         },
     #         template_data: "EmailTemplateData",
+    #         headers: [
+    #           {
+    #             name: "MessageHeaderName", # required
+    #             value: "MessageHeaderValue", # required
+    #           },
+    #         ],
     #       },
     #     },
     #     tags: [
@@ -934,6 +1094,7 @@ module Aws::SESV2
     #       domain_signing_selector: "Selector",
     #       domain_signing_private_key: "PrivateKey",
     #       next_signing_key_length: "RSA_1024_BIT", # accepts RSA_1024_BIT, RSA_2048_BIT
+    #       domain_signing_attributes_origin: "AWS_SES", # accepts AWS_SES, EXTERNAL, AWS_SES_AF_SOUTH_1, AWS_SES_EU_NORTH_1, AWS_SES_AP_SOUTH_1, AWS_SES_EU_WEST_3, AWS_SES_EU_WEST_2, AWS_SES_EU_SOUTH_1, AWS_SES_EU_WEST_1, AWS_SES_AP_NORTHEAST_3, AWS_SES_AP_NORTHEAST_2, AWS_SES_ME_SOUTH_1, AWS_SES_AP_NORTHEAST_1, AWS_SES_IL_CENTRAL_1, AWS_SES_SA_EAST_1, AWS_SES_CA_CENTRAL_1, AWS_SES_AP_SOUTHEAST_1, AWS_SES_AP_SOUTHEAST_2, AWS_SES_AP_SOUTHEAST_3, AWS_SES_EU_CENTRAL_1, AWS_SES_US_EAST_1, AWS_SES_US_EAST_2, AWS_SES_US_WEST_1, AWS_SES_US_WEST_2
     #     },
     #     configuration_set_name: "ConfigurationSetName",
     #   })
@@ -946,7 +1107,7 @@ module Aws::SESV2
     #   resp.dkim_attributes.status #=> String, one of "PENDING", "SUCCESS", "FAILED", "TEMPORARY_FAILURE", "NOT_STARTED"
     #   resp.dkim_attributes.tokens #=> Array
     #   resp.dkim_attributes.tokens[0] #=> String
-    #   resp.dkim_attributes.signing_attributes_origin #=> String, one of "AWS_SES", "EXTERNAL"
+    #   resp.dkim_attributes.signing_attributes_origin #=> String, one of "AWS_SES", "EXTERNAL", "AWS_SES_AF_SOUTH_1", "AWS_SES_EU_NORTH_1", "AWS_SES_AP_SOUTH_1", "AWS_SES_EU_WEST_3", "AWS_SES_EU_WEST_2", "AWS_SES_EU_SOUTH_1", "AWS_SES_EU_WEST_1", "AWS_SES_AP_NORTHEAST_3", "AWS_SES_AP_NORTHEAST_2", "AWS_SES_ME_SOUTH_1", "AWS_SES_AP_NORTHEAST_1", "AWS_SES_IL_CENTRAL_1", "AWS_SES_SA_EAST_1", "AWS_SES_CA_CENTRAL_1", "AWS_SES_AP_SOUTHEAST_1", "AWS_SES_AP_SOUTHEAST_2", "AWS_SES_AP_SOUTHEAST_3", "AWS_SES_EU_CENTRAL_1", "AWS_SES_US_EAST_1", "AWS_SES_US_EAST_2", "AWS_SES_US_WEST_1", "AWS_SES_US_WEST_2"
     #   resp.dkim_attributes.next_signing_key_length #=> String, one of "RSA_1024_BIT", "RSA_2048_BIT"
     #   resp.dkim_attributes.current_signing_key_length #=> String, one of "RSA_1024_BIT", "RSA_2048_BIT"
     #   resp.dkim_attributes.last_key_generation_timestamp #=> Time
@@ -1056,6 +1217,152 @@ module Aws::SESV2
       req.send_request(options)
     end
 
+    # Creates an export job for a data source and destination.
+    #
+    # You can execute this operation no more than once per second.
+    #
+    # @option params [required, Types::ExportDataSource] :export_data_source
+    #   The data source for the export job.
+    #
+    # @option params [required, Types::ExportDestination] :export_destination
+    #   The destination for the export job.
+    #
+    # @return [Types::CreateExportJobResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateExportJobResponse#job_id #job_id} => String
+    #
+    #
+    # @example Example: Create Metrics export job
+    #
+    #   # Creates a new export job for Metrics data
+    #
+    #   resp = client.create_export_job({
+    #     export_data_source: {
+    #       metrics_data_source: {
+    #         dimensions: {
+    #           "ISP" => [
+    #             "*", 
+    #           ], 
+    #         }, 
+    #         end_date: Time.parse("2023-07-02T00:00:00"), 
+    #         metrics: [
+    #           {
+    #             aggregation: "VOLUME", 
+    #             name: "SEND", 
+    #           }, 
+    #           {
+    #             aggregation: "VOLUME", 
+    #             name: "COMPLAINT", 
+    #           }, 
+    #           {
+    #             aggregation: "RATE", 
+    #             name: "COMPLAINT", 
+    #           }, 
+    #         ], 
+    #         namespace: "VDM", 
+    #         start_date: Time.parse("2023-07-01T00:00:00"), 
+    #       }, 
+    #     }, 
+    #     export_destination: {
+    #       data_format: "CSV", 
+    #     }, 
+    #   })
+    #
+    #   resp.to_h outputs the following:
+    #   {
+    #     job_id: "ef28cf62-9d8e-4b60-9283-b09816c99a99", 
+    #   }
+    #
+    # @example Example: Create Message Insights export job
+    #
+    #   # Creates a new export job for Message Insights data
+    #
+    #   resp = client.create_export_job({
+    #     export_data_source: {
+    #       message_insights_data_source: {
+    #         end_date: Time.parse("2023-07-02T00:00:00"), 
+    #         exclude: {
+    #           from_email_address: [
+    #             "hello@example.com", 
+    #           ], 
+    #         }, 
+    #         include: {
+    #           subject: [
+    #             "Hello", 
+    #           ], 
+    #         }, 
+    #         start_date: Time.parse("2023-07-01T00:00:00"), 
+    #       }, 
+    #     }, 
+    #     export_destination: {
+    #       data_format: "CSV", 
+    #     }, 
+    #   })
+    #
+    #   resp.to_h outputs the following:
+    #   {
+    #     job_id: "ef28cf62-9d8e-4b60-9283-b09816c99a99", 
+    #   }
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_export_job({
+    #     export_data_source: { # required
+    #       metrics_data_source: {
+    #         dimensions: { # required
+    #           "EMAIL_IDENTITY" => ["MetricDimensionValue"],
+    #         },
+    #         namespace: "VDM", # required, accepts VDM
+    #         metrics: [ # required
+    #           {
+    #             name: "SEND", # accepts SEND, COMPLAINT, PERMANENT_BOUNCE, TRANSIENT_BOUNCE, OPEN, CLICK, DELIVERY, DELIVERY_OPEN, DELIVERY_CLICK, DELIVERY_COMPLAINT
+    #             aggregation: "RATE", # accepts RATE, VOLUME
+    #           },
+    #         ],
+    #         start_date: Time.now, # required
+    #         end_date: Time.now, # required
+    #       },
+    #       message_insights_data_source: {
+    #         start_date: Time.now, # required
+    #         end_date: Time.now, # required
+    #         include: {
+    #           from_email_address: ["InsightsEmailAddress"],
+    #           destination: ["InsightsEmailAddress"],
+    #           subject: ["EmailSubject"],
+    #           isp: ["Isp"],
+    #           last_delivery_event: ["SEND"], # accepts SEND, DELIVERY, TRANSIENT_BOUNCE, PERMANENT_BOUNCE, UNDETERMINED_BOUNCE, COMPLAINT
+    #           last_engagement_event: ["OPEN"], # accepts OPEN, CLICK
+    #         },
+    #         exclude: {
+    #           from_email_address: ["InsightsEmailAddress"],
+    #           destination: ["InsightsEmailAddress"],
+    #           subject: ["EmailSubject"],
+    #           isp: ["Isp"],
+    #           last_delivery_event: ["SEND"], # accepts SEND, DELIVERY, TRANSIENT_BOUNCE, PERMANENT_BOUNCE, UNDETERMINED_BOUNCE, COMPLAINT
+    #           last_engagement_event: ["OPEN"], # accepts OPEN, CLICK
+    #         },
+    #         max_results: 1,
+    #       },
+    #     },
+    #     export_destination: { # required
+    #       data_format: "CSV", # required, accepts CSV, JSON
+    #       s3_url: "S3Url",
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.job_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sesv2-2019-09-27/CreateExportJob AWS API Documentation
+    #
+    # @overload create_export_job(params = {})
+    # @param [Hash] params ({})
+    def create_export_job(params = {}, options = {})
+      req = build_request(:create_export_job, params)
+      req.send_request(options)
+    end
+
     # Creates an import job for a data destination.
     #
     # @option params [required, Types::ImportDestination] :import_destination
@@ -1099,6 +1406,64 @@ module Aws::SESV2
       req.send_request(options)
     end
 
+    # Creates a multi-region endpoint (global-endpoint).
+    #
+    # The primary region is going to be the AWS-Region where the operation
+    # is executed. The secondary region has to be provided in request's
+    # parameters. From the data flow standpoint there is no difference
+    # between primary and secondary regions - sending traffic will be split
+    # equally between the two. The primary region is the region where the
+    # resource has been created and where it can be managed.
+    #
+    # @option params [required, String] :endpoint_name
+    #   The name of the multi-region endpoint (global-endpoint).
+    #
+    # @option params [required, Types::Details] :details
+    #   Contains details of a multi-region endpoint (global-endpoint) being
+    #   created.
+    #
+    # @option params [Array<Types::Tag>] :tags
+    #   An array of objects that define the tags (keys and values) to
+    #   associate with the multi-region endpoint (global-endpoint).
+    #
+    # @return [Types::CreateMultiRegionEndpointResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateMultiRegionEndpointResponse#status #status} => String
+    #   * {Types::CreateMultiRegionEndpointResponse#endpoint_id #endpoint_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_multi_region_endpoint({
+    #     endpoint_name: "EndpointName", # required
+    #     details: { # required
+    #       routes_details: [ # required
+    #         {
+    #           region: "Region", # required
+    #         },
+    #       ],
+    #     },
+    #     tags: [
+    #       {
+    #         key: "TagKey", # required
+    #         value: "TagValue", # required
+    #       },
+    #     ],
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.status #=> String, one of "CREATING", "READY", "FAILED", "DELETING"
+    #   resp.endpoint_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sesv2-2019-09-27/CreateMultiRegionEndpoint AWS API Documentation
+    #
+    # @overload create_multi_region_endpoint(params = {})
+    # @param [Hash] params ({})
+    def create_multi_region_endpoint(params = {}, options = {})
+      req = build_request(:create_multi_region_endpoint, params)
+      req.send_request(options)
+    end
+
     # Delete an existing configuration set.
     #
     # *Configuration sets* are groups of rules that you can apply to the
@@ -1132,9 +1497,8 @@ module Aws::SESV2
     # *Events* include message sends, deliveries, opens, clicks, bounces,
     # and complaints. *Event destinations* are places that you can send
     # information about these events to. For example, you can send event
-    # data to Amazon SNS to receive notifications when you receive bounces
-    # or complaints, or you can use Amazon Kinesis Data Firehose to stream
-    # data to Amazon S3 for long-term storage.
+    # data to Amazon EventBridge and associate a rule to send the event to
+    # the specified target.
     #
     # @option params [required, String] :configuration_set_name
     #   The name of the configuration set that contains the event destination
@@ -1357,6 +1721,37 @@ module Aws::SESV2
       req.send_request(options)
     end
 
+    # Deletes a multi-region endpoint (global-endpoint).
+    #
+    # Only multi-region endpoints (global-endpoints) whose primary region is
+    # the AWS-Region where operation is executed can be deleted.
+    #
+    # @option params [required, String] :endpoint_name
+    #   The name of the multi-region endpoint (global-endpoint) to be deleted.
+    #
+    # @return [Types::DeleteMultiRegionEndpointResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DeleteMultiRegionEndpointResponse#status #status} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_multi_region_endpoint({
+    #     endpoint_name: "EndpointName", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.status #=> String, one of "CREATING", "READY", "FAILED", "DELETING"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sesv2-2019-09-27/DeleteMultiRegionEndpoint AWS API Documentation
+    #
+    # @overload delete_multi_region_endpoint(params = {})
+    # @param [Hash] params ({})
+    def delete_multi_region_endpoint(params = {}, options = {})
+      req = build_request(:delete_multi_region_endpoint, params)
+      req.send_request(options)
+    end
+
     # Removes an email address from the suppression list for your account.
     #
     # @option params [required, String] :email_address
@@ -1484,6 +1879,7 @@ module Aws::SESV2
     #   * {Types::GetConfigurationSetResponse#tags #tags} => Array&lt;Types::Tag&gt;
     #   * {Types::GetConfigurationSetResponse#suppression_options #suppression_options} => Types::SuppressionOptions
     #   * {Types::GetConfigurationSetResponse#vdm_options #vdm_options} => Types::VdmOptions
+    #   * {Types::GetConfigurationSetResponse#archiving_options #archiving_options} => Types::ArchivingOptions
     #
     # @example Request syntax with placeholder values
     #
@@ -1495,8 +1891,10 @@ module Aws::SESV2
     #
     #   resp.configuration_set_name #=> String
     #   resp.tracking_options.custom_redirect_domain #=> String
+    #   resp.tracking_options.https_policy #=> String, one of "REQUIRE", "REQUIRE_OPEN_ONLY", "OPTIONAL"
     #   resp.delivery_options.tls_policy #=> String, one of "REQUIRE", "OPTIONAL"
     #   resp.delivery_options.sending_pool_name #=> String
+    #   resp.delivery_options.max_delivery_seconds #=> Integer
     #   resp.reputation_options.reputation_metrics_enabled #=> Boolean
     #   resp.reputation_options.last_fresh_start #=> Time
     #   resp.sending_options.sending_enabled #=> Boolean
@@ -1507,6 +1905,7 @@ module Aws::SESV2
     #   resp.suppression_options.suppressed_reasons[0] #=> String, one of "BOUNCE", "COMPLAINT"
     #   resp.vdm_options.dashboard_options.engagement_metrics #=> String, one of "ENABLED", "DISABLED"
     #   resp.vdm_options.guardian_options.optimized_shared_delivery #=> String, one of "ENABLED", "DISABLED"
+    #   resp.archiving_options.archive_arn #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/sesv2-2019-09-27/GetConfigurationSet AWS API Documentation
     #
@@ -1523,9 +1922,8 @@ module Aws::SESV2
     # *Events* include message sends, deliveries, opens, clicks, bounces,
     # and complaints. *Event destinations* are places that you can send
     # information about these events to. For example, you can send event
-    # data to Amazon SNS to receive notifications when you receive bounces
-    # or complaints, or you can use Amazon Kinesis Data Firehose to stream
-    # data to Amazon S3 for long-term storage.
+    # data to Amazon EventBridge and associate a rule to send the event to
+    # the specified target.
     #
     # @option params [required, String] :configuration_set_name
     #   The name of the configuration set that contains the event destination.
@@ -1554,6 +1952,7 @@ module Aws::SESV2
     #   resp.event_destinations[0].cloud_watch_destination.dimension_configurations[0].dimension_value_source #=> String, one of "MESSAGE_TAG", "EMAIL_HEADER", "LINK_TAG"
     #   resp.event_destinations[0].cloud_watch_destination.dimension_configurations[0].default_dimension_value #=> String
     #   resp.event_destinations[0].sns_destination.topic_arn #=> String
+    #   resp.event_destinations[0].event_bridge_destination.event_bus_arn #=> String
     #   resp.event_destinations[0].pinpoint_destination.application_arn #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/sesv2-2019-09-27/GetConfigurationSetEventDestinations AWS API Documentation
@@ -1571,7 +1970,7 @@ module Aws::SESV2
     #   The name of the contact list to which the contact belongs.
     #
     # @option params [required, String] :email_address
-    #   The contact's email addres.
+    #   The contact's email address.
     #
     # @return [Types::GetContactResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -2055,6 +2454,7 @@ module Aws::SESV2
     #   * {Types::GetEmailIdentityResponse#tags #tags} => Array&lt;Types::Tag&gt;
     #   * {Types::GetEmailIdentityResponse#configuration_set_name #configuration_set_name} => String
     #   * {Types::GetEmailIdentityResponse#verification_status #verification_status} => String
+    #   * {Types::GetEmailIdentityResponse#verification_info #verification_info} => Types::VerificationInfo
     #
     # @example Request syntax with placeholder values
     #
@@ -2071,7 +2471,7 @@ module Aws::SESV2
     #   resp.dkim_attributes.status #=> String, one of "PENDING", "SUCCESS", "FAILED", "TEMPORARY_FAILURE", "NOT_STARTED"
     #   resp.dkim_attributes.tokens #=> Array
     #   resp.dkim_attributes.tokens[0] #=> String
-    #   resp.dkim_attributes.signing_attributes_origin #=> String, one of "AWS_SES", "EXTERNAL"
+    #   resp.dkim_attributes.signing_attributes_origin #=> String, one of "AWS_SES", "EXTERNAL", "AWS_SES_AF_SOUTH_1", "AWS_SES_EU_NORTH_1", "AWS_SES_AP_SOUTH_1", "AWS_SES_EU_WEST_3", "AWS_SES_EU_WEST_2", "AWS_SES_EU_SOUTH_1", "AWS_SES_EU_WEST_1", "AWS_SES_AP_NORTHEAST_3", "AWS_SES_AP_NORTHEAST_2", "AWS_SES_ME_SOUTH_1", "AWS_SES_AP_NORTHEAST_1", "AWS_SES_IL_CENTRAL_1", "AWS_SES_SA_EAST_1", "AWS_SES_CA_CENTRAL_1", "AWS_SES_AP_SOUTHEAST_1", "AWS_SES_AP_SOUTHEAST_2", "AWS_SES_AP_SOUTHEAST_3", "AWS_SES_EU_CENTRAL_1", "AWS_SES_US_EAST_1", "AWS_SES_US_EAST_2", "AWS_SES_US_WEST_1", "AWS_SES_US_WEST_2"
     #   resp.dkim_attributes.next_signing_key_length #=> String, one of "RSA_1024_BIT", "RSA_2048_BIT"
     #   resp.dkim_attributes.current_signing_key_length #=> String, one of "RSA_1024_BIT", "RSA_2048_BIT"
     #   resp.dkim_attributes.last_key_generation_timestamp #=> Time
@@ -2085,6 +2485,12 @@ module Aws::SESV2
     #   resp.tags[0].value #=> String
     #   resp.configuration_set_name #=> String
     #   resp.verification_status #=> String, one of "PENDING", "SUCCESS", "FAILED", "TEMPORARY_FAILURE", "NOT_STARTED"
+    #   resp.verification_info.last_checked_timestamp #=> Time
+    #   resp.verification_info.last_success_timestamp #=> Time
+    #   resp.verification_info.error_type #=> String, one of "SERVICE_ERROR", "DNS_SERVER_ERROR", "HOST_NOT_FOUND", "TYPE_NOT_FOUND", "INVALID_VALUE", "REPLICATION_ACCESS_DENIED", "REPLICATION_PRIMARY_NOT_FOUND", "REPLICATION_PRIMARY_BYO_DKIM_NOT_SUPPORTED", "REPLICATION_REPLICA_AS_PRIMARY_NOT_SUPPORTED", "REPLICATION_PRIMARY_INVALID_REGION"
+    #   resp.verification_info.soa_record.primary_name_server #=> String
+    #   resp.verification_info.soa_record.admin_email #=> String
+    #   resp.verification_info.soa_record.serial_number #=> Integer
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/sesv2-2019-09-27/GetEmailIdentity AWS API Documentation
     #
@@ -2177,6 +2583,138 @@ module Aws::SESV2
       req.send_request(options)
     end
 
+    # Provides information about an export job.
+    #
+    # @option params [required, String] :job_id
+    #   The export job ID.
+    #
+    # @return [Types::GetExportJobResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetExportJobResponse#job_id #job_id} => String
+    #   * {Types::GetExportJobResponse#export_source_type #export_source_type} => String
+    #   * {Types::GetExportJobResponse#job_status #job_status} => String
+    #   * {Types::GetExportJobResponse#export_destination #export_destination} => Types::ExportDestination
+    #   * {Types::GetExportJobResponse#export_data_source #export_data_source} => Types::ExportDataSource
+    #   * {Types::GetExportJobResponse#created_timestamp #created_timestamp} => Time
+    #   * {Types::GetExportJobResponse#completed_timestamp #completed_timestamp} => Time
+    #   * {Types::GetExportJobResponse#failure_info #failure_info} => Types::FailureInfo
+    #   * {Types::GetExportJobResponse#statistics #statistics} => Types::ExportStatistics
+    #
+    #
+    # @example Example: Get export job
+    #
+    #   # Gets the export job with ID ef28cf62-9d8e-4b60-9283-b09816c99a99
+    #
+    #   resp = client.get_export_job({
+    #     job_id: "ef28cf62-9d8e-4b60-9283-b09816c99a99", 
+    #   })
+    #
+    #   resp.to_h outputs the following:
+    #   {
+    #     created_timestamp: Time.parse("1685700961057"), 
+    #     export_data_source: {
+    #       metrics_data_source: {
+    #         dimensions: {
+    #           "ISP" => [
+    #             "*", 
+    #           ], 
+    #         }, 
+    #         end_date: Time.parse("1675209600000"), 
+    #         metrics: [
+    #           {
+    #             aggregation: "VOLUME", 
+    #             name: "SEND", 
+    #           }, 
+    #           {
+    #             aggregation: "VOLUME", 
+    #             name: "COMPLAINT", 
+    #           }, 
+    #           {
+    #             aggregation: "RATE", 
+    #             name: "COMPLAINT", 
+    #           }, 
+    #         ], 
+    #         namespace: "VDM", 
+    #         start_date: Time.parse("1672531200000"), 
+    #       }, 
+    #     }, 
+    #     export_destination: {
+    #       data_format: "CSV", 
+    #     }, 
+    #     export_source_type: "METRICS_DATA", 
+    #     job_id: "ef28cf62-9d8e-4b60-9283-b09816c99a99", 
+    #     job_status: "PROCESSING", 
+    #     statistics: {
+    #       exported_records_count: 5, 
+    #       processed_records_count: 5, 
+    #     }, 
+    #   }
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_export_job({
+    #     job_id: "JobId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.job_id #=> String
+    #   resp.export_source_type #=> String, one of "METRICS_DATA", "MESSAGE_INSIGHTS"
+    #   resp.job_status #=> String, one of "CREATED", "PROCESSING", "COMPLETED", "FAILED", "CANCELLED"
+    #   resp.export_destination.data_format #=> String, one of "CSV", "JSON"
+    #   resp.export_destination.s3_url #=> String
+    #   resp.export_data_source.metrics_data_source.dimensions #=> Hash
+    #   resp.export_data_source.metrics_data_source.dimensions["MetricDimensionName"] #=> Array
+    #   resp.export_data_source.metrics_data_source.dimensions["MetricDimensionName"][0] #=> String
+    #   resp.export_data_source.metrics_data_source.namespace #=> String, one of "VDM"
+    #   resp.export_data_source.metrics_data_source.metrics #=> Array
+    #   resp.export_data_source.metrics_data_source.metrics[0].name #=> String, one of "SEND", "COMPLAINT", "PERMANENT_BOUNCE", "TRANSIENT_BOUNCE", "OPEN", "CLICK", "DELIVERY", "DELIVERY_OPEN", "DELIVERY_CLICK", "DELIVERY_COMPLAINT"
+    #   resp.export_data_source.metrics_data_source.metrics[0].aggregation #=> String, one of "RATE", "VOLUME"
+    #   resp.export_data_source.metrics_data_source.start_date #=> Time
+    #   resp.export_data_source.metrics_data_source.end_date #=> Time
+    #   resp.export_data_source.message_insights_data_source.start_date #=> Time
+    #   resp.export_data_source.message_insights_data_source.end_date #=> Time
+    #   resp.export_data_source.message_insights_data_source.include.from_email_address #=> Array
+    #   resp.export_data_source.message_insights_data_source.include.from_email_address[0] #=> String
+    #   resp.export_data_source.message_insights_data_source.include.destination #=> Array
+    #   resp.export_data_source.message_insights_data_source.include.destination[0] #=> String
+    #   resp.export_data_source.message_insights_data_source.include.subject #=> Array
+    #   resp.export_data_source.message_insights_data_source.include.subject[0] #=> String
+    #   resp.export_data_source.message_insights_data_source.include.isp #=> Array
+    #   resp.export_data_source.message_insights_data_source.include.isp[0] #=> String
+    #   resp.export_data_source.message_insights_data_source.include.last_delivery_event #=> Array
+    #   resp.export_data_source.message_insights_data_source.include.last_delivery_event[0] #=> String, one of "SEND", "DELIVERY", "TRANSIENT_BOUNCE", "PERMANENT_BOUNCE", "UNDETERMINED_BOUNCE", "COMPLAINT"
+    #   resp.export_data_source.message_insights_data_source.include.last_engagement_event #=> Array
+    #   resp.export_data_source.message_insights_data_source.include.last_engagement_event[0] #=> String, one of "OPEN", "CLICK"
+    #   resp.export_data_source.message_insights_data_source.exclude.from_email_address #=> Array
+    #   resp.export_data_source.message_insights_data_source.exclude.from_email_address[0] #=> String
+    #   resp.export_data_source.message_insights_data_source.exclude.destination #=> Array
+    #   resp.export_data_source.message_insights_data_source.exclude.destination[0] #=> String
+    #   resp.export_data_source.message_insights_data_source.exclude.subject #=> Array
+    #   resp.export_data_source.message_insights_data_source.exclude.subject[0] #=> String
+    #   resp.export_data_source.message_insights_data_source.exclude.isp #=> Array
+    #   resp.export_data_source.message_insights_data_source.exclude.isp[0] #=> String
+    #   resp.export_data_source.message_insights_data_source.exclude.last_delivery_event #=> Array
+    #   resp.export_data_source.message_insights_data_source.exclude.last_delivery_event[0] #=> String, one of "SEND", "DELIVERY", "TRANSIENT_BOUNCE", "PERMANENT_BOUNCE", "UNDETERMINED_BOUNCE", "COMPLAINT"
+    #   resp.export_data_source.message_insights_data_source.exclude.last_engagement_event #=> Array
+    #   resp.export_data_source.message_insights_data_source.exclude.last_engagement_event[0] #=> String, one of "OPEN", "CLICK"
+    #   resp.export_data_source.message_insights_data_source.max_results #=> Integer
+    #   resp.created_timestamp #=> Time
+    #   resp.completed_timestamp #=> Time
+    #   resp.failure_info.failed_records_s3_url #=> String
+    #   resp.failure_info.error_message #=> String
+    #   resp.statistics.processed_records_count #=> Integer
+    #   resp.statistics.exported_records_count #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sesv2-2019-09-27/GetExportJob AWS API Documentation
+    #
+    # @overload get_export_job(params = {})
+    # @param [Hash] params ({})
+    def get_export_job(params = {}, options = {})
+      req = build_request(:get_export_job, params)
+      req.send_request(options)
+    end
+
     # Provides information about an import job.
     #
     # @option params [required, String] :job_id
@@ -2210,7 +2748,7 @@ module Aws::SESV2
     #   resp.import_data_source.data_format #=> String, one of "CSV", "JSON"
     #   resp.failure_info.failed_records_s3_url #=> String
     #   resp.failure_info.error_message #=> String
-    #   resp.job_status #=> String, one of "CREATED", "PROCESSING", "COMPLETED", "FAILED"
+    #   resp.job_status #=> String, one of "CREATED", "PROCESSING", "COMPLETED", "FAILED", "CANCELLED"
     #   resp.created_timestamp #=> Time
     #   resp.completed_timestamp #=> Time
     #   resp.processed_records_count #=> Integer
@@ -2222,6 +2760,159 @@ module Aws::SESV2
     # @param [Hash] params ({})
     def get_import_job(params = {}, options = {})
       req = build_request(:get_import_job, params)
+      req.send_request(options)
+    end
+
+    # Provides information about a specific message, including the from
+    # address, the subject, the recipient address, email tags, as well as
+    # events associated with the message.
+    #
+    # You can execute this operation no more than once per second.
+    #
+    # @option params [required, String] :message_id
+    #   A `MessageId` is a unique identifier for a message, and is returned
+    #   when sending emails through Amazon SES.
+    #
+    # @return [Types::GetMessageInsightsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetMessageInsightsResponse#message_id #message_id} => String
+    #   * {Types::GetMessageInsightsResponse#from_email_address #from_email_address} => String
+    #   * {Types::GetMessageInsightsResponse#subject #subject} => String
+    #   * {Types::GetMessageInsightsResponse#email_tags #email_tags} => Array&lt;Types::MessageTag&gt;
+    #   * {Types::GetMessageInsightsResponse#insights #insights} => Array&lt;Types::EmailInsights&gt;
+    #
+    #
+    # @example Example: Get Message Insights
+    #
+    #   # Provides information about a specific message.
+    #
+    #   resp = client.get_message_insights({
+    #     message_id: "000000000000ab00-0a000aa0-1234-0a0a-1234-0a0aaa0aa00a-000000", 
+    #   })
+    #
+    #   resp.to_h outputs the following:
+    #   {
+    #     email_tags: [
+    #       {
+    #         name: "ses:operation", 
+    #         value: "SendEmail", 
+    #       }, 
+    #       {
+    #         name: "ses:recipient-isp", 
+    #         value: "UNKNOWN_ISP", 
+    #       }, 
+    #       {
+    #         name: "ses:source-ip", 
+    #         value: "0.0.0.0", 
+    #       }, 
+    #       {
+    #         name: "ses:from-domain", 
+    #         value: "example.com", 
+    #       }, 
+    #       {
+    #         name: "ses:sender-identity", 
+    #         value: "hello@example.com", 
+    #       }, 
+    #       {
+    #         name: "ses:caller-identity", 
+    #         value: "Identity", 
+    #       }, 
+    #     ], 
+    #     from_email_address: "hello@example.com", 
+    #     insights: [
+    #       {
+    #         destination: "recipient@example.com", 
+    #         events: [
+    #           {
+    #             timestamp: Time.parse("2023-01-01T00:00:00.000000+01:00"), 
+    #             type: "SEND", 
+    #           }, 
+    #           {
+    #             timestamp: Time.parse("2023-01-01T00:00:01.000000+01:00"), 
+    #             type: "DELIVERY", 
+    #           }, 
+    #         ], 
+    #         isp: "UNKNOWN_ISP", 
+    #       }, 
+    #     ], 
+    #     message_id: "000000000000ab00-0a000aa0-1234-0a0a-1234-0a0aaa0aa00a-000000", 
+    #     subject: "hello", 
+    #   }
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_message_insights({
+    #     message_id: "OutboundMessageId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.message_id #=> String
+    #   resp.from_email_address #=> String
+    #   resp.subject #=> String
+    #   resp.email_tags #=> Array
+    #   resp.email_tags[0].name #=> String
+    #   resp.email_tags[0].value #=> String
+    #   resp.insights #=> Array
+    #   resp.insights[0].destination #=> String
+    #   resp.insights[0].isp #=> String
+    #   resp.insights[0].events #=> Array
+    #   resp.insights[0].events[0].timestamp #=> Time
+    #   resp.insights[0].events[0].type #=> String, one of "SEND", "REJECT", "BOUNCE", "COMPLAINT", "DELIVERY", "OPEN", "CLICK", "RENDERING_FAILURE", "DELIVERY_DELAY", "SUBSCRIPTION"
+    #   resp.insights[0].events[0].details.bounce.bounce_type #=> String, one of "UNDETERMINED", "TRANSIENT", "PERMANENT"
+    #   resp.insights[0].events[0].details.bounce.bounce_sub_type #=> String
+    #   resp.insights[0].events[0].details.bounce.diagnostic_code #=> String
+    #   resp.insights[0].events[0].details.complaint.complaint_sub_type #=> String
+    #   resp.insights[0].events[0].details.complaint.complaint_feedback_type #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sesv2-2019-09-27/GetMessageInsights AWS API Documentation
+    #
+    # @overload get_message_insights(params = {})
+    # @param [Hash] params ({})
+    def get_message_insights(params = {}, options = {})
+      req = build_request(:get_message_insights, params)
+      req.send_request(options)
+    end
+
+    # Displays the multi-region endpoint (global-endpoint) configuration.
+    #
+    # Only multi-region endpoints (global-endpoints) whose primary region is
+    # the AWS-Region where operation is executed can be displayed.
+    #
+    # @option params [required, String] :endpoint_name
+    #   The name of the multi-region endpoint (global-endpoint).
+    #
+    # @return [Types::GetMultiRegionEndpointResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetMultiRegionEndpointResponse#endpoint_name #endpoint_name} => String
+    #   * {Types::GetMultiRegionEndpointResponse#endpoint_id #endpoint_id} => String
+    #   * {Types::GetMultiRegionEndpointResponse#routes #routes} => Array&lt;Types::Route&gt;
+    #   * {Types::GetMultiRegionEndpointResponse#status #status} => String
+    #   * {Types::GetMultiRegionEndpointResponse#created_timestamp #created_timestamp} => Time
+    #   * {Types::GetMultiRegionEndpointResponse#last_updated_timestamp #last_updated_timestamp} => Time
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_multi_region_endpoint({
+    #     endpoint_name: "EndpointName", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.endpoint_name #=> String
+    #   resp.endpoint_id #=> String
+    #   resp.routes #=> Array
+    #   resp.routes[0].region #=> String
+    #   resp.status #=> String, one of "CREATING", "READY", "FAILED", "DELETING"
+    #   resp.created_timestamp #=> Time
+    #   resp.last_updated_timestamp #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sesv2-2019-09-27/GetMultiRegionEndpoint AWS API Documentation
+    #
+    # @overload get_multi_region_endpoint(params = {})
+    # @param [Hash] params ({})
+    def get_multi_region_endpoint(params = {}, options = {})
+      req = build_request(:get_multi_region_endpoint, params)
       req.send_request(options)
     end
 
@@ -2717,7 +3408,7 @@ module Aws::SESV2
     #   `NextToken` element, which you can use to obtain additional results.
     #
     #   The value you specify has to be at least 1, and can be no more than
-    #   10.
+    #   100.
     #
     # @return [Types::ListEmailTemplatesResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -2746,6 +3437,84 @@ module Aws::SESV2
     # @param [Hash] params ({})
     def list_email_templates(params = {}, options = {})
       req = build_request(:list_email_templates, params)
+      req.send_request(options)
+    end
+
+    # Lists all of the export jobs.
+    #
+    # @option params [String] :next_token
+    #   The pagination token returned from a previous call to `ListExportJobs`
+    #   to indicate the position in the list of export jobs.
+    #
+    # @option params [Integer] :page_size
+    #   Maximum number of export jobs to return at once. Use this parameter to
+    #   paginate results. If additional export jobs exist beyond the specified
+    #   limit, the `NextToken` element is sent in the response. Use the
+    #   `NextToken` value in subsequent calls to `ListExportJobs` to retrieve
+    #   additional export jobs.
+    #
+    # @option params [String] :export_source_type
+    #   A value used to list export jobs that have a certain
+    #   `ExportSourceType`.
+    #
+    # @option params [String] :job_status
+    #   A value used to list export jobs that have a certain `JobStatus`.
+    #
+    # @return [Types::ListExportJobsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListExportJobsResponse#export_jobs #export_jobs} => Array&lt;Types::ExportJobSummary&gt;
+    #   * {Types::ListExportJobsResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    #
+    # @example Example: List export jobs
+    #
+    #   # Lists export jobs of type METRICS_DATA and status PROCESSING
+    #
+    #   resp = client.list_export_jobs({
+    #     export_source_type: "METRICS_DATA", 
+    #     job_status: "PROCESSING", 
+    #     page_size: 25, 
+    #   })
+    #
+    #   resp.to_h outputs the following:
+    #   {
+    #     export_jobs: [
+    #       {
+    #         created_timestamp: Time.parse("167697473543"), 
+    #         export_source_type: "METRICS_DATA", 
+    #         job_id: "72de83a0-6b49-47ca-9783-8b812576887a", 
+    #         job_status: "PROCESSING", 
+    #       }, 
+    #     ], 
+    #   }
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_export_jobs({
+    #     next_token: "NextToken",
+    #     page_size: 1,
+    #     export_source_type: "METRICS_DATA", # accepts METRICS_DATA, MESSAGE_INSIGHTS
+    #     job_status: "CREATED", # accepts CREATED, PROCESSING, COMPLETED, FAILED, CANCELLED
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.export_jobs #=> Array
+    #   resp.export_jobs[0].job_id #=> String
+    #   resp.export_jobs[0].export_source_type #=> String, one of "METRICS_DATA", "MESSAGE_INSIGHTS"
+    #   resp.export_jobs[0].job_status #=> String, one of "CREATED", "PROCESSING", "COMPLETED", "FAILED", "CANCELLED"
+    #   resp.export_jobs[0].created_timestamp #=> Time
+    #   resp.export_jobs[0].completed_timestamp #=> Time
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sesv2-2019-09-27/ListExportJobs AWS API Documentation
+    #
+    # @overload list_export_jobs(params = {})
+    # @param [Hash] params ({})
+    def list_export_jobs(params = {}, options = {})
+      req = build_request(:list_export_jobs, params)
       req.send_request(options)
     end
 
@@ -2790,7 +3559,7 @@ module Aws::SESV2
     #   resp.import_jobs[0].import_destination.suppression_list_destination.suppression_list_import_action #=> String, one of "DELETE", "PUT"
     #   resp.import_jobs[0].import_destination.contact_list_destination.contact_list_name #=> String
     #   resp.import_jobs[0].import_destination.contact_list_destination.contact_list_import_action #=> String, one of "DELETE", "PUT"
-    #   resp.import_jobs[0].job_status #=> String, one of "CREATED", "PROCESSING", "COMPLETED", "FAILED"
+    #   resp.import_jobs[0].job_status #=> String, one of "CREATED", "PROCESSING", "COMPLETED", "FAILED", "CANCELLED"
     #   resp.import_jobs[0].created_timestamp #=> Time
     #   resp.import_jobs[0].processed_records_count #=> Integer
     #   resp.import_jobs[0].failed_records_count #=> Integer
@@ -2802,6 +3571,58 @@ module Aws::SESV2
     # @param [Hash] params ({})
     def list_import_jobs(params = {}, options = {})
       req = build_request(:list_import_jobs, params)
+      req.send_request(options)
+    end
+
+    # List the multi-region endpoints (global-endpoints).
+    #
+    # Only multi-region endpoints (global-endpoints) whose primary region is
+    # the AWS-Region where operation is executed will be listed.
+    #
+    # @option params [String] :next_token
+    #   A token returned from a previous call to `ListMultiRegionEndpoints` to
+    #   indicate the position in the list of multi-region endpoints
+    #   (global-endpoints).
+    #
+    # @option params [Integer] :page_size
+    #   The number of results to show in a single call to
+    #   `ListMultiRegionEndpoints`. If the number of results is larger than
+    #   the number you specified in this parameter, the response includes a
+    #   `NextToken` element that you can use to retrieve the next page of
+    #   results.
+    #
+    # @return [Types::ListMultiRegionEndpointsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListMultiRegionEndpointsResponse#multi_region_endpoints #multi_region_endpoints} => Array&lt;Types::MultiRegionEndpoint&gt;
+    #   * {Types::ListMultiRegionEndpointsResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_multi_region_endpoints({
+    #     next_token: "NextTokenV2",
+    #     page_size: 1,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.multi_region_endpoints #=> Array
+    #   resp.multi_region_endpoints[0].endpoint_name #=> String
+    #   resp.multi_region_endpoints[0].status #=> String, one of "CREATING", "READY", "FAILED", "DELETING"
+    #   resp.multi_region_endpoints[0].endpoint_id #=> String
+    #   resp.multi_region_endpoints[0].regions #=> Array
+    #   resp.multi_region_endpoints[0].regions[0] #=> String
+    #   resp.multi_region_endpoints[0].created_timestamp #=> Time
+    #   resp.multi_region_endpoints[0].last_updated_timestamp #=> Time
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sesv2-2019-09-27/ListMultiRegionEndpoints AWS API Documentation
+    #
+    # @overload list_multi_region_endpoints(params = {})
+    # @param [Hash] params ({})
+    def list_multi_region_endpoints(params = {}, options = {})
+      req = build_request(:list_multi_region_endpoints, params)
       req.send_request(options)
     end
 
@@ -2849,7 +3670,7 @@ module Aws::SESV2
     #
     #   resp.recommendations #=> Array
     #   resp.recommendations[0].resource_arn #=> String
-    #   resp.recommendations[0].type #=> String, one of "DKIM", "DMARC", "SPF"
+    #   resp.recommendations[0].type #=> String, one of "DKIM", "DMARC", "SPF", "BIMI", "COMPLAINT"
     #   resp.recommendations[0].description #=> String
     #   resp.recommendations[0].status #=> String, one of "OPEN", "FIXED"
     #   resp.recommendations[0].created_timestamp #=> Time
@@ -3000,7 +3821,7 @@ module Aws::SESV2
     # @option params [String] :contact_language
     #   The language you would prefer to be contacted with.
     #
-    # @option params [required, String] :use_case_description
+    # @option params [String] :use_case_description
     #   A description of the types of email that you plan to send.
     #
     # @option params [Array<String>] :additional_contact_email_addresses
@@ -3013,9 +3834,7 @@ module Aws::SESV2
     #
     #   If the value is `false`, then your account is in the *sandbox*. When
     #   your account is in the sandbox, you can only send email to verified
-    #   identities. Additionally, the maximum number of emails you can send in
-    #   a 24-hour period (your sending quota) is 200, and the maximum number
-    #   of emails you can send per second (your maximum sending rate) is 1.
+    #   identities.
     #
     #   If the value is `true`, then your account has production access. When
     #   your account has production access, you can send email to any address.
@@ -3030,7 +3849,7 @@ module Aws::SESV2
     #     mail_type: "MARKETING", # required, accepts MARKETING, TRANSACTIONAL
     #     website_url: "WebsiteURL", # required
     #     contact_language: "EN", # accepts EN, JA
-    #     use_case_description: "UseCaseDescription", # required
+    #     use_case_description: "UseCaseDescription",
     #     additional_contact_email_addresses: ["AdditionalContactEmailAddress"],
     #     production_access_enabled: false,
     #   })
@@ -3138,6 +3957,51 @@ module Aws::SESV2
       req.send_request(options)
     end
 
+    # Associate the configuration set with a MailManager archive. When you
+    # send email using the `SendEmail` or `SendBulkEmail` operations the
+    # message as it will be given to the receiving SMTP server will be
+    # archived, along with the recipient information.
+    #
+    # @option params [required, String] :configuration_set_name
+    #   The name of the configuration set to associate with a MailManager
+    #   archive.
+    #
+    # @option params [String] :archive_arn
+    #   The Amazon Resource Name (ARN) of the MailManager archive that the
+    #   Amazon SES API v2 sends email to.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    #
+    # @example Example: Used to associate an MailManager archive with a ConfigurationSet.
+    #
+    #   # This example associates an archive arn with a configuration set.
+    #
+    #   resp = client.put_configuration_set_archiving_options({
+    #     archive_arn: "arn:aws:ses:us-west-2:123456789012:mailmanager-archive/a-abcdefghijklmnopqrstuvwxyz", 
+    #     configuration_set_name: "sample-configuration-name", 
+    #   })
+    #
+    #   resp.to_h outputs the following:
+    #   {
+    #   }
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.put_configuration_set_archiving_options({
+    #     configuration_set_name: "ConfigurationSetName", # required
+    #     archive_arn: "ArchiveArn",
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sesv2-2019-09-27/PutConfigurationSetArchivingOptions AWS API Documentation
+    #
+    # @overload put_configuration_set_archiving_options(params = {})
+    # @param [Hash] params ({})
+    def put_configuration_set_archiving_options(params = {}, options = {})
+      req = build_request(:put_configuration_set_archiving_options, params)
+      req.send_request(options)
+    end
+
     # Associate a configuration set with a dedicated IP pool. You can use
     # dedicated IP pools to create groups of dedicated IP addresses for
     # sending specific types of email.
@@ -3157,6 +4021,12 @@ module Aws::SESV2
     #   The name of the dedicated IP pool to associate with the configuration
     #   set.
     #
+    # @option params [Integer] :max_delivery_seconds
+    #   The maximum amount of time, in seconds, that Amazon SES API v2 will
+    #   attempt delivery of email. If specified, the value must greater than
+    #   or equal to 300 seconds (5 minutes) and less than or equal to 50400
+    #   seconds (840 minutes).
+    #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
     # @example Request syntax with placeholder values
@@ -3165,6 +4035,7 @@ module Aws::SESV2
     #     configuration_set_name: "ConfigurationSetName", # required
     #     tls_policy: "REQUIRE", # accepts REQUIRE, OPTIONAL
     #     sending_pool_name: "SendingPoolName",
+    #     max_delivery_seconds: 1,
     #   })
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/sesv2-2019-09-27/PutConfigurationSetDeliveryOptions AWS API Documentation
@@ -3282,6 +4153,14 @@ module Aws::SESV2
     # @option params [String] :custom_redirect_domain
     #   The domain to use to track open and click events.
     #
+    # @option params [String] :https_policy
+    #   The https policy to use for tracking open and click events. If the
+    #   value is OPTIONAL or HttpsPolicy is not specified, the open trackers
+    #   use HTTP and click tracker use the original protocol of the link. If
+    #   the value is REQUIRE, both open and click tracker uses HTTPS and if
+    #   the value is REQUIRE\_OPEN\_ONLY open tracker uses HTTPS and link
+    #   tracker is same as original protocol of the link.
+    #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
     # @example Request syntax with placeholder values
@@ -3289,6 +4168,7 @@ module Aws::SESV2
     #   resp = client.put_configuration_set_tracking_options({
     #     configuration_set_name: "ConfigurationSetName", # required
     #     custom_redirect_domain: "CustomRedirectDomain",
+    #     https_policy: "REQUIRE", # accepts REQUIRE, REQUIRE_OPEN_ONLY, OPTIONAL
     #   })
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/sesv2-2019-09-27/PutConfigurationSetTrackingOptions AWS API Documentation
@@ -3370,6 +4250,55 @@ module Aws::SESV2
     # @param [Hash] params ({})
     def put_dedicated_ip_in_pool(params = {}, options = {})
       req = build_request(:put_dedicated_ip_in_pool, params)
+      req.send_request(options)
+    end
+
+    # Used to convert a dedicated IP pool to a different scaling mode.
+    #
+    # <note markdown="1"> `MANAGED` pools cannot be converted to `STANDARD` scaling mode.
+    #
+    #  </note>
+    #
+    # @option params [required, String] :pool_name
+    #   The name of the dedicated IP pool.
+    #
+    # @option params [required, String] :scaling_mode
+    #   The scaling mode to apply to the dedicated IP pool.
+    #
+    #   <note markdown="1"> Changing the scaling mode from `MANAGED` to `STANDARD` is not
+    #   supported.
+    #
+    #    </note>
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    #
+    # @example Example: Used to convert a dedicated IP pool to a different scaling mode.
+    #
+    #   # This example converts a dedicated IP pool from STANDARD to MANAGED.
+    #
+    #   resp = client.put_dedicated_ip_pool_scaling_attributes({
+    #     pool_name: "sample-ses-pool", 
+    #     scaling_mode: "MANAGED", 
+    #   })
+    #
+    #   resp.to_h outputs the following:
+    #   {
+    #   }
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.put_dedicated_ip_pool_scaling_attributes({
+    #     pool_name: "PoolName", # required
+    #     scaling_mode: "STANDARD", # required, accepts STANDARD, MANAGED
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/sesv2-2019-09-27/PutDedicatedIpPoolScalingAttributes AWS API Documentation
+    #
+    # @overload put_dedicated_ip_pool_scaling_attributes(params = {})
+    # @param [Hash] params ({})
+    def put_dedicated_ip_pool_scaling_attributes(params = {}, options = {})
+      req = build_request(:put_dedicated_ip_pool_scaling_attributes, params)
       req.send_request(options)
     end
 
@@ -3558,11 +4487,12 @@ module Aws::SESV2
     #
     #   resp = client.put_email_identity_dkim_signing_attributes({
     #     email_identity: "Identity", # required
-    #     signing_attributes_origin: "AWS_SES", # required, accepts AWS_SES, EXTERNAL
+    #     signing_attributes_origin: "AWS_SES", # required, accepts AWS_SES, EXTERNAL, AWS_SES_AF_SOUTH_1, AWS_SES_EU_NORTH_1, AWS_SES_AP_SOUTH_1, AWS_SES_EU_WEST_3, AWS_SES_EU_WEST_2, AWS_SES_EU_SOUTH_1, AWS_SES_EU_WEST_1, AWS_SES_AP_NORTHEAST_3, AWS_SES_AP_NORTHEAST_2, AWS_SES_ME_SOUTH_1, AWS_SES_AP_NORTHEAST_1, AWS_SES_IL_CENTRAL_1, AWS_SES_SA_EAST_1, AWS_SES_CA_CENTRAL_1, AWS_SES_AP_SOUTHEAST_1, AWS_SES_AP_SOUTHEAST_2, AWS_SES_AP_SOUTHEAST_3, AWS_SES_EU_CENTRAL_1, AWS_SES_US_EAST_1, AWS_SES_US_EAST_2, AWS_SES_US_WEST_1, AWS_SES_US_WEST_2
     #     signing_attributes: {
     #       domain_signing_selector: "Selector",
     #       domain_signing_private_key: "PrivateKey",
     #       next_signing_key_length: "RSA_1024_BIT", # accepts RSA_1024_BIT, RSA_2048_BIT
+    #       domain_signing_attributes_origin: "AWS_SES", # accepts AWS_SES, EXTERNAL, AWS_SES_AF_SOUTH_1, AWS_SES_EU_NORTH_1, AWS_SES_AP_SOUTH_1, AWS_SES_EU_WEST_3, AWS_SES_EU_WEST_2, AWS_SES_EU_SOUTH_1, AWS_SES_EU_WEST_1, AWS_SES_AP_NORTHEAST_3, AWS_SES_AP_NORTHEAST_2, AWS_SES_ME_SOUTH_1, AWS_SES_AP_NORTHEAST_1, AWS_SES_IL_CENTRAL_1, AWS_SES_SA_EAST_1, AWS_SES_CA_CENTRAL_1, AWS_SES_AP_SOUTHEAST_1, AWS_SES_AP_SOUTHEAST_2, AWS_SES_AP_SOUTHEAST_3, AWS_SES_EU_CENTRAL_1, AWS_SES_US_EAST_1, AWS_SES_US_EAST_2, AWS_SES_US_WEST_1, AWS_SES_US_WEST_2
     #     },
     #   })
     #
@@ -3775,6 +4705,9 @@ module Aws::SESV2
     # @option params [String] :configuration_set_name
     #   The name of the configuration set to use when sending the email.
     #
+    # @option params [String] :endpoint_id
+    #   The ID of the multi-region endpoint (global-endpoint).
+    #
     # @return [Types::SendBulkEmailResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::SendBulkEmailResponse#bulk_email_entry_results #bulk_email_entry_results} => Array&lt;Types::BulkEmailEntryResult&gt;
@@ -3797,7 +4730,18 @@ module Aws::SESV2
     #       template: {
     #         template_name: "EmailTemplateName",
     #         template_arn: "AmazonResourceName",
+    #         template_content: {
+    #           subject: "EmailTemplateSubject",
+    #           text: "EmailTemplateText",
+    #           html: "EmailTemplateHtml",
+    #         },
     #         template_data: "EmailTemplateData",
+    #         headers: [
+    #           {
+    #             name: "MessageHeaderName", # required
+    #             value: "MessageHeaderValue", # required
+    #           },
+    #         ],
     #       },
     #     },
     #     bulk_email_entries: [ # required
@@ -3818,9 +4762,16 @@ module Aws::SESV2
     #             replacement_template_data: "EmailTemplateData",
     #           },
     #         },
+    #         replacement_headers: [
+    #           {
+    #             name: "MessageHeaderName", # required
+    #             value: "MessageHeaderValue", # required
+    #           },
+    #         ],
     #       },
     #     ],
     #     configuration_set_name: "ConfigurationSetName",
+    #     endpoint_id: "EndpointId",
     #   })
     #
     # @example Response structure
@@ -3969,7 +4920,7 @@ module Aws::SESV2
     #
     # @option params [required, Types::EmailContent] :content
     #   An object that contains the body of the message. You can send either a
-    #   Simple message Raw message or a template Message.
+    #   Simple message, Raw message, or a Templated message.
     #
     # @option params [Array<Types::MessageTag>] :email_tags
     #   A list of tags, in the form of name/value pairs, to apply to an email
@@ -3979,6 +4930,9 @@ module Aws::SESV2
     #
     # @option params [String] :configuration_set_name
     #   The name of the configuration set to use when sending the email.
+    #
+    # @option params [String] :endpoint_id
+    #   The ID of the multi-region endpoint (global-endpoint).
     #
     # @option params [Types::ListManagementOptions] :list_management_options
     #   An object used to specify a list or topic to which an email belongs,
@@ -4017,6 +4971,12 @@ module Aws::SESV2
     #             charset: "Charset",
     #           },
     #         },
+    #         headers: [
+    #           {
+    #             name: "MessageHeaderName", # required
+    #             value: "MessageHeaderValue", # required
+    #           },
+    #         ],
     #       },
     #       raw: {
     #         data: "data", # required
@@ -4024,7 +4984,18 @@ module Aws::SESV2
     #       template: {
     #         template_name: "EmailTemplateName",
     #         template_arn: "AmazonResourceName",
+    #         template_content: {
+    #           subject: "EmailTemplateSubject",
+    #           text: "EmailTemplateText",
+    #           html: "EmailTemplateHtml",
+    #         },
     #         template_data: "EmailTemplateData",
+    #         headers: [
+    #           {
+    #             name: "MessageHeaderName", # required
+    #             value: "MessageHeaderValue", # required
+    #           },
+    #         ],
     #       },
     #     },
     #     email_tags: [
@@ -4034,6 +5005,7 @@ module Aws::SESV2
     #       },
     #     ],
     #     configuration_set_name: "ConfigurationSetName",
+    #     endpoint_id: "EndpointId",
     #     list_management_options: {
     #       contact_list_name: "ContactListName", # required
     #       topic_name: "TopicName",
@@ -4174,9 +5146,8 @@ module Aws::SESV2
     # *Events* include message sends, deliveries, opens, clicks, bounces,
     # and complaints. *Event destinations* are places that you can send
     # information about these events to. For example, you can send event
-    # data to Amazon SNS to receive notifications when you receive bounces
-    # or complaints, or you can use Amazon Kinesis Data Firehose to stream
-    # data to Amazon S3 for long-term storage.
+    # data to Amazon EventBridge and associate a rule to send the event to
+    # the specified target.
     #
     # @option params [required, String] :configuration_set_name
     #   The name of the configuration set that contains the event destination
@@ -4214,6 +5185,9 @@ module Aws::SESV2
     #       sns_destination: {
     #         topic_arn: "AmazonResourceName", # required
     #       },
+    #       event_bridge_destination: {
+    #         event_bus_arn: "AmazonResourceName", # required
+    #       },
     #       pinpoint_destination: {
     #         application_arn: "AmazonResourceName",
     #       },
@@ -4229,15 +5203,19 @@ module Aws::SESV2
       req.send_request(options)
     end
 
-    # Updates a contact's preferences for a list. It is not necessary to
-    # specify all existing topic preferences in the TopicPreferences object,
-    # just the ones that need updating.
+    # Updates a contact's preferences for a list.
+    #
+    # <note markdown="1"> You must specify all existing topic preferences in the
+    # `TopicPreferences` object, not just the ones that need updating;
+    # otherwise, all your existing preferences will be removed.
+    #
+    #  </note>
     #
     # @option params [required, String] :contact_list_name
     #   The name of the contact list.
     #
     # @option params [required, String] :email_address
-    #   The contact's email addres.
+    #   The contact's email address.
     #
     # @option params [Array<Types::TopicPreference>] :topic_preferences
     #   The contact's preference for being opted-in to or opted-out of a
@@ -4480,14 +5458,19 @@ module Aws::SESV2
     # @api private
     def build_request(operation_name, params = {})
       handlers = @handlers.for(operation_name)
+      tracer = config.telemetry_provider.tracer_provider.tracer(
+        Aws::Telemetry.module_to_tracer_name('Aws::SESV2')
+      )
       context = Seahorse::Client::RequestContext.new(
         operation_name: operation_name,
         operation: config.api.operation(operation_name),
         client: self,
         params: params,
-        config: config)
+        config: config,
+        tracer: tracer
+      )
       context[:gem_name] = 'aws-sdk-sesv2'
-      context[:gem_version] = '1.31.0'
+      context[:gem_version] = '1.72.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

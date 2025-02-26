@@ -7,33 +7,34 @@
 #
 # WARNING ABOUT GENERATED CODE
 
-require 'seahorse/client/plugins/content_length.rb'
-require 'aws-sdk-core/plugins/credentials_configuration.rb'
-require 'aws-sdk-core/plugins/logging.rb'
-require 'aws-sdk-core/plugins/param_converter.rb'
-require 'aws-sdk-core/plugins/param_validator.rb'
-require 'aws-sdk-core/plugins/user_agent.rb'
-require 'aws-sdk-core/plugins/helpful_socket_errors.rb'
-require 'aws-sdk-core/plugins/retry_errors.rb'
-require 'aws-sdk-core/plugins/global_configuration.rb'
-require 'aws-sdk-core/plugins/regional_endpoint.rb'
-require 'aws-sdk-core/plugins/endpoint_discovery.rb'
-require 'aws-sdk-core/plugins/endpoint_pattern.rb'
-require 'aws-sdk-core/plugins/response_paging.rb'
-require 'aws-sdk-core/plugins/stub_responses.rb'
-require 'aws-sdk-core/plugins/idempotency_token.rb'
-require 'aws-sdk-core/plugins/jsonvalue_converter.rb'
-require 'aws-sdk-core/plugins/client_metrics_plugin.rb'
-require 'aws-sdk-core/plugins/client_metrics_send_plugin.rb'
-require 'aws-sdk-core/plugins/transfer_encoding.rb'
-require 'aws-sdk-core/plugins/http_checksum.rb'
-require 'aws-sdk-core/plugins/checksum_algorithm.rb'
-require 'aws-sdk-core/plugins/defaults_mode.rb'
-require 'aws-sdk-core/plugins/recursion_detection.rb'
-require 'aws-sdk-core/plugins/sign.rb'
-require 'aws-sdk-core/plugins/protocols/json_rpc.rb'
-
-Aws::Plugins::GlobalConfiguration.add_identifier(:athena)
+require 'seahorse/client/plugins/content_length'
+require 'aws-sdk-core/plugins/credentials_configuration'
+require 'aws-sdk-core/plugins/logging'
+require 'aws-sdk-core/plugins/param_converter'
+require 'aws-sdk-core/plugins/param_validator'
+require 'aws-sdk-core/plugins/user_agent'
+require 'aws-sdk-core/plugins/helpful_socket_errors'
+require 'aws-sdk-core/plugins/retry_errors'
+require 'aws-sdk-core/plugins/global_configuration'
+require 'aws-sdk-core/plugins/regional_endpoint'
+require 'aws-sdk-core/plugins/endpoint_discovery'
+require 'aws-sdk-core/plugins/endpoint_pattern'
+require 'aws-sdk-core/plugins/response_paging'
+require 'aws-sdk-core/plugins/stub_responses'
+require 'aws-sdk-core/plugins/idempotency_token'
+require 'aws-sdk-core/plugins/invocation_id'
+require 'aws-sdk-core/plugins/jsonvalue_converter'
+require 'aws-sdk-core/plugins/client_metrics_plugin'
+require 'aws-sdk-core/plugins/client_metrics_send_plugin'
+require 'aws-sdk-core/plugins/transfer_encoding'
+require 'aws-sdk-core/plugins/http_checksum'
+require 'aws-sdk-core/plugins/checksum_algorithm'
+require 'aws-sdk-core/plugins/request_compression'
+require 'aws-sdk-core/plugins/defaults_mode'
+require 'aws-sdk-core/plugins/recursion_detection'
+require 'aws-sdk-core/plugins/telemetry'
+require 'aws-sdk-core/plugins/sign'
+require 'aws-sdk-core/plugins/protocols/json_rpc'
 
 module Aws::Athena
   # An API client for Athena.  To construct a client, you need to configure a `:region` and `:credentials`.
@@ -71,20 +72,28 @@ module Aws::Athena
     add_plugin(Aws::Plugins::ResponsePaging)
     add_plugin(Aws::Plugins::StubResponses)
     add_plugin(Aws::Plugins::IdempotencyToken)
+    add_plugin(Aws::Plugins::InvocationId)
     add_plugin(Aws::Plugins::JsonvalueConverter)
     add_plugin(Aws::Plugins::ClientMetricsPlugin)
     add_plugin(Aws::Plugins::ClientMetricsSendPlugin)
     add_plugin(Aws::Plugins::TransferEncoding)
     add_plugin(Aws::Plugins::HttpChecksum)
     add_plugin(Aws::Plugins::ChecksumAlgorithm)
+    add_plugin(Aws::Plugins::RequestCompression)
     add_plugin(Aws::Plugins::DefaultsMode)
     add_plugin(Aws::Plugins::RecursionDetection)
+    add_plugin(Aws::Plugins::Telemetry)
     add_plugin(Aws::Plugins::Sign)
     add_plugin(Aws::Plugins::Protocols::JsonRpc)
     add_plugin(Aws::Athena::Plugins::Endpoints)
 
     # @overload initialize(options)
     #   @param [Hash] options
+    #
+    #   @option options [Array<Seahorse::Client::Plugin>] :plugins ([]])
+    #     A list of plugins to apply to the client. Each plugin is either a
+    #     class name or an instance of a plugin class.
+    #
     #   @option options [required, Aws::CredentialProvider] :credentials
     #     Your AWS credentials. This can be an instance of any one of the
     #     following classes:
@@ -119,13 +128,15 @@ module Aws::Athena
     #     locations will be searched for credentials:
     #
     #     * `Aws.config[:credentials]`
-    #     * The `:access_key_id`, `:secret_access_key`, and `:session_token` options.
-    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']
+    #     * The `:access_key_id`, `:secret_access_key`, `:session_token`, and
+    #       `:account_id` options.
+    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'],
+    #       ENV['AWS_SESSION_TOKEN'], and ENV['AWS_ACCOUNT_ID']
     #     * `~/.aws/credentials`
     #     * `~/.aws/config`
     #     * EC2/ECS IMDS instance profile - When used by default, the timeouts
     #       are very aggressive. Construct and pass an instance of
-    #       `Aws::InstanceProfileCredentails` or `Aws::ECSCredentials` to
+    #       `Aws::InstanceProfileCredentials` or `Aws::ECSCredentials` to
     #       enable retries and extended timeouts. Instance profile credential
     #       fetching can be disabled by setting ENV['AWS_EC2_METADATA_DISABLED']
     #       to true.
@@ -143,6 +154,8 @@ module Aws::Athena
     #     * `~/.aws/config`
     #
     #   @option options [String] :access_key_id
+    #
+    #   @option options [String] :account_id
     #
     #   @option options [Boolean] :active_endpoint_cache (false)
     #     When set to `true`, a thread polling for endpoints will be running in
@@ -190,10 +203,20 @@ module Aws::Athena
     #     Set to true to disable SDK automatically adding host prefix
     #     to default service endpoint when available.
     #
-    #   @option options [String] :endpoint
-    #     The client endpoint is normally constructed from the `:region`
-    #     option. You should only configure an `:endpoint` when connecting
-    #     to test or custom endpoints. This should be a valid HTTP(S) URI.
+    #   @option options [Boolean] :disable_request_compression (false)
+    #     When set to 'true' the request body will not be compressed
+    #     for supported operations.
+    #
+    #   @option options [String, URI::HTTPS, URI::HTTP] :endpoint
+    #     Normally you should not configure the `:endpoint` option
+    #     directly. This is normally constructed from the `:region`
+    #     option. Configuring `:endpoint` is normally reserved for
+    #     connecting to test or custom endpoints. The endpoint should
+    #     be a URI formatted like:
+    #
+    #         'http://example.com'
+    #         'https://example.com'
+    #         'http://example.com:123'
     #
     #   @option options [Integer] :endpoint_cache_max_entries (1000)
     #     Used for the maximum size limit of the LRU cache storing endpoints data
@@ -209,6 +232,10 @@ module Aws::Athena
     #
     #   @option options [Boolean] :endpoint_discovery (false)
     #     When set to `true`, endpoint discovery will be enabled for operations when available.
+    #
+    #   @option options [Boolean] :ignore_configured_endpoint_urls
+    #     Setting to true disables use of endpoint URLs provided via environment
+    #     variables and the shared configuration file.
     #
     #   @option options [Aws::Log::Formatter] :log_formatter (Aws::Log::Formatter.default)
     #     The log formatter.
@@ -229,6 +256,34 @@ module Aws::Athena
     #   @option options [String] :profile ("default")
     #     Used when loading credentials from the shared credentials file
     #     at HOME/.aws/credentials.  When not specified, 'default' is used.
+    #
+    #   @option options [String] :request_checksum_calculation ("when_supported")
+    #     Determines when a checksum will be calculated for request payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, a checksum will be
+    #       calculated for all request payloads of operations modeled with the
+    #       `httpChecksum` trait where `requestChecksumRequired` is `true` and/or a
+    #       `requestAlgorithmMember` is modeled.
+    #     * `when_required` - When set, a checksum will only be calculated for
+    #       request payloads of operations modeled with the  `httpChecksum` trait where
+    #       `requestChecksumRequired` is `true` or where a `requestAlgorithmMember`
+    #       is modeled and supplied.
+    #
+    #   @option options [Integer] :request_min_compression_size_bytes (10240)
+    #     The minimum size in bytes that triggers compression for request
+    #     bodies. The value must be non-negative integer value between 0
+    #     and 10485780 bytes inclusive.
+    #
+    #   @option options [String] :response_checksum_validation ("when_supported")
+    #     Determines when checksum validation will be performed on response payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, checksum validation is performed on all
+    #       response payloads of operations modeled with the `httpChecksum` trait where
+    #       `responseAlgorithms` is modeled, except when no modeled checksum algorithms
+    #       are supported.
+    #     * `when_required` - When set, checksum validation is not performed on
+    #       response payloads of operations unless the checksum algorithm is supported and
+    #       the `requestValidationModeMember` member is set to `ENABLED`.
     #
     #   @option options [Proc] :retry_backoff
     #     A proc or lambda used for backoff. Defaults to 2**retries * retry_base_delay.
@@ -274,20 +329,31 @@ module Aws::Athena
     #       throttling.  This is a provisional mode that may change behavior
     #       in the future.
     #
+    #   @option options [String] :sdk_ua_app_id
+    #     A unique and opaque application ID that is appended to the
+    #     User-Agent header as app/sdk_ua_app_id. It should have a
+    #     maximum length of 50. This variable is sourced from environment
+    #     variable AWS_SDK_UA_APP_ID or the shared config profile attribute sdk_ua_app_id.
     #
     #   @option options [String] :secret_access_key
     #
     #   @option options [String] :session_token
     #
+    #   @option options [Array] :sigv4a_signing_region_set
+    #     A list of regions that should be signed with SigV4a signing. When
+    #     not passed, a default `:sigv4a_signing_region_set` is searched for
+    #     in the following locations:
+    #
+    #     * `Aws.config[:sigv4a_signing_region_set]`
+    #     * `ENV['AWS_SIGV4A_SIGNING_REGION_SET']`
+    #     * `~/.aws/config`
+    #
     #   @option options [Boolean] :simple_json (false)
     #     Disables request parameter conversion, validation, and formatting.
-    #     Also disable response data type conversions. This option is useful
-    #     when you want to ensure the highest level of performance by
-    #     avoiding overhead of walking request parameters and response data
-    #     structures.
-    #
-    #     When `:simple_json` is enabled, the request parameters hash must
-    #     be formatted exactly as the DynamoDB API expects.
+    #     Also disables response data type conversions. The request parameters
+    #     hash must be formatted exactly as the API expects.This option is useful
+    #     when you want to ensure the highest level of performance by avoiding
+    #     overhead of walking request parameters and response data structures.
     #
     #   @option options [Boolean] :stub_responses (false)
     #     Causes the client to return stubbed responses. By default
@@ -297,6 +363,16 @@ module Aws::Athena
     #
     #     ** Please note ** When response stubbing is enabled, no HTTP
     #     requests are made, and retries are disabled.
+    #
+    #   @option options [Aws::Telemetry::TelemetryProviderBase] :telemetry_provider (Aws::Telemetry::NoOpTelemetryProvider)
+    #     Allows you to provide a telemetry provider, which is used to
+    #     emit telemetry data. By default, uses `NoOpTelemetryProvider` which
+    #     will not record or emit any telemetry data. The SDK supports the
+    #     following telemetry providers:
+    #
+    #     * OpenTelemetry (OTel) - To use the OTel provider, install and require the
+    #     `opentelemetry-sdk` gem and then, pass in an instance of a
+    #     `Aws::Telemetry::OTelProvider` for telemetry provider.
     #
     #   @option options [Aws::TokenProvider] :token_provider
     #     A Bearer Token Provider. This can be an instance of any one of the
@@ -325,52 +401,75 @@ module Aws::Athena
     #     sending the request.
     #
     #   @option options [Aws::Athena::EndpointProvider] :endpoint_provider
-    #     The endpoint provider used to resolve endpoints. Any object that responds to `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to `Aws::Athena::EndpointParameters`
+    #     The endpoint provider used to resolve endpoints. Any object that responds to
+    #     `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+    #     `Aws::Athena::EndpointParameters`.
     #
-    #   @option options [URI::HTTP,String] :http_proxy A proxy to send
-    #     requests through.  Formatted like 'http://proxy.com:123'.
+    #   @option options [Float] :http_continue_timeout (1)
+    #     The number of seconds to wait for a 100-continue response before sending the
+    #     request body.  This option has no effect unless the request has "Expect"
+    #     header set to "100-continue".  Defaults to `nil` which  disables this
+    #     behaviour.  This value can safely be set per request on the session.
     #
-    #   @option options [Float] :http_open_timeout (15) The number of
-    #     seconds to wait when opening a HTTP session before raising a
-    #     `Timeout::Error`.
+    #   @option options [Float] :http_idle_timeout (5)
+    #     The number of seconds a connection is allowed to sit idle before it
+    #     is considered stale.  Stale connections are closed and removed from the
+    #     pool before making a request.
     #
-    #   @option options [Float] :http_read_timeout (60) The default
-    #     number of seconds to wait for response data.  This value can
-    #     safely be set per-request on the session.
+    #   @option options [Float] :http_open_timeout (15)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :http_idle_timeout (5) The number of
-    #     seconds a connection is allowed to sit idle before it is
-    #     considered stale.  Stale connections are closed and removed
-    #     from the pool before making a request.
+    #   @option options [URI::HTTP,String] :http_proxy
+    #     A proxy to send requests through.  Formatted like 'http://proxy.com:123'.
     #
-    #   @option options [Float] :http_continue_timeout (1) The number of
-    #     seconds to wait for a 100-continue response before sending the
-    #     request body.  This option has no effect unless the request has
-    #     "Expect" header set to "100-continue".  Defaults to `nil` which
-    #     disables this behaviour.  This value can safely be set per
-    #     request on the session.
+    #   @option options [Float] :http_read_timeout (60)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :ssl_timeout (nil) Sets the SSL timeout
-    #     in seconds.
+    #   @option options [Boolean] :http_wire_trace (false)
+    #     When `true`,  HTTP debug output will be sent to the `:logger`.
     #
-    #   @option options [Boolean] :http_wire_trace (false) When `true`,
-    #     HTTP debug output will be sent to the `:logger`.
+    #   @option options [Proc] :on_chunk_received
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the response body is received. It provides three arguments: the chunk,
+    #     the number of bytes received, and the total number of
+    #     bytes in the response (or nil if the server did not send a `content-length`).
     #
-    #   @option options [Boolean] :ssl_verify_peer (true) When `true`,
-    #     SSL peer certificates are verified when establishing a
-    #     connection.
+    #   @option options [Proc] :on_chunk_sent
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the request body is sent. It provides three arguments: the chunk,
+    #     the number of bytes read from the body, and the total number of
+    #     bytes in the body.
     #
-    #   @option options [String] :ssl_ca_bundle Full path to the SSL
-    #     certificate authority bundle file that should be used when
-    #     verifying peer certificates.  If you do not pass
-    #     `:ssl_ca_bundle` or `:ssl_ca_directory` the the system default
-    #     will be used if available.
+    #   @option options [Boolean] :raise_response_errors (true)
+    #     When `true`, response errors are raised.
     #
-    #   @option options [String] :ssl_ca_directory Full path of the
-    #     directory that contains the unbundled SSL certificate
+    #   @option options [String] :ssl_ca_bundle
+    #     Full path to the SSL certificate authority bundle file that should be used when
+    #     verifying peer certificates.  If you do not pass `:ssl_ca_bundle` or
+    #     `:ssl_ca_directory` the the system default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_directory
+    #     Full path of the directory that contains the unbundled SSL certificate
     #     authority files for verifying peer certificates.  If you do
-    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the
-    #     system default will be used if available.
+    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the system
+    #     default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_store
+    #     Sets the X509::Store to verify peer certificate.
+    #
+    #   @option options [OpenSSL::X509::Certificate] :ssl_cert
+    #     Sets a client certificate when creating http connections.
+    #
+    #   @option options [OpenSSL::PKey] :ssl_key
+    #     Sets a client key when creating http connections.
+    #
+    #   @option options [Float] :ssl_timeout
+    #     Sets the SSL timeout in seconds
+    #
+    #   @option options [Boolean] :ssl_verify_peer (true)
+    #     When `true`, SSL peer certificates are verified when establishing a connection.
     #
     def initialize(*args)
       super
@@ -523,6 +622,7 @@ module Aws::Athena
     #   resp.query_executions[0].statistics.data_manifest_location #=> String
     #   resp.query_executions[0].statistics.total_execution_time_in_millis #=> Integer
     #   resp.query_executions[0].statistics.query_queue_time_in_millis #=> Integer
+    #   resp.query_executions[0].statistics.service_pre_processing_time_in_millis #=> Integer
     #   resp.query_executions[0].statistics.query_planning_time_in_millis #=> Integer
     #   resp.query_executions[0].statistics.service_processing_time_in_millis #=> Integer
     #   resp.query_executions[0].statistics.result_reuse_information.reused_previous_result #=> Boolean
@@ -531,6 +631,10 @@ module Aws::Athena
     #   resp.query_executions[0].engine_version.effective_engine_version #=> String
     #   resp.query_executions[0].execution_parameters #=> Array
     #   resp.query_executions[0].execution_parameters[0] #=> String
+    #   resp.query_executions[0].substatement_type #=> String
+    #   resp.query_executions[0].query_results_s3_access_grants_configuration.enable_s3_access_grants #=> Boolean
+    #   resp.query_executions[0].query_results_s3_access_grants_configuration.create_user_level_prefix #=> Boolean
+    #   resp.query_executions[0].query_results_s3_access_grants_configuration.authentication_type #=> String, one of "DIRECTORY_IDENTITY"
     #   resp.unprocessed_query_execution_ids #=> Array
     #   resp.unprocessed_query_execution_ids[0].query_execution_id #=> String
     #   resp.unprocessed_query_execution_ids[0].error_code #=> String
@@ -545,9 +649,85 @@ module Aws::Athena
       req.send_request(options)
     end
 
+    # Cancels the capacity reservation with the specified name. Cancelled
+    # reservations remain in your account and will be deleted 45 days after
+    # cancellation. During the 45 days, you cannot re-purpose or reuse a
+    # reservation that has been cancelled, but you can refer to its tags and
+    # view it for historical reference.
+    #
+    # @option params [required, String] :name
+    #   The name of the capacity reservation to cancel.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.cancel_capacity_reservation({
+    #     name: "CapacityReservationName", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/athena-2017-05-18/CancelCapacityReservation AWS API Documentation
+    #
+    # @overload cancel_capacity_reservation(params = {})
+    # @param [Hash] params ({})
+    def cancel_capacity_reservation(params = {}, options = {})
+      req = build_request(:cancel_capacity_reservation, params)
+      req.send_request(options)
+    end
+
+    # Creates a capacity reservation with the specified name and number of
+    # requested data processing units.
+    #
+    # @option params [required, Integer] :target_dpus
+    #   The number of requested data processing units.
+    #
+    # @option params [required, String] :name
+    #   The name of the capacity reservation to create.
+    #
+    # @option params [Array<Types::Tag>] :tags
+    #   The tags for the capacity reservation.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_capacity_reservation({
+    #     target_dpus: 1, # required
+    #     name: "CapacityReservationName", # required
+    #     tags: [
+    #       {
+    #         key: "TagKey",
+    #         value: "TagValue",
+    #       },
+    #     ],
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/athena-2017-05-18/CreateCapacityReservation AWS API Documentation
+    #
+    # @overload create_capacity_reservation(params = {})
+    # @param [Hash] params ({})
+    def create_capacity_reservation(params = {}, options = {})
+      req = build_request(:create_capacity_reservation, params)
+      req.send_request(options)
+    end
+
     # Creates (registers) a data catalog with the specified name and
     # properties. Catalogs created are visible to all users of the same
     # Amazon Web Services account.
+    #
+    # This API operation creates the following resources.
+    #
+    # * CFN Stack Name with a maximum length of 128 characters and prefix
+    #   `athenafederatedcatalog-CATALOG_NAME_SANITIZED` with length 23
+    #   characters.
+    #
+    # * Lambda Function Name with a maximum length of 64 characters and
+    #   prefix `athenafederatedcatalog_CATALOG_NAME_SANITIZED` with length
+    #   23 characters.
+    #
+    # * Glue Connection Name with a maximum length of 255 characters and a
+    #   prefix `athenafederatedcatalog_CATALOG_NAME_SANITIZED` with length
+    #   23 characters.
     #
     # @option params [required, String] :name
     #   The name of the data catalog to create. The catalog name must be
@@ -556,10 +736,25 @@ module Aws::Athena
     #   remainder of the length constraint of 256 is reserved for use by
     #   Athena.
     #
+    #   For `FEDERATED` type the catalog name has following considerations and
+    #   limits:
+    #
+    #   * The catalog name allows special characters such as `_ , @ , \ , - `.
+    #     These characters are replaced with a hyphen (-) when creating the
+    #     CFN Stack Name and with an underscore (\_) when creating the Lambda
+    #     Function and Glue Connection Name.
+    #
+    #   * The catalog name has a theoretical limit of 128 characters. However,
+    #     since we use it to create other resources that allow less characters
+    #     and we prepend a prefix to it, the actual catalog name limit for
+    #     `FEDERATED` catalog is 64 - 23 = 41 characters.
+    #
     # @option params [required, String] :type
     #   The type of data catalog to create: `LAMBDA` for a federated catalog,
-    #   `HIVE` for an external hive metastore, or `GLUE` for an Glue Data
-    #   Catalog.
+    #   `GLUE` for an Glue Data Catalog, and `HIVE` for an external Apache
+    #   Hive metastore. `FEDERATED` is a federated catalog for which Athena
+    #   creates the connection and the Lambda function for you based on the
+    #   parameters that you pass.
     #
     # @option params [String] :description
     #   A description of the data catalog to be created.
@@ -590,7 +785,6 @@ module Aws::Athena
     #       function.
     #
     #       `function=lambda_arn `
-    #
     #   * The `GLUE` type takes a catalog ID parameter and is required. The `
     #     catalog_id ` is the account ID of the Amazon Web Services account to
     #     which the Glue Data Catalog belongs.
@@ -601,24 +795,42 @@ module Aws::Athena
     #       `AwsDataCatalog` that already exists in your account, of which you
     #       can have only one and cannot modify.
     #
-    #     * Queries that specify a Glue Data Catalog other than the default
-    #       `AwsDataCatalog` must be run on Athena engine version 2.
+    #     ^
+    #   * The `FEDERATED` data catalog type uses one of the following
+    #     parameters, but not both. Use `connection-arn` for an existing Glue
+    #     connection. Use `connection-type` and `connection-properties` to
+    #     specify the configuration setting for a new connection.
     #
-    #     * In Regions where Athena engine version 2 is not available,
-    #       creating new Glue data catalogs results in an `INVALID_INPUT`
-    #       error.
+    #     * `connection-arn:<glue_connection_arn_to_reuse> `
+    #
+    #     * `lambda-role-arn` (optional): The execution role to use for the
+    #       Lambda function. If not provided, one is created.
+    #
+    #     * `connection-type:MYSQL|REDSHIFT|....,
+    #       connection-properties:"<json_string>"`
+    #
+    #       For <i> <code>&lt;json_string&gt;</code> </i>, use escaped JSON
+    #       text, as in the following example.
+    #
+    #       `"{"spill_bucket":"my_spill","spill_prefix":"athena-spill","host":"abc12345.snowflakecomputing.com","port":"1234","warehouse":"DEV_WH","database":"TEST","schema":"PUBLIC","SecretArn":"arn:aws:secretsmanager:ap-south-1:111122223333:secret:snowflake-XHb67j"}"`
     #
     # @option params [Array<Types::Tag>] :tags
     #   A list of comma separated tags to add to the data catalog that is
-    #   created.
+    #   created. All the resources that are created by the `CreateDataCatalog`
+    #   API operation with `FEDERATED` type will have the tag
+    #   `federated_athena_datacatalog="true"`. This includes the CFN Stack,
+    #   Glue Connection, Athena DataCatalog, and all the resources created as
+    #   part of the CFN Stack (Lambda Function, IAM policies/roles).
     #
-    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    # @return [Types::CreateDataCatalogOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateDataCatalogOutput#data_catalog #data_catalog} => Types::DataCatalog
     #
     # @example Request syntax with placeholder values
     #
     #   resp = client.create_data_catalog({
     #     name: "CatalogNameString", # required
-    #     type: "LAMBDA", # required, accepts LAMBDA, GLUE, HIVE
+    #     type: "LAMBDA", # required, accepts LAMBDA, GLUE, HIVE, FEDERATED
     #     description: "DescriptionString",
     #     parameters: {
     #       "KeyString" => "ParametersMapValue",
@@ -631,6 +843,17 @@ module Aws::Athena
     #     ],
     #   })
     #
+    # @example Response structure
+    #
+    #   resp.data_catalog.name #=> String
+    #   resp.data_catalog.description #=> String
+    #   resp.data_catalog.type #=> String, one of "LAMBDA", "GLUE", "HIVE", "FEDERATED"
+    #   resp.data_catalog.parameters #=> Hash
+    #   resp.data_catalog.parameters["KeyString"] #=> String
+    #   resp.data_catalog.status #=> String, one of "CREATE_IN_PROGRESS", "CREATE_COMPLETE", "CREATE_FAILED", "CREATE_FAILED_CLEANUP_IN_PROGRESS", "CREATE_FAILED_CLEANUP_COMPLETE", "CREATE_FAILED_CLEANUP_FAILED", "DELETE_IN_PROGRESS", "DELETE_COMPLETE", "DELETE_FAILED"
+    #   resp.data_catalog.connection_type #=> String, one of "DYNAMODB", "MYSQL", "POSTGRESQL", "REDSHIFT", "ORACLE", "SYNAPSE", "SQLSERVER", "DB2", "OPENSEARCH", "BIGQUERY", "GOOGLECLOUDSTORAGE", "HBASE", "DOCUMENTDB", "CMDB", "TPCDS", "TIMESTREAM", "SAPHANA", "SNOWFLAKE", "DATALAKEGEN2", "DB2AS400"
+    #   resp.data_catalog.error #=> String
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/athena-2017-05-18/CreateDataCatalog AWS API Documentation
     #
     # @overload create_data_catalog(params = {})
@@ -642,13 +865,6 @@ module Aws::Athena
 
     # Creates a named query in the specified workgroup. Requires that you
     # have access to the workgroup.
-    #
-    # For code samples using the Amazon Web Services SDK for Java, see
-    # [Examples and Code Samples][1] in the *Amazon Athena User Guide*.
-    #
-    #
-    #
-    # [1]: http://docs.aws.amazon.com/athena/latest/ug/code-samples.html
     #
     # @option params [required, String] :name
     #   The query name.
@@ -793,6 +1009,12 @@ module Aws::Athena
     # Gets an authentication token and the URL at which the notebook can be
     # accessed. During programmatic access, `CreatePresignedNotebookUrl`
     # must be called every 10 minutes to refresh the authentication token.
+    # For information about granting programmatic access, see [Grant
+    # programmatic access][1].
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/athena/latest/ug/setting-up.html#setting-up-grant-programmatic-access
     #
     # @option params [required, String] :session_id
     #   The session ID.
@@ -824,24 +1046,22 @@ module Aws::Athena
       req.send_request(options)
     end
 
-    # Creates a workgroup with the specified name. Only one of
-    # `Configurations` or `Configuration` can be specified; `Configurations`
-    # for a workgroup with multi engine support (for example, an Apache
-    # Spark enabled workgroup) or `Configuration` for an Athena SQL
-    # workgroup.
+    # Creates a workgroup with the specified name. A workgroup can be an
+    # Apache Spark enabled workgroup or an Athena SQL workgroup.
     #
     # @option params [required, String] :name
     #   The workgroup name.
     #
     # @option params [Types::WorkGroupConfiguration] :configuration
     #   Contains configuration information for creating an Athena SQL
-    #   workgroup, which includes the location in Amazon S3 where query
-    #   results are stored, the encryption configuration, if any, used for
-    #   encrypting query results, whether the Amazon CloudWatch Metrics are
-    #   enabled for the workgroup, the limit for the amount of bytes scanned
-    #   (cutoff) per query, if it is specified, and whether workgroup's
-    #   settings (specified with `EnforceWorkGroupConfiguration`) in the
-    #   `WorkGroupConfiguration` override client-side settings. See
+    #   workgroup or Spark enabled Athena workgroup. Athena SQL workgroup
+    #   configuration includes the location in Amazon S3 where query and
+    #   calculation results are stored, the encryption configuration, if any,
+    #   used for encrypting query results, whether the Amazon CloudWatch
+    #   Metrics are enabled for the workgroup, the limit for the amount of
+    #   bytes scanned (cutoff) per query, if it is specified, and whether
+    #   workgroup's settings (specified with `EnforceWorkGroupConfiguration`)
+    #   in the `WorkGroupConfiguration` override client-side settings. See
     #   WorkGroupConfiguration$EnforceWorkGroupConfiguration.
     #
     # @option params [String] :description
@@ -882,6 +1102,16 @@ module Aws::Athena
     #       customer_content_encryption_configuration: {
     #         kms_key: "KmsKey", # required
     #       },
+    #       enable_minimum_encryption_configuration: false,
+    #       identity_center_configuration: {
+    #         enable_identity_center: false,
+    #         identity_center_instance_arn: "IdentityCenterInstanceArn",
+    #       },
+    #       query_results_s3_access_grants_configuration: {
+    #         enable_s3_access_grants: false, # required
+    #         create_user_level_prefix: false,
+    #         authentication_type: "DIRECTORY_IDENTITY", # required, accepts DIRECTORY_IDENTITY
+    #       },
     #     },
     #     description: "WorkGroupDescriptionString",
     #     tags: [
@@ -901,18 +1131,65 @@ module Aws::Athena
       req.send_request(options)
     end
 
-    # Deletes a data catalog.
+    # Deletes a cancelled capacity reservation. A reservation must be
+    # cancelled before it can be deleted. A deleted reservation is
+    # immediately removed from your account and can no longer be referenced,
+    # including by its ARN. A deleted reservation cannot be called by
+    # `GetCapacityReservation`, and deleted reservations do not appear in
+    # the output of `ListCapacityReservations`.
     #
     # @option params [required, String] :name
-    #   The name of the data catalog to delete.
+    #   The name of the capacity reservation to delete.
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
     # @example Request syntax with placeholder values
     #
+    #   resp = client.delete_capacity_reservation({
+    #     name: "CapacityReservationName", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/athena-2017-05-18/DeleteCapacityReservation AWS API Documentation
+    #
+    # @overload delete_capacity_reservation(params = {})
+    # @param [Hash] params ({})
+    def delete_capacity_reservation(params = {}, options = {})
+      req = build_request(:delete_capacity_reservation, params)
+      req.send_request(options)
+    end
+
+    # Deletes a data catalog.
+    #
+    # @option params [required, String] :name
+    #   The name of the data catalog to delete.
+    #
+    # @option params [Boolean] :delete_catalog_only
+    #   Deletes the Athena Data Catalog. You can only use this with the
+    #   `FEDERATED` catalogs. You usually perform this before registering the
+    #   connector with Glue Data Catalog. After deletion, you will have to
+    #   manage the Glue Connection and Lambda function.
+    #
+    # @return [Types::DeleteDataCatalogOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DeleteDataCatalogOutput#data_catalog #data_catalog} => Types::DataCatalog
+    #
+    # @example Request syntax with placeholder values
+    #
     #   resp = client.delete_data_catalog({
     #     name: "CatalogNameString", # required
+    #     delete_catalog_only: false,
     #   })
+    #
+    # @example Response structure
+    #
+    #   resp.data_catalog.name #=> String
+    #   resp.data_catalog.description #=> String
+    #   resp.data_catalog.type #=> String, one of "LAMBDA", "GLUE", "HIVE", "FEDERATED"
+    #   resp.data_catalog.parameters #=> Hash
+    #   resp.data_catalog.parameters["KeyString"] #=> String
+    #   resp.data_catalog.status #=> String, one of "CREATE_IN_PROGRESS", "CREATE_COMPLETE", "CREATE_FAILED", "CREATE_FAILED_CLEANUP_IN_PROGRESS", "CREATE_FAILED_CLEANUP_COMPLETE", "CREATE_FAILED_CLEANUP_FAILED", "DELETE_IN_PROGRESS", "DELETE_COMPLETE", "DELETE_FAILED"
+    #   resp.data_catalog.connection_type #=> String, one of "DYNAMODB", "MYSQL", "POSTGRESQL", "REDSHIFT", "ORACLE", "SYNAPSE", "SQLSERVER", "DB2", "OPENSEARCH", "BIGQUERY", "GOOGLECLOUDSTORAGE", "HBASE", "DOCUMENTDB", "CMDB", "TPCDS", "TIMESTREAM", "SAPHANA", "SNOWFLAKE", "DATALAKEGEN2", "DB2AS400"
+    #   resp.data_catalog.error #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/athena-2017-05-18/DeleteDataCatalog AWS API Documentation
     #
@@ -925,13 +1202,6 @@ module Aws::Athena
 
     # Deletes the named query if you have access to the workgroup in which
     # the query was saved.
-    #
-    # For code samples using the Amazon Web Services SDK for Java, see
-    # [Examples and Code Samples][1] in the *Amazon Athena User Guide*.
-    #
-    #
-    #
-    # [1]: http://docs.aws.amazon.com/athena/latest/ug/code-samples.html
     #
     # @option params [required, String] :named_query_id
     #   The unique ID of the query to delete.
@@ -1013,7 +1283,7 @@ module Aws::Athena
     #
     # @option params [Boolean] :recursive_delete_option
     #   The option to delete the workgroup and its contents even if the
-    #   workgroup contains any named queries or query executions.
+    #   workgroup contains any named queries, query executions, or notebooks.
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
@@ -1115,8 +1385,7 @@ module Aws::Athena
       req.send_request(options)
     end
 
-    # Retrieves a pre-signed URL to a copy of the code that was executed for
-    # the calculation.
+    # Retrieves the unencrypted code that was executed for the calculation.
     #
     # @option params [required, String] :calculation_execution_id
     #   The calculation execution UUID.
@@ -1178,10 +1447,85 @@ module Aws::Athena
       req.send_request(options)
     end
 
+    # Gets the capacity assignment configuration for a capacity reservation,
+    # if one exists.
+    #
+    # @option params [required, String] :capacity_reservation_name
+    #   The name of the capacity reservation to retrieve the capacity
+    #   assignment configuration for.
+    #
+    # @return [Types::GetCapacityAssignmentConfigurationOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetCapacityAssignmentConfigurationOutput#capacity_assignment_configuration #capacity_assignment_configuration} => Types::CapacityAssignmentConfiguration
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_capacity_assignment_configuration({
+    #     capacity_reservation_name: "CapacityReservationName", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.capacity_assignment_configuration.capacity_reservation_name #=> String
+    #   resp.capacity_assignment_configuration.capacity_assignments #=> Array
+    #   resp.capacity_assignment_configuration.capacity_assignments[0].work_group_names #=> Array
+    #   resp.capacity_assignment_configuration.capacity_assignments[0].work_group_names[0] #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/athena-2017-05-18/GetCapacityAssignmentConfiguration AWS API Documentation
+    #
+    # @overload get_capacity_assignment_configuration(params = {})
+    # @param [Hash] params ({})
+    def get_capacity_assignment_configuration(params = {}, options = {})
+      req = build_request(:get_capacity_assignment_configuration, params)
+      req.send_request(options)
+    end
+
+    # Returns information about the capacity reservation with the specified
+    # name.
+    #
+    # @option params [required, String] :name
+    #   The name of the capacity reservation.
+    #
+    # @return [Types::GetCapacityReservationOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetCapacityReservationOutput#capacity_reservation #capacity_reservation} => Types::CapacityReservation
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_capacity_reservation({
+    #     name: "CapacityReservationName", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.capacity_reservation.name #=> String
+    #   resp.capacity_reservation.status #=> String, one of "PENDING", "ACTIVE", "CANCELLING", "CANCELLED", "FAILED", "UPDATE_PENDING"
+    #   resp.capacity_reservation.target_dpus #=> Integer
+    #   resp.capacity_reservation.allocated_dpus #=> Integer
+    #   resp.capacity_reservation.last_allocation.status #=> String, one of "PENDING", "SUCCEEDED", "FAILED"
+    #   resp.capacity_reservation.last_allocation.status_message #=> String
+    #   resp.capacity_reservation.last_allocation.request_time #=> Time
+    #   resp.capacity_reservation.last_allocation.request_completion_time #=> Time
+    #   resp.capacity_reservation.last_successful_allocation_time #=> Time
+    #   resp.capacity_reservation.creation_time #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/athena-2017-05-18/GetCapacityReservation AWS API Documentation
+    #
+    # @overload get_capacity_reservation(params = {})
+    # @param [Hash] params ({})
+    def get_capacity_reservation(params = {}, options = {})
+      req = build_request(:get_capacity_reservation, params)
+      req.send_request(options)
+    end
+
     # Returns the specified data catalog.
     #
     # @option params [required, String] :name
     #   The name of the data catalog to return.
+    #
+    # @option params [String] :work_group
+    #   The name of the workgroup. Required if making an IAM Identity Center
+    #   request.
     #
     # @return [Types::GetDataCatalogOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1191,15 +1535,19 @@ module Aws::Athena
     #
     #   resp = client.get_data_catalog({
     #     name: "CatalogNameString", # required
+    #     work_group: "WorkGroupName",
     #   })
     #
     # @example Response structure
     #
     #   resp.data_catalog.name #=> String
     #   resp.data_catalog.description #=> String
-    #   resp.data_catalog.type #=> String, one of "LAMBDA", "GLUE", "HIVE"
+    #   resp.data_catalog.type #=> String, one of "LAMBDA", "GLUE", "HIVE", "FEDERATED"
     #   resp.data_catalog.parameters #=> Hash
     #   resp.data_catalog.parameters["KeyString"] #=> String
+    #   resp.data_catalog.status #=> String, one of "CREATE_IN_PROGRESS", "CREATE_COMPLETE", "CREATE_FAILED", "CREATE_FAILED_CLEANUP_IN_PROGRESS", "CREATE_FAILED_CLEANUP_COMPLETE", "CREATE_FAILED_CLEANUP_FAILED", "DELETE_IN_PROGRESS", "DELETE_COMPLETE", "DELETE_FAILED"
+    #   resp.data_catalog.connection_type #=> String, one of "DYNAMODB", "MYSQL", "POSTGRESQL", "REDSHIFT", "ORACLE", "SYNAPSE", "SQLSERVER", "DB2", "OPENSEARCH", "BIGQUERY", "GOOGLECLOUDSTORAGE", "HBASE", "DOCUMENTDB", "CMDB", "TPCDS", "TIMESTREAM", "SAPHANA", "SNOWFLAKE", "DATALAKEGEN2", "DB2AS400"
+    #   resp.data_catalog.error #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/athena-2017-05-18/GetDataCatalog AWS API Documentation
     #
@@ -1218,6 +1566,11 @@ module Aws::Athena
     # @option params [required, String] :database_name
     #   The name of the database to return.
     #
+    # @option params [String] :work_group
+    #   The name of the workgroup for which the metadata is being fetched.
+    #   Required if requesting an IAM Identity Center enabled Glue Data
+    #   Catalog.
+    #
     # @return [Types::GetDatabaseOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::GetDatabaseOutput#database #database} => Types::Database
@@ -1227,6 +1580,7 @@ module Aws::Athena
     #   resp = client.get_database({
     #     catalog_name: "CatalogNameString", # required
     #     database_name: "NameString", # required
+    #     work_group: "WorkGroupName",
     #   })
     #
     # @example Response structure
@@ -1394,6 +1748,7 @@ module Aws::Athena
     #   resp.query_execution.statistics.data_manifest_location #=> String
     #   resp.query_execution.statistics.total_execution_time_in_millis #=> Integer
     #   resp.query_execution.statistics.query_queue_time_in_millis #=> Integer
+    #   resp.query_execution.statistics.service_pre_processing_time_in_millis #=> Integer
     #   resp.query_execution.statistics.query_planning_time_in_millis #=> Integer
     #   resp.query_execution.statistics.service_processing_time_in_millis #=> Integer
     #   resp.query_execution.statistics.result_reuse_information.reused_previous_result #=> Boolean
@@ -1402,6 +1757,10 @@ module Aws::Athena
     #   resp.query_execution.engine_version.effective_engine_version #=> String
     #   resp.query_execution.execution_parameters #=> Array
     #   resp.query_execution.execution_parameters[0] #=> String
+    #   resp.query_execution.substatement_type #=> String
+    #   resp.query_execution.query_results_s3_access_grants_configuration.enable_s3_access_grants #=> Boolean
+    #   resp.query_execution.query_results_s3_access_grants_configuration.create_user_level_prefix #=> Boolean
+    #   resp.query_execution.query_results_s3_access_grants_configuration.authentication_type #=> String, one of "DIRECTORY_IDENTITY"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/athena-2017-05-18/GetQueryExecution AWS API Documentation
     #
@@ -1414,9 +1773,10 @@ module Aws::Athena
 
     # Streams the results of a single query execution specified by
     # `QueryExecutionId` from the Athena query results location in Amazon
-    # S3. For more information, see [Query Results][1] in the *Amazon Athena
-    # User Guide*. This request does not execute the query but returns
-    # results. Use StartQueryExecution to run a query.
+    # S3. For more information, see [Working with query results, recent
+    # queries, and output files][1] in the *Amazon Athena User Guide*. This
+    # request does not execute the query but returns results. Use
+    # StartQueryExecution to run a query.
     #
     # To stream query results successfully, the IAM principal with
     # permission to call `GetQueryResults` also must have permissions to the
@@ -1490,11 +1850,13 @@ module Aws::Athena
 
     # Returns query execution runtime statistics related to a single
     # execution of a query if you have access to the workgroup in which the
-    # query ran. Query execution runtime statistics are returned only when
-    # QueryExecutionStatus$State is in a SUCCEEDED or FAILED state.
-    # Stage-level input and output row count and data size statistics are
-    # not shown when a query has row-level filters defined in Lake
-    # Formation.
+    # query ran. Statistics from the `Timeline` section of the response
+    # object are available as soon as QueryExecutionStatus$State is in a
+    # SUCCEEDED or FAILED state. The remaining non-timeline statistics in
+    # the response (like stage-level input and output row count and data
+    # size) are updated asynchronously and may not be available immediately
+    # after a query completes. The non-timeline statistics are also not
+    # included when a query has row-level filters defined in Lake Formation.
     #
     # @option params [required, String] :query_execution_id
     #   The unique ID of the query execution.
@@ -1512,6 +1874,7 @@ module Aws::Athena
     # @example Response structure
     #
     #   resp.query_runtime_statistics.timeline.query_queue_time_in_millis #=> Integer
+    #   resp.query_runtime_statistics.timeline.service_pre_processing_time_in_millis #=> Integer
     #   resp.query_runtime_statistics.timeline.query_planning_time_in_millis #=> Integer
     #   resp.query_runtime_statistics.timeline.engine_execution_time_in_millis #=> Integer
     #   resp.query_runtime_statistics.timeline.service_processing_time_in_millis #=> Integer
@@ -1580,6 +1943,8 @@ module Aws::Athena
     #   resp.engine_configuration.default_executor_dpu_size #=> Integer
     #   resp.engine_configuration.additional_configs #=> Hash
     #   resp.engine_configuration.additional_configs["KeyString"] #=> String
+    #   resp.engine_configuration.spark_properties #=> Hash
+    #   resp.engine_configuration.spark_properties["KeyString"] #=> String
     #   resp.notebook_version #=> String
     #   resp.session_configuration.execution_role #=> String
     #   resp.session_configuration.working_directory #=> String
@@ -1650,6 +2015,11 @@ module Aws::Athena
     # @option params [required, String] :table_name
     #   The name of the table for which metadata is returned.
     #
+    # @option params [String] :work_group
+    #   The name of the workgroup for which the metadata is being fetched.
+    #   Required if requesting an IAM Identity Center enabled Glue Data
+    #   Catalog.
+    #
     # @return [Types::GetTableMetadataOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::GetTableMetadataOutput#table_metadata #table_metadata} => Types::TableMetadata
@@ -1660,6 +2030,7 @@ module Aws::Athena
     #     catalog_name: "CatalogNameString", # required
     #     database_name: "NameString", # required
     #     table_name: "NameString", # required
+    #     work_group: "WorkGroupName",
     #   })
     #
     # @example Response structure
@@ -1721,8 +2092,15 @@ module Aws::Athena
     #   resp.work_group.configuration.additional_configuration #=> String
     #   resp.work_group.configuration.execution_role #=> String
     #   resp.work_group.configuration.customer_content_encryption_configuration.kms_key #=> String
+    #   resp.work_group.configuration.enable_minimum_encryption_configuration #=> Boolean
+    #   resp.work_group.configuration.identity_center_configuration.enable_identity_center #=> Boolean
+    #   resp.work_group.configuration.identity_center_configuration.identity_center_instance_arn #=> String
+    #   resp.work_group.configuration.query_results_s3_access_grants_configuration.enable_s3_access_grants #=> Boolean
+    #   resp.work_group.configuration.query_results_s3_access_grants_configuration.create_user_level_prefix #=> Boolean
+    #   resp.work_group.configuration.query_results_s3_access_grants_configuration.authentication_type #=> String, one of "DIRECTORY_IDENTITY"
     #   resp.work_group.description #=> String
     #   resp.work_group.creation_time #=> Time
+    #   resp.work_group.identity_center_application_arn #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/athena-2017-05-18/GetWorkGroup AWS API Documentation
     #
@@ -1733,10 +2111,12 @@ module Aws::Athena
       req.send_request(options)
     end
 
-    # Imports a single `ipynb` file to a Spark enabled workgroup. The
-    # maximum file size that can be imported is 10 megabytes. If an `ipynb`
-    # file with the same name already exists in the workgroup, throws an
-    # error.
+    # Imports a single `ipynb` file to a Spark enabled workgroup. To import
+    # the notebook, the request must specify a value for either `Payload` or
+    # `NoteBookS3LocationUri`. If neither is specified or both are
+    # specified, an `InvalidRequestException` occurs. The maximum file size
+    # that can be imported is 10 megabytes. If an `ipynb` file with the same
+    # name already exists in the workgroup, throws an error.
     #
     # @option params [required, String] :work_group
     #   The name of the Spark enabled workgroup to import the notebook to.
@@ -1744,11 +2124,16 @@ module Aws::Athena
     # @option params [required, String] :name
     #   The name of the notebook to import.
     #
-    # @option params [required, String] :payload
-    #   The notebook content to be imported.
+    # @option params [String] :payload
+    #   The notebook content to be imported. The payload must be in `ipynb`
+    #   format.
     #
     # @option params [required, String] :type
     #   The notebook content type. Currently, the only valid type is `IPYNB`.
+    #
+    # @option params [String] :notebook_s3_location_uri
+    #   A URI that specifies the Amazon S3 location of a notebook file in
+    #   `ipynb` format.
     #
     # @option params [String] :client_request_token
     #   A unique case-sensitive string used to ensure the request to import
@@ -1769,8 +2154,9 @@ module Aws::Athena
     #   resp = client.import_notebook({
     #     work_group: "WorkGroupName", # required
     #     name: "NotebookName", # required
-    #     payload: "Payload", # required
+    #     payload: "Payload",
     #     type: "IPYNB", # required, accepts IPYNB
+    #     notebook_s3_location_uri: "S3Uri",
     #     client_request_token: "ClientRequestToken",
     #   })
     #
@@ -1788,7 +2174,7 @@ module Aws::Athena
     end
 
     # Returns the supported DPU sizes for the supported application runtimes
-    # (for example, `Jupyter 1.0`).
+    # (for example, `Athena notebook version 1`).
     #
     # @option params [Integer] :max_results
     #   Specifies the maximum number of results to return.
@@ -1902,7 +2288,59 @@ module Aws::Athena
       req.send_request(options)
     end
 
+    # Lists the capacity reservations for the current account.
+    #
+    # @option params [String] :next_token
+    #   A token generated by the Athena service that specifies where to
+    #   continue pagination if a previous request was truncated.
+    #
+    # @option params [Integer] :max_results
+    #   Specifies the maximum number of results to return.
+    #
+    # @return [Types::ListCapacityReservationsOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListCapacityReservationsOutput#next_token #next_token} => String
+    #   * {Types::ListCapacityReservationsOutput#capacity_reservations #capacity_reservations} => Array&lt;Types::CapacityReservation&gt;
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_capacity_reservations({
+    #     next_token: "Token",
+    #     max_results: 1,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.next_token #=> String
+    #   resp.capacity_reservations #=> Array
+    #   resp.capacity_reservations[0].name #=> String
+    #   resp.capacity_reservations[0].status #=> String, one of "PENDING", "ACTIVE", "CANCELLING", "CANCELLED", "FAILED", "UPDATE_PENDING"
+    #   resp.capacity_reservations[0].target_dpus #=> Integer
+    #   resp.capacity_reservations[0].allocated_dpus #=> Integer
+    #   resp.capacity_reservations[0].last_allocation.status #=> String, one of "PENDING", "SUCCEEDED", "FAILED"
+    #   resp.capacity_reservations[0].last_allocation.status_message #=> String
+    #   resp.capacity_reservations[0].last_allocation.request_time #=> Time
+    #   resp.capacity_reservations[0].last_allocation.request_completion_time #=> Time
+    #   resp.capacity_reservations[0].last_successful_allocation_time #=> Time
+    #   resp.capacity_reservations[0].creation_time #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/athena-2017-05-18/ListCapacityReservations AWS API Documentation
+    #
+    # @overload list_capacity_reservations(params = {})
+    # @param [Hash] params ({})
+    def list_capacity_reservations(params = {}, options = {})
+      req = build_request(:list_capacity_reservations, params)
+      req.send_request(options)
+    end
+
     # Lists the data catalogs in the current Amazon Web Services account.
+    #
+    # <note markdown="1"> In the Athena console, data catalogs are listed as "data sources" on
+    # the **Data sources** page under the **Data source name** column.
+    #
+    #  </note>
     #
     # @option params [String] :next_token
     #   A token generated by the Athena service that specifies where to
@@ -1912,6 +2350,10 @@ module Aws::Athena
     #
     # @option params [Integer] :max_results
     #   Specifies the maximum number of data catalogs to return.
+    #
+    # @option params [String] :work_group
+    #   The name of the workgroup. Required if making an IAM Identity Center
+    #   request.
     #
     # @return [Types::ListDataCatalogsOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1925,13 +2367,17 @@ module Aws::Athena
     #   resp = client.list_data_catalogs({
     #     next_token: "Token",
     #     max_results: 1,
+    #     work_group: "WorkGroupName",
     #   })
     #
     # @example Response structure
     #
     #   resp.data_catalogs_summary #=> Array
     #   resp.data_catalogs_summary[0].catalog_name #=> String
-    #   resp.data_catalogs_summary[0].type #=> String, one of "LAMBDA", "GLUE", "HIVE"
+    #   resp.data_catalogs_summary[0].type #=> String, one of "LAMBDA", "GLUE", "HIVE", "FEDERATED"
+    #   resp.data_catalogs_summary[0].status #=> String, one of "CREATE_IN_PROGRESS", "CREATE_COMPLETE", "CREATE_FAILED", "CREATE_FAILED_CLEANUP_IN_PROGRESS", "CREATE_FAILED_CLEANUP_COMPLETE", "CREATE_FAILED_CLEANUP_FAILED", "DELETE_IN_PROGRESS", "DELETE_COMPLETE", "DELETE_FAILED"
+    #   resp.data_catalogs_summary[0].connection_type #=> String, one of "DYNAMODB", "MYSQL", "POSTGRESQL", "REDSHIFT", "ORACLE", "SYNAPSE", "SQLSERVER", "DB2", "OPENSEARCH", "BIGQUERY", "GOOGLECLOUDSTORAGE", "HBASE", "DOCUMENTDB", "CMDB", "TPCDS", "TIMESTREAM", "SAPHANA", "SNOWFLAKE", "DATALAKEGEN2", "DB2AS400"
+    #   resp.data_catalogs_summary[0].error #=> String
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/athena-2017-05-18/ListDataCatalogs AWS API Documentation
@@ -1957,6 +2403,11 @@ module Aws::Athena
     # @option params [Integer] :max_results
     #   Specifies the maximum number of results to return.
     #
+    # @option params [String] :work_group
+    #   The name of the workgroup for which the metadata is being fetched.
+    #   Required if requesting an IAM Identity Center enabled Glue Data
+    #   Catalog.
+    #
     # @return [Types::ListDatabasesOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::ListDatabasesOutput#database_list #database_list} => Array&lt;Types::Database&gt;
@@ -1970,6 +2421,7 @@ module Aws::Athena
     #     catalog_name: "CatalogNameString", # required
     #     next_token: "Token",
     #     max_results: 1,
+    #     work_group: "WorkGroupName",
     #   })
     #
     # @example Response structure
@@ -2032,9 +2484,9 @@ module Aws::Athena
       req.send_request(options)
     end
 
-    # Lists, in descending order, the executors that have been submitted to
-    # a session. Newer executors are listed first; older executors are
-    # listed later. The result can be optionally filtered by state.
+    # Lists, in descending order, the executors that joined a session. Newer
+    # executors are listed first; older executors are listed later. The
+    # result can be optionally filtered by state.
     #
     # @option params [required, String] :session_id
     #   The session ID.
@@ -2107,13 +2559,6 @@ module Aws::Athena
     # specified workgroup. Requires that you have access to the specified
     # workgroup. If a workgroup is not specified, lists the saved queries
     # for the primary workgroup.
-    #
-    # For code samples using the Amazon Web Services SDK for Java, see
-    # [Examples and Code Samples][1] in the *Amazon Athena User Guide*.
-    #
-    #
-    #
-    # [1]: http://docs.aws.amazon.com/athena/latest/ug/code-samples.html
     #
     # @option params [String] :next_token
     #   A token generated by the Athena service that specifies where to
@@ -2304,16 +2749,10 @@ module Aws::Athena
     end
 
     # Provides a list of available query execution IDs for the queries in
-    # the specified workgroup. If a workgroup is not specified, returns a
-    # list of query execution IDs for the primary workgroup. Requires you to
-    # have access to the workgroup in which the queries ran.
-    #
-    # For code samples using the Amazon Web Services SDK for Java, see
-    # [Examples and Code Samples][1] in the *Amazon Athena User Guide*.
-    #
-    #
-    #
-    # [1]: http://docs.aws.amazon.com/athena/latest/ug/code-samples.html
+    # the specified workgroup. Athena keeps a query history for 45 days. If
+    # a workgroup is not specified, returns a list of query execution IDs
+    # for the primary workgroup. Requires you to have access to the
+    # workgroup in which the queries ran.
     #
     # @option params [String] :next_token
     #   A token generated by the Athena service that specifies where to
@@ -2462,6 +2901,11 @@ module Aws::Athena
     # @option params [Integer] :max_results
     #   Specifies the maximum number of results to return.
     #
+    # @option params [String] :work_group
+    #   The name of the workgroup for which the metadata is being fetched.
+    #   Required if requesting an IAM Identity Center enabled Glue Data
+    #   Catalog.
+    #
     # @return [Types::ListTableMetadataOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::ListTableMetadataOutput#table_metadata_list #table_metadata_list} => Array&lt;Types::TableMetadata&gt;
@@ -2477,6 +2921,7 @@ module Aws::Athena
     #     expression: "ExpressionString",
     #     next_token: "Token",
     #     max_results: 1,
+    #     work_group: "WorkGroupName",
     #   })
     #
     # @example Response structure
@@ -2507,8 +2952,7 @@ module Aws::Athena
       req.send_request(options)
     end
 
-    # Lists the tags associated with an Athena workgroup or data catalog
-    # resource.
+    # Lists the tags associated with an Athena resource.
     #
     # @option params [required, String] :resource_arn
     #   Lists the tags for the resource with the specified ARN.
@@ -2587,6 +3031,7 @@ module Aws::Athena
     #   resp.work_groups[0].creation_time #=> Time
     #   resp.work_groups[0].engine_version.selected_engine_version #=> String
     #   resp.work_groups[0].engine_version.effective_engine_version #=> String
+    #   resp.work_groups[0].identity_center_application_arn #=> String
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/athena-2017-05-18/ListWorkGroups AWS API Documentation
@@ -2598,9 +3043,50 @@ module Aws::Athena
       req.send_request(options)
     end
 
+    # Puts a new capacity assignment configuration for a specified capacity
+    # reservation. If a capacity assignment configuration already exists for
+    # the capacity reservation, replaces the existing capacity assignment
+    # configuration.
+    #
+    # @option params [required, String] :capacity_reservation_name
+    #   The name of the capacity reservation to put a capacity assignment
+    #   configuration for.
+    #
+    # @option params [required, Array<Types::CapacityAssignment>] :capacity_assignments
+    #   The list of assignments for the capacity assignment configuration.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.put_capacity_assignment_configuration({
+    #     capacity_reservation_name: "CapacityReservationName", # required
+    #     capacity_assignments: [ # required
+    #       {
+    #         work_group_names: ["WorkGroupName"],
+    #       },
+    #     ],
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/athena-2017-05-18/PutCapacityAssignmentConfiguration AWS API Documentation
+    #
+    # @overload put_capacity_assignment_configuration(params = {})
+    # @param [Hash] params ({})
+    def put_capacity_assignment_configuration(params = {}, options = {})
+      req = build_request(:put_capacity_assignment_configuration, params)
+      req.send_request(options)
+    end
+
     # Submits calculations for execution within a session. You can supply
-    # the code to run as an inline code block within the request or as an
-    # Amazon S3 URL.
+    # the code to run as an inline code block within the request.
+    #
+    # <note markdown="1"> The request syntax requires the
+    # StartCalculationExecutionRequest$CodeBlock parameter or the
+    # CalculationConfiguration$CodeBlock parameter, but not both. Because
+    # CalculationConfiguration$CodeBlock is deprecated, use the
+    # StartCalculationExecutionRequest$CodeBlock parameter instead.
+    #
+    #  </note>
     #
     # @option params [required, String] :session_id
     #   The session ID.
@@ -2612,7 +3098,8 @@ module Aws::Athena
     #   Contains configuration information for the calculation.
     #
     # @option params [String] :code_block
-    #   A string that contains the code of the calculation.
+    #   A string that contains the code of the calculation. Use this parameter
+    #   instead of CalculationConfiguration$CodeBlock, which is deprecated.
     #
     # @option params [String] :client_request_token
     #   A unique case-sensitive string used to ensure the request to create
@@ -2676,8 +3163,11 @@ module Aws::Athena
     #   A unique case-sensitive string used to ensure the request to create
     #   the query is idempotent (executes only once). If another
     #   `StartQueryExecution` request is received, the same response is
-    #   returned and another query is not created. If a parameter has changed,
-    #   for example, the `QueryString`, an error is returned.
+    #   returned and another query is not created. An error is returned if a
+    #   parameter, such as `QueryString`, has changed. A call to
+    #   `StartQueryExecution` that uses a previous client request token
+    #   returns the same `QueryExecutionId` even if the requester doesn't
+    #   have permission on the tables specified in `QueryString`.
     #
     #   This token is listed as not required because Amazon Web Services SDKs
     #   (for example the Amazon Web Services SDK for Java) auto-generate the
@@ -2772,9 +3262,12 @@ module Aws::Athena
     #   parameter mappings.
     #
     # @option params [String] :notebook_version
-    #   The notebook version. This value is required only when requesting that
-    #   a notebook server be started for the session. The only valid notebook
-    #   version is `Jupyter1.0`.
+    #   The notebook version. This value is supplied automatically for
+    #   notebook sessions in the Athena console and is not required for
+    #   programmatic session access. The only valid notebook version is
+    #   `Athena notebook version 1`. If you specify a value for
+    #   `NotebookVersion`, you must also specify a value for `NotebookId`. See
+    #   EngineConfiguration$AdditionalConfigs.
     #
     # @option params [Integer] :session_idle_timeout_in_minutes
     #   The idle timeout in minutes for the session.
@@ -2807,6 +3300,9 @@ module Aws::Athena
     #       max_concurrent_dpus: 1, # required
     #       default_executor_dpu_size: 1,
     #       additional_configs: {
+    #         "KeyString" => "ParametersMapValue",
+    #       },
+    #       spark_properties: {
     #         "KeyString" => "ParametersMapValue",
     #       },
     #     },
@@ -2871,13 +3367,6 @@ module Aws::Athena
     # Stops a query execution. Requires you to have access to the workgroup
     # in which the query ran.
     #
-    # For code samples using the Amazon Web Services SDK for Java, see
-    # [Examples and Code Samples][1] in the *Amazon Athena User Guide*.
-    #
-    #
-    #
-    # [1]: http://docs.aws.amazon.com/athena/latest/ug/code-samples.html
-    #
     # @option params [required, String] :query_execution_id
     #   The unique ID of the query execution to stop.
     #
@@ -2902,30 +3391,29 @@ module Aws::Athena
     end
 
     # Adds one or more tags to an Athena resource. A tag is a label that you
-    # assign to a resource. In Athena, a resource can be a workgroup or data
-    # catalog. Each tag consists of a key and an optional value, both of
-    # which you define. For example, you can use tags to categorize Athena
-    # workgroups or data catalogs by purpose, owner, or environment. Use a
-    # consistent set of tag keys to make it easier to search and filter
-    # workgroups or data catalogs in your account. For best practices, see
-    # [Tagging Best Practices][1]. Tag keys can be from 1 to 128 UTF-8
-    # Unicode characters, and tag values can be from 0 to 256 UTF-8 Unicode
-    # characters. Tags can use letters and numbers representable in UTF-8,
-    # and the following characters: + - = . \_ : / @. Tag keys and values
-    # are case-sensitive. Tag keys must be unique per resource. If you
-    # specify more than one tag, separate them by commas.
+    # assign to a resource. Each tag consists of a key and an optional
+    # value, both of which you define. For example, you can use tags to
+    # categorize Athena workgroups, data catalogs, or capacity reservations
+    # by purpose, owner, or environment. Use a consistent set of tag keys to
+    # make it easier to search and filter the resources in your account. For
+    # best practices, see [Tagging Best Practices][1]. Tag keys can be from
+    # 1 to 128 UTF-8 Unicode characters, and tag values can be from 0 to 256
+    # UTF-8 Unicode characters. Tags can use letters and numbers
+    # representable in UTF-8, and the following characters: + - = . \_ : /
+    # @. Tag keys and values are case-sensitive. Tag keys must be unique per
+    # resource. If you specify more than one tag, separate them by commas.
     #
     #
     #
-    # [1]: https://aws.amazon.com/answers/account-management/aws-tagging-strategies/
+    # [1]: https://docs.aws.amazon.com/whitepapers/latest/tagging-best-practices/tagging-best-practices.html
     #
     # @option params [required, String] :resource_arn
-    #   Specifies the ARN of the Athena resource (workgroup or data catalog)
-    #   to which tags are to be added.
+    #   Specifies the ARN of the Athena resource to which tags are to be
+    #   added.
     #
     # @option params [required, Array<Types::Tag>] :tags
     #   A collection of one or more tags, separated by commas, to be added to
-    #   an Athena workgroup or data catalog resource.
+    #   an Athena resource.
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
@@ -2982,7 +3470,7 @@ module Aws::Athena
       req.send_request(options)
     end
 
-    # Removes one or more tags from a data catalog or workgroup resource.
+    # Removes one or more tags from an Athena resource.
     #
     # @option params [required, String] :resource_arn
     #   Specifies the ARN of the resource from which tags are to be removed.
@@ -3006,6 +3494,33 @@ module Aws::Athena
     # @param [Hash] params ({})
     def untag_resource(params = {}, options = {})
       req = build_request(:untag_resource, params)
+      req.send_request(options)
+    end
+
+    # Updates the number of requested data processing units for the capacity
+    # reservation with the specified name.
+    #
+    # @option params [required, Integer] :target_dpus
+    #   The new number of requested data processing units.
+    #
+    # @option params [required, String] :name
+    #   The name of the capacity reservation.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_capacity_reservation({
+    #     target_dpus: 1, # required
+    #     name: "CapacityReservationName", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/athena-2017-05-18/UpdateCapacityReservation AWS API Documentation
+    #
+    # @overload update_capacity_reservation(params = {})
+    # @param [Hash] params ({})
+    def update_capacity_reservation(params = {}, options = {})
+      req = build_request(:update_capacity_reservation, params)
       req.send_request(options)
     end
 
@@ -3059,7 +3574,7 @@ module Aws::Athena
     #
     #   resp = client.update_data_catalog({
     #     name: "CatalogNameString", # required
-    #     type: "LAMBDA", # required, accepts LAMBDA, GLUE, HIVE
+    #     type: "LAMBDA", # required, accepts LAMBDA, GLUE, HIVE, FEDERATED
     #     description: "DescriptionString",
     #     parameters: {
     #       "KeyString" => "ParametersMapValue",
@@ -3122,7 +3637,8 @@ module Aws::Athena
     #   The notebook content type. Currently, the only valid type is `IPYNB`.
     #
     # @option params [String] :session_id
-    #   The ID of the session in which the notebook will be updated.
+    #   The active notebook session ID. Required if the notebook has an active
+    #   session.
     #
     # @option params [String] :client_request_token
     #   A unique case-sensitive string used to ensure the request to create
@@ -3227,11 +3743,7 @@ module Aws::Athena
     end
 
     # Updates the workgroup with the specified name. The workgroup's name
-    # cannot be changed. Only one of `ConfigurationsUpdates` or
-    # `ConfigurationUpdates` can be specified; `ConfigurationsUpdates` for a
-    # workgroup with multi engine support (for example, an Apache Spark
-    # enabled workgroup) or `ConfigurationUpdates` for an Athena SQL
-    # workgroup.
+    # cannot be changed. Only `ConfigurationUpdates` can be specified.
     #
     # @option params [required, String] :work_group
     #   The specified workgroup that will be updated.
@@ -3283,6 +3795,12 @@ module Aws::Athena
     #       customer_content_encryption_configuration: {
     #         kms_key: "KmsKey", # required
     #       },
+    #       enable_minimum_encryption_configuration: false,
+    #       query_results_s3_access_grants_configuration: {
+    #         enable_s3_access_grants: false, # required
+    #         create_user_level_prefix: false,
+    #         authentication_type: "DIRECTORY_IDENTITY", # required, accepts DIRECTORY_IDENTITY
+    #       },
     #     },
     #     state: "ENABLED", # accepts ENABLED, DISABLED
     #   })
@@ -3302,14 +3820,19 @@ module Aws::Athena
     # @api private
     def build_request(operation_name, params = {})
       handlers = @handlers.for(operation_name)
+      tracer = config.telemetry_provider.tracer_provider.tracer(
+        Aws::Telemetry.module_to_tracer_name('Aws::Athena')
+      )
       context = Seahorse::Client::RequestContext.new(
         operation_name: operation_name,
         operation: config.api.operation(operation_name),
         client: self,
         params: params,
-        config: config)
+        config: config,
+        tracer: tracer
+      )
       context[:gem_name] = 'aws-sdk-athena'
-      context[:gem_version] = '1.61.0'
+      context[:gem_version] = '1.101.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

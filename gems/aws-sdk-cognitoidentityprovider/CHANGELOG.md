@@ -1,6 +1,221 @@
 Unreleased Changes
 ------------------
 
+1.116.0 (2025-02-18)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.115.0 (2025-02-06)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.114.0 (2025-01-21)
+------------------
+
+* Feature - corrects the dual-stack endpoint configuration for cognitoidp
+
+1.113.0 (2025-01-15)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.112.0 (2024-12-11)
+------------------
+
+* Feature - Updated descriptions for some API operations and parameters, corrected some errors in Cognito user pools
+
+1.111.0 (2024-12-09)
+------------------
+
+* Feature - Change `CustomDomainConfig` from a required to an optional parameter for the `UpdateUserPoolDomain` operation.
+
+1.110.0 (2024-11-22)
+------------------
+
+* Feature - Add support for users to sign up and sign in without passwords, using email and SMS OTPs and Passkeys. Add support for Passkeys based on WebAuthn. Add support for enhanced branding customization for hosted authentication pages with Amazon Cognito Managed Login. Add feature tiers with new pricing.
+
+1.109.0 (2024-11-06)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.108.0 (2024-10-18)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.107.0 (2024-09-24)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.106.0 (2024-09-23)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.105.0 (2024-09-20)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.104.0 (2024-09-12)
+------------------
+
+* Feature - Added email MFA option to user pools with advanced security features.
+
+1.103.0 (2024-09-11)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.102.0 (2024-09-10)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.101.0 (2024-09-03)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.100.0 (2024-08-09)
+------------------
+
+* Feature - Fixed a description of AdvancedSecurityAdditionalFlows in Amazon Cognito user pool configuration.
+
+1.99.0 (2024-08-08)
+------------------
+
+* Feature - Added support for threat protection for custom authentication in Amazon Cognito user pools.
+
+1.98.0 (2024-08-06)
+------------------
+
+* Feature - Advanced security feature updates to include password history and log export for Cognito user pools.
+
+1.97.0 (2024-07-02)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.96.0 (2024-06-25)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.95.0 (2024-06-24)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.94.0 (2024-06-17)
+------------------
+
+* Feature - Add v2 smoke tests and smithy smokeTests trait for SDK testing.
+
+1.93.0 (2024-06-05)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.92.0 (2024-05-13)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.91.0 (2024-05-08)
+------------------
+
+* Feature - Add EXTERNAL_PROVIDER enum value to UserStatusType.
+
+1.90.0 (2024-04-26)
+------------------
+
+* Feature - Add LimitExceededException to SignUp errors
+
+1.89.0 (2024-04-25)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.88.0 (2024-03-08)
+------------------
+
+* Feature - Add ConcurrentModificationException to SetUserPoolMfaConfig
+
+1.87.0 (2024-02-01)
+------------------
+
+* Feature - Added CreateIdentityProvider and UpdateIdentityProvider details for new SAML IdP features
+
+1.86.0 (2024-01-26)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.85.0 (2023-12-18)
+------------------
+
+* Feature - Amazon Cognito now supports trigger versions that define the fields in the request sent to pre token generation Lambda triggers.
+
+1.84.0 (2023-11-28)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.83.0 (2023-11-22)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.82.0 (2023-09-27)
+------------------
+
+* Feature - The UserPoolType Status field is no longer used.
+
+1.81.0 (2023-08-29)
+------------------
+
+* Feature - Added API example requests and responses for several operations. Fixed the validation regex for user pools Identity Provider name.
+
+1.80.0 (2023-08-02)
+------------------
+
+* Feature - New feature that logs Cognito user pool error messages to CloudWatch logs.
+
+1.79.0 (2023-07-13)
+------------------
+
+* Feature - API model updated in Amazon Cognito
+
+1.78.0 (2023-07-11)
+------------------
+
+* Feature - API model updated in Amazon Cognito
+
+1.77.0 (2023-07-06)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.76.0 (2023-06-28)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.75.0 (2023-06-15)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.74.0 (2023-05-31)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
 1.73.0 (2023-01-18)
 ------------------
 

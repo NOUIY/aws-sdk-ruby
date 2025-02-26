@@ -206,7 +206,7 @@ module Aws::ServiceDiscovery
     #
     #   If you want Cloud Map to create an `SRV` record when you register an
     #   instance and you're using a system that requires a specific `SRV`
-    #   format, such as [HAProxy][1], specify the following for `Name`\:
+    #   format, such as [HAProxy][1], specify the following for `Name`:
     #
     #   * Start the name with an underscore (\_), such as `_exampleservice`.
     #
@@ -372,6 +372,28 @@ module Aws::ServiceDiscovery
       include Aws::Structure
     end
 
+    # @!attribute [rw] service_id
+    #   The ID of the service from which the attributes will be deleted.
+    #   @return [String]
+    #
+    # @!attribute [rw] attributes
+    #   A list of keys corresponding to each attribute that you want to
+    #   delete.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/servicediscovery-2017-03-14/DeleteServiceAttributesRequest AWS API Documentation
+    #
+    class DeleteServiceAttributesRequest < Struct.new(
+      :service_id,
+      :attributes)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/servicediscovery-2017-03-14/DeleteServiceAttributesResponse AWS API Documentation
+    #
+    class DeleteServiceAttributesResponse < Aws::EmptyStructure; end
+
     # @!attribute [rw] id
     #   The ID of the service that you want to delete.
     #   @return [String]
@@ -431,6 +453,9 @@ module Aws::ServiceDiscovery
     # @!attribute [rw] namespace_name
     #   The `HttpName` name of the namespace. It's found in the
     #   `HttpProperties` member of the `Properties` member of the namespace.
+    #   In most cases, `Name` and `HttpName` match. However, if you reuse
+    #   `Name` for namespace creation, a generated hash is added to
+    #   `HttpName` to distinguish the two.
     #   @return [String]
     #
     # @!attribute [rw] service_name
@@ -446,7 +471,7 @@ module Aws::ServiceDiscovery
     #
     # @!attribute [rw] query_parameters
     #   Filters to scope the results based on custom attributes for the
-    #   instance (for example, `\{version=v1, az=1a\}`). Only instances that
+    #   instance (for example, `{version=v1, az=1a}`). Only instances that
     #   match all the specified key-value pairs are returned.
     #   @return [Hash<String,String>]
     #
@@ -501,10 +526,52 @@ module Aws::ServiceDiscovery
     #   registered instance.
     #   @return [Array<Types::HttpInstanceSummary>]
     #
+    # @!attribute [rw] instances_revision
+    #   The increasing revision associated to the response Instances list.
+    #   If a new instance is registered or deregistered, the
+    #   `InstancesRevision` updates. The health status updates don't update
+    #   `InstancesRevision`.
+    #   @return [Integer]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/servicediscovery-2017-03-14/DiscoverInstancesResponse AWS API Documentation
     #
     class DiscoverInstancesResponse < Struct.new(
-      :instances)
+      :instances,
+      :instances_revision)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] namespace_name
+    #   The `HttpName` name of the namespace. It's found in the
+    #   `HttpProperties` member of the `Properties` member of the namespace.
+    #   @return [String]
+    #
+    # @!attribute [rw] service_name
+    #   The name of the service that you specified when you registered the
+    #   instance.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/servicediscovery-2017-03-14/DiscoverInstancesRevisionRequest AWS API Documentation
+    #
+    class DiscoverInstancesRevisionRequest < Struct.new(
+      :namespace_name,
+      :service_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] instances_revision
+    #   The increasing revision associated to the response Instances list.
+    #   If a new instance is registered or deregistered, the
+    #   `InstancesRevision` updates. The health status updates don't update
+    #   `InstancesRevision`.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/servicediscovery-2017-03-14/DiscoverInstancesRevisionResponse AWS API Documentation
+    #
+    class DiscoverInstancesRevisionResponse < Struct.new(
+      :instances_revision)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -512,9 +579,6 @@ module Aws::ServiceDiscovery
     # A complex type that contains information about the Amazon Route 53 DNS
     # records that you want Cloud Map to create when you register an
     # instance.
-    #
-    # The record types of a service can only be changed by deleting the
-    # service and recreating it with a new `Dnsconfig`.
     #
     # @!attribute [rw] namespace_id
     #   *Use NamespaceId in [Service][1] instead.*
@@ -589,6 +653,10 @@ module Aws::ServiceDiscovery
     #   An array that contains one `DnsRecord` object for each Route 53 DNS
     #   record that you want Cloud Map to create when you register an
     #   instance.
+    #
+    #   The record type of a service specified in a `DnsRecord` object
+    #   can't be updated. To change a record type, you need to delete the
+    #   service and recreate it with a new `DnsConfig`.
     #   @return [Array<Types::DnsRecord>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/servicediscovery-2017-03-14/DnsConfig AWS API Documentation
@@ -717,7 +785,6 @@ module Aws::ServiceDiscovery
     #       * The name of the service.
     #
     #       * The name of the namespace.
-    #
     #       For example, if the value of `InstanceId` is `test`, the name of
     #       the service is `backend`, and the name of the namespace is
     #       `example.com`, the value of `service-hostname` is the following:
@@ -937,6 +1004,31 @@ module Aws::ServiceDiscovery
       include Aws::Structure
     end
 
+    # @!attribute [rw] service_id
+    #   The ID of the service that you want to get attributes for.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/servicediscovery-2017-03-14/GetServiceAttributesRequest AWS API Documentation
+    #
+    class GetServiceAttributesRequest < Struct.new(
+      :service_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] service_attributes
+    #   A complex type that contains the service ARN and a list of attribute
+    #   key-value pairs associated with the service.
+    #   @return [Types::ServiceAttributes]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/servicediscovery-2017-03-14/GetServiceAttributesResponse AWS API Documentation
+    #
+    class GetServiceAttributesResponse < Struct.new(
+      :service_attributes)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] id
     #   The ID of the service that you want to get settings for.
     #   @return [String]
@@ -1041,18 +1133,18 @@ module Aws::ServiceDiscovery
     #
     #   You can create the following types of health checks:
     #
-    #   * **HTTP**\: Route 53 tries to establish a TCP connection. If
+    #   * **HTTP**: Route 53 tries to establish a TCP connection. If
     #     successful, Route 53 submits an HTTP request and waits for an HTTP
     #     status code of 200 or greater and less than 400.
     #
-    #   * **HTTPS**\: Route 53 tries to establish a TCP connection. If
+    #   * **HTTPS**: Route 53 tries to establish a TCP connection. If
     #     successful, Route 53 submits an HTTPS request and waits for an
     #     HTTP status code of 200 or greater and less than 400.
     #
     #     If you specify HTTPS for the value of `Type`, the endpoint must
     #     support TLS v1.0 or later.
     #
-    #   * **TCP**\: Route 53 tries to establish a TCP connection.
+    #   * **TCP**: Route 53 tries to establish a TCP connection.
     #
     #     If you specify `TCP` for `Type`, don't specify a value for
     #     `ResourcePath`.
@@ -1291,7 +1383,7 @@ module Aws::ServiceDiscovery
     #
     # @!attribute [rw] attributes
     #   A string map that contains the following information for the service
-    #   that you specify in `ServiceId`\:
+    #   that you specify in `ServiceId`:
     #
     #   * The attributes that apply to the records that are defined in the
     #     service.
@@ -1896,23 +1988,23 @@ module Aws::ServiceDiscovery
     #   Specify the namespaces that you want to get using one of the
     #   following.
     #
-    #   * `TYPE`\: Gets the namespaces of the specified type.
+    #   * `TYPE`: Gets the namespaces of the specified type.
     #
-    #   * `NAME`\: Gets the namespaces with the specified name.
+    #   * `NAME`: Gets the namespaces with the specified name.
     #
-    #   * `HTTP_NAME`\: Gets the namespaces with the specified HTTP name.
+    #   * `HTTP_NAME`: Gets the namespaces with the specified HTTP name.
     #   @return [String]
     #
     # @!attribute [rw] values
     #   Specify the values that are applicable to the value that you specify
     #   for `Name`.
     #
-    #   * `TYPE`\: Specify `HTTP`, `DNS_PUBLIC`, or `DNS_PRIVATE`.
+    #   * `TYPE`: Specify `HTTP`, `DNS_PUBLIC`, or `DNS_PRIVATE`.
     #
-    #   * `NAME`\: Specify the name of the namespace, which is found in
+    #   * `NAME`: Specify the name of the namespace, which is found in
     #     `Namespace.Name`.
     #
-    #   * `HTTP_NAME`\: Specify the HTTP name of the namespace, which is
+    #   * `HTTP_NAME`: Specify the HTTP name of the namespace, which is
     #     found in `Namespace.Properties.HttpProperties.HttpName`.
     #   @return [Array<String>]
     #
@@ -1921,13 +2013,13 @@ module Aws::ServiceDiscovery
     #   namespace matches the specified value. Valid values for `Condition`
     #   are one of the following.
     #
-    #   * `EQ`\: When you specify `EQ` for `Condition`, you can specify only
+    #   * `EQ`: When you specify `EQ` for `Condition`, you can specify only
     #     one value. `EQ` is supported for `TYPE`, `NAME`, and `HTTP_NAME`.
     #     `EQ` is the default condition and can be omitted.
     #
-    #   * `BEGINS_WITH`\: When you specify `BEGINS_WITH` for `Condition`,
-    #     you can specify only one value. `BEGINS_WITH` is supported for
-    #     `TYPE`, `NAME`, and `HTTP_NAME`.
+    #   * `BEGINS_WITH`: When you specify `BEGINS_WITH` for `Condition`, you
+    #     can specify only one value. `BEGINS_WITH` is supported for `TYPE`,
+    #     `NAME`, and `HTTP_NAME`.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/servicediscovery-2017-03-14/NamespaceFilter AWS API Documentation
@@ -2134,36 +2226,36 @@ module Aws::ServiceDiscovery
     # @!attribute [rw] name
     #   Specify the operations that you want to get:
     #
-    #   * **NAMESPACE\_ID**\: Gets operations related to specified
+    #   * **NAMESPACE\_ID**: Gets operations related to specified
     #     namespaces.
     #
-    #   * **SERVICE\_ID**\: Gets operations related to specified services.
+    #   * **SERVICE\_ID**: Gets operations related to specified services.
     #
-    #   * **STATUS**\: Gets operations based on the status of the
-    #     operations: `SUBMITTED`, `PENDING`, `SUCCEED`, or `FAIL`.
+    #   * **STATUS**: Gets operations based on the status of the operations:
+    #     `SUBMITTED`, `PENDING`, `SUCCEED`, or `FAIL`.
     #
-    #   * **TYPE**\: Gets specified types of operation.
+    #   * **TYPE**: Gets specified types of operation.
     #
-    #   * **UPDATE\_DATE**\: Gets operations that changed status during a
+    #   * **UPDATE\_DATE**: Gets operations that changed status during a
     #     specified date/time range.
     #   @return [String]
     #
     # @!attribute [rw] values
     #   Specify values that are applicable to the value that you specify for
-    #   `Name`\:
+    #   `Name`:
     #
-    #   * **NAMESPACE\_ID**\: Specify one namespace ID.
+    #   * **NAMESPACE\_ID**: Specify one namespace ID.
     #
-    #   * **SERVICE\_ID**\: Specify one service ID.
+    #   * **SERVICE\_ID**: Specify one service ID.
     #
-    #   * **STATUS**\: Specify one or more statuses: `SUBMITTED`, `PENDING`,
+    #   * **STATUS**: Specify one or more statuses: `SUBMITTED`, `PENDING`,
     #     `SUCCEED`, or `FAIL`.
     #
-    #   * **TYPE**\: Specify one or more of the following types:
+    #   * **TYPE**: Specify one or more of the following types:
     #     `CREATE_NAMESPACE`, `DELETE_NAMESPACE`, `UPDATE_SERVICE`,
     #     `REGISTER_INSTANCE`, or `DEREGISTER_INSTANCE`.
     #
-    #   * **UPDATE\_DATE**\: Specify a start date and an end date in Unix
+    #   * **UPDATE\_DATE**: Specify a start date and an end date in Unix
     #     date/time format and Coordinated Universal Time (UTC). The start
     #     date must be the first value.
     #   @return [Array<String>]
@@ -2172,17 +2264,17 @@ module Aws::ServiceDiscovery
     #   The operator that you want to use to determine whether an operation
     #   matches the specified value. Valid values for condition include:
     #
-    #   * `EQ`\: When you specify `EQ` for the condition, you can specify
+    #   * `EQ`: When you specify `EQ` for the condition, you can specify
     #     only one value. `EQ` is supported for `NAMESPACE_ID`,
     #     `SERVICE_ID`, `STATUS`, and `TYPE`. `EQ` is the default condition
     #     and can be omitted.
     #
-    #   * `IN`\: When you specify `IN` for the condition, you can specify a
+    #   * `IN`: When you specify `IN` for the condition, you can specify a
     #     list of one or more values. `IN` is supported for `STATUS` and
     #     `TYPE`. An operation must match one of the specified values to be
     #     returned in the response.
     #
-    #   * `BETWEEN`\: Specify a start date and an end date in Unix date/time
+    #   * `BETWEEN`: Specify a start date and an end date in Unix date/time
     #     format and Coordinated Universal Time (UTC). The start date must
     #     be the first value. `BETWEEN` is supported for `UPDATE_DATE`.
     #   @return [String]
@@ -2225,14 +2317,14 @@ module Aws::ServiceDiscovery
     # @!attribute [rw] status
     #   The status of the operation. Values include the following:
     #
-    #   * **SUBMITTED**\: This is the initial state immediately after you
+    #   * **SUBMITTED**: This is the initial state immediately after you
     #     submit a request.
     #
-    #   * **PENDING**\: Cloud Map is performing the operation.
+    #   * **PENDING**: Cloud Map is performing the operation.
     #
-    #   * **SUCCESS**\: The operation succeeded.
+    #   * **SUCCESS**: The operation succeeded.
     #
-    #   * **FAIL**\: The operation failed. For the failure reason, see
+    #   * **FAIL**: The operation failed. For the failure reason, see
     #     `ErrorMessage`.
     #   @return [String]
     #
@@ -2458,19 +2550,17 @@ module Aws::ServiceDiscovery
     #
     # @!attribute [rw] attributes
     #   A string map that contains the following information for the service
-    #   that you specify in `ServiceId`\:
+    #   that you specify in `ServiceId`:
     #
     #   * The attributes that apply to the records that are defined in the
     #     service.
     #
     #   * For each attribute, the applicable value.
     #
-    #   <note markdown="1"> Do not include sensitive information in the attributes if the
+    #   Do not include sensitive information in the attributes if the
     #   namespace is discoverable by public DNS queries.
     #
-    #    </note>
-    #
-    #   Supported attribute keys include the following:
+    #   The following are the supported attribute keys.
     #
     #   AWS\_ALIAS\_DNS\_NAME
     #
@@ -2494,12 +2584,15 @@ module Aws::ServiceDiscovery
     #       health check, but it doesn't associate the health check with
     #       the alias record.
     #
-    #     * Auto naming currently doesn't support creating alias records
-    #       that route traffic to Amazon Web Services resources other than
+    #     * Cloud Map currently doesn't support creating alias records that
+    #       route traffic to Amazon Web Services resources other than
     #       Elastic Load Balancing load balancers.
     #
     #     * If you specify a value for `AWS_ALIAS_DNS_NAME`, don't specify
     #       values for any of the `AWS_INSTANCE` attributes.
+    #
+    #     * The `AWS_ALIAS_DNS_NAME` is not supported in the GovCloud (US)
+    #       Regions.
     #
     #   AWS\_EC2\_INSTANCE\_ID
     #
@@ -2830,6 +2923,47 @@ module Aws::ServiceDiscovery
       include Aws::Structure
     end
 
+    # A complex type that contains information about attributes associated
+    # with a specific service.
+    #
+    # @!attribute [rw] service_arn
+    #   The ARN of the service that the attributes are associated with.
+    #   @return [String]
+    #
+    # @!attribute [rw] attributes
+    #   A string map that contains the following information for the service
+    #   that you specify in `ServiceArn`:
+    #
+    #   * The attributes that apply to the service.
+    #
+    #   * For each attribute, the applicable value.
+    #
+    #   You can specify a total of 30 attributes.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/servicediscovery-2017-03-14/ServiceAttributes AWS API Documentation
+    #
+    class ServiceAttributes < Struct.new(
+      :service_arn,
+      :attributes)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The attribute can't be added to the service because you've exceeded
+    # the quota for the number of attributes you can add to a service.
+    #
+    # @!attribute [rw] message
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/servicediscovery-2017-03-14/ServiceAttributesLimitExceededException AWS API Documentation
+    #
+    class ServiceAttributesLimitExceededException < Struct.new(
+      :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # A complex type that contains changes to an existing service.
     #
     # @!attribute [rw] description
@@ -2875,7 +3009,7 @@ module Aws::ServiceDiscovery
     #   returned by `ListServices`. Valid values for `Condition` include the
     #   following:
     #
-    #   * `EQ`\: When you specify `EQ`, specify one namespace ID for
+    #   * `EQ`: When you specify `EQ`, specify one namespace ID for
     #     `Values`. `EQ` is the default condition and can be omitted.
     #
     #   ^
@@ -3249,12 +3383,34 @@ module Aws::ServiceDiscovery
       include Aws::Structure
     end
 
+    # @!attribute [rw] service_id
+    #   The ID of the service that you want to update.
+    #   @return [String]
+    #
+    # @!attribute [rw] attributes
+    #   A string map that contains attribute key-value pairs.
+    #   @return [Hash<String,String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/servicediscovery-2017-03-14/UpdateServiceAttributesRequest AWS API Documentation
+    #
+    class UpdateServiceAttributesRequest < Struct.new(
+      :service_id,
+      :attributes)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/servicediscovery-2017-03-14/UpdateServiceAttributesResponse AWS API Documentation
+    #
+    class UpdateServiceAttributesResponse < Aws::EmptyStructure; end
+
     # @!attribute [rw] id
     #   The ID of the service that you want to update.
     #   @return [String]
     #
     # @!attribute [rw] service
-    #   A complex type that contains the new settings for the service.
+    #   A complex type that contains the new settings for the service. You
+    #   can specify a maximum of 30 attributes (key-value pairs).
     #   @return [Types::ServiceChange]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/servicediscovery-2017-03-14/UpdateServiceRequest AWS API Documentation
@@ -3286,3 +3442,4 @@ module Aws::ServiceDiscovery
 
   end
 end
+

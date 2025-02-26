@@ -7,6 +7,7 @@
 #
 # WARNING ABOUT GENERATED CODE
 
+
 module Aws::ECRPublic
   # @api private
   module ClientApi
@@ -178,7 +179,7 @@ module Aws::ECRPublic
     BatchCheckLayerAvailabilityResponse.add_member(:failures, Shapes::ShapeRef.new(shape: LayerFailureList, location_name: "failures"))
     BatchCheckLayerAvailabilityResponse.struct_class = Types::BatchCheckLayerAvailabilityResponse
 
-    BatchDeleteImageRequest.add_member(:registry_id, Shapes::ShapeRef.new(shape: RegistryId, location_name: "registryId"))
+    BatchDeleteImageRequest.add_member(:registry_id, Shapes::ShapeRef.new(shape: RegistryIdOrAlias, location_name: "registryId"))
     BatchDeleteImageRequest.add_member(:repository_name, Shapes::ShapeRef.new(shape: RepositoryName, required: true, location_name: "repositoryName"))
     BatchDeleteImageRequest.add_member(:image_ids, Shapes::ShapeRef.new(shape: ImageIdentifierList, required: true, location_name: "imageIds"))
     BatchDeleteImageRequest.struct_class = Types::BatchDeleteImageRequest
@@ -575,9 +576,11 @@ module Aws::ECRPublic
 
       api.metadata = {
         "apiVersion" => "2020-10-30",
+        "auth" => ["aws.auth#sigv4"],
         "endpointPrefix" => "api.ecr-public",
         "jsonVersion" => "1.1",
         "protocol" => "json",
+        "protocols" => ["json"],
         "serviceAbbreviation" => "Amazon ECR Public",
         "serviceFullName" => "Amazon Elastic Container Registry Public",
         "serviceId" => "ECR PUBLIC",

@@ -44,42 +44,41 @@ module Aws::RDS
     end
     alias :db_cluster_snapshot_identifier :snapshot_id
 
-    # Provides the list of Availability Zones (AZs) where instances in the
-    # DB cluster snapshot can be restored.
+    # The list of Availability Zones (AZs) where instances in the DB cluster
+    # snapshot can be restored.
     # @return [Array<String>]
     def availability_zones
       data[:availability_zones]
     end
 
-    # Provides the time when the snapshot was taken, in Universal
-    # Coordinated Time (UTC).
+    # The time when the snapshot was taken, in Universal Coordinated Time
+    # (UTC).
     # @return [Time]
     def snapshot_create_time
       data[:snapshot_create_time]
     end
 
-    # Specifies the name of the database engine for this DB cluster
-    # snapshot.
+    # The name of the database engine for this DB cluster snapshot.
     # @return [String]
     def engine
       data[:engine]
     end
 
-    # Provides the engine mode of the database engine for this DB cluster
-    # snapshot.
+    # The engine mode of the database engine for this DB cluster snapshot.
     # @return [String]
     def engine_mode
       data[:engine_mode]
     end
 
-    # Specifies the allocated storage size in gibibytes (GiB).
+    # The allocated storage size of the DB cluster snapshot in gibibytes
+    # (GiB).
     # @return [Integer]
     def allocated_storage
       data[:allocated_storage]
     end
 
-    # Specifies the status of this DB cluster snapshot. Valid statuses are
-    # the following:
+    # The status of this DB cluster snapshot. Valid statuses are the
+    # following:
     #
     # * `available`
     #
@@ -91,59 +90,57 @@ module Aws::RDS
       data[:status]
     end
 
-    # Specifies the port that the DB cluster was listening on at the time of
-    # the snapshot.
+    # The port that the DB cluster was listening on at the time of the
+    # snapshot.
     # @return [Integer]
     def port
       data[:port]
     end
 
-    # Provides the VPC ID associated with the DB cluster snapshot.
+    # The VPC ID associated with the DB cluster snapshot.
     # @return [String]
     def vpc_id
       data[:vpc_id]
     end
 
-    # Specifies the time when the DB cluster was created, in Universal
-    # Coordinated Time (UTC).
+    # The time when the DB cluster was created, in Universal Coordinated
+    # Time (UTC).
     # @return [Time]
     def cluster_create_time
       data[:cluster_create_time]
     end
 
-    # Provides the master username for this DB cluster snapshot.
+    # The master username for this DB cluster snapshot.
     # @return [String]
     def master_username
       data[:master_username]
     end
 
-    # Provides the version of the database engine for this DB cluster
-    # snapshot.
+    # The version of the database engine for this DB cluster snapshot.
     # @return [String]
     def engine_version
       data[:engine_version]
     end
 
-    # Provides the license model information for this DB cluster snapshot.
+    # The license model information for this DB cluster snapshot.
     # @return [String]
     def license_model
       data[:license_model]
     end
 
-    # Provides the type of the DB cluster snapshot.
+    # The type of the DB cluster snapshot.
     # @return [String]
     def snapshot_type
       data[:snapshot_type]
     end
 
-    # Specifies the percentage of the estimated data that has been
-    # transferred.
+    # The percentage of the estimated data that has been transferred.
     # @return [Integer]
     def percent_progress
       data[:percent_progress]
     end
 
-    # Specifies whether the DB cluster snapshot is encrypted.
+    # Indicates whether the DB cluster snapshot is encrypted.
     # @return [Boolean]
     def storage_encrypted
       data[:storage_encrypted]
@@ -173,19 +170,23 @@ module Aws::RDS
       data[:source_db_cluster_snapshot_arn]
     end
 
-    # True if mapping of Amazon Web Services Identity and Access Management
-    # (IAM) accounts to database accounts is enabled, and otherwise false.
+    # Indicates whether mapping of Amazon Web Services Identity and Access
+    # Management (IAM) accounts to database accounts is enabled.
     # @return [Boolean]
     def iam_database_authentication_enabled
       data[:iam_database_authentication_enabled]
     end
 
-    # A list of tags. For more information, see [Tagging Amazon RDS
-    # Resources][1] in the *Amazon RDS User Guide.*
+    # A list of tags.
+    #
+    # For more information, see [Tagging Amazon RDS resources][1] in the
+    # *Amazon RDS User Guide* or [Tagging Amazon Aurora and Amazon RDS
+    # resources][2] in the *Amazon Aurora User Guide*.
     #
     #
     #
     # [1]: https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html
+    # [2]: https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html
     # @return [Array<Types::Tag>]
     def tag_list
       data[:tag_list]
@@ -195,6 +196,31 @@ module Aws::RDS
     # @return [String]
     def db_system_id
       data[:db_system_id]
+    end
+
+    # The storage type associated with the DB cluster snapshot.
+    #
+    # This setting is only for Aurora DB clusters.
+    # @return [String]
+    def storage_type
+      data[:storage_type]
+    end
+
+    # The resource ID of the DB cluster that this DB cluster snapshot was
+    # created from.
+    # @return [String]
+    def db_cluster_resource_id
+      data[:db_cluster_resource_id]
+    end
+
+    # The storage throughput for the DB cluster snapshot. The throughput is
+    # automatically set based on the IOPS that you provision, and is not
+    # configurable.
+    #
+    # This setting is only for non-Aurora Multi-AZ DB clusters.
+    # @return [Integer]
+    def storage_throughput
+      data[:storage_throughput]
     end
 
     # @!endgroup
@@ -211,7 +237,9 @@ module Aws::RDS
     #
     # @return [self]
     def load
-      resp = @client.describe_db_cluster_snapshots(db_cluster_snapshot_identifier: @snapshot_id)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.describe_db_cluster_snapshots(db_cluster_snapshot_identifier: @snapshot_id)
+      end
       @data = resp.db_cluster_snapshots[0]
       self
     end
@@ -326,7 +354,9 @@ module Aws::RDS
           :retry
         end
       end
-      Aws::Waiters::Waiter.new(options).wait({})
+      Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        Aws::Waiters::Waiter.new(options).wait({})
+      end
     end
 
     # @!group Actions
@@ -350,7 +380,9 @@ module Aws::RDS
         db_cluster_identifier: @cluster_id,
         db_cluster_snapshot_identifier: @snapshot_id
       )
-      resp = @client.create_db_cluster_snapshot(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.create_db_cluster_snapshot(options)
+      end
       DBClusterSnapshot.new(
         cluster_id: resp.data.db_cluster_snapshot.db_cluster_identifier,
         snapshot_id: resp.data.db_cluster_snapshot.db_cluster_snapshot_identifier,
@@ -469,23 +501,28 @@ module Aws::RDS
     #   [1]: https://docs.aws.amazon.com/AmazonS3/latest/API/sigv4-query-string-auth.html
     #   [2]: https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html
     # @option options [Boolean] :copy_tags
-    #   A value that indicates whether to copy all tags from the source DB
-    #   cluster snapshot to the target DB cluster snapshot. By default, tags
-    #   are not copied.
+    #   Specifies whether to copy all tags from the source DB cluster snapshot
+    #   to the target DB cluster snapshot. By default, tags are not copied.
     # @option options [Array<Types::Tag>] :tags
-    #   A list of tags. For more information, see [Tagging Amazon RDS
-    #   Resources][1] in the *Amazon RDS User Guide.*
+    #   A list of tags.
+    #
+    #   For more information, see [Tagging Amazon RDS resources][1] in the
+    #   *Amazon RDS User Guide* or [Tagging Amazon Aurora and Amazon RDS
+    #   resources][2] in the *Amazon Aurora User Guide*.
     #
     #
     #
     #   [1]: https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html
+    #   [2]: https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html
     # @option options [String] :source_region
     #   The source region of the snapshot. This is only needed when the
     #   shapshot is encrypted and in a different region.
     # @return [DBClusterSnapshot]
     def copy(options = {})
       options = options.merge(source_db_cluster_snapshot_identifier: @snapshot_id)
-      resp = @client.copy_db_cluster_snapshot(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.copy_db_cluster_snapshot(options)
+      end
       DBClusterSnapshot.new(
         cluster_id: resp.data.db_cluster_snapshot.db_cluster_identifier,
         snapshot_id: resp.data.db_cluster_snapshot.db_cluster_snapshot_identifier,
@@ -501,7 +538,9 @@ module Aws::RDS
     # @return [DBClusterSnapshot]
     def delete(options = {})
       options = options.merge(db_cluster_snapshot_identifier: @snapshot_id)
-      resp = @client.delete_db_cluster_snapshot(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.delete_db_cluster_snapshot(options)
+      end
       DBClusterSnapshot.new(
         cluster_id: resp.data.db_cluster_snapshot.db_cluster_identifier,
         snapshot_id: resp.data.db_cluster_snapshot.db_cluster_snapshot_identifier,
@@ -553,8 +592,20 @@ module Aws::RDS
     #     serverless_v2_scaling_configuration: {
     #       min_capacity: 1.0,
     #       max_capacity: 1.0,
+    #       seconds_until_auto_pause: 1,
     #     },
     #     network_type: "String",
+    #     rds_custom_cluster_configuration: {
+    #       interconnect_subnet_id: "String",
+    #       transit_gateway_multicast_domain_id: "String",
+    #       replica_mode: "open-read-only", # accepts open-read-only, mounted
+    #     },
+    #     monitoring_interval: 1,
+    #     monitoring_role_arn: "String",
+    #     enable_performance_insights: false,
+    #     performance_insights_kms_key_id: "String",
+    #     performance_insights_retention_period: 1,
+    #     engine_lifecycle_support: "String",
     #   })
     # @param [Hash] options ({})
     # @option options [Array<String>] :availability_zones
@@ -586,16 +637,12 @@ module Aws::RDS
     #
     #   Valid for: Aurora DB clusters and Multi-AZ DB clusters
     # @option options [String] :engine_version
-    #   The version of the database engine to use for the new DB cluster.
+    #   The version of the database engine to use for the new DB cluster. If
+    #   you don't specify an engine version, the default version for the
+    #   database engine in the Amazon Web Services Region is used.
     #
-    #   To list all of the available engine versions for MySQL 5.6-compatible
-    #   Aurora, use the following command:
-    #
-    #   `aws rds describe-db-engine-versions --engine aurora --query
-    #   "DBEngineVersions[].EngineVersion"`
-    #
-    #   To list all of the available engine versions for MySQL 5.7-compatible
-    #   and MySQL 8.0-compatible Aurora, use the following command:
+    #   To list all of the available engine versions for Aurora MySQL, use the
+    #   following command:
     #
     #   `aws rds describe-db-engine-versions --engine aurora-mysql --query
     #   "DBEngineVersions[].EngineVersion"`
@@ -620,8 +667,8 @@ module Aws::RDS
     #
     #   **Aurora MySQL**
     #
-    #   See [MySQL on Amazon RDS Versions][1] in the *Amazon Aurora User
-    #   Guide*.
+    #   See [Database engine updates for Amazon Aurora MySQL][1] in the
+    #   *Amazon Aurora User Guide*.
     #
     #   **Aurora PostgreSQL**
     #
@@ -630,7 +677,7 @@ module Aws::RDS
     #
     #   **MySQL**
     #
-    #   See [MySQL on Amazon RDS Versions][3] in the *Amazon RDS User Guide.*
+    #   See [Amazon RDS for MySQL][3] in the *Amazon RDS User Guide.*
     #
     #   **PostgreSQL**
     #
@@ -700,18 +747,20 @@ module Aws::RDS
     #
     #   Valid for: Aurora DB clusters and Multi-AZ DB clusters
     # @option options [Boolean] :enable_iam_database_authentication
-    #   A value that indicates whether to enable mapping of Amazon Web
-    #   Services Identity and Access Management (IAM) accounts to database
-    #   accounts. By default, mapping isn't enabled.
+    #   Specifies whether to enable mapping of Amazon Web Services Identity
+    #   and Access Management (IAM) accounts to database accounts. By default,
+    #   mapping isn't enabled.
     #
     #   For more information, see [ IAM Database Authentication][1] in the
-    #   *Amazon Aurora User Guide*.
+    #   *Amazon Aurora User Guide* or [ IAM database authentication for
+    #   MariaDB, MySQL, and PostgreSQL][2] in the *Amazon RDS User Guide*.
     #
-    #   Valid for: Aurora DB clusters only
+    #   Valid for: Aurora DB clusters and Multi-AZ DB clusters
     #
     #
     #
     #   [1]: https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.IAMDBAuth.html
+    #   [2]: https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.IAMDBAuth.html
     # @option options [Integer] :backtrack_window
     #   The target backtrack window, in seconds. To disable backtracking, set
     #   this value to 0.
@@ -745,11 +794,12 @@ module Aws::RDS
     #
     #   **Aurora MySQL**
     #
-    #   Possible values are `audit`, `error`, `general`, and `slowquery`.
+    #   Possible values are `audit`, `error`, `general`, `instance`, and
+    #   `slowquery`.
     #
     #   **Aurora PostgreSQL**
     #
-    #   Possible value is `postgresql`.
+    #   Possible value are `instance` and `postgresql`.
     #
     #   For more information about exporting CloudWatch Logs for Amazon RDS,
     #   see [Publishing Database Logs to Amazon CloudWatch Logs][1] in the
@@ -766,8 +816,8 @@ module Aws::RDS
     #   [1]: https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch
     #   [2]: https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch
     # @option options [String] :engine_mode
-    #   The DB engine mode of the DB cluster, either `provisioned`,
-    #   `serverless`, `parallelquery`, `global`, or `multimaster`.
+    #   The DB engine mode of the DB cluster, either `provisioned` or
+    #   `serverless`.
     #
     #   For more information, see [ CreateDBCluster][1].
     #
@@ -799,22 +849,21 @@ module Aws::RDS
     #
     #   Valid for: Aurora DB clusters and Multi-AZ DB clusters
     # @option options [Boolean] :deletion_protection
-    #   A value that indicates whether the DB cluster has deletion protection
-    #   enabled. The database can't be deleted when deletion protection is
-    #   enabled. By default, deletion protection isn't enabled.
+    #   Specifies whether to enable deletion protection for the DB cluster.
+    #   The database can't be deleted when deletion protection is enabled. By
+    #   default, deletion protection isn't enabled.
     #
     #   Valid for: Aurora DB clusters and Multi-AZ DB clusters
     # @option options [Boolean] :copy_tags_to_snapshot
-    #   A value that indicates whether to copy all tags from the restored DB
-    #   cluster to snapshots of the restored DB cluster. The default is not to
-    #   copy them.
+    #   Specifies whether to copy all tags from the restored DB cluster to
+    #   snapshots of the restored DB cluster. The default is not to copy them.
     #
     #   Valid for: Aurora DB clusters and Multi-AZ DB clusters
     # @option options [String] :domain
-    #   Specify the Active Directory directory ID to restore the DB cluster
-    #   in. The domain must be created prior to this operation. Currently,
-    #   only MySQL, Microsoft SQL Server, Oracle, and PostgreSQL DB instances
-    #   can be created in an Active Directory Domain.
+    #   The Active Directory directory ID to restore the DB cluster in. The
+    #   domain must be created prior to this operation. Currently, only MySQL,
+    #   Microsoft SQL Server, Oracle, and PostgreSQL DB instances can be
+    #   created in an Active Directory Domain.
     #
     #   For more information, see [ Kerberos Authentication][1] in the *Amazon
     #   RDS User Guide*.
@@ -825,8 +874,8 @@ module Aws::RDS
     #
     #   [1]: https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/kerberos-authentication.html
     # @option options [String] :domain_iam_role_name
-    #   Specify the name of the IAM role to be used when making API calls to
-    #   the Directory Service.
+    #   The name of the IAM role to be used when making API calls to the
+    #   Directory Service.
     #
     #   Valid for: Aurora DB clusters only
     # @option options [String] :db_cluster_instance_class
@@ -844,14 +893,15 @@ module Aws::RDS
     #
     #   [1]: https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html
     # @option options [String] :storage_type
-    #   Specifies the storage type to be associated with the each DB instance
-    #   in the Multi-AZ DB cluster.
+    #   Specifies the storage type to be associated with the DB cluster.
     #
-    #   Valid values: `io1`
+    #   When specified for a Multi-AZ DB cluster, a value for the `Iops`
+    #   parameter is required.
     #
-    #   When specified, a value for the `Iops` parameter is required.
+    #   Valid Values: `aurora`, `aurora-iopt1` (Aurora DB clusters); `io1`
+    #   (Multi-AZ DB clusters)
     #
-    #   Default: `io1`
+    #   Default: `aurora` (Aurora DB clusters); `io1` (Multi-AZ DB clusters)
     #
     #   Valid for: Aurora DB clusters and Multi-AZ DB clusters
     # @option options [Integer] :iops
@@ -871,7 +921,7 @@ module Aws::RDS
     #
     #   [1]: https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Storage.html#USER_PIOPS
     # @option options [Boolean] :publicly_accessible
-    #   A value that indicates whether the DB cluster is publicly accessible.
+    #   Specifies whether the DB cluster is publicly accessible.
     #
     #   When the DB cluster is publicly accessible, its Domain Name System
     #   (DNS) endpoint resolves to the private IP address from within the DB
@@ -919,7 +969,7 @@ module Aws::RDS
     # @option options [String] :network_type
     #   The network type of the DB cluster.
     #
-    #   Valid values:
+    #   Valid Values:
     #
     #   * `IPV4`
     #
@@ -937,10 +987,98 @@ module Aws::RDS
     #
     #
     #   [1]: https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_VPC.WorkingWithRDSInstanceinaVPC.html
+    # @option options [Types::RdsCustomClusterConfiguration] :rds_custom_cluster_configuration
+    #   Reserved for future use.
+    # @option options [Integer] :monitoring_interval
+    #   The interval, in seconds, between points when Enhanced Monitoring
+    #   metrics are collected for the DB cluster. To turn off collecting
+    #   Enhanced Monitoring metrics, specify `0`.
+    #
+    #   If `MonitoringRoleArn` is specified, also set `MonitoringInterval` to
+    #   a value other than `0`.
+    #
+    #   Valid Values: `0 | 1 | 5 | 10 | 15 | 30 | 60`
+    #
+    #   Default: `0`
+    # @option options [String] :monitoring_role_arn
+    #   The Amazon Resource Name (ARN) for the IAM role that permits RDS to
+    #   send Enhanced Monitoring metrics to Amazon CloudWatch Logs. An example
+    #   is `arn:aws:iam:123456789012:role/emaccess`.
+    #
+    #   If `MonitoringInterval` is set to a value other than `0`, supply a
+    #   `MonitoringRoleArn` value.
+    # @option options [Boolean] :enable_performance_insights
+    #   Specifies whether to turn on Performance Insights for the DB cluster.
+    # @option options [String] :performance_insights_kms_key_id
+    #   The Amazon Web Services KMS key identifier for encryption of
+    #   Performance Insights data.
+    #
+    #   The Amazon Web Services KMS key identifier is the key ARN, key ID,
+    #   alias ARN, or alias name for the KMS key.
+    #
+    #   If you don't specify a value for `PerformanceInsightsKMSKeyId`, then
+    #   Amazon RDS uses your default KMS key. There is a default KMS key for
+    #   your Amazon Web Services account. Your Amazon Web Services account has
+    #   a different default KMS key for each Amazon Web Services Region.
+    # @option options [Integer] :performance_insights_retention_period
+    #   The number of days to retain Performance Insights data.
+    #
+    #   Valid Values:
+    #
+    #   * `7`
+    #
+    #   * *month* * 31, where *month* is a number of months from 1-23.
+    #     Examples: `93` (3 months * 31), `341` (11 months * 31), `589` (19
+    #     months * 31)
+    #
+    #   * `731`
+    #
+    #   Default: `7` days
+    #
+    #   If you specify a retention period that isn't valid, such as `94`,
+    #   Amazon RDS issues an error.
+    # @option options [String] :engine_lifecycle_support
+    #   The life cycle type for this DB cluster.
+    #
+    #   <note markdown="1"> By default, this value is set to `open-source-rds-extended-support`,
+    #   which enrolls your DB cluster into Amazon RDS Extended Support. At the
+    #   end of standard support, you can avoid charges for Extended Support by
+    #   setting the value to `open-source-rds-extended-support-disabled`. In
+    #   this case, RDS automatically upgrades your restored DB cluster to a
+    #   higher engine version, if the major engine version is past its end of
+    #   standard support date.
+    #
+    #    </note>
+    #
+    #   You can use this setting to enroll your DB cluster into Amazon RDS
+    #   Extended Support. With RDS Extended Support, you can run the selected
+    #   major engine version on your DB cluster past the end of standard
+    #   support for that engine version. For more information, see the
+    #   following sections:
+    #
+    #   * Amazon Aurora - [Using Amazon RDS Extended Support][1] in the
+    #     *Amazon Aurora User Guide*
+    #
+    #   * Amazon RDS - [Using Amazon RDS Extended Support][2] in the *Amazon
+    #     RDS User Guide*
+    #
+    #   Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
+    #
+    #   Valid Values: `open-source-rds-extended-support |
+    #   open-source-rds-extended-support-disabled`
+    #
+    #   Default: `open-source-rds-extended-support`
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/extended-support.html
+    #   [2]: https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/extended-support.html
     # @return [DBCluster]
     def restore(options = {})
       options = options.merge(snapshot_identifier: @snapshot_id)
-      resp = @client.restore_db_cluster_from_snapshot(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.restore_db_cluster_from_snapshot(options)
+      end
       DBCluster.new(
         id: resp.data.db_cluster.db_cluster_identifier,
         data: resp.data.db_cluster,
@@ -1009,7 +1147,9 @@ module Aws::RDS
           source_type: "db-cluster-snapshot",
           source_identifier: @snapshot_id
         )
-        resp = @client.describe_events(options)
+        resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+          @client.describe_events(options)
+        end
         resp.each_page do |page|
           batch = []
           page.data.events.each do |e|

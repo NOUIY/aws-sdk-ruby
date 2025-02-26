@@ -112,11 +112,11 @@ module Aws::SSM
     #
     #   Use the ID of the resource. Here are some examples:
     #
-    #   `MaintenanceWindow`\: `mw-012345abcde`
+    #   `MaintenanceWindow`: `mw-012345abcde`
     #
-    #   `PatchBaseline`\: `pb-012345abcde`
+    #   `PatchBaseline`: `pb-012345abcde`
     #
-    #   `Automation`\: `example-c160-4567-8519-012345abcde`
+    #   `Automation`: `example-c160-4567-8519-012345abcde`
     #
     #   `OpsMetadata` object: `ResourceID` for tagging is created from the
     #   Amazon Resource Name (ARN) for the object. Specifically,
@@ -128,9 +128,10 @@ module Aws::SSM
     #   `/aws/ssm/MyGroup/appmanager`.
     #
     #   For the `Document` and `Parameter` values, use the name of the
-    #   resource.
+    #   resource. If you're tagging a shared document, you must use the
+    #   full ARN of the document.
     #
-    #   `ManagedInstance`\: `mi-012345abcde`
+    #   `ManagedInstance`: `mi-012345abcde`
     #
     #   <note markdown="1"> The `ManagedInstance` type for this API operation is only for
     #   on-premises managed nodes. You must specify the name of the managed
@@ -178,9 +179,11 @@ module Aws::SSM
     # automation or command.
     #
     # @!attribute [rw] ignore_poll_alarm_failure
-    #   If you specify `true` for this value, your automation or command
-    #   continue to run even if we can't gather information about the state
-    #   of your CloudWatch alarm. The default value is `false`.
+    #   When this value is *true*, your automation or command continues to
+    #   run in cases where we can’t retrieve alarm status information from
+    #   CloudWatch. In cases where we successfully retrieve an alarm status
+    #   of OK or INSUFFICIENT\_DATA, the automation or command continues to
+    #   run, regardless of this value. Default is *false*.
     #   @return [Boolean]
     #
     # @!attribute [rw] alarms
@@ -245,9 +248,9 @@ module Aws::SSM
     #   The type of resource that you want to associate with an OpsItem.
     #   OpsCenter supports the following types:
     #
-    #   `AWS::SSMIncidents::IncidentRecord`\: an Incident Manager incident.
+    #   `AWS::SSMIncidents::IncidentRecord`: an Incident Manager incident.
     #
-    #   `AWS::SSM::Document`\: a Systems Manager (SSM) document.
+    #   `AWS::SSM::Document`: a Systems Manager (SSM) document.
     #   @return [String]
     #
     # @!attribute [rw] resource_uri
@@ -349,6 +352,13 @@ module Aws::SSM
     #   association.
     #   @return [Integer]
     #
+    # @!attribute [rw] duration
+    #   The number of hours that an association can run on specified
+    #   targets. After the resulting cutoff time passes, associations that
+    #   are currently running are cancelled, and no pending executions are
+    #   started on remaining targets.
+    #   @return [Integer]
+    #
     # @!attribute [rw] target_maps
     #   A key-value mapping of document parameters to target resources. Both
     #   Targets and TargetMaps can't be specified together.
@@ -368,6 +378,7 @@ module Aws::SSM
       :schedule_expression,
       :association_name,
       :schedule_offset,
+      :duration,
       :target_maps)
       SENSITIVE = []
       include Aws::Structure
@@ -417,7 +428,7 @@ module Aws::SSM
     #   Choose the parameter that will define how your automation will
     #   branch out. This target is required for associations that use an
     #   Automation runbook and target resources by using rate controls.
-    #   Automation is a capability of Amazon Web Services Systems Manager.
+    #   Automation is a tool in Amazon Web Services Systems Manager.
     #   @return [String]
     #
     # @!attribute [rw] parameters
@@ -499,9 +510,9 @@ module Aws::SSM
     #
     #   In `MANUAL` mode, you must specify the `AssociationId` as a
     #   parameter for the PutComplianceItems API operation. In this case,
-    #   compliance data isn't managed by State Manager, a capability of
-    #   Amazon Web Services Systems Manager. It is managed by your direct
-    #   call to the PutComplianceItems API operation.
+    #   compliance data isn't managed by State Manager, a tool in Amazon
+    #   Web Services Systems Manager. It is managed by your direct call to
+    #   the PutComplianceItems API operation.
     #
     #   By default, all associations use `AUTO` mode.
     #   @return [String]
@@ -533,6 +544,13 @@ module Aws::SSM
     # @!attribute [rw] schedule_offset
     #   Number of days to wait after the scheduled day to run an
     #   association.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] duration
+    #   The number of hours that an association can run on specified
+    #   targets. After the resulting cutoff time passes, associations that
+    #   are currently running are cancelled, and no pending executions are
+    #   started on remaining targets.
     #   @return [Integer]
     #
     # @!attribute [rw] target_maps
@@ -577,6 +595,7 @@ module Aws::SSM
       :calendar_names,
       :target_locations,
       :schedule_offset,
+      :duration,
       :target_maps,
       :alarm_configuration,
       :triggered_alarms)
@@ -948,9 +967,9 @@ module Aws::SSM
     #
     #   In `MANUAL` mode, you must specify the `AssociationId` as a
     #   parameter for the PutComplianceItems API operation. In this case,
-    #   compliance data isn't managed by State Manager, a capability of
-    #   Amazon Web Services Systems Manager. It is managed by your direct
-    #   call to the PutComplianceItems API operation.
+    #   compliance data isn't managed by State Manager, a tool in Amazon
+    #   Web Services Systems Manager. It is managed by your direct call to
+    #   the PutComplianceItems API operation.
     #
     #   By default, all associations use `AUTO` mode.
     #   @return [String]
@@ -986,6 +1005,13 @@ module Aws::SSM
     #   association.
     #   @return [Integer]
     #
+    # @!attribute [rw] duration
+    #   The number of hours that an association can run on specified
+    #   targets. After the resulting cutoff time passes, associations that
+    #   are currently running are cancelled, and no pending executions are
+    #   started on remaining targets.
+    #   @return [Integer]
+    #
     # @!attribute [rw] target_maps
     #   A key-value mapping of document parameters to target resources. Both
     #   Targets and TargetMaps can't be specified together.
@@ -1012,6 +1038,7 @@ module Aws::SSM
       :calendar_names,
       :target_locations,
       :schedule_offset,
+      :duration,
       :target_maps)
       SENSITIVE = [:parameters]
       include Aws::Structure
@@ -1097,12 +1124,12 @@ module Aws::SSM
     #   * For the key *SourceUrl*, the value is an S3 bucket location. For
     #     example:
     #
-    #     `"Values": [ "s3://doc-example-bucket/my-folder" ]`
+    #     `"Values": [ "s3://amzn-s3-demo-bucket/my-prefix" ]`
     #
     #   * For the key *S3FileUrl*, the value is a file in an S3 bucket. For
     #     example:
     #
-    #     `"Values": [ "s3://doc-example-bucket/my-folder/my-file.py" ]`
+    #     `"Values": [ "s3://amzn-s3-demo-bucket/my-prefix/my-file.py" ]`
     #
     #   * For the key *AttachmentReference*, the value is constructed from
     #     the name of another SSM document in your account, a version number
@@ -1299,6 +1326,12 @@ module Aws::SSM
     #   The CloudWatch alarm that was invoked by the automation.
     #   @return [Array<Types::AlarmStateInformation>]
     #
+    # @!attribute [rw] target_locations_url
+    #   A publicly accessible URL for a file that contains the
+    #   `TargetLocations` body. Currently, only files in presigned Amazon S3
+    #   buckets are supported
+    #   @return [String]
+    #
     # @!attribute [rw] automation_subtype
     #   The subtype of the Automation operation. Currently, the only
     #   supported value is `ChangeRequest`.
@@ -1333,6 +1366,10 @@ module Aws::SSM
     #   The name of the Change Manager change request.
     #   @return [String]
     #
+    # @!attribute [rw] variables
+    #   Variables defined for the automation.
+    #   @return [Hash<String,Array<String>>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/AutomationExecution AWS API Documentation
     #
     class AutomationExecution < Struct.new(
@@ -1363,12 +1400,14 @@ module Aws::SSM
       :progress_counters,
       :alarm_configuration,
       :triggered_alarms,
+      :target_locations_url,
       :automation_subtype,
       :scheduled_time,
       :runbooks,
       :ops_item_id,
       :association_id,
-      :change_request_name)
+      :change_request_name,
+      :variables)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1390,6 +1429,55 @@ module Aws::SSM
     class AutomationExecutionFilter < Struct.new(
       :key,
       :values)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Information about the optional inputs that can be specified for an
+    # automation execution preview.
+    #
+    # @!attribute [rw] parameters
+    #   Information about parameters that can be specified for the preview
+    #   operation.
+    #   @return [Hash<String,Array<String>>]
+    #
+    # @!attribute [rw] target_parameter_name
+    #   The name of the parameter used as the target resource for the
+    #   rate-controlled execution. Required if you specify targets.
+    #   @return [String]
+    #
+    # @!attribute [rw] targets
+    #   Information about the resources that would be included in the actual
+    #   runbook execution, if it were to be run. Both Targets and TargetMaps
+    #   can't be specified together.
+    #   @return [Array<Types::Target>]
+    #
+    # @!attribute [rw] target_maps
+    #   A key-value mapping of document parameters to target resources. Both
+    #   Targets and TargetMaps can't be specified together.
+    #   @return [Array<Hash<String,Array<String>>>]
+    #
+    # @!attribute [rw] target_locations
+    #   Information about the Amazon Web Services Regions and Amazon Web
+    #   Services accounts targeted by the Automation execution preview
+    #   operation.
+    #   @return [Array<Types::TargetLocation>]
+    #
+    # @!attribute [rw] target_locations_url
+    #   A publicly accessible URL for a file that contains the
+    #   `TargetLocations` body. Currently, only files in presigned Amazon S3
+    #   buckets are supported.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/AutomationExecutionInputs AWS API Documentation
+    #
+    class AutomationExecutionInputs < Struct.new(
+      :parameters,
+      :target_parameter_name,
+      :targets,
+      :target_maps,
+      :target_locations,
+      :target_locations_url)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1502,9 +1590,9 @@ module Aws::SSM
     #   Use this filter with DescribeAutomationExecutions. Specify either
     #   Local or CrossAccount. CrossAccount is an Automation that runs in
     #   multiple Amazon Web Services Regions and Amazon Web Services
-    #   accounts. For more information, see [Running Automation workflows in
-    #   multiple Amazon Web Services Regions and accounts][1] in the *Amazon
-    #   Web Services Systems Manager User Guide*.
+    #   accounts. For more information, see [Running automations in multiple
+    #   Amazon Web Services Regions and accounts][1] in the *Amazon Web
+    #   Services Systems Manager User Guide*.
     #
     #
     #
@@ -1518,6 +1606,12 @@ module Aws::SSM
     # @!attribute [rw] triggered_alarms
     #   The CloudWatch alarm that was invoked by the automation.
     #   @return [Array<Types::AlarmStateInformation>]
+    #
+    # @!attribute [rw] target_locations_url
+    #   A publicly accessible URL for a file that contains the
+    #   `TargetLocations` body. Currently, only files in presigned Amazon S3
+    #   buckets are supported
+    #   @return [String]
     #
     # @!attribute [rw] automation_subtype
     #   The subtype of the Automation operation. Currently, the only
@@ -1580,6 +1674,7 @@ module Aws::SSM
       :automation_type,
       :alarm_configuration,
       :triggered_alarms,
+      :target_locations_url,
       :automation_subtype,
       :scheduled_time,
       :runbooks,
@@ -1600,6 +1695,55 @@ module Aws::SSM
     #
     class AutomationExecutionNotFoundException < Struct.new(
       :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Information about the results of the execution preview.
+    #
+    # @!attribute [rw] step_previews
+    #   Information about the type of impact a runbook step would have on a
+    #   resource.
+    #
+    #   * `Mutating`: The runbook step would make changes to the targets
+    #     through actions that create, modify, or delete resources.
+    #
+    #   * `Non_Mutating`: The runbook step would retrieve data about
+    #     resources but not make changes to them. This category generally
+    #     includes `Describe*`, `List*`, `Get*`, and similar read-only API
+    #     actions.
+    #
+    #   * `Undetermined`: An undetermined step invokes executions performed
+    #     by another orchestration service like Lambda, Step Functions, or
+    #     Amazon Web Services Systems Manager Run Command. An undetermined
+    #     step might also call a third-party API. Systems Manager Automation
+    #     doesn't know the outcome of the orchestration processes or
+    #     third-party API executions, so the results of the steps are
+    #     undetermined.
+    #   @return [Hash<String,Integer>]
+    #
+    # @!attribute [rw] regions
+    #   Information about the Amazon Web Services Regions targeted by the
+    #   execution preview.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] target_previews
+    #   Information that provides a preview of what the impact of running
+    #   the specified Automation runbook would be.
+    #   @return [Array<Types::TargetPreview>]
+    #
+    # @!attribute [rw] total_accounts
+    #   Information about the Amazon Web Services accounts that were
+    #   included in the execution preview.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/AutomationExecutionPreview AWS API Documentation
+    #
+    class AutomationExecutionPreview < Struct.new(
+      :step_previews,
+      :regions,
+      :target_previews,
+      :total_accounts)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1636,9 +1780,9 @@ module Aws::SSM
     #   A list of explicitly approved patches for the baseline.
     #
     #   For information about accepted formats for lists of approved patches
-    #   and rejected patches, see [About package name formats for approved
-    #   and rejected patch lists][1] in the *Amazon Web Services Systems
-    #   Manager User Guide*.
+    #   and rejected patches, see [Package name formats for approved and
+    #   rejected patch lists][1] in the *Amazon Web Services Systems Manager
+    #   User Guide*.
     #
     #
     #
@@ -1655,9 +1799,9 @@ module Aws::SSM
     #   A list of explicitly rejected patches for the baseline.
     #
     #   For information about accepted formats for lists of approved patches
-    #   and rejected patches, see [About package name formats for approved
-    #   and rejected patch lists][1] in the *Amazon Web Services Systems
-    #   Manager User Guide*.
+    #   and rejected patches, see [Package name formats for approved and
+    #   rejected patch lists][1] in the *Amazon Web Services Systems Manager
+    #   User Guide*.
     #
     #
     #
@@ -1900,8 +2044,8 @@ module Aws::SSM
     #   command at the same time. You can specify a number of managed nodes,
     #   such as 10, or a percentage of nodes, such as 10%. The default value
     #   is 50. For more information about how to use `MaxConcurrency`, see
-    #   [Running commands using Systems Manager Run Command][1] in the
-    #   *Amazon Web Services Systems Manager User Guide*.
+    #   [Amazon Web Services Systems Manager Run Command][1] in the *Amazon
+    #   Web Services Systems Manager User Guide*.
     #
     #
     #
@@ -1913,7 +2057,7 @@ module Aws::SSM
     #   the command to additional targets. You can specify a number of
     #   errors, such as 10, or a percentage or errors, such as 10%. The
     #   default value is `0`. For more information about how to use
-    #   `MaxErrors`, see [Running commands using Systems Manager Run
+    #   `MaxErrors`, see [Amazon Web Services Systems Manager Run
     #   Command][1] in the *Amazon Web Services Systems Manager User Guide*.
     #
     #
@@ -1943,9 +2087,9 @@ module Aws::SSM
     #
     # @!attribute [rw] service_role
     #   The Identity and Access Management (IAM) service role that Run
-    #   Command, a capability of Amazon Web Services Systems Manager, uses
-    #   to act on your behalf when sending notifications about command
-    #   status changes.
+    #   Command, a tool in Amazon Web Services Systems Manager, uses to act
+    #   on your behalf when sending notifications about command status
+    #   changes.
     #   @return [String]
     #
     # @!attribute [rw] notification_config
@@ -2022,15 +2166,15 @@ module Aws::SSM
     # @!attribute [rw] value
     #   The filter value. Valid values for each filter key are as follows:
     #
-    #   * **InvokedAfter**\: Specify a timestamp to limit your results. For
-    #     example, specify `2021-07-07T00:00:00Z` to see a list of command
+    #   * **InvokedAfter**: Specify a timestamp to limit your results. For
+    #     example, specify `2024-07-07T00:00:00Z` to see a list of command
     #     executions occurring July 7, 2021, and later.
     #
-    #   * **InvokedBefore**\: Specify a timestamp to limit your results. For
-    #     example, specify `2021-07-07T00:00:00Z` to see a list of command
+    #   * **InvokedBefore**: Specify a timestamp to limit your results. For
+    #     example, specify `2024-07-07T00:00:00Z` to see a list of command
     #     executions from before July 7, 2021.
     #
-    #   * **Status**\: Specify a valid command status to see a list of all
+    #   * **Status**: Specify a valid command status to see a list of all
     #     command executions with that status. The status choices depend on
     #     the API you call.
     #
@@ -2059,7 +2203,6 @@ module Aws::SSM
     #     * `NoInstancesInTag`
     #
     #     * `LimitExceeded`
-    #
     #     The status values you can specify for `ListCommandInvocations`
     #     are:
     #
@@ -2088,20 +2231,19 @@ module Aws::SSM
     #     * `InvalidPlatform`
     #
     #     * `Terminated`
-    #
-    #   * **DocumentName**\: Specify name of the Amazon Web Services Systems
+    #   * **DocumentName**: Specify name of the Amazon Web Services Systems
     #     Manager document (SSM document) for which you want to see command
     #     execution results. For example, specify `AWS-RunPatchBaseline` to
     #     see command executions that used this SSM document to perform
     #     security patching operations on managed nodes.
     #
-    #   * **ExecutionStage**\: Specify one of the following values
+    #   * **ExecutionStage**: Specify one of the following values
     #     (`ListCommands` operations only):
     #
-    #     * `Executing`\: Returns a list of command executions that are
+    #     * `Executing`: Returns a list of command executions that are
     #       currently still running.
     #
-    #     * `Complete`\: Returns a list of command executions that have
+    #     * `Complete`: Returns a list of command executions that have
     #       already completed.
     #   @return [String]
     #
@@ -2237,9 +2379,9 @@ module Aws::SSM
     #
     # @!attribute [rw] service_role
     #   The Identity and Access Management (IAM) service role that Run
-    #   Command, a capability of Amazon Web Services Systems Manager, uses
-    #   to act on your behalf when sending notifications about command
-    #   status changes on a per managed node basis.
+    #   Command, a tool in Amazon Web Services Systems Manager, uses to act
+    #   on your behalf when sending notifications about command status
+    #   changes on a per managed node basis.
     #   @return [String]
     #
     # @!attribute [rw] notification_config
@@ -2381,12 +2523,11 @@ module Aws::SSM
     #   be stored. This was requested when issuing the command. For example,
     #   in the following response:
     #
-    #   `doc-example-bucket/ab19cb99-a030-46dd-9dfc-8eSAMPLEPre-Fix/i-02573cafcfEXAMPLE/awsrunShellScript`
+    #   `amzn-s3-demo-bucket/my-prefix/i-02573cafcfEXAMPLE/awsrunShellScript`
     #
-    #   `doc-example-bucket` is the name of the S3 bucket;
+    #   `amzn-s3-demo-bucket` is the name of the S3 bucket;
     #
-    #   `ab19cb99-a030-46dd-9dfc-8eSAMPLEPre-Fix` is the name of the S3
-    #   prefix;
+    #   `my-prefix` is the name of the S3 prefix;
     #
     #   `i-02573cafcfEXAMPLE` is the managed node ID;
     #
@@ -2398,12 +2539,11 @@ module Aws::SSM
     #   command executions should be stored. This was requested when issuing
     #   the command. For example, in the following response:
     #
-    #   `doc-example-bucket/ab19cb99-a030-46dd-9dfc-8eSAMPLEPre-Fix/i-02573cafcfEXAMPLE/awsrunShellScript`
+    #   `amzn-s3-demo-bucket/my-prefix/i-02573cafcfEXAMPLE/awsrunShellScript`
     #
-    #   `doc-example-bucket` is the name of the S3 bucket;
+    #   `amzn-s3-demo-bucket` is the name of the S3 bucket;
     #
-    #   `ab19cb99-a030-46dd-9dfc-8eSAMPLEPre-Fix` is the name of the S3
-    #   prefix;
+    #   `my-prefix` is the name of the S3 prefix;
     #
     #   `i-02573cafcfEXAMPLE` is the managed node ID;
     #
@@ -2432,11 +2572,11 @@ module Aws::SSM
     # A summary of the call execution that includes an execution ID, the
     # type of execution (for example, `Command`), and the date/time of the
     # execution using a datetime object that is saved in the following
-    # format: yyyy-MM-dd'T'HH:mm:ss'Z'.
+    # format: `yyyy-MM-dd'T'HH:mm:ss'Z'`
     #
     # @!attribute [rw] execution_time
     #   The time the execution ran as a datetime object that is saved in the
-    #   following format: yyyy-MM-dd'T'HH:mm:ss'Z'.
+    #   following format: `yyyy-MM-dd'T'HH:mm:ss'Z'`
     #   @return [Time]
     #
     # @!attribute [rw] execution_id
@@ -2675,8 +2815,9 @@ module Aws::SSM
     #   want to assign to the managed node. This IAM role must provide
     #   AssumeRole permissions for the Amazon Web Services Systems Manager
     #   service principal `ssm.amazonaws.com`. For more information, see
-    #   [Create an IAM service role for a hybrid environment][1] in the
-    #   *Amazon Web Services Systems Manager User Guide*.
+    #   [Create the IAM service role required for Systems Manager in a
+    #   hybrid and multicloud environments][1] in the *Amazon Web Services
+    #   Systems Manager User Guide*.
     #
     #   <note markdown="1"> You can't specify an IAM service-linked role for this parameter.
     #   You must create a unique role.
@@ -2685,7 +2826,7 @@ module Aws::SSM
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-service-role.html
+    #   [1]: https://docs.aws.amazon.com/systems-manager/latest/userguide/hybrid-multicloud-service-role.html
     #   @return [String]
     #
     # @!attribute [rw] registration_limit
@@ -2695,7 +2836,7 @@ module Aws::SSM
     #
     # @!attribute [rw] expiration_date
     #   The date by which this activation request should expire, in
-    #   timestamp format, such as "2021-07-07T00:00:00". You can specify a
+    #   timestamp format, such as "2024-07-07T00:00:00". You can specify a
     #   date up to 30 days in advance. If you don't provide an expiration
     #   date, the activation code expires in 24 hours.
     #   @return [Time]
@@ -2826,8 +2967,8 @@ module Aws::SSM
     # @!attribute [rw] automation_target_parameter_name
     #   Specify the target for the association. This target is required for
     #   associations that use an Automation runbook and target resources by
-    #   using rate controls. Automation is a capability of Amazon Web
-    #   Services Systems Manager.
+    #   using rate controls. Automation is a tool in Amazon Web Services
+    #   Systems Manager.
     #   @return [String]
     #
     # @!attribute [rw] document_version
@@ -2896,9 +3037,9 @@ module Aws::SSM
     #
     #   In `MANUAL` mode, you must specify the `AssociationId` as a
     #   parameter for the PutComplianceItems API operation. In this case,
-    #   compliance data isn't managed by State Manager, a capability of
-    #   Amazon Web Services Systems Manager. It is managed by your direct
-    #   call to the PutComplianceItems API operation.
+    #   compliance data isn't managed by State Manager, a tool in Amazon
+    #   Web Services Systems Manager. It is managed by your direct call to
+    #   the PutComplianceItems API operation.
     #
     #   By default, all associations use `AUTO` mode.
     #   @return [String]
@@ -2932,6 +3073,25 @@ module Aws::SSM
     #   association.
     #   @return [Integer]
     #
+    # @!attribute [rw] duration
+    #   The number of hours the association can run before it is canceled.
+    #   Duration applies to associations that are currently running, and any
+    #   pending and in progress commands on all targets. If a target was
+    #   taken offline for the association to run, it is made available again
+    #   immediately, without a reboot.
+    #
+    #   The `Duration` parameter applies only when both these conditions are
+    #   true:
+    #
+    #   * The association for which you specify a duration is cancelable
+    #     according to the parameters of the SSM command document or
+    #     Automation runbook associated with this execution.
+    #
+    #   * The command specifies the ` ApplyOnlyAtCronInterval ` parameter,
+    #     which means that the association doesn't run immediately after it
+    #     is created, but only according to the specified schedule.
+    #   @return [Integer]
+    #
     # @!attribute [rw] target_maps
     #   A key-value mapping of document parameters to target resources. Both
     #   Targets and TargetMaps can't be specified together.
@@ -2962,6 +3122,7 @@ module Aws::SSM
       :calendar_names,
       :target_locations,
       :schedule_offset,
+      :duration,
       :target_maps,
       :alarm_configuration)
       SENSITIVE = [:parameters]
@@ -2991,7 +3152,7 @@ module Aws::SSM
     #
     #   You can specify Amazon Web Services-predefined documents, documents
     #   you created, or a document that is shared with you from another
-    #   account.
+    #   Amazon Web Services account.
     #
     #   For Systems Manager documents (SSM documents) that are shared with
     #   you from other Amazon Web Services accounts, you must specify the
@@ -3009,8 +3170,8 @@ module Aws::SSM
     #   @return [String]
     #
     # @!attribute [rw] document_version
-    #   The document version you want to associate with the target(s). Can
-    #   be a specific version or the default version.
+    #   The document version you want to associate with the targets. Can be
+    #   a specific version or the default version.
     #
     #   State Manager doesn't support running associations that use a new
     #   version of a document if that document is shared from another
@@ -3046,9 +3207,10 @@ module Aws::SSM
     #   in an Amazon Web Services account, or individual managed node IDs.
     #   You can target all managed nodes in an Amazon Web Services account
     #   by specifying the `InstanceIds` key with a value of `*`. For more
-    #   information about choosing targets for an association, see [Using
-    #   targets and rate controls with State Manager associations][1] in the
-    #   *Amazon Web Services Systems Manager User Guide*.
+    #   information about choosing targets for an association, see
+    #   [Understanding targets and rate controls in State Manager
+    #   associations][1] in the *Amazon Web Services Systems Manager User
+    #   Guide*.
     #
     #
     #
@@ -3057,7 +3219,7 @@ module Aws::SSM
     #
     # @!attribute [rw] schedule_expression
     #   A cron expression when the association will be applied to the
-    #   target(s).
+    #   targets.
     #   @return [String]
     #
     # @!attribute [rw] output_location
@@ -3073,7 +3235,7 @@ module Aws::SSM
     #   Choose the parameter that will define how your automation will
     #   branch out. This target is required for associations that use an
     #   Automation runbook and target resources by using rate controls.
-    #   Automation is a capability of Amazon Web Services Systems Manager.
+    #   Automation is a tool in Amazon Web Services Systems Manager.
     #   @return [String]
     #
     # @!attribute [rw] max_errors
@@ -3174,6 +3336,25 @@ module Aws::SSM
     #   [1]: https://docs.aws.amazon.com/systems-manager/latest/userguide/reference-cron-and-rate-expressions.html
     #   @return [Integer]
     #
+    # @!attribute [rw] duration
+    #   The number of hours the association can run before it is canceled.
+    #   Duration applies to associations that are currently running, and any
+    #   pending and in progress commands on all targets. If a target was
+    #   taken offline for the association to run, it is made available again
+    #   immediately, without a reboot.
+    #
+    #   The `Duration` parameter applies only when both these conditions are
+    #   true:
+    #
+    #   * The association for which you specify a duration is cancelable
+    #     according to the parameters of the SSM command document or
+    #     Automation runbook associated with this execution.
+    #
+    #   * The command specifies the ` ApplyOnlyAtCronInterval ` parameter,
+    #     which means that the association doesn't run immediately after it
+    #     is created, but only according to the specified schedule.
+    #   @return [Integer]
+    #
     # @!attribute [rw] target_maps
     #   A key-value mapping of document parameters to target resources. Both
     #   Targets and TargetMaps can't be specified together.
@@ -3212,6 +3393,7 @@ module Aws::SSM
       :calendar_names,
       :target_locations,
       :schedule_offset,
+      :duration,
       :target_maps,
       :tags,
       :alarm_configuration)
@@ -3232,23 +3414,26 @@ module Aws::SSM
     end
 
     # @!attribute [rw] content
-    #   The content for the new SSM document in JSON or YAML format. We
+    #   The content for the new SSM document in JSON or YAML format. The
+    #   content of the document must not exceed 64KB. This quota also
+    #   includes the content specified for input parameters at runtime. We
     #   recommend storing the contents for your new document in an external
     #   JSON or YAML file and referencing the file in a command.
     #
     #   For examples, see the following topics in the *Amazon Web Services
     #   Systems Manager User Guide*.
     #
-    #   * [Create an SSM document (Amazon Web Services API)][1]
+    #   * [Create an SSM document (console)][1]
     #
-    #   * [Create an SSM document (Amazon Web Services CLI)][2]
+    #   * [Create an SSM document (command line)][2]
     #
-    #   * [Create an SSM document (API)][1]
+    #   * [Create an SSM document (API)][3]
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/systems-manager/latest/userguide/create-ssm-document-api.html
-    #   [2]: https://docs.aws.amazon.com/systems-manager/latest/userguide/create-ssm-document-cli.html
+    #   [1]: https://docs.aws.amazon.com/systems-manager/latest/userguide/documents-using.html#create-ssm-console
+    #   [2]: https://docs.aws.amazon.com/systems-manager/latest/userguide/documents-using.html#create-ssm-document-cli
+    #   [3]: https://docs.aws.amazon.com/systems-manager/latest/userguide/documents-using.html#create-ssm-document-api
     #   @return [String]
     #
     # @!attribute [rw] requires
@@ -3283,6 +3468,12 @@ module Aws::SSM
     #   * `amazon`
     #
     #   * `amzn`
+    #
+    #   * `AWSEC2`
+    #
+    #   * `AWSConfigRemediation`
+    #
+    #   * `AWSSupport`
     #   @return [String]
     #
     # @!attribute [rw] display_name
@@ -3388,6 +3579,11 @@ module Aws::SSM
     #   the maintenance window to become active. `StartDate` allows you to
     #   delay activation of the maintenance window until the specified
     #   future date.
+    #
+    #   <note markdown="1"> When using a rate schedule, if you provide a start date that occurs
+    #   in the past, the current date and time are used as the start date.
+    #
+    #    </note>
     #   @return [String]
     #
     # @!attribute [rw] end_date
@@ -3507,7 +3703,13 @@ module Aws::SSM
     end
 
     # @!attribute [rw] description
-    #   Information about the OpsItem.
+    #   User-defined text that contains information about the OpsItem, in
+    #   Markdown format.
+    #
+    #   <note markdown="1"> Provide enough information so that users viewing this OpsItem for
+    #   the first time understand the issue.
+    #
+    #    </note>
     #   @return [String]
     #
     # @!attribute [rw] ops_item_type
@@ -3524,7 +3726,7 @@ module Aws::SSM
     #     This type of OpsItem is used by Change Manager for reviewing and
     #     approving or rejecting change requests.
     #
-    #   * `/aws/insights`
+    #   * `/aws/insight`
     #
     #     This type of OpsItem is used by OpsCenter for aggregating and
     #     reporting on duplicate OpsItems.
@@ -3553,12 +3755,12 @@ module Aws::SSM
     #   resource in the request. Use the `/aws/automations` key in
     #   OperationalData to associate an Automation runbook with the OpsItem.
     #   To view Amazon Web Services CLI example commands that use these
-    #   keys, see [Creating OpsItems manually][1] in the *Amazon Web
-    #   Services Systems Manager User Guide*.
+    #   keys, see [Create OpsItems manually][1] in the *Amazon Web Services
+    #   Systems Manager User Guide*.
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-creating-OpsItems.html#OpsCenter-manually-create-OpsItems
+    #   [1]: https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-manually-create-OpsItems.html
     #   @return [Hash<String,Types::OpsItemDataValue>]
     #
     # @!attribute [rw] notifications
@@ -3593,10 +3795,7 @@ module Aws::SSM
     #   @return [String]
     #
     # @!attribute [rw] tags
-    #   Optional metadata that you assign to a resource. You can restrict
-    #   access to OpsItems by using an inline IAM policy that specifies
-    #   tags. For more information, see [Getting started with OpsCenter][1]
-    #   in the *Amazon Web Services Systems Manager User Guide*.
+    #   Optional metadata that you assign to a resource.
     #
     #   Tags use a key-value pair. For example:
     #
@@ -3606,10 +3805,6 @@ module Aws::SSM
     #   both the `ssm:CreateOpsItems` operation and the
     #   `ssm:AddTagsToResource` operation. To add tags to an existing
     #   OpsItem, use the AddTagsToResource operation.
-    #
-    #
-    #
-    #   [1]: https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-getting-started.html#OpsCenter-getting-started-user-permissions
     #   @return [Array<Types::Tag>]
     #
     # @!attribute [rw] category
@@ -3645,13 +3840,13 @@ module Aws::SSM
     # @!attribute [rw] account_id
     #   The target Amazon Web Services account where you want to create an
     #   OpsItem. To make this call, your account must be configured to work
-    #   with OpsItems across accounts. For more information, see [Setting up
-    #   OpsCenter to work with OpsItems across accounts][1] in the *Amazon
-    #   Web Services Systems Manager User Guide*.
+    #   with OpsItems across accounts. For more information, see [Set up
+    #   OpsCenter][1] in the *Amazon Web Services Systems Manager User
+    #   Guide*.
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-OpsCenter-multiple-accounts.html
+    #   [1]: https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-setup.html
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/CreateOpsItemRequest AWS API Documentation
@@ -3750,6 +3945,11 @@ module Aws::SSM
     #
     # @!attribute [rw] global_filters
     #   A set of global filters used to include patches in the baseline.
+    #
+    #   The `GlobalFilters` parameter can be configured only by using the
+    #   CLI or an Amazon Web Services SDK. It can't be configured from the
+    #   Patch Manager console, and its value isn't displayed in the
+    #   console.
     #   @return [Types::PatchFilterGroup]
     #
     # @!attribute [rw] approval_rules
@@ -3760,9 +3960,9 @@ module Aws::SSM
     #   A list of explicitly approved patches for the baseline.
     #
     #   For information about accepted formats for lists of approved patches
-    #   and rejected patches, see [About package name formats for approved
-    #   and rejected patch lists][1] in the *Amazon Web Services Systems
-    #   Manager User Guide*.
+    #   and rejected patches, see [Package name formats for approved and
+    #   rejected patch lists][1] in the *Amazon Web Services Systems Manager
+    #   User Guide*.
     #
     #
     #
@@ -3785,9 +3985,9 @@ module Aws::SSM
     #   A list of explicitly rejected patches for the baseline.
     #
     #   For information about accepted formats for lists of approved patches
-    #   and rejected patches, see [About package name formats for approved
-    #   and rejected patch lists][1] in the *Amazon Web Services Systems
-    #   Manager User Guide*.
+    #   and rejected patches, see [Package name formats for approved and
+    #   rejected patch lists][1] in the *Amazon Web Services Systems Manager
+    #   User Guide*.
     #
     #
     #
@@ -3798,18 +3998,28 @@ module Aws::SSM
     #   The action for Patch Manager to take on patches included in the
     #   `RejectedPackages` list.
     #
-    #   * <b> <code>ALLOW_AS_DEPENDENCY</code> </b>\: A package in the
-    #     `Rejected` patches list is installed only if it is a dependency of
-    #     another package. It is considered compliant with the patch
-    #     baseline, and its status is reported as `InstalledOther`. This is
-    #     the default action if no option is specified.
+    #   ALLOW\_AS\_DEPENDENCY
     #
-    #   * <b> <code>BLOCK</code> </b>\: Packages in the `RejectedPatches`
-    #     list, and packages that include them as dependencies, aren't
-    #     installed under any circumstances. If a package was installed
-    #     before it was added to the Rejected patches list, it is considered
-    #     non-compliant with the patch baseline, and its status is reported
-    #     as `InstalledRejected`.
+    #   : **Linux and macOS**: A package in the rejected patches list is
+    #     installed only if it is a dependency of another package. It is
+    #     considered compliant with the patch baseline, and its status is
+    #     reported as `INSTALLED_OTHER`. This is the default action if no
+    #     option is specified.
+    #
+    #     **Windows Server**: Windows Server doesn't support the concept of
+    #     package dependencies. If a package in the rejected patches list
+    #     and already installed on the node, its status is reported as
+    #     `INSTALLED_OTHER`. Any package not already installed on the node
+    #     is skipped. This is the default action if no option is specified.
+    #
+    #   BLOCK
+    #
+    #   : **All OSs**: Packages in the rejected patches list, and packages
+    #     that include them as dependencies, aren't installed by Patch
+    #     Manager under any circumstances. If a package was installed before
+    #     it was added to the rejected patches list, or is installed outside
+    #     of Patch Manager afterward, it's considered noncompliant with the
+    #     patch baseline and its status is reported as `INSTALLED_REJECTED`.
     #   @return [String]
     #
     # @!attribute [rw] description
@@ -4087,7 +4297,7 @@ module Aws::SSM
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-inventory-custom.html#sysman-inventory-delete-summary
+    #   [1]: https://docs.aws.amazon.com/systems-manager/latest/userguide/inventory-custom.html#delete-custom-inventory-summary
     #   @return [Types::InventoryDeletionSummary]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DeleteInventoryResult AWS API Documentation
@@ -4124,6 +4334,22 @@ module Aws::SSM
       include Aws::Structure
     end
 
+    # @!attribute [rw] ops_item_id
+    #   The ID of the OpsItem that you want to delete.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DeleteOpsItemRequest AWS API Documentation
+    #
+    class DeleteOpsItemRequest < Struct.new(
+      :ops_item_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DeleteOpsItemResponse AWS API Documentation
+    #
+    class DeleteOpsItemResponse < Aws::EmptyStructure; end
+
     # @!attribute [rw] ops_metadata_arn
     #   The Amazon Resource Name (ARN) of an OpsMetadata Object to delete.
     #   @return [String]
@@ -4142,6 +4368,11 @@ module Aws::SSM
 
     # @!attribute [rw] name
     #   The name of the parameter to delete.
+    #
+    #   <note markdown="1"> You can't enter the Amazon Resource Name (ARN) for a parameter,
+    #   only the parameter name itself.
+    #
+    #    </note>
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DeleteParameterRequest AWS API Documentation
@@ -4160,6 +4391,11 @@ module Aws::SSM
     #   The names of the parameters to delete. After deleting a parameter,
     #   wait for at least 30 seconds to create a parameter with the same
     #   name.
+    #
+    #   <note markdown="1"> You can't enter the Amazon Resource Name (ARN) for a parameter,
+    #   only the parameter name itself.
+    #
+    #    </note>
     #   @return [Array<String>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DeleteParametersRequest AWS API Documentation
@@ -4912,8 +5148,8 @@ module Aws::SSM
     #
     # @!attribute [rw] version_name
     #   An optional field specifying the version of the artifact associated
-    #   with the document. For example, "Release 12, Update 6". This value
-    #   is unique across all versions of a document, and can't be changed.
+    #   with the document. For example, 12.6. This value is unique across
+    #   all versions of a document, and can't be changed.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribeDocumentRequest AWS API Documentation
@@ -5081,14 +5317,15 @@ module Aws::SSM
     # @!attribute [rw] filters
     #   One or more filters. Use a filter to return a more specific list of
     #   managed nodes. You can filter based on tags applied to your managed
-    #   nodes. Use this `Filters` data type instead of
-    #   `InstanceInformationFilterList`, which is deprecated.
+    #   nodes. Tag filters can't be combined with other filter types. Use
+    #   this `Filters` data type instead of `InstanceInformationFilterList`,
+    #   which is deprecated.
     #   @return [Array<Types::InstanceInformationStringFilter>]
     #
     # @!attribute [rw] max_results
     #   The maximum number of items to return for this call. The call also
     #   returns a token that you can specify in a subsequent call to get the
-    #   next set of results.
+    #   next set of results. The default value is 10 items.
     #   @return [Integer]
     #
     # @!attribute [rw] next_token
@@ -5248,6 +5485,14 @@ module Aws::SSM
     #
     #     Sample values: `Installed` \| `InstalledOther` \|
     #     `InstalledPendingReboot`
+    #
+    #     For lists of all `State` values, see [Patch compliance state
+    #     values][1] in the *Amazon Web Services Systems Manager User
+    #     Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-compliance-states.html
     #   @return [Array<Types::PatchOrchestratorFilter>]
     #
     # @!attribute [rw] next_token
@@ -5297,6 +5542,54 @@ module Aws::SSM
     #
     class DescribeInstancePatchesResult < Struct.new(
       :patches,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] instance_property_filter_list
+    #   An array of instance property filters.
+    #   @return [Array<Types::InstancePropertyFilter>]
+    #
+    # @!attribute [rw] filters_with_operator
+    #   The request filters to use with the operator.
+    #   @return [Array<Types::InstancePropertyStringFilter>]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of items to return for the call. The call also
+    #   returns a token that you can specify in a subsequent call to get the
+    #   next set of results.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   The token provided by a previous request to use to return the next
+    #   set of properties.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribeInstancePropertiesRequest AWS API Documentation
+    #
+    class DescribeInstancePropertiesRequest < Struct.new(
+      :instance_property_filter_list,
+      :filters_with_operator,
+      :max_results,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] instance_properties
+    #   Properties for the managed instances.
+    #   @return [Array<Types::InstanceProperty>]
+    #
+    # @!attribute [rw] next_token
+    #   The token for the next set of properties to return. Use this token
+    #   to get the next set of results.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribeInstancePropertiesResult AWS API Documentation
+    #
+    class DescribeInstancePropertiesResult < Struct.new(
+      :instance_properties,
       :next_token)
       SENSITIVE = []
       include Aws::Structure
@@ -5468,7 +5761,7 @@ module Aws::SSM
     #
     #   * Values. An array of strings, each between 1 and 256 characters.
     #     Supported values are date/time strings in a valid ISO 8601
-    #     date/time format, such as `2021-11-04T05:00:00Z`.
+    #     date/time format, such as `2024-11-04T05:00:00Z`.
     #   @return [Array<Types::MaintenanceWindowFilter>]
     #
     # @!attribute [rw] max_results
@@ -5823,13 +6116,17 @@ module Aws::SSM
     #
     #     Operations: Equals
     #
+    #   * Key: AccountId
+    #
+    #     Operations: Equals
+    #
     #   *The Equals operator for Title matches the first 100 characters. If
     #   you specify more than 100 characters, they system returns an error
     #   that the filter value exceeds the length limit.
     #
     #   **If you filter the response by using the OperationalData
     #   operator, specify a key-value pair by using the following JSON
-    #   format: \\\{"key":"key\_name","value":"a\_value"\\}
+    #   format: \{"key":"key\_name","value":"a\_value"}
     #   @return [Array<Types::OpsItemFilter>]
     #
     # @!attribute [rw] max_results
@@ -5890,13 +6187,37 @@ module Aws::SSM
     #   token from a previous call.)
     #   @return [String]
     #
+    # @!attribute [rw] shared
+    #   Lists parameters that are shared with you.
+    #
+    #   <note markdown="1"> By default when using this option, the command returns parameters
+    #   that have been shared using a standard Resource Access Manager
+    #   Resource Share. In order for a parameter that was shared using the
+    #   PutResourcePolicy command to be returned, the associated `RAM
+    #   Resource Share Created From Policy` must have been promoted to a
+    #   standard Resource Share using the RAM
+    #   [PromoteResourceShareCreatedFromPolicy][1] API operation.
+    #
+    #    For more information about sharing parameters, see [Working with
+    #   shared parameters][2] in the *Amazon Web Services Systems Manager
+    #   User Guide*.
+    #
+    #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/ram/latest/APIReference/API_PromoteResourceShareCreatedFromPolicy.html
+    #   [2]: https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-shared-parameters.html
+    #   @return [Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DescribeParametersRequest AWS API Documentation
     #
     class DescribeParametersRequest < Struct.new(
       :filters,
       :parameter_filters,
       :max_results,
-      :next_token)
+      :next_token,
+      :shared)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -6036,7 +6357,7 @@ module Aws::SSM
     # @!attribute [rw] instances_with_unreported_not_applicable_patches
     #   The number of managed nodes with `NotApplicable` patches beyond the
     #   supported limit, which aren't reported by name to Inventory.
-    #   Inventory is a capability of Amazon Web Services Systems Manager.
+    #   Inventory is a tool in Amazon Web Services Systems Manager.
     #   @return [Integer]
     #
     # @!attribute [rw] instances_with_critical_non_compliant_patches
@@ -6118,10 +6439,10 @@ module Aws::SSM
     # @!attribute [rw] mappings
     #   Each entry in the array contains:
     #
-    #   * `PatchGroup`\: string (between 1 and 256 characters. Regex:
-    #     `^([\p\{L\}\p\{Z\}\p\{N\}_.:/=+\-@]*)$)`
+    #   * `PatchGroup`: string (between 1 and 256 characters. Regex:
+    #     `^([\p{L}\p{Z}\p{N}_.:/=+\-@]*)$)`
     #
-    #   * `PatchBaselineIdentity`\: A `PatchBaselineIdentity` element.
+    #   * `PatchBaselineIdentity`: A `PatchBaselineIdentity` element.
     #   @return [Array<Types::PatchGroupPatchBaselineMapping>]
     #
     # @!attribute [rw] next_token
@@ -6344,7 +6665,7 @@ module Aws::SSM
     #   @return [String]
     #
     # @!attribute [rw] owner
-    #   The Amazon Web Services user account that created the document.
+    #   The Amazon Web Services user that created the document.
     #   @return [String]
     #
     # @!attribute [rw] created_date
@@ -6529,13 +6850,13 @@ module Aws::SSM
     #   @return [String]
     #
     # @!attribute [rw] owner
-    #   The Amazon Web Services user account that created the document.
+    #   The Amazon Web Services user that created the document.
     #   @return [String]
     #
     # @!attribute [rw] version_name
     #   An optional field specifying the version of the artifact associated
-    #   with the document. For example, "Release 12, Update 6". This value
-    #   is unique across all versions of a document, and can't be changed.
+    #   with the document. For example, 12.6. This value is unique across
+    #   all versions of a document, and can't be changed.
     #   @return [String]
     #
     # @!attribute [rw] platform_types
@@ -6730,7 +7051,7 @@ module Aws::SSM
       include Aws::Structure
     end
 
-    # Parameters specified in a System Manager document that run on the
+    # Parameters specified in a Systems Manager document that run on the
     # server when the command is run.
     #
     # @!attribute [rw] name
@@ -6763,9 +7084,9 @@ module Aws::SSM
       include Aws::Structure
     end
 
-    # The document can't be shared with more Amazon Web Services user
-    # accounts. You can specify a maximum of 20 accounts per API operation
-    # to share a private document.
+    # The document can't be shared with more Amazon Web Services accounts.
+    # You can specify a maximum of 20 accounts per API operation to share a
+    # private document.
     #
     # By default, you can share a private document with a maximum of 1,000
     # accounts and publicly share up to five documents.
@@ -6801,8 +7122,8 @@ module Aws::SSM
     #
     # @!attribute [rw] version_name
     #   An optional field specifying the version of the artifact associated
-    #   with the document. For example, "Release 12, Update 6". This value
-    #   is unique across all versions of a document, and can't be changed.
+    #   with the document. For example, 12.6. This value is unique across
+    #   all versions of a document, and can't be changed.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/DocumentRequires AWS API Documentation
@@ -6921,8 +7242,8 @@ module Aws::SSM
     #
     # @!attribute [rw] version_name
     #   The version of the artifact associated with the document. For
-    #   example, "Release 12, Update 6". This value is unique across all
-    #   versions of a document, and can't be changed.
+    #   example, 12.6. This value is unique across all versions of a
+    #   document, and can't be changed.
     #   @return [String]
     #
     # @!attribute [rw] created_date
@@ -7068,6 +7389,51 @@ module Aws::SSM
       :patch_status)
       SENSITIVE = []
       include Aws::Structure
+    end
+
+    # Information about the inputs for an execution preview.
+    #
+    # @note ExecutionInputs is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @!attribute [rw] automation
+    #   Information about the optional inputs that can be specified for an
+    #   automation execution preview.
+    #   @return [Types::AutomationExecutionInputs]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/ExecutionInputs AWS API Documentation
+    #
+    class ExecutionInputs < Struct.new(
+      :automation,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class Automation < ExecutionInputs; end
+      class Unknown < ExecutionInputs; end
+    end
+
+    # Information about the changes that would be made if an execution were
+    # run.
+    #
+    # @note ExecutionPreview is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of ExecutionPreview corresponding to the set member.
+    #
+    # @!attribute [rw] automation
+    #   Information about the changes that would be made if an Automation
+    #   workflow were run.
+    #   @return [Types::AutomationExecutionPreview]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/ExecutionPreview AWS API Documentation
+    #
+    class ExecutionPreview < Struct.new(
+      :automation,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class Automation < ExecutionPreview; end
+      class Unknown < ExecutionPreview; end
     end
 
     # Describes a failed association.
@@ -7459,8 +7825,7 @@ module Aws::SSM
     #   @return [String]
     #
     # @!attribute [rw] status
-    #   The status of the connection to the managed node. For example,
-    #   'Connected' or 'Not Connected'.
+    #   The status of the connection to the managed node.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/GetConnectionStatusResponse AWS API Documentation
@@ -7562,8 +7927,8 @@ module Aws::SSM
     #
     # @!attribute [rw] version_name
     #   An optional field specifying the version of the artifact associated
-    #   with the document. For example, "Release 12, Update 6". This value
-    #   is unique across all versions of a document and can't be changed.
+    #   with the document. For example, 12.6. This value is unique across
+    #   all versions of a document and can't be changed.
     #   @return [String]
     #
     # @!attribute [rw] document_version
@@ -7602,8 +7967,8 @@ module Aws::SSM
     #
     # @!attribute [rw] version_name
     #   The version of the artifact associated with the document. For
-    #   example, "Release 12, Update 6". This value is unique across all
-    #   versions of a document, and can't be changed.
+    #   example, 12.6. This value is unique across all versions of a
+    #   document, and can't be changed.
     #   @return [String]
     #
     # @!attribute [rw] document_version
@@ -7675,6 +8040,53 @@ module Aws::SSM
       :requires,
       :attachments_content,
       :review_status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] execution_preview_id
+    #   The ID of the existing execution preview.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/GetExecutionPreviewRequest AWS API Documentation
+    #
+    class GetExecutionPreviewRequest < Struct.new(
+      :execution_preview_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] execution_preview_id
+    #   The generated ID for the existing execution preview.
+    #   @return [String]
+    #
+    # @!attribute [rw] ended_at
+    #   A UTC timestamp indicating when the execution preview operation
+    #   ended.
+    #   @return [Time]
+    #
+    # @!attribute [rw] status
+    #   The current status of the execution preview operation.
+    #   @return [String]
+    #
+    # @!attribute [rw] status_message
+    #   Supplemental information about the current status of the execution
+    #   preview.
+    #   @return [String]
+    #
+    # @!attribute [rw] execution_preview
+    #   Information about the changes that would be made if an execution
+    #   were run.
+    #   @return [Types::ExecutionPreview]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/GetExecutionPreviewResponse AWS API Documentation
+    #
+    class GetExecutionPreviewResponse < Struct.new(
+      :execution_preview_id,
+      :ended_at,
+      :status,
+      :status_message,
+      :execution_preview)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -7990,9 +8402,9 @@ module Aws::SSM
     #
     #   The map has the following format:
     #
-    #   * `Key`\: string, between 1 and 255 characters
+    #   * `Key`: string, between 1 and 255 characters
     #
-    #   * `Value`\: an array of strings, each between 1 and 255 characters
+    #   * `Value`: an array of strings, each between 1 and 255 characters
     #   @return [Array<Hash<String,Types::MaintenanceWindowTaskParameterValueExpression>>]
     #
     # @!attribute [rw] priority
@@ -8210,10 +8622,24 @@ module Aws::SSM
     #   @return [String]
     #
     # @!attribute [rw] service_role_arn
-    #   The Amazon Resource Name (ARN) of the Identity and Access Management
-    #   (IAM) service role to use to publish Amazon Simple Notification
-    #   Service (Amazon SNS) notifications for maintenance window Run
-    #   Command tasks.
+    #   The Amazon Resource Name (ARN) of the IAM service role for Amazon
+    #   Web Services Systems Manager to assume when running a maintenance
+    #   window task. If you do not specify a service role ARN, Systems
+    #   Manager uses a service-linked role in your account. If no
+    #   appropriate service-linked role for Systems Manager exists in your
+    #   account, it is created when you run
+    #   `RegisterTaskWithMaintenanceWindow`.
+    #
+    #   However, for an improved security posture, we strongly recommend
+    #   creating a custom policy and custom service role for running your
+    #   maintenance window tasks. The policy can be crafted to provide only
+    #   the permissions needed for your particular maintenance window tasks.
+    #   For more information, see [Setting up Maintenance Windows][1] in the
+    #   in the *Amazon Web Services Systems Manager User Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-maintenance-permissions.html
     #   @return [String]
     #
     # @!attribute [rw] task_type
@@ -8465,7 +8891,9 @@ module Aws::SSM
     end
 
     # @!attribute [rw] name
-    #   The name of the parameter for which you want to review history.
+    #   The name or Amazon Resource Name (ARN) of the parameter for which
+    #   you want to review history. For parameters shared with you from
+    #   another account, you must use the full ARN.
     #   @return [String]
     #
     # @!attribute [rw] with_decryption
@@ -8514,10 +8942,20 @@ module Aws::SSM
     end
 
     # @!attribute [rw] name
-    #   The name of the parameter you want to query.
+    #   The name or Amazon Resource Name (ARN) of the parameter that you
+    #   want to query. For parameters shared with you from another account,
+    #   you must use the full ARN.
     #
     #   To query by parameter label, use `"Name": "name:label"`. To query by
     #   parameter version, use `"Name": "name:version"`.
+    #
+    #   For more information about shared parameters, see [Working with
+    #   shared parameters][1] in the *Amazon Web Services Systems Manager
+    #   User Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-shared-parameters.html
     #   @return [String]
     #
     # @!attribute [rw] with_decryption
@@ -8569,11 +9007,11 @@ module Aws::SSM
     # @!attribute [rw] parameter_filters
     #   Filters to limit the request results.
     #
-    #   <note markdown="1"> The following `Key` values are supported for `GetParametersByPath`\:
+    #   <note markdown="1"> The following `Key` values are supported for `GetParametersByPath`:
     #   `Type`, `KeyId`, and `Label`.
     #
     #    The following `Key` values aren't supported for
-    #   `GetParametersByPath`\: `tag`, `DataType`, `Name`, `Path`, and
+    #   `GetParametersByPath`: `tag`, `DataType`, `Name`, `Path`, and
     #   `Tier`.
     #
     #    </note>
@@ -8626,10 +9064,25 @@ module Aws::SSM
     end
 
     # @!attribute [rw] names
-    #   Names of the parameters for which you want to query information.
+    #   The names or Amazon Resource Names (ARNs) of the parameters that you
+    #   want to query. For parameters shared with you from another account,
+    #   you must use the full ARNs.
     #
     #   To query by parameter label, use `"Name": "name:label"`. To query by
     #   parameter version, use `"Name": "name:version"`.
+    #
+    #   <note markdown="1"> The results for `GetParameters` requests are listed in alphabetical
+    #   order in query responses.
+    #
+    #    </note>
+    #
+    #   For information about shared parameters, see [Working with shared
+    #   parameters][1] in the *Amazon Web Services Systems Manager User
+    #   Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-shared-parameters.html
     #   @return [Array<String>]
     #
     # @!attribute [rw] with_decryption
@@ -8905,13 +9358,19 @@ module Aws::SSM
     #   The ID of the service setting to get. The setting ID can be one of
     #   the following.
     #
+    #   * `/ssm/appmanager/appmanager-enabled`
+    #
     #   * `/ssm/automation/customer-script-log-destination`
     #
     #   * `/ssm/automation/customer-script-log-group-name`
     #
+    #   * /ssm/automation/enable-adaptive-concurrency
+    #
     #   * `/ssm/documents/console/public-sharing-permission`
     #
     #   * `/ssm/managed-instance/activation-tier`
+    #
+    #   * `/ssm/managed-instance/default-ec2-instance-management-role`
     #
     #   * `/ssm/opsinsights/opscenter`
     #
@@ -8952,12 +9411,12 @@ module Aws::SSM
     #
     # @!attribute [rw] message
     #   A hierarchy can have a maximum of 15 levels. For more information,
-    #   see [Requirements and constraints for parameter names][1] in the
-    #   *Amazon Web Services Systems Manager User Guide*.
+    #   see [About requirements and constraints for parameter names][1] in
+    #   the *Amazon Web Services Systems Manager User Guide*.
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-parameter-name-constraints.html
+    #   [1]: https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-paramstore-su-create.html#sysman-parameter-name-constraints
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/HierarchyLevelLimitExceededException AWS API Documentation
@@ -9025,7 +9484,7 @@ module Aws::SSM
     #   @return [String]
     #
     # @!attribute [rw] instance_association_status_aggregated_count
-    #   The number of associations for the managed node(s).
+    #   The number of associations for the managed nodes.
     #   @return [Hash<String,Integer>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/InstanceAggregatedAssociationOverview AWS API Documentation
@@ -9048,7 +9507,7 @@ module Aws::SSM
     #   @return [String]
     #
     # @!attribute [rw] content
-    #   The content of the association document for the managed node(s).
+    #   The content of the association document for the managed nodes.
     #   @return [String]
     #
     # @!attribute [rw] association_version
@@ -9069,12 +9528,12 @@ module Aws::SSM
     # An S3 bucket where you want to store the results of this request.
     #
     # For the minimal permissions required to enable Amazon S3 output for an
-    # association, see [Creating associations][1] in the *Systems Manager
-    # User Guide*.
+    # association, see [Create an association (console)][1] in the *Systems
+    # Manager User Guide*.
     #
     #
     #
-    # [1]: https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-state-assoc.html
+    # [1]: https://docs.aws.amazon.com/systems-manager/latest/userguide/state-manager-associations-creating.html#state-manager-associations-console
     #
     # @!attribute [rw] s3_location
     #   An S3 bucket where you want to store the results of this request.
@@ -9174,6 +9633,67 @@ module Aws::SSM
       include Aws::Structure
     end
 
+    # Details about a specific managed node.
+    #
+    # @!attribute [rw] agent_type
+    #   The type of agent installed on the node.
+    #   @return [String]
+    #
+    # @!attribute [rw] agent_version
+    #   The version number of the agent installed on the node.
+    #   @return [String]
+    #
+    # @!attribute [rw] computer_name
+    #   The fully qualified host name of the managed node.
+    #   @return [String]
+    #
+    # @!attribute [rw] instance_status
+    #   The current status of the managed node.
+    #   @return [String]
+    #
+    # @!attribute [rw] ip_address
+    #   The IP address of the managed node.
+    #   @return [String]
+    #
+    # @!attribute [rw] managed_status
+    #   Indicates whether the node is managed by Systems Manager.
+    #   @return [String]
+    #
+    # @!attribute [rw] platform_type
+    #   The operating system platform type of the managed node.
+    #   @return [String]
+    #
+    # @!attribute [rw] platform_name
+    #   The name of the operating system platform running on your managed
+    #   node.
+    #   @return [String]
+    #
+    # @!attribute [rw] platform_version
+    #   The version of the OS platform running on your managed node.
+    #   @return [String]
+    #
+    # @!attribute [rw] resource_type
+    #   The type of instance, either an EC2 instance or another supported
+    #   machine type in a hybrid fleet.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/InstanceInfo AWS API Documentation
+    #
+    class InstanceInfo < Struct.new(
+      :agent_type,
+      :agent_version,
+      :computer_name,
+      :instance_status,
+      :ip_address,
+      :managed_status,
+      :platform_type,
+      :platform_name,
+      :platform_version,
+      :resource_type)
+      SENSITIVE = [:ip_address]
+      include Aws::Structure
+    end
+
     # Describes a filter for a specific list of managed nodes.
     #
     # @!attribute [rw] instance_id
@@ -9224,11 +9744,14 @@ module Aws::SSM
     #   @return [String]
     #
     # @!attribute [rw] iam_role
-    #   The Identity and Access Management (IAM) role assigned to the
-    #   on-premises Systems Manager managed node. This call doesn't return
-    #   the IAM role for Amazon Elastic Compute Cloud (Amazon EC2)
-    #   instances. To retrieve the IAM role for an EC2 instance, use the
-    #   Amazon EC2 `DescribeInstances` operation. For information, see
+    #   The role assigned to an Amazon EC2 instance configured with a
+    #   Systems Manager Quick Setup host management configuration or the
+    #   role assigned to an on-premises managed node.
+    #
+    #   This call doesn't return the IAM role for *unmanaged* Amazon EC2
+    #   instances (instances not configured for Systems Manager). To
+    #   retrieve the role for an unmanaged instance, use the Amazon EC2
+    #   `DescribeInstances` operation. For information, see
     #   [DescribeInstances][1] in the *Amazon EC2 API Reference* or
     #   [describe-instances][2] in the *Amazon Web Services CLI Command
     #   Reference*.
@@ -9236,7 +9759,7 @@ module Aws::SSM
     #
     #
     #   [1]: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeInstances.html
-    #   [2]: https://docs.aws.amazon.com/cli/latest/ec2/describe-instances.html
+    #   [2]: https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-instances.html
     #   @return [String]
     #
     # @!attribute [rw] registration_date
@@ -9255,9 +9778,9 @@ module Aws::SSM
     #   The name is specified as the `DefaultInstanceName` property using
     #   the CreateActivation command. It is applied to the managed node by
     #   specifying the Activation Code and Activation ID when you install
-    #   SSM Agent on the node, as explained in [Install SSM Agent for a
-    #   hybrid environment (Linux)][1] and [Install SSM Agent for a hybrid
-    #   environment (Windows)][2]. To retrieve the `Name` tag of an EC2
+    #   SSM Agent on the node, as explained in [How to install SSM Agent on
+    #   hybrid Linux nodes][1] and [How to install SSM Agent on hybrid
+    #   Windows Server nodes][2]. To retrieve the `Name` tag of an EC2
     #   instance, use the Amazon EC2 `DescribeInstances` operation. For
     #   information, see [DescribeInstances][3] in the *Amazon EC2 API
     #   Reference* or [describe-instances][4] in the *Amazon Web Services
@@ -9265,10 +9788,10 @@ module Aws::SSM
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-install-managed-linux.html
-    #   [2]: https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-install-managed-win.html
+    #   [1]: https://docs.aws.amazon.com/systems-manager/latest/userguide/hybrid-multicloud-ssm-agent-install-linux.html
+    #   [2]: https://docs.aws.amazon.com/systems-manager/latest/userguide/hybrid-multicloud-ssm-agent-install-windows.html
     #   [3]: https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeInstances.html
-    #   [4]: https://docs.aws.amazon.com/cli/latest/ec2/describe-instances.html
+    #   [4]: https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-instances.html
     #   @return [String]
     #
     # @!attribute [rw] ip_address
@@ -9329,7 +9852,7 @@ module Aws::SSM
       :association_overview,
       :source_id,
       :source_type)
-      SENSITIVE = []
+      SENSITIVE = [:ip_address]
       include Aws::Structure
     end
 
@@ -9367,7 +9890,7 @@ module Aws::SSM
     #   Valid filter key values: ActivationIds \| AgentVersion \|
     #   AssociationStatus \| IamRole \| InstanceIds \| PingStatus \|
     #   PlatformTypes \| ResourceType \| SourceIds \| SourceTypes \|
-    #   "tag-key" \| "tag:`\{keyname\}`
+    #   "tag-key" \| "tag:`{keyname}`
     #
     #   * Valid values for the `AssociationStatus` filter key: Success \|
     #     Pending \| Failed
@@ -9432,8 +9955,8 @@ module Aws::SSM
     #   the patches specified by the default patch baseline.
     #
     #   For more information about the `InstallOverrideList` parameter, see
-    #   [About the `AWS-RunPatchBaseline` ][1] SSM document in the *Amazon
-    #   Web Services Systems Manager User Guide*.
+    #   [SSM Command document for patching: `AWS-RunPatchBaseline` ][1] in
+    #   the *Amazon Web Services Systems Manager User Guide*.
     #
     #
     #
@@ -9487,7 +10010,7 @@ module Aws::SSM
     # @!attribute [rw] unreported_not_applicable_count
     #   The number of patches beyond the supported limit of
     #   `NotApplicableCount` that aren't reported by name to Inventory.
-    #   Inventory is a capability of Amazon Web Services Systems Manager.
+    #   Inventory is a tool in Amazon Web Services Systems Manager.
     #   @return [Integer]
     #
     # @!attribute [rw] not_applicable_count
@@ -9529,11 +10052,11 @@ module Aws::SSM
     #
     #    </note>
     #
-    #   * `RebootIfNeeded`\: Patch Manager tries to reboot the managed node
+    #   * `RebootIfNeeded`: Patch Manager tries to reboot the managed node
     #     if it installed any patches, or if any patches are detected with a
     #     status of `InstalledPendingReboot`.
     #
-    #   * `NoReboot`\: Patch Manager attempts to install missing packages
+    #   * `NoReboot`: Patch Manager attempts to install missing packages
     #     without trying to reboot the system. Patches installed with this
     #     option are assigned a status of `InstalledPendingReboot`. These
     #     patches might not be in effect until a reboot is performed.
@@ -9593,15 +10116,15 @@ module Aws::SSM
     # Defines a filter used in DescribeInstancePatchStatesForPatchGroup to
     # scope down the information returned by the API.
     #
-    # **Example**\: To filter for all managed nodes in a patch group having
+    # **Example**: To filter for all managed nodes in a patch group having
     # more than three patches with a `FailedCount` status, use the following
     # for the filter:
     #
-    # * Value for `Key`\: `FailedCount`
+    # * Value for `Key`: `FailedCount`
     #
-    # * Value for `Type`\: `GreaterThan`
+    # * Value for `Type`: `GreaterThan`
     #
-    # * Value for `Values`\: `3`
+    # * Value for `Values`: `3`
     #
     # @!attribute [rw] key
     #   The key for the filter. Supported values include the following:
@@ -9642,6 +10165,200 @@ module Aws::SSM
       include Aws::Structure
     end
 
+    # An object containing various properties of a managed node.
+    #
+    # @!attribute [rw] name
+    #   The value of the EC2 `Name` tag associated with the node. If a
+    #   `Name` tag hasn't been applied to the node, this value is blank.
+    #   @return [String]
+    #
+    # @!attribute [rw] instance_id
+    #   The ID of the managed node.
+    #   @return [String]
+    #
+    # @!attribute [rw] instance_type
+    #   The instance type of the managed node. For example, t3.large.
+    #   @return [String]
+    #
+    # @!attribute [rw] instance_role
+    #   The instance profile attached to the node. If an instance profile
+    #   isn't attached to the node, this value is blank.
+    #   @return [String]
+    #
+    # @!attribute [rw] key_name
+    #   The name of the key pair associated with the node. If a key pair
+    #   isnt't associated with the node, this value is blank.
+    #   @return [String]
+    #
+    # @!attribute [rw] instance_state
+    #   The current state of the node.
+    #   @return [String]
+    #
+    # @!attribute [rw] architecture
+    #   The CPU architecture of the node. For example, `x86_64`.
+    #   @return [String]
+    #
+    # @!attribute [rw] ip_address
+    #   The public IPv4 address assigned to the node. If a public IPv4
+    #   address isn't assigned to the node, this value is blank.
+    #   @return [String]
+    #
+    # @!attribute [rw] launch_time
+    #   The timestamp for when the node was launched.
+    #   @return [Time]
+    #
+    # @!attribute [rw] ping_status
+    #   Connection status of the SSM Agent on the managed node.
+    #   @return [String]
+    #
+    # @!attribute [rw] last_ping_date_time
+    #   The date and time when the SSM Agent last pinged the Systems Manager
+    #   service.
+    #   @return [Time]
+    #
+    # @!attribute [rw] agent_version
+    #   The version of SSM Agent running on your managed node.
+    #   @return [String]
+    #
+    # @!attribute [rw] platform_type
+    #   The operating system platform type of the managed node. For example,
+    #   Windows Server or Amazon Linux 2.
+    #   @return [String]
+    #
+    # @!attribute [rw] platform_name
+    #   The name of the operating system platform running on your managed
+    #   node.
+    #   @return [String]
+    #
+    # @!attribute [rw] platform_version
+    #   The version of the OS platform running on your managed node.
+    #   @return [String]
+    #
+    # @!attribute [rw] activation_id
+    #   The activation ID created by Systems Manager when the server or
+    #   virtual machine (VM) was registered
+    #   @return [String]
+    #
+    # @!attribute [rw] iam_role
+    #   The IAM role used in the hybrid activation to register the node with
+    #   Systems Manager.
+    #   @return [String]
+    #
+    # @!attribute [rw] registration_date
+    #   The date the node was registered with Systems Manager.
+    #   @return [Time]
+    #
+    # @!attribute [rw] resource_type
+    #   The type of managed node.
+    #   @return [String]
+    #
+    # @!attribute [rw] computer_name
+    #   The fully qualified host name of the managed node.
+    #   @return [String]
+    #
+    # @!attribute [rw] association_status
+    #   The status of the State Manager association applied to the managed
+    #   node.
+    #   @return [String]
+    #
+    # @!attribute [rw] last_association_execution_date
+    #   The date the association was last run.
+    #   @return [Time]
+    #
+    # @!attribute [rw] last_successful_association_execution_date
+    #   The last date the association was successfully run.
+    #   @return [Time]
+    #
+    # @!attribute [rw] association_overview
+    #   Status information about the aggregated associations.
+    #   @return [Types::InstanceAggregatedAssociationOverview]
+    #
+    # @!attribute [rw] source_id
+    #   The ID of the source resource.
+    #   @return [String]
+    #
+    # @!attribute [rw] source_type
+    #   The type of the source resource.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/InstanceProperty AWS API Documentation
+    #
+    class InstanceProperty < Struct.new(
+      :name,
+      :instance_id,
+      :instance_type,
+      :instance_role,
+      :key_name,
+      :instance_state,
+      :architecture,
+      :ip_address,
+      :launch_time,
+      :ping_status,
+      :last_ping_date_time,
+      :agent_version,
+      :platform_type,
+      :platform_name,
+      :platform_version,
+      :activation_id,
+      :iam_role,
+      :registration_date,
+      :resource_type,
+      :computer_name,
+      :association_status,
+      :last_association_execution_date,
+      :last_successful_association_execution_date,
+      :association_overview,
+      :source_id,
+      :source_type)
+      SENSITIVE = [:ip_address]
+      include Aws::Structure
+    end
+
+    # Describes a filter for a specific list of managed nodes. You can
+    # filter node information by using tags. You specify tags by using a
+    # key-value mapping.
+    #
+    # @!attribute [rw] key
+    #   The name of the filter.
+    #   @return [String]
+    #
+    # @!attribute [rw] value_set
+    #   The filter values.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/InstancePropertyFilter AWS API Documentation
+    #
+    class InstancePropertyFilter < Struct.new(
+      :key,
+      :value_set)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The filters to describe or get information about your managed nodes.
+    #
+    # @!attribute [rw] key
+    #   The filter key name to describe your managed nodes.
+    #   @return [String]
+    #
+    # @!attribute [rw] values
+    #   The filter key name to describe your managed nodes.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] operator
+    #   The operator used by the filter call.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/InstancePropertyStringFilter AWS API Documentation
+    #
+    class InstancePropertyStringFilter < Struct.new(
+      :key,
+      :values,
+      :operator)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # An error occurred on the server side.
     #
     # @!attribute [rw] message
@@ -9669,7 +10386,7 @@ module Aws::SSM
       include Aws::Structure
     end
 
-    # The activation ID isn't valid. Verify the you entered the correct
+    # The activation ID isn't valid. Verify that you entered the correct
     # ActivationId or ActivationCode and try again.
     #
     # @!attribute [rw] message
@@ -9683,9 +10400,8 @@ module Aws::SSM
       include Aws::Structure
     end
 
-    # The specified aggregator isn't valid for inventory groups. Verify
-    # that the aggregator uses a valid inventory type such as
-    # `AWS:Application` or `AWS:InstanceInformation`.
+    # The specified aggregator isn't valid for the group type. Verify that
+    # the aggregator you provided is supported.
     #
     # @!attribute [rw] message
     #   @return [String]
@@ -9899,7 +10615,7 @@ module Aws::SSM
       include Aws::Structure
     end
 
-    # The filter name isn't valid. Verify the you entered the correct name
+    # The filter name isn't valid. Verify that you entered the correct name
     # and try again.
     #
     # @!attribute [rw] message
@@ -9953,14 +10669,14 @@ module Aws::SSM
     #
     # * You don't have permission to access the managed node.
     #
-    # * Amazon Web Services Systems Manager Agent(SSM Agent) isn't running.
-    #   Verify that SSM Agent is running.
+    # * Amazon Web Services Systems Manager Agent (SSM Agent) isn't
+    #   running. Verify that SSM Agent is running.
     #
     # * SSM Agent isn't registered with the SSM endpoint. Try reinstalling
     #   SSM Agent.
     #
-    # * The managed node isn't in valid state. Valid states are: `Running`,
-    #   `Pending`, `Stopped`, and `Stopping`. Invalid states are:
+    # * The managed node isn't in a valid state. Valid states are:
+    #   `Running`, `Pending`, `Stopped`, and `Stopping`. Invalid states are:
     #   `Shutting-down` and `Terminated`.
     #
     # @!attribute [rw] message
@@ -9982,6 +10698,19 @@ module Aws::SSM
     # @see http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/InvalidInstanceInformationFilterValue AWS API Documentation
     #
     class InvalidInstanceInformationFilterValue < Struct.new(
+      :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The specified filter value isn't valid.
+    #
+    # @!attribute [rw] message
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/InvalidInstancePropertyFilterValue AWS API Documentation
+    #
+    class InvalidInstancePropertyFilterValue < Struct.new(
       :message)
       SENSITIVE = []
       include Aws::Structure
@@ -10204,13 +10933,13 @@ module Aws::SSM
     # The role name can't contain invalid characters. Also verify that you
     # specified an IAM role for notifications that includes the required
     # trust policy. For information about configuring the IAM role for Run
-    # Command notifications, see [Configuring Amazon SNS Notifications for
-    # Run Command][1] in the *Amazon Web Services Systems Manager User
-    # Guide*.
+    # Command notifications, see [Monitoring Systems Manager status changes
+    # using Amazon SNS notifications][1] in the *Amazon Web Services Systems
+    # Manager User Guide*.
     #
     #
     #
-    # [1]: https://docs.aws.amazon.com/systems-manager/latest/userguide/rc-sns-notifications.html
+    # [1]: https://docs.aws.amazon.com/systems-manager/latest/userguide/monitoring-sns-notifications.html
     #
     # @!attribute [rw] message
     #   @return [String]
@@ -10362,7 +11091,7 @@ module Aws::SSM
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-inventory-custom.html#sysman-inventory-delete
+    #   [1]: https://docs.aws.amazon.com/systems-manager/latest/userguide/inventory-custom.html#delete-custom-inventory
     #   @return [Types::InventoryDeletionSummary]
     #
     # @!attribute [rw] last_status_update_time
@@ -10458,7 +11187,7 @@ module Aws::SSM
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-inventory-aggregate.html
+    #   [1]: https://docs.aws.amazon.com/systems-manager/latest/userguide/inventory-aggregate.html
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/InventoryFilter AWS API Documentation
@@ -10704,6 +11433,11 @@ module Aws::SSM
 
     # @!attribute [rw] name
     #   The parameter name on which you want to attach one or more labels.
+    #
+    #   <note markdown="1"> You can't enter the Amazon Resource Name (ARN) for a parameter,
+    #   only the parameter name itself.
+    #
+    #    </note>
     #   @return [String]
     #
     # @!attribute [rw] parameter_version
@@ -10728,8 +11462,8 @@ module Aws::SSM
 
     # @!attribute [rw] invalid_labels
     #   The label doesn't meet the requirements. For information about
-    #   parameter label requirements, see [Labeling parameters][1] in the
-    #   *Amazon Web Services Systems Manager User Guide*.
+    #   parameter label requirements, see [Working with parameter labels][1]
+    #   in the *Amazon Web Services Systems Manager User Guide*.
     #
     #
     #
@@ -11290,16 +12024,16 @@ module Aws::SSM
     #   @return [String]
     #
     # @!attribute [rw] schema_version
-    #   The inventory schema version used by the managed node(s).
+    #   The inventory schema version used by the managed nodes.
     #   @return [String]
     #
     # @!attribute [rw] capture_time
     #   The time that inventory information was collected for the managed
-    #   node(s).
+    #   nodes.
     #   @return [String]
     #
     # @!attribute [rw] entries
-    #   A list of inventory items on the managed node(s).
+    #   A list of inventory items on the managed nodes.
     #   @return [Array<Hash<String,String>>]
     #
     # @!attribute [rw] next_token
@@ -11315,6 +12049,117 @@ module Aws::SSM
       :schema_version,
       :capture_time,
       :entries,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] sync_name
+    #   The name of the resource data sync to retrieve information about.
+    #   Required for cross-account/cross-Region configurations. Optional for
+    #   single account/single-Region configurations.
+    #   @return [String]
+    #
+    # @!attribute [rw] filters
+    #   One or more filters. Use a filter to return a more specific list of
+    #   managed nodes.
+    #   @return [Array<Types::NodeFilter>]
+    #
+    # @!attribute [rw] next_token
+    #   The token for the next set of items to return. (You received this
+    #   token from a previous call.)
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of items to return for this call. The call also
+    #   returns a token that you can specify in a subsequent call to get the
+    #   next set of results.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/ListNodesRequest AWS API Documentation
+    #
+    class ListNodesRequest < Struct.new(
+      :sync_name,
+      :filters,
+      :next_token,
+      :max_results)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] nodes
+    #   A list of managed nodes that match the specified filter criteria.
+    #   @return [Array<Types::Node>]
+    #
+    # @!attribute [rw] next_token
+    #   The token to use when requesting the next set of items. If there are
+    #   no additional items to return, the string is empty.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/ListNodesResult AWS API Documentation
+    #
+    class ListNodesResult < Struct.new(
+      :nodes,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] sync_name
+    #   The name of the resource data sync to retrieve information about.
+    #   Required for cross-account/cross-Region configuration. Optional for
+    #   single account/single-Region configurations.
+    #   @return [String]
+    #
+    # @!attribute [rw] filters
+    #   One or more filters. Use a filter to generate a summary that matches
+    #   your specified filter criteria.
+    #   @return [Array<Types::NodeFilter>]
+    #
+    # @!attribute [rw] aggregators
+    #   Specify one or more aggregators to return a count of managed nodes
+    #   that match that expression. For example, a count of managed nodes by
+    #   operating system.
+    #   @return [Array<Types::NodeAggregator>]
+    #
+    # @!attribute [rw] next_token
+    #   The token for the next set of items to return. (You received this
+    #   token from a previous call.) The call also returns a token that you
+    #   can specify in a subsequent call to get the next set of results.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of items to return for this call. The call also
+    #   returns a token that you can specify in a subsequent call to get the
+    #   next set of results.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/ListNodesSummaryRequest AWS API Documentation
+    #
+    class ListNodesSummaryRequest < Struct.new(
+      :sync_name,
+      :filters,
+      :aggregators,
+      :next_token,
+      :max_results)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] summary
+    #   A collection of objects reporting information about your managed
+    #   nodes, such as the count of nodes by operating system.
+    #   @return [Array<Hash<String,String>>]
+    #
+    # @!attribute [rw] next_token
+    #   The token to use when requesting the next set of items. If there are
+    #   no additional items to return, the string is empty.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/ListNodesSummaryResult AWS API Documentation
+    #
+    class ListNodesSummaryResult < Struct.new(
+      :summary,
       :next_token)
       SENSITIVE = []
       include Aws::Structure
@@ -12100,10 +12945,24 @@ module Aws::SSM
     #   @return [Hash<String,Array<String>>]
     #
     # @!attribute [rw] service_role_arn
-    #   The Amazon Resource Name (ARN) of the Identity and Access Management
-    #   (IAM) service role to use to publish Amazon Simple Notification
-    #   Service (Amazon SNS) notifications for maintenance window Run
-    #   Command tasks.
+    #   The Amazon Resource Name (ARN) of the IAM service role for Amazon
+    #   Web Services Systems Manager to assume when running a maintenance
+    #   window task. If you do not specify a service role ARN, Systems
+    #   Manager uses a service-linked role in your account. If no
+    #   appropriate service-linked role for Systems Manager exists in your
+    #   account, it is created when you run
+    #   `RegisterTaskWithMaintenanceWindow`.
+    #
+    #   However, for an improved security posture, we strongly recommend
+    #   creating a custom policy and custom service role for running your
+    #   maintenance window tasks. The policy can be crafted to provide only
+    #   the permissions needed for your particular maintenance window tasks.
+    #   For more information, see [Setting up Maintenance Windows][1] in the
+    #   in the *Amazon Web Services Systems Manager User Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-maintenance-permissions.html
     #   @return [String]
     #
     # @!attribute [rw] timeout_seconds
@@ -12287,10 +13146,24 @@ module Aws::SSM
     #   @return [Types::LoggingInfo]
     #
     # @!attribute [rw] service_role_arn
-    #   The Amazon Resource Name (ARN) of the Identity and Access Management
-    #   (IAM) service role to use to publish Amazon Simple Notification
-    #   Service (Amazon SNS) notifications for maintenance window Run
-    #   Command tasks.
+    #   The Amazon Resource Name (ARN) of the IAM service role for Amazon
+    #   Web Services Systems Manager to assume when running a maintenance
+    #   window task. If you do not specify a service role ARN, Systems
+    #   Manager uses a service-linked role in your account. If no
+    #   appropriate service-linked role for Systems Manager exists in your
+    #   account, it is created when you run
+    #   `RegisterTaskWithMaintenanceWindow`.
+    #
+    #   However, for an improved security posture, we strongly recommend
+    #   creating a custom policy and custom service role for running your
+    #   maintenance window tasks. The policy can be crafted to provide only
+    #   the permissions needed for your particular maintenance window tasks.
+    #   For more information, see [Setting up Maintenance Windows][1] in the
+    #   in the *Amazon Web Services Systems Manager User Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-maintenance-permissions.html
     #   @return [String]
     #
     # @!attribute [rw] max_concurrency
@@ -12416,6 +13289,20 @@ module Aws::SSM
       include Aws::Structure
     end
 
+    # The specified policy document is malformed or invalid, or excessive
+    # `PutResourcePolicy` or `DeleteResourcePolicy` calls have been made.
+    #
+    # @!attribute [rw] message
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/MalformedResourcePolicyDocumentException AWS API Documentation
+    #
+    class MalformedResourcePolicyDocumentException < Struct.new(
+      :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The size limit of a document is 64 KB.
     #
     # @!attribute [rw] message
@@ -12453,18 +13340,17 @@ module Aws::SSM
     #   @return [String]
     #
     # @!attribute [rw] account_ids_to_add
-    #   The Amazon Web Services user accounts that should have access to the
+    #   The Amazon Web Services users that should have access to the
     #   document. The account IDs can either be a group of account IDs or
     #   *All*.
     #   @return [Array<String>]
     #
     # @!attribute [rw] account_ids_to_remove
-    #   The Amazon Web Services user accounts that should no longer have
-    #   access to the document. The Amazon Web Services user account can
-    #   either be a group of account IDs or *All*. This action has a higher
-    #   priority than *AccountIdsToAdd*. If you specify an account ID to add
-    #   and the same ID to remove, the system removes access to the
-    #   document.
+    #   The Amazon Web Services users that should no longer have access to
+    #   the document. The Amazon Web Services user can either be a group of
+    #   account IDs or *All*. This action has a higher priority than
+    #   `AccountIdsToAdd`. If you specify an ID to add and the same ID to
+    #   remove, the system removes access to the document.
     #   @return [Array<String>]
     #
     # @!attribute [rw] shared_document_version
@@ -12487,6 +13373,149 @@ module Aws::SSM
     # @see http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/ModifyDocumentPermissionResponse AWS API Documentation
     #
     class ModifyDocumentPermissionResponse < Aws::EmptyStructure; end
+
+    # Details about an individual managed node.
+    #
+    # @!attribute [rw] capture_time
+    #   The UTC timestamp for when the managed node data was last captured.
+    #   @return [Time]
+    #
+    # @!attribute [rw] id
+    #   The ID of the managed node.
+    #   @return [String]
+    #
+    # @!attribute [rw] owner
+    #   Information about the ownership of the managed node.
+    #   @return [Types::NodeOwnerInfo]
+    #
+    # @!attribute [rw] region
+    #   The Amazon Web Services Region that a managed node was created in or
+    #   assigned to.
+    #   @return [String]
+    #
+    # @!attribute [rw] node_type
+    #   Information about the type of node.
+    #   @return [Types::NodeType]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/Node AWS API Documentation
+    #
+    class Node < Struct.new(
+      :capture_time,
+      :id,
+      :owner,
+      :region,
+      :node_type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # One or more aggregators for viewing counts of nodes using different
+    # dimensions.
+    #
+    # @!attribute [rw] aggregator_type
+    #   The aggregator type for limiting a node summary. Currently, only
+    #   `Count` is supported.
+    #   @return [String]
+    #
+    # @!attribute [rw] type_name
+    #   The data type name to use for viewing counts of nodes. Currently,
+    #   only `Instance` is supported.
+    #   @return [String]
+    #
+    # @!attribute [rw] attribute_name
+    #   The name of a node attribute on which to limit the count of nodes.
+    #   @return [String]
+    #
+    # @!attribute [rw] aggregators
+    #   Information about aggregators used to refine a node summary.
+    #   @return [Array<Types::NodeAggregator>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/NodeAggregator AWS API Documentation
+    #
+    class NodeAggregator < Struct.new(
+      :aggregator_type,
+      :type_name,
+      :attribute_name,
+      :aggregators)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The filters for the operation.
+    #
+    # @!attribute [rw] key
+    #   The name of the filter.
+    #   @return [String]
+    #
+    # @!attribute [rw] values
+    #   A filter value supported by the specified key. For example, for the
+    #   key `PlatformType`, supported values include `Linux` and `Windows`.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] type
+    #   The type of filter operator.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/NodeFilter AWS API Documentation
+    #
+    class NodeFilter < Struct.new(
+      :key,
+      :values,
+      :type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Information about ownership of a managed node.
+    #
+    # @!attribute [rw] account_id
+    #   The ID of the Amazon Web Services account that owns the managed
+    #   node.
+    #   @return [String]
+    #
+    # @!attribute [rw] organizational_unit_id
+    #   The ID of the organization unit (OU) that the account is part of.
+    #   @return [String]
+    #
+    # @!attribute [rw] organizational_unit_path
+    #   The path for the organizational unit (OU) that owns the managed
+    #   node. The path for the OU is built using the IDs of the
+    #   organization, root, and all OUs in the path down to and including
+    #   the OU. For example:
+    #
+    #   `o-a1b2c3d4e5/r-f6g7h8i9j0example/ou-ghi0-awsccccc/ou-jkl0-awsddddd/`
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/NodeOwnerInfo AWS API Documentation
+    #
+    class NodeOwnerInfo < Struct.new(
+      :account_id,
+      :organizational_unit_id,
+      :organizational_unit_path)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Information about a managed node's type.
+    #
+    # @note NodeType is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of NodeType corresponding to the set member.
+    #
+    # @!attribute [rw] instance
+    #   Information about a specific managed node.
+    #   @return [Types::InstanceInfo]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/NodeType AWS API Documentation
+    #
+    class NodeType < Struct.new(
+      :instance,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class Instance < NodeType; end
+      class Unknown < NodeType; end
+    end
 
     # A summary of resources that aren't compliant. The summary is
     # organized according to resource type.
@@ -12530,12 +13559,12 @@ module Aws::SSM
     # @!attribute [rw] notification_type
     #   The type of notification.
     #
-    #   * `Command`\: Receive notification when the status of a command
+    #   * `Command`: Receive notification when the status of a command
     #     changes.
     #
-    #   * `Invocation`\: For commands sent to multiple managed nodes,
-    #     receive notification on a per-node basis when the status of a
-    #     command changes.
+    #   * `Invocation`: For commands sent to multiple managed nodes, receive
+    #     notification on a per-node basis when the status of a command
+    #     changes.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/NotificationConfig AWS API Documentation
@@ -12673,8 +13702,8 @@ module Aws::SSM
     # Services resource, OpsCenter aggregates information from Config,
     # CloudTrail logs, and EventBridge, so you don't have to navigate
     # across multiple console pages during your investigation. For more
-    # information, see [OpsCenter][1] in the *Amazon Web Services Systems
-    # Manager User Guide*.
+    # information, see [Amazon Web Services Systems Manager OpsCenter][1] in
+    # the *Amazon Web Services Systems Manager User Guide*.
     #
     #
     #
@@ -12698,7 +13727,7 @@ module Aws::SSM
     #     This type of OpsItem is used by Change Manager for reviewing and
     #     approving or rejecting change requests.
     #
-    #   * `/aws/insights`
+    #   * `/aws/insight`
     #
     #     This type of OpsItem is used by OpsCenter for aggregating and
     #     reporting on duplicate OpsItems.
@@ -12740,9 +13769,8 @@ module Aws::SSM
     #   @return [Array<Types::RelatedOpsItem>]
     #
     # @!attribute [rw] status
-    #   The OpsItem status. Status can be `Open`, `In Progress`, or
-    #   `Resolved`. For more information, see [Editing OpsItem details][1]
-    #   in the *Amazon Web Services Systems Manager User Guide*.
+    #   The OpsItem status. For more information, see [Editing OpsItem
+    #   details][1] in the *Amazon Web Services Systems Manager User Guide*.
     #
     #
     #
@@ -12796,7 +13824,7 @@ module Aws::SSM
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-creating-OpsItems.html#OpsCenter-manually-create-OpsItems
+    #   [1]: https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-manually-create-OpsItems.html
     #   @return [Hash<String,Types::OpsItemDataValue>]
     #
     # @!attribute [rw] category
@@ -12892,6 +13920,19 @@ module Aws::SSM
     class OpsItemAlreadyExistsException < Struct.new(
       :message,
       :ops_item_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The specified OpsItem is in the process of being deleted.
+    #
+    # @!attribute [rw] message
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/OpsItemConflictException AWS API Documentation
+    #
+    class OpsItemConflictException < Struct.new(
+      :message)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -13048,13 +14089,7 @@ module Aws::SSM
       include Aws::Structure
     end
 
-    # The request caused OpsItems to exceed one or more quotas. For
-    # information about OpsItem quotas, see [What are the resource limits
-    # for OpsCenter?][1].
-    #
-    #
-    #
-    # [1]: https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-learn-more.html#OpsCenter-learn-more-limits
+    # The request caused OpsItems to exceed one or more quotas.
     #
     # @!attribute [rw] resource_types
     #   @return [Array<String>]
@@ -13255,8 +14290,7 @@ module Aws::SSM
     #   @return [String]
     #
     # @!attribute [rw] status
-    #   The OpsItem status. Status can be `Open`, `In Progress`, or
-    #   `Resolved`.
+    #   The OpsItem status.
     #   @return [String]
     #
     # @!attribute [rw] ops_item_id
@@ -13295,7 +14329,7 @@ module Aws::SSM
     #     This type of OpsItem is used by Change Manager for reviewing and
     #     approving or rejecting change requests.
     #
-    #   * `/aws/insights`
+    #   * `/aws/insight`
     #
     #     This type of OpsItem is used by OpsCenter for aggregating and
     #     reporting on duplicate OpsItems.
@@ -13618,7 +14652,8 @@ module Aws::SSM
     #   @return [String]
     #
     # @!attribute [rw] key_id
-    #   The ID of the query key used for this parameter.
+    #   The alias of the Key Management Service (KMS) key used to encrypt
+    #   the parameter. Applies to `SecureString` parameters only
     #   @return [String]
     #
     # @!attribute [rw] last_modified_date
@@ -13699,9 +14734,9 @@ module Aws::SSM
     #   @return [String]
     #
     # @!attribute [rw] policy_type
-    #   The type of policy. Parameter Store, a capability of Amazon Web
-    #   Services Systems Manager, supports the following policy types:
-    #   Expiration, ExpirationNotification, and NoChangeNotification.
+    #   The type of policy. Parameter Store, a tool in Amazon Web Services
+    #   Systems Manager, supports the following policy types: Expiration,
+    #   ExpirationNotification, and NoChangeNotification.
     #   @return [String]
     #
     # @!attribute [rw] policy_status
@@ -13772,11 +14807,16 @@ module Aws::SSM
       include Aws::Structure
     end
 
-    # Metadata includes information like the ARN of the last user and the
-    # date/time the parameter was last used.
+    # Metadata includes information like the Amazon Resource Name (ARN) of
+    # the last user to update the parameter and the date and time the
+    # parameter was last used.
     #
     # @!attribute [rw] name
     #   The parameter name.
+    #   @return [String]
+    #
+    # @!attribute [rw] arn
+    #   The Amazon Resource Name (ARN) of the parameter.
     #   @return [String]
     #
     # @!attribute [rw] type
@@ -13785,7 +14825,8 @@ module Aws::SSM
     #   @return [String]
     #
     # @!attribute [rw] key_id
-    #   The ID of the query key used for this parameter.
+    #   The alias of the Key Management Service (KMS) key used to encrypt
+    #   the parameter. Applies to `SecureString` parameters only.
     #   @return [String]
     #
     # @!attribute [rw] last_modified_date
@@ -13828,6 +14869,7 @@ module Aws::SSM
     #
     class ParameterMetadata < Struct.new(
       :name,
+      :arn,
       :type,
       :key_id,
       :last_modified_date,
@@ -13962,6 +15004,40 @@ module Aws::SSM
     class ParametersFilter < Struct.new(
       :key,
       :values)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A detailed status of the parent step.
+    #
+    # @!attribute [rw] step_execution_id
+    #   The unique ID of a step execution.
+    #   @return [String]
+    #
+    # @!attribute [rw] step_name
+    #   The name of the step.
+    #   @return [String]
+    #
+    # @!attribute [rw] action
+    #   The name of the automation action.
+    #   @return [String]
+    #
+    # @!attribute [rw] iteration
+    #   The current repetition of the loop represented by an integer.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] iterator_value
+    #   The current value of the specified iterator in the loop.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/ParentStepDetails AWS API Documentation
+    #
+    class ParentStepDetails < Struct.new(
+      :step_execution_id,
+      :step_name,
+      :action,
+      :iteration,
+      :iterator_value)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -14136,10 +15212,10 @@ module Aws::SSM
     #   @return [String]
     #
     # @!attribute [rw] default_baseline
-    #   Whether this is the default baseline. Amazon Web Services Systems
-    #   Manager supports creating multiple default patch baselines. For
-    #   example, you can create a default patch baseline for each operating
-    #   system.
+    #   Indicates whether this is the default baseline. Amazon Web Services
+    #   Systems Manager supports creating multiple default patch baselines.
+    #   For example, you can create a default patch baseline for each
+    #   operating system.
     #   @return [Boolean]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/PatchBaselineIdentity AWS API Documentation
@@ -14185,7 +15261,7 @@ module Aws::SSM
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-compliance-about.html#sysman-compliance-monitor-patch
+    #   [1]: https://docs.aws.amazon.com/systems-manager/latest/userguide/compliance-about.html#compliance-monitor-patch
     #   @return [String]
     #
     # @!attribute [rw] installed_time
@@ -14196,6 +15272,11 @@ module Aws::SSM
     # @!attribute [rw] cve_ids
     #   The IDs of one or more Common Vulnerabilities and Exposure (CVE)
     #   issues that are resolved by the patch.
+    #
+    #   <note markdown="1"> Currently, CVE ID values are reported only for patches with a status
+    #   of `Missing` or `Failed`.
+    #
+    #    </note>
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/PatchComplianceData AWS API Documentation
@@ -14334,16 +15415,48 @@ module Aws::SSM
     #   The number of days after the release date of each patch matched by
     #   the rule that the patch is marked as approved in the patch baseline.
     #   For example, a value of `7` means that patches are approved seven
-    #   days after they are released. Not supported on Debian Server or
-    #   Ubuntu Server.
+    #   days after they are released.
+    #
+    #   This parameter is marked as `Required: No`, but your request must
+    #   include a value for either `ApproveAfterDays` or `ApproveUntilDate`.
+    #
+    #   Not supported for Debian Server or Ubuntu Server.
+    #
+    #   Use caution when setting this value for Windows Server patch
+    #   baselines. Because patch updates that are replaced by later updates
+    #   are removed, setting too broad a value for this parameter can result
+    #   in crucial patches not being installed. For more information, see
+    #   the **Windows Server** tab in the topic [How security patches are
+    #   selected][1] in the *Amazon Web Services Systems Manager User
+    #   Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-selecting-patches.html
     #   @return [Integer]
     #
     # @!attribute [rw] approve_until_date
     #   The cutoff date for auto approval of released patches. Any patches
-    #   released on or before this date are installed automatically. Not
-    #   supported on Debian Server or Ubuntu Server.
+    #   released on or before this date are installed automatically.
     #
-    #   Enter dates in the format `YYYY-MM-DD`. For example, `2021-12-31`.
+    #   Enter dates in the format `YYYY-MM-DD`. For example, `2024-12-31`.
+    #
+    #   This parameter is marked as `Required: No`, but your request must
+    #   include a value for either `ApproveUntilDate` or `ApproveAfterDays`.
+    #
+    #   Not supported for Debian Server or Ubuntu Server.
+    #
+    #   Use caution when setting this value for Windows Server patch
+    #   baselines. Because patch updates that are replaced by later updates
+    #   are removed, setting too broad a value for this parameter can result
+    #   in crucial patches not being installed. For more information, see
+    #   the **Windows Server** tab in the topic [How security patches are
+    #   selected][1] in the *Amazon Web Services Systems Manager User
+    #   Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-selecting-patches.html
     #   @return [String]
     #
     # @!attribute [rw] enable_non_security
@@ -14529,7 +15642,7 @@ module Aws::SSM
     #   A summary of the call execution that includes an execution ID, the
     #   type of execution (for example, `Command`), and the date/time of the
     #   execution using a datetime object that is saved in the following
-    #   format: yyyy-MM-dd'T'HH:mm:ss'Z'.
+    #   format: `yyyy-MM-dd'T'HH:mm:ss'Z'`
     #   @return [Types::ComplianceExecutionSummary]
     #
     # @!attribute [rw] items
@@ -14610,10 +15723,17 @@ module Aws::SSM
 
     # @!attribute [rw] name
     #   The fully qualified name of the parameter that you want to add to
-    #   the system. The fully qualified name includes the complete hierarchy
-    #   of the parameter path and name. For parameters in a hierarchy, you
-    #   must include a leading forward slash character (/) when you create
-    #   or reference a parameter. For example:
+    #   the system.
+    #
+    #   <note markdown="1"> You can't enter the Amazon Resource Name (ARN) for a parameter,
+    #   only the parameter name itself.
+    #
+    #    </note>
+    #
+    #   The fully qualified name includes the complete hierarchy of the
+    #   parameter path and name. For parameters in a hierarchy, you must
+    #   include a leading forward slash character (/) when you create or
+    #   reference a parameter. For example:
     #   `/Dev/DBServer/MySQL/db-string13`
     #
     #   Naming Constraints:
@@ -14669,8 +15789,8 @@ module Aws::SSM
     #   value limit of 8 KB.
     #
     #   <note markdown="1"> Parameters can't be referenced or nested in the values of other
-    #   parameters. You can't include `\{\{\}\}` or
-    #   `\{\{ssm:parameter-name\}\}` in a parameter value.
+    #   parameters. You can't include values wrapped in double brackets
+    #   `{{}}` or `{{ssm:parameter-name}}` in a parameter value.
     #
     #    </note>
     #   @return [String]
@@ -14695,20 +15815,17 @@ module Aws::SSM
     #
     # @!attribute [rw] key_id
     #   The Key Management Service (KMS) ID that you want to use to encrypt
-    #   a parameter. Either the default KMS key automatically assigned to
-    #   your Amazon Web Services account or a custom key. Required for
+    #   a parameter. Use a custom key for better security. Required for
     #   parameters that use the `SecureString` data type.
     #
     #   If you don't specify a key ID, the system uses the default key
-    #   associated with your Amazon Web Services account.
-    #
-    #   * To use your default KMS key, choose the `SecureString` data type,
-    #     and do *not* specify the `Key ID` when you create the parameter.
-    #     The system automatically populates `Key ID` with your default KMS
-    #     key.
+    #   associated with your Amazon Web Services account which is not as
+    #   secure as using a custom key.
     #
     #   * To use a custom KMS key, choose the `SecureString` data type with
     #     the `Key ID` parameter.
+    #
+    #   ^
     #   @return [String]
     #
     # @!attribute [rw] overwrite
@@ -14756,8 +15873,8 @@ module Aws::SSM
     #   configured to use parameter policies. You can create a maximum of
     #   100,000 advanced parameters for each Region in an Amazon Web
     #   Services account. Advanced parameters incur a charge. For more
-    #   information, see [Standard and advanced parameter tiers][1] in the
-    #   *Amazon Web Services Systems Manager User Guide*.
+    #   information, see [Managing parameter tiers][1] in the *Amazon Web
+    #   Services Systems Manager User Guide*.
     #
     #   You can change a standard parameter to an advanced parameter any
     #   time. But you can't revert an advanced parameter to a standard
@@ -14784,10 +15901,10 @@ module Aws::SSM
     #   standard-parameter tier. If you use the advanced-parameter tier, you
     #   can specify one of the following as the default:
     #
-    #   * **Advanced**\: With this option, Parameter Store evaluates all
+    #   * **Advanced**: With this option, Parameter Store evaluates all
     #     requests as advanced parameters.
     #
-    #   * **Intelligent-Tiering**\: With this option, Parameter Store
+    #   * **Intelligent-Tiering**: With this option, Parameter Store
     #     evaluates each request to determine if the parameter is standard
     #     or advanced.
     #
@@ -14817,13 +15934,13 @@ module Aws::SSM
     #
     #
     #   [1]: https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-advanced-parameters.html
-    #   [2]: https://docs.aws.amazon.com/systems-manager/latest/userguide/ps-default-tier.html
+    #   [2]: https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-advanced-parameters.html#ps-default-tier
     #   @return [String]
     #
     # @!attribute [rw] policies
     #   One or more policies to apply to a parameter. This operation takes a
-    #   JSON array. Parameter Store, a capability of Amazon Web Services
-    #   Systems Manager supports the following policy types:
+    #   JSON array. Parameter Store, a tool in Amazon Web Services Systems
+    #   Manager supports the following policy types:
     #
     #   Expiration: This policy deletes the parameter after it expires. When
     #   you create the policy, you specify the expiration date. You can
@@ -14867,13 +15984,29 @@ module Aws::SSM
     #   Amazon Web Services Systems Manager validates the parameter value is
     #   in the required format, such as `ami-12345abcdeEXAMPLE`, and that
     #   the specified AMI is available in your Amazon Web Services account.
-    #   For more information, see [Native parameter support for Amazon
-    #   Machine Image (AMI) IDs][1] in the *Amazon Web Services Systems
-    #   Manager User Guide*.
+    #
+    #   <note markdown="1"> If the action is successful, the service sends back an HTTP 200
+    #   response which indicates a successful `PutParameter` call for all
+    #   cases except for data type `aws:ec2:image`. If you call
+    #   `PutParameter` with `aws:ec2:image` data type, a successful HTTP 200
+    #   response does not guarantee that your parameter was successfully
+    #   created or updated. The `aws:ec2:image` value is validated
+    #   asynchronously, and the `PutParameter` call returns before the
+    #   validation is complete. If you submit an invalid AMI value, the
+    #   PutParameter operation will return success, but the asynchronous
+    #   validation will fail and the parameter will not be created or
+    #   updated. To monitor whether your `aws:ec2:image` parameters are
+    #   created successfully, see [Setting up notifications or trigger
+    #   actions based on Parameter Store events][1]. For more information
+    #   about AMI format validation , see [Native parameter support for
+    #   Amazon Machine Image IDs][2].
+    #
+    #    </note>
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-ec2-aliases.html
+    #   [1]: https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-paramstore-cwe.html
+    #   [2]: https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-ec2-aliases.html
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/PutParameterRequest AWS API Documentation
@@ -15050,23 +16183,23 @@ module Aws::SSM
     #   You can specify targets using managed node IDs, resource group
     #   names, or tags that have been applied to managed nodes.
     #
-    #   **Example 1**\: Specify managed node IDs
+    #   **Example 1**: Specify managed node IDs
     #
     #   `Key=InstanceIds,Values=<instance-id-1>,<instance-id-2>,<instance-id-3>`
     #
-    #   **Example 2**\: Use tag key-pairs applied to managed nodes
+    #   **Example 2**: Use tag key-pairs applied to managed nodes
     #
     #   `Key=tag:<my-tag-key>,Values=<my-tag-value-1>,<my-tag-value-2>`
     #
-    #   **Example 3**\: Use tag-keys applied to managed nodes
+    #   **Example 3**: Use tag-keys applied to managed nodes
     #
     #   `Key=tag-key,Values=<my-tag-key-1>,<my-tag-key-2>`
     #
-    #   **Example 4**\: Use resource group names
+    #   **Example 4**: Use resource group names
     #
     #   `Key=resource-groups:Name,Values=<resource-group-name>`
     #
-    #   **Example 5**\: Use filters for resource group types
+    #   **Example 5**: Use filters for resource group types
     #
     #   `Key=resource-groups:ResourceTypeFilters,Values=<resource-type-1>,<resource-type-2>`
     #
@@ -15171,22 +16304,21 @@ module Aws::SSM
     #   The Amazon Resource Name (ARN) of the IAM service role for Amazon
     #   Web Services Systems Manager to assume when running a maintenance
     #   window task. If you do not specify a service role ARN, Systems
-    #   Manager uses your account's service-linked role. If no
-    #   service-linked role for Systems Manager exists in your account, it
-    #   is created when you run `RegisterTaskWithMaintenanceWindow`.
+    #   Manager uses a service-linked role in your account. If no
+    #   appropriate service-linked role for Systems Manager exists in your
+    #   account, it is created when you run
+    #   `RegisterTaskWithMaintenanceWindow`.
     #
-    #   For more information, see the following topics in the in the *Amazon
-    #   Web Services Systems Manager User Guide*\:
-    #
-    #   * [Using service-linked roles for Systems Manager][1]
-    #
-    #   * [Should I use a service-linked role or a custom service role to
-    #     run maintenance window tasks? ][2]
-    #
+    #   However, for an improved security posture, we strongly recommend
+    #   creating a custom policy and custom service role for running your
+    #   maintenance window tasks. The policy can be crafted to provide only
+    #   the permissions needed for your particular maintenance window tasks.
+    #   For more information, see [Setting up Maintenance Windows][1] in the
+    #   in the *Amazon Web Services Systems Manager User Guide*.
     #
     #
-    #   [1]: https://docs.aws.amazon.com/systems-manager/latest/userguide/using-service-linked-roles.html#slr-permissions
-    #   [2]: https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-maintenance-permissions.html#maintenance-window-tasks-service-role
+    #
+    #   [1]: https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-maintenance-permissions.html
     #   @return [String]
     #
     # @!attribute [rw] task_type
@@ -15291,10 +16423,10 @@ module Aws::SSM
     #   Indicates whether tasks should continue to run after the cutoff time
     #   specified in the maintenance windows is reached.
     #
-    #   * `CONTINUE_TASK`\: When the cutoff time is reached, any tasks that
+    #   * `CONTINUE_TASK`: When the cutoff time is reached, any tasks that
     #     are running continue. The default value.
     #
-    #   * `CANCEL_TASK`\:
+    #   * `CANCEL_TASK`:
     #
     #     * For Automation, Lambda, Step Functions tasks: When the cutoff
     #       time is reached, any task invocations that are already running
@@ -15305,7 +16437,6 @@ module Aws::SSM
     #       the command associated with the task. However, there is no
     #       guarantee that the command will be terminated and the underlying
     #       process stopped.
-    #
     #     The status for tasks that are not completed is `TIMED_OUT`.
     #   @return [String]
     #
@@ -15403,7 +16534,7 @@ module Aws::SSM
     #
     #   MaintenanceWindow: mw-012345abcde
     #
-    #   `Automation`\: `example-c160-4567-8519-012345abcde`
+    #   `Automation`: `example-c160-4567-8519-012345abcde`
     #
     #   PatchBaseline: pb-012345abcde
     #
@@ -15449,13 +16580,19 @@ module Aws::SSM
     #   The Amazon Resource Name (ARN) of the service setting to reset. The
     #   setting ID can be one of the following.
     #
+    #   * `/ssm/appmanager/appmanager-enabled`
+    #
     #   * `/ssm/automation/customer-script-log-destination`
     #
     #   * `/ssm/automation/customer-script-log-group-name`
     #
+    #   * /ssm/automation/enable-adaptive-concurrency
+    #
     #   * `/ssm/documents/console/public-sharing-permission`
     #
     #   * `/ssm/managed-instance/activation-tier`
+    #
+    #   * `/ssm/managed-instance/default-ec2-instance-management-role`
     #
     #   * `/ssm/opsinsights/opscenter`
     #
@@ -15828,13 +16965,13 @@ module Aws::SSM
     #   Organizations options, then Systems Manager automatically enables
     #   all OpsData sources in the selected Amazon Web Services Regions for
     #   all Amazon Web Services accounts in your organization (or in the
-    #   selected organization units). For more information, see [About
-    #   multiple account and Region resource data syncs][1] in the *Amazon
-    #   Web Services Systems Manager User Guide*.
+    #   selected organization units). For more information, see [Setting up
+    #   Systems Manager Explorer to display data from multiple accounts and
+    #   Regions][1] in the *Amazon Web Services Systems Manager User Guide*.
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/systems-manager/latest/userguide/Explorer-resouce-data-sync-multiple-accounts-and-regions.html
+    #   [1]: https://docs.aws.amazon.com/systems-manager/latest/userguide/Explorer-resource-data-sync.html
     #   @return [Boolean]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/ResourceDataSyncSource AWS API Documentation
@@ -15889,16 +17026,16 @@ module Aws::SSM
     #   The data type name for including resource data sync state. There are
     #   four sync states:
     #
-    #   `OrganizationNotExists`\: Your organization doesn't exist.
+    #   `OrganizationNotExists`: Your organization doesn't exist.
     #
-    #   `NoPermissions`\: The system can't locate the service-linked role.
+    #   `NoPermissions`: The system can't locate the service-linked role.
     #   This role is automatically created when a user creates a resource
     #   data sync in Explorer.
     #
-    #   `InvalidOrganizationalUnit`\: You specified or selected an invalid
+    #   `InvalidOrganizationalUnit`: You specified or selected an invalid
     #   unit in the resource data sync configuration.
     #
-    #   `TrustedAccessDisabled`\: You disabled Systems Manager access in the
+    #   `TrustedAccessDisabled`: You disabled Systems Manager access in the
     #   organization in Organizations.
     #   @return [String]
     #
@@ -15907,13 +17044,13 @@ module Aws::SSM
     #   Organizations options, then Systems Manager automatically enables
     #   all OpsData sources in the selected Amazon Web Services Regions for
     #   all Amazon Web Services accounts in your organization (or in the
-    #   selected organization units). For more information, see [About
-    #   multiple account and Region resource data syncs][1] in the *Amazon
-    #   Web Services Systems Manager User Guide*.
+    #   selected organization units). For more information, see [Setting up
+    #   Systems Manager Explorer to display data from multiple accounts and
+    #   Regions][1] in the *Amazon Web Services Systems Manager User Guide*.
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/systems-manager/latest/userguide/Explorer-resouce-data-sync-multiple-accounts-and-regions.html
+    #   [1]: https://docs.aws.amazon.com/systems-manager/latest/userguide/Explorer-resource-data-sync.html
     #   @return [Boolean]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/ResourceDataSyncSourceWithState AWS API Documentation
@@ -15961,6 +17098,19 @@ module Aws::SSM
     # @see http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/ResourceLimitExceededException AWS API Documentation
     #
     class ResourceLimitExceededException < Struct.new(
+      :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The specified parameter to be shared could not be found.
+    #
+    # @!attribute [rw] message
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/ResourceNotFoundException AWS API Documentation
+    #
+    class ResourceNotFoundException < Struct.new(
       :message)
       SENSITIVE = []
       include Aws::Structure
@@ -16017,6 +17167,19 @@ module Aws::SSM
     class ResourcePolicyLimitExceededException < Struct.new(
       :limit,
       :limit_type,
+      :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # No policies with the specified policy ID and hash could be found.
+    #
+    # @!attribute [rw] message
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/ResourcePolicyNotFoundException AWS API Documentation
+    #
+    class ResourcePolicyNotFoundException < Struct.new(
       :message)
       SENSITIVE = []
       include Aws::Structure
@@ -16304,9 +17467,8 @@ module Aws::SSM
     #   identify the managed nodes to send commands to, you can a send
     #   command to tens, hundreds, or thousands of nodes at once.
     #
-    #   For more information about how to use targets, see [Using targets
-    #   and rate controls to send commands to a fleet][1] in the *Amazon Web
-    #   Services Systems Manager User Guide*.
+    #   For more information about how to use targets, see [Run commands at
+    #   scale][1] in the *Amazon Web Services Systems Manager User Guide*.
     #
     #
     #
@@ -16324,9 +17486,8 @@ module Aws::SSM
     #   To send a command to a smaller number of managed nodes, you can use
     #   the `InstanceIds` option instead.
     #
-    #   For more information about how to use targets, see [Sending commands
-    #   to a fleet][1] in the *Amazon Web Services Systems Manager User
-    #   Guide*.
+    #   For more information about how to use targets, see [Run commands at
+    #   scale][1] in the *Amazon Web Services Systems Manager User Guide*.
     #
     #
     #
@@ -16338,7 +17499,7 @@ module Aws::SSM
     #   document) to run. This can be a public document or a custom
     #   document. To run a shared document belonging to another account,
     #   specify the document Amazon Resource Name (ARN). For more
-    #   information about how to use shared documents, see [Using shared SSM
+    #   information about how to use shared documents, see [Sharing SSM
     #   documents][1] in the *Amazon Web Services Systems Manager User
     #   Guide*.
     #
@@ -16464,8 +17625,8 @@ module Aws::SSM
     #
     # @!attribute [rw] cloud_watch_output_config
     #   Enables Amazon Web Services Systems Manager to send Run Command
-    #   output to Amazon CloudWatch Logs. Run Command is a capability of
-    #   Amazon Web Services Systems Manager.
+    #   output to Amazon CloudWatch Logs. Run Command is a tool in Amazon
+    #   Web Services Systems Manager.
     #   @return [Types::CloudWatchOutputConfig]
     #
     # @!attribute [rw] alarm_configuration
@@ -16625,8 +17786,7 @@ module Aws::SSM
     #   @return [String]
     #
     # @!attribute [rw] owner
-    #   The ID of the Amazon Web Services user account that started the
-    #   session.
+    #   The ID of the Amazon Web Services user that started the session.
     #   @return [String]
     #
     # @!attribute [rw] reason
@@ -16673,18 +17833,18 @@ module Aws::SSM
     #   The filter value. Valid values for each filter key are as follows:
     #
     #   * InvokedAfter: Specify a timestamp to limit your results. For
-    #     example, specify 2018-08-29T00:00:00Z to see sessions that started
-    #     August 29, 2018, and later.
+    #     example, specify 2024-08-29T00:00:00Z to see sessions that started
+    #     August 29, 2024, and later.
     #
     #   * InvokedBefore: Specify a timestamp to limit your results. For
-    #     example, specify 2018-08-29T00:00:00Z to see sessions that started
-    #     before August 29, 2018.
+    #     example, specify 2024-08-29T00:00:00Z to see sessions that started
+    #     before August 29, 2024.
     #
     #   * Target: Specify a managed node to which session connections have
     #     been made.
     #
-    #   * Owner: Specify an Amazon Web Services user account to see a list
-    #     of sessions started by that user.
+    #   * Owner: Specify an Amazon Web Services user to see a list of
+    #     sessions started by that user.
     #
     #   * Status: Specify a valid session status to see a list of all
     #     sessions with that status. Status values you can specify include:
@@ -16700,7 +17860,6 @@ module Aws::SSM
     #     * Terminating
     #
     #     * Failed
-    #
     #   * SessionId: Specify a session ID to return details about the
     #     session.
     #   @return [String]
@@ -16806,12 +17965,12 @@ module Aws::SSM
     #   The name of the SSM document to run. This can be a public document
     #   or a custom document. To run a shared document belonging to another
     #   account, specify the document ARN. For more information about how to
-    #   use shared documents, see [Using shared SSM documents][1] in the
-    #   *Amazon Web Services Systems Manager User Guide*.
+    #   use shared documents, see [Sharing SSM documents][1] in the *Amazon
+    #   Web Services Systems Manager User Guide*.
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/systems-manager/latest/userguide/ssm-using-shared.html
+    #   [1]: https://docs.aws.amazon.com/systems-manager/latest/userguide/documents-ssm-sharing.html
     #   @return [String]
     #
     # @!attribute [rw] document_version
@@ -16841,6 +18000,9 @@ module Aws::SSM
     # @!attribute [rw] targets
     #   A key-value mapping to target resources. Required if you specify
     #   TargetParameterName.
+    #
+    #   If both this parameter and the `TargetLocation:Targets` parameter
+    #   are supplied, `TargetLocation:Targets` takes precedence.
     #   @return [Array<Types::Target>]
     #
     # @!attribute [rw] target_maps
@@ -16852,6 +18014,10 @@ module Aws::SSM
     #   The maximum number of targets allowed to run this task in parallel.
     #   You can specify a number, such as 10, or a percentage, such as 10%.
     #   The default value is `10`.
+    #
+    #   If both this parameter and the
+    #   `TargetLocation:TargetsMaxConcurrency` are supplied,
+    #   `TargetLocation:TargetsMaxConcurrency` takes precedence.
     #   @return [String]
     #
     # @!attribute [rw] max_errors
@@ -16871,6 +18037,10 @@ module Aws::SSM
     #   fail as well. If you need to ensure that there won't be more than
     #   max-errors failed executions, set max-concurrency to 1 so the
     #   executions proceed one at a time.
+    #
+    #   If this parameter and the `TargetLocation:TargetsMaxErrors`
+    #   parameter are both supplied, `TargetLocation:TargetsMaxErrors` takes
+    #   precedence.
     #   @return [String]
     #
     # @!attribute [rw] target_locations
@@ -16878,9 +18048,9 @@ module Aws::SSM
     #   Amazon Web Services accounts where you want to run the automation.
     #   Use this operation to start an automation in multiple Amazon Web
     #   Services Regions and multiple Amazon Web Services accounts. For more
-    #   information, see [Running Automation workflows in multiple Amazon
-    #   Web Services Regions and Amazon Web Services accounts][1] in the
-    #   *Amazon Web Services Systems Manager User Guide*.
+    #   information, see [Running automations in multiple Amazon Web
+    #   Services Regions and accounts][1] in the *Amazon Web Services
+    #   Systems Manager User Guide*.
     #
     #
     #
@@ -16899,8 +18069,11 @@ module Aws::SSM
     #
     #   * `Key=OS,Value=Windows`
     #
-    #   <note markdown="1"> To add tags to an existing automation, use the AddTagsToResource
-    #   operation.
+    #   <note markdown="1"> The `Array Members` maximum value is reported as 1000. This number
+    #   includes capacity reserved for internal operations. When calling the
+    #   `StartAutomationExecution` action, you can specify a maximum of 5
+    #   tags. You can, however, use the AddTagsToResource action to add up
+    #   to a total of 50 tags to an existing automation configuration.
     #
     #    </note>
     #   @return [Array<Types::Tag>]
@@ -16908,6 +18081,12 @@ module Aws::SSM
     # @!attribute [rw] alarm_configuration
     #   The CloudWatch alarm you want to apply to your automation.
     #   @return [Types::AlarmConfiguration]
+    #
+    # @!attribute [rw] target_locations_url
+    #   Specify a publicly accessible URL for a file that contains the
+    #   `TargetLocations` body. Currently, only files in presigned Amazon S3
+    #   buckets are supported.
+    #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/StartAutomationExecutionRequest AWS API Documentation
     #
@@ -16924,7 +18103,8 @@ module Aws::SSM
       :max_errors,
       :target_locations,
       :tags,
-      :alarm_configuration)
+      :alarm_configuration,
+      :target_locations_url)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -17016,6 +18196,14 @@ module Aws::SSM
     #   * `Key=Environment,Value=Production`
     #
     #   * `Key=Region,Value=us-east-2`
+    #
+    #   <note markdown="1"> The `Array Members` maximum value is reported as 1000. This number
+    #   includes capacity reserved for internal operations. When calling the
+    #   `StartChangeRequestExecution` action, you can specify a maximum of 5
+    #   tags. You can, however, use the AddTagsToResource action to add up
+    #   to a total of 50 tags to an existing change request configuration.
+    #
+    #    </note>
     #   @return [Array<Types::Tag>]
     #
     # @!attribute [rw] scheduled_end_time
@@ -17061,6 +18249,44 @@ module Aws::SSM
       include Aws::Structure
     end
 
+    # @!attribute [rw] document_name
+    #   The name of the Automation runbook to run. The result of the
+    #   execution preview indicates what the impact would be of running this
+    #   runbook.
+    #   @return [String]
+    #
+    # @!attribute [rw] document_version
+    #   The version of the Automation runbook to run. The default value is
+    #   `$DEFAULT`.
+    #   @return [String]
+    #
+    # @!attribute [rw] execution_inputs
+    #   Information about the inputs that can be specified for the preview
+    #   operation.
+    #   @return [Types::ExecutionInputs]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/StartExecutionPreviewRequest AWS API Documentation
+    #
+    class StartExecutionPreviewRequest < Struct.new(
+      :document_name,
+      :document_version,
+      :execution_inputs)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] execution_preview_id
+    #   The ID of the execution preview generated by the system.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/StartExecutionPreviewResponse AWS API Documentation
+    #
+    class StartExecutionPreviewResponse < Struct.new(
+      :execution_preview_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] target
     #   The managed node to connect to for the session.
     #   @return [String]
@@ -17087,7 +18313,13 @@ module Aws::SSM
     #
     # @!attribute [rw] parameters
     #   The values you want to specify for the parameters defined in the
-    #   Session document.
+    #   Session document. For more information about these parameters, see
+    #   [Create a Session Manager preferences document][1] in the *Amazon
+    #   Web Services Systems Manager User Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/systems-manager/latest/userguide/getting-started-create-preferences-cli.html
     #   @return [Hash<String,Array<String>>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/StartSessionRequest AWS API Documentation
@@ -17257,6 +18489,10 @@ module Aws::SSM
     #   The CloudWatch alarms that were invoked by the automation.
     #   @return [Array<Types::AlarmStateInformation>]
     #
+    # @!attribute [rw] parent_step_details
+    #   Information about the parent step.
+    #   @return [Types::ParentStepDetails]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/StepExecution AWS API Documentation
     #
     class StepExecution < Struct.new(
@@ -17282,7 +18518,8 @@ module Aws::SSM
       :valid_next_steps,
       :targets,
       :target_location,
-      :triggered_alarms)
+      :triggered_alarms,
+      :parent_step_details)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -17291,9 +18528,7 @@ module Aws::SSM
     # the call.
     #
     # @!attribute [rw] key
-    #   One or more keys to limit the results. Valid filter keys include the
-    #   following: StepName, Action, StepExecutionId, StepExecutionStatus,
-    #   StartTimeBefore, StartTimeAfter.
+    #   One or more keys to limit the results.
     #   @return [String]
     #
     # @!attribute [rw] values
@@ -17382,54 +18617,55 @@ module Aws::SSM
     #
     # Supported formats include the following.
     #
-    # * `Key=InstanceIds,Values=<instance-id-1>,<instance-id-2>,<instance-id-3>`
+    # **For all Systems Manager tools:**
     #
-    # * `Key=tag:<my-tag-key>,Values=<my-tag-value-1>,<my-tag-value-2>`
+    # * `Key=tag-key,Values=tag-value-1,tag-value-2`
     #
-    # * `Key=tag-key,Values=<my-tag-key-1>,<my-tag-key-2>`
+    # ^
     #
-    # * **Run Command and Maintenance window targets only**\:
-    #   `Key=resource-groups:Name,Values=<resource-group-name>`
+    # **For Automation and Change Manager:**
     #
-    # * **Maintenance window targets only**\:
-    #   `Key=resource-groups:ResourceTypeFilters,Values=<resource-type-1>,<resource-type-2>`
+    # * `Key=tag:tag-key,Values=tag-value`
     #
-    # * **Automation targets only**\:
-    #   `Key=ResourceGroup;Values=<resource-group-name>`
+    # * `Key=ResourceGroup,Values=resource-group-name`
     #
-    # For example:
+    # * `Key=ParameterValues,Values=value-1,value-2,value-3`
     #
-    # * `Key=InstanceIds,Values=i-02573cafcfEXAMPLE,i-0471e04240EXAMPLE,i-07782c72faEXAMPLE`
+    # * To target all instances in the Amazon Web Services Region:
     #
-    # * `Key=tag:CostCenter,Values=CostCenter1,CostCenter2,CostCenter3`
+    #   * `Key=AWS::EC2::Instance,Values=*`
     #
-    # * `Key=tag-key,Values=Name,Instance-Type,CostCenter`
+    #   * `Key=InstanceIds,Values=*`
     #
-    # * **Run Command and Maintenance window targets only**\:
-    #   `Key=resource-groups:Name,Values=ProductionResourceGroup`
+    # **For Run Command and Maintenance Windows:**
     #
-    #   This example demonstrates how to target all resources in the
-    #   resource group **ProductionResourceGroup** in your maintenance
-    #   window.
+    # * `Key=InstanceIds,Values=instance-id-1,instance-id-2,instance-id-3`
     #
-    # * **Maintenance window targets only**\:
-    #   `Key=resource-groups:ResourceTypeFilters,Values=AWS::EC2::INSTANCE,AWS::EC2::VPC`
+    # * `Key=tag:tag-key,Values=tag-value-1,tag-value-2`
     #
-    #   This example demonstrates how to target only Amazon Elastic Compute
-    #   Cloud (Amazon EC2) instances and VPCs in your maintenance window.
+    # * `Key=resource-groups:Name,Values=resource-group-name`
     #
-    # * **Automation targets only**\:
-    #   `Key=ResourceGroup,Values=MyResourceGroup`
+    # * Additionally, Maintenance Windows support targeting resource types:
     #
-    # * **State Manager association targets only**\:
-    #   `Key=InstanceIds,Values=*`
+    #   * `Key=resource-groups:ResourceTypeFilters,Values=resource-type-1,resource-type-2`
     #
-    #   This example demonstrates how to target all managed instances in the
-    #   Amazon Web Services Region where the association was created.
+    #   ^
+    #
+    # **For State Manager:**
+    #
+    # * `Key=InstanceIds,Values=instance-id-1,instance-id-2,instance-id-3`
+    #
+    # * `Key=tag:tag-key,Values=tag-value-1,tag-value-2`
+    #
+    # * To target all instances in the Amazon Web Services Region:
+    #
+    #   * `Key=InstanceIds,Values=*`
+    #
+    #   ^
     #
     # For more information about how to send commands that target managed
-    # nodes using `Key,Value` parameters, see [Targeting multiple
-    # instances][2] in the *Amazon Web Services Systems Manager User Guide*.
+    # nodes using `Key,Value` parameters, see [Targeting multiple managed
+    # nodes][2] in the *Amazon Web Services Systems Manager User Guide*.
     #
     #
     #
@@ -17510,6 +18746,39 @@ module Aws::SSM
     #   automation or command.
     #   @return [Types::AlarmConfiguration]
     #
+    # @!attribute [rw] include_child_organization_units
+    #   Indicates whether to include child organizational units (OUs) that
+    #   are children of the targeted OUs. The default is `false`.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] exclude_accounts
+    #   Amazon Web Services accounts or organizational units to exclude as
+    #   expanded targets.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] targets
+    #   A list of key-value mappings to target resources. If you specify
+    #   values for this data type, you must also specify a value for
+    #   `TargetParameterName`.
+    #
+    #   This `Targets` parameter takes precedence over the
+    #   `StartAutomationExecution:Targets` parameter if both are supplied.
+    #   @return [Array<Types::Target>]
+    #
+    # @!attribute [rw] targets_max_concurrency
+    #   The maximum number of targets allowed to run this task in parallel.
+    #   This `TargetsMaxConcurrency` takes precedence over the
+    #   `StartAutomationExecution:MaxConcurrency` parameter if both are
+    #   supplied.
+    #   @return [String]
+    #
+    # @!attribute [rw] targets_max_errors
+    #   The maximum number of errors that are allowed before the system
+    #   stops running the automation on additional targets. This
+    #   `TargetsMaxErrors` parameter takes precedence over the
+    #   `StartAutomationExecution:MaxErrors` parameter if both are supplied.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/TargetLocation AWS API Documentation
     #
     class TargetLocation < Struct.new(
@@ -17518,17 +18787,22 @@ module Aws::SSM
       :target_location_max_concurrency,
       :target_location_max_errors,
       :execution_role_name,
-      :target_location_alarm_configuration)
+      :target_location_alarm_configuration,
+      :include_child_organization_units,
+      :exclude_accounts,
+      :targets,
+      :targets_max_concurrency,
+      :targets_max_errors)
       SENSITIVE = []
       include Aws::Structure
     end
 
     # The specified target managed node for the session isn't fully
     # configured for use with Session Manager. For more information, see
-    # [Getting started with Session Manager][1] in the *Amazon Web Services
-    # Systems Manager User Guide*. This error is also returned if you
-    # attempt to start a session on a managed node that is located in a
-    # different account or Region
+    # [Setting up Session Manager][1] in the *Amazon Web Services Systems
+    # Manager User Guide*. This error is also returned if you attempt to
+    # start a session on a managed node that is located in a different
+    # account or Region
     #
     #
     #
@@ -17541,6 +18815,27 @@ module Aws::SSM
     #
     class TargetNotConnected < Struct.new(
       :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Information about the resources that would be included in the actual
+    # runbook execution, if it were to be run.
+    #
+    # @!attribute [rw] count
+    #   The number of resources of a certain type included in an execution
+    #   preview.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] target_type
+    #   A type of resource that was included in the execution preview.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/TargetPreview AWS API Documentation
+    #
+    class TargetPreview < Struct.new(
+      :count,
+      :target_type)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -17607,6 +18902,11 @@ module Aws::SSM
     # @!attribute [rw] name
     #   The name of the parameter from which you want to delete one or more
     #   labels.
+    #
+    #   <note markdown="1"> You can't enter the Amazon Resource Name (ARN) for a parameter,
+    #   only the parameter name itself.
+    #
+    #    </note>
     #   @return [String]
     #
     # @!attribute [rw] parameter_version
@@ -17662,8 +18962,9 @@ module Aws::SSM
     # Patching for applications released by Microsoft is only available on
     # EC2 instances and advanced instances. To patch applications released
     # by Microsoft on on-premises servers and VMs, you must enable advanced
-    # instances. For more information, see [Enabling the advanced-instances
-    # tier][1] in the *Amazon Web Services Systems Manager User Guide*.
+    # instances. For more information, see [Turning on the
+    # advanced-instances tier][1] in the *Amazon Web Services Systems
+    # Manager User Guide*.
     #
     #
     #
@@ -17728,6 +19029,21 @@ module Aws::SSM
       include Aws::Structure
     end
 
+    # This operation is not supported for the current account. You must
+    # first enable the Systems Manager integrated experience in your
+    # account.
+    #
+    # @!attribute [rw] message
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/UnsupportedOperationException AWS API Documentation
+    #
+    class UnsupportedOperationException < Struct.new(
+      :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The parameter type isn't supported.
     #
     # @!attribute [rw] message
@@ -17742,8 +19058,8 @@ module Aws::SSM
     end
 
     # The document doesn't support the platform type of the given managed
-    # node ID(s). For example, you sent an document for a Windows managed
-    # node to a Linux node.
+    # node IDs. For example, you sent an document for a Windows managed node
+    # to a Linux node.
     #
     # @!attribute [rw] message
     #   @return [String]
@@ -17762,9 +19078,9 @@ module Aws::SSM
     #
     # @!attribute [rw] parameters
     #   The parameters you want to update for the association. If you create
-    #   a parameter using Parameter Store, a capability of Amazon Web
-    #   Services Systems Manager, you can reference the parameter using
-    #   `\{\{ssm:parameter-name\}\}`.
+    #   a parameter using Parameter Store, a tool in Amazon Web Services
+    #   Systems Manager, you can reference the parameter using
+    #   `{{ssm:parameter-name}}`.
     #   @return [Hash<String,Array<String>>]
     #
     # @!attribute [rw] document_version
@@ -17830,7 +19146,7 @@ module Aws::SSM
     #   Choose the parameter that will define how your automation will
     #   branch out. This target is required for associations that use an
     #   Automation runbook and target resources by using rate controls.
-    #   Automation is a capability of Amazon Web Services Systems Manager.
+    #   Automation is a tool in Amazon Web Services Systems Manager.
     #   @return [String]
     #
     # @!attribute [rw] max_errors
@@ -17878,9 +19194,9 @@ module Aws::SSM
     #
     #   In `MANUAL` mode, you must specify the `AssociationId` as a
     #   parameter for the PutComplianceItems API operation. In this case,
-    #   compliance data isn't managed by State Manager, a capability of
-    #   Amazon Web Services Systems Manager. It is managed by your direct
-    #   call to the PutComplianceItems API operation.
+    #   compliance data isn't managed by State Manager, a tool in Amazon
+    #   Web Services Systems Manager. It is managed by your direct call to
+    #   the PutComplianceItems API operation.
     #
     #   By default, all associations use `AUTO` mode.
     #   @return [String]
@@ -17950,6 +19266,25 @@ module Aws::SSM
     #   [1]: https://docs.aws.amazon.com/systems-manager/latest/userguide/reference-cron-and-rate-expressions.html
     #   @return [Integer]
     #
+    # @!attribute [rw] duration
+    #   The number of hours the association can run before it is canceled.
+    #   Duration applies to associations that are currently running, and any
+    #   pending and in progress commands on all targets. If a target was
+    #   taken offline for the association to run, it is made available again
+    #   immediately, without a reboot.
+    #
+    #   The `Duration` parameter applies only when both these conditions are
+    #   true:
+    #
+    #   * The association for which you specify a duration is cancelable
+    #     according to the parameters of the SSM command document or
+    #     Automation runbook associated with this execution.
+    #
+    #   * The command specifies the ` ApplyOnlyAtCronInterval ` parameter,
+    #     which means that the association doesn't run immediately after it
+    #     is updated, but only according to the specified schedule.
+    #   @return [Integer]
+    #
     # @!attribute [rw] target_maps
     #   A key-value mapping of document parameters to target resources. Both
     #   Targets and TargetMaps can't be specified together.
@@ -17981,6 +19316,7 @@ module Aws::SSM
       :calendar_names,
       :target_locations,
       :schedule_offset,
+      :duration,
       :target_maps,
       :alarm_configuration)
       SENSITIVE = [:parameters]
@@ -18115,9 +19451,8 @@ module Aws::SSM
     #
     # @!attribute [rw] version_name
     #   An optional field specifying the version of the artifact you are
-    #   updating with the document. For example, "Release 12, Update 6".
-    #   This value is unique across all versions of a document, and can't
-    #   be changed.
+    #   updating with the document. For example, 12.6. This value is unique
+    #   across all versions of a document, and can't be changed.
     #   @return [String]
     #
     # @!attribute [rw] document_version
@@ -18187,6 +19522,11 @@ module Aws::SSM
     #   the maintenance window to become active. `StartDate` allows you to
     #   delay activation of the maintenance window until the specified
     #   future date.
+    #
+    #   <note markdown="1"> When using a rate schedule, if you provide a start date that occurs
+    #   in the past, the current date and time are used as the start date.
+    #
+    #    </note>
     #   @return [String]
     #
     # @!attribute [rw] end_date
@@ -18475,22 +19815,21 @@ module Aws::SSM
     #   The Amazon Resource Name (ARN) of the IAM service role for Amazon
     #   Web Services Systems Manager to assume when running a maintenance
     #   window task. If you do not specify a service role ARN, Systems
-    #   Manager uses your account's service-linked role. If no
-    #   service-linked role for Systems Manager exists in your account, it
-    #   is created when you run `RegisterTaskWithMaintenanceWindow`.
+    #   Manager uses a service-linked role in your account. If no
+    #   appropriate service-linked role for Systems Manager exists in your
+    #   account, it is created when you run
+    #   `RegisterTaskWithMaintenanceWindow`.
     #
-    #   For more information, see the following topics in the in the *Amazon
-    #   Web Services Systems Manager User Guide*\:
-    #
-    #   * [Using service-linked roles for Systems Manager][1]
-    #
-    #   * [Should I use a service-linked role or a custom service role to
-    #     run maintenance window tasks? ][2]
-    #
+    #   However, for an improved security posture, we strongly recommend
+    #   creating a custom policy and custom service role for running your
+    #   maintenance window tasks. The policy can be crafted to provide only
+    #   the permissions needed for your particular maintenance window tasks.
+    #   For more information, see [Setting up Maintenance Windows][1] in the
+    #   in the *Amazon Web Services Systems Manager User Guide*.
     #
     #
-    #   [1]: https://docs.aws.amazon.com/systems-manager/latest/userguide/using-service-linked-roles.html#slr-permissions
-    #   [2]: https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-maintenance-permissions.html#maintenance-window-tasks-service-role
+    #
+    #   [1]: https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-maintenance-permissions.html
     #   @return [String]
     #
     # @!attribute [rw] task_parameters
@@ -18610,10 +19949,10 @@ module Aws::SSM
     #   Indicates whether tasks should continue to run after the cutoff time
     #   specified in the maintenance windows is reached.
     #
-    #   * `CONTINUE_TASK`\: When the cutoff time is reached, any tasks that
+    #   * `CONTINUE_TASK`: When the cutoff time is reached, any tasks that
     #     are running continue. The default value.
     #
-    #   * `CANCEL_TASK`\:
+    #   * `CANCEL_TASK`:
     #
     #     * For Automation, Lambda, Step Functions tasks: When the cutoff
     #       time is reached, any task invocations that are already running
@@ -18624,7 +19963,6 @@ module Aws::SSM
     #       the command associated with the task. However, there is no
     #       guarantee that the command will be terminated and the underlying
     #       process stopped.
-    #
     #     The status for tasks that are not completed is `TIMED_OUT`.
     #   @return [String]
     #
@@ -18673,10 +20011,24 @@ module Aws::SSM
     #   @return [String]
     #
     # @!attribute [rw] service_role_arn
-    #   The Amazon Resource Name (ARN) of the Identity and Access Management
-    #   (IAM) service role to use to publish Amazon Simple Notification
-    #   Service (Amazon SNS) notifications for maintenance window Run
-    #   Command tasks.
+    #   The Amazon Resource Name (ARN) of the IAM service role for Amazon
+    #   Web Services Systems Manager to assume when running a maintenance
+    #   window task. If you do not specify a service role ARN, Systems
+    #   Manager uses a service-linked role in your account. If no
+    #   appropriate service-linked role for Systems Manager exists in your
+    #   account, it is created when you run
+    #   `RegisterTaskWithMaintenanceWindow`.
+    #
+    #   However, for an improved security posture, we strongly recommend
+    #   creating a custom policy and custom service role for running your
+    #   maintenance window tasks. The policy can be crafted to provide only
+    #   the permissions needed for your particular maintenance window tasks.
+    #   For more information, see [Setting up Maintenance Windows][1] in the
+    #   in the *Amazon Web Services Systems Manager User Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-maintenance-permissions.html
     #   @return [String]
     #
     # @!attribute [rw] task_parameters
@@ -18770,8 +20122,9 @@ module Aws::SSM
     #   want to assign to the managed node. This IAM role must provide
     #   AssumeRole permissions for the Amazon Web Services Systems Manager
     #   service principal `ssm.amazonaws.com`. For more information, see
-    #   [Create an IAM service role for a hybrid environment][1] in the
-    #   *Amazon Web Services Systems Manager User Guide*.
+    #   [Create the IAM service role required for Systems Manager in hybrid
+    #   and multicloud environments][1] in the *Amazon Web Services Systems
+    #   Manager User Guide*.
     #
     #   <note markdown="1"> You can't specify an IAM service-linked role for this parameter.
     #   You must create a unique role.
@@ -18780,7 +20133,7 @@ module Aws::SSM
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-service-role.html
+    #   [1]: https://docs.aws.amazon.com/systems-manager/latest/userguide/hybrid-multicloud-service-role.html
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/UpdateManagedInstanceRoleRequest AWS API Documentation
@@ -18797,9 +20150,8 @@ module Aws::SSM
     class UpdateManagedInstanceRoleResult < Aws::EmptyStructure; end
 
     # @!attribute [rw] description
-    #   Update the information about the OpsItem. Provide enough information
-    #   so that users reading this OpsItem for the first time understand the
-    #   issue.
+    #   User-defined text that contains information about the OpsItem, in
+    #   Markdown format.
     #   @return [String]
     #
     # @!attribute [rw] operational_data
@@ -18833,7 +20185,7 @@ module Aws::SSM
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-creating-OpsItems.html#OpsCenter-manually-create-OpsItems
+    #   [1]: https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-manually-create-OpsItems.html
     #   @return [Hash<String,Types::OpsItemDataValue>]
     #
     # @!attribute [rw] operational_data_to_delete
@@ -18858,13 +20210,12 @@ module Aws::SSM
     #   @return [Array<Types::RelatedOpsItem>]
     #
     # @!attribute [rw] status
-    #   The OpsItem status. Status can be `Open`, `In Progress`, or
-    #   `Resolved`. For more information, see [Editing OpsItem details][1]
-    #   in the *Amazon Web Services Systems Manager User Guide*.
+    #   The OpsItem status. For more information, see [Editing OpsItem
+    #   details][1] in the *Amazon Web Services Systems Manager User Guide*.
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-working-with-OpsItems.html#OpsCenter-working-with-OpsItems-editing-details
+    #   [1]: https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-working-with-OpsItems-editing-details.html
     #   @return [String]
     #
     # @!attribute [rw] ops_item_id
@@ -18982,6 +20333,11 @@ module Aws::SSM
     #
     # @!attribute [rw] global_filters
     #   A set of global filters used to include patches in the baseline.
+    #
+    #   The `GlobalFilters` parameter can be configured only by using the
+    #   CLI or an Amazon Web Services SDK. It can't be configured from the
+    #   Patch Manager console, and its value isn't displayed in the
+    #   console.
     #   @return [Types::PatchFilterGroup]
     #
     # @!attribute [rw] approval_rules
@@ -18992,9 +20348,9 @@ module Aws::SSM
     #   A list of explicitly approved patches for the baseline.
     #
     #   For information about accepted formats for lists of approved patches
-    #   and rejected patches, see [About package name formats for approved
-    #   and rejected patch lists][1] in the *Amazon Web Services Systems
-    #   Manager User Guide*.
+    #   and rejected patches, see [Package name formats for approved and
+    #   rejected patch lists][1] in the *Amazon Web Services Systems Manager
+    #   User Guide*.
     #
     #
     #
@@ -19016,9 +20372,9 @@ module Aws::SSM
     #   A list of explicitly rejected patches for the baseline.
     #
     #   For information about accepted formats for lists of approved patches
-    #   and rejected patches, see [About package name formats for approved
-    #   and rejected patch lists][1] in the *Amazon Web Services Systems
-    #   Manager User Guide*.
+    #   and rejected patches, see [Package name formats for approved and
+    #   rejected patch lists][1] in the *Amazon Web Services Systems Manager
+    #   User Guide*.
     #
     #
     #
@@ -19029,18 +20385,28 @@ module Aws::SSM
     #   The action for Patch Manager to take on patches included in the
     #   `RejectedPackages` list.
     #
-    #   * <b> <code>ALLOW_AS_DEPENDENCY</code> </b>\: A package in the
-    #     `Rejected` patches list is installed only if it is a dependency of
-    #     another package. It is considered compliant with the patch
-    #     baseline, and its status is reported as `InstalledOther`. This is
-    #     the default action if no option is specified.
+    #   ALLOW\_AS\_DEPENDENCY
     #
-    #   * <b> <code>BLOCK</code> </b>\: Packages in the `RejectedPatches`
-    #     list, and packages that include them as dependencies, aren't
-    #     installed under any circumstances. If a package was installed
-    #     before it was added to the `Rejected` patches list, it is
-    #     considered non-compliant with the patch baseline, and its status
-    #     is reported as `InstalledRejected`.
+    #   : **Linux and macOS**: A package in the rejected patches list is
+    #     installed only if it is a dependency of another package. It is
+    #     considered compliant with the patch baseline, and its status is
+    #     reported as `INSTALLED_OTHER`. This is the default action if no
+    #     option is specified.
+    #
+    #     **Windows Server**: Windows Server doesn't support the concept of
+    #     package dependencies. If a package in the rejected patches list
+    #     and already installed on the node, its status is reported as
+    #     `INSTALLED_OTHER`. Any package not already installed on the node
+    #     is skipped. This is the default action if no option is specified.
+    #
+    #   BLOCK
+    #
+    #   : **All OSs**: Packages in the rejected patches list, and packages
+    #     that include them as dependencies, aren't installed by Patch
+    #     Manager under any circumstances. If a package was installed before
+    #     it was added to the rejected patches list, or is installed outside
+    #     of Patch Manager afterward, it's considered noncompliant with the
+    #     patch baseline and its status is reported as `INSTALLED_REJECTED`.
     #   @return [String]
     #
     # @!attribute [rw] description
@@ -19193,46 +20559,68 @@ module Aws::SSM
     # The request body of the UpdateServiceSetting API operation.
     #
     # @!attribute [rw] setting_id
-    #   The Amazon Resource Name (ARN) of the service setting to reset. For
+    #   The Amazon Resource Name (ARN) of the service setting to update. For
     #   example,
     #   `arn:aws:ssm:us-east-1:111122223333:servicesetting/ssm/parameter-store/high-throughput-enabled`.
     #   The setting ID can be one of the following.
+    #
+    #   * `/ssm/appmanager/appmanager-enabled`
     #
     #   * `/ssm/automation/customer-script-log-destination`
     #
     #   * `/ssm/automation/customer-script-log-group-name`
     #
+    #   * /ssm/automation/enable-adaptive-concurrency
+    #
     #   * `/ssm/documents/console/public-sharing-permission`
     #
     #   * `/ssm/managed-instance/activation-tier`
+    #
+    #   * `/ssm/managed-instance/default-ec2-instance-management-role`
     #
     #   * `/ssm/opsinsights/opscenter`
     #
     #   * `/ssm/parameter-store/default-parameter-tier`
     #
     #   * `/ssm/parameter-store/high-throughput-enabled`
+    #
+    #   <note markdown="1"> Permissions to update the
+    #   `/ssm/managed-instance/default-ec2-instance-management-role` setting
+    #   should only be provided to administrators. Implement least privilege
+    #   access when allowing individuals to configure or modify the Default
+    #   Host Management Configuration.
+    #
+    #    </note>
     #   @return [String]
     #
     # @!attribute [rw] setting_value
     #   The new value to specify for the service setting. The following list
     #   specifies the available values for each setting.
     #
-    #   * `/ssm/automation/customer-script-log-destination`\: `CloudWatch`
+    #   * For `/ssm/appmanager/appmanager-enabled`, enter `True` or `False`.
     #
-    #   * `/ssm/automation/customer-script-log-group-name`\: the name of an
-    #     Amazon CloudWatch Logs log group
+    #   * For `/ssm/automation/customer-script-log-destination`, enter
+    #     `CloudWatch`.
     #
-    #   * `/ssm/documents/console/public-sharing-permission`\: `Enable` or
-    #     `Disable`
+    #   * For `/ssm/automation/customer-script-log-group-name`, enter the
+    #     name of an Amazon CloudWatch Logs log group.
     #
-    #   * `/ssm/managed-instance/activation-tier`\: `standard` or `advanced`
+    #   * For `/ssm/documents/console/public-sharing-permission`, enter
+    #     `Enable` or `Disable`.
     #
-    #   * `/ssm/opsinsights/opscenter`\: `Enabled` or `Disabled`
+    #   * For `/ssm/managed-instance/activation-tier`, enter `standard` or
+    #     `advanced`.
     #
-    #   * `/ssm/parameter-store/default-parameter-tier`\: `Standard`,
-    #     `Advanced`, `Intelligent-Tiering`
+    #   * For `/ssm/managed-instance/default-ec2-instance-management-role`,
+    #     enter the name of an IAM role.
     #
-    #   * `/ssm/parameter-store/high-throughput-enabled`\: `true` or `false`
+    #   * For `/ssm/opsinsights/opscenter`, enter `Enabled` or `Disabled`.
+    #
+    #   * For `/ssm/parameter-store/default-parameter-tier`, enter
+    #     `Standard`, `Advanced`, or `Intelligent-Tiering`
+    #
+    #   * For `/ssm/parameter-store/high-throughput-enabled`, enter `true`
+    #     or `false`.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/UpdateServiceSettingRequest AWS API Documentation
@@ -19250,5 +20638,25 @@ module Aws::SSM
     #
     class UpdateServiceSettingResult < Aws::EmptyStructure; end
 
+    # The request isn't valid. Verify that you entered valid contents for
+    # the command and try again.
+    #
+    # @!attribute [rw] message
+    #   @return [String]
+    #
+    # @!attribute [rw] reason_code
+    #   The reason code for the invalid request.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ssm-2014-11-06/ValidationException AWS API Documentation
+    #
+    class ValidationException < Struct.new(
+      :message,
+      :reason_code)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
   end
 end
+

@@ -7,6 +7,7 @@
 #
 # WARNING ABOUT GENERATED CODE
 
+
 module Aws::DirectoryService
   # @api private
   module ClientApi
@@ -89,6 +90,7 @@ module Aws::DirectoryService
     CreatedDateTime = Shapes::TimestampShape.new(name: 'CreatedDateTime')
     CustomerId = Shapes::StringShape.new(name: 'CustomerId')
     CustomerUserName = Shapes::StringShape.new(name: 'CustomerUserName')
+    DataAccessStatus = Shapes::StringShape.new(name: 'DataAccessStatus')
     DeleteAssociatedConditionalForwarder = Shapes::BooleanShape.new(name: 'DeleteAssociatedConditionalForwarder')
     DeleteConditionalForwarderRequest = Shapes::StructureShape.new(name: 'DeleteConditionalForwarderRequest')
     DeleteConditionalForwarderResult = Shapes::StructureShape.new(name: 'DeleteConditionalForwarderResult')
@@ -112,6 +114,8 @@ module Aws::DirectoryService
     DescribeConditionalForwardersResult = Shapes::StructureShape.new(name: 'DescribeConditionalForwardersResult')
     DescribeDirectoriesRequest = Shapes::StructureShape.new(name: 'DescribeDirectoriesRequest')
     DescribeDirectoriesResult = Shapes::StructureShape.new(name: 'DescribeDirectoriesResult')
+    DescribeDirectoryDataAccessRequest = Shapes::StructureShape.new(name: 'DescribeDirectoryDataAccessRequest')
+    DescribeDirectoryDataAccessResult = Shapes::StructureShape.new(name: 'DescribeDirectoryDataAccessResult')
     DescribeDomainControllersRequest = Shapes::StructureShape.new(name: 'DescribeDomainControllersRequest')
     DescribeDomainControllersResult = Shapes::StructureShape.new(name: 'DescribeDomainControllersResult')
     DescribeEventTopicsRequest = Shapes::StructureShape.new(name: 'DescribeEventTopicsRequest')
@@ -135,6 +139,7 @@ module Aws::DirectoryService
     DirectoryAlreadyInRegionException = Shapes::StructureShape.new(name: 'DirectoryAlreadyInRegionException')
     DirectoryAlreadySharedException = Shapes::StructureShape.new(name: 'DirectoryAlreadySharedException')
     DirectoryConfigurationSettingAllowedValues = Shapes::StringShape.new(name: 'DirectoryConfigurationSettingAllowedValues')
+    DirectoryConfigurationSettingDataType = Shapes::StringShape.new(name: 'DirectoryConfigurationSettingDataType')
     DirectoryConfigurationSettingLastRequestedDateTime = Shapes::TimestampShape.new(name: 'DirectoryConfigurationSettingLastRequestedDateTime')
     DirectoryConfigurationSettingLastUpdatedDateTime = Shapes::TimestampShape.new(name: 'DirectoryConfigurationSettingLastUpdatedDateTime')
     DirectoryConfigurationSettingName = Shapes::StringShape.new(name: 'DirectoryConfigurationSettingName')
@@ -165,6 +170,8 @@ module Aws::DirectoryService
     DirectoryVpcSettingsDescription = Shapes::StructureShape.new(name: 'DirectoryVpcSettingsDescription')
     DisableClientAuthenticationRequest = Shapes::StructureShape.new(name: 'DisableClientAuthenticationRequest')
     DisableClientAuthenticationResult = Shapes::StructureShape.new(name: 'DisableClientAuthenticationResult')
+    DisableDirectoryDataAccessRequest = Shapes::StructureShape.new(name: 'DisableDirectoryDataAccessRequest')
+    DisableDirectoryDataAccessResult = Shapes::StructureShape.new(name: 'DisableDirectoryDataAccessResult')
     DisableLDAPSRequest = Shapes::StructureShape.new(name: 'DisableLDAPSRequest')
     DisableLDAPSResult = Shapes::StructureShape.new(name: 'DisableLDAPSResult')
     DisableRadiusRequest = Shapes::StructureShape.new(name: 'DisableRadiusRequest')
@@ -181,6 +188,8 @@ module Aws::DirectoryService
     DomainControllers = Shapes::ListShape.new(name: 'DomainControllers')
     EnableClientAuthenticationRequest = Shapes::StructureShape.new(name: 'EnableClientAuthenticationRequest')
     EnableClientAuthenticationResult = Shapes::StructureShape.new(name: 'EnableClientAuthenticationResult')
+    EnableDirectoryDataAccessRequest = Shapes::StructureShape.new(name: 'EnableDirectoryDataAccessRequest')
+    EnableDirectoryDataAccessResult = Shapes::StructureShape.new(name: 'EnableDirectoryDataAccessResult')
     EnableLDAPSRequest = Shapes::StructureShape.new(name: 'EnableLDAPSRequest')
     EnableLDAPSResult = Shapes::StructureShape.new(name: 'EnableLDAPSResult')
     EnableRadiusRequest = Shapes::StructureShape.new(name: 'EnableRadiusRequest')
@@ -654,6 +663,12 @@ module Aws::DirectoryService
     DescribeDirectoriesResult.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "NextToken"))
     DescribeDirectoriesResult.struct_class = Types::DescribeDirectoriesResult
 
+    DescribeDirectoryDataAccessRequest.add_member(:directory_id, Shapes::ShapeRef.new(shape: DirectoryId, required: true, location_name: "DirectoryId"))
+    DescribeDirectoryDataAccessRequest.struct_class = Types::DescribeDirectoryDataAccessRequest
+
+    DescribeDirectoryDataAccessResult.add_member(:data_access_status, Shapes::ShapeRef.new(shape: DataAccessStatus, location_name: "DataAccessStatus"))
+    DescribeDirectoryDataAccessResult.struct_class = Types::DescribeDirectoryDataAccessResult
+
     DescribeDomainControllersRequest.add_member(:directory_id, Shapes::ShapeRef.new(shape: DirectoryId, required: true, location_name: "DirectoryId"))
     DescribeDomainControllersRequest.add_member(:domain_controller_ids, Shapes::ShapeRef.new(shape: DomainControllerIds, location_name: "DomainControllerIds"))
     DescribeDomainControllersRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "NextToken"))
@@ -844,6 +859,11 @@ module Aws::DirectoryService
 
     DisableClientAuthenticationResult.struct_class = Types::DisableClientAuthenticationResult
 
+    DisableDirectoryDataAccessRequest.add_member(:directory_id, Shapes::ShapeRef.new(shape: DirectoryId, required: true, location_name: "DirectoryId"))
+    DisableDirectoryDataAccessRequest.struct_class = Types::DisableDirectoryDataAccessRequest
+
+    DisableDirectoryDataAccessResult.struct_class = Types::DisableDirectoryDataAccessResult
+
     DisableLDAPSRequest.add_member(:directory_id, Shapes::ShapeRef.new(shape: DirectoryId, required: true, location_name: "DirectoryId"))
     DisableLDAPSRequest.add_member(:type, Shapes::ShapeRef.new(shape: LDAPSType, required: true, location_name: "Type"))
     DisableLDAPSRequest.struct_class = Types::DisableLDAPSRequest
@@ -889,6 +909,11 @@ module Aws::DirectoryService
     EnableClientAuthenticationRequest.struct_class = Types::EnableClientAuthenticationRequest
 
     EnableClientAuthenticationResult.struct_class = Types::EnableClientAuthenticationResult
+
+    EnableDirectoryDataAccessRequest.add_member(:directory_id, Shapes::ShapeRef.new(shape: DirectoryId, required: true, location_name: "DirectoryId"))
+    EnableDirectoryDataAccessRequest.struct_class = Types::EnableDirectoryDataAccessRequest
+
+    EnableDirectoryDataAccessResult.struct_class = Types::EnableDirectoryDataAccessResult
 
     EnableLDAPSRequest.add_member(:directory_id, Shapes::ShapeRef.new(shape: DirectoryId, required: true, location_name: "DirectoryId"))
     EnableLDAPSRequest.add_member(:type, Shapes::ShapeRef.new(shape: LDAPSType, required: true, location_name: "Type"))
@@ -1189,6 +1214,7 @@ module Aws::DirectoryService
     SettingEntry.add_member(:request_status_message, Shapes::ShapeRef.new(shape: DirectoryConfigurationSettingRequestStatusMessage, location_name: "RequestStatusMessage"))
     SettingEntry.add_member(:last_updated_date_time, Shapes::ShapeRef.new(shape: DirectoryConfigurationSettingLastUpdatedDateTime, location_name: "LastUpdatedDateTime"))
     SettingEntry.add_member(:last_requested_date_time, Shapes::ShapeRef.new(shape: DirectoryConfigurationSettingLastRequestedDateTime, location_name: "LastRequestedDateTime"))
+    SettingEntry.add_member(:data_type, Shapes::ShapeRef.new(shape: DirectoryConfigurationSettingDataType, location_name: "DataType"))
     SettingEntry.struct_class = Types::SettingEntry
 
     Settings.member = Shapes::ShapeRef.new(shape: Setting)
@@ -1380,9 +1406,11 @@ module Aws::DirectoryService
 
       api.metadata = {
         "apiVersion" => "2015-04-16",
+        "auth" => ["aws.auth#sigv4"],
         "endpointPrefix" => "ds",
         "jsonVersion" => "1.1",
         "protocol" => "json",
+        "protocols" => ["json"],
         "serviceAbbreviation" => "Directory Service",
         "serviceFullName" => "AWS Directory Service",
         "serviceId" => "Directory Service",
@@ -1740,6 +1768,19 @@ module Aws::DirectoryService
         )
       end)
 
+      api.add_operation(:describe_directory_data_access, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DescribeDirectoryDataAccess"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: DescribeDirectoryDataAccessRequest)
+        o.output = Shapes::ShapeRef.new(shape: DescribeDirectoryDataAccessResult)
+        o.errors << Shapes::ShapeRef.new(shape: DirectoryDoesNotExistException)
+        o.errors << Shapes::ShapeRef.new(shape: UnsupportedOperationException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ClientException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceException)
+      end)
+
       api.add_operation(:describe_domain_controllers, Seahorse::Model::Operation.new.tap do |o|
         o.name = "DescribeDomainControllers"
         o.http_method = "POST"
@@ -1918,6 +1959,21 @@ module Aws::DirectoryService
         o.errors << Shapes::ShapeRef.new(shape: ServiceException)
       end)
 
+      api.add_operation(:disable_directory_data_access, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DisableDirectoryDataAccess"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: DisableDirectoryDataAccessRequest)
+        o.output = Shapes::ShapeRef.new(shape: DisableDirectoryDataAccessResult)
+        o.errors << Shapes::ShapeRef.new(shape: DirectoryDoesNotExistException)
+        o.errors << Shapes::ShapeRef.new(shape: DirectoryUnavailableException)
+        o.errors << Shapes::ShapeRef.new(shape: UnsupportedOperationException)
+        o.errors << Shapes::ShapeRef.new(shape: DirectoryInDesiredStateException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ClientException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceException)
+      end)
+
       api.add_operation(:disable_ldaps, Seahorse::Model::Operation.new.tap do |o|
         o.name = "DisableLDAPS"
         o.http_method = "POST"
@@ -1968,6 +2024,21 @@ module Aws::DirectoryService
         o.errors << Shapes::ShapeRef.new(shape: InvalidClientAuthStatusException)
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: NoAvailableCertificateException)
+        o.errors << Shapes::ShapeRef.new(shape: ClientException)
+        o.errors << Shapes::ShapeRef.new(shape: ServiceException)
+      end)
+
+      api.add_operation(:enable_directory_data_access, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "EnableDirectoryDataAccess"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: EnableDirectoryDataAccessRequest)
+        o.output = Shapes::ShapeRef.new(shape: EnableDirectoryDataAccessResult)
+        o.errors << Shapes::ShapeRef.new(shape: DirectoryDoesNotExistException)
+        o.errors << Shapes::ShapeRef.new(shape: DirectoryUnavailableException)
+        o.errors << Shapes::ShapeRef.new(shape: UnsupportedOperationException)
+        o.errors << Shapes::ShapeRef.new(shape: DirectoryInDesiredStateException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ClientException)
         o.errors << Shapes::ShapeRef.new(shape: ServiceException)
       end)

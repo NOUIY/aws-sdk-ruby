@@ -69,6 +69,11 @@ module Aws::S3
     end
 
     # The class of storage used to store the object.
+    #
+    # <note markdown="1"> **Directory buckets** - Only the S3 Express One Zone storage class is
+    # supported by directory buckets to store objects.
+    #
+    #  </note>
     # @return [String]
     def storage_class
       data[:storage_class]
@@ -76,6 +81,11 @@ module Aws::S3
 
     # Specifies the owner of the object that is part of the multipart
     # upload.
+    #
+    # <note markdown="1"> **Directory buckets** - The bucket owner is returned as the object
+    # owner for all the objects.
+    #
+    #  </note>
     # @return [Types::Owner]
     def owner
       data[:owner]
@@ -91,6 +101,18 @@ module Aws::S3
     # @return [String]
     def checksum_algorithm
       data[:checksum_algorithm]
+    end
+
+    # The checksum type that is used to calculate the object’s checksum
+    # value. For more information, see [Checking object integrity][1] in the
+    # *Amazon S3 User Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html
+    # @return [String]
+    def checksum_type
+      data[:checksum_type]
     end
 
     # @!endgroup
@@ -217,7 +239,9 @@ module Aws::S3
           :retry
         end
       end
-      Aws::Waiters::Waiter.new(options).wait({})
+      Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        Aws::Waiters::Waiter.new(options).wait({})
+      end
     end
 
     # @!group Actions
@@ -227,22 +251,40 @@ module Aws::S3
     #   multipart_upload.abort({
     #     request_payer: "requester", # accepts requester
     #     expected_bucket_owner: "AccountId",
+    #     if_match_initiated_time: Time.now,
     #   })
     # @param [Hash] options ({})
     # @option options [String] :request_payer
     #   Confirms that the requester knows that they will be charged for the
     #   request. Bucket owners need not specify this parameter in their
-    #   requests. For information about downloading objects from Requester
+    #   requests. If either the source or destination S3 bucket has Requester
+    #   Pays enabled, the requester will pay for corresponding charges to copy
+    #   the object. For information about downloading objects from Requester
     #   Pays buckets, see [Downloading Objects in Requester Pays Buckets][1]
     #   in the *Amazon S3 User Guide*.
+    #
+    #   <note markdown="1"> This functionality is not supported for directory buckets.
+    #
+    #    </note>
     #
     #
     #
     #   [1]: https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html
     # @option options [String] :expected_bucket_owner
-    #   The account ID of the expected bucket owner. If the bucket is owned by
-    #   a different account, the request fails with the HTTP status code `403
-    #   Forbidden` (access denied).
+    #   The account ID of the expected bucket owner. If the account ID that
+    #   you provide does not match the actual owner of the bucket, the request
+    #   fails with the HTTP status code `403 Forbidden` (access denied).
+    # @option options [Time,DateTime,Date,Integer,String] :if_match_initiated_time
+    #   If present, this header aborts an in progress multipart upload only if
+    #   it was initiated on the provided timestamp. If the initiated timestamp
+    #   of the multipart upload does not match the provided value, the
+    #   operation returns a `412 Precondition Failed` error. If the initiated
+    #   timestamp matches or if the multipart upload doesn’t exist, the
+    #   operation returns a `204 Success (No Content)` response.
+    #
+    #   <note markdown="1"> This functionality is only supported for directory buckets.
+    #
+    #    </note>
     # @return [Types::AbortMultipartUploadOutput]
     def abort(options = {})
       options = options.merge(
@@ -250,7 +292,9 @@ module Aws::S3
         key: @object_key,
         upload_id: @id
       )
-      resp = @client.abort_multipart_upload(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.abort_multipart_upload(options)
+      end
       resp.data
     end
 
@@ -263,6 +307,7 @@ module Aws::S3
     #           etag: "ETag",
     #           checksum_crc32: "ChecksumCRC32",
     #           checksum_crc32c: "ChecksumCRC32C",
+    #           checksum_crc64nvme: "ChecksumCRC64NVME",
     #           checksum_sha1: "ChecksumSHA1",
     #           checksum_sha256: "ChecksumSHA256",
     #           part_number: 1,
@@ -271,10 +316,15 @@ module Aws::S3
     #     },
     #     checksum_crc32: "ChecksumCRC32",
     #     checksum_crc32c: "ChecksumCRC32C",
+    #     checksum_crc64nvme: "ChecksumCRC64NVME",
     #     checksum_sha1: "ChecksumSHA1",
     #     checksum_sha256: "ChecksumSHA256",
+    #     checksum_type: "COMPOSITE", # accepts COMPOSITE, FULL_OBJECT
+    #     mpu_object_size: 1,
     #     request_payer: "requester", # accepts requester
     #     expected_bucket_owner: "AccountId",
+    #     if_match: "IfMatch",
+    #     if_none_match: "IfNoneMatch",
     #     sse_customer_algorithm: "SSECustomerAlgorithm",
     #     sse_customer_key: "SSECustomerKey",
     #     sse_customer_key_md5: "SSECustomerKeyMD5",
@@ -285,9 +335,9 @@ module Aws::S3
     # @option options [String] :checksum_crc32
     #   This header can be used as a data integrity check to verify that the
     #   data received is the same data that was originally sent. This header
-    #   specifies the base64-encoded, 32-bit CRC32 checksum of the object. For
-    #   more information, see [Checking object integrity][1] in the *Amazon S3
-    #   User Guide*.
+    #   specifies the Base64 encoded, 32-bit `CRC32` checksum of the object.
+    #   For more information, see [Checking object integrity][1] in the
+    #   *Amazon S3 User Guide*.
     #
     #
     #
@@ -295,9 +345,20 @@ module Aws::S3
     # @option options [String] :checksum_crc32c
     #   This header can be used as a data integrity check to verify that the
     #   data received is the same data that was originally sent. This header
-    #   specifies the base64-encoded, 32-bit CRC32C checksum of the object.
+    #   specifies the Base64 encoded, 32-bit `CRC32C` checksum of the object.
     #   For more information, see [Checking object integrity][1] in the
     #   *Amazon S3 User Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html
+    # @option options [String] :checksum_crc64nvme
+    #   This header can be used as a data integrity check to verify that the
+    #   data received is the same data that was originally sent. This header
+    #   specifies the Base64 encoded, 64-bit `CRC64NVME` checksum of the
+    #   object. The `CRC64NVME` checksum is always a full object checksum. For
+    #   more information, see [Checking object integrity in the Amazon S3 User
+    #   Guide][1].
     #
     #
     #
@@ -305,7 +366,7 @@ module Aws::S3
     # @option options [String] :checksum_sha1
     #   This header can be used as a data integrity check to verify that the
     #   data received is the same data that was originally sent. This header
-    #   specifies the base64-encoded, 160-bit SHA-1 digest of the object. For
+    #   specifies the Base64 encoded, 160-bit `SHA1` digest of the object. For
     #   more information, see [Checking object integrity][1] in the *Amazon S3
     #   User Guide*.
     #
@@ -315,41 +376,110 @@ module Aws::S3
     # @option options [String] :checksum_sha256
     #   This header can be used as a data integrity check to verify that the
     #   data received is the same data that was originally sent. This header
-    #   specifies the base64-encoded, 256-bit SHA-256 digest of the object.
+    #   specifies the Base64 encoded, 256-bit `SHA256` digest of the object.
     #   For more information, see [Checking object integrity][1] in the
     #   *Amazon S3 User Guide*.
     #
     #
     #
     #   [1]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html
+    # @option options [String] :checksum_type
+    #   This header specifies the checksum type of the object, which
+    #   determines how part-level checksums are combined to create an
+    #   object-level checksum for multipart objects. You can use this header
+    #   as a data integrity check to verify that the checksum type that is
+    #   received is the same checksum that was specified. If the checksum type
+    #   doesn’t match the checksum type that was specified for the object
+    #   during the `CreateMultipartUpload` request, it’ll result in a
+    #   `BadDigest` error. For more information, see Checking object integrity
+    #   in the Amazon S3 User Guide.
+    # @option options [Integer] :mpu_object_size
+    #   The expected total object size of the multipart upload request. If
+    #   there’s a mismatch between the specified object size value and the
+    #   actual object size value, it results in an `HTTP 400 InvalidRequest`
+    #   error.
     # @option options [String] :request_payer
     #   Confirms that the requester knows that they will be charged for the
     #   request. Bucket owners need not specify this parameter in their
-    #   requests. For information about downloading objects from Requester
+    #   requests. If either the source or destination S3 bucket has Requester
+    #   Pays enabled, the requester will pay for corresponding charges to copy
+    #   the object. For information about downloading objects from Requester
     #   Pays buckets, see [Downloading Objects in Requester Pays Buckets][1]
     #   in the *Amazon S3 User Guide*.
+    #
+    #   <note markdown="1"> This functionality is not supported for directory buckets.
+    #
+    #    </note>
     #
     #
     #
     #   [1]: https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html
     # @option options [String] :expected_bucket_owner
-    #   The account ID of the expected bucket owner. If the bucket is owned by
-    #   a different account, the request fails with the HTTP status code `403
-    #   Forbidden` (access denied).
+    #   The account ID of the expected bucket owner. If the account ID that
+    #   you provide does not match the actual owner of the bucket, the request
+    #   fails with the HTTP status code `403 Forbidden` (access denied).
+    # @option options [String] :if_match
+    #   Uploads the object only if the ETag (entity tag) value provided during
+    #   the WRITE operation matches the ETag of the object in S3. If the ETag
+    #   values do not match, the operation returns a `412 Precondition Failed`
+    #   error.
+    #
+    #   If a conflicting operation occurs during the upload S3 returns a `409
+    #   ConditionalRequestConflict` response. On a 409 failure you should
+    #   fetch the object's ETag, re-initiate the multipart upload with
+    #   `CreateMultipartUpload`, and re-upload each part.
+    #
+    #   Expects the ETag value as a string.
+    #
+    #   For more information about conditional requests, see [RFC 7232][1], or
+    #   [Conditional requests][2] in the *Amazon S3 User Guide*.
+    #
+    #
+    #
+    #   [1]: https://tools.ietf.org/html/rfc7232
+    #   [2]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/conditional-requests.html
+    # @option options [String] :if_none_match
+    #   Uploads the object only if the object key name does not already exist
+    #   in the bucket specified. Otherwise, Amazon S3 returns a `412
+    #   Precondition Failed` error.
+    #
+    #   If a conflicting operation occurs during the upload S3 returns a `409
+    #   ConditionalRequestConflict` response. On a 409 failure you should
+    #   re-initiate the multipart upload with `CreateMultipartUpload` and
+    #   re-upload each part.
+    #
+    #   Expects the '*' (asterisk) character.
+    #
+    #   For more information about conditional requests, see [RFC 7232][1], or
+    #   [Conditional requests][2] in the *Amazon S3 User Guide*.
+    #
+    #
+    #
+    #   [1]: https://tools.ietf.org/html/rfc7232
+    #   [2]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/conditional-requests.html
     # @option options [String] :sse_customer_algorithm
     #   The server-side encryption (SSE) algorithm used to encrypt the object.
-    #   This parameter is needed only when the object was created using a
-    #   checksum algorithm. For more information, see [Protecting data using
-    #   SSE-C keys][1] in the *Amazon S3 User Guide*.
+    #   This parameter is required only when the object was created using a
+    #   checksum algorithm or if your bucket policy requires the use of SSE-C.
+    #   For more information, see [Protecting data using SSE-C keys][1] in the
+    #   *Amazon S3 User Guide*.
+    #
+    #   <note markdown="1"> This functionality is not supported for directory buckets.
+    #
+    #    </note>
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html
+    #   [1]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/ServerSideEncryptionCustomerKeys.html#ssec-require-condition-key
     # @option options [String] :sse_customer_key
     #   The server-side encryption (SSE) customer managed key. This parameter
     #   is needed only when the object was created using a checksum algorithm.
     #   For more information, see [Protecting data using SSE-C keys][1] in the
     #   *Amazon S3 User Guide*.
+    #
+    #   <note markdown="1"> This functionality is not supported for directory buckets.
+    #
+    #    </note>
     #
     #
     #
@@ -359,6 +489,10 @@ module Aws::S3
     #   parameter is needed only when the object was created using a checksum
     #   algorithm. For more information, see [Protecting data using SSE-C
     #   keys][1] in the *Amazon S3 User Guide*.
+    #
+    #   <note markdown="1"> This functionality is not supported for directory buckets.
+    #
+    #    </note>
     #
     #
     #
@@ -370,7 +504,9 @@ module Aws::S3
         key: @object_key,
         upload_id: @id
       )
-      @client.complete_multipart_upload(options)
+      Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.complete_multipart_upload(options)
+      end
       Object.new(
         bucket_name: @bucket_name,
         key: @object_key,
@@ -414,22 +550,32 @@ module Aws::S3
     # @option options [String] :request_payer
     #   Confirms that the requester knows that they will be charged for the
     #   request. Bucket owners need not specify this parameter in their
-    #   requests. For information about downloading objects from Requester
+    #   requests. If either the source or destination S3 bucket has Requester
+    #   Pays enabled, the requester will pay for corresponding charges to copy
+    #   the object. For information about downloading objects from Requester
     #   Pays buckets, see [Downloading Objects in Requester Pays Buckets][1]
     #   in the *Amazon S3 User Guide*.
+    #
+    #   <note markdown="1"> This functionality is not supported for directory buckets.
+    #
+    #    </note>
     #
     #
     #
     #   [1]: https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html
     # @option options [String] :expected_bucket_owner
-    #   The account ID of the expected bucket owner. If the bucket is owned by
-    #   a different account, the request fails with the HTTP status code `403
-    #   Forbidden` (access denied).
+    #   The account ID of the expected bucket owner. If the account ID that
+    #   you provide does not match the actual owner of the bucket, the request
+    #   fails with the HTTP status code `403 Forbidden` (access denied).
     # @option options [String] :sse_customer_algorithm
     #   The server-side encryption (SSE) algorithm used to encrypt the object.
     #   This parameter is needed only when the object was created using a
     #   checksum algorithm. For more information, see [Protecting data using
     #   SSE-C keys][1] in the *Amazon S3 User Guide*.
+    #
+    #   <note markdown="1"> This functionality is not supported for directory buckets.
+    #
+    #    </note>
     #
     #
     #
@@ -440,6 +586,10 @@ module Aws::S3
     #   For more information, see [Protecting data using SSE-C keys][1] in the
     #   *Amazon S3 User Guide*.
     #
+    #   <note markdown="1"> This functionality is not supported for directory buckets.
+    #
+    #    </note>
+    #
     #
     #
     #   [1]: https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html
@@ -448,6 +598,10 @@ module Aws::S3
     #   parameter is needed only when the object was created using a checksum
     #   algorithm. For more information, see [Protecting data using SSE-C
     #   keys][1] in the *Amazon S3 User Guide*.
+    #
+    #   <note markdown="1"> This functionality is not supported for directory buckets.
+    #
+    #    </note>
     #
     #
     #
@@ -460,7 +614,9 @@ module Aws::S3
           key: @object_key,
           upload_id: @id
         )
-        resp = @client.list_parts(options)
+        resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+          @client.list_parts(options)
+        end
         resp.each_page do |page|
           batch = []
           page.data.parts.each do |p|
@@ -528,3 +684,6 @@ module Aws::S3
     class Collection < Aws::Resources::Collection; end
   end
 end
+
+# Load customizations if they exist
+require 'aws-sdk-s3/customizations/multipart_upload'

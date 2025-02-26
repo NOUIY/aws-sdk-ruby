@@ -7,33 +7,34 @@
 #
 # WARNING ABOUT GENERATED CODE
 
-require 'seahorse/client/plugins/content_length.rb'
-require 'aws-sdk-core/plugins/credentials_configuration.rb'
-require 'aws-sdk-core/plugins/logging.rb'
-require 'aws-sdk-core/plugins/param_converter.rb'
-require 'aws-sdk-core/plugins/param_validator.rb'
-require 'aws-sdk-core/plugins/user_agent.rb'
-require 'aws-sdk-core/plugins/helpful_socket_errors.rb'
-require 'aws-sdk-core/plugins/retry_errors.rb'
-require 'aws-sdk-core/plugins/global_configuration.rb'
-require 'aws-sdk-core/plugins/regional_endpoint.rb'
-require 'aws-sdk-core/plugins/endpoint_discovery.rb'
-require 'aws-sdk-core/plugins/endpoint_pattern.rb'
-require 'aws-sdk-core/plugins/response_paging.rb'
-require 'aws-sdk-core/plugins/stub_responses.rb'
-require 'aws-sdk-core/plugins/idempotency_token.rb'
-require 'aws-sdk-core/plugins/jsonvalue_converter.rb'
-require 'aws-sdk-core/plugins/client_metrics_plugin.rb'
-require 'aws-sdk-core/plugins/client_metrics_send_plugin.rb'
-require 'aws-sdk-core/plugins/transfer_encoding.rb'
-require 'aws-sdk-core/plugins/http_checksum.rb'
-require 'aws-sdk-core/plugins/checksum_algorithm.rb'
-require 'aws-sdk-core/plugins/defaults_mode.rb'
-require 'aws-sdk-core/plugins/recursion_detection.rb'
-require 'aws-sdk-core/plugins/sign.rb'
-require 'aws-sdk-core/plugins/protocols/json_rpc.rb'
-
-Aws::Plugins::GlobalConfiguration.add_identifier(:textract)
+require 'seahorse/client/plugins/content_length'
+require 'aws-sdk-core/plugins/credentials_configuration'
+require 'aws-sdk-core/plugins/logging'
+require 'aws-sdk-core/plugins/param_converter'
+require 'aws-sdk-core/plugins/param_validator'
+require 'aws-sdk-core/plugins/user_agent'
+require 'aws-sdk-core/plugins/helpful_socket_errors'
+require 'aws-sdk-core/plugins/retry_errors'
+require 'aws-sdk-core/plugins/global_configuration'
+require 'aws-sdk-core/plugins/regional_endpoint'
+require 'aws-sdk-core/plugins/endpoint_discovery'
+require 'aws-sdk-core/plugins/endpoint_pattern'
+require 'aws-sdk-core/plugins/response_paging'
+require 'aws-sdk-core/plugins/stub_responses'
+require 'aws-sdk-core/plugins/idempotency_token'
+require 'aws-sdk-core/plugins/invocation_id'
+require 'aws-sdk-core/plugins/jsonvalue_converter'
+require 'aws-sdk-core/plugins/client_metrics_plugin'
+require 'aws-sdk-core/plugins/client_metrics_send_plugin'
+require 'aws-sdk-core/plugins/transfer_encoding'
+require 'aws-sdk-core/plugins/http_checksum'
+require 'aws-sdk-core/plugins/checksum_algorithm'
+require 'aws-sdk-core/plugins/request_compression'
+require 'aws-sdk-core/plugins/defaults_mode'
+require 'aws-sdk-core/plugins/recursion_detection'
+require 'aws-sdk-core/plugins/telemetry'
+require 'aws-sdk-core/plugins/sign'
+require 'aws-sdk-core/plugins/protocols/json_rpc'
 
 module Aws::Textract
   # An API client for Textract.  To construct a client, you need to configure a `:region` and `:credentials`.
@@ -71,20 +72,28 @@ module Aws::Textract
     add_plugin(Aws::Plugins::ResponsePaging)
     add_plugin(Aws::Plugins::StubResponses)
     add_plugin(Aws::Plugins::IdempotencyToken)
+    add_plugin(Aws::Plugins::InvocationId)
     add_plugin(Aws::Plugins::JsonvalueConverter)
     add_plugin(Aws::Plugins::ClientMetricsPlugin)
     add_plugin(Aws::Plugins::ClientMetricsSendPlugin)
     add_plugin(Aws::Plugins::TransferEncoding)
     add_plugin(Aws::Plugins::HttpChecksum)
     add_plugin(Aws::Plugins::ChecksumAlgorithm)
+    add_plugin(Aws::Plugins::RequestCompression)
     add_plugin(Aws::Plugins::DefaultsMode)
     add_plugin(Aws::Plugins::RecursionDetection)
+    add_plugin(Aws::Plugins::Telemetry)
     add_plugin(Aws::Plugins::Sign)
     add_plugin(Aws::Plugins::Protocols::JsonRpc)
     add_plugin(Aws::Textract::Plugins::Endpoints)
 
     # @overload initialize(options)
     #   @param [Hash] options
+    #
+    #   @option options [Array<Seahorse::Client::Plugin>] :plugins ([]])
+    #     A list of plugins to apply to the client. Each plugin is either a
+    #     class name or an instance of a plugin class.
+    #
     #   @option options [required, Aws::CredentialProvider] :credentials
     #     Your AWS credentials. This can be an instance of any one of the
     #     following classes:
@@ -119,13 +128,15 @@ module Aws::Textract
     #     locations will be searched for credentials:
     #
     #     * `Aws.config[:credentials]`
-    #     * The `:access_key_id`, `:secret_access_key`, and `:session_token` options.
-    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']
+    #     * The `:access_key_id`, `:secret_access_key`, `:session_token`, and
+    #       `:account_id` options.
+    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'],
+    #       ENV['AWS_SESSION_TOKEN'], and ENV['AWS_ACCOUNT_ID']
     #     * `~/.aws/credentials`
     #     * `~/.aws/config`
     #     * EC2/ECS IMDS instance profile - When used by default, the timeouts
     #       are very aggressive. Construct and pass an instance of
-    #       `Aws::InstanceProfileCredentails` or `Aws::ECSCredentials` to
+    #       `Aws::InstanceProfileCredentials` or `Aws::ECSCredentials` to
     #       enable retries and extended timeouts. Instance profile credential
     #       fetching can be disabled by setting ENV['AWS_EC2_METADATA_DISABLED']
     #       to true.
@@ -143,6 +154,8 @@ module Aws::Textract
     #     * `~/.aws/config`
     #
     #   @option options [String] :access_key_id
+    #
+    #   @option options [String] :account_id
     #
     #   @option options [Boolean] :active_endpoint_cache (false)
     #     When set to `true`, a thread polling for endpoints will be running in
@@ -190,10 +203,20 @@ module Aws::Textract
     #     Set to true to disable SDK automatically adding host prefix
     #     to default service endpoint when available.
     #
-    #   @option options [String] :endpoint
-    #     The client endpoint is normally constructed from the `:region`
-    #     option. You should only configure an `:endpoint` when connecting
-    #     to test or custom endpoints. This should be a valid HTTP(S) URI.
+    #   @option options [Boolean] :disable_request_compression (false)
+    #     When set to 'true' the request body will not be compressed
+    #     for supported operations.
+    #
+    #   @option options [String, URI::HTTPS, URI::HTTP] :endpoint
+    #     Normally you should not configure the `:endpoint` option
+    #     directly. This is normally constructed from the `:region`
+    #     option. Configuring `:endpoint` is normally reserved for
+    #     connecting to test or custom endpoints. The endpoint should
+    #     be a URI formatted like:
+    #
+    #         'http://example.com'
+    #         'https://example.com'
+    #         'http://example.com:123'
     #
     #   @option options [Integer] :endpoint_cache_max_entries (1000)
     #     Used for the maximum size limit of the LRU cache storing endpoints data
@@ -209,6 +232,10 @@ module Aws::Textract
     #
     #   @option options [Boolean] :endpoint_discovery (false)
     #     When set to `true`, endpoint discovery will be enabled for operations when available.
+    #
+    #   @option options [Boolean] :ignore_configured_endpoint_urls
+    #     Setting to true disables use of endpoint URLs provided via environment
+    #     variables and the shared configuration file.
     #
     #   @option options [Aws::Log::Formatter] :log_formatter (Aws::Log::Formatter.default)
     #     The log formatter.
@@ -229,6 +256,34 @@ module Aws::Textract
     #   @option options [String] :profile ("default")
     #     Used when loading credentials from the shared credentials file
     #     at HOME/.aws/credentials.  When not specified, 'default' is used.
+    #
+    #   @option options [String] :request_checksum_calculation ("when_supported")
+    #     Determines when a checksum will be calculated for request payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, a checksum will be
+    #       calculated for all request payloads of operations modeled with the
+    #       `httpChecksum` trait where `requestChecksumRequired` is `true` and/or a
+    #       `requestAlgorithmMember` is modeled.
+    #     * `when_required` - When set, a checksum will only be calculated for
+    #       request payloads of operations modeled with the  `httpChecksum` trait where
+    #       `requestChecksumRequired` is `true` or where a `requestAlgorithmMember`
+    #       is modeled and supplied.
+    #
+    #   @option options [Integer] :request_min_compression_size_bytes (10240)
+    #     The minimum size in bytes that triggers compression for request
+    #     bodies. The value must be non-negative integer value between 0
+    #     and 10485780 bytes inclusive.
+    #
+    #   @option options [String] :response_checksum_validation ("when_supported")
+    #     Determines when checksum validation will be performed on response payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, checksum validation is performed on all
+    #       response payloads of operations modeled with the `httpChecksum` trait where
+    #       `responseAlgorithms` is modeled, except when no modeled checksum algorithms
+    #       are supported.
+    #     * `when_required` - When set, checksum validation is not performed on
+    #       response payloads of operations unless the checksum algorithm is supported and
+    #       the `requestValidationModeMember` member is set to `ENABLED`.
     #
     #   @option options [Proc] :retry_backoff
     #     A proc or lambda used for backoff. Defaults to 2**retries * retry_base_delay.
@@ -274,20 +329,31 @@ module Aws::Textract
     #       throttling.  This is a provisional mode that may change behavior
     #       in the future.
     #
+    #   @option options [String] :sdk_ua_app_id
+    #     A unique and opaque application ID that is appended to the
+    #     User-Agent header as app/sdk_ua_app_id. It should have a
+    #     maximum length of 50. This variable is sourced from environment
+    #     variable AWS_SDK_UA_APP_ID or the shared config profile attribute sdk_ua_app_id.
     #
     #   @option options [String] :secret_access_key
     #
     #   @option options [String] :session_token
     #
+    #   @option options [Array] :sigv4a_signing_region_set
+    #     A list of regions that should be signed with SigV4a signing. When
+    #     not passed, a default `:sigv4a_signing_region_set` is searched for
+    #     in the following locations:
+    #
+    #     * `Aws.config[:sigv4a_signing_region_set]`
+    #     * `ENV['AWS_SIGV4A_SIGNING_REGION_SET']`
+    #     * `~/.aws/config`
+    #
     #   @option options [Boolean] :simple_json (false)
     #     Disables request parameter conversion, validation, and formatting.
-    #     Also disable response data type conversions. This option is useful
-    #     when you want to ensure the highest level of performance by
-    #     avoiding overhead of walking request parameters and response data
-    #     structures.
-    #
-    #     When `:simple_json` is enabled, the request parameters hash must
-    #     be formatted exactly as the DynamoDB API expects.
+    #     Also disables response data type conversions. The request parameters
+    #     hash must be formatted exactly as the API expects.This option is useful
+    #     when you want to ensure the highest level of performance by avoiding
+    #     overhead of walking request parameters and response data structures.
     #
     #   @option options [Boolean] :stub_responses (false)
     #     Causes the client to return stubbed responses. By default
@@ -297,6 +363,16 @@ module Aws::Textract
     #
     #     ** Please note ** When response stubbing is enabled, no HTTP
     #     requests are made, and retries are disabled.
+    #
+    #   @option options [Aws::Telemetry::TelemetryProviderBase] :telemetry_provider (Aws::Telemetry::NoOpTelemetryProvider)
+    #     Allows you to provide a telemetry provider, which is used to
+    #     emit telemetry data. By default, uses `NoOpTelemetryProvider` which
+    #     will not record or emit any telemetry data. The SDK supports the
+    #     following telemetry providers:
+    #
+    #     * OpenTelemetry (OTel) - To use the OTel provider, install and require the
+    #     `opentelemetry-sdk` gem and then, pass in an instance of a
+    #     `Aws::Telemetry::OTelProvider` for telemetry provider.
     #
     #   @option options [Aws::TokenProvider] :token_provider
     #     A Bearer Token Provider. This can be an instance of any one of the
@@ -325,52 +401,75 @@ module Aws::Textract
     #     sending the request.
     #
     #   @option options [Aws::Textract::EndpointProvider] :endpoint_provider
-    #     The endpoint provider used to resolve endpoints. Any object that responds to `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to `Aws::Textract::EndpointParameters`
+    #     The endpoint provider used to resolve endpoints. Any object that responds to
+    #     `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+    #     `Aws::Textract::EndpointParameters`.
     #
-    #   @option options [URI::HTTP,String] :http_proxy A proxy to send
-    #     requests through.  Formatted like 'http://proxy.com:123'.
+    #   @option options [Float] :http_continue_timeout (1)
+    #     The number of seconds to wait for a 100-continue response before sending the
+    #     request body.  This option has no effect unless the request has "Expect"
+    #     header set to "100-continue".  Defaults to `nil` which  disables this
+    #     behaviour.  This value can safely be set per request on the session.
     #
-    #   @option options [Float] :http_open_timeout (15) The number of
-    #     seconds to wait when opening a HTTP session before raising a
-    #     `Timeout::Error`.
+    #   @option options [Float] :http_idle_timeout (5)
+    #     The number of seconds a connection is allowed to sit idle before it
+    #     is considered stale.  Stale connections are closed and removed from the
+    #     pool before making a request.
     #
-    #   @option options [Float] :http_read_timeout (60) The default
-    #     number of seconds to wait for response data.  This value can
-    #     safely be set per-request on the session.
+    #   @option options [Float] :http_open_timeout (15)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :http_idle_timeout (5) The number of
-    #     seconds a connection is allowed to sit idle before it is
-    #     considered stale.  Stale connections are closed and removed
-    #     from the pool before making a request.
+    #   @option options [URI::HTTP,String] :http_proxy
+    #     A proxy to send requests through.  Formatted like 'http://proxy.com:123'.
     #
-    #   @option options [Float] :http_continue_timeout (1) The number of
-    #     seconds to wait for a 100-continue response before sending the
-    #     request body.  This option has no effect unless the request has
-    #     "Expect" header set to "100-continue".  Defaults to `nil` which
-    #     disables this behaviour.  This value can safely be set per
-    #     request on the session.
+    #   @option options [Float] :http_read_timeout (60)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :ssl_timeout (nil) Sets the SSL timeout
-    #     in seconds.
+    #   @option options [Boolean] :http_wire_trace (false)
+    #     When `true`,  HTTP debug output will be sent to the `:logger`.
     #
-    #   @option options [Boolean] :http_wire_trace (false) When `true`,
-    #     HTTP debug output will be sent to the `:logger`.
+    #   @option options [Proc] :on_chunk_received
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the response body is received. It provides three arguments: the chunk,
+    #     the number of bytes received, and the total number of
+    #     bytes in the response (or nil if the server did not send a `content-length`).
     #
-    #   @option options [Boolean] :ssl_verify_peer (true) When `true`,
-    #     SSL peer certificates are verified when establishing a
-    #     connection.
+    #   @option options [Proc] :on_chunk_sent
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the request body is sent. It provides three arguments: the chunk,
+    #     the number of bytes read from the body, and the total number of
+    #     bytes in the body.
     #
-    #   @option options [String] :ssl_ca_bundle Full path to the SSL
-    #     certificate authority bundle file that should be used when
-    #     verifying peer certificates.  If you do not pass
-    #     `:ssl_ca_bundle` or `:ssl_ca_directory` the the system default
-    #     will be used if available.
+    #   @option options [Boolean] :raise_response_errors (true)
+    #     When `true`, response errors are raised.
     #
-    #   @option options [String] :ssl_ca_directory Full path of the
-    #     directory that contains the unbundled SSL certificate
+    #   @option options [String] :ssl_ca_bundle
+    #     Full path to the SSL certificate authority bundle file that should be used when
+    #     verifying peer certificates.  If you do not pass `:ssl_ca_bundle` or
+    #     `:ssl_ca_directory` the the system default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_directory
+    #     Full path of the directory that contains the unbundled SSL certificate
     #     authority files for verifying peer certificates.  If you do
-    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the
-    #     system default will be used if available.
+    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the system
+    #     default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_store
+    #     Sets the X509::Store to verify peer certificate.
+    #
+    #   @option options [OpenSSL::X509::Certificate] :ssl_cert
+    #     Sets a client certificate when creating http connections.
+    #
+    #   @option options [OpenSSL::PKey] :ssl_key
+    #     Sets a client key when creating http connections.
+    #
+    #   @option options [Float] :ssl_timeout
+    #     Sets the SSL timeout in seconds
+    #
+    #   @option options [Boolean] :ssl_verify_peer (true)
+    #     When `true`, SSL peer certificates are verified when establishing a connection.
     #
     def initialize(*args)
       super
@@ -383,7 +482,7 @@ module Aws::Textract
     # The types of information returned are as follows:
     #
     # * Form data (key-value pairs). The related information is returned in
-    #   two Block objects, each of type `KEY_VALUE_SET`\: a KEY `Block`
+    #   two Block objects, each of type `KEY_VALUE_SET`: a KEY `Block`
     #   object and a VALUE `Block` object. For example, *Name: Ana Silva
     #   Carolina* contains a key and value. *Name:* is the key. *Ana Silva
     #   Carolina* is the value.
@@ -442,12 +541,10 @@ module Aws::Textract
     #   A list of the types of analysis to perform. Add TABLES to the list to
     #   return information about the tables that are detected in the input
     #   document. Add FORMS to return detected form data. Add SIGNATURES to
-    #   return the locations of detected signatures. To perform both forms and
-    #   table analysis, add TABLES and FORMS to `FeatureTypes`. To detect
-    #   signatures within form data and table data, add SIGNATURES to either
-    #   TABLES or FORMS. All lines and words detected in the document are
-    #   included in the response (including text that isn't related to the
-    #   value of `FeatureTypes`).
+    #   return the locations of detected signatures. Add LAYOUT to the list to
+    #   return information about the layout of the document. All lines and
+    #   words detected in the document are included in the response (including
+    #   text that isn't related to the value of `FeatureTypes`).
     #
     # @option params [Types::HumanLoopConfig] :human_loop_config
     #   Sets the configuration for the human in the loop workflow for
@@ -456,6 +553,9 @@ module Aws::Textract
     # @option params [Types::QueriesConfig] :queries_config
     #   Contains Queries and the alias for those Queries, as determined by the
     #   input.
+    #
+    # @option params [Types::AdaptersConfig] :adapters_config
+    #   Specifies the adapter to be used when analyzing a document.
     #
     # @return [Types::AnalyzeDocumentResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -475,7 +575,7 @@ module Aws::Textract
     #         version: "S3ObjectVersion",
     #       },
     #     },
-    #     feature_types: ["TABLES"], # required, accepts TABLES, FORMS, QUERIES, SIGNATURES
+    #     feature_types: ["TABLES"], # required, accepts TABLES, FORMS, QUERIES, SIGNATURES, LAYOUT
     #     human_loop_config: {
     #       human_loop_name: "HumanLoopName", # required
     #       flow_definition_arn: "FlowDefinitionArn", # required
@@ -492,13 +592,22 @@ module Aws::Textract
     #         },
     #       ],
     #     },
+    #     adapters_config: {
+    #       adapters: [ # required
+    #         {
+    #           adapter_id: "AdapterId", # required
+    #           pages: ["AdapterPage"],
+    #           version: "AdapterVersion", # required
+    #         },
+    #       ],
+    #     },
     #   })
     #
     # @example Response structure
     #
     #   resp.document_metadata.pages #=> Integer
     #   resp.blocks #=> Array
-    #   resp.blocks[0].block_type #=> String, one of "KEY_VALUE_SET", "PAGE", "LINE", "WORD", "TABLE", "CELL", "SELECTION_ELEMENT", "MERGED_CELL", "TITLE", "QUERY", "QUERY_RESULT", "SIGNATURE"
+    #   resp.blocks[0].block_type #=> String, one of "KEY_VALUE_SET", "PAGE", "LINE", "WORD", "TABLE", "CELL", "SELECTION_ELEMENT", "MERGED_CELL", "TITLE", "QUERY", "QUERY_RESULT", "SIGNATURE", "TABLE_TITLE", "TABLE_FOOTER", "LAYOUT_TEXT", "LAYOUT_TITLE", "LAYOUT_HEADER", "LAYOUT_FOOTER", "LAYOUT_SECTION_HEADER", "LAYOUT_PAGE_NUMBER", "LAYOUT_LIST", "LAYOUT_FIGURE", "LAYOUT_TABLE", "LAYOUT_KEY_VALUE"
     #   resp.blocks[0].confidence #=> Float
     #   resp.blocks[0].text #=> String
     #   resp.blocks[0].text_type #=> String, one of "HANDWRITING", "PRINTED"
@@ -515,11 +624,11 @@ module Aws::Textract
     #   resp.blocks[0].geometry.polygon[0].y #=> Float
     #   resp.blocks[0].id #=> String
     #   resp.blocks[0].relationships #=> Array
-    #   resp.blocks[0].relationships[0].type #=> String, one of "VALUE", "CHILD", "COMPLEX_FEATURES", "MERGED_CELL", "TITLE", "ANSWER"
+    #   resp.blocks[0].relationships[0].type #=> String, one of "VALUE", "CHILD", "COMPLEX_FEATURES", "MERGED_CELL", "TITLE", "ANSWER", "TABLE", "TABLE_TITLE", "TABLE_FOOTER"
     #   resp.blocks[0].relationships[0].ids #=> Array
     #   resp.blocks[0].relationships[0].ids[0] #=> String
     #   resp.blocks[0].entity_types #=> Array
-    #   resp.blocks[0].entity_types[0] #=> String, one of "KEY", "VALUE", "COLUMN_HEADER"
+    #   resp.blocks[0].entity_types[0] #=> String, one of "KEY", "VALUE", "COLUMN_HEADER", "TABLE_TITLE", "TABLE_FOOTER", "TABLE_SECTION_TITLE", "TABLE_SUMMARY", "STRUCTURED_TABLE", "SEMI_STRUCTURED_TABLE"
     #   resp.blocks[0].selection_status #=> String, one of "SELECTED", "NOT_SELECTED"
     #   resp.blocks[0].page #=> Integer
     #   resp.blocks[0].query.text #=> String
@@ -662,7 +771,7 @@ module Aws::Textract
     #   resp.expense_documents[0].line_item_groups[0].line_items[0].line_item_expense_fields[0].group_properties[0].types[0] #=> String
     #   resp.expense_documents[0].line_item_groups[0].line_items[0].line_item_expense_fields[0].group_properties[0].id #=> String
     #   resp.expense_documents[0].blocks #=> Array
-    #   resp.expense_documents[0].blocks[0].block_type #=> String, one of "KEY_VALUE_SET", "PAGE", "LINE", "WORD", "TABLE", "CELL", "SELECTION_ELEMENT", "MERGED_CELL", "TITLE", "QUERY", "QUERY_RESULT", "SIGNATURE"
+    #   resp.expense_documents[0].blocks[0].block_type #=> String, one of "KEY_VALUE_SET", "PAGE", "LINE", "WORD", "TABLE", "CELL", "SELECTION_ELEMENT", "MERGED_CELL", "TITLE", "QUERY", "QUERY_RESULT", "SIGNATURE", "TABLE_TITLE", "TABLE_FOOTER", "LAYOUT_TEXT", "LAYOUT_TITLE", "LAYOUT_HEADER", "LAYOUT_FOOTER", "LAYOUT_SECTION_HEADER", "LAYOUT_PAGE_NUMBER", "LAYOUT_LIST", "LAYOUT_FIGURE", "LAYOUT_TABLE", "LAYOUT_KEY_VALUE"
     #   resp.expense_documents[0].blocks[0].confidence #=> Float
     #   resp.expense_documents[0].blocks[0].text #=> String
     #   resp.expense_documents[0].blocks[0].text_type #=> String, one of "HANDWRITING", "PRINTED"
@@ -679,11 +788,11 @@ module Aws::Textract
     #   resp.expense_documents[0].blocks[0].geometry.polygon[0].y #=> Float
     #   resp.expense_documents[0].blocks[0].id #=> String
     #   resp.expense_documents[0].blocks[0].relationships #=> Array
-    #   resp.expense_documents[0].blocks[0].relationships[0].type #=> String, one of "VALUE", "CHILD", "COMPLEX_FEATURES", "MERGED_CELL", "TITLE", "ANSWER"
+    #   resp.expense_documents[0].blocks[0].relationships[0].type #=> String, one of "VALUE", "CHILD", "COMPLEX_FEATURES", "MERGED_CELL", "TITLE", "ANSWER", "TABLE", "TABLE_TITLE", "TABLE_FOOTER"
     #   resp.expense_documents[0].blocks[0].relationships[0].ids #=> Array
     #   resp.expense_documents[0].blocks[0].relationships[0].ids[0] #=> String
     #   resp.expense_documents[0].blocks[0].entity_types #=> Array
-    #   resp.expense_documents[0].blocks[0].entity_types[0] #=> String, one of "KEY", "VALUE", "COLUMN_HEADER"
+    #   resp.expense_documents[0].blocks[0].entity_types[0] #=> String, one of "KEY", "VALUE", "COLUMN_HEADER", "TABLE_TITLE", "TABLE_FOOTER", "TABLE_SECTION_TITLE", "TABLE_SUMMARY", "STRUCTURED_TABLE", "SEMI_STRUCTURED_TABLE"
     #   resp.expense_documents[0].blocks[0].selection_status #=> String, one of "SELECTED", "NOT_SELECTED"
     #   resp.expense_documents[0].blocks[0].page #=> Integer
     #   resp.expense_documents[0].blocks[0].query.text #=> String
@@ -702,9 +811,9 @@ module Aws::Textract
 
     # Analyzes identity documents for relevant information. This information
     # is extracted and returned as `IdentityDocumentFields`, which records
-    # both the normalized field and value of the extracted text.Unlike other
-    # Amazon Textract operations, `AnalyzeID` doesn't return any Geometry
-    # data.
+    # both the normalized field and value of the extracted text. Unlike
+    # other Amazon Textract operations, `AnalyzeID` doesn't return any
+    # Geometry data.
     #
     # @option params [required, Array<Types::Document>] :document_pages
     #   The document being passed to AnalyzeID.
@@ -744,7 +853,7 @@ module Aws::Textract
     #   resp.identity_documents[0].identity_document_fields[0].value_detection.normalized_value.value_type #=> String, one of "DATE"
     #   resp.identity_documents[0].identity_document_fields[0].value_detection.confidence #=> Float
     #   resp.identity_documents[0].blocks #=> Array
-    #   resp.identity_documents[0].blocks[0].block_type #=> String, one of "KEY_VALUE_SET", "PAGE", "LINE", "WORD", "TABLE", "CELL", "SELECTION_ELEMENT", "MERGED_CELL", "TITLE", "QUERY", "QUERY_RESULT", "SIGNATURE"
+    #   resp.identity_documents[0].blocks[0].block_type #=> String, one of "KEY_VALUE_SET", "PAGE", "LINE", "WORD", "TABLE", "CELL", "SELECTION_ELEMENT", "MERGED_CELL", "TITLE", "QUERY", "QUERY_RESULT", "SIGNATURE", "TABLE_TITLE", "TABLE_FOOTER", "LAYOUT_TEXT", "LAYOUT_TITLE", "LAYOUT_HEADER", "LAYOUT_FOOTER", "LAYOUT_SECTION_HEADER", "LAYOUT_PAGE_NUMBER", "LAYOUT_LIST", "LAYOUT_FIGURE", "LAYOUT_TABLE", "LAYOUT_KEY_VALUE"
     #   resp.identity_documents[0].blocks[0].confidence #=> Float
     #   resp.identity_documents[0].blocks[0].text #=> String
     #   resp.identity_documents[0].blocks[0].text_type #=> String, one of "HANDWRITING", "PRINTED"
@@ -761,11 +870,11 @@ module Aws::Textract
     #   resp.identity_documents[0].blocks[0].geometry.polygon[0].y #=> Float
     #   resp.identity_documents[0].blocks[0].id #=> String
     #   resp.identity_documents[0].blocks[0].relationships #=> Array
-    #   resp.identity_documents[0].blocks[0].relationships[0].type #=> String, one of "VALUE", "CHILD", "COMPLEX_FEATURES", "MERGED_CELL", "TITLE", "ANSWER"
+    #   resp.identity_documents[0].blocks[0].relationships[0].type #=> String, one of "VALUE", "CHILD", "COMPLEX_FEATURES", "MERGED_CELL", "TITLE", "ANSWER", "TABLE", "TABLE_TITLE", "TABLE_FOOTER"
     #   resp.identity_documents[0].blocks[0].relationships[0].ids #=> Array
     #   resp.identity_documents[0].blocks[0].relationships[0].ids[0] #=> String
     #   resp.identity_documents[0].blocks[0].entity_types #=> Array
-    #   resp.identity_documents[0].blocks[0].entity_types[0] #=> String, one of "KEY", "VALUE", "COLUMN_HEADER"
+    #   resp.identity_documents[0].blocks[0].entity_types[0] #=> String, one of "KEY", "VALUE", "COLUMN_HEADER", "TABLE_TITLE", "TABLE_FOOTER", "TABLE_SECTION_TITLE", "TABLE_SUMMARY", "STRUCTURED_TABLE", "SEMI_STRUCTURED_TABLE"
     #   resp.identity_documents[0].blocks[0].selection_status #=> String, one of "SELECTED", "NOT_SELECTED"
     #   resp.identity_documents[0].blocks[0].page #=> Integer
     #   resp.identity_documents[0].blocks[0].query.text #=> String
@@ -781,6 +890,221 @@ module Aws::Textract
     # @param [Hash] params ({})
     def analyze_id(params = {}, options = {})
       req = build_request(:analyze_id, params)
+      req.send_request(options)
+    end
+
+    # Creates an adapter, which can be fine-tuned for enhanced performance
+    # on user provided documents. Takes an AdapterName and FeatureType.
+    # Currently the only supported feature type is `QUERIES`. You can also
+    # provide a Description, Tags, and a ClientRequestToken. You can choose
+    # whether or not the adapter should be AutoUpdated with the AutoUpdate
+    # argument. By default, AutoUpdate is set to DISABLED.
+    #
+    # @option params [required, String] :adapter_name
+    #   The name to be assigned to the adapter being created.
+    #
+    # @option params [String] :client_request_token
+    #   Idempotent token is used to recognize the request. If the same token
+    #   is used with multiple CreateAdapter requests, the same session is
+    #   returned. This token is employed to avoid unintentionally creating the
+    #   same session multiple times.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @option params [String] :description
+    #   The description to be assigned to the adapter being created.
+    #
+    # @option params [required, Array<String>] :feature_types
+    #   The type of feature that the adapter is being trained on. Currrenly,
+    #   supported feature types are: `QUERIES`
+    #
+    # @option params [String] :auto_update
+    #   Controls whether or not the adapter should automatically update.
+    #
+    # @option params [Hash<String,String>] :tags
+    #   A list of tags to be added to the adapter.
+    #
+    # @return [Types::CreateAdapterResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateAdapterResponse#adapter_id #adapter_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_adapter({
+    #     adapter_name: "AdapterName", # required
+    #     client_request_token: "ClientRequestToken",
+    #     description: "AdapterDescription",
+    #     feature_types: ["TABLES"], # required, accepts TABLES, FORMS, QUERIES, SIGNATURES, LAYOUT
+    #     auto_update: "ENABLED", # accepts ENABLED, DISABLED
+    #     tags: {
+    #       "TagKey" => "TagValue",
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.adapter_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/textract-2018-06-27/CreateAdapter AWS API Documentation
+    #
+    # @overload create_adapter(params = {})
+    # @param [Hash] params ({})
+    def create_adapter(params = {}, options = {})
+      req = build_request(:create_adapter, params)
+      req.send_request(options)
+    end
+
+    # Creates a new version of an adapter. Operates on a provided AdapterId
+    # and a specified dataset provided via the DatasetConfig argument.
+    # Requires that you specify an Amazon S3 bucket with the OutputConfig
+    # argument. You can provide an optional KMSKeyId, an optional
+    # ClientRequestToken, and optional tags.
+    #
+    # @option params [required, String] :adapter_id
+    #   A string containing a unique ID for the adapter that will receive a
+    #   new version.
+    #
+    # @option params [String] :client_request_token
+    #   Idempotent token is used to recognize the request. If the same token
+    #   is used with multiple CreateAdapterVersion requests, the same session
+    #   is returned. This token is employed to avoid unintentionally creating
+    #   the same session multiple times.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @option params [required, Types::AdapterVersionDatasetConfig] :dataset_config
+    #   Specifies a dataset used to train a new adapter version. Takes a
+    #   ManifestS3Object as the value.
+    #
+    # @option params [String] :kms_key_id
+    #   The identifier for your AWS Key Management Service key (AWS KMS key).
+    #   Used to encrypt your documents.
+    #
+    # @option params [required, Types::OutputConfig] :output_config
+    #   Sets whether or not your output will go to a user created bucket. Used
+    #   to set the name of the bucket, and the prefix on the output file.
+    #
+    #   `OutputConfig` is an optional parameter which lets you adjust where
+    #   your output will be placed. By default, Amazon Textract will store the
+    #   results internally and can only be accessed by the Get API operations.
+    #   With `OutputConfig` enabled, you can set the name of the bucket the
+    #   output will be sent to the file prefix of the results where you can
+    #   download your results. Additionally, you can set the `KMSKeyID`
+    #   parameter to a customer master key (CMK) to encrypt your output.
+    #   Without this parameter set Amazon Textract will encrypt server-side
+    #   using the AWS managed CMK for Amazon S3.
+    #
+    #   Decryption of Customer Content is necessary for processing of the
+    #   documents by Amazon Textract. If your account is opted out under an AI
+    #   services opt out policy then all unencrypted Customer Content is
+    #   immediately and permanently deleted after the Customer Content has
+    #   been processed by the service. No copy of of the output is retained by
+    #   Amazon Textract. For information about how to opt out, see [ Managing
+    #   AI services opt-out policy. ][1]
+    #
+    #   For more information on data privacy, see the [Data Privacy FAQ][2].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html
+    #   [2]: https://aws.amazon.com/compliance/data-privacy-faq/
+    #
+    # @option params [Hash<String,String>] :tags
+    #   A set of tags (key-value pairs) that you want to attach to the adapter
+    #   version.
+    #
+    # @return [Types::CreateAdapterVersionResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateAdapterVersionResponse#adapter_id #adapter_id} => String
+    #   * {Types::CreateAdapterVersionResponse#adapter_version #adapter_version} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_adapter_version({
+    #     adapter_id: "AdapterId", # required
+    #     client_request_token: "ClientRequestToken",
+    #     dataset_config: { # required
+    #       manifest_s3_object: {
+    #         bucket: "S3Bucket",
+    #         name: "S3ObjectName",
+    #         version: "S3ObjectVersion",
+    #       },
+    #     },
+    #     kms_key_id: "KMSKeyId",
+    #     output_config: { # required
+    #       s3_bucket: "S3Bucket", # required
+    #       s3_prefix: "S3ObjectName",
+    #     },
+    #     tags: {
+    #       "TagKey" => "TagValue",
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.adapter_id #=> String
+    #   resp.adapter_version #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/textract-2018-06-27/CreateAdapterVersion AWS API Documentation
+    #
+    # @overload create_adapter_version(params = {})
+    # @param [Hash] params ({})
+    def create_adapter_version(params = {}, options = {})
+      req = build_request(:create_adapter_version, params)
+      req.send_request(options)
+    end
+
+    # Deletes an Amazon Textract adapter. Takes an AdapterId and deletes the
+    # adapter specified by the ID.
+    #
+    # @option params [required, String] :adapter_id
+    #   A string containing a unique ID for the adapter to be deleted.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_adapter({
+    #     adapter_id: "AdapterId", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/textract-2018-06-27/DeleteAdapter AWS API Documentation
+    #
+    # @overload delete_adapter(params = {})
+    # @param [Hash] params ({})
+    def delete_adapter(params = {}, options = {})
+      req = build_request(:delete_adapter, params)
+      req.send_request(options)
+    end
+
+    # Deletes an Amazon Textract adapter version. Requires that you specify
+    # both an AdapterId and a AdapterVersion. Deletes the adapter version
+    # specified by the AdapterId and the AdapterVersion.
+    #
+    # @option params [required, String] :adapter_id
+    #   A string containing a unique ID for the adapter version that will be
+    #   deleted.
+    #
+    # @option params [required, String] :adapter_version
+    #   Specifies the adapter version to be deleted.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_adapter_version({
+    #     adapter_id: "AdapterId", # required
+    #     adapter_version: "AdapterVersion", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/textract-2018-06-27/DeleteAdapterVersion AWS API Documentation
+    #
+    # @overload delete_adapter_version(params = {})
+    # @param [Hash] params ({})
+    def delete_adapter_version(params = {}, options = {})
+      req = build_request(:delete_adapter_version, params)
       req.send_request(options)
     end
 
@@ -837,7 +1161,7 @@ module Aws::Textract
     #
     #   resp.document_metadata.pages #=> Integer
     #   resp.blocks #=> Array
-    #   resp.blocks[0].block_type #=> String, one of "KEY_VALUE_SET", "PAGE", "LINE", "WORD", "TABLE", "CELL", "SELECTION_ELEMENT", "MERGED_CELL", "TITLE", "QUERY", "QUERY_RESULT", "SIGNATURE"
+    #   resp.blocks[0].block_type #=> String, one of "KEY_VALUE_SET", "PAGE", "LINE", "WORD", "TABLE", "CELL", "SELECTION_ELEMENT", "MERGED_CELL", "TITLE", "QUERY", "QUERY_RESULT", "SIGNATURE", "TABLE_TITLE", "TABLE_FOOTER", "LAYOUT_TEXT", "LAYOUT_TITLE", "LAYOUT_HEADER", "LAYOUT_FOOTER", "LAYOUT_SECTION_HEADER", "LAYOUT_PAGE_NUMBER", "LAYOUT_LIST", "LAYOUT_FIGURE", "LAYOUT_TABLE", "LAYOUT_KEY_VALUE"
     #   resp.blocks[0].confidence #=> Float
     #   resp.blocks[0].text #=> String
     #   resp.blocks[0].text_type #=> String, one of "HANDWRITING", "PRINTED"
@@ -854,11 +1178,11 @@ module Aws::Textract
     #   resp.blocks[0].geometry.polygon[0].y #=> Float
     #   resp.blocks[0].id #=> String
     #   resp.blocks[0].relationships #=> Array
-    #   resp.blocks[0].relationships[0].type #=> String, one of "VALUE", "CHILD", "COMPLEX_FEATURES", "MERGED_CELL", "TITLE", "ANSWER"
+    #   resp.blocks[0].relationships[0].type #=> String, one of "VALUE", "CHILD", "COMPLEX_FEATURES", "MERGED_CELL", "TITLE", "ANSWER", "TABLE", "TABLE_TITLE", "TABLE_FOOTER"
     #   resp.blocks[0].relationships[0].ids #=> Array
     #   resp.blocks[0].relationships[0].ids[0] #=> String
     #   resp.blocks[0].entity_types #=> Array
-    #   resp.blocks[0].entity_types[0] #=> String, one of "KEY", "VALUE", "COLUMN_HEADER"
+    #   resp.blocks[0].entity_types[0] #=> String, one of "KEY", "VALUE", "COLUMN_HEADER", "TABLE_TITLE", "TABLE_FOOTER", "TABLE_SECTION_TITLE", "TABLE_SUMMARY", "STRUCTURED_TABLE", "SEMI_STRUCTURED_TABLE"
     #   resp.blocks[0].selection_status #=> String, one of "SELECTED", "NOT_SELECTED"
     #   resp.blocks[0].page #=> Integer
     #   resp.blocks[0].query.text #=> String
@@ -873,6 +1197,119 @@ module Aws::Textract
     # @param [Hash] params ({})
     def detect_document_text(params = {}, options = {})
       req = build_request(:detect_document_text, params)
+      req.send_request(options)
+    end
+
+    # Gets configuration information for an adapter specified by an
+    # AdapterId, returning information on AdapterName, Description,
+    # CreationTime, AutoUpdate status, and FeatureTypes.
+    #
+    # @option params [required, String] :adapter_id
+    #   A string containing a unique ID for the adapter.
+    #
+    # @return [Types::GetAdapterResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetAdapterResponse#adapter_id #adapter_id} => String
+    #   * {Types::GetAdapterResponse#adapter_name #adapter_name} => String
+    #   * {Types::GetAdapterResponse#creation_time #creation_time} => Time
+    #   * {Types::GetAdapterResponse#description #description} => String
+    #   * {Types::GetAdapterResponse#feature_types #feature_types} => Array&lt;String&gt;
+    #   * {Types::GetAdapterResponse#auto_update #auto_update} => String
+    #   * {Types::GetAdapterResponse#tags #tags} => Hash&lt;String,String&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_adapter({
+    #     adapter_id: "AdapterId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.adapter_id #=> String
+    #   resp.adapter_name #=> String
+    #   resp.creation_time #=> Time
+    #   resp.description #=> String
+    #   resp.feature_types #=> Array
+    #   resp.feature_types[0] #=> String, one of "TABLES", "FORMS", "QUERIES", "SIGNATURES", "LAYOUT"
+    #   resp.auto_update #=> String, one of "ENABLED", "DISABLED"
+    #   resp.tags #=> Hash
+    #   resp.tags["TagKey"] #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/textract-2018-06-27/GetAdapter AWS API Documentation
+    #
+    # @overload get_adapter(params = {})
+    # @param [Hash] params ({})
+    def get_adapter(params = {}, options = {})
+      req = build_request(:get_adapter, params)
+      req.send_request(options)
+    end
+
+    # Gets configuration information for the specified adapter version,
+    # including: AdapterId, AdapterVersion, FeatureTypes, Status,
+    # StatusMessage, DatasetConfig, KMSKeyId, OutputConfig, Tags and
+    # EvaluationMetrics.
+    #
+    # @option params [required, String] :adapter_id
+    #   A string specifying a unique ID for the adapter version you want to
+    #   retrieve information for.
+    #
+    # @option params [required, String] :adapter_version
+    #   A string specifying the adapter version you want to retrieve
+    #   information for.
+    #
+    # @return [Types::GetAdapterVersionResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetAdapterVersionResponse#adapter_id #adapter_id} => String
+    #   * {Types::GetAdapterVersionResponse#adapter_version #adapter_version} => String
+    #   * {Types::GetAdapterVersionResponse#creation_time #creation_time} => Time
+    #   * {Types::GetAdapterVersionResponse#feature_types #feature_types} => Array&lt;String&gt;
+    #   * {Types::GetAdapterVersionResponse#status #status} => String
+    #   * {Types::GetAdapterVersionResponse#status_message #status_message} => String
+    #   * {Types::GetAdapterVersionResponse#dataset_config #dataset_config} => Types::AdapterVersionDatasetConfig
+    #   * {Types::GetAdapterVersionResponse#kms_key_id #kms_key_id} => String
+    #   * {Types::GetAdapterVersionResponse#output_config #output_config} => Types::OutputConfig
+    #   * {Types::GetAdapterVersionResponse#evaluation_metrics #evaluation_metrics} => Array&lt;Types::AdapterVersionEvaluationMetric&gt;
+    #   * {Types::GetAdapterVersionResponse#tags #tags} => Hash&lt;String,String&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_adapter_version({
+    #     adapter_id: "AdapterId", # required
+    #     adapter_version: "AdapterVersion", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.adapter_id #=> String
+    #   resp.adapter_version #=> String
+    #   resp.creation_time #=> Time
+    #   resp.feature_types #=> Array
+    #   resp.feature_types[0] #=> String, one of "TABLES", "FORMS", "QUERIES", "SIGNATURES", "LAYOUT"
+    #   resp.status #=> String, one of "ACTIVE", "AT_RISK", "DEPRECATED", "CREATION_ERROR", "CREATION_IN_PROGRESS"
+    #   resp.status_message #=> String
+    #   resp.dataset_config.manifest_s3_object.bucket #=> String
+    #   resp.dataset_config.manifest_s3_object.name #=> String
+    #   resp.dataset_config.manifest_s3_object.version #=> String
+    #   resp.kms_key_id #=> String
+    #   resp.output_config.s3_bucket #=> String
+    #   resp.output_config.s3_prefix #=> String
+    #   resp.evaluation_metrics #=> Array
+    #   resp.evaluation_metrics[0].baseline.f1_score #=> Float
+    #   resp.evaluation_metrics[0].baseline.precision #=> Float
+    #   resp.evaluation_metrics[0].baseline.recall #=> Float
+    #   resp.evaluation_metrics[0].adapter_version.f1_score #=> Float
+    #   resp.evaluation_metrics[0].adapter_version.precision #=> Float
+    #   resp.evaluation_metrics[0].adapter_version.recall #=> Float
+    #   resp.evaluation_metrics[0].feature_type #=> String, one of "TABLES", "FORMS", "QUERIES", "SIGNATURES", "LAYOUT"
+    #   resp.tags #=> Hash
+    #   resp.tags["TagKey"] #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/textract-2018-06-27/GetAdapterVersion AWS API Documentation
+    #
+    # @overload get_adapter_version(params = {})
+    # @param [Hash] params ({})
+    def get_adapter_version(params = {}, options = {})
+      req = build_request(:get_adapter_version, params)
       req.send_request(options)
     end
 
@@ -893,7 +1330,7 @@ module Aws::Textract
     # types of information are returned:
     #
     # * Form data (key-value pairs). The related information is returned in
-    #   two Block objects, each of type `KEY_VALUE_SET`\: a KEY `Block`
+    #   two Block objects, each of type `KEY_VALUE_SET`: a KEY `Block`
     #   object and a VALUE `Block` object. For example, *Name: Ana Silva
     #   Carolina* contains a key and value. *Name:* is the key. *Ana Silva
     #   Carolina* is the value.
@@ -982,7 +1419,7 @@ module Aws::Textract
     #   resp.job_status #=> String, one of "IN_PROGRESS", "SUCCEEDED", "FAILED", "PARTIAL_SUCCESS"
     #   resp.next_token #=> String
     #   resp.blocks #=> Array
-    #   resp.blocks[0].block_type #=> String, one of "KEY_VALUE_SET", "PAGE", "LINE", "WORD", "TABLE", "CELL", "SELECTION_ELEMENT", "MERGED_CELL", "TITLE", "QUERY", "QUERY_RESULT", "SIGNATURE"
+    #   resp.blocks[0].block_type #=> String, one of "KEY_VALUE_SET", "PAGE", "LINE", "WORD", "TABLE", "CELL", "SELECTION_ELEMENT", "MERGED_CELL", "TITLE", "QUERY", "QUERY_RESULT", "SIGNATURE", "TABLE_TITLE", "TABLE_FOOTER", "LAYOUT_TEXT", "LAYOUT_TITLE", "LAYOUT_HEADER", "LAYOUT_FOOTER", "LAYOUT_SECTION_HEADER", "LAYOUT_PAGE_NUMBER", "LAYOUT_LIST", "LAYOUT_FIGURE", "LAYOUT_TABLE", "LAYOUT_KEY_VALUE"
     #   resp.blocks[0].confidence #=> Float
     #   resp.blocks[0].text #=> String
     #   resp.blocks[0].text_type #=> String, one of "HANDWRITING", "PRINTED"
@@ -999,11 +1436,11 @@ module Aws::Textract
     #   resp.blocks[0].geometry.polygon[0].y #=> Float
     #   resp.blocks[0].id #=> String
     #   resp.blocks[0].relationships #=> Array
-    #   resp.blocks[0].relationships[0].type #=> String, one of "VALUE", "CHILD", "COMPLEX_FEATURES", "MERGED_CELL", "TITLE", "ANSWER"
+    #   resp.blocks[0].relationships[0].type #=> String, one of "VALUE", "CHILD", "COMPLEX_FEATURES", "MERGED_CELL", "TITLE", "ANSWER", "TABLE", "TABLE_TITLE", "TABLE_FOOTER"
     #   resp.blocks[0].relationships[0].ids #=> Array
     #   resp.blocks[0].relationships[0].ids[0] #=> String
     #   resp.blocks[0].entity_types #=> Array
-    #   resp.blocks[0].entity_types[0] #=> String, one of "KEY", "VALUE", "COLUMN_HEADER"
+    #   resp.blocks[0].entity_types[0] #=> String, one of "KEY", "VALUE", "COLUMN_HEADER", "TABLE_TITLE", "TABLE_FOOTER", "TABLE_SECTION_TITLE", "TABLE_SUMMARY", "STRUCTURED_TABLE", "SEMI_STRUCTURED_TABLE"
     #   resp.blocks[0].selection_status #=> String, one of "SELECTED", "NOT_SELECTED"
     #   resp.blocks[0].page #=> Integer
     #   resp.blocks[0].query.text #=> String
@@ -1104,7 +1541,7 @@ module Aws::Textract
     #   resp.job_status #=> String, one of "IN_PROGRESS", "SUCCEEDED", "FAILED", "PARTIAL_SUCCESS"
     #   resp.next_token #=> String
     #   resp.blocks #=> Array
-    #   resp.blocks[0].block_type #=> String, one of "KEY_VALUE_SET", "PAGE", "LINE", "WORD", "TABLE", "CELL", "SELECTION_ELEMENT", "MERGED_CELL", "TITLE", "QUERY", "QUERY_RESULT", "SIGNATURE"
+    #   resp.blocks[0].block_type #=> String, one of "KEY_VALUE_SET", "PAGE", "LINE", "WORD", "TABLE", "CELL", "SELECTION_ELEMENT", "MERGED_CELL", "TITLE", "QUERY", "QUERY_RESULT", "SIGNATURE", "TABLE_TITLE", "TABLE_FOOTER", "LAYOUT_TEXT", "LAYOUT_TITLE", "LAYOUT_HEADER", "LAYOUT_FOOTER", "LAYOUT_SECTION_HEADER", "LAYOUT_PAGE_NUMBER", "LAYOUT_LIST", "LAYOUT_FIGURE", "LAYOUT_TABLE", "LAYOUT_KEY_VALUE"
     #   resp.blocks[0].confidence #=> Float
     #   resp.blocks[0].text #=> String
     #   resp.blocks[0].text_type #=> String, one of "HANDWRITING", "PRINTED"
@@ -1121,11 +1558,11 @@ module Aws::Textract
     #   resp.blocks[0].geometry.polygon[0].y #=> Float
     #   resp.blocks[0].id #=> String
     #   resp.blocks[0].relationships #=> Array
-    #   resp.blocks[0].relationships[0].type #=> String, one of "VALUE", "CHILD", "COMPLEX_FEATURES", "MERGED_CELL", "TITLE", "ANSWER"
+    #   resp.blocks[0].relationships[0].type #=> String, one of "VALUE", "CHILD", "COMPLEX_FEATURES", "MERGED_CELL", "TITLE", "ANSWER", "TABLE", "TABLE_TITLE", "TABLE_FOOTER"
     #   resp.blocks[0].relationships[0].ids #=> Array
     #   resp.blocks[0].relationships[0].ids[0] #=> String
     #   resp.blocks[0].entity_types #=> Array
-    #   resp.blocks[0].entity_types[0] #=> String, one of "KEY", "VALUE", "COLUMN_HEADER"
+    #   resp.blocks[0].entity_types[0] #=> String, one of "KEY", "VALUE", "COLUMN_HEADER", "TABLE_TITLE", "TABLE_FOOTER", "TABLE_SECTION_TITLE", "TABLE_SUMMARY", "STRUCTURED_TABLE", "SEMI_STRUCTURED_TABLE"
     #   resp.blocks[0].selection_status #=> String, one of "SELECTED", "NOT_SELECTED"
     #   resp.blocks[0].page #=> Integer
     #   resp.blocks[0].query.text #=> String
@@ -1279,7 +1716,7 @@ module Aws::Textract
     #   resp.expense_documents[0].line_item_groups[0].line_items[0].line_item_expense_fields[0].group_properties[0].types[0] #=> String
     #   resp.expense_documents[0].line_item_groups[0].line_items[0].line_item_expense_fields[0].group_properties[0].id #=> String
     #   resp.expense_documents[0].blocks #=> Array
-    #   resp.expense_documents[0].blocks[0].block_type #=> String, one of "KEY_VALUE_SET", "PAGE", "LINE", "WORD", "TABLE", "CELL", "SELECTION_ELEMENT", "MERGED_CELL", "TITLE", "QUERY", "QUERY_RESULT", "SIGNATURE"
+    #   resp.expense_documents[0].blocks[0].block_type #=> String, one of "KEY_VALUE_SET", "PAGE", "LINE", "WORD", "TABLE", "CELL", "SELECTION_ELEMENT", "MERGED_CELL", "TITLE", "QUERY", "QUERY_RESULT", "SIGNATURE", "TABLE_TITLE", "TABLE_FOOTER", "LAYOUT_TEXT", "LAYOUT_TITLE", "LAYOUT_HEADER", "LAYOUT_FOOTER", "LAYOUT_SECTION_HEADER", "LAYOUT_PAGE_NUMBER", "LAYOUT_LIST", "LAYOUT_FIGURE", "LAYOUT_TABLE", "LAYOUT_KEY_VALUE"
     #   resp.expense_documents[0].blocks[0].confidence #=> Float
     #   resp.expense_documents[0].blocks[0].text #=> String
     #   resp.expense_documents[0].blocks[0].text_type #=> String, one of "HANDWRITING", "PRINTED"
@@ -1296,11 +1733,11 @@ module Aws::Textract
     #   resp.expense_documents[0].blocks[0].geometry.polygon[0].y #=> Float
     #   resp.expense_documents[0].blocks[0].id #=> String
     #   resp.expense_documents[0].blocks[0].relationships #=> Array
-    #   resp.expense_documents[0].blocks[0].relationships[0].type #=> String, one of "VALUE", "CHILD", "COMPLEX_FEATURES", "MERGED_CELL", "TITLE", "ANSWER"
+    #   resp.expense_documents[0].blocks[0].relationships[0].type #=> String, one of "VALUE", "CHILD", "COMPLEX_FEATURES", "MERGED_CELL", "TITLE", "ANSWER", "TABLE", "TABLE_TITLE", "TABLE_FOOTER"
     #   resp.expense_documents[0].blocks[0].relationships[0].ids #=> Array
     #   resp.expense_documents[0].blocks[0].relationships[0].ids[0] #=> String
     #   resp.expense_documents[0].blocks[0].entity_types #=> Array
-    #   resp.expense_documents[0].blocks[0].entity_types[0] #=> String, one of "KEY", "VALUE", "COLUMN_HEADER"
+    #   resp.expense_documents[0].blocks[0].entity_types[0] #=> String, one of "KEY", "VALUE", "COLUMN_HEADER", "TABLE_TITLE", "TABLE_FOOTER", "TABLE_SECTION_TITLE", "TABLE_SUMMARY", "STRUCTURED_TABLE", "SEMI_STRUCTURED_TABLE"
     #   resp.expense_documents[0].blocks[0].selection_status #=> String, one of "SELECTED", "NOT_SELECTED"
     #   resp.expense_documents[0].blocks[0].page #=> Integer
     #   resp.expense_documents[0].blocks[0].query.text #=> String
@@ -1479,7 +1916,7 @@ module Aws::Textract
     #   resp.results[0].extractions[0].expense_document.line_item_groups[0].line_items[0].line_item_expense_fields[0].group_properties[0].types[0] #=> String
     #   resp.results[0].extractions[0].expense_document.line_item_groups[0].line_items[0].line_item_expense_fields[0].group_properties[0].id #=> String
     #   resp.results[0].extractions[0].expense_document.blocks #=> Array
-    #   resp.results[0].extractions[0].expense_document.blocks[0].block_type #=> String, one of "KEY_VALUE_SET", "PAGE", "LINE", "WORD", "TABLE", "CELL", "SELECTION_ELEMENT", "MERGED_CELL", "TITLE", "QUERY", "QUERY_RESULT", "SIGNATURE"
+    #   resp.results[0].extractions[0].expense_document.blocks[0].block_type #=> String, one of "KEY_VALUE_SET", "PAGE", "LINE", "WORD", "TABLE", "CELL", "SELECTION_ELEMENT", "MERGED_CELL", "TITLE", "QUERY", "QUERY_RESULT", "SIGNATURE", "TABLE_TITLE", "TABLE_FOOTER", "LAYOUT_TEXT", "LAYOUT_TITLE", "LAYOUT_HEADER", "LAYOUT_FOOTER", "LAYOUT_SECTION_HEADER", "LAYOUT_PAGE_NUMBER", "LAYOUT_LIST", "LAYOUT_FIGURE", "LAYOUT_TABLE", "LAYOUT_KEY_VALUE"
     #   resp.results[0].extractions[0].expense_document.blocks[0].confidence #=> Float
     #   resp.results[0].extractions[0].expense_document.blocks[0].text #=> String
     #   resp.results[0].extractions[0].expense_document.blocks[0].text_type #=> String, one of "HANDWRITING", "PRINTED"
@@ -1496,11 +1933,11 @@ module Aws::Textract
     #   resp.results[0].extractions[0].expense_document.blocks[0].geometry.polygon[0].y #=> Float
     #   resp.results[0].extractions[0].expense_document.blocks[0].id #=> String
     #   resp.results[0].extractions[0].expense_document.blocks[0].relationships #=> Array
-    #   resp.results[0].extractions[0].expense_document.blocks[0].relationships[0].type #=> String, one of "VALUE", "CHILD", "COMPLEX_FEATURES", "MERGED_CELL", "TITLE", "ANSWER"
+    #   resp.results[0].extractions[0].expense_document.blocks[0].relationships[0].type #=> String, one of "VALUE", "CHILD", "COMPLEX_FEATURES", "MERGED_CELL", "TITLE", "ANSWER", "TABLE", "TABLE_TITLE", "TABLE_FOOTER"
     #   resp.results[0].extractions[0].expense_document.blocks[0].relationships[0].ids #=> Array
     #   resp.results[0].extractions[0].expense_document.blocks[0].relationships[0].ids[0] #=> String
     #   resp.results[0].extractions[0].expense_document.blocks[0].entity_types #=> Array
-    #   resp.results[0].extractions[0].expense_document.blocks[0].entity_types[0] #=> String, one of "KEY", "VALUE", "COLUMN_HEADER"
+    #   resp.results[0].extractions[0].expense_document.blocks[0].entity_types[0] #=> String, one of "KEY", "VALUE", "COLUMN_HEADER", "TABLE_TITLE", "TABLE_FOOTER", "TABLE_SECTION_TITLE", "TABLE_SUMMARY", "STRUCTURED_TABLE", "SEMI_STRUCTURED_TABLE"
     #   resp.results[0].extractions[0].expense_document.blocks[0].selection_status #=> String, one of "SELECTED", "NOT_SELECTED"
     #   resp.results[0].extractions[0].expense_document.blocks[0].page #=> Integer
     #   resp.results[0].extractions[0].expense_document.blocks[0].query.text #=> String
@@ -1518,7 +1955,7 @@ module Aws::Textract
     #   resp.results[0].extractions[0].identity_document.identity_document_fields[0].value_detection.normalized_value.value_type #=> String, one of "DATE"
     #   resp.results[0].extractions[0].identity_document.identity_document_fields[0].value_detection.confidence #=> Float
     #   resp.results[0].extractions[0].identity_document.blocks #=> Array
-    #   resp.results[0].extractions[0].identity_document.blocks[0].block_type #=> String, one of "KEY_VALUE_SET", "PAGE", "LINE", "WORD", "TABLE", "CELL", "SELECTION_ELEMENT", "MERGED_CELL", "TITLE", "QUERY", "QUERY_RESULT", "SIGNATURE"
+    #   resp.results[0].extractions[0].identity_document.blocks[0].block_type #=> String, one of "KEY_VALUE_SET", "PAGE", "LINE", "WORD", "TABLE", "CELL", "SELECTION_ELEMENT", "MERGED_CELL", "TITLE", "QUERY", "QUERY_RESULT", "SIGNATURE", "TABLE_TITLE", "TABLE_FOOTER", "LAYOUT_TEXT", "LAYOUT_TITLE", "LAYOUT_HEADER", "LAYOUT_FOOTER", "LAYOUT_SECTION_HEADER", "LAYOUT_PAGE_NUMBER", "LAYOUT_LIST", "LAYOUT_FIGURE", "LAYOUT_TABLE", "LAYOUT_KEY_VALUE"
     #   resp.results[0].extractions[0].identity_document.blocks[0].confidence #=> Float
     #   resp.results[0].extractions[0].identity_document.blocks[0].text #=> String
     #   resp.results[0].extractions[0].identity_document.blocks[0].text_type #=> String, one of "HANDWRITING", "PRINTED"
@@ -1535,11 +1972,11 @@ module Aws::Textract
     #   resp.results[0].extractions[0].identity_document.blocks[0].geometry.polygon[0].y #=> Float
     #   resp.results[0].extractions[0].identity_document.blocks[0].id #=> String
     #   resp.results[0].extractions[0].identity_document.blocks[0].relationships #=> Array
-    #   resp.results[0].extractions[0].identity_document.blocks[0].relationships[0].type #=> String, one of "VALUE", "CHILD", "COMPLEX_FEATURES", "MERGED_CELL", "TITLE", "ANSWER"
+    #   resp.results[0].extractions[0].identity_document.blocks[0].relationships[0].type #=> String, one of "VALUE", "CHILD", "COMPLEX_FEATURES", "MERGED_CELL", "TITLE", "ANSWER", "TABLE", "TABLE_TITLE", "TABLE_FOOTER"
     #   resp.results[0].extractions[0].identity_document.blocks[0].relationships[0].ids #=> Array
     #   resp.results[0].extractions[0].identity_document.blocks[0].relationships[0].ids[0] #=> String
     #   resp.results[0].extractions[0].identity_document.blocks[0].entity_types #=> Array
-    #   resp.results[0].extractions[0].identity_document.blocks[0].entity_types[0] #=> String, one of "KEY", "VALUE", "COLUMN_HEADER"
+    #   resp.results[0].extractions[0].identity_document.blocks[0].entity_types[0] #=> String, one of "KEY", "VALUE", "COLUMN_HEADER", "TABLE_TITLE", "TABLE_FOOTER", "TABLE_SECTION_TITLE", "TABLE_SUMMARY", "STRUCTURED_TABLE", "SEMI_STRUCTURED_TABLE"
     #   resp.results[0].extractions[0].identity_document.blocks[0].selection_status #=> String, one of "SELECTED", "NOT_SELECTED"
     #   resp.results[0].extractions[0].identity_document.blocks[0].page #=> Integer
     #   resp.results[0].extractions[0].identity_document.blocks[0].query.text #=> String
@@ -1633,6 +2070,151 @@ module Aws::Textract
       req.send_request(options)
     end
 
+    # List all version of an adapter that meet the specified filtration
+    # criteria.
+    #
+    # @option params [String] :adapter_id
+    #   A string containing a unique ID for the adapter to match for when
+    #   listing adapter versions.
+    #
+    # @option params [Time,DateTime,Date,Integer,String] :after_creation_time
+    #   Specifies the lower bound for the ListAdapterVersions operation.
+    #   Ensures ListAdapterVersions returns only adapter versions created
+    #   after the specified creation time.
+    #
+    # @option params [Time,DateTime,Date,Integer,String] :before_creation_time
+    #   Specifies the upper bound for the ListAdapterVersions operation.
+    #   Ensures ListAdapterVersions returns only adapter versions created
+    #   after the specified creation time.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return when listing adapter versions.
+    #
+    # @option params [String] :next_token
+    #   Identifies the next page of results to return when listing adapter
+    #   versions.
+    #
+    # @return [Types::ListAdapterVersionsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListAdapterVersionsResponse#adapter_versions #adapter_versions} => Array&lt;Types::AdapterVersionOverview&gt;
+    #   * {Types::ListAdapterVersionsResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_adapter_versions({
+    #     adapter_id: "AdapterId",
+    #     after_creation_time: Time.now,
+    #     before_creation_time: Time.now,
+    #     max_results: 1,
+    #     next_token: "PaginationToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.adapter_versions #=> Array
+    #   resp.adapter_versions[0].adapter_id #=> String
+    #   resp.adapter_versions[0].adapter_version #=> String
+    #   resp.adapter_versions[0].creation_time #=> Time
+    #   resp.adapter_versions[0].feature_types #=> Array
+    #   resp.adapter_versions[0].feature_types[0] #=> String, one of "TABLES", "FORMS", "QUERIES", "SIGNATURES", "LAYOUT"
+    #   resp.adapter_versions[0].status #=> String, one of "ACTIVE", "AT_RISK", "DEPRECATED", "CREATION_ERROR", "CREATION_IN_PROGRESS"
+    #   resp.adapter_versions[0].status_message #=> String
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/textract-2018-06-27/ListAdapterVersions AWS API Documentation
+    #
+    # @overload list_adapter_versions(params = {})
+    # @param [Hash] params ({})
+    def list_adapter_versions(params = {}, options = {})
+      req = build_request(:list_adapter_versions, params)
+      req.send_request(options)
+    end
+
+    # Lists all adapters that match the specified filtration criteria.
+    #
+    # @option params [Time,DateTime,Date,Integer,String] :after_creation_time
+    #   Specifies the lower bound for the ListAdapters operation. Ensures
+    #   ListAdapters returns only adapters created after the specified
+    #   creation time.
+    #
+    # @option params [Time,DateTime,Date,Integer,String] :before_creation_time
+    #   Specifies the upper bound for the ListAdapters operation. Ensures
+    #   ListAdapters returns only adapters created before the specified
+    #   creation time.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return when listing adapters.
+    #
+    # @option params [String] :next_token
+    #   Identifies the next page of results to return when listing adapters.
+    #
+    # @return [Types::ListAdaptersResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListAdaptersResponse#adapters #adapters} => Array&lt;Types::AdapterOverview&gt;
+    #   * {Types::ListAdaptersResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_adapters({
+    #     after_creation_time: Time.now,
+    #     before_creation_time: Time.now,
+    #     max_results: 1,
+    #     next_token: "PaginationToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.adapters #=> Array
+    #   resp.adapters[0].adapter_id #=> String
+    #   resp.adapters[0].adapter_name #=> String
+    #   resp.adapters[0].creation_time #=> Time
+    #   resp.adapters[0].feature_types #=> Array
+    #   resp.adapters[0].feature_types[0] #=> String, one of "TABLES", "FORMS", "QUERIES", "SIGNATURES", "LAYOUT"
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/textract-2018-06-27/ListAdapters AWS API Documentation
+    #
+    # @overload list_adapters(params = {})
+    # @param [Hash] params ({})
+    def list_adapters(params = {}, options = {})
+      req = build_request(:list_adapters, params)
+      req.send_request(options)
+    end
+
+    # Lists all tags for an Amazon Textract resource.
+    #
+    # @option params [required, String] :resource_arn
+    #   The Amazon Resource Name (ARN) that specifies the resource to list
+    #   tags for.
+    #
+    # @return [Types::ListTagsForResourceResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListTagsForResourceResponse#tags #tags} => Hash&lt;String,String&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_tags_for_resource({
+    #     resource_arn: "AmazonResourceName", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.tags #=> Hash
+    #   resp.tags["TagKey"] #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/textract-2018-06-27/ListTagsForResource AWS API Documentation
+    #
+    # @overload list_tags_for_resource(params = {})
+    # @param [Hash] params ({})
+    def list_tags_for_resource(params = {}, options = {})
+      req = build_request(:list_tags_for_resource, params)
+      req.send_request(options)
+    end
+
     # Starts the asynchronous analysis of an input document for
     # relationships between detected items such as key-value pairs, tables,
     # and selection elements.
@@ -1704,6 +2286,9 @@ module Aws::Textract
     #
     # @option params [Types::QueriesConfig] :queries_config
     #
+    # @option params [Types::AdaptersConfig] :adapters_config
+    #   Specifies the adapter to be used when analyzing a document.
+    #
     # @return [Types::StartDocumentAnalysisResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::StartDocumentAnalysisResponse#job_id #job_id} => String
@@ -1718,7 +2303,7 @@ module Aws::Textract
     #         version: "S3ObjectVersion",
     #       },
     #     },
-    #     feature_types: ["TABLES"], # required, accepts TABLES, FORMS, QUERIES, SIGNATURES
+    #     feature_types: ["TABLES"], # required, accepts TABLES, FORMS, QUERIES, SIGNATURES, LAYOUT
     #     client_request_token: "ClientRequestToken",
     #     job_tag: "JobTag",
     #     notification_channel: {
@@ -1736,6 +2321,15 @@ module Aws::Textract
     #           text: "QueryInput", # required
     #           alias: "QueryInput",
     #           pages: ["QueryPage"],
+    #         },
+    #       ],
+    #     },
+    #     adapters_config: {
+    #       adapters: [ # required
+    #         {
+    #           adapter_id: "AdapterId", # required
+    #           pages: ["AdapterPage"],
+    #           version: "AdapterVersion", # required
     #         },
     #       ],
     #     },
@@ -2092,20 +2686,136 @@ module Aws::Textract
       req.send_request(options)
     end
 
+    # Adds one or more tags to the specified resource.
+    #
+    # @option params [required, String] :resource_arn
+    #   The Amazon Resource Name (ARN) that specifies the resource to be
+    #   tagged.
+    #
+    # @option params [required, Hash<String,String>] :tags
+    #   A set of tags (key-value pairs) that you want to assign to the
+    #   resource.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.tag_resource({
+    #     resource_arn: "AmazonResourceName", # required
+    #     tags: { # required
+    #       "TagKey" => "TagValue",
+    #     },
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/textract-2018-06-27/TagResource AWS API Documentation
+    #
+    # @overload tag_resource(params = {})
+    # @param [Hash] params ({})
+    def tag_resource(params = {}, options = {})
+      req = build_request(:tag_resource, params)
+      req.send_request(options)
+    end
+
+    # Removes any tags with the specified keys from the specified resource.
+    #
+    # @option params [required, String] :resource_arn
+    #   The Amazon Resource Name (ARN) that specifies the resource to be
+    #   untagged.
+    #
+    # @option params [required, Array<String>] :tag_keys
+    #   Specifies the tags to be removed from the resource specified by the
+    #   ResourceARN.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.untag_resource({
+    #     resource_arn: "AmazonResourceName", # required
+    #     tag_keys: ["TagKey"], # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/textract-2018-06-27/UntagResource AWS API Documentation
+    #
+    # @overload untag_resource(params = {})
+    # @param [Hash] params ({})
+    def untag_resource(params = {}, options = {})
+      req = build_request(:untag_resource, params)
+      req.send_request(options)
+    end
+
+    # Update the configuration for an adapter. FeatureTypes configurations
+    # cannot be updated. At least one new parameter must be specified as an
+    # argument.
+    #
+    # @option params [required, String] :adapter_id
+    #   A string containing a unique ID for the adapter that will be updated.
+    #
+    # @option params [String] :description
+    #   The new description to be applied to the adapter.
+    #
+    # @option params [String] :adapter_name
+    #   The new name to be applied to the adapter.
+    #
+    # @option params [String] :auto_update
+    #   The new auto-update status to be applied to the adapter.
+    #
+    # @return [Types::UpdateAdapterResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateAdapterResponse#adapter_id #adapter_id} => String
+    #   * {Types::UpdateAdapterResponse#adapter_name #adapter_name} => String
+    #   * {Types::UpdateAdapterResponse#creation_time #creation_time} => Time
+    #   * {Types::UpdateAdapterResponse#description #description} => String
+    #   * {Types::UpdateAdapterResponse#feature_types #feature_types} => Array&lt;String&gt;
+    #   * {Types::UpdateAdapterResponse#auto_update #auto_update} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_adapter({
+    #     adapter_id: "AdapterId", # required
+    #     description: "AdapterDescription",
+    #     adapter_name: "AdapterName",
+    #     auto_update: "ENABLED", # accepts ENABLED, DISABLED
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.adapter_id #=> String
+    #   resp.adapter_name #=> String
+    #   resp.creation_time #=> Time
+    #   resp.description #=> String
+    #   resp.feature_types #=> Array
+    #   resp.feature_types[0] #=> String, one of "TABLES", "FORMS", "QUERIES", "SIGNATURES", "LAYOUT"
+    #   resp.auto_update #=> String, one of "ENABLED", "DISABLED"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/textract-2018-06-27/UpdateAdapter AWS API Documentation
+    #
+    # @overload update_adapter(params = {})
+    # @param [Hash] params ({})
+    def update_adapter(params = {}, options = {})
+      req = build_request(:update_adapter, params)
+      req.send_request(options)
+    end
+
     # @!endgroup
 
     # @param params ({})
     # @api private
     def build_request(operation_name, params = {})
       handlers = @handlers.for(operation_name)
+      tracer = config.telemetry_provider.tracer_provider.tracer(
+        Aws::Telemetry.module_to_tracer_name('Aws::Textract')
+      )
       context = Seahorse::Client::RequestContext.new(
         operation_name: operation_name,
         operation: config.api.operation(operation_name),
         client: self,
         params: params,
-        config: config)
+        config: config,
+        tracer: tracer
+      )
       context[:gem_name] = 'aws-sdk-textract'
-      context[:gem_version] = '1.44.0'
+      context[:gem_version] = '1.74.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

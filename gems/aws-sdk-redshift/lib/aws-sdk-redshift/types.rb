@@ -133,7 +133,7 @@ module Aws::Redshift
 
     # @!attribute [rw] data_share_arn
     #   The Amazon Resource Name (ARN) of the datashare that the consumer is
-    #   to use with the account or the namespace.
+    #   to use.
     #   @return [String]
     #
     # @!attribute [rw] associate_entire_account
@@ -142,7 +142,7 @@ module Aws::Redshift
     #   @return [Boolean]
     #
     # @!attribute [rw] consumer_arn
-    #   The Amazon Resource Name (ARN) of the consumer that is associated
+    #   The Amazon Resource Name (ARN) of the consumer namespace associated
     #   with the datashare.
     #   @return [String]
     #
@@ -152,13 +152,44 @@ module Aws::Redshift
     #   Region.
     #   @return [String]
     #
+    # @!attribute [rw] allow_writes
+    #   If set to true, allows write operations for a datashare.
+    #   @return [Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/AssociateDataShareConsumerMessage AWS API Documentation
     #
     class AssociateDataShareConsumerMessage < Struct.new(
       :data_share_arn,
       :associate_entire_account,
       :consumer_arn,
-      :consumer_region)
+      :consumer_region,
+      :allow_writes)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains information about the custom domain name association.
+    #
+    # @!attribute [rw] custom_domain_certificate_arn
+    #   The Amazon Resource Name (ARN) for the certificate associated with
+    #   the custom domain.
+    #   @return [String]
+    #
+    # @!attribute [rw] custom_domain_certificate_expiry_date
+    #   The expiration date for the certificate.
+    #   @return [Time]
+    #
+    # @!attribute [rw] certificate_associations
+    #   A list of all associated clusters and domain names tied to a
+    #   specific certificate.
+    #   @return [Array<Types::CertificateAssociation>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/Association AWS API Documentation
+    #
+    class Association < Struct.new(
+      :custom_domain_certificate_arn,
+      :custom_domain_certificate_expiry_date,
+      :certificate_associations)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -284,8 +315,8 @@ module Aws::Redshift
     end
 
     # @!attribute [rw] data_share_arn
-    #   The Amazon Resource Name (ARN) of the datashare that producers are
-    #   to authorize sharing for.
+    #   The Amazon Resource Name (ARN) of the datashare namespace that
+    #   producers are to authorize sharing for.
     #   @return [String]
     #
     # @!attribute [rw] consumer_identifier
@@ -294,11 +325,16 @@ module Aws::Redshift
     #   keyword, such as ADX.
     #   @return [String]
     #
+    # @!attribute [rw] allow_writes
+    #   If set to true, allows write operations for a datashare.
+    #   @return [Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/AuthorizeDataShareMessage AWS API Documentation
     #
     class AuthorizeDataShareMessage < Struct.new(
       :data_share_arn,
-      :consumer_identifier)
+      :consumer_identifier,
+      :allow_writes)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -335,10 +371,16 @@ module Aws::Redshift
     #   @return [String]
     #
     # @!attribute [rw] snapshot_cluster_identifier
-    #   The identifier of the cluster the snapshot was created from. This
-    #   parameter is required if your IAM user has a policy containing a
-    #   snapshot resource element that specifies anything other than * for
-    #   the cluster name.
+    #   The identifier of the cluster the snapshot was created from.
+    #
+    #   * *If the snapshot to access doesn't exist and the associated IAM
+    #     policy doesn't allow access to all (*) snapshots* - This
+    #     parameter is required. Otherwise, permissions aren't available to
+    #     check if the snapshot exists.
+    #
+    #   * *If the snapshot to access exists* - This parameter isn't
+    #     required. Redshift can retrieve the cluster identifier and use it
+    #     to validate snapshot authorization.
     #   @return [String]
     #
     # @!attribute [rw] account_with_restore_access
@@ -368,6 +410,28 @@ module Aws::Redshift
     #
     class AuthorizeSnapshotAccessResult < Struct.new(
       :snapshot)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The authorized token issuer for the Amazon Redshift IAM Identity
+    # Center application.
+    #
+    # @!attribute [rw] trusted_token_issuer_arn
+    #   The ARN for the authorized token issuer for integrating Amazon
+    #   Redshift with IDC Identity Center.
+    #   @return [String]
+    #
+    # @!attribute [rw] authorized_audiences_list
+    #   The list of audiences for the authorized token issuer for
+    #   integrating Amazon Redshift with IDC Identity Center.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/AuthorizedTokenIssuer AWS API Documentation
+    #
+    class AuthorizedTokenIssuer < Struct.new(
+      :trusted_token_issuer_arn,
+      :authorized_audiences_list)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -495,6 +559,26 @@ module Aws::Redshift
     # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CancelResizeMessage AWS API Documentation
     #
     class CancelResizeMessage < Struct.new(
+      :cluster_identifier)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A cluster ID and custom domain name tied to a specific certificate.
+    # These are typically returned in a list.
+    #
+    # @!attribute [rw] custom_domain_name
+    #   The custom domain name for the certificate association.
+    #   @return [String]
+    #
+    # @!attribute [rw] cluster_identifier
+    #   The cluster identifier for the certificate association.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CertificateAssociation AWS API Documentation
+    #
+    class CertificateAssociation < Struct.new(
+      :custom_domain_name,
       :cluster_identifier)
       SENSITIVE = []
       include Aws::Structure
@@ -673,6 +757,8 @@ module Aws::Redshift
     # @!attribute [rw] publicly_accessible
     #   A boolean value that, if `true`, indicates that the cluster can be
     #   accessed from a public network.
+    #
+    #   Default: false
     #   @return [Boolean]
     #
     # @!attribute [rw] encrypted
@@ -828,6 +914,45 @@ module Aws::Redshift
     #   in-progress and requested.
     #   @return [Types::ReservedNodeExchangeStatus]
     #
+    # @!attribute [rw] custom_domain_name
+    #   The custom domain name associated with the cluster.
+    #   @return [String]
+    #
+    # @!attribute [rw] custom_domain_certificate_arn
+    #   The certificate Amazon Resource Name (ARN) for the custom domain
+    #   name.
+    #   @return [String]
+    #
+    # @!attribute [rw] custom_domain_certificate_expiry_date
+    #   The expiration date for the certificate associated with the custom
+    #   domain name.
+    #   @return [Time]
+    #
+    # @!attribute [rw] master_password_secret_arn
+    #   The Amazon Resource Name (ARN) for the cluster's admin user
+    #   credentials secret.
+    #   @return [String]
+    #
+    # @!attribute [rw] master_password_secret_kms_key_id
+    #   The ID of the Key Management Service (KMS) key used to encrypt and
+    #   store the cluster's admin credentials secret.
+    #   @return [String]
+    #
+    # @!attribute [rw] ip_address_type
+    #   The IP address type for the cluster. Possible values are `ipv4` and
+    #   `dualstack`.
+    #   @return [String]
+    #
+    # @!attribute [rw] multi_az
+    #   A boolean value that, if true, indicates that the cluster is
+    #   deployed in two Availability Zones.
+    #   @return [String]
+    #
+    # @!attribute [rw] multi_az_secondary
+    #   The secondary compute unit of a cluster, if Multi-AZ deployment is
+    #   turned on.
+    #   @return [Types::SecondaryClusterInfo]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/Cluster AWS API Documentation
     #
     class Cluster < Struct.new(
@@ -882,7 +1007,15 @@ module Aws::Redshift
       :total_storage_capacity_in_mega_bytes,
       :aqua_configuration,
       :default_iam_role_arn,
-      :reserved_node_exchange_status)
+      :reserved_node_exchange_status,
+      :custom_domain_name,
+      :custom_domain_certificate_arn,
+      :custom_domain_certificate_expiry_date,
+      :master_password_secret_arn,
+      :master_password_secret_kms_key_id,
+      :ip_address_type,
+      :multi_az,
+      :multi_az_secondary)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1037,13 +1170,13 @@ module Aws::Redshift
     #
     #   The following are possible statuses and descriptions.
     #
-    #   * `in-sync`\: The role is available for use by the cluster.
+    #   * `in-sync`: The role is available for use by the cluster.
     #
-    #   * `adding`\: The role is in the process of being associated with the
+    #   * `adding`: The role is in the process of being associated with the
     #     cluster.
     #
-    #   * `removing`\: The role is in the process of being disassociated
-    #     with the cluster.
+    #   * `removing`: The role is in the process of being disassociated with
+    #     the cluster.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ClusterIamRole AWS API Documentation
@@ -1262,23 +1395,23 @@ module Aws::Redshift
     #
     #   The following are possible statuses and descriptions.
     #
-    #   * `in-sync`\: The parameter value is in sync with the database.
+    #   * `in-sync`: The parameter value is in sync with the database.
     #
-    #   * `pending-reboot`\: The parameter value will be applied after the
+    #   * `pending-reboot`: The parameter value will be applied after the
     #     cluster reboots.
     #
-    #   * `applying`\: The parameter value is being applied to the database.
+    #   * `applying`: The parameter value is being applied to the database.
     #
-    #   * `invalid-parameter`\: Cannot apply the parameter value because it
+    #   * `invalid-parameter`: Cannot apply the parameter value because it
     #     has an invalid value or syntax.
     #
-    #   * `apply-deferred`\: The parameter contains static property changes.
+    #   * `apply-deferred`: The parameter contains static property changes.
     #     The changes are deferred until the cluster reboots.
     #
-    #   * `apply-error`\: Cannot connect to the cluster. The parameter
-    #     change will be applied after the cluster reboots.
+    #   * `apply-error`: Cannot connect to the cluster. The parameter change
+    #     will be applied after the cluster reboots.
     #
-    #   * `unknown-error`\: Cannot apply the parameter change right now. The
+    #   * `unknown-error`: Cannot apply the parameter change right now. The
     #     change will be applied after the cluster reboots.
     #   @return [String]
     #
@@ -1498,6 +1631,11 @@ module Aws::Redshift
     #   The list of tags for the cluster subnet group.
     #   @return [Array<Types::Tag>]
     #
+    # @!attribute [rw] supported_cluster_ip_address_types
+    #   The IP address types supported by this cluster subnet group.
+    #   Possible values are `ipv4` and `dualstack`.
+    #   @return [Array<String>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ClusterSubnetGroup AWS API Documentation
     #
     class ClusterSubnetGroup < Struct.new(
@@ -1506,7 +1644,8 @@ module Aws::Redshift
       :vpc_id,
       :subnet_group_status,
       :subnets,
-      :tags)
+      :tags,
+      :supported_cluster_ip_address_types)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1648,6 +1787,12 @@ module Aws::Redshift
       SENSITIVE = []
       include Aws::Structure
     end
+
+    # There is a conflict while updating the resource policy.
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ConflictPolicyUpdateFault AWS API Documentation
+    #
+    class ConflictPolicyUpdateFault < Aws::EmptyStructure; end
 
     # @!attribute [rw] source_snapshot_identifier
     #   The identifier for the source snapshot.
@@ -1831,9 +1976,8 @@ module Aws::Redshift
     #   about node types, go to [ Working with Clusters][1] in the *Amazon
     #   Redshift Cluster Management Guide*.
     #
-    #   Valid Values: `ds2.xlarge` \| `ds2.8xlarge` \| `dc1.large` \|
-    #   `dc1.8xlarge` \| `dc2.large` \| `dc2.8xlarge` \| `ra3.xlplus` \|
-    #   `ra3.4xlarge` \| `ra3.16xlarge`
+    #   Valid Values: `dc2.large` \| `dc2.8xlarge` \| `ra3.large` \|
+    #   `ra3.xlplus` \| `ra3.4xlarge` \| `ra3.16xlarge`
     #
     #
     #
@@ -1868,6 +2012,9 @@ module Aws::Redshift
     # @!attribute [rw] master_user_password
     #   The password associated with the admin user account for the cluster
     #   that is being created.
+    #
+    #   You can't use `MasterUserPassword` if `ManageMasterPassword` is
+    #   `true`.
     #
     #   Constraints:
     #
@@ -1992,7 +2139,15 @@ module Aws::Redshift
     #
     #   Default: `5439`
     #
-    #   Valid Values: `1150-65535`
+    #   Valid Values:
+    #
+    #   * For clusters with ra3 nodes - Select a port within the ranges
+    #     `5431-5455` or `8191-8215`. (If you have an existing cluster with
+    #     ra3 nodes, it isn't required that you change the port to these
+    #     ranges.)
+    #
+    #   * For clusters with dc2 nodes - Select a port within the range
+    #     `1150-65535`.
     #   @return [Integer]
     #
     # @!attribute [rw] cluster_version
@@ -2043,12 +2198,15 @@ module Aws::Redshift
     #
     # @!attribute [rw] publicly_accessible
     #   If `true`, the cluster can be accessed from a public network.
+    #
+    #   Default: false
     #   @return [Boolean]
     #
     # @!attribute [rw] encrypted
-    #   If `true`, the data in the cluster is encrypted at rest.
+    #   If `true`, the data in the cluster is encrypted at rest. If you set
+    #   the value on this parameter to `false`, the request will fail.
     #
-    #   Default: false
+    #   Default: true
     #   @return [Boolean]
     #
     # @!attribute [rw] hsm_client_certificate_identifier
@@ -2153,6 +2311,35 @@ module Aws::Redshift
     #   is created.
     #   @return [String]
     #
+    # @!attribute [rw] manage_master_password
+    #   If `true`, Amazon Redshift uses Secrets Manager to manage this
+    #   cluster's admin credentials. You can't use `MasterUserPassword` if
+    #   `ManageMasterPassword` is true. If `ManageMasterPassword` is false
+    #   or not set, Amazon Redshift uses `MasterUserPassword` for the admin
+    #   user account's password.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] master_password_secret_kms_key_id
+    #   The ID of the Key Management Service (KMS) key used to encrypt and
+    #   store the cluster's admin credentials secret. You can only use this
+    #   parameter if `ManageMasterPassword` is true.
+    #   @return [String]
+    #
+    # @!attribute [rw] ip_address_type
+    #   The IP address types that the cluster supports. Possible values are
+    #   `ipv4` and `dualstack`.
+    #   @return [String]
+    #
+    # @!attribute [rw] multi_az
+    #   If true, Amazon Redshift will deploy the cluster in two Availability
+    #   Zones (AZ).
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] redshift_idc_application_arn
+    #   The Amazon resource name (ARN) of the Amazon Redshift IAM Identity
+    #   Center application.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CreateClusterMessage AWS API Documentation
     #
     class CreateClusterMessage < Struct.new(
@@ -2189,8 +2376,13 @@ module Aws::Redshift
       :availability_zone_relocation,
       :aqua_configuration_status,
       :default_iam_role_arn,
-      :load_sample_data)
-      SENSITIVE = []
+      :load_sample_data,
+      :manage_master_password,
+      :master_password_secret_kms_key_id,
+      :ip_address_type,
+      :multi_az,
+      :redshift_idc_application_arn)
+      SENSITIVE = [:master_user_password]
       include Aws::Structure
     end
 
@@ -2425,6 +2617,58 @@ module Aws::Redshift
       include Aws::Structure
     end
 
+    # @!attribute [rw] custom_domain_name
+    #   The custom domain name for a custom domain association.
+    #   @return [String]
+    #
+    # @!attribute [rw] custom_domain_certificate_arn
+    #   The certificate Amazon Resource Name (ARN) for the custom domain
+    #   name association.
+    #   @return [String]
+    #
+    # @!attribute [rw] cluster_identifier
+    #   The cluster identifier that the custom domain is associated with.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CreateCustomDomainAssociationMessage AWS API Documentation
+    #
+    class CreateCustomDomainAssociationMessage < Struct.new(
+      :custom_domain_name,
+      :custom_domain_certificate_arn,
+      :cluster_identifier)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] custom_domain_name
+    #   The custom domain name for the association result.
+    #   @return [String]
+    #
+    # @!attribute [rw] custom_domain_certificate_arn
+    #   The Amazon Resource Name (ARN) for the certificate associated with
+    #   the custom domain name.
+    #   @return [String]
+    #
+    # @!attribute [rw] cluster_identifier
+    #   The identifier of the cluster that the custom domain is associated
+    #   with.
+    #   @return [String]
+    #
+    # @!attribute [rw] custom_domain_cert_expiry_time
+    #   The expiration time for the certificate for the custom domain.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CreateCustomDomainAssociationResult AWS API Documentation
+    #
+    class CreateCustomDomainAssociationResult < Struct.new(
+      :custom_domain_name,
+      :custom_domain_certificate_arn,
+      :cluster_identifier,
+      :custom_domain_cert_expiry_time)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] cluster_identifier
     #   The cluster identifier of the cluster to access.
     #   @return [String]
@@ -2651,6 +2895,124 @@ module Aws::Redshift
     #
     class CreateHsmConfigurationResult < Struct.new(
       :hsm_configuration)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] source_arn
+    #   The Amazon Resource Name (ARN) of the database to use as the source
+    #   for replication.
+    #   @return [String]
+    #
+    # @!attribute [rw] target_arn
+    #   The Amazon Resource Name (ARN) of the Amazon Redshift data warehouse
+    #   to use as the target for replication.
+    #   @return [String]
+    #
+    # @!attribute [rw] integration_name
+    #   The name of the integration.
+    #   @return [String]
+    #
+    # @!attribute [rw] kms_key_id
+    #   An Key Management Service (KMS) key identifier for the key to use to
+    #   encrypt the integration. If you don't specify an encryption key,
+    #   the default Amazon Web Services owned key is used.
+    #   @return [String]
+    #
+    # @!attribute [rw] tag_list
+    #   A list of tags.
+    #   @return [Array<Types::Tag>]
+    #
+    # @!attribute [rw] additional_encryption_context
+    #   An optional set of non-secret key–value pairs that contains
+    #   additional contextual information about the data. For more
+    #   information, see [Encryption context][1] in the *Amazon Web Services
+    #   Key Management Service Developer Guide*.
+    #
+    #   You can only include this parameter if you specify the `KMSKeyId`
+    #   parameter.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context
+    #   @return [Hash<String,String>]
+    #
+    # @!attribute [rw] description
+    #   A description of the integration.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CreateIntegrationMessage AWS API Documentation
+    #
+    class CreateIntegrationMessage < Struct.new(
+      :source_arn,
+      :target_arn,
+      :integration_name,
+      :kms_key_id,
+      :tag_list,
+      :additional_encryption_context,
+      :description)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] idc_instance_arn
+    #   The Amazon resource name (ARN) of the IAM Identity Center instance
+    #   where Amazon Redshift creates a new managed application.
+    #   @return [String]
+    #
+    # @!attribute [rw] redshift_idc_application_name
+    #   The name of the Redshift application in IAM Identity Center.
+    #   @return [String]
+    #
+    # @!attribute [rw] identity_namespace
+    #   The namespace for the Amazon Redshift IAM Identity Center
+    #   application instance. It determines which managed application
+    #   verifies the connection token.
+    #   @return [String]
+    #
+    # @!attribute [rw] idc_display_name
+    #   The display name for the Amazon Redshift IAM Identity Center
+    #   application instance. It appears in the console.
+    #   @return [String]
+    #
+    # @!attribute [rw] iam_role_arn
+    #   The IAM role ARN for the Amazon Redshift IAM Identity Center
+    #   application instance. It has the required permissions to be assumed
+    #   and invoke the IDC Identity Center API.
+    #   @return [String]
+    #
+    # @!attribute [rw] authorized_token_issuer_list
+    #   The token issuer list for the Amazon Redshift IAM Identity Center
+    #   application instance.
+    #   @return [Array<Types::AuthorizedTokenIssuer>]
+    #
+    # @!attribute [rw] service_integrations
+    #   A collection of service integrations for the Redshift IAM Identity
+    #   Center application.
+    #   @return [Array<Types::ServiceIntegrationsUnion>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CreateRedshiftIdcApplicationMessage AWS API Documentation
+    #
+    class CreateRedshiftIdcApplicationMessage < Struct.new(
+      :idc_instance_arn,
+      :redshift_idc_application_name,
+      :identity_namespace,
+      :idc_display_name,
+      :iam_role_arn,
+      :authorized_token_issuer_list,
+      :service_integrations)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] redshift_idc_application
+    #   Contains properties for the Redshift IDC application.
+    #   @return [Types::RedshiftIdcApplication]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CreateRedshiftIdcApplicationResult AWS API Documentation
+    #
+    class CreateRedshiftIdcApplicationResult < Struct.new(
+      :redshift_idc_application)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2893,6 +3255,36 @@ module Aws::Redshift
       include Aws::Structure
     end
 
+    # An error occurred when an attempt was made to change the custom domain
+    # association.
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CustomCnameAssociationFault AWS API Documentation
+    #
+    class CustomCnameAssociationFault < Aws::EmptyStructure; end
+
+    # An error occurred. The custom domain name couldn't be found.
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CustomDomainAssociationNotFoundFault AWS API Documentation
+    #
+    class CustomDomainAssociationNotFoundFault < Aws::EmptyStructure; end
+
+    # @!attribute [rw] marker
+    #   The marker for the custom domain association.
+    #   @return [String]
+    #
+    # @!attribute [rw] associations
+    #   The associations for the custom domain.
+    #   @return [Array<Types::Association>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/CustomDomainAssociationsMessage AWS API Documentation
+    #
+    class CustomDomainAssociationsMessage < Struct.new(
+      :marker,
+      :associations)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] total_backup_size_in_mega_bytes
     #   The total amount of storage currently used for snapshots.
     #   @return [Float]
@@ -2911,15 +3303,12 @@ module Aws::Redshift
     end
 
     # @!attribute [rw] data_share_arn
-    #   An Amazon Resource Name (ARN) that references the datashare that is
-    #   owned by a specific namespace of the producer cluster. A datashare
-    #   ARN is in the
-    #   `arn:aws:redshift:\{region\}:\{account-id\}:\{datashare\}:\{namespace-guid\}/\{datashare-name\}`
-    #   format.
+    #   The Amazon Resource Name (ARN) of the datashare that the consumer is
+    #   to use.
     #   @return [String]
     #
     # @!attribute [rw] producer_arn
-    #   The Amazon Resource Name (ARN) of the producer.
+    #   The Amazon Resource Name (ARN) of the producer namespace.
     #   @return [String]
     #
     # @!attribute [rw] allow_publicly_accessible_consumers
@@ -2936,6 +3325,10 @@ module Aws::Redshift
     #   The identifier of a datashare to show its managing entity.
     #   @return [String]
     #
+    # @!attribute [rw] data_share_type
+    #   The type of the datashare created by RegisterNamespace.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DataShare AWS API Documentation
     #
     class DataShare < Struct.new(
@@ -2943,7 +3336,8 @@ module Aws::Redshift
       :producer_arn,
       :allow_publicly_accessible_consumers,
       :data_share_associations,
-      :managed_by)
+      :managed_by,
+      :data_share_type)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2973,6 +3367,16 @@ module Aws::Redshift
     #   The status change data of the datashare that is associated.
     #   @return [Time]
     #
+    # @!attribute [rw] producer_allowed_writes
+    #   Specifies whether write operations were allowed during data share
+    #   authorization.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] consumer_accepted_writes
+    #   Specifies whether write operations were allowed during data share
+    #   association.
+    #   @return [Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DataShareAssociation AWS API Documentation
     #
     class DataShareAssociation < Struct.new(
@@ -2980,7 +3384,9 @@ module Aws::Redshift
       :status,
       :consumer_region,
       :created_date,
-      :status_change_date)
+      :status_change_date,
+      :producer_allowed_writes,
+      :consumer_accepted_writes)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3030,7 +3436,7 @@ module Aws::Redshift
     end
 
     # @!attribute [rw] data_share_arn
-    #   The Amazon Resource Name (ARN) of the datashare to remove
+    #   The namespace Amazon Resource Name (ARN) of the datashare to remove
     #   authorization from.
     #   @return [String]
     #
@@ -3282,6 +3688,24 @@ module Aws::Redshift
       include Aws::Structure
     end
 
+    # @!attribute [rw] cluster_identifier
+    #   The identifier of the cluster to delete a custom domain association
+    #   for.
+    #   @return [String]
+    #
+    # @!attribute [rw] custom_domain_name
+    #   The custom domain name for the custom domain association.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DeleteCustomDomainAssociationMessage AWS API Documentation
+    #
+    class DeleteCustomDomainAssociationMessage < Struct.new(
+      :cluster_identifier,
+      :custom_domain_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] endpoint_name
     #   The Redshift-managed VPC endpoint to delete.
     #   @return [String]
@@ -3328,6 +3752,44 @@ module Aws::Redshift
     #
     class DeleteHsmConfigurationMessage < Struct.new(
       :hsm_configuration_identifier)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] integration_arn
+    #   The unique identifier of the integration to delete.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DeleteIntegrationMessage AWS API Documentation
+    #
+    class DeleteIntegrationMessage < Struct.new(
+      :integration_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] redshift_idc_application_arn
+    #   The ARN for a deleted Amazon Redshift IAM Identity Center
+    #   application.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DeleteRedshiftIdcApplicationMessage AWS API Documentation
+    #
+    class DeleteRedshiftIdcApplicationMessage < Struct.new(
+      :redshift_idc_application_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] resource_arn
+    #   The Amazon Resource Name (ARN) of the resource of which its resource
+    #   policy is deleted.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DeleteResourcePolicyMessage AWS API Documentation
+    #
+    class DeleteResourcePolicyMessage < Struct.new(
+      :resource_arn)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3403,6 +3865,12 @@ module Aws::Redshift
       include Aws::Structure
     end
 
+    # A dependent service denied access for the integration.
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DependentServiceAccessDeniedFault AWS API Documentation
+    #
+    class DependentServiceAccessDeniedFault < Aws::EmptyStructure; end
+
     # The request cannot be completed because a dependent service is
     # throttling requests made by Amazon Redshift on your behalf. Wait and
     # retry the request.
@@ -3417,6 +3885,37 @@ module Aws::Redshift
     # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DependentServiceUnavailableFault AWS API Documentation
     #
     class DependentServiceUnavailableFault < Aws::EmptyStructure; end
+
+    # @!attribute [rw] namespace_identifier
+    #   The unique identifier of the cluster or serverless namespace that
+    #   you want to deregister.
+    #   @return [Types::NamespaceIdentifierUnion]
+    #
+    # @!attribute [rw] consumer_identifiers
+    #   An array containing the ID of the consumer account that you want to
+    #   deregister the cluster or serverless namespace from.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DeregisterNamespaceInputMessage AWS API Documentation
+    #
+    class DeregisterNamespaceInputMessage < Struct.new(
+      :namespace_identifier,
+      :consumer_identifiers)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] status
+    #   The registration status of the cluster or serverless namespace.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DeregisterNamespaceOutputMessage AWS API Documentation
+    #
+    class DeregisterNamespaceOutputMessage < Struct.new(
+      :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
 
     # @!attribute [rw] attribute_names
     #   A list of attribute names.
@@ -4016,9 +4515,37 @@ module Aws::Redshift
       include Aws::Structure
     end
 
+    # @!attribute [rw] custom_domain_name
+    #   The custom domain name for the custom domain association.
+    #   @return [String]
+    #
+    # @!attribute [rw] custom_domain_certificate_arn
+    #   The certificate Amazon Resource Name (ARN) for the custom domain
+    #   association.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_records
+    #   The maximum records setting for the associated custom domain.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] marker
+    #   The marker for the custom domain association.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeCustomDomainAssociationsMessage AWS API Documentation
+    #
+    class DescribeCustomDomainAssociationsMessage < Struct.new(
+      :custom_domain_name,
+      :custom_domain_certificate_arn,
+      :max_records,
+      :marker)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] consumer_arn
-    #   The Amazon Resource Name (ARN) of the consumer that returns in the
-    #   list of datashares.
+    #   The Amazon Resource Name (ARN) of the consumer namespace that
+    #   returns in the list of datashares.
     #   @return [String]
     #
     # @!attribute [rw] status
@@ -4080,8 +4607,8 @@ module Aws::Redshift
     end
 
     # @!attribute [rw] producer_arn
-    #   The Amazon Resource Name (ARN) of the producer that returns in the
-    #   list of datashares.
+    #   The Amazon Resource Name (ARN) of the producer namespace that
+    #   returns in the list of datashares.
     #   @return [String]
     #
     # @!attribute [rw] status
@@ -4143,7 +4670,8 @@ module Aws::Redshift
     end
 
     # @!attribute [rw] data_share_arn
-    #   The identifier of the datashare to describe details of.
+    #   The Amazon resource name (ARN) of the datashare to describe details
+    #   of.
     #   @return [String]
     #
     # @!attribute [rw] max_records
@@ -4642,6 +5170,105 @@ module Aws::Redshift
       include Aws::Structure
     end
 
+    # @!attribute [rw] integration_arn
+    #   The Amazon Resource Name (ARN) of the inbound integration.
+    #   @return [String]
+    #
+    # @!attribute [rw] target_arn
+    #   The Amazon Resource Name (ARN) of the target of an inbound
+    #   integration.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_records
+    #   The maximum number of response records to return in each call. If
+    #   the number of remaining response records exceeds the specified
+    #   `MaxRecords` value, a value is returned in a `marker` field of the
+    #   response. You can retrieve the next set of records by retrying the
+    #   command with the returned marker value.
+    #
+    #   Default: `100`
+    #
+    #   Constraints: minimum 20, maximum 100.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] marker
+    #   An optional parameter that specifies the starting point to return a
+    #   set of response records. When the results of a
+    #   DescribeInboundIntegrations request exceed the value specified in
+    #   `MaxRecords`, Amazon Web Services returns a value in the `Marker`
+    #   field of the response. You can retrieve the next set of response
+    #   records by providing the returned marker value in the `Marker`
+    #   parameter and retrying the request.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeInboundIntegrationsMessage AWS API Documentation
+    #
+    class DescribeInboundIntegrationsMessage < Struct.new(
+      :integration_arn,
+      :target_arn,
+      :max_records,
+      :marker)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A set of elements to filter the returned integrations.
+    #
+    # @!attribute [rw] name
+    #   Specifies the type of integration filter.
+    #   @return [String]
+    #
+    # @!attribute [rw] values
+    #   Specifies the values to filter on.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeIntegrationsFilter AWS API Documentation
+    #
+    class DescribeIntegrationsFilter < Struct.new(
+      :name,
+      :values)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] integration_arn
+    #   The unique identifier of the integration.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_records
+    #   The maximum number of response records to return in each call. If
+    #   the number of remaining response records exceeds the specified
+    #   `MaxRecords` value, a value is returned in a `marker` field of the
+    #   response. You can retrieve the next set of records by retrying the
+    #   command with the returned marker value.
+    #
+    #   Default: `100`
+    #
+    #   Constraints: minimum 20, maximum 100.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] marker
+    #   An optional pagination token provided by a previous
+    #   `DescribeIntegrations` request. If this parameter is specified, the
+    #   response includes only records beyond the marker, up to the value
+    #   specified by `MaxRecords`.
+    #   @return [String]
+    #
+    # @!attribute [rw] filters
+    #   A filter that specifies one or more resources to return.
+    #   @return [Array<Types::DescribeIntegrationsFilter>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeIntegrationsMessage AWS API Documentation
+    #
+    class DescribeIntegrationsMessage < Struct.new(
+      :integration_arn,
+      :max_records,
+      :marker,
+      :filters)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] cluster_identifier
     #   The identifier of the cluster from which to get the logging status.
     #
@@ -4814,6 +5441,60 @@ module Aws::Redshift
     #
     class DescribePartnersOutputMessage < Struct.new(
       :partner_integration_info_list)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] redshift_idc_application_arn
+    #   The ARN for the Redshift application that integrates with IAM
+    #   Identity Center.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_records
+    #   The maximum number of response records to return in each call. If
+    #   the number of remaining response records exceeds the specified
+    #   MaxRecords value, a value is returned in a marker field of the
+    #   response. You can retrieve the next set of records by retrying the
+    #   command with the returned marker value.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] marker
+    #   A value that indicates the starting point for the next set of
+    #   response records in a subsequent request. If a value is returned in
+    #   a response, you can retrieve the next set of records by providing
+    #   this returned marker value in the Marker parameter and retrying the
+    #   command. If the Marker field is empty, all response records have
+    #   been retrieved for the request.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeRedshiftIdcApplicationsMessage AWS API Documentation
+    #
+    class DescribeRedshiftIdcApplicationsMessage < Struct.new(
+      :redshift_idc_application_arn,
+      :max_records,
+      :marker)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] redshift_idc_applications
+    #   The list of Amazon Redshift IAM Identity Center applications.
+    #   @return [Array<Types::RedshiftIdcApplication>]
+    #
+    # @!attribute [rw] marker
+    #   A value that indicates the starting point for the next set of
+    #   response records in a subsequent request. If a value is returned in
+    #   a response, you can retrieve the next set of records by providing
+    #   this returned marker value in the Marker parameter and retrying the
+    #   command. If the Marker field is empty, all response records have
+    #   been retrieved for the request.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/DescribeRedshiftIdcApplicationsResult AWS API Documentation
+    #
+    class DescribeRedshiftIdcApplicationsResult < Struct.new(
+      :redshift_idc_applications,
+      :marker)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5226,6 +5907,14 @@ module Aws::Redshift
     #
     #   * Snapshot copy grant
     #
+    #   * Integration (zero-ETL integration or S3 event integration)
+    #
+    #     <note markdown="1"> To describe the tags associated with an `integration`, don't
+    #     specify `ResourceType`, instead specify the `ResourceName` of the
+    #     integration.
+    #
+    #      </note>
+    #
     #   For more information about Amazon Redshift resource types and
     #   constructing ARNs, go to [Specifying Policy Elements: Actions,
     #   Effects, Resources, and Principals][1] in the Amazon Redshift
@@ -5407,8 +6096,8 @@ module Aws::Redshift
     #   @return [Boolean]
     #
     # @!attribute [rw] consumer_arn
-    #   The Amazon Resource Name (ARN) of the consumer that association for
-    #   the datashare is removed from.
+    #   The Amazon Resource Name (ARN) of the consumer namespace that
+    #   association for the datashare is removed from.
     #   @return [String]
     #
     # @!attribute [rw] consumer_region
@@ -5497,23 +6186,10 @@ module Aws::Redshift
     # @!attribute [rw] s3_key_prefix
     #   The prefix applied to the log file names.
     #
-    #   Constraints:
-    #
-    #   * Cannot exceed 512 characters
-    #
-    #   * Cannot contain spaces( ), double quotes ("), single quotes ('),
-    #     a backslash (\\), or control characters. The hexadecimal codes for
-    #     invalid characters are:
-    #
-    #     * x00 to x20
-    #
-    #     * x22
-    #
-    #     * x27
-    #
-    #     * x5c
-    #
-    #     * x7f or larger
+    #   Valid characters are any letter from any language, any whitespace
+    #   character, any numeric character, and the following characters:
+    #   underscore (`_`), period (`.`), colon (`:`), slash (`/`), equal
+    #   (`=`), plus (`+`), backslash (``), hyphen (`-`), at symbol (`@`).
     #   @return [String]
     #
     # @!attribute [rw] log_destination_type
@@ -6090,6 +6766,31 @@ module Aws::Redshift
       include Aws::Structure
     end
 
+    # @!attribute [rw] cluster_identifier
+    #   The unique identifier of the cluster for which the primary compute
+    #   unit will be failed over to another Availability Zone.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/FailoverPrimaryComputeInputMessage AWS API Documentation
+    #
+    class FailoverPrimaryComputeInputMessage < Struct.new(
+      :cluster_identifier)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] cluster
+    #   Describes a cluster.
+    #   @return [Types::Cluster]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/FailoverPrimaryComputeResult AWS API Documentation
+    #
+    class FailoverPrimaryComputeResult < Struct.new(
+      :cluster)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The request parameters to get cluster credentials.
     #
     # @!attribute [rw] db_user
@@ -6197,6 +6898,10 @@ module Aws::Redshift
     #   [1]: http://docs.aws.amazon.com/redshift/latest/dg/r_pg_keywords.html
     #   @return [Array<String>]
     #
+    # @!attribute [rw] custom_domain_name
+    #   The custom domain name for the cluster credentials.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/GetClusterCredentialsMessage AWS API Documentation
     #
     class GetClusterCredentialsMessage < Struct.new(
@@ -6205,7 +6910,8 @@ module Aws::Redshift
       :cluster_identifier,
       :duration_seconds,
       :auto_create,
-      :db_groups)
+      :db_groups,
+      :custom_domain_name)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -6228,12 +6934,17 @@ module Aws::Redshift
     #   Range: 900-3600. Default: 900.
     #   @return [Integer]
     #
+    # @!attribute [rw] custom_domain_name
+    #   The custom domain name for the IAM message cluster credentials.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/GetClusterCredentialsWithIAMMessage AWS API Documentation
     #
     class GetClusterCredentialsWithIAMMessage < Struct.new(
       :db_name,
       :cluster_identifier,
-      :duration_seconds)
+      :duration_seconds,
+      :custom_domain_name)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -6348,6 +7059,31 @@ module Aws::Redshift
     class GetReservedNodeExchangeOfferingsOutputMessage < Struct.new(
       :marker,
       :reserved_node_offerings)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] resource_arn
+    #   The Amazon Resource Name (ARN) of the resource of which its resource
+    #   policy is fetched.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/GetResourcePolicyMessage AWS API Documentation
+    #
+    class GetResourcePolicyMessage < Struct.new(
+      :resource_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] resource_policy
+    #   The content of the resource policy.
+    #   @return [Types::ResourcePolicy]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/GetResourcePolicyResult AWS API Documentation
+    #
+    class GetResourcePolicyResult < Struct.new(
+      :resource_policy)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -6578,6 +7314,70 @@ module Aws::Redshift
     #
     class InProgressTableRestoreQuotaExceededFault < Aws::EmptyStructure; end
 
+    # The content of an inbound integration.
+    #
+    # @!attribute [rw] integration_arn
+    #   The Amazon Resource Name (ARN) of an inbound integration.
+    #   @return [String]
+    #
+    # @!attribute [rw] source_arn
+    #   The Amazon Resource Name (ARN) of the source of an inbound
+    #   integration.
+    #   @return [String]
+    #
+    # @!attribute [rw] target_arn
+    #   The Amazon Resource Name (ARN) of the target of an inbound
+    #   integration.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status of an inbound integration.
+    #   @return [String]
+    #
+    # @!attribute [rw] errors
+    #   The outstanding errors of an inbound integration. Each item is an
+    #   "IntegrationError". This is null if there is no error.
+    #   @return [Array<Types::IntegrationError>]
+    #
+    # @!attribute [rw] create_time
+    #   The creation time of an inbound integration.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/InboundIntegration AWS API Documentation
+    #
+    class InboundIntegration < Struct.new(
+      :integration_arn,
+      :source_arn,
+      :target_arn,
+      :status,
+      :errors,
+      :create_time)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] marker
+    #   A value that indicates the starting point for the next set of
+    #   response records in a subsequent request. If a value is returned in
+    #   a response, you can retrieve the next set of records by providing
+    #   this returned marker value in the `Marker` parameter and retrying
+    #   the command. If the `Marker` field is empty, all response records
+    #   have been retrieved for the request.
+    #   @return [String]
+    #
+    # @!attribute [rw] inbound_integrations
+    #   A list of InboundIntegration instances.
+    #   @return [Array<Types::InboundIntegration>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/InboundIntegrationsMessage AWS API Documentation
+    #
+    class InboundIntegrationsMessage < Struct.new(
+      :marker,
+      :inbound_integrations)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The specified options are incompatible.
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/IncompatibleOrderableOptions AWS API Documentation
@@ -6597,6 +7397,165 @@ module Aws::Redshift
     # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/InsufficientS3BucketPolicyFault AWS API Documentation
     #
     class InsufficientS3BucketPolicyFault < Aws::EmptyStructure; end
+
+    # @!attribute [rw] integration_arn
+    #   The Amazon Resource Name (ARN) of the integration.
+    #   @return [String]
+    #
+    # @!attribute [rw] integration_name
+    #   The name of the integration.
+    #   @return [String]
+    #
+    # @!attribute [rw] source_arn
+    #   The Amazon Resource Name (ARN) of the database used as the source
+    #   for replication.
+    #   @return [String]
+    #
+    # @!attribute [rw] target_arn
+    #   The Amazon Resource Name (ARN) of the Amazon Redshift data warehouse
+    #   to use as the target for replication.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The current status of the integration.
+    #   @return [String]
+    #
+    # @!attribute [rw] errors
+    #   Any errors associated with the integration.
+    #   @return [Array<Types::IntegrationError>]
+    #
+    # @!attribute [rw] create_time
+    #   The time (UTC) when the integration was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] description
+    #   The description of the integration.
+    #   @return [String]
+    #
+    # @!attribute [rw] kms_key_id
+    #   The Key Management Service (KMS) key identifier for the key used to
+    #   encrypt the integration.
+    #   @return [String]
+    #
+    # @!attribute [rw] additional_encryption_context
+    #   The encryption context for the integration. For more information,
+    #   see [Encryption context][1] in the *Amazon Web Services Key
+    #   Management Service Developer Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context
+    #   @return [Hash<String,String>]
+    #
+    # @!attribute [rw] tags
+    #   The list of tags associated with the integration.
+    #   @return [Array<Types::Tag>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/Integration AWS API Documentation
+    #
+    class Integration < Struct.new(
+      :integration_arn,
+      :integration_name,
+      :source_arn,
+      :target_arn,
+      :status,
+      :errors,
+      :create_time,
+      :description,
+      :kms_key_id,
+      :additional_encryption_context,
+      :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The integration you are trying to create already exists.
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/IntegrationAlreadyExistsFault AWS API Documentation
+    #
+    class IntegrationAlreadyExistsFault < Aws::EmptyStructure; end
+
+    # A conflicting conditional operation is currently in progress against
+    # this resource. This typically occurs when there are multiple requests
+    # being made to the same resource at the same time, and these requests
+    # conflict with each other.
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/IntegrationConflictOperationFault AWS API Documentation
+    #
+    class IntegrationConflictOperationFault < Aws::EmptyStructure; end
+
+    # The integration is in an invalid state and can't perform the
+    # requested operation.
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/IntegrationConflictStateFault AWS API Documentation
+    #
+    class IntegrationConflictStateFault < Aws::EmptyStructure; end
+
+    # The error of an inbound integration.
+    #
+    # @!attribute [rw] error_code
+    #   The error code of an inbound integration error.
+    #   @return [String]
+    #
+    # @!attribute [rw] error_message
+    #   The error message of an inbound integration error.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/IntegrationError AWS API Documentation
+    #
+    class IntegrationError < Struct.new(
+      :error_code,
+      :error_message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The integration can't be found.
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/IntegrationNotFoundFault AWS API Documentation
+    #
+    class IntegrationNotFoundFault < Aws::EmptyStructure; end
+
+    # You can't create any more zero-ETL or S3 event integrations because
+    # the quota has been reached.
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/IntegrationQuotaExceededFault AWS API Documentation
+    #
+    class IntegrationQuotaExceededFault < Aws::EmptyStructure; end
+
+    # The specified integration source can't be found.
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/IntegrationSourceNotFoundFault AWS API Documentation
+    #
+    class IntegrationSourceNotFoundFault < Aws::EmptyStructure; end
+
+    # The specified integration target can't be found.
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/IntegrationTargetNotFoundFault AWS API Documentation
+    #
+    class IntegrationTargetNotFoundFault < Aws::EmptyStructure; end
+
+    # @!attribute [rw] marker
+    #   A value that indicates the starting point for the next set of
+    #   response records in a subsequent request. If a value is returned in
+    #   a response, you can retrieve the next set of records by providing
+    #   this returned marker value in the `Marker` parameter and retrying
+    #   the command. If the `Marker` field is empty, all response records
+    #   have been retrieved for the request.
+    #   @return [String]
+    #
+    # @!attribute [rw] integrations
+    #   List of integrations that are described.
+    #   @return [Array<Types::Integration>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/IntegrationsMessage AWS API Documentation
+    #
+    class IntegrationsMessage < Struct.new(
+      :marker,
+      :integrations)
+      SENSITIVE = []
+      include Aws::Structure
+    end
 
     # The authentication profile request is not valid. The profile name
     # can't be null or empty. The authentication profile API operation must
@@ -6702,6 +7661,12 @@ module Aws::Redshift
     #
     class InvalidNamespaceFault < Aws::EmptyStructure; end
 
+    # The resource policy isn't valid.
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/InvalidPolicyFault AWS API Documentation
+    #
+    class InvalidPolicyFault < Aws::EmptyStructure; end
+
     # Indicates that the Reserved Node being exchanged is not in an active
     # state.
     #
@@ -6802,12 +7767,124 @@ module Aws::Redshift
     #
     class InvalidVPCNetworkStateFault < Aws::EmptyStructure; end
 
+    # There are no subnets in your VPC with associated IPv6 CIDR blocks. To
+    # use dual-stack mode, associate an IPv6 CIDR block with each subnet in
+    # your VPC.
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/Ipv6CidrBlockNotFoundFault AWS API Documentation
+    #
+    class Ipv6CidrBlockNotFoundFault < Aws::EmptyStructure; end
+
+    # The Lake Formation scope.
+    #
+    # @!attribute [rw] authorization
+    #   Determines whether the query scope is enabled or disabled.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/LakeFormationQuery AWS API Documentation
+    #
+    class LakeFormationQuery < Struct.new(
+      :authorization)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A list of scopes set up for Lake Formation integration.
+    #
+    # @note LakeFormationScopeUnion is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @note LakeFormationScopeUnion is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of LakeFormationScopeUnion corresponding to the set member.
+    #
+    # @!attribute [rw] lake_formation_query
+    #   The Lake Formation scope.
+    #   @return [Types::LakeFormationQuery]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/LakeFormationScopeUnion AWS API Documentation
+    #
+    class LakeFormationScopeUnion < Struct.new(
+      :lake_formation_query,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class LakeFormationQuery < LakeFormationScopeUnion; end
+      class Unknown < LakeFormationScopeUnion; end
+    end
+
     # The encryption key has exceeded its grant limit in Amazon Web Services
     # KMS.
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/LimitExceededFault AWS API Documentation
     #
     class LimitExceededFault < Aws::EmptyStructure; end
+
+    # @!attribute [rw] cluster_identifier
+    #   The unique identifier of the Amazon Redshift cluster for which the
+    #   list of Advisor recommendations is returned. If the neither the
+    #   cluster identifier and the cluster namespace ARN parameters are
+    #   specified, then recommendations for all clusters in the account are
+    #   returned.
+    #   @return [String]
+    #
+    # @!attribute [rw] namespace_arn
+    #   The Amazon Redshift cluster namespace Amazon Resource Name (ARN) for
+    #   which the list of Advisor recommendations is returned. If the
+    #   neither the cluster identifier and the cluster namespace ARN
+    #   parameters are specified, then recommendations for all clusters in
+    #   the account are returned.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_records
+    #   The maximum number of response records to return in each call. If
+    #   the number of remaining response records exceeds the specified
+    #   MaxRecords value, a value is returned in a marker field of the
+    #   response. You can retrieve the next set of records by retrying the
+    #   command with the returned marker value.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] marker
+    #   A value that indicates the starting point for the next set of
+    #   response records in a subsequent request. If a value is returned in
+    #   a response, you can retrieve the next set of records by providing
+    #   this returned marker value in the Marker parameter and retrying the
+    #   command. If the Marker field is empty, all response records have
+    #   been retrieved for the request.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ListRecommendationsMessage AWS API Documentation
+    #
+    class ListRecommendationsMessage < Struct.new(
+      :cluster_identifier,
+      :namespace_arn,
+      :max_records,
+      :marker)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] recommendations
+    #   The Advisor recommendations for action on the Amazon Redshift
+    #   cluster.
+    #   @return [Array<Types::Recommendation>]
+    #
+    # @!attribute [rw] marker
+    #   A value that indicates the starting point for the next set of
+    #   response records in a subsequent request. If a value is returned in
+    #   a response, you can retrieve the next set of records by providing
+    #   this returned marker value in the Marker parameter and retrying the
+    #   command. If the Marker field is empty, all response records have
+    #   been retrieved for the request.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ListRecommendationsResult AWS API Documentation
+    #
+    class ListRecommendationsResult < Struct.new(
+      :recommendations,
+      :marker)
+      SENSITIVE = []
+      include Aws::Structure
+    end
 
     # Describes the status of logging for a cluster.
     #
@@ -7115,9 +8192,8 @@ module Aws::Redshift
     #   Clusters in Amazon Redshift][1] in the *Amazon Redshift Cluster
     #   Management Guide*.
     #
-    #   Valid Values: `ds2.xlarge` \| `ds2.8xlarge` \| `dc1.large` \|
-    #   `dc1.8xlarge` \| `dc2.large` \| `dc2.8xlarge` \| `ra3.xlplus` \|
-    #   `ra3.4xlarge` \| `ra3.16xlarge`
+    #   Valid Values: `dc2.large` \| `dc2.8xlarge` \| `ra3.large` \|
+    #   `ra3.xlplus` \| `ra3.4xlarge` \| `ra3.16xlarge`
     #
     #
     #
@@ -7167,6 +8243,9 @@ module Aws::Redshift
     #   request and the completion of the request, the `MasterUserPassword`
     #   element exists in the `PendingModifiedValues` element of the
     #   operation response.
+    #
+    #   You can't use `MasterUserPassword` if `ManageMasterPassword` is
+    #   `true`.
     #
     #   <note markdown="1"> Operations never return the password, so this operation provides a
     #   way to regain access to the admin user account for a cluster if the
@@ -7307,6 +8386,8 @@ module Aws::Redshift
     # @!attribute [rw] publicly_accessible
     #   If `true`, the cluster can be accessed from a public network. Only
     #   clusters in VPCs can be set to be publicly available.
+    #
+    #   Default: false
     #   @return [Boolean]
     #
     # @!attribute [rw] elastic_ip
@@ -7377,7 +8458,42 @@ module Aws::Redshift
     #
     # @!attribute [rw] port
     #   The option to change the port of an Amazon Redshift cluster.
+    #
+    #   Valid Values:
+    #
+    #   * For clusters with ra3 nodes - Select a port within the ranges
+    #     `5431-5455` or `8191-8215`. (If you have an existing cluster with
+    #     ra3 nodes, it isn't required that you change the port to these
+    #     ranges.)
+    #
+    #   * For clusters with dc2 nodes - Select a port within the range
+    #     `1150-65535`.
     #   @return [Integer]
+    #
+    # @!attribute [rw] manage_master_password
+    #   If `true`, Amazon Redshift uses Secrets Manager to manage this
+    #   cluster's admin credentials. You can't use `MasterUserPassword` if
+    #   `ManageMasterPassword` is true. If `ManageMasterPassword` is false
+    #   or not set, Amazon Redshift uses `MasterUserPassword` for the admin
+    #   user account's password.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] master_password_secret_kms_key_id
+    #   The ID of the Key Management Service (KMS) key used to encrypt and
+    #   store the cluster's admin credentials secret. You can only use this
+    #   parameter if `ManageMasterPassword` is true.
+    #   @return [String]
+    #
+    # @!attribute [rw] ip_address_type
+    #   The IP address types that the cluster supports. Possible values are
+    #   `ipv4` and `dualstack`.
+    #   @return [String]
+    #
+    # @!attribute [rw] multi_az
+    #   If true and the cluster is currently only deployed in a single
+    #   Availability Zone, the cluster will be modified to be deployed in
+    #   two Availability Zones.
+    #   @return [Boolean]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ModifyClusterMessage AWS API Documentation
     #
@@ -7406,8 +8522,12 @@ module Aws::Redshift
       :kms_key_id,
       :availability_zone_relocation,
       :availability_zone,
-      :port)
-      SENSITIVE = []
+      :port,
+      :manage_master_password,
+      :master_password_secret_kms_key_id,
+      :ip_address_type,
+      :multi_az)
+      SENSITIVE = [:master_user_password]
       include Aws::Structure
     end
 
@@ -7551,6 +8671,61 @@ module Aws::Redshift
       include Aws::Structure
     end
 
+    # @!attribute [rw] custom_domain_name
+    #   The custom domain name for a changed custom domain association.
+    #   @return [String]
+    #
+    # @!attribute [rw] custom_domain_certificate_arn
+    #   The certificate Amazon Resource Name (ARN) for the changed custom
+    #   domain association.
+    #   @return [String]
+    #
+    # @!attribute [rw] cluster_identifier
+    #   The identifier of the cluster to change a custom domain association
+    #   for.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ModifyCustomDomainAssociationMessage AWS API Documentation
+    #
+    class ModifyCustomDomainAssociationMessage < Struct.new(
+      :custom_domain_name,
+      :custom_domain_certificate_arn,
+      :cluster_identifier)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] custom_domain_name
+    #   The custom domain name associated with the result for the changed
+    #   custom domain association.
+    #   @return [String]
+    #
+    # @!attribute [rw] custom_domain_certificate_arn
+    #   The certificate Amazon Resource Name (ARN) associated with the
+    #   result for the changed custom domain association.
+    #   @return [String]
+    #
+    # @!attribute [rw] cluster_identifier
+    #   The identifier of the cluster associated with the result for the
+    #   changed custom domain association.
+    #   @return [String]
+    #
+    # @!attribute [rw] custom_domain_cert_expiry_time
+    #   The certificate expiration time associated with the result for the
+    #   changed custom domain association.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ModifyCustomDomainAssociationResult AWS API Documentation
+    #
+    class ModifyCustomDomainAssociationResult < Struct.new(
+      :custom_domain_name,
+      :custom_domain_certificate_arn,
+      :cluster_identifier,
+      :custom_domain_cert_expiry_time)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] endpoint_name
     #   The endpoint to be modified.
     #   @return [String]
@@ -7645,6 +8820,85 @@ module Aws::Redshift
     #
     class ModifyEventSubscriptionResult < Struct.new(
       :event_subscription)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] integration_arn
+    #   The unique identifier of the integration to modify.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   A new description for the integration.
+    #   @return [String]
+    #
+    # @!attribute [rw] integration_name
+    #   A new name for the integration.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ModifyIntegrationMessage AWS API Documentation
+    #
+    class ModifyIntegrationMessage < Struct.new(
+      :integration_arn,
+      :description,
+      :integration_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] redshift_idc_application_arn
+    #   The ARN for the Redshift application that integrates with IAM
+    #   Identity Center.
+    #   @return [String]
+    #
+    # @!attribute [rw] identity_namespace
+    #   The namespace for the Amazon Redshift IAM Identity Center
+    #   application to change. It determines which managed application
+    #   verifies the connection token.
+    #   @return [String]
+    #
+    # @!attribute [rw] iam_role_arn
+    #   The IAM role ARN associated with the Amazon Redshift IAM Identity
+    #   Center application to change. It has the required permissions to be
+    #   assumed and invoke the IDC Identity Center API.
+    #   @return [String]
+    #
+    # @!attribute [rw] idc_display_name
+    #   The display name for the Amazon Redshift IAM Identity Center
+    #   application to change. It appears on the console.
+    #   @return [String]
+    #
+    # @!attribute [rw] authorized_token_issuer_list
+    #   The authorized token issuer list for the Amazon Redshift IAM
+    #   Identity Center application to change.
+    #   @return [Array<Types::AuthorizedTokenIssuer>]
+    #
+    # @!attribute [rw] service_integrations
+    #   A collection of service integrations associated with the
+    #   application.
+    #   @return [Array<Types::ServiceIntegrationsUnion>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ModifyRedshiftIdcApplicationMessage AWS API Documentation
+    #
+    class ModifyRedshiftIdcApplicationMessage < Struct.new(
+      :redshift_idc_application_arn,
+      :identity_namespace,
+      :iam_role_arn,
+      :idc_display_name,
+      :authorized_token_issuer_list,
+      :service_integrations)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] redshift_idc_application
+    #   Contains properties for the Redshift IDC application.
+    #   @return [Types::RedshiftIdcApplication]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ModifyRedshiftIdcApplicationResult AWS API Documentation
+    #
+    class ModifyRedshiftIdcApplicationResult < Struct.new(
+      :redshift_idc_application)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -7809,6 +9063,34 @@ module Aws::Redshift
       include Aws::Structure
     end
 
+    # Object to store union of values for a provisioned cluster or
+    # serverless namespace’s identifier.
+    #
+    # @note NamespaceIdentifierUnion is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @!attribute [rw] serverless_identifier
+    #   The identifier for a serverless namespace.
+    #   @return [Types::ServerlessIdentifier]
+    #
+    # @!attribute [rw] provisioned_identifier
+    #   The identifier for a provisioned cluster.
+    #   @return [Types::ProvisionedIdentifier]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/NamespaceIdentifierUnion AWS API Documentation
+    #
+    class NamespaceIdentifierUnion < Struct.new(
+      :serverless_identifier,
+      :provisioned_identifier,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class ServerlessIdentifier < NamespaceIdentifierUnion; end
+      class ProvisionedIdentifier < NamespaceIdentifierUnion; end
+      class Unknown < NamespaceIdentifierUnion; end
+    end
+
     # Describes a network interface.
     #
     # @!attribute [rw] network_interface_id
@@ -7827,13 +9109,18 @@ module Aws::Redshift
     #   The Availability Zone.
     #   @return [String]
     #
+    # @!attribute [rw] ipv_6_address
+    #   The IPv6 address of the network interface within the subnet.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/NetworkInterface AWS API Documentation
     #
     class NetworkInterface < Struct.new(
       :network_interface_id,
       :subnet_id,
       :private_ip_address,
-      :availability_zone)
+      :availability_zone,
+      :ipv_6_address)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -7841,7 +9128,7 @@ module Aws::Redshift
     # A list of node configurations.
     #
     # @!attribute [rw] node_type
-    #   The node type, such as, "ds2.8xlarge".
+    #   The node type, such as, "ra3.4xlarge".
     #   @return [String]
     #
     # @!attribute [rw] number_of_nodes
@@ -8259,6 +9546,20 @@ module Aws::Redshift
       :enhanced_vpc_routing,
       :maintenance_track_name,
       :encryption_type)
+      SENSITIVE = [:master_user_password]
+      include Aws::Structure
+    end
+
+    # The identifier for a provisioned cluster.
+    #
+    # @!attribute [rw] cluster_identifier
+    #   The unique identifier for the provisioned cluster.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ProvisionedIdentifier AWS API Documentation
+    #
+    class ProvisionedIdentifier < Struct.new(
+      :cluster_identifier)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -8297,6 +9598,50 @@ module Aws::Redshift
       include Aws::Structure
     end
 
+    # @!attribute [rw] resource_arn
+    #   The Amazon Resource Name (ARN) of the resource of which its resource
+    #   policy is updated.
+    #   @return [String]
+    #
+    # @!attribute [rw] policy
+    #   The content of the resource policy being updated.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/PutResourcePolicyMessage AWS API Documentation
+    #
+    class PutResourcePolicyMessage < Struct.new(
+      :resource_arn,
+      :policy)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] resource_policy
+    #   The content of the updated resource policy.
+    #   @return [Types::ResourcePolicy]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/PutResourcePolicyResult AWS API Documentation
+    #
+    class PutResourcePolicyResult < Struct.new(
+      :resource_policy)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The S3 Access Grants scope.
+    #
+    # @!attribute [rw] authorization
+    #   Determines whether the read/write scope is enabled or disabled.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ReadWriteAccess AWS API Documentation
+    #
+    class ReadWriteAccess < Struct.new(
+      :authorization)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] cluster_identifier
     #   The cluster identifier.
     #   @return [String]
@@ -8321,6 +9666,111 @@ module Aws::Redshift
       include Aws::Structure
     end
 
+    # An Amazon Redshift Advisor recommended action on the Amazon Redshift
+    # cluster.
+    #
+    # @!attribute [rw] id
+    #   A unique identifier of the Advisor recommendation.
+    #   @return [String]
+    #
+    # @!attribute [rw] cluster_identifier
+    #   The unique identifier of the cluster for which the recommendation is
+    #   returned.
+    #   @return [String]
+    #
+    # @!attribute [rw] namespace_arn
+    #   The Amazon Redshift cluster namespace ARN for which the
+    #   recommendations is returned.
+    #   @return [String]
+    #
+    # @!attribute [rw] created_at
+    #   The date and time (UTC) that the recommendation was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] recommendation_type
+    #   The type of Advisor recommendation.
+    #   @return [String]
+    #
+    # @!attribute [rw] title
+    #   The title of the recommendation.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the recommendation.
+    #   @return [String]
+    #
+    # @!attribute [rw] observation
+    #   The description of what was observed about your cluster.
+    #   @return [String]
+    #
+    # @!attribute [rw] impact_ranking
+    #   The scale of the impact that the Advisor recommendation has to the
+    #   performance and cost of the cluster.
+    #   @return [String]
+    #
+    # @!attribute [rw] recommendation_text
+    #   The description of the recommendation.
+    #   @return [String]
+    #
+    # @!attribute [rw] recommended_actions
+    #   List of Amazon Redshift recommended actions.
+    #   @return [Array<Types::RecommendedAction>]
+    #
+    # @!attribute [rw] reference_links
+    #   List of helpful links for more information about the Advisor
+    #   recommendation.
+    #   @return [Array<Types::ReferenceLink>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/Recommendation AWS API Documentation
+    #
+    class Recommendation < Struct.new(
+      :id,
+      :cluster_identifier,
+      :namespace_arn,
+      :created_at,
+      :recommendation_type,
+      :title,
+      :description,
+      :observation,
+      :impact_ranking,
+      :recommendation_text,
+      :recommended_actions,
+      :reference_links)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The recommended action from the Amazon Redshift Advisor
+    # recommendation.
+    #
+    # @!attribute [rw] text
+    #   The specific instruction about the command.
+    #   @return [String]
+    #
+    # @!attribute [rw] database
+    #   The database name to perform the action on. Only applicable if the
+    #   type of command is SQL.
+    #   @return [String]
+    #
+    # @!attribute [rw] command
+    #   The command to run.
+    #   @return [String]
+    #
+    # @!attribute [rw] type
+    #   The type of command.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/RecommendedAction AWS API Documentation
+    #
+    class RecommendedAction < Struct.new(
+      :text,
+      :database,
+      :command,
+      :type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Describes a recurring charge.
     #
     # @!attribute [rw] recurring_charge_amount
@@ -8337,6 +9787,145 @@ module Aws::Redshift
     class RecurringCharge < Struct.new(
       :recurring_charge_amount,
       :recurring_charge_frequency)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Contains properties for the Redshift IDC application.
+    #
+    # @!attribute [rw] idc_instance_arn
+    #   The ARN for the IAM Identity Center instance that Redshift
+    #   integrates with.
+    #   @return [String]
+    #
+    # @!attribute [rw] redshift_idc_application_name
+    #   The name of the Redshift application in IAM Identity Center.
+    #   @return [String]
+    #
+    # @!attribute [rw] redshift_idc_application_arn
+    #   The ARN for the Redshift application that integrates with IAM
+    #   Identity Center.
+    #   @return [String]
+    #
+    # @!attribute [rw] identity_namespace
+    #   The identity namespace for the Amazon Redshift IAM Identity Center
+    #   application. It determines which managed application verifies the
+    #   connection token.
+    #   @return [String]
+    #
+    # @!attribute [rw] idc_display_name
+    #   The display name for the Amazon Redshift IAM Identity Center
+    #   application. It appears on the console.
+    #   @return [String]
+    #
+    # @!attribute [rw] iam_role_arn
+    #   The ARN for the Amazon Redshift IAM Identity Center application. It
+    #   has the required permissions to be assumed and invoke the IDC
+    #   Identity Center API.
+    #   @return [String]
+    #
+    # @!attribute [rw] idc_managed_application_arn
+    #   The ARN for the Amazon Redshift IAM Identity Center application.
+    #   @return [String]
+    #
+    # @!attribute [rw] idc_onboard_status
+    #   The onboarding status for the Amazon Redshift IAM Identity Center
+    #   application.
+    #   @return [String]
+    #
+    # @!attribute [rw] authorized_token_issuer_list
+    #   The authorized token issuer list for the Amazon Redshift IAM
+    #   Identity Center application.
+    #   @return [Array<Types::AuthorizedTokenIssuer>]
+    #
+    # @!attribute [rw] service_integrations
+    #   A list of service integrations for the Redshift IAM Identity Center
+    #   application.
+    #   @return [Array<Types::ServiceIntegrationsUnion>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/RedshiftIdcApplication AWS API Documentation
+    #
+    class RedshiftIdcApplication < Struct.new(
+      :idc_instance_arn,
+      :redshift_idc_application_name,
+      :redshift_idc_application_arn,
+      :identity_namespace,
+      :idc_display_name,
+      :iam_role_arn,
+      :idc_managed_application_arn,
+      :idc_onboard_status,
+      :authorized_token_issuer_list,
+      :service_integrations)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The application you attempted to add already exists.
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/RedshiftIdcApplicationAlreadyExistsFault AWS API Documentation
+    #
+    class RedshiftIdcApplicationAlreadyExistsFault < Aws::EmptyStructure; end
+
+    # The application you attempted to find doesn't exist.
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/RedshiftIdcApplicationNotExistsFault AWS API Documentation
+    #
+    class RedshiftIdcApplicationNotExistsFault < Aws::EmptyStructure; end
+
+    # The maximum number of Redshift IAM Identity Center applications was
+    # exceeded.
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/RedshiftIdcApplicationQuotaExceededFault AWS API Documentation
+    #
+    class RedshiftIdcApplicationQuotaExceededFault < Aws::EmptyStructure; end
+
+    # A link to an Amazon Redshift Advisor reference for more information
+    # about a recommendation.
+    #
+    # @!attribute [rw] text
+    #   The hyperlink text that describes the link to more information.
+    #   @return [String]
+    #
+    # @!attribute [rw] link
+    #   The URL address to find more information.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ReferenceLink AWS API Documentation
+    #
+    class ReferenceLink < Struct.new(
+      :text,
+      :link)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] namespace_identifier
+    #   The unique identifier of the cluster or serverless namespace that
+    #   you want to register.
+    #   @return [Types::NamespaceIdentifierUnion]
+    #
+    # @!attribute [rw] consumer_identifiers
+    #   An array containing the ID of the consumer account that you want to
+    #   register the namespace to.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/RegisterNamespaceInputMessage AWS API Documentation
+    #
+    class RegisterNamespaceInputMessage < Struct.new(
+      :namespace_identifier,
+      :consumer_identifiers)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] status
+    #   The registration status of the cluster or serverless namespace.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/RegisterNamespaceOutputMessage AWS API Documentation
+    #
+    class RegisterNamespaceOutputMessage < Struct.new(
+      :status)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -8515,7 +10104,7 @@ module Aws::Redshift
     #   @return [String]
     #
     # @!attribute [rw] source_reserved_node_type
-    #   The source reserved-node type, for example ds2.xlarge.
+    #   The source reserved-node type, for example ra3.4xlarge.
     #   @return [String]
     #
     # @!attribute [rw] source_reserved_node_count
@@ -8920,6 +10509,25 @@ module Aws::Redshift
     #
     class ResourceNotFoundFault < Aws::EmptyStructure; end
 
+    # The policy that is attached to a resource.
+    #
+    # @!attribute [rw] resource_arn
+    #   The resources that a policy is attached to.
+    #   @return [String]
+    #
+    # @!attribute [rw] policy
+    #   The content of a resource policy.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ResourcePolicy AWS API Documentation
+    #
+    class ResourcePolicy < Struct.new(
+      :resource_arn,
+      :policy)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] cluster_identifier
     #   The identifier of the cluster that will be created from restoring
     #   the snapshot.
@@ -8964,7 +10572,9 @@ module Aws::Redshift
     #
     #   Default: The same port as the original cluster.
     #
-    #   Constraints: Must be between `1115` and `65535`.
+    #   Valid values: For clusters with DC2 nodes, must be within the range
+    #   `1150`-`65535`. For clusters with ra3 nodes, must be within the
+    #   ranges `5431`-`5455` or `8191`-`8215`.
     #   @return [Integer]
     #
     # @!attribute [rw] availability_zone
@@ -8993,6 +10603,8 @@ module Aws::Redshift
     #
     # @!attribute [rw] publicly_accessible
     #   If `true`, the cluster can be accessed from a public network.
+    #
+    #   Default: false
     #   @return [Boolean]
     #
     # @!attribute [rw] owner_account
@@ -9112,18 +10724,11 @@ module Aws::Redshift
     # @!attribute [rw] node_type
     #   The node type that the restored cluster will be provisioned with.
     #
-    #   Default: The node type of the cluster from which the snapshot was
-    #   taken. You can modify this if you are using any DS node type. In
-    #   that case, you can choose to restore into another DS node type of
-    #   the same size. For example, you can restore ds1.8xlarge into
-    #   ds2.8xlarge, or ds1.xlarge into ds2.xlarge. If you have a DC
-    #   instance type, you must restore into that same instance type and
-    #   size. In other words, you can only restore a dc1.large instance type
-    #   into another dc1.large instance type or dc2.large instance type. You
-    #   can't restore dc1.8xlarge to dc2.8xlarge. First restore to a
-    #   dc1.8xlarge cluster, then resize to a dc2.8large cluster. For more
-    #   information about node types, see [ About Clusters and Nodes][1] in
-    #   the *Amazon Redshift Cluster Management Guide*.
+    #   If you have a DC instance type, you must restore into that same
+    #   instance type and size. In other words, you can only restore a
+    #   dc2.large node type into another dc2 type. For more information
+    #   about node types, see [ About Clusters and Nodes][1] in the *Amazon
+    #   Redshift Cluster Management Guide*.
     #
     #
     #
@@ -9216,6 +10821,29 @@ module Aws::Redshift
     #   key.
     #   @return [Boolean]
     #
+    # @!attribute [rw] manage_master_password
+    #   If `true`, Amazon Redshift uses Secrets Manager to manage the
+    #   restored cluster's admin credentials. If `ManageMasterPassword` is
+    #   false or not set, Amazon Redshift uses the admin credentials the
+    #   cluster had at the time the snapshot was taken.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] master_password_secret_kms_key_id
+    #   The ID of the Key Management Service (KMS) key used to encrypt and
+    #   store the cluster's admin credentials secret. You can only use this
+    #   parameter if `ManageMasterPassword` is true.
+    #   @return [String]
+    #
+    # @!attribute [rw] ip_address_type
+    #   The IP address type for the cluster. Possible values are `ipv4` and
+    #   `dualstack`.
+    #   @return [String]
+    #
+    # @!attribute [rw] multi_az
+    #   If true, the snapshot will be restored to a cluster deployed in two
+    #   Availability Zones.
+    #   @return [Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/RestoreFromClusterSnapshotMessage AWS API Documentation
     #
     class RestoreFromClusterSnapshotMessage < Struct.new(
@@ -9251,7 +10879,11 @@ module Aws::Redshift
       :default_iam_role_arn,
       :reserved_node_id,
       :target_reserved_node_offering_id,
-      :encrypted)
+      :encrypted,
+      :manage_master_password,
+      :master_password_secret_kms_key_id,
+      :ip_address_type,
+      :multi_az)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -9279,31 +10911,30 @@ module Aws::Redshift
     # @!attribute [rw] current_restore_rate_in_mega_bytes_per_second
     #   The number of megabytes per second being transferred from the backup
     #   storage. Returns the average rate for a completed backup. This field
-    #   is only updated when you restore to DC2 and DS2 node types.
+    #   is only updated when you restore to DC2 node types.
     #   @return [Float]
     #
     # @!attribute [rw] snapshot_size_in_mega_bytes
     #   The size of the set of snapshot data used to restore the cluster.
-    #   This field is only updated when you restore to DC2 and DS2 node
-    #   types.
+    #   This field is only updated when you restore to DC2 node types.
     #   @return [Integer]
     #
     # @!attribute [rw] progress_in_mega_bytes
     #   The number of megabytes that have been transferred from snapshot
-    #   storage. This field is only updated when you restore to DC2 and DS2
-    #   node types.
+    #   storage. This field is only updated when you restore to DC2 node
+    #   types.
     #   @return [Integer]
     #
     # @!attribute [rw] elapsed_time_in_seconds
     #   The amount of time an in-progress restore has been running, or the
     #   amount of time it took a completed restore to finish. This field is
-    #   only updated when you restore to DC2 and DS2 node types.
+    #   only updated when you restore to DC2 node types.
     #   @return [Integer]
     #
     # @!attribute [rw] estimated_time_to_completion_in_seconds
     #   The estimate of the time remaining before the restore will complete.
     #   Returns 0 for a completed restore. This field is only updated when
-    #   you restore to DC2 and DS2 node types.
+    #   you restore to DC2 node types.
     #   @return [Integer]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/RestoreStatus AWS API Documentation
@@ -9599,6 +11230,29 @@ module Aws::Redshift
       include Aws::Structure
     end
 
+    # A list of scopes set up for S3 Access Grants integration.
+    #
+    # @note S3AccessGrantsScopeUnion is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @note S3AccessGrantsScopeUnion is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of S3AccessGrantsScopeUnion corresponding to the set member.
+    #
+    # @!attribute [rw] read_write_access
+    #   The S3 Access Grants scope.
+    #   @return [Types::ReadWriteAccess]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/S3AccessGrantsScopeUnion AWS API Documentation
+    #
+    class S3AccessGrantsScopeUnion < Struct.new(
+      :read_write_access,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class ReadWriteAccess < S3AccessGrantsScopeUnion; end
+      class Unknown < S3AccessGrantsScopeUnion; end
+    end
+
     # Amazon SNS has responded that there is a problem with the specified
     # Amazon SNS topic.
     #
@@ -9639,7 +11293,7 @@ module Aws::Redshift
     #   A JSON format string of the Amazon Redshift API operation with input
     #   parameters.
     #
-    #   "`\{"ResizeCluster":\{"NodeType":"ds2.8xlarge","ClusterIdentifier":"my-test-cluster","NumberOfNodes":3\}\}`".
+    #   "`{"ResizeCluster":{"NodeType":"ra3.4xlarge","ClusterIdentifier":"my-test-cluster","NumberOfNodes":3}}`".
     #   @return [Types::ScheduledActionType]
     #
     # @!attribute [rw] schedule
@@ -9803,6 +11457,76 @@ module Aws::Redshift
       :scheduled_actions)
       SENSITIVE = []
       include Aws::Structure
+    end
+
+    # The AvailabilityZone and ClusterNodes information of the secondary
+    # compute unit.
+    #
+    # @!attribute [rw] availability_zone
+    #   The name of the Availability Zone in which the secondary compute
+    #   unit of the cluster is located.
+    #   @return [String]
+    #
+    # @!attribute [rw] cluster_nodes
+    #   The nodes in the secondary compute unit.
+    #   @return [Array<Types::ClusterNode>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/SecondaryClusterInfo AWS API Documentation
+    #
+    class SecondaryClusterInfo < Struct.new(
+      :availability_zone,
+      :cluster_nodes)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The identifier for a serverless namespace.
+    #
+    # @!attribute [rw] namespace_identifier
+    #   The unique identifier for the serverless namespace.
+    #   @return [String]
+    #
+    # @!attribute [rw] workgroup_identifier
+    #   The unique identifier for the workgroup associated with the
+    #   serverless namespace.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ServerlessIdentifier AWS API Documentation
+    #
+    class ServerlessIdentifier < Struct.new(
+      :namespace_identifier,
+      :workgroup_identifier)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A list of service integrations.
+    #
+    # @note ServiceIntegrationsUnion is a union - when making an API calls you must set exactly one of the members.
+    #
+    # @note ServiceIntegrationsUnion is a union - when returned from an API call exactly one value will be set and the returned type will be a subclass of ServiceIntegrationsUnion corresponding to the set member.
+    #
+    # @!attribute [rw] lake_formation
+    #   A list of scopes set up for Lake Formation integration.
+    #   @return [Array<Types::LakeFormationScopeUnion>]
+    #
+    # @!attribute [rw] s3_access_grants
+    #   A list of scopes set up for S3 Access Grants integration.
+    #   @return [Array<Types::S3AccessGrantsScopeUnion>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/ServiceIntegrationsUnion AWS API Documentation
+    #
+    class ServiceIntegrationsUnion < Struct.new(
+      :lake_formation,
+      :s3_access_grants,
+      :unknown)
+      SENSITIVE = []
+      include Aws::Structure
+      include Aws::Structure::Union
+
+      class LakeFormation < ServiceIntegrationsUnion; end
+      class S3AccessGrants < ServiceIntegrationsUnion; end
+      class Unknown < ServiceIntegrationsUnion; end
     end
 
     # Describes a snapshot.
@@ -9990,6 +11714,20 @@ module Aws::Redshift
     #   snapshot.
     #   @return [Time]
     #
+    # @!attribute [rw] master_password_secret_arn
+    #   The Amazon Resource Name (ARN) for the cluster's admin user
+    #   credentials secret.
+    #   @return [String]
+    #
+    # @!attribute [rw] master_password_secret_kms_key_id
+    #   The ID of the Key Management Service (KMS) key used to encrypt and
+    #   store the cluster's admin credentials secret.
+    #   @return [String]
+    #
+    # @!attribute [rw] snapshot_arn
+    #   The Amazon Resource Name (ARN) of the snapshot.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/redshift-2012-12-01/Snapshot AWS API Documentation
     #
     class Snapshot < Struct.new(
@@ -10026,7 +11764,10 @@ module Aws::Redshift
       :maintenance_track_name,
       :manual_snapshot_retention_period,
       :manual_snapshot_remaining_days,
-      :snapshot_retention_start_time)
+      :snapshot_retention_start_time,
+      :master_password_secret_arn,
+      :master_password_secret_kms_key_id,
+      :snapshot_arn)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -10854,3 +12595,4 @@ module Aws::Redshift
 
   end
 end
+

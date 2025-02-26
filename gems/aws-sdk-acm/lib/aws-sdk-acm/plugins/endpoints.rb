@@ -14,34 +14,48 @@ module Aws::ACM
       option(
         :endpoint_provider,
         doc_type: 'Aws::ACM::EndpointProvider',
-        docstring: 'The endpoint provider used to resolve endpoints. Any '\
-                   'object that responds to `#resolve_endpoint(parameters)` '\
-                   'where `parameters` is a Struct similar to '\
-                   '`Aws::ACM::EndpointParameters`'
-      ) do |cfg|
+        rbs_type: 'untyped',
+        docstring: <<~DOCS) do |_cfg|
+The endpoint provider used to resolve endpoints. Any object that responds to
+`#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+`Aws::ACM::EndpointParameters`.
+        DOCS
         Aws::ACM::EndpointProvider.new
       end
 
       # @api private
       class Handler < Seahorse::Client::Handler
         def call(context)
-          # If endpoint was discovered, do not resolve or apply the endpoint.
           unless context[:discovered_endpoint]
-            params = parameters_for_operation(context)
+            params = Aws::ACM::Endpoints.parameters_for_operation(context)
             endpoint = context.config.endpoint_provider.resolve_endpoint(params)
 
             context.http_request.endpoint = endpoint.url
             apply_endpoint_headers(context, endpoint.headers)
+
+            context[:endpoint_params] = params
+            context[:endpoint_properties] = endpoint.properties
           end
 
-          context[:endpoint_params] = params
           context[:auth_scheme] =
             Aws::Endpoints.resolve_auth_scheme(context, endpoint)
 
-          @handler.call(context)
+          with_metrics(context) { @handler.call(context) }
         end
 
         private
+
+        def with_metrics(context, &block)
+          metrics = []
+          metrics << 'ENDPOINT_OVERRIDE' unless context.config.regional_endpoint
+          if context[:auth_scheme] && context[:auth_scheme]['name'] == 'sigv4a'
+            metrics << 'SIGV4A_SIGNING'
+          end
+          if context.config.credentials&.credentials&.account_id
+            metrics << 'RESOLVED_ACCOUNT_ID'
+          end
+          Aws::Plugins::UserAgent.metric(*metrics, &block)
+        end
 
         def apply_endpoint_headers(context, headers)
           headers.each do |key, values|
@@ -51,41 +65,6 @@ module Aws::ACM
               .join(',')
 
             context.http_request.headers[key] = value
-          end
-        end
-
-        def parameters_for_operation(context)
-          case context.operation_name
-          when :add_tags_to_certificate
-            Aws::ACM::Endpoints::AddTagsToCertificate.build(context)
-          when :delete_certificate
-            Aws::ACM::Endpoints::DeleteCertificate.build(context)
-          when :describe_certificate
-            Aws::ACM::Endpoints::DescribeCertificate.build(context)
-          when :export_certificate
-            Aws::ACM::Endpoints::ExportCertificate.build(context)
-          when :get_account_configuration
-            Aws::ACM::Endpoints::GetAccountConfiguration.build(context)
-          when :get_certificate
-            Aws::ACM::Endpoints::GetCertificate.build(context)
-          when :import_certificate
-            Aws::ACM::Endpoints::ImportCertificate.build(context)
-          when :list_certificates
-            Aws::ACM::Endpoints::ListCertificates.build(context)
-          when :list_tags_for_certificate
-            Aws::ACM::Endpoints::ListTagsForCertificate.build(context)
-          when :put_account_configuration
-            Aws::ACM::Endpoints::PutAccountConfiguration.build(context)
-          when :remove_tags_from_certificate
-            Aws::ACM::Endpoints::RemoveTagsFromCertificate.build(context)
-          when :renew_certificate
-            Aws::ACM::Endpoints::RenewCertificate.build(context)
-          when :request_certificate
-            Aws::ACM::Endpoints::RequestCertificate.build(context)
-          when :resend_validation_email
-            Aws::ACM::Endpoints::ResendValidationEmail.build(context)
-          when :update_certificate_options
-            Aws::ACM::Endpoints::UpdateCertificateOptions.build(context)
           end
         end
       end

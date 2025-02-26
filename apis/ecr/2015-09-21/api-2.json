@@ -5,13 +5,15 @@
     "endpointPrefix":"api.ecr",
     "jsonVersion":"1.1",
     "protocol":"json",
+    "protocols":["json"],
     "serviceAbbreviation":"Amazon ECR",
-    "serviceFullName":"Amazon EC2 Container Registry",
+    "serviceFullName":"Amazon Elastic Container Registry",
     "serviceId":"ECR",
     "signatureVersion":"v4",
     "signingName":"ecr",
     "targetPrefix":"AmazonEC2ContainerRegistry_V20150921",
-    "uid":"ecr-2015-09-21"
+    "uid":"ecr-2015-09-21",
+    "auth":["aws.auth#sigv4"]
   },
   "operations":{
     "BatchCheckLayerAvailability":{
@@ -53,7 +55,9 @@
       "errors":[
         {"shape":"ServerException"},
         {"shape":"InvalidParameterException"},
-        {"shape":"RepositoryNotFoundException"}
+        {"shape":"RepositoryNotFoundException"},
+        {"shape":"LimitExceededException"},
+        {"shape":"UnableToGetUpstreamImageException"}
       ]
     },
     "BatchGetRepositoryScanningConfiguration":{
@@ -105,7 +109,10 @@
         {"shape":"ValidationException"},
         {"shape":"PullThroughCacheRuleAlreadyExistsException"},
         {"shape":"UnsupportedUpstreamRegistryException"},
-        {"shape":"LimitExceededException"}
+        {"shape":"LimitExceededException"},
+        {"shape":"UnableToAccessSecretException"},
+        {"shape":"SecretNotFoundException"},
+        {"shape":"UnableToDecryptSecretValueException"}
       ]
     },
     "CreateRepository":{
@@ -126,6 +133,22 @@
         {"shape":"KmsException"}
       ]
     },
+    "CreateRepositoryCreationTemplate":{
+      "name":"CreateRepositoryCreationTemplate",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"CreateRepositoryCreationTemplateRequest"},
+      "output":{"shape":"CreateRepositoryCreationTemplateResponse"},
+      "errors":[
+        {"shape":"ServerException"},
+        {"shape":"ValidationException"},
+        {"shape":"InvalidParameterException"},
+        {"shape":"LimitExceededException"},
+        {"shape":"TemplateAlreadyExistsException"}
+      ]
+    },
     "DeleteLifecyclePolicy":{
       "name":"DeleteLifecyclePolicy",
       "http":{
@@ -138,7 +161,8 @@
         {"shape":"ServerException"},
         {"shape":"InvalidParameterException"},
         {"shape":"RepositoryNotFoundException"},
-        {"shape":"LifecyclePolicyNotFoundException"}
+        {"shape":"LifecyclePolicyNotFoundException"},
+        {"shape":"ValidationException"}
       ]
     },
     "DeletePullThroughCacheRule":{
@@ -185,6 +209,21 @@
         {"shape":"RepositoryNotFoundException"},
         {"shape":"RepositoryNotEmptyException"},
         {"shape":"KmsException"}
+      ]
+    },
+    "DeleteRepositoryCreationTemplate":{
+      "name":"DeleteRepositoryCreationTemplate",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"DeleteRepositoryCreationTemplateRequest"},
+      "output":{"shape":"DeleteRepositoryCreationTemplateResponse"},
+      "errors":[
+        {"shape":"ServerException"},
+        {"shape":"ValidationException"},
+        {"shape":"InvalidParameterException"},
+        {"shape":"TemplateNotFoundException"}
       ]
     },
     "DeleteRepositoryPolicy":{
@@ -293,6 +332,34 @@
         {"shape":"RepositoryNotFoundException"}
       ]
     },
+    "DescribeRepositoryCreationTemplates":{
+      "name":"DescribeRepositoryCreationTemplates",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"DescribeRepositoryCreationTemplatesRequest"},
+      "output":{"shape":"DescribeRepositoryCreationTemplatesResponse"},
+      "errors":[
+        {"shape":"ServerException"},
+        {"shape":"ValidationException"},
+        {"shape":"InvalidParameterException"}
+      ]
+    },
+    "GetAccountSetting":{
+      "name":"GetAccountSetting",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"GetAccountSettingRequest"},
+      "output":{"shape":"GetAccountSettingResponse"},
+      "errors":[
+        {"shape":"ServerException"},
+        {"shape":"ValidationException"},
+        {"shape":"InvalidParameterException"}
+      ]
+    },
     "GetAuthorizationToken":{
       "name":"GetAuthorizationToken",
       "http":{
@@ -319,7 +386,8 @@
         {"shape":"InvalidParameterException"},
         {"shape":"LayersNotFoundException"},
         {"shape":"LayerInaccessibleException"},
-        {"shape":"RepositoryNotFoundException"}
+        {"shape":"RepositoryNotFoundException"},
+        {"shape":"UnableToGetUpstreamLayerException"}
       ]
     },
     "GetLifecyclePolicy":{
@@ -334,7 +402,8 @@
         {"shape":"ServerException"},
         {"shape":"InvalidParameterException"},
         {"shape":"RepositoryNotFoundException"},
-        {"shape":"LifecyclePolicyNotFoundException"}
+        {"shape":"LifecyclePolicyNotFoundException"},
+        {"shape":"ValidationException"}
       ]
     },
     "GetLifecyclePolicyPreview":{
@@ -349,7 +418,8 @@
         {"shape":"ServerException"},
         {"shape":"InvalidParameterException"},
         {"shape":"RepositoryNotFoundException"},
-        {"shape":"LifecyclePolicyPreviewNotFoundException"}
+        {"shape":"LifecyclePolicyPreviewNotFoundException"},
+        {"shape":"ValidationException"}
       ]
     },
     "GetRegistryPolicy":{
@@ -439,6 +509,21 @@
         {"shape":"ServerException"}
       ]
     },
+    "PutAccountSetting":{
+      "name":"PutAccountSetting",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"PutAccountSettingRequest"},
+      "output":{"shape":"PutAccountSettingResponse"},
+      "errors":[
+        {"shape":"ServerException"},
+        {"shape":"ValidationException"},
+        {"shape":"InvalidParameterException"},
+        {"shape":"LimitExceededException"}
+      ]
+    },
     "PutImage":{
       "name":"PutImage",
       "http":{
@@ -500,7 +585,8 @@
       "errors":[
         {"shape":"ServerException"},
         {"shape":"InvalidParameterException"},
-        {"shape":"RepositoryNotFoundException"}
+        {"shape":"RepositoryNotFoundException"},
+        {"shape":"ValidationException"}
       ]
     },
     "PutRegistryPolicy":{
@@ -590,7 +676,8 @@
         {"shape":"InvalidParameterException"},
         {"shape":"RepositoryNotFoundException"},
         {"shape":"LifecyclePolicyNotFoundException"},
-        {"shape":"LifecyclePolicyPreviewInProgressException"}
+        {"shape":"LifecyclePolicyPreviewInProgressException"},
+        {"shape":"ValidationException"}
       ]
     },
     "TagResource":{
@@ -625,6 +712,39 @@
         {"shape":"ServerException"}
       ]
     },
+    "UpdatePullThroughCacheRule":{
+      "name":"UpdatePullThroughCacheRule",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"UpdatePullThroughCacheRuleRequest"},
+      "output":{"shape":"UpdatePullThroughCacheRuleResponse"},
+      "errors":[
+        {"shape":"ServerException"},
+        {"shape":"InvalidParameterException"},
+        {"shape":"ValidationException"},
+        {"shape":"UnableToAccessSecretException"},
+        {"shape":"PullThroughCacheRuleNotFoundException"},
+        {"shape":"SecretNotFoundException"},
+        {"shape":"UnableToDecryptSecretValueException"}
+      ]
+    },
+    "UpdateRepositoryCreationTemplate":{
+      "name":"UpdateRepositoryCreationTemplate",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"UpdateRepositoryCreationTemplateRequest"},
+      "output":{"shape":"UpdateRepositoryCreationTemplateResponse"},
+      "errors":[
+        {"shape":"ServerException"},
+        {"shape":"ValidationException"},
+        {"shape":"InvalidParameterException"},
+        {"shape":"TemplateNotFoundException"}
+      ]
+    },
     "UploadLayerPart":{
       "name":"UploadLayerPart",
       "http":{
@@ -642,9 +762,30 @@
         {"shape":"LimitExceededException"},
         {"shape":"KmsException"}
       ]
+    },
+    "ValidatePullThroughCacheRule":{
+      "name":"ValidatePullThroughCacheRule",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"ValidatePullThroughCacheRuleRequest"},
+      "output":{"shape":"ValidatePullThroughCacheRuleResponse"},
+      "errors":[
+        {"shape":"ServerException"},
+        {"shape":"InvalidParameterException"},
+        {"shape":"ValidationException"},
+        {"shape":"PullThroughCacheRuleNotFoundException"}
+      ]
     }
   },
   "shapes":{
+    "AccountSettingName":{
+      "type":"string",
+      "max":64,
+      "min":1
+    },
+    "AccountSettingValue":{"type":"string"},
     "Arch":{"type":"string"},
     "Arn":{"type":"string"},
     "Attribute":{
@@ -817,7 +958,9 @@
       "members":{
         "ecrRepositoryPrefix":{"shape":"PullThroughCacheRuleRepositoryPrefix"},
         "upstreamRegistryUrl":{"shape":"Url"},
-        "registryId":{"shape":"RegistryId"}
+        "registryId":{"shape":"RegistryId"},
+        "upstreamRegistry":{"shape":"UpstreamRegistry"},
+        "credentialArn":{"shape":"CredentialArn"}
       }
     },
     "CreatePullThroughCacheRuleResponse":{
@@ -826,7 +969,34 @@
         "ecrRepositoryPrefix":{"shape":"PullThroughCacheRuleRepositoryPrefix"},
         "upstreamRegistryUrl":{"shape":"Url"},
         "createdAt":{"shape":"CreationTimestamp"},
-        "registryId":{"shape":"RegistryId"}
+        "registryId":{"shape":"RegistryId"},
+        "upstreamRegistry":{"shape":"UpstreamRegistry"},
+        "credentialArn":{"shape":"CredentialArn"}
+      }
+    },
+    "CreateRepositoryCreationTemplateRequest":{
+      "type":"structure",
+      "required":[
+        "prefix",
+        "appliedFor"
+      ],
+      "members":{
+        "prefix":{"shape":"Prefix"},
+        "description":{"shape":"RepositoryTemplateDescription"},
+        "encryptionConfiguration":{"shape":"EncryptionConfigurationForRepositoryCreationTemplate"},
+        "resourceTags":{"shape":"TagList"},
+        "imageTagMutability":{"shape":"ImageTagMutability"},
+        "repositoryPolicy":{"shape":"RepositoryPolicyText"},
+        "lifecyclePolicy":{"shape":"LifecyclePolicyTextForRepositoryCreationTemplate"},
+        "appliedFor":{"shape":"RCTAppliedForList"},
+        "customRoleArn":{"shape":"CustomRoleArn"}
+      }
+    },
+    "CreateRepositoryCreationTemplateResponse":{
+      "type":"structure",
+      "members":{
+        "registryId":{"shape":"RegistryId"},
+        "repositoryCreationTemplate":{"shape":"RepositoryCreationTemplate"}
       }
     },
     "CreateRepositoryRequest":{
@@ -848,6 +1018,16 @@
       }
     },
     "CreationTimestamp":{"type":"timestamp"},
+    "CredentialArn":{
+      "type":"string",
+      "max":612,
+      "min":50,
+      "pattern":"^arn:aws:secretsmanager:[a-zA-Z0-9-:]+:secret:ecr\\-pullthroughcache\\/[a-zA-Z0-9\\/_+=.@-]+$"
+    },
+    "CustomRoleArn":{
+      "type":"string",
+      "max":2048
+    },
     "CvssScore":{
       "type":"structure",
       "members":{
@@ -914,7 +1094,8 @@
         "ecrRepositoryPrefix":{"shape":"PullThroughCacheRuleRepositoryPrefix"},
         "upstreamRegistryUrl":{"shape":"Url"},
         "createdAt":{"shape":"CreationTimestamp"},
-        "registryId":{"shape":"RegistryId"}
+        "registryId":{"shape":"RegistryId"},
+        "credentialArn":{"shape":"CredentialArn"}
       }
     },
     "DeleteRegistryPolicyRequest":{
@@ -927,6 +1108,20 @@
       "members":{
         "registryId":{"shape":"RegistryId"},
         "policyText":{"shape":"RegistryPolicyText"}
+      }
+    },
+    "DeleteRepositoryCreationTemplateRequest":{
+      "type":"structure",
+      "required":["prefix"],
+      "members":{
+        "prefix":{"shape":"Prefix"}
+      }
+    },
+    "DeleteRepositoryCreationTemplateResponse":{
+      "type":"structure",
+      "members":{
+        "registryId":{"shape":"RegistryId"},
+        "repositoryCreationTemplate":{"shape":"RepositoryCreationTemplate"}
       }
     },
     "DeleteRepositoryPolicyRequest":{
@@ -1074,6 +1269,22 @@
         "nextToken":{"shape":"NextToken"}
       }
     },
+    "DescribeRepositoryCreationTemplatesRequest":{
+      "type":"structure",
+      "members":{
+        "prefixes":{"shape":"PrefixList"},
+        "nextToken":{"shape":"NextToken"},
+        "maxResults":{"shape":"MaxResults"}
+      }
+    },
+    "DescribeRepositoryCreationTemplatesResponse":{
+      "type":"structure",
+      "members":{
+        "registryId":{"shape":"RegistryId"},
+        "repositoryCreationTemplates":{"shape":"RepositoryCreationTemplateList"},
+        "nextToken":{"shape":"NextToken"}
+      }
+    },
     "EmptyUploadException":{
       "type":"structure",
       "members":{
@@ -1089,11 +1300,20 @@
         "kmsKey":{"shape":"KmsKey"}
       }
     },
+    "EncryptionConfigurationForRepositoryCreationTemplate":{
+      "type":"structure",
+      "required":["encryptionType"],
+      "members":{
+        "encryptionType":{"shape":"EncryptionType"},
+        "kmsKey":{"shape":"KmsKeyForRepositoryCreationTemplate"}
+      }
+    },
     "EncryptionType":{
       "type":"string",
       "enum":[
         "AES256",
-        "KMS"
+        "KMS",
+        "KMS_DSSE"
       ]
     },
     "EnhancedImageScanFinding":{
@@ -1113,7 +1333,9 @@
         "status":{"shape":"Status"},
         "title":{"shape":"Title"},
         "type":{"shape":"Type"},
-        "updatedAt":{"shape":"Date"}
+        "updatedAt":{"shape":"Date"},
+        "fixAvailable":{"shape":"FixAvailable"},
+        "exploitAvailable":{"shape":"ExploitAvailable"}
       }
     },
     "EnhancedImageScanFindingList":{
@@ -1124,6 +1346,7 @@
     "EvaluationTimestamp":{"type":"timestamp"},
     "ExceptionMessage":{"type":"string"},
     "ExpirationTimestamp":{"type":"timestamp"},
+    "ExploitAvailable":{"type":"string"},
     "FilePath":{"type":"string"},
     "FindingArn":{"type":"string"},
     "FindingDescription":{"type":"string"},
@@ -1144,7 +1367,23 @@
       "key":{"shape":"FindingSeverity"},
       "value":{"shape":"SeverityCount"}
     },
+    "FixAvailable":{"type":"string"},
+    "FixedInVersion":{"type":"string"},
     "ForceFlag":{"type":"boolean"},
+    "GetAccountSettingRequest":{
+      "type":"structure",
+      "required":["name"],
+      "members":{
+        "name":{"shape":"AccountSettingName"}
+      }
+    },
+    "GetAccountSettingResponse":{
+      "type":"structure",
+      "members":{
+        "name":{"shape":"AccountSettingName"},
+        "value":{"shape":"AccountSettingName"}
+      }
+    },
     "GetAuthorizationTokenRegistryIdList":{
       "type":"list",
       "member":{"shape":"RegistryId"},
@@ -1337,7 +1576,10 @@
         "ImageNotFound",
         "MissingDigestAndTag",
         "ImageReferencedByManifestList",
-        "KmsError"
+        "KmsError",
+        "UpstreamAccessDenied",
+        "UpstreamTooManyRequests",
+        "UpstreamUnavailable"
       ]
     },
     "ImageFailureList":{
@@ -1507,6 +1749,7 @@
       },
       "exception":true
     },
+    "IsPTCRuleValid":{"type":"boolean"},
     "KmsError":{"type":"string"},
     "KmsException":{
       "type":"structure",
@@ -1520,6 +1763,12 @@
       "type":"string",
       "max":2048,
       "min":1
+    },
+    "KmsKeyForRepositoryCreationTemplate":{
+      "type":"string",
+      "max":2048,
+      "min":0,
+      "pattern":"^$|arn:aws:kms:[a-z0-9-]+:[0-9]{12}:key\\/[a-z0-9-]+"
     },
     "Layer":{
       "type":"structure",
@@ -1676,6 +1925,11 @@
       "max":30720,
       "min":100
     },
+    "LifecyclePolicyTextForRepositoryCreationTemplate":{
+      "type":"string",
+      "max":30720,
+      "min":0
+    },
     "LifecyclePreviewMaxResults":{
       "type":"integer",
       "max":100,
@@ -1739,6 +1993,7 @@
     },
     "Metric":{"type":"string"},
     "NextToken":{"type":"string"},
+    "PTCValidateFailure":{"type":"string"},
     "PackageManager":{"type":"string"},
     "PackageVulnerabilityDetails":{
       "type":"structure",
@@ -1760,6 +2015,16 @@
       "min":0
     },
     "Platform":{"type":"string"},
+    "Prefix":{
+      "type":"string",
+      "max":256,
+      "min":1,
+      "pattern":"^((?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*/?|ROOT)$"
+    },
+    "PrefixList":{
+      "type":"list",
+      "member":{"shape":"Prefix"}
+    },
     "ProxyEndpoint":{"type":"string"},
     "PullThroughCacheRule":{
       "type":"structure",
@@ -1767,7 +2032,10 @@
         "ecrRepositoryPrefix":{"shape":"PullThroughCacheRuleRepositoryPrefix"},
         "upstreamRegistryUrl":{"shape":"Url"},
         "createdAt":{"shape":"CreationTimestamp"},
-        "registryId":{"shape":"RegistryId"}
+        "registryId":{"shape":"RegistryId"},
+        "credentialArn":{"shape":"CredentialArn"},
+        "upstreamRegistry":{"shape":"UpstreamRegistry"},
+        "updatedAt":{"shape":"UpdatedTimestamp"}
       }
     },
     "PullThroughCacheRuleAlreadyExistsException":{
@@ -1790,9 +2058,9 @@
     },
     "PullThroughCacheRuleRepositoryPrefix":{
       "type":"string",
-      "max":20,
+      "max":30,
       "min":2,
-      "pattern":"[a-z0-9]+(?:[._-][a-z0-9]+)*"
+      "pattern":"(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*"
     },
     "PullThroughCacheRuleRepositoryPrefixList":{
       "type":"list",
@@ -1801,6 +2069,24 @@
       "min":1
     },
     "PushTimestamp":{"type":"timestamp"},
+    "PutAccountSettingRequest":{
+      "type":"structure",
+      "required":[
+        "name",
+        "value"
+      ],
+      "members":{
+        "name":{"shape":"AccountSettingName"},
+        "value":{"shape":"AccountSettingValue"}
+      }
+    },
+    "PutAccountSettingResponse":{
+      "type":"structure",
+      "members":{
+        "name":{"shape":"AccountSettingName"},
+        "value":{"shape":"AccountSettingValue"}
+      }
+    },
     "PutImageRequest":{
       "type":"structure",
       "required":[
@@ -1922,6 +2208,17 @@
         "replicationConfiguration":{"shape":"ReplicationConfiguration"}
       }
     },
+    "RCTAppliedFor":{
+      "type":"string",
+      "enum":[
+        "REPLICATION",
+        "PULL_THROUGH_CACHE"
+      ]
+    },
+    "RCTAppliedForList":{
+      "type":"list",
+      "member":{"shape":"RCTAppliedFor"}
+    },
     "Reason":{"type":"string"},
     "Recommendation":{
       "type":"structure",
@@ -2022,7 +2319,7 @@
     "ReplicationDestinationList":{
       "type":"list",
       "member":{"shape":"ReplicationDestination"},
-      "max":25,
+      "max":100,
       "min":0
     },
     "ReplicationError":{"type":"string"},
@@ -2067,6 +2364,26 @@
         "message":{"shape":"ExceptionMessage"}
       },
       "exception":true
+    },
+    "RepositoryCreationTemplate":{
+      "type":"structure",
+      "members":{
+        "prefix":{"shape":"Prefix"},
+        "description":{"shape":"RepositoryTemplateDescription"},
+        "encryptionConfiguration":{"shape":"EncryptionConfigurationForRepositoryCreationTemplate"},
+        "resourceTags":{"shape":"TagList"},
+        "imageTagMutability":{"shape":"ImageTagMutability"},
+        "repositoryPolicy":{"shape":"RepositoryPolicyText"},
+        "lifecyclePolicy":{"shape":"LifecyclePolicyTextForRepositoryCreationTemplate"},
+        "appliedFor":{"shape":"RCTAppliedForList"},
+        "customRoleArn":{"shape":"CustomRoleArn"},
+        "createdAt":{"shape":"Date"},
+        "updatedAt":{"shape":"Date"}
+      }
+    },
+    "RepositoryCreationTemplateList":{
+      "type":"list",
+      "member":{"shape":"RepositoryCreationTemplate"}
     },
     "RepositoryFilter":{
       "type":"structure",
@@ -2163,6 +2480,10 @@
       "type":"list",
       "member":{"shape":"RepositoryScanningConfiguration"}
     },
+    "RepositoryTemplateDescription":{
+      "type":"string",
+      "max":256
+    },
     "Resource":{
       "type":"structure",
       "members":{
@@ -2209,7 +2530,8 @@
         "ACTIVE",
         "PENDING",
         "SCAN_ELIGIBILITY_EXPIRED",
-        "FINDINGS_UNAVAILABLE"
+        "FINDINGS_UNAVAILABLE",
+        "LIMIT_EXCEEDED"
       ]
     },
     "ScanStatusDescription":{"type":"string"},
@@ -2267,6 +2589,13 @@
       }
     },
     "ScoringVector":{"type":"string"},
+    "SecretNotFoundException":{
+      "type":"structure",
+      "members":{
+        "message":{"shape":"ExceptionMessage"}
+      },
+      "exception":true
+    },
     "ServerException":{
       "type":"structure",
       "members":{
@@ -2345,6 +2674,10 @@
     "Status":{"type":"string"},
     "Tag":{
       "type":"structure",
+      "required":[
+        "Key",
+        "Value"
+      ],
       "members":{
         "Key":{"shape":"TagKey"},
         "Value":{"shape":"TagValue"}
@@ -2389,6 +2722,20 @@
       "key":{"shape":"TagKey"},
       "value":{"shape":"TagValue"}
     },
+    "TemplateAlreadyExistsException":{
+      "type":"structure",
+      "members":{
+        "message":{"shape":"ExceptionMessage"}
+      },
+      "exception":true
+    },
+    "TemplateNotFoundException":{
+      "type":"structure",
+      "members":{
+        "message":{"shape":"ExceptionMessage"}
+      },
+      "exception":true
+    },
     "Title":{"type":"string"},
     "TooManyTagsException":{
       "type":"structure",
@@ -2398,6 +2745,34 @@
       "exception":true
     },
     "Type":{"type":"string"},
+    "UnableToAccessSecretException":{
+      "type":"structure",
+      "members":{
+        "message":{"shape":"ExceptionMessage"}
+      },
+      "exception":true
+    },
+    "UnableToDecryptSecretValueException":{
+      "type":"structure",
+      "members":{
+        "message":{"shape":"ExceptionMessage"}
+      },
+      "exception":true
+    },
+    "UnableToGetUpstreamImageException":{
+      "type":"structure",
+      "members":{
+        "message":{"shape":"ExceptionMessage"}
+      },
+      "exception":true
+    },
+    "UnableToGetUpstreamLayerException":{
+      "type":"structure",
+      "members":{
+        "message":{"shape":"ExceptionMessage"}
+      },
+      "exception":true
+    },
     "UnsupportedImageTypeException":{
       "type":"structure",
       "members":{
@@ -2428,6 +2803,50 @@
       "members":{
       }
     },
+    "UpdatePullThroughCacheRuleRequest":{
+      "type":"structure",
+      "required":[
+        "ecrRepositoryPrefix",
+        "credentialArn"
+      ],
+      "members":{
+        "registryId":{"shape":"RegistryId"},
+        "ecrRepositoryPrefix":{"shape":"PullThroughCacheRuleRepositoryPrefix"},
+        "credentialArn":{"shape":"CredentialArn"}
+      }
+    },
+    "UpdatePullThroughCacheRuleResponse":{
+      "type":"structure",
+      "members":{
+        "ecrRepositoryPrefix":{"shape":"PullThroughCacheRuleRepositoryPrefix"},
+        "registryId":{"shape":"RegistryId"},
+        "updatedAt":{"shape":"UpdatedTimestamp"},
+        "credentialArn":{"shape":"CredentialArn"}
+      }
+    },
+    "UpdateRepositoryCreationTemplateRequest":{
+      "type":"structure",
+      "required":["prefix"],
+      "members":{
+        "prefix":{"shape":"Prefix"},
+        "description":{"shape":"RepositoryTemplateDescription"},
+        "encryptionConfiguration":{"shape":"EncryptionConfigurationForRepositoryCreationTemplate"},
+        "resourceTags":{"shape":"TagList"},
+        "imageTagMutability":{"shape":"ImageTagMutability"},
+        "repositoryPolicy":{"shape":"RepositoryPolicyText"},
+        "lifecyclePolicy":{"shape":"LifecyclePolicyTextForRepositoryCreationTemplate"},
+        "appliedFor":{"shape":"RCTAppliedForList"},
+        "customRoleArn":{"shape":"CustomRoleArn"}
+      }
+    },
+    "UpdateRepositoryCreationTemplateResponse":{
+      "type":"structure",
+      "members":{
+        "registryId":{"shape":"RegistryId"},
+        "repositoryCreationTemplate":{"shape":"RepositoryCreationTemplate"}
+      }
+    },
+    "UpdatedTimestamp":{"type":"timestamp"},
     "UploadId":{
       "type":"string",
       "pattern":"[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}"
@@ -2466,7 +2885,38 @@
       },
       "exception":true
     },
+    "UpstreamRegistry":{
+      "type":"string",
+      "enum":[
+        "ecr-public",
+        "quay",
+        "k8s",
+        "docker-hub",
+        "github-container-registry",
+        "azure-container-registry",
+        "gitlab-container-registry"
+      ]
+    },
     "Url":{"type":"string"},
+    "ValidatePullThroughCacheRuleRequest":{
+      "type":"structure",
+      "required":["ecrRepositoryPrefix"],
+      "members":{
+        "ecrRepositoryPrefix":{"shape":"PullThroughCacheRuleRepositoryPrefix"},
+        "registryId":{"shape":"RegistryId"}
+      }
+    },
+    "ValidatePullThroughCacheRuleResponse":{
+      "type":"structure",
+      "members":{
+        "ecrRepositoryPrefix":{"shape":"PullThroughCacheRuleRepositoryPrefix"},
+        "registryId":{"shape":"RegistryId"},
+        "upstreamRegistryUrl":{"shape":"Url"},
+        "credentialArn":{"shape":"CredentialArn"},
+        "isValid":{"shape":"IsPTCRuleValid"},
+        "failure":{"shape":"PTCValidateFailure"}
+      }
+    },
     "ValidationException":{
       "type":"structure",
       "members":{
@@ -2487,7 +2937,8 @@
         "packageManager":{"shape":"PackageManager"},
         "release":{"shape":"Release"},
         "sourceLayerHash":{"shape":"SourceLayerHash"},
-        "version":{"shape":"Version"}
+        "version":{"shape":"Version"},
+        "fixedInVersion":{"shape":"FixedInVersion"}
       }
     },
     "VulnerablePackageName":{"type":"string"},

@@ -54,14 +54,17 @@ module AwsSdkCodeGenerator
         'Aws::Plugins::ResponsePaging' => "#{core_plugins}/response_paging.rb",
         'Aws::Plugins::StubResponses' => "#{core_plugins}/stub_responses.rb",
         'Aws::Plugins::IdempotencyToken' => "#{core_plugins}/idempotency_token.rb",
+        'Aws::Plugins::InvocationId' => "#{core_plugins}/invocation_id.rb",
         'Aws::Plugins::JsonvalueConverter' => "#{core_plugins}/jsonvalue_converter.rb",
         'Aws::Plugins::ClientMetricsPlugin' => "#{core_plugins}/client_metrics_plugin.rb",
         'Aws::Plugins::ClientMetricsSendPlugin' => "#{core_plugins}/client_metrics_send_plugin.rb",
         'Aws::Plugins::TransferEncoding' => "#{core_plugins}/transfer_encoding.rb",
         'Aws::Plugins::HttpChecksum' => "#{core_plugins}/http_checksum.rb",
         'Aws::Plugins::ChecksumAlgorithm' => "#{core_plugins}/checksum_algorithm.rb",
+        'Aws::Plugins::RequestCompression' => "#{core_plugins}/request_compression.rb",
         'Aws::Plugins::DefaultsMode' => "#{core_plugins}/defaults_mode.rb",
-        'Aws::Plugins::RecursionDetection' => "#{core_plugins}/recursion_detection.rb"
+        'Aws::Plugins::RecursionDetection' => "#{core_plugins}/recursion_detection.rb",
+        'Aws::Plugins::Telemetry' => "#{core_plugins}/telemetry.rb"
       }
     end
 
@@ -74,7 +77,6 @@ module AwsSdkCodeGenerator
       plugins.delete('Aws::Plugins::ClientMetricsPlugin')
       plugins.delete('Aws::Plugins::ClientMetricsSendPlugin')
       plugins.delete('Aws::Plugins::TransferEncoding')
-      plugins['Aws::Plugins::InvocationId'] = "#{core_plugins}/invocation_id.rb"
       plugins
     end
 
@@ -85,6 +87,7 @@ module AwsSdkCodeGenerator
         'rest-xml'  => { 'Aws::Plugins::Protocols::RestXml' => "#{core_plugins}/protocols/rest_xml.rb" },
         'query'     => { 'Aws::Plugins::Protocols::Query' => "#{core_plugins}/protocols/query.rb" },
         'ec2'       => { 'Aws::Plugins::Protocols::EC2' => "#{core_plugins}/protocols/ec2.rb" },
+        'smithy-rpc-v2-cbor' => { 'Aws::Plugins::Protocols::RpcV2' => "#{core_plugins}/protocols/rpc_v2.rb" },
         'api-gateway' => {
           'Aws::Plugins::Protocols::ApiGateway' => "#{core_plugins}/protocols/api_gateway.rb",
           'Aws::Plugins::ApiKey' => "#{core_plugins}/api_key.rb",

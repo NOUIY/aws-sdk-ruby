@@ -57,6 +57,74 @@ module Aws::WorkSpacesWeb
       include Aws::Structure
     end
 
+    # @!attribute [rw] data_protection_settings_arn
+    #   The ARN of the data protection settings.
+    #   @return [String]
+    #
+    # @!attribute [rw] portal_arn
+    #   The ARN of the web portal.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/workspaces-web-2020-07-08/AssociateDataProtectionSettingsRequest AWS API Documentation
+    #
+    class AssociateDataProtectionSettingsRequest < Struct.new(
+      :data_protection_settings_arn,
+      :portal_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] data_protection_settings_arn
+    #   The ARN of the data protection settings resource.
+    #   @return [String]
+    #
+    # @!attribute [rw] portal_arn
+    #   The ARN of the web portal.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/workspaces-web-2020-07-08/AssociateDataProtectionSettingsResponse AWS API Documentation
+    #
+    class AssociateDataProtectionSettingsResponse < Struct.new(
+      :data_protection_settings_arn,
+      :portal_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] ip_access_settings_arn
+    #   The ARN of the IP access settings.
+    #   @return [String]
+    #
+    # @!attribute [rw] portal_arn
+    #   The ARN of the web portal.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/workspaces-web-2020-07-08/AssociateIpAccessSettingsRequest AWS API Documentation
+    #
+    class AssociateIpAccessSettingsRequest < Struct.new(
+      :ip_access_settings_arn,
+      :portal_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] ip_access_settings_arn
+    #   The ARN of the IP access settings resource.
+    #   @return [String]
+    #
+    # @!attribute [rw] portal_arn
+    #   The ARN of the web portal.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/workspaces-web-2020-07-08/AssociateIpAccessSettingsResponse AWS API Documentation
+    #
+    class AssociateIpAccessSettingsResponse < Struct.new(
+      :ip_access_settings_arn,
+      :portal_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] network_settings_arn
     #   The ARN of the network settings.
     #   @return [String]
@@ -198,6 +266,10 @@ module Aws::WorkSpacesWeb
     # how the browser will behave once a user starts a streaming session for
     # the web portal.
     #
+    # @!attribute [rw] additional_encryption_context
+    #   The additional encryption context of the browser settings.
+    #   @return [Hash<String,String>]
+    #
     # @!attribute [rw] associated_portal_arns
     #   A list of web portal ARNs that this browser settings is associated
     #   with.
@@ -212,12 +284,19 @@ module Aws::WorkSpacesWeb
     #   The ARN of the browser settings.
     #   @return [String]
     #
+    # @!attribute [rw] customer_managed_key
+    #   The customer managed key used to encrypt sensitive information in
+    #   the browser settings.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/workspaces-web-2020-07-08/BrowserSettings AWS API Documentation
     #
     class BrowserSettings < Struct.new(
+      :additional_encryption_context,
       :associated_portal_arns,
       :browser_policy,
-      :browser_settings_arn)
+      :browser_settings_arn,
+      :customer_managed_key)
       SENSITIVE = [:browser_policy]
       include Aws::Structure
     end
@@ -332,6 +411,52 @@ module Aws::WorkSpacesWeb
       include Aws::Structure
     end
 
+    # Specifies a single cookie or set of cookies in an end user's browser.
+    #
+    # @!attribute [rw] domain
+    #   The domain of the cookie.
+    #   @return [String]
+    #
+    # @!attribute [rw] name
+    #   The name of the cookie.
+    #   @return [String]
+    #
+    # @!attribute [rw] path
+    #   The path of the cookie.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/workspaces-web-2020-07-08/CookieSpecification AWS API Documentation
+    #
+    class CookieSpecification < Struct.new(
+      :domain,
+      :name,
+      :path)
+      SENSITIVE = [:domain, :name, :path]
+      include Aws::Structure
+    end
+
+    # The configuration that specifies which cookies should be synchronized
+    # from the end user's local browser to the remote browser.
+    #
+    # @!attribute [rw] allowlist
+    #   The list of cookie specifications that are allowed to be
+    #   synchronized to the remote browser.
+    #   @return [Array<Types::CookieSpecification>]
+    #
+    # @!attribute [rw] blocklist
+    #   The list of cookie specifications that are blocked from being
+    #   synchronized to the remote browser.
+    #   @return [Array<Types::CookieSpecification>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/workspaces-web-2020-07-08/CookieSynchronizationConfiguration AWS API Documentation
+    #
+    class CookieSynchronizationConfiguration < Struct.new(
+      :allowlist,
+      :blocklist)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] additional_encryption_context
     #   Additional encryption context of the browser settings.
     #   @return [Hash<String,String>]
@@ -350,7 +475,7 @@ module Aws::WorkSpacesWeb
     #   request.
     #
     #   If you do not specify a client token, one is automatically generated
-    #   by the AWS SDK.
+    #   by the Amazon Web Services SDK.
     #
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.
@@ -373,7 +498,7 @@ module Aws::WorkSpacesWeb
       :client_token,
       :customer_managed_key,
       :tags)
-      SENSITIVE = [:browser_policy]
+      SENSITIVE = [:browser_policy, :tags]
       include Aws::Structure
     end
 
@@ -389,6 +514,10 @@ module Aws::WorkSpacesWeb
       include Aws::Structure
     end
 
+    # @!attribute [rw] additional_encryption_context
+    #   Additional encryption context of the data protection settings.
+    #   @return [Hash<String,String>]
+    #
     # @!attribute [rw] client_token
     #   A unique, case-sensitive identifier that you provide to ensure the
     #   idempotency of the request. Idempotency ensures that an API request
@@ -398,7 +527,70 @@ module Aws::WorkSpacesWeb
     #   request.
     #
     #   If you do not specify a client token, one is automatically generated
-    #   by the AWS SDK.
+    #   by the Amazon Web Services SDK.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @!attribute [rw] customer_managed_key
+    #   The custom managed key of the data protection settings.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the data protection settings.
+    #   @return [String]
+    #
+    # @!attribute [rw] display_name
+    #   The display name of the data protection settings.
+    #   @return [String]
+    #
+    # @!attribute [rw] inline_redaction_configuration
+    #   The inline redaction configuration of the data protection settings
+    #   that will be applied to all sessions.
+    #   @return [Types::InlineRedactionConfiguration]
+    #
+    # @!attribute [rw] tags
+    #   The tags to add to the data protection settings resource. A tag is a
+    #   key-value pair.
+    #   @return [Array<Types::Tag>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/workspaces-web-2020-07-08/CreateDataProtectionSettingsRequest AWS API Documentation
+    #
+    class CreateDataProtectionSettingsRequest < Struct.new(
+      :additional_encryption_context,
+      :client_token,
+      :customer_managed_key,
+      :description,
+      :display_name,
+      :inline_redaction_configuration,
+      :tags)
+      SENSITIVE = [:description, :display_name, :tags]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] data_protection_settings_arn
+    #   The ARN of the data protection settings resource.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/workspaces-web-2020-07-08/CreateDataProtectionSettingsResponse AWS API Documentation
+    #
+    class CreateDataProtectionSettingsResponse < Struct.new(
+      :data_protection_settings_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier that you provide to ensure the
+    #   idempotency of the request. Idempotency ensures that an API request
+    #   completes only once. With an idempotent request, if the original
+    #   request completes successfully, subsequent retries with the same
+    #   client token returns the result from the original successful
+    #   request.
+    #
+    #   If you do not specify a client token, one is automatically generated
+    #   by the Amazon Web Services SDK.
     #
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.
@@ -415,7 +607,6 @@ module Aws::WorkSpacesWeb
     #     * `client_secret`
     #
     #     * `authorize_scopes`
-    #
     #   * For Facebook:
     #
     #     * `client_id`
@@ -425,7 +616,6 @@ module Aws::WorkSpacesWeb
     #     * `authorize_scopes`
     #
     #     * `api_version`
-    #
     #   * For Sign in with Apple:
     #
     #     * `client_id`
@@ -437,7 +627,6 @@ module Aws::WorkSpacesWeb
     #     * `private_key`
     #
     #     * `authorize_scopes`
-    #
     #   * For OIDC providers:
     #
     #     * `client_id`
@@ -461,12 +650,18 @@ module Aws::WorkSpacesWeb
     #
     #     * `jwks_uri` *if not available from discovery URL specified by
     #       `oidc_issuer` key*
-    #
     #   * For SAML providers:
     #
     #     * `MetadataFile` OR `MetadataURL`
     #
     #     * `IDPSignout` (boolean) *optional*
+    #
+    #     * `IDPInit` (boolean) *optional*
+    #
+    #     * `RequestSigningAlgorithm` (string) *optional* - Only accepts
+    #       `rsa-sha256`
+    #
+    #     * `EncryptedResponses` (boolean) *optional*
     #   @return [Hash<String,String>]
     #
     # @!attribute [rw] identity_provider_name
@@ -481,6 +676,11 @@ module Aws::WorkSpacesWeb
     #   The ARN of the web portal.
     #   @return [String]
     #
+    # @!attribute [rw] tags
+    #   The tags to add to the identity provider resource. A tag is a
+    #   key-value pair.
+    #   @return [Array<Types::Tag>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/workspaces-web-2020-07-08/CreateIdentityProviderRequest AWS API Documentation
     #
     class CreateIdentityProviderRequest < Struct.new(
@@ -488,8 +688,9 @@ module Aws::WorkSpacesWeb
       :identity_provider_details,
       :identity_provider_name,
       :identity_provider_type,
-      :portal_arn)
-      SENSITIVE = [:identity_provider_details, :identity_provider_name]
+      :portal_arn,
+      :tags)
+      SENSITIVE = [:identity_provider_details, :identity_provider_name, :tags]
       include Aws::Structure
     end
 
@@ -505,6 +706,10 @@ module Aws::WorkSpacesWeb
       include Aws::Structure
     end
 
+    # @!attribute [rw] additional_encryption_context
+    #   Additional encryption context of the IP access settings.
+    #   @return [Hash<String,String>]
+    #
     # @!attribute [rw] client_token
     #   A unique, case-sensitive identifier that you provide to ensure the
     #   idempotency of the request. Idempotency ensures that an API request
@@ -514,7 +719,69 @@ module Aws::WorkSpacesWeb
     #   request.
     #
     #   If you do not specify a client token, one is automatically generated
-    #   by the AWS SDK.
+    #   by the Amazon Web Services SDK.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @!attribute [rw] customer_managed_key
+    #   The custom managed key of the IP access settings.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the IP access settings.
+    #   @return [String]
+    #
+    # @!attribute [rw] display_name
+    #   The display name of the IP access settings.
+    #   @return [String]
+    #
+    # @!attribute [rw] ip_rules
+    #   The IP rules of the IP access settings.
+    #   @return [Array<Types::IpRule>]
+    #
+    # @!attribute [rw] tags
+    #   The tags to add to the IP access settings resource. A tag is a
+    #   key-value pair.
+    #   @return [Array<Types::Tag>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/workspaces-web-2020-07-08/CreateIpAccessSettingsRequest AWS API Documentation
+    #
+    class CreateIpAccessSettingsRequest < Struct.new(
+      :additional_encryption_context,
+      :client_token,
+      :customer_managed_key,
+      :description,
+      :display_name,
+      :ip_rules,
+      :tags)
+      SENSITIVE = [:description, :display_name, :ip_rules, :tags]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] ip_access_settings_arn
+    #   The ARN of the IP access settings resource.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/workspaces-web-2020-07-08/CreateIpAccessSettingsResponse AWS API Documentation
+    #
+    class CreateIpAccessSettingsResponse < Struct.new(
+      :ip_access_settings_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier that you provide to ensure the
+    #   idempotency of the request. Idempotency ensures that an API request
+    #   completes only once. With an idempotent request, if the original
+    #   request completes successfully, subsequent retries with the same
+    #   client token returns the result from the original successful
+    #   request.
+    #
+    #   If you do not specify a client token, one is automatically generated
+    #   by the Amazon Web Services SDK.
     #
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.
@@ -548,7 +815,7 @@ module Aws::WorkSpacesWeb
       :subnet_ids,
       :tags,
       :vpc_id)
-      SENSITIVE = []
+      SENSITIVE = [:tags]
       include Aws::Structure
     end
 
@@ -578,12 +845,10 @@ module Aws::WorkSpacesWeb
     #   group access to your web portal is controlled through your identity
     #   provider.
     #
-    #   `IAM_Identity_Center` web portals are authenticated through AWS IAM
-    #   Identity Center (successor to AWS Single Sign-On). They provide
-    #   additional features, such as IdP-initiated authentication. Identity
-    #   sources (including external identity provider integration), plus
-    #   user and group access to your web portal, can be configured in the
-    #   IAM Identity Center.
+    #   `IAM Identity Center` web portals are authenticated through IAM
+    #   Identity Center. Identity sources (including external identity
+    #   provider integration), plus user and group access to your web
+    #   portal, can be configured in the IAM Identity Center.
     #   @return [String]
     #
     # @!attribute [rw] client_token
@@ -595,7 +860,7 @@ module Aws::WorkSpacesWeb
     #   request.
     #
     #   If you do not specify a client token, one is automatically generated
-    #   by the AWS SDK.
+    #   by the Amazon Web Services SDK.
     #
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.
@@ -610,6 +875,14 @@ module Aws::WorkSpacesWeb
     #   into the web portal.
     #   @return [String]
     #
+    # @!attribute [rw] instance_type
+    #   The type and resources of the underlying instance.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_concurrent_sessions
+    #   The maximum number of concurrent sessions for the portal.
+    #   @return [Integer]
+    #
     # @!attribute [rw] tags
     #   The tags to add to the web portal. A tag is a key-value pair.
     #   @return [Array<Types::Tag>]
@@ -622,8 +895,10 @@ module Aws::WorkSpacesWeb
       :client_token,
       :customer_managed_key,
       :display_name,
+      :instance_type,
+      :max_concurrent_sessions,
       :tags)
-      SENSITIVE = [:display_name]
+      SENSITIVE = [:display_name, :tags]
       include Aws::Structure
     end
 
@@ -658,7 +933,7 @@ module Aws::WorkSpacesWeb
     #   request.
     #
     #   If you do not specify a client token, one is automatically generated
-    #   by the AWS SDK.
+    #   by the Amazon Web Services SDK.
     #
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.
@@ -674,7 +949,7 @@ module Aws::WorkSpacesWeb
       :certificate_list,
       :client_token,
       :tags)
-      SENSITIVE = []
+      SENSITIVE = [:tags]
       include Aws::Structure
     end
 
@@ -699,7 +974,7 @@ module Aws::WorkSpacesWeb
     #   request.
     #
     #   If you do not specify a client token, one is automatically generated
-    #   by the AWS SDK.
+    #   by the Amazon Web Services SDK.
     #
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.
@@ -720,7 +995,7 @@ module Aws::WorkSpacesWeb
       :client_token,
       :kinesis_stream_arn,
       :tags)
-      SENSITIVE = []
+      SENSITIVE = [:tags]
       include Aws::Structure
     end
 
@@ -736,6 +1011,10 @@ module Aws::WorkSpacesWeb
       include Aws::Structure
     end
 
+    # @!attribute [rw] additional_encryption_context
+    #   The additional encryption context of the user settings.
+    #   @return [Hash<String,String>]
+    #
     # @!attribute [rw] client_token
     #   A unique, case-sensitive identifier that you provide to ensure the
     #   idempotency of the request. Idempotency ensures that an API request
@@ -745,15 +1024,31 @@ module Aws::WorkSpacesWeb
     #   request.
     #
     #   If you do not specify a client token, one is automatically generated
-    #   by the AWS SDK.
+    #   by the Amazon Web Services SDK.
     #
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.
     #   @return [String]
     #
+    # @!attribute [rw] cookie_synchronization_configuration
+    #   The configuration that specifies which cookies should be
+    #   synchronized from the end user's local browser to the remote
+    #   browser.
+    #   @return [Types::CookieSynchronizationConfiguration]
+    #
     # @!attribute [rw] copy_allowed
     #   Specifies whether the user can copy text from the streaming session
     #   to the local device.
+    #   @return [String]
+    #
+    # @!attribute [rw] customer_managed_key
+    #   The customer managed key used to encrypt sensitive information in
+    #   the user settings.
+    #   @return [String]
+    #
+    # @!attribute [rw] deep_link_allowed
+    #   Specifies whether the user can use deep links that open
+    #   automatically when connecting to a session.
     #   @return [String]
     #
     # @!attribute [rw] disconnect_timeout_in_minutes
@@ -786,6 +1081,14 @@ module Aws::WorkSpacesWeb
     #   pair.
     #   @return [Array<Types::Tag>]
     #
+    # @!attribute [rw] toolbar_configuration
+    #   The configuration of the toolbar. This allows administrators to
+    #   select the toolbar type and visual mode, set maximum display
+    #   resolution for sessions, and choose which items are visible to end
+    #   users during their sessions. If administrators do not modify these
+    #   settings, end users retain control over their toolbar preferences.
+    #   @return [Types::ToolbarConfiguration]
+    #
     # @!attribute [rw] upload_allowed
     #   Specifies whether the user can upload files from the local device to
     #   the streaming session.
@@ -794,16 +1097,21 @@ module Aws::WorkSpacesWeb
     # @see http://docs.aws.amazon.com/goto/WebAPI/workspaces-web-2020-07-08/CreateUserSettingsRequest AWS API Documentation
     #
     class CreateUserSettingsRequest < Struct.new(
+      :additional_encryption_context,
       :client_token,
+      :cookie_synchronization_configuration,
       :copy_allowed,
+      :customer_managed_key,
+      :deep_link_allowed,
       :disconnect_timeout_in_minutes,
       :download_allowed,
       :idle_disconnect_timeout_in_minutes,
       :paste_allowed,
       :print_allowed,
       :tags,
+      :toolbar_configuration,
       :upload_allowed)
-      SENSITIVE = []
+      SENSITIVE = [:cookie_synchronization_configuration, :tags]
       include Aws::Structure
     end
 
@@ -816,6 +1124,126 @@ module Aws::WorkSpacesWeb
     class CreateUserSettingsResponse < Struct.new(
       :user_settings_arn)
       SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The pattern configuration for redacting custom data types in session.
+    #
+    # @!attribute [rw] keyword_regex
+    #   The keyword regex for the customer pattern. After there is a match
+    #   to the pattern regex, the keyword regex is used to search within the
+    #   proximity of the match. If there is a keyword match, then the match
+    #   is confirmed. If no keyword regex is provided, the pattern regex
+    #   match will automatically be confirmed. The format must follow
+    #   JavaScript regex format. The pattern must be enclosed between
+    #   slashes, and can have flags behind the second slash. For example,
+    #   “/ab+c/gi”
+    #   @return [String]
+    #
+    # @!attribute [rw] pattern_description
+    #   The pattern description for the customer pattern.
+    #   @return [String]
+    #
+    # @!attribute [rw] pattern_name
+    #   The pattern name for the custom pattern.
+    #   @return [String]
+    #
+    # @!attribute [rw] pattern_regex
+    #   The pattern regex for the customer pattern. The format must follow
+    #   JavaScript regex format. The pattern must be enclosed between
+    #   slashes, and can have flags behind the second slash. For example:
+    #   “/ab+c/gi”.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/workspaces-web-2020-07-08/CustomPattern AWS API Documentation
+    #
+    class CustomPattern < Struct.new(
+      :keyword_regex,
+      :pattern_description,
+      :pattern_name,
+      :pattern_regex)
+      SENSITIVE = [:keyword_regex, :pattern_description, :pattern_name, :pattern_regex]
+      include Aws::Structure
+    end
+
+    # The data protection settings resource that can be associated with a
+    # web portal.
+    #
+    # @!attribute [rw] additional_encryption_context
+    #   The additional encryption context of the data protection settings.
+    #   @return [Hash<String,String>]
+    #
+    # @!attribute [rw] associated_portal_arns
+    #   A list of web portal ARNs that this data protection settings
+    #   resource is associated with.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] creation_date
+    #   The creation date timestamp of the data protection settings.
+    #   @return [Time]
+    #
+    # @!attribute [rw] customer_managed_key
+    #   The customer managed key used to encrypt sensitive information in
+    #   the data protection settings.
+    #   @return [String]
+    #
+    # @!attribute [rw] data_protection_settings_arn
+    #   The ARN of the data protection settings resource.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the data protection settings.
+    #   @return [String]
+    #
+    # @!attribute [rw] display_name
+    #   The display name of the data protection settings.
+    #   @return [String]
+    #
+    # @!attribute [rw] inline_redaction_configuration
+    #   The inline redaction configuration for the data protection settings.
+    #   @return [Types::InlineRedactionConfiguration]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/workspaces-web-2020-07-08/DataProtectionSettings AWS API Documentation
+    #
+    class DataProtectionSettings < Struct.new(
+      :additional_encryption_context,
+      :associated_portal_arns,
+      :creation_date,
+      :customer_managed_key,
+      :data_protection_settings_arn,
+      :description,
+      :display_name,
+      :inline_redaction_configuration)
+      SENSITIVE = [:description, :display_name]
+      include Aws::Structure
+    end
+
+    # The summary of the data protection settings.
+    #
+    # @!attribute [rw] creation_date
+    #   The creation date timestamp of the data protection settings.
+    #   @return [Time]
+    #
+    # @!attribute [rw] data_protection_settings_arn
+    #   The ARN of the data protection settings.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the data protection settings.
+    #   @return [String]
+    #
+    # @!attribute [rw] display_name
+    #   The display name of the data protection settings.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/workspaces-web-2020-07-08/DataProtectionSettingsSummary AWS API Documentation
+    #
+    class DataProtectionSettingsSummary < Struct.new(
+      :creation_date,
+      :data_protection_settings_arn,
+      :description,
+      :display_name)
+      SENSITIVE = [:description, :display_name]
       include Aws::Structure
     end
 
@@ -835,6 +1263,22 @@ module Aws::WorkSpacesWeb
     #
     class DeleteBrowserSettingsResponse < Aws::EmptyStructure; end
 
+    # @!attribute [rw] data_protection_settings_arn
+    #   The ARN of the data protection settings.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/workspaces-web-2020-07-08/DeleteDataProtectionSettingsRequest AWS API Documentation
+    #
+    class DeleteDataProtectionSettingsRequest < Struct.new(
+      :data_protection_settings_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/workspaces-web-2020-07-08/DeleteDataProtectionSettingsResponse AWS API Documentation
+    #
+    class DeleteDataProtectionSettingsResponse < Aws::EmptyStructure; end
+
     # @!attribute [rw] identity_provider_arn
     #   The ARN of the identity provider.
     #   @return [String]
@@ -850,6 +1294,22 @@ module Aws::WorkSpacesWeb
     # @see http://docs.aws.amazon.com/goto/WebAPI/workspaces-web-2020-07-08/DeleteIdentityProviderResponse AWS API Documentation
     #
     class DeleteIdentityProviderResponse < Aws::EmptyStructure; end
+
+    # @!attribute [rw] ip_access_settings_arn
+    #   The ARN of the IP access settings.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/workspaces-web-2020-07-08/DeleteIpAccessSettingsRequest AWS API Documentation
+    #
+    class DeleteIpAccessSettingsRequest < Struct.new(
+      :ip_access_settings_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/workspaces-web-2020-07-08/DeleteIpAccessSettingsResponse AWS API Documentation
+    #
+    class DeleteIpAccessSettingsResponse < Aws::EmptyStructure; end
 
     # @!attribute [rw] network_settings_arn
     #   The ARN of the network settings.
@@ -951,6 +1411,38 @@ module Aws::WorkSpacesWeb
     #   The ARN of the web portal.
     #   @return [String]
     #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/workspaces-web-2020-07-08/DisassociateDataProtectionSettingsRequest AWS API Documentation
+    #
+    class DisassociateDataProtectionSettingsRequest < Struct.new(
+      :portal_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/workspaces-web-2020-07-08/DisassociateDataProtectionSettingsResponse AWS API Documentation
+    #
+    class DisassociateDataProtectionSettingsResponse < Aws::EmptyStructure; end
+
+    # @!attribute [rw] portal_arn
+    #   The ARN of the web portal.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/workspaces-web-2020-07-08/DisassociateIpAccessSettingsRequest AWS API Documentation
+    #
+    class DisassociateIpAccessSettingsRequest < Struct.new(
+      :portal_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/workspaces-web-2020-07-08/DisassociateIpAccessSettingsResponse AWS API Documentation
+    #
+    class DisassociateIpAccessSettingsResponse < Aws::EmptyStructure; end
+
+    # @!attribute [rw] portal_arn
+    #   The ARN of the web portal.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/workspaces-web-2020-07-08/DisassociateNetworkSettingsRequest AWS API Documentation
     #
     class DisassociateNetworkSettingsRequest < Struct.new(
@@ -1011,6 +1503,27 @@ module Aws::WorkSpacesWeb
     #
     class DisassociateUserSettingsResponse < Aws::EmptyStructure; end
 
+    # @!attribute [rw] portal_id
+    #   The ID of the web portal for the session.
+    #   @return [String]
+    #
+    # @!attribute [rw] session_id
+    #   The ID of the session to expire.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/workspaces-web-2020-07-08/ExpireSessionRequest AWS API Documentation
+    #
+    class ExpireSessionRequest < Struct.new(
+      :portal_id,
+      :session_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/workspaces-web-2020-07-08/ExpireSessionResponse AWS API Documentation
+    #
+    class ExpireSessionResponse < Aws::EmptyStructure; end
+
     # @!attribute [rw] browser_settings_arn
     #   The ARN of the browser settings.
     #   @return [String]
@@ -1035,6 +1548,30 @@ module Aws::WorkSpacesWeb
       include Aws::Structure
     end
 
+    # @!attribute [rw] data_protection_settings_arn
+    #   The ARN of the data protection settings.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/workspaces-web-2020-07-08/GetDataProtectionSettingsRequest AWS API Documentation
+    #
+    class GetDataProtectionSettingsRequest < Struct.new(
+      :data_protection_settings_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] data_protection_settings
+    #   The data protection settings.
+    #   @return [Types::DataProtectionSettings]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/workspaces-web-2020-07-08/GetDataProtectionSettingsResponse AWS API Documentation
+    #
+    class GetDataProtectionSettingsResponse < Struct.new(
+      :data_protection_settings)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] identity_provider_arn
     #   The ARN of the identity provider.
     #   @return [String]
@@ -1055,6 +1592,30 @@ module Aws::WorkSpacesWeb
     #
     class GetIdentityProviderResponse < Struct.new(
       :identity_provider)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] ip_access_settings_arn
+    #   The ARN of the IP access settings.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/workspaces-web-2020-07-08/GetIpAccessSettingsRequest AWS API Documentation
+    #
+    class GetIpAccessSettingsRequest < Struct.new(
+      :ip_access_settings_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] ip_access_settings
+    #   The IP access settings.
+    #   @return [Types::IpAccessSettings]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/workspaces-web-2020-07-08/GetIpAccessSettingsResponse AWS API Documentation
+    #
+    class GetIpAccessSettingsResponse < Struct.new(
+      :ip_access_settings)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1132,6 +1693,35 @@ module Aws::WorkSpacesWeb
     class GetPortalServiceProviderMetadataResponse < Struct.new(
       :portal_arn,
       :service_provider_saml_metadata)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] portal_id
+    #   The ID of the web portal for the session.
+    #   @return [String]
+    #
+    # @!attribute [rw] session_id
+    #   The ID of the session.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/workspaces-web-2020-07-08/GetSessionRequest AWS API Documentation
+    #
+    class GetSessionRequest < Struct.new(
+      :portal_id,
+      :session_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] session
+    #   The sessions in a list.
+    #   @return [Types::Session]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/workspaces-web-2020-07-08/GetSessionResponse AWS API Documentation
+    #
+    class GetSessionResponse < Struct.new(
+      :session)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1259,7 +1849,6 @@ module Aws::WorkSpacesWeb
     #     * `client_secret`
     #
     #     * `authorize_scopes`
-    #
     #   * For Facebook:
     #
     #     * `client_id`
@@ -1269,7 +1858,6 @@ module Aws::WorkSpacesWeb
     #     * `authorize_scopes`
     #
     #     * `api_version`
-    #
     #   * For Sign in with Apple:
     #
     #     * `client_id`
@@ -1281,7 +1869,6 @@ module Aws::WorkSpacesWeb
     #     * `private_key`
     #
     #     * `authorize_scopes`
-    #
     #   * For OIDC providers:
     #
     #     * `client_id`
@@ -1305,12 +1892,18 @@ module Aws::WorkSpacesWeb
     #
     #     * `jwks_uri` *if not available from discovery URL specified by
     #       oidc\_issuer key*
-    #
     #   * For SAML providers:
     #
     #     * `MetadataFile` OR `MetadataURL`
     #
-    #     * `IDPSignout` *optional*
+    #     * `IDPSignout` (boolean) *optional*
+    #
+    #     * `IDPInit` (boolean) *optional*
+    #
+    #     * `RequestSigningAlgorithm` (string) *optional* - Only accepts
+    #       `rsa-sha256`
+    #
+    #     * `EncryptedResponses` (boolean) *optional*
     #   @return [Hash<String,String>]
     #
     # @!attribute [rw] identity_provider_name
@@ -1356,6 +1949,102 @@ module Aws::WorkSpacesWeb
       include Aws::Structure
     end
 
+    # The configuration for in-session inline redaction.
+    #
+    # @!attribute [rw] global_confidence_level
+    #   The global confidence level for the inline redaction configuration.
+    #   This indicates the certainty of data type matches in the redaction
+    #   process. Confidence level 3 means high confidence, and requires a
+    #   formatted text pattern match in order for content to be redacted.
+    #   Confidence level 2 means medium confidence, and redaction considers
+    #   both formatted and unformatted text, and adds keyword associate to
+    #   the logic. Confidence level 1 means low confidence, and redaction is
+    #   enforced for both formatted pattern + unformatted pattern without
+    #   keyword. This is applied to patterns that do not have a
+    #   pattern-level confidence level. Defaults to confidence level 2.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] global_enforced_urls
+    #   The global enforced URL configuration for the inline redaction
+    #   configuration. This is applied to patterns that do not have a
+    #   pattern-level enforced URL list.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] global_exempt_urls
+    #   The global exempt URL configuration for the inline redaction
+    #   configuration. This is applied to patterns that do not have a
+    #   pattern-level exempt URL list.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] inline_redaction_patterns
+    #   The inline redaction patterns to be enabled for the inline redaction
+    #   configuration.
+    #   @return [Array<Types::InlineRedactionPattern>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/workspaces-web-2020-07-08/InlineRedactionConfiguration AWS API Documentation
+    #
+    class InlineRedactionConfiguration < Struct.new(
+      :global_confidence_level,
+      :global_enforced_urls,
+      :global_exempt_urls,
+      :inline_redaction_patterns)
+      SENSITIVE = [:global_enforced_urls, :global_exempt_urls]
+      include Aws::Structure
+    end
+
+    # The set of patterns that determine the data types redacted in session.
+    #
+    # @!attribute [rw] built_in_pattern_id
+    #   The built-in pattern from the list of preconfigured patterns. Either
+    #   a customPattern or builtInPatternId is required.
+    #   @return [String]
+    #
+    # @!attribute [rw] confidence_level
+    #   The confidence level for inline redaction pattern. This indicates
+    #   the certainty of data type matches in the redaction process.
+    #   Confidence level 3 means high confidence, and requires a formatted
+    #   text pattern match in order for content to be redacted. Confidence
+    #   level 2 means medium confidence, and redaction considers both
+    #   formatted and unformatted text, and adds keyword associate to the
+    #   logic. Confidence level 1 means low confidence, and redaction is
+    #   enforced for both formatted pattern + unformatted pattern without
+    #   keyword. This overrides the global confidence level.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] custom_pattern
+    #   &gt;The configuration for a custom pattern. Either a customPattern
+    #   or builtInPatternId is required.
+    #   @return [Types::CustomPattern]
+    #
+    # @!attribute [rw] enforced_urls
+    #   The enforced URL configuration for the inline redaction pattern.
+    #   This will override the global enforced URL configuration.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] exempt_urls
+    #   The exempt URL configuration for the inline redaction pattern. This
+    #   will override the global exempt URL configuration for the inline
+    #   redaction pattern.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] redaction_place_holder
+    #   The redaction placeholder that will replace the redacted text in
+    #   session for the inline redaction pattern.
+    #   @return [Types::RedactionPlaceHolder]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/workspaces-web-2020-07-08/InlineRedactionPattern AWS API Documentation
+    #
+    class InlineRedactionPattern < Struct.new(
+      :built_in_pattern_id,
+      :confidence_level,
+      :custom_pattern,
+      :enforced_urls,
+      :exempt_urls,
+      :redaction_place_holder)
+      SENSITIVE = [:built_in_pattern_id, :enforced_urls, :exempt_urls]
+      include Aws::Structure
+    end
+
     # There is an internal server error.
     #
     # @!attribute [rw] message
@@ -1371,6 +2060,106 @@ module Aws::WorkSpacesWeb
       :message,
       :retry_after_seconds)
       SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The IP access settings resource that can be associated with a web
+    # portal.
+    #
+    # @!attribute [rw] additional_encryption_context
+    #   The additional encryption context of the IP access settings.
+    #   @return [Hash<String,String>]
+    #
+    # @!attribute [rw] associated_portal_arns
+    #   A list of web portal ARNs that this IP access settings resource is
+    #   associated with.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] creation_date
+    #   The creation date timestamp of the IP access settings.
+    #   @return [Time]
+    #
+    # @!attribute [rw] customer_managed_key
+    #   The customer managed key used to encrypt sensitive information in
+    #   the IP access settings.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the IP access settings.
+    #   @return [String]
+    #
+    # @!attribute [rw] display_name
+    #   The display name of the IP access settings.
+    #   @return [String]
+    #
+    # @!attribute [rw] ip_access_settings_arn
+    #   The ARN of the IP access settings resource.
+    #   @return [String]
+    #
+    # @!attribute [rw] ip_rules
+    #   The IP rules of the IP access settings.
+    #   @return [Array<Types::IpRule>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/workspaces-web-2020-07-08/IpAccessSettings AWS API Documentation
+    #
+    class IpAccessSettings < Struct.new(
+      :additional_encryption_context,
+      :associated_portal_arns,
+      :creation_date,
+      :customer_managed_key,
+      :description,
+      :display_name,
+      :ip_access_settings_arn,
+      :ip_rules)
+      SENSITIVE = [:description, :display_name, :ip_rules]
+      include Aws::Structure
+    end
+
+    # The summary of IP access settings.
+    #
+    # @!attribute [rw] creation_date
+    #   The creation date timestamp of the IP access settings.
+    #   @return [Time]
+    #
+    # @!attribute [rw] description
+    #   The description of the IP access settings.
+    #   @return [String]
+    #
+    # @!attribute [rw] display_name
+    #   The display name of the IP access settings.
+    #   @return [String]
+    #
+    # @!attribute [rw] ip_access_settings_arn
+    #   The ARN of IP access settings.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/workspaces-web-2020-07-08/IpAccessSettingsSummary AWS API Documentation
+    #
+    class IpAccessSettingsSummary < Struct.new(
+      :creation_date,
+      :description,
+      :display_name,
+      :ip_access_settings_arn)
+      SENSITIVE = [:description, :display_name]
+      include Aws::Structure
+    end
+
+    # The IP rules of the IP access settings.
+    #
+    # @!attribute [rw] description
+    #   The description of the IP rule.
+    #   @return [String]
+    #
+    # @!attribute [rw] ip_range
+    #   The IP range of the IP rule.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/workspaces-web-2020-07-08/IpRule AWS API Documentation
+    #
+    class IpRule < Struct.new(
+      :description,
+      :ip_range)
+      SENSITIVE = [:description, :ip_range]
       include Aws::Structure
     end
 
@@ -1419,6 +2208,42 @@ module Aws::WorkSpacesWeb
     #   this operation.
     #   @return [String]
     #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/workspaces-web-2020-07-08/ListDataProtectionSettingsRequest AWS API Documentation
+    #
+    class ListDataProtectionSettingsRequest < Struct.new(
+      :max_results,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] data_protection_settings
+    #   The data protection settings.
+    #   @return [Array<Types::DataProtectionSettingsSummary>]
+    #
+    # @!attribute [rw] next_token
+    #   The pagination token used to retrieve the next page of results for
+    #   this operation.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/workspaces-web-2020-07-08/ListDataProtectionSettingsResponse AWS API Documentation
+    #
+    class ListDataProtectionSettingsResponse < Struct.new(
+      :data_protection_settings,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] max_results
+    #   The maximum number of results to be included in the next page.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   The pagination token used to retrieve the next page of results for
+    #   this operation.
+    #   @return [String]
+    #
     # @!attribute [rw] portal_arn
     #   The ARN of the web portal.
     #   @return [String]
@@ -1446,6 +2271,42 @@ module Aws::WorkSpacesWeb
     #
     class ListIdentityProvidersResponse < Struct.new(
       :identity_providers,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] max_results
+    #   The maximum number of results to be included in the next page.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   The pagination token used to retrieve the next page of results for
+    #   this operation.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/workspaces-web-2020-07-08/ListIpAccessSettingsRequest AWS API Documentation
+    #
+    class ListIpAccessSettingsRequest < Struct.new(
+      :max_results,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] ip_access_settings
+    #   The IP access settings.
+    #   @return [Array<Types::IpAccessSettingsSummary>]
+    #
+    # @!attribute [rw] next_token
+    #   The pagination token used to retrieve the next page of results for
+    #   this operation.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/workspaces-web-2020-07-08/ListIpAccessSettingsResponse AWS API Documentation
+    #
+    class ListIpAccessSettingsResponse < Struct.new(
+      :ip_access_settings,
       :next_token)
       SENSITIVE = []
       include Aws::Structure
@@ -1523,6 +2384,67 @@ module Aws::WorkSpacesWeb
       include Aws::Structure
     end
 
+    # @!attribute [rw] max_results
+    #   The maximum number of results to be included in the next page.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   The pagination token used to retrieve the next page of results for
+    #   this operation.
+    #   @return [String]
+    #
+    # @!attribute [rw] portal_id
+    #   The ID of the web portal for the sessions.
+    #   @return [String]
+    #
+    # @!attribute [rw] session_id
+    #   The ID of the session.
+    #   @return [String]
+    #
+    # @!attribute [rw] sort_by
+    #   The method in which the returned sessions should be sorted.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status of the session.
+    #   @return [String]
+    #
+    # @!attribute [rw] username
+    #   The username of the session.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/workspaces-web-2020-07-08/ListSessionsRequest AWS API Documentation
+    #
+    class ListSessionsRequest < Struct.new(
+      :max_results,
+      :next_token,
+      :portal_id,
+      :session_id,
+      :sort_by,
+      :status,
+      :username)
+      SENSITIVE = [:username]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] next_token
+    #   The pagination token used to retrieve the next page of results for
+    #   this operation.
+    #   @return [String]
+    #
+    # @!attribute [rw] sessions
+    #   The sessions in a list.
+    #   @return [Array<Types::SessionSummary>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/workspaces-web-2020-07-08/ListSessionsResponse AWS API Documentation
+    #
+    class ListSessionsResponse < Struct.new(
+      :next_token,
+      :sessions)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] resource_arn
     #   The ARN of the resource.
     #   @return [String]
@@ -1543,7 +2465,7 @@ module Aws::WorkSpacesWeb
     #
     class ListTagsForResourceResponse < Struct.new(
       :tags)
-      SENSITIVE = []
+      SENSITIVE = [:tags]
       include Aws::Structure
     end
 
@@ -1762,6 +2684,10 @@ module Aws::WorkSpacesWeb
 
     # The web portal.
     #
+    # @!attribute [rw] additional_encryption_context
+    #   The additional encryption context of the portal.
+    #   @return [Hash<String,String>]
+    #
     # @!attribute [rw] authentication_type
     #   The type of authentication integration points used when signing into
     #   the web portal. Defaults to `Standard`.
@@ -1772,12 +2698,10 @@ module Aws::WorkSpacesWeb
     #   group access to your web portal is controlled through your identity
     #   provider.
     #
-    #   `IAM_Identity_Center` web portals are authenticated through AWS IAM
-    #   Identity Center (successor to AWS Single Sign-On). They provide
-    #   additional features, such as IdP-initiated authentication. Identity
-    #   sources (including external identity provider integration), plus
-    #   user and group access to your web portal, can be configured in the
-    #   IAM Identity Center.
+    #   `IAM Identity Center` web portals are authenticated through IAM
+    #   Identity Center. Identity sources (including external identity
+    #   provider integration), plus user and group access to your web
+    #   portal, can be configured in the IAM Identity Center.
     #   @return [String]
     #
     # @!attribute [rw] browser_settings_arn
@@ -1793,9 +2717,30 @@ module Aws::WorkSpacesWeb
     #   The creation date of the web portal.
     #   @return [Time]
     #
+    # @!attribute [rw] customer_managed_key
+    #   The customer managed key used to encrypt sensitive information in
+    #   the portal.
+    #   @return [String]
+    #
+    # @!attribute [rw] data_protection_settings_arn
+    #   The ARN of the data protection settings.
+    #   @return [String]
+    #
     # @!attribute [rw] display_name
     #   The name of the web portal.
     #   @return [String]
+    #
+    # @!attribute [rw] instance_type
+    #   The type and resources of the underlying instance.
+    #   @return [String]
+    #
+    # @!attribute [rw] ip_access_settings_arn
+    #   The ARN of the IP access settings.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_concurrent_sessions
+    #   The maximum number of concurrent sessions for the portal.
+    #   @return [Integer]
     #
     # @!attribute [rw] network_settings_arn
     #   The ARN of the network settings that is associated with the web
@@ -1839,11 +2784,17 @@ module Aws::WorkSpacesWeb
     # @see http://docs.aws.amazon.com/goto/WebAPI/workspaces-web-2020-07-08/Portal AWS API Documentation
     #
     class Portal < Struct.new(
+      :additional_encryption_context,
       :authentication_type,
       :browser_settings_arn,
       :browser_type,
       :creation_date,
+      :customer_managed_key,
+      :data_protection_settings_arn,
       :display_name,
+      :instance_type,
+      :ip_access_settings_arn,
+      :max_concurrent_sessions,
       :network_settings_arn,
       :portal_arn,
       :portal_endpoint,
@@ -1869,12 +2820,10 @@ module Aws::WorkSpacesWeb
     #   group access to your web portal is controlled through your identity
     #   provider.
     #
-    #   `IAM_Identity_Center` web portals are authenticated through AWS IAM
-    #   Identity Center (successor to AWS Single Sign-On). They provide
-    #   additional features, such as IdP-initiated authentication. Identity
-    #   sources (including external identity provider integration), plus
-    #   user and group access to your web portal, can be configured in the
-    #   IAM Identity Center.
+    #   `IAM Identity Center` web portals are authenticated through IAM
+    #   Identity Center. Identity sources (including external identity
+    #   provider integration), plus user and group access to your web
+    #   portal, can be configured in the IAM Identity Center.
     #   @return [String]
     #
     # @!attribute [rw] browser_settings_arn
@@ -1890,9 +2839,25 @@ module Aws::WorkSpacesWeb
     #   The creation date of the web portal.
     #   @return [Time]
     #
+    # @!attribute [rw] data_protection_settings_arn
+    #   The ARN of the data protection settings.
+    #   @return [String]
+    #
     # @!attribute [rw] display_name
     #   The name of the web portal.
     #   @return [String]
+    #
+    # @!attribute [rw] instance_type
+    #   The type and resources of the underlying instance.
+    #   @return [String]
+    #
+    # @!attribute [rw] ip_access_settings_arn
+    #   The ARN of the IP access settings.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_concurrent_sessions
+    #   The maximum number of concurrent sessions for the portal.
+    #   @return [Integer]
     #
     # @!attribute [rw] network_settings_arn
     #   The ARN of the network settings that is associated with the web
@@ -1936,7 +2901,11 @@ module Aws::WorkSpacesWeb
       :browser_settings_arn,
       :browser_type,
       :creation_date,
+      :data_protection_settings_arn,
       :display_name,
+      :instance_type,
+      :ip_access_settings_arn,
+      :max_concurrent_sessions,
       :network_settings_arn,
       :portal_arn,
       :portal_endpoint,
@@ -1946,6 +2915,28 @@ module Aws::WorkSpacesWeb
       :user_access_logging_settings_arn,
       :user_settings_arn)
       SENSITIVE = [:display_name]
+      include Aws::Structure
+    end
+
+    # The redaction placeholder that will replace the redacted text in
+    # session.
+    #
+    # @!attribute [rw] redaction_place_holder_text
+    #   The redaction placeholder text that will replace the redacted text
+    #   in session for the custom text redaction placeholder type.
+    #   @return [String]
+    #
+    # @!attribute [rw] redaction_place_holder_type
+    #   The redaction placeholder type that will replace the redacted text
+    #   in session.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/workspaces-web-2020-07-08/RedactionPlaceHolder AWS API Documentation
+    #
+    class RedactionPlaceHolder < Struct.new(
+      :redaction_place_holder_text,
+      :redaction_place_holder_type)
+      SENSITIVE = [:redaction_place_holder_text]
       include Aws::Structure
     end
 
@@ -2005,6 +2996,89 @@ module Aws::WorkSpacesWeb
       include Aws::Structure
     end
 
+    # Information about a secure browser session.
+    #
+    # @!attribute [rw] client_ip_addresses
+    #   The IP address of the client.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] end_time
+    #   The end time of the session.
+    #   @return [Time]
+    #
+    # @!attribute [rw] portal_arn
+    #   The ARN of the web portal.
+    #   @return [String]
+    #
+    # @!attribute [rw] session_id
+    #   The ID of the session.
+    #   @return [String]
+    #
+    # @!attribute [rw] start_time
+    #   The start time of the session.
+    #   @return [Time]
+    #
+    # @!attribute [rw] status
+    #   The status of the session.
+    #   @return [String]
+    #
+    # @!attribute [rw] username
+    #   The username of the session.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/workspaces-web-2020-07-08/Session AWS API Documentation
+    #
+    class Session < Struct.new(
+      :client_ip_addresses,
+      :end_time,
+      :portal_arn,
+      :session_id,
+      :start_time,
+      :status,
+      :username)
+      SENSITIVE = [:client_ip_addresses, :username]
+      include Aws::Structure
+    end
+
+    # Summary information about a secure browser session.
+    #
+    # @!attribute [rw] end_time
+    #   The end time of the session.
+    #   @return [Time]
+    #
+    # @!attribute [rw] portal_arn
+    #   The ARN of the web portal.
+    #   @return [String]
+    #
+    # @!attribute [rw] session_id
+    #   The ID of the session.
+    #   @return [String]
+    #
+    # @!attribute [rw] start_time
+    #   The start time of the session.
+    #   @return [Time]
+    #
+    # @!attribute [rw] status
+    #   The status of the session.
+    #   @return [String]
+    #
+    # @!attribute [rw] username
+    #   The username of the session.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/workspaces-web-2020-07-08/SessionSummary AWS API Documentation
+    #
+    class SessionSummary < Struct.new(
+      :end_time,
+      :portal_arn,
+      :session_id,
+      :start_time,
+      :status,
+      :username)
+      SENSITIVE = [:username]
+      include Aws::Structure
+    end
+
     # The tag.
     #
     # @!attribute [rw] key
@@ -2033,7 +3107,7 @@ module Aws::WorkSpacesWeb
     #   request.
     #
     #   If you do not specify a client token, one is automatically generated
-    #   by the AWS SDK.
+    #   by the Amazon Web Services SDK.
     #
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.
@@ -2053,7 +3127,7 @@ module Aws::WorkSpacesWeb
       :client_token,
       :resource_arn,
       :tags)
-      SENSITIVE = []
+      SENSITIVE = [:tags]
       include Aws::Structure
     end
 
@@ -2103,6 +3177,39 @@ module Aws::WorkSpacesWeb
     class TooManyTagsException < Struct.new(
       :message,
       :resource_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The configuration of the toolbar. This allows administrators to select
+    # the toolbar type and visual mode, set maximum display resolution for
+    # sessions, and choose which items are visible to end users during their
+    # sessions. If administrators do not modify these settings, end users
+    # retain control over their toolbar preferences.
+    #
+    # @!attribute [rw] hidden_toolbar_items
+    #   The list of toolbar items to be hidden.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] max_display_resolution
+    #   The maximum display resolution that is allowed for the session.
+    #   @return [String]
+    #
+    # @!attribute [rw] toolbar_type
+    #   The type of toolbar displayed during the session.
+    #   @return [String]
+    #
+    # @!attribute [rw] visual_mode
+    #   The visual mode of the toolbar.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/workspaces-web-2020-07-08/ToolbarConfiguration AWS API Documentation
+    #
+    class ToolbarConfiguration < Struct.new(
+      :hidden_toolbar_items,
+      :max_display_resolution,
+      :toolbar_type,
+      :visual_mode)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2159,7 +3266,7 @@ module Aws::WorkSpacesWeb
     class UntagResourceRequest < Struct.new(
       :resource_arn,
       :tag_keys)
-      SENSITIVE = []
+      SENSITIVE = [:tag_keys]
       include Aws::Structure
     end
 
@@ -2184,7 +3291,7 @@ module Aws::WorkSpacesWeb
     #   client token return the result from the original successful request.
     #
     #   If you do not specify a client token, one is automatically generated
-    #   by the AWS SDK.
+    #   by the Amazon Web Services SDK.
     #
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.
@@ -2220,7 +3327,62 @@ module Aws::WorkSpacesWeb
     #   client token return the result from the original successful request.
     #
     #   If you do not specify a client token, one is automatically generated
-    #   by the AWS SDK.
+    #   by the Amazon Web Services SDK.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @!attribute [rw] data_protection_settings_arn
+    #   The ARN of the data protection settings.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the data protection settings.
+    #   @return [String]
+    #
+    # @!attribute [rw] display_name
+    #   The display name of the data protection settings.
+    #   @return [String]
+    #
+    # @!attribute [rw] inline_redaction_configuration
+    #   The inline redaction configuration of the data protection settings
+    #   that will be applied to all sessions.
+    #   @return [Types::InlineRedactionConfiguration]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/workspaces-web-2020-07-08/UpdateDataProtectionSettingsRequest AWS API Documentation
+    #
+    class UpdateDataProtectionSettingsRequest < Struct.new(
+      :client_token,
+      :data_protection_settings_arn,
+      :description,
+      :display_name,
+      :inline_redaction_configuration)
+      SENSITIVE = [:description, :display_name]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] data_protection_settings
+    #   The data protection settings.
+    #   @return [Types::DataProtectionSettings]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/workspaces-web-2020-07-08/UpdateDataProtectionSettingsResponse AWS API Documentation
+    #
+    class UpdateDataProtectionSettingsResponse < Struct.new(
+      :data_protection_settings)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier that you provide to ensure the
+    #   idempotency of the request. Idempotency ensures that an API request
+    #   completes only once. With an idempotent request, if the original
+    #   request completes successfully, subsequent retries with the same
+    #   client token return the result from the original successful request.
+    #
+    #   If you do not specify a client token, one is automatically generated
+    #   by the Amazon Web Services SDK.
     #
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.
@@ -2241,7 +3403,6 @@ module Aws::WorkSpacesWeb
     #     * `client_secret`
     #
     #     * `authorize_scopes`
-    #
     #   * For Facebook:
     #
     #     * `client_id`
@@ -2251,7 +3412,6 @@ module Aws::WorkSpacesWeb
     #     * `authorize_scopes`
     #
     #     * `api_version`
-    #
     #   * For Sign in with Apple:
     #
     #     * `client_id`
@@ -2263,7 +3423,6 @@ module Aws::WorkSpacesWeb
     #     * `private_key`
     #
     #     * `authorize_scopes`
-    #
     #   * For OIDC providers:
     #
     #     * `client_id`
@@ -2287,12 +3446,18 @@ module Aws::WorkSpacesWeb
     #
     #     * `jwks_uri` *if not available from discovery URL specified by
     #       `oidc_issuer` key*
-    #
     #   * For SAML providers:
     #
     #     * `MetadataFile` OR `MetadataURL`
     #
     #     * `IDPSignout` (boolean) *optional*
+    #
+    #     * `IDPInit` (boolean) *optional*
+    #
+    #     * `RequestSigningAlgorithm` (string) *optional* - Only accepts
+    #       `rsa-sha256`
+    #
+    #     * `EncryptedResponses` (boolean) *optional*
     #   @return [Hash<String,String>]
     #
     # @!attribute [rw] identity_provider_name
@@ -2335,7 +3500,61 @@ module Aws::WorkSpacesWeb
     #   client token return the result from the original successful request.
     #
     #   If you do not specify a client token, one is automatically generated
-    #   by the AWS SDK.
+    #   by the Amazon Web Services SDK.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #   @return [String]
+    #
+    # @!attribute [rw] description
+    #   The description of the IP access settings.
+    #   @return [String]
+    #
+    # @!attribute [rw] display_name
+    #   The display name of the IP access settings.
+    #   @return [String]
+    #
+    # @!attribute [rw] ip_access_settings_arn
+    #   The ARN of the IP access settings.
+    #   @return [String]
+    #
+    # @!attribute [rw] ip_rules
+    #   The updated IP rules of the IP access settings.
+    #   @return [Array<Types::IpRule>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/workspaces-web-2020-07-08/UpdateIpAccessSettingsRequest AWS API Documentation
+    #
+    class UpdateIpAccessSettingsRequest < Struct.new(
+      :client_token,
+      :description,
+      :display_name,
+      :ip_access_settings_arn,
+      :ip_rules)
+      SENSITIVE = [:description, :display_name, :ip_rules]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] ip_access_settings
+    #   The IP access settings.
+    #   @return [Types::IpAccessSettings]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/workspaces-web-2020-07-08/UpdateIpAccessSettingsResponse AWS API Documentation
+    #
+    class UpdateIpAccessSettingsResponse < Struct.new(
+      :ip_access_settings)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] client_token
+    #   A unique, case-sensitive identifier that you provide to ensure the
+    #   idempotency of the request. Idempotency ensures that an API request
+    #   completes only once. With an idempotent request, if the original
+    #   request completes successfully, subsequent retries with the same
+    #   client token return the result from the original successful request.
+    #
+    #   If you do not specify a client token, one is automatically generated
+    #   by the Amazon Web Services SDK.
     #
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.
@@ -2394,18 +3613,24 @@ module Aws::WorkSpacesWeb
     #   group access to your web portal is controlled through your identity
     #   provider.
     #
-    #   `IAM_Identity_Center` web portals are authenticated through AWS IAM
-    #   Identity Center (successor to AWS Single Sign-On). They provide
-    #   additional features, such as IdP-initiated authentication. Identity
-    #   sources (including external identity provider integration), plus
-    #   user and group access to your web portal, can be configured in the
-    #   IAM Identity Center.
+    #   `IAM Identity Center` web portals are authenticated through IAM
+    #   Identity Center. Identity sources (including external identity
+    #   provider integration), plus user and group access to your web
+    #   portal, can be configured in the IAM Identity Center.
     #   @return [String]
     #
     # @!attribute [rw] display_name
     #   The name of the web portal. This is not visible to users who log
     #   into the web portal.
     #   @return [String]
+    #
+    # @!attribute [rw] instance_type
+    #   The type and resources of the underlying instance.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_concurrent_sessions
+    #   The maximum number of concurrent sessions for the portal.
+    #   @return [Integer]
     #
     # @!attribute [rw] portal_arn
     #   The ARN of the web portal.
@@ -2416,6 +3641,8 @@ module Aws::WorkSpacesWeb
     class UpdatePortalRequest < Struct.new(
       :authentication_type,
       :display_name,
+      :instance_type,
+      :max_concurrent_sessions,
       :portal_arn)
       SENSITIVE = [:display_name]
       include Aws::Structure
@@ -2449,7 +3676,7 @@ module Aws::WorkSpacesWeb
     #   client token return the result from the original successful request.
     #
     #   If you do not specify a client token, one is automatically generated
-    #   by the AWS SDK.
+    #   by the Amazon Web Services SDK.
     #
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.
@@ -2490,7 +3717,7 @@ module Aws::WorkSpacesWeb
     #   client token return the result from the original successful request.
     #
     #   If you do not specify a client token, one is automatically generated
-    #   by the AWS SDK.
+    #   by the Amazon Web Services SDK.
     #
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.
@@ -2534,15 +3761,29 @@ module Aws::WorkSpacesWeb
     #   client token return the result from the original successful request.
     #
     #   If you do not specify a client token, one is automatically generated
-    #   by the AWS SDK.
+    #   by the Amazon Web Services SDK.
     #
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.
     #   @return [String]
     #
+    # @!attribute [rw] cookie_synchronization_configuration
+    #   The configuration that specifies which cookies should be
+    #   synchronized from the end user's local browser to the remote
+    #   browser.
+    #
+    #   If the allowlist and blocklist are empty, the configuration becomes
+    #   null.
+    #   @return [Types::CookieSynchronizationConfiguration]
+    #
     # @!attribute [rw] copy_allowed
     #   Specifies whether the user can copy text from the streaming session
     #   to the local device.
+    #   @return [String]
+    #
+    # @!attribute [rw] deep_link_allowed
+    #   Specifies whether the user can use deep links that open
+    #   automatically when connecting to a session.
     #   @return [String]
     #
     # @!attribute [rw] disconnect_timeout_in_minutes
@@ -2570,6 +3811,14 @@ module Aws::WorkSpacesWeb
     #   Specifies whether the user can print to the local device.
     #   @return [String]
     #
+    # @!attribute [rw] toolbar_configuration
+    #   The configuration of the toolbar. This allows administrators to
+    #   select the toolbar type and visual mode, set maximum display
+    #   resolution for sessions, and choose which items are visible to end
+    #   users during their sessions. If administrators do not modify these
+    #   settings, end users retain control over their toolbar preferences.
+    #   @return [Types::ToolbarConfiguration]
+    #
     # @!attribute [rw] upload_allowed
     #   Specifies whether the user can upload files from the local device to
     #   the streaming session.
@@ -2583,15 +3832,18 @@ module Aws::WorkSpacesWeb
     #
     class UpdateUserSettingsRequest < Struct.new(
       :client_token,
+      :cookie_synchronization_configuration,
       :copy_allowed,
+      :deep_link_allowed,
       :disconnect_timeout_in_minutes,
       :download_allowed,
       :idle_disconnect_timeout_in_minutes,
       :paste_allowed,
       :print_allowed,
+      :toolbar_configuration,
       :upload_allowed,
       :user_settings_arn)
-      SENSITIVE = []
+      SENSITIVE = [:cookie_synchronization_configuration]
       include Aws::Structure
     end
 
@@ -2656,14 +3908,34 @@ module Aws::WorkSpacesWeb
     # Once associated with a web portal, user settings control how users can
     # transfer data between a streaming session and the their local devices.
     #
+    # @!attribute [rw] additional_encryption_context
+    #   The additional encryption context of the user settings.
+    #   @return [Hash<String,String>]
+    #
     # @!attribute [rw] associated_portal_arns
     #   A list of web portal ARNs that this user settings is associated
     #   with.
     #   @return [Array<String>]
     #
+    # @!attribute [rw] cookie_synchronization_configuration
+    #   The configuration that specifies which cookies should be
+    #   synchronized from the end user's local browser to the remote
+    #   browser.
+    #   @return [Types::CookieSynchronizationConfiguration]
+    #
     # @!attribute [rw] copy_allowed
     #   Specifies whether the user can copy text from the streaming session
     #   to the local device.
+    #   @return [String]
+    #
+    # @!attribute [rw] customer_managed_key
+    #   The customer managed key used to encrypt sensitive information in
+    #   the user settings.
+    #   @return [String]
+    #
+    # @!attribute [rw] deep_link_allowed
+    #   Specifies whether the user can use deep links that open
+    #   automatically when connecting to a session.
     #   @return [String]
     #
     # @!attribute [rw] disconnect_timeout_in_minutes
@@ -2690,6 +3962,14 @@ module Aws::WorkSpacesWeb
     # @!attribute [rw] print_allowed
     #   Specifies whether the user can print to the local device.
     #   @return [String]
+    #
+    # @!attribute [rw] toolbar_configuration
+    #   The configuration of the toolbar. This allows administrators to
+    #   select the toolbar type and visual mode, set maximum display
+    #   resolution for sessions, and choose which items are visible to end
+    #   users during their sessions. If administrators do not modify these
+    #   settings, end users retain control over their toolbar preferences.
+    #   @return [Types::ToolbarConfiguration]
     #
     # @!attribute [rw] upload_allowed
     #   Specifies whether the user can upload files from the local device to
@@ -2703,24 +3983,40 @@ module Aws::WorkSpacesWeb
     # @see http://docs.aws.amazon.com/goto/WebAPI/workspaces-web-2020-07-08/UserSettings AWS API Documentation
     #
     class UserSettings < Struct.new(
+      :additional_encryption_context,
       :associated_portal_arns,
+      :cookie_synchronization_configuration,
       :copy_allowed,
+      :customer_managed_key,
+      :deep_link_allowed,
       :disconnect_timeout_in_minutes,
       :download_allowed,
       :idle_disconnect_timeout_in_minutes,
       :paste_allowed,
       :print_allowed,
+      :toolbar_configuration,
       :upload_allowed,
       :user_settings_arn)
-      SENSITIVE = []
+      SENSITIVE = [:cookie_synchronization_configuration]
       include Aws::Structure
     end
 
     # The summary of user settings.
     #
+    # @!attribute [rw] cookie_synchronization_configuration
+    #   The configuration that specifies which cookies should be
+    #   synchronized from the end user's local browser to the remote
+    #   browser.
+    #   @return [Types::CookieSynchronizationConfiguration]
+    #
     # @!attribute [rw] copy_allowed
     #   Specifies whether the user can copy text from the streaming session
     #   to the local device.
+    #   @return [String]
+    #
+    # @!attribute [rw] deep_link_allowed
+    #   Specifies whether the user can use deep links that open
+    #   automatically when connecting to a session.
     #   @return [String]
     #
     # @!attribute [rw] disconnect_timeout_in_minutes
@@ -2748,6 +4044,14 @@ module Aws::WorkSpacesWeb
     #   Specifies whether the user can print to the local device.
     #   @return [String]
     #
+    # @!attribute [rw] toolbar_configuration
+    #   The configuration of the toolbar. This allows administrators to
+    #   select the toolbar type and visual mode, set maximum display
+    #   resolution for sessions, and choose which items are visible to end
+    #   users during their sessions. If administrators do not modify these
+    #   settings, end users retain control over their toolbar preferences.
+    #   @return [Types::ToolbarConfiguration]
+    #
     # @!attribute [rw] upload_allowed
     #   Specifies whether the user can upload files from the local device to
     #   the streaming session.
@@ -2760,15 +4064,18 @@ module Aws::WorkSpacesWeb
     # @see http://docs.aws.amazon.com/goto/WebAPI/workspaces-web-2020-07-08/UserSettingsSummary AWS API Documentation
     #
     class UserSettingsSummary < Struct.new(
+      :cookie_synchronization_configuration,
       :copy_allowed,
+      :deep_link_allowed,
       :disconnect_timeout_in_minutes,
       :download_allowed,
       :idle_disconnect_timeout_in_minutes,
       :paste_allowed,
       :print_allowed,
+      :toolbar_configuration,
       :upload_allowed,
       :user_settings_arn)
-      SENSITIVE = []
+      SENSITIVE = [:cookie_synchronization_configuration]
       include Aws::Structure
     end
 
@@ -2817,3 +4124,4 @@ module Aws::WorkSpacesWeb
 
   end
 end
+

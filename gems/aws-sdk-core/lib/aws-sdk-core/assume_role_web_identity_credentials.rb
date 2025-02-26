@@ -60,7 +60,7 @@ module Aws
         # not provided, generate encoded UUID as session name
         @assume_role_web_identity_params[:role_session_name] = _session_name
       end
-      @client = client_opts[:client] || STS::Client.new(client_opts.merge(credentials: false))
+      @client = client_opts[:client] || STS::Client.new(client_opts.merge(credentials: nil))
       super
     end
 
@@ -73,14 +73,15 @@ module Aws
       # read from token file everytime it refreshes
       @assume_role_web_identity_params[:web_identity_token] = _token_from_file(@token_file)
 
-      c = @client.assume_role_with_web_identity(
-        @assume_role_web_identity_params).credentials
+      resp = @client.assume_role_with_web_identity(@assume_role_web_identity_params)
+      creds = resp.credentials
       @credentials = Credentials.new(
-        c.access_key_id,
-        c.secret_access_key,
-        c.session_token
+        creds.access_key_id,
+        creds.secret_access_key,
+        creds.session_token,
+        account_id: parse_account_id(resp)
       )
-      @expiration = c.expiration
+      @expiration = creds.expiration
     end
 
     def _token_from_file(path)
@@ -92,6 +93,11 @@ module Aws
 
     def _session_name
       Base64.strict_encode64(SecureRandom.uuid)
+    end
+
+    def parse_account_id(resp)
+      arn = resp.assumed_role_user&.arn
+      ARNParser.parse(arn).account_id if ARNParser.arn?(arn)
     end
 
     class << self

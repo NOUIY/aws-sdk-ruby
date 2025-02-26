@@ -1,6 +1,286 @@
 Unreleased Changes
 ------------------
 
+1.147.0 (2025-02-18)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.146.0 (2025-02-06)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.145.0 (2025-01-15)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.144.0 (2024-11-22)
+------------------
+
+* Feature - Add ProvisionedPollerConfig to Lambda event-source-mapping API.
+
+1.143.0 (2024-11-21)
+------------------
+
+* Feature - Adds support for metrics for event source mappings for AWS Lambda
+
+1.142.0 (2024-11-20)
+------------------
+
+* Feature - Add Node 22.x (node22.x) support to AWS Lambda
+
+1.141.0 (2024-11-11)
+------------------
+
+* Feature - Add Python 3.13 (python3.13) support to AWS Lambda
+
+1.140.0 (2024-11-08)
+------------------
+
+* Feature - This release adds support for using AWS KMS customer managed keys to encrypt AWS Lambda .zip deployment packages.
+
+1.139.0 (2024-11-06)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.138.0 (2024-10-25)
+------------------
+
+* Feature - Add TagsError field in Lambda GetFunctionResponse. The TagsError field contains details related to errors retrieving tags.
+
+1.137.0 (2024-10-18)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.136.0 (2024-09-26)
+------------------
+
+* Feature - Reverting Lambda resource-based policy and block public access APIs.
+
+1.135.0 (2024-09-24)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.134.0 (2024-09-23)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.133.0 (2024-09-20)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.132.0 (2024-09-19)
+------------------
+
+* Feature - Tagging support for Lambda event source mapping, and code signing configuration resources.
+
+1.131.0 (2024-09-17)
+------------------
+
+* Feature - Support for JSON resource-based policies and block public access
+
+1.130.0 (2024-09-11)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.129.0 (2024-09-10)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.128.0 (2024-09-03)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.127.0 (2024-08-21)
+------------------
+
+* Feature - Release FilterCriteria encryption for Lambda EventSourceMapping,  enabling customers to encrypt their filter criteria using a customer-owned KMS key.
+
+1.126.0 (2024-08-19)
+------------------
+
+* Feature - Release Lambda FunctionRecursiveConfig, enabling customers to turn recursive loop detection on or off on individual functions. This release adds two new APIs, GetFunctionRecursionConfig and PutFunctionRecursionConfig.
+
+1.125.0 (2024-07-02)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.124.0 (2024-06-28)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.123.0 (2024-06-25)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.122.0 (2024-06-24)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.121.0 (2024-06-05)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.120.0 (2024-05-13)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.119.0 (2024-04-25)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.118.0 (2024-04-03)
+------------------
+
+* Feature - Add Ruby 3.3 (ruby3.3) support to AWS Lambda
+
+1.117.0 (2024-03-07)
+------------------
+
+* Feature - Documentation updates for AWS Lambda
+
+1.116.0 (2024-02-20)
+------------------
+
+* Feature - Add .NET 8 (dotnet8) Runtime support to AWS Lambda.
+
+1.115.0 (2024-02-16)
+------------------
+
+* Feature - Documentation-only updates for Lambda to clarify a number of existing actions and properties.
+
+1.114.0 (2024-01-26)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.113.0 (2023-11-28)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.112.0 (2023-11-22)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.111.0 (2023-11-16)
+------------------
+
+* Feature - Adds support for logging configuration in Lambda Functions. Customers will have more control how their function logs are captured and to which cloud watch log group they are delivered also.
+
+1.110.0 (2023-11-15)
+------------------
+
+* Feature - Add Java 21 (java21) support to AWS Lambda
+
+1.109.0 (2023-11-14)
+------------------
+
+* Feature - Add Python 3.12 (python3.12) support to AWS Lambda
+
+1.108.0 (2023-11-09)
+------------------
+
+* Feature - Add Custom runtime on Amazon Linux 2023 (provided.al2023) support to AWS Lambda.
+
+1.107.0 (2023-11-08)
+------------------
+
+* Feature - Add Node 20 (nodejs20.x) support to AWS Lambda.
+
+1.106.0 (2023-10-12)
+------------------
+
+* Feature - Adds support for Lambda functions to access Dual-Stack subnets over IPv6, via an opt-in flag in CreateFunction and UpdateFunctionConfiguration APIs
+
+1.105.0 (2023-09-27)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.104.0 (2023-07-25)
+------------------
+
+* Feature - Add Python 3.11 (python3.11) support to AWS Lambda
+
+1.103.0 (2023-07-11)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.102.0 (2023-07-06)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.101.0 (2023-06-28)
+------------------
+
+* Feature - Surface ResourceConflictException in DeleteEventSourceMapping
+
+1.100.0 (2023-06-20)
+------------------
+
+* Feature - This release adds RecursiveInvocationException to the Invoke API and InvokeWithResponseStream API.
+
+1.99.0 (2023-06-15)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.98.0 (2023-06-05)
+------------------
+
+* Feature - Add Ruby 3.2 (ruby3.2) Runtime support to AWS Lambda.
+
+1.97.0 (2023-05-31)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.96.0 (2023-04-27)
+------------------
+
+* Feature - Add Java 17 (java17) support to AWS Lambda
+
+1.95.0 (2023-04-17)
+------------------
+
+* Feature - Add Python 3.10 (python3.10) support to AWS Lambda
+
+1.94.0 (2023-04-14)
+------------------
+
+* Feature - This release adds SnapStart related exceptions to InvokeWithResponseStream API. IAM access related documentation is also added for this API.
+
+1.93.0 (2023-04-07)
+------------------
+
+* Feature - This release adds a new Lambda InvokeWithResponseStream API to support streaming Lambda function responses. The release also adds a new InvokeMode parameter to Function Url APIs to control whether the response will be streamed or buffered.
+
+1.92.0 (2023-02-27)
+------------------
+
+* Feature - This release adds the ability to create ESMs with Document DB change streams as event source. For more information see  https://docs.aws.amazon.com/lambda/latest/dg/with-documentdb.html.
+
 1.91.0 (2023-01-23)
 ------------------
 

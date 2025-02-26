@@ -7,6 +7,7 @@
 #
 # WARNING ABOUT GENERATED CODE
 
+
 module Aws::ApplicationCostProfiler
   # @api private
   module ClientApi
@@ -143,9 +144,11 @@ module Aws::ApplicationCostProfiler
 
       api.metadata = {
         "apiVersion" => "2020-09-10",
+        "auth" => ["aws.auth#sigv4"],
         "endpointPrefix" => "application-cost-profiler",
         "jsonVersion" => "1.1",
         "protocol" => "rest-json",
+        "protocols" => ["rest-json"],
         "serviceFullName" => "AWS Application Cost Profiler",
         "serviceId" => "ApplicationCostProfiler",
         "signatureVersion" => "v4",

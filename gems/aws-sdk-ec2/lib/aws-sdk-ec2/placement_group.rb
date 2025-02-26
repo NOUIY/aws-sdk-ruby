@@ -93,7 +93,9 @@ module Aws::EC2
     #
     # @return [self]
     def load
-      resp = @client.describe_placement_groups(group_names: [@name])
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.describe_placement_groups(group_names: [@name])
+      end
       @data = resp.placement_groups[0]
       self
     end
@@ -208,7 +210,9 @@ module Aws::EC2
           :retry
         end
       end
-      Aws::Waiters::Waiter.new(options).wait({})
+      Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        Aws::Waiters::Waiter.new(options).wait({})
+      end
     end
 
     # @!group Actions
@@ -220,14 +224,16 @@ module Aws::EC2
     #   })
     # @param [Hash] options ({})
     # @option options [Boolean] :dry_run
-    #   Checks whether you have the required permissions for the action,
+    #   Checks whether you have the required permissions for the operation,
     #   without actually making the request, and provides an error response.
     #   If you have the required permissions, the error response is
     #   `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
     # @return [EmptyStructure]
     def delete(options = {})
       options = options.merge(group_name: @name)
-      resp = @client.delete_placement_group(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.delete_placement_group(options)
+      end
       resp.data
     end
 
@@ -236,16 +242,25 @@ module Aws::EC2
     # @example Request syntax with placeholder values
     #
     #   instances = placement_group.instances({
+    #     instance_ids: ["InstanceId"],
+    #     dry_run: false,
     #     filters: [
     #       {
     #         name: "String",
     #         values: ["String"],
     #       },
     #     ],
-    #     instance_ids: ["InstanceId"],
-    #     dry_run: false,
     #   })
     # @param [Hash] options ({})
+    # @option options [Array<String>] :instance_ids
+    #   The instance IDs.
+    #
+    #   Default: Describes all your instances.
+    # @option options [Boolean] :dry_run
+    #   Checks whether you have the required permissions for the operation,
+    #   without actually making the request, and provides an error response.
+    #   If you have the required permissions, the error response is
+    #   `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
     # @option options [Array<Types::Filter>] :filters
     #   The filters.
     #
@@ -259,7 +274,7 @@ module Aws::EC2
     #
     #   * `block-device-mapping.attach-time` - The attach time for an EBS
     #     volume mapped to the instance, for example,
-    #     `2010-09-15T17:15:20.000Z`.
+    #     `2022-09-15T17:15:20.000Z`.
     #
     #   * `block-device-mapping.delete-on-termination` - A Boolean that
     #     indicates whether the EBS volume is deleted on instance termination.
@@ -272,19 +287,38 @@ module Aws::EC2
     #
     #   * `block-device-mapping.volume-id` - The volume ID of the EBS volume.
     #
+    #   * `boot-mode` - The boot mode that was specified by the AMI
+    #     (`legacy-bios` \| `uefi` \| `uefi-preferred`).
+    #
     #   * `capacity-reservation-id` - The ID of the Capacity Reservation into
     #     which the instance was launched.
+    #
+    #   * `capacity-reservation-specification.capacity-reservation-preference`
+    #     - The instance's Capacity Reservation preference (`open` \|
+    #     `none`).
+    #
+    #   * `capacity-reservation-specification.capacity-reservation-target.capacity-reservation-id`
+    #     - The ID of the targeted Capacity Reservation.
+    #
+    #   * `capacity-reservation-specification.capacity-reservation-target.capacity-reservation-resource-group-arn`
+    #     - The ARN of the targeted Capacity Reservation group.
     #
     #   * `client-token` - The idempotency token you provided when you
     #     launched the instance.
     #
+    #   * `current-instance-boot-mode` - The boot mode that is used to launch
+    #     the instance at launch or start (`legacy-bios` \| `uefi`).
+    #
     #   * `dns-name` - The public DNS name of the instance.
     #
-    #   * `group-id` - The ID of the security group for the instance.
-    #     EC2-Classic only.
+    #   * `ebs-optimized` - A Boolean that indicates whether the instance is
+    #     optimized for Amazon EBS I/O.
     #
-    #   * `group-name` - The name of the security group for the instance.
-    #     EC2-Classic only.
+    #   * `ena-support` - A Boolean that indicates whether the instance is
+    #     enabled for enhanced networking with ENA.
+    #
+    #   * `enclave-options.enabled` - A Boolean that indicates whether the
+    #     instance is enabled for Amazon Web Services Nitro Enclaves.
     #
     #   * `hibernation-options.configured` - A Boolean that indicates whether
     #     the instance is enabled for hibernation. A value of `true` means
@@ -299,12 +333,16 @@ module Aws::EC2
     #   * `iam-instance-profile.arn` - The instance profile associated with
     #     the instance. Specified as an ARN.
     #
+    #   * `iam-instance-profile.id` - The instance profile associated with the
+    #     instance. Specified as an ID.
+    #
     #   * `image-id` - The ID of the image used to launch the instance.
     #
     #   * `instance-id` - The ID of the instance.
     #
-    #   * `instance-lifecycle` - Indicates whether this is a Spot Instance or
-    #     a Scheduled Instance (`spot` \| `scheduled`).
+    #   * `instance-lifecycle` - Indicates whether this is a Spot Instance, a
+    #     Scheduled Instance, or a Capacity Block (`spot` \| `scheduled` \|
+    #     `capacity-block`).
     #
     #   * `instance-state-code` - The state of the instance, as a 16-bit
     #     unsigned integer. The high byte is used for internal purposes and
@@ -325,6 +363,8 @@ module Aws::EC2
     #
     #   * `ip-address` - The public IPv4 address of the instance.
     #
+    #   * `ipv6-address` - The IPv6 address of the instance.
+    #
     #   * `kernel-id` - The kernel ID.
     #
     #   * `key-name` - The name of the key pair used when the instance was
@@ -339,41 +379,65 @@ module Aws::EC2
     #     example, `2021-09-29T11:04:43.305Z`. You can use a wildcard (`*`),
     #     for example, `2021-09-29T*`, which matches an entire day.
     #
-    #   * `metadata-options.http-tokens` - The metadata request authorization
-    #     state (`optional` \| `required`)
+    #   * `maintenance-options.auto-recovery` - The current automatic recovery
+    #     behavior of the instance (`disabled` \| `default`).
+    #
+    #   * `metadata-options.http-endpoint` - The status of access to the HTTP
+    #     metadata endpoint on your instance (`enabled` \| `disabled`)
+    #
+    #   * `metadata-options.http-protocol-ipv4` - Indicates whether the IPv4
+    #     endpoint is enabled (`disabled` \| `enabled`).
+    #
+    #   * `metadata-options.http-protocol-ipv6` - Indicates whether the IPv6
+    #     endpoint is enabled (`disabled` \| `enabled`).
     #
     #   * `metadata-options.http-put-response-hop-limit` - The HTTP metadata
     #     request put response hop limit (integer, possible values `1` to
     #     `64`)
     #
-    #   * `metadata-options.http-endpoint` - The status of access to the HTTP
-    #     metadata endpoint on your instance (`enabled` \| `disabled`)
+    #   * `metadata-options.http-tokens` - The metadata request authorization
+    #     state (`optional` \| `required`)
     #
     #   * `metadata-options.instance-metadata-tags` - The status of access to
     #     instance tags from the instance metadata (`enabled` \| `disabled`)
     #
+    #   * `metadata-options.state` - The state of the metadata option changes
+    #     (`pending` \| `applied`).
+    #
     #   * `monitoring-state` - Indicates whether detailed monitoring is
     #     enabled (`disabled` \| `enabled`).
     #
-    #   * `network-interface.addresses.private-ip-address` - The private IPv4
-    #     address associated with the network interface.
+    #   * `network-interface.addresses.association.allocation-id` - The
+    #     allocation ID.
     #
-    #   * `network-interface.addresses.primary` - Specifies whether the IPv4
-    #     address of the network interface is the primary private IPv4
-    #     address.
+    #   * `network-interface.addresses.association.association-id` - The
+    #     association ID.
+    #
+    #   * `network-interface.addresses.association.carrier-ip` - The carrier
+    #     IP address.
+    #
+    #   * `network-interface.addresses.association.customer-owned-ip` - The
+    #     customer-owned IP address.
+    #
+    #   * `network-interface.addresses.association.ip-owner-id` - The owner ID
+    #     of the private IPv4 address associated with the network interface.
+    #
+    #   * `network-interface.addresses.association.public-dns-name` - The
+    #     public DNS name.
     #
     #   * `network-interface.addresses.association.public-ip` - The ID of the
     #     association of an Elastic IP address (IPv4) with a network
     #     interface.
     #
-    #   * `network-interface.addresses.association.ip-owner-id` - The owner ID
-    #     of the private IPv4 address associated with the network interface.
+    #   * `network-interface.addresses.primary` - Specifies whether the IPv4
+    #     address of the network interface is the primary private IPv4
+    #     address.
     #
-    #   * `network-interface.association.public-ip` - The address of the
-    #     Elastic IP address (IPv4) bound to the network interface.
+    #   * `network-interface.addresses.private-dns-name` - The private DNS
+    #     name.
     #
-    #   * `network-interface.association.ip-owner-id` - The owner of the
-    #     Elastic IP address (IPv4) associated with the network interface.
+    #   * `network-interface.addresses.private-ip-address` - The private IPv4
+    #     address associated with the network interface.
     #
     #   * `network-interface.association.allocation-id` - The allocation ID
     #     returned when you allocated the Elastic IP address (IPv4) for your
@@ -383,8 +447,32 @@ module Aws::EC2
     #     returned when the network interface was associated with an IPv4
     #     address.
     #
+    #   * `network-interface.association.carrier-ip` - The customer-owned IP
+    #     address.
+    #
+    #   * `network-interface.association.customer-owned-ip` - The
+    #     customer-owned IP address.
+    #
+    #   * `network-interface.association.ip-owner-id` - The owner of the
+    #     Elastic IP address (IPv4) associated with the network interface.
+    #
+    #   * `network-interface.association.public-dns-name` - The public DNS
+    #     name.
+    #
+    #   * `network-interface.association.public-ip` - The address of the
+    #     Elastic IP address (IPv4) bound to the network interface.
+    #
+    #   * `network-interface.attachment.attach-time` - The time that the
+    #     network interface was attached to an instance.
+    #
     #   * `network-interface.attachment.attachment-id` - The ID of the
     #     interface attachment.
+    #
+    #   * `network-interface.attachment.delete-on-termination` - Specifies
+    #     whether the attachment is deleted when an instance is terminated.
+    #
+    #   * `network-interface.attachment.device-index` - The device index to
+    #     which the network interface is attached.
     #
     #   * `network-interface.attachment.instance-id` - The ID of the instance
     #     to which the network interface is attached.
@@ -392,20 +480,18 @@ module Aws::EC2
     #   * `network-interface.attachment.instance-owner-id` - The owner ID of
     #     the instance to which the network interface is attached.
     #
-    #   * `network-interface.attachment.device-index` - The device index to
-    #     which the network interface is attached.
+    #   * `network-interface.attachment.network-card-index` - The index of the
+    #     network card.
     #
     #   * `network-interface.attachment.status` - The status of the attachment
     #     (`attaching` \| `attached` \| `detaching` \| `detached`).
     #
-    #   * `network-interface.attachment.attach-time` - The time that the
-    #     network interface was attached to an instance.
-    #
-    #   * `network-interface.attachment.delete-on-termination` - Specifies
-    #     whether the attachment is deleted when an instance is terminated.
-    #
     #   * `network-interface.availability-zone` - The Availability Zone for
     #     the network interface.
+    #
+    #   * `network-interface.deny-all-igw-traffic` - A Boolean that indicates
+    #     whether a network interface with an IPv6 address is unreachable from
+    #     the public internet.
     #
     #   * `network-interface.description` - The description of the network
     #     interface.
@@ -416,8 +502,23 @@ module Aws::EC2
     #   * `network-interface.group-name` - The name of a security group
     #     associated with the network interface.
     #
+    #   * `network-interface.ipv4-prefixes.ipv4-prefix` - The IPv4 prefixes
+    #     that are assigned to the network interface.
+    #
+    #   * `network-interface.ipv6-address` - The IPv6 address associated with
+    #     the network interface.
+    #
     #   * `network-interface.ipv6-addresses.ipv6-address` - The IPv6 address
     #     associated with the network interface.
+    #
+    #   * `network-interface.ipv6-addresses.is-primary-ipv6` - A Boolean that
+    #     indicates whether this is the primary IPv6 address.
+    #
+    #   * `network-interface.ipv6-native` - A Boolean that indicates whether
+    #     this is an IPv6 only network interface.
+    #
+    #   * `network-interface.ipv6-prefixes.ipv6-prefix` - The IPv6 prefix
+    #     assigned to the network interface.
     #
     #   * `network-interface.mac-address` - The MAC address of the network
     #     interface.
@@ -425,11 +526,24 @@ module Aws::EC2
     #   * `network-interface.network-interface-id` - The ID of the network
     #     interface.
     #
+    #   * `network-interface.operator.managed` - A Boolean that indicates
+    #     whether the instance has a managed network interface.
+    #
+    #   * `network-interface.operator.principal` - The principal that manages
+    #     the network interface. Only valid for instances with managed network
+    #     interfaces, where `managed` is `true`.
+    #
+    #   * `network-interface.outpost-arn` - The ARN of the Outpost.
+    #
     #   * `network-interface.owner-id` - The ID of the owner of the network
     #     interface.
     #
     #   * `network-interface.private-dns-name` - The private DNS name of the
     #     network interface.
+    #
+    #   * `network-interface.private-ip-address` - The private IPv4 address.
+    #
+    #   * `network-interface.public-dns-name` - The public DNS name.
     #
     #   * `network-interface.requester-id` - The requester ID for the network
     #     interface.
@@ -449,8 +563,24 @@ module Aws::EC2
     #   * `network-interface.subnet-id` - The ID of the subnet for the network
     #     interface.
     #
+    #   * `network-interface.tag-key` - The key of a tag assigned to the
+    #     network interface.
+    #
+    #   * `network-interface.tag-value` - The value of a tag assigned to the
+    #     network interface.
+    #
     #   * `network-interface.vpc-id` - The ID of the VPC for the network
     #     interface.
+    #
+    #   * `network-performance-options.bandwidth-weighting` - Where the
+    #     performance boost is applied, if applicable. Valid values:
+    #     `default`, `vpc-1`, `ebs-1`.
+    #
+    #   * `operator.managed` - A Boolean that indicates whether this is a
+    #     managed instance.
+    #
+    #   * `operator.principal` - The principal that manages the instance. Only
+    #     valid for managed instances, where `managed` is `true`.
     #
     #   * `outpost-arn` - The Amazon Resource Name (ARN) of the Outpost.
     #
@@ -466,9 +596,36 @@ module Aws::EC2
     #   * `platform` - The platform. To list only Windows instances, use
     #     `windows`.
     #
+    #   * `platform-details` - The platform (`Linux/UNIX` \| `Red Hat BYOL
+    #     Linux` \| ` Red Hat Enterprise Linux` \| `Red Hat Enterprise Linux
+    #     with HA` \| `Red Hat Enterprise Linux with SQL Server Standard and
+    #     HA` \| `Red Hat Enterprise Linux with SQL Server Enterprise and HA`
+    #     \| `Red Hat Enterprise Linux with SQL Server Standard` \| `Red Hat
+    #     Enterprise Linux with SQL Server Web` \| `Red Hat Enterprise Linux
+    #     with SQL Server Enterprise` \| `SQL Server Enterprise` \| `SQL
+    #     Server Standard` \| `SQL Server Web` \| `SUSE Linux` \| `Ubuntu Pro`
+    #     \| `Windows` \| `Windows BYOL` \| `Windows with SQL Server
+    #     Enterprise` \| `Windows with SQL Server Standard` \| `Windows with
+    #     SQL Server Web`).
+    #
     #   * `private-dns-name` - The private IPv4 DNS name of the instance.
     #
+    #   * `private-dns-name-options.enable-resource-name-dns-a-record` - A
+    #     Boolean that indicates whether to respond to DNS queries for
+    #     instance hostnames with DNS A records.
+    #
+    #   * `private-dns-name-options.enable-resource-name-dns-aaaa-record` - A
+    #     Boolean that indicates whether to respond to DNS queries for
+    #     instance hostnames with DNS AAAA records.
+    #
+    #   * `private-dns-name-options.hostname-type` - The type of hostname
+    #     (`ip-name` \| `resource-name`).
+    #
     #   * `private-ip-address` - The private IPv4 address of the instance.
+    #     This can only be used to filter by the primary IP address of the
+    #     network interface attached to the instance. To filter by additional
+    #     IP addresses assigned to the network interface, use the filter
+    #     `network-interface.addresses.private-ip-address`.
     #
     #   * `product-code` - The product code associated with the AMI used to
     #     launch the instance.
@@ -528,19 +685,25 @@ module Aws::EC2
     #   * `tenancy` - The tenancy of an instance (`dedicated` \| `default` \|
     #     `host`).
     #
+    #   * `tpm-support` - Indicates if the instance is configured for NitroTPM
+    #     support (`v2.0`).
+    #
+    #   * `usage-operation` - The usage operation value for the instance
+    #     (`RunInstances` \| `RunInstances:00g0` \| `RunInstances:0010` \|
+    #     `RunInstances:1010` \| `RunInstances:1014` \| `RunInstances:1110` \|
+    #     `RunInstances:0014` \| `RunInstances:0210` \| `RunInstances:0110` \|
+    #     `RunInstances:0100` \| `RunInstances:0004` \| `RunInstances:0200` \|
+    #     `RunInstances:000g` \| `RunInstances:0g00` \| `RunInstances:0002` \|
+    #     `RunInstances:0800` \| `RunInstances:0102` \| `RunInstances:0006` \|
+    #     `RunInstances:0202`).
+    #
+    #   * `usage-operation-update-time` - The time that the usage operation
+    #     was last updated, for example, `2022-09-15T17:15:20.000Z`.
+    #
     #   * `virtualization-type` - The virtualization type of the instance
     #     (`paravirtual` \| `hvm`).
     #
     #   * `vpc-id` - The ID of the VPC that the instance is running in.
-    # @option options [Array<String>] :instance_ids
-    #   The instance IDs.
-    #
-    #   Default: Describes all your instances.
-    # @option options [Boolean] :dry_run
-    #   Checks whether you have the required permissions for the action,
-    #   without actually making the request, and provides an error response.
-    #   If you have the required permissions, the error response is
-    #   `DryRunOperation`. Otherwise, it is `UnauthorizedOperation`.
     # @return [Instance::Collection]
     def instances(options = {})
       batches = Enumerator.new do |y|
@@ -548,7 +711,9 @@ module Aws::EC2
           name: "placement-group-name",
           values: [@name]
         }])
-        resp = @client.describe_instances(options)
+        resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+          @client.describe_instances(options)
+        end
         resp.each_page do |page|
           batch = []
           page.data.reservations.each do |r|

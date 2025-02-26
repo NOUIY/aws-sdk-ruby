@@ -7,33 +7,34 @@
 #
 # WARNING ABOUT GENERATED CODE
 
-require 'seahorse/client/plugins/content_length.rb'
-require 'aws-sdk-core/plugins/credentials_configuration.rb'
-require 'aws-sdk-core/plugins/logging.rb'
-require 'aws-sdk-core/plugins/param_converter.rb'
-require 'aws-sdk-core/plugins/param_validator.rb'
-require 'aws-sdk-core/plugins/user_agent.rb'
-require 'aws-sdk-core/plugins/helpful_socket_errors.rb'
-require 'aws-sdk-core/plugins/retry_errors.rb'
-require 'aws-sdk-core/plugins/global_configuration.rb'
-require 'aws-sdk-core/plugins/regional_endpoint.rb'
-require 'aws-sdk-core/plugins/endpoint_discovery.rb'
-require 'aws-sdk-core/plugins/endpoint_pattern.rb'
-require 'aws-sdk-core/plugins/response_paging.rb'
-require 'aws-sdk-core/plugins/stub_responses.rb'
-require 'aws-sdk-core/plugins/idempotency_token.rb'
-require 'aws-sdk-core/plugins/jsonvalue_converter.rb'
-require 'aws-sdk-core/plugins/client_metrics_plugin.rb'
-require 'aws-sdk-core/plugins/client_metrics_send_plugin.rb'
-require 'aws-sdk-core/plugins/transfer_encoding.rb'
-require 'aws-sdk-core/plugins/http_checksum.rb'
-require 'aws-sdk-core/plugins/checksum_algorithm.rb'
-require 'aws-sdk-core/plugins/defaults_mode.rb'
-require 'aws-sdk-core/plugins/recursion_detection.rb'
-require 'aws-sdk-core/plugins/sign.rb'
-require 'aws-sdk-core/plugins/protocols/rest_json.rb'
-
-Aws::Plugins::GlobalConfiguration.add_identifier(:mediapackage)
+require 'seahorse/client/plugins/content_length'
+require 'aws-sdk-core/plugins/credentials_configuration'
+require 'aws-sdk-core/plugins/logging'
+require 'aws-sdk-core/plugins/param_converter'
+require 'aws-sdk-core/plugins/param_validator'
+require 'aws-sdk-core/plugins/user_agent'
+require 'aws-sdk-core/plugins/helpful_socket_errors'
+require 'aws-sdk-core/plugins/retry_errors'
+require 'aws-sdk-core/plugins/global_configuration'
+require 'aws-sdk-core/plugins/regional_endpoint'
+require 'aws-sdk-core/plugins/endpoint_discovery'
+require 'aws-sdk-core/plugins/endpoint_pattern'
+require 'aws-sdk-core/plugins/response_paging'
+require 'aws-sdk-core/plugins/stub_responses'
+require 'aws-sdk-core/plugins/idempotency_token'
+require 'aws-sdk-core/plugins/invocation_id'
+require 'aws-sdk-core/plugins/jsonvalue_converter'
+require 'aws-sdk-core/plugins/client_metrics_plugin'
+require 'aws-sdk-core/plugins/client_metrics_send_plugin'
+require 'aws-sdk-core/plugins/transfer_encoding'
+require 'aws-sdk-core/plugins/http_checksum'
+require 'aws-sdk-core/plugins/checksum_algorithm'
+require 'aws-sdk-core/plugins/request_compression'
+require 'aws-sdk-core/plugins/defaults_mode'
+require 'aws-sdk-core/plugins/recursion_detection'
+require 'aws-sdk-core/plugins/telemetry'
+require 'aws-sdk-core/plugins/sign'
+require 'aws-sdk-core/plugins/protocols/rest_json'
 
 module Aws::MediaPackage
   # An API client for MediaPackage.  To construct a client, you need to configure a `:region` and `:credentials`.
@@ -71,20 +72,28 @@ module Aws::MediaPackage
     add_plugin(Aws::Plugins::ResponsePaging)
     add_plugin(Aws::Plugins::StubResponses)
     add_plugin(Aws::Plugins::IdempotencyToken)
+    add_plugin(Aws::Plugins::InvocationId)
     add_plugin(Aws::Plugins::JsonvalueConverter)
     add_plugin(Aws::Plugins::ClientMetricsPlugin)
     add_plugin(Aws::Plugins::ClientMetricsSendPlugin)
     add_plugin(Aws::Plugins::TransferEncoding)
     add_plugin(Aws::Plugins::HttpChecksum)
     add_plugin(Aws::Plugins::ChecksumAlgorithm)
+    add_plugin(Aws::Plugins::RequestCompression)
     add_plugin(Aws::Plugins::DefaultsMode)
     add_plugin(Aws::Plugins::RecursionDetection)
+    add_plugin(Aws::Plugins::Telemetry)
     add_plugin(Aws::Plugins::Sign)
     add_plugin(Aws::Plugins::Protocols::RestJson)
     add_plugin(Aws::MediaPackage::Plugins::Endpoints)
 
     # @overload initialize(options)
     #   @param [Hash] options
+    #
+    #   @option options [Array<Seahorse::Client::Plugin>] :plugins ([]])
+    #     A list of plugins to apply to the client. Each plugin is either a
+    #     class name or an instance of a plugin class.
+    #
     #   @option options [required, Aws::CredentialProvider] :credentials
     #     Your AWS credentials. This can be an instance of any one of the
     #     following classes:
@@ -119,13 +128,15 @@ module Aws::MediaPackage
     #     locations will be searched for credentials:
     #
     #     * `Aws.config[:credentials]`
-    #     * The `:access_key_id`, `:secret_access_key`, and `:session_token` options.
-    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']
+    #     * The `:access_key_id`, `:secret_access_key`, `:session_token`, and
+    #       `:account_id` options.
+    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'],
+    #       ENV['AWS_SESSION_TOKEN'], and ENV['AWS_ACCOUNT_ID']
     #     * `~/.aws/credentials`
     #     * `~/.aws/config`
     #     * EC2/ECS IMDS instance profile - When used by default, the timeouts
     #       are very aggressive. Construct and pass an instance of
-    #       `Aws::InstanceProfileCredentails` or `Aws::ECSCredentials` to
+    #       `Aws::InstanceProfileCredentials` or `Aws::ECSCredentials` to
     #       enable retries and extended timeouts. Instance profile credential
     #       fetching can be disabled by setting ENV['AWS_EC2_METADATA_DISABLED']
     #       to true.
@@ -143,6 +154,8 @@ module Aws::MediaPackage
     #     * `~/.aws/config`
     #
     #   @option options [String] :access_key_id
+    #
+    #   @option options [String] :account_id
     #
     #   @option options [Boolean] :active_endpoint_cache (false)
     #     When set to `true`, a thread polling for endpoints will be running in
@@ -190,10 +203,20 @@ module Aws::MediaPackage
     #     Set to true to disable SDK automatically adding host prefix
     #     to default service endpoint when available.
     #
-    #   @option options [String] :endpoint
-    #     The client endpoint is normally constructed from the `:region`
-    #     option. You should only configure an `:endpoint` when connecting
-    #     to test or custom endpoints. This should be a valid HTTP(S) URI.
+    #   @option options [Boolean] :disable_request_compression (false)
+    #     When set to 'true' the request body will not be compressed
+    #     for supported operations.
+    #
+    #   @option options [String, URI::HTTPS, URI::HTTP] :endpoint
+    #     Normally you should not configure the `:endpoint` option
+    #     directly. This is normally constructed from the `:region`
+    #     option. Configuring `:endpoint` is normally reserved for
+    #     connecting to test or custom endpoints. The endpoint should
+    #     be a URI formatted like:
+    #
+    #         'http://example.com'
+    #         'https://example.com'
+    #         'http://example.com:123'
     #
     #   @option options [Integer] :endpoint_cache_max_entries (1000)
     #     Used for the maximum size limit of the LRU cache storing endpoints data
@@ -209,6 +232,10 @@ module Aws::MediaPackage
     #
     #   @option options [Boolean] :endpoint_discovery (false)
     #     When set to `true`, endpoint discovery will be enabled for operations when available.
+    #
+    #   @option options [Boolean] :ignore_configured_endpoint_urls
+    #     Setting to true disables use of endpoint URLs provided via environment
+    #     variables and the shared configuration file.
     #
     #   @option options [Aws::Log::Formatter] :log_formatter (Aws::Log::Formatter.default)
     #     The log formatter.
@@ -229,6 +256,34 @@ module Aws::MediaPackage
     #   @option options [String] :profile ("default")
     #     Used when loading credentials from the shared credentials file
     #     at HOME/.aws/credentials.  When not specified, 'default' is used.
+    #
+    #   @option options [String] :request_checksum_calculation ("when_supported")
+    #     Determines when a checksum will be calculated for request payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, a checksum will be
+    #       calculated for all request payloads of operations modeled with the
+    #       `httpChecksum` trait where `requestChecksumRequired` is `true` and/or a
+    #       `requestAlgorithmMember` is modeled.
+    #     * `when_required` - When set, a checksum will only be calculated for
+    #       request payloads of operations modeled with the  `httpChecksum` trait where
+    #       `requestChecksumRequired` is `true` or where a `requestAlgorithmMember`
+    #       is modeled and supplied.
+    #
+    #   @option options [Integer] :request_min_compression_size_bytes (10240)
+    #     The minimum size in bytes that triggers compression for request
+    #     bodies. The value must be non-negative integer value between 0
+    #     and 10485780 bytes inclusive.
+    #
+    #   @option options [String] :response_checksum_validation ("when_supported")
+    #     Determines when checksum validation will be performed on response payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, checksum validation is performed on all
+    #       response payloads of operations modeled with the `httpChecksum` trait where
+    #       `responseAlgorithms` is modeled, except when no modeled checksum algorithms
+    #       are supported.
+    #     * `when_required` - When set, checksum validation is not performed on
+    #       response payloads of operations unless the checksum algorithm is supported and
+    #       the `requestValidationModeMember` member is set to `ENABLED`.
     #
     #   @option options [Proc] :retry_backoff
     #     A proc or lambda used for backoff. Defaults to 2**retries * retry_base_delay.
@@ -274,10 +329,24 @@ module Aws::MediaPackage
     #       throttling.  This is a provisional mode that may change behavior
     #       in the future.
     #
+    #   @option options [String] :sdk_ua_app_id
+    #     A unique and opaque application ID that is appended to the
+    #     User-Agent header as app/sdk_ua_app_id. It should have a
+    #     maximum length of 50. This variable is sourced from environment
+    #     variable AWS_SDK_UA_APP_ID or the shared config profile attribute sdk_ua_app_id.
     #
     #   @option options [String] :secret_access_key
     #
     #   @option options [String] :session_token
+    #
+    #   @option options [Array] :sigv4a_signing_region_set
+    #     A list of regions that should be signed with SigV4a signing. When
+    #     not passed, a default `:sigv4a_signing_region_set` is searched for
+    #     in the following locations:
+    #
+    #     * `Aws.config[:sigv4a_signing_region_set]`
+    #     * `ENV['AWS_SIGV4A_SIGNING_REGION_SET']`
+    #     * `~/.aws/config`
     #
     #   @option options [Boolean] :stub_responses (false)
     #     Causes the client to return stubbed responses. By default
@@ -287,6 +356,16 @@ module Aws::MediaPackage
     #
     #     ** Please note ** When response stubbing is enabled, no HTTP
     #     requests are made, and retries are disabled.
+    #
+    #   @option options [Aws::Telemetry::TelemetryProviderBase] :telemetry_provider (Aws::Telemetry::NoOpTelemetryProvider)
+    #     Allows you to provide a telemetry provider, which is used to
+    #     emit telemetry data. By default, uses `NoOpTelemetryProvider` which
+    #     will not record or emit any telemetry data. The SDK supports the
+    #     following telemetry providers:
+    #
+    #     * OpenTelemetry (OTel) - To use the OTel provider, install and require the
+    #     `opentelemetry-sdk` gem and then, pass in an instance of a
+    #     `Aws::Telemetry::OTelProvider` for telemetry provider.
     #
     #   @option options [Aws::TokenProvider] :token_provider
     #     A Bearer Token Provider. This can be an instance of any one of the
@@ -315,52 +394,75 @@ module Aws::MediaPackage
     #     sending the request.
     #
     #   @option options [Aws::MediaPackage::EndpointProvider] :endpoint_provider
-    #     The endpoint provider used to resolve endpoints. Any object that responds to `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to `Aws::MediaPackage::EndpointParameters`
+    #     The endpoint provider used to resolve endpoints. Any object that responds to
+    #     `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+    #     `Aws::MediaPackage::EndpointParameters`.
     #
-    #   @option options [URI::HTTP,String] :http_proxy A proxy to send
-    #     requests through.  Formatted like 'http://proxy.com:123'.
+    #   @option options [Float] :http_continue_timeout (1)
+    #     The number of seconds to wait for a 100-continue response before sending the
+    #     request body.  This option has no effect unless the request has "Expect"
+    #     header set to "100-continue".  Defaults to `nil` which  disables this
+    #     behaviour.  This value can safely be set per request on the session.
     #
-    #   @option options [Float] :http_open_timeout (15) The number of
-    #     seconds to wait when opening a HTTP session before raising a
-    #     `Timeout::Error`.
+    #   @option options [Float] :http_idle_timeout (5)
+    #     The number of seconds a connection is allowed to sit idle before it
+    #     is considered stale.  Stale connections are closed and removed from the
+    #     pool before making a request.
     #
-    #   @option options [Float] :http_read_timeout (60) The default
-    #     number of seconds to wait for response data.  This value can
-    #     safely be set per-request on the session.
+    #   @option options [Float] :http_open_timeout (15)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :http_idle_timeout (5) The number of
-    #     seconds a connection is allowed to sit idle before it is
-    #     considered stale.  Stale connections are closed and removed
-    #     from the pool before making a request.
+    #   @option options [URI::HTTP,String] :http_proxy
+    #     A proxy to send requests through.  Formatted like 'http://proxy.com:123'.
     #
-    #   @option options [Float] :http_continue_timeout (1) The number of
-    #     seconds to wait for a 100-continue response before sending the
-    #     request body.  This option has no effect unless the request has
-    #     "Expect" header set to "100-continue".  Defaults to `nil` which
-    #     disables this behaviour.  This value can safely be set per
-    #     request on the session.
+    #   @option options [Float] :http_read_timeout (60)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :ssl_timeout (nil) Sets the SSL timeout
-    #     in seconds.
+    #   @option options [Boolean] :http_wire_trace (false)
+    #     When `true`,  HTTP debug output will be sent to the `:logger`.
     #
-    #   @option options [Boolean] :http_wire_trace (false) When `true`,
-    #     HTTP debug output will be sent to the `:logger`.
+    #   @option options [Proc] :on_chunk_received
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the response body is received. It provides three arguments: the chunk,
+    #     the number of bytes received, and the total number of
+    #     bytes in the response (or nil if the server did not send a `content-length`).
     #
-    #   @option options [Boolean] :ssl_verify_peer (true) When `true`,
-    #     SSL peer certificates are verified when establishing a
-    #     connection.
+    #   @option options [Proc] :on_chunk_sent
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the request body is sent. It provides three arguments: the chunk,
+    #     the number of bytes read from the body, and the total number of
+    #     bytes in the body.
     #
-    #   @option options [String] :ssl_ca_bundle Full path to the SSL
-    #     certificate authority bundle file that should be used when
-    #     verifying peer certificates.  If you do not pass
-    #     `:ssl_ca_bundle` or `:ssl_ca_directory` the the system default
-    #     will be used if available.
+    #   @option options [Boolean] :raise_response_errors (true)
+    #     When `true`, response errors are raised.
     #
-    #   @option options [String] :ssl_ca_directory Full path of the
-    #     directory that contains the unbundled SSL certificate
+    #   @option options [String] :ssl_ca_bundle
+    #     Full path to the SSL certificate authority bundle file that should be used when
+    #     verifying peer certificates.  If you do not pass `:ssl_ca_bundle` or
+    #     `:ssl_ca_directory` the the system default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_directory
+    #     Full path of the directory that contains the unbundled SSL certificate
     #     authority files for verifying peer certificates.  If you do
-    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the
-    #     system default will be used if available.
+    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the system
+    #     default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_store
+    #     Sets the X509::Store to verify peer certificate.
+    #
+    #   @option options [OpenSSL::X509::Certificate] :ssl_cert
+    #     Sets a client certificate when creating http connections.
+    #
+    #   @option options [OpenSSL::PKey] :ssl_key
+    #     Sets a client key when creating http connections.
+    #
+    #   @option options [Float] :ssl_timeout
+    #     Sets the SSL timeout in seconds
+    #
+    #   @option options [Boolean] :ssl_verify_peer (true)
+    #     When `true`, SSL peer certificates are verified when establishing a connection.
     #
     def initialize(*args)
       super
@@ -381,6 +483,7 @@ module Aws::MediaPackage
     # @return [Types::ConfigureLogsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::ConfigureLogsResponse#arn #arn} => String
+    #   * {Types::ConfigureLogsResponse#created_at #created_at} => String
     #   * {Types::ConfigureLogsResponse#description #description} => String
     #   * {Types::ConfigureLogsResponse#egress_access_logs #egress_access_logs} => Types::EgressAccessLogs
     #   * {Types::ConfigureLogsResponse#hls_ingest #hls_ingest} => Types::HlsIngest
@@ -403,6 +506,7 @@ module Aws::MediaPackage
     # @example Response structure
     #
     #   resp.arn #=> String
+    #   resp.created_at #=> String
     #   resp.description #=> String
     #   resp.egress_access_logs.log_group_name #=> String
     #   resp.hls_ingest.ingest_endpoints #=> Array
@@ -436,6 +540,7 @@ module Aws::MediaPackage
     # @return [Types::CreateChannelResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreateChannelResponse#arn #arn} => String
+    #   * {Types::CreateChannelResponse#created_at #created_at} => String
     #   * {Types::CreateChannelResponse#description #description} => String
     #   * {Types::CreateChannelResponse#egress_access_logs #egress_access_logs} => Types::EgressAccessLogs
     #   * {Types::CreateChannelResponse#hls_ingest #hls_ingest} => Types::HlsIngest
@@ -456,6 +561,7 @@ module Aws::MediaPackage
     # @example Response structure
     #
     #   resp.arn #=> String
+    #   resp.created_at #=> String
     #   resp.description #=> String
     #   resp.egress_access_logs.log_group_name #=> String
     #   resp.hls_ingest.ingest_endpoints #=> Array
@@ -582,6 +688,7 @@ module Aws::MediaPackage
     #   * {Types::CreateOriginEndpointResponse#authorization #authorization} => Types::Authorization
     #   * {Types::CreateOriginEndpointResponse#channel_id #channel_id} => String
     #   * {Types::CreateOriginEndpointResponse#cmaf_package #cmaf_package} => Types::CmafPackage
+    #   * {Types::CreateOriginEndpointResponse#created_at #created_at} => String
     #   * {Types::CreateOriginEndpointResponse#dash_package #dash_package} => Types::DashPackage
     #   * {Types::CreateOriginEndpointResponse#description #description} => String
     #   * {Types::CreateOriginEndpointResponse#hls_package #hls_package} => Types::HlsPackage
@@ -659,7 +766,7 @@ module Aws::MediaPackage
     #         },
     #       },
     #       include_iframe_only_stream: false,
-    #       manifest_layout: "FULL", # accepts FULL, COMPACT
+    #       manifest_layout: "FULL", # accepts FULL, COMPACT, DRM_TOP_LEVEL_COMPACT
     #       manifest_window_seconds: 1,
     #       min_buffer_time_seconds: 1,
     #       min_update_period_seconds: 1,
@@ -775,6 +882,7 @@ module Aws::MediaPackage
     #   resp.cmaf_package.stream_selection.max_video_bits_per_second #=> Integer
     #   resp.cmaf_package.stream_selection.min_video_bits_per_second #=> Integer
     #   resp.cmaf_package.stream_selection.stream_order #=> String, one of "ORIGINAL", "VIDEO_BITRATE_ASCENDING", "VIDEO_BITRATE_DESCENDING"
+    #   resp.created_at #=> String
     #   resp.dash_package.ad_triggers #=> Array
     #   resp.dash_package.ad_triggers[0] #=> String, one of "SPLICE_INSERT", "BREAK", "PROVIDER_ADVERTISEMENT", "DISTRIBUTOR_ADVERTISEMENT", "PROVIDER_PLACEMENT_OPPORTUNITY", "DISTRIBUTOR_PLACEMENT_OPPORTUNITY", "PROVIDER_OVERLAY_PLACEMENT_OPPORTUNITY", "DISTRIBUTOR_OVERLAY_PLACEMENT_OPPORTUNITY"
     #   resp.dash_package.ads_on_delivery_restrictions #=> String, one of "NONE", "RESTRICTED", "UNRESTRICTED", "BOTH"
@@ -788,7 +896,7 @@ module Aws::MediaPackage
     #   resp.dash_package.encryption.speke_key_provider.system_ids[0] #=> String
     #   resp.dash_package.encryption.speke_key_provider.url #=> String
     #   resp.dash_package.include_iframe_only_stream #=> Boolean
-    #   resp.dash_package.manifest_layout #=> String, one of "FULL", "COMPACT"
+    #   resp.dash_package.manifest_layout #=> String, one of "FULL", "COMPACT", "DRM_TOP_LEVEL_COMPACT"
     #   resp.dash_package.manifest_window_seconds #=> Integer
     #   resp.dash_package.min_buffer_time_seconds #=> Integer
     #   resp.dash_package.min_update_period_seconds #=> Integer
@@ -912,6 +1020,7 @@ module Aws::MediaPackage
     # @return [Types::DescribeChannelResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::DescribeChannelResponse#arn #arn} => String
+    #   * {Types::DescribeChannelResponse#created_at #created_at} => String
     #   * {Types::DescribeChannelResponse#description #description} => String
     #   * {Types::DescribeChannelResponse#egress_access_logs #egress_access_logs} => Types::EgressAccessLogs
     #   * {Types::DescribeChannelResponse#hls_ingest #hls_ingest} => Types::HlsIngest
@@ -928,6 +1037,7 @@ module Aws::MediaPackage
     # @example Response structure
     #
     #   resp.arn #=> String
+    #   resp.created_at #=> String
     #   resp.description #=> String
     #   resp.egress_access_logs.log_group_name #=> String
     #   resp.hls_ingest.ingest_endpoints #=> Array
@@ -1004,6 +1114,7 @@ module Aws::MediaPackage
     #   * {Types::DescribeOriginEndpointResponse#authorization #authorization} => Types::Authorization
     #   * {Types::DescribeOriginEndpointResponse#channel_id #channel_id} => String
     #   * {Types::DescribeOriginEndpointResponse#cmaf_package #cmaf_package} => Types::CmafPackage
+    #   * {Types::DescribeOriginEndpointResponse#created_at #created_at} => String
     #   * {Types::DescribeOriginEndpointResponse#dash_package #dash_package} => Types::DashPackage
     #   * {Types::DescribeOriginEndpointResponse#description #description} => String
     #   * {Types::DescribeOriginEndpointResponse#hls_package #hls_package} => Types::HlsPackage
@@ -1054,6 +1165,7 @@ module Aws::MediaPackage
     #   resp.cmaf_package.stream_selection.max_video_bits_per_second #=> Integer
     #   resp.cmaf_package.stream_selection.min_video_bits_per_second #=> Integer
     #   resp.cmaf_package.stream_selection.stream_order #=> String, one of "ORIGINAL", "VIDEO_BITRATE_ASCENDING", "VIDEO_BITRATE_DESCENDING"
+    #   resp.created_at #=> String
     #   resp.dash_package.ad_triggers #=> Array
     #   resp.dash_package.ad_triggers[0] #=> String, one of "SPLICE_INSERT", "BREAK", "PROVIDER_ADVERTISEMENT", "DISTRIBUTOR_ADVERTISEMENT", "PROVIDER_PLACEMENT_OPPORTUNITY", "DISTRIBUTOR_PLACEMENT_OPPORTUNITY", "PROVIDER_OVERLAY_PLACEMENT_OPPORTUNITY", "DISTRIBUTOR_OVERLAY_PLACEMENT_OPPORTUNITY"
     #   resp.dash_package.ads_on_delivery_restrictions #=> String, one of "NONE", "RESTRICTED", "UNRESTRICTED", "BOTH"
@@ -1067,7 +1179,7 @@ module Aws::MediaPackage
     #   resp.dash_package.encryption.speke_key_provider.system_ids[0] #=> String
     #   resp.dash_package.encryption.speke_key_provider.url #=> String
     #   resp.dash_package.include_iframe_only_stream #=> Boolean
-    #   resp.dash_package.manifest_layout #=> String, one of "FULL", "COMPACT"
+    #   resp.dash_package.manifest_layout #=> String, one of "FULL", "COMPACT", "DRM_TOP_LEVEL_COMPACT"
     #   resp.dash_package.manifest_window_seconds #=> Integer
     #   resp.dash_package.min_buffer_time_seconds #=> Integer
     #   resp.dash_package.min_update_period_seconds #=> Integer
@@ -1166,6 +1278,7 @@ module Aws::MediaPackage
     #
     #   resp.channels #=> Array
     #   resp.channels[0].arn #=> String
+    #   resp.channels[0].created_at #=> String
     #   resp.channels[0].description #=> String
     #   resp.channels[0].egress_access_logs.log_group_name #=> String
     #   resp.channels[0].hls_ingest.ingest_endpoints #=> Array
@@ -1295,6 +1408,7 @@ module Aws::MediaPackage
     #   resp.origin_endpoints[0].cmaf_package.stream_selection.max_video_bits_per_second #=> Integer
     #   resp.origin_endpoints[0].cmaf_package.stream_selection.min_video_bits_per_second #=> Integer
     #   resp.origin_endpoints[0].cmaf_package.stream_selection.stream_order #=> String, one of "ORIGINAL", "VIDEO_BITRATE_ASCENDING", "VIDEO_BITRATE_DESCENDING"
+    #   resp.origin_endpoints[0].created_at #=> String
     #   resp.origin_endpoints[0].dash_package.ad_triggers #=> Array
     #   resp.origin_endpoints[0].dash_package.ad_triggers[0] #=> String, one of "SPLICE_INSERT", "BREAK", "PROVIDER_ADVERTISEMENT", "DISTRIBUTOR_ADVERTISEMENT", "PROVIDER_PLACEMENT_OPPORTUNITY", "DISTRIBUTOR_PLACEMENT_OPPORTUNITY", "PROVIDER_OVERLAY_PLACEMENT_OPPORTUNITY", "DISTRIBUTOR_OVERLAY_PLACEMENT_OPPORTUNITY"
     #   resp.origin_endpoints[0].dash_package.ads_on_delivery_restrictions #=> String, one of "NONE", "RESTRICTED", "UNRESTRICTED", "BOTH"
@@ -1308,7 +1422,7 @@ module Aws::MediaPackage
     #   resp.origin_endpoints[0].dash_package.encryption.speke_key_provider.system_ids[0] #=> String
     #   resp.origin_endpoints[0].dash_package.encryption.speke_key_provider.url #=> String
     #   resp.origin_endpoints[0].dash_package.include_iframe_only_stream #=> Boolean
-    #   resp.origin_endpoints[0].dash_package.manifest_layout #=> String, one of "FULL", "COMPACT"
+    #   resp.origin_endpoints[0].dash_package.manifest_layout #=> String, one of "FULL", "COMPACT", "DRM_TOP_LEVEL_COMPACT"
     #   resp.origin_endpoints[0].dash_package.manifest_window_seconds #=> Integer
     #   resp.origin_endpoints[0].dash_package.min_buffer_time_seconds #=> Integer
     #   resp.origin_endpoints[0].dash_package.min_update_period_seconds #=> Integer
@@ -1418,6 +1532,7 @@ module Aws::MediaPackage
     # @return [Types::RotateChannelCredentialsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::RotateChannelCredentialsResponse#arn #arn} => String
+    #   * {Types::RotateChannelCredentialsResponse#created_at #created_at} => String
     #   * {Types::RotateChannelCredentialsResponse#description #description} => String
     #   * {Types::RotateChannelCredentialsResponse#egress_access_logs #egress_access_logs} => Types::EgressAccessLogs
     #   * {Types::RotateChannelCredentialsResponse#hls_ingest #hls_ingest} => Types::HlsIngest
@@ -1434,6 +1549,7 @@ module Aws::MediaPackage
     # @example Response structure
     #
     #   resp.arn #=> String
+    #   resp.created_at #=> String
     #   resp.description #=> String
     #   resp.egress_access_logs.log_group_name #=> String
     #   resp.hls_ingest.ingest_endpoints #=> Array
@@ -1465,6 +1581,7 @@ module Aws::MediaPackage
     # @return [Types::RotateIngestEndpointCredentialsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::RotateIngestEndpointCredentialsResponse#arn #arn} => String
+    #   * {Types::RotateIngestEndpointCredentialsResponse#created_at #created_at} => String
     #   * {Types::RotateIngestEndpointCredentialsResponse#description #description} => String
     #   * {Types::RotateIngestEndpointCredentialsResponse#egress_access_logs #egress_access_logs} => Types::EgressAccessLogs
     #   * {Types::RotateIngestEndpointCredentialsResponse#hls_ingest #hls_ingest} => Types::HlsIngest
@@ -1482,6 +1599,7 @@ module Aws::MediaPackage
     # @example Response structure
     #
     #   resp.arn #=> String
+    #   resp.created_at #=> String
     #   resp.description #=> String
     #   resp.egress_access_logs.log_group_name #=> String
     #   resp.hls_ingest.ingest_endpoints #=> Array
@@ -1558,6 +1676,7 @@ module Aws::MediaPackage
     # @return [Types::UpdateChannelResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::UpdateChannelResponse#arn #arn} => String
+    #   * {Types::UpdateChannelResponse#created_at #created_at} => String
     #   * {Types::UpdateChannelResponse#description #description} => String
     #   * {Types::UpdateChannelResponse#egress_access_logs #egress_access_logs} => Types::EgressAccessLogs
     #   * {Types::UpdateChannelResponse#hls_ingest #hls_ingest} => Types::HlsIngest
@@ -1575,6 +1694,7 @@ module Aws::MediaPackage
     # @example Response structure
     #
     #   resp.arn #=> String
+    #   resp.created_at #=> String
     #   resp.description #=> String
     #   resp.egress_access_logs.log_group_name #=> String
     #   resp.hls_ingest.ingest_endpoints #=> Array
@@ -1633,6 +1753,7 @@ module Aws::MediaPackage
     #   * {Types::UpdateOriginEndpointResponse#authorization #authorization} => Types::Authorization
     #   * {Types::UpdateOriginEndpointResponse#channel_id #channel_id} => String
     #   * {Types::UpdateOriginEndpointResponse#cmaf_package #cmaf_package} => Types::CmafPackage
+    #   * {Types::UpdateOriginEndpointResponse#created_at #created_at} => String
     #   * {Types::UpdateOriginEndpointResponse#dash_package #dash_package} => Types::DashPackage
     #   * {Types::UpdateOriginEndpointResponse#description #description} => String
     #   * {Types::UpdateOriginEndpointResponse#hls_package #hls_package} => Types::HlsPackage
@@ -1709,7 +1830,7 @@ module Aws::MediaPackage
     #         },
     #       },
     #       include_iframe_only_stream: false,
-    #       manifest_layout: "FULL", # accepts FULL, COMPACT
+    #       manifest_layout: "FULL", # accepts FULL, COMPACT, DRM_TOP_LEVEL_COMPACT
     #       manifest_window_seconds: 1,
     #       min_buffer_time_seconds: 1,
     #       min_update_period_seconds: 1,
@@ -1822,6 +1943,7 @@ module Aws::MediaPackage
     #   resp.cmaf_package.stream_selection.max_video_bits_per_second #=> Integer
     #   resp.cmaf_package.stream_selection.min_video_bits_per_second #=> Integer
     #   resp.cmaf_package.stream_selection.stream_order #=> String, one of "ORIGINAL", "VIDEO_BITRATE_ASCENDING", "VIDEO_BITRATE_DESCENDING"
+    #   resp.created_at #=> String
     #   resp.dash_package.ad_triggers #=> Array
     #   resp.dash_package.ad_triggers[0] #=> String, one of "SPLICE_INSERT", "BREAK", "PROVIDER_ADVERTISEMENT", "DISTRIBUTOR_ADVERTISEMENT", "PROVIDER_PLACEMENT_OPPORTUNITY", "DISTRIBUTOR_PLACEMENT_OPPORTUNITY", "PROVIDER_OVERLAY_PLACEMENT_OPPORTUNITY", "DISTRIBUTOR_OVERLAY_PLACEMENT_OPPORTUNITY"
     #   resp.dash_package.ads_on_delivery_restrictions #=> String, one of "NONE", "RESTRICTED", "UNRESTRICTED", "BOTH"
@@ -1835,7 +1957,7 @@ module Aws::MediaPackage
     #   resp.dash_package.encryption.speke_key_provider.system_ids[0] #=> String
     #   resp.dash_package.encryption.speke_key_provider.url #=> String
     #   resp.dash_package.include_iframe_only_stream #=> Boolean
-    #   resp.dash_package.manifest_layout #=> String, one of "FULL", "COMPACT"
+    #   resp.dash_package.manifest_layout #=> String, one of "FULL", "COMPACT", "DRM_TOP_LEVEL_COMPACT"
     #   resp.dash_package.manifest_window_seconds #=> Integer
     #   resp.dash_package.min_buffer_time_seconds #=> Integer
     #   resp.dash_package.min_update_period_seconds #=> Integer
@@ -1916,14 +2038,19 @@ module Aws::MediaPackage
     # @api private
     def build_request(operation_name, params = {})
       handlers = @handlers.for(operation_name)
+      tracer = config.telemetry_provider.tracer_provider.tracer(
+        Aws::Telemetry.module_to_tracer_name('Aws::MediaPackage')
+      )
       context = Seahorse::Client::RequestContext.new(
         operation_name: operation_name,
         operation: config.api.operation(operation_name),
         client: self,
         params: params,
-        config: config)
+        config: config,
+        tracer: tracer
+      )
       context[:gem_name] = 'aws-sdk-mediapackage'
-      context[:gem_version] = '1.58.0'
+      context[:gem_version] = '1.86.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

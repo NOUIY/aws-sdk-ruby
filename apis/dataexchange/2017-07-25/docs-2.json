@@ -2,28 +2,36 @@
   "version": "2.0",
   "service": "<p>AWS Data Exchange is a service that makes it easy for AWS customers to exchange data in the cloud. You can use the AWS Data Exchange APIs to create, update, manage, and access file-based data set in the AWS Cloud.</p> <p>As a subscriber, you can view and access the data sets that you have an entitlement to through a subscription. You can use the APIs to download or copy your entitled data sets to Amazon Simple Storage Service (Amazon S3) for use across a variety of AWS analytics and machine learning services.</p> <p>As a provider, you can create and manage your data sets that you would like to publish to a product. Being able to package and provide your data sets into products requires a few steps to determine eligibility. For more information, visit the <i>AWS Data Exchange User Guide</i>.</p> <p>A data set is a collection of data that can be changed or updated over time. Data sets can be updated using revisions, which represent a new version or incremental change to a data set. A revision contains one or more assets. An asset in AWS Data Exchange is a piece of data that can be stored as an Amazon S3 object, Redshift datashare, API Gateway API, AWS Lake Formation data permission, or Amazon S3 data access. The asset can be a structured data file, an image file, or some other data file. Jobs are asynchronous import or export operations used to create or copy assets.</p>",
   "operations": {
+    "AcceptDataGrant": "<p>This operation accepts a data grant.</p>",
     "CancelJob": "<p>This operation cancels a job. Jobs can be cancelled only when they are in the WAITING state.</p>",
+    "CreateDataGrant": "<p>This operation creates a data grant.</p>",
     "CreateDataSet": "<p>This operation creates a data set.</p>",
     "CreateEventAction": "<p>This operation creates an event action.</p>",
     "CreateJob": "<p>This operation creates a job.</p>",
     "CreateRevision": "<p>This operation creates a revision for a data set.</p>",
     "DeleteAsset": "<p>This operation deletes an asset.</p>",
+    "DeleteDataGrant": "<p>This operation deletes a data grant.</p>",
     "DeleteDataSet": "<p>This operation deletes a data set.</p>",
     "DeleteEventAction": "<p>This operation deletes the event action.</p>",
     "DeleteRevision": "<p>This operation deletes a revision.</p>",
     "GetAsset": "<p>This operation returns information about an asset.</p>",
+    "GetDataGrant": "<p>This operation returns information about a data grant.</p>",
     "GetDataSet": "<p>This operation returns information about a data set.</p>",
     "GetEventAction": "<p>This operation retrieves information about an event action.</p>",
     "GetJob": "<p>This operation returns information about a job.</p>",
+    "GetReceivedDataGrant": "<p>This operation returns information about a received data grant.</p>",
     "GetRevision": "<p>This operation returns information about a revision.</p>",
+    "ListDataGrants": "<p>This operation returns information about all data grants.</p>",
     "ListDataSetRevisions": "<p>This operation lists a data set's revisions sorted by CreatedAt in descending order.</p>",
-    "ListDataSets": "<p>This operation lists your data sets. When listing by origin OWNED, results are sorted by CreatedAt in descending order. When listing by origin ENTITLED, there is no order and the maxResults parameter is ignored.</p>",
+    "ListDataSets": "<p>This operation lists your data sets. When listing by origin OWNED, results are sorted by CreatedAt in descending order. When listing by origin ENTITLED, there is no order.</p>",
     "ListEventActions": "<p>This operation lists your event actions.</p>",
     "ListJobs": "<p>This operation lists your jobs sorted by CreatedAt in descending order.</p>",
+    "ListReceivedDataGrants": "<p>This operation returns information about all received data grants.</p>",
     "ListRevisionAssets": "<p>This operation lists a revision's assets sorted alphabetically in descending order.</p>",
     "ListTagsForResource": "<p>This operation lists the tags on the resource.</p>",
     "RevokeRevision": "<p>This operation revokes subscribers' access to a revision.</p>",
     "SendApiAsset": "<p>This operation invokes an API Gateway API asset. The request is proxied to the provider’s API Gateway API.</p>",
+    "SendDataSetNotification": "<p>The type of event associated with the data set.</p>",
     "StartJob": "<p>This operation starts a job.</p>",
     "TagResource": "<p>This operation tags a resource.</p>",
     "UntagResource": "<p>This operation removes one or more tags from a resource.</p>",
@@ -33,6 +41,28 @@
     "UpdateRevision": "<p>This operation updates a revision.</p>"
   },
   "shapes": {
+    "AcceptDataGrantRequest": {
+      "base": null,
+      "refs": {
+      }
+    },
+    "AcceptDataGrantResponse": {
+      "base": null,
+      "refs": {
+      }
+    },
+    "AcceptanceStateFilterValue": {
+      "base": null,
+      "refs": {
+        "AcceptanceStateFilterValues$member": null
+      }
+    },
+    "AcceptanceStateFilterValues": {
+      "base": null,
+      "refs": {
+        "ListReceivedDataGrantsRequest$AcceptanceState": "<p>The acceptance state of the data grants to list.</p>"
+      }
+    },
     "AccessDeniedException": {
       "base": "<p>Access to the resource is denied.</p>",
       "refs": {
@@ -66,19 +96,25 @@
     "Arn": {
       "base": null,
       "refs": {
+        "AcceptDataGrantResponse$Arn": "<p>The Amazon Resource Name (ARN) of the accepted data grant.</p>",
         "AssetEntry$Arn": "<p>The ARN for the asset.</p>",
+        "CreateDataGrantResponse$Arn": "<p>The Amazon Resource Name (ARN) of the data grant.</p>",
         "CreateDataSetResponse$Arn": "<p>The ARN for the data set.</p>",
         "CreateEventActionResponse$Arn": "<p>The ARN for the event action.</p>",
         "CreateJobResponse$Arn": "<p>The ARN for the job.</p>",
         "CreateRevisionResponse$Arn": "<p>The ARN for the revision.</p>",
+        "DataGrantSummaryEntry$Arn": "<p>The Amazon Resource Name (ARN) of the data grant.</p>",
         "DataSetEntry$Arn": "<p>The ARN for the data set.</p>",
         "EventActionEntry$Arn": "<p>The Amazon Resource Name (ARN) for the event action.</p>",
         "GetAssetResponse$Arn": "<p>The ARN for the asset.</p>",
+        "GetDataGrantResponse$Arn": "<p>The Amazon Resource Name (ARN) of the data grant.</p>",
         "GetDataSetResponse$Arn": "<p>The ARN for the data set.</p>",
         "GetEventActionResponse$Arn": "<p>The ARN for the event action.</p>",
         "GetJobResponse$Arn": "<p>The ARN for the job.</p>",
+        "GetReceivedDataGrantResponse$Arn": "<p>The Amazon Resource Name (ARN) of the data grant.</p>",
         "GetRevisionResponse$Arn": "<p>The ARN for the revision.</p>",
         "JobEntry$Arn": "<p>The ARN for the job.</p>",
+        "ReceivedDataGrantSummariesEntry$Arn": "<p>The Amazon Resource Name (ARN) of the data grant.</p>",
         "RevisionEntry$Arn": "<p>The ARN for the revision.</p>",
         "RevokeRevisionResponse$Arn": "<p>The ARN for the revision.</p>",
         "UpdateAssetResponse$Arn": "<p>The ARN for the asset.</p>",
@@ -163,6 +199,12 @@
       "refs": {
       }
     },
+    "ClientToken": {
+      "base": null,
+      "refs": {
+        "SendDataSetNotificationRequest$ClientToken": "<p>Idempotency key for the notification, this key allows us to deduplicate notifications that are sent in quick succession erroneously.</p>"
+      }
+    },
     "Code": {
       "base": null,
       "refs": {
@@ -171,6 +213,16 @@
     },
     "ConflictException": {
       "base": "<p>The request couldn't be completed because it conflicted with the current state of the resource.</p>",
+      "refs": {
+      }
+    },
+    "CreateDataGrantRequest": {
+      "base": null,
+      "refs": {
+      }
+    },
+    "CreateDataGrantResponse": {
+      "base": null,
       "refs": {
       }
     },
@@ -226,10 +278,68 @@
         "ResponseDetails$CreateS3DataAccessFromS3Bucket": "<p>Response details from the CreateS3DataAccessFromS3Bucket job.</p>"
       }
     },
+    "DataGrantAcceptanceState": {
+      "base": null,
+      "refs": {
+        "AcceptDataGrantResponse$AcceptanceState": "<p>The acceptance state of the data grant.</p>",
+        "CreateDataGrantResponse$AcceptanceState": "<p>The acceptance state of the data grant.</p>",
+        "DataGrantSummaryEntry$AcceptanceState": "<p>The acceptance state of the data grant.</p>",
+        "GetDataGrantResponse$AcceptanceState": "<p>The acceptance state of the data grant.</p>",
+        "GetReceivedDataGrantResponse$AcceptanceState": "<p>The acceptance state of the data grant.</p>",
+        "ReceivedDataGrantSummariesEntry$AcceptanceState": "<p>The acceptance state of the data grant.</p>"
+      }
+    },
+    "DataGrantArn": {
+      "base": null,
+      "refs": {
+        "AcceptDataGrantRequest$DataGrantArn": "<p>The Amazon Resource Name (ARN) of the data grant to accept.</p>",
+        "GetReceivedDataGrantRequest$DataGrantArn": "<p>The Amazon Resource Name (ARN) of the data grant.</p>"
+      }
+    },
+    "DataGrantDescription": {
+      "base": null,
+      "refs": {
+        "AcceptDataGrantResponse$Description": "<p>The description of the accepted data grant.</p>",
+        "CreateDataGrantResponse$Description": "<p>The description of the data grant.</p>",
+        "GetDataGrantResponse$Description": "<p>The description of the data grant.</p>",
+        "GetReceivedDataGrantResponse$Description": "<p>The description of the data grant.</p>"
+      }
+    },
+    "DataGrantId": {
+      "base": null,
+      "refs": {
+        "DeleteDataGrantRequest$DataGrantId": "<p>The ID of the data grant to delete.</p>",
+        "GetDataGrantRequest$DataGrantId": "<p>The ID of the data grant.</p>"
+      }
+    },
+    "DataGrantName": {
+      "base": null,
+      "refs": {
+        "AcceptDataGrantResponse$Name": "<p>The name of the accepted data grant.</p>",
+        "CreateDataGrantRequest$Name": "<p>The name of the data grant.</p>",
+        "CreateDataGrantResponse$Name": "<p>The name of the data grant.</p>",
+        "DataGrantSummaryEntry$Name": "<p>The name of the data grant.</p>",
+        "GetDataGrantResponse$Name": "<p>The name of the data grant.</p>",
+        "GetReceivedDataGrantResponse$Name": "<p>The name of the data grant.</p>",
+        "ReceivedDataGrantSummariesEntry$Name": "<p>The name of the data grant.</p>"
+      }
+    },
+    "DataGrantSummaryEntry": {
+      "base": "<p>Information about a data grant.</p>",
+      "refs": {
+        "ListOfDataGrantSummaryEntry$member": null
+      }
+    },
     "DataSetEntry": {
       "base": "<p>A data set is an AWS resource with one or more revisions.</p>",
       "refs": {
         "ListOfDataSetEntry$member": null
+      }
+    },
+    "DataUpdateRequestDetails": {
+      "base": "<p>Extra details specific to a data update type notification.</p>",
+      "refs": {
+        "NotificationDetails$DataUpdate": "<p>Extra details specific to a data update type notification.</p>"
       }
     },
     "DatabaseLFTagPolicy": {
@@ -256,6 +366,11 @@
       "refs": {
       }
     },
+    "DeleteDataGrantRequest": {
+      "base": null,
+      "refs": {
+      }
+    },
     "DeleteDataSetRequest": {
       "base": null,
       "refs": {
@@ -271,9 +386,16 @@
       "refs": {
       }
     },
+    "DeprecationRequestDetails": {
+      "base": "<p>Extra details specific to a deprecation type notification.</p>",
+      "refs": {
+        "NotificationDetails$Deprecation": "<p>Extra details specific to a deprecation type notification.</p>"
+      }
+    },
     "Description": {
       "base": null,
       "refs": {
+        "CreateDataGrantRequest$Description": "<p>The description of the data grant.</p>",
         "CreateDataSetRequest$Description": "<p>A description for the data set. This value can be up to 16,348 characters long.</p>",
         "CreateDataSetResponse$Description": "<p>The description for the data set.</p>",
         "DataSetEntry$Description": "<p>The description for the data set.</p>",
@@ -366,6 +488,16 @@
       "refs": {
       }
     },
+    "GetDataGrantRequest": {
+      "base": null,
+      "refs": {
+      }
+    },
+    "GetDataGrantResponse": {
+      "base": null,
+      "refs": {
+      }
+    },
     "GetDataSetRequest": {
       "base": null,
       "refs": {
@@ -396,6 +528,16 @@
       "refs": {
       }
     },
+    "GetReceivedDataGrantRequest": {
+      "base": null,
+      "refs": {
+      }
+    },
+    "GetReceivedDataGrantResponse": {
+      "base": null,
+      "refs": {
+      }
+    },
     "GetRevisionRequest": {
       "base": null,
       "refs": {
@@ -406,14 +548,30 @@
       "refs": {
       }
     },
+    "GrantDistributionScope": {
+      "base": null,
+      "refs": {
+        "AcceptDataGrantResponse$GrantDistributionScope": "<p>The distribution scope for the data grant.</p>",
+        "CreateDataGrantRequest$GrantDistributionScope": "<p>The distribution scope of the data grant.</p>",
+        "CreateDataGrantResponse$GrantDistributionScope": "<p>The distribution scope for the data grant.</p>",
+        "GetDataGrantResponse$GrantDistributionScope": "<p>The distribution scope for the data grant.</p>",
+        "GetReceivedDataGrantResponse$GrantDistributionScope": "<p>The distribution scope for the data grant.</p>"
+      }
+    },
     "Id": {
       "base": null,
       "refs": {
+        "AcceptDataGrantResponse$DataSetId": "<p>The ID of the data set associated to the data grant.</p>",
+        "AcceptDataGrantResponse$Id": "<p>The ID of the data grant.</p>",
         "AssetDestinationEntry$AssetId": "<p>The unique identifier for the asset.</p>",
         "AssetEntry$DataSetId": "<p>The unique identifier for the data set associated with this asset.</p>",
         "AssetEntry$Id": "<p>The unique identifier for the asset.</p>",
         "AssetEntry$RevisionId": "<p>The unique identifier for the revision associated with this asset.</p>",
         "AssetEntry$SourceId": "<p>The asset ID of the owned asset corresponding to the entitled asset being viewed. This parameter is returned when an asset owner is viewing the entitled copy of its owned asset.</p>",
+        "CreateDataGrantRequest$SourceDataSetId": "<p>The ID of the data set used to create the data grant.</p>",
+        "CreateDataGrantResponse$DataSetId": "<p>The ID of the data set associated to the data grant.</p>",
+        "CreateDataGrantResponse$SourceDataSetId": "<p>The ID of the data set used to create the data grant.</p>",
+        "CreateDataGrantResponse$Id": "<p>The ID of the data grant.</p>",
         "CreateDataSetResponse$Id": "<p>The unique identifier for the data set.</p>",
         "CreateDataSetResponse$SourceId": "<p>The data set ID of the owned data set corresponding to the entitled data set being viewed. This parameter is returned when a data set owner is viewing the entitled copy of its owned data set.</p>",
         "CreateEventActionResponse$Id": "<p>The unique identifier for the event action.</p>",
@@ -425,6 +583,9 @@
         "CreateS3DataAccessFromS3BucketRequestDetails$RevisionId": "<p>The unique identifier for a revision.</p>",
         "CreateS3DataAccessFromS3BucketResponseDetails$DataSetId": "<p>The unique identifier for this data set.</p>",
         "CreateS3DataAccessFromS3BucketResponseDetails$RevisionId": "<p>The unique identifier for the revision.</p>",
+        "DataGrantSummaryEntry$DataSetId": "<p>The ID of the data set associated to the data grant.</p>",
+        "DataGrantSummaryEntry$SourceDataSetId": "<p>The ID of the data set used to create the data grant.</p>",
+        "DataGrantSummaryEntry$Id": "<p>The ID of the data grant.</p>",
         "DataSetEntry$Id": "<p>The unique identifier for the data set.</p>",
         "DataSetEntry$SourceId": "<p>The data set ID of the owned data set corresponding to the entitled data set being viewed. This parameter is returned when a data set owner is viewing the entitled copy of its owned data set.</p>",
         "EventActionEntry$Id": "<p>The unique identifier for the event action.</p>",
@@ -444,10 +605,15 @@
         "GetAssetResponse$Id": "<p>The unique identifier for the asset.</p>",
         "GetAssetResponse$RevisionId": "<p>The unique identifier for the revision associated with this asset.</p>",
         "GetAssetResponse$SourceId": "<p>The asset ID of the owned asset corresponding to the entitled asset being viewed. This parameter is returned when an asset owner is viewing the entitled copy of its owned asset.</p>",
+        "GetDataGrantResponse$DataSetId": "<p>The ID of the data set associated to the data grant.</p>",
+        "GetDataGrantResponse$SourceDataSetId": "<p>The ID of the data set used to create the data grant.</p>",
+        "GetDataGrantResponse$Id": "<p>The ID of the data grant.</p>",
         "GetDataSetResponse$Id": "<p>The unique identifier for the data set.</p>",
         "GetDataSetResponse$SourceId": "<p>The data set ID of the owned data set corresponding to the entitled data set being viewed. This parameter is returned when a data set owner is viewing the entitled copy of its owned data set.</p>",
         "GetEventActionResponse$Id": "<p>The unique identifier for the event action.</p>",
         "GetJobResponse$Id": "<p>The unique identifier for the job.</p>",
+        "GetReceivedDataGrantResponse$DataSetId": "<p>The ID of the data set associated to the data grant.</p>",
+        "GetReceivedDataGrantResponse$Id": "<p>The ID of the data grant.</p>",
         "GetRevisionResponse$DataSetId": "<p>The unique identifier for the data set associated with the data set revision.</p>",
         "GetRevisionResponse$Id": "<p>The unique identifier for the revision.</p>",
         "GetRevisionResponse$SourceId": "<p>The revision ID of the owned revision corresponding to the entitled revision being viewed. This parameter is returned when a revision owner is viewing the entitled copy of its owned revision.</p>",
@@ -472,6 +638,8 @@
         "ImportAssetsFromS3ResponseDetails$DataSetId": "<p>The unique identifier for the data set associated with this import job.</p>",
         "ImportAssetsFromS3ResponseDetails$RevisionId": "<p>The unique identifier for the revision associated with this import response.</p>",
         "JobEntry$Id": "<p>The unique identifier for the job.</p>",
+        "ReceivedDataGrantSummariesEntry$DataSetId": "<p>The ID of the data set associated to the data grant.</p>",
+        "ReceivedDataGrantSummariesEntry$Id": "<p>The ID of the data grant.</p>",
         "RevisionDestinationEntry$RevisionId": "<p>The unique identifier for the revision.</p>",
         "RevisionEntry$DataSetId": "<p>The unique identifier for the data set associated with the data set revision.</p>",
         "RevisionEntry$Id": "<p>The unique identifier for the revision.</p>",
@@ -587,6 +755,18 @@
         "JobError$ResourceType": "<p>The type of resource related to the error.</p>"
       }
     },
+    "KmsKeyArn": {
+      "base": null,
+      "refs": {
+        "KmsKeyToGrant$KmsKeyArn": "<p>The AWS KMS CMK (Key Management System Customer Managed Key) used to encrypt S3 objects in the shared S3 Bucket. AWS Data exchange will create a KMS grant for each subscriber to allow them to access and decrypt their entitled data that is encrypted using this KMS key specified.</p>"
+      }
+    },
+    "KmsKeyToGrant": {
+      "base": "<p>The Amazon Resource Name (ARN) of the AWS KMS key used to encrypt the shared S3 objects.</p>",
+      "refs": {
+        "ListOfKmsKeysToGrant$member": null
+      }
+    },
     "LFPermission": {
       "base": null,
       "refs": {
@@ -635,10 +815,26 @@
         "LakeFormationDataPermissionAsset$LakeFormationDataPermissionType": "<p>The data permission type.</p>"
       }
     },
+    "LakeFormationTagPolicyDetails": {
+      "base": "<p>Extra details specific to the affected scope in this LF data set.</p>",
+      "refs": {
+        "ListOfLakeFormationTagPolicies$member": null
+      }
+    },
     "LimitName": {
       "base": null,
       "refs": {
         "ServiceLimitExceededException$LimitName": "<p>The name of the limit that was reached.</p>"
+      }
+    },
+    "ListDataGrantsRequest": {
+      "base": null,
+      "refs": {
+      }
+    },
+    "ListDataGrantsResponse": {
+      "base": null,
+      "refs": {
       }
     },
     "ListDataSetRevisionsRequest": {
@@ -702,6 +898,12 @@
         "ImportAssetsFromS3ResponseDetails$AssetSources": "<p>Is a list of Amazon S3 bucket and object key pairs.</p>"
       }
     },
+    "ListOfDataGrantSummaryEntry": {
+      "base": null,
+      "refs": {
+        "ListDataGrantsResponse$DataGrantSummaries": "<p>An object that contains a list of data grant information.</p>"
+      }
+    },
     "ListOfDataSetEntry": {
       "base": null,
       "refs": {
@@ -734,6 +936,13 @@
         "JobEntry$Errors": "<p>Errors for jobs.</p>"
       }
     },
+    "ListOfKmsKeysToGrant": {
+      "base": null,
+      "refs": {
+        "S3DataAccessAsset$KmsKeysToGrant": "<p> List of AWS KMS CMKs (Key Management System Customer Managed Keys) and ARNs used to encrypt S3 objects being shared in this S3 Data Access asset. Providers must include all AWS KMS keys used to encrypt these shared S3 objects.</p>",
+        "S3DataAccessAssetSourceEntry$KmsKeysToGrant": "<p>List of AWS KMS CMKs (Key Management System Customer Managed Keys) and ARNs used to encrypt S3 objects being shared in this S3 Data Access asset.</p>"
+      }
+    },
     "ListOfLFPermissions": {
       "base": null,
       "refs": {
@@ -755,11 +964,29 @@
         "TableLFTagPolicyAndPermissions$Expression": "<p>A list of LF-tag conditions that apply to table resources.</p>"
       }
     },
+    "ListOfLakeFormationTagPolicies": {
+      "base": null,
+      "refs": {
+        "ScopeDetails$LakeFormationTagPolicies": "<p>Underlying LF resources that will be affected by this notification.</p>"
+      }
+    },
+    "ListOfReceivedDataGrantSummariesEntry": {
+      "base": null,
+      "refs": {
+        "ListReceivedDataGrantsResponse$DataGrantSummaries": "<p>An object that contains a list of received data grant information.</p>"
+      }
+    },
     "ListOfRedshiftDataShareAssetSourceEntry": {
       "base": null,
       "refs": {
         "ImportAssetsFromRedshiftDataSharesRequestDetails$AssetSources": "<p>A list of Amazon Redshift datashare assets.</p>",
         "ImportAssetsFromRedshiftDataSharesResponseDetails$AssetSources": "<p>A list of Amazon Redshift datashare asset sources.</p>"
+      }
+    },
+    "ListOfRedshiftDataShares": {
+      "base": null,
+      "refs": {
+        "ScopeDetails$RedshiftDataShares": "<p>Underlying Redshift resources that will be affected by this notification.</p>"
       }
     },
     "ListOfRevisionDestinationEntry": {
@@ -775,6 +1002,18 @@
         "ListDataSetRevisionsResponse$Revisions": "<p>The asset objects listed by the request.</p>"
       }
     },
+    "ListOfS3DataAccesses": {
+      "base": null,
+      "refs": {
+        "ScopeDetails$S3DataAccesses": "<p>Underlying S3 resources that will be affected by this notification.</p>"
+      }
+    },
+    "ListOfSchemaChangeDetails": {
+      "base": null,
+      "refs": {
+        "SchemaChangeRequestDetails$Changes": "<p>List of schema changes happening in the scope of this notification. This can have up to 100 entries.</p>"
+      }
+    },
     "ListOfTableTagPolicyLFPermissions": {
       "base": null,
       "refs": {
@@ -788,7 +1027,19 @@
         "S3DataAccessAsset$Keys": "<p>S3 keys made available using this asset.</p>",
         "S3DataAccessAssetSourceEntry$KeyPrefixes": "<p>Organizes Amazon S3 asset key prefixes stored in an Amazon S3 bucket.</p>",
         "S3DataAccessAssetSourceEntry$Keys": "<p>The keys used to create the Amazon S3 data access.</p>",
+        "S3DataAccessDetails$KeyPrefixes": "<p>A list of the key prefixes affected by this notification. This can have up to 50 entries.</p>",
+        "S3DataAccessDetails$Keys": "<p>A list of the keys affected by this notification. This can have up to 50 entries.</p>",
         "UntagResourceRequest$TagKeys": "<p>The key tags.</p>"
+      }
+    },
+    "ListReceivedDataGrantsRequest": {
+      "base": null,
+      "refs": {
+      }
+    },
+    "ListReceivedDataGrantsResponse": {
+      "base": null,
+      "refs": {
       }
     },
     "ListRevisionAssetsRequest": {
@@ -814,10 +1065,13 @@
     "MapOf__string": {
       "base": null,
       "refs": {
+        "CreateDataGrantRequest$Tags": "<p>The tags to add to the data grant. A tag is a key-value pair.</p>",
+        "CreateDataGrantResponse$Tags": "<p>The tags associated to the data grant. A tag is a key-value pair.</p>",
         "CreateDataSetRequest$Tags": "<p>A data set tag is an optional label that you can assign to a data set when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to these data sets and revisions.</p>",
         "CreateDataSetResponse$Tags": "<p>The tags for the data set.</p>",
         "CreateRevisionRequest$Tags": "<p>A revision tag is an optional label that you can assign to a revision when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to these data sets and revisions.</p>",
         "CreateRevisionResponse$Tags": "<p>The tags for the revision.</p>",
+        "GetDataGrantResponse$Tags": "<p>The tags associated to the data grant. A tag is a key-value pair.</p>",
         "GetDataSetResponse$Tags": "<p>The tags for the data set.</p>",
         "GetRevisionResponse$Tags": "<p>The tags for the revision.</p>",
         "ListTagsForResourceResponse$Tags": "<p>A label that consists of a customer-defined key and an optional value.</p>",
@@ -830,10 +1084,12 @@
     "MaxResults": {
       "base": null,
       "refs": {
+        "ListDataGrantsRequest$MaxResults": "<p>The maximum number of results to be included in the next page.</p>",
         "ListDataSetRevisionsRequest$MaxResults": "<p>The maximum number of results returned by a single call.</p>",
         "ListDataSetsRequest$MaxResults": "<p>The maximum number of results returned by a single call.</p>",
         "ListEventActionsRequest$MaxResults": "<p>The maximum number of results returned by a single call.</p>",
         "ListJobsRequest$MaxResults": "<p>The maximum number of results returned by a single call.</p>",
+        "ListReceivedDataGrantsRequest$MaxResults": "<p>The maximum number of results to be included in the next page.</p>",
         "ListRevisionAssetsRequest$MaxResults": "<p>The maximum number of results returned by a single call.</p>"
       }
     },
@@ -851,11 +1107,25 @@
     "NextToken": {
       "base": null,
       "refs": {
+        "ListDataGrantsResponse$NextToken": "<p>The pagination token used to retrieve the next page of results for this operation.</p>",
         "ListDataSetRevisionsResponse$NextToken": "<p>The token value retrieved from a previous call to access the next page of results.</p>",
         "ListDataSetsResponse$NextToken": "<p>The token value retrieved from a previous call to access the next page of results.</p>",
         "ListEventActionsResponse$NextToken": "<p>The token value retrieved from a previous call to access the next page of results.</p>",
         "ListJobsResponse$NextToken": "<p>The token value retrieved from a previous call to access the next page of results.</p>",
+        "ListReceivedDataGrantsResponse$NextToken": "<p>The pagination token used to retrieve the next page of results for this operation.</p>",
         "ListRevisionAssetsResponse$NextToken": "<p>The token value retrieved from a previous call to access the next page of results.</p>"
+      }
+    },
+    "NotificationDetails": {
+      "base": "<p>Extra details specific to this notification.</p>",
+      "refs": {
+        "SendDataSetNotificationRequest$Details": "<p>Extra details specific to this notification type.</p>"
+      }
+    },
+    "NotificationType": {
+      "base": null,
+      "refs": {
+        "SendDataSetNotificationRequest$Type": "<p>The type of the notification. Describing the kind of event the notification is alerting you to.</p>"
       }
     },
     "Origin": {
@@ -884,6 +1154,24 @@
         "ImportAssetFromApiGatewayApiResponseDetails$ProtocolType": "<p>The protocol type.</p>"
       }
     },
+    "ReceivedDataGrantSummariesEntry": {
+      "base": "<p>Information about a received data grant.</p>",
+      "refs": {
+        "ListOfReceivedDataGrantSummariesEntry$member": null
+      }
+    },
+    "ReceiverPrincipal": {
+      "base": null,
+      "refs": {
+        "AcceptDataGrantResponse$ReceiverPrincipal": "<p>The Amazon Web Services account ID of the data grant receiver.</p>",
+        "CreateDataGrantRequest$ReceiverPrincipal": "<p>The Amazon Web Services account ID of the data grant receiver.</p>",
+        "CreateDataGrantResponse$ReceiverPrincipal": "<p>The Amazon Web Services account ID of the data grant receiver.</p>",
+        "DataGrantSummaryEntry$ReceiverPrincipal": "<p>The Amazon Web Services account ID of the data grant receiver.</p>",
+        "GetDataGrantResponse$ReceiverPrincipal": "<p>The Amazon Web Services account ID of the data grant receiver.</p>",
+        "GetReceivedDataGrantResponse$ReceiverPrincipal": "<p>The Amazon Web Services account ID of the data grant receiver.</p>",
+        "ReceivedDataGrantSummariesEntry$ReceiverPrincipal": "<p>The Amazon Web Services account ID of the data grant receiver.</p>"
+      }
+    },
     "RedshiftDataShareAsset": {
       "base": "<p>The Amazon Redshift datashare asset.</p>",
       "refs": {
@@ -894,6 +1182,12 @@
       "base": "<p>The source of the Amazon Redshift datashare asset.</p>",
       "refs": {
         "ListOfRedshiftDataShareAssetSourceEntry$member": null
+      }
+    },
+    "RedshiftDataShareDetails": {
+      "base": "<p>Extra details specific to the affected scope in this Redshift data set.</p>",
+      "refs": {
+        "ListOfRedshiftDataShares$member": null
       }
     },
     "RequestDetails": {
@@ -971,10 +1265,40 @@
         "CreateS3DataAccessFromS3BucketResponseDetails$AssetSource": "<p>Details about the asset source from an Amazon S3 bucket.</p>"
       }
     },
+    "S3DataAccessDetails": {
+      "base": "<p>Extra details specific to the affected scope in this S3 Data Access data set.</p>",
+      "refs": {
+        "ListOfS3DataAccesses$member": null
+      }
+    },
     "S3SnapshotAsset": {
       "base": "<p>The Amazon S3 object that is the asset.</p>",
       "refs": {
         "AssetDetails$S3SnapshotAsset": "<p>The Amazon S3 object that is the asset.</p>"
+      }
+    },
+    "SchemaChangeDetails": {
+      "base": "<p>Object encompassing information about a schema change to a single, particular field, a notification can have up to 100 of these.</p>",
+      "refs": {
+        "ListOfSchemaChangeDetails$member": null
+      }
+    },
+    "SchemaChangeRequestDetails": {
+      "base": "<p>Extra details specific to this schema change type notification.</p>",
+      "refs": {
+        "NotificationDetails$SchemaChange": "<p>Extra details specific to a schema change type notification.</p>"
+      }
+    },
+    "SchemaChangeType": {
+      "base": null,
+      "refs": {
+        "SchemaChangeDetails$Type": "<p>Is the field being added, removed, or modified?</p>"
+      }
+    },
+    "ScopeDetails": {
+      "base": "<p>Details about the scope of the notifications such as the affected resources.</p>",
+      "refs": {
+        "SendDataSetNotificationRequest$Scope": "<p>Affected scope of this notification such as the underlying resources affected by the notification event.</p>"
       }
     },
     "SendApiAssetRequest": {
@@ -985,6 +1309,27 @@
     "SendApiAssetResponse": {
       "base": null,
       "refs": {
+      }
+    },
+    "SendDataSetNotificationRequest": {
+      "base": null,
+      "refs": {
+      }
+    },
+    "SendDataSetNotificationResponse": {
+      "base": null,
+      "refs": {
+      }
+    },
+    "SenderPrincipal": {
+      "base": null,
+      "refs": {
+        "AcceptDataGrantResponse$SenderPrincipal": "<p>The Amazon Web Services account ID of the data grant sender.</p>",
+        "CreateDataGrantResponse$SenderPrincipal": "<p>The Amazon Web Services account ID of the data grant sender.</p>",
+        "DataGrantSummaryEntry$SenderPrincipal": "<p>The Amazon Web Services account ID of the data grant sender.</p>",
+        "GetDataGrantResponse$SenderPrincipal": "<p>The Amazon Web Services account ID of the data grant sender.</p>",
+        "GetReceivedDataGrantResponse$SenderPrincipal": "<p>The Amazon Web Services account ID of the data grant sender.</p>",
+        "ReceivedDataGrantSummariesEntry$SenderPrincipal": "<p>The Amazon Web Services account ID of the data grant sender.</p>"
       }
     },
     "ServerSideEncryptionTypes": {
@@ -1055,9 +1400,18 @@
     "Timestamp": {
       "base": null,
       "refs": {
+        "AcceptDataGrantResponse$AcceptedAt": "<p>The timestamp of when the data grant was accepted.</p>",
+        "AcceptDataGrantResponse$EndsAt": "<p>The timestamp of when access to the associated data set ends.</p>",
+        "AcceptDataGrantResponse$CreatedAt": "<p>The timestamp of when the data grant was created.</p>",
+        "AcceptDataGrantResponse$UpdatedAt": "<p>The timestamp of when the data grant was last updated.</p>",
         "ApiGatewayApiAsset$ApiSpecificationDownloadUrlExpiresAt": "<p>The date and time that the upload URL expires, in ISO 8601 format.</p>",
         "AssetEntry$CreatedAt": "<p>The date and time that the asset was created, in ISO 8601 format.</p>",
         "AssetEntry$UpdatedAt": "<p>The date and time that the asset was last updated, in ISO 8601 format.</p>",
+        "CreateDataGrantRequest$EndsAt": "<p>The timestamp of when access to the associated data set ends.</p>",
+        "CreateDataGrantResponse$AcceptedAt": "<p>The timestamp of when the data grant was accepted.</p>",
+        "CreateDataGrantResponse$EndsAt": "<p>The timestamp of when access to the associated data set ends.</p>",
+        "CreateDataGrantResponse$CreatedAt": "<p>The timestamp of when the data grant was created.</p>",
+        "CreateDataGrantResponse$UpdatedAt": "<p>The timestamp of when the data grant was last updated.</p>",
         "CreateDataSetResponse$CreatedAt": "<p>The date and time that the data set was created, in ISO 8601 format.</p>",
         "CreateDataSetResponse$UpdatedAt": "<p>The date and time that the data set was last updated, in ISO 8601 format.</p>",
         "CreateEventActionResponse$CreatedAt": "<p>The date and time that the event action was created, in ISO 8601 format.</p>",
@@ -1067,19 +1421,33 @@
         "CreateRevisionResponse$CreatedAt": "<p>The date and time that the revision was created, in ISO 8601 format.</p>",
         "CreateRevisionResponse$UpdatedAt": "<p>The date and time that the revision was last updated, in ISO 8601 format.</p>",
         "CreateRevisionResponse$RevokedAt": "<p>The date and time that the revision was revoked, in ISO 8601 format.</p>",
+        "DataGrantSummaryEntry$AcceptedAt": "<p>The timestamp of when the data grant was accepted.</p>",
+        "DataGrantSummaryEntry$EndsAt": "<p>The timestamp of when access to the associated data set ends.</p>",
+        "DataGrantSummaryEntry$CreatedAt": "<p>The timestamp of when the data grant was created.</p>",
+        "DataGrantSummaryEntry$UpdatedAt": "<p>The timestamp of when the data grant was last updated.</p>",
         "DataSetEntry$CreatedAt": "<p>The date and time that the data set was created, in ISO 8601 format.</p>",
         "DataSetEntry$UpdatedAt": "<p>The date and time that the data set was last updated, in ISO 8601 format.</p>",
+        "DataUpdateRequestDetails$DataUpdatedAt": "<p>A datetime in the past when the data was updated. This typically means that the underlying resource supporting the data set was updated.</p>",
+        "DeprecationRequestDetails$DeprecationAt": "<p>A datetime in the future when the data set will be deprecated.</p>",
         "EventActionEntry$CreatedAt": "<p>The date and time that the event action was created, in ISO 8601 format.</p>",
         "EventActionEntry$UpdatedAt": "<p>The date and time that the event action was last updated, in ISO 8601 format.</p>",
         "ExportAssetToSignedUrlResponseDetails$SignedUrlExpiresAt": "<p>The date and time that the signed URL expires, in ISO 8601 format.</p>",
         "GetAssetResponse$CreatedAt": "<p>The date and time that the asset was created, in ISO 8601 format.</p>",
         "GetAssetResponse$UpdatedAt": "<p>The date and time that the asset was last updated, in ISO 8601 format.</p>",
+        "GetDataGrantResponse$AcceptedAt": "<p>The timestamp of when the data grant was accepted.</p>",
+        "GetDataGrantResponse$EndsAt": "<p>The timestamp of when access to the associated data set ends.</p>",
+        "GetDataGrantResponse$CreatedAt": "<p>The timestamp of when the data grant was created.</p>",
+        "GetDataGrantResponse$UpdatedAt": "<p>The timestamp of when the data grant was last updated.</p>",
         "GetDataSetResponse$CreatedAt": "<p>The date and time that the data set was created, in ISO 8601 format.</p>",
         "GetDataSetResponse$UpdatedAt": "<p>The date and time that the data set was last updated, in ISO 8601 format.</p>",
         "GetEventActionResponse$CreatedAt": "<p>The date and time that the event action was created, in ISO 8601 format.</p>",
         "GetEventActionResponse$UpdatedAt": "<p>The date and time that the event action was last updated, in ISO 8601 format.</p>",
         "GetJobResponse$CreatedAt": "<p>The date and time that the job was created, in ISO 8601 format.</p>",
         "GetJobResponse$UpdatedAt": "<p>The date and time that the job was last updated, in ISO 8601 format.</p>",
+        "GetReceivedDataGrantResponse$AcceptedAt": "<p>The timestamp of when the data grant was accepted.</p>",
+        "GetReceivedDataGrantResponse$EndsAt": "<p>The timestamp of when access to the associated data set ends.</p>",
+        "GetReceivedDataGrantResponse$CreatedAt": "<p>The timestamp of when the data grant was created.</p>",
+        "GetReceivedDataGrantResponse$UpdatedAt": "<p>The timestamp of when the data grant was last updated.</p>",
         "GetRevisionResponse$CreatedAt": "<p>The date and time that the revision was created, in ISO 8601 format.</p>",
         "GetRevisionResponse$UpdatedAt": "<p>The date and time that the revision was last updated, in ISO 8601 format.</p>",
         "GetRevisionResponse$RevokedAt": "<p>The date and time that the revision was revoked, in ISO 8601 format.</p>",
@@ -1087,12 +1455,17 @@
         "ImportAssetFromSignedUrlResponseDetails$SignedUrlExpiresAt": "<p>The time and date at which the signed URL expires, in ISO 8601 format.</p>",
         "JobEntry$CreatedAt": "<p>The date and time that the job was created, in ISO 8601 format.</p>",
         "JobEntry$UpdatedAt": "<p>The date and time that the job was last updated, in ISO 8601 format.</p>",
+        "ReceivedDataGrantSummariesEntry$AcceptedAt": "<p>The timestamp of when the data grant was accepted.</p>",
+        "ReceivedDataGrantSummariesEntry$EndsAt": "<p>The timestamp of when access to the associated data set ends.</p>",
+        "ReceivedDataGrantSummariesEntry$CreatedAt": "<p>The timestamp of when the data grant was created.</p>",
+        "ReceivedDataGrantSummariesEntry$UpdatedAt": "<p>The timestamp of when the data grant was last updated.</p>",
         "RevisionEntry$CreatedAt": "<p>The date and time that the revision was created, in ISO 8601 format.</p>",
         "RevisionEntry$UpdatedAt": "<p>The date and time that the revision was last updated, in ISO 8601 format.</p>",
         "RevisionEntry$RevokedAt": "<p>The date and time that the revision was revoked, in ISO 8601 format.</p>",
         "RevokeRevisionResponse$CreatedAt": "<p>The date and time that the revision was created, in ISO 8601 format.</p>",
         "RevokeRevisionResponse$UpdatedAt": "<p>The date and time that the revision was last updated, in ISO 8601 format.</p>",
         "RevokeRevisionResponse$RevokedAt": "<p>The date and time that the revision was revoked, in ISO 8601 format.</p>",
+        "SchemaChangeRequestDetails$SchemaChangeAt": "<p>A date in the future when the schema change is taking effect.</p>",
         "UpdateAssetResponse$CreatedAt": "<p>The date and time that the asset was created, in ISO 8601 format.</p>",
         "UpdateAssetResponse$UpdatedAt": "<p>The date and time that the asset was last updated, in ISO 8601 format.</p>",
         "UpdateDataSetResponse$CreatedAt": "<p>The date and time that the data set was created, in ISO 8601 format.</p>",
@@ -1243,6 +1616,9 @@
         "InternalServerException$Message": "<p>The message identifying the service exception that occurred.</p>",
         "JobError$Message": "<p>The message related to the job error.</p>",
         "JobError$ResourceId": "<p>The unique identifier for the resource related to the error.</p>",
+        "LakeFormationTagPolicyDetails$Database": "<p>The underlying Glue database that the notification is referring to.</p>",
+        "LakeFormationTagPolicyDetails$Table": "<p>The underlying Glue table that the notification is referring to.</p>",
+        "ListDataGrantsRequest$NextToken": "<p>The pagination token used to retrieve the next page of results for this operation.</p>",
         "ListDataSetRevisionsRequest$DataSetId": "<p>The unique identifier for a data set.</p>",
         "ListDataSetRevisionsRequest$NextToken": "<p>The token value retrieved from a previous call to access the next page of results.</p>",
         "ListDataSetsRequest$NextToken": "<p>The token value retrieved from a previous call to access the next page of results.</p>",
@@ -1253,6 +1629,7 @@
         "ListJobsRequest$NextToken": "<p>The token value retrieved from a previous call to access the next page of results.</p>",
         "ListJobsRequest$RevisionId": "<p>The unique identifier for a revision.</p>",
         "ListOf__string$member": null,
+        "ListReceivedDataGrantsRequest$NextToken": "<p>The pagination token used to retrieve the next page of results for this operation.</p>",
         "ListRevisionAssetsRequest$DataSetId": "<p>The unique identifier for a data set.</p>",
         "ListRevisionAssetsRequest$NextToken": "<p>The token value retrieved from a previous call to access the next page of results.</p>",
         "ListRevisionAssetsRequest$RevisionId": "<p>The unique identifier for a revision.</p>",
@@ -1260,8 +1637,15 @@
         "MapOf__string$key": null,
         "MapOf__string$value": null,
         "OriginDetails$ProductId": "<p>The product ID of the origin of the data set.</p>",
+        "OriginDetails$DataGrantId": "<p>The ID of the data grant.</p>",
         "RedshiftDataShareAsset$Arn": "<p>The Amazon Resource Name (ARN) of the datashare asset.</p>",
         "RedshiftDataShareAssetSourceEntry$DataShareArn": "<p>The Amazon Resource Name (ARN) of the datashare asset.</p>",
+        "RedshiftDataShareDetails$Arn": "<p>The ARN of the underlying Redshift data share that is being affected by this notification.</p>",
+        "RedshiftDataShareDetails$Database": "<p>The database name in the Redshift data share that is being affected by this notification.</p>",
+        "RedshiftDataShareDetails$Function": "<p>A function name in the Redshift database that is being affected by this notification.</p>",
+        "RedshiftDataShareDetails$Table": "<p>A table name in the Redshift database that is being affected by this notification.</p>",
+        "RedshiftDataShareDetails$Schema": "<p>A schema name in the Redshift database that is being affected by this notification.</p>",
+        "RedshiftDataShareDetails$View": "<p>A view name in the Redshift database that is being affected by this notification.</p>",
         "ResourceNotFoundException$Message": "<p>The resource couldn't be found.</p>",
         "ResourceNotFoundException$ResourceId": "<p>The unique identifier for the resource that couldn't be found.</p>",
         "RevisionDestinationEntry$Bucket": "<p>The Amazon S3 bucket that is the destination for the assets in the revision.</p>",
@@ -1272,6 +1656,8 @@
         "S3DataAccessAsset$S3AccessPointAlias": "<p>The automatically-generated bucket-style alias for your Amazon S3 Access Point. Customers can access their entitled data using the S3 Access Point alias.</p>",
         "S3DataAccessAsset$S3AccessPointArn": "<p>The ARN for your Amazon S3 Access Point. Customers can also access their entitled data using the S3 Access Point ARN.</p>",
         "S3DataAccessAssetSourceEntry$Bucket": "<p>The Amazon S3 bucket used for hosting shared data in the Amazon S3 data access.</p>",
+        "SchemaChangeDetails$Name": "<p>Name of the changing field. This value can be up to 255 characters long.</p>",
+        "SchemaChangeDetails$Description": "<p>Description of what's changing about this field. This value can be up to 512 characters long.</p>",
         "SendApiAssetRequest$Body": "<p>The request body.</p>",
         "SendApiAssetRequest$AssetId": "<p>Asset ID value for the API request.</p>",
         "SendApiAssetRequest$DataSetId": "<p>Data set ID value for the API request.</p>",
@@ -1279,6 +1665,7 @@
         "SendApiAssetRequest$Path": "<p>URI path value for the API request. Alternatively, you can set the URI path directly by invoking /v1/{pathValue}.</p>",
         "SendApiAssetRequest$RevisionId": "<p>Revision ID value for the API request.</p>",
         "SendApiAssetResponse$Body": "<p>The response body from the underlying API tracked by the API asset.</p>",
+        "SendDataSetNotificationRequest$DataSetId": "<p>Affected data set of the notification.</p>",
         "ServiceLimitExceededException$Message": "<p>The request has exceeded the quotas imposed by the service.</p>",
         "StartJobRequest$JobId": "<p>The unique identifier for a job.</p>",
         "TagResourceRequest$ResourceArn": "<p>An Amazon Resource Name (ARN) that uniquely identifies an AWS resource.</p>",
@@ -1304,6 +1691,12 @@
         "RevokeRevisionResponse$Comment": "<p>An optional comment about the revision.</p>",
         "UpdateRevisionRequest$Comment": "<p>An optional comment about the revision.</p>",
         "UpdateRevisionResponse$Comment": "<p>An optional comment about the revision.</p>"
+      }
+    },
+    "__stringMin0Max4096": {
+      "base": null,
+      "refs": {
+        "SendDataSetNotificationRequest$Comment": "<p>Free-form text field for providers to add information about their notifications.</p>"
       }
     },
     "__stringMin10Max512": {

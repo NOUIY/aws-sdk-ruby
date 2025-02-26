@@ -10,7 +10,10 @@ module BuildTools
     MANIFEST_PATH = File.expand_path('../../services.json', __FILE__)
 
     # Minimum `aws-sdk-core` version for new gem builds
-    MINIMUM_CORE_VERSION = "3.165.0"
+    MINIMUM_CORE_VERSION = "3.216.0"
+
+    # Minimum `aws-sdk-core` version for new S3 gem builds
+    MINIMUM_CORE_VERSION_S3 = "3.216.0"
 
     EVENTSTREAM_PLUGIN = "Aws::Plugins::EventStreamConfiguration"
 
@@ -28,6 +31,12 @@ module BuildTools
       end
     end
     alias service []
+
+    def for_service_id(service_id)
+      services.values.find do |service|
+        service.service_id == service_id
+      end
+    end
 
     def each(&block)
       services.values.each(&block)
@@ -47,7 +56,7 @@ module BuildTools
     end
 
     def manifest
-      JSON.load(File.read(@manifest_path))
+      JSON.load_file(@manifest_path)
     end
 
     def build_service(svc_name, config)
@@ -63,24 +72,25 @@ module BuildTools
         waiters: model_path('waiters-2.json', config['models']),
         resources: model_path('resources-1.json', config['models']),
         examples: load_examples(svc_name, config['models']),
-        smoke_tests: model_path('smoke.json', config['models']),
+        smoke_tests: load_smoke(svc_name, config['models']),
         legacy_endpoints: config.fetch('legacyEndpoints', false),
         endpoint_rules: model_path('endpoint-rule-set-1.json', config['models']),
         endpoint_tests: model_path('endpoint-tests-1.json', config['models']),
         gem_dependencies: gem_dependencies(api, config['dependencies'] || {}),
         add_plugins: add_plugins(api, config['addPlugins'] || []),
-        remove_plugins: config['removePlugins'] || []
+        remove_plugins: config['removePlugins'] || [],
+        deprecated: config['deprecated'],
       )
     end
 
     def load_api(svc_name, models_dir)
-      api = JSON.load(File.read(model_path('api-2.json', models_dir)))
+      api = JSON.load_file(model_path('api-2.json', models_dir))
       BuildTools::Customizations.apply_api_customizations(svc_name, api)
       api
     end
 
     def load_docs(svc_name, models_dir)
-      docs = JSON.load(File.read(model_path('docs-2.json', models_dir)))
+      docs = JSON.load_file(model_path('docs-2.json', models_dir))
       BuildTools::Customizations.apply_doc_customizations(svc_name, docs)
       docs
     end
@@ -88,9 +98,20 @@ module BuildTools
     def load_examples(svc_name, models_dir)
       path = model_path('examples-1.json', models_dir)
       if path
-        examples = JSON.load(File.read(path))
+        examples = JSON.load_file(path)
         BuildTools::Customizations.apply_example_customizations(svc_name, examples)
         examples
+      else
+        nil
+      end
+    end
+
+    def load_smoke(svc_name, models_dir)
+      path = model_path('smoke-2.json', models_dir)
+      if path
+        smoke = JSON.load_file(path)
+        BuildTools::Customizations.apply_smoke_customizations(svc_name, smoke)
+        smoke
       else
         nil
       end
@@ -131,12 +152,22 @@ module BuildTools
 
     def gem_dependencies(api, dependencies)
       version_file = File.read("#{$GEMS_DIR}/aws-sdk-core/VERSION").rstrip
-      core_version_string = "', '>= #{MINIMUM_CORE_VERSION}"
+      min_core = api['metadata']['serviceId'] == 'S3' ?
+                   MINIMUM_CORE_VERSION_S3 :
+                   MINIMUM_CORE_VERSION
+      core_version_string = "', '>= #{min_core}"
       dependencies['aws-sdk-core'] = "~> #{version_file.split('.')[0]}#{core_version_string}"
 
+      api['metadata'].fetch('auth', []).each do |auth|
+        if %w[aws.auth#sigv4 aws.auth#sigv4a].include?(auth)
+          dependencies['aws-sigv4'] = '~> 1.5'
+        end
+      end
+
+      # deprecated auth but a reasonable fallback
       case api['metadata']['signatureVersion']
-      when 'v4' then dependencies['aws-sigv4'] = '~> 1.1'
-      when 'v2' then dependencies['aws-sigv2'] = '~> 1.0'
+      when 'v4' then dependencies['aws-sigv4'] ||= '~> 1.1'
+      when 'v2' then dependencies['aws-sigv2'] ||= '~> 1.0'
       end
       dependencies
     end
@@ -152,7 +183,6 @@ module BuildTools
       end
       false
     end
-
   end
 
   Services = ServiceEnumerator.new

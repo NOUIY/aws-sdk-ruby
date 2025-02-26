@@ -7,6 +7,7 @@
 #
 # WARNING ABOUT GENERATED CODE
 
+
 module Aws::SWF
   # @api private
   module ClientApi
@@ -70,6 +71,8 @@ module Aws::SWF
     DecisionTaskTimeoutType = Shapes::StringShape.new(name: 'DecisionTaskTimeoutType')
     DecisionType = Shapes::StringShape.new(name: 'DecisionType')
     DefaultUndefinedFault = Shapes::StructureShape.new(name: 'DefaultUndefinedFault')
+    DeleteActivityTypeInput = Shapes::StructureShape.new(name: 'DeleteActivityTypeInput')
+    DeleteWorkflowTypeInput = Shapes::StructureShape.new(name: 'DeleteWorkflowTypeInput')
     DeprecateActivityTypeInput = Shapes::StructureShape.new(name: 'DeprecateActivityTypeInput')
     DeprecateDomainInput = Shapes::StructureShape.new(name: 'DeprecateDomainInput')
     DeprecateWorkflowTypeInput = Shapes::StructureShape.new(name: 'DeprecateWorkflowTypeInput')
@@ -172,6 +175,7 @@ module Aws::SWF
     SignalExternalWorkflowExecutionInitiatedEventAttributes = Shapes::StructureShape.new(name: 'SignalExternalWorkflowExecutionInitiatedEventAttributes')
     SignalName = Shapes::StringShape.new(name: 'SignalName')
     SignalWorkflowExecutionInput = Shapes::StructureShape.new(name: 'SignalWorkflowExecutionInput')
+    StartAtPreviousStartedEvent = Shapes::BooleanShape.new(name: 'StartAtPreviousStartedEvent')
     StartChildWorkflowExecutionDecisionAttributes = Shapes::StructureShape.new(name: 'StartChildWorkflowExecutionDecisionAttributes')
     StartChildWorkflowExecutionFailedCause = Shapes::StringShape.new(name: 'StartChildWorkflowExecutionFailedCause')
     StartChildWorkflowExecutionFailedEventAttributes = Shapes::StructureShape.new(name: 'StartChildWorkflowExecutionFailedEventAttributes')
@@ -200,6 +204,7 @@ module Aws::SWF
     Truncated = Shapes::BooleanShape.new(name: 'Truncated')
     TypeAlreadyExistsFault = Shapes::StructureShape.new(name: 'TypeAlreadyExistsFault')
     TypeDeprecatedFault = Shapes::StructureShape.new(name: 'TypeDeprecatedFault')
+    TypeNotDeprecatedFault = Shapes::StructureShape.new(name: 'TypeNotDeprecatedFault')
     UndeprecateActivityTypeInput = Shapes::StructureShape.new(name: 'UndeprecateActivityTypeInput')
     UndeprecateDomainInput = Shapes::StructureShape.new(name: 'UndeprecateDomainInput')
     UndeprecateWorkflowTypeInput = Shapes::StructureShape.new(name: 'UndeprecateWorkflowTypeInput')
@@ -458,11 +463,14 @@ module Aws::SWF
     DecisionTaskCompletedEventAttributes.add_member(:execution_context, Shapes::ShapeRef.new(shape: Data, location_name: "executionContext"))
     DecisionTaskCompletedEventAttributes.add_member(:scheduled_event_id, Shapes::ShapeRef.new(shape: EventId, required: true, location_name: "scheduledEventId"))
     DecisionTaskCompletedEventAttributes.add_member(:started_event_id, Shapes::ShapeRef.new(shape: EventId, required: true, location_name: "startedEventId"))
+    DecisionTaskCompletedEventAttributes.add_member(:task_list, Shapes::ShapeRef.new(shape: TaskList, location_name: "taskList"))
+    DecisionTaskCompletedEventAttributes.add_member(:task_list_schedule_to_start_timeout, Shapes::ShapeRef.new(shape: DurationInSecondsOptional, location_name: "taskListScheduleToStartTimeout"))
     DecisionTaskCompletedEventAttributes.struct_class = Types::DecisionTaskCompletedEventAttributes
 
     DecisionTaskScheduledEventAttributes.add_member(:task_list, Shapes::ShapeRef.new(shape: TaskList, required: true, location_name: "taskList"))
     DecisionTaskScheduledEventAttributes.add_member(:task_priority, Shapes::ShapeRef.new(shape: TaskPriority, location_name: "taskPriority"))
     DecisionTaskScheduledEventAttributes.add_member(:start_to_close_timeout, Shapes::ShapeRef.new(shape: DurationInSecondsOptional, location_name: "startToCloseTimeout"))
+    DecisionTaskScheduledEventAttributes.add_member(:schedule_to_start_timeout, Shapes::ShapeRef.new(shape: DurationInSecondsOptional, location_name: "scheduleToStartTimeout"))
     DecisionTaskScheduledEventAttributes.struct_class = Types::DecisionTaskScheduledEventAttributes
 
     DecisionTaskStartedEventAttributes.add_member(:identity, Shapes::ShapeRef.new(shape: Identity, location_name: "identity"))
@@ -476,6 +484,14 @@ module Aws::SWF
 
     DefaultUndefinedFault.add_member(:message, Shapes::ShapeRef.new(shape: ErrorMessage, location_name: "message"))
     DefaultUndefinedFault.struct_class = Types::DefaultUndefinedFault
+
+    DeleteActivityTypeInput.add_member(:domain, Shapes::ShapeRef.new(shape: DomainName, required: true, location_name: "domain"))
+    DeleteActivityTypeInput.add_member(:activity_type, Shapes::ShapeRef.new(shape: ActivityType, required: true, location_name: "activityType"))
+    DeleteActivityTypeInput.struct_class = Types::DeleteActivityTypeInput
+
+    DeleteWorkflowTypeInput.add_member(:domain, Shapes::ShapeRef.new(shape: DomainName, required: true, location_name: "domain"))
+    DeleteWorkflowTypeInput.add_member(:workflow_type, Shapes::ShapeRef.new(shape: WorkflowType, required: true, location_name: "workflowType"))
+    DeleteWorkflowTypeInput.struct_class = Types::DeleteWorkflowTypeInput
 
     DeprecateActivityTypeInput.add_member(:domain, Shapes::ShapeRef.new(shape: DomainName, required: true, location_name: "domain"))
     DeprecateActivityTypeInput.add_member(:activity_type, Shapes::ShapeRef.new(shape: ActivityType, required: true, location_name: "activityType"))
@@ -723,6 +739,7 @@ module Aws::SWF
     PollForDecisionTaskInput.add_member(:next_page_token, Shapes::ShapeRef.new(shape: PageToken, location_name: "nextPageToken"))
     PollForDecisionTaskInput.add_member(:maximum_page_size, Shapes::ShapeRef.new(shape: PageSize, location_name: "maximumPageSize"))
     PollForDecisionTaskInput.add_member(:reverse_order, Shapes::ShapeRef.new(shape: ReverseOrder, location_name: "reverseOrder"))
+    PollForDecisionTaskInput.add_member(:start_at_previous_started_event, Shapes::ShapeRef.new(shape: StartAtPreviousStartedEvent, location_name: "startAtPreviousStartedEvent"))
     PollForDecisionTaskInput.struct_class = Types::PollForDecisionTaskInput
 
     RecordActivityTaskHeartbeatInput.add_member(:task_token, Shapes::ShapeRef.new(shape: TaskToken, required: true, location_name: "taskToken"))
@@ -824,6 +841,8 @@ module Aws::SWF
     RespondDecisionTaskCompletedInput.add_member(:task_token, Shapes::ShapeRef.new(shape: TaskToken, required: true, location_name: "taskToken"))
     RespondDecisionTaskCompletedInput.add_member(:decisions, Shapes::ShapeRef.new(shape: DecisionList, location_name: "decisions"))
     RespondDecisionTaskCompletedInput.add_member(:execution_context, Shapes::ShapeRef.new(shape: Data, location_name: "executionContext"))
+    RespondDecisionTaskCompletedInput.add_member(:task_list, Shapes::ShapeRef.new(shape: TaskList, location_name: "taskList"))
+    RespondDecisionTaskCompletedInput.add_member(:task_list_schedule_to_start_timeout, Shapes::ShapeRef.new(shape: DurationInSecondsOptional, location_name: "taskListScheduleToStartTimeout"))
     RespondDecisionTaskCompletedInput.struct_class = Types::RespondDecisionTaskCompletedInput
 
     Run.add_member(:run_id, Shapes::ShapeRef.new(shape: WorkflowRunId, location_name: "runId"))
@@ -996,6 +1015,9 @@ module Aws::SWF
 
     TypeDeprecatedFault.add_member(:message, Shapes::ShapeRef.new(shape: ErrorMessage, location_name: "message"))
     TypeDeprecatedFault.struct_class = Types::TypeDeprecatedFault
+
+    TypeNotDeprecatedFault.add_member(:message, Shapes::ShapeRef.new(shape: ErrorMessage, location_name: "message"))
+    TypeNotDeprecatedFault.struct_class = Types::TypeNotDeprecatedFault
 
     UndeprecateActivityTypeInput.add_member(:domain, Shapes::ShapeRef.new(shape: DomainName, required: true, location_name: "domain"))
     UndeprecateActivityTypeInput.add_member(:activity_type, Shapes::ShapeRef.new(shape: ActivityType, required: true, location_name: "activityType"))
@@ -1170,9 +1192,11 @@ module Aws::SWF
 
       api.metadata = {
         "apiVersion" => "2012-01-25",
+        "auth" => ["aws.auth#sigv4"],
         "endpointPrefix" => "swf",
         "jsonVersion" => "1.0",
         "protocol" => "json",
+        "protocols" => ["json"],
         "serviceAbbreviation" => "Amazon SWF",
         "serviceFullName" => "Amazon Simple Workflow Service",
         "serviceId" => "SWF",
@@ -1218,6 +1242,28 @@ module Aws::SWF
         o.input = Shapes::ShapeRef.new(shape: CountPendingDecisionTasksInput)
         o.output = Shapes::ShapeRef.new(shape: PendingTaskCount)
         o.errors << Shapes::ShapeRef.new(shape: UnknownResourceFault)
+        o.errors << Shapes::ShapeRef.new(shape: OperationNotPermittedFault)
+      end)
+
+      api.add_operation(:delete_activity_type, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DeleteActivityType"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: DeleteActivityTypeInput)
+        o.output = Shapes::ShapeRef.new(shape: Shapes::StructureShape.new(struct_class: Aws::EmptyStructure))
+        o.errors << Shapes::ShapeRef.new(shape: UnknownResourceFault)
+        o.errors << Shapes::ShapeRef.new(shape: TypeNotDeprecatedFault)
+        o.errors << Shapes::ShapeRef.new(shape: OperationNotPermittedFault)
+      end)
+
+      api.add_operation(:delete_workflow_type, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DeleteWorkflowType"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: DeleteWorkflowTypeInput)
+        o.output = Shapes::ShapeRef.new(shape: Shapes::StructureShape.new(struct_class: Aws::EmptyStructure))
+        o.errors << Shapes::ShapeRef.new(shape: UnknownResourceFault)
+        o.errors << Shapes::ShapeRef.new(shape: TypeNotDeprecatedFault)
         o.errors << Shapes::ShapeRef.new(shape: OperationNotPermittedFault)
       end)
 

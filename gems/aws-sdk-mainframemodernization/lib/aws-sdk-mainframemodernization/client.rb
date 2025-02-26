@@ -7,33 +7,34 @@
 #
 # WARNING ABOUT GENERATED CODE
 
-require 'seahorse/client/plugins/content_length.rb'
-require 'aws-sdk-core/plugins/credentials_configuration.rb'
-require 'aws-sdk-core/plugins/logging.rb'
-require 'aws-sdk-core/plugins/param_converter.rb'
-require 'aws-sdk-core/plugins/param_validator.rb'
-require 'aws-sdk-core/plugins/user_agent.rb'
-require 'aws-sdk-core/plugins/helpful_socket_errors.rb'
-require 'aws-sdk-core/plugins/retry_errors.rb'
-require 'aws-sdk-core/plugins/global_configuration.rb'
-require 'aws-sdk-core/plugins/regional_endpoint.rb'
-require 'aws-sdk-core/plugins/endpoint_discovery.rb'
-require 'aws-sdk-core/plugins/endpoint_pattern.rb'
-require 'aws-sdk-core/plugins/response_paging.rb'
-require 'aws-sdk-core/plugins/stub_responses.rb'
-require 'aws-sdk-core/plugins/idempotency_token.rb'
-require 'aws-sdk-core/plugins/jsonvalue_converter.rb'
-require 'aws-sdk-core/plugins/client_metrics_plugin.rb'
-require 'aws-sdk-core/plugins/client_metrics_send_plugin.rb'
-require 'aws-sdk-core/plugins/transfer_encoding.rb'
-require 'aws-sdk-core/plugins/http_checksum.rb'
-require 'aws-sdk-core/plugins/checksum_algorithm.rb'
-require 'aws-sdk-core/plugins/defaults_mode.rb'
-require 'aws-sdk-core/plugins/recursion_detection.rb'
-require 'aws-sdk-core/plugins/sign.rb'
-require 'aws-sdk-core/plugins/protocols/rest_json.rb'
-
-Aws::Plugins::GlobalConfiguration.add_identifier(:mainframemodernization)
+require 'seahorse/client/plugins/content_length'
+require 'aws-sdk-core/plugins/credentials_configuration'
+require 'aws-sdk-core/plugins/logging'
+require 'aws-sdk-core/plugins/param_converter'
+require 'aws-sdk-core/plugins/param_validator'
+require 'aws-sdk-core/plugins/user_agent'
+require 'aws-sdk-core/plugins/helpful_socket_errors'
+require 'aws-sdk-core/plugins/retry_errors'
+require 'aws-sdk-core/plugins/global_configuration'
+require 'aws-sdk-core/plugins/regional_endpoint'
+require 'aws-sdk-core/plugins/endpoint_discovery'
+require 'aws-sdk-core/plugins/endpoint_pattern'
+require 'aws-sdk-core/plugins/response_paging'
+require 'aws-sdk-core/plugins/stub_responses'
+require 'aws-sdk-core/plugins/idempotency_token'
+require 'aws-sdk-core/plugins/invocation_id'
+require 'aws-sdk-core/plugins/jsonvalue_converter'
+require 'aws-sdk-core/plugins/client_metrics_plugin'
+require 'aws-sdk-core/plugins/client_metrics_send_plugin'
+require 'aws-sdk-core/plugins/transfer_encoding'
+require 'aws-sdk-core/plugins/http_checksum'
+require 'aws-sdk-core/plugins/checksum_algorithm'
+require 'aws-sdk-core/plugins/request_compression'
+require 'aws-sdk-core/plugins/defaults_mode'
+require 'aws-sdk-core/plugins/recursion_detection'
+require 'aws-sdk-core/plugins/telemetry'
+require 'aws-sdk-core/plugins/sign'
+require 'aws-sdk-core/plugins/protocols/rest_json'
 
 module Aws::MainframeModernization
   # An API client for MainframeModernization.  To construct a client, you need to configure a `:region` and `:credentials`.
@@ -71,20 +72,28 @@ module Aws::MainframeModernization
     add_plugin(Aws::Plugins::ResponsePaging)
     add_plugin(Aws::Plugins::StubResponses)
     add_plugin(Aws::Plugins::IdempotencyToken)
+    add_plugin(Aws::Plugins::InvocationId)
     add_plugin(Aws::Plugins::JsonvalueConverter)
     add_plugin(Aws::Plugins::ClientMetricsPlugin)
     add_plugin(Aws::Plugins::ClientMetricsSendPlugin)
     add_plugin(Aws::Plugins::TransferEncoding)
     add_plugin(Aws::Plugins::HttpChecksum)
     add_plugin(Aws::Plugins::ChecksumAlgorithm)
+    add_plugin(Aws::Plugins::RequestCompression)
     add_plugin(Aws::Plugins::DefaultsMode)
     add_plugin(Aws::Plugins::RecursionDetection)
+    add_plugin(Aws::Plugins::Telemetry)
     add_plugin(Aws::Plugins::Sign)
     add_plugin(Aws::Plugins::Protocols::RestJson)
     add_plugin(Aws::MainframeModernization::Plugins::Endpoints)
 
     # @overload initialize(options)
     #   @param [Hash] options
+    #
+    #   @option options [Array<Seahorse::Client::Plugin>] :plugins ([]])
+    #     A list of plugins to apply to the client. Each plugin is either a
+    #     class name or an instance of a plugin class.
+    #
     #   @option options [required, Aws::CredentialProvider] :credentials
     #     Your AWS credentials. This can be an instance of any one of the
     #     following classes:
@@ -119,13 +128,15 @@ module Aws::MainframeModernization
     #     locations will be searched for credentials:
     #
     #     * `Aws.config[:credentials]`
-    #     * The `:access_key_id`, `:secret_access_key`, and `:session_token` options.
-    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']
+    #     * The `:access_key_id`, `:secret_access_key`, `:session_token`, and
+    #       `:account_id` options.
+    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'],
+    #       ENV['AWS_SESSION_TOKEN'], and ENV['AWS_ACCOUNT_ID']
     #     * `~/.aws/credentials`
     #     * `~/.aws/config`
     #     * EC2/ECS IMDS instance profile - When used by default, the timeouts
     #       are very aggressive. Construct and pass an instance of
-    #       `Aws::InstanceProfileCredentails` or `Aws::ECSCredentials` to
+    #       `Aws::InstanceProfileCredentials` or `Aws::ECSCredentials` to
     #       enable retries and extended timeouts. Instance profile credential
     #       fetching can be disabled by setting ENV['AWS_EC2_METADATA_DISABLED']
     #       to true.
@@ -143,6 +154,8 @@ module Aws::MainframeModernization
     #     * `~/.aws/config`
     #
     #   @option options [String] :access_key_id
+    #
+    #   @option options [String] :account_id
     #
     #   @option options [Boolean] :active_endpoint_cache (false)
     #     When set to `true`, a thread polling for endpoints will be running in
@@ -190,10 +203,20 @@ module Aws::MainframeModernization
     #     Set to true to disable SDK automatically adding host prefix
     #     to default service endpoint when available.
     #
-    #   @option options [String] :endpoint
-    #     The client endpoint is normally constructed from the `:region`
-    #     option. You should only configure an `:endpoint` when connecting
-    #     to test or custom endpoints. This should be a valid HTTP(S) URI.
+    #   @option options [Boolean] :disable_request_compression (false)
+    #     When set to 'true' the request body will not be compressed
+    #     for supported operations.
+    #
+    #   @option options [String, URI::HTTPS, URI::HTTP] :endpoint
+    #     Normally you should not configure the `:endpoint` option
+    #     directly. This is normally constructed from the `:region`
+    #     option. Configuring `:endpoint` is normally reserved for
+    #     connecting to test or custom endpoints. The endpoint should
+    #     be a URI formatted like:
+    #
+    #         'http://example.com'
+    #         'https://example.com'
+    #         'http://example.com:123'
     #
     #   @option options [Integer] :endpoint_cache_max_entries (1000)
     #     Used for the maximum size limit of the LRU cache storing endpoints data
@@ -209,6 +232,10 @@ module Aws::MainframeModernization
     #
     #   @option options [Boolean] :endpoint_discovery (false)
     #     When set to `true`, endpoint discovery will be enabled for operations when available.
+    #
+    #   @option options [Boolean] :ignore_configured_endpoint_urls
+    #     Setting to true disables use of endpoint URLs provided via environment
+    #     variables and the shared configuration file.
     #
     #   @option options [Aws::Log::Formatter] :log_formatter (Aws::Log::Formatter.default)
     #     The log formatter.
@@ -229,6 +256,34 @@ module Aws::MainframeModernization
     #   @option options [String] :profile ("default")
     #     Used when loading credentials from the shared credentials file
     #     at HOME/.aws/credentials.  When not specified, 'default' is used.
+    #
+    #   @option options [String] :request_checksum_calculation ("when_supported")
+    #     Determines when a checksum will be calculated for request payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, a checksum will be
+    #       calculated for all request payloads of operations modeled with the
+    #       `httpChecksum` trait where `requestChecksumRequired` is `true` and/or a
+    #       `requestAlgorithmMember` is modeled.
+    #     * `when_required` - When set, a checksum will only be calculated for
+    #       request payloads of operations modeled with the  `httpChecksum` trait where
+    #       `requestChecksumRequired` is `true` or where a `requestAlgorithmMember`
+    #       is modeled and supplied.
+    #
+    #   @option options [Integer] :request_min_compression_size_bytes (10240)
+    #     The minimum size in bytes that triggers compression for request
+    #     bodies. The value must be non-negative integer value between 0
+    #     and 10485780 bytes inclusive.
+    #
+    #   @option options [String] :response_checksum_validation ("when_supported")
+    #     Determines when checksum validation will be performed on response payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, checksum validation is performed on all
+    #       response payloads of operations modeled with the `httpChecksum` trait where
+    #       `responseAlgorithms` is modeled, except when no modeled checksum algorithms
+    #       are supported.
+    #     * `when_required` - When set, checksum validation is not performed on
+    #       response payloads of operations unless the checksum algorithm is supported and
+    #       the `requestValidationModeMember` member is set to `ENABLED`.
     #
     #   @option options [Proc] :retry_backoff
     #     A proc or lambda used for backoff. Defaults to 2**retries * retry_base_delay.
@@ -274,10 +329,24 @@ module Aws::MainframeModernization
     #       throttling.  This is a provisional mode that may change behavior
     #       in the future.
     #
+    #   @option options [String] :sdk_ua_app_id
+    #     A unique and opaque application ID that is appended to the
+    #     User-Agent header as app/sdk_ua_app_id. It should have a
+    #     maximum length of 50. This variable is sourced from environment
+    #     variable AWS_SDK_UA_APP_ID or the shared config profile attribute sdk_ua_app_id.
     #
     #   @option options [String] :secret_access_key
     #
     #   @option options [String] :session_token
+    #
+    #   @option options [Array] :sigv4a_signing_region_set
+    #     A list of regions that should be signed with SigV4a signing. When
+    #     not passed, a default `:sigv4a_signing_region_set` is searched for
+    #     in the following locations:
+    #
+    #     * `Aws.config[:sigv4a_signing_region_set]`
+    #     * `ENV['AWS_SIGV4A_SIGNING_REGION_SET']`
+    #     * `~/.aws/config`
     #
     #   @option options [Boolean] :stub_responses (false)
     #     Causes the client to return stubbed responses. By default
@@ -287,6 +356,16 @@ module Aws::MainframeModernization
     #
     #     ** Please note ** When response stubbing is enabled, no HTTP
     #     requests are made, and retries are disabled.
+    #
+    #   @option options [Aws::Telemetry::TelemetryProviderBase] :telemetry_provider (Aws::Telemetry::NoOpTelemetryProvider)
+    #     Allows you to provide a telemetry provider, which is used to
+    #     emit telemetry data. By default, uses `NoOpTelemetryProvider` which
+    #     will not record or emit any telemetry data. The SDK supports the
+    #     following telemetry providers:
+    #
+    #     * OpenTelemetry (OTel) - To use the OTel provider, install and require the
+    #     `opentelemetry-sdk` gem and then, pass in an instance of a
+    #     `Aws::Telemetry::OTelProvider` for telemetry provider.
     #
     #   @option options [Aws::TokenProvider] :token_provider
     #     A Bearer Token Provider. This can be an instance of any one of the
@@ -315,52 +394,75 @@ module Aws::MainframeModernization
     #     sending the request.
     #
     #   @option options [Aws::MainframeModernization::EndpointProvider] :endpoint_provider
-    #     The endpoint provider used to resolve endpoints. Any object that responds to `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to `Aws::MainframeModernization::EndpointParameters`
+    #     The endpoint provider used to resolve endpoints. Any object that responds to
+    #     `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+    #     `Aws::MainframeModernization::EndpointParameters`.
     #
-    #   @option options [URI::HTTP,String] :http_proxy A proxy to send
-    #     requests through.  Formatted like 'http://proxy.com:123'.
+    #   @option options [Float] :http_continue_timeout (1)
+    #     The number of seconds to wait for a 100-continue response before sending the
+    #     request body.  This option has no effect unless the request has "Expect"
+    #     header set to "100-continue".  Defaults to `nil` which  disables this
+    #     behaviour.  This value can safely be set per request on the session.
     #
-    #   @option options [Float] :http_open_timeout (15) The number of
-    #     seconds to wait when opening a HTTP session before raising a
-    #     `Timeout::Error`.
+    #   @option options [Float] :http_idle_timeout (5)
+    #     The number of seconds a connection is allowed to sit idle before it
+    #     is considered stale.  Stale connections are closed and removed from the
+    #     pool before making a request.
     #
-    #   @option options [Float] :http_read_timeout (60) The default
-    #     number of seconds to wait for response data.  This value can
-    #     safely be set per-request on the session.
+    #   @option options [Float] :http_open_timeout (15)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :http_idle_timeout (5) The number of
-    #     seconds a connection is allowed to sit idle before it is
-    #     considered stale.  Stale connections are closed and removed
-    #     from the pool before making a request.
+    #   @option options [URI::HTTP,String] :http_proxy
+    #     A proxy to send requests through.  Formatted like 'http://proxy.com:123'.
     #
-    #   @option options [Float] :http_continue_timeout (1) The number of
-    #     seconds to wait for a 100-continue response before sending the
-    #     request body.  This option has no effect unless the request has
-    #     "Expect" header set to "100-continue".  Defaults to `nil` which
-    #     disables this behaviour.  This value can safely be set per
-    #     request on the session.
+    #   @option options [Float] :http_read_timeout (60)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :ssl_timeout (nil) Sets the SSL timeout
-    #     in seconds.
+    #   @option options [Boolean] :http_wire_trace (false)
+    #     When `true`,  HTTP debug output will be sent to the `:logger`.
     #
-    #   @option options [Boolean] :http_wire_trace (false) When `true`,
-    #     HTTP debug output will be sent to the `:logger`.
+    #   @option options [Proc] :on_chunk_received
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the response body is received. It provides three arguments: the chunk,
+    #     the number of bytes received, and the total number of
+    #     bytes in the response (or nil if the server did not send a `content-length`).
     #
-    #   @option options [Boolean] :ssl_verify_peer (true) When `true`,
-    #     SSL peer certificates are verified when establishing a
-    #     connection.
+    #   @option options [Proc] :on_chunk_sent
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the request body is sent. It provides three arguments: the chunk,
+    #     the number of bytes read from the body, and the total number of
+    #     bytes in the body.
     #
-    #   @option options [String] :ssl_ca_bundle Full path to the SSL
-    #     certificate authority bundle file that should be used when
-    #     verifying peer certificates.  If you do not pass
-    #     `:ssl_ca_bundle` or `:ssl_ca_directory` the the system default
-    #     will be used if available.
+    #   @option options [Boolean] :raise_response_errors (true)
+    #     When `true`, response errors are raised.
     #
-    #   @option options [String] :ssl_ca_directory Full path of the
-    #     directory that contains the unbundled SSL certificate
+    #   @option options [String] :ssl_ca_bundle
+    #     Full path to the SSL certificate authority bundle file that should be used when
+    #     verifying peer certificates.  If you do not pass `:ssl_ca_bundle` or
+    #     `:ssl_ca_directory` the the system default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_directory
+    #     Full path of the directory that contains the unbundled SSL certificate
     #     authority files for verifying peer certificates.  If you do
-    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the
-    #     system default will be used if available.
+    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the system
+    #     default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_store
+    #     Sets the X509::Store to verify peer certificate.
+    #
+    #   @option options [OpenSSL::X509::Certificate] :ssl_cert
+    #     Sets a client certificate when creating http connections.
+    #
+    #   @option options [OpenSSL::PKey] :ssl_key
+    #     Sets a client key when creating http connections.
+    #
+    #   @option options [Float] :ssl_timeout
+    #     Sets the SSL timeout in seconds
+    #
+    #   @option options [Boolean] :ssl_verify_peer (true)
+    #     When `true`, SSL peer certificates are verified when establishing a connection.
     #
     def initialize(*args)
       super
@@ -373,6 +475,11 @@ module Aws::MainframeModernization
     # @option params [required, String] :application_id
     #   The unique identifier of the application.
     #
+    # @option params [String] :auth_secrets_manager_arn
+    #   The Amazon Web Services Secrets Manager containing user's credentials
+    #   for authentication and authorization for Cancel Batch Job Execution
+    #   operation.
+    #
     # @option params [required, String] :execution_id
     #   The unique identifier of the batch job execution.
     #
@@ -382,6 +489,7 @@ module Aws::MainframeModernization
     #
     #   resp = client.cancel_batch_job_execution({
     #     application_id: "Identifier", # required
+    #     auth_secrets_manager_arn: "AuthSecretsManagerArn",
     #     execution_id: "Identifier", # required
     #   })
     #
@@ -398,12 +506,10 @@ module Aws::MainframeModernization
     # runtime environment and application definition file.
     #
     # @option params [String] :client_token
-    #   Unique, case-sensitive identifier the service generates to ensure the
-    #   idempotency of the request to create an application. The service
-    #   generates the clientToken when the API call is triggered. The token
-    #   expires after one hour, so if you retry the API within this timeframe
-    #   with the same clientToken, you will get the same response. The service
-    #   also handles deleting the clientToken after it expires.
+    #   A client token is a unique, case-sensitive string of up to 128 ASCII
+    #   characters with ASCII values of 33-126 inclusive. It's generated by
+    #   the client to ensure idempotent operations, allowing for safe retries
+    #   without unintended side effects.
     #
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.**
@@ -424,6 +530,12 @@ module Aws::MainframeModernization
     # @option params [required, String] :name
     #   The unique identifier of the application.
     #
+    # @option params [String] :role_arn
+    #   The Amazon Resource Name (ARN) that identifies a role that the
+    #   application uses to access Amazon Web Services resources that are not
+    #   part of the application or are in a different Amazon Web Services
+    #   account.
+    #
     # @option params [Hash<String,String>] :tags
     #   A list of tags to apply to the application.
     #
@@ -436,7 +548,7 @@ module Aws::MainframeModernization
     # @example Request syntax with placeholder values
     #
     #   resp = client.create_application({
-    #     client_token: "String",
+    #     client_token: "ClientToken",
     #     definition: { # required
     #       content: "StringFree65000",
     #       s3_location: "String2000",
@@ -445,6 +557,7 @@ module Aws::MainframeModernization
     #     engine_type: "microfocus", # required, accepts microfocus, bluage
     #     kms_key_id: "String",
     #     name: "EntityName", # required
+    #     role_arn: "Arn",
     #     tags: {
     #       "TagKey" => "TagValue",
     #     },
@@ -493,7 +606,7 @@ module Aws::MainframeModernization
     #
     #   resp = client.create_data_set_import_task({
     #     application_id: "Identifier", # required
-    #     client_token: "String",
+    #     client_token: "ClientToken",
     #     import_config: { # required
     #       data_sets: [
     #         {
@@ -503,6 +616,15 @@ module Aws::MainframeModernization
     #               gdg: {
     #                 limit: 1,
     #                 roll_disposition: "String",
+    #               },
+    #               po: {
+    #                 encoding: "String",
+    #                 format: "String", # required
+    #                 member_file_extensions: ["String20"], # required
+    #               },
+    #               ps: {
+    #                 encoding: "String",
+    #                 format: "String", # required
     #               },
     #               vsam: {
     #                 alternate_keys: [
@@ -585,7 +707,7 @@ module Aws::MainframeModernization
     #   resp = client.create_deployment({
     #     application_id: "Identifier", # required
     #     application_version: 1, # required
-    #     client_token: "String",
+    #     client_token: "ClientToken",
     #     environment_id: "Identifier", # required
     #   })
     #
@@ -638,10 +760,18 @@ module Aws::MainframeModernization
     #   The name of the runtime environment. Must be unique within the
     #   account.
     #
+    # @option params [String] :network_type
+    #   The network type required for the runtime environment.
+    #
     # @option params [String] :preferred_maintenance_window
-    #   Configures the maintenance window you want for the runtime
-    #   environment. If you do not provide a value, a random system-generated
-    #   value will be assigned.
+    #   Configures the maintenance window that you want for the runtime
+    #   environment. The maintenance window must have the format
+    #   `ddd:hh24:mi-ddd:hh24:mi` and must be less than 24 hours. The
+    #   following two examples are valid maintenance windows:
+    #   `sun:23:45-mon:00:15` or `sat:01:00-sat:03:00`.
+    #
+    #   If you do not provide a value, a random system-generated value will be
+    #   assigned.
     #
     # @option params [Boolean] :publicly_accessible
     #   Specifies whether the runtime environment is publicly accessible.
@@ -667,7 +797,7 @@ module Aws::MainframeModernization
     # @example Request syntax with placeholder values
     #
     #   resp = client.create_environment({
-    #     client_token: "String",
+    #     client_token: "ClientToken",
     #     description: "EntityDescription",
     #     engine_type: "microfocus", # required, accepts microfocus, bluage
     #     engine_version: "EngineVersion",
@@ -677,6 +807,7 @@ module Aws::MainframeModernization
     #     instance_type: "String20", # required
     #     kms_key_id: "String",
     #     name: "EntityName", # required
+    #     network_type: "ipv4", # accepts ipv4, dual
     #     preferred_maintenance_window: "String50",
     #     publicly_accessible: false,
     #     security_group_ids: ["String50"],
@@ -812,6 +943,7 @@ module Aws::MainframeModernization
     #   * {Types::GetApplicationResponse#load_balancer_dns_name #load_balancer_dns_name} => String
     #   * {Types::GetApplicationResponse#log_groups #log_groups} => Array&lt;Types::LogGroupSummary&gt;
     #   * {Types::GetApplicationResponse#name #name} => String
+    #   * {Types::GetApplicationResponse#role_arn #role_arn} => String
     #   * {Types::GetApplicationResponse#status #status} => String
     #   * {Types::GetApplicationResponse#status_reason #status_reason} => String
     #   * {Types::GetApplicationResponse#tags #tags} => Hash&lt;String,String&gt;
@@ -829,7 +961,7 @@ module Aws::MainframeModernization
     #   resp.application_id #=> String
     #   resp.creation_time #=> Time
     #   resp.deployed_version.application_version #=> Integer
-    #   resp.deployed_version.status #=> String, one of "Deploying", "Succeeded", "Failed"
+    #   resp.deployed_version.status #=> String, one of "Deploying", "Succeeded", "Failed", "Updating Deployment"
     #   resp.deployed_version.status_reason #=> String
     #   resp.description #=> String
     #   resp.engine_type #=> String, one of "microfocus", "bluage"
@@ -849,6 +981,7 @@ module Aws::MainframeModernization
     #   resp.log_groups[0].log_group_name #=> String
     #   resp.log_groups[0].log_type #=> String
     #   resp.name #=> String
+    #   resp.role_arn #=> String
     #   resp.status #=> String, one of "Creating", "Created", "Available", "Ready", "Starting", "Running", "Stopping", "Stopped", "Failed", "Deleting", "Deleting From Environment"
     #   resp.status_reason #=> String
     #   resp.tags #=> Hash
@@ -926,6 +1059,7 @@ module Aws::MainframeModernization
     #   * {Types::GetBatchJobExecutionResponse#execution_id #execution_id} => String
     #   * {Types::GetBatchJobExecutionResponse#job_id #job_id} => String
     #   * {Types::GetBatchJobExecutionResponse#job_name #job_name} => String
+    #   * {Types::GetBatchJobExecutionResponse#job_step_restart_marker #job_step_restart_marker} => Types::JobStepRestartMarker
     #   * {Types::GetBatchJobExecutionResponse#job_type #job_type} => String
     #   * {Types::GetBatchJobExecutionResponse#job_user #job_user} => String
     #   * {Types::GetBatchJobExecutionResponse#return_code #return_code} => String
@@ -945,16 +1079,29 @@ module Aws::MainframeModernization
     #   resp.application_id #=> String
     #   resp.batch_job_identifier.file_batch_job_identifier.file_name #=> String
     #   resp.batch_job_identifier.file_batch_job_identifier.folder_path #=> String
+    #   resp.batch_job_identifier.restart_batch_job_identifier.execution_id #=> String
+    #   resp.batch_job_identifier.restart_batch_job_identifier.job_step_restart_marker.from_proc_step #=> String
+    #   resp.batch_job_identifier.restart_batch_job_identifier.job_step_restart_marker.from_step #=> String
+    #   resp.batch_job_identifier.restart_batch_job_identifier.job_step_restart_marker.to_proc_step #=> String
+    #   resp.batch_job_identifier.restart_batch_job_identifier.job_step_restart_marker.to_step #=> String
+    #   resp.batch_job_identifier.s3_batch_job_identifier.bucket #=> String
+    #   resp.batch_job_identifier.s3_batch_job_identifier.identifier.file_name #=> String
+    #   resp.batch_job_identifier.s3_batch_job_identifier.identifier.script_name #=> String
+    #   resp.batch_job_identifier.s3_batch_job_identifier.key_prefix #=> String
     #   resp.batch_job_identifier.script_batch_job_identifier.script_name #=> String
     #   resp.end_time #=> Time
     #   resp.execution_id #=> String
     #   resp.job_id #=> String
     #   resp.job_name #=> String
+    #   resp.job_step_restart_marker.from_proc_step #=> String
+    #   resp.job_step_restart_marker.from_step #=> String
+    #   resp.job_step_restart_marker.to_proc_step #=> String
+    #   resp.job_step_restart_marker.to_step #=> String
     #   resp.job_type #=> String, one of "VSE", "JES2", "JES3"
     #   resp.job_user #=> String
     #   resp.return_code #=> String
     #   resp.start_time #=> Time
-    #   resp.status #=> String, one of "Submitting", "Holding", "Dispatching", "Running", "Cancelling", "Cancelled", "Succeeded", "Failed", "Succeeded With Warning"
+    #   resp.status #=> String, one of "Submitting", "Holding", "Dispatching", "Running", "Cancelling", "Cancelled", "Succeeded", "Failed", "Purged", "Succeeded With Warning"
     #   resp.status_reason #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/m2-2021-04-28/GetBatchJobExecution AWS API Documentation
@@ -981,6 +1128,7 @@ module Aws::MainframeModernization
     #   * {Types::GetDataSetDetailsResponse#creation_time #creation_time} => Time
     #   * {Types::GetDataSetDetailsResponse#data_set_name #data_set_name} => String
     #   * {Types::GetDataSetDetailsResponse#data_set_org #data_set_org} => Types::DatasetDetailOrgAttributes
+    #   * {Types::GetDataSetDetailsResponse#file_size #file_size} => Integer
     #   * {Types::GetDataSetDetailsResponse#last_referenced_time #last_referenced_time} => Time
     #   * {Types::GetDataSetDetailsResponse#last_updated_time #last_updated_time} => Time
     #   * {Types::GetDataSetDetailsResponse#location #location} => String
@@ -1000,6 +1148,10 @@ module Aws::MainframeModernization
     #   resp.data_set_name #=> String
     #   resp.data_set_org.gdg.limit #=> Integer
     #   resp.data_set_org.gdg.roll_disposition #=> String
+    #   resp.data_set_org.po.encoding #=> String
+    #   resp.data_set_org.po.format #=> String
+    #   resp.data_set_org.ps.encoding #=> String
+    #   resp.data_set_org.ps.format #=> String
     #   resp.data_set_org.vsam.alternate_keys #=> Array
     #   resp.data_set_org.vsam.alternate_keys[0].allow_duplicates #=> Boolean
     #   resp.data_set_org.vsam.alternate_keys[0].length #=> Integer
@@ -1012,6 +1164,7 @@ module Aws::MainframeModernization
     #   resp.data_set_org.vsam.primary_key.name #=> String
     #   resp.data_set_org.vsam.primary_key.offset #=> Integer
     #   resp.data_set_org.vsam.record_format #=> String
+    #   resp.file_size #=> Integer
     #   resp.last_referenced_time #=> Time
     #   resp.last_updated_time #=> Time
     #   resp.location #=> String
@@ -1050,7 +1203,7 @@ module Aws::MainframeModernization
     #
     # @example Response structure
     #
-    #   resp.status #=> String, one of "Creating", "Running", "Completed"
+    #   resp.status #=> String, one of "Creating", "Running", "Completed", "Failed"
     #   resp.summary.failed #=> Integer
     #   resp.summary.in_progress #=> Integer
     #   resp.summary.pending #=> Integer
@@ -1100,7 +1253,7 @@ module Aws::MainframeModernization
     #   resp.creation_time #=> Time
     #   resp.deployment_id #=> String
     #   resp.environment_id #=> String
-    #   resp.status #=> String, one of "Deploying", "Succeeded", "Failed"
+    #   resp.status #=> String, one of "Deploying", "Succeeded", "Failed", "Updating Deployment"
     #   resp.status_reason #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/m2-2021-04-28/GetDeployment AWS API Documentation
@@ -1131,6 +1284,7 @@ module Aws::MainframeModernization
     #   * {Types::GetEnvironmentResponse#kms_key_id #kms_key_id} => String
     #   * {Types::GetEnvironmentResponse#load_balancer_arn #load_balancer_arn} => String
     #   * {Types::GetEnvironmentResponse#name #name} => String
+    #   * {Types::GetEnvironmentResponse#network_type #network_type} => String
     #   * {Types::GetEnvironmentResponse#pending_maintenance #pending_maintenance} => Types::PendingMaintenance
     #   * {Types::GetEnvironmentResponse#preferred_maintenance_window #preferred_maintenance_window} => String
     #   * {Types::GetEnvironmentResponse#publicly_accessible #publicly_accessible} => Boolean
@@ -1162,6 +1316,7 @@ module Aws::MainframeModernization
     #   resp.kms_key_id #=> String
     #   resp.load_balancer_arn #=> String
     #   resp.name #=> String
+    #   resp.network_type #=> String, one of "ipv4", "dual"
     #   resp.pending_maintenance.engine_version #=> String
     #   resp.pending_maintenance.schedule.end_time #=> Time
     #   resp.pending_maintenance.schedule.start_time #=> Time
@@ -1169,7 +1324,7 @@ module Aws::MainframeModernization
     #   resp.publicly_accessible #=> Boolean
     #   resp.security_group_ids #=> Array
     #   resp.security_group_ids[0] #=> String
-    #   resp.status #=> String, one of "Creating", "Available", "Deleting", "Failed", "Updating"
+    #   resp.status #=> String, one of "Creating", "Available", "Updating", "Deleting", "Failed", "UnHealthy"
     #   resp.status_reason #=> String
     #   resp.storage_configurations #=> Array
     #   resp.storage_configurations[0].efs.file_system_id #=> String
@@ -1188,6 +1343,26 @@ module Aws::MainframeModernization
     # @param [Hash] params ({})
     def get_environment(params = {}, options = {})
       req = build_request(:get_environment, params)
+      req.send_request(options)
+    end
+
+    # Gets a single sign-on URL that can be used to connect to AWS Blu
+    # Insights.
+    #
+    # @return [Types::GetSignedBluinsightsUrlResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetSignedBluinsightsUrlResponse#signed_bi_url #signed_bi_url} => String
+    #
+    # @example Response structure
+    #
+    #   resp.signed_bi_url #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/m2-2021-04-28/GetSignedBluinsightsUrl AWS API Documentation
+    #
+    # @overload get_signed_bluinsights_url(params = {})
+    # @param [Hash] params ({})
+    def get_signed_bluinsights_url(params = {}, options = {})
+      req = build_request(:get_signed_bluinsights_url, params)
       req.send_request(options)
     end
 
@@ -1285,6 +1460,7 @@ module Aws::MainframeModernization
     #   resp.applications[0].environment_id #=> String
     #   resp.applications[0].last_start_time #=> Time
     #   resp.applications[0].name #=> String
+    #   resp.applications[0].role_arn #=> String
     #   resp.applications[0].status #=> String, one of "Creating", "Created", "Available", "Ready", "Starting", "Running", "Stopping", "Stopped", "Failed", "Deleting", "Deleting From Environment"
     #   resp.applications[0].version_status #=> String, one of "Creating", "Available", "Failed"
     #   resp.next_token #=> String
@@ -1395,7 +1571,7 @@ module Aws::MainframeModernization
     #     next_token: "NextToken",
     #     started_after: Time.now,
     #     started_before: Time.now,
-    #     status: "Submitting", # accepts Submitting, Holding, Dispatching, Running, Cancelling, Cancelled, Succeeded, Failed, Succeeded With Warning
+    #     status: "Submitting", # accepts Submitting, Holding, Dispatching, Running, Cancelling, Cancelled, Succeeded, Failed, Purged, Succeeded With Warning
     #   })
     #
     # @example Response structure
@@ -1404,6 +1580,15 @@ module Aws::MainframeModernization
     #   resp.batch_job_executions[0].application_id #=> String
     #   resp.batch_job_executions[0].batch_job_identifier.file_batch_job_identifier.file_name #=> String
     #   resp.batch_job_executions[0].batch_job_identifier.file_batch_job_identifier.folder_path #=> String
+    #   resp.batch_job_executions[0].batch_job_identifier.restart_batch_job_identifier.execution_id #=> String
+    #   resp.batch_job_executions[0].batch_job_identifier.restart_batch_job_identifier.job_step_restart_marker.from_proc_step #=> String
+    #   resp.batch_job_executions[0].batch_job_identifier.restart_batch_job_identifier.job_step_restart_marker.from_step #=> String
+    #   resp.batch_job_executions[0].batch_job_identifier.restart_batch_job_identifier.job_step_restart_marker.to_proc_step #=> String
+    #   resp.batch_job_executions[0].batch_job_identifier.restart_batch_job_identifier.job_step_restart_marker.to_step #=> String
+    #   resp.batch_job_executions[0].batch_job_identifier.s3_batch_job_identifier.bucket #=> String
+    #   resp.batch_job_executions[0].batch_job_identifier.s3_batch_job_identifier.identifier.file_name #=> String
+    #   resp.batch_job_executions[0].batch_job_identifier.s3_batch_job_identifier.identifier.script_name #=> String
+    #   resp.batch_job_executions[0].batch_job_identifier.s3_batch_job_identifier.key_prefix #=> String
     #   resp.batch_job_executions[0].batch_job_identifier.script_batch_job_identifier.script_name #=> String
     #   resp.batch_job_executions[0].end_time #=> Time
     #   resp.batch_job_executions[0].execution_id #=> String
@@ -1412,7 +1597,7 @@ module Aws::MainframeModernization
     #   resp.batch_job_executions[0].job_type #=> String, one of "VSE", "JES2", "JES3"
     #   resp.batch_job_executions[0].return_code #=> String
     #   resp.batch_job_executions[0].start_time #=> Time
-    #   resp.batch_job_executions[0].status #=> String, one of "Submitting", "Holding", "Dispatching", "Running", "Cancelling", "Cancelled", "Succeeded", "Failed", "Succeeded With Warning"
+    #   resp.batch_job_executions[0].status #=> String, one of "Submitting", "Holding", "Dispatching", "Running", "Cancelling", "Cancelled", "Succeeded", "Failed", "Purged", "Succeeded With Warning"
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/m2-2021-04-28/ListBatchJobExecutions AWS API Documentation
@@ -1421,6 +1606,51 @@ module Aws::MainframeModernization
     # @param [Hash] params ({})
     def list_batch_job_executions(params = {}, options = {})
       req = build_request(:list_batch_job_executions, params)
+      req.send_request(options)
+    end
+
+    # Lists all the job steps for a JCL file to restart a batch job. This is
+    # only applicable for Micro Focus engine with versions 8.0.6 and above.
+    #
+    # @option params [required, String] :application_id
+    #   The unique identifier of the application.
+    #
+    # @option params [String] :auth_secrets_manager_arn
+    #   The Amazon Web Services Secrets Manager containing user's credentials
+    #   for authentication and authorization for List Batch Job Restart Points
+    #   operation.
+    #
+    # @option params [required, String] :execution_id
+    #   The unique identifier of the batch job execution.
+    #
+    # @return [Types::ListBatchJobRestartPointsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListBatchJobRestartPointsResponse#batch_job_steps #batch_job_steps} => Array&lt;Types::JobStep&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_batch_job_restart_points({
+    #     application_id: "Identifier", # required
+    #     auth_secrets_manager_arn: "AuthSecretsManagerArn",
+    #     execution_id: "Identifier", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.batch_job_steps #=> Array
+    #   resp.batch_job_steps[0].proc_step_name #=> String
+    #   resp.batch_job_steps[0].proc_step_number #=> Integer
+    #   resp.batch_job_steps[0].step_cond_code #=> String
+    #   resp.batch_job_steps[0].step_name #=> String
+    #   resp.batch_job_steps[0].step_number #=> Integer
+    #   resp.batch_job_steps[0].step_restartable #=> Boolean
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/m2-2021-04-28/ListBatchJobRestartPoints AWS API Documentation
+    #
+    # @overload list_batch_job_restart_points(params = {})
+    # @param [Hash] params ({})
+    def list_batch_job_restart_points(params = {}, options = {})
+      req = build_request(:list_batch_job_restart_points, params)
       req.send_request(options)
     end
 
@@ -1455,7 +1685,8 @@ module Aws::MainframeModernization
     # @example Response structure
     #
     #   resp.data_set_import_tasks #=> Array
-    #   resp.data_set_import_tasks[0].status #=> String, one of "Creating", "Running", "Completed"
+    #   resp.data_set_import_tasks[0].status #=> String, one of "Creating", "Running", "Completed", "Failed"
+    #   resp.data_set_import_tasks[0].status_reason #=> String
     #   resp.data_set_import_tasks[0].summary.failed #=> Integer
     #   resp.data_set_import_tasks[0].summary.in_progress #=> Integer
     #   resp.data_set_import_tasks[0].summary.pending #=> Integer
@@ -1491,6 +1722,10 @@ module Aws::MainframeModernization
     # @option params [Integer] :max_results
     #   The maximum number of objects to return.
     #
+    # @option params [String] :name_filter
+    #   Filter dataset name matching the specified pattern. Can use * and %
+    #   as wild cards.
+    #
     # @option params [String] :next_token
     #   A pagination token returned from a previous call to this operation.
     #   This specifies the next item to return. To return to the beginning of
@@ -1512,6 +1747,7 @@ module Aws::MainframeModernization
     #   resp = client.list_data_sets({
     #     application_id: "Identifier", # required
     #     max_results: 1,
+    #     name_filter: "String200",
     #     next_token: "NextToken",
     #     prefix: "String200",
     #   })
@@ -1575,7 +1811,7 @@ module Aws::MainframeModernization
     #   resp.deployments[0].creation_time #=> Time
     #   resp.deployments[0].deployment_id #=> String
     #   resp.deployments[0].environment_id #=> String
-    #   resp.deployments[0].status #=> String, one of "Deploying", "Succeeded", "Failed"
+    #   resp.deployments[0].status #=> String, one of "Deploying", "Succeeded", "Failed", "Updating Deployment"
     #   resp.deployments[0].status_reason #=> String
     #   resp.next_token #=> String
     #
@@ -1674,7 +1910,8 @@ module Aws::MainframeModernization
     #   resp.environments[0].environment_id #=> String
     #   resp.environments[0].instance_type #=> String
     #   resp.environments[0].name #=> String
-    #   resp.environments[0].status #=> String, one of "Creating", "Available", "Deleting", "Failed", "Updating"
+    #   resp.environments[0].network_type #=> String, one of "ipv4", "dual"
+    #   resp.environments[0].status #=> String, one of "Creating", "Available", "Updating", "Deleting", "Failed", "UnHealthy"
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/m2-2021-04-28/ListEnvironments AWS API Documentation
@@ -1745,6 +1982,11 @@ module Aws::MainframeModernization
     #   The unique identifier of the application associated with this batch
     #   job.
     #
+    # @option params [String] :auth_secrets_manager_arn
+    #   The Amazon Web Services Secrets Manager containing user's credentials
+    #   for authentication and authorization for Start Batch Job execution
+    #   operation.
+    #
     # @option params [required, Types::BatchJobIdentifier] :batch_job_identifier
     #   The unique identifier of the batch job.
     #
@@ -1764,10 +2006,28 @@ module Aws::MainframeModernization
     #
     #   resp = client.start_batch_job({
     #     application_id: "Identifier", # required
+    #     auth_secrets_manager_arn: "AuthSecretsManagerArn",
     #     batch_job_identifier: { # required
     #       file_batch_job_identifier: {
     #         file_name: "String", # required
     #         folder_path: "String",
+    #       },
+    #       restart_batch_job_identifier: {
+    #         execution_id: "Identifier", # required
+    #         job_step_restart_marker: { # required
+    #           from_proc_step: "String",
+    #           from_step: "String", # required
+    #           to_proc_step: "String",
+    #           to_step: "String",
+    #         },
+    #       },
+    #       s3_batch_job_identifier: {
+    #         bucket: "String", # required
+    #         identifier: { # required
+    #           file_name: "String",
+    #           script_name: "String",
+    #         },
+    #         key_prefix: "String",
     #       },
     #       script_batch_job_identifier: {
     #         script_name: "String", # required
@@ -1929,7 +2189,8 @@ module Aws::MainframeModernization
     #   will fail if `applyDuringMaintenanceWindow` is set to true.
     #
     # @option params [Integer] :desired_capacity
-    #   The desired capacity for the runtime environment to update.
+    #   The desired capacity for the runtime environment to update. The
+    #   minimum possible value is 0 and the maximum is 100.
     #
     # @option params [String] :engine_version
     #   The version of the runtime engine for the runtime environment.
@@ -1938,13 +2199,30 @@ module Aws::MainframeModernization
     #   The unique identifier of the runtime environment that you want to
     #   update.
     #
+    # @option params [Boolean] :force_update
+    #   Forces the updates on the environment. This option is needed if the
+    #   applications in the environment are not stopped or if there are
+    #   ongoing application-related activities in the environment.
+    #
+    #   If you use this option, be aware that it could lead to data corruption
+    #   in the applications, and that you might need to perform repair and
+    #   recovery procedures for the applications.
+    #
+    #   This option is not needed if the attribute being updated is
+    #   `preferredMaintenanceWindow`.
+    #
     # @option params [String] :instance_type
     #   The instance type for the runtime environment to update.
     #
     # @option params [String] :preferred_maintenance_window
-    #   Configures the maintenance window you want for the runtime
-    #   environment. If you do not provide a value, a random system-generated
-    #   value will be assigned.
+    #   Configures the maintenance window that you want for the runtime
+    #   environment. The maintenance window must have the format
+    #   `ddd:hh24:mi-ddd:hh24:mi` and must be less than 24 hours. The
+    #   following two examples are valid maintenance windows:
+    #   `sun:23:45-mon:00:15` or `sat:01:00-sat:03:00`.
+    #
+    #   If you do not provide a value, a random system-generated value will be
+    #   assigned.
     #
     # @return [Types::UpdateEnvironmentResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1957,6 +2235,7 @@ module Aws::MainframeModernization
     #     desired_capacity: 1,
     #     engine_version: "EngineVersion",
     #     environment_id: "Identifier", # required
+    #     force_update: false,
     #     instance_type: "String20",
     #     preferred_maintenance_window: "String",
     #   })
@@ -1980,14 +2259,19 @@ module Aws::MainframeModernization
     # @api private
     def build_request(operation_name, params = {})
       handlers = @handlers.for(operation_name)
+      tracer = config.telemetry_provider.tracer_provider.tracer(
+        Aws::Telemetry.module_to_tracer_name('Aws::MainframeModernization')
+      )
       context = Seahorse::Client::RequestContext.new(
         operation_name: operation_name,
         operation: config.api.operation(operation_name),
         client: self,
         params: params,
-        config: config)
+        config: config,
+        tracer: tracer
+      )
       context[:gem_name] = 'aws-sdk-mainframemodernization'
-      context[:gem_version] = '1.4.0'
+      context[:gem_version] = '1.34.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

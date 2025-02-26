@@ -33,12 +33,14 @@ module Aws::KMS
   # * {CloudHsmClusterNotActiveException}
   # * {CloudHsmClusterNotFoundException}
   # * {CloudHsmClusterNotRelatedException}
+  # * {ConflictException}
   # * {CustomKeyStoreHasCMKsException}
   # * {CustomKeyStoreInvalidStateException}
   # * {CustomKeyStoreNameInUseException}
   # * {CustomKeyStoreNotFoundException}
   # * {DependencyTimeoutException}
   # * {DisabledException}
+  # * {DryRunOperationException}
   # * {ExpiredImportTokenException}
   # * {IncorrectKeyException}
   # * {IncorrectKeyMaterialException}
@@ -170,6 +172,21 @@ module Aws::KMS
       end
     end
 
+    class ConflictException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::KMS::Types::ConflictException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+
+      # @return [String]
+      def message
+        @message || @data[:message]
+      end
+    end
+
     class CustomKeyStoreHasCMKsException < ServiceError
 
       # @param [Seahorse::Client::RequestContext] context
@@ -250,6 +267,21 @@ module Aws::KMS
       # @param [Seahorse::Client::RequestContext] context
       # @param [String] message
       # @param [Aws::KMS::Types::DisabledException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+
+      # @return [String]
+      def message
+        @message || @data[:message]
+      end
+    end
+
+    class DryRunOperationException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::KMS::Types::DryRunOperationException] data
       def initialize(context, message, data = Aws::EmptyStructure.new)
         super(context, message, data)
       end

@@ -7,33 +7,34 @@
 #
 # WARNING ABOUT GENERATED CODE
 
-require 'seahorse/client/plugins/content_length.rb'
-require 'aws-sdk-core/plugins/credentials_configuration.rb'
-require 'aws-sdk-core/plugins/logging.rb'
-require 'aws-sdk-core/plugins/param_converter.rb'
-require 'aws-sdk-core/plugins/param_validator.rb'
-require 'aws-sdk-core/plugins/user_agent.rb'
-require 'aws-sdk-core/plugins/helpful_socket_errors.rb'
-require 'aws-sdk-core/plugins/retry_errors.rb'
-require 'aws-sdk-core/plugins/global_configuration.rb'
-require 'aws-sdk-core/plugins/regional_endpoint.rb'
-require 'aws-sdk-core/plugins/endpoint_discovery.rb'
-require 'aws-sdk-core/plugins/endpoint_pattern.rb'
-require 'aws-sdk-core/plugins/response_paging.rb'
-require 'aws-sdk-core/plugins/stub_responses.rb'
-require 'aws-sdk-core/plugins/idempotency_token.rb'
-require 'aws-sdk-core/plugins/jsonvalue_converter.rb'
-require 'aws-sdk-core/plugins/client_metrics_plugin.rb'
-require 'aws-sdk-core/plugins/client_metrics_send_plugin.rb'
-require 'aws-sdk-core/plugins/transfer_encoding.rb'
-require 'aws-sdk-core/plugins/http_checksum.rb'
-require 'aws-sdk-core/plugins/checksum_algorithm.rb'
-require 'aws-sdk-core/plugins/defaults_mode.rb'
-require 'aws-sdk-core/plugins/recursion_detection.rb'
-require 'aws-sdk-core/plugins/sign.rb'
-require 'aws-sdk-core/plugins/protocols/json_rpc.rb'
-
-Aws::Plugins::GlobalConfiguration.add_identifier(:codepipeline)
+require 'seahorse/client/plugins/content_length'
+require 'aws-sdk-core/plugins/credentials_configuration'
+require 'aws-sdk-core/plugins/logging'
+require 'aws-sdk-core/plugins/param_converter'
+require 'aws-sdk-core/plugins/param_validator'
+require 'aws-sdk-core/plugins/user_agent'
+require 'aws-sdk-core/plugins/helpful_socket_errors'
+require 'aws-sdk-core/plugins/retry_errors'
+require 'aws-sdk-core/plugins/global_configuration'
+require 'aws-sdk-core/plugins/regional_endpoint'
+require 'aws-sdk-core/plugins/endpoint_discovery'
+require 'aws-sdk-core/plugins/endpoint_pattern'
+require 'aws-sdk-core/plugins/response_paging'
+require 'aws-sdk-core/plugins/stub_responses'
+require 'aws-sdk-core/plugins/idempotency_token'
+require 'aws-sdk-core/plugins/invocation_id'
+require 'aws-sdk-core/plugins/jsonvalue_converter'
+require 'aws-sdk-core/plugins/client_metrics_plugin'
+require 'aws-sdk-core/plugins/client_metrics_send_plugin'
+require 'aws-sdk-core/plugins/transfer_encoding'
+require 'aws-sdk-core/plugins/http_checksum'
+require 'aws-sdk-core/plugins/checksum_algorithm'
+require 'aws-sdk-core/plugins/request_compression'
+require 'aws-sdk-core/plugins/defaults_mode'
+require 'aws-sdk-core/plugins/recursion_detection'
+require 'aws-sdk-core/plugins/telemetry'
+require 'aws-sdk-core/plugins/sign'
+require 'aws-sdk-core/plugins/protocols/json_rpc'
 
 module Aws::CodePipeline
   # An API client for CodePipeline.  To construct a client, you need to configure a `:region` and `:credentials`.
@@ -71,20 +72,28 @@ module Aws::CodePipeline
     add_plugin(Aws::Plugins::ResponsePaging)
     add_plugin(Aws::Plugins::StubResponses)
     add_plugin(Aws::Plugins::IdempotencyToken)
+    add_plugin(Aws::Plugins::InvocationId)
     add_plugin(Aws::Plugins::JsonvalueConverter)
     add_plugin(Aws::Plugins::ClientMetricsPlugin)
     add_plugin(Aws::Plugins::ClientMetricsSendPlugin)
     add_plugin(Aws::Plugins::TransferEncoding)
     add_plugin(Aws::Plugins::HttpChecksum)
     add_plugin(Aws::Plugins::ChecksumAlgorithm)
+    add_plugin(Aws::Plugins::RequestCompression)
     add_plugin(Aws::Plugins::DefaultsMode)
     add_plugin(Aws::Plugins::RecursionDetection)
+    add_plugin(Aws::Plugins::Telemetry)
     add_plugin(Aws::Plugins::Sign)
     add_plugin(Aws::Plugins::Protocols::JsonRpc)
     add_plugin(Aws::CodePipeline::Plugins::Endpoints)
 
     # @overload initialize(options)
     #   @param [Hash] options
+    #
+    #   @option options [Array<Seahorse::Client::Plugin>] :plugins ([]])
+    #     A list of plugins to apply to the client. Each plugin is either a
+    #     class name or an instance of a plugin class.
+    #
     #   @option options [required, Aws::CredentialProvider] :credentials
     #     Your AWS credentials. This can be an instance of any one of the
     #     following classes:
@@ -119,13 +128,15 @@ module Aws::CodePipeline
     #     locations will be searched for credentials:
     #
     #     * `Aws.config[:credentials]`
-    #     * The `:access_key_id`, `:secret_access_key`, and `:session_token` options.
-    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']
+    #     * The `:access_key_id`, `:secret_access_key`, `:session_token`, and
+    #       `:account_id` options.
+    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'],
+    #       ENV['AWS_SESSION_TOKEN'], and ENV['AWS_ACCOUNT_ID']
     #     * `~/.aws/credentials`
     #     * `~/.aws/config`
     #     * EC2/ECS IMDS instance profile - When used by default, the timeouts
     #       are very aggressive. Construct and pass an instance of
-    #       `Aws::InstanceProfileCredentails` or `Aws::ECSCredentials` to
+    #       `Aws::InstanceProfileCredentials` or `Aws::ECSCredentials` to
     #       enable retries and extended timeouts. Instance profile credential
     #       fetching can be disabled by setting ENV['AWS_EC2_METADATA_DISABLED']
     #       to true.
@@ -143,6 +154,8 @@ module Aws::CodePipeline
     #     * `~/.aws/config`
     #
     #   @option options [String] :access_key_id
+    #
+    #   @option options [String] :account_id
     #
     #   @option options [Boolean] :active_endpoint_cache (false)
     #     When set to `true`, a thread polling for endpoints will be running in
@@ -190,10 +203,20 @@ module Aws::CodePipeline
     #     Set to true to disable SDK automatically adding host prefix
     #     to default service endpoint when available.
     #
-    #   @option options [String] :endpoint
-    #     The client endpoint is normally constructed from the `:region`
-    #     option. You should only configure an `:endpoint` when connecting
-    #     to test or custom endpoints. This should be a valid HTTP(S) URI.
+    #   @option options [Boolean] :disable_request_compression (false)
+    #     When set to 'true' the request body will not be compressed
+    #     for supported operations.
+    #
+    #   @option options [String, URI::HTTPS, URI::HTTP] :endpoint
+    #     Normally you should not configure the `:endpoint` option
+    #     directly. This is normally constructed from the `:region`
+    #     option. Configuring `:endpoint` is normally reserved for
+    #     connecting to test or custom endpoints. The endpoint should
+    #     be a URI formatted like:
+    #
+    #         'http://example.com'
+    #         'https://example.com'
+    #         'http://example.com:123'
     #
     #   @option options [Integer] :endpoint_cache_max_entries (1000)
     #     Used for the maximum size limit of the LRU cache storing endpoints data
@@ -209,6 +232,10 @@ module Aws::CodePipeline
     #
     #   @option options [Boolean] :endpoint_discovery (false)
     #     When set to `true`, endpoint discovery will be enabled for operations when available.
+    #
+    #   @option options [Boolean] :ignore_configured_endpoint_urls
+    #     Setting to true disables use of endpoint URLs provided via environment
+    #     variables and the shared configuration file.
     #
     #   @option options [Aws::Log::Formatter] :log_formatter (Aws::Log::Formatter.default)
     #     The log formatter.
@@ -229,6 +256,34 @@ module Aws::CodePipeline
     #   @option options [String] :profile ("default")
     #     Used when loading credentials from the shared credentials file
     #     at HOME/.aws/credentials.  When not specified, 'default' is used.
+    #
+    #   @option options [String] :request_checksum_calculation ("when_supported")
+    #     Determines when a checksum will be calculated for request payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, a checksum will be
+    #       calculated for all request payloads of operations modeled with the
+    #       `httpChecksum` trait where `requestChecksumRequired` is `true` and/or a
+    #       `requestAlgorithmMember` is modeled.
+    #     * `when_required` - When set, a checksum will only be calculated for
+    #       request payloads of operations modeled with the  `httpChecksum` trait where
+    #       `requestChecksumRequired` is `true` or where a `requestAlgorithmMember`
+    #       is modeled and supplied.
+    #
+    #   @option options [Integer] :request_min_compression_size_bytes (10240)
+    #     The minimum size in bytes that triggers compression for request
+    #     bodies. The value must be non-negative integer value between 0
+    #     and 10485780 bytes inclusive.
+    #
+    #   @option options [String] :response_checksum_validation ("when_supported")
+    #     Determines when checksum validation will be performed on response payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, checksum validation is performed on all
+    #       response payloads of operations modeled with the `httpChecksum` trait where
+    #       `responseAlgorithms` is modeled, except when no modeled checksum algorithms
+    #       are supported.
+    #     * `when_required` - When set, checksum validation is not performed on
+    #       response payloads of operations unless the checksum algorithm is supported and
+    #       the `requestValidationModeMember` member is set to `ENABLED`.
     #
     #   @option options [Proc] :retry_backoff
     #     A proc or lambda used for backoff. Defaults to 2**retries * retry_base_delay.
@@ -274,20 +329,31 @@ module Aws::CodePipeline
     #       throttling.  This is a provisional mode that may change behavior
     #       in the future.
     #
+    #   @option options [String] :sdk_ua_app_id
+    #     A unique and opaque application ID that is appended to the
+    #     User-Agent header as app/sdk_ua_app_id. It should have a
+    #     maximum length of 50. This variable is sourced from environment
+    #     variable AWS_SDK_UA_APP_ID or the shared config profile attribute sdk_ua_app_id.
     #
     #   @option options [String] :secret_access_key
     #
     #   @option options [String] :session_token
     #
+    #   @option options [Array] :sigv4a_signing_region_set
+    #     A list of regions that should be signed with SigV4a signing. When
+    #     not passed, a default `:sigv4a_signing_region_set` is searched for
+    #     in the following locations:
+    #
+    #     * `Aws.config[:sigv4a_signing_region_set]`
+    #     * `ENV['AWS_SIGV4A_SIGNING_REGION_SET']`
+    #     * `~/.aws/config`
+    #
     #   @option options [Boolean] :simple_json (false)
     #     Disables request parameter conversion, validation, and formatting.
-    #     Also disable response data type conversions. This option is useful
-    #     when you want to ensure the highest level of performance by
-    #     avoiding overhead of walking request parameters and response data
-    #     structures.
-    #
-    #     When `:simple_json` is enabled, the request parameters hash must
-    #     be formatted exactly as the DynamoDB API expects.
+    #     Also disables response data type conversions. The request parameters
+    #     hash must be formatted exactly as the API expects.This option is useful
+    #     when you want to ensure the highest level of performance by avoiding
+    #     overhead of walking request parameters and response data structures.
     #
     #   @option options [Boolean] :stub_responses (false)
     #     Causes the client to return stubbed responses. By default
@@ -297,6 +363,16 @@ module Aws::CodePipeline
     #
     #     ** Please note ** When response stubbing is enabled, no HTTP
     #     requests are made, and retries are disabled.
+    #
+    #   @option options [Aws::Telemetry::TelemetryProviderBase] :telemetry_provider (Aws::Telemetry::NoOpTelemetryProvider)
+    #     Allows you to provide a telemetry provider, which is used to
+    #     emit telemetry data. By default, uses `NoOpTelemetryProvider` which
+    #     will not record or emit any telemetry data. The SDK supports the
+    #     following telemetry providers:
+    #
+    #     * OpenTelemetry (OTel) - To use the OTel provider, install and require the
+    #     `opentelemetry-sdk` gem and then, pass in an instance of a
+    #     `Aws::Telemetry::OTelProvider` for telemetry provider.
     #
     #   @option options [Aws::TokenProvider] :token_provider
     #     A Bearer Token Provider. This can be an instance of any one of the
@@ -325,52 +401,75 @@ module Aws::CodePipeline
     #     sending the request.
     #
     #   @option options [Aws::CodePipeline::EndpointProvider] :endpoint_provider
-    #     The endpoint provider used to resolve endpoints. Any object that responds to `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to `Aws::CodePipeline::EndpointParameters`
+    #     The endpoint provider used to resolve endpoints. Any object that responds to
+    #     `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+    #     `Aws::CodePipeline::EndpointParameters`.
     #
-    #   @option options [URI::HTTP,String] :http_proxy A proxy to send
-    #     requests through.  Formatted like 'http://proxy.com:123'.
+    #   @option options [Float] :http_continue_timeout (1)
+    #     The number of seconds to wait for a 100-continue response before sending the
+    #     request body.  This option has no effect unless the request has "Expect"
+    #     header set to "100-continue".  Defaults to `nil` which  disables this
+    #     behaviour.  This value can safely be set per request on the session.
     #
-    #   @option options [Float] :http_open_timeout (15) The number of
-    #     seconds to wait when opening a HTTP session before raising a
-    #     `Timeout::Error`.
+    #   @option options [Float] :http_idle_timeout (5)
+    #     The number of seconds a connection is allowed to sit idle before it
+    #     is considered stale.  Stale connections are closed and removed from the
+    #     pool before making a request.
     #
-    #   @option options [Float] :http_read_timeout (60) The default
-    #     number of seconds to wait for response data.  This value can
-    #     safely be set per-request on the session.
+    #   @option options [Float] :http_open_timeout (15)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :http_idle_timeout (5) The number of
-    #     seconds a connection is allowed to sit idle before it is
-    #     considered stale.  Stale connections are closed and removed
-    #     from the pool before making a request.
+    #   @option options [URI::HTTP,String] :http_proxy
+    #     A proxy to send requests through.  Formatted like 'http://proxy.com:123'.
     #
-    #   @option options [Float] :http_continue_timeout (1) The number of
-    #     seconds to wait for a 100-continue response before sending the
-    #     request body.  This option has no effect unless the request has
-    #     "Expect" header set to "100-continue".  Defaults to `nil` which
-    #     disables this behaviour.  This value can safely be set per
-    #     request on the session.
+    #   @option options [Float] :http_read_timeout (60)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :ssl_timeout (nil) Sets the SSL timeout
-    #     in seconds.
+    #   @option options [Boolean] :http_wire_trace (false)
+    #     When `true`,  HTTP debug output will be sent to the `:logger`.
     #
-    #   @option options [Boolean] :http_wire_trace (false) When `true`,
-    #     HTTP debug output will be sent to the `:logger`.
+    #   @option options [Proc] :on_chunk_received
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the response body is received. It provides three arguments: the chunk,
+    #     the number of bytes received, and the total number of
+    #     bytes in the response (or nil if the server did not send a `content-length`).
     #
-    #   @option options [Boolean] :ssl_verify_peer (true) When `true`,
-    #     SSL peer certificates are verified when establishing a
-    #     connection.
+    #   @option options [Proc] :on_chunk_sent
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the request body is sent. It provides three arguments: the chunk,
+    #     the number of bytes read from the body, and the total number of
+    #     bytes in the body.
     #
-    #   @option options [String] :ssl_ca_bundle Full path to the SSL
-    #     certificate authority bundle file that should be used when
-    #     verifying peer certificates.  If you do not pass
-    #     `:ssl_ca_bundle` or `:ssl_ca_directory` the the system default
-    #     will be used if available.
+    #   @option options [Boolean] :raise_response_errors (true)
+    #     When `true`, response errors are raised.
     #
-    #   @option options [String] :ssl_ca_directory Full path of the
-    #     directory that contains the unbundled SSL certificate
+    #   @option options [String] :ssl_ca_bundle
+    #     Full path to the SSL certificate authority bundle file that should be used when
+    #     verifying peer certificates.  If you do not pass `:ssl_ca_bundle` or
+    #     `:ssl_ca_directory` the the system default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_directory
+    #     Full path of the directory that contains the unbundled SSL certificate
     #     authority files for verifying peer certificates.  If you do
-    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the
-    #     system default will be used if available.
+    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the system
+    #     default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_store
+    #     Sets the X509::Store to verify peer certificate.
+    #
+    #   @option options [OpenSSL::X509::Certificate] :ssl_cert
+    #     Sets a client certificate when creating http connections.
+    #
+    #   @option options [OpenSSL::PKey] :ssl_key
+    #     Sets a client key when creating http connections.
+    #
+    #   @option options [Float] :ssl_timeout
+    #     Sets the SSL timeout in seconds
+    #
+    #   @option options [Boolean] :ssl_verify_peer (true)
+    #     When `true`, SSL peer certificates are verified when establishing a connection.
     #
     def initialize(*args)
       super
@@ -386,10 +485,9 @@ module Aws::CodePipeline
     #   confirm receipt.
     #
     # @option params [required, String] :nonce
-    #   A system-generated random number that AWS CodePipeline uses to ensure
-    #   that the job is being worked on by only one job worker. Get this
-    #   number from the response of the PollForJobs request that returned this
-    #   job.
+    #   A system-generated random number that CodePipeline uses to ensure that
+    #   the job is being worked on by only one job worker. Get this number
+    #   from the response of the PollForJobs request that returned this job.
     #
     # @return [Types::AcknowledgeJobOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -422,9 +520,9 @@ module Aws::CodePipeline
     #   The unique system-generated ID of the job.
     #
     # @option params [required, String] :nonce
-    #   A system-generated random number that AWS CodePipeline uses to ensure
-    #   that the job is being worked on by only one job worker. Get this
-    #   number from the response to a GetThirdPartyJobDetails request.
+    #   A system-generated random number that CodePipeline uses to ensure that
+    #   the job is being worked on by only one job worker. Get this number
+    #   from the response to a GetThirdPartyJobDetails request.
     #
     # @option params [required, String] :client_token
     #   The clientToken portion of the clientId and clientToken pair used to
@@ -457,14 +555,15 @@ module Aws::CodePipeline
     end
 
     # Creates a new custom action that can be used in all pipelines
-    # associated with the AWS account. Only used for custom actions.
+    # associated with the Amazon Web Services account. Only used for custom
+    # actions.
     #
     # @option params [required, String] :category
     #   The category of the custom action, such as a build action or a test
     #   action.
     #
     # @option params [required, String] :provider
-    #   The provider of the service used in the custom action, such as AWS
+    #   The provider of the service used in the custom action, such as
     #   CodeDeploy.
     #
     # @option params [required, String] :version
@@ -478,9 +577,9 @@ module Aws::CodePipeline
     #
     #   <note markdown="1"> You can refer to a name in the configuration properties of the custom
     #   action within the URL templates by following the format of
-    #   \\\{Config:name\\}, as long as the configuration property is both
-    #   required and not secret. For more information, see [Create a Custom
-    #   Action for a Pipeline][1].
+    #   \{Config:name}, as long as the configuration property is both required
+    #   and not secret. For more information, see [Create a Custom Action for
+    #   a Pipeline][1].
     #
     #    </note>
     #
@@ -507,7 +606,7 @@ module Aws::CodePipeline
     # @example Request syntax with placeholder values
     #
     #   resp = client.create_custom_action_type({
-    #     category: "Source", # required, accepts Source, Build, Deploy, Test, Invoke, Approval
+    #     category: "Source", # required, accepts Source, Build, Deploy, Test, Invoke, Approval, Compute
     #     provider: "ActionProvider", # required
     #     version: "Version", # required
     #     settings: {
@@ -545,7 +644,7 @@ module Aws::CodePipeline
     #
     # @example Response structure
     #
-    #   resp.action_type.id.category #=> String, one of "Source", "Build", "Deploy", "Test", "Invoke", "Approval"
+    #   resp.action_type.id.category #=> String, one of "Source", "Build", "Deploy", "Test", "Invoke", "Approval", "Compute"
     #   resp.action_type.id.owner #=> String, one of "AWS", "ThirdParty", "Custom"
     #   resp.action_type.id.provider #=> String
     #   resp.action_type.id.version #=> String
@@ -636,7 +735,7 @@ module Aws::CodePipeline
     #             {
     #               name: "ActionName", # required
     #               action_type_id: { # required
-    #                 category: "Source", # required, accepts Source, Build, Deploy, Test, Invoke, Approval
+    #                 category: "Source", # required, accepts Source, Build, Deploy, Test, Invoke, Approval, Compute
     #                 owner: "AWS", # required, accepts AWS, ThirdParty, Custom
     #                 provider: "ActionProvider", # required
     #                 version: "Version", # required
@@ -645,9 +744,11 @@ module Aws::CodePipeline
     #               configuration: {
     #                 "ActionConfigurationKey" => "ActionConfigurationValue",
     #               },
+    #               commands: ["Command"],
     #               output_artifacts: [
     #                 {
     #                   name: "ArtifactName", # required
+    #                   files: ["FilePath"],
     #                 },
     #               ],
     #               input_artifacts: [
@@ -655,14 +756,162 @@ module Aws::CodePipeline
     #                   name: "ArtifactName", # required
     #                 },
     #               ],
+    #               output_variables: ["OutputVariable"],
     #               role_arn: "RoleArn",
     #               region: "AWSRegionName",
     #               namespace: "ActionNamespace",
+    #               timeout_in_minutes: 1,
+    #               environment_variables: [
+    #                 {
+    #                   name: "EnvironmentVariableName", # required
+    #                   value: "EnvironmentVariableValue", # required
+    #                 },
+    #               ],
     #             },
     #           ],
+    #           on_failure: {
+    #             result: "ROLLBACK", # accepts ROLLBACK, FAIL, RETRY, SKIP
+    #             retry_configuration: {
+    #               retry_mode: "FAILED_ACTIONS", # accepts FAILED_ACTIONS, ALL_ACTIONS
+    #             },
+    #             conditions: [
+    #               {
+    #                 result: "ROLLBACK", # accepts ROLLBACK, FAIL, RETRY, SKIP
+    #                 rules: [
+    #                   {
+    #                     name: "RuleName", # required
+    #                     rule_type_id: { # required
+    #                       category: "Rule", # required, accepts Rule
+    #                       owner: "AWS", # accepts AWS
+    #                       provider: "RuleProvider", # required
+    #                       version: "Version",
+    #                     },
+    #                     configuration: {
+    #                       "RuleConfigurationKey" => "RuleConfigurationValue",
+    #                     },
+    #                     commands: ["Command"],
+    #                     input_artifacts: [
+    #                       {
+    #                         name: "ArtifactName", # required
+    #                       },
+    #                     ],
+    #                     role_arn: "RoleArn",
+    #                     region: "AWSRegionName",
+    #                     timeout_in_minutes: 1,
+    #                   },
+    #                 ],
+    #               },
+    #             ],
+    #           },
+    #           on_success: {
+    #             conditions: [ # required
+    #               {
+    #                 result: "ROLLBACK", # accepts ROLLBACK, FAIL, RETRY, SKIP
+    #                 rules: [
+    #                   {
+    #                     name: "RuleName", # required
+    #                     rule_type_id: { # required
+    #                       category: "Rule", # required, accepts Rule
+    #                       owner: "AWS", # accepts AWS
+    #                       provider: "RuleProvider", # required
+    #                       version: "Version",
+    #                     },
+    #                     configuration: {
+    #                       "RuleConfigurationKey" => "RuleConfigurationValue",
+    #                     },
+    #                     commands: ["Command"],
+    #                     input_artifacts: [
+    #                       {
+    #                         name: "ArtifactName", # required
+    #                       },
+    #                     ],
+    #                     role_arn: "RoleArn",
+    #                     region: "AWSRegionName",
+    #                     timeout_in_minutes: 1,
+    #                   },
+    #                 ],
+    #               },
+    #             ],
+    #           },
+    #           before_entry: {
+    #             conditions: [ # required
+    #               {
+    #                 result: "ROLLBACK", # accepts ROLLBACK, FAIL, RETRY, SKIP
+    #                 rules: [
+    #                   {
+    #                     name: "RuleName", # required
+    #                     rule_type_id: { # required
+    #                       category: "Rule", # required, accepts Rule
+    #                       owner: "AWS", # accepts AWS
+    #                       provider: "RuleProvider", # required
+    #                       version: "Version",
+    #                     },
+    #                     configuration: {
+    #                       "RuleConfigurationKey" => "RuleConfigurationValue",
+    #                     },
+    #                     commands: ["Command"],
+    #                     input_artifacts: [
+    #                       {
+    #                         name: "ArtifactName", # required
+    #                       },
+    #                     ],
+    #                     role_arn: "RoleArn",
+    #                     region: "AWSRegionName",
+    #                     timeout_in_minutes: 1,
+    #                   },
+    #                 ],
+    #               },
+    #             ],
+    #           },
     #         },
     #       ],
     #       version: 1,
+    #       execution_mode: "QUEUED", # accepts QUEUED, SUPERSEDED, PARALLEL
+    #       pipeline_type: "V1", # accepts V1, V2
+    #       variables: [
+    #         {
+    #           name: "PipelineVariableName", # required
+    #           default_value: "PipelineVariableValue",
+    #           description: "PipelineVariableDescription",
+    #         },
+    #       ],
+    #       triggers: [
+    #         {
+    #           provider_type: "CodeStarSourceConnection", # required, accepts CodeStarSourceConnection
+    #           git_configuration: { # required
+    #             source_action_name: "ActionName", # required
+    #             push: [
+    #               {
+    #                 tags: {
+    #                   includes: ["GitTagNamePattern"],
+    #                   excludes: ["GitTagNamePattern"],
+    #                 },
+    #                 branches: {
+    #                   includes: ["GitBranchNamePattern"],
+    #                   excludes: ["GitBranchNamePattern"],
+    #                 },
+    #                 file_paths: {
+    #                   includes: ["GitFilePathPattern"],
+    #                   excludes: ["GitFilePathPattern"],
+    #                 },
+    #               },
+    #             ],
+    #             pull_request: [
+    #               {
+    #                 events: ["OPEN"], # accepts OPEN, UPDATED, CLOSED
+    #                 branches: {
+    #                   includes: ["GitBranchNamePattern"],
+    #                   excludes: ["GitBranchNamePattern"],
+    #                 },
+    #                 file_paths: {
+    #                   includes: ["GitFilePathPattern"],
+    #                   excludes: ["GitFilePathPattern"],
+    #                 },
+    #               },
+    #             ],
+    #           },
+    #         },
+    #       ],
     #     },
     #     tags: [
     #       {
@@ -692,21 +941,117 @@ module Aws::CodePipeline
     #   resp.pipeline.stages[0].blockers[0].type #=> String, one of "Schedule"
     #   resp.pipeline.stages[0].actions #=> Array
     #   resp.pipeline.stages[0].actions[0].name #=> String
-    #   resp.pipeline.stages[0].actions[0].action_type_id.category #=> String, one of "Source", "Build", "Deploy", "Test", "Invoke", "Approval"
+    #   resp.pipeline.stages[0].actions[0].action_type_id.category #=> String, one of "Source", "Build", "Deploy", "Test", "Invoke", "Approval", "Compute"
     #   resp.pipeline.stages[0].actions[0].action_type_id.owner #=> String, one of "AWS", "ThirdParty", "Custom"
     #   resp.pipeline.stages[0].actions[0].action_type_id.provider #=> String
     #   resp.pipeline.stages[0].actions[0].action_type_id.version #=> String
     #   resp.pipeline.stages[0].actions[0].run_order #=> Integer
     #   resp.pipeline.stages[0].actions[0].configuration #=> Hash
     #   resp.pipeline.stages[0].actions[0].configuration["ActionConfigurationKey"] #=> String
+    #   resp.pipeline.stages[0].actions[0].commands #=> Array
+    #   resp.pipeline.stages[0].actions[0].commands[0] #=> String
     #   resp.pipeline.stages[0].actions[0].output_artifacts #=> Array
     #   resp.pipeline.stages[0].actions[0].output_artifacts[0].name #=> String
+    #   resp.pipeline.stages[0].actions[0].output_artifacts[0].files #=> Array
+    #   resp.pipeline.stages[0].actions[0].output_artifacts[0].files[0] #=> String
     #   resp.pipeline.stages[0].actions[0].input_artifacts #=> Array
     #   resp.pipeline.stages[0].actions[0].input_artifacts[0].name #=> String
+    #   resp.pipeline.stages[0].actions[0].output_variables #=> Array
+    #   resp.pipeline.stages[0].actions[0].output_variables[0] #=> String
     #   resp.pipeline.stages[0].actions[0].role_arn #=> String
     #   resp.pipeline.stages[0].actions[0].region #=> String
     #   resp.pipeline.stages[0].actions[0].namespace #=> String
+    #   resp.pipeline.stages[0].actions[0].timeout_in_minutes #=> Integer
+    #   resp.pipeline.stages[0].actions[0].environment_variables #=> Array
+    #   resp.pipeline.stages[0].actions[0].environment_variables[0].name #=> String
+    #   resp.pipeline.stages[0].actions[0].environment_variables[0].value #=> String
+    #   resp.pipeline.stages[0].on_failure.result #=> String, one of "ROLLBACK", "FAIL", "RETRY", "SKIP"
+    #   resp.pipeline.stages[0].on_failure.retry_configuration.retry_mode #=> String, one of "FAILED_ACTIONS", "ALL_ACTIONS"
+    #   resp.pipeline.stages[0].on_failure.conditions #=> Array
+    #   resp.pipeline.stages[0].on_failure.conditions[0].result #=> String, one of "ROLLBACK", "FAIL", "RETRY", "SKIP"
+    #   resp.pipeline.stages[0].on_failure.conditions[0].rules #=> Array
+    #   resp.pipeline.stages[0].on_failure.conditions[0].rules[0].name #=> String
+    #   resp.pipeline.stages[0].on_failure.conditions[0].rules[0].rule_type_id.category #=> String, one of "Rule"
+    #   resp.pipeline.stages[0].on_failure.conditions[0].rules[0].rule_type_id.owner #=> String, one of "AWS"
+    #   resp.pipeline.stages[0].on_failure.conditions[0].rules[0].rule_type_id.provider #=> String
+    #   resp.pipeline.stages[0].on_failure.conditions[0].rules[0].rule_type_id.version #=> String
+    #   resp.pipeline.stages[0].on_failure.conditions[0].rules[0].configuration #=> Hash
+    #   resp.pipeline.stages[0].on_failure.conditions[0].rules[0].configuration["RuleConfigurationKey"] #=> String
+    #   resp.pipeline.stages[0].on_failure.conditions[0].rules[0].commands #=> Array
+    #   resp.pipeline.stages[0].on_failure.conditions[0].rules[0].commands[0] #=> String
+    #   resp.pipeline.stages[0].on_failure.conditions[0].rules[0].input_artifacts #=> Array
+    #   resp.pipeline.stages[0].on_failure.conditions[0].rules[0].input_artifacts[0].name #=> String
+    #   resp.pipeline.stages[0].on_failure.conditions[0].rules[0].role_arn #=> String
+    #   resp.pipeline.stages[0].on_failure.conditions[0].rules[0].region #=> String
+    #   resp.pipeline.stages[0].on_failure.conditions[0].rules[0].timeout_in_minutes #=> Integer
+    #   resp.pipeline.stages[0].on_success.conditions #=> Array
+    #   resp.pipeline.stages[0].on_success.conditions[0].result #=> String, one of "ROLLBACK", "FAIL", "RETRY", "SKIP"
+    #   resp.pipeline.stages[0].on_success.conditions[0].rules #=> Array
+    #   resp.pipeline.stages[0].on_success.conditions[0].rules[0].name #=> String
+    #   resp.pipeline.stages[0].on_success.conditions[0].rules[0].rule_type_id.category #=> String, one of "Rule"
+    #   resp.pipeline.stages[0].on_success.conditions[0].rules[0].rule_type_id.owner #=> String, one of "AWS"
+    #   resp.pipeline.stages[0].on_success.conditions[0].rules[0].rule_type_id.provider #=> String
+    #   resp.pipeline.stages[0].on_success.conditions[0].rules[0].rule_type_id.version #=> String
+    #   resp.pipeline.stages[0].on_success.conditions[0].rules[0].configuration #=> Hash
+    #   resp.pipeline.stages[0].on_success.conditions[0].rules[0].configuration["RuleConfigurationKey"] #=> String
+    #   resp.pipeline.stages[0].on_success.conditions[0].rules[0].commands #=> Array
+    #   resp.pipeline.stages[0].on_success.conditions[0].rules[0].commands[0] #=> String
+    #   resp.pipeline.stages[0].on_success.conditions[0].rules[0].input_artifacts #=> Array
+    #   resp.pipeline.stages[0].on_success.conditions[0].rules[0].input_artifacts[0].name #=> String
+    #   resp.pipeline.stages[0].on_success.conditions[0].rules[0].role_arn #=> String
+    #   resp.pipeline.stages[0].on_success.conditions[0].rules[0].region #=> String
+    #   resp.pipeline.stages[0].on_success.conditions[0].rules[0].timeout_in_minutes #=> Integer
+    #   resp.pipeline.stages[0].before_entry.conditions #=> Array
+    #   resp.pipeline.stages[0].before_entry.conditions[0].result #=> String, one of "ROLLBACK", "FAIL", "RETRY", "SKIP"
+    #   resp.pipeline.stages[0].before_entry.conditions[0].rules #=> Array
+    #   resp.pipeline.stages[0].before_entry.conditions[0].rules[0].name #=> String
+    #   resp.pipeline.stages[0].before_entry.conditions[0].rules[0].rule_type_id.category #=> String, one of "Rule"
+    #   resp.pipeline.stages[0].before_entry.conditions[0].rules[0].rule_type_id.owner #=> String, one of "AWS"
+    #   resp.pipeline.stages[0].before_entry.conditions[0].rules[0].rule_type_id.provider #=> String
+    #   resp.pipeline.stages[0].before_entry.conditions[0].rules[0].rule_type_id.version #=> String
+    #   resp.pipeline.stages[0].before_entry.conditions[0].rules[0].configuration #=> Hash
+    #   resp.pipeline.stages[0].before_entry.conditions[0].rules[0].configuration["RuleConfigurationKey"] #=> String
+    #   resp.pipeline.stages[0].before_entry.conditions[0].rules[0].commands #=> Array
+    #   resp.pipeline.stages[0].before_entry.conditions[0].rules[0].commands[0] #=> String
+    #   resp.pipeline.stages[0].before_entry.conditions[0].rules[0].input_artifacts #=> Array
+    #   resp.pipeline.stages[0].before_entry.conditions[0].rules[0].input_artifacts[0].name #=> String
+    #   resp.pipeline.stages[0].before_entry.conditions[0].rules[0].role_arn #=> String
+    #   resp.pipeline.stages[0].before_entry.conditions[0].rules[0].region #=> String
+    #   resp.pipeline.stages[0].before_entry.conditions[0].rules[0].timeout_in_minutes #=> Integer
     #   resp.pipeline.version #=> Integer
+    #   resp.pipeline.execution_mode #=> String, one of "QUEUED", "SUPERSEDED", "PARALLEL"
+    #   resp.pipeline.pipeline_type #=> String, one of "V1", "V2"
+    #   resp.pipeline.variables #=> Array
+    #   resp.pipeline.variables[0].name #=> String
+    #   resp.pipeline.variables[0].default_value #=> String
+    #   resp.pipeline.variables[0].description #=> String
+    #   resp.pipeline.triggers #=> Array
+    #   resp.pipeline.triggers[0].provider_type #=> String, one of "CodeStarSourceConnection"
+    #   resp.pipeline.triggers[0].git_configuration.source_action_name #=> String
+    #   resp.pipeline.triggers[0].git_configuration.push #=> Array
+    #   resp.pipeline.triggers[0].git_configuration.push[0].tags.includes #=> Array
+    #   resp.pipeline.triggers[0].git_configuration.push[0].tags.includes[0] #=> String
+    #   resp.pipeline.triggers[0].git_configuration.push[0].tags.excludes #=> Array
+    #   resp.pipeline.triggers[0].git_configuration.push[0].tags.excludes[0] #=> String
+    #   resp.pipeline.triggers[0].git_configuration.push[0].branches.includes #=> Array
+    #   resp.pipeline.triggers[0].git_configuration.push[0].branches.includes[0] #=> String
+    #   resp.pipeline.triggers[0].git_configuration.push[0].branches.excludes #=> Array
+    #   resp.pipeline.triggers[0].git_configuration.push[0].branches.excludes[0] #=> String
+    #   resp.pipeline.triggers[0].git_configuration.push[0].file_paths.includes #=> Array
+    #   resp.pipeline.triggers[0].git_configuration.push[0].file_paths.includes[0] #=> String
+    #   resp.pipeline.triggers[0].git_configuration.push[0].file_paths.excludes #=> Array
+    #   resp.pipeline.triggers[0].git_configuration.push[0].file_paths.excludes[0] #=> String
+    #   resp.pipeline.triggers[0].git_configuration.pull_request #=> Array
+    #   resp.pipeline.triggers[0].git_configuration.pull_request[0].events #=> Array
+    #   resp.pipeline.triggers[0].git_configuration.pull_request[0].events[0] #=> String, one of "OPEN", "UPDATED", "CLOSED"
+    #   resp.pipeline.triggers[0].git_configuration.pull_request[0].branches.includes #=> Array
+    #   resp.pipeline.triggers[0].git_configuration.pull_request[0].branches.includes[0] #=> String
+    #   resp.pipeline.triggers[0].git_configuration.pull_request[0].branches.excludes #=> Array
+    #   resp.pipeline.triggers[0].git_configuration.pull_request[0].branches.excludes[0] #=> String
+    #   resp.pipeline.triggers[0].git_configuration.pull_request[0].file_paths.includes #=> Array
+    #   resp.pipeline.triggers[0].git_configuration.pull_request[0].file_paths.includes[0] #=> String
+    #   resp.pipeline.triggers[0].git_configuration.pull_request[0].file_paths.excludes #=> Array
+    #   resp.pipeline.triggers[0].git_configuration.pull_request[0].file_paths.excludes[0] #=> String
     #   resp.tags #=> Array
     #   resp.tags[0].key #=> String
     #   resp.tags[0].value #=> String
@@ -735,7 +1080,7 @@ module Aws::CodePipeline
     #   source or deploy.
     #
     # @option params [required, String] :provider
-    #   The provider of the service used in the custom action, such as AWS
+    #   The provider of the service used in the custom action, such as
     #   CodeDeploy.
     #
     # @option params [required, String] :version
@@ -746,7 +1091,7 @@ module Aws::CodePipeline
     # @example Request syntax with placeholder values
     #
     #   resp = client.delete_custom_action_type({
-    #     category: "Source", # required, accepts Source, Build, Deploy, Test, Invoke, Approval
+    #     category: "Source", # required, accepts Source, Build, Deploy, Test, Invoke, Approval, Compute
     #     provider: "ActionProvider", # required
     #     version: "Version", # required
     #   })
@@ -783,7 +1128,7 @@ module Aws::CodePipeline
     end
 
     # Deletes a previously created webhook by name. Deleting the webhook
-    # stops AWS CodePipeline from starting a pipeline every time an external
+    # stops CodePipeline from starting a pipeline every time an external
     # event occurs. The API returns successfully when trying to delete a
     # webhook that is already deleted. If a deleted webhook is re-created by
     # calling PutWebhook with the same name, it will have a different URL.
@@ -933,6 +1278,8 @@ module Aws::CodePipeline
     #
     #   * `Invoke`
     #
+    #   * `Compute`
+    #
     # @option params [required, String] :owner
     #   The creator of an action type that was created with any supported
     #   integration model. There are two valid values: `AWS` and `ThirdParty`.
@@ -951,7 +1298,7 @@ module Aws::CodePipeline
     # @example Request syntax with placeholder values
     #
     #   resp = client.get_action_type({
-    #     category: "Source", # required, accepts Source, Build, Deploy, Test, Invoke, Approval
+    #     category: "Source", # required, accepts Source, Build, Deploy, Test, Invoke, Approval, Compute
     #     owner: "ActionTypeOwner", # required
     #     provider: "ActionProvider", # required
     #     version: "Version", # required
@@ -968,7 +1315,7 @@ module Aws::CodePipeline
     #   resp.action_type.executor.type #=> String, one of "JobWorker", "Lambda"
     #   resp.action_type.executor.policy_statements_template #=> String
     #   resp.action_type.executor.job_timeout #=> Integer
-    #   resp.action_type.id.category #=> String, one of "Source", "Build", "Deploy", "Test", "Invoke", "Approval"
+    #   resp.action_type.id.category #=> String, one of "Source", "Build", "Deploy", "Test", "Invoke", "Approval", "Compute"
     #   resp.action_type.id.owner #=> String
     #   resp.action_type.id.provider #=> String
     #   resp.action_type.id.version #=> String
@@ -1001,11 +1348,11 @@ module Aws::CodePipeline
 
     # Returns information about a job. Used for custom actions only.
     #
-    # When this API is called, AWS CodePipeline returns temporary
-    # credentials for the S3 bucket used to store artifacts for the
-    # pipeline, if the action requires access to that S3 bucket for input or
-    # output artifacts. This API also returns any secret values defined for
-    # the action.
+    # When this API is called, CodePipeline returns temporary credentials
+    # for the S3 bucket used to store artifacts for the pipeline, if the
+    # action requires access to that S3 bucket for input or output
+    # artifacts. This API also returns any secret values defined for the
+    # action.
     #
     # @option params [required, String] :job_id
     #   The unique system-generated ID for the job.
@@ -1023,7 +1370,7 @@ module Aws::CodePipeline
     # @example Response structure
     #
     #   resp.job_details.id #=> String
-    #   resp.job_details.data.action_type_id.category #=> String, one of "Source", "Build", "Deploy", "Test", "Invoke", "Approval"
+    #   resp.job_details.data.action_type_id.category #=> String, one of "Source", "Build", "Deploy", "Test", "Invoke", "Approval", "Compute"
     #   resp.job_details.data.action_type_id.owner #=> String, one of "AWS", "ThirdParty", "Custom"
     #   resp.job_details.data.action_type_id.provider #=> String
     #   resp.job_details.data.action_type_id.version #=> String
@@ -1071,7 +1418,7 @@ module Aws::CodePipeline
     #
     # @option params [required, String] :name
     #   The name of the pipeline for which you want to get information.
-    #   Pipeline names must be unique under an AWS user account.
+    #   Pipeline names must be unique in an Amazon Web Services account.
     #
     # @option params [Integer] :version
     #   The version number of the pipeline. If you do not specify a version,
@@ -1109,24 +1456,121 @@ module Aws::CodePipeline
     #   resp.pipeline.stages[0].blockers[0].type #=> String, one of "Schedule"
     #   resp.pipeline.stages[0].actions #=> Array
     #   resp.pipeline.stages[0].actions[0].name #=> String
-    #   resp.pipeline.stages[0].actions[0].action_type_id.category #=> String, one of "Source", "Build", "Deploy", "Test", "Invoke", "Approval"
+    #   resp.pipeline.stages[0].actions[0].action_type_id.category #=> String, one of "Source", "Build", "Deploy", "Test", "Invoke", "Approval", "Compute"
     #   resp.pipeline.stages[0].actions[0].action_type_id.owner #=> String, one of "AWS", "ThirdParty", "Custom"
     #   resp.pipeline.stages[0].actions[0].action_type_id.provider #=> String
     #   resp.pipeline.stages[0].actions[0].action_type_id.version #=> String
     #   resp.pipeline.stages[0].actions[0].run_order #=> Integer
     #   resp.pipeline.stages[0].actions[0].configuration #=> Hash
     #   resp.pipeline.stages[0].actions[0].configuration["ActionConfigurationKey"] #=> String
+    #   resp.pipeline.stages[0].actions[0].commands #=> Array
+    #   resp.pipeline.stages[0].actions[0].commands[0] #=> String
     #   resp.pipeline.stages[0].actions[0].output_artifacts #=> Array
     #   resp.pipeline.stages[0].actions[0].output_artifacts[0].name #=> String
+    #   resp.pipeline.stages[0].actions[0].output_artifacts[0].files #=> Array
+    #   resp.pipeline.stages[0].actions[0].output_artifacts[0].files[0] #=> String
     #   resp.pipeline.stages[0].actions[0].input_artifacts #=> Array
     #   resp.pipeline.stages[0].actions[0].input_artifacts[0].name #=> String
+    #   resp.pipeline.stages[0].actions[0].output_variables #=> Array
+    #   resp.pipeline.stages[0].actions[0].output_variables[0] #=> String
     #   resp.pipeline.stages[0].actions[0].role_arn #=> String
     #   resp.pipeline.stages[0].actions[0].region #=> String
     #   resp.pipeline.stages[0].actions[0].namespace #=> String
+    #   resp.pipeline.stages[0].actions[0].timeout_in_minutes #=> Integer
+    #   resp.pipeline.stages[0].actions[0].environment_variables #=> Array
+    #   resp.pipeline.stages[0].actions[0].environment_variables[0].name #=> String
+    #   resp.pipeline.stages[0].actions[0].environment_variables[0].value #=> String
+    #   resp.pipeline.stages[0].on_failure.result #=> String, one of "ROLLBACK", "FAIL", "RETRY", "SKIP"
+    #   resp.pipeline.stages[0].on_failure.retry_configuration.retry_mode #=> String, one of "FAILED_ACTIONS", "ALL_ACTIONS"
+    #   resp.pipeline.stages[0].on_failure.conditions #=> Array
+    #   resp.pipeline.stages[0].on_failure.conditions[0].result #=> String, one of "ROLLBACK", "FAIL", "RETRY", "SKIP"
+    #   resp.pipeline.stages[0].on_failure.conditions[0].rules #=> Array
+    #   resp.pipeline.stages[0].on_failure.conditions[0].rules[0].name #=> String
+    #   resp.pipeline.stages[0].on_failure.conditions[0].rules[0].rule_type_id.category #=> String, one of "Rule"
+    #   resp.pipeline.stages[0].on_failure.conditions[0].rules[0].rule_type_id.owner #=> String, one of "AWS"
+    #   resp.pipeline.stages[0].on_failure.conditions[0].rules[0].rule_type_id.provider #=> String
+    #   resp.pipeline.stages[0].on_failure.conditions[0].rules[0].rule_type_id.version #=> String
+    #   resp.pipeline.stages[0].on_failure.conditions[0].rules[0].configuration #=> Hash
+    #   resp.pipeline.stages[0].on_failure.conditions[0].rules[0].configuration["RuleConfigurationKey"] #=> String
+    #   resp.pipeline.stages[0].on_failure.conditions[0].rules[0].commands #=> Array
+    #   resp.pipeline.stages[0].on_failure.conditions[0].rules[0].commands[0] #=> String
+    #   resp.pipeline.stages[0].on_failure.conditions[0].rules[0].input_artifacts #=> Array
+    #   resp.pipeline.stages[0].on_failure.conditions[0].rules[0].input_artifacts[0].name #=> String
+    #   resp.pipeline.stages[0].on_failure.conditions[0].rules[0].role_arn #=> String
+    #   resp.pipeline.stages[0].on_failure.conditions[0].rules[0].region #=> String
+    #   resp.pipeline.stages[0].on_failure.conditions[0].rules[0].timeout_in_minutes #=> Integer
+    #   resp.pipeline.stages[0].on_success.conditions #=> Array
+    #   resp.pipeline.stages[0].on_success.conditions[0].result #=> String, one of "ROLLBACK", "FAIL", "RETRY", "SKIP"
+    #   resp.pipeline.stages[0].on_success.conditions[0].rules #=> Array
+    #   resp.pipeline.stages[0].on_success.conditions[0].rules[0].name #=> String
+    #   resp.pipeline.stages[0].on_success.conditions[0].rules[0].rule_type_id.category #=> String, one of "Rule"
+    #   resp.pipeline.stages[0].on_success.conditions[0].rules[0].rule_type_id.owner #=> String, one of "AWS"
+    #   resp.pipeline.stages[0].on_success.conditions[0].rules[0].rule_type_id.provider #=> String
+    #   resp.pipeline.stages[0].on_success.conditions[0].rules[0].rule_type_id.version #=> String
+    #   resp.pipeline.stages[0].on_success.conditions[0].rules[0].configuration #=> Hash
+    #   resp.pipeline.stages[0].on_success.conditions[0].rules[0].configuration["RuleConfigurationKey"] #=> String
+    #   resp.pipeline.stages[0].on_success.conditions[0].rules[0].commands #=> Array
+    #   resp.pipeline.stages[0].on_success.conditions[0].rules[0].commands[0] #=> String
+    #   resp.pipeline.stages[0].on_success.conditions[0].rules[0].input_artifacts #=> Array
+    #   resp.pipeline.stages[0].on_success.conditions[0].rules[0].input_artifacts[0].name #=> String
+    #   resp.pipeline.stages[0].on_success.conditions[0].rules[0].role_arn #=> String
+    #   resp.pipeline.stages[0].on_success.conditions[0].rules[0].region #=> String
+    #   resp.pipeline.stages[0].on_success.conditions[0].rules[0].timeout_in_minutes #=> Integer
+    #   resp.pipeline.stages[0].before_entry.conditions #=> Array
+    #   resp.pipeline.stages[0].before_entry.conditions[0].result #=> String, one of "ROLLBACK", "FAIL", "RETRY", "SKIP"
+    #   resp.pipeline.stages[0].before_entry.conditions[0].rules #=> Array
+    #   resp.pipeline.stages[0].before_entry.conditions[0].rules[0].name #=> String
+    #   resp.pipeline.stages[0].before_entry.conditions[0].rules[0].rule_type_id.category #=> String, one of "Rule"
+    #   resp.pipeline.stages[0].before_entry.conditions[0].rules[0].rule_type_id.owner #=> String, one of "AWS"
+    #   resp.pipeline.stages[0].before_entry.conditions[0].rules[0].rule_type_id.provider #=> String
+    #   resp.pipeline.stages[0].before_entry.conditions[0].rules[0].rule_type_id.version #=> String
+    #   resp.pipeline.stages[0].before_entry.conditions[0].rules[0].configuration #=> Hash
+    #   resp.pipeline.stages[0].before_entry.conditions[0].rules[0].configuration["RuleConfigurationKey"] #=> String
+    #   resp.pipeline.stages[0].before_entry.conditions[0].rules[0].commands #=> Array
+    #   resp.pipeline.stages[0].before_entry.conditions[0].rules[0].commands[0] #=> String
+    #   resp.pipeline.stages[0].before_entry.conditions[0].rules[0].input_artifacts #=> Array
+    #   resp.pipeline.stages[0].before_entry.conditions[0].rules[0].input_artifacts[0].name #=> String
+    #   resp.pipeline.stages[0].before_entry.conditions[0].rules[0].role_arn #=> String
+    #   resp.pipeline.stages[0].before_entry.conditions[0].rules[0].region #=> String
+    #   resp.pipeline.stages[0].before_entry.conditions[0].rules[0].timeout_in_minutes #=> Integer
     #   resp.pipeline.version #=> Integer
+    #   resp.pipeline.execution_mode #=> String, one of "QUEUED", "SUPERSEDED", "PARALLEL"
+    #   resp.pipeline.pipeline_type #=> String, one of "V1", "V2"
+    #   resp.pipeline.variables #=> Array
+    #   resp.pipeline.variables[0].name #=> String
+    #   resp.pipeline.variables[0].default_value #=> String
+    #   resp.pipeline.variables[0].description #=> String
+    #   resp.pipeline.triggers #=> Array
+    #   resp.pipeline.triggers[0].provider_type #=> String, one of "CodeStarSourceConnection"
+    #   resp.pipeline.triggers[0].git_configuration.source_action_name #=> String
+    #   resp.pipeline.triggers[0].git_configuration.push #=> Array
+    #   resp.pipeline.triggers[0].git_configuration.push[0].tags.includes #=> Array
+    #   resp.pipeline.triggers[0].git_configuration.push[0].tags.includes[0] #=> String
+    #   resp.pipeline.triggers[0].git_configuration.push[0].tags.excludes #=> Array
+    #   resp.pipeline.triggers[0].git_configuration.push[0].tags.excludes[0] #=> String
+    #   resp.pipeline.triggers[0].git_configuration.push[0].branches.includes #=> Array
+    #   resp.pipeline.triggers[0].git_configuration.push[0].branches.includes[0] #=> String
+    #   resp.pipeline.triggers[0].git_configuration.push[0].branches.excludes #=> Array
+    #   resp.pipeline.triggers[0].git_configuration.push[0].branches.excludes[0] #=> String
+    #   resp.pipeline.triggers[0].git_configuration.push[0].file_paths.includes #=> Array
+    #   resp.pipeline.triggers[0].git_configuration.push[0].file_paths.includes[0] #=> String
+    #   resp.pipeline.triggers[0].git_configuration.push[0].file_paths.excludes #=> Array
+    #   resp.pipeline.triggers[0].git_configuration.push[0].file_paths.excludes[0] #=> String
+    #   resp.pipeline.triggers[0].git_configuration.pull_request #=> Array
+    #   resp.pipeline.triggers[0].git_configuration.pull_request[0].events #=> Array
+    #   resp.pipeline.triggers[0].git_configuration.pull_request[0].events[0] #=> String, one of "OPEN", "UPDATED", "CLOSED"
+    #   resp.pipeline.triggers[0].git_configuration.pull_request[0].branches.includes #=> Array
+    #   resp.pipeline.triggers[0].git_configuration.pull_request[0].branches.includes[0] #=> String
+    #   resp.pipeline.triggers[0].git_configuration.pull_request[0].branches.excludes #=> Array
+    #   resp.pipeline.triggers[0].git_configuration.pull_request[0].branches.excludes[0] #=> String
+    #   resp.pipeline.triggers[0].git_configuration.pull_request[0].file_paths.includes #=> Array
+    #   resp.pipeline.triggers[0].git_configuration.pull_request[0].file_paths.includes[0] #=> String
+    #   resp.pipeline.triggers[0].git_configuration.pull_request[0].file_paths.excludes #=> Array
+    #   resp.pipeline.triggers[0].git_configuration.pull_request[0].file_paths.excludes[0] #=> String
     #   resp.metadata.pipeline_arn #=> String
     #   resp.metadata.created #=> Time
     #   resp.metadata.updated #=> Time
+    #   resp.metadata.polling_disabled_at #=> Time
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/codepipeline-2015-07-09/GetPipeline AWS API Documentation
     #
@@ -1174,6 +1618,14 @@ module Aws::CodePipeline
     #   resp.pipeline_execution.artifact_revisions[0].revision_summary #=> String
     #   resp.pipeline_execution.artifact_revisions[0].created #=> Time
     #   resp.pipeline_execution.artifact_revisions[0].revision_url #=> String
+    #   resp.pipeline_execution.variables #=> Array
+    #   resp.pipeline_execution.variables[0].name #=> String
+    #   resp.pipeline_execution.variables[0].resolved_value #=> String
+    #   resp.pipeline_execution.trigger.trigger_type #=> String, one of "CreatePipeline", "StartPipelineExecution", "PollForSourceChanges", "Webhook", "CloudWatchEvent", "PutActionRevision", "WebhookV2", "ManualRollback", "AutomatedRollback"
+    #   resp.pipeline_execution.trigger.trigger_detail #=> String
+    #   resp.pipeline_execution.execution_mode #=> String, one of "QUEUED", "SUPERSEDED", "PARALLEL"
+    #   resp.pipeline_execution.execution_type #=> String, one of "STANDARD", "ROLLBACK"
+    #   resp.pipeline_execution.rollback_metadata.rollback_target_pipeline_execution_id #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/codepipeline-2015-07-09/GetPipelineExecution AWS API Documentation
     #
@@ -1217,7 +1669,12 @@ module Aws::CodePipeline
     #   resp.stage_states #=> Array
     #   resp.stage_states[0].stage_name #=> String
     #   resp.stage_states[0].inbound_execution.pipeline_execution_id #=> String
-    #   resp.stage_states[0].inbound_execution.status #=> String, one of "Cancelled", "InProgress", "Failed", "Stopped", "Stopping", "Succeeded"
+    #   resp.stage_states[0].inbound_execution.status #=> String, one of "Cancelled", "InProgress", "Failed", "Stopped", "Stopping", "Succeeded", "Skipped"
+    #   resp.stage_states[0].inbound_execution.type #=> String, one of "STANDARD", "ROLLBACK"
+    #   resp.stage_states[0].inbound_executions #=> Array
+    #   resp.stage_states[0].inbound_executions[0].pipeline_execution_id #=> String
+    #   resp.stage_states[0].inbound_executions[0].status #=> String, one of "Cancelled", "InProgress", "Failed", "Stopped", "Stopping", "Succeeded", "Skipped"
+    #   resp.stage_states[0].inbound_executions[0].type #=> String, one of "STANDARD", "ROLLBACK"
     #   resp.stage_states[0].inbound_transition_state.enabled #=> Boolean
     #   resp.stage_states[0].inbound_transition_state.last_changed_by #=> String
     #   resp.stage_states[0].inbound_transition_state.last_changed_at #=> Time
@@ -1238,10 +1695,84 @@ module Aws::CodePipeline
     #   resp.stage_states[0].action_states[0].latest_execution.percent_complete #=> Integer
     #   resp.stage_states[0].action_states[0].latest_execution.error_details.code #=> String
     #   resp.stage_states[0].action_states[0].latest_execution.error_details.message #=> String
+    #   resp.stage_states[0].action_states[0].latest_execution.log_stream_arn #=> String
     #   resp.stage_states[0].action_states[0].entity_url #=> String
     #   resp.stage_states[0].action_states[0].revision_url #=> String
     #   resp.stage_states[0].latest_execution.pipeline_execution_id #=> String
-    #   resp.stage_states[0].latest_execution.status #=> String, one of "Cancelled", "InProgress", "Failed", "Stopped", "Stopping", "Succeeded"
+    #   resp.stage_states[0].latest_execution.status #=> String, one of "Cancelled", "InProgress", "Failed", "Stopped", "Stopping", "Succeeded", "Skipped"
+    #   resp.stage_states[0].latest_execution.type #=> String, one of "STANDARD", "ROLLBACK"
+    #   resp.stage_states[0].before_entry_condition_state.latest_execution.status #=> String, one of "InProgress", "Failed", "Errored", "Succeeded", "Cancelled", "Abandoned", "Overridden"
+    #   resp.stage_states[0].before_entry_condition_state.latest_execution.summary #=> String
+    #   resp.stage_states[0].before_entry_condition_state.condition_states #=> Array
+    #   resp.stage_states[0].before_entry_condition_state.condition_states[0].latest_execution.status #=> String, one of "InProgress", "Failed", "Errored", "Succeeded", "Cancelled", "Abandoned", "Overridden"
+    #   resp.stage_states[0].before_entry_condition_state.condition_states[0].latest_execution.summary #=> String
+    #   resp.stage_states[0].before_entry_condition_state.condition_states[0].latest_execution.last_status_change #=> Time
+    #   resp.stage_states[0].before_entry_condition_state.condition_states[0].rule_states #=> Array
+    #   resp.stage_states[0].before_entry_condition_state.condition_states[0].rule_states[0].rule_name #=> String
+    #   resp.stage_states[0].before_entry_condition_state.condition_states[0].rule_states[0].current_revision.revision_id #=> String
+    #   resp.stage_states[0].before_entry_condition_state.condition_states[0].rule_states[0].current_revision.revision_change_id #=> String
+    #   resp.stage_states[0].before_entry_condition_state.condition_states[0].rule_states[0].current_revision.created #=> Time
+    #   resp.stage_states[0].before_entry_condition_state.condition_states[0].rule_states[0].latest_execution.rule_execution_id #=> String
+    #   resp.stage_states[0].before_entry_condition_state.condition_states[0].rule_states[0].latest_execution.status #=> String, one of "InProgress", "Abandoned", "Succeeded", "Failed"
+    #   resp.stage_states[0].before_entry_condition_state.condition_states[0].rule_states[0].latest_execution.summary #=> String
+    #   resp.stage_states[0].before_entry_condition_state.condition_states[0].rule_states[0].latest_execution.last_status_change #=> Time
+    #   resp.stage_states[0].before_entry_condition_state.condition_states[0].rule_states[0].latest_execution.token #=> String
+    #   resp.stage_states[0].before_entry_condition_state.condition_states[0].rule_states[0].latest_execution.last_updated_by #=> String
+    #   resp.stage_states[0].before_entry_condition_state.condition_states[0].rule_states[0].latest_execution.external_execution_id #=> String
+    #   resp.stage_states[0].before_entry_condition_state.condition_states[0].rule_states[0].latest_execution.external_execution_url #=> String
+    #   resp.stage_states[0].before_entry_condition_state.condition_states[0].rule_states[0].latest_execution.error_details.code #=> String
+    #   resp.stage_states[0].before_entry_condition_state.condition_states[0].rule_states[0].latest_execution.error_details.message #=> String
+    #   resp.stage_states[0].before_entry_condition_state.condition_states[0].rule_states[0].entity_url #=> String
+    #   resp.stage_states[0].before_entry_condition_state.condition_states[0].rule_states[0].revision_url #=> String
+    #   resp.stage_states[0].on_success_condition_state.latest_execution.status #=> String, one of "InProgress", "Failed", "Errored", "Succeeded", "Cancelled", "Abandoned", "Overridden"
+    #   resp.stage_states[0].on_success_condition_state.latest_execution.summary #=> String
+    #   resp.stage_states[0].on_success_condition_state.condition_states #=> Array
+    #   resp.stage_states[0].on_success_condition_state.condition_states[0].latest_execution.status #=> String, one of "InProgress", "Failed", "Errored", "Succeeded", "Cancelled", "Abandoned", "Overridden"
+    #   resp.stage_states[0].on_success_condition_state.condition_states[0].latest_execution.summary #=> String
+    #   resp.stage_states[0].on_success_condition_state.condition_states[0].latest_execution.last_status_change #=> Time
+    #   resp.stage_states[0].on_success_condition_state.condition_states[0].rule_states #=> Array
+    #   resp.stage_states[0].on_success_condition_state.condition_states[0].rule_states[0].rule_name #=> String
+    #   resp.stage_states[0].on_success_condition_state.condition_states[0].rule_states[0].current_revision.revision_id #=> String
+    #   resp.stage_states[0].on_success_condition_state.condition_states[0].rule_states[0].current_revision.revision_change_id #=> String
+    #   resp.stage_states[0].on_success_condition_state.condition_states[0].rule_states[0].current_revision.created #=> Time
+    #   resp.stage_states[0].on_success_condition_state.condition_states[0].rule_states[0].latest_execution.rule_execution_id #=> String
+    #   resp.stage_states[0].on_success_condition_state.condition_states[0].rule_states[0].latest_execution.status #=> String, one of "InProgress", "Abandoned", "Succeeded", "Failed"
+    #   resp.stage_states[0].on_success_condition_state.condition_states[0].rule_states[0].latest_execution.summary #=> String
+    #   resp.stage_states[0].on_success_condition_state.condition_states[0].rule_states[0].latest_execution.last_status_change #=> Time
+    #   resp.stage_states[0].on_success_condition_state.condition_states[0].rule_states[0].latest_execution.token #=> String
+    #   resp.stage_states[0].on_success_condition_state.condition_states[0].rule_states[0].latest_execution.last_updated_by #=> String
+    #   resp.stage_states[0].on_success_condition_state.condition_states[0].rule_states[0].latest_execution.external_execution_id #=> String
+    #   resp.stage_states[0].on_success_condition_state.condition_states[0].rule_states[0].latest_execution.external_execution_url #=> String
+    #   resp.stage_states[0].on_success_condition_state.condition_states[0].rule_states[0].latest_execution.error_details.code #=> String
+    #   resp.stage_states[0].on_success_condition_state.condition_states[0].rule_states[0].latest_execution.error_details.message #=> String
+    #   resp.stage_states[0].on_success_condition_state.condition_states[0].rule_states[0].entity_url #=> String
+    #   resp.stage_states[0].on_success_condition_state.condition_states[0].rule_states[0].revision_url #=> String
+    #   resp.stage_states[0].on_failure_condition_state.latest_execution.status #=> String, one of "InProgress", "Failed", "Errored", "Succeeded", "Cancelled", "Abandoned", "Overridden"
+    #   resp.stage_states[0].on_failure_condition_state.latest_execution.summary #=> String
+    #   resp.stage_states[0].on_failure_condition_state.condition_states #=> Array
+    #   resp.stage_states[0].on_failure_condition_state.condition_states[0].latest_execution.status #=> String, one of "InProgress", "Failed", "Errored", "Succeeded", "Cancelled", "Abandoned", "Overridden"
+    #   resp.stage_states[0].on_failure_condition_state.condition_states[0].latest_execution.summary #=> String
+    #   resp.stage_states[0].on_failure_condition_state.condition_states[0].latest_execution.last_status_change #=> Time
+    #   resp.stage_states[0].on_failure_condition_state.condition_states[0].rule_states #=> Array
+    #   resp.stage_states[0].on_failure_condition_state.condition_states[0].rule_states[0].rule_name #=> String
+    #   resp.stage_states[0].on_failure_condition_state.condition_states[0].rule_states[0].current_revision.revision_id #=> String
+    #   resp.stage_states[0].on_failure_condition_state.condition_states[0].rule_states[0].current_revision.revision_change_id #=> String
+    #   resp.stage_states[0].on_failure_condition_state.condition_states[0].rule_states[0].current_revision.created #=> Time
+    #   resp.stage_states[0].on_failure_condition_state.condition_states[0].rule_states[0].latest_execution.rule_execution_id #=> String
+    #   resp.stage_states[0].on_failure_condition_state.condition_states[0].rule_states[0].latest_execution.status #=> String, one of "InProgress", "Abandoned", "Succeeded", "Failed"
+    #   resp.stage_states[0].on_failure_condition_state.condition_states[0].rule_states[0].latest_execution.summary #=> String
+    #   resp.stage_states[0].on_failure_condition_state.condition_states[0].rule_states[0].latest_execution.last_status_change #=> Time
+    #   resp.stage_states[0].on_failure_condition_state.condition_states[0].rule_states[0].latest_execution.token #=> String
+    #   resp.stage_states[0].on_failure_condition_state.condition_states[0].rule_states[0].latest_execution.last_updated_by #=> String
+    #   resp.stage_states[0].on_failure_condition_state.condition_states[0].rule_states[0].latest_execution.external_execution_id #=> String
+    #   resp.stage_states[0].on_failure_condition_state.condition_states[0].rule_states[0].latest_execution.external_execution_url #=> String
+    #   resp.stage_states[0].on_failure_condition_state.condition_states[0].rule_states[0].latest_execution.error_details.code #=> String
+    #   resp.stage_states[0].on_failure_condition_state.condition_states[0].rule_states[0].latest_execution.error_details.message #=> String
+    #   resp.stage_states[0].on_failure_condition_state.condition_states[0].rule_states[0].entity_url #=> String
+    #   resp.stage_states[0].on_failure_condition_state.condition_states[0].rule_states[0].revision_url #=> String
+    #   resp.stage_states[0].retry_stage_metadata.auto_stage_retry_attempt #=> Integer
+    #   resp.stage_states[0].retry_stage_metadata.manual_stage_retry_attempt #=> Integer
+    #   resp.stage_states[0].retry_stage_metadata.latest_retry_trigger #=> String, one of "AutomatedStageRetry", "ManualStageRetry"
     #   resp.created #=> Time
     #   resp.updated #=> Time
     #
@@ -1257,11 +1788,11 @@ module Aws::CodePipeline
     # Requests the details of a job for a third party action. Used for
     # partner actions only.
     #
-    # When this API is called, AWS CodePipeline returns temporary
-    # credentials for the S3 bucket used to store artifacts for the
-    # pipeline, if the action requires access to that S3 bucket for input or
-    # output artifacts. This API also returns any secret values defined for
-    # the action.
+    # When this API is called, CodePipeline returns temporary credentials
+    # for the S3 bucket used to store artifacts for the pipeline, if the
+    # action requires access to that S3 bucket for input or output
+    # artifacts. This API also returns any secret values defined for the
+    # action.
     #
     # @option params [required, String] :job_id
     #   The unique system-generated ID used for identifying the job.
@@ -1285,7 +1816,7 @@ module Aws::CodePipeline
     # @example Response structure
     #
     #   resp.job_details.id #=> String
-    #   resp.job_details.data.action_type_id.category #=> String, one of "Source", "Build", "Deploy", "Test", "Invoke", "Approval"
+    #   resp.job_details.data.action_type_id.category #=> String, one of "Source", "Build", "Deploy", "Test", "Invoke", "Approval", "Compute"
     #   resp.job_details.data.action_type_id.owner #=> String, one of "AWS", "ThirdParty", "Custom"
     #   resp.job_details.data.action_type_id.provider #=> String
     #   resp.job_details.data.action_type_id.version #=> String
@@ -1341,11 +1872,6 @@ module Aws::CodePipeline
     #   value. Action execution history is retained for up to 12 months, based
     #   on action execution start times. Default value is 100.
     #
-    #   <note markdown="1"> Detailed execution history is available for executions run on or after
-    #   February 21, 2019.
-    #
-    #    </note>
-    #
     # @option params [String] :next_token
     #   The token that was returned from the previous `ListActionExecutions`
     #   call, which can be used to return the next set of action executions in
@@ -1364,6 +1890,10 @@ module Aws::CodePipeline
     #     pipeline_name: "PipelineName", # required
     #     filter: {
     #       pipeline_execution_id: "PipelineExecutionId",
+    #       latest_in_pipeline_execution: {
+    #         pipeline_execution_id: "PipelineExecutionId", # required
+    #         start_time_range: "Latest", # required, accepts Latest, All
+    #       },
     #     },
     #     max_results: 1,
     #     next_token: "NextToken",
@@ -1379,8 +1909,9 @@ module Aws::CodePipeline
     #   resp.action_execution_details[0].action_name #=> String
     #   resp.action_execution_details[0].start_time #=> Time
     #   resp.action_execution_details[0].last_update_time #=> Time
+    #   resp.action_execution_details[0].updated_by #=> String
     #   resp.action_execution_details[0].status #=> String, one of "InProgress", "Abandoned", "Succeeded", "Failed"
-    #   resp.action_execution_details[0].input.action_type_id.category #=> String, one of "Source", "Build", "Deploy", "Test", "Invoke", "Approval"
+    #   resp.action_execution_details[0].input.action_type_id.category #=> String, one of "Source", "Build", "Deploy", "Test", "Invoke", "Approval", "Compute"
     #   resp.action_execution_details[0].input.action_type_id.owner #=> String, one of "AWS", "ThirdParty", "Custom"
     #   resp.action_execution_details[0].input.action_type_id.provider #=> String
     #   resp.action_execution_details[0].input.action_type_id.version #=> String
@@ -1402,6 +1933,9 @@ module Aws::CodePipeline
     #   resp.action_execution_details[0].output.execution_result.external_execution_id #=> String
     #   resp.action_execution_details[0].output.execution_result.external_execution_summary #=> String
     #   resp.action_execution_details[0].output.execution_result.external_execution_url #=> String
+    #   resp.action_execution_details[0].output.execution_result.error_details.code #=> String
+    #   resp.action_execution_details[0].output.execution_result.error_details.message #=> String
+    #   resp.action_execution_details[0].output.execution_result.log_stream_arn #=> String
     #   resp.action_execution_details[0].output.output_variables #=> Hash
     #   resp.action_execution_details[0].output.output_variables["OutputVariablesKey"] #=> String
     #   resp.next_token #=> String
@@ -1415,8 +1949,8 @@ module Aws::CodePipeline
       req.send_request(options)
     end
 
-    # Gets a summary of all AWS CodePipeline action types associated with
-    # your account.
+    # Gets a summary of all CodePipeline action types associated with your
+    # account.
     #
     # @option params [String] :action_owner_filter
     #   Filters the list of action types to those created by a specified
@@ -1448,7 +1982,7 @@ module Aws::CodePipeline
     # @example Response structure
     #
     #   resp.action_types #=> Array
-    #   resp.action_types[0].id.category #=> String, one of "Source", "Build", "Deploy", "Test", "Invoke", "Approval"
+    #   resp.action_types[0].id.category #=> String, one of "Source", "Build", "Deploy", "Test", "Invoke", "Approval", "Compute"
     #   resp.action_types[0].id.owner #=> String, one of "AWS", "ThirdParty", "Custom"
     #   resp.action_types[0].id.provider #=> String
     #   resp.action_types[0].id.version #=> String
@@ -1481,6 +2015,12 @@ module Aws::CodePipeline
 
     # Gets a summary of the most recent executions for a pipeline.
     #
+    # <note markdown="1"> When applying the filter for pipeline executions that have succeeded
+    # in the stage, the operation returns all executions in the current
+    # pipeline version beginning on February 1, 2024.
+    #
+    #  </note>
+    #
     # @option params [required, String] :pipeline_name
     #   The name of the pipeline for which you want to get execution summary
     #   information.
@@ -1490,6 +2030,9 @@ module Aws::CodePipeline
     #   the remaining results, make another call with the returned nextToken
     #   value. Pipeline history is limited to the most recent 12 months, based
     #   on pipeline execution start times. Default value is 100.
+    #
+    # @option params [Types::PipelineExecutionFilter] :filter
+    #   The pipeline execution to filter on.
     #
     # @option params [String] :next_token
     #   The token that was returned from the previous `ListPipelineExecutions`
@@ -1508,6 +2051,11 @@ module Aws::CodePipeline
     #   resp = client.list_pipeline_executions({
     #     pipeline_name: "PipelineName", # required
     #     max_results: 1,
+    #     filter: {
+    #       succeeded_in_stage: {
+    #         stage_name: "StageName",
+    #       },
+    #     },
     #     next_token: "NextToken",
     #   })
     #
@@ -1516,6 +2064,7 @@ module Aws::CodePipeline
     #   resp.pipeline_execution_summaries #=> Array
     #   resp.pipeline_execution_summaries[0].pipeline_execution_id #=> String
     #   resp.pipeline_execution_summaries[0].status #=> String, one of "Cancelled", "InProgress", "Stopped", "Stopping", "Succeeded", "Superseded", "Failed"
+    #   resp.pipeline_execution_summaries[0].status_summary #=> String
     #   resp.pipeline_execution_summaries[0].start_time #=> Time
     #   resp.pipeline_execution_summaries[0].last_update_time #=> Time
     #   resp.pipeline_execution_summaries[0].source_revisions #=> Array
@@ -1523,9 +2072,12 @@ module Aws::CodePipeline
     #   resp.pipeline_execution_summaries[0].source_revisions[0].revision_id #=> String
     #   resp.pipeline_execution_summaries[0].source_revisions[0].revision_summary #=> String
     #   resp.pipeline_execution_summaries[0].source_revisions[0].revision_url #=> String
-    #   resp.pipeline_execution_summaries[0].trigger.trigger_type #=> String, one of "CreatePipeline", "StartPipelineExecution", "PollForSourceChanges", "Webhook", "CloudWatchEvent", "PutActionRevision"
+    #   resp.pipeline_execution_summaries[0].trigger.trigger_type #=> String, one of "CreatePipeline", "StartPipelineExecution", "PollForSourceChanges", "Webhook", "CloudWatchEvent", "PutActionRevision", "WebhookV2", "ManualRollback", "AutomatedRollback"
     #   resp.pipeline_execution_summaries[0].trigger.trigger_detail #=> String
     #   resp.pipeline_execution_summaries[0].stop_trigger.reason #=> String
+    #   resp.pipeline_execution_summaries[0].execution_mode #=> String, one of "QUEUED", "SUPERSEDED", "PARALLEL"
+    #   resp.pipeline_execution_summaries[0].execution_type #=> String, one of "STANDARD", "ROLLBACK"
+    #   resp.pipeline_execution_summaries[0].rollback_metadata.rollback_target_pipeline_execution_id #=> String
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/codepipeline-2015-07-09/ListPipelineExecutions AWS API Documentation
@@ -1568,6 +2120,8 @@ module Aws::CodePipeline
     #   resp.pipelines #=> Array
     #   resp.pipelines[0].name #=> String
     #   resp.pipelines[0].version #=> Integer
+    #   resp.pipelines[0].pipeline_type #=> String, one of "V1", "V2"
+    #   resp.pipelines[0].execution_mode #=> String, one of "QUEUED", "SUPERSEDED", "PARALLEL"
     #   resp.pipelines[0].created #=> Time
     #   resp.pipelines[0].updated #=> Time
     #   resp.next_token #=> String
@@ -1578,6 +2132,150 @@ module Aws::CodePipeline
     # @param [Hash] params ({})
     def list_pipelines(params = {}, options = {})
       req = build_request(:list_pipelines, params)
+      req.send_request(options)
+    end
+
+    # Lists the rule executions that have occurred in a pipeline configured
+    # for conditions with rules.
+    #
+    # @option params [required, String] :pipeline_name
+    #   The name of the pipeline for which you want to get execution summary
+    #   information.
+    #
+    # @option params [Types::RuleExecutionFilter] :filter
+    #   Input information used to filter rule execution history.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return in a single call. To retrieve
+    #   the remaining results, make another call with the returned nextToken
+    #   value. Pipeline history is limited to the most recent 12 months, based
+    #   on pipeline execution start times. Default value is 100.
+    #
+    # @option params [String] :next_token
+    #   The token that was returned from the previous `ListRuleExecutions`
+    #   call, which can be used to return the next set of rule executions in
+    #   the list.
+    #
+    # @return [Types::ListRuleExecutionsOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListRuleExecutionsOutput#rule_execution_details #rule_execution_details} => Array&lt;Types::RuleExecutionDetail&gt;
+    #   * {Types::ListRuleExecutionsOutput#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_rule_executions({
+    #     pipeline_name: "PipelineName", # required
+    #     filter: {
+    #       pipeline_execution_id: "PipelineExecutionId",
+    #       latest_in_pipeline_execution: {
+    #         pipeline_execution_id: "PipelineExecutionId", # required
+    #         start_time_range: "Latest", # required, accepts Latest, All
+    #       },
+    #     },
+    #     max_results: 1,
+    #     next_token: "NextToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.rule_execution_details #=> Array
+    #   resp.rule_execution_details[0].pipeline_execution_id #=> String
+    #   resp.rule_execution_details[0].rule_execution_id #=> String
+    #   resp.rule_execution_details[0].pipeline_version #=> Integer
+    #   resp.rule_execution_details[0].stage_name #=> String
+    #   resp.rule_execution_details[0].rule_name #=> String
+    #   resp.rule_execution_details[0].start_time #=> Time
+    #   resp.rule_execution_details[0].last_update_time #=> Time
+    #   resp.rule_execution_details[0].updated_by #=> String
+    #   resp.rule_execution_details[0].status #=> String, one of "InProgress", "Abandoned", "Succeeded", "Failed"
+    #   resp.rule_execution_details[0].input.rule_type_id.category #=> String, one of "Rule"
+    #   resp.rule_execution_details[0].input.rule_type_id.owner #=> String, one of "AWS"
+    #   resp.rule_execution_details[0].input.rule_type_id.provider #=> String
+    #   resp.rule_execution_details[0].input.rule_type_id.version #=> String
+    #   resp.rule_execution_details[0].input.configuration #=> Hash
+    #   resp.rule_execution_details[0].input.configuration["RuleConfigurationKey"] #=> String
+    #   resp.rule_execution_details[0].input.resolved_configuration #=> Hash
+    #   resp.rule_execution_details[0].input.resolved_configuration["String"] #=> String
+    #   resp.rule_execution_details[0].input.role_arn #=> String
+    #   resp.rule_execution_details[0].input.region #=> String
+    #   resp.rule_execution_details[0].input.input_artifacts #=> Array
+    #   resp.rule_execution_details[0].input.input_artifacts[0].name #=> String
+    #   resp.rule_execution_details[0].input.input_artifacts[0].s3location.bucket #=> String
+    #   resp.rule_execution_details[0].input.input_artifacts[0].s3location.key #=> String
+    #   resp.rule_execution_details[0].output.execution_result.external_execution_id #=> String
+    #   resp.rule_execution_details[0].output.execution_result.external_execution_summary #=> String
+    #   resp.rule_execution_details[0].output.execution_result.external_execution_url #=> String
+    #   resp.rule_execution_details[0].output.execution_result.error_details.code #=> String
+    #   resp.rule_execution_details[0].output.execution_result.error_details.message #=> String
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/codepipeline-2015-07-09/ListRuleExecutions AWS API Documentation
+    #
+    # @overload list_rule_executions(params = {})
+    # @param [Hash] params ({})
+    def list_rule_executions(params = {}, options = {})
+      req = build_request(:list_rule_executions, params)
+      req.send_request(options)
+    end
+
+    # Lists the rules for the condition. For more information about
+    # conditions, see [Stage conditions][1] and [How do stage conditions
+    # work?][2].For more information about rules, see the [CodePipeline rule
+    # reference][3].
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/codepipeline/latest/userguide/stage-conditions.html
+    # [2]: https://docs.aws.amazon.com/codepipeline/latest/userguide/concepts-how-it-works-conditions.html
+    # [3]: https://docs.aws.amazon.com/codepipeline/latest/userguide/rule-reference.html
+    #
+    # @option params [String] :rule_owner_filter
+    #   The rule owner to filter on.
+    #
+    # @option params [String] :region_filter
+    #   The rule Region to filter on.
+    #
+    # @return [Types::ListRuleTypesOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListRuleTypesOutput#rule_types #rule_types} => Array&lt;Types::RuleType&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_rule_types({
+    #     rule_owner_filter: "AWS", # accepts AWS
+    #     region_filter: "AWSRegionName",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.rule_types #=> Array
+    #   resp.rule_types[0].id.category #=> String, one of "Rule"
+    #   resp.rule_types[0].id.owner #=> String, one of "AWS"
+    #   resp.rule_types[0].id.provider #=> String
+    #   resp.rule_types[0].id.version #=> String
+    #   resp.rule_types[0].settings.third_party_configuration_url #=> String
+    #   resp.rule_types[0].settings.entity_url_template #=> String
+    #   resp.rule_types[0].settings.execution_url_template #=> String
+    #   resp.rule_types[0].settings.revision_url_template #=> String
+    #   resp.rule_types[0].rule_configuration_properties #=> Array
+    #   resp.rule_types[0].rule_configuration_properties[0].name #=> String
+    #   resp.rule_types[0].rule_configuration_properties[0].required #=> Boolean
+    #   resp.rule_types[0].rule_configuration_properties[0].key #=> Boolean
+    #   resp.rule_types[0].rule_configuration_properties[0].secret #=> Boolean
+    #   resp.rule_types[0].rule_configuration_properties[0].queryable #=> Boolean
+    #   resp.rule_types[0].rule_configuration_properties[0].description #=> String
+    #   resp.rule_types[0].rule_configuration_properties[0].type #=> String, one of "String", "Number", "Boolean"
+    #   resp.rule_types[0].input_artifact_details.minimum_count #=> Integer
+    #   resp.rule_types[0].input_artifact_details.maximum_count #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/codepipeline-2015-07-09/ListRuleTypes AWS API Documentation
+    #
+    # @overload list_rule_types(params = {})
+    # @param [Hash] params ({})
+    def list_rule_types(params = {}, options = {})
+      req = build_request(:list_rule_types, params)
       req.send_request(options)
     end
 
@@ -1626,9 +2324,13 @@ module Aws::CodePipeline
       req.send_request(options)
     end
 
-    # Gets a listing of all the webhooks in this AWS Region for this
-    # account. The output lists all webhooks and includes the webhook URL
-    # and ARN and the configuration for each webhook.
+    # Gets a listing of all the webhooks in this Amazon Web Services Region
+    # for this account. The output lists all webhooks and includes the
+    # webhook URL and ARN and the configuration for each webhook.
+    #
+    # <note markdown="1"> If a secret token was provided, it will be redacted in the response.
+    #
+    #  </note>
     #
     # @option params [String] :next_token
     #   The token that was returned from the previous ListWebhooks call, which
@@ -1684,16 +2386,59 @@ module Aws::CodePipeline
       req.send_request(options)
     end
 
-    # Returns information about any jobs for AWS CodePipeline to act on.
-    # `PollForJobs` is valid only for action types with "Custom" in the
-    # owner field. If the action type contains "AWS" or "ThirdParty" in
-    # the owner field, the `PollForJobs` action returns an error.
+    # Used to override a stage condition. For more information about
+    # conditions, see [Stage conditions][1] and [How do stage conditions
+    # work?][2].
     #
-    # When this API is called, AWS CodePipeline returns temporary
-    # credentials for the S3 bucket used to store artifacts for the
-    # pipeline, if the action requires access to that S3 bucket for input or
-    # output artifacts. This API also returns any secret values defined for
-    # the action.
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/codepipeline/latest/userguide/stage-conditions.html
+    # [2]: https://docs.aws.amazon.com/codepipeline/latest/userguide/concepts-how-it-works-conditions.html
+    #
+    # @option params [required, String] :pipeline_name
+    #   The name of the pipeline with the stage that will override the
+    #   condition.
+    #
+    # @option params [required, String] :stage_name
+    #   The name of the stage for the override.
+    #
+    # @option params [required, String] :pipeline_execution_id
+    #   The ID of the pipeline execution for the override.
+    #
+    # @option params [required, String] :condition_type
+    #   The type of condition to override for the stage, such as entry
+    #   conditions, failure conditions, or success conditions.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.override_stage_condition({
+    #     pipeline_name: "PipelineName", # required
+    #     stage_name: "StageName", # required
+    #     pipeline_execution_id: "PipelineExecutionId", # required
+    #     condition_type: "BEFORE_ENTRY", # required, accepts BEFORE_ENTRY, ON_SUCCESS
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/codepipeline-2015-07-09/OverrideStageCondition AWS API Documentation
+    #
+    # @overload override_stage_condition(params = {})
+    # @param [Hash] params ({})
+    def override_stage_condition(params = {}, options = {})
+      req = build_request(:override_stage_condition, params)
+      req.send_request(options)
+    end
+
+    # Returns information about any jobs for CodePipeline to act on.
+    # `PollForJobs` is valid only for action types with "Custom" in the
+    # owner field. If the action type contains `AWS` or `ThirdParty` in the
+    # owner field, the `PollForJobs` action returns an error.
+    #
+    # When this API is called, CodePipeline returns temporary credentials
+    # for the S3 bucket used to store artifacts for the pipeline, if the
+    # action requires access to that S3 bucket for input or output
+    # artifacts. This API also returns any secret values defined for the
+    # action.
     #
     # @option params [required, Types::ActionTypeId] :action_type_id
     #   Represents information about an action type.
@@ -1716,7 +2461,7 @@ module Aws::CodePipeline
     #
     #   resp = client.poll_for_jobs({
     #     action_type_id: { # required
-    #       category: "Source", # required, accepts Source, Build, Deploy, Test, Invoke, Approval
+    #       category: "Source", # required, accepts Source, Build, Deploy, Test, Invoke, Approval, Compute
     #       owner: "AWS", # required, accepts AWS, ThirdParty, Custom
     #       provider: "ActionProvider", # required
     #       version: "Version", # required
@@ -1731,7 +2476,7 @@ module Aws::CodePipeline
     #
     #   resp.jobs #=> Array
     #   resp.jobs[0].id #=> String
-    #   resp.jobs[0].data.action_type_id.category #=> String, one of "Source", "Build", "Deploy", "Test", "Invoke", "Approval"
+    #   resp.jobs[0].data.action_type_id.category #=> String, one of "Source", "Build", "Deploy", "Test", "Invoke", "Approval", "Compute"
     #   resp.jobs[0].data.action_type_id.owner #=> String, one of "AWS", "ThirdParty", "Custom"
     #   resp.jobs[0].data.action_type_id.provider #=> String
     #   resp.jobs[0].data.action_type_id.version #=> String
@@ -1776,10 +2521,10 @@ module Aws::CodePipeline
     # Determines whether there are any third party jobs for a job worker to
     # act on. Used for partner actions only.
     #
-    # When this API is called, AWS CodePipeline returns temporary
-    # credentials for the S3 bucket used to store artifacts for the
-    # pipeline, if the action requires access to that S3 bucket for input or
-    # output artifacts.
+    # When this API is called, CodePipeline returns temporary credentials
+    # for the S3 bucket used to store artifacts for the pipeline, if the
+    # action requires access to that S3 bucket for input or output
+    # artifacts.
     #
     # @option params [required, Types::ActionTypeId] :action_type_id
     #   Represents information about an action type.
@@ -1795,7 +2540,7 @@ module Aws::CodePipeline
     #
     #   resp = client.poll_for_third_party_jobs({
     #     action_type_id: { # required
-    #       category: "Source", # required, accepts Source, Build, Deploy, Test, Invoke, Approval
+    #       category: "Source", # required, accepts Source, Build, Deploy, Test, Invoke, Approval, Compute
     #       owner: "AWS", # required, accepts AWS, ThirdParty, Custom
     #       provider: "ActionProvider", # required
     #       version: "Version", # required
@@ -1818,8 +2563,7 @@ module Aws::CodePipeline
       req.send_request(options)
     end
 
-    # Provides information to AWS CodePipeline about new revisions to a
-    # source.
+    # Provides information to CodePipeline about new revisions to a source.
     #
     # @option params [required, String] :pipeline_name
     #   The name of the pipeline that starts processing the revision to the
@@ -1867,8 +2611,8 @@ module Aws::CodePipeline
       req.send_request(options)
     end
 
-    # Provides the response to a manual approval request to AWS
-    # CodePipeline. Valid responses include Approved and Rejected.
+    # Provides the response to a manual approval request to CodePipeline.
+    # Valid responses include Approved and Rejected.
     #
     # @option params [required, String] :pipeline_name
     #   The name of the pipeline that contains the action.
@@ -1887,6 +2631,12 @@ module Aws::CodePipeline
     #   The token for each open approval request can be obtained using the
     #   GetPipelineState action. It is used to validate that the approval
     #   request corresponding to this token is still valid.
+    #
+    #   For a pipeline where the execution mode is set to PARALLEL, the token
+    #   required to approve/reject an approval request as detailed above is
+    #   not available. Instead, use the `externalExecutionId` in the response
+    #   output from the ListActionExecutions action as the token in the
+    #   approval request.
     #
     # @return [Types::PutApprovalResultOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1962,12 +2712,12 @@ module Aws::CodePipeline
     #   by the job.
     #
     # @option params [String] :continuation_token
-    #   A token generated by a job worker, such as an AWS CodeDeploy
-    #   deployment ID, that a successful job provides to identify a custom
-    #   action in progress. Future jobs use this token to identify the running
-    #   instance of the action. It can be reused to return more information
-    #   about the progress of the custom action. When the action is complete,
-    #   no continuation token should be supplied.
+    #   A token generated by a job worker, such as a CodeDeploy deployment ID,
+    #   that a successful job provides to identify a custom action in
+    #   progress. Future jobs use this token to identify the running instance
+    #   of the action. It can be reused to return more information about the
+    #   progress of the custom action. When the action is complete, no
+    #   continuation token should be supplied.
     #
     # @option params [Types::ExecutionDetails] :execution_details
     #   The execution details of the successful job, such as the actions taken
@@ -2064,12 +2814,12 @@ module Aws::CodePipeline
     #   Represents information about a current revision.
     #
     # @option params [String] :continuation_token
-    #   A token generated by a job worker, such as an AWS CodeDeploy
-    #   deployment ID, that a successful job provides to identify a partner
-    #   action in progress. Future jobs use this token to identify the running
-    #   instance of the action. It can be reused to return more information
-    #   about the progress of the partner action. When the action is complete,
-    #   no continuation token should be supplied.
+    #   A token generated by a job worker, such as a CodeDeploy deployment ID,
+    #   that a successful job provides to identify a partner action in
+    #   progress. Future jobs use this token to identify the running instance
+    #   of the action. It can be reused to return more information about the
+    #   progress of the partner action. When the action is complete, no
+    #   continuation token should be supplied.
     #
     # @option params [Types::ExecutionDetails] :execution_details
     #   The details of the actions taken and results produced on an artifact
@@ -2114,6 +2864,19 @@ module Aws::CodePipeline
     # webhook. RegisterWebhookWithThirdParty and
     # DeregisterWebhookWithThirdParty APIs can be used to automatically
     # configure supported third parties to call the generated webhook URL.
+    #
+    # When creating CodePipeline webhooks, do not use your own credentials
+    # or reuse the same secret token across multiple webhooks. For optimal
+    # security, generate a unique secret token for each webhook you create.
+    # The secret token is an arbitrary string that you provide, which GitHub
+    # uses to compute and sign the webhook payloads sent to CodePipeline,
+    # for protecting the integrity and authenticity of the webhook payloads.
+    # Using your own credentials or reusing the same token across multiple
+    # webhooks can lead to security vulnerabilities.
+    #
+    # <note markdown="1"> If a secret token was provided, it will be redacted in the response.
+    #
+    #  </note>
     #
     # @option params [required, Types::WebhookDefinition] :webhook
     #   The detail provided in an input file to create the webhook, such as
@@ -2209,10 +2972,15 @@ module Aws::CodePipeline
       req.send_request(options)
     end
 
-    # Resumes the pipeline execution by retrying the last failed actions in
-    # a stage. You can retry a stage immediately if any of the actions in
-    # the stage fail. When you retry, all actions that are still in progress
-    # continue working, and failed actions are triggered again.
+    # You can retry a stage that has failed without having to run a pipeline
+    # again from the beginning. You do this by either retrying the failed
+    # actions in a stage or by retrying all actions in the stage starting
+    # from the first action in the stage. When you retry the failed actions
+    # in a stage, all actions that are still in progress continue working,
+    # and failed actions are triggered again. When you retry a failed stage
+    # from the first action in the stage, the stage cannot have any actions
+    # in progress. Before a stage can be retried, it must either have all
+    # actions failed or some actions failed and some succeeded.
     #
     # @option params [required, String] :pipeline_name
     #   The name of the pipeline that contains the failed stage.
@@ -2226,8 +2994,7 @@ module Aws::CodePipeline
     #   pipelineExecutionId of the failed stage
     #
     # @option params [required, String] :retry_mode
-    #   The scope of the retry attempt. Currently, the only supported value is
-    #   FAILED\_ACTIONS.
+    #   The scope of the retry attempt.
     #
     # @return [Types::RetryStageExecutionOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -2239,7 +3006,7 @@ module Aws::CodePipeline
     #     pipeline_name: "PipelineName", # required
     #     stage_name: "StageName", # required
     #     pipeline_execution_id: "PipelineExecutionId", # required
-    #     retry_mode: "FAILED_ACTIONS", # required, accepts FAILED_ACTIONS
+    #     retry_mode: "FAILED_ACTIONS", # required, accepts FAILED_ACTIONS, ALL_ACTIONS
     #   })
     #
     # @example Response structure
@@ -2255,6 +3022,42 @@ module Aws::CodePipeline
       req.send_request(options)
     end
 
+    # Rolls back a stage execution.
+    #
+    # @option params [required, String] :pipeline_name
+    #   The name of the pipeline for which the stage will be rolled back.
+    #
+    # @option params [required, String] :stage_name
+    #   The name of the stage in the pipeline to be rolled back.
+    #
+    # @option params [required, String] :target_pipeline_execution_id
+    #   The pipeline execution ID for the stage to be rolled back to.
+    #
+    # @return [Types::RollbackStageOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::RollbackStageOutput#pipeline_execution_id #pipeline_execution_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.rollback_stage({
+    #     pipeline_name: "PipelineName", # required
+    #     stage_name: "StageName", # required
+    #     target_pipeline_execution_id: "PipelineExecutionId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.pipeline_execution_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/codepipeline-2015-07-09/RollbackStage AWS API Documentation
+    #
+    # @overload rollback_stage(params = {})
+    # @param [Hash] params ({})
+    def rollback_stage(params = {}, options = {})
+      req = build_request(:rollback_stage, params)
+      req.send_request(options)
+    end
+
     # Starts the specified pipeline. Specifically, it begins processing the
     # latest commit to the source location specified as part of the
     # pipeline.
@@ -2262,12 +3065,23 @@ module Aws::CodePipeline
     # @option params [required, String] :name
     #   The name of the pipeline to start.
     #
+    # @option params [Array<Types::PipelineVariable>] :variables
+    #   A list that overrides pipeline variables for a pipeline execution
+    #   that's being started. Variable names must match `[A-Za-z0-9@\-_]+`,
+    #   and the values can be anything except an empty string.
+    #
     # @option params [String] :client_request_token
     #   The system-generated unique ID used to identify a unique execution
     #   request.
     #
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.**
+    #
+    # @option params [Array<Types::SourceRevisionOverride>] :source_revisions
+    #   A list that allows you to specify, or override, the source revision
+    #   for a pipeline execution that's being started. A source revision is
+    #   the version with all the changes to your application code, or source
+    #   artifact, for the pipeline execution.
     #
     # @return [Types::StartPipelineExecutionOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -2277,7 +3091,20 @@ module Aws::CodePipeline
     #
     #   resp = client.start_pipeline_execution({
     #     name: "PipelineName", # required
+    #     variables: [
+    #       {
+    #         name: "PipelineVariableName", # required
+    #         value: "PipelineVariableValue", # required
+    #       },
+    #     ],
     #     client_request_token: "ClientRequestToken",
+    #     source_revisions: [
+    #       {
+    #         action_name: "ActionName", # required
+    #         revision_type: "COMMIT_ID", # required, accepts COMMIT_ID, IMAGE_DIGEST, S3_OBJECT_VERSION_ID, S3_OBJECT_KEY
+    #         revision_value: "Revision", # required
+    #       },
+    #     ],
     #   })
     #
     # @example Response structure
@@ -2379,7 +3206,7 @@ module Aws::CodePipeline
       req.send_request(options)
     end
 
-    # Removes tags from an AWS resource.
+    # Removes tags from an Amazon Web Services resource.
     #
     # @option params [required, String] :resource_arn
     #   The Amazon Resource Name (ARN) of the resource to remove tags from.
@@ -2435,7 +3262,7 @@ module Aws::CodePipeline
     #         job_timeout: 1,
     #       },
     #       id: { # required
-    #         category: "Source", # required, accepts Source, Build, Deploy, Test, Invoke, Approval
+    #         category: "Source", # required, accepts Source, Build, Deploy, Test, Invoke, Approval, Compute
     #         owner: "ActionTypeOwner", # required
     #         provider: "ActionProvider", # required
     #         version: "Version", # required
@@ -2528,7 +3355,7 @@ module Aws::CodePipeline
     #             {
     #               name: "ActionName", # required
     #               action_type_id: { # required
-    #                 category: "Source", # required, accepts Source, Build, Deploy, Test, Invoke, Approval
+    #                 category: "Source", # required, accepts Source, Build, Deploy, Test, Invoke, Approval, Compute
     #                 owner: "AWS", # required, accepts AWS, ThirdParty, Custom
     #                 provider: "ActionProvider", # required
     #                 version: "Version", # required
@@ -2537,9 +3364,11 @@ module Aws::CodePipeline
     #               configuration: {
     #                 "ActionConfigurationKey" => "ActionConfigurationValue",
     #               },
+    #               commands: ["Command"],
     #               output_artifacts: [
     #                 {
     #                   name: "ArtifactName", # required
+    #                   files: ["FilePath"],
     #                 },
     #               ],
     #               input_artifacts: [
@@ -2547,14 +3376,162 @@ module Aws::CodePipeline
     #                   name: "ArtifactName", # required
     #                 },
     #               ],
+    #               output_variables: ["OutputVariable"],
     #               role_arn: "RoleArn",
     #               region: "AWSRegionName",
     #               namespace: "ActionNamespace",
+    #               timeout_in_minutes: 1,
+    #               environment_variables: [
+    #                 {
+    #                   name: "EnvironmentVariableName", # required
+    #                   value: "EnvironmentVariableValue", # required
+    #                 },
+    #               ],
     #             },
     #           ],
+    #           on_failure: {
+    #             result: "ROLLBACK", # accepts ROLLBACK, FAIL, RETRY, SKIP
+    #             retry_configuration: {
+    #               retry_mode: "FAILED_ACTIONS", # accepts FAILED_ACTIONS, ALL_ACTIONS
+    #             },
+    #             conditions: [
+    #               {
+    #                 result: "ROLLBACK", # accepts ROLLBACK, FAIL, RETRY, SKIP
+    #                 rules: [
+    #                   {
+    #                     name: "RuleName", # required
+    #                     rule_type_id: { # required
+    #                       category: "Rule", # required, accepts Rule
+    #                       owner: "AWS", # accepts AWS
+    #                       provider: "RuleProvider", # required
+    #                       version: "Version",
+    #                     },
+    #                     configuration: {
+    #                       "RuleConfigurationKey" => "RuleConfigurationValue",
+    #                     },
+    #                     commands: ["Command"],
+    #                     input_artifacts: [
+    #                       {
+    #                         name: "ArtifactName", # required
+    #                       },
+    #                     ],
+    #                     role_arn: "RoleArn",
+    #                     region: "AWSRegionName",
+    #                     timeout_in_minutes: 1,
+    #                   },
+    #                 ],
+    #               },
+    #             ],
+    #           },
+    #           on_success: {
+    #             conditions: [ # required
+    #               {
+    #                 result: "ROLLBACK", # accepts ROLLBACK, FAIL, RETRY, SKIP
+    #                 rules: [
+    #                   {
+    #                     name: "RuleName", # required
+    #                     rule_type_id: { # required
+    #                       category: "Rule", # required, accepts Rule
+    #                       owner: "AWS", # accepts AWS
+    #                       provider: "RuleProvider", # required
+    #                       version: "Version",
+    #                     },
+    #                     configuration: {
+    #                       "RuleConfigurationKey" => "RuleConfigurationValue",
+    #                     },
+    #                     commands: ["Command"],
+    #                     input_artifacts: [
+    #                       {
+    #                         name: "ArtifactName", # required
+    #                       },
+    #                     ],
+    #                     role_arn: "RoleArn",
+    #                     region: "AWSRegionName",
+    #                     timeout_in_minutes: 1,
+    #                   },
+    #                 ],
+    #               },
+    #             ],
+    #           },
+    #           before_entry: {
+    #             conditions: [ # required
+    #               {
+    #                 result: "ROLLBACK", # accepts ROLLBACK, FAIL, RETRY, SKIP
+    #                 rules: [
+    #                   {
+    #                     name: "RuleName", # required
+    #                     rule_type_id: { # required
+    #                       category: "Rule", # required, accepts Rule
+    #                       owner: "AWS", # accepts AWS
+    #                       provider: "RuleProvider", # required
+    #                       version: "Version",
+    #                     },
+    #                     configuration: {
+    #                       "RuleConfigurationKey" => "RuleConfigurationValue",
+    #                     },
+    #                     commands: ["Command"],
+    #                     input_artifacts: [
+    #                       {
+    #                         name: "ArtifactName", # required
+    #                       },
+    #                     ],
+    #                     role_arn: "RoleArn",
+    #                     region: "AWSRegionName",
+    #                     timeout_in_minutes: 1,
+    #                   },
+    #                 ],
+    #               },
+    #             ],
+    #           },
     #         },
     #       ],
     #       version: 1,
+    #       execution_mode: "QUEUED", # accepts QUEUED, SUPERSEDED, PARALLEL
+    #       pipeline_type: "V1", # accepts V1, V2
+    #       variables: [
+    #         {
+    #           name: "PipelineVariableName", # required
+    #           default_value: "PipelineVariableValue",
+    #           description: "PipelineVariableDescription",
+    #         },
+    #       ],
+    #       triggers: [
+    #         {
+    #           provider_type: "CodeStarSourceConnection", # required, accepts CodeStarSourceConnection
+    #           git_configuration: { # required
+    #             source_action_name: "ActionName", # required
+    #             push: [
+    #               {
+    #                 tags: {
+    #                   includes: ["GitTagNamePattern"],
+    #                   excludes: ["GitTagNamePattern"],
+    #                 },
+    #                 branches: {
+    #                   includes: ["GitBranchNamePattern"],
+    #                   excludes: ["GitBranchNamePattern"],
+    #                 },
+    #                 file_paths: {
+    #                   includes: ["GitFilePathPattern"],
+    #                   excludes: ["GitFilePathPattern"],
+    #                 },
+    #               },
+    #             ],
+    #             pull_request: [
+    #               {
+    #                 events: ["OPEN"], # accepts OPEN, UPDATED, CLOSED
+    #                 branches: {
+    #                   includes: ["GitBranchNamePattern"],
+    #                   excludes: ["GitBranchNamePattern"],
+    #                 },
+    #                 file_paths: {
+    #                   includes: ["GitFilePathPattern"],
+    #                   excludes: ["GitFilePathPattern"],
+    #                 },
+    #               },
+    #             ],
+    #           },
+    #         },
+    #       ],
     #     },
     #   })
     #
@@ -2578,21 +3555,117 @@ module Aws::CodePipeline
     #   resp.pipeline.stages[0].blockers[0].type #=> String, one of "Schedule"
     #   resp.pipeline.stages[0].actions #=> Array
     #   resp.pipeline.stages[0].actions[0].name #=> String
-    #   resp.pipeline.stages[0].actions[0].action_type_id.category #=> String, one of "Source", "Build", "Deploy", "Test", "Invoke", "Approval"
+    #   resp.pipeline.stages[0].actions[0].action_type_id.category #=> String, one of "Source", "Build", "Deploy", "Test", "Invoke", "Approval", "Compute"
     #   resp.pipeline.stages[0].actions[0].action_type_id.owner #=> String, one of "AWS", "ThirdParty", "Custom"
     #   resp.pipeline.stages[0].actions[0].action_type_id.provider #=> String
     #   resp.pipeline.stages[0].actions[0].action_type_id.version #=> String
     #   resp.pipeline.stages[0].actions[0].run_order #=> Integer
     #   resp.pipeline.stages[0].actions[0].configuration #=> Hash
     #   resp.pipeline.stages[0].actions[0].configuration["ActionConfigurationKey"] #=> String
+    #   resp.pipeline.stages[0].actions[0].commands #=> Array
+    #   resp.pipeline.stages[0].actions[0].commands[0] #=> String
     #   resp.pipeline.stages[0].actions[0].output_artifacts #=> Array
     #   resp.pipeline.stages[0].actions[0].output_artifacts[0].name #=> String
+    #   resp.pipeline.stages[0].actions[0].output_artifacts[0].files #=> Array
+    #   resp.pipeline.stages[0].actions[0].output_artifacts[0].files[0] #=> String
     #   resp.pipeline.stages[0].actions[0].input_artifacts #=> Array
     #   resp.pipeline.stages[0].actions[0].input_artifacts[0].name #=> String
+    #   resp.pipeline.stages[0].actions[0].output_variables #=> Array
+    #   resp.pipeline.stages[0].actions[0].output_variables[0] #=> String
     #   resp.pipeline.stages[0].actions[0].role_arn #=> String
     #   resp.pipeline.stages[0].actions[0].region #=> String
     #   resp.pipeline.stages[0].actions[0].namespace #=> String
+    #   resp.pipeline.stages[0].actions[0].timeout_in_minutes #=> Integer
+    #   resp.pipeline.stages[0].actions[0].environment_variables #=> Array
+    #   resp.pipeline.stages[0].actions[0].environment_variables[0].name #=> String
+    #   resp.pipeline.stages[0].actions[0].environment_variables[0].value #=> String
+    #   resp.pipeline.stages[0].on_failure.result #=> String, one of "ROLLBACK", "FAIL", "RETRY", "SKIP"
+    #   resp.pipeline.stages[0].on_failure.retry_configuration.retry_mode #=> String, one of "FAILED_ACTIONS", "ALL_ACTIONS"
+    #   resp.pipeline.stages[0].on_failure.conditions #=> Array
+    #   resp.pipeline.stages[0].on_failure.conditions[0].result #=> String, one of "ROLLBACK", "FAIL", "RETRY", "SKIP"
+    #   resp.pipeline.stages[0].on_failure.conditions[0].rules #=> Array
+    #   resp.pipeline.stages[0].on_failure.conditions[0].rules[0].name #=> String
+    #   resp.pipeline.stages[0].on_failure.conditions[0].rules[0].rule_type_id.category #=> String, one of "Rule"
+    #   resp.pipeline.stages[0].on_failure.conditions[0].rules[0].rule_type_id.owner #=> String, one of "AWS"
+    #   resp.pipeline.stages[0].on_failure.conditions[0].rules[0].rule_type_id.provider #=> String
+    #   resp.pipeline.stages[0].on_failure.conditions[0].rules[0].rule_type_id.version #=> String
+    #   resp.pipeline.stages[0].on_failure.conditions[0].rules[0].configuration #=> Hash
+    #   resp.pipeline.stages[0].on_failure.conditions[0].rules[0].configuration["RuleConfigurationKey"] #=> String
+    #   resp.pipeline.stages[0].on_failure.conditions[0].rules[0].commands #=> Array
+    #   resp.pipeline.stages[0].on_failure.conditions[0].rules[0].commands[0] #=> String
+    #   resp.pipeline.stages[0].on_failure.conditions[0].rules[0].input_artifacts #=> Array
+    #   resp.pipeline.stages[0].on_failure.conditions[0].rules[0].input_artifacts[0].name #=> String
+    #   resp.pipeline.stages[0].on_failure.conditions[0].rules[0].role_arn #=> String
+    #   resp.pipeline.stages[0].on_failure.conditions[0].rules[0].region #=> String
+    #   resp.pipeline.stages[0].on_failure.conditions[0].rules[0].timeout_in_minutes #=> Integer
+    #   resp.pipeline.stages[0].on_success.conditions #=> Array
+    #   resp.pipeline.stages[0].on_success.conditions[0].result #=> String, one of "ROLLBACK", "FAIL", "RETRY", "SKIP"
+    #   resp.pipeline.stages[0].on_success.conditions[0].rules #=> Array
+    #   resp.pipeline.stages[0].on_success.conditions[0].rules[0].name #=> String
+    #   resp.pipeline.stages[0].on_success.conditions[0].rules[0].rule_type_id.category #=> String, one of "Rule"
+    #   resp.pipeline.stages[0].on_success.conditions[0].rules[0].rule_type_id.owner #=> String, one of "AWS"
+    #   resp.pipeline.stages[0].on_success.conditions[0].rules[0].rule_type_id.provider #=> String
+    #   resp.pipeline.stages[0].on_success.conditions[0].rules[0].rule_type_id.version #=> String
+    #   resp.pipeline.stages[0].on_success.conditions[0].rules[0].configuration #=> Hash
+    #   resp.pipeline.stages[0].on_success.conditions[0].rules[0].configuration["RuleConfigurationKey"] #=> String
+    #   resp.pipeline.stages[0].on_success.conditions[0].rules[0].commands #=> Array
+    #   resp.pipeline.stages[0].on_success.conditions[0].rules[0].commands[0] #=> String
+    #   resp.pipeline.stages[0].on_success.conditions[0].rules[0].input_artifacts #=> Array
+    #   resp.pipeline.stages[0].on_success.conditions[0].rules[0].input_artifacts[0].name #=> String
+    #   resp.pipeline.stages[0].on_success.conditions[0].rules[0].role_arn #=> String
+    #   resp.pipeline.stages[0].on_success.conditions[0].rules[0].region #=> String
+    #   resp.pipeline.stages[0].on_success.conditions[0].rules[0].timeout_in_minutes #=> Integer
+    #   resp.pipeline.stages[0].before_entry.conditions #=> Array
+    #   resp.pipeline.stages[0].before_entry.conditions[0].result #=> String, one of "ROLLBACK", "FAIL", "RETRY", "SKIP"
+    #   resp.pipeline.stages[0].before_entry.conditions[0].rules #=> Array
+    #   resp.pipeline.stages[0].before_entry.conditions[0].rules[0].name #=> String
+    #   resp.pipeline.stages[0].before_entry.conditions[0].rules[0].rule_type_id.category #=> String, one of "Rule"
+    #   resp.pipeline.stages[0].before_entry.conditions[0].rules[0].rule_type_id.owner #=> String, one of "AWS"
+    #   resp.pipeline.stages[0].before_entry.conditions[0].rules[0].rule_type_id.provider #=> String
+    #   resp.pipeline.stages[0].before_entry.conditions[0].rules[0].rule_type_id.version #=> String
+    #   resp.pipeline.stages[0].before_entry.conditions[0].rules[0].configuration #=> Hash
+    #   resp.pipeline.stages[0].before_entry.conditions[0].rules[0].configuration["RuleConfigurationKey"] #=> String
+    #   resp.pipeline.stages[0].before_entry.conditions[0].rules[0].commands #=> Array
+    #   resp.pipeline.stages[0].before_entry.conditions[0].rules[0].commands[0] #=> String
+    #   resp.pipeline.stages[0].before_entry.conditions[0].rules[0].input_artifacts #=> Array
+    #   resp.pipeline.stages[0].before_entry.conditions[0].rules[0].input_artifacts[0].name #=> String
+    #   resp.pipeline.stages[0].before_entry.conditions[0].rules[0].role_arn #=> String
+    #   resp.pipeline.stages[0].before_entry.conditions[0].rules[0].region #=> String
+    #   resp.pipeline.stages[0].before_entry.conditions[0].rules[0].timeout_in_minutes #=> Integer
     #   resp.pipeline.version #=> Integer
+    #   resp.pipeline.execution_mode #=> String, one of "QUEUED", "SUPERSEDED", "PARALLEL"
+    #   resp.pipeline.pipeline_type #=> String, one of "V1", "V2"
+    #   resp.pipeline.variables #=> Array
+    #   resp.pipeline.variables[0].name #=> String
+    #   resp.pipeline.variables[0].default_value #=> String
+    #   resp.pipeline.variables[0].description #=> String
+    #   resp.pipeline.triggers #=> Array
+    #   resp.pipeline.triggers[0].provider_type #=> String, one of "CodeStarSourceConnection"
+    #   resp.pipeline.triggers[0].git_configuration.source_action_name #=> String
+    #   resp.pipeline.triggers[0].git_configuration.push #=> Array
+    #   resp.pipeline.triggers[0].git_configuration.push[0].tags.includes #=> Array
+    #   resp.pipeline.triggers[0].git_configuration.push[0].tags.includes[0] #=> String
+    #   resp.pipeline.triggers[0].git_configuration.push[0].tags.excludes #=> Array
+    #   resp.pipeline.triggers[0].git_configuration.push[0].tags.excludes[0] #=> String
+    #   resp.pipeline.triggers[0].git_configuration.push[0].branches.includes #=> Array
+    #   resp.pipeline.triggers[0].git_configuration.push[0].branches.includes[0] #=> String
+    #   resp.pipeline.triggers[0].git_configuration.push[0].branches.excludes #=> Array
+    #   resp.pipeline.triggers[0].git_configuration.push[0].branches.excludes[0] #=> String
+    #   resp.pipeline.triggers[0].git_configuration.push[0].file_paths.includes #=> Array
+    #   resp.pipeline.triggers[0].git_configuration.push[0].file_paths.includes[0] #=> String
+    #   resp.pipeline.triggers[0].git_configuration.push[0].file_paths.excludes #=> Array
+    #   resp.pipeline.triggers[0].git_configuration.push[0].file_paths.excludes[0] #=> String
+    #   resp.pipeline.triggers[0].git_configuration.pull_request #=> Array
+    #   resp.pipeline.triggers[0].git_configuration.pull_request[0].events #=> Array
+    #   resp.pipeline.triggers[0].git_configuration.pull_request[0].events[0] #=> String, one of "OPEN", "UPDATED", "CLOSED"
+    #   resp.pipeline.triggers[0].git_configuration.pull_request[0].branches.includes #=> Array
+    #   resp.pipeline.triggers[0].git_configuration.pull_request[0].branches.includes[0] #=> String
+    #   resp.pipeline.triggers[0].git_configuration.pull_request[0].branches.excludes #=> Array
+    #   resp.pipeline.triggers[0].git_configuration.pull_request[0].branches.excludes[0] #=> String
+    #   resp.pipeline.triggers[0].git_configuration.pull_request[0].file_paths.includes #=> Array
+    #   resp.pipeline.triggers[0].git_configuration.pull_request[0].file_paths.includes[0] #=> String
+    #   resp.pipeline.triggers[0].git_configuration.pull_request[0].file_paths.excludes #=> Array
+    #   resp.pipeline.triggers[0].git_configuration.pull_request[0].file_paths.excludes[0] #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/codepipeline-2015-07-09/UpdatePipeline AWS API Documentation
     #
@@ -2609,14 +3682,19 @@ module Aws::CodePipeline
     # @api private
     def build_request(operation_name, params = {})
       handlers = @handlers.for(operation_name)
+      tracer = config.telemetry_provider.tracer_provider.tracer(
+        Aws::Telemetry.module_to_tracer_name('Aws::CodePipeline')
+      )
       context = Seahorse::Client::RequestContext.new(
         operation_name: operation_name,
         operation: config.api.operation(operation_name),
         client: self,
         params: params,
-        config: config)
+        config: config,
+        tracer: tracer
+      )
       context[:gem_name] = 'aws-sdk-codepipeline'
-      context[:gem_version] = '1.55.0'
+      context[:gem_version] = '1.96.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

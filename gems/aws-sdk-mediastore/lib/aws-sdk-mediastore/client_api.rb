@@ -7,6 +7,7 @@
 #
 # WARNING ABOUT GENERATED CODE
 
+
 module Aws::MediaStore
   # @api private
   module ClientApi
@@ -289,9 +290,11 @@ module Aws::MediaStore
 
       api.metadata = {
         "apiVersion" => "2017-09-01",
+        "auth" => ["aws.auth#sigv4"],
         "endpointPrefix" => "mediastore",
         "jsonVersion" => "1.1",
         "protocol" => "json",
+        "protocols" => ["json"],
         "serviceAbbreviation" => "MediaStore",
         "serviceFullName" => "AWS Elemental MediaStore",
         "serviceId" => "MediaStore",

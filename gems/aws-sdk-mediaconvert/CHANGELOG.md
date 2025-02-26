@@ -1,6 +1,266 @@
 Unreleased Changes
 ------------------
 
+1.152.0 (2025-02-18)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.151.0 (2025-02-07)
+------------------
+
+* Feature - This release adds support for Animated GIF output, forced chroma sample positioning metadata, and Extensible Wave Container format
+
+1.150.0 (2025-02-06)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.149.0 (2025-01-27)
+------------------
+
+* Feature - This release adds support for dynamic audio configuration and the ability to disable the deblocking filter for h265 encodes.
+
+1.148.0 (2025-01-15)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.147.0 (2025-01-02)
+------------------
+
+* Feature - This release adds support for the AVC3 codec and fixes an alignment issue with Japanese vertical captions.
+
+1.146.0 (2024-12-19)
+------------------
+
+* Feature - This release adds support for inserting timecode tracks into MP4 container outputs.
+
+1.145.0 (2024-11-20)
+------------------
+
+* Feature - This release adds the ability to reconfigure concurrent job settings for existing queues and create queues with custom concurrent job settings.
+
+1.144.0 (2024-11-13)
+------------------
+
+* Feature - This release adds support for ARN inputs in the Kantar credentials secrets name field and the MSPR field to the manifests for PlayReady DRM protected outputs.
+
+1.143.0 (2024-10-18)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.142.0 (2024-09-24)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.141.0 (2024-09-23)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.140.0 (2024-09-20)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.139.0 (2024-09-19)
+------------------
+
+* Feature - This release provides support for additional DRM configurations per SPEKE Version 2.0.
+
+1.138.0 (2024-09-12)
+------------------
+
+* Feature - This release includes support for dynamic video overlay workflows, including picture-in-picture and squeezeback
+
+1.137.0 (2024-09-11)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.136.0 (2024-09-10)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.135.0 (2024-09-03)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.134.0 (2024-07-02)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.133.0 (2024-06-25)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.132.0 (2024-06-24)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.131.0 (2024-06-17)
+------------------
+
+* Feature - This release includes support for creating I-frame only video segments for DASH trick play.
+
+1.130.0 (2024-06-14)
+------------------
+
+* Feature - This release adds the ability to search for historical job records within the management console using a search box and/or via the SDK/CLI with partial string matching search on input file name.
+
+1.129.0 (2024-06-05)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.128.0 (2024-05-13)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.127.0 (2024-04-25)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.126.0 (2024-04-09)
+------------------
+
+* Feature - This release includes support for bringing your own fonts to use for burn-in or DVB-Sub captioning workflows.
+
+1.125.0 (2024-02-01)
+------------------
+
+* Feature - This release includes support for broadcast-mixed audio description tracks.
+
+1.124.0 (2024-01-26)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.123.0 (2024-01-03)
+------------------
+
+* Feature - This release includes video engine updates including HEVC improvements, support for ingesting VP9 encoded video in MP4 containers, and support for user-specified 3D LUTs.
+
+1.122.0 (2023-11-28)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.121.0 (2023-11-22)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.120.0 (2023-11-10)
+------------------
+
+* Feature - This release includes the ability to specify any input source as the primary input for corresponding follow modes, and allows users to specify fit and fill behaviors without resizing content.
+
+1.119.0 (2023-10-03)
+------------------
+
+* Feature - This release adds the ability to replace video frames without modifying the audio essence.
+
+1.118.0 (2023-09-27)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.117.0 (2023-09-22)
+------------------
+
+* Feature - This release supports the creation of of audio-only tracks in CMAF output groups.
+
+1.116.0 (2023-08-24)
+------------------
+
+* Feature - This release includes additional audio channel tags in Quicktime outputs, support for film grain synthesis for AV1 outputs, ability to create audio-only FLAC outputs, and ability to specify Amazon S3 destination storage class.
+
+1.115.0 (2023-07-26)
+------------------
+
+* Feature - This release includes general updates to user documentation.
+
+1.114.0 (2023-07-21)
+------------------
+
+* Feature - This release includes improvements to Preserve 444 handling, compatibility of HEVC sources without frame rates, and general improvements to MP4 outputs.
+
+1.113.0 (2023-07-11)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.112.0 (2023-07-06)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.111.0 (2023-06-30)
+------------------
+
+* Feature - This release includes improved color handling of overlays and general updates to user documentation.
+
+1.110.0 (2023-06-28)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.109.0 (2023-06-21)
+------------------
+
+* Feature - This release introduces the bandwidth reduction filter for the HEVC encoder, increases the limits of outputs per job, and updates support for the Nagra SDK to version 1.14.7.
+
+1.108.0 (2023-06-15)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.107.0 (2023-05-31)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.106.0 (2023-05-18)
+------------------
+
+* Feature - This release introduces a new MXF Profile for XDCAM which is strictly compliant with the SMPTE RDD 9 standard and improved handling of output name modifiers.
+
+1.105.0 (2023-04-24)
+------------------
+
+* Feature - This release introduces a noise reduction pre-filter, linear interpolation deinterlace mode, video pass-through, updated default job settings, and expanded LC-AAC Stereo audio bitrate ranges.
+
+1.104.0 (2023-04-10)
+------------------
+
+* Feature - AWS Elemental MediaConvert SDK now supports conversion of 608 paint-on captions to pop-on captions for SCC sources.
+
+1.103.0 (2023-03-23)
+------------------
+
+* Feature - AWS Elemental MediaConvert SDK now supports passthrough of ID3v2 tags for audio inputs to audio-only HLS outputs.
+
+1.102.0 (2023-03-03)
+------------------
+
+* Feature - The AWS Elemental MediaConvert SDK has improved handling for different input and output color space combinations.
+
+1.101.0 (2023-02-27)
+------------------
+
+* Feature - The AWS Elemental MediaConvert SDK has added support for HDR10 to SDR tone mapping, and animated GIF video input sources.
+
 1.100.0 (2023-02-06)
 ------------------
 

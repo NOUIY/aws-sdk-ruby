@@ -1,6 +1,241 @@
 Unreleased Changes
 ------------------
 
+1.130.0 (2025-02-18)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.129.0 (2025-02-07)
+------------------
+
+* Feature - Introduce versionStatus field to take place of status field in EKS DescribeClusterVersions API
+
+1.128.0 (2025-02-06)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.127.0 (2025-01-24)
+------------------
+
+* Feature - Adds support for UpdateStrategies in EKS Managed Node Groups.
+
+1.126.0 (2025-01-15)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.125.0 (2024-12-23)
+------------------
+
+* Feature - This release adds support for DescribeClusterVersions API that provides important information about Kubernetes versions along with end of support dates
+
+1.124.0 (2024-12-20)
+------------------
+
+* Feature - This release expands the catalog of upgrade insight checks
+
+1.123.0 (2024-12-13)
+------------------
+
+* Feature - Add NodeRepairConfig in CreateNodegroupRequest and UpdateNodegroupConfigRequest
+
+1.122.0 (2024-12-02)
+------------------
+
+* Feature - Added support for Auto Mode Clusters, Hybrid Nodes, and specifying computeTypes in the DescribeAddonVersions API.
+
+1.121.0 (2024-11-08)
+------------------
+
+* Feature - Adds new error code `Ec2InstanceTypeDoesNotExist` for Amazon EKS managed node groups
+
+1.120.0 (2024-10-21)
+------------------
+
+* Feature - This release adds support for Amazon Application Recovery Controller (ARC) zonal shift and zonal autoshift with EKS that enhances the resiliency of multi-AZ cluster environments
+
+1.119.0 (2024-10-18)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.118.0 (2024-09-24)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.117.0 (2024-09-23)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.116.0 (2024-09-20)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.115.0 (2024-09-11)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.114.0 (2024-09-10)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.113.0 (2024-09-03)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.112.0 (2024-08-12)
+------------------
+
+* Feature - Added support for new AL2023 GPU AMIs to the supported AMITypes.
+
+1.111.0 (2024-07-25)
+------------------
+
+* Feature - This release adds support for EKS cluster to manage extended support.
+
+1.110.0 (2024-07-02)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.109.0 (2024-07-01)
+------------------
+
+* Feature - Updates EKS managed node groups to support EC2 Capacity Blocks for ML
+
+1.108.0 (2024-06-26)
+------------------
+
+* Feature - Added support for disabling unmanaged addons during cluster creation.
+
+1.107.0 (2024-06-25)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.106.0 (2024-06-24)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.105.0 (2024-06-18)
+------------------
+
+* Feature - This release adds support to surface async fargate customer errors from async path to customer through describe-fargate-profile API response.
+
+1.104.0 (2024-06-05)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.103.0 (2024-06-03)
+------------------
+
+* Feature - Adds support for EKS add-ons pod identity associations integration
+
+1.102.0 (2024-05-13)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.101.0 (2024-04-25)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.100.0 (2024-03-28)
+------------------
+
+* Feature - Add multiple customer error code to handle customer caused failure when managing EKS node groups
+
+1.99.0 (2024-02-29)
+------------------
+
+* Feature - Added support for new AL2023 AMIs to the supported AMITypes.
+
+1.98.0 (2024-01-26)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.97.0 (2023-12-20)
+------------------
+
+* Feature - Add support for cluster insights, new EKS capability that surfaces potentially upgrade impacting issues.
+
+1.96.0 (2023-12-18)
+------------------
+
+* Feature - Add support for EKS Cluster Access Management.
+
+1.95.0 (2023-11-28)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.94.0 (2023-11-27)
+------------------
+
+* Feature - This release adds support for EKS Pod Identity feature. EKS Pod Identity makes it easy for customers to obtain IAM permissions for the applications running in their EKS clusters.
+
+1.93.0 (2023-11-22)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.92.0 (2023-11-09)
+------------------
+
+* Feature - Adding EKS Anywhere subscription related operations.
+
+1.91.0 (2023-10-24)
+------------------
+
+* Feature - Added support for Cluster Subnet and Security Group mutability.
+
+1.90.0 (2023-09-27)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.89.0 (2023-07-27)
+------------------
+
+* Feature - Add multiple customer error code to handle customer caused failure when managing EKS node groups
+
+1.88.0 (2023-07-11)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.87.0 (2023-07-06)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.86.0 (2023-06-28)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.85.0 (2023-06-15)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.84.0 (2023-05-31)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
 1.83.0 (2023-01-18)
 ------------------
 

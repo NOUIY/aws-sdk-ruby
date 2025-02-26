@@ -7,33 +7,34 @@
 #
 # WARNING ABOUT GENERATED CODE
 
-require 'seahorse/client/plugins/content_length.rb'
-require 'aws-sdk-core/plugins/credentials_configuration.rb'
-require 'aws-sdk-core/plugins/logging.rb'
-require 'aws-sdk-core/plugins/param_converter.rb'
-require 'aws-sdk-core/plugins/param_validator.rb'
-require 'aws-sdk-core/plugins/user_agent.rb'
-require 'aws-sdk-core/plugins/helpful_socket_errors.rb'
-require 'aws-sdk-core/plugins/retry_errors.rb'
-require 'aws-sdk-core/plugins/global_configuration.rb'
-require 'aws-sdk-core/plugins/regional_endpoint.rb'
-require 'aws-sdk-core/plugins/endpoint_discovery.rb'
-require 'aws-sdk-core/plugins/endpoint_pattern.rb'
-require 'aws-sdk-core/plugins/response_paging.rb'
-require 'aws-sdk-core/plugins/stub_responses.rb'
-require 'aws-sdk-core/plugins/idempotency_token.rb'
-require 'aws-sdk-core/plugins/jsonvalue_converter.rb'
-require 'aws-sdk-core/plugins/client_metrics_plugin.rb'
-require 'aws-sdk-core/plugins/client_metrics_send_plugin.rb'
-require 'aws-sdk-core/plugins/transfer_encoding.rb'
-require 'aws-sdk-core/plugins/http_checksum.rb'
-require 'aws-sdk-core/plugins/checksum_algorithm.rb'
-require 'aws-sdk-core/plugins/defaults_mode.rb'
-require 'aws-sdk-core/plugins/recursion_detection.rb'
-require 'aws-sdk-core/plugins/sign.rb'
-require 'aws-sdk-core/plugins/protocols/query.rb'
-
-Aws::Plugins::GlobalConfiguration.add_identifier(:sns)
+require 'seahorse/client/plugins/content_length'
+require 'aws-sdk-core/plugins/credentials_configuration'
+require 'aws-sdk-core/plugins/logging'
+require 'aws-sdk-core/plugins/param_converter'
+require 'aws-sdk-core/plugins/param_validator'
+require 'aws-sdk-core/plugins/user_agent'
+require 'aws-sdk-core/plugins/helpful_socket_errors'
+require 'aws-sdk-core/plugins/retry_errors'
+require 'aws-sdk-core/plugins/global_configuration'
+require 'aws-sdk-core/plugins/regional_endpoint'
+require 'aws-sdk-core/plugins/endpoint_discovery'
+require 'aws-sdk-core/plugins/endpoint_pattern'
+require 'aws-sdk-core/plugins/response_paging'
+require 'aws-sdk-core/plugins/stub_responses'
+require 'aws-sdk-core/plugins/idempotency_token'
+require 'aws-sdk-core/plugins/invocation_id'
+require 'aws-sdk-core/plugins/jsonvalue_converter'
+require 'aws-sdk-core/plugins/client_metrics_plugin'
+require 'aws-sdk-core/plugins/client_metrics_send_plugin'
+require 'aws-sdk-core/plugins/transfer_encoding'
+require 'aws-sdk-core/plugins/http_checksum'
+require 'aws-sdk-core/plugins/checksum_algorithm'
+require 'aws-sdk-core/plugins/request_compression'
+require 'aws-sdk-core/plugins/defaults_mode'
+require 'aws-sdk-core/plugins/recursion_detection'
+require 'aws-sdk-core/plugins/telemetry'
+require 'aws-sdk-core/plugins/sign'
+require 'aws-sdk-core/plugins/protocols/query'
 
 module Aws::SNS
   # An API client for SNS.  To construct a client, you need to configure a `:region` and `:credentials`.
@@ -71,20 +72,28 @@ module Aws::SNS
     add_plugin(Aws::Plugins::ResponsePaging)
     add_plugin(Aws::Plugins::StubResponses)
     add_plugin(Aws::Plugins::IdempotencyToken)
+    add_plugin(Aws::Plugins::InvocationId)
     add_plugin(Aws::Plugins::JsonvalueConverter)
     add_plugin(Aws::Plugins::ClientMetricsPlugin)
     add_plugin(Aws::Plugins::ClientMetricsSendPlugin)
     add_plugin(Aws::Plugins::TransferEncoding)
     add_plugin(Aws::Plugins::HttpChecksum)
     add_plugin(Aws::Plugins::ChecksumAlgorithm)
+    add_plugin(Aws::Plugins::RequestCompression)
     add_plugin(Aws::Plugins::DefaultsMode)
     add_plugin(Aws::Plugins::RecursionDetection)
+    add_plugin(Aws::Plugins::Telemetry)
     add_plugin(Aws::Plugins::Sign)
     add_plugin(Aws::Plugins::Protocols::Query)
     add_plugin(Aws::SNS::Plugins::Endpoints)
 
     # @overload initialize(options)
     #   @param [Hash] options
+    #
+    #   @option options [Array<Seahorse::Client::Plugin>] :plugins ([]])
+    #     A list of plugins to apply to the client. Each plugin is either a
+    #     class name or an instance of a plugin class.
+    #
     #   @option options [required, Aws::CredentialProvider] :credentials
     #     Your AWS credentials. This can be an instance of any one of the
     #     following classes:
@@ -119,13 +128,15 @@ module Aws::SNS
     #     locations will be searched for credentials:
     #
     #     * `Aws.config[:credentials]`
-    #     * The `:access_key_id`, `:secret_access_key`, and `:session_token` options.
-    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']
+    #     * The `:access_key_id`, `:secret_access_key`, `:session_token`, and
+    #       `:account_id` options.
+    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'],
+    #       ENV['AWS_SESSION_TOKEN'], and ENV['AWS_ACCOUNT_ID']
     #     * `~/.aws/credentials`
     #     * `~/.aws/config`
     #     * EC2/ECS IMDS instance profile - When used by default, the timeouts
     #       are very aggressive. Construct and pass an instance of
-    #       `Aws::InstanceProfileCredentails` or `Aws::ECSCredentials` to
+    #       `Aws::InstanceProfileCredentials` or `Aws::ECSCredentials` to
     #       enable retries and extended timeouts. Instance profile credential
     #       fetching can be disabled by setting ENV['AWS_EC2_METADATA_DISABLED']
     #       to true.
@@ -143,6 +154,8 @@ module Aws::SNS
     #     * `~/.aws/config`
     #
     #   @option options [String] :access_key_id
+    #
+    #   @option options [String] :account_id
     #
     #   @option options [Boolean] :active_endpoint_cache (false)
     #     When set to `true`, a thread polling for endpoints will be running in
@@ -190,10 +203,20 @@ module Aws::SNS
     #     Set to true to disable SDK automatically adding host prefix
     #     to default service endpoint when available.
     #
-    #   @option options [String] :endpoint
-    #     The client endpoint is normally constructed from the `:region`
-    #     option. You should only configure an `:endpoint` when connecting
-    #     to test or custom endpoints. This should be a valid HTTP(S) URI.
+    #   @option options [Boolean] :disable_request_compression (false)
+    #     When set to 'true' the request body will not be compressed
+    #     for supported operations.
+    #
+    #   @option options [String, URI::HTTPS, URI::HTTP] :endpoint
+    #     Normally you should not configure the `:endpoint` option
+    #     directly. This is normally constructed from the `:region`
+    #     option. Configuring `:endpoint` is normally reserved for
+    #     connecting to test or custom endpoints. The endpoint should
+    #     be a URI formatted like:
+    #
+    #         'http://example.com'
+    #         'https://example.com'
+    #         'http://example.com:123'
     #
     #   @option options [Integer] :endpoint_cache_max_entries (1000)
     #     Used for the maximum size limit of the LRU cache storing endpoints data
@@ -209,6 +232,10 @@ module Aws::SNS
     #
     #   @option options [Boolean] :endpoint_discovery (false)
     #     When set to `true`, endpoint discovery will be enabled for operations when available.
+    #
+    #   @option options [Boolean] :ignore_configured_endpoint_urls
+    #     Setting to true disables use of endpoint URLs provided via environment
+    #     variables and the shared configuration file.
     #
     #   @option options [Aws::Log::Formatter] :log_formatter (Aws::Log::Formatter.default)
     #     The log formatter.
@@ -229,6 +256,34 @@ module Aws::SNS
     #   @option options [String] :profile ("default")
     #     Used when loading credentials from the shared credentials file
     #     at HOME/.aws/credentials.  When not specified, 'default' is used.
+    #
+    #   @option options [String] :request_checksum_calculation ("when_supported")
+    #     Determines when a checksum will be calculated for request payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, a checksum will be
+    #       calculated for all request payloads of operations modeled with the
+    #       `httpChecksum` trait where `requestChecksumRequired` is `true` and/or a
+    #       `requestAlgorithmMember` is modeled.
+    #     * `when_required` - When set, a checksum will only be calculated for
+    #       request payloads of operations modeled with the  `httpChecksum` trait where
+    #       `requestChecksumRequired` is `true` or where a `requestAlgorithmMember`
+    #       is modeled and supplied.
+    #
+    #   @option options [Integer] :request_min_compression_size_bytes (10240)
+    #     The minimum size in bytes that triggers compression for request
+    #     bodies. The value must be non-negative integer value between 0
+    #     and 10485780 bytes inclusive.
+    #
+    #   @option options [String] :response_checksum_validation ("when_supported")
+    #     Determines when checksum validation will be performed on response payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, checksum validation is performed on all
+    #       response payloads of operations modeled with the `httpChecksum` trait where
+    #       `responseAlgorithms` is modeled, except when no modeled checksum algorithms
+    #       are supported.
+    #     * `when_required` - When set, checksum validation is not performed on
+    #       response payloads of operations unless the checksum algorithm is supported and
+    #       the `requestValidationModeMember` member is set to `ENABLED`.
     #
     #   @option options [Proc] :retry_backoff
     #     A proc or lambda used for backoff. Defaults to 2**retries * retry_base_delay.
@@ -274,10 +329,24 @@ module Aws::SNS
     #       throttling.  This is a provisional mode that may change behavior
     #       in the future.
     #
+    #   @option options [String] :sdk_ua_app_id
+    #     A unique and opaque application ID that is appended to the
+    #     User-Agent header as app/sdk_ua_app_id. It should have a
+    #     maximum length of 50. This variable is sourced from environment
+    #     variable AWS_SDK_UA_APP_ID or the shared config profile attribute sdk_ua_app_id.
     #
     #   @option options [String] :secret_access_key
     #
     #   @option options [String] :session_token
+    #
+    #   @option options [Array] :sigv4a_signing_region_set
+    #     A list of regions that should be signed with SigV4a signing. When
+    #     not passed, a default `:sigv4a_signing_region_set` is searched for
+    #     in the following locations:
+    #
+    #     * `Aws.config[:sigv4a_signing_region_set]`
+    #     * `ENV['AWS_SIGV4A_SIGNING_REGION_SET']`
+    #     * `~/.aws/config`
     #
     #   @option options [Boolean] :stub_responses (false)
     #     Causes the client to return stubbed responses. By default
@@ -287,6 +356,16 @@ module Aws::SNS
     #
     #     ** Please note ** When response stubbing is enabled, no HTTP
     #     requests are made, and retries are disabled.
+    #
+    #   @option options [Aws::Telemetry::TelemetryProviderBase] :telemetry_provider (Aws::Telemetry::NoOpTelemetryProvider)
+    #     Allows you to provide a telemetry provider, which is used to
+    #     emit telemetry data. By default, uses `NoOpTelemetryProvider` which
+    #     will not record or emit any telemetry data. The SDK supports the
+    #     following telemetry providers:
+    #
+    #     * OpenTelemetry (OTel) - To use the OTel provider, install and require the
+    #     `opentelemetry-sdk` gem and then, pass in an instance of a
+    #     `Aws::Telemetry::OTelProvider` for telemetry provider.
     #
     #   @option options [Aws::TokenProvider] :token_provider
     #     A Bearer Token Provider. This can be an instance of any one of the
@@ -315,52 +394,75 @@ module Aws::SNS
     #     sending the request.
     #
     #   @option options [Aws::SNS::EndpointProvider] :endpoint_provider
-    #     The endpoint provider used to resolve endpoints. Any object that responds to `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to `Aws::SNS::EndpointParameters`
+    #     The endpoint provider used to resolve endpoints. Any object that responds to
+    #     `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+    #     `Aws::SNS::EndpointParameters`.
     #
-    #   @option options [URI::HTTP,String] :http_proxy A proxy to send
-    #     requests through.  Formatted like 'http://proxy.com:123'.
+    #   @option options [Float] :http_continue_timeout (1)
+    #     The number of seconds to wait for a 100-continue response before sending the
+    #     request body.  This option has no effect unless the request has "Expect"
+    #     header set to "100-continue".  Defaults to `nil` which  disables this
+    #     behaviour.  This value can safely be set per request on the session.
     #
-    #   @option options [Float] :http_open_timeout (15) The number of
-    #     seconds to wait when opening a HTTP session before raising a
-    #     `Timeout::Error`.
+    #   @option options [Float] :http_idle_timeout (5)
+    #     The number of seconds a connection is allowed to sit idle before it
+    #     is considered stale.  Stale connections are closed and removed from the
+    #     pool before making a request.
     #
-    #   @option options [Float] :http_read_timeout (60) The default
-    #     number of seconds to wait for response data.  This value can
-    #     safely be set per-request on the session.
+    #   @option options [Float] :http_open_timeout (15)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :http_idle_timeout (5) The number of
-    #     seconds a connection is allowed to sit idle before it is
-    #     considered stale.  Stale connections are closed and removed
-    #     from the pool before making a request.
+    #   @option options [URI::HTTP,String] :http_proxy
+    #     A proxy to send requests through.  Formatted like 'http://proxy.com:123'.
     #
-    #   @option options [Float] :http_continue_timeout (1) The number of
-    #     seconds to wait for a 100-continue response before sending the
-    #     request body.  This option has no effect unless the request has
-    #     "Expect" header set to "100-continue".  Defaults to `nil` which
-    #     disables this behaviour.  This value can safely be set per
-    #     request on the session.
+    #   @option options [Float] :http_read_timeout (60)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :ssl_timeout (nil) Sets the SSL timeout
-    #     in seconds.
+    #   @option options [Boolean] :http_wire_trace (false)
+    #     When `true`,  HTTP debug output will be sent to the `:logger`.
     #
-    #   @option options [Boolean] :http_wire_trace (false) When `true`,
-    #     HTTP debug output will be sent to the `:logger`.
+    #   @option options [Proc] :on_chunk_received
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the response body is received. It provides three arguments: the chunk,
+    #     the number of bytes received, and the total number of
+    #     bytes in the response (or nil if the server did not send a `content-length`).
     #
-    #   @option options [Boolean] :ssl_verify_peer (true) When `true`,
-    #     SSL peer certificates are verified when establishing a
-    #     connection.
+    #   @option options [Proc] :on_chunk_sent
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the request body is sent. It provides three arguments: the chunk,
+    #     the number of bytes read from the body, and the total number of
+    #     bytes in the body.
     #
-    #   @option options [String] :ssl_ca_bundle Full path to the SSL
-    #     certificate authority bundle file that should be used when
-    #     verifying peer certificates.  If you do not pass
-    #     `:ssl_ca_bundle` or `:ssl_ca_directory` the the system default
-    #     will be used if available.
+    #   @option options [Boolean] :raise_response_errors (true)
+    #     When `true`, response errors are raised.
     #
-    #   @option options [String] :ssl_ca_directory Full path of the
-    #     directory that contains the unbundled SSL certificate
+    #   @option options [String] :ssl_ca_bundle
+    #     Full path to the SSL certificate authority bundle file that should be used when
+    #     verifying peer certificates.  If you do not pass `:ssl_ca_bundle` or
+    #     `:ssl_ca_directory` the the system default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_directory
+    #     Full path of the directory that contains the unbundled SSL certificate
     #     authority files for verifying peer certificates.  If you do
-    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the
-    #     system default will be used if available.
+    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the system
+    #     default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_store
+    #     Sets the X509::Store to verify peer certificate.
+    #
+    #   @option options [OpenSSL::X509::Certificate] :ssl_cert
+    #     Sets a client certificate when creating http connections.
+    #
+    #   @option options [OpenSSL::PKey] :ssl_key
+    #     Sets a client key when creating http connections.
+    #
+    #   @option options [Float] :ssl_timeout
+    #     Sets the SSL timeout in seconds
+    #
+    #   @option options [Boolean] :ssl_verify_peer (true)
+    #     When `true`, SSL peer certificates are verified when establishing a connection.
     #
     def initialize(*args)
       super
@@ -501,27 +603,34 @@ module Aws::SNS
     # `PlatformPrincipal` and `PlatformCredential` are received from the
     # notification service.
     #
-    # * For `ADM`, `PlatformPrincipal` is `client id` and
-    #   `PlatformCredential` is `client secret`.
+    # * For ADM, `PlatformPrincipal` is `client id` and `PlatformCredential`
+    #   is `client secret`.
     #
-    # * For `Baidu`, `PlatformPrincipal` is `API key` and
-    #   `PlatformCredential` is `secret key`.
-    #
-    # * For `APNS` and `APNS_SANDBOX` using certificate credentials,
+    # * For APNS and `APNS_SANDBOX` using certificate credentials,
     #   `PlatformPrincipal` is `SSL certificate` and `PlatformCredential` is
     #   `private key`.
     #
-    # * For `APNS` and `APNS_SANDBOX` using token credentials,
+    # * For APNS and `APNS_SANDBOX` using token credentials,
     #   `PlatformPrincipal` is `signing key ID` and `PlatformCredential` is
     #   `signing key`.
     #
-    # * For `GCM` (Firebase Cloud Messaging), there is no
-    #   `PlatformPrincipal` and the `PlatformCredential` is `API key`.
+    # * For Baidu, `PlatformPrincipal` is `API key` and `PlatformCredential`
+    #   is `secret key`.
     #
-    # * For `MPNS`, `PlatformPrincipal` is `TLS certificate` and
+    # * For GCM (Firebase Cloud Messaging) using key credentials, there is
+    #   no `PlatformPrincipal`. The `PlatformCredential` is `API key`.
+    #
+    # * For GCM (Firebase Cloud Messaging) using token credentials, there is
+    #   no `PlatformPrincipal`. The `PlatformCredential` is a JSON formatted
+    #   private key file. When using the Amazon Web Services CLI, the file
+    #   must be in string format and special characters must be ignored. To
+    #   format the file correctly, Amazon SNS recommends using the following
+    #   command: `` SERVICE_JSON=`jq @json <<< cat service.json` ``.
+    #
+    # * For MPNS, `PlatformPrincipal` is `TLS certificate` and
     #   `PlatformCredential` is `private key`.
     #
-    # * For `WNS`, `PlatformPrincipal` is `Package Security Identifier` and
+    # * For WNS, `PlatformPrincipal` is `Package Security Identifier` and
     #   `PlatformCredential` is `secret key`.
     #
     # You can use the returned `PlatformApplicationArn` as an attribute for
@@ -538,7 +647,8 @@ module Aws::SNS
     #   (Firebase Cloud Messaging).
     #
     # @option params [required, Hash<String,String>] :attributes
-    #   For a list of attributes, see [SetPlatformApplicationAttributes][1].
+    #   For a list of attributes, see [ `SetPlatformApplicationAttributes`
+    #   ][1].
     #
     #
     #
@@ -594,8 +704,8 @@ module Aws::SNS
     # [2]: https://docs.aws.amazon.com/sns/latest/dg/SNSMobilePushBaiduEndpoint.html
     #
     # @option params [required, String] :platform_application_arn
-    #   PlatformApplicationArn returned from CreatePlatformApplication is used
-    #   to create a an endpoint.
+    #   `PlatformApplicationArn` returned from CreatePlatformApplication is
+    #   used to create a an endpoint.
     #
     # @option params [required, String] :token
     #   Unique identifier created by the notification service for an app on a
@@ -610,7 +720,7 @@ module Aws::SNS
     #   not use this data. The data must be in UTF-8 format and less than 2KB.
     #
     # @option params [Hash<String,String>] :attributes
-    #   For a list of attributes, see [SetEndpointAttributes][1].
+    #   For a list of attributes, see [ `SetEndpointAttributes` ][1].
     #
     #
     #
@@ -712,7 +822,7 @@ module Aws::SNS
     # @option params [Hash<String,String>] :attributes
     #   A map of attributes with their corresponding values.
     #
-    #   The following lists the names, descriptions, and values of the special
+    #   The following lists names, descriptions, and values of the special
     #   request parameters that the `CreateTopic` action uses:
     #
     #   * `DeliveryPolicy` – The policy that defines how Amazon SNS retries
@@ -739,7 +849,7 @@ module Aws::SNS
     #     segment data to topic owner account if the sampled flag in the
     #     tracing header is true. This is only supported on standard topics.
     #
-    #   The following attribute applies only to [server-side encryption][1]\:
+    #   The following attribute applies only to [server-side encryption][1]:
     #
     #   * `KmsMasterKeyId` – The ID of an Amazon Web Services managed customer
     #     master key (CMK) for Amazon SNS or a custom CMK. For more
@@ -748,9 +858,10 @@ module Aws::SNS
     #
     #   ^
     #
-    #   The following attributes apply only to [FIFO topics][4]\:
+    #   The following attributes apply only to [FIFO topics][4]:
     #
-    #   * `FifoTopic` – When this is set to `true`, a FIFO topic is created.
+    #   * `ArchivePolicy` – The policy that sets the retention period for
+    #     messages stored in the message archive of an Amazon SNS FIFO topic.
     #
     #   * `ContentBasedDeduplication` – Enables content-based deduplication
     #     for FIFO topics.
@@ -767,6 +878,22 @@ module Aws::SNS
     #       (Optional) To override the generated value, you can specify a
     #       value for the `MessageDeduplicationId` parameter for the `Publish`
     #       action.
+    #   ^
+    #
+    #   * `FifoThroughputScope` – Enables higher throughput for your FIFO
+    #     topic by adjusting the scope of deduplication. This attribute has
+    #     two possible values:
+    #
+    #     * `Topic` – The scope of message deduplication is across the entire
+    #       topic. This is the default value and maintains existing behavior,
+    #       with a maximum throughput of 3000 messages per second or 20MB per
+    #       second, whichever comes first.
+    #
+    #     * `MessageGroup` – The scope of deduplication is within each
+    #       individual message group, which enables higher throughput per
+    #       topic subject to regional quotas. For more information on quotas
+    #       or to request an increase, see [Amazon SNS service quotas][6] in
+    #       the Amazon Web Services General Reference.
     #
     #
     #
@@ -775,6 +902,7 @@ module Aws::SNS
     #   [3]: https://docs.aws.amazon.com/kms/latest/APIReference/API_DescribeKey.html#API_DescribeKey_RequestParameters
     #   [4]: https://docs.aws.amazon.com/sns/latest/dg/sns-fifo-topics.html
     #   [5]: https://docs.aws.amazon.com/sns/latest/api/API_Publish.html
+    #   [6]: https://docs.aws.amazon.com/general/latest/gr/sns.html
     #
     # @option params [Array<Types::Tag>] :tags
     #   The list of tags to add to a new topic.
@@ -838,7 +966,7 @@ module Aws::SNS
     # [1]: https://docs.aws.amazon.com/sns/latest/dg/SNSMobilePush.html
     #
     # @option params [required, String] :endpoint_arn
-    #   EndpointArn of endpoint to delete.
+    #   `EndpointArn` of endpoint to delete.
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
@@ -867,7 +995,7 @@ module Aws::SNS
     # [1]: https://docs.aws.amazon.com/sns/latest/dg/SNSMobilePush.html
     #
     # @option params [required, String] :platform_application_arn
-    #   PlatformApplicationArn of platform application object to delete.
+    #   `PlatformApplicationArn` of platform application object to delete.
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
@@ -994,7 +1122,7 @@ module Aws::SNS
     # [1]: https://docs.aws.amazon.com/sns/latest/dg/SNSMobilePush.html
     #
     # @option params [required, String] :endpoint_arn
-    #   EndpointArn for GetEndpointAttributes input.
+    #   `EndpointArn` for `GetEndpointAttributes` input.
     #
     # @return [Types::GetEndpointAttributesResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1030,7 +1158,7 @@ module Aws::SNS
     # [1]: https://docs.aws.amazon.com/sns/latest/dg/SNSMobilePush.html
     #
     # @option params [required, String] :platform_application_arn
-    #   PlatformApplicationArn for GetPlatformApplicationAttributesInput.
+    #   `PlatformApplicationArn` for GetPlatformApplicationAttributesInput.
     #
     # @return [Types::GetPlatformApplicationAttributesResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1209,12 +1337,12 @@ module Aws::SNS
     # [1]: https://docs.aws.amazon.com/sns/latest/dg/SNSMobilePush.html
     #
     # @option params [required, String] :platform_application_arn
-    #   PlatformApplicationArn for ListEndpointsByPlatformApplicationInput
+    #   `PlatformApplicationArn` for `ListEndpointsByPlatformApplicationInput`
     #   action.
     #
     # @option params [String] :next_token
-    #   NextToken string is used when calling
-    #   ListEndpointsByPlatformApplication action to retrieve additional
+    #   `NextToken` string is used when calling
+    #   `ListEndpointsByPlatformApplication` action to retrieve additional
     #   records that are available after the first page results.
     #
     # @return [Types::ListEndpointsByPlatformApplicationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
@@ -1360,9 +1488,9 @@ module Aws::SNS
     # [1]: https://docs.aws.amazon.com/sns/latest/dg/SNSMobilePush.html
     #
     # @option params [String] :next_token
-    #   NextToken string is used when calling ListPlatformApplications action
-    #   to retrieve additional records that are available after the first page
-    #   results.
+    #   `NextToken` string is used when calling `ListPlatformApplications`
+    #   action to retrieve additional records that are available after the
+    #   first page results.
     #
     # @return [Types::ListPlatformApplicationsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1742,9 +1870,8 @@ module Aws::SNS
     #   is delivered to email endpoints. This field will also be included, if
     #   present, in the standard JSON messages delivered to other endpoints.
     #
-    #   Constraints: Subjects must be ASCII text that begins with a letter,
-    #   number, or punctuation mark; must not include line breaks or control
-    #   characters; and must be less than 100 characters long.
+    #   Constraints: Subjects must be UTF-8 text with no line breaks or
+    #   control characters, and less than 100 characters long.
     #
     # @option params [String] :message_structure
     #   Set `MessageStructure` to `json` if you want to send a different
@@ -1767,25 +1894,55 @@ module Aws::SNS
     #   Message attributes for Publish action.
     #
     # @option params [String] :message_deduplication_id
-    #   This parameter applies only to FIFO (first-in-first-out) topics. The
-    #   `MessageDeduplicationId` can contain up to 128 alphanumeric characters
-    #   `(a-z, A-Z, 0-9)` and punctuation ``
-    #   (!"#$%&'()*+,-./:;<=>?@[\]^_`\{|\}~) ``.
+    #   * This parameter applies only to FIFO (first-in-first-out) topics. The
+    #     `MessageDeduplicationId` can contain up to 128 alphanumeric
+    #     characters `(a-z, A-Z, 0-9)` and punctuation ``
+    #     (!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~) ``.
     #
-    #   Every message must have a unique `MessageDeduplicationId`, which is a
-    #   token used for deduplication of sent messages. If a message with a
-    #   particular `MessageDeduplicationId` is sent successfully, any message
-    #   sent with the same `MessageDeduplicationId` during the 5-minute
-    #   deduplication interval is treated as a duplicate.
+    #   * Every message must have a unique `MessageDeduplicationId`, which is
+    #     a token used for deduplication of sent messages within the 5 minute
+    #     minimum deduplication interval.
     #
-    #   If the topic has `ContentBasedDeduplication` set, the system generates
-    #   a `MessageDeduplicationId` based on the contents of the message. Your
-    #   `MessageDeduplicationId` overrides the generated one.
+    #   * The scope of deduplication depends on the `FifoThroughputScope`
+    #     attribute, when set to `Topic` the message deduplication scope is
+    #     across the entire topic, when set to `MessageGroup` the message
+    #     deduplication scope is within each individual message group.
+    #
+    #   * If a message with a particular `MessageDeduplicationId` is sent
+    #     successfully, subsequent messages within the deduplication scope and
+    #     interval, with the same `MessageDeduplicationId`, are accepted
+    #     successfully but aren't delivered.
+    #
+    #   * Every message must have a unique `MessageDeduplicationId`:
+    #
+    #     * You may provide a `MessageDeduplicationId` explicitly.
+    #
+    #     * If you aren't able to provide a `MessageDeduplicationId` and you
+    #       enable `ContentBasedDeduplication` for your topic, Amazon SNS uses
+    #       a SHA-256 hash to generate the `MessageDeduplicationId` using the
+    #       body of the message (but not the attributes of the message).
+    #
+    #     * If you don't provide a `MessageDeduplicationId` and the topic
+    #       doesn't have `ContentBasedDeduplication` set, the action fails
+    #       with an error.
+    #
+    #     * If the topic has a `ContentBasedDeduplication` set, your
+    #       `MessageDeduplicationId` overrides the generated one.
+    #   * When `ContentBasedDeduplication` is in effect, messages with
+    #     identical content sent within the deduplication scope and interval
+    #     are treated as duplicates and only one copy of the message is
+    #     delivered.
+    #
+    #   * If you send one message with `ContentBasedDeduplication` enabled,
+    #     and then another message with a `MessageDeduplicationId` that is the
+    #     same as the one generated for the first `MessageDeduplicationId`,
+    #     the two messages are treated as duplicates, within the deduplication
+    #     scope and interval, and only one copy of the message is delivered.
     #
     # @option params [String] :message_group_id
     #   This parameter applies only to FIFO (first-in-first-out) topics. The
     #   `MessageGroupId` can contain up to 128 alphanumeric characters `(a-z,
-    #   A-Z, 0-9)` and punctuation `` (!"#$%&'()*+,-./:;<=>?@[\]^_`\{|\}~) ``.
+    #   A-Z, 0-9)` and punctuation `` (!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~) ``.
     #
     #   The `MessageGroupId` is a tag that specifies that a message belongs to
     #   a specific message group. Messages that belong to the same message
@@ -1803,7 +1960,7 @@ module Aws::SNS
     #   resp = client.publish({
     #     topic_arn: "topicARN",
     #     target_arn: "String",
-    #     phone_number: "String",
+    #     phone_number: "PhoneNumber",
     #     message: "message", # required
     #     subject: "subject",
     #     message_structure: "messageStructure",
@@ -1999,7 +2156,7 @@ module Aws::SNS
     # [1]: https://docs.aws.amazon.com/sns/latest/dg/SNSMobilePush.html
     #
     # @option params [required, String] :endpoint_arn
-    #   EndpointArn used for SetEndpointAttributes action.
+    #   EndpointArn used for `SetEndpointAttributes` action.
     #
     # @option params [required, Hash<String,String>] :attributes
     #   A map of the endpoint attributes. Attributes in this map include the
@@ -2052,7 +2209,8 @@ module Aws::SNS
     # [2]: https://docs.aws.amazon.com/sns/latest/dg/sns-msg-status.html
     #
     # @option params [required, String] :platform_application_arn
-    #   PlatformApplicationArn for SetPlatformApplicationAttributes action.
+    #   `PlatformApplicationArn` for `SetPlatformApplicationAttributes`
+    #   action.
     #
     # @option params [required, Hash<String,String>] :attributes
     #   A map of the platform application attributes. Attributes in this map
@@ -2069,8 +2227,16 @@ module Aws::SNS
     #     * For Apple Services using token credentials, `PlatformCredential`
     #       is signing key.
     #
-    #     * For GCM (Firebase Cloud Messaging), `PlatformCredential` is API
-    #       key.
+    #     * For GCM (Firebase Cloud Messaging) using key credentials, there is
+    #       no `PlatformPrincipal`. The `PlatformCredential` is `API key`.
+    #
+    #     * For GCM (Firebase Cloud Messaging) using token credentials, there
+    #       is no `PlatformPrincipal`. The `PlatformCredential` is a JSON
+    #       formatted private key file. When using the Amazon Web Services
+    #       CLI, the file must be in string format and special characters must
+    #       be ignored. To format the file correctly, Amazon SNS recommends
+    #       using the following command: `` SERVICE_JSON=`jq @json <<< cat
+    #       service.json` ``.
     #   ^
     #
     #   * `PlatformPrincipal` – The principal received from the notification
@@ -2287,7 +2453,6 @@ module Aws::SNS
     #       message attributes.
     #
     #     * `MessageBody` – The filter is applied on the message body.
-    #
     #   * `RawMessageDelivery` – When set to `true`, enables raw message
     #     delivery to Amazon SQS or HTTP/S endpoints. This eliminates the need
     #     for the endpoints to process JSON formatting, which is otherwise
@@ -2300,20 +2465,18 @@ module Aws::SNS
     #     service that powers the subscribed endpoint becomes unavailable) are
     #     held in the dead-letter queue for further analysis or reprocessing.
     #
-    #   The following attribute applies only to Amazon Kinesis Data Firehose
-    #   delivery stream subscriptions:
+    #   The following attribute applies only to Amazon Data Firehose delivery
+    #   stream subscriptions:
     #
     #   * `SubscriptionRoleArn` – The ARN of the IAM role that has the
     #     following:
     #
-    #     * Permission to write to the Kinesis Data Firehose delivery stream
+    #     * Permission to write to the Firehose delivery stream
     #
     #     * Amazon SNS listed as a trusted entity
-    #
-    #     Specifying a valid ARN for this attribute is required for Kinesis
-    #     Data Firehose delivery stream subscriptions. For more information,
-    #     see [Fanout to Kinesis Data Firehose delivery streams][1] in the
-    #     *Amazon SNS Developer Guide*.
+    #     Specifying a valid ARN for this attribute is required for Firehose
+    #     delivery stream subscriptions. For more information, see [Fanout to
+    #     Firehose delivery streams][1] in the *Amazon SNS Developer Guide*.
     #
     #
     #
@@ -2391,7 +2554,6 @@ module Aws::SNS
     #     * `HTTPFailureFeedbackRoleArn` – Indicates failed message delivery
     #       status for an Amazon SNS topic that is subscribed to an HTTP
     #       endpoint.
-    #
     #   * Amazon Kinesis Data Firehose
     #
     #     * `FirehoseSuccessFeedbackRoleArn` – Indicates successful message
@@ -2405,7 +2567,6 @@ module Aws::SNS
     #     * `FirehoseFailureFeedbackRoleArn` – Indicates failed message
     #       delivery status for an Amazon SNS topic that is subscribed to an
     #       Amazon Kinesis Data Firehose endpoint.
-    #
     #   * Lambda
     #
     #     * `LambdaSuccessFeedbackRoleArn` – Indicates successful message
@@ -2419,7 +2580,6 @@ module Aws::SNS
     #     * `LambdaFailureFeedbackRoleArn` – Indicates failed message delivery
     #       status for an Amazon SNS topic that is subscribed to an Lambda
     #       endpoint.
-    #
     #   * Platform application endpoint
     #
     #     * `ApplicationSuccessFeedbackRoleArn` – Indicates successful message
@@ -2433,7 +2593,6 @@ module Aws::SNS
     #     * `ApplicationFailureFeedbackRoleArn` – Indicates failed message
     #       delivery status for an Amazon SNS topic that is subscribed to an
     #       Amazon Web Services application endpoint.
-    #
     #     <note markdown="1"> In addition to being able to configure topic attributes for message
     #     delivery status of notification messages sent to Amazon SNS
     #     application endpoints, you can also configure application attributes
@@ -2470,7 +2629,7 @@ module Aws::SNS
     #
     #    </note>
     #
-    #   The following attribute applies only to [server-side-encryption][2]\:
+    #   The following attribute applies only to [server-side-encryption][2]:
     #
     #   * `KmsMasterKeyId` – The ID of an Amazon Web Services managed customer
     #     master key (CMK) for Amazon SNS or a custom CMK. For more
@@ -2483,7 +2642,10 @@ module Aws::SNS
     #     confirmation messages sent by Amazon SNS. By default,
     #     `SignatureVersion` is set to `1`.
     #
-    #   The following attribute applies only to [FIFO topics][5]\:
+    #   The following attribute applies only to [FIFO topics][5]:
+    #
+    #   * `ArchivePolicy` – The policy that sets the retention period for
+    #     messages stored in the message archive of an Amazon SNS FIFO topic.
     #
     #   * `ContentBasedDeduplication` – Enables content-based deduplication
     #     for FIFO topics.
@@ -2500,6 +2662,22 @@ module Aws::SNS
     #       (Optional) To override the generated value, you can specify a
     #       value for the `MessageDeduplicationId` parameter for the `Publish`
     #       action.
+    #   ^
+    #
+    #   * `FifoThroughputScope` – Enables higher throughput for your FIFO
+    #     topic by adjusting the scope of deduplication. This attribute has
+    #     two possible values:
+    #
+    #     * `Topic` – The scope of message deduplication is across the entire
+    #       topic. This is the default value and maintains existing behavior,
+    #       with a maximum throughput of 3000 messages per second or 20MB per
+    #       second, whichever comes first.
+    #
+    #     * `MessageGroup` – The scope of deduplication is within each
+    #       individual message group, which enables higher throughput per
+    #       topic subject to regional quotas. For more information on quotas
+    #       or to request an increase, see [Amazon SNS service quotas][7] in
+    #       the Amazon Web Services General Reference.
     #
     #
     #
@@ -2509,6 +2687,7 @@ module Aws::SNS
     #   [4]: https://docs.aws.amazon.com/kms/latest/APIReference/API_DescribeKey.html#API_DescribeKey_RequestParameters
     #   [5]: https://docs.aws.amazon.com/sns/latest/dg/sns-fifo-topics.html
     #   [6]: https://docs.aws.amazon.com/sns/latest/api/API_Publish.html
+    #   [7]: https://docs.aws.amazon.com/general/latest/gr/sns.html
     #
     # @option params [String] :attribute_value
     #   The new value for the attribute.
@@ -2538,7 +2717,7 @@ module Aws::SNS
     # `ConfirmSubscription` action to confirm the subscription.
     #
     # You call the `ConfirmSubscription` action with the token from the
-    # subscription response. Confirmation tokens are valid for three days.
+    # subscription response. Confirmation tokens are valid for two days.
     #
     # This action is throttled at 100 transactions per second (TPS).
     #
@@ -2617,7 +2796,6 @@ module Aws::SNS
     #       message attributes.
     #
     #     * `MessageBody` – The filter is applied on the message body.
-    #
     #   * `RawMessageDelivery` – When set to `true`, enables raw message
     #     delivery to Amazon SQS or HTTP/S endpoints. This eliminates the need
     #     for the endpoints to process JSON formatting, which is otherwise
@@ -2630,24 +2808,44 @@ module Aws::SNS
     #     service that powers the subscribed endpoint becomes unavailable) are
     #     held in the dead-letter queue for further analysis or reprocessing.
     #
-    #   The following attribute applies only to Amazon Kinesis Data Firehose
-    #   delivery stream subscriptions:
+    #   The following attribute applies only to Amazon Data Firehose delivery
+    #   stream subscriptions:
     #
     #   * `SubscriptionRoleArn` – The ARN of the IAM role that has the
     #     following:
     #
-    #     * Permission to write to the Kinesis Data Firehose delivery stream
+    #     * Permission to write to the Firehose delivery stream
     #
     #     * Amazon SNS listed as a trusted entity
+    #     Specifying a valid ARN for this attribute is required for Firehose
+    #     delivery stream subscriptions. For more information, see [Fanout to
+    #     Firehose delivery streams][1] in the *Amazon SNS Developer Guide*.
     #
-    #     Specifying a valid ARN for this attribute is required for Kinesis
-    #     Data Firehose delivery stream subscriptions. For more information,
-    #     see [Fanout to Kinesis Data Firehose delivery streams][1] in the
-    #     *Amazon SNS Developer Guide*.
+    #   The following attributes apply only to [FIFO topics][2]:
+    #
+    #   * `ReplayPolicy` – Adds or updates an inline policy document for a
+    #     subscription to replay messages stored in the specified Amazon SNS
+    #     topic.
+    #
+    #   * `ReplayStatus` – Retrieves the status of the subscription message
+    #     replay, which can be one of the following:
+    #
+    #     * `Completed` – The replay has successfully redelivered all
+    #       messages, and is now delivering newly published messages. If an
+    #       ending point was specified in the `ReplayPolicy` then the
+    #       subscription will no longer receive newly published messages.
+    #
+    #     * `In progress` – The replay is currently replaying the selected
+    #       messages.
+    #
+    #     * `Failed` – The replay was unable to complete.
+    #
+    #     * `Pending` – The default state while the replay initiates.
     #
     #
     #
     #   [1]: https://docs.aws.amazon.com/sns/latest/dg/sns-firehose-as-subscriber.html
+    #   [2]: https://docs.aws.amazon.com/sns/latest/dg/sns-fifo-topics.html
     #
     # @option params [Boolean] :return_subscription_arn
     #   Sets whether the response from the `Subscribe` request includes the
@@ -2862,14 +3060,19 @@ module Aws::SNS
     # @api private
     def build_request(operation_name, params = {})
       handlers = @handlers.for(operation_name)
+      tracer = config.telemetry_provider.tracer_provider.tracer(
+        Aws::Telemetry.module_to_tracer_name('Aws::SNS')
+      )
       context = Seahorse::Client::RequestContext.new(
         operation_name: operation_name,
         operation: config.api.operation(operation_name),
         client: self,
         params: params,
-        config: config)
+        config: config,
+        tracer: tracer
+      )
       context[:gem_name] = 'aws-sdk-sns'
-      context[:gem_version] = '1.60.0'
+      context[:gem_version] = '1.96.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

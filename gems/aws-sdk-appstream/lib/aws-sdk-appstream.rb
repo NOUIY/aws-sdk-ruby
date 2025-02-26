@@ -11,17 +11,7 @@
 require 'aws-sdk-core'
 require 'aws-sigv4'
 
-require_relative 'aws-sdk-appstream/types'
-require_relative 'aws-sdk-appstream/client_api'
-require_relative 'aws-sdk-appstream/plugins/endpoints.rb'
-require_relative 'aws-sdk-appstream/client'
-require_relative 'aws-sdk-appstream/errors'
-require_relative 'aws-sdk-appstream/waiters'
-require_relative 'aws-sdk-appstream/resource'
-require_relative 'aws-sdk-appstream/endpoint_parameters'
-require_relative 'aws-sdk-appstream/endpoint_provider'
-require_relative 'aws-sdk-appstream/endpoints'
-require_relative 'aws-sdk-appstream/customizations'
+Aws::Plugins::GlobalConfiguration.add_identifier(:appstream)
 
 # This module provides support for Amazon AppStream. This module is available in the
 # `aws-sdk-appstream` gem.
@@ -33,7 +23,7 @@ require_relative 'aws-sdk-appstream/customizations'
 # structure.
 #
 #     app_stream = Aws::AppStream::Client.new
-#     resp = app_stream.associate_application_fleet(params)
+#     resp = app_stream.associate_app_block_builder_app_block(params)
 #
 # See {Client} for more information.
 #
@@ -52,7 +42,21 @@ require_relative 'aws-sdk-appstream/customizations'
 #
 # @!group service
 module Aws::AppStream
+  autoload :Types, 'aws-sdk-appstream/types'
+  autoload :ClientApi, 'aws-sdk-appstream/client_api'
+  module Plugins
+    autoload :Endpoints, 'aws-sdk-appstream/plugins/endpoints.rb'
+  end
+  autoload :Client, 'aws-sdk-appstream/client'
+  autoload :Errors, 'aws-sdk-appstream/errors'
+  autoload :Waiters, 'aws-sdk-appstream/waiters'
+  autoload :Resource, 'aws-sdk-appstream/resource'
+  autoload :EndpointParameters, 'aws-sdk-appstream/endpoint_parameters'
+  autoload :EndpointProvider, 'aws-sdk-appstream/endpoint_provider'
+  autoload :Endpoints, 'aws-sdk-appstream/endpoints'
 
-  GEM_VERSION = '1.70.0'
+  GEM_VERSION = '1.108.0'
 
 end
+
+require_relative 'aws-sdk-appstream/customizations'

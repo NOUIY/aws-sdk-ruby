@@ -27,7 +27,9 @@ module Aws::EMRContainers
   # See {Seahorse::Client::RequestContext} for more information.
   #
   # ## Error Classes
+  # * {EKSRequestThrottledException}
   # * {InternalServerException}
+  # * {RequestThrottledException}
   # * {ResourceNotFoundException}
   # * {ValidationException}
   #
@@ -37,11 +39,41 @@ module Aws::EMRContainers
 
     extend Aws::Errors::DynamicErrors
 
+    class EKSRequestThrottledException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::EMRContainers::Types::EKSRequestThrottledException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+
+      # @return [String]
+      def message
+        @message || @data[:message]
+      end
+    end
+
     class InternalServerException < ServiceError
 
       # @param [Seahorse::Client::RequestContext] context
       # @param [String] message
       # @param [Aws::EMRContainers::Types::InternalServerException] data
+      def initialize(context, message, data = Aws::EmptyStructure.new)
+        super(context, message, data)
+      end
+
+      # @return [String]
+      def message
+        @message || @data[:message]
+      end
+    end
+
+    class RequestThrottledException < ServiceError
+
+      # @param [Seahorse::Client::RequestContext] context
+      # @param [String] message
+      # @param [Aws::EMRContainers::Types::RequestThrottledException] data
       def initialize(context, message, data = Aws::EmptyStructure.new)
         super(context, message, data)
       end

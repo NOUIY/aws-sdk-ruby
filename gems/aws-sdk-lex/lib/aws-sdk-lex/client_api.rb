@@ -7,6 +7,7 @@
 #
 # WARNING ABOUT GENERATED CODE
 
+
 module Aws::Lex
   # @api private
   module ClientApi
@@ -308,9 +309,11 @@ module Aws::Lex
 
       api.metadata = {
         "apiVersion" => "2016-11-28",
+        "auth" => ["aws.auth#sigv4"],
         "endpointPrefix" => "runtime.lex",
         "jsonVersion" => "1.1",
         "protocol" => "rest-json",
+        "protocols" => ["rest-json"],
         "serviceFullName" => "Amazon Lex Runtime Service",
         "serviceId" => "Lex Runtime Service",
         "signatureVersion" => "v4",
@@ -348,6 +351,7 @@ module Aws::Lex
         o.http_method = "POST"
         o.http_request_uri = "/bot/{botName}/alias/{botAlias}/user/{userId}/content"
         o['authtype'] = "v4-unsigned-body"
+        o['unsignedPayload'] = true
         o.input = Shapes::ShapeRef.new(shape: PostContentRequest)
         o.output = Shapes::ShapeRef.new(shape: PostContentResponse)
         o.errors << Shapes::ShapeRef.new(shape: NotFoundException)

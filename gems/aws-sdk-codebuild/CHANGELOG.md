@@ -1,6 +1,291 @@
 Unreleased Changes
 ------------------
 
+1.147.0 (2025-02-25)
+------------------
+
+* Feature - Adding "reportArns" field in output of BatchGetBuildBatches API. "reportArns" is an array that contains the ARNs of reports created by merging reports from builds associated with the batch build.
+
+1.146.0 (2025-02-20)
+------------------
+
+* Feature - Add webhook status and status message to AWS CodeBuild webhooks
+
+1.145.0 (2025-02-18)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.144.0 (2025-02-14)
+------------------
+
+* Feature - Added test suite names to test case metadata
+
+1.143.0 (2025-02-12)
+------------------
+
+* Feature - Add note for the RUNNER_BUILDKITE_BUILD buildType.
+
+1.142.0 (2025-02-06)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.141.0 (2025-01-31)
+------------------
+
+* Feature - Added support for CodeBuild self-hosted Buildkite runner builds
+
+1.140.0 (2025-01-15)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.139.0 (2025-01-09)
+------------------
+
+* Feature - AWS CodeBuild Now Supports BuildBatch in Reserved Capacity and Lambda
+
+1.138.0 (2024-11-18)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.137.0 (2024-11-12)
+------------------
+
+* Feature - AWS CodeBuild now supports non-containerized Linux and Windows builds on Reserved Capacity.
+
+1.136.0 (2024-11-06)
+------------------
+
+* Feature - AWS CodeBuild now adds additional compute types for reserved capacity fleet.
+
+1.135.0 (2024-10-25)
+------------------
+
+* Feature - AWS CodeBuild now supports automatically retrying failed builds
+
+1.134.0 (2024-10-18)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.133.0 (2024-10-15)
+------------------
+
+* Feature - Enable proxy for reserved capacity fleet.
+
+1.132.0 (2024-09-24)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.131.0 (2024-09-23)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.130.0 (2024-09-20)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.129.0 (2024-09-17)
+------------------
+
+* Feature - GitLab Enhancements - Add support for Self-Hosted GitLab runners in CodeBuild. Add group webhooks
+
+1.128.0 (2024-09-11)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.127.0 (2024-09-10)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.126.0 (2024-09-03)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.125.0 (2024-08-23)
+------------------
+
+* Feature - Added support for the MAC_ARM environment type for CodeBuild fleets.
+
+1.124.0 (2024-08-19)
+------------------
+
+* Feature - AWS CodeBuild now supports creating fleets with macOS platform for running builds.
+
+1.123.0 (2024-08-14)
+------------------
+
+* Feature - AWS CodeBuild now supports using Secrets Manager to store git credentials and using multiple source credentials in a single project.
+
+1.122.0 (2024-07-12)
+------------------
+
+* Feature - Add v2 smoke tests and smithy smokeTests trait for SDK testing.
+
+1.121.0 (2024-07-02)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.120.0 (2024-06-25)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.119.0 (2024-06-24)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.118.0 (2024-06-17)
+------------------
+
+* Feature - AWS CodeBuild now supports global and organization GitHub webhooks
+
+1.117.0 (2024-06-05)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.116.0 (2024-05-31)
+------------------
+
+* Feature - AWS CodeBuild now supports Self-hosted GitHub Actions runners for Github Enterprise
+
+1.115.0 (2024-05-29)
+------------------
+
+* Feature - AWS CodeBuild now supports manually creating GitHub webhooks
+
+1.114.0 (2024-05-17)
+------------------
+
+* Feature - Aws CodeBuild now supports 36 hours build timeout
+
+1.113.0 (2024-05-15)
+------------------
+
+* Feature - CodeBuild Reserved Capacity VPC Support
+
+1.112.0 (2024-05-13)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.111.0 (2024-04-25)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.110.0 (2024-04-11)
+------------------
+
+* Feature - Support access tokens for Bitbucket sources
+
+1.109.0 (2024-04-09)
+------------------
+
+* Feature - Add new webhook filter types for GitHub webhooks
+
+1.108.0 (2024-03-29)
+------------------
+
+* Feature - Add new fleet status code for Reserved Capacity.
+
+1.107.0 (2024-03-25)
+------------------
+
+* Feature - Supporting GitLab and GitLab Self Managed as source types in AWS CodeBuild.
+
+1.106.0 (2024-03-20)
+------------------
+
+* Feature - This release adds support for new webhook events (RELEASED and PRERELEASED) and filter types (TAG_NAME and RELEASE_NAME).
+
+1.105.0 (2024-03-15)
+------------------
+
+* Feature - AWS CodeBuild now supports overflow behavior on Reserved Capacity.
+
+1.104.0 (2024-03-08)
+------------------
+
+* Feature - This release adds support for a new webhook event: PULL_REQUEST_CLOSED.
+
+1.103.0 (2024-01-26)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.102.0 (2024-01-19)
+------------------
+
+* Feature - Release CodeBuild Reserved Capacity feature
+
+1.101.0 (2024-01-08)
+------------------
+
+* Feature - Aws CodeBuild now supports new compute type BUILD_GENERAL1_XLARGE
+
+1.100.0 (2023-11-28)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.99.0 (2023-11-22)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.98.0 (2023-11-06)
+------------------
+
+* Feature - AWS CodeBuild now supports AWS Lambda compute.
+
+1.97.0 (2023-09-27)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.96.0 (2023-09-19)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.95.0 (2023-07-11)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.94.0 (2023-07-06)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.93.0 (2023-06-28)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.92.0 (2023-06-15)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.91.0 (2023-05-31)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
 1.90.0 (2023-01-18)
 ------------------
 

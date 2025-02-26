@@ -7,33 +7,34 @@
 #
 # WARNING ABOUT GENERATED CODE
 
-require 'seahorse/client/plugins/content_length.rb'
-require 'aws-sdk-core/plugins/credentials_configuration.rb'
-require 'aws-sdk-core/plugins/logging.rb'
-require 'aws-sdk-core/plugins/param_converter.rb'
-require 'aws-sdk-core/plugins/param_validator.rb'
-require 'aws-sdk-core/plugins/user_agent.rb'
-require 'aws-sdk-core/plugins/helpful_socket_errors.rb'
-require 'aws-sdk-core/plugins/retry_errors.rb'
-require 'aws-sdk-core/plugins/global_configuration.rb'
-require 'aws-sdk-core/plugins/regional_endpoint.rb'
-require 'aws-sdk-core/plugins/endpoint_discovery.rb'
-require 'aws-sdk-core/plugins/endpoint_pattern.rb'
-require 'aws-sdk-core/plugins/response_paging.rb'
-require 'aws-sdk-core/plugins/stub_responses.rb'
-require 'aws-sdk-core/plugins/idempotency_token.rb'
-require 'aws-sdk-core/plugins/jsonvalue_converter.rb'
-require 'aws-sdk-core/plugins/client_metrics_plugin.rb'
-require 'aws-sdk-core/plugins/client_metrics_send_plugin.rb'
-require 'aws-sdk-core/plugins/transfer_encoding.rb'
-require 'aws-sdk-core/plugins/http_checksum.rb'
-require 'aws-sdk-core/plugins/checksum_algorithm.rb'
-require 'aws-sdk-core/plugins/defaults_mode.rb'
-require 'aws-sdk-core/plugins/recursion_detection.rb'
-require 'aws-sdk-core/plugins/sign.rb'
-require 'aws-sdk-core/plugins/protocols/json_rpc.rb'
-
-Aws::Plugins::GlobalConfiguration.add_identifier(:costexplorer)
+require 'seahorse/client/plugins/content_length'
+require 'aws-sdk-core/plugins/credentials_configuration'
+require 'aws-sdk-core/plugins/logging'
+require 'aws-sdk-core/plugins/param_converter'
+require 'aws-sdk-core/plugins/param_validator'
+require 'aws-sdk-core/plugins/user_agent'
+require 'aws-sdk-core/plugins/helpful_socket_errors'
+require 'aws-sdk-core/plugins/retry_errors'
+require 'aws-sdk-core/plugins/global_configuration'
+require 'aws-sdk-core/plugins/regional_endpoint'
+require 'aws-sdk-core/plugins/endpoint_discovery'
+require 'aws-sdk-core/plugins/endpoint_pattern'
+require 'aws-sdk-core/plugins/response_paging'
+require 'aws-sdk-core/plugins/stub_responses'
+require 'aws-sdk-core/plugins/idempotency_token'
+require 'aws-sdk-core/plugins/invocation_id'
+require 'aws-sdk-core/plugins/jsonvalue_converter'
+require 'aws-sdk-core/plugins/client_metrics_plugin'
+require 'aws-sdk-core/plugins/client_metrics_send_plugin'
+require 'aws-sdk-core/plugins/transfer_encoding'
+require 'aws-sdk-core/plugins/http_checksum'
+require 'aws-sdk-core/plugins/checksum_algorithm'
+require 'aws-sdk-core/plugins/request_compression'
+require 'aws-sdk-core/plugins/defaults_mode'
+require 'aws-sdk-core/plugins/recursion_detection'
+require 'aws-sdk-core/plugins/telemetry'
+require 'aws-sdk-core/plugins/sign'
+require 'aws-sdk-core/plugins/protocols/json_rpc'
 
 module Aws::CostExplorer
   # An API client for CostExplorer.  To construct a client, you need to configure a `:region` and `:credentials`.
@@ -71,20 +72,28 @@ module Aws::CostExplorer
     add_plugin(Aws::Plugins::ResponsePaging)
     add_plugin(Aws::Plugins::StubResponses)
     add_plugin(Aws::Plugins::IdempotencyToken)
+    add_plugin(Aws::Plugins::InvocationId)
     add_plugin(Aws::Plugins::JsonvalueConverter)
     add_plugin(Aws::Plugins::ClientMetricsPlugin)
     add_plugin(Aws::Plugins::ClientMetricsSendPlugin)
     add_plugin(Aws::Plugins::TransferEncoding)
     add_plugin(Aws::Plugins::HttpChecksum)
     add_plugin(Aws::Plugins::ChecksumAlgorithm)
+    add_plugin(Aws::Plugins::RequestCompression)
     add_plugin(Aws::Plugins::DefaultsMode)
     add_plugin(Aws::Plugins::RecursionDetection)
+    add_plugin(Aws::Plugins::Telemetry)
     add_plugin(Aws::Plugins::Sign)
     add_plugin(Aws::Plugins::Protocols::JsonRpc)
     add_plugin(Aws::CostExplorer::Plugins::Endpoints)
 
     # @overload initialize(options)
     #   @param [Hash] options
+    #
+    #   @option options [Array<Seahorse::Client::Plugin>] :plugins ([]])
+    #     A list of plugins to apply to the client. Each plugin is either a
+    #     class name or an instance of a plugin class.
+    #
     #   @option options [required, Aws::CredentialProvider] :credentials
     #     Your AWS credentials. This can be an instance of any one of the
     #     following classes:
@@ -119,13 +128,15 @@ module Aws::CostExplorer
     #     locations will be searched for credentials:
     #
     #     * `Aws.config[:credentials]`
-    #     * The `:access_key_id`, `:secret_access_key`, and `:session_token` options.
-    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']
+    #     * The `:access_key_id`, `:secret_access_key`, `:session_token`, and
+    #       `:account_id` options.
+    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'],
+    #       ENV['AWS_SESSION_TOKEN'], and ENV['AWS_ACCOUNT_ID']
     #     * `~/.aws/credentials`
     #     * `~/.aws/config`
     #     * EC2/ECS IMDS instance profile - When used by default, the timeouts
     #       are very aggressive. Construct and pass an instance of
-    #       `Aws::InstanceProfileCredentails` or `Aws::ECSCredentials` to
+    #       `Aws::InstanceProfileCredentials` or `Aws::ECSCredentials` to
     #       enable retries and extended timeouts. Instance profile credential
     #       fetching can be disabled by setting ENV['AWS_EC2_METADATA_DISABLED']
     #       to true.
@@ -143,6 +154,8 @@ module Aws::CostExplorer
     #     * `~/.aws/config`
     #
     #   @option options [String] :access_key_id
+    #
+    #   @option options [String] :account_id
     #
     #   @option options [Boolean] :active_endpoint_cache (false)
     #     When set to `true`, a thread polling for endpoints will be running in
@@ -190,10 +203,20 @@ module Aws::CostExplorer
     #     Set to true to disable SDK automatically adding host prefix
     #     to default service endpoint when available.
     #
-    #   @option options [String] :endpoint
-    #     The client endpoint is normally constructed from the `:region`
-    #     option. You should only configure an `:endpoint` when connecting
-    #     to test or custom endpoints. This should be a valid HTTP(S) URI.
+    #   @option options [Boolean] :disable_request_compression (false)
+    #     When set to 'true' the request body will not be compressed
+    #     for supported operations.
+    #
+    #   @option options [String, URI::HTTPS, URI::HTTP] :endpoint
+    #     Normally you should not configure the `:endpoint` option
+    #     directly. This is normally constructed from the `:region`
+    #     option. Configuring `:endpoint` is normally reserved for
+    #     connecting to test or custom endpoints. The endpoint should
+    #     be a URI formatted like:
+    #
+    #         'http://example.com'
+    #         'https://example.com'
+    #         'http://example.com:123'
     #
     #   @option options [Integer] :endpoint_cache_max_entries (1000)
     #     Used for the maximum size limit of the LRU cache storing endpoints data
@@ -209,6 +232,10 @@ module Aws::CostExplorer
     #
     #   @option options [Boolean] :endpoint_discovery (false)
     #     When set to `true`, endpoint discovery will be enabled for operations when available.
+    #
+    #   @option options [Boolean] :ignore_configured_endpoint_urls
+    #     Setting to true disables use of endpoint URLs provided via environment
+    #     variables and the shared configuration file.
     #
     #   @option options [Aws::Log::Formatter] :log_formatter (Aws::Log::Formatter.default)
     #     The log formatter.
@@ -229,6 +256,34 @@ module Aws::CostExplorer
     #   @option options [String] :profile ("default")
     #     Used when loading credentials from the shared credentials file
     #     at HOME/.aws/credentials.  When not specified, 'default' is used.
+    #
+    #   @option options [String] :request_checksum_calculation ("when_supported")
+    #     Determines when a checksum will be calculated for request payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, a checksum will be
+    #       calculated for all request payloads of operations modeled with the
+    #       `httpChecksum` trait where `requestChecksumRequired` is `true` and/or a
+    #       `requestAlgorithmMember` is modeled.
+    #     * `when_required` - When set, a checksum will only be calculated for
+    #       request payloads of operations modeled with the  `httpChecksum` trait where
+    #       `requestChecksumRequired` is `true` or where a `requestAlgorithmMember`
+    #       is modeled and supplied.
+    #
+    #   @option options [Integer] :request_min_compression_size_bytes (10240)
+    #     The minimum size in bytes that triggers compression for request
+    #     bodies. The value must be non-negative integer value between 0
+    #     and 10485780 bytes inclusive.
+    #
+    #   @option options [String] :response_checksum_validation ("when_supported")
+    #     Determines when checksum validation will be performed on response payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, checksum validation is performed on all
+    #       response payloads of operations modeled with the `httpChecksum` trait where
+    #       `responseAlgorithms` is modeled, except when no modeled checksum algorithms
+    #       are supported.
+    #     * `when_required` - When set, checksum validation is not performed on
+    #       response payloads of operations unless the checksum algorithm is supported and
+    #       the `requestValidationModeMember` member is set to `ENABLED`.
     #
     #   @option options [Proc] :retry_backoff
     #     A proc or lambda used for backoff. Defaults to 2**retries * retry_base_delay.
@@ -274,20 +329,31 @@ module Aws::CostExplorer
     #       throttling.  This is a provisional mode that may change behavior
     #       in the future.
     #
+    #   @option options [String] :sdk_ua_app_id
+    #     A unique and opaque application ID that is appended to the
+    #     User-Agent header as app/sdk_ua_app_id. It should have a
+    #     maximum length of 50. This variable is sourced from environment
+    #     variable AWS_SDK_UA_APP_ID or the shared config profile attribute sdk_ua_app_id.
     #
     #   @option options [String] :secret_access_key
     #
     #   @option options [String] :session_token
     #
+    #   @option options [Array] :sigv4a_signing_region_set
+    #     A list of regions that should be signed with SigV4a signing. When
+    #     not passed, a default `:sigv4a_signing_region_set` is searched for
+    #     in the following locations:
+    #
+    #     * `Aws.config[:sigv4a_signing_region_set]`
+    #     * `ENV['AWS_SIGV4A_SIGNING_REGION_SET']`
+    #     * `~/.aws/config`
+    #
     #   @option options [Boolean] :simple_json (false)
     #     Disables request parameter conversion, validation, and formatting.
-    #     Also disable response data type conversions. This option is useful
-    #     when you want to ensure the highest level of performance by
-    #     avoiding overhead of walking request parameters and response data
-    #     structures.
-    #
-    #     When `:simple_json` is enabled, the request parameters hash must
-    #     be formatted exactly as the DynamoDB API expects.
+    #     Also disables response data type conversions. The request parameters
+    #     hash must be formatted exactly as the API expects.This option is useful
+    #     when you want to ensure the highest level of performance by avoiding
+    #     overhead of walking request parameters and response data structures.
     #
     #   @option options [Boolean] :stub_responses (false)
     #     Causes the client to return stubbed responses. By default
@@ -297,6 +363,16 @@ module Aws::CostExplorer
     #
     #     ** Please note ** When response stubbing is enabled, no HTTP
     #     requests are made, and retries are disabled.
+    #
+    #   @option options [Aws::Telemetry::TelemetryProviderBase] :telemetry_provider (Aws::Telemetry::NoOpTelemetryProvider)
+    #     Allows you to provide a telemetry provider, which is used to
+    #     emit telemetry data. By default, uses `NoOpTelemetryProvider` which
+    #     will not record or emit any telemetry data. The SDK supports the
+    #     following telemetry providers:
+    #
+    #     * OpenTelemetry (OTel) - To use the OTel provider, install and require the
+    #     `opentelemetry-sdk` gem and then, pass in an instance of a
+    #     `Aws::Telemetry::OTelProvider` for telemetry provider.
     #
     #   @option options [Aws::TokenProvider] :token_provider
     #     A Bearer Token Provider. This can be an instance of any one of the
@@ -325,52 +401,75 @@ module Aws::CostExplorer
     #     sending the request.
     #
     #   @option options [Aws::CostExplorer::EndpointProvider] :endpoint_provider
-    #     The endpoint provider used to resolve endpoints. Any object that responds to `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to `Aws::CostExplorer::EndpointParameters`
+    #     The endpoint provider used to resolve endpoints. Any object that responds to
+    #     `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+    #     `Aws::CostExplorer::EndpointParameters`.
     #
-    #   @option options [URI::HTTP,String] :http_proxy A proxy to send
-    #     requests through.  Formatted like 'http://proxy.com:123'.
+    #   @option options [Float] :http_continue_timeout (1)
+    #     The number of seconds to wait for a 100-continue response before sending the
+    #     request body.  This option has no effect unless the request has "Expect"
+    #     header set to "100-continue".  Defaults to `nil` which  disables this
+    #     behaviour.  This value can safely be set per request on the session.
     #
-    #   @option options [Float] :http_open_timeout (15) The number of
-    #     seconds to wait when opening a HTTP session before raising a
-    #     `Timeout::Error`.
+    #   @option options [Float] :http_idle_timeout (5)
+    #     The number of seconds a connection is allowed to sit idle before it
+    #     is considered stale.  Stale connections are closed and removed from the
+    #     pool before making a request.
     #
-    #   @option options [Float] :http_read_timeout (60) The default
-    #     number of seconds to wait for response data.  This value can
-    #     safely be set per-request on the session.
+    #   @option options [Float] :http_open_timeout (15)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :http_idle_timeout (5) The number of
-    #     seconds a connection is allowed to sit idle before it is
-    #     considered stale.  Stale connections are closed and removed
-    #     from the pool before making a request.
+    #   @option options [URI::HTTP,String] :http_proxy
+    #     A proxy to send requests through.  Formatted like 'http://proxy.com:123'.
     #
-    #   @option options [Float] :http_continue_timeout (1) The number of
-    #     seconds to wait for a 100-continue response before sending the
-    #     request body.  This option has no effect unless the request has
-    #     "Expect" header set to "100-continue".  Defaults to `nil` which
-    #     disables this behaviour.  This value can safely be set per
-    #     request on the session.
+    #   @option options [Float] :http_read_timeout (60)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :ssl_timeout (nil) Sets the SSL timeout
-    #     in seconds.
+    #   @option options [Boolean] :http_wire_trace (false)
+    #     When `true`,  HTTP debug output will be sent to the `:logger`.
     #
-    #   @option options [Boolean] :http_wire_trace (false) When `true`,
-    #     HTTP debug output will be sent to the `:logger`.
+    #   @option options [Proc] :on_chunk_received
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the response body is received. It provides three arguments: the chunk,
+    #     the number of bytes received, and the total number of
+    #     bytes in the response (or nil if the server did not send a `content-length`).
     #
-    #   @option options [Boolean] :ssl_verify_peer (true) When `true`,
-    #     SSL peer certificates are verified when establishing a
-    #     connection.
+    #   @option options [Proc] :on_chunk_sent
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the request body is sent. It provides three arguments: the chunk,
+    #     the number of bytes read from the body, and the total number of
+    #     bytes in the body.
     #
-    #   @option options [String] :ssl_ca_bundle Full path to the SSL
-    #     certificate authority bundle file that should be used when
-    #     verifying peer certificates.  If you do not pass
-    #     `:ssl_ca_bundle` or `:ssl_ca_directory` the the system default
-    #     will be used if available.
+    #   @option options [Boolean] :raise_response_errors (true)
+    #     When `true`, response errors are raised.
     #
-    #   @option options [String] :ssl_ca_directory Full path of the
-    #     directory that contains the unbundled SSL certificate
+    #   @option options [String] :ssl_ca_bundle
+    #     Full path to the SSL certificate authority bundle file that should be used when
+    #     verifying peer certificates.  If you do not pass `:ssl_ca_bundle` or
+    #     `:ssl_ca_directory` the the system default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_directory
+    #     Full path of the directory that contains the unbundled SSL certificate
     #     authority files for verifying peer certificates.  If you do
-    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the
-    #     system default will be used if available.
+    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the system
+    #     default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_store
+    #     Sets the X509::Store to verify peer certificate.
+    #
+    #   @option options [OpenSSL::X509::Certificate] :ssl_cert
+    #     Sets a client certificate when creating http connections.
+    #
+    #   @option options [OpenSSL::PKey] :ssl_key
+    #     Sets a client key when creating http connections.
+    #
+    #   @option options [Float] :ssl_timeout
+    #     Sets the SSL timeout in seconds
+    #
+    #   @option options [Boolean] :ssl_verify_peer (true)
+    #     When `true`, SSL peer certificates are verified when establishing a connection.
     #
     def initialize(*args)
       super
@@ -960,8 +1059,9 @@ module Aws::CostExplorer
     #   resp.anomalies[0].root_causes[0].service #=> String
     #   resp.anomalies[0].root_causes[0].region #=> String
     #   resp.anomalies[0].root_causes[0].linked_account #=> String
-    #   resp.anomalies[0].root_causes[0].usage_type #=> String
     #   resp.anomalies[0].root_causes[0].linked_account_name #=> String
+    #   resp.anomalies[0].root_causes[0].usage_type #=> String
+    #   resp.anomalies[0].root_causes[0].impact.contribution #=> Float
     #   resp.anomalies[0].anomaly_score.max_score #=> Float
     #   resp.anomalies[0].anomaly_score.current_score #=> Float
     #   resp.anomalies[0].impact.max_impact #=> Float
@@ -1129,6 +1229,137 @@ module Aws::CostExplorer
       req.send_request(options)
     end
 
+    # Retrieves estimated usage records for hourly granularity or
+    # resource-level data at daily granularity.
+    #
+    # @option params [required, String] :granularity
+    #   How granular you want the data to be. You can enable data at hourly or
+    #   daily granularity.
+    #
+    # @option params [Array<String>] :services
+    #   The service metadata for the service or services you want to query. If
+    #   not specified, all elements are returned.
+    #
+    # @option params [required, String] :approximation_dimension
+    #   The service to evaluate for the usage records. You can choose
+    #   resource-level data at daily granularity, or hourly granularity with
+    #   or without resource-level data.
+    #
+    # @return [Types::GetApproximateUsageRecordsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetApproximateUsageRecordsResponse#services #services} => Hash&lt;String,Integer&gt;
+    #   * {Types::GetApproximateUsageRecordsResponse#total_records #total_records} => Integer
+    #   * {Types::GetApproximateUsageRecordsResponse#lookback_period #lookback_period} => Types::DateInterval
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_approximate_usage_records({
+    #     granularity: "DAILY", # required, accepts DAILY, MONTHLY, HOURLY
+    #     services: ["GenericString"],
+    #     approximation_dimension: "SERVICE", # required, accepts SERVICE, RESOURCE
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.services #=> Hash
+    #   resp.services["GenericString"] #=> Integer
+    #   resp.total_records #=> Integer
+    #   resp.lookback_period.start #=> String
+    #   resp.lookback_period.end #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ce-2017-10-25/GetApproximateUsageRecords AWS API Documentation
+    #
+    # @overload get_approximate_usage_records(params = {})
+    # @param [Hash] params ({})
+    def get_approximate_usage_records(params = {}, options = {})
+      req = build_request(:get_approximate_usage_records, params)
+      req.send_request(options)
+    end
+
+    # Retrieves a commitment purchase analysis result based on the
+    # `AnalysisId`.
+    #
+    # @option params [required, String] :analysis_id
+    #   The analysis ID that's associated with the commitment purchase
+    #   analysis.
+    #
+    # @return [Types::GetCommitmentPurchaseAnalysisResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetCommitmentPurchaseAnalysisResponse#estimated_completion_time #estimated_completion_time} => String
+    #   * {Types::GetCommitmentPurchaseAnalysisResponse#analysis_completion_time #analysis_completion_time} => String
+    #   * {Types::GetCommitmentPurchaseAnalysisResponse#analysis_started_time #analysis_started_time} => String
+    #   * {Types::GetCommitmentPurchaseAnalysisResponse#analysis_id #analysis_id} => String
+    #   * {Types::GetCommitmentPurchaseAnalysisResponse#analysis_status #analysis_status} => String
+    #   * {Types::GetCommitmentPurchaseAnalysisResponse#error_code #error_code} => String
+    #   * {Types::GetCommitmentPurchaseAnalysisResponse#analysis_details #analysis_details} => Types::AnalysisDetails
+    #   * {Types::GetCommitmentPurchaseAnalysisResponse#commitment_purchase_analysis_configuration #commitment_purchase_analysis_configuration} => Types::CommitmentPurchaseAnalysisConfiguration
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_commitment_purchase_analysis({
+    #     analysis_id: "AnalysisId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.estimated_completion_time #=> String
+    #   resp.analysis_completion_time #=> String
+    #   resp.analysis_started_time #=> String
+    #   resp.analysis_id #=> String
+    #   resp.analysis_status #=> String, one of "SUCCEEDED", "PROCESSING", "FAILED"
+    #   resp.error_code #=> String, one of "NO_USAGE_FOUND", "INTERNAL_FAILURE", "INVALID_SAVINGS_PLANS_TO_ADD", "INVALID_SAVINGS_PLANS_TO_EXCLUDE", "INVALID_ACCOUNT_ID"
+    #   resp.analysis_details.savings_plans_purchase_analysis_details.currency_code #=> String
+    #   resp.analysis_details.savings_plans_purchase_analysis_details.lookback_period_in_hours #=> String
+    #   resp.analysis_details.savings_plans_purchase_analysis_details.current_average_coverage #=> String
+    #   resp.analysis_details.savings_plans_purchase_analysis_details.current_average_hourly_on_demand_spend #=> String
+    #   resp.analysis_details.savings_plans_purchase_analysis_details.current_maximum_hourly_on_demand_spend #=> String
+    #   resp.analysis_details.savings_plans_purchase_analysis_details.current_minimum_hourly_on_demand_spend #=> String
+    #   resp.analysis_details.savings_plans_purchase_analysis_details.current_on_demand_spend #=> String
+    #   resp.analysis_details.savings_plans_purchase_analysis_details.existing_hourly_commitment #=> String
+    #   resp.analysis_details.savings_plans_purchase_analysis_details.hourly_commitment_to_purchase #=> String
+    #   resp.analysis_details.savings_plans_purchase_analysis_details.estimated_average_coverage #=> String
+    #   resp.analysis_details.savings_plans_purchase_analysis_details.estimated_average_utilization #=> String
+    #   resp.analysis_details.savings_plans_purchase_analysis_details.estimated_monthly_savings_amount #=> String
+    #   resp.analysis_details.savings_plans_purchase_analysis_details.estimated_on_demand_cost #=> String
+    #   resp.analysis_details.savings_plans_purchase_analysis_details.estimated_on_demand_cost_with_current_commitment #=> String
+    #   resp.analysis_details.savings_plans_purchase_analysis_details.estimated_roi #=> String
+    #   resp.analysis_details.savings_plans_purchase_analysis_details.estimated_savings_amount #=> String
+    #   resp.analysis_details.savings_plans_purchase_analysis_details.estimated_savings_percentage #=> String
+    #   resp.analysis_details.savings_plans_purchase_analysis_details.estimated_commitment_cost #=> String
+    #   resp.analysis_details.savings_plans_purchase_analysis_details.latest_usage_timestamp #=> String
+    #   resp.analysis_details.savings_plans_purchase_analysis_details.upfront_cost #=> String
+    #   resp.analysis_details.savings_plans_purchase_analysis_details.additional_metadata #=> String
+    #   resp.analysis_details.savings_plans_purchase_analysis_details.metrics_over_lookback_period #=> Array
+    #   resp.analysis_details.savings_plans_purchase_analysis_details.metrics_over_lookback_period[0].start_time #=> String
+    #   resp.analysis_details.savings_plans_purchase_analysis_details.metrics_over_lookback_period[0].estimated_on_demand_cost #=> String
+    #   resp.analysis_details.savings_plans_purchase_analysis_details.metrics_over_lookback_period[0].current_coverage #=> String
+    #   resp.analysis_details.savings_plans_purchase_analysis_details.metrics_over_lookback_period[0].estimated_coverage #=> String
+    #   resp.analysis_details.savings_plans_purchase_analysis_details.metrics_over_lookback_period[0].estimated_new_commitment_utilization #=> String
+    #   resp.commitment_purchase_analysis_configuration.savings_plans_purchase_analysis_configuration.account_scope #=> String, one of "PAYER", "LINKED"
+    #   resp.commitment_purchase_analysis_configuration.savings_plans_purchase_analysis_configuration.account_id #=> String
+    #   resp.commitment_purchase_analysis_configuration.savings_plans_purchase_analysis_configuration.analysis_type #=> String, one of "MAX_SAVINGS", "CUSTOM_COMMITMENT"
+    #   resp.commitment_purchase_analysis_configuration.savings_plans_purchase_analysis_configuration.savings_plans_to_add #=> Array
+    #   resp.commitment_purchase_analysis_configuration.savings_plans_purchase_analysis_configuration.savings_plans_to_add[0].payment_option #=> String, one of "NO_UPFRONT", "PARTIAL_UPFRONT", "ALL_UPFRONT", "LIGHT_UTILIZATION", "MEDIUM_UTILIZATION", "HEAVY_UTILIZATION"
+    #   resp.commitment_purchase_analysis_configuration.savings_plans_purchase_analysis_configuration.savings_plans_to_add[0].savings_plans_type #=> String, one of "COMPUTE_SP", "EC2_INSTANCE_SP", "SAGEMAKER_SP"
+    #   resp.commitment_purchase_analysis_configuration.savings_plans_purchase_analysis_configuration.savings_plans_to_add[0].region #=> String
+    #   resp.commitment_purchase_analysis_configuration.savings_plans_purchase_analysis_configuration.savings_plans_to_add[0].instance_family #=> String
+    #   resp.commitment_purchase_analysis_configuration.savings_plans_purchase_analysis_configuration.savings_plans_to_add[0].term_in_years #=> String, one of "ONE_YEAR", "THREE_YEARS"
+    #   resp.commitment_purchase_analysis_configuration.savings_plans_purchase_analysis_configuration.savings_plans_to_add[0].savings_plans_commitment #=> Float
+    #   resp.commitment_purchase_analysis_configuration.savings_plans_purchase_analysis_configuration.savings_plans_to_add[0].offering_id #=> String
+    #   resp.commitment_purchase_analysis_configuration.savings_plans_purchase_analysis_configuration.savings_plans_to_exclude #=> Array
+    #   resp.commitment_purchase_analysis_configuration.savings_plans_purchase_analysis_configuration.savings_plans_to_exclude[0] #=> String
+    #   resp.commitment_purchase_analysis_configuration.savings_plans_purchase_analysis_configuration.look_back_time_period.start #=> String
+    #   resp.commitment_purchase_analysis_configuration.savings_plans_purchase_analysis_configuration.look_back_time_period.end #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ce-2017-10-25/GetCommitmentPurchaseAnalysis AWS API Documentation
+    #
+    # @overload get_commitment_purchase_analysis(params = {})
+    # @param [Hash] params ({})
+    def get_commitment_purchase_analysis(params = {}, options = {})
+      req = build_request(:get_commitment_purchase_analysis, params)
+      req.send_request(options)
+    end
+
     # Retrieves cost and usage metrics for your account. You can specify
     # which cost and usage-related metric that you want the request to
     # return. For example, you can specify `BlendedCosts` or
@@ -1214,6 +1445,14 @@ module Aws::CostExplorer
     #   When you group by the `TAG` type and include a valid tag key, you get
     #   all tag values, including empty strings.
     #
+    # @option params [String] :billing_view_arn
+    #   The Amazon Resource Name (ARN) that uniquely identifies a specific
+    #   billing view. The ARN is used to specify which particular billing view
+    #   you want to interact with or retrieve information from when making API
+    #   calls related to Amazon Web Services Billing and Cost Management
+    #   features. The BillingViewArn can be retrieved by calling the
+    #   ListBillingViews API.
+    #
     # @option params [String] :next_page_token
     #   The token to retrieve the next set of results. Amazon Web Services
     #   provides the token when the response from a previous call has more
@@ -1271,6 +1510,7 @@ module Aws::CostExplorer
     #         key: "GroupDefinitionKey",
     #       },
     #     ],
+    #     billing_view_arn: "BillingViewArn",
     #     next_page_token: "NextPageToken",
     #   })
     #
@@ -1314,8 +1554,11 @@ module Aws::CostExplorer
     # such as `SERVICE` or `AZ`, in a specific time range. For a complete
     # list of valid dimensions, see the [GetDimensionValues][1] operation.
     # Management account in an organization in Organizations have access to
-    # all member accounts. This API is currently available for the Amazon
-    # Elastic Compute Cloud – Compute service only.
+    # all member accounts.
+    #
+    # Hourly granularity is only available for EC2-Instances (Elastic
+    # Compute Cloud) resource-level data. All other resource-level data is
+    # available at daily granularity.
     #
     # <note markdown="1"> This is an opt-in only feature. You can enable this feature from the
     # Cost Explorer Settings page. For information about how to access the
@@ -1394,6 +1637,14 @@ module Aws::CostExplorer
     #   You can group Amazon Web Services costs using up to two different
     #   groups: `DIMENSION`, `TAG`, `COST_CATEGORY`.
     #
+    # @option params [String] :billing_view_arn
+    #   The Amazon Resource Name (ARN) that uniquely identifies a specific
+    #   billing view. The ARN is used to specify which particular billing view
+    #   you want to interact with or retrieve information from when making API
+    #   calls related to Amazon Web Services Billing and Cost Management
+    #   features. The BillingViewArn can be retrieved by calling the
+    #   ListBillingViews API.
+    #
     # @option params [String] :next_page_token
     #   The token to retrieve the next set of results. Amazon Web Services
     #   provides the token when the response from a previous call has more
@@ -1451,6 +1702,7 @@ module Aws::CostExplorer
     #         key: "GroupDefinitionKey",
     #       },
     #     ],
+    #     billing_view_arn: "BillingViewArn",
     #     next_page_token: "NextPageToken",
     #   })
     #
@@ -1529,7 +1781,6 @@ module Aws::CostExplorer
     #
     #       * Specify the `Dimensions` field to define a filter that acts on
     #         the [ `DimensionValues` ][1].
-    #
     #     * For each filter type, you can set the dimension name and values
     #       for the filters that you plan to use.
     #
@@ -1539,23 +1790,21 @@ module Aws::CostExplorer
     #         Virginia)`.
     #
     #       * The corresponding `Expression` for this example is as follows:
-    #         `\{ "Dimensions": \{ "Key": "REGION", "Values": [ "us-east-1",
-    #         “us-west-1” ] \} \}`
+    #         `{ "Dimensions": { "Key": "REGION", "Values": [ "us-east-1",
+    #         "us-west-1" ] } }`
     #
     #       * As shown in the previous example, lists of dimension values are
     #         combined with `OR` when applying the filter.
-    #
     #     * You can also set different match options to further control how
     #       the filter behaves. Not all APIs support match options. Refer to
     #       the documentation for each specific API to see what is supported.
     #
     #       * For example, you can filter for linked account names that start
-    #         with “a”.
+    #         with "a".
     #
     #       * The corresponding `Expression` for this example is as follows:
-    #         `\{ "Dimensions": \{ "Key": "LINKED_ACCOUNT_NAME",
-    #         "MatchOptions": [ "STARTS_WITH" ], "Values": [ "a" ] \} \}`
-    #
+    #         `{ "Dimensions": { "Key": "LINKED_ACCOUNT_NAME", "MatchOptions":
+    #         [ "STARTS_WITH" ], "Values": [ "a" ] } }`
     #   * Compound `Expression` types with logical operations.
     #
     #     * You can use multiple `Expression` types and the logical operators
@@ -1566,17 +1815,16 @@ module Aws::CostExplorer
     #       us-west-1) OR (TAG.Type == Type1)) AND (USAGE_TYPE !=
     #       DataTransfer)`.
     #
-    #     * The corresponding `Expression` for this example is as follows: `\{
-    #       "And": [ \{"Or": [ \{"Dimensions": \{ "Key": "REGION", "Values": [
-    #       "us-east-1", "us-west-1" ] \}\}, \{"Tags": \{ "Key": "TagName",
-    #       "Values": ["Value1"] \} \} ]\}, \{"Not": \{"Dimensions": \{ "Key":
-    #       "USAGE_TYPE", "Values": ["DataTransfer"] \}\}\} ] \} `
-    #
+    #     * The corresponding `Expression` for this example is as follows: `{
+    #       "And": [ {"Or": [ {"Dimensions": { "Key": "REGION", "Values": [
+    #       "us-east-1", "us-west-1" ] }}, {"Tags": { "Key": "TagName",
+    #       "Values": ["Value1"] } } ]}, {"Not": {"Dimensions": { "Key":
+    #       "USAGE_TYPE", "Values": ["DataTransfer"] }}} ] } `
     #     <note markdown="1"> Because each `Expression` can have only one operator, the service
     #     returns an error if more than one is specified. The following
-    #     example shows an `Expression` object that creates an error: ` \{
-    #     "And": [ ... ], "Dimensions": \{ "Key": "USAGE_TYPE", "Values": [
-    #     "DataTransfer" ] \} \} `
+    #     example shows an `Expression` object that creates an error: ` {
+    #     "And": [ ... ], "Dimensions": { "Key": "USAGE_TYPE", "Values": [
+    #     "DataTransfer" ] } } `
     #
     #      The following is an example of the corresponding error message:
     #     `"Expression has more than one roots. Only one root operator is
@@ -1626,6 +1874,14 @@ module Aws::CostExplorer
     #
     #   When you use the `SortBy` value, the `NextPageToken` and
     #   `SearchString` key values aren't supported.
+    #
+    # @option params [String] :billing_view_arn
+    #   The Amazon Resource Name (ARN) that uniquely identifies a specific
+    #   billing view. The ARN is used to specify which particular billing view
+    #   you want to interact with or retrieve information from when making API
+    #   calls related to Amazon Web Services Billing and Cost Management
+    #   features. The BillingViewArn can be retrieved by calling the
+    #   ListBillingViews API.
     #
     # @option params [Integer] :max_results
     #   This field is only used when the `SortBy` value is provided in the
@@ -1696,6 +1952,7 @@ module Aws::CostExplorer
     #         sort_order: "ASCENDING", # accepts ASCENDING, DESCENDING
     #       },
     #     ],
+    #     billing_view_arn: "BillingViewArn",
     #     max_results: 1,
     #     next_page_token: "NextPageToken",
     #   })
@@ -1806,6 +2063,14 @@ module Aws::CostExplorer
     #
     #   * `SAVINGS_PLAN_ARN`
     #
+    # @option params [String] :billing_view_arn
+    #   The Amazon Resource Name (ARN) that uniquely identifies a specific
+    #   billing view. The ARN is used to specify which particular billing view
+    #   you want to interact with or retrieve information from when making API
+    #   calls related to Amazon Web Services Billing and Cost Management
+    #   features. The BillingViewArn can be retrieved by calling the
+    #   ListBillingViews API.
+    #
     # @option params [Integer] :prediction_interval_level
     #   Cost Explorer always returns the mean forecast as a single point. You
     #   can request a prediction interval around the mean by specifying a
@@ -1858,6 +2123,7 @@ module Aws::CostExplorer
     #         match_options: ["EQUALS"], # accepts EQUALS, ABSENT, STARTS_WITH, ENDS_WITH, CONTAINS, CASE_SENSITIVE, CASE_INSENSITIVE, GREATER_THAN_OR_EQUAL
     #       },
     #     },
+    #     billing_view_arn: "BillingViewArn",
     #     prediction_interval_level: 1,
     #   })
     #
@@ -1923,10 +2189,11 @@ module Aws::CostExplorer
     #     is with. Possible values are the following:
     #
     #     \- Amazon Web Services(Amazon Web Services): The entity that sells
-    #     Amazon Web Services.
+    #     Amazon Web Services services.
     #
     #     \- AISPL (Amazon Internet Services Pvt. Ltd.): The local Indian
-    #     entity that's an acting reseller for Amazon Web Services in India.
+    #     entity that's an acting reseller for Amazon Web Services services
+    #     in India.
     #
     #     \- Amazon Web Services Marketplace: The entity that supports the sale
     #     of solutions that are built on Amazon Web Services by third-party
@@ -2074,7 +2341,6 @@ module Aws::CostExplorer
     #
     #       * Specify the `Dimensions` field to define a filter that acts on
     #         the [ `DimensionValues` ][1].
-    #
     #     * For each filter type, you can set the dimension name and values
     #       for the filters that you plan to use.
     #
@@ -2084,23 +2350,21 @@ module Aws::CostExplorer
     #         Virginia)`.
     #
     #       * The corresponding `Expression` for this example is as follows:
-    #         `\{ "Dimensions": \{ "Key": "REGION", "Values": [ "us-east-1",
-    #         “us-west-1” ] \} \}`
+    #         `{ "Dimensions": { "Key": "REGION", "Values": [ "us-east-1",
+    #         "us-west-1" ] } }`
     #
     #       * As shown in the previous example, lists of dimension values are
     #         combined with `OR` when applying the filter.
-    #
     #     * You can also set different match options to further control how
     #       the filter behaves. Not all APIs support match options. Refer to
     #       the documentation for each specific API to see what is supported.
     #
     #       * For example, you can filter for linked account names that start
-    #         with “a”.
+    #         with "a".
     #
     #       * The corresponding `Expression` for this example is as follows:
-    #         `\{ "Dimensions": \{ "Key": "LINKED_ACCOUNT_NAME",
-    #         "MatchOptions": [ "STARTS_WITH" ], "Values": [ "a" ] \} \}`
-    #
+    #         `{ "Dimensions": { "Key": "LINKED_ACCOUNT_NAME", "MatchOptions":
+    #         [ "STARTS_WITH" ], "Values": [ "a" ] } }`
     #   * Compound `Expression` types with logical operations.
     #
     #     * You can use multiple `Expression` types and the logical operators
@@ -2111,17 +2375,16 @@ module Aws::CostExplorer
     #       us-west-1) OR (TAG.Type == Type1)) AND (USAGE_TYPE !=
     #       DataTransfer)`.
     #
-    #     * The corresponding `Expression` for this example is as follows: `\{
-    #       "And": [ \{"Or": [ \{"Dimensions": \{ "Key": "REGION", "Values": [
-    #       "us-east-1", "us-west-1" ] \}\}, \{"Tags": \{ "Key": "TagName",
-    #       "Values": ["Value1"] \} \} ]\}, \{"Not": \{"Dimensions": \{ "Key":
-    #       "USAGE_TYPE", "Values": ["DataTransfer"] \}\}\} ] \} `
-    #
+    #     * The corresponding `Expression` for this example is as follows: `{
+    #       "And": [ {"Or": [ {"Dimensions": { "Key": "REGION", "Values": [
+    #       "us-east-1", "us-west-1" ] }}, {"Tags": { "Key": "TagName",
+    #       "Values": ["Value1"] } } ]}, {"Not": {"Dimensions": { "Key":
+    #       "USAGE_TYPE", "Values": ["DataTransfer"] }}} ] } `
     #     <note markdown="1"> Because each `Expression` can have only one operator, the service
     #     returns an error if more than one is specified. The following
-    #     example shows an `Expression` object that creates an error: ` \{
-    #     "And": [ ... ], "Dimensions": \{ "Key": "USAGE_TYPE", "Values": [
-    #     "DataTransfer" ] \} \} `
+    #     example shows an `Expression` object that creates an error: ` {
+    #     "And": [ ... ], "Dimensions": { "Key": "USAGE_TYPE", "Values": [
+    #     "DataTransfer" ] } } `
     #
     #      The following is an example of the corresponding error message:
     #     `"Expression has more than one roots. Only one root operator is
@@ -2172,6 +2435,14 @@ module Aws::CostExplorer
     #   When you specify a `SortBy` paramater, the context must be
     #   `COST_AND_USAGE`. Further, when using `SortBy`, `NextPageToken` and
     #   `SearchString` aren't supported.
+    #
+    # @option params [String] :billing_view_arn
+    #   The Amazon Resource Name (ARN) that uniquely identifies a specific
+    #   billing view. The ARN is used to specify which particular billing view
+    #   you want to interact with or retrieve information from when making API
+    #   calls related to Amazon Web Services Billing and Cost Management
+    #   features. The BillingViewArn can be retrieved by calling the
+    #   ListBillingViews API.
     #
     # @option params [Integer] :max_results
     #   This field is only used when SortBy is provided in the request. The
@@ -2239,6 +2510,7 @@ module Aws::CostExplorer
     #         sort_order: "ASCENDING", # accepts ASCENDING, DESCENDING
     #       },
     #     ],
+    #     billing_view_arn: "BillingViewArn",
     #     max_results: 1,
     #     next_page_token: "NextPageToken",
     #   })
@@ -2399,7 +2671,7 @@ module Aws::CostExplorer
     # @option params [Types::SortDefinition] :sort_by
     #   The value by which you want to sort the data.
     #
-    #   The following values are supported for `Key`\:
+    #   The following values are supported for `Key`:
     #
     #   * `OnDemandCost`
     #
@@ -2584,7 +2856,6 @@ module Aws::CostExplorer
     #
     #       * Specify the `Dimensions` field to define a filter that acts on
     #         the [ `DimensionValues` ][1].
-    #
     #     * For each filter type, you can set the dimension name and values
     #       for the filters that you plan to use.
     #
@@ -2594,23 +2865,21 @@ module Aws::CostExplorer
     #         Virginia)`.
     #
     #       * The corresponding `Expression` for this example is as follows:
-    #         `\{ "Dimensions": \{ "Key": "REGION", "Values": [ "us-east-1",
-    #         “us-west-1” ] \} \}`
+    #         `{ "Dimensions": { "Key": "REGION", "Values": [ "us-east-1",
+    #         "us-west-1" ] } }`
     #
     #       * As shown in the previous example, lists of dimension values are
     #         combined with `OR` when applying the filter.
-    #
     #     * You can also set different match options to further control how
     #       the filter behaves. Not all APIs support match options. Refer to
     #       the documentation for each specific API to see what is supported.
     #
     #       * For example, you can filter for linked account names that start
-    #         with “a”.
+    #         with "a".
     #
     #       * The corresponding `Expression` for this example is as follows:
-    #         `\{ "Dimensions": \{ "Key": "LINKED_ACCOUNT_NAME",
-    #         "MatchOptions": [ "STARTS_WITH" ], "Values": [ "a" ] \} \}`
-    #
+    #         `{ "Dimensions": { "Key": "LINKED_ACCOUNT_NAME", "MatchOptions":
+    #         [ "STARTS_WITH" ], "Values": [ "a" ] } }`
     #   * Compound `Expression` types with logical operations.
     #
     #     * You can use multiple `Expression` types and the logical operators
@@ -2621,17 +2890,16 @@ module Aws::CostExplorer
     #       us-west-1) OR (TAG.Type == Type1)) AND (USAGE_TYPE !=
     #       DataTransfer)`.
     #
-    #     * The corresponding `Expression` for this example is as follows: `\{
-    #       "And": [ \{"Or": [ \{"Dimensions": \{ "Key": "REGION", "Values": [
-    #       "us-east-1", "us-west-1" ] \}\}, \{"Tags": \{ "Key": "TagName",
-    #       "Values": ["Value1"] \} \} ]\}, \{"Not": \{"Dimensions": \{ "Key":
-    #       "USAGE_TYPE", "Values": ["DataTransfer"] \}\}\} ] \} `
-    #
+    #     * The corresponding `Expression` for this example is as follows: `{
+    #       "And": [ {"Or": [ {"Dimensions": { "Key": "REGION", "Values": [
+    #       "us-east-1", "us-west-1" ] }}, {"Tags": { "Key": "TagName",
+    #       "Values": ["Value1"] } } ]}, {"Not": {"Dimensions": { "Key":
+    #       "USAGE_TYPE", "Values": ["DataTransfer"] }}} ] } `
     #     <note markdown="1"> Because each `Expression` can have only one operator, the service
     #     returns an error if more than one is specified. The following
-    #     example shows an `Expression` object that creates an error: ` \{
-    #     "And": [ ... ], "Dimensions": \{ "Key": "USAGE_TYPE", "Values": [
-    #     "DataTransfer" ] \} \} `
+    #     example shows an `Expression` object that creates an error: ` {
+    #     "And": [ ... ], "Dimensions": { "Key": "USAGE_TYPE", "Values": [
+    #     "DataTransfer" ] } } `
     #
     #      The following is an example of the corresponding error message:
     #     `"Expression has more than one roots. Only one root operator is
@@ -2744,6 +3012,7 @@ module Aws::CostExplorer
     #
     #   resp.metadata.recommendation_id #=> String
     #   resp.metadata.generation_timestamp #=> String
+    #   resp.metadata.additional_metadata #=> String
     #   resp.recommendations #=> Array
     #   resp.recommendations[0].account_scope #=> String, one of "PAYER", "LINKED"
     #   resp.recommendations[0].lookback_period_in_days #=> String, one of "SEVEN_DAYS", "THIRTY_DAYS", "SIXTY_DAYS"
@@ -2785,6 +3054,11 @@ module Aws::CostExplorer
     #   resp.recommendations[0].recommendation_details[0].instance_details.es_instance_details.region #=> String
     #   resp.recommendations[0].recommendation_details[0].instance_details.es_instance_details.current_generation #=> Boolean
     #   resp.recommendations[0].recommendation_details[0].instance_details.es_instance_details.size_flex_eligible #=> Boolean
+    #   resp.recommendations[0].recommendation_details[0].instance_details.memory_db_instance_details.family #=> String
+    #   resp.recommendations[0].recommendation_details[0].instance_details.memory_db_instance_details.node_type #=> String
+    #   resp.recommendations[0].recommendation_details[0].instance_details.memory_db_instance_details.region #=> String
+    #   resp.recommendations[0].recommendation_details[0].instance_details.memory_db_instance_details.current_generation #=> Boolean
+    #   resp.recommendations[0].recommendation_details[0].instance_details.memory_db_instance_details.size_flex_eligible #=> Boolean
     #   resp.recommendations[0].recommendation_details[0].recommended_number_of_instances_to_purchase #=> String
     #   resp.recommendations[0].recommendation_details[0].recommended_normalized_units_to_purchase #=> String
     #   resp.recommendations[0].recommendation_details[0].minimum_number_of_instances_used_per_hour #=> String
@@ -2802,6 +3076,12 @@ module Aws::CostExplorer
     #   resp.recommendations[0].recommendation_details[0].estimated_reservation_cost_for_lookback_period #=> String
     #   resp.recommendations[0].recommendation_details[0].upfront_cost #=> String
     #   resp.recommendations[0].recommendation_details[0].recurring_standard_monthly_cost #=> String
+    #   resp.recommendations[0].recommendation_details[0].reserved_capacity_details.dynamo_db_capacity_details.capacity_units #=> String
+    #   resp.recommendations[0].recommendation_details[0].reserved_capacity_details.dynamo_db_capacity_details.region #=> String
+    #   resp.recommendations[0].recommendation_details[0].recommended_number_of_capacity_units_to_purchase #=> String
+    #   resp.recommendations[0].recommendation_details[0].minimum_number_of_capacity_units_used_per_hour #=> String
+    #   resp.recommendations[0].recommendation_details[0].maximum_number_of_capacity_units_used_per_hour #=> String
+    #   resp.recommendations[0].recommendation_details[0].average_number_of_capacity_units_used_per_hour #=> String
     #   resp.recommendations[0].recommendation_summary.total_estimated_monthly_savings_amount #=> String
     #   resp.recommendations[0].recommendation_summary.total_estimated_monthly_savings_percentage #=> String
     #   resp.recommendations[0].recommendation_summary.currency_code #=> String
@@ -2864,6 +3144,14 @@ module Aws::CostExplorer
     #
     #   * SERVICE
     #
+    #     <note markdown="1"> If not specified, the `SERVICE` filter defaults to Amazon Elastic
+    #     Compute Cloud - Compute. Supported values for `SERVICE` are Amazon
+    #     Elastic Compute Cloud - Compute, Amazon Relational Database Service,
+    #     Amazon ElastiCache, Amazon Redshift, and Amazon Elasticsearch
+    #     Service. The value for the `SERVICE` filter should not exceed "1".
+    #
+    #      </note>
+    #
     #   * SCOPE
     #
     #   * TENANCY
@@ -2880,7 +3168,7 @@ module Aws::CostExplorer
     # @option params [Types::SortDefinition] :sort_by
     #   The value that you want to sort the data by.
     #
-    #   The following values are supported for `Key`\:
+    #   The following values are supported for `Key`:
     #
     #   * `UtilizationPercentage`
     #
@@ -3093,7 +3381,6 @@ module Aws::CostExplorer
     #
     #       * Specify the `Dimensions` field to define a filter that acts on
     #         the [ `DimensionValues` ][1].
-    #
     #     * For each filter type, you can set the dimension name and values
     #       for the filters that you plan to use.
     #
@@ -3103,23 +3390,21 @@ module Aws::CostExplorer
     #         Virginia)`.
     #
     #       * The corresponding `Expression` for this example is as follows:
-    #         `\{ "Dimensions": \{ "Key": "REGION", "Values": [ "us-east-1",
-    #         “us-west-1” ] \} \}`
+    #         `{ "Dimensions": { "Key": "REGION", "Values": [ "us-east-1",
+    #         "us-west-1" ] } }`
     #
     #       * As shown in the previous example, lists of dimension values are
     #         combined with `OR` when applying the filter.
-    #
     #     * You can also set different match options to further control how
     #       the filter behaves. Not all APIs support match options. Refer to
     #       the documentation for each specific API to see what is supported.
     #
     #       * For example, you can filter for linked account names that start
-    #         with “a”.
+    #         with "a".
     #
     #       * The corresponding `Expression` for this example is as follows:
-    #         `\{ "Dimensions": \{ "Key": "LINKED_ACCOUNT_NAME",
-    #         "MatchOptions": [ "STARTS_WITH" ], "Values": [ "a" ] \} \}`
-    #
+    #         `{ "Dimensions": { "Key": "LINKED_ACCOUNT_NAME", "MatchOptions":
+    #         [ "STARTS_WITH" ], "Values": [ "a" ] } }`
     #   * Compound `Expression` types with logical operations.
     #
     #     * You can use multiple `Expression` types and the logical operators
@@ -3130,17 +3415,16 @@ module Aws::CostExplorer
     #       us-west-1) OR (TAG.Type == Type1)) AND (USAGE_TYPE !=
     #       DataTransfer)`.
     #
-    #     * The corresponding `Expression` for this example is as follows: `\{
-    #       "And": [ \{"Or": [ \{"Dimensions": \{ "Key": "REGION", "Values": [
-    #       "us-east-1", "us-west-1" ] \}\}, \{"Tags": \{ "Key": "TagName",
-    #       "Values": ["Value1"] \} \} ]\}, \{"Not": \{"Dimensions": \{ "Key":
-    #       "USAGE_TYPE", "Values": ["DataTransfer"] \}\}\} ] \} `
-    #
+    #     * The corresponding `Expression` for this example is as follows: `{
+    #       "And": [ {"Or": [ {"Dimensions": { "Key": "REGION", "Values": [
+    #       "us-east-1", "us-west-1" ] }}, {"Tags": { "Key": "TagName",
+    #       "Values": ["Value1"] } } ]}, {"Not": {"Dimensions": { "Key":
+    #       "USAGE_TYPE", "Values": ["DataTransfer"] }}} ] } `
     #     <note markdown="1"> Because each `Expression` can have only one operator, the service
     #     returns an error if more than one is specified. The following
-    #     example shows an `Expression` object that creates an error: ` \{
-    #     "And": [ ... ], "Dimensions": \{ "Key": "USAGE_TYPE", "Values": [
-    #     "DataTransfer" ] \} \} `
+    #     example shows an `Expression` object that creates an error: ` {
+    #     "And": [ ... ], "Dimensions": { "Key": "USAGE_TYPE", "Values": [
+    #     "DataTransfer" ] } } `
     #
     #      The following is an example of the corresponding error message:
     #     `"Expression has more than one roots. Only one root operator is
@@ -3334,6 +3618,71 @@ module Aws::CostExplorer
       req.send_request(options)
     end
 
+    # Retrieves the details for a Savings Plan recommendation. These details
+    # include the hourly data-points that construct the cost, coverage, and
+    # utilization charts.
+    #
+    # @option params [required, String] :recommendation_detail_id
+    #   The ID that is associated with the Savings Plan recommendation.
+    #
+    # @return [Types::GetSavingsPlanPurchaseRecommendationDetailsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetSavingsPlanPurchaseRecommendationDetailsResponse#recommendation_detail_id #recommendation_detail_id} => String
+    #   * {Types::GetSavingsPlanPurchaseRecommendationDetailsResponse#recommendation_detail_data #recommendation_detail_data} => Types::RecommendationDetailData
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_savings_plan_purchase_recommendation_details({
+    #     recommendation_detail_id: "RecommendationDetailId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.recommendation_detail_id #=> String
+    #   resp.recommendation_detail_data.account_scope #=> String, one of "PAYER", "LINKED"
+    #   resp.recommendation_detail_data.lookback_period_in_days #=> String, one of "SEVEN_DAYS", "THIRTY_DAYS", "SIXTY_DAYS"
+    #   resp.recommendation_detail_data.savings_plans_type #=> String, one of "COMPUTE_SP", "EC2_INSTANCE_SP", "SAGEMAKER_SP"
+    #   resp.recommendation_detail_data.term_in_years #=> String, one of "ONE_YEAR", "THREE_YEARS"
+    #   resp.recommendation_detail_data.payment_option #=> String, one of "NO_UPFRONT", "PARTIAL_UPFRONT", "ALL_UPFRONT", "LIGHT_UTILIZATION", "MEDIUM_UTILIZATION", "HEAVY_UTILIZATION"
+    #   resp.recommendation_detail_data.account_id #=> String
+    #   resp.recommendation_detail_data.currency_code #=> String
+    #   resp.recommendation_detail_data.instance_family #=> String
+    #   resp.recommendation_detail_data.region #=> String
+    #   resp.recommendation_detail_data.offering_id #=> String
+    #   resp.recommendation_detail_data.generation_timestamp #=> String
+    #   resp.recommendation_detail_data.latest_usage_timestamp #=> String
+    #   resp.recommendation_detail_data.current_average_hourly_on_demand_spend #=> String
+    #   resp.recommendation_detail_data.current_maximum_hourly_on_demand_spend #=> String
+    #   resp.recommendation_detail_data.current_minimum_hourly_on_demand_spend #=> String
+    #   resp.recommendation_detail_data.estimated_average_utilization #=> String
+    #   resp.recommendation_detail_data.estimated_monthly_savings_amount #=> String
+    #   resp.recommendation_detail_data.estimated_on_demand_cost #=> String
+    #   resp.recommendation_detail_data.estimated_on_demand_cost_with_current_commitment #=> String
+    #   resp.recommendation_detail_data.estimated_roi #=> String
+    #   resp.recommendation_detail_data.estimated_sp_cost #=> String
+    #   resp.recommendation_detail_data.estimated_savings_amount #=> String
+    #   resp.recommendation_detail_data.estimated_savings_percentage #=> String
+    #   resp.recommendation_detail_data.existing_hourly_commitment #=> String
+    #   resp.recommendation_detail_data.hourly_commitment_to_purchase #=> String
+    #   resp.recommendation_detail_data.upfront_cost #=> String
+    #   resp.recommendation_detail_data.current_average_coverage #=> String
+    #   resp.recommendation_detail_data.estimated_average_coverage #=> String
+    #   resp.recommendation_detail_data.metrics_over_lookback_period #=> Array
+    #   resp.recommendation_detail_data.metrics_over_lookback_period[0].start_time #=> String
+    #   resp.recommendation_detail_data.metrics_over_lookback_period[0].estimated_on_demand_cost #=> String
+    #   resp.recommendation_detail_data.metrics_over_lookback_period[0].current_coverage #=> String
+    #   resp.recommendation_detail_data.metrics_over_lookback_period[0].estimated_coverage #=> String
+    #   resp.recommendation_detail_data.metrics_over_lookback_period[0].estimated_new_commitment_utilization #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ce-2017-10-25/GetSavingsPlanPurchaseRecommendationDetails AWS API Documentation
+    #
+    # @overload get_savings_plan_purchase_recommendation_details(params = {})
+    # @param [Hash] params ({})
+    def get_savings_plan_purchase_recommendation_details(params = {}, options = {})
+      req = build_request(:get_savings_plan_purchase_recommendation_details, params)
+      req.send_request(options)
+    end
+
     # Retrieves the Savings Plans covered for your account. This enables you
     # to see how much of your cost is covered by a Savings Plan. An
     # organization’s management account can see the coverage of the
@@ -3407,7 +3756,7 @@ module Aws::CostExplorer
     # @option params [Types::SortDefinition] :sort_by
     #   The value that you want to sort the data by.
     #
-    #   The following values are supported for `Key`\:
+    #   The following values are supported for `Key`:
     #
     #   * `SpendCoveredBySavingsPlan`
     #
@@ -3632,6 +3981,7 @@ module Aws::CostExplorer
     #   resp.savings_plans_purchase_recommendation.savings_plans_purchase_recommendation_details[0].current_minimum_hourly_on_demand_spend #=> String
     #   resp.savings_plans_purchase_recommendation.savings_plans_purchase_recommendation_details[0].current_maximum_hourly_on_demand_spend #=> String
     #   resp.savings_plans_purchase_recommendation.savings_plans_purchase_recommendation_details[0].current_average_hourly_on_demand_spend #=> String
+    #   resp.savings_plans_purchase_recommendation.savings_plans_purchase_recommendation_details[0].recommendation_detail_id #=> String
     #   resp.savings_plans_purchase_recommendation.savings_plans_purchase_recommendation_summary.estimated_roi #=> String
     #   resp.savings_plans_purchase_recommendation.savings_plans_purchase_recommendation_summary.currency_code #=> String
     #   resp.savings_plans_purchase_recommendation.savings_plans_purchase_recommendation_summary.estimated_total_cost #=> String
@@ -3705,7 +4055,7 @@ module Aws::CostExplorer
     # @option params [Types::SortDefinition] :sort_by
     #   The value that you want to sort the data by.
     #
-    #   The following values are supported for `Key`\:
+    #   The following values are supported for `Key`:
     #
     #   * `UtilizationPercentage`
     #
@@ -3858,7 +4208,7 @@ module Aws::CostExplorer
     # @option params [Types::SortDefinition] :sort_by
     #   The value that you want to sort the data by.
     #
-    #   The following values are supported for `Key`\:
+    #   The following values are supported for `Key`:
     #
     #   * `UtilizationPercentage`
     #
@@ -4005,7 +4355,6 @@ module Aws::CostExplorer
     #
     #       * Specify the `Dimensions` field to define a filter that acts on
     #         the [ `DimensionValues` ][1].
-    #
     #     * For each filter type, you can set the dimension name and values
     #       for the filters that you plan to use.
     #
@@ -4015,23 +4364,21 @@ module Aws::CostExplorer
     #         Virginia)`.
     #
     #       * The corresponding `Expression` for this example is as follows:
-    #         `\{ "Dimensions": \{ "Key": "REGION", "Values": [ "us-east-1",
-    #         “us-west-1” ] \} \}`
+    #         `{ "Dimensions": { "Key": "REGION", "Values": [ "us-east-1",
+    #         "us-west-1" ] } }`
     #
     #       * As shown in the previous example, lists of dimension values are
     #         combined with `OR` when applying the filter.
-    #
     #     * You can also set different match options to further control how
     #       the filter behaves. Not all APIs support match options. Refer to
     #       the documentation for each specific API to see what is supported.
     #
     #       * For example, you can filter for linked account names that start
-    #         with “a”.
+    #         with "a".
     #
     #       * The corresponding `Expression` for this example is as follows:
-    #         `\{ "Dimensions": \{ "Key": "LINKED_ACCOUNT_NAME",
-    #         "MatchOptions": [ "STARTS_WITH" ], "Values": [ "a" ] \} \}`
-    #
+    #         `{ "Dimensions": { "Key": "LINKED_ACCOUNT_NAME", "MatchOptions":
+    #         [ "STARTS_WITH" ], "Values": [ "a" ] } }`
     #   * Compound `Expression` types with logical operations.
     #
     #     * You can use multiple `Expression` types and the logical operators
@@ -4042,17 +4389,16 @@ module Aws::CostExplorer
     #       us-west-1) OR (TAG.Type == Type1)) AND (USAGE_TYPE !=
     #       DataTransfer)`.
     #
-    #     * The corresponding `Expression` for this example is as follows: `\{
-    #       "And": [ \{"Or": [ \{"Dimensions": \{ "Key": "REGION", "Values": [
-    #       "us-east-1", "us-west-1" ] \}\}, \{"Tags": \{ "Key": "TagName",
-    #       "Values": ["Value1"] \} \} ]\}, \{"Not": \{"Dimensions": \{ "Key":
-    #       "USAGE_TYPE", "Values": ["DataTransfer"] \}\}\} ] \} `
-    #
+    #     * The corresponding `Expression` for this example is as follows: `{
+    #       "And": [ {"Or": [ {"Dimensions": { "Key": "REGION", "Values": [
+    #       "us-east-1", "us-west-1" ] }}, {"Tags": { "Key": "TagName",
+    #       "Values": ["Value1"] } } ]}, {"Not": {"Dimensions": { "Key":
+    #       "USAGE_TYPE", "Values": ["DataTransfer"] }}} ] } `
     #     <note markdown="1"> Because each `Expression` can have only one operator, the service
     #     returns an error if more than one is specified. The following
-    #     example shows an `Expression` object that creates an error: ` \{
-    #     "And": [ ... ], "Dimensions": \{ "Key": "USAGE_TYPE", "Values": [
-    #     "DataTransfer" ] \} \} `
+    #     example shows an `Expression` object that creates an error: ` {
+    #     "And": [ ... ], "Dimensions": { "Key": "USAGE_TYPE", "Values": [
+    #     "DataTransfer" ] } } `
     #
     #      The following is an example of the corresponding error message:
     #     `"Expression has more than one roots. Only one root operator is
@@ -4101,6 +4447,14 @@ module Aws::CostExplorer
     #
     #   When you use `SortBy`, `NextPageToken` and `SearchString` aren't
     #   supported.
+    #
+    # @option params [String] :billing_view_arn
+    #   The Amazon Resource Name (ARN) that uniquely identifies a specific
+    #   billing view. The ARN is used to specify which particular billing view
+    #   you want to interact with or retrieve information from when making API
+    #   calls related to Amazon Web Services Billing and Cost Management
+    #   features. The BillingViewArn can be retrieved by calling the
+    #   ListBillingViews API.
     #
     # @option params [Integer] :max_results
     #   This field is only used when SortBy is provided in the request. The
@@ -4167,6 +4521,7 @@ module Aws::CostExplorer
     #         sort_order: "ASCENDING", # accepts ASCENDING, DESCENDING
     #       },
     #     ],
+    #     billing_view_arn: "BillingViewArn",
     #     max_results: 1,
     #     next_page_token: "NextPageToken",
     #   })
@@ -4267,6 +4622,14 @@ module Aws::CostExplorer
     #
     #   * `SAVINGS_PLAN_ARN`
     #
+    # @option params [String] :billing_view_arn
+    #   The Amazon Resource Name (ARN) that uniquely identifies a specific
+    #   billing view. The ARN is used to specify which particular billing view
+    #   you want to interact with or retrieve information from when making API
+    #   calls related to Amazon Web Services Billing and Cost Management
+    #   features. The BillingViewArn can be retrieved by calling the
+    #   ListBillingViews API.
+    #
     # @option params [Integer] :prediction_interval_level
     #   Amazon Web Services Cost Explorer always returns the mean forecast as
     #   a single point. You can request a prediction interval around the mean
@@ -4319,6 +4682,7 @@ module Aws::CostExplorer
     #         match_options: ["EQUALS"], # accepts EQUALS, ABSENT, STARTS_WITH, ENDS_WITH, CONTAINS, CASE_SENSITIVE, CASE_INSENSITIVE, GREATER_THAN_OR_EQUAL
     #       },
     #     },
+    #     billing_view_arn: "BillingViewArn",
     #     prediction_interval_level: 1,
     #   })
     #
@@ -4339,6 +4703,114 @@ module Aws::CostExplorer
     # @param [Hash] params ({})
     def get_usage_forecast(params = {}, options = {})
       req = build_request(:get_usage_forecast, params)
+      req.send_request(options)
+    end
+
+    # Lists the commitment purchase analyses for your account.
+    #
+    # @option params [String] :analysis_status
+    #   The status of the analysis.
+    #
+    # @option params [String] :next_page_token
+    #   The token to retrieve the next set of results.
+    #
+    # @option params [Integer] :page_size
+    #   The number of analyses that you want returned in a single response
+    #   object.
+    #
+    # @option params [Array<String>] :analysis_ids
+    #   The analysis IDs associated with the commitment purchase analyses.
+    #
+    # @return [Types::ListCommitmentPurchaseAnalysesResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListCommitmentPurchaseAnalysesResponse#analysis_summary_list #analysis_summary_list} => Array&lt;Types::AnalysisSummary&gt;
+    #   * {Types::ListCommitmentPurchaseAnalysesResponse#next_page_token #next_page_token} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_commitment_purchase_analyses({
+    #     analysis_status: "SUCCEEDED", # accepts SUCCEEDED, PROCESSING, FAILED
+    #     next_page_token: "NextPageToken",
+    #     page_size: 1,
+    #     analysis_ids: ["AnalysisId"],
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.analysis_summary_list #=> Array
+    #   resp.analysis_summary_list[0].estimated_completion_time #=> String
+    #   resp.analysis_summary_list[0].analysis_completion_time #=> String
+    #   resp.analysis_summary_list[0].analysis_started_time #=> String
+    #   resp.analysis_summary_list[0].analysis_status #=> String, one of "SUCCEEDED", "PROCESSING", "FAILED"
+    #   resp.analysis_summary_list[0].error_code #=> String, one of "NO_USAGE_FOUND", "INTERNAL_FAILURE", "INVALID_SAVINGS_PLANS_TO_ADD", "INVALID_SAVINGS_PLANS_TO_EXCLUDE", "INVALID_ACCOUNT_ID"
+    #   resp.analysis_summary_list[0].analysis_id #=> String
+    #   resp.analysis_summary_list[0].commitment_purchase_analysis_configuration.savings_plans_purchase_analysis_configuration.account_scope #=> String, one of "PAYER", "LINKED"
+    #   resp.analysis_summary_list[0].commitment_purchase_analysis_configuration.savings_plans_purchase_analysis_configuration.account_id #=> String
+    #   resp.analysis_summary_list[0].commitment_purchase_analysis_configuration.savings_plans_purchase_analysis_configuration.analysis_type #=> String, one of "MAX_SAVINGS", "CUSTOM_COMMITMENT"
+    #   resp.analysis_summary_list[0].commitment_purchase_analysis_configuration.savings_plans_purchase_analysis_configuration.savings_plans_to_add #=> Array
+    #   resp.analysis_summary_list[0].commitment_purchase_analysis_configuration.savings_plans_purchase_analysis_configuration.savings_plans_to_add[0].payment_option #=> String, one of "NO_UPFRONT", "PARTIAL_UPFRONT", "ALL_UPFRONT", "LIGHT_UTILIZATION", "MEDIUM_UTILIZATION", "HEAVY_UTILIZATION"
+    #   resp.analysis_summary_list[0].commitment_purchase_analysis_configuration.savings_plans_purchase_analysis_configuration.savings_plans_to_add[0].savings_plans_type #=> String, one of "COMPUTE_SP", "EC2_INSTANCE_SP", "SAGEMAKER_SP"
+    #   resp.analysis_summary_list[0].commitment_purchase_analysis_configuration.savings_plans_purchase_analysis_configuration.savings_plans_to_add[0].region #=> String
+    #   resp.analysis_summary_list[0].commitment_purchase_analysis_configuration.savings_plans_purchase_analysis_configuration.savings_plans_to_add[0].instance_family #=> String
+    #   resp.analysis_summary_list[0].commitment_purchase_analysis_configuration.savings_plans_purchase_analysis_configuration.savings_plans_to_add[0].term_in_years #=> String, one of "ONE_YEAR", "THREE_YEARS"
+    #   resp.analysis_summary_list[0].commitment_purchase_analysis_configuration.savings_plans_purchase_analysis_configuration.savings_plans_to_add[0].savings_plans_commitment #=> Float
+    #   resp.analysis_summary_list[0].commitment_purchase_analysis_configuration.savings_plans_purchase_analysis_configuration.savings_plans_to_add[0].offering_id #=> String
+    #   resp.analysis_summary_list[0].commitment_purchase_analysis_configuration.savings_plans_purchase_analysis_configuration.savings_plans_to_exclude #=> Array
+    #   resp.analysis_summary_list[0].commitment_purchase_analysis_configuration.savings_plans_purchase_analysis_configuration.savings_plans_to_exclude[0] #=> String
+    #   resp.analysis_summary_list[0].commitment_purchase_analysis_configuration.savings_plans_purchase_analysis_configuration.look_back_time_period.start #=> String
+    #   resp.analysis_summary_list[0].commitment_purchase_analysis_configuration.savings_plans_purchase_analysis_configuration.look_back_time_period.end #=> String
+    #   resp.next_page_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ce-2017-10-25/ListCommitmentPurchaseAnalyses AWS API Documentation
+    #
+    # @overload list_commitment_purchase_analyses(params = {})
+    # @param [Hash] params ({})
+    def list_commitment_purchase_analyses(params = {}, options = {})
+      req = build_request(:list_commitment_purchase_analyses, params)
+      req.send_request(options)
+    end
+
+    # Retrieves a list of your historical cost allocation tag backfill
+    # requests.
+    #
+    # @option params [String] :next_token
+    #   The token to retrieve the next set of results. Amazon Web Services
+    #   provides the token when the response from a previous call has more
+    #   results than the maximum page size.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of objects that are returned for this request.
+    #
+    # @return [Types::ListCostAllocationTagBackfillHistoryResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListCostAllocationTagBackfillHistoryResponse#backfill_requests #backfill_requests} => Array&lt;Types::CostAllocationTagBackfillRequest&gt;
+    #   * {Types::ListCostAllocationTagBackfillHistoryResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_cost_allocation_tag_backfill_history({
+    #     next_token: "NextPageToken",
+    #     max_results: 1,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.backfill_requests #=> Array
+    #   resp.backfill_requests[0].backfill_from #=> String
+    #   resp.backfill_requests[0].requested_at #=> String
+    #   resp.backfill_requests[0].completed_at #=> String
+    #   resp.backfill_requests[0].backfill_status #=> String, one of "SUCCEEDED", "PROCESSING", "FAILED"
+    #   resp.backfill_requests[0].last_updated_at #=> String
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ce-2017-10-25/ListCostAllocationTagBackfillHistory AWS API Documentation
+    #
+    # @overload list_cost_allocation_tag_backfill_history(params = {})
+    # @param [Hash] params ({})
+    def list_cost_allocation_tag_backfill_history(params = {}, options = {})
+      req = build_request(:list_cost_allocation_tag_backfill_history, params)
       req.send_request(options)
     end
 
@@ -4393,6 +4865,8 @@ module Aws::CostExplorer
     #   resp.cost_allocation_tags[0].tag_key #=> String
     #   resp.cost_allocation_tags[0].type #=> String, one of "AWSGenerated", "UserDefined"
     #   resp.cost_allocation_tags[0].status #=> String, one of "Active", "Inactive"
+    #   resp.cost_allocation_tags[0].last_updated_date #=> String
+    #   resp.cost_allocation_tags[0].last_used_date #=> String
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/ce-2017-10-25/ListCostAllocationTags AWS API Documentation
@@ -4583,6 +5057,100 @@ module Aws::CostExplorer
       req.send_request(options)
     end
 
+    # Specifies the parameters of a planned commitment purchase and starts
+    # the generation of the analysis. This enables you to estimate the cost,
+    # coverage, and utilization impact of your planned commitment purchases.
+    #
+    # @option params [required, Types::CommitmentPurchaseAnalysisConfiguration] :commitment_purchase_analysis_configuration
+    #   The configuration for the commitment purchase analysis.
+    #
+    # @return [Types::StartCommitmentPurchaseAnalysisResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::StartCommitmentPurchaseAnalysisResponse#analysis_id #analysis_id} => String
+    #   * {Types::StartCommitmentPurchaseAnalysisResponse#analysis_started_time #analysis_started_time} => String
+    #   * {Types::StartCommitmentPurchaseAnalysisResponse#estimated_completion_time #estimated_completion_time} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.start_commitment_purchase_analysis({
+    #     commitment_purchase_analysis_configuration: { # required
+    #       savings_plans_purchase_analysis_configuration: {
+    #         account_scope: "PAYER", # accepts PAYER, LINKED
+    #         account_id: "AccountId",
+    #         analysis_type: "MAX_SAVINGS", # required, accepts MAX_SAVINGS, CUSTOM_COMMITMENT
+    #         savings_plans_to_add: [ # required
+    #           {
+    #             payment_option: "NO_UPFRONT", # accepts NO_UPFRONT, PARTIAL_UPFRONT, ALL_UPFRONT, LIGHT_UTILIZATION, MEDIUM_UTILIZATION, HEAVY_UTILIZATION
+    #             savings_plans_type: "COMPUTE_SP", # accepts COMPUTE_SP, EC2_INSTANCE_SP, SAGEMAKER_SP
+    #             region: "GenericString",
+    #             instance_family: "GenericString",
+    #             term_in_years: "ONE_YEAR", # accepts ONE_YEAR, THREE_YEARS
+    #             savings_plans_commitment: 1.0,
+    #             offering_id: "GenericString",
+    #           },
+    #         ],
+    #         savings_plans_to_exclude: ["SavingsPlansId"],
+    #         look_back_time_period: { # required
+    #           start: "YearMonthDay", # required
+    #           end: "YearMonthDay", # required
+    #         },
+    #       },
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.analysis_id #=> String
+    #   resp.analysis_started_time #=> String
+    #   resp.estimated_completion_time #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ce-2017-10-25/StartCommitmentPurchaseAnalysis AWS API Documentation
+    #
+    # @overload start_commitment_purchase_analysis(params = {})
+    # @param [Hash] params ({})
+    def start_commitment_purchase_analysis(params = {}, options = {})
+      req = build_request(:start_commitment_purchase_analysis, params)
+      req.send_request(options)
+    end
+
+    # Request a cost allocation tag backfill. This will backfill the
+    # activation status (either `active` or `inactive`) for all tag keys
+    # from `para:BackfillFrom` up to the when this request is made.
+    #
+    # You can request a backfill once every 24 hours.
+    #
+    # @option params [required, String] :backfill_from
+    #   The date you want the backfill to start from. The date can only be a
+    #   first day of the month (a billing start date). Dates can't precede
+    #   the previous twelve months, or in the future.
+    #
+    # @return [Types::StartCostAllocationTagBackfillResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::StartCostAllocationTagBackfillResponse#backfill_request #backfill_request} => Types::CostAllocationTagBackfillRequest
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.start_cost_allocation_tag_backfill({
+    #     backfill_from: "ZonedDateTime", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.backfill_request.backfill_from #=> String
+    #   resp.backfill_request.requested_at #=> String
+    #   resp.backfill_request.completed_at #=> String
+    #   resp.backfill_request.backfill_status #=> String, one of "SUCCEEDED", "PROCESSING", "FAILED"
+    #   resp.backfill_request.last_updated_at #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ce-2017-10-25/StartCostAllocationTagBackfill AWS API Documentation
+    #
+    # @overload start_cost_allocation_tag_backfill(params = {})
+    # @param [Hash] params ({})
+    def start_cost_allocation_tag_backfill(params = {}, options = {})
+      req = build_request(:start_cost_allocation_tag_backfill, params)
+      req.send_request(options)
+    end
+
     # Requests a Savings Plans recommendation generation. This enables you
     # to calculate a fresh set of Savings Plans recommendations that takes
     # your latest usage data and current Savings Plans inventory into
@@ -4751,7 +5319,18 @@ module Aws::CostExplorer
       req.send_request(options)
     end
 
-    # Updates an existing cost anomaly monitor subscription.
+    # Updates an existing cost anomaly subscription. Specify the fields that
+    # you want to update. Omitted fields are unchanged.
+    #
+    # <note markdown="1"> The JSON below describes the generic construct for each type. See
+    # [Request Parameters][1] for possible values as they apply to
+    # `AnomalySubscription`.
+    #
+    #  </note>
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_UpdateAnomalySubscription.html#API_UpdateAnomalySubscription_RequestParameters
     #
     # @option params [required, String] :subscription_arn
     #   A cost anomaly subscription Amazon Resource Name (ARN).
@@ -4764,6 +5343,8 @@ module Aws::CostExplorer
     #   This field has been deprecated. To update a threshold, use
     #   ThresholdExpression. Continued use of Threshold will be treated as
     #   shorthand syntax for a ThresholdExpression.
+    #
+    #   You can specify either Threshold or ThresholdExpression, but not both.
     #
     # @option params [String] :frequency
     #   The update to the frequency value that subscribers receive
@@ -4782,38 +5363,41 @@ module Aws::CostExplorer
     #   The update to the [Expression][1] object used to specify the anomalies
     #   that you want to generate alerts for. This supports dimensions and
     #   nested expressions. The supported dimensions are
-    #   `ANOMALY_TOTAL_IMPACT_ABSOLUTE` and `ANOMALY_TOTAL_IMPACT_PERCENTAGE`.
-    #   The supported nested expression types are `AND` and `OR`. The match
-    #   option `GREATER_THAN_OR_EQUAL` is required. Values must be numbers
-    #   between 0 and 10,000,000,000.
+    #   `ANOMALY_TOTAL_IMPACT_ABSOLUTE` and `ANOMALY_TOTAL_IMPACT_PERCENTAGE`,
+    #   corresponding to an anomaly’s TotalImpact and TotalImpactPercentage,
+    #   respectively (see [Impact][2] for more details). The supported nested
+    #   expression types are `AND` and `OR`. The match option
+    #   `GREATER_THAN_OR_EQUAL` is required. Values must be numbers between 0
+    #   and 10,000,000,000 in string format.
+    #
+    #   You can specify either Threshold or ThresholdExpression, but not both.
     #
     #   The following are examples of valid ThresholdExpressions:
     #
-    #   * Absolute threshold: `\{ "Dimensions": \{ "Key":
+    #   * Absolute threshold: `{ "Dimensions": { "Key":
     #     "ANOMALY_TOTAL_IMPACT_ABSOLUTE", "MatchOptions": [
-    #     "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] \} \}`
+    #     "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } }`
     #
-    #   * Percentage threshold: `\{ "Dimensions": \{ "Key":
+    #   * Percentage threshold: `{ "Dimensions": { "Key":
     #     "ANOMALY_TOTAL_IMPACT_PERCENTAGE", "MatchOptions": [
-    #     "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] \} \}`
+    #     "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } }`
     #
-    #   * `AND` two thresholds together: `\{ "And": [ \{ "Dimensions": \{
-    #     "Key": "ANOMALY_TOTAL_IMPACT_ABSOLUTE", "MatchOptions": [
-    #     "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] \} \}, \{
-    #     "Dimensions": \{ "Key": "ANOMALY_TOTAL_IMPACT_PERCENTAGE",
-    #     "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] \}
-    #     \} ] \}`
-    #
-    #   * `OR` two thresholds together: `\{ "Or": [ \{ "Dimensions": \{ "Key":
+    #   * `AND` two thresholds together: `{ "And": [ { "Dimensions": { "Key":
     #     "ANOMALY_TOTAL_IMPACT_ABSOLUTE", "MatchOptions": [
-    #     "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] \} \}, \{
-    #     "Dimensions": \{ "Key": "ANOMALY_TOTAL_IMPACT_PERCENTAGE",
-    #     "MatchOptions": [ "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] \}
-    #     \} ] \}`
+    #     "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } }, { "Dimensions":
+    #     { "Key": "ANOMALY_TOTAL_IMPACT_PERCENTAGE", "MatchOptions": [
+    #     "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } } ] }`
+    #
+    #   * `OR` two thresholds together: `{ "Or": [ { "Dimensions": { "Key":
+    #     "ANOMALY_TOTAL_IMPACT_ABSOLUTE", "MatchOptions": [
+    #     "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } }, { "Dimensions":
+    #     { "Key": "ANOMALY_TOTAL_IMPACT_PERCENTAGE", "MatchOptions": [
+    #     "GREATER_THAN_OR_EQUAL" ], "Values": [ "100" ] } } ] }`
     #
     #
     #
     #   [1]: https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Expression.html
+    #   [2]: https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Impact.html
     #
     # @return [Types::UpdateAnomalySubscriptionResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -5039,14 +5623,19 @@ module Aws::CostExplorer
     # @api private
     def build_request(operation_name, params = {})
       handlers = @handlers.for(operation_name)
+      tracer = config.telemetry_provider.tracer_provider.tracer(
+        Aws::Telemetry.module_to_tracer_name('Aws::CostExplorer')
+      )
       context = Seahorse::Client::RequestContext.new(
         operation_name: operation_name,
         operation: config.api.operation(operation_name),
         client: self,
         params: params,
-        config: config)
+        config: config,
+        tracer: tracer
+      )
       context[:gem_name] = 'aws-sdk-costexplorer'
-      context[:gem_version] = '1.83.0'
+      context[:gem_version] = '1.121.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

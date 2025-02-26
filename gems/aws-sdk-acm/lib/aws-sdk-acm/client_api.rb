@@ -7,6 +7,7 @@
 #
 # WARNING ABOUT GENERATED CODE
 
+
 module Aws::ACM
   # @api private
   module ClientApi
@@ -389,9 +390,11 @@ module Aws::ACM
 
       api.metadata = {
         "apiVersion" => "2015-12-08",
+        "auth" => ["aws.auth#sigv4"],
         "endpointPrefix" => "acm",
         "jsonVersion" => "1.1",
         "protocol" => "json",
+        "protocols" => ["json"],
         "serviceAbbreviation" => "ACM",
         "serviceFullName" => "AWS Certificate Manager",
         "serviceId" => "ACM",

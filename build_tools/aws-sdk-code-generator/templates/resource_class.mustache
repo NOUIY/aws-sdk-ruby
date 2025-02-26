@@ -213,7 +213,9 @@ module {{module_name}}
           :retry
         end
       end
-      Aws::Waiters::Waiter.new(options).wait({})
+      Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        Aws::Waiters::Waiter.new(options).wait({})
+      end
     end
     {{/wait_until}}
     {{#actions?}}
@@ -302,3 +304,8 @@ module {{module_name}}
     {{/batch_actions?}}
   end
 end
+{{#customization_file_exists?}}
+
+# Load customizations if they exist
+require '{{resource_customization}}'
+{{/customization_file_exists?}}

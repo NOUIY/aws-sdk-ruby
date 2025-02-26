@@ -121,6 +121,59 @@ module Aws::Outposts
       include Aws::Structure
     end
 
+    # An Amazon EC2 instance.
+    #
+    # @!attribute [rw] instance_id
+    #   The ID of the instance.
+    #   @return [String]
+    #
+    # @!attribute [rw] instance_type
+    #   The type of instance.
+    #   @return [String]
+    #
+    # @!attribute [rw] asset_id
+    #   The ID of the asset.
+    #   @return [String]
+    #
+    # @!attribute [rw] account_id
+    #   The ID of the Amazon Web Services account.
+    #   @return [String]
+    #
+    # @!attribute [rw] aws_service_name
+    #   The Amazon Web Services service name of the instance.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/outposts-2019-12-03/AssetInstance AWS API Documentation
+    #
+    class AssetInstance < Struct.new(
+      :instance_id,
+      :instance_type,
+      :asset_id,
+      :account_id,
+      :aws_service_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The capacity for each instance type.
+    #
+    # @!attribute [rw] instance_type
+    #   The type of instance.
+    #   @return [String]
+    #
+    # @!attribute [rw] count
+    #   The number of each instance type.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/outposts-2019-12-03/AssetInstanceTypeCapacity AWS API Documentation
+    #
+    class AssetInstanceTypeCapacity < Struct.new(
+      :instance_type,
+      :count)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Information about the position of the asset in a rack.
     #
     # @!attribute [rw] rack_elevation
@@ -134,6 +187,54 @@ module Aws::Outposts
       SENSITIVE = []
       include Aws::Structure
     end
+
+    # A running Amazon EC2 instance that can be stopped to free up capacity
+    # needed to run the capacity task.
+    #
+    # @!attribute [rw] instance_id
+    #   The ID of the blocking instance.
+    #   @return [String]
+    #
+    # @!attribute [rw] account_id
+    #   The ID of the Amazon Web Services account.
+    #   @return [String]
+    #
+    # @!attribute [rw] aws_service_name
+    #   The Amazon Web Services service name that owns the specified
+    #   blocking instance.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/outposts-2019-12-03/BlockingInstance AWS API Documentation
+    #
+    class BlockingInstance < Struct.new(
+      :instance_id,
+      :account_id,
+      :aws_service_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] capacity_task_id
+    #   ID of the capacity task that you want to cancel.
+    #   @return [String]
+    #
+    # @!attribute [rw] outpost_identifier
+    #   ID or ARN of the Outpost associated with the capacity task that you
+    #   want to cancel.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/outposts-2019-12-03/CancelCapacityTaskInput AWS API Documentation
+    #
+    class CancelCapacityTaskInput < Struct.new(
+      :capacity_task_id,
+      :outpost_identifier)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @see http://docs.aws.amazon.com/goto/WebAPI/outposts-2019-12-03/CancelCapacityTaskOutput AWS API Documentation
+    #
+    class CancelCapacityTaskOutput < Aws::EmptyStructure; end
 
     # @!attribute [rw] order_id
     #   The ID of the order.
@@ -150,6 +251,70 @@ module Aws::Outposts
     # @see http://docs.aws.amazon.com/goto/WebAPI/outposts-2019-12-03/CancelOrderOutput AWS API Documentation
     #
     class CancelOrderOutput < Aws::EmptyStructure; end
+
+    # The capacity tasks that failed.
+    #
+    # @!attribute [rw] reason
+    #   The reason that the specified capacity task failed.
+    #   @return [String]
+    #
+    # @!attribute [rw] type
+    #   The type of failure.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/outposts-2019-12-03/CapacityTaskFailure AWS API Documentation
+    #
+    class CapacityTaskFailure < Struct.new(
+      :reason,
+      :type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The summary of the capacity task.
+    #
+    # @!attribute [rw] capacity_task_id
+    #   The ID of the specified capacity task.
+    #   @return [String]
+    #
+    # @!attribute [rw] outpost_id
+    #   The ID of the Outpost associated with the specified capacity task.
+    #   @return [String]
+    #
+    # @!attribute [rw] order_id
+    #   The ID of the Amazon Web Services Outposts order of the host
+    #   associated with the capacity task.
+    #   @return [String]
+    #
+    # @!attribute [rw] capacity_task_status
+    #   The status of the capacity task.
+    #   @return [String]
+    #
+    # @!attribute [rw] creation_date
+    #   The date that the specified capacity task was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] completion_date
+    #   The date that the specified capacity task successfully ran.
+    #   @return [Time]
+    #
+    # @!attribute [rw] last_modified_date
+    #   The date that the specified capacity was last modified.
+    #   @return [Time]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/outposts-2019-12-03/CapacityTaskSummary AWS API Documentation
+    #
+    class CapacityTaskSummary < Struct.new(
+      :capacity_task_id,
+      :outpost_id,
+      :order_id,
+      :capacity_task_status,
+      :creation_date,
+      :completion_date,
+      :last_modified_date)
+      SENSITIVE = []
+      include Aws::Structure
+    end
 
     # Information about a catalog item.
     #
@@ -218,11 +383,28 @@ module Aws::Outposts
     #     asset can be replaced.
     #   @return [String]
     #
+    # @!attribute [rw] instance_families
+    #   A list of the names of instance families that are currently
+    #   associated with a given asset.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] instance_type_capacities
+    #   The instance type capacities configured for this asset. This can be
+    #   changed through a capacity task.
+    #   @return [Array<Types::AssetInstanceTypeCapacity>]
+    #
+    # @!attribute [rw] max_vcpus
+    #   The maximum number of vCPUs possible for the specified asset.
+    #   @return [Integer]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/outposts-2019-12-03/ComputeAttributes AWS API Documentation
     #
     class ComputeAttributes < Struct.new(
       :host_id,
-      :state)
+      :state,
+      :instance_families,
+      :instance_type_capacities,
+      :max_vcpus)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -449,7 +631,7 @@ module Aws::Outposts
     end
 
     # @!attribute [rw] outpost_id
-    #   The ID or the Amazon Resource Name (ARN) of the Outpost.
+    #   The ID or ARN of the Outpost.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/outposts-2019-12-03/DeleteOutpostInput AWS API Documentation
@@ -500,6 +682,113 @@ module Aws::Outposts
       :family,
       :max_size,
       :quantity)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] capacity_task_id
+    #   ID of the capacity task.
+    #   @return [String]
+    #
+    # @!attribute [rw] outpost_identifier
+    #   ID or ARN of the Outpost associated with the specified capacity
+    #   task.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/outposts-2019-12-03/GetCapacityTaskInput AWS API Documentation
+    #
+    class GetCapacityTaskInput < Struct.new(
+      :capacity_task_id,
+      :outpost_identifier)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] capacity_task_id
+    #   ID of the capacity task.
+    #   @return [String]
+    #
+    # @!attribute [rw] outpost_id
+    #   ID of the Outpost associated with the specified capacity task.
+    #   @return [String]
+    #
+    # @!attribute [rw] order_id
+    #   ID of the Amazon Web Services Outposts order associated with the
+    #   specified capacity task.
+    #   @return [String]
+    #
+    # @!attribute [rw] requested_instance_pools
+    #   List of instance pools requested in the capacity task.
+    #   @return [Array<Types::InstanceTypeCapacity>]
+    #
+    # @!attribute [rw] instances_to_exclude
+    #   Instances that the user specified they cannot stop in order to free
+    #   up the capacity needed to run the capacity task.
+    #   @return [Types::InstancesToExclude]
+    #
+    # @!attribute [rw] dry_run
+    #   Performs a dry run to determine if you are above or below instance
+    #   capacity.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] capacity_task_status
+    #   Status of the capacity task.
+    #
+    #   A capacity task can have one of the following statuses:
+    #
+    #   * `REQUESTED` - The capacity task was created and is awaiting the
+    #     next step by Amazon Web Services Outposts.
+    #
+    #   * `IN_PROGRESS` - The capacity task is running and cannot be
+    #     cancelled.
+    #
+    #   * `WAITING_FOR_EVACUATION` - The capacity task requires capacity to
+    #     run. You must stop the recommended EC2 running instances to free
+    #     up capacity for the task to run.
+    #   @return [String]
+    #
+    # @!attribute [rw] failed
+    #   Reason why the capacity task failed.
+    #   @return [Types::CapacityTaskFailure]
+    #
+    # @!attribute [rw] creation_date
+    #   The date the capacity task was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] completion_date
+    #   The date the capacity task ran successfully.
+    #   @return [Time]
+    #
+    # @!attribute [rw] last_modified_date
+    #   The date the capacity task was last modified.
+    #   @return [Time]
+    #
+    # @!attribute [rw] task_action_on_blocking_instances
+    #   User-specified option in case an instance is blocking the capacity
+    #   task from running. Shows one of the following options:
+    #
+    #   * `WAIT_FOR_EVACUATION` - Checks every 10 minutes over 48 hours to
+    #     determine if instances have stopped and capacity is available to
+    #     complete the task.
+    #
+    #   * `FAIL_TASK` - The capacity task fails.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/outposts-2019-12-03/GetCapacityTaskOutput AWS API Documentation
+    #
+    class GetCapacityTaskOutput < Struct.new(
+      :capacity_task_id,
+      :outpost_id,
+      :order_id,
+      :requested_instance_pools,
+      :instances_to_exclude,
+      :dry_run,
+      :capacity_task_status,
+      :failed,
+      :creation_date,
+      :completion_date,
+      :last_modified_date,
+      :task_action_on_blocking_instances)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -582,7 +871,7 @@ module Aws::Outposts
     end
 
     # @!attribute [rw] outpost_id
-    #   The ID or the Amazon Resource Name (ARN) of the Outpost.
+    #   The ID or ARN of the Outpost.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/outposts-2019-12-03/GetOutpostInput AWS API Documentation
@@ -594,7 +883,7 @@ module Aws::Outposts
     end
 
     # @!attribute [rw] outpost_id
-    #   The ID or the Amazon Resource Name (ARN) of the Outpost.
+    #   The ID or ARN of the Outpost.
     #   @return [String]
     #
     # @!attribute [rw] next_token
@@ -650,6 +939,50 @@ module Aws::Outposts
     #
     class GetOutpostOutput < Struct.new(
       :outpost)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] outpost_identifier
+    #   The ID or ARN of the Outpost.
+    #   @return [String]
+    #
+    # @!attribute [rw] order_id
+    #   The ID for the Amazon Web Services Outposts order.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum page size.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   The pagination token.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/outposts-2019-12-03/GetOutpostSupportedInstanceTypesInput AWS API Documentation
+    #
+    class GetOutpostSupportedInstanceTypesInput < Struct.new(
+      :outpost_identifier,
+      :order_id,
+      :max_results,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] instance_types
+    #   Information about the instance types.
+    #   @return [Array<Types::InstanceTypeItem>]
+    #
+    # @!attribute [rw] next_token
+    #   The pagination token.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/outposts-2019-12-03/GetOutpostSupportedInstanceTypesOutput AWS API Documentation
+    #
+    class GetOutpostSupportedInstanceTypesOutput < Struct.new(
+      :instance_types,
+      :next_token)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -717,16 +1050,69 @@ module Aws::Outposts
       include Aws::Structure
     end
 
+    # The instance type that you specify determines the combination of CPU,
+    # memory, storage, and networking capacity.
+    #
+    # @!attribute [rw] instance_type
+    #   The instance type of the hosts.
+    #   @return [String]
+    #
+    # @!attribute [rw] count
+    #   The number of instances for the specified instance type.
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/outposts-2019-12-03/InstanceTypeCapacity AWS API Documentation
+    #
+    class InstanceTypeCapacity < Struct.new(
+      :instance_type,
+      :count)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Information about an instance type.
     #
     # @!attribute [rw] instance_type
     #   The instance type.
     #   @return [String]
     #
+    # @!attribute [rw] vcp_us
+    #   The number of default VCPUs in an instance type.
+    #   @return [Integer]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/outposts-2019-12-03/InstanceTypeItem AWS API Documentation
     #
     class InstanceTypeItem < Struct.new(
-      :instance_type)
+      :instance_type,
+      :vcp_us)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # User-specified instances that must not be stopped. These instances
+    # will not appear in the list of instances that Amazon Web Services
+    # recommends to stop in order to free up capacity.
+    #
+    # @!attribute [rw] instances
+    #   List of user-specified instances that must not be stopped.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] account_ids
+    #   IDs of the accounts that own each instance that must not be stopped.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] services
+    #   Names of the services that own each instance that must not be
+    #   stopped in order to free up the capacity needed to run the capacity
+    #   task.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/outposts-2019-12-03/InstancesToExclude AWS API Documentation
+    #
+    class InstancesToExclude < Struct.new(
+      :instances,
+      :account_ids,
+      :services)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -832,6 +1218,66 @@ module Aws::Outposts
     end
 
     # @!attribute [rw] outpost_identifier
+    #   The ID of the Outpost.
+    #   @return [String]
+    #
+    # @!attribute [rw] asset_id_filter
+    #   Filters the results by asset ID.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] instance_type_filter
+    #   Filters the results by instance ID.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] account_id_filter
+    #   Filters the results by account ID.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] aws_service_filter
+    #   Filters the results by Amazon Web Services service.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum page size.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   The pagination token.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/outposts-2019-12-03/ListAssetInstancesInput AWS API Documentation
+    #
+    class ListAssetInstancesInput < Struct.new(
+      :outpost_identifier,
+      :asset_id_filter,
+      :instance_type_filter,
+      :account_id_filter,
+      :aws_service_filter,
+      :max_results,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] asset_instances
+    #   List of instances owned by all accounts on the Outpost. Does not
+    #   include Amazon EBS or Amazon S3 instances.
+    #   @return [Array<Types::AssetInstance>]
+    #
+    # @!attribute [rw] next_token
+    #   The pagination token.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/outposts-2019-12-03/ListAssetInstancesOutput AWS API Documentation
+    #
+    class ListAssetInstancesOutput < Struct.new(
+      :asset_instances,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] outpost_identifier
     #   The ID or the Amazon Resource Name (ARN) of the Outpost.
     #   @return [String]
     #
@@ -875,6 +1321,98 @@ module Aws::Outposts
     #
     class ListAssetsOutput < Struct.new(
       :assets,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] outpost_identifier
+    #   The ID or ARN of the Outpost associated with the specified capacity
+    #   task.
+    #   @return [String]
+    #
+    # @!attribute [rw] capacity_task_id
+    #   The ID of the capacity task.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum page size.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   The pagination token.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/outposts-2019-12-03/ListBlockingInstancesForCapacityTaskInput AWS API Documentation
+    #
+    class ListBlockingInstancesForCapacityTaskInput < Struct.new(
+      :outpost_identifier,
+      :capacity_task_id,
+      :max_results,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] blocking_instances
+    #   A list of all running Amazon EC2 instances on the Outpost. Stopping
+    #   one or more of these instances can free up the capacity needed to
+    #   run the capacity task.
+    #   @return [Array<Types::BlockingInstance>]
+    #
+    # @!attribute [rw] next_token
+    #   The pagination token.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/outposts-2019-12-03/ListBlockingInstancesForCapacityTaskOutput AWS API Documentation
+    #
+    class ListBlockingInstancesForCapacityTaskOutput < Struct.new(
+      :blocking_instances,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] outpost_identifier_filter
+    #   Filters the results by an Outpost ID or an Outpost ARN.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum page size.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   The pagination token.
+    #   @return [String]
+    #
+    # @!attribute [rw] capacity_task_status_filter
+    #   A list of statuses. For example, `REQUESTED` or
+    #   `WAITING_FOR_EVACUATION`.
+    #   @return [Array<String>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/outposts-2019-12-03/ListCapacityTasksInput AWS API Documentation
+    #
+    class ListCapacityTasksInput < Struct.new(
+      :outpost_identifier_filter,
+      :max_results,
+      :next_token,
+      :capacity_task_status_filter)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] capacity_tasks
+    #   Lists all the capacity tasks.
+    #   @return [Array<Types::CapacityTaskSummary>]
+    #
+    # @!attribute [rw] next_token
+    #   The pagination token.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/outposts-2019-12-03/ListCapacityTasksOutput AWS API Documentation
+    #
+    class ListCapacityTasksOutput < Struct.new(
+      :capacity_tasks,
       :next_token)
       SENSITIVE = []
       include Aws::Structure
@@ -1119,8 +1657,10 @@ module Aws::Outposts
     #
     #   * `PREPARING` - Order is received and being prepared.
     #
-    #   * `IN_PROGRESS` - Order is either being built, shipped, or
-    #     installed. To get more details, see the line item status.
+    #   * `IN_PROGRESS` - Order is either being built or shipped. To get
+    #     more details, see the line item status.
+    #
+    #   * `DELIVERED` - Order was delivered to the Outpost site.
     #
     #   * `COMPLETED` - Order is complete.
     #
@@ -1472,6 +2012,132 @@ module Aws::Outposts
       include Aws::Structure
     end
 
+    # @!attribute [rw] outpost_identifier
+    #   The ID or ARN of the Outposts associated with the specified capacity
+    #   task.
+    #   @return [String]
+    #
+    # @!attribute [rw] order_id
+    #   The ID of the Amazon Web Services Outposts order associated with the
+    #   specified capacity task.
+    #   @return [String]
+    #
+    # @!attribute [rw] instance_pools
+    #   The instance pools specified in the capacity task.
+    #   @return [Array<Types::InstanceTypeCapacity>]
+    #
+    # @!attribute [rw] instances_to_exclude
+    #   List of user-specified running instances that must not be stopped in
+    #   order to free up the capacity needed to run the capacity task.
+    #   @return [Types::InstancesToExclude]
+    #
+    # @!attribute [rw] dry_run
+    #   You can request a dry run to determine if the instance type and
+    #   instance size changes is above or below available instance capacity.
+    #   Requesting a dry run does not make any changes to your plan.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] task_action_on_blocking_instances
+    #   Specify one of the following options in case an instance is blocking
+    #   the capacity task from running.
+    #
+    #   * `WAIT_FOR_EVACUATION` - Checks every 10 minutes over 48 hours to
+    #     determine if instances have stopped and capacity is available to
+    #     complete the task.
+    #
+    #   * `FAIL_TASK` - The capacity task fails.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/outposts-2019-12-03/StartCapacityTaskInput AWS API Documentation
+    #
+    class StartCapacityTaskInput < Struct.new(
+      :outpost_identifier,
+      :order_id,
+      :instance_pools,
+      :instances_to_exclude,
+      :dry_run,
+      :task_action_on_blocking_instances)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] capacity_task_id
+    #   ID of the capacity task that you want to start.
+    #   @return [String]
+    #
+    # @!attribute [rw] outpost_id
+    #   ID of the Outpost associated with the capacity task.
+    #   @return [String]
+    #
+    # @!attribute [rw] order_id
+    #   ID of the Amazon Web Services Outposts order of the host associated
+    #   with the capacity task.
+    #   @return [String]
+    #
+    # @!attribute [rw] requested_instance_pools
+    #   List of the instance pools requested in the specified capacity task.
+    #   @return [Array<Types::InstanceTypeCapacity>]
+    #
+    # @!attribute [rw] instances_to_exclude
+    #   User-specified instances that must not be stopped in order to free
+    #   up the capacity needed to run the capacity task.
+    #   @return [Types::InstancesToExclude]
+    #
+    # @!attribute [rw] dry_run
+    #   Results of the dry run showing if the specified capacity task is
+    #   above or below the available instance capacity.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] capacity_task_status
+    #   Status of the specified capacity task.
+    #   @return [String]
+    #
+    # @!attribute [rw] failed
+    #   Reason that the specified capacity task failed.
+    #   @return [Types::CapacityTaskFailure]
+    #
+    # @!attribute [rw] creation_date
+    #   Date that the specified capacity task was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] completion_date
+    #   Date that the specified capacity task ran successfully.
+    #   @return [Time]
+    #
+    # @!attribute [rw] last_modified_date
+    #   Date that the specified capacity task was last modified.
+    #   @return [Time]
+    #
+    # @!attribute [rw] task_action_on_blocking_instances
+    #   User-specified option in case an instance is blocking the capacity
+    #   task from running.
+    #
+    #   * `WAIT_FOR_EVACUATION` - Checks every 10 minutes over 48 hours to
+    #     determine if instances have stopped and capacity is available to
+    #     complete the task.
+    #
+    #   * `FAIL_TASK` - The capacity task fails.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/outposts-2019-12-03/StartCapacityTaskOutput AWS API Documentation
+    #
+    class StartCapacityTaskOutput < Struct.new(
+      :capacity_task_id,
+      :outpost_id,
+      :order_id,
+      :requested_instance_pools,
+      :instances_to_exclude,
+      :dry_run,
+      :capacity_task_status,
+      :failed,
+      :creation_date,
+      :completion_date,
+      :last_modified_date,
+      :task_action_on_blocking_instances)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] device_serial_number
     #   The serial number of the dongle.
     #   @return [String]
@@ -1559,7 +2225,7 @@ module Aws::Outposts
     class UntagResourceResponse < Aws::EmptyStructure; end
 
     # @!attribute [rw] outpost_id
-    #   The ID or the Amazon Resource Name (ARN) of the Outpost.
+    #   The ID or ARN of the Outpost.
     #   @return [String]
     #
     # @!attribute [rw] name
@@ -1702,12 +2368,13 @@ module Aws::Outposts
     #     * **L6-30P** – (common in US); 30A; single phase
     #
     #     * **IEC309 (blue)** – P+N+E, 6hr; 32 A; single phase
-    #
     #   * Three-phase AC feed
     #
     #     * **AH530P7W (red)** – 3P+N+E, 7hr; 30A; three phase
     #
     #     * **AH532P6W (red)** – 3P+N+E, 6hr; 32A; three phase
+    #
+    #     * **CS8365C** – (common in US); 3P+E, 50A; three phase
     #   @return [String]
     #
     # @!attribute [rw] power_feed_drop
@@ -1746,31 +2413,31 @@ module Aws::Outposts
     #   about networking requirements for racks, see [Network][1] in the
     #   Amazon Web Services Outposts User Guide.
     #
-    #   * `OPTIC_10GBASE_SR`\: 10GBASE-SR
+    #   * `OPTIC_10GBASE_SR`: 10GBASE-SR
     #
-    #   * `OPTIC_10GBASE_IR`\: 10GBASE-IR
+    #   * `OPTIC_10GBASE_IR`: 10GBASE-IR
     #
-    #   * `OPTIC_10GBASE_LR`\: 10GBASE-LR
+    #   * `OPTIC_10GBASE_LR`: 10GBASE-LR
     #
-    #   * `OPTIC_40GBASE_SR`\: 40GBASE-SR
+    #   * `OPTIC_40GBASE_SR`: 40GBASE-SR
     #
-    #   * `OPTIC_40GBASE_ESR`\: 40GBASE-ESR
+    #   * `OPTIC_40GBASE_ESR`: 40GBASE-ESR
     #
-    #   * `OPTIC_40GBASE_IR4_LR4L`\: 40GBASE-IR (LR4L)
+    #   * `OPTIC_40GBASE_IR4_LR4L`: 40GBASE-IR (LR4L)
     #
-    #   * `OPTIC_40GBASE_LR4`\: 40GBASE-LR4
+    #   * `OPTIC_40GBASE_LR4`: 40GBASE-LR4
     #
-    #   * `OPTIC_100GBASE_SR4`\: 100GBASE-SR4
+    #   * `OPTIC_100GBASE_SR4`: 100GBASE-SR4
     #
-    #   * `OPTIC_100GBASE_CWDM4`\: 100GBASE-CWDM4
+    #   * `OPTIC_100GBASE_CWDM4`: 100GBASE-CWDM4
     #
-    #   * `OPTIC_100GBASE_LR4`\: 100GBASE-LR4
+    #   * `OPTIC_100GBASE_LR4`: 100GBASE-LR4
     #
-    #   * `OPTIC_100G_PSM4_MSA`\: 100G PSM4 MSA
+    #   * `OPTIC_100G_PSM4_MSA`: 100G PSM4 MSA
     #
-    #   * `OPTIC_1000BASE_LX`\: 1000Base-LX
+    #   * `OPTIC_1000BASE_LX`: 1000Base-LX
     #
-    #   * `OPTIC_1000BASE_SX`\: 1000Base-SX
+    #   * `OPTIC_1000BASE_SX` : 1000Base-SX
     #
     #
     #
@@ -1826,3 +2493,4 @@ module Aws::Outposts
 
   end
 end
+

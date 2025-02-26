@@ -165,7 +165,24 @@ module Aws::CloudControlApi
     #
     #    </note>
     #
-    #        <p>Specify the desired state as one of the following:</p> <ul> <li> <p>A JSON blob</p> </li> <li> <p>A local path containing the desired state in JSON data format</p> </li> </ul> <p>For more information, see <a href="https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-operations-create.html#resource-operations-create-desiredstate">Composing the desired state of the resource</a> in the <i>Amazon Web Services Cloud Control API User Guide</i>.</p> <p>For more information about the properties of a specific resource, refer to the related topic for the resource in the <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html">Resource and property types reference</a> in the <i>CloudFormation Users Guide</i>.</p>
+    #   Specify the desired state as one of the following:
+    #
+    #   * A JSON blob
+    #
+    #   * A local path containing the desired state in JSON data format
+    #
+    #   For more information, see [Composing the desired state of the
+    #   resource][1] in the *Amazon Web Services Cloud Control API User
+    #   Guide*.
+    #
+    #   For more information about the properties of a specific resource,
+    #   refer to the related topic for the resource in the [Resource and
+    #   property types reference][2] in the *CloudFormation Users Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-operations-create.html#resource-operations-create-desiredstate
+    #   [2]: https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cloudcontrol-2021-09-30/CreateResourceInput AWS API Documentation
@@ -427,10 +444,16 @@ module Aws::CloudControlApi
     #   Represents the current status of the resource operation request.
     #   @return [Types::ProgressEvent]
     #
+    # @!attribute [rw] hooks_progress_event
+    #   Lists Hook invocations for the specified target in the request. This
+    #   is a list since the same target can invoke multiple Hooks.
+    #   @return [Array<Types::HookProgressEvent>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cloudcontrol-2021-09-30/GetResourceRequestStatusOutput AWS API Documentation
     #
     class GetResourceRequestStatusOutput < Struct.new(
-      :progress_event)
+      :progress_event,
+      :hooks_progress_event)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -459,6 +482,85 @@ module Aws::CloudControlApi
     #
     class HandlerInternalFailureException < Struct.new(
       :message)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Represents the current status of applicable Hooks for a resource
+    # operation request. It contains list of Hook invocation information for
+    # the resource specified in the request since the same target can invoke
+    # multiple Hooks. For more information, see [Managing resource operation
+    # requests with Amazon Web Services Cloud Control API ][1].
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-operations-manage-requests.html
+    #
+    # @!attribute [rw] hook_type_name
+    #   The type name of the Hook being invoked.
+    #   @return [String]
+    #
+    # @!attribute [rw] hook_type_version_id
+    #   The type version of the Hook being invoked.
+    #   @return [String]
+    #
+    # @!attribute [rw] hook_type_arn
+    #   The ARN of the Hook being invoked.
+    #   @return [String]
+    #
+    # @!attribute [rw] invocation_point
+    #   States whether the Hook is invoked before or after resource
+    #   provisioning.
+    #   @return [String]
+    #
+    # @!attribute [rw] hook_status
+    #   The status of the Hook invocation. The following are potential
+    #   statuses:
+    #
+    #   * `HOOK_PENDING`: The Hook was added to the invocation plan, but not
+    #     yet invoked.
+    #
+    #   * `HOOK_IN_PROGRESS`: The Hook was invoked, but hasn't completed.
+    #
+    #   * `HOOK_COMPLETE_SUCCEEDED`: The Hook invocation is complete with a
+    #     successful result.
+    #
+    #   * `HOOK_COMPLETE_FAILED`: The Hook invocation is complete with a
+    #     failed result.
+    #
+    #   * `HOOK_FAILED`: The Hook invocation didn't complete successfully.
+    #   @return [String]
+    #
+    # @!attribute [rw] hook_event_time
+    #   The time that the Hook invocation request initiated.
+    #   @return [Time]
+    #
+    # @!attribute [rw] hook_status_message
+    #   The message explaining the current Hook status.
+    #   @return [String]
+    #
+    # @!attribute [rw] failure_mode
+    #   The failure mode of the invocation. The following are the potential
+    #   statuses:
+    #
+    #   * `FAIL`: This will fail the Hook invocation and the request
+    #     associated with it.
+    #
+    #   * `WARN`: This will fail the Hook invocation, but not the request
+    #     associated with it.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cloudcontrol-2021-09-30/HookProgressEvent AWS API Documentation
+    #
+    class HookProgressEvent < Struct.new(
+      :hook_type_name,
+      :hook_type_version_id,
+      :hook_type_arn,
+      :invocation_point,
+      :hook_status,
+      :hook_event_time,
+      :hook_status_message,
+      :failure_mode)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -721,6 +823,10 @@ module Aws::CloudControlApi
     #   [1]: https://docs.aws.amazon.com/cloudcontrolapi/latest/APIReference/API_GetResourceRequestStatus.html
     #   @return [String]
     #
+    # @!attribute [rw] hooks_request_token
+    #   The unique token representing the Hooks operation for the request.
+    #   @return [String]
+    #
     # @!attribute [rw] operation
     #   The resource operation type.
     #   @return [String]
@@ -728,19 +834,19 @@ module Aws::CloudControlApi
     # @!attribute [rw] operation_status
     #   The current status of the resource operation request.
     #
-    #   * `PENDING`\: The resource operation hasn't yet started.
+    #   * `PENDING`: The resource operation hasn't yet started.
     #
-    #   * `IN_PROGRESS`\: The resource operation is currently in progress.
+    #   * `IN_PROGRESS`: The resource operation is currently in progress.
     #
-    #   * `SUCCESS`\: The resource operation has successfully completed.
+    #   * `SUCCESS`: The resource operation has successfully completed.
     #
-    #   * `FAILED`\: The resource operation has failed. Refer to the error
+    #   * `FAILED`: The resource operation has failed. Refer to the error
     #     code and status message for more information.
     #
-    #   * `CANCEL_IN_PROGRESS`\: The resource operation is in the process of
+    #   * `CANCEL_IN_PROGRESS`: The resource operation is in the process of
     #     being canceled.
     #
-    #   * `CANCEL_COMPLETE`\: The resource operation has been canceled.
+    #   * `CANCEL_COMPLETE`: The resource operation has been canceled.
     #   @return [String]
     #
     # @!attribute [rw] event_time
@@ -778,6 +884,7 @@ module Aws::CloudControlApi
       :type_name,
       :identifier,
       :request_token,
+      :hooks_request_token,
       :operation,
       :operation_status,
       :event_time,
@@ -865,19 +972,19 @@ module Aws::CloudControlApi
     # @!attribute [rw] operation_statuses
     #   The operation statuses to include in the filter.
     #
-    #   * `PENDING`\: The operation has been requested, but not yet
+    #   * `PENDING`: The operation has been requested, but not yet
     #     initiated.
     #
-    #   * `IN_PROGRESS`\: The operation is in progress.
+    #   * `IN_PROGRESS`: The operation is in progress.
     #
-    #   * `SUCCESS`\: The operation completed.
+    #   * `SUCCESS`: The operation completed.
     #
-    #   * `FAILED`\: The operation failed.
+    #   * `FAILED`: The operation failed.
     #
-    #   * `CANCEL_IN_PROGRESS`\: The operation is in the process of being
+    #   * `CANCEL_IN_PROGRESS`: The operation is in the process of being
     #     canceled.
     #
-    #   * `CANCEL_COMPLETE`\: The operation has been canceled.
+    #   * `CANCEL_COMPLETE`: The operation has been canceled.
     #   @return [Array<String>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cloudcontrol-2021-09-30/ResourceRequestStatusFilter AWS API Documentation
@@ -1082,3 +1189,4 @@ module Aws::CloudControlApi
 
   end
 end
+

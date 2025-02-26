@@ -7,6 +7,7 @@
 #
 # WARNING ABOUT GENERATED CODE
 
+
 module Aws::KinesisVideoSignalingChannels
   # @api private
   module ClientApi
@@ -91,8 +92,10 @@ module Aws::KinesisVideoSignalingChannels
 
       api.metadata = {
         "apiVersion" => "2019-12-04",
+        "auth" => ["aws.auth#sigv4"],
         "endpointPrefix" => "kinesisvideo",
         "protocol" => "rest-json",
+        "protocols" => ["rest-json"],
         "serviceAbbreviation" => "Amazon Kinesis Video Signaling Channels",
         "serviceFullName" => "Amazon Kinesis Video Signaling Channels",
         "serviceId" => "Kinesis Video Signaling",

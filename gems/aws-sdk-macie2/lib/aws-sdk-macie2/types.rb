@@ -270,6 +270,67 @@ module Aws::Macie2
       include Aws::Structure
     end
 
+    # Provides information about the status of automated sensitive data
+    # discovery for an Amazon Macie account.
+    #
+    # @!attribute [rw] account_id
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status of automated sensitive data discovery for an Amazon Macie
+    #   account. Valid values are:
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/macie2-2020-01-01/AutomatedDiscoveryAccount AWS API Documentation
+    #
+    class AutomatedDiscoveryAccount < Struct.new(
+      :account_id,
+      :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Changes the status of automated sensitive data discovery for an Amazon
+    # Macie account.
+    #
+    # @!attribute [rw] account_id
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status of automated sensitive data discovery for an Amazon Macie
+    #   account. Valid values are:
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/macie2-2020-01-01/AutomatedDiscoveryAccountUpdate AWS API Documentation
+    #
+    class AutomatedDiscoveryAccountUpdate < Struct.new(
+      :account_id,
+      :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Provides information about a request that failed to change the status
+    # of automated sensitive data discovery for an Amazon Macie account.
+    #
+    # @!attribute [rw] account_id
+    #   @return [String]
+    #
+    # @!attribute [rw] error_code
+    #   The error code that indicates why a request failed to change the
+    #   status of automated sensitive data discovery for an Amazon Macie
+    #   account. Possible values are:
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/macie2-2020-01-01/AutomatedDiscoveryAccountUpdateError AWS API Documentation
+    #
+    class AutomatedDiscoveryAccountUpdateError < Struct.new(
+      :account_id,
+      :error_code)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Provides information about an Amazon Web Services account and entity
     # that performed an action on an affected resource. The action was
     # performed using the credentials for an Amazon Web Services account
@@ -290,8 +351,8 @@ module Aws::Macie2
       include Aws::Structure
     end
 
-    # Provides information about an Amazon Web Service that performed an
-    # action on an affected resource.
+    # Provides information about an Amazon Web Services service that
+    # performed an action on an affected resource.
     #
     # @!attribute [rw] invoked_by
     #   @return [String]
@@ -368,6 +429,34 @@ module Aws::Macie2
       include Aws::Structure
     end
 
+    # Changes the status of automated sensitive data discovery for one or
+    # more Amazon Macie accounts.
+    #
+    # @!attribute [rw] accounts
+    #   @return [Array<Types::AutomatedDiscoveryAccountUpdate>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/macie2-2020-01-01/BatchUpdateAutomatedDiscoveryAccountsRequest AWS API Documentation
+    #
+    class BatchUpdateAutomatedDiscoveryAccountsRequest < Struct.new(
+      :accounts)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Provides the results of a request to change the status of automated
+    # sensitive data discovery for one or more Amazon Macie accounts.
+    #
+    # @!attribute [rw] errors
+    #   @return [Array<Types::AutomatedDiscoveryAccountUpdateError>]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/macie2-2020-01-01/BatchUpdateAutomatedDiscoveryAccountsResponse AWS API Documentation
+    #
+    class BatchUpdateAutomatedDiscoveryAccountsResponse < Struct.new(
+      :errors)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Provides information about the block public access settings for an S3
     # bucket. These settings can apply to a bucket at the account or bucket
     # level. For detailed information about each setting, see [Blocking
@@ -402,7 +491,7 @@ module Aws::Macie2
     end
 
     # Provides information about the number of S3 buckets that are publicly
-    # accessible based on a combination of permissions settings for each
+    # accessible due to a combination of permissions settings for each
     # bucket.
     #
     # @!attribute [rw] publicly_accessible
@@ -428,11 +517,12 @@ module Aws::Macie2
       include Aws::Structure
     end
 
-    # Provides information about the number of S3 buckets that use certain
-    # types of server-side encryption by default or don't encrypt new
-    # objects by default. For detailed information about these settings, see
-    # [Setting default server-side encryption behavior for Amazon S3
-    # buckets][1] in the *Amazon Simple Storage Service User Guide*.
+    # Provides information about the number of S3 buckets whose settings do
+    # or don't specify default server-side encryption behavior for objects
+    # that are added to the buckets. For detailed information about these
+    # settings, see [Setting default server-side encryption behavior for
+    # Amazon S3 buckets][1] in the *Amazon Simple Storage Service User
+    # Guide*.
     #
     #
     #
@@ -462,7 +552,12 @@ module Aws::Macie2
     end
 
     # Provides information about the number of S3 buckets that are or
-    # aren't shared with other Amazon Web Services accounts.
+    # aren't shared with other Amazon Web Services accounts, Amazon
+    # CloudFront origin access identities (OAIs), or CloudFront origin
+    # access controls (OACs). In this data, an *Amazon Macie organization*
+    # is defined as a set of Macie accounts that are centrally managed as a
+    # group of related accounts through Organizations or by Macie
+    # invitation.
     #
     # @!attribute [rw] external
     #   @return [Integer]
@@ -489,7 +584,7 @@ module Aws::Macie2
 
     # Provides information about the number of S3 buckets whose bucket
     # policies do or don't require server-side encryption of objects when
-    # objects are uploaded to the buckets.
+    # objects are added to the buckets.
     #
     # @!attribute [rw] allows_unencrypted_object_uploads
     #   @return [Integer]
@@ -584,18 +679,32 @@ module Aws::Macie2
     end
 
     # Provides statistical data and other information about an S3 bucket
-    # that Amazon Macie monitors and analyzes for your account. If an error
-    # occurs when Macie attempts to retrieve and process metadata from
-    # Amazon S3 for the bucket and the bucket's objects, the value for the
-    # versioning property is false and the value for most other properties
-    # is null. Key exceptions are accountId, bucketArn, bucketCreatedAt,
-    # bucketName, lastUpdated, and region. To identify the cause of the
-    # error, refer to the errorCode and errorMessage values.
+    # that Amazon Macie monitors and analyzes for your account. By default,
+    # object count and storage size values include data for object parts
+    # that are the result of incomplete multipart uploads. For more
+    # information, see [How Macie monitors Amazon S3 data security][1] in
+    # the *Amazon Macie User Guide*.
+    #
+    # If an error or issue prevents Macie from retrieving and processing
+    # metadata from Amazon S3 for the bucket or the bucket's objects, the
+    # value for the versioning property is false and the value for most
+    # other properties is null or UNKNOWN. Key exceptions are accountId,
+    # bucketArn, bucketCreatedAt, bucketName, lastUpdated, and region. To
+    # identify the cause, refer to the errorCode and errorMessage values.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/macie/latest/user/monitoring-s3-how-it-works.html
     #
     # @!attribute [rw] account_id
     #   @return [String]
     #
     # @!attribute [rw] allows_unencrypted_object_uploads
+    #   @return [String]
+    #
+    # @!attribute [rw] automated_discovery_monitoring_status
+    #   Specifies whether automated sensitive data discovery is currently
+    #   configured to analyze objects in an S3 bucket. Possible values are:
     #   @return [String]
     #
     # @!attribute [rw] bucket_arn
@@ -614,9 +723,9 @@ module Aws::Macie2
     #   @return [Integer]
     #
     # @!attribute [rw] error_code
-    #   The error code for an error that prevented Amazon Macie from
-    #   retrieving and processing metadata from Amazon S3 for an S3 bucket
-    #   and the bucket's objects.
+    #   The code for an error or issue that prevented Amazon Macie from
+    #   retrieving and processing information about an S3 bucket and the
+    #   bucket's objects.
     #   @return [String]
     #
     # @!attribute [rw] error_message
@@ -624,8 +733,8 @@ module Aws::Macie2
     #
     # @!attribute [rw] job_details
     #   Specifies whether any one-time or recurring classification jobs are
-    #   configured to analyze data in an S3 bucket, and, if so, the details
-    #   of the job that ran most recently.
+    #   configured to analyze objects in an S3 bucket, and, if so, the
+    #   details of the job that ran most recently.
     #   @return [Types::JobDetails]
     #
     # @!attribute [rw] last_automated_discovery_time
@@ -714,6 +823,7 @@ module Aws::Macie2
     class BucketMetadata < Struct.new(
       :account_id,
       :allows_unencrypted_object_uploads,
+      :automated_discovery_monitoring_status,
       :bucket_arn,
       :bucket_created_at,
       :bucket_name,
@@ -847,7 +957,7 @@ module Aws::Macie2
     # Provides aggregated statistical data for sensitive data discovery
     # metrics that apply to S3 buckets, grouped by bucket sensitivity score
     # (sensitivityScore). If automated sensitive data discovery is currently
-    # disabled for your account, the value for each metric is 0.
+    # disabled for your account, the value for most of these metrics is 0.
     #
     # @!attribute [rw] classification_error
     #   Provides aggregated statistical data for sensitive data discovery
@@ -855,8 +965,8 @@ module Aws::Macie2
     #   data for all the buckets that have a sensitivity score
     #   (sensitivityScore) of a specified value or within a specified range
     #   (BucketStatisticsBySensitivity). If automated sensitive data
-    #   discovery is currently disabled for your account, the value for each
-    #   field is 0.
+    #   discovery is currently disabled for your account, the value for most
+    #   fields is 0.
     #   @return [Types::SensitivityAggregations]
     #
     # @!attribute [rw] not_classified
@@ -865,8 +975,8 @@ module Aws::Macie2
     #   data for all the buckets that have a sensitivity score
     #   (sensitivityScore) of a specified value or within a specified range
     #   (BucketStatisticsBySensitivity). If automated sensitive data
-    #   discovery is currently disabled for your account, the value for each
-    #   field is 0.
+    #   discovery is currently disabled for your account, the value for most
+    #   fields is 0.
     #   @return [Types::SensitivityAggregations]
     #
     # @!attribute [rw] not_sensitive
@@ -875,8 +985,8 @@ module Aws::Macie2
     #   data for all the buckets that have a sensitivity score
     #   (sensitivityScore) of a specified value or within a specified range
     #   (BucketStatisticsBySensitivity). If automated sensitive data
-    #   discovery is currently disabled for your account, the value for each
-    #   field is 0.
+    #   discovery is currently disabled for your account, the value for most
+    #   fields is 0.
     #   @return [Types::SensitivityAggregations]
     #
     # @!attribute [rw] sensitive
@@ -885,8 +995,8 @@ module Aws::Macie2
     #   data for all the buckets that have a sensitivity score
     #   (sensitivityScore) of a specified value or within a specified range
     #   (BucketStatisticsBySensitivity). If automated sensitive data
-    #   discovery is currently disabled for your account, the value for each
-    #   field is 0.
+    #   discovery is currently disabled for your account, the value for most
+    #   fields is 0.
     #   @return [Types::SensitivityAggregations]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/macie2-2020-01-01/BucketStatisticsBySensitivity AWS API Documentation
@@ -963,7 +1073,7 @@ module Aws::Macie2
 
     # Specifies where to store data classification results, and the
     # encryption settings to use when storing results in that location. The
-    # location must be an S3 bucket.
+    # location must be an S3 general purpose bucket.
     #
     # @!attribute [rw] s3_destination
     #   Specifies an S3 bucket to store data classification results in, and
@@ -1130,7 +1240,7 @@ module Aws::Macie2
 
     # Specifies the scope, schedule, and other settings for a classification
     # job. You can't change any settings for a classification job after you
-    # create it. This helps ensure that you have an immutable history of
+    # create it. This helps to ensure that you have an immutable history of
     # sensitive data findings and discovery results for data privacy and
     # protection audits or investigations.
     #
@@ -1228,7 +1338,7 @@ module Aws::Macie2
 
     # Specifies the detection criteria and other settings for a custom data
     # identifier. You can't change a custom data identifier after you
-    # create it. This helps ensure that you have an immutable history of
+    # create it. This helps to ensure that you have an immutable history of
     # sensitive data findings and discovery results for data privacy and
     # protection audits or investigations.
     #
@@ -1975,8 +2085,8 @@ module Aws::Macie2
     #
     class DescribeOrganizationConfigurationRequest < Aws::EmptyStructure; end
 
-    # Provides information about the Amazon Macie configuration settings for
-    # an organization in Organizations.
+    # Provides information about the Amazon Macie configuration for an
+    # organization in Organizations.
     #
     # @!attribute [rw] auto_enable
     #   @return [Boolean]
@@ -2009,10 +2119,10 @@ module Aws::Macie2
 
     # Provides information about a type of sensitive data that Amazon Macie
     # found in an S3 bucket while performing automated sensitive data
-    # discovery for the bucket. The information also specifies the custom
-    # data identifier or managed data identifier that detected the data.
-    # This information is available only if automated sensitive data
-    # discovery is currently enabled for your account.
+    # discovery for an account. The information also specifies the custom or
+    # managed data identifier that detected the data. This information is
+    # available only if automated sensitive data discovery has been enabled
+    # for the account.
     #
     # @!attribute [rw] arn
     #   @return [String]
@@ -2285,8 +2395,7 @@ module Aws::Macie2
     #
     # @!attribute [rw] type
     #   The type of finding. For details about each type, see [Types of
-    #   Amazon Macie findings][1] in the *Amazon Macie User Guide*. Possible
-    #   values are:
+    #   findings][1] in the *Amazon Macie User Guide*. Possible values are:
     #
     #
     #
@@ -2541,9 +2650,15 @@ module Aws::Macie2
     #
     class GetAutomatedDiscoveryConfigurationRequest < Aws::EmptyStructure; end
 
-    # Provides information about the configuration settings for performing
-    # automated sensitive data discovery for an Amazon Macie account, and
-    # the status of the configuration for the account.
+    # Provides information about the configuration settings and status of
+    # automated sensitive data discovery for an organization in Amazon Macie
+    # or a standalone Macie account.
+    #
+    # @!attribute [rw] auto_enable_organization_members
+    #   Specifies whether to automatically enable automated sensitive data
+    #   discovery for accounts that are part of an organization in Amazon
+    #   Macie. Valid values are:
+    #   @return [String]
     #
     # @!attribute [rw] classification_scope_id
     #   The unique identifier the classification scope.
@@ -2567,12 +2682,14 @@ module Aws::Macie2
     #
     # @!attribute [rw] status
     #   The status of the automated sensitive data discovery configuration
-    #   for an Amazon Macie account. Valid values are:
+    #   for an organization in Amazon Macie or a standalone Macie account.
+    #   Valid values are:
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/macie2-2020-01-01/GetAutomatedDiscoveryConfigurationResponse AWS API Documentation
     #
     class GetAutomatedDiscoveryConfigurationResponse < Struct.new(
+      :auto_enable_organization_members,
       :classification_scope_id,
       :disabled_at,
       :first_enabled_at,
@@ -2599,23 +2716,31 @@ module Aws::Macie2
 
     # Provides the results of a query that retrieved aggregated statistical
     # data for all the S3 buckets that Amazon Macie monitors and analyzes
-    # for your account.
+    # for your account. By default, object count and storage size values
+    # include data for object parts that are the result of incomplete
+    # multipart uploads. For more information, see [How Macie monitors
+    # Amazon S3 data security][1] in the *Amazon Macie User Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/macie/latest/user/monitoring-s3-how-it-works.html
     #
     # @!attribute [rw] bucket_count
     #   @return [Integer]
     #
     # @!attribute [rw] bucket_count_by_effective_permission
     #   Provides information about the number of S3 buckets that are
-    #   publicly accessible based on a combination of permissions settings
-    #   for each bucket.
+    #   publicly accessible due to a combination of permissions settings for
+    #   each bucket.
     #   @return [Types::BucketCountByEffectivePermission]
     #
     # @!attribute [rw] bucket_count_by_encryption_type
-    #   Provides information about the number of S3 buckets that use certain
-    #   types of server-side encryption by default or don't encrypt new
-    #   objects by default. For detailed information about these settings,
-    #   see [Setting default server-side encryption behavior for Amazon S3
-    #   buckets][1] in the *Amazon Simple Storage Service User Guide*.
+    #   Provides information about the number of S3 buckets whose settings
+    #   do or don't specify default server-side encryption behavior for
+    #   objects that are added to the buckets. For detailed information
+    #   about these settings, see [Setting default server-side encryption
+    #   behavior for Amazon S3 buckets][1] in the *Amazon Simple Storage
+    #   Service User Guide*.
     #
     #
     #
@@ -2625,19 +2750,25 @@ module Aws::Macie2
     # @!attribute [rw] bucket_count_by_object_encryption_requirement
     #   Provides information about the number of S3 buckets whose bucket
     #   policies do or don't require server-side encryption of objects when
-    #   objects are uploaded to the buckets.
+    #   objects are added to the buckets.
     #   @return [Types::BucketCountPolicyAllowsUnencryptedObjectUploads]
     #
     # @!attribute [rw] bucket_count_by_shared_access_type
     #   Provides information about the number of S3 buckets that are or
-    #   aren't shared with other Amazon Web Services accounts.
+    #   aren't shared with other Amazon Web Services accounts, Amazon
+    #   CloudFront origin access identities (OAIs), or CloudFront origin
+    #   access controls (OACs). In this data, an *Amazon Macie organization*
+    #   is defined as a set of Macie accounts that are centrally managed as
+    #   a group of related accounts through Organizations or by Macie
+    #   invitation.
     #   @return [Types::BucketCountBySharedAccessType]
     #
     # @!attribute [rw] bucket_statistics_by_sensitivity
     #   Provides aggregated statistical data for sensitive data discovery
     #   metrics that apply to S3 buckets, grouped by bucket sensitivity
     #   score (sensitivityScore). If automated sensitive data discovery is
-    #   currently disabled for your account, the value for each metric is 0.
+    #   currently disabled for your account, the value for most of these
+    #   metrics is 0.
     #   @return [Types::BucketStatisticsBySensitivity]
     #
     # @!attribute [rw] classifiable_object_count
@@ -2713,7 +2844,7 @@ module Aws::Macie2
     # @!attribute [rw] configuration
     #   Specifies where to store data classification results, and the
     #   encryption settings to use when storing results in that location.
-    #   The location must be an S3 bucket.
+    #   The location must be an S3 general purpose bucket.
     #   @return [Types::ClassificationExportConfiguration]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/macie2-2020-01-01/GetClassificationExportConfigurationResponse AWS API Documentation
@@ -2964,8 +3095,8 @@ module Aws::Macie2
     # @!attribute [rw] security_hub_configuration
     #   Specifies configuration settings that determine which findings are
     #   published to Security Hub automatically. For information about how
-    #   Macie publishes findings to Security Hub, see [Amazon Macie
-    #   integration with Security Hub][1] in the *Amazon Macie User Guide*.
+    #   Macie publishes findings to Security Hub, see [Evaluating findings
+    #   with Security Hub][1] in the *Amazon Macie User Guide*.
     #
     #
     #
@@ -3174,11 +3305,10 @@ module Aws::Macie2
       include Aws::Structure
     end
 
-    # Provides the results of a query that retrieved sensitive data
-    # discovery statistics and the sensitivity score for an S3 bucket that
-    # Amazon Macie monitors and analyzes for your account. This data is
-    # available only if automated sensitive data discovery is currently
-    # enabled for your account.
+    # Provides sensitive data discovery statistics and the sensitivity score
+    # for an S3 bucket that Amazon Macie monitors and analyzes for an
+    # account. This data is available only if automated sensitive data
+    # discovery has been enabled for the account.
     #
     # @!attribute [rw] profile_updated_at
     #   @return [Time]
@@ -3191,11 +3321,10 @@ module Aws::Macie2
     #
     # @!attribute [rw] statistics
     #   Provides statistical data for sensitive data discovery metrics that
-    #   apply to an S3 bucket that Amazon Macie monitors and analyzes for
-    #   your account. The statistics capture the results of automated
-    #   sensitive data discovery activities that Macie has performed for the
-    #   bucket. The data is available only if automated sensitive data
-    #   discovery is currently enabled for your account.
+    #   apply to an S3 bucket that Amazon Macie monitors and analyzes for an
+    #   account, if automated sensitive data discovery has been enabled for
+    #   the account. The data captures the results of automated sensitive
+    #   data discovery activities that Macie has performed for the bucket.
     #   @return [Types::ResourceStatistics]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/macie2-2020-01-01/GetResourceProfileResponse AWS API Documentation
@@ -3220,18 +3349,24 @@ module Aws::Macie2
     # the configuration for an Amazon Macie account.
     #
     # @!attribute [rw] configuration
-    #   Specifies the configuration settings for retrieving occurrences of
-    #   sensitive data reported by findings, and the status of the
-    #   configuration for an Amazon Macie account. When you enable the
-    #   configuration for the first time, your request must specify an Key
-    #   Management Service (KMS) key. Otherwise, an error occurs. Macie uses
-    #   the specified key to encrypt the sensitive data that you retrieve.
+    #   Specifies the status of the Amazon Macie configuration for
+    #   retrieving occurrences of sensitive data reported by findings, and
+    #   the Key Management Service (KMS) key to use to encrypt sensitive
+    #   data that's retrieved. When you enable the configuration for the
+    #   first time, your request must specify an KMS key. Otherwise, an
+    #   error occurs.
     #   @return [Types::RevealConfiguration]
+    #
+    # @!attribute [rw] retrieval_configuration
+    #   Provides information about the access method and settings that are
+    #   used to retrieve occurrences of sensitive data reported by findings.
+    #   @return [Types::RetrievalConfiguration]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/macie2-2020-01-01/GetRevealConfigurationResponse AWS API Documentation
     #
     class GetRevealConfigurationResponse < Struct.new(
-      :configuration)
+      :configuration,
+      :retrieval_configuration)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3317,19 +3452,17 @@ module Aws::Macie2
     end
 
     # Provides information about the settings for the sensitivity inspection
-    # template for an Amazon Macie account. Macie uses the template's
-    # settings when it performs automated sensitive data discovery for the
-    # account.
+    # template for an Amazon Macie account.
     #
     # @!attribute [rw] description
     #   @return [String]
     #
     # @!attribute [rw] excludes
     #   Specifies managed data identifiers to exclude (not use) when
-    #   performing automated sensitive data discovery for an Amazon Macie
-    #   account. For information about the managed data identifiers that
-    #   Amazon Macie currently provides, see [Using managed data
-    #   identifiers][1] in the *Amazon Macie User Guide*.
+    #   performing automated sensitive data discovery. For information about
+    #   the managed data identifiers that Amazon Macie currently provides,
+    #   see [Using managed data identifiers][1] in the *Amazon Macie User
+    #   Guide*.
     #
     #
     #
@@ -3339,11 +3472,11 @@ module Aws::Macie2
     # @!attribute [rw] includes
     #   Specifies the allow lists, custom data identifiers, and managed data
     #   identifiers to include (use) when performing automated sensitive
-    #   data discovery for an Amazon Macie account. The configuration must
-    #   specify at least one custom data identifier or managed data
-    #   identifier. For information about the managed data identifiers that
-    #   Amazon Macie currently provides, see [Using managed data
-    #   identifiers][1] in the *Amazon Macie User Guide*.
+    #   data discovery. The configuration must specify at least one custom
+    #   data identifier or managed data identifier. For information about
+    #   the managed data identifiers that Amazon Macie currently provides,
+    #   see [Using managed data identifiers][1] in the *Amazon Macie User
+    #   Guide*.
     #
     #
     #
@@ -3657,8 +3790,8 @@ module Aws::Macie2
     end
 
     # Specifies whether any one-time or recurring classification jobs are
-    # configured to analyze data in an S3 bucket, and, if so, the details of
-    # the job that ran most recently.
+    # configured to analyze objects in an S3 bucket, and, if so, the details
+    # of the job that ran most recently.
     #
     # @!attribute [rw] is_defined_in_job
     #   @return [String]
@@ -3885,6 +4018,43 @@ module Aws::Macie2
     #
     class ListAllowListsResponse < Struct.new(
       :allow_lists,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] account_ids
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] max_results
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/macie2-2020-01-01/ListAutomatedDiscoveryAccountsRequest AWS API Documentation
+    #
+    class ListAutomatedDiscoveryAccountsRequest < Struct.new(
+      :account_ids,
+      :max_results,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Provides information about the status of automated sensitive data
+    # discovery for one or more Amazon Macie accounts.
+    #
+    # @!attribute [rw] items
+    #   @return [Array<Types::AutomatedDiscoveryAccount>]
+    #
+    # @!attribute [rw] next_token
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/macie2-2020-01-01/ListAutomatedDiscoveryAccountsResponse AWS API Documentation
+    #
+    class ListAutomatedDiscoveryAccountsResponse < Struct.new(
+      :items,
       :next_token)
       SENSITIVE = []
       include Aws::Structure
@@ -4303,11 +4473,10 @@ module Aws::Macie2
       include Aws::Structure
     end
 
-    # Provides the results of a request for information about the S3 objects
-    # that Amazon Macie selected for analysis while performing automated
-    # sensitive data discovery for an S3 bucket. This information is
-    # available only if automated sensitive data discovery is currently
-    # enabled for your account.
+    # Provides information about objects that Amazon Macie selected from an
+    # S3 bucket while performing automated sensitive data discovery for an
+    # account. This information is available only if automated sensitive
+    # data discovery has been enabled for the account.
     #
     # @!attribute [rw] artifacts
     #   @return [Array<Types::ResourceProfileArtifact>]
@@ -4343,11 +4512,11 @@ module Aws::Macie2
       include Aws::Structure
     end
 
-    # Provides the results of a request for information about the types and
-    # amount of sensitive data that Amazon Macie found in an S3 bucket while
-    # performing automated sensitive data discovery for the bucket. This
-    # information is available only if automated sensitive data discovery is
-    # currently enabled for your account.
+    # Provides information about the types and amount of sensitive data that
+    # Amazon Macie found in an S3 bucket while performing automated
+    # sensitive data discovery for an account. This information is available
+    # only if automated sensitive data discovery has been enabled for the
+    # account.
     #
     # @!attribute [rw] detections
     #   @return [Array<Types::Detection>]
@@ -4380,9 +4549,7 @@ module Aws::Macie2
     end
 
     # Provides the results of a request for information about the
-    # sensitivity inspection template for an Amazon Macie account. Macie
-    # uses the template's settings when it performs automated sensitive
-    # data discovery for the account.
+    # sensitivity inspection template for an Amazon Macie account.
     #
     # @!attribute [rw] next_token
     #   @return [String]
@@ -4454,14 +4621,28 @@ module Aws::Macie2
     end
 
     # Provides statistical data and other information about an S3 bucket
-    # that Amazon Macie monitors and analyzes for your account. If an error
-    # occurs when Macie attempts to retrieve and process information about
-    # the bucket or the bucket's objects, the value for most of these
-    # properties is null. Key exceptions are accountId and bucketName. To
-    # identify the cause of the error, refer to the errorCode and
+    # that Amazon Macie monitors and analyzes for your account. By default,
+    # object count and storage size values include data for object parts
+    # that are the result of incomplete multipart uploads. For more
+    # information, see [How Macie monitors Amazon S3 data security][1] in
+    # the *Amazon Macie User Guide*.
+    #
+    # If an error or issue prevents Macie from retrieving and processing
+    # information about the bucket or the bucket's objects, the value for
+    # many of these properties is null. Key exceptions are accountId and
+    # bucketName. To identify the cause, refer to the errorCode and
     # errorMessage values.
     #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/macie/latest/user/monitoring-s3-how-it-works.html
+    #
     # @!attribute [rw] account_id
+    #   @return [String]
+    #
+    # @!attribute [rw] automated_discovery_monitoring_status
+    #   Specifies whether automated sensitive data discovery is currently
+    #   configured to analyze objects in an S3 bucket. Possible values are:
     #   @return [String]
     #
     # @!attribute [rw] bucket_name
@@ -4474,9 +4655,9 @@ module Aws::Macie2
     #   @return [Integer]
     #
     # @!attribute [rw] error_code
-    #   The error code for an error that prevented Amazon Macie from
-    #   retrieving and processing metadata from Amazon S3 for an S3 bucket
-    #   and the bucket's objects.
+    #   The code for an error or issue that prevented Amazon Macie from
+    #   retrieving and processing information about an S3 bucket and the
+    #   bucket's objects.
     #   @return [String]
     #
     # @!attribute [rw] error_message
@@ -4484,8 +4665,8 @@ module Aws::Macie2
     #
     # @!attribute [rw] job_details
     #   Specifies whether any one-time or recurring classification jobs are
-    #   configured to analyze data in an S3 bucket, and, if so, the details
-    #   of the job that ran most recently.
+    #   configured to analyze objects in an S3 bucket, and, if so, the
+    #   details of the job that ran most recently.
     #   @return [Types::JobDetails]
     #
     # @!attribute [rw] last_automated_discovery_time
@@ -4535,6 +4716,7 @@ module Aws::Macie2
     #
     class MatchingBucket < Struct.new(
       :account_id,
+      :automated_discovery_monitoring_status,
       :bucket_name,
       :classifiable_object_count,
       :classifiable_size_in_bytes,
@@ -4559,12 +4741,21 @@ module Aws::Macie2
     #
     # @!attribute [rw] matching_bucket
     #   Provides statistical data and other information about an S3 bucket
-    #   that Amazon Macie monitors and analyzes for your account. If an
-    #   error occurs when Macie attempts to retrieve and process information
-    #   about the bucket or the bucket's objects, the value for most of
-    #   these properties is null. Key exceptions are accountId and
-    #   bucketName. To identify the cause of the error, refer to the
-    #   errorCode and errorMessage values.
+    #   that Amazon Macie monitors and analyzes for your account. By
+    #   default, object count and storage size values include data for
+    #   object parts that are the result of incomplete multipart uploads.
+    #   For more information, see [How Macie monitors Amazon S3 data
+    #   security][1] in the *Amazon Macie User Guide*.
+    #
+    #   If an error or issue prevents Macie from retrieving and processing
+    #   information about the bucket or the bucket's objects, the value for
+    #   many of these properties is null. Key exceptions are accountId and
+    #   bucketName. To identify the cause, refer to the errorCode and
+    #   errorMessage values.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/macie/latest/user/monitoring-s3-how-it-works.html
     #   @return [Types::MatchingBucket]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/macie2-2020-01-01/MatchingResource AWS API Documentation
@@ -4742,13 +4933,15 @@ module Aws::Macie2
     # Portable Document Format file.
     #
     # @!attribute [rw] line_range
-    #   Specifies the location of an occurrence of sensitive data in a
-    #   non-binary text file, such as an HTML, TXT, or XML file.
+    #   Specifies the location of an occurrence of sensitive data in an
+    #   email message or a non-binary text file such as an HTML, TXT, or XML
+    #   file.
     #   @return [Types::Range]
     #
     # @!attribute [rw] offset_range
-    #   Specifies the location of an occurrence of sensitive data in a
-    #   non-binary text file, such as an HTML, TXT, or XML file.
+    #   Specifies the location of an occurrence of sensitive data in an
+    #   email message or a non-binary text file such as an HTML, TXT, or XML
+    #   file.
     #   @return [Types::Range]
     #
     # @!attribute [rw] page_number
@@ -4791,7 +4984,7 @@ module Aws::Macie2
     # @!attribute [rw] configuration
     #   Specifies where to store data classification results, and the
     #   encryption settings to use when storing results in that location.
-    #   The location must be an S3 bucket.
+    #   The location must be an S3 general purpose bucket.
     #   @return [Types::ClassificationExportConfiguration]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/macie2-2020-01-01/PutClassificationExportConfigurationRequest AWS API Documentation
@@ -4808,7 +5001,7 @@ module Aws::Macie2
     # @!attribute [rw] configuration
     #   Specifies where to store data classification results, and the
     #   encryption settings to use when storing results in that location.
-    #   The location must be an S3 bucket.
+    #   The location must be an S3 general purpose bucket.
     #   @return [Types::ClassificationExportConfiguration]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/macie2-2020-01-01/PutClassificationExportConfigurationResponse AWS API Documentation
@@ -4830,8 +5023,8 @@ module Aws::Macie2
     # @!attribute [rw] security_hub_configuration
     #   Specifies configuration settings that determine which findings are
     #   published to Security Hub automatically. For information about how
-    #   Macie publishes findings to Security Hub, see [Amazon Macie
-    #   integration with Security Hub][1] in the *Amazon Macie User Guide*.
+    #   Macie publishes findings to Security Hub, see [Evaluating findings
+    #   with Security Hub][1] in the *Amazon Macie User Guide*.
     #
     #
     #
@@ -4851,8 +5044,8 @@ module Aws::Macie2
     #
     class PutFindingsPublicationConfigurationResponse < Aws::EmptyStructure; end
 
-    # Specifies the location of an occurrence of sensitive data in a
-    # non-binary text file, such as an HTML, TXT, or XML file.
+    # Specifies the location of an occurrence of sensitive data in an email
+    # message or a non-binary text file such as an HTML, TXT, or XML file.
     #
     # @!attribute [rw] end
     #   @return [Integer]
@@ -4930,10 +5123,10 @@ module Aws::Macie2
     end
 
     # Provides information about an S3 object that Amazon Macie selected for
-    # analysis while performing automated sensitive data discovery for an S3
-    # bucket, and the status and results of the analysis. This information
-    # is available only if automated sensitive data discovery is currently
-    # enabled for your account.
+    # analysis while performing automated sensitive data discovery for an
+    # account, and the status and results of the analysis. This information
+    # is available only if automated sensitive data discovery has been
+    # enabled for the account.
     #
     # @!attribute [rw] arn
     #   @return [String]
@@ -4955,11 +5148,10 @@ module Aws::Macie2
     end
 
     # Provides statistical data for sensitive data discovery metrics that
-    # apply to an S3 bucket that Amazon Macie monitors and analyzes for your
-    # account. The statistics capture the results of automated sensitive
-    # data discovery activities that Macie has performed for the bucket. The
-    # data is available only if automated sensitive data discovery is
-    # currently enabled for your account.
+    # apply to an S3 bucket that Amazon Macie monitors and analyzes for an
+    # account, if automated sensitive data discovery has been enabled for
+    # the account. The data captures the results of automated sensitive data
+    # discovery activities that Macie has performed for the bucket.
     #
     # @!attribute [rw] total_bytes_classified
     #   @return [Integer]
@@ -5008,6 +5200,11 @@ module Aws::Macie2
     #
     # @!attribute [rw] s3_bucket
     #   Provides information about the S3 bucket that a finding applies to.
+    #   If a quota prevented Amazon Macie from retrieving and processing all
+    #   the bucket's information prior to generating the finding, the
+    #   following values are UNKNOWN or null:
+    #   allowsUnencryptedObjectUploads, defaultServerSideEncryption,
+    #   publicAccess, and tags.
     #   @return [Types::S3Bucket]
     #
     # @!attribute [rw] s3_object
@@ -5023,12 +5220,35 @@ module Aws::Macie2
       include Aws::Structure
     end
 
-    # Specifies the configuration settings for retrieving occurrences of
-    # sensitive data reported by findings, and the status of the
-    # configuration for an Amazon Macie account. When you enable the
-    # configuration for the first time, your request must specify an Key
-    # Management Service (KMS) key. Otherwise, an error occurs. Macie uses
-    # the specified key to encrypt the sensitive data that you retrieve.
+    # Provides information about the access method and settings that are
+    # used to retrieve occurrences of sensitive data reported by findings.
+    #
+    # @!attribute [rw] external_id
+    #   @return [String]
+    #
+    # @!attribute [rw] retrieval_mode
+    #   The access method to use when retrieving occurrences of sensitive
+    #   data reported by findings. Valid values are:
+    #   @return [String]
+    #
+    # @!attribute [rw] role_name
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/macie2-2020-01-01/RetrievalConfiguration AWS API Documentation
+    #
+    class RetrievalConfiguration < Struct.new(
+      :external_id,
+      :retrieval_mode,
+      :role_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Specifies the status of the Amazon Macie configuration for retrieving
+    # occurrences of sensitive data reported by findings, and the Key
+    # Management Service (KMS) key to use to encrypt sensitive data that's
+    # retrieved. When you enable the configuration for the first time, your
+    # request must specify an KMS key. Otherwise, an error occurs.
     #
     # @!attribute [rw] kms_key_id
     #   @return [String]
@@ -5047,7 +5267,11 @@ module Aws::Macie2
       include Aws::Structure
     end
 
-    # Provides information about the S3 bucket that a finding applies to.
+    # Provides information about the S3 bucket that a finding applies to. If
+    # a quota prevented Amazon Macie from retrieving and processing all the
+    # bucket's information prior to generating the finding, the following
+    # values are UNKNOWN or null: allowsUnencryptedObjectUploads,
+    # defaultServerSideEncryption, publicAccess, and tags.
     #
     # @!attribute [rw] allows_unencrypted_object_uploads
     #   @return [String]
@@ -5059,8 +5283,9 @@ module Aws::Macie2
     #   @return [Time]
     #
     # @!attribute [rw] default_server_side_encryption
-    #   Provides information about the server-side encryption settings for
-    #   an S3 bucket or S3 object.
+    #   Provides information about the default server-side encryption
+    #   settings for an S3 bucket or the encryption settings for an S3
+    #   object.
     #   @return [Types::ServerSideEncryption]
     #
     # @!attribute [rw] name
@@ -5305,8 +5530,9 @@ module Aws::Macie2
     #   @return [Boolean]
     #
     # @!attribute [rw] server_side_encryption
-    #   Provides information about the server-side encryption settings for
-    #   an S3 bucket or S3 object.
+    #   Provides information about the default server-side encryption
+    #   settings for an S3 bucket or the encryption settings for an S3
+    #   object.
     #   @return [Types::ServerSideEncryption]
     #
     # @!attribute [rw] size
@@ -5453,7 +5679,8 @@ module Aws::Macie2
 
     # Specifies criteria for filtering, sorting, and paginating the results
     # of a query for statistical data and other information about Amazon Web
-    # Services resources that Amazon Macie monitors and analyzes.
+    # Services resources that Amazon Macie monitors and analyzes for your
+    # account.
     #
     # @!attribute [rw] bucket_criteria
     #   Specifies property- and tag-based conditions that define filter
@@ -5593,8 +5820,8 @@ module Aws::Macie2
 
     # Specifies configuration settings that determine which findings are
     # published to Security Hub automatically. For information about how
-    # Macie publishes findings to Security Hub, see [Amazon Macie
-    # integration with Security Hub][1] in the *Amazon Macie User Guide*.
+    # Macie publishes findings to Security Hub, see [Evaluating findings
+    # with Security Hub][1] in the *Amazon Macie User Guide*.
     #
     #
     #
@@ -5650,7 +5877,8 @@ module Aws::Macie2
     # for all the buckets that have a sensitivity score (sensitivityScore)
     # of a specified value or within a specified range
     # (BucketStatisticsBySensitivity). If automated sensitive data discovery
-    # is currently disabled for your account, the value for each field is 0.
+    # is currently disabled for your account, the value for most fields is
+    # 0.
     #
     # @!attribute [rw] classifiable_size_in_bytes
     #   @return [Integer]
@@ -5676,10 +5904,9 @@ module Aws::Macie2
     end
 
     # Specifies managed data identifiers to exclude (not use) when
-    # performing automated sensitive data discovery for an Amazon Macie
-    # account. For information about the managed data identifiers that
-    # Amazon Macie currently provides, see [Using managed data
-    # identifiers][1] in the *Amazon Macie User Guide*.
+    # performing automated sensitive data discovery. For information about
+    # the managed data identifiers that Amazon Macie currently provides, see
+    # [Using managed data identifiers][1] in the *Amazon Macie User Guide*.
     #
     #
     #
@@ -5698,11 +5925,10 @@ module Aws::Macie2
 
     # Specifies the allow lists, custom data identifiers, and managed data
     # identifiers to include (use) when performing automated sensitive data
-    # discovery for an Amazon Macie account. The configuration must specify
-    # at least one custom data identifier or managed data identifier. For
-    # information about the managed data identifiers that Amazon Macie
-    # currently provides, see [Using managed data identifiers][1] in the
-    # *Amazon Macie User Guide*.
+    # discovery. The configuration must specify at least one custom data
+    # identifier or managed data identifier. For information about the
+    # managed data identifiers that Amazon Macie currently provides, see
+    # [Using managed data identifiers][1] in the *Amazon Macie User Guide*.
     #
     #
     #
@@ -5728,8 +5954,7 @@ module Aws::Macie2
     end
 
     # Provides information about the sensitivity inspection template for an
-    # Amazon Macie account. Macie uses the template's settings when it
-    # performs automated sensitive data discovery for the account.
+    # Amazon Macie account.
     #
     # @!attribute [rw] id
     #   @return [String]
@@ -5746,12 +5971,13 @@ module Aws::Macie2
       include Aws::Structure
     end
 
-    # Provides information about the server-side encryption settings for an
-    # S3 bucket or S3 object.
+    # Provides information about the default server-side encryption settings
+    # for an S3 bucket or the encryption settings for an S3 object.
     #
     # @!attribute [rw] encryption_type
-    #   The type of server-side encryption that's used to encrypt an S3
-    #   object or objects in an S3 bucket. Possible values are:
+    #   The server-side encryption algorithm that was used to encrypt an S3
+    #   object or is used by default to encrypt objects that are added to an
+    #   S3 bucket. Possible values are:
     #   @return [String]
     #
     # @!attribute [rw] kms_master_key_id
@@ -5893,7 +6119,7 @@ module Aws::Macie2
 
     # Specifies a severity level for findings that a custom data identifier
     # produces. A severity level determines which severity is assigned to
-    # the findings, based on the number of occurrences of text that matches
+    # the findings, based on the number of occurrences of text that match
     # the custom data identifier's detection criteria.
     #
     # @!attribute [rw] occurrences_threshold
@@ -6002,8 +6228,8 @@ module Aws::Macie2
     end
 
     # Specifies a custom data identifier or managed data identifier that
-    # detected a type of sensitive data to start excluding or including in
-    # an S3 bucket's sensitivity score.
+    # detected a type of sensitive data to exclude from an S3 bucket's
+    # sensitivity score.
     #
     # @!attribute [rw] id
     #   @return [String]
@@ -6306,17 +6532,29 @@ module Aws::Macie2
       include Aws::Structure
     end
 
-    # Enables or disables automated sensitive data discovery for an Amazon
-    # Macie account.
+    # Changes the configuration settings and status of automated sensitive
+    # data discovery for an organization in Amazon Macie or a standalone
+    # Macie account. To change additional settings, such as the managed data
+    # identifiers to use when analyzing data, update the sensitivity
+    # inspection template and classification scope for the organization's
+    # Macie administrator account or the standalone account.
+    #
+    # @!attribute [rw] auto_enable_organization_members
+    #   Specifies whether to automatically enable automated sensitive data
+    #   discovery for accounts that are part of an organization in Amazon
+    #   Macie. Valid values are:
+    #   @return [String]
     #
     # @!attribute [rw] status
     #   The status of the automated sensitive data discovery configuration
-    #   for an Amazon Macie account. Valid values are:
+    #   for an organization in Amazon Macie or a standalone Macie account.
+    #   Valid values are:
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/macie2-2020-01-01/UpdateAutomatedDiscoveryConfigurationRequest AWS API Documentation
     #
     class UpdateAutomatedDiscoveryConfigurationRequest < Struct.new(
+      :auto_enable_organization_members,
       :status)
       SENSITIVE = []
       include Aws::Structure
@@ -6327,12 +6565,12 @@ module Aws::Macie2
     class UpdateAutomatedDiscoveryConfigurationResponse < Aws::EmptyStructure; end
 
     # Changes the status of a classification job. For more information about
-    # pausing, resuming, or cancelling jobs, see [Managing sensitive data
-    # discovery jobs][1] in the *Amazon Macie User Guide*.
+    # pausing, resuming, or cancelling jobs, see [Changing the status of a
+    # job][1] in the *Amazon Macie User Guide*.
     #
     #
     #
-    # [1]: https://docs.aws.amazon.com/macie/latest/user/discovery-jobs-manage.html
+    # [1]: https://docs.aws.amazon.com/macie/latest/user/discovery-jobs-status-change.html
     #
     # @!attribute [rw] job_id
     #   @return [String]
@@ -6357,8 +6595,7 @@ module Aws::Macie2
     # Specifies new classification scope settings for an Amazon Macie
     # account. Macie uses these settings when it performs automated
     # sensitive data discovery for the account. To update the settings,
-    # automated sensitive data discovery must currently be enabled for the
-    # account.
+    # automated sensitive data discovery must be enabled for the account.
     #
     # @!attribute [rw] id
     #   @return [String]
@@ -6498,7 +6735,8 @@ module Aws::Macie2
     class UpdateMemberSessionResponse < Aws::EmptyStructure; end
 
     # Specifies whether to enable Amazon Macie automatically for accounts
-    # that are added to an organization in Organizations.
+    # that are added to an organization in Organizations, when the accounts
+    # are added to the organization.
     #
     # @!attribute [rw] auto_enable
     #   @return [Boolean]
@@ -6516,11 +6754,10 @@ module Aws::Macie2
     class UpdateOrganizationConfigurationResponse < Aws::EmptyStructure; end
 
     # Updates the sensitivity scoring settings for an S3 bucket that Amazon
-    # Macie monitors and analyzes for your account. The settings specify
-    # whether to exclude or include occurrences of specific types of
-    # sensitive data in calculations of the bucket's sensitivity score. You
-    # can update the settings only if automated sensitive data discovery is
-    # currently enabled for your account.
+    # Macie monitors and analyzes for an account. The settings specify types
+    # of sensitive data to exclude from the sensitivity score that Macie
+    # calculates for the bucket. To update the settings, automated sensitive
+    # data discovery must be enabled for the account.
     #
     # @!attribute [rw] resource_arn
     #   @return [String]
@@ -6542,8 +6779,8 @@ module Aws::Macie2
     class UpdateResourceProfileDetectionsResponse < Aws::EmptyStructure; end
 
     # Specifies a new sensitivity score for an S3 bucket that Amazon Macie
-    # monitors and analyzes for your account. To update the score, automated
-    # sensitive data discovery must currently be enabled for your account.
+    # monitors and analyzes for an account. To update the score, automated
+    # sensitive data discovery must be enabled for the account.
     #
     # @!attribute [rw] resource_arn
     #   @return [String]
@@ -6564,23 +6801,75 @@ module Aws::Macie2
     #
     class UpdateResourceProfileResponse < Aws::EmptyStructure; end
 
-    # Specifies the configuration settings for retrieving occurrences of
+    # Specifies the access method and settings to use when retrieving
+    # occurrences of sensitive data reported by findings. If your request
+    # specifies an Identity and Access Management (IAM) role to assume,
+    # Amazon Macie verifies that the role exists and the attached policies
+    # are configured correctly. If there's an issue, Macie returns an
+    # error. For information about addressing the issue, see [Configuration
+    # options for retrieving sensitive data samples][1] in the *Amazon Macie
+    # User Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/macie/latest/user/findings-retrieve-sd-options.html
+    #
+    # @!attribute [rw] retrieval_mode
+    #   The access method to use when retrieving occurrences of sensitive
+    #   data reported by findings. Valid values are:
+    #   @return [String]
+    #
+    # @!attribute [rw] role_name
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/macie2-2020-01-01/UpdateRetrievalConfiguration AWS API Documentation
+    #
+    class UpdateRetrievalConfiguration < Struct.new(
+      :retrieval_mode,
+      :role_name)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Specifies configuration settings for retrieving occurrences of
     # sensitive data reported by findings, and the status of the
-    # configuration for an Amazon Macie account.
+    # configuration for an Amazon Macie account. If you don't specify
+    # retrievalConfiguration settings for an existing configuration, Macie
+    # sets the access method to CALLER\_CREDENTIALS. If your current access
+    # method is ASSUME\_ROLE, Macie also deletes the external ID and role
+    # name currently specified for the configuration. To keep these settings
+    # for an existing configuration, specify your current
+    # retrievalConfiguration settings in your request.
     #
     # @!attribute [rw] configuration
-    #   Specifies the configuration settings for retrieving occurrences of
-    #   sensitive data reported by findings, and the status of the
-    #   configuration for an Amazon Macie account. When you enable the
-    #   configuration for the first time, your request must specify an Key
-    #   Management Service (KMS) key. Otherwise, an error occurs. Macie uses
-    #   the specified key to encrypt the sensitive data that you retrieve.
+    #   Specifies the status of the Amazon Macie configuration for
+    #   retrieving occurrences of sensitive data reported by findings, and
+    #   the Key Management Service (KMS) key to use to encrypt sensitive
+    #   data that's retrieved. When you enable the configuration for the
+    #   first time, your request must specify an KMS key. Otherwise, an
+    #   error occurs.
     #   @return [Types::RevealConfiguration]
+    #
+    # @!attribute [rw] retrieval_configuration
+    #   Specifies the access method and settings to use when retrieving
+    #   occurrences of sensitive data reported by findings. If your request
+    #   specifies an Identity and Access Management (IAM) role to assume,
+    #   Amazon Macie verifies that the role exists and the attached policies
+    #   are configured correctly. If there's an issue, Macie returns an
+    #   error. For information about addressing the issue, see
+    #   [Configuration options for retrieving sensitive data samples][1] in
+    #   the *Amazon Macie User Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/macie/latest/user/findings-retrieve-sd-options.html
+    #   @return [Types::UpdateRetrievalConfiguration]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/macie2-2020-01-01/UpdateRevealConfigurationRequest AWS API Documentation
     #
     class UpdateRevealConfigurationRequest < Struct.new(
-      :configuration)
+      :configuration,
+      :retrieval_configuration)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -6590,37 +6879,41 @@ module Aws::Macie2
     # status of the configuration for an Amazon Macie account.
     #
     # @!attribute [rw] configuration
-    #   Specifies the configuration settings for retrieving occurrences of
-    #   sensitive data reported by findings, and the status of the
-    #   configuration for an Amazon Macie account. When you enable the
-    #   configuration for the first time, your request must specify an Key
-    #   Management Service (KMS) key. Otherwise, an error occurs. Macie uses
-    #   the specified key to encrypt the sensitive data that you retrieve.
+    #   Specifies the status of the Amazon Macie configuration for
+    #   retrieving occurrences of sensitive data reported by findings, and
+    #   the Key Management Service (KMS) key to use to encrypt sensitive
+    #   data that's retrieved. When you enable the configuration for the
+    #   first time, your request must specify an KMS key. Otherwise, an
+    #   error occurs.
     #   @return [Types::RevealConfiguration]
+    #
+    # @!attribute [rw] retrieval_configuration
+    #   Provides information about the access method and settings that are
+    #   used to retrieve occurrences of sensitive data reported by findings.
+    #   @return [Types::RetrievalConfiguration]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/macie2-2020-01-01/UpdateRevealConfigurationResponse AWS API Documentation
     #
     class UpdateRevealConfigurationResponse < Struct.new(
-      :configuration)
+      :configuration,
+      :retrieval_configuration)
       SENSITIVE = []
       include Aws::Structure
     end
 
     # Specifies settings for the sensitivity inspection template for an
-    # Amazon Macie account. Macie uses the template's settings when it
-    # performs automated sensitive data discovery for the account. To update
-    # the settings, automated sensitive data discovery must currently be
-    # enabled for the account.
+    # Amazon Macie account. To update the settings, automated sensitive data
+    # discovery must be enabled for the account.
     #
     # @!attribute [rw] description
     #   @return [String]
     #
     # @!attribute [rw] excludes
     #   Specifies managed data identifiers to exclude (not use) when
-    #   performing automated sensitive data discovery for an Amazon Macie
-    #   account. For information about the managed data identifiers that
-    #   Amazon Macie currently provides, see [Using managed data
-    #   identifiers][1] in the *Amazon Macie User Guide*.
+    #   performing automated sensitive data discovery. For information about
+    #   the managed data identifiers that Amazon Macie currently provides,
+    #   see [Using managed data identifiers][1] in the *Amazon Macie User
+    #   Guide*.
     #
     #
     #
@@ -6633,11 +6926,11 @@ module Aws::Macie2
     # @!attribute [rw] includes
     #   Specifies the allow lists, custom data identifiers, and managed data
     #   identifiers to include (use) when performing automated sensitive
-    #   data discovery for an Amazon Macie account. The configuration must
-    #   specify at least one custom data identifier or managed data
-    #   identifier. For information about the managed data identifiers that
-    #   Amazon Macie currently provides, see [Using managed data
-    #   identifiers][1] in the *Amazon Macie User Guide*.
+    #   data discovery. The configuration must specify at least one custom
+    #   data identifier or managed data identifier. For information about
+    #   the managed data identifiers that Amazon Macie currently provides,
+    #   see [Using managed data identifiers][1] in the *Amazon Macie User
+    #   Guide*.
     #
     #
     #
@@ -6808,8 +7101,8 @@ module Aws::Macie2
     #   @return [Types::AwsAccount]
     #
     # @!attribute [rw] aws_service
-    #   Provides information about an Amazon Web Service that performed an
-    #   action on an affected resource.
+    #   Provides information about an Amazon Web Services service that
+    #   performed an action on an affected resource.
     #   @return [Types::AwsService]
     #
     # @!attribute [rw] federated_user
@@ -6931,3 +7224,4 @@ module Aws::Macie2
 
   end
 end
+

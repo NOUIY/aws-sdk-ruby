@@ -7,33 +7,34 @@
 #
 # WARNING ABOUT GENERATED CODE
 
-require 'seahorse/client/plugins/content_length.rb'
-require 'aws-sdk-core/plugins/credentials_configuration.rb'
-require 'aws-sdk-core/plugins/logging.rb'
-require 'aws-sdk-core/plugins/param_converter.rb'
-require 'aws-sdk-core/plugins/param_validator.rb'
-require 'aws-sdk-core/plugins/user_agent.rb'
-require 'aws-sdk-core/plugins/helpful_socket_errors.rb'
-require 'aws-sdk-core/plugins/retry_errors.rb'
-require 'aws-sdk-core/plugins/global_configuration.rb'
-require 'aws-sdk-core/plugins/regional_endpoint.rb'
-require 'aws-sdk-core/plugins/endpoint_discovery.rb'
-require 'aws-sdk-core/plugins/endpoint_pattern.rb'
-require 'aws-sdk-core/plugins/response_paging.rb'
-require 'aws-sdk-core/plugins/stub_responses.rb'
-require 'aws-sdk-core/plugins/idempotency_token.rb'
-require 'aws-sdk-core/plugins/jsonvalue_converter.rb'
-require 'aws-sdk-core/plugins/client_metrics_plugin.rb'
-require 'aws-sdk-core/plugins/client_metrics_send_plugin.rb'
-require 'aws-sdk-core/plugins/transfer_encoding.rb'
-require 'aws-sdk-core/plugins/http_checksum.rb'
-require 'aws-sdk-core/plugins/checksum_algorithm.rb'
-require 'aws-sdk-core/plugins/defaults_mode.rb'
-require 'aws-sdk-core/plugins/recursion_detection.rb'
-require 'aws-sdk-core/plugins/sign.rb'
-require 'aws-sdk-core/plugins/protocols/json_rpc.rb'
-
-Aws::Plugins::GlobalConfiguration.add_identifier(:apprunner)
+require 'seahorse/client/plugins/content_length'
+require 'aws-sdk-core/plugins/credentials_configuration'
+require 'aws-sdk-core/plugins/logging'
+require 'aws-sdk-core/plugins/param_converter'
+require 'aws-sdk-core/plugins/param_validator'
+require 'aws-sdk-core/plugins/user_agent'
+require 'aws-sdk-core/plugins/helpful_socket_errors'
+require 'aws-sdk-core/plugins/retry_errors'
+require 'aws-sdk-core/plugins/global_configuration'
+require 'aws-sdk-core/plugins/regional_endpoint'
+require 'aws-sdk-core/plugins/endpoint_discovery'
+require 'aws-sdk-core/plugins/endpoint_pattern'
+require 'aws-sdk-core/plugins/response_paging'
+require 'aws-sdk-core/plugins/stub_responses'
+require 'aws-sdk-core/plugins/idempotency_token'
+require 'aws-sdk-core/plugins/invocation_id'
+require 'aws-sdk-core/plugins/jsonvalue_converter'
+require 'aws-sdk-core/plugins/client_metrics_plugin'
+require 'aws-sdk-core/plugins/client_metrics_send_plugin'
+require 'aws-sdk-core/plugins/transfer_encoding'
+require 'aws-sdk-core/plugins/http_checksum'
+require 'aws-sdk-core/plugins/checksum_algorithm'
+require 'aws-sdk-core/plugins/request_compression'
+require 'aws-sdk-core/plugins/defaults_mode'
+require 'aws-sdk-core/plugins/recursion_detection'
+require 'aws-sdk-core/plugins/telemetry'
+require 'aws-sdk-core/plugins/sign'
+require 'aws-sdk-core/plugins/protocols/json_rpc'
 
 module Aws::AppRunner
   # An API client for AppRunner.  To construct a client, you need to configure a `:region` and `:credentials`.
@@ -71,20 +72,28 @@ module Aws::AppRunner
     add_plugin(Aws::Plugins::ResponsePaging)
     add_plugin(Aws::Plugins::StubResponses)
     add_plugin(Aws::Plugins::IdempotencyToken)
+    add_plugin(Aws::Plugins::InvocationId)
     add_plugin(Aws::Plugins::JsonvalueConverter)
     add_plugin(Aws::Plugins::ClientMetricsPlugin)
     add_plugin(Aws::Plugins::ClientMetricsSendPlugin)
     add_plugin(Aws::Plugins::TransferEncoding)
     add_plugin(Aws::Plugins::HttpChecksum)
     add_plugin(Aws::Plugins::ChecksumAlgorithm)
+    add_plugin(Aws::Plugins::RequestCompression)
     add_plugin(Aws::Plugins::DefaultsMode)
     add_plugin(Aws::Plugins::RecursionDetection)
+    add_plugin(Aws::Plugins::Telemetry)
     add_plugin(Aws::Plugins::Sign)
     add_plugin(Aws::Plugins::Protocols::JsonRpc)
     add_plugin(Aws::AppRunner::Plugins::Endpoints)
 
     # @overload initialize(options)
     #   @param [Hash] options
+    #
+    #   @option options [Array<Seahorse::Client::Plugin>] :plugins ([]])
+    #     A list of plugins to apply to the client. Each plugin is either a
+    #     class name or an instance of a plugin class.
+    #
     #   @option options [required, Aws::CredentialProvider] :credentials
     #     Your AWS credentials. This can be an instance of any one of the
     #     following classes:
@@ -119,13 +128,15 @@ module Aws::AppRunner
     #     locations will be searched for credentials:
     #
     #     * `Aws.config[:credentials]`
-    #     * The `:access_key_id`, `:secret_access_key`, and `:session_token` options.
-    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']
+    #     * The `:access_key_id`, `:secret_access_key`, `:session_token`, and
+    #       `:account_id` options.
+    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'],
+    #       ENV['AWS_SESSION_TOKEN'], and ENV['AWS_ACCOUNT_ID']
     #     * `~/.aws/credentials`
     #     * `~/.aws/config`
     #     * EC2/ECS IMDS instance profile - When used by default, the timeouts
     #       are very aggressive. Construct and pass an instance of
-    #       `Aws::InstanceProfileCredentails` or `Aws::ECSCredentials` to
+    #       `Aws::InstanceProfileCredentials` or `Aws::ECSCredentials` to
     #       enable retries and extended timeouts. Instance profile credential
     #       fetching can be disabled by setting ENV['AWS_EC2_METADATA_DISABLED']
     #       to true.
@@ -143,6 +154,8 @@ module Aws::AppRunner
     #     * `~/.aws/config`
     #
     #   @option options [String] :access_key_id
+    #
+    #   @option options [String] :account_id
     #
     #   @option options [Boolean] :active_endpoint_cache (false)
     #     When set to `true`, a thread polling for endpoints will be running in
@@ -190,10 +203,20 @@ module Aws::AppRunner
     #     Set to true to disable SDK automatically adding host prefix
     #     to default service endpoint when available.
     #
-    #   @option options [String] :endpoint
-    #     The client endpoint is normally constructed from the `:region`
-    #     option. You should only configure an `:endpoint` when connecting
-    #     to test or custom endpoints. This should be a valid HTTP(S) URI.
+    #   @option options [Boolean] :disable_request_compression (false)
+    #     When set to 'true' the request body will not be compressed
+    #     for supported operations.
+    #
+    #   @option options [String, URI::HTTPS, URI::HTTP] :endpoint
+    #     Normally you should not configure the `:endpoint` option
+    #     directly. This is normally constructed from the `:region`
+    #     option. Configuring `:endpoint` is normally reserved for
+    #     connecting to test or custom endpoints. The endpoint should
+    #     be a URI formatted like:
+    #
+    #         'http://example.com'
+    #         'https://example.com'
+    #         'http://example.com:123'
     #
     #   @option options [Integer] :endpoint_cache_max_entries (1000)
     #     Used for the maximum size limit of the LRU cache storing endpoints data
@@ -209,6 +232,10 @@ module Aws::AppRunner
     #
     #   @option options [Boolean] :endpoint_discovery (false)
     #     When set to `true`, endpoint discovery will be enabled for operations when available.
+    #
+    #   @option options [Boolean] :ignore_configured_endpoint_urls
+    #     Setting to true disables use of endpoint URLs provided via environment
+    #     variables and the shared configuration file.
     #
     #   @option options [Aws::Log::Formatter] :log_formatter (Aws::Log::Formatter.default)
     #     The log formatter.
@@ -229,6 +256,34 @@ module Aws::AppRunner
     #   @option options [String] :profile ("default")
     #     Used when loading credentials from the shared credentials file
     #     at HOME/.aws/credentials.  When not specified, 'default' is used.
+    #
+    #   @option options [String] :request_checksum_calculation ("when_supported")
+    #     Determines when a checksum will be calculated for request payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, a checksum will be
+    #       calculated for all request payloads of operations modeled with the
+    #       `httpChecksum` trait where `requestChecksumRequired` is `true` and/or a
+    #       `requestAlgorithmMember` is modeled.
+    #     * `when_required` - When set, a checksum will only be calculated for
+    #       request payloads of operations modeled with the  `httpChecksum` trait where
+    #       `requestChecksumRequired` is `true` or where a `requestAlgorithmMember`
+    #       is modeled and supplied.
+    #
+    #   @option options [Integer] :request_min_compression_size_bytes (10240)
+    #     The minimum size in bytes that triggers compression for request
+    #     bodies. The value must be non-negative integer value between 0
+    #     and 10485780 bytes inclusive.
+    #
+    #   @option options [String] :response_checksum_validation ("when_supported")
+    #     Determines when checksum validation will be performed on response payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, checksum validation is performed on all
+    #       response payloads of operations modeled with the `httpChecksum` trait where
+    #       `responseAlgorithms` is modeled, except when no modeled checksum algorithms
+    #       are supported.
+    #     * `when_required` - When set, checksum validation is not performed on
+    #       response payloads of operations unless the checksum algorithm is supported and
+    #       the `requestValidationModeMember` member is set to `ENABLED`.
     #
     #   @option options [Proc] :retry_backoff
     #     A proc or lambda used for backoff. Defaults to 2**retries * retry_base_delay.
@@ -274,20 +329,31 @@ module Aws::AppRunner
     #       throttling.  This is a provisional mode that may change behavior
     #       in the future.
     #
+    #   @option options [String] :sdk_ua_app_id
+    #     A unique and opaque application ID that is appended to the
+    #     User-Agent header as app/sdk_ua_app_id. It should have a
+    #     maximum length of 50. This variable is sourced from environment
+    #     variable AWS_SDK_UA_APP_ID or the shared config profile attribute sdk_ua_app_id.
     #
     #   @option options [String] :secret_access_key
     #
     #   @option options [String] :session_token
     #
+    #   @option options [Array] :sigv4a_signing_region_set
+    #     A list of regions that should be signed with SigV4a signing. When
+    #     not passed, a default `:sigv4a_signing_region_set` is searched for
+    #     in the following locations:
+    #
+    #     * `Aws.config[:sigv4a_signing_region_set]`
+    #     * `ENV['AWS_SIGV4A_SIGNING_REGION_SET']`
+    #     * `~/.aws/config`
+    #
     #   @option options [Boolean] :simple_json (false)
     #     Disables request parameter conversion, validation, and formatting.
-    #     Also disable response data type conversions. This option is useful
-    #     when you want to ensure the highest level of performance by
-    #     avoiding overhead of walking request parameters and response data
-    #     structures.
-    #
-    #     When `:simple_json` is enabled, the request parameters hash must
-    #     be formatted exactly as the DynamoDB API expects.
+    #     Also disables response data type conversions. The request parameters
+    #     hash must be formatted exactly as the API expects.This option is useful
+    #     when you want to ensure the highest level of performance by avoiding
+    #     overhead of walking request parameters and response data structures.
     #
     #   @option options [Boolean] :stub_responses (false)
     #     Causes the client to return stubbed responses. By default
@@ -297,6 +363,16 @@ module Aws::AppRunner
     #
     #     ** Please note ** When response stubbing is enabled, no HTTP
     #     requests are made, and retries are disabled.
+    #
+    #   @option options [Aws::Telemetry::TelemetryProviderBase] :telemetry_provider (Aws::Telemetry::NoOpTelemetryProvider)
+    #     Allows you to provide a telemetry provider, which is used to
+    #     emit telemetry data. By default, uses `NoOpTelemetryProvider` which
+    #     will not record or emit any telemetry data. The SDK supports the
+    #     following telemetry providers:
+    #
+    #     * OpenTelemetry (OTel) - To use the OTel provider, install and require the
+    #     `opentelemetry-sdk` gem and then, pass in an instance of a
+    #     `Aws::Telemetry::OTelProvider` for telemetry provider.
     #
     #   @option options [Aws::TokenProvider] :token_provider
     #     A Bearer Token Provider. This can be an instance of any one of the
@@ -325,52 +401,75 @@ module Aws::AppRunner
     #     sending the request.
     #
     #   @option options [Aws::AppRunner::EndpointProvider] :endpoint_provider
-    #     The endpoint provider used to resolve endpoints. Any object that responds to `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to `Aws::AppRunner::EndpointParameters`
+    #     The endpoint provider used to resolve endpoints. Any object that responds to
+    #     `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+    #     `Aws::AppRunner::EndpointParameters`.
     #
-    #   @option options [URI::HTTP,String] :http_proxy A proxy to send
-    #     requests through.  Formatted like 'http://proxy.com:123'.
+    #   @option options [Float] :http_continue_timeout (1)
+    #     The number of seconds to wait for a 100-continue response before sending the
+    #     request body.  This option has no effect unless the request has "Expect"
+    #     header set to "100-continue".  Defaults to `nil` which  disables this
+    #     behaviour.  This value can safely be set per request on the session.
     #
-    #   @option options [Float] :http_open_timeout (15) The number of
-    #     seconds to wait when opening a HTTP session before raising a
-    #     `Timeout::Error`.
+    #   @option options [Float] :http_idle_timeout (5)
+    #     The number of seconds a connection is allowed to sit idle before it
+    #     is considered stale.  Stale connections are closed and removed from the
+    #     pool before making a request.
     #
-    #   @option options [Float] :http_read_timeout (60) The default
-    #     number of seconds to wait for response data.  This value can
-    #     safely be set per-request on the session.
+    #   @option options [Float] :http_open_timeout (15)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :http_idle_timeout (5) The number of
-    #     seconds a connection is allowed to sit idle before it is
-    #     considered stale.  Stale connections are closed and removed
-    #     from the pool before making a request.
+    #   @option options [URI::HTTP,String] :http_proxy
+    #     A proxy to send requests through.  Formatted like 'http://proxy.com:123'.
     #
-    #   @option options [Float] :http_continue_timeout (1) The number of
-    #     seconds to wait for a 100-continue response before sending the
-    #     request body.  This option has no effect unless the request has
-    #     "Expect" header set to "100-continue".  Defaults to `nil` which
-    #     disables this behaviour.  This value can safely be set per
-    #     request on the session.
+    #   @option options [Float] :http_read_timeout (60)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :ssl_timeout (nil) Sets the SSL timeout
-    #     in seconds.
+    #   @option options [Boolean] :http_wire_trace (false)
+    #     When `true`,  HTTP debug output will be sent to the `:logger`.
     #
-    #   @option options [Boolean] :http_wire_trace (false) When `true`,
-    #     HTTP debug output will be sent to the `:logger`.
+    #   @option options [Proc] :on_chunk_received
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the response body is received. It provides three arguments: the chunk,
+    #     the number of bytes received, and the total number of
+    #     bytes in the response (or nil if the server did not send a `content-length`).
     #
-    #   @option options [Boolean] :ssl_verify_peer (true) When `true`,
-    #     SSL peer certificates are verified when establishing a
-    #     connection.
+    #   @option options [Proc] :on_chunk_sent
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the request body is sent. It provides three arguments: the chunk,
+    #     the number of bytes read from the body, and the total number of
+    #     bytes in the body.
     #
-    #   @option options [String] :ssl_ca_bundle Full path to the SSL
-    #     certificate authority bundle file that should be used when
-    #     verifying peer certificates.  If you do not pass
-    #     `:ssl_ca_bundle` or `:ssl_ca_directory` the the system default
-    #     will be used if available.
+    #   @option options [Boolean] :raise_response_errors (true)
+    #     When `true`, response errors are raised.
     #
-    #   @option options [String] :ssl_ca_directory Full path of the
-    #     directory that contains the unbundled SSL certificate
+    #   @option options [String] :ssl_ca_bundle
+    #     Full path to the SSL certificate authority bundle file that should be used when
+    #     verifying peer certificates.  If you do not pass `:ssl_ca_bundle` or
+    #     `:ssl_ca_directory` the the system default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_directory
+    #     Full path of the directory that contains the unbundled SSL certificate
     #     authority files for verifying peer certificates.  If you do
-    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the
-    #     system default will be used if available.
+    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the system
+    #     default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_store
+    #     Sets the X509::Store to verify peer certificate.
+    #
+    #   @option options [OpenSSL::X509::Certificate] :ssl_cert
+    #     Sets a client certificate when creating http connections.
+    #
+    #   @option options [OpenSSL::PKey] :ssl_key
+    #     Sets a client key when creating http connections.
+    #
+    #   @option options [Float] :ssl_timeout
+    #     Sets the SSL timeout in seconds
+    #
+    #   @option options [Boolean] :ssl_verify_peer (true)
+    #     When `true`, SSL peer certificates are verified when establishing a connection.
     #
     def initialize(*args)
       super
@@ -478,16 +577,32 @@ module Aws::AppRunner
     #   subsequent calls, App Runner creates incremental revisions of the
     #   configuration.
     #
-    #   <note markdown="1"> The name `DefaultConfiguration` is reserved (it's the configuration
-    #   that App Runner uses if you don't provide a custome one). You can't
-    #   use it to create a new auto scaling configuration, and you can't
-    #   create a revision of it.
+    #   <note markdown="1"> Prior to the release of [Auto scale configuration enhancements][1],
+    #   the name `DefaultConfiguration` was reserved.
     #
-    #    When you want to use your own auto scaling configuration for your App
-    #   Runner service, *create a configuration with a different name*, and
-    #   then provide it when you create or update your service.
+    #    This restriction is no longer in place. You can now manage
+    #   `DefaultConfiguration` the same way you manage your custom auto
+    #   scaling configurations. This means you can do the following with the
+    #   `DefaultConfiguration` that App Runner provides:
+    #
+    #    * Create new revisions of the `DefaultConfiguration`.
+    #
+    #   * Delete the revisions of the `DefaultConfiguration`.
+    #
+    #   * Delete the auto scaling configuration for which the App Runner
+    #     `DefaultConfiguration` was created.
+    #
+    #   * If you delete the auto scaling configuration you can create another
+    #     custom auto scaling configuration with the same
+    #     `DefaultConfiguration` name. The original `DefaultConfiguration`
+    #     resource provided by App Runner remains in your account unless you
+    #     make changes to it.
     #
     #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/apprunner/latest/relnotes/release-2023-09-22-auto-scale-config.html
     #
     # @option params [Integer] :max_concurrency
     #   The maximum number of concurrent requests that you want an instance to
@@ -552,6 +667,8 @@ module Aws::AppRunner
     #   resp.auto_scaling_configuration.max_size #=> Integer
     #   resp.auto_scaling_configuration.created_at #=> Time
     #   resp.auto_scaling_configuration.deleted_at #=> Time
+    #   resp.auto_scaling_configuration.has_associated_service #=> Boolean
+    #   resp.auto_scaling_configuration.is_default #=> Boolean
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/apprunner-2020-05-15/CreateAutoScalingConfiguration AWS API Documentation
     #
@@ -567,9 +684,9 @@ module Aws::AppRunner
     # private repositories from certain third-party providers. You can share
     # a connection across multiple services.
     #
-    # A connection resource is needed to access GitHub repositories. GitHub
-    # requires a user interface approval process through the App Runner
-    # console before you can use the connection.
+    # A connection resource is needed to access GitHub and Bitbucket
+    # repositories. Both require a user interface approval process through
+    # the App Runner console before you can use the connection.
     #
     # @option params [required, String] :connection_name
     #   A name for the new connection. It must be unique across all App Runner
@@ -591,7 +708,7 @@ module Aws::AppRunner
     #
     #   resp = client.create_connection({
     #     connection_name: "ConnectionName", # required
-    #     provider_type: "GITHUB", # required, accepts GITHUB
+    #     provider_type: "GITHUB", # required, accepts GITHUB, BITBUCKET
     #     tags: [
     #       {
     #         key: "TagKey",
@@ -604,7 +721,7 @@ module Aws::AppRunner
     #
     #   resp.connection.connection_name #=> String
     #   resp.connection.connection_arn #=> String
-    #   resp.connection.provider_type #=> String, one of "GITHUB"
+    #   resp.connection.provider_type #=> String, one of "GITHUB", "BITBUCKET"
     #   resp.connection.status #=> String, one of "PENDING_HANDSHAKE", "AVAILABLE", "ERROR", "DELETED"
     #   resp.connection.created_at #=> Time
     #
@@ -777,7 +894,7 @@ module Aws::AppRunner
     #         code_configuration: {
     #           configuration_source: "REPOSITORY", # required, accepts REPOSITORY, API
     #           code_configuration_values: {
-    #             runtime: "PYTHON_3", # required, accepts PYTHON_3, NODEJS_12, NODEJS_14, CORRETTO_8, CORRETTO_11, NODEJS_16, GO_1, DOTNET_6, PHP_81, RUBY_31
+    #             runtime: "PYTHON_3", # required, accepts PYTHON_3, NODEJS_12, NODEJS_14, CORRETTO_8, CORRETTO_11, NODEJS_16, GO_1, DOTNET_6, PHP_81, RUBY_31, PYTHON_311, NODEJS_18
     #             build_command: "BuildCommand",
     #             start_command: "StartCommand",
     #             port: "String",
@@ -789,6 +906,7 @@ module Aws::AppRunner
     #             },
     #           },
     #         },
+    #         source_directory: "SourceDirectory",
     #       },
     #       image_repository: {
     #         image_identifier: "ImageIdentifier", # required
@@ -841,6 +959,7 @@ module Aws::AppRunner
     #       ingress_configuration: {
     #         is_publicly_accessible: false,
     #       },
+    #       ip_address_type: "IPV4", # accepts IPV4, DUAL_STACK
     #     },
     #     observability_configuration: {
     #       observability_enabled: false, # required
@@ -862,7 +981,7 @@ module Aws::AppRunner
     #   resp.service.source_configuration.code_repository.source_code_version.type #=> String, one of "BRANCH"
     #   resp.service.source_configuration.code_repository.source_code_version.value #=> String
     #   resp.service.source_configuration.code_repository.code_configuration.configuration_source #=> String, one of "REPOSITORY", "API"
-    #   resp.service.source_configuration.code_repository.code_configuration.code_configuration_values.runtime #=> String, one of "PYTHON_3", "NODEJS_12", "NODEJS_14", "CORRETTO_8", "CORRETTO_11", "NODEJS_16", "GO_1", "DOTNET_6", "PHP_81", "RUBY_31"
+    #   resp.service.source_configuration.code_repository.code_configuration.code_configuration_values.runtime #=> String, one of "PYTHON_3", "NODEJS_12", "NODEJS_14", "CORRETTO_8", "CORRETTO_11", "NODEJS_16", "GO_1", "DOTNET_6", "PHP_81", "RUBY_31", "PYTHON_311", "NODEJS_18"
     #   resp.service.source_configuration.code_repository.code_configuration.code_configuration_values.build_command #=> String
     #   resp.service.source_configuration.code_repository.code_configuration.code_configuration_values.start_command #=> String
     #   resp.service.source_configuration.code_repository.code_configuration.code_configuration_values.port #=> String
@@ -870,6 +989,7 @@ module Aws::AppRunner
     #   resp.service.source_configuration.code_repository.code_configuration.code_configuration_values.runtime_environment_variables["RuntimeEnvironmentVariablesKey"] #=> String
     #   resp.service.source_configuration.code_repository.code_configuration.code_configuration_values.runtime_environment_secrets #=> Hash
     #   resp.service.source_configuration.code_repository.code_configuration.code_configuration_values.runtime_environment_secrets["RuntimeEnvironmentSecretsName"] #=> String
+    #   resp.service.source_configuration.code_repository.source_directory #=> String
     #   resp.service.source_configuration.image_repository.image_identifier #=> String
     #   resp.service.source_configuration.image_repository.image_configuration.runtime_environment_variables #=> Hash
     #   resp.service.source_configuration.image_repository.image_configuration.runtime_environment_variables["RuntimeEnvironmentVariablesKey"] #=> String
@@ -894,9 +1014,14 @@ module Aws::AppRunner
     #   resp.service.auto_scaling_configuration_summary.auto_scaling_configuration_arn #=> String
     #   resp.service.auto_scaling_configuration_summary.auto_scaling_configuration_name #=> String
     #   resp.service.auto_scaling_configuration_summary.auto_scaling_configuration_revision #=> Integer
+    #   resp.service.auto_scaling_configuration_summary.status #=> String, one of "ACTIVE", "INACTIVE"
+    #   resp.service.auto_scaling_configuration_summary.created_at #=> Time
+    #   resp.service.auto_scaling_configuration_summary.has_associated_service #=> Boolean
+    #   resp.service.auto_scaling_configuration_summary.is_default #=> Boolean
     #   resp.service.network_configuration.egress_configuration.egress_type #=> String, one of "DEFAULT", "VPC"
     #   resp.service.network_configuration.egress_configuration.vpc_connector_arn #=> String
     #   resp.service.network_configuration.ingress_configuration.is_publicly_accessible #=> Boolean
+    #   resp.service.network_configuration.ip_address_type #=> String, one of "IPV4", "DUAL_STACK"
     #   resp.service.observability_configuration.observability_enabled #=> Boolean
     #   resp.service.observability_configuration.observability_configuration_arn #=> String
     #   resp.operation_id #=> String
@@ -1043,9 +1168,10 @@ module Aws::AppRunner
     end
 
     # Delete an App Runner automatic scaling configuration resource. You can
-    # delete a specific revision or the latest active revision. You can't
-    # delete a configuration that's used by one or more App Runner
-    # services.
+    # delete a top level auto scaling configuration, a specific revision of
+    # one, or all revisions associated with the top level configuration. You
+    # can't delete the default auto scaling configuration or a
+    # configuration that's used by one or more App Runner services.
     #
     # @option params [required, String] :auto_scaling_configuration_arn
     #   The Amazon Resource Name (ARN) of the App Runner auto scaling
@@ -1055,6 +1181,14 @@ module Aws::AppRunner
     #   ending with either `.../name ` or `.../name/revision `. If a revision
     #   isn't specified, the latest active revision is deleted.
     #
+    # @option params [Boolean] :delete_all_revisions
+    #   Set to `true` to delete all of the revisions associated with the
+    #   `AutoScalingConfigurationArn` parameter value.
+    #
+    #   When `DeleteAllRevisions` is set to `true`, the only valid value for
+    #   the Amazon Resource Name (ARN) is a partial ARN ending with:
+    #   `.../name`.
+    #
     # @return [Types::DeleteAutoScalingConfigurationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::DeleteAutoScalingConfigurationResponse#auto_scaling_configuration #auto_scaling_configuration} => Types::AutoScalingConfiguration
@@ -1063,6 +1197,7 @@ module Aws::AppRunner
     #
     #   resp = client.delete_auto_scaling_configuration({
     #     auto_scaling_configuration_arn: "AppRunnerResourceArn", # required
+    #     delete_all_revisions: false,
     #   })
     #
     # @example Response structure
@@ -1077,6 +1212,8 @@ module Aws::AppRunner
     #   resp.auto_scaling_configuration.max_size #=> Integer
     #   resp.auto_scaling_configuration.created_at #=> Time
     #   resp.auto_scaling_configuration.deleted_at #=> Time
+    #   resp.auto_scaling_configuration.has_associated_service #=> Boolean
+    #   resp.auto_scaling_configuration.is_default #=> Boolean
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/apprunner-2020-05-15/DeleteAutoScalingConfiguration AWS API Documentation
     #
@@ -1109,7 +1246,7 @@ module Aws::AppRunner
     #
     #   resp.connection.connection_name #=> String
     #   resp.connection.connection_arn #=> String
-    #   resp.connection.provider_type #=> String, one of "GITHUB"
+    #   resp.connection.provider_type #=> String, one of "GITHUB", "BITBUCKET"
     #   resp.connection.status #=> String, one of "PENDING_HANDSHAKE", "AVAILABLE", "ERROR", "DELETED"
     #   resp.connection.created_at #=> Time
     #
@@ -1205,7 +1342,7 @@ module Aws::AppRunner
     #   resp.service.source_configuration.code_repository.source_code_version.type #=> String, one of "BRANCH"
     #   resp.service.source_configuration.code_repository.source_code_version.value #=> String
     #   resp.service.source_configuration.code_repository.code_configuration.configuration_source #=> String, one of "REPOSITORY", "API"
-    #   resp.service.source_configuration.code_repository.code_configuration.code_configuration_values.runtime #=> String, one of "PYTHON_3", "NODEJS_12", "NODEJS_14", "CORRETTO_8", "CORRETTO_11", "NODEJS_16", "GO_1", "DOTNET_6", "PHP_81", "RUBY_31"
+    #   resp.service.source_configuration.code_repository.code_configuration.code_configuration_values.runtime #=> String, one of "PYTHON_3", "NODEJS_12", "NODEJS_14", "CORRETTO_8", "CORRETTO_11", "NODEJS_16", "GO_1", "DOTNET_6", "PHP_81", "RUBY_31", "PYTHON_311", "NODEJS_18"
     #   resp.service.source_configuration.code_repository.code_configuration.code_configuration_values.build_command #=> String
     #   resp.service.source_configuration.code_repository.code_configuration.code_configuration_values.start_command #=> String
     #   resp.service.source_configuration.code_repository.code_configuration.code_configuration_values.port #=> String
@@ -1213,6 +1350,7 @@ module Aws::AppRunner
     #   resp.service.source_configuration.code_repository.code_configuration.code_configuration_values.runtime_environment_variables["RuntimeEnvironmentVariablesKey"] #=> String
     #   resp.service.source_configuration.code_repository.code_configuration.code_configuration_values.runtime_environment_secrets #=> Hash
     #   resp.service.source_configuration.code_repository.code_configuration.code_configuration_values.runtime_environment_secrets["RuntimeEnvironmentSecretsName"] #=> String
+    #   resp.service.source_configuration.code_repository.source_directory #=> String
     #   resp.service.source_configuration.image_repository.image_identifier #=> String
     #   resp.service.source_configuration.image_repository.image_configuration.runtime_environment_variables #=> Hash
     #   resp.service.source_configuration.image_repository.image_configuration.runtime_environment_variables["RuntimeEnvironmentVariablesKey"] #=> String
@@ -1237,9 +1375,14 @@ module Aws::AppRunner
     #   resp.service.auto_scaling_configuration_summary.auto_scaling_configuration_arn #=> String
     #   resp.service.auto_scaling_configuration_summary.auto_scaling_configuration_name #=> String
     #   resp.service.auto_scaling_configuration_summary.auto_scaling_configuration_revision #=> Integer
+    #   resp.service.auto_scaling_configuration_summary.status #=> String, one of "ACTIVE", "INACTIVE"
+    #   resp.service.auto_scaling_configuration_summary.created_at #=> Time
+    #   resp.service.auto_scaling_configuration_summary.has_associated_service #=> Boolean
+    #   resp.service.auto_scaling_configuration_summary.is_default #=> Boolean
     #   resp.service.network_configuration.egress_configuration.egress_type #=> String, one of "DEFAULT", "VPC"
     #   resp.service.network_configuration.egress_configuration.vpc_connector_arn #=> String
     #   resp.service.network_configuration.ingress_configuration.is_publicly_accessible #=> Boolean
+    #   resp.service.network_configuration.ip_address_type #=> String, one of "IPV4", "DUAL_STACK"
     #   resp.service.observability_configuration.observability_enabled #=> Boolean
     #   resp.service.observability_configuration.observability_configuration_arn #=> String
     #   resp.operation_id #=> String
@@ -1375,6 +1518,8 @@ module Aws::AppRunner
     #   resp.auto_scaling_configuration.max_size #=> Integer
     #   resp.auto_scaling_configuration.created_at #=> Time
     #   resp.auto_scaling_configuration.deleted_at #=> Time
+    #   resp.auto_scaling_configuration.has_associated_service #=> Boolean
+    #   resp.auto_scaling_configuration.is_default #=> Boolean
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/apprunner-2020-05-15/DescribeAutoScalingConfiguration AWS API Documentation
     #
@@ -1525,7 +1670,7 @@ module Aws::AppRunner
     #   resp.service.source_configuration.code_repository.source_code_version.type #=> String, one of "BRANCH"
     #   resp.service.source_configuration.code_repository.source_code_version.value #=> String
     #   resp.service.source_configuration.code_repository.code_configuration.configuration_source #=> String, one of "REPOSITORY", "API"
-    #   resp.service.source_configuration.code_repository.code_configuration.code_configuration_values.runtime #=> String, one of "PYTHON_3", "NODEJS_12", "NODEJS_14", "CORRETTO_8", "CORRETTO_11", "NODEJS_16", "GO_1", "DOTNET_6", "PHP_81", "RUBY_31"
+    #   resp.service.source_configuration.code_repository.code_configuration.code_configuration_values.runtime #=> String, one of "PYTHON_3", "NODEJS_12", "NODEJS_14", "CORRETTO_8", "CORRETTO_11", "NODEJS_16", "GO_1", "DOTNET_6", "PHP_81", "RUBY_31", "PYTHON_311", "NODEJS_18"
     #   resp.service.source_configuration.code_repository.code_configuration.code_configuration_values.build_command #=> String
     #   resp.service.source_configuration.code_repository.code_configuration.code_configuration_values.start_command #=> String
     #   resp.service.source_configuration.code_repository.code_configuration.code_configuration_values.port #=> String
@@ -1533,6 +1678,7 @@ module Aws::AppRunner
     #   resp.service.source_configuration.code_repository.code_configuration.code_configuration_values.runtime_environment_variables["RuntimeEnvironmentVariablesKey"] #=> String
     #   resp.service.source_configuration.code_repository.code_configuration.code_configuration_values.runtime_environment_secrets #=> Hash
     #   resp.service.source_configuration.code_repository.code_configuration.code_configuration_values.runtime_environment_secrets["RuntimeEnvironmentSecretsName"] #=> String
+    #   resp.service.source_configuration.code_repository.source_directory #=> String
     #   resp.service.source_configuration.image_repository.image_identifier #=> String
     #   resp.service.source_configuration.image_repository.image_configuration.runtime_environment_variables #=> Hash
     #   resp.service.source_configuration.image_repository.image_configuration.runtime_environment_variables["RuntimeEnvironmentVariablesKey"] #=> String
@@ -1557,9 +1703,14 @@ module Aws::AppRunner
     #   resp.service.auto_scaling_configuration_summary.auto_scaling_configuration_arn #=> String
     #   resp.service.auto_scaling_configuration_summary.auto_scaling_configuration_name #=> String
     #   resp.service.auto_scaling_configuration_summary.auto_scaling_configuration_revision #=> Integer
+    #   resp.service.auto_scaling_configuration_summary.status #=> String, one of "ACTIVE", "INACTIVE"
+    #   resp.service.auto_scaling_configuration_summary.created_at #=> Time
+    #   resp.service.auto_scaling_configuration_summary.has_associated_service #=> Boolean
+    #   resp.service.auto_scaling_configuration_summary.is_default #=> Boolean
     #   resp.service.network_configuration.egress_configuration.egress_type #=> String, one of "DEFAULT", "VPC"
     #   resp.service.network_configuration.egress_configuration.vpc_connector_arn #=> String
     #   resp.service.network_configuration.ingress_configuration.is_publicly_accessible #=> Boolean
+    #   resp.service.network_configuration.ip_address_type #=> String, one of "IPV4", "DUAL_STACK"
     #   resp.service.observability_configuration.observability_enabled #=> Boolean
     #   resp.service.observability_configuration.observability_configuration_arn #=> String
     #
@@ -1774,6 +1925,10 @@ module Aws::AppRunner
     #   resp.auto_scaling_configuration_summary_list[0].auto_scaling_configuration_arn #=> String
     #   resp.auto_scaling_configuration_summary_list[0].auto_scaling_configuration_name #=> String
     #   resp.auto_scaling_configuration_summary_list[0].auto_scaling_configuration_revision #=> Integer
+    #   resp.auto_scaling_configuration_summary_list[0].status #=> String, one of "ACTIVE", "INACTIVE"
+    #   resp.auto_scaling_configuration_summary_list[0].created_at #=> Time
+    #   resp.auto_scaling_configuration_summary_list[0].has_associated_service #=> Boolean
+    #   resp.auto_scaling_configuration_summary_list[0].is_default #=> Boolean
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/apprunner-2020-05-15/ListAutoScalingConfigurations AWS API Documentation
@@ -1827,7 +1982,7 @@ module Aws::AppRunner
     #   resp.connection_summary_list #=> Array
     #   resp.connection_summary_list[0].connection_name #=> String
     #   resp.connection_summary_list[0].connection_arn #=> String
-    #   resp.connection_summary_list[0].provider_type #=> String, one of "GITHUB"
+    #   resp.connection_summary_list[0].provider_type #=> String, one of "GITHUB", "BITBUCKET"
     #   resp.connection_summary_list[0].status #=> String, one of "PENDING_HANDSHAKE", "AVAILABLE", "ERROR", "DELETED"
     #   resp.connection_summary_list[0].created_at #=> Time
     #   resp.next_token #=> String
@@ -1960,7 +2115,7 @@ module Aws::AppRunner
     #
     #   resp.operation_summary_list #=> Array
     #   resp.operation_summary_list[0].id #=> String
-    #   resp.operation_summary_list[0].type #=> String, one of "START_DEPLOYMENT", "CREATE_SERVICE", "PAUSE_SERVICE", "RESUME_SERVICE", "DELETE_SERVICE"
+    #   resp.operation_summary_list[0].type #=> String, one of "START_DEPLOYMENT", "CREATE_SERVICE", "PAUSE_SERVICE", "RESUME_SERVICE", "DELETE_SERVICE", "UPDATE_SERVICE"
     #   resp.operation_summary_list[0].status #=> String, one of "PENDING", "IN_PROGRESS", "FAILED", "SUCCEEDED", "ROLLBACK_IN_PROGRESS", "ROLLBACK_FAILED", "ROLLBACK_SUCCEEDED"
     #   resp.operation_summary_list[0].target_arn #=> String
     #   resp.operation_summary_list[0].started_at #=> Time
@@ -2027,6 +2182,63 @@ module Aws::AppRunner
     # @param [Hash] params ({})
     def list_services(params = {}, options = {})
       req = build_request(:list_services, params)
+      req.send_request(options)
+    end
+
+    # Returns a list of the associated App Runner services using an auto
+    # scaling configuration.
+    #
+    # @option params [required, String] :auto_scaling_configuration_arn
+    #   The Amazon Resource Name (ARN) of the App Runner auto scaling
+    #   configuration that you want to list the services for.
+    #
+    #   The ARN can be a full auto scaling configuration ARN, or a partial ARN
+    #   ending with either `.../name ` or `.../name/revision `. If a revision
+    #   isn't specified, the latest active revision is used.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to include in each response (result
+    #   page). It's used for a paginated request.
+    #
+    #   If you don't specify `MaxResults`, the request retrieves all
+    #   available results in a single response.
+    #
+    # @option params [String] :next_token
+    #   A token from a previous result page. It's used for a paginated
+    #   request. The request retrieves the next result page. All other
+    #   parameter values must be identical to the ones specified in the
+    #   initial request.
+    #
+    #   If you don't specify `NextToken`, the request retrieves the first
+    #   result page.
+    #
+    # @return [Types::ListServicesForAutoScalingConfigurationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListServicesForAutoScalingConfigurationResponse#service_arn_list #service_arn_list} => Array&lt;String&gt;
+    #   * {Types::ListServicesForAutoScalingConfigurationResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_services_for_auto_scaling_configuration({
+    #     auto_scaling_configuration_arn: "AppRunnerResourceArn", # required
+    #     max_results: 1,
+    #     next_token: "NextToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.service_arn_list #=> Array
+    #   resp.service_arn_list[0] #=> String
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/apprunner-2020-05-15/ListServicesForAutoScalingConfiguration AWS API Documentation
+    #
+    # @overload list_services_for_auto_scaling_configuration(params = {})
+    # @param [Hash] params ({})
+    def list_services_for_auto_scaling_configuration(params = {}, options = {})
+      req = build_request(:list_services_for_auto_scaling_configuration, params)
       req.send_request(options)
     end
 
@@ -2215,7 +2427,7 @@ module Aws::AppRunner
     #   resp.service.source_configuration.code_repository.source_code_version.type #=> String, one of "BRANCH"
     #   resp.service.source_configuration.code_repository.source_code_version.value #=> String
     #   resp.service.source_configuration.code_repository.code_configuration.configuration_source #=> String, one of "REPOSITORY", "API"
-    #   resp.service.source_configuration.code_repository.code_configuration.code_configuration_values.runtime #=> String, one of "PYTHON_3", "NODEJS_12", "NODEJS_14", "CORRETTO_8", "CORRETTO_11", "NODEJS_16", "GO_1", "DOTNET_6", "PHP_81", "RUBY_31"
+    #   resp.service.source_configuration.code_repository.code_configuration.code_configuration_values.runtime #=> String, one of "PYTHON_3", "NODEJS_12", "NODEJS_14", "CORRETTO_8", "CORRETTO_11", "NODEJS_16", "GO_1", "DOTNET_6", "PHP_81", "RUBY_31", "PYTHON_311", "NODEJS_18"
     #   resp.service.source_configuration.code_repository.code_configuration.code_configuration_values.build_command #=> String
     #   resp.service.source_configuration.code_repository.code_configuration.code_configuration_values.start_command #=> String
     #   resp.service.source_configuration.code_repository.code_configuration.code_configuration_values.port #=> String
@@ -2223,6 +2435,7 @@ module Aws::AppRunner
     #   resp.service.source_configuration.code_repository.code_configuration.code_configuration_values.runtime_environment_variables["RuntimeEnvironmentVariablesKey"] #=> String
     #   resp.service.source_configuration.code_repository.code_configuration.code_configuration_values.runtime_environment_secrets #=> Hash
     #   resp.service.source_configuration.code_repository.code_configuration.code_configuration_values.runtime_environment_secrets["RuntimeEnvironmentSecretsName"] #=> String
+    #   resp.service.source_configuration.code_repository.source_directory #=> String
     #   resp.service.source_configuration.image_repository.image_identifier #=> String
     #   resp.service.source_configuration.image_repository.image_configuration.runtime_environment_variables #=> Hash
     #   resp.service.source_configuration.image_repository.image_configuration.runtime_environment_variables["RuntimeEnvironmentVariablesKey"] #=> String
@@ -2247,9 +2460,14 @@ module Aws::AppRunner
     #   resp.service.auto_scaling_configuration_summary.auto_scaling_configuration_arn #=> String
     #   resp.service.auto_scaling_configuration_summary.auto_scaling_configuration_name #=> String
     #   resp.service.auto_scaling_configuration_summary.auto_scaling_configuration_revision #=> Integer
+    #   resp.service.auto_scaling_configuration_summary.status #=> String, one of "ACTIVE", "INACTIVE"
+    #   resp.service.auto_scaling_configuration_summary.created_at #=> Time
+    #   resp.service.auto_scaling_configuration_summary.has_associated_service #=> Boolean
+    #   resp.service.auto_scaling_configuration_summary.is_default #=> Boolean
     #   resp.service.network_configuration.egress_configuration.egress_type #=> String, one of "DEFAULT", "VPC"
     #   resp.service.network_configuration.egress_configuration.vpc_connector_arn #=> String
     #   resp.service.network_configuration.ingress_configuration.is_publicly_accessible #=> Boolean
+    #   resp.service.network_configuration.ip_address_type #=> String, one of "IPV4", "DUAL_STACK"
     #   resp.service.observability_configuration.observability_enabled #=> Boolean
     #   resp.service.observability_configuration.observability_configuration_arn #=> String
     #   resp.operation_id #=> String
@@ -2299,7 +2517,7 @@ module Aws::AppRunner
     #   resp.service.source_configuration.code_repository.source_code_version.type #=> String, one of "BRANCH"
     #   resp.service.source_configuration.code_repository.source_code_version.value #=> String
     #   resp.service.source_configuration.code_repository.code_configuration.configuration_source #=> String, one of "REPOSITORY", "API"
-    #   resp.service.source_configuration.code_repository.code_configuration.code_configuration_values.runtime #=> String, one of "PYTHON_3", "NODEJS_12", "NODEJS_14", "CORRETTO_8", "CORRETTO_11", "NODEJS_16", "GO_1", "DOTNET_6", "PHP_81", "RUBY_31"
+    #   resp.service.source_configuration.code_repository.code_configuration.code_configuration_values.runtime #=> String, one of "PYTHON_3", "NODEJS_12", "NODEJS_14", "CORRETTO_8", "CORRETTO_11", "NODEJS_16", "GO_1", "DOTNET_6", "PHP_81", "RUBY_31", "PYTHON_311", "NODEJS_18"
     #   resp.service.source_configuration.code_repository.code_configuration.code_configuration_values.build_command #=> String
     #   resp.service.source_configuration.code_repository.code_configuration.code_configuration_values.start_command #=> String
     #   resp.service.source_configuration.code_repository.code_configuration.code_configuration_values.port #=> String
@@ -2307,6 +2525,7 @@ module Aws::AppRunner
     #   resp.service.source_configuration.code_repository.code_configuration.code_configuration_values.runtime_environment_variables["RuntimeEnvironmentVariablesKey"] #=> String
     #   resp.service.source_configuration.code_repository.code_configuration.code_configuration_values.runtime_environment_secrets #=> Hash
     #   resp.service.source_configuration.code_repository.code_configuration.code_configuration_values.runtime_environment_secrets["RuntimeEnvironmentSecretsName"] #=> String
+    #   resp.service.source_configuration.code_repository.source_directory #=> String
     #   resp.service.source_configuration.image_repository.image_identifier #=> String
     #   resp.service.source_configuration.image_repository.image_configuration.runtime_environment_variables #=> Hash
     #   resp.service.source_configuration.image_repository.image_configuration.runtime_environment_variables["RuntimeEnvironmentVariablesKey"] #=> String
@@ -2331,9 +2550,14 @@ module Aws::AppRunner
     #   resp.service.auto_scaling_configuration_summary.auto_scaling_configuration_arn #=> String
     #   resp.service.auto_scaling_configuration_summary.auto_scaling_configuration_name #=> String
     #   resp.service.auto_scaling_configuration_summary.auto_scaling_configuration_revision #=> Integer
+    #   resp.service.auto_scaling_configuration_summary.status #=> String, one of "ACTIVE", "INACTIVE"
+    #   resp.service.auto_scaling_configuration_summary.created_at #=> Time
+    #   resp.service.auto_scaling_configuration_summary.has_associated_service #=> Boolean
+    #   resp.service.auto_scaling_configuration_summary.is_default #=> Boolean
     #   resp.service.network_configuration.egress_configuration.egress_type #=> String, one of "DEFAULT", "VPC"
     #   resp.service.network_configuration.egress_configuration.vpc_connector_arn #=> String
     #   resp.service.network_configuration.ingress_configuration.is_publicly_accessible #=> Boolean
+    #   resp.service.network_configuration.ip_address_type #=> String, one of "IPV4", "DUAL_STACK"
     #   resp.service.observability_configuration.observability_enabled #=> Boolean
     #   resp.service.observability_configuration.observability_configuration_arn #=> String
     #   resp.operation_id #=> String
@@ -2454,6 +2678,52 @@ module Aws::AppRunner
       req.send_request(options)
     end
 
+    # Update an auto scaling configuration to be the default. The existing
+    # default auto scaling configuration will be set to non-default
+    # automatically.
+    #
+    # @option params [required, String] :auto_scaling_configuration_arn
+    #   The Amazon Resource Name (ARN) of the App Runner auto scaling
+    #   configuration that you want to set as the default.
+    #
+    #   The ARN can be a full auto scaling configuration ARN, or a partial ARN
+    #   ending with either `.../name ` or `.../name/revision `. If a revision
+    #   isn't specified, the latest active revision is set as the default.
+    #
+    # @return [Types::UpdateDefaultAutoScalingConfigurationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateDefaultAutoScalingConfigurationResponse#auto_scaling_configuration #auto_scaling_configuration} => Types::AutoScalingConfiguration
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_default_auto_scaling_configuration({
+    #     auto_scaling_configuration_arn: "AppRunnerResourceArn", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.auto_scaling_configuration.auto_scaling_configuration_arn #=> String
+    #   resp.auto_scaling_configuration.auto_scaling_configuration_name #=> String
+    #   resp.auto_scaling_configuration.auto_scaling_configuration_revision #=> Integer
+    #   resp.auto_scaling_configuration.latest #=> Boolean
+    #   resp.auto_scaling_configuration.status #=> String, one of "ACTIVE", "INACTIVE"
+    #   resp.auto_scaling_configuration.max_concurrency #=> Integer
+    #   resp.auto_scaling_configuration.min_size #=> Integer
+    #   resp.auto_scaling_configuration.max_size #=> Integer
+    #   resp.auto_scaling_configuration.created_at #=> Time
+    #   resp.auto_scaling_configuration.deleted_at #=> Time
+    #   resp.auto_scaling_configuration.has_associated_service #=> Boolean
+    #   resp.auto_scaling_configuration.is_default #=> Boolean
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/apprunner-2020-05-15/UpdateDefaultAutoScalingConfiguration AWS API Documentation
+    #
+    # @overload update_default_auto_scaling_configuration(params = {})
+    # @param [Hash] params ({})
+    def update_default_auto_scaling_configuration(params = {}, options = {})
+      req = build_request(:update_default_auto_scaling_configuration, params)
+      req.send_request(options)
+    end
+
     # Update an App Runner service. You can update the source configuration
     # and instance configuration of the service. You can also update the ARN
     # of the auto scaling configuration resource that's associated with the
@@ -2523,7 +2793,7 @@ module Aws::AppRunner
     #         code_configuration: {
     #           configuration_source: "REPOSITORY", # required, accepts REPOSITORY, API
     #           code_configuration_values: {
-    #             runtime: "PYTHON_3", # required, accepts PYTHON_3, NODEJS_12, NODEJS_14, CORRETTO_8, CORRETTO_11, NODEJS_16, GO_1, DOTNET_6, PHP_81, RUBY_31
+    #             runtime: "PYTHON_3", # required, accepts PYTHON_3, NODEJS_12, NODEJS_14, CORRETTO_8, CORRETTO_11, NODEJS_16, GO_1, DOTNET_6, PHP_81, RUBY_31, PYTHON_311, NODEJS_18
     #             build_command: "BuildCommand",
     #             start_command: "StartCommand",
     #             port: "String",
@@ -2535,6 +2805,7 @@ module Aws::AppRunner
     #             },
     #           },
     #         },
+    #         source_directory: "SourceDirectory",
     #       },
     #       image_repository: {
     #         image_identifier: "ImageIdentifier", # required
@@ -2578,6 +2849,7 @@ module Aws::AppRunner
     #       ingress_configuration: {
     #         is_publicly_accessible: false,
     #       },
+    #       ip_address_type: "IPV4", # accepts IPV4, DUAL_STACK
     #     },
     #     observability_configuration: {
     #       observability_enabled: false, # required
@@ -2599,7 +2871,7 @@ module Aws::AppRunner
     #   resp.service.source_configuration.code_repository.source_code_version.type #=> String, one of "BRANCH"
     #   resp.service.source_configuration.code_repository.source_code_version.value #=> String
     #   resp.service.source_configuration.code_repository.code_configuration.configuration_source #=> String, one of "REPOSITORY", "API"
-    #   resp.service.source_configuration.code_repository.code_configuration.code_configuration_values.runtime #=> String, one of "PYTHON_3", "NODEJS_12", "NODEJS_14", "CORRETTO_8", "CORRETTO_11", "NODEJS_16", "GO_1", "DOTNET_6", "PHP_81", "RUBY_31"
+    #   resp.service.source_configuration.code_repository.code_configuration.code_configuration_values.runtime #=> String, one of "PYTHON_3", "NODEJS_12", "NODEJS_14", "CORRETTO_8", "CORRETTO_11", "NODEJS_16", "GO_1", "DOTNET_6", "PHP_81", "RUBY_31", "PYTHON_311", "NODEJS_18"
     #   resp.service.source_configuration.code_repository.code_configuration.code_configuration_values.build_command #=> String
     #   resp.service.source_configuration.code_repository.code_configuration.code_configuration_values.start_command #=> String
     #   resp.service.source_configuration.code_repository.code_configuration.code_configuration_values.port #=> String
@@ -2607,6 +2879,7 @@ module Aws::AppRunner
     #   resp.service.source_configuration.code_repository.code_configuration.code_configuration_values.runtime_environment_variables["RuntimeEnvironmentVariablesKey"] #=> String
     #   resp.service.source_configuration.code_repository.code_configuration.code_configuration_values.runtime_environment_secrets #=> Hash
     #   resp.service.source_configuration.code_repository.code_configuration.code_configuration_values.runtime_environment_secrets["RuntimeEnvironmentSecretsName"] #=> String
+    #   resp.service.source_configuration.code_repository.source_directory #=> String
     #   resp.service.source_configuration.image_repository.image_identifier #=> String
     #   resp.service.source_configuration.image_repository.image_configuration.runtime_environment_variables #=> Hash
     #   resp.service.source_configuration.image_repository.image_configuration.runtime_environment_variables["RuntimeEnvironmentVariablesKey"] #=> String
@@ -2631,9 +2904,14 @@ module Aws::AppRunner
     #   resp.service.auto_scaling_configuration_summary.auto_scaling_configuration_arn #=> String
     #   resp.service.auto_scaling_configuration_summary.auto_scaling_configuration_name #=> String
     #   resp.service.auto_scaling_configuration_summary.auto_scaling_configuration_revision #=> Integer
+    #   resp.service.auto_scaling_configuration_summary.status #=> String, one of "ACTIVE", "INACTIVE"
+    #   resp.service.auto_scaling_configuration_summary.created_at #=> Time
+    #   resp.service.auto_scaling_configuration_summary.has_associated_service #=> Boolean
+    #   resp.service.auto_scaling_configuration_summary.is_default #=> Boolean
     #   resp.service.network_configuration.egress_configuration.egress_type #=> String, one of "DEFAULT", "VPC"
     #   resp.service.network_configuration.egress_configuration.vpc_connector_arn #=> String
     #   resp.service.network_configuration.ingress_configuration.is_publicly_accessible #=> Boolean
+    #   resp.service.network_configuration.ip_address_type #=> String, one of "IPV4", "DUAL_STACK"
     #   resp.service.observability_configuration.observability_enabled #=> Boolean
     #   resp.service.observability_configuration.observability_configuration_arn #=> String
     #   resp.operation_id #=> String
@@ -2708,14 +2986,19 @@ module Aws::AppRunner
     # @api private
     def build_request(operation_name, params = {})
       handlers = @handlers.for(operation_name)
+      tracer = config.telemetry_provider.tracer_provider.tracer(
+        Aws::Telemetry.module_to_tracer_name('Aws::AppRunner')
+      )
       context = Seahorse::Client::RequestContext.new(
         operation_name: operation_name,
         operation: config.api.operation(operation_name),
         client: self,
         params: params,
-        config: config)
+        config: config,
+        tracer: tracer
+      )
       context[:gem_name] = 'aws-sdk-apprunner'
-      context[:gem_version] = '1.20.0'
+      context[:gem_version] = '1.54.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

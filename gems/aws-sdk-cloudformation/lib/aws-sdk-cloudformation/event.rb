@@ -60,8 +60,9 @@ module Aws::CloudFormation
       data[:physical_resource_id]
     end
 
-    # Type of resource. (For more information, go to [Amazon Web Services
-    # Resource Types Reference][1] in the CloudFormation User Guide.)
+    # Type of resource. For more information, see [Amazon Web Services
+    # resource and property types reference][1] in the *CloudFormation User
+    # Guide*.
     #
     #
     #
@@ -133,7 +134,7 @@ module Aws::CloudFormation
       data[:hook_status_reason]
     end
 
-    # Invocation points are points in provisioning logic where hooks are
+    # Invocation points are points in provisioning logic where Hooks are
     # initiated.
     # @return [String]
     def hook_invocation_point
@@ -149,6 +150,31 @@ module Aws::CloudFormation
     # @return [String]
     def hook_failure_mode
       data[:hook_failure_mode]
+    end
+
+    # An optional field containing information about the detailed status of
+    # the stack event.
+    #
+    # * `CONFIGURATION_COMPLETE` - all of the resources in the stack have
+    #   reached that event. For more information, see [Understand
+    #   CloudFormation stack creation events][1] in the *CloudFormation User
+    #   Guide*.
+    #
+    # ^
+    # ^
+    #
+    # * `VALIDATION_FAILED` - template validation failed because of invalid
+    #   properties in the template. The `ResourceStatusReason` field shows
+    #   what properties are defined incorrectly.
+    #
+    # ^
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stack-resource-configuration-complete.html
+    # @return [String]
+    def detailed_status
+      data[:detailed_status]
     end
 
     # @!endgroup
@@ -275,7 +301,9 @@ module Aws::CloudFormation
           :retry
         end
       end
-      Aws::Waiters::Waiter.new(options).wait({})
+      Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        Aws::Waiters::Waiter.new(options).wait({})
+      end
     end
 
     # @deprecated

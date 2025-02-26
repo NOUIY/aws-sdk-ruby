@@ -1,6 +1,231 @@
 Unreleased Changes
 ------------------
 
+1.99.0 (2025-02-18)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.98.0 (2025-02-06)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.97.0 (2025-02-04)
+------------------
+
+* Feature - Doc-only update to provide more information on using Kerberos authentication with SMB locations.
+
+1.96.0 (2025-01-28)
+------------------
+
+* Feature - AWS DataSync now supports the Kerberos authentication protocol for SMB locations.
+
+1.95.0 (2025-01-15)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.94.0 (2024-12-18)
+------------------
+
+* Feature - AWS DataSync introduces the ability to update attributes for in-cloud locations.
+
+1.93.0 (2024-11-18)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.92.0 (2024-11-15)
+------------------
+
+* Feature - Doc-only updates and enhancements related to creating DataSync tasks and describing task executions.
+
+1.91.0 (2024-10-30)
+------------------
+
+* Feature - AWS DataSync now supports Enhanced mode tasks. This task mode supports transfer of virtually unlimited numbers of objects with enhanced metrics, more detailed logs, and higher performance than Basic mode. This mode currently supports transfers between Amazon S3 locations.
+
+1.90.0 (2024-10-18)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.89.0 (2024-09-24)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.88.0 (2024-09-23)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.87.0 (2024-09-20)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.86.0 (2024-09-11)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.85.0 (2024-09-10)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.84.0 (2024-09-03)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.83.0 (2024-07-02)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.82.0 (2024-06-28)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.81.0 (2024-06-25)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.80.0 (2024-06-24)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.79.0 (2024-06-05)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.78.0 (2024-05-15)
+------------------
+
+* Feature - Task executions now display a CANCELLING status when an execution is in the process of being cancelled.
+
+1.77.0 (2024-05-13)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.76.0 (2024-05-03)
+------------------
+
+* Feature - Updated guidance on using private or self-signed certificate authorities (CAs) with AWS DataSync object storage locations.
+
+1.75.0 (2024-04-25)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.74.0 (2024-04-24)
+------------------
+
+* Feature - This change allows users to disable and enable the schedules associated with their tasks.
+
+1.73.0 (2024-02-07)
+------------------
+
+* Feature - AWS DataSync now supports manifests for specifying files or objects to transfer.
+
+1.72.0 (2024-01-26)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.71.0 (2023-11-28)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.70.0 (2023-11-22)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.69.0 (2023-11-08)
+------------------
+
+* Feature - This change allows for 0 length access keys and secret keys for object storage locations. Users can now pass in empty string credentials.
+
+1.68.0 (2023-10-30)
+------------------
+
+* Feature - Platform version changes to support AL1 deprecation initiative.
+
+1.67.0 (2023-09-27)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.66.0 (2023-09-15)
+------------------
+
+* Feature - Documentation-only updates for AWS DataSync.
+
+1.65.0 (2023-08-30)
+------------------
+
+* Feature - AWS DataSync introduces Task Reports, a new feature that provides detailed reports of data transfer operations for each task execution.
+
+1.64.0 (2023-08-04)
+------------------
+
+* Feature - Display cloud storage used capacity at a cluster level.
+
+1.63.0 (2023-07-25)
+------------------
+
+* Feature - AWS DataSync now supports Microsoft Azure Blob Storage locations.
+
+1.62.0 (2023-07-13)
+------------------
+
+* Feature - Added LunCount to the response object of DescribeStorageSystemResourcesResponse, LunCount represents the number of LUNs on a storage system resource.
+
+1.61.0 (2023-07-11)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.60.0 (2023-07-06)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.59.0 (2023-06-28)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.58.0 (2023-06-15)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.57.0 (2023-05-31)
+------------------
+
+* Feature - Code Generated Changes, see `./build_tools` or `aws-sdk-core`'s CHANGELOG.md for details.
+
+1.56.0 (2023-04-25)
+------------------
+
+* Feature - This release adds 13 new APIs to support AWS DataSync Discovery GA.
+
+1.55.0 (2023-02-22)
+------------------
+
+* Feature - AWS DataSync has relaxed the minimum length constraint of AccessKey for Object Storage locations to 1.
+
 1.54.0 (2023-02-14)
 ------------------
 

@@ -553,7 +553,7 @@ module Aws::DevOpsGuru
     #
     #
     #
-    #   [1]: https://d1.awsstatic.com/whitepapers/aws-tagging-best-practices.pdf
+    #   [1]: https://docs.aws.amazon.com/whitepapers/latest/tagging-best-practices/tagging-best-practices.html
     #   @return [Array<Types::TagCostEstimationResourceCollectionFilter>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/devops-guru-2020-12-01/CostEstimationResourceCollectionFilter AWS API Documentation
@@ -1000,7 +1000,7 @@ module Aws::DevOpsGuru
     #
     #
     #
-    #   [1]: https://d1.awsstatic.com/whitepapers/aws-tagging-best-practices.pdf
+    #   [1]: https://docs.aws.amazon.com/whitepapers/latest/tagging-best-practices/tagging-best-practices.html
     #   @return [Array<Types::TagHealth>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/devops-guru-2020-12-01/DescribeOrganizationResourceCollectionHealthResponse AWS API Documentation
@@ -1096,7 +1096,7 @@ module Aws::DevOpsGuru
     #
     #
     #
-    #   [1]: https://d1.awsstatic.com/whitepapers/aws-tagging-best-practices.pdf
+    #   [1]: https://docs.aws.amazon.com/whitepapers/latest/tagging-best-practices/tagging-best-practices.html
     #   @return [Array<Types::TagHealth>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/devops-guru-2020-12-01/DescribeResourceCollectionHealthResponse AWS API Documentation
@@ -1460,6 +1460,97 @@ module Aws::DevOpsGuru
     class InternalServerException < Struct.new(
       :message,
       :retry_after_seconds)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Information about the KMS encryption used with DevOps Guru.
+    #
+    # @!attribute [rw] kms_key_id
+    #   Describes the specified KMS key.
+    #
+    #   To specify a KMS key, use its key ID, key ARN, alias name, or alias
+    #   ARN. When using an alias name, prefix it with "alias/". If you
+    #   specify a predefined Amazon Web Services alias (an Amazon Web
+    #   Services alias with no key ID), Amazon Web Services KMS associates
+    #   the alias with an Amazon Web Services managed key and returns its
+    #   KeyId and Arn in the response. To specify a KMS key in a different
+    #   Amazon Web Services account, you must use the key ARN or alias ARN.
+    #
+    #   For example:
+    #
+    #   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
+    #
+    #   Key ARN:
+    #   arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
+    #
+    #   Alias name: alias/ExampleAlias
+    #
+    #   Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias
+    #   @return [String]
+    #
+    # @!attribute [rw] opt_in_status
+    #   Specifies if DevOps Guru is enabled for customer managed keys.
+    #   @return [String]
+    #
+    # @!attribute [rw] type
+    #   The type of KMS key used. Customer managed keys are the KMS keys
+    #   that you create. Amazon Web Services owned keys are keys that are
+    #   owned and managed by DevOps Guru.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-guru-2020-12-01/KMSServerSideEncryptionIntegration AWS API Documentation
+    #
+    class KMSServerSideEncryptionIntegration < Struct.new(
+      :kms_key_id,
+      :opt_in_status,
+      :type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Information about whether DevOps Guru is configured to encrypt
+    # server-side data using KMS.
+    #
+    # @!attribute [rw] kms_key_id
+    #   Describes the specified KMS key.
+    #
+    #   To specify a KMS key, use its key ID, key ARN, alias name, or alias
+    #   ARN. When using an alias name, prefix it with "alias/". If you
+    #   specify a predefined Amazon Web Services alias (an Amazon Web
+    #   Services alias with no key ID), Amazon Web Services KMS associates
+    #   the alias with an Amazon Web Services managed key and returns its
+    #   KeyId and Arn in the response. To specify a KMS key in a different
+    #   Amazon Web Services account, you must use the key ARN or alias ARN.
+    #
+    #   For example:
+    #
+    #   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
+    #
+    #   Key ARN:
+    #   arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
+    #
+    #   Alias name: alias/ExampleAlias
+    #
+    #   Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias
+    #   @return [String]
+    #
+    # @!attribute [rw] opt_in_status
+    #   Specifies if DevOps Guru is enabled for KMS integration.
+    #   @return [String]
+    #
+    # @!attribute [rw] type
+    #   The type of KMS key used. Customer managed keys are the KMS keys
+    #   that you create. Amazon Web Services owned keys are keys that are
+    #   owned and managed by DevOps Guru.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/devops-guru-2020-12-01/KMSServerSideEncryptionIntegrationConfig AWS API Documentation
+    #
+    class KMSServerSideEncryptionIntegrationConfig < Struct.new(
+      :kms_key_id,
+      :opt_in_status,
+      :type)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2171,17 +2262,11 @@ module Aws::DevOpsGuru
     # (Amazon SNS).
     #
     # If you use an Amazon SNS topic in another account, you must attach a
-    # policy to it that grants DevOps Guru permission to it notifications.
-    # DevOps Guru adds the required policy on your behalf to send
-    # notifications using Amazon SNS in your account. DevOps Guru only
+    # policy to it that grants DevOps Guru permission to send it
+    # notifications. DevOps Guru adds the required policy on your behalf to
+    # send notifications using Amazon SNS in your account. DevOps Guru only
     # supports standard SNS topics. For more information, see [Permissions
-    # for cross account Amazon SNS topics][1].
-    #
-    # If you use an Amazon SNS topic in another account, you must attach a
-    # policy to it that grants DevOps Guru permission to it notifications.
-    # DevOps Guru adds the required policy on your behalf to send
-    # notifications using Amazon SNS in your account. For more information,
-    # see Permissions for cross account Amazon SNS topics.
+    # for Amazon SNS topics][1].
     #
     # If you use an Amazon SNS topic that is encrypted by an Amazon Web
     # Services Key Management Service customer-managed key (CMK), then you
@@ -2221,17 +2306,11 @@ module Aws::DevOpsGuru
     #   to send notifications when insights are created.
     #
     #   If you use an Amazon SNS topic in another account, you must attach a
-    #   policy to it that grants DevOps Guru permission to it notifications.
-    #   DevOps Guru adds the required policy on your behalf to send
-    #   notifications using Amazon SNS in your account. DevOps Guru only
-    #   supports standard SNS topics. For more information, see [Permissions
-    #   for cross account Amazon SNS topics][1].
-    #
-    #   If you use an Amazon SNS topic in another account, you must attach a
-    #   policy to it that grants DevOps Guru permission to it notifications.
-    #   DevOps Guru adds the required policy on your behalf to send
-    #   notifications using Amazon SNS in your account. For more
-    #   information, see Permissions for cross account Amazon SNS topics.
+    #   policy to it that grants DevOps Guru permission to send it
+    #   notifications. DevOps Guru adds the required policy on your behalf
+    #   to send notifications using Amazon SNS in your account. DevOps Guru
+    #   only supports standard SNS topics. For more information, see
+    #   [Permissions for Amazon SNS topics][1].
     #
     #   If you use an Amazon SNS topic that is encrypted by an Amazon Web
     #   Services Key Management Service customer-managed key (CMK), then you
@@ -2800,6 +2879,10 @@ module Aws::DevOpsGuru
     #   behavior.
     #   @return [Array<Types::AnomalyResource>]
     #
+    # @!attribute [rw] description
+    #   A description of the proactive anomaly.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/devops-guru-2020-12-01/ProactiveAnomaly AWS API Documentation
     #
     class ProactiveAnomaly < Struct.new(
@@ -2815,7 +2898,8 @@ module Aws::DevOpsGuru
       :resource_collection,
       :limit,
       :source_metadata,
-      :anomaly_resources)
+      :anomaly_resources,
+      :description)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2900,6 +2984,10 @@ module Aws::DevOpsGuru
     #   behavior.
     #   @return [Array<Types::AnomalyResource>]
     #
+    # @!attribute [rw] description
+    #   A description of the proactive anomaly.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/devops-guru-2020-12-01/ProactiveAnomalySummary AWS API Documentation
     #
     class ProactiveAnomalySummary < Struct.new(
@@ -2915,7 +3003,8 @@ module Aws::DevOpsGuru
       :resource_collection,
       :limit,
       :source_metadata,
-      :anomaly_resources)
+      :anomaly_resources,
+      :description)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3822,7 +3911,7 @@ module Aws::DevOpsGuru
     #
     #
     #
-    #   [1]: https://d1.awsstatic.com/whitepapers/aws-tagging-best-practices.pdf
+    #   [1]: https://docs.aws.amazon.com/whitepapers/latest/tagging-best-practices/tagging-best-practices.html
     #   @return [Array<Types::TagCollection>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/devops-guru-2020-12-01/ResourceCollection AWS API Documentation
@@ -3886,7 +3975,7 @@ module Aws::DevOpsGuru
     #
     #
     #
-    #   [1]: https://d1.awsstatic.com/whitepapers/aws-tagging-best-practices.pdf
+    #   [1]: https://docs.aws.amazon.com/whitepapers/latest/tagging-best-practices/tagging-best-practices.html
     #   @return [Array<Types::TagCollectionFilter>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/devops-guru-2020-12-01/ResourceCollectionFilter AWS API Documentation
@@ -3922,8 +4011,12 @@ module Aws::DevOpsGuru
       include Aws::Structure
     end
 
-    # Specifies one or more severity values and one or more status values
-    # that are used to search for insights.
+    # Specifies values used to filter responses when searching for insights.
+    # You can use a `ResourceCollection`, `ServiceCollection`, array of
+    # severities, and an array of status values. Each filter type contains
+    # one or more values to search for. If you specify multiple filter
+    # types, the filter types are joined with an `AND`, and the request
+    # returns only results that match all of the specified filters.
     #
     # @!attribute [rw] severities
     #   An array of severity values used to search for insights.
@@ -4203,11 +4296,17 @@ module Aws::DevOpsGuru
     #   anomaly detection on Amazon CloudWatch log groups.
     #   @return [Types::LogsAnomalyDetectionIntegration]
     #
+    # @!attribute [rw] kms_server_side_encryption
+    #   Information about whether DevOps Guru is configured to encrypt
+    #   server-side data using KMS.
+    #   @return [Types::KMSServerSideEncryptionIntegration]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/devops-guru-2020-12-01/ServiceIntegrationConfig AWS API Documentation
     #
     class ServiceIntegrationConfig < Struct.new(
       :ops_center,
-      :logs_anomaly_detection)
+      :logs_anomaly_detection,
+      :kms_server_side_encryption)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4283,17 +4382,11 @@ module Aws::DevOpsGuru
     # Notification Service topic.
     #
     # If you use an Amazon SNS topic in another account, you must attach a
-    # policy to it that grants DevOps Guru permission to it notifications.
-    # DevOps Guru adds the required policy on your behalf to send
-    # notifications using Amazon SNS in your account. DevOps Guru only
+    # policy to it that grants DevOps Guru permission to send it
+    # notifications. DevOps Guru adds the required policy on your behalf to
+    # send notifications using Amazon SNS in your account. DevOps Guru only
     # supports standard SNS topics. For more information, see [Permissions
-    # for cross account Amazon SNS topics][1].
-    #
-    # If you use an Amazon SNS topic in another account, you must attach a
-    # policy to it that grants DevOps Guru permission to it notifications.
-    # DevOps Guru adds the required policy on your behalf to send
-    # notifications using Amazon SNS in your account. For more information,
-    # see Permissions for cross account Amazon SNS topics.
+    # for Amazon SNS topics][1].
     #
     # If you use an Amazon SNS topic that is encrypted by an Amazon Web
     # Services Key Management Service customer-managed key (CMK), then you
@@ -4399,7 +4492,7 @@ module Aws::DevOpsGuru
     #
     #
     #
-    # [1]: https://d1.awsstatic.com/whitepapers/aws-tagging-best-practices.pdf
+    # [1]: https://docs.aws.amazon.com/whitepapers/latest/tagging-best-practices/tagging-best-practices.html
     #
     # @!attribute [rw] app_boundary_key
     #   An Amazon Web Services tag *key* that is used to identify the Amazon
@@ -4721,7 +4814,7 @@ module Aws::DevOpsGuru
     #
     #
     #
-    #   [1]: https://d1.awsstatic.com/whitepapers/aws-tagging-best-practices.pdf
+    #   [1]: https://docs.aws.amazon.com/whitepapers/latest/tagging-best-practices/tagging-best-practices.html
     #   @return [Array<Types::UpdateTagCollectionFilter>]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/devops-guru-2020-12-01/UpdateResourceCollectionFilter AWS API Documentation
@@ -4771,11 +4864,17 @@ module Aws::DevOpsGuru
     #   anomaly detection on Amazon CloudWatch log groups.
     #   @return [Types::LogsAnomalyDetectionIntegrationConfig]
     #
+    # @!attribute [rw] kms_server_side_encryption
+    #   Information about whether DevOps Guru is configured to encrypt
+    #   server-side data using KMS.
+    #   @return [Types::KMSServerSideEncryptionIntegrationConfig]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/devops-guru-2020-12-01/UpdateServiceIntegrationConfig AWS API Documentation
     #
     class UpdateServiceIntegrationConfig < Struct.new(
       :ops_center,
-      :logs_anomaly_detection)
+      :logs_anomaly_detection,
+      :kms_server_side_encryption)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4888,3 +4987,4 @@ module Aws::DevOpsGuru
 
   end
 end
+

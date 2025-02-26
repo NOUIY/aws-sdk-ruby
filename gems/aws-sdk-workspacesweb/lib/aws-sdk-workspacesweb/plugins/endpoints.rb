@@ -14,34 +14,48 @@ module Aws::WorkSpacesWeb
       option(
         :endpoint_provider,
         doc_type: 'Aws::WorkSpacesWeb::EndpointProvider',
-        docstring: 'The endpoint provider used to resolve endpoints. Any '\
-                   'object that responds to `#resolve_endpoint(parameters)` '\
-                   'where `parameters` is a Struct similar to '\
-                   '`Aws::WorkSpacesWeb::EndpointParameters`'
-      ) do |cfg|
+        rbs_type: 'untyped',
+        docstring: <<~DOCS) do |_cfg|
+The endpoint provider used to resolve endpoints. Any object that responds to
+`#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+`Aws::WorkSpacesWeb::EndpointParameters`.
+        DOCS
         Aws::WorkSpacesWeb::EndpointProvider.new
       end
 
       # @api private
       class Handler < Seahorse::Client::Handler
         def call(context)
-          # If endpoint was discovered, do not resolve or apply the endpoint.
           unless context[:discovered_endpoint]
-            params = parameters_for_operation(context)
+            params = Aws::WorkSpacesWeb::Endpoints.parameters_for_operation(context)
             endpoint = context.config.endpoint_provider.resolve_endpoint(params)
 
             context.http_request.endpoint = endpoint.url
             apply_endpoint_headers(context, endpoint.headers)
+
+            context[:endpoint_params] = params
+            context[:endpoint_properties] = endpoint.properties
           end
 
-          context[:endpoint_params] = params
           context[:auth_scheme] =
             Aws::Endpoints.resolve_auth_scheme(context, endpoint)
 
-          @handler.call(context)
+          with_metrics(context) { @handler.call(context) }
         end
 
         private
+
+        def with_metrics(context, &block)
+          metrics = []
+          metrics << 'ENDPOINT_OVERRIDE' unless context.config.regional_endpoint
+          if context[:auth_scheme] && context[:auth_scheme]['name'] == 'sigv4a'
+            metrics << 'SIGV4A_SIGNING'
+          end
+          if context.config.credentials&.credentials&.account_id
+            metrics << 'RESOLVED_ACCOUNT_ID'
+          end
+          Aws::Plugins::UserAgent.metric(*metrics, &block)
+        end
 
         def apply_endpoint_headers(context, headers)
           headers.each do |key, values|
@@ -51,113 +65,6 @@ module Aws::WorkSpacesWeb
               .join(',')
 
             context.http_request.headers[key] = value
-          end
-        end
-
-        def parameters_for_operation(context)
-          case context.operation_name
-          when :associate_browser_settings
-            Aws::WorkSpacesWeb::Endpoints::AssociateBrowserSettings.build(context)
-          when :associate_network_settings
-            Aws::WorkSpacesWeb::Endpoints::AssociateNetworkSettings.build(context)
-          when :associate_trust_store
-            Aws::WorkSpacesWeb::Endpoints::AssociateTrustStore.build(context)
-          when :associate_user_access_logging_settings
-            Aws::WorkSpacesWeb::Endpoints::AssociateUserAccessLoggingSettings.build(context)
-          when :associate_user_settings
-            Aws::WorkSpacesWeb::Endpoints::AssociateUserSettings.build(context)
-          when :create_browser_settings
-            Aws::WorkSpacesWeb::Endpoints::CreateBrowserSettings.build(context)
-          when :create_identity_provider
-            Aws::WorkSpacesWeb::Endpoints::CreateIdentityProvider.build(context)
-          when :create_network_settings
-            Aws::WorkSpacesWeb::Endpoints::CreateNetworkSettings.build(context)
-          when :create_portal
-            Aws::WorkSpacesWeb::Endpoints::CreatePortal.build(context)
-          when :create_trust_store
-            Aws::WorkSpacesWeb::Endpoints::CreateTrustStore.build(context)
-          when :create_user_access_logging_settings
-            Aws::WorkSpacesWeb::Endpoints::CreateUserAccessLoggingSettings.build(context)
-          when :create_user_settings
-            Aws::WorkSpacesWeb::Endpoints::CreateUserSettings.build(context)
-          when :delete_browser_settings
-            Aws::WorkSpacesWeb::Endpoints::DeleteBrowserSettings.build(context)
-          when :delete_identity_provider
-            Aws::WorkSpacesWeb::Endpoints::DeleteIdentityProvider.build(context)
-          when :delete_network_settings
-            Aws::WorkSpacesWeb::Endpoints::DeleteNetworkSettings.build(context)
-          when :delete_portal
-            Aws::WorkSpacesWeb::Endpoints::DeletePortal.build(context)
-          when :delete_trust_store
-            Aws::WorkSpacesWeb::Endpoints::DeleteTrustStore.build(context)
-          when :delete_user_access_logging_settings
-            Aws::WorkSpacesWeb::Endpoints::DeleteUserAccessLoggingSettings.build(context)
-          when :delete_user_settings
-            Aws::WorkSpacesWeb::Endpoints::DeleteUserSettings.build(context)
-          when :disassociate_browser_settings
-            Aws::WorkSpacesWeb::Endpoints::DisassociateBrowserSettings.build(context)
-          when :disassociate_network_settings
-            Aws::WorkSpacesWeb::Endpoints::DisassociateNetworkSettings.build(context)
-          when :disassociate_trust_store
-            Aws::WorkSpacesWeb::Endpoints::DisassociateTrustStore.build(context)
-          when :disassociate_user_access_logging_settings
-            Aws::WorkSpacesWeb::Endpoints::DisassociateUserAccessLoggingSettings.build(context)
-          when :disassociate_user_settings
-            Aws::WorkSpacesWeb::Endpoints::DisassociateUserSettings.build(context)
-          when :get_browser_settings
-            Aws::WorkSpacesWeb::Endpoints::GetBrowserSettings.build(context)
-          when :get_identity_provider
-            Aws::WorkSpacesWeb::Endpoints::GetIdentityProvider.build(context)
-          when :get_network_settings
-            Aws::WorkSpacesWeb::Endpoints::GetNetworkSettings.build(context)
-          when :get_portal
-            Aws::WorkSpacesWeb::Endpoints::GetPortal.build(context)
-          when :get_portal_service_provider_metadata
-            Aws::WorkSpacesWeb::Endpoints::GetPortalServiceProviderMetadata.build(context)
-          when :get_trust_store
-            Aws::WorkSpacesWeb::Endpoints::GetTrustStore.build(context)
-          when :get_trust_store_certificate
-            Aws::WorkSpacesWeb::Endpoints::GetTrustStoreCertificate.build(context)
-          when :get_user_access_logging_settings
-            Aws::WorkSpacesWeb::Endpoints::GetUserAccessLoggingSettings.build(context)
-          when :get_user_settings
-            Aws::WorkSpacesWeb::Endpoints::GetUserSettings.build(context)
-          when :list_browser_settings
-            Aws::WorkSpacesWeb::Endpoints::ListBrowserSettings.build(context)
-          when :list_identity_providers
-            Aws::WorkSpacesWeb::Endpoints::ListIdentityProviders.build(context)
-          when :list_network_settings
-            Aws::WorkSpacesWeb::Endpoints::ListNetworkSettings.build(context)
-          when :list_portals
-            Aws::WorkSpacesWeb::Endpoints::ListPortals.build(context)
-          when :list_tags_for_resource
-            Aws::WorkSpacesWeb::Endpoints::ListTagsForResource.build(context)
-          when :list_trust_store_certificates
-            Aws::WorkSpacesWeb::Endpoints::ListTrustStoreCertificates.build(context)
-          when :list_trust_stores
-            Aws::WorkSpacesWeb::Endpoints::ListTrustStores.build(context)
-          when :list_user_access_logging_settings
-            Aws::WorkSpacesWeb::Endpoints::ListUserAccessLoggingSettings.build(context)
-          when :list_user_settings
-            Aws::WorkSpacesWeb::Endpoints::ListUserSettings.build(context)
-          when :tag_resource
-            Aws::WorkSpacesWeb::Endpoints::TagResource.build(context)
-          when :untag_resource
-            Aws::WorkSpacesWeb::Endpoints::UntagResource.build(context)
-          when :update_browser_settings
-            Aws::WorkSpacesWeb::Endpoints::UpdateBrowserSettings.build(context)
-          when :update_identity_provider
-            Aws::WorkSpacesWeb::Endpoints::UpdateIdentityProvider.build(context)
-          when :update_network_settings
-            Aws::WorkSpacesWeb::Endpoints::UpdateNetworkSettings.build(context)
-          when :update_portal
-            Aws::WorkSpacesWeb::Endpoints::UpdatePortal.build(context)
-          when :update_trust_store
-            Aws::WorkSpacesWeb::Endpoints::UpdateTrustStore.build(context)
-          when :update_user_access_logging_settings
-            Aws::WorkSpacesWeb::Endpoints::UpdateUserAccessLoggingSettings.build(context)
-          when :update_user_settings
-            Aws::WorkSpacesWeb::Endpoints::UpdateUserSettings.build(context)
           end
         end
       end

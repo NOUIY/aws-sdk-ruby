@@ -7,33 +7,34 @@
 #
 # WARNING ABOUT GENERATED CODE
 
-require 'seahorse/client/plugins/content_length.rb'
-require 'aws-sdk-core/plugins/credentials_configuration.rb'
-require 'aws-sdk-core/plugins/logging.rb'
-require 'aws-sdk-core/plugins/param_converter.rb'
-require 'aws-sdk-core/plugins/param_validator.rb'
-require 'aws-sdk-core/plugins/user_agent.rb'
-require 'aws-sdk-core/plugins/helpful_socket_errors.rb'
-require 'aws-sdk-core/plugins/retry_errors.rb'
-require 'aws-sdk-core/plugins/global_configuration.rb'
-require 'aws-sdk-core/plugins/regional_endpoint.rb'
-require 'aws-sdk-core/plugins/endpoint_discovery.rb'
-require 'aws-sdk-core/plugins/endpoint_pattern.rb'
-require 'aws-sdk-core/plugins/response_paging.rb'
-require 'aws-sdk-core/plugins/stub_responses.rb'
-require 'aws-sdk-core/plugins/idempotency_token.rb'
-require 'aws-sdk-core/plugins/jsonvalue_converter.rb'
-require 'aws-sdk-core/plugins/client_metrics_plugin.rb'
-require 'aws-sdk-core/plugins/client_metrics_send_plugin.rb'
-require 'aws-sdk-core/plugins/transfer_encoding.rb'
-require 'aws-sdk-core/plugins/http_checksum.rb'
-require 'aws-sdk-core/plugins/checksum_algorithm.rb'
-require 'aws-sdk-core/plugins/defaults_mode.rb'
-require 'aws-sdk-core/plugins/recursion_detection.rb'
-require 'aws-sdk-core/plugins/sign.rb'
-require 'aws-sdk-core/plugins/protocols/rest_json.rb'
-
-Aws::Plugins::GlobalConfiguration.add_identifier(:ssmincidents)
+require 'seahorse/client/plugins/content_length'
+require 'aws-sdk-core/plugins/credentials_configuration'
+require 'aws-sdk-core/plugins/logging'
+require 'aws-sdk-core/plugins/param_converter'
+require 'aws-sdk-core/plugins/param_validator'
+require 'aws-sdk-core/plugins/user_agent'
+require 'aws-sdk-core/plugins/helpful_socket_errors'
+require 'aws-sdk-core/plugins/retry_errors'
+require 'aws-sdk-core/plugins/global_configuration'
+require 'aws-sdk-core/plugins/regional_endpoint'
+require 'aws-sdk-core/plugins/endpoint_discovery'
+require 'aws-sdk-core/plugins/endpoint_pattern'
+require 'aws-sdk-core/plugins/response_paging'
+require 'aws-sdk-core/plugins/stub_responses'
+require 'aws-sdk-core/plugins/idempotency_token'
+require 'aws-sdk-core/plugins/invocation_id'
+require 'aws-sdk-core/plugins/jsonvalue_converter'
+require 'aws-sdk-core/plugins/client_metrics_plugin'
+require 'aws-sdk-core/plugins/client_metrics_send_plugin'
+require 'aws-sdk-core/plugins/transfer_encoding'
+require 'aws-sdk-core/plugins/http_checksum'
+require 'aws-sdk-core/plugins/checksum_algorithm'
+require 'aws-sdk-core/plugins/request_compression'
+require 'aws-sdk-core/plugins/defaults_mode'
+require 'aws-sdk-core/plugins/recursion_detection'
+require 'aws-sdk-core/plugins/telemetry'
+require 'aws-sdk-core/plugins/sign'
+require 'aws-sdk-core/plugins/protocols/rest_json'
 
 module Aws::SSMIncidents
   # An API client for SSMIncidents.  To construct a client, you need to configure a `:region` and `:credentials`.
@@ -71,20 +72,28 @@ module Aws::SSMIncidents
     add_plugin(Aws::Plugins::ResponsePaging)
     add_plugin(Aws::Plugins::StubResponses)
     add_plugin(Aws::Plugins::IdempotencyToken)
+    add_plugin(Aws::Plugins::InvocationId)
     add_plugin(Aws::Plugins::JsonvalueConverter)
     add_plugin(Aws::Plugins::ClientMetricsPlugin)
     add_plugin(Aws::Plugins::ClientMetricsSendPlugin)
     add_plugin(Aws::Plugins::TransferEncoding)
     add_plugin(Aws::Plugins::HttpChecksum)
     add_plugin(Aws::Plugins::ChecksumAlgorithm)
+    add_plugin(Aws::Plugins::RequestCompression)
     add_plugin(Aws::Plugins::DefaultsMode)
     add_plugin(Aws::Plugins::RecursionDetection)
+    add_plugin(Aws::Plugins::Telemetry)
     add_plugin(Aws::Plugins::Sign)
     add_plugin(Aws::Plugins::Protocols::RestJson)
     add_plugin(Aws::SSMIncidents::Plugins::Endpoints)
 
     # @overload initialize(options)
     #   @param [Hash] options
+    #
+    #   @option options [Array<Seahorse::Client::Plugin>] :plugins ([]])
+    #     A list of plugins to apply to the client. Each plugin is either a
+    #     class name or an instance of a plugin class.
+    #
     #   @option options [required, Aws::CredentialProvider] :credentials
     #     Your AWS credentials. This can be an instance of any one of the
     #     following classes:
@@ -119,13 +128,15 @@ module Aws::SSMIncidents
     #     locations will be searched for credentials:
     #
     #     * `Aws.config[:credentials]`
-    #     * The `:access_key_id`, `:secret_access_key`, and `:session_token` options.
-    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']
+    #     * The `:access_key_id`, `:secret_access_key`, `:session_token`, and
+    #       `:account_id` options.
+    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'],
+    #       ENV['AWS_SESSION_TOKEN'], and ENV['AWS_ACCOUNT_ID']
     #     * `~/.aws/credentials`
     #     * `~/.aws/config`
     #     * EC2/ECS IMDS instance profile - When used by default, the timeouts
     #       are very aggressive. Construct and pass an instance of
-    #       `Aws::InstanceProfileCredentails` or `Aws::ECSCredentials` to
+    #       `Aws::InstanceProfileCredentials` or `Aws::ECSCredentials` to
     #       enable retries and extended timeouts. Instance profile credential
     #       fetching can be disabled by setting ENV['AWS_EC2_METADATA_DISABLED']
     #       to true.
@@ -143,6 +154,8 @@ module Aws::SSMIncidents
     #     * `~/.aws/config`
     #
     #   @option options [String] :access_key_id
+    #
+    #   @option options [String] :account_id
     #
     #   @option options [Boolean] :active_endpoint_cache (false)
     #     When set to `true`, a thread polling for endpoints will be running in
@@ -190,10 +203,20 @@ module Aws::SSMIncidents
     #     Set to true to disable SDK automatically adding host prefix
     #     to default service endpoint when available.
     #
-    #   @option options [String] :endpoint
-    #     The client endpoint is normally constructed from the `:region`
-    #     option. You should only configure an `:endpoint` when connecting
-    #     to test or custom endpoints. This should be a valid HTTP(S) URI.
+    #   @option options [Boolean] :disable_request_compression (false)
+    #     When set to 'true' the request body will not be compressed
+    #     for supported operations.
+    #
+    #   @option options [String, URI::HTTPS, URI::HTTP] :endpoint
+    #     Normally you should not configure the `:endpoint` option
+    #     directly. This is normally constructed from the `:region`
+    #     option. Configuring `:endpoint` is normally reserved for
+    #     connecting to test or custom endpoints. The endpoint should
+    #     be a URI formatted like:
+    #
+    #         'http://example.com'
+    #         'https://example.com'
+    #         'http://example.com:123'
     #
     #   @option options [Integer] :endpoint_cache_max_entries (1000)
     #     Used for the maximum size limit of the LRU cache storing endpoints data
@@ -209,6 +232,10 @@ module Aws::SSMIncidents
     #
     #   @option options [Boolean] :endpoint_discovery (false)
     #     When set to `true`, endpoint discovery will be enabled for operations when available.
+    #
+    #   @option options [Boolean] :ignore_configured_endpoint_urls
+    #     Setting to true disables use of endpoint URLs provided via environment
+    #     variables and the shared configuration file.
     #
     #   @option options [Aws::Log::Formatter] :log_formatter (Aws::Log::Formatter.default)
     #     The log formatter.
@@ -229,6 +256,34 @@ module Aws::SSMIncidents
     #   @option options [String] :profile ("default")
     #     Used when loading credentials from the shared credentials file
     #     at HOME/.aws/credentials.  When not specified, 'default' is used.
+    #
+    #   @option options [String] :request_checksum_calculation ("when_supported")
+    #     Determines when a checksum will be calculated for request payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, a checksum will be
+    #       calculated for all request payloads of operations modeled with the
+    #       `httpChecksum` trait where `requestChecksumRequired` is `true` and/or a
+    #       `requestAlgorithmMember` is modeled.
+    #     * `when_required` - When set, a checksum will only be calculated for
+    #       request payloads of operations modeled with the  `httpChecksum` trait where
+    #       `requestChecksumRequired` is `true` or where a `requestAlgorithmMember`
+    #       is modeled and supplied.
+    #
+    #   @option options [Integer] :request_min_compression_size_bytes (10240)
+    #     The minimum size in bytes that triggers compression for request
+    #     bodies. The value must be non-negative integer value between 0
+    #     and 10485780 bytes inclusive.
+    #
+    #   @option options [String] :response_checksum_validation ("when_supported")
+    #     Determines when checksum validation will be performed on response payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, checksum validation is performed on all
+    #       response payloads of operations modeled with the `httpChecksum` trait where
+    #       `responseAlgorithms` is modeled, except when no modeled checksum algorithms
+    #       are supported.
+    #     * `when_required` - When set, checksum validation is not performed on
+    #       response payloads of operations unless the checksum algorithm is supported and
+    #       the `requestValidationModeMember` member is set to `ENABLED`.
     #
     #   @option options [Proc] :retry_backoff
     #     A proc or lambda used for backoff. Defaults to 2**retries * retry_base_delay.
@@ -274,10 +329,24 @@ module Aws::SSMIncidents
     #       throttling.  This is a provisional mode that may change behavior
     #       in the future.
     #
+    #   @option options [String] :sdk_ua_app_id
+    #     A unique and opaque application ID that is appended to the
+    #     User-Agent header as app/sdk_ua_app_id. It should have a
+    #     maximum length of 50. This variable is sourced from environment
+    #     variable AWS_SDK_UA_APP_ID or the shared config profile attribute sdk_ua_app_id.
     #
     #   @option options [String] :secret_access_key
     #
     #   @option options [String] :session_token
+    #
+    #   @option options [Array] :sigv4a_signing_region_set
+    #     A list of regions that should be signed with SigV4a signing. When
+    #     not passed, a default `:sigv4a_signing_region_set` is searched for
+    #     in the following locations:
+    #
+    #     * `Aws.config[:sigv4a_signing_region_set]`
+    #     * `ENV['AWS_SIGV4A_SIGNING_REGION_SET']`
+    #     * `~/.aws/config`
     #
     #   @option options [Boolean] :stub_responses (false)
     #     Causes the client to return stubbed responses. By default
@@ -287,6 +356,16 @@ module Aws::SSMIncidents
     #
     #     ** Please note ** When response stubbing is enabled, no HTTP
     #     requests are made, and retries are disabled.
+    #
+    #   @option options [Aws::Telemetry::TelemetryProviderBase] :telemetry_provider (Aws::Telemetry::NoOpTelemetryProvider)
+    #     Allows you to provide a telemetry provider, which is used to
+    #     emit telemetry data. By default, uses `NoOpTelemetryProvider` which
+    #     will not record or emit any telemetry data. The SDK supports the
+    #     following telemetry providers:
+    #
+    #     * OpenTelemetry (OTel) - To use the OTel provider, install and require the
+    #     `opentelemetry-sdk` gem and then, pass in an instance of a
+    #     `Aws::Telemetry::OTelProvider` for telemetry provider.
     #
     #   @option options [Aws::TokenProvider] :token_provider
     #     A Bearer Token Provider. This can be an instance of any one of the
@@ -315,58 +394,133 @@ module Aws::SSMIncidents
     #     sending the request.
     #
     #   @option options [Aws::SSMIncidents::EndpointProvider] :endpoint_provider
-    #     The endpoint provider used to resolve endpoints. Any object that responds to `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to `Aws::SSMIncidents::EndpointParameters`
+    #     The endpoint provider used to resolve endpoints. Any object that responds to
+    #     `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+    #     `Aws::SSMIncidents::EndpointParameters`.
     #
-    #   @option options [URI::HTTP,String] :http_proxy A proxy to send
-    #     requests through.  Formatted like 'http://proxy.com:123'.
+    #   @option options [Float] :http_continue_timeout (1)
+    #     The number of seconds to wait for a 100-continue response before sending the
+    #     request body.  This option has no effect unless the request has "Expect"
+    #     header set to "100-continue".  Defaults to `nil` which  disables this
+    #     behaviour.  This value can safely be set per request on the session.
     #
-    #   @option options [Float] :http_open_timeout (15) The number of
-    #     seconds to wait when opening a HTTP session before raising a
-    #     `Timeout::Error`.
+    #   @option options [Float] :http_idle_timeout (5)
+    #     The number of seconds a connection is allowed to sit idle before it
+    #     is considered stale.  Stale connections are closed and removed from the
+    #     pool before making a request.
     #
-    #   @option options [Float] :http_read_timeout (60) The default
-    #     number of seconds to wait for response data.  This value can
-    #     safely be set per-request on the session.
+    #   @option options [Float] :http_open_timeout (15)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :http_idle_timeout (5) The number of
-    #     seconds a connection is allowed to sit idle before it is
-    #     considered stale.  Stale connections are closed and removed
-    #     from the pool before making a request.
+    #   @option options [URI::HTTP,String] :http_proxy
+    #     A proxy to send requests through.  Formatted like 'http://proxy.com:123'.
     #
-    #   @option options [Float] :http_continue_timeout (1) The number of
-    #     seconds to wait for a 100-continue response before sending the
-    #     request body.  This option has no effect unless the request has
-    #     "Expect" header set to "100-continue".  Defaults to `nil` which
-    #     disables this behaviour.  This value can safely be set per
-    #     request on the session.
+    #   @option options [Float] :http_read_timeout (60)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :ssl_timeout (nil) Sets the SSL timeout
-    #     in seconds.
+    #   @option options [Boolean] :http_wire_trace (false)
+    #     When `true`,  HTTP debug output will be sent to the `:logger`.
     #
-    #   @option options [Boolean] :http_wire_trace (false) When `true`,
-    #     HTTP debug output will be sent to the `:logger`.
+    #   @option options [Proc] :on_chunk_received
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the response body is received. It provides three arguments: the chunk,
+    #     the number of bytes received, and the total number of
+    #     bytes in the response (or nil if the server did not send a `content-length`).
     #
-    #   @option options [Boolean] :ssl_verify_peer (true) When `true`,
-    #     SSL peer certificates are verified when establishing a
-    #     connection.
+    #   @option options [Proc] :on_chunk_sent
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the request body is sent. It provides three arguments: the chunk,
+    #     the number of bytes read from the body, and the total number of
+    #     bytes in the body.
     #
-    #   @option options [String] :ssl_ca_bundle Full path to the SSL
-    #     certificate authority bundle file that should be used when
-    #     verifying peer certificates.  If you do not pass
-    #     `:ssl_ca_bundle` or `:ssl_ca_directory` the the system default
-    #     will be used if available.
+    #   @option options [Boolean] :raise_response_errors (true)
+    #     When `true`, response errors are raised.
     #
-    #   @option options [String] :ssl_ca_directory Full path of the
-    #     directory that contains the unbundled SSL certificate
+    #   @option options [String] :ssl_ca_bundle
+    #     Full path to the SSL certificate authority bundle file that should be used when
+    #     verifying peer certificates.  If you do not pass `:ssl_ca_bundle` or
+    #     `:ssl_ca_directory` the the system default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_directory
+    #     Full path of the directory that contains the unbundled SSL certificate
     #     authority files for verifying peer certificates.  If you do
-    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the
-    #     system default will be used if available.
+    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the system
+    #     default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_store
+    #     Sets the X509::Store to verify peer certificate.
+    #
+    #   @option options [OpenSSL::X509::Certificate] :ssl_cert
+    #     Sets a client certificate when creating http connections.
+    #
+    #   @option options [OpenSSL::PKey] :ssl_key
+    #     Sets a client key when creating http connections.
+    #
+    #   @option options [Float] :ssl_timeout
+    #     Sets the SSL timeout in seconds
+    #
+    #   @option options [Boolean] :ssl_verify_peer (true)
+    #     When `true`, SSL peer certificates are verified when establishing a connection.
     #
     def initialize(*args)
       super
     end
 
     # @!group API Operations
+
+    # Retrieves details about all specified findings for an incident,
+    # including descriptive details about each finding. A finding represents
+    # a recent application environment change made by an CodeDeploy
+    # deployment or an CloudFormation stack creation or update that can be
+    # investigated as a potential cause of the incident.
+    #
+    # @option params [required, Array<String>] :finding_ids
+    #   A list of IDs of findings for which you want to view details.
+    #
+    # @option params [required, String] :incident_record_arn
+    #   The Amazon Resource Name (ARN) of the incident for which you want to
+    #   view finding details.
+    #
+    # @return [Types::BatchGetIncidentFindingsOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::BatchGetIncidentFindingsOutput#errors #errors} => Array&lt;Types::BatchGetIncidentFindingsError&gt;
+    #   * {Types::BatchGetIncidentFindingsOutput#findings #findings} => Array&lt;Types::Finding&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.batch_get_incident_findings({
+    #     finding_ids: ["FindingId"], # required
+    #     incident_record_arn: "Arn", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.errors #=> Array
+    #   resp.errors[0].code #=> String
+    #   resp.errors[0].finding_id #=> String
+    #   resp.errors[0].message #=> String
+    #   resp.findings #=> Array
+    #   resp.findings[0].creation_time #=> Time
+    #   resp.findings[0].details.cloud_formation_stack_update.end_time #=> Time
+    #   resp.findings[0].details.cloud_formation_stack_update.stack_arn #=> String
+    #   resp.findings[0].details.cloud_formation_stack_update.start_time #=> Time
+    #   resp.findings[0].details.code_deploy_deployment.deployment_group_arn #=> String
+    #   resp.findings[0].details.code_deploy_deployment.deployment_id #=> String
+    #   resp.findings[0].details.code_deploy_deployment.end_time #=> Time
+    #   resp.findings[0].details.code_deploy_deployment.start_time #=> Time
+    #   resp.findings[0].id #=> String
+    #   resp.findings[0].last_modified_time #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ssm-incidents-2018-05-10/BatchGetIncidentFindings AWS API Documentation
+    #
+    # @overload batch_get_incident_findings(params = {})
+    # @param [Hash] params ({})
+    def batch_get_incident_findings(params = {}, options = {})
+      req = build_request(:batch_get_incident_findings, params)
+      req.send_request(options)
+    end
 
     # A replication set replicates and encrypts your data to the provided
     # Regions with the provided KMS key.
@@ -533,13 +687,13 @@ module Aws::SSMIncidents
     end
 
     # Creates a custom timeline event on the incident details page of an
-    # incident record. Timeline events are automatically created by Incident
-    # Manager, marking key moment during an incident. You can create custom
-    # timeline events to mark important events that are automatically
-    # detected by Incident Manager.
+    # incident record. Incident Manager automatically creates timeline
+    # events that mark key moments during an incident. You can create custom
+    # timeline events to mark important events that Incident Manager can
+    # detect automatically.
     #
     # @option params [String] :client_token
-    #   A token ensuring that the action is called only once with the
+    #   A token that ensures that a client calls the action only once with the
     #   specified details.
     #
     #   **A suitable default value is auto-generated.** You should normally
@@ -549,25 +703,28 @@ module Aws::SSMIncidents
     #   A short description of the event.
     #
     # @option params [Array<Types::EventReference>] :event_references
-    #   Adds one or more references to the `TimelineEvent`. A reference can be
-    #   an Amazon Web Services resource involved in the incident or in some
-    #   way associated with it. When you specify a reference, you enter the
-    #   Amazon Resource Name (ARN) of the resource. You can also specify a
-    #   related item. As an example, you could specify the ARN of an Amazon
-    #   DynamoDB (DynamoDB) table. The table for this example is the resource.
-    #   You could also specify a Amazon CloudWatch metric for that table. The
-    #   metric is the related item.
+    #   Adds one or more references to the `TimelineEvent`. A reference is an
+    #   Amazon Web Services resource involved or associated with the incident.
+    #   To specify a reference, enter its Amazon Resource Name (ARN). You can
+    #   also specify a related item associated with a resource. For example,
+    #   to specify an Amazon DynamoDB (DynamoDB) table as a resource, use the
+    #   table's ARN. You can also specify an Amazon CloudWatch metric
+    #   associated with the DynamoDB table as a related item.
     #
     # @option params [required, Time,DateTime,Date,Integer,String] :event_time
-    #   The time that the event occurred.
+    #   The timestamp for when the event occurred.
     #
     # @option params [required, String] :event_type
-    #   The type of the event. You can create timeline events of type `Custom
-    #   Event`.
+    #   The type of event. You can create timeline events of type `Custom
+    #   Event` and `Note`.
+    #
+    #   To make a Note-type event appear on the *Incident notes* panel in the
+    #   console, specify `eventType` as `Note`and enter the Amazon Resource
+    #   Name (ARN) of the incident as the value for `eventReference`.
     #
     # @option params [required, String] :incident_record_arn
-    #   The Amazon Resource Name (ARN) of the incident record to which the
-    #   event will be added.
+    #   The Amazon Resource Name (ARN) of the incident record that the action
+    #   adds the incident to.
     #
     # @return [Types::CreateTimelineEventOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -706,8 +863,8 @@ module Aws::SSMIncidents
     # Deletes a timeline event from an incident.
     #
     # @option params [required, String] :event_id
-    #   The ID of the event you are updating. You can find this by using
-    #   `ListTimelineEvents`.
+    #   The ID of the event to update. You can use `ListTimelineEvents` to
+    #   find an event's ID.
     #
     # @option params [required, String] :incident_record_arn
     #   The Amazon Resource Name (ARN) of the incident that includes the
@@ -832,7 +989,8 @@ module Aws::SSMIncidents
     #   results.
     #
     # @option params [String] :next_token
-    #   The pagination token to continue to the next page of results.
+    #   The pagination token for the next set of items to return. (You
+    #   received this token from a previous call.)
     #
     # @option params [required, String] :resource_arn
     #   The Amazon Resource Name (ARN) of the response plan with the attached
@@ -975,13 +1133,61 @@ module Aws::SSMIncidents
       req.send_request(options)
     end
 
+    # Retrieves a list of the IDs of findings, plus their last modified
+    # times, that have been identified for a specified incident. A finding
+    # represents a recent application environment change made by an
+    # CloudFormation stack creation or update or an CodeDeploy deployment
+    # that can be investigated as a potential cause of the incident.
+    #
+    # @option params [required, String] :incident_record_arn
+    #   The Amazon Resource Name (ARN) of the incident for which you want to
+    #   view associated findings.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of findings to retrieve per call.
+    #
+    # @option params [String] :next_token
+    #   The pagination token for the next set of items to return. (You
+    #   received this token from a previous call.)
+    #
+    # @return [Types::ListIncidentFindingsOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListIncidentFindingsOutput#findings #findings} => Array&lt;Types::FindingSummary&gt;
+    #   * {Types::ListIncidentFindingsOutput#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_incident_findings({
+    #     incident_record_arn: "Arn", # required
+    #     max_results: 1,
+    #     next_token: "NextToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.findings #=> Array
+    #   resp.findings[0].id #=> String
+    #   resp.findings[0].last_modified_time #=> Time
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/ssm-incidents-2018-05-10/ListIncidentFindings AWS API Documentation
+    #
+    # @overload list_incident_findings(params = {})
+    # @param [Hash] params ({})
+    def list_incident_findings(params = {}, options = {})
+      req = build_request(:list_incident_findings, params)
+      req.send_request(options)
+    end
+
     # Lists all incident records in your account. Use this command to
     # retrieve the Amazon Resource Name (ARN) of the incident record you
     # want to update.
     #
     # @option params [Array<Types::Filter>] :filters
-    #   Filters the list of incident records through which you are searching.
-    #   You can filter on the following keys:
+    #   Filters the list of incident records you want to search through. You
+    #   can filter on the following keys:
     #
     #   * `creationTime`
     #
@@ -991,7 +1197,7 @@ module Aws::SSMIncidents
     #
     #   * `createdBy`
     #
-    #   Note the following when deciding how to use Filters:
+    #   Note the following when when you use Filters:
     #
     #   * If you don't specify a Filter, the response includes all incident
     #     records.
@@ -1006,7 +1212,8 @@ module Aws::SSMIncidents
     #   The maximum number of results per page.
     #
     # @option params [String] :next_token
-    #   The pagination token to continue to the next page of results.
+    #   The pagination token for the next set of items to return. (You
+    #   received this token from a previous call.)
     #
     # @return [Types::ListIncidentRecordsOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1069,7 +1276,8 @@ module Aws::SSMIncidents
     #   The maximum number of related items per page.
     #
     # @option params [String] :next_token
-    #   The pagination token to continue to the next page of results.
+    #   The pagination token for the next set of items to return. (You
+    #   received this token from a previous call.)
     #
     # @return [Types::ListRelatedItemsOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1115,7 +1323,8 @@ module Aws::SSMIncidents
     #   The maximum number of results per page.
     #
     # @option params [String] :next_token
-    #   The pagination token to continue to the next page of results.
+    #   The pagination token for the next set of items to return. (You
+    #   received this token from a previous call.)
     #
     # @return [Types::ListReplicationSetsOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1152,7 +1361,8 @@ module Aws::SSMIncidents
     #   The maximum number of response plans per page.
     #
     # @option params [String] :next_token
-    #   The pagination token to continue to the next page of results.
+    #   The pagination token for the next set of items to return. (You
+    #   received this token from a previous call.)
     #
     # @return [Types::ListResponsePlansOutput] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1185,10 +1395,11 @@ module Aws::SSMIncidents
       req.send_request(options)
     end
 
-    # Lists the tags that are attached to the specified response plan.
+    # Lists the tags that are attached to the specified response plan or
+    # incident.
     #
     # @option params [required, String] :resource_arn
-    #   The Amazon Resource Name (ARN) of the response plan.
+    #   The Amazon Resource Name (ARN) of the response plan or incident.
     #
     # @return [Types::ListTagsForResourceResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1218,7 +1429,9 @@ module Aws::SSMIncidents
     #
     # @option params [Array<Types::Filter>] :filters
     #   Filters the timeline events based on the provided conditional values.
-    #   You can filter timeline events using the following keys:
+    #   You can filter timeline events with the following keys:
+    #
+    #   * `eventReference`
     #
     #   * `eventTime`
     #
@@ -1243,10 +1456,11 @@ module Aws::SSMIncidents
     #   The maximum number of results per page.
     #
     # @option params [String] :next_token
-    #   The pagination token to continue to the next page of results.
+    #   The pagination token for the next set of items to return. (You
+    #   received this token from a previous call.)
     #
     # @option params [String] :sort_by
-    #   Sort by the specified key value pair.
+    #   Sort timeline events by the specified key value pair.
     #
     # @option params [String] :sort_order
     #   Sorts the order of timeline events by the value specified in the
@@ -1358,27 +1572,22 @@ module Aws::SSMIncidents
     #   Defines the impact to the customers. Providing an impact overwrites
     #   the impact provided by a response plan.
     #
-    #   **Possible impacts:**
+    #   **Supported impact codes**
     #
-    #   * `1` - Critical impact, this typically relates to full application
-    #     failure that impacts many to all customers.
+    #   * `1` - Critical
     #
-    #   * `2` - High impact, partial application failure with impact to many
-    #     customers.
+    #   * `2` - High
     #
-    #   * `3` - Medium impact, the application is providing reduced service to
-    #     customers.
+    #   * `3` - Medium
     #
-    #   * `4` - Low impact, customer might aren't impacted by the problem
-    #     yet.
+    #   * `4` - Low
     #
-    #   * `5` - No impact, customers aren't currently impacted but urgent
-    #     action is needed to avoid impact.
+    #   * `5` - No Impact
     #
     # @option params [Array<Types::RelatedItem>] :related_items
     #   Add related items to the incident for other responders to use. Related
-    #   items are AWS resources, external links, or files uploaded to an
-    #   Amazon S3 bucket.
+    #   items are Amazon Web Services resources, external links, or files
+    #   uploaded to an Amazon S3 bucket.
     #
     # @option params [required, String] :response_plan_arn
     #   The Amazon Resource Name (ARN) of the response plan that pre-defines
@@ -1551,42 +1760,39 @@ module Aws::SSMIncidents
     #   The Chatbot chat channel where responders can collaborate.
     #
     # @option params [String] :client_token
-    #   A token that ensures that the operation is called only once with the
-    #   specified details.
+    #   A token that ensures that a client calls the operation only once with
+    #   the specified details.
     #
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.**
     #
     # @option params [Integer] :impact
-    #   Defines the impact of the incident to customers and applications.
-    #   Providing an impact overwrites the impact provided by the response
-    #   plan.
+    #   Defines the impact of the incident to customers and applications. If
+    #   you provide an impact for an incident, it overwrites the impact
+    #   provided by the response plan.
     #
-    #   **Possible impacts:**
+    #   **Supported impact codes**
     #
-    #   * `1` - Critical impact, full application failure that impacts many to
-    #     all customers.
+    #   * `1` - Critical
     #
-    #   * `2` - High impact, partial application failure with impact to many
-    #     customers.
+    #   * `2` - High
     #
-    #   * `3` - Medium impact, the application is providing reduced service to
-    #     customers.
+    #   * `3` - Medium
     #
-    #   * `4` - Low impact, customer aren't impacted by the problem yet.
+    #   * `4` - Low
     #
-    #   * `5` - No impact, customers aren't currently impacted but urgent
-    #     action is needed to avoid impact.
+    #   * `5` - No Impact
     #
     # @option params [Array<Types::NotificationTargetItem>] :notification_targets
-    #   The Amazon SNS targets that are notified when updates are made to an
-    #   incident.
+    #   The Amazon SNS targets that Incident Manager notifies when a client
+    #   updates an incident.
     #
     #   Using multiple SNS topics creates redundancy in the event that a
     #   Region is down during the incident.
     #
     # @option params [String] :status
-    #   The status of the incident. An incident can be `Open` or `Resolved`.
+    #   The status of the incident. Possible statuses are `Open` or
+    #   `Resolved`.
     #
     # @option params [String] :summary
     #   A longer description of what occurred during the incident.
@@ -1630,18 +1836,19 @@ module Aws::SSMIncidents
     # record.
     #
     # @option params [String] :client_token
-    #   A token ensuring that the operation is called only once with the
-    #   specified details.
+    #   A token that ensures that a client calls the operation only once with
+    #   the specified details.
     #
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.**
     #
     # @option params [required, String] :incident_record_arn
-    #   The Amazon Resource Name (ARN) of the incident record containing the
-    #   related items you are updating.
+    #   The Amazon Resource Name (ARN) of the incident record that contains
+    #   the related items that you update.
     #
     # @option params [required, Types::RelatedItemsUpdate] :related_items_update
-    #   Details about the item you are adding or deleting.
+    #   Details about the item that you are add to, or delete from, an
+    #   incident.
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
@@ -1776,17 +1983,17 @@ module Aws::SSMIncidents
     #   Defines the impact to the customers. Providing an impact overwrites
     #   the impact provided by a response plan.
     #
-    #   **Possible impacts:**
+    #   **Supported impact codes**
     #
-    #   * `5` - Severe impact
+    #   * `1` - Critical
     #
-    #   * `4` - High impact
+    #   * `2` - High
     #
-    #   * `3` - Medium impact
+    #   * `3` - Medium
     #
-    #   * `2` - Low impact
+    #   * `4` - Low
     #
-    #   * `1` - No impact
+    #   * `5` - No Impact
     #
     # @option params [Array<Types::NotificationTargetItem>] :incident_template_notification_targets
     #   The Amazon SNS targets that are notified when updates are made to an
@@ -1880,8 +2087,8 @@ module Aws::SSMIncidents
     # Event`.
     #
     # @option params [String] :client_token
-    #   A token ensuring that the operation is called only once with the
-    #   specified details.
+    #   A token that ensures that a client calls the operation only once with
+    #   the specified details.
     #
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.**
@@ -1890,28 +2097,29 @@ module Aws::SSMIncidents
     #   A short description of the event.
     #
     # @option params [required, String] :event_id
-    #   The ID of the event you are updating. You can find this by using
-    #   `ListTimelineEvents`.
+    #   The ID of the event to update. You can use `ListTimelineEvents` to
+    #   find an event's ID.
     #
     # @option params [Array<Types::EventReference>] :event_references
-    #   Updates all existing references in a `TimelineEvent`. A reference can
-    #   be an Amazon Web Services resource involved in the incident or in some
-    #   way associated with it. When you specify a reference, you enter the
-    #   Amazon Resource Name (ARN) of the resource. You can also specify a
-    #   related item. As an example, you could specify the ARN of an Amazon
-    #   DynamoDB (DynamoDB) table. The table for this example is the resource.
-    #   You could also specify a Amazon CloudWatch metric for that table. The
-    #   metric is the related item.
+    #   Updates all existing references in a `TimelineEvent`. A reference is
+    #   an Amazon Web Services resource involved or associated with the
+    #   incident. To specify a reference, enter its Amazon Resource Name
+    #   (ARN). You can also specify a related item associated with that
+    #   resource. For example, to specify an Amazon DynamoDB (DynamoDB) table
+    #   as a resource, use its ARN. You can also specify an Amazon CloudWatch
+    #   metric associated with the DynamoDB table as a related item.
     #
     #   This update action overrides all existing references. If you want to
     #   keep existing references, you must specify them in the call. If you
-    #   don't, this action removes them and enters only new references.
+    #   don't, this action removes any existing references and enters only
+    #   new references.
     #
     # @option params [Time,DateTime,Date,Integer,String] :event_time
-    #   The time that the event occurred.
+    #   The timestamp for when the event occurred.
     #
     # @option params [String] :event_type
-    #   The type of the event. You can update events of type `Custom Event`.
+    #   The type of event. You can update events of type `Custom Event` and
+    #   `Note`.
     #
     # @option params [required, String] :incident_record_arn
     #   The Amazon Resource Name (ARN) of the incident that includes the
@@ -1951,14 +2159,19 @@ module Aws::SSMIncidents
     # @api private
     def build_request(operation_name, params = {})
       handlers = @handlers.for(operation_name)
+      tracer = config.telemetry_provider.tracer_provider.tracer(
+        Aws::Telemetry.module_to_tracer_name('Aws::SSMIncidents')
+      )
       context = Seahorse::Client::RequestContext.new(
         operation_name: operation_name,
         operation: config.api.operation(operation_name),
         client: self,
         params: params,
-        config: config)
+        config: config,
+        tracer: tracer
+      )
       context[:gem_name] = 'aws-sdk-ssmincidents'
-      context[:gem_version] = '1.21.0'
+      context[:gem_version] = '1.49.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

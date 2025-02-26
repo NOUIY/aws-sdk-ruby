@@ -7,33 +7,34 @@
 #
 # WARNING ABOUT GENERATED CODE
 
-require 'seahorse/client/plugins/content_length.rb'
-require 'aws-sdk-core/plugins/credentials_configuration.rb'
-require 'aws-sdk-core/plugins/logging.rb'
-require 'aws-sdk-core/plugins/param_converter.rb'
-require 'aws-sdk-core/plugins/param_validator.rb'
-require 'aws-sdk-core/plugins/user_agent.rb'
-require 'aws-sdk-core/plugins/helpful_socket_errors.rb'
-require 'aws-sdk-core/plugins/retry_errors.rb'
-require 'aws-sdk-core/plugins/global_configuration.rb'
-require 'aws-sdk-core/plugins/regional_endpoint.rb'
-require 'aws-sdk-core/plugins/endpoint_discovery.rb'
-require 'aws-sdk-core/plugins/endpoint_pattern.rb'
-require 'aws-sdk-core/plugins/response_paging.rb'
-require 'aws-sdk-core/plugins/stub_responses.rb'
-require 'aws-sdk-core/plugins/idempotency_token.rb'
-require 'aws-sdk-core/plugins/jsonvalue_converter.rb'
-require 'aws-sdk-core/plugins/client_metrics_plugin.rb'
-require 'aws-sdk-core/plugins/client_metrics_send_plugin.rb'
-require 'aws-sdk-core/plugins/transfer_encoding.rb'
-require 'aws-sdk-core/plugins/http_checksum.rb'
-require 'aws-sdk-core/plugins/checksum_algorithm.rb'
-require 'aws-sdk-core/plugins/defaults_mode.rb'
-require 'aws-sdk-core/plugins/recursion_detection.rb'
-require 'aws-sdk-core/plugins/sign.rb'
-require 'aws-sdk-core/plugins/protocols/json_rpc.rb'
-
-Aws::Plugins::GlobalConfiguration.add_identifier(:datasync)
+require 'seahorse/client/plugins/content_length'
+require 'aws-sdk-core/plugins/credentials_configuration'
+require 'aws-sdk-core/plugins/logging'
+require 'aws-sdk-core/plugins/param_converter'
+require 'aws-sdk-core/plugins/param_validator'
+require 'aws-sdk-core/plugins/user_agent'
+require 'aws-sdk-core/plugins/helpful_socket_errors'
+require 'aws-sdk-core/plugins/retry_errors'
+require 'aws-sdk-core/plugins/global_configuration'
+require 'aws-sdk-core/plugins/regional_endpoint'
+require 'aws-sdk-core/plugins/endpoint_discovery'
+require 'aws-sdk-core/plugins/endpoint_pattern'
+require 'aws-sdk-core/plugins/response_paging'
+require 'aws-sdk-core/plugins/stub_responses'
+require 'aws-sdk-core/plugins/idempotency_token'
+require 'aws-sdk-core/plugins/invocation_id'
+require 'aws-sdk-core/plugins/jsonvalue_converter'
+require 'aws-sdk-core/plugins/client_metrics_plugin'
+require 'aws-sdk-core/plugins/client_metrics_send_plugin'
+require 'aws-sdk-core/plugins/transfer_encoding'
+require 'aws-sdk-core/plugins/http_checksum'
+require 'aws-sdk-core/plugins/checksum_algorithm'
+require 'aws-sdk-core/plugins/request_compression'
+require 'aws-sdk-core/plugins/defaults_mode'
+require 'aws-sdk-core/plugins/recursion_detection'
+require 'aws-sdk-core/plugins/telemetry'
+require 'aws-sdk-core/plugins/sign'
+require 'aws-sdk-core/plugins/protocols/json_rpc'
 
 module Aws::DataSync
   # An API client for DataSync.  To construct a client, you need to configure a `:region` and `:credentials`.
@@ -71,20 +72,28 @@ module Aws::DataSync
     add_plugin(Aws::Plugins::ResponsePaging)
     add_plugin(Aws::Plugins::StubResponses)
     add_plugin(Aws::Plugins::IdempotencyToken)
+    add_plugin(Aws::Plugins::InvocationId)
     add_plugin(Aws::Plugins::JsonvalueConverter)
     add_plugin(Aws::Plugins::ClientMetricsPlugin)
     add_plugin(Aws::Plugins::ClientMetricsSendPlugin)
     add_plugin(Aws::Plugins::TransferEncoding)
     add_plugin(Aws::Plugins::HttpChecksum)
     add_plugin(Aws::Plugins::ChecksumAlgorithm)
+    add_plugin(Aws::Plugins::RequestCompression)
     add_plugin(Aws::Plugins::DefaultsMode)
     add_plugin(Aws::Plugins::RecursionDetection)
+    add_plugin(Aws::Plugins::Telemetry)
     add_plugin(Aws::Plugins::Sign)
     add_plugin(Aws::Plugins::Protocols::JsonRpc)
     add_plugin(Aws::DataSync::Plugins::Endpoints)
 
     # @overload initialize(options)
     #   @param [Hash] options
+    #
+    #   @option options [Array<Seahorse::Client::Plugin>] :plugins ([]])
+    #     A list of plugins to apply to the client. Each plugin is either a
+    #     class name or an instance of a plugin class.
+    #
     #   @option options [required, Aws::CredentialProvider] :credentials
     #     Your AWS credentials. This can be an instance of any one of the
     #     following classes:
@@ -119,13 +128,15 @@ module Aws::DataSync
     #     locations will be searched for credentials:
     #
     #     * `Aws.config[:credentials]`
-    #     * The `:access_key_id`, `:secret_access_key`, and `:session_token` options.
-    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']
+    #     * The `:access_key_id`, `:secret_access_key`, `:session_token`, and
+    #       `:account_id` options.
+    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'],
+    #       ENV['AWS_SESSION_TOKEN'], and ENV['AWS_ACCOUNT_ID']
     #     * `~/.aws/credentials`
     #     * `~/.aws/config`
     #     * EC2/ECS IMDS instance profile - When used by default, the timeouts
     #       are very aggressive. Construct and pass an instance of
-    #       `Aws::InstanceProfileCredentails` or `Aws::ECSCredentials` to
+    #       `Aws::InstanceProfileCredentials` or `Aws::ECSCredentials` to
     #       enable retries and extended timeouts. Instance profile credential
     #       fetching can be disabled by setting ENV['AWS_EC2_METADATA_DISABLED']
     #       to true.
@@ -143,6 +154,8 @@ module Aws::DataSync
     #     * `~/.aws/config`
     #
     #   @option options [String] :access_key_id
+    #
+    #   @option options [String] :account_id
     #
     #   @option options [Boolean] :active_endpoint_cache (false)
     #     When set to `true`, a thread polling for endpoints will be running in
@@ -190,10 +203,20 @@ module Aws::DataSync
     #     Set to true to disable SDK automatically adding host prefix
     #     to default service endpoint when available.
     #
-    #   @option options [String] :endpoint
-    #     The client endpoint is normally constructed from the `:region`
-    #     option. You should only configure an `:endpoint` when connecting
-    #     to test or custom endpoints. This should be a valid HTTP(S) URI.
+    #   @option options [Boolean] :disable_request_compression (false)
+    #     When set to 'true' the request body will not be compressed
+    #     for supported operations.
+    #
+    #   @option options [String, URI::HTTPS, URI::HTTP] :endpoint
+    #     Normally you should not configure the `:endpoint` option
+    #     directly. This is normally constructed from the `:region`
+    #     option. Configuring `:endpoint` is normally reserved for
+    #     connecting to test or custom endpoints. The endpoint should
+    #     be a URI formatted like:
+    #
+    #         'http://example.com'
+    #         'https://example.com'
+    #         'http://example.com:123'
     #
     #   @option options [Integer] :endpoint_cache_max_entries (1000)
     #     Used for the maximum size limit of the LRU cache storing endpoints data
@@ -209,6 +232,10 @@ module Aws::DataSync
     #
     #   @option options [Boolean] :endpoint_discovery (false)
     #     When set to `true`, endpoint discovery will be enabled for operations when available.
+    #
+    #   @option options [Boolean] :ignore_configured_endpoint_urls
+    #     Setting to true disables use of endpoint URLs provided via environment
+    #     variables and the shared configuration file.
     #
     #   @option options [Aws::Log::Formatter] :log_formatter (Aws::Log::Formatter.default)
     #     The log formatter.
@@ -229,6 +256,34 @@ module Aws::DataSync
     #   @option options [String] :profile ("default")
     #     Used when loading credentials from the shared credentials file
     #     at HOME/.aws/credentials.  When not specified, 'default' is used.
+    #
+    #   @option options [String] :request_checksum_calculation ("when_supported")
+    #     Determines when a checksum will be calculated for request payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, a checksum will be
+    #       calculated for all request payloads of operations modeled with the
+    #       `httpChecksum` trait where `requestChecksumRequired` is `true` and/or a
+    #       `requestAlgorithmMember` is modeled.
+    #     * `when_required` - When set, a checksum will only be calculated for
+    #       request payloads of operations modeled with the  `httpChecksum` trait where
+    #       `requestChecksumRequired` is `true` or where a `requestAlgorithmMember`
+    #       is modeled and supplied.
+    #
+    #   @option options [Integer] :request_min_compression_size_bytes (10240)
+    #     The minimum size in bytes that triggers compression for request
+    #     bodies. The value must be non-negative integer value between 0
+    #     and 10485780 bytes inclusive.
+    #
+    #   @option options [String] :response_checksum_validation ("when_supported")
+    #     Determines when checksum validation will be performed on response payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, checksum validation is performed on all
+    #       response payloads of operations modeled with the `httpChecksum` trait where
+    #       `responseAlgorithms` is modeled, except when no modeled checksum algorithms
+    #       are supported.
+    #     * `when_required` - When set, checksum validation is not performed on
+    #       response payloads of operations unless the checksum algorithm is supported and
+    #       the `requestValidationModeMember` member is set to `ENABLED`.
     #
     #   @option options [Proc] :retry_backoff
     #     A proc or lambda used for backoff. Defaults to 2**retries * retry_base_delay.
@@ -274,20 +329,31 @@ module Aws::DataSync
     #       throttling.  This is a provisional mode that may change behavior
     #       in the future.
     #
+    #   @option options [String] :sdk_ua_app_id
+    #     A unique and opaque application ID that is appended to the
+    #     User-Agent header as app/sdk_ua_app_id. It should have a
+    #     maximum length of 50. This variable is sourced from environment
+    #     variable AWS_SDK_UA_APP_ID or the shared config profile attribute sdk_ua_app_id.
     #
     #   @option options [String] :secret_access_key
     #
     #   @option options [String] :session_token
     #
+    #   @option options [Array] :sigv4a_signing_region_set
+    #     A list of regions that should be signed with SigV4a signing. When
+    #     not passed, a default `:sigv4a_signing_region_set` is searched for
+    #     in the following locations:
+    #
+    #     * `Aws.config[:sigv4a_signing_region_set]`
+    #     * `ENV['AWS_SIGV4A_SIGNING_REGION_SET']`
+    #     * `~/.aws/config`
+    #
     #   @option options [Boolean] :simple_json (false)
     #     Disables request parameter conversion, validation, and formatting.
-    #     Also disable response data type conversions. This option is useful
-    #     when you want to ensure the highest level of performance by
-    #     avoiding overhead of walking request parameters and response data
-    #     structures.
-    #
-    #     When `:simple_json` is enabled, the request parameters hash must
-    #     be formatted exactly as the DynamoDB API expects.
+    #     Also disables response data type conversions. The request parameters
+    #     hash must be formatted exactly as the API expects.This option is useful
+    #     when you want to ensure the highest level of performance by avoiding
+    #     overhead of walking request parameters and response data structures.
     #
     #   @option options [Boolean] :stub_responses (false)
     #     Causes the client to return stubbed responses. By default
@@ -297,6 +363,16 @@ module Aws::DataSync
     #
     #     ** Please note ** When response stubbing is enabled, no HTTP
     #     requests are made, and retries are disabled.
+    #
+    #   @option options [Aws::Telemetry::TelemetryProviderBase] :telemetry_provider (Aws::Telemetry::NoOpTelemetryProvider)
+    #     Allows you to provide a telemetry provider, which is used to
+    #     emit telemetry data. By default, uses `NoOpTelemetryProvider` which
+    #     will not record or emit any telemetry data. The SDK supports the
+    #     following telemetry providers:
+    #
+    #     * OpenTelemetry (OTel) - To use the OTel provider, install and require the
+    #     `opentelemetry-sdk` gem and then, pass in an instance of a
+    #     `Aws::Telemetry::OTelProvider` for telemetry provider.
     #
     #   @option options [Aws::TokenProvider] :token_provider
     #     A Bearer Token Provider. This can be an instance of any one of the
@@ -325,58 +401,167 @@ module Aws::DataSync
     #     sending the request.
     #
     #   @option options [Aws::DataSync::EndpointProvider] :endpoint_provider
-    #     The endpoint provider used to resolve endpoints. Any object that responds to `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to `Aws::DataSync::EndpointParameters`
+    #     The endpoint provider used to resolve endpoints. Any object that responds to
+    #     `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+    #     `Aws::DataSync::EndpointParameters`.
     #
-    #   @option options [URI::HTTP,String] :http_proxy A proxy to send
-    #     requests through.  Formatted like 'http://proxy.com:123'.
+    #   @option options [Float] :http_continue_timeout (1)
+    #     The number of seconds to wait for a 100-continue response before sending the
+    #     request body.  This option has no effect unless the request has "Expect"
+    #     header set to "100-continue".  Defaults to `nil` which  disables this
+    #     behaviour.  This value can safely be set per request on the session.
     #
-    #   @option options [Float] :http_open_timeout (15) The number of
-    #     seconds to wait when opening a HTTP session before raising a
-    #     `Timeout::Error`.
+    #   @option options [Float] :http_idle_timeout (5)
+    #     The number of seconds a connection is allowed to sit idle before it
+    #     is considered stale.  Stale connections are closed and removed from the
+    #     pool before making a request.
     #
-    #   @option options [Float] :http_read_timeout (60) The default
-    #     number of seconds to wait for response data.  This value can
-    #     safely be set per-request on the session.
+    #   @option options [Float] :http_open_timeout (15)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :http_idle_timeout (5) The number of
-    #     seconds a connection is allowed to sit idle before it is
-    #     considered stale.  Stale connections are closed and removed
-    #     from the pool before making a request.
+    #   @option options [URI::HTTP,String] :http_proxy
+    #     A proxy to send requests through.  Formatted like 'http://proxy.com:123'.
     #
-    #   @option options [Float] :http_continue_timeout (1) The number of
-    #     seconds to wait for a 100-continue response before sending the
-    #     request body.  This option has no effect unless the request has
-    #     "Expect" header set to "100-continue".  Defaults to `nil` which
-    #     disables this behaviour.  This value can safely be set per
-    #     request on the session.
+    #   @option options [Float] :http_read_timeout (60)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :ssl_timeout (nil) Sets the SSL timeout
-    #     in seconds.
+    #   @option options [Boolean] :http_wire_trace (false)
+    #     When `true`,  HTTP debug output will be sent to the `:logger`.
     #
-    #   @option options [Boolean] :http_wire_trace (false) When `true`,
-    #     HTTP debug output will be sent to the `:logger`.
+    #   @option options [Proc] :on_chunk_received
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the response body is received. It provides three arguments: the chunk,
+    #     the number of bytes received, and the total number of
+    #     bytes in the response (or nil if the server did not send a `content-length`).
     #
-    #   @option options [Boolean] :ssl_verify_peer (true) When `true`,
-    #     SSL peer certificates are verified when establishing a
-    #     connection.
+    #   @option options [Proc] :on_chunk_sent
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the request body is sent. It provides three arguments: the chunk,
+    #     the number of bytes read from the body, and the total number of
+    #     bytes in the body.
     #
-    #   @option options [String] :ssl_ca_bundle Full path to the SSL
-    #     certificate authority bundle file that should be used when
-    #     verifying peer certificates.  If you do not pass
-    #     `:ssl_ca_bundle` or `:ssl_ca_directory` the the system default
-    #     will be used if available.
+    #   @option options [Boolean] :raise_response_errors (true)
+    #     When `true`, response errors are raised.
     #
-    #   @option options [String] :ssl_ca_directory Full path of the
-    #     directory that contains the unbundled SSL certificate
+    #   @option options [String] :ssl_ca_bundle
+    #     Full path to the SSL certificate authority bundle file that should be used when
+    #     verifying peer certificates.  If you do not pass `:ssl_ca_bundle` or
+    #     `:ssl_ca_directory` the the system default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_directory
+    #     Full path of the directory that contains the unbundled SSL certificate
     #     authority files for verifying peer certificates.  If you do
-    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the
-    #     system default will be used if available.
+    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the system
+    #     default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_store
+    #     Sets the X509::Store to verify peer certificate.
+    #
+    #   @option options [OpenSSL::X509::Certificate] :ssl_cert
+    #     Sets a client certificate when creating http connections.
+    #
+    #   @option options [OpenSSL::PKey] :ssl_key
+    #     Sets a client key when creating http connections.
+    #
+    #   @option options [Float] :ssl_timeout
+    #     Sets the SSL timeout in seconds
+    #
+    #   @option options [Boolean] :ssl_verify_peer (true)
+    #     When `true`, SSL peer certificates are verified when establishing a connection.
     #
     def initialize(*args)
       super
     end
 
     # @!group API Operations
+
+    # Creates an Amazon Web Services resource for an on-premises storage
+    # system that you want DataSync Discovery to collect information about.
+    #
+    # @option params [required, Types::DiscoveryServerConfiguration] :server_configuration
+    #   Specifies the server name and network port required to connect with
+    #   the management interface of your on-premises storage system.
+    #
+    # @option params [required, String] :system_type
+    #   Specifies the type of on-premises storage system that you want
+    #   DataSync Discovery to collect information about.
+    #
+    #   <note markdown="1"> DataSync Discovery currently supports NetApp Fabric-Attached Storage
+    #   (FAS) and All Flash FAS (AFF) systems running ONTAP 9.7 or later.
+    #
+    #    </note>
+    #
+    # @option params [required, Array<String>] :agent_arns
+    #   Specifies the Amazon Resource Name (ARN) of the DataSync agent that
+    #   connects to and reads from your on-premises storage system's
+    #   management interface. You can only specify one ARN.
+    #
+    # @option params [String] :cloud_watch_log_group_arn
+    #   Specifies the ARN of the Amazon CloudWatch log group for monitoring
+    #   and logging discovery job events.
+    #
+    # @option params [Array<Types::TagListEntry>] :tags
+    #   Specifies labels that help you categorize, filter, and search for your
+    #   Amazon Web Services resources. We recommend creating at least a name
+    #   tag for your on-premises storage system.
+    #
+    # @option params [String] :name
+    #   Specifies a familiar name for your on-premises storage system.
+    #
+    # @option params [required, String] :client_token
+    #   Specifies a client token to make sure requests with this API operation
+    #   are idempotent. If you don't specify a client token, DataSync
+    #   generates one for you automatically.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @option params [required, Types::Credentials] :credentials
+    #   Specifies the user name and password for accessing your on-premises
+    #   storage system's management interface.
+    #
+    # @return [Types::AddStorageSystemResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::AddStorageSystemResponse#storage_system_arn #storage_system_arn} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.add_storage_system({
+    #     server_configuration: { # required
+    #       server_hostname: "DiscoveryServerHostname", # required
+    #       server_port: 1,
+    #     },
+    #     system_type: "NetAppONTAP", # required, accepts NetAppONTAP
+    #     agent_arns: ["AgentArn"], # required
+    #     cloud_watch_log_group_arn: "LogGroupArn",
+    #     tags: [
+    #       {
+    #         key: "TagKey", # required
+    #         value: "TagValue",
+    #       },
+    #     ],
+    #     name: "Name",
+    #     client_token: "PtolemyUUID", # required
+    #     credentials: { # required
+    #       username: "PtolemyUsername", # required
+    #       password: "PtolemyPassword", # required
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.storage_system_arn #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/datasync-2018-11-09/AddStorageSystem AWS API Documentation
+    #
+    # @overload add_storage_system(params = {})
+    # @param [Hash] params ({})
+    def add_storage_system(params = {}, options = {})
+      req = build_request(:add_storage_system, params)
+      req.send_request(options)
+    end
 
     # Stops an DataSync task execution that's in progress. The transfer of
     # some files are abruptly interrupted. File contents that're
@@ -410,87 +595,53 @@ module Aws::DataSync
       req.send_request(options)
     end
 
-    # Activates an DataSync agent that you have deployed in your storage
-    # environment. The activation process associates your agent with your
-    # account. In the activation process, you specify information such as
-    # the Amazon Web Services Region that you want to activate the agent in.
-    # You activate the agent in the Amazon Web Services Region where your
-    # target locations (in Amazon S3 or Amazon EFS) reside. Your tasks are
-    # created in this Amazon Web Services Region.
+    # Activates an DataSync agent that you deploy in your storage
+    # environment. The activation process associates the agent with your
+    # Amazon Web Services account.
     #
-    # You can activate the agent in a VPC (virtual private cloud) or provide
-    # the agent access to a VPC endpoint so you can run tasks without going
-    # over the public internet.
+    # If you haven't deployed an agent yet, see [Do I need a DataSync
+    # agent?][1]
     #
-    # You can use an agent for more than one location. If a task uses
-    # multiple agents, all of them need to have status AVAILABLE for the
-    # task to run. If you use multiple agents for a source location, the
-    # status of all the agents must be AVAILABLE for the task to run.
     #
-    # Agents are automatically updated by Amazon Web Services on a regular
-    # basis, using a mechanism that ensures minimal interruption to your
-    # tasks.
+    #
+    # [1]: https://docs.aws.amazon.com/datasync/latest/userguide/do-i-need-datasync-agent.html
     #
     # @option params [required, String] :activation_key
-    #   Your agent activation key. You can get the activation key either by
-    #   sending an HTTP GET request with redirects that enable you to get the
-    #   agent IP address (port 80). Alternatively, you can get it from the
-    #   DataSync console.
+    #   Specifies your DataSync agent's activation key. If you don't have an
+    #   activation key, see [Activating your agent][1].
     #
-    #   The redirect URL returned in the response provides you the activation
-    #   key for your agent in the query string parameter `activationKey`. It
-    #   might also include other activation-related parameters; however, these
-    #   are merely defaults. The arguments you pass to this API call determine
-    #   the actual configuration of your agent.
     #
-    #   For more information, see Activating an Agent in the *DataSync User
-    #   Guide.*
+    #
+    #   [1]: https://docs.aws.amazon.com/datasync/latest/userguide/activate-agent.html
     #
     # @option params [String] :agent_name
-    #   The name you configured for your agent. This value is a text reference
-    #   that is used to identify the agent in the console.
+    #   Specifies a name for your agent. We recommend specifying a name that
+    #   you can remember.
     #
     # @option params [Array<Types::TagListEntry>] :tags
-    #   The key-value pair that represents the tag that you want to associate
-    #   with the agent. The value can be an empty string. This value helps you
-    #   manage, filter, and search for your agents.
-    #
-    #   <note markdown="1"> Valid characters for key and value are letters, spaces, and numbers
-    #   representable in UTF-8 format, and the following special characters: +
-    #   - = . \_ : / @.
-    #
-    #    </note>
+    #   Specifies labels that help you categorize, filter, and search for your
+    #   Amazon Web Services resources. We recommend creating at least one tag
+    #   for your agent.
     #
     # @option params [String] :vpc_endpoint_id
-    #   The ID of the VPC (virtual private cloud) endpoint that the agent has
-    #   access to. This is the client-side VPC endpoint, also called a
-    #   PrivateLink. If you don't have a PrivateLink VPC endpoint, see
-    #   [Creating a VPC Endpoint Service Configuration][1] in the Amazon VPC
-    #   User Guide.
+    #   Specifies the ID of the [VPC service endpoint][1] that you're using.
+    #   For example, a VPC endpoint ID looks like `vpce-01234d5aff67890e1`.
     #
-    #   VPC endpoint ID looks like this: `vpce-01234d5aff67890e1`.
+    #   The VPC service endpoint you use must include the DataSync service
+    #   name (for example, `com.amazonaws.us-east-2.datasync`).
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/vpc/latest/userguide/endpoint-service.html#create-endpoint-service
+    #   [1]: https://docs.aws.amazon.com/datasync/latest/userguide/choose-service-endpoint.html#datasync-in-vpc
     #
     # @option params [Array<String>] :subnet_arns
-    #   The Amazon Resource Names (ARNs) of the subnets in which DataSync will
-    #   create elastic network interfaces for each data transfer task. The
-    #   agent that runs a task must be private. When you start a task that is
-    #   associated with an agent created in a VPC, or one that has access to
-    #   an IP address in a VPC, then the task is also private. In this case,
-    #   DataSync creates four network interfaces for each task in your subnet.
-    #   For a data transfer to work, the agent must be able to route to all
-    #   these four network interfaces.
+    #   Specifies the ARN of the subnet where your VPC service endpoint is
+    #   located. You can only specify one ARN.
     #
     # @option params [Array<String>] :security_group_arns
-    #   The ARNs of the security groups used to protect your data transfer
-    #   task subnets. See [SecurityGroupArns][1].
-    #
-    #
-    #
-    #   [1]: https://docs.aws.amazon.com/datasync/latest/userguide/API_Ec2Config.html#DataSync-Type-Ec2Config-SecurityGroupArns
+    #   Specifies the Amazon Resource Name (ARN) of the security group that
+    #   allows traffic between your agent and VPC service endpoint. You can
+    #   only specify one ARN.
     #
     # @return [Types::CreateAgentResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -525,31 +676,145 @@ module Aws::DataSync
       req.send_request(options)
     end
 
-    # Creates an endpoint for an Amazon EFS file system that DataSync can
-    # access for a transfer. For more information, see [Creating a location
-    # for Amazon EFS][1].
+    # Creates a transfer *location* for a Microsoft Azure Blob Storage
+    # container. DataSync can use this location as a transfer source or
+    # destination.
+    #
+    # Before you begin, make sure you know [how DataSync accesses Azure Blob
+    # Storage][1] and works with [access tiers][2] and [blob types][3]. You
+    # also need a [DataSync agent][4] that can connect to your container.
     #
     #
     #
-    # [1]: https://docs.aws.amazon.com/datasync/latest/userguide/create-efs-location.html
+    # [1]: https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html#azure-blob-access
+    # [2]: https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html#azure-blob-access-tiers
+    # [3]: https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html#blob-types
+    # [4]: https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html#azure-blob-creating-agent
+    #
+    # @option params [required, String] :container_url
+    #   Specifies the URL of the Azure Blob Storage container involved in your
+    #   transfer.
+    #
+    # @option params [required, String] :authentication_type
+    #   Specifies the authentication method DataSync uses to access your Azure
+    #   Blob Storage. DataSync can access blob storage using a shared access
+    #   signature (SAS).
+    #
+    # @option params [Types::AzureBlobSasConfiguration] :sas_configuration
+    #   Specifies the SAS configuration that allows DataSync to access your
+    #   Azure Blob Storage.
+    #
+    # @option params [String] :blob_type
+    #   Specifies the type of blob that you want your objects or files to be
+    #   when transferring them into Azure Blob Storage. Currently, DataSync
+    #   only supports moving data into Azure Blob Storage as block blobs. For
+    #   more information on blob types, see the [Azure Blob Storage
+    #   documentation][1].
+    #
+    #
+    #
+    #   [1]: https://learn.microsoft.com/en-us/rest/api/storageservices/understanding-block-blobs--append-blobs--and-page-blobs
+    #
+    # @option params [String] :access_tier
+    #   Specifies the access tier that you want your objects or files
+    #   transferred into. This only applies when using the location as a
+    #   transfer destination. For more information, see [Access tiers][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html#azure-blob-access-tiers
+    #
+    # @option params [String] :subdirectory
+    #   Specifies path segments if you want to limit your transfer to a
+    #   virtual directory in your container (for example, `/my/images`).
+    #
+    # @option params [required, Array<String>] :agent_arns
+    #   Specifies the Amazon Resource Name (ARN) of the DataSync agent that
+    #   can connect with your Azure Blob Storage container.
+    #
+    #   You can specify more than one agent. For more information, see [Using
+    #   multiple agents for your transfer][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/datasync/latest/userguide/multiple-agents.html
+    #
+    # @option params [Array<Types::TagListEntry>] :tags
+    #   Specifies labels that help you categorize, filter, and search for your
+    #   Amazon Web Services resources. We recommend creating at least a name
+    #   tag for your transfer location.
+    #
+    # @return [Types::CreateLocationAzureBlobResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateLocationAzureBlobResponse#location_arn #location_arn} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_location_azure_blob({
+    #     container_url: "AzureBlobContainerUrl", # required
+    #     authentication_type: "SAS", # required, accepts SAS
+    #     sas_configuration: {
+    #       token: "AzureBlobSasToken", # required
+    #     },
+    #     blob_type: "BLOCK", # accepts BLOCK
+    #     access_tier: "HOT", # accepts HOT, COOL, ARCHIVE
+    #     subdirectory: "AzureBlobSubdirectory",
+    #     agent_arns: ["AgentArn"], # required
+    #     tags: [
+    #       {
+    #         key: "TagKey", # required
+    #         value: "TagValue",
+    #       },
+    #     ],
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.location_arn #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/datasync-2018-11-09/CreateLocationAzureBlob AWS API Documentation
+    #
+    # @overload create_location_azure_blob(params = {})
+    # @param [Hash] params ({})
+    def create_location_azure_blob(params = {}, options = {})
+      req = build_request(:create_location_azure_blob, params)
+      req.send_request(options)
+    end
+
+    # Creates a transfer *location* for an Amazon EFS file system. DataSync
+    # can use this location as a source or destination for transferring
+    # data.
+    #
+    # Before you begin, make sure that you understand how DataSync [accesses
+    # Amazon EFS file systems][1].
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/datasync/latest/userguide/create-efs-location.html#create-efs-location-access
     #
     # @option params [String] :subdirectory
     #   Specifies a mount path for your Amazon EFS file system. This is where
-    #   DataSync reads or writes data (depending on if this is a source or
-    #   destination location). By default, DataSync uses the root directory,
-    #   but you can also include subdirectories.
+    #   DataSync reads or writes data on your file system (depending on if
+    #   this is a source or destination location).
     #
-    #   <note markdown="1"> You must specify a value with forward slashes (for example,
-    #   `/path/to/folder`).
+    #   By default, DataSync uses the root directory (or [access point][1] if
+    #   you provide one by using `AccessPointArn`). You can also include
+    #   subdirectories using forward slashes (for example, `/path/to/folder`).
     #
-    #    </note>
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/efs/latest/ug/efs-access-points.html
     #
     # @option params [required, String] :efs_filesystem_arn
-    #   Specifies the ARN for the Amazon EFS file system.
+    #   Specifies the ARN for your Amazon EFS file system.
     #
     # @option params [required, Types::Ec2Config] :ec2_config
-    #   Specifies the subnet and security groups DataSync uses to access your
-    #   Amazon EFS file system.
+    #   Specifies the subnet and security groups DataSync uses to connect to
+    #   one of your Amazon EFS file system's [mount targets][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/efs/latest/ug/accessing-fs.html
     #
     # @option params [Array<Types::TagListEntry>] :tags
     #   Specifies the key-value pair that represents a tag that you want to
@@ -559,15 +824,28 @@ module Aws::DataSync
     #
     # @option params [String] :access_point_arn
     #   Specifies the Amazon Resource Name (ARN) of the access point that
-    #   DataSync uses to access the Amazon EFS file system.
+    #   DataSync uses to mount your Amazon EFS file system.
+    #
+    #   For more information, see [Accessing restricted file systems][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/datasync/latest/userguide/create-efs-location.html#create-efs-location-iam
     #
     # @option params [String] :file_system_access_role_arn
-    #   Specifies an Identity and Access Management (IAM) role that DataSync
-    #   assumes when mounting the Amazon EFS file system.
+    #   Specifies an Identity and Access Management (IAM) role that allows
+    #   DataSync to access your Amazon EFS file system.
+    #
+    #   For information on creating this role, see [Creating a DataSync IAM
+    #   role for file system access][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/datasync/latest/userguide/create-efs-location.html#create-efs-location-iam-role
     #
     # @option params [String] :in_transit_encryption
     #   Specifies whether you want DataSync to use Transport Layer Security
-    #   (TLS) 1.2 encryption when it copies data to or from the Amazon EFS
+    #   (TLS) 1.2 encryption when it transfers data to or from your Amazon EFS
     #   file system.
     #
     #   If you specify an access point using `AccessPointArn` or an IAM role
@@ -611,25 +889,47 @@ module Aws::DataSync
       req.send_request(options)
     end
 
-    # Creates an endpoint for an Amazon FSx for Lustre file system.
+    # Creates a transfer *location* for an Amazon FSx for Lustre file
+    # system. DataSync can use this location as a source or destination for
+    # transferring data.
+    #
+    # Before you begin, make sure that you understand how DataSync [accesses
+    # FSx for Lustre file systems][1].
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/datasync/latest/userguide/create-lustre-location.html#create-lustre-location-access
     #
     # @option params [required, String] :fsx_filesystem_arn
-    #   The Amazon Resource Name (ARN) for the FSx for Lustre file system.
+    #   Specifies the Amazon Resource Name (ARN) of the FSx for Lustre file
+    #   system.
     #
     # @option params [required, Array<String>] :security_group_arns
-    #   The Amazon Resource Names (ARNs) of the security groups that are used
-    #   to configure the FSx for Lustre file system.
+    #   Specifies the Amazon Resource Names (ARNs) of up to five security
+    #   groups that provide access to your FSx for Lustre file system.
+    #
+    #   The security groups must be able to access the file system's ports.
+    #   The file system must also allow access from the security groups. For
+    #   information about file system access, see the [ *Amazon FSx for Lustre
+    #   User Guide* ][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/fsx/latest/LustreGuide/limit-access-security-groups.html
     #
     # @option params [String] :subdirectory
-    #   A subdirectory in the location's path. This subdirectory in the FSx
-    #   for Lustre file system is used to read data from the FSx for Lustre
-    #   source location or write data to the FSx for Lustre destination.
+    #   Specifies a mount path for your FSx for Lustre file system. The path
+    #   can include subdirectories.
+    #
+    #   When the location is used as a source, DataSync reads data from the
+    #   mount path. When the location is used as a destination, DataSync
+    #   writes data to the mount path. If you don't include this parameter,
+    #   DataSync uses the file system's root directory (`/`).
     #
     # @option params [Array<Types::TagListEntry>] :tags
-    #   The key-value pair that represents a tag that you want to add to the
-    #   resource. The value can be an empty string. This value helps you
-    #   manage, filter, and search for your resources. We recommend that you
-    #   create a name tag for your location.
+    #   Specifies labels that help you categorize, filter, and search for your
+    #   Amazon Web Services resources. We recommend creating at least a name
+    #   tag for your location.
     #
     # @return [Types::CreateLocationFsxLustreResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -662,13 +962,16 @@ module Aws::DataSync
       req.send_request(options)
     end
 
-    # Creates an endpoint for an Amazon FSx for NetApp ONTAP file system
-    # that DataSync can access for a transfer. For more information, see
-    # [Creating a location for FSx for ONTAP][1].
+    # Creates a transfer *location* for an Amazon FSx for NetApp ONTAP file
+    # system. DataSync can use this location as a source or destination for
+    # transferring data.
+    #
+    # Before you begin, make sure that you understand how DataSync [accesses
+    # FSx for ONTAP file systems][1].
     #
     #
     #
-    # [1]: https://docs.aws.amazon.com/datasync/latest/userguide/create-ontap-location.html
+    # [1]: https://docs.aws.amazon.com/datasync/latest/userguide/create-ontap-location.html#create-ontap-location-access
     #
     # @option params [required, Types::FsxProtocol] :protocol
     #   Specifies the data transfer protocol that DataSync uses to access your
@@ -681,9 +984,9 @@ module Aws::DataSync
     #   The security groups must allow outbound traffic on the following ports
     #   (depending on the protocol you use):
     #
-    #   * **Network File System (NFS)**\: TCP ports 111, 635, and 2049
+    #   * **Network File System (NFS)**: TCP ports 111, 635, and 2049
     #
-    #   * **Server Message Block (SMB)**\: TCP port 445
+    #   * **Server Message Block (SMB)**: TCP port 445
     #
     #   Your file system's security groups must also allow inbound traffic on
     #   the same ports.
@@ -693,8 +996,8 @@ module Aws::DataSync
     #   system where you want to copy data to or from.
     #
     # @option params [String] :subdirectory
-    #   Specifies a path to the file share in the SVM where you'll copy your
-    #   data.
+    #   Specifies a path to the file share in the SVM where you want to
+    #   transfer data to or from.
     #
     #   You can specify a junction path (also known as a mount point), qtree
     #   path (for NFS file shares), or share name (for SMB file shares). For
@@ -762,9 +1065,12 @@ module Aws::DataSync
       req.send_request(options)
     end
 
-    # Creates an endpoint for an Amazon FSx for OpenZFS file system that
-    # DataSync can access for a transfer. For more information, see
-    # [Creating a location for FSx for OpenZFS][1].
+    # Creates a transfer *location* for an Amazon FSx for OpenZFS file
+    # system. DataSync can use this location as a source or destination for
+    # transferring data.
+    #
+    # Before you begin, make sure that you understand how DataSync [accesses
+    # FSx for OpenZFS file systems][1].
     #
     # <note markdown="1"> Request parameters related to `SMB` aren't supported with the
     # `CreateLocationFsxOpenZfs` operation.
@@ -773,7 +1079,7 @@ module Aws::DataSync
     #
     #
     #
-    # [1]: https://docs.aws.amazon.com/datasync/latest/userguide/create-openzfs-location.html
+    # [1]: https://docs.aws.amazon.com/datasync/latest/userguide/create-openzfs-location.html#create-openzfs-access
     #
     # @option params [required, String] :fsx_filesystem_arn
     #   The Amazon Resource Name (ARN) of the FSx for OpenZFS file system.
@@ -842,8 +1148,16 @@ module Aws::DataSync
       req.send_request(options)
     end
 
-    # Creates an endpoint for an Amazon FSx for Windows File Server file
-    # system.
+    # Creates a transfer *location* for an Amazon FSx for Windows File
+    # Server file system. DataSync can use this location as a source or
+    # destination for transferring data.
+    #
+    # Before you begin, make sure that you understand how DataSync [accesses
+    # FSx for Windows File Server file systems][1].
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/datasync/latest/userguide/create-fsx-location.html#create-fsx-location-access
     #
     # @option params [String] :subdirectory
     #   Specifies a mount path for your file system using forward slashes.
@@ -855,8 +1169,13 @@ module Aws::DataSync
     #   Server file system.
     #
     # @option params [required, Array<String>] :security_group_arns
-    #   Specifies the ARNs of the security groups that provide access to your
-    #   file system's preferred subnet.
+    #   Specifies the ARNs of the Amazon EC2 security groups that provide
+    #   access to your file system's preferred subnet.
+    #
+    #   The security groups that you specify must be able to communicate with
+    #   your file system's security groups. For information about configuring
+    #   security groups for file system access, see the [ *Amazon FSx for
+    #   Windows File Server User Guide* ][1].
     #
     #   <note markdown="1"> If you choose a security group that doesn't allow connections from
     #   within itself, do one of the following:
@@ -869,26 +1188,40 @@ module Aws::DataSync
     #
     #    </note>
     #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/fsx/latest/WindowsGuide/limit-access-security-groups.html
+    #
     # @option params [Array<Types::TagListEntry>] :tags
     #   Specifies labels that help you categorize, filter, and search for your
     #   Amazon Web Services resources. We recommend creating at least a name
     #   tag for your location.
     #
     # @option params [required, String] :user
-    #   Specifies the user who has the permissions to access files and folders
-    #   in the file system.
+    #   Specifies the user with the permissions to mount and access the files,
+    #   folders, and file metadata in your FSx for Windows File Server file
+    #   system.
     #
-    #   For information about choosing a user name that ensures sufficient
-    #   permissions to files, folders, and metadata, see
-    #   [user](create-fsx-location.html#FSxWuser).
+    #   For information about choosing a user with the right level of access
+    #   for your transfer, see [required permissions][1] for FSx for Windows
+    #   File Server locations.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/datasync/latest/userguide/create-fsx-location.html#create-fsx-windows-location-permissions
     #
     # @option params [String] :domain
     #   Specifies the name of the Windows domain that the FSx for Windows File
-    #   Server belongs to.
+    #   Server file system belongs to.
+    #
+    #   If you have multiple Active Directory domains in your environment,
+    #   configuring this parameter makes sure that DataSync connects to the
+    #   right file system.
     #
     # @option params [required, String] :password
-    #   Specifies the password of the user who has the permissions to access
-    #   files and folders in the file system.
+    #   Specifies the password of the user with the permissions to mount and
+    #   access the files, folders, and file metadata in your FSx for Windows
+    #   File Server file system.
     #
     # @return [Types::CreateLocationFsxWindowsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -924,7 +1257,16 @@ module Aws::DataSync
       req.send_request(options)
     end
 
-    # Creates an endpoint for a Hadoop Distributed File System (HDFS).
+    # Creates a transfer *location* for a Hadoop Distributed File System
+    # (HDFS). DataSync can use this location as a source or destination for
+    # transferring data.
+    #
+    # Before you begin, make sure that you understand how DataSync [accesses
+    # HDFS clusters][1].
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/datasync/latest/userguide/create-hdfs-location.html#accessing-hdfs
     #
     # @option params [String] :subdirectory
     #   A subdirectory in the HDFS cluster. This subdirectory is used to read
@@ -1003,8 +1345,8 @@ module Aws::DataSync
     #    </note>
     #
     # @option params [required, Array<String>] :agent_arns
-    #   The Amazon Resource Names (ARNs) of the agents that are used to
-    #   connect to the HDFS cluster.
+    #   The Amazon Resource Names (ARNs) of the DataSync agents that can
+    #   connect to your HDFS cluster.
     #
     # @option params [Array<Types::TagListEntry>] :tags
     #   The key-value pair that represents the tag that you want to add to the
@@ -1059,76 +1401,52 @@ module Aws::DataSync
       req.send_request(options)
     end
 
-    # Defines a file system on a Network File System (NFS) server that can
-    # be read from or written to.
+    # Creates a transfer *location* for a Network File System (NFS) file
+    # server. DataSync can use this location as a source or destination for
+    # transferring data.
+    #
+    # Before you begin, make sure that you understand how DataSync [accesses
+    # NFS file servers][1].
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/datasync/latest/userguide/create-nfs-location.html#accessing-nfs
     #
     # @option params [required, String] :subdirectory
-    #   The subdirectory in the NFS file system that is used to read data from
-    #   the NFS source location or write data to the NFS destination. The NFS
-    #   path should be a path that's exported by the NFS server, or a
-    #   subdirectory of that path. The path should be such that it can be
-    #   mounted by other NFS clients in your network.
+    #   Specifies the export path in your NFS file server that you want
+    #   DataSync to mount.
     #
-    #   To see all the paths exported by your NFS server, run "`showmount -e
-    #   nfs-server-name`" from an NFS client that has access to your server.
-    #   You can specify any directory that appears in the results, and any
-    #   subdirectory of that directory. Ensure that the NFS export is
-    #   accessible without Kerberos authentication.
-    #
-    #   To transfer all the data in the folder you specified, DataSync needs
-    #   to have permissions to read all the data. To ensure this, either
-    #   configure the NFS export with `no_root_squash,` or ensure that the
-    #   permissions for all of the files that you want DataSync allow read
-    #   access for all users. Doing either enables the agent to read the
-    #   files. For the agent to access directories, you must additionally
-    #   enable all execute access.
-    #
-    #   If you are copying data to or from your Snowcone device, see [NFS
-    #   Server on Snowcone][1] for more information.
-    #
-    #   For information about NFS export configuration, see 18.7. The
-    #   /etc/exports Configuration File in the Red Hat Enterprise Linux
-    #   documentation.
+    #   This path (or a subdirectory of the path) is where DataSync transfers
+    #   data to or from. For information on configuring an export for
+    #   DataSync, see [Accessing NFS file servers][1].
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/datasync/latest/userguide/create-nfs-location.html#nfs-on-snowcone
+    #   [1]: https://docs.aws.amazon.com/datasync/latest/userguide/create-nfs-location.html#accessing-nfs
     #
     # @option params [required, String] :server_hostname
-    #   The name of the NFS server. This value is the IP address or Domain
-    #   Name Service (DNS) name of the NFS server. An agent that is installed
-    #   on-premises uses this hostname to mount the NFS server in a network.
-    #
-    #   If you are copying data to or from your Snowcone device, see [NFS
-    #   Server on Snowcone][1] for more information.
-    #
-    #   <note markdown="1"> This name must either be DNS-compliant or must be an IP version 4
-    #   (IPv4) address.
-    #
-    #    </note>
-    #
-    #
-    #
-    #   [1]: https://docs.aws.amazon.com/datasync/latest/userguide/create-nfs-location.html#nfs-on-snowcone
+    #   Specifies the Domain Name System (DNS) name or IP version 4 address of
+    #   the NFS file server that your DataSync agent connects to.
     #
     # @option params [required, Types::OnPremConfig] :on_prem_config
-    #   Contains a list of Amazon Resource Names (ARNs) of agents that are
-    #   used to connect to an NFS server.
+    #   Specifies the Amazon Resource Name (ARN) of the DataSync agent that
+    #   can connect to your NFS file server.
     #
-    #   If you are copying data to or from your Snowcone device, see [NFS
-    #   Server on Snowcone][1] for more information.
+    #   You can specify more than one agent. For more information, see [Using
+    #   multiple DataSync agents][1].
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/datasync/latest/userguide/create-nfs-location.html#nfs-on-snowcone
+    #   [1]: https://docs.aws.amazon.com/datasync/latest/userguide/do-i-need-datasync-agent.html#multiple-agents
     #
     # @option params [Types::NfsMountOptions] :mount_options
-    #   The NFS mount options that DataSync can use to mount your NFS share.
+    #   Specifies the options that DataSync can use to mount your NFS file
+    #   server.
     #
     # @option params [Array<Types::TagListEntry>] :tags
-    #   The key-value pair that represents the tag that you want to add to the
-    #   location. The value can be an empty string. We recommend using tags to
-    #   name your resources.
+    #   Specifies labels that help you categorize, filter, and search for your
+    #   Amazon Web Services resources. We recommend creating at least a name
+    #   tag for your location.
     #
     # @return [Types::CreateLocationNfsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1166,13 +1484,16 @@ module Aws::DataSync
       req.send_request(options)
     end
 
-    # Creates an endpoint for an object storage system that DataSync can
-    # access for a transfer. For more information, see [Creating a location
-    # for object storage][1].
+    # Creates a transfer *location* for an object storage system. DataSync
+    # can use this location as a source or destination for transferring
+    # data.
+    #
+    # Before you begin, make sure that you understand the [prerequisites][1]
+    # for DataSync to work with object storage systems.
     #
     #
     #
-    # [1]: https://docs.aws.amazon.com/datasync/latest/userguide/create-object-location.html
+    # [1]: https://docs.aws.amazon.com/datasync/latest/userguide/create-object-location.html#create-object-location-prerequisites
     #
     # @option params [required, String] :server_hostname
     #   Specifies the domain name or IP address of the object storage server.
@@ -1207,7 +1528,7 @@ module Aws::DataSync
     #
     # @option params [required, Array<String>] :agent_arns
     #   Specifies the Amazon Resource Names (ARNs) of the DataSync agents that
-    #   can securely connect with your location.
+    #   can connect with your object storage system.
     #
     # @option params [Array<Types::TagListEntry>] :tags
     #   Specifies the key-value pair that represents a tag that you want to
@@ -1215,11 +1536,27 @@ module Aws::DataSync
     #   your resources. We recommend creating a name tag for your location.
     #
     # @option params [String, StringIO, File] :server_certificate
-    #   Specifies a certificate to authenticate with an object storage system
-    #   that uses a private or self-signed certificate authority (CA). You
-    #   must specify a Base64-encoded `.pem` file (for example,
-    #   `file:///home/user/.ssh/storage_sys_certificate.pem`). The certificate
-    #   can be up to 32768 bytes (before Base64 encoding).
+    #   Specifies a certificate chain for DataSync to authenticate with your
+    #   object storage system if the system uses a private or self-signed
+    #   certificate authority (CA). You must specify a single `.pem` file with
+    #   a full certificate chain (for example,
+    #   `file:///home/user/.ssh/object_storage_certificates.pem`).
+    #
+    #   The certificate chain might include:
+    #
+    #   * The object storage system's certificate
+    #
+    #   * All intermediate certificates (if there are any)
+    #
+    #   * The root certificate of the signing CA
+    #
+    #   You can concatenate your certificates into a `.pem` file (which can be
+    #   up to 32768 bytes before base64 encoding). The following example `cat`
+    #   command creates an `object_storage_certificates.pem` file that
+    #   includes three certificates:
+    #
+    #   `cat object_server_certificate.pem intermediate_certificate.pem
+    #   ca_root_certificate.pem > object_storage_certificates.pem`
     #
     #   To use this parameter, configure `ServerProtocol` to `HTTPS`.
     #
@@ -1260,62 +1597,94 @@ module Aws::DataSync
       req.send_request(options)
     end
 
-    # Creates an endpoint for an Amazon S3 bucket that DataSync can access
-    # for a transfer. For more information, see [Create an Amazon S3
-    # location][1].
+    # Creates a transfer *location* for an Amazon S3 bucket. DataSync can
+    # use this location as a source or destination for transferring data.
+    #
+    # Before you begin, make sure that you read the following topics:
+    #
+    #  * [Storage class considerations with Amazon S3 locations][1]
+    #
+    # * [Evaluating S3 request costs when using DataSync][2]
+    #
+    # For more information, see [Configuring transfers with Amazon S3][3].
     #
     #
     #
-    # [1]: https://docs.aws.amazon.com/datasync/latest/userguide/create-locations-cli.html#create-location-s3-cli
+    # [1]: https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html#using-storage-classes
+    # [2]: https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html#create-s3-location-s3-requests
+    # [3]: https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html
     #
     # @option params [String] :subdirectory
-    #   A subdirectory in the Amazon S3 bucket. This subdirectory in Amazon S3
-    #   is used to read data from the S3 source location or write data to the
-    #   S3 destination.
+    #   Specifies a prefix in the S3 bucket that DataSync reads from or writes
+    #   to (depending on whether the bucket is a source or destination
+    #   location).
+    #
+    #   <note markdown="1"> DataSync can't transfer objects with a prefix that begins with a
+    #   slash (`/`) or includes `//`, `/./`, or `/../` patterns. For example:
+    #
+    #    * `/photos`
+    #
+    #   * `photos//2006/January`
+    #
+    #   * `photos/./2006/February`
+    #
+    #   * `photos/../2006/March`
+    #
+    #    </note>
     #
     # @option params [required, String] :s3_bucket_arn
-    #   The ARN of the Amazon S3 bucket. If the bucket is on an Amazon Web
-    #   Services Outpost, this must be an access point ARN.
+    #   Specifies the ARN of the S3 bucket that you want to use as a location.
+    #   (When creating your DataSync task later, you specify whether this
+    #   location is a transfer source or destination.)
+    #
+    #   If your S3 bucket is located on an Outposts resource, you must specify
+    #   an Amazon S3 access point. For more information, see [Managing data
+    #   access with Amazon S3 access points][1] in the *Amazon S3 User Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points.html
     #
     # @option params [String] :s3_storage_class
-    #   The Amazon S3 storage class that you want to store your files in when
-    #   this location is used as a task destination. For buckets in Amazon Web
-    #   Services Regions, the storage class defaults to Standard. For buckets
-    #   on Outposts, the storage class defaults to Amazon Web Services S3
-    #   Outposts.
+    #   Specifies the storage class that you want your objects to use when
+    #   Amazon S3 is a transfer destination.
     #
-    #   For more information about S3 storage classes, see [Amazon S3 Storage
-    #   Classes][1]. Some storage classes have behaviors that can affect your
-    #   S3 storage cost. For detailed information, see [Considerations when
-    #   working with S3 storage classes in DataSync][2].
+    #   For buckets in Amazon Web Services Regions, the storage class defaults
+    #   to `STANDARD`. For buckets on Outposts, the storage class defaults to
+    #   `OUTPOSTS`.
     #
+    #   For more information, see [Storage class considerations with Amazon S3
+    #   transfers][1].
     #
     #
-    #   [1]: http://aws.amazon.com/s3/storage-classes/
-    #   [2]: https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html#using-storage-classes
+    #
+    #   [1]: https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html#using-storage-classes
     #
     # @option params [required, Types::S3Config] :s3_config
-    #   The Amazon Resource Name (ARN) of the Identity and Access Management
-    #   (IAM) role used to access an Amazon S3 bucket.
+    #   Specifies the Amazon Resource Name (ARN) of the Identity and Access
+    #   Management (IAM) role that DataSync uses to access your S3 bucket.
     #
-    #   For detailed information about using such a role, see Creating a
-    #   Location for Amazon S3 in the *DataSync User Guide*.
+    #   For more information, see [Providing DataSync access to S3
+    #   buckets][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html#create-s3-location-access
     #
     # @option params [Array<String>] :agent_arns
-    #   If you're using DataSync on an Amazon Web Services Outpost, specify
-    #   the Amazon Resource Names (ARNs) of the DataSync agents deployed on
-    #   your Outpost. For more information about launching a DataSync agent on
-    #   an Amazon Web Services Outpost, see [Deploy your DataSync agent on
-    #   Outposts][1].
+    #   (Amazon S3 on Outposts only) Specifies the Amazon Resource Name (ARN)
+    #   of the DataSync agent on your Outpost.
+    #
+    #   For more information, see [Deploy your DataSync agent on Outposts][1].
     #
     #
     #
     #   [1]: https://docs.aws.amazon.com/datasync/latest/userguide/deploy-agents.html#outposts-agent
     #
     # @option params [Array<Types::TagListEntry>] :tags
-    #   The key-value pair that represents the tag that you want to add to the
-    #   location. The value can be an empty string. We recommend using tags to
-    #   name your resources.
+    #   Specifies labels that help you categorize, filter, and search for your
+    #   Amazon Web Services resources. We recommend creating at least a name
+    #   tag for your transfer location.
     #
     # @return [Types::CreateLocationS3Response] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1352,13 +1721,17 @@ module Aws::DataSync
       req.send_request(options)
     end
 
-    # Creates an endpoint for a Server Message Block (SMB) file server that
-    # DataSync can access for a transfer. For more information, see
-    # [Creating an SMB location][1].
+    # Creates a transfer *location* for a Server Message Block (SMB) file
+    # server. DataSync can use this location as a source or destination for
+    # transferring data.
+    #
+    # Before you begin, make sure that you understand how DataSync accesses
+    # SMB file servers. For more information, see [Providing DataSync access
+    # to SMB file servers][1].
     #
     #
     #
-    # [1]: https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html
+    # [1]: https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html#configuring-smb-permissions
     #
     # @option params [required, String] :subdirectory
     #   Specifies the name of the share exported by your SMB file server where
@@ -1366,28 +1739,33 @@ module Aws::DataSync
     #   the share path (for example, `/path/to/subdirectory`). Make sure that
     #   other SMB clients in your network can also mount this path.
     #
-    #   To copy all data in the specified subdirectory, DataSync must be able
-    #   to mount the SMB share and access all of its data. For more
-    #   information, see [required permissions][1] for SMB locations.
+    #   To copy all data in the subdirectory, DataSync must be able to mount
+    #   the SMB share and access all of its data. For more information, see
+    #   [Providing DataSync access to SMB file servers][1].
     #
     #
     #
     #   [1]: https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html#configuring-smb-permissions
     #
     # @option params [required, String] :server_hostname
-    #   Specifies the Domain Name Service (DNS) name or IP address of the SMB
-    #   file server that your DataSync agent will mount.
+    #   Specifies the domain name or IP address of the SMB file server that
+    #   your DataSync agent will mount.
     #
-    #   <note markdown="1"> You can't specify an IP version 6 (IPv6) address.
+    #   Remember the following when configuring this parameter:
     #
-    #    </note>
+    #   * You can't specify an IP version 6 (IPv6) address.
     #
-    # @option params [required, String] :user
-    #   Specifies the user name that can mount your SMB file server and has
-    #   permission to access the files and folders involved in your transfer.
+    #   * If you're using Kerberos authentication, you must specify a domain
+    #     name.
+    #
+    # @option params [String] :user
+    #   Specifies the user that can mount and access the files, folders, and
+    #   file metadata in your SMB file server. This parameter applies only if
+    #   `AuthenticationType` is set to `NTLM`.
     #
     #   For information about choosing a user with the right level of access
-    #   for your transfer, see [required permissions][1] for SMB locations.
+    #   for your transfer, see [Providing DataSync access to SMB file
+    #   servers][1].
     #
     #
     #
@@ -1395,29 +1773,22 @@ module Aws::DataSync
     #
     # @option params [String] :domain
     #   Specifies the Windows domain name that your SMB file server belongs
-    #   to.
+    #   to. This parameter applies only if `AuthenticationType` is set to
+    #   `NTLM`.
     #
-    #   For more information, see [required permissions][1] for SMB locations.
+    #   If you have multiple domains in your environment, configuring this
+    #   parameter makes sure that DataSync connects to the right file server.
     #
-    #
-    #
-    #   [1]: https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html#configuring-smb-permissions
-    #
-    # @option params [required, String] :password
+    # @option params [String] :password
     #   Specifies the password of the user who can mount your SMB file server
     #   and has permission to access the files and folders involved in your
-    #   transfer.
-    #
-    #   For more information, see [required permissions][1] for SMB locations.
-    #
-    #
-    #
-    #   [1]: https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html#configuring-smb-permissions
+    #   transfer. This parameter applies only if `AuthenticationType` is set
+    #   to `NTLM`.
     #
     # @option params [required, Array<String>] :agent_arns
-    #   Specifies the DataSync agent (or agents) which you want to connect to
-    #   your SMB file server. You specify an agent by using its Amazon
-    #   Resource Name (ARN).
+    #   Specifies the DataSync agent (or agents) that can connect to your SMB
+    #   file server. You specify an agent by using its Amazon Resource Name
+    #   (ARN).
     #
     # @option params [Types::SmbMountOptions] :mount_options
     #   Specifies the version of the SMB protocol that DataSync uses to access
@@ -1428,6 +1799,49 @@ module Aws::DataSync
     #   Amazon Web Services resources. We recommend creating at least a name
     #   tag for your location.
     #
+    # @option params [String] :authentication_type
+    #   Specifies the authentication protocol that DataSync uses to connect to
+    #   your SMB file server. DataSync supports `NTLM` (default) and
+    #   `KERBEROS` authentication.
+    #
+    # @option params [Array<String>] :dns_ip_addresses
+    #   Specifies the IPv4 addresses for the DNS servers that your SMB file
+    #   server belongs to. This parameter applies only if `AuthenticationType`
+    #   is set to `KERBEROS`.
+    #
+    #   If you have multiple domains in your environment, configuring this
+    #   parameter makes sure that DataSync connects to the right SMB file
+    #   server.
+    #
+    # @option params [String] :kerberos_principal
+    #   Specifies a Kerberos prinicpal, which is an identity in your Kerberos
+    #   realm that has permission to access the files, folders, and file
+    #   metadata in your SMB file server.
+    #
+    #   A Kerberos principal might look like `HOST/kerberosuser@EXAMPLE.COM`.
+    #
+    #   Principal names are case sensitive. Your DataSync task execution will
+    #   fail if the principal that you specify for this parameter doesn’t
+    #   exactly match the principal that you use to create the keytab file.
+    #
+    # @option params [String, StringIO, File] :kerberos_keytab
+    #   Specifies your Kerberos key table (keytab) file, which includes
+    #   mappings between your Kerberos principal and encryption keys.
+    #
+    #   The file must be base64 encoded. If you're using the CLI, the
+    #   encoding is done for you.
+    #
+    #   To avoid task execution errors, make sure that the Kerberos principal
+    #   that you use to create the keytab file matches exactly what you
+    #   specify for `KerberosPrincipal`.
+    #
+    # @option params [String, StringIO, File] :kerberos_krb_5_conf
+    #   Specifies a Kerberos configuration file (`krb5.conf`) that defines
+    #   your Kerberos realm configuration.
+    #
+    #   The file must be base64 encoded. If you're using the CLI, the
+    #   encoding is done for you.
+    #
     # @return [Types::CreateLocationSmbResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreateLocationSmbResponse#location_arn #location_arn} => String
@@ -1437,9 +1851,9 @@ module Aws::DataSync
     #   resp = client.create_location_smb({
     #     subdirectory: "SmbSubdirectory", # required
     #     server_hostname: "ServerHostname", # required
-    #     user: "SmbUser", # required
+    #     user: "SmbUser",
     #     domain: "SmbDomain",
-    #     password: "SmbPassword", # required
+    #     password: "SmbPassword",
     #     agent_arns: ["AgentArn"], # required
     #     mount_options: {
     #       version: "AUTOMATIC", # accepts AUTOMATIC, SMB2, SMB3, SMB1, SMB2_0
@@ -1450,6 +1864,11 @@ module Aws::DataSync
     #         value: "TagValue",
     #       },
     #     ],
+    #     authentication_type: "NTLM", # accepts NTLM, KERBEROS
+    #     dns_ip_addresses: ["ServerIpAddress"],
+    #     kerberos_principal: "KerberosPrincipal",
+    #     kerberos_keytab: "data",
+    #     kerberos_krb_5_conf: "data",
     #   })
     #
     # @example Response structure
@@ -1465,73 +1884,134 @@ module Aws::DataSync
       req.send_request(options)
     end
 
-    # Configures a task, which defines where and how DataSync transfers your
-    # data.
+    # Configures a *task*, which defines where and how DataSync transfers
+    # your data.
     #
-    # A task includes a source location, a destination location, and the
-    # preferences for how and when you want to transfer your data (such as
-    # bandwidth limits, scheduling, among other options).
+    # A task includes a source location, destination location, and transfer
+    # options (such as bandwidth limits, scheduling, and more).
+    #
+    # If you're planning to transfer data to or from an Amazon S3 location,
+    # review [how DataSync can affect your S3 request charges][1] and the
+    # [DataSync pricing page][2] before you begin.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html#create-s3-location-s3-requests
+    # [2]: http://aws.amazon.com/datasync/pricing/
     #
     # @option params [required, String] :source_location_arn
-    #   The Amazon Resource Name (ARN) of the source location for the task.
+    #   Specifies the ARN of your transfer's source location.
     #
     # @option params [required, String] :destination_location_arn
-    #   The Amazon Resource Name (ARN) of an Amazon Web Services storage
-    #   resource's location.
+    #   Specifies the ARN of your transfer's destination location.
     #
     # @option params [String] :cloud_watch_log_group_arn
-    #   The Amazon Resource Name (ARN) of the Amazon CloudWatch log group that
-    #   is used to monitor and log events in the task.
+    #   Specifies the Amazon Resource Name (ARN) of an Amazon CloudWatch log
+    #   group for monitoring your task.
+    #
+    #   For Enhanced mode tasks, you don't need to specify anything. DataSync
+    #   automatically sends logs to a CloudWatch log group named
+    #   `/aws/datasync`.
     #
     # @option params [String] :name
-    #   The name of a task. This value is a text reference that is used to
-    #   identify the task in the console.
+    #   Specifies the name of your task.
     #
     # @option params [Types::Options] :options
-    #   Specifies the configuration options for a task. Some options include
-    #   preserving file or object metadata and verifying data integrity.
-    #
-    #   You can also override these options before starting an individual run
-    #   of a task (also known as a *task execution*). For more information,
-    #   see [StartTaskExecution][1].
-    #
-    #
-    #
-    #   [1]: https://docs.aws.amazon.com/datasync/latest/userguide/API_StartTaskExecution.html
+    #   Specifies your task's settings, such as preserving file metadata,
+    #   verifying data integrity, among other options.
     #
     # @option params [Array<Types::FilterRule>] :excludes
-    #   Specifies a list of filter rules that exclude specific data during
-    #   your transfer. For more information and examples, see [Filtering data
-    #   transferred by DataSync][1].
+    #   Specifies exclude filters that define the files, objects, and folders
+    #   in your source location that you don't want DataSync to transfer. For
+    #   more information and examples, see [Specifying what DataSync transfers
+    #   by using filters][1].
     #
     #
     #
     #   [1]: https://docs.aws.amazon.com/datasync/latest/userguide/filtering.html
     #
     # @option params [Types::TaskSchedule] :schedule
-    #   Specifies a schedule used to periodically transfer files from a source
-    #   to a destination location. The schedule should be specified in UTC
-    #   time. For more information, see [Scheduling your task][1].
+    #   Specifies a schedule for when you want your task to run. For more
+    #   information, see [Scheduling your task][1].
     #
     #
     #
     #   [1]: https://docs.aws.amazon.com/datasync/latest/userguide/task-scheduling.html
     #
     # @option params [Array<Types::TagListEntry>] :tags
-    #   Specifies the tags that you want to apply to the Amazon Resource Name
-    #   (ARN) representing the task.
+    #   Specifies the tags that you want to apply to your task.
     #
     #   *Tags* are key-value pairs that help you manage, filter, and search
     #   for your DataSync resources.
     #
     # @option params [Array<Types::FilterRule>] :includes
-    #   Specifies a list of filter rules that include specific data during
-    #   your transfer. For more information and examples, see [Filtering data
-    #   transferred by DataSync][1].
+    #   Specifies include filters that define the files, objects, and folders
+    #   in your source location that you want DataSync to transfer. For more
+    #   information and examples, see [Specifying what DataSync transfers by
+    #   using filters][1].
     #
     #
     #
     #   [1]: https://docs.aws.amazon.com/datasync/latest/userguide/filtering.html
+    #
+    # @option params [Types::ManifestConfig] :manifest_config
+    #   Configures a manifest, which is a list of files or objects that you
+    #   want DataSync to transfer. For more information and configuration
+    #   examples, see [Specifying what DataSync transfers by using a
+    #   manifest][1].
+    #
+    #   When using this parameter, your caller identity (the role that you're
+    #   using DataSync with) must have the `iam:PassRole` permission. The
+    #   [AWSDataSyncFullAccess][2] policy includes this permission.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/datasync/latest/userguide/transferring-with-manifest.html
+    #   [2]: https://docs.aws.amazon.com/datasync/latest/userguide/security-iam-awsmanpol.html#security-iam-awsmanpol-awsdatasyncfullaccess
+    #
+    # @option params [Types::TaskReportConfig] :task_report_config
+    #   Specifies how you want to configure a task report, which provides
+    #   detailed information about your DataSync transfer. For more
+    #   information, see [Monitoring your DataSync transfers with task
+    #   reports][1].
+    #
+    #   When using this parameter, your caller identity (the role that you're
+    #   using DataSync with) must have the `iam:PassRole` permission. The
+    #   [AWSDataSyncFullAccess][2] policy includes this permission.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/datasync/latest/userguide/task-reports.html
+    #   [2]: https://docs.aws.amazon.com/datasync/latest/userguide/security-iam-awsmanpol.html#security-iam-awsmanpol-awsdatasyncfullaccess
+    #
+    # @option params [String] :task_mode
+    #   Specifies one of the following task modes for your data transfer:
+    #
+    #   * `ENHANCED` - Transfer virtually unlimited numbers of objects with
+    #     higher performance than Basic mode. Enhanced mode tasks optimize the
+    #     data transfer process by listing, preparing, transferring, and
+    #     verifying data in parallel. Enhanced mode is currently available for
+    #     transfers between Amazon S3 locations.
+    #
+    #     <note markdown="1"> To create an Enhanced mode task, the IAM role that you use to call
+    #     the `CreateTask` operation must have the
+    #     `iam:CreateServiceLinkedRole` permission.
+    #
+    #      </note>
+    #
+    #   * `BASIC` (default) - Transfer files or objects between Amazon Web
+    #     Services storage and all other supported DataSync locations. Basic
+    #     mode tasks are subject to [quotas][1] on the number of files,
+    #     objects, and directories in a dataset. Basic mode sequentially
+    #     prepares, transfers, and verifies data, making it slower than
+    #     Enhanced mode for most workloads.
+    #
+    #   For more information, see [Understanding task mode differences][2].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/datasync/latest/userguide/datasync-limits.html
+    #   [2]: https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html#task-mode-differences
     #
     # @return [Types::CreateTaskResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1569,6 +2049,7 @@ module Aws::DataSync
     #     ],
     #     schedule: {
     #       schedule_expression: "ScheduleExpressionCron", # required
+    #       status: "ENABLED", # accepts ENABLED, DISABLED
     #     },
     #     tags: [
     #       {
@@ -1582,6 +2063,45 @@ module Aws::DataSync
     #         value: "FilterValue",
     #       },
     #     ],
+    #     manifest_config: {
+    #       action: "TRANSFER", # accepts TRANSFER
+    #       format: "CSV", # accepts CSV
+    #       source: {
+    #         s3: { # required
+    #           manifest_object_path: "S3Subdirectory", # required
+    #           bucket_access_role_arn: "IamRoleArn", # required
+    #           s3_bucket_arn: "S3BucketArn", # required
+    #           manifest_object_version_id: "S3ObjectVersionId",
+    #         },
+    #       },
+    #     },
+    #     task_report_config: {
+    #       destination: {
+    #         s3: {
+    #           subdirectory: "S3Subdirectory",
+    #           s3_bucket_arn: "S3BucketArn", # required
+    #           bucket_access_role_arn: "IamRoleArn", # required
+    #         },
+    #       },
+    #       output_type: "SUMMARY_ONLY", # accepts SUMMARY_ONLY, STANDARD
+    #       report_level: "ERRORS_ONLY", # accepts ERRORS_ONLY, SUCCESSES_AND_ERRORS
+    #       object_version_ids: "INCLUDE", # accepts INCLUDE, NONE
+    #       overrides: {
+    #         transferred: {
+    #           report_level: "ERRORS_ONLY", # accepts ERRORS_ONLY, SUCCESSES_AND_ERRORS
+    #         },
+    #         verified: {
+    #           report_level: "ERRORS_ONLY", # accepts ERRORS_ONLY, SUCCESSES_AND_ERRORS
+    #         },
+    #         deleted: {
+    #           report_level: "ERRORS_ONLY", # accepts ERRORS_ONLY, SUCCESSES_AND_ERRORS
+    #         },
+    #         skipped: {
+    #           report_level: "ERRORS_ONLY", # accepts ERRORS_ONLY, SUCCESSES_AND_ERRORS
+    #         },
+    #       },
+    #     },
+    #     task_mode: "BASIC", # accepts BASIC, ENHANCED
     #   })
     #
     # @example Response structure
@@ -1597,11 +2117,18 @@ module Aws::DataSync
       req.send_request(options)
     end
 
-    # Deletes an agent. To specify which agent to delete, use the Amazon
-    # Resource Name (ARN) of the agent in your request. The operation
-    # disassociates the agent from your Amazon Web Services account.
-    # However, it doesn't delete the agent virtual machine (VM) from your
-    # on-premises environment.
+    # Removes an DataSync agent resource from your Amazon Web Services
+    # account.
+    #
+    # Keep in mind that this operation (which can't be undone) doesn't
+    # remove the agent's virtual machine (VM) or Amazon EC2 instance from
+    # your storage environment. For next steps, you can delete the VM or
+    # instance from your storage environment or reuse it to [activate a new
+    # agent][1].
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/datasync/latest/userguide/activate-agent.html
     #
     # @option params [required, String] :agent_arn
     #   The Amazon Resource Name (ARN) of the agent to delete. Use the
@@ -1625,7 +2152,7 @@ module Aws::DataSync
       req.send_request(options)
     end
 
-    # Deletes the configuration of a location used by DataSync.
+    # Deletes a transfer location resource from DataSync.
     #
     # @option params [required, String] :location_arn
     #   The Amazon Resource Name (ARN) of the location to delete.
@@ -1647,7 +2174,7 @@ module Aws::DataSync
       req.send_request(options)
     end
 
-    # Deletes an DataSync task.
+    # Deletes a transfer task resource from DataSync.
     #
     # @option params [required, String] :task_arn
     #   Specifies the Amazon Resource Name (ARN) of the task that you want to
@@ -1670,12 +2197,12 @@ module Aws::DataSync
       req.send_request(options)
     end
 
-    # Returns metadata about an DataSync agent, such as its name, endpoint
-    # type, and status.
+    # Returns information about an DataSync agent, such as its name, service
+    # endpoint type, and status.
     #
     # @option params [required, String] :agent_arn
-    #   Specifies the Amazon Resource Name (ARN) of the DataSync agent to
-    #   describe.
+    #   Specifies the Amazon Resource Name (ARN) of the DataSync agent that
+    #   you want information about.
     #
     # @return [Types::DescribeAgentResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1686,6 +2213,7 @@ module Aws::DataSync
     #   * {Types::DescribeAgentResponse#creation_time #creation_time} => Time
     #   * {Types::DescribeAgentResponse#endpoint_type #endpoint_type} => String
     #   * {Types::DescribeAgentResponse#private_link_config #private_link_config} => Types::PrivateLinkConfig
+    #   * {Types::DescribeAgentResponse#platform #platform} => Types::Platform
     #
     # @example Request syntax with placeholder values
     #
@@ -1707,6 +2235,7 @@ module Aws::DataSync
     #   resp.private_link_config.subnet_arns[0] #=> String
     #   resp.private_link_config.security_group_arns #=> Array
     #   resp.private_link_config.security_group_arns[0] #=> String
+    #   resp.platform.version #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/datasync-2018-11-09/DescribeAgent AWS API Documentation
     #
@@ -1717,8 +2246,90 @@ module Aws::DataSync
       req.send_request(options)
     end
 
-    # Returns metadata about your DataSync location for an Amazon EFS file
-    # system.
+    # Returns information about a DataSync discovery job.
+    #
+    # @option params [required, String] :discovery_job_arn
+    #   Specifies the Amazon Resource Name (ARN) of the discovery job that you
+    #   want information about.
+    #
+    # @return [Types::DescribeDiscoveryJobResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeDiscoveryJobResponse#storage_system_arn #storage_system_arn} => String
+    #   * {Types::DescribeDiscoveryJobResponse#discovery_job_arn #discovery_job_arn} => String
+    #   * {Types::DescribeDiscoveryJobResponse#collection_duration_minutes #collection_duration_minutes} => Integer
+    #   * {Types::DescribeDiscoveryJobResponse#status #status} => String
+    #   * {Types::DescribeDiscoveryJobResponse#job_start_time #job_start_time} => Time
+    #   * {Types::DescribeDiscoveryJobResponse#job_end_time #job_end_time} => Time
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_discovery_job({
+    #     discovery_job_arn: "DiscoveryJobArn", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.storage_system_arn #=> String
+    #   resp.discovery_job_arn #=> String
+    #   resp.collection_duration_minutes #=> Integer
+    #   resp.status #=> String, one of "RUNNING", "WARNING", "TERMINATED", "FAILED", "STOPPED", "COMPLETED", "COMPLETED_WITH_ISSUES"
+    #   resp.job_start_time #=> Time
+    #   resp.job_end_time #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/datasync-2018-11-09/DescribeDiscoveryJob AWS API Documentation
+    #
+    # @overload describe_discovery_job(params = {})
+    # @param [Hash] params ({})
+    def describe_discovery_job(params = {}, options = {})
+      req = build_request(:describe_discovery_job, params)
+      req.send_request(options)
+    end
+
+    # Provides details about how an DataSync transfer location for Microsoft
+    # Azure Blob Storage is configured.
+    #
+    # @option params [required, String] :location_arn
+    #   Specifies the Amazon Resource Name (ARN) of your Azure Blob Storage
+    #   transfer location.
+    #
+    # @return [Types::DescribeLocationAzureBlobResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeLocationAzureBlobResponse#location_arn #location_arn} => String
+    #   * {Types::DescribeLocationAzureBlobResponse#location_uri #location_uri} => String
+    #   * {Types::DescribeLocationAzureBlobResponse#authentication_type #authentication_type} => String
+    #   * {Types::DescribeLocationAzureBlobResponse#blob_type #blob_type} => String
+    #   * {Types::DescribeLocationAzureBlobResponse#access_tier #access_tier} => String
+    #   * {Types::DescribeLocationAzureBlobResponse#agent_arns #agent_arns} => Array&lt;String&gt;
+    #   * {Types::DescribeLocationAzureBlobResponse#creation_time #creation_time} => Time
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_location_azure_blob({
+    #     location_arn: "LocationArn", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.location_arn #=> String
+    #   resp.location_uri #=> String
+    #   resp.authentication_type #=> String, one of "SAS"
+    #   resp.blob_type #=> String, one of "BLOCK"
+    #   resp.access_tier #=> String, one of "HOT", "COOL", "ARCHIVE"
+    #   resp.agent_arns #=> Array
+    #   resp.agent_arns[0] #=> String
+    #   resp.creation_time #=> Time
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/datasync-2018-11-09/DescribeLocationAzureBlob AWS API Documentation
+    #
+    # @overload describe_location_azure_blob(params = {})
+    # @param [Hash] params ({})
+    def describe_location_azure_blob(params = {}, options = {})
+      req = build_request(:describe_location_azure_blob, params)
+      req.send_request(options)
+    end
+
+    # Provides details about how an DataSync transfer location for an Amazon
+    # EFS file system is configured.
     #
     # @option params [required, String] :location_arn
     #   The Amazon Resource Name (ARN) of the Amazon EFS file system location
@@ -1761,8 +2372,8 @@ module Aws::DataSync
       req.send_request(options)
     end
 
-    # Provides details about how an DataSync location for an Amazon FSx for
-    # Lustre file system is configured.
+    # Provides details about how an DataSync transfer location for an Amazon
+    # FSx for Lustre file system is configured.
     #
     # @option params [required, String] :location_arn
     #   The Amazon Resource Name (ARN) of the FSx for Lustre location to
@@ -1798,8 +2409,8 @@ module Aws::DataSync
       req.send_request(options)
     end
 
-    # Provides details about how an DataSync location for an Amazon FSx for
-    # NetApp ONTAP file system is configured.
+    # Provides details about how an DataSync transfer location for an Amazon
+    # FSx for NetApp ONTAP file system is configured.
     #
     # <note markdown="1"> If your location uses SMB, the `DescribeLocationFsxOntap` operation
     # doesn't actually return a `Password`.
@@ -1850,8 +2461,8 @@ module Aws::DataSync
       req.send_request(options)
     end
 
-    # Provides details about how an DataSync location for an Amazon FSx for
-    # OpenZFS file system is configured.
+    # Provides details about how an DataSync transfer location for an Amazon
+    # FSx for OpenZFS file system is configured.
     #
     # <note markdown="1"> Response elements related to `SMB` aren't supported with the
     # `DescribeLocationFsxOpenZfs` operation.
@@ -1898,12 +2509,12 @@ module Aws::DataSync
       req.send_request(options)
     end
 
-    # Returns metadata about an Amazon FSx for Windows File Server location,
-    # such as information about its path.
+    # Provides details about how an DataSync transfer location for an Amazon
+    # FSx for Windows File Server file system is configured.
     #
     # @option params [required, String] :location_arn
-    #   The Amazon Resource Name (ARN) of the FSx for Windows File Server
-    #   location to describe.
+    #   Specifies the Amazon Resource Name (ARN) of the FSx for Windows File
+    #   Server location.
     #
     # @return [Types::DescribeLocationFsxWindowsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1939,12 +2550,11 @@ module Aws::DataSync
       req.send_request(options)
     end
 
-    # Returns metadata, such as the authentication information about the
-    # Hadoop Distributed File System (HDFS) location.
+    # Provides details about how an DataSync transfer location for a Hadoop
+    # Distributed File System (HDFS) is configured.
     #
     # @option params [required, String] :location_arn
-    #   The Amazon Resource Name (ARN) of the HDFS cluster location to
-    #   describe.
+    #   Specifies the Amazon Resource Name (ARN) of the HDFS location.
     #
     # @return [Types::DescribeLocationHdfsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1995,10 +2605,12 @@ module Aws::DataSync
       req.send_request(options)
     end
 
-    # Returns metadata, such as the path information, about an NFS location.
+    # Provides details about how an DataSync transfer location for a Network
+    # File System (NFS) file server is configured.
     #
     # @option params [required, String] :location_arn
-    #   The Amazon Resource Name (ARN) of the NFS location to describe.
+    #   Specifies the Amazon Resource Name (ARN) of the NFS location that you
+    #   want information about.
     #
     # @return [Types::DescribeLocationNfsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -2032,12 +2644,12 @@ module Aws::DataSync
       req.send_request(options)
     end
 
-    # Returns metadata about your DataSync location for an object storage
-    # system.
+    # Provides details about how an DataSync transfer location for an object
+    # storage system is configured.
     #
     # @option params [required, String] :location_arn
-    #   The Amazon Resource Name (ARN) of the object storage system location
-    #   that you want information about.
+    #   Specifies the Amazon Resource Name (ARN) of the object storage system
+    #   location.
     #
     # @return [Types::DescribeLocationObjectStorageResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -2077,12 +2689,11 @@ module Aws::DataSync
       req.send_request(options)
     end
 
-    # Returns metadata, such as bucket name, about an Amazon S3 bucket
-    # location.
+    # Provides details about how an DataSync transfer location for an S3
+    # bucket is configured.
     #
     # @option params [required, String] :location_arn
-    #   The Amazon Resource Name (ARN) of the Amazon S3 bucket location to
-    #   describe.
+    #   Specifies the Amazon Resource Name (ARN) of the Amazon S3 location.
     #
     # @return [Types::DescribeLocationS3Response] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -2118,11 +2729,12 @@ module Aws::DataSync
       req.send_request(options)
     end
 
-    # Returns metadata, such as the path and user information about an SMB
-    # location.
+    # Provides details about how an DataSync transfer location for a Server
+    # Message Block (SMB) file server is configured.
     #
     # @option params [required, String] :location_arn
-    #   The Amazon Resource Name (ARN) of the SMB location to describe.
+    #   Specifies the Amazon Resource Name (ARN) of the SMB location that you
+    #   want information about.
     #
     # @return [Types::DescribeLocationSmbResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -2133,6 +2745,9 @@ module Aws::DataSync
     #   * {Types::DescribeLocationSmbResponse#domain #domain} => String
     #   * {Types::DescribeLocationSmbResponse#mount_options #mount_options} => Types::SmbMountOptions
     #   * {Types::DescribeLocationSmbResponse#creation_time #creation_time} => Time
+    #   * {Types::DescribeLocationSmbResponse#dns_ip_addresses #dns_ip_addresses} => Array&lt;String&gt;
+    #   * {Types::DescribeLocationSmbResponse#kerberos_principal #kerberos_principal} => String
+    #   * {Types::DescribeLocationSmbResponse#authentication_type #authentication_type} => String
     #
     # @example Request syntax with placeholder values
     #
@@ -2150,6 +2765,10 @@ module Aws::DataSync
     #   resp.domain #=> String
     #   resp.mount_options.version #=> String, one of "AUTOMATIC", "SMB2", "SMB3", "SMB1", "SMB2_0"
     #   resp.creation_time #=> Time
+    #   resp.dns_ip_addresses #=> Array
+    #   resp.dns_ip_addresses[0] #=> String
+    #   resp.kerberos_principal #=> String
+    #   resp.authentication_type #=> String, one of "NTLM", "KERBEROS"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/datasync-2018-11-09/DescribeLocationSmb AWS API Documentation
     #
@@ -2160,10 +2779,295 @@ module Aws::DataSync
       req.send_request(options)
     end
 
-    # Returns metadata about a task.
+    # Returns information about an on-premises storage system that you're
+    # using with DataSync Discovery.
+    #
+    # @option params [required, String] :storage_system_arn
+    #   Specifies the Amazon Resource Name (ARN) of an on-premises storage
+    #   system that you're using with DataSync Discovery.
+    #
+    # @return [Types::DescribeStorageSystemResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeStorageSystemResponse#storage_system_arn #storage_system_arn} => String
+    #   * {Types::DescribeStorageSystemResponse#server_configuration #server_configuration} => Types::DiscoveryServerConfiguration
+    #   * {Types::DescribeStorageSystemResponse#system_type #system_type} => String
+    #   * {Types::DescribeStorageSystemResponse#agent_arns #agent_arns} => Array&lt;String&gt;
+    #   * {Types::DescribeStorageSystemResponse#name #name} => String
+    #   * {Types::DescribeStorageSystemResponse#error_message #error_message} => String
+    #   * {Types::DescribeStorageSystemResponse#connectivity_status #connectivity_status} => String
+    #   * {Types::DescribeStorageSystemResponse#cloud_watch_log_group_arn #cloud_watch_log_group_arn} => String
+    #   * {Types::DescribeStorageSystemResponse#creation_time #creation_time} => Time
+    #   * {Types::DescribeStorageSystemResponse#secrets_manager_arn #secrets_manager_arn} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_storage_system({
+    #     storage_system_arn: "StorageSystemArn", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.storage_system_arn #=> String
+    #   resp.server_configuration.server_hostname #=> String
+    #   resp.server_configuration.server_port #=> Integer
+    #   resp.system_type #=> String, one of "NetAppONTAP"
+    #   resp.agent_arns #=> Array
+    #   resp.agent_arns[0] #=> String
+    #   resp.name #=> String
+    #   resp.error_message #=> String
+    #   resp.connectivity_status #=> String, one of "PASS", "FAIL", "UNKNOWN"
+    #   resp.cloud_watch_log_group_arn #=> String
+    #   resp.creation_time #=> Time
+    #   resp.secrets_manager_arn #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/datasync-2018-11-09/DescribeStorageSystem AWS API Documentation
+    #
+    # @overload describe_storage_system(params = {})
+    # @param [Hash] params ({})
+    def describe_storage_system(params = {}, options = {})
+      req = build_request(:describe_storage_system, params)
+      req.send_request(options)
+    end
+
+    # Returns information, including performance data and capacity usage,
+    # which DataSync Discovery collects about a specific resource in
+    # your-premises storage system.
+    #
+    # @option params [required, String] :discovery_job_arn
+    #   Specifies the Amazon Resource Name (ARN) of the discovery job that
+    #   collects information about your on-premises storage system.
+    #
+    # @option params [required, String] :resource_type
+    #   Specifies the kind of storage system resource that you want
+    #   information about.
+    #
+    # @option params [required, String] :resource_id
+    #   Specifies the universally unique identifier (UUID) of the storage
+    #   system resource that you want information about.
+    #
+    # @option params [Time,DateTime,Date,Integer,String] :start_time
+    #   Specifies a time within the total duration that the discovery job ran.
+    #   To see information gathered during a certain time frame, use this
+    #   parameter with `EndTime`.
+    #
+    # @option params [Time,DateTime,Date,Integer,String] :end_time
+    #   Specifies a time within the total duration that the discovery job ran.
+    #   To see information gathered during a certain time frame, use this
+    #   parameter with `StartTime`.
+    #
+    # @option params [Integer] :max_results
+    #   Specifies how many results that you want in the response.
+    #
+    # @option params [String] :next_token
+    #   Specifies an opaque string that indicates the position to begin the
+    #   next list of results in the response.
+    #
+    # @return [Types::DescribeStorageSystemResourceMetricsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeStorageSystemResourceMetricsResponse#metrics #metrics} => Array&lt;Types::ResourceMetrics&gt;
+    #   * {Types::DescribeStorageSystemResourceMetricsResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_storage_system_resource_metrics({
+    #     discovery_job_arn: "DiscoveryJobArn", # required
+    #     resource_type: "SVM", # required, accepts SVM, VOLUME, CLUSTER
+    #     resource_id: "ResourceId", # required
+    #     start_time: Time.now,
+    #     end_time: Time.now,
+    #     max_results: 1,
+    #     next_token: "DiscoveryNextToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.metrics #=> Array
+    #   resp.metrics[0].timestamp #=> Time
+    #   resp.metrics[0].p95_metrics.iops.read #=> Float
+    #   resp.metrics[0].p95_metrics.iops.write #=> Float
+    #   resp.metrics[0].p95_metrics.iops.other #=> Float
+    #   resp.metrics[0].p95_metrics.iops.total #=> Float
+    #   resp.metrics[0].p95_metrics.throughput.read #=> Float
+    #   resp.metrics[0].p95_metrics.throughput.write #=> Float
+    #   resp.metrics[0].p95_metrics.throughput.other #=> Float
+    #   resp.metrics[0].p95_metrics.throughput.total #=> Float
+    #   resp.metrics[0].p95_metrics.latency.read #=> Float
+    #   resp.metrics[0].p95_metrics.latency.write #=> Float
+    #   resp.metrics[0].p95_metrics.latency.other #=> Float
+    #   resp.metrics[0].capacity.used #=> Integer
+    #   resp.metrics[0].capacity.provisioned #=> Integer
+    #   resp.metrics[0].capacity.logical_used #=> Integer
+    #   resp.metrics[0].capacity.cluster_cloud_storage_used #=> Integer
+    #   resp.metrics[0].resource_id #=> String
+    #   resp.metrics[0].resource_type #=> String, one of "SVM", "VOLUME", "CLUSTER"
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/datasync-2018-11-09/DescribeStorageSystemResourceMetrics AWS API Documentation
+    #
+    # @overload describe_storage_system_resource_metrics(params = {})
+    # @param [Hash] params ({})
+    def describe_storage_system_resource_metrics(params = {}, options = {})
+      req = build_request(:describe_storage_system_resource_metrics, params)
+      req.send_request(options)
+    end
+
+    # Returns information that DataSync Discovery collects about resources
+    # in your on-premises storage system.
+    #
+    # @option params [required, String] :discovery_job_arn
+    #   Specifies the Amazon Resource Name (ARN) of the discovery job that's
+    #   collecting data from your on-premises storage system.
+    #
+    # @option params [required, String] :resource_type
+    #   Specifies what kind of storage system resources that you want
+    #   information about.
+    #
+    # @option params [Array<String>] :resource_ids
+    #   Specifies the universally unique identifiers (UUIDs) of the storage
+    #   system resources that you want information about. You can't use this
+    #   parameter in combination with the `Filter` parameter.
+    #
+    # @option params [Hash<String,Array>] :filter
+    #   Filters the storage system resources that you want returned. For
+    #   example, this might be volumes associated with a specific storage
+    #   virtual machine (SVM).
+    #
+    # @option params [Integer] :max_results
+    #   Specifies the maximum number of storage system resources that you want
+    #   to list in a response.
+    #
+    # @option params [String] :next_token
+    #   Specifies an opaque string that indicates the position to begin the
+    #   next list of results in the response.
+    #
+    # @return [Types::DescribeStorageSystemResourcesResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeStorageSystemResourcesResponse#resource_details #resource_details} => Types::ResourceDetails
+    #   * {Types::DescribeStorageSystemResourcesResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_storage_system_resources({
+    #     discovery_job_arn: "DiscoveryJobArn", # required
+    #     resource_type: "SVM", # required, accepts SVM, VOLUME, CLUSTER
+    #     resource_ids: ["ResourceId"],
+    #     filter: {
+    #       "SVM" => ["PtolemyString"],
+    #     },
+    #     max_results: 1,
+    #     next_token: "DiscoveryNextToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.resource_details.net_app_ontapsv_ms #=> Array
+    #   resp.resource_details.net_app_ontapsv_ms[0].cluster_uuid #=> String
+    #   resp.resource_details.net_app_ontapsv_ms[0].resource_id #=> String
+    #   resp.resource_details.net_app_ontapsv_ms[0].svm_name #=> String
+    #   resp.resource_details.net_app_ontapsv_ms[0].cifs_share_count #=> Integer
+    #   resp.resource_details.net_app_ontapsv_ms[0].enabled_protocols #=> Array
+    #   resp.resource_details.net_app_ontapsv_ms[0].enabled_protocols[0] #=> String
+    #   resp.resource_details.net_app_ontapsv_ms[0].total_capacity_used #=> Integer
+    #   resp.resource_details.net_app_ontapsv_ms[0].total_capacity_provisioned #=> Integer
+    #   resp.resource_details.net_app_ontapsv_ms[0].total_logical_capacity_used #=> Integer
+    #   resp.resource_details.net_app_ontapsv_ms[0].max_p95_performance.iops_read #=> Float
+    #   resp.resource_details.net_app_ontapsv_ms[0].max_p95_performance.iops_write #=> Float
+    #   resp.resource_details.net_app_ontapsv_ms[0].max_p95_performance.iops_other #=> Float
+    #   resp.resource_details.net_app_ontapsv_ms[0].max_p95_performance.iops_total #=> Float
+    #   resp.resource_details.net_app_ontapsv_ms[0].max_p95_performance.throughput_read #=> Float
+    #   resp.resource_details.net_app_ontapsv_ms[0].max_p95_performance.throughput_write #=> Float
+    #   resp.resource_details.net_app_ontapsv_ms[0].max_p95_performance.throughput_other #=> Float
+    #   resp.resource_details.net_app_ontapsv_ms[0].max_p95_performance.throughput_total #=> Float
+    #   resp.resource_details.net_app_ontapsv_ms[0].max_p95_performance.latency_read #=> Float
+    #   resp.resource_details.net_app_ontapsv_ms[0].max_p95_performance.latency_write #=> Float
+    #   resp.resource_details.net_app_ontapsv_ms[0].max_p95_performance.latency_other #=> Float
+    #   resp.resource_details.net_app_ontapsv_ms[0].recommendations #=> Array
+    #   resp.resource_details.net_app_ontapsv_ms[0].recommendations[0].storage_type #=> String
+    #   resp.resource_details.net_app_ontapsv_ms[0].recommendations[0].storage_configuration #=> Hash
+    #   resp.resource_details.net_app_ontapsv_ms[0].recommendations[0].storage_configuration["PtolemyString"] #=> String
+    #   resp.resource_details.net_app_ontapsv_ms[0].recommendations[0].estimated_monthly_storage_cost #=> String
+    #   resp.resource_details.net_app_ontapsv_ms[0].nfs_exported_volumes #=> Integer
+    #   resp.resource_details.net_app_ontapsv_ms[0].recommendation_status #=> String, one of "NONE", "IN_PROGRESS", "COMPLETED", "FAILED"
+    #   resp.resource_details.net_app_ontapsv_ms[0].total_snapshot_capacity_used #=> Integer
+    #   resp.resource_details.net_app_ontapsv_ms[0].lun_count #=> Integer
+    #   resp.resource_details.net_app_ontap_volumes #=> Array
+    #   resp.resource_details.net_app_ontap_volumes[0].volume_name #=> String
+    #   resp.resource_details.net_app_ontap_volumes[0].resource_id #=> String
+    #   resp.resource_details.net_app_ontap_volumes[0].cifs_share_count #=> Integer
+    #   resp.resource_details.net_app_ontap_volumes[0].security_style #=> String
+    #   resp.resource_details.net_app_ontap_volumes[0].svm_uuid #=> String
+    #   resp.resource_details.net_app_ontap_volumes[0].svm_name #=> String
+    #   resp.resource_details.net_app_ontap_volumes[0].capacity_used #=> Integer
+    #   resp.resource_details.net_app_ontap_volumes[0].capacity_provisioned #=> Integer
+    #   resp.resource_details.net_app_ontap_volumes[0].logical_capacity_used #=> Integer
+    #   resp.resource_details.net_app_ontap_volumes[0].nfs_exported #=> Boolean
+    #   resp.resource_details.net_app_ontap_volumes[0].snapshot_capacity_used #=> Integer
+    #   resp.resource_details.net_app_ontap_volumes[0].max_p95_performance.iops_read #=> Float
+    #   resp.resource_details.net_app_ontap_volumes[0].max_p95_performance.iops_write #=> Float
+    #   resp.resource_details.net_app_ontap_volumes[0].max_p95_performance.iops_other #=> Float
+    #   resp.resource_details.net_app_ontap_volumes[0].max_p95_performance.iops_total #=> Float
+    #   resp.resource_details.net_app_ontap_volumes[0].max_p95_performance.throughput_read #=> Float
+    #   resp.resource_details.net_app_ontap_volumes[0].max_p95_performance.throughput_write #=> Float
+    #   resp.resource_details.net_app_ontap_volumes[0].max_p95_performance.throughput_other #=> Float
+    #   resp.resource_details.net_app_ontap_volumes[0].max_p95_performance.throughput_total #=> Float
+    #   resp.resource_details.net_app_ontap_volumes[0].max_p95_performance.latency_read #=> Float
+    #   resp.resource_details.net_app_ontap_volumes[0].max_p95_performance.latency_write #=> Float
+    #   resp.resource_details.net_app_ontap_volumes[0].max_p95_performance.latency_other #=> Float
+    #   resp.resource_details.net_app_ontap_volumes[0].recommendations #=> Array
+    #   resp.resource_details.net_app_ontap_volumes[0].recommendations[0].storage_type #=> String
+    #   resp.resource_details.net_app_ontap_volumes[0].recommendations[0].storage_configuration #=> Hash
+    #   resp.resource_details.net_app_ontap_volumes[0].recommendations[0].storage_configuration["PtolemyString"] #=> String
+    #   resp.resource_details.net_app_ontap_volumes[0].recommendations[0].estimated_monthly_storage_cost #=> String
+    #   resp.resource_details.net_app_ontap_volumes[0].recommendation_status #=> String, one of "NONE", "IN_PROGRESS", "COMPLETED", "FAILED"
+    #   resp.resource_details.net_app_ontap_volumes[0].lun_count #=> Integer
+    #   resp.resource_details.net_app_ontap_clusters #=> Array
+    #   resp.resource_details.net_app_ontap_clusters[0].cifs_share_count #=> Integer
+    #   resp.resource_details.net_app_ontap_clusters[0].nfs_exported_volumes #=> Integer
+    #   resp.resource_details.net_app_ontap_clusters[0].resource_id #=> String
+    #   resp.resource_details.net_app_ontap_clusters[0].cluster_name #=> String
+    #   resp.resource_details.net_app_ontap_clusters[0].max_p95_performance.iops_read #=> Float
+    #   resp.resource_details.net_app_ontap_clusters[0].max_p95_performance.iops_write #=> Float
+    #   resp.resource_details.net_app_ontap_clusters[0].max_p95_performance.iops_other #=> Float
+    #   resp.resource_details.net_app_ontap_clusters[0].max_p95_performance.iops_total #=> Float
+    #   resp.resource_details.net_app_ontap_clusters[0].max_p95_performance.throughput_read #=> Float
+    #   resp.resource_details.net_app_ontap_clusters[0].max_p95_performance.throughput_write #=> Float
+    #   resp.resource_details.net_app_ontap_clusters[0].max_p95_performance.throughput_other #=> Float
+    #   resp.resource_details.net_app_ontap_clusters[0].max_p95_performance.throughput_total #=> Float
+    #   resp.resource_details.net_app_ontap_clusters[0].max_p95_performance.latency_read #=> Float
+    #   resp.resource_details.net_app_ontap_clusters[0].max_p95_performance.latency_write #=> Float
+    #   resp.resource_details.net_app_ontap_clusters[0].max_p95_performance.latency_other #=> Float
+    #   resp.resource_details.net_app_ontap_clusters[0].cluster_block_storage_size #=> Integer
+    #   resp.resource_details.net_app_ontap_clusters[0].cluster_block_storage_used #=> Integer
+    #   resp.resource_details.net_app_ontap_clusters[0].cluster_block_storage_logical_used #=> Integer
+    #   resp.resource_details.net_app_ontap_clusters[0].recommendations #=> Array
+    #   resp.resource_details.net_app_ontap_clusters[0].recommendations[0].storage_type #=> String
+    #   resp.resource_details.net_app_ontap_clusters[0].recommendations[0].storage_configuration #=> Hash
+    #   resp.resource_details.net_app_ontap_clusters[0].recommendations[0].storage_configuration["PtolemyString"] #=> String
+    #   resp.resource_details.net_app_ontap_clusters[0].recommendations[0].estimated_monthly_storage_cost #=> String
+    #   resp.resource_details.net_app_ontap_clusters[0].recommendation_status #=> String, one of "NONE", "IN_PROGRESS", "COMPLETED", "FAILED"
+    #   resp.resource_details.net_app_ontap_clusters[0].lun_count #=> Integer
+    #   resp.resource_details.net_app_ontap_clusters[0].cluster_cloud_storage_used #=> Integer
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/datasync-2018-11-09/DescribeStorageSystemResources AWS API Documentation
+    #
+    # @overload describe_storage_system_resources(params = {})
+    # @param [Hash] params ({})
+    def describe_storage_system_resources(params = {}, options = {})
+      req = build_request(:describe_storage_system_resources, params)
+      req.send_request(options)
+    end
+
+    # Provides information about a *task*, which defines where and how
+    # DataSync transfers your data.
     #
     # @option params [required, String] :task_arn
-    #   The Amazon Resource Name (ARN) of the task to describe.
+    #   Specifies the Amazon Resource Name (ARN) of the transfer task that you
+    #   want information about.
     #
     # @return [Types::DescribeTaskResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -2183,6 +3087,10 @@ module Aws::DataSync
     #   * {Types::DescribeTaskResponse#error_detail #error_detail} => String
     #   * {Types::DescribeTaskResponse#creation_time #creation_time} => Time
     #   * {Types::DescribeTaskResponse#includes #includes} => Array&lt;Types::FilterRule&gt;
+    #   * {Types::DescribeTaskResponse#manifest_config #manifest_config} => Types::ManifestConfig
+    #   * {Types::DescribeTaskResponse#task_report_config #task_report_config} => Types::TaskReportConfig
+    #   * {Types::DescribeTaskResponse#schedule_details #schedule_details} => Types::TaskScheduleDetails
+    #   * {Types::DescribeTaskResponse#task_mode #task_mode} => String
     #
     # @example Request syntax with placeholder values
     #
@@ -2222,12 +3130,33 @@ module Aws::DataSync
     #   resp.excludes[0].filter_type #=> String, one of "SIMPLE_PATTERN"
     #   resp.excludes[0].value #=> String
     #   resp.schedule.schedule_expression #=> String
+    #   resp.schedule.status #=> String, one of "ENABLED", "DISABLED"
     #   resp.error_code #=> String
     #   resp.error_detail #=> String
     #   resp.creation_time #=> Time
     #   resp.includes #=> Array
     #   resp.includes[0].filter_type #=> String, one of "SIMPLE_PATTERN"
     #   resp.includes[0].value #=> String
+    #   resp.manifest_config.action #=> String, one of "TRANSFER"
+    #   resp.manifest_config.format #=> String, one of "CSV"
+    #   resp.manifest_config.source.s3.manifest_object_path #=> String
+    #   resp.manifest_config.source.s3.bucket_access_role_arn #=> String
+    #   resp.manifest_config.source.s3.s3_bucket_arn #=> String
+    #   resp.manifest_config.source.s3.manifest_object_version_id #=> String
+    #   resp.task_report_config.destination.s3.subdirectory #=> String
+    #   resp.task_report_config.destination.s3.s3_bucket_arn #=> String
+    #   resp.task_report_config.destination.s3.bucket_access_role_arn #=> String
+    #   resp.task_report_config.output_type #=> String, one of "SUMMARY_ONLY", "STANDARD"
+    #   resp.task_report_config.report_level #=> String, one of "ERRORS_ONLY", "SUCCESSES_AND_ERRORS"
+    #   resp.task_report_config.object_version_ids #=> String, one of "INCLUDE", "NONE"
+    #   resp.task_report_config.overrides.transferred.report_level #=> String, one of "ERRORS_ONLY", "SUCCESSES_AND_ERRORS"
+    #   resp.task_report_config.overrides.verified.report_level #=> String, one of "ERRORS_ONLY", "SUCCESSES_AND_ERRORS"
+    #   resp.task_report_config.overrides.deleted.report_level #=> String, one of "ERRORS_ONLY", "SUCCESSES_AND_ERRORS"
+    #   resp.task_report_config.overrides.skipped.report_level #=> String, one of "ERRORS_ONLY", "SUCCESSES_AND_ERRORS"
+    #   resp.schedule_details.status_update_time #=> Time
+    #   resp.schedule_details.disabled_reason #=> String
+    #   resp.schedule_details.disabled_by #=> String, one of "USER", "SERVICE"
+    #   resp.task_mode #=> String, one of "BASIC", "ENHANCED"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/datasync-2018-11-09/DescribeTask AWS API Documentation
     #
@@ -2238,10 +3167,25 @@ module Aws::DataSync
       req.send_request(options)
     end
 
-    # Returns detailed metadata about a task that is being executed.
+    # Provides information about an execution of your DataSync task. You can
+    # use this operation to help monitor the progress of an ongoing data
+    # transfer or check the results of the transfer.
+    #
+    # <note markdown="1"> Some `DescribeTaskExecution` response elements are only relevant to a
+    # specific task mode. For information, see [Understanding task mode
+    # differences][1] and [Understanding data transfer performance
+    # counters][2].
+    #
+    #  </note>
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/datasync/latest/userguide/choosing-task-mode.html#task-mode-differences
+    # [2]: https://docs.aws.amazon.com/datasync/latest/userguide/transfer-performance-counters.html
     #
     # @option params [required, String] :task_execution_arn
-    #   The Amazon Resource Name (ARN) of the task that is being executed.
+    #   Specifies the Amazon Resource Name (ARN) of the task execution that
+    #   you want information about.
     #
     # @return [Types::DescribeTaskExecutionResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -2250,14 +3194,25 @@ module Aws::DataSync
     #   * {Types::DescribeTaskExecutionResponse#options #options} => Types::Options
     #   * {Types::DescribeTaskExecutionResponse#excludes #excludes} => Array&lt;Types::FilterRule&gt;
     #   * {Types::DescribeTaskExecutionResponse#includes #includes} => Array&lt;Types::FilterRule&gt;
+    #   * {Types::DescribeTaskExecutionResponse#manifest_config #manifest_config} => Types::ManifestConfig
     #   * {Types::DescribeTaskExecutionResponse#start_time #start_time} => Time
     #   * {Types::DescribeTaskExecutionResponse#estimated_files_to_transfer #estimated_files_to_transfer} => Integer
     #   * {Types::DescribeTaskExecutionResponse#estimated_bytes_to_transfer #estimated_bytes_to_transfer} => Integer
     #   * {Types::DescribeTaskExecutionResponse#files_transferred #files_transferred} => Integer
     #   * {Types::DescribeTaskExecutionResponse#bytes_written #bytes_written} => Integer
     #   * {Types::DescribeTaskExecutionResponse#bytes_transferred #bytes_transferred} => Integer
-    #   * {Types::DescribeTaskExecutionResponse#result #result} => Types::TaskExecutionResultDetail
     #   * {Types::DescribeTaskExecutionResponse#bytes_compressed #bytes_compressed} => Integer
+    #   * {Types::DescribeTaskExecutionResponse#result #result} => Types::TaskExecutionResultDetail
+    #   * {Types::DescribeTaskExecutionResponse#task_report_config #task_report_config} => Types::TaskReportConfig
+    #   * {Types::DescribeTaskExecutionResponse#files_deleted #files_deleted} => Integer
+    #   * {Types::DescribeTaskExecutionResponse#files_skipped #files_skipped} => Integer
+    #   * {Types::DescribeTaskExecutionResponse#files_verified #files_verified} => Integer
+    #   * {Types::DescribeTaskExecutionResponse#report_result #report_result} => Types::ReportResult
+    #   * {Types::DescribeTaskExecutionResponse#estimated_files_to_delete #estimated_files_to_delete} => Integer
+    #   * {Types::DescribeTaskExecutionResponse#task_mode #task_mode} => String
+    #   * {Types::DescribeTaskExecutionResponse#files_prepared #files_prepared} => Integer
+    #   * {Types::DescribeTaskExecutionResponse#files_listed #files_listed} => Types::TaskExecutionFilesListedDetail
+    #   * {Types::DescribeTaskExecutionResponse#files_failed #files_failed} => Types::TaskExecutionFilesFailedDetail
     #
     # @example Request syntax with placeholder values
     #
@@ -2268,7 +3223,7 @@ module Aws::DataSync
     # @example Response structure
     #
     #   resp.task_execution_arn #=> String
-    #   resp.status #=> String, one of "QUEUED", "LAUNCHING", "PREPARING", "TRANSFERRING", "VERIFYING", "SUCCESS", "ERROR"
+    #   resp.status #=> String, one of "QUEUED", "CANCELLING", "LAUNCHING", "PREPARING", "TRANSFERRING", "VERIFYING", "SUCCESS", "ERROR"
     #   resp.options.verify_mode #=> String, one of "POINT_IN_TIME_CONSISTENT", "ONLY_FILES_TRANSFERRED", "NONE"
     #   resp.options.overwrite_mode #=> String, one of "ALWAYS", "NEVER"
     #   resp.options.atime #=> String, one of "NONE", "BEST_EFFORT"
@@ -2290,12 +3245,19 @@ module Aws::DataSync
     #   resp.includes #=> Array
     #   resp.includes[0].filter_type #=> String, one of "SIMPLE_PATTERN"
     #   resp.includes[0].value #=> String
+    #   resp.manifest_config.action #=> String, one of "TRANSFER"
+    #   resp.manifest_config.format #=> String, one of "CSV"
+    #   resp.manifest_config.source.s3.manifest_object_path #=> String
+    #   resp.manifest_config.source.s3.bucket_access_role_arn #=> String
+    #   resp.manifest_config.source.s3.s3_bucket_arn #=> String
+    #   resp.manifest_config.source.s3.manifest_object_version_id #=> String
     #   resp.start_time #=> Time
     #   resp.estimated_files_to_transfer #=> Integer
     #   resp.estimated_bytes_to_transfer #=> Integer
     #   resp.files_transferred #=> Integer
     #   resp.bytes_written #=> Integer
     #   resp.bytes_transferred #=> Integer
+    #   resp.bytes_compressed #=> Integer
     #   resp.result.prepare_duration #=> Integer
     #   resp.result.prepare_status #=> String, one of "PENDING", "SUCCESS", "ERROR"
     #   resp.result.total_duration #=> Integer
@@ -2305,7 +3267,31 @@ module Aws::DataSync
     #   resp.result.verify_status #=> String, one of "PENDING", "SUCCESS", "ERROR"
     #   resp.result.error_code #=> String
     #   resp.result.error_detail #=> String
-    #   resp.bytes_compressed #=> Integer
+    #   resp.task_report_config.destination.s3.subdirectory #=> String
+    #   resp.task_report_config.destination.s3.s3_bucket_arn #=> String
+    #   resp.task_report_config.destination.s3.bucket_access_role_arn #=> String
+    #   resp.task_report_config.output_type #=> String, one of "SUMMARY_ONLY", "STANDARD"
+    #   resp.task_report_config.report_level #=> String, one of "ERRORS_ONLY", "SUCCESSES_AND_ERRORS"
+    #   resp.task_report_config.object_version_ids #=> String, one of "INCLUDE", "NONE"
+    #   resp.task_report_config.overrides.transferred.report_level #=> String, one of "ERRORS_ONLY", "SUCCESSES_AND_ERRORS"
+    #   resp.task_report_config.overrides.verified.report_level #=> String, one of "ERRORS_ONLY", "SUCCESSES_AND_ERRORS"
+    #   resp.task_report_config.overrides.deleted.report_level #=> String, one of "ERRORS_ONLY", "SUCCESSES_AND_ERRORS"
+    #   resp.task_report_config.overrides.skipped.report_level #=> String, one of "ERRORS_ONLY", "SUCCESSES_AND_ERRORS"
+    #   resp.files_deleted #=> Integer
+    #   resp.files_skipped #=> Integer
+    #   resp.files_verified #=> Integer
+    #   resp.report_result.status #=> String, one of "PENDING", "SUCCESS", "ERROR"
+    #   resp.report_result.error_code #=> String
+    #   resp.report_result.error_detail #=> String
+    #   resp.estimated_files_to_delete #=> Integer
+    #   resp.task_mode #=> String, one of "BASIC", "ENHANCED"
+    #   resp.files_prepared #=> Integer
+    #   resp.files_listed.at_source #=> Integer
+    #   resp.files_listed.at_destination_for_delete #=> Integer
+    #   resp.files_failed.prepare #=> Integer
+    #   resp.files_failed.transfer #=> Integer
+    #   resp.files_failed.verify #=> Integer
+    #   resp.files_failed.delete #=> Integer
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/datasync-2018-11-09/DescribeTaskExecution AWS API Documentation
     #
@@ -2313,6 +3299,51 @@ module Aws::DataSync
     # @param [Hash] params ({})
     def describe_task_execution(params = {}, options = {})
       req = build_request(:describe_task_execution, params)
+      req.send_request(options)
+    end
+
+    # Creates recommendations about where to migrate your data to in Amazon
+    # Web Services. Recommendations are generated based on information that
+    # DataSync Discovery collects about your on-premises storage system's
+    # resources. For more information, see [Recommendations provided by
+    # DataSync Discovery][1].
+    #
+    # Once generated, you can view your recommendations by using the
+    # [DescribeStorageSystemResources][2] operation.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/datasync/latest/userguide/discovery-understand-recommendations.html
+    # [2]: https://docs.aws.amazon.com/datasync/latest/userguide/API_DescribeStorageSystemResources.html
+    #
+    # @option params [required, String] :discovery_job_arn
+    #   Specifies the Amazon Resource Name (ARN) of the discovery job that
+    #   collects information about your on-premises storage system.
+    #
+    # @option params [required, Array<String>] :resource_ids
+    #   Specifies the universally unique identifiers (UUIDs) of the resources
+    #   in your storage system that you want recommendations on.
+    #
+    # @option params [required, String] :resource_type
+    #   Specifies the type of resource in your storage system that you want
+    #   recommendations on.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.generate_recommendations({
+    #     discovery_job_arn: "DiscoveryJobArn", # required
+    #     resource_ids: ["ResourceId"], # required
+    #     resource_type: "SVM", # required, accepts SVM, VOLUME, CLUSTER
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/datasync-2018-11-09/GenerateRecommendations AWS API Documentation
+    #
+    # @overload generate_recommendations(params = {})
+    # @param [Hash] params ({})
+    def generate_recommendations(params = {}, options = {})
+      req = build_request(:generate_recommendations, params)
       req.send_request(options)
     end
 
@@ -2366,6 +3397,7 @@ module Aws::DataSync
     #   resp.agents[0].agent_arn #=> String
     #   resp.agents[0].name #=> String
     #   resp.agents[0].status #=> String, one of "ONLINE", "OFFLINE"
+    #   resp.agents[0].platform.version #=> String
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/datasync-2018-11-09/ListAgents AWS API Documentation
@@ -2374,6 +3406,53 @@ module Aws::DataSync
     # @param [Hash] params ({})
     def list_agents(params = {}, options = {})
       req = build_request(:list_agents, params)
+      req.send_request(options)
+    end
+
+    # Provides a list of the existing discovery jobs in the Amazon Web
+    # Services Region and Amazon Web Services account where you're using
+    # DataSync Discovery.
+    #
+    # @option params [String] :storage_system_arn
+    #   Specifies the Amazon Resource Name (ARN) of an on-premises storage
+    #   system. Use this parameter if you only want to list the discovery jobs
+    #   that are associated with a specific storage system.
+    #
+    # @option params [Integer] :max_results
+    #   Specifies how many results you want in the response.
+    #
+    # @option params [String] :next_token
+    #   Specifies an opaque string that indicates the position to begin the
+    #   next list of results in the response.
+    #
+    # @return [Types::ListDiscoveryJobsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListDiscoveryJobsResponse#discovery_jobs #discovery_jobs} => Array&lt;Types::DiscoveryJobListEntry&gt;
+    #   * {Types::ListDiscoveryJobsResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_discovery_jobs({
+    #     storage_system_arn: "StorageSystemArn",
+    #     max_results: 1,
+    #     next_token: "DiscoveryNextToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.discovery_jobs #=> Array
+    #   resp.discovery_jobs[0].discovery_job_arn #=> String
+    #   resp.discovery_jobs[0].status #=> String, one of "RUNNING", "WARNING", "TERMINATED", "FAILED", "STOPPED", "COMPLETED", "COMPLETED_WITH_ISSUES"
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/datasync-2018-11-09/ListDiscoveryJobs AWS API Documentation
+    #
+    # @overload list_discovery_jobs(params = {})
+    # @param [Hash] params ({})
+    def list_discovery_jobs(params = {}, options = {})
+      req = build_request(:list_discovery_jobs, params)
       req.send_request(options)
     end
 
@@ -2434,6 +3513,46 @@ module Aws::DataSync
       req.send_request(options)
     end
 
+    # Lists the on-premises storage systems that you're using with DataSync
+    # Discovery.
+    #
+    # @option params [Integer] :max_results
+    #   Specifies how many results you want in the response.
+    #
+    # @option params [String] :next_token
+    #   Specifies an opaque string that indicates the position to begin the
+    #   next list of results in the response.
+    #
+    # @return [Types::ListStorageSystemsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListStorageSystemsResponse#storage_systems #storage_systems} => Array&lt;Types::StorageSystemListEntry&gt;
+    #   * {Types::ListStorageSystemsResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_storage_systems({
+    #     max_results: 1,
+    #     next_token: "DiscoveryNextToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.storage_systems #=> Array
+    #   resp.storage_systems[0].storage_system_arn #=> String
+    #   resp.storage_systems[0].name #=> String
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/datasync-2018-11-09/ListStorageSystems AWS API Documentation
+    #
+    # @overload list_storage_systems(params = {})
+    # @param [Hash] params ({})
+    def list_storage_systems(params = {}, options = {})
+      req = build_request(:list_storage_systems, params)
+      req.send_request(options)
+    end
+
     # Returns all the tags associated with an Amazon Web Services resource.
     #
     # @option params [required, String] :resource_arn
@@ -2478,18 +3597,18 @@ module Aws::DataSync
       req.send_request(options)
     end
 
-    # Returns a list of executed tasks.
+    # Returns a list of executions for an DataSync transfer task.
     #
     # @option params [String] :task_arn
-    #   The Amazon Resource Name (ARN) of the task whose tasks you want to
-    #   list.
+    #   Specifies the Amazon Resource Name (ARN) of the task that you want
+    #   execution information about.
     #
     # @option params [Integer] :max_results
-    #   The maximum number of executed tasks to list.
+    #   Specifies how many results you want in the response.
     #
     # @option params [String] :next_token
-    #   An opaque string that indicates the position at which to begin the
-    #   next list of the executed tasks.
+    #   Specifies an opaque string that indicates the position at which to
+    #   begin the next list of results in the response.
     #
     # @return [Types::ListTaskExecutionsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -2510,7 +3629,8 @@ module Aws::DataSync
     #
     #   resp.task_executions #=> Array
     #   resp.task_executions[0].task_execution_arn #=> String
-    #   resp.task_executions[0].status #=> String, one of "QUEUED", "LAUNCHING", "PREPARING", "TRANSFERRING", "VERIFYING", "SUCCESS", "ERROR"
+    #   resp.task_executions[0].status #=> String, one of "QUEUED", "CANCELLING", "LAUNCHING", "PREPARING", "TRANSFERRING", "VERIFYING", "SUCCESS", "ERROR"
+    #   resp.task_executions[0].task_mode #=> String, one of "BASIC", "ENHANCED"
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/datasync-2018-11-09/ListTaskExecutions AWS API Documentation
@@ -2564,6 +3684,7 @@ module Aws::DataSync
     #   resp.tasks[0].task_arn #=> String
     #   resp.tasks[0].status #=> String, one of "AVAILABLE", "CREATING", "QUEUED", "RUNNING", "UNAVAILABLE"
     #   resp.tasks[0].name #=> String
+    #   resp.tasks[0].task_mode #=> String, one of "BASIC", "ENHANCED"
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/datasync-2018-11-09/ListTasks AWS API Documentation
@@ -2575,28 +3696,132 @@ module Aws::DataSync
       req.send_request(options)
     end
 
-    # Starts an DataSync task. For each task, you can only run one task
-    # execution at a time.
+    # Permanently removes a storage system resource from DataSync Discovery,
+    # including the associated discovery jobs, collected data, and
+    # recommendations.
     #
-    # There are several phases to a task execution. For more information,
-    # see [Task execution statuses][1].
+    # @option params [required, String] :storage_system_arn
+    #   Specifies the Amazon Resource Name (ARN) of the storage system that
+    #   you want to permanently remove from DataSync Discovery.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.remove_storage_system({
+    #     storage_system_arn: "StorageSystemArn", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/datasync-2018-11-09/RemoveStorageSystem AWS API Documentation
+    #
+    # @overload remove_storage_system(params = {})
+    # @param [Hash] params ({})
+    def remove_storage_system(params = {}, options = {})
+      req = build_request(:remove_storage_system, params)
+      req.send_request(options)
+    end
+
+    # Runs a DataSync discovery job on your on-premises storage system. If
+    # you haven't added the storage system to DataSync Discovery yet, do
+    # this first by using the [AddStorageSystem][1] operation.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/datasync/latest/userguide/API_AddStorageSystem.html
+    #
+    # @option params [required, String] :storage_system_arn
+    #   Specifies the Amazon Resource Name (ARN) of the on-premises storage
+    #   system that you want to run the discovery job on.
+    #
+    # @option params [required, Integer] :collection_duration_minutes
+    #   Specifies in minutes how long you want the discovery job to run.
+    #
+    #   <note markdown="1"> For more accurate recommendations, we recommend a duration of at least
+    #   14 days. Longer durations allow time to collect a sufficient number of
+    #   data points and provide a realistic representation of storage
+    #   performance and utilization.
+    #
+    #    </note>
+    #
+    # @option params [required, String] :client_token
+    #   Specifies a client token to make sure requests with this API operation
+    #   are idempotent. If you don't specify a client token, DataSync
+    #   generates one for you automatically.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @option params [Array<Types::TagListEntry>] :tags
+    #   Specifies labels that help you categorize, filter, and search for your
+    #   Amazon Web Services resources.
+    #
+    # @return [Types::StartDiscoveryJobResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::StartDiscoveryJobResponse#discovery_job_arn #discovery_job_arn} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.start_discovery_job({
+    #     storage_system_arn: "StorageSystemArn", # required
+    #     collection_duration_minutes: 1, # required
+    #     client_token: "PtolemyUUID", # required
+    #     tags: [
+    #       {
+    #         key: "TagKey", # required
+    #         value: "TagValue",
+    #       },
+    #     ],
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.discovery_job_arn #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/datasync-2018-11-09/StartDiscoveryJob AWS API Documentation
+    #
+    # @overload start_discovery_job(params = {})
+    # @param [Hash] params ({})
+    def start_discovery_job(params = {}, options = {})
+      req = build_request(:start_discovery_job, params)
+      req.send_request(options)
+    end
+
+    # Starts an DataSync transfer task. For each task, you can only run one
+    # task execution at a time.
+    #
+    # There are several steps to a task execution. For more information, see
+    # [Task execution statuses][1].
+    #
+    # If you're planning to transfer data to or from an Amazon S3 location,
+    # review [how DataSync can affect your S3 request charges][2] and the
+    # [DataSync pricing page][3] before you begin.
     #
     #
     #
     # [1]: https://docs.aws.amazon.com/datasync/latest/userguide/working-with-task-executions.html#understand-task-execution-statuses
+    # [2]: https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html#create-s3-location-s3-requests
+    # [3]: http://aws.amazon.com/datasync/pricing/
     #
     # @option params [required, String] :task_arn
     #   Specifies the Amazon Resource Name (ARN) of the task that you want to
     #   start.
     #
     # @option params [Types::Options] :override_options
-    #   Configures your DataSync task settings. These options include how
-    #   DataSync handles files, objects, and their associated metadata. You
-    #   also can specify how DataSync verifies data integrity, set bandwidth
-    #   limits for your task, among other options.
+    #   Indicates how your transfer task is configured. These options include
+    #   how DataSync handles files, objects, and their associated metadata
+    #   during your transfer. You also can specify how to verify data
+    #   integrity, set bandwidth limits for your task, among other options.
     #
-    #   Each task setting has a default value. Unless you need to, you don't
-    #   have to configure any of these `Options` before starting your task.
+    #   Each option has a default value. Unless you need to, you don't have
+    #   to configure any option before calling [StartTaskExecution][1].
+    #
+    #   You also can override your task options for each task execution. For
+    #   example, you might want to adjust the `LogLevel` for an individual
+    #   execution.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/datasync/latest/userguide/API_StartTaskExecution.html
     #
     # @option params [Array<Types::FilterRule>] :includes
     #   Specifies a list of filter rules that determines which files to
@@ -2610,6 +3835,42 @@ module Aws::DataSync
     #   exclude from a task. The list contains a single filter string that
     #   consists of the patterns to exclude. The patterns are delimited by
     #   "\|" (that is, a pipe), for example, `"/folder1|/folder2"`.
+    #
+    # @option params [Types::ManifestConfig] :manifest_config
+    #   Configures a manifest, which is a list of files or objects that you
+    #   want DataSync to transfer. For more information and configuration
+    #   examples, see [Specifying what DataSync transfers by using a
+    #   manifest][1].
+    #
+    #   When using this parameter, your caller identity (the role that you're
+    #   using DataSync with) must have the `iam:PassRole` permission. The
+    #   [AWSDataSyncFullAccess][2] policy includes this permission.
+    #
+    #   To remove a manifest configuration, specify this parameter with an
+    #   empty value.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/datasync/latest/userguide/transferring-with-manifest.html
+    #   [2]: https://docs.aws.amazon.com/datasync/latest/userguide/security-iam-awsmanpol.html#security-iam-awsmanpol-awsdatasyncfullaccess
+    #
+    # @option params [Types::TaskReportConfig] :task_report_config
+    #   Specifies how you want to configure a task report, which provides
+    #   detailed information about your DataSync transfer. For more
+    #   information, see [Monitoring your DataSync transfers with task
+    #   reports][1].
+    #
+    #   When using this parameter, your caller identity (the role that you're
+    #   using DataSync with) must have the `iam:PassRole` permission. The
+    #   [AWSDataSyncFullAccess][2] policy includes this permission.
+    #
+    #   To remove a task report configuration, specify this parameter as
+    #   empty.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/datasync/latest/userguide/task-reports.html
+    #   [2]: https://docs.aws.amazon.com/datasync/latest/userguide/security-iam-awsmanpol.html#security-iam-awsmanpol-awsdatasyncfullaccess
     #
     # @option params [Array<Types::TagListEntry>] :tags
     #   Specifies the tags that you want to apply to the Amazon Resource Name
@@ -2655,6 +3916,44 @@ module Aws::DataSync
     #         value: "FilterValue",
     #       },
     #     ],
+    #     manifest_config: {
+    #       action: "TRANSFER", # accepts TRANSFER
+    #       format: "CSV", # accepts CSV
+    #       source: {
+    #         s3: { # required
+    #           manifest_object_path: "S3Subdirectory", # required
+    #           bucket_access_role_arn: "IamRoleArn", # required
+    #           s3_bucket_arn: "S3BucketArn", # required
+    #           manifest_object_version_id: "S3ObjectVersionId",
+    #         },
+    #       },
+    #     },
+    #     task_report_config: {
+    #       destination: {
+    #         s3: {
+    #           subdirectory: "S3Subdirectory",
+    #           s3_bucket_arn: "S3BucketArn", # required
+    #           bucket_access_role_arn: "IamRoleArn", # required
+    #         },
+    #       },
+    #       output_type: "SUMMARY_ONLY", # accepts SUMMARY_ONLY, STANDARD
+    #       report_level: "ERRORS_ONLY", # accepts ERRORS_ONLY, SUCCESSES_AND_ERRORS
+    #       object_version_ids: "INCLUDE", # accepts INCLUDE, NONE
+    #       overrides: {
+    #         transferred: {
+    #           report_level: "ERRORS_ONLY", # accepts ERRORS_ONLY, SUCCESSES_AND_ERRORS
+    #         },
+    #         verified: {
+    #           report_level: "ERRORS_ONLY", # accepts ERRORS_ONLY, SUCCESSES_AND_ERRORS
+    #         },
+    #         deleted: {
+    #           report_level: "ERRORS_ONLY", # accepts ERRORS_ONLY, SUCCESSES_AND_ERRORS
+    #         },
+    #         skipped: {
+    #           report_level: "ERRORS_ONLY", # accepts ERRORS_ONLY, SUCCESSES_AND_ERRORS
+    #         },
+    #       },
+    #     },
     #     tags: [
     #       {
     #         key: "TagKey", # required
@@ -2673,6 +3972,39 @@ module Aws::DataSync
     # @param [Hash] params ({})
     def start_task_execution(params = {}, options = {})
       req = build_request(:start_task_execution, params)
+      req.send_request(options)
+    end
+
+    # Stops a running DataSync discovery job.
+    #
+    # You can stop a discovery job anytime. A job that's stopped before
+    # it's scheduled to end likely will provide you some information about
+    # your on-premises storage system resources. To get recommendations for
+    # a stopped job, you must use the [GenerateRecommendations][1]
+    # operation.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/datasync/latest/userguide/API_GenerateRecommendations.html
+    #
+    # @option params [required, String] :discovery_job_arn
+    #   Specifies the Amazon Resource Name (ARN) of the discovery job that you
+    #   want to stop.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.stop_discovery_job({
+    #     discovery_job_arn: "DiscoveryJobArn", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/datasync-2018-11-09/StopDiscoveryJob AWS API Documentation
+    #
+    # @overload stop_discovery_job(params = {})
+    # @param [Hash] params ({})
+    def stop_discovery_job(params = {}, options = {})
+      req = build_request(:stop_discovery_job, params)
       req.send_request(options)
     end
 
@@ -2739,7 +4071,7 @@ module Aws::DataSync
       req.send_request(options)
     end
 
-    # Updates the name of an agent.
+    # Updates the name of an DataSync agent.
     #
     # @option params [required, String] :agent_arn
     #   The Amazon Resource Name (ARN) of the agent to update.
@@ -2765,8 +4097,447 @@ module Aws::DataSync
       req.send_request(options)
     end
 
-    # Updates some parameters of a previously created location for a Hadoop
-    # Distributed File System cluster.
+    # Edits a DataSync discovery job configuration.
+    #
+    # @option params [required, String] :discovery_job_arn
+    #   Specifies the Amazon Resource Name (ARN) of the discovery job that you
+    #   want to update.
+    #
+    # @option params [required, Integer] :collection_duration_minutes
+    #   Specifies in minutes how long that you want the discovery job to run.
+    #   (You can't set this parameter to less than the number of minutes that
+    #   the job has already run for.)
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_discovery_job({
+    #     discovery_job_arn: "DiscoveryJobArn", # required
+    #     collection_duration_minutes: 1, # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/datasync-2018-11-09/UpdateDiscoveryJob AWS API Documentation
+    #
+    # @overload update_discovery_job(params = {})
+    # @param [Hash] params ({})
+    def update_discovery_job(params = {}, options = {})
+      req = build_request(:update_discovery_job, params)
+      req.send_request(options)
+    end
+
+    # Modifies the following configurations of the Microsoft Azure Blob
+    # Storage transfer location that you're using with DataSync.
+    #
+    # For more information, see [Configuring DataSync transfers with Azure
+    # Blob Storage][1].
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html
+    #
+    # @option params [required, String] :location_arn
+    #   Specifies the ARN of the Azure Blob Storage transfer location that
+    #   you're updating.
+    #
+    # @option params [String] :subdirectory
+    #   Specifies path segments if you want to limit your transfer to a
+    #   virtual directory in your container (for example, `/my/images`).
+    #
+    # @option params [String] :authentication_type
+    #   Specifies the authentication method DataSync uses to access your Azure
+    #   Blob Storage. DataSync can access blob storage using a shared access
+    #   signature (SAS).
+    #
+    # @option params [Types::AzureBlobSasConfiguration] :sas_configuration
+    #   Specifies the SAS configuration that allows DataSync to access your
+    #   Azure Blob Storage.
+    #
+    # @option params [String] :blob_type
+    #   Specifies the type of blob that you want your objects or files to be
+    #   when transferring them into Azure Blob Storage. Currently, DataSync
+    #   only supports moving data into Azure Blob Storage as block blobs. For
+    #   more information on blob types, see the [Azure Blob Storage
+    #   documentation][1].
+    #
+    #
+    #
+    #   [1]: https://learn.microsoft.com/en-us/rest/api/storageservices/understanding-block-blobs--append-blobs--and-page-blobs
+    #
+    # @option params [String] :access_tier
+    #   Specifies the access tier that you want your objects or files
+    #   transferred into. This only applies when using the location as a
+    #   transfer destination. For more information, see [Access tiers][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html#azure-blob-access-tiers
+    #
+    # @option params [Array<String>] :agent_arns
+    #   Specifies the Amazon Resource Name (ARN) of the DataSync agent that
+    #   can connect with your Azure Blob Storage container.
+    #
+    #   You can specify more than one agent. For more information, see [Using
+    #   multiple agents for your transfer][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/datasync/latest/userguide/multiple-agents.html
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_location_azure_blob({
+    #     location_arn: "LocationArn", # required
+    #     subdirectory: "AzureBlobSubdirectory",
+    #     authentication_type: "SAS", # accepts SAS
+    #     sas_configuration: {
+    #       token: "AzureBlobSasToken", # required
+    #     },
+    #     blob_type: "BLOCK", # accepts BLOCK
+    #     access_tier: "HOT", # accepts HOT, COOL, ARCHIVE
+    #     agent_arns: ["AgentArn"],
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/datasync-2018-11-09/UpdateLocationAzureBlob AWS API Documentation
+    #
+    # @overload update_location_azure_blob(params = {})
+    # @param [Hash] params ({})
+    def update_location_azure_blob(params = {}, options = {})
+      req = build_request(:update_location_azure_blob, params)
+      req.send_request(options)
+    end
+
+    # Modifies the following configuration parameters of the Amazon EFS
+    # transfer location that you're using with DataSync.
+    #
+    # For more information, see [Configuring DataSync transfers with Amazon
+    # EFS][1].
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/datasync/latest/userguide/create-efs-location.html
+    #
+    # @option params [required, String] :location_arn
+    #   Specifies the Amazon Resource Name (ARN) of the Amazon EFS transfer
+    #   location that you're updating.
+    #
+    # @option params [String] :subdirectory
+    #   Specifies a mount path for your Amazon EFS file system. This is where
+    #   DataSync reads or writes data on your file system (depending on if
+    #   this is a source or destination location).
+    #
+    #   By default, DataSync uses the root directory (or [access point][1] if
+    #   you provide one by using `AccessPointArn`). You can also include
+    #   subdirectories using forward slashes (for example, `/path/to/folder`).
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/efs/latest/ug/efs-access-points.html
+    #
+    # @option params [String] :access_point_arn
+    #   Specifies the Amazon Resource Name (ARN) of the access point that
+    #   DataSync uses to mount your Amazon EFS file system.
+    #
+    #   For more information, see [Accessing restricted Amazon EFS file
+    #   systems][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/datasync/latest/userguide/create-efs-location.html#create-efs-location-iam
+    #
+    # @option params [String] :file_system_access_role_arn
+    #   Specifies an Identity and Access Management (IAM) role that allows
+    #   DataSync to access your Amazon EFS file system.
+    #
+    #   For information on creating this role, see [Creating a DataSync IAM
+    #   role for Amazon EFS file system access][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/datasync/latest/userguide/create-efs-location.html#create-efs-location-iam-role
+    #
+    # @option params [String] :in_transit_encryption
+    #   Specifies whether you want DataSync to use Transport Layer Security
+    #   (TLS) 1.2 encryption when it transfers data to or from your Amazon EFS
+    #   file system.
+    #
+    #   If you specify an access point using `AccessPointArn` or an IAM role
+    #   using `FileSystemAccessRoleArn`, you must set this parameter to
+    #   `TLS1_2`.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_location_efs({
+    #     location_arn: "LocationArn", # required
+    #     subdirectory: "EfsSubdirectory",
+    #     access_point_arn: "UpdatedEfsAccessPointArn",
+    #     file_system_access_role_arn: "UpdatedEfsIamRoleArn",
+    #     in_transit_encryption: "NONE", # accepts NONE, TLS1_2
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/datasync-2018-11-09/UpdateLocationEfs AWS API Documentation
+    #
+    # @overload update_location_efs(params = {})
+    # @param [Hash] params ({})
+    def update_location_efs(params = {}, options = {})
+      req = build_request(:update_location_efs, params)
+      req.send_request(options)
+    end
+
+    # Modifies the following configuration parameters of the Amazon FSx for
+    # Lustre transfer location that you're using with DataSync.
+    #
+    # For more information, see [Configuring DataSync transfers with FSx for
+    # Lustre][1].
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/datasync/latest/userguide/create-lustre-location.html
+    #
+    # @option params [required, String] :location_arn
+    #   Specifies the Amazon Resource Name (ARN) of the FSx for Lustre
+    #   transfer location that you're updating.
+    #
+    # @option params [String] :subdirectory
+    #   Specifies a mount path for your FSx for Lustre file system. The path
+    #   can include subdirectories.
+    #
+    #   When the location is used as a source, DataSync reads data from the
+    #   mount path. When the location is used as a destination, DataSync
+    #   writes data to the mount path. If you don't include this parameter,
+    #   DataSync uses the file system's root directory (`/`).
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_location_fsx_lustre({
+    #     location_arn: "LocationArn", # required
+    #     subdirectory: "SmbSubdirectory",
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/datasync-2018-11-09/UpdateLocationFsxLustre AWS API Documentation
+    #
+    # @overload update_location_fsx_lustre(params = {})
+    # @param [Hash] params ({})
+    def update_location_fsx_lustre(params = {}, options = {})
+      req = build_request(:update_location_fsx_lustre, params)
+      req.send_request(options)
+    end
+
+    # Modifies the following configuration parameters of the Amazon FSx for
+    # NetApp ONTAP transfer location that you're using with DataSync.
+    #
+    # For more information, see [Configuring DataSync transfers with FSx for
+    # ONTAP][1].
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/datasync/latest/userguide/create-ontap-location.html
+    #
+    # @option params [required, String] :location_arn
+    #   Specifies the Amazon Resource Name (ARN) of the FSx for ONTAP transfer
+    #   location that you're updating.
+    #
+    # @option params [Types::FsxUpdateProtocol] :protocol
+    #   Specifies the data transfer protocol that DataSync uses to access your
+    #   Amazon FSx file system.
+    #
+    # @option params [String] :subdirectory
+    #   Specifies a path to the file share in the storage virtual machine
+    #   (SVM) where you want to transfer data to or from.
+    #
+    #   You can specify a junction path (also known as a mount point), qtree
+    #   path (for NFS file shares), or share name (for SMB file shares). For
+    #   example, your mount path might be `/vol1`, `/vol1/tree1`, or
+    #   `/share1`.
+    #
+    #   <note markdown="1"> Don't specify a junction path in the SVM's root volume. For more
+    #   information, see [Managing FSx for ONTAP storage virtual machines][1]
+    #   in the *Amazon FSx for NetApp ONTAP User Guide*.
+    #
+    #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-svms.html
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_location_fsx_ontap({
+    #     location_arn: "LocationArn", # required
+    #     protocol: {
+    #       nfs: {
+    #         mount_options: {
+    #           version: "AUTOMATIC", # accepts AUTOMATIC, NFS3, NFS4_0, NFS4_1
+    #         },
+    #       },
+    #       smb: {
+    #         domain: "UpdateSmbDomain",
+    #         mount_options: {
+    #           version: "AUTOMATIC", # accepts AUTOMATIC, SMB2, SMB3, SMB1, SMB2_0
+    #         },
+    #         password: "SmbPassword",
+    #         user: "SmbUser",
+    #       },
+    #     },
+    #     subdirectory: "FsxOntapSubdirectory",
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/datasync-2018-11-09/UpdateLocationFsxOntap AWS API Documentation
+    #
+    # @overload update_location_fsx_ontap(params = {})
+    # @param [Hash] params ({})
+    def update_location_fsx_ontap(params = {}, options = {})
+      req = build_request(:update_location_fsx_ontap, params)
+      req.send_request(options)
+    end
+
+    # Modifies the following configuration parameters of the Amazon FSx for
+    # OpenZFS transfer location that you're using with DataSync.
+    #
+    # For more information, see [Configuring DataSync transfers with FSx for
+    # OpenZFS][1].
+    #
+    # <note markdown="1"> Request parameters related to `SMB` aren't supported with the
+    # `UpdateLocationFsxOpenZfs` operation.
+    #
+    #  </note>
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/datasync/latest/userguide/create-openzfs-location.html
+    #
+    # @option params [required, String] :location_arn
+    #   Specifies the Amazon Resource Name (ARN) of the FSx for OpenZFS
+    #   transfer location that you're updating.
+    #
+    # @option params [Types::FsxProtocol] :protocol
+    #   Specifies the data transfer protocol that DataSync uses to access your
+    #   Amazon FSx file system.
+    #
+    # @option params [String] :subdirectory
+    #   Specifies a subdirectory in the location's path that must begin with
+    #   `/fsx`. DataSync uses this subdirectory to read or write data
+    #   (depending on whether the file system is a source or destination
+    #   location).
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_location_fsx_open_zfs({
+    #     location_arn: "LocationArn", # required
+    #     protocol: {
+    #       nfs: {
+    #         mount_options: {
+    #           version: "AUTOMATIC", # accepts AUTOMATIC, NFS3, NFS4_0, NFS4_1
+    #         },
+    #       },
+    #       smb: {
+    #         domain: "SmbDomain",
+    #         mount_options: {
+    #           version: "AUTOMATIC", # accepts AUTOMATIC, SMB2, SMB3, SMB1, SMB2_0
+    #         },
+    #         password: "SmbPassword", # required
+    #         user: "SmbUser", # required
+    #       },
+    #     },
+    #     subdirectory: "SmbSubdirectory",
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/datasync-2018-11-09/UpdateLocationFsxOpenZfs AWS API Documentation
+    #
+    # @overload update_location_fsx_open_zfs(params = {})
+    # @param [Hash] params ({})
+    def update_location_fsx_open_zfs(params = {}, options = {})
+      req = build_request(:update_location_fsx_open_zfs, params)
+      req.send_request(options)
+    end
+
+    # Modifies the following configuration parameters of the Amazon FSx for
+    # Windows File Server transfer location that you're using with
+    # DataSync.
+    #
+    # For more information, see [Configuring DataSync transfers with FSx for
+    # Windows File Server][1].
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/datasync/latest/userguide/create-fsx-location.html
+    #
+    # @option params [required, String] :location_arn
+    #   Specifies the ARN of the FSx for Windows File Server transfer location
+    #   that you're updating.
+    #
+    # @option params [String] :subdirectory
+    #   Specifies a mount path for your file system using forward slashes.
+    #   DataSync uses this subdirectory to read or write data (depending on
+    #   whether the file system is a source or destination location).
+    #
+    # @option params [String] :domain
+    #   Specifies the name of the Windows domain that your FSx for Windows
+    #   File Server file system belongs to.
+    #
+    #   If you have multiple Active Directory domains in your environment,
+    #   configuring this parameter makes sure that DataSync connects to the
+    #   right file system.
+    #
+    # @option params [String] :user
+    #   Specifies the user with the permissions to mount and access the files,
+    #   folders, and file metadata in your FSx for Windows File Server file
+    #   system.
+    #
+    #   For information about choosing a user with the right level of access
+    #   for your transfer, see [required permissions][1] for FSx for Windows
+    #   File Server locations.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/datasync/latest/userguide/create-fsx-location.html#create-fsx-windows-location-permissions
+    #
+    # @option params [String] :password
+    #   Specifies the password of the user with the permissions to mount and
+    #   access the files, folders, and file metadata in your FSx for Windows
+    #   File Server file system.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_location_fsx_windows({
+    #     location_arn: "LocationArn", # required
+    #     subdirectory: "FsxWindowsSubdirectory",
+    #     domain: "UpdateSmbDomain",
+    #     user: "SmbUser",
+    #     password: "SmbPassword",
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/datasync-2018-11-09/UpdateLocationFsxWindows AWS API Documentation
+    #
+    # @overload update_location_fsx_windows(params = {})
+    # @param [Hash] params ({})
+    def update_location_fsx_windows(params = {}, options = {})
+      req = build_request(:update_location_fsx_windows, params)
+      req.send_request(options)
+    end
+
+    # Modifies the following configuration parameters of the Hadoop
+    # Distributed File System (HDFS) transfer location that you're using
+    # with DataSync.
+    #
+    # For more information, see [Configuring DataSync transfers with an HDFS
+    # cluster][1].
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/datasync/latest/userguide/create-hdfs-location.html
     #
     # @option params [required, String] :location_arn
     #   The Amazon Resource Name (ARN) of the source HDFS cluster location.
@@ -2821,7 +4592,8 @@ module Aws::DataSync
     #   encoding for you. Otherwise, provide the base64-encoded text.
     #
     # @option params [Array<String>] :agent_arns
-    #   The ARNs of the agents that are used to connect to the HDFS cluster.
+    #   The Amazon Resource Names (ARNs) of the DataSync agents that can
+    #   connect to your HDFS cluster.
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
@@ -2860,52 +4632,35 @@ module Aws::DataSync
       req.send_request(options)
     end
 
-    # Updates some of the parameters of a previously created location for
-    # Network File System (NFS) access. For information about creating an
-    # NFS location, see [Creating a location for NFS][1].
+    # Modifies the following configuration parameters of the Network File
+    # System (NFS) transfer location that you're using with DataSync.
+    #
+    # For more information, see [Configuring transfers with an NFS file
+    # server][1].
     #
     #
     #
     # [1]: https://docs.aws.amazon.com/datasync/latest/userguide/create-nfs-location.html
     #
     # @option params [required, String] :location_arn
-    #   The Amazon Resource Name (ARN) of the NFS location to update.
+    #   Specifies the Amazon Resource Name (ARN) of the NFS transfer location
+    #   that you want to update.
     #
     # @option params [String] :subdirectory
-    #   The subdirectory in the NFS file system that is used to read data from
-    #   the NFS source location or write data to the NFS destination. The NFS
-    #   path should be a path that's exported by the NFS server, or a
-    #   subdirectory of that path. The path should be such that it can be
-    #   mounted by other NFS clients in your network.
+    #   Specifies the export path in your NFS file server that you want
+    #   DataSync to mount.
     #
-    #   To see all the paths exported by your NFS server, run "`showmount -e
-    #   nfs-server-name`" from an NFS client that has access to your server.
-    #   You can specify any directory that appears in the results, and any
-    #   subdirectory of that directory. Ensure that the NFS export is
-    #   accessible without Kerberos authentication.
-    #
-    #   To transfer all the data in the folder that you specified, DataSync
-    #   must have permissions to read all the data. To ensure this, either
-    #   configure the NFS export with `no_root_squash`, or ensure that the
-    #   files you want DataSync to access have permissions that allow read
-    #   access for all users. Doing either option enables the agent to read
-    #   the files. For the agent to access directories, you must additionally
-    #   enable all execute access.
-    #
-    #   If you are copying data to or from your Snowcone device, see [NFS
-    #   Server on Snowcone][1] for more information.
-    #
-    #   For information about NFS export configuration, see 18.7. The
-    #   /etc/exports Configuration File in the Red Hat Enterprise Linux
-    #   documentation.
+    #   This path (or a subdirectory of the path) is where DataSync transfers
+    #   data to or from. For information on configuring an export for
+    #   DataSync, see [Accessing NFS file servers][1].
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/datasync/latest/userguide/create-nfs-location.html#nfs-on-snowcone
+    #   [1]: https://docs.aws.amazon.com/datasync/latest/userguide/create-nfs-location.html#accessing-nfs
     #
     # @option params [Types::OnPremConfig] :on_prem_config
-    #   A list of Amazon Resource Names (ARNs) of agents to use for a Network
-    #   File System (NFS) location.
+    #   The DataSync agents that can connect to your Network File System (NFS)
+    #   file server.
     #
     # @option params [Types::NfsMountOptions] :mount_options
     #   Specifies how DataSync can access a location using the NFS protocol.
@@ -2934,10 +4689,11 @@ module Aws::DataSync
       req.send_request(options)
     end
 
-    # Updates some parameters of an existing object storage location that
-    # DataSync accesses for a transfer. For information about creating a
-    # self-managed object storage location, see [Creating a location for
-    # object storage][1].
+    # Modifies the following configuration parameters of the object storage
+    # transfer location that you're using with DataSync.
+    #
+    # For more information, see [Configuring DataSync transfers with an
+    # object storage system][1].
     #
     #
     #
@@ -2971,19 +4727,35 @@ module Aws::DataSync
     #
     # @option params [Array<String>] :agent_arns
     #   Specifies the Amazon Resource Names (ARNs) of the DataSync agents that
-    #   can securely connect with your location.
+    #   can connect with your object storage system.
     #
     # @option params [String, StringIO, File] :server_certificate
-    #   Specifies a certificate to authenticate with an object storage system
-    #   that uses a private or self-signed certificate authority (CA). You
-    #   must specify a Base64-encoded `.pem` file (for example,
-    #   `file:///home/user/.ssh/storage_sys_certificate.pem`). The certificate
-    #   can be up to 32768 bytes (before Base64 encoding).
+    #   Specifies a certificate chain for DataSync to authenticate with your
+    #   object storage system if the system uses a private or self-signed
+    #   certificate authority (CA). You must specify a single `.pem` file with
+    #   a full certificate chain (for example,
+    #   `file:///home/user/.ssh/object_storage_certificates.pem`).
+    #
+    #   The certificate chain might include:
+    #
+    #   * The object storage system's certificate
+    #
+    #   * All intermediate certificates (if there are any)
+    #
+    #   * The root certificate of the signing CA
+    #
+    #   You can concatenate your certificates into a `.pem` file (which can be
+    #   up to 32768 bytes before base64 encoding). The following example `cat`
+    #   command creates an `object_storage_certificates.pem` file that
+    #   includes three certificates:
+    #
+    #   `cat object_server_certificate.pem intermediate_certificate.pem
+    #   ca_root_certificate.pem > object_storage_certificates.pem`
     #
     #   To use this parameter, configure `ServerProtocol` to `HTTPS`.
     #
-    #   Updating the certificate doesn't interfere with tasks that you have
-    #   in progress.
+    #   Updating this parameter doesn't interfere with tasks that you have in
+    #   progress.
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
@@ -3009,62 +4781,195 @@ module Aws::DataSync
       req.send_request(options)
     end
 
-    # Updates some of the parameters of a previously created location for
-    # Server Message Block (SMB) file system access. For information about
-    # creating an SMB location, see [Creating a location for SMB][1].
+    # Modifies the following configuration parameters of the Amazon S3
+    # transfer location that you're using with DataSync.
+    #
+    # Before you begin, make sure that you read the following topics:
+    #
+    #  * [Storage class considerations with Amazon S3 locations][1]
+    #
+    # * [Evaluating S3 request costs when using DataSync][2]
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html#using-storage-classes
+    # [2]: https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html#create-s3-location-s3-requests
+    #
+    # @option params [required, String] :location_arn
+    #   Specifies the Amazon Resource Name (ARN) of the Amazon S3 transfer
+    #   location that you're updating.
+    #
+    # @option params [String] :subdirectory
+    #   Specifies a prefix in the S3 bucket that DataSync reads from or writes
+    #   to (depending on whether the bucket is a source or destination
+    #   location).
+    #
+    #   <note markdown="1"> DataSync can't transfer objects with a prefix that begins with a
+    #   slash (`/`) or includes `//`, `/./`, or `/../` patterns. For example:
+    #
+    #    * `/photos`
+    #
+    #   * `photos//2006/January`
+    #
+    #   * `photos/./2006/February`
+    #
+    #   * `photos/../2006/March`
+    #
+    #    </note>
+    #
+    # @option params [String] :s3_storage_class
+    #   Specifies the storage class that you want your objects to use when
+    #   Amazon S3 is a transfer destination.
+    #
+    #   For buckets in Amazon Web Services Regions, the storage class defaults
+    #   to `STANDARD`. For buckets on Outposts, the storage class defaults to
+    #   `OUTPOSTS`.
+    #
+    #   For more information, see [Storage class considerations with Amazon S3
+    #   transfers][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html#using-storage-classes
+    #
+    # @option params [Types::S3Config] :s3_config
+    #   Specifies the Amazon Resource Name (ARN) of the Identity and Access
+    #   Management (IAM) role that DataSync uses to access your S3 bucket.
+    #
+    #   For more information, see [Providing DataSync access to S3
+    #   buckets][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html#create-s3-location-access
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_location_s3({
+    #     location_arn: "LocationArn", # required
+    #     subdirectory: "S3Subdirectory",
+    #     s3_storage_class: "STANDARD", # accepts STANDARD, STANDARD_IA, ONEZONE_IA, INTELLIGENT_TIERING, GLACIER, DEEP_ARCHIVE, OUTPOSTS, GLACIER_INSTANT_RETRIEVAL
+    #     s3_config: {
+    #       bucket_access_role_arn: "IamRoleArn", # required
+    #     },
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/datasync-2018-11-09/UpdateLocationS3 AWS API Documentation
+    #
+    # @overload update_location_s3(params = {})
+    # @param [Hash] params ({})
+    def update_location_s3(params = {}, options = {})
+      req = build_request(:update_location_s3, params)
+      req.send_request(options)
+    end
+
+    # Modifies the following configuration parameters of the Server Message
+    # Block (SMB) transfer location that you're using with DataSync.
+    #
+    # For more information, see [Configuring DataSync transfers with an SMB
+    # file server][1].
     #
     #
     #
     # [1]: https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html
     #
     # @option params [required, String] :location_arn
-    #   The Amazon Resource Name (ARN) of the SMB location to update.
+    #   Specifies the ARN of the SMB location that you want to update.
     #
     # @option params [String] :subdirectory
-    #   The subdirectory in the SMB file system that is used to read data from
-    #   the SMB source location or write data to the SMB destination. The SMB
-    #   path should be a path that's exported by the SMB server, or a
-    #   subdirectory of that path. The path should be such that it can be
-    #   mounted by other SMB clients in your network.
+    #   Specifies the name of the share exported by your SMB file server where
+    #   DataSync will read or write data. You can include a subdirectory in
+    #   the share path (for example, `/path/to/subdirectory`). Make sure that
+    #   other SMB clients in your network can also mount this path.
     #
-    #   <note markdown="1"> `Subdirectory` must be specified with forward slashes. For example,
-    #   `/path/to/folder`.
+    #   To copy all data in the specified subdirectory, DataSync must be able
+    #   to mount the SMB share and access all of its data. For more
+    #   information, see [Providing DataSync access to SMB file servers][1].
     #
-    #    </note>
     #
-    #   To transfer all the data in the folder that you specified, DataSync
-    #   must have permissions to mount the SMB share and to access all the
-    #   data in that share. To ensure this, do either of the following:
     #
-    #   * Ensure that the user/password specified belongs to the user who can
-    #     mount the share and who has the appropriate permissions for all of
-    #     the files and directories that you want DataSync to access.
-    #
-    #   * Use credentials of a member of the Backup Operators group to mount
-    #     the share.
-    #
-    #   Doing either of these options enables the agent to access the data.
-    #   For the agent to access directories, you must also enable all execute
-    #   access.
+    #   [1]: https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html#configuring-smb-permissions
     #
     # @option params [String] :user
-    #   The user who can mount the share has the permissions to access files
-    #   and folders in the SMB share.
+    #   Specifies the user name that can mount your SMB file server and has
+    #   permission to access the files and folders involved in your transfer.
+    #   This parameter applies only if `AuthenticationType` is set to `NTLM`.
+    #
+    #   For information about choosing a user with the right level of access
+    #   for your transfer, see [Providing DataSync access to SMB file
+    #   servers][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html#configuring-smb-permissions
     #
     # @option params [String] :domain
-    #   The name of the Windows domain that the SMB server belongs to.
+    #   Specifies the Windows domain name that your SMB file server belongs
+    #   to. This parameter applies only if `AuthenticationType` is set to
+    #   `NTLM`.
+    #
+    #   If you have multiple domains in your environment, configuring this
+    #   parameter makes sure that DataSync connects to the right file server.
     #
     # @option params [String] :password
-    #   The password of the user who can mount the share has the permissions
-    #   to access files and folders in the SMB share.
+    #   Specifies the password of the user who can mount your SMB file server
+    #   and has permission to access the files and folders involved in your
+    #   transfer. This parameter applies only if `AuthenticationType` is set
+    #   to `NTLM`.
     #
     # @option params [Array<String>] :agent_arns
-    #   The Amazon Resource Names (ARNs) of agents to use for a Simple Message
-    #   Block (SMB) location.
+    #   Specifies the DataSync agent (or agents) that can connect to your SMB
+    #   file server. You specify an agent by using its Amazon Resource Name
+    #   (ARN).
     #
     # @option params [Types::SmbMountOptions] :mount_options
     #   Specifies the version of the Server Message Block (SMB) protocol that
     #   DataSync uses to access an SMB file server.
+    #
+    # @option params [String] :authentication_type
+    #   Specifies the authentication protocol that DataSync uses to connect to
+    #   your SMB file server. DataSync supports `NTLM` (default) and
+    #   `KERBEROS` authentication.
+    #
+    # @option params [Array<String>] :dns_ip_addresses
+    #   Specifies the IPv4 addresses for the DNS servers that your SMB file
+    #   server belongs to. This parameter applies only if `AuthenticationType`
+    #   is set to `KERBEROS`.
+    #
+    #   If you have multiple domains in your environment, configuring this
+    #   parameter makes sure that DataSync connects to the right SMB file
+    #   server.
+    #
+    # @option params [String] :kerberos_principal
+    #   Specifies a Kerberos prinicpal, which is an identity in your Kerberos
+    #   realm that has permission to access the files, folders, and file
+    #   metadata in your SMB file server.
+    #
+    #   A Kerberos principal might look like `HOST/kerberosuser@EXAMPLE.COM`.
+    #
+    #   Principal names are case sensitive. Your DataSync task execution will
+    #   fail if the principal that you specify for this parameter doesn’t
+    #   exactly match the principal that you use to create the keytab file.
+    #
+    # @option params [String, StringIO, File] :kerberos_keytab
+    #   Specifies your Kerberos key table (keytab) file, which includes
+    #   mappings between your Kerberos principal and encryption keys.
+    #
+    #   The file must be base64 encoded. If you're using the CLI, the
+    #   encoding is done for you.
+    #
+    #   To avoid task execution errors, make sure that the Kerberos principal
+    #   that you use to create the keytab file matches exactly what you
+    #   specify for `KerberosPrincipal`.
+    #
+    # @option params [String, StringIO, File] :kerberos_krb_5_conf
+    #   Specifies a Kerberos configuration file (`krb5.conf`) that defines
+    #   your Kerberos realm configuration.
+    #
+    #   The file must be base64 encoded. If you're using the CLI, the
+    #   encoding is done for you.
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
@@ -3080,6 +4985,11 @@ module Aws::DataSync
     #     mount_options: {
     #       version: "AUTOMATIC", # accepts AUTOMATIC, SMB2, SMB3, SMB1, SMB2_0
     #     },
+    #     authentication_type: "NTLM", # accepts NTLM, KERBEROS
+    #     dns_ip_addresses: ["ServerIpAddress"],
+    #     kerberos_principal: "KerberosPrincipal",
+    #     kerberos_keytab: "data",
+    #     kerberos_krb_5_conf: "data",
     #   })
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/datasync-2018-11-09/UpdateLocationSmb AWS API Documentation
@@ -3091,57 +5001,165 @@ module Aws::DataSync
       req.send_request(options)
     end
 
-    # Updates the metadata associated with a task.
+    # Modifies some configurations of an on-premises storage system resource
+    # that you're using with DataSync Discovery.
+    #
+    # @option params [required, String] :storage_system_arn
+    #   Specifies the ARN of the on-premises storage system that you want
+    #   reconfigure.
+    #
+    # @option params [Types::DiscoveryServerConfiguration] :server_configuration
+    #   Specifies the server name and network port required to connect with
+    #   your on-premises storage system's management interface.
+    #
+    # @option params [Array<String>] :agent_arns
+    #   Specifies the Amazon Resource Name (ARN) of the DataSync agent that
+    #   connects to and reads your on-premises storage system. You can only
+    #   specify one ARN.
+    #
+    # @option params [String] :name
+    #   Specifies a familiar name for your on-premises storage system.
+    #
+    # @option params [String] :cloud_watch_log_group_arn
+    #   Specifies the ARN of the Amazon CloudWatch log group for monitoring
+    #   and logging discovery job events.
+    #
+    # @option params [Types::Credentials] :credentials
+    #   Specifies the user name and password for accessing your on-premises
+    #   storage system's management interface.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_storage_system({
+    #     storage_system_arn: "StorageSystemArn", # required
+    #     server_configuration: {
+    #       server_hostname: "DiscoveryServerHostname", # required
+    #       server_port: 1,
+    #     },
+    #     agent_arns: ["AgentArn"],
+    #     name: "Name",
+    #     cloud_watch_log_group_arn: "LogGroupArn",
+    #     credentials: {
+    #       username: "PtolemyUsername", # required
+    #       password: "PtolemyPassword", # required
+    #     },
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/datasync-2018-11-09/UpdateStorageSystem AWS API Documentation
+    #
+    # @overload update_storage_system(params = {})
+    # @param [Hash] params ({})
+    def update_storage_system(params = {}, options = {})
+      req = build_request(:update_storage_system, params)
+      req.send_request(options)
+    end
+
+    # Updates the configuration of a *task*, which defines where and how
+    # DataSync transfers your data.
     #
     # @option params [required, String] :task_arn
-    #   The Amazon Resource Name (ARN) of the resource name of the task to
-    #   update.
+    #   Specifies the ARN of the task that you want to update.
     #
     # @option params [Types::Options] :options
-    #   Configures your DataSync task settings. These options include how
-    #   DataSync handles files, objects, and their associated metadata. You
-    #   also can specify how DataSync verifies data integrity, set bandwidth
-    #   limits for your task, among other options.
+    #   Indicates how your transfer task is configured. These options include
+    #   how DataSync handles files, objects, and their associated metadata
+    #   during your transfer. You also can specify how to verify data
+    #   integrity, set bandwidth limits for your task, among other options.
     #
-    #   Each task setting has a default value. Unless you need to, you don't
-    #   have to configure any of these `Options` before starting your task.
+    #   Each option has a default value. Unless you need to, you don't have
+    #   to configure any option before calling [StartTaskExecution][1].
+    #
+    #   You also can override your task options for each task execution. For
+    #   example, you might want to adjust the `LogLevel` for an individual
+    #   execution.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/datasync/latest/userguide/API_StartTaskExecution.html
     #
     # @option params [Array<Types::FilterRule>] :excludes
-    #   Specifies a list of filter rules that exclude specific data during
-    #   your transfer. For more information and examples, see [Filtering data
-    #   transferred by DataSync][1].
+    #   Specifies exclude filters that define the files, objects, and folders
+    #   in your source location that you don't want DataSync to transfer. For
+    #   more information and examples, see [Specifying what DataSync transfers
+    #   by using filters][1].
     #
     #
     #
     #   [1]: https://docs.aws.amazon.com/datasync/latest/userguide/filtering.html
     #
     # @option params [Types::TaskSchedule] :schedule
-    #   Specifies a schedule used to periodically transfer files from a source
-    #   to a destination location. You can configure your task to execute
-    #   hourly, daily, weekly or on specific days of the week. You control
-    #   when in the day or hour you want the task to execute. The time you
-    #   specify is UTC time. For more information, see [Scheduling your
-    #   task][1].
+    #   Specifies a schedule for when you want your task to run. For more
+    #   information, see [Scheduling your task][1].
     #
     #
     #
     #   [1]: https://docs.aws.amazon.com/datasync/latest/userguide/task-scheduling.html
     #
     # @option params [String] :name
-    #   The name of the task to update.
+    #   Specifies the name of your task.
     #
     # @option params [String] :cloud_watch_log_group_arn
-    #   The Amazon Resource Name (ARN) of the resource name of the Amazon
-    #   CloudWatch log group.
+    #   Specifies the Amazon Resource Name (ARN) of an Amazon CloudWatch log
+    #   group for monitoring your task.
+    #
+    #   For Enhanced mode tasks, you must use `/aws/datasync` as your log
+    #   group name. For example:
+    #
+    #   `arn:aws:logs:us-east-1:111222333444:log-group:/aws/datasync:*`
+    #
+    #   For more information, see [Monitoring data transfers with CloudWatch
+    #   Logs][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/datasync/latest/userguide/configure-logging.html
     #
     # @option params [Array<Types::FilterRule>] :includes
-    #   Specifies a list of filter rules that include specific data during
-    #   your transfer. For more information and examples, see [Filtering data
-    #   transferred by DataSync][1].
+    #   Specifies include filters define the files, objects, and folders in
+    #   your source location that you want DataSync to transfer. For more
+    #   information and examples, see [Specifying what DataSync transfers by
+    #   using filters][1].
     #
     #
     #
     #   [1]: https://docs.aws.amazon.com/datasync/latest/userguide/filtering.html
+    #
+    # @option params [Types::ManifestConfig] :manifest_config
+    #   Configures a manifest, which is a list of files or objects that you
+    #   want DataSync to transfer. For more information and configuration
+    #   examples, see [Specifying what DataSync transfers by using a
+    #   manifest][1].
+    #
+    #   When using this parameter, your caller identity (the IAM role that
+    #   you're using DataSync with) must have the `iam:PassRole` permission.
+    #   The [AWSDataSyncFullAccess][2] policy includes this permission.
+    #
+    #   To remove a manifest configuration, specify this parameter as empty.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/datasync/latest/userguide/transferring-with-manifest.html
+    #   [2]: https://docs.aws.amazon.com/datasync/latest/userguide/security-iam-awsmanpol.html#security-iam-awsmanpol-awsdatasyncfullaccess
+    #
+    # @option params [Types::TaskReportConfig] :task_report_config
+    #   Specifies how you want to configure a task report, which provides
+    #   detailed information about your DataSync transfer. For more
+    #   information, see [Monitoring your DataSync transfers with task
+    #   reports][1].
+    #
+    #   When using this parameter, your caller identity (the IAM role that
+    #   you're using DataSync with) must have the `iam:PassRole` permission.
+    #   The [AWSDataSyncFullAccess][2] policy includes this permission.
+    #
+    #   To remove a task report configuration, specify this parameter as
+    #   empty.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/datasync/latest/userguide/task-reports.html
+    #   [2]: https://docs.aws.amazon.com/datasync/latest/userguide/security-iam-awsmanpol.html#security-iam-awsmanpol-awsdatasyncfullaccess
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
@@ -3174,6 +5192,7 @@ module Aws::DataSync
     #     ],
     #     schedule: {
     #       schedule_expression: "ScheduleExpressionCron", # required
+    #       status: "ENABLED", # accepts ENABLED, DISABLED
     #     },
     #     name: "TagValue",
     #     cloud_watch_log_group_arn: "LogGroupArn",
@@ -3183,6 +5202,44 @@ module Aws::DataSync
     #         value: "FilterValue",
     #       },
     #     ],
+    #     manifest_config: {
+    #       action: "TRANSFER", # accepts TRANSFER
+    #       format: "CSV", # accepts CSV
+    #       source: {
+    #         s3: { # required
+    #           manifest_object_path: "S3Subdirectory", # required
+    #           bucket_access_role_arn: "IamRoleArn", # required
+    #           s3_bucket_arn: "S3BucketArn", # required
+    #           manifest_object_version_id: "S3ObjectVersionId",
+    #         },
+    #       },
+    #     },
+    #     task_report_config: {
+    #       destination: {
+    #         s3: {
+    #           subdirectory: "S3Subdirectory",
+    #           s3_bucket_arn: "S3BucketArn", # required
+    #           bucket_access_role_arn: "IamRoleArn", # required
+    #         },
+    #       },
+    #       output_type: "SUMMARY_ONLY", # accepts SUMMARY_ONLY, STANDARD
+    #       report_level: "ERRORS_ONLY", # accepts ERRORS_ONLY, SUCCESSES_AND_ERRORS
+    #       object_version_ids: "INCLUDE", # accepts INCLUDE, NONE
+    #       overrides: {
+    #         transferred: {
+    #           report_level: "ERRORS_ONLY", # accepts ERRORS_ONLY, SUCCESSES_AND_ERRORS
+    #         },
+    #         verified: {
+    #           report_level: "ERRORS_ONLY", # accepts ERRORS_ONLY, SUCCESSES_AND_ERRORS
+    #         },
+    #         deleted: {
+    #           report_level: "ERRORS_ONLY", # accepts ERRORS_ONLY, SUCCESSES_AND_ERRORS
+    #         },
+    #         skipped: {
+    #           report_level: "ERRORS_ONLY", # accepts ERRORS_ONLY, SUCCESSES_AND_ERRORS
+    #         },
+    #       },
+    #     },
     #   })
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/datasync-2018-11-09/UpdateTask AWS API Documentation
@@ -3194,33 +5251,34 @@ module Aws::DataSync
       req.send_request(options)
     end
 
-    # Updates execution of a task.
+    # Updates the configuration of a running DataSync task execution.
     #
-    # You can modify bandwidth throttling for a task execution that is
-    # running or queued. For more information, see [Adjusting Bandwidth
-    # Throttling for a Task Execution][1].
-    #
-    # <note markdown="1"> The only `Option` that can be modified by `UpdateTaskExecution` is `
-    # BytesPerSecond `.
+    # <note markdown="1"> Currently, the only `Option` that you can modify with
+    # `UpdateTaskExecution` is ` BytesPerSecond `, which throttles bandwidth
+    # for a running or queued task execution.
     #
     #  </note>
     #
-    #
-    #
-    # [1]: https://docs.aws.amazon.com/datasync/latest/userguide/working-with-task-executions.html#adjust-bandwidth-throttling
-    #
     # @option params [required, String] :task_execution_arn
-    #   The Amazon Resource Name (ARN) of the specific task execution that is
-    #   being updated.
+    #   Specifies the Amazon Resource Name (ARN) of the task execution that
+    #   you're updating.
     #
     # @option params [required, Types::Options] :options
-    #   Configures your DataSync task settings. These options include how
-    #   DataSync handles files, objects, and their associated metadata. You
-    #   also can specify how DataSync verifies data integrity, set bandwidth
-    #   limits for your task, among other options.
+    #   Indicates how your transfer task is configured. These options include
+    #   how DataSync handles files, objects, and their associated metadata
+    #   during your transfer. You also can specify how to verify data
+    #   integrity, set bandwidth limits for your task, among other options.
     #
-    #   Each task setting has a default value. Unless you need to, you don't
-    #   have to configure any of these `Options` before starting your task.
+    #   Each option has a default value. Unless you need to, you don't have
+    #   to configure any option before calling [StartTaskExecution][1].
+    #
+    #   You also can override your task options for each task execution. For
+    #   example, you might want to adjust the `LogLevel` for an individual
+    #   execution.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/datasync/latest/userguide/API_StartTaskExecution.html
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
@@ -3262,14 +5320,19 @@ module Aws::DataSync
     # @api private
     def build_request(operation_name, params = {})
       handlers = @handlers.for(operation_name)
+      tracer = config.telemetry_provider.tracer_provider.tracer(
+        Aws::Telemetry.module_to_tracer_name('Aws::DataSync')
+      )
       context = Seahorse::Client::RequestContext.new(
         operation_name: operation_name,
         operation: config.api.operation(operation_name),
         client: self,
         params: params,
-        config: config)
+        config: config,
+        tracer: tracer
+      )
       context[:gem_name] = 'aws-sdk-datasync'
-      context[:gem_version] = '1.54.0'
+      context[:gem_version] = '1.99.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

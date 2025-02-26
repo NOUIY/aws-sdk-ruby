@@ -5,14 +5,32 @@
     "endpointPrefix":"outposts",
     "jsonVersion":"1.1",
     "protocol":"rest-json",
+    "protocols":["rest-json"],
     "serviceAbbreviation":"Outposts",
     "serviceFullName":"AWS Outposts",
     "serviceId":"Outposts",
     "signatureVersion":"v4",
     "signingName":"outposts",
-    "uid":"outposts-2019-12-03"
+    "uid":"outposts-2019-12-03",
+    "auth":["aws.auth#sigv4"]
   },
   "operations":{
+    "CancelCapacityTask":{
+      "name":"CancelCapacityTask",
+      "http":{
+        "method":"POST",
+        "requestUri":"/outposts/{OutpostId}/capacity/{CapacityTaskId}"
+      },
+      "input":{"shape":"CancelCapacityTaskInput"},
+      "output":{"shape":"CancelCapacityTaskOutput"},
+      "errors":[
+        {"shape":"ValidationException"},
+        {"shape":"AccessDeniedException"},
+        {"shape":"NotFoundException"},
+        {"shape":"ConflictException"},
+        {"shape":"InternalServerException"}
+      ]
+    },
     "CancelOrder":{
       "name":"CancelOrder",
       "http":{
@@ -111,6 +129,21 @@
         {"shape":"InternalServerException"}
       ]
     },
+    "GetCapacityTask":{
+      "name":"GetCapacityTask",
+      "http":{
+        "method":"GET",
+        "requestUri":"/outposts/{OutpostId}/capacity/{CapacityTaskId}"
+      },
+      "input":{"shape":"GetCapacityTaskInput"},
+      "output":{"shape":"GetCapacityTaskOutput"},
+      "errors":[
+        {"shape":"ValidationException"},
+        {"shape":"AccessDeniedException"},
+        {"shape":"NotFoundException"},
+        {"shape":"InternalServerException"}
+      ]
+    },
     "GetCatalogItem":{
       "name":"GetCatalogItem",
       "http":{
@@ -184,6 +217,21 @@
         {"shape":"InternalServerException"}
       ]
     },
+    "GetOutpostSupportedInstanceTypes":{
+      "name":"GetOutpostSupportedInstanceTypes",
+      "http":{
+        "method":"GET",
+        "requestUri":"/outposts/{OutpostId}/supportedInstanceTypes"
+      },
+      "input":{"shape":"GetOutpostSupportedInstanceTypesInput"},
+      "output":{"shape":"GetOutpostSupportedInstanceTypesOutput"},
+      "errors":[
+        {"shape":"ValidationException"},
+        {"shape":"AccessDeniedException"},
+        {"shape":"NotFoundException"},
+        {"shape":"InternalServerException"}
+      ]
+    },
     "GetSite":{
       "name":"GetSite",
       "http":{
@@ -214,6 +262,21 @@
         {"shape":"InternalServerException"}
       ]
     },
+    "ListAssetInstances":{
+      "name":"ListAssetInstances",
+      "http":{
+        "method":"GET",
+        "requestUri":"/outposts/{OutpostId}/assetInstances"
+      },
+      "input":{"shape":"ListAssetInstancesInput"},
+      "output":{"shape":"ListAssetInstancesOutput"},
+      "errors":[
+        {"shape":"ValidationException"},
+        {"shape":"AccessDeniedException"},
+        {"shape":"NotFoundException"},
+        {"shape":"InternalServerException"}
+      ]
+    },
     "ListAssets":{
       "name":"ListAssets",
       "http":{
@@ -222,6 +285,36 @@
       },
       "input":{"shape":"ListAssetsInput"},
       "output":{"shape":"ListAssetsOutput"},
+      "errors":[
+        {"shape":"ValidationException"},
+        {"shape":"AccessDeniedException"},
+        {"shape":"NotFoundException"},
+        {"shape":"InternalServerException"}
+      ]
+    },
+    "ListBlockingInstancesForCapacityTask":{
+      "name":"ListBlockingInstancesForCapacityTask",
+      "http":{
+        "method":"GET",
+        "requestUri":"/outposts/{OutpostId}/capacity/{CapacityTaskId}/blockingInstances"
+      },
+      "input":{"shape":"ListBlockingInstancesForCapacityTaskInput"},
+      "output":{"shape":"ListBlockingInstancesForCapacityTaskOutput"},
+      "errors":[
+        {"shape":"ValidationException"},
+        {"shape":"AccessDeniedException"},
+        {"shape":"NotFoundException"},
+        {"shape":"InternalServerException"}
+      ]
+    },
+    "ListCapacityTasks":{
+      "name":"ListCapacityTasks",
+      "http":{
+        "method":"GET",
+        "requestUri":"/capacity/tasks"
+      },
+      "input":{"shape":"ListCapacityTasksInput"},
+      "output":{"shape":"ListCapacityTasksOutput"},
       "errors":[
         {"shape":"ValidationException"},
         {"shape":"AccessDeniedException"},
@@ -298,6 +391,22 @@
         {"shape":"InternalServerException"},
         {"shape":"ValidationException"},
         {"shape":"NotFoundException"}
+      ]
+    },
+    "StartCapacityTask":{
+      "name":"StartCapacityTask",
+      "http":{
+        "method":"POST",
+        "requestUri":"/outposts/{OutpostId}/capacity"
+      },
+      "input":{"shape":"StartCapacityTaskInput"},
+      "output":{"shape":"StartCapacityTaskOutput"},
+      "errors":[
+        {"shape":"ValidationException"},
+        {"shape":"AccessDeniedException"},
+        {"shape":"NotFoundException"},
+        {"shape":"InternalServerException"},
+        {"shape":"ConflictException"}
       ]
     },
     "StartConnection":{
@@ -409,6 +518,21 @@
     }
   },
   "shapes":{
+    "AWSServiceName":{
+      "type":"string",
+      "enum":[
+        "AWS",
+        "EC2",
+        "ELASTICACHE",
+        "ELB",
+        "RDS",
+        "ROUTE53"
+      ]
+    },
+    "AWSServiceNameList":{
+      "type":"list",
+      "member":{"shape":"AWSServiceName"}
+    },
     "AccessDeniedException":{
       "type":"structure",
       "members":{
@@ -422,6 +546,10 @@
       "max":12,
       "min":12,
       "pattern":"\\d{12}"
+    },
+    "AccountIdList":{
+      "type":"list",
+      "member":{"shape":"AccountId"}
     },
     "Address":{
       "type":"structure",
@@ -482,6 +610,10 @@
       "min":1,
       "pattern":"^(\\w+)$"
     },
+    "AssetIdList":{
+      "type":"list",
+      "member":{"shape":"AssetId"}
+    },
     "AssetInfo":{
       "type":"structure",
       "members":{
@@ -490,6 +622,35 @@
         "AssetType":{"shape":"AssetType"},
         "ComputeAttributes":{"shape":"ComputeAttributes"},
         "AssetLocation":{"shape":"AssetLocation"}
+      }
+    },
+    "AssetInstance":{
+      "type":"structure",
+      "members":{
+        "InstanceId":{"shape":"InstanceId"},
+        "InstanceType":{"shape":"OutpostInstanceType"},
+        "AssetId":{"shape":"AssetId"},
+        "AccountId":{"shape":"AccountId"},
+        "AwsServiceName":{"shape":"AWSServiceName"}
+      }
+    },
+    "AssetInstanceCapacityList":{
+      "type":"list",
+      "member":{"shape":"AssetInstanceTypeCapacity"}
+    },
+    "AssetInstanceList":{
+      "type":"list",
+      "member":{"shape":"AssetInstance"}
+    },
+    "AssetInstanceTypeCapacity":{
+      "type":"structure",
+      "required":[
+        "InstanceType",
+        "Count"
+      ],
+      "members":{
+        "InstanceType":{"shape":"InstanceTypeName"},
+        "Count":{"shape":"InstanceTypeCount"}
       }
     },
     "AssetListDefinition":{
@@ -506,7 +667,8 @@
       "type":"string",
       "enum":[
         "ACTIVE",
-        "RETIRING"
+        "RETIRING",
+        "ISOLATED"
       ]
     },
     "AssetType":{
@@ -537,6 +699,18 @@
       "max":5,
       "min":1
     },
+    "BlockingInstance":{
+      "type":"structure",
+      "members":{
+        "InstanceId":{"shape":"InstanceId"},
+        "AccountId":{"shape":"AccountId"},
+        "AwsServiceName":{"shape":"AWSServiceName"}
+      }
+    },
+    "BlockingInstancesList":{
+      "type":"list",
+      "member":{"shape":"BlockingInstance"}
+    },
     "CIDR":{
       "type":"string",
       "max":18,
@@ -546,6 +720,30 @@
     "CIDRList":{
       "type":"list",
       "member":{"shape":"CIDR"}
+    },
+    "CancelCapacityTaskInput":{
+      "type":"structure",
+      "required":[
+        "CapacityTaskId",
+        "OutpostIdentifier"
+      ],
+      "members":{
+        "CapacityTaskId":{
+          "shape":"CapacityTaskId",
+          "location":"uri",
+          "locationName":"CapacityTaskId"
+        },
+        "OutpostIdentifier":{
+          "shape":"OutpostIdentifier",
+          "location":"uri",
+          "locationName":"OutpostId"
+        }
+      }
+    },
+    "CancelCapacityTaskOutput":{
+      "type":"structure",
+      "members":{
+      }
     },
     "CancelOrderInput":{
       "type":"structure",
@@ -561,6 +759,66 @@
     "CancelOrderOutput":{
       "type":"structure",
       "members":{
+      }
+    },
+    "CapacityTaskFailure":{
+      "type":"structure",
+      "required":["Reason"],
+      "members":{
+        "Reason":{"shape":"CapacityTaskStatusReason"},
+        "Type":{"shape":"CapacityTaskFailureType"}
+      }
+    },
+    "CapacityTaskFailureType":{
+      "type":"string",
+      "enum":[
+        "UNSUPPORTED_CAPACITY_CONFIGURATION",
+        "UNEXPECTED_ASSET_STATE",
+        "BLOCKING_INSTANCES_NOT_EVACUATED",
+        "INTERNAL_SERVER_ERROR",
+        "RESOURCE_NOT_FOUND"
+      ]
+    },
+    "CapacityTaskId":{
+      "type":"string",
+      "max":21,
+      "min":21,
+      "pattern":"^cap-[a-f0-9]{17}$"
+    },
+    "CapacityTaskList":{
+      "type":"list",
+      "member":{"shape":"CapacityTaskSummary"}
+    },
+    "CapacityTaskStatus":{
+      "type":"string",
+      "enum":[
+        "REQUESTED",
+        "IN_PROGRESS",
+        "FAILED",
+        "COMPLETED",
+        "WAITING_FOR_EVACUATION",
+        "CANCELLATION_IN_PROGRESS",
+        "CANCELLED"
+      ]
+    },
+    "CapacityTaskStatusList":{
+      "type":"list",
+      "member":{"shape":"CapacityTaskStatus"}
+    },
+    "CapacityTaskStatusReason":{
+      "type":"string",
+      "max":128
+    },
+    "CapacityTaskSummary":{
+      "type":"structure",
+      "members":{
+        "CapacityTaskId":{"shape":"CapacityTaskId"},
+        "OutpostId":{"shape":"OutpostId"},
+        "OrderId":{"shape":"OrderId"},
+        "CapacityTaskStatus":{"shape":"CapacityTaskStatus"},
+        "CreationDate":{"shape":"ISO8601Timestamp"},
+        "CompletionDate":{"shape":"ISO8601Timestamp"},
+        "LastModifiedDate":{"shape":"ISO8601Timestamp"}
       }
     },
     "CatalogItem":{
@@ -627,7 +885,10 @@
       "type":"structure",
       "members":{
         "HostId":{"shape":"HostId"},
-        "State":{"shape":"ComputeAssetState"}
+        "State":{"shape":"ComputeAssetState"},
+        "InstanceFamilies":{"shape":"InstanceFamilies"},
+        "InstanceTypeCapacities":{"shape":"AssetInstanceCapacityList"},
+        "MaxVcpus":{"shape":"VCPUCount"}
       }
     },
     "ConflictException":{
@@ -784,6 +1045,7 @@
       "min":1,
       "pattern":"^\\S[\\S ]*"
     },
+    "DryRun":{"type":"boolean"},
     "EC2Capacity":{
       "type":"structure",
       "members":{
@@ -818,6 +1080,42 @@
         "SINGLE_MODE",
         "MULTI_MODE"
       ]
+    },
+    "GetCapacityTaskInput":{
+      "type":"structure",
+      "required":[
+        "CapacityTaskId",
+        "OutpostIdentifier"
+      ],
+      "members":{
+        "CapacityTaskId":{
+          "shape":"CapacityTaskId",
+          "location":"uri",
+          "locationName":"CapacityTaskId"
+        },
+        "OutpostIdentifier":{
+          "shape":"OutpostIdentifier",
+          "location":"uri",
+          "locationName":"OutpostId"
+        }
+      }
+    },
+    "GetCapacityTaskOutput":{
+      "type":"structure",
+      "members":{
+        "CapacityTaskId":{"shape":"CapacityTaskId"},
+        "OutpostId":{"shape":"OutpostId"},
+        "OrderId":{"shape":"OrderId"},
+        "RequestedInstancePools":{"shape":"RequestedInstancePools"},
+        "InstancesToExclude":{"shape":"InstancesToExclude"},
+        "DryRun":{"shape":"DryRun"},
+        "CapacityTaskStatus":{"shape":"CapacityTaskStatus"},
+        "Failed":{"shape":"CapacityTaskFailure"},
+        "CreationDate":{"shape":"ISO8601Timestamp"},
+        "CompletionDate":{"shape":"ISO8601Timestamp"},
+        "LastModifiedDate":{"shape":"ISO8601Timestamp"},
+        "TaskActionOnBlockingInstances":{"shape":"TaskActionOnBlockingInstances"}
+      }
     },
     "GetCatalogItemInput":{
       "type":"structure",
@@ -918,6 +1216,39 @@
         "Outpost":{"shape":"Outpost"}
       }
     },
+    "GetOutpostSupportedInstanceTypesInput":{
+      "type":"structure",
+      "required":["OutpostIdentifier"],
+      "members":{
+        "OutpostIdentifier":{
+          "shape":"OutpostIdentifier",
+          "location":"uri",
+          "locationName":"OutpostId"
+        },
+        "OrderId":{
+          "shape":"OrderId",
+          "location":"querystring",
+          "locationName":"OrderId"
+        },
+        "MaxResults":{
+          "shape":"MaxResults1000",
+          "location":"querystring",
+          "locationName":"MaxResults"
+        },
+        "NextToken":{
+          "shape":"Token",
+          "location":"querystring",
+          "locationName":"NextToken"
+        }
+      }
+    },
+    "GetOutpostSupportedInstanceTypesOutput":{
+      "type":"structure",
+      "members":{
+        "InstanceTypes":{"shape":"InstanceTypeListDefinition"},
+        "NextToken":{"shape":"Token"}
+      }
+    },
     "GetSiteAddressInput":{
       "type":"structure",
       "required":[
@@ -973,16 +1304,67 @@
       "member":{"shape":"HostId"}
     },
     "ISO8601Timestamp":{"type":"timestamp"},
+    "InstanceFamilies":{
+      "type":"list",
+      "member":{"shape":"InstanceFamilyName"}
+    },
+    "InstanceFamilyName":{
+      "type":"string",
+      "max":200,
+      "min":1,
+      "pattern":"^(?:.{1,200}/)?(?:[a-z0-9-_A-Z])+$"
+    },
+    "InstanceId":{
+      "type":"string",
+      "max":32,
+      "min":11,
+      "pattern":"^i-[0-9a-z]+$"
+    },
+    "InstanceIdList":{
+      "type":"list",
+      "member":{"shape":"InstanceId"}
+    },
     "InstanceType":{"type":"string"},
+    "InstanceTypeCapacity":{
+      "type":"structure",
+      "required":[
+        "InstanceType",
+        "Count"
+      ],
+      "members":{
+        "InstanceType":{"shape":"InstanceTypeName"},
+        "Count":{"shape":"InstanceTypeCount"}
+      }
+    },
+    "InstanceTypeCount":{
+      "type":"integer",
+      "max":9999,
+      "min":0
+    },
     "InstanceTypeItem":{
       "type":"structure",
       "members":{
-        "InstanceType":{"shape":"InstanceType"}
+        "InstanceType":{"shape":"InstanceType"},
+        "VCPUs":{"shape":"VCPUCount"}
       }
     },
     "InstanceTypeListDefinition":{
       "type":"list",
       "member":{"shape":"InstanceTypeItem"}
+    },
+    "InstanceTypeName":{
+      "type":"string",
+      "max":64,
+      "min":1,
+      "pattern":"^[a-z0-9\\-]+\\.[a-z0-9\\-]+$"
+    },
+    "InstancesToExclude":{
+      "type":"structure",
+      "members":{
+        "Instances":{"shape":"InstanceIdList"},
+        "AccountIds":{"shape":"AccountIdList"},
+        "Services":{"shape":"AWSServiceNameList"}
+      }
     },
     "InternalServerException":{
       "type":"structure",
@@ -1038,7 +1420,6 @@
     },
     "LineItemQuantity":{
       "type":"integer",
-      "max":20,
       "min":1
     },
     "LineItemRequest":{
@@ -1072,6 +1453,54 @@
       "type":"map",
       "key":{"shape":"LineItemStatus"},
       "value":{"shape":"LineItemQuantity"}
+    },
+    "ListAssetInstancesInput":{
+      "type":"structure",
+      "required":["OutpostIdentifier"],
+      "members":{
+        "OutpostIdentifier":{
+          "shape":"OutpostIdentifier",
+          "location":"uri",
+          "locationName":"OutpostId"
+        },
+        "AssetIdFilter":{
+          "shape":"AssetIdList",
+          "location":"querystring",
+          "locationName":"AssetIdFilter"
+        },
+        "InstanceTypeFilter":{
+          "shape":"OutpostInstanceTypeList",
+          "location":"querystring",
+          "locationName":"InstanceTypeFilter"
+        },
+        "AccountIdFilter":{
+          "shape":"AccountIdList",
+          "location":"querystring",
+          "locationName":"AccountIdFilter"
+        },
+        "AwsServiceFilter":{
+          "shape":"AWSServiceNameList",
+          "location":"querystring",
+          "locationName":"AwsServiceFilter"
+        },
+        "MaxResults":{
+          "shape":"MaxResults1000",
+          "location":"querystring",
+          "locationName":"MaxResults"
+        },
+        "NextToken":{
+          "shape":"Token",
+          "location":"querystring",
+          "locationName":"NextToken"
+        }
+      }
+    },
+    "ListAssetInstancesOutput":{
+      "type":"structure",
+      "members":{
+        "AssetInstances":{"shape":"AssetInstanceList"},
+        "NextToken":{"shape":"Token"}
+      }
     },
     "ListAssetsInput":{
       "type":"structure",
@@ -1108,6 +1537,74 @@
       "type":"structure",
       "members":{
         "Assets":{"shape":"AssetListDefinition"},
+        "NextToken":{"shape":"Token"}
+      }
+    },
+    "ListBlockingInstancesForCapacityTaskInput":{
+      "type":"structure",
+      "required":[
+        "OutpostIdentifier",
+        "CapacityTaskId"
+      ],
+      "members":{
+        "OutpostIdentifier":{
+          "shape":"OutpostIdentifier",
+          "location":"uri",
+          "locationName":"OutpostId"
+        },
+        "CapacityTaskId":{
+          "shape":"CapacityTaskId",
+          "location":"uri",
+          "locationName":"CapacityTaskId"
+        },
+        "MaxResults":{
+          "shape":"MaxResults1000",
+          "location":"querystring",
+          "locationName":"MaxResults"
+        },
+        "NextToken":{
+          "shape":"Token",
+          "location":"querystring",
+          "locationName":"NextToken"
+        }
+      }
+    },
+    "ListBlockingInstancesForCapacityTaskOutput":{
+      "type":"structure",
+      "members":{
+        "BlockingInstances":{"shape":"BlockingInstancesList"},
+        "NextToken":{"shape":"Token"}
+      }
+    },
+    "ListCapacityTasksInput":{
+      "type":"structure",
+      "members":{
+        "OutpostIdentifierFilter":{
+          "shape":"OutpostIdentifier",
+          "location":"querystring",
+          "locationName":"OutpostIdentifierFilter"
+        },
+        "MaxResults":{
+          "shape":"MaxResults1000",
+          "location":"querystring",
+          "locationName":"MaxResults"
+        },
+        "NextToken":{
+          "shape":"Token",
+          "location":"querystring",
+          "locationName":"NextToken"
+        },
+        "CapacityTaskStatusFilter":{
+          "shape":"CapacityTaskStatusList",
+          "location":"querystring",
+          "locationName":"CapacityTaskStatusFilter"
+        }
+      }
+    },
+    "ListCapacityTasksOutput":{
+      "type":"structure",
+      "members":{
+        "CapacityTasks":{"shape":"CapacityTaskList"},
         "NextToken":{"shape":"Token"}
       }
     },
@@ -1361,6 +1858,7 @@
         "CANCELLED",
         "PREPARING",
         "IN_PROGRESS",
+        "DELIVERED",
         "COMPLETED",
         "ERROR"
       ]
@@ -1435,6 +1933,16 @@
       "min":1,
       "pattern":"^(arn:aws([a-z-]+)?:outposts:[a-z\\d-]+:\\d{12}:outpost/)?op-[a-f0-9]{17}$"
     },
+    "OutpostInstanceType":{
+      "type":"string",
+      "max":30,
+      "min":3,
+      "pattern":"[a-z0-9\\-\\.]+"
+    },
+    "OutpostInstanceTypeList":{
+      "type":"list",
+      "member":{"shape":"OutpostInstanceType"}
+    },
     "OutpostName":{
       "type":"string",
       "max":255,
@@ -1459,7 +1967,8 @@
       "type":"string",
       "enum":[
         "THREE_YEARS",
-        "ONE_YEAR"
+        "ONE_YEAR",
+        "FIVE_YEARS"
       ]
     },
     "PostalCode":{
@@ -1474,7 +1983,8 @@
         "L6_30P",
         "IEC309",
         "AH530P7W",
-        "AH532P6W"
+        "AH532P6W",
+        "CS8365C"
       ]
     },
     "PowerDrawKva":{
@@ -1527,6 +2037,10 @@
         "MaximumSupportedWeightLbs":{"shape":"MaximumSupportedWeightLbs"}
       }
     },
+    "RequestedInstancePools":{
+      "type":"list",
+      "member":{"shape":"InstanceTypeCapacity"}
+    },
     "ResourceType":{
       "type":"string",
       "enum":[
@@ -1554,7 +2068,8 @@
         "DHL",
         "DBS",
         "FEDEX",
-        "UPS"
+        "UPS",
+        "EXPEDITORS"
       ]
     },
     "ShipmentInformation":{
@@ -1616,10 +2131,45 @@
       "min":1,
       "pattern":"OR-[A-Z0-9]{7}"
     },
+    "StartCapacityTaskInput":{
+      "type":"structure",
+      "required":[
+        "OutpostIdentifier",
+        "InstancePools"
+      ],
+      "members":{
+        "OutpostIdentifier":{
+          "shape":"OutpostIdentifier",
+          "location":"uri",
+          "locationName":"OutpostId"
+        },
+        "OrderId":{"shape":"OrderId"},
+        "InstancePools":{"shape":"RequestedInstancePools"},
+        "InstancesToExclude":{"shape":"InstancesToExclude"},
+        "DryRun":{"shape":"DryRun"},
+        "TaskActionOnBlockingInstances":{"shape":"TaskActionOnBlockingInstances"}
+      }
+    },
+    "StartCapacityTaskOutput":{
+      "type":"structure",
+      "members":{
+        "CapacityTaskId":{"shape":"CapacityTaskId"},
+        "OutpostId":{"shape":"OutpostId"},
+        "OrderId":{"shape":"OrderId"},
+        "RequestedInstancePools":{"shape":"RequestedInstancePools"},
+        "InstancesToExclude":{"shape":"InstancesToExclude"},
+        "DryRun":{"shape":"DryRun"},
+        "CapacityTaskStatus":{"shape":"CapacityTaskStatus"},
+        "Failed":{"shape":"CapacityTaskFailure"},
+        "CreationDate":{"shape":"ISO8601Timestamp"},
+        "CompletionDate":{"shape":"ISO8601Timestamp"},
+        "LastModifiedDate":{"shape":"ISO8601Timestamp"},
+        "TaskActionOnBlockingInstances":{"shape":"TaskActionOnBlockingInstances"}
+      }
+    },
     "StartConnectionRequest":{
       "type":"structure",
       "required":[
-        "DeviceSerialNumber",
         "AssetId",
         "ClientPublicKey",
         "NetworkInterfaceDeviceIndex"
@@ -1651,7 +2201,7 @@
     "StatusList":{
       "type":"list",
       "member":{"shape":"AssetState"},
-      "max":2,
+      "max":3,
       "min":1
     },
     "String":{
@@ -1726,6 +2276,13 @@
       "type":"string",
       "max":256,
       "pattern":"^[\\S \\n]+$"
+    },
+    "TaskActionOnBlockingInstances":{
+      "type":"string",
+      "enum":[
+        "WAIT_FOR_EVACUATION",
+        "FAIL_TASK"
+      ]
     },
     "Token":{
       "type":"string",
@@ -1882,6 +2439,10 @@
         "UPLINK_40G",
         "UPLINK_100G"
       ]
+    },
+    "VCPUCount":{
+      "type":"integer",
+      "box":true
     },
     "ValidationException":{
       "type":"structure",

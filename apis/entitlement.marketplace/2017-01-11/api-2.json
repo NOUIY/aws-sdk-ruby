@@ -5,11 +5,14 @@
     "endpointPrefix":"entitlement.marketplace",
     "jsonVersion":"1.1",
     "protocol":"json",
+    "protocols":["json"],
     "serviceFullName":"AWS Marketplace Entitlement Service",
+    "serviceId":"Marketplace Entitlement Service",
     "signatureVersion":"v4",
     "signingName":"aws-marketplace",
     "targetPrefix":"AWSMPEntitlementService",
-    "uid":"entitlement.marketplace-2017-01-11"
+    "uid":"entitlement.marketplace-2017-01-11",
+    "auth":["aws.auth#sigv4"]
   },
   "operations":{
     "GetEntitlements":{
@@ -80,7 +83,7 @@
         "ProductCode":{"shape":"ProductCode"},
         "Filter":{"shape":"GetEntitlementFilters"},
         "NextToken":{"shape":"NonEmptyString"},
-        "MaxResults":{"shape":"Integer"}
+        "MaxResults":{"shape":"PageSizeInteger"}
       }
     },
     "GetEntitlementsResult":{
@@ -109,6 +112,11 @@
     "NonEmptyString":{
       "type":"string",
       "pattern":"\\S+"
+    },
+    "PageSizeInteger":{
+      "type":"integer",
+      "max":25,
+      "min":1
     },
     "ProductCode":{
       "type":"string",

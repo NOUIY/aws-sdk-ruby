@@ -7,12 +7,14 @@
 #
 # WARNING ABOUT GENERATED CODE
 
+
 module Aws::DynamoDB
   # @api private
   module ClientApi
 
     include Seahorse::Model
 
+    ApproximateCreationDateTimePrecision = Shapes::StringShape.new(name: 'ApproximateCreationDateTimePrecision')
     ArchivalReason = Shapes::StringShape.new(name: 'ArchivalReason')
     ArchivalSummary = Shapes::StructureShape.new(name: 'ArchivalSummary')
     AttributeAction = Shapes::StringShape.new(name: 'AttributeAction')
@@ -82,6 +84,7 @@ module Aws::DynamoDB
     ConditionExpression = Shapes::StringShape.new(name: 'ConditionExpression')
     ConditionalCheckFailedException = Shapes::StructureShape.new(name: 'ConditionalCheckFailedException')
     ConditionalOperator = Shapes::StringShape.new(name: 'ConditionalOperator')
+    ConfirmRemoveSelfResourceAccess = Shapes::BooleanShape.new(name: 'ConfirmRemoveSelfResourceAccess')
     ConsistentRead = Shapes::BooleanShape.new(name: 'ConsistentRead')
     ConsumedCapacity = Shapes::StructureShape.new(name: 'ConsumedCapacity')
     ConsumedCapacityMultiple = Shapes::ListShape.new(name: 'ConsumedCapacityMultiple')
@@ -118,8 +121,11 @@ module Aws::DynamoDB
     DeleteReplicaAction = Shapes::StructureShape.new(name: 'DeleteReplicaAction')
     DeleteReplicationGroupMemberAction = Shapes::StructureShape.new(name: 'DeleteReplicationGroupMemberAction')
     DeleteRequest = Shapes::StructureShape.new(name: 'DeleteRequest')
+    DeleteResourcePolicyInput = Shapes::StructureShape.new(name: 'DeleteResourcePolicyInput')
+    DeleteResourcePolicyOutput = Shapes::StructureShape.new(name: 'DeleteResourcePolicyOutput')
     DeleteTableInput = Shapes::StructureShape.new(name: 'DeleteTableInput')
     DeleteTableOutput = Shapes::StructureShape.new(name: 'DeleteTableOutput')
+    DeletionProtectionEnabled = Shapes::BooleanShape.new(name: 'DeletionProtectionEnabled')
     DescribeBackupInput = Shapes::StructureShape.new(name: 'DescribeBackupInput')
     DescribeBackupOutput = Shapes::StructureShape.new(name: 'DescribeBackupOutput')
     DescribeContinuousBackupsInput = Shapes::StructureShape.new(name: 'DescribeContinuousBackupsInput')
@@ -147,8 +153,9 @@ module Aws::DynamoDB
     DescribeTimeToLiveInput = Shapes::StructureShape.new(name: 'DescribeTimeToLiveInput')
     DescribeTimeToLiveOutput = Shapes::StructureShape.new(name: 'DescribeTimeToLiveOutput')
     DestinationStatus = Shapes::StringShape.new(name: 'DestinationStatus')
-    Double = Shapes::FloatShape.new(name: 'Double')
+    DoubleObject = Shapes::FloatShape.new(name: 'DoubleObject')
     DuplicateItemException = Shapes::StructureShape.new(name: 'DuplicateItemException')
+    EnableKinesisStreamingConfiguration = Shapes::StructureShape.new(name: 'EnableKinesisStreamingConfiguration')
     Endpoint = Shapes::StructureShape.new(name: 'Endpoint')
     Endpoints = Shapes::ListShape.new(name: 'Endpoints')
     ErrorCount = Shapes::IntegerShape.new(name: 'ErrorCount')
@@ -166,6 +173,7 @@ module Aws::DynamoDB
     ExportDescription = Shapes::StructureShape.new(name: 'ExportDescription')
     ExportEndTime = Shapes::TimestampShape.new(name: 'ExportEndTime')
     ExportFormat = Shapes::StringShape.new(name: 'ExportFormat')
+    ExportFromTime = Shapes::TimestampShape.new(name: 'ExportFromTime')
     ExportManifest = Shapes::StringShape.new(name: 'ExportManifest')
     ExportNextToken = Shapes::StringShape.new(name: 'ExportNextToken')
     ExportNotFoundException = Shapes::StructureShape.new(name: 'ExportNotFoundException')
@@ -176,6 +184,9 @@ module Aws::DynamoDB
     ExportTableToPointInTimeInput = Shapes::StructureShape.new(name: 'ExportTableToPointInTimeInput')
     ExportTableToPointInTimeOutput = Shapes::StructureShape.new(name: 'ExportTableToPointInTimeOutput')
     ExportTime = Shapes::TimestampShape.new(name: 'ExportTime')
+    ExportToTime = Shapes::TimestampShape.new(name: 'ExportToTime')
+    ExportType = Shapes::StringShape.new(name: 'ExportType')
+    ExportViewType = Shapes::StringShape.new(name: 'ExportViewType')
     ExpressionAttributeNameMap = Shapes::MapShape.new(name: 'ExpressionAttributeNameMap')
     ExpressionAttributeNameVariable = Shapes::StringShape.new(name: 'ExpressionAttributeNameVariable')
     ExpressionAttributeValueMap = Shapes::MapShape.new(name: 'ExpressionAttributeValueMap')
@@ -187,6 +198,8 @@ module Aws::DynamoDB
     Get = Shapes::StructureShape.new(name: 'Get')
     GetItemInput = Shapes::StructureShape.new(name: 'GetItemInput')
     GetItemOutput = Shapes::StructureShape.new(name: 'GetItemOutput')
+    GetResourcePolicyInput = Shapes::StructureShape.new(name: 'GetResourcePolicyInput')
+    GetResourcePolicyOutput = Shapes::StructureShape.new(name: 'GetResourcePolicyOutput')
     GlobalSecondaryIndex = Shapes::StructureShape.new(name: 'GlobalSecondaryIndex')
     GlobalSecondaryIndexAutoScalingUpdate = Shapes::StructureShape.new(name: 'GlobalSecondaryIndexAutoScalingUpdate')
     GlobalSecondaryIndexAutoScalingUpdateList = Shapes::ListShape.new(name: 'GlobalSecondaryIndexAutoScalingUpdateList')
@@ -196,6 +209,7 @@ module Aws::DynamoDB
     GlobalSecondaryIndexList = Shapes::ListShape.new(name: 'GlobalSecondaryIndexList')
     GlobalSecondaryIndexUpdate = Shapes::StructureShape.new(name: 'GlobalSecondaryIndexUpdate')
     GlobalSecondaryIndexUpdateList = Shapes::ListShape.new(name: 'GlobalSecondaryIndexUpdateList')
+    GlobalSecondaryIndexWarmThroughputDescription = Shapes::StructureShape.new(name: 'GlobalSecondaryIndexWarmThroughputDescription')
     GlobalSecondaryIndexes = Shapes::ListShape.new(name: 'GlobalSecondaryIndexes')
     GlobalTable = Shapes::StructureShape.new(name: 'GlobalTable')
     GlobalTableAlreadyExistsException = Shapes::StructureShape.new(name: 'GlobalTableAlreadyExistsException')
@@ -220,6 +234,7 @@ module Aws::DynamoDB
     ImportTableInput = Shapes::StructureShape.new(name: 'ImportTableInput')
     ImportTableOutput = Shapes::StructureShape.new(name: 'ImportTableOutput')
     ImportedItemCount = Shapes::IntegerShape.new(name: 'ImportedItemCount')
+    IncrementalExportSpecification = Shapes::StructureShape.new(name: 'IncrementalExportSpecification')
     IndexName = Shapes::StringShape.new(name: 'IndexName')
     IndexNotFoundException = Shapes::StructureShape.new(name: 'IndexNotFoundException')
     IndexStatus = Shapes::StringShape.new(name: 'IndexStatus')
@@ -285,7 +300,9 @@ module Aws::DynamoDB
     LocalSecondaryIndexList = Shapes::ListShape.new(name: 'LocalSecondaryIndexList')
     LocalSecondaryIndexes = Shapes::ListShape.new(name: 'LocalSecondaryIndexes')
     Long = Shapes::IntegerShape.new(name: 'Long')
+    LongObject = Shapes::IntegerShape.new(name: 'LongObject')
     MapAttributeValue = Shapes::MapShape.new(name: 'MapAttributeValue')
+    MultiRegionConsistency = Shapes::StringShape.new(name: 'MultiRegionConsistency')
     NextTokenString = Shapes::StringShape.new(name: 'NextTokenString')
     NonKeyAttributeName = Shapes::StringShape.new(name: 'NonKeyAttributeName')
     NonKeyAttributeNameList = Shapes::ListShape.new(name: 'NonKeyAttributeNameList')
@@ -293,6 +310,8 @@ module Aws::DynamoDB
     NullAttributeValue = Shapes::BooleanShape.new(name: 'NullAttributeValue')
     NumberAttributeValue = Shapes::StringShape.new(name: 'NumberAttributeValue')
     NumberSetAttributeValue = Shapes::ListShape.new(name: 'NumberSetAttributeValue')
+    OnDemandThroughput = Shapes::StructureShape.new(name: 'OnDemandThroughput')
+    OnDemandThroughputOverride = Shapes::StructureShape.new(name: 'OnDemandThroughputOverride')
     ParameterizedStatement = Shapes::StructureShape.new(name: 'ParameterizedStatement')
     ParameterizedStatements = Shapes::ListShape.new(name: 'ParameterizedStatements')
     PartiQLBatchRequest = Shapes::ListShape.new(name: 'PartiQLBatchRequest')
@@ -303,6 +322,8 @@ module Aws::DynamoDB
     PointInTimeRecoverySpecification = Shapes::StructureShape.new(name: 'PointInTimeRecoverySpecification')
     PointInTimeRecoveryStatus = Shapes::StringShape.new(name: 'PointInTimeRecoveryStatus')
     PointInTimeRecoveryUnavailableException = Shapes::StructureShape.new(name: 'PointInTimeRecoveryUnavailableException')
+    PolicyNotFoundException = Shapes::StructureShape.new(name: 'PolicyNotFoundException')
+    PolicyRevisionId = Shapes::StringShape.new(name: 'PolicyRevisionId')
     PositiveIntegerObject = Shapes::IntegerShape.new(name: 'PositiveIntegerObject')
     PositiveLongObject = Shapes::IntegerShape.new(name: 'PositiveLongObject')
     PreparedStatementParameters = Shapes::ListShape.new(name: 'PreparedStatementParameters')
@@ -319,8 +340,11 @@ module Aws::DynamoDB
     PutItemInputAttributeMap = Shapes::MapShape.new(name: 'PutItemInputAttributeMap')
     PutItemOutput = Shapes::StructureShape.new(name: 'PutItemOutput')
     PutRequest = Shapes::StructureShape.new(name: 'PutRequest')
+    PutResourcePolicyInput = Shapes::StructureShape.new(name: 'PutResourcePolicyInput')
+    PutResourcePolicyOutput = Shapes::StructureShape.new(name: 'PutResourcePolicyOutput')
     QueryInput = Shapes::StructureShape.new(name: 'QueryInput')
     QueryOutput = Shapes::StructureShape.new(name: 'QueryOutput')
+    RecoveryPeriodInDays = Shapes::IntegerShape.new(name: 'RecoveryPeriodInDays')
     RegionName = Shapes::StringShape.new(name: 'RegionName')
     Replica = Shapes::StructureShape.new(name: 'Replica')
     ReplicaAlreadyExistsException = Shapes::StructureShape.new(name: 'ReplicaAlreadyExistsException')
@@ -353,12 +377,14 @@ module Aws::DynamoDB
     ReplicaStatusPercentProgress = Shapes::StringShape.new(name: 'ReplicaStatusPercentProgress')
     ReplicaUpdate = Shapes::StructureShape.new(name: 'ReplicaUpdate')
     ReplicaUpdateList = Shapes::ListShape.new(name: 'ReplicaUpdateList')
+    ReplicatedWriteConflictException = Shapes::StructureShape.new(name: 'ReplicatedWriteConflictException')
     ReplicationGroupUpdate = Shapes::StructureShape.new(name: 'ReplicationGroupUpdate')
     ReplicationGroupUpdateList = Shapes::ListShape.new(name: 'ReplicationGroupUpdateList')
     RequestLimitExceeded = Shapes::StructureShape.new(name: 'RequestLimitExceeded')
     ResourceArnString = Shapes::StringShape.new(name: 'ResourceArnString')
     ResourceInUseException = Shapes::StructureShape.new(name: 'ResourceInUseException')
     ResourceNotFoundException = Shapes::StructureShape.new(name: 'ResourceNotFoundException')
+    ResourcePolicy = Shapes::StringShape.new(name: 'ResourcePolicy')
     RestoreInProgress = Shapes::BooleanShape.new(name: 'RestoreInProgress')
     RestoreSummary = Shapes::StructureShape.new(name: 'RestoreSummary')
     RestoreTableFromBackupInput = Shapes::StructureShape.new(name: 'RestoreTableFromBackupInput')
@@ -410,6 +436,7 @@ module Aws::DynamoDB
     TableNameList = Shapes::ListShape.new(name: 'TableNameList')
     TableNotFoundException = Shapes::StructureShape.new(name: 'TableNotFoundException')
     TableStatus = Shapes::StringShape.new(name: 'TableStatus')
+    TableWarmThroughputDescription = Shapes::StructureShape.new(name: 'TableWarmThroughputDescription')
     Tag = Shapes::StructureShape.new(name: 'Tag')
     TagKeyList = Shapes::ListShape.new(name: 'TagKeyList')
     TagKeyString = Shapes::StringShape.new(name: 'TagKeyString')
@@ -448,6 +475,9 @@ module Aws::DynamoDB
     UpdateGlobalTableSettingsOutput = Shapes::StructureShape.new(name: 'UpdateGlobalTableSettingsOutput')
     UpdateItemInput = Shapes::StructureShape.new(name: 'UpdateItemInput')
     UpdateItemOutput = Shapes::StructureShape.new(name: 'UpdateItemOutput')
+    UpdateKinesisStreamingConfiguration = Shapes::StructureShape.new(name: 'UpdateKinesisStreamingConfiguration')
+    UpdateKinesisStreamingDestinationInput = Shapes::StructureShape.new(name: 'UpdateKinesisStreamingDestinationInput')
+    UpdateKinesisStreamingDestinationOutput = Shapes::StructureShape.new(name: 'UpdateKinesisStreamingDestinationOutput')
     UpdateReplicationGroupMemberAction = Shapes::StructureShape.new(name: 'UpdateReplicationGroupMemberAction')
     UpdateTableInput = Shapes::StructureShape.new(name: 'UpdateTableInput')
     UpdateTableOutput = Shapes::StructureShape.new(name: 'UpdateTableOutput')
@@ -455,6 +485,7 @@ module Aws::DynamoDB
     UpdateTableReplicaAutoScalingOutput = Shapes::StructureShape.new(name: 'UpdateTableReplicaAutoScalingOutput')
     UpdateTimeToLiveInput = Shapes::StructureShape.new(name: 'UpdateTimeToLiveInput')
     UpdateTimeToLiveOutput = Shapes::StructureShape.new(name: 'UpdateTimeToLiveOutput')
+    WarmThroughput = Shapes::StructureShape.new(name: 'WarmThroughput')
     WriteRequest = Shapes::StructureShape.new(name: 'WriteRequest')
     WriteRequests = Shapes::ListShape.new(name: 'WriteRequests')
 
@@ -522,13 +553,13 @@ module Aws::DynamoDB
     AutoScalingTargetTrackingScalingPolicyConfigurationDescription.add_member(:disable_scale_in, Shapes::ShapeRef.new(shape: BooleanObject, location_name: "DisableScaleIn"))
     AutoScalingTargetTrackingScalingPolicyConfigurationDescription.add_member(:scale_in_cooldown, Shapes::ShapeRef.new(shape: IntegerObject, location_name: "ScaleInCooldown"))
     AutoScalingTargetTrackingScalingPolicyConfigurationDescription.add_member(:scale_out_cooldown, Shapes::ShapeRef.new(shape: IntegerObject, location_name: "ScaleOutCooldown"))
-    AutoScalingTargetTrackingScalingPolicyConfigurationDescription.add_member(:target_value, Shapes::ShapeRef.new(shape: Double, required: true, location_name: "TargetValue"))
+    AutoScalingTargetTrackingScalingPolicyConfigurationDescription.add_member(:target_value, Shapes::ShapeRef.new(shape: DoubleObject, required: true, location_name: "TargetValue"))
     AutoScalingTargetTrackingScalingPolicyConfigurationDescription.struct_class = Types::AutoScalingTargetTrackingScalingPolicyConfigurationDescription
 
     AutoScalingTargetTrackingScalingPolicyConfigurationUpdate.add_member(:disable_scale_in, Shapes::ShapeRef.new(shape: BooleanObject, location_name: "DisableScaleIn"))
     AutoScalingTargetTrackingScalingPolicyConfigurationUpdate.add_member(:scale_in_cooldown, Shapes::ShapeRef.new(shape: IntegerObject, location_name: "ScaleInCooldown"))
     AutoScalingTargetTrackingScalingPolicyConfigurationUpdate.add_member(:scale_out_cooldown, Shapes::ShapeRef.new(shape: IntegerObject, location_name: "ScaleOutCooldown"))
-    AutoScalingTargetTrackingScalingPolicyConfigurationUpdate.add_member(:target_value, Shapes::ShapeRef.new(shape: Double, required: true, location_name: "TargetValue"))
+    AutoScalingTargetTrackingScalingPolicyConfigurationUpdate.add_member(:target_value, Shapes::ShapeRef.new(shape: DoubleObject, required: true, location_name: "TargetValue"))
     AutoScalingTargetTrackingScalingPolicyConfigurationUpdate.struct_class = Types::AutoScalingTargetTrackingScalingPolicyConfigurationUpdate
 
     BackupDescription.add_member(:backup_details, Shapes::ShapeRef.new(shape: BackupDetails, location_name: "BackupDetails"))
@@ -582,19 +613,21 @@ module Aws::DynamoDB
     BatchGetItemOutput.add_member(:consumed_capacity, Shapes::ShapeRef.new(shape: ConsumedCapacityMultiple, location_name: "ConsumedCapacity"))
     BatchGetItemOutput.struct_class = Types::BatchGetItemOutput
 
-    BatchGetRequestMap.key = Shapes::ShapeRef.new(shape: TableName)
+    BatchGetRequestMap.key = Shapes::ShapeRef.new(shape: TableArn)
     BatchGetRequestMap.value = Shapes::ShapeRef.new(shape: KeysAndAttributes)
 
-    BatchGetResponseMap.key = Shapes::ShapeRef.new(shape: TableName)
+    BatchGetResponseMap.key = Shapes::ShapeRef.new(shape: TableArn)
     BatchGetResponseMap.value = Shapes::ShapeRef.new(shape: ItemList)
 
     BatchStatementError.add_member(:code, Shapes::ShapeRef.new(shape: BatchStatementErrorCodeEnum, location_name: "Code"))
     BatchStatementError.add_member(:message, Shapes::ShapeRef.new(shape: String, location_name: "Message"))
+    BatchStatementError.add_member(:item, Shapes::ShapeRef.new(shape: AttributeMap, location_name: "Item"))
     BatchStatementError.struct_class = Types::BatchStatementError
 
     BatchStatementRequest.add_member(:statement, Shapes::ShapeRef.new(shape: PartiQLStatement, required: true, location_name: "Statement"))
     BatchStatementRequest.add_member(:parameters, Shapes::ShapeRef.new(shape: PreparedStatementParameters, location_name: "Parameters"))
     BatchStatementRequest.add_member(:consistent_read, Shapes::ShapeRef.new(shape: ConsistentRead, location_name: "ConsistentRead"))
+    BatchStatementRequest.add_member(:return_values_on_condition_check_failure, Shapes::ShapeRef.new(shape: ReturnValuesOnConditionCheckFailure, location_name: "ReturnValuesOnConditionCheckFailure"))
     BatchStatementRequest.struct_class = Types::BatchStatementRequest
 
     BatchStatementResponse.add_member(:error, Shapes::ShapeRef.new(shape: BatchStatementError, location_name: "Error"))
@@ -612,7 +645,7 @@ module Aws::DynamoDB
     BatchWriteItemOutput.add_member(:consumed_capacity, Shapes::ShapeRef.new(shape: ConsumedCapacityMultiple, location_name: "ConsumedCapacity"))
     BatchWriteItemOutput.struct_class = Types::BatchWriteItemOutput
 
-    BatchWriteItemRequestMap.key = Shapes::ShapeRef.new(shape: TableName)
+    BatchWriteItemRequestMap.key = Shapes::ShapeRef.new(shape: TableArn)
     BatchWriteItemRequestMap.value = Shapes::ShapeRef.new(shape: WriteRequests)
 
     BillingModeSummary.add_member(:billing_mode, Shapes::ShapeRef.new(shape: BillingMode, location_name: "BillingMode"))
@@ -638,7 +671,7 @@ module Aws::DynamoDB
     Condition.struct_class = Types::Condition
 
     ConditionCheck.add_member(:key, Shapes::ShapeRef.new(shape: Key, required: true, location_name: "Key"))
-    ConditionCheck.add_member(:table_name, Shapes::ShapeRef.new(shape: TableName, required: true, location_name: "TableName"))
+    ConditionCheck.add_member(:table_name, Shapes::ShapeRef.new(shape: TableArn, required: true, location_name: "TableName"))
     ConditionCheck.add_member(:condition_expression, Shapes::ShapeRef.new(shape: ConditionExpression, required: true, location_name: "ConditionExpression"))
     ConditionCheck.add_member(:expression_attribute_names, Shapes::ShapeRef.new(shape: ExpressionAttributeNameMap, location_name: "ExpressionAttributeNames"))
     ConditionCheck.add_member(:expression_attribute_values, Shapes::ShapeRef.new(shape: ExpressionAttributeValueMap, location_name: "ExpressionAttributeValues"))
@@ -646,9 +679,10 @@ module Aws::DynamoDB
     ConditionCheck.struct_class = Types::ConditionCheck
 
     ConditionalCheckFailedException.add_member(:message, Shapes::ShapeRef.new(shape: ErrorMessage, location_name: "message"))
+    ConditionalCheckFailedException.add_member(:item, Shapes::ShapeRef.new(shape: AttributeMap, location_name: "Item"))
     ConditionalCheckFailedException.struct_class = Types::ConditionalCheckFailedException
 
-    ConsumedCapacity.add_member(:table_name, Shapes::ShapeRef.new(shape: TableName, location_name: "TableName"))
+    ConsumedCapacity.add_member(:table_name, Shapes::ShapeRef.new(shape: TableArn, location_name: "TableName"))
     ConsumedCapacity.add_member(:capacity_units, Shapes::ShapeRef.new(shape: ConsumedCapacityUnits, location_name: "CapacityUnits"))
     ConsumedCapacity.add_member(:read_capacity_units, Shapes::ShapeRef.new(shape: ConsumedCapacityUnits, location_name: "ReadCapacityUnits"))
     ConsumedCapacity.add_member(:write_capacity_units, Shapes::ShapeRef.new(shape: ConsumedCapacityUnits, location_name: "WriteCapacityUnits"))
@@ -675,7 +709,7 @@ module Aws::DynamoDB
     ContributorInsightsSummary.add_member(:contributor_insights_status, Shapes::ShapeRef.new(shape: ContributorInsightsStatus, location_name: "ContributorInsightsStatus"))
     ContributorInsightsSummary.struct_class = Types::ContributorInsightsSummary
 
-    CreateBackupInput.add_member(:table_name, Shapes::ShapeRef.new(shape: TableName, required: true, location_name: "TableName"))
+    CreateBackupInput.add_member(:table_name, Shapes::ShapeRef.new(shape: TableArn, required: true, location_name: "TableName"))
     CreateBackupInput.add_member(:backup_name, Shapes::ShapeRef.new(shape: BackupName, required: true, location_name: "BackupName"))
     CreateBackupInput.struct_class = Types::CreateBackupInput
 
@@ -686,6 +720,8 @@ module Aws::DynamoDB
     CreateGlobalSecondaryIndexAction.add_member(:key_schema, Shapes::ShapeRef.new(shape: KeySchema, required: true, location_name: "KeySchema"))
     CreateGlobalSecondaryIndexAction.add_member(:projection, Shapes::ShapeRef.new(shape: Projection, required: true, location_name: "Projection"))
     CreateGlobalSecondaryIndexAction.add_member(:provisioned_throughput, Shapes::ShapeRef.new(shape: ProvisionedThroughput, location_name: "ProvisionedThroughput"))
+    CreateGlobalSecondaryIndexAction.add_member(:on_demand_throughput, Shapes::ShapeRef.new(shape: OnDemandThroughput, location_name: "OnDemandThroughput"))
+    CreateGlobalSecondaryIndexAction.add_member(:warm_throughput, Shapes::ShapeRef.new(shape: WarmThroughput, location_name: "WarmThroughput"))
     CreateGlobalSecondaryIndexAction.struct_class = Types::CreateGlobalSecondaryIndexAction
 
     CreateGlobalTableInput.add_member(:global_table_name, Shapes::ShapeRef.new(shape: TableName, required: true, location_name: "GlobalTableName"))
@@ -701,12 +737,13 @@ module Aws::DynamoDB
     CreateReplicationGroupMemberAction.add_member(:region_name, Shapes::ShapeRef.new(shape: RegionName, required: true, location_name: "RegionName"))
     CreateReplicationGroupMemberAction.add_member(:kms_master_key_id, Shapes::ShapeRef.new(shape: KMSMasterKeyId, location_name: "KMSMasterKeyId"))
     CreateReplicationGroupMemberAction.add_member(:provisioned_throughput_override, Shapes::ShapeRef.new(shape: ProvisionedThroughputOverride, location_name: "ProvisionedThroughputOverride"))
+    CreateReplicationGroupMemberAction.add_member(:on_demand_throughput_override, Shapes::ShapeRef.new(shape: OnDemandThroughputOverride, location_name: "OnDemandThroughputOverride"))
     CreateReplicationGroupMemberAction.add_member(:global_secondary_indexes, Shapes::ShapeRef.new(shape: ReplicaGlobalSecondaryIndexList, location_name: "GlobalSecondaryIndexes"))
     CreateReplicationGroupMemberAction.add_member(:table_class_override, Shapes::ShapeRef.new(shape: TableClass, location_name: "TableClassOverride"))
     CreateReplicationGroupMemberAction.struct_class = Types::CreateReplicationGroupMemberAction
 
     CreateTableInput.add_member(:attribute_definitions, Shapes::ShapeRef.new(shape: AttributeDefinitions, required: true, location_name: "AttributeDefinitions"))
-    CreateTableInput.add_member(:table_name, Shapes::ShapeRef.new(shape: TableName, required: true, location_name: "TableName"))
+    CreateTableInput.add_member(:table_name, Shapes::ShapeRef.new(shape: TableArn, required: true, location_name: "TableName"))
     CreateTableInput.add_member(:key_schema, Shapes::ShapeRef.new(shape: KeySchema, required: true, location_name: "KeySchema"))
     CreateTableInput.add_member(:local_secondary_indexes, Shapes::ShapeRef.new(shape: LocalSecondaryIndexList, location_name: "LocalSecondaryIndexes"))
     CreateTableInput.add_member(:global_secondary_indexes, Shapes::ShapeRef.new(shape: GlobalSecondaryIndexList, location_name: "GlobalSecondaryIndexes"))
@@ -716,6 +753,10 @@ module Aws::DynamoDB
     CreateTableInput.add_member(:sse_specification, Shapes::ShapeRef.new(shape: SSESpecification, location_name: "SSESpecification"))
     CreateTableInput.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "Tags"))
     CreateTableInput.add_member(:table_class, Shapes::ShapeRef.new(shape: TableClass, location_name: "TableClass"))
+    CreateTableInput.add_member(:deletion_protection_enabled, Shapes::ShapeRef.new(shape: DeletionProtectionEnabled, location_name: "DeletionProtectionEnabled"))
+    CreateTableInput.add_member(:warm_throughput, Shapes::ShapeRef.new(shape: WarmThroughput, location_name: "WarmThroughput"))
+    CreateTableInput.add_member(:resource_policy, Shapes::ShapeRef.new(shape: ResourcePolicy, location_name: "ResourcePolicy"))
+    CreateTableInput.add_member(:on_demand_throughput, Shapes::ShapeRef.new(shape: OnDemandThroughput, location_name: "OnDemandThroughput"))
     CreateTableInput.struct_class = Types::CreateTableInput
 
     CreateTableOutput.add_member(:table_description, Shapes::ShapeRef.new(shape: TableDescription, location_name: "TableDescription"))
@@ -728,7 +769,7 @@ module Aws::DynamoDB
     CsvOptions.struct_class = Types::CsvOptions
 
     Delete.add_member(:key, Shapes::ShapeRef.new(shape: Key, required: true, location_name: "Key"))
-    Delete.add_member(:table_name, Shapes::ShapeRef.new(shape: TableName, required: true, location_name: "TableName"))
+    Delete.add_member(:table_name, Shapes::ShapeRef.new(shape: TableArn, required: true, location_name: "TableName"))
     Delete.add_member(:condition_expression, Shapes::ShapeRef.new(shape: ConditionExpression, location_name: "ConditionExpression"))
     Delete.add_member(:expression_attribute_names, Shapes::ShapeRef.new(shape: ExpressionAttributeNameMap, location_name: "ExpressionAttributeNames"))
     Delete.add_member(:expression_attribute_values, Shapes::ShapeRef.new(shape: ExpressionAttributeValueMap, location_name: "ExpressionAttributeValues"))
@@ -744,7 +785,7 @@ module Aws::DynamoDB
     DeleteGlobalSecondaryIndexAction.add_member(:index_name, Shapes::ShapeRef.new(shape: IndexName, required: true, location_name: "IndexName"))
     DeleteGlobalSecondaryIndexAction.struct_class = Types::DeleteGlobalSecondaryIndexAction
 
-    DeleteItemInput.add_member(:table_name, Shapes::ShapeRef.new(shape: TableName, required: true, location_name: "TableName"))
+    DeleteItemInput.add_member(:table_name, Shapes::ShapeRef.new(shape: TableArn, required: true, location_name: "TableName"))
     DeleteItemInput.add_member(:key, Shapes::ShapeRef.new(shape: Key, required: true, location_name: "Key"))
     DeleteItemInput.add_member(:expected, Shapes::ShapeRef.new(shape: ExpectedAttributeMap, location_name: "Expected"))
     DeleteItemInput.add_member(:conditional_operator, Shapes::ShapeRef.new(shape: ConditionalOperator, location_name: "ConditionalOperator"))
@@ -754,6 +795,7 @@ module Aws::DynamoDB
     DeleteItemInput.add_member(:condition_expression, Shapes::ShapeRef.new(shape: ConditionExpression, location_name: "ConditionExpression"))
     DeleteItemInput.add_member(:expression_attribute_names, Shapes::ShapeRef.new(shape: ExpressionAttributeNameMap, location_name: "ExpressionAttributeNames"))
     DeleteItemInput.add_member(:expression_attribute_values, Shapes::ShapeRef.new(shape: ExpressionAttributeValueMap, location_name: "ExpressionAttributeValues"))
+    DeleteItemInput.add_member(:return_values_on_condition_check_failure, Shapes::ShapeRef.new(shape: ReturnValuesOnConditionCheckFailure, location_name: "ReturnValuesOnConditionCheckFailure"))
     DeleteItemInput.struct_class = Types::DeleteItemInput
 
     DeleteItemOutput.add_member(:attributes, Shapes::ShapeRef.new(shape: AttributeMap, location_name: "Attributes"))
@@ -770,7 +812,14 @@ module Aws::DynamoDB
     DeleteRequest.add_member(:key, Shapes::ShapeRef.new(shape: Key, required: true, location_name: "Key"))
     DeleteRequest.struct_class = Types::DeleteRequest
 
-    DeleteTableInput.add_member(:table_name, Shapes::ShapeRef.new(shape: TableName, required: true, location_name: "TableName"))
+    DeleteResourcePolicyInput.add_member(:resource_arn, Shapes::ShapeRef.new(shape: ResourceArnString, required: true, location_name: "ResourceArn"))
+    DeleteResourcePolicyInput.add_member(:expected_revision_id, Shapes::ShapeRef.new(shape: PolicyRevisionId, location_name: "ExpectedRevisionId"))
+    DeleteResourcePolicyInput.struct_class = Types::DeleteResourcePolicyInput
+
+    DeleteResourcePolicyOutput.add_member(:revision_id, Shapes::ShapeRef.new(shape: PolicyRevisionId, location_name: "RevisionId"))
+    DeleteResourcePolicyOutput.struct_class = Types::DeleteResourcePolicyOutput
+
+    DeleteTableInput.add_member(:table_name, Shapes::ShapeRef.new(shape: TableArn, required: true, location_name: "TableName"))
     DeleteTableInput.struct_class = Types::DeleteTableInput
 
     DeleteTableOutput.add_member(:table_description, Shapes::ShapeRef.new(shape: TableDescription, location_name: "TableDescription"))
@@ -782,13 +831,13 @@ module Aws::DynamoDB
     DescribeBackupOutput.add_member(:backup_description, Shapes::ShapeRef.new(shape: BackupDescription, location_name: "BackupDescription"))
     DescribeBackupOutput.struct_class = Types::DescribeBackupOutput
 
-    DescribeContinuousBackupsInput.add_member(:table_name, Shapes::ShapeRef.new(shape: TableName, required: true, location_name: "TableName"))
+    DescribeContinuousBackupsInput.add_member(:table_name, Shapes::ShapeRef.new(shape: TableArn, required: true, location_name: "TableName"))
     DescribeContinuousBackupsInput.struct_class = Types::DescribeContinuousBackupsInput
 
     DescribeContinuousBackupsOutput.add_member(:continuous_backups_description, Shapes::ShapeRef.new(shape: ContinuousBackupsDescription, location_name: "ContinuousBackupsDescription"))
     DescribeContinuousBackupsOutput.struct_class = Types::DescribeContinuousBackupsOutput
 
-    DescribeContributorInsightsInput.add_member(:table_name, Shapes::ShapeRef.new(shape: TableName, required: true, location_name: "TableName"))
+    DescribeContributorInsightsInput.add_member(:table_name, Shapes::ShapeRef.new(shape: TableArn, required: true, location_name: "TableName"))
     DescribeContributorInsightsInput.add_member(:index_name, Shapes::ShapeRef.new(shape: IndexName, location_name: "IndexName"))
     DescribeContributorInsightsInput.struct_class = Types::DescribeContributorInsightsInput
 
@@ -830,7 +879,7 @@ module Aws::DynamoDB
     DescribeImportOutput.add_member(:import_table_description, Shapes::ShapeRef.new(shape: ImportTableDescription, required: true, location_name: "ImportTableDescription"))
     DescribeImportOutput.struct_class = Types::DescribeImportOutput
 
-    DescribeKinesisStreamingDestinationInput.add_member(:table_name, Shapes::ShapeRef.new(shape: TableName, required: true, location_name: "TableName"))
+    DescribeKinesisStreamingDestinationInput.add_member(:table_name, Shapes::ShapeRef.new(shape: TableArn, required: true, location_name: "TableName"))
     DescribeKinesisStreamingDestinationInput.struct_class = Types::DescribeKinesisStreamingDestinationInput
 
     DescribeKinesisStreamingDestinationOutput.add_member(:table_name, Shapes::ShapeRef.new(shape: TableName, location_name: "TableName"))
@@ -845,19 +894,19 @@ module Aws::DynamoDB
     DescribeLimitsOutput.add_member(:table_max_write_capacity_units, Shapes::ShapeRef.new(shape: PositiveLongObject, location_name: "TableMaxWriteCapacityUnits"))
     DescribeLimitsOutput.struct_class = Types::DescribeLimitsOutput
 
-    DescribeTableInput.add_member(:table_name, Shapes::ShapeRef.new(shape: TableName, required: true, location_name: "TableName"))
+    DescribeTableInput.add_member(:table_name, Shapes::ShapeRef.new(shape: TableArn, required: true, location_name: "TableName"))
     DescribeTableInput.struct_class = Types::DescribeTableInput
 
     DescribeTableOutput.add_member(:table, Shapes::ShapeRef.new(shape: TableDescription, location_name: "Table"))
     DescribeTableOutput.struct_class = Types::DescribeTableOutput
 
-    DescribeTableReplicaAutoScalingInput.add_member(:table_name, Shapes::ShapeRef.new(shape: TableName, required: true, location_name: "TableName"))
+    DescribeTableReplicaAutoScalingInput.add_member(:table_name, Shapes::ShapeRef.new(shape: TableArn, required: true, location_name: "TableName"))
     DescribeTableReplicaAutoScalingInput.struct_class = Types::DescribeTableReplicaAutoScalingInput
 
     DescribeTableReplicaAutoScalingOutput.add_member(:table_auto_scaling_description, Shapes::ShapeRef.new(shape: TableAutoScalingDescription, location_name: "TableAutoScalingDescription"))
     DescribeTableReplicaAutoScalingOutput.struct_class = Types::DescribeTableReplicaAutoScalingOutput
 
-    DescribeTimeToLiveInput.add_member(:table_name, Shapes::ShapeRef.new(shape: TableName, required: true, location_name: "TableName"))
+    DescribeTimeToLiveInput.add_member(:table_name, Shapes::ShapeRef.new(shape: TableArn, required: true, location_name: "TableName"))
     DescribeTimeToLiveInput.struct_class = Types::DescribeTimeToLiveInput
 
     DescribeTimeToLiveOutput.add_member(:time_to_live_description, Shapes::ShapeRef.new(shape: TimeToLiveDescription, location_name: "TimeToLiveDescription"))
@@ -865,6 +914,9 @@ module Aws::DynamoDB
 
     DuplicateItemException.add_member(:message, Shapes::ShapeRef.new(shape: ErrorMessage, location_name: "message"))
     DuplicateItemException.struct_class = Types::DuplicateItemException
+
+    EnableKinesisStreamingConfiguration.add_member(:approximate_creation_date_time_precision, Shapes::ShapeRef.new(shape: ApproximateCreationDateTimePrecision, location_name: "ApproximateCreationDateTimePrecision"))
+    EnableKinesisStreamingConfiguration.struct_class = Types::EnableKinesisStreamingConfiguration
 
     Endpoint.add_member(:address, Shapes::ShapeRef.new(shape: String, required: true, location_name: "Address"))
     Endpoint.add_member(:cache_period_in_minutes, Shapes::ShapeRef.new(shape: Long, required: true, location_name: "CachePeriodInMinutes"))
@@ -878,6 +930,7 @@ module Aws::DynamoDB
     ExecuteStatementInput.add_member(:next_token, Shapes::ShapeRef.new(shape: PartiQLNextToken, location_name: "NextToken"))
     ExecuteStatementInput.add_member(:return_consumed_capacity, Shapes::ShapeRef.new(shape: ReturnConsumedCapacity, location_name: "ReturnConsumedCapacity"))
     ExecuteStatementInput.add_member(:limit, Shapes::ShapeRef.new(shape: PositiveIntegerObject, location_name: "Limit"))
+    ExecuteStatementInput.add_member(:return_values_on_condition_check_failure, Shapes::ShapeRef.new(shape: ReturnValuesOnConditionCheckFailure, location_name: "ReturnValuesOnConditionCheckFailure"))
     ExecuteStatementInput.struct_class = Types::ExecuteStatementInput
 
     ExecuteStatementOutput.add_member(:items, Shapes::ShapeRef.new(shape: ItemList, location_name: "Items"))
@@ -926,6 +979,8 @@ module Aws::DynamoDB
     ExportDescription.add_member(:export_format, Shapes::ShapeRef.new(shape: ExportFormat, location_name: "ExportFormat"))
     ExportDescription.add_member(:billed_size_bytes, Shapes::ShapeRef.new(shape: BilledSizeBytes, location_name: "BilledSizeBytes"))
     ExportDescription.add_member(:item_count, Shapes::ShapeRef.new(shape: ItemCount, location_name: "ItemCount"))
+    ExportDescription.add_member(:export_type, Shapes::ShapeRef.new(shape: ExportType, location_name: "ExportType"))
+    ExportDescription.add_member(:incremental_export_specification, Shapes::ShapeRef.new(shape: IncrementalExportSpecification, location_name: "IncrementalExportSpecification"))
     ExportDescription.struct_class = Types::ExportDescription
 
     ExportNotFoundException.add_member(:message, Shapes::ShapeRef.new(shape: ErrorMessage, location_name: "message"))
@@ -935,6 +990,7 @@ module Aws::DynamoDB
 
     ExportSummary.add_member(:export_arn, Shapes::ShapeRef.new(shape: ExportArn, location_name: "ExportArn"))
     ExportSummary.add_member(:export_status, Shapes::ShapeRef.new(shape: ExportStatus, location_name: "ExportStatus"))
+    ExportSummary.add_member(:export_type, Shapes::ShapeRef.new(shape: ExportType, location_name: "ExportType"))
     ExportSummary.struct_class = Types::ExportSummary
 
     ExportTableToPointInTimeInput.add_member(:table_arn, Shapes::ShapeRef.new(shape: TableArn, required: true, location_name: "TableArn"))
@@ -946,6 +1002,8 @@ module Aws::DynamoDB
     ExportTableToPointInTimeInput.add_member(:s3_sse_algorithm, Shapes::ShapeRef.new(shape: S3SseAlgorithm, location_name: "S3SseAlgorithm"))
     ExportTableToPointInTimeInput.add_member(:s3_sse_kms_key_id, Shapes::ShapeRef.new(shape: S3SseKmsKeyId, location_name: "S3SseKmsKeyId"))
     ExportTableToPointInTimeInput.add_member(:export_format, Shapes::ShapeRef.new(shape: ExportFormat, location_name: "ExportFormat"))
+    ExportTableToPointInTimeInput.add_member(:export_type, Shapes::ShapeRef.new(shape: ExportType, location_name: "ExportType"))
+    ExportTableToPointInTimeInput.add_member(:incremental_export_specification, Shapes::ShapeRef.new(shape: IncrementalExportSpecification, location_name: "IncrementalExportSpecification"))
     ExportTableToPointInTimeInput.struct_class = Types::ExportTableToPointInTimeInput
 
     ExportTableToPointInTimeOutput.add_member(:export_description, Shapes::ShapeRef.new(shape: ExportDescription, location_name: "ExportDescription"))
@@ -965,12 +1023,12 @@ module Aws::DynamoDB
     FilterConditionMap.value = Shapes::ShapeRef.new(shape: Condition)
 
     Get.add_member(:key, Shapes::ShapeRef.new(shape: Key, required: true, location_name: "Key"))
-    Get.add_member(:table_name, Shapes::ShapeRef.new(shape: TableName, required: true, location_name: "TableName"))
+    Get.add_member(:table_name, Shapes::ShapeRef.new(shape: TableArn, required: true, location_name: "TableName"))
     Get.add_member(:projection_expression, Shapes::ShapeRef.new(shape: ProjectionExpression, location_name: "ProjectionExpression"))
     Get.add_member(:expression_attribute_names, Shapes::ShapeRef.new(shape: ExpressionAttributeNameMap, location_name: "ExpressionAttributeNames"))
     Get.struct_class = Types::Get
 
-    GetItemInput.add_member(:table_name, Shapes::ShapeRef.new(shape: TableName, required: true, location_name: "TableName"))
+    GetItemInput.add_member(:table_name, Shapes::ShapeRef.new(shape: TableArn, required: true, location_name: "TableName"))
     GetItemInput.add_member(:key, Shapes::ShapeRef.new(shape: Key, required: true, location_name: "Key"))
     GetItemInput.add_member(:attributes_to_get, Shapes::ShapeRef.new(shape: AttributeNameList, location_name: "AttributesToGet"))
     GetItemInput.add_member(:consistent_read, Shapes::ShapeRef.new(shape: ConsistentRead, location_name: "ConsistentRead"))
@@ -983,10 +1041,19 @@ module Aws::DynamoDB
     GetItemOutput.add_member(:consumed_capacity, Shapes::ShapeRef.new(shape: ConsumedCapacity, location_name: "ConsumedCapacity"))
     GetItemOutput.struct_class = Types::GetItemOutput
 
+    GetResourcePolicyInput.add_member(:resource_arn, Shapes::ShapeRef.new(shape: ResourceArnString, required: true, location_name: "ResourceArn"))
+    GetResourcePolicyInput.struct_class = Types::GetResourcePolicyInput
+
+    GetResourcePolicyOutput.add_member(:policy, Shapes::ShapeRef.new(shape: ResourcePolicy, location_name: "Policy"))
+    GetResourcePolicyOutput.add_member(:revision_id, Shapes::ShapeRef.new(shape: PolicyRevisionId, location_name: "RevisionId"))
+    GetResourcePolicyOutput.struct_class = Types::GetResourcePolicyOutput
+
     GlobalSecondaryIndex.add_member(:index_name, Shapes::ShapeRef.new(shape: IndexName, required: true, location_name: "IndexName"))
     GlobalSecondaryIndex.add_member(:key_schema, Shapes::ShapeRef.new(shape: KeySchema, required: true, location_name: "KeySchema"))
     GlobalSecondaryIndex.add_member(:projection, Shapes::ShapeRef.new(shape: Projection, required: true, location_name: "Projection"))
     GlobalSecondaryIndex.add_member(:provisioned_throughput, Shapes::ShapeRef.new(shape: ProvisionedThroughput, location_name: "ProvisionedThroughput"))
+    GlobalSecondaryIndex.add_member(:on_demand_throughput, Shapes::ShapeRef.new(shape: OnDemandThroughput, location_name: "OnDemandThroughput"))
+    GlobalSecondaryIndex.add_member(:warm_throughput, Shapes::ShapeRef.new(shape: WarmThroughput, location_name: "WarmThroughput"))
     GlobalSecondaryIndex.struct_class = Types::GlobalSecondaryIndex
 
     GlobalSecondaryIndexAutoScalingUpdate.add_member(:index_name, Shapes::ShapeRef.new(shape: IndexName, location_name: "IndexName"))
@@ -1001,9 +1068,11 @@ module Aws::DynamoDB
     GlobalSecondaryIndexDescription.add_member(:index_status, Shapes::ShapeRef.new(shape: IndexStatus, location_name: "IndexStatus"))
     GlobalSecondaryIndexDescription.add_member(:backfilling, Shapes::ShapeRef.new(shape: Backfilling, location_name: "Backfilling"))
     GlobalSecondaryIndexDescription.add_member(:provisioned_throughput, Shapes::ShapeRef.new(shape: ProvisionedThroughputDescription, location_name: "ProvisionedThroughput"))
-    GlobalSecondaryIndexDescription.add_member(:index_size_bytes, Shapes::ShapeRef.new(shape: Long, location_name: "IndexSizeBytes"))
-    GlobalSecondaryIndexDescription.add_member(:item_count, Shapes::ShapeRef.new(shape: Long, location_name: "ItemCount"))
+    GlobalSecondaryIndexDescription.add_member(:index_size_bytes, Shapes::ShapeRef.new(shape: LongObject, location_name: "IndexSizeBytes"))
+    GlobalSecondaryIndexDescription.add_member(:item_count, Shapes::ShapeRef.new(shape: LongObject, location_name: "ItemCount"))
     GlobalSecondaryIndexDescription.add_member(:index_arn, Shapes::ShapeRef.new(shape: String, location_name: "IndexArn"))
+    GlobalSecondaryIndexDescription.add_member(:on_demand_throughput, Shapes::ShapeRef.new(shape: OnDemandThroughput, location_name: "OnDemandThroughput"))
+    GlobalSecondaryIndexDescription.add_member(:warm_throughput, Shapes::ShapeRef.new(shape: GlobalSecondaryIndexWarmThroughputDescription, location_name: "WarmThroughput"))
     GlobalSecondaryIndexDescription.struct_class = Types::GlobalSecondaryIndexDescription
 
     GlobalSecondaryIndexDescriptionList.member = Shapes::ShapeRef.new(shape: GlobalSecondaryIndexDescription)
@@ -1012,6 +1081,7 @@ module Aws::DynamoDB
     GlobalSecondaryIndexInfo.add_member(:key_schema, Shapes::ShapeRef.new(shape: KeySchema, location_name: "KeySchema"))
     GlobalSecondaryIndexInfo.add_member(:projection, Shapes::ShapeRef.new(shape: Projection, location_name: "Projection"))
     GlobalSecondaryIndexInfo.add_member(:provisioned_throughput, Shapes::ShapeRef.new(shape: ProvisionedThroughput, location_name: "ProvisionedThroughput"))
+    GlobalSecondaryIndexInfo.add_member(:on_demand_throughput, Shapes::ShapeRef.new(shape: OnDemandThroughput, location_name: "OnDemandThroughput"))
     GlobalSecondaryIndexInfo.struct_class = Types::GlobalSecondaryIndexInfo
 
     GlobalSecondaryIndexList.member = Shapes::ShapeRef.new(shape: GlobalSecondaryIndex)
@@ -1022,6 +1092,11 @@ module Aws::DynamoDB
     GlobalSecondaryIndexUpdate.struct_class = Types::GlobalSecondaryIndexUpdate
 
     GlobalSecondaryIndexUpdateList.member = Shapes::ShapeRef.new(shape: GlobalSecondaryIndexUpdate)
+
+    GlobalSecondaryIndexWarmThroughputDescription.add_member(:read_units_per_second, Shapes::ShapeRef.new(shape: PositiveLongObject, location_name: "ReadUnitsPerSecond"))
+    GlobalSecondaryIndexWarmThroughputDescription.add_member(:write_units_per_second, Shapes::ShapeRef.new(shape: PositiveLongObject, location_name: "WriteUnitsPerSecond"))
+    GlobalSecondaryIndexWarmThroughputDescription.add_member(:status, Shapes::ShapeRef.new(shape: IndexStatus, location_name: "Status"))
+    GlobalSecondaryIndexWarmThroughputDescription.struct_class = Types::GlobalSecondaryIndexWarmThroughputDescription
 
     GlobalSecondaryIndexes.member = Shapes::ShapeRef.new(shape: GlobalSecondaryIndexInfo)
 
@@ -1086,7 +1161,7 @@ module Aws::DynamoDB
     ImportTableDescription.add_member(:table_creation_parameters, Shapes::ShapeRef.new(shape: TableCreationParameters, location_name: "TableCreationParameters"))
     ImportTableDescription.add_member(:start_time, Shapes::ShapeRef.new(shape: ImportStartTime, location_name: "StartTime"))
     ImportTableDescription.add_member(:end_time, Shapes::ShapeRef.new(shape: ImportEndTime, location_name: "EndTime"))
-    ImportTableDescription.add_member(:processed_size_bytes, Shapes::ShapeRef.new(shape: Long, location_name: "ProcessedSizeBytes"))
+    ImportTableDescription.add_member(:processed_size_bytes, Shapes::ShapeRef.new(shape: LongObject, location_name: "ProcessedSizeBytes"))
     ImportTableDescription.add_member(:processed_item_count, Shapes::ShapeRef.new(shape: ProcessedItemCount, location_name: "ProcessedItemCount"))
     ImportTableDescription.add_member(:imported_item_count, Shapes::ShapeRef.new(shape: ImportedItemCount, location_name: "ImportedItemCount"))
     ImportTableDescription.add_member(:failure_code, Shapes::ShapeRef.new(shape: FailureCode, location_name: "FailureCode"))
@@ -1103,6 +1178,11 @@ module Aws::DynamoDB
 
     ImportTableOutput.add_member(:import_table_description, Shapes::ShapeRef.new(shape: ImportTableDescription, required: true, location_name: "ImportTableDescription"))
     ImportTableOutput.struct_class = Types::ImportTableOutput
+
+    IncrementalExportSpecification.add_member(:export_from_time, Shapes::ShapeRef.new(shape: ExportFromTime, location_name: "ExportFromTime"))
+    IncrementalExportSpecification.add_member(:export_to_time, Shapes::ShapeRef.new(shape: ExportToTime, location_name: "ExportToTime"))
+    IncrementalExportSpecification.add_member(:export_view_type, Shapes::ShapeRef.new(shape: ExportViewType, location_name: "ExportViewType"))
+    IncrementalExportSpecification.struct_class = Types::IncrementalExportSpecification
 
     IndexNotFoundException.add_member(:message, Shapes::ShapeRef.new(shape: ErrorMessage, location_name: "message"))
     IndexNotFoundException.struct_class = Types::IndexNotFoundException
@@ -1128,7 +1208,7 @@ module Aws::DynamoDB
 
     ItemCollectionMetricsMultiple.member = Shapes::ShapeRef.new(shape: ItemCollectionMetrics)
 
-    ItemCollectionMetricsPerTable.key = Shapes::ShapeRef.new(shape: TableName)
+    ItemCollectionMetricsPerTable.key = Shapes::ShapeRef.new(shape: TableArn)
     ItemCollectionMetricsPerTable.value = Shapes::ShapeRef.new(shape: ItemCollectionMetricsMultiple)
 
     ItemCollectionSizeEstimateRange.member = Shapes::ShapeRef.new(shape: ItemCollectionSizeEstimateBound)
@@ -1167,17 +1247,20 @@ module Aws::DynamoDB
     KinesisDataStreamDestination.add_member(:stream_arn, Shapes::ShapeRef.new(shape: StreamArn, location_name: "StreamArn"))
     KinesisDataStreamDestination.add_member(:destination_status, Shapes::ShapeRef.new(shape: DestinationStatus, location_name: "DestinationStatus"))
     KinesisDataStreamDestination.add_member(:destination_status_description, Shapes::ShapeRef.new(shape: String, location_name: "DestinationStatusDescription"))
+    KinesisDataStreamDestination.add_member(:approximate_creation_date_time_precision, Shapes::ShapeRef.new(shape: ApproximateCreationDateTimePrecision, location_name: "ApproximateCreationDateTimePrecision"))
     KinesisDataStreamDestination.struct_class = Types::KinesisDataStreamDestination
 
     KinesisDataStreamDestinations.member = Shapes::ShapeRef.new(shape: KinesisDataStreamDestination)
 
-    KinesisStreamingDestinationInput.add_member(:table_name, Shapes::ShapeRef.new(shape: TableName, required: true, location_name: "TableName"))
+    KinesisStreamingDestinationInput.add_member(:table_name, Shapes::ShapeRef.new(shape: TableArn, required: true, location_name: "TableName"))
     KinesisStreamingDestinationInput.add_member(:stream_arn, Shapes::ShapeRef.new(shape: StreamArn, required: true, location_name: "StreamArn"))
+    KinesisStreamingDestinationInput.add_member(:enable_kinesis_streaming_configuration, Shapes::ShapeRef.new(shape: EnableKinesisStreamingConfiguration, location_name: "EnableKinesisStreamingConfiguration"))
     KinesisStreamingDestinationInput.struct_class = Types::KinesisStreamingDestinationInput
 
     KinesisStreamingDestinationOutput.add_member(:table_name, Shapes::ShapeRef.new(shape: TableName, location_name: "TableName"))
     KinesisStreamingDestinationOutput.add_member(:stream_arn, Shapes::ShapeRef.new(shape: StreamArn, location_name: "StreamArn"))
     KinesisStreamingDestinationOutput.add_member(:destination_status, Shapes::ShapeRef.new(shape: DestinationStatus, location_name: "DestinationStatus"))
+    KinesisStreamingDestinationOutput.add_member(:enable_kinesis_streaming_configuration, Shapes::ShapeRef.new(shape: EnableKinesisStreamingConfiguration, location_name: "EnableKinesisStreamingConfiguration"))
     KinesisStreamingDestinationOutput.struct_class = Types::KinesisStreamingDestinationOutput
 
     LimitExceededException.add_member(:message, Shapes::ShapeRef.new(shape: ErrorMessage, location_name: "message"))
@@ -1185,7 +1268,7 @@ module Aws::DynamoDB
 
     ListAttributeValue.member = Shapes::ShapeRef.new(shape: AttributeValue)
 
-    ListBackupsInput.add_member(:table_name, Shapes::ShapeRef.new(shape: TableName, location_name: "TableName"))
+    ListBackupsInput.add_member(:table_name, Shapes::ShapeRef.new(shape: TableArn, location_name: "TableName"))
     ListBackupsInput.add_member(:limit, Shapes::ShapeRef.new(shape: BackupsInputLimit, location_name: "Limit"))
     ListBackupsInput.add_member(:time_range_lower_bound, Shapes::ShapeRef.new(shape: TimeRangeLowerBound, location_name: "TimeRangeLowerBound"))
     ListBackupsInput.add_member(:time_range_upper_bound, Shapes::ShapeRef.new(shape: TimeRangeUpperBound, location_name: "TimeRangeUpperBound"))
@@ -1197,7 +1280,7 @@ module Aws::DynamoDB
     ListBackupsOutput.add_member(:last_evaluated_backup_arn, Shapes::ShapeRef.new(shape: BackupArn, location_name: "LastEvaluatedBackupArn"))
     ListBackupsOutput.struct_class = Types::ListBackupsOutput
 
-    ListContributorInsightsInput.add_member(:table_name, Shapes::ShapeRef.new(shape: TableName, location_name: "TableName"))
+    ListContributorInsightsInput.add_member(:table_name, Shapes::ShapeRef.new(shape: TableArn, location_name: "TableName"))
     ListContributorInsightsInput.add_member(:next_token, Shapes::ShapeRef.new(shape: NextTokenString, location_name: "NextToken"))
     ListContributorInsightsInput.add_member(:max_results, Shapes::ShapeRef.new(shape: ListContributorInsightsLimit, location_name: "MaxResults"))
     ListContributorInsightsInput.struct_class = Types::ListContributorInsightsInput
@@ -1257,8 +1340,8 @@ module Aws::DynamoDB
     LocalSecondaryIndexDescription.add_member(:index_name, Shapes::ShapeRef.new(shape: IndexName, location_name: "IndexName"))
     LocalSecondaryIndexDescription.add_member(:key_schema, Shapes::ShapeRef.new(shape: KeySchema, location_name: "KeySchema"))
     LocalSecondaryIndexDescription.add_member(:projection, Shapes::ShapeRef.new(shape: Projection, location_name: "Projection"))
-    LocalSecondaryIndexDescription.add_member(:index_size_bytes, Shapes::ShapeRef.new(shape: Long, location_name: "IndexSizeBytes"))
-    LocalSecondaryIndexDescription.add_member(:item_count, Shapes::ShapeRef.new(shape: Long, location_name: "ItemCount"))
+    LocalSecondaryIndexDescription.add_member(:index_size_bytes, Shapes::ShapeRef.new(shape: LongObject, location_name: "IndexSizeBytes"))
+    LocalSecondaryIndexDescription.add_member(:item_count, Shapes::ShapeRef.new(shape: LongObject, location_name: "ItemCount"))
     LocalSecondaryIndexDescription.add_member(:index_arn, Shapes::ShapeRef.new(shape: String, location_name: "IndexArn"))
     LocalSecondaryIndexDescription.struct_class = Types::LocalSecondaryIndexDescription
 
@@ -1280,8 +1363,16 @@ module Aws::DynamoDB
 
     NumberSetAttributeValue.member = Shapes::ShapeRef.new(shape: NumberAttributeValue)
 
+    OnDemandThroughput.add_member(:max_read_request_units, Shapes::ShapeRef.new(shape: LongObject, location_name: "MaxReadRequestUnits"))
+    OnDemandThroughput.add_member(:max_write_request_units, Shapes::ShapeRef.new(shape: LongObject, location_name: "MaxWriteRequestUnits"))
+    OnDemandThroughput.struct_class = Types::OnDemandThroughput
+
+    OnDemandThroughputOverride.add_member(:max_read_request_units, Shapes::ShapeRef.new(shape: LongObject, location_name: "MaxReadRequestUnits"))
+    OnDemandThroughputOverride.struct_class = Types::OnDemandThroughputOverride
+
     ParameterizedStatement.add_member(:statement, Shapes::ShapeRef.new(shape: PartiQLStatement, required: true, location_name: "Statement"))
     ParameterizedStatement.add_member(:parameters, Shapes::ShapeRef.new(shape: PreparedStatementParameters, location_name: "Parameters"))
+    ParameterizedStatement.add_member(:return_values_on_condition_check_failure, Shapes::ShapeRef.new(shape: ReturnValuesOnConditionCheckFailure, location_name: "ReturnValuesOnConditionCheckFailure"))
     ParameterizedStatement.struct_class = Types::ParameterizedStatement
 
     ParameterizedStatements.member = Shapes::ShapeRef.new(shape: ParameterizedStatement)
@@ -1291,15 +1382,20 @@ module Aws::DynamoDB
     PartiQLBatchResponse.member = Shapes::ShapeRef.new(shape: BatchStatementResponse)
 
     PointInTimeRecoveryDescription.add_member(:point_in_time_recovery_status, Shapes::ShapeRef.new(shape: PointInTimeRecoveryStatus, location_name: "PointInTimeRecoveryStatus"))
+    PointInTimeRecoveryDescription.add_member(:recovery_period_in_days, Shapes::ShapeRef.new(shape: RecoveryPeriodInDays, location_name: "RecoveryPeriodInDays"))
     PointInTimeRecoveryDescription.add_member(:earliest_restorable_date_time, Shapes::ShapeRef.new(shape: Date, location_name: "EarliestRestorableDateTime"))
     PointInTimeRecoveryDescription.add_member(:latest_restorable_date_time, Shapes::ShapeRef.new(shape: Date, location_name: "LatestRestorableDateTime"))
     PointInTimeRecoveryDescription.struct_class = Types::PointInTimeRecoveryDescription
 
     PointInTimeRecoverySpecification.add_member(:point_in_time_recovery_enabled, Shapes::ShapeRef.new(shape: BooleanObject, required: true, location_name: "PointInTimeRecoveryEnabled"))
+    PointInTimeRecoverySpecification.add_member(:recovery_period_in_days, Shapes::ShapeRef.new(shape: RecoveryPeriodInDays, location_name: "RecoveryPeriodInDays"))
     PointInTimeRecoverySpecification.struct_class = Types::PointInTimeRecoverySpecification
 
     PointInTimeRecoveryUnavailableException.add_member(:message, Shapes::ShapeRef.new(shape: ErrorMessage, location_name: "message"))
     PointInTimeRecoveryUnavailableException.struct_class = Types::PointInTimeRecoveryUnavailableException
+
+    PolicyNotFoundException.add_member(:message, Shapes::ShapeRef.new(shape: ErrorMessage, location_name: "message"))
+    PolicyNotFoundException.struct_class = Types::PolicyNotFoundException
 
     PreparedStatementParameters.member = Shapes::ShapeRef.new(shape: AttributeValue)
 
@@ -1325,14 +1421,14 @@ module Aws::DynamoDB
     ProvisionedThroughputOverride.struct_class = Types::ProvisionedThroughputOverride
 
     Put.add_member(:item, Shapes::ShapeRef.new(shape: PutItemInputAttributeMap, required: true, location_name: "Item"))
-    Put.add_member(:table_name, Shapes::ShapeRef.new(shape: TableName, required: true, location_name: "TableName"))
+    Put.add_member(:table_name, Shapes::ShapeRef.new(shape: TableArn, required: true, location_name: "TableName"))
     Put.add_member(:condition_expression, Shapes::ShapeRef.new(shape: ConditionExpression, location_name: "ConditionExpression"))
     Put.add_member(:expression_attribute_names, Shapes::ShapeRef.new(shape: ExpressionAttributeNameMap, location_name: "ExpressionAttributeNames"))
     Put.add_member(:expression_attribute_values, Shapes::ShapeRef.new(shape: ExpressionAttributeValueMap, location_name: "ExpressionAttributeValues"))
     Put.add_member(:return_values_on_condition_check_failure, Shapes::ShapeRef.new(shape: ReturnValuesOnConditionCheckFailure, location_name: "ReturnValuesOnConditionCheckFailure"))
     Put.struct_class = Types::Put
 
-    PutItemInput.add_member(:table_name, Shapes::ShapeRef.new(shape: TableName, required: true, location_name: "TableName"))
+    PutItemInput.add_member(:table_name, Shapes::ShapeRef.new(shape: TableArn, required: true, location_name: "TableName"))
     PutItemInput.add_member(:item, Shapes::ShapeRef.new(shape: PutItemInputAttributeMap, required: true, location_name: "Item"))
     PutItemInput.add_member(:expected, Shapes::ShapeRef.new(shape: ExpectedAttributeMap, location_name: "Expected"))
     PutItemInput.add_member(:return_values, Shapes::ShapeRef.new(shape: ReturnValue, location_name: "ReturnValues"))
@@ -1342,6 +1438,7 @@ module Aws::DynamoDB
     PutItemInput.add_member(:condition_expression, Shapes::ShapeRef.new(shape: ConditionExpression, location_name: "ConditionExpression"))
     PutItemInput.add_member(:expression_attribute_names, Shapes::ShapeRef.new(shape: ExpressionAttributeNameMap, location_name: "ExpressionAttributeNames"))
     PutItemInput.add_member(:expression_attribute_values, Shapes::ShapeRef.new(shape: ExpressionAttributeValueMap, location_name: "ExpressionAttributeValues"))
+    PutItemInput.add_member(:return_values_on_condition_check_failure, Shapes::ShapeRef.new(shape: ReturnValuesOnConditionCheckFailure, location_name: "ReturnValuesOnConditionCheckFailure"))
     PutItemInput.struct_class = Types::PutItemInput
 
     PutItemInputAttributeMap.key = Shapes::ShapeRef.new(shape: AttributeName)
@@ -1355,7 +1452,16 @@ module Aws::DynamoDB
     PutRequest.add_member(:item, Shapes::ShapeRef.new(shape: PutItemInputAttributeMap, required: true, location_name: "Item"))
     PutRequest.struct_class = Types::PutRequest
 
-    QueryInput.add_member(:table_name, Shapes::ShapeRef.new(shape: TableName, required: true, location_name: "TableName"))
+    PutResourcePolicyInput.add_member(:resource_arn, Shapes::ShapeRef.new(shape: ResourceArnString, required: true, location_name: "ResourceArn"))
+    PutResourcePolicyInput.add_member(:policy, Shapes::ShapeRef.new(shape: ResourcePolicy, required: true, location_name: "Policy"))
+    PutResourcePolicyInput.add_member(:expected_revision_id, Shapes::ShapeRef.new(shape: PolicyRevisionId, location_name: "ExpectedRevisionId"))
+    PutResourcePolicyInput.add_member(:confirm_remove_self_resource_access, Shapes::ShapeRef.new(shape: ConfirmRemoveSelfResourceAccess, location_name: "ConfirmRemoveSelfResourceAccess"))
+    PutResourcePolicyInput.struct_class = Types::PutResourcePolicyInput
+
+    PutResourcePolicyOutput.add_member(:revision_id, Shapes::ShapeRef.new(shape: PolicyRevisionId, location_name: "RevisionId"))
+    PutResourcePolicyOutput.struct_class = Types::PutResourcePolicyOutput
+
+    QueryInput.add_member(:table_name, Shapes::ShapeRef.new(shape: TableArn, required: true, location_name: "TableName"))
     QueryInput.add_member(:index_name, Shapes::ShapeRef.new(shape: IndexName, location_name: "IndexName"))
     QueryInput.add_member(:select, Shapes::ShapeRef.new(shape: Select, location_name: "Select"))
     QueryInput.add_member(:attributes_to_get, Shapes::ShapeRef.new(shape: AttributeNameList, location_name: "AttributesToGet"))
@@ -1409,6 +1515,8 @@ module Aws::DynamoDB
     ReplicaDescription.add_member(:replica_status_percent_progress, Shapes::ShapeRef.new(shape: ReplicaStatusPercentProgress, location_name: "ReplicaStatusPercentProgress"))
     ReplicaDescription.add_member(:kms_master_key_id, Shapes::ShapeRef.new(shape: KMSMasterKeyId, location_name: "KMSMasterKeyId"))
     ReplicaDescription.add_member(:provisioned_throughput_override, Shapes::ShapeRef.new(shape: ProvisionedThroughputOverride, location_name: "ProvisionedThroughputOverride"))
+    ReplicaDescription.add_member(:on_demand_throughput_override, Shapes::ShapeRef.new(shape: OnDemandThroughputOverride, location_name: "OnDemandThroughputOverride"))
+    ReplicaDescription.add_member(:warm_throughput, Shapes::ShapeRef.new(shape: TableWarmThroughputDescription, location_name: "WarmThroughput"))
     ReplicaDescription.add_member(:global_secondary_indexes, Shapes::ShapeRef.new(shape: ReplicaGlobalSecondaryIndexDescriptionList, location_name: "GlobalSecondaryIndexes"))
     ReplicaDescription.add_member(:replica_inaccessible_date_time, Shapes::ShapeRef.new(shape: Date, location_name: "ReplicaInaccessibleDateTime"))
     ReplicaDescription.add_member(:replica_table_class_summary, Shapes::ShapeRef.new(shape: TableClassSummary, location_name: "ReplicaTableClassSummary"))
@@ -1418,6 +1526,7 @@ module Aws::DynamoDB
 
     ReplicaGlobalSecondaryIndex.add_member(:index_name, Shapes::ShapeRef.new(shape: IndexName, required: true, location_name: "IndexName"))
     ReplicaGlobalSecondaryIndex.add_member(:provisioned_throughput_override, Shapes::ShapeRef.new(shape: ProvisionedThroughputOverride, location_name: "ProvisionedThroughputOverride"))
+    ReplicaGlobalSecondaryIndex.add_member(:on_demand_throughput_override, Shapes::ShapeRef.new(shape: OnDemandThroughputOverride, location_name: "OnDemandThroughputOverride"))
     ReplicaGlobalSecondaryIndex.struct_class = Types::ReplicaGlobalSecondaryIndex
 
     ReplicaGlobalSecondaryIndexAutoScalingDescription.add_member(:index_name, Shapes::ShapeRef.new(shape: IndexName, location_name: "IndexName"))
@@ -1436,6 +1545,8 @@ module Aws::DynamoDB
 
     ReplicaGlobalSecondaryIndexDescription.add_member(:index_name, Shapes::ShapeRef.new(shape: IndexName, location_name: "IndexName"))
     ReplicaGlobalSecondaryIndexDescription.add_member(:provisioned_throughput_override, Shapes::ShapeRef.new(shape: ProvisionedThroughputOverride, location_name: "ProvisionedThroughputOverride"))
+    ReplicaGlobalSecondaryIndexDescription.add_member(:on_demand_throughput_override, Shapes::ShapeRef.new(shape: OnDemandThroughputOverride, location_name: "OnDemandThroughputOverride"))
+    ReplicaGlobalSecondaryIndexDescription.add_member(:warm_throughput, Shapes::ShapeRef.new(shape: GlobalSecondaryIndexWarmThroughputDescription, location_name: "WarmThroughput"))
     ReplicaGlobalSecondaryIndexDescription.struct_class = Types::ReplicaGlobalSecondaryIndexDescription
 
     ReplicaGlobalSecondaryIndexDescriptionList.member = Shapes::ShapeRef.new(shape: ReplicaGlobalSecondaryIndexDescription)
@@ -1492,6 +1603,9 @@ module Aws::DynamoDB
 
     ReplicaUpdateList.member = Shapes::ShapeRef.new(shape: ReplicaUpdate)
 
+    ReplicatedWriteConflictException.add_member(:message, Shapes::ShapeRef.new(shape: ErrorMessage, location_name: "message"))
+    ReplicatedWriteConflictException.struct_class = Types::ReplicatedWriteConflictException
+
     ReplicationGroupUpdate.add_member(:create, Shapes::ShapeRef.new(shape: CreateReplicationGroupMemberAction, location_name: "Create"))
     ReplicationGroupUpdate.add_member(:update, Shapes::ShapeRef.new(shape: UpdateReplicationGroupMemberAction, location_name: "Update"))
     ReplicationGroupUpdate.add_member(:delete, Shapes::ShapeRef.new(shape: DeleteReplicationGroupMemberAction, location_name: "Delete"))
@@ -1520,6 +1634,7 @@ module Aws::DynamoDB
     RestoreTableFromBackupInput.add_member(:global_secondary_index_override, Shapes::ShapeRef.new(shape: GlobalSecondaryIndexList, location_name: "GlobalSecondaryIndexOverride"))
     RestoreTableFromBackupInput.add_member(:local_secondary_index_override, Shapes::ShapeRef.new(shape: LocalSecondaryIndexList, location_name: "LocalSecondaryIndexOverride"))
     RestoreTableFromBackupInput.add_member(:provisioned_throughput_override, Shapes::ShapeRef.new(shape: ProvisionedThroughput, location_name: "ProvisionedThroughputOverride"))
+    RestoreTableFromBackupInput.add_member(:on_demand_throughput_override, Shapes::ShapeRef.new(shape: OnDemandThroughput, location_name: "OnDemandThroughputOverride"))
     RestoreTableFromBackupInput.add_member(:sse_specification_override, Shapes::ShapeRef.new(shape: SSESpecification, location_name: "SSESpecificationOverride"))
     RestoreTableFromBackupInput.struct_class = Types::RestoreTableFromBackupInput
 
@@ -1535,6 +1650,7 @@ module Aws::DynamoDB
     RestoreTableToPointInTimeInput.add_member(:global_secondary_index_override, Shapes::ShapeRef.new(shape: GlobalSecondaryIndexList, location_name: "GlobalSecondaryIndexOverride"))
     RestoreTableToPointInTimeInput.add_member(:local_secondary_index_override, Shapes::ShapeRef.new(shape: LocalSecondaryIndexList, location_name: "LocalSecondaryIndexOverride"))
     RestoreTableToPointInTimeInput.add_member(:provisioned_throughput_override, Shapes::ShapeRef.new(shape: ProvisionedThroughput, location_name: "ProvisionedThroughputOverride"))
+    RestoreTableToPointInTimeInput.add_member(:on_demand_throughput_override, Shapes::ShapeRef.new(shape: OnDemandThroughput, location_name: "OnDemandThroughputOverride"))
     RestoreTableToPointInTimeInput.add_member(:sse_specification_override, Shapes::ShapeRef.new(shape: SSESpecification, location_name: "SSESpecificationOverride"))
     RestoreTableToPointInTimeInput.struct_class = Types::RestoreTableToPointInTimeInput
 
@@ -1557,7 +1673,7 @@ module Aws::DynamoDB
     SSESpecification.add_member(:kms_master_key_id, Shapes::ShapeRef.new(shape: KMSMasterKeyId, location_name: "KMSMasterKeyId"))
     SSESpecification.struct_class = Types::SSESpecification
 
-    ScanInput.add_member(:table_name, Shapes::ShapeRef.new(shape: TableName, required: true, location_name: "TableName"))
+    ScanInput.add_member(:table_name, Shapes::ShapeRef.new(shape: TableArn, required: true, location_name: "TableName"))
     ScanInput.add_member(:index_name, Shapes::ShapeRef.new(shape: IndexName, location_name: "IndexName"))
     ScanInput.add_member(:attributes_to_get, Shapes::ShapeRef.new(shape: AttributeNameList, location_name: "AttributesToGet"))
     ScanInput.add_member(:limit, Shapes::ShapeRef.new(shape: PositiveIntegerObject, location_name: "Limit"))
@@ -1588,10 +1704,11 @@ module Aws::DynamoDB
     SourceTableDetails.add_member(:table_name, Shapes::ShapeRef.new(shape: TableName, required: true, location_name: "TableName"))
     SourceTableDetails.add_member(:table_id, Shapes::ShapeRef.new(shape: TableId, required: true, location_name: "TableId"))
     SourceTableDetails.add_member(:table_arn, Shapes::ShapeRef.new(shape: TableArn, location_name: "TableArn"))
-    SourceTableDetails.add_member(:table_size_bytes, Shapes::ShapeRef.new(shape: Long, location_name: "TableSizeBytes"))
+    SourceTableDetails.add_member(:table_size_bytes, Shapes::ShapeRef.new(shape: LongObject, location_name: "TableSizeBytes"))
     SourceTableDetails.add_member(:key_schema, Shapes::ShapeRef.new(shape: KeySchema, required: true, location_name: "KeySchema"))
     SourceTableDetails.add_member(:table_creation_date_time, Shapes::ShapeRef.new(shape: TableCreationDateTime, required: true, location_name: "TableCreationDateTime"))
     SourceTableDetails.add_member(:provisioned_throughput, Shapes::ShapeRef.new(shape: ProvisionedThroughput, required: true, location_name: "ProvisionedThroughput"))
+    SourceTableDetails.add_member(:on_demand_throughput, Shapes::ShapeRef.new(shape: OnDemandThroughput, location_name: "OnDemandThroughput"))
     SourceTableDetails.add_member(:item_count, Shapes::ShapeRef.new(shape: ItemCount, location_name: "ItemCount"))
     SourceTableDetails.add_member(:billing_mode, Shapes::ShapeRef.new(shape: BillingMode, location_name: "BillingMode"))
     SourceTableDetails.struct_class = Types::SourceTableDetails
@@ -1626,6 +1743,7 @@ module Aws::DynamoDB
     TableCreationParameters.add_member(:key_schema, Shapes::ShapeRef.new(shape: KeySchema, required: true, location_name: "KeySchema"))
     TableCreationParameters.add_member(:billing_mode, Shapes::ShapeRef.new(shape: BillingMode, location_name: "BillingMode"))
     TableCreationParameters.add_member(:provisioned_throughput, Shapes::ShapeRef.new(shape: ProvisionedThroughput, location_name: "ProvisionedThroughput"))
+    TableCreationParameters.add_member(:on_demand_throughput, Shapes::ShapeRef.new(shape: OnDemandThroughput, location_name: "OnDemandThroughput"))
     TableCreationParameters.add_member(:sse_specification, Shapes::ShapeRef.new(shape: SSESpecification, location_name: "SSESpecification"))
     TableCreationParameters.add_member(:global_secondary_indexes, Shapes::ShapeRef.new(shape: GlobalSecondaryIndexList, location_name: "GlobalSecondaryIndexes"))
     TableCreationParameters.struct_class = Types::TableCreationParameters
@@ -1636,8 +1754,8 @@ module Aws::DynamoDB
     TableDescription.add_member(:table_status, Shapes::ShapeRef.new(shape: TableStatus, location_name: "TableStatus"))
     TableDescription.add_member(:creation_date_time, Shapes::ShapeRef.new(shape: Date, location_name: "CreationDateTime"))
     TableDescription.add_member(:provisioned_throughput, Shapes::ShapeRef.new(shape: ProvisionedThroughputDescription, location_name: "ProvisionedThroughput"))
-    TableDescription.add_member(:table_size_bytes, Shapes::ShapeRef.new(shape: Long, location_name: "TableSizeBytes"))
-    TableDescription.add_member(:item_count, Shapes::ShapeRef.new(shape: Long, location_name: "ItemCount"))
+    TableDescription.add_member(:table_size_bytes, Shapes::ShapeRef.new(shape: LongObject, location_name: "TableSizeBytes"))
+    TableDescription.add_member(:item_count, Shapes::ShapeRef.new(shape: LongObject, location_name: "ItemCount"))
     TableDescription.add_member(:table_arn, Shapes::ShapeRef.new(shape: String, location_name: "TableArn"))
     TableDescription.add_member(:table_id, Shapes::ShapeRef.new(shape: TableId, location_name: "TableId"))
     TableDescription.add_member(:billing_mode_summary, Shapes::ShapeRef.new(shape: BillingModeSummary, location_name: "BillingModeSummary"))
@@ -1652,6 +1770,10 @@ module Aws::DynamoDB
     TableDescription.add_member(:sse_description, Shapes::ShapeRef.new(shape: SSEDescription, location_name: "SSEDescription"))
     TableDescription.add_member(:archival_summary, Shapes::ShapeRef.new(shape: ArchivalSummary, location_name: "ArchivalSummary"))
     TableDescription.add_member(:table_class_summary, Shapes::ShapeRef.new(shape: TableClassSummary, location_name: "TableClassSummary"))
+    TableDescription.add_member(:deletion_protection_enabled, Shapes::ShapeRef.new(shape: DeletionProtectionEnabled, location_name: "DeletionProtectionEnabled"))
+    TableDescription.add_member(:on_demand_throughput, Shapes::ShapeRef.new(shape: OnDemandThroughput, location_name: "OnDemandThroughput"))
+    TableDescription.add_member(:warm_throughput, Shapes::ShapeRef.new(shape: TableWarmThroughputDescription, location_name: "WarmThroughput"))
+    TableDescription.add_member(:multi_region_consistency, Shapes::ShapeRef.new(shape: MultiRegionConsistency, location_name: "MultiRegionConsistency"))
     TableDescription.struct_class = Types::TableDescription
 
     TableInUseException.add_member(:message, Shapes::ShapeRef.new(shape: ErrorMessage, location_name: "message"))
@@ -1661,6 +1783,11 @@ module Aws::DynamoDB
 
     TableNotFoundException.add_member(:message, Shapes::ShapeRef.new(shape: ErrorMessage, location_name: "message"))
     TableNotFoundException.struct_class = Types::TableNotFoundException
+
+    TableWarmThroughputDescription.add_member(:read_units_per_second, Shapes::ShapeRef.new(shape: PositiveLongObject, location_name: "ReadUnitsPerSecond"))
+    TableWarmThroughputDescription.add_member(:write_units_per_second, Shapes::ShapeRef.new(shape: PositiveLongObject, location_name: "WriteUnitsPerSecond"))
+    TableWarmThroughputDescription.add_member(:status, Shapes::ShapeRef.new(shape: TableStatus, location_name: "Status"))
+    TableWarmThroughputDescription.struct_class = Types::TableWarmThroughputDescription
 
     Tag.add_member(:key, Shapes::ShapeRef.new(shape: TagKeyString, required: true, location_name: "Key"))
     Tag.add_member(:value, Shapes::ShapeRef.new(shape: TagValueString, required: true, location_name: "Value"))
@@ -1729,21 +1856,21 @@ module Aws::DynamoDB
 
     Update.add_member(:key, Shapes::ShapeRef.new(shape: Key, required: true, location_name: "Key"))
     Update.add_member(:update_expression, Shapes::ShapeRef.new(shape: UpdateExpression, required: true, location_name: "UpdateExpression"))
-    Update.add_member(:table_name, Shapes::ShapeRef.new(shape: TableName, required: true, location_name: "TableName"))
+    Update.add_member(:table_name, Shapes::ShapeRef.new(shape: TableArn, required: true, location_name: "TableName"))
     Update.add_member(:condition_expression, Shapes::ShapeRef.new(shape: ConditionExpression, location_name: "ConditionExpression"))
     Update.add_member(:expression_attribute_names, Shapes::ShapeRef.new(shape: ExpressionAttributeNameMap, location_name: "ExpressionAttributeNames"))
     Update.add_member(:expression_attribute_values, Shapes::ShapeRef.new(shape: ExpressionAttributeValueMap, location_name: "ExpressionAttributeValues"))
     Update.add_member(:return_values_on_condition_check_failure, Shapes::ShapeRef.new(shape: ReturnValuesOnConditionCheckFailure, location_name: "ReturnValuesOnConditionCheckFailure"))
     Update.struct_class = Types::Update
 
-    UpdateContinuousBackupsInput.add_member(:table_name, Shapes::ShapeRef.new(shape: TableName, required: true, location_name: "TableName"))
+    UpdateContinuousBackupsInput.add_member(:table_name, Shapes::ShapeRef.new(shape: TableArn, required: true, location_name: "TableName"))
     UpdateContinuousBackupsInput.add_member(:point_in_time_recovery_specification, Shapes::ShapeRef.new(shape: PointInTimeRecoverySpecification, required: true, location_name: "PointInTimeRecoverySpecification"))
     UpdateContinuousBackupsInput.struct_class = Types::UpdateContinuousBackupsInput
 
     UpdateContinuousBackupsOutput.add_member(:continuous_backups_description, Shapes::ShapeRef.new(shape: ContinuousBackupsDescription, location_name: "ContinuousBackupsDescription"))
     UpdateContinuousBackupsOutput.struct_class = Types::UpdateContinuousBackupsOutput
 
-    UpdateContributorInsightsInput.add_member(:table_name, Shapes::ShapeRef.new(shape: TableName, required: true, location_name: "TableName"))
+    UpdateContributorInsightsInput.add_member(:table_name, Shapes::ShapeRef.new(shape: TableArn, required: true, location_name: "TableName"))
     UpdateContributorInsightsInput.add_member(:index_name, Shapes::ShapeRef.new(shape: IndexName, location_name: "IndexName"))
     UpdateContributorInsightsInput.add_member(:contributor_insights_action, Shapes::ShapeRef.new(shape: ContributorInsightsAction, required: true, location_name: "ContributorInsightsAction"))
     UpdateContributorInsightsInput.struct_class = Types::UpdateContributorInsightsInput
@@ -1754,7 +1881,9 @@ module Aws::DynamoDB
     UpdateContributorInsightsOutput.struct_class = Types::UpdateContributorInsightsOutput
 
     UpdateGlobalSecondaryIndexAction.add_member(:index_name, Shapes::ShapeRef.new(shape: IndexName, required: true, location_name: "IndexName"))
-    UpdateGlobalSecondaryIndexAction.add_member(:provisioned_throughput, Shapes::ShapeRef.new(shape: ProvisionedThroughput, required: true, location_name: "ProvisionedThroughput"))
+    UpdateGlobalSecondaryIndexAction.add_member(:provisioned_throughput, Shapes::ShapeRef.new(shape: ProvisionedThroughput, location_name: "ProvisionedThroughput"))
+    UpdateGlobalSecondaryIndexAction.add_member(:on_demand_throughput, Shapes::ShapeRef.new(shape: OnDemandThroughput, location_name: "OnDemandThroughput"))
+    UpdateGlobalSecondaryIndexAction.add_member(:warm_throughput, Shapes::ShapeRef.new(shape: WarmThroughput, location_name: "WarmThroughput"))
     UpdateGlobalSecondaryIndexAction.struct_class = Types::UpdateGlobalSecondaryIndexAction
 
     UpdateGlobalTableInput.add_member(:global_table_name, Shapes::ShapeRef.new(shape: TableName, required: true, location_name: "GlobalTableName"))
@@ -1776,7 +1905,7 @@ module Aws::DynamoDB
     UpdateGlobalTableSettingsOutput.add_member(:replica_settings, Shapes::ShapeRef.new(shape: ReplicaSettingsDescriptionList, location_name: "ReplicaSettings"))
     UpdateGlobalTableSettingsOutput.struct_class = Types::UpdateGlobalTableSettingsOutput
 
-    UpdateItemInput.add_member(:table_name, Shapes::ShapeRef.new(shape: TableName, required: true, location_name: "TableName"))
+    UpdateItemInput.add_member(:table_name, Shapes::ShapeRef.new(shape: TableArn, required: true, location_name: "TableName"))
     UpdateItemInput.add_member(:key, Shapes::ShapeRef.new(shape: Key, required: true, location_name: "Key"))
     UpdateItemInput.add_member(:attribute_updates, Shapes::ShapeRef.new(shape: AttributeUpdates, location_name: "AttributeUpdates"))
     UpdateItemInput.add_member(:expected, Shapes::ShapeRef.new(shape: ExpectedAttributeMap, location_name: "Expected"))
@@ -1788,6 +1917,7 @@ module Aws::DynamoDB
     UpdateItemInput.add_member(:condition_expression, Shapes::ShapeRef.new(shape: ConditionExpression, location_name: "ConditionExpression"))
     UpdateItemInput.add_member(:expression_attribute_names, Shapes::ShapeRef.new(shape: ExpressionAttributeNameMap, location_name: "ExpressionAttributeNames"))
     UpdateItemInput.add_member(:expression_attribute_values, Shapes::ShapeRef.new(shape: ExpressionAttributeValueMap, location_name: "ExpressionAttributeValues"))
+    UpdateItemInput.add_member(:return_values_on_condition_check_failure, Shapes::ShapeRef.new(shape: ReturnValuesOnConditionCheckFailure, location_name: "ReturnValuesOnConditionCheckFailure"))
     UpdateItemInput.struct_class = Types::UpdateItemInput
 
     UpdateItemOutput.add_member(:attributes, Shapes::ShapeRef.new(shape: AttributeMap, location_name: "Attributes"))
@@ -1795,15 +1925,30 @@ module Aws::DynamoDB
     UpdateItemOutput.add_member(:item_collection_metrics, Shapes::ShapeRef.new(shape: ItemCollectionMetrics, location_name: "ItemCollectionMetrics"))
     UpdateItemOutput.struct_class = Types::UpdateItemOutput
 
+    UpdateKinesisStreamingConfiguration.add_member(:approximate_creation_date_time_precision, Shapes::ShapeRef.new(shape: ApproximateCreationDateTimePrecision, location_name: "ApproximateCreationDateTimePrecision"))
+    UpdateKinesisStreamingConfiguration.struct_class = Types::UpdateKinesisStreamingConfiguration
+
+    UpdateKinesisStreamingDestinationInput.add_member(:table_name, Shapes::ShapeRef.new(shape: TableArn, required: true, location_name: "TableName"))
+    UpdateKinesisStreamingDestinationInput.add_member(:stream_arn, Shapes::ShapeRef.new(shape: StreamArn, required: true, location_name: "StreamArn"))
+    UpdateKinesisStreamingDestinationInput.add_member(:update_kinesis_streaming_configuration, Shapes::ShapeRef.new(shape: UpdateKinesisStreamingConfiguration, location_name: "UpdateKinesisStreamingConfiguration"))
+    UpdateKinesisStreamingDestinationInput.struct_class = Types::UpdateKinesisStreamingDestinationInput
+
+    UpdateKinesisStreamingDestinationOutput.add_member(:table_name, Shapes::ShapeRef.new(shape: TableName, location_name: "TableName"))
+    UpdateKinesisStreamingDestinationOutput.add_member(:stream_arn, Shapes::ShapeRef.new(shape: StreamArn, location_name: "StreamArn"))
+    UpdateKinesisStreamingDestinationOutput.add_member(:destination_status, Shapes::ShapeRef.new(shape: DestinationStatus, location_name: "DestinationStatus"))
+    UpdateKinesisStreamingDestinationOutput.add_member(:update_kinesis_streaming_configuration, Shapes::ShapeRef.new(shape: UpdateKinesisStreamingConfiguration, location_name: "UpdateKinesisStreamingConfiguration"))
+    UpdateKinesisStreamingDestinationOutput.struct_class = Types::UpdateKinesisStreamingDestinationOutput
+
     UpdateReplicationGroupMemberAction.add_member(:region_name, Shapes::ShapeRef.new(shape: RegionName, required: true, location_name: "RegionName"))
     UpdateReplicationGroupMemberAction.add_member(:kms_master_key_id, Shapes::ShapeRef.new(shape: KMSMasterKeyId, location_name: "KMSMasterKeyId"))
     UpdateReplicationGroupMemberAction.add_member(:provisioned_throughput_override, Shapes::ShapeRef.new(shape: ProvisionedThroughputOverride, location_name: "ProvisionedThroughputOverride"))
+    UpdateReplicationGroupMemberAction.add_member(:on_demand_throughput_override, Shapes::ShapeRef.new(shape: OnDemandThroughputOverride, location_name: "OnDemandThroughputOverride"))
     UpdateReplicationGroupMemberAction.add_member(:global_secondary_indexes, Shapes::ShapeRef.new(shape: ReplicaGlobalSecondaryIndexList, location_name: "GlobalSecondaryIndexes"))
     UpdateReplicationGroupMemberAction.add_member(:table_class_override, Shapes::ShapeRef.new(shape: TableClass, location_name: "TableClassOverride"))
     UpdateReplicationGroupMemberAction.struct_class = Types::UpdateReplicationGroupMemberAction
 
     UpdateTableInput.add_member(:attribute_definitions, Shapes::ShapeRef.new(shape: AttributeDefinitions, location_name: "AttributeDefinitions"))
-    UpdateTableInput.add_member(:table_name, Shapes::ShapeRef.new(shape: TableName, required: true, location_name: "TableName"))
+    UpdateTableInput.add_member(:table_name, Shapes::ShapeRef.new(shape: TableArn, required: true, location_name: "TableName"))
     UpdateTableInput.add_member(:billing_mode, Shapes::ShapeRef.new(shape: BillingMode, location_name: "BillingMode"))
     UpdateTableInput.add_member(:provisioned_throughput, Shapes::ShapeRef.new(shape: ProvisionedThroughput, location_name: "ProvisionedThroughput"))
     UpdateTableInput.add_member(:global_secondary_index_updates, Shapes::ShapeRef.new(shape: GlobalSecondaryIndexUpdateList, location_name: "GlobalSecondaryIndexUpdates"))
@@ -1811,13 +1956,17 @@ module Aws::DynamoDB
     UpdateTableInput.add_member(:sse_specification, Shapes::ShapeRef.new(shape: SSESpecification, location_name: "SSESpecification"))
     UpdateTableInput.add_member(:replica_updates, Shapes::ShapeRef.new(shape: ReplicationGroupUpdateList, location_name: "ReplicaUpdates"))
     UpdateTableInput.add_member(:table_class, Shapes::ShapeRef.new(shape: TableClass, location_name: "TableClass"))
+    UpdateTableInput.add_member(:deletion_protection_enabled, Shapes::ShapeRef.new(shape: DeletionProtectionEnabled, location_name: "DeletionProtectionEnabled"))
+    UpdateTableInput.add_member(:multi_region_consistency, Shapes::ShapeRef.new(shape: MultiRegionConsistency, location_name: "MultiRegionConsistency"))
+    UpdateTableInput.add_member(:on_demand_throughput, Shapes::ShapeRef.new(shape: OnDemandThroughput, location_name: "OnDemandThroughput"))
+    UpdateTableInput.add_member(:warm_throughput, Shapes::ShapeRef.new(shape: WarmThroughput, location_name: "WarmThroughput"))
     UpdateTableInput.struct_class = Types::UpdateTableInput
 
     UpdateTableOutput.add_member(:table_description, Shapes::ShapeRef.new(shape: TableDescription, location_name: "TableDescription"))
     UpdateTableOutput.struct_class = Types::UpdateTableOutput
 
     UpdateTableReplicaAutoScalingInput.add_member(:global_secondary_index_updates, Shapes::ShapeRef.new(shape: GlobalSecondaryIndexAutoScalingUpdateList, location_name: "GlobalSecondaryIndexUpdates"))
-    UpdateTableReplicaAutoScalingInput.add_member(:table_name, Shapes::ShapeRef.new(shape: TableName, required: true, location_name: "TableName"))
+    UpdateTableReplicaAutoScalingInput.add_member(:table_name, Shapes::ShapeRef.new(shape: TableArn, required: true, location_name: "TableName"))
     UpdateTableReplicaAutoScalingInput.add_member(:provisioned_write_capacity_auto_scaling_update, Shapes::ShapeRef.new(shape: AutoScalingSettingsUpdate, location_name: "ProvisionedWriteCapacityAutoScalingUpdate"))
     UpdateTableReplicaAutoScalingInput.add_member(:replica_updates, Shapes::ShapeRef.new(shape: ReplicaAutoScalingUpdateList, location_name: "ReplicaUpdates"))
     UpdateTableReplicaAutoScalingInput.struct_class = Types::UpdateTableReplicaAutoScalingInput
@@ -1825,12 +1974,16 @@ module Aws::DynamoDB
     UpdateTableReplicaAutoScalingOutput.add_member(:table_auto_scaling_description, Shapes::ShapeRef.new(shape: TableAutoScalingDescription, location_name: "TableAutoScalingDescription"))
     UpdateTableReplicaAutoScalingOutput.struct_class = Types::UpdateTableReplicaAutoScalingOutput
 
-    UpdateTimeToLiveInput.add_member(:table_name, Shapes::ShapeRef.new(shape: TableName, required: true, location_name: "TableName"))
+    UpdateTimeToLiveInput.add_member(:table_name, Shapes::ShapeRef.new(shape: TableArn, required: true, location_name: "TableName"))
     UpdateTimeToLiveInput.add_member(:time_to_live_specification, Shapes::ShapeRef.new(shape: TimeToLiveSpecification, required: true, location_name: "TimeToLiveSpecification"))
     UpdateTimeToLiveInput.struct_class = Types::UpdateTimeToLiveInput
 
     UpdateTimeToLiveOutput.add_member(:time_to_live_specification, Shapes::ShapeRef.new(shape: TimeToLiveSpecification, location_name: "TimeToLiveSpecification"))
     UpdateTimeToLiveOutput.struct_class = Types::UpdateTimeToLiveOutput
+
+    WarmThroughput.add_member(:read_units_per_second, Shapes::ShapeRef.new(shape: LongObject, location_name: "ReadUnitsPerSecond"))
+    WarmThroughput.add_member(:write_units_per_second, Shapes::ShapeRef.new(shape: LongObject, location_name: "WriteUnitsPerSecond"))
+    WarmThroughput.struct_class = Types::WarmThroughput
 
     WriteRequest.add_member(:put_request, Shapes::ShapeRef.new(shape: PutRequest, location_name: "PutRequest"))
     WriteRequest.add_member(:delete_request, Shapes::ShapeRef.new(shape: DeleteRequest, location_name: "DeleteRequest"))
@@ -1846,9 +1999,11 @@ module Aws::DynamoDB
 
       api.metadata = {
         "apiVersion" => "2012-08-10",
+        "auth" => ["aws.auth#sigv4"],
         "endpointPrefix" => "dynamodb",
         "jsonVersion" => "1.0",
         "protocol" => "json",
+        "protocols" => ["json"],
         "serviceAbbreviation" => "DynamoDB",
         "serviceFullName" => "Amazon DynamoDB",
         "serviceId" => "DynamoDB",
@@ -1974,6 +2129,22 @@ module Aws::DynamoDB
         o.errors << Shapes::ShapeRef.new(shape: TransactionConflictException)
         o.errors << Shapes::ShapeRef.new(shape: RequestLimitExceeded)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerError)
+        o.errors << Shapes::ShapeRef.new(shape: ReplicatedWriteConflictException)
+      end)
+
+      api.add_operation(:delete_resource_policy, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DeleteResourcePolicy"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.endpoint_discovery = {
+        }
+        o.input = Shapes::ShapeRef.new(shape: DeleteResourcePolicyInput)
+        o.output = Shapes::ShapeRef.new(shape: DeleteResourcePolicyOutput)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerError)
+        o.errors << Shapes::ShapeRef.new(shape: PolicyNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceInUseException)
+        o.errors << Shapes::ShapeRef.new(shape: LimitExceededException)
       end)
 
       api.add_operation(:delete_table, Seahorse::Model::Operation.new.tap do |o|
@@ -2221,6 +2392,19 @@ module Aws::DynamoDB
         o.errors << Shapes::ShapeRef.new(shape: InternalServerError)
       end)
 
+      api.add_operation(:get_resource_policy, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "GetResourcePolicy"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.endpoint_discovery = {
+        }
+        o.input = Shapes::ShapeRef.new(shape: GetResourcePolicyInput)
+        o.output = Shapes::ShapeRef.new(shape: GetResourcePolicyOutput)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerError)
+        o.errors << Shapes::ShapeRef.new(shape: PolicyNotFoundException)
+      end)
+
       api.add_operation(:import_table, Seahorse::Model::Operation.new.tap do |o|
         o.name = "ImportTable"
         o.http_method = "POST"
@@ -2345,6 +2529,22 @@ module Aws::DynamoDB
         o.errors << Shapes::ShapeRef.new(shape: TransactionConflictException)
         o.errors << Shapes::ShapeRef.new(shape: RequestLimitExceeded)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerError)
+        o.errors << Shapes::ShapeRef.new(shape: ReplicatedWriteConflictException)
+      end)
+
+      api.add_operation(:put_resource_policy, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "PutResourcePolicy"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.endpoint_discovery = {
+        }
+        o.input = Shapes::ShapeRef.new(shape: PutResourcePolicyInput)
+        o.output = Shapes::ShapeRef.new(shape: PutResourcePolicyOutput)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerError)
+        o.errors << Shapes::ShapeRef.new(shape: LimitExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: PolicyNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceInUseException)
       end)
 
       api.add_operation(:query, Seahorse::Model::Operation.new.tap do |o|
@@ -2549,6 +2749,21 @@ module Aws::DynamoDB
         o.errors << Shapes::ShapeRef.new(shape: TransactionConflictException)
         o.errors << Shapes::ShapeRef.new(shape: RequestLimitExceeded)
         o.errors << Shapes::ShapeRef.new(shape: InternalServerError)
+        o.errors << Shapes::ShapeRef.new(shape: ReplicatedWriteConflictException)
+      end)
+
+      api.add_operation(:update_kinesis_streaming_destination, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "UpdateKinesisStreamingDestination"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.endpoint_discovery = {
+        }
+        o.input = Shapes::ShapeRef.new(shape: UpdateKinesisStreamingDestinationInput)
+        o.output = Shapes::ShapeRef.new(shape: UpdateKinesisStreamingDestinationOutput)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerError)
+        o.errors << Shapes::ShapeRef.new(shape: LimitExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceInUseException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
       end)
 
       api.add_operation(:update_table, Seahorse::Model::Operation.new.tap do |o|

@@ -7,33 +7,34 @@
 #
 # WARNING ABOUT GENERATED CODE
 
-require 'seahorse/client/plugins/content_length.rb'
-require 'aws-sdk-core/plugins/credentials_configuration.rb'
-require 'aws-sdk-core/plugins/logging.rb'
-require 'aws-sdk-core/plugins/param_converter.rb'
-require 'aws-sdk-core/plugins/param_validator.rb'
-require 'aws-sdk-core/plugins/user_agent.rb'
-require 'aws-sdk-core/plugins/helpful_socket_errors.rb'
-require 'aws-sdk-core/plugins/retry_errors.rb'
-require 'aws-sdk-core/plugins/global_configuration.rb'
-require 'aws-sdk-core/plugins/regional_endpoint.rb'
-require 'aws-sdk-core/plugins/endpoint_discovery.rb'
-require 'aws-sdk-core/plugins/endpoint_pattern.rb'
-require 'aws-sdk-core/plugins/response_paging.rb'
-require 'aws-sdk-core/plugins/stub_responses.rb'
-require 'aws-sdk-core/plugins/idempotency_token.rb'
-require 'aws-sdk-core/plugins/jsonvalue_converter.rb'
-require 'aws-sdk-core/plugins/client_metrics_plugin.rb'
-require 'aws-sdk-core/plugins/client_metrics_send_plugin.rb'
-require 'aws-sdk-core/plugins/transfer_encoding.rb'
-require 'aws-sdk-core/plugins/http_checksum.rb'
-require 'aws-sdk-core/plugins/checksum_algorithm.rb'
-require 'aws-sdk-core/plugins/defaults_mode.rb'
-require 'aws-sdk-core/plugins/recursion_detection.rb'
-require 'aws-sdk-core/plugins/sign.rb'
-require 'aws-sdk-core/plugins/protocols/json_rpc.rb'
-
-Aws::Plugins::GlobalConfiguration.add_identifier(:secretsmanager)
+require 'seahorse/client/plugins/content_length'
+require 'aws-sdk-core/plugins/credentials_configuration'
+require 'aws-sdk-core/plugins/logging'
+require 'aws-sdk-core/plugins/param_converter'
+require 'aws-sdk-core/plugins/param_validator'
+require 'aws-sdk-core/plugins/user_agent'
+require 'aws-sdk-core/plugins/helpful_socket_errors'
+require 'aws-sdk-core/plugins/retry_errors'
+require 'aws-sdk-core/plugins/global_configuration'
+require 'aws-sdk-core/plugins/regional_endpoint'
+require 'aws-sdk-core/plugins/endpoint_discovery'
+require 'aws-sdk-core/plugins/endpoint_pattern'
+require 'aws-sdk-core/plugins/response_paging'
+require 'aws-sdk-core/plugins/stub_responses'
+require 'aws-sdk-core/plugins/idempotency_token'
+require 'aws-sdk-core/plugins/invocation_id'
+require 'aws-sdk-core/plugins/jsonvalue_converter'
+require 'aws-sdk-core/plugins/client_metrics_plugin'
+require 'aws-sdk-core/plugins/client_metrics_send_plugin'
+require 'aws-sdk-core/plugins/transfer_encoding'
+require 'aws-sdk-core/plugins/http_checksum'
+require 'aws-sdk-core/plugins/checksum_algorithm'
+require 'aws-sdk-core/plugins/request_compression'
+require 'aws-sdk-core/plugins/defaults_mode'
+require 'aws-sdk-core/plugins/recursion_detection'
+require 'aws-sdk-core/plugins/telemetry'
+require 'aws-sdk-core/plugins/sign'
+require 'aws-sdk-core/plugins/protocols/json_rpc'
 
 module Aws::SecretsManager
   # An API client for SecretsManager.  To construct a client, you need to configure a `:region` and `:credentials`.
@@ -71,20 +72,28 @@ module Aws::SecretsManager
     add_plugin(Aws::Plugins::ResponsePaging)
     add_plugin(Aws::Plugins::StubResponses)
     add_plugin(Aws::Plugins::IdempotencyToken)
+    add_plugin(Aws::Plugins::InvocationId)
     add_plugin(Aws::Plugins::JsonvalueConverter)
     add_plugin(Aws::Plugins::ClientMetricsPlugin)
     add_plugin(Aws::Plugins::ClientMetricsSendPlugin)
     add_plugin(Aws::Plugins::TransferEncoding)
     add_plugin(Aws::Plugins::HttpChecksum)
     add_plugin(Aws::Plugins::ChecksumAlgorithm)
+    add_plugin(Aws::Plugins::RequestCompression)
     add_plugin(Aws::Plugins::DefaultsMode)
     add_plugin(Aws::Plugins::RecursionDetection)
+    add_plugin(Aws::Plugins::Telemetry)
     add_plugin(Aws::Plugins::Sign)
     add_plugin(Aws::Plugins::Protocols::JsonRpc)
     add_plugin(Aws::SecretsManager::Plugins::Endpoints)
 
     # @overload initialize(options)
     #   @param [Hash] options
+    #
+    #   @option options [Array<Seahorse::Client::Plugin>] :plugins ([]])
+    #     A list of plugins to apply to the client. Each plugin is either a
+    #     class name or an instance of a plugin class.
+    #
     #   @option options [required, Aws::CredentialProvider] :credentials
     #     Your AWS credentials. This can be an instance of any one of the
     #     following classes:
@@ -119,13 +128,15 @@ module Aws::SecretsManager
     #     locations will be searched for credentials:
     #
     #     * `Aws.config[:credentials]`
-    #     * The `:access_key_id`, `:secret_access_key`, and `:session_token` options.
-    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']
+    #     * The `:access_key_id`, `:secret_access_key`, `:session_token`, and
+    #       `:account_id` options.
+    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'],
+    #       ENV['AWS_SESSION_TOKEN'], and ENV['AWS_ACCOUNT_ID']
     #     * `~/.aws/credentials`
     #     * `~/.aws/config`
     #     * EC2/ECS IMDS instance profile - When used by default, the timeouts
     #       are very aggressive. Construct and pass an instance of
-    #       `Aws::InstanceProfileCredentails` or `Aws::ECSCredentials` to
+    #       `Aws::InstanceProfileCredentials` or `Aws::ECSCredentials` to
     #       enable retries and extended timeouts. Instance profile credential
     #       fetching can be disabled by setting ENV['AWS_EC2_METADATA_DISABLED']
     #       to true.
@@ -143,6 +154,8 @@ module Aws::SecretsManager
     #     * `~/.aws/config`
     #
     #   @option options [String] :access_key_id
+    #
+    #   @option options [String] :account_id
     #
     #   @option options [Boolean] :active_endpoint_cache (false)
     #     When set to `true`, a thread polling for endpoints will be running in
@@ -190,10 +203,20 @@ module Aws::SecretsManager
     #     Set to true to disable SDK automatically adding host prefix
     #     to default service endpoint when available.
     #
-    #   @option options [String] :endpoint
-    #     The client endpoint is normally constructed from the `:region`
-    #     option. You should only configure an `:endpoint` when connecting
-    #     to test or custom endpoints. This should be a valid HTTP(S) URI.
+    #   @option options [Boolean] :disable_request_compression (false)
+    #     When set to 'true' the request body will not be compressed
+    #     for supported operations.
+    #
+    #   @option options [String, URI::HTTPS, URI::HTTP] :endpoint
+    #     Normally you should not configure the `:endpoint` option
+    #     directly. This is normally constructed from the `:region`
+    #     option. Configuring `:endpoint` is normally reserved for
+    #     connecting to test or custom endpoints. The endpoint should
+    #     be a URI formatted like:
+    #
+    #         'http://example.com'
+    #         'https://example.com'
+    #         'http://example.com:123'
     #
     #   @option options [Integer] :endpoint_cache_max_entries (1000)
     #     Used for the maximum size limit of the LRU cache storing endpoints data
@@ -209,6 +232,10 @@ module Aws::SecretsManager
     #
     #   @option options [Boolean] :endpoint_discovery (false)
     #     When set to `true`, endpoint discovery will be enabled for operations when available.
+    #
+    #   @option options [Boolean] :ignore_configured_endpoint_urls
+    #     Setting to true disables use of endpoint URLs provided via environment
+    #     variables and the shared configuration file.
     #
     #   @option options [Aws::Log::Formatter] :log_formatter (Aws::Log::Formatter.default)
     #     The log formatter.
@@ -229,6 +256,34 @@ module Aws::SecretsManager
     #   @option options [String] :profile ("default")
     #     Used when loading credentials from the shared credentials file
     #     at HOME/.aws/credentials.  When not specified, 'default' is used.
+    #
+    #   @option options [String] :request_checksum_calculation ("when_supported")
+    #     Determines when a checksum will be calculated for request payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, a checksum will be
+    #       calculated for all request payloads of operations modeled with the
+    #       `httpChecksum` trait where `requestChecksumRequired` is `true` and/or a
+    #       `requestAlgorithmMember` is modeled.
+    #     * `when_required` - When set, a checksum will only be calculated for
+    #       request payloads of operations modeled with the  `httpChecksum` trait where
+    #       `requestChecksumRequired` is `true` or where a `requestAlgorithmMember`
+    #       is modeled and supplied.
+    #
+    #   @option options [Integer] :request_min_compression_size_bytes (10240)
+    #     The minimum size in bytes that triggers compression for request
+    #     bodies. The value must be non-negative integer value between 0
+    #     and 10485780 bytes inclusive.
+    #
+    #   @option options [String] :response_checksum_validation ("when_supported")
+    #     Determines when checksum validation will be performed on response payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, checksum validation is performed on all
+    #       response payloads of operations modeled with the `httpChecksum` trait where
+    #       `responseAlgorithms` is modeled, except when no modeled checksum algorithms
+    #       are supported.
+    #     * `when_required` - When set, checksum validation is not performed on
+    #       response payloads of operations unless the checksum algorithm is supported and
+    #       the `requestValidationModeMember` member is set to `ENABLED`.
     #
     #   @option options [Proc] :retry_backoff
     #     A proc or lambda used for backoff. Defaults to 2**retries * retry_base_delay.
@@ -274,20 +329,31 @@ module Aws::SecretsManager
     #       throttling.  This is a provisional mode that may change behavior
     #       in the future.
     #
+    #   @option options [String] :sdk_ua_app_id
+    #     A unique and opaque application ID that is appended to the
+    #     User-Agent header as app/sdk_ua_app_id. It should have a
+    #     maximum length of 50. This variable is sourced from environment
+    #     variable AWS_SDK_UA_APP_ID or the shared config profile attribute sdk_ua_app_id.
     #
     #   @option options [String] :secret_access_key
     #
     #   @option options [String] :session_token
     #
+    #   @option options [Array] :sigv4a_signing_region_set
+    #     A list of regions that should be signed with SigV4a signing. When
+    #     not passed, a default `:sigv4a_signing_region_set` is searched for
+    #     in the following locations:
+    #
+    #     * `Aws.config[:sigv4a_signing_region_set]`
+    #     * `ENV['AWS_SIGV4A_SIGNING_REGION_SET']`
+    #     * `~/.aws/config`
+    #
     #   @option options [Boolean] :simple_json (false)
     #     Disables request parameter conversion, validation, and formatting.
-    #     Also disable response data type conversions. This option is useful
-    #     when you want to ensure the highest level of performance by
-    #     avoiding overhead of walking request parameters and response data
-    #     structures.
-    #
-    #     When `:simple_json` is enabled, the request parameters hash must
-    #     be formatted exactly as the DynamoDB API expects.
+    #     Also disables response data type conversions. The request parameters
+    #     hash must be formatted exactly as the API expects.This option is useful
+    #     when you want to ensure the highest level of performance by avoiding
+    #     overhead of walking request parameters and response data structures.
     #
     #   @option options [Boolean] :stub_responses (false)
     #     Causes the client to return stubbed responses. By default
@@ -297,6 +363,16 @@ module Aws::SecretsManager
     #
     #     ** Please note ** When response stubbing is enabled, no HTTP
     #     requests are made, and retries are disabled.
+    #
+    #   @option options [Aws::Telemetry::TelemetryProviderBase] :telemetry_provider (Aws::Telemetry::NoOpTelemetryProvider)
+    #     Allows you to provide a telemetry provider, which is used to
+    #     emit telemetry data. By default, uses `NoOpTelemetryProvider` which
+    #     will not record or emit any telemetry data. The SDK supports the
+    #     following telemetry providers:
+    #
+    #     * OpenTelemetry (OTel) - To use the OTel provider, install and require the
+    #     `opentelemetry-sdk` gem and then, pass in an instance of a
+    #     `Aws::Telemetry::OTelProvider` for telemetry provider.
     #
     #   @option options [Aws::TokenProvider] :token_provider
     #     A Bearer Token Provider. This can be an instance of any one of the
@@ -325,58 +401,232 @@ module Aws::SecretsManager
     #     sending the request.
     #
     #   @option options [Aws::SecretsManager::EndpointProvider] :endpoint_provider
-    #     The endpoint provider used to resolve endpoints. Any object that responds to `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to `Aws::SecretsManager::EndpointParameters`
+    #     The endpoint provider used to resolve endpoints. Any object that responds to
+    #     `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+    #     `Aws::SecretsManager::EndpointParameters`.
     #
-    #   @option options [URI::HTTP,String] :http_proxy A proxy to send
-    #     requests through.  Formatted like 'http://proxy.com:123'.
+    #   @option options [Float] :http_continue_timeout (1)
+    #     The number of seconds to wait for a 100-continue response before sending the
+    #     request body.  This option has no effect unless the request has "Expect"
+    #     header set to "100-continue".  Defaults to `nil` which  disables this
+    #     behaviour.  This value can safely be set per request on the session.
     #
-    #   @option options [Float] :http_open_timeout (15) The number of
-    #     seconds to wait when opening a HTTP session before raising a
-    #     `Timeout::Error`.
+    #   @option options [Float] :http_idle_timeout (5)
+    #     The number of seconds a connection is allowed to sit idle before it
+    #     is considered stale.  Stale connections are closed and removed from the
+    #     pool before making a request.
     #
-    #   @option options [Float] :http_read_timeout (60) The default
-    #     number of seconds to wait for response data.  This value can
-    #     safely be set per-request on the session.
+    #   @option options [Float] :http_open_timeout (15)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :http_idle_timeout (5) The number of
-    #     seconds a connection is allowed to sit idle before it is
-    #     considered stale.  Stale connections are closed and removed
-    #     from the pool before making a request.
+    #   @option options [URI::HTTP,String] :http_proxy
+    #     A proxy to send requests through.  Formatted like 'http://proxy.com:123'.
     #
-    #   @option options [Float] :http_continue_timeout (1) The number of
-    #     seconds to wait for a 100-continue response before sending the
-    #     request body.  This option has no effect unless the request has
-    #     "Expect" header set to "100-continue".  Defaults to `nil` which
-    #     disables this behaviour.  This value can safely be set per
-    #     request on the session.
+    #   @option options [Float] :http_read_timeout (60)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :ssl_timeout (nil) Sets the SSL timeout
-    #     in seconds.
+    #   @option options [Boolean] :http_wire_trace (false)
+    #     When `true`,  HTTP debug output will be sent to the `:logger`.
     #
-    #   @option options [Boolean] :http_wire_trace (false) When `true`,
-    #     HTTP debug output will be sent to the `:logger`.
+    #   @option options [Proc] :on_chunk_received
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the response body is received. It provides three arguments: the chunk,
+    #     the number of bytes received, and the total number of
+    #     bytes in the response (or nil if the server did not send a `content-length`).
     #
-    #   @option options [Boolean] :ssl_verify_peer (true) When `true`,
-    #     SSL peer certificates are verified when establishing a
-    #     connection.
+    #   @option options [Proc] :on_chunk_sent
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the request body is sent. It provides three arguments: the chunk,
+    #     the number of bytes read from the body, and the total number of
+    #     bytes in the body.
     #
-    #   @option options [String] :ssl_ca_bundle Full path to the SSL
-    #     certificate authority bundle file that should be used when
-    #     verifying peer certificates.  If you do not pass
-    #     `:ssl_ca_bundle` or `:ssl_ca_directory` the the system default
-    #     will be used if available.
+    #   @option options [Boolean] :raise_response_errors (true)
+    #     When `true`, response errors are raised.
     #
-    #   @option options [String] :ssl_ca_directory Full path of the
-    #     directory that contains the unbundled SSL certificate
+    #   @option options [String] :ssl_ca_bundle
+    #     Full path to the SSL certificate authority bundle file that should be used when
+    #     verifying peer certificates.  If you do not pass `:ssl_ca_bundle` or
+    #     `:ssl_ca_directory` the the system default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_directory
+    #     Full path of the directory that contains the unbundled SSL certificate
     #     authority files for verifying peer certificates.  If you do
-    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the
-    #     system default will be used if available.
+    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the system
+    #     default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_store
+    #     Sets the X509::Store to verify peer certificate.
+    #
+    #   @option options [OpenSSL::X509::Certificate] :ssl_cert
+    #     Sets a client certificate when creating http connections.
+    #
+    #   @option options [OpenSSL::PKey] :ssl_key
+    #     Sets a client key when creating http connections.
+    #
+    #   @option options [Float] :ssl_timeout
+    #     Sets the SSL timeout in seconds
+    #
+    #   @option options [Boolean] :ssl_verify_peer (true)
+    #     When `true`, SSL peer certificates are verified when establishing a connection.
     #
     def initialize(*args)
       super
     end
 
     # @!group API Operations
+
+    # Retrieves the contents of the encrypted fields `SecretString` or
+    # `SecretBinary` for up to 20 secrets. To retrieve a single secret, call
+    # GetSecretValue.
+    #
+    # To choose which secrets to retrieve, you can specify a list of secrets
+    # by name or ARN, or you can use filters. If Secrets Manager encounters
+    # errors such as `AccessDeniedException` while attempting to retrieve
+    # any of the secrets, you can see the errors in `Errors` in the
+    # response.
+    #
+    # Secrets Manager generates CloudTrail `GetSecretValue` log entries for
+    # each secret you request when you call this action. Do not include
+    # sensitive information in request parameters because it might be
+    # logged. For more information, see [Logging Secrets Manager events with
+    # CloudTrail][1].
+    #
+    # <b>Required permissions: </b> `secretsmanager:BatchGetSecretValue`,
+    # and you must have `secretsmanager:GetSecretValue` for each secret. If
+    # you use filters, you must also have `secretsmanager:ListSecrets`. If
+    # the secrets are encrypted using customer-managed keys instead of the
+    # Amazon Web Services managed key `aws/secretsmanager`, then you also
+    # need `kms:Decrypt` permissions for the keys. For more information, see
+    # [ IAM policy actions for Secrets Manager][2] and [Authentication and
+    # access control in Secrets Manager][3].
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/secretsmanager/latest/userguide/retrieve-ct-entries.html
+    # [2]: https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_iam-permissions.html#reference_iam-permissions_actions
+    # [3]: https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html
+    #
+    # @option params [Array<String>] :secret_id_list
+    #   The ARN or names of the secrets to retrieve. You must include
+    #   `Filters` or `SecretIdList`, but not both.
+    #
+    # @option params [Array<Types::Filter>] :filters
+    #   The filters to choose which secrets to retrieve. You must include
+    #   `Filters` or `SecretIdList`, but not both.
+    #
+    # @option params [Integer] :max_results
+    #   The number of results to include in the response.
+    #
+    #   If there are more results available, in the response, Secrets Manager
+    #   includes `NextToken`. To get the next results, call
+    #   `BatchGetSecretValue` again with the value from `NextToken`. To use
+    #   this parameter, you must also use the `Filters` parameter.
+    #
+    # @option params [String] :next_token
+    #   A token that indicates where the output should continue from, if a
+    #   previous call did not show all results. To get the next results, call
+    #   `BatchGetSecretValue` again with this value.
+    #
+    # @return [Types::BatchGetSecretValueResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::BatchGetSecretValueResponse#secret_values #secret_values} => Array&lt;Types::SecretValueEntry&gt;
+    #   * {Types::BatchGetSecretValueResponse#next_token #next_token} => String
+    #   * {Types::BatchGetSecretValueResponse#errors #errors} => Array&lt;Types::APIErrorType&gt;
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    #
+    # @example Example: To retrieve the secret values for a group of secrets listed by name
+    #
+    #   # The following example gets the values for three secrets.
+    #
+    #   resp = client.batch_get_secret_value({
+    #     secret_id_list: [
+    #       "MySecret1", 
+    #       "MySecret2", 
+    #       "MySecret3", 
+    #     ], 
+    #   })
+    #
+    #   resp.to_h outputs the following:
+    #   {
+    #     errors: [
+    #     ], 
+    #     secret_values: [
+    #       {
+    #         arn: "&region-arn;&asm-service-name;:us-west-2:&ExampleAccountId;:secret:MySecret1-a1b2c3", 
+    #         created_date: Time.parse(1700591229.801), 
+    #         name: "MySecret1", 
+    #         secret_string: "{\"username\":\"diego_ramirez\",\"password\":\"EXAMPLE-PASSWORD\",\"engine\":\"mysql\",\"host\":\"secretsmanagertutorial.cluster.us-west-2.rds.amazonaws.com\",\"port\":3306,\"dbClusterIdentifier\":\"secretsmanagertutorial\"}", 
+    #         version_id: "a1b2c3d4-5678-90ab-cdef-EXAMPLEaaaaa", 
+    #         version_stages: [
+    #           "AWSCURRENT", 
+    #         ], 
+    #       }, 
+    #       {
+    #         arn: "&region-arn;&asm-service-name;:us-west-2:&ExampleAccountId;:secret:MySecret2-a1b2c3", 
+    #         created_date: Time.parse(1699911394.105), 
+    #         name: "MySecret2", 
+    #         secret_string: "{\"username\":\"akua_mansa\",\"password\":\"EXAMPLE-PASSWORD\"", 
+    #         version_id: "a1b2c3d4-5678-90ab-cdef-EXAMPLEbbbbb", 
+    #         version_stages: [
+    #           "AWSCURRENT", 
+    #         ], 
+    #       }, 
+    #       {
+    #         arn: "&region-arn;&asm-service-name;:us-west-2:&ExampleAccountId;:secret:MySecret3-a1b2c3", 
+    #         created_date: Time.parse(1699911394.105), 
+    #         name: "MySecret3", 
+    #         secret_string: "{\"username\":\"jie_liu\",\"password\":\"EXAMPLE-PASSWORD\"", 
+    #         version_id: "a1b2c3d4-5678-90ab-cdef-EXAMPLEccccc", 
+    #         version_stages: [
+    #           "AWSCURRENT", 
+    #         ], 
+    #       }, 
+    #     ], 
+    #   }
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.batch_get_secret_value({
+    #     secret_id_list: ["SecretIdType"],
+    #     filters: [
+    #       {
+    #         key: "description", # accepts description, name, tag-key, tag-value, primary-region, owning-service, all
+    #         values: ["FilterValueStringType"],
+    #       },
+    #     ],
+    #     max_results: 1,
+    #     next_token: "NextTokenType",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.secret_values #=> Array
+    #   resp.secret_values[0].arn #=> String
+    #   resp.secret_values[0].name #=> String
+    #   resp.secret_values[0].version_id #=> String
+    #   resp.secret_values[0].secret_binary #=> String
+    #   resp.secret_values[0].secret_string #=> String
+    #   resp.secret_values[0].version_stages #=> Array
+    #   resp.secret_values[0].version_stages[0] #=> String
+    #   resp.secret_values[0].created_date #=> Time
+    #   resp.next_token #=> String
+    #   resp.errors #=> Array
+    #   resp.errors[0].secret_id #=> String
+    #   resp.errors[0].error_code #=> String
+    #   resp.errors[0].message #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/secretsmanager-2017-10-17/BatchGetSecretValue AWS API Documentation
+    #
+    # @overload batch_get_secret_value(params = {})
+    # @param [Hash] params ({})
+    def batch_get_secret_value(params = {}, options = {})
+      req = build_request(:batch_get_secret_value, params)
+      req.send_request(options)
+    end
 
     # Turns off automatic rotation, and if a rotation is currently in
     # progress, cancels the rotation.
@@ -510,13 +760,20 @@ module Aws::SecretsManager
     #
     # <b>Required permissions: </b> `secretsmanager:CreateSecret`. If you
     # include tags in the secret, you also need
-    # `secretsmanager:TagResource`. For more information, see [ IAM policy
-    # actions for Secrets Manager][5] and [Authentication and access control
-    # in Secrets Manager][6].
+    # `secretsmanager:TagResource`. To add replica Regions, you must also
+    # have `secretsmanager:ReplicateSecretToRegions`. For more information,
+    # see [ IAM policy actions for Secrets Manager][5] and [Authentication
+    # and access control in Secrets Manager][6].
     #
     # To encrypt the secret with a KMS key other than `aws/secretsmanager`,
     # you need `kms:GenerateDataKey` and `kms:Decrypt` permission to the
     # key.
+    #
+    # When you enter commands in a command shell, there is a risk of the
+    # command history being accessed or utilities having access to your
+    # command parameters. This is a concern if the command includes the
+    # value of a secret. Learn how to [Mitigate the risks of using
+    # command-line tools to store Secrets Manager secrets][7].
     #
     #
     #
@@ -526,6 +783,7 @@ module Aws::SecretsManager
     # [4]: https://docs.aws.amazon.com/secretsmanager/latest/userguide/retrieve-ct-entries.html
     # [5]: https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_iam-permissions.html#reference_iam-permissions_actions
     # [6]: https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html
+    # [7]: https://docs.aws.amazon.com/secretsmanager/latest/userguide/security_cli-exposure-risks.html
     #
     # @option params [required, String] :name
     #   The name of the new secret.
@@ -547,13 +805,13 @@ module Aws::SecretsManager
     #   <note markdown="1"> If you use the Amazon Web Services CLI or one of the Amazon Web
     #   Services SDKs to call this operation, then you can leave this
     #   parameter empty. The CLI or SDK generates a random UUID for you and
-    #   includes it as the value for this parameter in the request. If you
-    #   don't use the SDK and instead generate a raw HTTP request to the
-    #   Secrets Manager service endpoint, then you must generate a
-    #   `ClientRequestToken` yourself for the new version and include the
-    #   value in the request.
+    #   includes it as the value for this parameter in the request.
     #
     #    </note>
+    #
+    #   If you generate a raw HTTP request to the Secrets Manager service
+    #   endpoint, then you must generate a `ClientRequestToken` and include it
+    #   in the request.
     #
     #   This value helps ensure idempotency. Secrets Manager uses this value
     #   to prevent the accidental creation of duplicate versions if there are
@@ -619,6 +877,11 @@ module Aws::SecretsManager
     #
     #   This parameter is not available in the Secrets Manager console.
     #
+    #   Sensitive: This field contains sensitive information, so the service
+    #   does not include it in CloudTrail log entries. If you create your own
+    #   log entries, you must also avoid logging the information in this
+    #   field.
+    #
     # @option params [String] :secret_string
     #   The text data to encrypt and store in this new version of the secret.
     #   We recommend you use a JSON structure of key/value pairs for your
@@ -633,11 +896,16 @@ module Aws::SecretsManager
     #   information as a JSON structure of key/value pairs that a Lambda
     #   rotation function can parse.
     #
+    #   Sensitive: This field contains sensitive information, so the service
+    #   does not include it in CloudTrail log entries. If you create your own
+    #   log entries, you must also avoid logging the information in this
+    #   field.
+    #
     # @option params [Array<Types::Tag>] :tags
     #   A list of tags to attach to the secret. Each tag is a key and value
     #   pair of strings in a JSON text string, for example:
     #
-    #   `[\{"Key":"CostCenter","Value":"12345"\},\{"Key":"environment","Value":"production"\}]`
+    #   `[{"Key":"CostCenter","Value":"12345"},{"Key":"environment","Value":"production"}]`
     #
     #   Secrets Manager tag key names are case sensitive. A tag with the key
     #   "ABC" is a different tag from one with key "abc".
@@ -656,39 +924,22 @@ module Aws::SecretsManager
     #   parameter, you should use single quotes to avoid confusion with the
     #   double quotes required in the JSON text.
     #
-    #   The following restrictions apply to tags:
-    #
-    #   * Maximum number of tags per secret: 50
-    #
-    #   * Maximum key length: 127 Unicode characters in UTF-8
-    #
-    #   * Maximum value length: 255 Unicode characters in UTF-8
-    #
-    #   * Tag keys and values are case sensitive.
-    #
-    #   * Do not use the `aws:` prefix in your tag names or values because
-    #     Amazon Web Services reserves it for Amazon Web Services use. You
-    #     can't edit or delete tag names or values with this prefix. Tags
-    #     with this prefix do not count against your tags per secret limit.
-    #
-    #   * If you use your tagging schema across multiple services and
-    #     resources, other services might have restrictions on allowed
-    #     characters. Generally allowed characters: letters, spaces, and
-    #     numbers representable in UTF-8, plus the following special
-    #     characters: + - = . \_ : / @.
+    #   For tag quotas and naming restrictions, see [Service quotas for
+    #   Tagging][4] in the *Amazon Web Services General Reference guide*.
     #
     #
     #
     #   [1]: https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access_examples.html#tag-secrets-abac
     #   [2]: https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access_examples.html#auth-and-access_tags2
     #   [3]: https://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#cli-using-param-json
+    #   [4]: https://docs.aws.amazon.com/general/latest/gr/arg.html#taged-reference-quotas
     #
     # @option params [Array<Types::ReplicaRegionType>] :add_replica_regions
     #   A list of Regions and KMS keys to replicate secrets.
     #
     # @option params [Boolean] :force_overwrite_replica_secret
     #   Specifies whether to overwrite a secret with the same name in the
-    #   destination Region.
+    #   destination Region. By default, secrets aren't overwritten.
     #
     # @return [Types::CreateSecretResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -807,7 +1058,7 @@ module Aws::SecretsManager
     #
     #   resp.to_h outputs the following:
     #   {
-    #     arn: "arn:aws:secretsmanager:us-west-2:123456789012:secret:MyTestDatabaseMasterSecret-a1b2c3", 
+    #     arn: "arn:aws:secretsmanager:us-west-2:123456789012:secret:MyTestDatabaseSecret-a1b2c3", 
     #     name: "MyTestDatabaseSecret", 
     #   }
     #
@@ -895,19 +1146,22 @@ module Aws::SecretsManager
     #   The number of days from 7 to 30 that Secrets Manager waits before
     #   permanently deleting the secret. You can't use both this parameter
     #   and `ForceDeleteWithoutRecovery` in the same call. If you don't use
-    #   either, then Secrets Manager defaults to a 30 day recovery window.
+    #   either, then by default Secrets Manager uses a 30 day recovery window.
     #
     # @option params [Boolean] :force_delete_without_recovery
     #   Specifies whether to delete the secret without any recovery window.
     #   You can't use both this parameter and `RecoveryWindowInDays` in the
-    #   same call. If you don't use either, then Secrets Manager defaults to
-    #   a 30 day recovery window.
+    #   same call. If you don't use either, then by default Secrets Manager
+    #   uses a 30 day recovery window.
     #
     #   Secrets Manager performs the actual deletion with an asynchronous
     #   background process, so there might be a short delay before the secret
     #   is permanently deleted. If you delete a secret and then immediately
     #   create a secret with the same name, use appropriate back off and retry
     #   logic.
+    #
+    #   If you forcibly delete an already deleted or nonexistent secret, the
+    #   operation does not return `ResourceNotFoundException`.
     #
     #   Use this parameter with caution. This parameter causes the operation
     #   to skip the normal recovery window before the permanent deletion that
@@ -1109,22 +1363,21 @@ module Aws::SecretsManager
 
     # Generates a random password. We recommend that you specify the maximum
     # length and include every character type that the system you are
-    # generating a password for can support.
+    # generating a password for can support. By default, Secrets Manager
+    # uses uppercase and lowercase letters, numbers, and the following
+    # characters in passwords: `` !"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~ ``
     #
     # Secrets Manager generates a CloudTrail log entry when you call this
-    # action. Do not include sensitive information in request parameters
-    # because it might be logged. For more information, see [Logging Secrets
-    # Manager events with CloudTrail][1].
+    # action.
     #
     # <b>Required permissions: </b> `secretsmanager:GetRandomPassword`. For
-    # more information, see [ IAM policy actions for Secrets Manager][2] and
-    # [Authentication and access control in Secrets Manager][3].
+    # more information, see [ IAM policy actions for Secrets Manager][1] and
+    # [Authentication and access control in Secrets Manager][2].
     #
     #
     #
-    # [1]: https://docs.aws.amazon.com/secretsmanager/latest/userguide/retrieve-ct-entries.html
-    # [2]: https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_iam-permissions.html#reference_iam-permissions_actions
-    # [3]: https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html
+    # [1]: https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_iam-permissions.html#reference_iam-permissions_actions
+    # [2]: https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html
     #
     # @option params [Integer] :password_length
     #   The length of the password. If you don't include this parameter, the
@@ -1140,7 +1393,7 @@ module Aws::SecretsManager
     # @option params [Boolean] :exclude_punctuation
     #   Specifies whether to exclude the following punctuation characters from
     #   the password: `` ! " # $ % & ' ( ) * + , - . / : ; < = > ? @ [ \ ] ^ _
-    #   ` \{ | \} ~ ``. If you don't include this switch, the password can
+    #   ` { | } ~ ``. If you don't include this switch, the password can
     #   contain punctuation.
     #
     # @option params [Boolean] :exclude_uppercase
@@ -1288,6 +1541,9 @@ module Aws::SecretsManager
     # `SecretBinary` from the specified version of a secret, whichever
     # contains content.
     #
+    # To retrieve the values for a group of secrets, call
+    # BatchGetSecretValue.
+    #
     # We recommend that you cache your secret values by using client-side
     # caching. Caching secrets improves speed and reduces your costs. For
     # more information, see [Cache secrets for your applications][1].
@@ -1317,7 +1573,8 @@ module Aws::SecretsManager
     # [5]: https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html
     #
     # @option params [required, String] :secret_id
-    #   The ARN or name of the secret to retrieve.
+    #   The ARN or name of the secret to retrieve. To retrieve a secret from
+    #   another account, you must use an ARN.
     #
     #   For an ARN, we recommend that you specify a complete ARN rather than a
     #   partial ARN. See [Finding a secret from a partial ARN][1].
@@ -1456,6 +1713,7 @@ module Aws::SecretsManager
     #   Specifies whether to include versions of secrets that don't have any
     #   staging labels attached to them. Versions without staging labels are
     #   considered deprecated and are subject to deletion by Secrets Manager.
+    #   By default, versions without staging labels aren't included.
     #
     # @return [Types::ListSecretVersionIdsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1539,13 +1797,13 @@ module Aws::SecretsManager
     # Services account, not including secrets that are marked for deletion.
     # To see secrets marked for deletion, use the Secrets Manager console.
     #
-    # ListSecrets is eventually consistent, however it might not reflect
-    # changes from the last five minutes. To get the latest information for
-    # a specific secret, use DescribeSecret.
+    # All Secrets Manager operations are eventually consistent. ListSecrets
+    # might not reflect changes from the last five minutes. You can get more
+    # recent information for a specific secret by calling DescribeSecret.
     #
     # To list the versions of a secret, use ListSecretVersionIds.
     #
-    # To get the secret value from `SecretString` or `SecretBinary`, call
+    # To retrieve the values for the secrets, call BatchGetSecretValue or
     # GetSecretValue.
     #
     # For information about finding secrets in the console, see [Find
@@ -1568,7 +1826,8 @@ module Aws::SecretsManager
     # [4]: https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html
     #
     # @option params [Boolean] :include_planned_deletion
-    #   Specifies whether to include secrets scheduled for deletion.
+    #   Specifies whether to include secrets scheduled for deletion. By
+    #   default, secrets scheduled for deletion aren't included.
     #
     # @option params [Integer] :max_results
     #   The number of results to include in the response.
@@ -1727,7 +1986,26 @@ module Aws::SecretsManager
     # @option params [Boolean] :block_public_policy
     #   Specifies whether to block resource-based policies that allow broad
     #   access to the secret, for example those that use a wildcard for the
-    #   principal.
+    #   principal. By default, public policies aren't blocked.
+    #
+    #   Resource policy validation and the BlockPublicPolicy parameter help
+    #   protect your resources by preventing public access from being granted
+    #   through the resource policies that are directly attached to your
+    #   secrets. In addition to using these features, carefully inspect the
+    #   following policies to confirm that they do not grant public access:
+    #
+    #    * Identity-based policies attached to associated Amazon Web Services
+    #     principals (for example, IAM roles)
+    #
+    #   * Resource-based policies attached to associated Amazon Web Services
+    #     resources (for example, Key Management Service (KMS) keys)
+    #
+    #    To review permissions to your secrets, see [Determine who has
+    #   permissions to your secrets][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/secretsmanager/latest/userguide/determine-acccess_examine-iam-policies.html
     #
     # @return [Types::PutResourcePolicyResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1804,19 +2082,26 @@ module Aws::SecretsManager
     #
     # Secrets Manager generates a CloudTrail log entry when you call this
     # action. Do not include sensitive information in request parameters
-    # except `SecretBinary` or `SecretString` because it might be logged.
-    # For more information, see [Logging Secrets Manager events with
-    # CloudTrail][1].
+    # except `SecretBinary`, `SecretString`, or `RotationToken` because it
+    # might be logged. For more information, see [Logging Secrets Manager
+    # events with CloudTrail][1].
     #
     # <b>Required permissions: </b> `secretsmanager:PutSecretValue`. For
     # more information, see [ IAM policy actions for Secrets Manager][2] and
     # [Authentication and access control in Secrets Manager][3].
+    #
+    # When you enter commands in a command shell, there is a risk of the
+    # command history being accessed or utilities having access to your
+    # command parameters. This is a concern if the command includes the
+    # value of a secret. Learn how to [Mitigate the risks of using
+    # command-line tools to store Secrets Manager secrets][4].
     #
     #
     #
     # [1]: https://docs.aws.amazon.com/secretsmanager/latest/userguide/retrieve-ct-entries.html
     # [2]: https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_iam-permissions.html#reference_iam-permissions_actions
     # [3]: https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html
+    # [4]: https://docs.aws.amazon.com/secretsmanager/latest/userguide/security_cli-exposure-risks.html
     #
     # @option params [required, String] :secret_id
     #   The ARN or name of the secret to add a new version to.
@@ -1835,19 +2120,20 @@ module Aws::SecretsManager
     #
     #   <note markdown="1"> If you use the Amazon Web Services CLI or one of the Amazon Web
     #   Services SDKs to call this operation, then you can leave this
-    #   parameter empty because they generate a random UUID for you. If you
-    #   don't use the SDK and instead generate a raw HTTP request to the
-    #   Secrets Manager service endpoint, then you must generate a
-    #   `ClientRequestToken` yourself for new versions and include that value
-    #   in the request.
+    #   parameter empty. The CLI or SDK generates a random UUID for you and
+    #   includes it as the value for this parameter in the request.
     #
     #    </note>
     #
+    #   If you generate a raw HTTP request to the Secrets Manager service
+    #   endpoint, then you must generate a `ClientRequestToken` and include it
+    #   in the request.
+    #
     #   This value helps ensure idempotency. Secrets Manager uses this value
     #   to prevent the accidental creation of duplicate versions if there are
-    #   failures and retries during the Lambda rotation function processing.
-    #   We recommend that you generate a [UUID-type][1] value to ensure
-    #   uniqueness within the specified secret.
+    #   failures and retries during a rotation. We recommend that you generate
+    #   a [UUID-type][1] value to ensure uniqueness of your versions within
+    #   the specified secret.
     #
     #   * If the `ClientRequestToken` value isn't already associated with a
     #     version of the secret then a new version of the secret is created.
@@ -1881,6 +2167,11 @@ module Aws::SecretsManager
     #
     #   You can't access this value from the Secrets Manager console.
     #
+    #   Sensitive: This field contains sensitive information, so the service
+    #   does not include it in CloudTrail log entries. If you create your own
+    #   log entries, you must also avoid logging the information in this
+    #   field.
+    #
     # @option params [String] :secret_string
     #   The text to encrypt and store in the new version of the secret.
     #
@@ -1888,6 +2179,11 @@ module Aws::SecretsManager
     #
     #   We recommend you create the secret string as JSON key/value pairs, as
     #   shown in the example.
+    #
+    #   Sensitive: This field contains sensitive information, so the service
+    #   does not include it in CloudTrail log entries. If you create your own
+    #   log entries, you must also avoid logging the information in this
+    #   field.
     #
     # @option params [Array<String>] :version_stages
     #   A list of staging labels to attach to this version of the secret.
@@ -1903,6 +2199,23 @@ module Aws::SecretsManager
     #
     #   If you don't include `VersionStages`, then Secrets Manager
     #   automatically moves the staging label `AWSCURRENT` to this version.
+    #
+    # @option params [String] :rotation_token
+    #   A unique identifier that indicates the source of the request. For
+    #   cross-account rotation (when you rotate a secret in one account by
+    #   using a Lambda rotation function in another account) and the Lambda
+    #   rotation function assumes an IAM role to call Secrets Manager, Secrets
+    #   Manager validates the identity with the rotation token. For more
+    #   information, see [How rotation works][1].
+    #
+    #   Sensitive: This field contains sensitive information, so the service
+    #   does not include it in CloudTrail log entries. If you create your own
+    #   log entries, you must also avoid logging the information in this
+    #   field.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotating-secrets.html
     #
     # @return [Types::PutSecretValueResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1941,6 +2254,7 @@ module Aws::SecretsManager
     #     secret_binary: "data",
     #     secret_string: "SecretStringType",
     #     version_stages: ["SecretVersionStageType"],
+    #     rotation_token: "RotationTokenType",
     #   })
     #
     # @example Response structure
@@ -2024,9 +2338,13 @@ module Aws::SecretsManager
     # Manager events with CloudTrail][2].
     #
     # <b>Required permissions: </b>
-    # `secretsmanager:ReplicateSecretToRegions`. For more information, see [
-    # IAM policy actions for Secrets Manager][3] and [Authentication and
-    # access control in Secrets Manager][4].
+    # `secretsmanager:ReplicateSecretToRegions`. If the primary secret is
+    # encrypted with a KMS key other than `aws/secretsmanager`, you also
+    # need `kms:Decrypt` permission to the key. To encrypt the replicated
+    # secret with a KMS key other than `aws/secretsmanager`, you need
+    # `kms:GenerateDataKey` and `kms:Encrypt` to the key. For more
+    # information, see [ IAM policy actions for Secrets Manager][3] and
+    # [Authentication and access control in Secrets Manager][4].
     #
     #
     #
@@ -2043,12 +2361,40 @@ module Aws::SecretsManager
     #
     # @option params [Boolean] :force_overwrite_replica_secret
     #   Specifies whether to overwrite a secret with the same name in the
-    #   destination Region.
+    #   destination Region. By default, secrets aren't overwritten.
     #
     # @return [Types::ReplicateSecretToRegionsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::ReplicateSecretToRegionsResponse#arn #arn} => String
     #   * {Types::ReplicateSecretToRegionsResponse#replication_status #replication_status} => Array&lt;Types::ReplicationStatusType&gt;
+    #
+    #
+    # @example Example: Example
+    #
+    #   # The following example replicates a secret to eu-west-3. The replica is encrypted with the AWS managed key
+    #   # aws/secretsmanager.
+    #
+    #   resp = client.replicate_secret_to_regions({
+    #     add_replica_regions: [
+    #       {
+    #         region: "eu-west-3", 
+    #       }, 
+    #     ], 
+    #     force_overwrite_replica_secret: true, 
+    #     secret_id: "MyTestSecret", 
+    #   })
+    #
+    #   resp.to_h outputs the following:
+    #   {
+    #     arn: "arn:aws:secretsmanager:us-west-2:123456789012:secret:MyTestSecret-1a2b3c", 
+    #     replication_status: [
+    #       {
+    #         kms_key_id: "alias/aws/secretsmanager", 
+    #         region: "eu-west-3", 
+    #         status: "InProgress", 
+    #       }, 
+    #     ], 
+    #   }
     #
     # @example Request syntax with placeholder values
     #
@@ -2200,24 +2546,27 @@ module Aws::SecretsManager
     #   [1]: https://docs.aws.amazon.com/secretsmanager/latest/userguide/troubleshoot.html#ARN_secretnamehyphen
     #
     # @option params [String] :client_request_token
-    #   A unique identifier for the new version of the secret that helps
-    #   ensure idempotency. Secrets Manager uses this value to prevent the
-    #   accidental creation of duplicate versions if there are failures and
-    #   retries during rotation. This value becomes the `VersionId` of the new
-    #   version.
+    #   A unique identifier for the new version of the secret. You only need
+    #   to specify this value if you implement your own retry logic and you
+    #   want to ensure that Secrets Manager doesn't attempt to create a
+    #   secret version twice.
     #
-    #   If you use the Amazon Web Services CLI or one of the Amazon Web
-    #   Services SDK to call this operation, then you can leave this parameter
-    #   empty. The CLI or SDK generates a random UUID for you and includes
-    #   that in the request for this parameter. If you don't use the SDK and
-    #   instead generate a raw HTTP request to the Secrets Manager service
-    #   endpoint, then you must generate a `ClientRequestToken` yourself for
-    #   new versions and include that value in the request.
+    #   <note markdown="1"> If you use the Amazon Web Services CLI or one of the Amazon Web
+    #   Services SDKs to call this operation, then you can leave this
+    #   parameter empty. The CLI or SDK generates a random UUID for you and
+    #   includes it as the value for this parameter in the request.
     #
-    #   You only need to specify this value if you implement your own retry
-    #   logic and you want to ensure that Secrets Manager doesn't attempt to
-    #   create a secret version twice. We recommend that you generate a
-    #   [UUID-type][1] value to ensure uniqueness within the specified secret.
+    #    </note>
+    #
+    #   If you generate a raw HTTP request to the Secrets Manager service
+    #   endpoint, then you must generate a `ClientRequestToken` and include it
+    #   in the request.
+    #
+    #   This value helps ensure idempotency. Secrets Manager uses this value
+    #   to prevent the accidental creation of duplicate versions if there are
+    #   failures and retries during a rotation. We recommend that you generate
+    #   a [UUID-type][1] value to ensure uniqueness of your versions within
+    #   the specified secret.
     #
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.**
@@ -2252,12 +2601,11 @@ module Aws::SecretsManager
     #   Lambda rotation function. The test creates an `AWSPENDING` version of
     #   the secret and then removes it.
     #
-    #   If you don't specify this value, then by default, Secrets Manager
-    #   rotates the secret immediately.
+    #   By default, Secrets Manager rotates the secret immediately.
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotate-secrets_how.html
+    #   [1]: https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotate-secrets_lambda-functions.html#rotate-secrets_lambda-functions-code
     #
     # @return [Types::RotateSecretResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -2386,26 +2734,8 @@ module Aws::SecretsManager
     # specific versions of the secret. This operation appends tags to the
     # existing list of tags.
     #
-    # The following restrictions apply to tags:
-    #
-    # * Maximum number of tags per secret: 50
-    #
-    # * Maximum key length: 127 Unicode characters in UTF-8
-    #
-    # * Maximum value length: 255 Unicode characters in UTF-8
-    #
-    # * Tag keys and values are case sensitive.
-    #
-    # * Do not use the `aws:` prefix in your tag names or values because
-    #   Amazon Web Services reserves it for Amazon Web Services use. You
-    #   can't edit or delete tag names or values with this prefix. Tags
-    #   with this prefix do not count against your tags per secret limit.
-    #
-    # * If you use your tagging schema across multiple services and
-    #   resources, other services might have restrictions on allowed
-    #   characters. Generally allowed characters: letters, spaces, and
-    #   numbers representable in UTF-8, plus the following special
-    #   characters: + - = . \_ : / @.
+    # For tag quotas and naming restrictions, see [Service quotas for
+    # Tagging][1] in the *Amazon Web Services General Reference guide*.
     #
     # If you use tags as part of your security strategy, then adding or
     # removing a tag can change permissions. If successfully completing this
@@ -2415,17 +2745,18 @@ module Aws::SecretsManager
     # Secrets Manager generates a CloudTrail log entry when you call this
     # action. Do not include sensitive information in request parameters
     # because it might be logged. For more information, see [Logging Secrets
-    # Manager events with CloudTrail][1].
+    # Manager events with CloudTrail][2].
     #
     # <b>Required permissions: </b> `secretsmanager:TagResource`. For more
-    # information, see [ IAM policy actions for Secrets Manager][2] and
-    # [Authentication and access control in Secrets Manager][3].
+    # information, see [ IAM policy actions for Secrets Manager][3] and
+    # [Authentication and access control in Secrets Manager][4].
     #
     #
     #
-    # [1]: https://docs.aws.amazon.com/secretsmanager/latest/userguide/retrieve-ct-entries.html
-    # [2]: https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_iam-permissions.html#reference_iam-permissions_actions
-    # [3]: https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html
+    # [1]: https://docs.aws.amazon.com/general/latest/gr/arg.html#taged-reference-quotas
+    # [2]: https://docs.aws.amazon.com/secretsmanager/latest/userguide/retrieve-ct-entries.html
+    # [3]: https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_iam-permissions.html#reference_iam-permissions_actions
+    # [4]: https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html
     #
     # @option params [required, String] :secret_id
     #   The identifier for the secret to attach tags to. You can specify
@@ -2616,9 +2947,18 @@ module Aws::SecretsManager
     # <b>Required permissions: </b> `secretsmanager:UpdateSecret`. For more
     # information, see [ IAM policy actions for Secrets Manager][3] and
     # [Authentication and access control in Secrets Manager][4]. If you use
-    # a customer managed key, you must also have `kms:GenerateDataKey` and
-    # `kms:Decrypt` permissions on the key. For more information, see [
-    # Secret encryption and decryption][5].
+    # a customer managed key, you must also have `kms:GenerateDataKey`,
+    # `kms:Encrypt`, and `kms:Decrypt` permissions on the key. If you change
+    # the KMS key and you don't have `kms:Encrypt` permission to the new
+    # key, Secrets Manager does not re-encrypt existing secret versions with
+    # the new key. For more information, see [ Secret encryption and
+    # decryption][5].
+    #
+    # When you enter commands in a command shell, there is a risk of the
+    # command history being accessed or utilities having access to your
+    # command parameters. This is a concern if the command includes the
+    # value of a secret. Learn how to [Mitigate the risks of using
+    # command-line tools to store Secrets Manager secrets][6].
     #
     #
     #
@@ -2627,6 +2967,7 @@ module Aws::SecretsManager
     # [3]: https://docs.aws.amazon.com/secretsmanager/latest/userguide/reference_iam-permissions.html#reference_iam-permissions_actions
     # [4]: https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html
     # [5]: https://docs.aws.amazon.com/secretsmanager/latest/userguide/security-encryption.html
+    # [6]: https://docs.aws.amazon.com/secretsmanager/latest/userguide/security_cli-exposure-risks.html
     #
     # @option params [required, String] :secret_id
     #   The ARN or name of the secret.
@@ -2646,18 +2987,26 @@ module Aws::SecretsManager
     #   <note markdown="1"> If you use the Amazon Web Services CLI or one of the Amazon Web
     #   Services SDKs to call this operation, then you can leave this
     #   parameter empty. The CLI or SDK generates a random UUID for you and
-    #   includes it as the value for this parameter in the request. If you
-    #   don't use the SDK and instead generate a raw HTTP request to the
-    #   Secrets Manager service endpoint, then you must generate a
-    #   `ClientRequestToken` yourself for the new version and include the
-    #   value in the request.
+    #   includes it as the value for this parameter in the request.
     #
     #    </note>
     #
-    #   This value becomes the `VersionId` of the new version.
+    #   If you generate a raw HTTP request to the Secrets Manager service
+    #   endpoint, then you must generate a `ClientRequestToken` and include it
+    #   in the request.
+    #
+    #   This value helps ensure idempotency. Secrets Manager uses this value
+    #   to prevent the accidental creation of duplicate versions if there are
+    #   failures and retries during a rotation. We recommend that you generate
+    #   a [UUID-type][1] value to ensure uniqueness of your versions within
+    #   the specified secret.
     #
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.**
+    #
+    #
+    #
+    #   [1]: https://wikipedia.org/wiki/Universally_unique_identifier
     #
     # @option params [String] :description
     #   The description of the secret.
@@ -2665,8 +3014,10 @@ module Aws::SecretsManager
     # @option params [String] :kms_key_id
     #   The ARN, key ID, or alias of the KMS key that Secrets Manager uses to
     #   encrypt new secret versions as well as any existing versions with the
-    #   staging labels `AWSCURRENT`, `AWSPENDING`, or `AWSPREVIOUS`. For more
-    #   information about versions and staging labels, see [Concepts:
+    #   staging labels `AWSCURRENT`, `AWSPENDING`, or `AWSPREVIOUS`. If you
+    #   don't have `kms:Encrypt` permission to the new key, Secrets Manager
+    #   does not re-encrypt existing secret versions with the new key. For
+    #   more information about versions and staging labels, see [Concepts:
     #   Version][1].
     #
     #   A key alias is always prefixed by `alias/`, for example
@@ -2704,6 +3055,11 @@ module Aws::SecretsManager
     #
     #   You can't access this parameter in the Secrets Manager console.
     #
+    #   Sensitive: This field contains sensitive information, so the service
+    #   does not include it in CloudTrail log entries. If you create your own
+    #   log entries, you must also avoid logging the information in this
+    #   field.
+    #
     # @option params [String] :secret_string
     #   The text data to encrypt and store in the new version of the secret.
     #   We recommend you use a JSON structure of key/value pairs for your
@@ -2711,6 +3067,11 @@ module Aws::SecretsManager
     #
     #   Either `SecretBinary` or `SecretString` must have a value, but not
     #   both.
+    #
+    #   Sensitive: This field contains sensitive information, so the service
+    #   does not include it in CloudTrail log entries. If you create your own
+    #   log entries, you must also avoid logging the information in this
+    #   field.
     #
     # @return [Types::UpdateSecretResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -2968,9 +3329,10 @@ module Aws::SecretsManager
     # because it might be logged. For more information, see [Logging Secrets
     # Manager events with CloudTrail][2].
     #
-    # <b>Required permissions: </b> `secretsmanager:ValidateResourcePolicy`.
-    # For more information, see [ IAM policy actions for Secrets Manager][3]
-    # and [Authentication and access control in Secrets Manager][4].
+    # <b>Required permissions: </b> `secretsmanager:ValidateResourcePolicy`
+    # and `secretsmanager:PutResourcePolicy`. For more information, see [
+    # IAM policy actions for Secrets Manager][3] and [Authentication and
+    # access control in Secrets Manager][4].
     #
     #
     #
@@ -2980,7 +3342,8 @@ module Aws::SecretsManager
     # [4]: https://docs.aws.amazon.com/secretsmanager/latest/userguide/auth-and-access.html
     #
     # @option params [String] :secret_id
-    #   This field is reserved for internal use.
+    #   The ARN or name of the secret with the resource-based policy you want
+    #   to validate.
     #
     # @option params [required, String] :resource_policy
     #   A JSON-formatted string that contains an Amazon Web Services
@@ -3043,14 +3406,19 @@ module Aws::SecretsManager
     # @api private
     def build_request(operation_name, params = {})
       handlers = @handlers.for(operation_name)
+      tracer = config.telemetry_provider.tracer_provider.tracer(
+        Aws::Telemetry.module_to_tracer_name('Aws::SecretsManager')
+      )
       context = Seahorse::Client::RequestContext.new(
         operation_name: operation_name,
         operation: config.api.operation(operation_name),
         client: self,
         params: params,
-        config: config)
+        config: config,
+        tracer: tracer
+      )
       context[:gem_name] = 'aws-sdk-secretsmanager'
-      context[:gem_version] = '1.72.0'
+      context[:gem_version] = '1.113.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

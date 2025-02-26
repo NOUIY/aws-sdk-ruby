@@ -7,33 +7,34 @@
 #
 # WARNING ABOUT GENERATED CODE
 
-require 'seahorse/client/plugins/content_length.rb'
-require 'aws-sdk-core/plugins/credentials_configuration.rb'
-require 'aws-sdk-core/plugins/logging.rb'
-require 'aws-sdk-core/plugins/param_converter.rb'
-require 'aws-sdk-core/plugins/param_validator.rb'
-require 'aws-sdk-core/plugins/user_agent.rb'
-require 'aws-sdk-core/plugins/helpful_socket_errors.rb'
-require 'aws-sdk-core/plugins/retry_errors.rb'
-require 'aws-sdk-core/plugins/global_configuration.rb'
-require 'aws-sdk-core/plugins/regional_endpoint.rb'
-require 'aws-sdk-core/plugins/endpoint_discovery.rb'
-require 'aws-sdk-core/plugins/endpoint_pattern.rb'
-require 'aws-sdk-core/plugins/response_paging.rb'
-require 'aws-sdk-core/plugins/stub_responses.rb'
-require 'aws-sdk-core/plugins/idempotency_token.rb'
-require 'aws-sdk-core/plugins/jsonvalue_converter.rb'
-require 'aws-sdk-core/plugins/client_metrics_plugin.rb'
-require 'aws-sdk-core/plugins/client_metrics_send_plugin.rb'
-require 'aws-sdk-core/plugins/transfer_encoding.rb'
-require 'aws-sdk-core/plugins/http_checksum.rb'
-require 'aws-sdk-core/plugins/checksum_algorithm.rb'
-require 'aws-sdk-core/plugins/defaults_mode.rb'
-require 'aws-sdk-core/plugins/recursion_detection.rb'
-require 'aws-sdk-core/plugins/sign.rb'
-require 'aws-sdk-core/plugins/protocols/rest_json.rb'
-
-Aws::Plugins::GlobalConfiguration.add_identifier(:arczonalshift)
+require 'seahorse/client/plugins/content_length'
+require 'aws-sdk-core/plugins/credentials_configuration'
+require 'aws-sdk-core/plugins/logging'
+require 'aws-sdk-core/plugins/param_converter'
+require 'aws-sdk-core/plugins/param_validator'
+require 'aws-sdk-core/plugins/user_agent'
+require 'aws-sdk-core/plugins/helpful_socket_errors'
+require 'aws-sdk-core/plugins/retry_errors'
+require 'aws-sdk-core/plugins/global_configuration'
+require 'aws-sdk-core/plugins/regional_endpoint'
+require 'aws-sdk-core/plugins/endpoint_discovery'
+require 'aws-sdk-core/plugins/endpoint_pattern'
+require 'aws-sdk-core/plugins/response_paging'
+require 'aws-sdk-core/plugins/stub_responses'
+require 'aws-sdk-core/plugins/idempotency_token'
+require 'aws-sdk-core/plugins/invocation_id'
+require 'aws-sdk-core/plugins/jsonvalue_converter'
+require 'aws-sdk-core/plugins/client_metrics_plugin'
+require 'aws-sdk-core/plugins/client_metrics_send_plugin'
+require 'aws-sdk-core/plugins/transfer_encoding'
+require 'aws-sdk-core/plugins/http_checksum'
+require 'aws-sdk-core/plugins/checksum_algorithm'
+require 'aws-sdk-core/plugins/request_compression'
+require 'aws-sdk-core/plugins/defaults_mode'
+require 'aws-sdk-core/plugins/recursion_detection'
+require 'aws-sdk-core/plugins/telemetry'
+require 'aws-sdk-core/plugins/sign'
+require 'aws-sdk-core/plugins/protocols/rest_json'
 
 module Aws::ARCZonalShift
   # An API client for ARCZonalShift.  To construct a client, you need to configure a `:region` and `:credentials`.
@@ -71,20 +72,28 @@ module Aws::ARCZonalShift
     add_plugin(Aws::Plugins::ResponsePaging)
     add_plugin(Aws::Plugins::StubResponses)
     add_plugin(Aws::Plugins::IdempotencyToken)
+    add_plugin(Aws::Plugins::InvocationId)
     add_plugin(Aws::Plugins::JsonvalueConverter)
     add_plugin(Aws::Plugins::ClientMetricsPlugin)
     add_plugin(Aws::Plugins::ClientMetricsSendPlugin)
     add_plugin(Aws::Plugins::TransferEncoding)
     add_plugin(Aws::Plugins::HttpChecksum)
     add_plugin(Aws::Plugins::ChecksumAlgorithm)
+    add_plugin(Aws::Plugins::RequestCompression)
     add_plugin(Aws::Plugins::DefaultsMode)
     add_plugin(Aws::Plugins::RecursionDetection)
+    add_plugin(Aws::Plugins::Telemetry)
     add_plugin(Aws::Plugins::Sign)
     add_plugin(Aws::Plugins::Protocols::RestJson)
     add_plugin(Aws::ARCZonalShift::Plugins::Endpoints)
 
     # @overload initialize(options)
     #   @param [Hash] options
+    #
+    #   @option options [Array<Seahorse::Client::Plugin>] :plugins ([]])
+    #     A list of plugins to apply to the client. Each plugin is either a
+    #     class name or an instance of a plugin class.
+    #
     #   @option options [required, Aws::CredentialProvider] :credentials
     #     Your AWS credentials. This can be an instance of any one of the
     #     following classes:
@@ -119,13 +128,15 @@ module Aws::ARCZonalShift
     #     locations will be searched for credentials:
     #
     #     * `Aws.config[:credentials]`
-    #     * The `:access_key_id`, `:secret_access_key`, and `:session_token` options.
-    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']
+    #     * The `:access_key_id`, `:secret_access_key`, `:session_token`, and
+    #       `:account_id` options.
+    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'],
+    #       ENV['AWS_SESSION_TOKEN'], and ENV['AWS_ACCOUNT_ID']
     #     * `~/.aws/credentials`
     #     * `~/.aws/config`
     #     * EC2/ECS IMDS instance profile - When used by default, the timeouts
     #       are very aggressive. Construct and pass an instance of
-    #       `Aws::InstanceProfileCredentails` or `Aws::ECSCredentials` to
+    #       `Aws::InstanceProfileCredentials` or `Aws::ECSCredentials` to
     #       enable retries and extended timeouts. Instance profile credential
     #       fetching can be disabled by setting ENV['AWS_EC2_METADATA_DISABLED']
     #       to true.
@@ -143,6 +154,8 @@ module Aws::ARCZonalShift
     #     * `~/.aws/config`
     #
     #   @option options [String] :access_key_id
+    #
+    #   @option options [String] :account_id
     #
     #   @option options [Boolean] :active_endpoint_cache (false)
     #     When set to `true`, a thread polling for endpoints will be running in
@@ -190,10 +203,20 @@ module Aws::ARCZonalShift
     #     Set to true to disable SDK automatically adding host prefix
     #     to default service endpoint when available.
     #
-    #   @option options [String] :endpoint
-    #     The client endpoint is normally constructed from the `:region`
-    #     option. You should only configure an `:endpoint` when connecting
-    #     to test or custom endpoints. This should be a valid HTTP(S) URI.
+    #   @option options [Boolean] :disable_request_compression (false)
+    #     When set to 'true' the request body will not be compressed
+    #     for supported operations.
+    #
+    #   @option options [String, URI::HTTPS, URI::HTTP] :endpoint
+    #     Normally you should not configure the `:endpoint` option
+    #     directly. This is normally constructed from the `:region`
+    #     option. Configuring `:endpoint` is normally reserved for
+    #     connecting to test or custom endpoints. The endpoint should
+    #     be a URI formatted like:
+    #
+    #         'http://example.com'
+    #         'https://example.com'
+    #         'http://example.com:123'
     #
     #   @option options [Integer] :endpoint_cache_max_entries (1000)
     #     Used for the maximum size limit of the LRU cache storing endpoints data
@@ -209,6 +232,10 @@ module Aws::ARCZonalShift
     #
     #   @option options [Boolean] :endpoint_discovery (false)
     #     When set to `true`, endpoint discovery will be enabled for operations when available.
+    #
+    #   @option options [Boolean] :ignore_configured_endpoint_urls
+    #     Setting to true disables use of endpoint URLs provided via environment
+    #     variables and the shared configuration file.
     #
     #   @option options [Aws::Log::Formatter] :log_formatter (Aws::Log::Formatter.default)
     #     The log formatter.
@@ -229,6 +256,34 @@ module Aws::ARCZonalShift
     #   @option options [String] :profile ("default")
     #     Used when loading credentials from the shared credentials file
     #     at HOME/.aws/credentials.  When not specified, 'default' is used.
+    #
+    #   @option options [String] :request_checksum_calculation ("when_supported")
+    #     Determines when a checksum will be calculated for request payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, a checksum will be
+    #       calculated for all request payloads of operations modeled with the
+    #       `httpChecksum` trait where `requestChecksumRequired` is `true` and/or a
+    #       `requestAlgorithmMember` is modeled.
+    #     * `when_required` - When set, a checksum will only be calculated for
+    #       request payloads of operations modeled with the  `httpChecksum` trait where
+    #       `requestChecksumRequired` is `true` or where a `requestAlgorithmMember`
+    #       is modeled and supplied.
+    #
+    #   @option options [Integer] :request_min_compression_size_bytes (10240)
+    #     The minimum size in bytes that triggers compression for request
+    #     bodies. The value must be non-negative integer value between 0
+    #     and 10485780 bytes inclusive.
+    #
+    #   @option options [String] :response_checksum_validation ("when_supported")
+    #     Determines when checksum validation will be performed on response payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, checksum validation is performed on all
+    #       response payloads of operations modeled with the `httpChecksum` trait where
+    #       `responseAlgorithms` is modeled, except when no modeled checksum algorithms
+    #       are supported.
+    #     * `when_required` - When set, checksum validation is not performed on
+    #       response payloads of operations unless the checksum algorithm is supported and
+    #       the `requestValidationModeMember` member is set to `ENABLED`.
     #
     #   @option options [Proc] :retry_backoff
     #     A proc or lambda used for backoff. Defaults to 2**retries * retry_base_delay.
@@ -274,10 +329,24 @@ module Aws::ARCZonalShift
     #       throttling.  This is a provisional mode that may change behavior
     #       in the future.
     #
+    #   @option options [String] :sdk_ua_app_id
+    #     A unique and opaque application ID that is appended to the
+    #     User-Agent header as app/sdk_ua_app_id. It should have a
+    #     maximum length of 50. This variable is sourced from environment
+    #     variable AWS_SDK_UA_APP_ID or the shared config profile attribute sdk_ua_app_id.
     #
     #   @option options [String] :secret_access_key
     #
     #   @option options [String] :session_token
+    #
+    #   @option options [Array] :sigv4a_signing_region_set
+    #     A list of regions that should be signed with SigV4a signing. When
+    #     not passed, a default `:sigv4a_signing_region_set` is searched for
+    #     in the following locations:
+    #
+    #     * `Aws.config[:sigv4a_signing_region_set]`
+    #     * `ENV['AWS_SIGV4A_SIGNING_REGION_SET']`
+    #     * `~/.aws/config`
     #
     #   @option options [Boolean] :stub_responses (false)
     #     Causes the client to return stubbed responses. By default
@@ -287,6 +356,16 @@ module Aws::ARCZonalShift
     #
     #     ** Please note ** When response stubbing is enabled, no HTTP
     #     requests are made, and retries are disabled.
+    #
+    #   @option options [Aws::Telemetry::TelemetryProviderBase] :telemetry_provider (Aws::Telemetry::NoOpTelemetryProvider)
+    #     Allows you to provide a telemetry provider, which is used to
+    #     emit telemetry data. By default, uses `NoOpTelemetryProvider` which
+    #     will not record or emit any telemetry data. The SDK supports the
+    #     following telemetry providers:
+    #
+    #     * OpenTelemetry (OTel) - To use the OTel provider, install and require the
+    #     `opentelemetry-sdk` gem and then, pass in an instance of a
+    #     `Aws::Telemetry::OTelProvider` for telemetry provider.
     #
     #   @option options [Aws::TokenProvider] :token_provider
     #     A Bearer Token Provider. This can be an instance of any one of the
@@ -315,52 +394,75 @@ module Aws::ARCZonalShift
     #     sending the request.
     #
     #   @option options [Aws::ARCZonalShift::EndpointProvider] :endpoint_provider
-    #     The endpoint provider used to resolve endpoints. Any object that responds to `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to `Aws::ARCZonalShift::EndpointParameters`
+    #     The endpoint provider used to resolve endpoints. Any object that responds to
+    #     `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+    #     `Aws::ARCZonalShift::EndpointParameters`.
     #
-    #   @option options [URI::HTTP,String] :http_proxy A proxy to send
-    #     requests through.  Formatted like 'http://proxy.com:123'.
+    #   @option options [Float] :http_continue_timeout (1)
+    #     The number of seconds to wait for a 100-continue response before sending the
+    #     request body.  This option has no effect unless the request has "Expect"
+    #     header set to "100-continue".  Defaults to `nil` which  disables this
+    #     behaviour.  This value can safely be set per request on the session.
     #
-    #   @option options [Float] :http_open_timeout (15) The number of
-    #     seconds to wait when opening a HTTP session before raising a
-    #     `Timeout::Error`.
+    #   @option options [Float] :http_idle_timeout (5)
+    #     The number of seconds a connection is allowed to sit idle before it
+    #     is considered stale.  Stale connections are closed and removed from the
+    #     pool before making a request.
     #
-    #   @option options [Float] :http_read_timeout (60) The default
-    #     number of seconds to wait for response data.  This value can
-    #     safely be set per-request on the session.
+    #   @option options [Float] :http_open_timeout (15)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :http_idle_timeout (5) The number of
-    #     seconds a connection is allowed to sit idle before it is
-    #     considered stale.  Stale connections are closed and removed
-    #     from the pool before making a request.
+    #   @option options [URI::HTTP,String] :http_proxy
+    #     A proxy to send requests through.  Formatted like 'http://proxy.com:123'.
     #
-    #   @option options [Float] :http_continue_timeout (1) The number of
-    #     seconds to wait for a 100-continue response before sending the
-    #     request body.  This option has no effect unless the request has
-    #     "Expect" header set to "100-continue".  Defaults to `nil` which
-    #     disables this behaviour.  This value can safely be set per
-    #     request on the session.
+    #   @option options [Float] :http_read_timeout (60)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :ssl_timeout (nil) Sets the SSL timeout
-    #     in seconds.
+    #   @option options [Boolean] :http_wire_trace (false)
+    #     When `true`,  HTTP debug output will be sent to the `:logger`.
     #
-    #   @option options [Boolean] :http_wire_trace (false) When `true`,
-    #     HTTP debug output will be sent to the `:logger`.
+    #   @option options [Proc] :on_chunk_received
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the response body is received. It provides three arguments: the chunk,
+    #     the number of bytes received, and the total number of
+    #     bytes in the response (or nil if the server did not send a `content-length`).
     #
-    #   @option options [Boolean] :ssl_verify_peer (true) When `true`,
-    #     SSL peer certificates are verified when establishing a
-    #     connection.
+    #   @option options [Proc] :on_chunk_sent
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the request body is sent. It provides three arguments: the chunk,
+    #     the number of bytes read from the body, and the total number of
+    #     bytes in the body.
     #
-    #   @option options [String] :ssl_ca_bundle Full path to the SSL
-    #     certificate authority bundle file that should be used when
-    #     verifying peer certificates.  If you do not pass
-    #     `:ssl_ca_bundle` or `:ssl_ca_directory` the the system default
-    #     will be used if available.
+    #   @option options [Boolean] :raise_response_errors (true)
+    #     When `true`, response errors are raised.
     #
-    #   @option options [String] :ssl_ca_directory Full path of the
-    #     directory that contains the unbundled SSL certificate
+    #   @option options [String] :ssl_ca_bundle
+    #     Full path to the SSL certificate authority bundle file that should be used when
+    #     verifying peer certificates.  If you do not pass `:ssl_ca_bundle` or
+    #     `:ssl_ca_directory` the the system default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_directory
+    #     Full path of the directory that contains the unbundled SSL certificate
     #     authority files for verifying peer certificates.  If you do
-    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the
-    #     system default will be used if available.
+    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the system
+    #     default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_store
+    #     Sets the X509::Store to verify peer certificate.
+    #
+    #   @option options [OpenSSL::X509::Certificate] :ssl_cert
+    #     Sets a client certificate when creating http connections.
+    #
+    #   @option options [OpenSSL::PKey] :ssl_key
+    #     Sets a client key when creating http connections.
+    #
+    #   @option options [Float] :ssl_timeout
+    #     Sets the SSL timeout in seconds
+    #
+    #   @option options [Boolean] :ssl_verify_peer (true)
+    #     When `true`, SSL peer certificates are verified when establishing a connection.
     #
     def initialize(*args)
       super
@@ -369,8 +471,11 @@ module Aws::ARCZonalShift
     # @!group API Operations
 
     # Cancel a zonal shift in Amazon Route 53 Application Recovery
-    # Controller that you've started for a resource in your AWS account in
-    # an AWS Region.
+    # Controller. To cancel the zonal shift, specify the zonal shift ID.
+    #
+    # A zonal shift can be one that you've started for a resource in your
+    # Amazon Web Services account in an Amazon Web Services Region, or it
+    # can be a zonal shift started by a practice run with zonal autoshift.
     #
     # @option params [required, String] :zonal_shift_id
     #   The internally-generated identifier of a zonal shift.
@@ -410,28 +515,230 @@ module Aws::ARCZonalShift
       req.send_request(options)
     end
 
-    # Get information about a resource that's been registered for zonal
-    # shifts with Amazon Route 53 Application Recovery Controller in this
-    # AWS Region. Resources that are registered for zonal shifts are managed
-    # resources in Route 53 ARC.
+    # A practice run configuration for zonal autoshift is required when you
+    # enable zonal autoshift. A practice run configuration includes
+    # specifications for blocked dates and blocked time windows, and for
+    # Amazon CloudWatch alarms that you create to use with practice runs.
+    # The alarms that you specify are an *outcome alarm*, to monitor
+    # application health during practice runs and, optionally, a *blocking
+    # alarm*, to block practice runs from starting.
     #
-    # At this time, you can only start a zonal shift for Network Load
-    # Balancers and Application Load Balancers with cross-zone load
-    # balancing turned off.
+    # When a resource has a practice run configuration, Route 53 ARC starts
+    # zonal shifts for the resource weekly, to shift traffic for practice
+    # runs. Practice runs help you to ensure that shifting away traffic from
+    # an Availability Zone during an autoshift is safe for your application.
+    #
+    # For more information, see [ Considerations when you configure zonal
+    # autoshift][1] in the Amazon Route 53 Application Recovery Controller
+    # Developer Guide.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/r53recovery/latest/dg/arc-zonal-autoshift.considerations.html
+    #
+    # @option params [Array<String>] :blocked_dates
+    #   Optionally, you can block Route 53 ARC from starting practice runs for
+    #   a resource on specific calendar dates.
+    #
+    #   The format for blocked dates is: YYYY-MM-DD. Keep in mind, when you
+    #   specify dates, that dates and times for practice runs are in UTC.
+    #   Separate multiple blocked dates with spaces.
+    #
+    #   For example, if you have an application update scheduled to launch on
+    #   May 1, 2024, and you don't want practice runs to shift traffic away
+    #   at that time, you could set a blocked date for `2024-05-01`.
+    #
+    # @option params [Array<String>] :blocked_windows
+    #   Optionally, you can block Route 53 ARC from starting practice runs for
+    #   specific windows of days and times.
+    #
+    #   The format for blocked windows is: DAY:HH:SS-DAY:HH:SS. Keep in mind,
+    #   when you specify dates, that dates and times for practice runs are in
+    #   UTC. Also, be aware of potential time adjustments that might be
+    #   required for daylight saving time differences. Separate multiple
+    #   blocked windows with spaces.
+    #
+    #   For example, say you run business report summaries three days a week.
+    #   For this scenario, you might set the following recurring days and
+    #   times as blocked windows, for example: `MON-20:30-21:30
+    #   WED-20:30-21:30 FRI-20:30-21:30`.
+    #
+    # @option params [Array<Types::ControlCondition>] :blocking_alarms
+    #   An Amazon CloudWatch alarm that you can specify for zonal autoshift
+    #   practice runs. This alarm blocks Route 53 ARC from starting practice
+    #   run zonal shifts, and ends a practice run that's in progress, when
+    #   the alarm is in an `ALARM` state.
+    #
+    # @option params [required, Array<Types::ControlCondition>] :outcome_alarms
+    #   The *outcome alarm* for practice runs is a required Amazon CloudWatch
+    #   alarm that you specify that ends a practice run when the alarm is in
+    #   an `ALARM` state.
+    #
+    #   Configure the alarm to monitor the health of your application when
+    #   traffic is shifted away from an Availability Zone during each weekly
+    #   practice run. You should configure the alarm to go into an `ALARM`
+    #   state if your application is impacted by the zonal shift, and you want
+    #   to stop the zonal shift, to let traffic for the resource return to the
+    #   Availability Zone.
     #
     # @option params [required, String] :resource_identifier
-    #   The identifier for the resource to include in a zonal shift. The
-    #   identifier is the Amazon Resource Name (ARN) for the resource.
+    #   The identifier of the resource that Amazon Web Services shifts traffic
+    #   for with a practice run zonal shift. The identifier is the Amazon
+    #   Resource Name (ARN) for the resource.
     #
-    #   At this time, you can only start a zonal shift for Network Load
-    #   Balancers and Application Load Balancers with cross-zone load
-    #   balancing turned off.
+    #   At this time, supported resources are Network Load Balancers and
+    #   Application Load Balancers with cross-zone load balancing turned off.
+    #
+    # @return [Types::CreatePracticeRunConfigurationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreatePracticeRunConfigurationResponse#arn #arn} => String
+    #   * {Types::CreatePracticeRunConfigurationResponse#name #name} => String
+    #   * {Types::CreatePracticeRunConfigurationResponse#practice_run_configuration #practice_run_configuration} => Types::PracticeRunConfiguration
+    #   * {Types::CreatePracticeRunConfigurationResponse#zonal_autoshift_status #zonal_autoshift_status} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_practice_run_configuration({
+    #     blocked_dates: ["BlockedDate"],
+    #     blocked_windows: ["BlockedWindow"],
+    #     blocking_alarms: [
+    #       {
+    #         alarm_identifier: "ResourceArn", # required
+    #         type: "CLOUDWATCH", # required, accepts CLOUDWATCH
+    #       },
+    #     ],
+    #     outcome_alarms: [ # required
+    #       {
+    #         alarm_identifier: "ResourceArn", # required
+    #         type: "CLOUDWATCH", # required, accepts CLOUDWATCH
+    #       },
+    #     ],
+    #     resource_identifier: "ResourceIdentifier", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.arn #=> String
+    #   resp.name #=> String
+    #   resp.practice_run_configuration.blocked_dates #=> Array
+    #   resp.practice_run_configuration.blocked_dates[0] #=> String
+    #   resp.practice_run_configuration.blocked_windows #=> Array
+    #   resp.practice_run_configuration.blocked_windows[0] #=> String
+    #   resp.practice_run_configuration.blocking_alarms #=> Array
+    #   resp.practice_run_configuration.blocking_alarms[0].alarm_identifier #=> String
+    #   resp.practice_run_configuration.blocking_alarms[0].type #=> String, one of "CLOUDWATCH"
+    #   resp.practice_run_configuration.outcome_alarms #=> Array
+    #   resp.practice_run_configuration.outcome_alarms[0].alarm_identifier #=> String
+    #   resp.practice_run_configuration.outcome_alarms[0].type #=> String, one of "CLOUDWATCH"
+    #   resp.zonal_autoshift_status #=> String, one of "ENABLED", "DISABLED"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/arc-zonal-shift-2022-10-30/CreatePracticeRunConfiguration AWS API Documentation
+    #
+    # @overload create_practice_run_configuration(params = {})
+    # @param [Hash] params ({})
+    def create_practice_run_configuration(params = {}, options = {})
+      req = build_request(:create_practice_run_configuration, params)
+      req.send_request(options)
+    end
+
+    # Deletes the practice run configuration for a resource. Before you can
+    # delete a practice run configuration for a resource., you must disable
+    # zonal autoshift for the resource. Practice runs must be configured for
+    # zonal autoshift to be enabled.
+    #
+    # @option params [required, String] :resource_identifier
+    #   The identifier for the resource that you want to delete the practice
+    #   run configuration for. The identifier is the Amazon Resource Name
+    #   (ARN) for the resource.
+    #
+    # @return [Types::DeletePracticeRunConfigurationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DeletePracticeRunConfigurationResponse#arn #arn} => String
+    #   * {Types::DeletePracticeRunConfigurationResponse#name #name} => String
+    #   * {Types::DeletePracticeRunConfigurationResponse#zonal_autoshift_status #zonal_autoshift_status} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_practice_run_configuration({
+    #     resource_identifier: "ResourceIdentifier", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.arn #=> String
+    #   resp.name #=> String
+    #   resp.zonal_autoshift_status #=> String, one of "ENABLED", "DISABLED"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/arc-zonal-shift-2022-10-30/DeletePracticeRunConfiguration AWS API Documentation
+    #
+    # @overload delete_practice_run_configuration(params = {})
+    # @param [Hash] params ({})
+    def delete_practice_run_configuration(params = {}, options = {})
+      req = build_request(:delete_practice_run_configuration, params)
+      req.send_request(options)
+    end
+
+    # Returns the status of autoshift observer notification. Autoshift
+    # observer notification enables you to be notified, through Amazon
+    # EventBridge, when there is an autoshift event for zonal autoshift.
+    #
+    # If the status is `ENABLED`, Route 53 ARC includes all autoshift events
+    # when you use the EventBridge pattern `Autoshift In Progress`. When the
+    # status is `DISABLED`, Route 53 ARC includes only autoshift events for
+    # autoshifts when one or more of your resources is included in the
+    # autoshift.
+    #
+    # For more information, see [ Notifications for practice runs and
+    # autoshifts][1] in the Amazon Route 53 Application Recovery Controller
+    # Developer Guide.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/r53recovery/latest/dg/arc-zonal-autoshift.how-it-works.html#ZAShiftNotification
+    #
+    # @return [Types::GetAutoshiftObserverNotificationStatusResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetAutoshiftObserverNotificationStatusResponse#status #status} => String
+    #
+    # @example Response structure
+    #
+    #   resp.status #=> String, one of "ENABLED", "DISABLED"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/arc-zonal-shift-2022-10-30/GetAutoshiftObserverNotificationStatus AWS API Documentation
+    #
+    # @overload get_autoshift_observer_notification_status(params = {})
+    # @param [Hash] params ({})
+    def get_autoshift_observer_notification_status(params = {}, options = {})
+      req = build_request(:get_autoshift_observer_notification_status, params)
+      req.send_request(options)
+    end
+
+    # Get information about a resource that's been registered for zonal
+    # shifts with Amazon Route 53 Application Recovery Controller in this
+    # Amazon Web Services Region. Resources that are registered for zonal
+    # shifts are managed resources in Route 53 ARC. You can start zonal
+    # shifts and configure zonal autoshift for managed resources.
+    #
+    # At this time, you can only start a zonal shift or configure zonal
+    # autoshift for Network Load Balancers and Application Load Balancers
+    # with cross-zone load balancing turned off.
+    #
+    # @option params [required, String] :resource_identifier
+    #   The identifier for the resource that Amazon Web Services shifts
+    #   traffic for. The identifier is the Amazon Resource Name (ARN) for the
+    #   resource.
+    #
+    #   At this time, supported resources are Network Load Balancers and
+    #   Application Load Balancers with cross-zone load balancing turned off.
     #
     # @return [Types::GetManagedResourceResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::GetManagedResourceResponse#applied_weights #applied_weights} => Hash&lt;String,Float&gt;
     #   * {Types::GetManagedResourceResponse#arn #arn} => String
+    #   * {Types::GetManagedResourceResponse#autoshifts #autoshifts} => Array&lt;Types::AutoshiftInResource&gt;
     #   * {Types::GetManagedResourceResponse#name #name} => String
+    #   * {Types::GetManagedResourceResponse#practice_run_configuration #practice_run_configuration} => Types::PracticeRunConfiguration
+    #   * {Types::GetManagedResourceResponse#zonal_autoshift_status #zonal_autoshift_status} => String
     #   * {Types::GetManagedResourceResponse#zonal_shifts #zonal_shifts} => Array&lt;Types::ZonalShiftInResource&gt;
     #
     # @example Request syntax with placeholder values
@@ -445,12 +752,28 @@ module Aws::ARCZonalShift
     #   resp.applied_weights #=> Hash
     #   resp.applied_weights["AvailabilityZone"] #=> Float
     #   resp.arn #=> String
+    #   resp.autoshifts #=> Array
+    #   resp.autoshifts[0].applied_status #=> String, one of "APPLIED", "NOT_APPLIED"
+    #   resp.autoshifts[0].away_from #=> String
+    #   resp.autoshifts[0].start_time #=> Time
     #   resp.name #=> String
+    #   resp.practice_run_configuration.blocked_dates #=> Array
+    #   resp.practice_run_configuration.blocked_dates[0] #=> String
+    #   resp.practice_run_configuration.blocked_windows #=> Array
+    #   resp.practice_run_configuration.blocked_windows[0] #=> String
+    #   resp.practice_run_configuration.blocking_alarms #=> Array
+    #   resp.practice_run_configuration.blocking_alarms[0].alarm_identifier #=> String
+    #   resp.practice_run_configuration.blocking_alarms[0].type #=> String, one of "CLOUDWATCH"
+    #   resp.practice_run_configuration.outcome_alarms #=> Array
+    #   resp.practice_run_configuration.outcome_alarms[0].alarm_identifier #=> String
+    #   resp.practice_run_configuration.outcome_alarms[0].type #=> String, one of "CLOUDWATCH"
+    #   resp.zonal_autoshift_status #=> String, one of "ENABLED", "DISABLED"
     #   resp.zonal_shifts #=> Array
     #   resp.zonal_shifts[0].applied_status #=> String, one of "APPLIED", "NOT_APPLIED"
     #   resp.zonal_shifts[0].away_from #=> String
     #   resp.zonal_shifts[0].comment #=> String
     #   resp.zonal_shifts[0].expiry_time #=> Time
+    #   resp.zonal_shifts[0].practice_run_outcome #=> String, one of "FAILED", "INTERRUPTED", "PENDING", "SUCCEEDED"
     #   resp.zonal_shifts[0].resource_identifier #=> String
     #   resp.zonal_shifts[0].start_time #=> Time
     #   resp.zonal_shifts[0].zonal_shift_id #=> String
@@ -464,11 +787,62 @@ module Aws::ARCZonalShift
       req.send_request(options)
     end
 
-    # Lists all the resources in your AWS account in this AWS Region that
-    # are managed for zonal shifts in Amazon Route 53 Application Recovery
-    # Controller, and information about them. The information includes their
-    # Amazon Resource Names (ARNs), the Availability Zones the resources are
-    # deployed in, and the resource name.
+    # Returns a list of autoshifts for an Amazon Web Services Region. By
+    # default, the call returns only `ACTIVE` autoshifts. Optionally, you
+    # can specify the `status` parameter to return `COMPLETED` autoshifts.
+    #
+    # @option params [Integer] :max_results
+    #   The number of objects that you want to return with this call.
+    #
+    # @option params [String] :next_token
+    #   Specifies that you want to receive the next page of results. Valid
+    #   only if you received a `NextToken` response in the previous request.
+    #   If you did, it indicates that more output is available. Set this
+    #   parameter to the value provided by the previous call's `NextToken`
+    #   response to request the next page of results.
+    #
+    # @option params [String] :status
+    #   The status of the autoshift.
+    #
+    # @return [Types::ListAutoshiftsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListAutoshiftsResponse#items #items} => Array&lt;Types::AutoshiftSummary&gt;
+    #   * {Types::ListAutoshiftsResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_autoshifts({
+    #     max_results: 1,
+    #     next_token: "String",
+    #     status: "ACTIVE", # accepts ACTIVE, COMPLETED
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.items #=> Array
+    #   resp.items[0].away_from #=> String
+    #   resp.items[0].end_time #=> Time
+    #   resp.items[0].start_time #=> Time
+    #   resp.items[0].status #=> String, one of "ACTIVE", "COMPLETED"
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/arc-zonal-shift-2022-10-30/ListAutoshifts AWS API Documentation
+    #
+    # @overload list_autoshifts(params = {})
+    # @param [Hash] params ({})
+    def list_autoshifts(params = {}, options = {})
+      req = build_request(:list_autoshifts, params)
+      req.send_request(options)
+    end
+
+    # Lists all the resources in your Amazon Web Services account in this
+    # Amazon Web Services Region that are managed for zonal shifts in Amazon
+    # Route 53 Application Recovery Controller, and information about them.
+    # The information includes the zonal autoshift status for the resource,
+    # as well as the Amazon Resource Name (ARN), the Availability Zones that
+    # each resource is deployed in, and the resource name.
     #
     # @option params [Integer] :max_results
     #   The number of objects that you want to return with this call.
@@ -497,10 +871,27 @@ module Aws::ARCZonalShift
     # @example Response structure
     #
     #   resp.items #=> Array
+    #   resp.items[0].applied_weights #=> Hash
+    #   resp.items[0].applied_weights["AvailabilityZone"] #=> Float
     #   resp.items[0].arn #=> String
+    #   resp.items[0].autoshifts #=> Array
+    #   resp.items[0].autoshifts[0].applied_status #=> String, one of "APPLIED", "NOT_APPLIED"
+    #   resp.items[0].autoshifts[0].away_from #=> String
+    #   resp.items[0].autoshifts[0].start_time #=> Time
     #   resp.items[0].availability_zones #=> Array
     #   resp.items[0].availability_zones[0] #=> String
     #   resp.items[0].name #=> String
+    #   resp.items[0].practice_run_status #=> String, one of "ENABLED", "DISABLED"
+    #   resp.items[0].zonal_autoshift_status #=> String, one of "ENABLED", "DISABLED"
+    #   resp.items[0].zonal_shifts #=> Array
+    #   resp.items[0].zonal_shifts[0].applied_status #=> String, one of "APPLIED", "NOT_APPLIED"
+    #   resp.items[0].zonal_shifts[0].away_from #=> String
+    #   resp.items[0].zonal_shifts[0].comment #=> String
+    #   resp.items[0].zonal_shifts[0].expiry_time #=> Time
+    #   resp.items[0].zonal_shifts[0].practice_run_outcome #=> String, one of "FAILED", "INTERRUPTED", "PENDING", "SUCCEEDED"
+    #   resp.items[0].zonal_shifts[0].resource_identifier #=> String
+    #   resp.items[0].zonal_shifts[0].start_time #=> Time
+    #   resp.items[0].zonal_shifts[0].zonal_shift_id #=> String
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/arc-zonal-shift-2022-10-30/ListManagedResources AWS API Documentation
@@ -512,8 +903,18 @@ module Aws::ARCZonalShift
       req.send_request(options)
     end
 
-    # Lists all the active zonal shifts in Amazon Route 53 Application
-    # Recovery Controller in your AWS account in this AWS Region.
+    # Lists all active and completed zonal shifts in Amazon Route 53
+    # Application Recovery Controller in your Amazon Web Services account in
+    # this Amazon Web Services Region. `ListZonalShifts` returns
+    # customer-initiated zonal shifts, as well as practice run zonal shifts
+    # that Route 53 ARC started on your behalf for zonal autoshift.
+    #
+    # The `ListZonalShifts` operation does not list autoshifts. For more
+    # information about listing autoshifts, see ["&gt;ListAutoshifts][1].
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/arc-zonal-shift/latest/api/API_ListAutoshifts.html
     #
     # @option params [Integer] :max_results
     #   The number of objects that you want to return with this call.
@@ -525,17 +926,22 @@ module Aws::ARCZonalShift
     #   parameter to the value provided by the previous call's `NextToken`
     #   response to request the next page of results.
     #
+    # @option params [String] :resource_identifier
+    #   The identifier for the resource that you want to list zonal shifts
+    #   for. The identifier is the Amazon Resource Name (ARN) for the
+    #   resource.
+    #
     # @option params [String] :status
     #   A status for a zonal shift.
     #
     #   The `Status` for a zonal shift can have one of the following values:
     #
-    #   * **ACTIVE**\: The zonal shift is started and active.
+    #   * **ACTIVE**: The zonal shift has been started and active.
     #
-    #   * **EXPIRED**\: The zonal shift has expired (the expiry time was
+    #   * **EXPIRED**: The zonal shift has expired (the expiry time was
     #     exceeded).
     #
-    #   * **CANCELED**\: The zonal shift was canceled.
+    #   * **CANCELED**: The zonal shift was canceled.
     #
     # @return [Types::ListZonalShiftsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -549,6 +955,7 @@ module Aws::ARCZonalShift
     #   resp = client.list_zonal_shifts({
     #     max_results: 1,
     #     next_token: "String",
+    #     resource_identifier: "ResourceIdentifier",
     #     status: "ACTIVE", # accepts ACTIVE, EXPIRED, CANCELED
     #   })
     #
@@ -558,6 +965,7 @@ module Aws::ARCZonalShift
     #   resp.items[0].away_from #=> String
     #   resp.items[0].comment #=> String
     #   resp.items[0].expiry_time #=> Time
+    #   resp.items[0].practice_run_outcome #=> String, one of "FAILED", "INTERRUPTED", "PENDING", "SUCCEEDED"
     #   resp.items[0].resource_identifier #=> String
     #   resp.items[0].start_time #=> Time
     #   resp.items[0].status #=> String, one of "ACTIVE", "EXPIRED", "CANCELED"
@@ -574,12 +982,13 @@ module Aws::ARCZonalShift
     end
 
     # You start a zonal shift to temporarily move load balancer traffic away
-    # from an Availability Zone in a AWS Region, to help your application
-    # recover immediately, for example, from a developer's bad code
-    # deployment or from an AWS infrastructure failure in a single
-    # Availability Zone. You can start a zonal shift in Route 53 ARC only
-    # for managed resources in your account in an AWS Region. Resources are
-    # automatically registered with Route 53 ARC by AWS services.
+    # from an Availability Zone in an Amazon Web Services Region, to help
+    # your application recover immediately, for example, from a developer's
+    # bad code deployment or from an Amazon Web Services infrastructure
+    # failure in a single Availability Zone. You can start a zonal shift in
+    # Route 53 ARC only for managed resources in your Amazon Web Services
+    # account in an Amazon Web Services Region. Resources are automatically
+    # registered with Route 53 ARC by Amazon Web Services services.
     #
     # At this time, you can only start a zonal shift for Network Load
     # Balancers and Application Load Balancers with cross-zone load
@@ -599,10 +1008,10 @@ module Aws::ARCZonalShift
     # [1]: https://docs.aws.amazon.com/r53recovery/latest/dg/arc-zonal-shift.html
     #
     # @option params [required, String] :away_from
-    #   The Availability Zone that traffic is moved away from for a resource
-    #   when you start a zonal shift. Until the zonal shift expires or you
-    #   cancel it, traffic for the resource is instead moved to other
-    #   Availability Zones in the AWS Region.
+    #   The Availability Zone (for example, `use1-az1`) that traffic is moved
+    #   away from for a resource when you start a zonal shift. Until the zonal
+    #   shift expires or you cancel it, traffic for the resource is instead
+    #   moved to other Availability Zones in the Amazon Web Services Region.
     #
     # @option params [required, String] :comment
     #   A comment that you enter about the zonal shift. Only the latest
@@ -623,15 +1032,20 @@ module Aws::ARCZonalShift
     #   To set a length of time for a zonal shift to be active, specify a
     #   whole number, and then one of the following, with no space:
     #
-    #        <ul> <li> <p> <b>A lowercase letter m:</b> To specify that the value is in minutes.</p> </li> <li> <p> <b>A lowercase letter h:</b> To specify that the value is in hours.</p> </li> </ul> <p>For example: <code>20h</code> means the zonal shift expires in 20 hours. <code>120m</code> means the zonal shift expires in 120 minutes (2 hours).</p>
+    #   * **A lowercase letter m:** To specify that the value is in minutes.
+    #
+    #   * **A lowercase letter h:** To specify that the value is in hours.
+    #
+    #   For example: `20h` means the zonal shift expires in 20 hours. `120m`
+    #   means the zonal shift expires in 120 minutes (2 hours).
     #
     # @option params [required, String] :resource_identifier
-    #   The identifier for the resource to include in a zonal shift. The
-    #   identifier is the Amazon Resource Name (ARN) for the resource.
+    #   The identifier for the resource that Amazon Web Services shifts
+    #   traffic for. The identifier is the Amazon Resource Name (ARN) for the
+    #   resource.
     #
-    #   At this time, you can only start a zonal shift for Network Load
-    #   Balancers and Application Load Balancers with cross-zone load
-    #   balancing turned off.
+    #   At this time, supported resources are Network Load Balancers and
+    #   Application Load Balancers with cross-zone load balancing turned off.
     #
     # @return [Types::ZonalShift] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -671,9 +1085,211 @@ module Aws::ARCZonalShift
       req.send_request(options)
     end
 
+    # Update the status of autoshift observer notification. Autoshift
+    # observer notification enables you to be notified, through Amazon
+    # EventBridge, when there is an autoshift event for zonal autoshift.
+    #
+    # If the status is `ENABLED`, Route 53 ARC includes all autoshift events
+    # when you use the EventBridge pattern `Autoshift In Progress`. When the
+    # status is `DISABLED`, Route 53 ARC includes only autoshift events for
+    # autoshifts when one or more of your resources is included in the
+    # autoshift.
+    #
+    # For more information, see [ Notifications for practice runs and
+    # autoshifts][1] in the Amazon Route 53 Application Recovery Controller
+    # Developer Guide.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/r53recovery/latest/dg/arc-zonal-autoshift.how-it-works.html#ZAShiftNotification
+    #
+    # @option params [required, String] :status
+    #   The status to set for autoshift observer notification. If the status
+    #   is `ENABLED`, Route 53 ARC includes all autoshift events when you use
+    #   the Amazon EventBridge pattern `Autoshift In Progress`. When the
+    #   status is `DISABLED`, Route 53 ARC includes only autoshift events for
+    #   autoshifts when one or more of your resources is included in the
+    #   autoshift.
+    #
+    # @return [Types::UpdateAutoshiftObserverNotificationStatusResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateAutoshiftObserverNotificationStatusResponse#status #status} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_autoshift_observer_notification_status({
+    #     status: "ENABLED", # required, accepts ENABLED, DISABLED
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.status #=> String, one of "ENABLED", "DISABLED"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/arc-zonal-shift-2022-10-30/UpdateAutoshiftObserverNotificationStatus AWS API Documentation
+    #
+    # @overload update_autoshift_observer_notification_status(params = {})
+    # @param [Hash] params ({})
+    def update_autoshift_observer_notification_status(params = {}, options = {})
+      req = build_request(:update_autoshift_observer_notification_status, params)
+      req.send_request(options)
+    end
+
+    # Update a practice run configuration to change one or more of the
+    # following: add, change, or remove the blocking alarm; change the
+    # outcome alarm; or add, change, or remove blocking dates or time
+    # windows.
+    #
+    # @option params [Array<String>] :blocked_dates
+    #   Add, change, or remove blocked dates for a practice run in zonal
+    #   autoshift.
+    #
+    #   Optionally, you can block practice runs for specific calendar dates.
+    #   The format for blocked dates is: YYYY-MM-DD. Keep in mind, when you
+    #   specify dates, that dates and times for practice runs are in UTC.
+    #   Separate multiple blocked dates with spaces.
+    #
+    #   For example, if you have an application update scheduled to launch on
+    #   May 1, 2024, and you don't want practice runs to shift traffic away
+    #   at that time, you could set a blocked date for `2024-05-01`.
+    #
+    # @option params [Array<String>] :blocked_windows
+    #   Add, change, or remove windows of days and times for when you can,
+    #   optionally, block Route 53 ARC from starting a practice run for a
+    #   resource.
+    #
+    #   The format for blocked windows is: DAY:HH:SS-DAY:HH:SS. Keep in mind,
+    #   when you specify dates, that dates and times for practice runs are in
+    #   UTC. Also, be aware of potential time adjustments that might be
+    #   required for daylight saving time differences. Separate multiple
+    #   blocked windows with spaces.
+    #
+    #   For example, say you run business report summaries three days a week.
+    #   For this scenario, you might set the following recurring days and
+    #   times as blocked windows, for example: `MON-20:30-21:30
+    #   WED-20:30-21:30 FRI-20:30-21:30`.
+    #
+    # @option params [Array<Types::ControlCondition>] :blocking_alarms
+    #   Add, change, or remove the Amazon CloudWatch alarm that you optionally
+    #   specify as the blocking alarm for practice runs.
+    #
+    # @option params [Array<Types::ControlCondition>] :outcome_alarms
+    #   Specify a new the Amazon CloudWatch alarm as the outcome alarm for
+    #   practice runs.
+    #
+    # @option params [required, String] :resource_identifier
+    #   The identifier for the resource that you want to update the practice
+    #   run configuration for. The identifier is the Amazon Resource Name
+    #   (ARN) for the resource.
+    #
+    # @return [Types::UpdatePracticeRunConfigurationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdatePracticeRunConfigurationResponse#arn #arn} => String
+    #   * {Types::UpdatePracticeRunConfigurationResponse#name #name} => String
+    #   * {Types::UpdatePracticeRunConfigurationResponse#practice_run_configuration #practice_run_configuration} => Types::PracticeRunConfiguration
+    #   * {Types::UpdatePracticeRunConfigurationResponse#zonal_autoshift_status #zonal_autoshift_status} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_practice_run_configuration({
+    #     blocked_dates: ["BlockedDate"],
+    #     blocked_windows: ["BlockedWindow"],
+    #     blocking_alarms: [
+    #       {
+    #         alarm_identifier: "ResourceArn", # required
+    #         type: "CLOUDWATCH", # required, accepts CLOUDWATCH
+    #       },
+    #     ],
+    #     outcome_alarms: [
+    #       {
+    #         alarm_identifier: "ResourceArn", # required
+    #         type: "CLOUDWATCH", # required, accepts CLOUDWATCH
+    #       },
+    #     ],
+    #     resource_identifier: "ResourceIdentifier", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.arn #=> String
+    #   resp.name #=> String
+    #   resp.practice_run_configuration.blocked_dates #=> Array
+    #   resp.practice_run_configuration.blocked_dates[0] #=> String
+    #   resp.practice_run_configuration.blocked_windows #=> Array
+    #   resp.practice_run_configuration.blocked_windows[0] #=> String
+    #   resp.practice_run_configuration.blocking_alarms #=> Array
+    #   resp.practice_run_configuration.blocking_alarms[0].alarm_identifier #=> String
+    #   resp.practice_run_configuration.blocking_alarms[0].type #=> String, one of "CLOUDWATCH"
+    #   resp.practice_run_configuration.outcome_alarms #=> Array
+    #   resp.practice_run_configuration.outcome_alarms[0].alarm_identifier #=> String
+    #   resp.practice_run_configuration.outcome_alarms[0].type #=> String, one of "CLOUDWATCH"
+    #   resp.zonal_autoshift_status #=> String, one of "ENABLED", "DISABLED"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/arc-zonal-shift-2022-10-30/UpdatePracticeRunConfiguration AWS API Documentation
+    #
+    # @overload update_practice_run_configuration(params = {})
+    # @param [Hash] params ({})
+    def update_practice_run_configuration(params = {}, options = {})
+      req = build_request(:update_practice_run_configuration, params)
+      req.send_request(options)
+    end
+
+    # The zonal autoshift configuration for a resource includes the practice
+    # run configuration and the status for running autoshifts, zonal
+    # autoshift status. When a resource has a practice run configuation,
+    # Route 53 ARC starts weekly zonal shifts for the resource, to shift
+    # traffic away from an Availability Zone. Weekly practice runs help you
+    # to make sure that your application can continue to operate normally
+    # with the loss of one Availability Zone.
+    #
+    # You can update the zonal autoshift autoshift status to enable or
+    # disable zonal autoshift. When zonal autoshift is `ENABLED`, you
+    # authorize Amazon Web Services to shift away resource traffic for an
+    # application from an Availability Zone during events, on your behalf,
+    # to help reduce time to recovery. Traffic is also shifted away for the
+    # required weekly practice runs.
+    #
+    # @option params [required, String] :resource_identifier
+    #   The identifier for the resource that you want to update the zonal
+    #   autoshift configuration for. The identifier is the Amazon Resource
+    #   Name (ARN) for the resource.
+    #
+    # @option params [required, String] :zonal_autoshift_status
+    #   The zonal autoshift status for the resource that you want to update
+    #   the zonal autoshift configuration for. Choose `ENABLED` to authorize
+    #   Amazon Web Services to shift away resource traffic for an application
+    #   from an Availability Zone during events, on your behalf, to help
+    #   reduce time to recovery.
+    #
+    # @return [Types::UpdateZonalAutoshiftConfigurationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateZonalAutoshiftConfigurationResponse#resource_identifier #resource_identifier} => String
+    #   * {Types::UpdateZonalAutoshiftConfigurationResponse#zonal_autoshift_status #zonal_autoshift_status} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_zonal_autoshift_configuration({
+    #     resource_identifier: "ResourceIdentifier", # required
+    #     zonal_autoshift_status: "ENABLED", # required, accepts ENABLED, DISABLED
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.resource_identifier #=> String
+    #   resp.zonal_autoshift_status #=> String, one of "ENABLED", "DISABLED"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/arc-zonal-shift-2022-10-30/UpdateZonalAutoshiftConfiguration AWS API Documentation
+    #
+    # @overload update_zonal_autoshift_configuration(params = {})
+    # @param [Hash] params ({})
+    def update_zonal_autoshift_configuration(params = {}, options = {})
+      req = build_request(:update_zonal_autoshift_configuration, params)
+      req.send_request(options)
+    end
+
     # Update an active zonal shift in Amazon Route 53 Application Recovery
-    # Controller in your AWS account. You can update a zonal shift to set a
-    # new expiration, or edit or replace the comment for the zonal shift.
+    # Controller in your Amazon Web Services account. You can update a zonal
+    # shift to set a new expiration, or edit or replace the comment for the
+    # zonal shift.
     #
     # @option params [String] :comment
     #   A comment that you enter about the zonal shift. Only the latest
@@ -747,14 +1363,19 @@ module Aws::ARCZonalShift
     # @api private
     def build_request(operation_name, params = {})
       handlers = @handlers.for(operation_name)
+      tracer = config.telemetry_provider.tracer_provider.tracer(
+        Aws::Telemetry.module_to_tracer_name('Aws::ARCZonalShift')
+      )
       context = Seahorse::Client::RequestContext.new(
         operation_name: operation_name,
         operation: config.api.operation(operation_name),
         client: self,
         params: params,
-        config: config)
+        config: config,
+        tracer: tracer
+      )
       context[:gem_name] = 'aws-sdk-arczonalshift'
-      context[:gem_version] = '1.1.0'
+      context[:gem_version] = '1.29.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

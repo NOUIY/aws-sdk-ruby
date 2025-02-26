@@ -7,6 +7,7 @@
 #
 # WARNING ABOUT GENERATED CODE
 
+
 module Aws::NetworkManager
   # @api private
   module ClientApi
@@ -31,6 +32,9 @@ module Aws::NetworkManager
     AssociateTransitGatewayConnectPeerRequest = Shapes::StructureShape.new(name: 'AssociateTransitGatewayConnectPeerRequest')
     AssociateTransitGatewayConnectPeerResponse = Shapes::StructureShape.new(name: 'AssociateTransitGatewayConnectPeerResponse')
     Attachment = Shapes::StructureShape.new(name: 'Attachment')
+    AttachmentError = Shapes::StructureShape.new(name: 'AttachmentError')
+    AttachmentErrorCode = Shapes::StringShape.new(name: 'AttachmentErrorCode')
+    AttachmentErrorList = Shapes::ListShape.new(name: 'AttachmentErrorList')
     AttachmentId = Shapes::StringShape.new(name: 'AttachmentId')
     AttachmentList = Shapes::ListShape.new(name: 'AttachmentList')
     AttachmentState = Shapes::StringShape.new(name: 'AttachmentState')
@@ -53,6 +57,9 @@ module Aws::NetworkManager
     ConnectPeerBgpConfiguration = Shapes::StructureShape.new(name: 'ConnectPeerBgpConfiguration')
     ConnectPeerBgpConfigurationList = Shapes::ListShape.new(name: 'ConnectPeerBgpConfigurationList')
     ConnectPeerConfiguration = Shapes::StructureShape.new(name: 'ConnectPeerConfiguration')
+    ConnectPeerError = Shapes::StructureShape.new(name: 'ConnectPeerError')
+    ConnectPeerErrorCode = Shapes::StringShape.new(name: 'ConnectPeerErrorCode')
+    ConnectPeerErrorList = Shapes::ListShape.new(name: 'ConnectPeerErrorList')
     ConnectPeerId = Shapes::StringShape.new(name: 'ConnectPeerId')
     ConnectPeerIdList = Shapes::ListShape.new(name: 'ConnectPeerIdList')
     ConnectPeerState = Shapes::StringShape.new(name: 'ConnectPeerState')
@@ -80,6 +87,9 @@ module Aws::NetworkManager
     CoreNetworkEdge = Shapes::StructureShape.new(name: 'CoreNetworkEdge')
     CoreNetworkEdgeList = Shapes::ListShape.new(name: 'CoreNetworkEdgeList')
     CoreNetworkId = Shapes::StringShape.new(name: 'CoreNetworkId')
+    CoreNetworkNetworkFunctionGroup = Shapes::StructureShape.new(name: 'CoreNetworkNetworkFunctionGroup')
+    CoreNetworkNetworkFunctionGroupIdentifier = Shapes::StructureShape.new(name: 'CoreNetworkNetworkFunctionGroupIdentifier')
+    CoreNetworkNetworkFunctionGroupList = Shapes::ListShape.new(name: 'CoreNetworkNetworkFunctionGroupList')
     CoreNetworkPolicy = Shapes::StructureShape.new(name: 'CoreNetworkPolicy')
     CoreNetworkPolicyAlias = Shapes::StringShape.new(name: 'CoreNetworkPolicyAlias')
     CoreNetworkPolicyDocument = Shapes::StringShape.new(name: 'CoreNetworkPolicyDocument')
@@ -104,6 +114,8 @@ module Aws::NetworkManager
     CreateCoreNetworkResponse = Shapes::StructureShape.new(name: 'CreateCoreNetworkResponse')
     CreateDeviceRequest = Shapes::StructureShape.new(name: 'CreateDeviceRequest')
     CreateDeviceResponse = Shapes::StructureShape.new(name: 'CreateDeviceResponse')
+    CreateDirectConnectGatewayAttachmentRequest = Shapes::StructureShape.new(name: 'CreateDirectConnectGatewayAttachmentRequest')
+    CreateDirectConnectGatewayAttachmentResponse = Shapes::StructureShape.new(name: 'CreateDirectConnectGatewayAttachmentResponse')
     CreateGlobalNetworkRequest = Shapes::StructureShape.new(name: 'CreateGlobalNetworkRequest')
     CreateGlobalNetworkResponse = Shapes::StructureShape.new(name: 'CreateGlobalNetworkResponse')
     CreateLinkRequest = Shapes::StructureShape.new(name: 'CreateLinkRequest')
@@ -156,6 +168,8 @@ module Aws::NetworkManager
     DeviceIdList = Shapes::ListShape.new(name: 'DeviceIdList')
     DeviceList = Shapes::ListShape.new(name: 'DeviceList')
     DeviceState = Shapes::StringShape.new(name: 'DeviceState')
+    DirectConnectGatewayArn = Shapes::StringShape.new(name: 'DirectConnectGatewayArn')
+    DirectConnectGatewayAttachment = Shapes::StructureShape.new(name: 'DirectConnectGatewayAttachment')
     DisassociateConnectPeerRequest = Shapes::StructureShape.new(name: 'DisassociateConnectPeerRequest')
     DisassociateConnectPeerResponse = Shapes::StructureShape.new(name: 'DisassociateConnectPeerResponse')
     DisassociateCustomerGatewayRequest = Shapes::StructureShape.new(name: 'DisassociateCustomerGatewayRequest')
@@ -164,6 +178,9 @@ module Aws::NetworkManager
     DisassociateLinkResponse = Shapes::StructureShape.new(name: 'DisassociateLinkResponse')
     DisassociateTransitGatewayConnectPeerRequest = Shapes::StructureShape.new(name: 'DisassociateTransitGatewayConnectPeerRequest')
     DisassociateTransitGatewayConnectPeerResponse = Shapes::StructureShape.new(name: 'DisassociateTransitGatewayConnectPeerResponse')
+    EdgeOverride = Shapes::StructureShape.new(name: 'EdgeOverride')
+    EdgeSet = Shapes::ListShape.new(name: 'EdgeSet')
+    EdgeSetList = Shapes::ListShape.new(name: 'EdgeSetList')
     ExceptionContextKey = Shapes::StringShape.new(name: 'ExceptionContextKey')
     ExceptionContextMap = Shapes::MapShape.new(name: 'ExceptionContextMap')
     ExceptionContextValue = Shapes::StringShape.new(name: 'ExceptionContextValue')
@@ -195,6 +212,8 @@ module Aws::NetworkManager
     GetCustomerGatewayAssociationsResponse = Shapes::StructureShape.new(name: 'GetCustomerGatewayAssociationsResponse')
     GetDevicesRequest = Shapes::StructureShape.new(name: 'GetDevicesRequest')
     GetDevicesResponse = Shapes::StructureShape.new(name: 'GetDevicesResponse')
+    GetDirectConnectGatewayAttachmentRequest = Shapes::StructureShape.new(name: 'GetDirectConnectGatewayAttachmentRequest')
+    GetDirectConnectGatewayAttachmentResponse = Shapes::StructureShape.new(name: 'GetDirectConnectGatewayAttachmentResponse')
     GetLinkAssociationsRequest = Shapes::StructureShape.new(name: 'GetLinkAssociationsRequest')
     GetLinkAssociationsResponse = Shapes::StructureShape.new(name: 'GetLinkAssociationsResponse')
     GetLinksRequest = Shapes::StructureShape.new(name: 'GetLinksRequest')
@@ -262,6 +281,9 @@ module Aws::NetworkManager
     Location = Shapes::StructureShape.new(name: 'Location')
     Long = Shapes::IntegerShape.new(name: 'Long')
     MaxResults = Shapes::IntegerShape.new(name: 'MaxResults')
+    NetworkFunctionGroup = Shapes::StructureShape.new(name: 'NetworkFunctionGroup')
+    NetworkFunctionGroupList = Shapes::ListShape.new(name: 'NetworkFunctionGroupList')
+    NetworkFunctionGroupName = Shapes::StringShape.new(name: 'NetworkFunctionGroupName')
     NetworkResource = Shapes::StructureShape.new(name: 'NetworkResource')
     NetworkResourceCount = Shapes::StructureShape.new(name: 'NetworkResourceCount')
     NetworkResourceCountList = Shapes::ListShape.new(name: 'NetworkResourceCountList')
@@ -281,10 +303,15 @@ module Aws::NetworkManager
     PathComponent = Shapes::StructureShape.new(name: 'PathComponent')
     PathComponentList = Shapes::ListShape.new(name: 'PathComponentList')
     Peering = Shapes::StructureShape.new(name: 'Peering')
+    PeeringError = Shapes::StructureShape.new(name: 'PeeringError')
+    PeeringErrorCode = Shapes::StringShape.new(name: 'PeeringErrorCode')
+    PeeringErrorList = Shapes::ListShape.new(name: 'PeeringErrorList')
     PeeringId = Shapes::StringShape.new(name: 'PeeringId')
     PeeringList = Shapes::ListShape.new(name: 'PeeringList')
     PeeringState = Shapes::StringShape.new(name: 'PeeringState')
     PeeringType = Shapes::StringShape.new(name: 'PeeringType')
+    PermissionsErrorContext = Shapes::StructureShape.new(name: 'PermissionsErrorContext')
+    ProposedNetworkFunctionGroupChange = Shapes::StructureShape.new(name: 'ProposedNetworkFunctionGroupChange')
     ProposedSegmentChange = Shapes::StructureShape.new(name: 'ProposedSegmentChange')
     PutCoreNetworkPolicyRequest = Shapes::StructureShape.new(name: 'PutCoreNetworkPolicyRequest')
     PutCoreNetworkPolicyResponse = Shapes::StructureShape.new(name: 'PutCoreNetworkPolicyResponse')
@@ -320,7 +347,12 @@ module Aws::NetworkManager
     RouteType = Shapes::StringShape.new(name: 'RouteType')
     RouteTypeList = Shapes::ListShape.new(name: 'RouteTypeList')
     SLRDeploymentStatus = Shapes::StringShape.new(name: 'SLRDeploymentStatus')
+    SegmentActionServiceInsertion = Shapes::StringShape.new(name: 'SegmentActionServiceInsertion')
+    SendViaMode = Shapes::StringShape.new(name: 'SendViaMode')
     ServerSideString = Shapes::StringShape.new(name: 'ServerSideString')
+    ServiceInsertionAction = Shapes::StructureShape.new(name: 'ServiceInsertionAction')
+    ServiceInsertionActionList = Shapes::ListShape.new(name: 'ServiceInsertionActionList')
+    ServiceInsertionSegments = Shapes::StructureShape.new(name: 'ServiceInsertionSegments')
     ServiceQuotaExceededException = Shapes::StructureShape.new(name: 'ServiceQuotaExceededException')
     Site = Shapes::StructureShape.new(name: 'Site')
     SiteArn = Shapes::StringShape.new(name: 'SiteArn')
@@ -369,6 +401,8 @@ module Aws::NetworkManager
     UpdateCoreNetworkResponse = Shapes::StructureShape.new(name: 'UpdateCoreNetworkResponse')
     UpdateDeviceRequest = Shapes::StructureShape.new(name: 'UpdateDeviceRequest')
     UpdateDeviceResponse = Shapes::StructureShape.new(name: 'UpdateDeviceResponse')
+    UpdateDirectConnectGatewayAttachmentRequest = Shapes::StructureShape.new(name: 'UpdateDirectConnectGatewayAttachmentRequest')
+    UpdateDirectConnectGatewayAttachmentResponse = Shapes::StructureShape.new(name: 'UpdateDirectConnectGatewayAttachmentResponse')
     UpdateGlobalNetworkRequest = Shapes::StructureShape.new(name: 'UpdateGlobalNetworkRequest')
     UpdateGlobalNetworkResponse = Shapes::StructureShape.new(name: 'UpdateGlobalNetworkResponse')
     UpdateLinkRequest = Shapes::StructureShape.new(name: 'UpdateLinkRequest')
@@ -383,10 +417,14 @@ module Aws::NetworkManager
     ValidationExceptionField = Shapes::StructureShape.new(name: 'ValidationExceptionField')
     ValidationExceptionFieldList = Shapes::ListShape.new(name: 'ValidationExceptionFieldList')
     ValidationExceptionReason = Shapes::StringShape.new(name: 'ValidationExceptionReason')
+    Via = Shapes::StructureShape.new(name: 'Via')
     VpcArn = Shapes::StringShape.new(name: 'VpcArn')
     VpcAttachment = Shapes::StructureShape.new(name: 'VpcAttachment')
     VpcOptions = Shapes::StructureShape.new(name: 'VpcOptions')
     VpnConnectionArn = Shapes::StringShape.new(name: 'VpnConnectionArn')
+    WhenSentTo = Shapes::StructureShape.new(name: 'WhenSentTo')
+    WhenSentToSegmentsList = Shapes::ListShape.new(name: 'WhenSentToSegmentsList')
+    WithEdgeOverridesList = Shapes::ListShape.new(name: 'WithEdgeOverridesList')
 
     AWSLocation.add_member(:zone, Shapes::ShapeRef.new(shape: ConstrainedString, location_name: "Zone"))
     AWSLocation.add_member(:subnet_arn, Shapes::ShapeRef.new(shape: SubnetArn, location_name: "SubnetArn"))
@@ -449,14 +487,26 @@ module Aws::NetworkManager
     Attachment.add_member(:attachment_type, Shapes::ShapeRef.new(shape: AttachmentType, location_name: "AttachmentType"))
     Attachment.add_member(:state, Shapes::ShapeRef.new(shape: AttachmentState, location_name: "State"))
     Attachment.add_member(:edge_location, Shapes::ShapeRef.new(shape: ExternalRegionCode, location_name: "EdgeLocation"))
+    Attachment.add_member(:edge_locations, Shapes::ShapeRef.new(shape: ExternalRegionCodeList, location_name: "EdgeLocations"))
     Attachment.add_member(:resource_arn, Shapes::ShapeRef.new(shape: ResourceArn, location_name: "ResourceArn"))
     Attachment.add_member(:attachment_policy_rule_number, Shapes::ShapeRef.new(shape: Integer, location_name: "AttachmentPolicyRuleNumber"))
     Attachment.add_member(:segment_name, Shapes::ShapeRef.new(shape: ConstrainedString, location_name: "SegmentName"))
+    Attachment.add_member(:network_function_group_name, Shapes::ShapeRef.new(shape: NetworkFunctionGroupName, location_name: "NetworkFunctionGroupName"))
     Attachment.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "Tags"))
     Attachment.add_member(:proposed_segment_change, Shapes::ShapeRef.new(shape: ProposedSegmentChange, location_name: "ProposedSegmentChange"))
+    Attachment.add_member(:proposed_network_function_group_change, Shapes::ShapeRef.new(shape: ProposedNetworkFunctionGroupChange, location_name: "ProposedNetworkFunctionGroupChange"))
     Attachment.add_member(:created_at, Shapes::ShapeRef.new(shape: DateTime, location_name: "CreatedAt"))
     Attachment.add_member(:updated_at, Shapes::ShapeRef.new(shape: DateTime, location_name: "UpdatedAt"))
+    Attachment.add_member(:last_modification_errors, Shapes::ShapeRef.new(shape: AttachmentErrorList, location_name: "LastModificationErrors"))
     Attachment.struct_class = Types::Attachment
+
+    AttachmentError.add_member(:code, Shapes::ShapeRef.new(shape: AttachmentErrorCode, location_name: "Code"))
+    AttachmentError.add_member(:message, Shapes::ShapeRef.new(shape: ServerSideString, location_name: "Message"))
+    AttachmentError.add_member(:resource_arn, Shapes::ShapeRef.new(shape: ResourceArn, location_name: "ResourceArn"))
+    AttachmentError.add_member(:request_id, Shapes::ShapeRef.new(shape: ServerSideString, location_name: "RequestId"))
+    AttachmentError.struct_class = Types::AttachmentError
+
+    AttachmentErrorList.member = Shapes::ShapeRef.new(shape: AttachmentError)
 
     AttachmentList.member = Shapes::ShapeRef.new(shape: Attachment)
 
@@ -488,6 +538,8 @@ module Aws::NetworkManager
     ConnectPeer.add_member(:created_at, Shapes::ShapeRef.new(shape: DateTime, location_name: "CreatedAt"))
     ConnectPeer.add_member(:configuration, Shapes::ShapeRef.new(shape: ConnectPeerConfiguration, location_name: "Configuration"))
     ConnectPeer.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "Tags"))
+    ConnectPeer.add_member(:subnet_arn, Shapes::ShapeRef.new(shape: SubnetArn, location_name: "SubnetArn"))
+    ConnectPeer.add_member(:last_modification_errors, Shapes::ShapeRef.new(shape: ConnectPeerErrorList, location_name: "LastModificationErrors"))
     ConnectPeer.struct_class = Types::ConnectPeer
 
     ConnectPeerAssociation.add_member(:connect_peer_id, Shapes::ShapeRef.new(shape: ConnectPeerId, location_name: "ConnectPeerId"))
@@ -514,6 +566,14 @@ module Aws::NetworkManager
     ConnectPeerConfiguration.add_member(:bgp_configurations, Shapes::ShapeRef.new(shape: ConnectPeerBgpConfigurationList, location_name: "BgpConfigurations"))
     ConnectPeerConfiguration.struct_class = Types::ConnectPeerConfiguration
 
+    ConnectPeerError.add_member(:code, Shapes::ShapeRef.new(shape: ConnectPeerErrorCode, location_name: "Code"))
+    ConnectPeerError.add_member(:message, Shapes::ShapeRef.new(shape: ServerSideString, location_name: "Message"))
+    ConnectPeerError.add_member(:resource_arn, Shapes::ShapeRef.new(shape: ResourceArn, location_name: "ResourceArn"))
+    ConnectPeerError.add_member(:request_id, Shapes::ShapeRef.new(shape: ServerSideString, location_name: "RequestId"))
+    ConnectPeerError.struct_class = Types::ConnectPeerError
+
+    ConnectPeerErrorList.member = Shapes::ShapeRef.new(shape: ConnectPeerError)
+
     ConnectPeerIdList.member = Shapes::ShapeRef.new(shape: ConnectPeerId)
 
     ConnectPeerSummary.add_member(:core_network_id, Shapes::ShapeRef.new(shape: CoreNetworkId, location_name: "CoreNetworkId"))
@@ -523,6 +583,7 @@ module Aws::NetworkManager
     ConnectPeerSummary.add_member(:connect_peer_state, Shapes::ShapeRef.new(shape: ConnectPeerState, location_name: "ConnectPeerState"))
     ConnectPeerSummary.add_member(:created_at, Shapes::ShapeRef.new(shape: DateTime, location_name: "CreatedAt"))
     ConnectPeerSummary.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "Tags"))
+    ConnectPeerSummary.add_member(:subnet_arn, Shapes::ShapeRef.new(shape: SubnetArn, location_name: "SubnetArn"))
     ConnectPeerSummary.struct_class = Types::ConnectPeerSummary
 
     ConnectPeerSummaryList.member = Shapes::ShapeRef.new(shape: ConnectPeerSummary)
@@ -558,6 +619,7 @@ module Aws::NetworkManager
     CoreNetwork.add_member(:created_at, Shapes::ShapeRef.new(shape: DateTime, location_name: "CreatedAt"))
     CoreNetwork.add_member(:state, Shapes::ShapeRef.new(shape: CoreNetworkState, location_name: "State"))
     CoreNetwork.add_member(:segments, Shapes::ShapeRef.new(shape: CoreNetworkSegmentList, location_name: "Segments"))
+    CoreNetwork.add_member(:network_function_groups, Shapes::ShapeRef.new(shape: CoreNetworkNetworkFunctionGroupList, location_name: "NetworkFunctionGroups"))
     CoreNetwork.add_member(:edges, Shapes::ShapeRef.new(shape: CoreNetworkEdgeList, location_name: "Edges"))
     CoreNetwork.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "Tags"))
     CoreNetwork.struct_class = Types::CoreNetwork
@@ -582,6 +644,7 @@ module Aws::NetworkManager
 
     CoreNetworkChangeEventValues.add_member(:edge_location, Shapes::ShapeRef.new(shape: ExternalRegionCode, location_name: "EdgeLocation"))
     CoreNetworkChangeEventValues.add_member(:segment_name, Shapes::ShapeRef.new(shape: ConstrainedString, location_name: "SegmentName"))
+    CoreNetworkChangeEventValues.add_member(:network_function_group_name, Shapes::ShapeRef.new(shape: ConstrainedString, location_name: "NetworkFunctionGroupName"))
     CoreNetworkChangeEventValues.add_member(:attachment_id, Shapes::ShapeRef.new(shape: AttachmentId, location_name: "AttachmentId"))
     CoreNetworkChangeEventValues.add_member(:cidr, Shapes::ShapeRef.new(shape: ConstrainedString, location_name: "Cidr"))
     CoreNetworkChangeEventValues.struct_class = Types::CoreNetworkChangeEventValues
@@ -589,12 +652,14 @@ module Aws::NetworkManager
     CoreNetworkChangeList.member = Shapes::ShapeRef.new(shape: CoreNetworkChange)
 
     CoreNetworkChangeValues.add_member(:segment_name, Shapes::ShapeRef.new(shape: ConstrainedString, location_name: "SegmentName"))
+    CoreNetworkChangeValues.add_member(:network_function_group_name, Shapes::ShapeRef.new(shape: ConstrainedString, location_name: "NetworkFunctionGroupName"))
     CoreNetworkChangeValues.add_member(:edge_locations, Shapes::ShapeRef.new(shape: ExternalRegionCodeList, location_name: "EdgeLocations"))
     CoreNetworkChangeValues.add_member(:asn, Shapes::ShapeRef.new(shape: Long, location_name: "Asn"))
     CoreNetworkChangeValues.add_member(:cidr, Shapes::ShapeRef.new(shape: ConstrainedString, location_name: "Cidr"))
     CoreNetworkChangeValues.add_member(:destination_identifier, Shapes::ShapeRef.new(shape: ConstrainedString, location_name: "DestinationIdentifier"))
     CoreNetworkChangeValues.add_member(:inside_cidr_blocks, Shapes::ShapeRef.new(shape: ConstrainedStringList, location_name: "InsideCidrBlocks"))
     CoreNetworkChangeValues.add_member(:shared_segments, Shapes::ShapeRef.new(shape: ConstrainedStringList, location_name: "SharedSegments"))
+    CoreNetworkChangeValues.add_member(:service_insertion_actions, Shapes::ShapeRef.new(shape: ServiceInsertionActionList, location_name: "ServiceInsertionActions"))
     CoreNetworkChangeValues.struct_class = Types::CoreNetworkChangeValues
 
     CoreNetworkEdge.add_member(:edge_location, Shapes::ShapeRef.new(shape: ExternalRegionCode, location_name: "EdgeLocation"))
@@ -603,6 +668,18 @@ module Aws::NetworkManager
     CoreNetworkEdge.struct_class = Types::CoreNetworkEdge
 
     CoreNetworkEdgeList.member = Shapes::ShapeRef.new(shape: CoreNetworkEdge)
+
+    CoreNetworkNetworkFunctionGroup.add_member(:name, Shapes::ShapeRef.new(shape: ConstrainedString, location_name: "Name"))
+    CoreNetworkNetworkFunctionGroup.add_member(:edge_locations, Shapes::ShapeRef.new(shape: ExternalRegionCodeList, location_name: "EdgeLocations"))
+    CoreNetworkNetworkFunctionGroup.add_member(:segments, Shapes::ShapeRef.new(shape: ServiceInsertionSegments, location_name: "Segments"))
+    CoreNetworkNetworkFunctionGroup.struct_class = Types::CoreNetworkNetworkFunctionGroup
+
+    CoreNetworkNetworkFunctionGroupIdentifier.add_member(:core_network_id, Shapes::ShapeRef.new(shape: CoreNetworkId, location_name: "CoreNetworkId"))
+    CoreNetworkNetworkFunctionGroupIdentifier.add_member(:network_function_group_name, Shapes::ShapeRef.new(shape: ConstrainedString, location_name: "NetworkFunctionGroupName"))
+    CoreNetworkNetworkFunctionGroupIdentifier.add_member(:edge_location, Shapes::ShapeRef.new(shape: ExternalRegionCode, location_name: "EdgeLocation"))
+    CoreNetworkNetworkFunctionGroupIdentifier.struct_class = Types::CoreNetworkNetworkFunctionGroupIdentifier
+
+    CoreNetworkNetworkFunctionGroupList.member = Shapes::ShapeRef.new(shape: CoreNetworkNetworkFunctionGroup)
 
     CoreNetworkPolicy.add_member(:core_network_id, Shapes::ShapeRef.new(shape: CoreNetworkId, location_name: "CoreNetworkId"))
     CoreNetworkPolicy.add_member(:policy_version_id, Shapes::ShapeRef.new(shape: Integer, location_name: "PolicyVersionId"))
@@ -673,9 +750,10 @@ module Aws::NetworkManager
     CreateConnectPeerRequest.add_member(:core_network_address, Shapes::ShapeRef.new(shape: IPAddress, location_name: "CoreNetworkAddress"))
     CreateConnectPeerRequest.add_member(:peer_address, Shapes::ShapeRef.new(shape: IPAddress, required: true, location_name: "PeerAddress"))
     CreateConnectPeerRequest.add_member(:bgp_options, Shapes::ShapeRef.new(shape: BgpOptions, location_name: "BgpOptions"))
-    CreateConnectPeerRequest.add_member(:inside_cidr_blocks, Shapes::ShapeRef.new(shape: ConstrainedStringList, required: true, location_name: "InsideCidrBlocks"))
+    CreateConnectPeerRequest.add_member(:inside_cidr_blocks, Shapes::ShapeRef.new(shape: ConstrainedStringList, location_name: "InsideCidrBlocks"))
     CreateConnectPeerRequest.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "Tags"))
     CreateConnectPeerRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "ClientToken", metadata: {"idempotencyToken"=>true}))
+    CreateConnectPeerRequest.add_member(:subnet_arn, Shapes::ShapeRef.new(shape: SubnetArn, location_name: "SubnetArn"))
     CreateConnectPeerRequest.struct_class = Types::CreateConnectPeerRequest
 
     CreateConnectPeerResponse.add_member(:connect_peer, Shapes::ShapeRef.new(shape: ConnectPeer, location_name: "ConnectPeer"))
@@ -717,6 +795,16 @@ module Aws::NetworkManager
 
     CreateDeviceResponse.add_member(:device, Shapes::ShapeRef.new(shape: Device, location_name: "Device"))
     CreateDeviceResponse.struct_class = Types::CreateDeviceResponse
+
+    CreateDirectConnectGatewayAttachmentRequest.add_member(:core_network_id, Shapes::ShapeRef.new(shape: CoreNetworkId, required: true, location_name: "CoreNetworkId"))
+    CreateDirectConnectGatewayAttachmentRequest.add_member(:direct_connect_gateway_arn, Shapes::ShapeRef.new(shape: DirectConnectGatewayArn, required: true, location_name: "DirectConnectGatewayArn"))
+    CreateDirectConnectGatewayAttachmentRequest.add_member(:edge_locations, Shapes::ShapeRef.new(shape: ExternalRegionCodeList, required: true, location_name: "EdgeLocations"))
+    CreateDirectConnectGatewayAttachmentRequest.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "Tags"))
+    CreateDirectConnectGatewayAttachmentRequest.add_member(:client_token, Shapes::ShapeRef.new(shape: ClientToken, location_name: "ClientToken", metadata: {"idempotencyToken"=>true}))
+    CreateDirectConnectGatewayAttachmentRequest.struct_class = Types::CreateDirectConnectGatewayAttachmentRequest
+
+    CreateDirectConnectGatewayAttachmentResponse.add_member(:direct_connect_gateway_attachment, Shapes::ShapeRef.new(shape: DirectConnectGatewayAttachment, location_name: "DirectConnectGatewayAttachment"))
+    CreateDirectConnectGatewayAttachmentResponse.struct_class = Types::CreateDirectConnectGatewayAttachmentResponse
 
     CreateGlobalNetworkRequest.add_member(:description, Shapes::ShapeRef.new(shape: ConstrainedString, location_name: "Description"))
     CreateGlobalNetworkRequest.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "Tags"))
@@ -901,6 +989,10 @@ module Aws::NetworkManager
 
     DeviceList.member = Shapes::ShapeRef.new(shape: Device)
 
+    DirectConnectGatewayAttachment.add_member(:attachment, Shapes::ShapeRef.new(shape: Attachment, location_name: "Attachment"))
+    DirectConnectGatewayAttachment.add_member(:direct_connect_gateway_arn, Shapes::ShapeRef.new(shape: DirectConnectGatewayArn, location_name: "DirectConnectGatewayArn"))
+    DirectConnectGatewayAttachment.struct_class = Types::DirectConnectGatewayAttachment
+
     DisassociateConnectPeerRequest.add_member(:global_network_id, Shapes::ShapeRef.new(shape: GlobalNetworkId, required: true, location: "uri", location_name: "globalNetworkId"))
     DisassociateConnectPeerRequest.add_member(:connect_peer_id, Shapes::ShapeRef.new(shape: ConnectPeerId, required: true, location: "uri", location_name: "connectPeerId"))
     DisassociateConnectPeerRequest.struct_class = Types::DisassociateConnectPeerRequest
@@ -929,6 +1021,14 @@ module Aws::NetworkManager
 
     DisassociateTransitGatewayConnectPeerResponse.add_member(:transit_gateway_connect_peer_association, Shapes::ShapeRef.new(shape: TransitGatewayConnectPeerAssociation, location_name: "TransitGatewayConnectPeerAssociation"))
     DisassociateTransitGatewayConnectPeerResponse.struct_class = Types::DisassociateTransitGatewayConnectPeerResponse
+
+    EdgeOverride.add_member(:edge_sets, Shapes::ShapeRef.new(shape: EdgeSetList, location_name: "EdgeSets"))
+    EdgeOverride.add_member(:use_edge, Shapes::ShapeRef.new(shape: ConstrainedString, location_name: "UseEdge"))
+    EdgeOverride.struct_class = Types::EdgeOverride
+
+    EdgeSet.member = Shapes::ShapeRef.new(shape: ConstrainedString)
+
+    EdgeSetList.member = Shapes::ShapeRef.new(shape: EdgeSet)
 
     ExceptionContextMap.key = Shapes::ShapeRef.new(shape: ExceptionContextKey)
     ExceptionContextMap.value = Shapes::ShapeRef.new(shape: ExceptionContextValue)
@@ -1033,6 +1133,12 @@ module Aws::NetworkManager
     GetDevicesResponse.add_member(:devices, Shapes::ShapeRef.new(shape: DeviceList, location_name: "Devices"))
     GetDevicesResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "NextToken"))
     GetDevicesResponse.struct_class = Types::GetDevicesResponse
+
+    GetDirectConnectGatewayAttachmentRequest.add_member(:attachment_id, Shapes::ShapeRef.new(shape: AttachmentId, required: true, location: "uri", location_name: "attachmentId"))
+    GetDirectConnectGatewayAttachmentRequest.struct_class = Types::GetDirectConnectGatewayAttachmentRequest
+
+    GetDirectConnectGatewayAttachmentResponse.add_member(:direct_connect_gateway_attachment, Shapes::ShapeRef.new(shape: DirectConnectGatewayAttachment, location_name: "DirectConnectGatewayAttachment"))
+    GetDirectConnectGatewayAttachmentResponse.struct_class = Types::GetDirectConnectGatewayAttachmentResponse
 
     GetLinkAssociationsRequest.add_member(:global_network_id, Shapes::ShapeRef.new(shape: GlobalNetworkId, required: true, location: "uri", location_name: "globalNetworkId"))
     GetLinkAssociationsRequest.add_member(:device_id, Shapes::ShapeRef.new(shape: DeviceId, location: "querystring", location_name: "deviceId"))
@@ -1310,6 +1416,11 @@ module Aws::NetworkManager
     Location.add_member(:longitude, Shapes::ShapeRef.new(shape: ConstrainedString, location_name: "Longitude"))
     Location.struct_class = Types::Location
 
+    NetworkFunctionGroup.add_member(:name, Shapes::ShapeRef.new(shape: ConstrainedString, location_name: "Name"))
+    NetworkFunctionGroup.struct_class = Types::NetworkFunctionGroup
+
+    NetworkFunctionGroupList.member = Shapes::ShapeRef.new(shape: NetworkFunctionGroup)
+
     NetworkResource.add_member(:registered_gateway_arn, Shapes::ShapeRef.new(shape: ResourceArn, location_name: "RegisteredGatewayArn"))
     NetworkResource.add_member(:core_network_id, Shapes::ShapeRef.new(shape: CoreNetworkId, location_name: "CoreNetworkId"))
     NetworkResource.add_member(:aws_region, Shapes::ShapeRef.new(shape: ExternalRegionCode, location_name: "AwsRegion"))
@@ -1352,6 +1463,7 @@ module Aws::NetworkManager
     NetworkRouteDestination.add_member(:core_network_attachment_id, Shapes::ShapeRef.new(shape: AttachmentId, location_name: "CoreNetworkAttachmentId"))
     NetworkRouteDestination.add_member(:transit_gateway_attachment_id, Shapes::ShapeRef.new(shape: TransitGatewayAttachmentId, location_name: "TransitGatewayAttachmentId"))
     NetworkRouteDestination.add_member(:segment_name, Shapes::ShapeRef.new(shape: ConstrainedString, location_name: "SegmentName"))
+    NetworkRouteDestination.add_member(:network_function_group_name, Shapes::ShapeRef.new(shape: ConstrainedString, location_name: "NetworkFunctionGroupName"))
     NetworkRouteDestination.add_member(:edge_location, Shapes::ShapeRef.new(shape: ExternalRegionCode, location_name: "EdgeLocation"))
     NetworkRouteDestination.add_member(:resource_type, Shapes::ShapeRef.new(shape: ConstrainedString, location_name: "ResourceType"))
     NetworkRouteDestination.add_member(:resource_id, Shapes::ShapeRef.new(shape: ConstrainedString, location_name: "ResourceId"))
@@ -1397,9 +1509,27 @@ module Aws::NetworkManager
     Peering.add_member(:resource_arn, Shapes::ShapeRef.new(shape: ResourceArn, location_name: "ResourceArn"))
     Peering.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "Tags"))
     Peering.add_member(:created_at, Shapes::ShapeRef.new(shape: DateTime, location_name: "CreatedAt"))
+    Peering.add_member(:last_modification_errors, Shapes::ShapeRef.new(shape: PeeringErrorList, location_name: "LastModificationErrors"))
     Peering.struct_class = Types::Peering
 
+    PeeringError.add_member(:code, Shapes::ShapeRef.new(shape: PeeringErrorCode, location_name: "Code"))
+    PeeringError.add_member(:message, Shapes::ShapeRef.new(shape: ServerSideString, location_name: "Message"))
+    PeeringError.add_member(:resource_arn, Shapes::ShapeRef.new(shape: ResourceArn, location_name: "ResourceArn"))
+    PeeringError.add_member(:request_id, Shapes::ShapeRef.new(shape: ServerSideString, location_name: "RequestId"))
+    PeeringError.add_member(:missing_permissions_context, Shapes::ShapeRef.new(shape: PermissionsErrorContext, location_name: "MissingPermissionsContext"))
+    PeeringError.struct_class = Types::PeeringError
+
+    PeeringErrorList.member = Shapes::ShapeRef.new(shape: PeeringError)
+
     PeeringList.member = Shapes::ShapeRef.new(shape: Peering)
+
+    PermissionsErrorContext.add_member(:missing_permission, Shapes::ShapeRef.new(shape: ServerSideString, location_name: "MissingPermission"))
+    PermissionsErrorContext.struct_class = Types::PermissionsErrorContext
+
+    ProposedNetworkFunctionGroupChange.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "Tags"))
+    ProposedNetworkFunctionGroupChange.add_member(:attachment_policy_rule_number, Shapes::ShapeRef.new(shape: Integer, location_name: "AttachmentPolicyRuleNumber"))
+    ProposedNetworkFunctionGroupChange.add_member(:network_function_group_name, Shapes::ShapeRef.new(shape: ConstrainedString, location_name: "NetworkFunctionGroupName"))
+    ProposedNetworkFunctionGroupChange.struct_class = Types::ProposedNetworkFunctionGroupChange
 
     ProposedSegmentChange.add_member(:tags, Shapes::ShapeRef.new(shape: TagList, location_name: "Tags"))
     ProposedSegmentChange.add_member(:attachment_policy_rule_number, Shapes::ShapeRef.new(shape: Integer, location_name: "AttachmentPolicyRuleNumber"))
@@ -1492,9 +1622,22 @@ module Aws::NetworkManager
 
     RouteTableIdentifier.add_member(:transit_gateway_route_table_arn, Shapes::ShapeRef.new(shape: TransitGatewayRouteTableArn, location_name: "TransitGatewayRouteTableArn"))
     RouteTableIdentifier.add_member(:core_network_segment_edge, Shapes::ShapeRef.new(shape: CoreNetworkSegmentEdgeIdentifier, location_name: "CoreNetworkSegmentEdge"))
+    RouteTableIdentifier.add_member(:core_network_network_function_group, Shapes::ShapeRef.new(shape: CoreNetworkNetworkFunctionGroupIdentifier, location_name: "CoreNetworkNetworkFunctionGroup"))
     RouteTableIdentifier.struct_class = Types::RouteTableIdentifier
 
     RouteTypeList.member = Shapes::ShapeRef.new(shape: RouteType)
+
+    ServiceInsertionAction.add_member(:action, Shapes::ShapeRef.new(shape: SegmentActionServiceInsertion, location_name: "Action"))
+    ServiceInsertionAction.add_member(:mode, Shapes::ShapeRef.new(shape: SendViaMode, location_name: "Mode"))
+    ServiceInsertionAction.add_member(:when_sent_to, Shapes::ShapeRef.new(shape: WhenSentTo, location_name: "WhenSentTo"))
+    ServiceInsertionAction.add_member(:via, Shapes::ShapeRef.new(shape: Via, location_name: "Via"))
+    ServiceInsertionAction.struct_class = Types::ServiceInsertionAction
+
+    ServiceInsertionActionList.member = Shapes::ShapeRef.new(shape: ServiceInsertionAction)
+
+    ServiceInsertionSegments.add_member(:send_via, Shapes::ShapeRef.new(shape: ConstrainedStringList, location_name: "SendVia"))
+    ServiceInsertionSegments.add_member(:send_to, Shapes::ShapeRef.new(shape: ConstrainedStringList, location_name: "SendTo"))
+    ServiceInsertionSegments.struct_class = Types::ServiceInsertionSegments
 
     ServiceQuotaExceededException.add_member(:message, Shapes::ShapeRef.new(shape: ServerSideString, required: true, location_name: "Message"))
     ServiceQuotaExceededException.add_member(:resource_id, Shapes::ShapeRef.new(shape: ServerSideString, location_name: "ResourceId"))
@@ -1629,6 +1772,13 @@ module Aws::NetworkManager
     UpdateDeviceResponse.add_member(:device, Shapes::ShapeRef.new(shape: Device, location_name: "Device"))
     UpdateDeviceResponse.struct_class = Types::UpdateDeviceResponse
 
+    UpdateDirectConnectGatewayAttachmentRequest.add_member(:attachment_id, Shapes::ShapeRef.new(shape: AttachmentId, required: true, location: "uri", location_name: "attachmentId"))
+    UpdateDirectConnectGatewayAttachmentRequest.add_member(:edge_locations, Shapes::ShapeRef.new(shape: ExternalRegionCodeList, location_name: "EdgeLocations"))
+    UpdateDirectConnectGatewayAttachmentRequest.struct_class = Types::UpdateDirectConnectGatewayAttachmentRequest
+
+    UpdateDirectConnectGatewayAttachmentResponse.add_member(:direct_connect_gateway_attachment, Shapes::ShapeRef.new(shape: DirectConnectGatewayAttachment, location_name: "DirectConnectGatewayAttachment"))
+    UpdateDirectConnectGatewayAttachmentResponse.struct_class = Types::UpdateDirectConnectGatewayAttachmentResponse
+
     UpdateGlobalNetworkRequest.add_member(:global_network_id, Shapes::ShapeRef.new(shape: GlobalNetworkId, required: true, location: "uri", location_name: "globalNetworkId"))
     UpdateGlobalNetworkRequest.add_member(:description, Shapes::ShapeRef.new(shape: ConstrainedString, location_name: "Description"))
     UpdateGlobalNetworkRequest.struct_class = Types::UpdateGlobalNetworkRequest
@@ -1685,6 +1835,10 @@ module Aws::NetworkManager
 
     ValidationExceptionFieldList.member = Shapes::ShapeRef.new(shape: ValidationExceptionField)
 
+    Via.add_member(:network_function_groups, Shapes::ShapeRef.new(shape: NetworkFunctionGroupList, location_name: "NetworkFunctionGroups"))
+    Via.add_member(:with_edge_overrides, Shapes::ShapeRef.new(shape: WithEdgeOverridesList, location_name: "WithEdgeOverrides"))
+    Via.struct_class = Types::Via
+
     VpcAttachment.add_member(:attachment, Shapes::ShapeRef.new(shape: Attachment, location_name: "Attachment"))
     VpcAttachment.add_member(:subnet_arns, Shapes::ShapeRef.new(shape: SubnetArnList, location_name: "SubnetArns"))
     VpcAttachment.add_member(:options, Shapes::ShapeRef.new(shape: VpcOptions, location_name: "Options"))
@@ -1694,6 +1848,13 @@ module Aws::NetworkManager
     VpcOptions.add_member(:appliance_mode_support, Shapes::ShapeRef.new(shape: Boolean, location_name: "ApplianceModeSupport"))
     VpcOptions.struct_class = Types::VpcOptions
 
+    WhenSentTo.add_member(:when_sent_to_segments_list, Shapes::ShapeRef.new(shape: WhenSentToSegmentsList, location_name: "WhenSentToSegmentsList"))
+    WhenSentTo.struct_class = Types::WhenSentTo
+
+    WhenSentToSegmentsList.member = Shapes::ShapeRef.new(shape: ConstrainedString)
+
+    WithEdgeOverridesList.member = Shapes::ShapeRef.new(shape: EdgeOverride)
+
 
     # @api private
     API = Seahorse::Model::Api.new.tap do |api|
@@ -1702,9 +1863,11 @@ module Aws::NetworkManager
 
       api.metadata = {
         "apiVersion" => "2019-07-05",
+        "auth" => ["aws.auth#sigv4"],
         "endpointPrefix" => "networkmanager",
         "jsonVersion" => "1.1",
         "protocol" => "rest-json",
+        "protocols" => ["rest-json"],
         "serviceAbbreviation" => "NetworkManager",
         "serviceFullName" => "AWS Network Manager",
         "serviceId" => "NetworkManager",
@@ -1852,6 +2015,20 @@ module Aws::NetworkManager
         o.output = Shapes::ShapeRef.new(shape: CreateDeviceResponse)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: ServiceQuotaExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+      end)
+
+      api.add_operation(:create_direct_connect_gateway_attachment, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "CreateDirectConnectGatewayAttachment"
+        o.http_method = "POST"
+        o.http_request_uri = "/direct-connect-gateway-attachments"
+        o.input = Shapes::ShapeRef.new(shape: CreateDirectConnectGatewayAttachmentRequest)
+        o.output = Shapes::ShapeRef.new(shape: CreateDirectConnectGatewayAttachmentResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: ConflictException)
@@ -2381,6 +2558,19 @@ module Aws::NetworkManager
             "next_token" => "next_token"
           }
         )
+      end)
+
+      api.add_operation(:get_direct_connect_gateway_attachment, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "GetDirectConnectGatewayAttachment"
+        o.http_method = "GET"
+        o.http_request_uri = "/direct-connect-gateway-attachments/{attachmentId}"
+        o.input = Shapes::ShapeRef.new(shape: GetDirectConnectGatewayAttachmentRequest)
+        o.output = Shapes::ShapeRef.new(shape: GetDirectConnectGatewayAttachmentResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
       end)
 
       api.add_operation(:get_link_associations, Seahorse::Model::Operation.new.tap do |o|
@@ -2918,6 +3108,20 @@ module Aws::NetworkManager
         o.http_request_uri = "/global-networks/{globalNetworkId}/devices/{deviceId}"
         o.input = Shapes::ShapeRef.new(shape: UpdateDeviceRequest)
         o.output = Shapes::ShapeRef.new(shape: UpdateDeviceResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
+        o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ConflictException)
+        o.errors << Shapes::ShapeRef.new(shape: ThrottlingException)
+        o.errors << Shapes::ShapeRef.new(shape: InternalServerException)
+      end)
+
+      api.add_operation(:update_direct_connect_gateway_attachment, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "UpdateDirectConnectGatewayAttachment"
+        o.http_method = "PATCH"
+        o.http_request_uri = "/direct-connect-gateway-attachments/{attachmentId}"
+        o.input = Shapes::ShapeRef.new(shape: UpdateDirectConnectGatewayAttachmentRequest)
+        o.output = Shapes::ShapeRef.new(shape: UpdateDirectConnectGatewayAttachmentResponse)
         o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)
         o.errors << Shapes::ShapeRef.new(shape: ResourceNotFoundException)

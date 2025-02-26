@@ -7,33 +7,34 @@
 #
 # WARNING ABOUT GENERATED CODE
 
-require 'seahorse/client/plugins/content_length.rb'
-require 'aws-sdk-core/plugins/credentials_configuration.rb'
-require 'aws-sdk-core/plugins/logging.rb'
-require 'aws-sdk-core/plugins/param_converter.rb'
-require 'aws-sdk-core/plugins/param_validator.rb'
-require 'aws-sdk-core/plugins/user_agent.rb'
-require 'aws-sdk-core/plugins/helpful_socket_errors.rb'
-require 'aws-sdk-core/plugins/retry_errors.rb'
-require 'aws-sdk-core/plugins/global_configuration.rb'
-require 'aws-sdk-core/plugins/regional_endpoint.rb'
-require 'aws-sdk-core/plugins/endpoint_discovery.rb'
-require 'aws-sdk-core/plugins/endpoint_pattern.rb'
-require 'aws-sdk-core/plugins/response_paging.rb'
-require 'aws-sdk-core/plugins/stub_responses.rb'
-require 'aws-sdk-core/plugins/idempotency_token.rb'
-require 'aws-sdk-core/plugins/jsonvalue_converter.rb'
-require 'aws-sdk-core/plugins/client_metrics_plugin.rb'
-require 'aws-sdk-core/plugins/client_metrics_send_plugin.rb'
-require 'aws-sdk-core/plugins/transfer_encoding.rb'
-require 'aws-sdk-core/plugins/http_checksum.rb'
-require 'aws-sdk-core/plugins/checksum_algorithm.rb'
-require 'aws-sdk-core/plugins/defaults_mode.rb'
-require 'aws-sdk-core/plugins/recursion_detection.rb'
-require 'aws-sdk-core/plugins/sign.rb'
-require 'aws-sdk-core/plugins/protocols/rest_json.rb'
-
-Aws::Plugins::GlobalConfiguration.add_identifier(:synthetics)
+require 'seahorse/client/plugins/content_length'
+require 'aws-sdk-core/plugins/credentials_configuration'
+require 'aws-sdk-core/plugins/logging'
+require 'aws-sdk-core/plugins/param_converter'
+require 'aws-sdk-core/plugins/param_validator'
+require 'aws-sdk-core/plugins/user_agent'
+require 'aws-sdk-core/plugins/helpful_socket_errors'
+require 'aws-sdk-core/plugins/retry_errors'
+require 'aws-sdk-core/plugins/global_configuration'
+require 'aws-sdk-core/plugins/regional_endpoint'
+require 'aws-sdk-core/plugins/endpoint_discovery'
+require 'aws-sdk-core/plugins/endpoint_pattern'
+require 'aws-sdk-core/plugins/response_paging'
+require 'aws-sdk-core/plugins/stub_responses'
+require 'aws-sdk-core/plugins/idempotency_token'
+require 'aws-sdk-core/plugins/invocation_id'
+require 'aws-sdk-core/plugins/jsonvalue_converter'
+require 'aws-sdk-core/plugins/client_metrics_plugin'
+require 'aws-sdk-core/plugins/client_metrics_send_plugin'
+require 'aws-sdk-core/plugins/transfer_encoding'
+require 'aws-sdk-core/plugins/http_checksum'
+require 'aws-sdk-core/plugins/checksum_algorithm'
+require 'aws-sdk-core/plugins/request_compression'
+require 'aws-sdk-core/plugins/defaults_mode'
+require 'aws-sdk-core/plugins/recursion_detection'
+require 'aws-sdk-core/plugins/telemetry'
+require 'aws-sdk-core/plugins/sign'
+require 'aws-sdk-core/plugins/protocols/rest_json'
 
 module Aws::Synthetics
   # An API client for Synthetics.  To construct a client, you need to configure a `:region` and `:credentials`.
@@ -71,20 +72,28 @@ module Aws::Synthetics
     add_plugin(Aws::Plugins::ResponsePaging)
     add_plugin(Aws::Plugins::StubResponses)
     add_plugin(Aws::Plugins::IdempotencyToken)
+    add_plugin(Aws::Plugins::InvocationId)
     add_plugin(Aws::Plugins::JsonvalueConverter)
     add_plugin(Aws::Plugins::ClientMetricsPlugin)
     add_plugin(Aws::Plugins::ClientMetricsSendPlugin)
     add_plugin(Aws::Plugins::TransferEncoding)
     add_plugin(Aws::Plugins::HttpChecksum)
     add_plugin(Aws::Plugins::ChecksumAlgorithm)
+    add_plugin(Aws::Plugins::RequestCompression)
     add_plugin(Aws::Plugins::DefaultsMode)
     add_plugin(Aws::Plugins::RecursionDetection)
+    add_plugin(Aws::Plugins::Telemetry)
     add_plugin(Aws::Plugins::Sign)
     add_plugin(Aws::Plugins::Protocols::RestJson)
     add_plugin(Aws::Synthetics::Plugins::Endpoints)
 
     # @overload initialize(options)
     #   @param [Hash] options
+    #
+    #   @option options [Array<Seahorse::Client::Plugin>] :plugins ([]])
+    #     A list of plugins to apply to the client. Each plugin is either a
+    #     class name or an instance of a plugin class.
+    #
     #   @option options [required, Aws::CredentialProvider] :credentials
     #     Your AWS credentials. This can be an instance of any one of the
     #     following classes:
@@ -119,13 +128,15 @@ module Aws::Synthetics
     #     locations will be searched for credentials:
     #
     #     * `Aws.config[:credentials]`
-    #     * The `:access_key_id`, `:secret_access_key`, and `:session_token` options.
-    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']
+    #     * The `:access_key_id`, `:secret_access_key`, `:session_token`, and
+    #       `:account_id` options.
+    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'],
+    #       ENV['AWS_SESSION_TOKEN'], and ENV['AWS_ACCOUNT_ID']
     #     * `~/.aws/credentials`
     #     * `~/.aws/config`
     #     * EC2/ECS IMDS instance profile - When used by default, the timeouts
     #       are very aggressive. Construct and pass an instance of
-    #       `Aws::InstanceProfileCredentails` or `Aws::ECSCredentials` to
+    #       `Aws::InstanceProfileCredentials` or `Aws::ECSCredentials` to
     #       enable retries and extended timeouts. Instance profile credential
     #       fetching can be disabled by setting ENV['AWS_EC2_METADATA_DISABLED']
     #       to true.
@@ -143,6 +154,8 @@ module Aws::Synthetics
     #     * `~/.aws/config`
     #
     #   @option options [String] :access_key_id
+    #
+    #   @option options [String] :account_id
     #
     #   @option options [Boolean] :active_endpoint_cache (false)
     #     When set to `true`, a thread polling for endpoints will be running in
@@ -190,10 +203,20 @@ module Aws::Synthetics
     #     Set to true to disable SDK automatically adding host prefix
     #     to default service endpoint when available.
     #
-    #   @option options [String] :endpoint
-    #     The client endpoint is normally constructed from the `:region`
-    #     option. You should only configure an `:endpoint` when connecting
-    #     to test or custom endpoints. This should be a valid HTTP(S) URI.
+    #   @option options [Boolean] :disable_request_compression (false)
+    #     When set to 'true' the request body will not be compressed
+    #     for supported operations.
+    #
+    #   @option options [String, URI::HTTPS, URI::HTTP] :endpoint
+    #     Normally you should not configure the `:endpoint` option
+    #     directly. This is normally constructed from the `:region`
+    #     option. Configuring `:endpoint` is normally reserved for
+    #     connecting to test or custom endpoints. The endpoint should
+    #     be a URI formatted like:
+    #
+    #         'http://example.com'
+    #         'https://example.com'
+    #         'http://example.com:123'
     #
     #   @option options [Integer] :endpoint_cache_max_entries (1000)
     #     Used for the maximum size limit of the LRU cache storing endpoints data
@@ -209,6 +232,10 @@ module Aws::Synthetics
     #
     #   @option options [Boolean] :endpoint_discovery (false)
     #     When set to `true`, endpoint discovery will be enabled for operations when available.
+    #
+    #   @option options [Boolean] :ignore_configured_endpoint_urls
+    #     Setting to true disables use of endpoint URLs provided via environment
+    #     variables and the shared configuration file.
     #
     #   @option options [Aws::Log::Formatter] :log_formatter (Aws::Log::Formatter.default)
     #     The log formatter.
@@ -229,6 +256,34 @@ module Aws::Synthetics
     #   @option options [String] :profile ("default")
     #     Used when loading credentials from the shared credentials file
     #     at HOME/.aws/credentials.  When not specified, 'default' is used.
+    #
+    #   @option options [String] :request_checksum_calculation ("when_supported")
+    #     Determines when a checksum will be calculated for request payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, a checksum will be
+    #       calculated for all request payloads of operations modeled with the
+    #       `httpChecksum` trait where `requestChecksumRequired` is `true` and/or a
+    #       `requestAlgorithmMember` is modeled.
+    #     * `when_required` - When set, a checksum will only be calculated for
+    #       request payloads of operations modeled with the  `httpChecksum` trait where
+    #       `requestChecksumRequired` is `true` or where a `requestAlgorithmMember`
+    #       is modeled and supplied.
+    #
+    #   @option options [Integer] :request_min_compression_size_bytes (10240)
+    #     The minimum size in bytes that triggers compression for request
+    #     bodies. The value must be non-negative integer value between 0
+    #     and 10485780 bytes inclusive.
+    #
+    #   @option options [String] :response_checksum_validation ("when_supported")
+    #     Determines when checksum validation will be performed on response payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, checksum validation is performed on all
+    #       response payloads of operations modeled with the `httpChecksum` trait where
+    #       `responseAlgorithms` is modeled, except when no modeled checksum algorithms
+    #       are supported.
+    #     * `when_required` - When set, checksum validation is not performed on
+    #       response payloads of operations unless the checksum algorithm is supported and
+    #       the `requestValidationModeMember` member is set to `ENABLED`.
     #
     #   @option options [Proc] :retry_backoff
     #     A proc or lambda used for backoff. Defaults to 2**retries * retry_base_delay.
@@ -274,10 +329,24 @@ module Aws::Synthetics
     #       throttling.  This is a provisional mode that may change behavior
     #       in the future.
     #
+    #   @option options [String] :sdk_ua_app_id
+    #     A unique and opaque application ID that is appended to the
+    #     User-Agent header as app/sdk_ua_app_id. It should have a
+    #     maximum length of 50. This variable is sourced from environment
+    #     variable AWS_SDK_UA_APP_ID or the shared config profile attribute sdk_ua_app_id.
     #
     #   @option options [String] :secret_access_key
     #
     #   @option options [String] :session_token
+    #
+    #   @option options [Array] :sigv4a_signing_region_set
+    #     A list of regions that should be signed with SigV4a signing. When
+    #     not passed, a default `:sigv4a_signing_region_set` is searched for
+    #     in the following locations:
+    #
+    #     * `Aws.config[:sigv4a_signing_region_set]`
+    #     * `ENV['AWS_SIGV4A_SIGNING_REGION_SET']`
+    #     * `~/.aws/config`
     #
     #   @option options [Boolean] :stub_responses (false)
     #     Causes the client to return stubbed responses. By default
@@ -287,6 +356,16 @@ module Aws::Synthetics
     #
     #     ** Please note ** When response stubbing is enabled, no HTTP
     #     requests are made, and retries are disabled.
+    #
+    #   @option options [Aws::Telemetry::TelemetryProviderBase] :telemetry_provider (Aws::Telemetry::NoOpTelemetryProvider)
+    #     Allows you to provide a telemetry provider, which is used to
+    #     emit telemetry data. By default, uses `NoOpTelemetryProvider` which
+    #     will not record or emit any telemetry data. The SDK supports the
+    #     following telemetry providers:
+    #
+    #     * OpenTelemetry (OTel) - To use the OTel provider, install and require the
+    #     `opentelemetry-sdk` gem and then, pass in an instance of a
+    #     `Aws::Telemetry::OTelProvider` for telemetry provider.
     #
     #   @option options [Aws::TokenProvider] :token_provider
     #     A Bearer Token Provider. This can be an instance of any one of the
@@ -315,52 +394,75 @@ module Aws::Synthetics
     #     sending the request.
     #
     #   @option options [Aws::Synthetics::EndpointProvider] :endpoint_provider
-    #     The endpoint provider used to resolve endpoints. Any object that responds to `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to `Aws::Synthetics::EndpointParameters`
+    #     The endpoint provider used to resolve endpoints. Any object that responds to
+    #     `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+    #     `Aws::Synthetics::EndpointParameters`.
     #
-    #   @option options [URI::HTTP,String] :http_proxy A proxy to send
-    #     requests through.  Formatted like 'http://proxy.com:123'.
+    #   @option options [Float] :http_continue_timeout (1)
+    #     The number of seconds to wait for a 100-continue response before sending the
+    #     request body.  This option has no effect unless the request has "Expect"
+    #     header set to "100-continue".  Defaults to `nil` which  disables this
+    #     behaviour.  This value can safely be set per request on the session.
     #
-    #   @option options [Float] :http_open_timeout (15) The number of
-    #     seconds to wait when opening a HTTP session before raising a
-    #     `Timeout::Error`.
+    #   @option options [Float] :http_idle_timeout (5)
+    #     The number of seconds a connection is allowed to sit idle before it
+    #     is considered stale.  Stale connections are closed and removed from the
+    #     pool before making a request.
     #
-    #   @option options [Float] :http_read_timeout (60) The default
-    #     number of seconds to wait for response data.  This value can
-    #     safely be set per-request on the session.
+    #   @option options [Float] :http_open_timeout (15)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :http_idle_timeout (5) The number of
-    #     seconds a connection is allowed to sit idle before it is
-    #     considered stale.  Stale connections are closed and removed
-    #     from the pool before making a request.
+    #   @option options [URI::HTTP,String] :http_proxy
+    #     A proxy to send requests through.  Formatted like 'http://proxy.com:123'.
     #
-    #   @option options [Float] :http_continue_timeout (1) The number of
-    #     seconds to wait for a 100-continue response before sending the
-    #     request body.  This option has no effect unless the request has
-    #     "Expect" header set to "100-continue".  Defaults to `nil` which
-    #     disables this behaviour.  This value can safely be set per
-    #     request on the session.
+    #   @option options [Float] :http_read_timeout (60)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :ssl_timeout (nil) Sets the SSL timeout
-    #     in seconds.
+    #   @option options [Boolean] :http_wire_trace (false)
+    #     When `true`,  HTTP debug output will be sent to the `:logger`.
     #
-    #   @option options [Boolean] :http_wire_trace (false) When `true`,
-    #     HTTP debug output will be sent to the `:logger`.
+    #   @option options [Proc] :on_chunk_received
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the response body is received. It provides three arguments: the chunk,
+    #     the number of bytes received, and the total number of
+    #     bytes in the response (or nil if the server did not send a `content-length`).
     #
-    #   @option options [Boolean] :ssl_verify_peer (true) When `true`,
-    #     SSL peer certificates are verified when establishing a
-    #     connection.
+    #   @option options [Proc] :on_chunk_sent
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the request body is sent. It provides three arguments: the chunk,
+    #     the number of bytes read from the body, and the total number of
+    #     bytes in the body.
     #
-    #   @option options [String] :ssl_ca_bundle Full path to the SSL
-    #     certificate authority bundle file that should be used when
-    #     verifying peer certificates.  If you do not pass
-    #     `:ssl_ca_bundle` or `:ssl_ca_directory` the the system default
-    #     will be used if available.
+    #   @option options [Boolean] :raise_response_errors (true)
+    #     When `true`, response errors are raised.
     #
-    #   @option options [String] :ssl_ca_directory Full path of the
-    #     directory that contains the unbundled SSL certificate
+    #   @option options [String] :ssl_ca_bundle
+    #     Full path to the SSL certificate authority bundle file that should be used when
+    #     verifying peer certificates.  If you do not pass `:ssl_ca_bundle` or
+    #     `:ssl_ca_directory` the the system default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_directory
+    #     Full path of the directory that contains the unbundled SSL certificate
     #     authority files for verifying peer certificates.  If you do
-    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the
-    #     system default will be used if available.
+    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the system
+    #     default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_store
+    #     Sets the X509::Store to verify peer certificate.
+    #
+    #   @option options [OpenSSL::X509::Certificate] :ssl_cert
+    #     Sets a client certificate when creating http connections.
+    #
+    #   @option options [OpenSSL::PKey] :ssl_key
+    #     Sets a client key when creating http connections.
+    #
+    #   @option options [Float] :ssl_timeout
+    #     Sets the SSL timeout in seconds
+    #
+    #   @option options [Boolean] :ssl_verify_peer (true)
+    #     When `true`, SSL peer certificates are verified when establishing a connection.
     #
     def initialize(*args)
       super
@@ -509,6 +611,28 @@ module Aws::Synthetics
     #
     #   [1]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_VPC.html
     #
+    # @option params [Array<String>] :resources_to_replicate_tags
+    #   To have the tags that you apply to this canary also be applied to the
+    #   Lambda function that the canary uses, specify this parameter with the
+    #   value `lambda-function`.
+    #
+    #   If you specify this parameter and don't specify any tags in the
+    #   `Tags` parameter, the canary creation fails.
+    #
+    # @option params [String] :provisioned_resource_cleanup
+    #   Specifies whether to also delete the Lambda functions and layers used
+    #   by this canary when the canary is deleted. If you omit this parameter,
+    #   the default of `AUTOMATIC` is used, which means that the Lambda
+    #   functions and layers will be deleted when the canary is deleted.
+    #
+    #   If the value of this parameter is `OFF`, then the value of the
+    #   `DeleteLambda` parameter of the [DeleteCanary][1] operation determines
+    #   whether the Lambda functions and layers will be deleted.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_DeleteCanary.html
+    #
     # @option params [Hash<String,String>] :tags
     #   A list of key-value pairs to associate with the canary. You can
     #   associate as many as 50 tags with a canary.
@@ -516,6 +640,10 @@ module Aws::Synthetics
     #   Tags can help you organize and categorize your resources. You can also
     #   use them to scope user permissions, by granting a user permission to
     #   access or change only the resources that have certain tag values.
+    #
+    #   To have the tags that you apply to this canary also be applied to the
+    #   Lambda function that the canary uses, specify this parameter with the
+    #   value `lambda-function`.
     #
     # @option params [Types::ArtifactConfigInput] :artifact_config
     #   A structure that contains the configuration for canary artifacts,
@@ -557,7 +685,10 @@ module Aws::Synthetics
     #     vpc_config: {
     #       subnet_ids: ["SubnetId"],
     #       security_group_ids: ["SecurityGroupId"],
+    #       ipv_6_allowed_for_dual_stack: false,
     #     },
+    #     resources_to_replicate_tags: ["lambda-function"], # accepts lambda-function
+    #     provisioned_resource_cleanup: "AUTOMATIC", # accepts AUTOMATIC, OFF
     #     tags: {
     #       "TagKey" => "TagValue",
     #     },
@@ -598,11 +729,13 @@ module Aws::Synthetics
     #   resp.canary.vpc_config.subnet_ids[0] #=> String
     #   resp.canary.vpc_config.security_group_ids #=> Array
     #   resp.canary.vpc_config.security_group_ids[0] #=> String
+    #   resp.canary.vpc_config.ipv_6_allowed_for_dual_stack #=> Boolean
     #   resp.canary.visual_reference.base_screenshots #=> Array
     #   resp.canary.visual_reference.base_screenshots[0].screenshot_name #=> String
     #   resp.canary.visual_reference.base_screenshots[0].ignore_coordinates #=> Array
     #   resp.canary.visual_reference.base_screenshots[0].ignore_coordinates[0] #=> String
     #   resp.canary.visual_reference.base_canary_run_id #=> String
+    #   resp.canary.provisioned_resource_cleanup #=> String, one of "AUTOMATIC", "OFF"
     #   resp.canary.tags #=> Hash
     #   resp.canary.tags["TagKey"] #=> String
     #   resp.canary.artifact_config.s3_encryption.encryption_mode #=> String, one of "SSE_S3", "SSE_KMS"
@@ -690,25 +823,30 @@ module Aws::Synthetics
 
     # Permanently deletes the specified canary.
     #
-    # If you specify `DeleteLambda` to `true`, CloudWatch Synthetics also
-    # deletes the Lambda functions and layers that are used by the canary.
+    # If the canary's `ProvisionedResourceCleanup` field is set to
+    # `AUTOMATIC` or you specify `DeleteLambda` in this operation as `true`,
+    # CloudWatch Synthetics also deletes the Lambda functions and layers
+    # that are used by the canary.
     #
     # Other resources used and created by the canary are not automatically
-    # deleted. After you delete a canary that you do not intend to use
-    # again, you should also delete the following:
+    # deleted. After you delete a canary, you should also delete the
+    # following:
     #
     # * The CloudWatch alarms created for this canary. These alarms have a
-    #   name of `Synthetics-SharpDrop-Alarm-MyCanaryName `.
+    #   name of
+    #   `Synthetics-Alarm-first-198-characters-of-canary-name-canaryId-alarm
+    #   number `
     #
     # * Amazon S3 objects and buckets, such as the canary's artifact
     #   location.
     #
     # * IAM roles created for the canary. If they were created in the
     #   console, these roles have the name `
-    #   role/service-role/CloudWatchSyntheticsRole-MyCanaryName `.
+    #   role/service-role/CloudWatchSyntheticsRole-First-21-Characters-of-CanaryName
+    #   `
     #
     # * CloudWatch Logs log groups created for the canary. These logs groups
-    #   have the name `/aws/lambda/cwsyn-MyCanaryName `.
+    #   have the name `/aws/lambda/cwsyn-First-21-Characters-of-CanaryName `
     #
     # Before you delete a canary, you might want to use `GetCanary` to
     # display the information about this canary. Make note of the
@@ -725,7 +863,12 @@ module Aws::Synthetics
     #
     # @option params [Boolean] :delete_lambda
     #   Specifies whether to also delete the Lambda functions and layers used
-    #   by this canary. The default is false.
+    #   by this canary. The default is `false`.
+    #
+    #   Your setting for this parameter is used only if the canary doesn't
+    #   have `AUTOMATIC` for its `ProvisionedResourceCleanup` field. If that
+    #   field is set to `AUTOMATIC`, then the Lambda functions and layers will
+    #   be deleted when this canary is deleted.
     #
     #   Type: Boolean
     #
@@ -803,7 +946,7 @@ module Aws::Synthetics
     # @option params [Integer] :max_results
     #   Specify this parameter to limit how many canaries are returned each
     #   time you use the `DescribeCanaries` operation. If you omit this
-    #   parameter, the default of 100 is used.
+    #   parameter, the default of 20 is used.
     #
     # @option params [Array<String>] :names
     #   Use this parameter to return only canaries that match the names that
@@ -868,11 +1011,13 @@ module Aws::Synthetics
     #   resp.canaries[0].vpc_config.subnet_ids[0] #=> String
     #   resp.canaries[0].vpc_config.security_group_ids #=> Array
     #   resp.canaries[0].vpc_config.security_group_ids[0] #=> String
+    #   resp.canaries[0].vpc_config.ipv_6_allowed_for_dual_stack #=> Boolean
     #   resp.canaries[0].visual_reference.base_screenshots #=> Array
     #   resp.canaries[0].visual_reference.base_screenshots[0].screenshot_name #=> String
     #   resp.canaries[0].visual_reference.base_screenshots[0].ignore_coordinates #=> Array
     #   resp.canaries[0].visual_reference.base_screenshots[0].ignore_coordinates[0] #=> String
     #   resp.canaries[0].visual_reference.base_canary_run_id #=> String
+    #   resp.canaries[0].provisioned_resource_cleanup #=> String, one of "AUTOMATIC", "OFF"
     #   resp.canaries[0].tags #=> Hash
     #   resp.canaries[0].tags["TagKey"] #=> String
     #   resp.canaries[0].artifact_config.s3_encryption.encryption_mode #=> String, one of "SSE_S3", "SSE_KMS"
@@ -1101,11 +1246,13 @@ module Aws::Synthetics
     #   resp.canary.vpc_config.subnet_ids[0] #=> String
     #   resp.canary.vpc_config.security_group_ids #=> Array
     #   resp.canary.vpc_config.security_group_ids[0] #=> String
+    #   resp.canary.vpc_config.ipv_6_allowed_for_dual_stack #=> Boolean
     #   resp.canary.visual_reference.base_screenshots #=> Array
     #   resp.canary.visual_reference.base_screenshots[0].screenshot_name #=> String
     #   resp.canary.visual_reference.base_screenshots[0].ignore_coordinates #=> Array
     #   resp.canary.visual_reference.base_screenshots[0].ignore_coordinates[0] #=> String
     #   resp.canary.visual_reference.base_canary_run_id #=> String
+    #   resp.canary.provisioned_resource_cleanup #=> String, one of "AUTOMATIC", "OFF"
     #   resp.canary.tags #=> Hash
     #   resp.canary.tags["TagKey"] #=> String
     #   resp.canary.artifact_config.s3_encryption.encryption_mode #=> String, one of "SSE_S3", "SSE_KMS"
@@ -1637,6 +1784,18 @@ module Aws::Synthetics
     #   including the encryption-at-rest settings for artifacts that the
     #   canary uploads to Amazon S3.
     #
+    # @option params [String] :provisioned_resource_cleanup
+    #   Specifies whether to also delete the Lambda functions and layers used
+    #   by this canary when the canary is deleted.
+    #
+    #   If the value of this parameter is `OFF`, then the value of the
+    #   `DeleteLambda` parameter of the [DeleteCanary][1] operation determines
+    #   whether the Lambda functions and layers will be deleted.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_DeleteCanary.html
+    #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
     # @example Request syntax with placeholder values
@@ -1669,6 +1828,7 @@ module Aws::Synthetics
     #     vpc_config: {
     #       subnet_ids: ["SubnetId"],
     #       security_group_ids: ["SecurityGroupId"],
+    #       ipv_6_allowed_for_dual_stack: false,
     #     },
     #     visual_reference: {
     #       base_screenshots: [
@@ -1686,6 +1846,7 @@ module Aws::Synthetics
     #         kms_key_arn: "KmsKeyArn",
     #       },
     #     },
+    #     provisioned_resource_cleanup: "AUTOMATIC", # accepts AUTOMATIC, OFF
     #   })
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/synthetics-2017-10-11/UpdateCanary AWS API Documentation
@@ -1703,14 +1864,19 @@ module Aws::Synthetics
     # @api private
     def build_request(operation_name, params = {})
       handlers = @handlers.for(operation_name)
+      tracer = config.telemetry_provider.tracer_provider.tracer(
+        Aws::Telemetry.module_to_tracer_name('Aws::Synthetics')
+      )
       context = Seahorse::Client::RequestContext.new(
         operation_name: operation_name,
         operation: config.api.operation(operation_name),
         client: self,
         params: params,
-        config: config)
+        config: config,
+        tracer: tracer
+      )
       context[:gem_name] = 'aws-sdk-synthetics'
-      context[:gem_version] = '1.30.0'
+      context[:gem_version] = '1.61.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

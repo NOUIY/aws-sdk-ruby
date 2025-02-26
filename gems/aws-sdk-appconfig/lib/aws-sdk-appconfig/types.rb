@@ -10,18 +10,37 @@
 module Aws::AppConfig
   module Types
 
+    # @!attribute [rw] deletion_protection
+    #   A parameter to configure deletion protection. If enabled, deletion
+    #   protection prevents a user from deleting a configuration profile or
+    #   an environment if AppConfig has called either
+    #   [GetLatestConfiguration][1] or for the configuration profile or from
+    #   the environment during the specified interval. Deletion protection
+    #   is disabled by default. The default interval for
+    #   `ProtectionPeriodInMinutes` is 60.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_appconfigdata_GetLatestConfiguration.html
+    #   @return [Types::DeletionProtectionSettings]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/appconfig-2019-10-09/AccountSettings AWS API Documentation
+    #
+    class AccountSettings < Struct.new(
+      :deletion_protection)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # An action defines the tasks that the extension performs during the
-    # AppConfig workflow. Each action includes an action point such as
-    # `ON_CREATE_HOSTED_CONFIGURATION`, `PRE_DEPLOYMENT`, or
-    # `ON_DEPLOYMENT`. Each action also includes a name, a URI to an Lambda
-    # function, and an Amazon Resource Name (ARN) for an Identity and Access
-    # Management assume role. You specify the name, URI, and ARN for each
-    # *action point* defined in the extension. You can specify the following
-    # actions for an extension:
+    # AppConfig workflow. Each action includes an action point, as shown in
+    # the following list:
     #
     # * `PRE_CREATE_HOSTED_CONFIGURATION_VERSION`
     #
     # * `PRE_START_DEPLOYMENT`
+    #
+    # * `AT_DEPLOYMENT_TICK`
     #
     # * `ON_DEPLOYMENT_START`
     #
@@ -32,6 +51,11 @@ module Aws::AppConfig
     # * `ON_DEPLOYMENT_COMPLETE`
     #
     # * `ON_DEPLOYMENT_ROLLED_BACK`
+    #
+    # Each action also includes a name, a URI to an Lambda function, and an
+    # Amazon Resource Name (ARN) for an Identity and Access Management
+    # assume role. You specify the name, URI, and ARN for each *action
+    # point* defined in the extension.
     #
     # @!attribute [rw] name
     #   The action name.
@@ -297,11 +321,25 @@ module Aws::AppConfig
     #   you create feature flag configurations to enable or disable new
     #   features and freeform configurations to distribute configurations to
     #   an application. When calling this API, enter one of the following
-    #   values for `Type`\:
+    #   values for `Type`:
     #
     #   `AWS.AppConfig.FeatureFlags`
     #
     #   `AWS.Freeform`
+    #   @return [String]
+    #
+    # @!attribute [rw] kms_key_arn
+    #   The Amazon Resource Name of the Key Management Service key to
+    #   encrypt new configuration data versions in the AppConfig hosted
+    #   configuration store. This attribute is only used for `hosted`
+    #   configuration types. To encrypt data managed in other configuration
+    #   stores, see the documentation for how to specify an KMS key for that
+    #   particular service.
+    #   @return [String]
+    #
+    # @!attribute [rw] kms_key_identifier
+    #   The Key Management Service key identifier (key ID, key alias, or key
+    #   ARN) provided when the resource was created or updated.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/appconfig-2019-10-09/ConfigurationProfile AWS API Documentation
@@ -314,7 +352,9 @@ module Aws::AppConfig
       :location_uri,
       :retrieval_role_arn,
       :validators,
-      :type)
+      :type,
+      :kms_key_arn,
+      :kms_key_identifier)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -347,7 +387,7 @@ module Aws::AppConfig
     #   you create feature flag configurations to enable or disable new
     #   features and freeform configurations to distribute configurations to
     #   an application. When calling this API, enter one of the following
-    #   values for `Type`\:
+    #   values for `Type`:
     #
     #   `AWS.AppConfig.FeatureFlags`
     #
@@ -445,12 +485,15 @@ module Aws::AppConfig
     #     parameter, specify either the parameter name in the format
     #     `ssm-parameter://<parameter name>` or the ARN.
     #
+    #   * For an Amazon Web Services CodePipeline pipeline, specify the URI
+    #     in the following format: `codepipeline`://&lt;pipeline name&gt;.
+    #
     #   * For an Secrets Manager secret, specify the URI in the following
-    #     format: `secrets-manager`\://&lt;secret name&gt;.
+    #     format: `secretsmanager`://&lt;secret name&gt;.
     #
     #   * For an Amazon S3 object, specify the URI in the following format:
     #     `s3://<bucket>/<objectKey> `. Here is an example:
-    #     `s3://my-bucket/my-app/us-east-1/my-config.json`
+    #     `s3://amzn-s3-demo-bucket/my-app/us-east-1/my-config.json`
     #
     #   * For an SSM document, specify either the document name in the
     #     format `ssm-document://<document name>` or the Amazon Resource
@@ -482,11 +525,21 @@ module Aws::AppConfig
     #   you create feature flag configurations to enable or disable new
     #   features and freeform configurations to distribute configurations to
     #   an application. When calling this API, enter one of the following
-    #   values for `Type`\:
+    #   values for `Type`:
     #
     #   `AWS.AppConfig.FeatureFlags`
     #
     #   `AWS.Freeform`
+    #   @return [String]
+    #
+    # @!attribute [rw] kms_key_identifier
+    #   The identifier for an Key Management Service key to encrypt new
+    #   configuration data versions in the AppConfig hosted configuration
+    #   store. This attribute is only used for `hosted` configuration types.
+    #   The identifier can be an KMS key ID, alias, or the Amazon Resource
+    #   Name (ARN) of the key ID or alias. To encrypt data managed in other
+    #   configuration stores, see the documentation for how to specify an
+    #   KMS key for that particular service.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/appconfig-2019-10-09/CreateConfigurationProfileRequest AWS API Documentation
@@ -499,7 +552,8 @@ module Aws::AppConfig
       :retrieval_role_arn,
       :validators,
       :tags,
-      :type)
+      :type,
+      :kms_key_identifier)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -540,7 +594,7 @@ module Aws::AppConfig
     #   The algorithm used to define how percentage grows over time.
     #   AppConfig supports the following growth types:
     #
-    #   **Linear**\: For this type, AppConfig processes the deployment by
+    #   **Linear**: For this type, AppConfig processes the deployment by
     #   dividing the total number of targets by the value specified for
     #   `Step percentage`. For example, a linear deployment that uses a
     #   `Step percentage` of 10 deploys the configuration to 10 percent of
@@ -548,7 +602,7 @@ module Aws::AppConfig
     #   the configuration to the next 10 percent. This continues until 100%
     #   of the targets have successfully received the configuration.
     #
-    #   **Exponential**\: For this type, AppConfig processes the deployment
+    #   **Exponential**: For this type, AppConfig processes the deployment
     #   exponentially using the following formula: `G*(2^N)`. In this
     #   formula, `G` is the growth factor specified by the user and `N` is
     #   the number of steps until the configuration is deployed to all
@@ -723,7 +777,12 @@ module Aws::AppConfig
     #   @return [String]
     #
     # @!attribute [rw] content
-    #   The content of the configuration or the configuration data.
+    #   The configuration data, as bytes.
+    #
+    #   <note markdown="1"> AppConfig accepts any type of data, including text formats like JSON
+    #   or TOML, or binary formats like protocol buffers or compressed data.
+    #
+    #    </note>
     #   @return [String]
     #
     # @!attribute [rw] content_type
@@ -784,11 +843,39 @@ module Aws::AppConfig
     #   The ID of the configuration profile you want to delete.
     #   @return [String]
     #
+    # @!attribute [rw] deletion_protection_check
+    #   A parameter to configure deletion protection. If enabled, deletion
+    #   protection prevents a user from deleting a configuration profile if
+    #   your application has called either [GetLatestConfiguration][1] or
+    #   for the configuration profile during the specified interval.
+    #
+    #   This parameter supports the following values:
+    #
+    #   * `BYPASS`: Instructs AppConfig to bypass the deletion protection
+    #     check and delete a configuration profile even if deletion
+    #     protection would have otherwise prevented it.
+    #
+    #   * `APPLY`: Instructs the deletion protection check to run, even if
+    #     deletion protection is disabled at the account level. `APPLY` also
+    #     forces the deletion protection check to run against resources
+    #     created in the past hour, which are normally excluded from
+    #     deletion protection checks.
+    #
+    #   * `ACCOUNT_DEFAULT`: The default setting, which instructs AppConfig
+    #     to implement the deletion protection value specified in the
+    #     `UpdateAccountSettings` API.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_appconfigdata_GetLatestConfiguration.html
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/appconfig-2019-10-09/DeleteConfigurationProfileRequest AWS API Documentation
     #
     class DeleteConfigurationProfileRequest < Struct.new(
       :application_id,
-      :configuration_profile_id)
+      :configuration_profile_id,
+      :deletion_protection_check)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -805,20 +892,48 @@ module Aws::AppConfig
       include Aws::Structure
     end
 
+    # @!attribute [rw] environment_id
+    #   The ID of the environment that you want to delete.
+    #   @return [String]
+    #
     # @!attribute [rw] application_id
     #   The application ID that includes the environment that you want to
     #   delete.
     #   @return [String]
     #
-    # @!attribute [rw] environment_id
-    #   The ID of the environment that you want to delete.
+    # @!attribute [rw] deletion_protection_check
+    #   A parameter to configure deletion protection. If enabled, deletion
+    #   protection prevents a user from deleting an environment if your
+    #   application called either [GetLatestConfiguration][1] or in the
+    #   environment during the specified interval.
+    #
+    #   This parameter supports the following values:
+    #
+    #   * `BYPASS`: Instructs AppConfig to bypass the deletion protection
+    #     check and delete a configuration profile even if deletion
+    #     protection would have otherwise prevented it.
+    #
+    #   * `APPLY`: Instructs the deletion protection check to run, even if
+    #     deletion protection is disabled at the account level. `APPLY` also
+    #     forces the deletion protection check to run against resources
+    #     created in the past hour, which are normally excluded from
+    #     deletion protection checks.
+    #
+    #   * `ACCOUNT_DEFAULT`: The default setting, which instructs AppConfig
+    #     to implement the deletion protection value specified in the
+    #     `UpdateAccountSettings` API.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_appconfigdata_GetLatestConfiguration.html
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/appconfig-2019-10-09/DeleteEnvironmentRequest AWS API Documentation
     #
     class DeleteEnvironmentRequest < Struct.new(
+      :environment_id,
       :application_id,
-      :environment_id)
+      :deletion_protection_check)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -872,6 +987,51 @@ module Aws::AppConfig
       :application_id,
       :configuration_profile_id,
       :version_number)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # A parameter to configure deletion protection. If enabled, deletion
+    # protection prevents a user from deleting a configuration profile or an
+    # environment if AppConfig has called either [GetLatestConfiguration][1]
+    # or for the configuration profile or from the environment during the
+    # specified interval.
+    #
+    # This setting uses the following default values:
+    #
+    # * Deletion protection is disabled by default.
+    #
+    # * The default interval specified by `ProtectionPeriodInMinutes` is 60.
+    #
+    # * `DeletionProtectionCheck` skips configuration profiles and
+    #   environments that were created in the past hour.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_appconfigdata_GetLatestConfiguration.html
+    #
+    # @!attribute [rw] enabled
+    #   A parameter that indicates if deletion protection is enabled or not.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] protection_period_in_minutes
+    #   The time interval during which AppConfig monitors for calls to
+    #   [GetLatestConfiguration][1] or for a configuration profile or from
+    #   an environment. AppConfig returns an error if a user calls or for
+    #   the designated configuration profile or environment. To bypass the
+    #   error and delete a configuration profile or an environment, specify
+    #   `BYPASS` for the `DeletionProtectionCheck` parameter for either or .
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_appconfigdata_GetLatestConfiguration.html
+    #   @return [Integer]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/appconfig-2019-10-09/DeletionProtectionSettings AWS API Documentation
+    #
+    class DeletionProtectionSettings < Struct.new(
+      :enabled,
+      :protection_period_in_minutes)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -968,9 +1128,12 @@ module Aws::AppConfig
     #   @return [String]
     #
     # @!attribute [rw] kms_key_identifier
-    #   The KMS key identifier (key ID, key alias, or key ARN). AppConfig
-    #   uses this ID to encrypt the configuration data using a customer
-    #   managed key.
+    #   The Key Management Service key identifier (key ID, key alias, or key
+    #   ARN) provided when the resource was created or updated.
+    #   @return [String]
+    #
+    # @!attribute [rw] version_label
+    #   A user-defined label for an AppConfig hosted configuration version.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/appconfig-2019-10-09/Deployment AWS API Documentation
@@ -996,7 +1159,8 @@ module Aws::AppConfig
       :completed_at,
       :applied_extensions,
       :kms_key_arn,
-      :kms_key_identifier)
+      :kms_key_identifier,
+      :version_label)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1018,10 +1182,15 @@ module Aws::AppConfig
     #
     # @!attribute [rw] description
     #   A description of the deployment event. Descriptions include, but are
-    #   not limited to, the user account or the Amazon CloudWatch alarm ARN
-    #   that initiated a rollback, the percentage of hosts that received the
-    #   deployment, or in the case of an internal error, a recommendation to
-    #   attempt a new deployment.
+    #   not limited to, the following:
+    #
+    #   * The Amazon Web Services account or the Amazon CloudWatch alarm ARN
+    #     that initiated a rollback.
+    #
+    #   * The percentage of hosts that received the deployment.
+    #
+    #   * A recommendation to attempt a new deployment (in the case of an
+    #     internal error).
     #   @return [String]
     #
     # @!attribute [rw] action_invocations
@@ -1161,6 +1330,10 @@ module Aws::AppConfig
     #   Time the deployment completed.
     #   @return [Time]
     #
+    # @!attribute [rw] version_label
+    #   A user-defined label for an AppConfig hosted configuration version.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/appconfig-2019-10-09/DeploymentSummary AWS API Documentation
     #
     class DeploymentSummary < Struct.new(
@@ -1174,7 +1347,8 @@ module Aws::AppConfig
       :state,
       :percentage_complete,
       :started_at,
-      :completed_at)
+      :completed_at,
+      :version_label)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1496,33 +1670,33 @@ module Aws::AppConfig
     #
     # @!attribute [rw] client_configuration_version
     #   The configuration version returned in the most recent
-    #   `GetConfiguration` response.
+    #   GetConfiguration response.
     #
     #   AppConfig uses the value of the `ClientConfigurationVersion`
     #   parameter to identify the configuration version on your clients. If
     #   you don’t send `ClientConfigurationVersion` with each call to
-    #   `GetConfiguration`, your clients receive the current configuration.
+    #   GetConfiguration, your clients receive the current configuration.
     #   You are charged each time your clients receive a configuration.
     #
     #    To avoid excess charges, we recommend you use the
     #   [StartConfigurationSession][1] and [GetLatestConfiguration][2] APIs,
     #   which track the client configuration version on your behalf. If you
-    #   choose to continue using `GetConfiguration`, we recommend that you
+    #   choose to continue using GetConfiguration, we recommend that you
     #   include the `ClientConfigurationVersion` value with every call to
-    #   `GetConfiguration`. The value to use for
-    #   `ClientConfigurationVersion` comes from the `ConfigurationVersion`
-    #   attribute returned by `GetConfiguration` when there is new or
-    #   updated data, and should be saved for subsequent calls to
-    #   `GetConfiguration`.
+    #   GetConfiguration. The value to use for `ClientConfigurationVersion`
+    #   comes from the `ConfigurationVersion` attribute returned by
+    #   GetConfiguration when there is new or updated data, and should be
+    #   saved for subsequent calls to GetConfiguration.
     #
     #   For more information about working with configurations, see
-    #   [Retrieving the Configuration][3] in the *AppConfig User Guide*.
+    #   [Retrieving feature flags and configuration data in AppConfig][3] in
+    #   the *AppConfig User Guide*.
     #
     #
     #
     #   [1]: https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/StartConfigurationSession.html
     #   [2]: https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/GetLatestConfiguration.html
-    #   [3]: http://docs.aws.amazon.com/appconfig/latest/userguide/appconfig-retrieving-the-configuration.html
+    #   [3]: http://docs.aws.amazon.com/appconfig/latest/userguide/retrieving-feature-flags.html
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/appconfig-2019-10-09/GetConfigurationRequest AWS API Documentation
@@ -1677,6 +1851,12 @@ module Aws::AppConfig
     #   A user-defined label for an AppConfig hosted configuration version.
     #   @return [String]
     #
+    # @!attribute [rw] kms_key_arn
+    #   The Amazon Resource Name of the Key Management Service key that was
+    #   used to encrypt this specific version of the configuration data in
+    #   the AppConfig hosted configuration store.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/appconfig-2019-10-09/HostedConfigurationVersion AWS API Documentation
     #
     class HostedConfigurationVersion < Struct.new(
@@ -1686,7 +1866,8 @@ module Aws::AppConfig
       :description,
       :content,
       :content_type,
-      :version_label)
+      :version_label,
+      :kms_key_arn)
       SENSITIVE = [:content]
       include Aws::Structure
     end
@@ -1722,6 +1903,12 @@ module Aws::AppConfig
     #   A user-defined label for an AppConfig hosted configuration version.
     #   @return [String]
     #
+    # @!attribute [rw] kms_key_arn
+    #   The Amazon Resource Name of the Key Management Service key that was
+    #   used to encrypt this specific version of the configuration data in
+    #   the AppConfig hosted configuration store.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/appconfig-2019-10-09/HostedConfigurationVersionSummary AWS API Documentation
     #
     class HostedConfigurationVersionSummary < Struct.new(
@@ -1730,7 +1917,8 @@ module Aws::AppConfig
       :version_number,
       :description,
       :content_type,
-      :version_label)
+      :version_label,
+      :kms_key_arn)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2007,9 +2195,10 @@ module Aws::AppConfig
     #   @return [String]
     #
     # @!attribute [rw] max_results
-    #   The maximum number of items to return for this call. The call also
-    #   returns a token that you can specify in a subsequent call to get the
-    #   next set of results.
+    #   The maximum number of items to return for this call. If `MaxResults`
+    #   is not provided in the call, AppConfig returns the maximum of 50.
+    #   The call also returns a token that you can specify in a subsequent
+    #   call to get the next set of results.
     #   @return [Integer]
     #
     # @!attribute [rw] next_token
@@ -2072,8 +2261,8 @@ module Aws::AppConfig
     # A value such as an Amazon Resource Name (ARN) or an Amazon Simple
     # Notification Service topic entered in an extension when invoked.
     # Parameter values are specified in an extension association. For more
-    # information about extensions, see [Working with AppConfig
-    # extensions][1] in the *AppConfig User Guide*.
+    # information about extensions, see [Extending workflows][1] in the
+    # *AppConfig User Guide*.
     #
     #
     #
@@ -2087,11 +2276,18 @@ module Aws::AppConfig
     #   A parameter value must be specified in the extension association.
     #   @return [Boolean]
     #
+    # @!attribute [rw] dynamic
+    #   Indicates whether this parameter's value can be supplied at the
+    #   extension's action point instead of during extension association.
+    #   Dynamic parameters can't be marked `Required`.
+    #   @return [Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/appconfig-2019-10-09/Parameter AWS API Documentation
     #
     class Parameter < Struct.new(
       :description,
-      :required)
+      :required,
+      :dynamic)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2152,9 +2348,26 @@ module Aws::AppConfig
       include Aws::Structure
     end
 
-    # The number of hosted configuration versions exceeds the limit for the
-    # AppConfig hosted configuration store. Delete one or more versions and
-    # try again.
+    # The number of one more AppConfig resources exceeds the maximum
+    # allowed. Verify that your environment doesn't exceed the following
+    # service quotas:
+    #
+    # Applications: 100 max
+    #
+    # Deployment strategies: 20 max
+    #
+    # Configuration profiles: 100 max per application
+    #
+    # Environments: 20 max per application
+    #
+    # To resolve this issue, you can delete one or more resources and try
+    # again. Or, you can request a quota increase. For more information
+    # about quotas and to request an increase, see [Service quotas for
+    # AppConfig][1] in the Amazon Web Services General Reference.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/general/latest/gr/appconfig.html#limits_appconfig
     #
     # @!attribute [rw] message
     #   @return [String]
@@ -2186,7 +2399,8 @@ module Aws::AppConfig
     # @!attribute [rw] configuration_version
     #   The configuration version to deploy. If deploying an AppConfig
     #   hosted configuration version, you can specify either the version
-    #   number or version label.
+    #   number or version label. For all other configurations, you must
+    #   specify the version number.
     #   @return [String]
     #
     # @!attribute [rw] description
@@ -2205,6 +2419,11 @@ module Aws::AppConfig
     #   managed key.
     #   @return [String]
     #
+    # @!attribute [rw] dynamic_extension_parameters
+    #   A map of dynamic extension parameter names to values to pass to
+    #   associated extensions with `PRE_START_DEPLOYMENT` actions.
+    #   @return [Hash<String,String>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/appconfig-2019-10-09/StartDeploymentRequest AWS API Documentation
     #
     class StartDeploymentRequest < Struct.new(
@@ -2215,7 +2434,8 @@ module Aws::AppConfig
       :configuration_version,
       :description,
       :tags,
-      :kms_key_identifier)
+      :kms_key_identifier,
+      :dynamic_extension_parameters)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2232,12 +2452,19 @@ module Aws::AppConfig
     #   The sequence number of the deployment.
     #   @return [Integer]
     #
+    # @!attribute [rw] allow_revert
+    #   A Boolean that enables AppConfig to rollback a `COMPLETED`
+    #   deployment to the previous configuration version. This action moves
+    #   the deployment to a status of `REVERTED`.
+    #   @return [Boolean]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/appconfig-2019-10-09/StopDeploymentRequest AWS API Documentation
     #
     class StopDeploymentRequest < Struct.new(
       :application_id,
       :environment_id,
-      :deployment_number)
+      :deployment_number,
+      :allow_revert)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2274,6 +2501,28 @@ module Aws::AppConfig
     class UntagResourceRequest < Struct.new(
       :resource_arn,
       :tag_keys)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] deletion_protection
+    #   A parameter to configure deletion protection. If enabled, deletion
+    #   protection prevents a user from deleting a configuration profile or
+    #   an environment if AppConfig has called either
+    #   [GetLatestConfiguration][1] or for the configuration profile or from
+    #   the environment during the specified interval. Deletion protection
+    #   is disabled by default. The default interval for
+    #   `ProtectionPeriodInMinutes` is 60.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/appconfig/2019-10-09/APIReference/API_appconfigdata_GetLatestConfiguration.html
+    #   @return [Types::DeletionProtectionSettings]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/appconfig-2019-10-09/UpdateAccountSettingsRequest AWS API Documentation
+    #
+    class UpdateAccountSettingsRequest < Struct.new(
+      :deletion_protection)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2325,6 +2574,16 @@ module Aws::AppConfig
     #   A list of methods for validating the configuration.
     #   @return [Array<Types::Validator>]
     #
+    # @!attribute [rw] kms_key_identifier
+    #   The identifier for a Key Management Service key to encrypt new
+    #   configuration data versions in the AppConfig hosted configuration
+    #   store. This attribute is only used for `hosted` configuration types.
+    #   The identifier can be an KMS key ID, alias, or the Amazon Resource
+    #   Name (ARN) of the key ID or alias. To encrypt data managed in other
+    #   configuration stores, see the documentation for how to specify an
+    #   KMS key for that particular service.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/appconfig-2019-10-09/UpdateConfigurationProfileRequest AWS API Documentation
     #
     class UpdateConfigurationProfileRequest < Struct.new(
@@ -2333,7 +2592,8 @@ module Aws::AppConfig
       :name,
       :description,
       :retrieval_role_arn,
-      :validators)
+      :validators,
+      :kms_key_identifier)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2365,7 +2625,7 @@ module Aws::AppConfig
     #   The algorithm used to define how percentage grows over time.
     #   AppConfig supports the following growth types:
     #
-    #   **Linear**\: For this type, AppConfig processes the deployment by
+    #   **Linear**: For this type, AppConfig processes the deployment by
     #   increments of the growth factor evenly distributed over the
     #   deployment time. For example, a linear deployment that uses a growth
     #   factor of 20 initially makes the configuration available to 20
@@ -2374,7 +2634,7 @@ module Aws::AppConfig
     #   continues until 100% of the targets are set to receive the deployed
     #   configuration.
     #
-    #   **Exponential**\: For this type, AppConfig processes the deployment
+    #   **Exponential**: For this type, AppConfig processes the deployment
     #   exponentially using the following formula: `G*(2^N)`. In this
     #   formula, `G` is the growth factor specified by the user and `N` is
     #   the number of steps until the configuration is deployed to all
@@ -2514,7 +2774,12 @@ module Aws::AppConfig
     # validate your application configuration data, you provide a schema or
     # an Amazon Web Services Lambda function that runs against the
     # configuration. The configuration deployment or update can only proceed
-    # when the configuration data is valid.
+    # when the configuration data is valid. For more information, see [About
+    # validators][1] in the *AppConfig User Guide*.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/appconfig/latest/userguide/appconfig-creating-configuration-profile.html#appconfig-creating-configuration-and-profile-validators
     #
     # @!attribute [rw] type
     #   AppConfig supports validators of type `JSON_SCHEMA` and `LAMBDA`
@@ -2536,3 +2801,4 @@ module Aws::AppConfig
 
   end
 end
+

@@ -7,33 +7,34 @@
 #
 # WARNING ABOUT GENERATED CODE
 
-require 'seahorse/client/plugins/content_length.rb'
-require 'aws-sdk-core/plugins/credentials_configuration.rb'
-require 'aws-sdk-core/plugins/logging.rb'
-require 'aws-sdk-core/plugins/param_converter.rb'
-require 'aws-sdk-core/plugins/param_validator.rb'
-require 'aws-sdk-core/plugins/user_agent.rb'
-require 'aws-sdk-core/plugins/helpful_socket_errors.rb'
-require 'aws-sdk-core/plugins/retry_errors.rb'
-require 'aws-sdk-core/plugins/global_configuration.rb'
-require 'aws-sdk-core/plugins/regional_endpoint.rb'
-require 'aws-sdk-core/plugins/endpoint_discovery.rb'
-require 'aws-sdk-core/plugins/endpoint_pattern.rb'
-require 'aws-sdk-core/plugins/response_paging.rb'
-require 'aws-sdk-core/plugins/stub_responses.rb'
-require 'aws-sdk-core/plugins/idempotency_token.rb'
-require 'aws-sdk-core/plugins/jsonvalue_converter.rb'
-require 'aws-sdk-core/plugins/client_metrics_plugin.rb'
-require 'aws-sdk-core/plugins/client_metrics_send_plugin.rb'
-require 'aws-sdk-core/plugins/transfer_encoding.rb'
-require 'aws-sdk-core/plugins/http_checksum.rb'
-require 'aws-sdk-core/plugins/checksum_algorithm.rb'
-require 'aws-sdk-core/plugins/defaults_mode.rb'
-require 'aws-sdk-core/plugins/recursion_detection.rb'
-require 'aws-sdk-core/plugins/sign.rb'
-require 'aws-sdk-core/plugins/protocols/json_rpc.rb'
-
-Aws::Plugins::GlobalConfiguration.add_identifier(:opsworks)
+require 'seahorse/client/plugins/content_length'
+require 'aws-sdk-core/plugins/credentials_configuration'
+require 'aws-sdk-core/plugins/logging'
+require 'aws-sdk-core/plugins/param_converter'
+require 'aws-sdk-core/plugins/param_validator'
+require 'aws-sdk-core/plugins/user_agent'
+require 'aws-sdk-core/plugins/helpful_socket_errors'
+require 'aws-sdk-core/plugins/retry_errors'
+require 'aws-sdk-core/plugins/global_configuration'
+require 'aws-sdk-core/plugins/regional_endpoint'
+require 'aws-sdk-core/plugins/endpoint_discovery'
+require 'aws-sdk-core/plugins/endpoint_pattern'
+require 'aws-sdk-core/plugins/response_paging'
+require 'aws-sdk-core/plugins/stub_responses'
+require 'aws-sdk-core/plugins/idempotency_token'
+require 'aws-sdk-core/plugins/invocation_id'
+require 'aws-sdk-core/plugins/jsonvalue_converter'
+require 'aws-sdk-core/plugins/client_metrics_plugin'
+require 'aws-sdk-core/plugins/client_metrics_send_plugin'
+require 'aws-sdk-core/plugins/transfer_encoding'
+require 'aws-sdk-core/plugins/http_checksum'
+require 'aws-sdk-core/plugins/checksum_algorithm'
+require 'aws-sdk-core/plugins/request_compression'
+require 'aws-sdk-core/plugins/defaults_mode'
+require 'aws-sdk-core/plugins/recursion_detection'
+require 'aws-sdk-core/plugins/telemetry'
+require 'aws-sdk-core/plugins/sign'
+require 'aws-sdk-core/plugins/protocols/json_rpc'
 
 module Aws::OpsWorks
   # An API client for OpsWorks.  To construct a client, you need to configure a `:region` and `:credentials`.
@@ -71,20 +72,28 @@ module Aws::OpsWorks
     add_plugin(Aws::Plugins::ResponsePaging)
     add_plugin(Aws::Plugins::StubResponses)
     add_plugin(Aws::Plugins::IdempotencyToken)
+    add_plugin(Aws::Plugins::InvocationId)
     add_plugin(Aws::Plugins::JsonvalueConverter)
     add_plugin(Aws::Plugins::ClientMetricsPlugin)
     add_plugin(Aws::Plugins::ClientMetricsSendPlugin)
     add_plugin(Aws::Plugins::TransferEncoding)
     add_plugin(Aws::Plugins::HttpChecksum)
     add_plugin(Aws::Plugins::ChecksumAlgorithm)
+    add_plugin(Aws::Plugins::RequestCompression)
     add_plugin(Aws::Plugins::DefaultsMode)
     add_plugin(Aws::Plugins::RecursionDetection)
+    add_plugin(Aws::Plugins::Telemetry)
     add_plugin(Aws::Plugins::Sign)
     add_plugin(Aws::Plugins::Protocols::JsonRpc)
     add_plugin(Aws::OpsWorks::Plugins::Endpoints)
 
     # @overload initialize(options)
     #   @param [Hash] options
+    #
+    #   @option options [Array<Seahorse::Client::Plugin>] :plugins ([]])
+    #     A list of plugins to apply to the client. Each plugin is either a
+    #     class name or an instance of a plugin class.
+    #
     #   @option options [required, Aws::CredentialProvider] :credentials
     #     Your AWS credentials. This can be an instance of any one of the
     #     following classes:
@@ -119,13 +128,15 @@ module Aws::OpsWorks
     #     locations will be searched for credentials:
     #
     #     * `Aws.config[:credentials]`
-    #     * The `:access_key_id`, `:secret_access_key`, and `:session_token` options.
-    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']
+    #     * The `:access_key_id`, `:secret_access_key`, `:session_token`, and
+    #       `:account_id` options.
+    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'],
+    #       ENV['AWS_SESSION_TOKEN'], and ENV['AWS_ACCOUNT_ID']
     #     * `~/.aws/credentials`
     #     * `~/.aws/config`
     #     * EC2/ECS IMDS instance profile - When used by default, the timeouts
     #       are very aggressive. Construct and pass an instance of
-    #       `Aws::InstanceProfileCredentails` or `Aws::ECSCredentials` to
+    #       `Aws::InstanceProfileCredentials` or `Aws::ECSCredentials` to
     #       enable retries and extended timeouts. Instance profile credential
     #       fetching can be disabled by setting ENV['AWS_EC2_METADATA_DISABLED']
     #       to true.
@@ -143,6 +154,8 @@ module Aws::OpsWorks
     #     * `~/.aws/config`
     #
     #   @option options [String] :access_key_id
+    #
+    #   @option options [String] :account_id
     #
     #   @option options [Boolean] :active_endpoint_cache (false)
     #     When set to `true`, a thread polling for endpoints will be running in
@@ -190,10 +203,20 @@ module Aws::OpsWorks
     #     Set to true to disable SDK automatically adding host prefix
     #     to default service endpoint when available.
     #
-    #   @option options [String] :endpoint
-    #     The client endpoint is normally constructed from the `:region`
-    #     option. You should only configure an `:endpoint` when connecting
-    #     to test or custom endpoints. This should be a valid HTTP(S) URI.
+    #   @option options [Boolean] :disable_request_compression (false)
+    #     When set to 'true' the request body will not be compressed
+    #     for supported operations.
+    #
+    #   @option options [String, URI::HTTPS, URI::HTTP] :endpoint
+    #     Normally you should not configure the `:endpoint` option
+    #     directly. This is normally constructed from the `:region`
+    #     option. Configuring `:endpoint` is normally reserved for
+    #     connecting to test or custom endpoints. The endpoint should
+    #     be a URI formatted like:
+    #
+    #         'http://example.com'
+    #         'https://example.com'
+    #         'http://example.com:123'
     #
     #   @option options [Integer] :endpoint_cache_max_entries (1000)
     #     Used for the maximum size limit of the LRU cache storing endpoints data
@@ -209,6 +232,10 @@ module Aws::OpsWorks
     #
     #   @option options [Boolean] :endpoint_discovery (false)
     #     When set to `true`, endpoint discovery will be enabled for operations when available.
+    #
+    #   @option options [Boolean] :ignore_configured_endpoint_urls
+    #     Setting to true disables use of endpoint URLs provided via environment
+    #     variables and the shared configuration file.
     #
     #   @option options [Aws::Log::Formatter] :log_formatter (Aws::Log::Formatter.default)
     #     The log formatter.
@@ -229,6 +256,34 @@ module Aws::OpsWorks
     #   @option options [String] :profile ("default")
     #     Used when loading credentials from the shared credentials file
     #     at HOME/.aws/credentials.  When not specified, 'default' is used.
+    #
+    #   @option options [String] :request_checksum_calculation ("when_supported")
+    #     Determines when a checksum will be calculated for request payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, a checksum will be
+    #       calculated for all request payloads of operations modeled with the
+    #       `httpChecksum` trait where `requestChecksumRequired` is `true` and/or a
+    #       `requestAlgorithmMember` is modeled.
+    #     * `when_required` - When set, a checksum will only be calculated for
+    #       request payloads of operations modeled with the  `httpChecksum` trait where
+    #       `requestChecksumRequired` is `true` or where a `requestAlgorithmMember`
+    #       is modeled and supplied.
+    #
+    #   @option options [Integer] :request_min_compression_size_bytes (10240)
+    #     The minimum size in bytes that triggers compression for request
+    #     bodies. The value must be non-negative integer value between 0
+    #     and 10485780 bytes inclusive.
+    #
+    #   @option options [String] :response_checksum_validation ("when_supported")
+    #     Determines when checksum validation will be performed on response payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, checksum validation is performed on all
+    #       response payloads of operations modeled with the `httpChecksum` trait where
+    #       `responseAlgorithms` is modeled, except when no modeled checksum algorithms
+    #       are supported.
+    #     * `when_required` - When set, checksum validation is not performed on
+    #       response payloads of operations unless the checksum algorithm is supported and
+    #       the `requestValidationModeMember` member is set to `ENABLED`.
     #
     #   @option options [Proc] :retry_backoff
     #     A proc or lambda used for backoff. Defaults to 2**retries * retry_base_delay.
@@ -274,20 +329,31 @@ module Aws::OpsWorks
     #       throttling.  This is a provisional mode that may change behavior
     #       in the future.
     #
+    #   @option options [String] :sdk_ua_app_id
+    #     A unique and opaque application ID that is appended to the
+    #     User-Agent header as app/sdk_ua_app_id. It should have a
+    #     maximum length of 50. This variable is sourced from environment
+    #     variable AWS_SDK_UA_APP_ID or the shared config profile attribute sdk_ua_app_id.
     #
     #   @option options [String] :secret_access_key
     #
     #   @option options [String] :session_token
     #
+    #   @option options [Array] :sigv4a_signing_region_set
+    #     A list of regions that should be signed with SigV4a signing. When
+    #     not passed, a default `:sigv4a_signing_region_set` is searched for
+    #     in the following locations:
+    #
+    #     * `Aws.config[:sigv4a_signing_region_set]`
+    #     * `ENV['AWS_SIGV4A_SIGNING_REGION_SET']`
+    #     * `~/.aws/config`
+    #
     #   @option options [Boolean] :simple_json (false)
     #     Disables request parameter conversion, validation, and formatting.
-    #     Also disable response data type conversions. This option is useful
-    #     when you want to ensure the highest level of performance by
-    #     avoiding overhead of walking request parameters and response data
-    #     structures.
-    #
-    #     When `:simple_json` is enabled, the request parameters hash must
-    #     be formatted exactly as the DynamoDB API expects.
+    #     Also disables response data type conversions. The request parameters
+    #     hash must be formatted exactly as the API expects.This option is useful
+    #     when you want to ensure the highest level of performance by avoiding
+    #     overhead of walking request parameters and response data structures.
     #
     #   @option options [Boolean] :stub_responses (false)
     #     Causes the client to return stubbed responses. By default
@@ -297,6 +363,16 @@ module Aws::OpsWorks
     #
     #     ** Please note ** When response stubbing is enabled, no HTTP
     #     requests are made, and retries are disabled.
+    #
+    #   @option options [Aws::Telemetry::TelemetryProviderBase] :telemetry_provider (Aws::Telemetry::NoOpTelemetryProvider)
+    #     Allows you to provide a telemetry provider, which is used to
+    #     emit telemetry data. By default, uses `NoOpTelemetryProvider` which
+    #     will not record or emit any telemetry data. The SDK supports the
+    #     following telemetry providers:
+    #
+    #     * OpenTelemetry (OTel) - To use the OTel provider, install and require the
+    #     `opentelemetry-sdk` gem and then, pass in an instance of a
+    #     `Aws::Telemetry::OTelProvider` for telemetry provider.
     #
     #   @option options [Aws::TokenProvider] :token_provider
     #     A Bearer Token Provider. This can be an instance of any one of the
@@ -325,52 +401,75 @@ module Aws::OpsWorks
     #     sending the request.
     #
     #   @option options [Aws::OpsWorks::EndpointProvider] :endpoint_provider
-    #     The endpoint provider used to resolve endpoints. Any object that responds to `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to `Aws::OpsWorks::EndpointParameters`
+    #     The endpoint provider used to resolve endpoints. Any object that responds to
+    #     `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+    #     `Aws::OpsWorks::EndpointParameters`.
     #
-    #   @option options [URI::HTTP,String] :http_proxy A proxy to send
-    #     requests through.  Formatted like 'http://proxy.com:123'.
+    #   @option options [Float] :http_continue_timeout (1)
+    #     The number of seconds to wait for a 100-continue response before sending the
+    #     request body.  This option has no effect unless the request has "Expect"
+    #     header set to "100-continue".  Defaults to `nil` which  disables this
+    #     behaviour.  This value can safely be set per request on the session.
     #
-    #   @option options [Float] :http_open_timeout (15) The number of
-    #     seconds to wait when opening a HTTP session before raising a
-    #     `Timeout::Error`.
+    #   @option options [Float] :http_idle_timeout (5)
+    #     The number of seconds a connection is allowed to sit idle before it
+    #     is considered stale.  Stale connections are closed and removed from the
+    #     pool before making a request.
     #
-    #   @option options [Float] :http_read_timeout (60) The default
-    #     number of seconds to wait for response data.  This value can
-    #     safely be set per-request on the session.
+    #   @option options [Float] :http_open_timeout (15)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :http_idle_timeout (5) The number of
-    #     seconds a connection is allowed to sit idle before it is
-    #     considered stale.  Stale connections are closed and removed
-    #     from the pool before making a request.
+    #   @option options [URI::HTTP,String] :http_proxy
+    #     A proxy to send requests through.  Formatted like 'http://proxy.com:123'.
     #
-    #   @option options [Float] :http_continue_timeout (1) The number of
-    #     seconds to wait for a 100-continue response before sending the
-    #     request body.  This option has no effect unless the request has
-    #     "Expect" header set to "100-continue".  Defaults to `nil` which
-    #     disables this behaviour.  This value can safely be set per
-    #     request on the session.
+    #   @option options [Float] :http_read_timeout (60)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :ssl_timeout (nil) Sets the SSL timeout
-    #     in seconds.
+    #   @option options [Boolean] :http_wire_trace (false)
+    #     When `true`,  HTTP debug output will be sent to the `:logger`.
     #
-    #   @option options [Boolean] :http_wire_trace (false) When `true`,
-    #     HTTP debug output will be sent to the `:logger`.
+    #   @option options [Proc] :on_chunk_received
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the response body is received. It provides three arguments: the chunk,
+    #     the number of bytes received, and the total number of
+    #     bytes in the response (or nil if the server did not send a `content-length`).
     #
-    #   @option options [Boolean] :ssl_verify_peer (true) When `true`,
-    #     SSL peer certificates are verified when establishing a
-    #     connection.
+    #   @option options [Proc] :on_chunk_sent
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the request body is sent. It provides three arguments: the chunk,
+    #     the number of bytes read from the body, and the total number of
+    #     bytes in the body.
     #
-    #   @option options [String] :ssl_ca_bundle Full path to the SSL
-    #     certificate authority bundle file that should be used when
-    #     verifying peer certificates.  If you do not pass
-    #     `:ssl_ca_bundle` or `:ssl_ca_directory` the the system default
-    #     will be used if available.
+    #   @option options [Boolean] :raise_response_errors (true)
+    #     When `true`, response errors are raised.
     #
-    #   @option options [String] :ssl_ca_directory Full path of the
-    #     directory that contains the unbundled SSL certificate
+    #   @option options [String] :ssl_ca_bundle
+    #     Full path to the SSL certificate authority bundle file that should be used when
+    #     verifying peer certificates.  If you do not pass `:ssl_ca_bundle` or
+    #     `:ssl_ca_directory` the the system default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_directory
+    #     Full path of the directory that contains the unbundled SSL certificate
     #     authority files for verifying peer certificates.  If you do
-    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the
-    #     system default will be used if available.
+    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the system
+    #     default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_store
+    #     Sets the X509::Store to verify peer certificate.
+    #
+    #   @option options [OpenSSL::X509::Certificate] :ssl_cert
+    #     Sets a client certificate when creating http connections.
+    #
+    #   @option options [OpenSSL::PKey] :ssl_key
+    #     Sets a client key when creating http connections.
+    #
+    #   @option options [Float] :ssl_timeout
+    #     Sets the SSL timeout in seconds
+    #
+    #   @option options [Boolean] :ssl_verify_peer (true)
+    #     When `true`, SSL peer certificates are verified when establishing a connection.
     #
     def initialize(*args)
       super
@@ -385,13 +484,13 @@ module Aws::OpsWorks
     # * You can assign registered Amazon EC2 instances only to custom
     #   layers.
     #
-    # * You cannot use this action with instances that were created with AWS
+    # * You cannot use this action with instances that were created with
     #   OpsWorks Stacks.
     #
-    # **Required Permissions**\: To use this action, an AWS Identity and
-    # Access Management (IAM) user must have a Manage permissions level for
-    # the stack or an attached policy that explicitly grants permissions.
-    # For more information on user permissions, see [Managing User
+    # **Required Permissions**: To use this action, an Identity and Access
+    # Management (IAM) user must have a Manage permissions level for the
+    # stack or an attached policy that explicitly grants permissions. For
+    # more information on user permissions, see [Managing User
     # Permissions][1].
     #
     #
@@ -429,7 +528,7 @@ module Aws::OpsWorks
     # call UpdateVolume to specify a mount point before calling
     # `AssignVolume`. For more information, see [Resource Management][1].
     #
-    # **Required Permissions**\: To use this action, an IAM user must have a
+    # **Required Permissions**: To use this action, an IAM user must have a
     # Manage permissions level for the stack, or an attached policy that
     # explicitly grants permissions. For more information on user
     # permissions, see [Managing User Permissions][2].
@@ -468,7 +567,7 @@ module Aws::OpsWorks
     # stack by calling RegisterElasticIp. For more information, see
     # [Resource Management][1].
     #
-    # **Required Permissions**\: To use this action, an IAM user must have a
+    # **Required Permissions**: To use this action, an IAM user must have a
     # Manage permissions level for the stack, or an attached policy that
     # explicitly grants permissions. For more information on user
     # permissions, see [Managing User Permissions][2].
@@ -503,17 +602,17 @@ module Aws::OpsWorks
     end
 
     # Attaches an Elastic Load Balancing load balancer to a specified layer.
-    # AWS OpsWorks Stacks does not support Application Load Balancer. You
-    # can only use Classic Load Balancer with AWS OpsWorks Stacks. For more
+    # OpsWorks Stacks does not support Application Load Balancer. You can
+    # only use Classic Load Balancer with OpsWorks Stacks. For more
     # information, see [Elastic Load Balancing][1].
     #
     # <note markdown="1"> You must create the Elastic Load Balancing instance separately, by
     # using the Elastic Load Balancing console, API, or CLI. For more
-    # information, see [ Elastic Load Balancing Developer Guide][2].
+    # information, see the [Elastic Load Balancing Developer Guide][2].
     #
     #  </note>
     #
-    # **Required Permissions**\: To use this action, an IAM user must have a
+    # **Required Permissions**: To use this action, an IAM user must have a
     # Manage permissions level for the stack, or an attached policy that
     # explicitly grants permissions. For more information on user
     # permissions, see [Managing User Permissions][3].
@@ -553,8 +652,8 @@ module Aws::OpsWorks
     # a Stack][1]. By default, all parameters are set to the values used by
     # the parent stack.
     #
-    # **Required Permissions**\: To use this action, an IAM user must have
-    # an attached policy that explicitly grants permissions. For more
+    # **Required Permissions**: To use this action, an IAM user must have an
+    # attached policy that explicitly grants permissions. For more
     # information about user permissions, see [Managing User
     # Permissions][2].
     #
@@ -567,11 +666,12 @@ module Aws::OpsWorks
     #   The source stack ID.
     #
     # @option params [String] :name
-    #   The cloned stack name.
+    #   The cloned stack name. Stack names can be a maximum of 64 characters.
     #
     # @option params [String] :region
-    #   The cloned stack AWS region, such as "ap-northeast-2". For more
-    #   information about AWS regions, see [Regions and Endpoints][1].
+    #   The cloned stack Amazon Web Services Region, such as `ap-northeast-2`.
+    #   For more information about Amazon Web Services Regions, see [Regions
+    #   and Endpoints][1].
     #
     #
     #
@@ -589,8 +689,8 @@ module Aws::OpsWorks
     #
     #   If the VPC ID corresponds to a default VPC and you have specified
     #   either the `DefaultAvailabilityZone` or the `DefaultSubnetId`
-    #   parameter only, AWS OpsWorks Stacks infers the value of the other
-    #   parameter. If you specify neither parameter, AWS OpsWorks Stacks sets
+    #   parameter only, OpsWorks Stacks infers the value of the other
+    #   parameter. If you specify neither parameter, OpsWorks Stacks sets
     #   these parameters to the first valid Availability Zone for the
     #   specified region and the corresponding default VPC subnet ID,
     #   respectively.
@@ -602,9 +702,9 @@ module Aws::OpsWorks
     #
     #   * You must specify a value for `DefaultSubnetId`.
     #
-    #   For more information about how to use AWS OpsWorks Stacks with a VPC,
-    #   see [Running a Stack in a VPC][1]. For more information about default
-    #   VPC and EC2 Classic, see [Supported Platforms][2].
+    #   For more information about how to use OpsWorks Stacks with a VPC, see
+    #   [Running a Stack in a VPC][1]. For more information about default VPC
+    #   and EC2 Classic, see [Supported Platforms][2].
     #
     #
     #
@@ -616,10 +716,10 @@ module Aws::OpsWorks
     #   to the cloned stack.
     #
     # @option params [required, String] :service_role_arn
-    #   The stack AWS Identity and Access Management (IAM) role, which allows
-    #   AWS OpsWorks Stacks to work with AWS resources on your behalf. You
-    #   must set this parameter to the Amazon Resource Name (ARN) for an
-    #   existing IAM role. If you create a stack by using the AWS OpsWorks
+    #   The stack Identity and Access Management (IAM) role, which allows
+    #   OpsWorks Stacks to work with Amazon Web Services resources on your
+    #   behalf. You must set this parameter to the Amazon Resource Name (ARN)
+    #   for an existing IAM role. If you create a stack by using the OpsWorkss
     #   Stacks console, it creates the role for you. You can obtain an
     #   existing stack's IAM ARN programmatically by calling
     #   DescribePermissions. For more information about IAM ARNs, see [Using
@@ -650,12 +750,12 @@ module Aws::OpsWorks
     #   following.
     #
     #   * A supported Linux operating system: An Amazon Linux version, such as
-    #     `Amazon Linux 2018.03`, `Amazon Linux 2017.09`, `Amazon Linux
-    #     2017.03`, `Amazon Linux 2016.09`, `Amazon Linux 2016.03`, `Amazon
-    #     Linux 2015.09`, or `Amazon Linux 2015.03`.
+    #     `Amazon Linux 2`, `Amazon Linux 2018.03`, `Amazon Linux 2017.09`,
+    #     `Amazon Linux 2017.03`, `Amazon Linux 2016.09`, `Amazon Linux
+    #     2016.03`, `Amazon Linux 2015.09`, or `Amazon Linux 2015.03`.
     #
-    #   * A supported Ubuntu operating system, such as `Ubuntu 16.04 LTS`,
-    #     `Ubuntu 14.04 LTS`, or `Ubuntu 12.04 LTS`.
+    #   * A supported Ubuntu operating system, such as `Ubuntu 18.04 LTS`,
+    #     `Ubuntu 16.04 LTS`, `Ubuntu 14.04 LTS`, or `Ubuntu 12.04 LTS`.
     #
     #   * `CentOS Linux 7`
     #
@@ -670,9 +770,10 @@ module Aws::OpsWorks
     #     when you create instances. For more information about how to use
     #     custom AMIs with OpsWorks, see [Using Custom AMIs][1].
     #
-    #   The default option is the parent stack's operating system. For more
-    #   information about supported operating systems, see [AWS OpsWorks
-    #   Stacks Operating Systems][2].
+    #   The default option is the parent stack's operating system. Not all
+    #   operating systems are supported with all versions of Chef. For more
+    #   information about supported operating systems, see [OpsWorks Stacks
+    #   Operating Systems][2].
     #
     #   <note markdown="1"> You can specify a different Linux operating system for the cloned
     #   stack, but you cannot change from Linux to Windows or Windows to
@@ -742,7 +843,7 @@ module Aws::OpsWorks
     #   override the corresponding default stack configuration JSON values.
     #   The string should be in the following format:
     #
-    #   `"\{"key1": "value1", "key2": "value2",...\}"`
+    #   `"{"key1": "value1", "key2": "value2",...}"`
     #
     #   For more information about custom JSON, see [Use Custom JSON to Modify
     #   the Stack Configuration Attributes][1]
@@ -770,27 +871,26 @@ module Aws::OpsWorks
     #   Whether to use custom cookbooks.
     #
     # @option params [Boolean] :use_opsworks_security_groups
-    #   Whether to associate the AWS OpsWorks Stacks built-in security groups
-    #   with the stack's layers.
+    #   Whether to associate the OpsWorks Stacks built-in security groups with
+    #   the stack's layers.
     #
-    #   AWS OpsWorks Stacks provides a standard set of built-in security
-    #   groups, one for each layer, which are associated with layers by
-    #   default. With `UseOpsworksSecurityGroups` you can instead provide your
-    #   own custom security groups. `UseOpsworksSecurityGroups` has the
-    #   following settings:
+    #   OpsWorks Stacks provides a standard set of security groups, one for
+    #   each layer, which are associated with layers by default. With
+    #   `UseOpsworksSecurityGroups` you can instead provide your own custom
+    #   security groups. `UseOpsworksSecurityGroups` has the following
+    #   settings:
     #
-    #   * True - AWS OpsWorks Stacks automatically associates the appropriate
+    #   * True - OpsWorks Stacks automatically associates the appropriate
     #     built-in security group with each layer (default setting). You can
     #     associate additional security groups with a layer after you create
     #     it but you cannot delete the built-in security group.
     #
-    #   * False - AWS OpsWorks Stacks does not associate built-in security
-    #     groups with layers. You must create appropriate Amazon Elastic
-    #     Compute Cloud (Amazon EC2) security groups and associate a security
-    #     group with each layer that you create. However, you can still
-    #     manually associate a built-in security group with a layer on
-    #     creation; custom security groups are required only for those layers
-    #     that need custom settings.
+    #   * False - OpsWorks Stacks does not associate built-in security groups
+    #     with layers. You must create appropriate Amazon EC2 security groups
+    #     and associate a security group with each layer that you create.
+    #     However, you can still manually associate a built-in security group
+    #     with a layer on creation; custom security groups are required only
+    #     for those layers that need custom settings.
     #
     #   For more information, see [Create a New Stack][1].
     #
@@ -810,7 +910,7 @@ module Aws::OpsWorks
     #
     # @option params [String] :default_ssh_key_name
     #   A default Amazon EC2 key pair name. The default value is none. If you
-    #   specify a key pair name, AWS OpsWorks installs the public key on the
+    #   specify a key pair name, OpsWorks installs the public key on the
     #   instance and you can use the private key with an SSH client to log in
     #   to the instance. For more information, see [ Using SSH to Communicate
     #   with an Instance][1] and [ Managing SSH Access][2]. You can override
@@ -840,17 +940,17 @@ module Aws::OpsWorks
     #   [1]: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ComponentsAMIs.html#storage-for-the-root-device
     #
     # @option params [String] :agent_version
-    #   The default AWS OpsWorks Stacks agent version. You have the following
+    #   The default OpsWorks Stacks agent version. You have the following
     #   options:
     #
-    #   * Auto-update - Set this parameter to `LATEST`. AWS OpsWorks Stacks
+    #   * Auto-update - Set this parameter to `LATEST`. OpsWorks Stacks
     #     automatically installs new agent versions on the stack's instances
     #     as soon as they are available.
     #
     #   * Fixed version - Set this parameter to your preferred agent version.
     #     To update the agent version, you must edit the stack configuration
-    #     and specify a new version. AWS OpsWorks Stacks then automatically
-    #     installs that version on the stack's instances.
+    #     and specify a new version. OpsWorks Stacks automatically installs
+    #     that version on the stack's instances.
     #
     #   The default setting is `LATEST`. To specify an agent version, you must
     #   use the complete version number, not the abbreviated number shown on
@@ -924,7 +1024,7 @@ module Aws::OpsWorks
     # Creates an app for a specified stack. For more information, see
     # [Creating Apps][1].
     #
-    # **Required Permissions**\: To use this action, an IAM user must have a
+    # **Required Permissions**: To use this action, an IAM user must have a
     # Manage permissions level for the stack, or an attached policy that
     # explicitly grants permissions. For more information on user
     # permissions, see [Managing User Permissions][2].
@@ -952,7 +1052,7 @@ module Aws::OpsWorks
     # @option params [required, String] :type
     #   The app type. Each supported type is associated with a particular
     #   layer. For example, PHP applications are associated with a PHP layer.
-    #   AWS OpsWorks Stacks deploys an application to those instances that are
+    #   OpsWorks Stacks deploys an application to those instances that are
     #   members of the corresponding layer. If your app isn't one of the
     #   standard types, or you prefer to implement your own Deploy recipes,
     #   specify `other`.
@@ -1058,7 +1158,7 @@ module Aws::OpsWorks
     # Runs deployment or stack commands. For more information, see
     # [Deploying Apps][1] and [Run Stack Commands][2].
     #
-    # **Required Permissions**\: To use this action, an IAM user must have a
+    # **Required Permissions**: To use this action, an IAM user must have a
     # Deploy or Manage permissions level for the stack, or an attached
     # policy that explicitly grants permissions. For more information on
     # user permissions, see [Managing User Permissions][3].
@@ -1094,7 +1194,7 @@ module Aws::OpsWorks
     #   parameter to override some corresponding default stack configuration
     #   JSON values. The string should be in the following format:
     #
-    #   `"\{"key1": "value1", "key2": "value2",...\}"`
+    #   `"{"key1": "value1", "key2": "value2",...}"`
     #
     #   For more information about custom JSON, see [Use Custom JSON to Modify
     #   the Stack Configuration Attributes][1] and [Overriding Attributes With
@@ -1142,7 +1242,7 @@ module Aws::OpsWorks
     # Creates an instance in a specified stack. For more information, see
     # [Adding an Instance to a Layer][1].
     #
-    # **Required Permissions**\: To use this action, an IAM user must have a
+    # **Required Permissions**: To use this action, an IAM user must have a
     # Manage permissions level for the stack, or an attached policy that
     # explicitly grants permissions. For more information on user
     # permissions, see [Managing User Permissions][2].
@@ -1176,19 +1276,24 @@ module Aws::OpsWorks
     #   use only time-based instances.
     #
     # @option params [String] :hostname
-    #   The instance host name.
+    #   The instance host name. The following are character limits for
+    #   instance host names.
+    #
+    #   * Linux-based instances: 63 characters
+    #
+    #   * Windows-based instances: 15 characters
     #
     # @option params [String] :os
     #   The instance's operating system, which must be set to one of the
     #   following.
     #
     #   * A supported Linux operating system: An Amazon Linux version, such as
-    #     `Amazon Linux 2018.03`, `Amazon Linux 2017.09`, `Amazon Linux
-    #     2017.03`, `Amazon Linux 2016.09`, `Amazon Linux 2016.03`, `Amazon
-    #     Linux 2015.09`, or `Amazon Linux 2015.03`.
+    #     `Amazon Linux 2`, `Amazon Linux 2018.03`, `Amazon Linux 2017.09`,
+    #     `Amazon Linux 2017.03`, `Amazon Linux 2016.09`, `Amazon Linux
+    #     2016.03`, `Amazon Linux 2015.09`, or `Amazon Linux 2015.03`.
     #
-    #   * A supported Ubuntu operating system, such as `Ubuntu 16.04 LTS`,
-    #     `Ubuntu 14.04 LTS`, or `Ubuntu 12.04 LTS`.
+    #   * A supported Ubuntu operating system, such as `Ubuntu 18.04 LTS`,
+    #     `Ubuntu 16.04 LTS`, `Ubuntu 14.04 LTS`, or `Ubuntu 12.04 LTS`.
     #
     #   * `CentOS Linux 7`
     #
@@ -1202,16 +1307,16 @@ module Aws::OpsWorks
     #
     #   * A custom AMI: `Custom`.
     #
-    #   For more information about the supported operating systems, see [AWS
-    #   OpsWorks Stacks Operating Systems][1].
+    #   Not all operating systems are supported with all versions of Chef. For
+    #   more information about the supported operating systems, see [OpsWorks
+    #   Stacks Operating Systems][1].
     #
     #   The default option is the current Amazon Linux version. If you set
     #   this parameter to `Custom`, you must use the CreateInstance action's
     #   AmiId parameter to specify the custom AMI that you want to use. Block
     #   device mappings are not supported if the value is `Custom`. For more
-    #   information about supported operating systems, see [Operating
-    #   Systems][1]For more information about how to use custom AMIs with AWS
-    #   OpsWorks Stacks, see [Using Custom AMIs][2].
+    #   information about how to use custom AMIs with OpsWorks Stacks, see
+    #   [Using Custom AMIs][2].
     #
     #
     #
@@ -1248,8 +1353,8 @@ module Aws::OpsWorks
     # @option params [String] :subnet_id
     #   The ID of the instance's subnet. If the stack is running in a VPC,
     #   you can use this parameter to override the stack's default subnet ID
-    #   value and direct AWS OpsWorks Stacks to launch the instance in a
-    #   different subnet.
+    #   value and direct OpsWorks Stacks to launch the instance in a different
+    #   subnet.
     #
     # @option params [String] :architecture
     #   The instance architecture. The default option is `x86_64`. Instance
@@ -1295,16 +1400,15 @@ module Aws::OpsWorks
     #   Whether to create an Amazon EBS-optimized instance.
     #
     # @option params [String] :agent_version
-    #   The default AWS OpsWorks Stacks agent version. You have the following
+    #   The default OpsWorks Stacks agent version. You have the following
     #   options:
     #
     #   * `INHERIT` - Use the stack's default agent version setting.
     #
     #   * *version\_number* - Use the specified agent version. This value
     #     overrides the stack's default setting. To update the agent version,
-    #     edit the instance configuration and specify a new version. AWS
-    #     OpsWorks Stacks then automatically installs that version on the
-    #     instance.
+    #     edit the instance configuration and specify a new version. OpsWorks
+    #     Stacks installs that version on the instance.
     #
     #   The default setting is `INHERIT`. To specify an agent version, you
     #   must use the complete version number, not the abbreviated number shown
@@ -1392,7 +1496,7 @@ module Aws::OpsWorks
     #
     #  </note>
     #
-    # **Required Permissions**\: To use this action, an IAM user must have a
+    # **Required Permissions**: To use this action, an IAM user must have a
     # Manage permissions level for the stack, or an attached policy that
     # explicitly grants permissions. For more information on user
     # permissions, see [Managing User Permissions][2].
@@ -1411,18 +1515,19 @@ module Aws::OpsWorks
     #   layers are not available in Chef 12 stacks.
     #
     # @option params [required, String] :name
-    #   The layer name, which is used by the console.
+    #   The layer name, which is used by the console. Layer names can be a
+    #   maximum of 32 characters.
     #
     # @option params [required, String] :shortname
     #   For custom layers only, use this parameter to specify the layer's
-    #   short name, which is used internally by AWS OpsWorks Stacks and by
-    #   Chef recipes. The short name is also used as the name for the
-    #   directory where your app files are installed. It can have a maximum of
-    #   200 characters, which are limited to the alphanumeric characters,
-    #   '-', '\_', and '.'.
+    #   short name, which is used internally by OpsWorks Stacks and by Chef
+    #   recipes. The short name is also used as the name for the directory
+    #   where your app files are installed. It can have a maximum of 32
+    #   characters, which are limited to the alphanumeric characters, '-',
+    #   '\_', and '.'.
     #
-    #   The built-in layers' short names are defined by AWS OpsWorks Stacks.
-    #   For more information, see the [Layer Reference][1].
+    #   Built-in layer short names are defined by OpsWorks Stacks. For more
+    #   information, see the [Layer Reference][1].
     #
     #
     #
@@ -1451,7 +1556,7 @@ module Aws::OpsWorks
     #   A JSON-formatted string containing custom stack configuration and
     #   deployment attributes to be installed on the layer's instances. For
     #   more information, see [ Using Custom JSON][1]. This feature is
-    #   supported as of version 1.7.42 of the AWS CLI.
+    #   supported as of version 1.7.42 of the CLI.
     #
     #
     #
@@ -1596,8 +1701,8 @@ module Aws::OpsWorks
     # Creates a new stack. For more information, see [Create a New
     # Stack][1].
     #
-    # **Required Permissions**\: To use this action, an IAM user must have
-    # an attached policy that explicitly grants permissions. For more
+    # **Required Permissions**: To use this action, an IAM user must have an
+    # attached policy that explicitly grants permissions. For more
     # information about user permissions, see [Managing User
     # Permissions][2].
     #
@@ -1607,29 +1712,30 @@ module Aws::OpsWorks
     # [2]: https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html
     #
     # @option params [required, String] :name
-    #   The stack name.
+    #   The stack name. Stack names can be a maximum of 64 characters.
     #
     # @option params [required, String] :region
-    #   The stack's AWS region, such as `ap-south-1`. For more information
-    #   about Amazon regions, see [Regions and Endpoints][1].
+    #   The stack's Amazon Web Services Region, such as `ap-south-1`. For
+    #   more information about Amazon Web Services Regions, see [Regions and
+    #   Endpoints][1].
     #
-    #   <note markdown="1"> In the AWS CLI, this API maps to the `--stack-region` parameter. If
-    #   the `--stack-region` parameter and the AWS CLI common parameter
-    #   `--region` are set to the same value, the stack uses a *regional*
-    #   endpoint. If the `--stack-region` parameter is not set, but the AWS
-    #   CLI `--region` parameter is, this also results in a stack with a
-    #   *regional* endpoint. However, if the `--region` parameter is set to
-    #   `us-east-1`, and the `--stack-region` parameter is set to one of the
-    #   following, then the stack uses a legacy or *classic* region:
-    #   `us-west-1, us-west-2, sa-east-1, eu-central-1, eu-west-1,
-    #   ap-northeast-1, ap-southeast-1, ap-southeast-2`. In this case, the
-    #   actual API endpoint of the stack is in `us-east-1`. Only the preceding
-    #   regions are supported as classic regions in the `us-east-1` API
-    #   endpoint. Because it is a best practice to choose the regional
-    #   endpoint that is closest to where you manage AWS, we recommend that
-    #   you use regional endpoints for new stacks. The AWS CLI common
-    #   `--region` parameter always specifies a regional API endpoint; it
-    #   cannot be used to specify a classic AWS OpsWorks Stacks region.
+    #   <note markdown="1"> In the CLI, this API maps to the `--stack-region` parameter. If the
+    #   `--stack-region` parameter and the CLI common parameter `--region` are
+    #   set to the same value, the stack uses a *regional* endpoint. If the
+    #   `--stack-region` parameter is not set, but the CLI `--region`
+    #   parameter is, this also results in a stack with a *regional* endpoint.
+    #   However, if the `--region` parameter is set to `us-east-1`, and the
+    #   `--stack-region` parameter is set to one of the following, then the
+    #   stack uses a legacy or *classic* region: `us-west-1, us-west-2,
+    #   sa-east-1, eu-central-1, eu-west-1, ap-northeast-1, ap-southeast-1,
+    #   ap-southeast-2`. In this case, the actual API endpoint of the stack is
+    #   in `us-east-1`. Only the preceding regions are supported as classic
+    #   regions in the `us-east-1` API endpoint. Because it is a best practice
+    #   to choose the regional endpoint that is closest to where you manage
+    #   Amazon Web Services, we recommend that you use regional endpoints for
+    #   new stacks. The CLI common `--region` parameter always specifies a
+    #   regional API endpoint; it cannot be used to specify a classic OpsWorks
+    #   Stacks region.
     #
     #    </note>
     #
@@ -1649,8 +1755,8 @@ module Aws::OpsWorks
     #
     #   If the VPC ID corresponds to a default VPC and you have specified
     #   either the `DefaultAvailabilityZone` or the `DefaultSubnetId`
-    #   parameter only, AWS OpsWorks Stacks infers the value of the other
-    #   parameter. If you specify neither parameter, AWS OpsWorks Stacks sets
+    #   parameter only, OpsWorks Stacks infers the value of the other
+    #   parameter. If you specify neither parameter, OpsWorks Stacks sets
     #   these parameters to the first valid Availability Zone for the
     #   specified region and the corresponding default VPC subnet ID,
     #   respectively.
@@ -1662,9 +1768,9 @@ module Aws::OpsWorks
     #
     #   * You must specify a value for `DefaultSubnetId`.
     #
-    #   For more information about how to use AWS OpsWorks Stacks with a VPC,
-    #   see [Running a Stack in a VPC][1]. For more information about default
-    #   VPC and EC2-Classic, see [Supported Platforms][2].
+    #   For more information about how to use OpsWorks Stacks with a VPC, see
+    #   [Running a Stack in a VPC][1]. For more information about default VPC
+    #   and EC2-Classic, see [Supported Platforms][2].
     #
     #
     #
@@ -1676,11 +1782,10 @@ module Aws::OpsWorks
     #   attributes.
     #
     # @option params [required, String] :service_role_arn
-    #   The stack's AWS Identity and Access Management (IAM) role, which
-    #   allows AWS OpsWorks Stacks to work with AWS resources on your behalf.
-    #   You must set this parameter to the Amazon Resource Name (ARN) for an
-    #   existing IAM role. For more information about IAM ARNs, see [Using
-    #   Identifiers][1].
+    #   The stack's IAM role, which allows OpsWorks Stacks to work with
+    #   Amazon Web Services resources on your behalf. You must set this
+    #   parameter to the Amazon Resource Name (ARN) for an existing IAM role.
+    #   For more information about IAM ARNs, see [Using Identifiers][1].
     #
     #
     #
@@ -1701,12 +1806,12 @@ module Aws::OpsWorks
     #   create the instance. You can specify one of the following.
     #
     #   * A supported Linux operating system: An Amazon Linux version, such as
-    #     `Amazon Linux 2018.03`, `Amazon Linux 2017.09`, `Amazon Linux
-    #     2017.03`, `Amazon Linux 2016.09`, `Amazon Linux 2016.03`, `Amazon
-    #     Linux 2015.09`, or `Amazon Linux 2015.03`.
+    #     `Amazon Linux 2`, `Amazon Linux 2018.03`, `Amazon Linux 2017.09`,
+    #     `Amazon Linux 2017.03`, `Amazon Linux 2016.09`, `Amazon Linux
+    #     2016.03`, `Amazon Linux 2015.09`, or `Amazon Linux 2015.03`.
     #
-    #   * A supported Ubuntu operating system, such as `Ubuntu 16.04 LTS`,
-    #     `Ubuntu 14.04 LTS`, or `Ubuntu 12.04 LTS`.
+    #   * A supported Ubuntu operating system, such as `Ubuntu 18.04 LTS`,
+    #     `Ubuntu 16.04 LTS`, `Ubuntu 14.04 LTS`, or `Ubuntu 12.04 LTS`.
     #
     #   * `CentOS Linux 7`
     #
@@ -1722,9 +1827,10 @@ module Aws::OpsWorks
     #     when you create instances. For more information, see [ Using Custom
     #     AMIs][1].
     #
-    #   The default option is the current Amazon Linux version. For more
-    #   information about supported operating systems, see [AWS OpsWorks
-    #   Stacks Operating Systems][2].
+    #   The default option is the current Amazon Linux version. Not all
+    #   operating systems are supported with all versions of Chef. For more
+    #   information about supported operating systems, see [OpsWorks Stacks
+    #   Operating Systems][2].
     #
     #
     #
@@ -1789,7 +1895,7 @@ module Aws::OpsWorks
     #   values or to pass data to recipes. The string should be in the
     #   following format:
     #
-    #   `"\{"key1": "value1", "key2": "value2",...\}"`
+    #   `"{"key1": "value1", "key2": "value2",...}"`
     #
     #   For more information about custom JSON, see [Use Custom JSON to Modify
     #   the Stack Configuration Attributes][1].
@@ -1817,26 +1923,26 @@ module Aws::OpsWorks
     #   Whether the stack uses custom cookbooks.
     #
     # @option params [Boolean] :use_opsworks_security_groups
-    #   Whether to associate the AWS OpsWorks Stacks built-in security groups
-    #   with the stack's layers.
+    #   Whether to associate the OpsWorks Stacks built-in security groups with
+    #   the stack's layers.
     #
-    #   AWS OpsWorks Stacks provides a standard set of built-in security
-    #   groups, one for each layer, which are associated with layers by
-    #   default. With `UseOpsworksSecurityGroups` you can instead provide your
-    #   own custom security groups. `UseOpsworksSecurityGroups` has the
-    #   following settings:
+    #   OpsWorks Stacks provides a standard set of built-in security groups,
+    #   one for each layer, which are associated with layers by default. With
+    #   `UseOpsworksSecurityGroups` you can instead provide your own custom
+    #   security groups. `UseOpsworksSecurityGroups` has the following
+    #   settings:
     #
-    #   * True - AWS OpsWorks Stacks automatically associates the appropriate
+    #   * True - OpsWorks Stacks automatically associates the appropriate
     #     built-in security group with each layer (default setting). You can
     #     associate additional security groups with a layer after you create
     #     it, but you cannot delete the built-in security group.
     #
-    #   * False - AWS OpsWorks Stacks does not associate built-in security
-    #     groups with layers. You must create appropriate EC2 security groups
-    #     and associate a security group with each layer that you create.
-    #     However, you can still manually associate a built-in security group
-    #     with a layer on creation; custom security groups are required only
-    #     for those layers that need custom settings.
+    #   * False - OpsWorks Stacks does not associate built-in security groups
+    #     with layers. You must create appropriate EC2 security groups and
+    #     associate a security group with each layer that you create. However,
+    #     you can still manually associate a built-in security group with a
+    #     layer on creation; custom security groups are required only for
+    #     those layers that need custom settings.
     #
     #   For more information, see [Create a New Stack][1].
     #
@@ -1856,7 +1962,7 @@ module Aws::OpsWorks
     #
     # @option params [String] :default_ssh_key_name
     #   A default Amazon EC2 key pair name. The default value is none. If you
-    #   specify a key pair name, AWS OpsWorks installs the public key on the
+    #   specify a key pair name, OpsWorks installs the public key on the
     #   instance and you can use the private key with an SSH client to log in
     #   to the instance. For more information, see [ Using SSH to Communicate
     #   with an Instance][1] and [ Managing SSH Access][2]. You can override
@@ -1880,17 +1986,17 @@ module Aws::OpsWorks
     #   [1]: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ComponentsAMIs.html#storage-for-the-root-device
     #
     # @option params [String] :agent_version
-    #   The default AWS OpsWorks Stacks agent version. You have the following
+    #   The default OpsWorks Stacks agent version. You have the following
     #   options:
     #
-    #   * Auto-update - Set this parameter to `LATEST`. AWS OpsWorks Stacks
+    #   * Auto-update - Set this parameter to `LATEST`. OpsWorks Stacks
     #     automatically installs new agent versions on the stack's instances
     #     as soon as they are available.
     #
     #   * Fixed version - Set this parameter to your preferred agent version.
     #     To update the agent version, you must edit the stack configuration
-    #     and specify a new version. AWS OpsWorks Stacks then automatically
-    #     installs that version on the stack's instances.
+    #     and specify a new version. OpsWorks Stacks installs that version on
+    #     the stack's instances.
     #
     #   The default setting is the most recent release of the agent. To
     #   specify an agent version, you must use the complete version number,
@@ -1961,8 +2067,8 @@ module Aws::OpsWorks
 
     # Creates a new user profile.
     #
-    # **Required Permissions**\: To use this action, an IAM user must have
-    # an attached policy that explicitly grants permissions. For more
+    # **Required Permissions**: To use this action, an IAM user must have an
+    # attached policy that explicitly grants permissions. For more
     # information about user permissions, see [Managing User
     # Permissions][1].
     #
@@ -1976,10 +2082,9 @@ module Aws::OpsWorks
     # @option params [String] :ssh_username
     #   The user's SSH user name. The allowable characters are \[a-z\],
     #   \[A-Z\], \[0-9\], '-', and '\_'. If the specified name includes
-    #   other punctuation marks, AWS OpsWorks Stacks removes them. For
-    #   example, `my.name` will be changed to `myname`. If you do not specify
-    #   an SSH user name, AWS OpsWorks Stacks generates one from the IAM user
-    #   name.
+    #   other punctuation marks, OpsWorks Stacks removes them. For example,
+    #   `my.name` is changed to `myname`. If you do not specify an SSH user
+    #   name, OpsWorks Stacks generates one from the IAM user name.
     #
     # @option params [String] :ssh_public_key
     #   The user's public SSH key.
@@ -2021,7 +2126,7 @@ module Aws::OpsWorks
 
     # Deletes a specified app.
     #
-    # **Required Permissions**\: To use this action, an IAM user must have a
+    # **Required Permissions**: To use this action, an IAM user must have a
     # Manage permissions level for the stack, or an attached policy that
     # explicitly grants permissions. For more information on user
     # permissions, see [Managing User Permissions][1].
@@ -2055,7 +2160,7 @@ module Aws::OpsWorks
     #
     # For more information, see [Deleting Instances][1].
     #
-    # **Required Permissions**\: To use this action, an IAM user must have a
+    # **Required Permissions**: To use this action, an IAM user must have a
     # Manage permissions level for the stack, or an attached policy that
     # explicitly grants permissions. For more information on user
     # permissions, see [Managing User Permissions][2].
@@ -2097,7 +2202,7 @@ module Aws::OpsWorks
     # associated instances or unassign registered instances. For more
     # information, see [How to Delete a Layer][1].
     #
-    # **Required Permissions**\: To use this action, an IAM user must have a
+    # **Required Permissions**: To use this action, an IAM user must have a
     # Manage permissions level for the stack, or an attached policy that
     # explicitly grants permissions. For more information on user
     # permissions, see [Managing User Permissions][2].
@@ -2131,7 +2236,7 @@ module Aws::OpsWorks
     # layers, and apps or deregister registered instances. For more
     # information, see [Shut Down a Stack][1].
     #
-    # **Required Permissions**\: To use this action, an IAM user must have a
+    # **Required Permissions**: To use this action, an IAM user must have a
     # Manage permissions level for the stack, or an attached policy that
     # explicitly grants permissions. For more information on user
     # permissions, see [Managing User Permissions][2].
@@ -2163,8 +2268,8 @@ module Aws::OpsWorks
 
     # Deletes a user profile.
     #
-    # **Required Permissions**\: To use this action, an IAM user must have
-    # an attached policy that explicitly grants permissions. For more
+    # **Required Permissions**: To use this action, an IAM user must have an
+    # attached policy that explicitly grants permissions. For more
     # information about user permissions, see [Managing User
     # Permissions][1].
     #
@@ -2195,7 +2300,7 @@ module Aws::OpsWorks
     # Deregisters a specified Amazon ECS cluster from a stack. For more
     # information, see [ Resource Management][1].
     #
-    # **Required Permissions**\: To use this action, an IAM user must have a
+    # **Required Permissions**: To use this action, an IAM user must have a
     # Manage permissions level for the stack or an attached policy that
     # explicitly grants permissions. For more information on user
     # permissions, see
@@ -2226,11 +2331,11 @@ module Aws::OpsWorks
       req.send_request(options)
     end
 
-    # Deregisters a specified Elastic IP address. The address can then be
-    # registered by another stack. For more information, see [Resource
-    # Management][1].
+    # Deregisters a specified Elastic IP address. The address can be
+    # registered by another stack after it is deregistered. For more
+    # information, see [Resource Management][1].
     #
-    # **Required Permissions**\: To use this action, an IAM user must have a
+    # **Required Permissions**: To use this action, an IAM user must have a
     # Manage permissions level for the stack, or an attached policy that
     # explicitly grants permissions. For more information on user
     # permissions, see [Managing User Permissions][2].
@@ -2260,12 +2365,12 @@ module Aws::OpsWorks
       req.send_request(options)
     end
 
-    # Deregister a registered Amazon EC2 or on-premises instance. This
-    # action removes the instance from the stack and returns it to your
-    # control. This action cannot be used with instances that were created
-    # with AWS OpsWorks Stacks.
+    # Deregister an instance from OpsWorks Stacks. The instance can be a
+    # registered instance (Amazon EC2 or on-premises) or an instance created
+    # with OpsWorks. This action removes the instance from the stack and
+    # returns it to your control.
     #
-    # **Required Permissions**\: To use this action, an IAM user must have a
+    # **Required Permissions**: To use this action, an IAM user must have a
     # Manage permissions level for the stack or an attached policy that
     # explicitly grants permissions. For more information on user
     # permissions, see [Managing User Permissions][1].
@@ -2296,7 +2401,7 @@ module Aws::OpsWorks
 
     # Deregisters an Amazon RDS instance.
     #
-    # **Required Permissions**\: To use this action, an IAM user must have a
+    # **Required Permissions**: To use this action, an IAM user must have a
     # Manage permissions level for the stack, or an attached policy that
     # explicitly grants permissions. For more information on user
     # permissions, see [Managing User Permissions][1].
@@ -2328,7 +2433,7 @@ module Aws::OpsWorks
     # Deregisters an Amazon EBS volume. The volume can then be registered by
     # another stack. For more information, see [Resource Management][1].
     #
-    # **Required Permissions**\: To use this action, an IAM user must have a
+    # **Required Permissions**: To use this action, an IAM user must have a
     # Manage permissions level for the stack, or an attached policy that
     # explicitly grants permissions. For more information on user
     # permissions, see [Managing User Permissions][2].
@@ -2339,9 +2444,9 @@ module Aws::OpsWorks
     # [2]: https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-users.html
     #
     # @option params [required, String] :volume_id
-    #   The AWS OpsWorks Stacks volume ID, which is the GUID that AWS OpsWorks
-    #   Stacks assigned to the instance when you registered the volume with
-    #   the stack, not the Amazon EC2 volume ID.
+    #   The OpsWorks Stacks volume ID, which is the GUID that OpsWorks Stacks
+    #   assigned to the instance when you registered the volume with the
+    #   stack, not the Amazon EC2 volume ID.
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
@@ -2360,7 +2465,7 @@ module Aws::OpsWorks
       req.send_request(options)
     end
 
-    # Describes the available AWS OpsWorks Stacks agent versions. You must
+    # Describes the available OpsWorks Stacks agent versions. You must
     # specify a stack ID or a configuration manager. `DescribeAgentVersions`
     # returns a list of available agent versions for the specified stack or
     # configuration manager.
@@ -2407,7 +2512,7 @@ module Aws::OpsWorks
     #
     #  </note>
     #
-    # **Required Permissions**\: To use this action, an IAM user must have a
+    # **Required Permissions**: To use this action, an IAM user must have a
     # Show, Deploy, or Manage permissions level for the stack, or an
     # attached policy that explicitly grants permissions. For more
     # information about user permissions, see [Managing User
@@ -2490,7 +2595,7 @@ module Aws::OpsWorks
     #
     #  </note>
     #
-    # **Required Permissions**\: To use this action, an IAM user must have a
+    # **Required Permissions**: To use this action, an IAM user must have a
     # Show, Deploy, or Manage permissions level for the stack, or an
     # attached policy that explicitly grants permissions. For more
     # information about user permissions, see [Managing User
@@ -2556,7 +2661,7 @@ module Aws::OpsWorks
     #
     #  </note>
     #
-    # **Required Permissions**\: To use this action, an IAM user must have a
+    # **Required Permissions**: To use this action, an IAM user must have a
     # Show, Deploy, or Manage permissions level for the stack, or an
     # attached policy that explicitly grants permissions. For more
     # information about user permissions, see [Managing User
@@ -2627,11 +2732,11 @@ module Aws::OpsWorks
 
     # Describes Amazon ECS clusters that are registered with a stack. If you
     # specify only a stack ID, you can use the `MaxResults` and `NextToken`
-    # parameters to paginate the response. However, AWS OpsWorks Stacks
+    # parameters to paginate the response. However, OpsWorks Stacks
     # currently supports only one cluster per layer, so the result set has a
     # maximum of one element.
     #
-    # **Required Permissions**\: To use this action, an IAM user must have a
+    # **Required Permissions**: To use this action, an IAM user must have a
     # Show, Deploy, or Manage permissions level for the stack or an attached
     # policy that explicitly grants permission. For more information about
     # user permissions, see [Managing User Permissions][1].
@@ -2704,7 +2809,7 @@ module Aws::OpsWorks
     #
     #  </note>
     #
-    # **Required Permissions**\: To use this action, an IAM user must have a
+    # **Required Permissions**: To use this action, an IAM user must have a
     # Show, Deploy, or Manage permissions level for the stack, or an
     # attached policy that explicitly grants permissions. For more
     # information about user permissions, see [Managing User
@@ -2767,7 +2872,7 @@ module Aws::OpsWorks
     #
     #  </note>
     #
-    # **Required Permissions**\: To use this action, an IAM user must have a
+    # **Required Permissions**: To use this action, an IAM user must have a
     # Show, Deploy, or Manage permissions level for the stack, or an
     # attached policy that explicitly grants permissions. For more
     # information about user permissions, see [Managing User
@@ -2827,7 +2932,7 @@ module Aws::OpsWorks
     #
     #  </note>
     #
-    # **Required Permissions**\: To use this action, an IAM user must have a
+    # **Required Permissions**: To use this action, an IAM user must have a
     # Show, Deploy, or Manage permissions level for the stack, or an
     # attached policy that explicitly grants permissions. For more
     # information about user permissions, see [Managing User
@@ -2942,7 +3047,7 @@ module Aws::OpsWorks
     #
     #  </note>
     #
-    # **Required Permissions**\: To use this action, an IAM user must have a
+    # **Required Permissions**: To use this action, an IAM user must have a
     # Show, Deploy, or Manage permissions level for the stack, or an
     # attached policy that explicitly grants permissions. For more
     # information about user permissions, see [Managing User
@@ -3055,7 +3160,7 @@ module Aws::OpsWorks
     #
     #  </note>
     #
-    # **Required Permissions**\: To use this action, an IAM user must have a
+    # **Required Permissions**: To use this action, an IAM user must have a
     # Show, Deploy, or Manage permissions level for the stack, or an
     # attached policy that explicitly grants permissions. For more
     # information about user permissions, see [Managing User
@@ -3111,7 +3216,7 @@ module Aws::OpsWorks
 
     # Describes a user's SSH information.
     #
-    # **Required Permissions**\: To use this action, an IAM user must have
+    # **Required Permissions**: To use this action, an IAM user must have
     # self-management enabled or an attached policy that explicitly grants
     # permissions. For more information about user permissions, see
     # [Managing User Permissions][1].
@@ -3140,8 +3245,7 @@ module Aws::OpsWorks
       req.send_request(options)
     end
 
-    # Describes the operating systems that are supported by AWS OpsWorks
-    # Stacks.
+    # Describes the operating systems that are supported by OpsWorks Stacks.
     #
     # @return [Types::DescribeOperatingSystemsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -3171,7 +3275,7 @@ module Aws::OpsWorks
 
     # Describes the permissions for a specified stack.
     #
-    # **Required Permissions**\: To use this action, an IAM user must have a
+    # **Required Permissions**: To use this action, an IAM user must have a
     # Manage permissions level for the stack, or an attached policy that
     # explicitly grants permissions. For more information on user
     # permissions, see [Managing User Permissions][1].
@@ -3226,7 +3330,7 @@ module Aws::OpsWorks
     #
     #  </note>
     #
-    # **Required Permissions**\: To use this action, an IAM user must have a
+    # **Required Permissions**: To use this action, an IAM user must have a
     # Show, Deploy, or Manage permissions level for the stack, or an
     # attached policy that explicitly grants permissions. For more
     # information about user permissions, see [Managing User
@@ -3289,7 +3393,7 @@ module Aws::OpsWorks
 
     # Describes Amazon RDS instances.
     #
-    # **Required Permissions**\: To use this action, an IAM user must have a
+    # **Required Permissions**: To use this action, an IAM user must have a
     # Show, Deploy, or Manage permissions level for the stack, or an
     # attached policy that explicitly grants permissions. For more
     # information about user permissions, see [Managing User
@@ -3341,9 +3445,9 @@ module Aws::OpsWorks
       req.send_request(options)
     end
 
-    # Describes AWS OpsWorks Stacks service errors.
+    # Describes OpsWorks Stacks service errors.
     #
-    # **Required Permissions**\: To use this action, an IAM user must have a
+    # **Required Permissions**: To use this action, an IAM user must have a
     # Show, Deploy, or Manage permissions level for the stack, or an
     # attached policy that explicitly grants permissions. For more
     # information about user permissions, see [Managing User
@@ -3403,7 +3507,7 @@ module Aws::OpsWorks
 
     # Requests a description of a stack's provisioning parameters.
     #
-    # **Required Permissions**\: To use this action, an IAM user must have a
+    # **Required Permissions**: To use this action, an IAM user must have a
     # Show, Deploy, or Manage permissions level for the stack or an attached
     # policy that explicitly grants permissions. For more information about
     # user permissions, see [Managing User Permissions][1].
@@ -3445,7 +3549,7 @@ module Aws::OpsWorks
     # number of instances in each state, such as `running_setup` or
     # `online`.
     #
-    # **Required Permissions**\: To use this action, an IAM user must have a
+    # **Required Permissions**: To use this action, an IAM user must have a
     # Show, Deploy, or Manage permissions level for the stack, or an
     # attached policy that explicitly grants permissions. For more
     # information about user permissions, see [Managing User
@@ -3507,7 +3611,7 @@ module Aws::OpsWorks
 
     # Requests a description of one or more stacks.
     #
-    # **Required Permissions**\: To use this action, an IAM user must have a
+    # **Required Permissions**: To use this action, an IAM user must have a
     # Show, Deploy, or Manage permissions level for the stack, or an
     # attached policy that explicitly grants permissions. For more
     # information about user permissions, see [Managing User
@@ -3519,8 +3623,12 @@ module Aws::OpsWorks
     #
     # @option params [Array<String>] :stack_ids
     #   An array of stack IDs that specify the stacks to be described. If you
-    #   omit this parameter, `DescribeStacks` returns a description of every
-    #   stack.
+    #   omit this parameter, and have permissions to get information about all
+    #   stacks, `DescribeStacks` returns a description of every stack. If the
+    #   IAM policy that is attached to an IAM user limits the `DescribeStacks`
+    #   action to specific stack ARNs, this parameter is required, and the
+    #   user must specify a stack ARN that is allowed by the policy.
+    #   Otherwise, `DescribeStacks` returns an `AccessDenied` error.
     #
     # @return [Types::DescribeStacksResult] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -3582,7 +3690,7 @@ module Aws::OpsWorks
     #
     #  </note>
     #
-    # **Required Permissions**\: To use this action, an IAM user must have a
+    # **Required Permissions**: To use this action, an IAM user must have a
     # Show, Deploy, or Manage permissions level for the stack, or an
     # attached policy that explicitly grants permissions. For more
     # information about user permissions, see [Managing User
@@ -3635,8 +3743,8 @@ module Aws::OpsWorks
 
     # Describe specified users.
     #
-    # **Required Permissions**\: To use this action, an IAM user must have
-    # an attached policy that explicitly grants permissions. For more
+    # **Required Permissions**: To use this action, an IAM user must have an
+    # attached policy that explicitly grants permissions. For more
     # information about user permissions, see [Managing User
     # Permissions][1].
     #
@@ -3682,7 +3790,7 @@ module Aws::OpsWorks
     #
     #  </note>
     #
-    # **Required Permissions**\: To use this action, an IAM user must have a
+    # **Required Permissions**: To use this action, an IAM user must have a
     # Show, Deploy, or Manage permissions level for the stack, or an
     # attached policy that explicitly grants permissions. For more
     # information about user permissions, see [Managing User
@@ -3752,7 +3860,7 @@ module Aws::OpsWorks
 
     # Detaches a specified Elastic Load Balancing instance from its layer.
     #
-    # **Required Permissions**\: To use this action, an IAM user must have a
+    # **Required Permissions**: To use this action, an IAM user must have a
     # Manage permissions level for the stack, or an attached policy that
     # explicitly grants permissions. For more information on user
     # permissions, see [Managing User Permissions][1].
@@ -3790,7 +3898,7 @@ module Aws::OpsWorks
     # remains registered with the stack. For more information, see [Resource
     # Management][1].
     #
-    # **Required Permissions**\: To use this action, an IAM user must have a
+    # **Required Permissions**: To use this action, an IAM user must have a
     # Manage permissions level for the stack, or an attached policy that
     # explicitly grants permissions. For more information on user
     # permissions, see [Managing User Permissions][2].
@@ -3823,7 +3931,7 @@ module Aws::OpsWorks
     # Gets a generated host name for the specified layer, based on the
     # current host name theme.
     #
-    # **Required Permissions**\: To use this action, an IAM user must have a
+    # **Required Permissions**: To use this action, an IAM user must have a
     # Manage permissions level for the stack, or an attached policy that
     # explicitly grants permissions. For more information on user
     # permissions, see [Managing User Permissions][1].
@@ -3867,13 +3975,13 @@ module Aws::OpsWorks
     # Grants RDP access to a Windows instance for a specified time period.
     #
     # @option params [required, String] :instance_id
-    #   The instance's AWS OpsWorks Stacks ID.
+    #   The instance's OpsWorks Stacks ID.
     #
     # @option params [Integer] :valid_for_in_minutes
     #   The length of time (in minutes) that the grant is valid. When the
     #   grant expires at the end of this period, the user will no longer be
     #   able to use the credentials to log in. If the user is logged in at the
-    #   time, he or she automatically will be logged out.
+    #   time, they are logged out.
     #
     # @return [Types::GrantAccessResult] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -3947,7 +4055,7 @@ module Aws::OpsWorks
     # Reboots a specified instance. For more information, see [Starting,
     # Stopping, and Rebooting Instances][1].
     #
-    # **Required Permissions**\: To use this action, an IAM user must have a
+    # **Required Permissions**: To use this action, an IAM user must have a
     # Manage permissions level for the stack, or an attached policy that
     # explicitly grants permissions. For more information on user
     # permissions, see [Managing User Permissions][2].
@@ -3982,7 +4090,7 @@ module Aws::OpsWorks
     # with only one stack. For more information, see [ Resource
     # Management][1].
     #
-    # **Required Permissions**\: To use this action, an IAM user must have a
+    # **Required Permissions**: To use this action, an IAM user must have a
     # Manage permissions level for the stack or an attached policy that
     # explicitly grants permissions. For more information on user
     # permissions, see [ Managing User Permissions][2].
@@ -4028,7 +4136,7 @@ module Aws::OpsWorks
     # DeregisterElasticIp. For more information, see [Resource
     # Management][1].
     #
-    # **Required Permissions**\: To use this action, an IAM user must have a
+    # **Required Permissions**: To use this action, an IAM user must have a
     # Manage permissions level for the stack, or an attached policy that
     # explicitly grants permissions. For more information on user
     # permissions, see [Managing User Permissions][2].
@@ -4068,16 +4176,16 @@ module Aws::OpsWorks
       req.send_request(options)
     end
 
-    # Registers instances that were created outside of AWS OpsWorks Stacks
-    # with a specified stack.
+    # Registers instances that were created outside of OpsWorks Stacks with
+    # a specified stack.
     #
     # <note markdown="1"> We do not recommend using this action to register instances. The
-    # complete registration operation includes two tasks: installing the AWS
+    # complete registration operation includes two tasks: installing the
     # OpsWorks Stacks agent on the instance, and registering the instance
     # with the stack. `RegisterInstance` handles only the second step. You
-    # should instead use the AWS CLI `register` command, which performs the
+    # should instead use the CLI `register` command, which performs the
     # entire registration operation. For more information, see [ Registering
-    # an Instance with an AWS OpsWorks Stacks Stack][1].
+    # an Instance with an OpsWorks Stacks Stack][1].
     #
     #  </note>
     #
@@ -4088,7 +4196,7 @@ module Aws::OpsWorks
     # about requirements for instances that you want to register, see [
     # Preparing the Instance][2].
     #
-    # **Required Permissions**\: To use this action, an IAM user must have a
+    # **Required Permissions**: To use this action, an IAM user must have a
     # Manage permissions level for the stack or an attached policy that
     # explicitly grants permissions. For more information on user
     # permissions, see [Managing User Permissions][3].
@@ -4103,7 +4211,12 @@ module Aws::OpsWorks
     #   The ID of the stack that the instance is to be registered with.
     #
     # @option params [String] :hostname
-    #   The instance's hostname.
+    #   The instance's host name. The following are character limits for
+    #   instance host names.
+    #
+    #   * Linux-based instances: 63 characters
+    #
+    #   * Windows-based instances: 15 characters
     #
     # @option params [String] :public_ip
     #   The instance's public IP address.
@@ -4155,7 +4268,7 @@ module Aws::OpsWorks
 
     # Registers an Amazon RDS instance with a stack.
     #
-    # **Required Permissions**\: To use this action, an IAM user must have a
+    # **Required Permissions**: To use this action, an IAM user must have a
     # Manage permissions level for the stack, or an attached policy that
     # explicitly grants permissions. For more information on user
     # permissions, see [Managing User Permissions][1].
@@ -4201,7 +4314,7 @@ module Aws::OpsWorks
     # registered, you must first deregister it by calling DeregisterVolume.
     # For more information, see [Resource Management][1].
     #
-    # **Required Permissions**\: To use this action, an IAM user must have a
+    # **Required Permissions**: To use this action, an IAM user must have a
     # Manage permissions level for the stack, or an attached policy that
     # explicitly grants permissions. For more information on user
     # permissions, see [Managing User Permissions][2].
@@ -4252,7 +4365,7 @@ module Aws::OpsWorks
     #
     #  </note>
     #
-    # **Required Permissions**\: To use this action, an IAM user must have a
+    # **Required Permissions**: To use this action, an IAM user must have a
     # Manage permissions level for the stack, or an attached policy that
     # explicitly grants permissions. For more information on user
     # permissions, see [Managing User Permissions][2].
@@ -4271,14 +4384,14 @@ module Aws::OpsWorks
     # @option params [Types::AutoScalingThresholds] :up_scaling
     #   An `AutoScalingThresholds` object with the upscaling threshold
     #   configuration. If the load exceeds these thresholds for a specified
-    #   amount of time, AWS OpsWorks Stacks starts a specified number of
+    #   amount of time, OpsWorks Stacks starts a specified number of
     #   instances.
     #
     # @option params [Types::AutoScalingThresholds] :down_scaling
     #   An `AutoScalingThresholds` object with the downscaling threshold
     #   configuration. If the load falls below these thresholds for a
-    #   specified amount of time, AWS OpsWorks Stacks stops a specified number
-    #   of instances.
+    #   specified amount of time, OpsWorks Stacks stops a specified number of
+    #   instances.
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
@@ -4319,7 +4432,7 @@ module Aws::OpsWorks
     # Specifies a user's permissions. For more information, see [Security
     # and Permissions][1].
     #
-    # **Required Permissions**\: To use this action, an IAM user must have a
+    # **Required Permissions**: To use this action, an IAM user must have a
     # Manage permissions level for the stack, or an attached policy that
     # explicitly grants permissions. For more information on user
     # permissions, see [Managing User Permissions][2].
@@ -4387,7 +4500,7 @@ module Aws::OpsWorks
     # instance. For more information, see [Managing Load with Time-based and
     # Load-based Instances][1].
     #
-    # **Required Permissions**\: To use this action, an IAM user must have a
+    # **Required Permissions**: To use this action, an IAM user must have a
     # Manage permissions level for the stack, or an attached policy that
     # explicitly grants permissions. For more information on user
     # permissions, see [Managing User Permissions][2].
@@ -4446,7 +4559,7 @@ module Aws::OpsWorks
     # Starts a specified instance. For more information, see [Starting,
     # Stopping, and Rebooting Instances][1].
     #
-    # **Required Permissions**\: To use this action, an IAM user must have a
+    # **Required Permissions**: To use this action, an IAM user must have a
     # Manage permissions level for the stack, or an attached policy that
     # explicitly grants permissions. For more information on user
     # permissions, see [Managing User Permissions][2].
@@ -4478,7 +4591,7 @@ module Aws::OpsWorks
 
     # Starts a stack's instances.
     #
-    # **Required Permissions**\: To use this action, an IAM user must have a
+    # **Required Permissions**: To use this action, an IAM user must have a
     # Manage permissions level for the stack, or an attached policy that
     # explicitly grants permissions. For more information on user
     # permissions, see [Managing User Permissions][1].
@@ -4513,7 +4626,7 @@ module Aws::OpsWorks
     # more information, see [Starting, Stopping, and Rebooting
     # Instances][1].
     #
-    # **Required Permissions**\: To use this action, an IAM user must have a
+    # **Required Permissions**: To use this action, an IAM user must have a
     # Manage permissions level for the stack, or an attached policy that
     # explicitly grants permissions. For more information on user
     # permissions, see [Managing User Permissions][2].
@@ -4529,11 +4642,11 @@ module Aws::OpsWorks
     # @option params [Boolean] :force
     #   Specifies whether to force an instance to stop. If the instance's
     #   root device type is `ebs`, or EBS-backed, adding the `Force` parameter
-    #   to the `StopInstances` API call disassociates the AWS OpsWorks Stacks
+    #   to the `StopInstances` API call disassociates the OpsWorks Stacks
     #   instance from EC2, and forces deletion of *only* the OpsWorks Stacks
     #   instance. You must also delete the formerly-associated instance in EC2
-    #   after troubleshooting and replacing the AWS OpsWorks Stacks instance
-    #   with a new one.
+    #   after troubleshooting and replacing the OpsWorks Stacks instance with
+    #   a new one.
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
@@ -4555,7 +4668,7 @@ module Aws::OpsWorks
 
     # Stops a specified stack.
     #
-    # **Required Permissions**\: To use this action, an IAM user must have a
+    # **Required Permissions**: To use this action, an IAM user must have a
     # Manage permissions level for the stack, or an attached policy that
     # explicitly grants permissions. For more information on user
     # permissions, see [Managing User Permissions][1].
@@ -4584,9 +4697,9 @@ module Aws::OpsWorks
       req.send_request(options)
     end
 
-    # Apply cost-allocation tags to a specified stack or layer in AWS
-    # OpsWorks Stacks. For more information about how tagging works, see
-    # [Tags][1] in the AWS OpsWorks User Guide.
+    # Apply cost-allocation tags to a specified stack or layer in OpsWorks
+    # Stacks. For more information about how tagging works, see [Tags][1] in
+    # the OpsWorks User Guide.
     #
     #
     #
@@ -4637,9 +4750,9 @@ module Aws::OpsWorks
     # Unassigns a registered instance from all layers that are using the
     # instance. The instance remains in the stack as an unassigned instance,
     # and can be assigned to another layer as needed. You cannot use this
-    # action with instances that were created with AWS OpsWorks Stacks.
+    # action with instances that were created with OpsWorks Stacks.
     #
-    # **Required Permissions**\: To use this action, an IAM user must have a
+    # **Required Permissions**: To use this action, an IAM user must have a
     # Manage permissions level for the stack or an attached policy that
     # explicitly grants permissions. For more information about user
     # permissions, see [Managing User Permissions][1].
@@ -4671,7 +4784,7 @@ module Aws::OpsWorks
     # Unassigns an assigned Amazon EBS volume. The volume remains registered
     # with the stack. For more information, see [Resource Management][1].
     #
-    # **Required Permissions**\: To use this action, an IAM user must have a
+    # **Required Permissions**: To use this action, an IAM user must have a
     # Manage permissions level for the stack, or an attached policy that
     # explicitly grants permissions. For more information on user
     # permissions, see [Managing User Permissions][2].
@@ -4729,7 +4842,7 @@ module Aws::OpsWorks
 
     # Updates a specified app.
     #
-    # **Required Permissions**\: To use this action, an IAM user must have a
+    # **Required Permissions**: To use this action, an IAM user must have a
     # Deploy or Manage permissions level for the stack, or an attached
     # policy that explicitly grants permissions. For more information on
     # user permissions, see [Managing User Permissions][1].
@@ -4847,7 +4960,7 @@ module Aws::OpsWorks
     # Updates a registered Elastic IP address's name. For more information,
     # see [Resource Management][1].
     #
-    # **Required Permissions**\: To use this action, an IAM user must have a
+    # **Required Permissions**: To use this action, an IAM user must have a
     # Manage permissions level for the stack, or an attached policy that
     # explicitly grants permissions. For more information on user
     # permissions, see [Managing User Permissions][2].
@@ -4861,7 +4974,7 @@ module Aws::OpsWorks
     #   The IP address for which you want to update the name.
     #
     # @option params [String] :name
-    #   The new name.
+    #   The new name, which can be a maximum of 32 characters.
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
@@ -4883,7 +4996,7 @@ module Aws::OpsWorks
 
     # Updates a specified instance.
     #
-    # **Required Permissions**\: To use this action, an IAM user must have a
+    # **Required Permissions**: To use this action, an IAM user must have a
     # Manage permissions level for the stack, or an attached policy that
     # explicitly grants permissions. For more information on user
     # permissions, see [Managing User Permissions][1].
@@ -4916,19 +5029,24 @@ module Aws::OpsWorks
     #   use only time-based instances.
     #
     # @option params [String] :hostname
-    #   The instance host name.
+    #   The instance host name. The following are character limits for
+    #   instance host names.
+    #
+    #   * Linux-based instances: 63 characters
+    #
+    #   * Windows-based instances: 15 characters
     #
     # @option params [String] :os
     #   The instance's operating system, which must be set to one of the
     #   following. You cannot update an instance that is using a custom AMI.
     #
     #   * A supported Linux operating system: An Amazon Linux version, such as
-    #     `Amazon Linux 2018.03`, `Amazon Linux 2017.09`, `Amazon Linux
-    #     2017.03`, `Amazon Linux 2016.09`, `Amazon Linux 2016.03`, `Amazon
-    #     Linux 2015.09`, or `Amazon Linux 2015.03`.
+    #     `Amazon Linux 2`, `Amazon Linux 2018.03`, `Amazon Linux 2017.09`,
+    #     `Amazon Linux 2017.03`, `Amazon Linux 2016.09`, `Amazon Linux
+    #     2016.03`, `Amazon Linux 2015.09`, or `Amazon Linux 2015.03`.
     #
-    #   * A supported Ubuntu operating system, such as `Ubuntu 16.04 LTS`,
-    #     `Ubuntu 14.04 LTS`, or `Ubuntu 12.04 LTS`.
+    #   * A supported Ubuntu operating system, such as `Ubuntu 18.04 LTS`,
+    #     `Ubuntu 16.04 LTS`, `Ubuntu 14.04 LTS`, or `Ubuntu 12.04 LTS`.
     #
     #   * `CentOS Linux 7`
     #
@@ -4940,15 +5058,15 @@ module Aws::OpsWorks
     #     Standard`, or `Microsoft Windows Server 2012 R2 with SQL Server
     #     Web`.
     #
-    #   For more information about supported operating systems, see [AWS
-    #   OpsWorks Stacks Operating Systems][1].
+    #   Not all operating systems are supported with all versions of Chef. For
+    #   more information about supported operating systems, see [OpsWorks
+    #   Stacks Operating Systems][1].
     #
     #   The default option is the current Amazon Linux version. If you set
     #   this parameter to `Custom`, you must use the AmiId parameter to
     #   specify the custom AMI that you want to use. For more information
-    #   about supported operating systems, see [Operating Systems][1]. For
-    #   more information about how to use custom AMIs with OpsWorks, see
-    #   [Using Custom AMIs][2].
+    #   about how to use custom AMIs with OpsWorks, see [Using Custom
+    #   AMIs][2].
     #
     #   <note markdown="1"> You can specify a different Linux operating system for the updated
     #   stack, but you cannot change from Linux to Windows or Windows to
@@ -4997,7 +5115,7 @@ module Aws::OpsWorks
     #   This property cannot be updated.
     #
     # @option params [String] :agent_version
-    #   The default AWS OpsWorks Stacks agent version. You have the following
+    #   The default OpsWorks Stacks agent version. You have the following
     #   options:
     #
     #   * `INHERIT` - Use the stack's default agent version setting.
@@ -5005,8 +5123,7 @@ module Aws::OpsWorks
     #   * *version\_number* - Use the specified agent version. This value
     #     overrides the stack's default setting. To update the agent version,
     #     you must edit the instance configuration and specify a new version.
-    #     AWS OpsWorks Stacks then automatically installs that version on the
-    #     instance.
+    #     OpsWorks Stacks installs that version on the instance.
     #
     #   The default setting is `INHERIT`. To specify an agent version, you
     #   must use the complete version number, not the abbreviated number shown
@@ -5045,7 +5162,7 @@ module Aws::OpsWorks
 
     # Updates a specified layer.
     #
-    # **Required Permissions**\: To use this action, an IAM user must have a
+    # **Required Permissions**: To use this action, an IAM user must have a
     # Manage permissions level for the stack, or an attached policy that
     # explicitly grants permissions. For more information on user
     # permissions, see [Managing User Permissions][1].
@@ -5058,17 +5175,18 @@ module Aws::OpsWorks
     #   The layer ID.
     #
     # @option params [String] :name
-    #   The layer name, which is used by the console.
+    #   The layer name, which is used by the console. Layer names can be a
+    #   maximum of 32 characters.
     #
     # @option params [String] :shortname
     #   For custom layers only, use this parameter to specify the layer's
-    #   short name, which is used internally by AWS OpsWorks Stacks and by
-    #   Chef. The short name is also used as the name for the directory where
-    #   your app files are installed. It can have a maximum of 200 characters
-    #   and must be in the following format: /\\A\[a-z0-9\\-\\\_\\.\]+\\Z/.
+    #   short name, which is used internally by OpsWorks Stacks and by Chef.
+    #   The short name is also used as the name for the directory where your
+    #   app files are installed. It can have a maximum of 32 characters and
+    #   must be in the following format: /\\A\[a-z0-9\\-\\\_\\.\]+\\Z/.
     #
-    #   The built-in layers' short names are defined by AWS OpsWorks Stacks.
-    #   For more information, see the [Layer Reference][1]
+    #   Built-in layer short names are defined by OpsWorks Stacks. For more
+    #   information, see the [Layer reference][1] in the OpsWorks User Guide.
     #
     #
     #
@@ -5229,7 +5347,7 @@ module Aws::OpsWorks
 
     # Updates a user's SSH public key.
     #
-    # **Required Permissions**\: To use this action, an IAM user must have
+    # **Required Permissions**: To use this action, an IAM user must have
     # self-management enabled or an attached policy that explicitly grants
     # permissions. For more information about user permissions, see
     # [Managing User Permissions][1].
@@ -5260,7 +5378,7 @@ module Aws::OpsWorks
 
     # Updates an Amazon RDS instance.
     #
-    # **Required Permissions**\: To use this action, an IAM user must have a
+    # **Required Permissions**: To use this action, an IAM user must have a
     # Manage permissions level for the stack, or an attached policy that
     # explicitly grants permissions. For more information on user
     # permissions, see [Managing User Permissions][1].
@@ -5299,7 +5417,7 @@ module Aws::OpsWorks
 
     # Updates a specified stack.
     #
-    # **Required Permissions**\: To use this action, an IAM user must have a
+    # **Required Permissions**: To use this action, an IAM user must have a
     # Manage permissions level for the stack, or an attached policy that
     # explicitly grants permissions. For more information on user
     # permissions, see [Managing User Permissions][1].
@@ -5312,7 +5430,7 @@ module Aws::OpsWorks
     #   The stack ID.
     #
     # @option params [String] :name
-    #   The stack's new name.
+    #   The stack's new name. Stack names can be a maximum of 64 characters.
     #
     # @option params [Hash<String,String>] :attributes
     #   One or more user-defined key-value pairs to be added to the stack
@@ -5335,12 +5453,12 @@ module Aws::OpsWorks
     #   following:
     #
     #   * A supported Linux operating system: An Amazon Linux version, such as
-    #     `Amazon Linux 2018.03`, `Amazon Linux 2017.09`, `Amazon Linux
-    #     2017.03`, `Amazon Linux 2016.09`, `Amazon Linux 2016.03`, `Amazon
-    #     Linux 2015.09`, or `Amazon Linux 2015.03`.
+    #     `Amazon Linux 2`, `Amazon Linux 2018.03`, `Amazon Linux 2017.09`,
+    #     `Amazon Linux 2017.03`, `Amazon Linux 2016.09`, `Amazon Linux
+    #     2016.03`, `Amazon Linux 2015.09`, or `Amazon Linux 2015.03`.
     #
-    #   * A supported Ubuntu operating system, such as `Ubuntu 16.04 LTS`,
-    #     `Ubuntu 14.04 LTS`, or `Ubuntu 12.04 LTS`.
+    #   * A supported Ubuntu operating system, such as `Ubuntu 18.04 LTS`,
+    #     `Ubuntu 16.04 LTS`, `Ubuntu 14.04 LTS`, or `Ubuntu 12.04 LTS`.
     #
     #   * `CentOS Linux 7`
     #
@@ -5356,9 +5474,10 @@ module Aws::OpsWorks
     #     when you create instances. For more information about how to use
     #     custom AMIs with OpsWorks, see [Using Custom AMIs][1].
     #
-    #   The default option is the stack's current operating system. For more
-    #   information about supported operating systems, see [AWS OpsWorks
-    #   Stacks Operating Systems][2].
+    #   The default option is the stack's current operating system. Not all
+    #   operating systems are supported with all versions of Chef. For more
+    #   information about supported operating systems, see [OpsWorks Stacks
+    #   Operating Systems][2].
     #
     #
     #
@@ -5421,7 +5540,7 @@ module Aws::OpsWorks
     #   override the corresponding default stack configuration JSON values or
     #   to pass data to recipes. The string should be in the following format:
     #
-    #   `"\{"key1": "value1", "key2": "value2",...\}"`
+    #   `"{"key1": "value1", "key2": "value2",...}"`
     #
     #   For more information about custom JSON, see [Use Custom JSON to Modify
     #   the Stack Configuration Attributes][1].
@@ -5460,9 +5579,9 @@ module Aws::OpsWorks
     #
     # @option params [String] :default_ssh_key_name
     #   A default Amazon EC2 key-pair name. The default value is `none`. If
-    #   you specify a key-pair name, AWS OpsWorks Stacks installs the public
-    #   key on the instance and you can use the private key with an SSH client
-    #   to log in to the instance. For more information, see [ Using SSH to
+    #   you specify a key-pair name, OpsWorks Stacks installs the public key
+    #   on the instance and you can use the private key with an SSH client to
+    #   log in to the instance. For more information, see [ Using SSH to
     #   Communicate with an Instance][1] and [ Managing SSH Access][2]. You
     #   can override this setting by specifying a different key pair, or no
     #   key pair, when you [ create an instance][3].
@@ -5483,26 +5602,26 @@ module Aws::OpsWorks
     #   [1]: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ComponentsAMIs.html#storage-for-the-root-device
     #
     # @option params [Boolean] :use_opsworks_security_groups
-    #   Whether to associate the AWS OpsWorks Stacks built-in security groups
-    #   with the stack's layers.
+    #   Whether to associate the OpsWorks Stacks built-in security groups with
+    #   the stack's layers.
     #
-    #   AWS OpsWorks Stacks provides a standard set of built-in security
-    #   groups, one for each layer, which are associated with layers by
-    #   default. `UseOpsworksSecurityGroups` allows you to provide your own
-    #   custom security groups instead of using the built-in groups.
+    #   OpsWorks Stacks provides a standard set of built-in security groups,
+    #   one for each layer, which are associated with layers by default.
+    #   `UseOpsworksSecurityGroups` allows you to provide your own custom
+    #   security groups instead of using the built-in groups.
     #   `UseOpsworksSecurityGroups` has the following settings:
     #
-    #   * True - AWS OpsWorks Stacks automatically associates the appropriate
+    #   * True - OpsWorks Stacks automatically associates the appropriate
     #     built-in security group with each layer (default setting). You can
     #     associate additional security groups with a layer after you create
     #     it, but you cannot delete the built-in security group.
     #
-    #   * False - AWS OpsWorks Stacks does not associate built-in security
-    #     groups with layers. You must create appropriate EC2 security groups
-    #     and associate a security group with each layer that you create.
-    #     However, you can still manually associate a built-in security group
-    #     with a layer on. Custom security groups are required only for those
-    #     layers that need custom settings.
+    #   * False - OpsWorks Stacks does not associate built-in security groups
+    #     with layers. You must create appropriate EC2 security groups and
+    #     associate a security group with each layer that you create. However,
+    #     you can still manually associate a built-in security group with a
+    #     layer on. Custom security groups are required only for those layers
+    #     that need custom settings.
     #
     #   For more information, see [Create a New Stack][1].
     #
@@ -5511,17 +5630,17 @@ module Aws::OpsWorks
     #   [1]: https://docs.aws.amazon.com/opsworks/latest/userguide/workingstacks-creating.html
     #
     # @option params [String] :agent_version
-    #   The default AWS OpsWorks Stacks agent version. You have the following
+    #   The default OpsWorks Stacks agent version. You have the following
     #   options:
     #
-    #   * Auto-update - Set this parameter to `LATEST`. AWS OpsWorks Stacks
+    #   * Auto-update - Set this parameter to `LATEST`. OpsWorks Stacks
     #     automatically installs new agent versions on the stack's instances
     #     as soon as they are available.
     #
     #   * Fixed version - Set this parameter to your preferred agent version.
     #     To update the agent version, you must edit the stack configuration
-    #     and specify a new version. AWS OpsWorks Stacks then automatically
-    #     installs that version on the stack's instances.
+    #     and specify a new version. OpsWorks Stacks installs that version on
+    #     the stack's instances.
     #
     #   The default setting is `LATEST`. To specify an agent version, you must
     #   use the complete version number, not the abbreviated number shown on
@@ -5584,8 +5703,8 @@ module Aws::OpsWorks
 
     # Updates a specified user profile.
     #
-    # **Required Permissions**\: To use this action, an IAM user must have
-    # an attached policy that explicitly grants permissions. For more
+    # **Required Permissions**: To use this action, an IAM user must have an
+    # attached policy that explicitly grants permissions. For more
     # information about user permissions, see [Managing User
     # Permissions][1].
     #
@@ -5599,10 +5718,9 @@ module Aws::OpsWorks
     # @option params [String] :ssh_username
     #   The user's SSH user name. The allowable characters are \[a-z\],
     #   \[A-Z\], \[0-9\], '-', and '\_'. If the specified name includes
-    #   other punctuation marks, AWS OpsWorks Stacks removes them. For
-    #   example, `my.name` will be changed to `myname`. If you do not specify
-    #   an SSH user name, AWS OpsWorks Stacks generates one from the IAM user
-    #   name.
+    #   other punctuation marks, OpsWorks Stacks removes them. For example,
+    #   `my.name` will be changed to `myname`. If you do not specify an SSH
+    #   user name, OpsWorks Stacks generates one from the IAM user name.
     #
     # @option params [String] :ssh_public_key
     #   The user's new SSH public key.
@@ -5639,7 +5757,7 @@ module Aws::OpsWorks
     # Updates an Amazon EBS volume's name or mount point. For more
     # information, see [Resource Management][1].
     #
-    # **Required Permissions**\: To use this action, an IAM user must have a
+    # **Required Permissions**: To use this action, an IAM user must have a
     # Manage permissions level for the stack, or an attached policy that
     # explicitly grants permissions. For more information on user
     # permissions, see [Managing User Permissions][2].
@@ -5653,7 +5771,7 @@ module Aws::OpsWorks
     #   The volume ID.
     #
     # @option params [String] :name
-    #   The new name.
+    #   The new name. Volume names can be a maximum of 128 characters.
     #
     # @option params [String] :mount_point
     #   The new mount point.
@@ -5683,14 +5801,19 @@ module Aws::OpsWorks
     # @api private
     def build_request(operation_name, params = {})
       handlers = @handlers.for(operation_name)
+      tracer = config.telemetry_provider.tracer_provider.tracer(
+        Aws::Telemetry.module_to_tracer_name('Aws::OpsWorks')
+      )
       context = Seahorse::Client::RequestContext.new(
         operation_name: operation_name,
         operation: config.api.operation(operation_name),
         client: self,
         params: params,
-        config: config)
+        config: config,
+        tracer: tracer
+      )
       context[:gem_name] = 'aws-sdk-opsworks'
-      context[:gem_version] = '1.43.0'
+      context[:gem_version] = '1.72.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

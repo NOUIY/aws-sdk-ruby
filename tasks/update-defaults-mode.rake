@@ -2,6 +2,7 @@
 
 # updates the defaults mode configuration
 task 'update-defaults-mode', [:defaults_file] do |t, args|
+  Rake::Task['require-build-tools'].invoke
 
   defaults_file = args[:defaults_file]
   if defaults_file.nil? || defaults_file.empty?
@@ -9,7 +10,7 @@ task 'update-defaults-mode', [:defaults_file] do |t, args|
   end
 
   puts "Loading defaults from: #{defaults_file}"
-  defaults = JSON.load(File.read(defaults_file))
+  defaults = JSON.load_file(defaults_file)
 
   default_mode_docs = ["<p>The following <code>:default_mode</code> values are supported: </p>"]
   default_mode_docs << "<ul>"
@@ -39,8 +40,8 @@ task 'update-defaults-mode', [:defaults_file] do |t, args|
   puts "Updating DefaultsModeConfiguration documentation"
   BuildTools.replace_lines(
     filename: "#{$GEMS_DIR}/aws-sdk-core/lib/aws-defaults/default_configuration.rb",
-    start: /# @code_generation START - documentation/,
-    stop: /# @code_generation END - documentation/,
+    start: /# #defaults START - documentation/,
+    stop: /# #defaults END - documentation/,
     new_lines: [docs, "\n"]
   )
 
@@ -56,8 +57,8 @@ task 'update-defaults-mode', [:defaults_file] do |t, args|
   puts "Updating DefaultsModeConfiguration configuration constant"
   BuildTools.replace_lines(
     filename: "#{$GEMS_DIR}/aws-sdk-core/lib/aws-defaults/default_configuration.rb",
-    start: /# @code_generation START - configuration/,
-    stop: /# @code_generation END - configuration/,
+    start: /# #defaults START - configuration/,
+    stop: /# #defaults END - configuration/,
     new_lines: config_constant
   )
 

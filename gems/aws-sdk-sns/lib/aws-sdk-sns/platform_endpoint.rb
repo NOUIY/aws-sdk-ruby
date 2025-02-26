@@ -72,7 +72,9 @@ module Aws::SNS
     #
     # @return [self]
     def load
-      resp = @client.get_endpoint_attributes(endpoint_arn: @arn)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.get_endpoint_attributes(endpoint_arn: @arn)
+      end
       @data = resp.data
       self
     end
@@ -102,7 +104,9 @@ module Aws::SNS
     # @return [EmptyStructure]
     def delete(options = {})
       options = options.merge(endpoint_arn: @arn)
-      resp = @client.delete_endpoint(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.delete_endpoint(options)
+      end
       resp.data
     end
 
@@ -110,7 +114,7 @@ module Aws::SNS
     #
     #   platform_endpoint.publish({
     #     topic_arn: "topicARN",
-    #     phone_number: "String",
+    #     phone_number: "PhoneNumber",
     #     message: "message", # required
     #     subject: "subject",
     #     message_structure: "messageStructure",
@@ -196,9 +200,8 @@ module Aws::SNS
     #   is delivered to email endpoints. This field will also be included, if
     #   present, in the standard JSON messages delivered to other endpoints.
     #
-    #   Constraints: Subjects must be ASCII text that begins with a letter,
-    #   number, or punctuation mark; must not include line breaks or control
-    #   characters; and must be less than 100 characters long.
+    #   Constraints: Subjects must be UTF-8 text with no line breaks or
+    #   control characters, and less than 100 characters long.
     # @option options [String] :message_structure
     #   Set `MessageStructure` to `json` if you want to send a different
     #   message for each protocol. For example, using one publish action, you
@@ -218,24 +221,54 @@ module Aws::SNS
     # @option options [Hash<String,Types::MessageAttributeValue>] :message_attributes
     #   Message attributes for Publish action.
     # @option options [String] :message_deduplication_id
-    #   This parameter applies only to FIFO (first-in-first-out) topics. The
-    #   `MessageDeduplicationId` can contain up to 128 alphanumeric characters
-    #   `(a-z, A-Z, 0-9)` and punctuation ``
-    #   (!"#$%&'()*+,-./:;<=>?@[\]^_`\{|\}~) ``.
+    #   * This parameter applies only to FIFO (first-in-first-out) topics. The
+    #     `MessageDeduplicationId` can contain up to 128 alphanumeric
+    #     characters `(a-z, A-Z, 0-9)` and punctuation ``
+    #     (!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~) ``.
     #
-    #   Every message must have a unique `MessageDeduplicationId`, which is a
-    #   token used for deduplication of sent messages. If a message with a
-    #   particular `MessageDeduplicationId` is sent successfully, any message
-    #   sent with the same `MessageDeduplicationId` during the 5-minute
-    #   deduplication interval is treated as a duplicate.
+    #   * Every message must have a unique `MessageDeduplicationId`, which is
+    #     a token used for deduplication of sent messages within the 5 minute
+    #     minimum deduplication interval.
     #
-    #   If the topic has `ContentBasedDeduplication` set, the system generates
-    #   a `MessageDeduplicationId` based on the contents of the message. Your
-    #   `MessageDeduplicationId` overrides the generated one.
+    #   * The scope of deduplication depends on the `FifoThroughputScope`
+    #     attribute, when set to `Topic` the message deduplication scope is
+    #     across the entire topic, when set to `MessageGroup` the message
+    #     deduplication scope is within each individual message group.
+    #
+    #   * If a message with a particular `MessageDeduplicationId` is sent
+    #     successfully, subsequent messages within the deduplication scope and
+    #     interval, with the same `MessageDeduplicationId`, are accepted
+    #     successfully but aren't delivered.
+    #
+    #   * Every message must have a unique `MessageDeduplicationId`:
+    #
+    #     * You may provide a `MessageDeduplicationId` explicitly.
+    #
+    #     * If you aren't able to provide a `MessageDeduplicationId` and you
+    #       enable `ContentBasedDeduplication` for your topic, Amazon SNS uses
+    #       a SHA-256 hash to generate the `MessageDeduplicationId` using the
+    #       body of the message (but not the attributes of the message).
+    #
+    #     * If you don't provide a `MessageDeduplicationId` and the topic
+    #       doesn't have `ContentBasedDeduplication` set, the action fails
+    #       with an error.
+    #
+    #     * If the topic has a `ContentBasedDeduplication` set, your
+    #       `MessageDeduplicationId` overrides the generated one.
+    #   * When `ContentBasedDeduplication` is in effect, messages with
+    #     identical content sent within the deduplication scope and interval
+    #     are treated as duplicates and only one copy of the message is
+    #     delivered.
+    #
+    #   * If you send one message with `ContentBasedDeduplication` enabled,
+    #     and then another message with a `MessageDeduplicationId` that is the
+    #     same as the one generated for the first `MessageDeduplicationId`,
+    #     the two messages are treated as duplicates, within the deduplication
+    #     scope and interval, and only one copy of the message is delivered.
     # @option options [String] :message_group_id
     #   This parameter applies only to FIFO (first-in-first-out) topics. The
     #   `MessageGroupId` can contain up to 128 alphanumeric characters `(a-z,
-    #   A-Z, 0-9)` and punctuation `` (!"#$%&'()*+,-./:;<=>?@[\]^_`\{|\}~) ``.
+    #   A-Z, 0-9)` and punctuation `` (!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~) ``.
     #
     #   The `MessageGroupId` is a tag that specifies that a message belongs to
     #   a specific message group. Messages that belong to the same message
@@ -245,7 +278,9 @@ module Aws::SNS
     # @return [Types::PublishResponse]
     def publish(options = {})
       options = options.merge(target_arn: @arn)
-      resp = @client.publish(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.publish(options)
+      end
       resp.data
     end
 
@@ -277,7 +312,9 @@ module Aws::SNS
     # @return [EmptyStructure]
     def set_attributes(options = {})
       options = options.merge(endpoint_arn: @arn)
-      resp = @client.set_endpoint_attributes(options)
+      resp = Aws::Plugins::UserAgent.metric('RESOURCE_MODEL') do
+        @client.set_endpoint_attributes(options)
+      end
       resp.data
     end
 

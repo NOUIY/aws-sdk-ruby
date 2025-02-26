@@ -23,11 +23,6 @@ module Aws::ManagedBlockchain
       include Aws::Structure
     end
 
-    # The token based access feature is in preview release for Ethereum on
-    # Amazon Managed Blockchain and is subject to change. We recommend that
-    # you use this feature only with test scenarios, and not in production
-    # environments.
-    #
     # The properties of the Accessor.
     #
     # @!attribute [rw] id
@@ -37,16 +32,15 @@ module Aws::ManagedBlockchain
     # @!attribute [rw] type
     #   The type of the accessor.
     #
-    #   <note markdown="1"> Currently accessor type is restricted to `BILLING_TOKEN`.
+    #   <note markdown="1"> Currently, accessor type is restricted to `BILLING_TOKEN`.
     #
     #    </note>
     #   @return [String]
     #
     # @!attribute [rw] billing_token
-    #   The billing token is a property of the accessor. Use this token to
-    #   make Ethereum API calls to your Ethereum node. The billing token is
-    #   used to track your accessor object for billing Ethereum API requests
-    #   made to your Ethereum nodes.
+    #   The billing token is a property of the Accessor. Use this token to
+    #   when making calls to the blockchain network. The billing token is
+    #   used to track your accessor token for billing requests.
     #   @return [String]
     #
     # @!attribute [rw] status
@@ -67,6 +61,24 @@ module Aws::ManagedBlockchain
     #   [1]: https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html
     #   @return [String]
     #
+    # @!attribute [rw] tags
+    #   The tags assigned to the Accessor.
+    #
+    #   For more information about tags, see [Tagging Resources][1] in the
+    #   *Amazon Managed Blockchain Ethereum Developer Guide*, or [Tagging
+    #   Resources][2] in the *Amazon Managed Blockchain Hyperledger Fabric
+    #   Developer Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/tagging-resources.html
+    #   [2]: https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html
+    #   @return [Hash<String,String>]
+    #
+    # @!attribute [rw] network_type
+    #   The blockchain network that the Accessor token is created for.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/managedblockchain-2018-09-24/Accessor AWS API Documentation
     #
     class Accessor < Struct.new(
@@ -75,16 +87,13 @@ module Aws::ManagedBlockchain
       :billing_token,
       :status,
       :creation_date,
-      :arn)
+      :arn,
+      :tags,
+      :network_type)
       SENSITIVE = []
       include Aws::Structure
     end
 
-    # The token based access feature is in preview release for Ethereum on
-    # Amazon Managed Blockchain and is subject to change. We recommend that
-    # you use this feature only with test scenarios, and not in production
-    # environments.
-    #
     # A summary of accessor properties.
     #
     # @!attribute [rw] id
@@ -117,6 +126,10 @@ module Aws::ManagedBlockchain
     #   [1]: https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html
     #   @return [String]
     #
+    # @!attribute [rw] network_type
+    #   The blockchain network that the Accessor token is created for.
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/managedblockchain-2018-09-24/AccessorSummary AWS API Documentation
     #
     class AccessorSummary < Struct.new(
@@ -124,7 +137,8 @@ module Aws::ManagedBlockchain
       :type,
       :status,
       :creation_date,
-      :arn)
+      :arn,
+      :network_type)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -158,7 +172,7 @@ module Aws::ManagedBlockchain
     # @!attribute [rw] threshold_comparator
     #   Determines whether the vote percentage must be greater than the
     #   `ThresholdPercentage` or must be greater than or equal to the
-    #   `ThreholdPercentage` to be approved.
+    #   `ThresholdPercentage` to be approved.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/managedblockchain-2018-09-24/ApprovalThresholdPolicy AWS API Documentation
@@ -186,7 +200,46 @@ module Aws::ManagedBlockchain
     # @!attribute [rw] accessor_type
     #   The type of accessor.
     #
-    #   <note markdown="1"> Currently accessor type is restricted to `BILLING_TOKEN`.
+    #   <note markdown="1"> Currently, accessor type is restricted to `BILLING_TOKEN`.
+    #
+    #    </note>
+    #   @return [String]
+    #
+    # @!attribute [rw] tags
+    #   Tags to assign to the Accessor.
+    #
+    #   Each tag consists of a key and an optional value. You can specify
+    #   multiple key-value pairs in a single request with an overall maximum
+    #   of 50 tags allowed per resource.
+    #
+    #   For more information about tags, see [Tagging Resources][1] in the
+    #   *Amazon Managed Blockchain Ethereum Developer Guide*, or [Tagging
+    #   Resources][2] in the *Amazon Managed Blockchain Hyperledger Fabric
+    #   Developer Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/tagging-resources.html
+    #   [2]: https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html
+    #   @return [Hash<String,String>]
+    #
+    # @!attribute [rw] network_type
+    #   The blockchain network that the `Accessor` token is created for.
+    #
+    #   <note markdown="1"> * Use the actual `networkType` value for the blockchain network that
+    #     you are creating the `Accessor` token for.
+    #
+    #   * With the shut down of the *Ethereum Goerli* and *Polygon Mumbai
+    #     Testnet* networks the following `networkType` values are no longer
+    #     available for selection and use.
+    #
+    #     * `ETHEREUM_MAINNET_AND_GOERLI`
+    #
+    #     * `ETHEREUM_GOERLI`
+    #
+    #     * `POLYGON_MUMBAI`
+    #     However, your existing `Accessor` tokens with these `networkType`
+    #     values will remain unchanged.
     #
     #    </note>
     #   @return [String]
@@ -195,7 +248,9 @@ module Aws::ManagedBlockchain
     #
     class CreateAccessorInput < Struct.new(
       :client_request_token,
-      :accessor_type)
+      :accessor_type,
+      :tags,
+      :network_type)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -206,16 +261,20 @@ module Aws::ManagedBlockchain
     #
     # @!attribute [rw] billing_token
     #   The billing token is a property of the Accessor. Use this token to
-    #   make Ethereum API calls to your Ethereum node. The billing token is
-    #   used to track your accessor object for billing Ethereum API requests
-    #   made to your Ethereum nodes.
+    #   when making calls to the blockchain network. The billing token is
+    #   used to track your accessor token for billing requests.
+    #   @return [String]
+    #
+    # @!attribute [rw] network_type
+    #   The blockchain network that the accessor token is created for.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/managedblockchain-2018-09-24/CreateAccessorOutput AWS API Documentation
     #
     class CreateAccessorOutput < Struct.new(
       :accessor_id,
-      :billing_token)
+      :billing_token,
+      :network_type)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -310,12 +369,11 @@ module Aws::ManagedBlockchain
     #   @return [Types::MemberConfiguration]
     #
     # @!attribute [rw] tags
-    #   Tags to assign to the network. Each tag consists of a key and
-    #   optional value.
+    #   Tags to assign to the network.
     #
-    #   When specifying tags during creation, you can specify multiple
-    #   key-value pairs in a single request, with an overall maximum of 50
-    #   tags added to each resource.
+    #   Each tag consists of a key and an optional value. You can specify
+    #   multiple key-value pairs in a single request with an overall maximum
+    #   of 50 tags allowed per resource.
     #
     #   For more information about tags, see [Tagging Resources][1] in the
     #   *Amazon Managed Blockchain Ethereum Developer Guide*, or [Tagging
@@ -379,11 +437,7 @@ module Aws::ManagedBlockchain
     #
     #   * `n-ethereum-mainnet`
     #
-    #   * `n-ethereum-goerli`
-    #
-    #   * `n-ethereum-rinkeby`
-    #
-    #   * `n-ethereum-ropsten`
+    #   ^
     #   @return [String]
     #
     # @!attribute [rw] member_id
@@ -397,12 +451,11 @@ module Aws::ManagedBlockchain
     #   @return [Types::NodeConfiguration]
     #
     # @!attribute [rw] tags
-    #   Tags to assign to the node. Each tag consists of a key and optional
-    #   value.
+    #   Tags to assign to the node.
     #
-    #   When specifying tags during creation, you can specify multiple
-    #   key-value pairs in a single request, with an overall maximum of 50
-    #   tags added to each resource.
+    #   Each tag consists of a key and an optional value. You can specify
+    #   multiple key-value pairs in a single request with an overall maximum
+    #   of 50 tags allowed per resource.
     #
     #   For more information about tags, see [Tagging Resources][1] in the
     #   *Amazon Managed Blockchain Ethereum Developer Guide*, or [Tagging
@@ -474,13 +527,11 @@ module Aws::ManagedBlockchain
     #   @return [String]
     #
     # @!attribute [rw] tags
-    #   Tags to assign to the proposal. Each tag consists of a key and
-    #   optional value.
+    #   Tags to assign to the proposal.
     #
-    #   When specifying tags during creation, you can specify multiple
-    #   key-value pairs in a single request, with an overall maximum of 50
-    #   tags added to each resource. If the proposal is for a network
-    #   invitation, the invitation inherits the tags added to the proposal.
+    #   Each tag consists of a key and an optional value. You can specify
+    #   multiple key-value pairs in a single request with an overall maximum
+    #   of 50 tags allowed per resource.
     #
     #   For more information about tags, see [Tagging Resources][1] in the
     #   *Amazon Managed Blockchain Ethereum Developer Guide*, or [Tagging
@@ -563,11 +614,7 @@ module Aws::ManagedBlockchain
     #
     #   * `n-ethereum-mainnet`
     #
-    #   * `n-ethereum-goerli`
-    #
-    #   * `n-ethereum-rinkeby`
-    #
-    #   * `n-ethereum-ropsten`
+    #   ^
     #   @return [String]
     #
     # @!attribute [rw] member_id
@@ -863,11 +910,22 @@ module Aws::ManagedBlockchain
     #   retrieve.
     #   @return [String]
     #
+    # @!attribute [rw] network_type
+    #   The blockchain network that the `Accessor` token is created for.
+    #
+    #   <note markdown="1"> Use the value `ETHEREUM_MAINNET_AND_GOERLI` for all existing
+    #   `Accessors` tokens that were created before the `networkType`
+    #   property was introduced.
+    #
+    #    </note>
+    #   @return [String]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/managedblockchain-2018-09-24/ListAccessorsInput AWS API Documentation
     #
     class ListAccessorsInput < Struct.new(
       :max_results,
-      :next_token)
+      :next_token,
+      :network_type)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1318,13 +1376,17 @@ module Aws::ManagedBlockchain
     #
     # @!attribute [rw] tags
     #   Tags assigned to the member. Tags consist of a key and optional
-    #   value. For more information about tags, see [Tagging Resources][1]
-    #   in the *Amazon Managed Blockchain Hyperledger Fabric Developer
-    #   Guide*.
+    #   value.
+    #
+    #   For more information about tags, see [Tagging Resources][1] in the
+    #   *Amazon Managed Blockchain Ethereum Developer Guide*, or [Tagging
+    #   Resources][2] in the *Amazon Managed Blockchain Hyperledger Fabric
+    #   Developer Guide*.
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html
+    #   [1]: https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/tagging-resources.html
+    #   [2]: https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html
     #   @return [Hash<String,String>]
     #
     # @!attribute [rw] arn
@@ -1394,17 +1456,21 @@ module Aws::ManagedBlockchain
     #
     # @!attribute [rw] tags
     #   Tags assigned to the member. Tags consist of a key and optional
-    #   value. For more information about tags, see [Tagging Resources][1]
-    #   in the *Amazon Managed Blockchain Hyperledger Fabric Developer
-    #   Guide*.
+    #   value.
     #
     #   When specifying tags during creation, you can specify multiple
     #   key-value pairs in a single request, with an overall maximum of 50
     #   tags added to each resource.
     #
+    #   For more information about tags, see [Tagging Resources][1] in the
+    #   *Amazon Managed Blockchain Ethereum Developer Guide*, or [Tagging
+    #   Resources][2] in the *Amazon Managed Blockchain Hyperledger Fabric
+    #   Developer Guide*.
     #
     #
-    #   [1]: https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html
+    #
+    #   [1]: https://docs.aws.amazon.com/managed-blockchain/latest/ethereum-dev/tagging-resources.html
+    #   [2]: https://docs.aws.amazon.com/managed-blockchain/latest/hyperledger-fabric-dev/tagging-resources.html
     #   @return [Hash<String,String>]
     #
     # @!attribute [rw] kms_key_arn
@@ -1469,7 +1535,8 @@ module Aws::ManagedBlockchain
     end
 
     # Configuration properties for Hyperledger Fabric for a member in a
-    # Managed Blockchain network using the Hyperledger Fabric framework.
+    # Managed Blockchain network that is using the Hyperledger Fabric
+    # framework.
     #
     # @!attribute [rw] admin_username
     #   The user name for the member's initial administrative user.
@@ -1477,11 +1544,11 @@ module Aws::ManagedBlockchain
     #
     # @!attribute [rw] admin_password
     #   The password for the member's initial administrative user. The
-    #   `AdminPassword` must be at least eight characters long and no more
-    #   than 32 characters. It must contain at least one uppercase letter,
-    #   one lowercase letter, and one digit. It cannot have a single
-    #   quotation mark (‘), a double quotation marks (“), a forward
-    #   slash(/), a backward slash(\\), @, or a space.
+    #   `AdminPassword` must be at least 8 characters long and no more than
+    #   32 characters. It must contain at least one uppercase letter, one
+    #   lowercase letter, and one digit. It cannot have a single quotation
+    #   mark (‘), a double quotation marks (“), a forward slash(/), a
+    #   backward slash(\\), @, or a space.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/managedblockchain-2018-09-24/MemberFabricConfiguration AWS API Documentation
@@ -1680,7 +1747,7 @@ module Aws::ManagedBlockchain
     #   @return [String]
     #
     # @!attribute [rw] voting_policy
-    #   The voting rules for the network to decide if a proposal is
+    #   The voting rules that the network uses to decide if a proposal is
     #   accepted.
     #   @return [Types::VotingPolicy]
     #
@@ -1744,11 +1811,7 @@ module Aws::ManagedBlockchain
     #
     #   * mainnet = `1`
     #
-    #   * goerli = `5`
-    #
-    #   * rinkeby = `4`
-    #
-    #   * ropsten = `3`
+    #   ^
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/managedblockchain-2018-09-24/NetworkEthereumAttributes AWS API Documentation
@@ -2790,3 +2853,4 @@ module Aws::ManagedBlockchain
 
   end
 end
+

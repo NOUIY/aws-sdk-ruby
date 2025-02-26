@@ -177,12 +177,17 @@ module Aws::Kinesis
     #   streams.
     #   @return [Types::StreamModeDetails]
     #
+    # @!attribute [rw] tags
+    #   A set of up to 10 key-value pairs to use to create the tags.
+    #   @return [Hash<String,String>]
+    #
     # @see http://docs.aws.amazon.com/goto/WebAPI/kinesis-2013-12-02/CreateStreamInput AWS API Documentation
     #
     class CreateStreamInput < Struct.new(
       :stream_name,
       :shard_count,
-      :stream_mode_details)
+      :stream_mode_details,
+      :tags)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -208,6 +213,18 @@ module Aws::Kinesis
       :stream_name,
       :retention_period_hours,
       :stream_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] resource_arn
+    #   The Amazon Resource Name (ARN) of the data stream or consumer.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/kinesis-2013-12-02/DeleteResourcePolicyInput AWS API Documentation
+    #
+    class DeleteResourcePolicyInput < Struct.new(
+      :resource_arn)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -694,6 +711,30 @@ module Aws::Kinesis
       :next_shard_iterator,
       :millis_behind_latest,
       :child_shards)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] resource_arn
+    #   The Amazon Resource Name (ARN) of the data stream or consumer.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/kinesis-2013-12-02/GetResourcePolicyInput AWS API Documentation
+    #
+    class GetResourcePolicyInput < Struct.new(
+      :resource_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] policy
+    #   Details of the resource policy. This is formatted as a JSON string.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/kinesis-2013-12-02/GetResourcePolicyOutput AWS API Documentation
+    #
+    class GetResourcePolicyOutput < Struct.new(
+      :policy)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1460,9 +1501,9 @@ module Aws::Kinesis
     #   The encryption type to use on the record. This parameter can be one
     #   of the following values:
     #
-    #   * `NONE`\: Do not encrypt the records in the stream.
+    #   * `NONE`: Do not encrypt the records in the stream.
     #
-    #   * `KMS`\: Use server-side encryption on the records in the stream
+    #   * `KMS`: Use server-side encryption on the records in the stream
     #     using a customer-managed Amazon Web Services KMS key.
     #   @return [String]
     #
@@ -1519,9 +1560,9 @@ module Aws::Kinesis
     #   The encryption type used on the records. This parameter can be one
     #   of the following values:
     #
-    #   * `NONE`\: Do not encrypt the records.
+    #   * `NONE`: Do not encrypt the records.
     #
-    #   * `KMS`\: Use server-side encryption on the records using a
+    #   * `KMS`: Use server-side encryption on the records using a
     #     customer-managed Amazon Web Services KMS key.
     #   @return [String]
     #
@@ -1610,6 +1651,25 @@ module Aws::Kinesis
       include Aws::Structure
     end
 
+    # @!attribute [rw] resource_arn
+    #   The Amazon Resource Name (ARN) of the data stream or consumer.
+    #   @return [String]
+    #
+    # @!attribute [rw] policy
+    #   Details of the resource policy. It must include the identity of the
+    #   principal and the actions allowed on this resource. This is
+    #   formatted as a JSON string.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/kinesis-2013-12-02/PutResourcePolicyInput AWS API Documentation
+    #
+    class PutResourcePolicyInput < Struct.new(
+      :resource_arn,
+      :policy)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # The unit of data of the Kinesis data stream, which is composed of a
     # sequence number, a partition key, and a data blob.
     #
@@ -1637,9 +1697,9 @@ module Aws::Kinesis
     #   The encryption type used on the record. This parameter can be one of
     #   the following values:
     #
-    #   * `NONE`\: Do not encrypt the records in the stream.
+    #   * `NONE`: Do not encrypt the records in the stream.
     #
-    #   * `KMS`\: Use server-side encryption on the records in the stream
+    #   * `KMS`: Use server-side encryption on the records in the stream
     #     using a customer-managed Amazon Web Services KMS key.
     #   @return [String]
     #
@@ -1951,20 +2011,20 @@ module Aws::Kinesis
     # @!attribute [rw] type
     #   You can set the starting position to one of the following values:
     #
-    #   `AT_SEQUENCE_NUMBER`\: Start streaming from the position denoted by
+    #   `AT_SEQUENCE_NUMBER`: Start streaming from the position denoted by
     #   the sequence number specified in the `SequenceNumber` field.
     #
-    #   `AFTER_SEQUENCE_NUMBER`\: Start streaming right after the position
+    #   `AFTER_SEQUENCE_NUMBER`: Start streaming right after the position
     #   denoted by the sequence number specified in the `SequenceNumber`
     #   field.
     #
-    #   `AT_TIMESTAMP`\: Start streaming from the position denoted by the
+    #   `AT_TIMESTAMP`: Start streaming from the position denoted by the
     #   time stamp specified in the `Timestamp` field.
     #
-    #   `TRIM_HORIZON`\: Start streaming at the last untrimmed record in the
+    #   `TRIM_HORIZON`: Start streaming at the last untrimmed record in the
     #   shard, which is the oldest data record in the shard.
     #
-    #   `LATEST`\: Start streaming just after the most recent record in the
+    #   `LATEST`: Start streaming just after the most recent record in the
     #   shard, so that you always read the most recent data in the shard.
     #   @return [String]
     #
@@ -2104,9 +2164,9 @@ module Aws::Kinesis
     #   The server-side encryption type used on the stream. This parameter
     #   can be one of the following values:
     #
-    #   * `NONE`\: Do not encrypt the records in the stream.
+    #   * `NONE`: Do not encrypt the records in the stream.
     #
-    #   * `KMS`\: Use server-side encryption on the records in the stream
+    #   * `KMS`: Use server-side encryption on the records in the stream
     #     using a customer-managed Amazon Web Services KMS key.
     #   @return [String]
     #
@@ -2542,3 +2602,4 @@ module Aws::Kinesis
 
   end
 end
+

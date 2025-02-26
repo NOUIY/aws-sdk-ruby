@@ -7,12 +7,15 @@
 #
 # WARNING ABOUT GENERATED CODE
 
+
 module Aws::ECR
   # @api private
   module ClientApi
 
     include Seahorse::Model
 
+    AccountSettingName = Shapes::StringShape.new(name: 'AccountSettingName')
+    AccountSettingValue = Shapes::StringShape.new(name: 'AccountSettingValue')
     Arch = Shapes::StringShape.new(name: 'Arch')
     Arn = Shapes::StringShape.new(name: 'Arn')
     Attribute = Shapes::StructureShape.new(name: 'Attribute')
@@ -39,9 +42,13 @@ module Aws::ECR
     CompleteLayerUploadResponse = Shapes::StructureShape.new(name: 'CompleteLayerUploadResponse')
     CreatePullThroughCacheRuleRequest = Shapes::StructureShape.new(name: 'CreatePullThroughCacheRuleRequest')
     CreatePullThroughCacheRuleResponse = Shapes::StructureShape.new(name: 'CreatePullThroughCacheRuleResponse')
+    CreateRepositoryCreationTemplateRequest = Shapes::StructureShape.new(name: 'CreateRepositoryCreationTemplateRequest')
+    CreateRepositoryCreationTemplateResponse = Shapes::StructureShape.new(name: 'CreateRepositoryCreationTemplateResponse')
     CreateRepositoryRequest = Shapes::StructureShape.new(name: 'CreateRepositoryRequest')
     CreateRepositoryResponse = Shapes::StructureShape.new(name: 'CreateRepositoryResponse')
     CreationTimestamp = Shapes::TimestampShape.new(name: 'CreationTimestamp')
+    CredentialArn = Shapes::StringShape.new(name: 'CredentialArn')
+    CustomRoleArn = Shapes::StringShape.new(name: 'CustomRoleArn')
     CvssScore = Shapes::StructureShape.new(name: 'CvssScore')
     CvssScoreAdjustment = Shapes::StructureShape.new(name: 'CvssScoreAdjustment')
     CvssScoreAdjustmentList = Shapes::ListShape.new(name: 'CvssScoreAdjustmentList')
@@ -54,6 +61,8 @@ module Aws::ECR
     DeletePullThroughCacheRuleResponse = Shapes::StructureShape.new(name: 'DeletePullThroughCacheRuleResponse')
     DeleteRegistryPolicyRequest = Shapes::StructureShape.new(name: 'DeleteRegistryPolicyRequest')
     DeleteRegistryPolicyResponse = Shapes::StructureShape.new(name: 'DeleteRegistryPolicyResponse')
+    DeleteRepositoryCreationTemplateRequest = Shapes::StructureShape.new(name: 'DeleteRepositoryCreationTemplateRequest')
+    DeleteRepositoryCreationTemplateResponse = Shapes::StructureShape.new(name: 'DeleteRepositoryCreationTemplateResponse')
     DeleteRepositoryPolicyRequest = Shapes::StructureShape.new(name: 'DeleteRepositoryPolicyRequest')
     DeleteRepositoryPolicyResponse = Shapes::StructureShape.new(name: 'DeleteRepositoryPolicyResponse')
     DeleteRepositoryRequest = Shapes::StructureShape.new(name: 'DeleteRepositoryRequest')
@@ -71,8 +80,11 @@ module Aws::ECR
     DescribeRegistryResponse = Shapes::StructureShape.new(name: 'DescribeRegistryResponse')
     DescribeRepositoriesRequest = Shapes::StructureShape.new(name: 'DescribeRepositoriesRequest')
     DescribeRepositoriesResponse = Shapes::StructureShape.new(name: 'DescribeRepositoriesResponse')
+    DescribeRepositoryCreationTemplatesRequest = Shapes::StructureShape.new(name: 'DescribeRepositoryCreationTemplatesRequest')
+    DescribeRepositoryCreationTemplatesResponse = Shapes::StructureShape.new(name: 'DescribeRepositoryCreationTemplatesResponse')
     EmptyUploadException = Shapes::StructureShape.new(name: 'EmptyUploadException')
     EncryptionConfiguration = Shapes::StructureShape.new(name: 'EncryptionConfiguration')
+    EncryptionConfigurationForRepositoryCreationTemplate = Shapes::StructureShape.new(name: 'EncryptionConfigurationForRepositoryCreationTemplate')
     EncryptionType = Shapes::StringShape.new(name: 'EncryptionType')
     EnhancedImageScanFinding = Shapes::StructureShape.new(name: 'EnhancedImageScanFinding')
     EnhancedImageScanFindingList = Shapes::ListShape.new(name: 'EnhancedImageScanFindingList')
@@ -80,13 +92,18 @@ module Aws::ECR
     EvaluationTimestamp = Shapes::TimestampShape.new(name: 'EvaluationTimestamp')
     ExceptionMessage = Shapes::StringShape.new(name: 'ExceptionMessage')
     ExpirationTimestamp = Shapes::TimestampShape.new(name: 'ExpirationTimestamp')
+    ExploitAvailable = Shapes::StringShape.new(name: 'ExploitAvailable')
     FilePath = Shapes::StringShape.new(name: 'FilePath')
     FindingArn = Shapes::StringShape.new(name: 'FindingArn')
     FindingDescription = Shapes::StringShape.new(name: 'FindingDescription')
     FindingName = Shapes::StringShape.new(name: 'FindingName')
     FindingSeverity = Shapes::StringShape.new(name: 'FindingSeverity')
     FindingSeverityCounts = Shapes::MapShape.new(name: 'FindingSeverityCounts')
+    FixAvailable = Shapes::StringShape.new(name: 'FixAvailable')
+    FixedInVersion = Shapes::StringShape.new(name: 'FixedInVersion')
     ForceFlag = Shapes::BooleanShape.new(name: 'ForceFlag')
+    GetAccountSettingRequest = Shapes::StructureShape.new(name: 'GetAccountSettingRequest')
+    GetAccountSettingResponse = Shapes::StructureShape.new(name: 'GetAccountSettingResponse')
     GetAuthorizationTokenRegistryIdList = Shapes::ListShape.new(name: 'GetAuthorizationTokenRegistryIdList')
     GetAuthorizationTokenRequest = Shapes::StructureShape.new(name: 'GetAuthorizationTokenRequest')
     GetAuthorizationTokenResponse = Shapes::StructureShape.new(name: 'GetAuthorizationTokenResponse')
@@ -139,9 +156,11 @@ module Aws::ECR
     InvalidLayerPartException = Shapes::StructureShape.new(name: 'InvalidLayerPartException')
     InvalidParameterException = Shapes::StructureShape.new(name: 'InvalidParameterException')
     InvalidTagParameterException = Shapes::StructureShape.new(name: 'InvalidTagParameterException')
+    IsPTCRuleValid = Shapes::BooleanShape.new(name: 'IsPTCRuleValid')
     KmsError = Shapes::StringShape.new(name: 'KmsError')
     KmsException = Shapes::StructureShape.new(name: 'KmsException')
     KmsKey = Shapes::StringShape.new(name: 'KmsKey')
+    KmsKeyForRepositoryCreationTemplate = Shapes::StringShape.new(name: 'KmsKeyForRepositoryCreationTemplate')
     Layer = Shapes::StructureShape.new(name: 'Layer')
     LayerAlreadyExistsException = Shapes::StructureShape.new(name: 'LayerAlreadyExistsException')
     LayerAvailability = Shapes::StringShape.new(name: 'LayerAvailability')
@@ -168,6 +187,7 @@ module Aws::ECR
     LifecyclePolicyRuleAction = Shapes::StructureShape.new(name: 'LifecyclePolicyRuleAction')
     LifecyclePolicyRulePriority = Shapes::IntegerShape.new(name: 'LifecyclePolicyRulePriority')
     LifecyclePolicyText = Shapes::StringShape.new(name: 'LifecyclePolicyText')
+    LifecyclePolicyTextForRepositoryCreationTemplate = Shapes::StringShape.new(name: 'LifecyclePolicyTextForRepositoryCreationTemplate')
     LifecyclePreviewMaxResults = Shapes::IntegerShape.new(name: 'LifecyclePreviewMaxResults')
     LimitExceededException = Shapes::StructureShape.new(name: 'LimitExceededException')
     ListImagesFilter = Shapes::StructureShape.new(name: 'ListImagesFilter')
@@ -180,10 +200,13 @@ module Aws::ECR
     MediaTypeList = Shapes::ListShape.new(name: 'MediaTypeList')
     Metric = Shapes::StringShape.new(name: 'Metric')
     NextToken = Shapes::StringShape.new(name: 'NextToken')
+    PTCValidateFailure = Shapes::StringShape.new(name: 'PTCValidateFailure')
     PackageManager = Shapes::StringShape.new(name: 'PackageManager')
     PackageVulnerabilityDetails = Shapes::StructureShape.new(name: 'PackageVulnerabilityDetails')
     PartSize = Shapes::IntegerShape.new(name: 'PartSize')
     Platform = Shapes::StringShape.new(name: 'Platform')
+    Prefix = Shapes::StringShape.new(name: 'Prefix')
+    PrefixList = Shapes::ListShape.new(name: 'PrefixList')
     ProxyEndpoint = Shapes::StringShape.new(name: 'ProxyEndpoint')
     PullThroughCacheRule = Shapes::StructureShape.new(name: 'PullThroughCacheRule')
     PullThroughCacheRuleAlreadyExistsException = Shapes::StructureShape.new(name: 'PullThroughCacheRuleAlreadyExistsException')
@@ -192,6 +215,8 @@ module Aws::ECR
     PullThroughCacheRuleRepositoryPrefix = Shapes::StringShape.new(name: 'PullThroughCacheRuleRepositoryPrefix')
     PullThroughCacheRuleRepositoryPrefixList = Shapes::ListShape.new(name: 'PullThroughCacheRuleRepositoryPrefixList')
     PushTimestamp = Shapes::TimestampShape.new(name: 'PushTimestamp')
+    PutAccountSettingRequest = Shapes::StructureShape.new(name: 'PutAccountSettingRequest')
+    PutAccountSettingResponse = Shapes::StructureShape.new(name: 'PutAccountSettingResponse')
     PutImageRequest = Shapes::StructureShape.new(name: 'PutImageRequest')
     PutImageResponse = Shapes::StructureShape.new(name: 'PutImageResponse')
     PutImageScanningConfigurationRequest = Shapes::StructureShape.new(name: 'PutImageScanningConfigurationRequest')
@@ -206,6 +231,8 @@ module Aws::ECR
     PutRegistryScanningConfigurationResponse = Shapes::StructureShape.new(name: 'PutRegistryScanningConfigurationResponse')
     PutReplicationConfigurationRequest = Shapes::StructureShape.new(name: 'PutReplicationConfigurationRequest')
     PutReplicationConfigurationResponse = Shapes::StructureShape.new(name: 'PutReplicationConfigurationResponse')
+    RCTAppliedFor = Shapes::StringShape.new(name: 'RCTAppliedFor')
+    RCTAppliedForList = Shapes::ListShape.new(name: 'RCTAppliedForList')
     Reason = Shapes::StringShape.new(name: 'Reason')
     Recommendation = Shapes::StructureShape.new(name: 'Recommendation')
     RecommendationText = Shapes::StringShape.new(name: 'RecommendationText')
@@ -232,6 +259,8 @@ module Aws::ECR
     ReplicationStatus = Shapes::StringShape.new(name: 'ReplicationStatus')
     Repository = Shapes::StructureShape.new(name: 'Repository')
     RepositoryAlreadyExistsException = Shapes::StructureShape.new(name: 'RepositoryAlreadyExistsException')
+    RepositoryCreationTemplate = Shapes::StructureShape.new(name: 'RepositoryCreationTemplate')
+    RepositoryCreationTemplateList = Shapes::ListShape.new(name: 'RepositoryCreationTemplateList')
     RepositoryFilter = Shapes::StructureShape.new(name: 'RepositoryFilter')
     RepositoryFilterList = Shapes::ListShape.new(name: 'RepositoryFilterList')
     RepositoryFilterType = Shapes::StringShape.new(name: 'RepositoryFilterType')
@@ -247,6 +276,7 @@ module Aws::ECR
     RepositoryScanningConfigurationFailure = Shapes::StructureShape.new(name: 'RepositoryScanningConfigurationFailure')
     RepositoryScanningConfigurationFailureList = Shapes::ListShape.new(name: 'RepositoryScanningConfigurationFailureList')
     RepositoryScanningConfigurationList = Shapes::ListShape.new(name: 'RepositoryScanningConfigurationList')
+    RepositoryTemplateDescription = Shapes::StringShape.new(name: 'RepositoryTemplateDescription')
     Resource = Shapes::StructureShape.new(name: 'Resource')
     ResourceDetails = Shapes::StructureShape.new(name: 'ResourceDetails')
     ResourceId = Shapes::StringShape.new(name: 'ResourceId')
@@ -268,6 +298,7 @@ module Aws::ECR
     Score = Shapes::FloatShape.new(name: 'Score')
     ScoreDetails = Shapes::StructureShape.new(name: 'ScoreDetails')
     ScoringVector = Shapes::StringShape.new(name: 'ScoringVector')
+    SecretNotFoundException = Shapes::StructureShape.new(name: 'SecretNotFoundException')
     ServerException = Shapes::StructureShape.new(name: 'ServerException')
     SetRepositoryPolicyRequest = Shapes::StructureShape.new(name: 'SetRepositoryPolicyRequest')
     SetRepositoryPolicyResponse = Shapes::StructureShape.new(name: 'SetRepositoryPolicyResponse')
@@ -289,18 +320,32 @@ module Aws::ECR
     TagStatus = Shapes::StringShape.new(name: 'TagStatus')
     TagValue = Shapes::StringShape.new(name: 'TagValue')
     Tags = Shapes::MapShape.new(name: 'Tags')
+    TemplateAlreadyExistsException = Shapes::StructureShape.new(name: 'TemplateAlreadyExistsException')
+    TemplateNotFoundException = Shapes::StructureShape.new(name: 'TemplateNotFoundException')
     Title = Shapes::StringShape.new(name: 'Title')
     TooManyTagsException = Shapes::StructureShape.new(name: 'TooManyTagsException')
     Type = Shapes::StringShape.new(name: 'Type')
+    UnableToAccessSecretException = Shapes::StructureShape.new(name: 'UnableToAccessSecretException')
+    UnableToDecryptSecretValueException = Shapes::StructureShape.new(name: 'UnableToDecryptSecretValueException')
+    UnableToGetUpstreamImageException = Shapes::StructureShape.new(name: 'UnableToGetUpstreamImageException')
+    UnableToGetUpstreamLayerException = Shapes::StructureShape.new(name: 'UnableToGetUpstreamLayerException')
     UnsupportedImageTypeException = Shapes::StructureShape.new(name: 'UnsupportedImageTypeException')
     UnsupportedUpstreamRegistryException = Shapes::StructureShape.new(name: 'UnsupportedUpstreamRegistryException')
     UntagResourceRequest = Shapes::StructureShape.new(name: 'UntagResourceRequest')
     UntagResourceResponse = Shapes::StructureShape.new(name: 'UntagResourceResponse')
+    UpdatePullThroughCacheRuleRequest = Shapes::StructureShape.new(name: 'UpdatePullThroughCacheRuleRequest')
+    UpdatePullThroughCacheRuleResponse = Shapes::StructureShape.new(name: 'UpdatePullThroughCacheRuleResponse')
+    UpdateRepositoryCreationTemplateRequest = Shapes::StructureShape.new(name: 'UpdateRepositoryCreationTemplateRequest')
+    UpdateRepositoryCreationTemplateResponse = Shapes::StructureShape.new(name: 'UpdateRepositoryCreationTemplateResponse')
+    UpdatedTimestamp = Shapes::TimestampShape.new(name: 'UpdatedTimestamp')
     UploadId = Shapes::StringShape.new(name: 'UploadId')
     UploadLayerPartRequest = Shapes::StructureShape.new(name: 'UploadLayerPartRequest')
     UploadLayerPartResponse = Shapes::StructureShape.new(name: 'UploadLayerPartResponse')
     UploadNotFoundException = Shapes::StructureShape.new(name: 'UploadNotFoundException')
+    UpstreamRegistry = Shapes::StringShape.new(name: 'UpstreamRegistry')
     Url = Shapes::StringShape.new(name: 'Url')
+    ValidatePullThroughCacheRuleRequest = Shapes::StructureShape.new(name: 'ValidatePullThroughCacheRuleRequest')
+    ValidatePullThroughCacheRuleResponse = Shapes::StructureShape.new(name: 'ValidatePullThroughCacheRuleResponse')
     ValidationException = Shapes::StructureShape.new(name: 'ValidationException')
     Version = Shapes::StringShape.new(name: 'Version')
     VulnerabilityId = Shapes::StringShape.new(name: 'VulnerabilityId')
@@ -384,13 +429,32 @@ module Aws::ECR
     CreatePullThroughCacheRuleRequest.add_member(:ecr_repository_prefix, Shapes::ShapeRef.new(shape: PullThroughCacheRuleRepositoryPrefix, required: true, location_name: "ecrRepositoryPrefix"))
     CreatePullThroughCacheRuleRequest.add_member(:upstream_registry_url, Shapes::ShapeRef.new(shape: Url, required: true, location_name: "upstreamRegistryUrl"))
     CreatePullThroughCacheRuleRequest.add_member(:registry_id, Shapes::ShapeRef.new(shape: RegistryId, location_name: "registryId"))
+    CreatePullThroughCacheRuleRequest.add_member(:upstream_registry, Shapes::ShapeRef.new(shape: UpstreamRegistry, location_name: "upstreamRegistry"))
+    CreatePullThroughCacheRuleRequest.add_member(:credential_arn, Shapes::ShapeRef.new(shape: CredentialArn, location_name: "credentialArn"))
     CreatePullThroughCacheRuleRequest.struct_class = Types::CreatePullThroughCacheRuleRequest
 
     CreatePullThroughCacheRuleResponse.add_member(:ecr_repository_prefix, Shapes::ShapeRef.new(shape: PullThroughCacheRuleRepositoryPrefix, location_name: "ecrRepositoryPrefix"))
     CreatePullThroughCacheRuleResponse.add_member(:upstream_registry_url, Shapes::ShapeRef.new(shape: Url, location_name: "upstreamRegistryUrl"))
     CreatePullThroughCacheRuleResponse.add_member(:created_at, Shapes::ShapeRef.new(shape: CreationTimestamp, location_name: "createdAt"))
     CreatePullThroughCacheRuleResponse.add_member(:registry_id, Shapes::ShapeRef.new(shape: RegistryId, location_name: "registryId"))
+    CreatePullThroughCacheRuleResponse.add_member(:upstream_registry, Shapes::ShapeRef.new(shape: UpstreamRegistry, location_name: "upstreamRegistry"))
+    CreatePullThroughCacheRuleResponse.add_member(:credential_arn, Shapes::ShapeRef.new(shape: CredentialArn, location_name: "credentialArn"))
     CreatePullThroughCacheRuleResponse.struct_class = Types::CreatePullThroughCacheRuleResponse
+
+    CreateRepositoryCreationTemplateRequest.add_member(:prefix, Shapes::ShapeRef.new(shape: Prefix, required: true, location_name: "prefix"))
+    CreateRepositoryCreationTemplateRequest.add_member(:description, Shapes::ShapeRef.new(shape: RepositoryTemplateDescription, location_name: "description"))
+    CreateRepositoryCreationTemplateRequest.add_member(:encryption_configuration, Shapes::ShapeRef.new(shape: EncryptionConfigurationForRepositoryCreationTemplate, location_name: "encryptionConfiguration"))
+    CreateRepositoryCreationTemplateRequest.add_member(:resource_tags, Shapes::ShapeRef.new(shape: TagList, location_name: "resourceTags"))
+    CreateRepositoryCreationTemplateRequest.add_member(:image_tag_mutability, Shapes::ShapeRef.new(shape: ImageTagMutability, location_name: "imageTagMutability"))
+    CreateRepositoryCreationTemplateRequest.add_member(:repository_policy, Shapes::ShapeRef.new(shape: RepositoryPolicyText, location_name: "repositoryPolicy"))
+    CreateRepositoryCreationTemplateRequest.add_member(:lifecycle_policy, Shapes::ShapeRef.new(shape: LifecyclePolicyTextForRepositoryCreationTemplate, location_name: "lifecyclePolicy"))
+    CreateRepositoryCreationTemplateRequest.add_member(:applied_for, Shapes::ShapeRef.new(shape: RCTAppliedForList, required: true, location_name: "appliedFor"))
+    CreateRepositoryCreationTemplateRequest.add_member(:custom_role_arn, Shapes::ShapeRef.new(shape: CustomRoleArn, location_name: "customRoleArn"))
+    CreateRepositoryCreationTemplateRequest.struct_class = Types::CreateRepositoryCreationTemplateRequest
+
+    CreateRepositoryCreationTemplateResponse.add_member(:registry_id, Shapes::ShapeRef.new(shape: RegistryId, location_name: "registryId"))
+    CreateRepositoryCreationTemplateResponse.add_member(:repository_creation_template, Shapes::ShapeRef.new(shape: RepositoryCreationTemplate, location_name: "repositoryCreationTemplate"))
+    CreateRepositoryCreationTemplateResponse.struct_class = Types::CreateRepositoryCreationTemplateResponse
 
     CreateRepositoryRequest.add_member(:registry_id, Shapes::ShapeRef.new(shape: RegistryId, location_name: "registryId"))
     CreateRepositoryRequest.add_member(:repository_name, Shapes::ShapeRef.new(shape: RepositoryName, required: true, location_name: "repositoryName"))
@@ -442,6 +506,7 @@ module Aws::ECR
     DeletePullThroughCacheRuleResponse.add_member(:upstream_registry_url, Shapes::ShapeRef.new(shape: Url, location_name: "upstreamRegistryUrl"))
     DeletePullThroughCacheRuleResponse.add_member(:created_at, Shapes::ShapeRef.new(shape: CreationTimestamp, location_name: "createdAt"))
     DeletePullThroughCacheRuleResponse.add_member(:registry_id, Shapes::ShapeRef.new(shape: RegistryId, location_name: "registryId"))
+    DeletePullThroughCacheRuleResponse.add_member(:credential_arn, Shapes::ShapeRef.new(shape: CredentialArn, location_name: "credentialArn"))
     DeletePullThroughCacheRuleResponse.struct_class = Types::DeletePullThroughCacheRuleResponse
 
     DeleteRegistryPolicyRequest.struct_class = Types::DeleteRegistryPolicyRequest
@@ -449,6 +514,13 @@ module Aws::ECR
     DeleteRegistryPolicyResponse.add_member(:registry_id, Shapes::ShapeRef.new(shape: RegistryId, location_name: "registryId"))
     DeleteRegistryPolicyResponse.add_member(:policy_text, Shapes::ShapeRef.new(shape: RegistryPolicyText, location_name: "policyText"))
     DeleteRegistryPolicyResponse.struct_class = Types::DeleteRegistryPolicyResponse
+
+    DeleteRepositoryCreationTemplateRequest.add_member(:prefix, Shapes::ShapeRef.new(shape: Prefix, required: true, location_name: "prefix"))
+    DeleteRepositoryCreationTemplateRequest.struct_class = Types::DeleteRepositoryCreationTemplateRequest
+
+    DeleteRepositoryCreationTemplateResponse.add_member(:registry_id, Shapes::ShapeRef.new(shape: RegistryId, location_name: "registryId"))
+    DeleteRepositoryCreationTemplateResponse.add_member(:repository_creation_template, Shapes::ShapeRef.new(shape: RepositoryCreationTemplate, location_name: "repositoryCreationTemplate"))
+    DeleteRepositoryCreationTemplateResponse.struct_class = Types::DeleteRepositoryCreationTemplateResponse
 
     DeleteRepositoryPolicyRequest.add_member(:registry_id, Shapes::ShapeRef.new(shape: RegistryId, location_name: "registryId"))
     DeleteRepositoryPolicyRequest.add_member(:repository_name, Shapes::ShapeRef.new(shape: RepositoryName, required: true, location_name: "repositoryName"))
@@ -533,12 +605,26 @@ module Aws::ECR
     DescribeRepositoriesResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
     DescribeRepositoriesResponse.struct_class = Types::DescribeRepositoriesResponse
 
+    DescribeRepositoryCreationTemplatesRequest.add_member(:prefixes, Shapes::ShapeRef.new(shape: PrefixList, location_name: "prefixes"))
+    DescribeRepositoryCreationTemplatesRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
+    DescribeRepositoryCreationTemplatesRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location_name: "maxResults"))
+    DescribeRepositoryCreationTemplatesRequest.struct_class = Types::DescribeRepositoryCreationTemplatesRequest
+
+    DescribeRepositoryCreationTemplatesResponse.add_member(:registry_id, Shapes::ShapeRef.new(shape: RegistryId, location_name: "registryId"))
+    DescribeRepositoryCreationTemplatesResponse.add_member(:repository_creation_templates, Shapes::ShapeRef.new(shape: RepositoryCreationTemplateList, location_name: "repositoryCreationTemplates"))
+    DescribeRepositoryCreationTemplatesResponse.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location_name: "nextToken"))
+    DescribeRepositoryCreationTemplatesResponse.struct_class = Types::DescribeRepositoryCreationTemplatesResponse
+
     EmptyUploadException.add_member(:message, Shapes::ShapeRef.new(shape: ExceptionMessage, location_name: "message"))
     EmptyUploadException.struct_class = Types::EmptyUploadException
 
     EncryptionConfiguration.add_member(:encryption_type, Shapes::ShapeRef.new(shape: EncryptionType, required: true, location_name: "encryptionType"))
     EncryptionConfiguration.add_member(:kms_key, Shapes::ShapeRef.new(shape: KmsKey, location_name: "kmsKey"))
     EncryptionConfiguration.struct_class = Types::EncryptionConfiguration
+
+    EncryptionConfigurationForRepositoryCreationTemplate.add_member(:encryption_type, Shapes::ShapeRef.new(shape: EncryptionType, required: true, location_name: "encryptionType"))
+    EncryptionConfigurationForRepositoryCreationTemplate.add_member(:kms_key, Shapes::ShapeRef.new(shape: KmsKeyForRepositoryCreationTemplate, location_name: "kmsKey"))
+    EncryptionConfigurationForRepositoryCreationTemplate.struct_class = Types::EncryptionConfigurationForRepositoryCreationTemplate
 
     EnhancedImageScanFinding.add_member(:aws_account_id, Shapes::ShapeRef.new(shape: RegistryId, location_name: "awsAccountId"))
     EnhancedImageScanFinding.add_member(:description, Shapes::ShapeRef.new(shape: FindingDescription, location_name: "description"))
@@ -555,12 +641,21 @@ module Aws::ECR
     EnhancedImageScanFinding.add_member(:title, Shapes::ShapeRef.new(shape: Title, location_name: "title"))
     EnhancedImageScanFinding.add_member(:type, Shapes::ShapeRef.new(shape: Type, location_name: "type"))
     EnhancedImageScanFinding.add_member(:updated_at, Shapes::ShapeRef.new(shape: Date, location_name: "updatedAt"))
+    EnhancedImageScanFinding.add_member(:fix_available, Shapes::ShapeRef.new(shape: FixAvailable, location_name: "fixAvailable"))
+    EnhancedImageScanFinding.add_member(:exploit_available, Shapes::ShapeRef.new(shape: ExploitAvailable, location_name: "exploitAvailable"))
     EnhancedImageScanFinding.struct_class = Types::EnhancedImageScanFinding
 
     EnhancedImageScanFindingList.member = Shapes::ShapeRef.new(shape: EnhancedImageScanFinding)
 
     FindingSeverityCounts.key = Shapes::ShapeRef.new(shape: FindingSeverity)
     FindingSeverityCounts.value = Shapes::ShapeRef.new(shape: SeverityCount)
+
+    GetAccountSettingRequest.add_member(:name, Shapes::ShapeRef.new(shape: AccountSettingName, required: true, location_name: "name"))
+    GetAccountSettingRequest.struct_class = Types::GetAccountSettingRequest
+
+    GetAccountSettingResponse.add_member(:name, Shapes::ShapeRef.new(shape: AccountSettingName, location_name: "name"))
+    GetAccountSettingResponse.add_member(:value, Shapes::ShapeRef.new(shape: AccountSettingName, location_name: "value"))
+    GetAccountSettingResponse.struct_class = Types::GetAccountSettingResponse
 
     GetAuthorizationTokenRegistryIdList.member = Shapes::ShapeRef.new(shape: RegistryId)
 
@@ -837,10 +932,15 @@ module Aws::ECR
     PackageVulnerabilityDetails.add_member(:vulnerable_packages, Shapes::ShapeRef.new(shape: VulnerablePackagesList, location_name: "vulnerablePackages"))
     PackageVulnerabilityDetails.struct_class = Types::PackageVulnerabilityDetails
 
+    PrefixList.member = Shapes::ShapeRef.new(shape: Prefix)
+
     PullThroughCacheRule.add_member(:ecr_repository_prefix, Shapes::ShapeRef.new(shape: PullThroughCacheRuleRepositoryPrefix, location_name: "ecrRepositoryPrefix"))
     PullThroughCacheRule.add_member(:upstream_registry_url, Shapes::ShapeRef.new(shape: Url, location_name: "upstreamRegistryUrl"))
     PullThroughCacheRule.add_member(:created_at, Shapes::ShapeRef.new(shape: CreationTimestamp, location_name: "createdAt"))
     PullThroughCacheRule.add_member(:registry_id, Shapes::ShapeRef.new(shape: RegistryId, location_name: "registryId"))
+    PullThroughCacheRule.add_member(:credential_arn, Shapes::ShapeRef.new(shape: CredentialArn, location_name: "credentialArn"))
+    PullThroughCacheRule.add_member(:upstream_registry, Shapes::ShapeRef.new(shape: UpstreamRegistry, location_name: "upstreamRegistry"))
+    PullThroughCacheRule.add_member(:updated_at, Shapes::ShapeRef.new(shape: UpdatedTimestamp, location_name: "updatedAt"))
     PullThroughCacheRule.struct_class = Types::PullThroughCacheRule
 
     PullThroughCacheRuleAlreadyExistsException.add_member(:message, Shapes::ShapeRef.new(shape: ExceptionMessage, location_name: "message"))
@@ -852,6 +952,14 @@ module Aws::ECR
     PullThroughCacheRuleNotFoundException.struct_class = Types::PullThroughCacheRuleNotFoundException
 
     PullThroughCacheRuleRepositoryPrefixList.member = Shapes::ShapeRef.new(shape: PullThroughCacheRuleRepositoryPrefix)
+
+    PutAccountSettingRequest.add_member(:name, Shapes::ShapeRef.new(shape: AccountSettingName, required: true, location_name: "name"))
+    PutAccountSettingRequest.add_member(:value, Shapes::ShapeRef.new(shape: AccountSettingValue, required: true, location_name: "value"))
+    PutAccountSettingRequest.struct_class = Types::PutAccountSettingRequest
+
+    PutAccountSettingResponse.add_member(:name, Shapes::ShapeRef.new(shape: AccountSettingName, location_name: "name"))
+    PutAccountSettingResponse.add_member(:value, Shapes::ShapeRef.new(shape: AccountSettingValue, location_name: "value"))
+    PutAccountSettingResponse.struct_class = Types::PutAccountSettingResponse
 
     PutImageRequest.add_member(:registry_id, Shapes::ShapeRef.new(shape: RegistryId, location_name: "registryId"))
     PutImageRequest.add_member(:repository_name, Shapes::ShapeRef.new(shape: RepositoryName, required: true, location_name: "repositoryName"))
@@ -914,6 +1022,8 @@ module Aws::ECR
     PutReplicationConfigurationResponse.add_member(:replication_configuration, Shapes::ShapeRef.new(shape: ReplicationConfiguration, location_name: "replicationConfiguration"))
     PutReplicationConfigurationResponse.struct_class = Types::PutReplicationConfigurationResponse
 
+    RCTAppliedForList.member = Shapes::ShapeRef.new(shape: RCTAppliedFor)
+
     Recommendation.add_member(:url, Shapes::ShapeRef.new(shape: Url, location_name: "url"))
     Recommendation.add_member(:text, Shapes::ShapeRef.new(shape: RecommendationText, location_name: "text"))
     Recommendation.struct_class = Types::Recommendation
@@ -968,6 +1078,21 @@ module Aws::ECR
 
     RepositoryAlreadyExistsException.add_member(:message, Shapes::ShapeRef.new(shape: ExceptionMessage, location_name: "message"))
     RepositoryAlreadyExistsException.struct_class = Types::RepositoryAlreadyExistsException
+
+    RepositoryCreationTemplate.add_member(:prefix, Shapes::ShapeRef.new(shape: Prefix, location_name: "prefix"))
+    RepositoryCreationTemplate.add_member(:description, Shapes::ShapeRef.new(shape: RepositoryTemplateDescription, location_name: "description"))
+    RepositoryCreationTemplate.add_member(:encryption_configuration, Shapes::ShapeRef.new(shape: EncryptionConfigurationForRepositoryCreationTemplate, location_name: "encryptionConfiguration"))
+    RepositoryCreationTemplate.add_member(:resource_tags, Shapes::ShapeRef.new(shape: TagList, location_name: "resourceTags"))
+    RepositoryCreationTemplate.add_member(:image_tag_mutability, Shapes::ShapeRef.new(shape: ImageTagMutability, location_name: "imageTagMutability"))
+    RepositoryCreationTemplate.add_member(:repository_policy, Shapes::ShapeRef.new(shape: RepositoryPolicyText, location_name: "repositoryPolicy"))
+    RepositoryCreationTemplate.add_member(:lifecycle_policy, Shapes::ShapeRef.new(shape: LifecyclePolicyTextForRepositoryCreationTemplate, location_name: "lifecyclePolicy"))
+    RepositoryCreationTemplate.add_member(:applied_for, Shapes::ShapeRef.new(shape: RCTAppliedForList, location_name: "appliedFor"))
+    RepositoryCreationTemplate.add_member(:custom_role_arn, Shapes::ShapeRef.new(shape: CustomRoleArn, location_name: "customRoleArn"))
+    RepositoryCreationTemplate.add_member(:created_at, Shapes::ShapeRef.new(shape: Date, location_name: "createdAt"))
+    RepositoryCreationTemplate.add_member(:updated_at, Shapes::ShapeRef.new(shape: Date, location_name: "updatedAt"))
+    RepositoryCreationTemplate.struct_class = Types::RepositoryCreationTemplate
+
+    RepositoryCreationTemplateList.member = Shapes::ShapeRef.new(shape: RepositoryCreationTemplate)
 
     RepositoryFilter.add_member(:filter, Shapes::ShapeRef.new(shape: RepositoryFilterValue, required: true, location_name: "filter"))
     RepositoryFilter.add_member(:filter_type, Shapes::ShapeRef.new(shape: RepositoryFilterType, required: true, location_name: "filterType"))
@@ -1029,6 +1154,9 @@ module Aws::ECR
     ScoreDetails.add_member(:cvss, Shapes::ShapeRef.new(shape: CvssScoreDetails, location_name: "cvss"))
     ScoreDetails.struct_class = Types::ScoreDetails
 
+    SecretNotFoundException.add_member(:message, Shapes::ShapeRef.new(shape: ExceptionMessage, location_name: "message"))
+    SecretNotFoundException.struct_class = Types::SecretNotFoundException
+
     ServerException.add_member(:message, Shapes::ShapeRef.new(shape: ExceptionMessage, location_name: "message"))
     ServerException.struct_class = Types::ServerException
 
@@ -1065,8 +1193,8 @@ module Aws::ECR
     StartLifecyclePolicyPreviewResponse.add_member(:status, Shapes::ShapeRef.new(shape: LifecyclePolicyPreviewStatus, location_name: "status"))
     StartLifecyclePolicyPreviewResponse.struct_class = Types::StartLifecyclePolicyPreviewResponse
 
-    Tag.add_member(:key, Shapes::ShapeRef.new(shape: TagKey, location_name: "Key"))
-    Tag.add_member(:value, Shapes::ShapeRef.new(shape: TagValue, location_name: "Value"))
+    Tag.add_member(:key, Shapes::ShapeRef.new(shape: TagKey, required: true, location_name: "Key"))
+    Tag.add_member(:value, Shapes::ShapeRef.new(shape: TagValue, required: true, location_name: "Value"))
     Tag.struct_class = Types::Tag
 
     TagKeyList.member = Shapes::ShapeRef.new(shape: TagKey)
@@ -1082,8 +1210,26 @@ module Aws::ECR
     Tags.key = Shapes::ShapeRef.new(shape: TagKey)
     Tags.value = Shapes::ShapeRef.new(shape: TagValue)
 
+    TemplateAlreadyExistsException.add_member(:message, Shapes::ShapeRef.new(shape: ExceptionMessage, location_name: "message"))
+    TemplateAlreadyExistsException.struct_class = Types::TemplateAlreadyExistsException
+
+    TemplateNotFoundException.add_member(:message, Shapes::ShapeRef.new(shape: ExceptionMessage, location_name: "message"))
+    TemplateNotFoundException.struct_class = Types::TemplateNotFoundException
+
     TooManyTagsException.add_member(:message, Shapes::ShapeRef.new(shape: ExceptionMessage, location_name: "message"))
     TooManyTagsException.struct_class = Types::TooManyTagsException
+
+    UnableToAccessSecretException.add_member(:message, Shapes::ShapeRef.new(shape: ExceptionMessage, location_name: "message"))
+    UnableToAccessSecretException.struct_class = Types::UnableToAccessSecretException
+
+    UnableToDecryptSecretValueException.add_member(:message, Shapes::ShapeRef.new(shape: ExceptionMessage, location_name: "message"))
+    UnableToDecryptSecretValueException.struct_class = Types::UnableToDecryptSecretValueException
+
+    UnableToGetUpstreamImageException.add_member(:message, Shapes::ShapeRef.new(shape: ExceptionMessage, location_name: "message"))
+    UnableToGetUpstreamImageException.struct_class = Types::UnableToGetUpstreamImageException
+
+    UnableToGetUpstreamLayerException.add_member(:message, Shapes::ShapeRef.new(shape: ExceptionMessage, location_name: "message"))
+    UnableToGetUpstreamLayerException.struct_class = Types::UnableToGetUpstreamLayerException
 
     UnsupportedImageTypeException.add_member(:message, Shapes::ShapeRef.new(shape: ExceptionMessage, location_name: "message"))
     UnsupportedImageTypeException.struct_class = Types::UnsupportedImageTypeException
@@ -1096,6 +1242,32 @@ module Aws::ECR
     UntagResourceRequest.struct_class = Types::UntagResourceRequest
 
     UntagResourceResponse.struct_class = Types::UntagResourceResponse
+
+    UpdatePullThroughCacheRuleRequest.add_member(:registry_id, Shapes::ShapeRef.new(shape: RegistryId, location_name: "registryId"))
+    UpdatePullThroughCacheRuleRequest.add_member(:ecr_repository_prefix, Shapes::ShapeRef.new(shape: PullThroughCacheRuleRepositoryPrefix, required: true, location_name: "ecrRepositoryPrefix"))
+    UpdatePullThroughCacheRuleRequest.add_member(:credential_arn, Shapes::ShapeRef.new(shape: CredentialArn, required: true, location_name: "credentialArn"))
+    UpdatePullThroughCacheRuleRequest.struct_class = Types::UpdatePullThroughCacheRuleRequest
+
+    UpdatePullThroughCacheRuleResponse.add_member(:ecr_repository_prefix, Shapes::ShapeRef.new(shape: PullThroughCacheRuleRepositoryPrefix, location_name: "ecrRepositoryPrefix"))
+    UpdatePullThroughCacheRuleResponse.add_member(:registry_id, Shapes::ShapeRef.new(shape: RegistryId, location_name: "registryId"))
+    UpdatePullThroughCacheRuleResponse.add_member(:updated_at, Shapes::ShapeRef.new(shape: UpdatedTimestamp, location_name: "updatedAt"))
+    UpdatePullThroughCacheRuleResponse.add_member(:credential_arn, Shapes::ShapeRef.new(shape: CredentialArn, location_name: "credentialArn"))
+    UpdatePullThroughCacheRuleResponse.struct_class = Types::UpdatePullThroughCacheRuleResponse
+
+    UpdateRepositoryCreationTemplateRequest.add_member(:prefix, Shapes::ShapeRef.new(shape: Prefix, required: true, location_name: "prefix"))
+    UpdateRepositoryCreationTemplateRequest.add_member(:description, Shapes::ShapeRef.new(shape: RepositoryTemplateDescription, location_name: "description"))
+    UpdateRepositoryCreationTemplateRequest.add_member(:encryption_configuration, Shapes::ShapeRef.new(shape: EncryptionConfigurationForRepositoryCreationTemplate, location_name: "encryptionConfiguration"))
+    UpdateRepositoryCreationTemplateRequest.add_member(:resource_tags, Shapes::ShapeRef.new(shape: TagList, location_name: "resourceTags"))
+    UpdateRepositoryCreationTemplateRequest.add_member(:image_tag_mutability, Shapes::ShapeRef.new(shape: ImageTagMutability, location_name: "imageTagMutability"))
+    UpdateRepositoryCreationTemplateRequest.add_member(:repository_policy, Shapes::ShapeRef.new(shape: RepositoryPolicyText, location_name: "repositoryPolicy"))
+    UpdateRepositoryCreationTemplateRequest.add_member(:lifecycle_policy, Shapes::ShapeRef.new(shape: LifecyclePolicyTextForRepositoryCreationTemplate, location_name: "lifecyclePolicy"))
+    UpdateRepositoryCreationTemplateRequest.add_member(:applied_for, Shapes::ShapeRef.new(shape: RCTAppliedForList, location_name: "appliedFor"))
+    UpdateRepositoryCreationTemplateRequest.add_member(:custom_role_arn, Shapes::ShapeRef.new(shape: CustomRoleArn, location_name: "customRoleArn"))
+    UpdateRepositoryCreationTemplateRequest.struct_class = Types::UpdateRepositoryCreationTemplateRequest
+
+    UpdateRepositoryCreationTemplateResponse.add_member(:registry_id, Shapes::ShapeRef.new(shape: RegistryId, location_name: "registryId"))
+    UpdateRepositoryCreationTemplateResponse.add_member(:repository_creation_template, Shapes::ShapeRef.new(shape: RepositoryCreationTemplate, location_name: "repositoryCreationTemplate"))
+    UpdateRepositoryCreationTemplateResponse.struct_class = Types::UpdateRepositoryCreationTemplateResponse
 
     UploadLayerPartRequest.add_member(:registry_id, Shapes::ShapeRef.new(shape: RegistryId, location_name: "registryId"))
     UploadLayerPartRequest.add_member(:repository_name, Shapes::ShapeRef.new(shape: RepositoryName, required: true, location_name: "repositoryName"))
@@ -1114,6 +1286,18 @@ module Aws::ECR
     UploadNotFoundException.add_member(:message, Shapes::ShapeRef.new(shape: ExceptionMessage, location_name: "message"))
     UploadNotFoundException.struct_class = Types::UploadNotFoundException
 
+    ValidatePullThroughCacheRuleRequest.add_member(:ecr_repository_prefix, Shapes::ShapeRef.new(shape: PullThroughCacheRuleRepositoryPrefix, required: true, location_name: "ecrRepositoryPrefix"))
+    ValidatePullThroughCacheRuleRequest.add_member(:registry_id, Shapes::ShapeRef.new(shape: RegistryId, location_name: "registryId"))
+    ValidatePullThroughCacheRuleRequest.struct_class = Types::ValidatePullThroughCacheRuleRequest
+
+    ValidatePullThroughCacheRuleResponse.add_member(:ecr_repository_prefix, Shapes::ShapeRef.new(shape: PullThroughCacheRuleRepositoryPrefix, location_name: "ecrRepositoryPrefix"))
+    ValidatePullThroughCacheRuleResponse.add_member(:registry_id, Shapes::ShapeRef.new(shape: RegistryId, location_name: "registryId"))
+    ValidatePullThroughCacheRuleResponse.add_member(:upstream_registry_url, Shapes::ShapeRef.new(shape: Url, location_name: "upstreamRegistryUrl"))
+    ValidatePullThroughCacheRuleResponse.add_member(:credential_arn, Shapes::ShapeRef.new(shape: CredentialArn, location_name: "credentialArn"))
+    ValidatePullThroughCacheRuleResponse.add_member(:is_valid, Shapes::ShapeRef.new(shape: IsPTCRuleValid, location_name: "isValid"))
+    ValidatePullThroughCacheRuleResponse.add_member(:failure, Shapes::ShapeRef.new(shape: PTCValidateFailure, location_name: "failure"))
+    ValidatePullThroughCacheRuleResponse.struct_class = Types::ValidatePullThroughCacheRuleResponse
+
     ValidationException.add_member(:message, Shapes::ShapeRef.new(shape: ExceptionMessage, location_name: "message"))
     ValidationException.struct_class = Types::ValidationException
 
@@ -1125,6 +1309,7 @@ module Aws::ECR
     VulnerablePackage.add_member(:release, Shapes::ShapeRef.new(shape: Release, location_name: "release"))
     VulnerablePackage.add_member(:source_layer_hash, Shapes::ShapeRef.new(shape: SourceLayerHash, location_name: "sourceLayerHash"))
     VulnerablePackage.add_member(:version, Shapes::ShapeRef.new(shape: Version, location_name: "version"))
+    VulnerablePackage.add_member(:fixed_in_version, Shapes::ShapeRef.new(shape: FixedInVersion, location_name: "fixedInVersion"))
     VulnerablePackage.struct_class = Types::VulnerablePackage
 
     VulnerablePackagesList.member = Shapes::ShapeRef.new(shape: VulnerablePackage)
@@ -1137,11 +1322,13 @@ module Aws::ECR
 
       api.metadata = {
         "apiVersion" => "2015-09-21",
+        "auth" => ["aws.auth#sigv4"],
         "endpointPrefix" => "api.ecr",
         "jsonVersion" => "1.1",
         "protocol" => "json",
+        "protocols" => ["json"],
         "serviceAbbreviation" => "Amazon ECR",
-        "serviceFullName" => "Amazon EC2 Container Registry",
+        "serviceFullName" => "Amazon Elastic Container Registry",
         "serviceId" => "ECR",
         "signatureVersion" => "v4",
         "signingName" => "ecr",
@@ -1180,6 +1367,8 @@ module Aws::ECR
         o.errors << Shapes::ShapeRef.new(shape: ServerException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
         o.errors << Shapes::ShapeRef.new(shape: RepositoryNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: LimitExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: UnableToGetUpstreamImageException)
       end)
 
       api.add_operation(:batch_get_repository_scanning_configuration, Seahorse::Model::Operation.new.tap do |o|
@@ -1223,6 +1412,9 @@ module Aws::ECR
         o.errors << Shapes::ShapeRef.new(shape: PullThroughCacheRuleAlreadyExistsException)
         o.errors << Shapes::ShapeRef.new(shape: UnsupportedUpstreamRegistryException)
         o.errors << Shapes::ShapeRef.new(shape: LimitExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: UnableToAccessSecretException)
+        o.errors << Shapes::ShapeRef.new(shape: SecretNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: UnableToDecryptSecretValueException)
       end)
 
       api.add_operation(:create_repository, Seahorse::Model::Operation.new.tap do |o|
@@ -1240,6 +1432,19 @@ module Aws::ECR
         o.errors << Shapes::ShapeRef.new(shape: KmsException)
       end)
 
+      api.add_operation(:create_repository_creation_template, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "CreateRepositoryCreationTemplate"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: CreateRepositoryCreationTemplateRequest)
+        o.output = Shapes::ShapeRef.new(shape: CreateRepositoryCreationTemplateResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
+        o.errors << Shapes::ShapeRef.new(shape: LimitExceededException)
+        o.errors << Shapes::ShapeRef.new(shape: TemplateAlreadyExistsException)
+      end)
+
       api.add_operation(:delete_lifecycle_policy, Seahorse::Model::Operation.new.tap do |o|
         o.name = "DeleteLifecyclePolicy"
         o.http_method = "POST"
@@ -1250,6 +1455,7 @@ module Aws::ECR
         o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
         o.errors << Shapes::ShapeRef.new(shape: RepositoryNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: LifecyclePolicyNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
       end)
 
       api.add_operation(:delete_pull_through_cache_rule, Seahorse::Model::Operation.new.tap do |o|
@@ -1287,6 +1493,18 @@ module Aws::ECR
         o.errors << Shapes::ShapeRef.new(shape: RepositoryNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: RepositoryNotEmptyException)
         o.errors << Shapes::ShapeRef.new(shape: KmsException)
+      end)
+
+      api.add_operation(:delete_repository_creation_template, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DeleteRepositoryCreationTemplate"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: DeleteRepositoryCreationTemplateRequest)
+        o.output = Shapes::ShapeRef.new(shape: DeleteRepositoryCreationTemplateResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
+        o.errors << Shapes::ShapeRef.new(shape: TemplateNotFoundException)
       end)
 
       api.add_operation(:delete_repository_policy, Seahorse::Model::Operation.new.tap do |o|
@@ -1398,6 +1616,34 @@ module Aws::ECR
         )
       end)
 
+      api.add_operation(:describe_repository_creation_templates, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "DescribeRepositoryCreationTemplates"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: DescribeRepositoryCreationTemplatesRequest)
+        o.output = Shapes::ShapeRef.new(shape: DescribeRepositoryCreationTemplatesResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
+      end)
+
+      api.add_operation(:get_account_setting, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "GetAccountSetting"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: GetAccountSettingRequest)
+        o.output = Shapes::ShapeRef.new(shape: GetAccountSettingResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
+      end)
+
       api.add_operation(:get_authorization_token, Seahorse::Model::Operation.new.tap do |o|
         o.name = "GetAuthorizationToken"
         o.http_method = "POST"
@@ -1419,6 +1665,7 @@ module Aws::ECR
         o.errors << Shapes::ShapeRef.new(shape: LayersNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: LayerInaccessibleException)
         o.errors << Shapes::ShapeRef.new(shape: RepositoryNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: UnableToGetUpstreamLayerException)
       end)
 
       api.add_operation(:get_lifecycle_policy, Seahorse::Model::Operation.new.tap do |o|
@@ -1431,6 +1678,7 @@ module Aws::ECR
         o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
         o.errors << Shapes::ShapeRef.new(shape: RepositoryNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: LifecyclePolicyNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
       end)
 
       api.add_operation(:get_lifecycle_policy_preview, Seahorse::Model::Operation.new.tap do |o|
@@ -1443,6 +1691,7 @@ module Aws::ECR
         o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
         o.errors << Shapes::ShapeRef.new(shape: RepositoryNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: LifecyclePolicyPreviewNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
         o[:pager] = Aws::Pager.new(
           limit_key: "max_results",
           tokens: {
@@ -1526,6 +1775,18 @@ module Aws::ECR
         o.errors << Shapes::ShapeRef.new(shape: ServerException)
       end)
 
+      api.add_operation(:put_account_setting, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "PutAccountSetting"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: PutAccountSettingRequest)
+        o.output = Shapes::ShapeRef.new(shape: PutAccountSettingResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
+        o.errors << Shapes::ShapeRef.new(shape: LimitExceededException)
+      end)
+
       api.add_operation(:put_image, Seahorse::Model::Operation.new.tap do |o|
         o.name = "PutImage"
         o.http_method = "POST"
@@ -1576,6 +1837,7 @@ module Aws::ECR
         o.errors << Shapes::ShapeRef.new(shape: ServerException)
         o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
         o.errors << Shapes::ShapeRef.new(shape: RepositoryNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
       end)
 
       api.add_operation(:put_registry_policy, Seahorse::Model::Operation.new.tap do |o|
@@ -1648,6 +1910,7 @@ module Aws::ECR
         o.errors << Shapes::ShapeRef.new(shape: RepositoryNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: LifecyclePolicyNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: LifecyclePolicyPreviewInProgressException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
       end)
 
       api.add_operation(:tag_resource, Seahorse::Model::Operation.new.tap do |o|
@@ -1676,6 +1939,33 @@ module Aws::ECR
         o.errors << Shapes::ShapeRef.new(shape: ServerException)
       end)
 
+      api.add_operation(:update_pull_through_cache_rule, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "UpdatePullThroughCacheRule"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: UpdatePullThroughCacheRuleRequest)
+        o.output = Shapes::ShapeRef.new(shape: UpdatePullThroughCacheRuleResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ServerException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: UnableToAccessSecretException)
+        o.errors << Shapes::ShapeRef.new(shape: PullThroughCacheRuleNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: SecretNotFoundException)
+        o.errors << Shapes::ShapeRef.new(shape: UnableToDecryptSecretValueException)
+      end)
+
+      api.add_operation(:update_repository_creation_template, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "UpdateRepositoryCreationTemplate"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: UpdateRepositoryCreationTemplateRequest)
+        o.output = Shapes::ShapeRef.new(shape: UpdateRepositoryCreationTemplateResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ServerException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
+        o.errors << Shapes::ShapeRef.new(shape: TemplateNotFoundException)
+      end)
+
       api.add_operation(:upload_layer_part, Seahorse::Model::Operation.new.tap do |o|
         o.name = "UploadLayerPart"
         o.http_method = "POST"
@@ -1689,6 +1979,18 @@ module Aws::ECR
         o.errors << Shapes::ShapeRef.new(shape: UploadNotFoundException)
         o.errors << Shapes::ShapeRef.new(shape: LimitExceededException)
         o.errors << Shapes::ShapeRef.new(shape: KmsException)
+      end)
+
+      api.add_operation(:validate_pull_through_cache_rule, Seahorse::Model::Operation.new.tap do |o|
+        o.name = "ValidatePullThroughCacheRule"
+        o.http_method = "POST"
+        o.http_request_uri = "/"
+        o.input = Shapes::ShapeRef.new(shape: ValidatePullThroughCacheRuleRequest)
+        o.output = Shapes::ShapeRef.new(shape: ValidatePullThroughCacheRuleResponse)
+        o.errors << Shapes::ShapeRef.new(shape: ServerException)
+        o.errors << Shapes::ShapeRef.new(shape: InvalidParameterException)
+        o.errors << Shapes::ShapeRef.new(shape: ValidationException)
+        o.errors << Shapes::ShapeRef.new(shape: PullThroughCacheRuleNotFoundException)
       end)
     end
 

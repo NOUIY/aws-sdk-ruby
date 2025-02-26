@@ -14,34 +14,48 @@ module Aws::CloudHSMV2
       option(
         :endpoint_provider,
         doc_type: 'Aws::CloudHSMV2::EndpointProvider',
-        docstring: 'The endpoint provider used to resolve endpoints. Any '\
-                   'object that responds to `#resolve_endpoint(parameters)` '\
-                   'where `parameters` is a Struct similar to '\
-                   '`Aws::CloudHSMV2::EndpointParameters`'
-      ) do |cfg|
+        rbs_type: 'untyped',
+        docstring: <<~DOCS) do |_cfg|
+The endpoint provider used to resolve endpoints. Any object that responds to
+`#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+`Aws::CloudHSMV2::EndpointParameters`.
+        DOCS
         Aws::CloudHSMV2::EndpointProvider.new
       end
 
       # @api private
       class Handler < Seahorse::Client::Handler
         def call(context)
-          # If endpoint was discovered, do not resolve or apply the endpoint.
           unless context[:discovered_endpoint]
-            params = parameters_for_operation(context)
+            params = Aws::CloudHSMV2::Endpoints.parameters_for_operation(context)
             endpoint = context.config.endpoint_provider.resolve_endpoint(params)
 
             context.http_request.endpoint = endpoint.url
             apply_endpoint_headers(context, endpoint.headers)
+
+            context[:endpoint_params] = params
+            context[:endpoint_properties] = endpoint.properties
           end
 
-          context[:endpoint_params] = params
           context[:auth_scheme] =
             Aws::Endpoints.resolve_auth_scheme(context, endpoint)
 
-          @handler.call(context)
+          with_metrics(context) { @handler.call(context) }
         end
 
         private
+
+        def with_metrics(context, &block)
+          metrics = []
+          metrics << 'ENDPOINT_OVERRIDE' unless context.config.regional_endpoint
+          if context[:auth_scheme] && context[:auth_scheme]['name'] == 'sigv4a'
+            metrics << 'SIGV4A_SIGNING'
+          end
+          if context.config.credentials&.credentials&.account_id
+            metrics << 'RESOLVED_ACCOUNT_ID'
+          end
+          Aws::Plugins::UserAgent.metric(*metrics, &block)
+        end
 
         def apply_endpoint_headers(context, headers)
           headers.each do |key, values|
@@ -51,41 +65,6 @@ module Aws::CloudHSMV2
               .join(',')
 
             context.http_request.headers[key] = value
-          end
-        end
-
-        def parameters_for_operation(context)
-          case context.operation_name
-          when :copy_backup_to_region
-            Aws::CloudHSMV2::Endpoints::CopyBackupToRegion.build(context)
-          when :create_cluster
-            Aws::CloudHSMV2::Endpoints::CreateCluster.build(context)
-          when :create_hsm
-            Aws::CloudHSMV2::Endpoints::CreateHsm.build(context)
-          when :delete_backup
-            Aws::CloudHSMV2::Endpoints::DeleteBackup.build(context)
-          when :delete_cluster
-            Aws::CloudHSMV2::Endpoints::DeleteCluster.build(context)
-          when :delete_hsm
-            Aws::CloudHSMV2::Endpoints::DeleteHsm.build(context)
-          when :describe_backups
-            Aws::CloudHSMV2::Endpoints::DescribeBackups.build(context)
-          when :describe_clusters
-            Aws::CloudHSMV2::Endpoints::DescribeClusters.build(context)
-          when :initialize_cluster
-            Aws::CloudHSMV2::Endpoints::InitializeCluster.build(context)
-          when :list_tags
-            Aws::CloudHSMV2::Endpoints::ListTags.build(context)
-          when :modify_backup_attributes
-            Aws::CloudHSMV2::Endpoints::ModifyBackupAttributes.build(context)
-          when :modify_cluster
-            Aws::CloudHSMV2::Endpoints::ModifyCluster.build(context)
-          when :restore_backup
-            Aws::CloudHSMV2::Endpoints::RestoreBackup.build(context)
-          when :tag_resource
-            Aws::CloudHSMV2::Endpoints::TagResource.build(context)
-          when :untag_resource
-            Aws::CloudHSMV2::Endpoints::UntagResource.build(context)
           end
         end
       end

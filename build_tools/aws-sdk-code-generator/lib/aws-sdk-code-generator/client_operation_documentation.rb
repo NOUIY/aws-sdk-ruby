@@ -16,6 +16,7 @@ module AwsSdkCodeGenerator
       @method_name = options.fetch(:method_name)
       @operation = options.fetch(:operation)
       @api = options.fetch(:api)
+      @protocol = options.fetch(:protocol)
       @client_examples = options.fetch(:client_examples, [])
       @examples = options.fetch(:examples)
       @module_name = options.fetch(:module_name)
@@ -53,7 +54,6 @@ module AwsSdkCodeGenerator
         option_tags(operation, api),
         return_tag(operation, api),
         pagination(pager, operation, api),
-        generated_examples(operation, api),
         eventstream_examples(module_name, method_name, operation, api),
         shared_examples(examples, operation, api),
         given_examples(client_examples),
@@ -202,13 +202,9 @@ module AwsSdkCodeGenerator
         end
         example_block.join("\n")
       rescue
-        puts "Invalid example for operation: #{@name}"
+        puts "Invalid example for operation: #{@module_name} - #{@name}"
         nil
       end
-    end
-
-    def generated_examples(operation, api)
-      nil
     end
 
     def eventstream_examples(module_name, method_name, operation, api)
@@ -279,7 +275,7 @@ module AwsSdkCodeGenerator
 
     def see_also_tag(operation, api)
       uid = api['metadata']['uid']
-      if api['metadata']['protocol'] != 'api-gateway' && Crosslink.taggable?(uid)
+      if @protocol != 'api-gateway' && Crosslink.taggable?(uid)
         "# " + Crosslink.tag_string(uid, operation)
       end
     end

@@ -7,33 +7,34 @@
 #
 # WARNING ABOUT GENERATED CODE
 
-require 'seahorse/client/plugins/content_length.rb'
-require 'aws-sdk-core/plugins/credentials_configuration.rb'
-require 'aws-sdk-core/plugins/logging.rb'
-require 'aws-sdk-core/plugins/param_converter.rb'
-require 'aws-sdk-core/plugins/param_validator.rb'
-require 'aws-sdk-core/plugins/user_agent.rb'
-require 'aws-sdk-core/plugins/helpful_socket_errors.rb'
-require 'aws-sdk-core/plugins/retry_errors.rb'
-require 'aws-sdk-core/plugins/global_configuration.rb'
-require 'aws-sdk-core/plugins/regional_endpoint.rb'
-require 'aws-sdk-core/plugins/endpoint_discovery.rb'
-require 'aws-sdk-core/plugins/endpoint_pattern.rb'
-require 'aws-sdk-core/plugins/response_paging.rb'
-require 'aws-sdk-core/plugins/stub_responses.rb'
-require 'aws-sdk-core/plugins/idempotency_token.rb'
-require 'aws-sdk-core/plugins/jsonvalue_converter.rb'
-require 'aws-sdk-core/plugins/client_metrics_plugin.rb'
-require 'aws-sdk-core/plugins/client_metrics_send_plugin.rb'
-require 'aws-sdk-core/plugins/transfer_encoding.rb'
-require 'aws-sdk-core/plugins/http_checksum.rb'
-require 'aws-sdk-core/plugins/checksum_algorithm.rb'
-require 'aws-sdk-core/plugins/defaults_mode.rb'
-require 'aws-sdk-core/plugins/recursion_detection.rb'
-require 'aws-sdk-core/plugins/sign.rb'
-require 'aws-sdk-core/plugins/protocols/rest_json.rb'
-
-Aws::Plugins::GlobalConfiguration.add_identifier(:lakeformation)
+require 'seahorse/client/plugins/content_length'
+require 'aws-sdk-core/plugins/credentials_configuration'
+require 'aws-sdk-core/plugins/logging'
+require 'aws-sdk-core/plugins/param_converter'
+require 'aws-sdk-core/plugins/param_validator'
+require 'aws-sdk-core/plugins/user_agent'
+require 'aws-sdk-core/plugins/helpful_socket_errors'
+require 'aws-sdk-core/plugins/retry_errors'
+require 'aws-sdk-core/plugins/global_configuration'
+require 'aws-sdk-core/plugins/regional_endpoint'
+require 'aws-sdk-core/plugins/endpoint_discovery'
+require 'aws-sdk-core/plugins/endpoint_pattern'
+require 'aws-sdk-core/plugins/response_paging'
+require 'aws-sdk-core/plugins/stub_responses'
+require 'aws-sdk-core/plugins/idempotency_token'
+require 'aws-sdk-core/plugins/invocation_id'
+require 'aws-sdk-core/plugins/jsonvalue_converter'
+require 'aws-sdk-core/plugins/client_metrics_plugin'
+require 'aws-sdk-core/plugins/client_metrics_send_plugin'
+require 'aws-sdk-core/plugins/transfer_encoding'
+require 'aws-sdk-core/plugins/http_checksum'
+require 'aws-sdk-core/plugins/checksum_algorithm'
+require 'aws-sdk-core/plugins/request_compression'
+require 'aws-sdk-core/plugins/defaults_mode'
+require 'aws-sdk-core/plugins/recursion_detection'
+require 'aws-sdk-core/plugins/telemetry'
+require 'aws-sdk-core/plugins/sign'
+require 'aws-sdk-core/plugins/protocols/rest_json'
 
 module Aws::LakeFormation
   # An API client for LakeFormation.  To construct a client, you need to configure a `:region` and `:credentials`.
@@ -71,20 +72,28 @@ module Aws::LakeFormation
     add_plugin(Aws::Plugins::ResponsePaging)
     add_plugin(Aws::Plugins::StubResponses)
     add_plugin(Aws::Plugins::IdempotencyToken)
+    add_plugin(Aws::Plugins::InvocationId)
     add_plugin(Aws::Plugins::JsonvalueConverter)
     add_plugin(Aws::Plugins::ClientMetricsPlugin)
     add_plugin(Aws::Plugins::ClientMetricsSendPlugin)
     add_plugin(Aws::Plugins::TransferEncoding)
     add_plugin(Aws::Plugins::HttpChecksum)
     add_plugin(Aws::Plugins::ChecksumAlgorithm)
+    add_plugin(Aws::Plugins::RequestCompression)
     add_plugin(Aws::Plugins::DefaultsMode)
     add_plugin(Aws::Plugins::RecursionDetection)
+    add_plugin(Aws::Plugins::Telemetry)
     add_plugin(Aws::Plugins::Sign)
     add_plugin(Aws::Plugins::Protocols::RestJson)
     add_plugin(Aws::LakeFormation::Plugins::Endpoints)
 
     # @overload initialize(options)
     #   @param [Hash] options
+    #
+    #   @option options [Array<Seahorse::Client::Plugin>] :plugins ([]])
+    #     A list of plugins to apply to the client. Each plugin is either a
+    #     class name or an instance of a plugin class.
+    #
     #   @option options [required, Aws::CredentialProvider] :credentials
     #     Your AWS credentials. This can be an instance of any one of the
     #     following classes:
@@ -119,13 +128,15 @@ module Aws::LakeFormation
     #     locations will be searched for credentials:
     #
     #     * `Aws.config[:credentials]`
-    #     * The `:access_key_id`, `:secret_access_key`, and `:session_token` options.
-    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']
+    #     * The `:access_key_id`, `:secret_access_key`, `:session_token`, and
+    #       `:account_id` options.
+    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'],
+    #       ENV['AWS_SESSION_TOKEN'], and ENV['AWS_ACCOUNT_ID']
     #     * `~/.aws/credentials`
     #     * `~/.aws/config`
     #     * EC2/ECS IMDS instance profile - When used by default, the timeouts
     #       are very aggressive. Construct and pass an instance of
-    #       `Aws::InstanceProfileCredentails` or `Aws::ECSCredentials` to
+    #       `Aws::InstanceProfileCredentials` or `Aws::ECSCredentials` to
     #       enable retries and extended timeouts. Instance profile credential
     #       fetching can be disabled by setting ENV['AWS_EC2_METADATA_DISABLED']
     #       to true.
@@ -143,6 +154,8 @@ module Aws::LakeFormation
     #     * `~/.aws/config`
     #
     #   @option options [String] :access_key_id
+    #
+    #   @option options [String] :account_id
     #
     #   @option options [Boolean] :active_endpoint_cache (false)
     #     When set to `true`, a thread polling for endpoints will be running in
@@ -190,10 +203,20 @@ module Aws::LakeFormation
     #     Set to true to disable SDK automatically adding host prefix
     #     to default service endpoint when available.
     #
-    #   @option options [String] :endpoint
-    #     The client endpoint is normally constructed from the `:region`
-    #     option. You should only configure an `:endpoint` when connecting
-    #     to test or custom endpoints. This should be a valid HTTP(S) URI.
+    #   @option options [Boolean] :disable_request_compression (false)
+    #     When set to 'true' the request body will not be compressed
+    #     for supported operations.
+    #
+    #   @option options [String, URI::HTTPS, URI::HTTP] :endpoint
+    #     Normally you should not configure the `:endpoint` option
+    #     directly. This is normally constructed from the `:region`
+    #     option. Configuring `:endpoint` is normally reserved for
+    #     connecting to test or custom endpoints. The endpoint should
+    #     be a URI formatted like:
+    #
+    #         'http://example.com'
+    #         'https://example.com'
+    #         'http://example.com:123'
     #
     #   @option options [Integer] :endpoint_cache_max_entries (1000)
     #     Used for the maximum size limit of the LRU cache storing endpoints data
@@ -209,6 +232,10 @@ module Aws::LakeFormation
     #
     #   @option options [Boolean] :endpoint_discovery (false)
     #     When set to `true`, endpoint discovery will be enabled for operations when available.
+    #
+    #   @option options [Boolean] :ignore_configured_endpoint_urls
+    #     Setting to true disables use of endpoint URLs provided via environment
+    #     variables and the shared configuration file.
     #
     #   @option options [Aws::Log::Formatter] :log_formatter (Aws::Log::Formatter.default)
     #     The log formatter.
@@ -229,6 +256,34 @@ module Aws::LakeFormation
     #   @option options [String] :profile ("default")
     #     Used when loading credentials from the shared credentials file
     #     at HOME/.aws/credentials.  When not specified, 'default' is used.
+    #
+    #   @option options [String] :request_checksum_calculation ("when_supported")
+    #     Determines when a checksum will be calculated for request payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, a checksum will be
+    #       calculated for all request payloads of operations modeled with the
+    #       `httpChecksum` trait where `requestChecksumRequired` is `true` and/or a
+    #       `requestAlgorithmMember` is modeled.
+    #     * `when_required` - When set, a checksum will only be calculated for
+    #       request payloads of operations modeled with the  `httpChecksum` trait where
+    #       `requestChecksumRequired` is `true` or where a `requestAlgorithmMember`
+    #       is modeled and supplied.
+    #
+    #   @option options [Integer] :request_min_compression_size_bytes (10240)
+    #     The minimum size in bytes that triggers compression for request
+    #     bodies. The value must be non-negative integer value between 0
+    #     and 10485780 bytes inclusive.
+    #
+    #   @option options [String] :response_checksum_validation ("when_supported")
+    #     Determines when checksum validation will be performed on response payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, checksum validation is performed on all
+    #       response payloads of operations modeled with the `httpChecksum` trait where
+    #       `responseAlgorithms` is modeled, except when no modeled checksum algorithms
+    #       are supported.
+    #     * `when_required` - When set, checksum validation is not performed on
+    #       response payloads of operations unless the checksum algorithm is supported and
+    #       the `requestValidationModeMember` member is set to `ENABLED`.
     #
     #   @option options [Proc] :retry_backoff
     #     A proc or lambda used for backoff. Defaults to 2**retries * retry_base_delay.
@@ -274,10 +329,24 @@ module Aws::LakeFormation
     #       throttling.  This is a provisional mode that may change behavior
     #       in the future.
     #
+    #   @option options [String] :sdk_ua_app_id
+    #     A unique and opaque application ID that is appended to the
+    #     User-Agent header as app/sdk_ua_app_id. It should have a
+    #     maximum length of 50. This variable is sourced from environment
+    #     variable AWS_SDK_UA_APP_ID or the shared config profile attribute sdk_ua_app_id.
     #
     #   @option options [String] :secret_access_key
     #
     #   @option options [String] :session_token
+    #
+    #   @option options [Array] :sigv4a_signing_region_set
+    #     A list of regions that should be signed with SigV4a signing. When
+    #     not passed, a default `:sigv4a_signing_region_set` is searched for
+    #     in the following locations:
+    #
+    #     * `Aws.config[:sigv4a_signing_region_set]`
+    #     * `ENV['AWS_SIGV4A_SIGNING_REGION_SET']`
+    #     * `~/.aws/config`
     #
     #   @option options [Boolean] :stub_responses (false)
     #     Causes the client to return stubbed responses. By default
@@ -287,6 +356,16 @@ module Aws::LakeFormation
     #
     #     ** Please note ** When response stubbing is enabled, no HTTP
     #     requests are made, and retries are disabled.
+    #
+    #   @option options [Aws::Telemetry::TelemetryProviderBase] :telemetry_provider (Aws::Telemetry::NoOpTelemetryProvider)
+    #     Allows you to provide a telemetry provider, which is used to
+    #     emit telemetry data. By default, uses `NoOpTelemetryProvider` which
+    #     will not record or emit any telemetry data. The SDK supports the
+    #     following telemetry providers:
+    #
+    #     * OpenTelemetry (OTel) - To use the OTel provider, install and require the
+    #     `opentelemetry-sdk` gem and then, pass in an instance of a
+    #     `Aws::Telemetry::OTelProvider` for telemetry provider.
     #
     #   @option options [Aws::TokenProvider] :token_provider
     #     A Bearer Token Provider. This can be an instance of any one of the
@@ -315,52 +394,75 @@ module Aws::LakeFormation
     #     sending the request.
     #
     #   @option options [Aws::LakeFormation::EndpointProvider] :endpoint_provider
-    #     The endpoint provider used to resolve endpoints. Any object that responds to `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to `Aws::LakeFormation::EndpointParameters`
+    #     The endpoint provider used to resolve endpoints. Any object that responds to
+    #     `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+    #     `Aws::LakeFormation::EndpointParameters`.
     #
-    #   @option options [URI::HTTP,String] :http_proxy A proxy to send
-    #     requests through.  Formatted like 'http://proxy.com:123'.
+    #   @option options [Float] :http_continue_timeout (1)
+    #     The number of seconds to wait for a 100-continue response before sending the
+    #     request body.  This option has no effect unless the request has "Expect"
+    #     header set to "100-continue".  Defaults to `nil` which  disables this
+    #     behaviour.  This value can safely be set per request on the session.
     #
-    #   @option options [Float] :http_open_timeout (15) The number of
-    #     seconds to wait when opening a HTTP session before raising a
-    #     `Timeout::Error`.
+    #   @option options [Float] :http_idle_timeout (5)
+    #     The number of seconds a connection is allowed to sit idle before it
+    #     is considered stale.  Stale connections are closed and removed from the
+    #     pool before making a request.
     #
-    #   @option options [Float] :http_read_timeout (60) The default
-    #     number of seconds to wait for response data.  This value can
-    #     safely be set per-request on the session.
+    #   @option options [Float] :http_open_timeout (15)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :http_idle_timeout (5) The number of
-    #     seconds a connection is allowed to sit idle before it is
-    #     considered stale.  Stale connections are closed and removed
-    #     from the pool before making a request.
+    #   @option options [URI::HTTP,String] :http_proxy
+    #     A proxy to send requests through.  Formatted like 'http://proxy.com:123'.
     #
-    #   @option options [Float] :http_continue_timeout (1) The number of
-    #     seconds to wait for a 100-continue response before sending the
-    #     request body.  This option has no effect unless the request has
-    #     "Expect" header set to "100-continue".  Defaults to `nil` which
-    #     disables this behaviour.  This value can safely be set per
-    #     request on the session.
+    #   @option options [Float] :http_read_timeout (60)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :ssl_timeout (nil) Sets the SSL timeout
-    #     in seconds.
+    #   @option options [Boolean] :http_wire_trace (false)
+    #     When `true`,  HTTP debug output will be sent to the `:logger`.
     #
-    #   @option options [Boolean] :http_wire_trace (false) When `true`,
-    #     HTTP debug output will be sent to the `:logger`.
+    #   @option options [Proc] :on_chunk_received
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the response body is received. It provides three arguments: the chunk,
+    #     the number of bytes received, and the total number of
+    #     bytes in the response (or nil if the server did not send a `content-length`).
     #
-    #   @option options [Boolean] :ssl_verify_peer (true) When `true`,
-    #     SSL peer certificates are verified when establishing a
-    #     connection.
+    #   @option options [Proc] :on_chunk_sent
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the request body is sent. It provides three arguments: the chunk,
+    #     the number of bytes read from the body, and the total number of
+    #     bytes in the body.
     #
-    #   @option options [String] :ssl_ca_bundle Full path to the SSL
-    #     certificate authority bundle file that should be used when
-    #     verifying peer certificates.  If you do not pass
-    #     `:ssl_ca_bundle` or `:ssl_ca_directory` the the system default
-    #     will be used if available.
+    #   @option options [Boolean] :raise_response_errors (true)
+    #     When `true`, response errors are raised.
     #
-    #   @option options [String] :ssl_ca_directory Full path of the
-    #     directory that contains the unbundled SSL certificate
+    #   @option options [String] :ssl_ca_bundle
+    #     Full path to the SSL certificate authority bundle file that should be used when
+    #     verifying peer certificates.  If you do not pass `:ssl_ca_bundle` or
+    #     `:ssl_ca_directory` the the system default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_directory
+    #     Full path of the directory that contains the unbundled SSL certificate
     #     authority files for verifying peer certificates.  If you do
-    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the
-    #     system default will be used if available.
+    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the system
+    #     default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_store
+    #     Sets the X509::Store to verify peer certificate.
+    #
+    #   @option options [OpenSSL::X509::Certificate] :ssl_cert
+    #     Sets a client certificate when creating http connections.
+    #
+    #   @option options [OpenSSL::PKey] :ssl_key
+    #     Sets a client key when creating http connections.
+    #
+    #   @option options [Float] :ssl_timeout
+    #     Sets the SSL timeout in seconds
+    #
+    #   @option options [Boolean] :ssl_verify_peer (true)
+    #     When `true`, SSL peer certificates are verified when establishing a connection.
     #
     def initialize(*args)
       super
@@ -392,6 +494,7 @@ module Aws::LakeFormation
     #     catalog_id: "CatalogIdString",
     #     resource: { # required
     #       catalog: {
+    #         id: "CatalogIdString",
     #       },
     #       database: {
     #         catalog_id: "CatalogIdString",
@@ -431,12 +534,17 @@ module Aws::LakeFormation
     #       lf_tag_policy: {
     #         catalog_id: "CatalogIdString",
     #         resource_type: "DATABASE", # required, accepts DATABASE, TABLE
-    #         expression: [ # required
+    #         expression: [
     #           {
     #             tag_key: "LFTagKey", # required
     #             tag_values: ["LFTagValue"], # required
     #           },
     #         ],
+    #         expression_name: "NameString",
+    #       },
+    #       lf_tag_expression: {
+    #         catalog_id: "CatalogIdString",
+    #         name: "NameString", # required
     #       },
     #     },
     #     lf_tags: [ # required
@@ -562,6 +670,7 @@ module Aws::LakeFormation
     #         },
     #         resource: {
     #           catalog: {
+    #             id: "CatalogIdString",
     #           },
     #           database: {
     #             catalog_id: "CatalogIdString",
@@ -601,16 +710,21 @@ module Aws::LakeFormation
     #           lf_tag_policy: {
     #             catalog_id: "CatalogIdString",
     #             resource_type: "DATABASE", # required, accepts DATABASE, TABLE
-    #             expression: [ # required
+    #             expression: [
     #               {
     #                 tag_key: "LFTagKey", # required
     #                 tag_values: ["LFTagValue"], # required
     #               },
     #             ],
+    #             expression_name: "NameString",
+    #           },
+    #           lf_tag_expression: {
+    #             catalog_id: "CatalogIdString",
+    #             name: "NameString", # required
     #           },
     #         },
-    #         permissions: ["ALL"], # accepts ALL, SELECT, ALTER, DROP, DELETE, INSERT, DESCRIBE, CREATE_DATABASE, CREATE_TABLE, DATA_LOCATION_ACCESS, CREATE_TAG, ASSOCIATE
-    #         permissions_with_grant_option: ["ALL"], # accepts ALL, SELECT, ALTER, DROP, DELETE, INSERT, DESCRIBE, CREATE_DATABASE, CREATE_TABLE, DATA_LOCATION_ACCESS, CREATE_TAG, ASSOCIATE
+    #         permissions: ["ALL"], # accepts ALL, SELECT, ALTER, DROP, DELETE, INSERT, DESCRIBE, CREATE_DATABASE, CREATE_TABLE, DATA_LOCATION_ACCESS, CREATE_LF_TAG, ASSOCIATE, GRANT_WITH_LF_TAG_EXPRESSION, CREATE_LF_TAG_EXPRESSION, CREATE_CATALOG, SUPER_USER
+    #         permissions_with_grant_option: ["ALL"], # accepts ALL, SELECT, ALTER, DROP, DELETE, INSERT, DESCRIBE, CREATE_DATABASE, CREATE_TABLE, DATA_LOCATION_ACCESS, CREATE_LF_TAG, ASSOCIATE, GRANT_WITH_LF_TAG_EXPRESSION, CREATE_LF_TAG_EXPRESSION, CREATE_CATALOG, SUPER_USER
     #       },
     #     ],
     #   })
@@ -620,6 +734,7 @@ module Aws::LakeFormation
     #   resp.failures #=> Array
     #   resp.failures[0].request_entry.id #=> String
     #   resp.failures[0].request_entry.principal.data_lake_principal_identifier #=> String
+    #   resp.failures[0].request_entry.resource.catalog.id #=> String
     #   resp.failures[0].request_entry.resource.database.catalog_id #=> String
     #   resp.failures[0].request_entry.resource.database.name #=> String
     #   resp.failures[0].request_entry.resource.table.catalog_id #=> String
@@ -648,10 +763,13 @@ module Aws::LakeFormation
     #   resp.failures[0].request_entry.resource.lf_tag_policy.expression[0].tag_key #=> String
     #   resp.failures[0].request_entry.resource.lf_tag_policy.expression[0].tag_values #=> Array
     #   resp.failures[0].request_entry.resource.lf_tag_policy.expression[0].tag_values[0] #=> String
+    #   resp.failures[0].request_entry.resource.lf_tag_policy.expression_name #=> String
+    #   resp.failures[0].request_entry.resource.lf_tag_expression.catalog_id #=> String
+    #   resp.failures[0].request_entry.resource.lf_tag_expression.name #=> String
     #   resp.failures[0].request_entry.permissions #=> Array
-    #   resp.failures[0].request_entry.permissions[0] #=> String, one of "ALL", "SELECT", "ALTER", "DROP", "DELETE", "INSERT", "DESCRIBE", "CREATE_DATABASE", "CREATE_TABLE", "DATA_LOCATION_ACCESS", "CREATE_TAG", "ASSOCIATE"
+    #   resp.failures[0].request_entry.permissions[0] #=> String, one of "ALL", "SELECT", "ALTER", "DROP", "DELETE", "INSERT", "DESCRIBE", "CREATE_DATABASE", "CREATE_TABLE", "DATA_LOCATION_ACCESS", "CREATE_LF_TAG", "ASSOCIATE", "GRANT_WITH_LF_TAG_EXPRESSION", "CREATE_LF_TAG_EXPRESSION", "CREATE_CATALOG", "SUPER_USER"
     #   resp.failures[0].request_entry.permissions_with_grant_option #=> Array
-    #   resp.failures[0].request_entry.permissions_with_grant_option[0] #=> String, one of "ALL", "SELECT", "ALTER", "DROP", "DELETE", "INSERT", "DESCRIBE", "CREATE_DATABASE", "CREATE_TABLE", "DATA_LOCATION_ACCESS", "CREATE_TAG", "ASSOCIATE"
+    #   resp.failures[0].request_entry.permissions_with_grant_option[0] #=> String, one of "ALL", "SELECT", "ALTER", "DROP", "DELETE", "INSERT", "DESCRIBE", "CREATE_DATABASE", "CREATE_TABLE", "DATA_LOCATION_ACCESS", "CREATE_LF_TAG", "ASSOCIATE", "GRANT_WITH_LF_TAG_EXPRESSION", "CREATE_LF_TAG_EXPRESSION", "CREATE_CATALOG", "SUPER_USER"
     #   resp.failures[0].error.error_code #=> String
     #   resp.failures[0].error.error_message #=> String
     #
@@ -692,6 +810,7 @@ module Aws::LakeFormation
     #         },
     #         resource: {
     #           catalog: {
+    #             id: "CatalogIdString",
     #           },
     #           database: {
     #             catalog_id: "CatalogIdString",
@@ -731,16 +850,21 @@ module Aws::LakeFormation
     #           lf_tag_policy: {
     #             catalog_id: "CatalogIdString",
     #             resource_type: "DATABASE", # required, accepts DATABASE, TABLE
-    #             expression: [ # required
+    #             expression: [
     #               {
     #                 tag_key: "LFTagKey", # required
     #                 tag_values: ["LFTagValue"], # required
     #               },
     #             ],
+    #             expression_name: "NameString",
+    #           },
+    #           lf_tag_expression: {
+    #             catalog_id: "CatalogIdString",
+    #             name: "NameString", # required
     #           },
     #         },
-    #         permissions: ["ALL"], # accepts ALL, SELECT, ALTER, DROP, DELETE, INSERT, DESCRIBE, CREATE_DATABASE, CREATE_TABLE, DATA_LOCATION_ACCESS, CREATE_TAG, ASSOCIATE
-    #         permissions_with_grant_option: ["ALL"], # accepts ALL, SELECT, ALTER, DROP, DELETE, INSERT, DESCRIBE, CREATE_DATABASE, CREATE_TABLE, DATA_LOCATION_ACCESS, CREATE_TAG, ASSOCIATE
+    #         permissions: ["ALL"], # accepts ALL, SELECT, ALTER, DROP, DELETE, INSERT, DESCRIBE, CREATE_DATABASE, CREATE_TABLE, DATA_LOCATION_ACCESS, CREATE_LF_TAG, ASSOCIATE, GRANT_WITH_LF_TAG_EXPRESSION, CREATE_LF_TAG_EXPRESSION, CREATE_CATALOG, SUPER_USER
+    #         permissions_with_grant_option: ["ALL"], # accepts ALL, SELECT, ALTER, DROP, DELETE, INSERT, DESCRIBE, CREATE_DATABASE, CREATE_TABLE, DATA_LOCATION_ACCESS, CREATE_LF_TAG, ASSOCIATE, GRANT_WITH_LF_TAG_EXPRESSION, CREATE_LF_TAG_EXPRESSION, CREATE_CATALOG, SUPER_USER
     #       },
     #     ],
     #   })
@@ -750,6 +874,7 @@ module Aws::LakeFormation
     #   resp.failures #=> Array
     #   resp.failures[0].request_entry.id #=> String
     #   resp.failures[0].request_entry.principal.data_lake_principal_identifier #=> String
+    #   resp.failures[0].request_entry.resource.catalog.id #=> String
     #   resp.failures[0].request_entry.resource.database.catalog_id #=> String
     #   resp.failures[0].request_entry.resource.database.name #=> String
     #   resp.failures[0].request_entry.resource.table.catalog_id #=> String
@@ -778,10 +903,13 @@ module Aws::LakeFormation
     #   resp.failures[0].request_entry.resource.lf_tag_policy.expression[0].tag_key #=> String
     #   resp.failures[0].request_entry.resource.lf_tag_policy.expression[0].tag_values #=> Array
     #   resp.failures[0].request_entry.resource.lf_tag_policy.expression[0].tag_values[0] #=> String
+    #   resp.failures[0].request_entry.resource.lf_tag_policy.expression_name #=> String
+    #   resp.failures[0].request_entry.resource.lf_tag_expression.catalog_id #=> String
+    #   resp.failures[0].request_entry.resource.lf_tag_expression.name #=> String
     #   resp.failures[0].request_entry.permissions #=> Array
-    #   resp.failures[0].request_entry.permissions[0] #=> String, one of "ALL", "SELECT", "ALTER", "DROP", "DELETE", "INSERT", "DESCRIBE", "CREATE_DATABASE", "CREATE_TABLE", "DATA_LOCATION_ACCESS", "CREATE_TAG", "ASSOCIATE"
+    #   resp.failures[0].request_entry.permissions[0] #=> String, one of "ALL", "SELECT", "ALTER", "DROP", "DELETE", "INSERT", "DESCRIBE", "CREATE_DATABASE", "CREATE_TABLE", "DATA_LOCATION_ACCESS", "CREATE_LF_TAG", "ASSOCIATE", "GRANT_WITH_LF_TAG_EXPRESSION", "CREATE_LF_TAG_EXPRESSION", "CREATE_CATALOG", "SUPER_USER"
     #   resp.failures[0].request_entry.permissions_with_grant_option #=> Array
-    #   resp.failures[0].request_entry.permissions_with_grant_option[0] #=> String, one of "ALL", "SELECT", "ALTER", "DROP", "DELETE", "INSERT", "DESCRIBE", "CREATE_DATABASE", "CREATE_TABLE", "DATA_LOCATION_ACCESS", "CREATE_TAG", "ASSOCIATE"
+    #   resp.failures[0].request_entry.permissions_with_grant_option[0] #=> String, one of "ALL", "SELECT", "ALTER", "DROP", "DELETE", "INSERT", "DESCRIBE", "CREATE_DATABASE", "CREATE_TABLE", "DATA_LOCATION_ACCESS", "CREATE_LF_TAG", "ASSOCIATE", "GRANT_WITH_LF_TAG_EXPRESSION", "CREATE_LF_TAG_EXPRESSION", "CREATE_CATALOG", "SUPER_USER"
     #   resp.failures[0].error.error_code #=> String
     #   resp.failures[0].error.error_message #=> String
     #
@@ -873,6 +1001,7 @@ module Aws::LakeFormation
     #       column_wildcard: {
     #         excluded_column_names: ["NameString"],
     #       },
+    #       version_id: "VersionString",
     #     },
     #   })
     #
@@ -915,6 +1044,206 @@ module Aws::LakeFormation
     # @param [Hash] params ({})
     def create_lf_tag(params = {}, options = {})
       req = build_request(:create_lf_tag, params)
+      req.send_request(options)
+    end
+
+    # Creates a new LF-Tag expression with the provided name, description,
+    # catalog ID, and expression body. This call fails if a LF-Tag
+    # expression with the same name already exists in the caller’s account
+    # or if the underlying LF-Tags don't exist. To call this API operation,
+    # caller needs the following Lake Formation permissions:
+    #
+    # `CREATE_LF_TAG_EXPRESSION` on the root catalog resource.
+    #
+    # `GRANT_WITH_LF_TAG_EXPRESSION` on all underlying LF-Tag key:value
+    # pairs included in the expression.
+    #
+    # @option params [required, String] :name
+    #   A name for the expression.
+    #
+    # @option params [String] :description
+    #   A description with information about the LF-Tag expression.
+    #
+    # @option params [String] :catalog_id
+    #   The identifier for the Data Catalog. By default, the account ID. The
+    #   Data Catalog is the persistent metadata store. It contains database
+    #   definitions, table definitions, and other control information to
+    #   manage your Lake Formation environment.
+    #
+    # @option params [required, Array<Types::LFTag>] :expression
+    #   A list of LF-Tag conditions (key-value pairs).
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_lf_tag_expression({
+    #     name: "NameString", # required
+    #     description: "DescriptionString",
+    #     catalog_id: "CatalogIdString",
+    #     expression: [ # required
+    #       {
+    #         tag_key: "LFTagKey", # required
+    #         tag_values: ["LFTagValue"], # required
+    #       },
+    #     ],
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/lakeformation-2017-03-31/CreateLFTagExpression AWS API Documentation
+    #
+    # @overload create_lf_tag_expression(params = {})
+    # @param [Hash] params ({})
+    def create_lf_tag_expression(params = {}, options = {})
+      req = build_request(:create_lf_tag_expression, params)
+      req.send_request(options)
+    end
+
+    # Creates an IAM Identity Center connection with Lake Formation to allow
+    # IAM Identity Center users and groups to access Data Catalog resources.
+    #
+    # @option params [String] :catalog_id
+    #   The identifier for the Data Catalog. By default, the account ID. The
+    #   Data Catalog is the persistent metadata store. It contains database
+    #   definitions, table definitions, view definitions, and other control
+    #   information to manage your Lake Formation environment.
+    #
+    # @option params [String] :instance_arn
+    #   The ARN of the IAM Identity Center instance for which the operation
+    #   will be executed. For more information about ARNs, see Amazon Resource
+    #   Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon
+    #   Web Services General Reference.
+    #
+    # @option params [Types::ExternalFilteringConfiguration] :external_filtering
+    #   A list of the account IDs of Amazon Web Services accounts of
+    #   third-party applications that are allowed to access data managed by
+    #   Lake Formation.
+    #
+    # @option params [Array<Types::DataLakePrincipal>] :share_recipients
+    #   A list of Amazon Web Services account IDs and/or Amazon Web Services
+    #   organization/organizational unit ARNs that are allowed to access data
+    #   managed by Lake Formation.
+    #
+    #   If the `ShareRecipients` list includes valid values, a resource share
+    #   is created with the principals you want to have access to the
+    #   resources.
+    #
+    #   If the `ShareRecipients` value is null or the list is empty, no
+    #   resource share is created.
+    #
+    # @return [Types::CreateLakeFormationIdentityCenterConfigurationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateLakeFormationIdentityCenterConfigurationResponse#application_arn #application_arn} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_lake_formation_identity_center_configuration({
+    #     catalog_id: "CatalogIdString",
+    #     instance_arn: "IdentityCenterInstanceArn",
+    #     external_filtering: {
+    #       status: "ENABLED", # required, accepts ENABLED, DISABLED
+    #       authorized_targets: ["ScopeTarget"], # required
+    #     },
+    #     share_recipients: [
+    #       {
+    #         data_lake_principal_identifier: "DataLakePrincipalString",
+    #       },
+    #     ],
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.application_arn #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/lakeformation-2017-03-31/CreateLakeFormationIdentityCenterConfiguration AWS API Documentation
+    #
+    # @overload create_lake_formation_identity_center_configuration(params = {})
+    # @param [Hash] params ({})
+    def create_lake_formation_identity_center_configuration(params = {}, options = {})
+      req = build_request(:create_lake_formation_identity_center_configuration, params)
+      req.send_request(options)
+    end
+
+    # Enforce Lake Formation permissions for the given databases, tables,
+    # and principals.
+    #
+    # @option params [required, Types::DataLakePrincipal] :principal
+    #   The Lake Formation principal. Supported principals are IAM users or
+    #   IAM roles.
+    #
+    # @option params [required, Types::Resource] :resource
+    #   A structure for the resource.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_lake_formation_opt_in({
+    #     principal: { # required
+    #       data_lake_principal_identifier: "DataLakePrincipalString",
+    #     },
+    #     resource: { # required
+    #       catalog: {
+    #         id: "CatalogIdString",
+    #       },
+    #       database: {
+    #         catalog_id: "CatalogIdString",
+    #         name: "NameString", # required
+    #       },
+    #       table: {
+    #         catalog_id: "CatalogIdString",
+    #         database_name: "NameString", # required
+    #         name: "NameString",
+    #         table_wildcard: {
+    #         },
+    #       },
+    #       table_with_columns: {
+    #         catalog_id: "CatalogIdString",
+    #         database_name: "NameString", # required
+    #         name: "NameString", # required
+    #         column_names: ["NameString"],
+    #         column_wildcard: {
+    #           excluded_column_names: ["NameString"],
+    #         },
+    #       },
+    #       data_location: {
+    #         catalog_id: "CatalogIdString",
+    #         resource_arn: "ResourceArnString", # required
+    #       },
+    #       data_cells_filter: {
+    #         table_catalog_id: "CatalogIdString",
+    #         database_name: "NameString",
+    #         table_name: "NameString",
+    #         name: "NameString",
+    #       },
+    #       lf_tag: {
+    #         catalog_id: "CatalogIdString",
+    #         tag_key: "NameString", # required
+    #         tag_values: ["LFTagValue"], # required
+    #       },
+    #       lf_tag_policy: {
+    #         catalog_id: "CatalogIdString",
+    #         resource_type: "DATABASE", # required, accepts DATABASE, TABLE
+    #         expression: [
+    #           {
+    #             tag_key: "LFTagKey", # required
+    #             tag_values: ["LFTagValue"], # required
+    #           },
+    #         ],
+    #         expression_name: "NameString",
+    #       },
+    #       lf_tag_expression: {
+    #         catalog_id: "CatalogIdString",
+    #         name: "NameString", # required
+    #       },
+    #     },
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/lakeformation-2017-03-31/CreateLakeFormationOptIn AWS API Documentation
+    #
+    # @overload create_lake_formation_opt_in(params = {})
+    # @param [Hash] params ({})
+    def create_lake_formation_opt_in(params = {}, options = {})
+      req = build_request(:create_lake_formation_opt_in, params)
       req.send_request(options)
     end
 
@@ -983,6 +1312,145 @@ module Aws::LakeFormation
     # @param [Hash] params ({})
     def delete_lf_tag(params = {}, options = {})
       req = build_request(:delete_lf_tag, params)
+      req.send_request(options)
+    end
+
+    # Deletes the LF-Tag expression. The caller must be a data lake admin or
+    # have `DROP` permissions on the LF-Tag expression. Deleting a LF-Tag
+    # expression will also delete all `LFTagPolicy` permissions referencing
+    # the LF-Tag expression.
+    #
+    # @option params [required, String] :name
+    #   The name for the LF-Tag expression.
+    #
+    # @option params [String] :catalog_id
+    #   The identifier for the Data Catalog. By default, the account ID in
+    #   which the LF-Tag expression is saved.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_lf_tag_expression({
+    #     name: "NameString", # required
+    #     catalog_id: "CatalogIdString",
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/lakeformation-2017-03-31/DeleteLFTagExpression AWS API Documentation
+    #
+    # @overload delete_lf_tag_expression(params = {})
+    # @param [Hash] params ({})
+    def delete_lf_tag_expression(params = {}, options = {})
+      req = build_request(:delete_lf_tag_expression, params)
+      req.send_request(options)
+    end
+
+    # Deletes an IAM Identity Center connection with Lake Formation.
+    #
+    # @option params [String] :catalog_id
+    #   The identifier for the Data Catalog. By default, the account ID. The
+    #   Data Catalog is the persistent metadata store. It contains database
+    #   definitions, table definitions, view definition, and other control
+    #   information to manage your Lake Formation environment.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_lake_formation_identity_center_configuration({
+    #     catalog_id: "CatalogIdString",
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/lakeformation-2017-03-31/DeleteLakeFormationIdentityCenterConfiguration AWS API Documentation
+    #
+    # @overload delete_lake_formation_identity_center_configuration(params = {})
+    # @param [Hash] params ({})
+    def delete_lake_formation_identity_center_configuration(params = {}, options = {})
+      req = build_request(:delete_lake_formation_identity_center_configuration, params)
+      req.send_request(options)
+    end
+
+    # Remove the Lake Formation permissions enforcement of the given
+    # databases, tables, and principals.
+    #
+    # @option params [required, Types::DataLakePrincipal] :principal
+    #   The Lake Formation principal. Supported principals are IAM users or
+    #   IAM roles.
+    #
+    # @option params [required, Types::Resource] :resource
+    #   A structure for the resource.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_lake_formation_opt_in({
+    #     principal: { # required
+    #       data_lake_principal_identifier: "DataLakePrincipalString",
+    #     },
+    #     resource: { # required
+    #       catalog: {
+    #         id: "CatalogIdString",
+    #       },
+    #       database: {
+    #         catalog_id: "CatalogIdString",
+    #         name: "NameString", # required
+    #       },
+    #       table: {
+    #         catalog_id: "CatalogIdString",
+    #         database_name: "NameString", # required
+    #         name: "NameString",
+    #         table_wildcard: {
+    #         },
+    #       },
+    #       table_with_columns: {
+    #         catalog_id: "CatalogIdString",
+    #         database_name: "NameString", # required
+    #         name: "NameString", # required
+    #         column_names: ["NameString"],
+    #         column_wildcard: {
+    #           excluded_column_names: ["NameString"],
+    #         },
+    #       },
+    #       data_location: {
+    #         catalog_id: "CatalogIdString",
+    #         resource_arn: "ResourceArnString", # required
+    #       },
+    #       data_cells_filter: {
+    #         table_catalog_id: "CatalogIdString",
+    #         database_name: "NameString",
+    #         table_name: "NameString",
+    #         name: "NameString",
+    #       },
+    #       lf_tag: {
+    #         catalog_id: "CatalogIdString",
+    #         tag_key: "NameString", # required
+    #         tag_values: ["LFTagValue"], # required
+    #       },
+    #       lf_tag_policy: {
+    #         catalog_id: "CatalogIdString",
+    #         resource_type: "DATABASE", # required, accepts DATABASE, TABLE
+    #         expression: [
+    #           {
+    #             tag_key: "LFTagKey", # required
+    #             tag_values: ["LFTagValue"], # required
+    #           },
+    #         ],
+    #         expression_name: "NameString",
+    #       },
+    #       lf_tag_expression: {
+    #         catalog_id: "CatalogIdString",
+    #         name: "NameString", # required
+    #       },
+    #     },
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/lakeformation-2017-03-31/DeleteLakeFormationOptIn AWS API Documentation
+    #
+    # @overload delete_lake_formation_opt_in(params = {})
+    # @param [Hash] params ({})
+    def delete_lake_formation_opt_in(params = {}, options = {})
+      req = build_request(:delete_lake_formation_opt_in, params)
       req.send_request(options)
     end
 
@@ -1070,6 +1538,50 @@ module Aws::LakeFormation
       req.send_request(options)
     end
 
+    # Retrieves the instance ARN and application ARN for the connection.
+    #
+    # @option params [String] :catalog_id
+    #   The identifier for the Data Catalog. By default, the account ID. The
+    #   Data Catalog is the persistent metadata store. It contains database
+    #   definitions, table definitions, and other control information to
+    #   manage your Lake Formation environment.
+    #
+    # @return [Types::DescribeLakeFormationIdentityCenterConfigurationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeLakeFormationIdentityCenterConfigurationResponse#catalog_id #catalog_id} => String
+    #   * {Types::DescribeLakeFormationIdentityCenterConfigurationResponse#instance_arn #instance_arn} => String
+    #   * {Types::DescribeLakeFormationIdentityCenterConfigurationResponse#application_arn #application_arn} => String
+    #   * {Types::DescribeLakeFormationIdentityCenterConfigurationResponse#external_filtering #external_filtering} => Types::ExternalFilteringConfiguration
+    #   * {Types::DescribeLakeFormationIdentityCenterConfigurationResponse#share_recipients #share_recipients} => Array&lt;Types::DataLakePrincipal&gt;
+    #   * {Types::DescribeLakeFormationIdentityCenterConfigurationResponse#resource_share #resource_share} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_lake_formation_identity_center_configuration({
+    #     catalog_id: "CatalogIdString",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.catalog_id #=> String
+    #   resp.instance_arn #=> String
+    #   resp.application_arn #=> String
+    #   resp.external_filtering.status #=> String, one of "ENABLED", "DISABLED"
+    #   resp.external_filtering.authorized_targets #=> Array
+    #   resp.external_filtering.authorized_targets[0] #=> String
+    #   resp.share_recipients #=> Array
+    #   resp.share_recipients[0].data_lake_principal_identifier #=> String
+    #   resp.resource_share #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/lakeformation-2017-03-31/DescribeLakeFormationIdentityCenterConfiguration AWS API Documentation
+    #
+    # @overload describe_lake_formation_identity_center_configuration(params = {})
+    # @param [Hash] params ({})
+    def describe_lake_formation_identity_center_configuration(params = {}, options = {})
+      req = build_request(:describe_lake_formation_identity_center_configuration, params)
+      req.send_request(options)
+    end
+
     # Retrieves the current data access role for the given resource
     # registered in Lake Formation.
     #
@@ -1091,6 +1603,8 @@ module Aws::LakeFormation
     #   resp.resource_info.resource_arn #=> String
     #   resp.resource_info.role_arn #=> String
     #   resp.resource_info.last_modified #=> Time
+    #   resp.resource_info.with_federation #=> Boolean
+    #   resp.resource_info.hybrid_access_enabled #=> Boolean
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/lakeformation-2017-03-31/DescribeResource AWS API Documentation
     #
@@ -1158,6 +1672,74 @@ module Aws::LakeFormation
       req.send_request(options)
     end
 
+    # Returns a data cells filter.
+    #
+    # @option params [required, String] :table_catalog_id
+    #   The ID of the catalog to which the table belongs.
+    #
+    # @option params [required, String] :database_name
+    #   A database in the Glue Data Catalog.
+    #
+    # @option params [required, String] :table_name
+    #   A table in the database.
+    #
+    # @option params [required, String] :name
+    #   The name given by the user to the data filter cell.
+    #
+    # @return [Types::GetDataCellsFilterResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetDataCellsFilterResponse#data_cells_filter #data_cells_filter} => Types::DataCellsFilter
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_data_cells_filter({
+    #     table_catalog_id: "CatalogIdString", # required
+    #     database_name: "NameString", # required
+    #     table_name: "NameString", # required
+    #     name: "NameString", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.data_cells_filter.table_catalog_id #=> String
+    #   resp.data_cells_filter.database_name #=> String
+    #   resp.data_cells_filter.table_name #=> String
+    #   resp.data_cells_filter.name #=> String
+    #   resp.data_cells_filter.row_filter.filter_expression #=> String
+    #   resp.data_cells_filter.column_names #=> Array
+    #   resp.data_cells_filter.column_names[0] #=> String
+    #   resp.data_cells_filter.column_wildcard.excluded_column_names #=> Array
+    #   resp.data_cells_filter.column_wildcard.excluded_column_names[0] #=> String
+    #   resp.data_cells_filter.version_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/lakeformation-2017-03-31/GetDataCellsFilter AWS API Documentation
+    #
+    # @overload get_data_cells_filter(params = {})
+    # @param [Hash] params ({})
+    def get_data_cells_filter(params = {}, options = {})
+      req = build_request(:get_data_cells_filter, params)
+      req.send_request(options)
+    end
+
+    # Returns the identity of the invoking principal.
+    #
+    # @return [Types::GetDataLakePrincipalResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetDataLakePrincipalResponse#identity #identity} => String
+    #
+    # @example Response structure
+    #
+    #   resp.identity #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/lakeformation-2017-03-31/GetDataLakePrincipal AWS API Documentation
+    #
+    # @overload get_data_lake_principal(params = {})
+    # @param [Hash] params ({})
+    def get_data_lake_principal(params = {}, options = {})
+      req = build_request(:get_data_lake_principal, params)
+      req.send_request(options)
+    end
+
     # Retrieves the list of the data lake administrators of a Lake
     # Formation-managed data lake.
     #
@@ -1181,19 +1763,22 @@ module Aws::LakeFormation
     #
     #   resp.data_lake_settings.data_lake_admins #=> Array
     #   resp.data_lake_settings.data_lake_admins[0].data_lake_principal_identifier #=> String
+    #   resp.data_lake_settings.read_only_admins #=> Array
+    #   resp.data_lake_settings.read_only_admins[0].data_lake_principal_identifier #=> String
     #   resp.data_lake_settings.create_database_default_permissions #=> Array
     #   resp.data_lake_settings.create_database_default_permissions[0].principal.data_lake_principal_identifier #=> String
     #   resp.data_lake_settings.create_database_default_permissions[0].permissions #=> Array
-    #   resp.data_lake_settings.create_database_default_permissions[0].permissions[0] #=> String, one of "ALL", "SELECT", "ALTER", "DROP", "DELETE", "INSERT", "DESCRIBE", "CREATE_DATABASE", "CREATE_TABLE", "DATA_LOCATION_ACCESS", "CREATE_TAG", "ASSOCIATE"
+    #   resp.data_lake_settings.create_database_default_permissions[0].permissions[0] #=> String, one of "ALL", "SELECT", "ALTER", "DROP", "DELETE", "INSERT", "DESCRIBE", "CREATE_DATABASE", "CREATE_TABLE", "DATA_LOCATION_ACCESS", "CREATE_LF_TAG", "ASSOCIATE", "GRANT_WITH_LF_TAG_EXPRESSION", "CREATE_LF_TAG_EXPRESSION", "CREATE_CATALOG", "SUPER_USER"
     #   resp.data_lake_settings.create_table_default_permissions #=> Array
     #   resp.data_lake_settings.create_table_default_permissions[0].principal.data_lake_principal_identifier #=> String
     #   resp.data_lake_settings.create_table_default_permissions[0].permissions #=> Array
-    #   resp.data_lake_settings.create_table_default_permissions[0].permissions[0] #=> String, one of "ALL", "SELECT", "ALTER", "DROP", "DELETE", "INSERT", "DESCRIBE", "CREATE_DATABASE", "CREATE_TABLE", "DATA_LOCATION_ACCESS", "CREATE_TAG", "ASSOCIATE"
+    #   resp.data_lake_settings.create_table_default_permissions[0].permissions[0] #=> String, one of "ALL", "SELECT", "ALTER", "DROP", "DELETE", "INSERT", "DESCRIBE", "CREATE_DATABASE", "CREATE_TABLE", "DATA_LOCATION_ACCESS", "CREATE_LF_TAG", "ASSOCIATE", "GRANT_WITH_LF_TAG_EXPRESSION", "CREATE_LF_TAG_EXPRESSION", "CREATE_CATALOG", "SUPER_USER"
     #   resp.data_lake_settings.parameters #=> Hash
     #   resp.data_lake_settings.parameters["KeyString"] #=> String
     #   resp.data_lake_settings.trusted_resource_owners #=> Array
     #   resp.data_lake_settings.trusted_resource_owners[0] #=> String
     #   resp.data_lake_settings.allow_external_data_filtering #=> Boolean
+    #   resp.data_lake_settings.allow_full_table_external_data_access #=> Boolean
     #   resp.data_lake_settings.external_data_filtering_allow_list #=> Array
     #   resp.data_lake_settings.external_data_filtering_allow_list[0].data_lake_principal_identifier #=> String
     #   resp.data_lake_settings.authorized_session_tag_value_list #=> Array
@@ -1250,6 +1835,7 @@ module Aws::LakeFormation
     #
     #   resp.permissions #=> Array
     #   resp.permissions[0].principal.data_lake_principal_identifier #=> String
+    #   resp.permissions[0].resource.catalog.id #=> String
     #   resp.permissions[0].resource.database.catalog_id #=> String
     #   resp.permissions[0].resource.database.name #=> String
     #   resp.permissions[0].resource.table.catalog_id #=> String
@@ -1278,12 +1864,18 @@ module Aws::LakeFormation
     #   resp.permissions[0].resource.lf_tag_policy.expression[0].tag_key #=> String
     #   resp.permissions[0].resource.lf_tag_policy.expression[0].tag_values #=> Array
     #   resp.permissions[0].resource.lf_tag_policy.expression[0].tag_values[0] #=> String
+    #   resp.permissions[0].resource.lf_tag_policy.expression_name #=> String
+    #   resp.permissions[0].resource.lf_tag_expression.catalog_id #=> String
+    #   resp.permissions[0].resource.lf_tag_expression.name #=> String
+    #   resp.permissions[0].condition.expression #=> String
     #   resp.permissions[0].permissions #=> Array
-    #   resp.permissions[0].permissions[0] #=> String, one of "ALL", "SELECT", "ALTER", "DROP", "DELETE", "INSERT", "DESCRIBE", "CREATE_DATABASE", "CREATE_TABLE", "DATA_LOCATION_ACCESS", "CREATE_TAG", "ASSOCIATE"
+    #   resp.permissions[0].permissions[0] #=> String, one of "ALL", "SELECT", "ALTER", "DROP", "DELETE", "INSERT", "DESCRIBE", "CREATE_DATABASE", "CREATE_TABLE", "DATA_LOCATION_ACCESS", "CREATE_LF_TAG", "ASSOCIATE", "GRANT_WITH_LF_TAG_EXPRESSION", "CREATE_LF_TAG_EXPRESSION", "CREATE_CATALOG", "SUPER_USER"
     #   resp.permissions[0].permissions_with_grant_option #=> Array
-    #   resp.permissions[0].permissions_with_grant_option[0] #=> String, one of "ALL", "SELECT", "ALTER", "DROP", "DELETE", "INSERT", "DESCRIBE", "CREATE_DATABASE", "CREATE_TABLE", "DATA_LOCATION_ACCESS", "CREATE_TAG", "ASSOCIATE"
+    #   resp.permissions[0].permissions_with_grant_option[0] #=> String, one of "ALL", "SELECT", "ALTER", "DROP", "DELETE", "INSERT", "DESCRIBE", "CREATE_DATABASE", "CREATE_TABLE", "DATA_LOCATION_ACCESS", "CREATE_LF_TAG", "ASSOCIATE", "GRANT_WITH_LF_TAG_EXPRESSION", "CREATE_LF_TAG_EXPRESSION", "CREATE_CATALOG", "SUPER_USER"
     #   resp.permissions[0].additional_details.resource_share #=> Array
     #   resp.permissions[0].additional_details.resource_share[0] #=> String
+    #   resp.permissions[0].last_updated #=> Time
+    #   resp.permissions[0].last_updated_by #=> String
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/lakeformation-2017-03-31/GetEffectivePermissionsForPath AWS API Documentation
@@ -1332,6 +1924,49 @@ module Aws::LakeFormation
     # @param [Hash] params ({})
     def get_lf_tag(params = {}, options = {})
       req = build_request(:get_lf_tag, params)
+      req.send_request(options)
+    end
+
+    # Returns the details about the LF-Tag expression. The caller must be a
+    # data lake admin or must have `DESCRIBE` permission on the LF-Tag
+    # expression resource.
+    #
+    # @option params [required, String] :name
+    #   The name for the LF-Tag expression
+    #
+    # @option params [String] :catalog_id
+    #   The identifier for the Data Catalog. By default, the account ID.
+    #
+    # @return [Types::GetLFTagExpressionResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetLFTagExpressionResponse#name #name} => String
+    #   * {Types::GetLFTagExpressionResponse#description #description} => String
+    #   * {Types::GetLFTagExpressionResponse#catalog_id #catalog_id} => String
+    #   * {Types::GetLFTagExpressionResponse#expression #expression} => Array&lt;Types::LFTag&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_lf_tag_expression({
+    #     name: "NameString", # required
+    #     catalog_id: "CatalogIdString",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.name #=> String
+    #   resp.description #=> String
+    #   resp.catalog_id #=> String
+    #   resp.expression #=> Array
+    #   resp.expression[0].tag_key #=> String
+    #   resp.expression[0].tag_values #=> Array
+    #   resp.expression[0].tag_values[0] #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/lakeformation-2017-03-31/GetLFTagExpression AWS API Documentation
+    #
+    # @overload get_lf_tag_expression(params = {})
+    # @param [Hash] params ({})
+    def get_lf_tag_expression(params = {}, options = {})
+      req = build_request(:get_lf_tag_expression, params)
       req.send_request(options)
     end
 
@@ -1433,6 +2068,7 @@ module Aws::LakeFormation
     #     catalog_id: "CatalogIdString",
     #     resource: { # required
     #       catalog: {
+    #         id: "CatalogIdString",
     #       },
     #       database: {
     #         catalog_id: "CatalogIdString",
@@ -1472,12 +2108,17 @@ module Aws::LakeFormation
     #       lf_tag_policy: {
     #         catalog_id: "CatalogIdString",
     #         resource_type: "DATABASE", # required, accepts DATABASE, TABLE
-    #         expression: [ # required
+    #         expression: [
     #           {
     #             tag_key: "LFTagKey", # required
     #             tag_values: ["LFTagValue"], # required
     #           },
     #         ],
+    #         expression_name: "NameString",
+    #       },
+    #       lf_tag_expression: {
+    #         catalog_id: "CatalogIdString",
+    #         name: "NameString", # required
     #       },
     #     },
     #     show_assigned_lf_tags: false,
@@ -1620,7 +2261,7 @@ module Aws::LakeFormation
     #   A structure representing context to access a resource (column names,
     #   query ID, etc).
     #
-    # @option params [required, Array<String>] :supported_permission_types
+    # @option params [Array<String>] :supported_permission_types
     #   A list of supported permission types for the partition. Valid values
     #   are `COLUMN_PERMISSION` and `CELL_FILTER_PERMISSION`.
     #
@@ -1638,12 +2279,12 @@ module Aws::LakeFormation
     #     partition: { # required
     #       values: ["ValueString"], # required
     #     },
-    #     permissions: ["ALL"], # accepts ALL, SELECT, ALTER, DROP, DELETE, INSERT, DESCRIBE, CREATE_DATABASE, CREATE_TABLE, DATA_LOCATION_ACCESS, CREATE_TAG, ASSOCIATE
+    #     permissions: ["ALL"], # accepts ALL, SELECT, ALTER, DROP, DELETE, INSERT, DESCRIBE, CREATE_DATABASE, CREATE_TABLE, DATA_LOCATION_ACCESS, CREATE_LF_TAG, ASSOCIATE, GRANT_WITH_LF_TAG_EXPRESSION, CREATE_LF_TAG_EXPRESSION, CREATE_CATALOG, SUPER_USER
     #     duration_seconds: 1,
     #     audit_context: {
     #       additional_audit_context: "AuditContextString",
     #     },
-    #     supported_permission_types: ["COLUMN_PERMISSION"], # required, accepts COLUMN_PERMISSION, CELL_FILTER_PERMISSION
+    #     supported_permission_types: ["COLUMN_PERMISSION"], # accepts COLUMN_PERMISSION, CELL_FILTER_PERMISSION, NESTED_PERMISSION, NESTED_CELL_PERMISSION
     #   })
     #
     # @example Response structure
@@ -1668,6 +2309,9 @@ module Aws::LakeFormation
     # for example an Amazon S3 bucket, with a scope down policy which
     # restricts the access to a single prefix.
     #
+    # To call this API, the role that the service assumes must have
+    # `lakeformation:GetDataAccess` permission on the resource.
+    #
     # @option params [required, String] :table_arn
     #   The ARN identifying a table in the Data Catalog for the temporary
     #   credentials request.
@@ -1684,9 +2328,18 @@ module Aws::LakeFormation
     #   A structure representing context to access a resource (column names,
     #   query ID, etc).
     #
-    # @option params [required, Array<String>] :supported_permission_types
+    # @option params [Array<String>] :supported_permission_types
     #   A list of supported permission types for the table. Valid values are
     #   `COLUMN_PERMISSION` and `CELL_FILTER_PERMISSION`.
+    #
+    # @option params [String] :s3_path
+    #   The Amazon S3 path for the table.
+    #
+    # @option params [Types::QuerySessionContext] :query_session_context
+    #   A structure used as a protocol between query engines and Lake
+    #   Formation or Glue. Contains both a Lake Formation generated
+    #   authorization identifier and information from the request's
+    #   authorization context.
     #
     # @return [Types::GetTemporaryGlueTableCredentialsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1694,17 +2347,28 @@ module Aws::LakeFormation
     #   * {Types::GetTemporaryGlueTableCredentialsResponse#secret_access_key #secret_access_key} => String
     #   * {Types::GetTemporaryGlueTableCredentialsResponse#session_token #session_token} => String
     #   * {Types::GetTemporaryGlueTableCredentialsResponse#expiration #expiration} => Time
+    #   * {Types::GetTemporaryGlueTableCredentialsResponse#vended_s3_path #vended_s3_path} => Array&lt;String&gt;
     #
     # @example Request syntax with placeholder values
     #
     #   resp = client.get_temporary_glue_table_credentials({
     #     table_arn: "ResourceArnString", # required
-    #     permissions: ["ALL"], # accepts ALL, SELECT, ALTER, DROP, DELETE, INSERT, DESCRIBE, CREATE_DATABASE, CREATE_TABLE, DATA_LOCATION_ACCESS, CREATE_TAG, ASSOCIATE
+    #     permissions: ["ALL"], # accepts ALL, SELECT, ALTER, DROP, DELETE, INSERT, DESCRIBE, CREATE_DATABASE, CREATE_TABLE, DATA_LOCATION_ACCESS, CREATE_LF_TAG, ASSOCIATE, GRANT_WITH_LF_TAG_EXPRESSION, CREATE_LF_TAG_EXPRESSION, CREATE_CATALOG, SUPER_USER
     #     duration_seconds: 1,
     #     audit_context: {
     #       additional_audit_context: "AuditContextString",
     #     },
-    #     supported_permission_types: ["COLUMN_PERMISSION"], # required, accepts COLUMN_PERMISSION, CELL_FILTER_PERMISSION
+    #     supported_permission_types: ["COLUMN_PERMISSION"], # accepts COLUMN_PERMISSION, CELL_FILTER_PERMISSION, NESTED_PERMISSION, NESTED_CELL_PERMISSION
+    #     s3_path: "PathString",
+    #     query_session_context: {
+    #       query_id: "HashString",
+    #       query_start_time: Time.now,
+    #       cluster_id: "NullableString",
+    #       query_authorization_id: "HashString",
+    #       additional_context: {
+    #         "ContextKey" => "ContextValue",
+    #       },
+    #     },
     #   })
     #
     # @example Response structure
@@ -1713,6 +2377,8 @@ module Aws::LakeFormation
     #   resp.secret_access_key #=> String
     #   resp.session_token #=> String
     #   resp.expiration #=> Time
+    #   resp.vended_s3_path #=> Array
+    #   resp.vended_s3_path[0] #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/lakeformation-2017-03-31/GetTemporaryGlueTableCredentials AWS API Documentation
     #
@@ -1823,7 +2489,7 @@ module Aws::LakeFormation
     #
     #
     #
-    # [1]: https://docs-aws.amazon.com/lake-formation/latest/dg/security-data-access.html
+    # [1]: https://docs.aws.amazon.com/lake-formation/latest/dg/security-data-access.html
     #
     # @option params [String] :catalog_id
     #   The identifier for the Data Catalog. By default, the account ID. The
@@ -1867,6 +2533,7 @@ module Aws::LakeFormation
     #     },
     #     resource: { # required
     #       catalog: {
+    #         id: "CatalogIdString",
     #       },
     #       database: {
     #         catalog_id: "CatalogIdString",
@@ -1906,16 +2573,21 @@ module Aws::LakeFormation
     #       lf_tag_policy: {
     #         catalog_id: "CatalogIdString",
     #         resource_type: "DATABASE", # required, accepts DATABASE, TABLE
-    #         expression: [ # required
+    #         expression: [
     #           {
     #             tag_key: "LFTagKey", # required
     #             tag_values: ["LFTagValue"], # required
     #           },
     #         ],
+    #         expression_name: "NameString",
+    #       },
+    #       lf_tag_expression: {
+    #         catalog_id: "CatalogIdString",
+    #         name: "NameString", # required
     #       },
     #     },
-    #     permissions: ["ALL"], # required, accepts ALL, SELECT, ALTER, DROP, DELETE, INSERT, DESCRIBE, CREATE_DATABASE, CREATE_TABLE, DATA_LOCATION_ACCESS, CREATE_TAG, ASSOCIATE
-    #     permissions_with_grant_option: ["ALL"], # accepts ALL, SELECT, ALTER, DROP, DELETE, INSERT, DESCRIBE, CREATE_DATABASE, CREATE_TABLE, DATA_LOCATION_ACCESS, CREATE_TAG, ASSOCIATE
+    #     permissions: ["ALL"], # required, accepts ALL, SELECT, ALTER, DROP, DELETE, INSERT, DESCRIBE, CREATE_DATABASE, CREATE_TABLE, DATA_LOCATION_ACCESS, CREATE_LF_TAG, ASSOCIATE, GRANT_WITH_LF_TAG_EXPRESSION, CREATE_LF_TAG_EXPRESSION, CREATE_CATALOG, SUPER_USER
+    #     permissions_with_grant_option: ["ALL"], # accepts ALL, SELECT, ALTER, DROP, DELETE, INSERT, DESCRIBE, CREATE_DATABASE, CREATE_TABLE, DATA_LOCATION_ACCESS, CREATE_LF_TAG, ASSOCIATE, GRANT_WITH_LF_TAG_EXPRESSION, CREATE_LF_TAG_EXPRESSION, CREATE_CATALOG, SUPER_USER
     #   })
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/lakeformation-2017-03-31/GrantPermissions AWS API Documentation
@@ -1971,6 +2643,7 @@ module Aws::LakeFormation
     #   resp.data_cells_filters[0].column_names[0] #=> String
     #   resp.data_cells_filters[0].column_wildcard.excluded_column_names #=> Array
     #   resp.data_cells_filters[0].column_wildcard.excluded_column_names[0] #=> String
+    #   resp.data_cells_filters[0].version_id #=> String
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/lakeformation-2017-03-31/ListDataCellsFilter AWS API Documentation
@@ -1979,6 +2652,57 @@ module Aws::LakeFormation
     # @param [Hash] params ({})
     def list_data_cells_filter(params = {}, options = {})
       req = build_request(:list_data_cells_filter, params)
+      req.send_request(options)
+    end
+
+    # Returns the LF-Tag expressions in caller’s account filtered based on
+    # caller's permissions. Data Lake and read only admins implicitly can
+    # see all tag expressions in their account, else caller needs DESCRIBE
+    # permissions on tag expression.
+    #
+    # @option params [String] :catalog_id
+    #   The identifier for the Data Catalog. By default, the account ID.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return.
+    #
+    # @option params [String] :next_token
+    #   A continuation token, if this is not the first call to retrieve this
+    #   list.
+    #
+    # @return [Types::ListLFTagExpressionsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListLFTagExpressionsResponse#lf_tag_expressions #lf_tag_expressions} => Array&lt;Types::LFTagExpression&gt;
+    #   * {Types::ListLFTagExpressionsResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_lf_tag_expressions({
+    #     catalog_id: "CatalogIdString",
+    #     max_results: 1,
+    #     next_token: "Token",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.lf_tag_expressions #=> Array
+    #   resp.lf_tag_expressions[0].name #=> String
+    #   resp.lf_tag_expressions[0].description #=> String
+    #   resp.lf_tag_expressions[0].catalog_id #=> String
+    #   resp.lf_tag_expressions[0].expression #=> Array
+    #   resp.lf_tag_expressions[0].expression[0].tag_key #=> String
+    #   resp.lf_tag_expressions[0].expression[0].tag_values #=> Array
+    #   resp.lf_tag_expressions[0].expression[0].tag_values[0] #=> String
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/lakeformation-2017-03-31/ListLFTagExpressions AWS API Documentation
+    #
+    # @overload list_lf_tag_expressions(params = {})
+    # @param [Hash] params ({})
+    def list_lf_tag_expressions(params = {}, options = {})
+      req = build_request(:list_lf_tag_expressions, params)
       req.send_request(options)
     end
 
@@ -2038,6 +2762,145 @@ module Aws::LakeFormation
       req.send_request(options)
     end
 
+    # Retrieve the current list of resources and principals that are opt in
+    # to enforce Lake Formation permissions.
+    #
+    # @option params [Types::DataLakePrincipal] :principal
+    #   The Lake Formation principal. Supported principals are IAM users or
+    #   IAM roles.
+    #
+    # @option params [Types::Resource] :resource
+    #   A structure for the resource.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return.
+    #
+    # @option params [String] :next_token
+    #   A continuation token, if this is not the first call to retrieve this
+    #   list.
+    #
+    # @return [Types::ListLakeFormationOptInsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListLakeFormationOptInsResponse#lake_formation_opt_ins_info_list #lake_formation_opt_ins_info_list} => Array&lt;Types::LakeFormationOptInsInfo&gt;
+    #   * {Types::ListLakeFormationOptInsResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_lake_formation_opt_ins({
+    #     principal: {
+    #       data_lake_principal_identifier: "DataLakePrincipalString",
+    #     },
+    #     resource: {
+    #       catalog: {
+    #         id: "CatalogIdString",
+    #       },
+    #       database: {
+    #         catalog_id: "CatalogIdString",
+    #         name: "NameString", # required
+    #       },
+    #       table: {
+    #         catalog_id: "CatalogIdString",
+    #         database_name: "NameString", # required
+    #         name: "NameString",
+    #         table_wildcard: {
+    #         },
+    #       },
+    #       table_with_columns: {
+    #         catalog_id: "CatalogIdString",
+    #         database_name: "NameString", # required
+    #         name: "NameString", # required
+    #         column_names: ["NameString"],
+    #         column_wildcard: {
+    #           excluded_column_names: ["NameString"],
+    #         },
+    #       },
+    #       data_location: {
+    #         catalog_id: "CatalogIdString",
+    #         resource_arn: "ResourceArnString", # required
+    #       },
+    #       data_cells_filter: {
+    #         table_catalog_id: "CatalogIdString",
+    #         database_name: "NameString",
+    #         table_name: "NameString",
+    #         name: "NameString",
+    #       },
+    #       lf_tag: {
+    #         catalog_id: "CatalogIdString",
+    #         tag_key: "NameString", # required
+    #         tag_values: ["LFTagValue"], # required
+    #       },
+    #       lf_tag_policy: {
+    #         catalog_id: "CatalogIdString",
+    #         resource_type: "DATABASE", # required, accepts DATABASE, TABLE
+    #         expression: [
+    #           {
+    #             tag_key: "LFTagKey", # required
+    #             tag_values: ["LFTagValue"], # required
+    #           },
+    #         ],
+    #         expression_name: "NameString",
+    #       },
+    #       lf_tag_expression: {
+    #         catalog_id: "CatalogIdString",
+    #         name: "NameString", # required
+    #       },
+    #     },
+    #     max_results: 1,
+    #     next_token: "Token",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.lake_formation_opt_ins_info_list #=> Array
+    #   resp.lake_formation_opt_ins_info_list[0].resource.catalog.id #=> String
+    #   resp.lake_formation_opt_ins_info_list[0].resource.database.catalog_id #=> String
+    #   resp.lake_formation_opt_ins_info_list[0].resource.database.name #=> String
+    #   resp.lake_formation_opt_ins_info_list[0].resource.table.catalog_id #=> String
+    #   resp.lake_formation_opt_ins_info_list[0].resource.table.database_name #=> String
+    #   resp.lake_formation_opt_ins_info_list[0].resource.table.name #=> String
+    #   resp.lake_formation_opt_ins_info_list[0].resource.table_with_columns.catalog_id #=> String
+    #   resp.lake_formation_opt_ins_info_list[0].resource.table_with_columns.database_name #=> String
+    #   resp.lake_formation_opt_ins_info_list[0].resource.table_with_columns.name #=> String
+    #   resp.lake_formation_opt_ins_info_list[0].resource.table_with_columns.column_names #=> Array
+    #   resp.lake_formation_opt_ins_info_list[0].resource.table_with_columns.column_names[0] #=> String
+    #   resp.lake_formation_opt_ins_info_list[0].resource.table_with_columns.column_wildcard.excluded_column_names #=> Array
+    #   resp.lake_formation_opt_ins_info_list[0].resource.table_with_columns.column_wildcard.excluded_column_names[0] #=> String
+    #   resp.lake_formation_opt_ins_info_list[0].resource.data_location.catalog_id #=> String
+    #   resp.lake_formation_opt_ins_info_list[0].resource.data_location.resource_arn #=> String
+    #   resp.lake_formation_opt_ins_info_list[0].resource.data_cells_filter.table_catalog_id #=> String
+    #   resp.lake_formation_opt_ins_info_list[0].resource.data_cells_filter.database_name #=> String
+    #   resp.lake_formation_opt_ins_info_list[0].resource.data_cells_filter.table_name #=> String
+    #   resp.lake_formation_opt_ins_info_list[0].resource.data_cells_filter.name #=> String
+    #   resp.lake_formation_opt_ins_info_list[0].resource.lf_tag.catalog_id #=> String
+    #   resp.lake_formation_opt_ins_info_list[0].resource.lf_tag.tag_key #=> String
+    #   resp.lake_formation_opt_ins_info_list[0].resource.lf_tag.tag_values #=> Array
+    #   resp.lake_formation_opt_ins_info_list[0].resource.lf_tag.tag_values[0] #=> String
+    #   resp.lake_formation_opt_ins_info_list[0].resource.lf_tag_policy.catalog_id #=> String
+    #   resp.lake_formation_opt_ins_info_list[0].resource.lf_tag_policy.resource_type #=> String, one of "DATABASE", "TABLE"
+    #   resp.lake_formation_opt_ins_info_list[0].resource.lf_tag_policy.expression #=> Array
+    #   resp.lake_formation_opt_ins_info_list[0].resource.lf_tag_policy.expression[0].tag_key #=> String
+    #   resp.lake_formation_opt_ins_info_list[0].resource.lf_tag_policy.expression[0].tag_values #=> Array
+    #   resp.lake_formation_opt_ins_info_list[0].resource.lf_tag_policy.expression[0].tag_values[0] #=> String
+    #   resp.lake_formation_opt_ins_info_list[0].resource.lf_tag_policy.expression_name #=> String
+    #   resp.lake_formation_opt_ins_info_list[0].resource.lf_tag_expression.catalog_id #=> String
+    #   resp.lake_formation_opt_ins_info_list[0].resource.lf_tag_expression.name #=> String
+    #   resp.lake_formation_opt_ins_info_list[0].principal.data_lake_principal_identifier #=> String
+    #   resp.lake_formation_opt_ins_info_list[0].condition.expression #=> String
+    #   resp.lake_formation_opt_ins_info_list[0].last_modified #=> Time
+    #   resp.lake_formation_opt_ins_info_list[0].last_updated_by #=> String
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/lakeformation-2017-03-31/ListLakeFormationOptIns AWS API Documentation
+    #
+    # @overload list_lake_formation_opt_ins(params = {})
+    # @param [Hash] params ({})
+    def list_lake_formation_opt_ins(params = {}, options = {})
+      req = build_request(:list_lake_formation_opt_ins, params)
+      req.send_request(options)
+    end
+
     # Returns a list of the principal permissions on the resource, filtered
     # by the permissions of the caller. For example, if you are granted an
     # ALTER permission, you are able to see only the principal permissions
@@ -2051,7 +2914,7 @@ module Aws::LakeFormation
     #
     #
     #
-    # [1]: https://docs-aws.amazon.com/lake-formation/latest/dg/security-data-access.html
+    # [1]: https://docs.aws.amazon.com/lake-formation/latest/dg/security-data-access.html
     #
     # @option params [String] :catalog_id
     #   The identifier for the Data Catalog. By default, the account ID. The
@@ -2096,9 +2959,10 @@ module Aws::LakeFormation
     #     principal: {
     #       data_lake_principal_identifier: "DataLakePrincipalString",
     #     },
-    #     resource_type: "CATALOG", # accepts CATALOG, DATABASE, TABLE, DATA_LOCATION, LF_TAG, LF_TAG_POLICY, LF_TAG_POLICY_DATABASE, LF_TAG_POLICY_TABLE
+    #     resource_type: "CATALOG", # accepts CATALOG, DATABASE, TABLE, DATA_LOCATION, LF_TAG, LF_TAG_POLICY, LF_TAG_POLICY_DATABASE, LF_TAG_POLICY_TABLE, LF_NAMED_TAG_EXPRESSION
     #     resource: {
     #       catalog: {
+    #         id: "CatalogIdString",
     #       },
     #       database: {
     #         catalog_id: "CatalogIdString",
@@ -2138,12 +3002,17 @@ module Aws::LakeFormation
     #       lf_tag_policy: {
     #         catalog_id: "CatalogIdString",
     #         resource_type: "DATABASE", # required, accepts DATABASE, TABLE
-    #         expression: [ # required
+    #         expression: [
     #           {
     #             tag_key: "LFTagKey", # required
     #             tag_values: ["LFTagValue"], # required
     #           },
     #         ],
+    #         expression_name: "NameString",
+    #       },
+    #       lf_tag_expression: {
+    #         catalog_id: "CatalogIdString",
+    #         name: "NameString", # required
     #       },
     #     },
     #     next_token: "Token",
@@ -2155,6 +3024,7 @@ module Aws::LakeFormation
     #
     #   resp.principal_resource_permissions #=> Array
     #   resp.principal_resource_permissions[0].principal.data_lake_principal_identifier #=> String
+    #   resp.principal_resource_permissions[0].resource.catalog.id #=> String
     #   resp.principal_resource_permissions[0].resource.database.catalog_id #=> String
     #   resp.principal_resource_permissions[0].resource.database.name #=> String
     #   resp.principal_resource_permissions[0].resource.table.catalog_id #=> String
@@ -2183,12 +3053,18 @@ module Aws::LakeFormation
     #   resp.principal_resource_permissions[0].resource.lf_tag_policy.expression[0].tag_key #=> String
     #   resp.principal_resource_permissions[0].resource.lf_tag_policy.expression[0].tag_values #=> Array
     #   resp.principal_resource_permissions[0].resource.lf_tag_policy.expression[0].tag_values[0] #=> String
+    #   resp.principal_resource_permissions[0].resource.lf_tag_policy.expression_name #=> String
+    #   resp.principal_resource_permissions[0].resource.lf_tag_expression.catalog_id #=> String
+    #   resp.principal_resource_permissions[0].resource.lf_tag_expression.name #=> String
+    #   resp.principal_resource_permissions[0].condition.expression #=> String
     #   resp.principal_resource_permissions[0].permissions #=> Array
-    #   resp.principal_resource_permissions[0].permissions[0] #=> String, one of "ALL", "SELECT", "ALTER", "DROP", "DELETE", "INSERT", "DESCRIBE", "CREATE_DATABASE", "CREATE_TABLE", "DATA_LOCATION_ACCESS", "CREATE_TAG", "ASSOCIATE"
+    #   resp.principal_resource_permissions[0].permissions[0] #=> String, one of "ALL", "SELECT", "ALTER", "DROP", "DELETE", "INSERT", "DESCRIBE", "CREATE_DATABASE", "CREATE_TABLE", "DATA_LOCATION_ACCESS", "CREATE_LF_TAG", "ASSOCIATE", "GRANT_WITH_LF_TAG_EXPRESSION", "CREATE_LF_TAG_EXPRESSION", "CREATE_CATALOG", "SUPER_USER"
     #   resp.principal_resource_permissions[0].permissions_with_grant_option #=> Array
-    #   resp.principal_resource_permissions[0].permissions_with_grant_option[0] #=> String, one of "ALL", "SELECT", "ALTER", "DROP", "DELETE", "INSERT", "DESCRIBE", "CREATE_DATABASE", "CREATE_TABLE", "DATA_LOCATION_ACCESS", "CREATE_TAG", "ASSOCIATE"
+    #   resp.principal_resource_permissions[0].permissions_with_grant_option[0] #=> String, one of "ALL", "SELECT", "ALTER", "DROP", "DELETE", "INSERT", "DESCRIBE", "CREATE_DATABASE", "CREATE_TABLE", "DATA_LOCATION_ACCESS", "CREATE_LF_TAG", "ASSOCIATE", "GRANT_WITH_LF_TAG_EXPRESSION", "CREATE_LF_TAG_EXPRESSION", "CREATE_CATALOG", "SUPER_USER"
     #   resp.principal_resource_permissions[0].additional_details.resource_share #=> Array
     #   resp.principal_resource_permissions[0].additional_details.resource_share[0] #=> String
+    #   resp.principal_resource_permissions[0].last_updated #=> Time
+    #   resp.principal_resource_permissions[0].last_updated_by #=> String
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/lakeformation-2017-03-31/ListPermissions AWS API Documentation
@@ -2240,6 +3116,8 @@ module Aws::LakeFormation
     #   resp.resource_info_list[0].resource_arn #=> String
     #   resp.resource_info_list[0].role_arn #=> String
     #   resp.resource_info_list[0].last_modified #=> Time
+    #   resp.resource_info_list[0].with_federation #=> Boolean
+    #   resp.resource_info_list[0].hybrid_access_enabled #=> Boolean
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/lakeformation-2017-03-31/ListResources AWS API Documentation
@@ -2402,12 +3280,17 @@ module Aws::LakeFormation
     #           data_lake_principal_identifier: "DataLakePrincipalString",
     #         },
     #       ],
+    #       read_only_admins: [
+    #         {
+    #           data_lake_principal_identifier: "DataLakePrincipalString",
+    #         },
+    #       ],
     #       create_database_default_permissions: [
     #         {
     #           principal: {
     #             data_lake_principal_identifier: "DataLakePrincipalString",
     #           },
-    #           permissions: ["ALL"], # accepts ALL, SELECT, ALTER, DROP, DELETE, INSERT, DESCRIBE, CREATE_DATABASE, CREATE_TABLE, DATA_LOCATION_ACCESS, CREATE_TAG, ASSOCIATE
+    #           permissions: ["ALL"], # accepts ALL, SELECT, ALTER, DROP, DELETE, INSERT, DESCRIBE, CREATE_DATABASE, CREATE_TABLE, DATA_LOCATION_ACCESS, CREATE_LF_TAG, ASSOCIATE, GRANT_WITH_LF_TAG_EXPRESSION, CREATE_LF_TAG_EXPRESSION, CREATE_CATALOG, SUPER_USER
     #         },
     #       ],
     #       create_table_default_permissions: [
@@ -2415,7 +3298,7 @@ module Aws::LakeFormation
     #           principal: {
     #             data_lake_principal_identifier: "DataLakePrincipalString",
     #           },
-    #           permissions: ["ALL"], # accepts ALL, SELECT, ALTER, DROP, DELETE, INSERT, DESCRIBE, CREATE_DATABASE, CREATE_TABLE, DATA_LOCATION_ACCESS, CREATE_TAG, ASSOCIATE
+    #           permissions: ["ALL"], # accepts ALL, SELECT, ALTER, DROP, DELETE, INSERT, DESCRIBE, CREATE_DATABASE, CREATE_TABLE, DATA_LOCATION_ACCESS, CREATE_LF_TAG, ASSOCIATE, GRANT_WITH_LF_TAG_EXPRESSION, CREATE_LF_TAG_EXPRESSION, CREATE_CATALOG, SUPER_USER
     #         },
     #       ],
     #       parameters: {
@@ -2423,6 +3306,7 @@ module Aws::LakeFormation
     #       },
     #       trusted_resource_owners: ["CatalogIdString"],
     #       allow_external_data_filtering: false,
+    #       allow_full_table_external_data_access: false,
     #       external_data_filtering_allow_list: [
     #         {
     #           data_lake_principal_identifier: "DataLakePrincipalString",
@@ -2456,10 +3340,10 @@ module Aws::LakeFormation
     # Formation permission to use the service-linked role to access that
     # location.
     #
-    # `ResourceArn = arn:aws:s3:::my-bucket UseServiceLinkedRole = true`
+    # `ResourceArn = arn:aws:s3:::my-bucket/ UseServiceLinkedRole = true`
     #
     # If `UseServiceLinkedRole` is not set to true, you must provide or set
-    # the `RoleArn`\:
+    # the `RoleArn`:
     #
     # `arn:aws:iam::12345:role/my-data-access-role`
     #
@@ -2483,6 +3367,14 @@ module Aws::LakeFormation
     # @option params [String] :role_arn
     #   The identifier for the role that registers the resource.
     #
+    # @option params [Boolean] :with_federation
+    #   Whether or not the resource is a federated resource.
+    #
+    # @option params [Boolean] :hybrid_access_enabled
+    #   Specifies whether the data access of tables pointing to the location
+    #   can be managed by both Lake Formation permissions as well as Amazon S3
+    #   bucket policies.
+    #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
     # @example Request syntax with placeholder values
@@ -2491,6 +3383,8 @@ module Aws::LakeFormation
     #     resource_arn: "ResourceArnString", # required
     #     use_service_linked_role: false,
     #     role_arn: "IAMRoleArn",
+    #     with_federation: false,
+    #     hybrid_access_enabled: false,
     #   })
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/lakeformation-2017-03-31/RegisterResource AWS API Documentation
@@ -2529,6 +3423,7 @@ module Aws::LakeFormation
     #     catalog_id: "CatalogIdString",
     #     resource: { # required
     #       catalog: {
+    #         id: "CatalogIdString",
     #       },
     #       database: {
     #         catalog_id: "CatalogIdString",
@@ -2568,12 +3463,17 @@ module Aws::LakeFormation
     #       lf_tag_policy: {
     #         catalog_id: "CatalogIdString",
     #         resource_type: "DATABASE", # required, accepts DATABASE, TABLE
-    #         expression: [ # required
+    #         expression: [
     #           {
     #             tag_key: "LFTagKey", # required
     #             tag_values: ["LFTagValue"], # required
     #           },
     #         ],
+    #         expression_name: "NameString",
+    #       },
+    #       lf_tag_expression: {
+    #         catalog_id: "CatalogIdString",
+    #         name: "NameString", # required
     #       },
     #     },
     #     lf_tags: [ # required
@@ -2627,7 +3527,7 @@ module Aws::LakeFormation
     #
     #
     #
-    #   [1]: https://docs-aws.amazon.com/lake-formation/latest/dg/security-data-access.html
+    #   [1]: https://docs.aws.amazon.com/lake-formation/latest/dg/security-data-access.html
     #
     # @option params [Array<String>] :permissions_with_grant_option
     #   Indicates a list of permissions for which to revoke the grant option
@@ -2644,6 +3544,7 @@ module Aws::LakeFormation
     #     },
     #     resource: { # required
     #       catalog: {
+    #         id: "CatalogIdString",
     #       },
     #       database: {
     #         catalog_id: "CatalogIdString",
@@ -2683,16 +3584,21 @@ module Aws::LakeFormation
     #       lf_tag_policy: {
     #         catalog_id: "CatalogIdString",
     #         resource_type: "DATABASE", # required, accepts DATABASE, TABLE
-    #         expression: [ # required
+    #         expression: [
     #           {
     #             tag_key: "LFTagKey", # required
     #             tag_values: ["LFTagValue"], # required
     #           },
     #         ],
+    #         expression_name: "NameString",
+    #       },
+    #       lf_tag_expression: {
+    #         catalog_id: "CatalogIdString",
+    #         name: "NameString", # required
     #       },
     #     },
-    #     permissions: ["ALL"], # required, accepts ALL, SELECT, ALTER, DROP, DELETE, INSERT, DESCRIBE, CREATE_DATABASE, CREATE_TABLE, DATA_LOCATION_ACCESS, CREATE_TAG, ASSOCIATE
-    #     permissions_with_grant_option: ["ALL"], # accepts ALL, SELECT, ALTER, DROP, DELETE, INSERT, DESCRIBE, CREATE_DATABASE, CREATE_TABLE, DATA_LOCATION_ACCESS, CREATE_TAG, ASSOCIATE
+    #     permissions: ["ALL"], # required, accepts ALL, SELECT, ALTER, DROP, DELETE, INSERT, DESCRIBE, CREATE_DATABASE, CREATE_TABLE, DATA_LOCATION_ACCESS, CREATE_LF_TAG, ASSOCIATE, GRANT_WITH_LF_TAG_EXPRESSION, CREATE_LF_TAG_EXPRESSION, CREATE_CATALOG, SUPER_USER
+    #     permissions_with_grant_option: ["ALL"], # accepts ALL, SELECT, ALTER, DROP, DELETE, INSERT, DESCRIBE, CREATE_DATABASE, CREATE_TABLE, DATA_LOCATION_ACCESS, CREATE_LF_TAG, ASSOCIATE, GRANT_WITH_LF_TAG_EXPRESSION, CREATE_LF_TAG_EXPRESSION, CREATE_CATALOG, SUPER_USER
     #   })
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/lakeformation-2017-03-31/RevokePermissions AWS API Documentation
@@ -2923,6 +3829,44 @@ module Aws::LakeFormation
       req.send_request(options)
     end
 
+    # Updates a data cell filter.
+    #
+    # @option params [required, Types::DataCellsFilter] :table_data
+    #   A `DataCellsFilter` structure containing information about the data
+    #   cells filter.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_data_cells_filter({
+    #     table_data: { # required
+    #       table_catalog_id: "CatalogIdString", # required
+    #       database_name: "NameString", # required
+    #       table_name: "NameString", # required
+    #       name: "NameString", # required
+    #       row_filter: {
+    #         filter_expression: "PredicateString",
+    #         all_rows_wildcard: {
+    #         },
+    #       },
+    #       column_names: ["NameString"],
+    #       column_wildcard: {
+    #         excluded_column_names: ["NameString"],
+    #       },
+    #       version_id: "VersionString",
+    #     },
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/lakeformation-2017-03-31/UpdateDataCellsFilter AWS API Documentation
+    #
+    # @overload update_data_cells_filter(params = {})
+    # @param [Hash] params ({})
+    def update_data_cells_filter(params = {}, options = {})
+      req = build_request(:update_data_cells_filter, params)
+      req.send_request(options)
+    end
+
     # Updates the list of possible values for the specified LF-tag key. If
     # the LF-tag does not exist, the operation throws an
     # EntityNotFoundException. The values in the delete key values will be
@@ -2966,6 +3910,108 @@ module Aws::LakeFormation
       req.send_request(options)
     end
 
+    # Updates the name of the LF-Tag expression to the new description and
+    # expression body provided. Updating a LF-Tag expression immediately
+    # changes the permission boundaries of all existing `LFTagPolicy`
+    # permission grants that reference the given LF-Tag expression.
+    #
+    # @option params [required, String] :name
+    #   The name for the LF-Tag expression.
+    #
+    # @option params [String] :description
+    #   The description with information about the saved LF-Tag expression.
+    #
+    # @option params [String] :catalog_id
+    #   The identifier for the Data Catalog. By default, the account ID.
+    #
+    # @option params [required, Array<Types::LFTag>] :expression
+    #   The LF-Tag expression body composed of one more LF-Tag key-value
+    #   pairs.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_lf_tag_expression({
+    #     name: "NameString", # required
+    #     description: "DescriptionString",
+    #     catalog_id: "CatalogIdString",
+    #     expression: [ # required
+    #       {
+    #         tag_key: "LFTagKey", # required
+    #         tag_values: ["LFTagValue"], # required
+    #       },
+    #     ],
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/lakeformation-2017-03-31/UpdateLFTagExpression AWS API Documentation
+    #
+    # @overload update_lf_tag_expression(params = {})
+    # @param [Hash] params ({})
+    def update_lf_tag_expression(params = {}, options = {})
+      req = build_request(:update_lf_tag_expression, params)
+      req.send_request(options)
+    end
+
+    # Updates the IAM Identity Center connection parameters.
+    #
+    # @option params [String] :catalog_id
+    #   The identifier for the Data Catalog. By default, the account ID. The
+    #   Data Catalog is the persistent metadata store. It contains database
+    #   definitions, table definitions, view definitions, and other control
+    #   information to manage your Lake Formation environment.
+    #
+    # @option params [Array<Types::DataLakePrincipal>] :share_recipients
+    #   A list of Amazon Web Services account IDs or Amazon Web Services
+    #   organization/organizational unit ARNs that are allowed to access to
+    #   access data managed by Lake Formation.
+    #
+    #   If the `ShareRecipients` list includes valid values, then the resource
+    #   share is updated with the principals you want to have access to the
+    #   resources.
+    #
+    #   If the `ShareRecipients` value is null, both the list of share
+    #   recipients and the resource share remain unchanged.
+    #
+    #   If the `ShareRecipients` value is an empty list, then the existing
+    #   share recipients list will be cleared, and the resource share will be
+    #   deleted.
+    #
+    # @option params [String] :application_status
+    #   Allows to enable or disable the IAM Identity Center connection.
+    #
+    # @option params [Types::ExternalFilteringConfiguration] :external_filtering
+    #   A list of the account IDs of Amazon Web Services accounts of
+    #   third-party applications that are allowed to access data managed by
+    #   Lake Formation.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_lake_formation_identity_center_configuration({
+    #     catalog_id: "CatalogIdString",
+    #     share_recipients: [
+    #       {
+    #         data_lake_principal_identifier: "DataLakePrincipalString",
+    #       },
+    #     ],
+    #     application_status: "ENABLED", # accepts ENABLED, DISABLED
+    #     external_filtering: {
+    #       status: "ENABLED", # required, accepts ENABLED, DISABLED
+    #       authorized_targets: ["ScopeTarget"], # required
+    #     },
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/lakeformation-2017-03-31/UpdateLakeFormationIdentityCenterConfiguration AWS API Documentation
+    #
+    # @overload update_lake_formation_identity_center_configuration(params = {})
+    # @param [Hash] params ({})
+    def update_lake_formation_identity_center_configuration(params = {}, options = {})
+      req = build_request(:update_lake_formation_identity_center_configuration, params)
+      req.send_request(options)
+    end
+
     # Updates the data access role used for vending access to the given
     # (registered) resource in Lake Formation.
     #
@@ -2976,6 +4022,14 @@ module Aws::LakeFormation
     # @option params [required, String] :resource_arn
     #   The resource ARN.
     #
+    # @option params [Boolean] :with_federation
+    #   Whether or not the resource is a federated resource.
+    #
+    # @option params [Boolean] :hybrid_access_enabled
+    #   Specifies whether the data access of tables pointing to the location
+    #   can be managed by both Lake Formation permissions as well as Amazon S3
+    #   bucket policies.
+    #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
     # @example Request syntax with placeholder values
@@ -2983,6 +4037,8 @@ module Aws::LakeFormation
     #   resp = client.update_resource({
     #     role_arn: "IAMRoleArn", # required
     #     resource_arn: "ResourceArnString", # required
+    #     with_federation: false,
+    #     hybrid_access_enabled: false,
     #   })
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/lakeformation-2017-03-31/UpdateResource AWS API Documentation
@@ -3061,7 +4117,7 @@ module Aws::LakeFormation
     #   Name of the table for which to enable the storage optimizer.
     #
     # @option params [required, Hash<String,Hash>] :storage_optimizer_config
-    #   Name of the table for which to enable the storage optimizer.
+    #   Name of the configuration for the storage optimizer.
     #
     # @return [Types::UpdateTableStorageOptimizerResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -3099,14 +4155,19 @@ module Aws::LakeFormation
     # @api private
     def build_request(operation_name, params = {})
       handlers = @handlers.for(operation_name)
+      tracer = config.telemetry_provider.tracer_provider.tracer(
+        Aws::Telemetry.module_to_tracer_name('Aws::LakeFormation')
+      )
       context = Seahorse::Client::RequestContext.new(
         operation_name: operation_name,
         operation: config.api.operation(operation_name),
         client: self,
         params: params,
-        config: config)
+        config: config,
+        tracer: tracer
+      )
       context[:gem_name] = 'aws-sdk-lakeformation'
-      context[:gem_version] = '1.31.0'
+      context[:gem_version] = '1.68.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

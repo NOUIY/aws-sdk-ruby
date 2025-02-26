@@ -7,33 +7,34 @@
 #
 # WARNING ABOUT GENERATED CODE
 
-require 'seahorse/client/plugins/content_length.rb'
-require 'aws-sdk-core/plugins/credentials_configuration.rb'
-require 'aws-sdk-core/plugins/logging.rb'
-require 'aws-sdk-core/plugins/param_converter.rb'
-require 'aws-sdk-core/plugins/param_validator.rb'
-require 'aws-sdk-core/plugins/user_agent.rb'
-require 'aws-sdk-core/plugins/helpful_socket_errors.rb'
-require 'aws-sdk-core/plugins/retry_errors.rb'
-require 'aws-sdk-core/plugins/global_configuration.rb'
-require 'aws-sdk-core/plugins/regional_endpoint.rb'
-require 'aws-sdk-core/plugins/endpoint_discovery.rb'
-require 'aws-sdk-core/plugins/endpoint_pattern.rb'
-require 'aws-sdk-core/plugins/response_paging.rb'
-require 'aws-sdk-core/plugins/stub_responses.rb'
-require 'aws-sdk-core/plugins/idempotency_token.rb'
-require 'aws-sdk-core/plugins/jsonvalue_converter.rb'
-require 'aws-sdk-core/plugins/client_metrics_plugin.rb'
-require 'aws-sdk-core/plugins/client_metrics_send_plugin.rb'
-require 'aws-sdk-core/plugins/transfer_encoding.rb'
-require 'aws-sdk-core/plugins/http_checksum.rb'
-require 'aws-sdk-core/plugins/checksum_algorithm.rb'
-require 'aws-sdk-core/plugins/defaults_mode.rb'
-require 'aws-sdk-core/plugins/recursion_detection.rb'
-require 'aws-sdk-core/plugins/sign.rb'
-require 'aws-sdk-core/plugins/protocols/json_rpc.rb'
-
-Aws::Plugins::GlobalConfiguration.add_identifier(:kendra)
+require 'seahorse/client/plugins/content_length'
+require 'aws-sdk-core/plugins/credentials_configuration'
+require 'aws-sdk-core/plugins/logging'
+require 'aws-sdk-core/plugins/param_converter'
+require 'aws-sdk-core/plugins/param_validator'
+require 'aws-sdk-core/plugins/user_agent'
+require 'aws-sdk-core/plugins/helpful_socket_errors'
+require 'aws-sdk-core/plugins/retry_errors'
+require 'aws-sdk-core/plugins/global_configuration'
+require 'aws-sdk-core/plugins/regional_endpoint'
+require 'aws-sdk-core/plugins/endpoint_discovery'
+require 'aws-sdk-core/plugins/endpoint_pattern'
+require 'aws-sdk-core/plugins/response_paging'
+require 'aws-sdk-core/plugins/stub_responses'
+require 'aws-sdk-core/plugins/idempotency_token'
+require 'aws-sdk-core/plugins/invocation_id'
+require 'aws-sdk-core/plugins/jsonvalue_converter'
+require 'aws-sdk-core/plugins/client_metrics_plugin'
+require 'aws-sdk-core/plugins/client_metrics_send_plugin'
+require 'aws-sdk-core/plugins/transfer_encoding'
+require 'aws-sdk-core/plugins/http_checksum'
+require 'aws-sdk-core/plugins/checksum_algorithm'
+require 'aws-sdk-core/plugins/request_compression'
+require 'aws-sdk-core/plugins/defaults_mode'
+require 'aws-sdk-core/plugins/recursion_detection'
+require 'aws-sdk-core/plugins/telemetry'
+require 'aws-sdk-core/plugins/sign'
+require 'aws-sdk-core/plugins/protocols/json_rpc'
 
 module Aws::Kendra
   # An API client for Kendra.  To construct a client, you need to configure a `:region` and `:credentials`.
@@ -71,20 +72,28 @@ module Aws::Kendra
     add_plugin(Aws::Plugins::ResponsePaging)
     add_plugin(Aws::Plugins::StubResponses)
     add_plugin(Aws::Plugins::IdempotencyToken)
+    add_plugin(Aws::Plugins::InvocationId)
     add_plugin(Aws::Plugins::JsonvalueConverter)
     add_plugin(Aws::Plugins::ClientMetricsPlugin)
     add_plugin(Aws::Plugins::ClientMetricsSendPlugin)
     add_plugin(Aws::Plugins::TransferEncoding)
     add_plugin(Aws::Plugins::HttpChecksum)
     add_plugin(Aws::Plugins::ChecksumAlgorithm)
+    add_plugin(Aws::Plugins::RequestCompression)
     add_plugin(Aws::Plugins::DefaultsMode)
     add_plugin(Aws::Plugins::RecursionDetection)
+    add_plugin(Aws::Plugins::Telemetry)
     add_plugin(Aws::Plugins::Sign)
     add_plugin(Aws::Plugins::Protocols::JsonRpc)
     add_plugin(Aws::Kendra::Plugins::Endpoints)
 
     # @overload initialize(options)
     #   @param [Hash] options
+    #
+    #   @option options [Array<Seahorse::Client::Plugin>] :plugins ([]])
+    #     A list of plugins to apply to the client. Each plugin is either a
+    #     class name or an instance of a plugin class.
+    #
     #   @option options [required, Aws::CredentialProvider] :credentials
     #     Your AWS credentials. This can be an instance of any one of the
     #     following classes:
@@ -119,13 +128,15 @@ module Aws::Kendra
     #     locations will be searched for credentials:
     #
     #     * `Aws.config[:credentials]`
-    #     * The `:access_key_id`, `:secret_access_key`, and `:session_token` options.
-    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']
+    #     * The `:access_key_id`, `:secret_access_key`, `:session_token`, and
+    #       `:account_id` options.
+    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'],
+    #       ENV['AWS_SESSION_TOKEN'], and ENV['AWS_ACCOUNT_ID']
     #     * `~/.aws/credentials`
     #     * `~/.aws/config`
     #     * EC2/ECS IMDS instance profile - When used by default, the timeouts
     #       are very aggressive. Construct and pass an instance of
-    #       `Aws::InstanceProfileCredentails` or `Aws::ECSCredentials` to
+    #       `Aws::InstanceProfileCredentials` or `Aws::ECSCredentials` to
     #       enable retries and extended timeouts. Instance profile credential
     #       fetching can be disabled by setting ENV['AWS_EC2_METADATA_DISABLED']
     #       to true.
@@ -143,6 +154,8 @@ module Aws::Kendra
     #     * `~/.aws/config`
     #
     #   @option options [String] :access_key_id
+    #
+    #   @option options [String] :account_id
     #
     #   @option options [Boolean] :active_endpoint_cache (false)
     #     When set to `true`, a thread polling for endpoints will be running in
@@ -190,10 +203,20 @@ module Aws::Kendra
     #     Set to true to disable SDK automatically adding host prefix
     #     to default service endpoint when available.
     #
-    #   @option options [String] :endpoint
-    #     The client endpoint is normally constructed from the `:region`
-    #     option. You should only configure an `:endpoint` when connecting
-    #     to test or custom endpoints. This should be a valid HTTP(S) URI.
+    #   @option options [Boolean] :disable_request_compression (false)
+    #     When set to 'true' the request body will not be compressed
+    #     for supported operations.
+    #
+    #   @option options [String, URI::HTTPS, URI::HTTP] :endpoint
+    #     Normally you should not configure the `:endpoint` option
+    #     directly. This is normally constructed from the `:region`
+    #     option. Configuring `:endpoint` is normally reserved for
+    #     connecting to test or custom endpoints. The endpoint should
+    #     be a URI formatted like:
+    #
+    #         'http://example.com'
+    #         'https://example.com'
+    #         'http://example.com:123'
     #
     #   @option options [Integer] :endpoint_cache_max_entries (1000)
     #     Used for the maximum size limit of the LRU cache storing endpoints data
@@ -209,6 +232,10 @@ module Aws::Kendra
     #
     #   @option options [Boolean] :endpoint_discovery (false)
     #     When set to `true`, endpoint discovery will be enabled for operations when available.
+    #
+    #   @option options [Boolean] :ignore_configured_endpoint_urls
+    #     Setting to true disables use of endpoint URLs provided via environment
+    #     variables and the shared configuration file.
     #
     #   @option options [Aws::Log::Formatter] :log_formatter (Aws::Log::Formatter.default)
     #     The log formatter.
@@ -229,6 +256,34 @@ module Aws::Kendra
     #   @option options [String] :profile ("default")
     #     Used when loading credentials from the shared credentials file
     #     at HOME/.aws/credentials.  When not specified, 'default' is used.
+    #
+    #   @option options [String] :request_checksum_calculation ("when_supported")
+    #     Determines when a checksum will be calculated for request payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, a checksum will be
+    #       calculated for all request payloads of operations modeled with the
+    #       `httpChecksum` trait where `requestChecksumRequired` is `true` and/or a
+    #       `requestAlgorithmMember` is modeled.
+    #     * `when_required` - When set, a checksum will only be calculated for
+    #       request payloads of operations modeled with the  `httpChecksum` trait where
+    #       `requestChecksumRequired` is `true` or where a `requestAlgorithmMember`
+    #       is modeled and supplied.
+    #
+    #   @option options [Integer] :request_min_compression_size_bytes (10240)
+    #     The minimum size in bytes that triggers compression for request
+    #     bodies. The value must be non-negative integer value between 0
+    #     and 10485780 bytes inclusive.
+    #
+    #   @option options [String] :response_checksum_validation ("when_supported")
+    #     Determines when checksum validation will be performed on response payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, checksum validation is performed on all
+    #       response payloads of operations modeled with the `httpChecksum` trait where
+    #       `responseAlgorithms` is modeled, except when no modeled checksum algorithms
+    #       are supported.
+    #     * `when_required` - When set, checksum validation is not performed on
+    #       response payloads of operations unless the checksum algorithm is supported and
+    #       the `requestValidationModeMember` member is set to `ENABLED`.
     #
     #   @option options [Proc] :retry_backoff
     #     A proc or lambda used for backoff. Defaults to 2**retries * retry_base_delay.
@@ -274,20 +329,31 @@ module Aws::Kendra
     #       throttling.  This is a provisional mode that may change behavior
     #       in the future.
     #
+    #   @option options [String] :sdk_ua_app_id
+    #     A unique and opaque application ID that is appended to the
+    #     User-Agent header as app/sdk_ua_app_id. It should have a
+    #     maximum length of 50. This variable is sourced from environment
+    #     variable AWS_SDK_UA_APP_ID or the shared config profile attribute sdk_ua_app_id.
     #
     #   @option options [String] :secret_access_key
     #
     #   @option options [String] :session_token
     #
+    #   @option options [Array] :sigv4a_signing_region_set
+    #     A list of regions that should be signed with SigV4a signing. When
+    #     not passed, a default `:sigv4a_signing_region_set` is searched for
+    #     in the following locations:
+    #
+    #     * `Aws.config[:sigv4a_signing_region_set]`
+    #     * `ENV['AWS_SIGV4A_SIGNING_REGION_SET']`
+    #     * `~/.aws/config`
+    #
     #   @option options [Boolean] :simple_json (false)
     #     Disables request parameter conversion, validation, and formatting.
-    #     Also disable response data type conversions. This option is useful
-    #     when you want to ensure the highest level of performance by
-    #     avoiding overhead of walking request parameters and response data
-    #     structures.
-    #
-    #     When `:simple_json` is enabled, the request parameters hash must
-    #     be formatted exactly as the DynamoDB API expects.
+    #     Also disables response data type conversions. The request parameters
+    #     hash must be formatted exactly as the API expects.This option is useful
+    #     when you want to ensure the highest level of performance by avoiding
+    #     overhead of walking request parameters and response data structures.
     #
     #   @option options [Boolean] :stub_responses (false)
     #     Causes the client to return stubbed responses. By default
@@ -297,6 +363,16 @@ module Aws::Kendra
     #
     #     ** Please note ** When response stubbing is enabled, no HTTP
     #     requests are made, and retries are disabled.
+    #
+    #   @option options [Aws::Telemetry::TelemetryProviderBase] :telemetry_provider (Aws::Telemetry::NoOpTelemetryProvider)
+    #     Allows you to provide a telemetry provider, which is used to
+    #     emit telemetry data. By default, uses `NoOpTelemetryProvider` which
+    #     will not record or emit any telemetry data. The SDK supports the
+    #     following telemetry providers:
+    #
+    #     * OpenTelemetry (OTel) - To use the OTel provider, install and require the
+    #     `opentelemetry-sdk` gem and then, pass in an instance of a
+    #     `Aws::Telemetry::OTelProvider` for telemetry provider.
     #
     #   @option options [Aws::TokenProvider] :token_provider
     #     A Bearer Token Provider. This can be an instance of any one of the
@@ -325,52 +401,75 @@ module Aws::Kendra
     #     sending the request.
     #
     #   @option options [Aws::Kendra::EndpointProvider] :endpoint_provider
-    #     The endpoint provider used to resolve endpoints. Any object that responds to `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to `Aws::Kendra::EndpointParameters`
+    #     The endpoint provider used to resolve endpoints. Any object that responds to
+    #     `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+    #     `Aws::Kendra::EndpointParameters`.
     #
-    #   @option options [URI::HTTP,String] :http_proxy A proxy to send
-    #     requests through.  Formatted like 'http://proxy.com:123'.
+    #   @option options [Float] :http_continue_timeout (1)
+    #     The number of seconds to wait for a 100-continue response before sending the
+    #     request body.  This option has no effect unless the request has "Expect"
+    #     header set to "100-continue".  Defaults to `nil` which  disables this
+    #     behaviour.  This value can safely be set per request on the session.
     #
-    #   @option options [Float] :http_open_timeout (15) The number of
-    #     seconds to wait when opening a HTTP session before raising a
-    #     `Timeout::Error`.
+    #   @option options [Float] :http_idle_timeout (5)
+    #     The number of seconds a connection is allowed to sit idle before it
+    #     is considered stale.  Stale connections are closed and removed from the
+    #     pool before making a request.
     #
-    #   @option options [Float] :http_read_timeout (60) The default
-    #     number of seconds to wait for response data.  This value can
-    #     safely be set per-request on the session.
+    #   @option options [Float] :http_open_timeout (15)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :http_idle_timeout (5) The number of
-    #     seconds a connection is allowed to sit idle before it is
-    #     considered stale.  Stale connections are closed and removed
-    #     from the pool before making a request.
+    #   @option options [URI::HTTP,String] :http_proxy
+    #     A proxy to send requests through.  Formatted like 'http://proxy.com:123'.
     #
-    #   @option options [Float] :http_continue_timeout (1) The number of
-    #     seconds to wait for a 100-continue response before sending the
-    #     request body.  This option has no effect unless the request has
-    #     "Expect" header set to "100-continue".  Defaults to `nil` which
-    #     disables this behaviour.  This value can safely be set per
-    #     request on the session.
+    #   @option options [Float] :http_read_timeout (60)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :ssl_timeout (nil) Sets the SSL timeout
-    #     in seconds.
+    #   @option options [Boolean] :http_wire_trace (false)
+    #     When `true`,  HTTP debug output will be sent to the `:logger`.
     #
-    #   @option options [Boolean] :http_wire_trace (false) When `true`,
-    #     HTTP debug output will be sent to the `:logger`.
+    #   @option options [Proc] :on_chunk_received
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the response body is received. It provides three arguments: the chunk,
+    #     the number of bytes received, and the total number of
+    #     bytes in the response (or nil if the server did not send a `content-length`).
     #
-    #   @option options [Boolean] :ssl_verify_peer (true) When `true`,
-    #     SSL peer certificates are verified when establishing a
-    #     connection.
+    #   @option options [Proc] :on_chunk_sent
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the request body is sent. It provides three arguments: the chunk,
+    #     the number of bytes read from the body, and the total number of
+    #     bytes in the body.
     #
-    #   @option options [String] :ssl_ca_bundle Full path to the SSL
-    #     certificate authority bundle file that should be used when
-    #     verifying peer certificates.  If you do not pass
-    #     `:ssl_ca_bundle` or `:ssl_ca_directory` the the system default
-    #     will be used if available.
+    #   @option options [Boolean] :raise_response_errors (true)
+    #     When `true`, response errors are raised.
     #
-    #   @option options [String] :ssl_ca_directory Full path of the
-    #     directory that contains the unbundled SSL certificate
+    #   @option options [String] :ssl_ca_bundle
+    #     Full path to the SSL certificate authority bundle file that should be used when
+    #     verifying peer certificates.  If you do not pass `:ssl_ca_bundle` or
+    #     `:ssl_ca_directory` the the system default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_directory
+    #     Full path of the directory that contains the unbundled SSL certificate
     #     authority files for verifying peer certificates.  If you do
-    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the
-    #     system default will be used if available.
+    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the system
+    #     default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_store
+    #     Sets the X509::Store to verify peer certificate.
+    #
+    #   @option options [OpenSSL::X509::Certificate] :ssl_cert
+    #     Sets a client certificate when creating http connections.
+    #
+    #   @option options [OpenSSL::PKey] :ssl_key
+    #     Sets a client key when creating http connections.
+    #
+    #   @option options [Float] :ssl_timeout
+    #     Sets the SSL timeout in seconds
+    #
+    #   @option options [Boolean] :ssl_verify_peer (true)
+    #     When `true`, SSL peer certificates are verified when establishing a connection.
     #
     def initialize(*args)
       super
@@ -493,8 +592,14 @@ module Aws::Kendra
     #
     # The documents are deleted asynchronously. You can see the progress of
     # the deletion by using Amazon Web Services CloudWatch. Any error
-    # messages related to the processing of the batch are sent to you
-    # CloudWatch log.
+    # messages related to the processing of the batch are sent to your
+    # Amazon Web Services CloudWatch log. You can also use the
+    # `BatchGetDocumentStatus` API to monitor the progress of deleting your
+    # documents.
+    #
+    # Deleting documents from an index using `BatchDeleteDocument` could
+    # take up to an hour or more, depending on the number of documents you
+    # want to delete.
     #
     # @option params [required, String] :index_id
     #   The identifier of the index that contains the documents to delete.
@@ -524,6 +629,7 @@ module Aws::Kendra
     #
     #   resp.failed_documents #=> Array
     #   resp.failed_documents[0].id #=> String
+    #   resp.failed_documents[0].data_source_id #=> String
     #   resp.failed_documents[0].error_code #=> String, one of "InternalError", "InvalidRequest"
     #   resp.failed_documents[0].error_message #=> String
     #
@@ -533,6 +639,44 @@ module Aws::Kendra
     # @param [Hash] params ({})
     def batch_delete_document(params = {}, options = {})
       req = build_request(:batch_delete_document, params)
+      req.send_request(options)
+    end
+
+    # Removes one or more sets of featured results. Features results are
+    # placed above all other results for certain queries. If there's an
+    # exact match of a query, then one or more specific documents are
+    # featured in the search results.
+    #
+    # @option params [required, String] :index_id
+    #   The identifier of the index used for featuring results.
+    #
+    # @option params [required, Array<String>] :featured_results_set_ids
+    #   The identifiers of the featured results sets that you want to delete.
+    #
+    # @return [Types::BatchDeleteFeaturedResultsSetResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::BatchDeleteFeaturedResultsSetResponse#errors #errors} => Array&lt;Types::BatchDeleteFeaturedResultsSetError&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.batch_delete_featured_results_set({
+    #     index_id: "IndexId", # required
+    #     featured_results_set_ids: ["FeaturedResultsSetId"], # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.errors #=> Array
+    #   resp.errors[0].id #=> String
+    #   resp.errors[0].error_code #=> String, one of "InternalError", "InvalidRequest"
+    #   resp.errors[0].error_message #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/kendra-2019-02-03/BatchDeleteFeaturedResultsSet AWS API Documentation
+    #
+    # @overload batch_delete_featured_results_set(params = {})
+    # @param [Hash] params ({})
+    def batch_delete_featured_results_set(params = {}, options = {})
+      req = build_request(:batch_delete_featured_results_set, params)
       req.send_request(options)
     end
 
@@ -597,6 +741,7 @@ module Aws::Kendra
     #
     #   resp.errors #=> Array
     #   resp.errors[0].document_id #=> String
+    #   resp.errors[0].data_source_id #=> String
     #   resp.errors[0].error_code #=> String, one of "InternalError", "InvalidRequest"
     #   resp.errors[0].error_message #=> String
     #   resp.document_status_list #=> Array
@@ -625,7 +770,8 @@ module Aws::Kendra
     # The documents are indexed asynchronously. You can see the progress of
     # the batch using Amazon Web Services CloudWatch. Any error messages
     # related to processing the batch are sent to your Amazon Web Services
-    # CloudWatch log.
+    # CloudWatch log. You can also use the `BatchGetDocumentStatus` API to
+    # monitor the progress of indexing your documents.
     #
     # For an example of ingesting inline documents using Python and Java
     # SDKs, see [Adding files directly to an index][1].
@@ -639,8 +785,8 @@ module Aws::Kendra
     #   create the index first using the `CreateIndex` API.
     #
     # @option params [String] :role_arn
-    #   The Amazon Resource Name (ARN) of a role that is allowed to run the
-    #   `BatchPutDocument` API. For more information, see [IAM Roles for
+    #   The Amazon Resource Name (ARN) of an IAM role with permission to
+    #   access your S3 bucket. For more information, see [IAM access roles for
     #   Amazon Kendra][1].
     #
     #
@@ -652,14 +798,11 @@ module Aws::Kendra
     #
     #   Documents have the following file size limits.
     #
-    #   * 5 MB total size for inline documents
-    #
-    #   * 50 MB total size for files from an S3 bucket
+    #   * 50 MB total size for any file
     #
     #   * 5 MB extracted text for any file
     #
-    #   For more information about file size and transaction per second
-    #   quotas, see [Quotas][1].
+    #   For more information, see [Quotas][1].
     #
     #
     #
@@ -794,6 +937,7 @@ module Aws::Kendra
     #
     #   resp.failed_documents #=> Array
     #   resp.failed_documents[0].id #=> String
+    #   resp.failed_documents[0].data_source_id #=> String
     #   resp.failed_documents[0].error_code #=> String, one of "InternalError", "InvalidRequest"
     #   resp.failed_documents[0].error_message #=> String
     #
@@ -863,6 +1007,11 @@ module Aws::Kendra
     # synchronize your data source. Amazon Kendra currently only supports
     # access control configuration for S3 data sources and documents indexed
     # using the `BatchPutDocument` API.
+    #
+    # You can't configure access control using
+    # `CreateAccessControlConfiguration` for an Amazon Kendra Gen AI
+    # Enterprise Edition index. Amazon Kendra will return a
+    # `ValidationException` error for a `Gen_AI_ENTERPRISE_EDITION` index.
     #
     #
     #
@@ -959,19 +1108,15 @@ module Aws::Kendra
     # 200 if the data source was successfully created. Otherwise, an
     # exception is raised.
     #
-    # Amazon S3 and [custom][1] data sources are the only supported data
-    # sources in the Amazon Web Services GovCloud (US-West) region.
-    #
     # For an example of creating an index and data source using the Python
-    # SDK, see [Getting started with Python SDK][2]. For an example of
+    # SDK, see [Getting started with Python SDK][1]. For an example of
     # creating an index and data source using the Java SDK, see [Getting
-    # started with Java SDK][3].
+    # started with Java SDK][2].
     #
     #
     #
-    # [1]: https://docs.aws.amazon.com/kendra/latest/dg/data-source-custom.html
-    # [2]: https://docs.aws.amazon.com/kendra/latest/dg/gs-python.html
-    # [3]: https://docs.aws.amazon.com/kendra/latest/dg/gs-java.html
+    # [1]: https://docs.aws.amazon.com/kendra/latest/dg/gs-python.html
+    # [2]: https://docs.aws.amazon.com/kendra/latest/dg/gs-java.html
     #
     # @option params [required, String] :name
     #   A name for the data source connector.
@@ -1010,14 +1155,17 @@ module Aws::Kendra
     #   schedule Amazon Kendra will not periodically update the index. You can
     #   call the `StartDataSourceSyncJob` API to update the index.
     #
+    #   Specify a `cron-` format schedule string or an empty string to
+    #   indicate that the index is updated on demand.
+    #
     #   You can't specify the `Schedule` parameter when the `Type` parameter
     #   is set to `CUSTOM`. If you do, you receive a `ValidationException`
     #   exception.
     #
     # @option params [String] :role_arn
-    #   The Amazon Resource Name (ARN) of a role with permission to access the
-    #   data source and required resources. For more information, see [IAM
-    #   roles for Amazon Kendra][1].
+    #   The Amazon Resource Name (ARN) of an IAM role with permission to
+    #   access the data source and required resources. For more information,
+    #   see [IAM access roles for Amazon Kendra.][1].
     #
     #   You can't specify the `RoleArn` parameter when the `Type` parameter
     #   is set to `CUSTOM`. If you do, you receive a `ValidationException`
@@ -1030,9 +1178,11 @@ module Aws::Kendra
     #   [1]: https://docs.aws.amazon.com/kendra/latest/dg/iam-roles.html
     #
     # @option params [Array<Types::Tag>] :tags
-    #   A list of key-value pairs that identify the data source connector. You
-    #   can use the tags to identify and organize your resources and to
-    #   control access to resources.
+    #   A list of key-value pairs that identify or categorize the data source
+    #   connector. You can also use tags to help control access to the data
+    #   source connector. Tag keys and values can consist of Unicode letters,
+    #   digits, white space, and any of the following symbols: \_ . : / = + -
+    #   @.
     #
     # @option params [String] :client_token
     #   A token that you provide to identify the request to create a data
@@ -1808,10 +1958,11 @@ module Aws::Kendra
     #   The identifier of the index for your Amazon Kendra experience.
     #
     # @option params [String] :role_arn
-    #   The Amazon Resource Name (ARN) of a role with permission to access
-    #   `Query` API, `QuerySuggestions` API, `SubmitFeedback` API, and IAM
-    #   Identity Center that stores your user and group information. For more
-    #   information, see [IAM roles for Amazon Kendra][1].
+    #   The Amazon Resource Name (ARN) of an IAM role with permission to
+    #   access `Query` API, `GetQuerySuggestions` API, and other required
+    #   APIs. The role also must include permission to access IAM Identity
+    #   Center that stores your user and group information. For more
+    #   information, see [IAM access roles for Amazon Kendra][1].
     #
     #
     #
@@ -1872,8 +2023,8 @@ module Aws::Kendra
       req.send_request(options)
     end
 
-    # Creates an new set of frequently asked question (FAQ) questions and
-    # answers.
+    # Creates a set of frequently ask questions (FAQs) using a specified FAQ
+    # file stored in an Amazon S3 bucket.
     #
     # Adding FAQs to an index is an asynchronous operation.
     #
@@ -1897,9 +2048,9 @@ module Aws::Kendra
     #   The path to the FAQ file in S3.
     #
     # @option params [required, String] :role_arn
-    #   The Amazon Resource Name (ARN) of a role with permission to access the
-    #   S3 bucket that contains the FAQs. For more information, see [IAM Roles
-    #   for Amazon Kendra][1].
+    #   The Amazon Resource Name (ARN) of an IAM role with permission to
+    #   access the S3 bucket that contains the FAQ file. For more information,
+    #   see [IAM access roles for Amazon Kendra][1].
     #
     #
     #
@@ -1914,6 +2065,8 @@ module Aws::Kendra
     #   The format of the FAQ input file. You can choose between a basic CSV
     #   format, a CSV format that includes customs attributes in a header, and
     #   a JSON format that includes custom attributes.
+    #
+    #   The default format is CSV.
     #
     #   The format must match the format of the file stored in the S3 bucket
     #   identified in the `S3Path` parameter.
@@ -1981,23 +2134,138 @@ module Aws::Kendra
       req.send_request(options)
     end
 
+    # Creates a set of featured results to display at the top of the search
+    # results page. Featured results are placed above all other results for
+    # certain queries. You map specific queries to specific documents for
+    # featuring in the results. If a query contains an exact match, then one
+    # or more specific documents are featured in the search results.
+    #
+    # You can create up to 50 sets of featured results per index. You can
+    # request to increase this limit by contacting [Support][1].
+    #
+    #
+    #
+    # [1]: http://aws.amazon.com/contact-us/
+    #
+    # @option params [required, String] :index_id
+    #   The identifier of the index that you want to use for featuring
+    #   results.
+    #
+    # @option params [required, String] :featured_results_set_name
+    #   A name for the set of featured results.
+    #
+    # @option params [String] :description
+    #   A description for the set of featured results.
+    #
+    # @option params [String] :client_token
+    #   A token that you provide to identify the request to create a set of
+    #   featured results. Multiple calls to the `CreateFeaturedResultsSet` API
+    #   with the same client token will create only one featured results set.
+    #
+    # @option params [String] :status
+    #   The current status of the set of featured results. When the value is
+    #   `ACTIVE`, featured results are ready for use. You can still configure
+    #   your settings before setting the status to `ACTIVE`. You can set the
+    #   status to `ACTIVE` or `INACTIVE` using the
+    #   [UpdateFeaturedResultsSet][1] API. The queries you specify for
+    #   featured results must be unique per featured results set for each
+    #   index, whether the status is `ACTIVE` or `INACTIVE`.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/kendra/latest/dg/API_UpdateFeaturedResultsSet.html
+    #
+    # @option params [Array<String>] :query_texts
+    #   A list of queries for featuring results. For more information on the
+    #   list of queries, see [FeaturedResultsSet][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/kendra/latest/dg/API_FeaturedResultsSet.html
+    #
+    # @option params [Array<Types::FeaturedDocument>] :featured_documents
+    #   A list of document IDs for the documents you want to feature at the
+    #   top of the search results page. For more information on the list of
+    #   documents, see [FeaturedResultsSet][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/kendra/latest/dg/API_FeaturedResultsSet.html
+    #
+    # @option params [Array<Types::Tag>] :tags
+    #   A list of key-value pairs that identify or categorize the featured
+    #   results set. You can also use tags to help control access to the
+    #   featured results set. Tag keys and values can consist of Unicode
+    #   letters, digits, white space, and any of the following symbols:\_ . :
+    #   / = + - @.
+    #
+    # @return [Types::CreateFeaturedResultsSetResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateFeaturedResultsSetResponse#featured_results_set #featured_results_set} => Types::FeaturedResultsSet
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_featured_results_set({
+    #     index_id: "IndexId", # required
+    #     featured_results_set_name: "FeaturedResultsSetName", # required
+    #     description: "FeaturedResultsSetDescription",
+    #     client_token: "ClientTokenName",
+    #     status: "ACTIVE", # accepts ACTIVE, INACTIVE
+    #     query_texts: ["QueryText"],
+    #     featured_documents: [
+    #       {
+    #         id: "DocumentId",
+    #       },
+    #     ],
+    #     tags: [
+    #       {
+    #         key: "TagKey", # required
+    #         value: "TagValue", # required
+    #       },
+    #     ],
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.featured_results_set.featured_results_set_id #=> String
+    #   resp.featured_results_set.featured_results_set_name #=> String
+    #   resp.featured_results_set.description #=> String
+    #   resp.featured_results_set.status #=> String, one of "ACTIVE", "INACTIVE"
+    #   resp.featured_results_set.query_texts #=> Array
+    #   resp.featured_results_set.query_texts[0] #=> String
+    #   resp.featured_results_set.featured_documents #=> Array
+    #   resp.featured_results_set.featured_documents[0].id #=> String
+    #   resp.featured_results_set.last_updated_timestamp #=> Integer
+    #   resp.featured_results_set.creation_timestamp #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/kendra-2019-02-03/CreateFeaturedResultsSet AWS API Documentation
+    #
+    # @overload create_featured_results_set(params = {})
+    # @param [Hash] params ({})
+    def create_featured_results_set(params = {}, options = {})
+      req = build_request(:create_featured_results_set, params)
+      req.send_request(options)
+    end
+
     # Creates an Amazon Kendra index. Index creation is an asynchronous API.
     # To determine if index creation has completed, check the `Status` field
     # returned from a call to `DescribeIndex`. The `Status` field is set to
     # `ACTIVE` when the index is ready to use.
     #
-    # Once the index is active you can index your documents using the
-    # `BatchPutDocument` API or using one of the supported data sources.
+    # Once the index is active, you can index your documents using the
+    # `BatchPutDocument` API or using one of the supported [data
+    # sources][1].
     #
     # For an example of creating an index and data source using the Python
-    # SDK, see [Getting started with Python SDK][1]. For an example of
+    # SDK, see [Getting started with Python SDK][2]. For an example of
     # creating an index and data source using the Java SDK, see [Getting
-    # started with Java SDK][2].
+    # started with Java SDK][3].
     #
     #
     #
-    # [1]: https://docs.aws.amazon.com/kendra/latest/dg/gs-python.html
-    # [2]: https://docs.aws.amazon.com/kendra/latest/dg/gs-java.html
+    # [1]: https://docs.aws.amazon.com/kendra/latest/dg/data-sources.html
+    # [2]: https://docs.aws.amazon.com/kendra/latest/dg/gs-python.html
+    # [3]: https://docs.aws.amazon.com/kendra/latest/dg/gs-java.html
     #
     # @option params [required, String] :name
     #   A name for the index.
@@ -2005,25 +2273,28 @@ module Aws::Kendra
     # @option params [String] :edition
     #   The Amazon Kendra edition to use for the index. Choose
     #   `DEVELOPER_EDITION` for indexes intended for development, testing, or
-    #   proof of concept. Use `ENTERPRISE_EDITION` for your production
-    #   databases. Once you set the edition for an index, it can't be
-    #   changed.
+    #   proof of concept. Use `ENTERPRISE_EDITION` for production. Use
+    #   `GEN_AI_ENTERPRISE_EDITION` for creating generative AI applications.
+    #   Once you set the edition for an index, it can't be changed.
     #
     #   The `Edition` parameter is optional. If you don't supply a value, the
     #   default is `ENTERPRISE_EDITION`.
     #
-    #   For more information on quota limits for enterprise and developer
-    #   editions, see [Quotas][1].
+    #   For more information on quota limits for Gen AI Enterprise Edition,
+    #   Enterprise Edition, and Developer Edition indices, see [Quotas][1].
     #
     #
     #
     #   [1]: https://docs.aws.amazon.com/kendra/latest/dg/quotas.html
     #
     # @option params [required, String] :role_arn
-    #   An Identity and Access Management (IAM) role that gives Amazon Kendra
-    #   permissions to access your Amazon CloudWatch logs and metrics. This is
-    #   also the role you use when you call the `BatchPutDocument` API to
-    #   index documents from an Amazon S3 bucket.
+    #   The Amazon Resource Name (ARN) of an IAM role with permission to
+    #   access your Amazon CloudWatch logs and metrics. For more information,
+    #   see [IAM access roles for Amazon Kendra][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/kendra/latest/dg/iam-roles.html
     #
     # @option params [Types::ServerSideEncryptionConfiguration] :server_side_encryption_configuration
     #   The identifier of the KMS customer managed key (CMK) that's used to
@@ -2042,15 +2313,26 @@ module Aws::Kendra
     #   not need to pass this option.**
     #
     # @option params [Array<Types::Tag>] :tags
-    #   A list of key-value pairs that identify the index. You can use the
-    #   tags to identify and organize your resources and to control access to
-    #   resources.
+    #   A list of key-value pairs that identify or categorize the index. You
+    #   can also use tags to help control access to the index. Tag keys and
+    #   values can consist of Unicode letters, digits, white space, and any of
+    #   the following symbols: \_ . : / = + - @.
     #
     # @option params [Array<Types::UserTokenConfiguration>] :user_token_configurations
     #   The user token configuration.
     #
+    #   If you're using an Amazon Kendra Gen AI Enterprise Edition index and
+    #   you try to use `UserTokenConfigurations` to configure user context
+    #   policy, Amazon Kendra returns a `ValidationException` error.
+    #
     # @option params [String] :user_context_policy
     #   The user context policy.
+    #
+    #   If you're using an Amazon Kendra Gen AI Enterprise Edition index, you
+    #   can only use `ATTRIBUTE_FILTER` to filter search results by user
+    #   context. If you're using an Amazon Kendra Gen AI Enterprise Edition
+    #   index and you try to use `USER_TOKEN` to configure user context
+    #   policy, Amazon Kendra returns a `ValidationException` error.
     #
     #   ATTRIBUTE\_FILTER
     #
@@ -2066,9 +2348,13 @@ module Aws::Kendra
     #     accessible to the user will be searchable and displayable.
     #
     # @option params [Types::UserGroupResolutionConfiguration] :user_group_resolution_configuration
-    #   Enables fetching access levels of groups and users from an IAM
-    #   Identity Center (successor to Single Sign-On) identity source. To
-    #   configure this, see [UserGroupResolutionConfiguration][1].
+    #   Gets users and groups from IAM Identity Center identity source. To
+    #   configure this, see [UserGroupResolutionConfiguration][1]. This is
+    #   useful for user context filtering, where search results are filtered
+    #   based on the user or their group access to documents.
+    #
+    #   If you're using an Amazon Kendra Gen AI Enterprise Edition index,
+    #   `UserGroupResolutionConfiguration` isn't supported.
     #
     #
     #
@@ -2082,7 +2368,7 @@ module Aws::Kendra
     #
     #   resp = client.create_index({
     #     name: "IndexName", # required
-    #     edition: "DEVELOPER_EDITION", # accepts DEVELOPER_EDITION, ENTERPRISE_EDITION
+    #     edition: "DEVELOPER_EDITION", # accepts DEVELOPER_EDITION, ENTERPRISE_EDITION, GEN_AI_ENTERPRISE_EDITION
     #     role_arn: "RoleArn", # required
     #     server_side_encryption_configuration: {
     #       kms_key_id: "KmsKeyId",
@@ -2152,21 +2438,21 @@ module Aws::Kendra
     #
     #
     # [1]: https://docs.aws.amazon.com/kendra/latest/dg/quotas.html
-    # [2]: https://docs.aws.amazon.com/kendra/latest/dg/query-suggestions.html#suggestions-block-list
+    # [2]: https://docs.aws.amazon.com/kendra/latest/dg/query-suggestions.html#query-suggestions-blocklist
     #
     # @option params [required, String] :index_id
     #   The identifier of the index you want to create a query suggestions
     #   block list for.
     #
     # @option params [required, String] :name
-    #   A user friendly name for the block list.
+    #   A name for the block list.
     #
-    #   For example, the block list named 'offensive-words' includes all
+    #   For example, the name 'offensive-words', which includes all
     #   offensive words that could appear in user queries and need to be
     #   blocked from suggestions.
     #
     # @option params [String] :description
-    #   A user-friendly description for the block list.
+    #   A description for the block list.
     #
     #   For example, the description "List of all offensive words that can
     #   appear in user queries and need to be blocked from suggestions."
@@ -2191,17 +2477,18 @@ module Aws::Kendra
     #   not need to pass this option.**
     #
     # @option params [required, String] :role_arn
-    #   The IAM (Identity and Access Management) role used by Amazon Kendra to
-    #   access the block list text file in your S3 bucket.
+    #   The Amazon Resource Name (ARN) of an IAM role with permission to
+    #   access your S3 bucket that contains the block list text file. For more
+    #   information, see [IAM access roles for Amazon Kendra][1].
     #
-    #   You need permissions to the role ARN (Amazon Web Services Resource
-    #   Name). The role needs S3 read permissions to your file in S3 and needs
-    #   to give STS (Security Token Service) assume role permissions to Amazon
-    #   Kendra.
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/kendra/latest/dg/iam-roles.html
     #
     # @option params [Array<Types::Tag>] :tags
-    #   A tag that you can assign to a block list that categorizes the block
-    #   list.
+    #   A list of key-value pairs that identify or categorize the block list.
+    #   Tag keys and values can consist of Unicode letters, digits, white
+    #   space, and any of the following symbols: \_ . : / = + - @.
     #
     # @return [Types::CreateQuerySuggestionsBlockListResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -2260,13 +2547,19 @@ module Aws::Kendra
     #   A description for the thesaurus.
     #
     # @option params [required, String] :role_arn
-    #   An IAM role that gives Amazon Kendra permissions to access thesaurus
-    #   file specified in `SourceS3Path`.
+    #   The Amazon Resource Name (ARN) of an IAM role with permission to
+    #   access your S3 bucket that contains the thesaurus file. For more
+    #   information, see [IAM access roles for Amazon Kendra][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/kendra/latest/dg/iam-roles.html
     #
     # @option params [Array<Types::Tag>] :tags
-    #   A list of key-value pairs that identify the thesaurus. You can use the
-    #   tags to identify and organize your resources and to control access to
-    #   resources.
+    #   A list of key-value pairs that identify or categorize the thesaurus.
+    #   You can also use tags to help control access to the thesaurus. Tag
+    #   keys and values can consist of Unicode letters, digits, white space,
+    #   and any of the following symbols: \_ . : / = + - @.
     #
     # @option params [required, Types::S3Path] :source_s3_path
     #   The path to the thesaurus file in S3.
@@ -2352,6 +2645,10 @@ module Aws::Kendra
     # `DescribeDataSource` API is set to `DELETING`. For more information,
     # see [Deleting Data Sources][1].
     #
+    # Deleting an entire data source or re-syncing your index after deleting
+    # specific documents from a data source could take up to an hour or
+    # more, depending on the number of documents you want to delete.
+    #
     #
     #
     # [1]: https://docs.aws.amazon.com/kendra/latest/dg/delete-data-source.html
@@ -2412,7 +2709,7 @@ module Aws::Kendra
       req.send_request(options)
     end
 
-    # Removes an FAQ from an index.
+    # Removes a FAQ from an index.
     #
     # @option params [required, String] :id
     #   The identifier of the FAQ you want to remove.
@@ -2438,10 +2735,10 @@ module Aws::Kendra
       req.send_request(options)
     end
 
-    # Deletes an existing Amazon Kendra index. An exception is not thrown if
-    # the index is already being deleted. While the index is being deleted,
-    # the `Status` field returned by a call to the `DescribeIndex` API is
-    # set to `DELETING`.
+    # Deletes an Amazon Kendra index. An exception is not thrown if the
+    # index is already being deleted. While the index is being deleted, the
+    # `Status` field returned by a call to the `DescribeIndex` API is set to
+    # `DELETING`.
     #
     # @option params [required, String] :id
     #   The identifier of the index you want to delete.
@@ -2463,8 +2760,8 @@ module Aws::Kendra
       req.send_request(options)
     end
 
-    # Deletes a group so that all users and sub groups that belong to the
-    # group can no longer access documents only available to that group.
+    # Deletes a group so that all users that belong to the group can no
+    # longer access documents only available to that group.
     #
     # For example, after deleting the group "Summer Interns", all interns
     # who belonged to that group no longer see intern-only documents in
@@ -2507,14 +2804,14 @@ module Aws::Kendra
     #   prevents previous actions with lower number IDs from possibly
     #   overriding the latest action.
     #
-    #   The ordering ID can be the UNIX time of the last update you made to a
+    #   The ordering ID can be the Unix time of the last update you made to a
     #   group members list. You would then provide this list when calling
     #   `PutPrincipalMapping`. This ensures your `DELETE` action for that
     #   updated group with the latest members list doesn't get overwritten by
     #   earlier `DELETE` actions for the same group which are yet to be
     #   processed.
     #
-    #   The default ordering ID is the current UNIX time in milliseconds that
+    #   The default ordering ID is the current Unix time in milliseconds that
     #   the action was received by Amazon Kendra.
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
@@ -2570,7 +2867,7 @@ module Aws::Kendra
       req.send_request(options)
     end
 
-    # Deletes an existing Amazon Kendra thesaurus.
+    # Deletes an Amazon Kendra thesaurus.
     #
     # @option params [required, String] :id
     #   The identifier of the thesaurus you want to delete.
@@ -3269,7 +3566,7 @@ module Aws::Kendra
       req.send_request(options)
     end
 
-    # Gets information about an FAQ list.
+    # Gets information about a FAQ.
     #
     # @option params [required, String] :id
     #   The identifier of the FAQ you want to get information on.
@@ -3324,7 +3621,64 @@ module Aws::Kendra
       req.send_request(options)
     end
 
-    # Gets information about an existing Amazon Kendra index.
+    # Gets information about a set of featured results. Features results are
+    # placed above all other results for certain queries. If there's an
+    # exact match of a query, then one or more specific documents are
+    # featured in the search results.
+    #
+    # @option params [required, String] :index_id
+    #   The identifier of the index used for featuring results.
+    #
+    # @option params [required, String] :featured_results_set_id
+    #   The identifier of the set of featured results that you want to get
+    #   information on.
+    #
+    # @return [Types::DescribeFeaturedResultsSetResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeFeaturedResultsSetResponse#featured_results_set_id #featured_results_set_id} => String
+    #   * {Types::DescribeFeaturedResultsSetResponse#featured_results_set_name #featured_results_set_name} => String
+    #   * {Types::DescribeFeaturedResultsSetResponse#description #description} => String
+    #   * {Types::DescribeFeaturedResultsSetResponse#status #status} => String
+    #   * {Types::DescribeFeaturedResultsSetResponse#query_texts #query_texts} => Array&lt;String&gt;
+    #   * {Types::DescribeFeaturedResultsSetResponse#featured_documents_with_metadata #featured_documents_with_metadata} => Array&lt;Types::FeaturedDocumentWithMetadata&gt;
+    #   * {Types::DescribeFeaturedResultsSetResponse#featured_documents_missing #featured_documents_missing} => Array&lt;Types::FeaturedDocumentMissing&gt;
+    #   * {Types::DescribeFeaturedResultsSetResponse#last_updated_timestamp #last_updated_timestamp} => Integer
+    #   * {Types::DescribeFeaturedResultsSetResponse#creation_timestamp #creation_timestamp} => Integer
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_featured_results_set({
+    #     index_id: "IndexId", # required
+    #     featured_results_set_id: "FeaturedResultsSetId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.featured_results_set_id #=> String
+    #   resp.featured_results_set_name #=> String
+    #   resp.description #=> String
+    #   resp.status #=> String, one of "ACTIVE", "INACTIVE"
+    #   resp.query_texts #=> Array
+    #   resp.query_texts[0] #=> String
+    #   resp.featured_documents_with_metadata #=> Array
+    #   resp.featured_documents_with_metadata[0].id #=> String
+    #   resp.featured_documents_with_metadata[0].title #=> String
+    #   resp.featured_documents_with_metadata[0].uri #=> String
+    #   resp.featured_documents_missing #=> Array
+    #   resp.featured_documents_missing[0].id #=> String
+    #   resp.last_updated_timestamp #=> Integer
+    #   resp.creation_timestamp #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/kendra-2019-02-03/DescribeFeaturedResultsSet AWS API Documentation
+    #
+    # @overload describe_featured_results_set(params = {})
+    # @param [Hash] params ({})
+    def describe_featured_results_set(params = {}, options = {})
+      req = build_request(:describe_featured_results_set, params)
+      req.send_request(options)
+    end
+
+    # Gets information about an Amazon Kendra index.
     #
     # @option params [required, String] :id
     #   The identifier of the index you want to get information on.
@@ -3358,7 +3712,7 @@ module Aws::Kendra
     #
     #   resp.name #=> String
     #   resp.id #=> String
-    #   resp.edition #=> String, one of "DEVELOPER_EDITION", "ENTERPRISE_EDITION"
+    #   resp.edition #=> String, one of "DEVELOPER_EDITION", "ENTERPRISE_EDITION", "GEN_AI_ENTERPRISE_EDITION"
     #   resp.role_arn #=> String
     #   resp.server_side_encryption_configuration.kms_key_id #=> String
     #   resp.status #=> String, one of "CREATING", "ACTIVE", "DELETING", "FAILED", "UPDATING", "SYSTEM_UPDATING"
@@ -3549,6 +3903,7 @@ module Aws::Kendra
     #   * {Types::DescribeQuerySuggestionsConfigResponse#last_suggestions_build_time #last_suggestions_build_time} => Time
     #   * {Types::DescribeQuerySuggestionsConfigResponse#last_clear_time #last_clear_time} => Time
     #   * {Types::DescribeQuerySuggestionsConfigResponse#total_suggestions_count #total_suggestions_count} => Integer
+    #   * {Types::DescribeQuerySuggestionsConfigResponse#attribute_suggestions_config #attribute_suggestions_config} => Types::AttributeSuggestionsDescribeConfig
     #
     # @example Request syntax with placeholder values
     #
@@ -3567,6 +3922,10 @@ module Aws::Kendra
     #   resp.last_suggestions_build_time #=> Time
     #   resp.last_clear_time #=> Time
     #   resp.total_suggestions_count #=> Integer
+    #   resp.attribute_suggestions_config.suggestable_config_list #=> Array
+    #   resp.attribute_suggestions_config.suggestable_config_list[0].attribute_name #=> String
+    #   resp.attribute_suggestions_config.suggestable_config_list[0].suggestable #=> Boolean
+    #   resp.attribute_suggestions_config.attribute_suggestions_mode #=> String, one of "ACTIVE", "INACTIVE"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/kendra-2019-02-03/DescribeQuerySuggestionsConfig AWS API Documentation
     #
@@ -3577,7 +3936,7 @@ module Aws::Kendra
       req.send_request(options)
     end
 
-    # Gets information about an existing Amazon Kendra thesaurus.
+    # Gets information about an Amazon Kendra thesaurus.
     #
     # @option params [required, String] :id
     #   The identifier of the thesaurus you want to get information on.
@@ -3756,6 +4115,23 @@ module Aws::Kendra
     #   The maximum number of query suggestions you want to show to your
     #   users.
     #
+    # @option params [Array<String>] :suggestion_types
+    #   The suggestions type to base query suggestions on. The suggestion
+    #   types are query history or document fields/attributes. You can set one
+    #   type or the other.
+    #
+    #   If you set query history as your suggestions type, Amazon Kendra
+    #   suggests queries relevant to your users based on popular queries in
+    #   the query history.
+    #
+    #   If you set document fields/attributes as your suggestions type, Amazon
+    #   Kendra suggests queries relevant to your users based on the contents
+    #   of document fields.
+    #
+    # @option params [Types::AttributeSuggestionsGetConfig] :attribute_suggestions_config
+    #   Configuration information for the document fields/attributes that you
+    #   want to base query suggestions on.
+    #
     # @return [Types::GetQuerySuggestionsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::GetQuerySuggestionsResponse#query_suggestions_id #query_suggestions_id} => String
@@ -3767,6 +4143,100 @@ module Aws::Kendra
     #     index_id: "IndexId", # required
     #     query_text: "SuggestionQueryText", # required
     #     max_suggestions_count: 1,
+    #     suggestion_types: ["QUERY"], # accepts QUERY, DOCUMENT_ATTRIBUTES
+    #     attribute_suggestions_config: {
+    #       suggestion_attributes: ["DocumentAttributeKey"],
+    #       additional_response_attributes: ["DocumentAttributeKey"],
+    #       attribute_filter: {
+    #         and_all_filters: [
+    #           {
+    #             # recursive AttributeFilter
+    #           },
+    #         ],
+    #         or_all_filters: [
+    #           {
+    #             # recursive AttributeFilter
+    #           },
+    #         ],
+    #         not_filter: {
+    #           # recursive AttributeFilter
+    #         },
+    #         equals_to: {
+    #           key: "DocumentAttributeKey", # required
+    #           value: { # required
+    #             string_value: "DocumentAttributeStringValue",
+    #             string_list_value: ["String"],
+    #             long_value: 1,
+    #             date_value: Time.now,
+    #           },
+    #         },
+    #         contains_all: {
+    #           key: "DocumentAttributeKey", # required
+    #           value: { # required
+    #             string_value: "DocumentAttributeStringValue",
+    #             string_list_value: ["String"],
+    #             long_value: 1,
+    #             date_value: Time.now,
+    #           },
+    #         },
+    #         contains_any: {
+    #           key: "DocumentAttributeKey", # required
+    #           value: { # required
+    #             string_value: "DocumentAttributeStringValue",
+    #             string_list_value: ["String"],
+    #             long_value: 1,
+    #             date_value: Time.now,
+    #           },
+    #         },
+    #         greater_than: {
+    #           key: "DocumentAttributeKey", # required
+    #           value: { # required
+    #             string_value: "DocumentAttributeStringValue",
+    #             string_list_value: ["String"],
+    #             long_value: 1,
+    #             date_value: Time.now,
+    #           },
+    #         },
+    #         greater_than_or_equals: {
+    #           key: "DocumentAttributeKey", # required
+    #           value: { # required
+    #             string_value: "DocumentAttributeStringValue",
+    #             string_list_value: ["String"],
+    #             long_value: 1,
+    #             date_value: Time.now,
+    #           },
+    #         },
+    #         less_than: {
+    #           key: "DocumentAttributeKey", # required
+    #           value: { # required
+    #             string_value: "DocumentAttributeStringValue",
+    #             string_list_value: ["String"],
+    #             long_value: 1,
+    #             date_value: Time.now,
+    #           },
+    #         },
+    #         less_than_or_equals: {
+    #           key: "DocumentAttributeKey", # required
+    #           value: { # required
+    #             string_value: "DocumentAttributeStringValue",
+    #             string_list_value: ["String"],
+    #             long_value: 1,
+    #             date_value: Time.now,
+    #           },
+    #         },
+    #       },
+    #       user_context: {
+    #         token: "Token",
+    #         user_id: "PrincipalName",
+    #         groups: ["PrincipalName"],
+    #         data_source_groups: [
+    #           {
+    #             group_id: "PrincipalName", # required
+    #             data_source_id: "DataSourceId", # required
+    #           },
+    #         ],
+    #       },
+    #     },
     #   })
     #
     # @example Response structure
@@ -3778,6 +4248,17 @@ module Aws::Kendra
     #   resp.suggestions[0].value.text.highlights #=> Array
     #   resp.suggestions[0].value.text.highlights[0].begin_offset #=> Integer
     #   resp.suggestions[0].value.text.highlights[0].end_offset #=> Integer
+    #   resp.suggestions[0].source_documents #=> Array
+    #   resp.suggestions[0].source_documents[0].document_id #=> String
+    #   resp.suggestions[0].source_documents[0].suggestion_attributes #=> Array
+    #   resp.suggestions[0].source_documents[0].suggestion_attributes[0] #=> String
+    #   resp.suggestions[0].source_documents[0].additional_attributes #=> Array
+    #   resp.suggestions[0].source_documents[0].additional_attributes[0].key #=> String
+    #   resp.suggestions[0].source_documents[0].additional_attributes[0].value.string_value #=> String
+    #   resp.suggestions[0].source_documents[0].additional_attributes[0].value.string_list_value #=> Array
+    #   resp.suggestions[0].source_documents[0].additional_attributes[0].value.string_list_value[0] #=> String
+    #   resp.suggestions[0].source_documents[0].additional_attributes[0].value.long_value #=> Integer
+    #   resp.suggestions[0].source_documents[0].additional_attributes[0].value.date_value #=> Time
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/kendra-2019-02-03/GetQuerySuggestions AWS API Documentation
     #
@@ -3800,22 +4281,22 @@ module Aws::Kendra
     #   interval uses the time zone of your index. You can view data in the
     #   following time windows:
     #
-    #   * `THIS_WEEK`\: The current week, starting on the Sunday and ending on
+    #   * `THIS_WEEK`: The current week, starting on the Sunday and ending on
     #     the day before the current date.
     #
-    #   * `ONE_WEEK_AGO`\: The previous week, starting on the Sunday and
-    #     ending on the following Saturday.
+    #   * `ONE_WEEK_AGO`: The previous week, starting on the Sunday and ending
+    #     on the following Saturday.
     #
-    #   * `TWO_WEEKS_AGO`\: The week before the previous week, starting on the
+    #   * `TWO_WEEKS_AGO`: The week before the previous week, starting on the
     #     Sunday and ending on the following Saturday.
     #
-    #   * `THIS_MONTH`\: The current month, starting on the first day of the
+    #   * `THIS_MONTH`: The current month, starting on the first day of the
     #     month and ending on the day before the current date.
     #
-    #   * `ONE_MONTH_AGO`\: The previous month, starting on the first day of
+    #   * `ONE_MONTH_AGO`: The previous month, starting on the first day of
     #     the month and ending on the last day of the month.
     #
-    #   * `TWO_MONTHS_AGO`\: The month before the previous month, starting on
+    #   * `TWO_MONTHS_AGO`: The month before the previous month, starting on
     #     the first day of the month and ending on last day of the month.
     #
     # @option params [required, String] :metric_type
@@ -4215,10 +4696,10 @@ module Aws::Kendra
       req.send_request(options)
     end
 
-    # Gets a list of FAQ lists associated with an index.
+    # Gets a list of FAQs associated with an index.
     #
     # @option params [required, String] :index_id
-    #   The index that contains the FAQ lists.
+    #   The index for the FAQs.
     #
     # @option params [String] :next_token
     #   If the previous response was incomplete (because there is more data to
@@ -4263,6 +4744,54 @@ module Aws::Kendra
     # @param [Hash] params ({})
     def list_faqs(params = {}, options = {})
       req = build_request(:list_faqs, params)
+      req.send_request(options)
+    end
+
+    # Lists all your sets of featured results for a given index. Features
+    # results are placed above all other results for certain queries. If
+    # there's an exact match of a query, then one or more specific
+    # documents are featured in the search results.
+    #
+    # @option params [required, String] :index_id
+    #   The identifier of the index used for featuring results.
+    #
+    # @option params [String] :next_token
+    #   If the response is truncated, Amazon Kendra returns a pagination token
+    #   in the response. You can use this pagination token to retrieve the
+    #   next set of featured results sets.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of featured results sets to return.
+    #
+    # @return [Types::ListFeaturedResultsSetsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListFeaturedResultsSetsResponse#featured_results_set_summary_items #featured_results_set_summary_items} => Array&lt;Types::FeaturedResultsSetSummary&gt;
+    #   * {Types::ListFeaturedResultsSetsResponse#next_token #next_token} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_featured_results_sets({
+    #     index_id: "IndexId", # required
+    #     next_token: "NextToken",
+    #     max_results: 1,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.featured_results_set_summary_items #=> Array
+    #   resp.featured_results_set_summary_items[0].featured_results_set_id #=> String
+    #   resp.featured_results_set_summary_items[0].featured_results_set_name #=> String
+    #   resp.featured_results_set_summary_items[0].status #=> String, one of "ACTIVE", "INACTIVE"
+    #   resp.featured_results_set_summary_items[0].last_updated_timestamp #=> Integer
+    #   resp.featured_results_set_summary_items[0].creation_timestamp #=> Integer
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/kendra-2019-02-03/ListFeaturedResultsSets AWS API Documentation
+    #
+    # @overload list_featured_results_sets(params = {})
+    # @param [Hash] params ({})
+    def list_featured_results_sets(params = {}, options = {})
+      req = build_request(:list_featured_results_sets, params)
       req.send_request(options)
     end
 
@@ -4357,7 +4886,7 @@ module Aws::Kendra
     #   resp.index_configuration_summary_items #=> Array
     #   resp.index_configuration_summary_items[0].name #=> String
     #   resp.index_configuration_summary_items[0].id #=> String
-    #   resp.index_configuration_summary_items[0].edition #=> String, one of "DEVELOPER_EDITION", "ENTERPRISE_EDITION"
+    #   resp.index_configuration_summary_items[0].edition #=> String, one of "DEVELOPER_EDITION", "ENTERPRISE_EDITION", "GEN_AI_ENTERPRISE_EDITION"
     #   resp.index_configuration_summary_items[0].created_at #=> Time
     #   resp.index_configuration_summary_items[0].updated_at #=> Time
     #   resp.index_configuration_summary_items[0].status #=> String, one of "CREATING", "ACTIVE", "DELETING", "FAILED", "UPDATING", "SYSTEM_UPDATING"
@@ -4439,12 +4968,20 @@ module Aws::Kendra
       req.send_request(options)
     end
 
-    # Gets a list of tags associated with a specified resource. Indexes,
-    # FAQs, and data sources can have tags associated with them.
+    # Gets a list of tags associated with a resource. Indexes, FAQs, data
+    # sources, and other resources can have tags associated with them.
     #
     # @option params [required, String] :resource_arn
-    #   The Amazon Resource Name (ARN) of the index, FAQ, or data source to
-    #   get a list of tags for.
+    #   The Amazon Resource Name (ARN) of the index, FAQ, data source, or
+    #   other resource to get a list of tags for. For example, the ARN of an
+    #   index is constructed as follows:
+    #   *arn:aws:kendra:your-region:your-account-id:index/index-id* For
+    #   information on how to construct an ARN for all types of Amazon Kendra
+    #   resources, see [Resource types][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonkendra.html#amazonkendra-resources-for-iam-policies
     #
     # @return [Types::ListTagsForResourceResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -4537,9 +5074,6 @@ module Aws::Kendra
     # If more than five `PUT` actions for a group are currently processing,
     # a validation exception is thrown.
     #
-    # `PutPrincipalMapping` is currently not supported in the Amazon Web
-    # Services GovCloud (US-West) region.
-    #
     #
     #
     # [1]: https://docs.aws.amazon.com/kendra/latest/dg/user-context-filter.html
@@ -4563,10 +5097,10 @@ module Aws::Kendra
     #   The identifier of the group you want to map its users to.
     #
     # @option params [required, Types::GroupMembers] :group_members
-    #   The list that contains your users or sub groups that belong the same
-    #   group.
+    #   The list that contains your users that belong the same group. This can
+    #   include sub groups that belong to a group.
     #
-    #   For example, the group "Company" includes the user "CEO" and the
+    #   For example, the group "Company A" includes the user "CEO" and the
     #   sub groups "Research", "Engineering", and "Sales and Marketing".
     #
     #   If you have more than 1000 users and/or sub groups for a single group,
@@ -4576,26 +5110,25 @@ module Aws::Kendra
     #   users) must be no more than 1000.
     #
     # @option params [Integer] :ordering_id
-    #   The timestamp identifier you specify to ensure Amazon Kendra does not
+    #   The timestamp identifier you specify to ensure Amazon Kendra doesn't
     #   override the latest `PUT` action with previous actions. The highest
     #   number ID, which is the ordering ID, is the latest action you want to
     #   process and apply on top of other actions with lower number IDs. This
     #   prevents previous actions with lower number IDs from possibly
     #   overriding the latest action.
     #
-    #   The ordering ID can be the UNIX time of the last update you made to a
+    #   The ordering ID can be the Unix time of the last update you made to a
     #   group members list. You would then provide this list when calling
     #   `PutPrincipalMapping`. This ensures your `PUT` action for that updated
     #   group with the latest members list doesn't get overwritten by earlier
     #   `PUT` actions for the same group which are yet to be processed.
     #
-    #   The default ordering ID is the current UNIX time in milliseconds that
+    #   The default ordering ID is the current Unix time in milliseconds that
     #   the action was received by Amazon Kendra.
     #
     # @option params [String] :role_arn
-    #   The Amazon Resource Name (ARN) of a role that has access to the S3
-    #   file that contains your list of users or sub groups that belong to a
-    #   group.
+    #   The Amazon Resource Name (ARN) of an IAM role that has access to the
+    #   S3 file that contains your list of users that belong to a group.
     #
     #   For more information, see [IAM roles for Amazon Kendra][1].
     #
@@ -4641,77 +5174,106 @@ module Aws::Kendra
       req.send_request(options)
     end
 
-    # Searches an active index. Use this API to search your documents using
-    # query. The `Query` API enables to do faceted search and to filter
-    # results based on document attributes.
+    # Searches an index given an input query.
     #
-    # It also enables you to provide user context that Amazon Kendra uses to
-    # enforce document access control in the search results.
+    # <note markdown="1"> If you are working with large language models (LLMs) or implementing
+    # retrieval augmented generation (RAG) systems, you can use Amazon
+    # Kendra's [Retrieve][1] API, which can return longer semantically
+    # relevant passages. We recommend using the `Retrieve` API instead of
+    # filing a service limit increase to increase the `Query` API document
+    # excerpt length.
     #
-    # Amazon Kendra searches your index for text content and question and
-    # answer (FAQ) content. By default the response contains three types of
-    # results.
+    #  </note>
     #
-    # * Relevant passages
+    # You can configure boosting or relevance tuning at the query level to
+    # override boosting at the index level, filter based on document
+    # fields/attributes and faceted search, and filter based on the user or
+    # their group access to documents. You can also include certain fields
+    # in the response that might provide useful additional information.
     #
-    # * Matching FAQs
+    # A query response contains three types of results.
     #
-    # * Relevant documents
+    # * Relevant suggested answers. The answers can be either a text excerpt
+    #   or table excerpt. The answer can be highlighted in the excerpt.
+    #
+    # * Matching FAQs or questions-answer from your FAQ file.
+    #
+    # * Relevant documents. This result type includes an excerpt of the
+    #   document with the document title. The searched terms can be
+    #   highlighted in the excerpt.
     #
     # You can specify that the query return only one type of result using
-    # the `QueryResultTypeFilter` parameter.
+    # the `QueryResultTypeFilter` parameter. Each query returns the 100 most
+    # relevant results. If you filter result type to only question-answers,
+    # a maximum of four results are returned. If you filter result type to
+    # only answers, a maximum of three results are returned.
     #
-    # Each query returns the 100 most relevant results.
+    # If you're using an Amazon Kendra Gen AI Enterprise Edition index, you
+    # can only use `ATTRIBUTE_FILTER` to filter search results by user
+    # context. If you're using an Amazon Kendra Gen AI Enterprise Edition
+    # index and you try to use `USER_TOKEN` to configure user context
+    # policy, Amazon Kendra returns a `ValidationException` error.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/kendra/latest/APIReference/API_Retrieve.html
     #
     # @option params [required, String] :index_id
-    #   The identifier of the index to search. The identifier is returned in
-    #   the response from the `CreateIndex` API.
+    #   The identifier of the index for the search.
     #
     # @option params [String] :query_text
     #   The input query text for the search. Amazon Kendra truncates queries
     #   at 30 token words, which excludes punctuation and stop words.
     #   Truncation still applies if you use Boolean or more advanced, complex
-    #   queries.
+    #   queries. For example, `Timeoff AND October AND Category:HR` is counted
+    #   as 3 tokens: `timeoff`, `october`, `hr`. For more information, see
+    #   [Searching with advanced query syntax][1] in the Amazon Kendra
+    #   Developer Guide.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/kendra/latest/dg/searching-example.html#searching-index-query-syntax
     #
     # @option params [Types::AttributeFilter] :attribute_filter
-    #   Enables filtered searches based on document attributes. You can only
+    #   Filters search results by document fields/attributes. You can only
     #   provide one attribute filter; however, the `AndAllFilters`,
     #   `NotFilter`, and `OrAllFilters` parameters contain a list of other
     #   filters.
     #
-    #   The `AttributeFilter` parameter enables you to create a set of
+    #   The `AttributeFilter` parameter means you can create a set of
     #   filtering rules that a document must satisfy to be included in the
     #   query results.
     #
+    #   <note markdown="1"> For Amazon Kendra Gen AI Enterprise Edition indices use
+    #   `AttributeFilter` to enable document filtering for end users using
+    #   `_email_id` or include public documents (`_email_id=null`).
+    #
+    #    </note>
+    #
     # @option params [Array<Types::Facet>] :facets
-    #   An array of documents attributes. Amazon Kendra returns a count for
-    #   each attribute key specified. This helps your users narrow their
-    #   search.
+    #   An array of documents fields/attributes for faceted search. Amazon
+    #   Kendra returns a count for each field key specified. This helps your
+    #   users narrow their search.
     #
     # @option params [Array<String>] :requested_document_attributes
-    #   An array of document attributes to include in the response. You can
-    #   limit the response to include certain document attributes. By default
+    #   An array of document fields/attributes to include in the response. You
+    #   can limit the response to include certain document fields. By default,
     #   all document attributes are included in the response.
     #
     # @option params [String] :query_result_type_filter
-    #   Sets the type of query. Only results for the specified query type are
-    #   returned.
+    #   Sets the type of query result or response. Only results for the
+    #   specified type are returned.
     #
     # @option params [Array<Types::DocumentRelevanceConfiguration>] :document_relevance_override_configurations
-    #   Overrides relevance tuning configurations of fields or attributes set
-    #   at the index level.
+    #   Overrides relevance tuning configurations of fields/attributes set at
+    #   the index level.
     #
     #   If you use this API to override the relevance tuning configured at the
     #   index level, but there is no relevance tuning configured at the index
     #   level, then Amazon Kendra does not apply any relevance tuning.
     #
-    #   If there is relevance tuning configured at the index level, but you do
-    #   not use this API to override any relevance tuning in the index, then
-    #   Amazon Kendra uses the relevance tuning that is configured at the
-    #   index level.
-    #
     #   If there is relevance tuning configured for fields at the index level,
-    #   but you use this API to override only some of these fields, then for
+    #   and you use this API to override only some of these fields, then for
     #   the fields you did not override, the importance is set to 1.
     #
     # @option params [Integer] :page_number
@@ -4734,6 +5296,19 @@ module Aws::Kendra
     #   If you don't provide sorting configuration, the results are sorted by
     #   the relevance that Amazon Kendra determines for the result.
     #
+    # @option params [Array<Types::SortingConfiguration>] :sorting_configurations
+    #   Provides configuration information to determine how the results of a
+    #   query are sorted.
+    #
+    #   You can set upto 3 fields that Amazon Kendra should sort the results
+    #   on, and specify whether the results should be sorted in ascending or
+    #   descending order. The sort field quota can be increased.
+    #
+    #   If you don't provide a sorting configuration, the results are sorted
+    #   by the relevance that Amazon Kendra determines for the result. In the
+    #   case of ties in sorting the results, the results are sorted by
+    #   relevance.
+    #
     # @option params [Types::UserContext] :user_context
     #   The user context token or user and group information.
     #
@@ -4746,6 +5321,11 @@ module Aws::Kendra
     # @option params [Types::SpellCorrectionConfiguration] :spell_correction_configuration
     #   Enables suggested spell corrections for queries.
     #
+    # @option params [Types::CollapseConfiguration] :collapse_configuration
+    #   Provides configuration to determine how to group results by document
+    #   attribute value, and how to display them (collapsed or expanded) under
+    #   a designated primary document for each group.
+    #
     # @return [Types::QueryResult] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::QueryResult#query_id #query_id} => String
@@ -4754,6 +5334,7 @@ module Aws::Kendra
     #   * {Types::QueryResult#total_number_of_results #total_number_of_results} => Integer
     #   * {Types::QueryResult#warnings #warnings} => Array&lt;Types::Warning&gt;
     #   * {Types::QueryResult#spell_corrected_queries #spell_corrected_queries} => Array&lt;Types::SpellCorrectedQuery&gt;
+    #   * {Types::QueryResult#featured_results_items #featured_results_items} => Array&lt;Types::FeaturedResultsItem&gt;
     #
     # @example Request syntax with placeholder values
     #
@@ -4869,6 +5450,12 @@ module Aws::Kendra
     #       document_attribute_key: "DocumentAttributeKey", # required
     #       sort_order: "DESC", # required, accepts DESC, ASC
     #     },
+    #     sorting_configurations: [
+    #       {
+    #         document_attribute_key: "DocumentAttributeKey", # required
+    #         sort_order: "DESC", # required, accepts DESC, ASC
+    #       },
+    #     ],
     #     user_context: {
     #       token: "Token",
     #       user_id: "PrincipalName",
@@ -4883,6 +5470,21 @@ module Aws::Kendra
     #     visitor_id: "VisitorId",
     #     spell_correction_configuration: {
     #       include_query_spell_check_suggestions: false, # required
+    #     },
+    #     collapse_configuration: {
+    #       document_attribute_key: "DocumentAttributeKey", # required
+    #       sorting_configurations: [
+    #         {
+    #           document_attribute_key: "DocumentAttributeKey", # required
+    #           sort_order: "DESC", # required, accepts DESC, ASC
+    #         },
+    #       ],
+    #       missing_attribute_key_strategy: "IGNORE", # accepts IGNORE, COLLAPSE, EXPAND
+    #       expand: false,
+    #       expand_configuration: {
+    #         max_result_items_to_expand: 1,
+    #         max_expanded_results_per_item: 1,
+    #       },
     #     },
     #   })
     #
@@ -4932,6 +5534,35 @@ module Aws::Kendra
     #   resp.result_items[0].table_excerpt.rows[0].cells[0].highlighted #=> Boolean
     #   resp.result_items[0].table_excerpt.rows[0].cells[0].header #=> Boolean
     #   resp.result_items[0].table_excerpt.total_number_of_rows #=> Integer
+    #   resp.result_items[0].collapsed_result_detail.document_attribute.key #=> String
+    #   resp.result_items[0].collapsed_result_detail.document_attribute.value.string_value #=> String
+    #   resp.result_items[0].collapsed_result_detail.document_attribute.value.string_list_value #=> Array
+    #   resp.result_items[0].collapsed_result_detail.document_attribute.value.string_list_value[0] #=> String
+    #   resp.result_items[0].collapsed_result_detail.document_attribute.value.long_value #=> Integer
+    #   resp.result_items[0].collapsed_result_detail.document_attribute.value.date_value #=> Time
+    #   resp.result_items[0].collapsed_result_detail.expanded_results #=> Array
+    #   resp.result_items[0].collapsed_result_detail.expanded_results[0].id #=> String
+    #   resp.result_items[0].collapsed_result_detail.expanded_results[0].document_id #=> String
+    #   resp.result_items[0].collapsed_result_detail.expanded_results[0].document_title.text #=> String
+    #   resp.result_items[0].collapsed_result_detail.expanded_results[0].document_title.highlights #=> Array
+    #   resp.result_items[0].collapsed_result_detail.expanded_results[0].document_title.highlights[0].begin_offset #=> Integer
+    #   resp.result_items[0].collapsed_result_detail.expanded_results[0].document_title.highlights[0].end_offset #=> Integer
+    #   resp.result_items[0].collapsed_result_detail.expanded_results[0].document_title.highlights[0].top_answer #=> Boolean
+    #   resp.result_items[0].collapsed_result_detail.expanded_results[0].document_title.highlights[0].type #=> String, one of "STANDARD", "THESAURUS_SYNONYM"
+    #   resp.result_items[0].collapsed_result_detail.expanded_results[0].document_excerpt.text #=> String
+    #   resp.result_items[0].collapsed_result_detail.expanded_results[0].document_excerpt.highlights #=> Array
+    #   resp.result_items[0].collapsed_result_detail.expanded_results[0].document_excerpt.highlights[0].begin_offset #=> Integer
+    #   resp.result_items[0].collapsed_result_detail.expanded_results[0].document_excerpt.highlights[0].end_offset #=> Integer
+    #   resp.result_items[0].collapsed_result_detail.expanded_results[0].document_excerpt.highlights[0].top_answer #=> Boolean
+    #   resp.result_items[0].collapsed_result_detail.expanded_results[0].document_excerpt.highlights[0].type #=> String, one of "STANDARD", "THESAURUS_SYNONYM"
+    #   resp.result_items[0].collapsed_result_detail.expanded_results[0].document_uri #=> String
+    #   resp.result_items[0].collapsed_result_detail.expanded_results[0].document_attributes #=> Array
+    #   resp.result_items[0].collapsed_result_detail.expanded_results[0].document_attributes[0].key #=> String
+    #   resp.result_items[0].collapsed_result_detail.expanded_results[0].document_attributes[0].value.string_value #=> String
+    #   resp.result_items[0].collapsed_result_detail.expanded_results[0].document_attributes[0].value.string_list_value #=> Array
+    #   resp.result_items[0].collapsed_result_detail.expanded_results[0].document_attributes[0].value.string_list_value[0] #=> String
+    #   resp.result_items[0].collapsed_result_detail.expanded_results[0].document_attributes[0].value.long_value #=> Integer
+    #   resp.result_items[0].collapsed_result_detail.expanded_results[0].document_attributes[0].value.date_value #=> Time
     #   resp.facet_results #=> Array
     #   resp.facet_results[0].document_attribute_key #=> String
     #   resp.facet_results[0].document_attribute_value_type #=> String, one of "STRING_VALUE", "STRING_LIST_VALUE", "LONG_VALUE", "DATE_VALUE"
@@ -4954,6 +5585,40 @@ module Aws::Kendra
     #   resp.spell_corrected_queries[0].corrections[0].end_offset #=> Integer
     #   resp.spell_corrected_queries[0].corrections[0].term #=> String
     #   resp.spell_corrected_queries[0].corrections[0].corrected_term #=> String
+    #   resp.featured_results_items #=> Array
+    #   resp.featured_results_items[0].id #=> String
+    #   resp.featured_results_items[0].type #=> String, one of "DOCUMENT", "QUESTION_ANSWER", "ANSWER"
+    #   resp.featured_results_items[0].additional_attributes #=> Array
+    #   resp.featured_results_items[0].additional_attributes[0].key #=> String
+    #   resp.featured_results_items[0].additional_attributes[0].value_type #=> String, one of "TEXT_WITH_HIGHLIGHTS_VALUE"
+    #   resp.featured_results_items[0].additional_attributes[0].value.text_with_highlights_value.text #=> String
+    #   resp.featured_results_items[0].additional_attributes[0].value.text_with_highlights_value.highlights #=> Array
+    #   resp.featured_results_items[0].additional_attributes[0].value.text_with_highlights_value.highlights[0].begin_offset #=> Integer
+    #   resp.featured_results_items[0].additional_attributes[0].value.text_with_highlights_value.highlights[0].end_offset #=> Integer
+    #   resp.featured_results_items[0].additional_attributes[0].value.text_with_highlights_value.highlights[0].top_answer #=> Boolean
+    #   resp.featured_results_items[0].additional_attributes[0].value.text_with_highlights_value.highlights[0].type #=> String, one of "STANDARD", "THESAURUS_SYNONYM"
+    #   resp.featured_results_items[0].document_id #=> String
+    #   resp.featured_results_items[0].document_title.text #=> String
+    #   resp.featured_results_items[0].document_title.highlights #=> Array
+    #   resp.featured_results_items[0].document_title.highlights[0].begin_offset #=> Integer
+    #   resp.featured_results_items[0].document_title.highlights[0].end_offset #=> Integer
+    #   resp.featured_results_items[0].document_title.highlights[0].top_answer #=> Boolean
+    #   resp.featured_results_items[0].document_title.highlights[0].type #=> String, one of "STANDARD", "THESAURUS_SYNONYM"
+    #   resp.featured_results_items[0].document_excerpt.text #=> String
+    #   resp.featured_results_items[0].document_excerpt.highlights #=> Array
+    #   resp.featured_results_items[0].document_excerpt.highlights[0].begin_offset #=> Integer
+    #   resp.featured_results_items[0].document_excerpt.highlights[0].end_offset #=> Integer
+    #   resp.featured_results_items[0].document_excerpt.highlights[0].top_answer #=> Boolean
+    #   resp.featured_results_items[0].document_excerpt.highlights[0].type #=> String, one of "STANDARD", "THESAURUS_SYNONYM"
+    #   resp.featured_results_items[0].document_uri #=> String
+    #   resp.featured_results_items[0].document_attributes #=> Array
+    #   resp.featured_results_items[0].document_attributes[0].key #=> String
+    #   resp.featured_results_items[0].document_attributes[0].value.string_value #=> String
+    #   resp.featured_results_items[0].document_attributes[0].value.string_list_value #=> Array
+    #   resp.featured_results_items[0].document_attributes[0].value.string_list_value[0] #=> String
+    #   resp.featured_results_items[0].document_attributes[0].value.long_value #=> Integer
+    #   resp.featured_results_items[0].document_attributes[0].value.date_value #=> Time
+    #   resp.featured_results_items[0].feedback_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/kendra-2019-02-03/Query AWS API Documentation
     #
@@ -4964,9 +5629,273 @@ module Aws::Kendra
       req.send_request(options)
     end
 
+    # Retrieves relevant passages or text excerpts given an input query.
+    #
+    # This API is similar to the [Query][1] API. However, by default, the
+    # `Query` API only returns excerpt passages of up to 100 token words.
+    # With the `Retrieve` API, you can retrieve longer passages of up to 200
+    # token words and up to 100 semantically relevant passages. This
+    # doesn't include question-answer or FAQ type responses from your
+    # index. The passages are text excerpts that can be semantically
+    # extracted from multiple documents and multiple parts of the same
+    # document. If in extreme cases your documents produce zero passages
+    # using the `Retrieve` API, you can alternatively use the `Query` API
+    # and its types of responses.
+    #
+    # You can also do the following:
+    #
+    # * Override boosting at the index level
+    #
+    # * Filter based on document fields or attributes
+    #
+    # * Filter based on the user or their group access to documents
+    #
+    # * View the confidence score bucket for a retrieved passage result. The
+    #   confidence bucket provides a relative ranking that indicates how
+    #   confident Amazon Kendra is that the response is relevant to the
+    #   query.
+    #
+    #   <note markdown="1"> Confidence score buckets are currently available only for English.
+    #
+    #    </note>
+    #
+    # You can also include certain fields in the response that might provide
+    # useful additional information.
+    #
+    # The `Retrieve` API shares the number of [query capacity units][2] that
+    # you set for your index. For more information on what's included in a
+    # single capacity unit and the default base capacity for an index, see
+    # [Adjusting capacity][3].
+    #
+    # If you're using an Amazon Kendra Gen AI Enterprise Edition index, you
+    # can only use `ATTRIBUTE_FILTER` to filter search results by user
+    # context. If you're using an Amazon Kendra Gen AI Enterprise Edition
+    # index and you try to use `USER_TOKEN` to configure user context
+    # policy, Amazon Kendra returns a `ValidationException` error.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/kendra/latest/APIReference/API_Query.html
+    # [2]: https://docs.aws.amazon.com/kendra/latest/APIReference/API_CapacityUnitsConfiguration.html
+    # [3]: https://docs.aws.amazon.com/kendra/latest/dg/adjusting-capacity.html
+    #
+    # @option params [required, String] :index_id
+    #   The identifier of the index to retrieve relevant passages for the
+    #   search.
+    #
+    # @option params [required, String] :query_text
+    #   The input query text to retrieve relevant passages for the search.
+    #   Amazon Kendra truncates queries at 30 token words, which excludes
+    #   punctuation and stop words. Truncation still applies if you use
+    #   Boolean or more advanced, complex queries. For example, `Timeoff AND
+    #   October AND Category:HR` is counted as 3 tokens: `timeoff`, `october`,
+    #   `hr`. For more information, see [Searching with advanced query
+    #   syntax][1] in the Amazon Kendra Developer Guide.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/kendra/latest/dg/searching-example.html#searching-index-query-syntax
+    #
+    # @option params [Types::AttributeFilter] :attribute_filter
+    #   Filters search results by document fields/attributes. You can only
+    #   provide one attribute filter; however, the `AndAllFilters`,
+    #   `NotFilter`, and `OrAllFilters` parameters contain a list of other
+    #   filters.
+    #
+    #   The `AttributeFilter` parameter means you can create a set of
+    #   filtering rules that a document must satisfy to be included in the
+    #   query results.
+    #
+    #   <note markdown="1"> For Amazon Kendra Gen AI Enterprise Edition indices use
+    #   `AttributeFilter` to enable document filtering for end users using
+    #   `_email_id` or include public documents (`_email_id=null`).
+    #
+    #    </note>
+    #
+    # @option params [Array<String>] :requested_document_attributes
+    #   A list of document fields/attributes to include in the response. You
+    #   can limit the response to include certain document fields. By default,
+    #   all document fields are included in the response.
+    #
+    # @option params [Array<Types::DocumentRelevanceConfiguration>] :document_relevance_override_configurations
+    #   Overrides relevance tuning configurations of fields/attributes set at
+    #   the index level.
+    #
+    #   If you use this API to override the relevance tuning configured at the
+    #   index level, but there is no relevance tuning configured at the index
+    #   level, then Amazon Kendra does not apply any relevance tuning.
+    #
+    #   If there is relevance tuning configured for fields at the index level,
+    #   and you use this API to override only some of these fields, then for
+    #   the fields you did not override, the importance is set to 1.
+    #
+    # @option params [Integer] :page_number
+    #   Retrieved relevant passages are returned in pages the size of the
+    #   `PageSize` parameter. By default, Amazon Kendra returns the first page
+    #   of results. Use this parameter to get result pages after the first
+    #   one.
+    #
+    # @option params [Integer] :page_size
+    #   Sets the number of retrieved relevant passages that are returned in
+    #   each page of results. The default page size is 10. The maximum number
+    #   of results returned is 100. If you ask for more than 100 results, only
+    #   100 are returned.
+    #
+    # @option params [Types::UserContext] :user_context
+    #   The user context token or user and group information.
+    #
+    # @return [Types::RetrieveResult] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::RetrieveResult#query_id #query_id} => String
+    #   * {Types::RetrieveResult#result_items #result_items} => Array&lt;Types::RetrieveResultItem&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.retrieve({
+    #     index_id: "IndexId", # required
+    #     query_text: "QueryText", # required
+    #     attribute_filter: {
+    #       and_all_filters: [
+    #         {
+    #           # recursive AttributeFilter
+    #         },
+    #       ],
+    #       or_all_filters: [
+    #         {
+    #           # recursive AttributeFilter
+    #         },
+    #       ],
+    #       not_filter: {
+    #         # recursive AttributeFilter
+    #       },
+    #       equals_to: {
+    #         key: "DocumentAttributeKey", # required
+    #         value: { # required
+    #           string_value: "DocumentAttributeStringValue",
+    #           string_list_value: ["String"],
+    #           long_value: 1,
+    #           date_value: Time.now,
+    #         },
+    #       },
+    #       contains_all: {
+    #         key: "DocumentAttributeKey", # required
+    #         value: { # required
+    #           string_value: "DocumentAttributeStringValue",
+    #           string_list_value: ["String"],
+    #           long_value: 1,
+    #           date_value: Time.now,
+    #         },
+    #       },
+    #       contains_any: {
+    #         key: "DocumentAttributeKey", # required
+    #         value: { # required
+    #           string_value: "DocumentAttributeStringValue",
+    #           string_list_value: ["String"],
+    #           long_value: 1,
+    #           date_value: Time.now,
+    #         },
+    #       },
+    #       greater_than: {
+    #         key: "DocumentAttributeKey", # required
+    #         value: { # required
+    #           string_value: "DocumentAttributeStringValue",
+    #           string_list_value: ["String"],
+    #           long_value: 1,
+    #           date_value: Time.now,
+    #         },
+    #       },
+    #       greater_than_or_equals: {
+    #         key: "DocumentAttributeKey", # required
+    #         value: { # required
+    #           string_value: "DocumentAttributeStringValue",
+    #           string_list_value: ["String"],
+    #           long_value: 1,
+    #           date_value: Time.now,
+    #         },
+    #       },
+    #       less_than: {
+    #         key: "DocumentAttributeKey", # required
+    #         value: { # required
+    #           string_value: "DocumentAttributeStringValue",
+    #           string_list_value: ["String"],
+    #           long_value: 1,
+    #           date_value: Time.now,
+    #         },
+    #       },
+    #       less_than_or_equals: {
+    #         key: "DocumentAttributeKey", # required
+    #         value: { # required
+    #           string_value: "DocumentAttributeStringValue",
+    #           string_list_value: ["String"],
+    #           long_value: 1,
+    #           date_value: Time.now,
+    #         },
+    #       },
+    #     },
+    #     requested_document_attributes: ["DocumentAttributeKey"],
+    #     document_relevance_override_configurations: [
+    #       {
+    #         name: "DocumentMetadataConfigurationName", # required
+    #         relevance: { # required
+    #           freshness: false,
+    #           importance: 1,
+    #           duration: "Duration",
+    #           rank_order: "ASCENDING", # accepts ASCENDING, DESCENDING
+    #           value_importance_map: {
+    #             "ValueImportanceMapKey" => 1,
+    #           },
+    #         },
+    #       },
+    #     ],
+    #     page_number: 1,
+    #     page_size: 1,
+    #     user_context: {
+    #       token: "Token",
+    #       user_id: "PrincipalName",
+    #       groups: ["PrincipalName"],
+    #       data_source_groups: [
+    #         {
+    #           group_id: "PrincipalName", # required
+    #           data_source_id: "DataSourceId", # required
+    #         },
+    #       ],
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.query_id #=> String
+    #   resp.result_items #=> Array
+    #   resp.result_items[0].id #=> String
+    #   resp.result_items[0].document_id #=> String
+    #   resp.result_items[0].document_title #=> String
+    #   resp.result_items[0].content #=> String
+    #   resp.result_items[0].document_uri #=> String
+    #   resp.result_items[0].document_attributes #=> Array
+    #   resp.result_items[0].document_attributes[0].key #=> String
+    #   resp.result_items[0].document_attributes[0].value.string_value #=> String
+    #   resp.result_items[0].document_attributes[0].value.string_list_value #=> Array
+    #   resp.result_items[0].document_attributes[0].value.string_list_value[0] #=> String
+    #   resp.result_items[0].document_attributes[0].value.long_value #=> Integer
+    #   resp.result_items[0].document_attributes[0].value.date_value #=> Time
+    #   resp.result_items[0].score_attributes.score_confidence #=> String, one of "VERY_HIGH", "HIGH", "MEDIUM", "LOW", "NOT_AVAILABLE"
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/kendra-2019-02-03/Retrieve AWS API Documentation
+    #
+    # @overload retrieve(params = {})
+    # @param [Hash] params ({})
+    def retrieve(params = {}, options = {})
+      req = build_request(:retrieve, params)
+      req.send_request(options)
+    end
+
     # Starts a synchronization job for a data source connector. If a
     # synchronization job is already in progress, Amazon Kendra returns a
     # `ResourceInUseException` exception.
+    #
+    # Re-syncing your data source with your index after modifying, adding,
+    # or deleting documents from your data source respository could take up
+    # to an hour or more, depending on the number of documents to sync.
     #
     # @option params [required, String] :id
     #   The identifier of the data source connector to synchronize.
@@ -5077,17 +6006,26 @@ module Aws::Kendra
       req.send_request(options)
     end
 
-    # Adds the specified tag to the specified index, FAQ, or data source
-    # resource. If the tag already exists, the existing value is replaced
-    # with the new value.
+    # Adds the specified tag to the specified index, FAQ, data source, or
+    # other resource. If the tag already exists, the existing value is
+    # replaced with the new value.
     #
     # @option params [required, String] :resource_arn
-    #   The Amazon Resource Name (ARN) of the index, FAQ, or data source to
-    #   tag.
+    #   The Amazon Resource Name (ARN) of the index, FAQ, data source, or
+    #   other resource to add a tag. For example, the ARN of an index is
+    #   constructed as follows:
+    #   *arn:aws:kendra:your-region:your-account-id:index/index-id* For
+    #   information on how to construct an ARN for all types of Amazon Kendra
+    #   resources, see [Resource types][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonkendra.html#amazonkendra-resources-for-iam-policies
     #
     # @option params [required, Array<Types::Tag>] :tags
-    #   A list of tag keys to add to the index, FAQ, or data source. If a tag
-    #   already exists, the existing value is replaced with the new value.
+    #   A list of tag keys to add to the index, FAQ, data source, or other
+    #   resource. If a tag already exists, the existing value is replaced with
+    #   the new value.
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
@@ -5112,15 +6050,24 @@ module Aws::Kendra
       req.send_request(options)
     end
 
-    # Removes a tag from an index, FAQ, or a data source.
+    # Removes a tag from an index, FAQ, data source, or other resource.
     #
     # @option params [required, String] :resource_arn
-    #   The Amazon Resource Name (ARN) of the index, FAQ, or data source to
-    #   remove the tag from.
+    #   The Amazon Resource Name (ARN) of the index, FAQ, data source, or
+    #   other resource to remove a tag. For example, the ARN of an index is
+    #   constructed as follows:
+    #   *arn:aws:kendra:your-region:your-account-id:index/index-id* For
+    #   information on how to construct an ARN for all types of Amazon Kendra
+    #   resources, see [Resource types][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonkendra.html#amazonkendra-resources-for-iam-policies
     #
     # @option params [required, Array<String>] :tag_keys
-    #   A list of tag keys to remove from the index, FAQ, or data source. If a
-    #   tag key does not exist on the resource, it is ignored.
+    #   A list of tag keys to remove from the index, FAQ, data source, or
+    #   other resource. If a tag key doesn't exist for the resource, it is
+    #   ignored.
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
@@ -5164,6 +6111,11 @@ module Aws::Kendra
     # `AccessControlConfigurationId` in the `.metadata.json` file. Amazon
     # Kendra currently only supports access control configuration for S3
     # data sources and documents indexed using the `BatchPutDocument` API.
+    #
+    # You can't configure access control using
+    # `CreateAccessControlConfiguration` for an Amazon Kendra Gen AI
+    # Enterprise Edition index. Amazon Kendra will return a
+    # `ValidationException` error for a `Gen_AI_ENTERPRISE_EDITION` index.
     #
     #
     #
@@ -5236,7 +6188,7 @@ module Aws::Kendra
       req.send_request(options)
     end
 
-    # Updates an existing Amazon Kendra data source connector.
+    # Updates an Amazon Kendra data source connector.
     #
     # @option params [required, String] :id
     #   The identifier of the data source connector you want to update.
@@ -5267,9 +6219,9 @@ module Aws::Kendra
     #   The sync schedule you want to update for the data source connector.
     #
     # @option params [String] :role_arn
-    #   The Amazon Resource Name (ARN) of a role with permission to access the
-    #   data source and required resources. For more information, see [IAM
-    #   roles for Amazon Kendra][1].
+    #   The Amazon Resource Name (ARN) of an IAM role with permission to
+    #   access the data source and required resources. For more information,
+    #   see [IAM roles for Amazon Kendra][1].
     #
     #
     #
@@ -6030,10 +6982,10 @@ module Aws::Kendra
     #   The identifier of the index for your Amazon Kendra experience.
     #
     # @option params [String] :role_arn
-    #   The Amazon Resource Name (ARN) of a role with permission to access
-    #   `Query` API, `QuerySuggestions` API, `SubmitFeedback` API, and IAM
-    #   Identity Center that stores your user and group information. For more
-    #   information, see [IAM roles for Amazon Kendra][1].
+    #   The Amazon Resource Name (ARN) of an IAM role with permission to
+    #   access the `Query` API, `QuerySuggestions` API, `SubmitFeedback` API,
+    #   and IAM Identity Center that stores your users and groups information.
+    #   For more information, see [IAM roles for Amazon Kendra][1].
     #
     #
     #
@@ -6077,13 +7029,97 @@ module Aws::Kendra
       req.send_request(options)
     end
 
-    # Updates an existing Amazon Kendra index.
+    # Updates a set of featured results. Features results are placed above
+    # all other results for certain queries. You map specific queries to
+    # specific documents for featuring in the results. If a query contains
+    # an exact match of a query, then one or more specific documents are
+    # featured in the search results.
+    #
+    # @option params [required, String] :index_id
+    #   The identifier of the index used for featuring results.
+    #
+    # @option params [required, String] :featured_results_set_id
+    #   The identifier of the set of featured results that you want to update.
+    #
+    # @option params [String] :featured_results_set_name
+    #   A new name for the set of featured results.
+    #
+    # @option params [String] :description
+    #   A new description for the set of featured results.
+    #
+    # @option params [String] :status
+    #   You can set the status to `ACTIVE` or `INACTIVE`. When the value is
+    #   `ACTIVE`, featured results are ready for use. You can still configure
+    #   your settings before setting the status to `ACTIVE`. The queries you
+    #   specify for featured results must be unique per featured results set
+    #   for each index, whether the status is `ACTIVE` or `INACTIVE`.
+    #
+    # @option params [Array<String>] :query_texts
+    #   A list of queries for featuring results. For more information on the
+    #   list of queries, see [FeaturedResultsSet][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/kendra/latest/dg/API_FeaturedResultsSet.html
+    #
+    # @option params [Array<Types::FeaturedDocument>] :featured_documents
+    #   A list of document IDs for the documents you want to feature at the
+    #   top of the search results page. For more information on the list of
+    #   featured documents, see [FeaturedResultsSet][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/kendra/latest/dg/API_FeaturedResultsSet.html
+    #
+    # @return [Types::UpdateFeaturedResultsSetResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateFeaturedResultsSetResponse#featured_results_set #featured_results_set} => Types::FeaturedResultsSet
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_featured_results_set({
+    #     index_id: "IndexId", # required
+    #     featured_results_set_id: "FeaturedResultsSetId", # required
+    #     featured_results_set_name: "FeaturedResultsSetName",
+    #     description: "FeaturedResultsSetDescription",
+    #     status: "ACTIVE", # accepts ACTIVE, INACTIVE
+    #     query_texts: ["QueryText"],
+    #     featured_documents: [
+    #       {
+    #         id: "DocumentId",
+    #       },
+    #     ],
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.featured_results_set.featured_results_set_id #=> String
+    #   resp.featured_results_set.featured_results_set_name #=> String
+    #   resp.featured_results_set.description #=> String
+    #   resp.featured_results_set.status #=> String, one of "ACTIVE", "INACTIVE"
+    #   resp.featured_results_set.query_texts #=> Array
+    #   resp.featured_results_set.query_texts[0] #=> String
+    #   resp.featured_results_set.featured_documents #=> Array
+    #   resp.featured_results_set.featured_documents[0].id #=> String
+    #   resp.featured_results_set.last_updated_timestamp #=> Integer
+    #   resp.featured_results_set.creation_timestamp #=> Integer
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/kendra-2019-02-03/UpdateFeaturedResultsSet AWS API Documentation
+    #
+    # @overload update_featured_results_set(params = {})
+    # @param [Hash] params ({})
+    def update_featured_results_set(params = {}, options = {})
+      req = build_request(:update_featured_results_set, params)
+      req.send_request(options)
+    end
+
+    # Updates an Amazon Kendra index.
     #
     # @option params [required, String] :id
     #   The identifier of the index you want to update.
     #
     # @option params [String] :name
-    #   The name of the index you want to update.
+    #   A new name for the index.
     #
     # @option params [String] :role_arn
     #   An Identity and Access Management (IAM) role that gives Amazon Kendra
@@ -6110,13 +7146,27 @@ module Aws::Kendra
     # @option params [Array<Types::UserTokenConfiguration>] :user_token_configurations
     #   The user token configuration.
     #
+    #   If you're using an Amazon Kendra Gen AI Enterprise Edition index and
+    #   you try to use `UserTokenConfigurations` to configure user context
+    #   policy, Amazon Kendra returns a `ValidationException` error.
+    #
     # @option params [String] :user_context_policy
     #   The user context policy.
     #
+    #   If you're using an Amazon Kendra Gen AI Enterprise Edition index, you
+    #   can only use `ATTRIBUTE_FILTER` to filter search results by user
+    #   context. If you're using an Amazon Kendra Gen AI Enterprise Edition
+    #   index and you try to use `USER_TOKEN` to configure user context
+    #   policy, Amazon Kendra returns a `ValidationException` error.
+    #
     # @option params [Types::UserGroupResolutionConfiguration] :user_group_resolution_configuration
-    #   Enables fetching access levels of groups and users from an IAM
-    #   Identity Center (successor to Single Sign-On) identity source. To
-    #   configure this, see [UserGroupResolutionConfiguration][1].
+    #   Gets users and groups from IAM Identity Center identity source. To
+    #   configure this, see [UserGroupResolutionConfiguration][1]. This is
+    #   useful for user context filtering, where search results are filtered
+    #   based on the user or their group access to documents.
+    #
+    #   If you're using an Amazon Kendra Gen AI Enterprise Edition index,
+    #   `UserGroupResolutionConfiguration` isn't supported.
     #
     #
     #
@@ -6263,8 +7313,8 @@ module Aws::Kendra
     # Amazon Kendra supports partial updates, so you only need to provide
     # the fields you want to update.
     #
-    # If an update is currently processing (i.e. 'happening'), you need to
-    # wait for the update to finish before making another update.
+    # If an update is currently processing, you need to wait for the update
+    # to finish before making another update.
     #
     # Updates to query suggestions settings might not take effect right
     # away. The time for your updated settings to take effect depends on the
@@ -6332,6 +7382,10 @@ module Aws::Kendra
     #
     #   How you tune this setting depends on your specific needs.
     #
+    # @option params [Types::AttributeSuggestionsUpdateConfig] :attribute_suggestions_config
+    #   Configuration information for the document fields/attributes that you
+    #   want to base query suggestions on.
+    #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
     # @example Request syntax with placeholder values
@@ -6343,6 +7397,15 @@ module Aws::Kendra
     #     include_queries_without_user_information: false,
     #     minimum_number_of_querying_users: 1,
     #     minimum_query_count: 1,
+    #     attribute_suggestions_config: {
+    #       suggestable_config_list: [
+    #         {
+    #           attribute_name: "DocumentAttributeKey",
+    #           suggestable: false,
+    #         },
+    #       ],
+    #       attribute_suggestions_mode: "ACTIVE", # accepts ACTIVE, INACTIVE
+    #     },
     #   })
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/kendra-2019-02-03/UpdateQuerySuggestionsConfig AWS API Documentation
@@ -6406,14 +7469,19 @@ module Aws::Kendra
     # @api private
     def build_request(operation_name, params = {})
       handlers = @handlers.for(operation_name)
+      tracer = config.telemetry_provider.tracer_provider.tracer(
+        Aws::Telemetry.module_to_tracer_name('Aws::Kendra')
+      )
       context = Seahorse::Client::RequestContext.new(
         operation_name: operation_name,
         operation: config.api.operation(operation_name),
         client: self,
         params: params,
-        config: config)
+        config: config,
+        tracer: tracer
+      )
       context[:gem_name] = 'aws-sdk-kendra'
-      context[:gem_version] = '1.63.0'
+      context[:gem_version] = '1.97.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

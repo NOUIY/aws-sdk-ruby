@@ -15,6 +15,11 @@ module Aws::ResourceExplorer2
   #
   #   @return [String]
   #
+  # @!attribute use_dual_stack
+  #   When true, use the dual-stack endpoint. If the configured endpoint does not support dual-stack, dispatching the request MAY return an error.
+  #
+  #   @return [Boolean]
+  #
   # @!attribute use_fips
   #   When true, send this request to the FIPS-compliant regional endpoint. If the configured endpoint does not have a FIPS compliant endpoint, dispatching the request will return an error.
   #
@@ -27,6 +32,7 @@ module Aws::ResourceExplorer2
   #
   EndpointParameters = Struct.new(
     :region,
+    :use_dual_stack,
     :use_fips,
     :endpoint,
   ) do
@@ -36,6 +42,7 @@ module Aws::ResourceExplorer2
     class << self
       PARAM_MAP = {
         'Region' => :region,
+        'UseDualStack' => :use_dual_stack,
         'UseFIPS' => :use_fips,
         'Endpoint' => :endpoint,
       }.freeze
@@ -43,15 +50,20 @@ module Aws::ResourceExplorer2
 
     def initialize(options = {})
       self[:region] = options[:region]
-      if self[:region].nil?
-        raise ArgumentError, "Missing required EndpointParameter: :region"
-      end
+      self[:use_dual_stack] = options[:use_dual_stack]
+      self[:use_dual_stack] = false if self[:use_dual_stack].nil?
       self[:use_fips] = options[:use_fips]
       self[:use_fips] = false if self[:use_fips].nil?
-      if self[:use_fips].nil?
-        raise ArgumentError, "Missing required EndpointParameter: :use_fips"
-      end
       self[:endpoint] = options[:endpoint]
+    end
+
+    def self.create(config, options={})
+      new({
+        region: config.region,
+        use_dual_stack: config.use_dualstack_endpoint,
+        use_fips: config.use_fips_endpoint,
+        endpoint: (config.endpoint.to_s unless config.regional_endpoint),
+      }.merge(options))
     end
   end
 end

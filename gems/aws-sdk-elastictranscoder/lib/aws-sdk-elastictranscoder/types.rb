@@ -125,17 +125,17 @@ module Aws::ElasticTranscoder
     #   Specify the AAC profile for the output file. Elastic Transcoder
     #   supports the following profiles:
     #
-    #   * `auto`\: If you specify `auto`, Elastic Transcoder selects the
+    #   * `auto`: If you specify `auto`, Elastic Transcoder selects the
     #     profile based on the bit rate selected for the output file.
     #
-    #   * `AAC-LC`\: The most common AAC profile. Use for bit rates larger
+    #   * `AAC-LC`: The most common AAC profile. Use for bit rates larger
     #     than 64 kbps.
     #
-    #   * `HE-AAC`\: Not supported on some older players and devices. Use
-    #     for bit rates between 40 and 80 kbps.
+    #   * `HE-AAC`: Not supported on some older players and devices. Use for
+    #     bit rates between 40 and 80 kbps.
     #
-    #   * `HE-AACv2`\: Not supported on some players and devices. Use for
-    #     bit rates less than 48 kbps.
+    #   * `HE-AACv2`: Not supported on some players and devices. Use for bit
+    #     rates less than 48 kbps.
     #
     #   All outputs in a `Smooth` playlist must have the same value for
     #   `Profile`.
@@ -406,48 +406,45 @@ module Aws::ElasticTranscoder
     #
     #   * **Valid Embedded Caption Formats:**
     #
-    #     * **for FLAC**\: None
+    #     * **for FLAC**: None
     #
-    #     * **For MP3**\: None
+    #     * **For MP3**: None
     #
-    #     * **For MP4**\: mov-text
+    #     * **For MP4**: mov-text
     #
-    #     * **For MPEG-TS**\: None
+    #     * **For MPEG-TS**: None
     #
-    #     * **For ogg**\: None
+    #     * **For ogg**: None
     #
-    #     * **For webm**\: None
-    #
+    #     * **For webm**: None
     #   * **Valid Sidecar Caption Formats:** Elastic Transcoder supports
     #     dfxp (first div element only), scc, srt, and webvtt. If you want
     #     ttml or smpte-tt compatible captions, specify dfxp as your output
     #     format.
     #
-    #     * **For FMP4**\: dfxp
+    #     * **For FMP4**: dfxp
     #
-    #     * **Non-FMP4 outputs**\: All sidecar types
-    #
+    #     * **Non-FMP4 outputs**: All sidecar types
     #     `fmp4` captions have an extension of `.ismt`
     #   @return [String]
     #
     # @!attribute [rw] pattern
     #   The prefix for caption filenames, in the form
-    #   *description*-`\{language\}`, where:
+    #   *description*-`{language}`, where:
     #
     #   * *description* is a description of the video.
     #
-    #   * `\{language\}` is a literal value that Elastic Transcoder replaces
+    #   * `{language}` is a literal value that Elastic Transcoder replaces
     #     with the two- or three-letter code for the language of the caption
     #     in the output file names.
     #
-    #   If you don't include `\{language\}` in the file name pattern,
-    #   Elastic Transcoder automatically appends "`\{language\}`" to the
-    #   value that you specify for the description. In addition, Elastic
-    #   Transcoder automatically appends the count to the end of the segment
-    #   files.
+    #   If you don't include `{language}` in the file name pattern, Elastic
+    #   Transcoder automatically appends "`{language}`" to the value that
+    #   you specify for the description. In addition, Elastic Transcoder
+    #   automatically appends the count to the end of the segment files.
     #
     #   For example, suppose you're transcoding into srt format. When you
-    #   enter "Sydney-\\\{language\\}-sunrise", and the language of the
+    #   enter "Sydney-\{language}-sunrise", and the language of the
     #   captions is English (en), the name of the first caption file is be
     #   Sydney-en-sunrise00000.srt.
     #   @return [String]
@@ -598,25 +595,25 @@ module Aws::ElasticTranscoder
     #   information that you want to include in the file name for each
     #   thumbnail. You can specify the following values in any sequence:
     #
-    #   * <b> <code>\{count\}</code> (Required)</b>\: If you want to create
-    #     thumbnails, you must include `\{count\}` in the `ThumbnailPattern`
-    #     object. Wherever you specify `\{count\}`, Elastic Transcoder adds
-    #     a five-digit sequence number (beginning with **00001**) to
-    #     thumbnail file names. The number indicates where a given thumbnail
-    #     appears in the sequence of thumbnails for a transcoded file.
+    #   * <b> <code>{count}</code> (Required)</b>: If you want to create
+    #     thumbnails, you must include `{count}` in the `ThumbnailPattern`
+    #     object. Wherever you specify `{count}`, Elastic Transcoder adds a
+    #     five-digit sequence number (beginning with **00001**) to thumbnail
+    #     file names. The number indicates where a given thumbnail appears
+    #     in the sequence of thumbnails for a transcoded file.
     #
-    #     If you specify a literal value and/or `\{resolution\}` but you
-    #     omit `\{count\}`, Elastic Transcoder returns a validation error
-    #     and does not create the job.
+    #     If you specify a literal value and/or `{resolution}` but you omit
+    #     `{count}`, Elastic Transcoder returns a validation error and does
+    #     not create the job.
     #
-    #   * **Literal values (Optional)**\: You can specify literal values
+    #   * **Literal values (Optional)**: You can specify literal values
     #     anywhere in the `ThumbnailPattern` object. For example, you can
     #     include them as a file name prefix or as a delimiter between
-    #     `\{resolution\}` and `\{count\}`.
+    #     `{resolution}` and `{count}`.
     #
-    #   * <b> <code>\{resolution\}</code> (Optional)</b>\: If you want
-    #     Elastic Transcoder to include the resolution in the file name,
-    #     include `\{resolution\}` in the `ThumbnailPattern` object.
+    #   * <b> <code>{resolution}</code> (Optional)</b>: If you want Elastic
+    #     Transcoder to include the resolution in the file name, include
+    #     `{resolution}` in the `ThumbnailPattern` object.
     #
     #   When creating thumbnails, Elastic Transcoder automatically saves the
     #   files in the format (.jpg or .png) that appears in the preset that
@@ -794,7 +791,7 @@ module Aws::ElasticTranscoder
     #
     #   * If your output is not `HLS` or does not have a segment duration
     #     set, the name of the output file is a concatenation of
-    #     `OutputKeyPrefix` and `Outputs:Key`\:
+    #     `OutputKeyPrefix` and `Outputs:Key`:
     #
     #     OutputKeyPrefix`Outputs:Key`
     #
@@ -812,7 +809,7 @@ module Aws::ElasticTranscoder
     #     included in an `HLSv4` playlist, Elastic Transcoder creates an
     #     output playlist file with a file extension of `_v4.m3u8`. If the
     #     output is video, Elastic Transcoder also creates an output file
-    #     with an extension of `_iframe.m3u8`\:
+    #     with an extension of `_iframe.m3u8`:
     #
     #     OutputKeyPrefix`Outputs:Key`\_v4.m3u8
     #
@@ -1001,27 +998,27 @@ module Aws::ElasticTranscoder
     #   To receive notifications, you must also subscribe to the new topic
     #   in the Amazon SNS console.
     #
-    #   * **Progressing**\: The topic ARN for the Amazon Simple Notification
+    #   * **Progressing**: The topic ARN for the Amazon Simple Notification
     #     Service (Amazon SNS) topic that you want to notify when Elastic
     #     Transcoder has started to process a job in this pipeline. This is
     #     the ARN that Amazon SNS returned when you created the topic. For
     #     more information, see Create a Topic in the Amazon Simple
     #     Notification Service Developer Guide.
     #
-    #   * **Complete**\: The topic ARN for the Amazon SNS topic that you
-    #     want to notify when Elastic Transcoder has finished processing a
-    #     job in this pipeline. This is the ARN that Amazon SNS returned
-    #     when you created the topic.
+    #   * **Complete**: The topic ARN for the Amazon SNS topic that you want
+    #     to notify when Elastic Transcoder has finished processing a job in
+    #     this pipeline. This is the ARN that Amazon SNS returned when you
+    #     created the topic.
     #
-    #   * **Warning**\: The topic ARN for the Amazon SNS topic that you want
+    #   * **Warning**: The topic ARN for the Amazon SNS topic that you want
     #     to notify when Elastic Transcoder encounters a warning condition
     #     while processing a job in this pipeline. This is the ARN that
     #     Amazon SNS returned when you created the topic.
     #
-    #   * **Error**\: The topic ARN for the Amazon SNS topic that you want
-    #     to notify when Elastic Transcoder encounters an error condition
-    #     while processing a job in this pipeline. This is the ARN that
-    #     Amazon SNS returned when you created the topic.
+    #   * **Error**: The topic ARN for the Amazon SNS topic that you want to
+    #     notify when Elastic Transcoder encounters an error condition while
+    #     processing a job in this pipeline. This is the ARN that Amazon SNS
+    #     returned when you created the topic.
     #   @return [Types::Notifications]
     #
     # @!attribute [rw] content_config
@@ -1037,7 +1034,7 @@ module Aws::ElasticTranscoder
     #   If you specify values for `ContentConfig` and `ThumbnailConfig`,
     #   omit the `OutputBucket` object.
     #
-    #   * **Bucket**\: The Amazon S3 bucket in which you want Elastic
+    #   * **Bucket**: The Amazon S3 bucket in which you want Elastic
     #     Transcoder to save transcoded files and playlists.
     #
     #   * **Permissions** (Optional): The Permissions object specifies which
@@ -1045,10 +1042,10 @@ module Aws::ElasticTranscoder
     #     access you want them to have. You can grant permissions to a
     #     maximum of 30 users and/or predefined Amazon S3 groups.
     #
-    #   * **Grantee Type**\: Specify the type of value that appears in the
+    #   * **Grantee Type**: Specify the type of value that appears in the
     #     `Grantee` object:
     #
-    #     * **Canonical**\: The value in the `Grantee` object is either the
+    #     * **Canonical**: The value in the `Grantee` object is either the
     #       canonical user ID for an AWS account or an origin access
     #       identity for an Amazon CloudFront distribution. For more
     #       information about canonical user IDs, see Access Control List
@@ -1060,39 +1057,36 @@ module Aws::ElasticTranscoder
     #
     #       A canonical user ID is not the same as an AWS account number.
     #
-    #     * **Email**\: The value in the `Grantee` object is the registered
+    #     * **Email**: The value in the `Grantee` object is the registered
     #       email address of an AWS account.
     #
-    #     * **Group**\: The value in the `Grantee` object is one of the
+    #     * **Group**: The value in the `Grantee` object is one of the
     #       following predefined Amazon S3 groups: `AllUsers`,
     #       `AuthenticatedUsers`, or `LogDelivery`.
+    #   * **Grantee**: The AWS user or group that you want to have access to
+    #     transcoded files and playlists. To identify the user or group, you
+    #     can specify the canonical user ID for an AWS account, an origin
+    #     access identity for a CloudFront distribution, the registered
+    #     email address of an AWS account, or a predefined Amazon S3 group
     #
-    #   * **Grantee**\: The AWS user or group that you want to have access
-    #     to transcoded files and playlists. To identify the user or group,
-    #     you can specify the canonical user ID for an AWS account, an
-    #     origin access identity for a CloudFront distribution, the
-    #     registered email address of an AWS account, or a predefined Amazon
-    #     S3 group
-    #
-    #   * **Access**\: The permission that you want to give to the AWS user
+    #   * **Access**: The permission that you want to give to the AWS user
     #     that you specified in `Grantee`. Permissions are granted on the
     #     files that Elastic Transcoder adds to the bucket, including
     #     playlists and video files. Valid values include:
     #
-    #     * `READ`\: The grantee can read the objects and metadata for
+    #     * `READ`: The grantee can read the objects and metadata for
     #       objects that Elastic Transcoder adds to the Amazon S3 bucket.
     #
-    #     * `READ_ACP`\: The grantee can read the object ACL for objects
-    #       that Elastic Transcoder adds to the Amazon S3 bucket.
-    #
-    #     * `WRITE_ACP`\: The grantee can write the ACL for the objects that
+    #     * `READ_ACP`: The grantee can read the object ACL for objects that
     #       Elastic Transcoder adds to the Amazon S3 bucket.
     #
-    #     * `FULL_CONTROL`\: The grantee has `READ`, `READ_ACP`, and
+    #     * `WRITE_ACP`: The grantee can write the ACL for the objects that
+    #       Elastic Transcoder adds to the Amazon S3 bucket.
+    #
+    #     * `FULL_CONTROL`: The grantee has `READ`, `READ_ACP`, and
     #       `WRITE_ACP` permissions for the objects that Elastic Transcoder
     #       adds to the Amazon S3 bucket.
-    #
-    #   * **StorageClass**\: The Amazon S3 storage class, `Standard` or
+    #   * **StorageClass**: The Amazon S3 storage class, `Standard` or
     #     `ReducedRedundancy`, that you want Elastic Transcoder to assign to
     #     the video files and playlists that it stores in your Amazon S3
     #     bucket.
@@ -1112,7 +1106,7 @@ module Aws::ElasticTranscoder
     #   If you specify values for `ContentConfig` and `ThumbnailConfig`,
     #   omit the `OutputBucket` object.
     #
-    #   * **Bucket**\: The Amazon S3 bucket in which you want Elastic
+    #   * **Bucket**: The Amazon S3 bucket in which you want Elastic
     #     Transcoder to save thumbnail files.
     #
     #   * **Permissions** (Optional): The `Permissions` object specifies
@@ -1121,47 +1115,45 @@ module Aws::ElasticTranscoder
     #     have. You can grant permissions to a maximum of 30 users and/or
     #     predefined Amazon S3 groups.
     #
-    #   * **GranteeType**\: Specify the type of value that appears in the
+    #   * **GranteeType**: Specify the type of value that appears in the
     #     Grantee object:
     #
-    #     * **Canonical**\: The value in the `Grantee` object is either the
+    #     * **Canonical**: The value in the `Grantee` object is either the
     #       canonical user ID for an AWS account or an origin access
     #       identity for an Amazon CloudFront distribution.
     #
     #       A canonical user ID is not the same as an AWS account number.
     #
-    #     * **Email**\: The value in the `Grantee` object is the registered
+    #     * **Email**: The value in the `Grantee` object is the registered
     #       email address of an AWS account.
     #
-    #     * **Group**\: The value in the `Grantee` object is one of the
+    #     * **Group**: The value in the `Grantee` object is one of the
     #       following predefined Amazon S3 groups: `AllUsers`,
     #       `AuthenticatedUsers`, or `LogDelivery`.
-    #
-    #   * **Grantee**\: The AWS user or group that you want to have access
-    #     to thumbnail files. To identify the user or group, you can specify
+    #   * **Grantee**: The AWS user or group that you want to have access to
+    #     thumbnail files. To identify the user or group, you can specify
     #     the canonical user ID for an AWS account, an origin access
     #     identity for a CloudFront distribution, the registered email
     #     address of an AWS account, or a predefined Amazon S3 group.
     #
-    #   * **Access**\: The permission that you want to give to the AWS user
+    #   * **Access**: The permission that you want to give to the AWS user
     #     that you specified in `Grantee`. Permissions are granted on the
     #     thumbnail files that Elastic Transcoder adds to the bucket. Valid
     #     values include:
     #
-    #     * `READ`\: The grantee can read the thumbnails and metadata for
+    #     * `READ`: The grantee can read the thumbnails and metadata for
     #       objects that Elastic Transcoder adds to the Amazon S3 bucket.
     #
-    #     * `READ_ACP`\: The grantee can read the object ACL for thumbnails
+    #     * `READ_ACP`: The grantee can read the object ACL for thumbnails
     #       that Elastic Transcoder adds to the Amazon S3 bucket.
     #
-    #     * `WRITE_ACP`\: The grantee can write the ACL for the thumbnails
+    #     * `WRITE_ACP`: The grantee can write the ACL for the thumbnails
     #       that Elastic Transcoder adds to the Amazon S3 bucket.
     #
-    #     * `FULL_CONTROL`\: The grantee has `READ`, `READ_ACP`, and
+    #     * `FULL_CONTROL`: The grantee has `READ`, `READ_ACP`, and
     #       `WRITE_ACP` permissions for the thumbnails that Elastic
     #       Transcoder adds to the Amazon S3 bucket.
-    #
-    #   * **StorageClass**\: The Amazon S3 storage class, `Standard` or
+    #   * **StorageClass**: The Amazon S3 storage class, `Standard` or
     #     `ReducedRedundancy`, that you want Elastic Transcoder to assign to
     #     the thumbnails that it stores in your Amazon S3 bucket.
     #   @return [Types::PipelineOutputConfig]
@@ -1864,25 +1856,25 @@ module Aws::ElasticTranscoder
     #   information that you want to include in the file name for each
     #   thumbnail. You can specify the following values in any sequence:
     #
-    #   * <b> <code>\{count\}</code> (Required)</b>\: If you want to create
-    #     thumbnails, you must include `\{count\}` in the `ThumbnailPattern`
-    #     object. Wherever you specify `\{count\}`, Elastic Transcoder adds
-    #     a five-digit sequence number (beginning with **00001**) to
-    #     thumbnail file names. The number indicates where a given thumbnail
-    #     appears in the sequence of thumbnails for a transcoded file.
+    #   * <b> <code>{count}</code> (Required)</b>: If you want to create
+    #     thumbnails, you must include `{count}` in the `ThumbnailPattern`
+    #     object. Wherever you specify `{count}`, Elastic Transcoder adds a
+    #     five-digit sequence number (beginning with **00001**) to thumbnail
+    #     file names. The number indicates where a given thumbnail appears
+    #     in the sequence of thumbnails for a transcoded file.
     #
-    #     If you specify a literal value and/or `\{resolution\}` but you
-    #     omit `\{count\}`, Elastic Transcoder returns a validation error
-    #     and does not create the job.
+    #     If you specify a literal value and/or `{resolution}` but you omit
+    #     `{count}`, Elastic Transcoder returns a validation error and does
+    #     not create the job.
     #
-    #   * **Literal values (Optional)**\: You can specify literal values
+    #   * **Literal values (Optional)**: You can specify literal values
     #     anywhere in the `ThumbnailPattern` object. For example, you can
     #     include them as a file name prefix or as a delimiter between
-    #     `\{resolution\}` and `\{count\}`.
+    #     `{resolution}` and `{count}`.
     #
-    #   * <b> <code>\{resolution\}</code> (Optional)</b>\: If you want
-    #     Elastic Transcoder to include the resolution in the file name,
-    #     include `\{resolution\}` in the `ThumbnailPattern` object.
+    #   * <b> <code>{resolution}</code> (Optional)</b>: If you want Elastic
+    #     Transcoder to include the resolution in the file name, include
+    #     `{resolution}` in the `ThumbnailPattern` object.
     #
     #   When creating thumbnails, Elastic Transcoder automatically saves the
     #   files in the format (.jpg or .png) that appears in the preset that
@@ -2379,14 +2371,14 @@ module Aws::ElasticTranscoder
     # @!attribute [rw] grantee_type
     #   The type of value that appears in the Grantee object:
     #
-    #   * `Canonical`\: Either the canonical user ID for an AWS account or
-    #     an origin access identity for an Amazon CloudFront distribution.
+    #   * `Canonical`: Either the canonical user ID for an AWS account or an
+    #     origin access identity for an Amazon CloudFront distribution.
     #
     #     A canonical user ID is not the same as an AWS account number.
     #
-    #   * `Email`\: The registered email address of an AWS account.
+    #   * `Email`: The registered email address of an AWS account.
     #
-    #   * `Group`\: One of the following predefined Amazon S3 groups:
+    #   * `Group`: One of the following predefined Amazon S3 groups:
     #     `AllUsers`, `AuthenticatedUsers`, or `LogDelivery`.
     #   @return [String]
     #
@@ -2402,16 +2394,16 @@ module Aws::ElasticTranscoder
     #   The permission that you want to give to the AWS user that is listed
     #   in Grantee. Valid values include:
     #
-    #   * `READ`\: The grantee can read the thumbnails and metadata for
+    #   * `READ`: The grantee can read the thumbnails and metadata for
     #     thumbnails that Elastic Transcoder adds to the Amazon S3 bucket.
     #
-    #   * `READ_ACP`\: The grantee can read the object ACL for thumbnails
+    #   * `READ_ACP`: The grantee can read the object ACL for thumbnails
     #     that Elastic Transcoder adds to the Amazon S3 bucket.
     #
-    #   * `WRITE_ACP`\: The grantee can write the ACL for the thumbnails
-    #     that Elastic Transcoder adds to the Amazon S3 bucket.
+    #   * `WRITE_ACP`: The grantee can write the ACL for the thumbnails that
+    #     Elastic Transcoder adds to the Amazon S3 bucket.
     #
-    #   * `FULL_CONTROL`\: The grantee has READ, READ\_ACP, and WRITE\_ACP
+    #   * `FULL_CONTROL`: The grantee has READ, READ\_ACP, and WRITE\_ACP
     #     permissions for the thumbnails that Elastic Transcoder adds to the
     #     Amazon S3 bucket.
     #   @return [Array<String>]
@@ -2446,9 +2438,9 @@ module Aws::ElasticTranscoder
     # @!attribute [rw] status
     #   The current status of the pipeline:
     #
-    #   * `Active`\: The pipeline is processing jobs.
+    #   * `Active`: The pipeline is processing jobs.
     #
-    #   * `Paused`\: The pipeline is not currently processing jobs.
+    #   * `Paused`: The pipeline is not currently processing jobs.
     #   @return [String]
     #
     # @!attribute [rw] input_bucket
@@ -2507,45 +2499,43 @@ module Aws::ElasticTranscoder
     #   specify both `ContentConfig` and `ThumbnailConfig`, or you specify
     #   `OutputBucket`.
     #
-    #   * **Bucket**\: The Amazon S3 bucket in which you want Elastic
+    #   * **Bucket**: The Amazon S3 bucket in which you want Elastic
     #     Transcoder to save transcoded files and playlists.
     #
-    #   * **Permissions**\: A list of the users and/or predefined Amazon S3
+    #   * **Permissions**: A list of the users and/or predefined Amazon S3
     #     groups you want to have access to transcoded files and playlists,
     #     and the type of access that you want them to have.
     #
     #     * GranteeType: The type of value that appears in the `Grantee`
     #       object:
     #
-    #       * `Canonical`\: Either the canonical user ID for an AWS account
+    #       * `Canonical`: Either the canonical user ID for an AWS account
     #         or an origin access identity for an Amazon CloudFront
     #         distribution.
     #
-    #       * `Email`\: The registered email address of an AWS account.
+    #       * `Email`: The registered email address of an AWS account.
     #
-    #       * `Group`\: One of the following predefined Amazon S3 groups:
+    #       * `Group`: One of the following predefined Amazon S3 groups:
     #         `AllUsers`, `AuthenticatedUsers`, or `LogDelivery`.
+    #     * `Grantee`: The AWS user or group that you want to have access to
+    #       transcoded files and playlists.
     #
-    #     * `Grantee`\: The AWS user or group that you want to have access
-    #       to transcoded files and playlists.
-    #
-    #     * `Access`\: The permission that you want to give to the AWS user
+    #     * `Access`: The permission that you want to give to the AWS user
     #       that is listed in `Grantee`. Valid values include:
     #
-    #       * `READ`\: The grantee can read the objects and metadata for
+    #       * `READ`: The grantee can read the objects and metadata for
     #         objects that Elastic Transcoder adds to the Amazon S3 bucket.
     #
-    #       * `READ_ACP`\: The grantee can read the object ACL for objects
+    #       * `READ_ACP`: The grantee can read the object ACL for objects
     #         that Elastic Transcoder adds to the Amazon S3 bucket.
     #
-    #       * `WRITE_ACP`\: The grantee can write the ACL for the objects
+    #       * `WRITE_ACP`: The grantee can write the ACL for the objects
     #         that Elastic Transcoder adds to the Amazon S3 bucket.
     #
-    #       * `FULL_CONTROL`\: The grantee has `READ`, `READ_ACP`, and
+    #       * `FULL_CONTROL`: The grantee has `READ`, `READ_ACP`, and
     #         `WRITE_ACP` permissions for the objects that Elastic
     #         Transcoder adds to the Amazon S3 bucket.
-    #
-    #   * **StorageClass**\: The Amazon S3 storage class, Standard or
+    #   * **StorageClass**: The Amazon S3 storage class, Standard or
     #     ReducedRedundancy, that you want Elastic Transcoder to assign to
     #     the video files and playlists that it stores in your Amazon S3
     #     bucket.
@@ -2557,49 +2547,46 @@ module Aws::ElasticTranscoder
     #   `ContentConfig` and `ThumbnailConfig`, or you specify
     #   `OutputBucket`.
     #
-    #   * `Bucket`\: The Amazon S3 bucket in which you want Elastic
+    #   * `Bucket`: The Amazon S3 bucket in which you want Elastic
     #     Transcoder to save thumbnail files.
     #
-    #   * `Permissions`\: A list of the users and/or predefined Amazon S3
+    #   * `Permissions`: A list of the users and/or predefined Amazon S3
     #     groups you want to have access to thumbnail files, and the type of
     #     access that you want them to have.
     #
     #     * GranteeType: The type of value that appears in the Grantee
     #       object:
     #
-    #       * `Canonical`\: Either the canonical user ID for an AWS account
+    #       * `Canonical`: Either the canonical user ID for an AWS account
     #         or an origin access identity for an Amazon CloudFront
     #         distribution.
     #
     #         A canonical user ID is not the same as an AWS account number.
     #
-    #       * `Email`\: The registered email address of an AWS account.
+    #       * `Email`: The registered email address of an AWS account.
     #
-    #       * `Group`\: One of the following predefined Amazon S3 groups:
+    #       * `Group`: One of the following predefined Amazon S3 groups:
     #         `AllUsers`, `AuthenticatedUsers`, or `LogDelivery`.
-    #
-    #     * `Grantee`\: The AWS user or group that you want to have access
-    #       to thumbnail files.
+    #     * `Grantee`: The AWS user or group that you want to have access to
+    #       thumbnail files.
     #
     #     * Access: The permission that you want to give to the AWS user
     #       that is listed in Grantee. Valid values include:
     #
-    #       * `READ`\: The grantee can read the thumbnails and metadata for
+    #       * `READ`: The grantee can read the thumbnails and metadata for
     #         thumbnails that Elastic Transcoder adds to the Amazon S3
     #         bucket.
     #
-    #       * `READ_ACP`\: The grantee can read the object ACL for
-    #         thumbnails that Elastic Transcoder adds to the Amazon S3
-    #         bucket.
-    #
-    #       * `WRITE_ACP`\: The grantee can write the ACL for the thumbnails
+    #       * `READ_ACP`: The grantee can read the object ACL for thumbnails
     #         that Elastic Transcoder adds to the Amazon S3 bucket.
     #
-    #       * `FULL_CONTROL`\: The grantee has READ, READ\_ACP, and
+    #       * `WRITE_ACP`: The grantee can write the ACL for the thumbnails
+    #         that Elastic Transcoder adds to the Amazon S3 bucket.
+    #
+    #       * `FULL_CONTROL`: The grantee has READ, READ\_ACP, and
     #         WRITE\_ACP permissions for the thumbnails that Elastic
     #         Transcoder adds to the Amazon S3 bucket.
-    #
-    #   * `StorageClass`\: The Amazon S3 storage class, `Standard` or
+    #   * `StorageClass`: The Amazon S3 storage class, `Standard` or
     #     `ReducedRedundancy`, that you want Elastic Transcoder to assign to
     #     the thumbnails that it stores in your Amazon S3 bucket.
     #   @return [Types::PipelineOutputConfig]
@@ -2782,7 +2769,7 @@ module Aws::ElasticTranscoder
     #
     #   * If your output is not `HLS` or does not have a segment duration
     #     set, the name of the output file is a concatenation of
-    #     `OutputKeyPrefix` and `Outputs:Key`\:
+    #     `OutputKeyPrefix` and `Outputs:Key`:
     #
     #     OutputKeyPrefix`Outputs:Key`
     #
@@ -2800,7 +2787,7 @@ module Aws::ElasticTranscoder
     #     included in an `HLSv4` playlist, Elastic Transcoder creates an
     #     output playlist file with a file extension of `_v4.m3u8`. If the
     #     output is video, Elastic Transcoder also creates an output file
-    #     with an extension of `_iframe.m3u8`\:
+    #     with an extension of `_iframe.m3u8`:
     #
     #     OutputKeyPrefix`Outputs:Key`\_v4.m3u8
     #
@@ -2968,17 +2955,17 @@ module Aws::ElasticTranscoder
     # @!attribute [rw] sizing_policy
     #   A value that controls scaling of the watermark:
     #
-    #   * **Fit**\: Elastic Transcoder scales the watermark so it matches
-    #     the value that you specified in either `MaxWidth` or `MaxHeight`
+    #   * **Fit**: Elastic Transcoder scales the watermark so it matches the
+    #     value that you specified in either `MaxWidth` or `MaxHeight`
     #     without exceeding the other value.
     #
-    #   * **Stretch**\: Elastic Transcoder stretches the watermark to match
+    #   * **Stretch**: Elastic Transcoder stretches the watermark to match
     #     the values that you specified for `MaxWidth` and `MaxHeight`. If
     #     the relative proportions of the watermark and the values of
     #     `MaxWidth` and `MaxHeight` are different, the watermark will be
     #     distorted.
     #
-    #   * **ShrinkToFit**\: Elastic Transcoder scales the watermark down so
+    #   * **ShrinkToFit**: Elastic Transcoder scales the watermark down so
     #     that its dimensions match the values that you specified for at
     #     least one of `MaxWidth` and `MaxHeight` without exceeding either
     #     value. If you specify this option, Elastic Transcoder does not
@@ -2987,15 +2974,15 @@ module Aws::ElasticTranscoder
     #
     # @!attribute [rw] horizontal_align
     #   The horizontal position of the watermark unless you specify a
-    #   non-zero value for `HorizontalOffset`\:
+    #   non-zero value for `HorizontalOffset`:
     #
-    #   * **Left**\: The left edge of the watermark is aligned with the left
+    #   * **Left**: The left edge of the watermark is aligned with the left
     #     border of the video.
     #
-    #   * **Right**\: The right edge of the watermark is aligned with the
+    #   * **Right**: The right edge of the watermark is aligned with the
     #     right border of the video.
     #
-    #   * **Center**\: The watermark is centered between the left and right
+    #   * **Center**: The watermark is centered between the left and right
     #     borders.
     #   @return [String]
     #
@@ -3028,15 +3015,15 @@ module Aws::ElasticTranscoder
     #
     # @!attribute [rw] vertical_align
     #   The vertical position of the watermark unless you specify a non-zero
-    #   value for `VerticalOffset`\:
+    #   value for `VerticalOffset`:
     #
-    #   * **Top**\: The top edge of the watermark is aligned with the top
+    #   * **Top**: The top edge of the watermark is aligned with the top
     #     border of the video.
     #
-    #   * **Bottom**\: The bottom edge of the watermark is aligned with the
+    #   * **Bottom**: The bottom edge of the watermark is aligned with the
     #     bottom border of the video.
     #
-    #   * **Center**\: The watermark is centered between the top and bottom
+    #   * **Center**: The watermark is centered between the top and bottom
     #     borders.
     #   @return [String]
     #
@@ -3085,16 +3072,16 @@ module Aws::ElasticTranscoder
     # @!attribute [rw] target
     #   A value that determines how Elastic Transcoder interprets values
     #   that you specified for `HorizontalOffset`, `VerticalOffset`,
-    #   `MaxWidth`, and `MaxHeight`\:
+    #   `MaxWidth`, and `MaxHeight`:
     #
-    #   * **Content**\: `HorizontalOffset` and `VerticalOffset` values are
+    #   * **Content**: `HorizontalOffset` and `VerticalOffset` values are
     #     calculated based on the borders of the video excluding black bars
     #     added by Elastic Transcoder, if any. In addition, `MaxWidth` and
     #     `MaxHeight`, if specified as a percentage, are calculated based on
     #     the borders of the video excluding black bars added by Elastic
     #     Transcoder, if any.
     #
-    #   * **Frame**\: `HorizontalOffset` and `VerticalOffset` values are
+    #   * **Frame**: `HorizontalOffset` and `VerticalOffset` values are
     #     calculated based on the borders of the video including black bars
     #     added by Elastic Transcoder, if any. In addition, `MaxWidth` and
     #     `MaxHeight`, if specified as a percentage, are calculated based on
@@ -3324,33 +3311,33 @@ module Aws::ElasticTranscoder
     #   Specify one of the following values to control scaling of
     #   thumbnails:
     #
-    #   * `Fit`\: Elastic Transcoder scales thumbnails so they match the
+    #   * `Fit`: Elastic Transcoder scales thumbnails so they match the
     #     value that you specified in thumbnail MaxWidth or MaxHeight
     #     settings without exceeding the other value.
     #
-    #   * `Fill`\: Elastic Transcoder scales thumbnails so they match the
+    #   * `Fill`: Elastic Transcoder scales thumbnails so they match the
     #     value that you specified in thumbnail `MaxWidth` or `MaxHeight`
     #     settings and matches or exceeds the other value. Elastic
     #     Transcoder centers the image in thumbnails and then crops in the
     #     dimension (if any) that exceeds the maximum value.
     #
-    #   * `Stretch`\: Elastic Transcoder stretches thumbnails to match the
+    #   * `Stretch`: Elastic Transcoder stretches thumbnails to match the
     #     values that you specified for thumbnail `MaxWidth` and `MaxHeight`
     #     settings. If the relative proportions of the input video and
     #     thumbnails are different, the thumbnails will be distorted.
     #
-    #   * `Keep`\: Elastic Transcoder does not scale thumbnails. If either
+    #   * `Keep`: Elastic Transcoder does not scale thumbnails. If either
     #     dimension of the input video exceeds the values that you specified
     #     for thumbnail `MaxWidth` and `MaxHeight` settings, Elastic
     #     Transcoder crops the thumbnails.
     #
-    #   * `ShrinkToFit`\: Elastic Transcoder scales thumbnails down so that
+    #   * `ShrinkToFit`: Elastic Transcoder scales thumbnails down so that
     #     their dimensions match the values that you specified for at least
     #     one of thumbnail `MaxWidth` and `MaxHeight` without exceeding
     #     either value. If you specify this option, Elastic Transcoder does
     #     not scale thumbnails up.
     #
-    #   * `ShrinkToFill`\: Elastic Transcoder scales thumbnails down so that
+    #   * `ShrinkToFill`: Elastic Transcoder scales thumbnails down so that
     #     their dimensions match the values that you specified for at least
     #     one of `MaxWidth` and `MaxHeight` without dropping below either
     #     value. If you specify this option, Elastic Transcoder does not
@@ -3444,26 +3431,25 @@ module Aws::ElasticTranscoder
     #   To receive notifications, you must also subscribe to the new topic
     #   in the Amazon SNS console.
     #
-    #   * **Progressing**\: The topic ARN for the Amazon Simple Notification
+    #   * **Progressing**: The topic ARN for the Amazon Simple Notification
     #     Service (Amazon SNS) topic that you want to notify when Elastic
     #     Transcoder has started to process jobs that are added to this
     #     pipeline. This is the ARN that Amazon SNS returned when you
     #     created the topic.
     #
-    #   * **Complete**\: The topic ARN for the Amazon SNS topic that you
-    #     want to notify when Elastic Transcoder has finished processing a
-    #     job. This is the ARN that Amazon SNS returned when you created the
+    #   * **Complete**: The topic ARN for the Amazon SNS topic that you want
+    #     to notify when Elastic Transcoder has finished processing a job.
+    #     This is the ARN that Amazon SNS returned when you created the
     #     topic.
     #
-    #   * **Warning**\: The topic ARN for the Amazon SNS topic that you want
+    #   * **Warning**: The topic ARN for the Amazon SNS topic that you want
     #     to notify when Elastic Transcoder encounters a warning condition.
     #     This is the ARN that Amazon SNS returned when you created the
     #     topic.
     #
-    #   * **Error**\: The topic ARN for the Amazon SNS topic that you want
-    #     to notify when Elastic Transcoder encounters an error condition.
-    #     This is the ARN that Amazon SNS returned when you created the
-    #     topic.
+    #   * **Error**: The topic ARN for the Amazon SNS topic that you want to
+    #     notify when Elastic Transcoder encounters an error condition. This
+    #     is the ARN that Amazon SNS returned when you created the topic.
     #   @return [Types::Notifications]
     #
     class UpdatePipelineNotificationsRequest < Struct.new(
@@ -3529,26 +3515,25 @@ module Aws::ElasticTranscoder
     #   To receive notifications, you must also subscribe to the new topic
     #   in the Amazon SNS console.
     #
-    #   * **Progressing**\: The topic ARN for the Amazon Simple Notification
+    #   * **Progressing**: The topic ARN for the Amazon Simple Notification
     #     Service (Amazon SNS) topic that you want to notify when Elastic
     #     Transcoder has started to process jobs that are added to this
     #     pipeline. This is the ARN that Amazon SNS returned when you
     #     created the topic.
     #
-    #   * **Complete**\: The topic ARN for the Amazon SNS topic that you
-    #     want to notify when Elastic Transcoder has finished processing a
-    #     job. This is the ARN that Amazon SNS returned when you created the
+    #   * **Complete**: The topic ARN for the Amazon SNS topic that you want
+    #     to notify when Elastic Transcoder has finished processing a job.
+    #     This is the ARN that Amazon SNS returned when you created the
     #     topic.
     #
-    #   * **Warning**\: The topic ARN for the Amazon SNS topic that you want
+    #   * **Warning**: The topic ARN for the Amazon SNS topic that you want
     #     to notify when Elastic Transcoder encounters a warning condition.
     #     This is the ARN that Amazon SNS returned when you created the
     #     topic.
     #
-    #   * **Error**\: The topic ARN for the Amazon SNS topic that you want
-    #     to notify when Elastic Transcoder encounters an error condition.
-    #     This is the ARN that Amazon SNS returned when you created the
-    #     topic.
+    #   * **Error**: The topic ARN for the Amazon SNS topic that you want to
+    #     notify when Elastic Transcoder encounters an error condition. This
+    #     is the ARN that Amazon SNS returned when you created the topic.
     #   @return [Types::Notifications]
     #
     # @!attribute [rw] content_config
@@ -3564,7 +3549,7 @@ module Aws::ElasticTranscoder
     #   If you specify values for `ContentConfig` and `ThumbnailConfig`,
     #   omit the `OutputBucket` object.
     #
-    #   * **Bucket**\: The Amazon S3 bucket in which you want Elastic
+    #   * **Bucket**: The Amazon S3 bucket in which you want Elastic
     #     Transcoder to save transcoded files and playlists.
     #
     #   * **Permissions** (Optional): The Permissions object specifies which
@@ -3572,10 +3557,10 @@ module Aws::ElasticTranscoder
     #     access you want them to have. You can grant permissions to a
     #     maximum of 30 users and/or predefined Amazon S3 groups.
     #
-    #   * **Grantee Type**\: Specify the type of value that appears in the
+    #   * **Grantee Type**: Specify the type of value that appears in the
     #     `Grantee` object:
     #
-    #     * **Canonical**\: The value in the `Grantee` object is either the
+    #     * **Canonical**: The value in the `Grantee` object is either the
     #       canonical user ID for an AWS account or an origin access
     #       identity for an Amazon CloudFront distribution. For more
     #       information about canonical user IDs, see Access Control List
@@ -3587,39 +3572,36 @@ module Aws::ElasticTranscoder
     #
     #       A canonical user ID is not the same as an AWS account number.
     #
-    #     * **Email**\: The value in the `Grantee` object is the registered
+    #     * **Email**: The value in the `Grantee` object is the registered
     #       email address of an AWS account.
     #
-    #     * **Group**\: The value in the `Grantee` object is one of the
+    #     * **Group**: The value in the `Grantee` object is one of the
     #       following predefined Amazon S3 groups: `AllUsers`,
     #       `AuthenticatedUsers`, or `LogDelivery`.
+    #   * **Grantee**: The AWS user or group that you want to have access to
+    #     transcoded files and playlists. To identify the user or group, you
+    #     can specify the canonical user ID for an AWS account, an origin
+    #     access identity for a CloudFront distribution, the registered
+    #     email address of an AWS account, or a predefined Amazon S3 group
     #
-    #   * **Grantee**\: The AWS user or group that you want to have access
-    #     to transcoded files and playlists. To identify the user or group,
-    #     you can specify the canonical user ID for an AWS account, an
-    #     origin access identity for a CloudFront distribution, the
-    #     registered email address of an AWS account, or a predefined Amazon
-    #     S3 group
-    #
-    #   * **Access**\: The permission that you want to give to the AWS user
+    #   * **Access**: The permission that you want to give to the AWS user
     #     that you specified in `Grantee`. Permissions are granted on the
     #     files that Elastic Transcoder adds to the bucket, including
     #     playlists and video files. Valid values include:
     #
-    #     * `READ`\: The grantee can read the objects and metadata for
+    #     * `READ`: The grantee can read the objects and metadata for
     #       objects that Elastic Transcoder adds to the Amazon S3 bucket.
     #
-    #     * `READ_ACP`\: The grantee can read the object ACL for objects
-    #       that Elastic Transcoder adds to the Amazon S3 bucket.
-    #
-    #     * `WRITE_ACP`\: The grantee can write the ACL for the objects that
+    #     * `READ_ACP`: The grantee can read the object ACL for objects that
     #       Elastic Transcoder adds to the Amazon S3 bucket.
     #
-    #     * `FULL_CONTROL`\: The grantee has `READ`, `READ_ACP`, and
+    #     * `WRITE_ACP`: The grantee can write the ACL for the objects that
+    #       Elastic Transcoder adds to the Amazon S3 bucket.
+    #
+    #     * `FULL_CONTROL`: The grantee has `READ`, `READ_ACP`, and
     #       `WRITE_ACP` permissions for the objects that Elastic Transcoder
     #       adds to the Amazon S3 bucket.
-    #
-    #   * **StorageClass**\: The Amazon S3 storage class, `Standard` or
+    #   * **StorageClass**: The Amazon S3 storage class, `Standard` or
     #     `ReducedRedundancy`, that you want Elastic Transcoder to assign to
     #     the video files and playlists that it stores in your Amazon S3
     #     bucket.
@@ -3639,7 +3621,7 @@ module Aws::ElasticTranscoder
     #   If you specify values for `ContentConfig` and `ThumbnailConfig`,
     #   omit the `OutputBucket` object.
     #
-    #   * **Bucket**\: The Amazon S3 bucket in which you want Elastic
+    #   * **Bucket**: The Amazon S3 bucket in which you want Elastic
     #     Transcoder to save thumbnail files.
     #
     #   * **Permissions** (Optional): The `Permissions` object specifies
@@ -3648,47 +3630,45 @@ module Aws::ElasticTranscoder
     #     have. You can grant permissions to a maximum of 30 users and/or
     #     predefined Amazon S3 groups.
     #
-    #   * **GranteeType**\: Specify the type of value that appears in the
+    #   * **GranteeType**: Specify the type of value that appears in the
     #     Grantee object:
     #
-    #     * **Canonical**\: The value in the `Grantee` object is either the
+    #     * **Canonical**: The value in the `Grantee` object is either the
     #       canonical user ID for an AWS account or an origin access
     #       identity for an Amazon CloudFront distribution.
     #
     #       A canonical user ID is not the same as an AWS account number.
     #
-    #     * **Email**\: The value in the `Grantee` object is the registered
+    #     * **Email**: The value in the `Grantee` object is the registered
     #       email address of an AWS account.
     #
-    #     * **Group**\: The value in the `Grantee` object is one of the
+    #     * **Group**: The value in the `Grantee` object is one of the
     #       following predefined Amazon S3 groups: `AllUsers`,
     #       `AuthenticatedUsers`, or `LogDelivery`.
-    #
-    #   * **Grantee**\: The AWS user or group that you want to have access
-    #     to thumbnail files. To identify the user or group, you can specify
+    #   * **Grantee**: The AWS user or group that you want to have access to
+    #     thumbnail files. To identify the user or group, you can specify
     #     the canonical user ID for an AWS account, an origin access
     #     identity for a CloudFront distribution, the registered email
     #     address of an AWS account, or a predefined Amazon S3 group.
     #
-    #   * **Access**\: The permission that you want to give to the AWS user
+    #   * **Access**: The permission that you want to give to the AWS user
     #     that you specified in `Grantee`. Permissions are granted on the
     #     thumbnail files that Elastic Transcoder adds to the bucket. Valid
     #     values include:
     #
-    #     * `READ`\: The grantee can read the thumbnails and metadata for
+    #     * `READ`: The grantee can read the thumbnails and metadata for
     #       objects that Elastic Transcoder adds to the Amazon S3 bucket.
     #
-    #     * `READ_ACP`\: The grantee can read the object ACL for thumbnails
+    #     * `READ_ACP`: The grantee can read the object ACL for thumbnails
     #       that Elastic Transcoder adds to the Amazon S3 bucket.
     #
-    #     * `WRITE_ACP`\: The grantee can write the ACL for the thumbnails
+    #     * `WRITE_ACP`: The grantee can write the ACL for the thumbnails
     #       that Elastic Transcoder adds to the Amazon S3 bucket.
     #
-    #     * `FULL_CONTROL`\: The grantee has `READ`, `READ_ACP`, and
+    #     * `FULL_CONTROL`: The grantee has `READ`, `READ_ACP`, and
     #       `WRITE_ACP` permissions for the thumbnails that Elastic
     #       Transcoder adds to the Amazon S3 bucket.
-    #
-    #   * **StorageClass**\: The Amazon S3 storage class, `Standard` or
+    #   * **StorageClass**: The Amazon S3 storage class, `Standard` or
     #     `ReducedRedundancy`, that you want Elastic Transcoder to assign to
     #     the thumbnails that it stores in your Amazon S3 bucket.
     #   @return [Types::PipelineOutputConfig]
@@ -3738,9 +3718,9 @@ module Aws::ElasticTranscoder
     # @!attribute [rw] status
     #   The desired status of the pipeline:
     #
-    #   * `Active`\: The pipeline is processing jobs.
+    #   * `Active`: The pipeline is processing jobs.
     #
-    #   * `Paused`\: The pipeline is not currently processing jobs.
+    #   * `Paused`: The pipeline is not currently processing jobs.
     #   @return [String]
     #
     class UpdatePipelineStatusRequest < Struct.new(
@@ -3784,14 +3764,14 @@ module Aws::ElasticTranscoder
     #   The H.264 profile that you want to use for the output file. Elastic
     #   Transcoder supports the following profiles:
     #
-    #   * `baseline`\: The profile most commonly used for videoconferencing
+    #   * `baseline`: The profile most commonly used for videoconferencing
     #     and for mobile applications.
     #
-    #   * `main`\: The profile used for standard-definition digital TV
+    #   * `main`: The profile used for standard-definition digital TV
     #     broadcasts.
     #
-    #   * `high`\: The profile used for high-definition digital TV
-    #     broadcasts and for Blu-ray discs.
+    #   * `high`: The profile used for high-definition digital TV broadcasts
+    #     and for Blu-ray discs.
     #
     #   **Level (H.264 Only)**
     #
@@ -3821,27 +3801,27 @@ module Aws::ElasticTranscoder
     #
     #   * 1b - 396
     #
-    #   * 1\.1 - 900
+    #   * 1.1 - 900
     #
-    #   * 1\.2 - 2376
+    #   * 1.2 - 2376
     #
-    #   * 1\.3 - 2376
+    #   * 1.3 - 2376
     #
     #   * 2 - 2376
     #
-    #   * 2\.1 - 4752
+    #   * 2.1 - 4752
     #
-    #   * 2\.2 - 8100
+    #   * 2.2 - 8100
     #
     #   * 3 - 8100
     #
-    #   * 3\.1 - 18000
+    #   * 3.1 - 18000
     #
-    #   * 3\.2 - 20480
+    #   * 3.2 - 20480
     #
     #   * 4 - 32768
     #
-    #   * 4\.1 - 32768
+    #   * 4.1 - 32768
     #
     #   **MaxBitRate (Optional, H.264/MPEG2/VP8/VP9 only)**
     #
@@ -3967,13 +3947,13 @@ module Aws::ElasticTranscoder
     #   `MPEG2`, or `VP8`.
     #
     #   Whether to use a fixed value for `FixedGOP`. Valid values are `true`
-    #   and `false`\:
+    #   and `false`:
     #
-    #   * `true`\: Elastic Transcoder uses the value of `KeyframesMaxDist`
+    #   * `true`: Elastic Transcoder uses the value of `KeyframesMaxDist`
     #     for the distance between key frames (the number of frames in a
     #     group of pictures, or GOP).
     #
-    #   * `false`\: The distance between key frames can vary.
+    #   * `false`: The distance between key frames can vary.
     #
     #   `FixedGOP` must be set to `true` for `fmp4` containers.
     #   @return [String]
@@ -3995,23 +3975,23 @@ module Aws::ElasticTranscoder
     #
     #   * 1b - 128 : 160
     #
-    #   * 1\.1 - 192 : 240
+    #   * 1.1 - 192 : 240
     #
-    #   * 1\.2 - 384 : 480
+    #   * 1.2 - 384 : 480
     #
-    #   * 1\.3 - 768 : 960
+    #   * 1.3 - 768 : 960
     #
     #   * 2 - 2000 : 2500
     #
     #   * 3 - 10000 : 12500
     #
-    #   * 3\.1 - 14000 : 17500
+    #   * 3.1 - 14000 : 17500
     #
-    #   * 3\.2 - 20000 : 25000
+    #   * 3.2 - 20000 : 25000
     #
     #   * 4 - 20000 : 25000
     #
-    #   * 4\.1 - 50000 : 62500
+    #   * 4.1 - 50000 : 62500
     #   @return [String]
     #
     # @!attribute [rw] frame_rate
@@ -4044,27 +4024,27 @@ module Aws::ElasticTranscoder
     #
     #   * 1b - 380160
     #
-    #   * 1\.1 - 76800
+    #   * 1.1 - 76800
     #
-    #   * 1\.2 - 1536000
+    #   * 1.2 - 1536000
     #
-    #   * 1\.3 - 3041280
+    #   * 1.3 - 3041280
     #
     #   * 2 - 3041280
     #
-    #   * 2\.1 - 5068800
+    #   * 2.1 - 5068800
     #
-    #   * 2\.2 - 5184000
+    #   * 2.2 - 5184000
     #
     #   * 3 - 10368000
     #
-    #   * 3\.1 - 27648000
+    #   * 3.1 - 27648000
     #
-    #   * 3\.2 - 55296000
+    #   * 3.2 - 55296000
     #
     #   * 4 - 62914560
     #
-    #   * 4\.1 - 62914560
+    #   * 4.1 - 62914560
     #   @return [String]
     #
     # @!attribute [rw] max_frame_rate
@@ -4085,12 +4065,12 @@ module Aws::ElasticTranscoder
     #   mutually exclusive. Do not use them together.
     #
     #   The width and height of the video in the output file, in pixels.
-    #   Valid values are `auto` and *width* x *height*\:
+    #   Valid values are `auto` and *width* x *height*:
     #
-    #   * `auto`\: Elastic Transcoder attempts to preserve the width and
+    #   * `auto`: Elastic Transcoder attempts to preserve the width and
     #     height of the input file, subject to the following rules.
     #
-    #   * ` width x height `\: The width and height of the output video in
+    #   * ` width x height `: The width and height of the output video in
     #     pixels.
     #
     #   Note the following about specifying the width and height:
@@ -4115,27 +4095,27 @@ module Aws::ElasticTranscoder
     #
     #     * 1b - 25344
     #
-    #     * 1\.1 - 101376
+    #     * 1.1 - 101376
     #
-    #     * 1\.2 - 101376
+    #     * 1.2 - 101376
     #
-    #     * 1\.3 - 101376
+    #     * 1.3 - 101376
     #
     #     * 2 - 101376
     #
-    #     * 2\.1 - 202752
+    #     * 2.1 - 202752
     #
-    #     * 2\.2 - 404720
+    #     * 2.2 - 404720
     #
     #     * 3 - 404720
     #
-    #     * 3\.1 - 921600
+    #     * 3.1 - 921600
     #
-    #     * 3\.2 - 1310720
+    #     * 3.2 - 1310720
     #
     #     * 4 - 2097152
     #
-    #     * 4\.1 - 2097152
+    #     * 4.1 - 2097152
     #   @return [String]
     #
     # @!attribute [rw] aspect_ratio
@@ -4183,34 +4163,34 @@ module Aws::ElasticTranscoder
     #   Specify one of the following values to control scaling of the output
     #   video:
     #
-    #   * `Fit`\: Elastic Transcoder scales the output video so it matches
+    #   * `Fit`: Elastic Transcoder scales the output video so it matches
     #     the value that you specified in either `MaxWidth` or `MaxHeight`
     #     without exceeding the other value.
     #
-    #   * `Fill`\: Elastic Transcoder scales the output video so it matches
+    #   * `Fill`: Elastic Transcoder scales the output video so it matches
     #     the value that you specified in either `MaxWidth` or `MaxHeight`
     #     and matches or exceeds the other value. Elastic Transcoder centers
     #     the output video and then crops it in the dimension (if any) that
     #     exceeds the maximum value.
     #
-    #   * `Stretch`\: Elastic Transcoder stretches the output video to match
+    #   * `Stretch`: Elastic Transcoder stretches the output video to match
     #     the values that you specified for `MaxWidth` and `MaxHeight`. If
     #     the relative proportions of the input video and the output video
     #     are different, the output video will be distorted.
     #
-    #   * `Keep`\: Elastic Transcoder does not scale the output video. If
+    #   * `Keep`: Elastic Transcoder does not scale the output video. If
     #     either dimension of the input video exceeds the values that you
     #     specified for `MaxWidth` and `MaxHeight`, Elastic Transcoder crops
     #     the output video.
     #
-    #   * `ShrinkToFit`\: Elastic Transcoder scales the output video down so
+    #   * `ShrinkToFit`: Elastic Transcoder scales the output video down so
     #     that its dimensions match the values that you specified for at
     #     least one of `MaxWidth` and `MaxHeight` without exceeding either
     #     value. If you specify this option, Elastic Transcoder does not
     #     scale the video up.
     #
-    #   * `ShrinkToFill`\: Elastic Transcoder scales the output video down
-    #     so that its dimensions match the values that you specified for at
+    #   * `ShrinkToFill`: Elastic Transcoder scales the output video down so
+    #     that its dimensions match the values that you specified for at
     #     least one of `MaxWidth` and `MaxHeight` without dropping below
     #     either value. If you specify this option, Elastic Transcoder does
     #     not scale the video up.
@@ -4292,3 +4272,4 @@ module Aws::ElasticTranscoder
 
   end
 end
+

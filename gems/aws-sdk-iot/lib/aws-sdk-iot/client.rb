@@ -7,33 +7,34 @@
 #
 # WARNING ABOUT GENERATED CODE
 
-require 'seahorse/client/plugins/content_length.rb'
-require 'aws-sdk-core/plugins/credentials_configuration.rb'
-require 'aws-sdk-core/plugins/logging.rb'
-require 'aws-sdk-core/plugins/param_converter.rb'
-require 'aws-sdk-core/plugins/param_validator.rb'
-require 'aws-sdk-core/plugins/user_agent.rb'
-require 'aws-sdk-core/plugins/helpful_socket_errors.rb'
-require 'aws-sdk-core/plugins/retry_errors.rb'
-require 'aws-sdk-core/plugins/global_configuration.rb'
-require 'aws-sdk-core/plugins/regional_endpoint.rb'
-require 'aws-sdk-core/plugins/endpoint_discovery.rb'
-require 'aws-sdk-core/plugins/endpoint_pattern.rb'
-require 'aws-sdk-core/plugins/response_paging.rb'
-require 'aws-sdk-core/plugins/stub_responses.rb'
-require 'aws-sdk-core/plugins/idempotency_token.rb'
-require 'aws-sdk-core/plugins/jsonvalue_converter.rb'
-require 'aws-sdk-core/plugins/client_metrics_plugin.rb'
-require 'aws-sdk-core/plugins/client_metrics_send_plugin.rb'
-require 'aws-sdk-core/plugins/transfer_encoding.rb'
-require 'aws-sdk-core/plugins/http_checksum.rb'
-require 'aws-sdk-core/plugins/checksum_algorithm.rb'
-require 'aws-sdk-core/plugins/defaults_mode.rb'
-require 'aws-sdk-core/plugins/recursion_detection.rb'
-require 'aws-sdk-core/plugins/sign.rb'
-require 'aws-sdk-core/plugins/protocols/rest_json.rb'
-
-Aws::Plugins::GlobalConfiguration.add_identifier(:iot)
+require 'seahorse/client/plugins/content_length'
+require 'aws-sdk-core/plugins/credentials_configuration'
+require 'aws-sdk-core/plugins/logging'
+require 'aws-sdk-core/plugins/param_converter'
+require 'aws-sdk-core/plugins/param_validator'
+require 'aws-sdk-core/plugins/user_agent'
+require 'aws-sdk-core/plugins/helpful_socket_errors'
+require 'aws-sdk-core/plugins/retry_errors'
+require 'aws-sdk-core/plugins/global_configuration'
+require 'aws-sdk-core/plugins/regional_endpoint'
+require 'aws-sdk-core/plugins/endpoint_discovery'
+require 'aws-sdk-core/plugins/endpoint_pattern'
+require 'aws-sdk-core/plugins/response_paging'
+require 'aws-sdk-core/plugins/stub_responses'
+require 'aws-sdk-core/plugins/idempotency_token'
+require 'aws-sdk-core/plugins/invocation_id'
+require 'aws-sdk-core/plugins/jsonvalue_converter'
+require 'aws-sdk-core/plugins/client_metrics_plugin'
+require 'aws-sdk-core/plugins/client_metrics_send_plugin'
+require 'aws-sdk-core/plugins/transfer_encoding'
+require 'aws-sdk-core/plugins/http_checksum'
+require 'aws-sdk-core/plugins/checksum_algorithm'
+require 'aws-sdk-core/plugins/request_compression'
+require 'aws-sdk-core/plugins/defaults_mode'
+require 'aws-sdk-core/plugins/recursion_detection'
+require 'aws-sdk-core/plugins/telemetry'
+require 'aws-sdk-core/plugins/sign'
+require 'aws-sdk-core/plugins/protocols/rest_json'
 
 module Aws::IoT
   # An API client for IoT.  To construct a client, you need to configure a `:region` and `:credentials`.
@@ -71,20 +72,28 @@ module Aws::IoT
     add_plugin(Aws::Plugins::ResponsePaging)
     add_plugin(Aws::Plugins::StubResponses)
     add_plugin(Aws::Plugins::IdempotencyToken)
+    add_plugin(Aws::Plugins::InvocationId)
     add_plugin(Aws::Plugins::JsonvalueConverter)
     add_plugin(Aws::Plugins::ClientMetricsPlugin)
     add_plugin(Aws::Plugins::ClientMetricsSendPlugin)
     add_plugin(Aws::Plugins::TransferEncoding)
     add_plugin(Aws::Plugins::HttpChecksum)
     add_plugin(Aws::Plugins::ChecksumAlgorithm)
+    add_plugin(Aws::Plugins::RequestCompression)
     add_plugin(Aws::Plugins::DefaultsMode)
     add_plugin(Aws::Plugins::RecursionDetection)
+    add_plugin(Aws::Plugins::Telemetry)
     add_plugin(Aws::Plugins::Sign)
     add_plugin(Aws::Plugins::Protocols::RestJson)
     add_plugin(Aws::IoT::Plugins::Endpoints)
 
     # @overload initialize(options)
     #   @param [Hash] options
+    #
+    #   @option options [Array<Seahorse::Client::Plugin>] :plugins ([]])
+    #     A list of plugins to apply to the client. Each plugin is either a
+    #     class name or an instance of a plugin class.
+    #
     #   @option options [required, Aws::CredentialProvider] :credentials
     #     Your AWS credentials. This can be an instance of any one of the
     #     following classes:
@@ -119,13 +128,15 @@ module Aws::IoT
     #     locations will be searched for credentials:
     #
     #     * `Aws.config[:credentials]`
-    #     * The `:access_key_id`, `:secret_access_key`, and `:session_token` options.
-    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']
+    #     * The `:access_key_id`, `:secret_access_key`, `:session_token`, and
+    #       `:account_id` options.
+    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'],
+    #       ENV['AWS_SESSION_TOKEN'], and ENV['AWS_ACCOUNT_ID']
     #     * `~/.aws/credentials`
     #     * `~/.aws/config`
     #     * EC2/ECS IMDS instance profile - When used by default, the timeouts
     #       are very aggressive. Construct and pass an instance of
-    #       `Aws::InstanceProfileCredentails` or `Aws::ECSCredentials` to
+    #       `Aws::InstanceProfileCredentials` or `Aws::ECSCredentials` to
     #       enable retries and extended timeouts. Instance profile credential
     #       fetching can be disabled by setting ENV['AWS_EC2_METADATA_DISABLED']
     #       to true.
@@ -143,6 +154,8 @@ module Aws::IoT
     #     * `~/.aws/config`
     #
     #   @option options [String] :access_key_id
+    #
+    #   @option options [String] :account_id
     #
     #   @option options [Boolean] :active_endpoint_cache (false)
     #     When set to `true`, a thread polling for endpoints will be running in
@@ -190,10 +203,20 @@ module Aws::IoT
     #     Set to true to disable SDK automatically adding host prefix
     #     to default service endpoint when available.
     #
-    #   @option options [String] :endpoint
-    #     The client endpoint is normally constructed from the `:region`
-    #     option. You should only configure an `:endpoint` when connecting
-    #     to test or custom endpoints. This should be a valid HTTP(S) URI.
+    #   @option options [Boolean] :disable_request_compression (false)
+    #     When set to 'true' the request body will not be compressed
+    #     for supported operations.
+    #
+    #   @option options [String, URI::HTTPS, URI::HTTP] :endpoint
+    #     Normally you should not configure the `:endpoint` option
+    #     directly. This is normally constructed from the `:region`
+    #     option. Configuring `:endpoint` is normally reserved for
+    #     connecting to test or custom endpoints. The endpoint should
+    #     be a URI formatted like:
+    #
+    #         'http://example.com'
+    #         'https://example.com'
+    #         'http://example.com:123'
     #
     #   @option options [Integer] :endpoint_cache_max_entries (1000)
     #     Used for the maximum size limit of the LRU cache storing endpoints data
@@ -209,6 +232,10 @@ module Aws::IoT
     #
     #   @option options [Boolean] :endpoint_discovery (false)
     #     When set to `true`, endpoint discovery will be enabled for operations when available.
+    #
+    #   @option options [Boolean] :ignore_configured_endpoint_urls
+    #     Setting to true disables use of endpoint URLs provided via environment
+    #     variables and the shared configuration file.
     #
     #   @option options [Aws::Log::Formatter] :log_formatter (Aws::Log::Formatter.default)
     #     The log formatter.
@@ -229,6 +256,34 @@ module Aws::IoT
     #   @option options [String] :profile ("default")
     #     Used when loading credentials from the shared credentials file
     #     at HOME/.aws/credentials.  When not specified, 'default' is used.
+    #
+    #   @option options [String] :request_checksum_calculation ("when_supported")
+    #     Determines when a checksum will be calculated for request payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, a checksum will be
+    #       calculated for all request payloads of operations modeled with the
+    #       `httpChecksum` trait where `requestChecksumRequired` is `true` and/or a
+    #       `requestAlgorithmMember` is modeled.
+    #     * `when_required` - When set, a checksum will only be calculated for
+    #       request payloads of operations modeled with the  `httpChecksum` trait where
+    #       `requestChecksumRequired` is `true` or where a `requestAlgorithmMember`
+    #       is modeled and supplied.
+    #
+    #   @option options [Integer] :request_min_compression_size_bytes (10240)
+    #     The minimum size in bytes that triggers compression for request
+    #     bodies. The value must be non-negative integer value between 0
+    #     and 10485780 bytes inclusive.
+    #
+    #   @option options [String] :response_checksum_validation ("when_supported")
+    #     Determines when checksum validation will be performed on response payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, checksum validation is performed on all
+    #       response payloads of operations modeled with the `httpChecksum` trait where
+    #       `responseAlgorithms` is modeled, except when no modeled checksum algorithms
+    #       are supported.
+    #     * `when_required` - When set, checksum validation is not performed on
+    #       response payloads of operations unless the checksum algorithm is supported and
+    #       the `requestValidationModeMember` member is set to `ENABLED`.
     #
     #   @option options [Proc] :retry_backoff
     #     A proc or lambda used for backoff. Defaults to 2**retries * retry_base_delay.
@@ -274,10 +329,24 @@ module Aws::IoT
     #       throttling.  This is a provisional mode that may change behavior
     #       in the future.
     #
+    #   @option options [String] :sdk_ua_app_id
+    #     A unique and opaque application ID that is appended to the
+    #     User-Agent header as app/sdk_ua_app_id. It should have a
+    #     maximum length of 50. This variable is sourced from environment
+    #     variable AWS_SDK_UA_APP_ID or the shared config profile attribute sdk_ua_app_id.
     #
     #   @option options [String] :secret_access_key
     #
     #   @option options [String] :session_token
+    #
+    #   @option options [Array] :sigv4a_signing_region_set
+    #     A list of regions that should be signed with SigV4a signing. When
+    #     not passed, a default `:sigv4a_signing_region_set` is searched for
+    #     in the following locations:
+    #
+    #     * `Aws.config[:sigv4a_signing_region_set]`
+    #     * `ENV['AWS_SIGV4A_SIGNING_REGION_SET']`
+    #     * `~/.aws/config`
     #
     #   @option options [Boolean] :stub_responses (false)
     #     Causes the client to return stubbed responses. By default
@@ -287,6 +356,16 @@ module Aws::IoT
     #
     #     ** Please note ** When response stubbing is enabled, no HTTP
     #     requests are made, and retries are disabled.
+    #
+    #   @option options [Aws::Telemetry::TelemetryProviderBase] :telemetry_provider (Aws::Telemetry::NoOpTelemetryProvider)
+    #     Allows you to provide a telemetry provider, which is used to
+    #     emit telemetry data. By default, uses `NoOpTelemetryProvider` which
+    #     will not record or emit any telemetry data. The SDK supports the
+    #     following telemetry providers:
+    #
+    #     * OpenTelemetry (OTel) - To use the OTel provider, install and require the
+    #     `opentelemetry-sdk` gem and then, pass in an instance of a
+    #     `Aws::Telemetry::OTelProvider` for telemetry provider.
     #
     #   @option options [Aws::TokenProvider] :token_provider
     #     A Bearer Token Provider. This can be an instance of any one of the
@@ -315,52 +394,75 @@ module Aws::IoT
     #     sending the request.
     #
     #   @option options [Aws::IoT::EndpointProvider] :endpoint_provider
-    #     The endpoint provider used to resolve endpoints. Any object that responds to `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to `Aws::IoT::EndpointParameters`
+    #     The endpoint provider used to resolve endpoints. Any object that responds to
+    #     `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+    #     `Aws::IoT::EndpointParameters`.
     #
-    #   @option options [URI::HTTP,String] :http_proxy A proxy to send
-    #     requests through.  Formatted like 'http://proxy.com:123'.
+    #   @option options [Float] :http_continue_timeout (1)
+    #     The number of seconds to wait for a 100-continue response before sending the
+    #     request body.  This option has no effect unless the request has "Expect"
+    #     header set to "100-continue".  Defaults to `nil` which  disables this
+    #     behaviour.  This value can safely be set per request on the session.
     #
-    #   @option options [Float] :http_open_timeout (15) The number of
-    #     seconds to wait when opening a HTTP session before raising a
-    #     `Timeout::Error`.
+    #   @option options [Float] :http_idle_timeout (5)
+    #     The number of seconds a connection is allowed to sit idle before it
+    #     is considered stale.  Stale connections are closed and removed from the
+    #     pool before making a request.
     #
-    #   @option options [Float] :http_read_timeout (60) The default
-    #     number of seconds to wait for response data.  This value can
-    #     safely be set per-request on the session.
+    #   @option options [Float] :http_open_timeout (15)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :http_idle_timeout (5) The number of
-    #     seconds a connection is allowed to sit idle before it is
-    #     considered stale.  Stale connections are closed and removed
-    #     from the pool before making a request.
+    #   @option options [URI::HTTP,String] :http_proxy
+    #     A proxy to send requests through.  Formatted like 'http://proxy.com:123'.
     #
-    #   @option options [Float] :http_continue_timeout (1) The number of
-    #     seconds to wait for a 100-continue response before sending the
-    #     request body.  This option has no effect unless the request has
-    #     "Expect" header set to "100-continue".  Defaults to `nil` which
-    #     disables this behaviour.  This value can safely be set per
-    #     request on the session.
+    #   @option options [Float] :http_read_timeout (60)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :ssl_timeout (nil) Sets the SSL timeout
-    #     in seconds.
+    #   @option options [Boolean] :http_wire_trace (false)
+    #     When `true`,  HTTP debug output will be sent to the `:logger`.
     #
-    #   @option options [Boolean] :http_wire_trace (false) When `true`,
-    #     HTTP debug output will be sent to the `:logger`.
+    #   @option options [Proc] :on_chunk_received
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the response body is received. It provides three arguments: the chunk,
+    #     the number of bytes received, and the total number of
+    #     bytes in the response (or nil if the server did not send a `content-length`).
     #
-    #   @option options [Boolean] :ssl_verify_peer (true) When `true`,
-    #     SSL peer certificates are verified when establishing a
-    #     connection.
+    #   @option options [Proc] :on_chunk_sent
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the request body is sent. It provides three arguments: the chunk,
+    #     the number of bytes read from the body, and the total number of
+    #     bytes in the body.
     #
-    #   @option options [String] :ssl_ca_bundle Full path to the SSL
-    #     certificate authority bundle file that should be used when
-    #     verifying peer certificates.  If you do not pass
-    #     `:ssl_ca_bundle` or `:ssl_ca_directory` the the system default
-    #     will be used if available.
+    #   @option options [Boolean] :raise_response_errors (true)
+    #     When `true`, response errors are raised.
     #
-    #   @option options [String] :ssl_ca_directory Full path of the
-    #     directory that contains the unbundled SSL certificate
+    #   @option options [String] :ssl_ca_bundle
+    #     Full path to the SSL certificate authority bundle file that should be used when
+    #     verifying peer certificates.  If you do not pass `:ssl_ca_bundle` or
+    #     `:ssl_ca_directory` the the system default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_directory
+    #     Full path of the directory that contains the unbundled SSL certificate
     #     authority files for verifying peer certificates.  If you do
-    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the
-    #     system default will be used if available.
+    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the system
+    #     default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_store
+    #     Sets the X509::Store to verify peer certificate.
+    #
+    #   @option options [OpenSSL::X509::Certificate] :ssl_cert
+    #     Sets a client certificate when creating http connections.
+    #
+    #   @option options [OpenSSL::PKey] :ssl_key
+    #     Sets a client key when creating http connections.
+    #
+    #   @option options [Float] :ssl_timeout
+    #     Sets the SSL timeout in seconds
+    #
+    #   @option options [Boolean] :ssl_verify_peer (true)
+    #     When `true`, SSL peer certificates are verified when establishing a connection.
     #
     def initialize(*args)
       super
@@ -492,6 +594,72 @@ module Aws::IoT
       req.send_request(options)
     end
 
+    # Associates the selected software bill of materials (SBOM) with a
+    # specific software package version.
+    #
+    # Requires permission to access the [AssociateSbomWithPackageVersion][1]
+    # action.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions
+    #
+    # @option params [required, String] :package_name
+    #   The name of the new software package.
+    #
+    # @option params [required, String] :version_name
+    #   The name of the new package version.
+    #
+    # @option params [required, Types::Sbom] :sbom
+    #   A specific software bill of matrerials associated with a software
+    #   package version.
+    #
+    # @option params [String] :client_token
+    #   A unique case-sensitive identifier that you can provide to ensure the
+    #   idempotency of the request. Don't reuse this client token if a new
+    #   idempotent request is required.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @return [Types::AssociateSbomWithPackageVersionResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::AssociateSbomWithPackageVersionResponse#package_name #package_name} => String
+    #   * {Types::AssociateSbomWithPackageVersionResponse#version_name #version_name} => String
+    #   * {Types::AssociateSbomWithPackageVersionResponse#sbom #sbom} => Types::Sbom
+    #   * {Types::AssociateSbomWithPackageVersionResponse#sbom_validation_status #sbom_validation_status} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.associate_sbom_with_package_version({
+    #     package_name: "PackageName", # required
+    #     version_name: "VersionName", # required
+    #     sbom: { # required
+    #       s3_location: {
+    #         bucket: "S3Bucket",
+    #         key: "S3Key",
+    #         version: "S3Version",
+    #       },
+    #     },
+    #     client_token: "ClientToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.package_name #=> String
+    #   resp.version_name #=> String
+    #   resp.sbom.s3_location.bucket #=> String
+    #   resp.sbom.s3_location.key #=> String
+    #   resp.sbom.s3_location.version #=> String
+    #   resp.sbom_validation_status #=> String, one of "IN_PROGRESS", "FAILED", "SUCCEEDED"
+    #
+    # @overload associate_sbom_with_package_version(params = {})
+    # @param [Hash] params ({})
+    def associate_sbom_with_package_version(params = {}, options = {})
+      req = build_request(:associate_sbom_with_package_version, params)
+      req.send_request(options)
+    end
+
     # Associates a group with a continuous job. The following criteria must
     # be met:
     #
@@ -528,9 +696,15 @@ module Aws::IoT
     #
     #   `$aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/`
     #
-    #   <note markdown="1"> The `namespaceId` feature is in public preview.
+    #   <note markdown="1"> The `namespaceId` feature is only supported by IoT Greengrass at this
+    #   time. For more information, see [Setting up IoT Greengrass core
+    #   devices.][1]
     #
     #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/greengrass/v2/developerguide/setting-up.html
     #
     # @return [Types::AssociateTargetsWithJobResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -682,6 +856,22 @@ module Aws::IoT
     #   The principal, which can be a certificate ARN (as returned from the
     #   CreateCertificate operation) or an Amazon Cognito ID.
     #
+    # @option params [String] :thing_principal_type
+    #   The type of the relation you want to specify when you attach a
+    #   principal to a thing.
+    #
+    #   * `EXCLUSIVE_THING` - Attaches the specified principal to the
+    #     specified thing, exclusively. The thing will be the only thing
+    #     that’s attached to the principal.
+    #
+    #   ^
+    #   ^
+    #
+    #   * `NON_EXCLUSIVE_THING` - Attaches the specified principal to the
+    #     specified thing. Multiple things can be attached to the principal.
+    #
+    #   ^
+    #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
     # @example Request syntax with placeholder values
@@ -689,6 +879,7 @@ module Aws::IoT
     #   resp = client.attach_thing_principal({
     #     thing_name: "ThingName", # required
     #     principal: "Principal", # required
+    #     thing_principal_type: "EXCLUSIVE_THING", # accepts EXCLUSIVE_THING, NON_EXCLUSIVE_THING
     #   })
     #
     # @overload attach_thing_principal(params = {})
@@ -1147,7 +1338,10 @@ module Aws::IoT
       req.send_request(options)
     end
 
-    # Creates a billing group.
+    # Creates a billing group. If this call is made multiple times using the
+    # same billing group name and configuration, the call will succeed. If
+    # this call is made with the same billing group name but different
+    # configuration a `ResourceAlreadyExistsException` is thrown.
     #
     # Requires permission to access the [CreateBillingGroup][1] action.
     #
@@ -1201,61 +1395,63 @@ module Aws::IoT
     # Creates an X.509 certificate using the specified certificate signing
     # request.
     #
-    # **Note:** The CSR must include a public key that is either an RSA key
-    # with a length of at least 2048 bits or an ECC key from NIST P-256,
-    # NIST P-384, or NIST P-512 curves. For supported certificates, consult
-    # [ Certificate signing algorithms supported by IoT][1].
-    #
-    # **Note:** Reusing the same certificate signing request (CSR) results
-    # in a distinct certificate.
-    #
-    # Requires permission to access the [CreateCertificateFromCsr][2]
+    # Requires permission to access the [CreateCertificateFromCsr][1]
     # action.
     #
-    # You can create multiple certificates in a batch by creating a
-    # directory, copying multiple .csr files into that directory, and then
-    # specifying that directory on the command line. The following commands
-    # show how to create a batch of certificates given a batch of CSRs.
+    # <note markdown="1"> The CSR must include a public key that is either an RSA key with a
+    # length of at least 2048 bits or an ECC key from NIST P-256, NIST
+    # P-384, or NIST P-521 curves. For supported certificates, consult [
+    # Certificate signing algorithms supported by IoT][2].
     #
-    # Assuming a set of CSRs are located inside of the directory
-    # my-csr-directory:
+    #  </note>
+    #
+    # <note markdown="1"> Reusing the same certificate signing request (CSR) results in a
+    # distinct certificate.
+    #
+    #  </note>
+    #
+    # You can create multiple certificates in a batch by creating a
+    # directory, copying multiple `.csr` files into that directory, and then
+    # specifying that directory on the command line. The following commands
+    # show how to create a batch of certificates given a batch of CSRs. In
+    # the following commands, we assume that a set of CSRs are located
+    # inside of the directory my-csr-directory:
     #
     # On Linux and OS X, the command is:
     #
-    # $ ls my-csr-directory/ \| xargs -I \\\{\\} aws iot
+    # `$ ls my-csr-directory/ | xargs -I {} aws iot
     # create-certificate-from-csr --certificate-signing-request
-    # file://my-csr-directory/\\\{\\}
+    # file://my-csr-directory/{}`
     #
     # This command lists all of the CSRs in my-csr-directory and pipes each
-    # CSR file name to the aws iot create-certificate-from-csr Amazon Web
+    # CSR file name to the `aws iot create-certificate-from-csr` Amazon Web
     # Services CLI command to create a certificate for the corresponding
     # CSR.
     #
-    # The aws iot create-certificate-from-csr part of the command can also
-    # be run in parallel to speed up the certificate creation process:
+    # You can also run the `aws iot create-certificate-from-csr` part of the
+    # command in parallel to speed up the certificate creation process:
     #
-    # $ ls my-csr-directory/ \| xargs -P 10 -I \\\{\\} aws iot
+    # `$ ls my-csr-directory/ | xargs -P 10 -I {} aws iot
     # create-certificate-from-csr --certificate-signing-request
-    # file://my-csr-directory/\\\{\\}
+    # file://my-csr-directory/{} `
     #
     # On Windows PowerShell, the command to create certificates for all CSRs
     # in my-csr-directory is:
     #
-    # &gt; ls -Name my-csr-directory \| %\\\{aws iot
-    # create-certificate-from-csr --certificate-signing-request
-    # file://my-csr-directory/$\_\\}
+    # `> ls -Name my-csr-directory | %{aws iot create-certificate-from-csr
+    # --certificate-signing-request file://my-csr-directory/$_} `
     #
     # On a Windows command prompt, the command to create certificates for
     # all CSRs in my-csr-directory is:
     #
-    # &gt; forfiles /p my-csr-directory /c "cmd /c aws iot
+    # `> forfiles /p my-csr-directory /c "cmd /c aws iot
     # create-certificate-from-csr --certificate-signing-request
-    # file://@path"
+    # file://@path" `
     #
     #
     #
-    # [1]: https://docs.aws.amazon.com/iot/latest/developerguide/x509-client-certs.html#x509-cert-algorithms
-    # [2]: https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions
+    # [1]: https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions
+    # [2]: https://docs.aws.amazon.com/iot/latest/developerguide/x509-client-certs.html#x509-cert-algorithms
     #
     # @option params [required, String] :certificate_signing_request
     #   The certificate signing request (CSR).
@@ -1286,6 +1482,189 @@ module Aws::IoT
     # @param [Hash] params ({})
     def create_certificate_from_csr(params = {}, options = {})
       req = build_request(:create_certificate_from_csr, params)
+      req.send_request(options)
+    end
+
+    # Creates an Amazon Web Services IoT Core certificate provider. You can
+    # use Amazon Web Services IoT Core certificate provider to customize how
+    # to sign a certificate signing request (CSR) in IoT fleet provisioning.
+    # For more information, see [Customizing certificate signing using
+    # Amazon Web Services IoT Core certificate provider][1] from *Amazon Web
+    # Services IoT Core Developer Guide*.
+    #
+    # Requires permission to access the [CreateCertificateProvider][2]
+    # action.
+    #
+    # After you create a certificate provider, the behavior of [
+    # `CreateCertificateFromCsr` API for fleet provisioning][3] will change
+    # and all API calls to `CreateCertificateFromCsr` will invoke the
+    # certificate provider to create the certificates. It can take up to a
+    # few minutes for this behavior to change after a certificate provider
+    # is created.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/iot/latest/developerguide/provisioning-cert-provider.html
+    # [2]: https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions
+    # [3]: https://docs.aws.amazon.com/iot/latest/developerguide/fleet-provision-api.html#create-cert-csr
+    #
+    # @option params [required, String] :certificate_provider_name
+    #   The name of the certificate provider.
+    #
+    # @option params [required, String] :lambda_function_arn
+    #   The ARN of the Lambda function that defines the authentication logic.
+    #
+    # @option params [required, Array<String>] :account_default_for_operations
+    #   A list of the operations that the certificate provider will use to
+    #   generate certificates. Valid value: `CreateCertificateFromCsr`.
+    #
+    # @option params [String] :client_token
+    #   A string that you can optionally pass in the
+    #   `CreateCertificateProvider` request to make sure the request is
+    #   idempotent.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @option params [Array<Types::Tag>] :tags
+    #   Metadata which can be used to manage the certificate provider.
+    #
+    # @return [Types::CreateCertificateProviderResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateCertificateProviderResponse#certificate_provider_name #certificate_provider_name} => String
+    #   * {Types::CreateCertificateProviderResponse#certificate_provider_arn #certificate_provider_arn} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_certificate_provider({
+    #     certificate_provider_name: "CertificateProviderName", # required
+    #     lambda_function_arn: "CertificateProviderFunctionArn", # required
+    #     account_default_for_operations: ["CreateCertificateFromCsr"], # required, accepts CreateCertificateFromCsr
+    #     client_token: "ClientToken",
+    #     tags: [
+    #       {
+    #         key: "TagKey", # required
+    #         value: "TagValue",
+    #       },
+    #     ],
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.certificate_provider_name #=> String
+    #   resp.certificate_provider_arn #=> String
+    #
+    # @overload create_certificate_provider(params = {})
+    # @param [Hash] params ({})
+    def create_certificate_provider(params = {}, options = {})
+      req = build_request(:create_certificate_provider, params)
+      req.send_request(options)
+    end
+
+    # Creates a command. A command contains reusable configurations that can
+    # be applied before they are sent to the devices.
+    #
+    # @option params [required, String] :command_id
+    #   A unique identifier for the command. We recommend using UUID.
+    #   Alpha-numeric characters, hyphens, and underscores are valid for use
+    #   here.
+    #
+    # @option params [String] :namespace
+    #   The namespace of the command. The MQTT reserved topics and validations
+    #   will be used for command executions according to the namespace
+    #   setting.
+    #
+    # @option params [String] :display_name
+    #   The user-friendly name in the console for the command. This name
+    #   doesn't have to be unique. You can update the user-friendly name
+    #   after you define it.
+    #
+    # @option params [String] :description
+    #   A short text decription of the command.
+    #
+    # @option params [Types::CommandPayload] :payload
+    #   The payload object for the command. You must specify this information
+    #   when using the `AWS-IoT` namespace.
+    #
+    #   You can upload a static payload file from your local storage that
+    #   contains the instructions for the device to process. The payload file
+    #   can use any format. To make sure that the device correctly interprets
+    #   the payload, we recommend you to specify the payload content type.
+    #
+    # @option params [Array<Types::CommandParameter>] :mandatory_parameters
+    #   A list of parameters that are required by the `StartCommandExecution`
+    #   API. These parameters need to be specified only when using the
+    #   `AWS-IoT-FleetWise` namespace. You can either specify them here or
+    #   when running the command using the `StartCommandExecution` API.
+    #
+    # @option params [String] :role_arn
+    #   The IAM role that you must provide when using the `AWS-IoT-FleetWise`
+    #   namespace. The role grants IoT Device Management the permission to
+    #   access IoT FleetWise resources for generating the payload for the
+    #   command. This field is not required when you use the `AWS-IoT`
+    #   namespace.
+    #
+    # @option params [Array<Types::Tag>] :tags
+    #   Name-value pairs that are used as metadata to manage a command.
+    #
+    # @return [Types::CreateCommandResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateCommandResponse#command_id #command_id} => String
+    #   * {Types::CreateCommandResponse#command_arn #command_arn} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_command({
+    #     command_id: "CommandId", # required
+    #     namespace: "AWS-IoT", # accepts AWS-IoT, AWS-IoT-FleetWise
+    #     display_name: "DisplayName",
+    #     description: "CommandDescription",
+    #     payload: {
+    #       content: "data",
+    #       content_type: "MimeType",
+    #     },
+    #     mandatory_parameters: [
+    #       {
+    #         name: "CommandParameterName", # required
+    #         value: {
+    #           s: "StringParameterValue",
+    #           b: false,
+    #           i: 1,
+    #           l: 1,
+    #           d: 1.0,
+    #           bin: "data",
+    #           ul: "UnsignedLongParameterValue",
+    #         },
+    #         default_value: {
+    #           s: "StringParameterValue",
+    #           b: false,
+    #           i: 1,
+    #           l: 1,
+    #           d: 1.0,
+    #           bin: "data",
+    #           ul: "UnsignedLongParameterValue",
+    #         },
+    #         description: "CommandParameterDescription",
+    #       },
+    #     ],
+    #     role_arn: "RoleArn",
+    #     tags: [
+    #       {
+    #         key: "TagKey", # required
+    #         value: "TagValue",
+    #       },
+    #     ],
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.command_id #=> String
+    #   resp.command_arn #=> String
+    #
+    # @overload create_command(params = {})
+    # @param [Hash] params ({})
+    def create_command(params = {}, options = {})
+      req = build_request(:create_command, params)
       req.send_request(options)
     end
 
@@ -1480,6 +1859,84 @@ module Aws::IoT
     #
     #    </note>
     #
+    # @option params [Types::TlsConfig] :tls_config
+    #   An object that specifies the TLS configuration for a domain.
+    #
+    # @option params [Types::ServerCertificateConfig] :server_certificate_config
+    #   The server certificate configuration.
+    #
+    # @option params [String] :authentication_type
+    #   An enumerated string that speciﬁes the authentication type.
+    #
+    #   * `CUSTOM_AUTH_X509` - Use custom authentication and authorization
+    #     with additional details from the X.509 client certificate.
+    #
+    #   ^
+    #   ^
+    #
+    #   * `CUSTOM_AUTH` - Use custom authentication and authorization. For
+    #     more information, see [Custom authentication and authorization][1].
+    #
+    #   ^
+    #   ^
+    #
+    #   * `AWS_X509` - Use X.509 client certificates without custom
+    #     authentication and authorization. For more information, see [X.509
+    #     client certificates][2].
+    #
+    #   ^
+    #   ^
+    #
+    #   * `AWS_SIGV4` - Use Amazon Web Services Signature Version 4. For more
+    #     information, see [IAM users, groups, and roles][1].
+    #
+    #   ^
+    #   ^
+    #
+    #   * `DEFAULT` - Use a combination of port and Application Layer Protocol
+    #     Negotiation (ALPN) to specify authentication type. For more
+    #     information, see [Device communication protocols][3].
+    #
+    #   ^
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/iot/latest/developerguide/custom-authentication.html
+    #   [2]: https://docs.aws.amazon.com/iot/latest/developerguide/x509-client-certs.html
+    #   [3]: https://docs.aws.amazon.com/iot/latest/developerguide/protocols.html
+    #
+    # @option params [String] :application_protocol
+    #   An enumerated string that speciﬁes the application-layer protocol.
+    #
+    #   * `SECURE_MQTT` - MQTT over TLS.
+    #
+    #   ^
+    #   ^
+    #
+    #   * `MQTT_WSS` - MQTT over WebSocket.
+    #
+    #   ^
+    #   ^
+    #
+    #   * `HTTPS` - HTTP over TLS.
+    #
+    #   ^
+    #   ^
+    #
+    #   * `DEFAULT` - Use a combination of port and Application Layer Protocol
+    #     Negotiation (ALPN) to specify application\_layer protocol. For more
+    #     information, see [Device communication protocols][1].
+    #
+    #   ^
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/iot/latest/developerguide/protocols.html
+    #
+    # @option params [Types::ClientCertificateConfig] :client_certificate_config
+    #   An object that speciﬁes the client certificate conﬁguration for a
+    #   domain.
+    #
     # @return [Types::CreateDomainConfigurationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreateDomainConfigurationResponse#domain_configuration_name #domain_configuration_name} => String
@@ -1503,6 +1960,19 @@ module Aws::IoT
     #         value: "TagValue",
     #       },
     #     ],
+    #     tls_config: {
+    #       security_policy: "SecurityPolicy",
+    #     },
+    #     server_certificate_config: {
+    #       enable_ocsp_check: false,
+    #       ocsp_lambda_arn: "OCSPLambdaArn",
+    #       ocsp_authorized_responder_arn: "AcmCertificateArn",
+    #     },
+    #     authentication_type: "CUSTOM_AUTH_X509", # accepts CUSTOM_AUTH_X509, CUSTOM_AUTH, AWS_X509, AWS_SIGV4, DEFAULT
+    #     application_protocol: "SECURE_MQTT", # accepts SECURE_MQTT, MQTT_WSS, HTTPS, DEFAULT
+    #     client_certificate_config: {
+    #       client_certificate_callback_arn: "ClientCertificateCallbackArn",
+    #     },
     #   })
     #
     # @example Response structure
@@ -1646,7 +2116,7 @@ module Aws::IoT
     #
     #
     #
-    #   [1]: https://docs.aws.amazon.com/https:/docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_MetricDatum.html
+    #   [1]: https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_MetricDatum.html
     #
     # @option params [Array<Types::Tag>] :tags
     #   Metadata, which can be used to manage the fleet metric.
@@ -1700,28 +2170,26 @@ module Aws::IoT
     # [1]: https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions
     #
     # @option params [required, String] :job_id
-    #   A job identifier which must be unique for your Amazon Web Services
-    #   account. We recommend using a UUID. Alpha-numeric characters, "-"
-    #   and "\_" are valid for use here.
+    #   A job identifier which must be unique for your account. We recommend
+    #   using a UUID. Alpha-numeric characters, "-" and "\_" are valid for
+    #   use here.
     #
     # @option params [required, Array<String>] :targets
     #   A list of things and thing groups to which the job should be sent.
     #
     # @option params [String] :document_source
-    #   An S3 link to the job document. Required if you don't specify a value
-    #   for `document`.
+    #   An S3 link, or S3 object URL, to the job document. The link is an
+    #   Amazon S3 object URL and is required if you don't specify a value for
+    #   `document`.
     #
-    #   <note markdown="1"> If the job document resides in an S3 bucket, you must use a
-    #   placeholder link when specifying the document.
+    #   For example, `--document-source
+    #   https://s3.region-code.amazonaws.com/example-firmware/device-firmware.1.0`
     #
-    #    The placeholder link is of the following form:
+    #   For more information, see [Methods for accessing a bucket][1].
     #
-    #    `$\{aws:iot:s3-presigned-url:https://s3.amazonaws.com/bucket/key\}`
     #
-    #    where *bucket* is your bucket name and *key* is the object in the
-    #   bucket to which you are linking.
     #
-    #    </note>
+    #   [1]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-bucket-intro.html
     #
     # @option params [String] :document
     #   The job document. Required if you don't specify a value for
@@ -1773,9 +2241,15 @@ module Aws::IoT
     #
     #   `$aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/`
     #
-    #   <note markdown="1"> The `namespaceId` feature is in public preview.
+    #   <note markdown="1"> The `namespaceId` feature is only supported by IoT Greengrass at this
+    #   time. For more information, see [Setting up IoT Greengrass core
+    #   devices.][1]
     #
     #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/greengrass/v2/developerguide/setting-up.html
     #
     # @option params [String] :job_template_arn
     #   The ARN of the job template used to create the job.
@@ -1797,6 +2271,19 @@ module Aws::IoT
     #   The configuration that allows you to schedule a job for a future date
     #   and time in addition to specifying the end behavior for each job
     #   execution.
+    #
+    # @option params [Array<String>] :destination_package_versions
+    #   The package version Amazon Resource Names (ARNs) that are installed on
+    #   the device when the job successfully completes. The package version
+    #   must be in either the Published or Deprecated state when the job
+    #   deploys. For more information, see [Package version lifecycle][1].
+    #
+    #   **Note:**The following Length Constraints relates to a single ARN. Up
+    #   to 25 package version ARNs are allowed.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/iot/latest/developerguide/preparing-to-use-software-package-catalog.html#package-version-lifecycle
     #
     # @return [Types::CreateJobResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1864,7 +2351,14 @@ module Aws::IoT
     #       start_time: "StringDateTime",
     #       end_time: "StringDateTime",
     #       end_behavior: "STOP_ROLLOUT", # accepts STOP_ROLLOUT, CANCEL, FORCE_CANCEL
+    #       maintenance_windows: [
+    #         {
+    #           start_time: "CronExpression", # required
+    #           duration_in_minutes: 1, # required
+    #         },
+    #       ],
     #     },
+    #     destination_package_versions: ["PackageVersionArn"],
     #   })
     #
     # @example Response structure
@@ -1896,20 +2390,18 @@ module Aws::IoT
     #   The ARN of the job to use as the basis for the job template.
     #
     # @option params [String] :document_source
-    #   An S3 link to the job document to use in the template. Required if you
-    #   don't specify a value for `document`.
+    #   An S3 link, or S3 object URL, to the job document. The link is an
+    #   Amazon S3 object URL and is required if you don't specify a value for
+    #   `document`.
     #
-    #   <note markdown="1"> If the job document resides in an S3 bucket, you must use a
-    #   placeholder link when specifying the document.
+    #   For example, `--document-source
+    #   https://s3.region-code.amazonaws.com/example-firmware/device-firmware.1.0`
     #
-    #    The placeholder link is of the following form:
+    #   For more information, see [Methods for accessing a bucket][1].
     #
-    #    `$\{aws:iot:s3-presigned-url:https://s3.amazonaws.com/bucket/key\}`
     #
-    #    where *bucket* is your bucket name and *key* is the object in the
-    #   bucket to which you are linking.
     #
-    #    </note>
+    #   [1]: https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-bucket-intro.html
     #
     # @option params [String] :document
     #   The job document. Required if you don't specify a value for
@@ -1939,6 +2431,23 @@ module Aws::IoT
     #
     # @option params [Types::JobExecutionsRetryConfig] :job_executions_retry_config
     #   Allows you to create the criteria to retry a job.
+    #
+    # @option params [Array<Types::MaintenanceWindow>] :maintenance_windows
+    #   Allows you to configure an optional maintenance window for the rollout
+    #   of a job document to all devices in the target group for a job.
+    #
+    # @option params [Array<String>] :destination_package_versions
+    #   The package version Amazon Resource Names (ARNs) that are installed on
+    #   the device when the job successfully completes. The package version
+    #   must be in either the Published or Deprecated state when the job
+    #   deploys. For more information, see [Package version lifecycle][1].
+    #
+    #   **Note:**The following Length Constraints relates to a single ARN. Up
+    #   to 25 package version ARNs are allowed.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/iot/latest/developerguide/preparing-to-use-software-package-catalog.html#package-version-lifecycle
     #
     # @return [Types::CreateJobTemplateResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1995,6 +2504,13 @@ module Aws::IoT
     #         },
     #       ],
     #     },
+    #     maintenance_windows: [
+    #       {
+    #         start_time: "CronExpression", # required
+    #         duration_in_minutes: 1, # required
+    #       },
+    #     ],
+    #     destination_package_versions: ["PackageVersionArn"],
     #   })
     #
     # @example Response structure
@@ -2190,7 +2706,8 @@ module Aws::IoT
     #   create an OTA update job.
     #
     # @option params [Hash<String,String>] :additional_parameters
-    #   A list of additional OTA update parameters which are name-value pairs.
+    #   A list of additional OTA update parameters, which are name-value
+    #   pairs. They won't be sent to devices as a part of the Job document.
     #
     # @option params [Array<Types::Tag>] :tags
     #   Metadata which can be used to manage updates.
@@ -2305,12 +2822,167 @@ module Aws::IoT
     #   resp.aws_iot_job_id #=> String
     #   resp.ota_update_arn #=> String
     #   resp.aws_iot_job_arn #=> String
-    #   resp.ota_update_status #=> String, one of "CREATE_PENDING", "CREATE_IN_PROGRESS", "CREATE_COMPLETE", "CREATE_FAILED"
+    #   resp.ota_update_status #=> String, one of "CREATE_PENDING", "CREATE_IN_PROGRESS", "CREATE_COMPLETE", "CREATE_FAILED", "DELETE_IN_PROGRESS", "DELETE_FAILED"
     #
     # @overload create_ota_update(params = {})
     # @param [Hash] params ({})
     def create_ota_update(params = {}, options = {})
       req = build_request(:create_ota_update, params)
+      req.send_request(options)
+    end
+
+    # Creates an IoT software package that can be deployed to your fleet.
+    #
+    # Requires permission to access the [CreatePackage][1] and
+    # [GetIndexingConfiguration][1] actions.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions
+    #
+    # @option params [required, String] :package_name
+    #   The name of the new software package.
+    #
+    # @option params [String] :description
+    #   A summary of the package being created. This can be used to outline
+    #   the package's contents or purpose.
+    #
+    # @option params [Hash<String,String>] :tags
+    #   Metadata that can be used to manage the package.
+    #
+    # @option params [String] :client_token
+    #   A unique case-sensitive identifier that you can provide to ensure the
+    #   idempotency of the request. Don't reuse this client token if a new
+    #   idempotent request is required.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @return [Types::CreatePackageResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreatePackageResponse#package_name #package_name} => String
+    #   * {Types::CreatePackageResponse#package_arn #package_arn} => String
+    #   * {Types::CreatePackageResponse#description #description} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_package({
+    #     package_name: "PackageName", # required
+    #     description: "ResourceDescription",
+    #     tags: {
+    #       "TagKey" => "TagValue",
+    #     },
+    #     client_token: "ClientToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.package_name #=> String
+    #   resp.package_arn #=> String
+    #   resp.description #=> String
+    #
+    # @overload create_package(params = {})
+    # @param [Hash] params ({})
+    def create_package(params = {}, options = {})
+      req = build_request(:create_package, params)
+      req.send_request(options)
+    end
+
+    # Creates a new version for an existing IoT software package.
+    #
+    # Requires permission to access the [CreatePackageVersion][1] and
+    # [GetIndexingConfiguration][1] actions.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions
+    #
+    # @option params [required, String] :package_name
+    #   The name of the associated software package.
+    #
+    # @option params [required, String] :version_name
+    #   The name of the new package version.
+    #
+    # @option params [String] :description
+    #   A summary of the package version being created. This can be used to
+    #   outline the package's contents or purpose.
+    #
+    # @option params [Hash<String,String>] :attributes
+    #   Metadata that can be used to define a package version’s configuration.
+    #   For example, the S3 file location, configuration options that are
+    #   being sent to the device or fleet.
+    #
+    #   The combined size of all the attributes on a package version is
+    #   limited to 3KB.
+    #
+    # @option params [Types::PackageVersionArtifact] :artifact
+    #   The various build components created during the build process such as
+    #   libraries and configuration files that make up a software package
+    #   version.
+    #
+    # @option params [String] :recipe
+    #   The inline job document associated with a software package version
+    #   used for a quick job deployment.
+    #
+    # @option params [Hash<String,String>] :tags
+    #   Metadata that can be used to manage the package version.
+    #
+    # @option params [String] :client_token
+    #   A unique case-sensitive identifier that you can provide to ensure the
+    #   idempotency of the request. Don't reuse this client token if a new
+    #   idempotent request is required.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @return [Types::CreatePackageVersionResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreatePackageVersionResponse#package_version_arn #package_version_arn} => String
+    #   * {Types::CreatePackageVersionResponse#package_name #package_name} => String
+    #   * {Types::CreatePackageVersionResponse#version_name #version_name} => String
+    #   * {Types::CreatePackageVersionResponse#description #description} => String
+    #   * {Types::CreatePackageVersionResponse#attributes #attributes} => Hash&lt;String,String&gt;
+    #   * {Types::CreatePackageVersionResponse#status #status} => String
+    #   * {Types::CreatePackageVersionResponse#error_reason #error_reason} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_package_version({
+    #     package_name: "PackageName", # required
+    #     version_name: "VersionName", # required
+    #     description: "ResourceDescription",
+    #     attributes: {
+    #       "ResourceAttributeKey" => "ResourceAttributeValue",
+    #     },
+    #     artifact: {
+    #       s3_location: {
+    #         bucket: "S3Bucket",
+    #         key: "S3Key",
+    #         version: "S3Version",
+    #       },
+    #     },
+    #     recipe: "PackageVersionRecipe",
+    #     tags: {
+    #       "TagKey" => "TagValue",
+    #     },
+    #     client_token: "ClientToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.package_version_arn #=> String
+    #   resp.package_name #=> String
+    #   resp.version_name #=> String
+    #   resp.description #=> String
+    #   resp.attributes #=> Hash
+    #   resp.attributes["ResourceAttributeKey"] #=> String
+    #   resp.status #=> String, one of "DRAFT", "PUBLISHED", "DEPRECATED"
+    #   resp.error_reason #=> String
+    #
+    # @overload create_package_version(params = {})
+    # @param [Hash] params ({})
+    def create_package_version(params = {}, options = {})
+      req = build_request(:create_package_version, params)
       req.send_request(options)
     end
 
@@ -2630,9 +3302,17 @@ module Aws::IoT
     #
     # Requires permission to access the [CreateRoleAlias][1] action.
     #
+    # The value of [ `credentialDurationSeconds` ][2] must be less than or
+    # equal to the maximum session duration of the IAM role that the role
+    # alias references. For more information, see [ Modifying a role maximum
+    # session duration (Amazon Web Services API)][3] from the Amazon Web
+    # Services Identity and Access Management User Guide.
+    #
     #
     #
     # [1]: https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions
+    # [2]: https://docs.aws.amazon.com/iot/latest/apireference/API_CreateRoleAlias.html#iot-CreateRoleAlias-request-credentialDurationSeconds
+    # [3]: https://docs.aws.amazon.com/IAM/latest/UserGuide/roles-managingrole-editing-api.html#roles-modify_max-session-duration-api
     #
     # @option params [required, String] :role_alias
     #   The role alias that points to a role ARN. This allows you to change
@@ -2803,6 +3483,9 @@ module Aws::IoT
     # @option params [Array<Types::Tag>] :tags
     #   Metadata that can be used to manage the security profile.
     #
+    # @option params [Types::MetricsExportConfig] :metrics_export_config
+    #   Specifies the MQTT topic and role ARN required for metric export.
+    #
     # @return [Types::CreateSecurityProfileResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreateSecurityProfileResponse#security_profile_name #security_profile_name} => String
@@ -2842,6 +3525,7 @@ module Aws::IoT
     #           },
     #         },
     #         suppress_alerts: false,
+    #         export_metric: false,
     #       },
     #     ],
     #     alert_targets: {
@@ -2858,6 +3542,7 @@ module Aws::IoT
     #           dimension_name: "DimensionName", # required
     #           operator: "IN", # accepts IN, NOT_IN
     #         },
+    #         export_metric: false,
     #       },
     #     ],
     #     tags: [
@@ -2866,6 +3551,10 @@ module Aws::IoT
     #         value: "TagValue",
     #       },
     #     ],
+    #     metrics_export_config: {
+    #       mqtt_topic: "MqttTopic", # required
+    #       role_arn: "RoleArn", # required
+    #     },
     #   })
     #
     # @example Response structure
@@ -2983,7 +3672,7 @@ module Aws::IoT
     #   The attribute payload, which consists of up to three name/value pairs
     #   in a JSON document. For example:
     #
-    #   `\{"attributes":\{"string1":"string2"\}\}`
+    #   `{"attributes":{"string1":"string2"}}`
     #
     # @option params [String] :billing_group_name
     #   The name of the billing group the thing will be added to.
@@ -3025,6 +3714,9 @@ module Aws::IoT
     #
     # <note markdown="1"> This is a control plane operation. See [Authorization][1] for
     # information about authorizing control plane actions.
+    #
+    #  If the `ThingGroup` that you create has the exact same attributes as
+    # an existing `ThingGroup`, you will get a 200 success response.
     #
     #  </note>
     #
@@ -3088,7 +3780,10 @@ module Aws::IoT
       req.send_request(options)
     end
 
-    # Creates a new thing type.
+    # Creates a new thing type. If this call is made multiple times using
+    # the same thing type name and configuration, the call will succeed. If
+    # this call is made with the same thing type name but different
+    # configuration a `ResourceAlreadyExistsException` is thrown.
     #
     # Requires permission to access the [CreateThingType][1] action.
     #
@@ -3120,6 +3815,15 @@ module Aws::IoT
     #     thing_type_properties: {
     #       thing_type_description: "ThingTypeDescription",
     #       searchable_attributes: ["AttributeName"],
+    #       mqtt5_configuration: {
+    #         propagating_attributes: [
+    #           {
+    #             user_property_key: "UserPropertyKeyName",
+    #             thing_attribute: "AttributeName",
+    #             connection_attribute: "ConnectionAttributeName",
+    #           },
+    #         ],
+    #       },
     #     },
     #     tags: [
     #       {
@@ -3362,6 +4066,12 @@ module Aws::IoT
     #             client_properties: { # required
     #               "String" => "String",
     #             },
+    #             headers: [
+    #               {
+    #                 key: "KafkaHeaderKey", # required
+    #                 value: "KafkaHeaderValue", # required
+    #               },
+    #             ],
     #           },
     #           open_search: {
     #             role_arn: "AwsArn", # required
@@ -3565,6 +4275,12 @@ module Aws::IoT
     #           client_properties: { # required
     #             "String" => "String",
     #           },
+    #           headers: [
+    #             {
+    #               key: "KafkaHeaderKey", # required
+    #               value: "KafkaHeaderValue", # required
+    #             },
+    #           ],
     #         },
     #         open_search: {
     #           role_arn: "AwsArn", # required
@@ -3855,6 +4571,94 @@ module Aws::IoT
       req.send_request(options)
     end
 
+    # Deletes a certificate provider.
+    #
+    # Requires permission to access the [DeleteCertificateProvider][1]
+    # action.
+    #
+    # If you delete the certificate provider resource, the behavior of
+    # `CreateCertificateFromCsr` will resume, and IoT will create
+    # certificates signed by IoT from a certificate signing request (CSR).
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions
+    #
+    # @option params [required, String] :certificate_provider_name
+    #   The name of the certificate provider.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_certificate_provider({
+    #     certificate_provider_name: "CertificateProviderName", # required
+    #   })
+    #
+    # @overload delete_certificate_provider(params = {})
+    # @param [Hash] params ({})
+    def delete_certificate_provider(params = {}, options = {})
+      req = build_request(:delete_certificate_provider, params)
+      req.send_request(options)
+    end
+
+    # Delete a command resource.
+    #
+    # @option params [required, String] :command_id
+    #   The unique identifier of the command to be deleted.
+    #
+    # @return [Types::DeleteCommandResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DeleteCommandResponse#status_code #status_code} => Integer
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_command({
+    #     command_id: "CommandId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.status_code #=> Integer
+    #
+    # @overload delete_command(params = {})
+    # @param [Hash] params ({})
+    def delete_command(params = {}, options = {})
+      req = build_request(:delete_command, params)
+      req.send_request(options)
+    end
+
+    # Delete a command execution.
+    #
+    # <note markdown="1"> Only command executions that enter a terminal state can be deleted
+    # from your account.
+    #
+    #  </note>
+    #
+    # @option params [required, String] :execution_id
+    #   The unique identifier of the command execution that you want to delete
+    #   from your account.
+    #
+    # @option params [required, String] :target_arn
+    #   The Amazon Resource Number (ARN) of the target device for which you
+    #   want to delete command executions.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_command_execution({
+    #     execution_id: "CommandExecutionId", # required
+    #     target_arn: "TargetArn", # required
+    #   })
+    #
+    # @overload delete_command_execution(params = {})
+    # @param [Hash] params ({})
+    def delete_command_execution(params = {}, options = {})
+      req = build_request(:delete_command_execution, params)
+      req.send_request(options)
+    end
+
     # Deletes a Device Defender detect custom metric.
     #
     # Requires permission to access the [DeleteCustomMetric][1] action.
@@ -4053,9 +4857,15 @@ module Aws::IoT
     #
     #   `$aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/`
     #
-    #   <note markdown="1"> The `namespaceId` feature is in public preview.
+    #   <note markdown="1"> The `namespaceId` feature is only supported by IoT Greengrass at this
+    #   time. For more information, see [Setting up IoT Greengrass core
+    #   devices.][1]
     #
     #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/greengrass/v2/developerguide/setting-up.html
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
@@ -4119,9 +4929,15 @@ module Aws::IoT
     #
     #   `$aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/`
     #
-    #   <note markdown="1"> The `namespaceId` feature is in public preview.
+    #   <note markdown="1"> The `namespaceId` feature is only supported by IoT Greengrass at this
+    #   time. For more information, see [Setting up IoT Greengrass core
+    #   devices.][1]
     #
     #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/greengrass/v2/developerguide/setting-up.html
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
@@ -4225,6 +5041,81 @@ module Aws::IoT
     # @param [Hash] params ({})
     def delete_ota_update(params = {}, options = {})
       req = build_request(:delete_ota_update, params)
+      req.send_request(options)
+    end
+
+    # Deletes a specific version from a software package.
+    #
+    # **Note:** All package versions must be deleted before deleting the
+    # software package.
+    #
+    # Requires permission to access the [DeletePackageVersion][1] action.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions
+    #
+    # @option params [required, String] :package_name
+    #   The name of the target software package.
+    #
+    # @option params [String] :client_token
+    #   A unique case-sensitive identifier that you can provide to ensure the
+    #   idempotency of the request. Don't reuse this client token if a new
+    #   idempotent request is required.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_package({
+    #     package_name: "PackageName", # required
+    #     client_token: "ClientToken",
+    #   })
+    #
+    # @overload delete_package(params = {})
+    # @param [Hash] params ({})
+    def delete_package(params = {}, options = {})
+      req = build_request(:delete_package, params)
+      req.send_request(options)
+    end
+
+    # Deletes a specific version from a software package.
+    #
+    # **Note:** If a package version is designated as default, you must
+    # remove the designation from the software package using the
+    # UpdatePackage action.
+    #
+    # @option params [required, String] :package_name
+    #   The name of the associated software package.
+    #
+    # @option params [required, String] :version_name
+    #   The name of the target package version.
+    #
+    # @option params [String] :client_token
+    #   A unique case-sensitive identifier that you can provide to ensure the
+    #   idempotency of the request. Don't reuse this client token if a new
+    #   idempotent request is required.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_package_version({
+    #     package_name: "PackageName", # required
+    #     version_name: "VersionName", # required
+    #     client_token: "ClientToken",
+    #   })
+    #
+    # @overload delete_package_version(params = {})
+    # @param [Hash] params ({})
+    def delete_package_version(params = {}, options = {})
+      req = build_request(:delete_package_version, params)
       req.send_request(options)
     end
 
@@ -4729,6 +5620,8 @@ module Aws::IoT
     #   resp.audit_notification_target_configurations["AuditNotificationType"].enabled #=> Boolean
     #   resp.audit_check_configurations #=> Hash
     #   resp.audit_check_configurations["AuditCheckName"].enabled #=> Boolean
+    #   resp.audit_check_configurations["AuditCheckName"].configuration #=> Hash
+    #   resp.audit_check_configurations["AuditCheckName"].configuration["ConfigName"] #=> String
     #
     # @overload describe_account_audit_configuration(params = {})
     # @param [Hash] params ({})
@@ -5187,6 +6080,50 @@ module Aws::IoT
       req.send_request(options)
     end
 
+    # Describes a certificate provider.
+    #
+    # Requires permission to access the [DescribeCertificateProvider][1]
+    # action.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions
+    #
+    # @option params [required, String] :certificate_provider_name
+    #   The name of the certificate provider.
+    #
+    # @return [Types::DescribeCertificateProviderResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DescribeCertificateProviderResponse#certificate_provider_name #certificate_provider_name} => String
+    #   * {Types::DescribeCertificateProviderResponse#certificate_provider_arn #certificate_provider_arn} => String
+    #   * {Types::DescribeCertificateProviderResponse#lambda_function_arn #lambda_function_arn} => String
+    #   * {Types::DescribeCertificateProviderResponse#account_default_for_operations #account_default_for_operations} => Array&lt;String&gt;
+    #   * {Types::DescribeCertificateProviderResponse#creation_date #creation_date} => Time
+    #   * {Types::DescribeCertificateProviderResponse#last_modified_date #last_modified_date} => Time
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.describe_certificate_provider({
+    #     certificate_provider_name: "CertificateProviderName", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.certificate_provider_name #=> String
+    #   resp.certificate_provider_arn #=> String
+    #   resp.lambda_function_arn #=> String
+    #   resp.account_default_for_operations #=> Array
+    #   resp.account_default_for_operations[0] #=> String, one of "CreateCertificateFromCsr"
+    #   resp.creation_date #=> Time
+    #   resp.last_modified_date #=> Time
+    #
+    # @overload describe_certificate_provider(params = {})
+    # @param [Hash] params ({})
+    def describe_certificate_provider(params = {}, options = {})
+      req = build_request(:describe_certificate_provider, params)
+      req.send_request(options)
+    end
+
     # Gets information about a Device Defender detect custom metric.
     #
     # Requires permission to access the [DescribeCustomMetric][1] action.
@@ -5390,6 +6327,11 @@ module Aws::IoT
     #   * {Types::DescribeDomainConfigurationResponse#service_type #service_type} => String
     #   * {Types::DescribeDomainConfigurationResponse#domain_type #domain_type} => String
     #   * {Types::DescribeDomainConfigurationResponse#last_status_change_date #last_status_change_date} => Time
+    #   * {Types::DescribeDomainConfigurationResponse#tls_config #tls_config} => Types::TlsConfig
+    #   * {Types::DescribeDomainConfigurationResponse#server_certificate_config #server_certificate_config} => Types::ServerCertificateConfig
+    #   * {Types::DescribeDomainConfigurationResponse#authentication_type #authentication_type} => String
+    #   * {Types::DescribeDomainConfigurationResponse#application_protocol #application_protocol} => String
+    #   * {Types::DescribeDomainConfigurationResponse#client_certificate_config #client_certificate_config} => Types::ClientCertificateConfig
     #
     # @example Request syntax with placeholder values
     #
@@ -5412,6 +6354,13 @@ module Aws::IoT
     #   resp.service_type #=> String, one of "DATA", "CREDENTIAL_PROVIDER", "JOBS"
     #   resp.domain_type #=> String, one of "ENDPOINT", "AWS_MANAGED", "CUSTOMER_MANAGED"
     #   resp.last_status_change_date #=> Time
+    #   resp.tls_config.security_policy #=> String
+    #   resp.server_certificate_config.enable_ocsp_check #=> Boolean
+    #   resp.server_certificate_config.ocsp_lambda_arn #=> String
+    #   resp.server_certificate_config.ocsp_authorized_responder_arn #=> String
+    #   resp.authentication_type #=> String, one of "CUSTOM_AUTH_X509", "CUSTOM_AUTH", "AWS_X509", "AWS_SIGV4", "DEFAULT"
+    #   resp.application_protocol #=> String, one of "SECURE_MQTT", "MQTT_WSS", "HTTPS", "DEFAULT"
+    #   resp.client_certificate_config.client_certificate_callback_arn #=> String
     #
     # @overload describe_domain_configuration(params = {})
     # @param [Hash] params ({})
@@ -5420,8 +6369,13 @@ module Aws::IoT
       req.send_request(options)
     end
 
-    # Returns a unique endpoint specific to the Amazon Web Services account
-    # making the call.
+    # Returns or creates a unique endpoint specific to the Amazon Web
+    # Services account making the call.
+    #
+    # <note markdown="1"> The first time `DescribeEndpoint` is called, an endpoint is created.
+    # All subsequent calls to `DescribeEndpoint` return the same endpoint.
+    #
+    #  </note>
     #
     # Requires permission to access the [DescribeEndpoint][1] action.
     #
@@ -5454,7 +6408,8 @@ module Aws::IoT
     #
     #   We strongly recommend that customers use the newer `iot:Data-ATS`
     #   endpoint type to avoid issues related to the widespread distrust of
-    #   Symantec certificate authorities.
+    #   Symantec certificate authorities. ATS Signed Certificates are more
+    #   secure and are trusted by most popular browsers.
     #
     # @return [Types::DescribeEndpointResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -5611,6 +6566,10 @@ module Aws::IoT
     # @option params [required, String] :job_id
     #   The unique identifier you assigned to this job when it was created.
     #
+    # @option params [Boolean] :before_substitution
+    #   Provides a view of the job document before and after the substitution
+    #   parameters have been resolved with their exact values.
+    #
     # @return [Types::DescribeJobResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::DescribeJobResponse#document_source #document_source} => String
@@ -5620,6 +6579,7 @@ module Aws::IoT
     #
     #   resp = client.describe_job({
     #     job_id: "JobId", # required
+    #     before_substitution: false,
     #   })
     #
     # @example Response structure
@@ -5672,6 +6632,13 @@ module Aws::IoT
     #   resp.job.scheduling_config.start_time #=> String
     #   resp.job.scheduling_config.end_time #=> String
     #   resp.job.scheduling_config.end_behavior #=> String, one of "STOP_ROLLOUT", "CANCEL", "FORCE_CANCEL"
+    #   resp.job.scheduling_config.maintenance_windows #=> Array
+    #   resp.job.scheduling_config.maintenance_windows[0].start_time #=> String
+    #   resp.job.scheduling_config.maintenance_windows[0].duration_in_minutes #=> Integer
+    #   resp.job.scheduled_job_rollouts #=> Array
+    #   resp.job.scheduled_job_rollouts[0].start_time #=> String
+    #   resp.job.destination_package_versions #=> Array
+    #   resp.job.destination_package_versions[0] #=> String
     #
     # @overload describe_job(params = {})
     # @param [Hash] params ({})
@@ -5750,6 +6717,8 @@ module Aws::IoT
     #   * {Types::DescribeJobTemplateResponse#abort_config #abort_config} => Types::AbortConfig
     #   * {Types::DescribeJobTemplateResponse#timeout_config #timeout_config} => Types::TimeoutConfig
     #   * {Types::DescribeJobTemplateResponse#job_executions_retry_config #job_executions_retry_config} => Types::JobExecutionsRetryConfig
+    #   * {Types::DescribeJobTemplateResponse#maintenance_windows #maintenance_windows} => Array&lt;Types::MaintenanceWindow&gt;
+    #   * {Types::DescribeJobTemplateResponse#destination_package_versions #destination_package_versions} => Array&lt;String&gt;
     #
     # @example Request syntax with placeholder values
     #
@@ -5781,6 +6750,11 @@ module Aws::IoT
     #   resp.job_executions_retry_config.criteria_list #=> Array
     #   resp.job_executions_retry_config.criteria_list[0].failure_type #=> String, one of "FAILED", "TIMED_OUT", "ALL"
     #   resp.job_executions_retry_config.criteria_list[0].number_of_retries #=> Integer
+    #   resp.maintenance_windows #=> Array
+    #   resp.maintenance_windows[0].start_time #=> String
+    #   resp.maintenance_windows[0].duration_in_minutes #=> Integer
+    #   resp.destination_package_versions #=> Array
+    #   resp.destination_package_versions[0] #=> String
     #
     # @overload describe_job_template(params = {})
     # @param [Hash] params ({})
@@ -6094,6 +7068,7 @@ module Aws::IoT
     #   * {Types::DescribeSecurityProfileResponse#version #version} => Integer
     #   * {Types::DescribeSecurityProfileResponse#creation_date #creation_date} => Time
     #   * {Types::DescribeSecurityProfileResponse#last_modified_date #last_modified_date} => Time
+    #   * {Types::DescribeSecurityProfileResponse#metrics_export_config #metrics_export_config} => Types::MetricsExportConfig
     #
     # @example Request syntax with placeholder values
     #
@@ -6128,6 +7103,7 @@ module Aws::IoT
     #   resp.behaviors[0].criteria.statistical_threshold.statistic #=> String
     #   resp.behaviors[0].criteria.ml_detection_config.confidence_level #=> String, one of "LOW", "MEDIUM", "HIGH"
     #   resp.behaviors[0].suppress_alerts #=> Boolean
+    #   resp.behaviors[0].export_metric #=> Boolean
     #   resp.alert_targets #=> Hash
     #   resp.alert_targets["AlertTargetType"].alert_target_arn #=> String
     #   resp.alert_targets["AlertTargetType"].role_arn #=> String
@@ -6137,9 +7113,12 @@ module Aws::IoT
     #   resp.additional_metrics_to_retain_v2[0].metric #=> String
     #   resp.additional_metrics_to_retain_v2[0].metric_dimension.dimension_name #=> String
     #   resp.additional_metrics_to_retain_v2[0].metric_dimension.operator #=> String, one of "IN", "NOT_IN"
+    #   resp.additional_metrics_to_retain_v2[0].export_metric #=> Boolean
     #   resp.version #=> Integer
     #   resp.creation_date #=> Time
     #   resp.last_modified_date #=> Time
+    #   resp.metrics_export_config.mqtt_topic #=> String
+    #   resp.metrics_export_config.role_arn #=> String
     #
     # @overload describe_security_profile(params = {})
     # @param [Hash] params ({})
@@ -6383,6 +7362,10 @@ module Aws::IoT
     #   resp.thing_type_properties.thing_type_description #=> String
     #   resp.thing_type_properties.searchable_attributes #=> Array
     #   resp.thing_type_properties.searchable_attributes[0] #=> String
+    #   resp.thing_type_properties.mqtt5_configuration.propagating_attributes #=> Array
+    #   resp.thing_type_properties.mqtt5_configuration.propagating_attributes[0].user_property_key #=> String
+    #   resp.thing_type_properties.mqtt5_configuration.propagating_attributes[0].thing_attribute #=> String
+    #   resp.thing_type_properties.mqtt5_configuration.propagating_attributes[0].connection_attribute #=> String
     #   resp.thing_type_metadata.deprecated #=> Boolean
     #   resp.thing_type_metadata.deprecation_date #=> Time
     #   resp.thing_type_metadata.creation_date #=> Time
@@ -6449,10 +7432,9 @@ module Aws::IoT
     #   The principal.
     #
     #   Valid principals are CertificateArn
-    #   (arn:aws:iot:*region*\:*accountId*\:cert/*certificateId*),
-    #   thingGroupArn
-    #   (arn:aws:iot:*region*\:*accountId*\:thinggroup/*groupName*) and
-    #   CognitoId (*region*\:*id*).
+    #   (arn:aws:iot:*region*:*accountId*:cert/*certificateId*), thingGroupArn
+    #   (arn:aws:iot:*region*:*accountId*:thinggroup/*groupName*) and
+    #   CognitoId (*region*:*id*).
     #
     # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
     #
@@ -6564,6 +7546,47 @@ module Aws::IoT
     # @param [Hash] params ({})
     def disable_topic_rule(params = {}, options = {})
       req = build_request(:disable_topic_rule, params)
+      req.send_request(options)
+    end
+
+    # Disassociates the selected software bill of materials (SBOM) from a
+    # specific software package version.
+    #
+    # Requires permission to access the
+    # [DisassociateSbomWithPackageVersion][1] action.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions
+    #
+    # @option params [required, String] :package_name
+    #   The name of the new software package.
+    #
+    # @option params [required, String] :version_name
+    #   The name of the new package version.
+    #
+    # @option params [String] :client_token
+    #   A unique case-sensitive identifier that you can provide to ensure the
+    #   idempotency of the request. Don't reuse this client token if a new
+    #   idempotent request is required.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.disassociate_sbom_from_package_version({
+    #     package_name: "PackageName", # required
+    #     version_name: "VersionName", # required
+    #     client_token: "ClientToken",
+    #   })
+    #
+    # @overload disassociate_sbom_from_package_version(params = {})
+    # @param [Hash] params ({})
+    def disassociate_sbom_from_package_version(params = {}, options = {})
+      req = build_request(:disassociate_sbom_from_package_version, params)
       req.send_request(options)
     end
 
@@ -6748,6 +7771,148 @@ module Aws::IoT
       req.send_request(options)
     end
 
+    # Gets information about the specified command.
+    #
+    # @option params [required, String] :command_id
+    #   The unique identifier of the command for which you want to retrieve
+    #   information.
+    #
+    # @return [Types::GetCommandResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetCommandResponse#command_id #command_id} => String
+    #   * {Types::GetCommandResponse#command_arn #command_arn} => String
+    #   * {Types::GetCommandResponse#namespace #namespace} => String
+    #   * {Types::GetCommandResponse#display_name #display_name} => String
+    #   * {Types::GetCommandResponse#description #description} => String
+    #   * {Types::GetCommandResponse#mandatory_parameters #mandatory_parameters} => Array&lt;Types::CommandParameter&gt;
+    #   * {Types::GetCommandResponse#payload #payload} => Types::CommandPayload
+    #   * {Types::GetCommandResponse#role_arn #role_arn} => String
+    #   * {Types::GetCommandResponse#created_at #created_at} => Time
+    #   * {Types::GetCommandResponse#last_updated_at #last_updated_at} => Time
+    #   * {Types::GetCommandResponse#deprecated #deprecated} => Boolean
+    #   * {Types::GetCommandResponse#pending_deletion #pending_deletion} => Boolean
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_command({
+    #     command_id: "CommandId", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.command_id #=> String
+    #   resp.command_arn #=> String
+    #   resp.namespace #=> String, one of "AWS-IoT", "AWS-IoT-FleetWise"
+    #   resp.display_name #=> String
+    #   resp.description #=> String
+    #   resp.mandatory_parameters #=> Array
+    #   resp.mandatory_parameters[0].name #=> String
+    #   resp.mandatory_parameters[0].value.s #=> String
+    #   resp.mandatory_parameters[0].value.b #=> Boolean
+    #   resp.mandatory_parameters[0].value.i #=> Integer
+    #   resp.mandatory_parameters[0].value.l #=> Integer
+    #   resp.mandatory_parameters[0].value.d #=> Float
+    #   resp.mandatory_parameters[0].value.bin #=> String
+    #   resp.mandatory_parameters[0].value.ul #=> String
+    #   resp.mandatory_parameters[0].default_value.s #=> String
+    #   resp.mandatory_parameters[0].default_value.b #=> Boolean
+    #   resp.mandatory_parameters[0].default_value.i #=> Integer
+    #   resp.mandatory_parameters[0].default_value.l #=> Integer
+    #   resp.mandatory_parameters[0].default_value.d #=> Float
+    #   resp.mandatory_parameters[0].default_value.bin #=> String
+    #   resp.mandatory_parameters[0].default_value.ul #=> String
+    #   resp.mandatory_parameters[0].description #=> String
+    #   resp.payload.content #=> String
+    #   resp.payload.content_type #=> String
+    #   resp.role_arn #=> String
+    #   resp.created_at #=> Time
+    #   resp.last_updated_at #=> Time
+    #   resp.deprecated #=> Boolean
+    #   resp.pending_deletion #=> Boolean
+    #
+    # @overload get_command(params = {})
+    # @param [Hash] params ({})
+    def get_command(params = {}, options = {})
+      req = build_request(:get_command, params)
+      req.send_request(options)
+    end
+
+    # Gets information about the specific command execution on a single
+    # device.
+    #
+    # @option params [required, String] :execution_id
+    #   The unique identifier for the command execution. This information is
+    #   returned as a response of the `StartCommandExecution` API request.
+    #
+    # @option params [required, String] :target_arn
+    #   The Amazon Resource Number (ARN) of the device on which the command
+    #   execution is being performed.
+    #
+    # @option params [Boolean] :include_result
+    #   Can be used to specify whether to include the result of the command
+    #   execution in the `GetCommandExecution` API response. Your device can
+    #   use this field to provide additional information about the command
+    #   execution. You only need to specify this field when using the
+    #   `AWS-IoT` namespace.
+    #
+    # @return [Types::GetCommandExecutionResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetCommandExecutionResponse#execution_id #execution_id} => String
+    #   * {Types::GetCommandExecutionResponse#command_arn #command_arn} => String
+    #   * {Types::GetCommandExecutionResponse#target_arn #target_arn} => String
+    #   * {Types::GetCommandExecutionResponse#status #status} => String
+    #   * {Types::GetCommandExecutionResponse#status_reason #status_reason} => Types::StatusReason
+    #   * {Types::GetCommandExecutionResponse#result #result} => Hash&lt;String,Types::CommandExecutionResult&gt;
+    #   * {Types::GetCommandExecutionResponse#parameters #parameters} => Hash&lt;String,Types::CommandParameterValue&gt;
+    #   * {Types::GetCommandExecutionResponse#execution_timeout_seconds #execution_timeout_seconds} => Integer
+    #   * {Types::GetCommandExecutionResponse#created_at #created_at} => Time
+    #   * {Types::GetCommandExecutionResponse#last_updated_at #last_updated_at} => Time
+    #   * {Types::GetCommandExecutionResponse#started_at #started_at} => Time
+    #   * {Types::GetCommandExecutionResponse#completed_at #completed_at} => Time
+    #   * {Types::GetCommandExecutionResponse#time_to_live #time_to_live} => Time
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_command_execution({
+    #     execution_id: "CommandExecutionId", # required
+    #     target_arn: "TargetArn", # required
+    #     include_result: false,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.execution_id #=> String
+    #   resp.command_arn #=> String
+    #   resp.target_arn #=> String
+    #   resp.status #=> String, one of "CREATED", "IN_PROGRESS", "SUCCEEDED", "FAILED", "REJECTED", "TIMED_OUT"
+    #   resp.status_reason.reason_code #=> String
+    #   resp.status_reason.reason_description #=> String
+    #   resp.result #=> Hash
+    #   resp.result["CommandExecutionResultName"].s #=> String
+    #   resp.result["CommandExecutionResultName"].b #=> Boolean
+    #   resp.result["CommandExecutionResultName"].bin #=> String
+    #   resp.parameters #=> Hash
+    #   resp.parameters["CommandParameterName"].s #=> String
+    #   resp.parameters["CommandParameterName"].b #=> Boolean
+    #   resp.parameters["CommandParameterName"].i #=> Integer
+    #   resp.parameters["CommandParameterName"].l #=> Integer
+    #   resp.parameters["CommandParameterName"].d #=> Float
+    #   resp.parameters["CommandParameterName"].bin #=> String
+    #   resp.parameters["CommandParameterName"].ul #=> String
+    #   resp.execution_timeout_seconds #=> Integer
+    #   resp.created_at #=> Time
+    #   resp.last_updated_at #=> Time
+    #   resp.started_at #=> Time
+    #   resp.completed_at #=> Time
+    #   resp.time_to_live #=> Time
+    #
+    # @overload get_command_execution(params = {})
+    # @param [Hash] params ({})
+    def get_command_execution(params = {}, options = {})
+      req = build_request(:get_command_execution, params)
+      req.send_request(options)
+    end
+
     # Gets a list of the policies that have an effect on the authorization
     # behavior of the specified device when it connects to the IoT device
     # gateway.
@@ -6760,10 +7925,9 @@ module Aws::IoT
     #
     # @option params [String] :principal
     #   The principal. Valid principals are CertificateArn
-    #   (arn:aws:iot:*region*\:*accountId*\:cert/*certificateId*),
-    #   thingGroupArn
-    #   (arn:aws:iot:*region*\:*accountId*\:thinggroup/*groupName*) and
-    #   CognitoId (*region*\:*id*).
+    #   (arn:aws:iot:*region*:*accountId*:cert/*certificateId*), thingGroupArn
+    #   (arn:aws:iot:*region*:*accountId*:thinggroup/*groupName*) and
+    #   CognitoId (*region*:*id*).
     #
     # @option params [String] :cognito_identity_pool_id
     #   The Cognito identity pool ID.
@@ -6825,6 +7989,9 @@ module Aws::IoT
     #   resp.thing_indexing_configuration.custom_fields[0].type #=> String, one of "Number", "String", "Boolean"
     #   resp.thing_indexing_configuration.filter.named_shadow_names #=> Array
     #   resp.thing_indexing_configuration.filter.named_shadow_names[0] #=> String
+    #   resp.thing_indexing_configuration.filter.geo_locations #=> Array
+    #   resp.thing_indexing_configuration.filter.geo_locations[0].name #=> String
+    #   resp.thing_indexing_configuration.filter.geo_locations[0].order #=> String, one of "LatLon", "LonLat"
     #   resp.thing_group_indexing_configuration.thing_group_indexing_mode #=> String, one of "OFF", "ON"
     #   resp.thing_group_indexing_configuration.managed_fields #=> Array
     #   resp.thing_group_indexing_configuration.managed_fields[0].name #=> String
@@ -6851,6 +8018,10 @@ module Aws::IoT
     # @option params [required, String] :job_id
     #   The unique identifier you assigned to this job when it was created.
     #
+    # @option params [Boolean] :before_substitution
+    #   Provides a view of the job document before and after the substitution
+    #   parameters have been resolved with their exact values.
+    #
     # @return [Types::GetJobDocumentResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::GetJobDocumentResponse#document #document} => String
@@ -6859,6 +8030,7 @@ module Aws::IoT
     #
     #   resp = client.get_job_document({
     #     job_id: "JobId", # required
+    #     before_substitution: false,
     #   })
     #
     # @example Response structure
@@ -6962,7 +8134,7 @@ module Aws::IoT
     #   resp.ota_update_info.ota_update_files[0].code_signing.custom_code_signing.signature_algorithm #=> String
     #   resp.ota_update_info.ota_update_files[0].attributes #=> Hash
     #   resp.ota_update_info.ota_update_files[0].attributes["AttributeKey"] #=> String
-    #   resp.ota_update_info.ota_update_status #=> String, one of "CREATE_PENDING", "CREATE_IN_PROGRESS", "CREATE_COMPLETE", "CREATE_FAILED"
+    #   resp.ota_update_info.ota_update_status #=> String, one of "CREATE_PENDING", "CREATE_IN_PROGRESS", "CREATE_COMPLETE", "CREATE_FAILED", "DELETE_IN_PROGRESS", "DELETE_FAILED"
     #   resp.ota_update_info.aws_iot_job_id #=> String
     #   resp.ota_update_info.aws_iot_job_arn #=> String
     #   resp.ota_update_info.error_info.code #=> String
@@ -6974,6 +8146,138 @@ module Aws::IoT
     # @param [Hash] params ({})
     def get_ota_update(params = {}, options = {})
       req = build_request(:get_ota_update, params)
+      req.send_request(options)
+    end
+
+    # Gets information about the specified software package.
+    #
+    # Requires permission to access the [GetPackage][1] action.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions
+    #
+    # @option params [required, String] :package_name
+    #   The name of the target software package.
+    #
+    # @return [Types::GetPackageResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetPackageResponse#package_name #package_name} => String
+    #   * {Types::GetPackageResponse#package_arn #package_arn} => String
+    #   * {Types::GetPackageResponse#description #description} => String
+    #   * {Types::GetPackageResponse#default_version_name #default_version_name} => String
+    #   * {Types::GetPackageResponse#creation_date #creation_date} => Time
+    #   * {Types::GetPackageResponse#last_modified_date #last_modified_date} => Time
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_package({
+    #     package_name: "PackageName", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.package_name #=> String
+    #   resp.package_arn #=> String
+    #   resp.description #=> String
+    #   resp.default_version_name #=> String
+    #   resp.creation_date #=> Time
+    #   resp.last_modified_date #=> Time
+    #
+    # @overload get_package(params = {})
+    # @param [Hash] params ({})
+    def get_package(params = {}, options = {})
+      req = build_request(:get_package, params)
+      req.send_request(options)
+    end
+
+    # Gets information about the specified software package's
+    # configuration.
+    #
+    # Requires permission to access the [GetPackageConfiguration][1] action.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions
+    #
+    # @return [Types::GetPackageConfigurationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetPackageConfigurationResponse#version_update_by_jobs_config #version_update_by_jobs_config} => Types::VersionUpdateByJobsConfig
+    #
+    # @example Response structure
+    #
+    #   resp.version_update_by_jobs_config.enabled #=> Boolean
+    #   resp.version_update_by_jobs_config.role_arn #=> String
+    #
+    # @overload get_package_configuration(params = {})
+    # @param [Hash] params ({})
+    def get_package_configuration(params = {}, options = {})
+      req = build_request(:get_package_configuration, params)
+      req.send_request(options)
+    end
+
+    # Gets information about the specified package version.
+    #
+    # Requires permission to access the [GetPackageVersion][1] action.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions
+    #
+    # @option params [required, String] :package_name
+    #   The name of the associated package.
+    #
+    # @option params [required, String] :version_name
+    #   The name of the target package version.
+    #
+    # @return [Types::GetPackageVersionResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetPackageVersionResponse#package_version_arn #package_version_arn} => String
+    #   * {Types::GetPackageVersionResponse#package_name #package_name} => String
+    #   * {Types::GetPackageVersionResponse#version_name #version_name} => String
+    #   * {Types::GetPackageVersionResponse#description #description} => String
+    #   * {Types::GetPackageVersionResponse#attributes #attributes} => Hash&lt;String,String&gt;
+    #   * {Types::GetPackageVersionResponse#artifact #artifact} => Types::PackageVersionArtifact
+    #   * {Types::GetPackageVersionResponse#status #status} => String
+    #   * {Types::GetPackageVersionResponse#error_reason #error_reason} => String
+    #   * {Types::GetPackageVersionResponse#creation_date #creation_date} => Time
+    #   * {Types::GetPackageVersionResponse#last_modified_date #last_modified_date} => Time
+    #   * {Types::GetPackageVersionResponse#sbom #sbom} => Types::Sbom
+    #   * {Types::GetPackageVersionResponse#sbom_validation_status #sbom_validation_status} => String
+    #   * {Types::GetPackageVersionResponse#recipe #recipe} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_package_version({
+    #     package_name: "PackageName", # required
+    #     version_name: "VersionName", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.package_version_arn #=> String
+    #   resp.package_name #=> String
+    #   resp.version_name #=> String
+    #   resp.description #=> String
+    #   resp.attributes #=> Hash
+    #   resp.attributes["ResourceAttributeKey"] #=> String
+    #   resp.artifact.s3_location.bucket #=> String
+    #   resp.artifact.s3_location.key #=> String
+    #   resp.artifact.s3_location.version #=> String
+    #   resp.status #=> String, one of "DRAFT", "PUBLISHED", "DEPRECATED"
+    #   resp.error_reason #=> String
+    #   resp.creation_date #=> Time
+    #   resp.last_modified_date #=> Time
+    #   resp.sbom.s3_location.bucket #=> String
+    #   resp.sbom.s3_location.key #=> String
+    #   resp.sbom.s3_location.version #=> String
+    #   resp.sbom_validation_status #=> String, one of "IN_PROGRESS", "FAILED", "SUCCEEDED"
+    #   resp.recipe #=> String
+    #
+    # @overload get_package_version(params = {})
+    # @param [Hash] params ({})
+    def get_package_version(params = {}, options = {})
+      req = build_request(:get_package_version, params)
       req.send_request(options)
     end
 
@@ -7134,6 +8438,11 @@ module Aws::IoT
 
     # Gets a registration code used to register a CA certificate with IoT.
     #
+    # IoT will create a registration code as part of this API call if the
+    # registration code doesn't exist or has been deleted. If you already
+    # have a registration code, this API call will return the same
+    # registration code.
+    #
     # Requires permission to access the [GetRegistrationCode][1] action.
     #
     #
@@ -7208,6 +8517,38 @@ module Aws::IoT
     # @param [Hash] params ({})
     def get_statistics(params = {}, options = {})
       req = build_request(:get_statistics, params)
+      req.send_request(options)
+    end
+
+    # Retrieves the live connectivity status per device.
+    #
+    # @option params [required, String] :thing_name
+    #   The name of your IoT thing.
+    #
+    # @return [Types::GetThingConnectivityDataResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetThingConnectivityDataResponse#thing_name #thing_name} => String
+    #   * {Types::GetThingConnectivityDataResponse#connected #connected} => Boolean
+    #   * {Types::GetThingConnectivityDataResponse#timestamp #timestamp} => Time
+    #   * {Types::GetThingConnectivityDataResponse#disconnect_reason #disconnect_reason} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_thing_connectivity_data({
+    #     thing_name: "ConnectivityApiThingName", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.thing_name #=> String
+    #   resp.connected #=> Boolean
+    #   resp.timestamp #=> Time
+    #   resp.disconnect_reason #=> String, one of "AUTH_ERROR", "CLIENT_INITIATED_DISCONNECT", "CLIENT_ERROR", "CONNECTION_LOST", "DUPLICATE_CLIENTID", "FORBIDDEN_ACCESS", "MQTT_KEEP_ALIVE_TIMEOUT", "SERVER_ERROR", "SERVER_INITIATED_DISCONNECT", "THROTTLED", "WEBSOCKET_TTL_EXPIRATION", "CUSTOMAUTH_TTL_EXPIRATION", "UNKNOWN", "NONE"
+    #
+    # @overload get_thing_connectivity_data(params = {})
+    # @param [Hash] params ({})
+    def get_thing_connectivity_data(params = {}, options = {})
+      req = build_request(:get_thing_connectivity_data, params)
       req.send_request(options)
     end
 
@@ -7349,6 +8690,9 @@ module Aws::IoT
     #   resp.rule.actions[0].kafka.partition #=> String
     #   resp.rule.actions[0].kafka.client_properties #=> Hash
     #   resp.rule.actions[0].kafka.client_properties["String"] #=> String
+    #   resp.rule.actions[0].kafka.headers #=> Array
+    #   resp.rule.actions[0].kafka.headers[0].key #=> String
+    #   resp.rule.actions[0].kafka.headers[0].value #=> String
     #   resp.rule.actions[0].open_search.role_arn #=> String
     #   resp.rule.actions[0].open_search.endpoint #=> String
     #   resp.rule.actions[0].open_search.index #=> String
@@ -7471,6 +8815,9 @@ module Aws::IoT
     #   resp.rule.error_action.kafka.partition #=> String
     #   resp.rule.error_action.kafka.client_properties #=> Hash
     #   resp.rule.error_action.kafka.client_properties["String"] #=> String
+    #   resp.rule.error_action.kafka.headers #=> Array
+    #   resp.rule.error_action.kafka.headers[0].key #=> String
+    #   resp.rule.error_action.kafka.headers[0].value #=> String
     #   resp.rule.error_action.open_search.role_arn #=> String
     #   resp.rule.error_action.open_search.endpoint #=> String
     #   resp.rule.error_action.open_search.index #=> String
@@ -7638,6 +8985,7 @@ module Aws::IoT
     #   resp.active_violations[0].behavior.criteria.statistical_threshold.statistic #=> String
     #   resp.active_violations[0].behavior.criteria.ml_detection_config.confidence_level #=> String, one of "LOW", "MEDIUM", "HIGH"
     #   resp.active_violations[0].behavior.suppress_alerts #=> Boolean
+    #   resp.active_violations[0].behavior.export_metric #=> Boolean
     #   resp.active_violations[0].last_violation_value.count #=> Integer
     #   resp.active_violations[0].last_violation_value.cidrs #=> Array
     #   resp.active_violations[0].last_violation_value.cidrs[0] #=> String
@@ -7673,10 +9021,9 @@ module Aws::IoT
     # @option params [required, String] :target
     #   The group or principal for which the policies will be listed. Valid
     #   principals are CertificateArn
-    #   (arn:aws:iot:*region*\:*accountId*\:cert/*certificateId*),
-    #   thingGroupArn
-    #   (arn:aws:iot:*region*\:*accountId*\:thinggroup/*groupName*) and
-    #   CognitoId (*region*\:*id*).
+    #   (arn:aws:iot:*region*:*accountId*:cert/*certificateId*), thingGroupArn
+    #   (arn:aws:iot:*region*:*accountId*:thinggroup/*groupName*) and
+    #   CognitoId (*region*:*id*).
     #
     # @option params [Boolean] :recursive
     #   When true, recursively list attached policies.
@@ -8302,6 +9649,50 @@ module Aws::IoT
       req.send_request(options)
     end
 
+    # Lists all your certificate providers in your Amazon Web Services
+    # account.
+    #
+    # Requires permission to access the [ListCertificateProviders][1]
+    # action.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions
+    #
+    # @option params [String] :next_token
+    #   The token for the next set of results, or `null` if there are no more
+    #   results.
+    #
+    # @option params [Boolean] :ascending_order
+    #   Returns the list of certificate providers in ascending alphabetical
+    #   order.
+    #
+    # @return [Types::ListCertificateProvidersResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListCertificateProvidersResponse#certificate_providers #certificate_providers} => Array&lt;Types::CertificateProviderSummary&gt;
+    #   * {Types::ListCertificateProvidersResponse#next_token #next_token} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_certificate_providers({
+    #     next_token: "Marker",
+    #     ascending_order: false,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.certificate_providers #=> Array
+    #   resp.certificate_providers[0].certificate_provider_name #=> String
+    #   resp.certificate_providers[0].certificate_provider_arn #=> String
+    #   resp.next_token #=> String
+    #
+    # @overload list_certificate_providers(params = {})
+    # @param [Hash] params ({})
+    def list_certificate_providers(params = {}, options = {})
+      req = build_request(:list_certificate_providers, params)
+      req.send_request(options)
+    end
+
     # Lists the certificates registered in your Amazon Web Services account.
     #
     # The results are paginated with a default page size of 25. You can use
@@ -8407,6 +9798,178 @@ module Aws::IoT
     # @param [Hash] params ({})
     def list_certificates_by_ca(params = {}, options = {})
       req = build_request(:list_certificates_by_ca, params)
+      req.send_request(options)
+    end
+
+    # List all command executions.
+    #
+    # * You must provide only the `startedTimeFilter` or the
+    #   `completedTimeFilter` information. If you provide both time filters,
+    #   the API will generate an error. You can use this information to
+    #   retrieve a list of command executions within a specific timeframe.
+    #
+    # * You must provide only the `commandArn` or the `thingArn` information
+    #   depending on whether you want to list executions for a specific
+    #   command or an IoT thing. If you provide both fields, the API will
+    #   generate an error.
+    #
+    #  For more information about considerations for using this API, see
+    # [List command executions in your account (CLI)][1].
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/iot/latest/developerguide/iot-remote-command-execution-start-monitor.html#iot-remote-command-execution-list-cli
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return in this operation.
+    #
+    # @option params [String] :next_token
+    #   To retrieve the next set of results, the `nextToken` value from a
+    #   previous response; otherwise `null` to receive the first set of
+    #   results.
+    #
+    # @option params [String] :namespace
+    #   The namespace of the command.
+    #
+    # @option params [String] :status
+    #   List all command executions for the device that have a particular
+    #   status. For example, you can filter the list to display only command
+    #   executions that have failed or timed out.
+    #
+    # @option params [String] :sort_order
+    #   Specify whether to list the command executions that were created in
+    #   the ascending or descending order. By default, the API returns all
+    #   commands in the descending order based on the start time or completion
+    #   time of the executions, that are determined by the `startTimeFilter`
+    #   and `completeTimeFilter` parameters.
+    #
+    # @option params [Types::TimeFilter] :started_time_filter
+    #   List all command executions that started any time before or after the
+    #   date and time that you specify. The date and time uses the format
+    #   `yyyy-MM-dd'T'HH:mm`.
+    #
+    # @option params [Types::TimeFilter] :completed_time_filter
+    #   List all command executions that completed any time before or after
+    #   the date and time that you specify. The date and time uses the format
+    #   `yyyy-MM-dd'T'HH:mm`.
+    #
+    # @option params [String] :target_arn
+    #   The Amazon Resource Number (ARN) of the target device. You can use
+    #   this information to list all command executions for a particular
+    #   device.
+    #
+    # @option params [String] :command_arn
+    #   The Amazon Resource Number (ARN) of the command. You can use this
+    #   information to list all command executions for a particular command.
+    #
+    # @return [Types::ListCommandExecutionsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListCommandExecutionsResponse#command_executions #command_executions} => Array&lt;Types::CommandExecutionSummary&gt;
+    #   * {Types::ListCommandExecutionsResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_command_executions({
+    #     max_results: 1,
+    #     next_token: "NextToken",
+    #     namespace: "AWS-IoT", # accepts AWS-IoT, AWS-IoT-FleetWise
+    #     status: "CREATED", # accepts CREATED, IN_PROGRESS, SUCCEEDED, FAILED, REJECTED, TIMED_OUT
+    #     sort_order: "ASCENDING", # accepts ASCENDING, DESCENDING
+    #     started_time_filter: {
+    #       after: "StringDateTime",
+    #       before: "StringDateTime",
+    #     },
+    #     completed_time_filter: {
+    #       after: "StringDateTime",
+    #       before: "StringDateTime",
+    #     },
+    #     target_arn: "TargetArn",
+    #     command_arn: "CommandArn",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.command_executions #=> Array
+    #   resp.command_executions[0].command_arn #=> String
+    #   resp.command_executions[0].execution_id #=> String
+    #   resp.command_executions[0].target_arn #=> String
+    #   resp.command_executions[0].status #=> String, one of "CREATED", "IN_PROGRESS", "SUCCEEDED", "FAILED", "REJECTED", "TIMED_OUT"
+    #   resp.command_executions[0].created_at #=> Time
+    #   resp.command_executions[0].started_at #=> Time
+    #   resp.command_executions[0].completed_at #=> Time
+    #   resp.next_token #=> String
+    #
+    # @overload list_command_executions(params = {})
+    # @param [Hash] params ({})
+    def list_command_executions(params = {}, options = {})
+      req = build_request(:list_command_executions, params)
+      req.send_request(options)
+    end
+
+    # List all commands in your account.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return in this operation. By default,
+    #   the API returns up to a maximum of 25 results. You can override this
+    #   default value to return up to a maximum of 100 results for this
+    #   operation.
+    #
+    # @option params [String] :next_token
+    #   To retrieve the next set of results, the `nextToken` value from a
+    #   previous response; otherwise `null` to receive the first set of
+    #   results.
+    #
+    # @option params [String] :namespace
+    #   The namespace of the command. By default, the API returns all commands
+    #   that have been created for both `AWS-IoT` and `AWS-IoT-FleetWise`
+    #   namespaces. You can override this default value if you want to return
+    #   all commands that have been created only for a specific namespace.
+    #
+    # @option params [String] :command_parameter_name
+    #   A filter that can be used to display the list of commands that have a
+    #   specific command parameter name.
+    #
+    # @option params [String] :sort_order
+    #   Specify whether to list the commands that you have created in the
+    #   ascending or descending order. By default, the API returns all
+    #   commands in the descending order based on the time that they were
+    #   created.
+    #
+    # @return [Types::ListCommandsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListCommandsResponse#commands #commands} => Array&lt;Types::CommandSummary&gt;
+    #   * {Types::ListCommandsResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_commands({
+    #     max_results: 1,
+    #     next_token: "NextToken",
+    #     namespace: "AWS-IoT", # accepts AWS-IoT, AWS-IoT-FleetWise
+    #     command_parameter_name: "CommandParameterName",
+    #     sort_order: "ASCENDING", # accepts ASCENDING, DESCENDING
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.commands #=> Array
+    #   resp.commands[0].command_arn #=> String
+    #   resp.commands[0].command_id #=> String
+    #   resp.commands[0].display_name #=> String
+    #   resp.commands[0].deprecated #=> Boolean
+    #   resp.commands[0].created_at #=> Time
+    #   resp.commands[0].last_updated_at #=> Time
+    #   resp.commands[0].pending_deletion #=> Boolean
+    #   resp.next_token #=> String
+    #
+    # @overload list_commands(params = {})
+    # @param [Hash] params ({})
+    def list_commands(params = {}, options = {})
+      req = build_request(:list_commands, params)
       req.send_request(options)
     end
 
@@ -8865,9 +10428,15 @@ module Aws::IoT
     #
     #   `$aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/`
     #
-    #   <note markdown="1"> The `namespaceId` feature is in public preview.
+    #   <note markdown="1"> The `namespaceId` feature is only supported by IoT Greengrass at this
+    #   time. For more information, see [Setting up IoT Greengrass core
+    #   devices.][1]
     #
     #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/greengrass/v2/developerguide/setting-up.html
     #
     # @option params [Integer] :max_results
     #   The maximum number of results to be returned per request.
@@ -9009,9 +10578,15 @@ module Aws::IoT
     #
     #   `$aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/`
     #
-    #   <note markdown="1"> The `namespaceId` feature is in public preview.
+    #   <note markdown="1"> The `namespaceId` feature is only supported by IoT Greengrass at this
+    #   time. For more information, see [Setting up IoT Greengrass core
+    #   devices.][1]
     #
     #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/greengrass/v2/developerguide/setting-up.html
     #
     # @return [Types::ListJobsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -9070,6 +10645,8 @@ module Aws::IoT
     #
     #   * {Types::ListManagedJobTemplatesResponse#managed_job_templates #managed_job_templates} => Array&lt;Types::ManagedJobTemplateSummary&gt;
     #   * {Types::ListManagedJobTemplatesResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
     #
     # @example Request syntax with placeholder values
     #
@@ -9248,7 +10825,7 @@ module Aws::IoT
     #   resp = client.list_ota_updates({
     #     max_results: 1,
     #     next_token: "NextToken",
-    #     ota_update_status: "CREATE_PENDING", # accepts CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_COMPLETE, CREATE_FAILED
+    #     ota_update_status: "CREATE_PENDING", # accepts CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_COMPLETE, CREATE_FAILED, DELETE_IN_PROGRESS, DELETE_FAILED
     #   })
     #
     # @example Response structure
@@ -9315,6 +10892,108 @@ module Aws::IoT
     # @param [Hash] params ({})
     def list_outgoing_certificates(params = {}, options = {})
       req = build_request(:list_outgoing_certificates, params)
+      req.send_request(options)
+    end
+
+    # Lists the software package versions associated to the account.
+    #
+    # Requires permission to access the [ListPackageVersions][1] action.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions
+    #
+    # @option params [required, String] :package_name
+    #   The name of the target software package.
+    #
+    # @option params [String] :status
+    #   The status of the package version. For more information, see [Package
+    #   version lifecycle][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/iot/latest/developerguide/preparing-to-use-software-package-catalog.html#package-version-lifecycle
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return at one time.
+    #
+    # @option params [String] :next_token
+    #   The token for the next set of results.
+    #
+    # @return [Types::ListPackageVersionsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListPackageVersionsResponse#package_version_summaries #package_version_summaries} => Array&lt;Types::PackageVersionSummary&gt;
+    #   * {Types::ListPackageVersionsResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_package_versions({
+    #     package_name: "PackageName", # required
+    #     status: "DRAFT", # accepts DRAFT, PUBLISHED, DEPRECATED
+    #     max_results: 1,
+    #     next_token: "NextToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.package_version_summaries #=> Array
+    #   resp.package_version_summaries[0].package_name #=> String
+    #   resp.package_version_summaries[0].version_name #=> String
+    #   resp.package_version_summaries[0].status #=> String, one of "DRAFT", "PUBLISHED", "DEPRECATED"
+    #   resp.package_version_summaries[0].creation_date #=> Time
+    #   resp.package_version_summaries[0].last_modified_date #=> Time
+    #   resp.next_token #=> String
+    #
+    # @overload list_package_versions(params = {})
+    # @param [Hash] params ({})
+    def list_package_versions(params = {}, options = {})
+      req = build_request(:list_package_versions, params)
+      req.send_request(options)
+    end
+
+    # Lists the software packages associated to the account.
+    #
+    # Requires permission to access the [ListPackages][1] action.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results returned at one time.
+    #
+    # @option params [String] :next_token
+    #   The token for the next set of results.
+    #
+    # @return [Types::ListPackagesResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListPackagesResponse#package_summaries #package_summaries} => Array&lt;Types::PackageSummary&gt;
+    #   * {Types::ListPackagesResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_packages({
+    #     max_results: 1,
+    #     next_token: "NextToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.package_summaries #=> Array
+    #   resp.package_summaries[0].package_name #=> String
+    #   resp.package_summaries[0].default_version_name #=> String
+    #   resp.package_summaries[0].creation_date #=> Time
+    #   resp.package_summaries[0].last_modified_date #=> Time
+    #   resp.next_token #=> String
+    #
+    # @overload list_packages(params = {})
+    # @param [Hash] params ({})
+    def list_packages(params = {}, options = {})
+      req = build_request(:list_packages, params)
       req.send_request(options)
     end
 
@@ -9472,10 +11151,9 @@ module Aws::IoT
     #
     # @option params [required, String] :principal
     #   The principal. Valid principals are CertificateArn
-    #   (arn:aws:iot:*region*\:*accountId*\:cert/*certificateId*),
-    #   thingGroupArn
-    #   (arn:aws:iot:*region*\:*accountId*\:thinggroup/*groupName*) and
-    #   CognitoId (*region*\:*id*).
+    #   (arn:aws:iot:*region*:*accountId*:cert/*certificateId*), thingGroupArn
+    #   (arn:aws:iot:*region*:*accountId*:thinggroup/*groupName*) and
+    #   CognitoId (*region*:*id*).
     #
     # @option params [String] :marker
     #   The marker for the next set of results.
@@ -9563,6 +11241,75 @@ module Aws::IoT
     # @param [Hash] params ({})
     def list_principal_things(params = {}, options = {})
       req = build_request(:list_principal_things, params)
+      req.send_request(options)
+    end
+
+    # Lists the things associated with the specified principal. A principal
+    # can be an X.509 certificate or an Amazon Cognito ID.
+    #
+    # Requires permission to access the [ListPrincipalThings][1] action.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions
+    #
+    # @option params [String] :next_token
+    #   To retrieve the next set of results, the `nextToken` value from a
+    #   previous response; otherwise **null** to receive the first set of
+    #   results.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return in this operation.
+    #
+    # @option params [required, String] :principal
+    #   The principal. A principal can be an X.509 certificate or an Amazon
+    #   Cognito ID.
+    #
+    # @option params [String] :thing_principal_type
+    #   The type of the relation you want to filter in the response. If no
+    #   value is provided in this field, the response will list all things,
+    #   including both the `EXCLUSIVE_THING` and `NON_EXCLUSIVE_THING`
+    #   attachment types.
+    #
+    #   * `EXCLUSIVE_THING` - Attaches the specified principal to the
+    #     specified thing, exclusively. The thing will be the only thing
+    #     that’s attached to the principal.
+    #
+    #   ^
+    #   ^
+    #
+    #   * `NON_EXCLUSIVE_THING` - Attaches the specified principal to the
+    #     specified thing. Multiple things can be attached to the principal.
+    #
+    #   ^
+    #
+    # @return [Types::ListPrincipalThingsV2Response] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListPrincipalThingsV2Response#principal_thing_objects #principal_thing_objects} => Array&lt;Types::PrincipalThingObject&gt;
+    #   * {Types::ListPrincipalThingsV2Response#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_principal_things_v2({
+    #     next_token: "NextToken",
+    #     max_results: 1,
+    #     principal: "Principal", # required
+    #     thing_principal_type: "EXCLUSIVE_THING", # accepts EXCLUSIVE_THING, NON_EXCLUSIVE_THING
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.principal_thing_objects #=> Array
+    #   resp.principal_thing_objects[0].thing_name #=> String
+    #   resp.principal_thing_objects[0].thing_principal_type #=> String, one of "EXCLUSIVE_THING", "NON_EXCLUSIVE_THING"
+    #   resp.next_token #=> String
+    #
+    # @overload list_principal_things_v2(params = {})
+    # @param [Hash] params ({})
+    def list_principal_things_v2(params = {}, options = {})
+      req = build_request(:list_principal_things_v2, params)
       req.send_request(options)
     end
 
@@ -9711,6 +11458,8 @@ module Aws::IoT
     #   * {Types::ListRelatedResourcesForAuditFindingResponse#related_resources #related_resources} => Array&lt;Types::RelatedResource&gt;
     #   * {Types::ListRelatedResourcesForAuditFindingResponse#next_token #next_token} => String
     #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
     # @example Request syntax with placeholder values
     #
     #   resp = client.list_related_resources_for_audit_finding({
@@ -9789,6 +11538,65 @@ module Aws::IoT
     # @param [Hash] params ({})
     def list_role_aliases(params = {}, options = {})
       req = build_request(:list_role_aliases, params)
+      req.send_request(options)
+    end
+
+    # The validation results for all software bill of materials (SBOM)
+    # attached to a specific software package version.
+    #
+    # Requires permission to access the [ListSbomValidationResults][1]
+    # action.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions
+    #
+    # @option params [required, String] :package_name
+    #   The name of the new software package.
+    #
+    # @option params [required, String] :version_name
+    #   The name of the new package version.
+    #
+    # @option params [String] :validation_result
+    #   The end result of the
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return at one time.
+    #
+    # @option params [String] :next_token
+    #   A token that can be used to retrieve the next set of results, or null
+    #   if there are no additional results.
+    #
+    # @return [Types::ListSbomValidationResultsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListSbomValidationResultsResponse#validation_result_summaries #validation_result_summaries} => Array&lt;Types::SbomValidationResultSummary&gt;
+    #   * {Types::ListSbomValidationResultsResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_sbom_validation_results({
+    #     package_name: "PackageName", # required
+    #     version_name: "VersionName", # required
+    #     validation_result: "FAILED", # accepts FAILED, SUCCEEDED
+    #     max_results: 1,
+    #     next_token: "NextToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.validation_result_summaries #=> Array
+    #   resp.validation_result_summaries[0].file_name #=> String
+    #   resp.validation_result_summaries[0].validation_result #=> String, one of "FAILED", "SUCCEEDED"
+    #   resp.validation_result_summaries[0].error_code #=> String, one of "INCOMPATIBLE_FORMAT", "FILE_SIZE_LIMIT_EXCEEDED"
+    #   resp.validation_result_summaries[0].error_message #=> String
+    #   resp.next_token #=> String
+    #
+    # @overload list_sbom_validation_results(params = {})
+    # @param [Hash] params ({})
+    def list_sbom_validation_results(params = {}, options = {})
+      req = build_request(:list_sbom_validation_results, params)
       req.send_request(options)
     end
 
@@ -10287,6 +12095,74 @@ module Aws::IoT
       req.send_request(options)
     end
 
+    # Lists the principals associated with the specified thing. A principal
+    # can be an X.509 certificate or an Amazon Cognito ID.
+    #
+    # Requires permission to access the [ListThingPrincipals][1] action.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions
+    #
+    # @option params [String] :next_token
+    #   To retrieve the next set of results, the `nextToken` value from a
+    #   previous response; otherwise **null** to receive the first set of
+    #   results.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return in this operation.
+    #
+    # @option params [required, String] :thing_name
+    #   The name of the thing.
+    #
+    # @option params [String] :thing_principal_type
+    #   The type of the relation you want to filter in the response. If no
+    #   value is provided in this field, the response will list all
+    #   principals, including both the `EXCLUSIVE_THING` and
+    #   `NON_EXCLUSIVE_THING` attachment types.
+    #
+    #   * `EXCLUSIVE_THING` - Attaches the specified principal to the
+    #     specified thing, exclusively. The thing will be the only thing
+    #     that’s attached to the principal.
+    #
+    #   ^
+    #   ^
+    #
+    #   * `NON_EXCLUSIVE_THING` - Attaches the specified principal to the
+    #     specified thing. Multiple things can be attached to the principal.
+    #
+    #   ^
+    #
+    # @return [Types::ListThingPrincipalsV2Response] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListThingPrincipalsV2Response#thing_principal_objects #thing_principal_objects} => Array&lt;Types::ThingPrincipalObject&gt;
+    #   * {Types::ListThingPrincipalsV2Response#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_thing_principals_v2({
+    #     next_token: "NextToken",
+    #     max_results: 1,
+    #     thing_name: "ThingName", # required
+    #     thing_principal_type: "EXCLUSIVE_THING", # accepts EXCLUSIVE_THING, NON_EXCLUSIVE_THING
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.thing_principal_objects #=> Array
+    #   resp.thing_principal_objects[0].principal #=> String
+    #   resp.thing_principal_objects[0].thing_principal_type #=> String, one of "EXCLUSIVE_THING", "NON_EXCLUSIVE_THING"
+    #   resp.next_token #=> String
+    #
+    # @overload list_thing_principals_v2(params = {})
+    # @param [Hash] params ({})
+    def list_thing_principals_v2(params = {}, options = {})
+      req = build_request(:list_thing_principals_v2, params)
+      req.send_request(options)
+    end
+
     # Information about the thing registration tasks.
     #
     # @option params [required, String] :task_id
@@ -10424,6 +12300,10 @@ module Aws::IoT
     #   resp.thing_types[0].thing_type_properties.thing_type_description #=> String
     #   resp.thing_types[0].thing_type_properties.searchable_attributes #=> Array
     #   resp.thing_types[0].thing_type_properties.searchable_attributes[0] #=> String
+    #   resp.thing_types[0].thing_type_properties.mqtt5_configuration.propagating_attributes #=> Array
+    #   resp.thing_types[0].thing_type_properties.mqtt5_configuration.propagating_attributes[0].user_property_key #=> String
+    #   resp.thing_types[0].thing_type_properties.mqtt5_configuration.propagating_attributes[0].thing_attribute #=> String
+    #   resp.thing_types[0].thing_type_properties.mqtt5_configuration.propagating_attributes[0].connection_attribute #=> String
     #   resp.thing_types[0].thing_type_metadata.deprecated #=> Boolean
     #   resp.thing_types[0].thing_type_metadata.deprecation_date #=> Time
     #   resp.thing_types[0].thing_type_metadata.creation_date #=> Time
@@ -10867,6 +12747,7 @@ module Aws::IoT
     #   resp.violation_events[0].behavior.criteria.statistical_threshold.statistic #=> String
     #   resp.violation_events[0].behavior.criteria.ml_detection_config.confidence_level #=> String, one of "LOW", "MEDIUM", "HIGH"
     #   resp.violation_events[0].behavior.suppress_alerts #=> Boolean
+    #   resp.violation_events[0].behavior.export_metric #=> Boolean
     #   resp.violation_events[0].metric_value.count #=> Integer
     #   resp.violation_events[0].metric_value.cidrs #=> Array
     #   resp.violation_events[0].metric_value.cidrs[0] #=> String
@@ -11504,6 +13385,12 @@ module Aws::IoT
     #             client_properties: { # required
     #               "String" => "String",
     #             },
+    #             headers: [
+    #               {
+    #                 key: "KafkaHeaderKey", # required
+    #                 value: "KafkaHeaderValue", # required
+    #               },
+    #             ],
     #           },
     #           open_search: {
     #             role_arn: "AwsArn", # required
@@ -11707,6 +13594,12 @@ module Aws::IoT
     #           client_properties: { # required
     #             "String" => "String",
     #           },
+    #           headers: [
+    #             {
+    #               key: "KafkaHeaderKey", # required
+    #               value: "KafkaHeaderValue", # required
+    #             },
+    #           ],
     #         },
     #         open_search: {
     #           role_arn: "AwsArn", # required
@@ -11761,7 +13654,14 @@ module Aws::IoT
     #   no additional results.
     #
     # @option params [Integer] :max_results
-    #   The maximum number of results to return at one time.
+    #   The maximum number of results to return per page at one time. This
+    #   maximum number cannot exceed 100. The response might contain fewer
+    #   results but will never contain more. You can use [ `nextToken` ][1] to
+    #   retrieve the next set of results until `nextToken` returns `NULL`.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/iot/latest/apireference/API_SearchIndex.html#iot-SearchIndex-request-nextToken
     #
     # @option params [String] :query_version
     #   The query version.
@@ -12274,10 +14174,9 @@ module Aws::IoT
     #
     # @option params [String] :principal
     #   The principal. Valid principals are CertificateArn
-    #   (arn:aws:iot:*region*\:*accountId*\:cert/*certificateId*),
-    #   thingGroupArn
-    #   (arn:aws:iot:*region*\:*accountId*\:thinggroup/*groupName*) and
-    #   CognitoId (*region*\:*id*).
+    #   (arn:aws:iot:*region*:*accountId*:cert/*certificateId*), thingGroupArn
+    #   (arn:aws:iot:*region*:*accountId*:thinggroup/*groupName*) and
+    #   CognitoId (*region*:*id*).
     #
     # @option params [String] :cognito_identity_pool_id
     #   The Cognito identity pool ID.
@@ -12552,6 +14451,9 @@ module Aws::IoT
     #     audit_check_configurations: {
     #       "AuditCheckName" => {
     #         enabled: false,
+    #         configuration: {
+    #           "CERT_AGE_THRESHOLD_IN_DAYS" => "ConfigValue",
+    #         },
     #       },
     #     },
     #   })
@@ -12822,6 +14724,97 @@ module Aws::IoT
       req.send_request(options)
     end
 
+    # Updates a certificate provider.
+    #
+    # Requires permission to access the [UpdateCertificateProvider][1]
+    # action.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions
+    #
+    # @option params [required, String] :certificate_provider_name
+    #   The name of the certificate provider.
+    #
+    # @option params [String] :lambda_function_arn
+    #   The Lambda function ARN that's associated with the certificate
+    #   provider.
+    #
+    # @option params [Array<String>] :account_default_for_operations
+    #   A list of the operations that the certificate provider will use to
+    #   generate certificates. Valid value: `CreateCertificateFromCsr`.
+    #
+    # @return [Types::UpdateCertificateProviderResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateCertificateProviderResponse#certificate_provider_name #certificate_provider_name} => String
+    #   * {Types::UpdateCertificateProviderResponse#certificate_provider_arn #certificate_provider_arn} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_certificate_provider({
+    #     certificate_provider_name: "CertificateProviderName", # required
+    #     lambda_function_arn: "CertificateProviderFunctionArn",
+    #     account_default_for_operations: ["CreateCertificateFromCsr"], # accepts CreateCertificateFromCsr
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.certificate_provider_name #=> String
+    #   resp.certificate_provider_arn #=> String
+    #
+    # @overload update_certificate_provider(params = {})
+    # @param [Hash] params ({})
+    def update_certificate_provider(params = {}, options = {})
+      req = build_request(:update_certificate_provider, params)
+      req.send_request(options)
+    end
+
+    # Update information about a command or mark a command for deprecation.
+    #
+    # @option params [required, String] :command_id
+    #   The unique identifier of the command to be updated.
+    #
+    # @option params [String] :display_name
+    #   The new user-friendly name to use in the console for the command.
+    #
+    # @option params [String] :description
+    #   A short text description of the command.
+    #
+    # @option params [Boolean] :deprecated
+    #   A boolean that you can use to specify whether to deprecate a command.
+    #
+    # @return [Types::UpdateCommandResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::UpdateCommandResponse#command_id #command_id} => String
+    #   * {Types::UpdateCommandResponse#display_name #display_name} => String
+    #   * {Types::UpdateCommandResponse#description #description} => String
+    #   * {Types::UpdateCommandResponse#deprecated #deprecated} => Boolean
+    #   * {Types::UpdateCommandResponse#last_updated_at #last_updated_at} => Time
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_command({
+    #     command_id: "CommandId", # required
+    #     display_name: "DisplayName",
+    #     description: "CommandDescription",
+    #     deprecated: false,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.command_id #=> String
+    #   resp.display_name #=> String
+    #   resp.description #=> String
+    #   resp.deprecated #=> Boolean
+    #   resp.last_updated_at #=> Time
+    #
+    # @overload update_command(params = {})
+    # @param [Hash] params ({})
+    def update_command(params = {}, options = {})
+      req = build_request(:update_command, params)
+      req.send_request(options)
+    end
+
     # Updates a Device Defender detect custom metric.
     #
     # Requires permission to access the [UpdateCustomMetric][1] action.
@@ -12943,6 +14936,84 @@ module Aws::IoT
     # @option params [Boolean] :remove_authorizer_config
     #   Removes the authorization configuration from a domain.
     #
+    # @option params [Types::TlsConfig] :tls_config
+    #   An object that specifies the TLS configuration for a domain.
+    #
+    # @option params [Types::ServerCertificateConfig] :server_certificate_config
+    #   The server certificate configuration.
+    #
+    # @option params [String] :authentication_type
+    #   An enumerated string that speciﬁes the authentication type.
+    #
+    #   * `CUSTOM_AUTH_X509` - Use custom authentication and authorization
+    #     with additional details from the X.509 client certificate.
+    #
+    #   ^
+    #   ^
+    #
+    #   * `CUSTOM_AUTH` - Use custom authentication and authorization. For
+    #     more information, see [Custom authentication and authorization][1].
+    #
+    #   ^
+    #   ^
+    #
+    #   * `AWS_X509` - Use X.509 client certificates without custom
+    #     authentication and authorization. For more information, see [X.509
+    #     client certificates][2].
+    #
+    #   ^
+    #   ^
+    #
+    #   * `AWS_SIGV4` - Use Amazon Web Services Signature Version 4. For more
+    #     information, see [IAM users, groups, and roles][1].
+    #
+    #   ^
+    #   ^
+    #
+    #   * `DEFAULT ` - Use a combination of port and Application Layer
+    #     Protocol Negotiation (ALPN) to specify authentication type. For more
+    #     information, see [Device communication protocols][3].
+    #
+    #   ^
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/iot/latest/developerguide/custom-authentication.html
+    #   [2]: https://docs.aws.amazon.com/iot/latest/developerguide/x509-client-certs.html
+    #   [3]: https://docs.aws.amazon.com/iot/latest/developerguide/protocols.html
+    #
+    # @option params [String] :application_protocol
+    #   An enumerated string that speciﬁes the application-layer protocol.
+    #
+    #   * `SECURE_MQTT` - MQTT over TLS.
+    #
+    #   ^
+    #   ^
+    #
+    #   * `MQTT_WSS` - MQTT over WebSocket.
+    #
+    #   ^
+    #   ^
+    #
+    #   * `HTTPS` - HTTP over TLS.
+    #
+    #   ^
+    #   ^
+    #
+    #   * `DEFAULT` - Use a combination of port and Application Layer Protocol
+    #     Negotiation (ALPN) to specify application\_layer protocol. For more
+    #     information, see [Device communication protocols][1].
+    #
+    #   ^
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/iot/latest/developerguide/protocols.html
+    #
+    # @option params [Types::ClientCertificateConfig] :client_certificate_config
+    #   An object that speciﬁes the client certificate conﬁguration for a
+    #   domain.
+    #
     # @return [Types::UpdateDomainConfigurationResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::UpdateDomainConfigurationResponse#domain_configuration_name #domain_configuration_name} => String
@@ -12958,6 +15029,19 @@ module Aws::IoT
     #     },
     #     domain_configuration_status: "ENABLED", # accepts ENABLED, DISABLED
     #     remove_authorizer_config: false,
+    #     tls_config: {
+    #       security_policy: "SecurityPolicy",
+    #     },
+    #     server_certificate_config: {
+    #       enable_ocsp_check: false,
+    #       ocsp_lambda_arn: "OCSPLambdaArn",
+    #       ocsp_authorized_responder_arn: "AcmCertificateArn",
+    #     },
+    #     authentication_type: "CUSTOM_AUTH_X509", # accepts CUSTOM_AUTH_X509, CUSTOM_AUTH, AWS_X509, AWS_SIGV4, DEFAULT
+    #     application_protocol: "SECURE_MQTT", # accepts SECURE_MQTT, MQTT_WSS, HTTPS, DEFAULT
+    #     client_certificate_config: {
+    #       client_certificate_callback_arn: "ClientCertificateCallbackArn",
+    #     },
     #   })
     #
     # @example Response structure
@@ -13182,6 +15266,12 @@ module Aws::IoT
     #       ],
     #       filter: {
     #         named_shadow_names: ["ShadowName"],
+    #         geo_locations: [
+    #           {
+    #             name: "TargetFieldName",
+    #             order: "LatLon", # accepts LatLon, LonLat
+    #           },
+    #         ],
     #       },
     #     },
     #     thing_group_indexing_configuration: {
@@ -13247,9 +15337,15 @@ module Aws::IoT
     #
     #   `$aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/`
     #
-    #   <note markdown="1"> The `namespaceId` feature is in public preview.
+    #   <note markdown="1"> The `namespaceId` feature is only supported by IoT Greengrass at this
+    #   time. For more information, see [Setting up IoT Greengrass core
+    #   devices.][1]
     #
     #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/greengrass/v2/developerguide/setting-up.html
     #
     # @option params [Types::JobExecutionsRetryConfig] :job_executions_retry_config
     #   Allows you to create the criteria to retry a job.
@@ -13372,6 +15468,185 @@ module Aws::IoT
       req.send_request(options)
     end
 
+    # Updates the supported fields for a specific software package.
+    #
+    # Requires permission to access the [UpdatePackage][1] and
+    # [GetIndexingConfiguration][1] actions.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions
+    #
+    # @option params [required, String] :package_name
+    #   The name of the target software package.
+    #
+    # @option params [String] :description
+    #   The package description.
+    #
+    # @option params [String] :default_version_name
+    #   The name of the default package version.
+    #
+    #   **Note:** You cannot name a `defaultVersion` and set
+    #   `unsetDefaultVersion` equal to `true` at the same time.
+    #
+    # @option params [Boolean] :unset_default_version
+    #   Indicates whether you want to remove the named default package version
+    #   from the software package. Set as `true` to remove the default package
+    #   version.
+    #
+    #   **Note:** You cannot name a `defaultVersion` and set
+    #   `unsetDefaultVersion` equal to `true` at the same time.
+    #
+    # @option params [String] :client_token
+    #   A unique case-sensitive identifier that you can provide to ensure the
+    #   idempotency of the request. Don't reuse this client token if a new
+    #   idempotent request is required.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_package({
+    #     package_name: "PackageName", # required
+    #     description: "ResourceDescription",
+    #     default_version_name: "VersionName",
+    #     unset_default_version: false,
+    #     client_token: "ClientToken",
+    #   })
+    #
+    # @overload update_package(params = {})
+    # @param [Hash] params ({})
+    def update_package(params = {}, options = {})
+      req = build_request(:update_package, params)
+      req.send_request(options)
+    end
+
+    # Updates the software package configuration.
+    #
+    # Requires permission to access the [UpdatePackageConfiguration][1] and
+    # [iam:PassRole][2] actions.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions
+    # [2]: https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_passrole.html
+    #
+    # @option params [Types::VersionUpdateByJobsConfig] :version_update_by_jobs_config
+    #   Configuration to manage job's package version reporting. This updates
+    #   the thing's reserved named shadow that the job targets.
+    #
+    # @option params [String] :client_token
+    #   A unique case-sensitive identifier that you can provide to ensure the
+    #   idempotency of the request. Don't reuse this client token if a new
+    #   idempotent request is required.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_package_configuration({
+    #     version_update_by_jobs_config: {
+    #       enabled: false,
+    #       role_arn: "RoleArn",
+    #     },
+    #     client_token: "ClientToken",
+    #   })
+    #
+    # @overload update_package_configuration(params = {})
+    # @param [Hash] params ({})
+    def update_package_configuration(params = {}, options = {})
+      req = build_request(:update_package_configuration, params)
+      req.send_request(options)
+    end
+
+    # Updates the supported fields for a specific package version.
+    #
+    # Requires permission to access the [UpdatePackageVersion][1] and
+    # [GetIndexingConfiguration][1] actions.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions
+    #
+    # @option params [required, String] :package_name
+    #   The name of the associated software package.
+    #
+    # @option params [required, String] :version_name
+    #   The name of the target package version.
+    #
+    # @option params [String] :description
+    #   The package version description.
+    #
+    # @option params [Hash<String,String>] :attributes
+    #   Metadata that can be used to define a package version’s configuration.
+    #   For example, the Amazon S3 file location, configuration options that
+    #   are being sent to the device or fleet.
+    #
+    #   **Note:** Attributes can be updated only when the package version is
+    #   in a draft state.
+    #
+    #   The combined size of all the attributes on a package version is
+    #   limited to 3KB.
+    #
+    # @option params [Types::PackageVersionArtifact] :artifact
+    #   The various components that make up a software package version.
+    #
+    # @option params [String] :action
+    #   The status that the package version should be assigned. For more
+    #   information, see [Package version lifecycle][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/iot/latest/developerguide/preparing-to-use-software-package-catalog.html#package-version-lifecycle
+    #
+    # @option params [String] :recipe
+    #   The inline job document associated with a software package version
+    #   used for a quick job deployment.
+    #
+    # @option params [String] :client_token
+    #   A unique case-sensitive identifier that you can provide to ensure the
+    #   idempotency of the request. Don't reuse this client token if a new
+    #   idempotent request is required.
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.**
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_package_version({
+    #     package_name: "PackageName", # required
+    #     version_name: "VersionName", # required
+    #     description: "ResourceDescription",
+    #     attributes: {
+    #       "ResourceAttributeKey" => "ResourceAttributeValue",
+    #     },
+    #     artifact: {
+    #       s3_location: {
+    #         bucket: "S3Bucket",
+    #         key: "S3Key",
+    #         version: "S3Version",
+    #       },
+    #     },
+    #     action: "PUBLISH", # accepts PUBLISH, DEPRECATE
+    #     recipe: "PackageVersionRecipe",
+    #     client_token: "ClientToken",
+    #   })
+    #
+    # @overload update_package_version(params = {})
+    # @param [Hash] params ({})
+    def update_package_version(params = {}, options = {})
+      req = build_request(:update_package_version, params)
+      req.send_request(options)
+    end
+
     # Updates a provisioning template.
     #
     # Requires permission to access the [UpdateProvisioningTemplate][1]
@@ -13437,9 +15712,17 @@ module Aws::IoT
     #
     # Requires permission to access the [UpdateRoleAlias][1] action.
     #
+    # The value of [ `credentialDurationSeconds` ][2] must be less than or
+    # equal to the maximum session duration of the IAM role that the role
+    # alias references. For more information, see [ Modifying a role maximum
+    # session duration (Amazon Web Services API)][3] from the Amazon Web
+    # Services Identity and Access Management User Guide.
+    #
     #
     #
     # [1]: https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions
+    # [2]: https://docs.aws.amazon.com/iot/latest/apireference/API_UpdateRoleAlias.html#iot-UpdateRoleAlias-request-credentialDurationSeconds
+    # [3]: https://docs.aws.amazon.com/IAM/latest/UserGuide/roles-managingrole-editing-api.html#roles-modify_max-session-duration-api
     #
     # @option params [required, String] :role_alias
     #   The role alias to update.
@@ -13596,6 +15879,12 @@ module Aws::IoT
     #   value that is different from the actual version, a
     #   `VersionConflictException` is thrown.
     #
+    # @option params [Types::MetricsExportConfig] :metrics_export_config
+    #   Specifies the MQTT topic and role ARN required for metric export.
+    #
+    # @option params [Boolean] :delete_metrics_export_config
+    #   Set the value as true to delete metrics export related configurations.
+    #
     # @return [Types::UpdateSecurityProfileResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::UpdateSecurityProfileResponse#security_profile_name #security_profile_name} => String
@@ -13608,6 +15897,7 @@ module Aws::IoT
     #   * {Types::UpdateSecurityProfileResponse#version #version} => Integer
     #   * {Types::UpdateSecurityProfileResponse#creation_date #creation_date} => Time
     #   * {Types::UpdateSecurityProfileResponse#last_modified_date #last_modified_date} => Time
+    #   * {Types::UpdateSecurityProfileResponse#metrics_export_config #metrics_export_config} => Types::MetricsExportConfig
     #
     # @example Request syntax with placeholder values
     #
@@ -13643,6 +15933,7 @@ module Aws::IoT
     #           },
     #         },
     #         suppress_alerts: false,
+    #         export_metric: false,
     #       },
     #     ],
     #     alert_targets: {
@@ -13659,12 +15950,18 @@ module Aws::IoT
     #           dimension_name: "DimensionName", # required
     #           operator: "IN", # accepts IN, NOT_IN
     #         },
+    #         export_metric: false,
     #       },
     #     ],
     #     delete_behaviors: false,
     #     delete_alert_targets: false,
     #     delete_additional_metrics_to_retain: false,
     #     expected_version: 1,
+    #     metrics_export_config: {
+    #       mqtt_topic: "MqttTopic", # required
+    #       role_arn: "RoleArn", # required
+    #     },
+    #     delete_metrics_export_config: false,
     #   })
     #
     # @example Response structure
@@ -13694,6 +15991,7 @@ module Aws::IoT
     #   resp.behaviors[0].criteria.statistical_threshold.statistic #=> String
     #   resp.behaviors[0].criteria.ml_detection_config.confidence_level #=> String, one of "LOW", "MEDIUM", "HIGH"
     #   resp.behaviors[0].suppress_alerts #=> Boolean
+    #   resp.behaviors[0].export_metric #=> Boolean
     #   resp.alert_targets #=> Hash
     #   resp.alert_targets["AlertTargetType"].alert_target_arn #=> String
     #   resp.alert_targets["AlertTargetType"].role_arn #=> String
@@ -13703,9 +16001,12 @@ module Aws::IoT
     #   resp.additional_metrics_to_retain_v2[0].metric #=> String
     #   resp.additional_metrics_to_retain_v2[0].metric_dimension.dimension_name #=> String
     #   resp.additional_metrics_to_retain_v2[0].metric_dimension.operator #=> String, one of "IN", "NOT_IN"
+    #   resp.additional_metrics_to_retain_v2[0].export_metric #=> Boolean
     #   resp.version #=> Integer
     #   resp.creation_date #=> Time
     #   resp.last_modified_date #=> Time
+    #   resp.metrics_export_config.mqtt_topic #=> String
+    #   resp.metrics_export_config.role_arn #=> String
     #
     # @overload update_security_profile(params = {})
     # @param [Hash] params ({})
@@ -13797,7 +16098,7 @@ module Aws::IoT
     #   A list of thing attributes, a JSON string containing name-value pairs.
     #   For example:
     #
-    #   `\{"attributes":\{"name1":"value2"\}\}`
+    #   `{"attributes":{"name1":"value2"}}`
     #
     #   This data is used to add new attributes or update existing attributes.
     #
@@ -13926,6 +16227,44 @@ module Aws::IoT
       req.send_request(options)
     end
 
+    # Updates a thing type.
+    #
+    # @option params [required, String] :thing_type_name
+    #   The name of a thing type.
+    #
+    # @option params [Types::ThingTypeProperties] :thing_type_properties
+    #   The ThingTypeProperties contains information about the thing type
+    #   including: a thing type description, and a list of searchable thing
+    #   attribute names.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.update_thing_type({
+    #     thing_type_name: "ThingTypeName", # required
+    #     thing_type_properties: {
+    #       thing_type_description: "ThingTypeDescription",
+    #       searchable_attributes: ["AttributeName"],
+    #       mqtt5_configuration: {
+    #         propagating_attributes: [
+    #           {
+    #             user_property_key: "UserPropertyKeyName",
+    #             thing_attribute: "AttributeName",
+    #             connection_attribute: "ConnectionAttributeName",
+    #           },
+    #         ],
+    #       },
+    #     },
+    #   })
+    #
+    # @overload update_thing_type(params = {})
+    # @param [Hash] params ({})
+    def update_thing_type(params = {}, options = {})
+      req = build_request(:update_thing_type, params)
+      req.send_request(options)
+    end
+
     # Updates a topic rule destination. You use this to change the status,
     # endpoint URL, or confirmation URL of the destination.
     #
@@ -14037,6 +16376,7 @@ module Aws::IoT
     #           },
     #         },
     #         suppress_alerts: false,
+    #         export_metric: false,
     #       },
     #     ],
     #   })
@@ -14060,14 +16400,19 @@ module Aws::IoT
     # @api private
     def build_request(operation_name, params = {})
       handlers = @handlers.for(operation_name)
+      tracer = config.telemetry_provider.tracer_provider.tracer(
+        Aws::Telemetry.module_to_tracer_name('Aws::IoT')
+      )
       context = Seahorse::Client::RequestContext.new(
         operation_name: operation_name,
         operation: config.api.operation(operation_name),
         client: self,
         params: params,
-        config: config)
+        config: config,
+        tracer: tracer
+      )
       context[:gem_name] = 'aws-sdk-iot'
-      context[:gem_version] = '1.100.0'
+      context[:gem_version] = '1.146.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

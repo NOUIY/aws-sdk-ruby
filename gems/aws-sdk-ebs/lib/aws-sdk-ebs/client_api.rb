@@ -7,6 +7,7 @@
 #
 # WARNING ABOUT GENERATED CODE
 
+
 module Aws::EBS
   # @api private
   module ClientApi
@@ -54,6 +55,7 @@ module Aws::EBS
     RequestThrottledExceptionReason = Shapes::StringShape.new(name: 'RequestThrottledExceptionReason')
     ResourceNotFoundException = Shapes::StructureShape.new(name: 'ResourceNotFoundException')
     ResourceNotFoundExceptionReason = Shapes::StringShape.new(name: 'ResourceNotFoundExceptionReason')
+    SSEType = Shapes::StringShape.new(name: 'SSEType')
     ServiceQuotaExceededException = Shapes::StructureShape.new(name: 'ServiceQuotaExceededException')
     ServiceQuotaExceededExceptionReason = Shapes::StringShape.new(name: 'ServiceQuotaExceededExceptionReason')
     SnapshotId = Shapes::StringShape.new(name: 'SnapshotId')
@@ -193,6 +195,7 @@ module Aws::EBS
     StartSnapshotResponse.add_member(:tags, Shapes::ShapeRef.new(shape: Tags, location_name: "Tags"))
     StartSnapshotResponse.add_member(:parent_snapshot_id, Shapes::ShapeRef.new(shape: SnapshotId, location_name: "ParentSnapshotId"))
     StartSnapshotResponse.add_member(:kms_key_arn, Shapes::ShapeRef.new(shape: KmsKeyArn, location_name: "KmsKeyArn"))
+    StartSnapshotResponse.add_member(:sse_type, Shapes::ShapeRef.new(shape: SSEType, location_name: "SseType"))
     StartSnapshotResponse.struct_class = Types::StartSnapshotResponse
 
     Tag.add_member(:key, Shapes::ShapeRef.new(shape: TagKey, location_name: "Key"))
@@ -213,9 +216,11 @@ module Aws::EBS
 
       api.metadata = {
         "apiVersion" => "2019-11-02",
+        "auth" => ["aws.auth#sigv4"],
         "endpointPrefix" => "ebs",
         "jsonVersion" => "1.1",
         "protocol" => "rest-json",
+        "protocols" => ["rest-json"],
         "serviceAbbreviation" => "Amazon EBS",
         "serviceFullName" => "Amazon Elastic Block Store",
         "serviceId" => "EBS",
@@ -296,6 +301,7 @@ module Aws::EBS
         o.http_method = "PUT"
         o.http_request_uri = "/snapshots/{snapshotId}/blocks/{blockIndex}"
         o['authtype'] = "v4-unsigned-body"
+        o['unsignedPayload'] = true
         o.input = Shapes::ShapeRef.new(shape: PutSnapshotBlockRequest)
         o.output = Shapes::ShapeRef.new(shape: PutSnapshotBlockResponse)
         o.errors << Shapes::ShapeRef.new(shape: AccessDeniedException)

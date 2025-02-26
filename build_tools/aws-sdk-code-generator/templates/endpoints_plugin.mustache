@@ -10,11 +10,12 @@ module {{module_name}}
       option(
         :endpoint_provider,
         doc_type: '{{module_name}}::EndpointProvider',
-        docstring: 'The endpoint provider used to resolve endpoints. Any '\
-                   'object that responds to `#resolve_endpoint(parameters)` '\
-                   'where `parameters` is a Struct similar to '\
-                   '`{{module_name}}::EndpointParameters`'
-      ) do |cfg|
+        rbs_type: 'untyped',
+        docstring: <<~DOCS) do |_cfg|
+The endpoint provider used to resolve endpoints. Any object that responds to
+`#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+`{{module_name}}::EndpointParameters`.
+        DOCS
         {{module_name}}::EndpointProvider.new
       end
 
@@ -22,30 +23,56 @@ module {{module_name}}
       option(
         :{{name}},
         doc_type: '{{doc_type}}',
-        default: {{{default}}},
-        docstring: "{{{docstring}}}")
+        docstring: <<~DOCS) do |cfg|
+{{{docstring}}}
+        DOCS
+        {{{default}}}
+      end
 
       {{/endpoint_options}}
       # @api private
       class Handler < Seahorse::Client::Handler
         def call(context)
-          # If endpoint was discovered, do not resolve or apply the endpoint.
           unless context[:discovered_endpoint]
-            params = parameters_for_operation(context)
+            params = {{module_name}}::Endpoints.parameters_for_operation(context)
             endpoint = context.config.endpoint_provider.resolve_endpoint(params)
 
             context.http_request.endpoint = endpoint.url
             apply_endpoint_headers(context, endpoint.headers)
+
+            context[:endpoint_params] = params
+            context[:endpoint_properties] = endpoint.properties
           end
 
-          context[:endpoint_params] = params
           context[:auth_scheme] =
             Aws::Endpoints.resolve_auth_scheme(context, endpoint)
 
-          @handler.call(context)
+          with_metrics(context) { @handler.call(context) }
         end
 
         private
+
+        def with_metrics(context, &block)
+          metrics = []
+          metrics << 'ENDPOINT_OVERRIDE' unless context.config.regional_endpoint
+          if context[:auth_scheme] && context[:auth_scheme]['name'] == 'sigv4a'
+            metrics << 'SIGV4A_SIGNING'
+          end
+          {{#has_account_id_endpoint_mode?}}
+          case context.config.account_id_endpoint_mode
+          when 'preferred'
+            metrics << 'ACCOUNT_ID_MODE_PREFERRED'
+          when 'disabled'
+            metrics << 'ACCOUNT_ID_MODE_DISABLED'
+          when 'required'
+            metrics << 'ACCOUNT_ID_MODE_REQUIRED'
+          end
+          {{/has_account_id_endpoint_mode?}}
+          if context.config.credentials&.credentials&.account_id
+            metrics << 'RESOLVED_ACCOUNT_ID'
+          end
+          Aws::Plugins::UserAgent.metric(*metrics, &block)
+        end
 
         def apply_endpoint_headers(context, headers)
           headers.each do |key, values|
@@ -55,15 +82,6 @@ module {{module_name}}
               .join(',')
 
             context.http_request.headers[key] = value
-          end
-        end
-
-        def parameters_for_operation(context)
-          case context.operation_name
-          {{#endpoint_classes}}
-          when :{{operation_name}}
-            {{module_name}}::Endpoints::{{class_name}}.build(context)
-          {{/endpoint_classes}}
           end
         end
       end

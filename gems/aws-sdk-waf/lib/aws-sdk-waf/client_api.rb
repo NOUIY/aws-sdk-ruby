@@ -7,6 +7,7 @@
 #
 # WARNING ABOUT GENERATED CODE
 
+
 module Aws::WAF
   # @api private
   module ClientApi
@@ -1320,9 +1321,11 @@ module Aws::WAF
 
       api.metadata = {
         "apiVersion" => "2015-08-24",
+        "auth" => ["aws.auth#sigv4"],
         "endpointPrefix" => "waf",
         "jsonVersion" => "1.1",
         "protocol" => "json",
+        "protocols" => ["json"],
         "serviceAbbreviation" => "WAF",
         "serviceFullName" => "AWS WAF",
         "serviceId" => "WAF",

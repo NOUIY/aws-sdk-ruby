@@ -7,6 +7,7 @@
 #
 # WARNING ABOUT GENERATED CODE
 
+
 module Aws::CloudDirectory
   # @api private
   module ClientApi
@@ -1547,8 +1548,10 @@ module Aws::CloudDirectory
 
       api.metadata = {
         "apiVersion" => "2017-01-11",
+        "auth" => ["aws.auth#sigv4"],
         "endpointPrefix" => "clouddirectory",
         "protocol" => "rest-json",
+        "protocols" => ["rest-json"],
         "serviceFullName" => "Amazon CloudDirectory",
         "serviceId" => "CloudDirectory",
         "signatureVersion" => "v4",

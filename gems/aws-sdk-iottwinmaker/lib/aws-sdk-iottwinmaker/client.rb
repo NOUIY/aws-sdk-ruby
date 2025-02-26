@@ -7,33 +7,34 @@
 #
 # WARNING ABOUT GENERATED CODE
 
-require 'seahorse/client/plugins/content_length.rb'
-require 'aws-sdk-core/plugins/credentials_configuration.rb'
-require 'aws-sdk-core/plugins/logging.rb'
-require 'aws-sdk-core/plugins/param_converter.rb'
-require 'aws-sdk-core/plugins/param_validator.rb'
-require 'aws-sdk-core/plugins/user_agent.rb'
-require 'aws-sdk-core/plugins/helpful_socket_errors.rb'
-require 'aws-sdk-core/plugins/retry_errors.rb'
-require 'aws-sdk-core/plugins/global_configuration.rb'
-require 'aws-sdk-core/plugins/regional_endpoint.rb'
-require 'aws-sdk-core/plugins/endpoint_discovery.rb'
-require 'aws-sdk-core/plugins/endpoint_pattern.rb'
-require 'aws-sdk-core/plugins/response_paging.rb'
-require 'aws-sdk-core/plugins/stub_responses.rb'
-require 'aws-sdk-core/plugins/idempotency_token.rb'
-require 'aws-sdk-core/plugins/jsonvalue_converter.rb'
-require 'aws-sdk-core/plugins/client_metrics_plugin.rb'
-require 'aws-sdk-core/plugins/client_metrics_send_plugin.rb'
-require 'aws-sdk-core/plugins/transfer_encoding.rb'
-require 'aws-sdk-core/plugins/http_checksum.rb'
-require 'aws-sdk-core/plugins/checksum_algorithm.rb'
-require 'aws-sdk-core/plugins/defaults_mode.rb'
-require 'aws-sdk-core/plugins/recursion_detection.rb'
-require 'aws-sdk-core/plugins/sign.rb'
-require 'aws-sdk-core/plugins/protocols/rest_json.rb'
-
-Aws::Plugins::GlobalConfiguration.add_identifier(:iottwinmaker)
+require 'seahorse/client/plugins/content_length'
+require 'aws-sdk-core/plugins/credentials_configuration'
+require 'aws-sdk-core/plugins/logging'
+require 'aws-sdk-core/plugins/param_converter'
+require 'aws-sdk-core/plugins/param_validator'
+require 'aws-sdk-core/plugins/user_agent'
+require 'aws-sdk-core/plugins/helpful_socket_errors'
+require 'aws-sdk-core/plugins/retry_errors'
+require 'aws-sdk-core/plugins/global_configuration'
+require 'aws-sdk-core/plugins/regional_endpoint'
+require 'aws-sdk-core/plugins/endpoint_discovery'
+require 'aws-sdk-core/plugins/endpoint_pattern'
+require 'aws-sdk-core/plugins/response_paging'
+require 'aws-sdk-core/plugins/stub_responses'
+require 'aws-sdk-core/plugins/idempotency_token'
+require 'aws-sdk-core/plugins/invocation_id'
+require 'aws-sdk-core/plugins/jsonvalue_converter'
+require 'aws-sdk-core/plugins/client_metrics_plugin'
+require 'aws-sdk-core/plugins/client_metrics_send_plugin'
+require 'aws-sdk-core/plugins/transfer_encoding'
+require 'aws-sdk-core/plugins/http_checksum'
+require 'aws-sdk-core/plugins/checksum_algorithm'
+require 'aws-sdk-core/plugins/request_compression'
+require 'aws-sdk-core/plugins/defaults_mode'
+require 'aws-sdk-core/plugins/recursion_detection'
+require 'aws-sdk-core/plugins/telemetry'
+require 'aws-sdk-core/plugins/sign'
+require 'aws-sdk-core/plugins/protocols/rest_json'
 
 module Aws::IoTTwinMaker
   # An API client for IoTTwinMaker.  To construct a client, you need to configure a `:region` and `:credentials`.
@@ -71,20 +72,28 @@ module Aws::IoTTwinMaker
     add_plugin(Aws::Plugins::ResponsePaging)
     add_plugin(Aws::Plugins::StubResponses)
     add_plugin(Aws::Plugins::IdempotencyToken)
+    add_plugin(Aws::Plugins::InvocationId)
     add_plugin(Aws::Plugins::JsonvalueConverter)
     add_plugin(Aws::Plugins::ClientMetricsPlugin)
     add_plugin(Aws::Plugins::ClientMetricsSendPlugin)
     add_plugin(Aws::Plugins::TransferEncoding)
     add_plugin(Aws::Plugins::HttpChecksum)
     add_plugin(Aws::Plugins::ChecksumAlgorithm)
+    add_plugin(Aws::Plugins::RequestCompression)
     add_plugin(Aws::Plugins::DefaultsMode)
     add_plugin(Aws::Plugins::RecursionDetection)
+    add_plugin(Aws::Plugins::Telemetry)
     add_plugin(Aws::Plugins::Sign)
     add_plugin(Aws::Plugins::Protocols::RestJson)
     add_plugin(Aws::IoTTwinMaker::Plugins::Endpoints)
 
     # @overload initialize(options)
     #   @param [Hash] options
+    #
+    #   @option options [Array<Seahorse::Client::Plugin>] :plugins ([]])
+    #     A list of plugins to apply to the client. Each plugin is either a
+    #     class name or an instance of a plugin class.
+    #
     #   @option options [required, Aws::CredentialProvider] :credentials
     #     Your AWS credentials. This can be an instance of any one of the
     #     following classes:
@@ -119,13 +128,15 @@ module Aws::IoTTwinMaker
     #     locations will be searched for credentials:
     #
     #     * `Aws.config[:credentials]`
-    #     * The `:access_key_id`, `:secret_access_key`, and `:session_token` options.
-    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']
+    #     * The `:access_key_id`, `:secret_access_key`, `:session_token`, and
+    #       `:account_id` options.
+    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'],
+    #       ENV['AWS_SESSION_TOKEN'], and ENV['AWS_ACCOUNT_ID']
     #     * `~/.aws/credentials`
     #     * `~/.aws/config`
     #     * EC2/ECS IMDS instance profile - When used by default, the timeouts
     #       are very aggressive. Construct and pass an instance of
-    #       `Aws::InstanceProfileCredentails` or `Aws::ECSCredentials` to
+    #       `Aws::InstanceProfileCredentials` or `Aws::ECSCredentials` to
     #       enable retries and extended timeouts. Instance profile credential
     #       fetching can be disabled by setting ENV['AWS_EC2_METADATA_DISABLED']
     #       to true.
@@ -143,6 +154,8 @@ module Aws::IoTTwinMaker
     #     * `~/.aws/config`
     #
     #   @option options [String] :access_key_id
+    #
+    #   @option options [String] :account_id
     #
     #   @option options [Boolean] :active_endpoint_cache (false)
     #     When set to `true`, a thread polling for endpoints will be running in
@@ -190,10 +203,20 @@ module Aws::IoTTwinMaker
     #     Set to true to disable SDK automatically adding host prefix
     #     to default service endpoint when available.
     #
-    #   @option options [String] :endpoint
-    #     The client endpoint is normally constructed from the `:region`
-    #     option. You should only configure an `:endpoint` when connecting
-    #     to test or custom endpoints. This should be a valid HTTP(S) URI.
+    #   @option options [Boolean] :disable_request_compression (false)
+    #     When set to 'true' the request body will not be compressed
+    #     for supported operations.
+    #
+    #   @option options [String, URI::HTTPS, URI::HTTP] :endpoint
+    #     Normally you should not configure the `:endpoint` option
+    #     directly. This is normally constructed from the `:region`
+    #     option. Configuring `:endpoint` is normally reserved for
+    #     connecting to test or custom endpoints. The endpoint should
+    #     be a URI formatted like:
+    #
+    #         'http://example.com'
+    #         'https://example.com'
+    #         'http://example.com:123'
     #
     #   @option options [Integer] :endpoint_cache_max_entries (1000)
     #     Used for the maximum size limit of the LRU cache storing endpoints data
@@ -209,6 +232,10 @@ module Aws::IoTTwinMaker
     #
     #   @option options [Boolean] :endpoint_discovery (false)
     #     When set to `true`, endpoint discovery will be enabled for operations when available.
+    #
+    #   @option options [Boolean] :ignore_configured_endpoint_urls
+    #     Setting to true disables use of endpoint URLs provided via environment
+    #     variables and the shared configuration file.
     #
     #   @option options [Aws::Log::Formatter] :log_formatter (Aws::Log::Formatter.default)
     #     The log formatter.
@@ -229,6 +256,34 @@ module Aws::IoTTwinMaker
     #   @option options [String] :profile ("default")
     #     Used when loading credentials from the shared credentials file
     #     at HOME/.aws/credentials.  When not specified, 'default' is used.
+    #
+    #   @option options [String] :request_checksum_calculation ("when_supported")
+    #     Determines when a checksum will be calculated for request payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, a checksum will be
+    #       calculated for all request payloads of operations modeled with the
+    #       `httpChecksum` trait where `requestChecksumRequired` is `true` and/or a
+    #       `requestAlgorithmMember` is modeled.
+    #     * `when_required` - When set, a checksum will only be calculated for
+    #       request payloads of operations modeled with the  `httpChecksum` trait where
+    #       `requestChecksumRequired` is `true` or where a `requestAlgorithmMember`
+    #       is modeled and supplied.
+    #
+    #   @option options [Integer] :request_min_compression_size_bytes (10240)
+    #     The minimum size in bytes that triggers compression for request
+    #     bodies. The value must be non-negative integer value between 0
+    #     and 10485780 bytes inclusive.
+    #
+    #   @option options [String] :response_checksum_validation ("when_supported")
+    #     Determines when checksum validation will be performed on response payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, checksum validation is performed on all
+    #       response payloads of operations modeled with the `httpChecksum` trait where
+    #       `responseAlgorithms` is modeled, except when no modeled checksum algorithms
+    #       are supported.
+    #     * `when_required` - When set, checksum validation is not performed on
+    #       response payloads of operations unless the checksum algorithm is supported and
+    #       the `requestValidationModeMember` member is set to `ENABLED`.
     #
     #   @option options [Proc] :retry_backoff
     #     A proc or lambda used for backoff. Defaults to 2**retries * retry_base_delay.
@@ -274,10 +329,24 @@ module Aws::IoTTwinMaker
     #       throttling.  This is a provisional mode that may change behavior
     #       in the future.
     #
+    #   @option options [String] :sdk_ua_app_id
+    #     A unique and opaque application ID that is appended to the
+    #     User-Agent header as app/sdk_ua_app_id. It should have a
+    #     maximum length of 50. This variable is sourced from environment
+    #     variable AWS_SDK_UA_APP_ID or the shared config profile attribute sdk_ua_app_id.
     #
     #   @option options [String] :secret_access_key
     #
     #   @option options [String] :session_token
+    #
+    #   @option options [Array] :sigv4a_signing_region_set
+    #     A list of regions that should be signed with SigV4a signing. When
+    #     not passed, a default `:sigv4a_signing_region_set` is searched for
+    #     in the following locations:
+    #
+    #     * `Aws.config[:sigv4a_signing_region_set]`
+    #     * `ENV['AWS_SIGV4A_SIGNING_REGION_SET']`
+    #     * `~/.aws/config`
     #
     #   @option options [Boolean] :stub_responses (false)
     #     Causes the client to return stubbed responses. By default
@@ -287,6 +356,16 @@ module Aws::IoTTwinMaker
     #
     #     ** Please note ** When response stubbing is enabled, no HTTP
     #     requests are made, and retries are disabled.
+    #
+    #   @option options [Aws::Telemetry::TelemetryProviderBase] :telemetry_provider (Aws::Telemetry::NoOpTelemetryProvider)
+    #     Allows you to provide a telemetry provider, which is used to
+    #     emit telemetry data. By default, uses `NoOpTelemetryProvider` which
+    #     will not record or emit any telemetry data. The SDK supports the
+    #     following telemetry providers:
+    #
+    #     * OpenTelemetry (OTel) - To use the OTel provider, install and require the
+    #     `opentelemetry-sdk` gem and then, pass in an instance of a
+    #     `Aws::Telemetry::OTelProvider` for telemetry provider.
     #
     #   @option options [Aws::TokenProvider] :token_provider
     #     A Bearer Token Provider. This can be an instance of any one of the
@@ -315,52 +394,75 @@ module Aws::IoTTwinMaker
     #     sending the request.
     #
     #   @option options [Aws::IoTTwinMaker::EndpointProvider] :endpoint_provider
-    #     The endpoint provider used to resolve endpoints. Any object that responds to `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to `Aws::IoTTwinMaker::EndpointParameters`
+    #     The endpoint provider used to resolve endpoints. Any object that responds to
+    #     `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+    #     `Aws::IoTTwinMaker::EndpointParameters`.
     #
-    #   @option options [URI::HTTP,String] :http_proxy A proxy to send
-    #     requests through.  Formatted like 'http://proxy.com:123'.
+    #   @option options [Float] :http_continue_timeout (1)
+    #     The number of seconds to wait for a 100-continue response before sending the
+    #     request body.  This option has no effect unless the request has "Expect"
+    #     header set to "100-continue".  Defaults to `nil` which  disables this
+    #     behaviour.  This value can safely be set per request on the session.
     #
-    #   @option options [Float] :http_open_timeout (15) The number of
-    #     seconds to wait when opening a HTTP session before raising a
-    #     `Timeout::Error`.
+    #   @option options [Float] :http_idle_timeout (5)
+    #     The number of seconds a connection is allowed to sit idle before it
+    #     is considered stale.  Stale connections are closed and removed from the
+    #     pool before making a request.
     #
-    #   @option options [Float] :http_read_timeout (60) The default
-    #     number of seconds to wait for response data.  This value can
-    #     safely be set per-request on the session.
+    #   @option options [Float] :http_open_timeout (15)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :http_idle_timeout (5) The number of
-    #     seconds a connection is allowed to sit idle before it is
-    #     considered stale.  Stale connections are closed and removed
-    #     from the pool before making a request.
+    #   @option options [URI::HTTP,String] :http_proxy
+    #     A proxy to send requests through.  Formatted like 'http://proxy.com:123'.
     #
-    #   @option options [Float] :http_continue_timeout (1) The number of
-    #     seconds to wait for a 100-continue response before sending the
-    #     request body.  This option has no effect unless the request has
-    #     "Expect" header set to "100-continue".  Defaults to `nil` which
-    #     disables this behaviour.  This value can safely be set per
-    #     request on the session.
+    #   @option options [Float] :http_read_timeout (60)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :ssl_timeout (nil) Sets the SSL timeout
-    #     in seconds.
+    #   @option options [Boolean] :http_wire_trace (false)
+    #     When `true`,  HTTP debug output will be sent to the `:logger`.
     #
-    #   @option options [Boolean] :http_wire_trace (false) When `true`,
-    #     HTTP debug output will be sent to the `:logger`.
+    #   @option options [Proc] :on_chunk_received
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the response body is received. It provides three arguments: the chunk,
+    #     the number of bytes received, and the total number of
+    #     bytes in the response (or nil if the server did not send a `content-length`).
     #
-    #   @option options [Boolean] :ssl_verify_peer (true) When `true`,
-    #     SSL peer certificates are verified when establishing a
-    #     connection.
+    #   @option options [Proc] :on_chunk_sent
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the request body is sent. It provides three arguments: the chunk,
+    #     the number of bytes read from the body, and the total number of
+    #     bytes in the body.
     #
-    #   @option options [String] :ssl_ca_bundle Full path to the SSL
-    #     certificate authority bundle file that should be used when
-    #     verifying peer certificates.  If you do not pass
-    #     `:ssl_ca_bundle` or `:ssl_ca_directory` the the system default
-    #     will be used if available.
+    #   @option options [Boolean] :raise_response_errors (true)
+    #     When `true`, response errors are raised.
     #
-    #   @option options [String] :ssl_ca_directory Full path of the
-    #     directory that contains the unbundled SSL certificate
+    #   @option options [String] :ssl_ca_bundle
+    #     Full path to the SSL certificate authority bundle file that should be used when
+    #     verifying peer certificates.  If you do not pass `:ssl_ca_bundle` or
+    #     `:ssl_ca_directory` the the system default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_directory
+    #     Full path of the directory that contains the unbundled SSL certificate
     #     authority files for verifying peer certificates.  If you do
-    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the
-    #     system default will be used if available.
+    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the system
+    #     default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_store
+    #     Sets the X509::Store to verify peer certificate.
+    #
+    #   @option options [OpenSSL::X509::Certificate] :ssl_cert
+    #     Sets a client certificate when creating http connections.
+    #
+    #   @option options [OpenSSL::PKey] :ssl_key
+    #     Sets a client key when creating http connections.
+    #
+    #   @option options [Float] :ssl_timeout
+    #     Sets the SSL timeout in seconds
+    #
+    #   @option options [Boolean] :ssl_verify_peer (true)
+    #     When `true`, SSL peer certificates are verified when establishing a connection.
     #
     def initialize(*args)
       super
@@ -389,6 +491,7 @@ module Aws::IoTTwinMaker
     #       {
     #         entity_property_reference: { # required
     #           component_name: "Name",
+    #           component_path: "ComponentPath",
     #           external_id_property: {
     #             "String" => "String",
     #           },
@@ -434,6 +537,7 @@ module Aws::IoTTwinMaker
     #   resp.error_entries[0].errors[0].error_code #=> String
     #   resp.error_entries[0].errors[0].error_message #=> String
     #   resp.error_entries[0].errors[0].entry.entity_property_reference.component_name #=> String
+    #   resp.error_entries[0].errors[0].entry.entity_property_reference.component_path #=> String
     #   resp.error_entries[0].errors[0].entry.entity_property_reference.external_id_property #=> Hash
     #   resp.error_entries[0].errors[0].entry.entity_property_reference.external_id_property["String"] #=> String
     #   resp.error_entries[0].errors[0].entry.entity_property_reference.entity_id #=> String
@@ -458,6 +562,46 @@ module Aws::IoTTwinMaker
     # @param [Hash] params ({})
     def batch_put_property_values(params = {}, options = {})
       req = build_request(:batch_put_property_values, params)
+      req.send_request(options)
+    end
+
+    # Cancels the metadata transfer job.
+    #
+    # @option params [required, String] :metadata_transfer_job_id
+    #   The metadata transfer job Id.
+    #
+    # @return [Types::CancelMetadataTransferJobResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CancelMetadataTransferJobResponse#metadata_transfer_job_id #metadata_transfer_job_id} => String
+    #   * {Types::CancelMetadataTransferJobResponse#arn #arn} => String
+    #   * {Types::CancelMetadataTransferJobResponse#update_date_time #update_date_time} => Time
+    #   * {Types::CancelMetadataTransferJobResponse#status #status} => Types::MetadataTransferJobStatus
+    #   * {Types::CancelMetadataTransferJobResponse#progress #progress} => Types::MetadataTransferJobProgress
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.cancel_metadata_transfer_job({
+    #     metadata_transfer_job_id: "Id", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.metadata_transfer_job_id #=> String
+    #   resp.arn #=> String
+    #   resp.update_date_time #=> Time
+    #   resp.status.state #=> String, one of "VALIDATING", "PENDING", "RUNNING", "CANCELLING", "ERROR", "COMPLETED", "CANCELLED"
+    #   resp.status.error.code #=> String, one of "VALIDATION_ERROR", "INTERNAL_FAILURE", "SYNC_INITIALIZING_ERROR", "SYNC_CREATING_ERROR", "SYNC_PROCESSING_ERROR", "SYNC_DELETING_ERROR", "PROCESSING_ERROR", "COMPOSITE_COMPONENT_FAILURE"
+    #   resp.status.error.message #=> String
+    #   resp.status.queued_position #=> Integer
+    #   resp.progress.total_count #=> Integer
+    #   resp.progress.succeeded_count #=> Integer
+    #   resp.progress.skipped_count #=> Integer
+    #   resp.progress.failed_count #=> Integer
+    #
+    # @overload cancel_metadata_transfer_job(params = {})
+    # @param [Hash] params ({})
+    def cancel_metadata_transfer_job(params = {}, options = {})
+      req = build_request(:cancel_metadata_transfer_job, params)
       req.send_request(options)
     end
 
@@ -495,6 +639,11 @@ module Aws::IoTTwinMaker
     #
     # @option params [String] :component_type_name
     #   A friendly name for the component type.
+    #
+    # @option params [Hash<String,Types::CompositeComponentTypeRequest>] :composite_component_types
+    #   This is an object that maps strings to `compositeComponentTypes` of
+    #   the `componentType`. `CompositeComponentType` is referenced by
+    #   `componentTypeId`.
     #
     # @return [Types::CreateComponentTypeResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -599,6 +748,11 @@ module Aws::IoTTwinMaker
     #       },
     #     },
     #     component_type_name: "ComponentTypeName",
+    #     composite_component_types: {
+    #       "Name" => {
+    #         component_type_id: "ComponentTypeId",
+    #       },
+    #     },
     #   })
     #
     # @example Response structure
@@ -631,6 +785,11 @@ module Aws::IoTTwinMaker
     # @option params [Hash<String,Types::ComponentRequest>] :components
     #   An object that maps strings to the components in the entity. Each
     #   string in the mapping must be unique to this object.
+    #
+    # @option params [Hash<String,Types::CompositeComponentRequest>] :composite_components
+    #   This is an object that maps strings to `compositeComponent` updates in
+    #   the request. Each key of the map represents the `componentPath` of the
+    #   `compositeComponent`.
     #
     # @option params [String] :parent_entity_id
     #   The ID of the entity's parent entity.
@@ -745,7 +904,111 @@ module Aws::IoTTwinMaker
     #               },
     #               expression: "Expression",
     #             },
+    #             update_type: "UPDATE", # accepts UPDATE, DELETE, CREATE, RESET_VALUE
+    #           },
+    #         },
+    #         property_groups: {
+    #           "Name" => {
+    #             group_type: "TABULAR", # accepts TABULAR
+    #             property_names: ["Name"],
     #             update_type: "UPDATE", # accepts UPDATE, DELETE, CREATE
+    #           },
+    #         },
+    #       },
+    #     },
+    #     composite_components: {
+    #       "ComponentPath" => {
+    #         description: "Description",
+    #         properties: {
+    #           "Name" => {
+    #             definition: {
+    #               data_type: {
+    #                 type: "RELATIONSHIP", # required, accepts RELATIONSHIP, STRING, LONG, BOOLEAN, INTEGER, DOUBLE, LIST, MAP
+    #                 nested_type: {
+    #                   # recursive DataType
+    #                 },
+    #                 allowed_values: [
+    #                   {
+    #                     boolean_value: false,
+    #                     double_value: 1.0,
+    #                     integer_value: 1,
+    #                     long_value: 1,
+    #                     string_value: "String",
+    #                     list_value: {
+    #                       # recursive DataValueList
+    #                     },
+    #                     map_value: {
+    #                       "String" => {
+    #                         # recursive DataValue
+    #                       },
+    #                     },
+    #                     relationship_value: {
+    #                       target_entity_id: "EntityId",
+    #                       target_component_name: "Name",
+    #                     },
+    #                     expression: "Expression",
+    #                   },
+    #                 ],
+    #                 unit_of_measure: "String",
+    #                 relationship: {
+    #                   target_component_type_id: "ComponentTypeId",
+    #                   relationship_type: "String",
+    #                 },
+    #               },
+    #               is_required_in_entity: false,
+    #               is_external_id: false,
+    #               is_stored_externally: false,
+    #               is_time_series: false,
+    #               default_value: {
+    #                 boolean_value: false,
+    #                 double_value: 1.0,
+    #                 integer_value: 1,
+    #                 long_value: 1,
+    #                 string_value: "String",
+    #                 list_value: [
+    #                   {
+    #                     # recursive DataValue
+    #                   },
+    #                 ],
+    #                 map_value: {
+    #                   "String" => {
+    #                     # recursive DataValue
+    #                   },
+    #                 },
+    #                 relationship_value: {
+    #                   target_entity_id: "EntityId",
+    #                   target_component_name: "Name",
+    #                 },
+    #                 expression: "Expression",
+    #               },
+    #               configuration: {
+    #                 "Name" => "Value",
+    #               },
+    #               display_name: "PropertyDisplayName",
+    #             },
+    #             value: {
+    #               boolean_value: false,
+    #               double_value: 1.0,
+    #               integer_value: 1,
+    #               long_value: 1,
+    #               string_value: "String",
+    #               list_value: [
+    #                 {
+    #                   # recursive DataValue
+    #                 },
+    #               ],
+    #               map_value: {
+    #                 "String" => {
+    #                   # recursive DataValue
+    #                 },
+    #               },
+    #               relationship_value: {
+    #                 target_entity_id: "EntityId",
+    #                 target_component_name: "Name",
+    #               },
+    #               expression: "Expression",
+    #             },
+    #             update_type: "UPDATE", # accepts UPDATE, DELETE, CREATE, RESET_VALUE
     #           },
     #         },
     #         property_groups: {
@@ -777,6 +1040,99 @@ module Aws::IoTTwinMaker
       req.send_request(options)
     end
 
+    # Creates a new metadata transfer job.
+    #
+    # @option params [String] :metadata_transfer_job_id
+    #   The metadata transfer job Id.
+    #
+    # @option params [String] :description
+    #   The metadata transfer job description.
+    #
+    # @option params [required, Array<Types::SourceConfiguration>] :sources
+    #   The metadata transfer job sources.
+    #
+    # @option params [required, Types::DestinationConfiguration] :destination
+    #   The metadata transfer job destination.
+    #
+    # @return [Types::CreateMetadataTransferJobResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreateMetadataTransferJobResponse#metadata_transfer_job_id #metadata_transfer_job_id} => String
+    #   * {Types::CreateMetadataTransferJobResponse#arn #arn} => String
+    #   * {Types::CreateMetadataTransferJobResponse#creation_date_time #creation_date_time} => Time
+    #   * {Types::CreateMetadataTransferJobResponse#status #status} => Types::MetadataTransferJobStatus
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_metadata_transfer_job({
+    #     metadata_transfer_job_id: "Id",
+    #     description: "Description",
+    #     sources: [ # required
+    #       {
+    #         type: "s3", # required, accepts s3, iotsitewise, iottwinmaker
+    #         s3_configuration: {
+    #           location: "S3SourceLocation", # required
+    #         },
+    #         iot_site_wise_configuration: {
+    #           filters: [
+    #             {
+    #               filter_by_asset_model: {
+    #                 asset_model_id: "Uuid",
+    #                 asset_model_external_id: "SiteWiseExternalId",
+    #                 include_offspring: false,
+    #                 include_assets: false,
+    #               },
+    #               filter_by_asset: {
+    #                 asset_id: "Uuid",
+    #                 asset_external_id: "SiteWiseExternalId",
+    #                 include_offspring: false,
+    #                 include_asset_model: false,
+    #               },
+    #             },
+    #           ],
+    #         },
+    #         iot_twin_maker_configuration: {
+    #           workspace: "TwinMakerArn", # required
+    #           filters: [
+    #             {
+    #               filter_by_component_type: {
+    #                 component_type_id: "ComponentTypeId", # required
+    #               },
+    #               filter_by_entity: {
+    #                 entity_id: "EntityId", # required
+    #               },
+    #             },
+    #           ],
+    #         },
+    #       },
+    #     ],
+    #     destination: { # required
+    #       type: "s3", # required, accepts s3, iotsitewise, iottwinmaker
+    #       s3_configuration: {
+    #         location: "S3DestinationLocation", # required
+    #       },
+    #       iot_twin_maker_configuration: {
+    #         workspace: "TwinMakerArn", # required
+    #       },
+    #     },
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.metadata_transfer_job_id #=> String
+    #   resp.arn #=> String
+    #   resp.creation_date_time #=> Time
+    #   resp.status.state #=> String, one of "VALIDATING", "PENDING", "RUNNING", "CANCELLING", "ERROR", "COMPLETED", "CANCELLED"
+    #   resp.status.error.code #=> String, one of "VALIDATION_ERROR", "INTERNAL_FAILURE", "SYNC_INITIALIZING_ERROR", "SYNC_CREATING_ERROR", "SYNC_PROCESSING_ERROR", "SYNC_DELETING_ERROR", "PROCESSING_ERROR", "COMPOSITE_COMPONENT_FAILURE"
+    #   resp.status.error.message #=> String
+    #   resp.status.queued_position #=> Integer
+    #
+    # @overload create_metadata_transfer_job(params = {})
+    # @param [Hash] params ({})
+    def create_metadata_transfer_job(params = {}, options = {})
+      req = build_request(:create_metadata_transfer_job, params)
+      req.send_request(options)
+    end
+
     # Creates a scene.
     #
     # @option params [required, String] :workspace_id
@@ -798,6 +1154,9 @@ module Aws::IoTTwinMaker
     # @option params [Hash<String,String>] :tags
     #   Metadata that you can use to manage the scene.
     #
+    # @option params [Hash<String,String>] :scene_metadata
+    #   The request metadata.
+    #
     # @return [Types::CreateSceneResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::CreateSceneResponse#arn #arn} => String
@@ -813,6 +1172,9 @@ module Aws::IoTTwinMaker
     #     capabilities: ["SceneCapability"],
     #     tags: {
     #       "TagKey" => "TagValue",
+    #     },
+    #     scene_metadata: {
+    #       "Name" => "SceneMetadataValue",
     #     },
     #   })
     #
@@ -831,18 +1193,18 @@ module Aws::IoTTwinMaker
     # This action creates a SyncJob.
     #
     # @option params [required, String] :workspace_id
-    #   The workspace Id.
+    #   The workspace ID.
     #
     # @option params [required, String] :sync_source
     #   The sync source.
     #
-    #   <note markdown="1"> Currently the only supported syncSoucre is `SITEWISE `.
+    #   <note markdown="1"> Currently the only supported syncSoource is `SITEWISE `.
     #
     #    </note>
     #
     # @option params [required, String] :sync_role
-    #   The SyncJob IAM role. This IAM role is used by the sync job to read
-    #   from the syncSource, and create, update or delete the corresponding
+    #   The SyncJob IAM role. This IAM role is used by the SyncJob to read
+    #   from the syncSource, and create, update, or delete the corresponding
     #   resources.
     #
     # @option params [Hash<String,String>] :tags
@@ -886,11 +1248,11 @@ module Aws::IoTTwinMaker
     # @option params [String] :description
     #   The description of the workspace.
     #
-    # @option params [required, String] :s3_location
+    # @option params [String] :s3_location
     #   The ARN of the S3 bucket where resources associated with the workspace
     #   are stored.
     #
-    # @option params [required, String] :role
+    # @option params [String] :role
     #   The ARN of the execution role associated with the workspace.
     #
     # @option params [Hash<String,String>] :tags
@@ -906,8 +1268,8 @@ module Aws::IoTTwinMaker
     #   resp = client.create_workspace({
     #     workspace_id: "Id", # required
     #     description: "Description",
-    #     s3_location: "S3Location", # required
-    #     role: "RoleArn", # required
+    #     s3_location: "S3Location",
+    #     role: "RoleArn",
     #     tags: {
     #       "TagKey" => "TagValue",
     #     },
@@ -1017,12 +1379,12 @@ module Aws::IoTTwinMaker
     # Delete the SyncJob.
     #
     # @option params [required, String] :workspace_id
-    #   The workspace Id.
+    #   The workspace ID.
     #
     # @option params [required, String] :sync_source
     #   The sync source.
     #
-    #   <note markdown="1"> Currently the only supported syncSoucre is `SITEWISE `.
+    #   <note markdown="1"> Currently the only supported syncSource is `SITEWISE `.
     #
     #    </note>
     #
@@ -1053,13 +1415,19 @@ module Aws::IoTTwinMaker
     # @option params [required, String] :workspace_id
     #   The ID of the workspace to delete.
     #
-    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    # @return [Types::DeleteWorkspaceResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DeleteWorkspaceResponse#message #message} => String
     #
     # @example Request syntax with placeholder values
     #
     #   resp = client.delete_workspace({
     #     workspace_id: "Id", # required
     #   })
+    #
+    # @example Response structure
+    #
+    #   resp.message #=> String
     #
     # @overload delete_workspace(params = {})
     # @param [Hash] params ({})
@@ -1071,6 +1439,16 @@ module Aws::IoTTwinMaker
     # Run queries to access information from your knowledge graph of
     # entities within individual workspaces.
     #
+    # <note markdown="1"> The ExecuteQuery action only works with [Amazon Web Services Java
+    # SDK2][1]. ExecuteQuery will not work with any Amazon Web Services Java
+    # SDK version &lt; 2.x.
+    #
+    #  </note>
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/sdk-for-java/latest/developer-guide/home.html
+    #
     # @option params [required, String] :workspace_id
     #   The ID of the workspace.
     #
@@ -1079,9 +1457,7 @@ module Aws::IoTTwinMaker
     #
     # @option params [Integer] :max_results
     #   The maximum number of results to return at one time. The default is
-    #   25.
-    #
-    #   Valid Range: Minimum value of 1. Maximum value of 250.
+    #   50.
     #
     # @option params [String] :next_token
     #   The string that specifies the next page of results.
@@ -1145,6 +1521,7 @@ module Aws::IoTTwinMaker
     #   * {Types::GetComponentTypeResponse#property_groups #property_groups} => Hash&lt;String,Types::PropertyGroupResponse&gt;
     #   * {Types::GetComponentTypeResponse#sync_source #sync_source} => String
     #   * {Types::GetComponentTypeResponse#component_type_name #component_type_name} => String
+    #   * {Types::GetComponentTypeResponse#composite_component_types #composite_component_types} => Hash&lt;String,Types::CompositeComponentTypeResponse&gt;
     #
     # @example Request syntax with placeholder values
     #
@@ -1214,7 +1591,7 @@ module Aws::IoTTwinMaker
     #   resp.is_abstract #=> Boolean
     #   resp.is_schema_initialized #=> Boolean
     #   resp.status.state #=> String, one of "CREATING", "UPDATING", "DELETING", "ACTIVE", "ERROR"
-    #   resp.status.error.code #=> String, one of "VALIDATION_ERROR", "INTERNAL_FAILURE", "SYNC_INITIALIZING_ERROR", "SYNC_CREATING_ERROR", "SYNC_PROCESSING_ERROR"
+    #   resp.status.error.code #=> String, one of "VALIDATION_ERROR", "INTERNAL_FAILURE", "SYNC_INITIALIZING_ERROR", "SYNC_CREATING_ERROR", "SYNC_PROCESSING_ERROR", "SYNC_DELETING_ERROR", "PROCESSING_ERROR", "COMPOSITE_COMPONENT_FAILURE"
     #   resp.status.error.message #=> String
     #   resp.property_groups #=> Hash
     #   resp.property_groups["Name"].group_type #=> String, one of "TABULAR"
@@ -1223,6 +1600,9 @@ module Aws::IoTTwinMaker
     #   resp.property_groups["Name"].is_inherited #=> Boolean
     #   resp.sync_source #=> String
     #   resp.component_type_name #=> String
+    #   resp.composite_component_types #=> Hash
+    #   resp.composite_component_types["Name"].component_type_id #=> String
+    #   resp.composite_component_types["Name"].is_inherited #=> Boolean
     #
     # @overload get_component_type(params = {})
     # @param [Hash] params ({})
@@ -1253,6 +1633,7 @@ module Aws::IoTTwinMaker
     #   * {Types::GetEntityResponse#creation_date_time #creation_date_time} => Time
     #   * {Types::GetEntityResponse#update_date_time #update_date_time} => Time
     #   * {Types::GetEntityResponse#sync_source #sync_source} => String
+    #   * {Types::GetEntityResponse#are_all_components_returned #are_all_components_returned} => Boolean
     #
     # @example Request syntax with placeholder values
     #
@@ -1267,7 +1648,7 @@ module Aws::IoTTwinMaker
     #   resp.entity_name #=> String
     #   resp.arn #=> String
     #   resp.status.state #=> String, one of "CREATING", "UPDATING", "DELETING", "ACTIVE", "ERROR"
-    #   resp.status.error.code #=> String, one of "VALIDATION_ERROR", "INTERNAL_FAILURE", "SYNC_INITIALIZING_ERROR", "SYNC_CREATING_ERROR", "SYNC_PROCESSING_ERROR"
+    #   resp.status.error.code #=> String, one of "VALIDATION_ERROR", "INTERNAL_FAILURE", "SYNC_INITIALIZING_ERROR", "SYNC_CREATING_ERROR", "SYNC_PROCESSING_ERROR", "SYNC_DELETING_ERROR", "PROCESSING_ERROR", "COMPOSITE_COMPONENT_FAILURE"
     #   resp.status.error.message #=> String
     #   resp.workspace_id #=> String
     #   resp.description #=> String
@@ -1276,7 +1657,7 @@ module Aws::IoTTwinMaker
     #   resp.components["Name"].description #=> String
     #   resp.components["Name"].component_type_id #=> String
     #   resp.components["Name"].status.state #=> String, one of "CREATING", "UPDATING", "DELETING", "ACTIVE", "ERROR"
-    #   resp.components["Name"].status.error.code #=> String, one of "VALIDATION_ERROR", "INTERNAL_FAILURE", "SYNC_INITIALIZING_ERROR", "SYNC_CREATING_ERROR", "SYNC_PROCESSING_ERROR"
+    #   resp.components["Name"].status.error.code #=> String, one of "VALIDATION_ERROR", "INTERNAL_FAILURE", "SYNC_INITIALIZING_ERROR", "SYNC_CREATING_ERROR", "SYNC_PROCESSING_ERROR", "SYNC_DELETING_ERROR", "PROCESSING_ERROR", "COMPOSITE_COMPONENT_FAILURE"
     #   resp.components["Name"].status.error.message #=> String
     #   resp.components["Name"].defined_in #=> String
     #   resp.components["Name"].properties #=> Hash
@@ -1331,22 +1712,110 @@ module Aws::IoTTwinMaker
     #   resp.components["Name"].properties["Name"].value.relationship_value.target_entity_id #=> String
     #   resp.components["Name"].properties["Name"].value.relationship_value.target_component_name #=> String
     #   resp.components["Name"].properties["Name"].value.expression #=> String
+    #   resp.components["Name"].properties["Name"].are_all_property_values_returned #=> Boolean
     #   resp.components["Name"].property_groups #=> Hash
     #   resp.components["Name"].property_groups["Name"].group_type #=> String, one of "TABULAR"
     #   resp.components["Name"].property_groups["Name"].property_names #=> Array
     #   resp.components["Name"].property_groups["Name"].property_names[0] #=> String
     #   resp.components["Name"].property_groups["Name"].is_inherited #=> Boolean
     #   resp.components["Name"].sync_source #=> String
+    #   resp.components["Name"].are_all_properties_returned #=> Boolean
+    #   resp.components["Name"].composite_components #=> Hash
+    #   resp.components["Name"].composite_components["Name"].component_name #=> String
+    #   resp.components["Name"].composite_components["Name"].component_type_id #=> String
+    #   resp.components["Name"].composite_components["Name"].defined_in #=> String
+    #   resp.components["Name"].composite_components["Name"].description #=> String
+    #   resp.components["Name"].composite_components["Name"].property_groups #=> Hash
+    #   resp.components["Name"].composite_components["Name"].property_groups["Name"].group_type #=> String, one of "TABULAR"
+    #   resp.components["Name"].composite_components["Name"].property_groups["Name"].property_names #=> Array
+    #   resp.components["Name"].composite_components["Name"].property_groups["Name"].property_names[0] #=> String
+    #   resp.components["Name"].composite_components["Name"].property_groups["Name"].is_inherited #=> Boolean
+    #   resp.components["Name"].composite_components["Name"].status.state #=> String, one of "CREATING", "UPDATING", "DELETING", "ACTIVE", "ERROR"
+    #   resp.components["Name"].composite_components["Name"].status.error.code #=> String, one of "VALIDATION_ERROR", "INTERNAL_FAILURE", "SYNC_INITIALIZING_ERROR", "SYNC_CREATING_ERROR", "SYNC_PROCESSING_ERROR", "SYNC_DELETING_ERROR", "PROCESSING_ERROR", "COMPOSITE_COMPONENT_FAILURE"
+    #   resp.components["Name"].composite_components["Name"].status.error.message #=> String
+    #   resp.components["Name"].composite_components["Name"].sync_source #=> String
+    #   resp.components["Name"].composite_components["Name"].component_path #=> String
+    #   resp.components["Name"].are_all_composite_components_returned #=> Boolean
     #   resp.parent_entity_id #=> String
     #   resp.has_child_entities #=> Boolean
     #   resp.creation_date_time #=> Time
     #   resp.update_date_time #=> Time
     #   resp.sync_source #=> String
+    #   resp.are_all_components_returned #=> Boolean
     #
     # @overload get_entity(params = {})
     # @param [Hash] params ({})
     def get_entity(params = {}, options = {})
       req = build_request(:get_entity, params)
+      req.send_request(options)
+    end
+
+    # Gets a nmetadata transfer job.
+    #
+    # @option params [required, String] :metadata_transfer_job_id
+    #   The metadata transfer job Id.
+    #
+    # @return [Types::GetMetadataTransferJobResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetMetadataTransferJobResponse#metadata_transfer_job_id #metadata_transfer_job_id} => String
+    #   * {Types::GetMetadataTransferJobResponse#arn #arn} => String
+    #   * {Types::GetMetadataTransferJobResponse#description #description} => String
+    #   * {Types::GetMetadataTransferJobResponse#sources #sources} => Array&lt;Types::SourceConfiguration&gt;
+    #   * {Types::GetMetadataTransferJobResponse#destination #destination} => Types::DestinationConfiguration
+    #   * {Types::GetMetadataTransferJobResponse#metadata_transfer_job_role #metadata_transfer_job_role} => String
+    #   * {Types::GetMetadataTransferJobResponse#report_url #report_url} => String
+    #   * {Types::GetMetadataTransferJobResponse#creation_date_time #creation_date_time} => Time
+    #   * {Types::GetMetadataTransferJobResponse#update_date_time #update_date_time} => Time
+    #   * {Types::GetMetadataTransferJobResponse#status #status} => Types::MetadataTransferJobStatus
+    #   * {Types::GetMetadataTransferJobResponse#progress #progress} => Types::MetadataTransferJobProgress
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_metadata_transfer_job({
+    #     metadata_transfer_job_id: "Id", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.metadata_transfer_job_id #=> String
+    #   resp.arn #=> String
+    #   resp.description #=> String
+    #   resp.sources #=> Array
+    #   resp.sources[0].type #=> String, one of "s3", "iotsitewise", "iottwinmaker"
+    #   resp.sources[0].s3_configuration.location #=> String
+    #   resp.sources[0].iot_site_wise_configuration.filters #=> Array
+    #   resp.sources[0].iot_site_wise_configuration.filters[0].filter_by_asset_model.asset_model_id #=> String
+    #   resp.sources[0].iot_site_wise_configuration.filters[0].filter_by_asset_model.asset_model_external_id #=> String
+    #   resp.sources[0].iot_site_wise_configuration.filters[0].filter_by_asset_model.include_offspring #=> Boolean
+    #   resp.sources[0].iot_site_wise_configuration.filters[0].filter_by_asset_model.include_assets #=> Boolean
+    #   resp.sources[0].iot_site_wise_configuration.filters[0].filter_by_asset.asset_id #=> String
+    #   resp.sources[0].iot_site_wise_configuration.filters[0].filter_by_asset.asset_external_id #=> String
+    #   resp.sources[0].iot_site_wise_configuration.filters[0].filter_by_asset.include_offspring #=> Boolean
+    #   resp.sources[0].iot_site_wise_configuration.filters[0].filter_by_asset.include_asset_model #=> Boolean
+    #   resp.sources[0].iot_twin_maker_configuration.workspace #=> String
+    #   resp.sources[0].iot_twin_maker_configuration.filters #=> Array
+    #   resp.sources[0].iot_twin_maker_configuration.filters[0].filter_by_component_type.component_type_id #=> String
+    #   resp.sources[0].iot_twin_maker_configuration.filters[0].filter_by_entity.entity_id #=> String
+    #   resp.destination.type #=> String, one of "s3", "iotsitewise", "iottwinmaker"
+    #   resp.destination.s3_configuration.location #=> String
+    #   resp.destination.iot_twin_maker_configuration.workspace #=> String
+    #   resp.metadata_transfer_job_role #=> String
+    #   resp.report_url #=> String
+    #   resp.creation_date_time #=> Time
+    #   resp.update_date_time #=> Time
+    #   resp.status.state #=> String, one of "VALIDATING", "PENDING", "RUNNING", "CANCELLING", "ERROR", "COMPLETED", "CANCELLED"
+    #   resp.status.error.code #=> String, one of "VALIDATION_ERROR", "INTERNAL_FAILURE", "SYNC_INITIALIZING_ERROR", "SYNC_CREATING_ERROR", "SYNC_PROCESSING_ERROR", "SYNC_DELETING_ERROR", "PROCESSING_ERROR", "COMPOSITE_COMPONENT_FAILURE"
+    #   resp.status.error.message #=> String
+    #   resp.status.queued_position #=> Integer
+    #   resp.progress.total_count #=> Integer
+    #   resp.progress.succeeded_count #=> Integer
+    #   resp.progress.skipped_count #=> Integer
+    #   resp.progress.failed_count #=> Integer
+    #
+    # @overload get_metadata_transfer_job(params = {})
+    # @param [Hash] params ({})
+    def get_metadata_transfer_job(params = {}, options = {})
+      req = build_request(:get_metadata_transfer_job, params)
       req.send_request(options)
     end
 
@@ -1392,6 +1861,10 @@ module Aws::IoTTwinMaker
     # @option params [String] :component_name
     #   The name of the component whose property values the operation returns.
     #
+    # @option params [String] :component_path
+    #   This string specifies the path to the composite component, starting
+    #   from the top-level component.
+    #
     # @option params [String] :component_type_id
     #   The ID of the component type whose property values the operation
     #   returns.
@@ -1432,6 +1905,7 @@ module Aws::IoTTwinMaker
     #
     #   resp = client.get_property_value({
     #     component_name: "Name",
+    #     component_path: "ComponentPath",
     #     component_type_id: "ComponentTypeId",
     #     entity_id: "EntityId",
     #     selected_properties: ["String"], # required
@@ -1481,6 +1955,7 @@ module Aws::IoTTwinMaker
     #
     #   resp.property_values #=> Hash
     #   resp.property_values["Name"].property_reference.component_name #=> String
+    #   resp.property_values["Name"].property_reference.component_path #=> String
     #   resp.property_values["Name"].property_reference.external_id_property #=> Hash
     #   resp.property_values["Name"].property_reference.external_id_property["String"] #=> String
     #   resp.property_values["Name"].property_reference.entity_id #=> String
@@ -1536,6 +2011,10 @@ module Aws::IoTTwinMaker
     #
     # @option params [String] :component_name
     #   The name of the component.
+    #
+    # @option params [String] :component_path
+    #   This string specifies the path to the composite component, starting
+    #   from the top-level component.
     #
     # @option params [String] :component_type_id
     #   The ID of the component type.
@@ -1601,6 +2080,7 @@ module Aws::IoTTwinMaker
     #     workspace_id: "Id", # required
     #     entity_id: "EntityId",
     #     component_name: "Name",
+    #     component_path: "ComponentPath",
     #     component_type_id: "ComponentTypeId",
     #     selected_properties: ["String"], # required
     #     property_filters: [
@@ -1648,6 +2128,7 @@ module Aws::IoTTwinMaker
     #
     #   resp.property_values #=> Array
     #   resp.property_values[0].entity_property_reference.component_name #=> String
+    #   resp.property_values[0].entity_property_reference.component_path #=> String
     #   resp.property_values[0].entity_property_reference.external_id_property #=> Hash
     #   resp.property_values[0].entity_property_reference.external_id_property["String"] #=> String
     #   resp.property_values[0].entity_property_reference.entity_id #=> String
@@ -1694,6 +2175,9 @@ module Aws::IoTTwinMaker
     #   * {Types::GetSceneResponse#update_date_time #update_date_time} => Time
     #   * {Types::GetSceneResponse#description #description} => String
     #   * {Types::GetSceneResponse#capabilities #capabilities} => Array&lt;String&gt;
+    #   * {Types::GetSceneResponse#scene_metadata #scene_metadata} => Hash&lt;String,String&gt;
+    #   * {Types::GetSceneResponse#generated_scene_metadata #generated_scene_metadata} => Hash&lt;String,String&gt;
+    #   * {Types::GetSceneResponse#error #error} => Types::SceneError
     #
     # @example Request syntax with placeholder values
     #
@@ -1713,6 +2197,12 @@ module Aws::IoTTwinMaker
     #   resp.description #=> String
     #   resp.capabilities #=> Array
     #   resp.capabilities[0] #=> String
+    #   resp.scene_metadata #=> Hash
+    #   resp.scene_metadata["Name"] #=> String
+    #   resp.generated_scene_metadata #=> Hash
+    #   resp.generated_scene_metadata["Name"] #=> String
+    #   resp.error.code #=> String, one of "MATTERPORT_ERROR"
+    #   resp.error.message #=> String
     #
     # @overload get_scene(params = {})
     # @param [Hash] params ({})
@@ -1724,14 +2214,14 @@ module Aws::IoTTwinMaker
     # Gets the SyncJob.
     #
     # @option params [required, String] :sync_source
-    #   The sync soucre.
+    #   The sync source.
     #
-    #   <note markdown="1"> Currently the only supported syncSoucre is `SITEWISE `.
+    #   <note markdown="1"> Currently the only supported syncSource is `SITEWISE `.
     #
     #    </note>
     #
     # @option params [String] :workspace_id
-    #   The workspace Id.
+    #   The workspace ID.
     #
     # @return [Types::GetSyncJobResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1757,7 +2247,7 @@ module Aws::IoTTwinMaker
     #   resp.sync_source #=> String
     #   resp.sync_role #=> String
     #   resp.status.state #=> String, one of "CREATING", "INITIALIZING", "ACTIVE", "DELETING", "ERROR"
-    #   resp.status.error.code #=> String, one of "VALIDATION_ERROR", "INTERNAL_FAILURE", "SYNC_INITIALIZING_ERROR", "SYNC_CREATING_ERROR", "SYNC_PROCESSING_ERROR"
+    #   resp.status.error.code #=> String, one of "VALIDATION_ERROR", "INTERNAL_FAILURE", "SYNC_INITIALIZING_ERROR", "SYNC_CREATING_ERROR", "SYNC_PROCESSING_ERROR", "SYNC_DELETING_ERROR", "PROCESSING_ERROR", "COMPOSITE_COMPONENT_FAILURE"
     #   resp.status.error.message #=> String
     #   resp.creation_date_time #=> Time
     #   resp.update_date_time #=> Time
@@ -1779,6 +2269,7 @@ module Aws::IoTTwinMaker
     #   * {Types::GetWorkspaceResponse#workspace_id #workspace_id} => String
     #   * {Types::GetWorkspaceResponse#arn #arn} => String
     #   * {Types::GetWorkspaceResponse#description #description} => String
+    #   * {Types::GetWorkspaceResponse#linked_services #linked_services} => Array&lt;String&gt;
     #   * {Types::GetWorkspaceResponse#s3_location #s3_location} => String
     #   * {Types::GetWorkspaceResponse#role #role} => String
     #   * {Types::GetWorkspaceResponse#creation_date_time #creation_date_time} => Time
@@ -1795,6 +2286,8 @@ module Aws::IoTTwinMaker
     #   resp.workspace_id #=> String
     #   resp.arn #=> String
     #   resp.description #=> String
+    #   resp.linked_services #=> Array
+    #   resp.linked_services[0] #=> String
     #   resp.s3_location #=> String
     #   resp.role #=> String
     #   resp.creation_date_time #=> Time
@@ -1858,7 +2351,7 @@ module Aws::IoTTwinMaker
     #   resp.component_type_summaries[0].update_date_time #=> Time
     #   resp.component_type_summaries[0].description #=> String
     #   resp.component_type_summaries[0].status.state #=> String, one of "CREATING", "UPDATING", "DELETING", "ACTIVE", "ERROR"
-    #   resp.component_type_summaries[0].status.error.code #=> String, one of "VALIDATION_ERROR", "INTERNAL_FAILURE", "SYNC_INITIALIZING_ERROR", "SYNC_CREATING_ERROR", "SYNC_PROCESSING_ERROR"
+    #   resp.component_type_summaries[0].status.error.code #=> String, one of "VALIDATION_ERROR", "INTERNAL_FAILURE", "SYNC_INITIALIZING_ERROR", "SYNC_CREATING_ERROR", "SYNC_PROCESSING_ERROR", "SYNC_DELETING_ERROR", "PROCESSING_ERROR", "COMPOSITE_COMPONENT_FAILURE"
     #   resp.component_type_summaries[0].status.error.message #=> String
     #   resp.component_type_summaries[0].component_type_name #=> String
     #   resp.next_token #=> String
@@ -1868,6 +2361,68 @@ module Aws::IoTTwinMaker
     # @param [Hash] params ({})
     def list_component_types(params = {}, options = {})
       req = build_request(:list_component_types, params)
+      req.send_request(options)
+    end
+
+    # This API lists the components of an entity.
+    #
+    # @option params [required, String] :workspace_id
+    #   The workspace ID.
+    #
+    # @option params [required, String] :entity_id
+    #   The ID for the entity whose metadata (component/properties) is
+    #   returned by the operation.
+    #
+    # @option params [String] :component_path
+    #   This string specifies the path to the composite component, starting
+    #   from the top-level component.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results returned at one time. The default is 25.
+    #
+    # @option params [String] :next_token
+    #   The string that specifies the next page of results.
+    #
+    # @return [Types::ListComponentsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListComponentsResponse#component_summaries #component_summaries} => Array&lt;Types::ComponentSummary&gt;
+    #   * {Types::ListComponentsResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_components({
+    #     workspace_id: "Id", # required
+    #     entity_id: "EntityId", # required
+    #     component_path: "ComponentPath",
+    #     max_results: 1,
+    #     next_token: "NextToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.component_summaries #=> Array
+    #   resp.component_summaries[0].component_name #=> String
+    #   resp.component_summaries[0].component_type_id #=> String
+    #   resp.component_summaries[0].defined_in #=> String
+    #   resp.component_summaries[0].description #=> String
+    #   resp.component_summaries[0].property_groups #=> Hash
+    #   resp.component_summaries[0].property_groups["Name"].group_type #=> String, one of "TABULAR"
+    #   resp.component_summaries[0].property_groups["Name"].property_names #=> Array
+    #   resp.component_summaries[0].property_groups["Name"].property_names[0] #=> String
+    #   resp.component_summaries[0].property_groups["Name"].is_inherited #=> Boolean
+    #   resp.component_summaries[0].status.state #=> String, one of "CREATING", "UPDATING", "DELETING", "ACTIVE", "ERROR"
+    #   resp.component_summaries[0].status.error.code #=> String, one of "VALIDATION_ERROR", "INTERNAL_FAILURE", "SYNC_INITIALIZING_ERROR", "SYNC_CREATING_ERROR", "SYNC_PROCESSING_ERROR", "SYNC_DELETING_ERROR", "PROCESSING_ERROR", "COMPOSITE_COMPONENT_FAILURE"
+    #   resp.component_summaries[0].status.error.message #=> String
+    #   resp.component_summaries[0].sync_source #=> String
+    #   resp.component_summaries[0].component_path #=> String
+    #   resp.next_token #=> String
+    #
+    # @overload list_components(params = {})
+    # @param [Hash] params ({})
+    def list_components(params = {}, options = {})
+      req = build_request(:list_components, params)
       req.send_request(options)
     end
 
@@ -1922,7 +2477,7 @@ module Aws::IoTTwinMaker
     #   resp.entity_summaries[0].arn #=> String
     #   resp.entity_summaries[0].parent_entity_id #=> String
     #   resp.entity_summaries[0].status.state #=> String, one of "CREATING", "UPDATING", "DELETING", "ACTIVE", "ERROR"
-    #   resp.entity_summaries[0].status.error.code #=> String, one of "VALIDATION_ERROR", "INTERNAL_FAILURE", "SYNC_INITIALIZING_ERROR", "SYNC_CREATING_ERROR", "SYNC_PROCESSING_ERROR"
+    #   resp.entity_summaries[0].status.error.code #=> String, one of "VALIDATION_ERROR", "INTERNAL_FAILURE", "SYNC_INITIALIZING_ERROR", "SYNC_CREATING_ERROR", "SYNC_PROCESSING_ERROR", "SYNC_DELETING_ERROR", "PROCESSING_ERROR", "COMPOSITE_COMPONENT_FAILURE"
     #   resp.entity_summaries[0].status.error.message #=> String
     #   resp.entity_summaries[0].description #=> String
     #   resp.entity_summaries[0].has_child_entities #=> Boolean
@@ -1934,6 +2489,175 @@ module Aws::IoTTwinMaker
     # @param [Hash] params ({})
     def list_entities(params = {}, options = {})
       req = build_request(:list_entities, params)
+      req.send_request(options)
+    end
+
+    # Lists the metadata transfer jobs.
+    #
+    # @option params [required, String] :source_type
+    #   The metadata transfer job's source type.
+    #
+    # @option params [required, String] :destination_type
+    #   The metadata transfer job's destination type.
+    #
+    # @option params [Array<Types::ListMetadataTransferJobsFilter>] :filters
+    #   An object that filters metadata transfer jobs.
+    #
+    # @option params [String] :next_token
+    #   The string that specifies the next page of results.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results to return at one time.
+    #
+    # @return [Types::ListMetadataTransferJobsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListMetadataTransferJobsResponse#metadata_transfer_job_summaries #metadata_transfer_job_summaries} => Array&lt;Types::MetadataTransferJobSummary&gt;
+    #   * {Types::ListMetadataTransferJobsResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_metadata_transfer_jobs({
+    #     source_type: "s3", # required, accepts s3, iotsitewise, iottwinmaker
+    #     destination_type: "s3", # required, accepts s3, iotsitewise, iottwinmaker
+    #     filters: [
+    #       {
+    #         workspace_id: "Id",
+    #         state: "VALIDATING", # accepts VALIDATING, PENDING, RUNNING, CANCELLING, ERROR, COMPLETED, CANCELLED
+    #       },
+    #     ],
+    #     next_token: "NextToken",
+    #     max_results: 1,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.metadata_transfer_job_summaries #=> Array
+    #   resp.metadata_transfer_job_summaries[0].metadata_transfer_job_id #=> String
+    #   resp.metadata_transfer_job_summaries[0].arn #=> String
+    #   resp.metadata_transfer_job_summaries[0].creation_date_time #=> Time
+    #   resp.metadata_transfer_job_summaries[0].update_date_time #=> Time
+    #   resp.metadata_transfer_job_summaries[0].status.state #=> String, one of "VALIDATING", "PENDING", "RUNNING", "CANCELLING", "ERROR", "COMPLETED", "CANCELLED"
+    #   resp.metadata_transfer_job_summaries[0].status.error.code #=> String, one of "VALIDATION_ERROR", "INTERNAL_FAILURE", "SYNC_INITIALIZING_ERROR", "SYNC_CREATING_ERROR", "SYNC_PROCESSING_ERROR", "SYNC_DELETING_ERROR", "PROCESSING_ERROR", "COMPOSITE_COMPONENT_FAILURE"
+    #   resp.metadata_transfer_job_summaries[0].status.error.message #=> String
+    #   resp.metadata_transfer_job_summaries[0].status.queued_position #=> Integer
+    #   resp.metadata_transfer_job_summaries[0].progress.total_count #=> Integer
+    #   resp.metadata_transfer_job_summaries[0].progress.succeeded_count #=> Integer
+    #   resp.metadata_transfer_job_summaries[0].progress.skipped_count #=> Integer
+    #   resp.metadata_transfer_job_summaries[0].progress.failed_count #=> Integer
+    #   resp.next_token #=> String
+    #
+    # @overload list_metadata_transfer_jobs(params = {})
+    # @param [Hash] params ({})
+    def list_metadata_transfer_jobs(params = {}, options = {})
+      req = build_request(:list_metadata_transfer_jobs, params)
+      req.send_request(options)
+    end
+
+    # This API lists the properties of a component.
+    #
+    # @option params [required, String] :workspace_id
+    #   The workspace ID.
+    #
+    # @option params [String] :component_name
+    #   The name of the component whose properties are returned by the
+    #   operation.
+    #
+    # @option params [String] :component_path
+    #   This string specifies the path to the composite component, starting
+    #   from the top-level component.
+    #
+    # @option params [required, String] :entity_id
+    #   The ID for the entity whose metadata (component/properties) is
+    #   returned by the operation.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of results returned at one time. The default is 25.
+    #
+    # @option params [String] :next_token
+    #   The string that specifies the next page of results.
+    #
+    # @return [Types::ListPropertiesResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListPropertiesResponse#property_summaries #property_summaries} => Array&lt;Types::PropertySummary&gt;
+    #   * {Types::ListPropertiesResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_properties({
+    #     workspace_id: "Id", # required
+    #     component_name: "Name",
+    #     component_path: "ComponentPath",
+    #     entity_id: "EntityId", # required
+    #     max_results: 1,
+    #     next_token: "NextToken",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.property_summaries #=> Array
+    #   resp.property_summaries[0].definition.data_type.type #=> String, one of "RELATIONSHIP", "STRING", "LONG", "BOOLEAN", "INTEGER", "DOUBLE", "LIST", "MAP"
+    #   resp.property_summaries[0].definition.data_type.nested_type #=> Types::DataType
+    #   resp.property_summaries[0].definition.data_type.allowed_values #=> Array
+    #   resp.property_summaries[0].definition.data_type.allowed_values[0].boolean_value #=> Boolean
+    #   resp.property_summaries[0].definition.data_type.allowed_values[0].double_value #=> Float
+    #   resp.property_summaries[0].definition.data_type.allowed_values[0].integer_value #=> Integer
+    #   resp.property_summaries[0].definition.data_type.allowed_values[0].long_value #=> Integer
+    #   resp.property_summaries[0].definition.data_type.allowed_values[0].string_value #=> String
+    #   resp.property_summaries[0].definition.data_type.allowed_values[0].list_value #=> Types::DataValueList
+    #   resp.property_summaries[0].definition.data_type.allowed_values[0].map_value #=> Hash
+    #   resp.property_summaries[0].definition.data_type.allowed_values[0].map_value["String"] #=> Types::DataValue
+    #   resp.property_summaries[0].definition.data_type.allowed_values[0].relationship_value.target_entity_id #=> String
+    #   resp.property_summaries[0].definition.data_type.allowed_values[0].relationship_value.target_component_name #=> String
+    #   resp.property_summaries[0].definition.data_type.allowed_values[0].expression #=> String
+    #   resp.property_summaries[0].definition.data_type.unit_of_measure #=> String
+    #   resp.property_summaries[0].definition.data_type.relationship.target_component_type_id #=> String
+    #   resp.property_summaries[0].definition.data_type.relationship.relationship_type #=> String
+    #   resp.property_summaries[0].definition.is_time_series #=> Boolean
+    #   resp.property_summaries[0].definition.is_required_in_entity #=> Boolean
+    #   resp.property_summaries[0].definition.is_external_id #=> Boolean
+    #   resp.property_summaries[0].definition.is_stored_externally #=> Boolean
+    #   resp.property_summaries[0].definition.is_imported #=> Boolean
+    #   resp.property_summaries[0].definition.is_final #=> Boolean
+    #   resp.property_summaries[0].definition.is_inherited #=> Boolean
+    #   resp.property_summaries[0].definition.default_value.boolean_value #=> Boolean
+    #   resp.property_summaries[0].definition.default_value.double_value #=> Float
+    #   resp.property_summaries[0].definition.default_value.integer_value #=> Integer
+    #   resp.property_summaries[0].definition.default_value.long_value #=> Integer
+    #   resp.property_summaries[0].definition.default_value.string_value #=> String
+    #   resp.property_summaries[0].definition.default_value.list_value #=> Array
+    #   resp.property_summaries[0].definition.default_value.list_value[0] #=> Types::DataValue
+    #   resp.property_summaries[0].definition.default_value.map_value #=> Hash
+    #   resp.property_summaries[0].definition.default_value.map_value["String"] #=> Types::DataValue
+    #   resp.property_summaries[0].definition.default_value.relationship_value.target_entity_id #=> String
+    #   resp.property_summaries[0].definition.default_value.relationship_value.target_component_name #=> String
+    #   resp.property_summaries[0].definition.default_value.expression #=> String
+    #   resp.property_summaries[0].definition.configuration #=> Hash
+    #   resp.property_summaries[0].definition.configuration["Name"] #=> String
+    #   resp.property_summaries[0].definition.display_name #=> String
+    #   resp.property_summaries[0].property_name #=> String
+    #   resp.property_summaries[0].value.boolean_value #=> Boolean
+    #   resp.property_summaries[0].value.double_value #=> Float
+    #   resp.property_summaries[0].value.integer_value #=> Integer
+    #   resp.property_summaries[0].value.long_value #=> Integer
+    #   resp.property_summaries[0].value.string_value #=> String
+    #   resp.property_summaries[0].value.list_value #=> Array
+    #   resp.property_summaries[0].value.list_value[0] #=> Types::DataValue
+    #   resp.property_summaries[0].value.map_value #=> Hash
+    #   resp.property_summaries[0].value.map_value["String"] #=> Types::DataValue
+    #   resp.property_summaries[0].value.relationship_value.target_entity_id #=> String
+    #   resp.property_summaries[0].value.relationship_value.target_component_name #=> String
+    #   resp.property_summaries[0].value.expression #=> String
+    #   resp.property_summaries[0].are_all_property_values_returned #=> Boolean
+    #   resp.next_token #=> String
+    #
+    # @overload list_properties(params = {})
+    # @param [Hash] params ({})
+    def list_properties(params = {}, options = {})
+      req = build_request(:list_properties, params)
       req.send_request(options)
     end
 
@@ -2017,7 +2741,7 @@ module Aws::IoTTwinMaker
     #   resp.sync_job_summaries[0].workspace_id #=> String
     #   resp.sync_job_summaries[0].sync_source #=> String
     #   resp.sync_job_summaries[0].status.state #=> String, one of "CREATING", "INITIALIZING", "ACTIVE", "DELETING", "ERROR"
-    #   resp.sync_job_summaries[0].status.error.code #=> String, one of "VALIDATION_ERROR", "INTERNAL_FAILURE", "SYNC_INITIALIZING_ERROR", "SYNC_CREATING_ERROR", "SYNC_PROCESSING_ERROR"
+    #   resp.sync_job_summaries[0].status.error.code #=> String, one of "VALIDATION_ERROR", "INTERNAL_FAILURE", "SYNC_INITIALIZING_ERROR", "SYNC_CREATING_ERROR", "SYNC_PROCESSING_ERROR", "SYNC_DELETING_ERROR", "PROCESSING_ERROR", "COMPOSITE_COMPONENT_FAILURE"
     #   resp.sync_job_summaries[0].status.error.message #=> String
     #   resp.sync_job_summaries[0].creation_date_time #=> Time
     #   resp.sync_job_summaries[0].update_date_time #=> Time
@@ -2036,14 +2760,22 @@ module Aws::IoTTwinMaker
     #   The ID of the workspace that contains the sync job.
     #
     # @option params [required, String] :sync_source
-    #   The sync soucre.
+    #   The sync source.
     #
-    #   <note markdown="1"> Currently the only supported syncSoucre is `SITEWISE `.
+    #   <note markdown="1"> Currently the only supported syncSource is `SITEWISE `.
     #
     #    </note>
     #
     # @option params [Array<Types::SyncResourceFilter>] :filters
     #   A list of objects that filter the request.
+    #
+    #   The following filter combinations are supported:
+    #
+    #   * Filter with state
+    #
+    #   * Filter with ResourceType and ResourceId
+    #
+    #   * Filter with ResourceType and ExternalId
     #
     # @option params [Integer] :max_results
     #   The maximum number of results to return at one time. The default is
@@ -2085,7 +2817,7 @@ module Aws::IoTTwinMaker
     #   resp.sync_resources[0].external_id #=> String
     #   resp.sync_resources[0].resource_id #=> String
     #   resp.sync_resources[0].status.state #=> String, one of "INITIALIZING", "PROCESSING", "DELETED", "IN_SYNC", "ERROR"
-    #   resp.sync_resources[0].status.error.code #=> String, one of "VALIDATION_ERROR", "INTERNAL_FAILURE", "SYNC_INITIALIZING_ERROR", "SYNC_CREATING_ERROR", "SYNC_PROCESSING_ERROR"
+    #   resp.sync_resources[0].status.error.code #=> String, one of "VALIDATION_ERROR", "INTERNAL_FAILURE", "SYNC_INITIALIZING_ERROR", "SYNC_CREATING_ERROR", "SYNC_PROCESSING_ERROR", "SYNC_DELETING_ERROR", "PROCESSING_ERROR", "COMPOSITE_COMPONENT_FAILURE"
     #   resp.sync_resources[0].status.error.message #=> String
     #   resp.sync_resources[0].update_date_time #=> Time
     #   resp.next_token #=> String
@@ -2168,6 +2900,8 @@ module Aws::IoTTwinMaker
     #   resp.workspace_summaries[0].workspace_id #=> String
     #   resp.workspace_summaries[0].arn #=> String
     #   resp.workspace_summaries[0].description #=> String
+    #   resp.workspace_summaries[0].linked_services #=> Array
+    #   resp.workspace_summaries[0].linked_services[0] #=> String
     #   resp.workspace_summaries[0].creation_date_time #=> Time
     #   resp.workspace_summaries[0].update_date_time #=> Time
     #   resp.next_token #=> String
@@ -2258,10 +2992,15 @@ module Aws::IoTTwinMaker
     #   Each string in the mapping must be unique to this object.
     #
     # @option params [Hash<String,Types::PropertyGroupRequest>] :property_groups
-    #   The property groups
+    #   The property groups.
     #
     # @option params [String] :component_type_name
     #   The component type name.
+    #
+    # @option params [Hash<String,Types::CompositeComponentTypeRequest>] :composite_component_types
+    #   This is an object that maps strings to `compositeComponentTypes` of
+    #   the `componentType`. `CompositeComponentType` is referenced by
+    #   `componentTypeId`.
     #
     # @return [Types::UpdateComponentTypeResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -2364,6 +3103,11 @@ module Aws::IoTTwinMaker
     #       },
     #     },
     #     component_type_name: "ComponentTypeName",
+    #     composite_component_types: {
+    #       "Name" => {
+    #         component_type_id: "ComponentTypeId",
+    #       },
+    #     },
     #   })
     #
     # @example Response structure
@@ -2397,6 +3141,11 @@ module Aws::IoTTwinMaker
     # @option params [Hash<String,Types::ComponentUpdateRequest>] :component_updates
     #   An object that maps strings to the component updates in the request.
     #   Each string in the mapping must be unique to this object.
+    #
+    # @option params [Hash<String,Types::CompositeComponentUpdateRequest>] :composite_component_updates
+    #   This is an object that maps strings to `compositeComponent` updates in
+    #   the request. Each key of the map represents the `componentPath` of the
+    #   `compositeComponent`.
     #
     # @option params [Types::ParentEntityUpdateRequest] :parent_entity_update
     #   An object that describes the update request for a parent entity.
@@ -2507,7 +3256,112 @@ module Aws::IoTTwinMaker
     #               },
     #               expression: "Expression",
     #             },
+    #             update_type: "UPDATE", # accepts UPDATE, DELETE, CREATE, RESET_VALUE
+    #           },
+    #         },
+    #         property_group_updates: {
+    #           "Name" => {
+    #             group_type: "TABULAR", # accepts TABULAR
+    #             property_names: ["Name"],
     #             update_type: "UPDATE", # accepts UPDATE, DELETE, CREATE
+    #           },
+    #         },
+    #       },
+    #     },
+    #     composite_component_updates: {
+    #       "ComponentPath" => {
+    #         update_type: "CREATE", # accepts CREATE, UPDATE, DELETE
+    #         description: "Description",
+    #         property_updates: {
+    #           "Name" => {
+    #             definition: {
+    #               data_type: {
+    #                 type: "RELATIONSHIP", # required, accepts RELATIONSHIP, STRING, LONG, BOOLEAN, INTEGER, DOUBLE, LIST, MAP
+    #                 nested_type: {
+    #                   # recursive DataType
+    #                 },
+    #                 allowed_values: [
+    #                   {
+    #                     boolean_value: false,
+    #                     double_value: 1.0,
+    #                     integer_value: 1,
+    #                     long_value: 1,
+    #                     string_value: "String",
+    #                     list_value: {
+    #                       # recursive DataValueList
+    #                     },
+    #                     map_value: {
+    #                       "String" => {
+    #                         # recursive DataValue
+    #                       },
+    #                     },
+    #                     relationship_value: {
+    #                       target_entity_id: "EntityId",
+    #                       target_component_name: "Name",
+    #                     },
+    #                     expression: "Expression",
+    #                   },
+    #                 ],
+    #                 unit_of_measure: "String",
+    #                 relationship: {
+    #                   target_component_type_id: "ComponentTypeId",
+    #                   relationship_type: "String",
+    #                 },
+    #               },
+    #               is_required_in_entity: false,
+    #               is_external_id: false,
+    #               is_stored_externally: false,
+    #               is_time_series: false,
+    #               default_value: {
+    #                 boolean_value: false,
+    #                 double_value: 1.0,
+    #                 integer_value: 1,
+    #                 long_value: 1,
+    #                 string_value: "String",
+    #                 list_value: [
+    #                   {
+    #                     # recursive DataValue
+    #                   },
+    #                 ],
+    #                 map_value: {
+    #                   "String" => {
+    #                     # recursive DataValue
+    #                   },
+    #                 },
+    #                 relationship_value: {
+    #                   target_entity_id: "EntityId",
+    #                   target_component_name: "Name",
+    #                 },
+    #                 expression: "Expression",
+    #               },
+    #               configuration: {
+    #                 "Name" => "Value",
+    #               },
+    #               display_name: "PropertyDisplayName",
+    #             },
+    #             value: {
+    #               boolean_value: false,
+    #               double_value: 1.0,
+    #               integer_value: 1,
+    #               long_value: 1,
+    #               string_value: "String",
+    #               list_value: [
+    #                 {
+    #                   # recursive DataValue
+    #                 },
+    #               ],
+    #               map_value: {
+    #                 "String" => {
+    #                   # recursive DataValue
+    #                 },
+    #               },
+    #               relationship_value: {
+    #                 target_entity_id: "EntityId",
+    #                 target_component_name: "Name",
+    #               },
+    #               expression: "Expression",
+    #             },
+    #             update_type: "UPDATE", # accepts UPDATE, DELETE, CREATE, RESET_VALUE
     #           },
     #         },
     #         property_group_updates: {
@@ -2601,6 +3455,9 @@ module Aws::IoTTwinMaker
     # @option params [Array<String>] :capabilities
     #   A list of capabilities that the scene uses to render.
     #
+    # @option params [Hash<String,String>] :scene_metadata
+    #   The scene metadata.
+    #
     # @return [Types::UpdateSceneResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::UpdateSceneResponse#update_date_time #update_date_time} => Time
@@ -2613,6 +3470,9 @@ module Aws::IoTTwinMaker
     #     content_location: "S3Url",
     #     description: "Description",
     #     capabilities: ["SceneCapability"],
+    #     scene_metadata: {
+    #       "Name" => "SceneMetadataValue",
+    #     },
     #   })
     #
     # @example Response structure
@@ -2637,6 +3497,10 @@ module Aws::IoTTwinMaker
     # @option params [String] :role
     #   The ARN of the execution role associated with the workspace.
     #
+    # @option params [String] :s3_location
+    #   The ARN of the S3 bucket where resources associated with the workspace
+    #   are stored.
+    #
     # @return [Types::UpdateWorkspaceResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::UpdateWorkspaceResponse#update_date_time #update_date_time} => Time
@@ -2647,6 +3511,7 @@ module Aws::IoTTwinMaker
     #     workspace_id: "Id", # required
     #     description: "Description",
     #     role: "RoleArn",
+    #     s3_location: "S3Location",
     #   })
     #
     # @example Response structure
@@ -2666,14 +3531,19 @@ module Aws::IoTTwinMaker
     # @api private
     def build_request(operation_name, params = {})
       handlers = @handlers.for(operation_name)
+      tracer = config.telemetry_provider.tracer_provider.tracer(
+        Aws::Telemetry.module_to_tracer_name('Aws::IoTTwinMaker')
+      )
       context = Seahorse::Client::RequestContext.new(
         operation_name: operation_name,
         operation: config.api.operation(operation_name),
         client: self,
         params: params,
-        config: config)
+        config: config,
+        tracer: tracer
+      )
       context[:gem_name] = 'aws-sdk-iottwinmaker'
-      context[:gem_version] = '1.9.0'
+      context[:gem_version] = '1.39.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

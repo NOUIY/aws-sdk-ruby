@@ -7,6 +7,7 @@
 #
 # WARNING ABOUT GENERATED CODE
 
+
 module Aws::Amplify
   # @api private
   module ClientApi
@@ -33,6 +34,7 @@ module Aws::Amplify
     AutoSubDomainCreationPattern = Shapes::StringShape.new(name: 'AutoSubDomainCreationPattern')
     AutoSubDomainCreationPatterns = Shapes::ListShape.new(name: 'AutoSubDomainCreationPatterns')
     AutoSubDomainIAMRole = Shapes::StringShape.new(name: 'AutoSubDomainIAMRole')
+    Backend = Shapes::StructureShape.new(name: 'Backend')
     BackendEnvironment = Shapes::StructureShape.new(name: 'BackendEnvironment')
     BackendEnvironmentArn = Shapes::StringShape.new(name: 'BackendEnvironmentArn')
     BackendEnvironments = Shapes::ListShape.new(name: 'BackendEnvironments')
@@ -43,11 +45,18 @@ module Aws::Amplify
     BranchName = Shapes::StringShape.new(name: 'BranchName')
     Branches = Shapes::ListShape.new(name: 'Branches')
     BuildSpec = Shapes::StringShape.new(name: 'BuildSpec')
+    CacheConfig = Shapes::StructureShape.new(name: 'CacheConfig')
+    CacheConfigType = Shapes::StringShape.new(name: 'CacheConfigType')
+    Certificate = Shapes::StructureShape.new(name: 'Certificate')
+    CertificateArn = Shapes::StringShape.new(name: 'CertificateArn')
+    CertificateSettings = Shapes::StructureShape.new(name: 'CertificateSettings')
+    CertificateType = Shapes::StringShape.new(name: 'CertificateType')
     CertificateVerificationDNSRecord = Shapes::StringShape.new(name: 'CertificateVerificationDNSRecord')
     Code = Shapes::StringShape.new(name: 'Code')
     CommitId = Shapes::StringShape.new(name: 'CommitId')
     CommitMessage = Shapes::StringShape.new(name: 'CommitMessage')
     CommitTime = Shapes::TimestampShape.new(name: 'CommitTime')
+    ComputeRoleArn = Shapes::StringShape.new(name: 'ComputeRoleArn')
     Condition = Shapes::StringShape.new(name: 'Condition')
     Context = Shapes::StringShape.new(name: 'Context')
     CreateAppRequest = Shapes::StructureShape.new(name: 'CreateAppRequest')
@@ -157,6 +166,7 @@ module Aws::Amplify
     LogUrl = Shapes::StringShape.new(name: 'LogUrl')
     MD5Hash = Shapes::StringShape.new(name: 'MD5Hash')
     MaxResults = Shapes::IntegerShape.new(name: 'MaxResults')
+    MaxResultsForListApps = Shapes::IntegerShape.new(name: 'MaxResultsForListApps')
     Name = Shapes::StringShape.new(name: 'Name')
     NextToken = Shapes::StringShape.new(name: 'NextToken')
     NotFoundException = Shapes::StructureShape.new(name: 'NotFoundException')
@@ -172,6 +182,8 @@ module Aws::Amplify
     ServiceRoleArn = Shapes::StringShape.new(name: 'ServiceRoleArn')
     Source = Shapes::StringShape.new(name: 'Source')
     SourceUrl = Shapes::StringShape.new(name: 'SourceUrl')
+    SourceUrlType = Shapes::StringShape.new(name: 'SourceUrlType')
+    StackArn = Shapes::StringShape.new(name: 'StackArn')
     StackName = Shapes::StringShape.new(name: 'StackName')
     Stage = Shapes::StringShape.new(name: 'Stage')
     StartDeploymentRequest = Shapes::StructureShape.new(name: 'StartDeploymentRequest')
@@ -212,16 +224,21 @@ module Aws::Amplify
     UpdateBranchResult = Shapes::StructureShape.new(name: 'UpdateBranchResult')
     UpdateDomainAssociationRequest = Shapes::StructureShape.new(name: 'UpdateDomainAssociationRequest')
     UpdateDomainAssociationResult = Shapes::StructureShape.new(name: 'UpdateDomainAssociationResult')
+    UpdateStatus = Shapes::StringShape.new(name: 'UpdateStatus')
     UpdateTime = Shapes::TimestampShape.new(name: 'UpdateTime')
     UpdateWebhookRequest = Shapes::StructureShape.new(name: 'UpdateWebhookRequest')
     UpdateWebhookResult = Shapes::StructureShape.new(name: 'UpdateWebhookResult')
     UploadUrl = Shapes::StringShape.new(name: 'UploadUrl')
     Verified = Shapes::BooleanShape.new(name: 'Verified')
+    WafConfiguration = Shapes::StructureShape.new(name: 'WafConfiguration')
+    WafStatus = Shapes::StringShape.new(name: 'WafStatus')
+    WebAclArn = Shapes::StringShape.new(name: 'WebAclArn')
     Webhook = Shapes::StructureShape.new(name: 'Webhook')
     WebhookArn = Shapes::StringShape.new(name: 'WebhookArn')
     WebhookId = Shapes::StringShape.new(name: 'WebhookId')
     WebhookUrl = Shapes::StringShape.new(name: 'WebhookUrl')
     Webhooks = Shapes::ListShape.new(name: 'Webhooks')
+    webhookCreateTime = Shapes::TimestampShape.new(name: 'webhookCreateTime')
 
     App.add_member(:app_id, Shapes::ShapeRef.new(shape: AppId, required: true, location_name: "appId"))
     App.add_member(:app_arn, Shapes::ShapeRef.new(shape: AppArn, required: true, location_name: "appArn"))
@@ -232,6 +249,7 @@ module Aws::Amplify
     App.add_member(:platform, Shapes::ShapeRef.new(shape: Platform, required: true, location_name: "platform"))
     App.add_member(:create_time, Shapes::ShapeRef.new(shape: CreateTime, required: true, location_name: "createTime"))
     App.add_member(:update_time, Shapes::ShapeRef.new(shape: UpdateTime, required: true, location_name: "updateTime"))
+    App.add_member(:compute_role_arn, Shapes::ShapeRef.new(shape: ComputeRoleArn, location_name: "computeRoleArn"))
     App.add_member(:iam_service_role_arn, Shapes::ShapeRef.new(shape: ServiceRoleArn, location_name: "iamServiceRoleArn"))
     App.add_member(:environment_variables, Shapes::ShapeRef.new(shape: EnvironmentVariables, required: true, location_name: "environmentVariables"))
     App.add_member(:default_domain, Shapes::ShapeRef.new(shape: DefaultDomain, required: true, location_name: "defaultDomain"))
@@ -247,6 +265,9 @@ module Aws::Amplify
     App.add_member(:auto_branch_creation_patterns, Shapes::ShapeRef.new(shape: AutoBranchCreationPatterns, location_name: "autoBranchCreationPatterns"))
     App.add_member(:auto_branch_creation_config, Shapes::ShapeRef.new(shape: AutoBranchCreationConfig, location_name: "autoBranchCreationConfig"))
     App.add_member(:repository_clone_method, Shapes::ShapeRef.new(shape: RepositoryCloneMethod, location_name: "repositoryCloneMethod"))
+    App.add_member(:cache_config, Shapes::ShapeRef.new(shape: CacheConfig, location_name: "cacheConfig"))
+    App.add_member(:webhook_create_time, Shapes::ShapeRef.new(shape: webhookCreateTime, location_name: "webhookCreateTime"))
+    App.add_member(:waf_configuration, Shapes::ShapeRef.new(shape: WafConfiguration, location_name: "wafConfiguration"))
     App.struct_class = Types::App
 
     Apps.member = Shapes::ShapeRef.new(shape: App)
@@ -274,6 +295,9 @@ module Aws::Amplify
     AutoBranchCreationPatterns.member = Shapes::ShapeRef.new(shape: AutoBranchCreationPattern)
 
     AutoSubDomainCreationPatterns.member = Shapes::ShapeRef.new(shape: AutoSubDomainCreationPattern)
+
+    Backend.add_member(:stack_arn, Shapes::ShapeRef.new(shape: StackArn, location_name: "stackArn"))
+    Backend.struct_class = Types::Backend
 
     BackendEnvironment.add_member(:backend_environment_arn, Shapes::ShapeRef.new(shape: BackendEnvironmentArn, required: true, location_name: "backendEnvironmentArn"))
     BackendEnvironment.add_member(:environment_name, Shapes::ShapeRef.new(shape: EnvironmentName, required: true, location_name: "environmentName"))
@@ -315,14 +339,29 @@ module Aws::Amplify
     Branch.add_member(:destination_branch, Shapes::ShapeRef.new(shape: BranchName, location_name: "destinationBranch"))
     Branch.add_member(:source_branch, Shapes::ShapeRef.new(shape: BranchName, location_name: "sourceBranch"))
     Branch.add_member(:backend_environment_arn, Shapes::ShapeRef.new(shape: BackendEnvironmentArn, location_name: "backendEnvironmentArn"))
+    Branch.add_member(:backend, Shapes::ShapeRef.new(shape: Backend, location_name: "backend"))
+    Branch.add_member(:compute_role_arn, Shapes::ShapeRef.new(shape: ComputeRoleArn, location_name: "computeRoleArn"))
     Branch.struct_class = Types::Branch
 
     Branches.member = Shapes::ShapeRef.new(shape: Branch)
+
+    CacheConfig.add_member(:type, Shapes::ShapeRef.new(shape: CacheConfigType, required: true, location_name: "type"))
+    CacheConfig.struct_class = Types::CacheConfig
+
+    Certificate.add_member(:type, Shapes::ShapeRef.new(shape: CertificateType, required: true, location_name: "type"))
+    Certificate.add_member(:custom_certificate_arn, Shapes::ShapeRef.new(shape: CertificateArn, location_name: "customCertificateArn"))
+    Certificate.add_member(:certificate_verification_dns_record, Shapes::ShapeRef.new(shape: CertificateVerificationDNSRecord, location_name: "certificateVerificationDNSRecord"))
+    Certificate.struct_class = Types::Certificate
+
+    CertificateSettings.add_member(:type, Shapes::ShapeRef.new(shape: CertificateType, required: true, location_name: "type"))
+    CertificateSettings.add_member(:custom_certificate_arn, Shapes::ShapeRef.new(shape: CertificateArn, location_name: "customCertificateArn"))
+    CertificateSettings.struct_class = Types::CertificateSettings
 
     CreateAppRequest.add_member(:name, Shapes::ShapeRef.new(shape: Name, required: true, location_name: "name"))
     CreateAppRequest.add_member(:description, Shapes::ShapeRef.new(shape: Description, location_name: "description"))
     CreateAppRequest.add_member(:repository, Shapes::ShapeRef.new(shape: Repository, location_name: "repository"))
     CreateAppRequest.add_member(:platform, Shapes::ShapeRef.new(shape: Platform, location_name: "platform"))
+    CreateAppRequest.add_member(:compute_role_arn, Shapes::ShapeRef.new(shape: ComputeRoleArn, location_name: "computeRoleArn"))
     CreateAppRequest.add_member(:iam_service_role_arn, Shapes::ShapeRef.new(shape: ServiceRoleArn, location_name: "iamServiceRoleArn"))
     CreateAppRequest.add_member(:oauth_token, Shapes::ShapeRef.new(shape: OauthToken, location_name: "oauthToken"))
     CreateAppRequest.add_member(:access_token, Shapes::ShapeRef.new(shape: AccessToken, location_name: "accessToken"))
@@ -338,6 +377,7 @@ module Aws::Amplify
     CreateAppRequest.add_member(:enable_auto_branch_creation, Shapes::ShapeRef.new(shape: EnableAutoBranchCreation, location_name: "enableAutoBranchCreation"))
     CreateAppRequest.add_member(:auto_branch_creation_patterns, Shapes::ShapeRef.new(shape: AutoBranchCreationPatterns, location_name: "autoBranchCreationPatterns"))
     CreateAppRequest.add_member(:auto_branch_creation_config, Shapes::ShapeRef.new(shape: AutoBranchCreationConfig, location_name: "autoBranchCreationConfig"))
+    CreateAppRequest.add_member(:cache_config, Shapes::ShapeRef.new(shape: CacheConfig, location_name: "cacheConfig"))
     CreateAppRequest.struct_class = Types::CreateAppRequest
 
     CreateAppResult.add_member(:app, Shapes::ShapeRef.new(shape: App, required: true, location_name: "app"))
@@ -370,6 +410,8 @@ module Aws::Amplify
     CreateBranchRequest.add_member(:enable_pull_request_preview, Shapes::ShapeRef.new(shape: EnablePullRequestPreview, location_name: "enablePullRequestPreview"))
     CreateBranchRequest.add_member(:pull_request_environment_name, Shapes::ShapeRef.new(shape: PullRequestEnvironmentName, location_name: "pullRequestEnvironmentName"))
     CreateBranchRequest.add_member(:backend_environment_arn, Shapes::ShapeRef.new(shape: BackendEnvironmentArn, location_name: "backendEnvironmentArn"))
+    CreateBranchRequest.add_member(:backend, Shapes::ShapeRef.new(shape: Backend, location_name: "backend"))
+    CreateBranchRequest.add_member(:compute_role_arn, Shapes::ShapeRef.new(shape: ComputeRoleArn, location_name: "computeRoleArn"))
     CreateBranchRequest.struct_class = Types::CreateBranchRequest
 
     CreateBranchResult.add_member(:branch, Shapes::ShapeRef.new(shape: Branch, required: true, location_name: "branch"))
@@ -391,6 +433,7 @@ module Aws::Amplify
     CreateDomainAssociationRequest.add_member(:sub_domain_settings, Shapes::ShapeRef.new(shape: SubDomainSettings, required: true, location_name: "subDomainSettings"))
     CreateDomainAssociationRequest.add_member(:auto_sub_domain_creation_patterns, Shapes::ShapeRef.new(shape: AutoSubDomainCreationPatterns, location_name: "autoSubDomainCreationPatterns"))
     CreateDomainAssociationRequest.add_member(:auto_sub_domain_iam_role, Shapes::ShapeRef.new(shape: AutoSubDomainIAMRole, location_name: "autoSubDomainIAMRole"))
+    CreateDomainAssociationRequest.add_member(:certificate_settings, Shapes::ShapeRef.new(shape: CertificateSettings, location_name: "certificateSettings"))
     CreateDomainAssociationRequest.struct_class = Types::CreateDomainAssociationRequest
 
     CreateDomainAssociationResult.add_member(:domain_association, Shapes::ShapeRef.new(shape: DomainAssociation, required: true, location_name: "domainAssociation"))
@@ -464,9 +507,11 @@ module Aws::Amplify
     DomainAssociation.add_member(:auto_sub_domain_creation_patterns, Shapes::ShapeRef.new(shape: AutoSubDomainCreationPatterns, location_name: "autoSubDomainCreationPatterns"))
     DomainAssociation.add_member(:auto_sub_domain_iam_role, Shapes::ShapeRef.new(shape: AutoSubDomainIAMRole, location_name: "autoSubDomainIAMRole"))
     DomainAssociation.add_member(:domain_status, Shapes::ShapeRef.new(shape: DomainStatus, required: true, location_name: "domainStatus"))
+    DomainAssociation.add_member(:update_status, Shapes::ShapeRef.new(shape: UpdateStatus, location_name: "updateStatus"))
     DomainAssociation.add_member(:status_reason, Shapes::ShapeRef.new(shape: StatusReason, required: true, location_name: "statusReason"))
     DomainAssociation.add_member(:certificate_verification_dns_record, Shapes::ShapeRef.new(shape: CertificateVerificationDNSRecord, location_name: "certificateVerificationDNSRecord"))
     DomainAssociation.add_member(:sub_domains, Shapes::ShapeRef.new(shape: SubDomains, required: true, location_name: "subDomains"))
+    DomainAssociation.add_member(:certificate, Shapes::ShapeRef.new(shape: Certificate, location_name: "certificate"))
     DomainAssociation.struct_class = Types::DomainAssociation
 
     DomainAssociations.member = Shapes::ShapeRef.new(shape: DomainAssociation)
@@ -555,13 +600,15 @@ module Aws::Amplify
     JobSummary.add_member(:status, Shapes::ShapeRef.new(shape: JobStatus, required: true, location_name: "status"))
     JobSummary.add_member(:end_time, Shapes::ShapeRef.new(shape: EndTime, location_name: "endTime"))
     JobSummary.add_member(:job_type, Shapes::ShapeRef.new(shape: JobType, required: true, location_name: "jobType"))
+    JobSummary.add_member(:source_url, Shapes::ShapeRef.new(shape: SourceUrl, location_name: "sourceUrl"))
+    JobSummary.add_member(:source_url_type, Shapes::ShapeRef.new(shape: SourceUrlType, location_name: "sourceUrlType"))
     JobSummary.struct_class = Types::JobSummary
 
     LimitExceededException.add_member(:message, Shapes::ShapeRef.new(shape: ErrorMessage, location_name: "message"))
     LimitExceededException.struct_class = Types::LimitExceededException
 
     ListAppsRequest.add_member(:next_token, Shapes::ShapeRef.new(shape: NextToken, location: "querystring", location_name: "nextToken"))
-    ListAppsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResults, location: "querystring", location_name: "maxResults"))
+    ListAppsRequest.add_member(:max_results, Shapes::ShapeRef.new(shape: MaxResultsForListApps, location: "querystring", location_name: "maxResults"))
     ListAppsRequest.struct_class = Types::ListAppsRequest
 
     ListAppsResult.add_member(:apps, Shapes::ShapeRef.new(shape: Apps, required: true, location_name: "apps"))
@@ -652,6 +699,7 @@ module Aws::Amplify
     StartDeploymentRequest.add_member(:branch_name, Shapes::ShapeRef.new(shape: BranchName, required: true, location: "uri", location_name: "branchName"))
     StartDeploymentRequest.add_member(:job_id, Shapes::ShapeRef.new(shape: JobId, location_name: "jobId"))
     StartDeploymentRequest.add_member(:source_url, Shapes::ShapeRef.new(shape: SourceUrl, location_name: "sourceUrl"))
+    StartDeploymentRequest.add_member(:source_url_type, Shapes::ShapeRef.new(shape: SourceUrlType, location_name: "sourceUrlType"))
     StartDeploymentRequest.struct_class = Types::StartDeploymentRequest
 
     StartDeploymentResult.add_member(:job_summary, Shapes::ShapeRef.new(shape: JobSummary, required: true, location_name: "jobSummary"))
@@ -730,6 +778,7 @@ module Aws::Amplify
     UpdateAppRequest.add_member(:name, Shapes::ShapeRef.new(shape: Name, location_name: "name"))
     UpdateAppRequest.add_member(:description, Shapes::ShapeRef.new(shape: Description, location_name: "description"))
     UpdateAppRequest.add_member(:platform, Shapes::ShapeRef.new(shape: Platform, location_name: "platform"))
+    UpdateAppRequest.add_member(:compute_role_arn, Shapes::ShapeRef.new(shape: ComputeRoleArn, location_name: "computeRoleArn"))
     UpdateAppRequest.add_member(:iam_service_role_arn, Shapes::ShapeRef.new(shape: ServiceRoleArn, location_name: "iamServiceRoleArn"))
     UpdateAppRequest.add_member(:environment_variables, Shapes::ShapeRef.new(shape: EnvironmentVariables, location_name: "environmentVariables"))
     UpdateAppRequest.add_member(:enable_branch_auto_build, Shapes::ShapeRef.new(shape: EnableAutoBuild, location_name: "enableBranchAutoBuild"))
@@ -745,6 +794,7 @@ module Aws::Amplify
     UpdateAppRequest.add_member(:repository, Shapes::ShapeRef.new(shape: Repository, location_name: "repository"))
     UpdateAppRequest.add_member(:oauth_token, Shapes::ShapeRef.new(shape: OauthToken, location_name: "oauthToken"))
     UpdateAppRequest.add_member(:access_token, Shapes::ShapeRef.new(shape: AccessToken, location_name: "accessToken"))
+    UpdateAppRequest.add_member(:cache_config, Shapes::ShapeRef.new(shape: CacheConfig, location_name: "cacheConfig"))
     UpdateAppRequest.struct_class = Types::UpdateAppRequest
 
     UpdateAppResult.add_member(:app, Shapes::ShapeRef.new(shape: App, required: true, location_name: "app"))
@@ -767,6 +817,8 @@ module Aws::Amplify
     UpdateBranchRequest.add_member(:enable_pull_request_preview, Shapes::ShapeRef.new(shape: EnablePullRequestPreview, location_name: "enablePullRequestPreview"))
     UpdateBranchRequest.add_member(:pull_request_environment_name, Shapes::ShapeRef.new(shape: PullRequestEnvironmentName, location_name: "pullRequestEnvironmentName"))
     UpdateBranchRequest.add_member(:backend_environment_arn, Shapes::ShapeRef.new(shape: BackendEnvironmentArn, location_name: "backendEnvironmentArn"))
+    UpdateBranchRequest.add_member(:backend, Shapes::ShapeRef.new(shape: Backend, location_name: "backend"))
+    UpdateBranchRequest.add_member(:compute_role_arn, Shapes::ShapeRef.new(shape: ComputeRoleArn, location_name: "computeRoleArn"))
     UpdateBranchRequest.struct_class = Types::UpdateBranchRequest
 
     UpdateBranchResult.add_member(:branch, Shapes::ShapeRef.new(shape: Branch, required: true, location_name: "branch"))
@@ -778,6 +830,7 @@ module Aws::Amplify
     UpdateDomainAssociationRequest.add_member(:sub_domain_settings, Shapes::ShapeRef.new(shape: SubDomainSettings, location_name: "subDomainSettings"))
     UpdateDomainAssociationRequest.add_member(:auto_sub_domain_creation_patterns, Shapes::ShapeRef.new(shape: AutoSubDomainCreationPatterns, location_name: "autoSubDomainCreationPatterns"))
     UpdateDomainAssociationRequest.add_member(:auto_sub_domain_iam_role, Shapes::ShapeRef.new(shape: AutoSubDomainIAMRole, location_name: "autoSubDomainIAMRole"))
+    UpdateDomainAssociationRequest.add_member(:certificate_settings, Shapes::ShapeRef.new(shape: CertificateSettings, location_name: "certificateSettings"))
     UpdateDomainAssociationRequest.struct_class = Types::UpdateDomainAssociationRequest
 
     UpdateDomainAssociationResult.add_member(:domain_association, Shapes::ShapeRef.new(shape: DomainAssociation, required: true, location_name: "domainAssociation"))
@@ -790,6 +843,11 @@ module Aws::Amplify
 
     UpdateWebhookResult.add_member(:webhook, Shapes::ShapeRef.new(shape: Webhook, required: true, location_name: "webhook"))
     UpdateWebhookResult.struct_class = Types::UpdateWebhookResult
+
+    WafConfiguration.add_member(:web_acl_arn, Shapes::ShapeRef.new(shape: WebAclArn, location_name: "webAclArn"))
+    WafConfiguration.add_member(:waf_status, Shapes::ShapeRef.new(shape: WafStatus, location_name: "wafStatus"))
+    WafConfiguration.add_member(:status_reason, Shapes::ShapeRef.new(shape: StatusReason, location_name: "statusReason"))
+    WafConfiguration.struct_class = Types::WafConfiguration
 
     Webhook.add_member(:webhook_arn, Shapes::ShapeRef.new(shape: WebhookArn, required: true, location_name: "webhookArn"))
     Webhook.add_member(:webhook_id, Shapes::ShapeRef.new(shape: WebhookId, required: true, location_name: "webhookId"))
@@ -810,9 +868,11 @@ module Aws::Amplify
 
       api.metadata = {
         "apiVersion" => "2017-07-25",
+        "auth" => ["aws.auth#sigv4"],
         "endpointPrefix" => "amplify",
         "jsonVersion" => "1.1",
         "protocol" => "rest-json",
+        "protocols" => ["rest-json"],
         "serviceAbbreviation" => "Amplify",
         "serviceFullName" => "AWS Amplify",
         "serviceId" => "Amplify",
@@ -1087,6 +1147,12 @@ module Aws::Amplify
         o.errors << Shapes::ShapeRef.new(shape: BadRequestException)
         o.errors << Shapes::ShapeRef.new(shape: UnauthorizedException)
         o.errors << Shapes::ShapeRef.new(shape: InternalFailureException)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
       end)
 
       api.add_operation(:list_artifacts, Seahorse::Model::Operation.new.tap do |o|
@@ -1121,6 +1187,12 @@ module Aws::Amplify
         o.errors << Shapes::ShapeRef.new(shape: BadRequestException)
         o.errors << Shapes::ShapeRef.new(shape: UnauthorizedException)
         o.errors << Shapes::ShapeRef.new(shape: InternalFailureException)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
       end)
 
       api.add_operation(:list_domain_associations, Seahorse::Model::Operation.new.tap do |o|
@@ -1132,6 +1204,12 @@ module Aws::Amplify
         o.errors << Shapes::ShapeRef.new(shape: BadRequestException)
         o.errors << Shapes::ShapeRef.new(shape: UnauthorizedException)
         o.errors << Shapes::ShapeRef.new(shape: InternalFailureException)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
       end)
 
       api.add_operation(:list_jobs, Seahorse::Model::Operation.new.tap do |o|
@@ -1144,6 +1222,12 @@ module Aws::Amplify
         o.errors << Shapes::ShapeRef.new(shape: UnauthorizedException)
         o.errors << Shapes::ShapeRef.new(shape: InternalFailureException)
         o.errors << Shapes::ShapeRef.new(shape: LimitExceededException)
+        o[:pager] = Aws::Pager.new(
+          limit_key: "max_results",
+          tokens: {
+            "next_token" => "next_token"
+          }
+        )
       end)
 
       api.add_operation(:list_tags_for_resource, Seahorse::Model::Operation.new.tap do |o|

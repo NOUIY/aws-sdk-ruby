@@ -14,34 +14,48 @@ module Aws::IoTSecureTunneling
       option(
         :endpoint_provider,
         doc_type: 'Aws::IoTSecureTunneling::EndpointProvider',
-        docstring: 'The endpoint provider used to resolve endpoints. Any '\
-                   'object that responds to `#resolve_endpoint(parameters)` '\
-                   'where `parameters` is a Struct similar to '\
-                   '`Aws::IoTSecureTunneling::EndpointParameters`'
-      ) do |cfg|
+        rbs_type: 'untyped',
+        docstring: <<~DOCS) do |_cfg|
+The endpoint provider used to resolve endpoints. Any object that responds to
+`#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+`Aws::IoTSecureTunneling::EndpointParameters`.
+        DOCS
         Aws::IoTSecureTunneling::EndpointProvider.new
       end
 
       # @api private
       class Handler < Seahorse::Client::Handler
         def call(context)
-          # If endpoint was discovered, do not resolve or apply the endpoint.
           unless context[:discovered_endpoint]
-            params = parameters_for_operation(context)
+            params = Aws::IoTSecureTunneling::Endpoints.parameters_for_operation(context)
             endpoint = context.config.endpoint_provider.resolve_endpoint(params)
 
             context.http_request.endpoint = endpoint.url
             apply_endpoint_headers(context, endpoint.headers)
+
+            context[:endpoint_params] = params
+            context[:endpoint_properties] = endpoint.properties
           end
 
-          context[:endpoint_params] = params
           context[:auth_scheme] =
             Aws::Endpoints.resolve_auth_scheme(context, endpoint)
 
-          @handler.call(context)
+          with_metrics(context) { @handler.call(context) }
         end
 
         private
+
+        def with_metrics(context, &block)
+          metrics = []
+          metrics << 'ENDPOINT_OVERRIDE' unless context.config.regional_endpoint
+          if context[:auth_scheme] && context[:auth_scheme]['name'] == 'sigv4a'
+            metrics << 'SIGV4A_SIGNING'
+          end
+          if context.config.credentials&.credentials&.account_id
+            metrics << 'RESOLVED_ACCOUNT_ID'
+          end
+          Aws::Plugins::UserAgent.metric(*metrics, &block)
+        end
 
         def apply_endpoint_headers(context, headers)
           headers.each do |key, values|
@@ -51,27 +65,6 @@ module Aws::IoTSecureTunneling
               .join(',')
 
             context.http_request.headers[key] = value
-          end
-        end
-
-        def parameters_for_operation(context)
-          case context.operation_name
-          when :close_tunnel
-            Aws::IoTSecureTunneling::Endpoints::CloseTunnel.build(context)
-          when :describe_tunnel
-            Aws::IoTSecureTunneling::Endpoints::DescribeTunnel.build(context)
-          when :list_tags_for_resource
-            Aws::IoTSecureTunneling::Endpoints::ListTagsForResource.build(context)
-          when :list_tunnels
-            Aws::IoTSecureTunneling::Endpoints::ListTunnels.build(context)
-          when :open_tunnel
-            Aws::IoTSecureTunneling::Endpoints::OpenTunnel.build(context)
-          when :rotate_tunnel_access_token
-            Aws::IoTSecureTunneling::Endpoints::RotateTunnelAccessToken.build(context)
-          when :tag_resource
-            Aws::IoTSecureTunneling::Endpoints::TagResource.build(context)
-          when :untag_resource
-            Aws::IoTSecureTunneling::Endpoints::UntagResource.build(context)
           end
         end
       end

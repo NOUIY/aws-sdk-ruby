@@ -7,33 +7,34 @@
 #
 # WARNING ABOUT GENERATED CODE
 
-require 'seahorse/client/plugins/content_length.rb'
-require 'aws-sdk-core/plugins/credentials_configuration.rb'
-require 'aws-sdk-core/plugins/logging.rb'
-require 'aws-sdk-core/plugins/param_converter.rb'
-require 'aws-sdk-core/plugins/param_validator.rb'
-require 'aws-sdk-core/plugins/user_agent.rb'
-require 'aws-sdk-core/plugins/helpful_socket_errors.rb'
-require 'aws-sdk-core/plugins/retry_errors.rb'
-require 'aws-sdk-core/plugins/global_configuration.rb'
-require 'aws-sdk-core/plugins/regional_endpoint.rb'
-require 'aws-sdk-core/plugins/endpoint_discovery.rb'
-require 'aws-sdk-core/plugins/endpoint_pattern.rb'
-require 'aws-sdk-core/plugins/response_paging.rb'
-require 'aws-sdk-core/plugins/stub_responses.rb'
-require 'aws-sdk-core/plugins/idempotency_token.rb'
-require 'aws-sdk-core/plugins/jsonvalue_converter.rb'
-require 'aws-sdk-core/plugins/client_metrics_plugin.rb'
-require 'aws-sdk-core/plugins/client_metrics_send_plugin.rb'
-require 'aws-sdk-core/plugins/transfer_encoding.rb'
-require 'aws-sdk-core/plugins/http_checksum.rb'
-require 'aws-sdk-core/plugins/checksum_algorithm.rb'
-require 'aws-sdk-core/plugins/defaults_mode.rb'
-require 'aws-sdk-core/plugins/recursion_detection.rb'
-require 'aws-sdk-core/plugins/sign.rb'
-require 'aws-sdk-core/plugins/protocols/rest_json.rb'
-
-Aws::Plugins::GlobalConfiguration.add_identifier(:signer)
+require 'seahorse/client/plugins/content_length'
+require 'aws-sdk-core/plugins/credentials_configuration'
+require 'aws-sdk-core/plugins/logging'
+require 'aws-sdk-core/plugins/param_converter'
+require 'aws-sdk-core/plugins/param_validator'
+require 'aws-sdk-core/plugins/user_agent'
+require 'aws-sdk-core/plugins/helpful_socket_errors'
+require 'aws-sdk-core/plugins/retry_errors'
+require 'aws-sdk-core/plugins/global_configuration'
+require 'aws-sdk-core/plugins/regional_endpoint'
+require 'aws-sdk-core/plugins/endpoint_discovery'
+require 'aws-sdk-core/plugins/endpoint_pattern'
+require 'aws-sdk-core/plugins/response_paging'
+require 'aws-sdk-core/plugins/stub_responses'
+require 'aws-sdk-core/plugins/idempotency_token'
+require 'aws-sdk-core/plugins/invocation_id'
+require 'aws-sdk-core/plugins/jsonvalue_converter'
+require 'aws-sdk-core/plugins/client_metrics_plugin'
+require 'aws-sdk-core/plugins/client_metrics_send_plugin'
+require 'aws-sdk-core/plugins/transfer_encoding'
+require 'aws-sdk-core/plugins/http_checksum'
+require 'aws-sdk-core/plugins/checksum_algorithm'
+require 'aws-sdk-core/plugins/request_compression'
+require 'aws-sdk-core/plugins/defaults_mode'
+require 'aws-sdk-core/plugins/recursion_detection'
+require 'aws-sdk-core/plugins/telemetry'
+require 'aws-sdk-core/plugins/sign'
+require 'aws-sdk-core/plugins/protocols/rest_json'
 
 module Aws::Signer
   # An API client for Signer.  To construct a client, you need to configure a `:region` and `:credentials`.
@@ -71,20 +72,28 @@ module Aws::Signer
     add_plugin(Aws::Plugins::ResponsePaging)
     add_plugin(Aws::Plugins::StubResponses)
     add_plugin(Aws::Plugins::IdempotencyToken)
+    add_plugin(Aws::Plugins::InvocationId)
     add_plugin(Aws::Plugins::JsonvalueConverter)
     add_plugin(Aws::Plugins::ClientMetricsPlugin)
     add_plugin(Aws::Plugins::ClientMetricsSendPlugin)
     add_plugin(Aws::Plugins::TransferEncoding)
     add_plugin(Aws::Plugins::HttpChecksum)
     add_plugin(Aws::Plugins::ChecksumAlgorithm)
+    add_plugin(Aws::Plugins::RequestCompression)
     add_plugin(Aws::Plugins::DefaultsMode)
     add_plugin(Aws::Plugins::RecursionDetection)
+    add_plugin(Aws::Plugins::Telemetry)
     add_plugin(Aws::Plugins::Sign)
     add_plugin(Aws::Plugins::Protocols::RestJson)
     add_plugin(Aws::Signer::Plugins::Endpoints)
 
     # @overload initialize(options)
     #   @param [Hash] options
+    #
+    #   @option options [Array<Seahorse::Client::Plugin>] :plugins ([]])
+    #     A list of plugins to apply to the client. Each plugin is either a
+    #     class name or an instance of a plugin class.
+    #
     #   @option options [required, Aws::CredentialProvider] :credentials
     #     Your AWS credentials. This can be an instance of any one of the
     #     following classes:
@@ -119,13 +128,15 @@ module Aws::Signer
     #     locations will be searched for credentials:
     #
     #     * `Aws.config[:credentials]`
-    #     * The `:access_key_id`, `:secret_access_key`, and `:session_token` options.
-    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']
+    #     * The `:access_key_id`, `:secret_access_key`, `:session_token`, and
+    #       `:account_id` options.
+    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'],
+    #       ENV['AWS_SESSION_TOKEN'], and ENV['AWS_ACCOUNT_ID']
     #     * `~/.aws/credentials`
     #     * `~/.aws/config`
     #     * EC2/ECS IMDS instance profile - When used by default, the timeouts
     #       are very aggressive. Construct and pass an instance of
-    #       `Aws::InstanceProfileCredentails` or `Aws::ECSCredentials` to
+    #       `Aws::InstanceProfileCredentials` or `Aws::ECSCredentials` to
     #       enable retries and extended timeouts. Instance profile credential
     #       fetching can be disabled by setting ENV['AWS_EC2_METADATA_DISABLED']
     #       to true.
@@ -143,6 +154,8 @@ module Aws::Signer
     #     * `~/.aws/config`
     #
     #   @option options [String] :access_key_id
+    #
+    #   @option options [String] :account_id
     #
     #   @option options [Boolean] :active_endpoint_cache (false)
     #     When set to `true`, a thread polling for endpoints will be running in
@@ -190,10 +203,20 @@ module Aws::Signer
     #     Set to true to disable SDK automatically adding host prefix
     #     to default service endpoint when available.
     #
-    #   @option options [String] :endpoint
-    #     The client endpoint is normally constructed from the `:region`
-    #     option. You should only configure an `:endpoint` when connecting
-    #     to test or custom endpoints. This should be a valid HTTP(S) URI.
+    #   @option options [Boolean] :disable_request_compression (false)
+    #     When set to 'true' the request body will not be compressed
+    #     for supported operations.
+    #
+    #   @option options [String, URI::HTTPS, URI::HTTP] :endpoint
+    #     Normally you should not configure the `:endpoint` option
+    #     directly. This is normally constructed from the `:region`
+    #     option. Configuring `:endpoint` is normally reserved for
+    #     connecting to test or custom endpoints. The endpoint should
+    #     be a URI formatted like:
+    #
+    #         'http://example.com'
+    #         'https://example.com'
+    #         'http://example.com:123'
     #
     #   @option options [Integer] :endpoint_cache_max_entries (1000)
     #     Used for the maximum size limit of the LRU cache storing endpoints data
@@ -209,6 +232,10 @@ module Aws::Signer
     #
     #   @option options [Boolean] :endpoint_discovery (false)
     #     When set to `true`, endpoint discovery will be enabled for operations when available.
+    #
+    #   @option options [Boolean] :ignore_configured_endpoint_urls
+    #     Setting to true disables use of endpoint URLs provided via environment
+    #     variables and the shared configuration file.
     #
     #   @option options [Aws::Log::Formatter] :log_formatter (Aws::Log::Formatter.default)
     #     The log formatter.
@@ -229,6 +256,34 @@ module Aws::Signer
     #   @option options [String] :profile ("default")
     #     Used when loading credentials from the shared credentials file
     #     at HOME/.aws/credentials.  When not specified, 'default' is used.
+    #
+    #   @option options [String] :request_checksum_calculation ("when_supported")
+    #     Determines when a checksum will be calculated for request payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, a checksum will be
+    #       calculated for all request payloads of operations modeled with the
+    #       `httpChecksum` trait where `requestChecksumRequired` is `true` and/or a
+    #       `requestAlgorithmMember` is modeled.
+    #     * `when_required` - When set, a checksum will only be calculated for
+    #       request payloads of operations modeled with the  `httpChecksum` trait where
+    #       `requestChecksumRequired` is `true` or where a `requestAlgorithmMember`
+    #       is modeled and supplied.
+    #
+    #   @option options [Integer] :request_min_compression_size_bytes (10240)
+    #     The minimum size in bytes that triggers compression for request
+    #     bodies. The value must be non-negative integer value between 0
+    #     and 10485780 bytes inclusive.
+    #
+    #   @option options [String] :response_checksum_validation ("when_supported")
+    #     Determines when checksum validation will be performed on response payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, checksum validation is performed on all
+    #       response payloads of operations modeled with the `httpChecksum` trait where
+    #       `responseAlgorithms` is modeled, except when no modeled checksum algorithms
+    #       are supported.
+    #     * `when_required` - When set, checksum validation is not performed on
+    #       response payloads of operations unless the checksum algorithm is supported and
+    #       the `requestValidationModeMember` member is set to `ENABLED`.
     #
     #   @option options [Proc] :retry_backoff
     #     A proc or lambda used for backoff. Defaults to 2**retries * retry_base_delay.
@@ -274,10 +329,24 @@ module Aws::Signer
     #       throttling.  This is a provisional mode that may change behavior
     #       in the future.
     #
+    #   @option options [String] :sdk_ua_app_id
+    #     A unique and opaque application ID that is appended to the
+    #     User-Agent header as app/sdk_ua_app_id. It should have a
+    #     maximum length of 50. This variable is sourced from environment
+    #     variable AWS_SDK_UA_APP_ID or the shared config profile attribute sdk_ua_app_id.
     #
     #   @option options [String] :secret_access_key
     #
     #   @option options [String] :session_token
+    #
+    #   @option options [Array] :sigv4a_signing_region_set
+    #     A list of regions that should be signed with SigV4a signing. When
+    #     not passed, a default `:sigv4a_signing_region_set` is searched for
+    #     in the following locations:
+    #
+    #     * `Aws.config[:sigv4a_signing_region_set]`
+    #     * `ENV['AWS_SIGV4A_SIGNING_REGION_SET']`
+    #     * `~/.aws/config`
     #
     #   @option options [Boolean] :stub_responses (false)
     #     Causes the client to return stubbed responses. By default
@@ -287,6 +356,16 @@ module Aws::Signer
     #
     #     ** Please note ** When response stubbing is enabled, no HTTP
     #     requests are made, and retries are disabled.
+    #
+    #   @option options [Aws::Telemetry::TelemetryProviderBase] :telemetry_provider (Aws::Telemetry::NoOpTelemetryProvider)
+    #     Allows you to provide a telemetry provider, which is used to
+    #     emit telemetry data. By default, uses `NoOpTelemetryProvider` which
+    #     will not record or emit any telemetry data. The SDK supports the
+    #     following telemetry providers:
+    #
+    #     * OpenTelemetry (OTel) - To use the OTel provider, install and require the
+    #     `opentelemetry-sdk` gem and then, pass in an instance of a
+    #     `Aws::Telemetry::OTelProvider` for telemetry provider.
     #
     #   @option options [Aws::TokenProvider] :token_provider
     #     A Bearer Token Provider. This can be an instance of any one of the
@@ -315,52 +394,75 @@ module Aws::Signer
     #     sending the request.
     #
     #   @option options [Aws::Signer::EndpointProvider] :endpoint_provider
-    #     The endpoint provider used to resolve endpoints. Any object that responds to `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to `Aws::Signer::EndpointParameters`
+    #     The endpoint provider used to resolve endpoints. Any object that responds to
+    #     `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+    #     `Aws::Signer::EndpointParameters`.
     #
-    #   @option options [URI::HTTP,String] :http_proxy A proxy to send
-    #     requests through.  Formatted like 'http://proxy.com:123'.
+    #   @option options [Float] :http_continue_timeout (1)
+    #     The number of seconds to wait for a 100-continue response before sending the
+    #     request body.  This option has no effect unless the request has "Expect"
+    #     header set to "100-continue".  Defaults to `nil` which  disables this
+    #     behaviour.  This value can safely be set per request on the session.
     #
-    #   @option options [Float] :http_open_timeout (15) The number of
-    #     seconds to wait when opening a HTTP session before raising a
-    #     `Timeout::Error`.
+    #   @option options [Float] :http_idle_timeout (5)
+    #     The number of seconds a connection is allowed to sit idle before it
+    #     is considered stale.  Stale connections are closed and removed from the
+    #     pool before making a request.
     #
-    #   @option options [Float] :http_read_timeout (60) The default
-    #     number of seconds to wait for response data.  This value can
-    #     safely be set per-request on the session.
+    #   @option options [Float] :http_open_timeout (15)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :http_idle_timeout (5) The number of
-    #     seconds a connection is allowed to sit idle before it is
-    #     considered stale.  Stale connections are closed and removed
-    #     from the pool before making a request.
+    #   @option options [URI::HTTP,String] :http_proxy
+    #     A proxy to send requests through.  Formatted like 'http://proxy.com:123'.
     #
-    #   @option options [Float] :http_continue_timeout (1) The number of
-    #     seconds to wait for a 100-continue response before sending the
-    #     request body.  This option has no effect unless the request has
-    #     "Expect" header set to "100-continue".  Defaults to `nil` which
-    #     disables this behaviour.  This value can safely be set per
-    #     request on the session.
+    #   @option options [Float] :http_read_timeout (60)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :ssl_timeout (nil) Sets the SSL timeout
-    #     in seconds.
+    #   @option options [Boolean] :http_wire_trace (false)
+    #     When `true`,  HTTP debug output will be sent to the `:logger`.
     #
-    #   @option options [Boolean] :http_wire_trace (false) When `true`,
-    #     HTTP debug output will be sent to the `:logger`.
+    #   @option options [Proc] :on_chunk_received
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the response body is received. It provides three arguments: the chunk,
+    #     the number of bytes received, and the total number of
+    #     bytes in the response (or nil if the server did not send a `content-length`).
     #
-    #   @option options [Boolean] :ssl_verify_peer (true) When `true`,
-    #     SSL peer certificates are verified when establishing a
-    #     connection.
+    #   @option options [Proc] :on_chunk_sent
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the request body is sent. It provides three arguments: the chunk,
+    #     the number of bytes read from the body, and the total number of
+    #     bytes in the body.
     #
-    #   @option options [String] :ssl_ca_bundle Full path to the SSL
-    #     certificate authority bundle file that should be used when
-    #     verifying peer certificates.  If you do not pass
-    #     `:ssl_ca_bundle` or `:ssl_ca_directory` the the system default
-    #     will be used if available.
+    #   @option options [Boolean] :raise_response_errors (true)
+    #     When `true`, response errors are raised.
     #
-    #   @option options [String] :ssl_ca_directory Full path of the
-    #     directory that contains the unbundled SSL certificate
+    #   @option options [String] :ssl_ca_bundle
+    #     Full path to the SSL certificate authority bundle file that should be used when
+    #     verifying peer certificates.  If you do not pass `:ssl_ca_bundle` or
+    #     `:ssl_ca_directory` the the system default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_directory
+    #     Full path of the directory that contains the unbundled SSL certificate
     #     authority files for verifying peer certificates.  If you do
-    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the
-    #     system default will be used if available.
+    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the system
+    #     default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_store
+    #     Sets the X509::Store to verify peer certificate.
+    #
+    #   @option options [OpenSSL::X509::Certificate] :ssl_cert
+    #     Sets a client certificate when creating http connections.
+    #
+    #   @option options [OpenSSL::PKey] :ssl_key
+    #     Sets a client key when creating http connections.
+    #
+    #   @option options [Float] :ssl_timeout
+    #     Sets the SSL timeout in seconds
+    #
+    #   @option options [Boolean] :ssl_verify_peer (true)
+    #     When `true`, SSL peer certificates are verified when establishing a connection.
     #
     def initialize(*args)
       super
@@ -377,7 +479,27 @@ module Aws::Signer
     #   The version of the signing profile.
     #
     # @option params [required, String] :action
-    #   The AWS Signer action permitted as part of cross-account permissions.
+    #   For cross-account signing. Grant a designated account permission to
+    #   perform one or more of the following actions. Each action is
+    #   associated with a specific API's operations. For more information
+    #   about cross-account signing, see [Using cross-account signing with
+    #   signing profiles][1] in the *AWS Signer Developer Guide*.
+    #
+    #   You can designate the following actions to an account.
+    #
+    #   * `signer:StartSigningJob`. This action isn't supported for container
+    #     image workflows. For details, see StartSigningJob.
+    #
+    #   * `signer:SignPayload`. This action isn't supported for AWS Lambda
+    #     workflows. For details, see SignPayload
+    #
+    #   * `signer:GetSigningProfile`. For details, see GetSigningProfile.
+    #
+    #   * `signer:RevokeSignature`. For details, see RevokeSignature.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/signer/latest/developerguide/signing-profile-cross-account.html
     #
     # @option params [required, String] :principal
     #   The AWS principal receiving cross-account permissions. This may be an
@@ -518,6 +640,71 @@ module Aws::Signer
     # @param [Hash] params ({})
     def describe_signing_job(params = {}, options = {})
       req = build_request(:describe_signing_job, params)
+      req.send_request(options)
+    end
+
+    # Retrieves the revocation status of one or more of the signing profile,
+    # signing job, and signing certificate.
+    #
+    # @option params [required, Time,DateTime,Date,Integer,String] :signature_timestamp
+    #   The timestamp of the signature that validates the profile or job.
+    #
+    # @option params [required, String] :platform_id
+    #   The ID of a signing platform.
+    #
+    # @option params [required, String] :profile_version_arn
+    #   The version of a signing profile.
+    #
+    # @option params [required, String] :job_arn
+    #   The ARN of a signing job.
+    #
+    # @option params [required, Array<String>] :certificate_hashes
+    #   A list of composite signed hashes that identify certificates.
+    #
+    #   A certificate identifier consists of a subject certificate TBS hash
+    #   (signed by the parent CA) combined with a parent CA TBS hash (signed
+    #   by the parent CA’s CA). Root certificates are defined as their own CA.
+    #
+    #   The following example shows how to calculate a hash for this parameter
+    #   using OpenSSL commands:
+    #
+    #   `openssl asn1parse -in childCert.pem -strparse 4 -out childCert.tbs`
+    #
+    #   `openssl sha384 < childCert.tbs -binary > childCertTbsHash`
+    #
+    #   `openssl asn1parse -in parentCert.pem -strparse 4 -out parentCert.tbs`
+    #
+    #   `openssl sha384 < parentCert.tbs -binary > parentCertTbsHash xxd -p
+    #   childCertTbsHash > certificateHash.hex xxd -p parentCertTbsHash >>
+    #   certificateHash.hex`
+    #
+    #   `cat certificateHash.hex | tr -d '\n'`
+    #
+    # @return [Types::GetRevocationStatusResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetRevocationStatusResponse#revoked_entities #revoked_entities} => Array&lt;String&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_revocation_status({
+    #     signature_timestamp: Time.now, # required
+    #     platform_id: "PlatformId", # required
+    #     profile_version_arn: "Arn", # required
+    #     job_arn: "Arn", # required
+    #     certificate_hashes: ["String"], # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.revoked_entities #=> Array
+    #   resp.revoked_entities[0] #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/signer-2017-08-25/GetRevocationStatus AWS API Documentation
+    #
+    # @overload get_revocation_status(params = {})
+    # @param [Hash] params ({})
+    def get_revocation_status(params = {}, options = {})
+      req = build_request(:get_revocation_status, params)
       req.send_request(options)
     end
 
@@ -681,12 +868,12 @@ module Aws::Signer
 
     # Lists all your signing jobs. You can use the `maxResults` parameter to
     # limit the number of signing jobs that are returned in the response. If
-    # additional jobs remain to be listed, code signing returns a
-    # `nextToken` value. Use this value in subsequent calls to
-    # `ListSigningJobs` to fetch the remaining values. You can continue
-    # calling `ListSigningJobs` with your `maxResults` parameter and with
-    # new values that code signing returns in the `nextToken` parameter
-    # until all of your signing jobs have been returned.
+    # additional jobs remain to be listed, AWS Signer returns a `nextToken`
+    # value. Use this value in subsequent calls to `ListSigningJobs` to
+    # fetch the remaining values. You can continue calling `ListSigningJobs`
+    # with your `maxResults` parameter and with new values that Signer
+    # returns in the `nextToken` parameter until all of your signing jobs
+    # have been returned.
     #
     # @option params [String] :status
     #   A status value with which to filter your results.
@@ -778,13 +965,13 @@ module Aws::Signer
       req.send_request(options)
     end
 
-    # Lists all signing platforms available in code signing that match the
-    # request parameters. If additional jobs remain to be listed, code
-    # signing returns a `nextToken` value. Use this value in subsequent
-    # calls to `ListSigningJobs` to fetch the remaining values. You can
-    # continue calling `ListSigningJobs` with your `maxResults` parameter
-    # and with new values that code signing returns in the `nextToken`
-    # parameter until all of your signing jobs have been returned.
+    # Lists all signing platforms available in AWS Signer that match the
+    # request parameters. If additional jobs remain to be listed, Signer
+    # returns a `nextToken` value. Use this value in subsequent calls to
+    # `ListSigningJobs` to fetch the remaining values. You can continue
+    # calling `ListSigningJobs` with your `maxResults` parameter and with
+    # new values that Signer returns in the `nextToken` parameter until all
+    # of your signing jobs have been returned.
     #
     # @option params [String] :category
     #   The category type of a signing platform.
@@ -853,12 +1040,12 @@ module Aws::Signer
 
     # Lists all available signing profiles in your AWS account. Returns only
     # profiles with an `ACTIVE` status unless the `includeCanceled` request
-    # field is set to `true`. If additional jobs remain to be listed, code
-    # signing returns a `nextToken` value. Use this value in subsequent
-    # calls to `ListSigningJobs` to fetch the remaining values. You can
-    # continue calling `ListSigningJobs` with your `maxResults` parameter
-    # and with new values that code signing returns in the `nextToken`
-    # parameter until all of your signing jobs have been returned.
+    # field is set to `true`. If additional jobs remain to be listed, AWS
+    # Signer returns a `nextToken` value. Use this value in subsequent calls
+    # to `ListSigningJobs` to fetch the remaining values. You can continue
+    # calling `ListSigningJobs` with your `maxResults` parameter and with
+    # new values that Signer returns in the `nextToken` parameter until all
+    # of your signing jobs have been returned.
     #
     # @option params [Boolean] :include_canceled
     #   Designates whether to include profiles with the status of `CANCELED`.
@@ -954,14 +1141,8 @@ module Aws::Signer
       req.send_request(options)
     end
 
-    # Creates a signing profile. A signing profile is a code signing
-    # template that can be used to carry out a pre-defined signing job. For
-    # more information, see
-    # [http://docs.aws.amazon.com/signer/latest/developerguide/gs-profile.html][1]
-    #
-    #
-    #
-    # [1]: http://docs.aws.amazon.com/signer/latest/developerguide/gs-profile.html
+    # Creates a signing profile. A signing profile is a code-signing
+    # template that can be used to carry out a pre-defined signing job.
     #
     # @option params [required, String] :profile_name
     #   The name of the signing profile to be created.
@@ -1144,34 +1325,85 @@ module Aws::Signer
       req.send_request(options)
     end
 
+    # Signs a binary payload and returns a signature envelope.
+    #
+    # @option params [required, String] :profile_name
+    #   The name of the signing profile.
+    #
+    # @option params [String] :profile_owner
+    #   The AWS account ID of the profile owner.
+    #
+    # @option params [required, String, StringIO, File] :payload
+    #   Specifies the object digest (hash) to sign.
+    #
+    # @option params [required, String] :payload_format
+    #   Payload content type. The single valid type is
+    #   `application/vnd.cncf.notary.payload.v1+json`.
+    #
+    # @return [Types::SignPayloadResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::SignPayloadResponse#job_id #job_id} => String
+    #   * {Types::SignPayloadResponse#job_owner #job_owner} => String
+    #   * {Types::SignPayloadResponse#metadata #metadata} => Hash&lt;String,String&gt;
+    #   * {Types::SignPayloadResponse#signature #signature} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.sign_payload({
+    #     profile_name: "ProfileName", # required
+    #     profile_owner: "AccountId",
+    #     payload: "data", # required
+    #     payload_format: "String", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.job_id #=> String
+    #   resp.job_owner #=> String
+    #   resp.metadata #=> Hash
+    #   resp.metadata["String"] #=> String
+    #   resp.signature #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/signer-2017-08-25/SignPayload AWS API Documentation
+    #
+    # @overload sign_payload(params = {})
+    # @param [Hash] params ({})
+    def sign_payload(params = {}, options = {})
+      req = build_request(:sign_payload, params)
+      req.send_request(options)
+    end
+
     # Initiates a signing job to be performed on the code provided. Signing
     # jobs are viewable by the `ListSigningJobs` operation for two years
     # after they are performed. Note the following requirements:
     #
     # * You must create an Amazon S3 source bucket. For more information,
-    #   see [Create a Bucket][1] in the *Amazon S3 Getting Started Guide*.
+    #   see [Creating a Bucket][1] in the *Amazon S3 Getting Started Guide*.
     #
     # * Your S3 source bucket must be version enabled.
     #
-    # * You must create an S3 destination bucket. Code signing uses your S3
+    # * You must create an S3 destination bucket. AWS Signer uses your S3
     #   destination bucket to write your signed code.
     #
     # * You specify the name of the source and destination buckets when
     #   calling the `StartSigningJob` operation.
     #
+    # * You must ensure the S3 buckets are from the same Region as the
+    #   signing profile. Cross-Region signing isn't supported.
+    #
     # * You must also specify a request token that identifies your request
-    #   to code signing.
+    #   to Signer.
     #
     # You can call the DescribeSigningJob and the ListSigningJobs actions
     # after you call `StartSigningJob`.
     #
     # For a Java example that shows how to use this action, see
-    # [http://docs.aws.amazon.com/acm/latest/userguide/][2]
+    # [StartSigningJob][2].
     #
     #
     #
     # [1]: http://docs.aws.amazon.com/AmazonS3/latest/gsg/CreatingABucket.html
-    # [2]: http://docs.aws.amazon.com/acm/latest/userguide/
+    # [2]: https://docs.aws.amazon.com/signer/latest/developerguide/api-startsigningjob.html
     #
     # @option params [required, Types::Source] :source
     #   The S3 bucket that contains the object to sign or a BLOB that contains
@@ -1299,14 +1531,19 @@ module Aws::Signer
     # @api private
     def build_request(operation_name, params = {})
       handlers = @handlers.for(operation_name)
+      tracer = config.telemetry_provider.tracer_provider.tracer(
+        Aws::Telemetry.module_to_tracer_name('Aws::Signer')
+      )
       context = Seahorse::Client::RequestContext.new(
         operation_name: operation_name,
         operation: config.api.operation(operation_name),
         client: self,
         params: params,
-        config: config)
+        config: config,
+        tracer: tracer
+      )
       context[:gem_name] = 'aws-sdk-signer'
-      context[:gem_version] = '1.40.0'
+      context[:gem_version] = '1.69.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

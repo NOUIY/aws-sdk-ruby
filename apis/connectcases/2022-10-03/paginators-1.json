@@ -4,6 +4,17 @@
       "input_token": "nextToken",
       "output_token": "nextToken"
     },
+    "GetCaseAuditEvents": {
+      "input_token": "nextToken",
+      "output_token": "nextToken",
+      "limit_key": "maxResults"
+    },
+    "ListCaseRules": {
+      "input_token": "nextToken",
+      "output_token": "nextToken",
+      "limit_key": "maxResults",
+      "result_key": "caseRules"
+    },
     "ListCasesForContact": {
       "input_token": "nextToken",
       "output_token": "nextToken",

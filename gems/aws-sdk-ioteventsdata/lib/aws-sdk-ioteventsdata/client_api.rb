@@ -7,6 +7,7 @@
 #
 # WARNING ABOUT GENERATED CODE
 
+
 module Aws::IoTEventsData
   # @api private
   module ClientApi
@@ -445,8 +446,10 @@ module Aws::IoTEventsData
 
       api.metadata = {
         "apiVersion" => "2018-10-23",
+        "auth" => ["aws.auth#sigv4"],
         "endpointPrefix" => "data.iotevents",
         "protocol" => "rest-json",
+        "protocols" => ["rest-json"],
         "serviceFullName" => "AWS IoT Events Data",
         "serviceId" => "IoT Events Data",
         "signatureVersion" => "v4",

@@ -121,13 +121,22 @@ module Aws::IoTWireless
     #   @return [Types::SidewalkAccountInfo]
     #
     # @!attribute [rw] client_request_token
-    #   Each resource must have a unique client request token. If you try to
-    #   create a new resource with the same token as a resource that already
-    #   exists, an exception occurs. If you omit this value, AWS SDKs will
-    #   automatically generate a unique client request.
+    #   Each resource must have a unique client request token. The client
+    #   token is used to implement idempotency. It ensures that the request
+    #   completes no more than one time. If you retry a request with the
+    #   same token and the same parameters, the request will complete
+    #   successfully. However, if you try to create a new resource using the
+    #   same token but different parameters, an HTTP 409 conflict occurs. If
+    #   you omit this value, AWS SDKs will automatically generate a unique
+    #   client request. For more information about idempotency, see
+    #   [Ensuring idempotency in Amazon EC2 API requests][1].
     #
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html
     #   @return [String]
     #
     # @!attribute [rw] tags
@@ -377,7 +386,7 @@ module Aws::IoTWireless
     #   @return [Float]
     #
     # @!attribute [rw] base_lng
-    #   CDMA base station longtitude in degrees.
+    #   CDMA base station longitude in degrees.
     #   @return [Float]
     #
     # @!attribute [rw] cdma_nmr
@@ -529,13 +538,22 @@ module Aws::IoTWireless
     #   @return [Array<Types::Tag>]
     #
     # @!attribute [rw] client_request_token
-    #   Each resource must have a unique client request token. If you try to
-    #   create a new resource with the same token as a resource that already
-    #   exists, an exception occurs. If you omit this value, AWS SDKs will
-    #   automatically generate a unique client request.
+    #   Each resource must have a unique client request token. The client
+    #   token is used to implement idempotency. It ensures that the request
+    #   completes no more than one time. If you retry a request with the
+    #   same token and the same parameters, the request will complete
+    #   successfully. However, if you try to create a new resource using the
+    #   same token but different parameters, an HTTP 409 conflict occurs. If
+    #   you omit this value, AWS SDKs will automatically generate a unique
+    #   client request. For more information about idempotency, see
+    #   [Ensuring idempotency in Amazon EC2 API requests][1].
     #
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html
     #   @return [String]
     #
     class CreateDestinationRequest < Struct.new(
@@ -579,20 +597,35 @@ module Aws::IoTWireless
     #   @return [Array<Types::Tag>]
     #
     # @!attribute [rw] client_request_token
-    #   Each resource must have a unique client request token. If you try to
-    #   create a new resource with the same token as a resource that already
-    #   exists, an exception occurs. If you omit this value, AWS SDKs will
-    #   automatically generate a unique client request.
+    #   Each resource must have a unique client request token. The client
+    #   token is used to implement idempotency. It ensures that the request
+    #   completes no more than one time. If you retry a request with the
+    #   same token and the same parameters, the request will complete
+    #   successfully. However, if you try to create a new resource using the
+    #   same token but different parameters, an HTTP 409 conflict occurs. If
+    #   you omit this value, AWS SDKs will automatically generate a unique
+    #   client request. For more information about idempotency, see
+    #   [Ensuring idempotency in Amazon EC2 API requests][1].
     #
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html
     #   @return [String]
+    #
+    # @!attribute [rw] sidewalk
+    #   The Sidewalk-related information for creating the Sidewalk device
+    #   profile.
+    #   @return [Types::SidewalkCreateDeviceProfile]
     #
     class CreateDeviceProfileRequest < Struct.new(
       :name,
       :lo_ra_wan,
       :tags,
-      :client_request_token)
+      :client_request_token,
+      :sidewalk)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -621,13 +654,22 @@ module Aws::IoTWireless
     #   @return [String]
     #
     # @!attribute [rw] client_request_token
-    #   Each resource must have a unique client request token. If you try to
-    #   create a new resource with the same token as a resource that already
-    #   exists, an exception occurs. If you omit this value, AWS SDKs will
-    #   automatically generate a unique client request.
+    #   Each resource must have a unique client request token. The client
+    #   token is used to implement idempotency. It ensures that the request
+    #   completes no more than one time. If you retry a request with the
+    #   same token and the same parameters, the request will complete
+    #   successfully. However, if you try to create a new resource using the
+    #   same token but different parameters, an HTTP 409 conflict occurs. If
+    #   you omit this value, AWS SDKs will automatically generate a unique
+    #   client request. For more information about idempotency, see
+    #   [Ensuring idempotency in Amazon EC2 API requests][1].
     #
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html
     #   @return [String]
     #
     # @!attribute [rw] lo_ra_wan
@@ -648,6 +690,37 @@ module Aws::IoTWireless
     #   you can use to manage a resource.
     #   @return [Array<Types::Tag>]
     #
+    # @!attribute [rw] redundancy_percent
+    #   The percentage of the added fragments that are redundant. For
+    #   example, if the size of the firmware image file is 100 bytes and the
+    #   fragment size is 10 bytes, with `RedundancyPercent` set to 50(%),
+    #   the final number of encoded fragments is (100 / 10) + (100 / 10 *
+    #   50%) = 15.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] fragment_size_bytes
+    #   The size of each fragment in bytes. This parameter is supported only
+    #   for FUOTA tasks with multicast groups.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] fragment_interval_ms
+    #   The interval for sending fragments in milliseconds, rounded to the
+    #   nearest second.
+    #
+    #   <note markdown="1"> This interval only determines the timing for when the Cloud sends
+    #   down the fragments to yor device. There can be a delay for when your
+    #   device will receive these fragments. This delay depends on the
+    #   device's class and the communication delay with the cloud.
+    #
+    #    </note>
+    #   @return [Integer]
+    #
+    # @!attribute [rw] descriptor
+    #   The Descriptor specifies some metadata about the File being
+    #   transferred using FUOTA e.g. the software version. It is sent
+    #   transparently to the device. It is a binary field encoded in base64
+    #   @return [String]
+    #
     class CreateFuotaTaskRequest < Struct.new(
       :name,
       :description,
@@ -655,7 +728,11 @@ module Aws::IoTWireless
       :lo_ra_wan,
       :firmware_update_image,
       :firmware_update_role,
-      :tags)
+      :tags,
+      :redundancy_percent,
+      :fragment_size_bytes,
+      :fragment_interval_ms,
+      :descriptor)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -684,13 +761,22 @@ module Aws::IoTWireless
     #   @return [String]
     #
     # @!attribute [rw] client_request_token
-    #   Each resource must have a unique client request token. If you try to
-    #   create a new resource with the same token as a resource that already
-    #   exists, an exception occurs. If you omit this value, AWS SDKs will
-    #   automatically generate a unique client request.
+    #   Each resource must have a unique client request token. The client
+    #   token is used to implement idempotency. It ensures that the request
+    #   completes no more than one time. If you retry a request with the
+    #   same token and the same parameters, the request will complete
+    #   successfully. However, if you try to create a new resource using the
+    #   same token but different parameters, an HTTP 409 conflict occurs. If
+    #   you omit this value, AWS SDKs will automatically generate a unique
+    #   client request. For more information about idempotency, see
+    #   [Ensuring idempotency in Amazon EC2 API requests][1].
     #
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html
     #   @return [String]
     #
     # @!attribute [rw] lo_ra_wan
@@ -732,8 +818,8 @@ module Aws::IoTWireless
     #   @return [String]
     #
     # @!attribute [rw] trace_content
-    #   Trace content for your wireless gateway and wireless device
-    #   resources.
+    #   Trace content for your wireless devices, gateways, and multicast
+    #   groups.
     #   @return [Types::TraceContent]
     #
     # @!attribute [rw] wireless_devices
@@ -758,14 +844,29 @@ module Aws::IoTWireless
     #   @return [Array<Types::Tag>]
     #
     # @!attribute [rw] client_request_token
-    #   Each resource must have a unique client request token. If you try to
-    #   create a new resource with the same token as a resource that already
-    #   exists, an exception occurs. If you omit this value, AWS SDKs will
-    #   automatically generate a unique client request.
+    #   Each resource must have a unique client request token. The client
+    #   token is used to implement idempotency. It ensures that the request
+    #   completes no more than one time. If you retry a request with the
+    #   same token and the same parameters, the request will complete
+    #   successfully. However, if you try to create a new resource using the
+    #   same token but different parameters, an HTTP 409 conflict occurs. If
+    #   you omit this value, AWS SDKs will automatically generate a unique
+    #   client request. For more information about idempotency, see
+    #   [Ensuring idempotency in Amazon EC2 API requests][1].
     #
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html
     #   @return [String]
+    #
+    # @!attribute [rw] multicast_groups
+    #   Multicast Group resources to add to the network analyzer
+    #   configruation. Provide the `MulticastGroupId` of the resource to add
+    #   in the input array.
+    #   @return [Array<String>]
     #
     class CreateNetworkAnalyzerConfigurationRequest < Struct.new(
       :name,
@@ -774,7 +875,8 @@ module Aws::IoTWireless
       :wireless_gateways,
       :description,
       :tags,
-      :client_request_token)
+      :client_request_token,
+      :multicast_groups)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -809,13 +911,22 @@ module Aws::IoTWireless
     #   @return [Array<Types::Tag>]
     #
     # @!attribute [rw] client_request_token
-    #   Each resource must have a unique client request token. If you try to
-    #   create a new resource with the same token as a resource that already
-    #   exists, an exception occurs. If you omit this value, AWS SDKs will
-    #   automatically generate a unique client request.
+    #   Each resource must have a unique client request token. The client
+    #   token is used to implement idempotency. It ensures that the request
+    #   completes no more than one time. If you retry a request with the
+    #   same token and the same parameters, the request will complete
+    #   successfully. However, if you try to create a new resource using the
+    #   same token but different parameters, an HTTP 409 conflict occurs. If
+    #   you omit this value, AWS SDKs will automatically generate a unique
+    #   client request. For more information about idempotency, see
+    #   [Ensuring idempotency in Amazon EC2 API requests][1].
     #
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html
     #   @return [String]
     #
     class CreateServiceProfileRequest < Struct.new(
@@ -859,13 +970,22 @@ module Aws::IoTWireless
     #   @return [String]
     #
     # @!attribute [rw] client_request_token
-    #   Each resource must have a unique client request token. If you try to
-    #   create a new resource with the same token as a resource that already
-    #   exists, an exception occurs. If you omit this value, AWS SDKs will
-    #   automatically generate a unique client request.
+    #   Each resource must have a unique client request token. The client
+    #   token is used to implement idempotency. It ensures that the request
+    #   completes no more than one time. If you retry a request with the
+    #   same token and the same parameters, the request will complete
+    #   successfully. However, if you try to create a new resource using the
+    #   same token but different parameters, an HTTP 409 conflict occurs. If
+    #   you omit this value, AWS SDKs will automatically generate a unique
+    #   client request. For more information about idempotency, see
+    #   [Ensuring idempotency in Amazon EC2 API requests][1].
     #
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html
     #   @return [String]
     #
     # @!attribute [rw] lo_ra_wan
@@ -883,6 +1003,11 @@ module Aws::IoTWireless
     #   positioning information.
     #   @return [String]
     #
+    # @!attribute [rw] sidewalk
+    #   The device configuration information to use to create the Sidewalk
+    #   device.
+    #   @return [Types::SidewalkCreateWirelessDevice]
+    #
     class CreateWirelessDeviceRequest < Struct.new(
       :type,
       :name,
@@ -891,7 +1016,8 @@ module Aws::IoTWireless
       :client_request_token,
       :lo_ra_wan,
       :tags,
-      :positioning)
+      :positioning,
+      :sidewalk)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -930,13 +1056,22 @@ module Aws::IoTWireless
     #   @return [Array<Types::Tag>]
     #
     # @!attribute [rw] client_request_token
-    #   Each resource must have a unique client request token. If you try to
-    #   create a new resource with the same token as a resource that already
-    #   exists, an exception occurs. If you omit this value, AWS SDKs will
-    #   automatically generate a unique client request.
+    #   Each resource must have a unique client request token. The client
+    #   token is used to implement idempotency. It ensures that the request
+    #   completes no more than one time. If you retry a request with the
+    #   same token and the same parameters, the request will complete
+    #   successfully. However, if you try to create a new resource using the
+    #   same token but different parameters, an HTTP 409 conflict occurs. If
+    #   you omit this value, AWS SDKs will automatically generate a unique
+    #   client request. For more information about idempotency, see
+    #   [Ensuring idempotency in Amazon EC2 API requests][1].
     #
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html
     #   @return [String]
     #
     class CreateWirelessGatewayRequest < Struct.new(
@@ -979,13 +1114,22 @@ module Aws::IoTWireless
     #   @return [Types::UpdateWirelessGatewayTaskCreate]
     #
     # @!attribute [rw] client_request_token
-    #   Each resource must have a unique client request token. If you try to
-    #   create a new resource with the same token as a resource that already
-    #   exists, an exception occurs. If you omit this value, AWS SDKs will
-    #   automatically generate a unique client request.
+    #   Each resource must have a unique client request token. The client
+    #   token is used to implement idempotency. It ensures that the request
+    #   completes no more than one time. If you retry a request with the
+    #   same token and the same parameters, the request will complete
+    #   successfully. However, if you try to create a new resource using the
+    #   same token but different parameters, an HTTP 409 conflict occurs. If
+    #   you omit this value, AWS SDKs will automatically generate a unique
+    #   client request. For more information about idempotency, see
+    #   [Ensuring idempotency in Amazon EC2 API requests][1].
     #
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html
     #   @return [String]
     #
     # @!attribute [rw] tags
@@ -1044,6 +1188,40 @@ module Aws::IoTWireless
     class CreateWirelessGatewayTaskResponse < Struct.new(
       :wireless_gateway_task_definition_id,
       :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The device attestation key (DAK) information.
+    #
+    # @!attribute [rw] certificate_id
+    #   The certificate ID for the DAK.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_allowed_signature
+    #   The maximum number of signatures that the DAK can sign. A value of
+    #   `-1` indicates that there's no device limit.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] factory_support
+    #   Whether factory support has been enabled.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] ap_id
+    #   The advertised product ID (APID) that's used for pre-production and
+    #   production applications.
+    #   @return [String]
+    #
+    # @!attribute [rw] device_type_id
+    #   The device type ID that's used for prototyping applications.
+    #   @return [String]
+    #
+    class DakCertificateMetadata < Struct.new(
+      :certificate_id,
+      :max_allowed_signature,
+      :factory_support,
+      :ap_id,
+      :device_type_id)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1146,6 +1324,18 @@ module Aws::IoTWireless
     class DeleteServiceProfileResponse < Aws::EmptyStructure; end
 
     # @!attribute [rw] id
+    #   The unique identifier of the import task to be deleted.
+    #   @return [String]
+    #
+    class DeleteWirelessDeviceImportTaskRequest < Struct.new(
+      :id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    class DeleteWirelessDeviceImportTaskResponse < Aws::EmptyStructure; end
+
+    # @!attribute [rw] id
     #   The ID of the resource to delete.
     #   @return [String]
     #
@@ -1192,6 +1382,25 @@ module Aws::IoTWireless
     end
 
     class DeleteWirelessGatewayTaskResponse < Aws::EmptyStructure; end
+
+    # @!attribute [rw] identifier
+    #   The identifier of the wireless device to deregister from AWS IoT
+    #   Wireless.
+    #   @return [String]
+    #
+    # @!attribute [rw] wireless_device_type
+    #   The type of wireless device to deregister from AWS IoT Wireless,
+    #   which can be `LoRaWAN` or `Sidewalk`.
+    #   @return [String]
+    #
+    class DeregisterWirelessDeviceRequest < Struct.new(
+      :identifier,
+      :wireless_device_type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    class DeregisterWirelessDeviceResponse < Aws::EmptyStructure; end
 
     # Describes a destination.
     #
@@ -1282,6 +1491,23 @@ module Aws::IoTWireless
     #
     class DeviceRegistrationStateResourceTypeEventConfiguration < Struct.new(
       :sidewalk)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The required list of dimensions for the metric.
+    #
+    # @!attribute [rw] name
+    #   The name of the dimension.
+    #   @return [String]
+    #
+    # @!attribute [rw] value
+    #   The dimension's value.
+    #   @return [String]
+    #
+    class Dimension < Struct.new(
+      :name,
+      :value)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1542,6 +1768,55 @@ module Aws::IoTWireless
       include Aws::Structure
     end
 
+    # The log options for a FUOTA task event and can be used to set log
+    # levels for a specific fuota task event.
+    #
+    # For a LoRaWAN FuotaTask type, possible event for a log message is
+    # `Fuota`.
+    #
+    # @!attribute [rw] event
+    #   The event for a log message, if the log message is tied to a fuota
+    #   task.
+    #   @return [String]
+    #
+    # @!attribute [rw] log_level
+    #   The log level for a log message. The log levels can be disabled, or
+    #   set to `ERROR` to display less verbose logs containing only error
+    #   information, or to `INFO` for more detailed logs.
+    #   @return [String]
+    #
+    class FuotaTaskEventLogOption < Struct.new(
+      :event,
+      :log_level)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The log options for fuota tasks and can be used to set log levels for
+    # a specific type of fuota task.
+    #
+    # @!attribute [rw] type
+    #   The fuota task type.
+    #   @return [String]
+    #
+    # @!attribute [rw] log_level
+    #   The log level for a log message. The log levels can be disabled, or
+    #   set to `ERROR` to display less verbose logs containing only error
+    #   information, or to `INFO` for more detailed logs.
+    #   @return [String]
+    #
+    # @!attribute [rw] events
+    #   The list of FUOTA task event log options.
+    #   @return [Array<Types::FuotaTaskEventLogOption>]
+    #
+    class FuotaTaskLogOption < Struct.new(
+      :type,
+      :log_level,
+      :events)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Gateway list item object that specifies the frequency and list of
     # gateways for which the downlink message should be sent.
     #
@@ -1633,11 +1908,16 @@ module Aws::IoTWireless
     #   Information about the device profile.
     #   @return [Types::LoRaWANDeviceProfile]
     #
+    # @!attribute [rw] sidewalk
+    #   Information about the Sidewalk parameters in the device profile.
+    #   @return [Types::SidewalkGetDeviceProfile]
+    #
     class GetDeviceProfileResponse < Struct.new(
       :arn,
       :name,
       :id,
-      :lo_ra_wan)
+      :lo_ra_wan,
+      :sidewalk)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1725,6 +2005,37 @@ module Aws::IoTWireless
     #   Created at timestamp for the resource.
     #   @return [Time]
     #
+    # @!attribute [rw] redundancy_percent
+    #   The percentage of the added fragments that are redundant. For
+    #   example, if the size of the firmware image file is 100 bytes and the
+    #   fragment size is 10 bytes, with `RedundancyPercent` set to 50(%),
+    #   the final number of encoded fragments is (100 / 10) + (100 / 10 *
+    #   50%) = 15.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] fragment_size_bytes
+    #   The size of each fragment in bytes. This parameter is supported only
+    #   for FUOTA tasks with multicast groups.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] fragment_interval_ms
+    #   The interval for sending fragments in milliseconds, rounded to the
+    #   nearest second.
+    #
+    #   <note markdown="1"> This interval only determines the timing for when the Cloud sends
+    #   down the fragments to yor device. There can be a delay for when your
+    #   device will receive these fragments. This delay depends on the
+    #   device's class and the communication delay with the cloud.
+    #
+    #    </note>
+    #   @return [Integer]
+    #
+    # @!attribute [rw] descriptor
+    #   The Descriptor specifies some metadata about the File being
+    #   transferred using FUOTA e.g. the software version. It is sent
+    #   transparently to the device. It is a binary field encoded in base64
+    #   @return [String]
+    #
     class GetFuotaTaskResponse < Struct.new(
       :arn,
       :id,
@@ -1734,7 +2045,11 @@ module Aws::IoTWireless
       :lo_ra_wan,
       :firmware_update_image,
       :firmware_update_role,
-      :created_at)
+      :created_at,
+      :redundancy_percent,
+      :fragment_size_bytes,
+      :fragment_interval_ms,
+      :descriptor)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1757,10 +2072,50 @@ module Aws::IoTWireless
     #   The list of wireless device log options.
     #   @return [Array<Types::WirelessDeviceLogOption>]
     #
+    # @!attribute [rw] fuota_task_log_options
+    #   The list of fuota task log options.
+    #   @return [Array<Types::FuotaTaskLogOption>]
+    #
     class GetLogLevelsByResourceTypesResponse < Struct.new(
       :default_log_level,
       :wireless_gateway_log_options,
-      :wireless_device_log_options)
+      :wireless_device_log_options,
+      :fuota_task_log_options)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @api private
+    #
+    class GetMetricConfigurationRequest < Aws::EmptyStructure; end
+
+    # @!attribute [rw] summary_metric
+    #   The configuration status of the AWS account for summary metric
+    #   aggregation.
+    #   @return [Types::SummaryMetricConfiguration]
+    #
+    class GetMetricConfigurationResponse < Struct.new(
+      :summary_metric)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] summary_metric_queries
+    #   The list of queries to retrieve the summary metrics.
+    #   @return [Array<Types::SummaryMetricQuery>]
+    #
+    class GetMetricsRequest < Struct.new(
+      :summary_metric_queries)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] summary_metric_query_results
+    #   The list of summary metrics that were retrieved.
+    #   @return [Array<Types::SummaryMetricQueryResult>]
+    #
+    class GetMetricsResponse < Struct.new(
+      :summary_metric_query_results)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1847,12 +2202,12 @@ module Aws::IoTWireless
     end
 
     # @!attribute [rw] trace_content
-    #   Trace content for your wireless gateway and wireless device
-    #   resources.
+    #   Trace content for your wireless devices, gateways, and multicast
+    #   groups.
     #   @return [Types::TraceContent]
     #
     # @!attribute [rw] wireless_devices
-    #   List of wireless gateway resources that have been added to the
+    #   List of wireless device resources that have been added to the
     #   network analyzer configuration.
     #   @return [Array<String>]
     #
@@ -1873,13 +2228,19 @@ module Aws::IoTWireless
     #   Name of the network analyzer configuration.
     #   @return [String]
     #
+    # @!attribute [rw] multicast_groups
+    #   List of multicast group resources that have been added to the
+    #   network analyzer configuration.
+    #   @return [Array<String>]
+    #
     class GetNetworkAnalyzerConfigurationResponse < Struct.new(
       :trace_content,
       :wireless_devices,
       :wireless_gateways,
       :description,
       :arn,
-      :name)
+      :name,
+      :multicast_groups)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1972,7 +2333,7 @@ module Aws::IoTWireless
     #
     # @!attribute [rw] timestamp
     #   Optional information that specifies the time when the position
-    #   information will be resolved. It uses the UNIX timestamp format. If
+    #   information will be resolved. It uses the Unix timestamp format. If
     #   not specified, the time at which the request was received will be
     #   used.
     #   @return [Time]
@@ -1989,13 +2350,17 @@ module Aws::IoTWireless
 
     # @!attribute [rw] geo_json_payload
     #   The position information of the resource, displayed as a JSON
-    #   payload. The payload uses the GeoJSON format, which a format that's
-    #   used to encode geographic data structures. For more information, see
-    #   [GeoJSON][1].
+    #   payload. The payload is of type blob and uses the [GeoJSON][1]
+    #   format, which a format that's used to encode geographic data
+    #   structures. A sample payload contains the timestamp information, the
+    #   WGS84 coordinates of the location, and the accuracy and confidence
+    #   level. For more information and examples, see [Resolve device
+    #   location (console)][2].
     #
     #
     #
     #   [1]: https://geojson.org/
+    #   [2]: https://docs.aws.amazon.com/iot/latest/developerguide/location-resolve-console.html
     #   @return [String]
     #
     class GetPositionEstimateResponse < Struct.new(
@@ -2118,8 +2483,8 @@ module Aws::IoTWireless
     #   @return [String]
     #
     # @!attribute [rw] resource_type
-    #   The type of the resource, which can be `WirelessDevice` or
-    #   `WirelessGateway`.
+    #   The type of the resource, which can be `WirelessDevice`,
+    #   `WirelessGateway` or `FuotaTask`.
     #   @return [String]
     #
     class GetResourceLogLevelRequest < Struct.new(
@@ -2144,7 +2509,7 @@ module Aws::IoTWireless
     # @!attribute [rw] resource_identifier
     #   The identifier of the resource for which position information is
     #   retrieved. It can be the wireless device ID or the wireless gateway
-    #   ID depending on the resource type.
+    #   ID, depending on the resource type.
     #   @return [String]
     #
     # @!attribute [rw] resource_type
@@ -2244,6 +2609,84 @@ module Aws::IoTWireless
       include Aws::Structure
     end
 
+    # @!attribute [rw] id
+    #   The identifier of the import task for which information is
+    #   requested.
+    #   @return [String]
+    #
+    class GetWirelessDeviceImportTaskRequest < Struct.new(
+      :id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] id
+    #   The identifier of the import task for which information is
+    #   retrieved.
+    #   @return [String]
+    #
+    # @!attribute [rw] arn
+    #   The ARN (Amazon Resource Name) of the import task.
+    #   @return [String]
+    #
+    # @!attribute [rw] destination_name
+    #   The name of the destination that's assigned to the wireless devices
+    #   in the import task.
+    #   @return [String]
+    #
+    # @!attribute [rw] sidewalk
+    #   The Sidewalk-related information about an import task.
+    #   @return [Types::SidewalkGetStartImportInfo]
+    #
+    # @!attribute [rw] creation_time
+    #   The time at which the import task was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] status
+    #   The import task status.
+    #   @return [String]
+    #
+    # @!attribute [rw] status_reason
+    #   The reason for the provided status information, such as a validation
+    #   error that causes the import task to fail.
+    #   @return [String]
+    #
+    # @!attribute [rw] initialized_imported_device_count
+    #   The number of devices in the import task that are waiting for the
+    #   control log to start processing.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] pending_imported_device_count
+    #   The number of devices in the import task that are waiting in the
+    #   import task queue to be onboarded.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] onboarded_imported_device_count
+    #   The number of devices in the import task that have been onboarded to
+    #   the import task.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] failed_imported_device_count
+    #   The number of devices in the import task that failed to onboard to
+    #   the import task.
+    #   @return [Integer]
+    #
+    class GetWirelessDeviceImportTaskResponse < Struct.new(
+      :id,
+      :arn,
+      :destination_name,
+      :sidewalk,
+      :creation_time,
+      :status,
+      :status_reason,
+      :initialized_imported_device_count,
+      :pending_imported_device_count,
+      :onboarded_imported_device_count,
+      :failed_imported_device_count)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] identifier
     #   The identifier of the wireless device to get.
     #   @return [String]
@@ -2337,6 +2780,10 @@ module Aws::IoTWireless
     #
     # @!attribute [rw] last_uplink_received_at
     #   The date and time when the most recent uplink was received.
+    #
+    #   <note markdown="1"> This value is only valid for 3 months.
+    #
+    #    </note>
     #   @return [String]
     #
     # @!attribute [rw] lo_ra_wan
@@ -2474,6 +2921,10 @@ module Aws::IoTWireless
     #
     # @!attribute [rw] last_uplink_received_at
     #   The date and time when the most recent uplink was received.
+    #
+    #   <note markdown="1"> This value is only valid for 3 months.
+    #
+    #    </note>
     #   @return [String]
     #
     # @!attribute [rw] connection_status
@@ -2545,6 +2996,10 @@ module Aws::IoTWireless
     #
     # @!attribute [rw] last_uplink_received_at
     #   The date and time when the most recent uplink was received.
+    #
+    #   <note markdown="1"> This value is only valid for 3 months.
+    #
+    #    </note>
     #   @return [String]
     #
     # @!attribute [rw] task_created_at
@@ -2603,7 +3058,7 @@ module Aws::IoTWireless
     #
     # @!attribute [rw] assist_position
     #   Optional assistance position information, specified using latitude
-    #   and longitude values in degrees. The co-ordinates are inside the
+    #   and longitude values in degrees. The coordinates are inside the
     #   WGS84 reference frame.
     #   @return [Array<Float>]
     #
@@ -2726,6 +3181,50 @@ module Aws::IoTWireless
       include Aws::Structure
     end
 
+    # Information about a Sidewalk device that has been added to an import
+    # task.
+    #
+    # @!attribute [rw] sidewalk_manufacturing_sn
+    #   The Sidewalk manufacturing serial number (SMSN) of the Sidewalk
+    #   device.
+    #   @return [String]
+    #
+    # @!attribute [rw] onboarding_status
+    #   The onboarding status of the Sidewalk device in the import task.
+    #   @return [String]
+    #
+    # @!attribute [rw] onboarding_status_reason
+    #   The reason for the onboarding status information for the Sidewalk
+    #   device.
+    #   @return [String]
+    #
+    # @!attribute [rw] last_update_time
+    #   The time at which the status information was last updated.
+    #   @return [Time]
+    #
+    class ImportedSidewalkDevice < Struct.new(
+      :sidewalk_manufacturing_sn,
+      :onboarding_status,
+      :onboarding_status_reason,
+      :last_update_time)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Information about a wireless device that has been added to an import
+    # task.
+    #
+    # @!attribute [rw] sidewalk
+    #   The Sidewalk-related information about a device that has been added
+    #   to an import task.
+    #   @return [Types::ImportedSidewalkDevice]
+    #
+    class ImportedWirelessDevice < Struct.new(
+      :sidewalk)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # An unexpected error occurred while processing a request.
     #
     # @!attribute [rw] message
@@ -2825,9 +3324,15 @@ module Aws::IoTWireless
     #   The maximum number of results to return in this operation.
     #   @return [Integer]
     #
+    # @!attribute [rw] device_profile_type
+    #   A filter to list only device profiles that use this type, which can
+    #   be `LoRaWAN` or `Sidewalk`.
+    #   @return [String]
+    #
     class ListDeviceProfilesRequest < Struct.new(
       :next_token,
-      :max_results)
+      :max_results,
+      :device_profile_type)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2844,6 +3349,58 @@ module Aws::IoTWireless
     class ListDeviceProfilesResponse < Struct.new(
       :next_token,
       :device_profile_list)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] id
+    #   The identifier of the import task for which wireless devices are
+    #   listed.
+    #   @return [String]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return in this operation.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   To retrieve the next set of results, the `nextToken` value from a
+    #   previous response; otherwise `null` to receive the first set of
+    #   results.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status of the devices in the import task.
+    #   @return [String]
+    #
+    class ListDevicesForWirelessDeviceImportTaskRequest < Struct.new(
+      :id,
+      :max_results,
+      :next_token,
+      :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] next_token
+    #   The token to use to get the next set of results, or `null` if there
+    #   are no additional results.
+    #   @return [String]
+    #
+    # @!attribute [rw] destination_name
+    #   The name of the Sidewalk destination that describes the IoT rule to
+    #   route messages received from devices in an import task that are
+    #   onboarded to AWS IoT Wireless.
+    #   @return [String]
+    #
+    # @!attribute [rw] imported_wireless_device_list
+    #   List of wireless devices in an import task and their onboarding
+    #   status.
+    #   @return [Array<Types::ImportedWirelessDevice>]
+    #
+    class ListDevicesForWirelessDeviceImportTaskResponse < Struct.new(
+      :next_token,
+      :destination_name,
+      :imported_wireless_device_list)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3203,6 +3760,40 @@ module Aws::IoTWireless
     #
     # @!attribute [rw] next_token
     #   To retrieve the next set of results, the `nextToken` value from a
+    #   previous response; otherwise `null` to receive the first set of
+    #   results.
+    #   @return [String]
+    #
+    class ListWirelessDeviceImportTasksRequest < Struct.new(
+      :max_results,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] next_token
+    #   The token to use to get the next set of results, or `null` if there
+    #   are no additional results.
+    #   @return [String]
+    #
+    # @!attribute [rw] wireless_device_import_task_list
+    #   List of import tasks and summary information of onboarding status of
+    #   devices in each import task.
+    #   @return [Array<Types::WirelessDeviceImportTask>]
+    #
+    class ListWirelessDeviceImportTasksResponse < Struct.new(
+      :next_token,
+      :wireless_device_import_task_list)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] max_results
+    #   The maximum number of results to return in this operation.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   To retrieve the next set of results, the `nextToken` value from a
     #   previous response; otherwise **null** to receive the first set of
     #   results.
     #   @return [String]
@@ -3438,13 +4029,18 @@ module Aws::IoTWireless
     #   Information about the gateways accessed by the device.
     #   @return [Array<Types::LoRaWANGatewayMetadata>]
     #
+    # @!attribute [rw] public_gateways
+    #   Information about the LoRaWAN public network accessed by the device.
+    #   @return [Array<Types::LoRaWANPublicGatewayMetadata>]
+    #
     class LoRaWANDeviceMetadata < Struct.new(
       :dev_eui,
       :f_port,
       :data_rate,
       :frequency,
       :timestamp,
-      :gateways)
+      :gateways,
+      :public_gateways)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3513,7 +4109,7 @@ module Aws::IoTWireless
     #   @return [Integer]
     #
     # @!attribute [rw] max_duty_cycle
-    #   The MaxDutyCycle value.
+    #   The MaxDutyCycle value. It ranges from 0 to 15.
     #   @return [Integer]
     #
     # @!attribute [rw] rf_region
@@ -3610,13 +4206,18 @@ module Aws::IoTWireless
     #   frequency parameters.
     #   @return [Types::Beaconing]
     #
+    # @!attribute [rw] max_eirp
+    #   The MaxEIRP value.
+    #   @return [Float]
+    #
     class LoRaWANGateway < Struct.new(
       :gateway_eui,
       :rf_region,
       :join_eui_filters,
       :net_id_filters,
       :sub_bands,
-      :beaconing)
+      :beaconing,
+      :max_eirp)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3829,9 +4430,16 @@ module Aws::IoTWireless
     #   DlClass for LoRaWAM, valid values are ClassB and ClassC.
     #   @return [String]
     #
+    # @!attribute [rw] participating_gateways
+    #   Specify the list of gateways to which you want to send the multicast
+    #   downlink messages. The multicast message will be sent to each
+    #   gateway in the sequence provided in the list.
+    #   @return [Types::ParticipatingGatewaysMulticast]
+    #
     class LoRaWANMulticast < Struct.new(
       :rf_region,
-      :dl_class)
+      :dl_class,
+      :participating_gateways)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3856,11 +4464,18 @@ module Aws::IoTWireless
     #   Number of devices that are associated to the multicast group.
     #   @return [Integer]
     #
+    # @!attribute [rw] participating_gateways
+    #   Specify the list of gateways to which you want to send the multicast
+    #   downlink messages. The multicast message will be sent to each
+    #   gateway in the sequence provided in the list.
+    #   @return [Types::ParticipatingGatewaysMulticast]
+    #
     class LoRaWANMulticastGet < Struct.new(
       :rf_region,
       :dl_class,
       :number_of_devices_requested,
-      :number_of_devices_in_group)
+      :number_of_devices_in_group,
+      :participating_gateways)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3895,11 +4510,54 @@ module Aws::IoTWireless
     #   How long before a multicast group session is to timeout.
     #   @return [Integer]
     #
+    # @!attribute [rw] ping_slot_period
+    #   The PingSlotPeriod value.
+    #   @return [Integer]
+    #
     class LoRaWANMulticastSession < Struct.new(
       :dl_dr,
       :dl_freq,
       :session_start_time,
-      :session_timeout)
+      :session_timeout,
+      :ping_slot_period)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # LoRaWAN public gateway metadata.
+    #
+    # @!attribute [rw] provider_net_id
+    #   The ID of the LoRaWAN public network provider.
+    #   @return [String]
+    #
+    # @!attribute [rw] id
+    #   The ID of the gateways that are operated by the network provider.
+    #   @return [String]
+    #
+    # @!attribute [rw] rssi
+    #   The RSSI (received signal strength indicator) value.
+    #   @return [Float]
+    #
+    # @!attribute [rw] snr
+    #   The SNR (signal to noise ratio) value.
+    #   @return [Float]
+    #
+    # @!attribute [rw] rf_region
+    #   The frequency band (RFRegion) value.
+    #   @return [String]
+    #
+    # @!attribute [rw] dl_allowed
+    #   Boolean that indicates whether downlink is allowed using the
+    #   network.
+    #   @return [Boolean]
+    #
+    class LoRaWANPublicGatewayMetadata < Struct.new(
+      :provider_net_id,
+      :id,
+      :rssi,
+      :snr,
+      :rf_region,
+      :dl_allowed)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -3937,10 +4595,22 @@ module Aws::IoTWireless
     #   The DrMax value.
     #   @return [Integer]
     #
+    # @!attribute [rw] pr_allowed
+    #   The PRAllowed value that describes whether passive roaming is
+    #   allowed.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] ra_allowed
+    #   The RAAllowed value that describes whether roaming activation is
+    #   allowed.
+    #   @return [Boolean]
+    #
     class LoRaWANServiceProfile < Struct.new(
       :add_gw_metadata,
       :dr_min,
-      :dr_max)
+      :dr_max,
+      :pr_allowed,
+      :ra_allowed)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4182,6 +4852,49 @@ module Aws::IoTWireless
       include Aws::Structure
     end
 
+    # The aggregated values of the metric.
+    #
+    # @!attribute [rw] min
+    #   The minimum of the values of all data points collected during the
+    #   aggregation period.
+    #   @return [Float]
+    #
+    # @!attribute [rw] max
+    #   The maximum of the values of all the data points collected during
+    #   the aggregation period.
+    #   @return [Float]
+    #
+    # @!attribute [rw] sum
+    #   The sum of the values of all data points collected during the
+    #   aggregation period.
+    #   @return [Float]
+    #
+    # @!attribute [rw] avg
+    #   The average of the values of all data points collected during the
+    #   aggregation period.
+    #   @return [Float]
+    #
+    # @!attribute [rw] std
+    #   The standard deviation of the values of all data points collected
+    #   during the aggregation period.
+    #   @return [Float]
+    #
+    # @!attribute [rw] p90
+    #   The 90th percentile of the values of all data points collected
+    #   during the aggregation period.
+    #   @return [Float]
+    #
+    class MetricQueryValue < Struct.new(
+      :min,
+      :max,
+      :sum,
+      :avg,
+      :std,
+      :p90)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # A multicast group.
     #
     # @!attribute [rw] id
@@ -4252,7 +4965,13 @@ module Aws::IoTWireless
     #   @return [String]
     #
     # @!attribute [rw] app_eui
-    #   The AppEUI value.
+    #   The AppEUI value. You specify this value when using LoRaWAN versions
+    #   v1.0.2 or v1.0.3.
+    #   @return [String]
+    #
+    # @!attribute [rw] join_eui
+    #   The JoinEUI value. You specify this value instead of the AppEUI when
+    #   using LoRaWAN version v1.0.4.
     #   @return [String]
     #
     # @!attribute [rw] gen_app_key
@@ -4262,6 +4981,7 @@ module Aws::IoTWireless
     class OtaaV1_0_x < Struct.new(
       :app_key,
       :app_eui,
+      :join_eui,
       :gen_app_key)
       SENSITIVE = []
       include Aws::Structure
@@ -4311,6 +5031,31 @@ module Aws::IoTWireless
     #
     class ParticipatingGateways < Struct.new(
       :downlink_mode,
+      :gateway_list,
+      :transmission_interval)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Specify the list of gateways to which you want to send the multicast
+    # downlink messages. The multicast message will be sent to each gateway
+    # in the sequence provided in the list.
+    #
+    # @!attribute [rw] gateway_list
+    #   The list of gateways that you want to use for sending the multicast
+    #   downlink. Each downlink will be sent to all the gateways in the list
+    #   with transmission interval between them. If list is empty the
+    #   gateway list will be dynamically selected similar to the case of no
+    #   ParticipatingGateways
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] transmission_interval
+    #   The duration of time for which AWS IoT Core for LoRaWAN will wait
+    #   before transmitting the multicast payload to the next gateway in the
+    #   list.
+    #   @return [Integer]
+    #
+    class ParticipatingGatewaysMulticast < Struct.new(
       :gateway_list,
       :transmission_interval)
       SENSITIVE = []
@@ -4465,8 +5210,8 @@ module Aws::IoTWireless
     #   @return [String]
     #
     # @!attribute [rw] resource_type
-    #   The type of the resource, which can be `WirelessDevice` or
-    #   `WirelessGateway`.
+    #   The type of the resource, which can be `WirelessDevice`,
+    #   `WirelessGateway`, or `FuotaTask`.
     #   @return [String]
     #
     # @!attribute [rw] log_level
@@ -4498,8 +5243,8 @@ module Aws::IoTWireless
     #   @return [String]
     #
     # @!attribute [rw] resource_type
-    #   The type of the resource, which can be `WirelessDevice` or
-    #   `WirelessGateway`.
+    #   The type of the resource, which can be `WirelessDevice`,
+    #   `WirelessGateway`, or `FuotaTask`.
     #   @return [String]
     #
     class ResetResourceLogLevelRequest < Struct.new(
@@ -4748,6 +5493,24 @@ module Aws::IoTWireless
       include Aws::Structure
     end
 
+    # Sidewalk object for creating a device profile.
+    #
+    # @api private
+    #
+    class SidewalkCreateDeviceProfile < Aws::EmptyStructure; end
+
+    # Sidewalk object for creating a wireless device.
+    #
+    # @!attribute [rw] device_profile_id
+    #   The ID of the Sidewalk device profile.
+    #   @return [String]
+    #
+    class SidewalkCreateWirelessDevice < Struct.new(
+      :device_profile_id)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Sidewalk device object.
     #
     # @!attribute [rw] amazon_id
@@ -4766,11 +5529,32 @@ module Aws::IoTWireless
     #   The sidewalk device certificates for Ed25519 and P256r1.
     #   @return [Array<Types::CertificateList>]
     #
+    # @!attribute [rw] private_keys
+    #   The Sidewalk device private keys that will be used for onboarding
+    #   the device.
+    #   @return [Array<Types::CertificateList>]
+    #
+    # @!attribute [rw] device_profile_id
+    #   The ID of the Sidewalk device profile.
+    #   @return [String]
+    #
+    # @!attribute [rw] certificate_id
+    #   The ID of the Sidewalk device profile.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The Sidewalk device status, such as provisioned or registered.
+    #   @return [String]
+    #
     class SidewalkDevice < Struct.new(
       :amazon_id,
       :sidewalk_id,
       :sidewalk_manufacturing_sn,
-      :device_certificates)
+      :device_certificates,
+      :private_keys,
+      :device_profile_id,
+      :certificate_id,
+      :status)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4815,6 +5599,48 @@ module Aws::IoTWireless
       include Aws::Structure
     end
 
+    # Gets information about a Sidewalk device profile.
+    #
+    # @!attribute [rw] application_server_public_key
+    #   The Sidewalk application server public key.
+    #   @return [String]
+    #
+    # @!attribute [rw] qualification_status
+    #   Gets information about the certification status of a Sidewalk device
+    #   profile.
+    #   @return [Boolean]
+    #
+    # @!attribute [rw] dak_certificate_metadata
+    #   The DAK certificate information of the Sidewalk device profile.
+    #   @return [Array<Types::DakCertificateMetadata>]
+    #
+    class SidewalkGetDeviceProfile < Struct.new(
+      :application_server_public_key,
+      :qualification_status,
+      :dak_certificate_metadata)
+      SENSITIVE = [:application_server_public_key]
+      include Aws::Structure
+    end
+
+    # Sidewalk-related information for devices in an import task that are
+    # being onboarded.
+    #
+    # @!attribute [rw] device_creation_file_list
+    #   List of Sidewalk devices that are added to the import task.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] role
+    #   The IAM role that allows AWS IoT Wireless to access the CSV file in
+    #   the S3 bucket.
+    #   @return [String]
+    #
+    class SidewalkGetStartImportInfo < Struct.new(
+      :device_creation_file_list,
+      :role)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Sidewalk object used by list functions.
     #
     # @!attribute [rw] amazon_id
@@ -4833,11 +5659,22 @@ module Aws::IoTWireless
     #   The sidewalk device certificates for Ed25519 and P256r1.
     #   @return [Array<Types::CertificateList>]
     #
+    # @!attribute [rw] device_profile_id
+    #   Sidewalk object used by list functions.
+    #   @return [String]
+    #
+    # @!attribute [rw] status
+    #   The status of the Sidewalk devices, such as provisioned or
+    #   registered.
+    #   @return [String]
+    #
     class SidewalkListDevice < Struct.new(
       :amazon_id,
       :sidewalk_id,
       :sidewalk_manufacturing_sn,
-      :device_certificates)
+      :device_certificates,
+      :device_profile_id,
+      :status)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4879,6 +5716,39 @@ module Aws::IoTWireless
       include Aws::Structure
     end
 
+    # Information about an import task created for an individual Sidewalk
+    # device.
+    #
+    # @!attribute [rw] sidewalk_manufacturing_sn
+    #   The Sidewalk manufacturing serial number (SMSN) of the device added
+    #   to the import task.
+    #   @return [String]
+    #
+    class SidewalkSingleStartImportInfo < Struct.new(
+      :sidewalk_manufacturing_sn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Information about an import task created for bulk provisioning.
+    #
+    # @!attribute [rw] device_creation_file
+    #   The CSV file contained in an S3 bucket that's used for adding
+    #   devices to an import task.
+    #   @return [String]
+    #
+    # @!attribute [rw] role
+    #   The IAM role that allows AWS IoT Wireless to access the CSV file in
+    #   the S3 bucket.
+    #   @return [String]
+    #
+    class SidewalkStartImportInfo < Struct.new(
+      :device_creation_file,
+      :role)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Sidewalk update.
     #
     # @!attribute [rw] app_server_private_key
@@ -4888,6 +5758,19 @@ module Aws::IoTWireless
     class SidewalkUpdateAccount < Struct.new(
       :app_server_private_key)
       SENSITIVE = [:app_server_private_key]
+      include Aws::Structure
+    end
+
+    # Sidewalk object information for updating an import task.
+    #
+    # @!attribute [rw] device_creation_file
+    #   The CSV file contained in an S3 bucket that's used for appending
+    #   devices to an existing import task.
+    #   @return [String]
+    #
+    class SidewalkUpdateImportInfo < Struct.new(
+      :device_creation_file)
+      SENSITIVE = []
       include Aws::Structure
     end
 
@@ -4972,6 +5855,242 @@ module Aws::IoTWireless
     end
 
     class StartMulticastGroupSessionResponse < Aws::EmptyStructure; end
+
+    # @!attribute [rw] destination_name
+    #   The name of the Sidewalk destination that describes the IoT rule to
+    #   route messages from the device in the import task that will be
+    #   onboarded to AWS IoT Wireless.
+    #   @return [String]
+    #
+    # @!attribute [rw] client_request_token
+    #   Each resource must have a unique client request token. The client
+    #   token is used to implement idempotency. It ensures that the request
+    #   completes no more than one time. If you retry a request with the
+    #   same token and the same parameters, the request will complete
+    #   successfully. However, if you try to create a new resource using the
+    #   same token but different parameters, an HTTP 409 conflict occurs. If
+    #   you omit this value, AWS SDKs will automatically generate a unique
+    #   client request. For more information about idempotency, see
+    #   [Ensuring idempotency in Amazon EC2 API requests][1].
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html
+    #   @return [String]
+    #
+    # @!attribute [rw] device_name
+    #   The name of the wireless device for which an import task is being
+    #   started.
+    #   @return [String]
+    #
+    # @!attribute [rw] tags
+    #   The tag to attach to the specified resource. Tags are metadata that
+    #   you can use to manage a resource.
+    #   @return [Array<Types::Tag>]
+    #
+    # @!attribute [rw] sidewalk
+    #   The Sidewalk-related parameters for importing a single wireless
+    #   device.
+    #   @return [Types::SidewalkSingleStartImportInfo]
+    #
+    class StartSingleWirelessDeviceImportTaskRequest < Struct.new(
+      :destination_name,
+      :client_request_token,
+      :device_name,
+      :tags,
+      :sidewalk)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] id
+    #   The import task ID.
+    #   @return [String]
+    #
+    # @!attribute [rw] arn
+    #   The ARN (Amazon Resource Name) of the import task.
+    #   @return [String]
+    #
+    class StartSingleWirelessDeviceImportTaskResponse < Struct.new(
+      :id,
+      :arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] destination_name
+    #   The name of the Sidewalk destination that describes the IoT rule to
+    #   route messages from the devices in the import task that are
+    #   onboarded to AWS IoT Wireless.
+    #   @return [String]
+    #
+    # @!attribute [rw] client_request_token
+    #   Each resource must have a unique client request token. The client
+    #   token is used to implement idempotency. It ensures that the request
+    #   completes no more than one time. If you retry a request with the
+    #   same token and the same parameters, the request will complete
+    #   successfully. However, if you try to create a new resource using the
+    #   same token but different parameters, an HTTP 409 conflict occurs. If
+    #   you omit this value, AWS SDKs will automatically generate a unique
+    #   client request. For more information about idempotency, see
+    #   [Ensuring idempotency in Amazon EC2 API requests][1].
+    #
+    #   **A suitable default value is auto-generated.** You should normally
+    #   not need to pass this option.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html
+    #   @return [String]
+    #
+    # @!attribute [rw] tags
+    #   The tag to attach to the specified resource. Tags are metadata that
+    #   you can use to manage a resource.
+    #   @return [Array<Types::Tag>]
+    #
+    # @!attribute [rw] sidewalk
+    #   The Sidewalk-related parameters for importing wireless devices that
+    #   need to be provisioned in bulk.
+    #   @return [Types::SidewalkStartImportInfo]
+    #
+    class StartWirelessDeviceImportTaskRequest < Struct.new(
+      :destination_name,
+      :client_request_token,
+      :tags,
+      :sidewalk)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] id
+    #   The import task ID.
+    #   @return [String]
+    #
+    # @!attribute [rw] arn
+    #   The ARN (Amazon Resource Name) of the import task.
+    #   @return [String]
+    #
+    class StartWirelessDeviceImportTaskResponse < Struct.new(
+      :id,
+      :arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The configuration of summary metrics.
+    #
+    # @!attribute [rw] status
+    #   The status of the configuration of summary metrics.
+    #   @return [String]
+    #
+    class SummaryMetricConfiguration < Struct.new(
+      :status)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The summary metric query object.
+    #
+    # @!attribute [rw] query_id
+    #   The id of the summary metric query.
+    #   @return [String]
+    #
+    # @!attribute [rw] metric_name
+    #   The name of the metric.
+    #   @return [String]
+    #
+    # @!attribute [rw] dimensions
+    #   The dimensions of the summary metric.
+    #   @return [Array<Types::Dimension>]
+    #
+    # @!attribute [rw] aggregation_period
+    #   The aggregation period of the summary metric.
+    #   @return [String]
+    #
+    # @!attribute [rw] start_timestamp
+    #   The start timestamp for the summary metric query.
+    #   @return [Time]
+    #
+    # @!attribute [rw] end_timestamp
+    #   The end timestamp for the summary metric query.
+    #   @return [Time]
+    #
+    class SummaryMetricQuery < Struct.new(
+      :query_id,
+      :metric_name,
+      :dimensions,
+      :aggregation_period,
+      :start_timestamp,
+      :end_timestamp)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # The result of the summary metrics aggregation operation.
+    #
+    # @!attribute [rw] query_id
+    #   The ID of the summary metric results query operation.
+    #   @return [String]
+    #
+    # @!attribute [rw] query_status
+    #   The status of the summary metric query result.
+    #   @return [String]
+    #
+    # @!attribute [rw] error
+    #   The error message for the summary metric query result.
+    #   @return [String]
+    #
+    # @!attribute [rw] metric_name
+    #   The name of the summary metric query result.
+    #   @return [String]
+    #
+    # @!attribute [rw] dimensions
+    #   The dimensions of the metric.
+    #   @return [Array<Types::Dimension>]
+    #
+    # @!attribute [rw] aggregation_period
+    #   The aggregation period of the metric.
+    #   @return [String]
+    #
+    # @!attribute [rw] start_timestamp
+    #   The start timestamp for the summary metric query.
+    #   @return [Time]
+    #
+    # @!attribute [rw] end_timestamp
+    #   The end timestamp for the summary metric query.
+    #   @return [Time]
+    #
+    # @!attribute [rw] timestamps
+    #   The timestamp of each aggregation result.
+    #   @return [Array<Time>]
+    #
+    # @!attribute [rw] values
+    #   The list of aggregated summary metric query results.
+    #   @return [Array<Types::MetricQueryValue>]
+    #
+    # @!attribute [rw] unit
+    #   The units of measurement to be used for interpreting the aggregation
+    #   result.
+    #   @return [String]
+    #
+    class SummaryMetricQueryResult < Struct.new(
+      :query_id,
+      :query_status,
+      :error,
+      :metric_name,
+      :dimensions,
+      :aggregation_period,
+      :start_timestamp,
+      :end_timestamp,
+      :timestamps,
+      :values,
+      :unit)
+      SENSITIVE = []
+      include Aws::Structure
+    end
 
     # A simple label consisting of a customer-defined key-value pair
     #
@@ -5165,7 +6284,8 @@ module Aws::IoTWireless
       include Aws::Structure
     end
 
-    # Trace content for your wireless gateway and wireless device resources.
+    # Trace content for your wireless devices, gateways, and multicast
+    # groups.
     #
     # @!attribute [rw] wireless_device_frame_info
     #   `FrameInfo` of your wireless device resources for the trace content.
@@ -5179,9 +6299,16 @@ module Aws::IoTWireless
     #   information, or to `INFO` for more detailed logs.
     #   @return [String]
     #
+    # @!attribute [rw] multicast_frame_info
+    #   `FrameInfo` of your multicast group resources for the trace content.
+    #   Use FrameInfo to debug the multicast communication between your
+    #   multicast groups and the network server.
+    #   @return [String]
+    #
     class TraceContent < Struct.new(
       :wireless_device_frame_info,
-      :log_level)
+      :log_level,
+      :multicast_frame_info)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5339,13 +6466,48 @@ module Aws::IoTWireless
     #   The firmware update role that is to be used with a FUOTA task.
     #   @return [String]
     #
+    # @!attribute [rw] redundancy_percent
+    #   The percentage of the added fragments that are redundant. For
+    #   example, if the size of the firmware image file is 100 bytes and the
+    #   fragment size is 10 bytes, with `RedundancyPercent` set to 50(%),
+    #   the final number of encoded fragments is (100 / 10) + (100 / 10 *
+    #   50%) = 15.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] fragment_size_bytes
+    #   The size of each fragment in bytes. This parameter is supported only
+    #   for FUOTA tasks with multicast groups.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] fragment_interval_ms
+    #   The interval for sending fragments in milliseconds, rounded to the
+    #   nearest second.
+    #
+    #   <note markdown="1"> This interval only determines the timing for when the Cloud sends
+    #   down the fragments to yor device. There can be a delay for when your
+    #   device will receive these fragments. This delay depends on the
+    #   device's class and the communication delay with the cloud.
+    #
+    #    </note>
+    #   @return [Integer]
+    #
+    # @!attribute [rw] descriptor
+    #   The Descriptor specifies some metadata about the File being
+    #   transferred using FUOTA e.g. the software version. It is sent
+    #   transparently to the device. It is a binary field encoded in base64
+    #   @return [String]
+    #
     class UpdateFuotaTaskRequest < Struct.new(
       :id,
       :name,
       :description,
       :lo_ra_wan,
       :firmware_update_image,
-      :firmware_update_role)
+      :firmware_update_role,
+      :redundancy_percent,
+      :fragment_size_bytes,
+      :fragment_interval_ms,
+      :descriptor)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5358,6 +6520,10 @@ module Aws::IoTWireless
     #   information, or to `INFO` for more detailed logs.
     #   @return [String]
     #
+    # @!attribute [rw] fuota_task_log_options
+    #   The list of fuota task log options.
+    #   @return [Array<Types::FuotaTaskLogOption>]
+    #
     # @!attribute [rw] wireless_device_log_options
     #   The list of wireless device log options.
     #   @return [Array<Types::WirelessDeviceLogOption>]
@@ -5368,6 +6534,7 @@ module Aws::IoTWireless
     #
     class UpdateLogLevelsByResourceTypesRequest < Struct.new(
       :default_log_level,
+      :fuota_task_log_options,
       :wireless_device_log_options,
       :wireless_gateway_log_options)
       SENSITIVE = []
@@ -5375,6 +6542,18 @@ module Aws::IoTWireless
     end
 
     class UpdateLogLevelsByResourceTypesResponse < Aws::EmptyStructure; end
+
+    # @!attribute [rw] summary_metric
+    #   The value to be used to set summary metric configuration.
+    #   @return [Types::SummaryMetricConfiguration]
+    #
+    class UpdateMetricConfigurationRequest < Struct.new(
+      :summary_metric)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    class UpdateMetricConfigurationResponse < Aws::EmptyStructure; end
 
     # @!attribute [rw] id
     #   The ID of the multicast group.
@@ -5408,8 +6587,8 @@ module Aws::IoTWireless
     #   @return [String]
     #
     # @!attribute [rw] trace_content
-    #   Trace content for your wireless gateway and wireless device
-    #   resources.
+    #   Trace content for your wireless devices, gateways, and multicast
+    #   groups.
     #   @return [Types::TraceContent]
     #
     # @!attribute [rw] wireless_devices_to_add
@@ -5440,6 +6619,18 @@ module Aws::IoTWireless
     #   The description of the new resource.
     #   @return [String]
     #
+    # @!attribute [rw] multicast_groups_to_add
+    #   Multicast group resources to add to the network analyzer
+    #   configuration. Provide the `MulticastGroupId` of the resource to add
+    #   in the input array.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] multicast_groups_to_remove
+    #   Multicast group resources to remove from the network analyzer
+    #   configuration. Provide the `MulticastGroupId` of the resources to
+    #   remove in the input array.
+    #   @return [Array<String>]
+    #
     class UpdateNetworkAnalyzerConfigurationRequest < Struct.new(
       :configuration_name,
       :trace_content,
@@ -5447,7 +6638,9 @@ module Aws::IoTWireless
       :wireless_devices_to_remove,
       :wireless_gateways_to_add,
       :wireless_gateways_to_remove,
-      :description)
+      :description,
+      :multicast_groups_to_add,
+      :multicast_groups_to_remove)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5549,8 +6742,8 @@ module Aws::IoTWireless
 
     # @!attribute [rw] resource_identifier
     #   The identifier of the resource for which position information is
-    #   updated. It can be the wireless device ID or the wireless gateway ID
-    #   depending on the resource type.
+    #   updated. It can be the wireless device ID or the wireless gateway
+    #   ID, depending on the resource type.
     #   @return [String]
     #
     # @!attribute [rw] resource_type
@@ -5578,6 +6771,23 @@ module Aws::IoTWireless
     end
 
     class UpdateResourcePositionResponse < Aws::EmptyStructure; end
+
+    # @!attribute [rw] id
+    #   The identifier of the import task to be updated.
+    #   @return [String]
+    #
+    # @!attribute [rw] sidewalk
+    #   The Sidewalk-related parameters of the import task to be updated.
+    #   @return [Types::SidewalkUpdateImportInfo]
+    #
+    class UpdateWirelessDeviceImportTaskRequest < Struct.new(
+      :id,
+      :sidewalk)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    class UpdateWirelessDeviceImportTaskResponse < Aws::EmptyStructure; end
 
     # @!attribute [rw] id
     #   The ID of the resource to update.
@@ -5638,12 +6848,17 @@ module Aws::IoTWireless
     #   uplink frames.
     #   @return [Array<String>]
     #
+    # @!attribute [rw] max_eirp
+    #   The MaxEIRP value.
+    #   @return [Float]
+    #
     class UpdateWirelessGatewayRequest < Struct.new(
       :id,
       :name,
       :description,
       :join_eui_filters,
-      :net_id_filters)
+      :net_id_filters,
+      :max_eirp)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5812,7 +7027,7 @@ module Aws::IoTWireless
     #   @return [String]
     #
     # @!attribute [rw] rss
-    #   Recived signal strength of the WLAN measurement data.
+    #   Received signal strength (dBm) of the WLAN measurement data.
     #   @return [Integer]
     #
     class WiFiAccessPoint < Struct.new(
@@ -5844,6 +7059,75 @@ module Aws::IoTWireless
     class WirelessDeviceEventLogOption < Struct.new(
       :event,
       :log_level)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Information about an import task for wireless devices.
+    #
+    # @!attribute [rw] id
+    #   The ID of the wireless device import task.
+    #   @return [String]
+    #
+    # @!attribute [rw] arn
+    #   The ARN (Amazon Resource Name) of the wireless device import task.
+    #   @return [String]
+    #
+    # @!attribute [rw] destination_name
+    #   The name of the Sidewalk destination that that describes the IoT
+    #   rule to route messages from the device in the import task that will
+    #   be onboarded to AWS IoT Wireless
+    #   @return [String]
+    #
+    # @!attribute [rw] sidewalk
+    #   The Sidewalk-related information of the wireless device import task.
+    #   @return [Types::SidewalkGetStartImportInfo]
+    #
+    # @!attribute [rw] creation_time
+    #   The time at which the import task was created.
+    #   @return [Time]
+    #
+    # @!attribute [rw] status
+    #   The status information of the wireless device import task.
+    #   @return [String]
+    #
+    # @!attribute [rw] status_reason
+    #   The reason that provides additional information about the import
+    #   task status.
+    #   @return [String]
+    #
+    # @!attribute [rw] initialized_imported_device_count
+    #   The summary information of count of wireless devices that are
+    #   waiting for the control log to be added to an import task.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] pending_imported_device_count
+    #   The summary information of count of wireless devices in an import
+    #   task that are waiting in the queue to be onboarded.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] onboarded_imported_device_count
+    #   The summary information of count of wireless devices in an import
+    #   task that have been onboarded to the import task.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] failed_imported_device_count
+    #   The summary information of count of wireless devices in an import
+    #   task that failed to onboarded to the import task.
+    #   @return [Integer]
+    #
+    class WirelessDeviceImportTask < Struct.new(
+      :id,
+      :arn,
+      :destination_name,
+      :sidewalk,
+      :creation_time,
+      :status,
+      :status_reason,
+      :initialized_imported_device_count,
+      :pending_imported_device_count,
+      :onboarded_imported_device_count,
+      :failed_imported_device_count)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -5897,6 +7181,10 @@ module Aws::IoTWireless
     #
     # @!attribute [rw] last_uplink_received_at
     #   The date and time when the most recent uplink was received.
+    #
+    #   <note markdown="1"> Theis value is only valid for 3 months.
+    #
+    #    </note>
     #   @return [String]
     #
     # @!attribute [rw] lo_ra_wan
@@ -6008,6 +7296,10 @@ module Aws::IoTWireless
     #
     # @!attribute [rw] last_uplink_received_at
     #   The date and time when the most recent uplink was received.
+    #
+    #   <note markdown="1"> This value is only valid for 3 months.
+    #
+    #    </note>
     #   @return [String]
     #
     class WirelessGatewayStatistics < Struct.new(
@@ -6040,3 +7332,4 @@ module Aws::IoTWireless
 
   end
 end
+

@@ -123,9 +123,19 @@ module Aws::ResourceExplorer2
       include Aws::Structure
     end
 
-    # You tried to create a new view or index when one already exists, and
-    # you either didn't specify or specified a different idempotency token
-    # as the original request.
+    # If you attempted to create a view, then the request failed because
+    # either you specified parameters that didn’t match the original
+    # request, or you attempted to create a view with a name that already
+    # exists in this Amazon Web Services Region.
+    #
+    # If you attempted to create an index, then the request failed because
+    # either you specified parameters that didn't match the original
+    # request, or an index already exists in the current Amazon Web Services
+    # Region.
+    #
+    # If you attempted to update an index type to `AGGREGATOR`, then the
+    # request failed because you already have an `AGGREGATOR` index in a
+    # different Amazon Web Services Region.
     #
     # @!attribute [rw] message
     #   @return [String]
@@ -142,7 +152,7 @@ module Aws::ResourceExplorer2
     #   This value helps ensure idempotency. Resource Explorer uses this
     #   value to prevent the accidental creation of duplicate versions. We
     #   recommend that you generate a [UUID-type value][1] to ensure the
-    #   uniqueness of your views.
+    #   uniqueness of your index.
     #
     #   **A suitable default value is auto-generated.** You should normally
     #   not need to pass this option.
@@ -163,7 +173,7 @@ module Aws::ResourceExplorer2
     class CreateIndexInput < Struct.new(
       :client_token,
       :tags)
-      SENSITIVE = []
+      SENSITIVE = [:tags]
       include Aws::Structure
     end
 
@@ -246,6 +256,11 @@ module Aws::ResourceExplorer2
     #   the results.
     #   @return [Array<Types::IncludedProperty>]
     #
+    # @!attribute [rw] scope
+    #   The root ARN of the account, an organizational unit (OU), or an
+    #   organization ARN. If left empty, the default is account.
+    #   @return [String]
+    #
     # @!attribute [rw] tags
     #   Tag key and value pairs that are attached to the view.
     #   @return [Hash<String,String>]
@@ -265,9 +280,10 @@ module Aws::ResourceExplorer2
       :client_token,
       :filters,
       :included_properties,
+      :scope,
       :tags,
       :view_name)
-      SENSITIVE = [:filters]
+      SENSITIVE = [:filters, :tags]
       include Aws::Structure
     end
 
@@ -366,6 +382,19 @@ module Aws::ResourceExplorer2
       include Aws::Structure
     end
 
+    # @!attribute [rw] org_configuration
+    #   Details about the organization, and whether configuration is
+    #   `ENABLED` or `DISABLED`.
+    #   @return [Types::OrgConfiguration]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/resource-explorer-2-2022-07-28/GetAccountLevelServiceConfigurationOutput AWS API Documentation
+    #
+    class GetAccountLevelServiceConfigurationOutput < Struct.new(
+      :org_configuration)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # @!attribute [rw] view_arn
     #   The [Amazon resource name (ARN)][1] of the view that is the current
     #   default for the Amazon Web Services Region in which you called this
@@ -446,6 +475,30 @@ module Aws::ResourceExplorer2
       :state,
       :tags,
       :type)
+      SENSITIVE = [:tags]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] managed_view_arn
+    #   The Amazon resource name (ARN) of the managed view.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/resource-explorer-2-2022-07-28/GetManagedViewInput AWS API Documentation
+    #
+    class GetManagedViewInput < Struct.new(
+      :managed_view_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] managed_view
+    #   Details about the specified managed view.
+    #   @return [Types::ManagedView]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/resource-explorer-2-2022-07-28/GetManagedViewOutput AWS API Documentation
+    #
+    class GetManagedViewOutput < Struct.new(
+      :managed_view)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -480,7 +533,7 @@ module Aws::ResourceExplorer2
     class GetViewOutput < Struct.new(
       :tags,
       :view)
-      SENSITIVE = []
+      SENSITIVE = [:tags]
       include Aws::Structure
     end
 
@@ -537,14 +590,14 @@ module Aws::ResourceExplorer2
     # @!attribute [rw] type
     #   The type of index. It can be one of the following values:
     #
-    #   * **LOCAL** – The index contains information about resources from
-    #     only the same Amazon Web Services Region.
+    #   * `LOCAL` – The index contains information about resources from only
+    #     the same Amazon Web Services Region.
     #
-    #   * **AGGREGATOR** – Resource Explorer replicates copies of the
-    #     indexed information about resources in all other Amazon Web
-    #     Services Regions to the aggregator index. This lets search results
-    #     in the Region with the aggregator index to include resources from
-    #     all Regions in the account where Resource Explorer is turned on.
+    #   * `AGGREGATOR` – Resource Explorer replicates copies of the indexed
+    #     information about resources in all other Amazon Web Services
+    #     Regions to the aggregator index. This lets search results in the
+    #     Region with the aggregator index to include resources from all
+    #     Regions in the account where Resource Explorer is turned on.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/resource-explorer-2-2022-07-28/Index AWS API Documentation
@@ -571,6 +624,11 @@ module Aws::ResourceExplorer2
       include Aws::Structure
     end
 
+    # @!attribute [rw] account_id_list
+    #   The account IDs will limit the output to only indexes from these
+    #   accounts.
+    #   @return [Array<String>]
+    #
     # @!attribute [rw] max_results
     #   The maximum number of results that you want included on each page of
     #   the response. If you do not include this parameter, it defaults to a
@@ -592,7 +650,65 @@ module Aws::ResourceExplorer2
     #   `NextToken` response in a previous request. A `NextToken` response
     #   indicates that more output is available. Set this parameter to the
     #   value of the previous call's `NextToken` response to indicate where
-    #   the output should continue from.
+    #   the output should continue from. The pagination tokens expire after
+    #   24 hours.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/resource-explorer-2-2022-07-28/ListIndexesForMembersInput AWS API Documentation
+    #
+    class ListIndexesForMembersInput < Struct.new(
+      :account_id_list,
+      :max_results,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] indexes
+    #   A structure that contains the details and status of each index.
+    #   @return [Array<Types::MemberIndex>]
+    #
+    # @!attribute [rw] next_token
+    #   If present, indicates that more output is available than is included
+    #   in the current response. Use this value in the `NextToken` request
+    #   parameter in a subsequent call to the operation to get the next part
+    #   of the output. You should repeat this until the `NextToken` response
+    #   element comes back as `null`. The pagination tokens expire after 24
+    #   hours.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/resource-explorer-2-2022-07-28/ListIndexesForMembersOutput AWS API Documentation
+    #
+    class ListIndexesForMembersOutput < Struct.new(
+      :indexes,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] max_results
+    #   The maximum number of results that you want included on each page of
+    #   the response. If you do not include this parameter, it defaults to a
+    #   value appropriate to the operation. If additional items exist beyond
+    #   those included in the current response, the `NextToken` response
+    #   element is present and has a value (is not null). Include that value
+    #   as the `NextToken` request parameter in the next call to the
+    #   operation to get the next part of the results.
+    #
+    #   <note markdown="1"> An API operation can return fewer results than the maximum even when
+    #   there are more results available. You should check `NextToken` after
+    #   every operation to ensure that you receive all of the results.
+    #
+    #    </note>
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   The parameter for receiving additional results if you receive a
+    #   `NextToken` response in a previous request. A `NextToken` response
+    #   indicates that more output is available. Set this parameter to the
+    #   value of the previous call's `NextToken` response to indicate where
+    #   the output should continue from. The pagination tokens expire after
+    #   24 hours.
     #   @return [String]
     #
     # @!attribute [rw] regions
@@ -627,7 +743,8 @@ module Aws::ResourceExplorer2
     #   in the current response. Use this value in the `NextToken` request
     #   parameter in a subsequent call to the operation to get the next part
     #   of the output. You should repeat this until the `NextToken` response
-    #   element comes back as `null`.
+    #   element comes back as `null`. The pagination tokens expire after 24
+    #   hours.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/resource-explorer-2-2022-07-28/ListIndexesOutput AWS API Documentation
@@ -660,7 +777,152 @@ module Aws::ResourceExplorer2
     #   `NextToken` response in a previous request. A `NextToken` response
     #   indicates that more output is available. Set this parameter to the
     #   value of the previous call's `NextToken` response to indicate where
-    #   the output should continue from.
+    #   the output should continue from. The pagination tokens expire after
+    #   24 hours.
+    #   @return [String]
+    #
+    # @!attribute [rw] service_principal
+    #   Specifies a service principal name. If specified, then the operation
+    #   only returns the managed views that are managed by the input
+    #   service.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/resource-explorer-2-2022-07-28/ListManagedViewsInput AWS API Documentation
+    #
+    class ListManagedViewsInput < Struct.new(
+      :max_results,
+      :next_token,
+      :service_principal)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] managed_views
+    #   The list of managed views available in the Amazon Web Services
+    #   Region in which you called this operation.
+    #   @return [Array<String>]
+    #
+    # @!attribute [rw] next_token
+    #   If present, indicates that more output is available than is included
+    #   in the current response. Use this value in the `NextToken` request
+    #   parameter in a subsequent call to the operation to get the next part
+    #   of the output. You should repeat this until the `NextToken` response
+    #   element comes back as `null`. The pagination tokens expire after 24
+    #   hours.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/resource-explorer-2-2022-07-28/ListManagedViewsOutput AWS API Documentation
+    #
+    class ListManagedViewsOutput < Struct.new(
+      :managed_views,
+      :next_token)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] filters
+    #   A search filter defines which resources can be part of a search
+    #   query result set.
+    #   @return [Types::SearchFilter]
+    #
+    # @!attribute [rw] max_results
+    #   The maximum number of results that you want included on each page of
+    #   the response. If you do not include this parameter, it defaults to a
+    #   value appropriate to the operation. If additional items exist beyond
+    #   those included in the current response, the `NextToken` response
+    #   element is present and has a value (is not null). Include that value
+    #   as the `NextToken` request parameter in the next call to the
+    #   operation to get the next part of the results.
+    #
+    #   <note markdown="1"> An API operation can return fewer results than the maximum even when
+    #   there are more results available. You should check `NextToken` after
+    #   every operation to ensure that you receive all of the results.
+    #
+    #    </note>
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   The parameter for receiving additional results if you receive a
+    #   `NextToken` response in a previous request. A `NextToken` response
+    #   indicates that more output is available. Set this parameter to the
+    #   value of the previous call's `NextToken` response to indicate where
+    #   the output should continue from. The pagination tokens expire after
+    #   24 hours.
+    #   @return [String]
+    #
+    # @!attribute [rw] view_arn
+    #   Specifies the Amazon resource name (ARN) of the view to use for the
+    #   query. If you don't specify a value for this parameter, then the
+    #   operation automatically uses the default view for the Amazon Web
+    #   Services Region in which you called this operation. If the Region
+    #   either doesn't have a default view or if you don't have permission
+    #   to use the default view, then the operation fails with a 401
+    #   Unauthorized exception.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/resource-explorer-2-2022-07-28/ListResourcesInput AWS API Documentation
+    #
+    class ListResourcesInput < Struct.new(
+      :filters,
+      :max_results,
+      :next_token,
+      :view_arn)
+      SENSITIVE = [:filters]
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] next_token
+    #   If present, indicates that more output is available than is included
+    #   in the current response. Use this value in the `NextToken` request
+    #   parameter in a subsequent call to the operation to get the next part
+    #   of the output. You should repeat this until the `NextToken` response
+    #   element comes back as `null`. The pagination tokens expire after 24
+    #   hours.
+    #   @return [String]
+    #
+    # @!attribute [rw] resources
+    #   The list of structures that describe the resources that match the
+    #   query.
+    #   @return [Array<Types::Resource>]
+    #
+    # @!attribute [rw] view_arn
+    #   The Amazon resource name (ARN) of the view that this operation used
+    #   to perform the search.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/resource-explorer-2-2022-07-28/ListResourcesOutput AWS API Documentation
+    #
+    class ListResourcesOutput < Struct.new(
+      :next_token,
+      :resources,
+      :view_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] max_results
+    #   The maximum number of results that you want included on each page of
+    #   the response. If you do not include this parameter, it defaults to a
+    #   value appropriate to the operation. If additional items exist beyond
+    #   those included in the current response, the `NextToken` response
+    #   element is present and has a value (is not null). Include that value
+    #   as the `NextToken` request parameter in the next call to the
+    #   operation to get the next part of the results.
+    #
+    #   <note markdown="1"> An API operation can return fewer results than the maximum even when
+    #   there are more results available. You should check `NextToken` after
+    #   every operation to ensure that you receive all of the results.
+    #
+    #    </note>
+    #   @return [Integer]
+    #
+    # @!attribute [rw] next_token
+    #   The parameter for receiving additional results if you receive a
+    #   `NextToken` response in a previous request. A `NextToken` response
+    #   indicates that more output is available. Set this parameter to the
+    #   value of the previous call's `NextToken` response to indicate where
+    #   the output should continue from. The pagination tokens expire after
+    #   24 hours.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/resource-explorer-2-2022-07-28/ListSupportedResourceTypesInput AWS API Documentation
@@ -677,7 +939,8 @@ module Aws::ResourceExplorer2
     #   in the current response. Use this value in the `NextToken` request
     #   parameter in a subsequent call to the operation to get the next part
     #   of the output. You should repeat this until the `NextToken` response
-    #   element comes back as `null`.
+    #   element comes back as `null`. The pagination tokens expire after 24
+    #   hours.
     #   @return [String]
     #
     # @!attribute [rw] resource_types
@@ -719,7 +982,7 @@ module Aws::ResourceExplorer2
     #
     class ListTagsForResourceOutput < Struct.new(
       :tags)
-      SENSITIVE = []
+      SENSITIVE = [:tags]
       include Aws::Structure
     end
 
@@ -744,7 +1007,8 @@ module Aws::ResourceExplorer2
     #   `NextToken` response in a previous request. A `NextToken` response
     #   indicates that more output is available. Set this parameter to the
     #   value of the previous call's `NextToken` response to indicate where
-    #   the output should continue from.
+    #   the output should continue from. The pagination tokens expire after
+    #   24 hours.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/resource-explorer-2-2022-07-28/ListViewsInput AWS API Documentation
@@ -761,7 +1025,8 @@ module Aws::ResourceExplorer2
     #   in the current response. Use this value in the `NextToken` request
     #   parameter in a subsequent call to the operation to get the next part
     #   of the output. You should repeat this until the `NextToken` response
-    #   element comes back as `null`.
+    #   element comes back as `null`. The pagination tokens expire after 24
+    #   hours.
     #   @return [String]
     #
     # @!attribute [rw] views
@@ -774,6 +1039,158 @@ module Aws::ResourceExplorer2
     class ListViewsOutput < Struct.new(
       :next_token,
       :views)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # An Amazon Web Services-managed view is how other Amazon Web Services
+    # services can access resource information indexed by Resource Explorer
+    # for your Amazon Web Services account or organization with your
+    # consent. For more information, see [Managed views][1].
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/resource-explorer/latest/userguide/aws-managed-views.html
+    #
+    # @!attribute [rw] filters
+    #   A search filter defines which resources can be part of a search
+    #   query result set.
+    #   @return [Types::SearchFilter]
+    #
+    # @!attribute [rw] included_properties
+    #   A structure that contains additional information about the managed
+    #   view.
+    #   @return [Array<Types::IncludedProperty>]
+    #
+    # @!attribute [rw] last_updated_at
+    #   The date and time when this managed view was last modified.
+    #   @return [Time]
+    #
+    # @!attribute [rw] managed_view_arn
+    #   The [Amazon resource name (ARN)][1] of the managed view.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html
+    #   @return [String]
+    #
+    # @!attribute [rw] managed_view_name
+    #   The name of the managed view.
+    #   @return [String]
+    #
+    # @!attribute [rw] owner
+    #   The Amazon Web Services account that owns this managed view.
+    #   @return [String]
+    #
+    # @!attribute [rw] resource_policy
+    #   The resource policy that defines access to the managed view. To
+    #   learn more about this policy, review [Managed views][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/resource-explorer/latest/userguide/aws-managed-views.html
+    #   @return [String]
+    #
+    # @!attribute [rw] scope
+    #   An [Amazon resource name (ARN)][1] of an Amazon Web Services account
+    #   or organization that specifies whether this managed view includes
+    #   resources from only the specified Amazon Web Services account or all
+    #   accounts in the specified organization.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html
+    #   @return [String]
+    #
+    # @!attribute [rw] trusted_service
+    #   The service principal of the Amazon Web Services service that
+    #   created and manages the managed view.
+    #   @return [String]
+    #
+    # @!attribute [rw] version
+    #   The version of the managed view.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/resource-explorer-2-2022-07-28/ManagedView AWS API Documentation
+    #
+    class ManagedView < Struct.new(
+      :filters,
+      :included_properties,
+      :last_updated_at,
+      :managed_view_arn,
+      :managed_view_name,
+      :owner,
+      :resource_policy,
+      :scope,
+      :trusted_service,
+      :version)
+      SENSITIVE = [:filters]
+      include Aws::Structure
+    end
+
+    # An index is the data store used by Amazon Web Services Resource
+    # Explorer to hold information about your Amazon Web Services resources
+    # that the service discovers.
+    #
+    # @!attribute [rw] account_id
+    #   The account ID for the index.
+    #   @return [String]
+    #
+    # @!attribute [rw] arn
+    #   The [Amazon resource name (ARN)][1] of the index.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html
+    #   @return [String]
+    #
+    # @!attribute [rw] region
+    #   The Amazon Web Services Region in which the index exists.
+    #   @return [String]
+    #
+    # @!attribute [rw] type
+    #   The type of index. It can be one of the following values:
+    #
+    #   * `LOCAL` – The index contains information about resources from only
+    #     the same Amazon Web Services Region.
+    #
+    #   * `AGGREGATOR` – Resource Explorer replicates copies of the indexed
+    #     information about resources in all other Amazon Web Services
+    #     Regions to the aggregator index. This lets search results in the
+    #     Region with the aggregator index to include resources from all
+    #     Regions in the account where Resource Explorer is turned on.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/resource-explorer-2-2022-07-28/MemberIndex AWS API Documentation
+    #
+    class MemberIndex < Struct.new(
+      :account_id,
+      :arn,
+      :region,
+      :type)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # This is a structure that contains the status of Amazon Web Services
+    # service access, and whether you have a valid service-linked role to
+    # enable multi-account search for your organization.
+    #
+    # @!attribute [rw] aws_service_access_status
+    #   This value displays whether your Amazon Web Services service access
+    #   is `ENABLED` or `DISABLED`.
+    #   @return [String]
+    #
+    # @!attribute [rw] service_linked_role
+    #   This value shows whether or not you have a valid a service-linked
+    #   role required to start the multi-account search feature.
+    #   @return [String]
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/resource-explorer-2-2022-07-28/OrgConfiguration AWS API Documentation
+    #
+    class OrgConfiguration < Struct.new(
+      :aws_service_access_status,
+      :service_linked_role)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -817,8 +1234,8 @@ module Aws::ResourceExplorer2
     #   @return [String]
     #
     # @!attribute [rw] service
-    #   The Amazon Web Service that owns the resource and is responsible for
-    #   creating and updating it.
+    #   The Amazon Web Services service that owns the resource and is
+    #   responsible for creating and updating it.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/resource-explorer-2-2022-07-28/Resource AWS API Documentation
@@ -952,7 +1369,8 @@ module Aws::ResourceExplorer2
     #   `NextToken` response in a previous request. A `NextToken` response
     #   indicates that more output is available. Set this parameter to the
     #   value of the previous call's `NextToken` response to indicate where
-    #   the output should continue from.
+    #   the output should continue from. The pagination tokens expire after
+    #   24 hours.
     #   @return [String]
     #
     # @!attribute [rw] query_string
@@ -1010,7 +1428,8 @@ module Aws::ResourceExplorer2
     #   in the current response. Use this value in the `NextToken` request
     #   parameter in a subsequent call to the operation to get the next part
     #   of the output. You should repeat this until the `NextToken` response
-    #   element comes back as `null`.
+    #   element comes back as `null`. The pagination tokens expire after 24
+    #   hours.
     #   @return [String]
     #
     # @!attribute [rw] resources
@@ -1069,9 +1488,9 @@ module Aws::ResourceExplorer2
     #   @return [String]
     #
     # @!attribute [rw] service
-    #   The Amazon Web Service that is associated with the resource type.
-    #   This is the primary service that lets you create and interact with
-    #   resources of this type.
+    #   The Amazon Web Services service that is associated with the resource
+    #   type. This is the primary service that lets you create and interact
+    #   with resources of this type.
     #   @return [String]
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/resource-explorer-2-2022-07-28/SupportedResourceType AWS API Documentation
@@ -1098,7 +1517,7 @@ module Aws::ResourceExplorer2
     class TagResourceInput < Struct.new(
       :tags,
       :resource_arn)
-      SENSITIVE = []
+      SENSITIVE = [:tags]
       include Aws::Structure
     end
 
@@ -1112,7 +1531,7 @@ module Aws::ResourceExplorer2
     #
     #
     #
-    # [1]: https://docs.aws.amazon.com/arexug/mainline/quotas.html
+    # [1]: https://docs.aws.amazon.com/resource-explorer/latest/userguide/quotas.html
     #
     # @!attribute [rw] message
     #   @return [String]
@@ -1154,7 +1573,7 @@ module Aws::ResourceExplorer2
     class UntagResourceInput < Struct.new(
       :resource_arn,
       :tag_keys)
-      SENSITIVE = []
+      SENSITIVE = [:tag_keys]
       include Aws::Structure
     end
 
@@ -1390,3 +1809,4 @@ module Aws::ResourceExplorer2
 
   end
 end
+

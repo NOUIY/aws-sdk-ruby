@@ -13,8 +13,7 @@ module Aws
       option(:sigv4_region)
       option(:unsigned_operations, default: [])
 
-      supported_auth_types = %w[sigv4 bearer none]
-      supported_auth_types += ['sigv4a'] if Aws::Sigv4::Signer.use_crt?
+      supported_auth_types = %w[sigv4 bearer sigv4-s3express sigv4a none]
       SUPPORTED_AUTH_TYPES = supported_auth_types.freeze
 
       def add_handlers(handlers, cfg)
@@ -24,10 +23,14 @@ module Aws
 
       # @api private
       # Return a signer with the `sign(context)` method
-      def self.signer_for(auth_scheme, config, region_override = nil)
+      def self.signer_for(auth_scheme, config, sigv4_region_override = nil, sigv4_credentials_override = nil)
         case auth_scheme['name']
-        when 'sigv4', 'sigv4a'
-          SignatureV4.new(auth_scheme, config, region_override)
+        when 'sigv4', 'sigv4a', 'sigv4-s3express'
+          sigv4_overrides = {
+            region: sigv4_region_override,
+            credentials: sigv4_credentials_override
+          }
+          SignatureV4.new(auth_scheme, config, sigv4_overrides)
         when 'bearer'
           Bearer.new
         else
@@ -42,7 +45,8 @@ module Aws
             signer = Sign.signer_for(
               context[:auth_scheme],
               context.config,
-              context[:sigv4_region]
+              context[:sigv4_region],
+              context[:sigv4_credentials]
             )
             signer.sign(context)
           end
@@ -88,27 +92,28 @@ module Aws
 
       # @api private
       class SignatureV4
-        def initialize(auth_scheme, config, region_override = nil)
+        def initialize(auth_scheme, config, sigv4_overrides = {})
           scheme_name = auth_scheme['name']
 
-          unless %w[sigv4 sigv4a].include?(scheme_name)
+          unless %w[sigv4 sigv4a sigv4-s3express].include?(scheme_name)
             raise ArgumentError,
-                  "Expected sigv4 or sigv4a auth scheme, got #{scheme_name}"
+                  "Expected sigv4, sigv4a, or sigv4-s3express auth scheme, got #{scheme_name}"
           end
 
           region = if scheme_name == 'sigv4a'
-                     auth_scheme['signingRegionSet'].first
+                     auth_scheme['signingRegionSet'].join(',')
                    else
                      auth_scheme['signingRegion']
                    end
           begin
-            @signer = Aws::Sigv4::Signer.new(
+            @signer = config.sigv4_signer || Aws::Sigv4::Signer.new(
               service: config.sigv4_name || auth_scheme['signingName'],
-              region: region_override || config.sigv4_region || region,
-              credentials_provider: config.credentials,
+              region: sigv4_overrides[:region] || config.sigv4_region || region,
+              credentials_provider: sigv4_overrides[:credentials] || config.credentials,
               signing_algorithm: scheme_name.to_sym,
               uri_escape_path: !!!auth_scheme['disableDoubleEncoding'],
-              unsigned_headers: %w[content-length user-agent x-amzn-trace-id]
+              normalize_path: !!!auth_scheme['disableNormalizePath'],
+              unsigned_headers: %w[content-length user-agent x-amzn-trace-id expect transfer-encoding connection]
             )
           rescue Aws::Sigv4::Errors::MissingCredentialsError
             raise Aws::Errors::MissingCredentialsError
@@ -153,10 +158,18 @@ module Aws
         private
 
         def apply_authtype(context, req)
-          if context.operation['authtype'].eql?('v4-unsigned-body') &&
-             req.endpoint.scheme.eql?('https')
+          # only used for event streaming at input
+          if context[:input_event_emitter]
+            req.headers['X-Amz-Content-Sha256'] = 'STREAMING-AWS4-HMAC-SHA256-EVENTS'
+          elsif unsigned_payload?(context, req)
             req.headers['X-Amz-Content-Sha256'] ||= 'UNSIGNED-PAYLOAD'
           end
+        end
+
+        def unsigned_payload?(context, req)
+          (context.operation['unsignedPayload'] ||
+            context.operation['authtype'] == 'v4-unsigned-body') &&
+            req.endpoint.scheme == 'https'
         end
 
         def reset_signature(req)

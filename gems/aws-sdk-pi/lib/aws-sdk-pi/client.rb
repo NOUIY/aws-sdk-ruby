@@ -7,33 +7,34 @@
 #
 # WARNING ABOUT GENERATED CODE
 
-require 'seahorse/client/plugins/content_length.rb'
-require 'aws-sdk-core/plugins/credentials_configuration.rb'
-require 'aws-sdk-core/plugins/logging.rb'
-require 'aws-sdk-core/plugins/param_converter.rb'
-require 'aws-sdk-core/plugins/param_validator.rb'
-require 'aws-sdk-core/plugins/user_agent.rb'
-require 'aws-sdk-core/plugins/helpful_socket_errors.rb'
-require 'aws-sdk-core/plugins/retry_errors.rb'
-require 'aws-sdk-core/plugins/global_configuration.rb'
-require 'aws-sdk-core/plugins/regional_endpoint.rb'
-require 'aws-sdk-core/plugins/endpoint_discovery.rb'
-require 'aws-sdk-core/plugins/endpoint_pattern.rb'
-require 'aws-sdk-core/plugins/response_paging.rb'
-require 'aws-sdk-core/plugins/stub_responses.rb'
-require 'aws-sdk-core/plugins/idempotency_token.rb'
-require 'aws-sdk-core/plugins/jsonvalue_converter.rb'
-require 'aws-sdk-core/plugins/client_metrics_plugin.rb'
-require 'aws-sdk-core/plugins/client_metrics_send_plugin.rb'
-require 'aws-sdk-core/plugins/transfer_encoding.rb'
-require 'aws-sdk-core/plugins/http_checksum.rb'
-require 'aws-sdk-core/plugins/checksum_algorithm.rb'
-require 'aws-sdk-core/plugins/defaults_mode.rb'
-require 'aws-sdk-core/plugins/recursion_detection.rb'
-require 'aws-sdk-core/plugins/sign.rb'
-require 'aws-sdk-core/plugins/protocols/json_rpc.rb'
-
-Aws::Plugins::GlobalConfiguration.add_identifier(:pi)
+require 'seahorse/client/plugins/content_length'
+require 'aws-sdk-core/plugins/credentials_configuration'
+require 'aws-sdk-core/plugins/logging'
+require 'aws-sdk-core/plugins/param_converter'
+require 'aws-sdk-core/plugins/param_validator'
+require 'aws-sdk-core/plugins/user_agent'
+require 'aws-sdk-core/plugins/helpful_socket_errors'
+require 'aws-sdk-core/plugins/retry_errors'
+require 'aws-sdk-core/plugins/global_configuration'
+require 'aws-sdk-core/plugins/regional_endpoint'
+require 'aws-sdk-core/plugins/endpoint_discovery'
+require 'aws-sdk-core/plugins/endpoint_pattern'
+require 'aws-sdk-core/plugins/response_paging'
+require 'aws-sdk-core/plugins/stub_responses'
+require 'aws-sdk-core/plugins/idempotency_token'
+require 'aws-sdk-core/plugins/invocation_id'
+require 'aws-sdk-core/plugins/jsonvalue_converter'
+require 'aws-sdk-core/plugins/client_metrics_plugin'
+require 'aws-sdk-core/plugins/client_metrics_send_plugin'
+require 'aws-sdk-core/plugins/transfer_encoding'
+require 'aws-sdk-core/plugins/http_checksum'
+require 'aws-sdk-core/plugins/checksum_algorithm'
+require 'aws-sdk-core/plugins/request_compression'
+require 'aws-sdk-core/plugins/defaults_mode'
+require 'aws-sdk-core/plugins/recursion_detection'
+require 'aws-sdk-core/plugins/telemetry'
+require 'aws-sdk-core/plugins/sign'
+require 'aws-sdk-core/plugins/protocols/json_rpc'
 
 module Aws::PI
   # An API client for PI.  To construct a client, you need to configure a `:region` and `:credentials`.
@@ -71,20 +72,28 @@ module Aws::PI
     add_plugin(Aws::Plugins::ResponsePaging)
     add_plugin(Aws::Plugins::StubResponses)
     add_plugin(Aws::Plugins::IdempotencyToken)
+    add_plugin(Aws::Plugins::InvocationId)
     add_plugin(Aws::Plugins::JsonvalueConverter)
     add_plugin(Aws::Plugins::ClientMetricsPlugin)
     add_plugin(Aws::Plugins::ClientMetricsSendPlugin)
     add_plugin(Aws::Plugins::TransferEncoding)
     add_plugin(Aws::Plugins::HttpChecksum)
     add_plugin(Aws::Plugins::ChecksumAlgorithm)
+    add_plugin(Aws::Plugins::RequestCompression)
     add_plugin(Aws::Plugins::DefaultsMode)
     add_plugin(Aws::Plugins::RecursionDetection)
+    add_plugin(Aws::Plugins::Telemetry)
     add_plugin(Aws::Plugins::Sign)
     add_plugin(Aws::Plugins::Protocols::JsonRpc)
     add_plugin(Aws::PI::Plugins::Endpoints)
 
     # @overload initialize(options)
     #   @param [Hash] options
+    #
+    #   @option options [Array<Seahorse::Client::Plugin>] :plugins ([]])
+    #     A list of plugins to apply to the client. Each plugin is either a
+    #     class name or an instance of a plugin class.
+    #
     #   @option options [required, Aws::CredentialProvider] :credentials
     #     Your AWS credentials. This can be an instance of any one of the
     #     following classes:
@@ -119,13 +128,15 @@ module Aws::PI
     #     locations will be searched for credentials:
     #
     #     * `Aws.config[:credentials]`
-    #     * The `:access_key_id`, `:secret_access_key`, and `:session_token` options.
-    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']
+    #     * The `:access_key_id`, `:secret_access_key`, `:session_token`, and
+    #       `:account_id` options.
+    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'],
+    #       ENV['AWS_SESSION_TOKEN'], and ENV['AWS_ACCOUNT_ID']
     #     * `~/.aws/credentials`
     #     * `~/.aws/config`
     #     * EC2/ECS IMDS instance profile - When used by default, the timeouts
     #       are very aggressive. Construct and pass an instance of
-    #       `Aws::InstanceProfileCredentails` or `Aws::ECSCredentials` to
+    #       `Aws::InstanceProfileCredentials` or `Aws::ECSCredentials` to
     #       enable retries and extended timeouts. Instance profile credential
     #       fetching can be disabled by setting ENV['AWS_EC2_METADATA_DISABLED']
     #       to true.
@@ -143,6 +154,8 @@ module Aws::PI
     #     * `~/.aws/config`
     #
     #   @option options [String] :access_key_id
+    #
+    #   @option options [String] :account_id
     #
     #   @option options [Boolean] :active_endpoint_cache (false)
     #     When set to `true`, a thread polling for endpoints will be running in
@@ -190,10 +203,20 @@ module Aws::PI
     #     Set to true to disable SDK automatically adding host prefix
     #     to default service endpoint when available.
     #
-    #   @option options [String] :endpoint
-    #     The client endpoint is normally constructed from the `:region`
-    #     option. You should only configure an `:endpoint` when connecting
-    #     to test or custom endpoints. This should be a valid HTTP(S) URI.
+    #   @option options [Boolean] :disable_request_compression (false)
+    #     When set to 'true' the request body will not be compressed
+    #     for supported operations.
+    #
+    #   @option options [String, URI::HTTPS, URI::HTTP] :endpoint
+    #     Normally you should not configure the `:endpoint` option
+    #     directly. This is normally constructed from the `:region`
+    #     option. Configuring `:endpoint` is normally reserved for
+    #     connecting to test or custom endpoints. The endpoint should
+    #     be a URI formatted like:
+    #
+    #         'http://example.com'
+    #         'https://example.com'
+    #         'http://example.com:123'
     #
     #   @option options [Integer] :endpoint_cache_max_entries (1000)
     #     Used for the maximum size limit of the LRU cache storing endpoints data
@@ -209,6 +232,10 @@ module Aws::PI
     #
     #   @option options [Boolean] :endpoint_discovery (false)
     #     When set to `true`, endpoint discovery will be enabled for operations when available.
+    #
+    #   @option options [Boolean] :ignore_configured_endpoint_urls
+    #     Setting to true disables use of endpoint URLs provided via environment
+    #     variables and the shared configuration file.
     #
     #   @option options [Aws::Log::Formatter] :log_formatter (Aws::Log::Formatter.default)
     #     The log formatter.
@@ -229,6 +256,34 @@ module Aws::PI
     #   @option options [String] :profile ("default")
     #     Used when loading credentials from the shared credentials file
     #     at HOME/.aws/credentials.  When not specified, 'default' is used.
+    #
+    #   @option options [String] :request_checksum_calculation ("when_supported")
+    #     Determines when a checksum will be calculated for request payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, a checksum will be
+    #       calculated for all request payloads of operations modeled with the
+    #       `httpChecksum` trait where `requestChecksumRequired` is `true` and/or a
+    #       `requestAlgorithmMember` is modeled.
+    #     * `when_required` - When set, a checksum will only be calculated for
+    #       request payloads of operations modeled with the  `httpChecksum` trait where
+    #       `requestChecksumRequired` is `true` or where a `requestAlgorithmMember`
+    #       is modeled and supplied.
+    #
+    #   @option options [Integer] :request_min_compression_size_bytes (10240)
+    #     The minimum size in bytes that triggers compression for request
+    #     bodies. The value must be non-negative integer value between 0
+    #     and 10485780 bytes inclusive.
+    #
+    #   @option options [String] :response_checksum_validation ("when_supported")
+    #     Determines when checksum validation will be performed on response payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, checksum validation is performed on all
+    #       response payloads of operations modeled with the `httpChecksum` trait where
+    #       `responseAlgorithms` is modeled, except when no modeled checksum algorithms
+    #       are supported.
+    #     * `when_required` - When set, checksum validation is not performed on
+    #       response payloads of operations unless the checksum algorithm is supported and
+    #       the `requestValidationModeMember` member is set to `ENABLED`.
     #
     #   @option options [Proc] :retry_backoff
     #     A proc or lambda used for backoff. Defaults to 2**retries * retry_base_delay.
@@ -274,20 +329,31 @@ module Aws::PI
     #       throttling.  This is a provisional mode that may change behavior
     #       in the future.
     #
+    #   @option options [String] :sdk_ua_app_id
+    #     A unique and opaque application ID that is appended to the
+    #     User-Agent header as app/sdk_ua_app_id. It should have a
+    #     maximum length of 50. This variable is sourced from environment
+    #     variable AWS_SDK_UA_APP_ID or the shared config profile attribute sdk_ua_app_id.
     #
     #   @option options [String] :secret_access_key
     #
     #   @option options [String] :session_token
     #
+    #   @option options [Array] :sigv4a_signing_region_set
+    #     A list of regions that should be signed with SigV4a signing. When
+    #     not passed, a default `:sigv4a_signing_region_set` is searched for
+    #     in the following locations:
+    #
+    #     * `Aws.config[:sigv4a_signing_region_set]`
+    #     * `ENV['AWS_SIGV4A_SIGNING_REGION_SET']`
+    #     * `~/.aws/config`
+    #
     #   @option options [Boolean] :simple_json (false)
     #     Disables request parameter conversion, validation, and formatting.
-    #     Also disable response data type conversions. This option is useful
-    #     when you want to ensure the highest level of performance by
-    #     avoiding overhead of walking request parameters and response data
-    #     structures.
-    #
-    #     When `:simple_json` is enabled, the request parameters hash must
-    #     be formatted exactly as the DynamoDB API expects.
+    #     Also disables response data type conversions. The request parameters
+    #     hash must be formatted exactly as the API expects.This option is useful
+    #     when you want to ensure the highest level of performance by avoiding
+    #     overhead of walking request parameters and response data structures.
     #
     #   @option options [Boolean] :stub_responses (false)
     #     Causes the client to return stubbed responses. By default
@@ -297,6 +363,16 @@ module Aws::PI
     #
     #     ** Please note ** When response stubbing is enabled, no HTTP
     #     requests are made, and retries are disabled.
+    #
+    #   @option options [Aws::Telemetry::TelemetryProviderBase] :telemetry_provider (Aws::Telemetry::NoOpTelemetryProvider)
+    #     Allows you to provide a telemetry provider, which is used to
+    #     emit telemetry data. By default, uses `NoOpTelemetryProvider` which
+    #     will not record or emit any telemetry data. The SDK supports the
+    #     following telemetry providers:
+    #
+    #     * OpenTelemetry (OTel) - To use the OTel provider, install and require the
+    #     `opentelemetry-sdk` gem and then, pass in an instance of a
+    #     `Aws::Telemetry::OTelProvider` for telemetry provider.
     #
     #   @option options [Aws::TokenProvider] :token_provider
     #     A Bearer Token Provider. This can be an instance of any one of the
@@ -325,58 +401,176 @@ module Aws::PI
     #     sending the request.
     #
     #   @option options [Aws::PI::EndpointProvider] :endpoint_provider
-    #     The endpoint provider used to resolve endpoints. Any object that responds to `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to `Aws::PI::EndpointParameters`
+    #     The endpoint provider used to resolve endpoints. Any object that responds to
+    #     `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+    #     `Aws::PI::EndpointParameters`.
     #
-    #   @option options [URI::HTTP,String] :http_proxy A proxy to send
-    #     requests through.  Formatted like 'http://proxy.com:123'.
+    #   @option options [Float] :http_continue_timeout (1)
+    #     The number of seconds to wait for a 100-continue response before sending the
+    #     request body.  This option has no effect unless the request has "Expect"
+    #     header set to "100-continue".  Defaults to `nil` which  disables this
+    #     behaviour.  This value can safely be set per request on the session.
     #
-    #   @option options [Float] :http_open_timeout (15) The number of
-    #     seconds to wait when opening a HTTP session before raising a
-    #     `Timeout::Error`.
+    #   @option options [Float] :http_idle_timeout (5)
+    #     The number of seconds a connection is allowed to sit idle before it
+    #     is considered stale.  Stale connections are closed and removed from the
+    #     pool before making a request.
     #
-    #   @option options [Float] :http_read_timeout (60) The default
-    #     number of seconds to wait for response data.  This value can
-    #     safely be set per-request on the session.
+    #   @option options [Float] :http_open_timeout (15)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :http_idle_timeout (5) The number of
-    #     seconds a connection is allowed to sit idle before it is
-    #     considered stale.  Stale connections are closed and removed
-    #     from the pool before making a request.
+    #   @option options [URI::HTTP,String] :http_proxy
+    #     A proxy to send requests through.  Formatted like 'http://proxy.com:123'.
     #
-    #   @option options [Float] :http_continue_timeout (1) The number of
-    #     seconds to wait for a 100-continue response before sending the
-    #     request body.  This option has no effect unless the request has
-    #     "Expect" header set to "100-continue".  Defaults to `nil` which
-    #     disables this behaviour.  This value can safely be set per
-    #     request on the session.
+    #   @option options [Float] :http_read_timeout (60)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :ssl_timeout (nil) Sets the SSL timeout
-    #     in seconds.
+    #   @option options [Boolean] :http_wire_trace (false)
+    #     When `true`,  HTTP debug output will be sent to the `:logger`.
     #
-    #   @option options [Boolean] :http_wire_trace (false) When `true`,
-    #     HTTP debug output will be sent to the `:logger`.
+    #   @option options [Proc] :on_chunk_received
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the response body is received. It provides three arguments: the chunk,
+    #     the number of bytes received, and the total number of
+    #     bytes in the response (or nil if the server did not send a `content-length`).
     #
-    #   @option options [Boolean] :ssl_verify_peer (true) When `true`,
-    #     SSL peer certificates are verified when establishing a
-    #     connection.
+    #   @option options [Proc] :on_chunk_sent
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the request body is sent. It provides three arguments: the chunk,
+    #     the number of bytes read from the body, and the total number of
+    #     bytes in the body.
     #
-    #   @option options [String] :ssl_ca_bundle Full path to the SSL
-    #     certificate authority bundle file that should be used when
-    #     verifying peer certificates.  If you do not pass
-    #     `:ssl_ca_bundle` or `:ssl_ca_directory` the the system default
-    #     will be used if available.
+    #   @option options [Boolean] :raise_response_errors (true)
+    #     When `true`, response errors are raised.
     #
-    #   @option options [String] :ssl_ca_directory Full path of the
-    #     directory that contains the unbundled SSL certificate
+    #   @option options [String] :ssl_ca_bundle
+    #     Full path to the SSL certificate authority bundle file that should be used when
+    #     verifying peer certificates.  If you do not pass `:ssl_ca_bundle` or
+    #     `:ssl_ca_directory` the the system default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_directory
+    #     Full path of the directory that contains the unbundled SSL certificate
     #     authority files for verifying peer certificates.  If you do
-    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the
-    #     system default will be used if available.
+    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the system
+    #     default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_store
+    #     Sets the X509::Store to verify peer certificate.
+    #
+    #   @option options [OpenSSL::X509::Certificate] :ssl_cert
+    #     Sets a client certificate when creating http connections.
+    #
+    #   @option options [OpenSSL::PKey] :ssl_key
+    #     Sets a client key when creating http connections.
+    #
+    #   @option options [Float] :ssl_timeout
+    #     Sets the SSL timeout in seconds
+    #
+    #   @option options [Boolean] :ssl_verify_peer (true)
+    #     When `true`, SSL peer certificates are verified when establishing a connection.
     #
     def initialize(*args)
       super
     end
 
     # @!group API Operations
+
+    # Creates a new performance analysis report for a specific time period
+    # for the DB instance.
+    #
+    # @option params [required, String] :service_type
+    #   The Amazon Web Services service for which Performance Insights will
+    #   return metrics. Valid value is `RDS`.
+    #
+    # @option params [required, String] :identifier
+    #   An immutable, Amazon Web Services Region-unique identifier for a data
+    #   source. Performance Insights gathers metrics from this data source.
+    #
+    #   To use an Amazon RDS instance as a data source, you specify its
+    #   `DbiResourceId` value. For example, specify
+    #   `db-ADECBTYHKTSAUMUZQYPDS2GW4A`.
+    #
+    # @option params [required, Time,DateTime,Date,Integer,String] :start_time
+    #   The start time defined for the analysis report.
+    #
+    # @option params [required, Time,DateTime,Date,Integer,String] :end_time
+    #   The end time defined for the analysis report.
+    #
+    # @option params [Array<Types::Tag>] :tags
+    #   The metadata assigned to the analysis report consisting of a key-value
+    #   pair.
+    #
+    # @return [Types::CreatePerformanceAnalysisReportResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::CreatePerformanceAnalysisReportResponse#analysis_report_id #analysis_report_id} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.create_performance_analysis_report({
+    #     service_type: "RDS", # required, accepts RDS, DOCDB
+    #     identifier: "IdentifierString", # required
+    #     start_time: Time.now, # required
+    #     end_time: Time.now, # required
+    #     tags: [
+    #       {
+    #         key: "TagKey", # required
+    #         value: "TagValue", # required
+    #       },
+    #     ],
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.analysis_report_id #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/pi-2018-02-27/CreatePerformanceAnalysisReport AWS API Documentation
+    #
+    # @overload create_performance_analysis_report(params = {})
+    # @param [Hash] params ({})
+    def create_performance_analysis_report(params = {}, options = {})
+      req = build_request(:create_performance_analysis_report, params)
+      req.send_request(options)
+    end
+
+    # Deletes a performance analysis report.
+    #
+    # @option params [required, String] :service_type
+    #   The Amazon Web Services service for which Performance Insights will
+    #   return metrics. Valid value is `RDS`.
+    #
+    # @option params [required, String] :identifier
+    #   An immutable identifier for a data source that is unique for an Amazon
+    #   Web Services Region. Performance Insights gathers metrics from this
+    #   data source. In the console, the identifier is shown as *ResourceID*.
+    #   When you call `DescribeDBInstances`, the identifier is returned as
+    #   `DbiResourceId`.
+    #
+    #   To use a DB instance as a data source, specify its `DbiResourceId`
+    #   value. For example, specify `db-ABCDEFGHIJKLMNOPQRSTU1VW2X`.
+    #
+    # @option params [required, String] :analysis_report_id
+    #   The unique identifier of the analysis report for deletion.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_performance_analysis_report({
+    #     service_type: "RDS", # required, accepts RDS, DOCDB
+    #     identifier: "IdentifierString", # required
+    #     analysis_report_id: "AnalysisReportId", # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/pi-2018-02-27/DeletePerformanceAnalysisReport AWS API Documentation
+    #
+    # @overload delete_performance_analysis_report(params = {})
+    # @param [Hash] params ({})
+    def delete_performance_analysis_report(params = {}, options = {})
+      req = build_request(:delete_performance_analysis_report, params)
+      req.send_request(options)
+    end
 
     # For a specific time period, retrieve the top `N` dimension keys for a
     # metric.
@@ -469,8 +663,10 @@ module Aws::PI
     #   Additional metrics for the top `N` dimension keys. If the specified
     #   dimension group in the `GroupBy` parameter is `db.sql_tokenized`, you
     #   can specify per-SQL metrics to get the values for the top `N` SQL
-    #   digests. The response syntax is as follows: `"AdditionalMetrics" : \{
-    #   "string" : "string" \}`.
+    #   digests. The response syntax is as follows: `"AdditionalMetrics" : {
+    #   "string" : "string" }`.
+    #
+    #   The only supported statistic function is `.avg`.
     #
     # @option params [Types::DimensionGroup] :partition_by
     #   For each dimension specified in `GroupBy`, specify a secondary
@@ -483,6 +679,11 @@ module Aws::PI
     #     `GroupBy` or `Partition` parameters.
     #
     #   * A single filter for any other dimension in this dimension group.
+    #
+    #   <note markdown="1"> The `db.sql.db_id` filter isn't available for RDS for SQL Server DB
+    #   instances.
+    #
+    #    </note>
     #
     # @option params [Integer] :max_results
     #   The maximum number of items to return in the response. If more items
@@ -509,24 +710,24 @@ module Aws::PI
     #
     #   resp = client.describe_dimension_keys({
     #     service_type: "RDS", # required, accepts RDS, DOCDB
-    #     identifier: "RequestString", # required
+    #     identifier: "IdentifierString", # required
     #     start_time: Time.now, # required
     #     end_time: Time.now, # required
     #     metric: "RequestString", # required
     #     period_in_seconds: 1,
     #     group_by: { # required
-    #       group: "RequestString", # required
-    #       dimensions: ["RequestString"],
+    #       group: "SanitizedString", # required
+    #       dimensions: ["SanitizedString"],
     #       limit: 1,
     #     },
-    #     additional_metrics: ["RequestString"],
+    #     additional_metrics: ["SanitizedString"],
     #     partition_by: {
-    #       group: "RequestString", # required
-    #       dimensions: ["RequestString"],
+    #       group: "SanitizedString", # required
+    #       dimensions: ["SanitizedString"],
     #       limit: 1,
     #     },
     #     filter: {
-    #       "RequestString" => "RequestString",
+    #       "SanitizedString" => "RequestString",
     #     },
     #     max_results: 1,
     #     next_token: "NextToken",
@@ -563,7 +764,8 @@ module Aws::PI
     # `GetDimensionKeyDetails` retrieves the full text of the dimension
     # `db.sql.statement` associated with this ID. This operation is useful
     # because `GetResourceMetrics` and `DescribeDimensionKeys` don't
-    # support retrieval of large SQL statement text.
+    # support retrieval of large SQL statement text, lock snapshots, and
+    # execution plans.
     #
     # @option params [required, String] :service_type
     #   The Amazon Web Services service for which Performance Insights returns
@@ -580,6 +782,10 @@ module Aws::PI
     #   specified group for the dimension group ID. The following group name
     #   values are valid:
     #
+    #   * `db.execution_plan` (Amazon RDS and Aurora only)
+    #
+    #   * `db.lock_snapshot` (Aurora only)
+    #
     #   * `db.query` (Amazon DocumentDB only)
     #
     #   * `db.sql` (Amazon RDS and Aurora only)
@@ -589,15 +795,31 @@ module Aws::PI
     #   details. For dimension group `db.sql`, the group ID is `db.sql.id`.
     #   The following group ID values are valid:
     #
+    #   * `db.execution_plan.id` for dimension group `db.execution_plan`
+    #     (Aurora and RDS only)
+    #
     #   * `db.sql.id` for dimension group `db.sql` (Aurora and RDS only)
     #
     #   * `db.query.id` for dimension group `db.query` (DocumentDB only)
+    #
+    #   * For the dimension group `db.lock_snapshot`, the `GroupIdentifier` is
+    #     the epoch timestamp when Performance Insights captured the snapshot,
+    #     in seconds. You can retrieve this value with the
+    #     `GetResourceMetrics` operation for a 1 second period.
     #
     # @option params [Array<String>] :requested_dimensions
     #   A list of dimensions to retrieve the detail data for within the given
     #   dimension group. If you don't specify this parameter, Performance
     #   Insights returns all dimension data within the specified dimension
     #   group. Specify dimension names for the following dimension groups:
+    #
+    #   * `db.execution_plan` - Specify the dimension name
+    #     `db.execution_plan.raw_plan` or the short dimension name `raw_plan`
+    #     (Amazon RDS and Aurora only)
+    #
+    #   * `db.lock_snapshot` - Specify the dimension name
+    #     `db.lock_snapshot.lock_trees` or the short dimension name
+    #     `lock_trees`. (Aurora only)
     #
     #   * `db.sql` - Specify either the full dimension name `db.sql.statement`
     #     or the short dimension name `statement` (Aurora and RDS only).
@@ -617,7 +839,7 @@ module Aws::PI
     #     identifier: "IdentifierString", # required
     #     group: "RequestString", # required
     #     group_identifier: "RequestString", # required
-    #     requested_dimensions: ["RequestString"],
+    #     requested_dimensions: ["SanitizedString"],
     #   })
     #
     # @example Response structure
@@ -633,6 +855,98 @@ module Aws::PI
     # @param [Hash] params ({})
     def get_dimension_key_details(params = {}, options = {})
       req = build_request(:get_dimension_key_details, params)
+      req.send_request(options)
+    end
+
+    # Retrieves the report including the report ID, status, time details,
+    # and the insights with recommendations. The report status can be
+    # `RUNNING`, `SUCCEEDED`, or `FAILED`. The insights include the
+    # `description` and `recommendation` fields.
+    #
+    # @option params [required, String] :service_type
+    #   The Amazon Web Services service for which Performance Insights will
+    #   return metrics. Valid value is `RDS`.
+    #
+    # @option params [required, String] :identifier
+    #   An immutable identifier for a data source that is unique for an Amazon
+    #   Web Services Region. Performance Insights gathers metrics from this
+    #   data source. In the console, the identifier is shown as *ResourceID*.
+    #   When you call `DescribeDBInstances`, the identifier is returned as
+    #   `DbiResourceId`.
+    #
+    #   To use a DB instance as a data source, specify its `DbiResourceId`
+    #   value. For example, specify `db-ABCDEFGHIJKLMNOPQRSTU1VW2X`.
+    #
+    # @option params [required, String] :analysis_report_id
+    #   A unique identifier of the created analysis report. For example,
+    #   `report-12345678901234567`
+    #
+    # @option params [String] :text_format
+    #   Indicates the text format in the report. The options are `PLAIN_TEXT`
+    #   or `MARKDOWN`. The default value is `plain text`.
+    #
+    # @option params [String] :accept_language
+    #   The text language in the report. The default language is `EN_US`
+    #   (English).
+    #
+    # @return [Types::GetPerformanceAnalysisReportResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetPerformanceAnalysisReportResponse#analysis_report #analysis_report} => Types::AnalysisReport
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_performance_analysis_report({
+    #     service_type: "RDS", # required, accepts RDS, DOCDB
+    #     identifier: "IdentifierString", # required
+    #     analysis_report_id: "AnalysisReportId", # required
+    #     text_format: "PLAIN_TEXT", # accepts PLAIN_TEXT, MARKDOWN
+    #     accept_language: "EN_US", # accepts EN_US
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.analysis_report.analysis_report_id #=> String
+    #   resp.analysis_report.identifier #=> String
+    #   resp.analysis_report.service_type #=> String, one of "RDS", "DOCDB"
+    #   resp.analysis_report.create_time #=> Time
+    #   resp.analysis_report.start_time #=> Time
+    #   resp.analysis_report.end_time #=> Time
+    #   resp.analysis_report.status #=> String, one of "RUNNING", "SUCCEEDED", "FAILED"
+    #   resp.analysis_report.insights #=> Array
+    #   resp.analysis_report.insights[0].insight_id #=> String
+    #   resp.analysis_report.insights[0].insight_type #=> String
+    #   resp.analysis_report.insights[0].context #=> String, one of "CAUSAL", "CONTEXTUAL"
+    #   resp.analysis_report.insights[0].start_time #=> Time
+    #   resp.analysis_report.insights[0].end_time #=> Time
+    #   resp.analysis_report.insights[0].severity #=> String, one of "LOW", "MEDIUM", "HIGH"
+    #   resp.analysis_report.insights[0].supporting_insights #=> Types::InsightList
+    #   resp.analysis_report.insights[0].description #=> String
+    #   resp.analysis_report.insights[0].recommendations #=> Array
+    #   resp.analysis_report.insights[0].recommendations[0].recommendation_id #=> String
+    #   resp.analysis_report.insights[0].recommendations[0].recommendation_description #=> String
+    #   resp.analysis_report.insights[0].insight_data #=> Array
+    #   resp.analysis_report.insights[0].insight_data[0].performance_insights_metric.metric #=> String
+    #   resp.analysis_report.insights[0].insight_data[0].performance_insights_metric.display_name #=> String
+    #   resp.analysis_report.insights[0].insight_data[0].performance_insights_metric.dimensions #=> Hash
+    #   resp.analysis_report.insights[0].insight_data[0].performance_insights_metric.dimensions["DescriptiveString"] #=> String
+    #   resp.analysis_report.insights[0].insight_data[0].performance_insights_metric.filter #=> Hash
+    #   resp.analysis_report.insights[0].insight_data[0].performance_insights_metric.filter["DescriptiveString"] #=> String
+    #   resp.analysis_report.insights[0].insight_data[0].performance_insights_metric.value #=> Float
+    #   resp.analysis_report.insights[0].baseline_data #=> Array
+    #   resp.analysis_report.insights[0].baseline_data[0].performance_insights_metric.metric #=> String
+    #   resp.analysis_report.insights[0].baseline_data[0].performance_insights_metric.display_name #=> String
+    #   resp.analysis_report.insights[0].baseline_data[0].performance_insights_metric.dimensions #=> Hash
+    #   resp.analysis_report.insights[0].baseline_data[0].performance_insights_metric.dimensions["DescriptiveString"] #=> String
+    #   resp.analysis_report.insights[0].baseline_data[0].performance_insights_metric.filter #=> Hash
+    #   resp.analysis_report.insights[0].baseline_data[0].performance_insights_metric.filter["DescriptiveString"] #=> String
+    #   resp.analysis_report.insights[0].baseline_data[0].performance_insights_metric.value #=> Float
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/pi-2018-02-27/GetPerformanceAnalysisReport AWS API Documentation
+    #
+    # @overload get_performance_analysis_report(params = {})
+    # @param [Hash] params ({})
+    def get_performance_analysis_report(params = {}, options = {})
+      req = build_request(:get_performance_analysis_report, params)
       req.send_request(options)
     end
 
@@ -660,7 +974,7 @@ module Aws::PI
     #
     #   resp = client.get_resource_metadata({
     #     service_type: "RDS", # required, accepts RDS, DOCDB
-    #     identifier: "RequestString", # required
+    #     identifier: "IdentifierString", # required
     #   })
     #
     # @example Response structure
@@ -680,7 +994,8 @@ module Aws::PI
 
     # Retrieve Performance Insights metrics for a set of data sources over a
     # time period. You can provide specific dimension groups and dimensions,
-    # and provide aggregation and filtering criteria for each group.
+    # and provide filtering criteria for each group. You must specify an
+    # aggregate function for each metric.
     #
     # <note markdown="1"> Each response element returns a maximum of 500 bytes. For larger
     # elements, such as SQL statements, only the first 500 bytes are
@@ -708,8 +1023,11 @@ module Aws::PI
     #
     # @option params [required, Array<Types::MetricQuery>] :metric_queries
     #   An array of one or more queries to perform. Each query must specify a
-    #   Performance Insights metric, and can optionally specify aggregation
-    #   and filtering criteria.
+    #   Performance Insights metric and specify an aggregate function, and you
+    #   can provide filtering criteria. You must append the aggregate function
+    #   to the metric. For example, to find the average for the metric
+    #   `db.load` you must use `db.load.avg`. Valid values for aggregate
+    #   functions include `.avg`, `.min`, `.max`, and `.sum`.
     #
     # @option params [required, Time,DateTime,Date,Integer,String] :start_time
     #   The date and time specifying the beginning of the requested time
@@ -749,15 +1067,16 @@ module Aws::PI
     #   data points in the response.
     #
     # @option params [Integer] :max_results
-    #   The maximum number of items to return in the response. If more items
-    #   exist than the specified `MaxRecords` value, a pagination token is
-    #   included in the response so that the remaining results can be
-    #   retrieved.
+    #   The maximum number of items to return in the response.
     #
     # @option params [String] :next_token
     #   An optional pagination token provided by a previous request. If this
     #   parameter is specified, the response includes only records beyond the
     #   token, up to the value specified by `MaxRecords`.
+    #
+    # @option params [String] :period_alignment
+    #   The returned timestamp which is the start or end time of the time
+    #   periods. The default value is `END_TIME`.
     #
     # @return [Types::GetResourceMetricsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -773,17 +1092,17 @@ module Aws::PI
     #
     #   resp = client.get_resource_metrics({
     #     service_type: "RDS", # required, accepts RDS, DOCDB
-    #     identifier: "RequestString", # required
+    #     identifier: "IdentifierString", # required
     #     metric_queries: [ # required
     #       {
-    #         metric: "RequestString", # required
+    #         metric: "SanitizedString", # required
     #         group_by: {
-    #           group: "RequestString", # required
-    #           dimensions: ["RequestString"],
+    #           group: "SanitizedString", # required
+    #           dimensions: ["SanitizedString"],
     #           limit: 1,
     #         },
     #         filter: {
-    #           "RequestString" => "RequestString",
+    #           "SanitizedString" => "RequestString",
     #         },
     #       },
     #     ],
@@ -792,6 +1111,7 @@ module Aws::PI
     #     period_in_seconds: 1,
     #     max_results: 1,
     #     next_token: "NextToken",
+    #     period_alignment: "END_TIME", # accepts END_TIME, START_TIME
     #   })
     #
     # @example Response structure
@@ -846,6 +1166,16 @@ module Aws::PI
     #   parameter is specified, the response includes only records beyond the
     #   token, up to the value specified by `MaxRecords`.
     #
+    # @option params [Array<String>] :authorized_actions
+    #   The actions to discover the dimensions you are authorized to access.
+    #   If you specify multiple actions, then the response will contain the
+    #   dimensions common for all the actions.
+    #
+    #   When you don't specify this request parameter or provide an empty
+    #   list, the response contains all the available dimensions for the
+    #   target database engine whether or not you are authorized to access
+    #   them.
+    #
     # @return [Types::ListAvailableResourceDimensionsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::ListAvailableResourceDimensionsResponse#metric_dimensions #metric_dimensions} => Array&lt;Types::MetricDimensionGroups&gt;
@@ -857,10 +1187,11 @@ module Aws::PI
     #
     #   resp = client.list_available_resource_dimensions({
     #     service_type: "RDS", # required, accepts RDS, DOCDB
-    #     identifier: "RequestString", # required
-    #     metrics: ["RequestString"], # required
+    #     identifier: "IdentifierString", # required
+    #     metrics: ["SanitizedString"], # required
     #     max_results: 1,
     #     next_token: "NextToken",
+    #     authorized_actions: ["DescribeDimensionKeys"], # accepts DescribeDimensionKeys, GetDimensionKeyDetails, GetResourceMetrics
     #   })
     #
     # @example Response structure
@@ -931,8 +1262,8 @@ module Aws::PI
     #
     #   resp = client.list_available_resource_metrics({
     #     service_type: "RDS", # required, accepts RDS, DOCDB
-    #     identifier: "RequestString", # required
-    #     metric_types: ["RequestString"], # required
+    #     identifier: "IdentifierString", # required
+    #     metric_types: ["SanitizedString"], # required
     #     next_token: "NextToken",
     #     max_results: 1,
     #   })
@@ -954,20 +1285,222 @@ module Aws::PI
       req.send_request(options)
     end
 
+    # Lists all the analysis reports created for the DB instance. The
+    # reports are sorted based on the start time of each report.
+    #
+    # @option params [required, String] :service_type
+    #   The Amazon Web Services service for which Performance Insights returns
+    #   metrics. Valid value is `RDS`.
+    #
+    # @option params [required, String] :identifier
+    #   An immutable identifier for a data source that is unique for an Amazon
+    #   Web Services Region. Performance Insights gathers metrics from this
+    #   data source. In the console, the identifier is shown as *ResourceID*.
+    #   When you call `DescribeDBInstances`, the identifier is returned as
+    #   `DbiResourceId`.
+    #
+    #   To use a DB instance as a data source, specify its `DbiResourceId`
+    #   value. For example, specify `db-ABCDEFGHIJKLMNOPQRSTU1VW2X`.
+    #
+    # @option params [String] :next_token
+    #   An optional pagination token provided by a previous request. If this
+    #   parameter is specified, the response includes only records beyond the
+    #   token, up to the value specified by `MaxResults`.
+    #
+    # @option params [Integer] :max_results
+    #   The maximum number of items to return in the response. If more items
+    #   exist than the specified `MaxResults` value, a pagination token is
+    #   included in the response so that the remaining results can be
+    #   retrieved.
+    #
+    # @option params [Boolean] :list_tags
+    #   Specifies whether or not to include the list of tags in the response.
+    #
+    # @return [Types::ListPerformanceAnalysisReportsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListPerformanceAnalysisReportsResponse#analysis_reports #analysis_reports} => Array&lt;Types::AnalysisReportSummary&gt;
+    #   * {Types::ListPerformanceAnalysisReportsResponse#next_token #next_token} => String
+    #
+    # The returned {Seahorse::Client::Response response} is a pageable response and is Enumerable. For details on usage see {Aws::PageableResponse PageableResponse}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_performance_analysis_reports({
+    #     service_type: "RDS", # required, accepts RDS, DOCDB
+    #     identifier: "IdentifierString", # required
+    #     next_token: "NextToken",
+    #     max_results: 1,
+    #     list_tags: false,
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.analysis_reports #=> Array
+    #   resp.analysis_reports[0].analysis_report_id #=> String
+    #   resp.analysis_reports[0].create_time #=> Time
+    #   resp.analysis_reports[0].start_time #=> Time
+    #   resp.analysis_reports[0].end_time #=> Time
+    #   resp.analysis_reports[0].status #=> String, one of "RUNNING", "SUCCEEDED", "FAILED"
+    #   resp.analysis_reports[0].tags #=> Array
+    #   resp.analysis_reports[0].tags[0].key #=> String
+    #   resp.analysis_reports[0].tags[0].value #=> String
+    #   resp.next_token #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/pi-2018-02-27/ListPerformanceAnalysisReports AWS API Documentation
+    #
+    # @overload list_performance_analysis_reports(params = {})
+    # @param [Hash] params ({})
+    def list_performance_analysis_reports(params = {}, options = {})
+      req = build_request(:list_performance_analysis_reports, params)
+      req.send_request(options)
+    end
+
+    # Retrieves all the metadata tags associated with Amazon RDS Performance
+    # Insights resource.
+    #
+    # @option params [required, String] :service_type
+    #   List the tags for the Amazon Web Services service for which
+    #   Performance Insights returns metrics. Valid value is `RDS`.
+    #
+    # @option params [required, String] :resource_arn
+    #   Lists all the tags for the Amazon RDS Performance Insights resource.
+    #   This value is an Amazon Resource Name (ARN). For information about
+    #   creating an ARN, see [ Constructing an RDS Amazon Resource Name
+    #   (ARN)][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.ARN.html#USER_Tagging.ARN.Constructing
+    #
+    # @return [Types::ListTagsForResourceResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::ListTagsForResourceResponse#tags #tags} => Array&lt;Types::Tag&gt;
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.list_tags_for_resource({
+    #     service_type: "RDS", # required, accepts RDS, DOCDB
+    #     resource_arn: "AmazonResourceName", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.tags #=> Array
+    #   resp.tags[0].key #=> String
+    #   resp.tags[0].value #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/pi-2018-02-27/ListTagsForResource AWS API Documentation
+    #
+    # @overload list_tags_for_resource(params = {})
+    # @param [Hash] params ({})
+    def list_tags_for_resource(params = {}, options = {})
+      req = build_request(:list_tags_for_resource, params)
+      req.send_request(options)
+    end
+
+    # Adds metadata tags to the Amazon RDS Performance Insights resource.
+    #
+    # @option params [required, String] :service_type
+    #   The Amazon Web Services service for which Performance Insights returns
+    #   metrics. Valid value is `RDS`.
+    #
+    # @option params [required, String] :resource_arn
+    #   The Amazon RDS Performance Insights resource that the tags are added
+    #   to. This value is an Amazon Resource Name (ARN). For information about
+    #   creating an ARN, see [ Constructing an RDS Amazon Resource Name
+    #   (ARN)][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.ARN.html#USER_Tagging.ARN.Constructing
+    #
+    # @option params [required, Array<Types::Tag>] :tags
+    #   The metadata assigned to an Amazon RDS resource consisting of a
+    #   key-value pair.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.tag_resource({
+    #     service_type: "RDS", # required, accepts RDS, DOCDB
+    #     resource_arn: "AmazonResourceName", # required
+    #     tags: [ # required
+    #       {
+    #         key: "TagKey", # required
+    #         value: "TagValue", # required
+    #       },
+    #     ],
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/pi-2018-02-27/TagResource AWS API Documentation
+    #
+    # @overload tag_resource(params = {})
+    # @param [Hash] params ({})
+    def tag_resource(params = {}, options = {})
+      req = build_request(:tag_resource, params)
+      req.send_request(options)
+    end
+
+    # Deletes the metadata tags from the Amazon RDS Performance Insights
+    # resource.
+    #
+    # @option params [required, String] :service_type
+    #   List the tags for the Amazon Web Services service for which
+    #   Performance Insights returns metrics. Valid value is `RDS`.
+    #
+    # @option params [required, String] :resource_arn
+    #   The Amazon RDS Performance Insights resource that the tags are added
+    #   to. This value is an Amazon Resource Name (ARN). For information about
+    #   creating an ARN, see [ Constructing an RDS Amazon Resource Name
+    #   (ARN)][1].
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.ARN.html#USER_Tagging.ARN.Constructing
+    #
+    # @option params [required, Array<String>] :tag_keys
+    #   The metadata assigned to an Amazon RDS Performance Insights resource
+    #   consisting of a key-value pair.
+    #
+    # @return [Struct] Returns an empty {Seahorse::Client::Response response}.
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.untag_resource({
+    #     service_type: "RDS", # required, accepts RDS, DOCDB
+    #     resource_arn: "AmazonResourceName", # required
+    #     tag_keys: ["TagKey"], # required
+    #   })
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/pi-2018-02-27/UntagResource AWS API Documentation
+    #
+    # @overload untag_resource(params = {})
+    # @param [Hash] params ({})
+    def untag_resource(params = {}, options = {})
+      req = build_request(:untag_resource, params)
+      req.send_request(options)
+    end
+
     # @!endgroup
 
     # @param params ({})
     # @api private
     def build_request(operation_name, params = {})
       handlers = @handlers.for(operation_name)
+      tracer = config.telemetry_provider.tracer_provider.tracer(
+        Aws::Telemetry.module_to_tracer_name('Aws::PI')
+      )
       context = Seahorse::Client::RequestContext.new(
         operation_name: operation_name,
         operation: config.api.operation(operation_name),
         client: self,
         params: params,
-        config: config)
+        config: config,
+        tracer: tracer
+      )
       context[:gem_name] = 'aws-sdk-pi'
-      context[:gem_version] = '1.42.0'
+      context[:gem_version] = '1.77.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

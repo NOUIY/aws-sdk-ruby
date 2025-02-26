@@ -7,33 +7,34 @@
 #
 # WARNING ABOUT GENERATED CODE
 
-require 'seahorse/client/plugins/content_length.rb'
-require 'aws-sdk-core/plugins/credentials_configuration.rb'
-require 'aws-sdk-core/plugins/logging.rb'
-require 'aws-sdk-core/plugins/param_converter.rb'
-require 'aws-sdk-core/plugins/param_validator.rb'
-require 'aws-sdk-core/plugins/user_agent.rb'
-require 'aws-sdk-core/plugins/helpful_socket_errors.rb'
-require 'aws-sdk-core/plugins/retry_errors.rb'
-require 'aws-sdk-core/plugins/global_configuration.rb'
-require 'aws-sdk-core/plugins/regional_endpoint.rb'
-require 'aws-sdk-core/plugins/endpoint_discovery.rb'
-require 'aws-sdk-core/plugins/endpoint_pattern.rb'
-require 'aws-sdk-core/plugins/response_paging.rb'
-require 'aws-sdk-core/plugins/stub_responses.rb'
-require 'aws-sdk-core/plugins/idempotency_token.rb'
-require 'aws-sdk-core/plugins/jsonvalue_converter.rb'
-require 'aws-sdk-core/plugins/client_metrics_plugin.rb'
-require 'aws-sdk-core/plugins/client_metrics_send_plugin.rb'
-require 'aws-sdk-core/plugins/transfer_encoding.rb'
-require 'aws-sdk-core/plugins/http_checksum.rb'
-require 'aws-sdk-core/plugins/checksum_algorithm.rb'
-require 'aws-sdk-core/plugins/defaults_mode.rb'
-require 'aws-sdk-core/plugins/recursion_detection.rb'
-require 'aws-sdk-core/plugins/sign.rb'
-require 'aws-sdk-core/plugins/protocols/json_rpc.rb'
-
-Aws::Plugins::GlobalConfiguration.add_identifier(:cloudhsmv2)
+require 'seahorse/client/plugins/content_length'
+require 'aws-sdk-core/plugins/credentials_configuration'
+require 'aws-sdk-core/plugins/logging'
+require 'aws-sdk-core/plugins/param_converter'
+require 'aws-sdk-core/plugins/param_validator'
+require 'aws-sdk-core/plugins/user_agent'
+require 'aws-sdk-core/plugins/helpful_socket_errors'
+require 'aws-sdk-core/plugins/retry_errors'
+require 'aws-sdk-core/plugins/global_configuration'
+require 'aws-sdk-core/plugins/regional_endpoint'
+require 'aws-sdk-core/plugins/endpoint_discovery'
+require 'aws-sdk-core/plugins/endpoint_pattern'
+require 'aws-sdk-core/plugins/response_paging'
+require 'aws-sdk-core/plugins/stub_responses'
+require 'aws-sdk-core/plugins/idempotency_token'
+require 'aws-sdk-core/plugins/invocation_id'
+require 'aws-sdk-core/plugins/jsonvalue_converter'
+require 'aws-sdk-core/plugins/client_metrics_plugin'
+require 'aws-sdk-core/plugins/client_metrics_send_plugin'
+require 'aws-sdk-core/plugins/transfer_encoding'
+require 'aws-sdk-core/plugins/http_checksum'
+require 'aws-sdk-core/plugins/checksum_algorithm'
+require 'aws-sdk-core/plugins/request_compression'
+require 'aws-sdk-core/plugins/defaults_mode'
+require 'aws-sdk-core/plugins/recursion_detection'
+require 'aws-sdk-core/plugins/telemetry'
+require 'aws-sdk-core/plugins/sign'
+require 'aws-sdk-core/plugins/protocols/json_rpc'
 
 module Aws::CloudHSMV2
   # An API client for CloudHSMV2.  To construct a client, you need to configure a `:region` and `:credentials`.
@@ -71,20 +72,28 @@ module Aws::CloudHSMV2
     add_plugin(Aws::Plugins::ResponsePaging)
     add_plugin(Aws::Plugins::StubResponses)
     add_plugin(Aws::Plugins::IdempotencyToken)
+    add_plugin(Aws::Plugins::InvocationId)
     add_plugin(Aws::Plugins::JsonvalueConverter)
     add_plugin(Aws::Plugins::ClientMetricsPlugin)
     add_plugin(Aws::Plugins::ClientMetricsSendPlugin)
     add_plugin(Aws::Plugins::TransferEncoding)
     add_plugin(Aws::Plugins::HttpChecksum)
     add_plugin(Aws::Plugins::ChecksumAlgorithm)
+    add_plugin(Aws::Plugins::RequestCompression)
     add_plugin(Aws::Plugins::DefaultsMode)
     add_plugin(Aws::Plugins::RecursionDetection)
+    add_plugin(Aws::Plugins::Telemetry)
     add_plugin(Aws::Plugins::Sign)
     add_plugin(Aws::Plugins::Protocols::JsonRpc)
     add_plugin(Aws::CloudHSMV2::Plugins::Endpoints)
 
     # @overload initialize(options)
     #   @param [Hash] options
+    #
+    #   @option options [Array<Seahorse::Client::Plugin>] :plugins ([]])
+    #     A list of plugins to apply to the client. Each plugin is either a
+    #     class name or an instance of a plugin class.
+    #
     #   @option options [required, Aws::CredentialProvider] :credentials
     #     Your AWS credentials. This can be an instance of any one of the
     #     following classes:
@@ -119,13 +128,15 @@ module Aws::CloudHSMV2
     #     locations will be searched for credentials:
     #
     #     * `Aws.config[:credentials]`
-    #     * The `:access_key_id`, `:secret_access_key`, and `:session_token` options.
-    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']
+    #     * The `:access_key_id`, `:secret_access_key`, `:session_token`, and
+    #       `:account_id` options.
+    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'],
+    #       ENV['AWS_SESSION_TOKEN'], and ENV['AWS_ACCOUNT_ID']
     #     * `~/.aws/credentials`
     #     * `~/.aws/config`
     #     * EC2/ECS IMDS instance profile - When used by default, the timeouts
     #       are very aggressive. Construct and pass an instance of
-    #       `Aws::InstanceProfileCredentails` or `Aws::ECSCredentials` to
+    #       `Aws::InstanceProfileCredentials` or `Aws::ECSCredentials` to
     #       enable retries and extended timeouts. Instance profile credential
     #       fetching can be disabled by setting ENV['AWS_EC2_METADATA_DISABLED']
     #       to true.
@@ -143,6 +154,8 @@ module Aws::CloudHSMV2
     #     * `~/.aws/config`
     #
     #   @option options [String] :access_key_id
+    #
+    #   @option options [String] :account_id
     #
     #   @option options [Boolean] :active_endpoint_cache (false)
     #     When set to `true`, a thread polling for endpoints will be running in
@@ -190,10 +203,20 @@ module Aws::CloudHSMV2
     #     Set to true to disable SDK automatically adding host prefix
     #     to default service endpoint when available.
     #
-    #   @option options [String] :endpoint
-    #     The client endpoint is normally constructed from the `:region`
-    #     option. You should only configure an `:endpoint` when connecting
-    #     to test or custom endpoints. This should be a valid HTTP(S) URI.
+    #   @option options [Boolean] :disable_request_compression (false)
+    #     When set to 'true' the request body will not be compressed
+    #     for supported operations.
+    #
+    #   @option options [String, URI::HTTPS, URI::HTTP] :endpoint
+    #     Normally you should not configure the `:endpoint` option
+    #     directly. This is normally constructed from the `:region`
+    #     option. Configuring `:endpoint` is normally reserved for
+    #     connecting to test or custom endpoints. The endpoint should
+    #     be a URI formatted like:
+    #
+    #         'http://example.com'
+    #         'https://example.com'
+    #         'http://example.com:123'
     #
     #   @option options [Integer] :endpoint_cache_max_entries (1000)
     #     Used for the maximum size limit of the LRU cache storing endpoints data
@@ -209,6 +232,10 @@ module Aws::CloudHSMV2
     #
     #   @option options [Boolean] :endpoint_discovery (false)
     #     When set to `true`, endpoint discovery will be enabled for operations when available.
+    #
+    #   @option options [Boolean] :ignore_configured_endpoint_urls
+    #     Setting to true disables use of endpoint URLs provided via environment
+    #     variables and the shared configuration file.
     #
     #   @option options [Aws::Log::Formatter] :log_formatter (Aws::Log::Formatter.default)
     #     The log formatter.
@@ -229,6 +256,34 @@ module Aws::CloudHSMV2
     #   @option options [String] :profile ("default")
     #     Used when loading credentials from the shared credentials file
     #     at HOME/.aws/credentials.  When not specified, 'default' is used.
+    #
+    #   @option options [String] :request_checksum_calculation ("when_supported")
+    #     Determines when a checksum will be calculated for request payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, a checksum will be
+    #       calculated for all request payloads of operations modeled with the
+    #       `httpChecksum` trait where `requestChecksumRequired` is `true` and/or a
+    #       `requestAlgorithmMember` is modeled.
+    #     * `when_required` - When set, a checksum will only be calculated for
+    #       request payloads of operations modeled with the  `httpChecksum` trait where
+    #       `requestChecksumRequired` is `true` or where a `requestAlgorithmMember`
+    #       is modeled and supplied.
+    #
+    #   @option options [Integer] :request_min_compression_size_bytes (10240)
+    #     The minimum size in bytes that triggers compression for request
+    #     bodies. The value must be non-negative integer value between 0
+    #     and 10485780 bytes inclusive.
+    #
+    #   @option options [String] :response_checksum_validation ("when_supported")
+    #     Determines when checksum validation will be performed on response payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, checksum validation is performed on all
+    #       response payloads of operations modeled with the `httpChecksum` trait where
+    #       `responseAlgorithms` is modeled, except when no modeled checksum algorithms
+    #       are supported.
+    #     * `when_required` - When set, checksum validation is not performed on
+    #       response payloads of operations unless the checksum algorithm is supported and
+    #       the `requestValidationModeMember` member is set to `ENABLED`.
     #
     #   @option options [Proc] :retry_backoff
     #     A proc or lambda used for backoff. Defaults to 2**retries * retry_base_delay.
@@ -274,20 +329,31 @@ module Aws::CloudHSMV2
     #       throttling.  This is a provisional mode that may change behavior
     #       in the future.
     #
+    #   @option options [String] :sdk_ua_app_id
+    #     A unique and opaque application ID that is appended to the
+    #     User-Agent header as app/sdk_ua_app_id. It should have a
+    #     maximum length of 50. This variable is sourced from environment
+    #     variable AWS_SDK_UA_APP_ID or the shared config profile attribute sdk_ua_app_id.
     #
     #   @option options [String] :secret_access_key
     #
     #   @option options [String] :session_token
     #
+    #   @option options [Array] :sigv4a_signing_region_set
+    #     A list of regions that should be signed with SigV4a signing. When
+    #     not passed, a default `:sigv4a_signing_region_set` is searched for
+    #     in the following locations:
+    #
+    #     * `Aws.config[:sigv4a_signing_region_set]`
+    #     * `ENV['AWS_SIGV4A_SIGNING_REGION_SET']`
+    #     * `~/.aws/config`
+    #
     #   @option options [Boolean] :simple_json (false)
     #     Disables request parameter conversion, validation, and formatting.
-    #     Also disable response data type conversions. This option is useful
-    #     when you want to ensure the highest level of performance by
-    #     avoiding overhead of walking request parameters and response data
-    #     structures.
-    #
-    #     When `:simple_json` is enabled, the request parameters hash must
-    #     be formatted exactly as the DynamoDB API expects.
+    #     Also disables response data type conversions. The request parameters
+    #     hash must be formatted exactly as the API expects.This option is useful
+    #     when you want to ensure the highest level of performance by avoiding
+    #     overhead of walking request parameters and response data structures.
     #
     #   @option options [Boolean] :stub_responses (false)
     #     Causes the client to return stubbed responses. By default
@@ -297,6 +363,16 @@ module Aws::CloudHSMV2
     #
     #     ** Please note ** When response stubbing is enabled, no HTTP
     #     requests are made, and retries are disabled.
+    #
+    #   @option options [Aws::Telemetry::TelemetryProviderBase] :telemetry_provider (Aws::Telemetry::NoOpTelemetryProvider)
+    #     Allows you to provide a telemetry provider, which is used to
+    #     emit telemetry data. By default, uses `NoOpTelemetryProvider` which
+    #     will not record or emit any telemetry data. The SDK supports the
+    #     following telemetry providers:
+    #
+    #     * OpenTelemetry (OTel) - To use the OTel provider, install and require the
+    #     `opentelemetry-sdk` gem and then, pass in an instance of a
+    #     `Aws::Telemetry::OTelProvider` for telemetry provider.
     #
     #   @option options [Aws::TokenProvider] :token_provider
     #     A Bearer Token Provider. This can be an instance of any one of the
@@ -325,52 +401,75 @@ module Aws::CloudHSMV2
     #     sending the request.
     #
     #   @option options [Aws::CloudHSMV2::EndpointProvider] :endpoint_provider
-    #     The endpoint provider used to resolve endpoints. Any object that responds to `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to `Aws::CloudHSMV2::EndpointParameters`
+    #     The endpoint provider used to resolve endpoints. Any object that responds to
+    #     `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+    #     `Aws::CloudHSMV2::EndpointParameters`.
     #
-    #   @option options [URI::HTTP,String] :http_proxy A proxy to send
-    #     requests through.  Formatted like 'http://proxy.com:123'.
+    #   @option options [Float] :http_continue_timeout (1)
+    #     The number of seconds to wait for a 100-continue response before sending the
+    #     request body.  This option has no effect unless the request has "Expect"
+    #     header set to "100-continue".  Defaults to `nil` which  disables this
+    #     behaviour.  This value can safely be set per request on the session.
     #
-    #   @option options [Float] :http_open_timeout (15) The number of
-    #     seconds to wait when opening a HTTP session before raising a
-    #     `Timeout::Error`.
+    #   @option options [Float] :http_idle_timeout (5)
+    #     The number of seconds a connection is allowed to sit idle before it
+    #     is considered stale.  Stale connections are closed and removed from the
+    #     pool before making a request.
     #
-    #   @option options [Float] :http_read_timeout (60) The default
-    #     number of seconds to wait for response data.  This value can
-    #     safely be set per-request on the session.
+    #   @option options [Float] :http_open_timeout (15)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :http_idle_timeout (5) The number of
-    #     seconds a connection is allowed to sit idle before it is
-    #     considered stale.  Stale connections are closed and removed
-    #     from the pool before making a request.
+    #   @option options [URI::HTTP,String] :http_proxy
+    #     A proxy to send requests through.  Formatted like 'http://proxy.com:123'.
     #
-    #   @option options [Float] :http_continue_timeout (1) The number of
-    #     seconds to wait for a 100-continue response before sending the
-    #     request body.  This option has no effect unless the request has
-    #     "Expect" header set to "100-continue".  Defaults to `nil` which
-    #     disables this behaviour.  This value can safely be set per
-    #     request on the session.
+    #   @option options [Float] :http_read_timeout (60)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :ssl_timeout (nil) Sets the SSL timeout
-    #     in seconds.
+    #   @option options [Boolean] :http_wire_trace (false)
+    #     When `true`,  HTTP debug output will be sent to the `:logger`.
     #
-    #   @option options [Boolean] :http_wire_trace (false) When `true`,
-    #     HTTP debug output will be sent to the `:logger`.
+    #   @option options [Proc] :on_chunk_received
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the response body is received. It provides three arguments: the chunk,
+    #     the number of bytes received, and the total number of
+    #     bytes in the response (or nil if the server did not send a `content-length`).
     #
-    #   @option options [Boolean] :ssl_verify_peer (true) When `true`,
-    #     SSL peer certificates are verified when establishing a
-    #     connection.
+    #   @option options [Proc] :on_chunk_sent
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the request body is sent. It provides three arguments: the chunk,
+    #     the number of bytes read from the body, and the total number of
+    #     bytes in the body.
     #
-    #   @option options [String] :ssl_ca_bundle Full path to the SSL
-    #     certificate authority bundle file that should be used when
-    #     verifying peer certificates.  If you do not pass
-    #     `:ssl_ca_bundle` or `:ssl_ca_directory` the the system default
-    #     will be used if available.
+    #   @option options [Boolean] :raise_response_errors (true)
+    #     When `true`, response errors are raised.
     #
-    #   @option options [String] :ssl_ca_directory Full path of the
-    #     directory that contains the unbundled SSL certificate
+    #   @option options [String] :ssl_ca_bundle
+    #     Full path to the SSL certificate authority bundle file that should be used when
+    #     verifying peer certificates.  If you do not pass `:ssl_ca_bundle` or
+    #     `:ssl_ca_directory` the the system default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_directory
+    #     Full path of the directory that contains the unbundled SSL certificate
     #     authority files for verifying peer certificates.  If you do
-    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the
-    #     system default will be used if available.
+    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the system
+    #     default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_store
+    #     Sets the X509::Store to verify peer certificate.
+    #
+    #   @option options [OpenSSL::X509::Certificate] :ssl_cert
+    #     Sets a client certificate when creating http connections.
+    #
+    #   @option options [OpenSSL::PKey] :ssl_key
+    #     Sets a client key when creating http connections.
+    #
+    #   @option options [Float] :ssl_timeout
+    #     Sets the SSL timeout in seconds
+    #
+    #   @option options [Boolean] :ssl_verify_peer (true)
+    #     When `true`, SSL peer certificates are verified when establishing a connection.
     #
     def initialize(*args)
       super
@@ -378,7 +477,10 @@ module Aws::CloudHSMV2
 
     # @!group API Operations
 
-    # Copy an AWS CloudHSM cluster backup to a different region.
+    # Copy an CloudHSM cluster backup to a different region.
+    #
+    # **Cross-account use:** No. You cannot perform this operation on an
+    # CloudHSM backup in a different Amazon Web Services account.
     #
     # @option params [required, String] :destination_region
     #   The AWS region that will contain your copied CloudHSM cluster backup.
@@ -425,19 +527,25 @@ module Aws::CloudHSMV2
       req.send_request(options)
     end
 
-    # Creates a new AWS CloudHSM cluster.
+    # Creates a new CloudHSM cluster.
+    #
+    # **Cross-account use:** Yes. To perform this operation with an CloudHSM
+    # backup in a different AWS account, specify the full backup ARN in the
+    # value of the SourceBackupId parameter.
     #
     # @option params [Types::BackupRetentionPolicy] :backup_retention_policy
     #   A policy that defines how the service retains backups.
     #
     # @option params [required, String] :hsm_type
-    #   The type of HSM to use in the cluster. Currently the only allowed
-    #   value is `hsm1.medium`.
+    #   The type of HSM to use in the cluster. The allowed values are
+    #   `hsm1.medium` and `hsm2m.medium`.
     #
     # @option params [String] :source_backup_id
-    #   The identifier (ID) of the cluster backup to restore. Use this value
-    #   to restore the cluster from a backup instead of creating a new
-    #   cluster. To find the backup ID, use DescribeBackups.
+    #   The identifier (ID) or the Amazon Resource Name (ARN) of the cluster
+    #   backup to restore. Use this value to restore the cluster from a backup
+    #   instead of creating a new cluster. To find the backup ID or ARN, use
+    #   DescribeBackups. *If using a backup in another account, the full ARN
+    #   must be supplied.*
     #
     # @option params [required, Array<String>] :subnet_ids
     #   The identifiers (IDs) of the subnets where you are creating the
@@ -448,8 +556,16 @@ module Aws::CloudHSMV2
     #
     #   * You can specify only one subnet per Availability Zone.
     #
+    # @option params [String] :network_type
+    #   The NetworkType to create a cluster with. The allowed values are
+    #   `IPV4` and `DUALSTACK`.
+    #
     # @option params [Array<Types::Tag>] :tag_list
     #   Tags to apply to the CloudHSM cluster during creation.
+    #
+    # @option params [String] :mode
+    #   The mode to use in the cluster. The allowed values are `FIPS` and
+    #   `NON_FIPS`.
     #
     # @return [Types::CreateClusterResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -463,14 +579,16 @@ module Aws::CloudHSMV2
     #       value: "BackupRetentionValue",
     #     },
     #     hsm_type: "HsmType", # required
-    #     source_backup_id: "BackupId",
+    #     source_backup_id: "BackupArn",
     #     subnet_ids: ["SubnetId"], # required
+    #     network_type: "IPV4", # accepts IPV4, DUALSTACK
     #     tag_list: [
     #       {
     #         key: "TagKey", # required
     #         value: "TagValue", # required
     #       },
     #     ],
+    #     mode: "FIPS", # accepts FIPS, NON_FIPS
     #   })
     #
     # @example Response structure
@@ -486,18 +604,22 @@ module Aws::CloudHSMV2
     #   resp.cluster.hsms[0].subnet_id #=> String
     #   resp.cluster.hsms[0].eni_id #=> String
     #   resp.cluster.hsms[0].eni_ip #=> String
+    #   resp.cluster.hsms[0].eni_ip_v6 #=> String
     #   resp.cluster.hsms[0].hsm_id #=> String
+    #   resp.cluster.hsms[0].hsm_type #=> String
     #   resp.cluster.hsms[0].state #=> String, one of "CREATE_IN_PROGRESS", "ACTIVE", "DEGRADED", "DELETE_IN_PROGRESS", "DELETED"
     #   resp.cluster.hsms[0].state_message #=> String
     #   resp.cluster.hsm_type #=> String
+    #   resp.cluster.hsm_type_rollback_expiration #=> Time
     #   resp.cluster.pre_co_password #=> String
     #   resp.cluster.security_group #=> String
     #   resp.cluster.source_backup_id #=> String
-    #   resp.cluster.state #=> String, one of "CREATE_IN_PROGRESS", "UNINITIALIZED", "INITIALIZE_IN_PROGRESS", "INITIALIZED", "ACTIVE", "UPDATE_IN_PROGRESS", "DELETE_IN_PROGRESS", "DELETED", "DEGRADED"
+    #   resp.cluster.state #=> String, one of "CREATE_IN_PROGRESS", "UNINITIALIZED", "INITIALIZE_IN_PROGRESS", "INITIALIZED", "ACTIVE", "UPDATE_IN_PROGRESS", "MODIFY_IN_PROGRESS", "ROLLBACK_IN_PROGRESS", "DELETE_IN_PROGRESS", "DELETED", "DEGRADED"
     #   resp.cluster.state_message #=> String
     #   resp.cluster.subnet_mapping #=> Hash
     #   resp.cluster.subnet_mapping["ExternalAz"] #=> String
     #   resp.cluster.vpc_id #=> String
+    #   resp.cluster.network_type #=> String, one of "IPV4", "DUALSTACK"
     #   resp.cluster.certificates.cluster_csr #=> String
     #   resp.cluster.certificates.hsm_certificate #=> String
     #   resp.cluster.certificates.aws_hardware_certificate #=> String
@@ -506,6 +628,7 @@ module Aws::CloudHSMV2
     #   resp.cluster.tag_list #=> Array
     #   resp.cluster.tag_list[0].key #=> String
     #   resp.cluster.tag_list[0].value #=> String
+    #   resp.cluster.mode #=> String, one of "FIPS", "NON_FIPS"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cloudhsmv2-2017-04-28/CreateCluster AWS API Documentation
     #
@@ -516,8 +639,11 @@ module Aws::CloudHSMV2
       req.send_request(options)
     end
 
-    # Creates a new hardware security module (HSM) in the specified AWS
-    # CloudHSM cluster.
+    # Creates a new hardware security module (HSM) in the specified CloudHSM
+    # cluster.
+    #
+    # **Cross-account use:** No. You cannot perform this operation on an
+    # CloudHSM cluster in a different Amazon Web Service account.
     #
     # @option params [required, String] :cluster_id
     #   The identifier (ID) of the HSM's cluster. To find the cluster ID, use
@@ -552,7 +678,9 @@ module Aws::CloudHSMV2
     #   resp.hsm.subnet_id #=> String
     #   resp.hsm.eni_id #=> String
     #   resp.hsm.eni_ip #=> String
+    #   resp.hsm.eni_ip_v6 #=> String
     #   resp.hsm.hsm_id #=> String
+    #   resp.hsm.hsm_type #=> String
     #   resp.hsm.state #=> String, one of "CREATE_IN_PROGRESS", "ACTIVE", "DEGRADED", "DELETE_IN_PROGRESS", "DELETED"
     #   resp.hsm.state_message #=> String
     #
@@ -565,9 +693,12 @@ module Aws::CloudHSMV2
       req.send_request(options)
     end
 
-    # Deletes a specified AWS CloudHSM backup. A backup can be restored up
-    # to 7 days after the DeleteBackup request is made. For more information
-    # on restoring a backup, see RestoreBackup.
+    # Deletes a specified CloudHSM backup. A backup can be restored up to 7
+    # days after the DeleteBackup request is made. For more information on
+    # restoring a backup, see RestoreBackup.
+    #
+    # **Cross-account use:** No. You cannot perform this operation on an
+    # CloudHSM backup in a different Amazon Web Services account.
     #
     # @option params [required, String] :backup_id
     #   The ID of the backup to be deleted. To find the ID of a backup, use
@@ -586,6 +717,7 @@ module Aws::CloudHSMV2
     # @example Response structure
     #
     #   resp.backup.backup_id #=> String
+    #   resp.backup.backup_arn #=> String
     #   resp.backup.backup_state #=> String, one of "CREATE_IN_PROGRESS", "READY", "DELETED", "PENDING_DELETION"
     #   resp.backup.cluster_id #=> String
     #   resp.backup.create_timestamp #=> Time
@@ -598,6 +730,8 @@ module Aws::CloudHSMV2
     #   resp.backup.tag_list #=> Array
     #   resp.backup.tag_list[0].key #=> String
     #   resp.backup.tag_list[0].value #=> String
+    #   resp.backup.hsm_type #=> String
+    #   resp.backup.mode #=> String, one of "FIPS", "NON_FIPS"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cloudhsmv2-2017-04-28/DeleteBackup AWS API Documentation
     #
@@ -608,10 +742,13 @@ module Aws::CloudHSMV2
       req.send_request(options)
     end
 
-    # Deletes the specified AWS CloudHSM cluster. Before you can delete a
+    # Deletes the specified CloudHSM cluster. Before you can delete a
     # cluster, you must delete all HSMs in the cluster. To see if the
     # cluster contains any HSMs, use DescribeClusters. To delete an HSM, use
     # DeleteHsm.
+    #
+    # **Cross-account use:** No. You cannot perform this operation on an
+    # CloudHSM cluster in a different Amazon Web Services account.
     #
     # @option params [required, String] :cluster_id
     #   The identifier (ID) of the cluster that you are deleting. To find the
@@ -640,18 +777,22 @@ module Aws::CloudHSMV2
     #   resp.cluster.hsms[0].subnet_id #=> String
     #   resp.cluster.hsms[0].eni_id #=> String
     #   resp.cluster.hsms[0].eni_ip #=> String
+    #   resp.cluster.hsms[0].eni_ip_v6 #=> String
     #   resp.cluster.hsms[0].hsm_id #=> String
+    #   resp.cluster.hsms[0].hsm_type #=> String
     #   resp.cluster.hsms[0].state #=> String, one of "CREATE_IN_PROGRESS", "ACTIVE", "DEGRADED", "DELETE_IN_PROGRESS", "DELETED"
     #   resp.cluster.hsms[0].state_message #=> String
     #   resp.cluster.hsm_type #=> String
+    #   resp.cluster.hsm_type_rollback_expiration #=> Time
     #   resp.cluster.pre_co_password #=> String
     #   resp.cluster.security_group #=> String
     #   resp.cluster.source_backup_id #=> String
-    #   resp.cluster.state #=> String, one of "CREATE_IN_PROGRESS", "UNINITIALIZED", "INITIALIZE_IN_PROGRESS", "INITIALIZED", "ACTIVE", "UPDATE_IN_PROGRESS", "DELETE_IN_PROGRESS", "DELETED", "DEGRADED"
+    #   resp.cluster.state #=> String, one of "CREATE_IN_PROGRESS", "UNINITIALIZED", "INITIALIZE_IN_PROGRESS", "INITIALIZED", "ACTIVE", "UPDATE_IN_PROGRESS", "MODIFY_IN_PROGRESS", "ROLLBACK_IN_PROGRESS", "DELETE_IN_PROGRESS", "DELETED", "DEGRADED"
     #   resp.cluster.state_message #=> String
     #   resp.cluster.subnet_mapping #=> Hash
     #   resp.cluster.subnet_mapping["ExternalAz"] #=> String
     #   resp.cluster.vpc_id #=> String
+    #   resp.cluster.network_type #=> String, one of "IPV4", "DUALSTACK"
     #   resp.cluster.certificates.cluster_csr #=> String
     #   resp.cluster.certificates.hsm_certificate #=> String
     #   resp.cluster.certificates.aws_hardware_certificate #=> String
@@ -660,6 +801,7 @@ module Aws::CloudHSMV2
     #   resp.cluster.tag_list #=> Array
     #   resp.cluster.tag_list[0].key #=> String
     #   resp.cluster.tag_list[0].value #=> String
+    #   resp.cluster.mode #=> String, one of "FIPS", "NON_FIPS"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cloudhsmv2-2017-04-28/DeleteCluster AWS API Documentation
     #
@@ -674,6 +816,9 @@ module Aws::CloudHSMV2
     # identifier (ID), the IP address of the HSM's elastic network
     # interface (ENI), or the ID of the HSM's ENI. You need to specify only
     # one of these values. To find these values, use DescribeClusters.
+    #
+    # **Cross-account use:** No. You cannot perform this operation on an
+    # CloudHSM hsm in a different Amazon Web Services account.
     #
     # @option params [required, String] :cluster_id
     #   The identifier (ID) of the cluster that contains the HSM that you are
@@ -716,7 +861,46 @@ module Aws::CloudHSMV2
       req.send_request(options)
     end
 
-    # Gets information about backups of AWS CloudHSM clusters.
+    # Deletes an CloudHSM resource policy. Deleting a resource policy will
+    # result in the resource being unshared and removed from any RAM
+    # resource shares. Deleting the resource policy attached to a backup
+    # will not impact any clusters created from that backup.
+    #
+    # **Cross-account use:** No. You cannot perform this operation on an
+    # CloudHSM resource in a different Amazon Web Services account.
+    #
+    # @option params [String] :resource_arn
+    #   Amazon Resource Name (ARN) of the resource from which the policy will
+    #   be removed.
+    #
+    # @return [Types::DeleteResourcePolicyResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::DeleteResourcePolicyResponse#resource_arn #resource_arn} => String
+    #   * {Types::DeleteResourcePolicyResponse#policy #policy} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.delete_resource_policy({
+    #     resource_arn: "CloudHsmArn",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.resource_arn #=> String
+    #   resp.policy #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cloudhsmv2-2017-04-28/DeleteResourcePolicy AWS API Documentation
+    #
+    # @overload delete_resource_policy(params = {})
+    # @param [Hash] params ({})
+    def delete_resource_policy(params = {}, options = {})
+      req = build_request(:delete_resource_policy, params)
+      req.send_request(options)
+    end
+
+    # Gets information about backups of CloudHSM clusters. Lists either the
+    # backups you own or the backups shared with you when the Shared
+    # parameter is true.
     #
     # This is a paginated operation, which means that each response might
     # contain only a subset of all the backups. When the response contains
@@ -724,6 +908,9 @@ module Aws::CloudHSMV2
     # value in a subsequent `DescribeBackups` request to get more backups.
     # When you receive a response with no `NextToken` (or an empty or null
     # value), that means there are no more backups to get.
+    #
+    # **Cross-account use:** Yes. Customers can describe backups in other
+    # Amazon Web Services accounts that are shared with them.
     #
     # @option params [String] :next_token
     #   The `NextToken` value that you received in the previous response. Use
@@ -755,6 +942,25 @@ module Aws::CloudHSMV2
     #   from the backup retention policy. `False` returns all backups with a
     #   backup retention policy defined at the cluster.
     #
+    # @option params [Boolean] :shared
+    #   Describe backups that are shared with you.
+    #
+    #   <note markdown="1"> By default when using this option, the command returns backups that
+    #   have been shared using a standard Resource Access Manager resource
+    #   share. In order for a backup that was shared using the
+    #   PutResourcePolicy command to be returned, the share must be promoted
+    #   to a standard resource share using the RAM
+    #   [PromoteResourceShareCreatedFromPolicy][1] API operation. For more
+    #   information about sharing backups, see [ Working with shared
+    #   backups][2] in the CloudHSM User Guide.
+    #
+    #    </note>
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/cli/latest/reference/ram/promote-resource-share-created-from-policy.html
+    #   [2]: https://docs.aws.amazon.com/cloudhsm/latest/userguide/sharing.html
+    #
     # @option params [Boolean] :sort_ascending
     #   Designates whether or not to sort the return backups by ascending
     #   chronological order of generation.
@@ -774,6 +980,7 @@ module Aws::CloudHSMV2
     #     filters: {
     #       "Field" => ["String"],
     #     },
+    #     shared: false,
     #     sort_ascending: false,
     #   })
     #
@@ -781,6 +988,7 @@ module Aws::CloudHSMV2
     #
     #   resp.backups #=> Array
     #   resp.backups[0].backup_id #=> String
+    #   resp.backups[0].backup_arn #=> String
     #   resp.backups[0].backup_state #=> String, one of "CREATE_IN_PROGRESS", "READY", "DELETED", "PENDING_DELETION"
     #   resp.backups[0].cluster_id #=> String
     #   resp.backups[0].create_timestamp #=> Time
@@ -793,6 +1001,8 @@ module Aws::CloudHSMV2
     #   resp.backups[0].tag_list #=> Array
     #   resp.backups[0].tag_list[0].key #=> String
     #   resp.backups[0].tag_list[0].value #=> String
+    #   resp.backups[0].hsm_type #=> String
+    #   resp.backups[0].mode #=> String, one of "FIPS", "NON_FIPS"
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cloudhsmv2-2017-04-28/DescribeBackups AWS API Documentation
@@ -804,7 +1014,7 @@ module Aws::CloudHSMV2
       req.send_request(options)
     end
 
-    # Gets information about AWS CloudHSM clusters.
+    # Gets information about CloudHSM clusters.
     #
     # This is a paginated operation, which means that each response might
     # contain only a subset of all the clusters. When the response contains
@@ -812,6 +1022,9 @@ module Aws::CloudHSMV2
     # value in a subsequent `DescribeClusters` request to get more clusters.
     # When you receive a response with no `NextToken` (or an empty or null
     # value), that means there are no more clusters to get.
+    #
+    # **Cross-account use:** No. You cannot perform this operation on
+    # CloudHSM clusters in a different Amazon Web Services account.
     #
     # @option params [Hash<String,Array>] :filters
     #   One or more filters to limit the items returned in the response.
@@ -866,18 +1079,22 @@ module Aws::CloudHSMV2
     #   resp.clusters[0].hsms[0].subnet_id #=> String
     #   resp.clusters[0].hsms[0].eni_id #=> String
     #   resp.clusters[0].hsms[0].eni_ip #=> String
+    #   resp.clusters[0].hsms[0].eni_ip_v6 #=> String
     #   resp.clusters[0].hsms[0].hsm_id #=> String
+    #   resp.clusters[0].hsms[0].hsm_type #=> String
     #   resp.clusters[0].hsms[0].state #=> String, one of "CREATE_IN_PROGRESS", "ACTIVE", "DEGRADED", "DELETE_IN_PROGRESS", "DELETED"
     #   resp.clusters[0].hsms[0].state_message #=> String
     #   resp.clusters[0].hsm_type #=> String
+    #   resp.clusters[0].hsm_type_rollback_expiration #=> Time
     #   resp.clusters[0].pre_co_password #=> String
     #   resp.clusters[0].security_group #=> String
     #   resp.clusters[0].source_backup_id #=> String
-    #   resp.clusters[0].state #=> String, one of "CREATE_IN_PROGRESS", "UNINITIALIZED", "INITIALIZE_IN_PROGRESS", "INITIALIZED", "ACTIVE", "UPDATE_IN_PROGRESS", "DELETE_IN_PROGRESS", "DELETED", "DEGRADED"
+    #   resp.clusters[0].state #=> String, one of "CREATE_IN_PROGRESS", "UNINITIALIZED", "INITIALIZE_IN_PROGRESS", "INITIALIZED", "ACTIVE", "UPDATE_IN_PROGRESS", "MODIFY_IN_PROGRESS", "ROLLBACK_IN_PROGRESS", "DELETE_IN_PROGRESS", "DELETED", "DEGRADED"
     #   resp.clusters[0].state_message #=> String
     #   resp.clusters[0].subnet_mapping #=> Hash
     #   resp.clusters[0].subnet_mapping["ExternalAz"] #=> String
     #   resp.clusters[0].vpc_id #=> String
+    #   resp.clusters[0].network_type #=> String, one of "IPV4", "DUALSTACK"
     #   resp.clusters[0].certificates.cluster_csr #=> String
     #   resp.clusters[0].certificates.hsm_certificate #=> String
     #   resp.clusters[0].certificates.aws_hardware_certificate #=> String
@@ -886,6 +1103,7 @@ module Aws::CloudHSMV2
     #   resp.clusters[0].tag_list #=> Array
     #   resp.clusters[0].tag_list[0].key #=> String
     #   resp.clusters[0].tag_list[0].value #=> String
+    #   resp.clusters[0].mode #=> String, one of "FIPS", "NON_FIPS"
     #   resp.next_token #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cloudhsmv2-2017-04-28/DescribeClusters AWS API Documentation
@@ -897,11 +1115,46 @@ module Aws::CloudHSMV2
       req.send_request(options)
     end
 
-    # Claims an AWS CloudHSM cluster by submitting the cluster certificate
+    # Retrieves the resource policy document attached to a given resource.
+    #
+    # **Cross-account use:** No. You cannot perform this operation on an
+    # CloudHSM resource in a different Amazon Web Services account.
+    #
+    # @option params [String] :resource_arn
+    #   Amazon Resource Name (ARN) of the resource to which a policy is
+    #   attached.
+    #
+    # @return [Types::GetResourcePolicyResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetResourcePolicyResponse#policy #policy} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_resource_policy({
+    #     resource_arn: "CloudHsmArn",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.policy #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cloudhsmv2-2017-04-28/GetResourcePolicy AWS API Documentation
+    #
+    # @overload get_resource_policy(params = {})
+    # @param [Hash] params ({})
+    def get_resource_policy(params = {}, options = {})
+      req = build_request(:get_resource_policy, params)
+      req.send_request(options)
+    end
+
+    # Claims an CloudHSM cluster by submitting the cluster certificate
     # issued by your issuing certificate authority (CA) and the CA's root
     # certificate. Before you can claim a cluster, you must sign the
     # cluster's certificate signing request (CSR) with your issuing CA. To
     # get the cluster's CSR, use DescribeClusters.
+    #
+    # **Cross-account use:** No. You cannot perform this operation on an
+    # CloudHSM cluster in a different Amazon Web Services account.
     #
     # @option params [required, String] :cluster_id
     #   The identifier (ID) of the cluster that you are claiming. To find the
@@ -934,7 +1187,7 @@ module Aws::CloudHSMV2
     #
     # @example Response structure
     #
-    #   resp.state #=> String, one of "CREATE_IN_PROGRESS", "UNINITIALIZED", "INITIALIZE_IN_PROGRESS", "INITIALIZED", "ACTIVE", "UPDATE_IN_PROGRESS", "DELETE_IN_PROGRESS", "DELETED", "DEGRADED"
+    #   resp.state #=> String, one of "CREATE_IN_PROGRESS", "UNINITIALIZED", "INITIALIZE_IN_PROGRESS", "INITIALIZED", "ACTIVE", "UPDATE_IN_PROGRESS", "MODIFY_IN_PROGRESS", "ROLLBACK_IN_PROGRESS", "DELETE_IN_PROGRESS", "DELETED", "DEGRADED"
     #   resp.state_message #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cloudhsmv2-2017-04-28/InitializeCluster AWS API Documentation
@@ -946,7 +1199,7 @@ module Aws::CloudHSMV2
       req.send_request(options)
     end
 
-    # Gets a list of tags for the specified AWS CloudHSM cluster.
+    # Gets a list of tags for the specified CloudHSM cluster.
     #
     # This is a paginated operation, which means that each response might
     # contain only a subset of all the tags. When the response contains only
@@ -954,6 +1207,9 @@ module Aws::CloudHSMV2
     # subsequent `ListTags` request to get more tags. When you receive a
     # response with no `NextToken` (or an empty or null value), that means
     # there are no more tags to get.
+    #
+    # **Cross-account use:** No. You cannot perform this operation on an
+    # CloudHSM resource in a different Amazon Web Services account.
     #
     # @option params [required, String] :resource_id
     #   The cluster identifier (ID) for the cluster whose tags you are
@@ -999,7 +1255,10 @@ module Aws::CloudHSMV2
       req.send_request(options)
     end
 
-    # Modifies attributes for AWS CloudHSM backup.
+    # Modifies attributes for CloudHSM backup.
+    #
+    # **Cross-account use:** No. You cannot perform this operation on an
+    # CloudHSM backup in a different Amazon Web Services account.
     #
     # @option params [required, String] :backup_id
     #   The identifier (ID) of the backup to modify. To find the ID of a
@@ -1025,6 +1284,7 @@ module Aws::CloudHSMV2
     # @example Response structure
     #
     #   resp.backup.backup_id #=> String
+    #   resp.backup.backup_arn #=> String
     #   resp.backup.backup_state #=> String, one of "CREATE_IN_PROGRESS", "READY", "DELETED", "PENDING_DELETION"
     #   resp.backup.cluster_id #=> String
     #   resp.backup.create_timestamp #=> Time
@@ -1037,6 +1297,8 @@ module Aws::CloudHSMV2
     #   resp.backup.tag_list #=> Array
     #   resp.backup.tag_list[0].key #=> String
     #   resp.backup.tag_list[0].value #=> String
+    #   resp.backup.hsm_type #=> String
+    #   resp.backup.mode #=> String, one of "FIPS", "NON_FIPS"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cloudhsmv2-2017-04-28/ModifyBackupAttributes AWS API Documentation
     #
@@ -1047,9 +1309,15 @@ module Aws::CloudHSMV2
       req.send_request(options)
     end
 
-    # Modifies AWS CloudHSM cluster.
+    # Modifies CloudHSM cluster.
     #
-    # @option params [required, Types::BackupRetentionPolicy] :backup_retention_policy
+    # **Cross-account use:** No. You cannot perform this operation on an
+    # CloudHSM cluster in a different Amazon Web Services account.
+    #
+    # @option params [String] :hsm_type
+    #   The desired HSM type of the cluster.
+    #
+    # @option params [Types::BackupRetentionPolicy] :backup_retention_policy
     #   A policy that defines how the service retains backups.
     #
     # @option params [required, String] :cluster_id
@@ -1063,7 +1331,8 @@ module Aws::CloudHSMV2
     # @example Request syntax with placeholder values
     #
     #   resp = client.modify_cluster({
-    #     backup_retention_policy: { # required
+    #     hsm_type: "HsmType",
+    #     backup_retention_policy: {
     #       type: "DAYS", # accepts DAYS
     #       value: "BackupRetentionValue",
     #     },
@@ -1083,18 +1352,22 @@ module Aws::CloudHSMV2
     #   resp.cluster.hsms[0].subnet_id #=> String
     #   resp.cluster.hsms[0].eni_id #=> String
     #   resp.cluster.hsms[0].eni_ip #=> String
+    #   resp.cluster.hsms[0].eni_ip_v6 #=> String
     #   resp.cluster.hsms[0].hsm_id #=> String
+    #   resp.cluster.hsms[0].hsm_type #=> String
     #   resp.cluster.hsms[0].state #=> String, one of "CREATE_IN_PROGRESS", "ACTIVE", "DEGRADED", "DELETE_IN_PROGRESS", "DELETED"
     #   resp.cluster.hsms[0].state_message #=> String
     #   resp.cluster.hsm_type #=> String
+    #   resp.cluster.hsm_type_rollback_expiration #=> Time
     #   resp.cluster.pre_co_password #=> String
     #   resp.cluster.security_group #=> String
     #   resp.cluster.source_backup_id #=> String
-    #   resp.cluster.state #=> String, one of "CREATE_IN_PROGRESS", "UNINITIALIZED", "INITIALIZE_IN_PROGRESS", "INITIALIZED", "ACTIVE", "UPDATE_IN_PROGRESS", "DELETE_IN_PROGRESS", "DELETED", "DEGRADED"
+    #   resp.cluster.state #=> String, one of "CREATE_IN_PROGRESS", "UNINITIALIZED", "INITIALIZE_IN_PROGRESS", "INITIALIZED", "ACTIVE", "UPDATE_IN_PROGRESS", "MODIFY_IN_PROGRESS", "ROLLBACK_IN_PROGRESS", "DELETE_IN_PROGRESS", "DELETED", "DEGRADED"
     #   resp.cluster.state_message #=> String
     #   resp.cluster.subnet_mapping #=> Hash
     #   resp.cluster.subnet_mapping["ExternalAz"] #=> String
     #   resp.cluster.vpc_id #=> String
+    #   resp.cluster.network_type #=> String, one of "IPV4", "DUALSTACK"
     #   resp.cluster.certificates.cluster_csr #=> String
     #   resp.cluster.certificates.hsm_certificate #=> String
     #   resp.cluster.certificates.aws_hardware_certificate #=> String
@@ -1103,6 +1376,7 @@ module Aws::CloudHSMV2
     #   resp.cluster.tag_list #=> Array
     #   resp.cluster.tag_list[0].key #=> String
     #   resp.cluster.tag_list[0].value #=> String
+    #   resp.cluster.mode #=> String, one of "FIPS", "NON_FIPS"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cloudhsmv2-2017-04-28/ModifyCluster AWS API Documentation
     #
@@ -1113,9 +1387,83 @@ module Aws::CloudHSMV2
       req.send_request(options)
     end
 
-    # Restores a specified AWS CloudHSM backup that is in the
-    # `PENDING_DELETION` state. For mor information on deleting a backup,
-    # see DeleteBackup.
+    # Creates or updates an CloudHSM resource policy. A resource policy
+    # helps you to define the IAM entity (for example, an Amazon Web
+    # Services account) that can manage your CloudHSM resources. The
+    # following resources support CloudHSM resource policies:
+    #
+    # * Backup - The resource policy allows you to describe the backup and
+    #   restore a cluster from the backup in another Amazon Web Services
+    #   account.
+    #
+    # ^
+    #
+    # In order to share a backup, it must be in a 'READY' state and you
+    # must own it.
+    #
+    # While you can share a backup using the CloudHSM PutResourcePolicy
+    # operation, we recommend using Resource Access Manager (RAM) instead.
+    # Using RAM provides multiple benefits as it creates the policy for you,
+    # allows multiple resources to be shared at one time, and increases the
+    # discoverability of shared resources. If you use PutResourcePolicy and
+    # want consumers to be able to describe the backups you share with them,
+    # you must promote the backup to a standard RAM Resource Share using the
+    # RAM PromoteResourceShareCreatedFromPolicy API operation. For more
+    # information, see [ Working with shared backups][1] in the CloudHSM
+    # User Guide
+    #
+    # **Cross-account use:** No. You cannot perform this operation on an
+    # CloudHSM resource in a different Amazon Web Services account.
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/cloudhsm/latest/userguide/sharing.html
+    #
+    # @option params [String] :resource_arn
+    #   Amazon Resource Name (ARN) of the resource to which you want to attach
+    #   a policy.
+    #
+    # @option params [String] :policy
+    #   The policy you want to associate with a resource.
+    #
+    #   For an example policy, see [ Working with shared backups][1] in the
+    #   CloudHSM User Guide
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/cloudhsm/latest/userguide/sharing.html
+    #
+    # @return [Types::PutResourcePolicyResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::PutResourcePolicyResponse#resource_arn #resource_arn} => String
+    #   * {Types::PutResourcePolicyResponse#policy #policy} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.put_resource_policy({
+    #     resource_arn: "CloudHsmArn",
+    #     policy: "ResourcePolicy",
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.resource_arn #=> String
+    #   resp.policy #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/cloudhsmv2-2017-04-28/PutResourcePolicy AWS API Documentation
+    #
+    # @overload put_resource_policy(params = {})
+    # @param [Hash] params ({})
+    def put_resource_policy(params = {}, options = {})
+      req = build_request(:put_resource_policy, params)
+      req.send_request(options)
+    end
+
+    # Restores a specified CloudHSM backup that is in the `PENDING_DELETION`
+    # state. For more information on deleting a backup, see DeleteBackup.
+    #
+    # **Cross-account use:** No. You cannot perform this operation on an
+    # CloudHSM backup in a different Amazon Web Services account.
     #
     # @option params [required, String] :backup_id
     #   The ID of the backup to be restored. To find the ID of a backup, use
@@ -1134,6 +1482,7 @@ module Aws::CloudHSMV2
     # @example Response structure
     #
     #   resp.backup.backup_id #=> String
+    #   resp.backup.backup_arn #=> String
     #   resp.backup.backup_state #=> String, one of "CREATE_IN_PROGRESS", "READY", "DELETED", "PENDING_DELETION"
     #   resp.backup.cluster_id #=> String
     #   resp.backup.create_timestamp #=> Time
@@ -1146,6 +1495,8 @@ module Aws::CloudHSMV2
     #   resp.backup.tag_list #=> Array
     #   resp.backup.tag_list[0].key #=> String
     #   resp.backup.tag_list[0].value #=> String
+    #   resp.backup.hsm_type #=> String
+    #   resp.backup.mode #=> String, one of "FIPS", "NON_FIPS"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/cloudhsmv2-2017-04-28/RestoreBackup AWS API Documentation
     #
@@ -1156,8 +1507,11 @@ module Aws::CloudHSMV2
       req.send_request(options)
     end
 
-    # Adds or overwrites one or more tags for the specified AWS CloudHSM
+    # Adds or overwrites one or more tags for the specified CloudHSM
     # cluster.
+    #
+    # **Cross-account use:** No. You cannot perform this operation on an
+    # CloudHSM resource in a different Amazon Web Services account.
     #
     # @option params [required, String] :resource_id
     #   The cluster identifier (ID) for the cluster that you are tagging. To
@@ -1189,8 +1543,10 @@ module Aws::CloudHSMV2
       req.send_request(options)
     end
 
-    # Removes the specified tag or tags from the specified AWS CloudHSM
-    # cluster.
+    # Removes the specified tag or tags from the specified CloudHSM cluster.
+    #
+    # **Cross-account use:** No. You cannot perform this operation on an
+    # CloudHSM resource in a different Amazon Web Services account.
     #
     # @option params [required, String] :resource_id
     #   The cluster identifier (ID) for the cluster whose tags you are
@@ -1224,14 +1580,19 @@ module Aws::CloudHSMV2
     # @api private
     def build_request(operation_name, params = {})
       handlers = @handlers.for(operation_name)
+      tracer = config.telemetry_provider.tracer_provider.tracer(
+        Aws::Telemetry.module_to_tracer_name('Aws::CloudHSMV2')
+      )
       context = Seahorse::Client::RequestContext.new(
         operation_name: operation_name,
         operation: config.api.operation(operation_name),
         client: self,
         params: params,
-        config: config)
+        config: config,
+        tracer: tracer
+      )
       context[:gem_name] = 'aws-sdk-cloudhsmv2'
-      context[:gem_version] = '1.44.0'
+      context[:gem_version] = '1.74.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

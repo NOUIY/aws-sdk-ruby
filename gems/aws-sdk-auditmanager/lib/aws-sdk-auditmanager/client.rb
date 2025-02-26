@@ -7,33 +7,34 @@
 #
 # WARNING ABOUT GENERATED CODE
 
-require 'seahorse/client/plugins/content_length.rb'
-require 'aws-sdk-core/plugins/credentials_configuration.rb'
-require 'aws-sdk-core/plugins/logging.rb'
-require 'aws-sdk-core/plugins/param_converter.rb'
-require 'aws-sdk-core/plugins/param_validator.rb'
-require 'aws-sdk-core/plugins/user_agent.rb'
-require 'aws-sdk-core/plugins/helpful_socket_errors.rb'
-require 'aws-sdk-core/plugins/retry_errors.rb'
-require 'aws-sdk-core/plugins/global_configuration.rb'
-require 'aws-sdk-core/plugins/regional_endpoint.rb'
-require 'aws-sdk-core/plugins/endpoint_discovery.rb'
-require 'aws-sdk-core/plugins/endpoint_pattern.rb'
-require 'aws-sdk-core/plugins/response_paging.rb'
-require 'aws-sdk-core/plugins/stub_responses.rb'
-require 'aws-sdk-core/plugins/idempotency_token.rb'
-require 'aws-sdk-core/plugins/jsonvalue_converter.rb'
-require 'aws-sdk-core/plugins/client_metrics_plugin.rb'
-require 'aws-sdk-core/plugins/client_metrics_send_plugin.rb'
-require 'aws-sdk-core/plugins/transfer_encoding.rb'
-require 'aws-sdk-core/plugins/http_checksum.rb'
-require 'aws-sdk-core/plugins/checksum_algorithm.rb'
-require 'aws-sdk-core/plugins/defaults_mode.rb'
-require 'aws-sdk-core/plugins/recursion_detection.rb'
-require 'aws-sdk-core/plugins/sign.rb'
-require 'aws-sdk-core/plugins/protocols/rest_json.rb'
-
-Aws::Plugins::GlobalConfiguration.add_identifier(:auditmanager)
+require 'seahorse/client/plugins/content_length'
+require 'aws-sdk-core/plugins/credentials_configuration'
+require 'aws-sdk-core/plugins/logging'
+require 'aws-sdk-core/plugins/param_converter'
+require 'aws-sdk-core/plugins/param_validator'
+require 'aws-sdk-core/plugins/user_agent'
+require 'aws-sdk-core/plugins/helpful_socket_errors'
+require 'aws-sdk-core/plugins/retry_errors'
+require 'aws-sdk-core/plugins/global_configuration'
+require 'aws-sdk-core/plugins/regional_endpoint'
+require 'aws-sdk-core/plugins/endpoint_discovery'
+require 'aws-sdk-core/plugins/endpoint_pattern'
+require 'aws-sdk-core/plugins/response_paging'
+require 'aws-sdk-core/plugins/stub_responses'
+require 'aws-sdk-core/plugins/idempotency_token'
+require 'aws-sdk-core/plugins/invocation_id'
+require 'aws-sdk-core/plugins/jsonvalue_converter'
+require 'aws-sdk-core/plugins/client_metrics_plugin'
+require 'aws-sdk-core/plugins/client_metrics_send_plugin'
+require 'aws-sdk-core/plugins/transfer_encoding'
+require 'aws-sdk-core/plugins/http_checksum'
+require 'aws-sdk-core/plugins/checksum_algorithm'
+require 'aws-sdk-core/plugins/request_compression'
+require 'aws-sdk-core/plugins/defaults_mode'
+require 'aws-sdk-core/plugins/recursion_detection'
+require 'aws-sdk-core/plugins/telemetry'
+require 'aws-sdk-core/plugins/sign'
+require 'aws-sdk-core/plugins/protocols/rest_json'
 
 module Aws::AuditManager
   # An API client for AuditManager.  To construct a client, you need to configure a `:region` and `:credentials`.
@@ -71,20 +72,28 @@ module Aws::AuditManager
     add_plugin(Aws::Plugins::ResponsePaging)
     add_plugin(Aws::Plugins::StubResponses)
     add_plugin(Aws::Plugins::IdempotencyToken)
+    add_plugin(Aws::Plugins::InvocationId)
     add_plugin(Aws::Plugins::JsonvalueConverter)
     add_plugin(Aws::Plugins::ClientMetricsPlugin)
     add_plugin(Aws::Plugins::ClientMetricsSendPlugin)
     add_plugin(Aws::Plugins::TransferEncoding)
     add_plugin(Aws::Plugins::HttpChecksum)
     add_plugin(Aws::Plugins::ChecksumAlgorithm)
+    add_plugin(Aws::Plugins::RequestCompression)
     add_plugin(Aws::Plugins::DefaultsMode)
     add_plugin(Aws::Plugins::RecursionDetection)
+    add_plugin(Aws::Plugins::Telemetry)
     add_plugin(Aws::Plugins::Sign)
     add_plugin(Aws::Plugins::Protocols::RestJson)
     add_plugin(Aws::AuditManager::Plugins::Endpoints)
 
     # @overload initialize(options)
     #   @param [Hash] options
+    #
+    #   @option options [Array<Seahorse::Client::Plugin>] :plugins ([]])
+    #     A list of plugins to apply to the client. Each plugin is either a
+    #     class name or an instance of a plugin class.
+    #
     #   @option options [required, Aws::CredentialProvider] :credentials
     #     Your AWS credentials. This can be an instance of any one of the
     #     following classes:
@@ -119,13 +128,15 @@ module Aws::AuditManager
     #     locations will be searched for credentials:
     #
     #     * `Aws.config[:credentials]`
-    #     * The `:access_key_id`, `:secret_access_key`, and `:session_token` options.
-    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY']
+    #     * The `:access_key_id`, `:secret_access_key`, `:session_token`, and
+    #       `:account_id` options.
+    #     * ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'],
+    #       ENV['AWS_SESSION_TOKEN'], and ENV['AWS_ACCOUNT_ID']
     #     * `~/.aws/credentials`
     #     * `~/.aws/config`
     #     * EC2/ECS IMDS instance profile - When used by default, the timeouts
     #       are very aggressive. Construct and pass an instance of
-    #       `Aws::InstanceProfileCredentails` or `Aws::ECSCredentials` to
+    #       `Aws::InstanceProfileCredentials` or `Aws::ECSCredentials` to
     #       enable retries and extended timeouts. Instance profile credential
     #       fetching can be disabled by setting ENV['AWS_EC2_METADATA_DISABLED']
     #       to true.
@@ -143,6 +154,8 @@ module Aws::AuditManager
     #     * `~/.aws/config`
     #
     #   @option options [String] :access_key_id
+    #
+    #   @option options [String] :account_id
     #
     #   @option options [Boolean] :active_endpoint_cache (false)
     #     When set to `true`, a thread polling for endpoints will be running in
@@ -190,10 +203,20 @@ module Aws::AuditManager
     #     Set to true to disable SDK automatically adding host prefix
     #     to default service endpoint when available.
     #
-    #   @option options [String] :endpoint
-    #     The client endpoint is normally constructed from the `:region`
-    #     option. You should only configure an `:endpoint` when connecting
-    #     to test or custom endpoints. This should be a valid HTTP(S) URI.
+    #   @option options [Boolean] :disable_request_compression (false)
+    #     When set to 'true' the request body will not be compressed
+    #     for supported operations.
+    #
+    #   @option options [String, URI::HTTPS, URI::HTTP] :endpoint
+    #     Normally you should not configure the `:endpoint` option
+    #     directly. This is normally constructed from the `:region`
+    #     option. Configuring `:endpoint` is normally reserved for
+    #     connecting to test or custom endpoints. The endpoint should
+    #     be a URI formatted like:
+    #
+    #         'http://example.com'
+    #         'https://example.com'
+    #         'http://example.com:123'
     #
     #   @option options [Integer] :endpoint_cache_max_entries (1000)
     #     Used for the maximum size limit of the LRU cache storing endpoints data
@@ -209,6 +232,10 @@ module Aws::AuditManager
     #
     #   @option options [Boolean] :endpoint_discovery (false)
     #     When set to `true`, endpoint discovery will be enabled for operations when available.
+    #
+    #   @option options [Boolean] :ignore_configured_endpoint_urls
+    #     Setting to true disables use of endpoint URLs provided via environment
+    #     variables and the shared configuration file.
     #
     #   @option options [Aws::Log::Formatter] :log_formatter (Aws::Log::Formatter.default)
     #     The log formatter.
@@ -229,6 +256,34 @@ module Aws::AuditManager
     #   @option options [String] :profile ("default")
     #     Used when loading credentials from the shared credentials file
     #     at HOME/.aws/credentials.  When not specified, 'default' is used.
+    #
+    #   @option options [String] :request_checksum_calculation ("when_supported")
+    #     Determines when a checksum will be calculated for request payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, a checksum will be
+    #       calculated for all request payloads of operations modeled with the
+    #       `httpChecksum` trait where `requestChecksumRequired` is `true` and/or a
+    #       `requestAlgorithmMember` is modeled.
+    #     * `when_required` - When set, a checksum will only be calculated for
+    #       request payloads of operations modeled with the  `httpChecksum` trait where
+    #       `requestChecksumRequired` is `true` or where a `requestAlgorithmMember`
+    #       is modeled and supplied.
+    #
+    #   @option options [Integer] :request_min_compression_size_bytes (10240)
+    #     The minimum size in bytes that triggers compression for request
+    #     bodies. The value must be non-negative integer value between 0
+    #     and 10485780 bytes inclusive.
+    #
+    #   @option options [String] :response_checksum_validation ("when_supported")
+    #     Determines when checksum validation will be performed on response payloads. Values are:
+    #
+    #     * `when_supported` - (default) When set, checksum validation is performed on all
+    #       response payloads of operations modeled with the `httpChecksum` trait where
+    #       `responseAlgorithms` is modeled, except when no modeled checksum algorithms
+    #       are supported.
+    #     * `when_required` - When set, checksum validation is not performed on
+    #       response payloads of operations unless the checksum algorithm is supported and
+    #       the `requestValidationModeMember` member is set to `ENABLED`.
     #
     #   @option options [Proc] :retry_backoff
     #     A proc or lambda used for backoff. Defaults to 2**retries * retry_base_delay.
@@ -274,10 +329,24 @@ module Aws::AuditManager
     #       throttling.  This is a provisional mode that may change behavior
     #       in the future.
     #
+    #   @option options [String] :sdk_ua_app_id
+    #     A unique and opaque application ID that is appended to the
+    #     User-Agent header as app/sdk_ua_app_id. It should have a
+    #     maximum length of 50. This variable is sourced from environment
+    #     variable AWS_SDK_UA_APP_ID or the shared config profile attribute sdk_ua_app_id.
     #
     #   @option options [String] :secret_access_key
     #
     #   @option options [String] :session_token
+    #
+    #   @option options [Array] :sigv4a_signing_region_set
+    #     A list of regions that should be signed with SigV4a signing. When
+    #     not passed, a default `:sigv4a_signing_region_set` is searched for
+    #     in the following locations:
+    #
+    #     * `Aws.config[:sigv4a_signing_region_set]`
+    #     * `ENV['AWS_SIGV4A_SIGNING_REGION_SET']`
+    #     * `~/.aws/config`
     #
     #   @option options [Boolean] :stub_responses (false)
     #     Causes the client to return stubbed responses. By default
@@ -287,6 +356,16 @@ module Aws::AuditManager
     #
     #     ** Please note ** When response stubbing is enabled, no HTTP
     #     requests are made, and retries are disabled.
+    #
+    #   @option options [Aws::Telemetry::TelemetryProviderBase] :telemetry_provider (Aws::Telemetry::NoOpTelemetryProvider)
+    #     Allows you to provide a telemetry provider, which is used to
+    #     emit telemetry data. By default, uses `NoOpTelemetryProvider` which
+    #     will not record or emit any telemetry data. The SDK supports the
+    #     following telemetry providers:
+    #
+    #     * OpenTelemetry (OTel) - To use the OTel provider, install and require the
+    #     `opentelemetry-sdk` gem and then, pass in an instance of a
+    #     `Aws::Telemetry::OTelProvider` for telemetry provider.
     #
     #   @option options [Aws::TokenProvider] :token_provider
     #     A Bearer Token Provider. This can be an instance of any one of the
@@ -315,52 +394,75 @@ module Aws::AuditManager
     #     sending the request.
     #
     #   @option options [Aws::AuditManager::EndpointProvider] :endpoint_provider
-    #     The endpoint provider used to resolve endpoints. Any object that responds to `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to `Aws::AuditManager::EndpointParameters`
+    #     The endpoint provider used to resolve endpoints. Any object that responds to
+    #     `#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+    #     `Aws::AuditManager::EndpointParameters`.
     #
-    #   @option options [URI::HTTP,String] :http_proxy A proxy to send
-    #     requests through.  Formatted like 'http://proxy.com:123'.
+    #   @option options [Float] :http_continue_timeout (1)
+    #     The number of seconds to wait for a 100-continue response before sending the
+    #     request body.  This option has no effect unless the request has "Expect"
+    #     header set to "100-continue".  Defaults to `nil` which  disables this
+    #     behaviour.  This value can safely be set per request on the session.
     #
-    #   @option options [Float] :http_open_timeout (15) The number of
-    #     seconds to wait when opening a HTTP session before raising a
-    #     `Timeout::Error`.
+    #   @option options [Float] :http_idle_timeout (5)
+    #     The number of seconds a connection is allowed to sit idle before it
+    #     is considered stale.  Stale connections are closed and removed from the
+    #     pool before making a request.
     #
-    #   @option options [Float] :http_read_timeout (60) The default
-    #     number of seconds to wait for response data.  This value can
-    #     safely be set per-request on the session.
+    #   @option options [Float] :http_open_timeout (15)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :http_idle_timeout (5) The number of
-    #     seconds a connection is allowed to sit idle before it is
-    #     considered stale.  Stale connections are closed and removed
-    #     from the pool before making a request.
+    #   @option options [URI::HTTP,String] :http_proxy
+    #     A proxy to send requests through.  Formatted like 'http://proxy.com:123'.
     #
-    #   @option options [Float] :http_continue_timeout (1) The number of
-    #     seconds to wait for a 100-continue response before sending the
-    #     request body.  This option has no effect unless the request has
-    #     "Expect" header set to "100-continue".  Defaults to `nil` which
-    #     disables this behaviour.  This value can safely be set per
-    #     request on the session.
+    #   @option options [Float] :http_read_timeout (60)
+    #     The default number of seconds to wait for response data.
+    #     This value can safely be set per-request on the session.
     #
-    #   @option options [Float] :ssl_timeout (nil) Sets the SSL timeout
-    #     in seconds.
+    #   @option options [Boolean] :http_wire_trace (false)
+    #     When `true`,  HTTP debug output will be sent to the `:logger`.
     #
-    #   @option options [Boolean] :http_wire_trace (false) When `true`,
-    #     HTTP debug output will be sent to the `:logger`.
+    #   @option options [Proc] :on_chunk_received
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the response body is received. It provides three arguments: the chunk,
+    #     the number of bytes received, and the total number of
+    #     bytes in the response (or nil if the server did not send a `content-length`).
     #
-    #   @option options [Boolean] :ssl_verify_peer (true) When `true`,
-    #     SSL peer certificates are verified when establishing a
-    #     connection.
+    #   @option options [Proc] :on_chunk_sent
+    #     When a Proc object is provided, it will be used as callback when each chunk
+    #     of the request body is sent. It provides three arguments: the chunk,
+    #     the number of bytes read from the body, and the total number of
+    #     bytes in the body.
     #
-    #   @option options [String] :ssl_ca_bundle Full path to the SSL
-    #     certificate authority bundle file that should be used when
-    #     verifying peer certificates.  If you do not pass
-    #     `:ssl_ca_bundle` or `:ssl_ca_directory` the the system default
-    #     will be used if available.
+    #   @option options [Boolean] :raise_response_errors (true)
+    #     When `true`, response errors are raised.
     #
-    #   @option options [String] :ssl_ca_directory Full path of the
-    #     directory that contains the unbundled SSL certificate
+    #   @option options [String] :ssl_ca_bundle
+    #     Full path to the SSL certificate authority bundle file that should be used when
+    #     verifying peer certificates.  If you do not pass `:ssl_ca_bundle` or
+    #     `:ssl_ca_directory` the the system default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_directory
+    #     Full path of the directory that contains the unbundled SSL certificate
     #     authority files for verifying peer certificates.  If you do
-    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the
-    #     system default will be used if available.
+    #     not pass `:ssl_ca_bundle` or `:ssl_ca_directory` the the system
+    #     default will be used if available.
+    #
+    #   @option options [String] :ssl_ca_store
+    #     Sets the X509::Store to verify peer certificate.
+    #
+    #   @option options [OpenSSL::X509::Certificate] :ssl_cert
+    #     Sets a client certificate when creating http connections.
+    #
+    #   @option options [OpenSSL::PKey] :ssl_key
+    #     Sets a client key when creating http connections.
+    #
+    #   @option options [Float] :ssl_timeout
+    #     Sets the SSL timeout in seconds
+    #
+    #   @option options [Boolean] :ssl_verify_peer (true)
+    #     When `true`, SSL peer certificates are verified when establishing a connection.
     #
     def initialize(*args)
       super
@@ -574,34 +676,32 @@ module Aws::AuditManager
       req.send_request(options)
     end
 
-    # Uploads one or more pieces of evidence to a control in an Audit
-    # Manager assessment. You can upload manual evidence from any Amazon
-    # Simple Storage Service (Amazon S3) bucket by specifying the S3 URI of
-    # the evidence.
+    # Adds one or more pieces of evidence to a control in an Audit Manager
+    # assessment.
     #
-    # You must upload manual evidence to your S3 bucket before you can
-    # upload it to your assessment. For instructions, see [CreateBucket][1]
-    # and [PutObject][2] in the *Amazon Simple Storage Service API
-    # Reference.*
+    # You can import manual evidence from any S3 bucket by specifying the S3
+    # URI of the object. You can also upload a file from your browser, or
+    # enter plain text in response to a risk assessment question.
     #
     # The following restrictions apply to this action:
+    #
+    # * `manualEvidence` can be only one of the following:
+    #   `evidenceFileName`, `s3ResourcePath`, or `textResponse`
     #
     # * Maximum size of an individual evidence file: 100 MB
     #
     # * Number of daily manual evidence uploads per control: 100
     #
     # * Supported file formats: See [Supported file types for manual
-    #   evidence][3] in the *Audit Manager User Guide*
+    #   evidence][1] in the *Audit Manager User Guide*
     #
     # For more information about Audit Manager service restrictions, see
-    # [Quotas and restrictions for Audit Manager][4].
+    # [Quotas and restrictions for Audit Manager][2].
     #
     #
     #
-    # [1]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucket.html
-    # [2]: https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObject.html
-    # [3]: https://docs.aws.amazon.com/audit-manager/latest/userguide/upload-evidence.html#supported-manual-evidence-files
-    # [4]: https://docs.aws.amazon.com/audit-manager/latest/userguide/service-quotas.html
+    # [1]: https://docs.aws.amazon.com/audit-manager/latest/userguide/upload-evidence.html#supported-manual-evidence-files
+    # [2]: https://docs.aws.amazon.com/audit-manager/latest/userguide/service-quotas.html
     #
     # @option params [required, String] :assessment_id
     #   The identifier for the assessment.
@@ -628,6 +728,8 @@ module Aws::AuditManager
     #     manual_evidence: [ # required
     #       {
     #         s3_resource_path: "S3Url",
+    #         text_response: "ManualEvidenceTextResponse",
+    #         evidence_file_name: "ManualEvidenceLocalFileName",
     #       },
     #     ],
     #   })
@@ -636,6 +738,8 @@ module Aws::AuditManager
     #
     #   resp.errors #=> Array
     #   resp.errors[0].manual_evidence.s3_resource_path #=> String
+    #   resp.errors[0].manual_evidence.text_response #=> String
+    #   resp.errors[0].manual_evidence.evidence_file_name #=> String
     #   resp.errors[0].error_code #=> String
     #   resp.errors[0].error_message #=> String
     #
@@ -661,8 +765,22 @@ module Aws::AuditManager
     #   being created.
     #
     # @option params [required, Types::Scope] :scope
-    #   The wrapper that contains the Amazon Web Services accounts and
-    #   services that are in scope for the assessment.
+    #   The wrapper that contains the Amazon Web Services accounts that are in
+    #   scope for the assessment.
+    #
+    #   <note markdown="1"> You no longer need to specify which Amazon Web Services are in scope
+    #   when you create or update an assessment. Audit Manager infers the
+    #   services in scope by examining your assessment controls and their data
+    #   sources, and then mapping this information to the relevant Amazon Web
+    #   Services.
+    #
+    #    If an underlying data source changes for your assessment, we
+    #   automatically update the services scope as needed to reflect the
+    #   correct Amazon Web Services. This ensures that your assessment
+    #   collects accurate and comprehensive evidence about all of the relevant
+    #   services in your AWS environment.
+    #
+    #    </note>
     #
     # @option params [required, Array<Types::Role>] :roles
     #   The list of roles for the assessment.
@@ -861,7 +979,7 @@ module Aws::AuditManager
     #   resp.framework.control_sets[0].controls #=> Array
     #   resp.framework.control_sets[0].controls[0].arn #=> String
     #   resp.framework.control_sets[0].controls[0].id #=> String
-    #   resp.framework.control_sets[0].controls[0].type #=> String, one of "Standard", "Custom"
+    #   resp.framework.control_sets[0].controls[0].type #=> String, one of "Standard", "Custom", "Core"
     #   resp.framework.control_sets[0].controls[0].name #=> String
     #   resp.framework.control_sets[0].controls[0].description #=> String
     #   resp.framework.control_sets[0].controls[0].testing_information #=> String
@@ -873,8 +991,8 @@ module Aws::AuditManager
     #   resp.framework.control_sets[0].controls[0].control_mapping_sources[0].source_name #=> String
     #   resp.framework.control_sets[0].controls[0].control_mapping_sources[0].source_description #=> String
     #   resp.framework.control_sets[0].controls[0].control_mapping_sources[0].source_set_up_option #=> String, one of "System_Controls_Mapping", "Procedural_Controls_Mapping"
-    #   resp.framework.control_sets[0].controls[0].control_mapping_sources[0].source_type #=> String, one of "AWS_Cloudtrail", "AWS_Config", "AWS_Security_Hub", "AWS_API_Call", "MANUAL"
-    #   resp.framework.control_sets[0].controls[0].control_mapping_sources[0].source_keyword.keyword_input_type #=> String, one of "SELECT_FROM_LIST"
+    #   resp.framework.control_sets[0].controls[0].control_mapping_sources[0].source_type #=> String, one of "AWS_Cloudtrail", "AWS_Config", "AWS_Security_Hub", "AWS_API_Call", "MANUAL", "Common_Control", "Core_Control"
+    #   resp.framework.control_sets[0].controls[0].control_mapping_sources[0].source_keyword.keyword_input_type #=> String, one of "SELECT_FROM_LIST", "UPLOAD_FILE", "INPUT_TEXT"
     #   resp.framework.control_sets[0].controls[0].control_mapping_sources[0].source_keyword.keyword_value #=> String
     #   resp.framework.control_sets[0].controls[0].control_mapping_sources[0].source_frequency #=> String, one of "DAILY", "WEEKLY", "MONTHLY"
     #   resp.framework.control_sets[0].controls[0].control_mapping_sources[0].troubleshooting_text #=> String
@@ -884,6 +1002,7 @@ module Aws::AuditManager
     #   resp.framework.control_sets[0].controls[0].last_updated_by #=> String
     #   resp.framework.control_sets[0].controls[0].tags #=> Hash
     #   resp.framework.control_sets[0].controls[0].tags["TagKey"] #=> String
+    #   resp.framework.control_sets[0].controls[0].state #=> String, one of "ACTIVE", "END_OF_SUPPORT"
     #   resp.framework.created_at #=> Time
     #   resp.framework.last_updated_at #=> Time
     #   resp.framework.created_by #=> String
@@ -1009,9 +1128,9 @@ module Aws::AuditManager
     #         source_name: "SourceName",
     #         source_description: "SourceDescription",
     #         source_set_up_option: "System_Controls_Mapping", # accepts System_Controls_Mapping, Procedural_Controls_Mapping
-    #         source_type: "AWS_Cloudtrail", # accepts AWS_Cloudtrail, AWS_Config, AWS_Security_Hub, AWS_API_Call, MANUAL
+    #         source_type: "AWS_Cloudtrail", # accepts AWS_Cloudtrail, AWS_Config, AWS_Security_Hub, AWS_API_Call, MANUAL, Common_Control, Core_Control
     #         source_keyword: {
-    #           keyword_input_type: "SELECT_FROM_LIST", # accepts SELECT_FROM_LIST
+    #           keyword_input_type: "SELECT_FROM_LIST", # accepts SELECT_FROM_LIST, UPLOAD_FILE, INPUT_TEXT
     #           keyword_value: "KeywordValue",
     #         },
     #         source_frequency: "DAILY", # accepts DAILY, WEEKLY, MONTHLY
@@ -1027,7 +1146,7 @@ module Aws::AuditManager
     #
     #   resp.control.arn #=> String
     #   resp.control.id #=> String
-    #   resp.control.type #=> String, one of "Standard", "Custom"
+    #   resp.control.type #=> String, one of "Standard", "Custom", "Core"
     #   resp.control.name #=> String
     #   resp.control.description #=> String
     #   resp.control.testing_information #=> String
@@ -1039,8 +1158,8 @@ module Aws::AuditManager
     #   resp.control.control_mapping_sources[0].source_name #=> String
     #   resp.control.control_mapping_sources[0].source_description #=> String
     #   resp.control.control_mapping_sources[0].source_set_up_option #=> String, one of "System_Controls_Mapping", "Procedural_Controls_Mapping"
-    #   resp.control.control_mapping_sources[0].source_type #=> String, one of "AWS_Cloudtrail", "AWS_Config", "AWS_Security_Hub", "AWS_API_Call", "MANUAL"
-    #   resp.control.control_mapping_sources[0].source_keyword.keyword_input_type #=> String, one of "SELECT_FROM_LIST"
+    #   resp.control.control_mapping_sources[0].source_type #=> String, one of "AWS_Cloudtrail", "AWS_Config", "AWS_Security_Hub", "AWS_API_Call", "MANUAL", "Common_Control", "Core_Control"
+    #   resp.control.control_mapping_sources[0].source_keyword.keyword_input_type #=> String, one of "SELECT_FROM_LIST", "UPLOAD_FILE", "INPUT_TEXT"
     #   resp.control.control_mapping_sources[0].source_keyword.keyword_value #=> String
     #   resp.control.control_mapping_sources[0].source_frequency #=> String, one of "DAILY", "WEEKLY", "MONTHLY"
     #   resp.control.control_mapping_sources[0].troubleshooting_text #=> String
@@ -1050,6 +1169,7 @@ module Aws::AuditManager
     #   resp.control.last_updated_by #=> String
     #   resp.control.tags #=> Hash
     #   resp.control.tags["TagKey"] #=> String
+    #   resp.control.state #=> String, one of "ACTIVE", "END_OF_SUPPORT"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/auditmanager-2017-07-25/CreateControl AWS API Documentation
     #
@@ -1186,6 +1306,12 @@ module Aws::AuditManager
     end
 
     # Deletes a custom control in Audit Manager.
+    #
+    # When you invoke this operation, the custom control is deleted from any
+    # frameworks or assessments that it’s currently part of. As a result,
+    # Audit Manager will stop collecting evidence for that custom control in
+    # all of your assessments. This includes assessments that you previously
+    # created before you deleted the custom control.
     #
     # @option params [required, String] :control_id
     #   The unique identifier for the control.
@@ -1362,7 +1488,7 @@ module Aws::AuditManager
       req.send_request(options)
     end
 
-    # Returns the registration status of an account in Audit Manager.
+    # Gets the registration status of an account in Audit Manager.
     #
     # @return [Types::GetAccountStatusResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -1381,7 +1507,7 @@ module Aws::AuditManager
       req.send_request(options)
     end
 
-    # Returns an assessment from Audit Manager.
+    # Gets information about a specified assessment.
     #
     # @option params [required, String] :assessment_id
     #   The unique identifier for the assessment.
@@ -1488,7 +1614,7 @@ module Aws::AuditManager
       req.send_request(options)
     end
 
-    # Returns a framework from Audit Manager.
+    # Gets information about a specified framework.
     #
     # @option params [required, String] :framework_id
     #   The identifier for the framework.
@@ -1519,7 +1645,7 @@ module Aws::AuditManager
     #   resp.framework.control_sets[0].controls #=> Array
     #   resp.framework.control_sets[0].controls[0].arn #=> String
     #   resp.framework.control_sets[0].controls[0].id #=> String
-    #   resp.framework.control_sets[0].controls[0].type #=> String, one of "Standard", "Custom"
+    #   resp.framework.control_sets[0].controls[0].type #=> String, one of "Standard", "Custom", "Core"
     #   resp.framework.control_sets[0].controls[0].name #=> String
     #   resp.framework.control_sets[0].controls[0].description #=> String
     #   resp.framework.control_sets[0].controls[0].testing_information #=> String
@@ -1531,8 +1657,8 @@ module Aws::AuditManager
     #   resp.framework.control_sets[0].controls[0].control_mapping_sources[0].source_name #=> String
     #   resp.framework.control_sets[0].controls[0].control_mapping_sources[0].source_description #=> String
     #   resp.framework.control_sets[0].controls[0].control_mapping_sources[0].source_set_up_option #=> String, one of "System_Controls_Mapping", "Procedural_Controls_Mapping"
-    #   resp.framework.control_sets[0].controls[0].control_mapping_sources[0].source_type #=> String, one of "AWS_Cloudtrail", "AWS_Config", "AWS_Security_Hub", "AWS_API_Call", "MANUAL"
-    #   resp.framework.control_sets[0].controls[0].control_mapping_sources[0].source_keyword.keyword_input_type #=> String, one of "SELECT_FROM_LIST"
+    #   resp.framework.control_sets[0].controls[0].control_mapping_sources[0].source_type #=> String, one of "AWS_Cloudtrail", "AWS_Config", "AWS_Security_Hub", "AWS_API_Call", "MANUAL", "Common_Control", "Core_Control"
+    #   resp.framework.control_sets[0].controls[0].control_mapping_sources[0].source_keyword.keyword_input_type #=> String, one of "SELECT_FROM_LIST", "UPLOAD_FILE", "INPUT_TEXT"
     #   resp.framework.control_sets[0].controls[0].control_mapping_sources[0].source_keyword.keyword_value #=> String
     #   resp.framework.control_sets[0].controls[0].control_mapping_sources[0].source_frequency #=> String, one of "DAILY", "WEEKLY", "MONTHLY"
     #   resp.framework.control_sets[0].controls[0].control_mapping_sources[0].troubleshooting_text #=> String
@@ -1542,6 +1668,7 @@ module Aws::AuditManager
     #   resp.framework.control_sets[0].controls[0].last_updated_by #=> String
     #   resp.framework.control_sets[0].controls[0].tags #=> Hash
     #   resp.framework.control_sets[0].controls[0].tags["TagKey"] #=> String
+    #   resp.framework.control_sets[0].controls[0].state #=> String, one of "ACTIVE", "END_OF_SUPPORT"
     #   resp.framework.created_at #=> Time
     #   resp.framework.last_updated_at #=> Time
     #   resp.framework.created_by #=> String
@@ -1558,7 +1685,7 @@ module Aws::AuditManager
       req.send_request(options)
     end
 
-    # Returns the URL of an assessment report in Audit Manager.
+    # Gets the URL of an assessment report in Audit Manager.
     #
     # @option params [required, String] :assessment_report_id
     #   The unique identifier for the assessment report.
@@ -1591,7 +1718,7 @@ module Aws::AuditManager
       req.send_request(options)
     end
 
-    # Returns a list of changelogs from Audit Manager.
+    # Gets a list of changelogs from Audit Manager.
     #
     # @option params [required, String] :assessment_id
     #   The unique identifier for the assessment.
@@ -1645,7 +1772,7 @@ module Aws::AuditManager
       req.send_request(options)
     end
 
-    # Returns a control from Audit Manager.
+    # Gets information about a specified control.
     #
     # @option params [required, String] :control_id
     #   The identifier for the control.
@@ -1664,7 +1791,7 @@ module Aws::AuditManager
     #
     #   resp.control.arn #=> String
     #   resp.control.id #=> String
-    #   resp.control.type #=> String, one of "Standard", "Custom"
+    #   resp.control.type #=> String, one of "Standard", "Custom", "Core"
     #   resp.control.name #=> String
     #   resp.control.description #=> String
     #   resp.control.testing_information #=> String
@@ -1676,8 +1803,8 @@ module Aws::AuditManager
     #   resp.control.control_mapping_sources[0].source_name #=> String
     #   resp.control.control_mapping_sources[0].source_description #=> String
     #   resp.control.control_mapping_sources[0].source_set_up_option #=> String, one of "System_Controls_Mapping", "Procedural_Controls_Mapping"
-    #   resp.control.control_mapping_sources[0].source_type #=> String, one of "AWS_Cloudtrail", "AWS_Config", "AWS_Security_Hub", "AWS_API_Call", "MANUAL"
-    #   resp.control.control_mapping_sources[0].source_keyword.keyword_input_type #=> String, one of "SELECT_FROM_LIST"
+    #   resp.control.control_mapping_sources[0].source_type #=> String, one of "AWS_Cloudtrail", "AWS_Config", "AWS_Security_Hub", "AWS_API_Call", "MANUAL", "Common_Control", "Core_Control"
+    #   resp.control.control_mapping_sources[0].source_keyword.keyword_input_type #=> String, one of "SELECT_FROM_LIST", "UPLOAD_FILE", "INPUT_TEXT"
     #   resp.control.control_mapping_sources[0].source_keyword.keyword_value #=> String
     #   resp.control.control_mapping_sources[0].source_frequency #=> String, one of "DAILY", "WEEKLY", "MONTHLY"
     #   resp.control.control_mapping_sources[0].troubleshooting_text #=> String
@@ -1687,6 +1814,7 @@ module Aws::AuditManager
     #   resp.control.last_updated_by #=> String
     #   resp.control.tags #=> Hash
     #   resp.control.tags["TagKey"] #=> String
+    #   resp.control.state #=> String, one of "ACTIVE", "END_OF_SUPPORT"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/auditmanager-2017-07-25/GetControl AWS API Documentation
     #
@@ -1697,7 +1825,7 @@ module Aws::AuditManager
       req.send_request(options)
     end
 
-    # Returns a list of delegations from an audit owner to a delegate.
+    # Gets a list of delegations from an audit owner to a delegate.
     #
     # @option params [String] :next_token
     #   The pagination token that's used to fetch the next set of results.
@@ -1741,7 +1869,7 @@ module Aws::AuditManager
       req.send_request(options)
     end
 
-    # Returns evidence from Audit Manager.
+    # Gets information about a specified evidence item.
     #
     # @option params [required, String] :assessment_id
     #   The unique identifier for the assessment.
@@ -1799,8 +1927,7 @@ module Aws::AuditManager
       req.send_request(options)
     end
 
-    # Returns all evidence from a specified evidence folder in Audit
-    # Manager.
+    # Gets all evidence from a specified evidence folder in Audit Manager.
     #
     # @option params [required, String] :assessment_id
     #   The identifier for the assessment.
@@ -1868,8 +1995,64 @@ module Aws::AuditManager
       req.send_request(options)
     end
 
-    # Returns an evidence folder from the specified assessment in Audit
-    # Manager.
+    # Creates a presigned Amazon S3 URL that can be used to upload a file as
+    # manual evidence. For instructions on how to use this operation, see
+    # [Upload a file from your browser ][1] in the *Audit Manager User
+    # Guide*.
+    #
+    # The following restrictions apply to this operation:
+    #
+    # * Maximum size of an individual evidence file: 100 MB
+    #
+    # * Number of daily manual evidence uploads per control: 100
+    #
+    # * Supported file formats: See [Supported file types for manual
+    #   evidence][2] in the *Audit Manager User Guide*
+    #
+    # For more information about Audit Manager service restrictions, see
+    # [Quotas and restrictions for Audit Manager][3].
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/audit-manager/latest/userguide/upload-evidence.html#how-to-upload-manual-evidence-files
+    # [2]: https://docs.aws.amazon.com/audit-manager/latest/userguide/upload-evidence.html#supported-manual-evidence-files
+    # [3]: https://docs.aws.amazon.com/audit-manager/latest/userguide/service-quotas.html
+    #
+    # @option params [required, String] :file_name
+    #   The file that you want to upload. For a list of supported file
+    #   formats, see [Supported file types for manual evidence][1] in the
+    #   *Audit Manager User Guide*.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/audit-manager/latest/userguide/upload-evidence.html#supported-manual-evidence-files
+    #
+    # @return [Types::GetEvidenceFileUploadUrlResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
+    #
+    #   * {Types::GetEvidenceFileUploadUrlResponse#evidence_file_name #evidence_file_name} => String
+    #   * {Types::GetEvidenceFileUploadUrlResponse#upload_url #upload_url} => String
+    #
+    # @example Request syntax with placeholder values
+    #
+    #   resp = client.get_evidence_file_upload_url({
+    #     file_name: "ManualEvidenceLocalFileName", # required
+    #   })
+    #
+    # @example Response structure
+    #
+    #   resp.evidence_file_name #=> String
+    #   resp.upload_url #=> String
+    #
+    # @see http://docs.aws.amazon.com/goto/WebAPI/auditmanager-2017-07-25/GetEvidenceFileUploadUrl AWS API Documentation
+    #
+    # @overload get_evidence_file_upload_url(params = {})
+    # @param [Hash] params ({})
+    def get_evidence_file_upload_url(params = {}, options = {})
+      req = build_request(:get_evidence_file_upload_url, params)
+      req.send_request(options)
+    end
+
+    # Gets an evidence folder from a specified assessment in Audit Manager.
     #
     # @option params [required, String] :assessment_id
     #   The unique identifier for the assessment.
@@ -1922,7 +2105,7 @@ module Aws::AuditManager
       req.send_request(options)
     end
 
-    # Returns the evidence folders from a specified assessment in Audit
+    # Gets the evidence folders from a specified assessment in Audit
     # Manager.
     #
     # @option params [required, String] :assessment_id
@@ -1982,8 +2165,8 @@ module Aws::AuditManager
       req.send_request(options)
     end
 
-    # Returns a list of evidence folders that are associated with a
-    # specified control in an Audit Manager assessment.
+    # Gets a list of evidence folders that are associated with a specified
+    # control in an Audit Manager assessment.
     #
     # @option params [required, String] :assessment_id
     #   The identifier for the assessment.
@@ -2109,8 +2292,8 @@ module Aws::AuditManager
       req.send_request(options)
     end
 
-    # Returns the name of the delegated Amazon Web Services administrator
-    # account for the organization.
+    # Gets the name of the delegated Amazon Web Services administrator
+    # account for a specified organization.
     #
     # @return [Types::GetOrganizationAdminAccountResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -2131,15 +2314,25 @@ module Aws::AuditManager
       req.send_request(options)
     end
 
-    # Returns a list of all of the Amazon Web Services that you can choose
-    # to include in your assessment. When you [create an assessment][1],
-    # specify which of these services you want to include to narrow the
-    # assessment's [scope][2].
+    # Gets a list of the Amazon Web Services from which Audit Manager can
+    # collect evidence.
+    #
+    # Audit Manager defines which Amazon Web Services are in scope for an
+    # assessment. Audit Manager infers this scope by examining the
+    # assessment’s controls and their data sources, and then mapping this
+    # information to one or more of the corresponding Amazon Web Services
+    # that are in this list.
+    #
+    # <note markdown="1"> For information about why it's no longer possible to specify services
+    # in scope manually, see [I can't edit the services in scope for my
+    # assessment][1] in the *Troubleshooting* section of the Audit Manager
+    # user guide.
+    #
+    #  </note>
     #
     #
     #
-    # [1]: https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_CreateAssessment.html
-    # [2]: https://docs.aws.amazon.com/audit-manager/latest/APIReference/API_Scope.html
+    # [1]: https://docs.aws.amazon.com/audit-manager/latest/userguide/evidence-collection-issues.html#unable-to-edit-services
     #
     # @return [Types::GetServicesInScopeResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -2162,7 +2355,7 @@ module Aws::AuditManager
       req.send_request(options)
     end
 
-    # Returns the settings for the specified Amazon Web Services account.
+    # Gets the settings for a specified Amazon Web Services account.
     #
     # @option params [required, String] :attribute
     #   The list of setting attribute enum values.
@@ -2174,7 +2367,7 @@ module Aws::AuditManager
     # @example Request syntax with placeholder values
     #
     #   resp = client.get_settings({
-    #     attribute: "ALL", # required, accepts ALL, IS_AWS_ORG_ENABLED, SNS_TOPIC, DEFAULT_ASSESSMENT_REPORTS_DESTINATION, DEFAULT_PROCESS_OWNERS, EVIDENCE_FINDER_ENABLEMENT, DEREGISTRATION_POLICY
+    #     attribute: "ALL", # required, accepts ALL, IS_AWS_ORG_ENABLED, SNS_TOPIC, DEFAULT_ASSESSMENT_REPORTS_DESTINATION, DEFAULT_PROCESS_OWNERS, EVIDENCE_FINDER_ENABLEMENT, DEREGISTRATION_POLICY, DEFAULT_EXPORT_DESTINATION
     #   })
     #
     # @example Response structure
@@ -2192,6 +2385,8 @@ module Aws::AuditManager
     #   resp.settings.evidence_finder_enablement.backfill_status #=> String, one of "NOT_STARTED", "IN_PROGRESS", "COMPLETED"
     #   resp.settings.evidence_finder_enablement.error #=> String
     #   resp.settings.deregistration_policy.delete_resources #=> String, one of "ALL", "DEFAULT"
+    #   resp.settings.default_export_destination.destination_type #=> String, one of "S3"
+    #   resp.settings.default_export_destination.destination #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/auditmanager-2017-07-25/GetSettings AWS API Documentation
     #
@@ -2216,6 +2411,15 @@ module Aws::AuditManager
     # @option params [required, String] :control_domain_id
     #   The unique identifier for the control domain.
     #
+    #   Audit Manager supports the control domains that are provided by Amazon
+    #   Web Services Control Catalog. For information about how to find a list
+    #   of available control domains, see [ `ListDomains` ][1] in the Amazon
+    #   Web Services Control Catalog API Reference.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/controlcatalog/latest/APIReference/API_ListDomains.html
+    #
     # @option params [required, String] :assessment_id
     #   The unique identifier for the active assessment.
     #
@@ -2236,7 +2440,7 @@ module Aws::AuditManager
     # @example Request syntax with placeholder values
     #
     #   resp = client.list_assessment_control_insights_by_control_domain({
-    #     control_domain_id: "UUID", # required
+    #     control_domain_id: "ControlDomainId", # required
     #     assessment_id: "UUID", # required
     #     next_token: "Token",
     #     max_results: 1,
@@ -2485,12 +2689,21 @@ module Aws::AuditManager
     # Lists the latest analytics data for control domains across all of your
     # active assessments.
     #
+    # Audit Manager supports the control domains that are provided by Amazon
+    # Web Services Control Catalog. For information about how to find a list
+    # of available control domains, see [ `ListDomains` ][1] in the Amazon
+    # Web Services Control Catalog API Reference.
+    #
     # <note markdown="1"> A control domain is listed only if at least one of the controls within
     # that domain collected evidence on the `lastUpdated` date of
     # `controlDomainInsights`. If this condition isn’t met, no data is
     # listed for that control domain.
     #
     #  </note>
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/controlcatalog/latest/APIReference/API_ListDomains.html
     #
     # @option params [String] :next_token
     #   The pagination token that's used to fetch the next set of results.
@@ -2538,12 +2751,21 @@ module Aws::AuditManager
     # Lists analytics data for control domains within a specified active
     # assessment.
     #
+    # Audit Manager supports the control domains that are provided by Amazon
+    # Web Services Control Catalog. For information about how to find a list
+    # of available control domains, see [ `ListDomains` ][1] in the Amazon
+    # Web Services Control Catalog API Reference.
+    #
     # <note markdown="1"> A control domain is listed only if at least one of the controls within
     # that domain collected evidence on the `lastUpdated` date of
     # `controlDomainInsights`. If this condition isn’t met, no data is
     # listed for that domain.
     #
     #  </note>
+    #
+    #
+    #
+    # [1]: https://docs.aws.amazon.com/controlcatalog/latest/APIReference/API_ListDomains.html
     #
     # @option params [required, String] :assessment_id
     #   The unique identifier for the active assessment.
@@ -2605,6 +2827,15 @@ module Aws::AuditManager
     # @option params [required, String] :control_domain_id
     #   The unique identifier for the control domain.
     #
+    #   Audit Manager supports the control domains that are provided by Amazon
+    #   Web Services Control Catalog. For information about how to find a list
+    #   of available control domains, see [ `ListDomains` ][1] in the Amazon
+    #   Web Services Control Catalog API Reference.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/controlcatalog/latest/APIReference/API_ListDomains.html
+    #
     # @option params [String] :next_token
     #   The pagination token that's used to fetch the next set of results.
     #
@@ -2622,7 +2853,7 @@ module Aws::AuditManager
     # @example Request syntax with placeholder values
     #
     #   resp = client.list_control_insights_by_control_domain({
-    #     control_domain_id: "UUID", # required
+    #     control_domain_id: "ControlDomainId", # required
     #     next_token: "Token",
     #     max_results: 1,
     #   })
@@ -2650,14 +2881,41 @@ module Aws::AuditManager
     # Returns a list of controls from Audit Manager.
     #
     # @option params [required, String] :control_type
-    #   The type of control, such as a standard control or a custom control.
+    #   A filter that narrows the list of controls to a specific type.
     #
     # @option params [String] :next_token
     #   The pagination token that's used to fetch the next set of results.
     #
     # @option params [Integer] :max_results
-    #   Represents the maximum number of results on a page or for an API
-    #   request call.
+    #   The maximum number of results on a page or for an API request call.
+    #
+    # @option params [String] :control_catalog_id
+    #   A filter that narrows the list of controls to a specific resource from
+    #   the Amazon Web Services Control Catalog.
+    #
+    #   To use this parameter, specify the ARN of the Control Catalog
+    #   resource. You can specify either a control domain, a control
+    #   objective, or a common control. For information about how to find the
+    #   ARNs for these resources, see [ `ListDomains` ][1], [ `ListObjectives`
+    #   ][2], and [ `ListCommonControls` ][3].
+    #
+    #   <note markdown="1"> You can only filter by one Control Catalog resource at a time.
+    #   Specifying multiple resource ARNs isn’t currently supported. If you
+    #   want to filter by more than one ARN, we recommend that you run the
+    #   `ListControls` operation separately for each ARN.
+    #
+    #    </note>
+    #
+    #   Alternatively, specify `UNCATEGORIZED` to list controls that aren't
+    #   mapped to a Control Catalog resource. For example, this operation
+    #   might return a list of custom controls that don't belong to any
+    #   control domain or control objective.
+    #
+    #
+    #
+    #   [1]: https://docs.aws.amazon.com/controlcatalog/latest/APIReference/API_ListDomains.html
+    #   [2]: https://docs.aws.amazon.com/controlcatalog/latest/APIReference/API_ListObjectives.html
+    #   [3]: https://docs.aws.amazon.com/controlcatalog/latest/APIReference/API_ListCommonControls.html
     #
     # @return [Types::ListControlsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
@@ -2669,9 +2927,10 @@ module Aws::AuditManager
     # @example Request syntax with placeholder values
     #
     #   resp = client.list_controls({
-    #     control_type: "Standard", # required, accepts Standard, Custom
+    #     control_type: "Standard", # required, accepts Standard, Custom, Core
     #     next_token: "Token",
     #     max_results: 1,
+    #     control_catalog_id: "ControlCatalogId",
     #   })
     #
     # @example Response structure
@@ -3359,7 +3618,7 @@ module Aws::AuditManager
     #   resp.framework.control_sets[0].controls #=> Array
     #   resp.framework.control_sets[0].controls[0].arn #=> String
     #   resp.framework.control_sets[0].controls[0].id #=> String
-    #   resp.framework.control_sets[0].controls[0].type #=> String, one of "Standard", "Custom"
+    #   resp.framework.control_sets[0].controls[0].type #=> String, one of "Standard", "Custom", "Core"
     #   resp.framework.control_sets[0].controls[0].name #=> String
     #   resp.framework.control_sets[0].controls[0].description #=> String
     #   resp.framework.control_sets[0].controls[0].testing_information #=> String
@@ -3371,8 +3630,8 @@ module Aws::AuditManager
     #   resp.framework.control_sets[0].controls[0].control_mapping_sources[0].source_name #=> String
     #   resp.framework.control_sets[0].controls[0].control_mapping_sources[0].source_description #=> String
     #   resp.framework.control_sets[0].controls[0].control_mapping_sources[0].source_set_up_option #=> String, one of "System_Controls_Mapping", "Procedural_Controls_Mapping"
-    #   resp.framework.control_sets[0].controls[0].control_mapping_sources[0].source_type #=> String, one of "AWS_Cloudtrail", "AWS_Config", "AWS_Security_Hub", "AWS_API_Call", "MANUAL"
-    #   resp.framework.control_sets[0].controls[0].control_mapping_sources[0].source_keyword.keyword_input_type #=> String, one of "SELECT_FROM_LIST"
+    #   resp.framework.control_sets[0].controls[0].control_mapping_sources[0].source_type #=> String, one of "AWS_Cloudtrail", "AWS_Config", "AWS_Security_Hub", "AWS_API_Call", "MANUAL", "Common_Control", "Core_Control"
+    #   resp.framework.control_sets[0].controls[0].control_mapping_sources[0].source_keyword.keyword_input_type #=> String, one of "SELECT_FROM_LIST", "UPLOAD_FILE", "INPUT_TEXT"
     #   resp.framework.control_sets[0].controls[0].control_mapping_sources[0].source_keyword.keyword_value #=> String
     #   resp.framework.control_sets[0].controls[0].control_mapping_sources[0].source_frequency #=> String, one of "DAILY", "WEEKLY", "MONTHLY"
     #   resp.framework.control_sets[0].controls[0].control_mapping_sources[0].troubleshooting_text #=> String
@@ -3382,6 +3641,7 @@ module Aws::AuditManager
     #   resp.framework.control_sets[0].controls[0].last_updated_by #=> String
     #   resp.framework.control_sets[0].controls[0].tags #=> Hash
     #   resp.framework.control_sets[0].controls[0].tags["TagKey"] #=> String
+    #   resp.framework.control_sets[0].controls[0].state #=> String, one of "ACTIVE", "END_OF_SUPPORT"
     #   resp.framework.created_at #=> Time
     #   resp.framework.last_updated_at #=> Time
     #   resp.framework.created_by #=> String
@@ -3599,9 +3859,9 @@ module Aws::AuditManager
     #         source_name: "SourceName",
     #         source_description: "SourceDescription",
     #         source_set_up_option: "System_Controls_Mapping", # accepts System_Controls_Mapping, Procedural_Controls_Mapping
-    #         source_type: "AWS_Cloudtrail", # accepts AWS_Cloudtrail, AWS_Config, AWS_Security_Hub, AWS_API_Call, MANUAL
+    #         source_type: "AWS_Cloudtrail", # accepts AWS_Cloudtrail, AWS_Config, AWS_Security_Hub, AWS_API_Call, MANUAL, Common_Control, Core_Control
     #         source_keyword: {
-    #           keyword_input_type: "SELECT_FROM_LIST", # accepts SELECT_FROM_LIST
+    #           keyword_input_type: "SELECT_FROM_LIST", # accepts SELECT_FROM_LIST, UPLOAD_FILE, INPUT_TEXT
     #           keyword_value: "KeywordValue",
     #         },
     #         source_frequency: "DAILY", # accepts DAILY, WEEKLY, MONTHLY
@@ -3614,7 +3874,7 @@ module Aws::AuditManager
     #
     #   resp.control.arn #=> String
     #   resp.control.id #=> String
-    #   resp.control.type #=> String, one of "Standard", "Custom"
+    #   resp.control.type #=> String, one of "Standard", "Custom", "Core"
     #   resp.control.name #=> String
     #   resp.control.description #=> String
     #   resp.control.testing_information #=> String
@@ -3626,8 +3886,8 @@ module Aws::AuditManager
     #   resp.control.control_mapping_sources[0].source_name #=> String
     #   resp.control.control_mapping_sources[0].source_description #=> String
     #   resp.control.control_mapping_sources[0].source_set_up_option #=> String, one of "System_Controls_Mapping", "Procedural_Controls_Mapping"
-    #   resp.control.control_mapping_sources[0].source_type #=> String, one of "AWS_Cloudtrail", "AWS_Config", "AWS_Security_Hub", "AWS_API_Call", "MANUAL"
-    #   resp.control.control_mapping_sources[0].source_keyword.keyword_input_type #=> String, one of "SELECT_FROM_LIST"
+    #   resp.control.control_mapping_sources[0].source_type #=> String, one of "AWS_Cloudtrail", "AWS_Config", "AWS_Security_Hub", "AWS_API_Call", "MANUAL", "Common_Control", "Core_Control"
+    #   resp.control.control_mapping_sources[0].source_keyword.keyword_input_type #=> String, one of "SELECT_FROM_LIST", "UPLOAD_FILE", "INPUT_TEXT"
     #   resp.control.control_mapping_sources[0].source_keyword.keyword_value #=> String
     #   resp.control.control_mapping_sources[0].source_frequency #=> String, one of "DAILY", "WEEKLY", "MONTHLY"
     #   resp.control.control_mapping_sources[0].troubleshooting_text #=> String
@@ -3637,6 +3897,7 @@ module Aws::AuditManager
     #   resp.control.last_updated_by #=> String
     #   resp.control.tags #=> Hash
     #   resp.control.tags["TagKey"] #=> String
+    #   resp.control.state #=> String, one of "ACTIVE", "END_OF_SUPPORT"
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/auditmanager-2017-07-25/UpdateControl AWS API Documentation
     #
@@ -3647,14 +3908,14 @@ module Aws::AuditManager
       req.send_request(options)
     end
 
-    # Updates Audit Manager settings for the current user account.
+    # Updates Audit Manager settings for the current account.
     #
     # @option params [String] :sns_topic
     #   The Amazon Simple Notification Service (Amazon SNS) topic that Audit
     #   Manager sends notifications to.
     #
     # @option params [Types::AssessmentReportsDestination] :default_assessment_reports_destination
-    #   The default storage destination for assessment reports.
+    #   The default S3 destination bucket for storing assessment reports.
     #
     # @option params [Array<Types::Role>] :default_process_owners
     #   A list of the default audit owners.
@@ -3682,6 +3943,9 @@ module Aws::AuditManager
     #   this attribute to determine how your data is handled when you
     #   deregister Audit Manager.
     #
+    # @option params [Types::DefaultExportDestination] :default_export_destination
+    #   The default S3 destination bucket for storing evidence finder exports.
+    #
     # @return [Types::UpdateSettingsResponse] Returns a {Seahorse::Client::Response response} object which responds to the following methods:
     #
     #   * {Types::UpdateSettingsResponse#settings #settings} => Types::Settings
@@ -3705,6 +3969,10 @@ module Aws::AuditManager
     #     deregistration_policy: {
     #       delete_resources: "ALL", # accepts ALL, DEFAULT
     #     },
+    #     default_export_destination: {
+    #       destination_type: "S3", # accepts S3
+    #       destination: "S3Url",
+    #     },
     #   })
     #
     # @example Response structure
@@ -3722,6 +3990,8 @@ module Aws::AuditManager
     #   resp.settings.evidence_finder_enablement.backfill_status #=> String, one of "NOT_STARTED", "IN_PROGRESS", "COMPLETED"
     #   resp.settings.evidence_finder_enablement.error #=> String
     #   resp.settings.deregistration_policy.delete_resources #=> String, one of "ALL", "DEFAULT"
+    #   resp.settings.default_export_destination.destination_type #=> String, one of "S3"
+    #   resp.settings.default_export_destination.destination #=> String
     #
     # @see http://docs.aws.amazon.com/goto/WebAPI/auditmanager-2017-07-25/UpdateSettings AWS API Documentation
     #
@@ -3776,14 +4046,19 @@ module Aws::AuditManager
     # @api private
     def build_request(operation_name, params = {})
       handlers = @handlers.for(operation_name)
+      tracer = config.telemetry_provider.tracer_provider.tracer(
+        Aws::Telemetry.module_to_tracer_name('Aws::AuditManager')
+      )
       context = Seahorse::Client::RequestContext.new(
         operation_name: operation_name,
         operation: config.api.operation(operation_name),
         client: self,
         params: params,
-        config: config)
+        config: config,
+        tracer: tracer
+      )
       context[:gem_name] = 'aws-sdk-auditmanager'
-      context[:gem_version] = '1.30.0'
+      context[:gem_version] = '1.62.0'
       Seahorse::Client::Request.new(handlers, context)
     end
 

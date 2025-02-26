@@ -14,34 +14,48 @@ module Aws::WellArchitected
       option(
         :endpoint_provider,
         doc_type: 'Aws::WellArchitected::EndpointProvider',
-        docstring: 'The endpoint provider used to resolve endpoints. Any '\
-                   'object that responds to `#resolve_endpoint(parameters)` '\
-                   'where `parameters` is a Struct similar to '\
-                   '`Aws::WellArchitected::EndpointParameters`'
-      ) do |cfg|
+        rbs_type: 'untyped',
+        docstring: <<~DOCS) do |_cfg|
+The endpoint provider used to resolve endpoints. Any object that responds to
+`#resolve_endpoint(parameters)` where `parameters` is a Struct similar to
+`Aws::WellArchitected::EndpointParameters`.
+        DOCS
         Aws::WellArchitected::EndpointProvider.new
       end
 
       # @api private
       class Handler < Seahorse::Client::Handler
         def call(context)
-          # If endpoint was discovered, do not resolve or apply the endpoint.
           unless context[:discovered_endpoint]
-            params = parameters_for_operation(context)
+            params = Aws::WellArchitected::Endpoints.parameters_for_operation(context)
             endpoint = context.config.endpoint_provider.resolve_endpoint(params)
 
             context.http_request.endpoint = endpoint.url
             apply_endpoint_headers(context, endpoint.headers)
+
+            context[:endpoint_params] = params
+            context[:endpoint_properties] = endpoint.properties
           end
 
-          context[:endpoint_params] = params
           context[:auth_scheme] =
             Aws::Endpoints.resolve_auth_scheme(context, endpoint)
 
-          @handler.call(context)
+          with_metrics(context) { @handler.call(context) }
         end
 
         private
+
+        def with_metrics(context, &block)
+          metrics = []
+          metrics << 'ENDPOINT_OVERRIDE' unless context.config.regional_endpoint
+          if context[:auth_scheme] && context[:auth_scheme]['name'] == 'sigv4a'
+            metrics << 'SIGV4A_SIGNING'
+          end
+          if context.config.credentials&.credentials&.account_id
+            metrics << 'RESOLVED_ACCOUNT_ID'
+          end
+          Aws::Plugins::UserAgent.metric(*metrics, &block)
+        end
 
         def apply_endpoint_headers(context, headers)
           headers.each do |key, values|
@@ -51,95 +65,6 @@ module Aws::WellArchitected
               .join(',')
 
             context.http_request.headers[key] = value
-          end
-        end
-
-        def parameters_for_operation(context)
-          case context.operation_name
-          when :associate_lenses
-            Aws::WellArchitected::Endpoints::AssociateLenses.build(context)
-          when :create_lens_share
-            Aws::WellArchitected::Endpoints::CreateLensShare.build(context)
-          when :create_lens_version
-            Aws::WellArchitected::Endpoints::CreateLensVersion.build(context)
-          when :create_milestone
-            Aws::WellArchitected::Endpoints::CreateMilestone.build(context)
-          when :create_workload
-            Aws::WellArchitected::Endpoints::CreateWorkload.build(context)
-          when :create_workload_share
-            Aws::WellArchitected::Endpoints::CreateWorkloadShare.build(context)
-          when :delete_lens
-            Aws::WellArchitected::Endpoints::DeleteLens.build(context)
-          when :delete_lens_share
-            Aws::WellArchitected::Endpoints::DeleteLensShare.build(context)
-          when :delete_workload
-            Aws::WellArchitected::Endpoints::DeleteWorkload.build(context)
-          when :delete_workload_share
-            Aws::WellArchitected::Endpoints::DeleteWorkloadShare.build(context)
-          when :disassociate_lenses
-            Aws::WellArchitected::Endpoints::DisassociateLenses.build(context)
-          when :export_lens
-            Aws::WellArchitected::Endpoints::ExportLens.build(context)
-          when :get_answer
-            Aws::WellArchitected::Endpoints::GetAnswer.build(context)
-          when :get_lens
-            Aws::WellArchitected::Endpoints::GetLens.build(context)
-          when :get_lens_review
-            Aws::WellArchitected::Endpoints::GetLensReview.build(context)
-          when :get_lens_review_report
-            Aws::WellArchitected::Endpoints::GetLensReviewReport.build(context)
-          when :get_lens_version_difference
-            Aws::WellArchitected::Endpoints::GetLensVersionDifference.build(context)
-          when :get_milestone
-            Aws::WellArchitected::Endpoints::GetMilestone.build(context)
-          when :get_workload
-            Aws::WellArchitected::Endpoints::GetWorkload.build(context)
-          when :import_lens
-            Aws::WellArchitected::Endpoints::ImportLens.build(context)
-          when :list_answers
-            Aws::WellArchitected::Endpoints::ListAnswers.build(context)
-          when :list_check_details
-            Aws::WellArchitected::Endpoints::ListCheckDetails.build(context)
-          when :list_check_summaries
-            Aws::WellArchitected::Endpoints::ListCheckSummaries.build(context)
-          when :list_lens_review_improvements
-            Aws::WellArchitected::Endpoints::ListLensReviewImprovements.build(context)
-          when :list_lens_reviews
-            Aws::WellArchitected::Endpoints::ListLensReviews.build(context)
-          when :list_lens_shares
-            Aws::WellArchitected::Endpoints::ListLensShares.build(context)
-          when :list_lenses
-            Aws::WellArchitected::Endpoints::ListLenses.build(context)
-          when :list_milestones
-            Aws::WellArchitected::Endpoints::ListMilestones.build(context)
-          when :list_notifications
-            Aws::WellArchitected::Endpoints::ListNotifications.build(context)
-          when :list_share_invitations
-            Aws::WellArchitected::Endpoints::ListShareInvitations.build(context)
-          when :list_tags_for_resource
-            Aws::WellArchitected::Endpoints::ListTagsForResource.build(context)
-          when :list_workload_shares
-            Aws::WellArchitected::Endpoints::ListWorkloadShares.build(context)
-          when :list_workloads
-            Aws::WellArchitected::Endpoints::ListWorkloads.build(context)
-          when :tag_resource
-            Aws::WellArchitected::Endpoints::TagResource.build(context)
-          when :untag_resource
-            Aws::WellArchitected::Endpoints::UntagResource.build(context)
-          when :update_answer
-            Aws::WellArchitected::Endpoints::UpdateAnswer.build(context)
-          when :update_global_settings
-            Aws::WellArchitected::Endpoints::UpdateGlobalSettings.build(context)
-          when :update_lens_review
-            Aws::WellArchitected::Endpoints::UpdateLensReview.build(context)
-          when :update_share_invitation
-            Aws::WellArchitected::Endpoints::UpdateShareInvitation.build(context)
-          when :update_workload
-            Aws::WellArchitected::Endpoints::UpdateWorkload.build(context)
-          when :update_workload_share
-            Aws::WellArchitected::Endpoints::UpdateWorkloadShare.build(context)
-          when :upgrade_lens_review
-            Aws::WellArchitected::Endpoints::UpgradeLensReview.build(context)
           end
         end
       end

@@ -7,6 +7,7 @@
 #
 # WARNING ABOUT GENERATED CODE
 
+
 module Aws::ApiGatewayV2
   # @api private
   module ClientApi
@@ -1803,6 +1804,7 @@ module Aws::ApiGatewayV2
 
       api.metadata = {
         "apiVersion" => "2018-11-29",
+        "auth" => ["aws.auth#sigv4"],
         "endpointPrefix" => "apigateway",
         "jsonVersion" => "1.1",
         "protocol" => "rest-json",

@@ -79,8 +79,8 @@ module Aws::APIGateway
     #   @return [String]
     #
     # @!attribute [rw] customer_id
-    #   An AWS Marketplace customer identifier , when integrating with the
-    #   AWS SaaS Marketplace.
+    #   An Amazon Web Services Marketplace customer identifier, when
+    #   integrating with the Amazon Web Services SaaS Marketplace.
     #   @return [String]
     #
     # @!attribute [rw] description
@@ -209,7 +209,7 @@ module Aws::APIGateway
     # @!attribute [rw] provider_arns
     #   A list of the Amazon Cognito user pool ARNs for the
     #   `COGNITO_USER_POOLS` authorizer. Each element is of this format:
-    #   `arn:aws:cognito-idp:\{region\}:\{account_id\}:userpool/\{user_pool_id\}`.
+    #   `arn:aws:cognito-idp:{region}:{account_id}:userpool/{user_pool_id}`.
     #   For a `TOKEN` or `REQUEST` authorizer, this is not defined.
     #   @return [Array<String>]
     #
@@ -222,10 +222,10 @@ module Aws::APIGateway
     #   Specifies the authorizer's Uniform Resource Identifier (URI). For
     #   `TOKEN` or `REQUEST` authorizers, this must be a well-formed Lambda
     #   function URI, for example,
-    #   `arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-2:\{account_id\}:function:\{lambda_function_name\}/invocations`.
+    #   `arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-2:{account_id}:function:{lambda_function_name}/invocations`.
     #   In general, the URI has this form
-    #   `arn:aws:apigateway:\{region\}:lambda:path/\{service_api\}`, where
-    #   `\{region\}` is the same as the region hosting the Lambda function,
+    #   `arn:aws:apigateway:{region}:lambda:path/{service_api}`, where
+    #   `{region}` is the same as the region hosting the Lambda function,
     #   `path` indicates that the remaining substring in the URI should be
     #   treated as the path to the resource, including the initial `/`. For
     #   Lambda functions, this is usually of the form
@@ -495,8 +495,8 @@ module Aws::APIGateway
     #   @return [Array<Types::StageKey>]
     #
     # @!attribute [rw] customer_id
-    #   An AWS Marketplace customer identifier , when integrating with the
-    #   AWS SaaS Marketplace.
+    #   An Amazon Web Services Marketplace customer identifier, when
+    #   integrating with the Amazon Web Services SaaS Marketplace.
     #   @return [String]
     #
     # @!attribute [rw] tags
@@ -538,7 +538,7 @@ module Aws::APIGateway
     # @!attribute [rw] provider_arns
     #   A list of the Amazon Cognito user pool ARNs for the
     #   `COGNITO_USER_POOLS` authorizer. Each element is of this format:
-    #   `arn:aws:cognito-idp:\{region\}:\{account_id\}:userpool/\{user_pool_id\}`.
+    #   `arn:aws:cognito-idp:{region}:{account_id}:userpool/{user_pool_id}`.
     #   For a `TOKEN` or `REQUEST` authorizer, this is not defined.
     #   @return [Array<String>]
     #
@@ -551,10 +551,10 @@ module Aws::APIGateway
     #   Specifies the authorizer's Uniform Resource Identifier (URI). For
     #   `TOKEN` or `REQUEST` authorizers, this must be a well-formed Lambda
     #   function URI, for example,
-    #   `arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-2:\{account_id\}:function:\{lambda_function_name\}/invocations`.
+    #   `arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-2:{account_id}:function:{lambda_function_name}/invocations`.
     #   In general, the URI has this form
-    #   `arn:aws:apigateway:\{region\}:lambda:path/\{service_api\}`, where
-    #   `\{region\}` is the same as the region hosting the Lambda function,
+    #   `arn:aws:apigateway:{region}:lambda:path/{service_api}`, where
+    #   `{region}` is the same as the region hosting the Lambda function,
     #   `path` indicates that the remaining substring in the URI should be
     #   treated as the path to the resource, including the initial `/`. For
     #   Lambda functions, this is usually of the form
@@ -631,6 +631,11 @@ module Aws::APIGateway
     #   The domain name of the BasePathMapping resource to create.
     #   @return [String]
     #
+    # @!attribute [rw] domain_name_id
+    #   The identifier for the domain name resource. Required for private
+    #   custom domain names.
+    #   @return [String]
+    #
     # @!attribute [rw] base_path
     #   The base path name that callers of the API must provide as part of
     #   the URL after the domain name. This value must be unique for all of
@@ -650,6 +655,7 @@ module Aws::APIGateway
     #
     class CreateBasePathMappingRequest < Struct.new(
       :domain_name,
+      :domain_name_id,
       :base_path,
       :rest_api_id,
       :stage)
@@ -776,6 +782,34 @@ module Aws::APIGateway
       include Aws::Structure
     end
 
+    # @!attribute [rw] domain_name_arn
+    #   The ARN of the domain name.
+    #   @return [String]
+    #
+    # @!attribute [rw] access_association_source_type
+    #   The type of the domain name access association source.
+    #   @return [String]
+    #
+    # @!attribute [rw] access_association_source
+    #   The identifier of the domain name access association source. For a
+    #   VPCE, the value is the VPC endpoint ID.
+    #   @return [String]
+    #
+    # @!attribute [rw] tags
+    #   The key-value map of strings. The valid character set is
+    #   \[a-zA-Z+-=.\_:/\]. The tag key can be up to 128 characters and must
+    #   not start with `aws:`. The tag value can be up to 256 characters.
+    #   @return [Hash<String,String>]
+    #
+    class CreateDomainNameAccessAssociationRequest < Struct.new(
+      :domain_name_arn,
+      :access_association_source_type,
+      :access_association_source,
+      :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # A request to create a new domain name.
     #
     # @!attribute [rw] domain_name
@@ -784,13 +818,13 @@ module Aws::APIGateway
     #
     # @!attribute [rw] certificate_name
     #   The user-friendly name of the certificate that will be used by
-    #   edge-optimized endpoint for this domain name.
+    #   edge-optimized endpoint or private endpoint for this domain name.
     #   @return [String]
     #
     # @!attribute [rw] certificate_body
     #   \[Deprecated\] The body of the server certificate that will be used
-    #   by edge-optimized endpoint for this domain name provided by your
-    #   certificate authority.
+    #   by edge-optimized endpoint or private endpoint for this domain name
+    #   provided by your certificate authority.
     #   @return [String]
     #
     # @!attribute [rw] certificate_private_key
@@ -810,9 +844,9 @@ module Aws::APIGateway
     #   @return [String]
     #
     # @!attribute [rw] certificate_arn
-    #   The reference to an AWS-managed certificate that will be used by
-    #   edge-optimized endpoint for this domain name. AWS Certificate
-    #   Manager is the only supported source.
+    #   The reference to an Amazon Web Services-managed certificate that
+    #   will be used by edge-optimized endpoint or private endpoint for this
+    #   domain name. Certificate Manager is the only supported source.
     #   @return [String]
     #
     # @!attribute [rw] regional_certificate_name
@@ -821,9 +855,9 @@ module Aws::APIGateway
     #   @return [String]
     #
     # @!attribute [rw] regional_certificate_arn
-    #   The reference to an AWS-managed certificate that will be used by
-    #   regional endpoint for this domain name. AWS Certificate Manager is
-    #   the only supported source.
+    #   The reference to an Amazon Web Services-managed certificate that
+    #   will be used by regional endpoint for this domain name. Certificate
+    #   Manager is the only supported source.
     #   @return [String]
     #
     # @!attribute [rw] endpoint_configuration
@@ -856,6 +890,12 @@ module Aws::APIGateway
     #   as the regionalCertificateArn.
     #   @return [String]
     #
+    # @!attribute [rw] policy
+    #   A stringified JSON policy document that applies to the `execute-api`
+    #   service for this DomainName regardless of the caller and Method
+    #   configuration. Supported only for private custom domain names.
+    #   @return [String]
+    #
     class CreateDomainNameRequest < Struct.new(
       :domain_name,
       :certificate_name,
@@ -869,7 +909,8 @@ module Aws::APIGateway
       :tags,
       :security_policy,
       :mutual_tls_authentication,
-      :ownership_verification_certificate_arn)
+      :ownership_verification_certificate_arn,
+      :policy)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -890,7 +931,8 @@ module Aws::APIGateway
     #
     # @!attribute [rw] schema
     #   The schema for the model. For `application/json` models, this should
-    #   be JSON schema draft 4 model.
+    #   be JSON schema draft 4 model. The maximum size of the model is 400
+    #   KB.
     #   @return [String]
     #
     # @!attribute [rw] content_type
@@ -993,7 +1035,7 @@ module Aws::APIGateway
     #
     # @!attribute [rw] api_key_source
     #   The source of the API key for metering requests according to a usage
-    #   plan. Valid values are: &gt;`HEADER` to read the API key from the
+    #   plan. Valid values are: `HEADER` to read the API key from the
     #   `X-API-Key` header of a request. `AUTHORIZER` to read the API key
     #   from the `UsageIdentifierKey` from a custom authorizer.
     #   @return [String]
@@ -1017,10 +1059,9 @@ module Aws::APIGateway
     # @!attribute [rw] disable_execute_api_endpoint
     #   Specifies whether clients can invoke your API by using the default
     #   `execute-api` endpoint. By default, clients can invoke your API with
-    #   the default
-    #   `https://\{api_id\}.execute-api.\{region\}.amazonaws.com` endpoint.
-    #   To require that clients use a custom domain name to invoke your API,
-    #   disable the default endpoint
+    #   the default `https://{api_id}.execute-api.{region}.amazonaws.com`
+    #   endpoint. To require that clients use a custom domain name to invoke
+    #   your API, disable the default endpoint
     #   @return [Boolean]
     #
     class CreateRestApiRequest < Struct.new(
@@ -1195,8 +1236,8 @@ module Aws::APIGateway
     #
     # @!attribute [rw] target_arns
     #   The ARN of the network load balancer of the VPC targeted by the VPC
-    #   link. The network load balancer must be owned by the same AWS
-    #   account of the API owner.
+    #   link. The network load balancer must be owned by the same Amazon Web
+    #   Services account of the API owner.
     #   @return [Array<String>]
     #
     # @!attribute [rw] tags
@@ -1249,6 +1290,11 @@ module Aws::APIGateway
     #   The domain name of the BasePathMapping resource to delete.
     #   @return [String]
     #
+    # @!attribute [rw] domain_name_id
+    #   The identifier for the domain name resource. Supported only for
+    #   private custom domain names.
+    #   @return [String]
+    #
     # @!attribute [rw] base_path
     #   The base path name of the BasePathMapping resource to delete.
     #
@@ -1257,6 +1303,7 @@ module Aws::APIGateway
     #
     class DeleteBasePathMappingRequest < Struct.new(
       :domain_name,
+      :domain_name_id,
       :base_path)
       SENSITIVE = []
       include Aws::Structure
@@ -1325,14 +1372,30 @@ module Aws::APIGateway
       include Aws::Structure
     end
 
+    # @!attribute [rw] domain_name_access_association_arn
+    #   The ARN of the domain name access association resource.
+    #   @return [String]
+    #
+    class DeleteDomainNameAccessAssociationRequest < Struct.new(
+      :domain_name_access_association_arn)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # A request to delete the DomainName resource.
     #
     # @!attribute [rw] domain_name
     #   The name of the DomainName resource to be deleted.
     #   @return [String]
     #
+    # @!attribute [rw] domain_name_id
+    #   The identifier for the domain name resource. Supported only for
+    #   private custom domain names.
+    #   @return [String]
+    #
     class DeleteDomainNameRequest < Struct.new(
-      :domain_name)
+      :domain_name,
+      :domain_name_id)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -1675,7 +1738,7 @@ module Aws::APIGateway
     # @!attribute [rw] properties
     #   A content map of API-specific key-value pairs describing the
     #   targeted API entity. The map must be encoded as a JSON string, e.g.,
-    #   `"\{ "description": "The API does ..." \}"`. Only
+    #   `"{ "description": "The API does ..." }"`. Only
     #   OpenAPI-compliant documentation-related fields from the properties
     #   map are exported and, hence, published as part of the API entity
     #   definitions, while the original documentation parts are exported in
@@ -1831,20 +1894,30 @@ module Aws::APIGateway
     #   `my-api.example.com`.
     #   @return [String]
     #
+    # @!attribute [rw] domain_name_id
+    #   The identifier for the domain name resource. Supported only for
+    #   private custom domain names.
+    #   @return [String]
+    #
+    # @!attribute [rw] domain_name_arn
+    #   The ARN of the domain name. Supported only for private custom domain
+    #   names.
+    #   @return [String]
+    #
     # @!attribute [rw] certificate_name
     #   The name of the certificate that will be used by edge-optimized
-    #   endpoint for this domain name.
+    #   endpoint or private endpoint for this domain name.
     #   @return [String]
     #
     # @!attribute [rw] certificate_arn
-    #   The reference to an AWS-managed certificate that will be used by
-    #   edge-optimized endpoint for this domain name. AWS Certificate
-    #   Manager is the only supported source.
+    #   The reference to an Amazon Web Services-managed certificate that
+    #   will be used by edge-optimized endpoint or private endpoint for this
+    #   domain name. Certificate Manager is the only supported source.
     #   @return [String]
     #
     # @!attribute [rw] certificate_upload_date
     #   The timestamp when the certificate that was used by edge-optimized
-    #   endpoint for this domain name was uploaded.
+    #   endpoint or private endpoint for this domain name was uploaded.
     #   @return [Time]
     #
     # @!attribute [rw] regional_domain_name
@@ -1867,9 +1940,9 @@ module Aws::APIGateway
     #   @return [String]
     #
     # @!attribute [rw] regional_certificate_arn
-    #   The reference to an AWS-managed certificate that will be used for
-    #   validating the regional domain name. AWS Certificate Manager is the
-    #   only supported source.
+    #   The reference to an Amazon Web Services-managed certificate that
+    #   will be used for validating the regional domain name. Certificate
+    #   Manager is the only supported source.
     #   @return [String]
     #
     # @!attribute [rw] distribution_domain_name
@@ -1928,8 +2001,24 @@ module Aws::APIGateway
     #   as the regionalCertificateArn.
     #   @return [String]
     #
+    # @!attribute [rw] management_policy
+    #   A stringified JSON policy document that applies to the API Gateway
+    #   Management service for this DomainName. This policy document
+    #   controls access for access association sources to create domain name
+    #   access associations with this DomainName. Supported only for private
+    #   custom domain names.
+    #   @return [String]
+    #
+    # @!attribute [rw] policy
+    #   A stringified JSON policy document that applies to the `execute-api`
+    #   service for this DomainName regardless of the caller and Method
+    #   configuration. Supported only for private custom domain names.
+    #   @return [String]
+    #
     class DomainName < Struct.new(
       :domain_name,
+      :domain_name_id,
+      :domain_name_arn,
       :certificate_name,
       :certificate_arn,
       :certificate_upload_date,
@@ -1945,7 +2034,60 @@ module Aws::APIGateway
       :security_policy,
       :tags,
       :mutual_tls_authentication,
-      :ownership_verification_certificate_arn)
+      :ownership_verification_certificate_arn,
+      :management_policy,
+      :policy)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # Represents a domain name access association between an access
+    # association source and a private custom domain name. With a domain
+    # name access association, an access association source can invoke a
+    # private custom domain name while isolated from the public internet.
+    #
+    # @!attribute [rw] domain_name_access_association_arn
+    #   The ARN of the domain name access association resource.
+    #   @return [String]
+    #
+    # @!attribute [rw] domain_name_arn
+    #   The ARN of the domain name.
+    #   @return [String]
+    #
+    # @!attribute [rw] access_association_source_type
+    #   The type of the domain name access association source.
+    #   @return [String]
+    #
+    # @!attribute [rw] access_association_source
+    #   The ARN of the domain name access association source. For a VPCE,
+    #   the ARN must be a VPC endpoint.
+    #   @return [String]
+    #
+    # @!attribute [rw] tags
+    #   The collection of tags. Each tag element is associated with a given
+    #   resource.
+    #   @return [Hash<String,String>]
+    #
+    class DomainNameAccessAssociation < Struct.new(
+      :domain_name_access_association_arn,
+      :domain_name_arn,
+      :access_association_source_type,
+      :access_association_source,
+      :tags)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] position
+    #   @return [String]
+    #
+    # @!attribute [rw] items
+    #   The current page of elements from this collection.
+    #   @return [Array<Types::DomainNameAccessAssociation>]
+    #
+    class DomainNameAccessAssociations < Struct.new(
+      :position,
+      :items)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2163,8 +2305,8 @@ module Aws::APIGateway
     #   @return [String]
     #
     # @!attribute [rw] customer_id
-    #   The identifier of a customer in AWS Marketplace or an external
-    #   system, such as a developer portal.
+    #   The identifier of a customer in Amazon Web Services Marketplace or
+    #   an external system, such as a developer portal.
     #   @return [String]
     #
     # @!attribute [rw] include_values
@@ -2228,6 +2370,11 @@ module Aws::APIGateway
     #   The domain name of the BasePathMapping resource to be described.
     #   @return [String]
     #
+    # @!attribute [rw] domain_name_id
+    #   The identifier for the domain name resource. Supported only for
+    #   private custom domain names.
+    #   @return [String]
+    #
     # @!attribute [rw] base_path
     #   The base path name that callers of the API must provide as part of
     #   the URL after the domain name. This value must be unique for all of
@@ -2237,6 +2384,7 @@ module Aws::APIGateway
     #
     class GetBasePathMappingRequest < Struct.new(
       :domain_name,
+      :domain_name_id,
       :base_path)
       SENSITIVE = []
       include Aws::Structure
@@ -2247,6 +2395,11 @@ module Aws::APIGateway
     #
     # @!attribute [rw] domain_name
     #   The domain name of a BasePathMapping resource.
+    #   @return [String]
+    #
+    # @!attribute [rw] domain_name_id
+    #   The identifier for the domain name resource. Supported only for
+    #   private custom domain names.
     #   @return [String]
     #
     # @!attribute [rw] position
@@ -2260,6 +2413,7 @@ module Aws::APIGateway
     #
     class GetBasePathMappingsRequest < Struct.new(
       :domain_name,
+      :domain_name_id,
       :position,
       :limit)
       SENSITIVE = []
@@ -2313,13 +2467,13 @@ module Aws::APIGateway
     #   the returned Deployment resource in the response. In a REST API
     #   call, this `embed` parameter value is a list of comma-separated
     #   strings, as in `GET
-    #   /restapis/\{restapi_id\}/deployments/\{deployment_id\}?embed=var1,var2`.
+    #   /restapis/{restapi_id}/deployments/{deployment_id}?embed=var1,var2`.
     #   The SDK and other platform-dependent libraries might use a different
     #   format for the list. Currently, this request supports only retrieval
     #   of the embedded API summary this way. Hence, the parameter value
     #   must be a single-valued list containing only the `"apisummary"`
     #   string. For example, `GET
-    #   /restapis/\{restapi_id\}/deployments/\{deployment_id\}?embed=apisummary`.
+    #   /restapis/{restapi_id}/deployments/{deployment_id}?embed=apisummary`.
     #   @return [Array<String>]
     #
     class GetDeploymentRequest < Struct.new(
@@ -2459,14 +2613,45 @@ module Aws::APIGateway
       include Aws::Structure
     end
 
+    # @!attribute [rw] position
+    #   The current pagination position in the paged result set.
+    #   @return [String]
+    #
+    # @!attribute [rw] limit
+    #   The maximum number of returned results per page. The default value
+    #   is 25 and the maximum value is 500.
+    #   @return [Integer]
+    #
+    # @!attribute [rw] resource_owner
+    #   The owner of the domain name access association. Use `SELF` to only
+    #   list the domain name access associations owned by your own account.
+    #   Use `OTHER_ACCOUNTS` to list the domain name access associations
+    #   with your private custom domain names that are owned by other AWS
+    #   accounts.
+    #   @return [String]
+    #
+    class GetDomainNameAccessAssociationsRequest < Struct.new(
+      :position,
+      :limit,
+      :resource_owner)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
     # Request to get the name of a DomainName resource.
     #
     # @!attribute [rw] domain_name
     #   The name of the DomainName resource.
     #   @return [String]
     #
+    # @!attribute [rw] domain_name_id
+    #   The identifier for the domain name resource. Required for private
+    #   custom domain names.
+    #   @return [String]
+    #
     class GetDomainNameRequest < Struct.new(
-      :domain_name)
+      :domain_name,
+      :domain_name_id)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2482,9 +2667,14 @@ module Aws::APIGateway
     #   is 25 and the maximum value is 500.
     #   @return [Integer]
     #
+    # @!attribute [rw] resource_owner
+    #   The owner of the domain name access association.
+    #   @return [String]
+    #
     class GetDomainNamesRequest < Struct.new(
       :position,
-      :limit)
+      :limit,
+      :resource_owner)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -2801,7 +2991,7 @@ module Aws::APIGateway
     #   request supports only retrieval of the embedded Method resources
     #   this way. The query parameter value must be a single-valued list and
     #   contain the `"methods"` string. For example, `GET
-    #   /restapis/\{restapi_id\}/resources/\{resource_id\}?embed=methods`.
+    #   /restapis/{restapi_id}/resources/{resource_id}?embed=methods`.
     #   @return [Array<String>]
     #
     class GetResourceRequest < Struct.new(
@@ -2834,7 +3024,7 @@ module Aws::APIGateway
     #   request supports only retrieval of the embedded Method resources
     #   this way. The query parameter value must be a single-valued list and
     #   contain the `"methods"` string. For example, `GET
-    #   /restapis/\{restapi_id\}/resources?embed=methods`.
+    #   /restapis/{restapi_id}/resources?embed=methods`.
     #   @return [Array<String>]
     #
     class GetResourcesRequest < Struct.new(
@@ -3193,9 +3383,9 @@ module Aws::APIGateway
     #   @return [String]
     #
     # @!attribute [rw] mode
-    #   A query parameter to indicate whether to overwrite (`OVERWRITE`) any
-    #   existing DocumentationParts definition or to merge (`MERGE`) the new
-    #   definition into the existing one. The default value is `MERGE`.
+    #   A query parameter to indicate whether to overwrite (`overwrite`) any
+    #   existing DocumentationParts definition or to merge (`merge`) the new
+    #   definition into the existing one. The default value is `merge`.
     #   @return [String]
     #
     # @!attribute [rw] fail_on_warnings
@@ -3244,12 +3434,6 @@ module Aws::APIGateway
     #
     #   To handle imported `basepath`, set `parameters` as
     #   `basepath=ignore`, `basepath=prepend` or `basepath=split`.
-    #
-    #   For example, the AWS CLI command to exclude documentation from the
-    #   imported API is:
-    #
-    #   The AWS CLI command to set the regional endpoint on the imported API
-    #   is:
     #   @return [Hash<String,String>]
     #
     # @!attribute [rw] body
@@ -3266,7 +3450,8 @@ module Aws::APIGateway
       include Aws::Structure
     end
 
-    # Represents an HTTP, HTTP\_PROXY, AWS, AWS\_PROXY, or Mock integration.
+    # Represents an `HTTP`, `HTTP_PROXY`, `AWS`, `AWS_PROXY`, or Mock
+    # integration.
     #
     # @!attribute [rw] type
     #   Specifies an API method integration type. The valid value is one of
@@ -3281,7 +3466,10 @@ module Aws::APIGateway
     #   @return [String]
     #
     # @!attribute [rw] http_method
-    #   Specifies the integration's HTTP method type.
+    #   Specifies the integration's HTTP method type. For the Type
+    #   property, if you specify `MOCK`, this property is optional. For
+    #   Lambda integrations, you must set the integration method to `POST`.
+    #   For all other types, you must specify this property.
     #   @return [String]
     #
     # @!attribute [rw] uri
@@ -3289,29 +3477,26 @@ module Aws::APIGateway
     #   endpoint.
     #
     #   For `HTTP` or `HTTP_PROXY` integrations, the URI must be a fully
-    #   formed, encoded HTTP(S) URL according to the RFC-3986 specification,
-    #   for either standard integration, where `connectionType` is not
-    #   `VPC_LINK`, or private integration, where `connectionType` is
-    #   `VPC_LINK`. For a private HTTP integration, the URI is not used for
-    #   routing. For `AWS` or `AWS_PROXY` integrations, the URI is of the
-    #   form
-    #   `arn:aws:apigateway:\{region\}:\{subdomain.service|service\}:path|action/\{service_api\}`.
-    #   Here, \\\{Region\\} is the API Gateway region (e.g., us-east-1);
-    #   \\\{service\\} is the name of the integrated Amazon Web Services
-    #   service (e.g., s3); and \\\{subdomain\\} is a designated subdomain
-    #   supported by certain Amazon Web Services service for fast host-name
-    #   lookup. action can be used for an Amazon Web Services service
-    #   action-based API, using an
-    #   Action=\\\{name\\}&amp;\\\{p1\\}=\\\{v1\\}&amp;p2=\\\{v2\\}... query
-    #   string. The ensuing \\\{service\_api\\} refers to a supported action
-    #   \\\{name\\} plus any required input parameters. Alternatively, path
-    #   can be used for an AWS service path-based API. The ensuing
-    #   service\_api refers to the path to an Amazon Web Services service
-    #   resource, including the region of the integrated Amazon Web Services
-    #   service, if applicable. For example, for integration with the S3 API
-    #   of GetObject, the uri can be either
-    #   `arn:aws:apigateway:us-west-2:s3:action/GetObject&Bucket=\{bucket\}&Key=\{key\}`
-    #   or `arn:aws:apigateway:us-west-2:s3:path/\{bucket\}/\{key\}`
+    #   formed, encoded HTTP(S) URL according to the RFC-3986 specification
+    #   for standard integrations. If `connectionType` is `VPC_LINK` specify
+    #   the Network Load Balancer DNS name. For `AWS` or `AWS_PROXY`
+    #   integrations, the URI is of the form
+    #   `arn:aws:apigateway:{region}:{subdomain.service|service}:path|action/{service_api}`.
+    #   Here, \{Region} is the API Gateway region (e.g., us-east-1);
+    #   \{service} is the name of the integrated Amazon Web Services service
+    #   (e.g., s3); and \{subdomain} is a designated subdomain supported by
+    #   certain Amazon Web Services service for fast host-name lookup.
+    #   action can be used for an Amazon Web Services service action-based
+    #   API, using an Action=\{name}&amp;\{p1}=\{v1}&amp;p2=\{v2}... query
+    #   string. The ensuing \{service\_api} refers to a supported action
+    #   \{name} plus any required input parameters. Alternatively, path can
+    #   be used for an Amazon Web Services service path-based API. The
+    #   ensuing service\_api refers to the path to an Amazon Web Services
+    #   service resource, including the region of the integrated Amazon Web
+    #   Services service, if applicable. For example, for integration with
+    #   the S3 API of GetObject, the uri can be either
+    #   `arn:aws:apigateway:us-west-2:s3:action/GetObject&Bucket={bucket}&Key={key}`
+    #   or `arn:aws:apigateway:us-west-2:s3:path/{bucket}/{key}`
     #   @return [String]
     #
     # @!attribute [rw] connection_type
@@ -3333,7 +3518,8 @@ module Aws::APIGateway
     #   Role for API Gateway to assume, use the role's Amazon Resource Name
     #   (ARN). To require that the caller's identity be passed through from
     #   the request, specify the string `arn:aws:iam::*:user/*`. To use
-    #   resource-based permissions on supported AWS services, specify null.
+    #   resource-based permissions on supported Amazon Web Services
+    #   services, specify null.
     #   @return [String]
     #
     # @!attribute [rw] request_parameters
@@ -3343,7 +3529,7 @@ module Aws::APIGateway
     #   parameter value or static value that must be enclosed within single
     #   quotes and pre-encoded as required by the back end. The method
     #   request parameter value must match the pattern of
-    #   `method.request.\{location\}.\{name\}`, where `location` is
+    #   `method.request.{location}.{name}`, where `location` is
     #   `querystring`, `path`, or `header` and `name` must be a valid and
     #   unique method request parameter name.
     #   @return [Hash<String,String>]
@@ -3362,21 +3548,21 @@ module Aws::APIGateway
     #   template is defined in the integration or the content type does not
     #   match any of the mapped content types, as specified in
     #   `requestTemplates`. The valid value is one of the following:
-    #   `WHEN_NO_MATCH`\: passes the method request body through the
+    #   `WHEN_NO_MATCH`: passes the method request body through the
     #   integration request to the back end without transformation when the
     #   method request content type does not match any content type
     #   associated with the mapping templates defined in the integration
-    #   request. `WHEN_NO_TEMPLATES`\: passes the method request body
-    #   through the integration request to the back end without
-    #   transformation when no mapping template is defined in the
-    #   integration request. If a template is defined when this option is
-    #   selected, the method request of an unmapped content-type will be
-    #   rejected with an HTTP 415 Unsupported Media Type response. `NEVER`\:
-    #   rejects the method request with an HTTP 415 Unsupported Media Type
-    #   response when either the method request content type does not match
-    #   any content type associated with the mapping templates defined in
-    #   the integration request or no mapping template is defined in the
-    #   integration request.
+    #   request. `WHEN_NO_TEMPLATES`: passes the method request body through
+    #   the integration request to the back end without transformation when
+    #   no mapping template is defined in the integration request. If a
+    #   template is defined when this option is selected, the method request
+    #   of an unmapped content-type will be rejected with an HTTP 415
+    #   Unsupported Media Type response. `NEVER`: rejects the method request
+    #   with an HTTP 415 Unsupported Media Type response when either the
+    #   method request content type does not match any content type
+    #   associated with the mapping templates defined in the integration
+    #   request or no mapping template is defined in the integration
+    #   request.
     #   @return [String]
     #
     # @!attribute [rw] content_handling
@@ -3452,9 +3638,9 @@ module Aws::APIGateway
     #   response returns some string, you could use the `.+` regex to match
     #   error response. However, make sure that the error response does not
     #   contain any newline (`\n`) character in such cases. If the back end
-    #   is an AWS Lambda function, the AWS Lambda function error header is
-    #   matched. For all other HTTP and AWS back ends, the HTTP status code
-    #   is matched.
+    #   is an Lambda function, the Lambda function error header is matched.
+    #   For all other HTTP and Amazon Web Services back ends, the HTTP
+    #   status code is matched.
     #   @return [String]
     #
     # @!attribute [rw] response_parameters
@@ -3464,10 +3650,10 @@ module Aws::APIGateway
     #   response header value, a static value enclosed within a pair of
     #   single quotes, or a JSON expression from the integration response
     #   body. The mapping key must match the pattern of
-    #   `method.response.header.\{name\}`, where `name` is a valid and
-    #   unique header name. The mapped non-static value must match the
-    #   pattern of `integration.response.header.\{name\}` or
-    #   `integration.response.body.\{JSON-expression\}`, where `name` is a
+    #   `method.response.header.{name}`, where `name` is a valid and unique
+    #   header name. The mapped non-static value must match the pattern of
+    #   `integration.response.header.{name}` or
+    #   `integration.response.body.{JSON-expression}`, where `name` is a
     #   valid and unique response header name and `JSON-expression` is a
     #   valid JSON expression without the `$` prefix.
     #   @return [Hash<String,String>]
@@ -3561,7 +3747,7 @@ module Aws::APIGateway
     #   A key-value map defining required or optional method request
     #   parameters that can be accepted by API Gateway. A key is a method
     #   request parameter name matching the pattern of
-    #   `method.request.\{location\}.\{name\}`, where `location` is
+    #   `method.request.{location}.{name}`, where `location` is
     #   `querystring`, `path`, or `header` and `name` is a valid and unique
     #   parameter name. The value associated with the key is a Boolean flag
     #   indicating whether the parameter is required (`true`) or optional
@@ -3628,16 +3814,16 @@ module Aws::APIGateway
     #   that API Gateway can send back to the caller. A key defines a method
     #   response header and the value specifies whether the associated
     #   method response header is required or not. The expression of the key
-    #   must match the pattern `method.response.header.\{name\}`, where
-    #   `name` is a valid and unique header name. API Gateway passes certain
+    #   must match the pattern `method.response.header.{name}`, where `name`
+    #   is a valid and unique header name. API Gateway passes certain
     #   integration response data to the method response headers specified
     #   here according to the mapping you prescribe in the API's
     #   IntegrationResponse. The integration response data that can be
     #   mapped include an integration response header expressed in
-    #   `integration.response.header.\{name\}`, a static value enclosed
-    #   within a pair of single quotes (e.g., `'application/json'`), or a
-    #   JSON expression from the back-end response payload in the form of
-    #   `integration.response.body.\{JSON-expression\}`, where
+    #   `integration.response.header.{name}`, a static value enclosed within
+    #   a pair of single quotes (e.g., `'application/json'`), or a JSON
+    #   expression from the back-end response payload in the form of
+    #   `integration.response.body.{JSON-expression}`, where
     #   `JSON-expression` is a valid JSON expression without the `$`
     #   prefix.)
     #   @return [Hash<String,Boolean>]
@@ -3660,75 +3846,56 @@ module Aws::APIGateway
     #
     # @!attribute [rw] metrics_enabled
     #   Specifies whether Amazon CloudWatch metrics are enabled for this
-    #   method. The PATCH path for this setting is
-    #   `/\{method_setting_key\}/metrics/enabled`, and the value is a
-    #   Boolean.
+    #   method.
     #   @return [Boolean]
     #
     # @!attribute [rw] logging_level
     #   Specifies the logging level for this method, which affects the log
-    #   entries pushed to Amazon CloudWatch Logs. The PATCH path for this
-    #   setting is `/\{method_setting_key\}/logging/loglevel`, and the
-    #   available levels are `OFF`, `ERROR`, and `INFO`. Choose `ERROR` to
-    #   write only error-level entries to CloudWatch Logs, or choose `INFO`
-    #   to include all `ERROR` events as well as extra informational events.
+    #   entries pushed to Amazon CloudWatch Logs. Valid values are `OFF`,
+    #   `ERROR`, and `INFO`. Choose `ERROR` to write only error-level
+    #   entries to CloudWatch Logs, or choose `INFO` to include all `ERROR`
+    #   events as well as extra informational events.
     #   @return [String]
     #
     # @!attribute [rw] data_trace_enabled
     #   Specifies whether data trace logging is enabled for this method,
-    #   which affects the log entries pushed to Amazon CloudWatch Logs. The
-    #   PATCH path for this setting is
-    #   `/\{method_setting_key\}/logging/dataTrace`, and the value is a
-    #   Boolean.
+    #   which affects the log entries pushed to Amazon CloudWatch Logs. This
+    #   can be useful to troubleshoot APIs, but can result in logging
+    #   sensitive data. We recommend that you don't enable this option for
+    #   production APIs.
     #   @return [Boolean]
     #
     # @!attribute [rw] throttling_burst_limit
-    #   Specifies the throttling burst limit. The PATCH path for this
-    #   setting is `/\{method_setting_key\}/throttling/burstLimit`, and the
-    #   value is an integer.
+    #   Specifies the throttling burst limit.
     #   @return [Integer]
     #
     # @!attribute [rw] throttling_rate_limit
-    #   Specifies the throttling rate limit. The PATCH path for this setting
-    #   is `/\{method_setting_key\}/throttling/rateLimit`, and the value is
-    #   a double.
+    #   Specifies the throttling rate limit.
     #   @return [Float]
     #
     # @!attribute [rw] caching_enabled
     #   Specifies whether responses should be cached and returned for
     #   requests. A cache cluster must be enabled on the stage for responses
-    #   to be cached. The PATCH path for this setting is
-    #   `/\{method_setting_key\}/caching/enabled`, and the value is a
-    #   Boolean.
+    #   to be cached.
     #   @return [Boolean]
     #
     # @!attribute [rw] cache_ttl_in_seconds
     #   Specifies the time to live (TTL), in seconds, for cached responses.
-    #   The higher the TTL, the longer the response will be cached. The
-    #   PATCH path for this setting is
-    #   `/\{method_setting_key\}/caching/ttlInSeconds`, and the value is an
-    #   integer.
+    #   The higher the TTL, the longer the response will be cached.
     #   @return [Integer]
     #
     # @!attribute [rw] cache_data_encrypted
-    #   Specifies whether the cached responses are encrypted. The PATCH path
-    #   for this setting is `/\{method_setting_key\}/caching/dataEncrypted`,
-    #   and the value is a Boolean.
+    #   Specifies whether the cached responses are encrypted.
     #   @return [Boolean]
     #
     # @!attribute [rw] require_authorization_for_cache_control
     #   Specifies whether authorization is required for a cache invalidation
-    #   request. The PATCH path for this setting is
-    #   `/\{method_setting_key\}/caching/requireAuthorizationForCacheControl`,
-    #   and the value is a Boolean.
+    #   request.
     #   @return [Boolean]
     #
     # @!attribute [rw] unauthorized_cache_control_header_strategy
     #   Specifies how to handle unauthorized requests for cache
-    #   invalidation. The PATCH path for this setting is
-    #   `/\{method_setting_key\}/caching/unauthorizedCacheControlHeaderStrategy`,
-    #   and the available values are `FAIL_WITH_403`,
-    #   `SUCCEED_WITH_RESPONSE_HEADER`, `SUCCEED_WITHOUT_RESPONSE_HEADER`.
+    #   invalidation.
     #   @return [String]
     #
     class MethodSetting < Struct.new(
@@ -3918,20 +4085,20 @@ module Aws::APIGateway
     #   The op operation's target, as identified by a JSON Pointer value
     #   that references a location within the targeted resource. For
     #   example, if the target resource has an updateable property of
-    #   \\\{"name":"value"\\}, the path for this property is /name. If
-    #   the name property value is a JSON object (e.g., \\\{"name":
-    #   \\\{"child/name": "child-value"\\}\\}), the path for the
-    #   child/name property will be /name/child~1name. Any slash ("/")
-    #   character appearing in path names must be escaped with "~1", as
-    #   shown in the example above. Each op operation can have only one path
-    #   associated with it.
+    #   \{"name":"value"}, the path for this property is /name. If the
+    #   name property value is a JSON object (e.g., \{"name":
+    #   \{"child/name": "child-value"}}), the path for the child/name
+    #   property will be /name/child~1name. Any slash ("/") character
+    #   appearing in path names must be escaped with "~1", as shown in the
+    #   example above. Each op operation can have only one path associated
+    #   with it.
     #   @return [String]
     #
     # @!attribute [rw] value
     #   The new target value of the update operation. It is applicable for
     #   the add or replace operation. When using AWS CLI to update a
     #   property of a JSON value, enclose the JSON object with a pair of
-    #   single quotes in a Linux shell, e.g., '\\\{"a": ...\\}'.
+    #   single quotes in a Linux shell, e.g., '\{"a": ...}'.
     #   @return [String]
     #
     # @!attribute [rw] from
@@ -4019,23 +4186,22 @@ module Aws::APIGateway
     #   `connectionType` is `VPC_LINK`. For a private HTTP integration, the
     #   URI is not used for routing. For `AWS` or `AWS_PROXY` integrations,
     #   the URI is of the form
-    #   `arn:aws:apigateway:\{region\}:\{subdomain.service|service\}:path|action/\{service_api`\\}.
-    #   Here, \\\{Region\\} is the API Gateway region (e.g., us-east-1);
-    #   \\\{service\\} is the name of the integrated Amazon Web Services
-    #   service (e.g., s3); and \\\{subdomain\\} is a designated subdomain
-    #   supported by certain Amazon Web Services service for fast host-name
-    #   lookup. action can be used for an Amazon Web Services service
-    #   action-based API, using an
-    #   Action=\\\{name\\}&amp;\\\{p1\\}=\\\{v1\\}&amp;p2=\\\{v2\\}... query
-    #   string. The ensuing \\\{service\_api\\} refers to a supported action
-    #   \\\{name\\} plus any required input parameters. Alternatively, path
-    #   can be used for an Amazon Web Services service path-based API. The
+    #   `arn:aws:apigateway:{region}:{subdomain.service|service}:path|action/{service_api`}.
+    #   Here, \{Region} is the API Gateway region (e.g., us-east-1);
+    #   \{service} is the name of the integrated Amazon Web Services service
+    #   (e.g., s3); and \{subdomain} is a designated subdomain supported by
+    #   certain Amazon Web Services service for fast host-name lookup.
+    #   action can be used for an Amazon Web Services service action-based
+    #   API, using an Action=\{name}&amp;\{p1}=\{v1}&amp;p2=\{v2}... query
+    #   string. The ensuing \{service\_api} refers to a supported action
+    #   \{name} plus any required input parameters. Alternatively, path can
+    #   be used for an Amazon Web Services service path-based API. The
     #   ensuing service\_api refers to the path to an Amazon Web Services
     #   service resource, including the region of the integrated Amazon Web
     #   Services service, if applicable. For example, for integration with
     #   the S3 API of `GetObject`, the `uri` can be either
-    #   `arn:aws:apigateway:us-west-2:s3:action/GetObject&Bucket=\{bucket\}&Key=\{key\}`
-    #   or `arn:aws:apigateway:us-west-2:s3:path/\{bucket\}/\{key\}`.
+    #   `arn:aws:apigateway:us-west-2:s3:action/GetObject&Bucket={bucket}&Key={key}`
+    #   or `arn:aws:apigateway:us-west-2:s3:path/{bucket}/{key}`.
     #   @return [String]
     #
     # @!attribute [rw] connection_type
@@ -4062,7 +4228,7 @@ module Aws::APIGateway
     #   parameter value or static value that must be enclosed within single
     #   quotes and pre-encoded as required by the back end. The method
     #   request parameter value must match the pattern of
-    #   `method.request.\{location\}.\{name\}`, where `location` is
+    #   `method.request.{location}.{name}`, where `location` is
     #   `querystring`, `path`, or `header` and `name` must be a valid and
     #   unique method request parameter name.
     #   @return [Hash<String,String>]
@@ -4167,11 +4333,11 @@ module Aws::APIGateway
     #   response header value, a static value enclosed within a pair of
     #   single quotes, or a JSON expression from the integration response
     #   body. The mapping key must match the pattern of
-    #   `method.response.header.\{name\}`, where `name` is a valid and
-    #   unique header name. The mapped non-static value must match the
-    #   pattern of `integration.response.header.\{name\}` or
-    #   `integration.response.body.\{JSON-expression\}`, where `name` must
-    #   be a valid and unique response header name and `JSON-expression` a
+    #   `method.response.header.{name}`, where `name` is a valid and unique
+    #   header name. The mapped non-static value must match the pattern of
+    #   `integration.response.header.{name}` or
+    #   `integration.response.body.{JSON-expression}`, where `name` must be
+    #   a valid and unique response header name and `JSON-expression` a
     #   valid JSON expression without the `$` prefix.
     #   @return [Hash<String,String>]
     #
@@ -4244,7 +4410,7 @@ module Aws::APIGateway
     #   A key-value map defining required or optional method request
     #   parameters that can be accepted by API Gateway. A key defines a
     #   method request parameter name matching the pattern of
-    #   `method.request.\{location\}.\{name\}`, where `location` is
+    #   `method.request.{location}.{name}`, where `location` is
     #   `querystring`, `path`, or `header` and `name` is a valid and unique
     #   parameter name. The value associated with the key is a Boolean flag
     #   indicating whether the parameter is required (`true`) or optional
@@ -4316,14 +4482,14 @@ module Aws::APIGateway
     #   response header name and the associated value is a Boolean flag
     #   indicating whether the method response parameter is required or not.
     #   The method response header names must match the pattern of
-    #   `method.response.header.\{name\}`, where `name` is a valid and
-    #   unique header name. The response parameter names defined here are
-    #   available in the integration response to be mapped from an
-    #   integration response header expressed in
-    #   `integration.response.header.\{name\}`, a static value enclosed
-    #   within a pair of single quotes (e.g., `'application/json'`), or a
-    #   JSON expression from the back-end response payload in the form of
-    #   `integration.response.body.\{JSON-expression\}`, where
+    #   `method.response.header.{name}`, where `name` is a valid and unique
+    #   header name. The response parameter names defined here are available
+    #   in the integration response to be mapped from an integration
+    #   response header expressed in `integration.response.header.{name}`, a
+    #   static value enclosed within a pair of single quotes (e.g.,
+    #   `'application/json'`), or a JSON expression from the back-end
+    #   response payload in the form of
+    #   `integration.response.body.{JSON-expression}`, where
     #   `JSON-expression` is a valid JSON expression without the `$`
     #   prefix.)
     #   @return [Hash<String,Boolean>]
@@ -4410,6 +4576,21 @@ module Aws::APIGateway
       :limit,
       :offset,
       :period)
+      SENSITIVE = []
+      include Aws::Structure
+    end
+
+    # @!attribute [rw] domain_name_access_association_arn
+    #   The ARN of the domain name access association resource.
+    #   @return [String]
+    #
+    # @!attribute [rw] domain_name_arn
+    #   The ARN of the domain name.
+    #   @return [String]
+    #
+    class RejectDomainNameAccessAssociationRequest < Struct.new(
+      :domain_name_access_association_arn,
+      :domain_name_arn)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4574,11 +4755,14 @@ module Aws::APIGateway
     # @!attribute [rw] disable_execute_api_endpoint
     #   Specifies whether clients can invoke your API by using the default
     #   `execute-api` endpoint. By default, clients can invoke your API with
-    #   the default
-    #   `https://\{api_id\}.execute-api.\{region\}.amazonaws.com` endpoint.
-    #   To require that clients use a custom domain name to invoke your API,
-    #   disable the default endpoint.
+    #   the default `https://{api_id}.execute-api.{region}.amazonaws.com`
+    #   endpoint. To require that clients use a custom domain name to invoke
+    #   your API, disable the default endpoint.
     #   @return [Boolean]
+    #
+    # @!attribute [rw] root_resource_id
+    #   The API's root resource ID.
+    #   @return [String]
     #
     class RestApi < Struct.new(
       :id,
@@ -4593,7 +4777,8 @@ module Aws::APIGateway
       :endpoint_configuration,
       :policy,
       :tags,
-      :disable_execute_api_endpoint)
+      :disable_execute_api_endpoint,
+      :root_resource_id)
       SENSITIVE = []
       include Aws::Structure
     end
@@ -4755,7 +4940,9 @@ module Aws::APIGateway
     #   @return [String]
     #
     # @!attribute [rw] cache_cluster_enabled
-    #   Specifies whether a cache cluster is enabled for the stage.
+    #   Specifies whether a cache cluster is enabled for the stage. To
+    #   activate a method-level cache, set `CachingEnabled` to `true` for a
+    #   method.
     #   @return [Boolean]
     #
     # @!attribute [rw] cache_cluster_size
@@ -4774,10 +4961,9 @@ module Aws::APIGateway
     #
     # @!attribute [rw] method_settings
     #   A map that defines the method settings for a Stage resource. Keys
-    #   (designated as `/\{method_setting_key` below) are method paths
-    #   defined as `\{resource_path\}/\{http_method\}` for an individual
-    #   method override, or `/*/*` for overriding all methods in the
-    #   stage.
+    #   (designated as `/{method_setting_key` below) are method paths
+    #   defined as `{resource_path}/{http_method}` for an individual method
+    #   override, or `/*/*` for overriding all methods in the stage.
     #   @return [Hash<String,Types::MethodSetting>]
     #
     # @!attribute [rw] variables
@@ -4843,7 +5029,7 @@ module Aws::APIGateway
     end
 
     # A reference to a unique stage identified in the format
-    # `\{restApiId\}/\{stage\}`.
+    # `{restApiId}/{stage}`.
     #
     # @!attribute [rw] rest_api_id
     #   The string identifier of the associated RestApi.
@@ -4986,7 +5172,7 @@ module Aws::APIGateway
     #   @return [String]
     #
     # @!attribute [rw] latency
-    #   The execution latency of the test authorizer request.
+    #   The execution latency, in ms, of the test authorizer request.
     #   @return [Integer]
     #
     # @!attribute [rw] principal_id
@@ -5101,7 +5287,7 @@ module Aws::APIGateway
     #   @return [String]
     #
     # @!attribute [rw] latency
-    #   The execution latency of the test invoke request.
+    #   The execution latency, in ms, of the test invoke request.
     #   @return [Integer]
     #
     class TestInvokeMethodResponse < Struct.new(
@@ -5275,6 +5461,11 @@ module Aws::APIGateway
     #   The domain name of the BasePathMapping resource to change.
     #   @return [String]
     #
+    # @!attribute [rw] domain_name_id
+    #   The identifier for the domain name resource. Supported only for
+    #   private custom domain names.
+    #   @return [String]
+    #
     # @!attribute [rw] base_path
     #   The base path of the BasePathMapping resource to change.
     #
@@ -5292,6 +5483,7 @@ module Aws::APIGateway
     #
     class UpdateBasePathMappingRequest < Struct.new(
       :domain_name,
+      :domain_name_id,
       :base_path,
       :patch_operations)
       SENSITIVE = []
@@ -5379,7 +5571,7 @@ module Aws::APIGateway
     # Updates an existing documentation version of an API.
     #
     # @!attribute [rw] rest_api_id
-    #   The string identifier of the associated RestApi..
+    #   The string identifier of the associated RestApi.
     #   @return [String]
     #
     # @!attribute [rw] documentation_version
@@ -5409,6 +5601,11 @@ module Aws::APIGateway
     #   The name of the DomainName resource to be changed.
     #   @return [String]
     #
+    # @!attribute [rw] domain_name_id
+    #   The identifier for the domain name resource. Supported only for
+    #   private custom domain names.
+    #   @return [String]
+    #
     # @!attribute [rw] patch_operations
     #   For more information about supported patch operations, see [Patch
     #   Operations][1].
@@ -5420,6 +5617,7 @@ module Aws::APIGateway
     #
     class UpdateDomainNameRequest < Struct.new(
       :domain_name,
+      :domain_name_id,
       :patch_operations)
       SENSITIVE = []
       include Aws::Structure
@@ -5816,10 +6014,9 @@ module Aws::APIGateway
     # @!attribute [rw] items
     #   The usage data, as daily logs of used and remaining quotas, over the
     #   specified time interval indexed over the API keys in a usage plan.
-    #   For example, `\{..., "values" : \{ "\{api_key\}" : [ [0, 100], [10,
-    #   90], [100, 10]]\}`, where `\{api_key\}` stands for an API key value
-    #   and the daily log entry is of the format `[used quota, remaining
-    #   quota]`.
+    #   For example, `{..., "values" : { "{api_key}" : [ [0, 100], [10, 90],
+    #   [100, 10]]}`, where `{api_key}` stands for an API key value and the
+    #   daily log entry is of the format `[used quota, remaining quota]`.
     #   @return [Hash<String,Array<Array<Integer>>>]
     #
     class Usage < Struct.new(
@@ -5870,8 +6067,9 @@ module Aws::APIGateway
     #   @return [Types::QuotaSettings]
     #
     # @!attribute [rw] product_code
-    #   The AWS Markeplace product identifier to associate with the usage
-    #   plan as a SaaS product on AWS Marketplace.
+    #   The Amazon Web Services Marketplace product identifier to associate
+    #   with the usage plan as a SaaS product on the Amazon Web Services
+    #   Marketplace.
     #   @return [String]
     #
     # @!attribute [rw] tags
@@ -5971,8 +6169,8 @@ module Aws::APIGateway
     #
     # @!attribute [rw] target_arns
     #   The ARN of the network load balancer of the VPC targeted by the VPC
-    #   link. The network load balancer must be owned by the same AWS
-    #   account of the API owner.
+    #   link. The network load balancer must be owned by the same Amazon Web
+    #   Services account of the API owner.
     #   @return [Array<String>]
     #
     # @!attribute [rw] status
@@ -6020,3 +6218,4 @@ module Aws::APIGateway
 
   end
 end
+
